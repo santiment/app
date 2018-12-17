@@ -9,7 +9,7 @@ podTemplate(label: 'app-builder', containers: [
         def scmVars = checkout scm
         def gitHead = scmVars.GIT_COMMIT.substring(0,7)
 
-        sh "docker build -t app-frontend-test:${scmVars.GIT_COMMIT}-${env.BUILD_ID}-${env.CHANGE_ID} -f app/Dockerfile-test app"
+        sh "docker build -t app-frontend-test:${scmVars.GIT_COMMIT}-${env.BUILD_ID}-${env.CHANGE_ID} -f Dockerfile-test ."
         try {
           sh "docker run --rm -t app-frontend-test:${scmVars.GIT_COMMIT}-${env.BUILD_ID}-${env.CHANGE_ID} yarn test --ci"
         } finally {
