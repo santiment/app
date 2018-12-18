@@ -33,7 +33,7 @@ const parseTrendsGQLProps = sourceType => ({
 }
 
 const makeAllQueries = () =>
-  ['TELEGRAM', 'PROFESSIONAL_TRADERS_CHAT', 'REDDIT'].map(source =>
+  ['TELEGRAM', 'PROFESSIONAL_TRADERS_CHAT', 'REDDIT', 'DISCORD'].map(source =>
     graphql(trendsExploreGQL, {
       props: parseTrendsGQLProps(source),
       options: ({ topic, timeRange }) => ({

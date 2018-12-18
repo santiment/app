@@ -53,6 +53,12 @@ export const sourcesMeta = {
     name: 'Professional Traders Chat',
     color: '#44C7A5',
     value: 0
+  },
+  discord: {
+    index: 'discord',
+    name: 'Discord',
+    color: '#7289da',
+    value: 0
   }
 }
 

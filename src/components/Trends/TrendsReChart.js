@@ -149,6 +149,14 @@ const calcSumOfMentions = data =>
             acc.professional_traders_chat.value + val.professional_traders_chat
         }
       }
+
+      if (val.discord) {
+        acc.discord = {
+          ...acc.discord,
+          value: acc.discord.value + val.discord
+        }
+      }
+
       return acc
     },
     { ...chartsMeta }
@@ -169,6 +177,7 @@ export default compose(
       'professional_traders_chat',
       trends
     )
+    const discord = getTimeseries('discord', trends)
 
     if (trends.isLoading || isLoading) {
       return {
@@ -177,14 +186,15 @@ export default compose(
     }
 
     const chartData = mergeTimeseriesByKey({
-      timeseries: [items, telegram, reddit, professional_traders_chat],
+      timeseries: [items, telegram, reddit, professional_traders_chat, discord],
       key: 'datetime'
     })
 
     if (
       telegram.length === 0 &&
       reddit.length === 0 &&
-      professional_traders_chat.length === 0
+      professional_traders_chat.length === 0 &&
+      discord.length === 0
     ) {
       return {
         isEmpty: true
