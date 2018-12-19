@@ -4,6 +4,7 @@ import { Button, Message } from 'semantic-ui-react'
 import { Form } from 'react-form'
 import ReactFormInput from '../../components/react-form-semantic-ui-react/ReactFormInput'
 import TagsField from './TagsField'
+import { saveKeyState } from '../../utils/localStorage.js'
 
 const TITLE_MAX_LENGTH = 140
 
@@ -33,7 +34,7 @@ const LimitSizeOfTitle = ({ length }) => (
   </small>
 )
 
-const CreateTitle = ({ post, changePost }) => {
+const CreateTitle = ({ post, changePost, updateDraft }) => {
   return (
     <Form
       validateError={errorValidator}
@@ -66,6 +67,9 @@ const CreateTitle = ({ post, changePost }) => {
             field='title'
             error={isError(formApi)}
             placeholder='Add a short description'
+            onChangeClb={title => {
+              updateDraft({ title })
+            }}
           />
           {isError(formApi) && (
             <Message negative>{formApi.getError().title}</Message>
@@ -73,6 +77,8 @@ const CreateTitle = ({ post, changePost }) => {
           <TagsField
             savedChosenTags={post.tags}
             setTags={tags => {
+              updateDraft({ tags })
+
               formApi.values.tags = tags
             }}
           />

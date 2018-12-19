@@ -9,6 +9,7 @@ import gql from 'graphql-tag'
 import Post from './../../components/Post'
 import { allInsightsGQL } from './../Insights/currentPollGQL'
 import ErrorBoundary from './../../ErrorBoundary'
+import { APP_DELETE_INSIGHT_DRAFT } from '../../actions/types.js'
 
 const createPostGQL = gql`
   mutation createPost($title: String!, $text: String!, $tags: [String]) {
@@ -72,7 +73,8 @@ const ConfirmPost = ({
   updatePost,
   user,
   isPending,
-  onPending
+  onPending,
+  deleteDraft
 }) => {
   return (
     <ErrorBoundary>
@@ -96,6 +98,8 @@ const ConfirmPost = ({
             disabled={isPending}
             onClick={() => {
               onPending(true)
+              /* window.localStorage.removeItem('insightDraft') */
+              deleteDraft()
               if (post.id) {
                 const variables = {
                   id: post.id,
@@ -132,10 +136,15 @@ const mapStateToProps = state => {
     user: state.user.data
   }
 }
-
+const mapDispatchToProps = dispatch => ({
+  deleteDraft: () => dispatch({ type: APP_DELETE_INSIGHT_DRAFT })
+})
 const enhance = compose(
   withRouter,
-  connect(mapStateToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withState('isPending', 'onPending', false),
   graphql(createPostGQL, {
     name: 'createPost'

@@ -7,15 +7,19 @@ import ConfirmPost from './ConfirmNewInsight'
 import CreateTitle from './CreateTitle'
 import CreateBody from './CreateBody'
 import InsightsLayout from './../Insights/InsightsLayout'
+import { loadKeyState } from '../../utils/localStorage.js'
+import { APP_UPDATE_INSIGHT_DRAFT } from '../../actions/types.js'
 import './InsightsNew.css'
+
+const insightDraft = loadKeyState('insightDraft')
 
 class InsightsNew extends Component {
   state = {
-    title: '',
+    title: this.props.insightDraft.title || '',
     link: '',
-    text: '',
+    text: this.props.insightDraft.text || '',
     votes: 0,
-    tags: [],
+    tags: this.props.insightDraft.tags || [],
     author: this.props.username,
     created: new Date()
   }
@@ -109,6 +113,7 @@ class InsightsNew extends Component {
                 <CreateBody
                   changePost={this.changePost}
                   post={{ ...this.state }}
+                  updateDraft={this.props.updateDraft}
                 />
               )}
             />
@@ -119,6 +124,7 @@ class InsightsNew extends Component {
                 <CreateTitle
                   changePost={this.changePost}
                   post={{ ...this.state }}
+                  updateDraft={this.props.updateDraft}
                 />
               )}
             />
@@ -143,7 +149,8 @@ class InsightsNew extends Component {
 const mapStateToProps = state => {
   return {
     isLogin: state.user.token,
-    username: state.user.data.username
+    username: state.user.data.username,
+    insightDraft: state.user.insightDraft || {}
   }
 }
 
@@ -155,6 +162,13 @@ const mapDispatchToProps = dispatch => {
         payload: {
           post
         }
+      })
+    },
+
+    updateDraft: payload => {
+      dispatch({
+        type: APP_UPDATE_INSIGHT_DRAFT,
+        payload
       })
     }
   }
