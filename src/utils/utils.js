@@ -122,23 +122,54 @@ const getYesterday = () => {
   return yesterday.toISOString()
 }
 
-const mergeTimeseriesByKey = ({ timeseries, key }) => {
-  const longestTS = timeseries.reduce((acc, val) => {
+const mergeTimeseriesByKey = ({ timeseries, key: mergeKey }) => {
+  const longestTSMut = timeseries.reduce((acc, val) => {
     return acc.length > val.length ? acc : val
   }, [])
-  return longestTS.map(data => {
-    return timeseries.reduce(
-      (acc, val) => {
-        return {
-          ...acc,
-          ...val.find(data2 => data2[key] === data[key])
-        }
-      },
-      {
-        ...data
+
+  const longestTS = longestTSMut.slice()
+  const longestTSLastIndex = longestTS.length - 1
+
+  for (const timeserie of timeseries) {
+    if (timeserie === longestTSMut) {
+      continue
+    }
+
+    let longestTSRightIndexBoundary = longestTSLastIndex
+    let timeserieRightIndex = timeserie.length - 1
+
+    if (mergeKey === 'datetime') {
+      for (
+        ;
+        moment(longestTS[longestTSRightIndexBoundary]['datetime']).isBefore(
+          moment(timeserie[timeserieRightIndex]['datetime'])
+        );
+        timeserieRightIndex--
+      ) {
+        longestTS.push(timeserie[timeserieRightIndex])
       }
-    )
-  })
+    }
+
+    for (; timeserieRightIndex > -1; timeserieRightIndex--) {
+      for (; longestTSRightIndexBoundary > -1; longestTSRightIndexBoundary--) {
+        const longestTSData = longestTS[longestTSRightIndexBoundary]
+        const timeserieData = timeserie[timeserieRightIndex]
+        if (longestTSData[mergeKey] === timeserieData[mergeKey]) {
+          longestTS[longestTSRightIndexBoundary] = Object.assign(
+            {},
+            longestTSData,
+            timeserieData
+          )
+          break
+        }
+      }
+      if (longestTSRightIndexBoundary === -1) {
+        break
+      }
+    }
+  }
+
+  return longestTS
 }
 
 const getTimeFromFromString = (time = '1y') => {
