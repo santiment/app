@@ -98,7 +98,6 @@ const ConfirmPost = ({
             disabled={isPending}
             onClick={() => {
               onPending(true)
-              /* window.localStorage.removeItem('insightDraft') */
               deleteDraft()
               if (post.id) {
                 const variables = {

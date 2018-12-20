@@ -4,7 +4,6 @@ import { Button, Message } from 'semantic-ui-react'
 import { Form } from 'react-form'
 import ReactFormInput from '../../components/react-form-semantic-ui-react/ReactFormInput'
 import TagsField from './TagsField'
-import { saveKeyState } from '../../utils/localStorage.js'
 
 const TITLE_MAX_LENGTH = 140
 

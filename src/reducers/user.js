@@ -13,7 +13,6 @@ export const initialState = {
 }
 
 export default (state = initialState, action) => {
-  console.log(state)
   switch (action.type) {
     case 'INIT_WEB3_ACCOUNT':
       return {

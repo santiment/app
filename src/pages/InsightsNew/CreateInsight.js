@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import nprogress from 'nprogress'
 import { convertToRaw } from 'draft-js'
 import { compose, withState } from 'recompose'
@@ -8,7 +7,6 @@ import mediumDraftExporter from 'medium-draft/lib/exporter'
 import mediumDraftImporter from 'medium-draft/lib/importer'
 import { sanitizeMediumDraftHtml } from './../../utils/utils'
 import CustomImageSideButton from './CustomImageSideButton'
-import { saveKeyState } from '../../utils/localStorage.js'
 import './CreateInsight.css'
 import 'medium-draft/lib/index.css'
 
@@ -29,11 +27,6 @@ export class CreateInsight extends Component {
       mediumDraftExporter(editorState.getCurrentContent())
     )
 
-    // Making it asynchronous in order to not block the main thread.
-    // Order of changes will preserve, because of the call stack.
-    /* setTimeout(() => { */
-    /* saveKeyState('insightDraft', { ...this.props.post, text: renderedHTML}); */
-    /* },0) */
     this.props.updateDraft({ text: renderedHTML })
 
     this.props.changePost(renderedHTML)

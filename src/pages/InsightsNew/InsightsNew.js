@@ -7,11 +7,8 @@ import ConfirmPost from './ConfirmNewInsight'
 import CreateTitle from './CreateTitle'
 import CreateBody from './CreateBody'
 import InsightsLayout from './../Insights/InsightsLayout'
-import { loadKeyState } from '../../utils/localStorage.js'
 import { APP_UPDATE_INSIGHT_DRAFT } from '../../actions/types.js'
 import './InsightsNew.css'
-
-const insightDraft = loadKeyState('insightDraft')
 
 class InsightsNew extends Component {
   state = {
