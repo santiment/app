@@ -12,11 +12,11 @@ import './InsightsNew.css'
 
 class InsightsNew extends Component {
   state = {
-    title: this.props.insightDraft.title || '',
+    title: '',
     link: '',
-    text: this.props.insightDraft.text || '',
+    text: '',
     votes: 0,
-    tags: this.props.insightDraft.tags || [],
+    tags: [],
     author: this.props.username,
     created: new Date()
   }
@@ -44,6 +44,8 @@ class InsightsNew extends Component {
   }
 
   render () {
+    const { insightDraft } = this.props
+
     if (!this.props.username) {
       return <Redirect to='/insights' />
     }
@@ -109,7 +111,10 @@ class InsightsNew extends Component {
               render={() => (
                 <CreateBody
                   changePost={this.changePost}
-                  post={{ ...this.state }}
+                  post={{
+                    ...this.state,
+                    text: insightDraft.text || this.state.text
+                  }}
                   updateDraft={this.props.updateDraft}
                 />
               )}
@@ -120,7 +125,11 @@ class InsightsNew extends Component {
               render={() => (
                 <CreateTitle
                   changePost={this.changePost}
-                  post={{ ...this.state }}
+                  post={{
+                    ...this.state,
+                    title: insightDraft.title || this.state.title,
+                    tags: insightDraft.tags || this.state.tags
+                  }}
                   updateDraft={this.props.updateDraft}
                 />
               )}
