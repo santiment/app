@@ -54,7 +54,7 @@ const Filters = ({
             color={sortBy === 'github_activity' ? 'blue' : undefined}
             onClick={() => changeSort('github_activity')}
           >
-            Github Activity
+            Development Activity
           </Button>
         </div>
         <FilterDivider>Filter by</FilterDivider>

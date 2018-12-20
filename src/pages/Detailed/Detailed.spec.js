@@ -27,7 +27,7 @@ describe('Project detail page container', () => {
         TwitterHistoryData={{
           loading: true
         }}
-        GithubActivity={{
+        DevActivity={{
           loading: true
         }}
         BurnRate={{

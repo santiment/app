@@ -164,7 +164,7 @@ const ProjectChartMobile = ({
             type: 'line',
             color: 'rgba(96, 76, 141)'
           }}
-          show='Github Activity'
+          show='Development Activity'
           showInfo
         />
       )}
