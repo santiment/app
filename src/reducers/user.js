@@ -1,5 +1,4 @@
 import * as actions from './../actions/types'
-import { loadKeyState } from '../utils/localStorage.js'
 
 export const initialState = {
   isLoading: true,
@@ -9,7 +8,7 @@ export const initialState = {
   token: null,
   hasMetamask: false,
   consent: null,
-  insightDraft: loadKeyState('insightDraft') || {}
+  insightDraft: {}
 }
 
 export default (state = initialState, action) => {
@@ -119,13 +118,11 @@ export default (state = initialState, action) => {
       }
     case actions.APP_UPDATE_INSIGHT_DRAFT:
       const insightDraft = { ...state.insightDraft, ...action.payload }
-      window.localStorage.setItem('insightDraft', action.payload)
       return {
         ...state,
         insightDraft
       }
     case actions.APP_DELETE_INSIGHT_DRAFT:
-      window.localStorage.removeItem('insightDraft')
       return {
         ...state,
         insightDraft: {}
