@@ -197,6 +197,13 @@ export default compose(
       calcSumOfMentions
     )(chartData)
 
+    chartSummaryData.forEach(({ index }) => {
+      chartData.forEach(data => {
+        if (data[index] === undefined) {
+          data[index] = 0
+        }
+      })
+    })
     return {
       chartData,
       chartSummaryData,
