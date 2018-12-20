@@ -65,7 +65,7 @@ const makeChartDataFromHistory = (
   },
   COLORS
 ) => {
-  const github = props.github.history.items || []
+  const development = props.development.history.items || []
   const burnRate = props.burnRate.items || []
   const transactionVolume = props.transactionVolume.items || []
   const dailyActiveAddresses = props.dailyActiveAddresses.items || []
@@ -156,7 +156,7 @@ const makeChartDataFromHistory = (
       borderWidth: 1,
       pointBorderWidth: 2,
       pointRadius: 2,
-      data: github.map(data => {
+      data: development.map(data => {
         return {
           x: data.datetime,
           y: data.activity
@@ -628,7 +628,7 @@ const makeOptionsFromProps = (props, COLORS) => {
             // same hack as in volume.
             max: parseInt(
               Math.max(
-                ...props.github.history.items.map(data => data.activity)
+                ...props.development.history.items.map(data => data.activity)
               ) * 2.2,
               10
             )
@@ -638,7 +638,7 @@ const makeOptionsFromProps = (props, COLORS) => {
           },
           display:
             props.isToggledDevActivity &&
-            props.github.history.items.length !== 0,
+            props.development.history.items.length !== 0,
           position: 'right'
         },
         {

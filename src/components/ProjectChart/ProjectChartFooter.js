@@ -112,11 +112,11 @@ const ProjectChartFooter = ({
       </FilterCategory>
       <FilterCategory name='Development'>
         <ToggleBtn
-          loading={props.github.history.loading}
-          disabled={props.github.history.items.length === 0}
+          loading={props.development.history.loading}
+          disabled={props.development.history.items.length === 0}
           isToggled={
             props.isToggledDevActivity &&
-            props.github.history.items.length !== 0
+            props.development.history.items.length !== 0
           }
           toggle={props.toggleDevActivity}
         >

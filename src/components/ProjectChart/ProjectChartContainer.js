@@ -88,7 +88,7 @@ class ProjectChartContainer extends Component {
     if (Object.keys(shareableState).length > 0) {
       this.props.toggleVolume(shareableState.volume)
       this.props.toggleMarketcap(shareableState.marketcap)
-      this.props.toggleDevActivity(shareableState.github)
+      this.props.toggleDevActivity(shareableState.development)
       this.props.toggleTwitter(shareableState.twitter)
       this.props.toggleEmojisSentiment(shareableState.sentiment)
       this.props.toggleBurnRate(shareableState.tbr)
@@ -199,7 +199,7 @@ class ProjectChartContainer extends Component {
     const newShareableState = {
       volume: this.props.isToggledVolume || undefined,
       marketcap: this.props.isToggledMarketCap || undefined,
-      github: this.props.isToggledDevActivity || undefined,
+      development: this.props.isToggledDevActivity || undefined,
       twitter: this.props.isToggledTwitter || undefined,
       sentiment: this.props.isToggledEmojisSentiment || undefined,
       tbr: this.props.isToggledBurnRate || undefined,

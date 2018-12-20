@@ -139,7 +139,7 @@ export const Detailed = ({
     }
   }
 
-  const github = {
+  const development = {
     history: {
       loading: DevActivity.loading,
       items: DevActivity.devActivity || []
@@ -217,7 +217,7 @@ export const Detailed = ({
       isDesktop={isDesktop}
       {...props}
       price={price}
-      github={github}
+      development={development}
       burnRate={burnRate}
       tokenDecimals={
         Project.project ? Project.project.tokenDecimals : undefined
