@@ -1,10 +1,23 @@
 import React from 'react'
-import { Input, Button } from 'semantic-ui-react'
+import { Input, Button, Checkbox } from 'semantic-ui-react'
 
-const WatchlistCopyPopup = ({ assets, handleCopyConfirm }) => {
+const WatchlistCopyPopup = ({
+  assets,
+  assetsToCopy,
+  handleCopyConfirm,
+  onChange,
+  onAssetClick
+}) => {
   return (
     <div>
-      <Input placeholder='New watchlist title' />
+      <ul>
+        {assets.map(({ id, name }) => (
+          <li onClick={() => onAssetClick(id)}>
+            {name} <Checkbox checked={assetsToCopy.has(id)} />
+          </li>
+        ))}
+      </ul>
+      <Input placeholder='New watchlist title' onChange={onChange} />
       <Button onClick={() => handleCopyConfirm({ name: 'test' })}>
         Submit
       </Button>

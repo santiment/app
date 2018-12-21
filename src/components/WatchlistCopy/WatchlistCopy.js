@@ -7,14 +7,40 @@ import * as actions from '../../actions/types'
 
 class WatchlistCopy extends PureComponent {
   state = {
-    isPopupShown: false
+    isPopupShown: false,
+    newWatchlistTitle: '',
+    assetsToCopy: new Set(this.props.assets.map(({ id }) => id))
+  }
+  onWatchlistTitleChange = ({ currentTarget }) => {
+    console.log(currentTarget)
+    this.setState(prevState => ({
+      ...prevState,
+      newWatchlistTitle: currentTarget.value
+    }))
   }
 
-  handleCopyConfirm = () => {}
+  onAssetClick = id => {
+    const assetsToCopy = new Set([...this.state.assetsToCopy])
+
+    if (assetsToCopy.has(id)) {
+      assetsToCopy.delete(id)
+    } else {
+      assetsToCopy.add(id)
+    }
+
+    this.setState(prevState => ({
+      ...prevState,
+      assetsToCopy
+    }))
+  }
+
+  handleCopyConfirm = () => {
+    this.props.createWatchlist({ name: this.state.newWatchlistTitle })
+  }
 
   render () {
-    const { isPopupShown } = this.state
-    const { assets, createWatchlist } = this.props
+    const { isPopupShown, assetsToCopy } = this.state
+    const { createWatchlist, assets } = this.props
 
     return (
       <div>
@@ -22,7 +48,10 @@ class WatchlistCopy extends PureComponent {
           content={
             <WatchlistCopyPopup
               assets={assets}
-              handleCopyConfirm={createWatchlist}
+              assetsToCopy={assetsToCopy}
+              onAssetClick={this.onAssetClick}
+              handleCopyConfirm={this.handleCopyConfirm}
+              onChange={this.onWatchlistTitleChange}
             />
           }
           trigger={<WatchlistCopyBtn />}
