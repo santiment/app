@@ -32,7 +32,6 @@ const project = gql`
     averageGithubActivity
     averageDailyActiveAddresses
     marketcapUsd
-    ethBalance
     signals {
       name
       description
@@ -74,6 +73,7 @@ export const allProjectsForSearchGQL = gql`
 export const allErc20ProjectsGQL = gql`
   query allErc20Projects {
     allErc20Projects {
+      ethBalance
       ...generalData
       ...project
       ...ethereumData
