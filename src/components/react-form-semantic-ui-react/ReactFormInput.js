@@ -15,12 +15,17 @@ class ReactFormInput extends Component {
   }
 
   render () {
-    const { fieldApi, ...rest } = this.props
+    const { fieldApi, onChangeClb, ...rest } = this.props
     const { setValue, setTouched, getValue } = fieldApi
     return (
       <Input
         value={getValue() || ''}
-        onChange={e => setValue(e.target.value)}
+        onChange={e => {
+          setValue(e.target.value)
+          if (onChangeClb) {
+            onChangeClb(e.target.value)
+          }
+        }}
         ref={input => {
           this.input = input
         }}

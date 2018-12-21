@@ -26,6 +26,9 @@ export class CreateInsight extends Component {
     const renderedHTML = sanitizeMediumDraftHtml(
       mediumDraftExporter(editorState.getCurrentContent())
     )
+
+    this.props.updateDraft({ text: renderedHTML })
+
     this.props.changePost(renderedHTML)
   }
 
