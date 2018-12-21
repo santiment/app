@@ -7,7 +7,8 @@ export const initialState = {
   account: null,
   token: null,
   hasMetamask: false,
-  consent: null
+  consent: null,
+  insightDraft: {}
 }
 
 export default (state = initialState, action) => {
@@ -86,7 +87,6 @@ export default (state = initialState, action) => {
           marketingAccepted
         }
       }
-
     case actions.USER_APIKEY_GENERATE_SUCCESS:
     case actions.USER_APIKEY_REVOKE_SUCCESS:
       return {
@@ -115,6 +115,17 @@ export default (state = initialState, action) => {
       return {
         ...initialState,
         isLoading: false
+      }
+    case actions.APP_UPDATE_INSIGHT_DRAFT:
+      const insightDraft = { ...state.insightDraft, ...action.payload }
+      return {
+        ...state,
+        insightDraft
+      }
+    case actions.APP_DELETE_INSIGHT_DRAFT:
+      return {
+        ...state,
+        insightDraft: {}
       }
     default:
       return state
