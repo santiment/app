@@ -178,53 +178,14 @@ describe('mergeTimeseriesByKey', () => {
 
   const ts4 = [
     {
-      value4: 41,
+      value5: 51,
       datetime: '2018-05-20T00:00:00Z'
     },
     {
-      value4: 42,
+      value5: 52,
       datetime: '2018-06-20T00:00:00Z'
     }
   ]
-
-  const ts5 = [
-    {
-      value5: 51,
-      datetime: '2018-08-20T00:00:00Z'
-    },
-    {
-      value5: 52,
-      datetime: '2018-09-20T00:00:00Z'
-    }
-  ]
-
-  it('should append longest array with missing ts and merge existing', () => {
-    const goodMerged = [
-      {
-        value2: 21,
-        datetime: '2018-06-20T00:00:00Z'
-      },
-      {
-        value2: 22,
-        datetime: '2018-07-20T00:00:00Z'
-      },
-      {
-        value2: 23,
-        value5: 51,
-        datetime: '2018-08-20T00:00:00Z'
-      },
-      {
-        value5: 52,
-        datetime: '2018-09-20T00:00:00Z'
-      }
-    ]
-
-    const expected = mergeTimeseriesByKey({
-      timeseries: [ts5, ts2],
-      key: 'datetime'
-    })
-    expect(expected).toEqual(goodMerged)
-  })
 
   it('should merge 2 timeseries properly', () => {
     const goodMerged = [
@@ -282,7 +243,7 @@ describe('mergeTimeseriesByKey', () => {
     const goodMerged = [
       {
         value2: 21,
-        value4: 42,
+        value5: 52,
         datetime: '2018-06-20T00:00:00Z'
       },
       {
