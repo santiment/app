@@ -41,7 +41,7 @@ const AssetsPage = props => (
         <HelpPopupAssets />
         {props.type === 'list' &&
           props.location.hash !== '#shared' && <WatchlistShare />}
-        <WatchlistCopy />
+        {props.type === 'list' && <WatchlistCopy />}
       </div>
       <AssetsPageNavigation
         isLoggedIn={props.isLoggedIn}
