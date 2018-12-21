@@ -6,6 +6,7 @@ import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
 import AssetsPageNavigation from './AssetsPageNavigation'
 import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
+import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
 import WidgetList from '../../components/Widget/WidgetList'
 import qs from 'query-string'
 import './Assets.css'
@@ -40,6 +41,7 @@ const AssetsPage = props => (
         <HelpPopupAssets />
         {props.type === 'list' &&
           props.location.hash !== '#shared' && <WatchlistShare />}
+        <WatchlistCopy />
       </div>
       <AssetsPageNavigation
         isLoggedIn={props.isLoggedIn}
