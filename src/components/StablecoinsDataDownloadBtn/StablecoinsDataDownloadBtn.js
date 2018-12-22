@@ -14,12 +14,12 @@ const StablecoinsDataDownloadBtn = () => {
   return (
     <Button className={styles.button} onClick={onDownloadBtnClick}>
       <a
-        href='https://docs.google.com/spreadsheets/u/1/d/1OwF5xKsPRxFsy3WvSest-gn8lFbm7cTQLhW3ylZE_2M/export?format=xlsx'
+        href='https://docs.google.com/spreadsheets/u/1/d/1OwF5xKsPRxFsy3WvSest-gn8lFbm7cTQLhW3ylZE_2M'
         target='_blank'
         rel='noopener noreferrer'
         className={styles.link}
       />
-      Download .xls
+      Download data as ...
     </Button>
   )
 }
