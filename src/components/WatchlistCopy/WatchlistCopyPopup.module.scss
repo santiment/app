@@ -10,6 +10,10 @@
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #eee;
+
+  &:hover {
+    background-color: #d4d9dd5e;
+  }
 }
 
 .bottom {
@@ -25,4 +29,12 @@
 .button {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
+}
+
+.title {
+  font-size: 14px;
+  text-align: center;
+  margin: 0px;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
 }

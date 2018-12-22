@@ -11,6 +11,7 @@ const WatchlistCopyPopup = ({
 }) => {
   return (
     <div>
+      <h4 className={styles.title}>Assets to include in a new Watchlist</h4>
       <ul className={styles.list}>
         {assets.map(({ id, name }) => (
           <li key={id} onClick={() => onAssetClick(id)} className={styles.item}>
