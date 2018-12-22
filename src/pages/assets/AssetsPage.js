@@ -8,6 +8,7 @@ import AssetsPageNavigation from './AssetsPageNavigation'
 import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
 import WidgetList from '../../components/Widget/WidgetList'
 import qs from 'query-string'
+import StablecoinsDataDownloadBtn from './StablecoinsDataDownloadBtn'
 import './Assets.css'
 
 const getHeadTitle = (type, searchParams) => {
@@ -40,6 +41,9 @@ const AssetsPage = props => (
         <HelpPopupAssets />
         {props.type === 'list' &&
           props.location.hash !== '#shared' && <WatchlistShare />}
+        {qs.parse(props.location.search).name === 'stablecoins@86' && (
+          <StablecoinsDataDownloadBtn />
+        )}
       </div>
       <AssetsPageNavigation
         isLoggedIn={props.isLoggedIn}
