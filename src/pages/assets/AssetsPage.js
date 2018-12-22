@@ -1,5 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
+import qs from 'query-string'
 import { getOrigin } from '../../utils/utils'
 import Assets from './Assets'
 import AssetsTable from './AssetsTable'
@@ -8,7 +9,6 @@ import AssetsPageNavigation from './AssetsPageNavigation'
 import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
 import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
 import WidgetList from '../../components/Widget/WidgetList'
-import qs from 'query-string'
 import './Assets.css'
 
 const getHeadTitle = (type, searchParams) => {

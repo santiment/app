@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react'
-import WatchlistCopyBtn from './WatchlistCopyBtn'
-import WatchlistCopyPopup from './WatchlistCopyPopup'
 import { connect } from 'react-redux'
-import { Popup } from 'semantic-ui-react'
+import { Popup, Button } from 'semantic-ui-react'
 import * as actions from '../../actions/types'
+import WatchlistCopyPopup from './WatchlistCopyPopup'
 
 const style = {
   padding: 0
@@ -12,7 +11,7 @@ const style = {
 class WatchlistCopy extends PureComponent {
   state = {
     isPopupVisible: false,
-    newWatchlistTitle: '',
+    newWatchlistName: '',
     assetsToCopy: new Set()
   }
 
@@ -26,7 +25,7 @@ class WatchlistCopy extends PureComponent {
   onWatchlistTitleChange = ({ currentTarget }) => {
     this.setState(prevState => ({
       ...prevState,
-      newWatchlistTitle: currentTarget.value
+      newWatchlistName: currentTarget.value
     }))
   }
 
@@ -45,14 +44,14 @@ class WatchlistCopy extends PureComponent {
     }))
   }
 
-  handleCopyConfirm = evt => {
+  onFormSubmit = evt => {
     evt.preventDefault()
 
-    const { assetsToCopy, newWatchlistTitle } = this.state
+    const { assetsToCopy, newWatchlistName } = this.state
     const { copyWatchlist, assets } = this.props
 
     copyWatchlist({
-      name: newWatchlistTitle,
+      name: newWatchlistName,
       assets: assets.filter(asset => assetsToCopy.has(asset.id))
     })
 
@@ -63,16 +62,14 @@ class WatchlistCopy extends PureComponent {
   }
 
   onPopupOpen = () => {
-    this.setState(prevState => ({
-      ...prevState,
+    this.setState({
       isPopupVisible: true
-    }))
+    })
   }
   onPopupClose = () => {
-    this.setState(prevState => ({
-      ...prevState,
+    this.setState({
       isPopupVisible: false
-    }))
+    })
   }
 
   render () {
@@ -81,25 +78,24 @@ class WatchlistCopy extends PureComponent {
 
     return (
       assets.length > 0 && (
-        <div>
-          <Popup
-            content={
-              <WatchlistCopyPopup
-                assets={assets}
-                assetsToCopy={assetsToCopy}
-                onAssetClick={this.onAssetClick}
-                handleCopyConfirm={this.handleCopyConfirm}
-                onChange={this.onWatchlistTitleChange}
-              />
-            }
-            trigger={<WatchlistCopyBtn />}
-            position='bottom center'
-            style={style}
-            open={isPopupVisible}
-            onOpen={this.onPopupOpen}
-            onClose={this.onPopupClose}
-          />
-        </div>
+        <Popup
+          content={
+            <WatchlistCopyPopup
+              assets={assets}
+              assetsToCopy={assetsToCopy}
+              onAssetClick={this.onAssetClick}
+              onFormSubmit={this.onFormSubmit}
+              onChange={this.onWatchlistTitleChange}
+            />
+          }
+          trigger={<Button>Copy</Button>}
+          position='bottom center'
+          style={style}
+          open={isPopupVisible}
+          on='click'
+          onOpen={this.onPopupOpen}
+          onClose={this.onPopupClose}
+        />
       )
     )
   }

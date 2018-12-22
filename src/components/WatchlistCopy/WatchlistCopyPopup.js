@@ -5,7 +5,7 @@ import styles from './WatchlistCopyPopup.module.scss'
 const WatchlistCopyPopup = ({
   assets,
   assetsToCopy,
-  handleCopyConfirm,
+  onFormSubmit,
   onChange,
   onAssetClick
 }) => {
@@ -19,7 +19,7 @@ const WatchlistCopyPopup = ({
           </li>
         ))}
       </ul>
-      <form className={styles.bottom} onSubmit={handleCopyConfirm}>
+      <form className={styles.bottom} onSubmit={onFormSubmit}>
         <Input
           placeholder='New watchlist title'
           onChange={onChange}
