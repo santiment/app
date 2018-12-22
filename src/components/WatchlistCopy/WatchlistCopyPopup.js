@@ -13,7 +13,7 @@ const WatchlistCopyPopup = ({
     <div>
       <ul className={styles.list}>
         {assets.map(({ id, name }) => (
-          <li onClick={() => onAssetClick(id)} className={styles.item}>
+          <li key={id} onClick={() => onAssetClick(id)} className={styles.item}>
             {name} <Checkbox checked={assetsToCopy.has(id)} />
           </li>
         ))}
@@ -24,7 +24,7 @@ const WatchlistCopyPopup = ({
           onChange={onChange}
           className={styles.input}
         />
-        <Button className={styles.button} type='submit'>
+        <Button className={styles.button} type='submit' positive>
           Submit
         </Button>
       </form>

@@ -11,7 +11,7 @@ const style = {
 
 class WatchlistCopy extends PureComponent {
   state = {
-    isPopupShown: false,
+    isPopupVisible: false,
     newWatchlistTitle: '',
     assetsToCopy: new Set()
   }
@@ -55,30 +55,52 @@ class WatchlistCopy extends PureComponent {
       name: newWatchlistTitle,
       assets: assets.filter(asset => assetsToCopy.has(asset.id))
     })
+
+    this.setState(prevState => ({
+      ...prevState,
+      isPopupVisible: false
+    }))
+  }
+
+  onPopupOpen = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      isPopupVisible: true
+    }))
+  }
+  onPopupClose = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      isPopupVisible: false
+    }))
   }
 
   render () {
-    const { isPopupShown, assetsToCopy } = this.state
+    const { isPopupVisible, assetsToCopy } = this.state
     const { assets } = this.props
 
     return (
-      <div>
-        <Popup
-          content={
-            <WatchlistCopyPopup
-              assets={assets}
-              assetsToCopy={assetsToCopy}
-              onAssetClick={this.onAssetClick}
-              handleCopyConfirm={this.handleCopyConfirm}
-              onChange={this.onWatchlistTitleChange}
-            />
-          }
-          trigger={<WatchlistCopyBtn />}
-          position='bottom center'
-          // on='click'
-          style={style}
-        />
-      </div>
+      assets.length > 0 && (
+        <div>
+          <Popup
+            content={
+              <WatchlistCopyPopup
+                assets={assets}
+                assetsToCopy={assetsToCopy}
+                onAssetClick={this.onAssetClick}
+                handleCopyConfirm={this.handleCopyConfirm}
+                onChange={this.onWatchlistTitleChange}
+              />
+            }
+            trigger={<WatchlistCopyBtn />}
+            position='bottom center'
+            style={style}
+            open={isPopupVisible}
+            onOpen={this.onPopupOpen}
+            onClose={this.onPopupClose}
+          />
+        </div>
+      )
     )
   }
 }
