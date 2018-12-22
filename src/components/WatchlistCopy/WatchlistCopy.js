@@ -12,7 +12,6 @@ class WatchlistCopy extends PureComponent {
     assetsToCopy: new Set(this.props.assets.map(({ id }) => id))
   }
   onWatchlistTitleChange = ({ currentTarget }) => {
-    console.log(currentTarget)
     this.setState(prevState => ({
       ...prevState,
       newWatchlistTitle: currentTarget.value
@@ -35,12 +34,18 @@ class WatchlistCopy extends PureComponent {
   }
 
   handleCopyConfirm = () => {
-    this.props.createWatchlist({ name: this.state.newWatchlistTitle })
+    const { assetsToCopy, newWatchlistTitle } = this.state
+    const { copyWatchlist, assets } = this.props
+
+    copyWatchlist({
+      name: newWatchlistTitle,
+      assets: assets.filter(asset => assetsToCopy.has(asset.id))
+    })
   }
 
   render () {
     const { isPopupShown, assetsToCopy } = this.state
-    const { createWatchlist, assets } = this.props
+    const { assets } = this.props
 
     return (
       <div>
@@ -71,9 +76,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createWatchlist: payload =>
+  copyWatchlist: payload =>
     dispatch({
-      type: actions.USER_ADD_NEW_ASSET_LIST,
+      type: actions.USER_COPY_ASSET_LIST,
       payload
     })
 })

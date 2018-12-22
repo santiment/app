@@ -44,7 +44,10 @@ const addAssetToWatchlistEpic = (action$, store, { client }) =>
       const normalizedList = listItems.map(val => {
         return { project_id: +val.project.id }
       })
-      const newListItems = [...normalizedList, { project_id: +projectId }]
+      const newListItems = projectId
+        ? [...normalizedList, { project_id: +projectId }]
+        : normalizedList
+      console.log(newListItems)
       const mutationPromise = client.mutate({
         mutation: updateUserListGQL,
         variables: {
@@ -62,7 +65,7 @@ const addAssetToWatchlistEpic = (action$, store, { client }) =>
       })
       return Observable.from(mutationPromise)
         .mergeMap(({ data }) => {
-          const assetSlug = action.payload.slug
+          const assetSlug = action.payload.slug || ''
           const watchlistName = data.updateUserList.name
           return Observable.merge(
             Observable.of({
