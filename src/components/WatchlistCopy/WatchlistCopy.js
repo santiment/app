@@ -9,8 +9,16 @@ class WatchlistCopy extends PureComponent {
   state = {
     isPopupShown: false,
     newWatchlistTitle: '',
-    assetsToCopy: new Set(this.props.assets.map(({ id }) => id))
+    assetsToCopy: new Set()
   }
+
+  static getDerivedStateFromProps (nextProps, prevState) {
+    return {
+      ...prevState,
+      assetsToCopy: new Set(nextProps.assets.map(({ id }) => id))
+    }
+  }
+
   onWatchlistTitleChange = ({ currentTarget }) => {
     this.setState(prevState => ({
       ...prevState,

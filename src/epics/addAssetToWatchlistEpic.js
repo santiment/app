@@ -47,7 +47,7 @@ const addAssetToWatchlistEpic = (action$, store, { client }) =>
       const newListItems = projectId
         ? [...normalizedList, { project_id: +projectId }]
         : normalizedList
-      console.log(newListItems)
+
       const mutationPromise = client.mutate({
         mutation: updateUserListGQL,
         variables: {

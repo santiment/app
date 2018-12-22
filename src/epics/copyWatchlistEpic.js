@@ -2,7 +2,6 @@ import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
-import { WatchlistGQL } from './../components/WatchlistPopup/WatchlistGQL'
 import * as actions from './../actions/types'
 
 const createUserListGQL = gql`
@@ -75,11 +74,5 @@ const copyWatchlistEpic = (action$, store, { client }) =>
           })
         })
     })
-
-export const createWatchlistSuccessEpic = (action$, store, { client }) =>
-  action$
-    .ofType(actions.USER_ADD_NEW_ASSET_LIST_SUCCESS)
-    .delay(2000)
-    .mapTo({ type: actions.USER_ADD_NEW_ASSET_LIST_CANCEL })
 
 export default copyWatchlistEpic
