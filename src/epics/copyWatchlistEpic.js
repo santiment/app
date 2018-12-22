@@ -2,6 +2,7 @@ import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
+import { handleErrorAndTriggerAction } from './epicUtils'
 import * as actions from './../actions/types'
 
 const createUserListGQL = gql`
@@ -61,13 +62,9 @@ const copyWatchlistEpic = (action$, store, { client }) =>
             Observable.of(showNotification('Added new assets list'))
           )
         })
-        .catch(error => {
-          Raven.captureException(error)
-          return Observable.of({
-            type: actions.USER_ADD_NEW_ASSET_LIST_FAILED,
-            payload: error
-          })
-        })
+        .catch(
+          handleErrorAndTriggerAction(actions.USER_ADD_NEW_ASSET_LIST_FAILED)
+        )
     })
 
 export default copyWatchlistEpic
