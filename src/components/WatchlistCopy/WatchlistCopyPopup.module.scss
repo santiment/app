@@ -1,0 +1,28 @@
+.list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.item {
+  cursor: pointer;
+  padding: 8px 15px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+}
+
+.bottom {
+  padding: 5px;
+  display: flex;
+}
+
+.input input {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.button {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}

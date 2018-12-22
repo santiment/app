@@ -1,5 +1,6 @@
 import React from 'react'
 import { Input, Button, Checkbox } from 'semantic-ui-react'
+import styles from './WatchlistCopyPopup.module.scss'
 
 const WatchlistCopyPopup = ({
   assets,
@@ -10,17 +11,23 @@ const WatchlistCopyPopup = ({
 }) => {
   return (
     <div>
-      <ul>
+      <ul className={styles.list}>
         {assets.map(({ id, name }) => (
-          <li onClick={() => onAssetClick(id)}>
+          <li onClick={() => onAssetClick(id)} className={styles.item}>
             {name} <Checkbox checked={assetsToCopy.has(id)} />
           </li>
         ))}
       </ul>
-      <Input placeholder='New watchlist title' onChange={onChange} />
-      <Button onClick={() => handleCopyConfirm({ name: 'test' })}>
-        Submit
-      </Button>
+      <form className={styles.bottom} onSubmit={handleCopyConfirm}>
+        <Input
+          placeholder='New watchlist title'
+          onChange={onChange}
+          className={styles.input}
+        />
+        <Button className={styles.button} type='submit'>
+          Submit
+        </Button>
+      </form>
     </div>
   )
 }

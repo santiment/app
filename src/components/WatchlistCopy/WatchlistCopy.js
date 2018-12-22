@@ -5,6 +5,10 @@ import { connect } from 'react-redux'
 import { Popup } from 'semantic-ui-react'
 import * as actions from '../../actions/types'
 
+const style = {
+  padding: 0
+}
+
 class WatchlistCopy extends PureComponent {
   state = {
     isPopupShown: false,
@@ -41,7 +45,9 @@ class WatchlistCopy extends PureComponent {
     }))
   }
 
-  handleCopyConfirm = () => {
+  handleCopyConfirm = evt => {
+    evt.preventDefault()
+
     const { assetsToCopy, newWatchlistTitle } = this.state
     const { copyWatchlist, assets } = this.props
 
@@ -70,7 +76,7 @@ class WatchlistCopy extends PureComponent {
           trigger={<WatchlistCopyBtn />}
           position='bottom center'
           // on='click'
-          // style={style}
+          style={style}
         />
       </div>
     )
