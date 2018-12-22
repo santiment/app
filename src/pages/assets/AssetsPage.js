@@ -8,7 +8,7 @@ import AssetsPageNavigation from './AssetsPageNavigation'
 import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
 import WidgetList from '../../components/Widget/WidgetList'
 import qs from 'query-string'
-import StablecoinsDataDownloadBtn from './StablecoinsDataDownloadBtn'
+import StablecoinsDataDownloadBtn from '../../components/StablecoinsDataDownloadBtn/StablecoinsDataDownloadBtn'
 import './Assets.css'
 
 const getHeadTitle = (type, searchParams) => {
