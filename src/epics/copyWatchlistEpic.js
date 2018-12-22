@@ -42,11 +42,6 @@ const copyWatchlistEpic = (action$, store, { client }) =>
             id: +new Date()
           }
         }
-        // update: (store, { data: { createUserList } }) => {
-        //   const data = store.readQuery({ query: WatchlistGQL })
-        //   data.fetchUserLists.push(createUserList)
-        //   store.writeQuery({ query: WatchlistGQL, data })
-        // }
       })
 
       return Observable.from(mutationPromise)
