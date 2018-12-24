@@ -217,7 +217,7 @@ const Roadmap = () => (
                   progress={100}
                 />
                 <StatusItemWithProgress
-                  text={'Github Activity'}
+                  text={'Development Activity'}
                   progress={100}
                 />
                 <StatusItemWithProgress

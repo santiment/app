@@ -21,7 +21,7 @@ const ProjectChartMobile = ({
     items: [],
     loading: true
   },
-  github = {
+  development = {
     history: {
       items: [],
       loading: true
@@ -158,13 +158,13 @@ const ProjectChartMobile = ({
       {settings.showed['activity'] && <h2>DEVELOPMENT</h2>}
       {settings.showed['activity'] && (
         <Analytics
-          data={github.history}
+          data={development.history}
           label='activity'
           chart={{
             type: 'line',
             color: 'rgba(96, 76, 141)'
           }}
-          show='Github Activity'
+          show='Development Activity'
           showInfo
         />
       )}
