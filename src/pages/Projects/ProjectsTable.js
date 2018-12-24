@@ -282,9 +282,9 @@ const ProjectsTable = ({
     },
     {
       Header: 'Dev activity (30D)',
-      id: 'github_activity',
+      id: 'dev_activity',
       maxWidth: 110,
-      accessor: d => d.averageGithubActivity,
+      accessor: d => d.averageDevActivity,
       Cell: ({ value }) => (
         <div className='overview-devactivity'>
           {value ? parseFloat(value).toFixed(2) : ''}
