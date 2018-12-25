@@ -1,5 +1,4 @@
 import React from 'react'
-// import ReactWordCloud from 'react-wordcloud'
 import TagCloud from 'react-tag-cloud'
 import styles from './WordCloud.module.scss'
 
@@ -18,7 +17,7 @@ const defaultWords = [
   { word: 'liquidity', value: 5 }
 ]
 
-const getIndex = index => {
+const getWordStyles = index => {
   switch (index) {
     case 0:
       return styles.text_big
@@ -39,7 +38,7 @@ const WordCloud = ({ words = defaultWords }) => {
     <div className={styles.wrapper}>
       <TagCloud style={{ width: '95%', height: '85%', padding: 10 }}>
         {sortedWords.map(({ word }, index) => (
-          <div className={`${styles.text} ${getIndex(index)}`}>{word}</div>
+          <div className={`${styles.text} ${getWordStyles(index)}`}>{word}</div>
         ))}
       </TagCloud>
     </div>

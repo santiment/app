@@ -27,7 +27,7 @@ const TrendsPage = ({ isDesktop = true }) => (
         />
       )}
     />
-    <WordCloud />
+    {/* <WordCloud /> */}
   </div>
 )
 

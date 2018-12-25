@@ -10,11 +10,7 @@ $top: 22px;
   height: 170px;
   width: 49%;
 
-  /* White */
   background: #f7f8fb;
-  // background: #fff;
-
-  /* Light grey 2 */
   border: 1px solid #ebeef5;
   border-radius: 4px;
 }
@@ -27,7 +23,6 @@ $top: 22px;
   font-size: 12px !important;
   color: #adb6cd;
   width: auto !important;
-  // padding: 10px;
 
   &_big,
   &_medium {
