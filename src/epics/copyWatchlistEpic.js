@@ -1,8 +1,7 @@
-import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
-import { handleErrorAndTriggerAction } from './epicUtils'
+import { handleErrorAndTriggerAction } from './utils'
 import * as actions from './../actions/types'
 
 const createUserListGQL = gql`
