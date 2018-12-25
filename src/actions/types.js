@@ -33,6 +33,7 @@ export const USER_TOGGLE_NIGHT_MODE = '[user] TOGGLE_NIGHT_MODE'
 export const USER_TOGGLE_BETA_MODE = '[user] TOGGLE_BETA_MODE'
 
 // assets
+export const USER_COPY_ASSET_LIST = '[user] COPY_ASSET_LIST'
 export const USER_ADD_NEW_ASSET_LIST = '[user] ADD_NEW_ASSET_LIST'
 export const USER_ADD_NEW_ASSET_LIST_SUCCESS =
   '[user] ADD_NEW_ASSET_LIST_SUCCESS'

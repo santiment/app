@@ -12,6 +12,7 @@ import apikeyRevokeEpic from './apikeyRevokeEpic'
 import createWatchlistEpic, {
   createWatchlistSuccessEpic
 } from './createWatchlistEpic'
+import copyWatchlistEpic from './copyWatchlistEpic'
 import addAssetToWatchlistEpic from './addAssetToWatchlistEpic'
 import removeWatchlistEpic from './removeWatchlistEpic'
 import removeAssetFromWatchlistEpic from './removeAssetFromWatchlistEpic'
@@ -46,6 +47,7 @@ export default combineEpics(
   removeWatchlistEpic,
   addAssetToWatchlistEpic,
   removeAssetFromWatchlistEpic,
+  copyWatchlistEpic,
   // assets
   fetchAssetsEpic,
   fetchAssetsFromListEpic,

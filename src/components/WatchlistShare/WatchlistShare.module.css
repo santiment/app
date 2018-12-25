@@ -28,3 +28,7 @@ body .linkCopy {
 .wrapper.public .linkCopy {
   left: 90%;
 }
+
+.wrapper.public {
+  margin-right: 35px;
+}

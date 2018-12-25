@@ -1,13 +1,14 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
+import qs from 'query-string'
 import { getOrigin } from '../../utils/utils'
 import Assets from './Assets'
 import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
 import AssetsPageNavigation from './AssetsPageNavigation'
 import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
+import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
 import WidgetList from '../../components/Widget/WidgetList'
-import qs from 'query-string'
 import StablecoinsDataDownloadBtn from '../../components/StablecoinsDataDownloadBtn/StablecoinsDataDownloadBtn'
 import './Assets.css'
 
@@ -41,6 +42,9 @@ const AssetsPage = props => (
         <HelpPopupAssets />
         {props.type === 'list' &&
           props.location.hash !== '#shared' && <WatchlistShare />}
+
+        {props.type === 'list' && <WatchlistCopy />}
+        
         {qs.parse(props.location.search).name === 'stablecoins@86' && (
           <StablecoinsDataDownloadBtn />
         )}
