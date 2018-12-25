@@ -43,24 +43,3 @@ $top: 22px;
     font-size: 20px !important;
   }
 }
-
-.weight {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-
-  top: -$top;
-
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-
-  /* Light grey */
-  background: #fff;
-  font-family: Rubik;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 20px;
-  font-size: 12px;
-}
