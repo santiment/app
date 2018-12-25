@@ -138,6 +138,10 @@ const mergeTimeseriesByKey = ({ timeseries, key: mergeKey }) => {
     let longestTSRightIndexBoundary = longestTSLastIndex
     let timeserieRightIndex = timeserie.length - 1
 
+    if (timeserieRightIndex < 0) {
+      continue
+    }
+
     if (mergeKey === 'datetime') {
       for (
         ;

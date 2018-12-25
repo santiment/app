@@ -24,7 +24,7 @@ import {
   TwitterHistoryGQL,
   HistoryPriceGQL,
   BurnRateGQL,
-  GithubActivityGQL,
+  DevActivityGQL,
   TransactionVolumeGQL,
   ExchangeFundFlowGQL,
   EthSpentOverTimeByErc20ProjectsGQL,
@@ -52,10 +52,10 @@ export const Detailed = ({
     error: false,
     historyPrice: []
   },
-  GithubActivity = {
+  DevActivity = {
     loading: true,
     error: false,
-    githubActivity: []
+    devActivity: []
   },
   BurnRate = {
     loading: true,
@@ -139,10 +139,10 @@ export const Detailed = ({
     }
   }
 
-  const github = {
+  const development = {
     history: {
-      loading: GithubActivity.loading,
-      items: GithubActivity.githubActivity || []
+      loading: DevActivity.loading,
+      items: DevActivity.devActivity || []
     }
   }
 
@@ -217,7 +217,7 @@ export const Detailed = ({
       isDesktop={isDesktop}
       {...props}
       price={price}
-      github={github}
+      development={development}
       burnRate={burnRate}
       tokenDecimals={
         Project.project ? Project.project.tokenDecimals : undefined
@@ -441,8 +441,8 @@ const enhance = compose(
       }
     }
   }),
-  graphql(GithubActivityGQL, {
-    name: 'GithubActivity',
+  graphql(DevActivityGQL, {
+    name: 'DevActivity',
     skip: ({ timeFilter, match }) => {
       const { from } = timeFilter
       const slug = match.params.slug
@@ -456,9 +456,9 @@ const enhance = compose(
           from: from ? moment(from).subtract(7, 'days') : undefined,
           to,
           slug,
-          interval: '',
+          interval: '1d',
           transform: 'movingAverage',
-          movingAverageIntervalBase: '1w'
+          movingAverageIntervalBase: 7
         }
       }
     }

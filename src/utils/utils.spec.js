@@ -198,7 +198,32 @@ describe('mergeTimeseriesByKey', () => {
     }
   ]
 
-  it('should append longest array with missing ts and merge existing', () => {
+  it('should merge correctly and skip empty TS', () => {
+    const goodMerged = [
+      {
+        value1: 11,
+        value2: 21,
+        datetime: '2018-06-20T00:00:00Z'
+      },
+      {
+        value1: 12,
+        value2: 22,
+        datetime: '2018-07-20T00:00:00Z'
+      },
+      {
+        value2: 23,
+        datetime: '2018-08-20T00:00:00Z'
+      }
+    ]
+
+    const expected = mergeTimeseriesByKey({
+      timeseries: [ts1, ts2, []],
+      key: 'datetime'
+    })
+    expect(expected).toEqual(goodMerged)
+  })
+
+  it('should append longest array with missing new TS and merge existing', () => {
     const goodMerged = [
       {
         value2: 21,
@@ -220,7 +245,7 @@ describe('mergeTimeseriesByKey', () => {
     ]
 
     const expected = mergeTimeseriesByKey({
-      timeseries: [ts5, ts2],
+      timeseries: [ts2, ts5],
       key: 'datetime'
     })
     expect(expected).toEqual(goodMerged)

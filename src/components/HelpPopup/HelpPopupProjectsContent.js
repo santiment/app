@@ -32,7 +32,7 @@ const HelpPopupProjectsContent = () => {
           </h4>
           <p>
             Look for this metric in the DEV ACTIVITY column, which shows a
-            summary of Github activity.
+            summary of Development activity.
           </p>
         </li>
         <li className='HelpPopupProjectsContent__item HelpPopupProjectsContent__item_inline'>

@@ -88,7 +88,7 @@ class ProjectChartContainer extends Component {
     if (Object.keys(shareableState).length > 0) {
       this.props.toggleVolume(shareableState.volume)
       this.props.toggleMarketcap(shareableState.marketcap)
-      this.props.toggleGithubActivity(shareableState.github)
+      this.props.toggleDevActivity(shareableState.development)
       this.props.toggleTwitter(shareableState.twitter)
       this.props.toggleEmojisSentiment(shareableState.sentiment)
       this.props.toggleBurnRate(shareableState.tbr)
@@ -169,7 +169,7 @@ class ProjectChartContainer extends Component {
       this.setFilter('all')
       this.props.toggleVolume(true)
       this.props.toggleMarketcap(false)
-      this.props.toggleGithubActivity(false)
+      this.props.toggleDevActivity(false)
       this.props.toggleTwitter(false)
       this.props.toggleEmojisSentiment(false)
       this.props.toggleBurnRate(false)
@@ -199,7 +199,7 @@ class ProjectChartContainer extends Component {
     const newShareableState = {
       volume: this.props.isToggledVolume || undefined,
       marketcap: this.props.isToggledMarketCap || undefined,
-      github: this.props.isToggledGithubActivity || undefined,
+      development: this.props.isToggledDevActivity || undefined,
       twitter: this.props.isToggledTwitter || undefined,
       sentiment: this.props.isToggledEmojisSentiment || undefined,
       tbr: this.props.isToggledBurnRate || undefined,
@@ -330,7 +330,7 @@ const enhance = compose(
     mapDispatchToProps
   ),
   withState('isToggledMarketCap', 'toggleMarketcap', false),
-  withState('isToggledGithubActivity', 'toggleGithubActivity', false),
+  withState('isToggledDevActivity', 'toggleDevActivity', false),
   withState('isToggledEthSpentOverTime', 'toggleEthSpentOverTime', false),
   withState('isToggledVolume', 'toggleVolume', true),
   withState('isToggledTwitter', 'toggleTwitter', false),

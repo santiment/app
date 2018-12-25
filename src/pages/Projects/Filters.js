@@ -51,10 +51,10 @@ const Filters = ({
             Marketcap
           </Button>
           <Button
-            color={sortBy === 'github_activity' ? 'blue' : undefined}
-            onClick={() => changeSort('github_activity')}
+            color={sortBy === 'dev_activity' ? 'blue' : undefined}
+            onClick={() => changeSort('dev_activity')}
           >
-            Github Activity
+            Development Activity
           </Button>
         </div>
         <FilterDivider>Filter by</FilterDivider>

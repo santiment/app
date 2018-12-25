@@ -54,7 +54,9 @@ export class TrendsExplorePage extends Component {
           <TrendsTitle />
         </div>
         <div className='TrendsExplorePage__content'>
-          <TrendsExploreHeader topic={match.params.topic} />
+          <TrendsExploreHeader
+            topic={window.decodeURIComponent(match.params.topic)}
+          />
 
           <div className='TrendsExplorePage__settings'>
             <Selector

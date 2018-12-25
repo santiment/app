@@ -17,7 +17,7 @@ const COLORS_DAY = {
   price: 'rgb(52, 171, 107)',
   volume: 'rgba(38, 43, 51, 0.25)',
   marketcap: 'rgb(52, 118, 153)',
-  githubActivity: 'rgba(96, 76, 141, 0.7)', // Ultra Violet color #604c8d'
+  devActivity: 'rgba(96, 76, 141, 0.7)', // Ultra Violet color #604c8d'
   twitter: 'rgba(16, 195, 245, 0.7)',
   burnRate: 'rgba(252, 138, 23, 0.7)',
   exchangeFundFlow: 'rgba(252, 138, 23, 0.7)',
@@ -51,7 +51,7 @@ const makeChartDataFromHistory = (
     history = [],
     isToggledBTC,
     isToggledMarketCap,
-    isToggledGithubActivity,
+    isToggledDevActivity,
     isToggledVolume,
     isToggledTwitter,
     isToggledBurnRate,
@@ -65,7 +65,7 @@ const makeChartDataFromHistory = (
   },
   COLORS
 ) => {
-  const github = props.github.history.items || []
+  const development = props.development.history.items || []
   const burnRate = props.burnRate.items || []
   const transactionVolume = props.transactionVolume.items || []
   const dailyActiveAddresses = props.dailyActiveAddresses.items || []
@@ -141,22 +141,22 @@ const makeChartDataFromHistory = (
         return parseFloat(data.marketcap)
       })
     }
-  const githubActivityDataset = !isToggledGithubActivity
+  const devActivityDataset = !isToggledDevActivity
     ? null
     : {
-      label: 'Github Activity',
+      label: 'Development Activity',
       type: 'line',
       fill: false,
       yAxisID: 'y-axis-4',
       datalabels: {
         display: false
       },
-      borderColor: COLORS.githubActivity,
-      backgroundColor: COLORS.githubActivity,
+      borderColor: COLORS.devActivity,
+      backgroundColor: COLORS.devActivity,
       borderWidth: 1,
       pointBorderWidth: 2,
       pointRadius: 2,
-      data: github.map(data => {
+      data: development.map(data => {
         return {
           x: data.datetime,
           y: data.activity
@@ -356,7 +356,7 @@ const makeChartDataFromHistory = (
     datasets: [
       priceDataset,
       marketcapDataset,
-      githubActivityDataset,
+      devActivityDataset,
       volumeDataset,
       twitterDataset,
       burnrateDataset,
@@ -494,7 +494,7 @@ const makeOptionsFromProps = (props, COLORS) => {
         },
         label: (tooltipItem, data) => {
           const label = data.datasets[tooltipItem.datasetIndex].label.toString()
-          if (label === 'Github Activity') {
+          if (label === 'Development Activity') {
             return `${label}: ${millify(tooltipItem.yLabel)}`
           }
           if (label === 'Token Age Consumed') {
@@ -616,7 +616,7 @@ const makeOptionsFromProps = (props, COLORS) => {
           type: 'linear',
           scaleLabel: {
             display: true,
-            labelString: 'Github Activity',
+            labelString: 'Development Activity',
             fontColor: '#3d4450'
           },
           afterTickToLabelConversion: scaleInstance => {
@@ -628,7 +628,7 @@ const makeOptionsFromProps = (props, COLORS) => {
             // same hack as in volume.
             max: parseInt(
               Math.max(
-                ...props.github.history.items.map(data => data.activity)
+                ...props.development.history.items.map(data => data.activity)
               ) * 2.2,
               10
             )
@@ -637,8 +637,8 @@ const makeOptionsFromProps = (props, COLORS) => {
             display: false
           },
           display:
-            props.isToggledGithubActivity &&
-            props.github.history.items.length !== 0,
+            props.isToggledDevActivity &&
+            props.development.history.items.length !== 0,
           position: 'right'
         },
         {

@@ -22,6 +22,7 @@ import LikeBtn from './../InsightsNew/LikeBtn'
 import { votePostGQL, unvotePostGQL } from './../InsightsPage'
 import { getBalance } from './../UserSelectors'
 import InsightImageModal from './InsightImageModal'
+import { APP_UPDATE_INSIGHT_DRAFT } from '../../actions/types.js'
 import './Insight.css'
 
 const POLLING_INTERVAL = 100000
@@ -81,7 +82,8 @@ class Insight extends Component {
       balance = 0,
       user = {
         data: {}
-      }
+      },
+      updateDraft
     } = this.props
     const {
       post = {
@@ -143,6 +145,7 @@ class Insight extends Component {
                 <Button
                   basic
                   onClick={() => {
+                    updateDraft(post)
                     history.push(`/insights/update/${post.id}`, { post })
                   }}
                 >
@@ -239,9 +242,23 @@ const mapStateToProps = state => {
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    updateDraft: payload => {
+      dispatch({
+        type: APP_UPDATE_INSIGHT_DRAFT,
+        payload
+      })
+    }
+  }
+}
+
 const enhance = compose(
   withRouter,
-  connect(mapStateToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   graphql(postGQL, {
     name: 'Post',
     options: ({ match }) => ({

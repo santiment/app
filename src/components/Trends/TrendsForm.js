@@ -15,7 +15,7 @@ export class TrendsForm extends Component {
   handleSubmit = evt => {
     evt.preventDefault()
     trackTopicSearch(this.state.topic)
-    this.props.gotoExplore(this.state.topic)
+    this.props.gotoExplore(window.encodeURIComponent(this.state.topic))
   }
 
   handleChange = evt => {

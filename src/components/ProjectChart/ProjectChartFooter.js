@@ -112,16 +112,16 @@ const ProjectChartFooter = ({
       </FilterCategory>
       <FilterCategory name='Development'>
         <ToggleBtn
-          loading={props.github.history.loading}
-          disabled={props.github.history.items.length === 0}
+          loading={props.development.history.loading}
+          disabled={props.development.history.items.length === 0}
           isToggled={
-            props.isToggledGithubActivity &&
-            props.github.history.items.length !== 0
+            props.isToggledDevActivity &&
+            props.development.history.items.length !== 0
           }
-          toggle={props.toggleGithubActivity}
+          toggle={props.toggleDevActivity}
         >
-          <Label circular className='githubActivityLabel' empty />
-          Github Activity
+          <Label circular className='devActivityLabel' empty />
+          Development Activity
           <Popup
             trigger={<Icon name='info circle' />}
             inverted

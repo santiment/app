@@ -155,16 +155,16 @@ export const HistoryPriceGQL = gql`
   }
 `
 
-export const GithubActivityGQL = gql`
-  query queryGithubActivity(
+export const DevActivityGQL = gql`
+  query queryDevActivity(
     $slug: String
-    $from: DateTime
-    $to: DateTime
-    $interval: String
+    $from: DateTime!
+    $to: DateTime!
+    $interval: String!
     $transform: String
-    $movingAverageIntervalBase: String
+    $movingAverageIntervalBase: Int
   ) {
-    githubActivity(
+    devActivity(
       slug: $slug
       from: $from
       to: $to

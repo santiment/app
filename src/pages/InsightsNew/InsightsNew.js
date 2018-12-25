@@ -7,6 +7,7 @@ import ConfirmPost from './ConfirmNewInsight'
 import CreateTitle from './CreateTitle'
 import CreateBody from './CreateBody'
 import InsightsLayout from './../Insights/InsightsLayout'
+import { APP_UPDATE_INSIGHT_DRAFT } from '../../actions/types.js'
 import './InsightsNew.css'
 
 class InsightsNew extends Component {
@@ -43,6 +44,8 @@ class InsightsNew extends Component {
   }
 
   render () {
+    const { insightDraft } = this.props
+
     if (!this.props.username) {
       return <Redirect to='/insights' />
     }
@@ -108,7 +111,11 @@ class InsightsNew extends Component {
               render={() => (
                 <CreateBody
                   changePost={this.changePost}
-                  post={{ ...this.state }}
+                  post={{
+                    ...this.state,
+                    text: insightDraft.text || this.state.text
+                  }}
+                  updateDraft={this.props.updateDraft}
                 />
               )}
             />
@@ -118,7 +125,12 @@ class InsightsNew extends Component {
               render={() => (
                 <CreateTitle
                   changePost={this.changePost}
-                  post={{ ...this.state }}
+                  post={{
+                    ...this.state,
+                    title: insightDraft.title || this.state.title,
+                    tags: insightDraft.tags || this.state.tags
+                  }}
+                  updateDraft={this.props.updateDraft}
                 />
               )}
             />
@@ -143,7 +155,8 @@ class InsightsNew extends Component {
 const mapStateToProps = state => {
   return {
     isLogin: state.user.token,
-    username: state.user.data.username
+    username: state.user.data.username,
+    insightDraft: state.user.insightDraft || {}
   }
 }
 
@@ -155,6 +168,13 @@ const mapDispatchToProps = dispatch => {
         payload: {
           post
         }
+      })
+    },
+
+    updateDraft: payload => {
+      dispatch({
+        type: APP_UPDATE_INSIGHT_DRAFT,
+        payload
       })
     }
   }

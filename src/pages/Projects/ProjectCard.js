@@ -59,7 +59,7 @@ const ProjectCard = ({
   percentChange24h,
   volumeUsd,
   volumeChange24h,
-  averageGithubActivity,
+  averageDevActivity,
   twitterData,
   ethSpent,
   ethBalance = 0,
@@ -207,11 +207,11 @@ const ProjectCard = ({
             <StatisticElement
               name='Dev Activity 30d'
               value={
-                averageGithubActivity
-                  ? parseFloat(averageGithubActivity).toFixed(2)
+                averageDevActivity
+                  ? parseFloat(averageDevActivity).toFixed(2)
                   : '---'
               }
-              disabled={!averageGithubActivity}
+              disabled={!averageDevActivity}
             />
             <HiddenElements>
               <StatisticElement
