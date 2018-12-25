@@ -30,6 +30,7 @@ export const projectBySlugGQL = gql`
       projectTransparencyDescription
       projectTransparencyStatus
       tokenAddress
+      mainContractAddress
       fundsRaisedIcos {
         amount
         currencyCode

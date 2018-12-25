@@ -311,18 +311,24 @@ const enhance = compose(
   withApollo,
   graphql(projectBySlugGQL, {
     name: 'Project',
-    props: ({ Project }) => ({
-      Project: {
-        loading: Project.loading,
-        empty: !Project.hasOwnProperty('project'),
-        error: Project.error,
-        errorMessage: Project.error ? Project.error.message : '',
-        project: {
-          ...Project.projectBySlug,
-          isERC20: (Project.projectBySlug || {}).infrastructure === 'ETH'
+    props: ({ Project }) => {
+      const { projectBySlug = {} } = Project
+
+      return {
+        Project: {
+          loading: Project.loading,
+          empty: !Project.hasOwnProperty('project'),
+          error: Project.error,
+          errorMessage: Project.error ? Project.error.message : '',
+          project: {
+            ...projectBySlug,
+            isERC20:
+              projectBySlug.mainContractAddress &&
+              projectBySlug.infrastructure === 'ETH'
+          }
         }
       }
-    }),
+    },
     options: ({ match }) => {
       const to = moment()
         .endOf('day')
