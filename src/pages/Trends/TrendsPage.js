@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import TrendsSearch from '../../components/Trends/TrendsSearch'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import HypedBlocks from './../../components/Trends/HypedBlocks'
-import WordCloud from './../../components/WordCloud/WordCloud'
+// import WordCloud from './../../components/WordCloud/WordCloud'
 import styles from './TrendsPage.module.scss'
 
 const TrendsPage = ({ isDesktop = true }) => (
