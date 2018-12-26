@@ -71,7 +71,7 @@ const AssetsPageNavigation = ({ isLoggedIn = false, location: { search } }) => (
             className='assets-navigation-list__dropdown-link'
             to={'/assets/list?name=usa@138#shared'}
           >
-            USD based assets
+            US based assets
           </Link>
           <Link
             activeClassName='projects-navigation-list__dropdown-link--active'
