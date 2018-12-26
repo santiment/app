@@ -34,7 +34,11 @@ const AssetsPage = props => (
       <link rel='canonical' href={`${getOrigin()}/assets`} />
     </Helmet>
     {props.isBetaModeEnabled && (
-      <WidgetList type={props.type} isLoggedIn={props.isLoggedIn} />
+      <WidgetList
+        listName={getHeadTitle(props.type, props.location.search)}
+        type={props.type}
+        isLoggedIn={props.isLoggedIn}
+      />
     )}
     <div className='page-head page-head-projects'>
       <div className='page-head-projects__left'>
@@ -44,7 +48,7 @@ const AssetsPage = props => (
           props.location.hash !== '#shared' && <WatchlistShare />}
 
         {props.type === 'list' && <WatchlistCopy />}
-        
+
         {qs.parse(props.location.search).name === 'stablecoins@86' && (
           <StablecoinsDataDownloadBtn />
         )}

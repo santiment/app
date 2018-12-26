@@ -78,6 +78,32 @@
   & .Widget__content {
     display: flex;
   }
+
+  &__btns {
+    margin-bottom: 20px;
+    margin-top: -20px;
+  }
+
+  &__view-btn {
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    outline: none;
+
+    &.active {
+      color: #000;
+      text-decoration: underline;
+    }
+  }
+
+  & svg:not(:root) {
+    overflow: visible;
+  }
+
+  &__change {
+    display: inline-block;
+    font-size: 13px;
+  }
 }
 @keyframes loading {
   0% {
