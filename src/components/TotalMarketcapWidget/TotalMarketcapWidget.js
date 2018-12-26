@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import moment from 'moment'
 import cx from 'classnames'
-import { ResponsiveContainer, AreaChart, Area, XAxis } from 'recharts'
+import { ResponsiveContainer, AreaChart, Area, XAxis, Tooltip } from 'recharts'
 import PercentChanges from '../PercentChanges'
 import Widget from '../Widget/Widget'
 import {
@@ -8,6 +9,8 @@ import {
   combineDataset,
   generateWidgetData
 } from './totalMarketcapWidgetUtils'
+import { formatNumber } from '../../utils/formatting'
+
 import './TotalMarketcapWidget.scss'
 
 const WidgetMarketView = {
@@ -78,17 +81,7 @@ class TotalMarketcapWidget extends Component {
     }`
 
     return (
-      <Widget
-        className='TotalMarketcapWidget'
-        // title={
-        //   TOTAL_LIST_MARKET ? (
-        //     <MarketView
-        //       currentView={view}
-        //       handleViewSelect={this.handleViewSelect}
-        //     />
-        //   ) : null
-        // }
-      >
+      <Widget className='TotalMarketcapWidget'>
         <div className='TotalMarketcapWidget__info'>
           {TOTAL_LIST_MARKET && (
             <MarketView
@@ -133,8 +126,14 @@ class TotalMarketcapWidget extends Component {
               stroke='#2d5e39'
               fill='rgba(214, 235, 219, .8)'
               isAnimationActive={false}
+              name={'Total Marketcap'}
             />
             {restAreas}
+            <Tooltip
+              labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
+              formatter={value => formatNumber(value, { currency: 'USD' })}
+              itemSorter={({ value }) => value}
+            />
           </AreaChart>
         </ResponsiveContainer>
       </Widget>

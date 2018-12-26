@@ -81,6 +81,7 @@ export const getTop3Area = restProjects => {
       <Area
         key={key}
         dataKey={constructProjectMarketcapKey(key)}
+        name={key}
         type='monotone'
         strokeWidth={1}
         stroke={COLORS[i]}
