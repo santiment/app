@@ -7,8 +7,8 @@ const WidgetList = ({ type, isLoggedIn }) => {
   return (
     <div className='WidgetList'>
       <GetTotalMarketcap type={type} />
-      {isLoggedIn && <InsightsWidget />}
-      <LatestWatchlistsWidget />
+      {/* {isLoggedIn && <InsightsWidget />} */}
+      {/* <LatestWatchlistsWidget /> */}
     </div>
   )
 }
