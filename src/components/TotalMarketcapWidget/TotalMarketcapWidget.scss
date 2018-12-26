@@ -7,7 +7,6 @@
     border-color: #4a4a4a;
   }
   &__right {
-    // text-align: right;
     margin-top: 20px;
   }
   &__info {
@@ -55,9 +54,7 @@
     position: relative;
     flex: 1;
     width: 50% !important;
-    // margin-top: 20px;
-    // min-height: 125px;
-    // max-height: 125px;
+
     &::before {
       display: block;
       content: '';
