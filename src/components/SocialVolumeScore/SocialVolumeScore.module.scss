@@ -1,0 +1,14 @@
+.chart{ 
+    background-color: #fff;
+    border: 1px solid #EBEEF5;
+    & :global(.recharts-yAxis .recharts-cartesian-axis-tick:first-child ){
+        display: none;
+    }
+    :global(.recharts-cartesian-axis-tick){
+        font-family: Rubik;
+        font-size: 10px;
+        & text {
+            fill: #ADB6CD;
+        }
+    }
+}

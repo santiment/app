@@ -44,7 +44,7 @@ const AssetsPage = props => (
           props.location.hash !== '#shared' && <WatchlistShare />}
 
         {props.type === 'list' && <WatchlistCopy />}
-        
+
         {qs.parse(props.location.search).name === 'stablecoins@86' && (
           <StablecoinsDataDownloadBtn />
         )}
