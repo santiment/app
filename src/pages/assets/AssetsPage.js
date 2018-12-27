@@ -41,11 +41,11 @@ const normalizeCSV = items => {
     } = item
     const _ethAddresses = ethAddresses
       ? ethAddresses.map(
-        address =>
-          `https://app.santiment.net/balance?address=${
-            address.address
-          }&assets[]=ethereum`
-      )
+          address =>
+            `https://app.santiment.net/balance?address=${
+              address.address
+            }&assets[]=ethereum`
+        )
       : undefined
     if (_ethAddresses && _ethAddresses.length > 0) {
       return { _ethAddresses, ...rest }
