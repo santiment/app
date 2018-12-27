@@ -4,6 +4,7 @@ import TrendsSearch from '../../components/Trends/TrendsSearch'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import HypedBlocks from './../../components/Trends/HypedBlocks'
 import styles from './TrendsPage.module.scss'
+import SocialVolumeScoreChart from '../../components/SocialVolumeScore/SocialVolumeScore.js'
 
 const TrendsPage = ({ isDesktop = true }) => (
   <div className={styles.TrendsPage + ' page'}>
@@ -26,6 +27,7 @@ const TrendsPage = ({ isDesktop = true }) => (
         />
       )}
     />
+    <SocialVolumeScoreChart />
   </div>
 )
 
