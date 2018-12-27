@@ -1,0 +1,91 @@
+@import 'variables.scss';
+
+.BalanceExtension {
+  margin: 0;
+  width: 100%;
+}
+
+.InputWrapper {
+  margin: 18px 0;
+  text-align: left;
+}
+
+.InputWrapper label {
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  font-size: 14px;
+  color: #7a859e;
+}
+
+.InputWrapper input#address {
+  margin-top: 0.5rem;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.InputWithAction {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e0e4ee;
+  border-radius: 4px;
+}
+
+.InputWithAction,
+.AssetsField {
+  margin-top: 6px;
+}
+
+.InputWithAction input {
+  margin-top: 0;
+  border: none;
+}
+
+.InputWithAction button {
+  border-left: 1px solid #e0e4ee;
+  border-radius: 0;
+}
+
+.historyDropdown {
+  border: 1px solid #e0e4ee;
+  box-sizing: border-box;
+  box-shadow: 0 8px 30px rgba(21, 24, 31, 0.1);
+  border-radius: 4px;
+  margin: 0;
+  position: absolute;
+  background: white;
+  width: 400px;
+  z-index: 100;
+}
+
+.addressLink {
+  padding: 10px;
+  cursor: pointer;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.addressLink:hover {
+  color: #14c393;
+  background: #f6f6f9;
+}
+
+.hint {
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.54);
+  text-align: left;
+  margin-top: 8px;
+  min-height: 1em;
+  line-height: 1em;
+}
+
+@media (min-width: $breakpoint-tablet) {
+  .BalanceExtension {
+    width: 400px;
+    min-width: 400px;
+  }
+}
