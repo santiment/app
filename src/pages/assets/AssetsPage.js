@@ -1,8 +1,6 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Helmet } from 'react-helmet'
 import qs from 'query-string'
-import { CSVLink } from 'react-csv'
-import { Button } from '@santiment-network/ui'
 import { getOrigin } from '../../utils/utils'
 import Assets from './Assets'
 import AssetsTable from './AssetsTable'
@@ -10,11 +8,11 @@ import HelpPopupAssets from './HelpPopupAssets'
 import AssetsPageNavigation from './AssetsPageNavigation'
 import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
 import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
-import GetTotalMarketcap from '../../components/TotalMarketcapWidget/GetTotalMarketcap'
+import WidgetList from '../../components/Widget/WidgetList'
 import StablecoinsDataDownloadBtn from '../../components/StablecoinsDataDownloadBtn/StablecoinsDataDownloadBtn'
 import './Assets.css'
 
-const getTableTitle = ({ type, location: { search } }) => {
+const getHeadTitle = (type, searchParams) => {
   switch (type) {
     case 'all':
       return 'All Assets'
@@ -23,7 +21,7 @@ const getTableTitle = ({ type, location: { search } }) => {
     case 'erc20':
       return 'ERC20 Assets'
     case 'list':
-      return (qs.parse(search).name || '').split('@')[0].toUpperCase()
+      return (qs.parse(searchParams).name || '').split('@')[0].toUpperCase()
     default:
       return 'Assets'
   }
@@ -61,50 +59,36 @@ const AssetsPage = props => (
       <link rel='canonical' href={`${getOrigin()}/assets`} />
     </Helmet>
     {props.isBetaModeEnabled && (
-      <GetTotalMarketcap type={props.type} listName={getTableTitle(props)} />
+      <WidgetList type={props.type} isLoggedIn={props.isLoggedIn} />
     )}
+    <div className='page-head page-head-projects'>
+      <div className='page-head-projects__left'>
+        <h1>{getHeadTitle(props.type, props.location.search)}</h1>
+        <HelpPopupAssets />
+        {props.type === 'list' && props.location.hash !== '#shared' && (
+          <WatchlistShare />
+        )}
+
+        {props.type === 'list' && <WatchlistCopy />}
+
+        {qs.parse(props.location.search).name === 'stablecoins@86' && (
+          <StablecoinsDataDownloadBtn />
+        )}
+      </div>
+      <AssetsPageNavigation
+        isLoggedIn={props.isLoggedIn}
+        location={props.location}
+      />
+    </div>
     <Assets
       {...props}
       type={props.type}
       render={Assets => (
-        <Fragment>
-          <div className='page-head page-head-projects'>
-            <div className='page-head-projects__left'>
-              <h1>{getTableTitle(props)}</h1>
-              <HelpPopupAssets />
-              {props.type === 'list' && props.location.hash !== '#shared' && (
-                <WatchlistShare />
-              )}
-
-              {props.type === 'list' && <WatchlistCopy />}
-
-              {Assets.items && Assets.items.length > 0 && (
-                <CSVLink
-                  data={normalizeCSV(Assets.items)}
-                  filename={`${getTableTitle(props)}.csv`}
-                  target='_blank'
-                >
-                  <Button variant='flat' isActive>
-                    Download CSV
-                  </Button>
-                </CSVLink>
-              )}
-
-              {qs.parse(props.location.search).name === 'stablecoins@86' && (
-                <StablecoinsDataDownloadBtn />
-              )}
-            </div>
-            <AssetsPageNavigation
-              isLoggedIn={props.isLoggedIn}
-              location={props.location}
-            />
-          </div>
-          <AssetsTable
-            Assets={Assets}
-            goto={props.history.push}
-            preload={props.preload}
-          />
-        </Fragment>
+        <AssetsTable
+          Assets={Assets}
+          goto={props.history.push}
+          preload={props.preload}
+        />
       )}
     />
   </div>
