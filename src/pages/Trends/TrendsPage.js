@@ -8,6 +8,7 @@ import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import HypedBlocks from './../../components/Trends/HypedBlocks'
 import WordCloud from './../../components/WordCloud/WordCloud'
 import styles from './TrendsPage.module.scss'
+import SocialVolumeScoreChart from '../../components/SocialVolumeScore/SocialVolumeScore.js'
 
 const WordCloudSticky = () => (
   <div className={styles.WordCloudSticky}>
@@ -83,6 +84,7 @@ const TrendsPage = ({
         </Fragment>
       )}
     />
+    <SocialVolumeScoreChart />
   </div>
 )
 
