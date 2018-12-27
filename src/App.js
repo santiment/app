@@ -29,6 +29,7 @@ import GDPRModal from './components/GDPRModal'
 import ConfirmDeleteWatchlistModal from './components/WatchlistPopup/ConfirmDeleteWatchlistModal'
 import AssetsPage from './pages/assets/AssetsPage'
 import SignalsPriceVolume from './pages/Signals/SignalsPriceVolume'
+import HistoricalBalancePage from './ducks/HistoricalBalance/HistoricalBalancePage'
 import { getConsentUrl } from './utils/utils'
 import HeaderMsg from './HeaderMsg'
 import './App.scss'
@@ -166,6 +167,7 @@ export const App = ({
         <Route exact path='/roadmap' component={Roadmap} />
         <Route exact path='/signals' component={Signals} />
         <Route exact path='/signals/:slug' component={SignalsPriceVolume} />
+        <Route exact path='/balance' component={HistoricalBalancePage} />
         <Route path='/insights/new' component={LoadableInsightsNew} />
         <Route
           path='/insights/update/:insightId'

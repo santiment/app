@@ -1,9 +1,5 @@
 @import 'variables.scss';
 
-.TrendsPage {
-  background: white;
-}
-
 .header {
   margin-top: 10px;
 }
@@ -18,15 +14,10 @@
   margin-left: 0;
 }
 
-.header div {
-  display: flex;
-  justify-content: left;
-}
-
-@media (min-width: $breakpoint-tablet) {
-  .TrendsPage {
+@media (min-width: $breakpoint-desktop) {
+  .HistoricalBalancePage {
     margin-bottom: 2em !important;
-    width: 1024px;
+    width: $breakpoint-desktop;
   }
 
   .header {
