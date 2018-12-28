@@ -6,6 +6,24 @@ import WordCloud from './../src/components/WordCloud/WordCloud'
 import HypedWordsBlock from '../src/components/Trends/HypedWordsBlock'
 import store from './store'
 
+const defaultWords = [
+  { word: 'word', score: 74 },
+  { word: 'context', score: 74 },
+  { word: 'cloud', score: 73 },
+  { word: 'money', score: 72 },
+  { word: 'crypto', score: 46 },
+  { word: 'bank', score: 25 },
+  { word: 'block', score: 7 },
+  { word: 'project', score: 6 },
+  { word: 'ico', score: 5 },
+  { word: 'hidden', score: 4 },
+  { word: 'blockchain', score: 3 },
+  { word: 'coins', score: 2 },
+  { word: 'stable', score: 1 },
+  { word: 'nodes', score: 0 },
+  { word: 'liquidity', score: 5 }
+]
+
 storiesOf('WordCloud', module)
   .addDecorator(story => (
     <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
@@ -13,7 +31,7 @@ storiesOf('WordCloud', module)
   .addDecorator(story => <Provider store={store}>{story()}</Provider>)
   .add('Default', () => (
     <div>
-      <WordCloud />
+      <WordCloud cloud={defaultWords} />
     </div>
   ))
   .add('With Trends', () => (

@@ -36,7 +36,7 @@ class WordCloud extends Component {
   }
 
   render () {
-    const { cloud } = this.props
+    const { cloud = [] } = this.props
 
     return (
       <div className={styles.wrapper}>
@@ -56,8 +56,8 @@ class WordCloud extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  cloud: state.wordCloud.cloud,
+const mapStateToProps = (state, ownProps) => ({
+  cloud: state.wordCloud.cloud || ownProps.cloud,
   isLoading: state.wordCloud.isLoading
 })
 
