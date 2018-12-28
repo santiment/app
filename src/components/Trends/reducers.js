@@ -3,8 +3,7 @@ import * as actions from './actions'
 export const initialState = {
   isLoading: true,
   error: false,
-  items: [],
-  context: ''
+  items: []
 }
 
 export default (state = initialState, action) => {
@@ -22,7 +21,6 @@ export default (state = initialState, action) => {
         error: true,
         items: []
       }
-
     default:
       return state
   }

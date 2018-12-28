@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom'
 import * as actions from '../WordCloud/actions'
 import styles from './HypedWord.module.css'
 
-const HypedWord = ({ word, score, latest, setContext }) => (
+const HypedWord = ({ word, score, latest, fetchContext }) => (
   <Link
     className={cx(styles.HypedWord, { [styles.latest]: latest })}
     to={`/trends/explore/${word}`}
-    onMouseEnter={() => setContext(word)}
+    onMouseEnter={() => fetchContext(word)}
   >
     <div>
       <div className={styles.word}>{word}</div>
@@ -34,7 +34,7 @@ const HypedWord = ({ word, score, latest, setContext }) => (
 )
 
 const mapDispatchToProps = dispatch => ({
-  setContext: payload => {
+  fetchContext: payload => {
     dispatch({
       type: actions.WORDCLOUD_CONTEXT_FETCH,
       payload
