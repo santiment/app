@@ -22,11 +22,6 @@ export default (state = initialState, action) => {
         error: true,
         items: []
       }
-    case actions.TRENDS_HYPED_CONTEXT:
-      return {
-        ...state,
-        context: action.payload
-      }
 
     default:
       return state

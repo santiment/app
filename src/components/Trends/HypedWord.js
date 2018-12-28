@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import * as actions from './actions'
+import * as actions from '../WordCloud/actions'
 import styles from './HypedWord.module.css'
 
 const HypedWord = ({ word, score, latest, setContext }) => (
@@ -36,7 +36,7 @@ const HypedWord = ({ word, score, latest, setContext }) => (
 const mapDispatchToProps = dispatch => ({
   setContext: payload => {
     dispatch({
-      type: actions.TRENDS_HYPED_CONTEXT,
+      type: actions.WORDCLOUD_CONTEXT_FETCH,
       payload
     })
   }

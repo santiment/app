@@ -19,6 +19,9 @@ import watchlistUi, {
 import hypedTrends, {
   initialState as initialHypedTrends
 } from './../components/Trends/reducers'
+import wordCloud, {
+  initialState as initialWordCloud
+} from './../components/WordCloud/reducers'
 
 export const intitialState = {
   user: userState,
@@ -30,7 +33,8 @@ export const intitialState = {
   watchlistUi: initialWatchlistUiState,
   rootUi: rootUiState,
   notification: initialNotificationState,
-  router: routerReducer
+  router: routerReducer,
+  wordCloud: initialWordCloud
 }
 
 export default combineReducers({
@@ -42,5 +46,6 @@ export default combineReducers({
   detailedPageUi,
   insightsPageUi,
   watchlistUi,
-  notification
+  notification,
+  wordCloud
 })
