@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const WatchlistGQL = gql`
+export const wordCloudGQL = gql`
   query wordContext(
     $from: DateTime!
     $to: DateTime!

@@ -6,7 +6,11 @@ import styles from './HypedWords.module.scss'
 
 const compare = (a, b) => a.score - b.score
 
-const HypedWords = ({ trends, compiled, latest }) => (
+const HypedWords = ({
+  trends = [{ word: 'bitcoin', score: 5 }, { word: 'eth', score: 5 }], // @NOTE(vanguard) - Remove before merge
+  compiled,
+  latest
+}) => (
   <div className={styles.HypedWords}>
     <h4>Compiled {moment(compiled).format('YYYY-MM-DD HH:mm')}</h4>
     <div className={cx(styles.HypedWordsBlock, { [styles.latest]: latest })}>

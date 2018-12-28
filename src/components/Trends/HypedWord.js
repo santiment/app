@@ -1,12 +1,15 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
+import * as actions from './actions'
 import styles from './HypedWord.module.css'
 
-const HypedWord = ({ word, score, latest }) => (
+const HypedWord = ({ word, score, latest, setContext }) => (
   <Link
     className={cx(styles.HypedWord, { [styles.latest]: latest })}
     to={`/trends/explore/${word}`}
+    onMouseEnter={() => setContext(word)}
   >
     <div>
       <div className={styles.word}>{word}</div>
@@ -30,4 +33,16 @@ const HypedWord = ({ word, score, latest }) => (
   </Link>
 )
 
-export default HypedWord
+const mapDispatchToProps = dispatch => ({
+  setContext: payload => {
+    dispatch({
+      type: actions.TRENDS_HYPED_CONTEXT,
+      payload
+    })
+  }
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(HypedWord)

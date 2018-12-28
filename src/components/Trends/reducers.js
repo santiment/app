@@ -3,7 +3,8 @@ import * as actions from './actions'
 export const initialState = {
   isLoading: true,
   error: false,
-  items: []
+  items: [],
+  context: ''
 }
 
 export default (state = initialState, action) => {
@@ -21,6 +22,12 @@ export default (state = initialState, action) => {
         error: true,
         items: []
       }
+    case actions.TRENDS_HYPED_CONTEXT:
+      return {
+        ...state,
+        context: action.payload
+      }
+
     default:
       return state
   }
