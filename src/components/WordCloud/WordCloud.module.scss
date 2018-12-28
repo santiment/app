@@ -1,0 +1,37 @@
+$top: 22px;
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  margin-top: 24px;
+
+  height: 170px;
+  width: 49%;
+
+  background: #f7f8fb;
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+}
+
+.text {
+  font-family: Rubik, sans-serif !important;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 20px;
+  color: #adb6cd;
+
+  &_big,
+  &_medium {
+    color: #7a859e;
+  }
+
+  &_big {
+    font-size: 28px !important;
+  }
+
+  &_medium {
+    font-size: 20px !important;
+  }
+}

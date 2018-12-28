@@ -19,3 +19,4 @@
 // import './InputStory.js'
 import './UISearchStory.js'
 import './PanelStory.js'
+import './WordCloudStory.js'
