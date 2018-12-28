@@ -1,26 +1,24 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import WordCloud from './../src/components/WordCloud/WordCloud'
-import ColorModeComparison from './ColorModeComparison'
+import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import reducers from '../src/reducers/rootReducers'
-
-const store = createStore(reducers, {}, composeWithDevTools())
+import WordCloud from './../src/components/WordCloud/WordCloud'
+import HypedWordsBlock from '../src/components/Trends/HypedWordsBlock'
+import store from './store'
 
 storiesOf('WordCloud', module)
+  .addDecorator(story => (
+    <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
+  ))
   .addDecorator(story => <Provider store={store}>{story()}</Provider>)
-  .add('Simple', () => (
+  .add('Default', () => (
     <div>
-      <ColorModeComparison>
-        <WordCloud />
-      </ColorModeComparison>
+      <WordCloud />
     </div>
   ))
   .add('With Trends', () => (
     <div>
-      <ColorModeComparison>
-        <WordCloud />
-      </ColorModeComparison>
+      <HypedWordsBlock />
+      <WordCloud />
     </div>
   ))

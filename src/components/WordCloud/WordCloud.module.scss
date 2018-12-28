@@ -16,18 +16,15 @@ $top: 22px;
 }
 
 .text {
-  font-family: Rubik !important;
+  font-family: Rubik, sans-serif !important;
   font-style: normal;
   font-weight: normal;
   line-height: 20px;
-  // font-size: 12px !important;
   color: #adb6cd;
-  // width: auto !important;
 
   &_big,
   &_medium {
     color: #7a859e;
-    // padding-top: $top;
   }
 
   &_big {
