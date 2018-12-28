@@ -18,7 +18,9 @@ storiesOf('WordCloud', module)
   ))
   .add('With Trends', () => (
     <div>
-      <HypedWordsBlock />
+      <HypedWordsBlock
+        trends={[{ word: 'bitcoin', score: 5 }, { word: 'eth', score: 4 }]}
+      />
       <WordCloud />
     </div>
   ))

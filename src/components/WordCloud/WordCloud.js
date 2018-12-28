@@ -42,7 +42,11 @@ class WordCloud extends Component {
       <div className={styles.wrapper}>
         <TagCloud style={{ width: '95%', height: '85%', padding: 10 }}>
           {cloud.map(({ word }, index) => (
-            <div style={getWordStyles(index)} className={`${styles.text}`}>
+            <div
+              key={word}
+              style={getWordStyles(index)}
+              className={`${styles.text}`}
+            >
               {word}
             </div>
           ))}

@@ -21,7 +21,7 @@ const TrendsPage = ({ isDesktop = true }) => (
     <GetHypedTrends
       render={({ isLoading, items }) => (
         <HypedBlocks
-          items={[{ word: 'bitcoin', score: 5 }] || items} // @NOTE(vanguard) - Remove before merge
+          items={items}
           isLoading={isLoading}
           isDesktop={isDesktop}
         />
