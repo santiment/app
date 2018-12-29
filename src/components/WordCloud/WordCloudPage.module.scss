@@ -1,0 +1,16 @@
+@import 'variables.scss';
+
+.searchContainer {
+  display: flex;
+  width: 100%;
+}
+
+.searchContainer input {
+  margin-right: 1em;
+}
+
+@media (min-width: $breakpoint-desktop) {
+  .searchContainer {
+    width: 49%;
+  }
+}

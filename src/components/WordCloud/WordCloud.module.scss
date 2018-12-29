@@ -1,3 +1,5 @@
+@import 'variables.scss';
+
 $top: 22px;
 
 .wrapper {
@@ -6,10 +8,8 @@ $top: 22px;
   align-items: center;
   box-sizing: border-box;
   margin-top: 24px;
-
   height: 170px;
-  width: 49%;
-
+  width: 100%;
   background: #f7f8fb;
   border: 1px solid #ebeef5;
   border-radius: 4px;
@@ -33,5 +33,11 @@ $top: 22px;
 
   &_medium {
     font-size: 20px !important;
+  }
+}
+
+@media (min-width: $breakpoint-desktop) {
+  .wrapper {
+    width: 49%;
   }
 }
