@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Helmet } from 'react-helmet'
 import TrendsSearch from '../../components/Trends/TrendsSearch'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
@@ -20,14 +20,16 @@ const TrendsPage = ({ isDesktop = true }) => (
     </div>
     <GetHypedTrends
       render={({ isLoading, items }) => (
+        <Fragment>
         <HypedBlocks
           items={items}
           isLoading={isLoading}
           isDesktop={isDesktop}
         />
+        {!isLoading && <WordCloud />}
+        </Fragment>
       )}
     />
-    <WordCloud />
   </div>
 )
 
