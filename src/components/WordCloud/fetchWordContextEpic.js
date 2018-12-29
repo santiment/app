@@ -7,7 +7,7 @@ import { handleErrorAndTriggerAction } from '../../epics/utils'
 export const fetchWordContextEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.WORDCLOUD_CONTEXT_FETCH)
-    .exhaustMap(({ payload: word }) => {
+    .switchMap(({ payload: word }) => {
       if (store.getState().wordCloud.word === word) {
         return Observable.of({
           type: actions.WORDCLOUD_CONTEXT_FETCH_CANCEL,
