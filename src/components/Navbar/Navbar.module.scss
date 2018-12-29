@@ -1,9 +1,102 @@
+// COLORS
+$text-grey: #7a859e;
+$text-green: #14c393;
+$btn-background-light-green: #dcf6ef;
+$btn-background-light-grey: #f6f6f8;
+
+// DECORATORS
+$border-radius: 4px;
+
+// TEXT
+$font-size-regular: 14px;
+$line-height-regular: 20px;
+
+a {
+  text-decoration: none;
+}
+
 .wrapper {
-  padding: 19px 10px;
+  padding: 19px 46px;
   background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
   font-family: Rubik, sans-serif;
   font-weight: 900;
+  margin-right: 46px;
+  color: #000;
+  font-size: 20px;
+}
+
+// .link {
+//   font-family: Rubik, sans-serif;
+//   color: $text-grey;
+//   padding: 6px 12px;
+//   border-radius: $border-radius;
+//   margin-right: 4px;
+//   font-size: $font-size-regular;
+//   line-height: $line-height-regular;
+
+//   &:hover {
+//     color: $text-green;
+//   }
+
+//   &.active {
+//     color: $text-green;
+//     background-color: $btn-background-light-green;
+//   }
+// }
+
+.right {
+  display: flex;
+  & input {
+    // @NOTE(vanguard): move this styles to ui repo
+    padding: 5px 15px;
+  }
+}
+
+.btn {
+  border: none;
+  outline: none;
+
+  display: flex;
+  align-items: center;
+
+  margin-left: 4px;
+  &:first-of-type {
+    margin-left: 12px;
+  }
+}
+
+.button {
+  height: 32px;
+  padding: 6px 12px;
+  font-size: $font-size-regular;
+  line-height: $line-height-regular;
+  font-family: Rubik, sans-serif;
+  color: $text-grey;
+  border-radius: $border-radius;
+  cursor: pointer;
+
+  & svg {
+    fill: #15181f;
+  }
+
+  &:hover {
+    color: $text-green;
+    & svg {
+      fill: $text-green;
+    }
+  }
+
+  &.active {
+    color: $text-green;
+    background-color: $btn-background-light-green;
+    & svg {
+      fill: $text-green;
+    }
+  }
 }
