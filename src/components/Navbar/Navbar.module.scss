@@ -59,9 +59,6 @@ a {
 }
 
 .btn {
-  border: none;
-  outline: none;
-
   display: flex;
   align-items: center;
 
@@ -99,4 +96,8 @@ a {
       fill: $text-green;
     }
   }
+}
+
+.leftLink {
+  margin-right: 4px;
 }
