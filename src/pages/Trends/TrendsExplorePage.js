@@ -8,6 +8,8 @@ import GetTrends from './../../components/Trends/GetTrends'
 import TrendsReChart from './../../components/Trends/TrendsReChart'
 import TrendsStats from './../../components/Trends/TrendsStats'
 import TrendsTitle from '../../components/Trends/TrendsTitle'
+import WordCloud from './../../components/WordCloud/WordCloud'
+import GetWordContext from './../../components/WordCloud/GetWordContext'
 import { capitalizeStr } from './../../utils/utils'
 import './TrendsExplorePage.css'
 
@@ -95,6 +97,20 @@ export class TrendsExplorePage extends Component {
                 )}
               />
             )}
+          />
+          <GetWordContext word={match.params.topic}
+            render={
+              ({cloud}) => {
+                if (cloud && cloud.length === 0) {
+                  return ''
+                }
+                return (
+                  <div className='TrendsExplorePage__wordcloud'>
+                    <WordCloud />
+                  </div>
+                )
+              }
+            }
           />
           <TrendsStats timeRange={timeRange} />
         </div>
