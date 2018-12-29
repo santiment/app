@@ -34,6 +34,10 @@
   background-color: #fcfdfe;
 }
 
+.trendsexplorepage__wordcloud {
+  margin-left: 0;
+}
+
 @media (min-width: 768px) {
   .TrendsExplorePage {
     margin: 30px 10%;
@@ -44,6 +48,10 @@
     border-radius: 4px;
     box-shadow: 0 7px 14px 0 rgba(60, 60, 90, 0.1),
       0 3px 6px 0 rgba(0, 0, 0, 0.07);
+  }
+
+  .TrendsExplorePage__wordcloud {
+    margin-left: 3rem;
   }
 }
 
