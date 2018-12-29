@@ -13,20 +13,18 @@
 }
 
 .HypedWordsBlock {
-  background: #f7f8fb;
-  border-radius: 4px;
   padding: 16px;
-}
-
-.latest {
-  background: #13c298;
+  background: white;
+  border: 1px solid #ebeef5;
+  box-sizing: border-box;
+  border-radius: 4px;
 }
 
 @media (min-width: $breakpoint-tablet) {
   .HypedWords {
     min-width: 300px;
     min-height: 200px;
-    margin-top: 60px;
+    margin-top: 24px;
   }
 
   .HypedWords:first-child {
