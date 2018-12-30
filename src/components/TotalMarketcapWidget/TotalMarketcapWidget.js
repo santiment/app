@@ -75,25 +75,34 @@ class TotalMarketcapWidget extends Component {
     )
 
     let restAreas = null
-    let listDomainUpperBoundary = 0
+    // let listDomainUpperBoundary = 0
+    let listYAxis = null
 
     if (!loading && Object.keys(restProjects).length > 0) {
       const target = isListView
         ? restProjects
         : { [listName]: TOTAL_LIST_MARKET }
-      console.log(
-        Math.max(0, ...TOTAL_LIST_MARKET.map(({ marketcap }) => marketcap))
-      )
+
       marketcapDataset = combineDataset(marketcapDataset, target)
       restAreas = getTop3Area(target, !isListView)
     }
 
-    if (!isListView) {
+    if (TOTAL_LIST_MARKET && !isListView) {
       const listMaxValue = Math.max(
         0,
         ...TOTAL_LIST_MARKET.map(({ marketcap }) => marketcap)
       )
-      listDomainUpperBoundary = listMaxValue + listMaxValue * 0.1
+      listYAxis = (
+        <YAxis
+          domain={[0, listMaxValue + listMaxValue * 0.1]}
+          allowDataOverflow
+          yAxisId='2'
+          dataKey='marketcap'
+          tickLine={false}
+          orientation='left'
+          tickFormatter={marketcap => millify(marketcap)}
+        />
+      )
     }
 
     const valueClassNames = `TotalMarketcapWidget__value ${
@@ -162,19 +171,11 @@ class TotalMarketcapWidget extends Component {
               dataKey='marketcap'
               // domain={[0, 250000000000]}
               // allowDataOverflow
+              tickLine={false}
               orientation='right'
               tickFormatter={marketcap => millify(marketcap)}
             />
-            {!isListView && (
-              <YAxis
-                domain={[0, listDomainUpperBoundary]}
-                allowDataOverflow
-                yAxisId='2'
-                dataKey='marketcap'
-                orientation='left'
-                tickFormatter={marketcap => millify(marketcap)}
-              />
-            )}
+            {listYAxis}
             <Tooltip
               labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
               formatter={value => formatNumber(value, { currency: 'USD' })}

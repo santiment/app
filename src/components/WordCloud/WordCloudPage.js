@@ -20,41 +20,40 @@ class WordCloudPage extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.updateWordContext()
   }
 
-  render() {
+  render () {
     return (
-      <div className={ToolsPageStyles.ToolsPage + " page"}>
+      <div className={ToolsPageStyles.ToolsPage + ' page'}>
         <Helmet>
-          <style>{"body { background-color: white; }"}</style>
+          <style>{'body { background-color: white; }'}</style>
         </Helmet>
         <header>
-          <h1>
-            Explore context of any word in crypto
-          </h1>
+          <h1>Explore context of any word in crypto</h1>
         </header>
         <div className={styles.searchContainer}>
           <Input
             value={this.state.word}
-            id="word"
-            name="word"
-            placeholder="Any word"
+            id='word'
+            name='word'
+            placeholder='Any word'
             onKeyPress={this.handleKeyPress}
-            onChange={this.handleChange} />
-          <Button fill='positive' onClick={this.updateSearchQuery}>Search</Button>
+            onChange={this.handleChange}
+          />
+          <Button fill='positive' onClick={this.updateSearchQuery}>
+            Search
+          </Button>
         </div>
         <WordCloud />
       </div>
     )
-
   }
 
   updateWordContext = () => {
     const word = this.state.word
-    word && word.length > 0 &&
-      this.props.fetchContext(word.toLowerCase())
+    word && word.length > 0 && this.props.fetchContext(word.toLowerCase())
   }
 
   updateSearchQuery = () => {
@@ -65,7 +64,7 @@ class WordCloudPage extends Component {
   }
 
   handleChange = event => {
-    this.setState({[event.target.name]: event.target.value})
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   handleKeyPress = event => {

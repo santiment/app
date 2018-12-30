@@ -204,17 +204,16 @@ const capitalizeStr = string => string.charAt(0).toUpperCase() + string.slice(1)
 // bitcoin-cash | ab-chain-rtb = Syntax Error GraphQL request (4:15) Invalid number, expected digit but got: "c"
 const getEscapedGQLFieldAlias = fieldName => '_' + fieldName.replace(/-/g, '')
 
-const mapQSToState = ({ location }) => (
+const mapQSToState = ({ location }) =>
   qs.parse(location.search, {
     arrayFormat: 'bracket'
   })
-)
 
-const mapStateToQS = state => (
-  '?' + qs.stringify(state, {
+const mapStateToQS = state =>
+  '?' +
+  qs.stringify(state, {
     arrayFormat: 'bracket'
   })
-)
 
 export {
   findIndexByDatetime,

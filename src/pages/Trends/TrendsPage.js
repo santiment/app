@@ -24,23 +24,26 @@ const WordCloudWrapper = ({
   setWordCloudStiky
 }) => (
   <div>
-    {!isLoading && isDesktop && (word || isCloudLoading) &&
-        <Sticky
-          top={'#word-cloud-sticky-anchor'}
-          innerZ={2}
-          onStateChange={({status}) => {
-            setWordCloudStiky(status === Sticky.STATUS_FIXED)
-          }}
-          enabled>
-          {
-            isWordCloudSticky
-              ? <WordCloudSticky />
-              : <div style={{marginTop: 24}}>
-                <WordCloud />
-              </div>
-          }
-        </Sticky>
-    }
+    {!isLoading &&
+      isDesktop &&
+      (word || isCloudLoading) && (
+      <Sticky
+        top={'#word-cloud-sticky-anchor'}
+        innerZ={2}
+        onStateChange={({ status }) => {
+          setWordCloudStiky(status === Sticky.STATUS_FIXED)
+        }}
+        enabled
+      >
+        {isWordCloudSticky ? (
+          <WordCloudSticky />
+        ) : (
+          <div style={{ marginTop: 24 }}>
+            <WordCloud />
+          </div>
+        )}
+      </Sticky>
+    )}
   </div>
 )
 
@@ -65,7 +68,7 @@ const TrendsPage = ({
     <GetHypedTrends
       render={({ isLoading, items }) => (
         <Fragment>
-          <div id='word-cloud-sticky-anchor'></div>
+          <div id='word-cloud-sticky-anchor' />
           <WordCloudWrapper
             isCloudLoading={isCloudLoading}
             isLoading={isLoading}
