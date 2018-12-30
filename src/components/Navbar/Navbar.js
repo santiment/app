@@ -5,6 +5,8 @@ import FlatBtn from './FlatBtn'
 import styles from './Navbar.module.scss'
 import HelpIcon from './HelpIcon'
 import AccountIcon from './AccountIcon'
+import { Popup } from 'semantic-ui-react'
+import NavbarHelpDropdown from './NavbarHelpDropdown'
 
 const leftLinks = [
   { link: '/sonar', label: 'Sonar' },
@@ -49,9 +51,18 @@ const Navbar = () => {
 
         {rightBtns.map(({ icon }, index) => {
           return (
-            <FlatBtn key={index} className={styles.btn} isActive>
-              {icon()}
-            </FlatBtn>
+            <Popup
+              on='click'
+              position='bottom right'
+              verticalOffset={4}
+              trigger={
+                <FlatBtn className={styles.btn} key={index} isActive>
+                  {icon()}
+                </FlatBtn>
+              }
+            >
+              <NavbarHelpDropdown />
+            </Popup>
           )
         })}
       </div>
