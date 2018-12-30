@@ -9,6 +9,7 @@ import AssetsPageNavigation from './AssetsPageNavigation'
 import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
 import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
 import WidgetList from '../../components/Widget/WidgetList'
+import GetTotalMarketcap from '../../components/TotalMarketcapWidget/GetTotalMarketcap'
 import StablecoinsDataDownloadBtn from '../../components/StablecoinsDataDownloadBtn/StablecoinsDataDownloadBtn'
 import './Assets.css'
 
@@ -34,10 +35,14 @@ const AssetsPage = props => (
       <link rel='canonical' href={`${getOrigin()}/assets`} />
     </Helmet>
     {props.isBetaModeEnabled && (
-      <WidgetList
-        listName={getHeadTitle(props.type, props.location.search)}
+      // <WidgetList
+      //   listName={getHeadTitle(props.type, props.location.search)}
+      //   type={props.type}
+      //   isLoggedIn={props.isLoggedIn}
+      // />
+      <GetTotalMarketcap
         type={props.type}
-        isLoggedIn={props.isLoggedIn}
+        listName={getHeadTitle(props.type, props.location.search)}
       />
     )}
     <div className='page-head page-head-projects'>

@@ -14,22 +14,20 @@ import { formatNumber } from '../../utils/formatting'
 import './TotalMarketcapWidget.scss'
 
 const WidgetMarketView = {
-  LIST: 'List',
-  TOTAL: 'Total'
+  TOTAL: 'Total',
+  LIST: 'List'
 }
 
-const MarketView = ({ currentView, handleViewSelect }) => (
-  <div className='TotalMarketcapWidget__btns'>
-    View:{' '}
+const MarketView = ({ currentView, toggleMarketView }) => (
+  <div
+    className={cx({
+      TotalMarketcapWidget__btns: true,
+      switched: currentView === WidgetMarketView.LIST
+    })}
+    onClick={toggleMarketView}
+  >
     {Object.values(WidgetMarketView).map(view => (
-      <button
-        key={view}
-        className={cx({
-          'TotalMarketcapWidget__view-btn': true,
-          active: currentView === view
-        })}
-        onClick={() => handleViewSelect(view)}
-      >
+      <button key={view} className='TotalMarketcapWidget__view-btn'>
         {view}
       </button>
     ))}
@@ -38,12 +36,15 @@ const MarketView = ({ currentView, handleViewSelect }) => (
 
 class TotalMarketcapWidget extends Component {
   state = {
-    view: WidgetMarketView.LIST
+    view: WidgetMarketView.TOTAL
   }
 
-  handleViewSelect = view => {
+  toggleMarketView = () => {
     this.setState({
-      view
+      view:
+        this.state.view === WidgetMarketView.LIST
+          ? WidgetMarketView.TOTAL
+          : WidgetMarketView.LIST
     })
   }
 
@@ -81,34 +82,37 @@ class TotalMarketcapWidget extends Component {
     }`
 
     return (
-      <Widget className='TotalMarketcapWidget'>
-        <div className='TotalMarketcapWidget__info'>
+      <div className='TotalMarketcapWidget'>
+        <div className='TotalMarketcapWidget__upper'>
+          <div className='TotalMarketcapWidget__info'>
+            <div className='TotalMarketcapWidget__left'>
+              <h3 className='TotalMarketcapWidget__label'>{`${
+                TOTAL_LIST_MARKET && isListView ? 'List' : 'Total'
+              } marketcap`}</h3>
+              <h4 className={valueClassNames}>{totalmarketCapPrice}</h4>
+            </div>
+            <div className='TotalMarketcapWidget__right'>
+              <h3 className='TotalMarketcapWidget__label'>Volume, 24h</h3>
+              <h4 className={valueClassNames}>
+                {volumeAmplitudePrice}
+                <PercentChanges
+                  changes={volume24PercentChange}
+                  className='TotalMarketcapWidget__change'
+                />
+              </h4>
+            </div>
+          </div>
+
           {TOTAL_LIST_MARKET && (
             <MarketView
               currentView={view}
-              handleViewSelect={this.handleViewSelect}
+              toggleMarketView={this.toggleMarketView}
             />
           )}
-          <div className='TotalMarketcapWidget__left'>
-            <h3 className='TotalMarketcapWidget__label'>{`${
-              TOTAL_LIST_MARKET && isListView ? 'List' : 'Total'
-            } marketcap`}</h3>
-            <h4 className={valueClassNames}>{totalmarketCapPrice}</h4>
-          </div>
-          <div className='TotalMarketcapWidget__right'>
-            <h3 className='TotalMarketcapWidget__label'>
-              Vol 24 hr (
-              <PercentChanges
-                changes={volume24PercentChange}
-                className='TotalMarketcapWidget__change'
-              />
-              )
-            </h3>
-            <h4 className={valueClassNames}>{volumeAmplitudePrice}</h4>
-          </div>
         </div>
         <ResponsiveContainer
-          width='100%'
+          // width='100%'
+          height={430}
           className={cx({
             TotalMarketcapWidget__chart: true,
             list: !!TOTAL_LIST_MARKET
@@ -136,7 +140,7 @@ class TotalMarketcapWidget extends Component {
             />
           </AreaChart>
         </ResponsiveContainer>
-      </Widget>
+      </div>
     )
   }
 }
