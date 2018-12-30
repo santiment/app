@@ -35,6 +35,12 @@ storiesOf('Navbar', module)
     <div>
       <NavbarProfileDropdown />
       <br />
+      Profile status and picture
+      <NavbarProfileDropdown
+        status='active'
+        picUrl='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_iB-yPaTXvwWqWiLP3kuHf_WocZXm_uN2lhsNMvkN-BsMLZcDUQ'
+      />
+      <br />
       On the '/account' page
       <NavbarProfileDropdown activeLink='/account' />
     </div>
