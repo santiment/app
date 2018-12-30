@@ -22,6 +22,9 @@ import hypedTrends, {
 import wordCloud, {
   initialState as initialWordCloud
 } from './../components/WordCloud/reducers'
+import socialVolume, {
+  initialState as initialSocialVolume
+} from './../components/SocialVolumeScore/reducers'
 
 export const intitialState = {
   user: userState,
@@ -34,7 +37,8 @@ export const intitialState = {
   rootUi: rootUiState,
   notification: initialNotificationState,
   router: routerReducer,
-  wordCloud: initialWordCloud
+  wordCloud: initialWordCloud,
+  socialVolume: initialSocialVolume
 }
 
 export default combineReducers({
@@ -47,5 +51,6 @@ export default combineReducers({
   insightsPageUi,
   watchlistUi,
   notification,
-  wordCloud
+  wordCloud,
+  socialVolume
 })
