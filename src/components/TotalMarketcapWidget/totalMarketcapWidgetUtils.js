@@ -74,11 +74,13 @@ export const combineDataset = (totalMarketHistory, restProjects) => {
   return result
 }
 
-export const getTop3Area = restProjects => {
+export const getTop3Area = (restProjects, isTotalView) => {
+  console.log(restProjects)
   return Object.keys(restProjects).map((key, i) => {
     const rightMarginByIndex = (i + 1) * 16
     return (
       <Area
+        yAxisId={isTotalView ? '2' : '1'}
         key={key}
         dataKey={constructProjectMarketcapKey(key)}
         name={key}

@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import cx from 'classnames'
-import { ResponsiveContainer, AreaChart, Area, XAxis, Tooltip } from 'recharts'
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip
+} from 'recharts'
 import PercentChanges from '../PercentChanges'
 import Widget from '../Widget/Widget'
 import {
@@ -9,7 +16,7 @@ import {
   combineDataset,
   generateWidgetData
 } from './totalMarketcapWidgetUtils'
-import { formatNumber } from '../../utils/formatting'
+import { formatNumber, millify } from '../../utils/formatting'
 
 import './TotalMarketcapWidget.scss'
 
@@ -68,13 +75,25 @@ class TotalMarketcapWidget extends Component {
     )
 
     let restAreas = null
+    let listDomainUpperBoundary = 0
 
     if (!loading && Object.keys(restProjects).length > 0) {
       const target = isListView
         ? restProjects
         : { [listName]: TOTAL_LIST_MARKET }
+      console.log(
+        Math.max(0, ...TOTAL_LIST_MARKET.map(({ marketcap }) => marketcap))
+      )
       marketcapDataset = combineDataset(marketcapDataset, target)
-      restAreas = getTop3Area(target)
+      restAreas = getTop3Area(target, !isListView)
+    }
+
+    if (!isListView) {
+      const listMaxValue = Math.max(
+        0,
+        ...TOTAL_LIST_MARKET.map(({ marketcap }) => marketcap)
+      )
+      listDomainUpperBoundary = listMaxValue + listMaxValue * 0.1
     }
 
     const valueClassNames = `TotalMarketcapWidget__value ${
@@ -122,8 +141,8 @@ class TotalMarketcapWidget extends Component {
             data={marketcapDataset}
             margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
           >
-            <XAxis dataKey='datetime' hide />
             <Area
+              yAxisId='1'
               dataKey='marketcap'
               type='monotone'
               strokeWidth={1}
@@ -133,6 +152,29 @@ class TotalMarketcapWidget extends Component {
               name={'Total Marketcap'}
             />
             {restAreas}
+            <XAxis
+              dataKey='datetime'
+              tickFormatter={date => moment(date).format('DD MMM  YYYY')}
+              minTickGap={30}
+            />
+            <YAxis
+              yAxisId='1'
+              dataKey='marketcap'
+              // domain={[0, 250000000000]}
+              // allowDataOverflow
+              orientation='right'
+              tickFormatter={marketcap => millify(marketcap)}
+            />
+            {!isListView && (
+              <YAxis
+                domain={[0, listDomainUpperBoundary]}
+                allowDataOverflow
+                yAxisId='2'
+                dataKey='marketcap'
+                orientation='left'
+                tickFormatter={marketcap => millify(marketcap)}
+              />
+            )}
             <Tooltip
               labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
               formatter={value => formatNumber(value, { currency: 'USD' })}
