@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import styles from './NavbarProfileDropdown.module.scss'
 import GhostBtn from './GhostBtn'
 import DropdownDevider from './DropdownDevider'
-
+import Dropdown from './Dropdown'
 const links = [
   { link: '/', label: 'Account settings' },
   { link: '/', label: 'Upgrade plan' },
@@ -13,7 +13,7 @@ const links = [
 
 const NavbarProfileDropdown = () => {
   return (
-    <div className={styles.wrapper}>
+    <Dropdown>
       <div className={styles.profile}>
         <div className={styles.profile__upper}>
           <div className={styles.profile__left}>
@@ -50,6 +50,7 @@ const NavbarProfileDropdown = () => {
         {links.map(({ link, label }) => {
           return (
             <GhostBtn
+              key={label}
               fluid
               as={Link}
               className={styles.menuList__item + ' ' + styles.text}
@@ -60,7 +61,7 @@ const NavbarProfileDropdown = () => {
           )
         })}
       </div>
-    </div>
+    </Dropdown>
   )
 }
 

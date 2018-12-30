@@ -5,20 +5,20 @@ import GhostBtn from './GhostBtn'
 import Dropdown from './Dropdown'
 
 const links = [
-  { link: '/', label: 'Documentation' },
-  { link: '/', label: 'Developer API' },
-  { link: '/', label: 'Support' }
+  { link: '/', label: 'Trends' },
+  { link: '/', label: 'Dashboard' },
+  { link: '/', label: 'API' }
 ]
 
-const NavbarHelpDropdown = () => {
+const NavbarLabsDropdown = () => {
   return (
     <Dropdown>
       <div className={styles.list}>
         {links.map(({ link, label }) => {
           return (
             <GhostBtn
-              key={label}
               fluid
+              key={label}
               as={Link}
               className={styles.item + ' ' + styles.text}
               to={link}
@@ -32,4 +32,4 @@ const NavbarHelpDropdown = () => {
   )
 }
 
-export default NavbarHelpDropdown
+export default NavbarLabsDropdown

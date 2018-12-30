@@ -7,6 +7,8 @@ import HelpIcon from './HelpIcon'
 import AccountIcon from './AccountIcon'
 import { Popup } from 'semantic-ui-react'
 import NavbarHelpDropdown from './NavbarHelpDropdown'
+import NavbarLabsDropdown from './NavbarLabsDropdown'
+import NavbarProfileDropdown from './NavbarProfileDropdown'
 
 const leftLinks = [
   { link: '/sonar', label: 'Sonar' },
@@ -15,7 +17,10 @@ const leftLinks = [
   { link: '/labs', label: 'Labs' },
   { link: '/reports', label: 'Reports' }
 ]
-const rightBtns = [{ icon: HelpIcon }, { icon: AccountIcon }]
+const rightBtns = [
+  { icon: HelpIcon, el: NavbarHelpDropdown },
+  { icon: AccountIcon, el: NavbarProfileDropdown }
+]
 
 const Navbar = () => {
   return (
@@ -26,6 +31,24 @@ const Navbar = () => {
         </Link>
 
         {leftLinks.map(({ link, label }) => {
+          if (label === 'Labs') {
+            return (
+              <Popup
+                key={label}
+                on='click'
+                position='bottom left'
+                verticalOffset={4}
+                trigger={
+                  <FlatBtn key={link} isActive className={styles.leftLink}>
+                    {label}
+                  </FlatBtn>
+                }
+              >
+                <NavbarLabsDropdown />
+              </Popup>
+            )
+          }
+
           return (
             <FlatBtn
               key={link}
@@ -49,19 +72,20 @@ const Navbar = () => {
           className={styles.search}
         />
 
-        {rightBtns.map(({ icon }, index) => {
+        {rightBtns.map(({ icon, el }, index) => {
           return (
             <Popup
+              key={index}
               on='click'
               position='bottom right'
               verticalOffset={4}
               trigger={
-                <FlatBtn className={styles.btn} key={index} isActive>
+                <FlatBtn className={styles.btn} isActive>
                   {icon()}
                 </FlatBtn>
               }
             >
-              <NavbarHelpDropdown />
+              {el()}
             </Popup>
           )
         })}
