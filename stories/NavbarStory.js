@@ -5,9 +5,13 @@ import Navbar from './../src/components/Navbar/Navbar'
 import NavbarProfileDropdown from './../src/components/Navbar/NavbarProfileDropdown'
 import NavbarHelpDropdown from './../src/components/Navbar/NavbarHelpDropdown'
 import NavbarLabsDropdown from './../src/components/Navbar/NavbarLabsDropdown'
+import { Provider } from 'react-redux'
+import store from './store'
 
 storiesOf('Navbar', module)
   .addDecorator(StoryRouter())
+  .addDecorator(story => <Provider store={store}>{story()}</Provider>)
+
   .add('Default', () => (
     <div>
       <Navbar />

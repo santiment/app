@@ -1,11 +1,13 @@
 import React from 'react'
 import Toggle from './Toggle'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styles from './NavbarProfileDropdown.module.scss'
 import GhostBtn from './GhostBtn'
 import DropdownDevider from './DropdownDevider'
 import Dropdown from './Dropdown'
 import ProfilePicPlaceholder from './ProfilePicPlaceholder'
+import * as actions from '../../actions/types'
 
 const links = [
   { link: '/account', label: 'Account settings' },
@@ -23,7 +25,9 @@ const NavbarProfileDropdown = ({
   activeLink,
   picUrl,
   name = 'Andriy Yurchenko',
-  status = 'offline'
+  status = 'offline',
+  isNightModeEnabled,
+  toggleNightMode
 }) => {
   return (
     <Dropdown>
@@ -59,8 +63,9 @@ const NavbarProfileDropdown = ({
           className={
             styles.setting + ' ' + styles.menuList__item + ' ' + styles.text
           }
+          onClick={toggleNightMode}
         >
-          Nightmode <Toggle />
+          Nightmode <Toggle isActive={isNightModeEnabled} />
         </GhostBtn>
       </div>
       <DropdownDevider />
@@ -85,4 +90,18 @@ const NavbarProfileDropdown = ({
   )
 }
 
-export default NavbarProfileDropdown
+const mapStateToProps = state => ({
+  isNightModeEnabled: state.rootUi.isNightModeEnabled
+})
+
+const mapDispatchToProps = dispatch => ({
+  toggleNightMode: () =>
+    dispatch({
+      type: actions.USER_TOGGLE_NIGHT_MODE
+    })
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NavbarProfileDropdown)
