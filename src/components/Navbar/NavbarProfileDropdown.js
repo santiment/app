@@ -5,27 +5,46 @@ import styles from './NavbarProfileDropdown.module.scss'
 import GhostBtn from './GhostBtn'
 import DropdownDevider from './DropdownDevider'
 import Dropdown from './Dropdown'
+import ProfilePicPlaceholder from './ProfilePicPlaceholder'
+
 const links = [
   { link: '/account', label: 'Account settings' },
   { link: '/upgrade', label: 'Upgrade plan' },
   { link: '/logout', label: 'Log out' }
 ]
 
-const NavbarProfileDropdown = ({ activeLink }) => {
+const getStatusStyle = status => styles[status] || ''
+
+const Status = {
+  active: 'Active'
+}
+
+const NavbarProfileDropdown = ({
+  activeLink,
+  picUrl,
+  name = 'Andriy Yurchenko',
+  status = 'offline'
+}) => {
   return (
     <Dropdown>
       <div className={styles.profile}>
         <div className={styles.profile__upper}>
           <div className={styles.profile__left}>
-            <div className={styles.text + ' ' + styles.profile__pic} />
-            <div className={styles.onlineIndicator + ' ' + styles.online} />
+            <div className={styles.text + ' ' + styles.profile__pic}>
+              {picUrl ? (
+                <img src={picUrl} alt='Profile Pic' />
+              ) : (
+                <ProfilePicPlaceholder />
+              )}
+            </div>
+            <div
+              className={styles.onlineIndicator + ' ' + getStatusStyle(status)}
+            />
           </div>
           <div className={styles.profile__right}>
-            <h3 className={styles.text + ' ' + styles.profile__name}>
-              Andriy Yurchenko
-            </h3>
+            <h3 className={styles.text + ' ' + styles.profile__name}>{name}</h3>
             <h4 className={styles.text + ' ' + styles.profile__status}>
-              Active
+              {Status[status]}
             </h4>
           </div>
         </div>
