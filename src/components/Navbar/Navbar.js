@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { SearchWithSuggestions } from '@santiment-network/ui'
-import FlatLinkBtn from './FlatLinkBtn'
 import FlatBtn from './FlatBtn'
 import styles from './Navbar.module.scss'
 import HelpIcon from './HelpIcon'
@@ -26,14 +25,15 @@ const Navbar = () => {
 
         {leftLinks.map(({ link, label }) => {
           return (
-            <FlatLinkBtn
+            <FlatBtn
               key={link}
+              as={Link}
               to={link}
               isActive
               className={styles.leftLink}
             >
               {label}
-            </FlatLinkBtn>
+            </FlatBtn>
           )
         })}
       </div>

@@ -12,22 +12,18 @@ $font-size-regular: 14px;
 $line-height-regular: 20px;
 
 .button {
-  color: $text-grey;
+  color: #15181f;
 
   & svg {
     fill: #15181f;
   }
 
   &:hover {
-    color: $text-green;
-    & svg {
-      fill: $text-green;
-    }
+    background: $btn-background-light-grey;
   }
 
   &.active {
     color: $text-green;
-    background-color: $btn-background-light-green;
     & svg {
       fill: $text-green;
     }

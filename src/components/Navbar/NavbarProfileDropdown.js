@@ -1,6 +1,15 @@
 import React from 'react'
 import Toggle from './Toggle'
+import { Link } from 'react-router-dom'
 import styles from './NavbarProfileDropdown.module.scss'
+import GhostBtn from './GhostBtn'
+import DropdownDevider from './DropdownDevider'
+
+const links = [
+  { link: '/', label: 'Account settings' },
+  { link: '/', label: 'Upgrade plan' },
+  { link: '/', label: 'Log out' }
+]
 
 const NavbarProfileDropdown = () => {
   return (
@@ -24,22 +33,33 @@ const NavbarProfileDropdown = () => {
           <span className={styles.tokens__amount}>13 562</span> tokens available
         </div>
       </div>
-      <ul className={styles.menuList}>
-        <li className={styles.menuList__item + ' ' + styles.text}>
-          <div className={styles.setting}>
-            Nightmode <Toggle />
-          </div>
-        </li>
-      </ul>
-      <ul className={styles.menuList}>
-        <li className={styles.menuList__item + ' ' + styles.text}>
-          Account settings
-        </li>
-        <li className={styles.menuList__item + ' ' + styles.text}>
-          Upgrade plan
-        </li>
-        <li className={styles.menuList__item + ' ' + styles.text}>Log out</li>
-      </ul>
+
+      <DropdownDevider />
+      <div className={styles.menuList}>
+        <GhostBtn
+          className={
+            styles.setting + ' ' + styles.menuList__item + ' ' + styles.text
+          }
+        >
+          Nightmode <Toggle />
+        </GhostBtn>
+      </div>
+      <DropdownDevider />
+
+      <div className={styles.menuList}>
+        {links.map(({ link, label }) => {
+          return (
+            <GhostBtn
+              fluid
+              as={Link}
+              className={styles.menuList__item + ' ' + styles.text}
+              to={link}
+            >
+              {label}
+            </GhostBtn>
+          )
+        })}
+      </div>
     </div>
   )
 }

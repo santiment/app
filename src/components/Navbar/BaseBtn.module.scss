@@ -1,0 +1,46 @@
+// COLORS
+$text-grey: #7a859e;
+$text-green: #14c393;
+$btn-background-light-green: #dcf6ef;
+$btn-background-light-grey: #f6f6f8;
+
+// DECORATORS
+$border-radius: 4px;
+
+// TEXT
+$font-size-regular: 14px;
+$line-height-regular: 20px;
+
+@mixin box-sizing {
+  box-sizing: border-box;
+  & * {
+    box-sizing: border-box;
+  }
+}
+
+.button {
+  @include box-sizing;
+  display: inline-block;
+  border: none;
+  outline: none;
+  font-family: Rubik, sans-serif;
+  height: 32px;
+  padding: 6px 12px;
+  font-size: $font-size-regular;
+  line-height: $line-height-regular;
+  border-radius: $border-radius;
+  cursor: pointer;
+
+  &.fluid {
+    display: block;
+  }
+}
+
+/*
+
+fluid
+
+
+-BaseFlatBtn
+
+*/

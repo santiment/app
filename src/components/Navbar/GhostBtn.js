@@ -1,9 +1,9 @@
 import React from 'react'
 import cx from 'classnames'
 import BaseBtn from './BaseBtn'
-import styles from './FlatBtn.module.scss'
+import styles from './GhostBtn.module.scss'
 
-const FlatBtn = ({ children, className = '', isActive, ...props }) => {
+const GhostBtn = ({ children, className = '', isActive, ...props }) => {
   return (
     <BaseBtn
       className={cx({
@@ -17,4 +17,4 @@ const FlatBtn = ({ children, className = '', isActive, ...props }) => {
   )
 }
 
-export default FlatBtn
+export default GhostBtn

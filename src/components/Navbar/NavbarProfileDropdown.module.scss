@@ -112,24 +112,25 @@ h4 {
 }
 
 .menuList {
-  border-top: 1px solid #ebeef5;
-  padding: 6px 8px;
+  // border-top: 1px solid #ebeef5;
+  padding: 8px;
 
   &__item {
-    height: 32px;
+    // height: 32px;
     padding: 6px 8px;
-    border-radius: $border-radius;
-    // @include menu-side-padding;
-    cursor: pointer;
+    // border-radius: $border-radius;
+    // // @include menu-side-padding;
+    // cursor: pointer;
 
-    &:hover {
-      background: $btn-background-light-grey;
-      color: $text-green;
-    }
+    // &:hover {
+    //   background: $btn-background-light-grey;
+    //   // color: $text-green;
+    // }
   }
 }
 
 .setting {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
