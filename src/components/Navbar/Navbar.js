@@ -18,11 +18,15 @@ const leftLinks = [
   { link: '/reports', label: 'Reports' }
 ]
 const rightBtns = [
-  { icon: HelpIcon, el: NavbarHelpDropdown },
-  { icon: AccountIcon, el: NavbarProfileDropdown }
+  {
+    icon: HelpIcon,
+    el: NavbarHelpDropdown,
+    links: ['/docs', '/dev-api', '/support']
+  },
+  { icon: AccountIcon, el: NavbarProfileDropdown, links: ['/account'] }
 ]
 
-const Navbar = () => {
+const Navbar = ({ activeLink = '/' }) => {
   return (
     <nav className={styles.wrapper}>
       <div className={styles.left}>
@@ -31,6 +35,7 @@ const Navbar = () => {
         </Link>
 
         {leftLinks.map(({ link, label }) => {
+          console.log(link, activeLink)
           if (label === 'Labs') {
             return (
               <Popup
@@ -39,7 +44,11 @@ const Navbar = () => {
                 position='bottom left'
                 verticalOffset={4}
                 trigger={
-                  <FlatBtn key={link} isActive className={styles.leftLink}>
+                  <FlatBtn
+                    key={link}
+                    isActive={activeLink.includes(link)}
+                    className={styles.leftLink}
+                  >
                     {label}
                   </FlatBtn>
                 }
@@ -54,7 +63,7 @@ const Navbar = () => {
               key={link}
               as={Link}
               to={link}
-              isActive
+              isActive={link.includes(activeLink)}
               className={styles.leftLink}
             >
               {label}
@@ -72,7 +81,7 @@ const Navbar = () => {
           className={styles.search}
         />
 
-        {rightBtns.map(({ icon, el }, index) => {
+        {rightBtns.map(({ icon, el: Content, links }, index) => {
           return (
             <Popup
               key={index}
@@ -80,12 +89,15 @@ const Navbar = () => {
               position='bottom right'
               verticalOffset={4}
               trigger={
-                <FlatBtn className={styles.btn} isActive>
+                <FlatBtn
+                  className={styles.btn}
+                  isActive={links.includes(activeLink)}
+                >
                   {icon()}
                 </FlatBtn>
               }
             >
-              {el()}
+              <Content activeLink={activeLink} />
             </Popup>
           )
         })}

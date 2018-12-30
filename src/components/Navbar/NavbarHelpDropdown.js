@@ -5,12 +5,12 @@ import GhostBtn from './GhostBtn'
 import Dropdown from './Dropdown'
 
 const links = [
-  { link: '/', label: 'Documentation' },
-  { link: '/', label: 'Developer API' },
-  { link: '/', label: 'Support' }
+  { link: '/docs', label: 'Documentation' },
+  { link: '/dev-api', label: 'Developer API' },
+  { link: '/support', label: 'Support' }
 ]
 
-const NavbarHelpDropdown = () => {
+const NavbarHelpDropdown = ({ activeLink }) => {
   return (
     <Dropdown>
       <div className={styles.list}>
@@ -22,6 +22,7 @@ const NavbarHelpDropdown = () => {
               as={Link}
               className={styles.item + ' ' + styles.text}
               to={link}
+              isActive={link === activeLink}
             >
               {label}
             </GhostBtn>

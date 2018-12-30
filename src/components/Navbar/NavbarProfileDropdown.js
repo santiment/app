@@ -6,12 +6,12 @@ import GhostBtn from './GhostBtn'
 import DropdownDevider from './DropdownDevider'
 import Dropdown from './Dropdown'
 const links = [
-  { link: '/', label: 'Account settings' },
-  { link: '/', label: 'Upgrade plan' },
-  { link: '/', label: 'Log out' }
+  { link: '/account', label: 'Account settings' },
+  { link: '/upgrade', label: 'Upgrade plan' },
+  { link: '/logout', label: 'Log out' }
 ]
 
-const NavbarProfileDropdown = () => {
+const NavbarProfileDropdown = ({ activeLink }) => {
   return (
     <Dropdown>
       <div className={styles.profile}>
@@ -55,6 +55,7 @@ const NavbarProfileDropdown = () => {
               as={Link}
               className={styles.menuList__item + ' ' + styles.text}
               to={link}
+              isActive={link === activeLink}
             >
               {label}
             </GhostBtn>
