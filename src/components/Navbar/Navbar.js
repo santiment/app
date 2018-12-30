@@ -46,7 +46,9 @@ const Navbar = ({ activeLink = '/' }) => {
                   <FlatBtn
                     key={link}
                     isActive={activeLink.includes(link)}
-                    className={styles.leftLink}
+                    className={`${styles.leftLink} ${
+                      styles.leftLink_droppable
+                    }`}
                   >
                     {label}
                   </FlatBtn>

@@ -66,6 +66,10 @@ a {
   &:first-of-type {
     margin-left: 12px;
   }
+
+  &:focus {
+    background-color: $btn-background-light-green;
+  }
 }
 
 .button {
@@ -100,4 +104,8 @@ a {
 
 .leftLink {
   margin-right: 4px;
+
+  &_droppable:focus {
+    background-color: $btn-background-light-green;
+  }
 }
