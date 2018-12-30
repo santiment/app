@@ -105,9 +105,10 @@ class TotalMarketcapWidget extends Component {
       )
     }
 
-    const valueClassNames = `TotalMarketcapWidget__value ${
-      totalmarketCapPrice === '.' ? 'TotalMarketcapWidget__value_loading' : ''
-    }`
+    const valueClassNames = cx({
+      TotalMarketcapWidget__value: true,
+      TotalMarketcapWidget__value_loading: totalmarketCapPrice === '.'
+    })
 
     return (
       <div className='TotalMarketcapWidget'>
