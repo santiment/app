@@ -1,26 +1,15 @@
 import React from 'react'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import * as actions from '../WordCloud/actions'
-import { TRENDS_HYPED_WORD_SELECTED } from './actions'
-import styles from './HypedWord.module.scss'
+import styles from './HypedWord.module.css'
+import * as actions from '../SocialVolumeScore/actions'
+import { connect } from 'react-redux'
 
-const HypedWord = ({
-  word,
-  score,
-  fetchContext,
-  selectHypedWord,
-  isSelected = false
-}) => (
+const HypedWord = ({ word, score, latest, fetchSocialVolume }) => (
   <Link
-    className={cx(styles.HypedWord, isSelected && styles.selected)}
+    className={cx(styles.HypedWord, { [styles.latest]: latest })}
     to={`/trends/explore/${word}`}
-    onMouseEnter={() => {
-      selectHypedWord(word)
-      fetchContext(word)
-    }}
-    onMouseLeave={() => selectHypedWord()}
+    onMouseEnter={() => fetchSocialVolume(word)}
   >
     <div>
       <div className={styles.word}>{word}</div>
@@ -45,16 +34,10 @@ const HypedWord = ({
 )
 
 const mapDispatchToProps = dispatch => ({
-  fetchContext: payload => {
+  fetchSocialVolume: payload => {
     dispatch({
-      type: actions.WORDCLOUD_CONTEXT_FETCH,
+      type: actions.SOCIALVOLUME_DATA_FETCH,
       payload
-    })
-  },
-  selectHypedWord: (selected = null) => {
-    dispatch({
-      type: TRENDS_HYPED_WORD_SELECTED,
-      payload: { selected }
     })
   }
 })

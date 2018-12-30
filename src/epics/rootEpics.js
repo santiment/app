@@ -25,7 +25,6 @@ import fetchTimeseriesEpic from './fetchTimeseriesEpic'
 import handleNightModeToggle from './handleNightModeToggle'
 import handleBetaModeToggle from './handleBetaModeToggle'
 import { fetchHypedTrends } from './../components/Trends/fetchHypedTrends'
-import { fetchWordContextEpic } from './../components/WordCloud/fetchWordContextEpic'
 import keyboardEpic from './keyboardEpic'
 import { fetchSocialVolumeEpic } from './../components/SocialVolumeScore/fetchSocialVolumeEpic'
 
