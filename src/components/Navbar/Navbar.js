@@ -35,7 +35,6 @@ const Navbar = ({ activeLink = '/' }) => {
         </Link>
 
         {leftLinks.map(({ link, label }) => {
-          console.log(link, activeLink)
           if (label === 'Labs') {
             return (
               <Popup
@@ -53,7 +52,7 @@ const Navbar = ({ activeLink = '/' }) => {
                   </FlatBtn>
                 }
               >
-                <NavbarLabsDropdown />
+                <NavbarLabsDropdown activeLink={activeLink} />
               </Popup>
             )
           }
@@ -63,7 +62,7 @@ const Navbar = ({ activeLink = '/' }) => {
               key={link}
               as={Link}
               to={link}
-              isActive={link.includes(activeLink)}
+              isActive={link === activeLink}
               className={styles.leftLink}
             >
               {label}

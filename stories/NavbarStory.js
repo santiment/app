@@ -4,6 +4,7 @@ import StoryRouter from 'storybook-react-router'
 import Navbar from './../src/components/Navbar/Navbar'
 import NavbarProfileDropdown from './../src/components/Navbar/NavbarProfileDropdown'
 import NavbarHelpDropdown from './../src/components/Navbar/NavbarHelpDropdown'
+import NavbarLabsDropdown from './../src/components/Navbar/NavbarLabsDropdown'
 
 storiesOf('Navbar', module)
   .addDecorator(StoryRouter())
@@ -44,5 +45,13 @@ storiesOf('Navbar', module)
       <br />
       On the '/support' page
       <NavbarHelpDropdown activeLink='/support' />
+    </div>
+  ))
+  .add('Labs Dropdown', () => (
+    <div>
+      <NavbarLabsDropdown />
+      <br />
+      On the '/labs/trends' page
+      <NavbarLabsDropdown activeLink='/labs/trends' />
     </div>
   ))
