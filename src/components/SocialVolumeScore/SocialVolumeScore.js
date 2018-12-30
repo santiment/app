@@ -1,29 +1,9 @@
 import React from 'react'
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  Cell
-} from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts'
 import moment from 'moment'
+import { connect } from 'react-redux'
 import styles from './SocialVolumeScore.module.scss'
 
-const colors = [
-  '#1f77b4',
-  '#ff7f0e',
-  '#2ca02c',
-  '#d62728',
-  '#9467bd',
-  '#8c564b',
-  '#e377c2',
-  '#7f7f7f',
-  '#bcbd22',
-  '#17becf'
-]
 const data = [
   {
     datetime: '2018-10-28T00:00:00Z',
@@ -263,41 +243,48 @@ const data = [
   }
 ]
 
-const getPath = (x, y, width, height) => {
-  return `M${x},${y + height}
-          C${x + width / 3},${y + height} ${x + width / 2},${y +
-    height / 3} ${x + width / 2}, ${y}
-          C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${y +
-    height} ${x + width}, ${y + height}
-          Z`
-}
-
-const TriangleBar = props => {
+const RoundBar = props => {
   const { fill, x, y, width, height } = props
 
   /* return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} /> */
   return <rect x={x} y={y} width='6px' height={height} rx='3' fill='#E0E4EE' />
 }
 
-const CustomShapeBarChart = () => (
-  <BarChart
-    width={558}
-    height={170}
-    data={data}
-    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-    className={styles.chart}
-  >
-    <XAxis
-      dataKey='datetime'
-      axisLine={false}
-      tickLine={false}
-      tickFormatter={date => moment(date).format('MMM DD YYYY')}
-      minTickGap={20}
-    />
-    <YAxis orientation='right' axisLine={false} tickLine={false} />
+const SocialVolumeScoreChart = ({ socialVolumeData, slug = 'bitcoin' }) => (
+  <div className={styles.chart}>
+    <div className={styles.info}>
+      <span className={styles.slug}>{slug}</span> social volume score
+    </div>
+    <ResponsiveContainer width='100%' height={170}>
+      <BarChart
+        data={socialVolumeData}
+        margin={{ top: 0, right: -25, left: 0, bottom: -10 }}
+      >
+        <XAxis
+          dataKey='datetime'
+          interval='preserveStartEnd'
+          axisLine={false}
+          tickLine={false}
+          tickFormatter={date => {
+            const tickDate = moment(date)
+            console.log(tickDate.isSame(Date.now(), 'year'))
+            return tickDate.isSame(Date.now(), 'year')
+              ? tickDate.format('MMM DD')
+              : tickDate.format('MMM DD YYYY')
+          }}
+          minTickGap={20}
+        />
+        <YAxis orientation='right' axisLine={false} tickLine={false} />
 
-    <Bar dataKey='mentionsCount' shape={<TriangleBar />} />
-  </BarChart>
+        <Bar dataKey='mentionsCount' shape={<RoundBar />} />
+      </BarChart>
+    </ResponsiveContainer>
+  </div>
 )
 
-export default CustomShapeBarChart
+const mapStateToProps = state => ({
+  slug: state.socialVolume.slug,
+  socialVolumeData: state.socialVolume.data
+})
+
+export default connect(mapStateToProps)(SocialVolumeScoreChart)

@@ -26,6 +26,7 @@ import handleNightModeToggle from './handleNightModeToggle'
 import handleBetaModeToggle from './handleBetaModeToggle'
 import { fetchHypedTrends } from './../components/Trends/fetchHypedTrends'
 import keyboardEpic from './keyboardEpic'
+import { fetchSocialVolumeEpic } from './../components/SocialVolumeScore/fetchSocialVolumeEpic'
 
 export default combineEpics(
   handleOffline,
@@ -55,5 +56,7 @@ export default combineEpics(
   // timeseries
   fetchTimeseriesEpic,
   // trends
-  fetchHypedTrends
+  fetchHypedTrends,
+  // socialVolume
+  fetchSocialVolumeEpic
 )

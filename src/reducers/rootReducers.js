@@ -19,6 +19,9 @@ import watchlistUi, {
 import hypedTrends, {
   initialState as initialHypedTrends
 } from './../components/Trends/reducers'
+import socialVolume, {
+  initialState as initialSocialVolume
+} from './../components/SocialVolumeScore/reducers'
 
 export const intitialState = {
   user: userState,
@@ -30,7 +33,8 @@ export const intitialState = {
   watchlistUi: initialWatchlistUiState,
   rootUi: rootUiState,
   notification: initialNotificationState,
-  router: routerReducer
+  router: routerReducer,
+  socialVolume: initialSocialVolume
 }
 
 export default combineReducers({
@@ -42,5 +46,6 @@ export default combineReducers({
   detailedPageUi,
   insightsPageUi,
   watchlistUi,
-  notification
+  notification,
+  socialVolume
 })
