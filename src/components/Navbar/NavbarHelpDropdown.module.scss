@@ -1,19 +1,5 @@
-// COLORS
-$text-grey: #7a859e;
-$text-green: #14c393;
-$btn-background-light-green: #dcf6ef;
-$btn-background-light-grey: #f6f6f8;
+@import '~@santiment-network/ui/variables.scss';
 
-// DECORATORS
-$border-radius: 4px;
-
-// TEXT
-$font-size-regular: 14px;
-$line-height-regular: 20px;
-
-// * {
-//   box-sizing: border-box;
-// }
 .text {
   font-family: Rubik, sans-serif;
   font-style: normal;
@@ -34,23 +20,12 @@ $line-height-regular: 20px;
   & * {
     box-sizing: border-box;
   }
-  // height: 241px;
 }
 
 .list {
-  // border-top: 1px solid #ebeef5;
   padding: 8px;
 }
 
 .item {
-  // height: 32px;
   padding: 6px 8px;
-  // border-radius: $border-radius;
-  // // @include menu-side-padding;
-  // cursor: pointer;
-
-  // &:hover {
-  //   background: $btn-background-light-grey;
-  //   color: $text-green;
-  // }
 }

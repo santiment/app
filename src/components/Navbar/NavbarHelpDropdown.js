@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Panel, Button } from '@santiment-network/ui'
 import styles from './NavbarHelpDropdown.module.scss'
-import GhostBtn from './GhostBtn'
-import Dropdown from './Dropdown'
 
 const links = [
   { link: '/docs', label: 'Documentation' },
@@ -12,12 +11,13 @@ const links = [
 
 const NavbarHelpDropdown = ({ activeLink }) => {
   return (
-    <Dropdown>
+    <Panel>
       <div className={styles.list}>
         {links.map(({ link, label }) => {
           return (
-            <GhostBtn
+            <Button
               key={label}
+              variant='ghost'
               fluid
               as={Link}
               className={styles.item + ' ' + styles.text}
@@ -25,11 +25,11 @@ const NavbarHelpDropdown = ({ activeLink }) => {
               isActive={link === activeLink}
             >
               {label}
-            </GhostBtn>
+            </Button>
           )
         })}
       </div>
-    </Dropdown>
+    </Panel>
   )
 }
 

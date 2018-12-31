@@ -1,13 +1,10 @@
 import React from 'react'
-import Toggle from './Toggle'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import styles from './NavbarProfileDropdown.module.scss'
-import GhostBtn from './GhostBtn'
+import { Panel, Button, Toggle, Icon } from '@santiment-network/ui'
 import DropdownDevider from './DropdownDevider'
-import Dropdown from './Dropdown'
-import ProfilePicPlaceholder from './ProfilePicPlaceholder'
 import * as actions from '../../actions/types'
+import styles from './NavbarProfileDropdown.module.scss'
 
 const links = [
   { link: '/account', label: 'Account settings' },
@@ -30,7 +27,7 @@ const NavbarProfileDropdown = ({
   toggleNightMode
 }) => {
   return (
-    <Dropdown>
+    <Panel>
       <div className={styles.profile}>
         <div className={styles.profile__upper}>
           <div className={styles.profile__left}>
@@ -38,7 +35,7 @@ const NavbarProfileDropdown = ({
               {picUrl ? (
                 <img src={picUrl} alt='Profile Pic' />
               ) : (
-                <ProfilePicPlaceholder />
+                <Icon type='profile-round' fill='#fff' />
               )}
             </div>
             <div
@@ -59,21 +56,24 @@ const NavbarProfileDropdown = ({
 
       <DropdownDevider />
       <div className={styles.menuList}>
-        <GhostBtn
+        <Button
+          variant='ghost'
           className={
             styles.setting + ' ' + styles.menuList__item + ' ' + styles.text
           }
           onClick={toggleNightMode}
         >
           Nightmode <Toggle isActive={isNightModeEnabled} />
-        </GhostBtn>
+        </Button>
       </div>
       <DropdownDevider />
 
       <div className={styles.menuList}>
         {links.map(({ link, label }) => {
           return (
-            <GhostBtn
+            // <GhostBtn
+            <Button
+              variant='ghost'
               key={label}
               fluid
               as={Link}
@@ -82,11 +82,11 @@ const NavbarProfileDropdown = ({
               isActive={link === activeLink}
             >
               {label}
-            </GhostBtn>
+            </Button>
           )
         })}
       </div>
-    </Dropdown>
+    </Panel>
   )
 }
 

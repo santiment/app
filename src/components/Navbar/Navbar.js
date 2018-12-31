@@ -1,14 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { SearchWithSuggestions } from '@santiment-network/ui'
-import FlatBtn from './FlatBtn'
-import styles from './Navbar.module.scss'
-import HelpIcon from './HelpIcon'
-import AccountIcon from './AccountIcon'
 import { Popup } from 'semantic-ui-react'
+import { SearchWithSuggestions, Icon, Button } from '@santiment-network/ui'
 import NavbarHelpDropdown from './NavbarHelpDropdown'
 import NavbarLabsDropdown from './NavbarLabsDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
+import styles from './Navbar.module.scss'
 
 const leftLinks = [
   { link: '/sonar', label: 'Sonar' },
@@ -19,11 +16,15 @@ const leftLinks = [
 ]
 const rightBtns = [
   {
-    icon: HelpIcon,
+    icon: <Icon type='help-round' />,
     el: NavbarHelpDropdown,
     links: ['/docs', '/dev-api', '/support']
   },
-  { icon: AccountIcon, el: NavbarProfileDropdown, links: ['/account'] }
+  {
+    icon: <Icon type='profile' />,
+    el: NavbarProfileDropdown,
+    links: ['/account']
+  }
 ]
 
 const Navbar = ({ activeLink = '/' }) => {
@@ -43,15 +44,16 @@ const Navbar = ({ activeLink = '/' }) => {
                 position='bottom left'
                 verticalOffset={4}
                 trigger={
-                  <FlatBtn
-                    key={link}
+                  <Button
+                    // key={link}
+                    variant='flat'
                     isActive={activeLink.includes(link)}
                     className={`${styles.leftLink} ${
                       styles.leftLink_droppable
                     }`}
                   >
                     {label}
-                  </FlatBtn>
+                  </Button>
                 }
               >
                 <NavbarLabsDropdown activeLink={activeLink} />
@@ -60,15 +62,16 @@ const Navbar = ({ activeLink = '/' }) => {
           }
 
           return (
-            <FlatBtn
+            <Button
               key={link}
+              variant='flat'
               as={Link}
               to={link}
               isActive={link === activeLink}
               className={styles.leftLink}
             >
               {label}
-            </FlatBtn>
+            </Button>
           )
         })}
       </div>
@@ -90,12 +93,13 @@ const Navbar = ({ activeLink = '/' }) => {
               position='bottom right'
               verticalOffset={4}
               trigger={
-                <FlatBtn
+                <Button
+                  variant='flat'
                   className={styles.btn}
                   isActive={links.includes(activeLink)}
                 >
-                  {icon()}
-                </FlatBtn>
+                  {icon}
+                </Button>
               }
             >
               <Content activeLink={activeLink} />
