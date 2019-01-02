@@ -162,8 +162,12 @@ class TotalMarketcapWidget extends Component {
                 <stop offset='0%' stopColor='#14C393' stopOpacity={0.3} />
                 <stop offset='100%' stopColor='#fff' stopOpacity={0} />
               </linearGradient>
+              <linearGradient id='mc-1' x1='0' x2='0' y1='0' y2='100%'>
+                <stop offset='0%' stopColor='#FFAD4D' stopOpacity={0.3} />
+                <stop offset='100%' stopColor='#fff' stopOpacity={0} />
+              </linearGradient>
               <linearGradient id='mc-2' x1='0' x2='0' y1='0' y2='100%'>
-                <stop offset='0%' stopColor='#5275FF' stopOpacity={0.3} />
+                <stop offset='0%' stopColor='#8358FF' stopOpacity={0.3} />
                 <stop offset='100%' stopColor='#fff' stopOpacity={0} />
               </linearGradient>
             </defs>
