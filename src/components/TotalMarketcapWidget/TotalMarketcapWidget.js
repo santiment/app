@@ -7,7 +7,8 @@ import {
   Area,
   XAxis,
   YAxis,
-  Tooltip
+  Tooltip,
+  CartesianGrid
 } from 'recharts'
 import PercentChanges from '../PercentChanges'
 import Widget from '../Widget/Widget'
@@ -95,12 +96,13 @@ class TotalMarketcapWidget extends Component {
       listYAxis = (
         <YAxis
           domain={[0, listMaxValue + listMaxValue * 0.1]}
+          hide
           allowDataOverflow
           yAxisId='2'
           dataKey='marketcap'
           tickLine={false}
           orientation='left'
-          tickFormatter={marketcap => millify(marketcap)}
+          // tickFormatter={marketcap => millify(marketcap)}
         />
       )
     }
@@ -141,7 +143,7 @@ class TotalMarketcapWidget extends Component {
         </div>
         <ResponsiveContainer
           // width='100%'
-          height={430}
+          height={235}
           className={cx({
             TotalMarketcapWidget__chart: true,
             list: !!TOTAL_LIST_MARKET
@@ -149,33 +151,53 @@ class TotalMarketcapWidget extends Component {
         >
           <AreaChart
             data={marketcapDataset}
-            margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+            margin={{ top: 5, right: 0, left: 0, bottom: 0 }}
           >
+            <defs>
+              <linearGradient id='total' x1='0' x2='0' y1='0' y2='100%'>
+                <stop offset='0%' stopColor='#5275FF' stopOpacity={0.3} />
+                <stop offset='100%' stopColor='#fff' stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id='mc-0' x1='0' x2='0' y1='0' y2='100%'>
+                <stop offset='0%' stopColor='#14C393' stopOpacity={0.3} />
+                <stop offset='100%' stopColor='#fff' stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id='mc-2' x1='0' x2='0' y1='0' y2='100%'>
+                <stop offset='0%' stopColor='#5275FF' stopOpacity={0.3} />
+                <stop offset='100%' stopColor='#fff' stopOpacity={0} />
+              </linearGradient>
+            </defs>
             <Area
               yAxisId='1'
               dataKey='marketcap'
               type='monotone'
-              strokeWidth={1}
-              stroke='#2d5e39'
-              fill='rgba(214, 235, 219, .8)'
+              strokeWidth={1.5}
+              stroke='#5275FF'
               isAnimationActive={false}
               name={'Total Marketcap'}
+              fill='url(#total)'
             />
             {restAreas}
             <XAxis
               dataKey='datetime'
               tickFormatter={date => moment(date).format('DD MMM  YYYY')}
               minTickGap={30}
+              hide
             />
             <YAxis
               yAxisId='1'
               dataKey='marketcap'
-              // domain={[0, 250000000000]}
-              // allowDataOverflow
+              hide
               tickLine={false}
               orientation='right'
               tickFormatter={marketcap => millify(marketcap)}
             />
+            <CartesianGrid
+              stroke='#EBEEF5'
+              vertical={false}
+              strokeDasharray='5 10'
+            />
+
             {listYAxis}
             <Tooltip
               labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}

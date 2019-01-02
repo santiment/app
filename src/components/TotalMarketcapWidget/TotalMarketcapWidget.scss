@@ -65,7 +65,7 @@
   &__chart {
     margin-top: 9px;
     height: 430;
-    border: 1px solid #ebeef5;
+    // border: 1px solid #ebeef5;
     border-radius: 4px;
     overflow: hidden;
 
@@ -153,6 +153,25 @@
     line-height: 22px;
     font-size: 14px;
     margin-left: 13px;
+  }
+
+  .recharts-tooltip-wrapper {
+    // @NOTE(vanguard): Propose to make it as global styles.
+    font-family: Rubik, sans-serif;
+    box-shadow: 0px 2px 2px rgba(21, 24, 31, 0.02),
+      0px 2px 6px rgba(0, 0, 0, 0.04), 0px 4px 12px rgba(0, 0, 0, 0.04);
+    & .recharts-default-tooltip {
+      border-radius: 4px;
+
+      & > p:first-of-type {
+        color: #7a859e;
+        margin-bottom: 4px !important;
+      }
+    }
+
+    .recharts-tooltip-item {
+      padding: 0 !important;
+    }
   }
 }
 @keyframes loading {

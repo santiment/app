@@ -4,7 +4,7 @@ import { Area } from 'recharts'
 import { formatNumber } from '../../utils/formatting'
 import { mergeTimeseriesByKey } from '../../utils/utils'
 
-const COLORS = ['#dda000', '#1111bb', '#ab47bc']
+const COLORS = ['#14C393', '#1111bb', '#ab47bc']
 const COLORS_TEXT = ['#aa7000', '#111199', '#8a43ac']
 
 const currencyFormatOptions = {
@@ -84,7 +84,7 @@ export const getTop3Area = (restProjects, isTotalView) => {
         dataKey={constructProjectMarketcapKey(key)}
         name={key}
         type='monotone'
-        strokeWidth={1}
+        strokeWidth={1.5}
         stroke={COLORS[i]}
         label={({ x, y, index }) => {
           if (index === rightMarginByIndex) {
@@ -103,7 +103,8 @@ export const getTop3Area = (restProjects, isTotalView) => {
           }
           return ''
         }}
-        fill={COLORS[i] + '2c'}
+        // fill={COLORS[i] + '2c'}
+        fill={`url(#mc-${i})`}
         isAnimationActive={false}
       />
     )
