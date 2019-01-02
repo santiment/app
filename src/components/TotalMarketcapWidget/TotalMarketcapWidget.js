@@ -174,7 +174,7 @@ class TotalMarketcapWidget extends Component {
               strokeWidth={1.5}
               stroke='#5275FF'
               isAnimationActive={false}
-              name={'Total Marketcap'}
+              name={`${isListView ? 'List' : 'Total'} Marketcap`}
               fill='url(#total)'
             />
             {restAreas}
