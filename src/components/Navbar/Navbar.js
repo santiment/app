@@ -45,7 +45,6 @@ const Navbar = ({ activeLink = '/' }) => {
                 verticalOffset={4}
                 trigger={
                   <Button
-                    // key={link}
                     variant='flat'
                     isActive={activeLink.includes(link)}
                     className={`${styles.leftLink} ${
