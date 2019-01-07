@@ -6,7 +6,7 @@ import styles from './HypedWords.module.scss'
 
 const compare = (a, b) => a.score - b.score
 
-const header = ({ latest, compiled }) => {
+const header = ({latest, compiled}) => {
   if (latest) {
     return <h4>Current trends</h4>
   }
@@ -15,7 +15,7 @@ const header = ({ latest, compiled }) => {
 
 const HypedWords = ({ trends, compiled, latest }) => (
   <div className={styles.HypedWords}>
-    {header({ latest, compiled })}
+    {header({latest, compiled})}
     <div className={styles.HypedWordsBlock}>
       {trends &&
         trends
