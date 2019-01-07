@@ -11,7 +11,6 @@ import {
   CartesianGrid
 } from 'recharts'
 import PercentChanges from '../PercentChanges'
-import Widget from '../Widget/Widget'
 import {
   getTop3Area,
   combineDataset,

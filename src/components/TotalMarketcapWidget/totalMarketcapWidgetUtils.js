@@ -5,7 +5,6 @@ import { formatNumber } from '../../utils/formatting'
 import { mergeTimeseriesByKey } from '../../utils/utils'
 
 const COLORS = ['#14C393', '#FFAD4D', '#8358FF']
-const COLORS_TEXT = ['#aa7000', '#111199', '#8a43ac']
 
 const currencyFormatOptions = {
   currency: 'USD',
@@ -76,7 +75,6 @@ export const combineDataset = (totalMarketHistory, restProjects) => {
 
 export const getTop3Area = (restProjects, isTotalView) => {
   return Object.keys(restProjects).map((key, i) => {
-    const rightMarginByIndex = (i + 1) * 16
     return (
       <Area
         yAxisId={isTotalView ? '2' : '1'}
@@ -86,24 +84,6 @@ export const getTop3Area = (restProjects, isTotalView) => {
         type='monotone'
         strokeWidth={1.5}
         stroke={COLORS[i]}
-        // label={({ x, y, index }) => {
-        //   if (index === rightMarginByIndex) {
-        //     return (
-        //       <text
-        //         x={x}
-        //         y={y}
-        //         dy={-8}
-        //         fill={COLORS_TEXT[i]}
-        //         fontSize={12}
-        //         textAnchor='middle'
-        //       >
-        //         {key}
-        //       </text>
-        //     )
-        //   }
-        //   return ''
-        // }}
-        // fill={COLORS[i] + '2c'}
         fill={`url(#mc-${i})`}
         isAnimationActive={false}
       />
