@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import cx from 'classnames'
+import { Switch } from '@santiment-network/ui'
 import {
   ResponsiveContainer,
   AreaChart,
@@ -24,22 +25,6 @@ const WidgetMarketView = {
   TOTAL: 'Total',
   LIST: 'List'
 }
-
-const MarketView = ({ currentView, toggleMarketView }) => (
-  <div
-    className={cx({
-      TotalMarketcapWidget__btns: true,
-      switched: currentView === WidgetMarketView.LIST
-    })}
-    onClick={toggleMarketView}
-  >
-    {Object.values(WidgetMarketView).map(view => (
-      <button key={view} className='TotalMarketcapWidget__view-btn'>
-        {view}
-      </button>
-    ))}
-  </div>
-)
 
 class TotalMarketcapWidget extends Component {
   state = {
@@ -75,7 +60,6 @@ class TotalMarketcapWidget extends Component {
     )
 
     let restAreas = null
-    // let listDomainUpperBoundary = 0
     let listYAxis = null
 
     if (!loading && Object.keys(restProjects).length > 0) {
@@ -101,7 +85,6 @@ class TotalMarketcapWidget extends Component {
           dataKey='marketcap'
           tickLine={false}
           orientation='left'
-          // tickFormatter={marketcap => millify(marketcap)}
         />
       )
     }
@@ -134,14 +117,16 @@ class TotalMarketcapWidget extends Component {
           </div>
 
           {TOTAL_LIST_MARKET && (
-            <MarketView
-              currentView={view}
-              toggleMarketView={this.toggleMarketView}
+            <Switch
+              isSwitched={view === WidgetMarketView.LIST}
+              option1={WidgetMarketView.TOTAL}
+              option2={WidgetMarketView.LIST}
+              onClick={this.toggleMarketView}
+              style={{ width: 112 }}
             />
           )}
         </div>
         <ResponsiveContainer
-          // width='100%'
           height={235}
           className={cx({
             TotalMarketcapWidget__chart: true,
