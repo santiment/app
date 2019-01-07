@@ -58,15 +58,12 @@ const getERC20Assets = assets => {
   return (assets.allErc20Projects || [])
     .filter(asset => !!asset.mainContractAddress)
     .map((asset, index) => {
-      return { value: asset.slug, label: asset.slug }
-    })
+    return { value: asset.slug, label: asset.slug }
+  })
 }
 
 const mapDataToProps = ({ allErc20Projects }) => ({
-  assets: [
-    { value: 'ethereum', label: 'ethereum' },
-    ...getERC20Assets(allErc20Projects)
-  ],
+  assets: [{ value: 'ethereum', label: 'ethereum'}, ...getERC20Assets(allErc20Projects)],
   isLoading: allErc20Projects.isLoading
 })
 

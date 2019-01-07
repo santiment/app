@@ -36,8 +36,8 @@ class WordCloud extends Component {
     const { cloud = [], searchWord } = this.props
     if (this.props.isLoading) {
       return (
-        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
-          <FadeIn duration='2s' timingFunction='ease-out'>
+        <div className={styles.wrapper + " " + styles.WordCloudLoading}>
+          <FadeIn duration="2s" timingFunction="ease-out">
             <h3>Loading...</h3>
           </FadeIn>
         </div>
@@ -47,7 +47,7 @@ class WordCloud extends Component {
     if (this.props.error || cloud.length === 0) {
       return (
         <div className={styles.wrapper}>
-          <FadeIn duration='2s' timingFunction='ease-out'>
+          <FadeIn duration="2s" timingFunction="ease-out">
             <h3>We don't find anything...</h3>
           </FadeIn>
         </div>
