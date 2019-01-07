@@ -1,89 +1,85 @@
-import React, { Component } from 'react'
-import { Helmet } from 'react-helmet'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import WordCloud from './WordCloud'
-import { Input, Button } from '@santiment-network/ui'
-import ToolsPageStyles from './../ToolsPage/ToolsPage.module.scss'
-import { mapQSToState, mapStateToQS } from './../../utils/utils'
-import styles from './WordCloudPage.module.scss'
-import * as actions from '../WordCloud/actions'
+import { compose } from 'recompose'
+import TagCloud from 'react-tag-cloud'
+import { FadeIn } from 'animate-components'
+import styles from './WordCloud.module.scss'
 
-class WordCloudPage extends Component {
-  state = {
-    word: '',
-    ...mapQSToState(this.props)
-  }
+const WORD_BIG = {
+  color: '#7a859e',
+  fontSize: 28
+}
 
-  static getDerivedStateFromProps (nextProps, prevState) {
-    return {
-      ...mapQSToState(nextProps)
-    }
-  }
+const WORD_MEDIUM = {
+  color: '#7a859e',
+  fontSize: 20
+}
 
-  componentDidMount () {
-    this.updateWordContext()
-  }
+const WORD_SMALL = {
+  fontSize: 12
+}
 
-  render () {
-    return (
-      <div className={ToolsPageStyles.ToolsPage + ' page'}>
-        <Helmet>
-          <style>{'body { background-color: white; }'}</style>
-        </Helmet>
-        <header>
-          <h1>Explore context of any word in crypto</h1>
-        </header>
-        <div className={styles.searchContainer}>
-          <Input
-            value={this.state.word}
-            id='word'
-            name='word'
-            placeholder='Any word'
-            onKeyPress={this.handleKeyPress}
-            onChange={this.handleChange}
-          />
-          <Button fill='positive' onClick={this.updateSearchQuery}>
-            Search
-          </Button>
-        </div>
-        <WordCloud />
-      </div>
-    )
-  }
-
-  updateWordContext = () => {
-    const word = this.state.word
-    word && word.length > 0 && this.props.fetchContext(word.toLowerCase())
-  }
-
-  updateSearchQuery = () => {
-    this.updateWordContext()
-    this.props.history.push({
-      search: mapStateToQS(this.state)
-    })
-  }
-
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value })
-  }
-
-  handleKeyPress = event => {
-    if (event.key === 'Enter') {
-      this.updateSearchQuery()
-    }
+const getWordStyles = index => {
+  switch (index) {
+    case 0:
+      return WORD_BIG
+    case 1:
+    case 2:
+      return WORD_MEDIUM
+    default:
+      return WORD_SMALL
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  fetchContext: payload => {
-    dispatch({
-      type: actions.WORDCLOUD_CONTEXT_FETCH,
-      payload
-    })
+class WordCloud extends Component {
+  render () {
+    const { cloud = [], searchWord } = this.props
+    if (this.props.isLoading) {
+      return (
+        <div className={styles.wrapper + " " + styles.WordCloudLoading}>
+          <FadeIn duration="2s" timingFunction="ease-out">
+            <h3>Loading...</h3>
+          </FadeIn>
+        </div>
+      )
+    }
+
+    if (this.props.error || cloud.length === 0) {
+      return (
+        <div className={styles.wrapper}>
+          <FadeIn duration="2s" timingFunction="ease-out">
+            <h3>We don't find anything...</h3>
+          </FadeIn>
+        </div>
+      )
+    }
+
+    return (
+      <div className={styles.wrapper}>
+        <small className={styles.hint}>
+          <strong>{searchWord}</strong> social context
+        </small>
+        <TagCloud style={{ width: '95%', height: '85%', padding: 10 }}>
+          {cloud.map(({ word }, index) => (
+            <div
+              key={word}
+              style={getWordStyles(index)}
+              className={`${styles.text}`}
+            >
+              {word}
+            </div>
+          ))}
+        </TagCloud>
+      </div>
+    )
   }
+}
+
+const mapStateToProps = (state, ownProps) => ({
+  cloud: state.wordCloud.cloud || ownProps.cloud,
+  isLoading: state.wordCloud.isLoading,
+  error: state.wordCloud.error,
+  searchWord: state.wordCloud.word
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(WordCloudPage)
+export default compose(connect(mapStateToProps))(WordCloud)
