@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Panel, Button } from '@santiment-network/ui'
-import styles from './NavbarHelpDropdown.module.scss'
+import styles from './NavbarDropdown.module.scss'
 
 const links = [
   { link: '/docs', label: 'Documentation' },

@@ -5,6 +5,7 @@ import { Panel, Button, Toggle, Icon } from '@santiment-network/ui'
 import DropdownDevider from './DropdownDevider'
 import * as actions from '../../actions/types'
 import styles from './NavbarProfileDropdown.module.scss'
+import dropdownStyles from './NavbarDropdown.module.scss'
 
 const links = [
   { link: '/account', label: 'Account settings' },
@@ -31,7 +32,7 @@ const NavbarProfileDropdown = ({
       <div className={styles.profile}>
         <div className={styles.profile__upper}>
           <div className={styles.profile__left}>
-            <div className={styles.text + ' ' + styles.profile__pic}>
+            <div className={dropdownStyles.text + ' ' + styles.profile__pic}>
               {picUrl ? (
                 <img src={picUrl} alt='Profile Pic' />
               ) : (
@@ -43,23 +44,29 @@ const NavbarProfileDropdown = ({
             />
           </div>
           <div className={styles.profile__right}>
-            <h3 className={styles.text + ' ' + styles.profile__name}>{name}</h3>
-            <h4 className={styles.text + ' ' + styles.profile__status}>
+            <h3 className={dropdownStyles.text + ' ' + styles.profile__name}>
+              {name}
+            </h3>
+            <h4 className={dropdownStyles.text + ' ' + styles.profile__status}>
               {Status[status]}
             </h4>
           </div>
         </div>
-        <div className={styles.text + ' ' + styles.tokens}>
+        <div className={dropdownStyles.text + ' ' + styles.tokens}>
           <span className={styles.tokens__amount}>13 562</span> tokens available
         </div>
       </div>
 
       <DropdownDevider />
-      <div className={styles.menuList}>
+      <div className={dropdownStyles.list}>
         <Button
           variant='ghost'
           className={
-            styles.setting + ' ' + styles.menuList__item + ' ' + styles.text
+            styles.setting +
+            ' ' +
+            dropdownStyles.item +
+            ' ' +
+            dropdownStyles.text
           }
           onClick={toggleNightMode}
         >
@@ -68,16 +75,15 @@ const NavbarProfileDropdown = ({
       </div>
       <DropdownDevider />
 
-      <div className={styles.menuList}>
+      <div className={dropdownStyles.list}>
         {links.map(({ link, label }) => {
           return (
-            // <GhostBtn
             <Button
               variant='ghost'
               key={label}
               fluid
               as={Link}
-              className={styles.menuList__item + ' ' + styles.text}
+              className={dropdownStyles.item + ' ' + dropdownStyles.text}
               to={link}
               isActive={link === activeLink}
             >

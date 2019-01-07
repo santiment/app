@@ -1,15 +1,15 @@
 @import '~@santiment-network/ui/variables.scss';
 
-a {
-  text-decoration: none;
-}
-
 .wrapper {
   padding: 19px 46px;
   background: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .logo {
@@ -23,7 +23,6 @@ a {
 .right {
   display: flex;
   & input {
-    // @NOTE(vanguard): move this styles to ui repo
     padding: 5px 15px;
   }
 }
