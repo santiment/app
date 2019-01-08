@@ -77,7 +77,7 @@ export const getTop3Area = (restProjects, isTotalView) => {
   return Object.keys(restProjects).map((key, i) => {
     return (
       <Area
-        yAxisId={isTotalView ? '2' : '1'}
+        yAxisId={isTotalView ? 'list' : 'total'}
         key={key}
         dataKey={constructProjectMarketcapKey(key)}
         name={key}

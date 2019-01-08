@@ -81,7 +81,7 @@ class TotalMarketcapWidget extends Component {
           domain={[0, listMaxValue + listMaxValue * 0.1]}
           hide
           allowDataOverflow
-          yAxisId='2'
+          yAxisId='list'
           dataKey='marketcap'
           tickLine={false}
           orientation='left'
@@ -156,7 +156,7 @@ class TotalMarketcapWidget extends Component {
               </linearGradient>
             </defs>
             <Area
-              yAxisId='1'
+              yAxisId='total'
               dataKey='marketcap'
               type='monotone'
               strokeWidth={1.5}
@@ -173,7 +173,7 @@ class TotalMarketcapWidget extends Component {
               hide
             />
             <YAxis
-              yAxisId='1'
+              yAxisId='total'
               dataKey='marketcap'
               hide
               tickLine={false}
