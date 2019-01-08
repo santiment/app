@@ -12,7 +12,7 @@ import GetTotalMarketcap from '../../components/TotalMarketcapWidget/GetTotalMar
 import StablecoinsDataDownloadBtn from '../../components/StablecoinsDataDownloadBtn/StablecoinsDataDownloadBtn'
 import './Assets.css'
 
-const getHeadTitle = (type, searchParams) => {
+const getTableTitle = ({ type, location: { search } }) => {
   switch (type) {
     case 'all':
       return 'All Assets'
@@ -21,7 +21,7 @@ const getHeadTitle = (type, searchParams) => {
     case 'erc20':
       return 'ERC20 Assets'
     case 'list':
-      return (qs.parse(searchParams).name || '').split('@')[0].toUpperCase()
+      return (qs.parse(search).name || '').split('@')[0].toUpperCase()
     default:
       return 'Assets'
   }
@@ -34,14 +34,11 @@ const AssetsPage = props => (
       <link rel='canonical' href={`${getOrigin()}/assets`} />
     </Helmet>
     {props.isBetaModeEnabled && (
-      <GetTotalMarketcap
-        type={props.type}
-        listName={getHeadTitle(props.type, props.location.search)}
-      />
+      <GetTotalMarketcap type={props.type} listName={getTableTitle(props)} />
     )}
     <div className='page-head page-head-projects'>
       <div className='page-head-projects__left'>
-        <h1>{getHeadTitle(props.type, props.location.search)}</h1>
+        <h1>{getTableTitle(props)}</h1>
         <HelpPopupAssets />
         {props.type === 'list' &&
           props.location.hash !== '#shared' && <WatchlistShare />}
