@@ -65,80 +65,12 @@
   &__chart {
     margin-top: 9px;
     height: 430;
-    // border: 1px solid #ebeef5;
     border-radius: 4px;
     overflow: hidden;
 
     & .recharts-yAxis .recharts-cartesian-axis-tick:first-of-type {
       display: none;
     }
-  }
-  // & .Widget__content {
-  //   display: flex;
-  // }
-
-  &__btns {
-    position: relative;
-    height: 32px;
-    border: 1px solid #e0e4ee;
-    box-sizing: border-box;
-    border-radius: 4px;
-    align-items: center;
-    display: flex;
-    &::before {
-      transition: 200ms;
-      display: inline-block;
-      content: '';
-      width: 50%;
-      position: absolute;
-      top: -1px;
-      left: -1px;
-      bottom: -1px;
-      background: #dcf6ef;
-      border: 1px solid #14c393;
-      box-sizing: border-box;
-      border-radius: 4px;
-    }
-    &.switched {
-      &::before {
-        left: calc(50% + 1px);
-      }
-
-      & .TotalMarketcapWidget__view-btn {
-        &:first-of-type {
-          color: #7a859e;
-        }
-        &:last-of-type {
-          color: #14c393;
-        }
-      }
-    }
-    & .TotalMarketcapWidget__view-btn {
-      &:first-of-type {
-        color: #14c393;
-      }
-    }
-  }
-
-  &__view-btn {
-    width: 56px;
-    border: none;
-    color: #7a859e;
-
-    cursor: pointer;
-    outline: none;
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: normal;
-    line-height: 20px;
-    font-size: 14px;
-    background-color: transparent;
-    position: relative;
-    z-index: 2;
-
-    // &.active {
-    //   color: #14c393;
-    // }
   }
 
   & svg:not(:root) {
@@ -156,7 +88,6 @@
   }
 
   .recharts-tooltip-wrapper {
-    // @NOTE(vanguard): Propose to make it as global styles.
     font-family: Rubik, sans-serif;
     box-shadow: 0px 2px 2px rgba(21, 24, 31, 0.02),
       0px 2px 6px rgba(0, 0, 0, 0.04), 0px 4px 12px rgba(0, 0, 0, 0.04);
