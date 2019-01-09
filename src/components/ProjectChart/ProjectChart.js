@@ -579,8 +579,8 @@ const makeOptionsFromProps = (props, COLORS) => {
             // In the future we have to make glued separate chart with volume.
             max:
               Math.max(
-                ...props.history.map(
-                  data => (props.isToggledBTC ? data.volumeBTC : data.volume)
+                ...props.history.map(data =>
+                  props.isToggledBTC ? data.volumeBTC : data.volume
                 )
               ) * 2.2
           },
@@ -948,12 +948,8 @@ class ProjectChart extends Component {
         {isLoading && (
           <div className='project-chart__isLoading'> Loading... </div>
         )}
-        {!isLoading &&
-          isEmpty && (
-          <div className='project-chart__isEmpty'>
-            {' '}
-              We don't have any data{' '}
-          </div>
+        {!isLoading && isEmpty && (
+          <div className='project-chart__isEmpty'> We don't have any data </div>
         )}
         <Bar
           data={chartData}

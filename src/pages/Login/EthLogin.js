@@ -18,8 +18,7 @@ const EthLogin = ({
   return (
     <Fragment>
       {user.isLoading && !user.hasMetamask && <div>Loading</div>}
-      {!user.hasMetamask &&
-        !user.isLoading && (
+      {!user.hasMetamask && !user.isLoading && (
         <Message warning>
           <h4>We can't detect Metamask!</h4>
           <p>We can auth you with Metamask account. It's secure and easy.</p>
@@ -29,21 +28,16 @@ const EthLogin = ({
               rel='noopener noreferrer'
               href='https://metamask.io/#how-it-works'
             >
-                How Metamask works?
+              How Metamask works?
             </a>
             <a href='https://metamask.io/'>
-              <img
-                width={128}
-                src={metamaskDownloadImg}
-                alt='Metamask link'
-              />
+              <img width={128} src={metamaskDownloadImg} alt='Metamask link' />
             </a>
           </div>
         </Message>
       )}
 
-      {user.hasMetamask &&
-        !user.token && (
+      {user.hasMetamask && !user.token && (
         <AuthForm
           account={user.account}
           pending={user.isLoading}

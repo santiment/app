@@ -27,9 +27,7 @@ export const ToggleBtn = ({
     })}
     onClick={() => !disabled && !loading && toggle(!isToggled)}
   >
-    {!loading &&
-      disabled &&
-      !error && (
+    {!loading && disabled && !error && (
       <Popup
         trigger={<div>{children}</div>}
         content={
@@ -41,8 +39,7 @@ export const ToggleBtn = ({
         position='bottom left'
       />
     )}
-    {!loading &&
-      !!error && (
+    {!loading && !!error && (
       <Popup
         trigger={<div>{children}</div>}
         inverted
@@ -99,14 +96,13 @@ const ProjectChartFooter = ({
           <Label circular className='volumeLabel' empty />
           Volume
         </ToggleBtn>
-        {!props.isToggledBTC &&
-          (props.project.icoPrice || undefined) && (
+        {!props.isToggledBTC && (props.project.icoPrice || undefined) && (
           <ToggleBtn
             isToggled={props.isToggledICOPrice}
             toggle={props.toggleICOPrice}
           >
             <Label circular className='icoPriceLabel' empty />
-              ICO Price (USD)
+            ICO Price (USD)
           </ToggleBtn>
         )}
       </FilterCategory>
@@ -227,17 +223,16 @@ const ProjectChartFooter = ({
             />
           </ToggleBtn>
         )}
-        {!Insights.loading &&
-          Insights.items.length > 0 && (
+        {!Insights.loading && Insights.items.length > 0 && (
           <Message info floating size='tiny'>
             <Message.Header>Community Insights</Message.Header>
             <p style={{ lineHeight: '1.25' }}>
-                Our community made Insights about this project.
+              Our community made Insights about this project.
             </p>
             <p>You can learn something new.</p>
             <Link to={`/insights/tags/${props.project.ticker}`}>
               {Insights.items.length}
-                &nbsp; Insight
+              &nbsp; Insight
               {Insights.items.length > 1 && 's'} about {props.project.ticker}
             </Link>
           </Message>

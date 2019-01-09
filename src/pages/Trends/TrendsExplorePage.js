@@ -98,19 +98,18 @@ export class TrendsExplorePage extends Component {
               />
             )}
           />
-          <GetWordContext word={match.params.topic}
-            render={
-              ({cloud}) => {
-                if (cloud && cloud.length === 0) {
-                  return ''
-                }
-                return (
-                  <div className='TrendsExplorePage__wordcloud'>
-                    <WordCloud />
-                  </div>
-                )
+          <GetWordContext
+            word={match.params.topic}
+            render={({ cloud }) => {
+              if (cloud && cloud.length === 0) {
+                return ''
               }
-            }
+              return (
+                <div className='TrendsExplorePage__wordcloud'>
+                  <WordCloud />
+                </div>
+              )
+            }}
           />
           <TrendsStats timeRange={timeRange} />
         </div>

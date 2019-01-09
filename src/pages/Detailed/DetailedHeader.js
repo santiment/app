@@ -41,9 +41,7 @@ const DetailedHeader = ({
         <h1>{project.name}</h1>
         <DIV className={styles.description}>{project.description}</DIV>
       </div>
-      {isLoggedIn &&
-        isDesktop &&
-        !loading && (
+      {isLoggedIn && isDesktop && !loading && (
         <WatchlistsPopup
           projectId={project.id}
           slug={project.slug}
@@ -58,8 +56,7 @@ const DetailedHeader = ({
         {project.priceUsd &&
           formatNumber(project.priceUsd, { currency: 'USD' })}
       </div>
-      {!loading &&
-        project && (
+      {!loading && project && (
         <PercentChanges
           className={styles.percentChanges}
           changes={project.percentChange24h}

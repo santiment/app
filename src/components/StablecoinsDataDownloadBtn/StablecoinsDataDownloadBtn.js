@@ -16,9 +16,9 @@ const StablecoinsDataDownloadBtn = () => (
     }}
     href='https://docs.google.com/spreadsheets/u/1/d/1OwF5xKsPRxFsy3WvSest-gn8lFbm7cTQLhW3ylZE_2M'
     target='_blank'
-    rel='noopener noreferrer' >
-    <Button
-      variant='flat' isActive onClick={onDownloadBtnClick}>
+    rel='noopener noreferrer'
+  >
+    <Button variant='flat' isActive onClick={onDownloadBtnClick}>
       Open data as spreadsheets
     </Button>
   </a>

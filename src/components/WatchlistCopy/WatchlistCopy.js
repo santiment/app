@@ -89,8 +89,11 @@ class WatchlistCopy extends PureComponent {
               onChange={this.onWatchlistTitleChange}
             />
           }
-          trigger={<Button variant='flat' isActive>
-          Copy</Button>}
+          trigger={
+            <Button variant='flat' isActive>
+              Copy
+            </Button>
+          }
           position='bottom center'
           style={style}
           open={isPopupVisible}

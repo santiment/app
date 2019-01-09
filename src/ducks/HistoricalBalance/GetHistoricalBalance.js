@@ -8,22 +8,23 @@ import moment from 'moment'
 
 const historicalBalanceGQL = gql`
   query historicalBalance(
-    $from: DateTime!,
-    $to: DateTime!,
-    $address: String!,
-    $interval: String!,
-    $slug: String) {
-  historicalBalance(
-    address: $address,
-    interval: $interval,
-    slug: $slug,
-    from: $from,
-    to: $to
+    $from: DateTime!
+    $to: DateTime!
+    $address: String!
+    $interval: String!
+    $slug: String
   ) {
-    datetime 
-    balance
+    historicalBalance(
+      address: $address
+      interval: $interval
+      slug: $slug
+      from: $from
+      to: $to
+    ) {
+      datetime
+      balance
+    }
   }
-}
 `
 
 class GetHistoricalBalance extends Component {
@@ -38,21 +39,22 @@ class GetHistoricalBalance extends Component {
     render: PropTypes.func
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.fetchHistoricalBalance()
   }
 
-  componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.assets, this.props.assets) 
-      || prevProps.wallet !== this.props.wallet) {
-
+  componentDidUpdate (prevProps) {
+    if (
+      !isEqual(prevProps.assets, this.props.assets) ||
+      prevProps.wallet !== this.props.wallet
+    ) {
       this.cleanupHistory().then(() => {
         this.fetchHistoricalBalance()
       })
     }
   }
 
-  cleanupHistory() {
+  cleanupHistory () {
     return new Promise(resolve => {
       const oldAssets = this.state.assets
       const newAssets = pick(oldAssets, this.props.assets)
@@ -63,13 +65,13 @@ class GetHistoricalBalance extends Component {
         }
         return acc
       }, {})
-      this.setState({assets}, resolve())
+      this.setState({ assets }, resolve())
     })
   }
 
-  fetchHistoricalBalance() {
+  fetchHistoricalBalance () {
     this.props.assets.forEach(slug => {
-      this.setState(({assets}) => ({
+      this.setState(({ assets }) => ({
         assets: {
           [slug]: {
             loading: true,
@@ -79,33 +81,36 @@ class GetHistoricalBalance extends Component {
         }
       }))
 
-      this.props.client.query({
-        query: historicalBalanceGQL,
-        skip: ({ wallet }) => {
-          return !wallet
-        },
-        variables: {
-          slug,
-          address: this.props.wallet,
-          interval: '4w',
-          to: moment().toISOString(),
-          from: '2017-12-01T16:28:22.486Z'
-        }
-      }).then(({data, loading}) => {
-        if (this.props.assets.includes(slug)) {
-          this.setState(({assets}) => ({
-            assets: {
-              ...assets,
-              [slug]: {
-                loading,
-                items: data.historicalBalance
+      this.props.client
+        .query({
+          query: historicalBalanceGQL,
+          skip: ({ wallet }) => {
+            return !wallet
+          },
+          variables: {
+            slug,
+            address: this.props.wallet,
+            interval: '4w',
+            to: moment().toISOString(),
+            from: '2017-12-01T16:28:22.486Z'
+          }
+        })
+        .then(({ data, loading }) => {
+          if (this.props.assets.includes(slug)) {
+            this.setState(({ assets }) => ({
+              assets: {
+                ...assets,
+                [slug]: {
+                  loading,
+                  items: data.historicalBalance
+                }
               }
-            }
-          }))
-        }
-      }).catch(error => {
-        this.setState({error})
-      })
+            }))
+          }
+        })
+        .catch(error => {
+          this.setState({ error })
+        })
     })
   }
 

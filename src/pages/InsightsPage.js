@@ -272,8 +272,8 @@ const mapDataToProps = props => {
   })
 
   const filteredByPublished = posts =>
-    posts.filter(
-      post => (post.readyState ? post.readyState === 'published' : true)
+    posts.filter(post =>
+      post.readyState ? post.readyState === 'published' : true
     )
   const filteredBySelfUser = posts =>
     posts.filter(post => post.user.id === ownProps.user.data.id)
