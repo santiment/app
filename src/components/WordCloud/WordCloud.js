@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import TagCloud from 'react-tag-cloud'
+import { FadeIn } from 'animate-components'
 import styles from './WordCloud.module.scss'
 
 const WORD_BIG = {
@@ -31,15 +32,33 @@ const getWordStyles = index => {
 }
 
 class WordCloud extends Component {
-  shouldComponentUpdate (nextProps) {
-    return !nextProps.isLoading
-  }
-
   render () {
-    const { cloud = [] } = this.props
+    const { cloud = [], searchWord } = this.props
+    if (this.props.isLoading) {
+      return (
+        <div className={styles.wrapper + " " + styles.WordCloudLoading}>
+          <FadeIn duration="2s" timingFunction="ease-out">
+            <h3>Loading...</h3>
+          </FadeIn>
+        </div>
+      )
+    }
+
+    if (this.props.error || cloud.length === 0) {
+      return (
+        <div className={styles.wrapper}>
+          <FadeIn duration="2s" timingFunction="ease-out">
+            <h3>We don't find anything...</h3>
+          </FadeIn>
+        </div>
+      )
+    }
 
     return (
       <div className={styles.wrapper}>
+        <small className={styles.hint}>
+          <strong>{searchWord}</strong> social context
+        </small>
         <TagCloud style={{ width: '95%', height: '85%', padding: 10 }}>
           {cloud.map(({ word }, index) => (
             <div
@@ -58,7 +77,9 @@ class WordCloud extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   cloud: state.wordCloud.cloud || ownProps.cloud,
-  isLoading: state.wordCloud.isLoading
+  isLoading: state.wordCloud.isLoading,
+  error: state.wordCloud.error,
+  searchWord: state.wordCloud.word
 })
 
 export default compose(connect(mapStateToProps))(WordCloud)

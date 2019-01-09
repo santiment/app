@@ -6,10 +6,17 @@ import styles from './HypedWords.module.scss'
 
 const compare = (a, b) => a.score - b.score
 
+const header = ({latest, compiled}) => {
+  if (latest) {
+    return <h4>Current trends</h4>
+  }
+  return <h4>Compiled {moment(compiled).format('YYYY-MM-DD HH:mm')}</h4>
+}
+
 const HypedWords = ({ trends, compiled, latest }) => (
   <div className={styles.HypedWords}>
-    <h4>Compiled {moment(compiled).format('YYYY-MM-DD HH:mm')}</h4>
-    <div className={cx(styles.HypedWordsBlock, { [styles.latest]: latest })}>
+    {header({latest, compiled})}
+    <div className={styles.HypedWordsBlock}>
       {trends &&
         trends
           .sort(compare)

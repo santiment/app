@@ -2,9 +2,6 @@ import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import TrendsForm from './TrendsForm'
 import styles from './TrendsSearch.module.scss'
-// import HelpPopupTrends from './../../../pages/Trends/HelpPopupTrends'
-// import './TrendsExamplesItemTopic.css'
-// <HelpPopupTrends className='TrendsExamplesItemTopic__help' />
 
 const TrendsExampleLink = ({ keyword }) => (
   <Link to={`/trends/explore/${keyword}`}>
@@ -31,4 +28,3 @@ const TrendsSearch = ({ topic, fontSize = '1em' }) => (
 )
 
 export default TrendsSearch
-// <TrendsExampleLink keyword={keyword} key={keyword} />

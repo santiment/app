@@ -25,6 +25,11 @@ export default (state = initialState, action) => {
         error: true,
         cloud: []
       }
+    case actions.WORDCLOUD_CONTEXT_FETCH_CANCEL:
+      return {
+        ...state,
+        isLoading: false
+      }
 
     default:
       return state

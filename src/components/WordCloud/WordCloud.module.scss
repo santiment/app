@@ -1,18 +1,22 @@
+@import 'variables.scss';
+
 $top: 22px;
 
 .wrapper {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   box-sizing: border-box;
-  margin-top: 24px;
-
   height: 170px;
-  width: 49%;
-
-  background: #f7f8fb;
+  width: 100%;
+  background: white;
   border: 1px solid #ebeef5;
   border-radius: 4px;
+}
+
+.WordCloudLoading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .text {
@@ -33,5 +37,25 @@ $top: 22px;
 
   &_medium {
     font-size: 20px !important;
+  }
+}
+
+.hint {
+  margin-top: 8px;
+  margin-left: 14px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 20px;
+  font-size: 14px;
+  color: #7a859e;
+}
+
+.hint strong {
+  color: #15181f;
+}
+
+@media (min-width: $breakpoint-desktop) {
+  .wrapper {
+    width: 49%;
   }
 }
