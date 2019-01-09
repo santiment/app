@@ -1,7 +1,6 @@
 import React from 'react'
-import { Button } from 'semantic-ui-react'
+import { Button } from '@santiment-network/ui'
 import GoogleAnalytics from 'react-ga'
-import styles from './StablecoinsDataDownloadBtn.module.scss'
 
 const onDownloadBtnClick = () => {
   GoogleAnalytics.event({
@@ -10,18 +9,19 @@ const onDownloadBtnClick = () => {
   })
 }
 
-const StablecoinsDataDownloadBtn = () => {
-  return (
-    <Button className={styles.button} onClick={onDownloadBtnClick}>
-      <a
-        href='https://docs.google.com/spreadsheets/u/1/d/1OwF5xKsPRxFsy3WvSest-gn8lFbm7cTQLhW3ylZE_2M'
-        target='_blank'
-        rel='noopener noreferrer'
-        className={styles.link}
-      />
-      Download data as ...
+const StablecoinsDataDownloadBtn = () => (
+  <a
+    style={{
+      leftMargin: '1em'
+    }}
+    href='https://docs.google.com/spreadsheets/u/1/d/1OwF5xKsPRxFsy3WvSest-gn8lFbm7cTQLhW3ylZE_2M'
+    target='_blank'
+    rel='noopener noreferrer' >
+    <Button
+      variant='flat' isActive onClick={onDownloadBtnClick}>
+      Open data as spreadsheets
     </Button>
-  )
-}
+  </a>
+)
 
 export default StablecoinsDataDownloadBtn

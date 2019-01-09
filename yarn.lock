@@ -12485,6 +12485,11 @@ react-chartjs-2@^2.6.4:
     lodash "^4.17.4"
     prop-types "^15.5.8"
 
+react-csv@^1.0.19:
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/react-csv/-/react-csv-1.0.19.tgz#3230dba7877cabaae454425c43e7e2ad90990482"
+  integrity sha512-97TiBtFW0jctu5dmOsPK9BJaWtwF79vaamF3Ld8Iza1lk9s0lMi47FSfMzX9/tWcNhOmmxrXXy1nJLXPEGqh5g==
+
 react-dates@16.0.1:
   version "16.0.1"
   resolved "https://registry.yarnpkg.com/react-dates/-/react-dates-16.0.1.tgz#0522e65c57b1a5dd685160127e29dff8bb41e573"

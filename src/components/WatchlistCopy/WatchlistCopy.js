@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Popup, Button } from 'semantic-ui-react'
+import { Popup } from 'semantic-ui-react'
+import { Button } from '@santiment-network/ui'
 import * as actions from '../../actions/types'
 import WatchlistCopyPopup from './WatchlistCopyPopup'
 
@@ -88,7 +89,8 @@ class WatchlistCopy extends PureComponent {
               onChange={this.onWatchlistTitleChange}
             />
           }
-          trigger={<Button>Copy</Button>}
+          trigger={<Button variant='flat' isActive>
+          Copy</Button>}
           position='bottom center'
           style={style}
           open={isPopupVisible}
