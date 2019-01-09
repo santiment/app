@@ -10,11 +10,11 @@ import HelpPopupAssets from './HelpPopupAssets'
 import AssetsPageNavigation from './AssetsPageNavigation'
 import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
 import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
-import WidgetList from '../../components/Widget/WidgetList'
+import GetTotalMarketcap from '../../components/TotalMarketcapWidget/GetTotalMarketcap'
 import StablecoinsDataDownloadBtn from '../../components/StablecoinsDataDownloadBtn/StablecoinsDataDownloadBtn'
 import './Assets.css'
 
-const getHeadTitle = (type, searchParams) => {
+const getTableTitle = ({ type, location: { search } }) => {
   switch (type) {
     case 'all':
       return 'All Assets'
@@ -23,7 +23,7 @@ const getHeadTitle = (type, searchParams) => {
     case 'erc20':
       return 'ERC20 Assets'
     case 'list':
-      return (qs.parse(searchParams).name || '').split('@')[0].toUpperCase()
+      return (qs.parse(search).name || '').split('@')[0].toUpperCase()
     default:
       return 'Assets'
   }
@@ -31,12 +31,24 @@ const getHeadTitle = (type, searchParams) => {
 
 const normalizeCSV = items => {
   return items.map(item => {
-    const {coinmarketcapId, __typename, id, signals, ethAddresses, ...rest } = item
-    const _ethAddresses = ethAddresses ? ethAddresses.map(address =>
-      `https://app.santiment.net/balance?address=${address.address}&assets[]=ethereum`
-    ) : undefined
+    const {
+      coinmarketcapId,
+      __typename,
+      id,
+      signals,
+      ethAddresses,
+      ...rest
+    } = item
+    const _ethAddresses = ethAddresses
+      ? ethAddresses.map(
+        address =>
+          `https://app.santiment.net/balance?address=${
+            address.address
+          }&assets[]=ethereum`
+      )
+      : undefined
     if (_ethAddresses && _ethAddresses.length > 0) {
-      return {_ethAddresses, ...rest}
+      return { _ethAddresses, ...rest }
     }
     return rest
   })
@@ -49,11 +61,7 @@ const AssetsPage = props => (
       <link rel='canonical' href={`${getOrigin()}/assets`} />
     </Helmet>
     {props.isBetaModeEnabled && (
-      <WidgetList
-        listName={getHeadTitle(props.type, props.location.search)}
-        type={props.type}
-        isLoggedIn={props.isLoggedIn}
-      />
+      <GetTotalMarketcap type={props.type} listName={getTableTitle(props)} />
     )}
     <Assets
       {...props}
@@ -62,21 +70,25 @@ const AssetsPage = props => (
         <Fragment>
           <div className='page-head page-head-projects'>
             <div className='page-head-projects__left'>
-              <h1>{getHeadTitle(props.type, props.location.search)}</h1>
+              <h1>{getTableTitle(props)}</h1>
               <HelpPopupAssets />
-              {props.type === 'list' &&
-              props.location.hash !== '#shared' && <WatchlistShare />}
+              {props.type === 'list' && props.location.hash !== '#shared' && (
+                <WatchlistShare />
+              )}
 
               {props.type === 'list' && <WatchlistCopy />}
 
-              {Assets.items && Assets.items.length > 0 &&
-                  <CSVLink data={normalizeCSV(Assets.items)}
-                    filename={`${getHeadTitle(props.type, props.location.search)}.csv`}
-                    target="_blank"
-                  >
-                    <Button variant='flat' isActive>Download CSV</Button>
-                  </CSVLink>
-              }
+              {Assets.items && Assets.items.length > 0 && (
+                <CSVLink
+                  data={normalizeCSV(Assets.items)}
+                  filename={`${getTableTitle(props)}.csv`}
+                  target='_blank'
+                >
+                  <Button variant='flat' isActive>
+                    Download CSV
+                  </Button>
+                </CSVLink>
+              )}
 
               {qs.parse(props.location.search).name === 'stablecoins@86' && (
                 <StablecoinsDataDownloadBtn />
