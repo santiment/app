@@ -28,7 +28,7 @@ const WidgetMarketView = {
 
 class TotalMarketcapWidget extends Component {
   state = {
-    view: WidgetMarketView.TOTAL
+    view: WidgetMarketView.LIST
   }
 
   toggleMarketView = () => {
@@ -118,9 +118,9 @@ class TotalMarketcapWidget extends Component {
 
           {TOTAL_LIST_MARKET && (
             <Switch
-              isSwitched={view === WidgetMarketView.LIST}
-              option1={WidgetMarketView.TOTAL}
-              option2={WidgetMarketView.LIST}
+              isSwitched={view === WidgetMarketView.TOTAL}
+              option1={WidgetMarketView.LIST}
+              option2={WidgetMarketView.TOTAL}
               onClick={this.toggleMarketView}
               style={{ width: 112 }}
             />
