@@ -28,7 +28,10 @@ const WidgetMarketView = {
 
 class TotalMarketcapWidget extends Component {
   state = {
-    view: WidgetMarketView.LIST
+    view:
+      this.props.listName === 'All Assets'
+        ? WidgetMarketView.TOTAL
+        : WidgetMarketView.LIST
   }
 
   toggleMarketView = () => {
