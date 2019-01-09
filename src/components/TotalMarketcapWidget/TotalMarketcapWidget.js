@@ -22,13 +22,16 @@ import { formatNumber, millify } from '../../utils/formatting'
 import './TotalMarketcapWidget.scss'
 
 const WidgetMarketView = {
-  TOTAL: 'Total',
+  TOTAL: 'Assets',
   LIST: 'List'
 }
 
 class TotalMarketcapWidget extends Component {
   state = {
-    view: WidgetMarketView.TOTAL
+    view:
+      this.props.listName === 'All Assets'
+        ? WidgetMarketView.TOTAL
+        : WidgetMarketView.LIST
   }
 
   toggleMarketView = () => {
@@ -65,7 +68,7 @@ class TotalMarketcapWidget extends Component {
     if (!loading && Object.keys(restProjects).length > 0) {
       const target = isListView
         ? restProjects
-        : { [listName]: TOTAL_LIST_MARKET }
+        : { [`${listName} Marketcap`]: TOTAL_LIST_MARKET }
 
       marketcapDataset = combineDataset(marketcapDataset, target)
       restAreas = getTop3Area(target, !isListView)
@@ -100,7 +103,7 @@ class TotalMarketcapWidget extends Component {
           <div className='TotalMarketcapWidget__info'>
             <div className='TotalMarketcapWidget__left'>
               <h3 className='TotalMarketcapWidget__label'>{`${
-                TOTAL_LIST_MARKET && isListView ? 'List' : 'Total'
+                TOTAL_LIST_MARKET && isListView ? listName : 'All Crypto'
               } marketcap`}</h3>
               <h4 className={valueClassNames}>{totalmarketCapPrice}</h4>
             </div>
@@ -118,11 +121,11 @@ class TotalMarketcapWidget extends Component {
 
           {TOTAL_LIST_MARKET && (
             <Switch
-              isSwitched={view === WidgetMarketView.LIST}
-              option1={WidgetMarketView.TOTAL}
-              option2={WidgetMarketView.LIST}
+              isSwitched={view === WidgetMarketView.TOTAL}
+              option1={WidgetMarketView.LIST}
+              option2={WidgetMarketView.TOTAL}
               onClick={this.toggleMarketView}
-              style={{ width: 112 }}
+              style={{ width: 122 }}
             />
           )}
         </div>
@@ -162,7 +165,7 @@ class TotalMarketcapWidget extends Component {
               strokeWidth={1.5}
               stroke='#5275FF'
               isAnimationActive={false}
-              name={`${isListView ? 'List' : 'Total'} Marketcap`}
+              name={`${isListView ? listName : 'All Crypto'} Marketcap`}
               fill='url(#total)'
             />
             {restAreas}
