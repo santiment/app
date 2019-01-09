@@ -65,7 +65,7 @@ class TotalMarketcapWidget extends Component {
     if (!loading && Object.keys(restProjects).length > 0) {
       const target = isListView
         ? restProjects
-        : { [listName]: TOTAL_LIST_MARKET }
+        : { [`${listName} Marketcap`]: TOTAL_LIST_MARKET }
 
       marketcapDataset = combineDataset(marketcapDataset, target)
       restAreas = getTop3Area(target, !isListView)
