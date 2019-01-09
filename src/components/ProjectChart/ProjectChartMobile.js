@@ -123,8 +123,7 @@ const ProjectChartMobile = ({
           show='Marketcap'
         />
       )}
-      {isERC20 &&
-        settings.showed['burnRate'] && (
+      {isERC20 && settings.showed['burnRate'] && (
         <Fragment>
           <h2>BLOCKCHAIN</h2>
           {settings.showed['burnRate'] && (

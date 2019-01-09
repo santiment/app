@@ -26,7 +26,7 @@ export default class HistoricalBalancePage extends Component {
     }
   }
 
-  render() {
+  render () {
     return (
       <div className={styles.HistoricalBalancePage + ' page'}>
         <Helmet>
@@ -41,7 +41,8 @@ export default class HistoricalBalancePage extends Component {
         <BalanceView
           onChangeQuery={this.handleChangeQuery}
           address={this.state.address}
-          assets={this.state.assets} />
+          assets={this.state.assets}
+        />
       </div>
     )
   }

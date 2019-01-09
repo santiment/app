@@ -103,8 +103,7 @@ export const Post = ({
             {user && user.id && <Author {...user} />}
           </div>
         </div>
-        {createdAt &&
-          tags.length > 0 && (
+        {createdAt && tags.length > 0 && (
           <PostVisualBacktest
             from={createdAt}
             ticker={tags[0].name}
@@ -112,12 +111,11 @@ export const Post = ({
           />
         )}
       </div>
-      {user &&
-        !showStatus && (
+      {user && !showStatus && (
         <Div className='event-post-info'>
           {discourseTopicUrl && (
             <a className='discussion-btn' href={discourseTopicUrl}>
-                Comments
+              Comments
             </a>
           )}
           <LikeBtn

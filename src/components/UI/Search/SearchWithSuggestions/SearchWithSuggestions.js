@@ -58,8 +58,7 @@ class SearchWithSuggestions extends PureComponent {
           onBlur={this.toggleFocusState}
           onChange={this.handleInputChange}
         />
-        {isFocused &&
-          searchTerm !== '' && (
+        {isFocused && searchTerm !== '' && (
           <Panel popup className={styles.suggestions}>
             <ul className={styles.suggestions__list}>
               {suggestions.length !== 0 ? (
@@ -72,7 +71,7 @@ class SearchWithSuggestions extends PureComponent {
                 ))
               ) : (
                 <div className={styles.suggestion + ' ' + styles.noresults}>
-                    No results found.
+                  No results found.
                 </div>
               )}
             </ul>

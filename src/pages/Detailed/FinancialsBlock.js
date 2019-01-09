@@ -44,8 +44,7 @@ const FinancialsBlock = ({
     Project Transparency:&nbsp;
     {isERC20 ? showStatus(projectTransparencyStatus) : 'Not applicable'}
     <hr />
-    {fundsRaisedIcos &&
-      fundsRaisedIcos.length !== 0 && (
+    {fundsRaisedIcos && fundsRaisedIcos.length !== 0 && (
       <div className='row-info'>
         <div>Collected</div>
         <div className='value'>
@@ -61,8 +60,7 @@ const FinancialsBlock = ({
         </div>
       </div>
     )}
-    {ethAddresses &&
-      ethAddresses.length > 0 && (
+    {ethAddresses && ethAddresses.length > 0 && (
       <Fragment>
         {ethBalance && (
           <div
@@ -74,15 +72,12 @@ const FinancialsBlock = ({
             <div>Wallet Balances</div>
           </div>
         )}
-        {ethAddresses &&
-            ethAddresses.length > 0 && (
+        {ethAddresses && ethAddresses.length > 0 && (
           <div className='row-info wallets-balance'>
             {ethAddresses.map((wallet, index) => (
               <div key={index}>
                 <div className='wallets-addresses'>
-                  <a
-                    href={`https://etherscan.io/address/${wallet.address}`}
-                  >
+                  <a href={`https://etherscan.io/address/${wallet.address}`}>
                     {wallet.address}
                   </a>
                   <span>ETH {millify(wallet.balance, 2)}</span>

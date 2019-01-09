@@ -17,6 +17,7 @@
 // import './FeedbackButtonStory.js'
 // import './ButtonStory.js'
 // import './InputStory.js'
+import './NavbarStory.js'
 import './UISearchStory.js'
 import './PanelStory.js'
 import './WordCloudStory.js'

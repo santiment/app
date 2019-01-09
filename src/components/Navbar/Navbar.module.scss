@@ -1,0 +1,80 @@
+@import '~@santiment-network/ui/variables.scss';
+
+.wrapper {
+  padding: 19px 46px;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.logo {
+  font-family: Rubik, sans-serif;
+  font-weight: 900;
+  margin-right: 46px;
+  color: #000;
+  font-size: 20px;
+}
+
+.right {
+  display: flex;
+  & input {
+    padding: 5px 15px;
+  }
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+
+  margin-left: 4px;
+  &:first-of-type {
+    margin-left: 12px;
+  }
+
+  &:focus {
+    background-color: $btn-background-light-green;
+  }
+}
+
+.button {
+  height: 32px;
+  padding: 6px 12px;
+  font-size: $font-size-regular;
+  line-height: $line-height-regular;
+  font-family: Rubik, sans-serif;
+  color: $text-grey;
+  border-radius: $border-radius;
+  cursor: pointer;
+
+  & svg {
+    fill: #15181f;
+  }
+
+  &:hover {
+    color: $text-green;
+    & svg {
+      fill: $text-green;
+    }
+  }
+
+  &.active {
+    color: $text-green;
+    background-color: $btn-background-light-green;
+    & svg {
+      fill: $text-green;
+    }
+  }
+}
+
+.leftLink {
+  margin-right: 4px;
+
+  &_droppable:focus {
+    background-color: $btn-background-light-green;
+  }
+}

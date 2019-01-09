@@ -4,3 +4,12 @@
   align-items: center;
   margin-top: 1px !important;
 }
+
+.page-head-projects__left a {
+  text-decoration: none;
+  border: none;
+}
+
+.page-head-projects__left button {
+  margin-left: 1em;
+}
