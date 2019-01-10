@@ -71,20 +71,21 @@ class SmoothDropdown extends Component {
     if (!dropdownItem) return
 
     const ddContent = dropdownItem.querySelector('.dd__content')
+    const {
+      top: triggerTop,
+      left: triggerLeft,
+      height: triggerHeight
+    } = trigger.getBoundingClientRect()
 
     const leftOffset =
-      trigger.offsetLeft - (ddContent.clientWidth - trigger.clientWidth) / 2
+      triggerLeft - (ddContent.clientWidth - trigger.clientWidth) / 2
 
-    const topOffset = this.props.verticalMotion
-      ? trigger.offsetTop +
-        trigger.offsetHeight -
-        this.dropdownWrapperRef.current.offsetHeight
-      : 0
+    const topOffset = triggerTop + triggerHeight
 
     const correction = this.getViewportOverflowCorrection(trigger, ddContent)
 
     const left = leftOffset - correction.left + 'px'
-    const top = `calc(100% + ${10 + topOffset}px)`
+    const top = topOffset + 'px'
     const width = ddContent.clientWidth + 'px'
     const height = ddContent.clientHeight + 'px'
 
@@ -146,7 +147,7 @@ class SmoothDropdown extends Component {
       currentTrigger !== null
     )
     this.ddContainer.classList.toggle('dd-first-time', ddFirstTime)
-
+    Object.assign(this.ddContainer.style, dropdownStyles)
     return (
       <div
         ref={this.dropdownWrapperRef}
