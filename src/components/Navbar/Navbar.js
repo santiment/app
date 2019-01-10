@@ -36,7 +36,11 @@ const rightBtns = [
 
 const Navbar = ({ activeLink = '/' }) => {
   return (
-    <SmoothDropdown showArrow={false} className={styles.wrapper}>
+    <SmoothDropdown
+      verticalOffset={-25}
+      showArrow={false}
+      className={styles.wrapper}
+    >
       <div className={styles.left}>
         <Link className={styles.logo} to='/'>
           Sanbase

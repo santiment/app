@@ -32,12 +32,14 @@ class SmoothDropdown extends Component {
       PropTypes.arrayOf(PropTypes.element)
     ]).isRequired,
     showArrow: PropTypes.bool,
-    verticalMotion: PropTypes.bool
+    verticalMotion: PropTypes.bool,
+    verticalOffset: PropTypes.number
   }
 
   static defaultProps = {
     verticalMotion: false,
-    showArrow: true
+    showArrow: true,
+    verticalOffset: 0
   }
 
   componentDidMount () {
@@ -63,13 +65,13 @@ class SmoothDropdown extends Component {
 
   openDropdown = (trigger, dropdownItem) => {
     if (!dropdownItem) return
-
+    const { verticalOffset, verticalMotion } = this.props
     const ddContent = dropdownItem.querySelector('.dd__content')
 
     const leftOffset =
       trigger.offsetLeft - (ddContent.clientWidth - trigger.clientWidth) / 2
 
-    const topOffset = this.props.verticalMotion
+    const topOffset = verticalMotion
       ? trigger.offsetTop +
         trigger.offsetHeight -
         this.dropdownWrapperRef.current.offsetHeight
@@ -78,7 +80,7 @@ class SmoothDropdown extends Component {
     const correction = this.getViewportOverflowCorrection(trigger, ddContent)
 
     const left = leftOffset - correction.left + 'px'
-    const top = `calc(100% + ${10 + topOffset}px)`
+    const top = `calc(100% + ${10 + topOffset + verticalOffset}px)`
     const width = ddContent.clientWidth + 'px'
     const height = ddContent.clientHeight + 'px'
 
