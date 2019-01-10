@@ -26,7 +26,8 @@ class SmoothDropdown extends Component {
   ddContainer = ddTemplate.cloneNode(true).firstElementChild
 
   portalContainer = this.ddContainer.querySelector('.dd__list')
-  bgEl = this.ddContainer.querySelector('dd__bg')
+  bgNode = this.ddContainer.querySelector('.dd__bg')
+  arrowNode = this.ddContainer.querySelector('.dd__arrow')
 
   state = {
     currentTrigger: null,
@@ -80,12 +81,16 @@ class SmoothDropdown extends Component {
     const leftOffset =
       triggerLeft - (ddContent.clientWidth - trigger.clientWidth) / 2
 
-    const topOffset = triggerTop + triggerHeight
+    const topOffset = this.props.verticalMotion
+      ? triggerTop +
+        triggerHeight -
+        this.dropdownWrapperRef.current.offsetHeight
+      : this.dropdownWrapperRef.current.offsetHeight
 
     const correction = this.getViewportOverflowCorrection(trigger, ddContent)
 
     const left = leftOffset - correction.left + 'px'
-    const top = topOffset + 'px'
+    const top = 10 + topOffset + 'px'
     const width = ddContent.clientWidth + 'px'
     const height = ddContent.clientHeight + 'px'
 
@@ -148,6 +153,7 @@ class SmoothDropdown extends Component {
     )
     this.ddContainer.classList.toggle('dd-first-time', ddFirstTime)
     Object.assign(this.ddContainer.style, dropdownStyles)
+    this.arrowNode.style.left = `calc(50% + ${arrowCorrectionX}px)`
     return (
       <div
         ref={this.dropdownWrapperRef}
