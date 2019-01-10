@@ -5,6 +5,9 @@ import './SmoothDropdown.css'
 
 export const ddAsyncUpdateTimeout = 95
 
+const modalRoot = document.getElementById('dd-modal')
+const ddTemplate = modalRoot.querySelector('#dd-template').content
+
 export const SmoothDropdownContext = React.createContext({
   portal: {},
   currentTrigger: null,
@@ -17,6 +20,13 @@ export const SmoothDropdownContext = React.createContext({
 class SmoothDropdown extends Component {
   portalRef = React.createRef()
   dropdownWrapperRef = React.createRef()
+
+  /* portalContainer = document.createElement('div') */
+
+  ddContainer = ddTemplate.cloneNode(true).firstElementChild
+
+  portalContainer = this.ddContainer.querySelector('.dd__list')
+  bgEl = this.ddContainer.querySelector('dd__bg')
 
   state = {
     currentTrigger: null,
@@ -34,10 +44,13 @@ class SmoothDropdown extends Component {
   }
 
   componentDidMount () {
-    this.mountTimer = setTimeout(() => this.forceUpdate(), ddAsyncUpdateTimeout) // HACK TO POPULATE PORTAL AND UPDATE REFS
+    /* this.mountTimer = setTimeout(() => this.forceUpdate(), ddAsyncUpdateTimeout) // HACK TO POPULATE PORTAL AND UPDATE REFS */
+    /* this.portalContainer.classList.add('dd__list') */
+    modalRoot.appendChild(this.ddContainer)
   }
   componentWillUnmount () {
-    clearTimeout(this.mountTimer)
+    modalRoot.removeChild(this.ddContainer)
+    /* clearTimeout(this.mountTimer) */
     this.portalRef = null
     this.dropdownWrapperRef = null
   }
@@ -127,6 +140,13 @@ class SmoothDropdown extends Component {
       startCloseTimeout,
       stopCloseTimeout
     } = this
+
+    this.ddContainer.classList.toggle(
+      'has-dropdown-active',
+      currentTrigger !== null
+    )
+    this.ddContainer.classList.toggle('dd-first-time', ddFirstTime)
+
     return (
       <div
         ref={this.dropdownWrapperRef}
@@ -134,7 +154,7 @@ class SmoothDropdown extends Component {
       >
         <SmoothDropdownContext.Provider
           value={{
-            portal: this.portalRef.current || document.createElement('ul'),
+            portal: this.portalContainer,
             currentTrigger,
             handleMouseEnter,
             handleMouseLeave,
@@ -151,7 +171,7 @@ class SmoothDropdown extends Component {
               'dd-first-time': ddFirstTime
             })}
           >
-            <div className='dd__list' ref={this.portalRef} />
+            {/* <div className='dd__list' ref={this.portalRef} /> */}
             <div
               className='dd__arrow'
               style={{ left: `calc(50% + ${arrowCorrectionX}px)` }}
