@@ -1,7 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Popup } from 'semantic-ui-react'
-import { SearchWithSuggestions, Icon, Button } from '@santiment-network/ui'
+import {
+  SearchWithSuggestions,
+  Icon,
+  Button,
+  Panel
+} from '@santiment-network/ui'
+import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
+import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 import NavbarHelpDropdown from './NavbarHelpDropdown'
 import NavbarLabsDropdown from './NavbarLabsDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
@@ -29,7 +36,7 @@ const rightBtns = [
 
 const Navbar = ({ activeLink = '/' }) => {
   return (
-    <nav className={styles.wrapper}>
+    <SmoothDropdown showArrow={false} className={styles.wrapper}>
       <div className={styles.left}>
         <Link className={styles.logo} to='/'>
           Sanbase
@@ -38,11 +45,8 @@ const Navbar = ({ activeLink = '/' }) => {
         {leftLinks.map(({ link, label }) => {
           if (label === 'Labs') {
             return (
-              <Popup
+              <SmoothDropdownItem
                 key={label}
-                on='click'
-                position='bottom left'
-                verticalOffset={4}
                 trigger={
                   <Button
                     variant='flat'
@@ -56,7 +60,7 @@ const Navbar = ({ activeLink = '/' }) => {
                 }
               >
                 <NavbarLabsDropdown activeLink={activeLink} />
-              </Popup>
+              </SmoothDropdownItem>
             )
           }
 
@@ -86,11 +90,8 @@ const Navbar = ({ activeLink = '/' }) => {
 
         {rightBtns.map(({ icon, el: Content, links }, index) => {
           return (
-            <Popup
+            <SmoothDropdownItem
               key={index}
-              on='click'
-              position='bottom right'
-              verticalOffset={4}
               trigger={
                 <Button
                   variant='flat'
@@ -102,11 +103,11 @@ const Navbar = ({ activeLink = '/' }) => {
               }
             >
               <Content activeLink={activeLink} />
-            </Popup>
+            </SmoothDropdownItem>
           )
         })}
       </div>
-    </nav>
+    </SmoothDropdown>
   )
 }
 

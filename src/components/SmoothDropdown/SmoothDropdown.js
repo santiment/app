@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Panel } from '@santiment-network/ui'
 import cx from 'classnames'
 import './SmoothDropdown.css'
 
@@ -30,7 +31,13 @@ class SmoothDropdown extends Component {
       PropTypes.element,
       PropTypes.arrayOf(PropTypes.element)
     ]).isRequired,
+    showArrow: PropTypes.bool,
     verticalMotion: PropTypes.bool
+  }
+
+  static defaultProps = {
+    verticalMotion: false,
+    showArrow: true
   }
 
   componentDidMount () {
@@ -114,7 +121,7 @@ class SmoothDropdown extends Component {
   }
 
   render () {
-    const { children, className } = this.props
+    const { children, className, showArrow } = this.props
     const {
       currentTrigger,
       dropdownStyles,
@@ -152,11 +159,13 @@ class SmoothDropdown extends Component {
             })}
           >
             <div className='dd__list' ref={this.portalRef} />
-            <div
-              className='dd__arrow'
-              style={{ left: `calc(50% + ${arrowCorrectionX}px)` }}
-            />
-            <div className='dd__bg' />
+            {showArrow && (
+              <div
+                className='dd__arrow'
+                style={{ left: `calc(50% + ${arrowCorrectionX}px)` }}
+              />
+            )}
+            <Panel className='dd__bg' />
           </div>
         </SmoothDropdownContext.Provider>
       </div>
