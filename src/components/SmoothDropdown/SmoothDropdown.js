@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import ReactDOM from 'react-dom'
 import cx from 'classnames'
 import './SmoothDropdown.css'
 
@@ -14,7 +15,8 @@ export const SmoothDropdownContext = React.createContext({
   handleMouseEnter: () => {},
   handleMouseLeave: () => {},
   startCloseTimeout: () => {},
-  stopCloseTimeout: () => {}
+  stopCloseTimeout: () => {},
+  setupDropdownContent: () => {}
 })
 
 class SmoothDropdown extends Component {
@@ -33,7 +35,8 @@ class SmoothDropdown extends Component {
     currentTrigger: null,
     ddFirstTime: false,
     arrowCorrectionX: 0,
-    dropdownStyles: {}
+    dropdownStyles: {},
+    ddItems: new Map()
   }
 
   static propTypes = {
@@ -65,14 +68,26 @@ class SmoothDropdown extends Component {
 
   stopCloseTimeout = () => clearTimeout(this.dropdownTimer)
 
-  handleMouseEnter = (trigger, dropdownItem) => {
+  handleMouseEnter = (ddItem, trigger, dropdownItem) => {
     this.stopCloseTimeout()
-    this.openDropdown(trigger, dropdownItem)
+    this.openDropdown(ddItem, trigger, dropdownItem)
   }
 
   handleMouseLeave = () => this.startCloseTimeout()
 
-  openDropdown = (trigger, dropdownItem) => {
+  ddItemsRef = new WeakMap()
+
+  setupDropdownContent = (ddItem, ddContent) => {
+    this.ddItemsRef.set(ddItem, React.createRef())
+    this.setState({
+      ddItems: new Map([...this.state.ddItems, [ddItem, ddContent]])
+    })
+  }
+
+  openDropdown = (ddItem, trigger) => {
+    /* console.log(this.state.ddItems, ddItem) */
+    /* console.log(this.ddItemsRef.get(ddItem)) */
+    const dropdownItem = this.ddItemsRef.get(ddItem).current
     if (!dropdownItem) return
 
     const ddContent = dropdownItem.querySelector('.dd__content')
@@ -99,10 +114,9 @@ class SmoothDropdown extends Component {
     const top = 10 + topOffset + 'px'
     const width = ddContent.clientWidth + 'px'
     const height = ddContent.clientHeight + 'px'
-
     this.setState(prevState => ({
       ...prevState,
-      currentTrigger: trigger,
+      currentTrigger: ddItem,
       ddFirstTime: prevState.currentTrigger === null,
       dropdownStyles: {
         left,
@@ -144,13 +158,15 @@ class SmoothDropdown extends Component {
       currentTrigger,
       dropdownStyles,
       ddFirstTime,
-      arrowCorrectionX
+      arrowCorrectionX,
+      ddItems
     } = this.state
     const {
       handleMouseEnter,
       handleMouseLeave,
       startCloseTimeout,
-      stopCloseTimeout
+      stopCloseTimeout,
+      setupDropdownContent
     } = this
 
     console.log(currentTrigger)
@@ -174,11 +190,36 @@ class SmoothDropdown extends Component {
             handleMouseEnter,
             handleMouseLeave,
             startCloseTimeout,
-            stopCloseTimeout
+            stopCloseTimeout,
+            setupDropdownContent
           }}
         >
           {children}
         </SmoothDropdownContext.Provider>
+        {ReactDOM.createPortal(
+          [...ddItems.entries()].map(([ddItem, dropdownNode], i) => {
+            return (
+              <div
+                key={i}
+                className={cx({
+                  dd__item: true,
+                  active: ddItem === currentTrigger
+                })}
+                ref={this.ddItemsRef.get(ddItem)}
+              >
+                <div
+                  className={`dd__content `}
+                  // {/* NOTE(vanguard): Fix dynamic class*/}
+                  onMouseEnter={stopCloseTimeout}
+                  onMouseLeave={startCloseTimeout}
+                >
+                  {dropdownNode}
+                </div>
+              </div>
+            )
+          }),
+          this.portalContainer
+        )}
       </div>
     )
   }

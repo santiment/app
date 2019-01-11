@@ -19,7 +19,7 @@ class SmoothDropdownItem extends Component {
   }
 
   componentDidMount () {
-    this.mountTimer = setTimeout(() => this.forceUpdate(), 0) // VERY HACKY - NECESSARY TO UPDATE DROPDOWN IN DOM
+    this.mountTimer = setTimeout(() => this.forceUpdate(), 50) // VERY HACKY - NECESSARY TO UPDATE DROPDOWN IN DOM
   }
   componentWillUnmount () {
     clearTimeout(this.mountTimer)
@@ -45,13 +45,14 @@ class SmoothDropdownItem extends Component {
           handleMouseLeave,
           currentTrigger,
           startCloseTimeout,
-          stopCloseTimeout
+          stopCloseTimeout,
+          setupDropdownContent
         }) => (
           <Fragment>
             <div
               onMouseEnter={evt => {
                 if (showIf ? showIf(evt) : true) {
-                  handleMouseEnter(ddTrigger, ddDropdown)
+                  handleMouseEnter(this, ddTrigger, children)
                 }
               }}
               onMouseLeave={handleMouseLeave}
@@ -60,25 +61,7 @@ class SmoothDropdownItem extends Component {
             >
               {trigger}
             </div>
-            {ReactDOM.createPortal(
-              <div
-                id={id}
-                className={cx({
-                  dd__item: true,
-                  active: ddTrigger === currentTrigger
-                })}
-                ref={this.dropdownRef}
-              >
-                <div
-                  className={`dd__content ${className || ''}`}
-                  onMouseEnter={stopCloseTimeout}
-                  onMouseLeave={startCloseTimeout}
-                >
-                  {children}
-                </div>
-              </div>,
-              portal
-            )}
+            {setupDropdownContent(this, children)}
           </Fragment>
         )}
       </SmoothDropdownContext.Consumer>
