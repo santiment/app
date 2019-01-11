@@ -151,7 +151,7 @@ class SmoothDropdown extends Component {
   }
 
   render () {
-    const { children, className } = this.props
+    const { children, className = '' } = this.props
     const {
       currentTrigger,
       dropdownStyles,
@@ -176,10 +176,7 @@ class SmoothDropdown extends Component {
     this.arrowNode.style.left = `calc(50% + ${arrowCorrectionX}px)`
 
     return (
-      <div
-        ref={this.dropdownWrapperRef}
-        className={`dd-wrapper ${className || ''}`}
-      >
+      <div ref={this.dropdownWrapperRef} className={`dd-wrapper ${className}`}>
         <SmoothDropdownContext.Provider
           value={{
             handleMouseEnter,
@@ -202,7 +199,6 @@ class SmoothDropdown extends Component {
               >
                 <div
                   className={`dd__content `}
-                  // {/* NOTE(vanguard): Fix dynamic class*/}
                   onMouseEnter={stopCloseTimeout}
                   onMouseLeave={startCloseTimeout}
                 >

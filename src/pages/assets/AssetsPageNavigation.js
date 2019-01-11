@@ -55,7 +55,7 @@ const AssetsPageNavigation = ({ isLoggedIn = false, location: { search } }) => (
           </div>
         </SmoothDropdownItem>
         <SmoothDropdownItem trigger={CategoriesBtn}>
-          <div class='assets-navigation-popup'>
+          <div className='assets-navigation-popup'>
             <Link
               activeClassName='assets-navigation-list__dropdown-link--active'
               className='assets-navigation-list__dropdown-link'
