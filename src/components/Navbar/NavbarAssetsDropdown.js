@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Panel, Button } from '@santiment-network/ui'
+import { Panel, Button, Input } from '@santiment-network/ui'
 import dropdownStyles from './NavbarDropdown.module.scss'
 import styles from './NavbarAssetsDropdown.module.scss'
 
@@ -55,6 +55,7 @@ const NavbarAssetsDropdown = ({ activeLink }) => {
               </Button>
             )
           })}
+          <Input placeholder='New List' />
         </div>
       </div>
     </Panel>
