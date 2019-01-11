@@ -19,10 +19,7 @@ class SmoothDropdownItem extends Component {
   }
 
   componentDidMount () {
-    this.mountTimer = setTimeout(
-      () => this.forceUpdate(),
-      ddItemAsyncUpdateTimeout
-    ) // VERY HACKY - NECESSARY TO UPDATE DROPDOWN IN DOM
+    this.mountTimer = setTimeout(() => this.forceUpdate(), 0) // VERY HACKY - NECESSARY TO UPDATE DROPDOWN IN DOM
   }
   componentWillUnmount () {
     clearTimeout(this.mountTimer)
@@ -36,6 +33,7 @@ class SmoothDropdownItem extends Component {
       triggerRef: { current: ddTrigger },
       dropdownRef: { current: ddDropdown }
     } = this
+    console.log('Waiting for rerender')
     if (!trigger) {
       return null
     }

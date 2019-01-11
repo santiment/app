@@ -52,6 +52,10 @@ class SmoothDropdown extends Component {
   componentWillUnmount () {
     modalRoot.removeChild(this.ddContainer)
     /* clearTimeout(this.mountTimer) */
+    this.ddContainer = null
+    this.portalContainer = null
+    this.bgNode = null
+    this.arrowNode = null
     this.portalRef = null
     this.dropdownWrapperRef = null
   }
@@ -73,6 +77,10 @@ class SmoothDropdown extends Component {
 
     const ddContent = dropdownItem.querySelector('.dd__content')
     const {
+      height: ddWrapperHeight,
+      top: ddWrapperTop
+    } = this.dropdownWrapperRef.current.getBoundingClientRect()
+    const {
       top: triggerTop,
       left: triggerLeft,
       height: triggerHeight
@@ -82,10 +90,8 @@ class SmoothDropdown extends Component {
       triggerLeft - (ddContent.clientWidth - trigger.clientWidth) / 2
 
     const topOffset = this.props.verticalMotion
-      ? triggerTop +
-        triggerHeight -
-        this.dropdownWrapperRef.current.offsetHeight
-      : this.dropdownWrapperRef.current.offsetHeight
+      ? triggerTop + triggerHeight - ddWrapperHeight
+      : ddWrapperTop + ddWrapperHeight + window.scrollY
 
     const correction = this.getViewportOverflowCorrection(trigger, ddContent)
 
@@ -147,6 +153,7 @@ class SmoothDropdown extends Component {
       stopCloseTimeout
     } = this
 
+    console.log(currentTrigger)
     this.ddContainer.classList.toggle(
       'has-dropdown-active',
       currentTrigger !== null
@@ -154,6 +161,7 @@ class SmoothDropdown extends Component {
     this.ddContainer.classList.toggle('dd-first-time', ddFirstTime)
     Object.assign(this.ddContainer.style, dropdownStyles)
     this.arrowNode.style.left = `calc(50% + ${arrowCorrectionX}px)`
+
     return (
       <div
         ref={this.dropdownWrapperRef}
@@ -170,21 +178,6 @@ class SmoothDropdown extends Component {
           }}
         >
           {children}
-          <div
-            style={dropdownStyles}
-            className={cx({
-              dd: true,
-              'has-dropdown-active': currentTrigger !== null,
-              'dd-first-time': ddFirstTime
-            })}
-          >
-            {/* <div className='dd__list' ref={this.portalRef} /> */}
-            <div
-              className='dd__arrow'
-              style={{ left: `calc(50% + ${arrowCorrectionX}px)` }}
-            />
-            <div className='dd__bg' />
-          </div>
         </SmoothDropdownContext.Provider>
       </div>
     )
