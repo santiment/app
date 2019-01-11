@@ -5,7 +5,12 @@ import cx from 'classnames'
 import './SmoothDropdown.css'
 
 const modalRoot = document.getElementById('dd-modal')
-const ddTemplate = modalRoot.querySelector('#dd-template').content
+
+let ddTemplate
+
+if (modalRoot) {
+  ddTemplate = modalRoot.querySelector('#dd-template').content
+}
 
 export const SmoothDropdownContext = React.createContext({
   handleMouseEnter: () => {},
