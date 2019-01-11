@@ -21,6 +21,7 @@ const NavbarAssetsDropdown = ({ activeLink }) => {
     <Panel>
       <div className={styles.wrapper}>
         <div className={dropdownStyles.list}>
+          <h3 className={styles.title}>Categories</h3>
           {linksLeft.map(({ link, label }) => {
             return (
               <Button
@@ -38,6 +39,7 @@ const NavbarAssetsDropdown = ({ activeLink }) => {
           })}
         </div>
         <div className={dropdownStyles.list}>
+          <h3 className={styles.title}>My Watchlists</h3>
           {linksRight.map(({ link, label }) => {
             return (
               <Button
