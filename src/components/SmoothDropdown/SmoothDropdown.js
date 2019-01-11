@@ -20,8 +20,6 @@ class SmoothDropdown extends Component {
 
   dropdownWrapperRef = React.createRef()
 
-  /* portalContainer = document.createElement('div') */
-
   ddContainer = ddTemplate.cloneNode(true).firstElementChild
 
   portalContainer = this.ddContainer.querySelector('.dd__list')
