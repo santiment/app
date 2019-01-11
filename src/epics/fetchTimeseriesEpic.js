@@ -22,6 +22,29 @@ const HistoryPriceGQL = gql`
   }
 `
 
+export const DevActivityGQL = gql`
+  query queryDevActivity(
+    $slug: String
+    $from: DateTime!
+    $to: DateTime!
+    $interval: String!
+    $transform: String
+    $movingAverageIntervalBase: Int
+  ) {
+    devActivity(
+      slug: $slug
+      from: $from
+      to: $to
+      interval: $interval
+      transform: $transform
+      movingAverageIntervalBase: $movingAverageIntervalBase
+    ) {
+      datetime
+      activity
+    }
+  }
+`
+
 const handleError = error => {
   Raven.captureException(error)
   return Observable.of({
@@ -61,18 +84,15 @@ const mapDataToAssets = ({ data: { data, loading, error } }) => {
 const fetchTimeseriesEpic = (action$, store, { client }) =>
   action$.ofType(actions.TIMESERIES_FETCH).mergeMap(action => {
     const settings = action.payload.price
-    // const startTime = Date.now()
-    return (
-      fetchTimeseries$({ settings, client })
-        // .delayWhen(() => Observable.timer(500 + startTime - Date.now()))
-        .exhaustMap(data => {
-          return Observable.of({
-            type: actions.TIMESERIES_FETCH_SUCCESS,
-            payload: mapDataToAssets({ data })
-          })
+    console.log(action.payload)
+    return fetchTimeseries$({ settings, client })
+      .exhaustMap(data => {
+        return Observable.of({
+          type: actions.TIMESERIES_FETCH_SUCCESS,
+          payload: mapDataToAssets({ data })
         })
-        .catch(handleError)
-    )
+      })
+      .catch(handleError)
   })
 
 export default fetchTimeseriesEpic

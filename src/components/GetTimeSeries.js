@@ -7,37 +7,33 @@ import * as actions from './../actions/types.js'
 class GetTimeSeries extends React.Component {
   componentDidMount () {
     this.props.fetchTimeseries({
-      price: this.props.price
+      price: this.props.price,
+      devActivity: this.props.devActivity
     })
   }
 
   componentDidUpdate (prevProps, prevState) {
     if (!isEqual(this.props.price, prevProps.price)) {
       this.props.fetchTimeseries({
-        price: this.props.price
+        price: this.props.price,
+        devActivity: this.props.devActivity
       })
     }
   }
 
   render () {
     const { render, timeseries = {} } = this.props
-    return render({
-      timeseries
-    })
+    return render({ timeseries })
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    timeseries: state.timeseries
-  }
-}
+const mapStateToProps = ({ timeseries }) => ({ timeseries })
 
 const mapDispatchToProps = dispatch => ({
-  fetchTimeseries: ({ price }) => {
+  fetchTimeseries: ({ price, devActivity }) => {
     return dispatch({
       type: actions.TIMESERIES_FETCH,
-      payload: { price }
+      payload: { price, devActivity }
     })
   }
 })
