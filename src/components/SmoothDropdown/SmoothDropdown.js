@@ -4,8 +4,6 @@ import ReactDOM from 'react-dom'
 import cx from 'classnames'
 import './SmoothDropdown.css'
 
-export const ddAsyncUpdateTimeout = 95
-
 const modalRoot = document.getElementById('dd-modal')
 const ddTemplate = modalRoot.querySelector('#dd-template').content
 
