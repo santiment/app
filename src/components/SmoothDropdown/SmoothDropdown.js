@@ -79,9 +79,10 @@ class SmoothDropdown extends Component {
 
   setupDropdownContent = (ddItem, ddContent) => {
     this.ddItemsRef.set(ddItem, React.createRef())
-    this.setState({
-      ddItems: new Map([...this.state.ddItems, [ddItem, ddContent]])
-    })
+    this.setState(prevState => ({
+      ...prevState,
+      ddItems: new Map([...prevState.ddItems, [ddItem, ddContent]])
+    }))
   }
 
   openDropdown = (ddItem, trigger) => {

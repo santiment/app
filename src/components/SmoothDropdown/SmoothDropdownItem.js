@@ -39,15 +39,7 @@ class SmoothDropdownItem extends Component {
     }
     return (
       <SmoothDropdownContext.Consumer>
-        {({
-          portal,
-          handleMouseEnter,
-          handleMouseLeave,
-          currentTrigger,
-          startCloseTimeout,
-          stopCloseTimeout,
-          setupDropdownContent
-        }) => (
+        {({ handleMouseEnter, handleMouseLeave, setupDropdownContent }) => (
           <Fragment>
             <div
               onMouseEnter={evt => {
