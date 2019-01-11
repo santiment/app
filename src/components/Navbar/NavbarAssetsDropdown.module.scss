@@ -18,3 +18,18 @@
     text-transform: uppercase;
     margin: 16px 8px;
 }
+
+.list {
+    display: flex;
+    flex-direction: column;
+}
+.watchlist {
+    flex: 1;
+    max-height: 213px;
+    overflow: auto;
+}
+
+.input {
+    padding-left: 8px;
+    margin-top: 8px;
+}

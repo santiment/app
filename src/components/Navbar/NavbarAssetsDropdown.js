@@ -7,7 +7,13 @@ import styles from './NavbarAssetsDropdown.module.scss'
 const linksLeft = [
   { link: '/labs/trends', label: 'All Assets' },
   { link: '/labs/dashboard', label: 'ERC10' },
-  { link: '/labs/api', label: 'Ethereum + ERC20 ETH Spent' }
+  { link: '/labs/api', label: 'Ethereum + ERC20 ETH Spent' },
+
+  { link: '/labs/dashboard', label: 'Top 50 ERC20' },
+  { link: '/labs/dashboard', label: 'Stablecoins' },
+  { link: '/labs/dashboard', label: 'Privacy Tokens' },
+  { link: '/labs/dashboard', label: 'US-Based Projects' },
+  { link: '/labs/dashboard', label: 'Decentralized Exchanges' }
 ]
 
 const linksRight = [
@@ -38,24 +44,26 @@ const NavbarAssetsDropdown = ({ activeLink }) => {
             )
           })}
         </div>
-        <div className={dropdownStyles.list}>
+        <div className={styles.list + ' ' + dropdownStyles.list}>
           <h3 className={styles.title}>My Watchlists</h3>
-          {linksRight.map(({ link, label }) => {
-            return (
-              <Button
-                fluid
-                variant='ghost'
-                key={label}
-                as={Link}
-                className={dropdownStyles.item + ' ' + dropdownStyles.text}
-                to={link}
-                isActive={link === activeLink}
-              >
-                {label}
-              </Button>
-            )
-          })}
-          <Input placeholder='New List' />
+          <div className={styles.watchlist}>
+            {linksRight.map(({ link, label }) => {
+              return (
+                <Button
+                  fluid
+                  variant='ghost'
+                  key={label}
+                  as={Link}
+                  className={dropdownStyles.item + ' ' + dropdownStyles.text}
+                  to={link}
+                  isActive={link === activeLink}
+                >
+                  {label}
+                </Button>
+              )
+            })}
+          </div>
+          <Input className={styles.input} placeholder='New List' />
         </div>
       </div>
     </Panel>
