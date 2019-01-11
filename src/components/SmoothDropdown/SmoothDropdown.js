@@ -25,12 +25,6 @@ class SmoothDropdown extends Component {
 
   ddContainer = ddTemplate.cloneNode(true).firstElementChild
 
-  portalContainer = this.ddContainer.querySelector('.dd__list')
-
-  bgNode = this.ddContainer.querySelector('.dd__bg')
-
-  arrowNode = this.ddContainer.querySelector('.dd__arrow')
-
   ddItemsRef = new WeakMap()
 
   state = {
@@ -61,6 +55,12 @@ class SmoothDropdown extends Component {
     this.arrowNode = null
     this.portalRef = null
     this.dropdownWrapperRef = null
+  }
+
+  componentWillMount () {
+    this.portalContainer = this.ddContainer.querySelector('.dd__list')
+    this.bgNode = this.ddContainer.querySelector('.dd__bg')
+    this.arrowNode = this.ddContainer.querySelector('.dd__arrow')
   }
 
   startCloseTimeout = () => {
