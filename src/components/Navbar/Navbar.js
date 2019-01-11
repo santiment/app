@@ -5,6 +5,7 @@ import { SearchWithSuggestions, Icon, Button } from '@santiment-network/ui'
 import NavbarHelpDropdown from './NavbarHelpDropdown'
 import NavbarLabsDropdown from './NavbarLabsDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
+import NavbarAssetsDropdown from './NavbarAssetsDropdown'
 import styles from './Navbar.module.scss'
 
 const leftLinks = [
@@ -36,7 +37,7 @@ const Navbar = ({ activeLink = '/' }) => {
         </Link>
 
         {leftLinks.map(({ link, label }) => {
-          if (label === 'Labs') {
+          if (label === 'Assets' || label === 'Labs') {
             return (
               <Popup
                 key={label}
@@ -55,7 +56,11 @@ const Navbar = ({ activeLink = '/' }) => {
                   </Button>
                 }
               >
-                <NavbarLabsDropdown activeLink={activeLink} />
+                {label === 'Assets' ? (
+                  <NavbarAssetsDropdown activeLink={activeLink} />
+                ) : (
+                  <NavbarLabsDropdown activeLink={activeLink} />
+                )}
               </Popup>
             )
           }
