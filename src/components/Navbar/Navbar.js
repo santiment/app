@@ -28,7 +28,7 @@ const rightBtns = [
   }
 ]
 
-const Navbar = ({ activeLink = '/' }) => {
+const Navbar = ({ activeLink = '/', isLoggedIn }) => {
   return (
     <nav className={styles.wrapper}>
       <div className={styles.left}>

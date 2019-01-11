@@ -23,7 +23,7 @@ const linksRight = [
   { link: '/labs/api', label: 'Dividend Tokens' }
 ]
 
-const NavbarAssetsDropdown = ({ activeLink, isLoggedIn = false }) => {
+const NavbarAssetsDropdown = ({ activeLink, isLoggedIn = true }) => {
   return (
     <Panel>
       <div className={styles.wrapper}>
@@ -50,6 +50,7 @@ const NavbarAssetsDropdown = ({ activeLink, isLoggedIn = false }) => {
             <h3 className={styles.title}>My Watchlists</h3>
             <div className={styles.watchlist}>
               <NavbarAssetsDropdownWatchlist
+                isLoggedIn={isLoggedIn}
                 activeLink={activeLink}
                 list={linksRight}
               />
