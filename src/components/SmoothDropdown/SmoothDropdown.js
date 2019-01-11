@@ -101,9 +101,10 @@ class SmoothDropdown extends Component {
     const leftOffset =
       triggerLeft - (ddContent.clientWidth - trigger.clientWidth) / 2
 
-    const topOffset = this.props.verticalMotion
-      ? triggerTop + triggerHeight - ddWrapperHeight
-      : ddWrapperTop + ddWrapperHeight + window.scrollY
+    const topOffset =
+      (this.props.verticalMotion
+        ? triggerTop + triggerHeight
+        : ddWrapperTop + ddWrapperHeight) + window.scrollY
 
     const correction = this.getViewportOverflowCorrection(trigger, ddContent)
 
