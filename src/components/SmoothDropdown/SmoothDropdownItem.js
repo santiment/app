@@ -1,39 +1,31 @@
 import React, { Component, Fragment } from 'react'
-import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
-import { SmoothDropdownContext, ddAsyncUpdateTimeout } from './SmoothDropdown'
-
-const ddItemAsyncUpdateTimeout = ddAsyncUpdateTimeout + 5
+import { SmoothDropdownContext } from './SmoothDropdown'
 
 class SmoothDropdownItem extends Component {
-  dropdownRef = React.createRef()
   triggerRef = React.createRef()
 
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.string])
       .isRequired,
     trigger: PropTypes.element.isRequired,
-    showIf: PropTypes.func,
-    id: PropTypes.string
+    showIf: PropTypes.func
   }
 
   componentDidMount () {
-    this.mountTimer = setTimeout(() => this.forceUpdate(), 50) // VERY HACKY - NECESSARY TO UPDATE DROPDOWN IN DOM
+    this.mountTimer = setTimeout(() => this.forceUpdate(), 0) // VERY HACKY - NECESSARY TO UPDATE DROPDOWN IN DOM
   }
+
   componentWillUnmount () {
     clearTimeout(this.mountTimer)
-    this.dropdownRef = null
     this.triggerRef = null
   }
 
   render () {
-    const { trigger, children, id, className, showIf } = this.props
+    const { trigger, children, className, showIf } = this.props
     const {
-      triggerRef: { current: ddTrigger },
-      dropdownRef: { current: ddDropdown }
+      triggerRef: { current: ddTrigger }
     } = this
-    console.log('Waiting for rerender')
     if (!trigger) {
       return null
     }
