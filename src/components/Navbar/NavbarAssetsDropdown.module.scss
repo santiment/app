@@ -1,0 +1,10 @@
+.wrapper {
+    display: flex;
+
+    & > * {
+        flex: 1;
+        &:first-of-type {
+            border-right: 1px solid #DDE2E8;
+        }
+    }
+}

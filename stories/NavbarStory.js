@@ -5,6 +5,7 @@ import Navbar from './../src/components/Navbar/Navbar'
 import NavbarProfileDropdown from './../src/components/Navbar/NavbarProfileDropdown'
 import NavbarHelpDropdown from './../src/components/Navbar/NavbarHelpDropdown'
 import NavbarLabsDropdown from './../src/components/Navbar/NavbarLabsDropdown'
+import NavbarAssetsDropdown from './../src/components/Navbar/NavbarAssetsDropdown'
 import { Provider } from 'react-redux'
 import store from './store'
 
@@ -63,5 +64,10 @@ storiesOf('Navbar', module)
       <br />
       On the '/labs/trends' page
       <NavbarLabsDropdown activeLink='/labs/trends' />
+    </div>
+  ))
+  .add('Assets Dropdown', () => (
+    <div>
+      <NavbarAssetsDropdown />
     </div>
   ))
