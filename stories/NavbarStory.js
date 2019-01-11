@@ -68,6 +68,6 @@ storiesOf('Navbar', module)
   ))
   .add('Assets Dropdown', () => (
     <div>
-      <NavbarAssetsDropdown />
+      <NavbarAssetsDropdown isLoggedIn />
     </div>
   ))

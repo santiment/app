@@ -2,18 +2,19 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Panel, Button, Input } from '@santiment-network/ui'
 import dropdownStyles from './NavbarDropdown.module.scss'
+import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
 import styles from './NavbarAssetsDropdown.module.scss'
 
 const linksLeft = [
-  { link: '/labs/trends', label: 'All Assets' },
-  { link: '/labs/dashboard', label: 'ERC10' },
+  { link: '/assets/all', label: 'All Assets' },
+  { link: '/assets/erc20', label: 'ERC20' },
   { link: '/labs/api', label: 'Ethereum + ERC20 ETH Spent' },
 
   { link: '/labs/dashboard', label: 'Top 50 ERC20' },
-  { link: '/labs/dashboard', label: 'Stablecoins' },
+  { link: '/assets/list?name=stablecoins@86#shared', label: 'Stablecoins' },
   { link: '/labs/dashboard', label: 'Privacy Tokens' },
-  { link: '/labs/dashboard', label: 'US-Based Projects' },
-  { link: '/labs/dashboard', label: 'Decentralized Exchanges' }
+  { link: '/assets/list?name=usa@138#shared', label: 'US-Based Projects' },
+  { link: '/assets/list?name=dex@127#shared', label: 'Decentralized Exchanges' }
 ]
 
 const linksRight = [
@@ -22,7 +23,7 @@ const linksRight = [
   { link: '/labs/api', label: 'Dividend Tokens' }
 ]
 
-const NavbarAssetsDropdown = ({ activeLink }) => {
+const NavbarAssetsDropdown = ({ activeLink, isLoggedIn = false }) => {
   return (
     <Panel>
       <div className={styles.wrapper}>
@@ -44,27 +45,18 @@ const NavbarAssetsDropdown = ({ activeLink }) => {
             )
           })}
         </div>
-        <div className={styles.list + ' ' + dropdownStyles.list}>
-          <h3 className={styles.title}>My Watchlists</h3>
-          <div className={styles.watchlist}>
-            {linksRight.map(({ link, label }) => {
-              return (
-                <Button
-                  fluid
-                  variant='ghost'
-                  key={label}
-                  as={Link}
-                  className={dropdownStyles.item + ' ' + dropdownStyles.text}
-                  to={link}
-                  isActive={link === activeLink}
-                >
-                  {label}
-                </Button>
-              )
-            })}
+        {isLoggedIn && (
+          <div className={styles.list + ' ' + dropdownStyles.list}>
+            <h3 className={styles.title}>My Watchlists</h3>
+            <div className={styles.watchlist}>
+              <NavbarAssetsDropdownWatchlist
+                activeLink={activeLink}
+                list={linksRight}
+              />
+            </div>
+            <Input className={styles.input} placeholder='New List' />
           </div>
-          <Input className={styles.input} placeholder='New List' />
-        </div>
+        )}
       </div>
     </Panel>
   )
