@@ -10,17 +10,14 @@ const modalRoot = document.getElementById('dd-modal')
 const ddTemplate = modalRoot.querySelector('#dd-template').content
 
 export const SmoothDropdownContext = React.createContext({
-  portal: {},
-  currentTrigger: null,
   handleMouseEnter: () => {},
   handleMouseLeave: () => {},
-  startCloseTimeout: () => {},
-  stopCloseTimeout: () => {},
   setupDropdownContent: () => {}
 })
 
 class SmoothDropdown extends Component {
   portalRef = React.createRef()
+
   dropdownWrapperRef = React.createRef()
 
   /* portalContainer = document.createElement('div') */
@@ -28,8 +25,12 @@ class SmoothDropdown extends Component {
   ddContainer = ddTemplate.cloneNode(true).firstElementChild
 
   portalContainer = this.ddContainer.querySelector('.dd__list')
+
   bgNode = this.ddContainer.querySelector('.dd__bg')
+
   arrowNode = this.ddContainer.querySelector('.dd__arrow')
+
+  ddItemsRef = new WeakMap()
 
   state = {
     currentTrigger: null,
@@ -48,13 +49,11 @@ class SmoothDropdown extends Component {
   }
 
   componentDidMount () {
-    /* this.mountTimer = setTimeout(() => this.forceUpdate(), ddAsyncUpdateTimeout) // HACK TO POPULATE PORTAL AND UPDATE REFS */
-    /* this.portalContainer.classList.add('dd__list') */
     modalRoot.appendChild(this.ddContainer)
   }
+
   componentWillUnmount () {
     modalRoot.removeChild(this.ddContainer)
-    /* clearTimeout(this.mountTimer) */
     this.ddContainer = null
     this.portalContainer = null
     this.bgNode = null
@@ -63,8 +62,9 @@ class SmoothDropdown extends Component {
     this.dropdownWrapperRef = null
   }
 
-  startCloseTimeout = () =>
-    (this.dropdownTimer = setTimeout(() => this.closeDropdown(), 150))
+  startCloseTimeout = () => {
+    this.dropdownTimer = setTimeout(() => this.closeDropdown(), 150)
+  }
 
   stopCloseTimeout = () => clearTimeout(this.dropdownTimer)
 
@@ -74,8 +74,6 @@ class SmoothDropdown extends Component {
   }
 
   handleMouseLeave = () => this.startCloseTimeout()
-
-  ddItemsRef = new WeakMap()
 
   setupDropdownContent = (ddItem, ddContent) => {
     this.ddItemsRef.set(ddItem, React.createRef())
@@ -170,7 +168,6 @@ class SmoothDropdown extends Component {
       setupDropdownContent
     } = this
 
-    console.log(currentTrigger)
     this.ddContainer.classList.toggle(
       'has-dropdown-active',
       currentTrigger !== null
@@ -186,12 +183,8 @@ class SmoothDropdown extends Component {
       >
         <SmoothDropdownContext.Provider
           value={{
-            portal: this.portalContainer,
-            currentTrigger,
             handleMouseEnter,
             handleMouseLeave,
-            startCloseTimeout,
-            stopCloseTimeout,
             setupDropdownContent
           }}
         >
