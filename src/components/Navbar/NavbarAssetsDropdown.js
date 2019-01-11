@@ -4,6 +4,25 @@ import { Panel, Button, Input } from '@santiment-network/ui'
 import dropdownStyles from './NavbarDropdown.module.scss'
 import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
 import styles from './NavbarAssetsDropdown.module.scss'
+import * as actions from '../../actions/types'
+import CreateWatchlistBtn from '../WatchlistPopup/CreateWatchlistBtn'
+import { connect } from 'react-redux'
+const mapStateToProps = ({ watchlistUi }) => ({
+  watchlistUi
+})
+
+const mapDispatchToProps = dispatch => ({
+  createWatchlist: payload =>
+    dispatch({
+      type: actions.USER_ADD_NEW_ASSET_LIST,
+      payload
+    })
+})
+
+const WatchlistCreateForm = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateWatchlistBtn)
 
 const linksLeft = [
   { link: '/assets/all', label: 'All Assets' },
@@ -55,7 +74,8 @@ const NavbarAssetsDropdown = ({ activeLink, isLoggedIn = true }) => {
                 list={linksRight}
               />
             </div>
-            <Input className={styles.input} placeholder='New List' />
+            {/* <Input className={styles.input} placeholder='New List' /> */}
+            <WatchlistCreateForm />{' '}
           </div>
         )}
       </div>

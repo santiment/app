@@ -23,7 +23,19 @@
 .list {
     display: flex;
     flex-direction: column;
+    & :global(.create-new-watchlist-btn) {
+        padding: 0;
+        & > :global(.input) {
+            margin: 0;
+        }
+
+        & > :global(.button) {
+            padding: 10px;
+            margin: 0 0 0 4px;
+        }
+    }
 }
+
 .watchlist {
     flex: 1;
     max-height: 213px;
