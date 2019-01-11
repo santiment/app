@@ -14,6 +14,7 @@ import {
 } from 'recharts'
 import { formatNumber } from './../../utils/formatting'
 import { mergeTimeseriesByKey } from './../../utils/utils'
+import mixWithPaywallArea from './../PaywallArea/PaywallArea'
 import { sourcesMeta as chartsMeta } from './trendsUtils'
 import { mapSizesToProps } from '../../App'
 
@@ -35,22 +36,43 @@ const displayLoadingState = branch(
   renderComponent(Loading)
 )
 
-/*
-  0(false): mobile
-  1(true): desktop
-  */
-const chartMargins = [
-  { left: -20, right: 30 },
-  { top: 5, right: 36, left: 0, bottom: 5 }
-]
+const getChartMargins = isDesktop => {
+  if (isDesktop) {
+    return {
+      top: 5,
+      right: 36,
+      left: 0,
+      bottom: 5
+    }
+  }
+  return {
+    left: -20,
+    right: 30
+  }
+}
 
 const displayEmptyState = branch(props => props.isEmpty, renderComponent(Empty))
+
+const getChartData = (data, hasPremium) => {
+  if (hasPremium) {
+    return data
+  }
+  const {
+    reddit,
+    telegram,
+    professional_traders_chat,
+    discord,
+    ...last
+  } = data[data.length - 1]
+  return [...data.filter((_, index) => index < data.length - 1), last]
+}
 
 const TrendsReChart = ({
   chartSummaryData = [],
   chartData,
   asset,
-  isDesktop
+  isDesktop,
+  hasPremium
 }) => (
   <div className='TrendsExploreChart'>
     {chartSummaryData.map((entity, key) => (
@@ -62,7 +84,7 @@ const TrendsReChart = ({
         <ComposedChart
           data={chartData}
           syncId='trends'
-          margin={chartMargins[+isDesktop]}
+          margin={getChartMargins(isDesktop)}
         >
           <XAxis
             dataKey='datetime'
@@ -78,7 +100,7 @@ const TrendsReChart = ({
             tickFormatter={priceUsd =>
               formatNumber(priceUsd, { currency: 'USD' })
             }
-            domain={['dataMin', 'dataMax']}
+            domain={['auto', 'dataMax']}
           />
           <CartesianGrid strokeDasharray='3 3' />
           <Tooltip
@@ -107,6 +129,13 @@ const TrendsReChart = ({
             name={entity.name}
             stroke={entity.color}
           />
+          {!hasPremium &&
+            mixWithPaywallArea({
+              dataKey: entity.index,
+              stroke: 'red',
+              strokeOpacity: 0.9,
+              data: chartData
+            })}
           <Legend />
         </ComposedChart>
       </ResponsiveContainer>
@@ -169,7 +198,7 @@ const objToArr = data => {
 }
 
 export default compose(
-  withProps(({ data = {}, trends }) => {
+  withProps(({ data = {}, trends, hasPremium = false }) => {
     const { items = [], isLoading = true } = data
     const telegram = getTimeseries('telegram', trends)
     const reddit = getTimeseries('reddit', trends)
@@ -180,15 +209,14 @@ export default compose(
     const discord = getTimeseries('discord', trends)
 
     if (trends.isLoading || isLoading) {
-      return {
-        isLoading: true
-      }
+      return { isLoading: true }
     }
 
-    const chartData = mergeTimeseriesByKey({
+    const _chartData = mergeTimeseriesByKey({
       timeseries: [items, telegram, reddit, professional_traders_chat, discord],
       key: 'datetime'
     })
+    const chartData = getChartData(_chartData, hasPremium)
 
     if (
       telegram.length === 0 &&
@@ -209,8 +237,16 @@ export default compose(
 
     chartSummaryData.forEach(({ index }) => {
       chartData.forEach(data => {
-        if (data[index] === undefined) {
-          data[index] = 0
+        if (
+          moment(data.datetime).isBefore(
+            moment()
+              .startOf('day')
+              .toISOString()
+          )
+        ) {
+          if (data[index] === undefined) {
+            data[index] = 0
+          }
         }
       })
     })
