@@ -36,50 +36,48 @@ const AssetsPageNavigation = ({ isLoggedIn = false, location: { search } }) => (
         Currencies
       </Link>
       <SmoothDropdown>
-        <SmoothDropdownItem
-          className='assets-navigation-popup'
-          trigger={EthereumBtn}
-        >
-          <Link
-            activeClassName='assets-navigation-list__dropdown-link--active'
-            className='assets-navigation-list__dropdown-link'
-            to={'/assets/erc20'}
-          >
-            ERC20 Assets
-          </Link>
-          <Link
-            activeClassName='projects-navigation-list__dropdown-link--active'
-            className='assets-navigation-list__dropdown-link'
-            to={'/ethereum-spent'}
-          >
-            ETH Spent
-          </Link>
+        <SmoothDropdownItem trigger={EthereumBtn}>
+          <div className='assets-navigation-popup'>
+            <Link
+              activeClassName='assets-navigation-list__dropdown-link--active'
+              className='assets-navigation-list__dropdown-link'
+              to={'/assets/erc20'}
+            >
+              ERC20 Assets
+            </Link>
+            <Link
+              activeClassName='projects-navigation-list__dropdown-link--active'
+              className='assets-navigation-list__dropdown-link'
+              to={'/ethereum-spent'}
+            >
+              ETH Spent
+            </Link>
+          </div>
         </SmoothDropdownItem>
-        <SmoothDropdownItem
-          className='assets-navigation-popup'
-          trigger={CategoriesBtn}
-        >
-          <Link
-            activeClassName='assets-navigation-list__dropdown-link--active'
-            className='assets-navigation-list__dropdown-link'
-            to={'/assets/list?name=stablecoins@86#shared'}
-          >
-            Stablecoins
-          </Link>
-          <Link
-            activeClassName='projects-navigation-list__dropdown-link--active'
-            className='assets-navigation-list__dropdown-link'
-            to={'/assets/list?name=usa@138#shared'}
-          >
-            US based assets
-          </Link>
-          <Link
-            activeClassName='projects-navigation-list__dropdown-link--active'
-            className='assets-navigation-list__dropdown-link'
-            to={'/assets/list?name=dex@127#shared'}
-          >
-            Decentralized Exchanges Tokens (DEXs)
-          </Link>
+        <SmoothDropdownItem trigger={CategoriesBtn}>
+          <div class='assets-navigation-popup'>
+            <Link
+              activeClassName='assets-navigation-list__dropdown-link--active'
+              className='assets-navigation-list__dropdown-link'
+              to={'/assets/list?name=stablecoins@86#shared'}
+            >
+              Stablecoins
+            </Link>
+            <Link
+              activeClassName='projects-navigation-list__dropdown-link--active'
+              className='assets-navigation-list__dropdown-link'
+              to={'/assets/list?name=usa@138#shared'}
+            >
+              US based assets
+            </Link>
+            <Link
+              activeClassName='projects-navigation-list__dropdown-link--active'
+              className='assets-navigation-list__dropdown-link'
+              to={'/assets/list?name=dex@127#shared'}
+            >
+              Decentralized Exchanges Tokens (DEXs)
+            </Link>
+          </div>
         </SmoothDropdownItem>
         <SmoothDropdownItem trigger={MyListBtn}>
           <WatchlistsPopup

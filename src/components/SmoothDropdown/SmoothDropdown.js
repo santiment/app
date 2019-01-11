@@ -68,9 +68,9 @@ class SmoothDropdown extends Component {
 
   stopCloseTimeout = () => clearTimeout(this.dropdownTimer)
 
-  handleMouseEnter = (ddItem, trigger, dropdownItem) => {
+  handleMouseEnter = (ddItem, trigger) => {
     this.stopCloseTimeout()
-    this.openDropdown(ddItem, trigger, dropdownItem)
+    this.openDropdown(ddItem, trigger)
   }
 
   handleMouseLeave = () => this.startCloseTimeout()
@@ -84,8 +84,6 @@ class SmoothDropdown extends Component {
   }
 
   openDropdown = (ddItem, trigger) => {
-    /* console.log(this.state.ddItems, ddItem) */
-    /* console.log(this.ddItemsRef.get(ddItem)) */
     const dropdownItem = this.ddItemsRef.get(ddItem).current
     if (!dropdownItem) return
 

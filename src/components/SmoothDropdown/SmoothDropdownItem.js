@@ -22,7 +22,7 @@ class SmoothDropdownItem extends Component {
   }
 
   render () {
-    const { trigger, children, className, showIf } = this.props
+    const { trigger, children, showIf } = this.props
     const {
       triggerRef: { current: ddTrigger }
     } = this
@@ -36,7 +36,7 @@ class SmoothDropdownItem extends Component {
             <div
               onMouseEnter={evt => {
                 if (showIf ? showIf(evt) : true) {
-                  handleMouseEnter(this, ddTrigger, children)
+                  handleMouseEnter(this, ddTrigger)
                 }
               }}
               onMouseLeave={handleMouseLeave}
