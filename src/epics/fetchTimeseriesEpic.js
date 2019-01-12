@@ -84,7 +84,6 @@ const mapDataToAssets = ({ data: { data, loading, error } }) => {
 const fetchTimeseriesEpic = (action$, store, { client }) =>
   action$.ofType(actions.TIMESERIES_FETCH).mergeMap(action => {
     const settings = action.payload.price
-    console.log(action.payload)
     return fetchTimeseries$({ settings, client })
       .exhaustMap(data => {
         return Observable.of({

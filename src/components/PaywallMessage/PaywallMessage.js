@@ -1,12 +1,16 @@
 import React from 'react'
+import { Icon } from '@santiment-network/ui'
 import HelpPopup from './../../components/HelpPopup/HelpPopup'
-import './PricingHelpMessage.css'
+import styles from './PaywallMessage.module.scss'
 
-const PricingHelpMessage = () => (
-  <div className='pricing-details'>
-    <label className='pricing-details__label'>Limited data.</label>
-    &nbsp;Unlock the full app. &nbsp;
-    <HelpPopup trigger={<span>Learn more</span>}>
+export default () => (
+  <div className={styles.PaywallMessage}>
+    <label className={styles.label}>Limited data</label>
+    <HelpPopup
+      trigger={
+        <Icon className={styles.helpIcon} type='help-round' fill='#ada6bc' />
+      }
+    >
       <div>
         <p>
           <strong>We are free now for general usage.</strong>
@@ -38,5 +42,3 @@ const PricingHelpMessage = () => (
     </HelpPopup>
   </div>
 )
-
-export default PricingHelpMessage

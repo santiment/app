@@ -102,7 +102,11 @@ const TrendsReChart = ({
             }
             domain={['auto', 'dataMax']}
           />
-          <CartesianGrid strokeDasharray='3 3' />
+          <CartesianGrid
+            vertical={false}
+            strokeDasharray='4 10'
+            stroke='#ebeef5'
+          />
           <Tooltip
             labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
             formatter={(value, name) => {
@@ -132,7 +136,7 @@ const TrendsReChart = ({
           {!hasPremium &&
             mixWithPaywallArea({
               dataKey: entity.index,
-              stroke: 'red',
+              stroke: '#ffad4d',
               strokeOpacity: 0.9,
               data: chartData
             })}
