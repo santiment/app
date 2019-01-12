@@ -97,5 +97,17 @@ storiesOf('Navbar', module)
   .add('Assets Dropdown', () => (
     <div>
       <NavbarAssetsDropdown isLoggedIn />
+      <br />
+      On the '/assets/list?name=top%2050%20erc20%40227#shared' page
+      <NavbarAssetsDropdown
+        isLoggedIn
+        activeLink='/assets/list?name=top%2050%20erc20%40227#shared'
+      />
+      <br />
+      On the '/assets/list?name=testst@177#shared' page
+      <NavbarAssetsDropdown
+        isLoggedIn
+        activeLink='/assets/list?name=testst@177'
+      />
     </div>
   ))
