@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import moment from 'moment'
 import { ReferenceArea } from 'recharts'
 

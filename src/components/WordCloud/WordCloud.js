@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import TagCloud from 'react-tag-cloud'
