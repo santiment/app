@@ -77,11 +77,13 @@ class SmoothDropdown extends Component {
   handleMouseLeave = () => this.startCloseTimeout()
 
   setupDropdownContent = (ddItem, ddContent) => {
-    this.ddItemsRef.set(ddItem, React.createRef())
-    this.setState(prevState => ({
-      ...prevState,
-      ddItems: new Map([...prevState.ddItems, [ddItem, ddContent]])
-    }))
+    if (!this.ddItemsRef.has(ddItem)) {
+      this.ddItemsRef.set(ddItem, React.createRef())
+      this.setState(prevState => ({
+        ...prevState,
+        ddItems: new Map([...prevState.ddItems, [ddItem, ddContent]])
+      }))
+    }
   }
 
   openDropdown = (ddItem, trigger) => {
