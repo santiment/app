@@ -144,14 +144,19 @@ const mergeTimeseriesByKey = ({ timeseries, key: mergeKey }) => {
     }
 
     if (mergeKey === 'datetime') {
+      let timeserieMergeCount = 0
+
       for (
         ;
         moment(longestTS[longestTSRightIndexBoundary]['datetime']).isBefore(
           moment(timeserie[timeserieRightIndex]['datetime'])
-        );
+        ) && timeserieRightIndex > -1;
         timeserieRightIndex--
       ) {
-        longestTS.push(timeserie[timeserieRightIndex])
+        timeserieMergeCount++
+      }
+      if (timeserieMergeCount > 0) {
+        longestTS.push(...timeserie.slice(-timeserieMergeCount))
       }
     }
 
