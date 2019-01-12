@@ -5,7 +5,7 @@ import { fadeIn, slideUp } from 'animate-keyframes'
 import { withState, compose, lifecycle } from 'recompose'
 import { DateRangePicker } from 'react-dates'
 import { formatNumber } from './../../utils/formatting'
-import PricingHelpMessage from './PricingHelpMessage'
+import PaywallMessage from './../PaywallMessage/PaywallMessage'
 import ShareableBtn from './ShareableBtn'
 import './ProjectChartHeader.css'
 
@@ -117,7 +117,7 @@ const ProjectChartHeader = ({
             />
           )}
         </HiddenElements>
-        {!isPremium && <PricingHelpMessage />}
+        {!isPremium && <PaywallMessage />}
       </div>
       <div className='chart-header-actions'>
         <CurrencyFilter

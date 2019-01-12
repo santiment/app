@@ -11,7 +11,7 @@ import TrendsStats from './../../components/Trends/TrendsStats'
 import TrendsTitle from '../../components/Trends/TrendsTitle'
 import WordCloud from './../../components/WordCloud/WordCloud'
 import GetWordContext from './../../components/WordCloud/GetWordContext'
-import PricingHelpMessage from './../../components/ProjectChart/PricingHelpMessage'
+import PaywallMessage from './../../components/PaywallMessage/PaywallMessage'
 import { checkHasPremium } from './../UserSelectors'
 import { capitalizeStr } from './../../utils/utils'
 import './TrendsExplorePage.css'
@@ -70,7 +70,7 @@ export class TrendsExplorePage extends Component {
                 onSelectOption={this.handleSelectTimeRange}
                 defaultSelected={timeRange}
               />
-              {!hasPremium && <PricingHelpMessage />}
+              {!hasPremium && <PaywallMessage />}
             </div>
             <div className='TrendsExplorePage__settings__right'>
               <Selector

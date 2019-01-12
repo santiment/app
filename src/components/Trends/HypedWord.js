@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import * as actions from '../WordCloud/actions'
 import styles from './HypedWord.module.css'

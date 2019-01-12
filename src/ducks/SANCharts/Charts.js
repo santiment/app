@@ -11,7 +11,7 @@ import {
   Tooltip
 } from 'recharts'
 import { compose, withProps } from 'recompose'
-import { formatNumber, millify } from './../../utils/formatting'
+import { formatNumber } from './../../utils/formatting'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
 
 const Charts = ({ chartData = [] }) => (

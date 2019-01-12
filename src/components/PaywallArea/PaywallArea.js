@@ -1,42 +1,8 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import moment from 'moment'
 import { ReferenceArea } from 'recharts'
-
-export const PaywallAreaShape = ({
-  x,
-  y,
-  width,
-  height,
-  fill,
-  fillOpacity,
-  viewBox,
-  strokeWidth,
-  stroke,
-  withGlitch,
-  ...rest
-}) => {
-  return (
-    <svg
-      width={withGlitch ? width + 20 : width}
-      height={height}
-      x={x}
-      y={y}
-      fill={fill}
-      fillOpacity={fillOpacity}
-      xmlns='http://www.w3.org/2000/svg'
-    >
-      <rect
-        width={withGlitch ? width + 20 : width}
-        height={height}
-        mask='url(#mask-stripe)'
-        fill={'#FF5B5B'}
-        fillOpacity={0.1}
-        strokeWidth={strokeWidth}
-        stroke={stroke}
-      />
-    </svg>
-  )
-}
+import PaywallAreaShape from './PaywallAreaShape'
+import PaywallAreaLabel from './PaywallAreaLabel'
 
 const closesTo = (dateToCompare, datesArray) => {
   const diff = datesArray.map(item =>
@@ -46,13 +12,18 @@ const closesTo = (dateToCompare, datesArray) => {
   return datesArray[index]
 }
 
+const isLessWeek = (end, start) => {
+  const duration = moment.duration(moment(end).diff(moment(start)))
+  const days = duration.asDays()
+  return days <= 7
+}
+
 const mixWithPaywallArea = ({
   data,
   dataKey,
   yAxisId,
   domain,
-  stroke = 'red',
-  label = 'Limited data. Unlock the full app.',
+  stroke = '#ffad4d',
   strokeOpacity = 0.9,
   ...rest
 }) => {
@@ -111,6 +82,7 @@ const mixWithPaywallArea = ({
       key={`${dataKey}-paywallMoreThan3Months`}
       x1={startX}
       x2={endX}
+      label={<PaywallAreaLabel />}
       {...props}
       {...rest}
     />,
@@ -118,6 +90,11 @@ const mixWithPaywallArea = ({
       key={`${dataKey}-paywallLastDay`}
       x1={startLastDayX}
       x2={endLastDayX}
+      label={
+        isLessWeek(endLastDayX, startX) && (
+          <PaywallAreaLabel withGlitch={true} />
+        )
+      }
       {...props}
       {...rest}
       shape={<PaywallAreaShape withGlitch={true} />}
