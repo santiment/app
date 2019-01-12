@@ -1,12 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { Panel, Button, Input } from '@santiment-network/ui'
 import dropdownStyles from './NavbarDropdown.module.scss'
 import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
 import styles from './NavbarAssetsDropdown.module.scss'
 import * as actions from '../../actions/types'
 import CreateWatchlistBtn from '../WatchlistPopup/CreateWatchlistBtn'
-import { connect } from 'react-redux'
+
 const mapStateToProps = ({ watchlistUi }) => ({
   watchlistUi
 })
