@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
 import { storiesOf } from '@storybook/react'
 import StoryRouter from 'storybook-react-router'
+import { Provider } from 'react-redux'
+import { MockedProvider } from 'react-apollo/test-utils'
 import Navbar from './../src/components/Navbar/Navbar'
 import NavbarProfileDropdown from './../src/components/Navbar/NavbarProfileDropdown'
 import NavbarHelpDropdown from './../src/components/Navbar/NavbarHelpDropdown'
@@ -10,9 +12,8 @@ import {
   UnwrappedNavbarAssetsDropdownWatchlist,
   watchlistGQL
 } from './../src/components/Navbar/NavbarAssetsDropdownWatchlist'
-import { Provider } from 'react-redux'
 import store from './store'
-import { MockedProvider } from 'react-apollo/test-utils'
+
 
 const mockedData = {
   fetchUserLists: [
