@@ -31,7 +31,6 @@ import AssetsPage from './pages/assets/AssetsPage'
 import SignalsPriceVolume from './pages/Signals/SignalsPriceVolume'
 import HistoricalBalancePage from './ducks/HistoricalBalance/HistoricalBalancePage'
 import WordCloudPage from './components/WordCloud/WordCloudPage'
-import Navbar from './components/Navbar/Navbar'
 import { getConsentUrl } from './utils/utils'
 import HeaderMsg from './HeaderMsg'
 import './App.scss'
@@ -99,7 +98,6 @@ export const App = ({
   isBetaModeEnabled
 }) => (
   <div className='App'>
-    <Navbar isLoggedIn={isLoggedIn} />
     {isOffline && (
       <FadeInDown
         className='offline-status-message'
