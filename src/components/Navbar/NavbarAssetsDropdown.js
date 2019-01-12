@@ -29,7 +29,10 @@ const linksLeft = [
   { link: '/assets/erc20', label: 'ERC20' },
   { link: '/labs/api', label: 'Ethereum + ERC20 ETH Spent' },
 
-  { link: '/labs/dashboard', label: 'Top 50 ERC20' },
+  {
+    link: '/assets/list?name=top%2050%20erc20%40227#shared',
+    label: 'Top 50 ERC20'
+  },
   { link: '/assets/list?name=stablecoins@86#shared', label: 'Stablecoins' },
   { link: '/labs/dashboard', label: 'Privacy Tokens' },
   { link: '/assets/list?name=usa@138#shared', label: 'US-Based Projects' },
@@ -75,7 +78,7 @@ const NavbarAssetsDropdown = ({ activeLink, isLoggedIn = true }) => {
               />
             </div>
             {/* <Input className={styles.input} placeholder='New List' /> */}
-            <WatchlistCreateForm />{' '}
+            <WatchlistCreateForm />
           </div>
         )}
       </div>

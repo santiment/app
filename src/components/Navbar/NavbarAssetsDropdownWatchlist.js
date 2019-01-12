@@ -8,6 +8,7 @@ import dropdownStyles from './NavbarDropdown.module.scss'
 
 const NavbarAssetsDropdownWatchlist = ({ lists = [], activeLink }) => {
   return lists.map(({ name, id }) => {
+    const link = `/assets/list?name=${name}@${id}`
     return (
       <Button
         fluid
@@ -15,8 +16,8 @@ const NavbarAssetsDropdownWatchlist = ({ lists = [], activeLink }) => {
         key={id}
         as={Link}
         className={dropdownStyles.item + ' ' + dropdownStyles.text}
-        to={`/assets/list?name=${name}@${id}`}
-        isActive={activeLink === null}
+        to={link}
+        isActive={activeLink === link}
       >
         {name.toUpperCase()}
       </Button>
@@ -26,6 +27,11 @@ const NavbarAssetsDropdownWatchlist = ({ lists = [], activeLink }) => {
 
 const sortWatchlists = (list, list2) =>
   moment.utc(list.insertedAt).diff(moment.utc(list2.insertedAt))
+
+// FOR MOCS
+export const UnwrappedNavbarAssetsDropdownWatchlist = NavbarAssetsDropdownWatchlist
+export const watchlistGQL = WatchlistGQL
+// FOR MOCS
 
 export default graphql(WatchlistGQL, {
   name: 'Watchlists',
