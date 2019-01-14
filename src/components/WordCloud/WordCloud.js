@@ -58,7 +58,7 @@ class WordCloud extends Component {
       return (
         <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
           <FadeIn duration='2s' timingFunction='ease-out'>
-            <h3>Choose any word to see a social context</h3>
+            <h3>Choose any word below to see its social context</h3>
           </FadeIn>
         </div>
       )
