@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import moment from 'moment'
 import HypedWord from './HypedWord'
 import styles from './HypedWords.module.scss'
@@ -12,7 +13,7 @@ const header = ({ latest, compiled }) => {
   return <h4>Compiled {moment(compiled).format('YYYY-MM-DD HH:mm')}</h4>
 }
 
-const HypedWords = ({ trends, compiled, latest }) => (
+const HypedWords = ({ trends, compiled, latest, selected }) => (
   <div className={styles.HypedWords}>
     {header({ latest, compiled })}
     <div className={styles.HypedWordsBlock}>
@@ -21,10 +22,21 @@ const HypedWords = ({ trends, compiled, latest }) => (
           .sort(compare)
           .reverse()
           .map((trend, index) => (
-            <HypedWord key={index} {...trend} latest={latest} />
+            <HypedWord
+              key={index}
+              {...trend}
+              latest={latest}
+              isSelected={selected === trend.word}
+            />
           ))}
     </div>
   </div>
 )
 
-export default HypedWords
+const mapStateToProps = ({ hypedTrends }) => {
+  return {
+    selected: hypedTrends.selected
+  }
+}
+
+export default connect(mapStateToProps)(HypedWords)

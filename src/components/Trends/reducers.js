@@ -3,7 +3,8 @@ import * as actions from './actions'
 export const initialState = {
   isLoading: true,
   error: false,
-  items: []
+  items: [],
+  selected: null
 }
 
 export default (state = initialState, action) => {
@@ -20,6 +21,12 @@ export default (state = initialState, action) => {
         isLoading: false,
         error: true,
         items: []
+      }
+    case actions.TRENDS_HYPED_WORD_SELECTED:
+      const { selected } = action.payload
+      return {
+        ...state,
+        selected
       }
     default:
       return state

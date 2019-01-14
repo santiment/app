@@ -24,7 +24,7 @@ const WordCloudWrapper = ({
   setWordCloudStiky
 }) => (
   <div>
-    {!isLoading && isDesktop && (word || isCloudLoading) && (
+    {!isLoading && isDesktop && (
       <Sticky
         top={'#word-cloud-sticky-anchor'}
         innerZ={2}
