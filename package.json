@@ -93,7 +93,7 @@
   "devDependencies": {
     "@storybook/addon-info": "^3.4.10",
     "@storybook/addon-viewport": "^3.3.3",
-    "@storybook/react": "latest",
+    "@storybook/react": "3.4.11",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
     "enzyme-to-json": "^3.2.2",
