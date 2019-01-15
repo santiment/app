@@ -12,6 +12,7 @@ import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 import NavbarHelpDropdown from './NavbarHelpDropdown'
 import NavbarLabsDropdown from './NavbarLabsDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
+import NavbarAssetsDropdown from './NavbarAssetsDropdown'
 import styles from './Navbar.module.scss'
 
 const leftLinks = [
@@ -34,7 +35,7 @@ const rightBtns = [
   }
 ]
 
-const Navbar = ({ activeLink = '/' }) => {
+const Navbar = ({ activeLink = '/', isLoggedIn }) => {
   return (
     <SmoothDropdown
       verticalOffset={-25}
@@ -47,7 +48,7 @@ const Navbar = ({ activeLink = '/' }) => {
         </Link>
 
         {leftLinks.map(({ link, label }) => {
-          if (label === 'Labs') {
+          if (label === 'Assets' || label === 'Labs') {
             return (
               <SmoothDropdownItem
                 key={label}
@@ -63,8 +64,13 @@ const Navbar = ({ activeLink = '/' }) => {
                   </Button>
                 }
               >
-                <NavbarLabsDropdown activeLink={activeLink} />
+                {label === 'Assets' ? (
+                  <NavbarAssetsDropdown activeLink={activeLink} />
+                ) : (
+                  <NavbarLabsDropdown activeLink={activeLink} />
+                )}
               </SmoothDropdownItem>
+
             )
           }
 
