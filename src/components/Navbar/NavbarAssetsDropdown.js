@@ -28,14 +28,11 @@ const WatchlistCreateForm = connect(
 const linksLeft = [
   { link: '/assets/all', label: 'All Assets' },
   { link: '/assets/erc20', label: 'ERC20' },
-  { link: '/labs/api', label: 'Ethereum + ERC20 ETH Spent' },
-
   {
     link: '/assets/list?name=top%2050%20erc20%40227#shared',
     label: 'Top 50 ERC20'
   },
   { link: '/assets/list?name=stablecoins@86#shared', label: 'Stablecoins' },
-  { link: '/labs/dashboard', label: 'Privacy Tokens' },
   { link: '/assets/list?name=usa@138#shared', label: 'US-Based Projects' },
   { link: '/assets/list?name=dex@127#shared', label: 'Decentralized Exchanges' }
 ]
