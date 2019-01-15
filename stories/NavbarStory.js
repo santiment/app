@@ -3,15 +3,13 @@ import { storiesOf } from '@storybook/react'
 import StoryRouter from 'storybook-react-router'
 import { Provider } from 'react-redux'
 import { MockedProvider } from 'react-apollo/test-utils'
+import { Panel } from '@santiment-network/ui'
 import Navbar from './../src/components/Navbar/Navbar'
 import NavbarProfileDropdown from './../src/components/Navbar/NavbarProfileDropdown'
 import NavbarHelpDropdown from './../src/components/Navbar/NavbarHelpDropdown'
 import NavbarLabsDropdown from './../src/components/Navbar/NavbarLabsDropdown'
 import NavbarAssetsDropdown from './../src/components/Navbar/NavbarAssetsDropdown'
-import {
-  UnwrappedNavbarAssetsDropdownWatchlist,
-  watchlistGQL
-} from './../src/components/Navbar/NavbarAssetsDropdownWatchlist'
+import { watchlistGQL } from './../src/components/Navbar/NavbarAssetsDropdownWatchlist'
 import store from './store'
 
 
@@ -67,32 +65,46 @@ storiesOf('Navbar', module)
   ))
   .add('Profile Dropdown', () => (
     <div>
-      <NavbarProfileDropdown />
+      <Panel>
+        <NavbarProfileDropdown />
+      </Panel>
       <br />
       Profile status and picture
-      <NavbarProfileDropdown
-        status='active'
-        picUrl='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_iB-yPaTXvwWqWiLP3kuHf_WocZXm_uN2lhsNMvkN-BsMLZcDUQ'
-      />
+      <Panel>
+        <NavbarProfileDropdown
+          status='active'
+          picUrl='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_iB-yPaTXvwWqWiLP3kuHf_WocZXm_uN2lhsNMvkN-BsMLZcDUQ'
+        />
+      </Panel>
       <br />
       On the '/account' page
-      <NavbarProfileDropdown activeLink='/account' />
+      <Panel>
+        <NavbarProfileDropdown activeLink='/account' />
+      </Panel>
     </div>
   ))
   .add('Help Dropdown', () => (
     <div>
-      <NavbarHelpDropdown />
+      <Panel>
+        <NavbarHelpDropdown />
+      </Panel>
       <br />
       On the '/support' page
-      <NavbarHelpDropdown activeLink='/support' />
+      <Panel>
+        <NavbarHelpDropdown activeLink='/support' />
+      </Panel>
     </div>
   ))
   .add('Labs Dropdown', () => (
     <div>
-      <NavbarLabsDropdown />
+      <Panel>
+        <NavbarLabsDropdown />
+      </Panel>
       <br />
       On the '/labs/trends' page
-      <NavbarLabsDropdown activeLink='/labs/trends' />
+      <Panel>
+        <NavbarLabsDropdown activeLink='/labs/trends' />
+      </Panel>
     </div>
   ))
   .add('Assets Dropdown', () => (

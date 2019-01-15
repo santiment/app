@@ -7,12 +7,28 @@ setDefaults({
   header: false
 })
 
+if (window.document) {
+  const ddModal = window.document.createElement('div')
+  ddModal.id = 'dd-modal'
+  ddModal.innerHTML = `
+      <template id='dd-template'>
+        <div class='dd'>
+          <div class='dd__list' ></div>
+          <div class='dd__arrow' ></div>
+          <div class='dd__bg' ></div>
+        </div>
+      </template>
+  `
+  window.document.body.appendChild(ddModal)
+}
+
+
 addDecorator(story => (
-  <div style={{ padding: 20, background: '#F6F6F8' }}>{story()}</div>
+    <div style={{ padding: 20, background: '#F6F6F8' }}>{story()}</div>
 ))
 setAddon(InfoAddon)
 
-function loadStories () {
+function loadStories() {
   require('../stories/index.js')
 }
 

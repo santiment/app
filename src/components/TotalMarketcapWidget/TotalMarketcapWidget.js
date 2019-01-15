@@ -183,11 +183,6 @@ class TotalMarketcapWidget extends Component {
               orientation='right'
               tickFormatter={marketcap => millify(marketcap)}
             />
-            <CartesianGrid
-              stroke='#EBEEF5'
-              vertical={false}
-              strokeDasharray='5 10'
-            />
 
             {listYAxis}
             <Tooltip

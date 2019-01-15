@@ -195,6 +195,10 @@ describe('mergeTimeseriesByKey', () => {
     {
       value5: 52,
       datetime: '2018-09-20T00:00:00Z'
+    },
+    {
+      value5: 53,
+      datetime: '2018-10-20T00:00:00Z'
     }
   ]
 
@@ -241,11 +245,15 @@ describe('mergeTimeseriesByKey', () => {
       {
         value5: 52,
         datetime: '2018-09-20T00:00:00Z'
+      },
+      {
+        value5: 53,
+        datetime: '2018-10-20T00:00:00Z'
       }
     ]
 
     const expected = mergeTimeseriesByKey({
-      timeseries: [ts2, ts5],
+      timeseries: [ts5, ts2],
       key: 'datetime'
     })
     expect(expected).toEqual(goodMerged)

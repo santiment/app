@@ -30,7 +30,8 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: false
       }
-
+    case actions.WORDCLOUD_CONTEXT_CLEAN:
+      return { ...initialState }
     default:
       return state
   }

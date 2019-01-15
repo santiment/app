@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import TagCloud from 'react-tag-cloud'
@@ -44,11 +44,21 @@ class WordCloud extends Component {
       )
     }
 
-    if (this.props.error || cloud.length === 0) {
+    if (this.props.error) {
       return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
           <FadeIn duration='2s' timingFunction='ease-out'>
             <h3>We don't find anything...</h3>
+          </FadeIn>
+        </div>
+      )
+    }
+
+    if (cloud.length === 0) {
+      return (
+        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
+          <FadeIn duration='2s' timingFunction='ease-out'>
+            <h3>Choose any word below to see its social context</h3>
           </FadeIn>
         </div>
       )
