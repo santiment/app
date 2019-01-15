@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import * as qs from 'query-string'
 import Selector from './../../components/Selector/Selector'
@@ -10,6 +11,8 @@ import TrendsStats from './../../components/Trends/TrendsStats'
 import TrendsTitle from '../../components/Trends/TrendsTitle'
 import WordCloud from './../../components/WordCloud/WordCloud'
 import GetWordContext from './../../components/WordCloud/GetWordContext'
+import PaywallMessage from './../../components/PaywallMessage/PaywallMessage'
+import { checkHasPremium } from './../UserSelectors'
 import { capitalizeStr } from './../../utils/utils'
 import './TrendsExplorePage.css'
 
@@ -48,7 +51,7 @@ export class TrendsExplorePage extends Component {
   }
 
   render () {
-    const { match } = this.props
+    const { match, hasPremium } = this.props
     const { timeRange, asset } = this.state
     return (
       <div className='TrendsExplorePage'>
@@ -61,11 +64,14 @@ export class TrendsExplorePage extends Component {
           />
 
           <div className='TrendsExplorePage__settings'>
-            <Selector
-              options={['1w', '1m', '3m', '6m']}
-              onSelectOption={this.handleSelectTimeRange}
-              defaultSelected={timeRange}
-            />
+            <div className='TrendsExplorePage__settings__left'>
+              <Selector
+                options={['1w', '1m', '3m', '6m']}
+                onSelectOption={this.handleSelectTimeRange}
+                defaultSelected={timeRange}
+              />
+              {!hasPremium && <PaywallMessage />}
+            </div>
             <div className='TrendsExplorePage__settings__right'>
               <Selector
                 options={['bitcoin', 'ethereum']}
@@ -92,6 +98,7 @@ export class TrendsExplorePage extends Component {
                       asset={capitalizeStr(asset)}
                       data={timeseries.price}
                       trends={trends}
+                      hasPremium={hasPremium}
                     />
                   </div>
                 )}
@@ -135,4 +142,10 @@ export class TrendsExplorePage extends Component {
   }
 }
 
-export default TrendsExplorePage
+const mapStateToProps = state => {
+  return {
+    hasPremium: checkHasPremium(state)
+  }
+}
+
+export default connect(mapStateToProps)(TrendsExplorePage)

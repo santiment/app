@@ -3,7 +3,7 @@ import HypedWordsBlock from './HypedWordsBlock'
 import Selector from './../../components/Selector/Selector'
 import styles from './HypedBlocks.module.css'
 
-const DesktopList = ({ items }) => (
+const DesktopList = ({ items = [] }) => (
   <div className={styles.HypedBlocks}>
     {items.map((hypedTrend, index) => (
       <HypedWordsBlock

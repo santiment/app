@@ -1,40 +1,67 @@
-@import 'variables.scss';
+@import '~@santiment-network/ui/variables.scss';
 
-.HypedWords {
-  min-width: 100%;
-  margin-top: 1em;
-}
-
-.HypedWords h4 {
-  line-height: 21px;
-  font-size: 14px;
-  color: #82869d;
-  margin-bottom: 17px;
-}
-
-.HypedWordsBlock {
-  background: #f7f8fb;
+.HypedWord {
   border-radius: 4px;
-  padding: 16px;
-}
+  text-align: left;
+  padding: 9px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.08s ease;
+  border-bottom: none;
 
-.HypedWords:first-child {
-  margin-right: 24px;
-}
-
-.HypedWords:last-child {
-  margin-left: 24px;
-  margin-right: 0;
-}
-
-.latest {
-  background: #13c298;
-}
-
-@media (min-width: $breakpoint-tablet) {
- .HypedWords {
-    min-width: 300px;
-    min-height: 200px;
-    margin-top: 60px;
+  .score {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: normal;
+    color: #808ba1;
   }
+
+  .arrow path {
+    fill: #adb6cd;
+  }
+
+  .word {
+    color: #252830;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 21px;
+    font-weight: normal;
+  }
+
+  .latest {
+    .word {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .score {
+      color: #bef7e9;
+    }
+
+    .arrow path {
+      fill: #80f7db;
+    }
+  }
+
+  &:hover {
+    background: $light-gray;
+
+    .word {
+      color: $green;
+    }
+
+    .score {
+      color: $green-light;
+    }
+
+    .arrow path {
+      fill: $green;
+    }
+  }
+}
+
+.selected {
+  background: $light-gray;
 }

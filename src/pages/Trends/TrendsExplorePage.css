@@ -16,6 +16,7 @@
   align-items: center;
 }
 
+.TrendsExplorePage__settings__left,
 .TrendsExplorePage__settings__right {
   display: flex;
   align-items: center;
