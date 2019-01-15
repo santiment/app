@@ -19,6 +19,7 @@ import BuildChallenge from './pages/BuildChallenge'
 import EmailLoginVerification from './pages/EmailLoginVerification'
 import Menu from './components/TopMenu'
 import MobileMenu from './components/MobileMenu'
+import Navbar from './components/Navbar/Navbar'
 import withTracker from './withTracker'
 import withIntercom from './withIntercom'
 import ErrorBoundary from './ErrorBoundary'
@@ -120,7 +121,7 @@ export const App = ({
       </div>
     )}
     {isDesktop && <HeaderMsg />}
-    {isFullscreenMobile ? undefined : isDesktop ? <Menu /> : <MobileMenu />}
+    {isFullscreenMobile ? undefined : isDesktop ? <Navbar /> : <MobileMenu />}
     <ErrorBoundary>
       <Switch>
         <Route

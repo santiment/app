@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import debounce from 'lodash.debounce'
 import { Search, Input, Ref } from 'semantic-ui-react'
 import ProjectIcon from './../../components/ProjectIcon'
-import './Search.css'
+import './Search.scss'
 
 const resultRenderer = ({ name, ticker }) => (
   <Fragment>
@@ -19,7 +19,7 @@ const CustomInput = (
     id='search-input'
     icon='search'
     iconPosition='left'
-    placeholder='Search...'
+    placeholder='Type to  search...'
   />
 )
 
