@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { configure, addDecorator, setAddon } from '@storybook/react'
 import InfoAddon, { setDefaults } from '@storybook/addon-info'
 
@@ -7,19 +7,24 @@ setDefaults({
   header: false
 })
 
-addDecorator(story => (
-  <Fragment>
-    <div id='dd-modal'>
+if (window.document) {
+  const ddModal = window.document.createElement('div')
+  ddModal.id = 'dd-modal'
+  ddModal.innerHTML = `
       <template id='dd-template'>
         <div class='dd'>
-          <div class='dd__list' />
-          <div class='dd__arrow' />
-          <div class='dd__bg' />
+          <div class='dd__list' ></div>
+          <div class='dd__arrow' ></div>
+          <div class='dd__bg' ></div>
         </div>
       </template>
-    </div>
+  `
+  window.document.body.appendChild(ddModal)
+}
+
+
+addDecorator(story => (
     <div style={{ padding: 20, background: '#F6F6F8' }}>{story()}</div>
-  </Fragment>
 ))
 setAddon(InfoAddon)
 
