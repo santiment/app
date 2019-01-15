@@ -40,7 +40,15 @@ class SmoothDropdown extends Component {
       PropTypes.element,
       PropTypes.arrayOf(PropTypes.element)
     ]).isRequired,
-    verticalMotion: PropTypes.bool
+    showArrow: PropTypes.bool,
+    verticalMotion: PropTypes.bool,
+    verticalOffset: PropTypes.number
+  }
+
+  static defaultProps = {
+    verticalMotion: false,
+    showArrow: true,
+    verticalOffset: 0
   }
 
   componentDidMount () {
@@ -89,12 +97,13 @@ class SmoothDropdown extends Component {
   openDropdown = (ddItem, trigger) => {
     const dropdownItem = this.ddItemsRef.get(ddItem).current
     if (!dropdownItem) return
-
+    const { verticalOffset, verticalMotion } = this.props
     const ddContent = dropdownItem.querySelector('.dd__content')
     const {
       height: ddWrapperHeight,
       top: ddWrapperTop
     } = this.dropdownWrapperRef.current.getBoundingClientRect()
+    
     const {
       top: triggerTop,
       left: triggerLeft,
@@ -154,7 +163,8 @@ class SmoothDropdown extends Component {
   }
 
   render () {
-    const { children, className = '' } = this.props
+    const { children, className = '', showArrow } = this.props
+
     const {
       currentTrigger,
       dropdownStyles,
@@ -177,6 +187,7 @@ class SmoothDropdown extends Component {
     this.ddContainer.classList.toggle('dd-first-time', ddFirstTime)
     Object.assign(this.ddContainer.style, dropdownStyles)
     this.arrowNode.style.left = `calc(50% + ${arrowCorrectionX}px)`
+    this.arrowNode.style.display = showArrow ? 'block' : 'none'
 
     return (
       <div ref={this.dropdownWrapperRef} className={`dd-wrapper ${className}`}>
@@ -201,7 +212,7 @@ class SmoothDropdown extends Component {
                 ref={this.ddItemsRef.get(ddItem)}
               >
                 <div
-                  className={`dd__content `}
+                  className='dd__content'
                   onMouseEnter={stopCloseTimeout}
                   onMouseLeave={startCloseTimeout}
                 >

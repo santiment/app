@@ -11,25 +11,23 @@ const links = [
 
 const NavbarLabsDropdown = ({ activeLink }) => {
   return (
-    <Panel>
-      <div className={styles.list}>
-        {links.map(({ link, label }) => {
-          return (
-            <Button
-              fluid
-              variant='ghost'
-              key={label}
-              as={Link}
-              className={styles.item + ' ' + styles.text}
-              to={link}
-              isActive={link === activeLink}
-            >
-              {label}
-            </Button>
-          )
-        })}
-      </div>
-    </Panel>
+    <div className={styles.list}>
+      {links.map(({ link, label }) => {
+        return (
+          <Button
+            fluid
+            variant='ghost'
+            key={label}
+            as={Link}
+            className={styles.item + ' ' + styles.text}
+            to={link}
+            isActive={link === activeLink}
+          >
+            {label}
+          </Button>
+        )
+      })}
+    </div>
   )
 }
 
