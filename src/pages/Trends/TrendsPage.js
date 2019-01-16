@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { compose, withState } from 'recompose'
 import Sticky from 'react-stickynode'
@@ -53,9 +52,6 @@ const TrendsPage = ({
   isDesktop = true
 }) => (
   <div className={styles.TrendsPage + ' page'}>
-    <Helmet>
-      <style>{'body { background-color: #F6F6F8; }'}</style>
-    </Helmet>
     <div className={styles.header}>
       <h1>
         Explore frequently-used <br />
