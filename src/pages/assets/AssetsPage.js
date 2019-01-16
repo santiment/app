@@ -54,6 +54,9 @@ const normalizeCSV = items => {
   })
 }
 
+const isNotSafari = () =>
+  !/^((?!chrome|android).)*safari/i.test(window.navigator.userAgent)
+
 const AssetsPage = props => (
   <div className='page projects-table'>
     <Helmet>
@@ -78,7 +81,7 @@ const AssetsPage = props => (
 
               {props.type === 'list' && <WatchlistCopy />}
 
-              {Assets.items && Assets.items.length > 0 && (
+              {isNotSafari && Assets.items && Assets.items.length > 0 && (
                 <CSVLink
                   data={normalizeCSV(Assets.items)}
                   filename={`${getTableTitle(props)}.csv`}
