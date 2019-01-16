@@ -19,7 +19,7 @@ const CustomInput = (
     id='search-input'
     icon='search'
     iconPosition='left'
-    placeholder='Type to  search...'
+    placeholder='Type to search...'
   />
 )
 

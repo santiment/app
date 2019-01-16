@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Panel, Button, Toggle, Icon } from '@santiment-network/ui'
@@ -28,7 +28,7 @@ const NavbarProfileDropdown = ({
   toggleNightMode
 }) => {
   return (
-    <Panel>
+    <Fragment>
       <div className={styles.profile}>
         <div className={styles.profile__upper}>
           <div className={styles.profile__left}>
@@ -92,7 +92,7 @@ const NavbarProfileDropdown = ({
           )
         })}
       </div>
-    </Panel>
+    </Fragment>
   )
 }
 

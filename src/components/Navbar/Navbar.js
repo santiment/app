@@ -2,11 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Popup } from 'semantic-ui-react'
 import cx from 'classnames'
-import { SearchWithSuggestions, Icon, Button } from '@santiment-network/ui'
 import Search from './../Search/SearchContainer'
+import { Icon, Button } from '@santiment-network/ui'
+import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
+import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 import NavbarHelpDropdown from './NavbarHelpDropdown'
 import NavbarLabsDropdown from './NavbarLabsDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
+import NavbarAssetsDropdown from './NavbarAssetsDropdown'
 import styles from './Navbar.module.scss'
 
 const leftLinks = [
@@ -28,9 +31,13 @@ const rightBtns = [
   }
 ]
 
-const Navbar = ({ activeLink = '/' }) => {
+const Navbar = ({ activeLink = '/', isLoggedIn }) => {
   return (
-    <nav className={styles.wrapper}>
+    <SmoothDropdown
+      verticalOffset={-25}
+      showArrow={false}
+      className={styles.wrapper}
+    >
       <div className={styles.left}>
         <Link className={styles.logo} to='/'>
           <svg
@@ -72,13 +79,10 @@ const Navbar = ({ activeLink = '/' }) => {
         </Link>
 
         {leftLinks.map(({ link, label }) => {
-          if (label === 'Labs') {
+          if (label === 'Assets' || label === 'Labs') {
             return (
-              <Popup
+              <SmoothDropdownItem
                 key={label}
-                on='click'
-                position='bottom left'
-                verticalOffset={4}
                 trigger={
                   <Button
                     variant='flat'
@@ -89,8 +93,12 @@ const Navbar = ({ activeLink = '/' }) => {
                   </Button>
                 }
               >
-                <NavbarLabsDropdown activeLink={activeLink} />
-              </Popup>
+                {label === 'Assets' ? (
+                  <NavbarAssetsDropdown activeLink={activeLink} />
+                ) : (
+                  <NavbarLabsDropdown activeLink={activeLink} />
+                )}
+              </SmoothDropdownItem>
             )
           }
 
@@ -114,11 +122,8 @@ const Navbar = ({ activeLink = '/' }) => {
 
         {rightBtns.map(({ icon, el: Content, links }, index) => {
           return (
-            <Popup
+            <SmoothDropdownItem
               key={index}
-              on='click'
-              position='bottom right'
-              verticalOffset={4}
               trigger={
                 <Button
                   variant='flat'
@@ -130,11 +135,11 @@ const Navbar = ({ activeLink = '/' }) => {
               }
             >
               <Content activeLink={activeLink} />
-            </Popup>
+            </SmoothDropdownItem>
           )
         })}
       </div>
-    </nav>
+    </SmoothDropdown>
   )
 }
 
