@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom'
 import { Panel, Button, Toggle, Icon } from '@santiment-network/ui'
 import DropdownDevider from './DropdownDevider'
 import * as actions from '../../actions/types'
+import { checkIsLoggedIn } from './../../pages/UserSelectors'
 import styles from './NavbarProfileDropdown.module.scss'
 import dropdownStyles from './NavbarDropdown.module.scss'
 
 const links = [
   { link: '/account', label: 'Account settings' },
-  { link: '/upgrade', label: 'Upgrade plan' },
+  // { link: '/upgrade', label: 'Upgrade plan' },
   { link: '/logout', label: 'Log out' }
 ]
 
@@ -22,10 +23,13 @@ const Status = {
 const NavbarProfileDropdown = ({
   activeLink,
   picUrl,
-  name = 'Andriy Yurchenko',
+  balance,
+  name,
   status = 'offline',
   isNightModeEnabled,
-  toggleNightMode
+  toggleNightMode,
+  toggleBetaMode,
+  isBetaModeEnabled
 }) => {
   return (
     <Fragment>
@@ -53,7 +57,8 @@ const NavbarProfileDropdown = ({
           </div>
         </div>
         <div className={dropdownStyles.text + ' ' + styles.tokens}>
-          <span className={styles.tokens__amount}>13 562</span> tokens available
+          <span className={styles.tokens__amount}>{balance}</span> tokens
+          available
         </div>
       </div>
 
@@ -71,6 +76,19 @@ const NavbarProfileDropdown = ({
           onClick={toggleNightMode}
         >
           Nightmode <Toggle isActive={isNightModeEnabled} />
+        </Button>
+        <Button
+          variant='ghost'
+          className={
+            styles.setting +
+            ' ' +
+            dropdownStyles.item +
+            ' ' +
+            dropdownStyles.text
+          }
+          onClick={toggleBetaMode}
+        >
+          Beta Mode <Toggle isActive={isBetaModeEnabled} />
         </Button>
       </div>
       <DropdownDevider />
@@ -97,14 +115,24 @@ const NavbarProfileDropdown = ({
 }
 
 const mapStateToProps = state => ({
-  isNightModeEnabled: state.rootUi.isNightModeEnabled
+  isNightModeEnabled: state.rootUi.isNightModeEnabled,
+  isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
+  status: state.rootUi.isOnline ? 'online' : 'offline',
+  balance: state.user.data.sanBalance,
+  name: state.user.data.username,
+  isLoggedIn: checkIsLoggedIn(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   toggleNightMode: () =>
     dispatch({
       type: actions.USER_TOGGLE_NIGHT_MODE
+    }),
+  toggleBetaMode: () => {
+    dispatch({
+      type: actions.USER_TOGGLE_BETA_MODE
     })
+  }
 })
 
 export default connect(

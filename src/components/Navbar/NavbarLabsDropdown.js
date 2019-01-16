@@ -5,8 +5,9 @@ import styles from './NavbarDropdown.module.scss'
 
 const links = [
   { link: '/labs/trends', label: 'Trends' },
-  { link: '/labs/dashboard', label: 'Dashboard' },
-  { link: '/labs/api', label: 'API' }
+  { link: '/labs/balance', label: 'Historical Balance' },
+  { link: '/labs/wordcloud', label: 'Word context' },
+  { link: '/dashboard', label: 'Dashboard' }
 ]
 
 const NavbarLabsDropdown = ({ activeLink }) => {

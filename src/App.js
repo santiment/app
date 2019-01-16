@@ -129,7 +129,7 @@ export const App = ({
           path='/projects'
           render={props => {
             if (isDesktop) {
-              return <Redirect to='/assets/all' />
+              return <Redirect to='/sonar' />
             }
             return <CashflowMobile {...props} />
           }}
@@ -169,8 +169,8 @@ export const App = ({
         <Route exact path='/roadmap' component={Roadmap} />
         <Route exact path='/signals' component={Signals} />
         <Route exact path='/signals/:slug' component={SignalsPriceVolume} />
-        <Route exact path='/balance' component={HistoricalBalancePage} />
-        <Route exact path='/wordcloud' component={WordCloudPage} />
+        <Route exact path='/labs/balance' component={HistoricalBalancePage} />
+        <Route exact path='/labs/wordcloud' component={WordCloudPage} />
         <Route path='/insights/new' component={LoadableInsightsNew} />
         <Route
           path='/insights/update/:insightId'
@@ -200,21 +200,25 @@ export const App = ({
         />
         <Route
           exact
-          path='/trends'
+          path='/labs/trends'
           render={props => (
             <LoadableTrendsPage isDesktop={isDesktop} {...props} />
           )}
         />
-        <Route
-          exact
-          path='/trends/explore'
-          render={() => <Redirect to='/trends' />}
-        />
+        <Redirect from='/trends' to='/labs/trends' />
+        <Redirect from='/trends/explore' to='/labs/trends' />
         <Route
           exact
           path='/trends/explore/:topic'
           render={props => (
             <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
+          )}
+        />
+        <Route
+          exact
+          path='/sonar'
+          render={props => (
+            <LoadableTrendsPage isDesktop={isDesktop} {...props} />
           )}
         />
         <Route exact path='/account' component={Account} />

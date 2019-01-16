@@ -4,9 +4,9 @@ import { Panel, Button } from '@santiment-network/ui'
 import styles from './NavbarDropdown.module.scss'
 
 const links = [
-  { link: '/docs', label: 'Documentation' },
-  { link: '/dev-api', label: 'Developer API' },
-  { link: '/support', label: 'Support' }
+  { link: '/docs', label: 'Documentation' }
+  // { link: '/dev-api', label: 'Developer API' },
+  // { link: '/support', label: 'Support' }
 ]
 
 const NavbarHelpDropdown = ({ activeLink }) => {

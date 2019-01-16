@@ -26,9 +26,11 @@
   align-items: center;
 }
 
-.right button:first-of-type {
-  margin-left: 1rem !important;
+/* stylelint-disable */
+.right :global .search-panel {
+  margin-right: 1rem !important;
 }
+/* stylelint-enable */
 
 .btn {
   display: flex;
