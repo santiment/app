@@ -23,7 +23,7 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
             socialVolumeType: 'PROFESSIONAL_TRADERS_CHAT_OVERVIEW',
             to: moment().toISOString(),
             from: moment()
-              .subtract(1, 'm') // @NOTE(vanguard) query fails, if the value is more in past
+              .subtract(1, 'months') // @NOTE(vanguard) query fails, if the value is more in past
               .toISOString()
           }
         })

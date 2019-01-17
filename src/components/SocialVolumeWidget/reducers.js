@@ -3,7 +3,7 @@ import * as actions from './actions'
 export const initialState = {
   isLoading: false,
   error: false,
-  socialVolume: undefined,
+  data: undefined,
   slug: ''
 }
 
@@ -23,7 +23,7 @@ export default (state = initialState, action) => {
       return {
         isLoading: false,
         error: true,
-        socialVolume: []
+        data: []
       }
 
     default:

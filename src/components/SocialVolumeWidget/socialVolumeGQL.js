@@ -1,12 +1,12 @@
 import gql from 'graphql-tag'
 
 export const socialVolumeGQL = gql`
-  query socialVolume {
+  query socialVolume($from: DateTime!, $to: DateTime!, $slug: String!) {
     socialVolume(
-      from: "2018-11-20T07:11:08.908783Z"
+      from: $from
       socialVolumeType: PROFESSIONAL_TRADERS_CHAT_OVERVIEW
-      to: "2018-12-25T07:11:08.908783Z"
-      slug: "ethereum"
+      to: $to
+      slug: $slug
       interval: "1d"
     ) {
       mentionsCount
