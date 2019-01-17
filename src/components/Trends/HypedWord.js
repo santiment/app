@@ -2,23 +2,15 @@ import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import * as actions from '../WordCloud/actions'
-import { TRENDS_HYPED_WORD_SELECTED } from './actions'
+import * as actions from './actions'
 import styles from './HypedWord.module.scss'
 
-const HypedWord = ({
-  word,
-  score,
-  fetchContext,
-  selectHypedWord,
-  isSelected = false
-}) => (
+const HypedWord = ({ word, score, selectHypedWord, isSelected = false }) => (
   <Link
     className={cx(styles.HypedWord, isSelected && styles.selected)}
     to={`/trends/explore/${word}`}
     onMouseEnter={() => {
       selectHypedWord(word)
-      fetchContext(word)
     }}
     onMouseLeave={() => selectHypedWord()}
   >
@@ -45,15 +37,9 @@ const HypedWord = ({
 )
 
 const mapDispatchToProps = dispatch => ({
-  fetchContext: payload => {
-    dispatch({
-      type: actions.WORDCLOUD_CONTEXT_FETCH,
-      payload
-    })
-  },
   selectHypedWord: (selected = null) => {
     dispatch({
-      type: TRENDS_HYPED_WORD_SELECTED,
+      type: actions.TRENDS_HYPED_WORD_SELECTED,
       payload: { selected }
     })
   }

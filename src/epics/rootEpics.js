@@ -24,7 +24,10 @@ import {
 import fetchTimeseriesEpic from './fetchTimeseriesEpic'
 import handleNightModeToggle from './handleNightModeToggle'
 import handleBetaModeToggle from './handleBetaModeToggle'
-import { fetchHypedTrends } from './../components/Trends/fetchHypedTrends'
+import {
+  fetchHypedTrends,
+  selectHypedTrends
+} from './../components/Trends/fetchHypedTrends'
 import { fetchWordContextEpic } from './../components/WordCloud/fetchWordContextEpic'
 import keyboardEpic from './keyboardEpic'
 
@@ -57,6 +60,7 @@ export default combineEpics(
   fetchTimeseriesEpic,
   // trends
   fetchHypedTrends,
+  selectHypedTrends,
   // WordCloud
   fetchWordContextEpic
 )
