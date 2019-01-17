@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 import moment from 'moment'
 import * as actions from './actions'
 import { WORDCLOUD_CONTEXT_FETCH } from '../WordCloud/actions'
-import { SOCIALVOLUME_DATA_FETCH } from '../SocialVolumeScore/actions'
+import { SOCIALVOLUME_DATA_FETCH } from '../SocialVolumeWidget/actions'
 
 const trendingWordsGQL = gql`
   query trendingWords($from: DateTime!, $to: DateTime!, $hour: Int!) {

@@ -40,7 +40,7 @@ const mapDispatchToProps = dispatch => ({
   selectHypedWord: (selected = null) => {
     dispatch({
       type: actions.TRENDS_HYPED_WORD_SELECTED,
-      payload: { selected }
+      payload: selected
     })
   }
 })
