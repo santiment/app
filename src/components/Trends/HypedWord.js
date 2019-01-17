@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import styles from './HypedWord.module.css'
-import * as actions from '../SocialVolumeScore/actions'
+import * as actions from './actions'
 import { connect } from 'react-redux'
 
 const HypedWord = ({ word, score, latest, fetchSocialVolume }) => (
@@ -36,7 +36,7 @@ const HypedWord = ({ word, score, latest, fetchSocialVolume }) => (
 const mapDispatchToProps = dispatch => ({
   fetchSocialVolume: payload => {
     dispatch({
-      type: actions.SOCIALVOLUME_DATA_FETCH,
+      type: actions.TRENDS_HYPED_WORD_HOVER,
       payload
     })
   }

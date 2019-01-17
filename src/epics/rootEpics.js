@@ -24,9 +24,13 @@ import {
 import fetchTimeseriesEpic from './fetchTimeseriesEpic'
 import handleNightModeToggle from './handleNightModeToggle'
 import handleBetaModeToggle from './handleBetaModeToggle'
-import { fetchHypedTrends } from './../components/Trends/fetchHypedTrends'
+import {
+  fetchHypedTrends,
+  hoverHypedTrend
+} from './../components/Trends/fetchHypedTrends'
 import keyboardEpic from './keyboardEpic'
 import { fetchSocialVolumeEpic } from './../components/SocialVolumeScore/fetchSocialVolumeEpic'
+import { fetchWordContextEpic } from './../components/WordCloud/fetchWordContextEpic'
 
 export default combineEpics(
   handleOffline,
@@ -57,6 +61,7 @@ export default combineEpics(
   fetchTimeseriesEpic,
   // trends
   fetchHypedTrends,
+  hoverHypedTrend,
   // WordCloud
   fetchWordContextEpic,
   // socialVolume

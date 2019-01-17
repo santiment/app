@@ -3,6 +3,8 @@ import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import moment from 'moment'
 import * as actions from './actions'
+import { WORDCLOUD_CONTEXT_FETCH } from '../WordCloud/actions'
+import { SOCIALVOLUME_DATA_FETCH } from '../SocialVolumeScore/actions'
 
 const trendingWordsGQL = gql`
   query trendingWords($from: DateTime!, $to: DateTime!, $hour: Int!) {
@@ -25,6 +27,20 @@ const handleError = error => {
 }
 
 const secretDataTeamHours = [1, 8, 14]
+
+export const hoverHypedTrend = action$ =>
+  action$.ofType(actions.TRENDS_HYPED_WORD_HOVER).switchMap(({ payload }) => {
+    return Observable.from([
+      {
+        type: WORDCLOUD_CONTEXT_FETCH,
+        payload
+      },
+      {
+        type: SOCIALVOLUME_DATA_FETCH,
+        payload
+      }
+    ])
+  })
 
 export const fetchHypedTrends = (action$, store, { client }) =>
   action$.ofType(actions.TRENDS_HYPED_FETCH).exhaustMap(({ data = {} }) => {
