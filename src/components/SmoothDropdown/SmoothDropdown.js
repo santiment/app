@@ -103,7 +103,7 @@ class SmoothDropdown extends Component {
       height: ddWrapperHeight,
       top: ddWrapperTop
     } = this.dropdownWrapperRef.current.getBoundingClientRect()
-    
+
     const {
       top: triggerTop,
       left: triggerLeft,
