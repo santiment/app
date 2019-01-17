@@ -70,7 +70,6 @@ const Navbar = ({ activeLink = '/', isLoggedIn }) => {
                   <NavbarLabsDropdown activeLink={activeLink} />
                 )}
               </SmoothDropdownItem>
-
             )
           }
 
