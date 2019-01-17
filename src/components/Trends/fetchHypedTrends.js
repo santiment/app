@@ -32,16 +32,18 @@ export const selectHypedTrend = action$ =>
   action$
     .ofType(actions.TRENDS_HYPED_WORD_SELECTED)
     .switchMap(({ payload }) => {
-      return Observable.from([
-        {
-          type: WORDCLOUD_CONTEXT_FETCH,
-          payload
-        },
-        {
-          type: SOCIALVOLUME_DATA_FETCH,
-          payload
-        }
-      ])
+      return payload
+        ? Observable.from([
+          {
+            type: WORDCLOUD_CONTEXT_FETCH,
+            payload
+          },
+          {
+            type: SOCIALVOLUME_DATA_FETCH,
+            payload
+          }
+        ])
+        : Observable.empty()
     })
 
 export const fetchHypedTrends = (action$, store, { client }) =>
