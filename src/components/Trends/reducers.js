@@ -4,7 +4,8 @@ export const initialState = {
   isLoading: true,
   error: false,
   items: [],
-  selected: null
+  selected: null,
+  allAssets: []
 }
 
 export default (state = initialState, action) => {
@@ -21,6 +22,15 @@ export default (state = initialState, action) => {
         isLoading: false,
         error: true,
         items: []
+      }
+    case actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS_SUCCESS:
+      return {
+        ...state,
+        ...action.payload
+      }
+    case actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS_FAILED:
+      return {
+        allAssets: []
       }
     case actions.TRENDS_HYPED_WORD_SELECTED:
       const { selected } = action.payload

@@ -1,21 +1,28 @@
 import React from 'react'
+import { compose, withProps } from 'recompose'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import * as actions from '../WordCloud/actions'
 import { TRENDS_HYPED_WORD_SELECTED } from './actions'
+import withDetectionAsset from './withDetectionAsset'
 import styles from './HypedWord.module.scss'
 
 const HypedWord = ({
   word,
   score,
+  detectedAsset,
   fetchContext,
   selectHypedWord,
   isSelected = false
 }) => (
   <Link
     className={cx(styles.HypedWord, isSelected && styles.selected)}
-    to={`/trends/explore/${word}`}
+    to={
+      detectedAsset
+        ? `/trends/explore/${word}?asset=${detectedAsset.slug}`
+        : `/trends/explore/${word}`
+    }
     onMouseEnter={() => {
       selectHypedWord(word)
       fetchContext(word)
@@ -44,6 +51,10 @@ const HypedWord = ({
   </Link>
 )
 
+const mapStateToProps = state => ({
+  allAssets: state.hypedTrends.allAssets
+})
+
 const mapDispatchToProps = dispatch => ({
   fetchContext: payload => {
     dispatch({
@@ -59,7 +70,10 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withDetectionAsset
 )(HypedWord)
