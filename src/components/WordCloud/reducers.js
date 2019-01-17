@@ -1,6 +1,6 @@
 import * as actions from './actions'
 
-export const initialState = {
+export const i = {
   isLoading: false,
   error: false,
   cloud: undefined,
