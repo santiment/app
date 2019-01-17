@@ -1,4 +1,4 @@
-.chart {
+.wrapper {
     margin-top: 24px;
     box-sizing: border-box;
     background-color: #fff;
@@ -13,7 +13,7 @@
         display: none;
     }
     :global(.recharts-cartesian-axis-tick) {
-        font-family: Rubik;
+        font-family: Rubik, sans-serif;
         font-size: 10px;
         & text {
             fill: #adb6cd;
@@ -22,7 +22,7 @@
 }
 
 .info {
-    font-family: Rubik;
+    font-family: Rubik, sans-serif;
     font-style: normal;
     font-weight: normal;
     line-height: 20px;
