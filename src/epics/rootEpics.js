@@ -27,8 +27,9 @@ import handleBetaModeToggle from './handleBetaModeToggle'
 import {
   fetchHypedTrends,
   selectHypedTrend
-} from './../components/Trends/fetchHypedTrends'
-import { fetchWordContextEpic } from './../components/WordCloud/fetchWordContextEpic'
+} from '../components/Trends/fetchHypedTrends'
+import { fetchWordContextEpic } from '../components/WordCloud/fetchWordContextEpic'
+import { fetchSocialVolumeEpic } from '../components/SocialVolumeWidget/socialVolumeEpic'
 import keyboardEpic from './keyboardEpic'
 
 export default combineEpics(
@@ -62,5 +63,7 @@ export default combineEpics(
   fetchHypedTrends,
   selectHypedTrend,
   // WordCloud
-  fetchWordContextEpic
+  fetchWordContextEpic,
+  // SocialVolume
+  fetchSocialVolumeEpic
 )

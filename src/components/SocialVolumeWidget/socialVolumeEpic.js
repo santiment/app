@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs'
 import moment from 'moment'
 import * as actions from './actions'
-import { socialVolumeGQL } from './socialVolumeGQL.js'
+import { socialVolumeGQL } from './socialVolumeGQL'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 
 export const fetchSocialVolumeEpic = (action$, store, { client }) =>
