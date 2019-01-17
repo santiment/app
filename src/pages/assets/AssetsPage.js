@@ -2,12 +2,11 @@ import React, { Fragment } from 'react'
 import { Helmet } from 'react-helmet'
 import qs from 'query-string'
 import { CSVLink } from 'react-csv'
-import { Button } from '@santiment-network/ui'
+import { Button, Panel } from '@santiment-network/ui'
 import { getOrigin } from '../../utils/utils'
 import Assets from './Assets'
 import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
-import AssetsPageNavigation from './AssetsPageNavigation'
 import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
 import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
 import GetTotalMarketcap from '../../components/TotalMarketcapWidget/GetTotalMarketcap'
@@ -63,9 +62,6 @@ const AssetsPage = props => (
       <title>Assets</title>
       <link rel='canonical' href={`${getOrigin()}/assets`} />
     </Helmet>
-    {props.isBetaModeEnabled && (
-      <GetTotalMarketcap type={props.type} listName={getTableTitle(props)} />
-    )}
     <Assets
       {...props}
       type={props.type}
@@ -75,6 +71,8 @@ const AssetsPage = props => (
             <div className='page-head-projects__left'>
               <h1>{getTableTitle(props)}</h1>
               <HelpPopupAssets />
+            </div>
+            <div className='page-head-projects__right'>
               {props.type === 'list' && props.location.hash !== '#shared' && (
                 <WatchlistShare />
               )}
@@ -97,11 +95,15 @@ const AssetsPage = props => (
                 <StablecoinsDataDownloadBtn />
               )}
             </div>
-            <AssetsPageNavigation
-              isLoggedIn={props.isLoggedIn}
-              location={props.location}
-            />
           </div>
+          {props.isBetaModeEnabled && (
+            <Panel className='assets-table-widget-wrapper'>
+              <GetTotalMarketcap
+                type={props.type}
+                listName={getTableTitle(props)}
+              />
+            </Panel>
+          )}
           <AssetsTable
             Assets={Assets}
             goto={props.history.push}

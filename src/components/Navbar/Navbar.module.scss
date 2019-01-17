@@ -1,7 +1,8 @@
 @import '~@santiment-network/ui/variables.scss';
 
 .wrapper {
-  padding: 30px 46px;
+  padding: 1rem 46px;
+  min-height: 34px;
   background: #fff;
   display: flex;
   justify-content: space-between;
@@ -20,12 +21,15 @@
   margin-right: 46px;
   color: #000;
   font-size: 20px;
+  //flex: 1 1 auto;
+  //height: 0;
 }
 
 .right,
 .left {
   display: flex;
   align-items: center;
+  flex-grow: 1;
 }
 
 /* stylelint-disable */
