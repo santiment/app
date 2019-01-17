@@ -30,6 +30,16 @@ export const getStateFromQS = ({ location }) => {
   }
 }
 
+const getCustomInterval = timeframe => {
+  if (timeframe === '1w') {
+    return '1h'
+  }
+  if (timeframe === '1m') {
+    return '6h'
+  }
+  return '1d'
+}
+
 export class TrendsExplorePage extends Component {
   state = {
     ...getStateFromQS(this.props)
@@ -103,7 +113,7 @@ export class TrendsExplorePage extends Component {
                 price={{
                   timeRange,
                   slug: asset,
-                  interval: '1d'
+                  interval: getCustomInterval(timeRange)
                 }}
                 render={({ timeseries }) => (
                   <div style={{ minHeight: 300 }}>
