@@ -211,7 +211,7 @@ export const App = ({
         />
         <Route
           exact
-          path='/trends/explore/:topic'
+          path='/trends/explore/:word'
           render={props => (
             <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
           )}
