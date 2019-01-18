@@ -17,7 +17,9 @@ export default (state = initialState, action) => {
     case actions.SOCIALVOLUME_DATA_FETCH_SUCCESS:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        isLoading: false,
+        error: false
       }
     case actions.SOCIALVOLUME_DATA_FETCH_FAILED:
       return {

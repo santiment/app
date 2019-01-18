@@ -162,6 +162,11 @@ storiesOf('SocialVolumeWidget', module)
       />
     </div>
   ))
+  .add('Total Social Volume', () => (
+    <div>
+      <SocialVolumeWidget />
+    </div>
+  ))
   .add('With Trends', () => (
     <div>
       <HypedWordsBlock
