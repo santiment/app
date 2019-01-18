@@ -1,9 +1,15 @@
 import { Observable } from 'rxjs'
 import moment from 'moment'
 import * as actions from './actions'
-import { socialVolumeGQL, totalSocialVolumeGQL } from './socialVolumeGQL'
+import {
+  socialVolumeGQL,
+  totalSocialVolumeGQL,
+  allProjetsGQL
+} from './socialVolumeGQL'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { mergeTimeseriesByKey } from '../../utils/utils'
+
+let tickerSlugs
 
 export const fetchSocialVolumeEpic = (action$, store, { client }) =>
   action$
@@ -17,6 +23,14 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
       }
 
       if (slug === '__TOTAL_SOCIAL_VOLUME__') {
+        if (!tickerSlugs) {
+          client
+            .query({ query: allProjetsGQL })
+            .then(({ data: { allProjects } }) => {
+              tickerSlugs = allProjects
+            })
+        }
+
         return Observable.fromPromise(
           client.query({
             query: totalSocialVolumeGQL,
@@ -83,11 +97,19 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
         )
       }
 
+      const requestSlug = slug.toLowerCase()
+      const requestTicker = slug.toUpperCase()
+      const { slug: foundSlug } = tickerSlugs.find(
+        ({ ticker: projTicker, slug: projSlug }) =>
+          requestSlug === projSlug || requestTicker === projTicker
+      )
+      console.log(foundSlug)
+
       return Observable.fromPromise(
         client.query({
           query: socialVolumeGQL,
           variables: {
-            slug,
+            slug: foundSlug,
             socialVolumeType: 'PROFESSIONAL_TRADERS_CHAT_OVERVIEW',
             to: moment().toISOString(),
             from: moment()

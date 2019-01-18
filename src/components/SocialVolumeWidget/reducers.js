@@ -28,6 +28,12 @@ export default (state = initialState, action) => {
         data: []
       }
 
+    case actions.SOCIALVOLUME_DATA_FETCH_CANCEL:
+      return {
+        ...state,
+        isLoading: false,
+        error: false
+      }
     default:
       return state
   }

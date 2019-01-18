@@ -70,3 +70,12 @@ export const totalSocialVolumeGQL = gql`
     }
   }
 `
+
+export const allProjetsGQL = gql`
+  query allProjects {
+    allProjects {
+      slug
+      ticker
+    }
+  }
+`
