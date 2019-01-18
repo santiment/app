@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import SocialVolumeWidget, {
-  UnwrappedSocialVolumeWidget
+  SocialVolumeWidget as UnwrappedSocialVolumeWidget
 } from '../src/components/SocialVolumeWidget/SocialVolumeWidget'
 import HypedWordsBlock from '../src/components/Trends/HypedWordsBlock'
 import store from './store'

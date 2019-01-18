@@ -13,13 +13,13 @@ const RoundBar = props => {
   return <rect x={x} y={y} width='6px' height={height} rx='3' fill='#E0E4EE' />
 }
 
-class SocialVolumeWidget extends React.Component {
+export class SocialVolumeWidget extends React.Component {
   componentDidMount () {
     this.props.requestTotalSocialVolume()
   }
 
   render () {
-    const { data = [], slug, isLoading, error } = this.props
+    const { data = [], slug, isLoading, isScoreOverTime, error } = this.props
     if (isLoading) {
       return (
         <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
@@ -94,6 +94,7 @@ const mapStateToProps = state => ({
   slug: state.socialVolume.slug,
   data: state.socialVolume.data,
   isLoading: state.socialVolume.isLoading,
+  isScoreOverTime: state.socialVolume.isScoreOverTime,
   error: state.socialVolume.error
 })
 
@@ -105,7 +106,6 @@ const mapDispatchToProps = dispatch => ({
     })
 })
 
-export const UnwrappedSocialVolumeWidget = SocialVolumeWidget
 export default connect(
   mapStateToProps,
   mapDispatchToProps
