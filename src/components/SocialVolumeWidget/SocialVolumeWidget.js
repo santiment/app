@@ -4,6 +4,7 @@ import { FadeIn } from 'animate-components'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { SOCIALVOLUME_DATA_FETCH } from './actions'
+import { millify } from '../../utils/formatting'
 import styles from './SocialVolumeWidget.module.scss'
 
 const RoundBar = props => {
@@ -78,6 +79,7 @@ class SocialVolumeWidget extends React.Component {
               orientation='right'
               axisLine={false}
               tickLine={false}
+              tickFormatter={count => millify(count, 0)}
             />
 
             <Bar dataKey='mentionsCount' shape={<RoundBar />} />
