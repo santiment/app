@@ -31,24 +31,30 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
           ({
             data: { discord, reddit, telegram, professional_traders_chat }
           }) => {
-            /* console.log( */
-            /* mergeTimeseriesByKey({ */
-            /* key: 'datetime', */
-            /* timeseries: [ */
-            /* discord.chartData, */
-            /* reddit.chartData, */
-            /* telegram.chartData, */
-            /* professional_traders_chat.chartData */
-            /* ], */
-            /* mergeData: (longestTSData, timeserieData) => { */
-            /* return { */
-            /* mentionsCount: */
-            /* longestTSData.mentionsCount + timeserieData.mentionsCount, */
-            /* datetime: longestTSData.datetime */
-            /* } */
-            /* } */
-            /* }) */
-            /* ) */
+            console.log(
+              discord.chartData[0],
+              reddit.chartData[0],
+              telegram.chartData[0],
+              professional_traders_chat.chartData[0]
+            )
+            console.log(
+              mergeTimeseriesByKey({
+                key: 'datetime',
+                timeseries: [
+                  discord.chartData,
+                  reddit.chartData,
+                  telegram.chartData,
+                  professional_traders_chat.chartData
+                ],
+                mergeData: (longestTSData, timeserieData) => {
+                  return {
+                    mentionsCount:
+                      longestTSData.mentionsCount + timeserieData.mentionsCount,
+                    datetime: longestTSData.datetime
+                  }
+                }
+              })[0]
+            )
           }
         )
       }
