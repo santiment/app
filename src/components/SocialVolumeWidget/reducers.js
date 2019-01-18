@@ -2,6 +2,7 @@ import * as actions from './actions'
 
 export const initialState = {
   isLoading: false,
+  isScoreOverTime: false,
   error: false,
   data: undefined,
   slug: ''

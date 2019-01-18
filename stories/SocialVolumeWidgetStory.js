@@ -170,7 +170,11 @@ storiesOf('SocialVolumeWidget', module)
   .add('With Trends', () => (
     <div>
       <HypedWordsBlock
-        trends={[{ word: 'bitcoin', score: 5 }, { word: 'eth', score: 4 }]}
+        trends={[
+          { word: 'bitcoin', score: 5 },
+          { word: 'eth', score: 4 },
+          { word: 'crypto', score: 2 }
+        ]}
       />
       <SocialVolumeWidget />
     </div>
