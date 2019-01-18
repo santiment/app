@@ -1,8 +1,9 @@
 import { Observable } from 'rxjs'
 import moment from 'moment'
 import * as actions from './actions'
-import { socialVolumeGQL } from './socialVolumeGQL'
+import { socialVolumeGQL, totalSocialVolumeGQL } from './socialVolumeGQL'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
+import { mergeTimeseriesByKey } from '../../utils/utils'
 
 export const fetchSocialVolumeEpic = (action$, store, { client }) =>
   action$
@@ -13,6 +14,43 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
           type: actions.SOCIALVOLUME_DATA_FETCH_CANCEL,
           payload: 'New slug is same as the last slug'
         })
+      }
+
+      if (slug === '__TOTAL_SOCIAL_VOLUME__') {
+        return Observable.fromPromise(
+          client.query({
+            query: totalSocialVolumeGQL,
+            variables: {
+              to: moment().toISOString(),
+              from: moment()
+                .subtract(1, 'months')
+                .toISOString()
+            }
+          })
+        ).switchMap(
+          ({
+            data: { discord, reddit, telegram, professional_traders_chat }
+          }) => {
+            /* console.log( */
+            /* mergeTimeseriesByKey({ */
+            /* key: 'datetime', */
+            /* timeseries: [ */
+            /* discord.chartData, */
+            /* reddit.chartData, */
+            /* telegram.chartData, */
+            /* professional_traders_chat.chartData */
+            /* ], */
+            /* mergeData: (longestTSData, timeserieData) => { */
+            /* return { */
+            /* mentionsCount: */
+            /* longestTSData.mentionsCount + timeserieData.mentionsCount, */
+            /* datetime: longestTSData.datetime */
+            /* } */
+            /* } */
+            /* }) */
+            /* ) */
+          }
+        )
       }
 
       return Observable.fromPromise(

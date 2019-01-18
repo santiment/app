@@ -134,22 +134,32 @@ storiesOf('SocialVolumeWidget', module)
   .addDecorator(story => <Provider store={store}>{story()}</Provider>)
   .add('With data', () => (
     <div>
-      <UnwrappedSocialVolumeWidget slug='test' data={defaultData} />
+      <UnwrappedSocialVolumeWidget
+        requestTotalSocialVolume={() => {}}
+        slug='test'
+        data={defaultData}
+      />
     </div>
   ))
   .add('Loading', () => (
     <div>
-      <UnwrappedSocialVolumeWidget isLoading />
+      <UnwrappedSocialVolumeWidget
+        requestTotalSocialVolume={() => {}}
+        isLoading
+      />
     </div>
   ))
   .add('Error', () => (
     <div>
-      <UnwrappedSocialVolumeWidget error />
+      <UnwrappedSocialVolumeWidget requestTotalSocialVolume={() => {}} error />
     </div>
   ))
   .add('Empty', () => (
     <div>
-      <UnwrappedSocialVolumeWidget data={[]} />
+      <UnwrappedSocialVolumeWidget
+        requestTotalSocialVolume={() => {}}
+        data={[]}
+      />
     </div>
   ))
   .add('With Trends', () => (
