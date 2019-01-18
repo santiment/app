@@ -53,11 +53,7 @@ const TrendsPage = ({
 }) => (
   <div className={styles.TrendsPage + ' page'}>
     <div className={styles.header}>
-      <h1>
-        Explore frequently-used <br />
-        words in crypto social media
-      </h1>
-      <TrendsSearch />
+      <h1>Daily trending words</h1>
     </div>
     <GetHypedTrends
       render={({ isLoading, items }) => (
