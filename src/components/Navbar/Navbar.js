@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink as Link } from 'react-router-dom'
 import { Popup } from 'semantic-ui-react'
 import cx from 'classnames'
 import Search from './../Search/SearchContainer'
@@ -104,16 +104,23 @@ const Navbar = ({ activeLink = '/', isLoggedIn }) => {
             }
 
             return (
-              <Button
-                key={link}
-                variant='flat'
-                as={Link}
-                to={link}
-                isActive={link === activeLink}
-                className={styles.leftLink}
+              <Link
+                activeClassName={
+                  styles.button + ' ' + styles.active + ' ' + styles.pseudoBtn
+                }
+                to={{ pathname: link }}
               >
-                {label}
-              </Button>
+                <Button
+                  key={link}
+                  variant='flat'
+                  as={Link}
+                  to={link}
+                  isActive={link === activeLink}
+                  className={styles.leftLink}
+                >
+                  {label}
+                </Button>
+              </Link>
             )
           })}
         </div>
