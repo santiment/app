@@ -2,7 +2,40 @@ import gql from 'graphql-tag'
 
 export const socialVolumeGQL = gql`
   query socialVolume($from: DateTime!, $to: DateTime!, $slug: String!) {
-    socialVolume(
+    telegram_discussion: socialVolume(
+      from: $from
+      socialVolumeType: TELEGRAM_DISCUSSION_OVERVIEW
+      to: $to
+      slug: $slug
+      interval: "1d"
+    ) {
+      mentionsCount
+      datetime
+    }
+
+    telegram_chats: socialVolume(
+      from: $from
+      socialVolumeType: TELEGRAM_CHATS_OVERVIEW
+      to: $to
+      slug: $slug
+      interval: "1d"
+    ) {
+      mentionsCount
+      datetime
+    }
+
+    discord: socialVolume(
+      from: $from
+      socialVolumeType: DISCORD_DISCUSSION_OVERVIEW
+      to: $to
+      slug: $slug
+      interval: "1d"
+    ) {
+      mentionsCount
+      datetime
+    }
+
+    professional_traders_chat: socialVolume(
       from: $from
       socialVolumeType: PROFESSIONAL_TRADERS_CHAT_OVERVIEW
       to: $to

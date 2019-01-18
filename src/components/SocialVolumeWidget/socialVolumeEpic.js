@@ -110,7 +110,6 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
           query: socialVolumeGQL,
           variables: {
             slug: foundSlug,
-            socialVolumeType: 'PROFESSIONAL_TRADERS_CHAT_OVERVIEW',
             to: moment().toISOString(),
             from: moment()
               .subtract(1, 'months') // @NOTE(vanguard) query fails, if the value is more in past
@@ -118,17 +117,42 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
           }
         })
       )
-        .mergeMap(({ data: { socialVolume } }) => {
-          return Observable.of({
-            type: actions.SOCIALVOLUME_DATA_FETCH_SUCCESS,
-            payload: {
-              slug,
-              data: socialVolume,
-              isLoading: false,
-              error: false
+        .mergeMap(
+          ({
+            data: {
+              telegram_discussion,
+              telegram_chats,
+              discord,
+              professional_traders_chat
             }
-          })
-        })
+          }) => {
+            return Observable.of({
+              type: actions.SOCIALVOLUME_DATA_FETCH_SUCCESS,
+              payload: {
+                slug,
+                data: mergeTimeseriesByKey({
+                  key: 'datetime',
+                  timeseries: [
+                    telegram_discussion,
+                    telegram_chats,
+                    discord,
+                    professional_traders_chat
+                  ],
+                  mergeData: (longestTSData, timeserieData) => {
+                    return {
+                      mentionsCount:
+                        longestTSData.mentionsCount +
+                        timeserieData.mentionsCount,
+                      datetime: longestTSData.datetime
+                    }
+                  }
+                }),
+                isLoading: false,
+                error: false
+              }
+            })
+          }
+        )
         .catch(
           handleErrorAndTriggerAction(actions.SOCIALVOLUME_DATA_FETCH_FAILED)
         )
