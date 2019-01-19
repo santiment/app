@@ -42,13 +42,15 @@ class SmoothDropdown extends Component {
     ]).isRequired,
     showArrow: PropTypes.bool,
     verticalMotion: PropTypes.bool,
-    verticalOffset: PropTypes.number
+    verticalOffset: PropTypes.number,
+    screenEdgeXOffset: PropTypes.number
   }
 
   static defaultProps = {
     verticalMotion: false,
     showArrow: true,
-    verticalOffset: 0
+    verticalOffset: 10,
+    screenEdgeXOffset: 10
   }
 
   componentDidMount () {
@@ -114,14 +116,14 @@ class SmoothDropdown extends Component {
       triggerLeft - (ddContent.clientWidth - trigger.clientWidth) / 2
 
     const topOffset =
-      (this.props.verticalMotion
+      (verticalMotion
         ? triggerTop + triggerHeight
         : ddWrapperTop + ddWrapperHeight) + window.scrollY
 
     const correction = this.getViewportOverflowCorrection(trigger, ddContent)
 
     const left = leftOffset - correction.left + 'px'
-    const top = 10 + topOffset + 'px'
+    const top = topOffset + verticalOffset + 'px'
     const width = ddContent.clientWidth + 'px'
     const height = ddContent.clientHeight + 'px'
     this.setState(prevState => ({
@@ -146,6 +148,8 @@ class SmoothDropdown extends Component {
   }
 
   getViewportOverflowCorrection (trigger, ddContent) {
+    const { screenEdgeXOffset } = this.props
+
     const correction = { left: 0 }
     const triggerViewport = trigger.getBoundingClientRect()
 
@@ -154,9 +158,9 @@ class SmoothDropdown extends Component {
     const ddRightCornerX = ddLeftCornerX + ddContent.clientWidth
 
     if (ddRightCornerX > window.innerWidth) {
-      correction.left = ddRightCornerX - window.innerWidth
+      correction.left = ddRightCornerX - window.innerWidth + screenEdgeXOffset
     } else if (ddLeftCornerX < 0) {
-      correction.left = ddLeftCornerX
+      correction.left = ddLeftCornerX - screenEdgeXOffset
     }
 
     return correction

@@ -38,7 +38,8 @@ const rightBtns = [
 const Navbar = ({ activeLink = '/', isLoggedIn }) => {
   return (
     <SmoothDropdown
-      verticalOffset={-25}
+      screenEdgeXOffset={5}
+      verticalOffset={-15}
       showArrow={false}
       className={styles.wrapper}
     >
