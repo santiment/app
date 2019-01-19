@@ -148,8 +148,9 @@ class SmoothDropdown extends Component {
   }
 
   getViewportOverflowCorrection (trigger, ddContent) {
-    const correction = { left: 0 }
     const { screenEdgeXOffset } = this.props
+
+    const correction = { left: 0 }
     const triggerViewport = trigger.getBoundingClientRect()
 
     const ddLeftCornerX =
