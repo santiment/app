@@ -116,7 +116,7 @@ class SmoothDropdown extends Component {
       triggerLeft - (ddContent.clientWidth - trigger.clientWidth) / 2
 
     const topOffset =
-      (this.props.verticalMotion
+      (verticalMotion
         ? triggerTop + triggerHeight
         : ddWrapperTop + ddWrapperHeight) + window.scrollY
 
