@@ -239,7 +239,7 @@ export const App = ({
             )}
           />
         ))}
-        {['docs', 'apidocs', 'apiexamples'].map(name => (
+        {['apidocs', 'apiexamples'].map(name => (
           <Route
             key={name}
             path={`/${name}`}
@@ -248,6 +248,22 @@ export const App = ({
             )}
           />
         ))}
+        {['docs', 'help'].map(name => (
+          <Route
+            key={name}
+            path={`/${name}`}
+            render={() => (
+              <ExternalRedirect to={'https://help.santiment.net'} />
+            )}
+          />
+        ))}
+        <Route
+          exact
+          path='/support'
+          render={props => (
+            <ExternalRedirect to={'mailto:info@santiment.net'} />
+          )}
+        />
         <Route
           path='/consent'
           render={props => (
