@@ -1,5 +1,11 @@
 import React from 'react'
-import { Route as BasicRoute, Switch, Redirect, Link } from 'react-router-dom'
+import {
+  Route as BasicRoute,
+  Switch,
+  Redirect,
+  Link,
+  withRouter
+} from 'react-router-dom'
 import { FadeInDown } from 'animate-components'
 import Loadable from 'react-loadable'
 import withSizes from 'react-sizes'
@@ -104,7 +110,8 @@ export const App = ({
   isFullscreenMobile,
   isOffline,
   hasUsername,
-  isBetaModeEnabled
+  isBetaModeEnabled,
+  location
 }) => (
   <div className='App'>
     {isOffline && (
@@ -128,7 +135,13 @@ export const App = ({
       </div>
     )}
     {isDesktop && <HeaderMsg />}
-    {isFullscreenMobile ? undefined : isDesktop ? <Navbar /> : <MobileMenu />}
+    {isFullscreenMobile ? (
+      undefined
+    ) : isDesktop ? (
+      <Navbar activeLink={location.pathname} />
+    ) : (
+      <MobileMenu />
+    )}
     <ErrorBoundary>
       <Switch>
         <Route
@@ -207,10 +220,9 @@ export const App = ({
         />
         <Route exact path='/labs/trends' render={props => <TrendsTool />} />
         <Redirect from='/trends' to='/labs/trends' />
-        <Redirect from='/trends/explore' to='/labs/trends' />
         <Route
           exact
-          path='/trends/explore/:topic'
+          path='/labs/trends/explore/:topic'
           render={props => (
             <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
           )}
@@ -306,7 +318,8 @@ const enchance = compose(
   connect(mapStateToProps),
   withSizes(mapSizesToProps),
   withTracker,
-  withIntercom
+  withIntercom,
+  withRouter
 )
 
 export default enchance(App)

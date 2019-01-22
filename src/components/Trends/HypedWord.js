@@ -15,7 +15,7 @@ const HypedWord = ({
 }) => (
   <Link
     className={cx(styles.HypedWord, isSelected && styles.selected)}
-    to={`/trends/explore/${word}`}
+    to={`/labs/trends/explore/${word}`}
     onMouseEnter={() => {
       selectHypedWord(word)
       fetchContext(word)

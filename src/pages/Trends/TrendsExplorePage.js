@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import * as qs from 'query-string'
+import { Panel } from '@santiment-network/ui'
 import Selector from './../../components/Selector/Selector'
 import GetTimeSeries from './../../components/GetTimeSeries'
 import TrendsExploreHeader from '../../components/Trends/Explore/TrendsExploreHeader'
@@ -54,7 +55,7 @@ export class TrendsExplorePage extends Component {
     const { match, hasPremium } = this.props
     const { timeRange, asset } = this.state
     return (
-      <div className='TrendsExplorePage'>
+      <Panel className='TrendsExplorePage'>
         <div style={{ textAlign: 'center' }}>
           <TrendsTitle />
         </div>
@@ -120,7 +121,7 @@ export class TrendsExplorePage extends Component {
           />
           <TrendsStats timeRange={timeRange} />
         </div>
-      </div>
+      </Panel>
     )
   }
 

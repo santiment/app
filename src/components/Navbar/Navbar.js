@@ -31,7 +31,7 @@ const rightBtns = [
   }
 ]
 
-const Navbar = ({ activeLink = '/', isLoggedIn }) => {
+const Navbar = ({ activeLink = '/' }) => {
   return (
     <header>
       <SmoothDropdown
@@ -108,12 +108,13 @@ const Navbar = ({ activeLink = '/', isLoggedIn }) => {
                 activeClassName={
                   styles.button + ' ' + styles.active + ' ' + styles.pseudoBtn
                 }
+                key={link}
                 to={{ pathname: link }}
               >
                 <Button
                   key={link}
                   variant='flat'
-                  as={Link}
+                  as={'span'}
                   to={link}
                   isActive={link === activeLink}
                   className={styles.leftLink}
