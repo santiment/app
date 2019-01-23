@@ -38,7 +38,7 @@ const NavbarAssetsDropdown = ({ activeLink, isLoggedIn = true }) => {
                   variant='ghost'
                   key={label}
                   as={Link}
-                  className={dropdownStyles.item + ' ' + dropdownStyles.text}
+                  className={dropdownStyles.item}
                   to={link}
                   isActive={link === activeLink}
                 >

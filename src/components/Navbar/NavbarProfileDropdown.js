@@ -32,7 +32,7 @@ const NavbarProfileDropdown = ({
       <div className={styles.profile}>
         <div className={styles.profile__upper}>
           <div className={styles.profile__left}>
-            <div className={dropdownStyles.text + ' ' + styles.profile__pic}>
+            <div className={styles.profile__pic}>
               {picUrl ? (
                 <img src={picUrl} alt='Profile Pic' />
               ) : (
@@ -44,15 +44,11 @@ const NavbarProfileDropdown = ({
             />
           </div>
           <div className={styles.profile__right}>
-            <h3 className={dropdownStyles.text + ' ' + styles.profile__name}>
-              {name}
-            </h3>
-            <h4 className={dropdownStyles.text + ' ' + styles.profile__status}>
-              {Status[status]}
-            </h4>
+            <h3 className={styles.profile__name}>{name}</h3>
+            <h4 className={styles.profile__status}>{Status[status]}</h4>
           </div>
         </div>
-        <div className={dropdownStyles.text + ' ' + styles.tokens}>
+        <div className={styles.tokens}>
           <span className={styles.tokens__amount}>13 562</span> tokens available
         </div>
       </div>
@@ -61,13 +57,7 @@ const NavbarProfileDropdown = ({
       <div className={dropdownStyles.list}>
         <Button
           variant='ghost'
-          className={
-            styles.setting +
-            ' ' +
-            dropdownStyles.item +
-            ' ' +
-            dropdownStyles.text
-          }
+          className={styles.setting + ' ' + dropdownStyles.item}
           onClick={toggleNightMode}
         >
           Nightmode <Toggle isActive={isNightModeEnabled} />
@@ -83,7 +73,7 @@ const NavbarProfileDropdown = ({
               key={label}
               fluid
               as={Link}
-              className={dropdownStyles.item + ' ' + dropdownStyles.text}
+              className={dropdownStyles.item}
               to={link}
               isActive={link === activeLink}
             >
