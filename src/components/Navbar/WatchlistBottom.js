@@ -4,7 +4,7 @@ import * as actions from '../../actions/types'
 import { connect } from 'react-redux'
 import CreateWatchlistBtn from '../WatchlistPopup/CreateWatchlistBtn'
 import IconPlus from './IconPlus'
-import dropdownStyles from './NavbarDropdown.module.scss'
+import styles from './NavbarAssetsDropdownWatchlist.module.scss'
 
 const mapStateToProps = ({ watchlistUi }) => ({
   watchlistUi
@@ -39,15 +39,15 @@ class WatchlistBottom extends Component {
   render () {
     const { creatingWatchlist } = this.state
     return (
-      <div className={dropdownStyles.newList}>
+      <div className={styles.newList}>
         {creatingWatchlist ? (
           <WatchlistCreateForm
-            className={dropdownStyles.createForm}
+            className={styles.createForm}
             onBlur={this.onBlur}
           />
         ) : (
           <div onClick={this.onClick} style={{ width: '100%' }}>
-            <Button variant='ghost' className={dropdownStyles.newList__btn}>
+            <Button variant='ghost' className={styles.newList__btn}>
               <IconPlus />
               Create new watchlist
             </Button>

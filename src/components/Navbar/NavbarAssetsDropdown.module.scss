@@ -18,7 +18,7 @@
     font-weight: 500;
     line-height: 18px;
     font-size: 12px;
-    margin: 11px 16px ;
+    margin: 11px 16px 3px;
     color: $dark-gray2;
 }
 
@@ -46,12 +46,6 @@
     }
 }
 
-.watchlist {
-    flex: 1;
-    max-height: 174px;
-    overflow: auto;
-    padding: 0 8px ;
-}
 
 .input {
     padding-left: 8px;

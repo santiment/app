@@ -1,0 +1,64 @@
+@import "~@santiment-network/ui/variables.scss";
+@import "~@santiment-network/ui/mixins.scss";
+
+.list {
+    box-sizing: border-box;
+    flex: 1;
+    max-height: 174px;
+    overflow: auto;
+    padding: 8px;
+
+    a {
+        text-decoration: none;
+    }
+}
+
+.item {
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.wl_visibility {
+    fill: $dark-gray !important;
+    width: 16px;
+
+    &:hover {
+        fill: $dark-gray2 !important;
+    }
+}
+
+.label {
+    padding: 3px 8px;
+    @include text-normal;
+    font-size: 12px;
+    line-height: 18px;
+    color: $black;
+}
+
+.newList {
+    @include text-normal;
+    color: $black;
+    display: flex;
+    border-top: 1px solid #EBEEF5;
+    height: 48px;
+
+    &__btn {
+        display:flex;
+        width: 100%;
+        align-items: center;
+        height: auto;
+        padding: 14px 16px;
+
+        svg {
+            margin-right: 8px;
+        }
+    }
+}
+
+.createForm {
+    padding: 8px !important;
+    width: 100%;
+}

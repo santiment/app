@@ -114,10 +114,10 @@ storiesOf('Navbar', module)
         activeLink='/assets/list?name=top%2050%20erc20%40227#shared'
       />
       <br />
-      On the '/assets/list?name=testst@177#shared' page
+      On the '/assets/list?name=Test-0@170#shared' page
       <NavbarAssetsDropdown
         isLoggedIn
-        activeLink='/assets/list?name=testst@177'
+        activeLink='/assets/list?name=Test-0@170'
       />
     </div>
   ))

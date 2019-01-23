@@ -6,9 +6,7 @@ import dropdownStyles from './NavbarDropdown.module.scss'
 import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
 import styles from './NavbarAssetsDropdown.module.scss'
 import * as actions from '../../actions/types'
-import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
 import IconPlus from './IconPlus'
-import WatchlistBottom from './WatchlistBottom'
 
 const linksLeft = [
   { link: '/assets/all', label: 'All Assets' },
@@ -34,7 +32,7 @@ const NavbarAssetsDropdown = ({ activeLink, isLoggedIn = true }) => {
       <div className={styles.wrapper}>
         <div>
           <h3 className={styles.title}>Categories</h3>
-          <div className={styles.testList}>
+          <div className={dropdownStyles.list}>
             {linksLeft.map(({ link, label }) => {
               return (
                 <Button
@@ -55,21 +53,11 @@ const NavbarAssetsDropdown = ({ activeLink, isLoggedIn = true }) => {
         {isLoggedIn && (
           <div className={styles.list}>
             <h3 className={styles.title}>My Watchlists</h3>
-            <SmoothDropdown
-              showArrow={false}
-              verticalOffset={5}
-              closeAfterTimeout={0}
-              verticalMotion
-              className={styles.watchlist + ' ' + dropdownStyles.list}
-            >
-              <NavbarAssetsDropdownWatchlist
-                isLoggedIn={isLoggedIn}
-                activeLink={activeLink}
-                list={linksRight}
-              />
-            </SmoothDropdown>
-            {/* <Input className={styles.input} placeholder='New List' /> */}
-            <WatchlistBottom />
+            <NavbarAssetsDropdownWatchlist
+              isLoggedIn={isLoggedIn}
+              activeLink={activeLink}
+              list={linksRight}
+            />
           </div>
         )}
       </div>
