@@ -35,13 +35,8 @@ const NavbarAssetsDropdownWatchlist = ({ lists = [], activeLink }) => {
             >
               {name.toUpperCase()}
               <SmoothDropdownItem
-                trigger={
-                  isPublic ? (
-                    <IconEye className={styles.wl_visibility} />
-                  ) : (
-                    <IconLock className={styles.wl_visibility} />
-                  )
-                }
+                className={styles.visibility}
+                trigger={isPublic ? <IconEye /> : <IconLock />}
               >
                 <Panel className={styles.label}>
                   {isPublic ? 'Public' : 'Private'}

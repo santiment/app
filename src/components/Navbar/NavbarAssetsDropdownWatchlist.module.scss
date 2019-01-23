@@ -21,12 +21,16 @@
 }
 
 
-.wl_visibility {
-    fill: $dark-gray !important;
-    width: 16px;
+.visibility {
+    display: inline-flex;
 
-    &:hover {
-        fill: $dark-gray2 !important;
+     svg {
+        fill: $dark-gray !important;
+        width: 16px;
+
+        &:hover {
+            fill: $dark-gray2 !important;
+        }
     }
 }
 
