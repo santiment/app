@@ -1,12 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { Panel, Button, Input } from '@santiment-network/ui'
-import dropdownStyles from './NavbarDropdown.module.scss'
+import { Panel, Button } from '@santiment-network/ui'
 import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
-import styles from './NavbarAssetsDropdown.module.scss'
 import * as actions from '../../actions/types'
-import IconPlus from './IconPlus'
+import styles from './NavbarAssetsDropdown.module.scss'
+import dropdownStyles from './NavbarDropdown.module.scss'
 
 const linksLeft = [
   { link: '/assets/all', label: 'All Assets' },

@@ -4,15 +4,14 @@ import moment from 'moment'
 import { Link } from 'react-router-dom'
 import { Panel, Button } from '@santiment-network/ui'
 import { WatchlistGQL } from '../WatchlistPopup/WatchlistGQL'
-import IconLock from './IconLock.js'
-import IconEye from './IconEye.js'
-import styles from './NavbarAssetsDropdownWatchlist.module.scss'
-
 import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
 import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
+import IconLock from './IconLock.js'
+import IconEye from './IconEye.js'
 import WatchlistBottom from './WatchlistBottom'
+import styles from './NavbarAssetsDropdownWatchlist.module.scss'
 
-export const NavbarAssetsDropdownWatchlist = ({ lists = [], activeLink }) => {
+const NavbarAssetsDropdownWatchlist = ({ lists = [], activeLink }) => {
   return (
     <Fragment>
       <SmoothDropdown
