@@ -9,8 +9,16 @@ import styles from './SocialVolumeWidget.module.scss'
 
 const RoundBar = props => {
   const { fill, x, y, width, height } = props
-
-  return <rect x={x} y={y} width='6px' height={height} rx='3' fill='#E0E4EE' />
+  return (
+    <rect
+      x={x}
+      y={height < 0 ? y + height : y}
+      width='6px'
+      height={Math.abs(height)}
+      rx='3'
+      fill='#E0E4EE'
+    />
+  )
 }
 
 export class SocialVolumeWidget extends React.Component {
@@ -82,7 +90,10 @@ export class SocialVolumeWidget extends React.Component {
               tickFormatter={count => millify(count, 0)}
             />
 
-            <Bar dataKey='mentionsCount' shape={<RoundBar />} />
+            <Bar
+              dataKey={isScoreOverTime ? 'score' : 'mentionsCount'}
+              shape={<RoundBar />}
+            />
           </BarChart>
         </ResponsiveContainer>
       </div>

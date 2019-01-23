@@ -103,6 +103,15 @@ export const totalSocialVolumeGQL = gql`
     }
   }
 `
+export const wordTrendScoreGQL = gql`
+  query wordTrendScore($from: DateTime!, $to: DateTime!, $word: String!) {
+    wordTrendScore(from: $from, source: ALL, to: $to, word: $word) {
+      score
+      source
+      datetime
+    }
+  }
+`
 
 export const allProjetsGQL = gql`
   query allProjects {
