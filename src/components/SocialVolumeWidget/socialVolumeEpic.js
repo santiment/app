@@ -120,7 +120,7 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
             }
           })
         )
-          .mergeMap(
+          .switchMap(
             ({
               data: {
                 telegram_discussion,

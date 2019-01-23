@@ -7,19 +7,16 @@ import { SOCIALVOLUME_DATA_FETCH } from './actions'
 import { millify } from '../../utils/formatting'
 import styles from './SocialVolumeWidget.module.scss'
 
-const RoundBar = props => {
-  const { fill, x, y, width, height } = props
-  return (
-    <rect
-      x={x}
-      y={height < 0 ? y + height : y}
-      width='6px'
-      height={Math.abs(height)}
-      rx='3'
-      fill='#E0E4EE'
-    />
-  )
-}
+const RoundBar = ({ x, y, height }) => (
+  <rect
+    x={x}
+    y={height < 0 ? y + height : y}
+    width='6px'
+    height={Math.abs(height)}
+    rx='3'
+    fill='#E0E4EE'
+  />
+)
 
 export class SocialVolumeWidget extends React.Component {
   componentDidMount () {
