@@ -23,7 +23,7 @@ const WatchlistCreateForm = connect(
   mapDispatchToProps
 )(CreateWatchlistBtn)
 
-class WatchlistBottom extends Component {
+class NavbarAssetsDropdownWatchlistBottom extends Component {
   state = {
     creatingWatchlist: false
   }
@@ -58,4 +58,4 @@ class WatchlistBottom extends Component {
   }
 }
 
-export default WatchlistBottom
+export default NavbarAssetsDropdownWatchlistBottom

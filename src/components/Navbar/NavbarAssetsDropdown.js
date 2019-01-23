@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Panel, Button } from '@santiment-network/ui'
 import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
-import * as actions from '../../actions/types'
 import styles from './NavbarAssetsDropdown.module.scss'
 import dropdownStyles from './NavbarDropdown.module.scss'
 
@@ -25,6 +24,7 @@ const linksRight = [
 ]
 
 const NavbarAssetsDropdown = ({ activeLink, isLoggedIn = true }) => {
+  // @NOTE(vanguard): remove isLoggedIn default
   return (
     <Panel>
       <div className={styles.wrapper}>

@@ -8,7 +8,7 @@ import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
 import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 import IconLock from './IconLock.js'
 import IconEye from './IconEye.js'
-import WatchlistBottom from './WatchlistBottom'
+import NavbarAssetsDropdownWatchlistBottom from './NavbarAssetsDropdownWatchlistBottom'
 import styles from './NavbarAssetsDropdownWatchlist.module.scss'
 
 const NavbarAssetsDropdownWatchlist = ({ lists = [], activeLink }) => {
@@ -46,7 +46,7 @@ const NavbarAssetsDropdownWatchlist = ({ lists = [], activeLink }) => {
           )
         })}
       </SmoothDropdown>
-      <WatchlistBottom />
+      <NavbarAssetsDropdownWatchlistBottom />
     </Fragment>
   )
 }
