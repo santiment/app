@@ -6,24 +6,9 @@ import dropdownStyles from './NavbarDropdown.module.scss'
 import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
 import styles from './NavbarAssetsDropdown.module.scss'
 import * as actions from '../../actions/types'
-import CreateWatchlistBtn from '../WatchlistPopup/CreateWatchlistBtn'
-
-const mapStateToProps = ({ watchlistUi }) => ({
-  watchlistUi
-})
-
-const mapDispatchToProps = dispatch => ({
-  createWatchlist: payload =>
-    dispatch({
-      type: actions.USER_ADD_NEW_ASSET_LIST,
-      payload
-    })
-})
-
-const WatchlistCreateForm = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CreateWatchlistBtn)
+import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
+import IconPlus from './IconPlus'
+import WatchlistBottom from './WatchlistBottom'
 
 const linksLeft = [
   { link: '/assets/all', label: 'All Assets' },
@@ -47,36 +32,44 @@ const NavbarAssetsDropdown = ({ activeLink, isLoggedIn = true }) => {
   return (
     <Panel>
       <div className={styles.wrapper}>
-        <div className={dropdownStyles.list}>
+        <div>
           <h3 className={styles.title}>Categories</h3>
-          {linksLeft.map(({ link, label }) => {
-            return (
-              <Button
-                fluid
-                variant='ghost'
-                key={label}
-                as={Link}
-                className={dropdownStyles.item + ' ' + dropdownStyles.text}
-                to={link}
-                isActive={link === activeLink}
-              >
-                {label}
-              </Button>
-            )
-          })}
+          <div className={styles.testList}>
+            {linksLeft.map(({ link, label }) => {
+              return (
+                <Button
+                  fluid
+                  variant='ghost'
+                  key={label}
+                  as={Link}
+                  className={dropdownStyles.item + ' ' + dropdownStyles.text}
+                  to={link}
+                  isActive={link === activeLink}
+                >
+                  {label}
+                </Button>
+              )
+            })}
+          </div>
         </div>
         {isLoggedIn && (
-          <div className={styles.list + ' ' + dropdownStyles.list}>
+          <div className={styles.list}>
             <h3 className={styles.title}>My Watchlists</h3>
-            <div className={styles.watchlist}>
+            <SmoothDropdown
+              showArrow={false}
+              verticalOffset={5}
+              closeAfterTimeout={0}
+              verticalMotion
+              className={styles.watchlist + ' ' + dropdownStyles.list}
+            >
               <NavbarAssetsDropdownWatchlist
                 isLoggedIn={isLoggedIn}
                 activeLink={activeLink}
                 list={linksRight}
               />
-            </div>
+            </SmoothDropdown>
             {/* <Input className={styles.input} placeholder='New List' /> */}
-            <WatchlistCreateForm />
+            <WatchlistBottom />
           </div>
         )}
       </div>

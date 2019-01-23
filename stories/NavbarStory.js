@@ -12,20 +12,17 @@ import NavbarAssetsDropdown from './../src/components/Navbar/NavbarAssetsDropdow
 import { watchlistGQL } from './../src/components/Navbar/NavbarAssetsDropdownWatchlist'
 import store from './store'
 
-
 const mockedData = {
-  fetchUserLists: [
-    {
-      __typename: 'UserList',
-      color: 'NONE',
-      id: '177',
-      insertedAt: '2018-12-01T13:37:02.070807',
-      isPublic: false,
-      listItems: [],
-      name: 'testst',
-      updatedAt: '2018-12-21T07:25:02.516756'
-    }
-  ]
+  fetchUserLists: [0, 1, 2, 3, 4, 5, 6, 7, 8].map(index => ({
+    __typename: 'UserList',
+    color: 'NONE',
+    id: '17' + index,
+    insertedAt: '2018-12-01T13:37:02.07080' + index,
+    isPublic: Boolean(index % 2),
+    listItems: [],
+    name: 'Test-' + index,
+    updatedAt: '2018-12-21T07:25:02.51675' + index
+  }))
 }
 const query = watchlistGQL
 

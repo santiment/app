@@ -2,16 +2,19 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
-import { Button } from '@santiment-network/ui'
+import { Panel, Button } from '@santiment-network/ui'
 import { WatchlistGQL } from '../WatchlistPopup/WatchlistGQL'
 import dropdownStyles from './NavbarDropdown.module.scss'
+import IconLock from './IconLock.js'
+import IconEye from './IconEye.js'
+
+import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 
 const NavbarAssetsDropdownWatchlist = ({ lists = [], activeLink }) => {
-  return lists.map(({ name, id }) => {
+  return lists.map(({ name, id, isPublic }) => {
     const link = `/assets/list?name=${name}@${id}`
     return (
       <Button
-        fluid
         variant='ghost'
         key={id}
         as={Link}
@@ -20,6 +23,19 @@ const NavbarAssetsDropdownWatchlist = ({ lists = [], activeLink }) => {
         isActive={activeLink === link}
       >
         {name.toUpperCase()}
+        <SmoothDropdownItem
+          trigger={
+            isPublic ? (
+              <IconEye className={dropdownStyles.wl_visibility} />
+            ) : (
+              <IconLock className={dropdownStyles.wl_visibility} />
+            )
+          }
+        >
+          <Panel className={dropdownStyles.label}>
+            {isPublic ? 'Public' : 'Private'}
+          </Panel>
+        </SmoothDropdownItem>
       </Button>
     )
   })

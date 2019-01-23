@@ -10,6 +10,11 @@ const initialState = {
 class CreateWatchlistBtn extends React.Component {
   state = initialState
 
+  static defaultProps = {
+    onBlur: () => {},
+    className: ''
+  }
+
   componentDidUpdate (prevProps) {
     if (
       this.props.watchlistUi.newItemSuccess !==
@@ -29,24 +34,28 @@ class CreateWatchlistBtn extends React.Component {
       this.props.createWatchlist({
         name: this.state.newTitle.toLowerCase()
       })
+      this.props.onBlur()
     }
   }
 
   render () {
+    const { onBlur, className } = this.props
+    const { newTitle } = this.state
     return (
-      <div className='create-new-watchlist-btn'>
+      <div className={`create-new-watchlist-btn ${className}`}>
         <Input
           disabled={this.props.watchlistUi.newItemPending}
-          value={this.state.newTitle}
+          value={newTitle}
           placeholder='a name of new list'
           onChange={this.handleOnChange}
+          onBlur={!newTitle ? onBlur : undefined}
           onKeyPress={(e, data) => {
             if (e.key === 'Enter') {
               this.handleCreateWatchlist()
             }
           }}
         />
-        {this.state.newTitle.length > 0 && (
+        {newTitle.length > 0 && (
           <Button color='google plus' onClick={this.handleCreateWatchlist}>
             Create
           </Button>

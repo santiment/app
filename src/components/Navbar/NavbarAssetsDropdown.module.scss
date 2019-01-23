@@ -1,3 +1,5 @@
+@import "~@santiment-network/ui/variables.scss";
+
 .wrapper {
     display: flex;
 
@@ -13,11 +15,11 @@
 .title {
     font-family: Rubik, sans-serif;
     font-style: normal;
-    font-weight: normal;
-    line-height: 22px;
-    font-size: 16px;
-    text-transform: uppercase;
-    margin: 16px 8px;
+    font-weight: 500;
+    line-height: 18px;
+    font-size: 12px;
+    margin: 11px 16px ;
+    color: $dark-gray2;
 }
 
 .list {
@@ -36,13 +38,23 @@
     }
 }
 
+.testList {
+    padding: 0 8px 8px;
+
+    a {
+        text-decoration: none;
+    }
+}
+
 .watchlist {
     flex: 1;
     max-height: 174px;
     overflow: auto;
+    padding: 0 8px ;
 }
 
 .input {
     padding-left: 8px;
     margin-top: 8px;
 }
+
