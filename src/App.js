@@ -42,6 +42,7 @@ import WordCloudPage from './components/WordCloud/WordCloudPage'
 import TrendsTool from './pages/Trends/TrendsToolPage'
 import { getConsentUrl } from './utils/utils'
 import HeaderMsg from './HeaderMsg'
+import LogoutPage from './pages/Logout'
 import './App.scss'
 
 const LoadableDetailedPage = Loadable({
@@ -234,6 +235,7 @@ export const App = ({
             <LoadableTrendsPage isDesktop={isDesktop} {...props} />
           )}
         />
+        <Route path='/logout' component={LogoutPage} />
         <Route exact path='/account' component={Account} />
         <Route exact path='/status' component={Status} />
         <Route exact path='/chart' component={ChartPage} />
