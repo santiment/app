@@ -76,11 +76,12 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
 
       const requestSlug = slug.toLowerCase()
       const requestTicker = slug.toUpperCase()
-      const { slug: foundSlug } =
-        tickerSlugs.find(
+      const { slug: foundSlug } = tickerSlugs
+        ? tickerSlugs.find(
           ({ ticker: projTicker, slug: projSlug }) =>
             requestSlug === projSlug || requestTicker === projTicker
         ) || {}
+        : {}
 
       return !foundSlug
         ? Observable.fromPromise(
