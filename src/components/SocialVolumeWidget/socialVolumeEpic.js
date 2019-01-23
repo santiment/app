@@ -234,7 +234,7 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
               word: slug,
               to: moment().toISOString(),
               from: moment()
-                .subtract(1, 'months') // @NOTE(vanguard) query fails, if the value is more in past
+                .subtract(1, 'months')
                 .toISOString()
             }
           })
@@ -258,7 +258,7 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
               slug: foundSlug,
               to: moment().toISOString(),
               from: moment()
-                .subtract(1, 'months') // @NOTE(vanguard) query fails, if the value is more in past
+                .subtract(1, 'months')
                 .toISOString()
             }
           })
