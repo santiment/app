@@ -61,7 +61,8 @@ export class SocialVolumeWidget extends React.Component {
     return (
       <div className={styles.wrapper}>
         <div className={styles.info}>
-          <span className={styles.slug}>{slug}</span> social volume score
+          <span className={styles.slug}>{slug} </span>
+          {isScoreOverTime ? 'trend' : 'social volume'} score
         </div>
         <ResponsiveContainer width='100%' height={170}>
           <BarChart
