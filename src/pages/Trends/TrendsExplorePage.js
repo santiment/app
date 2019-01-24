@@ -18,6 +18,8 @@ import styles from './TrendsExplorePage.module.scss'
 
 export class TrendsExplorePage extends Component {
   state = {
+    timeRange: '3m',
+    asset: 'bitcoin',
     ...mapQSToState(this.props)
   }
 
