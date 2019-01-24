@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
+import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { Panel, Button, Toggle, Icon } from '@santiment-network/ui'
 import DropdownDevider from './DropdownDevider'
@@ -26,43 +27,61 @@ const NavbarProfileDropdown = ({
   balance,
   name,
   status = 'offline',
+  isLoggedIn,
   isNightModeEnabled,
   toggleNightMode,
   toggleBetaMode,
   isBetaModeEnabled
 }) => {
   return (
-    <Fragment>
-      <div className={styles.profile}>
-        <div className={styles.profile__upper}>
-          <div className={styles.profile__left}>
-            <div className={dropdownStyles.text + ' ' + styles.profile__pic}>
-              {picUrl ? (
-                <img src={picUrl} alt='Profile Pic' />
-              ) : (
-                <Icon type='profile-round' fill='#fff' />
-              )}
+    <div
+      className={cx({
+        [styles.wrapper]: true,
+        [styles.login]: !isLoggedIn
+      })}
+    >
+      {isLoggedIn && (
+        <Fragment>
+          <div className={styles.profile}>
+            <div className={styles.profile__upper}>
+              <div className={styles.profile__left}>
+                <div
+                  className={dropdownStyles.text + ' ' + styles.profile__pic}
+                >
+                  {picUrl ? (
+                    <img src={picUrl} alt='Profile Pic' />
+                  ) : (
+                    <Icon type='profile-round' fill='#fff' />
+                  )}
+                </div>
+                <div
+                  className={
+                    styles.onlineIndicator + ' ' + getStatusStyle(status)
+                  }
+                />
+              </div>
+              <div className={styles.profile__right}>
+                <h3
+                  className={dropdownStyles.text + ' ' + styles.profile__name}
+                >
+                  {name}
+                </h3>
+                <h4
+                  className={dropdownStyles.text + ' ' + styles.profile__status}
+                >
+                  {Status[status]}
+                </h4>
+              </div>
             </div>
-            <div
-              className={styles.onlineIndicator + ' ' + getStatusStyle(status)}
-            />
+            <div className={dropdownStyles.text + ' ' + styles.tokens}>
+              <span className={styles.tokens__amount}>{balance}</span> tokens
+              available
+            </div>
           </div>
-          <div className={styles.profile__right}>
-            <h3 className={dropdownStyles.text + ' ' + styles.profile__name}>
-              {name}
-            </h3>
-            <h4 className={dropdownStyles.text + ' ' + styles.profile__status}>
-              {Status[status]}
-            </h4>
-          </div>
-        </div>
-        <div className={dropdownStyles.text + ' ' + styles.tokens}>
-          <span className={styles.tokens__amount}>{balance}</span> tokens
-          available
-        </div>
-      </div>
+          <DropdownDevider />
+        </Fragment>
+      )}
 
-      <DropdownDevider />
       <div className={dropdownStyles.list}>
         <Button
           variant='ghost'
@@ -94,23 +113,36 @@ const NavbarProfileDropdown = ({
       <DropdownDevider />
 
       <div className={dropdownStyles.list}>
-        {links.map(({ link, label }) => {
-          return (
-            <Button
-              variant='ghost'
-              key={label}
-              fluid
-              as={Link}
-              className={dropdownStyles.item + ' ' + dropdownStyles.text}
-              to={link}
-              isActive={link === activeLink}
-            >
-              {label}
-            </Button>
-          )
-        })}
+        {isLoggedIn &&
+          links.map(({ link, label }) => {
+            return (
+              <Button
+                variant='ghost'
+                key={label}
+                fluid
+                as={Link}
+                className={dropdownStyles.item + ' ' + dropdownStyles.text}
+                to={link}
+                isActive={link === activeLink}
+              >
+                {label}
+              </Button>
+            )
+          })}
+        {!isLoggedIn && (
+          <Button
+            variant='ghost'
+            fluid
+            as={Link}
+            className={dropdownStyles.item + ' ' + dropdownStyles.text}
+            to={'/login'}
+            isActive={activeLink === '/login'}
+          >
+            Log in
+          </Button>
+        )}
       </div>
-    </Fragment>
+    </div>
   )
 }
 
