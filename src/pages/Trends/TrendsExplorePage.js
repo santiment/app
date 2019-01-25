@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+import { compose, withProps } from 'recompose'
 import PropTypes from 'prop-types'
 import * as qs from 'query-string'
 import { Panel, Selector } from '@santiment-network/ui'
@@ -10,11 +11,23 @@ import TrendsStats from './../../components/Trends/TrendsStats'
 import TrendsTitle from '../../components/Trends/TrendsTitle'
 import TrendsExploreShare from './../../components/Trends/Explore/TrendsExploreShare'
 import TrendsExploreSearch from './../../components/Trends/Explore/TrendsExploreSearch'
+import * as actions from '../../components/Trends/actions'
+import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import WordCloud from './../../components/WordCloud/WordCloud'
 import GetWordContext from './../../components/WordCloud/GetWordContext'
 import { checkHasPremium } from './../UserSelectors'
 import { mapQSToState, mapStateToQS, capitalizeStr } from './../../utils/utils'
 import styles from './TrendsExplorePage.module.scss'
+
+const getCustomInterval = timeframe => {
+  if (timeframe === '1w') {
+    return '1h'
+  }
+  if (timeframe === '1m') {
+    return '6h'
+  }
+  return '1d'
+}
 
 export class TrendsExplorePage extends Component {
   state = {
@@ -25,12 +38,18 @@ export class TrendsExplorePage extends Component {
 
   static defaultProps = {
     match: { params: {} },
+    word: '',
     history: {}
   }
 
   static propTypes = {
     match: PropTypes.object,
+    word: PropTypes.string,
     history: PropTypes.object
+  }
+
+  componentDidMount () {
+    this.props.fetchAllTickersSlugs()
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
@@ -38,9 +57,9 @@ export class TrendsExplorePage extends Component {
   }
 
   render () {
-    const { match, hasPremium } = this.props
+    const { word, hasPremium, detectedAsset } = this.props
     const { timeRange, asset = '' } = this.state
-    const topic = window.decodeURIComponent(match.params.topic)
+    const topic = window.decodeURIComponent(word)
     return (
       <div className={styles.TrendsExplorePage}>
         <div className={styles.settings}>
@@ -55,8 +74,16 @@ export class TrendsExplorePage extends Component {
             />
             <Panel className={styles.pricePair}>
               <Selector
-                options={['bitcoin', 'ethereum']}
-                nameOptions={['BTC/USD', 'ETH/USD']}
+                options={
+                  detectedAsset
+                    ? ['bitcoin', 'ethereum', detectedAsset.slug]
+                    : ['bitcoin', 'ethereum']
+                }
+                nameOptions={
+                  detectedAsset
+                    ? ['BTC/USD', 'ETH/USD', `${detectedAsset.ticker}/USD`]
+                    : ['BTC/USD', 'ETH/USD']
+                }
                 onSelectOption={this.handleSelectAsset}
                 defaultSelected={asset}
               />
@@ -66,7 +93,7 @@ export class TrendsExplorePage extends Component {
         </div>
         <div>
           <GetWordContext
-            word={match.params.topic}
+            word={word}
             render={({ cloud }) => {
               if (cloud && cloud.length === 0) {
                 return ''
@@ -79,7 +106,7 @@ export class TrendsExplorePage extends Component {
             }}
           />
           <GetTrends
-            topic={match.params.topic}
+            topic={word}
             timeRange={timeRange}
             interval={'1d'}
             render={trends => (
@@ -87,23 +114,24 @@ export class TrendsExplorePage extends Component {
                 price={{
                   timeRange,
                   slug: asset,
-                  interval: '1d'
+                  interval: getCustomInterval(timeRange)
                 }}
                 render={({ timeseries }) => (
-                  <div style={{ minHeight: 300 }}>
-                    <TrendsReChart
-                      asset={asset && capitalizeStr(asset)}
-                      data={timeseries.price}
-                      trends={trends}
-                      hasPremium={hasPremium}
-                    />
-                  </div>
+                  <Fragment>
+                    <div style={{ minHeight: 300 }}>
+                      <TrendsReChart
+                        asset={asset && capitalizeStr(asset)}
+                        data={timeseries.price}
+                        trends={trends}
+                        hasPremium={hasPremium}
+                      />
+                    </div>
+                    {trends.length > 0 && <TrendsStats timeRange={timeRange} />}
+                  </Fragment>
                 )}
               />
             )}
           />
-
-          <TrendsStats timeRange={timeRange} />
         </div>
       </div>
     )
@@ -126,8 +154,29 @@ export class TrendsExplorePage extends Component {
 
 const mapStateToProps = state => {
   return {
-    hasPremium: checkHasPremium(state)
+    hasPremium: checkHasPremium(state),
+    allAssets: state.hypedTrends.allAssets
   }
 }
 
-export default connect(mapStateToProps)(TrendsExplorePage)
+const mapDispatchToProps = dispatch => ({
+  fetchAllTickersSlugs: () => {
+    dispatch({
+      type: actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS
+    })
+  }
+})
+
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withProps(({ match = { params: {} }, ...rest }) => {
+    return {
+      word: match.params.word,
+      ...rest
+    }
+  }),
+  withDetectionAsset
+)(TrendsExplorePage)

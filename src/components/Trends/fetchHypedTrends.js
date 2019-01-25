@@ -26,52 +26,64 @@ const handleError = error => {
 
 const secretDataTeamHours = [1, 8, 14]
 
-export const fetchHypedTrends = (action$, store, { client }) =>
-  action$.ofType(actions.TRENDS_HYPED_FETCH).exhaustMap(({ data = {} }) => {
-    const startTime = Date.now()
-    const queries = secretDataTeamHours.map(hour => {
-      return client.query({
-        query: trendingWordsGQL,
-        variables: {
-          hour,
-          to: new Date().toISOString(),
-          from: moment()
-            .subtract(3, 'd')
-            .toISOString()
-        },
-        context: { isRetriable: true }
+const fetchTrends$ = ({ client, data = {} }) => {
+  const startTime = Date.now()
+  const queries = secretDataTeamHours.map(hour => {
+    return client.query({
+      query: trendingWordsGQL,
+      variables: {
+        hour,
+        to: new Date().toISOString(),
+        from: moment()
+          .subtract(3, 'd')
+          .toISOString()
+      },
+      context: { isRetriable: true }
+    })
+  })
+
+  return Observable.forkJoin(queries)
+    .delayWhen(() => Observable.timer(500 + startTime - Date.now()))
+    .mergeMap(data => {
+      const trends = data
+        .reduce((acc, val, index) => {
+          const { data = [] } = val
+          data.trendingWords.forEach(el => {
+            acc.push({
+              ...el,
+              datetime: moment(el.datetime)
+                .add(secretDataTeamHours[index], 'hours')
+                .utc()
+                .format()
+            })
+          })
+          return acc
+        }, [])
+        .sort((a, b) => (moment(a.datetime).isAfter(b.datetime) ? 1 : -1))
+        .reverse()
+        .filter((_, index) => index < 3)
+        .reverse()
+      return Observable.of({
+        type: actions.TRENDS_HYPED_FETCH_SUCCESS,
+        payload: {
+          items: trends,
+          isLoading: false,
+          error: false
+        }
       })
     })
+    .catch(handleError)
+}
 
-    return Observable.forkJoin(queries)
-      .delayWhen(() => Observable.timer(500 + startTime - Date.now()))
-      .mergeMap(data => {
-        const trends = data
-          .reduce((acc, val, index) => {
-            const { data = [] } = val
-            data.trendingWords.forEach(el => {
-              acc.push({
-                ...el,
-                datetime: moment(el.datetime)
-                  .add(secretDataTeamHours[index], 'hours')
-                  .utc()
-                  .format()
-              })
-            })
-            return acc
-          }, [])
-          .sort((a, b) => (moment(a.datetime).isAfter(b.datetime) ? 1 : -1))
-          .reverse()
-          .filter((_, index) => index < 3)
-          .reverse()
-        return Observable.of({
-          type: actions.TRENDS_HYPED_FETCH_SUCCESS,
-          payload: {
-            items: trends,
-            isLoading: false,
-            error: false
-          }
-        })
-      })
-      .catch(handleError)
+export const fetchHypedTrends = (action$, store, { client }) =>
+  action$.ofType(actions.TRENDS_HYPED_FETCH).mergeMap(({ data = {} }) => {
+    return Observable.merge(
+      Observable.of({
+        type: actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS,
+        payload: {
+          check: 'check'
+        }
+      }),
+      fetchTrends$({ data, client })
+    )
   })
