@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import * as qs from 'query-string'
 import * as actions from './../actions/types'
 
 class LogoutPage extends React.Component {
@@ -10,7 +11,8 @@ class LogoutPage extends React.Component {
 
   componentDidMount () {
     this.props.logout()
-    setTimeout(() => this.props.redirect(this.props.to), 3000)
+    const { to = this.props.to } = qs.parse(this.props.location.search)
+    setTimeout(() => this.props.redirect(to), 3000)
   }
 
   render () {
