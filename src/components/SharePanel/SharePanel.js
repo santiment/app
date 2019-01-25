@@ -1,43 +1,37 @@
 import React from 'react'
 import { Input, Panel, Icon, Button } from '@santiment-network/ui'
 import copy from 'copy-to-clipboard'
-import IconTwitter from './IconTwitter'
-import IconFacebook from './IconFacebook'
-import IconLinkedIn from './IconLinkedIn'
-import IconTelegram from './IconTelegram'
-import IconReddit from './IconReddit'
-import IconClose from './IconClose'
 import ShareComposition from './ShareComposition'
 import styles from './SharePanel.module.scss'
 
 const media = [
   {
     label: 'Twitter',
-    icon: IconTwitter,
+    icon: 'twitter',
     href:
       'https://twitter.com/home?status=Hey!%20Look%20what%20I%20have%20found%3A%20'
   },
   {
     label: 'Facebook',
-    icon: IconFacebook,
+    icon: 'facebook',
     href:
       'https://www.facebook.com/sharer/sharer.php?u=Hey!%20Look%20what%20I%20have%20found%3A%20'
   },
   {
     label: 'LinkedIn',
-    icon: IconLinkedIn,
+    icon: 'linkedIn',
     href:
       'https://www.linkedin.com/shareArticle?mini=true&title=Santiment.net%20Data&summary=Hey!%20Look%20what%20I%20have%20found&source=santiment.net&url='
   },
   {
     label: 'Telegram',
-    icon: IconTelegram,
+    icon: 'telegram',
     href:
       'https://telegram.me/share/url?text=Hey!%20Look%20what%20I%20have%20found%20on%20the%20santiment.net&url='
   },
   {
     label: 'Reddit',
-    icon: IconReddit,
+    icon: 'reddit',
     href:
       'https://reddit.com/submit?title=Hey!%20Look%20what%20I%20have%20found%20on%20the%20santiment.net&url='
   }
@@ -48,7 +42,7 @@ const SharePanel = ({ shareLink, onCloseBtnClick }) => {
     <Panel className={styles.wrapper}>
       <div className={styles.upper}>
         <h3 className={styles.title}>Share the data</h3>
-        <IconClose className={styles.close} onClick={onCloseBtnClick} />
+        <Icon type='close' className={styles.close} onClick={onCloseBtnClick} />
       </div>
       <div className={styles.composition}>
         <ShareComposition />
@@ -69,7 +63,7 @@ const SharePanel = ({ shareLink, onCloseBtnClick }) => {
           </Button>
         </div>
 
-        {media.map(({ label, icon: Icon, href }) => {
+        {media.map(({ label, icon, href }) => {
           return (
             <Button
               key={label}
@@ -79,7 +73,7 @@ const SharePanel = ({ shareLink, onCloseBtnClick }) => {
               )}
               className={styles.btn}
             >
-              <Icon className={styles.icon} /> Share on {label}
+              <Icon type={icon} className={styles.icon} /> Share on {label}
             </Button>
           )
         })}
