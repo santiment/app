@@ -8,7 +8,7 @@
 .upper {
     padding: 12px 20px;
     position: relative;
-    border-bottom: 1px solid $light-gray3; // NOTE(vanguard): change to ui var
+    border-bottom: 1px solid $light-gray3; 
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -34,7 +34,7 @@
 }
 
 .close {
-    fill: #7A859E;
+    fill: $text-grey;
     cursor: pointer;
 }
 
@@ -93,5 +93,5 @@
     width: 16px;
     text-align: center;
     margin-right: 7px;
-    fill: #ADB6CD !important;
+    fill: $dark-gray !important;
 }
