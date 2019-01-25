@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AccountIcon = props => {
+const ShareComposition = props => {
   return (
     <svg
       width='102'
@@ -65,4 +65,4 @@ const AccountIcon = props => {
   )
 }
 
-export default AccountIcon
+export default ShareComposition
