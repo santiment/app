@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import TagCloud from 'react-tag-cloud'
 import { FadeIn } from 'animate-components'
+import HelpPopupWordCloud from './HelpPopupWordCloud'
 import styles from './WordCloud.module.scss'
 
 const WORD_BIG = {
@@ -67,7 +68,7 @@ class WordCloud extends Component {
     return (
       <div className={styles.wrapper}>
         <small className={styles.hint}>
-          <strong>{searchWord}</strong> social context
+          <strong>{searchWord}</strong> social context <HelpPopupWordCloud />
         </small>
         <TagCloud style={{ width: '95%', height: '85%', padding: 10 }}>
           {cloud.map(({ word }, index) => (
