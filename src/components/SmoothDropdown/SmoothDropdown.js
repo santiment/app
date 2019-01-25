@@ -29,6 +29,7 @@ class SmoothDropdown extends Component {
 
   state = {
     currentTrigger: null,
+    currentDropdown: null,
     ddFirstTime: false,
     arrowCorrectionX: 0,
     dropdownStyles: {},
@@ -42,13 +43,15 @@ class SmoothDropdown extends Component {
     ]).isRequired,
     showArrow: PropTypes.bool,
     verticalMotion: PropTypes.bool,
-    verticalOffset: PropTypes.number
+    verticalOffset: PropTypes.number,
+    screenEdgeXOffset: PropTypes.number
   }
 
   static defaultProps = {
     verticalMotion: false,
     showArrow: true,
-    verticalOffset: 0
+    verticalOffset: 10,
+    screenEdgeXOffset: 10
   }
 
   componentDidMount () {
@@ -92,6 +95,37 @@ class SmoothDropdown extends Component {
         ddItems: new Map([...prevState.ddItems, [ddItem, ddContent]])
       }))
     }
+
+    const dropdownItem = this.ddItemsRef.get(ddItem).current
+    const {
+      currentDropdown,
+      dropdownStyles: { width: widthPx, height: heightPx }
+    } = this.state
+
+    if (
+      !dropdownItem ||
+      currentDropdown !== dropdownItem.querySelector('.dd__content')
+    ) {
+      return
+    }
+
+    setTimeout(() => {
+      if (
+        currentDropdown.clientHeight !== parseInt(heightPx, 10) ||
+        currentDropdown.clientWidth !== parseInt(widthPx, 10)
+      ) {
+        if (this.ddContainer) {
+          this.setState(prevState => ({
+            ...prevState,
+            dropdownStyles: {
+              ...prevState.dropdownStyles,
+              width: currentDropdown.clientWidth + 'px',
+              height: currentDropdown.clientHeight + 'px'
+            }
+          }))
+        }
+      }
+    }, 0)
   }
 
   openDropdown = (ddItem, trigger) => {
@@ -114,19 +148,20 @@ class SmoothDropdown extends Component {
       triggerLeft - (ddContent.clientWidth - trigger.clientWidth) / 2
 
     const topOffset =
-      (this.props.verticalMotion
+      (verticalMotion
         ? triggerTop + triggerHeight
         : ddWrapperTop + ddWrapperHeight) + window.scrollY
 
     const correction = this.getViewportOverflowCorrection(trigger, ddContent)
 
     const left = leftOffset - correction.left + 'px'
-    const top = 10 + topOffset + 'px'
+    const top = topOffset + verticalOffset + 'px'
     const width = ddContent.clientWidth + 'px'
     const height = ddContent.clientHeight + 'px'
     this.setState(prevState => ({
       ...prevState,
       currentTrigger: ddItem,
+      currentDropdown: ddContent,
       ddFirstTime: prevState.currentTrigger === null,
       dropdownStyles: {
         left,
@@ -141,11 +176,14 @@ class SmoothDropdown extends Component {
   closeDropdown = () => {
     this.setState(prevState => ({
       ...prevState,
-      currentTrigger: null
+      currentTrigger: null,
+      currentDropdown: null
     }))
   }
 
   getViewportOverflowCorrection (trigger, ddContent) {
+    const { screenEdgeXOffset } = this.props
+
     const correction = { left: 0 }
     const triggerViewport = trigger.getBoundingClientRect()
 
@@ -154,9 +192,9 @@ class SmoothDropdown extends Component {
     const ddRightCornerX = ddLeftCornerX + ddContent.clientWidth
 
     if (ddRightCornerX > window.innerWidth) {
-      correction.left = ddRightCornerX - window.innerWidth
+      correction.left = ddRightCornerX - window.innerWidth + screenEdgeXOffset
     } else if (ddLeftCornerX < 0) {
-      correction.left = ddLeftCornerX
+      correction.left = ddLeftCornerX - screenEdgeXOffset
     }
 
     return correction

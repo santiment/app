@@ -35,9 +35,10 @@ const Navbar = ({ activeLink = '/' }) => {
   return (
     <header>
       <SmoothDropdown
-        verticalOffset={-25}
+        verticalOffset={-15}
         showArrow={false}
         className={styles.wrapper}
+        screenEdgeXOffset={5}
       >
         <div className={styles.left}>
           <Link className={styles.logo} to='/'>
@@ -128,7 +129,6 @@ const Navbar = ({ activeLink = '/' }) => {
 
         <div className={styles.right}>
           <Search />
-
           {rightBtns.map(({ icon, el: Content, links }, index) => {
             return (
               <SmoothDropdownItem
