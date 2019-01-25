@@ -1,25 +1,15 @@
 import React from 'react'
-import { Button } from 'semantic-ui-react'
+import { Button } from '@santiment-network/ui'
 import SmoothDropdown from '../../SmoothDropdown/SmoothDropdown'
 import SmoothDropdownItem from '../../SmoothDropdown/SmoothDropdownItem'
 import ShareOptions from '../../ShareOptions/ShareOptions'
-import './TrendsExploreShare.css'
 
 const TrendsExploreShare = ({ topic }) => {
   const title = `Crypto Social Trends for "${topic}"`
 
   return (
     <SmoothDropdown>
-      <SmoothDropdownItem
-        trigger={
-          <Button
-            id='TrendsExploreShare'
-            basic
-            className='link'
-            icon='share alternate'
-          />
-        }
-      >
+      <SmoothDropdownItem trigger={<Button variant='ghost'>Share</Button>}>
         <ShareOptions title={title} url={window.location.href} />
       </SmoothDropdownItem>
     </SmoothDropdown>

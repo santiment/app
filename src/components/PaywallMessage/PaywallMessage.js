@@ -6,11 +6,7 @@ import styles from './PaywallMessage.module.scss'
 export default () => (
   <div className={styles.PaywallMessage}>
     <label className={styles.label}>Limited data</label>
-    <HelpPopup
-      trigger={
-        <Icon className={styles.helpIcon} type='help-round' fill='#ada6bc' />
-      }
-    >
+    <HelpPopup>
       <div>
         <p>
           <strong>We are free now for general usage.</strong>

@@ -20,8 +20,8 @@ const HypedWord = ({
     className={cx(styles.HypedWord, isSelected && styles.selected)}
     to={
       detectedAsset
-        ? `/trends/explore/${word}?asset=${detectedAsset.slug}`
-        : `/trends/explore/${word}`
+        ? `/labs/trends/explore/${word}?asset=${detectedAsset.slug}`
+        : `/labs/trends/explore/${word}`
     }
     onMouseEnter={() => {
       selectHypedWord(word)

@@ -12,9 +12,11 @@ import {
   YAxis,
   Tooltip
 } from 'recharts'
+import { Panel } from '@santiment-network/ui'
 import { formatNumber } from './../../utils/formatting'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import mixWithPaywallArea from './../PaywallArea/PaywallArea'
+import PaywallMessage from './../PaywallMessage/PaywallMessage'
 import { sourcesMeta as chartsMeta } from './trendsUtils'
 import { mapSizesToProps } from '../../App'
 
@@ -76,73 +78,76 @@ const TrendsReChart = ({
 }) => (
   <div className='TrendsExploreChart'>
     {chartSummaryData.map((entity, key) => (
-      <ResponsiveContainer
-        key={key}
-        width='100%'
-        height={isDesktop ? 300 : 250}
-      >
-        <ComposedChart
-          data={chartData}
-          syncId='trends'
-          margin={getChartMargins(isDesktop)}
-        >
-          <XAxis
-            dataKey='datetime'
-            tickLine={false}
-            tickMargin={5}
-            minTickGap={100}
-            tickFormatter={timeStr => moment(timeStr).format('DD MMM YY')}
-          />
-          <YAxis />
-          <YAxis
-            yAxisId='axis-price'
-            hide
-            tickFormatter={priceUsd =>
-              formatNumber(priceUsd, { currency: 'USD' })
-            }
-            domain={['auto', 'dataMax']}
-          />
-          <CartesianGrid
-            vertical={false}
-            strokeDasharray='4 10'
-            stroke='#ebeef5'
-          />
-          <Tooltip
-            labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
-            formatter={(value, name) => {
-              if (name === `${asset}/USD`) {
-                return formatNumber(value, { currency: 'USD' })
+      <Panel key={key} style={{ marginTop: '1rem' }}>
+        {!hasPremium && (
+          <div style={{ padding: '0.5rem' }}>
+            <PaywallMessage />
+          </div>
+        )}
+        <ResponsiveContainer width='100%' height={isDesktop ? 300 : 250}>
+          <ComposedChart
+            data={chartData}
+            syncId='trends'
+            margin={getChartMargins(isDesktop)}
+          >
+            <XAxis
+              dataKey='datetime'
+              tickLine={false}
+              tickMargin={5}
+              minTickGap={100}
+              tickFormatter={timeStr => moment(timeStr).format('DD MMM YY')}
+            />
+            <YAxis />
+            <YAxis
+              yAxisId='axis-price'
+              hide
+              tickFormatter={priceUsd =>
+                formatNumber(priceUsd, { currency: 'USD' })
               }
-              return value
-            }}
-          />
-          <Line
-            type='linear'
-            yAxisId='axis-price'
-            name={asset + '/USD'}
-            dot={false}
-            strokeWidth={1.5}
-            dataKey='priceUsd'
-            stroke={ASSET_PRICE_COLOR}
-          />
-          <Line
-            type='linear'
-            dataKey={entity.index}
-            dot={false}
-            strokeWidth={entity.index === 'merged' ? 1.5 : 3}
-            name={entity.name}
-            stroke={entity.color}
-          />
-          {!hasPremium &&
-            mixWithPaywallArea({
-              dataKey: entity.index,
-              stroke: '#ffad4d',
-              strokeOpacity: 0.9,
-              data: chartData
-            })}
-          <Legend />
-        </ComposedChart>
-      </ResponsiveContainer>
+              domain={['auto', 'dataMax']}
+            />
+            <CartesianGrid
+              vertical={false}
+              strokeDasharray='4 10'
+              stroke='#ebeef5'
+            />
+            <Tooltip
+              labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
+              formatter={(value, name) => {
+                if (name === `${asset}/USD`) {
+                  return formatNumber(value, { currency: 'USD' })
+                }
+                return value
+              }}
+            />
+            <Line
+              type='linear'
+              yAxisId='axis-price'
+              name={asset + '/USD'}
+              dot={false}
+              strokeWidth={1.5}
+              dataKey='priceUsd'
+              stroke={ASSET_PRICE_COLOR}
+            />
+            <Line
+              type='linear'
+              dataKey={entity.index}
+              dot={false}
+              strokeWidth={entity.index === 'merged' ? 1.5 : 3}
+              name={entity.name}
+              stroke={entity.color}
+            />
+            {!hasPremium &&
+              mixWithPaywallArea({
+                dataKey: entity.index,
+                stroke: '#ffad4d',
+                strokeOpacity: 0.9,
+                data: chartData
+              })}
+            <Legend />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </Panel>
     ))}
   </div>
 )

@@ -10,6 +10,14 @@
   border: none;
 }
 
-.page-head-projects__left button {
+.page-head-projects button {
   margin-left: 1em;
+}
+
+.page-head-projects__right {
+  display: flex;
+}
+
+.assets-table-widget-wrapper {
+  margin: 1.4rem 0;
 }

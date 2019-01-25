@@ -1,8 +1,17 @@
+.wrapper {
+  width: 260px;
+}
+
+.login {
+  width: 260px;
+  height: 129px;
+}
+
 .onlineIndicator {
   border-radius: 50%;
   width: 6px;
   height: 6px;
-  border: 2px solid #ffffff;
+  border: 2px solid #fff;
   position: absolute;
   right: 0;
   bottom: 0;
@@ -51,6 +60,7 @@
     display: flex;
     align-items: center;
   }
+
   &__left {
     margin-right: 12px;
     position: relative;
