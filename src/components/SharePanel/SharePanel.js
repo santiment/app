@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Input, Panel, Icon, Button } from '@santiment-network/ui'
 import copy from 'copy-to-clipboard'
 import ShareComposition from './ShareComposition'
@@ -80,6 +81,11 @@ const SharePanel = ({ shareLink, onCloseBtnClick }) => {
       </div>
     </Panel>
   )
+}
+
+SharePanel.propTypes = {
+  shareLink: PropTypes.string.isRequired,
+  onCloseBtnClick: PropTypes.func.isRequired
 }
 
 export default SharePanel
