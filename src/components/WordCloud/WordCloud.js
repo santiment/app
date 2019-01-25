@@ -68,7 +68,8 @@ class WordCloud extends Component {
     return (
       <div className={styles.wrapper}>
         <small className={styles.hint}>
-          <strong>{searchWord}</strong> social context <HelpPopupWordCloud />
+          <strong>{searchWord}</strong>&nbsp;social context&nbsp;
+          <HelpPopupWordCloud />
         </small>
         <TagCloud
           style={{ width: '95%', height: '85%', padding: 10, marginTop: 0 }}
