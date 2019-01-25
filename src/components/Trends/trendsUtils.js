@@ -30,10 +30,10 @@ export const SourceColor = {
 }
 
 export const sourcesMeta = {
-  merged: {
-    index: 'merged',
+  total: {
+    index: 'total',
     name: 'Total Mentions',
-    color: '#AC74D9',
+    color: '#ac74d9',
     value: 0
   },
   telegram: {

@@ -55,20 +55,6 @@ const getChartMargins = isDesktop => {
 
 const displayEmptyState = branch(props => props.isEmpty, renderComponent(Empty))
 
-const getChartData = (data, hasPremium) => {
-  if (hasPremium) {
-    return data
-  }
-  const {
-    reddit,
-    telegram,
-    professional_traders_chat,
-    discord,
-    ...last
-  } = data[data.length - 1]
-  return [...data.filter((_, index) => index < data.length - 1), last]
-}
-
 const TrendsReChart = ({
   chartSummaryData = [],
   chartData,
@@ -157,6 +143,34 @@ TrendsReChart.defaultProps = {
   isLoading: true
 }
 
+const cleanLastDate = (data, hasPremium) => {
+  if (hasPremium) {
+    return data
+  }
+  const {
+    reddit,
+    telegram,
+    professional_traders_chat,
+    discord,
+    ...last
+  } = data[data.length - 1]
+  return [...data.filter((_, index) => index < data.length - 1), last]
+}
+
+export const addTotal = (
+  chartData,
+  channels = ['reddit', 'telegram', 'discord', 'professional_traders_chat']
+) => {
+  return chartData.reduce((acc, item) => {
+    const total = channels.reduce((acc, channelName) => {
+      acc += item[channelName] ? item[channelName] : 0
+      return acc
+    }, 0)
+    acc.push({ total, ...item })
+    return acc
+  }, [])
+}
+
 const getTimeseries = (sourceName, trends) =>
   ((trends.sources || {})[sourceName] || []).map(el => {
     return {
@@ -165,40 +179,29 @@ const getTimeseries = (sourceName, trends) =>
     }
   })
 
-const calcSumOfMentions = data =>
-  data.reduce(
+export const calcSumOfMentions = chartsMeta => data => {
+  const channels = [
+    'reddit',
+    'telegram',
+    'discord',
+    'professional_traders_chat',
+    'total'
+  ]
+  return data.reduce(
     (acc, val) => {
-      if (val.telegram) {
-        acc.telegram = {
-          ...acc.telegram,
-          value: val.telegram + acc.telegram.value
+      channels.forEach(channelName => {
+        if (val[channelName]) {
+          acc[channelName] = {
+            ...acc[channelName],
+            value: acc[channelName].value + val[channelName]
+          }
         }
-      }
-      if (val.reddit) {
-        acc.reddit = {
-          ...acc.reddit,
-          value: acc.reddit.value + val.reddit
-        }
-      }
-      if (val.professional_traders_chat) {
-        acc.professional_traders_chat = {
-          ...acc.professional_traders_chat,
-          value:
-            acc.professional_traders_chat.value + val.professional_traders_chat
-        }
-      }
-
-      if (val.discord) {
-        acc.discord = {
-          ...acc.discord,
-          value: acc.discord.value + val.discord
-        }
-      }
-
+      })
       return acc
     },
     { ...chartsMeta }
   )
+}
 
 const cleanAllZeroSources = data => data.filter(source => source.value > 0)
 
@@ -225,7 +228,7 @@ export default compose(
       timeseries: [items, telegram, reddit, professional_traders_chat, discord],
       key: 'datetime'
     })
-    const chartData = getChartData(_chartData, hasPremium)
+    const chartData = addTotal(cleanLastDate(_chartData, hasPremium))
 
     if (
       telegram.length === 0 &&
@@ -241,7 +244,7 @@ export default compose(
     const chartSummaryData = compose(
       cleanAllZeroSources,
       objToArr,
-      calcSumOfMentions
+      calcSumOfMentions(chartsMeta)
     )(chartData)
 
     chartSummaryData.forEach(({ index }) => {
