@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
+import { Panel } from '@santiment-network/ui'
 import HypedWord from './HypedWord'
 import styles from './HypedWords.module.scss'
 
@@ -16,7 +17,7 @@ const header = ({ latest, compiled }) => {
 const HypedWords = ({ trends, compiled, latest, selected }) => (
   <div className={styles.HypedWords}>
     {header({ latest, compiled })}
-    <div className={styles.HypedWordsBlock}>
+    <Panel className={styles.HypedWordsBlock}>
       {trends &&
         trends
           .sort(compare)
@@ -29,7 +30,7 @@ const HypedWords = ({ trends, compiled, latest, selected }) => (
               isSelected={selected === trend.word}
             />
           ))}
-    </div>
+    </Panel>
   </div>
 )
 

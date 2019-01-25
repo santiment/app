@@ -1,11 +1,30 @@
-.search-panel {
-  margin-top: 10px;
-  width: 100%;
-}
+@import '~@santiment-network/ui/variables.scss';
 
-.search-panel .ui .input {
-  min-width: 100%;
-  border: 1px solid #3e3e3e;
+.search-panel {
+  margin: 0;
+  width: 100%;
+
+  input {
+    border: none !important;
+    height: 32px !important;
+  }
+
+  .ui .input {
+    min-width: 100%;
+    border: 1px solid $light-gray3 !important;
+    border-radius: 4px !important;
+
+    input::placeholder {
+      font-family: Rubik, sans-serif;
+      color: $dark-gray;
+    }
+  }
+
+  .search {
+    .icon {
+      color: $dark-gray;
+    }
+  }
 }
 
 .search-panel .results {
@@ -22,25 +41,12 @@
   margin-right: 5px;
 }
 
-.search-panel input {
-  border-radius: 4px !important;
-  border: none !important;
-}
-
 .search-panel .ui.input > input {
   background: #ffffff1f;
 }
 
-.search-panel .search .icon {
-  color: rgba(0, 0, 0, 0.87);
-}
-
 .search-panel .focus .ui.icon.input > i {
-  color: rgba(0, 0, 0, 0.87);
-}
-
-.search-panel .ui.input > input::placeholder {
-  color: rgba(0, 0, 0, 0.87);
+  color: $dark-gray;
 }
 
 .search-panel .ui.search > .results {
@@ -58,13 +64,5 @@
 
   .search-panel .results {
     min-width: 250px;
-  }
-
-  .search-panel .search .icon {
-    color: white;
-  }
-
-  .search-panel .ui.input > input::placeholder {
-    color: white;
   }
 }

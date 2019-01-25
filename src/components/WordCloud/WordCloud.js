@@ -70,7 +70,9 @@ class WordCloud extends Component {
         <small className={styles.hint}>
           <strong>{searchWord}</strong> social context <HelpPopupWordCloud />
         </small>
-        <TagCloud style={{ width: '95%', height: '85%', padding: 10 }}>
+        <TagCloud
+          style={{ width: '95%', height: '85%', padding: 10, marginTop: 0 }}
+        >
           {cloud.map(({ word }, index) => (
             <div
               key={word}

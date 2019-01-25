@@ -4,7 +4,7 @@ import TrendsForm from './TrendsForm'
 import styles from './TrendsSearch.module.scss'
 
 const TrendsExampleLink = ({ keyword }) => (
-  <Link to={`/trends/explore/${keyword}`}>
+  <Link to={`/labs/trends/explore/${keyword}`}>
     &nbsp;
     {keyword}
   </Link>
