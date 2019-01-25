@@ -1,4 +1,5 @@
 @import '~@santiment-network/ui/variables.scss';
+@import './../../mixins.scss';
 
 header {
   margin: 0 !important;
@@ -17,6 +18,15 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  /* stylelint-disable */
+  @include responsive('desktop') {
+    margin: 0 auto;
+    max-width: 1200px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  /* stylelint-enable */
 }
 
 .logo {
@@ -84,14 +94,5 @@ header {
     & svg {
       fill: $text-green;
     }
-  }
-}
-
-@media (min-width: $breakpoint-desktop) {
-  .wrapper {
-    margin: 0 auto;
-    max-width: 1032px !important;
-    padding-left: 20px !important;
-    padding-right: 20px !important;
   }
 }
