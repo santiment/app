@@ -123,7 +123,12 @@ const getYesterday = () => {
   return yesterday.toISOString()
 }
 
-const mergeTimeseriesByKey = ({ timeseries, key: mergeKey }) => {
+const mergeTimeseriesByKey = ({
+  timeseries,
+  key: mergeKey,
+  mergeData = (longestTSData, timeserieData) =>
+    Object.assign({}, longestTSData, timeserieData)
+}) => {
   const longestTSMut = timeseries.reduce((acc, val) => {
     return acc.length > val.length ? acc : val
   }, [])
@@ -165,8 +170,7 @@ const mergeTimeseriesByKey = ({ timeseries, key: mergeKey }) => {
         const longestTSData = longestTS[longestTSRightIndexBoundary]
         const timeserieData = timeserie[timeserieRightIndex]
         if (longestTSData[mergeKey] === timeserieData[mergeKey]) {
-          longestTS[longestTSRightIndexBoundary] = Object.assign(
-            {},
+          longestTS[longestTSRightIndexBoundary] = mergeData(
             longestTSData,
             timeserieData
           )

@@ -3,7 +3,6 @@ import { compose, withProps } from 'recompose'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import * as actions from '../WordCloud/actions'
 import { TRENDS_HYPED_WORD_SELECTED } from './actions'
 import withDetectionAsset from './withDetectionAsset'
 import styles from './HypedWord.module.scss'
@@ -25,7 +24,6 @@ const HypedWord = ({
     }
     onMouseEnter={() => {
       selectHypedWord(word)
-      fetchContext(word)
     }}
     onMouseLeave={() => selectHypedWord()}
   >
@@ -56,16 +54,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchContext: payload => {
-    dispatch({
-      type: actions.WORDCLOUD_CONTEXT_FETCH,
-      payload
-    })
-  },
   selectHypedWord: (selected = null) => {
     dispatch({
       type: TRENDS_HYPED_WORD_SELECTED,
-      payload: { selected }
+      payload: selected
     })
   }
 })
