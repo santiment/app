@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Panel, Button, Input, Icon } from '@santiment-network/ui'
+import { Button, Icon } from '@santiment-network/ui'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/types'
 import CreateWatchlistBtn from '../WatchlistPopup/CreateWatchlistBtn'
