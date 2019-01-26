@@ -22,10 +22,9 @@ class ShareModalTrigger extends Component {
       <Modal
         open={isOpen}
         trigger={<ShareBtn {...props} onClick={this.openModal} />}
+        onClose={this.closeModal}
       >
-        <Modal.Content>
-          <SharePanel shareLink={shareLink} onCloseBtnClick={this.closeModal} />
-        </Modal.Content>
+        <SharePanel shareLink={shareLink} onCloseBtnClick={this.closeModal} />
       </Modal>
     )
   }
