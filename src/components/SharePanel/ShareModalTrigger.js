@@ -1,25 +1,27 @@
 import React, { Component } from 'react'
 import { Modal } from 'semantic-ui-react'
 import SharePanel from './SharePanel'
+import ShareBtn from './ShareBtn'
 
-class ModalSharePanel extends Component {
+class ShareModalTrigger extends Component {
   state = { isOpen: false }
 
   closeModal = () => {
     this.setState({ isOpen: false })
   }
+
   openModal = () => {
     this.setState({ isOpen: true })
   }
 
   render () {
-    const { trigger, shareLink } = this.props
+    const { shareLink, ...props } = this.props
     const { isOpen } = this.state
 
     return (
       <Modal
         open={isOpen}
-        trigger={<span onClick={this.openModal}>{trigger}</span>}
+        trigger={<ShareBtn {...props} onClick={this.openModal} />}
       >
         <Modal.Content>
           <SharePanel shareLink={shareLink} onCloseBtnClick={this.closeModal} />
@@ -28,4 +30,4 @@ class ModalSharePanel extends Component {
     )
   }
 }
-export default ModalSharePanel
+export default ShareModalTrigger

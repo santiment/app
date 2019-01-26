@@ -1,10 +1,9 @@
 import React from 'react'
-import { Modal } from 'semantic-ui-react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import SharePanel from '../src/components/SharePanel/SharePanel'
 import ShareBtn from '../src/components/SharePanel/ShareBtn'
-import ModalSharePanel from '../src/components/SharePanel/ModalSharePanel'
+import ShareModalTrigger from '../src/components/SharePanel/ShareModalTrigger'
 
 storiesOf('SharePanel', module)
   .add('Default', () => (
@@ -24,9 +23,12 @@ storiesOf('SharePanel', module)
   ))
   .add('Modal', () => (
     <div>
-      <ModalSharePanel
-        trigger={<button>Show modal</button>}
+      <ShareModalTrigger shareLink='http://share.santiment.net/ffd689tset.com' />
+      <br />
+
+      <ShareModalTrigger
         shareLink='http://share.santiment.net/ffd689tset.com'
+        asIcon
       />
     </div>
   ))
