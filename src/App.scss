@@ -1,4 +1,5 @@
 @import 'variables.scss';
+@import '~@santiment-network/ui/variables.scss';
 @import '~nprogress/nprogress';
 
 .App {
@@ -90,11 +91,13 @@
 }
 
 .App .page h1 {
-  font-size: 32px;
-  font-weight: 400;
-  margin-top: 16px;
-  line-height: 51px;
-  color: #171717;
+  font-family: Rubik, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 38px;
+  font-size: 28px;
+  color: $black;
+  margin: 0;
 }
 
 .page-head p {

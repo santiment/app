@@ -933,10 +933,12 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@santiment-network/ui@^0.3.12":
-  version "0.3.12"
-  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.3.12.tgz#2532e9aa493c673bb0280222e54b96edb2746f15"
-  integrity sha512-QLpxV6GVzazeHLudTUW/uYES2WPf3OMq1+pLkVHW8//lKbfc6J3VTC6+TJePhLeb/SvTKvyPJ4sV9/iFYZWrJQ==
+
+"@santiment-network/ui@^0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.4.4.tgz#e24522168caa93d4babe324278289b46db785e6e"
+  integrity sha512-SKYerWcfeLLkZQfucIUocERIiNGpn8Q7svtn7Z1IsWyj29aNo57neBcrTYew0UERnVkZEtNuysHBFA7sz9Bs8Q==
+
 
 "@semantic-ui-react/event-stack@^2.0.0":
   version "2.0.0"
@@ -12333,7 +12335,7 @@ punycode@^1.2.4, punycode@^1.4.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
   integrity sha1-wNWmOycYgArY4esPpSachN1BhF4=
 
-puppeteer@^1.1.1:
+puppeteer@^1.11.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-1.11.0.tgz#63cdbe12b07275cd6e0b94bce41f3fcb20305770"
   integrity sha512-iG4iMOHixc2EpzqRV+pv7o3GgmU2dNYEMkvKwSaQO/vMZURakwSOn/EYJ6OIRFYOque1qorzIBvrytPIQB3YzQ==

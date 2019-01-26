@@ -1,88 +1,112 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+import { compose, withProps } from 'recompose'
 import PropTypes from 'prop-types'
 import * as qs from 'query-string'
-import Selector from './../../components/Selector/Selector'
+import { Panel, Selector } from '@santiment-network/ui'
 import GetTimeSeries from './../../components/GetTimeSeries'
-import TrendsExploreHeader from '../../components/Trends/Explore/TrendsExploreHeader'
 import GetTrends from './../../components/Trends/GetTrends'
 import TrendsReChart from './../../components/Trends/TrendsReChart'
 import TrendsStats from './../../components/Trends/TrendsStats'
 import TrendsTitle from '../../components/Trends/TrendsTitle'
+import TrendsExploreShare from './../../components/Trends/Explore/TrendsExploreShare'
+import TrendsExploreSearch from './../../components/Trends/Explore/TrendsExploreSearch'
+import * as actions from '../../components/Trends/actions'
+import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import WordCloud from './../../components/WordCloud/WordCloud'
 import GetWordContext from './../../components/WordCloud/GetWordContext'
-import PaywallMessage from './../../components/PaywallMessage/PaywallMessage'
 import { checkHasPremium } from './../UserSelectors'
-import { capitalizeStr } from './../../utils/utils'
-import './TrendsExplorePage.css'
+import { mapQSToState, mapStateToQS, capitalizeStr } from './../../utils/utils'
+import styles from './TrendsExplorePage.module.scss'
 
-export const getStateFromQS = ({ location }) => {
-  const { timeRange, asset } = qs.parse(location.search, {
-    arrayFormat: 'bracket'
-  })
-
-  return {
-    timeRange: timeRange || '3m',
-    asset: asset || 'bitcoin'
+const getCustomInterval = timeframe => {
+  if (timeframe === '1w') {
+    return '1h'
   }
+  if (timeframe === '1m') {
+    return '6h'
+  }
+  return '1d'
 }
 
 export class TrendsExplorePage extends Component {
   state = {
-    ...getStateFromQS(this.props)
+    timeRange: '3m',
+    asset: 'bitcoin',
+    ...mapQSToState(this.props)
   }
 
   static defaultProps = {
     match: { params: {} },
-    location: {},
+    word: '',
     history: {}
   }
 
   static propTypes = {
     match: PropTypes.object,
-    location: PropTypes.object,
+    word: PropTypes.string,
     history: PropTypes.object
   }
 
+  componentDidMount () {
+    this.props.fetchAllTickersSlugs()
+  }
+
   static getDerivedStateFromProps (nextProps, prevState) {
-    return {
-      ...getStateFromQS(nextProps)
-    }
+    return { ...mapQSToState(nextProps) }
   }
 
   render () {
-    const { match, hasPremium } = this.props
-    const { timeRange, asset } = this.state
+    const { word, hasPremium, detectedAsset } = this.props
+    const { timeRange, asset = '' } = this.state
+    const topic = window.decodeURIComponent(word)
     return (
-      <div className='TrendsExplorePage'>
-        <div style={{ textAlign: 'center' }}>
-          <TrendsTitle />
-        </div>
-        <div className='TrendsExplorePage__content'>
-          <TrendsExploreHeader
-            topic={window.decodeURIComponent(match.params.topic)}
-          />
-
-          <div className='TrendsExplorePage__settings'>
-            <div className='TrendsExplorePage__settings__left'>
+      <div className={styles.TrendsExplorePage}>
+        <div className={styles.settings}>
+          <div className={styles.settingsLeft}>
+            <TrendsExploreSearch className={styles.search} topic={topic} />
+          </div>
+          <div className={styles.settingsRight}>
+            <Selector
+              options={['1w', '1m', '3m', '6m']}
+              onSelectOption={this.handleSelectTimeRange}
+              defaultSelected={timeRange}
+            />
+            <Panel className={styles.pricePair}>
               <Selector
-                options={['1w', '1m', '3m', '6m']}
-                onSelectOption={this.handleSelectTimeRange}
-                defaultSelected={timeRange}
-              />
-              {!hasPremium && <PaywallMessage />}
-            </div>
-            <div className='TrendsExplorePage__settings__right'>
-              <Selector
-                options={['bitcoin', 'ethereum']}
-                nameOptions={['BTC/USD', 'ETH/USD']}
+                options={
+                  detectedAsset
+                    ? ['bitcoin', 'ethereum', detectedAsset.slug]
+                    : ['bitcoin', 'ethereum']
+                }
+                nameOptions={
+                  detectedAsset
+                    ? ['BTC/USD', 'ETH/USD', `${detectedAsset.ticker}/USD`]
+                    : ['BTC/USD', 'ETH/USD']
+                }
                 onSelectOption={this.handleSelectAsset}
                 defaultSelected={asset}
               />
-            </div>
+            </Panel>
+            <TrendsExploreShare topic={topic} />
           </div>
+        </div>
+        <div>
+          <GetWordContext
+            word={word}
+            render={({ cloud }) => {
+              if (cloud && cloud.length === 0) {
+                return ''
+              }
+              return (
+                <div className={styles.wordCloud}>
+                  <WordCloud />
+                </div>
+              )
+            }}
+          />
           <GetTrends
-            topic={match.params.topic}
+            topic={word}
             timeRange={timeRange}
             interval={'1d'}
             render={trends => (
@@ -90,35 +114,24 @@ export class TrendsExplorePage extends Component {
                 price={{
                   timeRange,
                   slug: asset,
-                  interval: '1d'
+                  interval: getCustomInterval(timeRange)
                 }}
                 render={({ timeseries }) => (
-                  <div style={{ minHeight: 300 }}>
-                    <TrendsReChart
-                      asset={capitalizeStr(asset)}
-                      data={timeseries.price}
-                      trends={trends}
-                      hasPremium={hasPremium}
-                    />
-                  </div>
+                  <Fragment>
+                    <div style={{ minHeight: 300 }}>
+                      <TrendsReChart
+                        asset={asset && capitalizeStr(asset)}
+                        data={timeseries.price}
+                        trends={trends}
+                        hasPremium={hasPremium}
+                      />
+                    </div>
+                    {trends.length > 0 && <TrendsStats timeRange={timeRange} />}
+                  </Fragment>
                 )}
               />
             )}
           />
-          <GetWordContext
-            word={match.params.topic}
-            render={({ cloud }) => {
-              if (cloud && cloud.length === 0) {
-                return ''
-              }
-              return (
-                <div className='TrendsExplorePage__wordcloud'>
-                  <WordCloud />
-                </div>
-              )
-            }}
-          />
-          <TrendsStats timeRange={timeRange} />
         </div>
       </div>
     )
@@ -132,20 +145,38 @@ export class TrendsExplorePage extends Component {
     this.setState({ asset }, this.updateSearchQuery)
   }
 
-  mapStateToQS = ({ timeRange, asset }) =>
-    '?' + qs.stringify({ timeRange, asset }, { arrayFormat: 'bracket' })
-
   updateSearchQuery = () => {
     this.props.history.push({
-      search: this.mapStateToQS(this.state)
+      search: mapStateToQS(this.state)
     })
   }
 }
 
 const mapStateToProps = state => {
   return {
-    hasPremium: checkHasPremium(state)
+    hasPremium: checkHasPremium(state),
+    allAssets: state.hypedTrends.allAssets
   }
 }
 
-export default connect(mapStateToProps)(TrendsExplorePage)
+const mapDispatchToProps = dispatch => ({
+  fetchAllTickersSlugs: () => {
+    dispatch({
+      type: actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS
+    })
+  }
+})
+
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withProps(({ match = { params: {} }, ...rest }) => {
+    return {
+      word: match.params.word,
+      ...rest
+    }
+  }),
+  withDetectionAsset
+)(TrendsExplorePage)

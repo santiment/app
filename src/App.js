@@ -1,5 +1,11 @@
 import React from 'react'
-import { Route as BasicRoute, Switch, Redirect, Link } from 'react-router-dom'
+import {
+  Route as BasicRoute,
+  Switch,
+  Redirect,
+  Link,
+  withRouter
+} from 'react-router-dom'
 import { FadeInDown } from 'animate-components'
 import Loadable from 'react-loadable'
 import withSizes from 'react-sizes'
@@ -19,6 +25,7 @@ import BuildChallenge from './pages/BuildChallenge'
 import EmailLoginVerification from './pages/EmailLoginVerification'
 import Menu from './components/TopMenu'
 import MobileMenu from './components/MobileMenu'
+import Navbar from './components/Navbar/Navbar'
 import withTracker from './withTracker'
 import withIntercom from './withIntercom'
 import ErrorBoundary from './ErrorBoundary'
@@ -32,8 +39,10 @@ import AssetsPage from './pages/assets/AssetsPage'
 import SignalsPriceVolume from './pages/Signals/SignalsPriceVolume'
 import HistoricalBalancePage from './ducks/HistoricalBalance/HistoricalBalancePage'
 import WordCloudPage from './components/WordCloud/WordCloudPage'
+import TrendsTool from './pages/Trends/TrendsToolPage'
 import { getConsentUrl } from './utils/utils'
 import HeaderMsg from './HeaderMsg'
+import LogoutPage from './pages/Logout'
 import './App.scss'
 
 const LoadableDetailedPage = Loadable({
@@ -60,6 +69,12 @@ const LoadableTrendsPage = Loadable({
   loader: () => import('./pages/Trends/TrendsPage'),
   loading: () => <PageLoader />
 })
+
+const getLoadablePage = (pathToPage = './pages/Trends/TrendsToolPage') =>
+  Loadable({
+    loader: () => import(pathToPage),
+    loading: () => <PageLoader />
+  })
 
 const LoadableTrendsExplorePage = Loadable({
   loader: () => import('./pages/Trends/TrendsExplorePage'),
@@ -96,7 +111,8 @@ export const App = ({
   isFullscreenMobile,
   isOffline,
   hasUsername,
-  isBetaModeEnabled
+  isBetaModeEnabled,
+  location
 }) => (
   <div className='App'>
     {isOffline && (
@@ -120,7 +136,13 @@ export const App = ({
       </div>
     )}
     {isDesktop && <HeaderMsg />}
-    {isFullscreenMobile ? undefined : isDesktop ? <Menu /> : <MobileMenu />}
+    {isFullscreenMobile ? (
+      undefined
+    ) : isDesktop ? (
+      <Navbar activeLink={location.pathname} />
+    ) : (
+      <MobileMenu />
+    )}
     <ErrorBoundary>
       <Switch>
         <Route
@@ -128,7 +150,7 @@ export const App = ({
           path='/projects'
           render={props => {
             if (isDesktop) {
-              return <Redirect to='/assets/all' />
+              return <Redirect to='/sonar' />
             }
             return <CashflowMobile {...props} />
           }}
@@ -168,8 +190,8 @@ export const App = ({
         <Route exact path='/roadmap' component={Roadmap} />
         <Route exact path='/signals' component={Signals} />
         <Route exact path='/signals/:slug' component={SignalsPriceVolume} />
-        <Route exact path='/balance' component={HistoricalBalancePage} />
-        <Route exact path='/wordcloud' component={WordCloudPage} />
+        <Route exact path='/labs/balance' component={HistoricalBalancePage} />
+        <Route exact path='/labs/wordcloud' component={WordCloudPage} />
         <Route path='/insights/new' component={LoadableInsightsNew} />
         <Route
           path='/insights/update/:insightId'
@@ -197,25 +219,23 @@ export const App = ({
             <LoadableDetailedPage isDesktop={isDesktop} {...props} />
           )}
         />
+        <Route exact path='/labs/trends' render={props => <TrendsTool />} />
+        <Redirect from='/trends' to='/labs/trends' />
         <Route
           exact
-          path='/trends'
-          render={props => (
-            <LoadableTrendsPage isDesktop={isDesktop} {...props} />
-          )}
-        />
-        <Route
-          exact
-          path='/trends/explore'
-          render={() => <Redirect to='/trends' />}
-        />
-        <Route
-          exact
-          path='/trends/explore/:topic'
+          path='/labs/trends/explore/:word'
           render={props => (
             <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
           )}
         />
+        <Route
+          exact
+          path='/sonar'
+          render={props => (
+            <LoadableTrendsPage isDesktop={isDesktop} {...props} />
+          )}
+        />
+        <Route path='/logout' component={LogoutPage} />
         <Route exact path='/account' component={Account} />
         <Route exact path='/status' component={Status} />
         <Route exact path='/chart' component={ChartPage} />
@@ -233,7 +253,7 @@ export const App = ({
             )}
           />
         ))}
-        {['docs', 'apidocs', 'apiexamples'].map(name => (
+        {['apidocs', 'apiexamples'].map(name => (
           <Route
             key={name}
             path={`/${name}`}
@@ -242,6 +262,22 @@ export const App = ({
             )}
           />
         ))}
+        {['docs', 'help'].map(name => (
+          <Route
+            key={name}
+            path={`/${name}`}
+            render={() => (
+              <ExternalRedirect to={'https://help.santiment.net'} />
+            )}
+          />
+        ))}
+        <Route
+          exact
+          path='/support'
+          render={props => (
+            <ExternalRedirect to={'mailto:info@santiment.net'} />
+          )}
+        />
         <Route
           path='/consent'
           render={props => (
@@ -284,7 +320,8 @@ const enchance = compose(
   connect(mapStateToProps),
   withSizes(mapSizesToProps),
   withTracker,
-  withIntercom
+  withIntercom,
+  withRouter
 )
 
 export default enchance(App)

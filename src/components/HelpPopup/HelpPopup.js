@@ -1,6 +1,6 @@
 import React from 'react'
+import { Icon } from '@santiment-network/ui'
 import { Popup } from 'semantic-ui-react'
-import HelpPopupIcon from './HelpPopupIcon'
 
 export const style = {
   maxWidth: 465,
@@ -11,7 +11,9 @@ const HelpPopup = ({
   children,
   content,
   className,
-  trigger = <HelpPopupIcon className={className} />
+  trigger = (
+    <Icon style={{ cursor: 'pointer' }} type='help-round' fill='#ada6bc' />
+  )
 }) => {
   const render = content || children
   return (
