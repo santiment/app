@@ -1,8 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Button, Icon } from '@santiment-network/ui'
 import styles from './ShareBtn.module.scss'
 
-const ShareBtn = ({ asIcon, className = '', ...props }) => {
+const ShareBtn = ({ asIcon, className, ...props }) => {
   return (
     <Button
       {...props}
@@ -14,6 +15,16 @@ const ShareBtn = ({ asIcon, className = '', ...props }) => {
       {asIcon ? '' : <span className={styles.text}>Share</span>}
     </Button>
   )
+}
+
+ShareBtn.propTypes = {
+  asIcon: PropTypes.bool,
+  className: PropTypes.string
+}
+
+ShareBtn.defaultProps = {
+  asIcon: false,
+  className: ''
 }
 
 export default ShareBtn

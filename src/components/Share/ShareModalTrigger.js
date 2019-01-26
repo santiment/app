@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Modal } from 'semantic-ui-react'
 import SharePanel from './SharePanel'
 import ShareBtn from './ShareBtn'
@@ -29,4 +30,9 @@ class ShareModalTrigger extends Component {
     )
   }
 }
+
+ShareModalTrigger.propTypes = {
+  shareLink: PropTypes.string.isRequired
+}
+
 export default ShareModalTrigger

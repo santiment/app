@@ -1,11 +1,11 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import SharePanel from '../src/components/SharePanel/SharePanel'
-import ShareBtn from '../src/components/SharePanel/ShareBtn'
-import ShareModalTrigger from '../src/components/SharePanel/ShareModalTrigger'
+import SharePanel from '../src/components/Share/SharePanel'
+import ShareBtn from '../src/components/Share/ShareBtn'
+import ShareModalTrigger from '../src/components/Share/ShareModalTrigger'
 
-storiesOf('SharePanel', module)
+storiesOf('Share', module)
   .add('Default', () => (
     <div>
       <SharePanel
