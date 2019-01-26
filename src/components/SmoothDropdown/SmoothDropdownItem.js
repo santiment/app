@@ -22,7 +22,7 @@ class SmoothDropdownItem extends Component {
   }
 
   render () {
-    const { trigger, children, showIf } = this.props
+    const { trigger, children, showIf, className = '' } = this.props
     const {
       triggerRef: { current: ddTrigger }
     } = this
@@ -40,7 +40,7 @@ class SmoothDropdownItem extends Component {
                 }
               }}
               onMouseLeave={handleMouseLeave}
-              className='dd__trigger'
+              className={`dd__trigger ${className}`}
               ref={this.triggerRef}
             >
               {trigger}

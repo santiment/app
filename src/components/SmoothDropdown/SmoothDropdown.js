@@ -44,14 +44,16 @@ class SmoothDropdown extends Component {
     showArrow: PropTypes.bool,
     verticalMotion: PropTypes.bool,
     verticalOffset: PropTypes.number,
-    screenEdgeXOffset: PropTypes.number
+    screenEdgeXOffset: PropTypes.number,
+    closeAfterTimeout: PropTypes.number
   }
 
   static defaultProps = {
     verticalMotion: false,
     showArrow: true,
     verticalOffset: 10,
-    screenEdgeXOffset: 10
+    screenEdgeXOffset: 10,
+    closeAfterTimeout: 150
   }
 
   componentDidMount () {
@@ -75,7 +77,10 @@ class SmoothDropdown extends Component {
   }
 
   startCloseTimeout = () => {
-    this.dropdownTimer = setTimeout(() => this.closeDropdown(), 150)
+    this.dropdownTimer = setTimeout(
+      () => this.closeDropdown(),
+      this.props.closeAfterTimeout
+    )
   }
 
   stopCloseTimeout = () => clearTimeout(this.dropdownTimer)
