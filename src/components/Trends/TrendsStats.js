@@ -1,4 +1,5 @@
 import React from 'react'
+import { Panel } from '@santiment-network/ui'
 import GetTrendsStats from './GetTrendsStats'
 
 const TrendsStatsLoader = () => ''
@@ -11,8 +12,7 @@ const TrendsStats = ({ timeRange }) => (
         return <TrendsStatsLoader />
       } else {
         return (
-          <div style={{ background: '#f5f9ff99' }}>
-            <hr />
+          <Panel padding style={{ marginTop: '1rem' }}>
             <strong style={{ marginLeft: 40 }}>
               These stats were compiled searching:
             </strong>
@@ -26,7 +26,7 @@ const TrendsStats = ({ timeRange }) => (
                 <li>{stats.subredditsCount} subreddits</li>
               </ul>
             </div>
-          </div>
+          </Panel>
         )
       }
     }}

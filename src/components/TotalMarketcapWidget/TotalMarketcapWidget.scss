@@ -6,10 +6,11 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin: 36px 0 0;
+  margin: 0;
+
   &__label,
   &__value {
-    font-family: Rubik;
+    font-family: Rubik, sans-serif;
     font-style: normal;
     font-weight: normal;
     line-height: 20px;
@@ -22,19 +23,24 @@
   &__left {
     margin-right: 55px;
   }
+
   &__upper {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 1.8rem 1.75rem;
   }
+
   &__info {
     display: flex;
   }
+
   &__label {
     color: #7a859e;
     font-size: 14px;
     margin: 0;
   }
+
   &__value {
     margin: 0;
     font-weight: bold;
@@ -42,10 +48,12 @@
     font-size: 22px;
     line-height: 30px;
     color: #15181f;
+
     &_loading {
       background: #ddd;
       overflow: hidden;
       color: #ddd;
+
       &::before {
         display: block;
         content: '';
@@ -55,12 +63,12 @@
         width: 100%;
         animation: loading 1.3s linear infinite;
         background: linear-gradient(
-            to right,
-            transparent 50%,
-            rgba(#fff, 0.35) 60%,
-            transparent 50%
-          )
-          50% 50%;
+        to right,
+        transparent 50%,
+        rgba(#fff, 0.35) 60%,
+        transparent 50%
+        )
+        50% 50%;
       }
     }
   }
@@ -104,13 +112,16 @@
     }
   }
 }
+
 @keyframes loading {
   0% {
     transform: translate3d(-100%, 0, 0);
   }
+
   80% {
     transform: translate3d(200%, 0, 0);
   }
+
   100% {
     transform: translate3d(200%, 0, 0);
   }

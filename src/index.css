@@ -1,8 +1,8 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #f0f4f8;
-  font: 14px/1.6 'Source Sans Pro', sans-serif;
+  background-color: white;
+  font: 14px/1.6 'Rubik', sans-serif;
   font-weight: 400;
   color: #3d4450;
 }
@@ -14,7 +14,6 @@ body.night-mode {
 
 a {
   color: #3d4450;
-  border-bottom: 1px solid #b1b7c1;
 }
 
 a:hover,

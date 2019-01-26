@@ -11,7 +11,7 @@ const detectWordWithAllTickersSlugs = ({ word, allAssets }) => {
 const withDetectionAsset = WrappedComponent => {
   return class extends React.Component {
     render () {
-      const { allAssets = [], word } = this.props
+      const { allAssets = [], word = '' } = this.props
       const detectedAsset = detectWordWithAllTickersSlugs({ allAssets, word })
       return <WrappedComponent detectedAsset={detectedAsset} {...this.props} />
     }

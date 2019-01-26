@@ -28,7 +28,7 @@ export class TrendsForm extends Component {
         <form className='TrendsForm__form' onSubmit={this.handleSubmit}>
           <Input
             className='TrendsForm__input'
-            icon={this.state.topic.length === 0 && 'search'}
+            icon='search'
             iconPosition='left'
             placeholder='Enter your search query'
             value={this.state.topic}

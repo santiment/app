@@ -29,6 +29,7 @@ class SmoothDropdown extends Component {
 
   state = {
     currentTrigger: null,
+    currentDropdown: null,
     ddFirstTime: false,
     arrowCorrectionX: 0,
     dropdownStyles: {},
@@ -99,6 +100,37 @@ class SmoothDropdown extends Component {
         ddItems: new Map([...prevState.ddItems, [ddItem, ddContent]])
       }))
     }
+
+    const dropdownItem = this.ddItemsRef.get(ddItem).current
+    const {
+      currentDropdown,
+      dropdownStyles: { width: widthPx, height: heightPx }
+    } = this.state
+
+    if (
+      !dropdownItem ||
+      currentDropdown !== dropdownItem.querySelector('.dd__content')
+    ) {
+      return
+    }
+
+    setTimeout(() => {
+      if (
+        currentDropdown.clientHeight !== parseInt(heightPx, 10) ||
+        currentDropdown.clientWidth !== parseInt(widthPx, 10)
+      ) {
+        if (this.ddContainer) {
+          this.setState(prevState => ({
+            ...prevState,
+            dropdownStyles: {
+              ...prevState.dropdownStyles,
+              width: currentDropdown.clientWidth + 'px',
+              height: currentDropdown.clientHeight + 'px'
+            }
+          }))
+        }
+      }
+    }, 0)
   }
 
   openDropdown = (ddItem, trigger) => {
@@ -134,6 +166,7 @@ class SmoothDropdown extends Component {
     this.setState(prevState => ({
       ...prevState,
       currentTrigger: ddItem,
+      currentDropdown: ddContent,
       ddFirstTime: prevState.currentTrigger === null,
       dropdownStyles: {
         left,
@@ -148,7 +181,8 @@ class SmoothDropdown extends Component {
   closeDropdown = () => {
     this.setState(prevState => ({
       ...prevState,
-      currentTrigger: null
+      currentTrigger: null,
+      currentDropdown: null
     }))
   }
 
