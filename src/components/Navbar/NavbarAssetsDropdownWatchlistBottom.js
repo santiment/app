@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { Panel, Button, Input } from '@santiment-network/ui'
-import * as actions from '../../actions/types'
+import { Panel, Button, Input, Icon } from '@santiment-network/ui'
 import { connect } from 'react-redux'
+import * as actions from '../../actions/types'
 import CreateWatchlistBtn from '../WatchlistPopup/CreateWatchlistBtn'
-import IconPlus from './IconPlus'
 import styles from './NavbarAssetsDropdownWatchlist.module.scss'
 
 const mapStateToProps = ({ watchlistUi }) => ({
@@ -48,7 +47,7 @@ class NavbarAssetsDropdownWatchlistBottom extends Component {
         ) : (
           <div onClick={this.onClick} style={{ width: '100%' }}>
             <Button variant='ghost' className={styles.newList__btn}>
-              <IconPlus />
+              <Icon type='plus-round' />
               Create new watchlist
             </Button>
           </div>

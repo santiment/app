@@ -2,12 +2,10 @@ import React, { Fragment } from 'react'
 import { graphql } from 'react-apollo'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
-import { Panel, Button } from '@santiment-network/ui'
+import { Panel, Button, Icon } from '@santiment-network/ui'
 import { WatchlistGQL } from '../WatchlistPopup/WatchlistGQL'
 import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
 import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
-import IconLock from './IconLock.js'
-import IconEye from './IconEye.js'
 import NavbarAssetsDropdownWatchlistBottom from './NavbarAssetsDropdownWatchlistBottom'
 import styles from './NavbarAssetsDropdownWatchlist.module.scss'
 
@@ -36,7 +34,7 @@ const NavbarAssetsDropdownWatchlist = ({ lists = [], activeLink }) => {
               {name.toUpperCase()}
               <SmoothDropdownItem
                 className={styles.visibility}
-                trigger={isPublic ? <IconEye /> : <IconLock />}
+                trigger={isPublic ? <Icon type='eye' /> : <Icon type='lock' />}
               >
                 <Panel className={styles.label}>
                   {isPublic ? 'Public' : 'Private'}
