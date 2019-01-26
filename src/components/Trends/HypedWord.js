@@ -3,8 +3,6 @@ import { compose, withProps } from 'recompose'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-// import * as actions from './actions'
-import * as actions from '../WordCloud/actions'
 import { TRENDS_HYPED_WORD_SELECTED } from './actions'
 import withDetectionAsset from './withDetectionAsset'
 import styles from './HypedWord.module.scss'
@@ -58,7 +56,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   selectHypedWord: (selected = null) => {
     dispatch({
-      type: actions.TRENDS_HYPED_WORD_SELECTED,
+      type: TRENDS_HYPED_WORD_SELECTED,
       payload: selected
     })
   }
