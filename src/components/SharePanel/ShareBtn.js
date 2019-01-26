@@ -1,16 +1,16 @@
 import React from 'react'
-import { Button } from '@santiment-network/ui'
-import IconShare from './IconShare'
+import { Button, Icon } from '@santiment-network/ui'
 import styles from './ShareBtn.module.scss'
 
 const ShareBtn = ({ asIcon, className = '', ...props }) => {
   return (
     <Button
       {...props}
-      className={`${className} ${styles.btn} ${!asIcon ? styles.border : ''}`}
+      className={`${className} ${styles.btn}`}
+      border={!asIcon}
       variant={asIcon ? 'ghost' : 'flat'}
     >
-      <IconShare className={styles.icon} />
+      <Icon type='share' className={styles.icon} />
       {asIcon ? '' : <span className={styles.text}>Share</span>}
     </Button>
   )

@@ -11,16 +11,13 @@
 .icon {
     height: 16px;
     width: 16px;
-    fill: $text-grey;
-}
+    fill: $dark-gray !important;
 
-.border {
-    border: 1px solid $light-gray3;
-
-    svg {
-        fill: $dark-gray;
+    &:only-child{
+        fill: $text-grey !important;
     }
 }
+
 
 .text {
     margin-left: 7px;
