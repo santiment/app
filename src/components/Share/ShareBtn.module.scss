@@ -1,0 +1,24 @@
+@import "~@santiment-network/ui/variables.scss";
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    color: $black;
+    padding: 5px 10px;
+
+}
+
+.icon {
+    height: 16px;
+    width: 16px;
+    fill: $dark-gray !important;
+
+    &:only-child{
+        fill: $text-grey !important;
+    }
+}
+
+
+.text {
+    margin-left: 7px;
+}
