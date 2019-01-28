@@ -175,38 +175,6 @@ const columns = preload => [
     ),
     sortable: true,
     sortMethod: (a, b) => simpleSort(a, b)
-  },
-  {
-    Header: 'Signals',
-    id: 'signals',
-    minWidth: 64,
-    accessor: d => ({
-      warning: d.signals && d.signals.length > 0,
-      description: d.signals[0] && d.signals[0].description
-    }),
-    Cell: ({ value: { warning, description } }) => (
-      <div className='cell-signals'>
-        {warning && (
-          <Popup
-            basic
-            position='right center'
-            hideOnScroll
-            wide
-            inverted
-            trigger={
-              <div style={{ width: '100%', height: '100%' }}>
-                <Icon color='orange' fitted name='warning sign' />
-              </div>
-            }
-            on='hover'
-          >
-            {description}
-          </Popup>
-        )}
-      </div>
-    ),
-    sortable: true,
-    sortMethod: (a, b) => simpleSort(a.warning, b.warning)
   }
 ]
 
