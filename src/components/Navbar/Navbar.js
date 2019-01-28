@@ -33,7 +33,7 @@ const rightBtns = [
 
 const Navbar = ({ activeLink = '/' }) => {
   return (
-    <header>
+    <header className={styles.header}>
       <SmoothDropdown
         verticalOffset={-8}
         showArrow={false}

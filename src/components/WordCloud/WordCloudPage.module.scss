@@ -1,16 +1,29 @@
-@import 'variables.scss';
+@import 'mixins.scss';
+
+.title {
+  margin-bottom: 1rem;
+}
 
 .searchContainer {
   display: flex;
   width: 100%;
+
+  input {
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+  }
 }
 
-.searchContainer input {
-  margin-right: 1em;
-}
+/* stylelint-disable */
+@include responsive('desktop') {
+  .title h1 {
+    width: 392px;
+    line-height: 37px !important;
+    font-size: 32px !important;
+  }
 
-@media (min-width: $breakpoint-desktop) {
-  .searchContainer {
+  section {
     width: 49%;
   }
 }
+/* stylelint-enable */

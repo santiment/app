@@ -22,7 +22,7 @@ import { formatNumber, millify } from '../../utils/formatting'
 import './TotalMarketcapWidget.scss'
 
 const WidgetMarketView = {
-  TOTAL: 'Assets',
+  TOTAL: 'Compare with Total MC',
   LIST: 'List'
 }
 
@@ -118,7 +118,6 @@ class TotalMarketcapWidget extends Component {
 
           {TOTAL_LIST_MARKET && (
             <Selector
-              variant='border'
               options={[WidgetMarketView.LIST, WidgetMarketView.TOTAL]}
               defaultSelected={WidgetMarketView.LIST}
               onSelectOption={this.toggleMarketView}

@@ -1,42 +1,8 @@
-.TrendsExploreSearch {
+.wrapper {
   display: flex;
   align-items: center;
-}
 
-.ExploreSearchesItem:last-child {
-  margin-bottom: 0;
-}
-
-.TrendsExamplesItem__topic {
-  font-size: 1.1rem;
-  margin-bottom: 5px;
-  text-align: center;
-  text-overflow: ellipsis;
-}
-
-.TrendsExamplesItem__settings {
-  color: #999;
-  font-size: 0.9rem;
-  pointer-events: none;
-  text-align: center;
-}
-
-.TrendsExamplesItem__chart {
-  min-width: 100%;
-  max-width: 100%;
-  border-top: 1px solid #d8d8da;
-  border-bottom: 1px solid #d8d8da;
-  padding: 10px;
-}
-
-@media (min-width: 768px) {
-  .TrendsExamplesItem {
-    margin-right: 1em;
-    margin-bottom: 0;
-    width: 350px;
-  }
-
-  .TrendsExamplesItem:last-child {
-    margin-right: 0;
+  .search {
+    margin-right: 1rem;
   }
 }

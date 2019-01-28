@@ -22,31 +22,15 @@
 .search {
   input {
     color: $black;
-    font-size: 2em;
+    line-height: 20px;
+    font-size: 1rem;
   }
-
-  /* stylelint-disable */
-  :global .TrendsForm__input {
-    margin-left: 1rem;
-
-    input {
-      padding-left: 0.2rem !important;
-      padding-bottom: 0.2rem !important;
-      padding-top: 0.2rem !important;
-    }
-  }
-
-  :global .ui[class*="left icon"].input>input {
-    padding-left: 2.2rem !important;
-  }
-  /* stylelint-enable */
 }
 
 .settings {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  //flex-wrap: wrap;
   flex-direction: column;
 }
 

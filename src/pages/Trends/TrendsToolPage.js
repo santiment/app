@@ -4,7 +4,7 @@ import styles from './TrendsPage.module.scss'
 
 const TrendsToolPage = () => (
   <div className={styles.TrendsPage + ' page'}>
-    <div className={styles.header}>
+    <div className={styles.title}>
       <h1>
         Explore frequently-used <br />
         words in crypto social media
