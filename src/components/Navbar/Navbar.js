@@ -35,7 +35,7 @@ const Navbar = ({ activeLink = '/' }) => {
   return (
     <header>
       <SmoothDropdown
-        verticalOffset={-15}
+        verticalOffset={-8}
         showArrow={false}
         className={styles.wrapper}
         screenEdgeXOffset={5}
