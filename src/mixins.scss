@@ -1,3 +1,4 @@
+/* stylelint-disable */
 @mixin border-box {
   box-sizing: border-box;
 }
@@ -40,3 +41,4 @@ $phoneMinWidth: 480px;
     }
   }
 }
+/* stylelint-enable */

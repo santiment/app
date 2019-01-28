@@ -12,14 +12,6 @@ $top: 22px;
   background: white;
   border: 1px solid #ebeef5;
   border-radius: 4px;
-
-  /* stylelint-disable */
-  @include responsive('desktop') {
-    .wrapper {
-      width: 49%;
-    }
-  }
-  /* stylelint-enable */
 }
 
 .WordCloudLoading {
@@ -64,3 +56,11 @@ $top: 22px;
 .hint strong {
   color: #15181f;
 }
+
+/* stylelint-disable */
+@include responsive('desktop') {
+  .wrapper {
+    width: 49%;
+  }
+}
+/* stylelint-enable */

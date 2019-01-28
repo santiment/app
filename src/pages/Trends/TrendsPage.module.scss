@@ -1,11 +1,12 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 
 .TrendsPage {
   background: #f6f6f8;
   background: white;
 }
 
-.header div {
+.title div {
   display: flex;
   justify-content: left;
 }
@@ -22,3 +23,13 @@
     width: 1024px;
   }
 }
+
+/* stylelint-disable */
+@include responsive('desktop') {
+  .title h1 {
+    width: 392px;
+    line-height: 37px !important;
+    font-size: 32px !important;
+  }
+}
+/* stylelint-enable */

@@ -30,23 +30,25 @@ class WordCloudPage extends Component {
         <Helmet>
           <style>{'body { background-color: white; }'}</style>
         </Helmet>
-        <header>
+        <div className={styles.title}>
           <h1>Explore context of any word in crypto</h1>
-        </header>
-        <div className={styles.searchContainer}>
-          <Input
-            value={this.state.word}
-            id='word'
-            name='word'
-            placeholder='Any word'
-            onKeyPress={this.handleKeyPress}
-            onChange={this.handleChange}
-          />
-          <Button fill='positive' onClick={this.updateSearchQuery}>
-            Search
-          </Button>
         </div>
-        <WordCloud />
+        <section>
+          <div className={styles.searchContainer}>
+            <Input
+              value={this.state.word}
+              id='word'
+              name='word'
+              placeholder='Any word'
+              onKeyPress={this.handleKeyPress}
+              onChange={this.handleChange}
+            />
+            <Button border accent='positive' onClick={this.updateSearchQuery}>
+              Search
+            </Button>
+          </div>
+          <WordCloud />
+        </section>
       </div>
     )
   }

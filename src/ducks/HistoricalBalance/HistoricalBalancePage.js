@@ -32,12 +32,12 @@ export default class HistoricalBalancePage extends Component {
         <Helmet>
           <style>{'body { background-color: white; }'}</style>
         </Helmet>
-        <header className={styles.header}>
+        <div className={styles.title}>
           <h1>
             Explore historical balance <br />
             of any wallets
           </h1>
-        </header>
+        </div>
         <BalanceView
           onChangeQuery={this.handleChangeQuery}
           address={this.state.address}
