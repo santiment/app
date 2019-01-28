@@ -52,17 +52,15 @@ const NavbarProfileDropdown = ({
                     <Icon type='profile-round' fill='#fff' />
                   )}
                 </div>
-                <div className={styles.onlineIndicator + ' ' + getStatusStyle(status)}/>
+                <div
+                  className={
+                    styles.onlineIndicator + ' ' + getStatusStyle(status)
+                  }
+                />
               </div>
               <div className={styles.profile__right}>
-                <h3 className={styles.profile__name}>
-                  {name}
-                </h3>
-                <h4
-                  className={styles.profile__status}
-                >
-                  {Status[status]}
-                </h4>
+                <h3 className={styles.profile__name}>{name}</h3>
+                <h4 className={styles.profile__status}>{Status[status]}</h4>
               </div>
             </div>
             <div className={styles.tokens}>

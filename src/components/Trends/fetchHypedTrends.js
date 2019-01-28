@@ -46,7 +46,6 @@ export const selectHypedTrend = action$ =>
         : Observable.empty()
     })
 
-
 const fetchTrends$ = ({ client, data = {} }) => {
   const startTime = Date.now()
   const queries = secretDataTeamHours.map(hour => {
