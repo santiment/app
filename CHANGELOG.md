@@ -1,5 +1,14 @@
 ## CHANGELOG
 
+- 2019-01-29 | v.0.30.0 'Sonar':
+
+  Upgrade to new santiment brand styles
+  Make Trends as the home page
+  Add Total sum mentions chart on Trends
+  Add a context cloud for trend's keywords
+  Add new widgets for assets table
+  Make new navigation
+
 - 2018-06-12 | v.0.22.3 'Phobos':
 
   Fix trends chart
