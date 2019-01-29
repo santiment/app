@@ -50,8 +50,8 @@
     height: 48px;
 
     &__btn {
-        height: 100%;
-        padding: 14px 16px;
+        height: 100% !important;
+        padding: 14px 16px !important;
 
         svg {
             margin-right: 8px;
