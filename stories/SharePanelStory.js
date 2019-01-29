@@ -25,7 +25,12 @@ storiesOf('Share', module)
   ))
   .add('Modal', () => (
     <div>
-      <ShareModalTrigger shareLink='http://share.santiment.net/ffd689tset.com' />
+      <ShareModalTrigger
+        shareTitle='Santiment'
+        shareText='Check it out!'
+        shareLink='http://share.santiment.net/ffd689tset.com'
+      />
+
       <br />
 
       <ShareModalTrigger
