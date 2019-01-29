@@ -25,6 +25,7 @@
 
 .dd__bg {
   background-color: #fff;
+  box-sizing: border-box;
   transition: 0.25s ease;
   border-radius: 4px;
   overflow: hidden;
