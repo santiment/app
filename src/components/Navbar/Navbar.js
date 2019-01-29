@@ -1,6 +1,5 @@
 import React from 'react'
 import { NavLink as Link } from 'react-router-dom'
-import { Popup } from 'semantic-ui-react'
 import cx from 'classnames'
 import Search from './../Search/SearchContainer'
 import { Icon, Button } from '@santiment-network/ui'

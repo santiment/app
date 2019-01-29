@@ -4,6 +4,15 @@
 .TrendsPage {
   background: #f6f6f8;
   background: white;
+
+  .header {
+    display: flex;
+    align-items: center;
+
+    h1 {
+      margin-right: 0.5rem !important;
+    }
+  }
 }
 
 .title div {

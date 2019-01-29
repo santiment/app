@@ -1,5 +1,4 @@
 import React from 'react'
-import { Icon } from '@santiment-network/ui'
 import HelpPopup from './../../components/HelpPopup/HelpPopup'
 import styles from './PaywallMessage.module.scss'
 

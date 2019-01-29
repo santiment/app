@@ -2,10 +2,10 @@ import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { compose, withState } from 'recompose'
 import Sticky from 'react-stickynode'
-import TrendsSearch from '../../components/Trends/TrendsSearch'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import HypedBlocks from './../../components/Trends/HypedBlocks'
 import WordCloud from './../../components/WordCloud/WordCloud'
+import HelpTrendsAbout from './HelpPopupTrendsAbout'
 import styles from './TrendsPage.module.scss'
 
 const WordCloudSticky = () => (
@@ -54,6 +54,7 @@ const TrendsPage = ({
   <div className={styles.TrendsPage + ' page'}>
     <div className={styles.header}>
       <h1>Daily trending words</h1>
+      <HelpTrendsAbout />
     </div>
     <GetHypedTrends
       render={({ isLoading, items }) => (
