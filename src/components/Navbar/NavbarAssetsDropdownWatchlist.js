@@ -24,6 +24,7 @@ const NavbarAssetsDropdownWatchlist = ({ lists = [], activeLink }) => {
 
           return (
             <Button
+              fluid
               variant='ghost'
               key={id}
               as={Link}
