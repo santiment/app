@@ -1,44 +1,47 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Input, Panel, Icon, Button } from '@santiment-network/ui'
-import copy from 'copy-to-clipboard'
 import ShareComposition from './ShareComposition'
+import ShareCopyBtn from './ShareCopyBtn.js'
 import styles from './SharePanel.module.scss'
 
-const media = [
+const SECRET_LINK_TAG = '__SECRET_LINK_TAG__'
+const SECRET_TEXT_TAG = '__SECRET_TEXT_TAG__'
+const SECRET_TITLE_TAG = '__SECRET_TITLE_TAG__'
+
+const mediasToShare = [
   {
     label: 'Twitter',
     icon: 'twitter',
-    href:
-      'https://twitter.com/home?status=Hey!%20Look%20what%20I%20have%20found%3A%20'
+    href: `https://twitter.com/home?status=${SECRET_TEXT_TAG}%0Alink%3A%20${SECRET_LINK_TAG}`
   },
   {
     label: 'Facebook',
     icon: 'facebook',
-    href:
-      'https://www.facebook.com/sharer/sharer.php?u=Hey!%20Look%20what%20I%20have%20found%3A%20'
+    href: `https://www.facebook.com/sharer/sharer.php?u=${SECRET_LINK_TAG}`
   },
   {
     label: 'LinkedIn',
     icon: 'linkedIn',
-    href:
-      'https://www.linkedin.com/shareArticle?mini=true&title=Santiment.net%20Data&summary=Hey!%20Look%20what%20I%20have%20found&source=santiment.net&url='
+    href: `https://www.linkedin.com/shareArticle?mini=true&title=${SECRET_TITLE_TAG}&summary=${SECRET_TEXT_TAG}&source=santiment.net&url=${SECRET_LINK_TAG}`
   },
   {
     label: 'Telegram',
     icon: 'telegram',
-    href:
-      'https://telegram.me/share/url?text=Hey!%20Look%20what%20I%20have%20found%20on%20the%20santiment.net&url='
+    href: `https://telegram.me/share/url?text=${SECRET_TEXT_TAG}&url=${SECRET_LINK_TAG}`
   },
   {
     label: 'Reddit',
     icon: 'reddit',
-    href:
-      'https://reddit.com/submit?title=Hey!%20Look%20what%20I%20have%20found%20on%20the%20santiment.net&url='
+    href: `https://reddit.com/submit?title=${SECRET_TEXT_TAG}&url=${SECRET_LINK_TAG}`
   }
 ]
 
-const SharePanel = ({ shareLink, onCloseBtnClick }) => {
+const SharePanel = ({ shareTitle, shareText, shareLink, onCloseBtnClick }) => {
+  const encodedTitle = encodeURIComponent(shareTitle)
+  const encodedText = encodeURIComponent(shareText)
+  const encodedLink = encodeURIComponent(shareLink)
+
   return (
     <Panel className={styles.wrapper}>
       <div className={styles.upper}>
@@ -55,29 +58,47 @@ const SharePanel = ({ shareLink, onCloseBtnClick }) => {
             readOnly
             defaultValue={shareLink}
           />
-          <Button
-            className={styles.link__btn}
-            variant='flat'
-            onClick={() => copy(shareLink)}
-          >
-            Copy link
-          </Button>
+          <ShareCopyBtn shareLink={shareLink} />
         </div>
 
-        {media.map(({ label, icon, href }) => {
-          return (
-            <Button
-              key={label}
-              variant='flat'
-              as={props => (
-                <a href={href + encodeURIComponent(shareLink)} {...props} />
-              )}
-              className={styles.btn}
-            >
-              <Icon type={icon} className={styles.icon} /> Share on {label}
-            </Button>
-          )
-        })}
+        {window.navigator.share ? (
+          <Button
+            variant='flat'
+            className={styles.btn}
+            onClick={() =>
+              window.navigator.share({
+                title: shareTitle,
+                text: shareText,
+                url: shareLink
+              })
+            }
+          >
+            Share
+          </Button>
+        ) : (
+          mediasToShare.map(({ label, icon, href }) => {
+            return (
+              <Button
+                key={label}
+                variant='flat'
+                as={props => (
+                  <a
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href={href
+                      .replace(SECRET_LINK_TAG, encodedLink)
+                      .replace(SECRET_TEXT_TAG, encodedText)
+                      .replace(SECRET_TITLE_TAG, encodedTitle)}
+                    {...props}
+                  />
+                )}
+                className={styles.btn}
+              >
+                <Icon type={icon} className={styles.icon} /> Share on {label}
+              </Button>
+            )
+          })
+        )}
       </div>
     </Panel>
   )
@@ -85,7 +106,14 @@ const SharePanel = ({ shareLink, onCloseBtnClick }) => {
 
 SharePanel.propTypes = {
   shareLink: PropTypes.string.isRequired,
+  shareTitle: PropTypes.string,
+  shareText: PropTypes.string,
   onCloseBtnClick: PropTypes.func.isRequired
+}
+
+SharePanel.defaultProps = {
+  shareTitle: 'Sanbase',
+  shareText: 'Hey! Look what I have found at the app.santiment.net!'
 }
 
 export default SharePanel

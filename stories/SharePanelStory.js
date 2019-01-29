@@ -9,6 +9,8 @@ storiesOf('Share', module)
   .add('Default', () => (
     <div>
       <SharePanel
+        shareTitle='Sanbase'
+        shareText='Check it out!'
         shareLink='http://share.santiment.net/ffd689tset.com'
         onCloseBtnClick={() => action('Close click')()}
       />
