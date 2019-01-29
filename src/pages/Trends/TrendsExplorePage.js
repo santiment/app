@@ -9,12 +9,12 @@ import GetTrends from './../../components/Trends/GetTrends'
 import TrendsReChart from './../../components/Trends/TrendsReChart'
 import TrendsStats from './../../components/Trends/TrendsStats'
 import TrendsTitle from '../../components/Trends/TrendsTitle'
-import TrendsExploreShare from './../../components/Trends/Explore/TrendsExploreShare'
 import TrendsExploreSearch from './../../components/Trends/Explore/TrendsExploreSearch'
 import * as actions from '../../components/Trends/actions'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import WordCloud from './../../components/WordCloud/WordCloud'
 import GetWordContext from './../../components/WordCloud/GetWordContext'
+import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import { checkHasPremium } from './../UserSelectors'
 import { mapQSToState, mapStateToQS, capitalizeStr } from './../../utils/utils'
 import styles from './TrendsExplorePage.module.scss'
@@ -88,7 +88,11 @@ export class TrendsExplorePage extends Component {
                 defaultSelected={asset}
               />
             </Panel>
-            <TrendsExploreShare topic={topic} />
+            <ShareModalTrigger
+              shareTitle='Santiment'
+              shareText={`Crypto Social Trends for "${topic}"`}
+              shareLink={window.location.href}
+            />
           </div>
         </div>
         <div>
