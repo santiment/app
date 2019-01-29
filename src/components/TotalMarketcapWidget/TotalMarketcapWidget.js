@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import cx from 'classnames'
-import { Switch } from '@santiment-network/ui'
+import { Selector } from '@santiment-network/ui'
 import {
   ResponsiveContainer,
   AreaChart,
@@ -22,7 +22,7 @@ import { formatNumber, millify } from '../../utils/formatting'
 import './TotalMarketcapWidget.scss'
 
 const WidgetMarketView = {
-  TOTAL: 'Assets',
+  TOTAL: 'Compare with Total MC',
   LIST: 'List'
 }
 
@@ -34,12 +34,9 @@ class TotalMarketcapWidget extends Component {
         : WidgetMarketView.LIST
   }
 
-  toggleMarketView = () => {
+  toggleMarketView = view => {
     this.setState({
-      view:
-        this.state.view === WidgetMarketView.LIST
-          ? WidgetMarketView.TOTAL
-          : WidgetMarketView.LIST
+      view
     })
   }
 
@@ -120,11 +117,10 @@ class TotalMarketcapWidget extends Component {
           </div>
 
           {TOTAL_LIST_MARKET && (
-            <Switch
-              isSwitched={view === WidgetMarketView.TOTAL}
-              option1={WidgetMarketView.LIST}
-              option2={WidgetMarketView.TOTAL}
-              onClick={this.toggleMarketView}
+            <Selector
+              options={[WidgetMarketView.LIST, WidgetMarketView.TOTAL]}
+              defaultSelected={WidgetMarketView.LIST}
+              onSelectOption={this.toggleMarketView}
               style={{ width: 122 }}
             />
           )}

@@ -1,44 +1,67 @@
 @import '~@santiment-network/ui/variables.scss';
+@import './../../mixins.scss';
 
-.wrapper {
-  padding: 19px 46px;
+.header {
+  margin: 0 !important;
+  margin-bottom: 2rem !important;
   background: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  max-height: 70px;
+  border-bottom: 1px solid $light-gray2;
 
   a {
     text-decoration: none;
   }
 }
 
+.wrapper {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  /* stylelint-disable */
+  @include responsive('desktop') {
+    margin: 0 auto;
+    max-width: 1200px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  /* stylelint-enable */
+}
+
 .logo {
-  font-family: Rubik, sans-serif;
-  font-weight: 900;
   margin-right: 46px;
-  color: #000;
-  font-size: 20px;
+}
+
+.right,
+.left {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
 }
 
 .right {
-  display: flex;
-  & input {
-    padding: 5px 15px;
-  }
+  justify-content: flex-end;
 }
+
+/* stylelint-disable */
+.right :global .search-panel {
+  margin-right: 1rem !important;
+}
+/* stylelint-enable */
 
 .btn {
   display: flex;
   align-items: center;
-
-  margin-left: 4px;
-  &:first-of-type {
-    margin-left: 12px;
-  }
+  background: transparent;
 
   &:focus {
-    background-color: $btn-background-light-green;
+    background-color: none;
   }
+}
+
+.pseudoBtn {
+  padding: 0 !important;
 }
 
 .button {
@@ -49,6 +72,7 @@
   font-family: Rubik, sans-serif;
   color: $text-grey;
   border-radius: $border-radius;
+  background: transparent;
   cursor: pointer;
 
   & svg {
@@ -57,6 +81,7 @@
 
   &:hover {
     color: $text-green;
+
     & svg {
       fill: $text-green;
     }
@@ -65,16 +90,9 @@
   &.active {
     color: $text-green;
     background-color: $btn-background-light-green;
+
     & svg {
       fill: $text-green;
     }
-  }
-}
-
-.leftLink {
-  margin-right: 4px;
-
-  &_droppable:focus {
-    background-color: $btn-background-light-green;
   }
 }

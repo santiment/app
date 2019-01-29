@@ -3,9 +3,8 @@ import Raven from 'raven-js'
 import axios from 'axios'
 import GoogleAnalytics from 'react-ga'
 import { connect } from 'react-redux'
-import { Input } from 'semantic-ui-react'
+import { Search } from '@santiment-network/ui'
 import { gotoExplore } from './trendsUtils'
-import './TrendsForm.css'
 
 export class TrendsForm extends Component {
   state = {
@@ -24,11 +23,9 @@ export class TrendsForm extends Component {
 
   render () {
     return (
-      <div className='TrendsForm'>
-        <form className='TrendsForm__form' onSubmit={this.handleSubmit}>
-          <Input
-            className='TrendsForm__input'
-            icon={this.state.topic.length === 0 && 'search'}
+      <div className={this.props.className}>
+        <form onSubmit={this.handleSubmit}>
+          <Search
             iconPosition='left'
             placeholder='Enter your search query'
             value={this.state.topic}

@@ -33,10 +33,9 @@ export default (state = initialState, action) => {
         allAssets: []
       }
     case actions.TRENDS_HYPED_WORD_SELECTED:
-      const { selected } = action.payload
       return {
         ...state,
-        selected
+        selected: action.payload
       }
     default:
       return state

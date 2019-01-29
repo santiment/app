@@ -1,0 +1,92 @@
+@import "~@santiment-network/ui/variables.scss";
+@import "~@santiment-network/ui/mixins.scss";
+
+.upper {
+  padding: 12px 20px;
+  position: relative;
+  border-bottom: 1px solid $light-gray3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.composition {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  @include text-normal;
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: $black;
+}
+
+.close {
+  fill: $text-grey;
+  cursor: pointer;
+}
+
+.link {
+  border: 1px solid $light-gray3;
+  display: flex;
+  border-radius: $border-radius;
+  overflow: hidden;
+  margin-bottom: 20px;
+
+  &__input {
+    border: none;
+    height: 32px;
+    @include text-normal;
+    color: $blue;
+    padding: 6px 10px;
+  }
+
+  &__btn {
+    white-space: nowrap;
+    border-left: 1px solid $light-gray3;
+    border-radius: 0;
+    color: $black;
+    position: relative;
+
+    &::before {
+      display: block;
+      position: absolute;
+      z-index: 9;
+      content: '';
+      height: 100%;
+      top: 0;
+      left: -31px;
+      width: 30px;
+      background: linear-gradient(270deg, #fff 0%, #fff 30.94%, rgba(255, 255, 255, 0) 100%);
+    }
+  }
+}
+
+.btn {
+  border: 1px solid $light-gray3;
+  color: $black;
+  text-decoration: none;
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.icon {
+  width: 16px;
+  text-align: center;
+  margin-right: 7px;
+  fill: $dark-gray !important;
+}

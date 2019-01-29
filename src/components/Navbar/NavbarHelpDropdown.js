@@ -5,7 +5,7 @@ import styles from './NavbarDropdown.module.scss'
 
 const links = [
   { link: '/docs', label: 'Documentation' },
-  { link: '/dev-api', label: 'Developer API' },
+  { link: '/apidocs', label: 'Developer API' },
   { link: '/support', label: 'Support' }
 ]
 

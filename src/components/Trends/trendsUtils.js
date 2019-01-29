@@ -12,7 +12,7 @@ export const mergeDataSourcesForChart = sources =>
   }, new Map())
 
 export const gotoExplore = dispatch => ({
-  gotoExplore: topic => dispatch(push(`/trends/explore/${topic}`))
+  gotoExplore: topic => dispatch(push(`/labs/trends/explore/${topic}`))
 })
 
 export const Source = {
@@ -30,10 +30,10 @@ export const SourceColor = {
 }
 
 export const sourcesMeta = {
-  merged: {
-    index: 'merged',
+  total: {
+    index: 'total',
     name: 'Total Mentions',
-    color: '#AC74D9',
+    color: '#ac74d9',
     value: 0
   },
   telegram: {

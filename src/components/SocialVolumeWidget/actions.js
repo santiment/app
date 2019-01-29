@@ -1,0 +1,5 @@
+export const SOCIALVOLUME_DATA_FETCH = '[socialVolume] DATA_FETCH'
+export const SOCIALVOLUME_DATA_FETCH_CANCEL = '[socialVolume] DATA_FETCH_CANCEL'
+export const SOCIALVOLUME_DATA_FETCH_SUCCESS =
+  '[socialVolume] DATA_FETCH_SUCCESS'
+export const SOCIALVOLUME_DATA_FETCH_FAILED = '[socialVolume] DATA_FETCH_FAILED'

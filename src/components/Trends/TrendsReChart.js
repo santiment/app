@@ -12,9 +12,11 @@ import {
   YAxis,
   Tooltip
 } from 'recharts'
+import { Panel } from '@santiment-network/ui'
 import { formatNumber } from './../../utils/formatting'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import mixWithPaywallArea from './../PaywallArea/PaywallArea'
+import PaywallMessage from './../PaywallMessage/PaywallMessage'
 import { sourcesMeta as chartsMeta } from './trendsUtils'
 import { mapSizesToProps } from '../../App'
 
@@ -53,7 +55,95 @@ const getChartMargins = isDesktop => {
 
 const displayEmptyState = branch(props => props.isEmpty, renderComponent(Empty))
 
-const getChartData = (data, hasPremium) => {
+const TrendsReChart = ({
+  chartSummaryData = [],
+  chartData,
+  asset,
+  isDesktop,
+  hasPremium
+}) => (
+  <div className='TrendsExploreChart'>
+    {chartSummaryData.map((entity, key) => (
+      <Panel key={key} style={{ marginTop: '1rem' }}>
+        {!hasPremium && (
+          <div style={{ padding: '0.5rem' }}>
+            <PaywallMessage />
+          </div>
+        )}
+        <ResponsiveContainer width='100%' height={isDesktop ? 300 : 250}>
+          <ComposedChart
+            data={chartData}
+            syncId='trends'
+            margin={getChartMargins(isDesktop)}
+          >
+            <XAxis
+              dataKey='datetime'
+              tickLine={false}
+              tickMargin={5}
+              minTickGap={100}
+              tickFormatter={timeStr => moment(timeStr).format('DD MMM YY')}
+            />
+            <YAxis />
+            <YAxis
+              yAxisId='axis-price'
+              hide
+              tickFormatter={priceUsd =>
+                formatNumber(priceUsd, { currency: 'USD' })
+              }
+              domain={['auto', 'dataMax']}
+            />
+            <CartesianGrid
+              vertical={false}
+              strokeDasharray='4 10'
+              stroke='#ebeef5'
+            />
+            <Tooltip
+              labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
+              formatter={(value, name) => {
+                if (name === `${asset}/USD`) {
+                  return formatNumber(value, { currency: 'USD' })
+                }
+                return value
+              }}
+            />
+            <Line
+              type='linear'
+              yAxisId='axis-price'
+              name={asset + '/USD'}
+              dot={false}
+              strokeWidth={1.5}
+              dataKey='priceUsd'
+              stroke={ASSET_PRICE_COLOR}
+            />
+            <Line
+              type='linear'
+              dataKey={entity.index}
+              dot={false}
+              strokeWidth={entity.index === 'merged' ? 1.5 : 3}
+              name={entity.name}
+              stroke={entity.color}
+            />
+            {!hasPremium &&
+              mixWithPaywallArea({
+                dataKey: entity.index,
+                stroke: '#ffad4d',
+                strokeOpacity: 0.9,
+                data: chartData
+              })}
+            <Legend />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </Panel>
+    ))}
+  </div>
+)
+
+TrendsReChart.defaultProps = {
+  data: {},
+  isLoading: true
+}
+
+const cleanLastDate = (data, hasPremium) => {
   if (hasPremium) {
     return data
   }
@@ -67,89 +157,18 @@ const getChartData = (data, hasPremium) => {
   return [...data.filter((_, index) => index < data.length - 1), last]
 }
 
-const TrendsReChart = ({
-  chartSummaryData = [],
+export const addTotal = (
   chartData,
-  asset,
-  isDesktop,
-  hasPremium
-}) => (
-  <div className='TrendsExploreChart'>
-    {chartSummaryData.map((entity, key) => (
-      <ResponsiveContainer
-        key={key}
-        width='100%'
-        height={isDesktop ? 300 : 250}
-      >
-        <ComposedChart
-          data={chartData}
-          syncId='trends'
-          margin={getChartMargins(isDesktop)}
-        >
-          <XAxis
-            dataKey='datetime'
-            tickLine={false}
-            tickMargin={5}
-            minTickGap={100}
-            tickFormatter={timeStr => moment(timeStr).format('DD MMM YY')}
-          />
-          <YAxis />
-          <YAxis
-            yAxisId='axis-price'
-            hide
-            tickFormatter={priceUsd =>
-              formatNumber(priceUsd, { currency: 'USD' })
-            }
-            domain={['auto', 'dataMax']}
-          />
-          <CartesianGrid
-            vertical={false}
-            strokeDasharray='4 10'
-            stroke='#ebeef5'
-          />
-          <Tooltip
-            labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
-            formatter={(value, name) => {
-              if (name === `${asset}/USD`) {
-                return formatNumber(value, { currency: 'USD' })
-              }
-              return value
-            }}
-          />
-          <Line
-            type='linear'
-            yAxisId='axis-price'
-            name={asset + '/USD'}
-            dot={false}
-            strokeWidth={1.5}
-            dataKey='priceUsd'
-            stroke={ASSET_PRICE_COLOR}
-          />
-          <Line
-            type='linear'
-            dataKey={entity.index}
-            dot={false}
-            strokeWidth={entity.index === 'merged' ? 1.5 : 3}
-            name={entity.name}
-            stroke={entity.color}
-          />
-          {!hasPremium &&
-            mixWithPaywallArea({
-              dataKey: entity.index,
-              stroke: '#ffad4d',
-              strokeOpacity: 0.9,
-              data: chartData
-            })}
-          <Legend />
-        </ComposedChart>
-      </ResponsiveContainer>
-    ))}
-  </div>
-)
-
-TrendsReChart.defaultProps = {
-  data: {},
-  isLoading: true
+  channels = ['reddit', 'telegram', 'discord', 'professional_traders_chat']
+) => {
+  return chartData.reduce((acc, item) => {
+    const total = channels.reduce((acc, channelName) => {
+      acc += item[channelName] ? item[channelName] : 0
+      return acc
+    }, 0)
+    acc.push({ total, ...item })
+    return acc
+  }, [])
 }
 
 const getTimeseries = (sourceName, trends) =>
@@ -160,40 +179,29 @@ const getTimeseries = (sourceName, trends) =>
     }
   })
 
-const calcSumOfMentions = data =>
-  data.reduce(
+export const calcSumOfMentions = chartsMeta => data => {
+  const channels = [
+    'reddit',
+    'telegram',
+    'discord',
+    'professional_traders_chat',
+    'total'
+  ]
+  return data.reduce(
     (acc, val) => {
-      if (val.telegram) {
-        acc.telegram = {
-          ...acc.telegram,
-          value: val.telegram + acc.telegram.value
+      channels.forEach(channelName => {
+        if (val[channelName]) {
+          acc[channelName] = {
+            ...acc[channelName],
+            value: acc[channelName].value + val[channelName]
+          }
         }
-      }
-      if (val.reddit) {
-        acc.reddit = {
-          ...acc.reddit,
-          value: acc.reddit.value + val.reddit
-        }
-      }
-      if (val.professional_traders_chat) {
-        acc.professional_traders_chat = {
-          ...acc.professional_traders_chat,
-          value:
-            acc.professional_traders_chat.value + val.professional_traders_chat
-        }
-      }
-
-      if (val.discord) {
-        acc.discord = {
-          ...acc.discord,
-          value: acc.discord.value + val.discord
-        }
-      }
-
+      })
       return acc
     },
     { ...chartsMeta }
   )
+}
 
 const cleanAllZeroSources = data => data.filter(source => source.value > 0)
 
@@ -220,7 +228,7 @@ export default compose(
       timeseries: [items, telegram, reddit, professional_traders_chat, discord],
       key: 'datetime'
     })
-    const chartData = getChartData(_chartData, hasPremium)
+    const chartData = addTotal(cleanLastDate(_chartData, hasPremium))
 
     if (
       telegram.length === 0 &&
@@ -236,7 +244,7 @@ export default compose(
     const chartSummaryData = compose(
       cleanAllZeroSources,
       objToArr,
-      calcSumOfMentions
+      calcSumOfMentions(chartsMeta)
     )(chartData)
 
     chartSummaryData.forEach(({ index }) => {

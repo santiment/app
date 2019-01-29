@@ -1,4 +1,5 @@
 @import 'variables.scss';
+@import './../../mixins.scss';
 
 $top: 22px;
 
@@ -48,14 +49,18 @@ $top: 22px;
   line-height: 20px;
   font-size: 14px;
   color: #7a859e;
+  display: flex;
+  align-items: center;
 }
 
 .hint strong {
   color: #15181f;
 }
 
-@media (min-width: $breakpoint-desktop) {
+/* stylelint-disable */
+@include responsive('desktop') {
   .wrapper {
     width: 49%;
   }
 }
+/* stylelint-enable */

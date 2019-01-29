@@ -1,17 +1,17 @@
 @import 'variables.scss';
 
-.header {
-  margin-top: 10px;
-}
+.title {
+  margin-bottom: 1rem;
 
-.header h1 {
-  width: 100%;
-  font-weight: 600;
-  font-style: normal;
-  line-height: 28px !important;
-  font-size: 24px !important;
-  color: #252830 !important;
-  margin-left: 0;
+  h1 {
+    width: 100%;
+    font-weight: 600;
+    font-style: normal;
+    line-height: 28px !important;
+    font-size: 24px !important;
+    color: #252830 !important;
+    margin-left: 0;
+  }
 }
 
 @media (min-width: $breakpoint-desktop) {
@@ -20,14 +20,8 @@
     width: $breakpoint-desktop;
   }
 
-  .header {
-    margin-top: 40px;
-    margin-bottom: 0;
-  }
-
-  .header h1 {
+  .title h1 {
     width: 392px;
-    font-weight: 600 !important;
     line-height: 37px !important;
     font-size: 32px !important;
   }
