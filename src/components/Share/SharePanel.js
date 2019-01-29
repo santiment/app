@@ -61,44 +61,28 @@ const SharePanel = ({ shareTitle, shareText, shareLink, onCloseBtnClick }) => {
           <ShareCopyBtn shareLink={shareLink} />
         </div>
 
-        {window.navigator.share ? (
-          <Button
-            variant='flat'
-            className={styles.btn}
-            onClick={() =>
-              window.navigator.share({
-                title: shareTitle,
-                text: shareText,
-                url: shareLink
-              })
-            }
-          >
-            Share
-          </Button>
-        ) : (
-          mediasToShare.map(({ label, icon, href }) => {
-            return (
-              <Button
-                key={label}
-                variant='flat'
-                as={props => (
-                  <a
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={href
-                      .replace(SECRET_LINK_TAG, encodedLink)
-                      .replace(SECRET_TEXT_TAG, encodedText)
-                      .replace(SECRET_TITLE_TAG, encodedTitle)}
-                    {...props}
-                  />
-                )}
-                className={styles.btn}
-              >
-                <Icon type={icon} className={styles.icon} /> Share on {label}
-              </Button>
-            )
-          })
-        )}
+        {mediasToShare.map(({ label, icon, href }) => {
+          return (
+            <Button
+              key={label}
+              variant='flat'
+              as={props => (
+                <a
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  href={href
+                    .replace(SECRET_LINK_TAG, encodedLink)
+                    .replace(SECRET_TEXT_TAG, encodedText)
+                    .replace(SECRET_TITLE_TAG, encodedTitle)}
+                  {...props}
+                />
+              )}
+              className={styles.btn}
+            >
+              <Icon type={icon} className={styles.icon} /> Share on {label}
+            </Button>
+          )
+        })}
       </div>
     </Panel>
   )
