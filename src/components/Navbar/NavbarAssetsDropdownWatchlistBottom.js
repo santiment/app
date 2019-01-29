@@ -45,12 +45,15 @@ class NavbarAssetsDropdownWatchlistBottom extends Component {
             onBlur={this.onBlur}
           />
         ) : (
-          <div onClick={this.onClick} style={{ width: '100%' }}>
-            <Button variant='ghost' className={styles.newList__btn}>
-              <Icon type='plus-round' />
-              Create new watchlist
-            </Button>
-          </div>
+          <Button
+            onClick={this.onClick}
+            fluid
+            variant='ghost'
+            className={styles.newList__btn}
+          >
+            <Icon type='plus-round' />
+            Create new watchlist
+          </Button>
         )}
       </div>
     )
