@@ -1,9 +1,6 @@
-import React, { Fragment, createFactory } from 'react'
-import moment from 'moment'
-import { graphql } from 'react-apollo'
+import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Panel, Button, Icon } from '@santiment-network/ui'
-import { WatchlistGQL } from '../WatchlistPopup/WatchlistGQL'
 import WatchlistsAnon from './../WatchlistPopup/WatchlistsAnon'
 import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
 import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
@@ -63,6 +60,7 @@ const ifData = fork(
         const link = `/assets/list?name=${name}@${id}`
         return (
           <Button
+            fluid
             variant='ghost'
             key={id}
             as={Link}
