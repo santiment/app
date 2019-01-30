@@ -10,7 +10,6 @@ import GetWatchlists from './GetWatchlists'
 
 const mockedData = {
   fetchUserLists: [0, 1, 2, 3, 4, 5, 6, 7, 8].map(index => ({
-    // __typename: 'UserList',
     color: 'NONE',
     id: '17' + index,
     insertedAt: '2018-12-01T13:37:02.07080' + index,
