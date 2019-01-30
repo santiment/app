@@ -107,6 +107,7 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
           .map(asset => {
             return asset.project.slug
           })
+          .filter(slug => !!slug)
           .map(slug => {
             return client.query({
               query: projectBySlugGQL,
@@ -167,6 +168,7 @@ export const fetchAssetsFromSharedListEpic = (action$, store, { client }) =>
           .map(asset => {
             return asset.project.slug
           })
+          .filter(slug => !!slug)
           .map(slug => {
             return client.query({
               query: projectBySlugGQL,
