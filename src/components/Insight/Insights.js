@@ -4,13 +4,19 @@ import InsightCard from './InsightCard'
 import styles from './Insights.module.scss'
 
 class Insights extends Component {
+  static defaultProps = {
+    insights: []
+  }
+
   render () {
+    const { insights } = this.props
+
     return (
       <div>
         <div className={styles.top}>
           <div className={styles.title}>
             Insights
-            <span className={styles.count}> (5)</span>
+            <span className={styles.count}> ({insights.length})</span>
           </div>
           <div className={styles.controls}>
             <Selector
@@ -26,9 +32,17 @@ class Insights extends Component {
           </div>
         </div>
         <div className={styles.bottom}>
-          <InsightCard />
-          <InsightCard />
-          <InsightCard />
+          {insights.map(({ id, user: author, title, tags, createdAt }) => {
+            return (
+              <InsightCard
+                key={id}
+                author={author}
+                title={title}
+                tags={tags}
+                createdAt={createdAt}
+              />
+            )
+          })}
         </div>
       </div>
     )
