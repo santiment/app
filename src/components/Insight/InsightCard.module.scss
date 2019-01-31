@@ -1,0 +1,22 @@
+@import "~@santiment-network/ui/variables.scss";
+@import "~@santiment-network/ui/mixins.scss";
+
+.wrapper {
+    padding: 25px 22px 18px;
+    width: 365px;
+    /* Grey light 2 */
+    border: 1px solid $light-gray2;
+}
+
+.tag {
+    @include text-normal;
+    padding: 1px 6px;
+    color: #7A859E;// $dark-grey-2
+    box-sizing: border-box;
+    border: 1px solid $light-gray2;
+    border-radius: $border-radius;
+    line-height: 20px;
+    font-size: 12px;
+    display: inline-block;
+    margin-right: 4px;
+}
