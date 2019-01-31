@@ -21,7 +21,7 @@ const Status = {
   active: 'Active'
 }
 
-const NavbarProfileDropdown = ({
+export const NavbarProfileDropdown = ({
   activeLink,
   picUrl,
   balance,
