@@ -32,17 +32,20 @@ class Insights extends Component {
           </div>
         </div>
         <div className={styles.bottom}>
-          {insights.map(({ id, user: author, title, tags, createdAt }) => {
-            return (
-              <InsightCard
-                key={id}
-                author={author}
-                title={title}
-                tags={tags}
-                createdAt={createdAt}
-              />
-            )
-          })}
+          {insights.map(
+            ({ id, user: author, title, tags, createdAt, votes }) => {
+              return (
+                <InsightCard
+                  key={id}
+                  author={author}
+                  title={title}
+                  tags={tags}
+                  createdAt={createdAt}
+                  votes={votes}
+                />
+              )
+            }
+          )}
         </div>
       </div>
     )

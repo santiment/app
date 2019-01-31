@@ -16,14 +16,14 @@ const insights = [
     user: 'Storybook',
     title: 'Small title',
     tags: [],
-    createdAt: new Date().toISOString()
+    createdAt: '2019-01-31T15:48:37.707Z'
   },
   {
     id: 2,
     user: 'Storybook',
     title: 'Small title',
     tags: [],
-    createdAt: new Date().toISOString()
+    createdAt: '2019-01-21T15:48:37.707Z'
   }
 ]
 
