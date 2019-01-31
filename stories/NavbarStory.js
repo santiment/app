@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { MockedProvider } from 'react-apollo/test-utils'
 import { Panel } from '@santiment-network/ui'
 import Navbar from './../src/components/Navbar/Navbar'
-import NavbarProfileDropdown from './../src/components/Navbar/NavbarProfileDropdown'
+import { NavbarProfileDropdown } from './../src/components/Navbar/NavbarProfileDropdown'
 import NavbarHelpDropdown from './../src/components/Navbar/NavbarHelpDropdown'
 import NavbarLabsDropdown from './../src/components/Navbar/NavbarLabsDropdown'
 import NavbarAssetsDropdown from './../src/components/Navbar/NavbarAssetsDropdown'
@@ -62,13 +62,31 @@ storiesOf('Navbar', module)
   ))
   .add('Profile Dropdown', () => (
     <div>
+      Logged out menu
       <Panel>
         <NavbarProfileDropdown />
+      </Panel>
+      <br />
+      Logged in menu
+      <Panel>
+        <NavbarProfileDropdown isLoggedIn name='Storybook' balance='0' />
+      </Panel>
+      <br />
+      Very long name (+40 chars)
+      <Panel>
+        <NavbarProfileDropdown
+          isLoggedIn
+          name='dfhbtorybooshbgkjsdhbfgkjshdbfgkjshdbfgkjshk'
+          balance='0'
+        />
       </Panel>
       <br />
       Profile status and picture
       <Panel>
         <NavbarProfileDropdown
+          isLoggedIn
+          name='Storybook'
+          balance='0'
           status='active'
           picUrl='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_iB-yPaTXvwWqWiLP3kuHf_WocZXm_uN2lhsNMvkN-BsMLZcDUQ'
         />
@@ -76,7 +94,12 @@ storiesOf('Navbar', module)
       <br />
       On the '/account' page
       <Panel>
-        <NavbarProfileDropdown activeLink='/account' />
+        <NavbarProfileDropdown
+          isLoggedIn
+          name='Storybook'
+          balance='0'
+          activeLink='/account'
+        />
       </Panel>
     </div>
   ))
