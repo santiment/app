@@ -6,7 +6,14 @@ import { PostVisualBacktest } from './PostVisualBacktest'
 
 describe('PostVisualBacktest component', () => {
   it('(smoke) it should render correctly', () => {
-    const component = render(<PostVisualBacktest ticker='SAN' from='aksdfjh' />)
+    const component = render(
+      <PostVisualBacktest
+        history={{ loading: false }}
+        ticker='SAN'
+        change={3}
+        from='aksdfjh'
+      />
+    )
     expect(toJson(component)).toMatchSnapshot()
     expect(component.html()).toEqual(null)
   })
@@ -15,6 +22,7 @@ describe('PostVisualBacktest component', () => {
     const component = render(
       <PostVisualBacktest
         ticker='SAN'
+        history={{ historyPrice: [], loading: false }}
         change={25}
         changeProp='priceUsd'
         from='aksdfjh'

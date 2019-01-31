@@ -3,8 +3,8 @@ import cx from 'classnames'
 import './PercentChanges.css'
 
 export const PercentChanges = ({ changes, className }) => {
-  if (!changes) {
-    return ''
+  if (changes === 0) {
+    return 'has not changed'
   }
   const normalizedChanges = parseFloat(changes).toFixed(2)
   return (
