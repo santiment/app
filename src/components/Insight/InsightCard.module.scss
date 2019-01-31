@@ -2,10 +2,17 @@
 @import "~@santiment-network/ui/mixins.scss";
 
 .wrapper {
-    padding: 25px 22px 18px;
+    padding: 20px;
     width: 365px;
+    height: 200px;
     /* Grey light 2 */
     border: 1px solid $light-gray2;
+    display: flex;
+    flex-direction: column;
+}
+
+.top {
+    flex: 1;
 }
 
 .tag {
@@ -26,6 +33,66 @@
     line-height: 26px;
     font-size: 18px;
     color: $black;
-    margin: 18px 0 34px;
+    margin-top: 18px;
+}
 
+.bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.right {
+    display: flex;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+
+    &__icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: $light-gray2;
+        margin-right: 12px;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__name {
+        @include text-normal;
+        line-height: 1;
+        color: $black;
+        margin-bottom: 4px;
+    }
+
+    &__status {
+        @include text-normal;
+        line-height: 1;
+        font-size: 12px;
+        color: #7A859E; /* Grey dark 2 */
+    }
+}
+
+.stat {
+    display: inline-flex;
+    align-items: center;
+    @include text-normal;
+    line-height: 20px;
+    color: $black;
+    /* Grey dark */
+    fill: #ADB6CD;
+    margin-left: 22px;
+
+    &:first-child {
+        margin-left: 0;
+    }
+
+    & svg {
+        margin-right: 6px;
+    }
 }

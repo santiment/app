@@ -15,7 +15,15 @@ const InsightCard = () => {
         <div className={styles.title}>title</div>
       </div>
       <div className={styles.bottom}>
-        <div className={styles.left}>Author</div>
+        <div className={styles.left}>
+          <div className={styles.profile}>
+            <div className={styles.profile__icon} />
+            <div className={styles.profile__info}>
+              <div className={styles.profile__name}>Author</div>
+              <div className={styles.profile__status}>2 hours ago</div>
+            </div>
+          </div>
+        </div>
         <div className={styles.right}>
           <div className={styles.stat}>
             <Icon type='eye' /> 54
@@ -23,7 +31,6 @@ const InsightCard = () => {
           <div className={styles.stat}>
             <Icon type='eye' /> 54
           </div>
-          <Icon type='eye' class={styles.dots} />
         </div>
       </div>
     </Panel>
