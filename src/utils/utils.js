@@ -1,4 +1,5 @@
 import sanitizeHtml from 'sanitize-html'
+import { createFactory } from 'react'
 import moment from 'moment'
 import * as qs from 'query-string'
 import ms from 'ms'
@@ -224,6 +225,42 @@ const mapStateToQS = state =>
     arrayFormat: 'bracket'
   })
 
+const renderComponent = (compOrFunc, props) => {
+  if (
+    typeof compOrFunc === 'function' &&
+    !!(compOrFunc.prototype || {}).isReactComponent
+  ) {
+    return createFactory(compOrFunc)(props)
+  }
+  if (typeof compOrFunc === 'function') {
+    return compOrFunc(props)
+  }
+  return createFactory(compOrFunc)(props)
+}
+
+const fork = (
+  condition,
+  leftComponent,
+  rightComponent = undefined
+) => props => {
+  if (condition(props)) {
+    return renderComponent(leftComponent, props)
+  }
+  if (rightComponent) {
+    return renderComponent(rightComponent, props)
+  }
+}
+
+const pickFork = (...forks) => props => {
+  for (const fork of forks) {
+    const _consructComponent = fork(props)
+    if (_consructComponent) {
+      return _consructComponent
+    }
+  }
+  return ''
+}
+
 export {
   findIndexByDatetime,
   calculateBTCVolume,
@@ -241,5 +278,7 @@ export {
   capitalizeStr,
   getEscapedGQLFieldAlias,
   mapQSToState,
-  mapStateToQS
+  mapStateToQS,
+  fork,
+  pickFork
 }

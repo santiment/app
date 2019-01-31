@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose, withProps } from 'recompose'
+import { compose } from 'recompose'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'

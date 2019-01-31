@@ -23,7 +23,6 @@ import ChartPage from './ducks/SANCharts/ChartPage'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import BuildChallenge from './pages/BuildChallenge'
 import EmailLoginVerification from './pages/EmailLoginVerification'
-import Menu from './components/TopMenu'
 import MobileMenu from './components/MobileMenu'
 import Navbar from './components/Navbar/Navbar'
 import withTracker from './withTracker'
@@ -69,12 +68,6 @@ const LoadableTrendsPage = Loadable({
   loader: () => import('./pages/Trends/TrendsPage'),
   loading: () => <PageLoader />
 })
-
-const getLoadablePage = (pathToPage = './pages/Trends/TrendsToolPage') =>
-  Loadable({
-    loader: () => import(pathToPage),
-    loading: () => <PageLoader />
-  })
 
 const LoadableTrendsExplorePage = Loadable({
   loader: () => import('./pages/Trends/TrendsExplorePage'),
