@@ -31,6 +31,7 @@ import {
 import { fetchWordContextEpic } from '../components/WordCloud/fetchWordContextEpic'
 import { fetchSocialVolumeEpic } from '../components/SocialVolumeWidget/socialVolumeEpic'
 import fetchAllTickersSlugs from '../components/Trends/fetchAllTickersSlugs'
+import { generateTelegramDeepLinkEpic } from '../pages/Account/epics'
 import keyboardEpic from './keyboardEpic'
 
 export default combineEpics(
@@ -42,10 +43,6 @@ export default combineEpics(
   handleEthLogin,
   handleGDPR,
   handleRouter,
-  apikeyGenerateEpic,
-  apikeyRevokeEpic,
-  handleNightModeToggle,
-  handleBetaModeToggle,
   keyboardEpic,
   // user's assets lists
   createWatchlistEpic,
@@ -67,5 +64,11 @@ export default combineEpics(
   // WordCloud
   fetchWordContextEpic,
   // SocialVolume
-  fetchSocialVolumeEpic
+  fetchSocialVolumeEpic,
+  // Settings
+  generateTelegramDeepLinkEpic,
+  apikeyGenerateEpic,
+  apikeyRevokeEpic,
+  handleNightModeToggle,
+  handleBetaModeToggle
 )

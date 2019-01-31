@@ -3,7 +3,11 @@ import * as actions from './../actions/types'
 export const initialState = {
   isLoading: true,
   error: false,
-  data: {},
+  data: {
+    settings: {
+      hasTelegramConnected: false
+    }
+  },
   account: null,
   token: null,
   hasMetamask: false,

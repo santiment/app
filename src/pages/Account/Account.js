@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Helmet } from 'react-helmet'
 import { Message } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
-import AccountHeader from './AccountHeader'
+import { PanelWithHeader as Panel } from '@santiment-network/ui'
 import AccountEmailForm from './AccountEmailForm'
 import AccountUsernameForm from './AccountUsernameForm'
 import AccountEthKeyForm from './AccountEthKeyForm'
 import AccountWallets from './AccountWallets'
 import AccountApiKeyForm from './AccountApiKeyForm'
 import AccountAppearance from './AccountAppearance'
+import AccountNotificationChannels from './AccountNotificationChannels'
 import AccountSessions from './AccountSessions'
 import * as actions from '../../actions/types'
 import './Account.css'
@@ -105,58 +107,58 @@ class Account extends Component {
 
     return (
       <div className='page account'>
-        <AccountHeader />
-        {!user.email && (
-          <Message
-            className='account-message account-message__dashboard'
-            warning
-            header='Email is not added yet!'
-            list={[
-              'For acces your dashboard from mobile device, you should add email address.'
-            ]}
-          />
-        )}
-
-        {emailForm.SUCCESS && (
-          <Message
-            className='account-message account-message__email_success'
-            positive
-            content={`Verification email was sent to "${user.email || ''}"!`}
-          />
-        )}
-        {emailForm.ERROR && (
-          <Message
-            className='account-message account-message__email_error'
-            negative
-            header='Failed to change email!'
-            list={[
-              emailForm.TAKEN
-                ? 'This email is already taken! Please, choose another email...'
-                : 'Try again later...'
-            ]}
-          />
-        )}
-        {usernameForm.SUCCESS && (
-          <Message
-            className='account-message account-message__username_success'
-            positive
-            content={`Username was changed to "${user.username || ''}"!`}
-          />
-        )}
-        {usernameForm.ERROR && (
-          <Message
-            className='account-message account-message__username_error'
-            negative
-            header='Failed to change username!'
-            list={[
-              usernameForm.TAKEN
-                ? 'This username is already taken! Please, choose another username...'
-                : 'Try again later...'
-            ]}
-          />
-        )}
-
-        <div className='panel'>
+        <Panel header={'Account settings'}>
+          <Helmet>
+            <title>Settings</title>
+          </Helmet>
+          {!user.email && (
+            <Message
+              className='account-message account-message__dashboard'
+              warning
+              header='Email is not added yet!'
+              list={[
+                'For acces your dashboard from mobile device, you should add email address.'
+              ]}
+            />
+          )}
+          {emailForm.SUCCESS && (
+            <Message
+              className='account-message account-message__email_success'
+              positive
+              content={`Verification email was sent to "${user.email || ''}"!`}
+            />
+          )}
+          {emailForm.ERROR && (
+            <Message
+              className='account-message account-message__email_error'
+              negative
+              header='Failed to change email!'
+              list={[
+                emailForm.TAKEN
+                  ? 'This email is already taken! Please, choose another email...'
+                  : 'Try again later...'
+              ]}
+            />
+          )}
+          {usernameForm.SUCCESS && (
+            <Message
+              className='account-message account-message__username_success'
+              positive
+              content={`Username was changed to "${user.username || ''}"!`}
+            />
+          )}
+          {usernameForm.ERROR && (
+            <Message
+              className='account-message account-message__username_error'
+              negative
+              header='Failed to change username!'
+              list={[
+                usernameForm.TAKEN
+                  ? 'This username is already taken! Please, choose another username...'
+                  : 'Try again later...'
+              ]}
+            />
+          )}
           <AccountEmailForm
             user={user}
             changeEmail={changeEmail}
@@ -173,9 +175,9 @@ class Account extends Component {
             setFormStatus={this.setFormStatus(this.usernameFormKey)}
             isUsernamePending={usernameForm.PENDING}
           />
-          <br />
           <AccountEthKeyForm ethAccounts={user.ethAccounts} loading={loading} />
           <AccountWallets user={user} />
+          <AccountNotificationChannels />
           <AccountApiKeyForm
             apikeys={user.apikeys}
             generateAPIKey={generateAPIKey}
@@ -186,7 +188,7 @@ class Account extends Component {
             onNightModeToggleChange={toggleNightMode}
           />
           <AccountSessions onLogoutBtnClick={logoutUser} />
-        </div>
+        </Panel>
       </div>
     )
   }

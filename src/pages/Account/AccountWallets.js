@@ -33,7 +33,6 @@ const AccountWallets = ({ user }) => (
           <a
             href='https://www.okex.com/'
             rel='noopener noreferrer'
-            J
             target='_blank'
           >
             OKeX
@@ -43,7 +42,6 @@ const AccountWallets = ({ user }) => (
           <a
             href='https://hitbtc.com/'
             rel='noopener noreferrer'
-            J
             target='_blank'
           >
             HitBTC
