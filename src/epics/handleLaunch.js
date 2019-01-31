@@ -21,6 +21,8 @@ export const userGQL = gql`
       }
       settings {
         hasTelegramConnected
+        signalNotifyEmail
+        signalNotifyTelegram
       }
       apikeys
     }

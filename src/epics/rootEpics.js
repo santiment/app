@@ -31,7 +31,10 @@ import {
 import { fetchWordContextEpic } from '../components/WordCloud/fetchWordContextEpic'
 import { fetchSocialVolumeEpic } from '../components/SocialVolumeWidget/socialVolumeEpic'
 import fetchAllTickersSlugs from '../components/Trends/fetchAllTickersSlugs'
-import { generateTelegramDeepLinkEpic } from '../pages/Account/epics'
+import {
+  generateTelegramDeepLinkEpic,
+  toggleNotificationChannelEpic
+} from '../pages/Account/epics'
 import keyboardEpic from './keyboardEpic'
 
 export default combineEpics(
@@ -67,6 +70,7 @@ export default combineEpics(
   fetchSocialVolumeEpic,
   // Settings
   generateTelegramDeepLinkEpic,
+  toggleNotificationChannelEpic,
   apikeyGenerateEpic,
   apikeyRevokeEpic,
   handleNightModeToggle,

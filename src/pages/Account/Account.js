@@ -222,7 +222,7 @@ const mapDispatchToProps = dispatch => ({
       type: actions.USER_APIKEY_REVOKE,
       apikey
     }),
-  toggleNightMode: (evt, { checked }) =>
+  toggleNightMode: checked =>
     dispatch({
       type: actions.USER_TOGGLE_NIGHT_MODE,
       payload: checked
