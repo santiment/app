@@ -27,14 +27,14 @@ export const PostVisualBacktest = ({
   history,
   postUpdatedAt
 }) => {
-  if (!change) return null
+  if (history.loading) return null
   return (
     <div className='post-visual-backtest'>
       <div className='post-visual-backtest__info'>
         <div className='post-visual-backtest__changes'>
           {ticker} {changeProp} since publication
         </div>
-        {change && <PercentChanges changes={change} />}
+        {Number.isFinite(change) && <PercentChanges changes={change} />}
       </div>
       <PostVisualBacktestChart
         history={history}

@@ -1,5 +1,6 @@
 import React from 'react'
 import { createSkeletonProvider } from '@trainline/react-skeletor'
+import LazyLoad from 'react-lazyload'
 import Post from './Post.js'
 import './PostList.css'
 
@@ -18,18 +19,19 @@ const PostList = ({
 }) => (
   <div className='event-posts-list'>
     {Object.keys(posts).map((key, index) => (
-      <Post
-        showStatus={!!userId}
-        index={index + 1}
-        key={posts[index].id}
-        balance={balance}
-        votePost={votePost}
-        unvotePost={unvotePost}
-        deletePost={deletePost}
-        publishPost={publishPost}
-        gotoInsight={gotoInsight}
-        {...posts[key]}
-      />
+      <LazyLoad offset={1000} key={posts[index].id}>
+        <Post
+          showStatus={!!userId}
+          index={index + 1}
+          balance={balance}
+          votePost={votePost}
+          unvotePost={unvotePost}
+          deletePost={deletePost}
+          publishPost={publishPost}
+          gotoInsight={gotoInsight}
+          {...posts[key]}
+        />
+      </LazyLoad>
     ))}
   </div>
 )
