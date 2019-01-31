@@ -1,0 +1,34 @@
+@import "~@santiment-network/ui/variables.scss";
+@import "~@santiment-network/ui/mixins.scss";
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.controls {
+    display: inline-flex;
+
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    @include text-normal;
+    line-height: 20px;
+    font-size:22px;
+    color: $black;
+}
+
+.count {
+    color:  #79849f;
+}
+
+.btn {
+    margin-left: 15px;
+}
