@@ -19,7 +19,7 @@ const PostList = ({
 }) => (
   <div className='event-posts-list'>
     {Object.keys(posts).map((key, index) => (
-      <LazyLoad offset={1000} key={posts[index].id}>
+      <LazyLoad offset={1000} once key={posts[index].id}>
         <Post
           showStatus={!!userId}
           index={index + 1}
