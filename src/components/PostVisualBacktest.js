@@ -27,7 +27,7 @@ export const PostVisualBacktest = ({
   history,
   postUpdatedAt
 }) => {
-  if (history.loading) return null
+  if (history.loading || !history.historyPrice) return null
   return (
     <div className='post-visual-backtest'>
       <div className='post-visual-backtest__info'>
