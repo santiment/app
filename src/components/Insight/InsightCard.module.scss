@@ -20,3 +20,12 @@
     display: inline-block;
     margin-right: 4px;
 }
+
+.title {
+    @include text-normal;
+    line-height: 26px;
+    font-size: 18px;
+    color: $black;
+    margin: 18px 0 34px;
+
+}
