@@ -8,8 +8,7 @@ import {
   Area,
   XAxis,
   YAxis,
-  Tooltip,
-  CartesianGrid
+  Tooltip
 } from 'recharts'
 import PercentChanges from '../PercentChanges'
 import {

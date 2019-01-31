@@ -46,8 +46,15 @@
     }
   }
 
+  &__right {
+      max-width: calc(100% - 40px);
+  }
+
   &__name {
     margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__status {
@@ -67,6 +74,7 @@
     margin-right: 12px;
     position: relative;
   }
+
 }
 
 .tokens {

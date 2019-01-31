@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Icon, Popup } from 'semantic-ui-react'
 import { simpleSort } from '../../utils/sortMethods'
 import { formatNumber, millify } from '../../utils/formatting'
 import ProjectIcon from '../../components/ProjectIcon'

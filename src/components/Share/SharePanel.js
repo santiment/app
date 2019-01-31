@@ -75,12 +75,12 @@ const SharePanel = ({ shareTitle, shareText, shareLink, onCloseBtnClick }) => {
                     .replace(SECRET_TEXT_TAG, encodedText)
                     .replace(SECRET_TITLE_TAG, encodedTitle)}
                   {...props}
-                />
+                >
+                  <Icon type={icon} className={styles.icon} /> Share on {label}
+                </a>
               )}
               className={styles.btn}
-            >
-              <Icon type={icon} className={styles.icon} /> Share on {label}
-            </Button>
+            />
           )
         })}
       </div>

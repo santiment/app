@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import { Panel, Button, Toggle, Icon } from '@santiment-network/ui'
+import { Button, Toggle, Icon } from '@santiment-network/ui'
 import DropdownDevider from './DropdownDevider'
 import * as actions from '../../actions/types'
 import { checkIsLoggedIn } from './../../pages/UserSelectors'
@@ -21,7 +21,7 @@ const Status = {
   active: 'Active'
 }
 
-const NavbarProfileDropdown = ({
+export const NavbarProfileDropdown = ({
   activeLink,
   picUrl,
   balance,
