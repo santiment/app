@@ -60,7 +60,7 @@ class InsightsNew extends Component {
       return (
         <Redirect
           to={{
-            pathname: '/insights/new'
+            pathname: '/insights/new' + this.props.location.search
           }}
         />
       )

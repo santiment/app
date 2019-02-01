@@ -3,7 +3,7 @@
 
 .wrapper {
     padding: 20px;
-    width: 365px;
+    min-width: 320px;
     height: 200px;
     /* Grey light 2 */
     border: 1px solid $light-gray2;
@@ -78,7 +78,7 @@
         box-sizing: border-box;
 
         text-overflow: ellipsis;
-        overflow-x: hidden;
+        overflow: hidden;
         white-space: nowrap;
     }
 
