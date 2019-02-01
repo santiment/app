@@ -15,15 +15,21 @@ const insights = [
     id: 1,
     user: 'Storybook',
     title: 'Small title',
-    tags: [],
-    createdAt: '2019-01-31T15:48:37.707Z'
+    tags: ['btc', 'eth'],
+    createdAt: new Date(Date.now() - 99000).toISOString()
   },
   {
     id: 2,
     user: 'Storybook',
-    title: 'Small title',
-    tags: [],
-    createdAt: '2019-01-21T15:48:37.707Z'
+    title: 'Very very very very very very very large title',
+    tags: [
+      'alpha',
+      'long test',
+      'crypto market',
+      'more tags',
+      'more more more tags'
+    ],
+    createdAt: new Date(Date.now() - 9950000).toISOString()
   }
 ]
 

@@ -8,10 +8,13 @@ const InsightCard = ({ id, author, title, tags, createdAt, votes = 0 }) => {
     <Panel className={styles.wrapper}>
       <div className={styles.top}>
         <div className={styles.tags}>
-          <div className={styles.tag}>bitcoin</div>
-          <div className={styles.tag}>bitcoin</div>
-          <div className={styles.tag}>bitcoin</div>
-          <div className={styles.tag}>bitcoin</div>
+          {tags.map(tag => {
+            return (
+              <div key={tag} className={styles.tag}>
+                {tag}
+              </div>
+            )
+          })}
         </div>
         <div className={styles.title}>{title}</div>
       </div>
