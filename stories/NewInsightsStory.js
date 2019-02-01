@@ -38,4 +38,4 @@ const insights = [
 
 storiesOf('Insights', module)
   .add('Insight Card', () => <InsightCard {...insights[1]} />)
-  .add('Ins', () => <Insights insights={insights} />)
+  .add('Insights Tab', () => <Insights insights={insights} />)

@@ -7,6 +7,7 @@ import HypedBlocks from './../../components/Trends/HypedBlocks'
 import WordCloud from './../../components/WordCloud/WordCloud'
 import HelpTrendsAbout from './HelpPopupTrendsAbout'
 import styles from './TrendsPage.module.scss'
+import InsightsTrends from '../../components/Insight/InsightsTrends'
 
 const WordCloudSticky = () => (
   <div className={styles.WordCloudSticky}>
@@ -76,6 +77,7 @@ const TrendsPage = ({
         </Fragment>
       )}
     />
+    <InsightsTrends className={styles.insights} />
   </div>
 )
 
