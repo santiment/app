@@ -10,8 +10,10 @@ const View = {
 
 const sortByRecent = ({ createdAt: aCreatedAt }, { createdAt: bCreatedAt }) =>
   new Date(aCreatedAt) < new Date(bCreatedAt) ? 1 : -1
-const sortByPopularity = ({ votes: aVotes }, { votes: bVotes }) =>
-  aVotes < bVotes ? 1 : -1
+const sortByPopularity = (
+  { votes: { totalVotes: aVotes } },
+  { votes: { totalVotes: bVotes } }
+) => (aVotes < bVotes ? 1 : -1)
 
 class Insights extends Component {
   static defaultProps = {
@@ -19,27 +21,24 @@ class Insights extends Component {
   }
 
   state = {
-    insights: this.props.insights,
     view: View.RECENT
   }
 
   onViewSelect = newView => {
-    const { view, insights } = this.state
+    const { view } = this.state
     if (newView === view) return
 
     this.setState({
-      insights: [...insights].sort(
-        newView === View.RECENT ? sortByRecent : sortByPopularity
-      ),
       view: newView
     })
   }
 
   render () {
-    const { insights } = this.state
+    const { view } = this.state
+    const { insights, className } = this.props
 
     return (
-      <div>
+      <div className={className}>
         <div className={styles.top}>
           <div className={styles.title}>
             Insights
@@ -59,7 +58,8 @@ class Insights extends Component {
           </div>
         </div>
         <div className={styles.bottom}>
-          {insights
+          {[...insights]
+            .sort(view === View.RECENT ? sortByRecent : sortByPopularity)
             .slice(0, 3)
             .map(({ id, user: author, title, tags, createdAt, votes }) => {
               return (
