@@ -40,10 +40,10 @@ const InsightCard = ({
         </div>
         <div className={styles.right}>
           <div className={styles.stat}>
-            <Icon type='eye' /> {votes}
+            <Icon type='like' /> {votes}
           </div>
           <div className={styles.stat}>
-            <Icon type='eye' /> {comments}
+            <Icon type='comment' /> {comments}
           </div>
         </div>
       </div>
