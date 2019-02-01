@@ -59,8 +59,9 @@ class Insights extends Component {
           </div>
         </div>
         <div className={styles.bottom}>
-          {insights.map(
-            ({ id, user: author, title, tags, createdAt, votes }) => {
+          {insights
+            .slice(0, 3)
+            .map(({ id, user: author, title, tags, createdAt, votes }) => {
               return (
                 <InsightCard
                   key={id}
@@ -71,8 +72,7 @@ class Insights extends Component {
                   votes={votes}
                 />
               )
-            }
-          )}
+            })}
         </div>
       </div>
     )
