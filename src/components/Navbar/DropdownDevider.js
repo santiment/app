@@ -1,11 +1,13 @@
 import React from 'react'
 
-const DropdownDevider = () => {
+const DropdownDevider = ({ style, ...props }) => {
   return (
     <div
+      {...props}
       style={{
         height: 1,
-        background: '#ebeef5'
+        background: '#ebeef5',
+        ...style
       }}
     />
   )

@@ -8,6 +8,7 @@ import WordCloud from './../../components/WordCloud/WordCloud'
 import HelpTrendsAbout from './HelpPopupTrendsAbout'
 import styles from './TrendsPage.module.scss'
 import InsightsTrends from '../../components/Insight/InsightsTrends'
+import Devider from '../../components/Navbar/DropdownDevider'
 
 const WordCloudSticky = () => (
   <div className={styles.WordCloudSticky}>
@@ -77,6 +78,7 @@ const TrendsPage = ({
         </Fragment>
       )}
     />
+    <Devider style={{ margin: '40px 0' }} />
     <InsightsTrends className={styles.insights} />
   </div>
 )
