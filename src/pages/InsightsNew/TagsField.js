@@ -16,7 +16,7 @@ const allTagsGQL = gql`
 
 const getOptionsFromTags = tags => {
   return (tags.allTags || []).map((tag, index) => {
-    return { value: tag.name, label: tag.name }
+    return tag === null ? {} : { value: tag.name, label: tag.name }
   })
 }
 
