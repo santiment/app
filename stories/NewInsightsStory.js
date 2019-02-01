@@ -22,7 +22,7 @@ const insights = [
     id: 1,
     user: {
       username: 'Storyboodnfgkjsdnfgkjnsdfgknsdfgkjnsdfkgjasdfasdfn',
-      id: 0
+      id: 1
     },
     title: 'Small title',
     tags: [{ name: 'btc' }, { name: 'eth' }],
@@ -35,7 +35,7 @@ const insights = [
     id: 2,
     user: {
       username: 'Storybook',
-      id: 0
+      id: 2
     },
     title: 'Very very very very very very very large title',
     tags: [
@@ -56,5 +56,5 @@ const insights = [
 const stories = storiesOf('Insights', module)
 stories.addDecorator(StoryRouter())
 stories
-  .add('Insight Card', () => <InsightCard {...insights[1]} />)
+  .add('Insight Card', () => <InsightCard {...insights[3]} />)
   .add('Insights Tab', () => <Insights insights={insights} />)

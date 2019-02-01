@@ -6,7 +6,7 @@ import styles from './InsightCard.module.scss'
 
 const InsightCard = ({
   id,
-  author,
+  user: author,
   title,
   tags,
   createdAt,

@@ -70,11 +70,11 @@ class Insights extends Component {
           {[...insights]
             .sort(view === View.RECENT ? sortByRecent : sortByPopularity)
             .slice(0, 3)
-            .map(({ id, user: author, title, tags, createdAt, votes }) => {
+            .map(({ id, user, title, tags, createdAt, votes }) => {
               return (
                 <InsightCard
                   key={id}
-                  author={author}
+                  user={user}
                   title={title}
                   tags={tags}
                   createdAt={createdAt}
