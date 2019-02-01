@@ -11,19 +11,39 @@ const TELEGRAM_DEEP_LINK_QUERY = gql`
   }
 `
 
+const TELEGRAM_DEEP_LINK_REVOKE_QUERY = gql`
+  mutation {
+    revokeTelegramDeepLink
+  }
+`
+
 const SETTINGS_TOGGLE_CHANNEL_QUERY = gql`
   mutation settingsToggleChannel(
-    $signal_notify_email: Boolean
-    $signal_notify_telegram: Boolean
+    $signalNotifyEmail: Boolean
+    $signalNotifyTelegram: Boolean
   ) {
     settingsToggleChannel(
-      signal_notify_email: $signal_notify_email
-      signal_notify_telegram: $signal_notify_telegram
+      signalNotifyEmail: $signalNotifyEmail
+      signalNotifyTelegram: $signalNotifyTelegram
     ) {
       signalNotifyEmail
     }
   }
 `
+
+export const revokeTelegramDeepLinkEpic = (action$, store, { client }) =>
+  action$
+    .ofType(actions.SETTINGS_REVOKE_TELEGRAM_DEEP_LINK)
+    .switchMap(action => {
+      return Observable.from(
+        client.mutate({
+          mutation: TELEGRAM_DEEP_LINK_REVOKE_QUERY,
+          context: { isRetriable: true }
+        })
+      ).mergeMap(({ data }) => {
+        return Observable.of(showNotification('Telegram deep link is revoked'))
+      })
+    })
 
 export const generateTelegramDeepLinkEpic = (action$, store, { client }) =>
   action$
@@ -35,6 +55,7 @@ export const generateTelegramDeepLinkEpic = (action$, store, { client }) =>
       })
       return Observable.from(getTelegramDeepLink)
         .mergeMap(({ data }) => {
+          console.log(data)
           return Observable.merge(
             Observable.of({
               type: actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK_SUCCESS,

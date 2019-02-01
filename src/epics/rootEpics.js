@@ -33,6 +33,7 @@ import { fetchSocialVolumeEpic } from '../components/SocialVolumeWidget/socialVo
 import fetchAllTickersSlugs from '../components/Trends/fetchAllTickersSlugs'
 import {
   generateTelegramDeepLinkEpic,
+  revokeTelegramDeepLinkEpic,
   toggleNotificationChannelEpic
 } from '../pages/Account/epics'
 import keyboardEpic from './keyboardEpic'
@@ -70,6 +71,7 @@ export default combineEpics(
   fetchSocialVolumeEpic,
   // Settings
   generateTelegramDeepLinkEpic,
+  revokeTelegramDeepLinkEpic,
   toggleNotificationChannelEpic,
   apikeyGenerateEpic,
   apikeyRevokeEpic,

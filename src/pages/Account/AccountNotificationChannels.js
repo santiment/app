@@ -7,6 +7,7 @@ const AccountNotificationChannels = ({
   hasTelegramConnected,
   hasEmail,
   generateTelegramDeepLink,
+  revokeTelegramDeepLink,
   toggleEmailNotification,
   signalNotifyTelegram,
   signalNotifyEmail,
@@ -20,6 +21,7 @@ const AccountNotificationChannels = ({
         <br />
         {telegramDeepLink && <Input defaultValue={telegramDeepLink} readOnly />}
         <Button onClick={generateTelegramDeepLink}>Activate</Button>
+        <Button onClick={revokeTelegramDeepLink}>Revoke</Button>
         {signalNotifyTelegram && 'Activated'}
       </li>
       <li>
@@ -35,9 +37,10 @@ const AccountNotificationChannels = ({
 )
 
 const mapStateToProps = state => ({
-  signalNotifyEmail: state.user.data.settings.signalNotifyEmail,
-  signalNotifyTelegram: state.user.data.settings.signalNotifyTelegram,
-  hasTelegramConnected: state.user.data.settings.hasTelegramConnected,
+  ...state.user.data.settings,
+  // signalNotifyEmail: state.user.data.settings.signalNotifyEmail,
+  // signalNotifyTelegram: state.user.data.settings.signalNotifyTelegram,
+  // hasTelegramConnected: state.user.data.settings.hasTelegramConnected,
   telegramDeepLink: state.settings.telegramDeepLink,
   hasEmail: !!state.user.data.email
 })
@@ -45,6 +48,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   generateTelegramDeepLink: () =>
     dispatch({ type: actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK }),
+  revokeTelegramDeepLink: () =>
+    dispatch({ type: actions.SETTINGS_REVOKE_TELEGRAM_DEEP_LINK }),
   toggleEmailNotification: signalNotifyEmail =>
     dispatch({
       type: actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL,

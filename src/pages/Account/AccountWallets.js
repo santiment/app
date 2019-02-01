@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { Divider } from 'semantic-ui-react'
 import Balance from '../../components/Balance'
+import BancorWidget from '../../components/BancorWidget/BancorWidget'
 
 const AccountWallets = ({ user }) => (
   <Fragment>
@@ -10,6 +11,7 @@ const AccountWallets = ({ user }) => (
     <hr />
     <div>
       <h5>GET SAN AT</h5>
+      <BancorWidget />
       <ul>
         <li>
           <a
