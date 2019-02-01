@@ -1,4 +1,5 @@
 import React from 'react'
+import StoryRouter from 'storybook-react-router'
 import { storiesOf } from '@storybook/react'
 import InsightCard from './../src/components/Insight/InsightCard'
 import Insights from './../src/components/Insight/Insights'
@@ -6,36 +7,54 @@ import Insights from './../src/components/Insight/Insights'
 const insights = [
   {
     id: 0,
-    user: 'Storybook',
+    user: {
+      username: 'Storybook very very very long name',
+      id: 0
+    },
     title: 'Small title',
     tags: [],
     createdAt: new Date().toISOString(),
-    votes: 5
+    votes: {
+      totalVotes: 5
+    }
   },
   {
     id: 1,
-    user: 'Storybook',
+    user: {
+      username: 'Storyboodnfgkjsdnfgkjnsdfgknsdfgkjnsdfkgjasdfasdfn',
+      id: 0
+    },
     title: 'Small title',
-    tags: ['btc', 'eth'],
+    tags: [{ name: 'btc' }, { name: 'eth' }],
     createdAt: new Date(Date.now() - 99000).toISOString(),
-    votes: 3
+    votes: {
+      totalVotes: 3
+    }
   },
   {
     id: 2,
-    user: 'Storybook',
+    user: {
+      username: 'Storybook',
+      id: 0
+    },
     title: 'Very very very very very very very large title',
     tags: [
-      'alpha',
-      'long test',
-      'crypto market',
-      'more tags',
-      'more more more tags'
+      { name: 'btc' },
+      { name: 'eth' },
+      { name: 'erm' },
+      { name: 'et' },
+      { name: 'very very long tag' },
+      { name: 'long tags' }
     ],
     createdAt: new Date(Date.now() - 9950000).toISOString(),
-    votes: 4
+    votes: {
+      totalVotes: 4
+    }
   }
 ]
 
-storiesOf('Insights', module)
+const stories = storiesOf('Insights', module)
+stories.addDecorator(StoryRouter())
+stories
   .add('Insight Card', () => <InsightCard {...insights[1]} />)
   .add('Insights Tab', () => <Insights insights={insights} />)
