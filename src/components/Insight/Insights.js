@@ -46,12 +46,14 @@ class Insights extends Component {
             <span className={styles.count}> ({insights.length})</span>
           </div>
           <div className={styles.controls}>
-            <Selector
-              className={styles.selectors}
-              options={[View.RECENT, View.POPULAR]}
-              onSelectOption={this.onViewSelect}
-              defaultSelected={View.RECENT}
-            />
+            {insights.lenght > 0 && (
+              <Selector
+                className={styles.selectors}
+                options={[View.RECENT, View.POPULAR]}
+                onSelectOption={this.onViewSelect}
+                defaultSelected={View.RECENT}
+              />
+            )}
             <Button
               as={props => (
                 <Link to={`/insights/new?currentTrends`} {...props} />

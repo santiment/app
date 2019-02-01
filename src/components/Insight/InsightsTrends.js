@@ -7,13 +7,16 @@ const InsightsTrends = ({ data: { allInsightsByTag }, ...props }) => {
   return <Insights insights={allInsightsByTag} {...props} />
 }
 
+export const getCurrentTrendsTag = () => {
+  const date = new Date()
+  return `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}-trending-words`
+}
+
 export default graphql(allInsightsByTagGQL, {
   options: () => {
-    const date = new Date()
     return {
       variables: {
-        /* tag: `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}-trending-words` */
-        tag: 'Crypto Market'
+        tag: getCurrentTrendsTag()
       }
     }
   }
