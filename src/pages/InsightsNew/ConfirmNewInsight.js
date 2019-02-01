@@ -10,6 +10,7 @@ import Post from './../../components/Post'
 import { allInsightsGQL } from './../Insights/currentPollGQL'
 import ErrorBoundary from './../../ErrorBoundary'
 import { APP_DELETE_INSIGHT_DRAFT } from '../../actions/types.js'
+import { getCurrentTrendsTag } from '../../components/Insight/InsightsTrends'
 
 const createPostGQL = gql`
   mutation createPost($title: String!, $text: String!, $tags: [String]) {
@@ -42,12 +43,15 @@ const updatePostGQL = gql`
   }
 `
 
-const createNewPost = ({ createPost, post, user, history }) =>
-  createPost({
+const createNewPost = ({ createPost, post, user, history }) => {
+  return createPost({
     variables: {
       title: post.title,
       text: post.text,
-      tags: post.tags.map(tag => {
+      tags: (window.location.search.includes('currentTrends')
+        ? [{ label: getCurrentTrendsTag() }, ...post.tags]
+        : post.tags
+      ).map(tag => {
         return tag.label
       })
     },
@@ -65,6 +69,7 @@ const createNewPost = ({ createPost, post, user, history }) =>
         'User try to confirm new insight. ' + JSON.stringify(error)
       )
     })
+}
 
 const ConfirmPost = ({
   history,

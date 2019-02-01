@@ -23,7 +23,9 @@ class InsightsNew extends Component {
 
   changePost = (post, nextStepURL = '') => {
     this.setState({ ...post }, () => {
-      this.props.history.push(`/insights/new/${nextStepURL}`)
+      this.props.history.push(
+        `/insights/new/${nextStepURL}${this.props.location.search}`
+      )
     })
   }
 
@@ -58,7 +60,7 @@ class InsightsNew extends Component {
       return (
         <Redirect
           to={{
-            pathname: '/insights/new'
+            pathname: '/insights/new' + this.props.location.search
           }}
         />
       )
