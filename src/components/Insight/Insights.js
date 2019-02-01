@@ -3,13 +3,40 @@ import { Selector, Button, Icon } from '@santiment-network/ui'
 import InsightCard from './InsightCard'
 import styles from './Insights.module.scss'
 
+const View = {
+  RECENT: 'Recent',
+  POPULAR: 'Popular'
+}
+
+const sortByRecent = ({ createdAt: aCreatedAt }, { createdAt: bCreatedAt }) =>
+  new Date(aCreatedAt) < new Date(bCreatedAt) ? 1 : -1
+const sortByPopularity = ({ votes: aVotes }, { votes: bVotes }) =>
+  aVotes < bVotes ? 1 : -1
+
 class Insights extends Component {
   static defaultProps = {
     insights: []
   }
 
+  state = {
+    insights: this.props.insights,
+    view: View.RECENT
+  }
+
+  onViewSelect = newView => {
+    const { view, insights } = this.state
+    if (newView === view) return
+
+    this.setState({
+      insights: [...insights].sort(
+        newView === View.RECENT ? sortByRecent : sortByPopularity
+      ),
+      view: newView
+    })
+  }
+
   render () {
-    const { insights } = this.props
+    const { insights } = this.state
 
     return (
       <div>
@@ -21,9 +48,9 @@ class Insights extends Component {
           <div className={styles.controls}>
             <Selector
               className={styles.selectors}
-              options={['Recent', 'Popular']}
-              onSelectOption={() => {}}
-              defaultSelected='Recent'
+              options={[View.RECENT, View.POPULAR]}
+              onSelectOption={this.onViewSelect}
+              defaultSelected={View.RECENT}
             />
             <Button className={styles.btn} accent='green'>
               <Icon className={styles.icon} type='plus-round' />

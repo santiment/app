@@ -3,7 +3,15 @@ import { Panel, Icon } from '@santiment-network/ui'
 import moment from 'moment'
 import styles from './InsightCard.module.scss'
 
-const InsightCard = ({ id, author, title, tags, createdAt, votes = 0 }) => {
+const InsightCard = ({
+  id,
+  author,
+  title,
+  tags,
+  createdAt,
+  votes = 0,
+  comments = 0
+}) => {
   return (
     <Panel className={styles.wrapper}>
       <div className={styles.top}>
@@ -35,7 +43,7 @@ const InsightCard = ({ id, author, title, tags, createdAt, votes = 0 }) => {
             <Icon type='eye' /> {votes}
           </div>
           <div className={styles.stat}>
-            <Icon type='eye' /> 54
+            <Icon type='eye' /> {comments}
           </div>
         </div>
       </div>

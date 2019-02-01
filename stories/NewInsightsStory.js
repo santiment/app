@@ -9,14 +9,16 @@ const insights = [
     user: 'Storybook',
     title: 'Small title',
     tags: [],
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    votes: 5
   },
   {
     id: 1,
     user: 'Storybook',
     title: 'Small title',
     tags: ['btc', 'eth'],
-    createdAt: new Date(Date.now() - 99000).toISOString()
+    createdAt: new Date(Date.now() - 99000).toISOString(),
+    votes: 3
   },
   {
     id: 2,
@@ -29,7 +31,8 @@ const insights = [
       'more tags',
       'more more more tags'
     ],
-    createdAt: new Date(Date.now() - 9950000).toISOString()
+    createdAt: new Date(Date.now() - 9950000).toISOString(),
+    votes: 4
   }
 ]
 
