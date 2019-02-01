@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Selector, Button, Icon } from '@santiment-network/ui'
+import { Link } from 'react-router-dom'
 import InsightCard from './InsightCard'
 import styles from './Insights.module.scss'
 
@@ -51,7 +52,13 @@ class Insights extends Component {
               onSelectOption={this.onViewSelect}
               defaultSelected={View.RECENT}
             />
-            <Button className={styles.btn} accent='green'>
+            <Button
+              as={props => (
+                <Link to={`/insights/new?currentTrends`} {...props} />
+              )}
+              className={styles.btn}
+              accent='green'
+            >
               <Icon className={styles.icon} type='plus-round' />
               Add insight
             </Button>

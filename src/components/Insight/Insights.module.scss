@@ -34,6 +34,10 @@
     background: $green;
     color: $white;
     fill: $white;
+
+    &:hover {
+        color: $white;
+    }
 }
 
 .icon {
