@@ -42,6 +42,10 @@
     align-items: center;
 }
 
+.left {
+    max-width: 65%;
+}
+
 .right {
     display: flex;
 }
@@ -53,6 +57,7 @@
     &__icon {
         width: 32px;
         height: 32px;
+        min-width: 32px;
         border-radius: 50%;
         background: $light-gray2;
         margin-right: 12px;
@@ -61,13 +66,20 @@
     &__info {
         display: flex;
         flex-direction: column;
+        max-width: calc(100% - 40px);
     }
 
     &__name {
         @include text-normal;
-        line-height: 1;
+        text-decoration: none;
+        line-height: 15px;
         color: $black;
         margin-bottom: 4px;
+        box-sizing: border-box;
+
+        text-overflow: ellipsis;
+        overflow-x: hidden;
+        white-space: nowrap;
     }
 
     &__status {

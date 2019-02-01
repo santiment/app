@@ -59,6 +59,7 @@ const InsightCard = ({
 
 InsightCard.defaultProps = {
   votes: {},
+  tags: [],
   comments: 0
 }
 

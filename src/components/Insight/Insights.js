@@ -11,6 +11,7 @@ const View = {
 
 const sortByRecent = ({ createdAt: aCreatedAt }, { createdAt: bCreatedAt }) =>
   new Date(aCreatedAt) < new Date(bCreatedAt) ? 1 : -1
+
 const sortByPopularity = (
   { votes: { totalVotes: aVotes } },
   { votes: { totalVotes: bVotes } }
@@ -18,7 +19,8 @@ const sortByPopularity = (
 
 class Insights extends Component {
   static defaultProps = {
-    insights: []
+    insights: [],
+    className: ''
   }
 
   state = {
@@ -38,15 +40,17 @@ class Insights extends Component {
     const { view } = this.state
     const { insights, className } = this.props
 
+    const length = insights.length
+
     return (
       <div className={className}>
         <div className={styles.top}>
           <div className={styles.title}>
             Insights
-            <span className={styles.count}> ({insights.length})</span>
+            <span className={styles.count}> ({length})</span>
           </div>
           <div className={styles.controls}>
-            {insights.lenght > 0 && (
+            {length > 0 && (
               <Selector
                 className={styles.selectors}
                 options={[View.RECENT, View.POPULAR]}
