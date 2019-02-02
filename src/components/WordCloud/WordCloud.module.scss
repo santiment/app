@@ -14,11 +14,6 @@ $top: 22px;
   border-radius: 4px;
 }
 
-.WordCloudLoading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .text {
   font-family: Rubik, sans-serif !important;
@@ -26,36 +21,8 @@ $top: 22px;
   font-weight: normal;
   line-height: 20px;
   color: #adb6cd;
-
-  &_big,
-  &_medium {
-    color: #7a859e;
-  }
-
-  &_big {
-    font-size: 28px !important;
-  }
-
-  &_medium {
-    font-size: 20px !important;
-  }
 }
 
-.hint {
-  margin-top: 8px;
-  margin-left: 14px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 20px;
-  font-size: 14px;
-  color: #7a859e;
-  display: flex;
-  align-items: center;
-}
-
-.hint strong {
-  color: #15181f;
-}
 
 /* stylelint-disable */
 @include responsive('desktop') {
