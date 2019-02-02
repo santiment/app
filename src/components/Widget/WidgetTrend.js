@@ -2,18 +2,25 @@ import React, { Fragment } from 'react'
 import { FadeIn } from 'animate-components'
 import styles from './WidgetTrend.module.scss'
 
-const messages = {
+const Message = {
   initial: 'Choose any word below to see its social context',
   isLoading: 'Loading...',
   hasNoData: "Can't find anything about this trend..."
 }
 
-const getMessage = states => {
-  for (const key of Object.keys(states)) {
-    if (states[key]) {
-      return messages[key]
-    }
+const getMessage = ({ initial, isLoading, hasNoData }) => {
+  if (isLoading) {
+    return Message.isLoading
   }
+
+  if (initial) {
+    return Message.initial
+  }
+
+  if (hasNoData) {
+    return Message.hasNoData
+  }
+
   return undefined
 }
 
@@ -37,7 +44,7 @@ const WidgetTrend = ({
       {msg ? (
         <FadeIn
           className={styles.container}
-          duration='2s'
+          duration='1s'
           timingFunction='ease-out'
         >
           <h3 className={styles.msg}>{msg}</h3>
