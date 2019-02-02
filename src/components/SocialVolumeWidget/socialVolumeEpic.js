@@ -42,36 +42,40 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
                 .toISOString()
             }
           })
-        ).switchMap(
-          ({
-            data: { discord, reddit, telegram, professional_traders_chat }
-          }) => {
-            return Observable.of({
-              type: actions.SOCIALVOLUME_DATA_FETCH_SUCCESS,
-              payload: {
-                slug: 'Total',
-                isScoreOverTime: false,
-                data: mergeTimeseriesByKey({
-                  key: 'datetime',
-                  timeseries: [
-                    discord.chartData,
-                    reddit.chartData,
-                    telegram.chartData,
-                    professional_traders_chat.chartData
-                  ],
-                  mergeData: (longestTSData, timeserieData) => {
-                    return {
-                      mentionsCount:
-                        longestTSData.mentionsCount +
-                        timeserieData.mentionsCount,
-                      datetime: longestTSData.datetime
-                    }
-                  }
-                })
-              }
-            })
-          }
         )
+          .switchMap(
+            ({
+              data: { discord, reddit, telegram, professional_traders_chat }
+            }) => {
+              return Observable.of({
+                type: actions.SOCIALVOLUME_DATA_FETCH_SUCCESS,
+                payload: {
+                  slug: 'Total',
+                  isScoreOverTime: false,
+                  data: mergeTimeseriesByKey({
+                    key: 'datetime',
+                    timeseries: [
+                      discord.chartData,
+                      reddit.chartData,
+                      telegram.chartData,
+                      professional_traders_chat.chartData
+                    ],
+                    mergeData: (longestTSData, timeserieData) => {
+                      return {
+                        mentionsCount:
+                          longestTSData.mentionsCount +
+                          timeserieData.mentionsCount,
+                        datetime: longestTSData.datetime
+                      }
+                    }
+                  })
+                }
+              })
+            }
+          )
+          .catch(
+            handleErrorAndTriggerAction(actions.SOCIALVOLUME_DATA_FETCH_FAILED)
+          )
       }
 
       const requestSlug = slug.toLowerCase()
@@ -95,19 +99,25 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
                 .toISOString()
             }
           })
-        ).switchMap(({ data: { wordTrendScore } }) => {
-          return Observable.of({
-            type: actions.SOCIALVOLUME_DATA_FETCH_SUCCESS,
-            payload: {
-              slug,
-              data: wordTrendScore.sort(
-                ({ datetime: aDatetime }, { datetime: bDatetime }) =>
-                  moment(aDatetime).isAfter(moment(bDatetime)) ? 1 : -1
-              ),
-              isScoreOverTime: true
-            }
+        )
+          .switchMap(({ data: { wordTrendScore } }) => {
+            return Observable.of({
+              type: actions.SOCIALVOLUME_DATA_FETCH_SUCCESS,
+              payload: {
+                slug,
+                data: wordTrendScore.sort(
+                  ({ datetime: aDatetime }, { datetime: bDatetime }) =>
+                    moment(aDatetime).isAfter(moment(bDatetime)) ? 1 : -1
+                ),
+                isScoreOverTime: true
+              }
+            })
           })
-        })
+          .catch(
+            handleErrorAndTriggerAction(
+              actions.SOCIALVOLUME_DATA_FETCH_FAILED
+            )
+          )
         : Observable.fromPromise(
           client.query({
             query: socialVolumeGQL,
