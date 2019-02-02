@@ -13,6 +13,19 @@
     padding: 12px 24px;
 }
 
+.container {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.msg {
+    @include text-normal;
+    font-size: 20px;
+    margin: 0;
+}
+
 .info {
     @include text-normal;
     color: #79849e;

@@ -35,8 +35,12 @@ const WidgetTrend = ({
   return (
     <div className={`${styles.wrapper} ${className}`}>
       {msg ? (
-        <FadeIn duration='2s' timingFunction='ease-out'>
-          {msg}
+        <FadeIn
+          className={styles.container}
+          duration='2s'
+          timingFunction='ease-out'
+        >
+          <h3 className={styles.msg}>{msg}</h3>
         </FadeIn>
       ) : (
         <Fragment>
