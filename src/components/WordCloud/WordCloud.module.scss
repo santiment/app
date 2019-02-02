@@ -1,4 +1,4 @@
-@import 'variables.scss';
+@import '~@santiment-network/ui/variables.scss';
 @import './../../mixins.scss';
 
 $top: 22px;
@@ -10,7 +10,7 @@ $top: 22px;
   height: 170px;
   width: 100%;
   background: white;
-  border: 1px solid #ebeef5;
+  border: 1px solid $light-gray2;
   border-radius: 4px;
 }
 
@@ -25,7 +25,7 @@ $top: 22px;
   font-style: normal;
   font-weight: normal;
   line-height: 20px;
-  color: #adb6cd;
+  color: $dark-gray;
 
   &_big,
   &_medium {
@@ -54,7 +54,7 @@ $top: 22px;
 }
 
 .hint strong {
-  color: #15181f;
+  color: $black;
 }
 
 /* stylelint-disable */

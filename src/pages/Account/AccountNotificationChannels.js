@@ -1,47 +1,110 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
+import { lifecycle, compose, withProps } from 'recompose'
+import { Link } from 'react-router-dom'
+import cx from 'classnames'
 import { Button, Toggle, Input } from '@santiment-network/ui'
-import * as actions from './actions'
+import * as actions from './../../actions/types'
+import { fork } from './../../utils/utils'
+import styles from './AccountNotificationChannels.module.scss'
 
-const AccountNotificationChannels = ({
-  hasTelegramConnected,
-  hasEmail,
-  generateTelegramDeepLink,
-  revokeTelegramDeepLink,
-  toggleEmailNotification,
-  signalNotifyTelegram,
-  signalNotifyEmail,
-  telegramDeepLink
-}) => (
-  <Fragment>
+export const AccountNotificationChannels = props => (
+  <div className={styles.wrapper}>
     <h3>Notification Channels</h3>
     <ul>
-      <li>
-        Telegram {hasTelegramConnected ? 'Connected' : 'Not connected'}
-        <br />
-        {telegramDeepLink && <Input defaultValue={telegramDeepLink} readOnly />}
-        <Button onClick={generateTelegramDeepLink}>Activate</Button>
-        <Button onClick={revokeTelegramDeepLink}>Revoke</Button>
-        {signalNotifyTelegram && 'Activated'}
+      <li className={styles.channelItem}>
+        <div className={styles.channelTitle}>Telegram</div>
+        <div className={styles.channelSettings}>
+          <NotificationChannelStatus isConnected={props.hasTelegramConnected} />
+          {ifTelegramConnectedShowToggle(props)}
+          {ifTelegramDisconnectedShowSetup(props)}
+        </div>
       </li>
-      <li>
-        Email
-        {!hasEmail && 'You need to connect any email address'}
-        <Toggle
-          onClick={() => toggleEmailNotification(!signalNotifyEmail)}
-          isActive={signalNotifyEmail}
-        />
+      <li className={styles.channelItem}>
+        <div className={styles.channelTitle}>Email</div>
+        <div className={styles.channelSettings}>
+          <NotificationChannelStatus isConnected={props.hasEmail} />
+          {ifEmailConnectedShowToggle(props)}
+          {ifEmailDisconnectedShowSetup(props)}
+        </div>
       </li>
     </ul>
-  </Fragment>
+  </div>
+)
+
+const ifTelegramConnectedShowToggle = fork(
+  props => props.hasTelegramConnected,
+  props => (
+    <Toggle
+      onClick={() =>
+        props.toggleTelegramNotification(!props.signalNotifyTelegram)
+      }
+      isActive={props.signalNotifyTelegram}
+    />
+  )
+)
+
+const ifTelegramDisconnectedShowSetup = fork(
+  props => !props.hasTelegramConnected,
+  props => (
+    <div>
+      <strong>To connect your account:</strong>
+      <ul>
+        <li>
+          You need to add the bot to your Telegram, press this button:{' '}
+          {props.telegramDeepLink && (
+            <Button as={'a'} href={props.telegramDeepLink} target='_blank'>
+              Connect to bot
+            </Button>
+          )}
+        </li>
+        <li>Your account becomes linked.</li>
+        <small>
+          Please do not use Telegram Web because it might not be able to open
+          that link correctly
+        </small>
+      </ul>
+    </div>
+  )
+)
+
+const ifEmailConnectedShowToggle = fork(
+  props => props.hasEmail,
+  props => (
+    <Toggle
+      onClick={() => props.toggleEmailNotification(!props.signalNotifyEmail)}
+      isActive={props.signalNotifyEmail}
+    />
+  )
+)
+
+const ifEmailDisconnectedShowSetup = fork(
+  props => !props.hasEmail,
+  () => (
+    <div>
+      {' '}
+      <strong>To connect your account:</strong>
+      <ul>
+        <li>You need to add any email address</li>
+        <li>
+          Don't forget to confirm your email account. Follow instructions in
+          email
+        </li>
+      </ul>
+    </div>
+  )
+)
+
+const NotificationChannelStatus = ({ isConnected = false }) => (
+  <div
+    className={cx(styles.NotificationStatus, isConnected && styles.isConnected)}
+  >
+    {isConnected ? 'Connected' : 'Disconnected'}
+  </div>
 )
 
 const mapStateToProps = state => ({
   ...state.user.data.settings,
-  // signalNotifyEmail: state.user.data.settings.signalNotifyEmail,
-  // signalNotifyTelegram: state.user.data.settings.signalNotifyTelegram,
-  // hasTelegramConnected: state.user.data.settings.hasTelegramConnected,
-  telegramDeepLink: state.settings.telegramDeepLink,
   hasEmail: !!state.user.data.email
 })
 
@@ -53,13 +116,29 @@ const mapDispatchToProps = dispatch => ({
   toggleEmailNotification: signalNotifyEmail =>
     dispatch({
       type: actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL,
-      payload: {
-        signalNotifyEmail
-      }
+      payload: { signalNotifyEmail }
+    }),
+  toggleTelegramNotification: signalNotifyTelegram =>
+    dispatch({
+      type: actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL,
+      payload: { signalNotifyTelegram }
     })
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withProps(props => {
+    return {
+      hasEmail: false,
+      hasTelegramConnected: false
+    }
+  }),
+  lifecycle({
+    componentDidMount () {
+      this.props.generateTelegramDeepLink()
+    }
+  })
 )(AccountNotificationChannels)

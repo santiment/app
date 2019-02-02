@@ -1,0 +1,53 @@
+@import '~@santiment-network/ui/variables.scss';
+@import 'mixins.scss';
+
+.wrapper {
+  ul {
+    list-style-type: none;
+    padding: 0;
+
+    li {
+      /* stylelint-disable */
+      @include flexible-row;
+      /* stylelint-enable */
+      width: 100%;
+    }
+
+    .channelItem {
+      /* stylelint-disable */
+      @include flexible-row;
+      /* stylelint-enable */
+    }
+
+    .channelToggle {
+      /* stylelint-disable */
+      @include flexible-row;
+      /* stylelint-enable */
+    }
+  }
+}
+
+.NotificationStatus {
+  color: $red;
+}
+
+.isConnected {
+  color: $green;
+}
+
+/* stylelint-disable */
+@include responsive('tablet') {
+  .wrapper {
+    li {
+      max-width: 40%;
+    }
+  }
+}
+@include responsive('desktop') {
+  .wrapper {
+    li {
+      max-width: 40%;
+    }
+  }
+}
+/* stylelint-enable */

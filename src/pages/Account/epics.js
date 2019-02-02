@@ -1,9 +1,9 @@
-import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
-import * as actions from './actions'
 import { userGQL } from './../../epics/handleLaunch'
+import { handleErrorAndTriggerAction } from './../../epics/utils'
 import { showNotification } from './../../actions/rootActions'
+import * as actions from './../../actions/types'
 
 const TELEGRAM_DEEP_LINK_QUERY = gql`
   {
@@ -27,6 +27,7 @@ const SETTINGS_TOGGLE_CHANNEL_QUERY = gql`
       signalNotifyTelegram: $signalNotifyTelegram
     ) {
       signalNotifyEmail
+      signalNotifyTelegram
     }
   }
 `
@@ -41,7 +42,12 @@ export const revokeTelegramDeepLinkEpic = (action$, store, { client }) =>
           context: { isRetriable: true }
         })
       ).mergeMap(({ data }) => {
-        return Observable.of(showNotification('Telegram deep link is revoked'))
+        return Observable.merge(
+          Observable.of({
+            type: actions.SETTINGS_REVOKE_TELEGRAM_DEEP_LINK_SUCCESS
+          }),
+          Observable.of(showNotification('Telegram deep link is revoked'))
+        )
       })
     })
 
@@ -55,23 +61,17 @@ export const generateTelegramDeepLinkEpic = (action$, store, { client }) =>
       })
       return Observable.from(getTelegramDeepLink)
         .mergeMap(({ data }) => {
-          console.log(data)
-          return Observable.merge(
-            Observable.of({
-              type: actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK_SUCCESS,
-              payload: {
-                link: data.getTelegramDeepLink
-              }
-            }),
-            Observable.of(showNotification('Telegram deep link is generated'))
-          )
+          return Observable.of({
+            type: actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK_SUCCESS,
+            payload: {
+              link: data.getTelegramDeepLink
+            }
+          })
         })
         .catch(error => {
-          Raven.captureException(error)
-          return Observable.of({
-            type: actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK_FAILED,
-            payload: error
-          })
+          handleErrorAndTriggerAction(
+            actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK_FAILED
+          )
         })
     })
 
@@ -79,11 +79,19 @@ export const toggleNotificationChannelEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL)
     .switchMap(action => {
-      console.log('req: ', action)
       const toggleNotificationChannel = client.mutate({
         mutation: SETTINGS_TOGGLE_CHANNEL_QUERY,
         variables: {
           ...action.payload
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          settingsToggleChannel: {
+            __typename: 'UserSettings',
+            signalNotifyEmail: false,
+            signalNotifyTelegram: false,
+            ...action.payload
+          }
         },
         update: proxy => {
           let data = proxy.readQuery({ query: userGQL })
@@ -91,30 +99,29 @@ export const toggleNotificationChannelEpic = (action$, store, { client }) =>
             ...data.currentUser.settings,
             ...action.payload
           }
-          console.log(data)
           proxy.writeQuery({ query: userGQL, data })
         },
         context: { isRetriable: true }
       })
       return Observable.from(toggleNotificationChannel)
         .mergeMap(({ data }) => {
-          console.log(data)
           return Observable.merge(
             Observable.of({
               type: actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL_SUCCESS,
               payload: {
-                email: data.settingsToggleChannel.signalNotifyEmail,
-                telegram: data.settingsToggleChannel.signalNotifyTelegram
+                signalNotifyEmail: data.settingsToggleChannel.signalNotifyEmail,
+                signalNotifyTelegram:
+                  data.settingsToggleChannel.signalNotifyTelegram
               }
             }),
-            Observable.of(showNotification('Notification channel is toggled'))
+            Observable.of(
+              showNotification('Notification channel settings is changed')
+            )
           )
         })
         .catch(error => {
-          Raven.captureException(error)
-          return Observable.of({
-            type: actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL_FAILED,
-            payload: error
-          })
+          handleErrorAndTriggerAction(
+            actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL_FAILED
+          )
         })
     })
