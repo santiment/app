@@ -34,9 +34,7 @@ export const fetchWordContextEpic = (action$, store, { client }) =>
             type: actions.WORDCLOUD_CONTEXT_FETCH_SUCCESS,
             payload: {
               word,
-              cloud: wordContext,
-              isLoading: false,
-              error: false
+              cloud: wordContext
             }
           })
         })

@@ -33,10 +33,10 @@ const WidgetTrend = ({
   children,
   className
 }) => {
-  let msg = getMessage({
+  const msg = getMessage({
     isLoading,
     hasNoData: error || !hasData,
-    initial: !trendWord
+    initial: !trendWord && !error
   })
 
   return (
