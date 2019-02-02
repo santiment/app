@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import { FadeIn } from 'animate-components'
-import { connect } from 'react-redux'
-import styles from './SocialVolumeWidget.module.scss'
+import styles from './WidgetTrend.module.scss'
 
 const messages = {
   initial: 'Choose any word below to see its social context',
@@ -18,15 +17,23 @@ const getMessage = states => {
   return undefined
 }
 
-const WidgetTrend = ({ trendWord, description, isLoading, hasData, error }) => {
+const WidgetTrend = ({
+  trendWord,
+  description,
+  isLoading,
+  hasData,
+  error,
+  children,
+  className
+}) => {
   let msg = getMessage({
-    initial: !!trendWord,
-    hasNoData: error || hasData,
-    isLoading
+    isLoading,
+    hasNoData: error || !hasData,
+    initial: !trendWord
   })
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${className}`}>
       {msg ? (
         <FadeIn duration='2s' timingFunction='ease-out'>
           {msg}
@@ -34,7 +41,7 @@ const WidgetTrend = ({ trendWord, description, isLoading, hasData, error }) => {
       ) : (
         <Fragment>
           <div className={styles.info}>
-            <span className={styles.slug}>{trendWord} </span>
+            <span className={styles.word}>{trendWord} </span>
             {description}
           </div>
           {children}
@@ -42,6 +49,10 @@ const WidgetTrend = ({ trendWord, description, isLoading, hasData, error }) => {
       )}
     </div>
   )
+}
+
+WidgetTrend.defaultProps = {
+  className: ''
 }
 
 export default WidgetTrend

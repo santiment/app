@@ -2,16 +2,6 @@
 @import "~@santiment-network/ui/mixins.scss";
 
 .wrapper {
-    // margin-top: 24px;
-    box-sizing: border-box;
-    background-color: #fff;
-    border: 1px solid $light-gray2;
-    width: 49%;
-    height: 170px;
-    display: inline-block;
-    border-radius: 4px;
-    padding: 12px 24px;
-
     & :global(.recharts-yAxis .recharts-cartesian-axis-tick:first-child) {
         display: none;
     }

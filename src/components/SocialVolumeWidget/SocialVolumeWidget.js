@@ -1,11 +1,11 @@
 import React from 'react'
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts'
-import { FadeIn } from 'animate-components'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { SOCIALVOLUME_DATA_FETCH } from './actions'
 import { millify } from '../../utils/formatting'
 import styles from './SocialVolumeWidget.module.scss'
+import WidgetTrend from '../Widget/WidgetTrend'
 
 const RoundBar = ({ x, y, height }) => (
   <rect
@@ -25,42 +25,16 @@ export class SocialVolumeWidget extends React.Component {
 
   render () {
     const { data = [], slug, isLoading, isScoreOverTime, error } = this.props
-    if (isLoading) {
-      return (
-        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
-          <FadeIn duration='2s' timingFunction='ease-out'>
-            <h3>Loading...</h3>
-          </FadeIn>
-        </div>
-      )
-    }
-
-    if (error) {
-      return (
-        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
-          <FadeIn duration='2s' timingFunction='ease-out'>
-            <h3>Can't find anything about this trend...</h3>
-          </FadeIn>
-        </div>
-      )
-    }
-
-    if (data.length === 0) {
-      return (
-        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
-          <FadeIn duration='2s' timingFunction='ease-out'>
-            <h3>Choose any word below to see its social context</h3>
-          </FadeIn>
-        </div>
-      )
-    }
 
     return (
-      <div className={styles.wrapper}>
-        <div className={styles.info}>
-          <span className={styles.slug}>{slug} </span>
-          {isScoreOverTime ? 'trend' : 'social volume'} score
-        </div>
+      <WidgetTrend
+        className={styles.wrapper}
+        trendWord={slug}
+        description={`${isScoreOverTime ? 'trend' : 'social volume'} score`}
+        isLoading={isLoading}
+        error={error}
+        hasData={data.length > 0}
+      >
         <ResponsiveContainer width='100%'>
           <BarChart
             data={data}
@@ -94,7 +68,7 @@ export class SocialVolumeWidget extends React.Component {
             />
           </BarChart>
         </ResponsiveContainer>
-      </div>
+      </WidgetTrend>
     )
   }
 }

@@ -1,0 +1,23 @@
+
+@import "~@santiment-network/ui/variables.scss";
+@import "~@santiment-network/ui/mixins.scss";
+
+.wrapper {
+    box-sizing: border-box;
+    background-color: #fff;
+    border: 1px solid $light-gray2;
+    width: 49%;
+    height: 170px;
+    display: inline-block;
+    border-radius: $border-radius;
+    padding: 12px 24px;
+}
+
+.info {
+    @include text-normal;
+    color: #79849e;
+}
+
+.word {
+    color: $black;
+}
