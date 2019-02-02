@@ -2,6 +2,8 @@
 @import "~@santiment-network/ui/mixins.scss";
 
 .wrapper {
+    padding-right: 10px;
+
     & :global(.recharts-yAxis .recharts-cartesian-axis-tick:first-child) {
         display: none;
     }
@@ -12,13 +14,4 @@
             fill: $dark-gray;
         }
     }
-}
-
-.info {
-    @include text-normal;
-    color: #79849e;
-}
-
-.slug {
-    color: $black;
 }

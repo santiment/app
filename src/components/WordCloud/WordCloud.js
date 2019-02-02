@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
+import React, { Fragment, Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import TagCloud from 'react-tag-cloud'
 import { FadeIn } from 'animate-components'
 import HelpPopupWordCloud from './HelpPopupWordCloud'
+import WidgetTrend from '../Widget/WidgetTrend'
 import styles from './WordCloud.module.scss'
 
 const WORD_BIG = {
@@ -32,45 +33,24 @@ const getWordStyles = index => {
   }
 }
 
-class WordCloud extends Component {
+export class WordCloud extends Component {
   render () {
-    const { cloud = [], searchWord } = this.props
-    if (this.props.isLoading) {
-      return (
-        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
-          <FadeIn duration='2s' timingFunction='ease-out'>
-            <h3>Loading...</h3>
-          </FadeIn>
-        </div>
-      )
-    }
-
-    if (this.props.error) {
-      return (
-        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
-          <FadeIn duration='2s' timingFunction='ease-out'>
-            <h3>We don't find anything...</h3>
-          </FadeIn>
-        </div>
-      )
-    }
-
-    if (cloud.length === 0) {
-      return (
-        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
-          <FadeIn duration='2s' timingFunction='ease-out'>
-            <h3>Choose any word below to see its social context</h3>
-          </FadeIn>
-        </div>
-      )
-    }
+    const { cloud = [], searchWord, isLoading, error } = this.props
 
     return (
-      <div className={styles.wrapper}>
-        <small className={styles.hint}>
-          <strong>{searchWord}</strong>&nbsp;social context&nbsp;
-          <HelpPopupWordCloud />
-        </small>
+      <WidgetTrend
+        // className={styles.wrapper}
+        trendWord={searchWord}
+        description={
+          <Fragment>
+            social context
+            <HelpPopupWordCloud />
+          </Fragment>
+        }
+        isLoading={isLoading}
+        error={error}
+        hasData={cloud.length > 0}
+      >
         <TagCloud
           style={{ width: '95%', height: '85%', padding: 10, marginTop: 0 }}
         >
@@ -84,7 +64,7 @@ class WordCloud extends Component {
             </div>
           ))}
         </TagCloud>
-      </div>
+      </WidgetTrend>
     )
   }
 }

@@ -4,8 +4,8 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 import { SOCIALVOLUME_DATA_FETCH } from './actions'
 import { millify } from '../../utils/formatting'
-import styles from './SocialVolumeWidget.module.scss'
 import WidgetTrend from '../Widget/WidgetTrend'
+import styles from './SocialVolumeWidget.module.scss'
 
 const RoundBar = ({ x, y, height }) => (
   <rect

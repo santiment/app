@@ -2,7 +2,9 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import WordCloud from './../src/components/WordCloud/WordCloud'
+import WordCloud, {
+  WordCloud as UnwrappedWordCloud
+} from './../src/components/WordCloud/WordCloud'
 import HypedWordsBlock from '../src/components/Trends/HypedWordsBlock'
 import store from './store'
 
@@ -31,7 +33,7 @@ storiesOf('WordCloud', module)
   .addDecorator(story => <Provider store={store}>{story()}</Provider>)
   .add('Default', () => (
     <div>
-      <WordCloud cloud={defaultWords} />
+      <UnwrappedWordCloud searchWord='test' cloud={defaultWords} />
     </div>
   ))
   .add('With Trends', () => (
