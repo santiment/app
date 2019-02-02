@@ -5,6 +5,7 @@ import Sticky from 'react-stickynode'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import HypedBlocks from './../../components/Trends/HypedBlocks'
 import WordCloud from './../../components/WordCloud/WordCloud'
+import SocialVolumeWidget from '../../components/SocialVolumeWidget/SocialVolumeWidget'
 import HelpTrendsAbout from './HelpPopupTrendsAbout'
 import styles from './TrendsPage.module.scss'
 import InsightsTrends from '../../components/Insight/InsightsTrends'
@@ -12,6 +13,7 @@ import Devider from '../../components/Navbar/DropdownDevider'
 
 const WordCloudSticky = () => (
   <div className={styles.WordCloudSticky}>
+    <SocialVolumeWidget />
     <WordCloud />
   </div>
 )
@@ -34,13 +36,17 @@ const WordCloudWrapper = ({
         }}
         enabled
       >
-        {isWordCloudSticky ? (
-          <WordCloudSticky />
-        ) : (
-          <div style={{ marginTop: 24 }}>
-            <WordCloud />
-          </div>
-        )}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: isWordCloudSticky ? 0 : 24
+          }}
+          className={isWordCloudSticky ? styles.WordCloudSticky : ''}
+        >
+          <SocialVolumeWidget />
+          <WordCloud />
+        </div>
       </Sticky>
     )}
   </div>
