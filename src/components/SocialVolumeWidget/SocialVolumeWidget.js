@@ -61,10 +61,10 @@ export class SocialVolumeWidget extends React.Component {
           <span className={styles.slug}>{slug} </span>
           {isScoreOverTime ? 'trend' : 'social volume'} score
         </div>
-        <ResponsiveContainer width='100%' height={170}>
+        <ResponsiveContainer width='100%'>
           <BarChart
             data={data}
-            margin={{ top: 0, right: -25, left: 0, bottom: -10 }}
+            margin={{ top: 0, right: -25, left: 0, bottom: 5 }}
           >
             <XAxis
               dataKey='datetime'
