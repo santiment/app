@@ -2,11 +2,14 @@
 @import "~@santiment-network/ui/mixins.scss";
 
 .wrapper {
-    padding-right: 10px;
+    & :global(.recharts-surface){
+        overflow: visible;
+    }
 
     & :global(.recharts-yAxis .recharts-cartesian-axis-tick:first-child) {
         display: none;
     }
+
     :global(.recharts-cartesian-axis-tick) {
         font-family: Rubik, sans-serif;
         font-size: 10px;
