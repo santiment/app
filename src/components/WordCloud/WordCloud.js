@@ -31,10 +31,16 @@ const getWordStyles = index => {
   }
 }
 
-export const WordCloud = ({ cloud = [], searchWord, isLoading, error }) => {
+export const WordCloud = ({
+  cloud = [],
+  searchWord,
+  isLoading,
+  error,
+  className = ''
+}) => {
   return (
     <WidgetTrend
-      // className={styles.wrapper}
+      className={className}
       trendWord={searchWord}
       description={
         <Fragment>
