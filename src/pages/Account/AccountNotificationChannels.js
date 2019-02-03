@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { lifecycle, compose, withProps } from 'recompose'
-import { Link } from 'react-router-dom'
+import { lifecycle, compose } from 'recompose'
 import cx from 'classnames'
 import { Button, Toggle, Input } from '@santiment-network/ui'
 import * as actions from './../../actions/types'
@@ -32,14 +31,19 @@ export const AccountNotificationChannels = props => (
   </div>
 )
 
+const ChannelsToggle = ({ toggleAction, isActive }) => (
+  <div className={styles.channelToggle}>
+    <Toggle onClick={() => toggleAction(!isActive)} isActive={isActive} />
+    <small>{isActive ? 'Activated' : 'Not activated'}</small>
+  </div>
+)
+
 const ifTelegramConnectedShowToggle = fork(
   props => props.hasTelegramConnected,
-  props => (
-    <Toggle
-      onClick={() =>
-        props.toggleTelegramNotification(!props.signalNotifyTelegram)
-      }
-      isActive={props.signalNotifyTelegram}
+  ({ signalNotifyTelegram, toggleTelegramNotification }) => (
+    <ChannelsToggle
+      toggleAction={toggleTelegramNotification}
+      isActive={signalNotifyTelegram}
     />
   )
 )
@@ -70,10 +74,10 @@ const ifTelegramDisconnectedShowSetup = fork(
 
 const ifEmailConnectedShowToggle = fork(
   props => props.hasEmail,
-  props => (
-    <Toggle
-      onClick={() => props.toggleEmailNotification(!props.signalNotifyEmail)}
-      isActive={props.signalNotifyEmail}
+  ({ signalNotifyEmail, toggleEmailNotification }) => (
+    <ChannelsToggle
+      toggleAction={toggleEmailNotification}
+      isActive={signalNotifyEmail}
     />
   )
 )
@@ -130,12 +134,6 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  withProps(props => {
-    return {
-      hasEmail: false,
-      hasTelegramConnected: false
-    }
-  }),
   lifecycle({
     componentDidMount () {
       this.props.generateTelegramDeepLink()

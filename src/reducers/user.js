@@ -8,7 +8,7 @@ export const initialState = {
       hasTelegramConnected: false,
       isTelegarmDeepLinkLoading: true,
       isTelegarmDeepLinkError: false,
-      telegramDeepLink: undefined,
+      telegramDeepLink: '',
       signalNotifyEmail: false,
       signalNotifyTelegram: false
     }
@@ -117,7 +117,10 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: false,
         data: {
-          ...action.user
+          ...action.user,
+          settings: {
+            ...state.data.settings
+          }
         }
       }
     case actions.APP_USER_HAS_INACTIVE_TOKEN:
