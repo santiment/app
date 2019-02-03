@@ -15,15 +15,15 @@ let tickerSlugs
 export const fetchSocialVolumeEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.SOCIALVOLUME_DATA_FETCH)
-    .switchMap(({ payload: slug }) => {
-      if (store.getState().socialVolume.slug === slug) {
+    .switchMap(({ payload: trendWord }) => {
+      if (store.getState().socialVolume.trendWord === trendWord) {
         return Observable.of({
           type: actions.SOCIALVOLUME_DATA_FETCH_CANCEL,
-          payload: 'New slug is same as the last slug'
+          payload: 'New trendWord is same as the last trendWord'
         })
       }
 
-      if (slug === '__TOTAL_SOCIAL_VOLUME__') {
+      if (trendWord === '__TOTAL_SOCIAL_VOLUME__') {
         if (!tickerSlugs) {
           client
             .query({ query: allProjetsGQL })
@@ -50,7 +50,7 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
               return Observable.of({
                 type: actions.SOCIALVOLUME_DATA_FETCH_SUCCESS,
                 payload: {
-                  slug: 'Total',
+                  trendWord: 'Total',
                   isScoreOverTime: false,
                   data: mergeTimeseriesByKey({
                     key: 'datetime',
@@ -78,8 +78,8 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
           )
       }
 
-      const requestSlug = slug.toLowerCase()
-      const requestTicker = slug.toUpperCase()
+      const requestSlug = trendWord.toLowerCase()
+      const requestTicker = trendWord.toUpperCase()
       const { slug: foundSlug } = tickerSlugs
         ? tickerSlugs.find(
           ({ ticker: projTicker, slug: projSlug }) =>
@@ -92,7 +92,7 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
           client.query({
             query: wordTrendScoreGQL,
             variables: {
-              word: slug,
+              word: trendWord,
               to: moment().toISOString(),
               from: moment()
                 .subtract(1, 'months')
@@ -104,7 +104,7 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
             return Observable.of({
               type: actions.SOCIALVOLUME_DATA_FETCH_SUCCESS,
               payload: {
-                slug,
+                trendWord,
                 data: wordTrendScore.sort(
                   ({ datetime: aDatetime }, { datetime: bDatetime }) =>
                     moment(aDatetime).isAfter(moment(bDatetime)) ? 1 : -1
@@ -142,7 +142,7 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
               return Observable.of({
                 type: actions.SOCIALVOLUME_DATA_FETCH_SUCCESS,
                 payload: {
-                  slug,
+                  trendWord,
                   isScoreOverTime: false,
                   data: mergeTimeseriesByKey({
                     key: 'datetime',
