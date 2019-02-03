@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
-import { compose } from 'recompose'
 import TagCloud from 'react-tag-cloud'
-import { FadeIn } from 'animate-components'
 import HelpPopupWordCloud from './HelpPopupWordCloud'
+import WidgetTrend from '../Widget/WidgetTrend'
 import styles from './WordCloud.module.scss'
 
 const WORD_BIG = {
@@ -32,61 +31,42 @@ const getWordStyles = index => {
   }
 }
 
-class WordCloud extends Component {
-  render () {
-    const { cloud = [], searchWord } = this.props
-    if (this.props.isLoading) {
-      return (
-        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
-          <FadeIn duration='2s' timingFunction='ease-out'>
-            <h3>Loading...</h3>
-          </FadeIn>
-        </div>
-      )
-    }
-
-    if (this.props.error) {
-      return (
-        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
-          <FadeIn duration='2s' timingFunction='ease-out'>
-            <h3>We don't find anything...</h3>
-          </FadeIn>
-        </div>
-      )
-    }
-
-    if (cloud.length === 0) {
-      return (
-        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
-          <FadeIn duration='2s' timingFunction='ease-out'>
-            <h3>Choose any word below to see its social context</h3>
-          </FadeIn>
-        </div>
-      )
-    }
-
-    return (
-      <div className={styles.wrapper}>
-        <small className={styles.hint}>
-          <strong>{searchWord}</strong>&nbsp;social context&nbsp;
+export const WordCloud = ({
+  cloud = [],
+  searchWord,
+  isLoading,
+  error,
+  className = ''
+}) => {
+  return (
+    <WidgetTrend
+      className={className}
+      trendWord={searchWord}
+      description={
+        <Fragment>
+          social context
           <HelpPopupWordCloud />
-        </small>
-        <TagCloud
-          style={{ width: '95%', height: '85%', padding: 10, marginTop: 0 }}
-        >
-          {cloud.map(({ word }, index) => (
-            <div
-              key={word}
-              style={getWordStyles(index)}
-              className={`${styles.text}`}
-            >
-              {word}
-            </div>
-          ))}
-        </TagCloud>
-      </div>
-    )
-  }
+        </Fragment>
+      }
+      isLoading={isLoading}
+      error={error}
+      hasData={cloud.length > 0}
+    >
+      <TagCloud
+        style={{ width: '95%', height: '85%', padding: 10, marginTop: 0 }}
+      >
+        {cloud.map(({ word }, index) => (
+          <div
+            key={word}
+            style={getWordStyles(index)}
+            className={`${styles.text}`}
+          >
+            {word}
+          </div>
+        ))}
+      </TagCloud>
+    </WidgetTrend>
+  )
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -96,4 +76,4 @@ const mapStateToProps = (state, ownProps) => ({
   searchWord: state.wordCloud.word
 })
 
-export default compose(connect(mapStateToProps))(WordCloud)
+export default connect(mapStateToProps)(WordCloud)

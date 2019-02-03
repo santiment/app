@@ -17,6 +17,8 @@
 // import './FeedbackButtonStory.js'
 // import './ButtonStory.js'
 // import './InputStory.js'
+import '@santiment-network/ui/main.scss'
+
 import './NavbarStory.js'
 import './UISearchStory.js'
 import './PanelStory.js'
@@ -24,3 +26,4 @@ import './WordCloudStory.js'
 import './SocialVolumeWidgetStory.js'
 import './SharePanelStory'
 import './AccountNotificationsStory'
+import './NewInsightsStory'

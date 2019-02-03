@@ -14,7 +14,10 @@ module.exports = (baseConfig, env, defaultConfig) => {
       'css-loader?modules&namedExport&sass&localIdentName=[path]-[local]-[hash:base64:5]',
       'sass-loader'
     ],
-    include: path.resolve(__dirname, '../src/')
+    include: [
+      path.resolve(__dirname, '../src/'),
+      path.resolve(__dirname, '../node_modules/@santiment-network/ui')
+    ]
   })
 
   // Find Storybook's default CSS processing rule

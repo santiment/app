@@ -2,19 +2,14 @@
 @import "~@santiment-network/ui/mixins.scss";
 
 .wrapper {
-    margin-top: 24px;
-    box-sizing: border-box;
-    background-color: #fff;
-    border: 1px solid $light-gray2;
-    min-width: 49%;
-    min-height: 170px;
-    display: inline-block;
-    border-radius: 4px;
-    padding: 12px 24px;
+    & :global(.recharts-surface){
+        overflow: visible;
+    }
 
     & :global(.recharts-yAxis .recharts-cartesian-axis-tick:first-child) {
         display: none;
     }
+
     :global(.recharts-cartesian-axis-tick) {
         font-family: Rubik, sans-serif;
         font-size: 10px;
@@ -22,13 +17,4 @@
             fill: $dark-gray;
         }
     }
-}
-
-.info {
-    @include text-normal;
-    color: #79849e;
-}
-
-.slug {
-    color: $black;
 }

@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+- 2019-01-31 | v.0.30.1 'Sonar':
+
+  Fixed Insight's chart fetching error;
+  Fixed custom list's null-slug project data fetch;
+
 - 2019-01-29 | v.0.30.0 'Sonar':
 
   Upgrade to new santiment brand styles

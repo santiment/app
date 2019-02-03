@@ -1,6 +1,5 @@
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
-import { mergeMap, tap } from 'rxjs/operators'
 import { userGQL } from './../../epics/handleLaunch'
 import { handleErrorAndTriggerAction } from './../../epics/utils'
 import { showNotification } from './../../actions/rootActions'
