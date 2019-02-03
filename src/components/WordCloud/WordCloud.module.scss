@@ -1,4 +1,4 @@
-@import 'variables.scss';
+@import '~@santiment-network/ui/variables.scss';
 @import './../../mixins.scss';
 
 $top: 22px;
@@ -10,19 +10,46 @@ $top: 22px;
   height: 170px;
   width: 100%;
   background: white;
-  border: 1px solid #ebeef5;
+  border: 1px solid $light-gray2;
   border-radius: 4px;
 }
-
 
 .text {
   font-family: Rubik, sans-serif !important;
   font-style: normal;
   font-weight: normal;
   line-height: 20px;
-  color: #adb6cd;
+  color: $dark-gray;
+
+  &_big,
+  &_medium {
+    color: #7a859e;
+  }
+
+  &_big {
+    font-size: 28px !important;
+  }
+
+  &_medium {
+    font-size: 20px !important;
+  }
 }
 
+.hint {
+  margin-top: 8px;
+  margin-left: 14px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 20px;
+  font-size: 14px;
+  color: #7a859e;
+  display: flex;
+  align-items: center;
+}
+
+.hint strong {
+  color: $black;
+}
 
 /* stylelint-disable */
 @include responsive('desktop') {

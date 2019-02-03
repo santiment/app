@@ -19,6 +19,11 @@ export const userGQL = gql`
         address
         sanBalance
       }
+      settings {
+        hasTelegramConnected
+        signalNotifyEmail
+        signalNotifyTelegram
+      }
       apikeys
     }
   }

@@ -41,4 +41,10 @@ $phoneMinWidth: 480px;
     }
   }
 }
+
+@mixin flexible-row() {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 /* stylelint-enable */

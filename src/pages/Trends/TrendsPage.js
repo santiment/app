@@ -11,13 +11,6 @@ import styles from './TrendsPage.module.scss'
 import InsightsTrends from '../../components/Insight/InsightsTrends'
 import Devider from '../../components/Navbar/DropdownDevider'
 
-const WordCloudSticky = () => (
-  <div className={styles.WordCloudSticky}>
-    <SocialVolumeWidget />
-    <WordCloud />
-  </div>
-)
-
 const WordCloudWrapper = ({
   isLoading,
   isDesktop,
