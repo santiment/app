@@ -57,8 +57,14 @@ const ifTelegramDisconnectedShowSetup = fork(
         <li>
           You need to add the bot to your Telegram, press this button:{' '}
           {props.telegramDeepLink && (
-            <Button as={'a'} href={props.telegramDeepLink} target='_blank'>
-              Connect to bot
+            <Button
+              disabled={props.isTelegramConnecting}
+              as={'a'}
+              onClick={props.connectTelegram}
+              href={props.telegramDeepLink}
+              target='_blank'
+            >
+              {props.isTelegramConnecting ? 'Connecting...' : 'Connect'} to bot
             </Button>
           )}
         </li>
@@ -126,7 +132,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL,
       payload: { signalNotifyTelegram }
-    })
+    }),
+  connectTelegram: () => dispatch({ type: actions.SETTINGS_CONNECT_TELEGRAM })
 })
 
 export default compose(

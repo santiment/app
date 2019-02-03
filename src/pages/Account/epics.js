@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
+import { mergeMap, tap } from 'rxjs/operators'
 import { userGQL } from './../../epics/handleLaunch'
 import { handleErrorAndTriggerAction } from './../../epics/utils'
 import { showNotification } from './../../actions/rootActions'
@@ -8,6 +9,17 @@ import * as actions from './../../actions/types'
 const TELEGRAM_DEEP_LINK_QUERY = gql`
   {
     getTelegramDeepLink
+  }
+`
+
+export const USER_SETTINGS_TELEGRAM_QUERY = gql`
+  {
+    currentUser {
+      id
+      settings {
+        hasTelegramConnected
+      }
+    }
   }
 `
 
@@ -31,6 +43,33 @@ const SETTINGS_TOGGLE_CHANNEL_QUERY = gql`
     }
   }
 `
+
+export const TIMEOUT_DELAY = 25000
+
+export const connectTelegramEpic = (action$, store, { client }) =>
+  action$.ofType(actions.SETTINGS_CONNECT_TELEGRAM).mergeMap(action => {
+    const telegramConnection$ = Observable.from(
+      client.watchQuery({
+        query: USER_SETTINGS_TELEGRAM_QUERY,
+        pollInterval: 2000
+      })
+    )
+      .takeUntil(action$.ofType(actions.SETTINGS_CONNECT_TELEGRAM_CANCEL))
+      .filter(({ data }) => {
+        return (data.currentUser.settings || {}).hasTelegramConnected
+      })
+      .mergeMap(({ data }) => {
+        return Observable.merge(
+          Observable.of({ type: actions.SETTINGS_CONNECT_TELEGRAM_SUCCESS }),
+          Observable.of(showNotification('Telegram is connected'))
+        )
+      })
+      .take(1)
+    const timeout$ = Observable.timer(TIMEOUT_DELAY)
+      .takeUntil(action$.ofType(actions.SETTINGS_CONNECT_TELEGRAM_SUCCESS))
+      .mapTo({ type: actions.SETTINGS_CONNECT_TELEGRAM_CANCEL })
+    return Observable.merge(telegramConnection$, timeout$)
+  })
 
 export const revokeTelegramDeepLinkEpic = (action$, store, { client }) =>
   action$

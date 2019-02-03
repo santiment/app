@@ -10,7 +10,8 @@ export const initialState = {
       isTelegarmDeepLinkError: false,
       telegramDeepLink: '',
       signalNotifyEmail: false,
-      signalNotifyTelegram: false
+      signalNotifyTelegram: false,
+      isTelegramConnecting: false
     }
   },
   account: null,
@@ -119,6 +120,7 @@ export default (state = initialState, action) => {
         data: {
           ...action.user,
           settings: {
+            ...action.user.settings,
             ...state.data.settings
           }
         }
@@ -139,6 +141,40 @@ export default (state = initialState, action) => {
         ...state,
         insightDraft: {}
       }
+    case actions.SETTINGS_CONNECT_TELEGRAM:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          settings: {
+            ...state.data.settings,
+            isTelegramConnecting: true
+          }
+        }
+      }
+    case actions.SETTINGS_CONNECT_TELEGRAM_SUCCESS:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          settings: {
+            ...state.data.settings,
+            hasTelegramConnected: true,
+            isTelegramConnecting: false
+          }
+        }
+      }
+    case actions.SETTINGS_CONNECT_TELEGRAM_CANCEL:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          settings: {
+            ...state.data.settings,
+            isTelegramConnecting: false
+          }
+        }
+      }
     case actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL_SUCCESS:
       return {
         ...state,
@@ -157,7 +193,8 @@ export default (state = initialState, action) => {
           ...state.data,
           settings: {
             ...state.data.settings,
-            isTelegarmDeepLinkLoading: true
+            isTelegarmDeepLinkLoading: true,
+            isTelegramConnecting: false
           }
         }
       }

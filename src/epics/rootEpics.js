@@ -34,7 +34,8 @@ import fetchAllTickersSlugs from '../components/Trends/fetchAllTickersSlugs'
 import {
   generateTelegramDeepLinkEpic,
   revokeTelegramDeepLinkEpic,
-  toggleNotificationChannelEpic
+  toggleNotificationChannelEpic,
+  connectTelegramEpic
 } from '../pages/Account/epics'
 import keyboardEpic from './keyboardEpic'
 
@@ -73,6 +74,7 @@ export default combineEpics(
   generateTelegramDeepLinkEpic,
   revokeTelegramDeepLinkEpic,
   toggleNotificationChannelEpic,
+  connectTelegramEpic,
   apikeyGenerateEpic,
   apikeyRevokeEpic,
   handleNightModeToggle,
