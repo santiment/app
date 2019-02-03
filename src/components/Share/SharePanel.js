@@ -22,7 +22,7 @@ const mediasToShare = [
   },
   {
     label: 'LinkedIn',
-    icon: 'linkedIn',
+    icon: 'linked-in',
     href: `https://www.linkedin.com/shareArticle?mini=true&title=${SECRET_TITLE_TAG}&summary=${SECRET_TEXT_TAG}&source=santiment.net&url=${SECRET_LINK_TAG}`
   },
   {

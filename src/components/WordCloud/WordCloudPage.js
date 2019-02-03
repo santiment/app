@@ -47,7 +47,7 @@ class WordCloudPage extends Component {
               Search
             </Button>
           </div>
-          <WordCloud />
+          <WordCloud className={styles.cloud} />
         </section>
       </div>
     )

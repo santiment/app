@@ -1,10 +1,10 @@
 import React from 'react'
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts'
-import { FadeIn } from 'animate-components'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { SOCIALVOLUME_DATA_FETCH } from './actions'
 import { millify } from '../../utils/formatting'
+import WidgetTrend from '../Widget/WidgetTrend'
 import styles from './SocialVolumeWidget.module.scss'
 
 const RoundBar = ({ x, y, height }) => (
@@ -24,47 +24,27 @@ export class SocialVolumeWidget extends React.Component {
   }
 
   render () {
-    const { data = [], slug, isLoading, isScoreOverTime, error } = this.props
-    if (isLoading) {
-      return (
-        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
-          <FadeIn duration='2s' timingFunction='ease-out'>
-            <h3>Loading...</h3>
-          </FadeIn>
-        </div>
-      )
-    }
-
-    if (error) {
-      return (
-        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
-          <FadeIn duration='2s' timingFunction='ease-out'>
-            <h3>Can't find anything about this trend...</h3>
-          </FadeIn>
-        </div>
-      )
-    }
-
-    if (data.length === 0) {
-      return (
-        <div className={styles.wrapper + ' ' + styles.WordCloudLoading}>
-          <FadeIn duration='2s' timingFunction='ease-out'>
-            <h3>Choose any word below to see its social context</h3>
-          </FadeIn>
-        </div>
-      )
-    }
+    const {
+      data = [],
+      trendWord,
+      isLoading,
+      isScoreOverTime,
+      error
+    } = this.props
 
     return (
-      <div className={styles.wrapper}>
-        <div className={styles.info}>
-          <span className={styles.slug}>{slug} </span>
-          {isScoreOverTime ? 'trend' : 'social volume'} score
-        </div>
-        <ResponsiveContainer width='100%' height={170}>
+      <WidgetTrend
+        className={styles.wrapper}
+        trendWord={trendWord}
+        description={`${isScoreOverTime ? 'trend' : 'social volume'} score`}
+        isLoading={isLoading}
+        error={error}
+        hasData={data.length > 0}
+      >
+        <ResponsiveContainer width='100%'>
           <BarChart
             data={data}
-            margin={{ top: 0, right: -25, left: 0, bottom: -10 }}
+            margin={{ top: 0, right: -35, left: 0, bottom: 5 }}
           >
             <XAxis
               dataKey='datetime'
@@ -94,13 +74,13 @@ export class SocialVolumeWidget extends React.Component {
             />
           </BarChart>
         </ResponsiveContainer>
-      </div>
+      </WidgetTrend>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  slug: state.socialVolume.slug,
+  trendWord: state.socialVolume.trendWord,
   data: state.socialVolume.data,
   isLoading: state.socialVolume.isLoading,
   isScoreOverTime: state.socialVolume.isScoreOverTime,

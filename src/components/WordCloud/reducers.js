@@ -17,7 +17,9 @@ export default (state = initialState, action) => {
     case actions.WORDCLOUD_CONTEXT_FETCH_SUCCESS:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        isLoading: false,
+        error: false
       }
     case actions.WORDCLOUD_CONTEXT_FETCH_FAILED:
       return {
@@ -28,7 +30,8 @@ export default (state = initialState, action) => {
     case actions.WORDCLOUD_CONTEXT_FETCH_CANCEL:
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        error: false
       }
     case actions.WORDCLOUD_CONTEXT_CLEAN:
       return { ...initialState }

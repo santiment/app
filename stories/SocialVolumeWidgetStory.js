@@ -159,6 +159,8 @@ storiesOf('SocialVolumeWidget', module)
       <UnwrappedSocialVolumeWidget
         requestTotalSocialVolume={() => {}}
         data={[]}
+        hasData={false}
+        slug='empty'
       />
     </div>
   ))

@@ -5,7 +5,7 @@ export const initialState = {
   isScoreOverTime: false,
   error: false,
   data: undefined,
-  slug: ''
+  trendWord: ''
 }
 
 export default (state = initialState, action) => {
