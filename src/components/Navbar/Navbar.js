@@ -82,24 +82,15 @@ const Navbar = ({ activeLink = '/' }) => {
             }
 
             return (
-              <Link
-                activeClassName={
-                  styles.button + ' ' + styles.active + ' ' + styles.pseudoBtn
-                }
+              <Button
                 key={link}
-                to={{ pathname: link }}
+                variant='flat'
+                as={props => <Link {...props} to={{ pathname: link }} />}
+                isActive={link === activeLink}
+                className={styles.leftLink}
               >
-                <Button
-                  key={link}
-                  variant='flat'
-                  as={'span'}
-                  to={link}
-                  isActive={link === activeLink}
-                  className={styles.leftLink}
-                >
-                  {label}
-                </Button>
-              </Link>
+                {label}
+              </Button>
             )
           })}
         </div>
