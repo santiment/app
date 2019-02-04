@@ -9,20 +9,24 @@
 }
 
 .onlineIndicator {
+    display: none; // NOTE(vanguard): hidden until functionality comes in
   border-radius: 50%;
   width: 6px;
   height: 6px;
-  border: 2px solid #fff;
+  // border: 2px solid #fff;
+  border: 2px solid var(--white);
   position: absolute;
   right: 0;
   bottom: 0;
 
   &.active {
-    background: #14c393;
+    // background: #14c393;
+      background: var(--green);
   }
 
   &.offline {
-    background: #e5e5e5;
+    // background: #e5e5e5;
+      background: var(--grey-light-2);
   }
 }
 
@@ -35,7 +39,8 @@
     height: 32px;
     overflow: hidden;
     border-radius: 50%;
-    background: #ebeef5;
+    // background: #ebeef5;
+    background: var(--grey-light-2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -61,7 +66,8 @@
     margin: 0;
     line-height: 20px;
     font-size: 12px;
-    color: #7a859e;
+    // color: #7a859e;
+    color: var(--grey-dark-2);
   }
 
   &__upper {
@@ -74,16 +80,25 @@
     margin-right: 12px;
     position: relative;
   }
+}
 
+.icon {
+    fill: var(--white);
+
+    :global(.night-mode) & {
+        fill: var(--grey-dark);
+    }
 }
 
 .tokens {
   line-height: 18px;
   font-size: 12px;
-  color: #79849e;
+  // color: #79849e;
+  color: var(--grey-dark-2);
 
   &__amount {
-    color: #26292f;
+    // color: #26292f;
+      color: var(--black);
   }
 }
 
