@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 
 let rulersNode = document.querySelector('#mt-rulers')
 
@@ -30,12 +31,19 @@ const getContainer = id => {
 }
 
 class MultilineText extends PureComponent {
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    maxLines: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired
+  }
+
   ruler = getTextRuler(this.props.id)
 
   componentDidMount () {
     const container = getContainer(this.props.id)
     this.container = container
     this.updateRulerStyles()
+
     if (
       container.offsetHeight / this.getTextDimensions().height >
       this.props.maxLines
@@ -45,10 +53,11 @@ class MultilineText extends PureComponent {
   }
 
   updateRulerStyles () {
-    const containerStyles = this.container.style
+    const containerStyles = window.getComputedStyle(this.container)
     const rulerStyles = this.ruler.style
 
     rulerStyles.fontSize = containerStyles.fontSize
+    rulerStyles.fontFamily = containerStyles.fontFamily
     rulerStyles.lineHeight = containerStyles.lineHeight
     rulerStyles.display = 'inline'
     rulerStyles.whiteSpace = 'nowrap'
@@ -82,7 +91,6 @@ class MultilineText extends PureComponent {
       if (wordWidth > containerWidth) {
         lineState.filled = wordWidth - containerWidth
         lineState.number += 1
-        /* console.log({ filled: lineState.filled }) */
       } else {
         if (newFilledWidth > containerWidth) {
           lineState.number += 1
@@ -93,18 +101,14 @@ class MultilineText extends PureComponent {
       }
 
       if (lineState.number > maxLines) {
-        /* console.log(lineState.number) */
         lastLineState.shouldTruncate = true
 
         break
       }
 
-      /* console.log(lineState) */
-
       lineState.words++
     }
 
-    /* console.log('lastLine', lastLineState, oneCharWidth) */
     if (lastLineState.shouldTruncate) {
       let additionalTruncate = 0
       if (lastLineState.filled > containerWidth) {
