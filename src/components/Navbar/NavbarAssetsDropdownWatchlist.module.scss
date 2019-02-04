@@ -25,11 +25,13 @@
     display: inline-flex;
 
      svg {
-        fill: $dark-gray !important;
+        // fill: $dark-gray !important;
+        fill: var(--grey-dark) !important;
         width: 16px;
 
         &:hover {
-            fill: $dark-gray2 !important;
+            // fill: $dark-gray2 !important;
+            fill: var(--grey-dark-2) !important;
         }
     }
 }
@@ -39,14 +41,17 @@
     @include text-normal;
     font-size: 12px;
     line-height: 18px;
-    color: $black;
+    // color: $black;
+    // color: var(--black);
 }
 
 .newList {
     @include text-normal;
-    color: $black;
+    // color: $black;
+    // color: var(--black);
     display: flex;
-    border-top: 1px solid #EBEEF5;
+    // border-top: 1px solid #EBEEF5;
+    border-top: 1px solid var(--grey-light-2);
     height: 48px;
 
     &__btn {
