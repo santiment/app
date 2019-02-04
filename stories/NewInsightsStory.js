@@ -37,7 +37,8 @@ const insights = [
       username: 'Storybook',
       id: 2
     },
-    title: 'Very very very very very very very large title',
+    title:
+      'Veryvery very very very very very very very very large large long long title asdhjfbasjdhbfkj abshsdbf kjabdhskj',
     tags: [
       { name: 'btc' },
       { name: 'eth' },

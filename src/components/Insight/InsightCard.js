@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Panel, Icon } from '@santiment-network/ui'
 import moment from 'moment'
+import MultilineText from '../MultilineText/MultilineText'
 import styles from './InsightCard.module.scss'
 
 const InsightCard = ({
@@ -25,7 +26,17 @@ const InsightCard = ({
             )
           })}
         </div>
-        <div className={styles.title}>{title}</div>
+        <Link
+          to={`/insights/${id}`}
+          data-mt-id={`insightCardTitle_${id}`}
+          className={styles.title}
+        >
+          <MultilineText
+            maxLines={2}
+            id={`insightCardTitle_${id}`}
+            text={title}
+          />
+        </Link>
       </div>
       <div className={styles.bottom}>
         <div className={styles.left}>
