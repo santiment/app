@@ -3,7 +3,8 @@
 .btn {
     display: inline-flex;
     align-items: center;
-    color: $black;
+    // color: $black;
+    color: var(--black);
     padding: 5px 10px;
 
 }
@@ -11,10 +12,12 @@
 .icon {
     height: 16px;
     width: 16px;
-    fill: $dark-gray !important;
+    // fill: $dark-gray !important;
+    fill: var(--grey-dark) !important;
 
     &:only-child{
-        fill: $text-grey !important;
+        // fill: $text-grey !important;
+        fill: var(--black) !important;
     }
 }
 
