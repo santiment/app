@@ -47,11 +47,13 @@
 }
 
 .left {
-    max-width: 65%;
+    /* max-width: 65%; */ // Back to this value when showing .right
+    max-width: 90%;
 }
 
 .right {
-    display: flex;
+    /* display: flex; */
+    display: none;
 }
 
 .profile {
