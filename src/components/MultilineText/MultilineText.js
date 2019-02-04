@@ -6,10 +6,10 @@ let rulersNode = document.querySelector('#mt-rulers')
 if (!rulersNode) {
   rulersNode = document.createElement('div')
   rulersNode.id = 'mt-rulers'
+  rulersNode.style.height = 0
   rulersNode.style.maxWidth = '100%'
   rulersNode.style.overflow = 'hidden'
-  /* rulers.style.height = 0 */
-  /* rulers.style.visibility = 'hidden' */
+  rulersNode.style.visibility = 'hidden'
   document.body.appendChild(rulersNode)
 }
 
