@@ -4,9 +4,11 @@
 .header {
   margin: 0 !important;
   margin-bottom: 2rem !important;
-  background: #fff;
+  // background: #fff;
+  background: var(--white);
   max-height: 70px;
-  border-bottom: 1px solid $light-gray2;
+  // border-bottom: 1px solid $light-gray2;
+  border-bottom: 1px solid var(--grey-light-2);
 
   a {
     text-decoration: none;
@@ -30,7 +32,13 @@
 }
 
 .logo {
-  margin-right: 46px;
+    margin-right: 46px;
+    display: inline-flex;
+    align-items: center;
+
+    svg {
+        fill: var(--black);
+    }
 }
 
 .right,
