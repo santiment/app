@@ -26,6 +26,7 @@
     font-size: 12px;
     display: inline-block;
     margin-right: 4px;
+    text-decoration: none;
 }
 
 .title {
@@ -34,6 +35,9 @@
     font-size: 18px;
     color: $black;
     margin-top: 18px;
+    display: inline-block;
+    text-decoration: none;
+    word-break: break-word;
 }
 
 .bottom {

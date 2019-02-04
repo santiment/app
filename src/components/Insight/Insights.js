@@ -78,6 +78,7 @@ class Insights extends Component {
               return (
                 <InsightCard
                   key={id}
+                  id={id}
                   user={user}
                   title={title}
                   tags={tags}
