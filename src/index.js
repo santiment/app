@@ -27,7 +27,6 @@ import errorLink from './apollo/error-link'
 import authLink from './apollo/auth-link'
 import retryLink from './apollo/retry-link'
 import { unregister } from './serviceWorker'
-import 'semantic-ui-css/semantic.min.css'
 import './index.scss'
 
 const main = () => {

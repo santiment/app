@@ -1,3 +1,5 @@
+
+@import '~semantic-ui-css/semantic.min.css';
 @import "~@santiment-network/ui/main.scss";
 
 body {
@@ -15,22 +17,22 @@ body.night-mode {
 }
 
 a {
-  color: #3d4450;
+  // color: #3d4450;
 }
 
 a:hover,
 a:focus {
-  color: #26a987;
+    color: var(--green); // NOTE(vanguard): remove after removing semantic css
 }
 
 .night-mode a {
-  color: #a0a0a0;
+  // color: #a0a0a0;
   border-bottom-color: #2d3239 !important;
 }
 
 .night-mode a:hover,
 .night-mode a:focus {
-  color: #1d8166 !important;
+  // color: #1d8166 !important;
 }
 
 h1,
