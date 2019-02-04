@@ -20,9 +20,13 @@ const InsightCard = ({
         <div className={styles.tags}>
           {tags.map(({ name }) => {
             return (
-              <div key={name} className={styles.tag}>
+              <Link
+                to={`/insights/tags/${name}`}
+                key={name}
+                className={styles.tag}
+              >
                 {name}
-              </div>
+              </Link>
             )
           })}
         </div>
