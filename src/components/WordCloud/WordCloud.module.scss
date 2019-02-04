@@ -3,27 +3,18 @@
 
 $top: 22px;
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  height: 170px;
-  width: 100%;
-  background: white;
-  border: 1px solid $light-gray2;
-  border-radius: 4px;
-}
-
 .text {
   font-family: Rubik, sans-serif !important;
   font-style: normal;
   font-weight: normal;
   line-height: 20px;
-  color: $dark-gray;
+  // color: $dark-gray;
+  color: var(--grey-dark);
 
   &_big,
   &_medium {
-    color: #7a859e;
+    // color: #7a859e;
+      color: var(--grey-dark-2);
   }
 
   &_big {
@@ -42,13 +33,15 @@ $top: 22px;
   font-weight: normal;
   line-height: 20px;
   font-size: 14px;
-  color: #7a859e;
+  // color: #7a859e;
+  color: var(--grey-dark-2);
   display: flex;
   align-items: center;
 }
 
 .hint strong {
-  color: $black;
+  // color: $black;
+    color: var(--black);
 }
 
 /* stylelint-disable */

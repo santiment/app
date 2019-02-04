@@ -4,8 +4,10 @@
 
 .wrapper {
     box-sizing: border-box;
-    background-color: $white;
-    border: 1px solid $light-gray2;
+    // background-color: $white;
+    background-color: var(--white);
+    // border: 1px solid $light-gray2;
+    border: 1px solid var(--grey-light-2);
     width: 49%;
     height: 170px;
     display: inline-block;
@@ -29,9 +31,11 @@
 
 .info {
     @include text-normal;
-    color: #79849e;
+    // color: #79849e;
+    color: var(--grey-dark-2);
 }
 
 .word {
-    color: $black;
+    // color: $black;
+    color: var(--black);
 }

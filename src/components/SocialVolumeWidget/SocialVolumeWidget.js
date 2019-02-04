@@ -14,7 +14,6 @@ const RoundBar = ({ x, y, height }) => (
     width='6px'
     height={Math.abs(height)}
     rx='3'
-    fill='#E0E4EE'
   />
 )
 
