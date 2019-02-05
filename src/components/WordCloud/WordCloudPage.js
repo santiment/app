@@ -27,9 +27,6 @@ class WordCloudPage extends Component {
   render () {
     return (
       <div className={ToolsPageStyles.ToolsPage + ' page'}>
-        <Helmet>
-          <style>{'body { background-color: white; }'}</style>
-        </Helmet>
         <div className={styles.title}>
           <h1>Explore context of any word in crypto</h1>
         </div>
