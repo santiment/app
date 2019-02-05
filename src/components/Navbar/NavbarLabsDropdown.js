@@ -21,7 +21,12 @@ const NavbarLabsDropdown = ({ activeLink }) => (
           key={label}
           as={props =>
             label === 'Dashboard' ? (
-              <a {...props} target='_blank' href={link} />
+              <a
+                {...props}
+                rel='noopener noreferrer'
+                target='_blank'
+                href={link}
+              />
             ) : (
               <Link {...props} to={link} />
             )
