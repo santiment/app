@@ -8,7 +8,7 @@ const links = [
   { link: '/ethereum-spent', label: 'ETH spent' },
   { link: '/labs/balance', label: 'Historical balance' },
   { link: '/labs/wordcloud', label: 'Word context' },
-  { link: '/dashboard', label: 'Dashboard' }
+  { link: 'https://data.santiment.net/', label: 'Dashboard' }
 ]
 
 const NavbarLabsDropdown = ({ activeLink }) => (
@@ -19,9 +19,14 @@ const NavbarLabsDropdown = ({ activeLink }) => (
           fluid
           variant='ghost'
           key={label}
-          as={Link}
+          as={props =>
+            label === 'Dashboard' ? (
+              <a {...props} target='_blank' href={link} />
+            ) : (
+              <Link {...props} to={link} />
+            )
+          }
           className={styles.item}
-          to={link}
           isActive={link === activeLink}
         >
           {label}
