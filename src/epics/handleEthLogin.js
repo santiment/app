@@ -1,5 +1,3 @@
-import Raven from 'raven-js'
-import GoogleAnalytics from 'react-ga'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import * as web3Helpers from './../web3Helpers'
@@ -66,7 +64,12 @@ export const CONNECT_NEW_WALLET_QUERY = gql`
 
 const loginWithEthereum = client => {
   return new Promise(async (resolve, reject) => {
-    const address = await web3Helpers.getAccount()
+    let address = ''
+    try {
+      address = await web3Helpers.getAccount()
+    } catch (error) {
+      reject(error)
+    }
     web3Helpers
       .signMessage(address)
       .then(({ messageHash, signature }) => {
@@ -87,16 +90,12 @@ const loginWithEthereum = client => {
 }
 
 const handleEthLogin = (action$, store, { client }) =>
-  action$.ofType(actions.USER_ETH_LOGIN).switchMap(action => {
+  action$.ofType(actions.USER_ETH_LOGIN).exhaustMap(action => {
     const { consent } = action.payload
     return Observable.from(loginWithEthereum(client))
       .mergeMap(({ data }) => {
         const { token, user } = data.ethLogin
         savePrevAuthProvider('metamask')
-        GoogleAnalytics.event({
-          category: 'User',
-          action: 'Success login with metamask'
-        })
         return Observable.of({
           type: actions.USER_LOGIN_SUCCESS,
           token,
@@ -104,17 +103,7 @@ const handleEthLogin = (action$, store, { client }) =>
           consent: user.consent_id || consent
         })
       })
-      .catch(error => {
-        Raven.captureException(error)
-        GoogleAnalytics.event({
-          category: 'User',
-          action: 'Failed login with metamask'
-        })
-        return Observable.of({
-          type: actions.USER_LOGIN_FAILED,
-          payload: error
-        })
-      })
+      .catch(handleErrorAndTriggerAction(actions.USER_LOGIN_FAILED))
   })
 
 const connectingNewWallet = client => {
