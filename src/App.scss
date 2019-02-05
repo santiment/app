@@ -23,9 +23,7 @@
 }
 
 .App .new-status-message {
-  // color: #000;
-    color: var(--black);
-  // background: #fff;
+  color: var(--black);
   background: var(--white);
   text-align: center;
   font-weight: normal;
@@ -98,7 +96,6 @@
   font-weight: normal;
   line-height: 38px;
   font-size: 28px;
-  // color: $black;
   margin: 0;
 }
 
