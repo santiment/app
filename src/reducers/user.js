@@ -23,16 +23,6 @@ export const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'INIT_WEB3_ACCOUNT':
-      return {
-        ...state,
-        account: action.account
-      }
-    case 'CHECK_WEB3_PROVIDER':
-      return {
-        ...state,
-        hasMetamask: action.hasMetamask
-      }
     case actions.USER_LOGIN_PENDING:
       return {
         ...state,
@@ -221,6 +211,22 @@ export default (state = initialState, action) => {
             isTelegarmDeepLinkError: true,
             telegramDeepLink: undefined
           }
+        }
+      }
+    case actions.SETTINGS_CONNECT_NEW_WALLET_SUCCESS:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          ethAccounts: action.payload.accounts
+        }
+      }
+    case actions.SETTINGS_REMOVE_CONNECTED_WALLET_SUCCESS:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          ethAccounts: action.payload.accounts
         }
       }
     default:

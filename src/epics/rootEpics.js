@@ -4,7 +4,10 @@ import handleOffline from './handleOffline'
 import handleLauched from './handleLaunch'
 import handleLogout from './handleLogout'
 import handleEmailLogin, { handleLoginSuccess } from './handleEmailLogin'
-import handleEthLogin from './handleEthLogin'
+import handleEthLogin, {
+  removeConnectedWallet,
+  connectNewWallet
+} from './handleEthLogin'
 import handleGDPR from './handleGDPR'
 import handleRouter from './handleRouter'
 import apikeyGenerateEpic from './apikeyGenerateEpic'
@@ -71,6 +74,8 @@ export default combineEpics(
   // SocialVolume
   fetchSocialVolumeEpic,
   // Settings
+  removeConnectedWallet,
+  connectNewWallet,
   generateTelegramDeepLinkEpic,
   revokeTelegramDeepLinkEpic,
   toggleNotificationChannelEpic,
