@@ -4,9 +4,7 @@
 
 .wrapper {
     box-sizing: border-box;
-    // background-color: $white;
     background-color: var(--white);
-    // border: 1px solid $light-gray2;
     border: 1px solid var(--grey-light-2);
     width: 49%;
     height: 170px;
@@ -32,11 +30,9 @@
 
 .info {
     @include text-normal;
-    // color: #79849e;
     color: var(--grey-dark-2);
 }
 
 .word {
-    // color: $black;
     color: var(--black);
 }
