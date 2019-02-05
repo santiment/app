@@ -14,7 +14,7 @@
 
 .wrapper {
   min-height: 84px;
-  background-color: white;
+  background-color: var(--white);
   margin-top: 1em;
 }
 
@@ -74,8 +74,8 @@
 }
 
 .pending-header {
-  color: white;
-  background-color: white;
+  color: var(--white);
+  background-color: var(--white);
   animation-name: skeletonAnimation;
   animation-duration: 1.5s;
   animation-iteration-count: infinite;
@@ -131,7 +131,7 @@
     justify-content: left;
     padding-right: 150px;
     margin-right: 40px;
-    border-right: 1px solid #dde2e8;
+    border-right: 1px solid var(--grey-dark);
   }
 
   .price {

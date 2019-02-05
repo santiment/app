@@ -49,7 +49,7 @@ export const NavbarProfileDropdown = ({
                   {picUrl ? (
                     <img src={picUrl} alt='Profile Pic' />
                   ) : (
-                    <Icon type='profile-round' fill='#fff' />
+                    <Icon type='profile-round' className={styles.icon} />
                   )}
                 </div>
                 <div

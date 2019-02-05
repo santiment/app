@@ -4,9 +4,9 @@
 .header {
   margin: 0 !important;
   margin-bottom: 2rem !important;
-  background: #fff;
+  background: var(--white);
   max-height: 70px;
-  border-bottom: 1px solid $light-gray2;
+  border-bottom: 1px solid var(--grey-light-2);
 
   a {
     text-decoration: none;
@@ -30,7 +30,13 @@
 }
 
 .logo {
-  margin-right: 46px;
+    margin-right: 46px;
+    display: inline-flex;
+    align-items: center;
+
+    svg {
+        fill: var(--black);
+    }
 }
 
 .right,
@@ -57,42 +63,5 @@
 
   &:focus {
     background-color: none;
-  }
-}
-
-.pseudoBtn {
-  padding: 0 !important;
-}
-
-.button {
-  height: 32px;
-  padding: 6px 12px;
-  font-size: $font-size-regular;
-  line-height: $line-height-regular;
-  font-family: Rubik, sans-serif;
-  color: $text-grey;
-  border-radius: $border-radius;
-  background: transparent;
-  cursor: pointer;
-
-  & svg {
-    fill: #15181f;
-  }
-
-  &:hover {
-    color: $text-green;
-
-    & svg {
-      fill: $text-green;
-    }
-  }
-
-  &.active {
-    color: $text-green;
-    background-color: $btn-background-light-green;
-
-    & svg {
-      fill: $text-green;
-    }
   }
 }

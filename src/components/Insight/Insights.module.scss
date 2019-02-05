@@ -22,22 +22,23 @@
     @include text-normal;
     line-height: 20px;
     font-size:22px;
-    color: $black;
+    color: var(--black);
 }
 
 .count {
-    color:  #79849f;
+    color: var(--grey-dark-2);
 }
 
 .btn {
     margin-left: 15px;
-    background: $green;
-    color: $white;
-    fill: $white;
+    background: var(--green);
+    color: var(--white);
+    fill: var(--white);
     text-decoration: none;
+    line-height: 13px;
 
     &:hover {
-        color: $white;
+        color: var(--white);
     }
 }
 

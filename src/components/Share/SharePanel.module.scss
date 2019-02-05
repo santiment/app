@@ -4,7 +4,7 @@
 .upper {
   padding: 12px 20px;
   position: relative;
-  border-bottom: 1px solid $light-gray3;
+  border-bottom: 1px solid var(--grey-light-3);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -26,16 +26,16 @@
   margin: 0;
   font-size: 16px;
   line-height: 24px;
-  color: $black;
+  color: var(--black);
 }
 
 .close {
-  fill: $text-grey;
+    fill: var(--grey-dark-2);
   cursor: pointer;
 }
 
 .link {
-  border: 1px solid $light-gray3;
+    border: 1px solid var(--grey-light-3);
   display: flex;
   border-radius: $border-radius;
   overflow: hidden;
@@ -45,15 +45,16 @@
     border: none;
     height: 32px;
     @include text-normal;
-    color: $blue;
+    color: var(--blue);
     padding: 6px 10px;
+    background-color: var(--white) !important;
   }
 
   &__btn {
     white-space: nowrap;
-    border-left: 1px solid $light-gray3;
+    border-left: 1px solid var(--grey-light-3);
     border-radius: 0;
-    color: $black;
+    color: var(--black);
     position: relative;
 
     &::before {
@@ -65,14 +66,18 @@
       top: 0;
       left: -31px;
       width: 30px;
-      background: linear-gradient(270deg, #fff 0%, #fff 30.94%, rgba(255, 255, 255, 0) 100%);
+      background: linear-gradient(270deg, $white 0%, $white 30.94%, rgba($white, 0) 100%);
+
+      :global(.night-mode) &{
+          background: linear-gradient(270deg, $black 0%, $black 30.94%, rgba($black, 0) 100%);
+      }
     }
   }
 }
 
 .btn {
-  border: 1px solid $light-gray3;
-  color: $black;
+    border: 1px solid var(--grey-light-3);
+  color: var(--black);
   text-decoration: none;
   margin-bottom: 8px;
   padding: 8px 10px;
@@ -88,5 +93,5 @@
   width: 16px;
   text-align: center;
   margin-right: 7px;
-  fill: $dark-gray !important;
+  fill: var(--grey-dark) !important;
 }

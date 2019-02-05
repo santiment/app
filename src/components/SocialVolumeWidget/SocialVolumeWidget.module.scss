@@ -14,7 +14,11 @@
         font-family: Rubik, sans-serif;
         font-size: 10px;
         & text {
-            fill: $dark-gray;
+            fill: var(--grey-dark);
         }
+    }
+
+    & :global(.recharts-bar-rectangle) {
+        fill: var(--grey-light-3) !important;
     }
 }

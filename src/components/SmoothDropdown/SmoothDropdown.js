@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import cx from 'classnames'
-import './SmoothDropdown.css'
+import './SmoothDropdown.scss'
 
 const modalRoot = document.getElementById('dd-modal')
 
