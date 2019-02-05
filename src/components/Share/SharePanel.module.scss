@@ -4,7 +4,6 @@
 .upper {
   padding: 12px 20px;
   position: relative;
-  // border-bottom: 1px solid $light-gray3;
   border-bottom: 1px solid var(--grey-light-3);
   display: flex;
   align-items: center;
@@ -32,13 +31,11 @@
 }
 
 .close {
-  // fill: $text-grey;
     fill: var(--grey-dark-2);
   cursor: pointer;
 }
 
 .link {
-  // border: 1px solid $light-gray3;
     border: 1px solid var(--grey-light-3);
   display: flex;
   border-radius: $border-radius;
@@ -49,7 +46,6 @@
     border: none;
     height: 32px;
     @include text-normal;
-    // color: $blue;
     color: var(--blue);
     padding: 6px 10px;
     background-color: var(--white) !important;
@@ -57,10 +53,8 @@
 
   &__btn {
     white-space: nowrap;
-    // border-left: 1px solid $light-gray3;
     border-left: 1px solid var(--grey-light-3);
     border-radius: 0;
-    // color: $black;
     color: var(--black);
     position: relative;
 
@@ -83,9 +77,7 @@
 }
 
 .btn {
-  // border: 1px solid $light-gray3;
     border: 1px solid var(--grey-light-3);
-  // color: $black;
   color: var(--black);
   text-decoration: none;
   margin-bottom: 8px;
@@ -102,6 +94,5 @@
   width: 16px;
   text-align: center;
   margin-right: 7px;
-  // fill: $dark-gray !important;
   fill: var(--grey-dark) !important;
 }
