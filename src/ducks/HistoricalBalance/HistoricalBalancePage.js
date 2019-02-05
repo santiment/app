@@ -29,9 +29,6 @@ export default class HistoricalBalancePage extends Component {
   render () {
     return (
       <div className={styles.HistoricalBalancePage + ' page'}>
-        <Helmet>
-          <style>{'body { background-color: white; }'}</style>
-        </Helmet>
         <div className={styles.title}>
           <h1>
             Explore historical balance <br />
