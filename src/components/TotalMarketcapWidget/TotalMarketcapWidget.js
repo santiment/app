@@ -25,6 +25,8 @@ const WidgetMarketView = {
   LIST: 'List'
 }
 
+// NOTE(vanguard): Linear gradient should use css vars?
+
 class TotalMarketcapWidget extends Component {
   state = {
     view:
