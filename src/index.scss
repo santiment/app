@@ -5,43 +5,14 @@
 body {
   margin: 0;
   padding: 0;
-  // background-color: white;
   font: 14px/1.6 'Rubik', sans-serif;
   font-weight: 400;
-  // color: #3d4450;
   color: var(--black);
-}
-
-body.night-mode {
-  // background-color: #1a1b1e;
-  // color: #a0a0a0;
-}
-
-a {
-  // color: #3d4450;
 }
 
 a:hover,
 a:focus {
     color: var(--green); // NOTE(vanguard): remove after removing semantic css
-}
-
-.night-mode a {
-  // color: #a0a0a0;
-  // border-bottom-color: #2d3239 !important;
-}
-
-.night-mode a:hover,
-.night-mode a:focus {
-  // color: #1d8166 !important;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5 {
-  // font-family: 'Source Sans Pro', sans-serif;
 }
 
 h1 {
@@ -50,21 +21,18 @@ h1 {
   margin-left: 16px;
   margin-top: 32px;
   line-height: inherit;
-  // color: #262b33;
 }
 
 h2 {
   font-size: 24px;
   font-weight: 300;
   line-height: inherit;
-  // color: #262b33;
 }
 
 h3 {
   font-size: 21px;
   font-weight: 300;
   line-height: inherit;
-  // color: #262b33;
 }
 
 p {
@@ -77,22 +45,7 @@ h4 {
   margin-bottom: 24px;
   font-size: 1.5rem;
   line-height: 1.1;
-  // color: #3d4051;
   font-weight: 500;
-}
-
-.night-mode h4 {
-  // color: #727272;
-}
-
-.night-mode h1,
-.night-mode h2,
-.night-mode h3 {
-  // color: #a0a0a0;
-}
-
-.night-mode .App .page h1 {
-  // color: #a0a0a0;
 }
 
 hr {
@@ -173,10 +126,6 @@ hr {
   background-color: #17181b !important;
   border-color: #2d3239 !important;
   color: #a0a0a0 !important;
-}
-
-.night-mode ::selection {
-  // background-color: #a5a8b1;
 }
 
 .night-mode i {
