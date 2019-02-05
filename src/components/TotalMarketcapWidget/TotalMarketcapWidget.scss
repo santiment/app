@@ -16,10 +16,6 @@
     line-height: 20px;
   }
 
-  // &.night-mode {
-  //   border-color: #4a4a4a;
-  // }
-
   &__left {
     margin-right: 55px;
   }
@@ -36,8 +32,7 @@
   }
 
   &__label {
-    // color: #7a859e;
-      color: var(--grey-dark-2);
+    color: var(--grey-dark-2);
     font-size: 14px;
     margin: 0;
   }
@@ -48,7 +43,6 @@
     position: relative;
     font-size: 22px;
     line-height: 30px;
-    // color: #15181f;
     color: var(--black);
 
     &_loading {
@@ -106,9 +100,8 @@
         border: 1px solid var(--grey-light-3) !important;
 
       & > p:first-of-type {
-        // color: #7a859e;
           color: var(--grey-dark-2);
-        margin-bottom: 4px !important;
+          margin-bottom: 4px !important;
       }
     }
 
