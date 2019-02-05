@@ -23,8 +23,10 @@
 }
 
 .App .new-status-message {
-  color: #000;
-  background: #fff;
+  // color: #000;
+    color: var(--black);
+  // background: #fff;
+  background: var(--white);
   text-align: center;
   font-weight: normal;
   padding: 5px;
