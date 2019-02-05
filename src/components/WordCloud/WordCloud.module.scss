@@ -8,12 +8,10 @@ $top: 22px;
   font-style: normal;
   font-weight: normal;
   line-height: 20px;
-  // color: $dark-gray;
   color: var(--grey-dark);
 
   &_big,
   &_medium {
-    // color: #7a859e;
       color: var(--grey-dark-2);
   }
 
@@ -33,14 +31,12 @@ $top: 22px;
   font-weight: normal;
   line-height: 20px;
   font-size: 14px;
-  // color: #7a859e;
   color: var(--grey-dark-2);
   display: flex;
   align-items: center;
 }
 
 .hint strong {
-  // color: $black;
     color: var(--black);
 }
 
