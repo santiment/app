@@ -15,19 +15,16 @@
     font-size: 14px;
     line-height: 18px;
     font-weight: normal;
-    // color: #808ba1;
     color: var(--grey-dark-2);
   }
 
   .arrow  {
-      // fill: #adb6cd;
       transition: transform 200ms;
       fill: var(--grey-dark);
   }
 
   .word {
-    // color: #252830;
-      color: var(--black);
+    color: var(--black);
     font-style: normal;
     font-size: 16px;
     line-height: 21px;
@@ -50,16 +47,10 @@
   }
 
   &:hover {
-    // background: $light-gray;
       background: var(--grey-light);
 
     .word {
-      // color: $green;
         color: var(--green);
-    }
-
-    .score {
-      // color: $green-light;
     }
 
     .arrow {
@@ -70,6 +61,5 @@
 }
 
 .selected {
-  // background: $light-gray;
     background: var(--grey-light);
 }
