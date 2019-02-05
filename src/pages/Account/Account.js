@@ -117,7 +117,7 @@ class Account extends Component {
               warning
               header='Email is not added yet!'
               list={[
-                'For acces your dashboard from mobile device, you should add email address.'
+                'To access your dashboard from mobile device, you should add an email address.'
               ]}
             />
           )}
