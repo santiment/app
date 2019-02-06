@@ -2,7 +2,6 @@ import React, { Fragment } from 'react'
 import { compose, pure, withState } from 'recompose'
 import GoogleAnalytics from 'react-ga'
 import { Button, Icon } from 'semantic-ui-react'
-import metamaskIcon from '../../assets/metamask-icon-64-2.png'
 import EmailLogin from './EmailLogin'
 import EthLogin from './EthLogin'
 import { loadPrevAuthProvider } from './../../utils/localStorage'
@@ -10,8 +9,7 @@ import './Login.css'
 
 const STEPS = {
   signin: 'signin',
-  email: 'email',
-  metamask: 'metamask'
+  email: 'email'
 }
 
 const AuthProviderButton = ({
@@ -53,39 +51,18 @@ const ChooseAuthProvider = ({
   <Fragment>
     <h2>Welcome to Sanbase</h2>
     <div className='login-actions'>
-      {isDesktop && (
-        <AuthProviderButton
-          authProvider='metamask'
-          prevAuthProvider={prevAuthProvider}
-        >
-          <Button
-            onClick={gotoMetamask}
-            basic
-            className='metamask-btn'
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              paddingTop: '5px',
-              paddingBottom: '5px'
-            }}
-          >
-            <img
-              src={metamaskIcon}
-              alt='metamask logo'
-              width={28}
-              height={28}
-            />
-            &nbsp; Login with Metamask
-          </Button>
-        </AuthProviderButton>
-      )}
+      <AuthProviderButton
+        authProvider='metamask'
+        prevAuthProvider={prevAuthProvider}
+      >
+        <EthLogin isDesktop={isDesktop} consent={consent} />
+      </AuthProviderButton>
       <AuthProviderButton
         authProvider='email'
         prevAuthProvider={prevAuthProvider}
       >
         <Button onClick={gotoEmail} basic className='sign-in-btn'>
           <Icon size='large' name='mail' />
-          &nbsp;
           <span>Login with email</span>
         </Button>
       </AuthProviderButton>
@@ -111,13 +88,7 @@ const gotoBack = changeStep => {
 }
 
 export const Login = ({ currentStep, changeStep, isDesktop, consent }) => {
-  if (currentStep === STEPS.metamask) {
-    return (
-      <AuthProvider gotoBack={() => gotoBack(changeStep)}>
-        <EthLogin consent={consent} />
-      </AuthProvider>
-    )
-  } else if (currentStep === STEPS.email) {
+  if (currentStep === STEPS.email) {
     return (
       <AuthProvider gotoBack={() => gotoBack(changeStep)}>
         <EmailLogin consent={consent} />

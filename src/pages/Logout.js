@@ -12,7 +12,14 @@ class LogoutPage extends React.Component {
   componentDidMount () {
     this.props.logout()
     const { to = this.props.to } = qs.parse(this.props.location.search)
-    setTimeout(() => this.props.redirect(to), 3000)
+    this.timeout = setTimeout(() => this.props.redirect(to), 3000)
+  }
+
+  componentWillUnmount () {
+    if (this.timeout) {
+      clearTimeout(this.timeout)
+      this.timeout = 0
+    }
   }
 
   render () {

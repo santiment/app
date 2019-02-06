@@ -8,8 +8,8 @@ const handleLogout = (action$, store, { client }) =>
   action$.pipe(
     ofType(actions.USER_LOGOUT_SUCCESS),
     mergeMap(() => {
-      return Observable.from(client.resetStore())
-        .map(({ data }) => {
+      return Observable.from(client.clearStore())
+        .map(() => {
           return {
             type: actions.APP_USER_HAS_INACTIVE_TOKEN
           }
@@ -17,12 +17,12 @@ const handleLogout = (action$, store, { client }) =>
         .catch(error => {
           Raven.captureException(error)
           client.cache.reset()
-          return {
+          return Observable.of({
             type: actions.APP_USER_HAS_INACTIVE_TOKEN,
             payload: {
               error
             }
-          }
+          })
         })
     })
   )

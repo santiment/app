@@ -157,9 +157,9 @@ export const toggleNotificationChannelEpic = (action$, store, { client }) =>
             )
           )
         })
-        .catch(error => {
+        .catch(
           handleErrorAndTriggerAction(
             actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL_FAILED
           )
-        })
+        )
     })
