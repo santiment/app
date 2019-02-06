@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import WordCloud from './WordCloud'
 import { Input, Button } from '@santiment-network/ui'

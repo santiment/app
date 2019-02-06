@@ -8,36 +8,23 @@ const links = [
   { link: '/ethereum-spent', label: 'ETH spent' },
   { link: '/labs/balance', label: 'Historical balance' },
   { link: '/labs/wordcloud', label: 'Word context' },
-  { link: 'https://data.santiment.net/', label: 'Dashboard' }
+  { link: '/dashboards', label: 'Dashboard' }
 ]
 
 const NavbarLabsDropdown = ({ activeLink }) => (
   <div className={styles.list}>
-    {links.map(({ link, label }) => {
-      return (
-        <Button
-          fluid
-          variant='ghost'
-          key={label}
-          as={props =>
-            label === 'Dashboard' ? (
-              <a
-                {...props}
-                rel='noopener noreferrer'
-                target='_blank'
-                href={link}
-              />
-            ) : (
-              <Link {...props} to={link} />
-            )
-          }
-          className={styles.item}
-          isActive={link === activeLink}
-        >
-          {label}
-        </Button>
-      )
-    })}
+    {links.map(({ link, label }) => (
+      <Button
+        fluid
+        variant='ghost'
+        key={label}
+        as={props => <Link {...props} to={link} />}
+        className={styles.item}
+        isActive={link === activeLink}
+      >
+        {label}
+      </Button>
+    ))}
   </div>
 )
 

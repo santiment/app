@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 let rulersNode = document.querySelector('#mt-rulers')
@@ -30,7 +30,7 @@ const getContainer = id => {
   return document.querySelector(`[data-mt-id="${id}"]`)
 }
 
-class MultilineText extends PureComponent {
+class MultilineText extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
     maxLines: PropTypes.number.isRequired,

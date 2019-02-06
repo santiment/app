@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import * as qs from 'query-string'
-import { Helmet } from 'react-helmet'
 import BalanceView from './BalanceView'
 import styles from './HistoricalBalancePage.module.scss'
 
