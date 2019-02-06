@@ -74,6 +74,7 @@ export const NavbarProfileDropdown = ({
 
       <div className={dropdownStyles.list}>
         <Button
+          fluid
           variant='ghost'
           className={styles.setting + ' ' + dropdownStyles.item}
           onClick={toggleNightMode}
@@ -81,6 +82,7 @@ export const NavbarProfileDropdown = ({
           Nightmode <Toggle isActive={isNightModeEnabled} />
         </Button>
         <Button
+          fluid
           variant='ghost'
           className={
             styles.setting +
