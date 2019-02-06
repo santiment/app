@@ -37,7 +37,7 @@ const AccountEthKeyForm = ({
             Connect with metamask
           </Button>
           {isConnectWalletFailed && (
-            <p>You try to connect the wallet, which is existed on Sanbase</p>
+            <p>Connecting metamask wallet failed - it is already being used</p>
           )}
         </div>
       )}
