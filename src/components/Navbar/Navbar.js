@@ -67,6 +67,11 @@ const Navbar = ({ activeLink = '/' }) => {
                       variant='flat'
                       className={styles.btn}
                       isActive={activeLink.includes(link)}
+                      as={
+                        label === 'Assets'
+                          ? props => <Link {...props} to='/assets/all' />
+                          : undefined
+                      }
                     >
                       {label}
                     </Button>
