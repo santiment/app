@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+- 2019-02-06 | v.0.31.0 'Sonar':
+
+  Fixed dashboard link
+  Add option to remove and connect metamask wallet
+
 - 2019-01-31 | v.0.30.1 'Sonar':
 
   Fixed Insight's chart fetching error;
