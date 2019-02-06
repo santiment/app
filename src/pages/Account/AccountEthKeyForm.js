@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Input, Button } from '@santiment-network/ui'
 import { getUserWallet } from './../UserSelectors'
