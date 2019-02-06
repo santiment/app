@@ -83,9 +83,7 @@ class Account extends Component {
   render () {
     const {
       user,
-      loading,
       logoutUser,
-      hasEmail,
       changeEmail,
       changeUsername,
       generateAPIKey,
@@ -176,11 +174,7 @@ class Account extends Component {
             setFormStatus={this.setFormStatus(this.usernameFormKey)}
             isUsernamePending={usernameForm.PENDING}
           />
-          <AccountEthKeyForm
-            hasEmail={hasEmail}
-            ethAccounts={user.ethAccounts}
-            loading={loading}
-          />
+          <AccountEthKeyForm />
           <AccountWallets user={user} />
           <AccountNotificationChannels />
           <AccountApiKeyForm
@@ -201,9 +195,7 @@ class Account extends Component {
 
 const mapStateToProps = state => ({
   user: state.user.data,
-  loading: state.user.isLoading,
   isLoggedIn: !!state.user.token,
-  hasEmail: !!state.user.data.email,
   isNightModeEnabled: state.rootUi.isNightModeEnabled
 })
 

@@ -1,36 +1,57 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Input, Button } from '@santiment-network/ui'
+import { getUserWallet } from './../UserSelectors'
 import * as actions from './../../actions/types'
 
 const AccountEthKeyForm = ({
-  ethAccounts,
+  address,
   loading,
   hasEmail,
   removeConnectedWallet,
-  connectNewWallet
+  connectNewWallet,
+  isConnectWalletFailed,
+  isConnectWalletPending
 }) => {
-  const doesUserHaveEthAccounts = ethAccounts && ethAccounts.length > 0
-  const address = doesUserHaveEthAccounts ? ethAccounts[0].address : ''
   return (
     <div>
       <label>Eth Public Key</label>
       {address && (
-        <Fragment>
+        <div>
           <Input readOnly disabled={!address} defaultValue={address} />
           {hasEmail && (
             <Button onClick={removeConnectedWallet}>
               Remove connected wallet
             </Button>
           )}
-        </Fragment>
+        </div>
       )}
       {!address && (
-        <Button onClick={connectNewWallet}>Connect with metamask</Button>
+        <div>
+          <Button
+            disabled={isConnectWalletPending}
+            variant='border'
+            accent='positive'
+            onClick={connectNewWallet}
+          >
+            Connect with metamask
+          </Button>
+          {isConnectWalletFailed && (
+            <p>You try to connect the wallet, which is existed on Sanbase</p>
+          )}
+        </div>
       )}
     </div>
   )
 }
+
+const mapStateToProps = state => ({
+  address: getUserWallet(state),
+  loading: state.user.isLoading,
+  hasEmail: !!state.user.data.email,
+  isConnectWalletFailed: state.accountUi.isConnectWalletFailed,
+  isConnectWalletPending: state.accountUi.isConnectWalletPending
+})
 
 const mapDispatchToProps = dispatch => ({
   removeConnectedWallet: () =>
@@ -40,6 +61,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(AccountEthKeyForm)

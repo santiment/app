@@ -25,6 +25,9 @@ import wordCloud, {
 import socialVolume, {
   initialState as initialSocialVolume
 } from './../components/SocialVolumeWidget/reducers'
+import accountUi, {
+  initialState as initialAccountUiState
+} from '../pages/Account/reducers'
 
 export const intitialState = {
   user: userState,
@@ -38,7 +41,8 @@ export const intitialState = {
   notification: initialNotificationState,
   router: routerReducer,
   wordCloud: initialWordCloud,
-  socialVolume: initialSocialVolume
+  socialVolume: initialSocialVolume,
+  accountUi: initialAccountUiState
 }
 
 export default combineReducers({
@@ -52,5 +56,6 @@ export default combineReducers({
   watchlistUi,
   notification,
   wordCloud,
-  socialVolume
+  socialVolume,
+  accountUi
 })
