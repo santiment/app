@@ -33,6 +33,21 @@ const LimitSizeOfTitle = ({ length }) => (
   </small>
 )
 
+const normalizeTags = tags => {
+  return tags.map(({ label, value, name }) => {
+    if (label && value) {
+      return { label, value }
+    }
+
+    if (name) {
+      return {
+        label: name,
+        value: name
+      }
+    }
+  })
+}
+
 const CreateTitle = ({ post, changePost, updateDraft }) => {
   return (
     <Form
@@ -74,7 +89,7 @@ const CreateTitle = ({ post, changePost, updateDraft }) => {
             <Message negative>{formApi.getError().title}</Message>
           )}
           <TagsField
-            savedChosenTags={post.tags}
+            savedChosenTags={normalizeTags(post.tags)}
             setTags={tags => {
               updateDraft({ tags })
 

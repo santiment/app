@@ -222,6 +222,9 @@ export const postGQL = gql`
       createdAt
       state
       readyState
+      tags {
+        name
+      }
       user {
         username
         id
