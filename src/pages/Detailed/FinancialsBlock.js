@@ -7,6 +7,8 @@ import {
   formatNumber,
   millify
 } from './../../utils/formatting'
+import WalletLink from './../../components/WalletLink/WalletLink'
+import SmoothDropdown from './../../components/SmoothDropdown/SmoothDropdown'
 import './FinancialsBlock.css'
 
 const propTypes = {
@@ -38,6 +40,7 @@ const FinancialsBlock = ({
   ethBalance = null,
   btcBalance = null,
   ethAddresses = [],
+  slug,
   isERC20
 }) => (
   <div>
@@ -72,20 +75,23 @@ const FinancialsBlock = ({
             <div>Wallet Balances</div>
           </div>
         )}
-        {ethAddresses && ethAddresses.length > 0 && (
-          <div className='row-info wallets-balance'>
-            {ethAddresses.map((wallet, index) => (
-              <div key={index}>
-                <div className='wallets-addresses'>
-                  <a href={`https://etherscan.io/address/${wallet.address}`}>
-                    {wallet.address}
-                  </a>
-                  <span>ETH {millify(wallet.balance, 2)}</span>
+        <SmoothDropdown verticalOffset={0} verticalMotion>
+          {ethAddresses && ethAddresses.length > 0 && (
+            <div className='row-info wallets-balance'>
+              {ethAddresses.map((wallet, index) => (
+                <div key={index}>
+                  <div className='wallets-addresses'>
+                    <WalletLink
+                      address={wallet.address}
+                      assets={[slug, 'ethereum']}
+                    />
+                    <span>ETH {millify(wallet.balance, 2)}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
+        </SmoothDropdown>
         {ethBalance && (
           <div
             className={cx({

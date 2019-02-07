@@ -1,36 +1,17 @@
-import React, { Fragment } from 'react'
-import { Label } from 'semantic-ui-react'
+import React from 'react'
 import moment from 'moment'
 import ReactTable from 'react-table'
 import PanelBlock from './../../components/PanelBlock'
 import { formatNumber } from './../../utils/formatting'
 import SmoothDropdown from '../../components/SmoothDropdown/SmoothDropdown'
-import SmoothDropdownItem from '../../components/SmoothDropdown/SmoothDropdownItem'
+import WalletLink from '../../components/WalletLink/WalletLink'
 import './DetailedTransactionsTable.css'
 
-const getAddressMarkup = ({ address, isExchange, isTx }) => (
-  <Fragment>
-    {isExchange ? <Label color='yellow'>exchange</Label> : null}
-    <a href={`https://etherscan.io/${isTx ? 'tx' : 'address'}/${address}`}>
-      {address}
-    </a>
-  </Fragment>
-)
+const TrxAddressCell = ({ value }) => <WalletLink {...value} />
 
-const TrxAddressCell = ({ value }) => (
-  <SmoothDropdownItem
-    showIf={({ currentTarget: trigger }) =>
-      trigger.offsetWidth + 10 >= trigger.parentNode.offsetWidth
-    }
-    trigger={getAddressMarkup(value)}
-  >
-    <span style={{ padding: '1em' }}>{value.address}</span>
-  </SmoothDropdownItem>
+const TrxHashAddressCell = ({ value }) => (
+  <TrxAddressCell value={{ address: value, isTx: true }} />
 )
-
-const TrxHashAddressCell = ({ value }) => {
-  return <TrxAddressCell value={{ address: value, isTx: true }} />
-}
 
 const COLUMNS = [
   {
@@ -75,13 +56,20 @@ const DetailedTopTransactions = ({
   show = 'ethTopTransactions',
   title = 'Top ETH Transactions'
 }) => {
+  const slug = (Project.project || {}).slug || ''
   const data = Project.project[show]
     ? Project.project[show]
       .slice(0, 10)
       .map(({ trxValue, trxHash, fromAddress, toAddress, datetime }) => ({
         trxHash,
-        fromAddress,
-        toAddress,
+        fromAddress: {
+          ...fromAddress,
+          assets: [slug, 'ethereum']
+        },
+        toAddress: {
+          ...toAddress,
+          assets: [slug, 'ethereum']
+        },
         trxValue: formatNumber(trxValue),
         datetime: moment(datetime).format('YYYY-MM-DD HH:mm:ss')
       }))
