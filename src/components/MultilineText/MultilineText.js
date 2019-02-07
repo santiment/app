@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 let rulersNode = document.querySelector('#mt-rulers')
@@ -26,10 +26,6 @@ const getTextRuler = id => {
   return elem
 }
 
-const getContainer = id => {
-  return document.querySelector(`[data-mt-id="${id}"]`)
-}
-
 class MultilineText extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
@@ -39,9 +35,12 @@ class MultilineText extends React.PureComponent {
 
   ruler = getTextRuler(this.props.id)
 
+  textRef = React.createRef()
+
   componentDidMount () {
-    const container = getContainer(this.props.id)
+    const container = this.textRef.current.parentNode
     this.container = container
+
     this.updateRulerStyles()
 
     if (
@@ -128,7 +127,12 @@ class MultilineText extends React.PureComponent {
   }
 
   render () {
-    return this.getTruncatedText()
+    return (
+      <Fragment>
+        {this.getTruncatedText()}
+        <span ref={this.textRef} style={{ display: 'none' }} />
+      </Fragment>
+    )
   }
 }
 
