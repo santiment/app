@@ -5,7 +5,7 @@ import './ProjectIcon.css'
 
 export const DefaultIcon = () => ''
 
-export const ProjectIcon = ({ name, size, ticker }) => {
+export const ProjectIcon = ({ name, size, ticker, className }) => {
   if (!name) {
     return <DefaultIcon size={size} />
   }
@@ -23,18 +23,28 @@ export const ProjectIcon = ({ name, size, ticker }) => {
       return <DefaultIcon size={size} />
     }
   }
-  return <img width={size} alt={name} height={size} src={imgSource} />
+  return (
+    <img
+      width={size}
+      alt={name}
+      height={size}
+      src={imgSource}
+      className={className}
+    />
+  )
 }
 
 ProjectIcon.propTypes = {
   size: PropTypes.number,
   name: PropTypes.string.isRequired,
-  ticker: PropTypes.string
+  ticker: PropTypes.string,
+  className: PropTypes.string
 }
 
 ProjectIcon.defaultProps = {
   size: 16,
-  ticker: ''
+  ticker: '',
+  className: ''
 }
 
 export default setDisplayName('ProjectIcon')(ProjectIcon)

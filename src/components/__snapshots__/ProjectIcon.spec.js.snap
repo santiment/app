@@ -3,6 +3,7 @@
 exports[`ProjectIcon component (smoke) it should render correctly 1`] = `
 <img
   alt="Cofound.it"
+  className=""
   height={16}
   src="cofound-it.png"
   width={16}
@@ -12,6 +13,7 @@ exports[`ProjectIcon component (smoke) it should render correctly 1`] = `
 exports[`ProjectIcon component DAO.Casino icon should render correctly 1`] = `
 <img
   alt="DAO.Casino"
+  className=""
   height={16}
   src="dao-casino.png"
   width={16}
@@ -21,6 +23,7 @@ exports[`ProjectIcon component DAO.Casino icon should render correctly 1`] = `
 exports[`ProjectIcon component SAN icon should render correctly 1`] = `
 <img
   alt="Santiment"
+  className=""
   height={16}
   src="santiment.png"
   width={16}
