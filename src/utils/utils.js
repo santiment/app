@@ -261,6 +261,15 @@ const pickFork = (...forks) => props => {
   return ''
 }
 
+/**
+ * Checks if the given string is an ethereum address
+ *
+ * @method isEthStrictAddress
+ * @param {String} address the given HEX adress
+ * @return {Boolean}
+ */
+const isEthStrictAddress = address => /^0x[0-9a-f]{40}$/i.test(address)
+
 export {
   findIndexByDatetime,
   calculateBTCVolume,
@@ -280,5 +289,6 @@ export {
   mapQSToState,
   mapStateToQS,
   fork,
-  pickFork
+  pickFork,
+  isEthStrictAddress
 }
