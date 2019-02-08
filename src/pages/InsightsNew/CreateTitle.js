@@ -39,12 +39,11 @@ const normalizeTags = tags => {
       return { label, value }
     }
 
-    if (name) {
-      return {
-        label: name,
-        value: name
-      }
+    return {
+      label: name,
+      value: name
     }
+    
   })
 }
 
