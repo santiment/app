@@ -92,12 +92,15 @@ const getMarketcapQuery = (type, projects) => {
 
     return compose(
       slugsQueryTotal,
-      slugsQuery,
-      slugsQuery2
+      slugsQuery
+      /* slugsQuery2 */
     )
   }
 
-  return slugsQuery
+  return compose(
+    slugsQueryTotal,
+    slugsQuery
+  )
 }
 
 const GetTotalMarketcap = ({ type, from, projects, ...rest }) => {

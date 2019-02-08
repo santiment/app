@@ -29,10 +29,10 @@ const WidgetMarketView = {
 
 class TotalMarketcapWidget extends Component {
   state = {
-    view:
-      this.props.listName === 'All Assets'
-        ? WidgetMarketView.TOTAL
-        : WidgetMarketView.LIST
+    view: WidgetMarketView.TOTAL
+    /* this.props.listName === 'All Assets' */
+    /* ? WidgetMarketView.TOTAL */
+    /* : WidgetMarketView.LIST */
   }
 
   toggleMarketView = view => {
@@ -63,7 +63,7 @@ class TotalMarketcapWidget extends Component {
     let restAreas = null
     let listYAxis = null
 
-    if (!loading && Object.keys(restProjects).length > 0) {
+    if (!loading && TOTAL_LIST_MARKET) {
       const target = isListView
         ? restProjects
         : { [`${listName} Marketcap`]: TOTAL_LIST_MARKET }
@@ -71,6 +71,9 @@ class TotalMarketcapWidget extends Component {
       marketcapDataset = combineDataset(marketcapDataset, target)
       restAreas = getTop3Area(target, !isListView)
     }
+    console.log(restAreas)
+
+    console.log(TOTAL_LIST_MARKET, isListView)
 
     if (TOTAL_LIST_MARKET && !isListView) {
       const listMaxValue = Math.max(
@@ -117,7 +120,7 @@ class TotalMarketcapWidget extends Component {
             </div>
           </div>
 
-          {TOTAL_LIST_MARKET && (
+          {false && TOTAL_LIST_MARKET && (
             <Selector
               options={[WidgetMarketView.LIST, WidgetMarketView.TOTAL]}
               defaultSelected={WidgetMarketView.LIST}
@@ -172,6 +175,7 @@ class TotalMarketcapWidget extends Component {
               minTickGap={30}
               hide
             />
+            {listYAxis}
             <YAxis
               yAxisId='total'
               dataKey='marketcap'
@@ -181,7 +185,6 @@ class TotalMarketcapWidget extends Component {
               tickFormatter={marketcap => millify(marketcap)}
             />
 
-            {listYAxis}
             <Tooltip
               labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
               formatter={value => formatNumber(value, { currency: 'USD' })}
