@@ -18,12 +18,19 @@ const textRulers = new Map()
 const getTextRuler = id => {
   if (textRulers.has(id)) return textRulers.get(id)
 
-  const elem = document.createElement('div')
-  elem.dataset.mtRulerId = id
-  textRulers.set(id, elem)
-  rulersNode.appendChild(elem)
+  const ruler = document.createElement('div')
+  ruler.dataset.mtRulerId = id
+  rulersNode.appendChild(ruler)
+  ruler.textContent = '.'
 
-  return elem
+  const res = {
+    node: ruler,
+    lineHeight: ruler.offsetHeight
+  }
+
+  textRulers.set(id, res)
+
+  return res
 }
 
 class MultilineText extends React.PureComponent {
@@ -43,61 +50,47 @@ class MultilineText extends React.PureComponent {
 
     this.updateRulerStyles()
 
-    if (
-      container.offsetHeight / this.getTextDimensions(this.props.text).height >
-      this.props.maxLines
-    ) {
+    if (container.offsetHeight / this.ruler.lineHeight > this.props.maxLines) {
       this.forceUpdate()
     }
   }
 
   updateRulerStyles () {
     const containerStyles = window.getComputedStyle(this.container)
-    const rulerStyles = this.ruler.style
+    const rulerStyles = this.ruler.node.style
+
+    this.container.style.wordBreak = 'break-word'
+    rulerStyles.wordBreak = 'break-word'
 
     rulerStyles.fontSize = containerStyles.fontSize
     rulerStyles.fontFamily = containerStyles.fontFamily
     rulerStyles.lineHeight = containerStyles.lineHeight
-    /* rulerStyles.display = 'inline' */
-    /* rulerStyles.whiteSpace = 'nowrap' */
-    rulerStyles.wordBreak = 'break-word'
-  }
-
-  restrictRulerWidth () {
-    const containerStyles = window.getComputedStyle(this.container)
-    const rulerStyles = this.ruler.style
     rulerStyles.width = containerStyles.width
-    rulerStyles.display = 'block'
-    rulerStyles.whiteSpace = 'initial'
-    rulerStyles.wordBreak = 'break-word'
-    console.log(rulerStyles.width)
   }
 
   getTextDimensions (text) {
-    this.ruler.textContent = text
-    return { width: this.ruler.offsetWidth, height: this.ruler.offsetHeight }
+    this.ruler.node.textContent = text
+    return {
+      width: this.ruler.node.offsetWidth,
+      height: this.ruler.node.offsetHeight
+    }
   }
 
   getWordWidth (word) {
-    this.ruler.textContent = word
-    return this.ruler.offsetWidth
+    this.ruler.node.textContent = word
+    return this.ruler.node.offsetWidth
   }
 
   getTruncatedText () {
     const { text, maxLines } = this.props
+
     if (!this.container) {
       return text
     }
 
-    const containerWidth = this.container.offsetWidth
-    // NOTE: should some how memeize the line height for the corresponding ruler id
-    const { width: textWidth, height: oneLineHeight } = this.getTextDimensions(
-      '.'
-    )
-
     const words = text.split(' ')
+    const oneLineHeight = this.ruler.lineHeight
 
-    this.restrictRulerWidth()
     let finalText
 
     for (let i = words.length; i > -1; i--) {
@@ -106,9 +99,6 @@ class MultilineText extends React.PureComponent {
         this.getTextDimensions(finalText).height / oneLineHeight <=
         maxLines
       ) {
-        console.log({ searchText: finalText })
-        console.log(this.getTextDimensions(finalText))
-        console.log('Found word to truncate ->', words[i - 1])
         break
       }
     }
@@ -117,7 +107,6 @@ class MultilineText extends React.PureComponent {
   }
 
   render () {
-    /* console.log(this.props.text) */
     return (
       <Fragment>
         {this.getTruncatedText()}
