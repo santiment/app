@@ -1,11 +1,38 @@
 import React, { Component } from 'react'
 import { Tabs } from '@santiment-network/ui'
 import cx from 'classnames'
+import { compose, pure } from 'recompose'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import MarketcapWidget from '../TotalMarketcapWidget/GetTotalMarketcap'
 import InsightAddBtn from '../Insight/InsightAddBtn'
 import InsightCard from '../Insight/InsightCard'
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
 import styles from './WidgetSonar.module.scss'
+
+const allInsightsGQL = gql`
+  query allInsightsPublic {
+    allInsights {
+      id
+      title
+      createdAt
+      state
+      votes {
+        totalSanVotes
+        totalVotes
+      }
+      tags {
+        name
+      }
+      user {
+        id
+        username
+      }
+    }
+  }
+`
+
 const insights = [
   {
     id: 0,
@@ -67,7 +94,8 @@ class WidgetSonar extends Component {
 
   render () {
     const { view } = this.state
-    const { className, type, listName } = this.props
+    const { insights, className, type, listName } = this.props
+    console.log(insights)
     return (
       <div className={cx(styles.wrapper, className)}>
         <Tabs
@@ -87,7 +115,7 @@ class WidgetSonar extends Component {
               <InsightAddBtn />
             </div>
             <div className={styles.insights}>
-              {insights.map(insight => (
+              {insights.slice(0, 3).map(insight => (
                 <InsightCard {...insight} className={styles.insight} />
               ))}
             </div>
@@ -98,4 +126,23 @@ class WidgetSonar extends Component {
   }
 }
 
-export default WidgetSonar
+const mapStateToProps = state => ({
+  tickers: state.projects.items.map(({ ticker }) => ticker)
+})
+
+const enhance = compose(
+  connect(mapStateToProps),
+  graphql(allInsightsGQL, {
+    props: ({ data: { allInsights = [] }, ownProps: { tickers } }) => {
+      return {
+        insights: allInsights.filter(({ tags }) =>
+          tags.some(
+            ({ name }) => name === 'Crypto Market' || tickers.includes(name)
+          )
+        )
+      }
+    }
+  })
+)
+
+export default enhance(WidgetSonar)
