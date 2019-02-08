@@ -1,6 +1,6 @@
 {
   "name": "SANbase",
-  "version": "0.31.0",
+  "version": "0.31.1",
   "private": true,
   "scripts": {
     "start": "REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(echo $GIT_HEAD) react-scripts start",
