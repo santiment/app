@@ -2,19 +2,13 @@ import React from 'react'
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts'
 import moment from 'moment'
 import { connect } from 'react-redux'
-import { SOCIALVOLUME_DATA_FETCH } from './actions'
+import { SOCIALVOLUME_DATA_FETCH, TOTAL_SOCIALVOLUME_SECRET } from './actions'
 import { millify } from '../../utils/formatting'
 import WidgetTrend from '../Widget/WidgetTrend'
 import styles from './SocialVolumeWidget.module.scss'
 
 const RoundBar = ({ x, y, height }) => (
-  <rect
-    x={x}
-    y={height < 0 ? y + height : y}
-    width='6px'
-    height={Math.abs(height)}
-    rx='3'
-  />
+  <rect x={x} y={y} width='6px' height={height} rx='3' />
 )
 
 export class SocialVolumeWidget extends React.Component {
@@ -35,7 +29,7 @@ export class SocialVolumeWidget extends React.Component {
       <WidgetTrend
         className={styles.wrapper}
         trendWord={trendWord}
-        description={`${isScoreOverTime ? 'trend' : 'social volume'} score`}
+        description='social volume score'
         isLoading={isLoading}
         error={error}
         hasData={data.length > 0}
@@ -67,10 +61,7 @@ export class SocialVolumeWidget extends React.Component {
               tickFormatter={count => millify(count, 0)}
             />
 
-            <Bar
-              dataKey={isScoreOverTime ? 'score' : 'mentionsCount'}
-              shape={<RoundBar />}
-            />
+            <Bar dataKey='mentionsCount' shape={<RoundBar />} />
           </BarChart>
         </ResponsiveContainer>
       </WidgetTrend>
@@ -90,7 +81,7 @@ const mapDispatchToProps = dispatch => ({
   requestTotalSocialVolume: () =>
     dispatch({
       type: SOCIALVOLUME_DATA_FETCH,
-      payload: '__TOTAL_SOCIAL_VOLUME__'
+      payload: TOTAL_SOCIALVOLUME_SECRET
     })
 })
 
