@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Tabs } from '@santiment-network/ui'
 import cx from 'classnames'
+import { Link } from 'react-router-dom'
 import MarketcapWidget from '../TotalMarketcapWidget/GetTotalMarketcap'
 import InsightAddBtn from '../Insight/InsightAddBtn'
 import InsightCard from '../Insight/InsightCard'
@@ -80,7 +81,9 @@ class WidgetSonar extends Component {
         ) : (
           <div className={styles.content}>
             <div className={styles.content__top}>
-              <a href=''>See more</a>
+              <Link to='/insights' className={styles.link}>
+                See more
+              </Link>
               <InsightAddBtn />
             </div>
             <div className={styles.insights}>
