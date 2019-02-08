@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs'
 import moment from 'moment'
 import * as actions from './actions'
-import { socialVolumeGQL } from './socialVolumeGQL'
+import { SOCIAL_VOLUME_QUERY } from './socialVolumeGQL'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { mergeTimeseriesByKey } from '../../utils/utils'
 
@@ -21,7 +21,7 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
 
       return Observable.fromPromise(
         client.query({
-          query: socialVolumeGQL,
+          query: SOCIAL_VOLUME_QUERY,
           variables: {
             word: isFetchingTotalSocialVolume ? '*' : trendWord,
             to: moment().toISOString(),

@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const socialVolumeGQL = gql`
+export const SOCIAL_VOLUME_QUERY = gql`
   query topicSearch($word: String!, $from: DateTime!, $to: DateTime!) {
     telegram: topicSearch(
       source: TELEGRAM
