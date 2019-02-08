@@ -9,7 +9,7 @@ import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
 import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
 import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
-import GetTotalMarketcap from '../../components/TotalMarketcapWidget/GetTotalMarketcap'
+import WidgetSonar from '../../components/Widget/WidgetSonar'
 import StablecoinsDataDownloadBtn from '../../components/StablecoinsDataDownloadBtn/StablecoinsDataDownloadBtn'
 import './Assets.css'
 
@@ -96,14 +96,11 @@ const AssetsPage = props => (
               )}
             </div>
           </div>
-          {props.isBetaModeEnabled && (
-            <Panel className='assets-table-widget-wrapper'>
-              <GetTotalMarketcap
-                type={props.type}
-                listName={getTableTitle(props)}
-              />
-            </Panel>
-          )}
+          <WidgetSonar
+            className='assets-table-widget-wrapper'
+            type={props.type}
+            listName={getTableTitle(props)}
+          />
           <AssetsTable
             Assets={Assets}
             goto={props.history.push}

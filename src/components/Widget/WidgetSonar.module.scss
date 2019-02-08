@@ -1,0 +1,17 @@
+@import "~@santiment-network/ui/variables.scss";
+
+.wrapper {
+    box-sizing: border-box;
+    background: var(--white);
+    border: 1px solid var(--grey-light-2);
+    border-radius: $border-radius;
+}
+
+.tabs {
+    width: 100%;
+    padding: 16px 24px 0;
+}
+
+.content {
+    
+}
