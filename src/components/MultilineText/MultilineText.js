@@ -54,11 +54,12 @@ class MultilineText extends React.PureComponent {
     this.container = container
 
     this.updateRulerStyles()
+    const { id, maxLines } = this.props
 
-    const oneLineHeight = getOneLineHeight(this.props.id)
+    const oneLineHeight = getOneLineHeight(id)
     this.oneLineHeight = oneLineHeight
 
-    if (container.offsetHeight / oneLineHeight > this.props.maxLines) {
+    if (container.offsetHeight / oneLineHeight > maxLines) {
       this.forceUpdate()
     }
   }
