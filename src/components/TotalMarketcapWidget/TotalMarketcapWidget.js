@@ -30,9 +30,6 @@ const WidgetMarketView = {
 class TotalMarketcapWidget extends Component {
   state = {
     view: WidgetMarketView.TOTAL
-    /* this.props.listName === 'All Assets' */
-    /* ? WidgetMarketView.TOTAL */
-    /* : WidgetMarketView.LIST */
   }
 
   toggleMarketView = view => {
@@ -71,9 +68,6 @@ class TotalMarketcapWidget extends Component {
       marketcapDataset = combineDataset(marketcapDataset, target)
       restAreas = getTop3Area(target, !isListView)
     }
-    console.log(restAreas)
-
-    console.log(TOTAL_LIST_MARKET, isListView)
 
     if (TOTAL_LIST_MARKET && !isListView) {
       const listMaxValue = Math.max(
