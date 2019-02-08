@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 let rulersNode = document.querySelector('#mt-rulers')
@@ -14,20 +14,28 @@ if (!rulersNode) {
 }
 
 const textRulers = new Map()
+const lineHeights = new Map()
 
 const getTextRuler = id => {
   if (textRulers.has(id)) return textRulers.get(id)
 
-  const elem = document.createElement('span')
-  elem.dataset.mtRulerId = id
-  textRulers.set(id, elem)
-  rulersNode.appendChild(elem)
+  const ruler = document.createElement('div')
+  ruler.dataset.mtRulerId = id
+  rulersNode.appendChild(ruler)
+  textRulers.set(id, ruler)
 
-  return elem
+  return ruler
 }
 
-const getContainer = id => {
-  return document.querySelector(`[data-mt-id="${id}"]`)
+const getOneLineHeight = id => {
+  if (lineHeights.has(id)) return lineHeights.get(id)
+
+  const ruler = textRulers.get(id)
+  ruler.textContent = '.'
+  const { offsetHeight } = ruler
+  lineHeights.set(id, offsetHeight)
+
+  return offsetHeight
 }
 
 class MultilineText extends React.PureComponent {
@@ -39,15 +47,19 @@ class MultilineText extends React.PureComponent {
 
   ruler = getTextRuler(this.props.id)
 
-  componentDidMount () {
-    const container = getContainer(this.props.id)
-    this.container = container
-    this.updateRulerStyles()
+  textRef = React.createRef()
 
-    if (
-      container.offsetHeight / this.getTextDimensions().height >
-      this.props.maxLines
-    ) {
+  componentDidMount () {
+    const container = this.textRef.current.parentNode
+    this.container = container
+
+    this.updateRulerStyles()
+    const { id, maxLines } = this.props
+
+    const oneLineHeight = getOneLineHeight(id)
+    this.oneLineHeight = oneLineHeight
+
+    if (Math.floor(container.offsetHeight / oneLineHeight) > maxLines) {
       this.forceUpdate()
     }
   }
@@ -56,79 +68,55 @@ class MultilineText extends React.PureComponent {
     const containerStyles = window.getComputedStyle(this.container)
     const rulerStyles = this.ruler.style
 
+    this.container.style.wordBreak = 'break-word'
+    rulerStyles.wordBreak = 'break-word'
+
     rulerStyles.fontSize = containerStyles.fontSize
     rulerStyles.fontFamily = containerStyles.fontFamily
     rulerStyles.lineHeight = containerStyles.lineHeight
-    rulerStyles.display = 'inline'
-    rulerStyles.whiteSpace = 'nowrap'
+    rulerStyles.width = containerStyles.width
   }
 
-  getTextDimensions () {
-    this.ruler.textContent = this.props.text
-    return { width: this.ruler.offsetWidth, height: this.ruler.offsetHeight }
+  getTextDimensions (text) {
+    this.ruler.textContent = text
+    return {
+      width: this.ruler.offsetWidth,
+      height: this.ruler.offsetHeight
+    }
   }
 
   getTruncatedText () {
     const { text, maxLines } = this.props
+
     if (!this.container) {
       return text
     }
 
-    const containerWidth = this.container.offsetWidth
-    const textWidth = this.getTextDimensions().width
-    const oneCharWidth = Math.ceil(textWidth / text.length)
-
     const words = text.split(' ')
+    const { oneLineHeight } = this
 
-    const lineState = { number: 1, filled: 0, words: 0, shouldTruncate: false }
-    let lastLineState
+    let finalText
 
-    for (const word of words) {
-      const wordWidth = word.length * oneCharWidth
-      const newFilledWidth = wordWidth + lineState.filled
-      lastLineState = Object.assign({}, lineState)
-
-      if (wordWidth > containerWidth) {
-        lineState.filled = wordWidth - containerWidth
-        lineState.number += 1
-      } else {
-        if (newFilledWidth > containerWidth) {
-          lineState.number += 1
-          lineState.filled = wordWidth + oneCharWidth
-        } else {
-          lineState.filled += wordWidth + oneCharWidth
-        }
-      }
-
-      if (lineState.number > maxLines) {
-        lastLineState.shouldTruncate = true
-
+    for (let i = words.length; i > -1; i--) {
+      finalText = words.slice(0, i).join(' ')
+      if (
+        this.getTextDimensions(finalText).height / oneLineHeight <=
+        maxLines
+      ) {
         break
       }
-
-      lineState.words++
     }
 
-    if (lastLineState.shouldTruncate) {
-      let additionalTruncate = 0
-      if (lastLineState.filled > containerWidth) {
-        additionalTruncate = Math.ceil(
-          (lastLineState.filled - containerWidth) / oneCharWidth
-        )
-      }
-      return (
-        words
-          .slice(0, lastLineState.words)
-          .join(' ')
-          .slice(0, -(additionalTruncate + 3)) + '...'
-      )
-    } else {
-      return text
-    }
+    return finalText ? finalText.slice(0, -3) + '...' : text
   }
 
   render () {
-    return this.getTruncatedText()
+    return (
+      <Fragment>
+        {this.getTruncatedText()}
+        <span ref={this.textRef} style={{ display: 'none' }} />
+      </Fragment>
+    )
   }
 }
 

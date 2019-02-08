@@ -30,16 +30,8 @@ const InsightCard = ({
             )
           })}
         </div>
-        <Link
-          to={`/insights/${id}`}
-          data-mt-id={`insightCardTitle_${id}`}
-          className={styles.title}
-        >
-          <MultilineText
-            maxLines={2}
-            id={`insightCardTitle_${id}`}
-            text={title}
-          />
+        <Link to={`/insights/${id}`} className={styles.title}>
+          <MultilineText maxLines={2} id='insightCardTitle' text={title} />
         </Link>
       </div>
       <div className={styles.bottom}>

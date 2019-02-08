@@ -14,7 +14,6 @@ const Example = ({ maxLines, text, style, mtId, ...props }) => (
         border: '1px solid red',
         ...style
       }}
-      data-mt-id={mtId || 'test'}
       {...props}
     >
       <MultilineText id={mtId || 'test'} maxLines={maxLines} text={text} />
@@ -68,7 +67,7 @@ storiesOf('MultilineText', module)
       />
       <Example
         maxLines={4}
-        text='sdhfjshdfshdfiarb hsdfs iufhsi udfhsiudfh ufsd'
+        text='sdhfjshdfshdfiarb hsdfs iufhsi udfhsiudfh ufsd asdfa asdbhfjhsdbfjh'
       />
       <br />
       <br />
