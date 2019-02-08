@@ -1,6 +1,5 @@
 import React from 'react'
-import { Input, Button } from '@santiment-network/ui'
-import '@santiment-network/ui/styles.css'
+import { Input } from '@santiment-network/ui'
 import GetHistoricalBalance from './GetHistoricalBalance'
 import HistoricalBalanceChart from './HistoricalBalanceChart'
 import AssetsField from './AssetsField'
@@ -9,13 +8,11 @@ import styles from './BalanceView.module.scss'
 class BalanceView extends React.Component {
   state = {
     address: this.props.address || '',
-    assets: this.props.assets || [],
-    history: [],
-    isVisibleHistory: false
+    assets: this.props.assets || []
   }
 
   render () {
-    const { address, assets, isVisibleHistory, history } = this.state
+    const { address, assets } = this.state
     return (
       <div className={styles.BalanceExtension}>
         <div className={styles.InputWrapper}>
@@ -28,31 +25,7 @@ class BalanceView extends React.Component {
               placeholder='Paste the address'
               onChange={this.handleChange}
             />
-            {history.length > 0 && (
-              <Button
-                onClick={() =>
-                  this.setState({ isVisibleHistory: !isVisibleHistory })
-                }
-              >
-                History
-              </Button>
-            )}
           </div>
-          {isVisibleHistory && (
-            <div className={styles.historyDropdown}>
-              {this.state.history.map(address => (
-                <div
-                  key={address}
-                  className={styles.addressLink}
-                  onClick={() => {
-                    this.setState({ address, isVisibleHistory: false })
-                  }}
-                >
-                  {address}
-                </div>
-              ))}
-            </div>
-          )}
         </div>
         <div className={styles.InputWrapper}>
           <label htmlFor='slug'>Asset</label>
@@ -61,6 +34,9 @@ class BalanceView extends React.Component {
             onChange={this.handleAssetsChange}
           />
           <div className={styles.hint}>Up to 5 assets</div>
+          <div className={styles.hint}>
+            This tool is beta. We give no guarantee data is correct
+          </div>
         </div>
         <GetHistoricalBalance
           assets={assets}
@@ -87,10 +63,6 @@ class BalanceView extends React.Component {
   }
 
   handleChange = event => {
-    if (event.target.name === 'address' && event.target.value.length === 42) {
-      const unique = new Set([...this.state.history, event.target.value])
-      this.setState({ history: Array.from(unique) })
-    }
     this.setState({ [event.target.name]: event.target.value }, () => {
       this.props.onChangeQuery(this.state)
     })
