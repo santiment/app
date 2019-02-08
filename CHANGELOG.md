@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+- 2019-02-08 | v.0.31.1 'Sonar':
+
+  Change balance tool interval for req eq 1d
+  Add historical balance tooltip for wallet fields
+
 - 2019-02-06 | v.0.31.0 'Sonar':
 
   Fixed dashboard link

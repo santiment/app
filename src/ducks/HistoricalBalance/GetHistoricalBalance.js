@@ -90,7 +90,7 @@ class GetHistoricalBalance extends Component {
           variables: {
             slug,
             address: this.props.wallet,
-            interval: '4w',
+            interval: '1d',
             to: moment().toISOString(),
             from: '2017-12-01T16:28:22.486Z'
           }
