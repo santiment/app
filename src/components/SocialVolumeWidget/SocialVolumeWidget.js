@@ -17,13 +17,7 @@ export class SocialVolumeWidget extends React.Component {
   }
 
   render () {
-    const {
-      data = [],
-      trendWord,
-      isLoading,
-      isScoreOverTime,
-      error
-    } = this.props
+    const { data = [], trendWord, isLoading, error } = this.props
 
     return (
       <WidgetTrend
@@ -73,7 +67,6 @@ const mapStateToProps = state => ({
   trendWord: state.socialVolume.trendWord,
   data: state.socialVolume.data,
   isLoading: state.socialVolume.isLoading,
-  isScoreOverTime: state.socialVolume.isScoreOverTime,
   error: state.socialVolume.error
 })
 

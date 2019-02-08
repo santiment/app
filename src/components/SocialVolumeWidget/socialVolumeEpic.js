@@ -39,7 +39,6 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
               type: actions.SOCIALVOLUME_DATA_FETCH_SUCCESS,
               payload: {
                 trendWord: isFetchingTotalSocialVolume ? 'Total' : trendWord,
-                isScoreOverTime: false,
                 data: mergeTimeseriesByKey({
                   key: 'datetime',
                   timeseries: [
