@@ -67,7 +67,7 @@ storiesOf('MultilineText', module)
       />
       <Example
         maxLines={4}
-        text='sdhfjshdfshdfiarb hsdfs iufhsi udfhsiudfh ufsd'
+        text='sdhfjshdfshdfiarb hsdfs iufhsi udfhsiudfh ufsd asdfa asdbhfjhsdbfjh'
       />
       <br />
       <br />
