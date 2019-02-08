@@ -14,6 +14,7 @@ if (!rulersNode) {
 }
 
 const textRulers = new Map()
+const lineHeights = new Map()
 
 const getTextRuler = id => {
   if (textRulers.has(id)) return textRulers.get(id)
@@ -21,16 +22,20 @@ const getTextRuler = id => {
   const ruler = document.createElement('div')
   ruler.dataset.mtRulerId = id
   rulersNode.appendChild(ruler)
+  textRulers.set(id, ruler)
+
+  return ruler
+}
+
+const getOneLineHeight = id => {
+  if (lineHeights.has(id)) return lineHeights.get(id)
+
+  const ruler = textRulers.get(id)
   ruler.textContent = '.'
+  const { offsetHeight } = ruler
+  lineHeights.set(id, offsetHeight)
 
-  const res = {
-    node: ruler,
-    lineHeight: ruler.offsetHeight
-  }
-
-  textRulers.set(id, res)
-
-  return res
+  return offsetHeight
 }
 
 class MultilineText extends React.PureComponent {
@@ -50,14 +55,17 @@ class MultilineText extends React.PureComponent {
 
     this.updateRulerStyles()
 
-    if (container.offsetHeight / this.ruler.lineHeight > this.props.maxLines) {
+    const oneLineHeight = getOneLineHeight(this.props.id)
+    this.oneLineHeight = oneLineHeight
+
+    if (container.offsetHeight / oneLineHeight > this.props.maxLines) {
       this.forceUpdate()
     }
   }
 
   updateRulerStyles () {
     const containerStyles = window.getComputedStyle(this.container)
-    const rulerStyles = this.ruler.node.style
+    const rulerStyles = this.ruler.style
 
     this.container.style.wordBreak = 'break-word'
     rulerStyles.wordBreak = 'break-word'
@@ -69,16 +77,11 @@ class MultilineText extends React.PureComponent {
   }
 
   getTextDimensions (text) {
-    this.ruler.node.textContent = text
+    this.ruler.textContent = text
     return {
-      width: this.ruler.node.offsetWidth,
-      height: this.ruler.node.offsetHeight
+      width: this.ruler.offsetWidth,
+      height: this.ruler.offsetHeight
     }
-  }
-
-  getWordWidth (word) {
-    this.ruler.node.textContent = word
-    return this.ruler.node.offsetWidth
   }
 
   getTruncatedText () {
@@ -89,7 +92,7 @@ class MultilineText extends React.PureComponent {
     }
 
     const words = text.split(' ')
-    const oneLineHeight = this.ruler.lineHeight
+    const { oneLineHeight } = this
 
     let finalText
 
