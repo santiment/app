@@ -109,8 +109,8 @@ const ConfirmPost = ({
                   id: post.id,
                   title: post.title,
                   text: post.text,
-                  tags: post.tags.map(tag => {
-                    return tag.label
+                  tags: post.tags.map(({ label, name }) => {
+                    return label || name
                   })
                 }
                 updatePost({ variables })
