@@ -1,37 +1,15 @@
 import React, { Component } from 'react'
 import { Tabs } from '@santiment-network/ui'
 import cx from 'classnames'
-import { compose, pure } from 'recompose'
+import { compose } from 'recompose'
 import { connect } from 'react-redux'
+import { graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import MarketcapWidget from '../TotalMarketcapWidget/GetTotalMarketcap'
 import InsightAddBtn from '../Insight/InsightAddBtn'
 import InsightCard from '../Insight/InsightCard'
-import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
+import { ALL_INSIGHTS_QUERY } from '../Insight/insightsGQL.js'
 import styles from './WidgetSonar.module.scss'
-
-const allInsightsGQL = gql`
-  query allInsightsPublic {
-    allInsights {
-      readyState
-      id
-      title
-      createdAt
-      votes {
-        totalSanVotes
-        totalVotes
-      }
-      tags {
-        name
-      }
-      user {
-        id
-        username
-      }
-    }
-  }
-`
 
 class WidgetSonar extends Component {
   state = {
@@ -42,10 +20,9 @@ class WidgetSonar extends Component {
     this.setState({ view })
   }
 
-  render() {
+  render () {
     const { view } = this.state
     const { insights, className, type, listName } = this.props
-    console.log(insights)
     return (
       <div className={cx(styles.wrapper, className)}>
         <Tabs
@@ -86,7 +63,7 @@ const mapStateToProps = state => ({
 
 const enhance = compose(
   connect(mapStateToProps),
-  graphql(allInsightsGQL, {
+  graphql(ALL_INSIGHTS_QUERY, {
     props: ({ data: { allInsights = [] }, ownProps: { tickers } }) => {
       return {
         insights: allInsights.filter(
