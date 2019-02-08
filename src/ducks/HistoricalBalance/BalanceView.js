@@ -21,7 +21,7 @@ class BalanceView extends React.Component {
             <Input
               value={address}
               id='address'
-              autocomplete='nope'
+              autoComplete='nope'
               type='text'
               name='address'
               placeholder='Paste the address'
