@@ -12,6 +12,41 @@
     padding: 16px 24px 0;
 }
 
+$horizontal-padding: 23px;
 .content {
-    
+    padding: 32px $horizontal-padding;
+    overflow: hidden;
+
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+    }
+}
+
+$blur-width: 60px;
+.insights {
+    display: flex;
+    white-space: nowrap;
+
+    position: relative;
+
+    &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: -$horizontal-padding;
+        width: $blur-width;
+        background: linear-gradient(270deg, var(--white) 19.89%, rgba(255, 255, 255, 0) 100%);
+
+    }
+}
+
+.insight {
+    margin-right: 24px;
+    width: 320px;
+    white-space: normal;
 }
