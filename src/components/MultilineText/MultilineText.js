@@ -18,7 +18,7 @@ const textRulers = new Map()
 const getTextRuler = id => {
   if (textRulers.has(id)) return textRulers.get(id)
 
-  const elem = document.createElement('span')
+  const elem = document.createElement('div')
   elem.dataset.mtRulerId = id
   textRulers.set(id, elem)
   rulersNode.appendChild(elem)
@@ -44,7 +44,7 @@ class MultilineText extends React.PureComponent {
     this.updateRulerStyles()
 
     if (
-      container.offsetHeight / this.getTextDimensions().height >
+      container.offsetHeight / this.getTextDimensions(this.props.text).height >
       this.props.maxLines
     ) {
       this.forceUpdate()
@@ -58,13 +58,29 @@ class MultilineText extends React.PureComponent {
     rulerStyles.fontSize = containerStyles.fontSize
     rulerStyles.fontFamily = containerStyles.fontFamily
     rulerStyles.lineHeight = containerStyles.lineHeight
-    rulerStyles.display = 'inline'
-    rulerStyles.whiteSpace = 'nowrap'
+    /* rulerStyles.display = 'inline' */
+    /* rulerStyles.whiteSpace = 'nowrap' */
+    rulerStyles.wordBreak = 'break-word'
   }
 
-  getTextDimensions () {
-    this.ruler.textContent = this.props.text
+  restrictRulerWidth () {
+    const containerStyles = window.getComputedStyle(this.container)
+    const rulerStyles = this.ruler.style
+    rulerStyles.width = containerStyles.width
+    rulerStyles.display = 'block'
+    rulerStyles.whiteSpace = 'initial'
+    rulerStyles.wordBreak = 'break-word'
+    console.log(rulerStyles.width)
+  }
+
+  getTextDimensions (text) {
+    this.ruler.textContent = text
     return { width: this.ruler.offsetWidth, height: this.ruler.offsetHeight }
+  }
+
+  getWordWidth (word) {
+    this.ruler.textContent = word
+    return this.ruler.offsetWidth
   }
 
   getTruncatedText () {
@@ -74,59 +90,34 @@ class MultilineText extends React.PureComponent {
     }
 
     const containerWidth = this.container.offsetWidth
-    const textWidth = this.getTextDimensions().width
-    const oneCharWidth = Math.ceil(textWidth / text.length)
+    // NOTE: should some how memeize the line height for the corresponding ruler id
+    const { width: textWidth, height: oneLineHeight } = this.getTextDimensions(
+      '.'
+    )
 
     const words = text.split(' ')
 
-    const lineState = { number: 1, filled: 0, words: 0, shouldTruncate: false }
-    let lastLineState
+    this.restrictRulerWidth()
+    let finalText
 
-    for (const word of words) {
-      const wordWidth = word.length * oneCharWidth
-      const newFilledWidth = wordWidth + lineState.filled
-      lastLineState = Object.assign({}, lineState)
-
-      if (wordWidth > containerWidth) {
-        lineState.filled = wordWidth - containerWidth
-        lineState.number += 1
-      } else {
-        if (newFilledWidth > containerWidth) {
-          lineState.number += 1
-          lineState.filled = wordWidth + oneCharWidth
-        } else {
-          lineState.filled += wordWidth + oneCharWidth
-        }
-      }
-
-      if (lineState.number > maxLines) {
-        lastLineState.shouldTruncate = true
-
+    for (let i = words.length; i > -1; i--) {
+      finalText = words.slice(0, i).join(' ')
+      if (
+        this.getTextDimensions(finalText).height / oneLineHeight <=
+        maxLines
+      ) {
+        console.log({ searchText: finalText })
+        console.log(this.getTextDimensions(finalText))
+        console.log('Found word to truncate ->', words[i - 1])
         break
       }
-
-      lineState.words++
     }
 
-    if (lastLineState.shouldTruncate) {
-      let additionalTruncate = 0
-      if (lastLineState.filled > containerWidth) {
-        additionalTruncate = Math.ceil(
-          (lastLineState.filled - containerWidth) / oneCharWidth
-        )
-      }
-      return (
-        words
-          .slice(0, lastLineState.words)
-          .join(' ')
-          .slice(0, -(additionalTruncate + 3)) + '...'
-      )
-    } else {
-      return text
-    }
+    return finalText ? finalText.slice(0, -3) + '...' : text
   }
 
   render () {
+    /* console.log(this.props.text) */
     return (
       <Fragment>
         {this.getTruncatedText()}
