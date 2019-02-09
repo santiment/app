@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose, withProps } from 'recompose'
-import PropTypes from 'prop-types'
 import { Panel, Selector } from '@santiment-network/ui'
-import GetTimeSeries from './../../components/GetTimeSeries'
+import GetTimeSeries from './../../ducks/GetTimeSeries/GetTimeSeries'
 import GetTrends from './../../components/Trends/GetTrends'
 import TrendsReChart from './../../components/Trends/TrendsReChart'
 import TrendsStats from './../../components/Trends/TrendsStats'
@@ -118,12 +118,12 @@ export class TrendsExplorePage extends Component {
                   slug: asset,
                   interval: getCustomInterval(timeRange)
                 }}
-                render={({ timeseries }) => (
+                render={({ price = {} }) => (
                   <Fragment>
                     <div style={{ minHeight: 300 }}>
                       <TrendsReChart
                         asset={asset && capitalizeStr(asset)}
-                        data={timeseries.price}
+                        data={price}
                         trends={trends}
                         hasPremium={hasPremium}
                       />

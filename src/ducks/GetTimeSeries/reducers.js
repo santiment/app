@@ -1,4 +1,4 @@
-import * as actions from './../actions/types'
+import * as actions from './actions'
 
 export const initialState = {}
 
@@ -6,9 +6,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case actions.TIMESERIES_FETCH:
       return {
-        ...state,
-        isLoading: true,
-        isError: false
+        ...state
       }
     case actions.TIMESERIES_FETCH_SUCCESS:
       return {

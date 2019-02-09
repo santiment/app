@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GetTimeSeries should return history price list 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "devActivity": Object {
+        "from": "2018-12-01",
+        "interval": "1d",
+        "movingAverageIntervalBase": 7,
+        "slug": "santiment",
+        "to": "2018-12-10",
+        "transform": "movingAverage",
+      },
+      "price": Object {
+        "interval": "1d",
+        "slug": "santiment",
+        "timeRange": "6m",
+      },
+    },
+    "type": "[timeseries] TIMESERIES_FETCH",
+  },
+]
+`;

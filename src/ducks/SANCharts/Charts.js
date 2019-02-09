@@ -29,6 +29,11 @@ const Charts = ({ chartData = [] }) => (
           type='number'
           domain={['auto', 'dataMax']}
         />
+        <YAxis
+          yAxisId='axis-devActivity'
+          type='number'
+          domain={['auto', 'dataMax']}
+        />
         <Area
           type='linear'
           yAxisId='axis-price'
@@ -38,6 +43,17 @@ const Charts = ({ chartData = [] }) => (
           stroke='#70dbed'
           fill='#70dbed55'
           dataKey='priceUsd'
+          isAnimationActive={false}
+        />
+        <Area
+          type='linear'
+          yAxisId='axis-devActivity'
+          name={'Dev Activity'}
+          dot={false}
+          strokeWidth={1.5}
+          stroke='red'
+          fill='red'
+          dataKey='activity'
           isAnimationActive={false}
         />
         <Tooltip

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import GetTimeSeries from '../../components/GetTimeSeries'
+import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import Selector from '../../components/Selector/Selector'
 import Panel from '../../components/Panel'
 import { mapQSToState } from './../../utils/utils'
@@ -8,6 +8,7 @@ import Charts from './Charts'
 class ChartPage extends Component {
   state = {
     timeRange: '6m',
+    slug: 'bitcoin',
     ...mapQSToState(this.props)
   }
 
@@ -44,8 +45,11 @@ class ChartPage extends Component {
             timeRange,
             slug
           }}
-          render={({ timeseries: { price } }) => {
-            return <Charts chartData={price ? price.items : null} />
+          meta={{
+            mergedByDatetime: true
+          }}
+          render={({ timeseries }) => {
+            return <Charts chartData={timeseries} />
           }}
         />
       </Panel>

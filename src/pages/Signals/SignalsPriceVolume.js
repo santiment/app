@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import SignalsChart from '../../components/Signals/SignalsChart'
 import SignalsSearch from '../../components/Signals/SignalsSearch'
-import GetTimeSeries from '../../components/GetTimeSeries'
 import Selector from '../../components/Selector/Selector'
 import Panel from '../../components/Panel'
+import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import styles from './SignalsPriceVolume.module.css'
 
 class SignalsPriceVolume extends Component {
@@ -41,8 +41,9 @@ class SignalsPriceVolume extends Component {
               slug,
               interval: '1d'
             }}
-            render={({ timeseries: { price } }) => {
-              return <SignalsChart chartData={price ? price.items : null} />
+            render={({ price = {} }) => {
+              const { items = [] } = price
+              return <SignalsChart chartData={items} />
             }}
           />
         </Panel>

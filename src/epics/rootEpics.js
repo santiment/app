@@ -24,7 +24,7 @@ import {
   fetchAssetsFromListEpic,
   fetchAssetsFromSharedListEpic
 } from './fetchAssetsEpic'
-import fetchTimeseriesEpic from './fetchTimeseriesEpic'
+import fetchTimeseriesEpic from '../ducks/GetTimeSeries/epics'
 import handleNightModeToggle from './handleNightModeToggle'
 import handleBetaModeToggle from './handleBetaModeToggle'
 import {
