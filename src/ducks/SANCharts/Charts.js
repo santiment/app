@@ -5,6 +5,7 @@ import {
   ComposedChart,
   Legend,
   Area,
+  Line,
   CartesianGrid,
   XAxis,
   YAxis,
@@ -14,7 +15,7 @@ import { compose, withProps } from 'recompose'
 import { formatNumber } from './../../utils/formatting'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
 
-const Charts = ({ chartData = [] }) => (
+const Charts = ({ chartData = [], settings: { socialVolume = {} } }) => (
   <div className='TrendsExploreChart'>
     <ResponsiveContainer width='100%' height={300}>
       <ComposedChart data={chartData}>
@@ -31,6 +32,7 @@ const Charts = ({ chartData = [] }) => (
         />
         <YAxis
           yAxisId='axis-devActivity'
+          hide
           type='number'
           domain={['auto', 'dataMax']}
         />
@@ -45,20 +47,24 @@ const Charts = ({ chartData = [] }) => (
           dataKey='priceUsd'
           isAnimationActive={false}
         />
-        <Area
+        <Line
           type='linear'
           yAxisId='axis-devActivity'
-          name={'Dev Activity'}
+          name={socialVolume.title}
           dot={false}
           strokeWidth={1.5}
           stroke='red'
-          fill='red'
-          dataKey='activity'
+          dataKey='socialVolume'
           isAnimationActive={false}
         />
         <Tooltip
           labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
-          formatter={(value, name) => formatNumber(value, { currency: 'USD' })}
+          formatter={(value, name) => {
+            if (name === socialVolume.title) {
+              return socialVolume.formatter(value)
+            }
+            return formatNumber(value, { currency: 'USD' })
+          }}
         />
         {mixWithPaywallArea({
           yAxisId: 'axis-price',

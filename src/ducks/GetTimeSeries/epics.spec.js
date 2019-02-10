@@ -5,14 +5,10 @@ import { ApolloLink, Observable } from 'apollo-link'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ActionsObservable } from 'redux-observable'
 import configureStore from 'redux-mock-store'
-import fetchTimeseriesEpic, {
-  HISTORY_PRICE_QUERY,
-  DEV_ACTIVITY_QUERY
-} from './epics'
+import fetchTimeseriesEpic from './epics'
+import { getMetricQUERY } from './timeseries'
 import * as actions from './actions'
 const mockStore = configureStore([])
-
-const query = HISTORY_PRICE_QUERY
 
 const createClient = link => {
   return new ApolloClient({
@@ -43,7 +39,7 @@ const mockedDevActivity = {
 const link = mockSingleLink(
   {
     request: {
-      query,
+      query: getMetricQUERY('price'),
       variables: {
         slug: 'santiment',
         interval: '1d',
@@ -55,7 +51,7 @@ const link = mockSingleLink(
   },
   {
     request: {
-      query,
+      query: getMetricQUERY('price'),
       variables: {
         slug: 'santiment',
         interval: '1d',
@@ -67,7 +63,7 @@ const link = mockSingleLink(
   },
   {
     request: {
-      query: DEV_ACTIVITY_QUERY,
+      query: getMetricQUERY('devActivity'),
       variables: {
         slug: 'santiment',
         interval: '1d',
@@ -81,7 +77,7 @@ const link = mockSingleLink(
   },
   {
     request: {
-      query,
+      query: getMetricQUERY('price'),
       variables: {
         slug: 'santiment',
         interval: '1d',
@@ -93,7 +89,7 @@ const link = mockSingleLink(
   },
   {
     request: {
-      query: DEV_ACTIVITY_QUERY,
+      query: getMetricQUERY('devActivity'),
       variables: {
         slug: 'santiment',
         interval: '1d',
@@ -184,5 +180,27 @@ describe('Fetch timeseries', () => {
     const result = await promise
     expect(result[0].type).toEqual(actions.TIMESERIES_FETCH_SUCCESS)
     expect(result).toMatchSnapshot()
+  })
+
+  it('should return error, if metric doesnt exist', async () => {
+    const client = await createClient(link)
+    const action$ = ActionsObservable.of({
+      type: actions.TIMESERIES_FETCH,
+      payload: {
+        anyStrangeMetric: {
+          from: '2018-12-01',
+          to: '2018-12-10',
+          slug: 'santiment',
+          interval: '1d'
+        }
+      }
+    })
+    try {
+      const epic$ = fetchTimeseriesEpic(action$, mockStore({}), { client })
+      await epic$.toArray().toPromise()
+    } catch (e) {
+      expect(e).toBeDefined()
+      expect(e).toMatchSnapshot()
+    }
   })
 })
