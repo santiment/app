@@ -12,10 +12,11 @@ const InsightCard = ({
   tags,
   createdAt,
   votes: { totalVotes },
-  comments
+  comments,
+  className = ''
 }) => {
   return (
-    <Panel className={styles.wrapper}>
+    <Panel className={`${styles.wrapper} ${className}`}>
       <div className={styles.top}>
         <div className={styles.tags}>
           {tags.map(({ name }) => {
