@@ -58,7 +58,7 @@ const copyWatchlistEpic = (action$, store, { client }) =>
               : Observable.of({
                 type: actions.USER_ADD_NEW_ASSET_LIST_SUCCESS
               }),
-            Observable.of(showNotification('Added new assets list'))
+            Observable.of(showNotification('Created the new watchlist'))
           )
         })
         .catch(
