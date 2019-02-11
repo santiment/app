@@ -18,7 +18,7 @@ Array [
         "timeRange": "6m",
       },
     },
-    "type": "[timeseries] TIMESERIES_FETCH",
+    "type": "[timeseries] FETCH",
   },
 ]
 `;

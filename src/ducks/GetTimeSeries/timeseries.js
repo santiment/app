@@ -4,7 +4,7 @@ import { SOCIAL_VOLUME_QUERY } from './queries/social_volume_query'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import { formatNumber } from './../../utils/formatting'
 
-const TIMESERIES_QUERIES = {
+const TIMESERIES = {
   price: {
     query: HISTORY_PRICE_QUERY
   },
@@ -36,23 +36,19 @@ const TIMESERIES_QUERIES = {
   }
 }
 
-export const hasMetric = metric => !!TIMESERIES_QUERIES[metric]
-export const getMetricQUERY = metric => TIMESERIES_QUERIES[metric].query
+export const hasMetric = metric => !!TIMESERIES[metric]
+export const getMetricQUERY = metric => TIMESERIES[metric].query
 export const getTransforms = metrics =>
-  Object.keys(TIMESERIES_QUERIES)
+  Object.keys(TIMESERIES)
     .filter(metric => {
-      return (
-        metrics.includes(metric) && !!TIMESERIES_QUERIES[metric].preTransform
-      )
+      return metrics.includes(metric) && !!TIMESERIES[metric].preTransform
     })
-    .map(metric => TIMESERIES_QUERIES[metric].preTransform) || []
+    .map(metric => TIMESERIES[metric].preTransform) || []
 export const getSettings = metrics =>
-  Object.keys(TIMESERIES_QUERIES)
+  Object.keys(TIMESERIES)
     .filter(metric => metrics.includes(metric))
     .reduce((acc, metric) => {
-      const { title = metric, formatter = value => value } = TIMESERIES_QUERIES[
-        metric
-      ]
+      const { title = metric, formatter = value => value } = TIMESERIES[metric]
       acc = {
         ...acc,
         [metric]: {

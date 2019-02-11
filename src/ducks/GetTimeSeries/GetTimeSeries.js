@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import isEqual from 'lodash.isequal'
-import * as actions from './actions'
+import { fetchTimeseries } from './actions'
 
 class GetTimeSeries extends React.Component {
   componentDidMount () {
@@ -44,10 +44,7 @@ const mapStateToProps = ({ timeseries }) => ({ timeseries })
 
 const mapDispatchToProps = dispatch => ({
   fetchTimeseries: metrics => {
-    return dispatch({
-      type: actions.TIMESERIES_FETCH,
-      payload: { ...metrics }
-    })
+    return dispatch(fetchTimeseries(metrics))
   }
 })
 

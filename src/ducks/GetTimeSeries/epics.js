@@ -87,17 +87,20 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
 
     const transforms = getTransforms(metrics)
     const queries = metrics.map(metric => {
-      const settings = action.payload[metric]
-      return client.query({
-        query: getMetricQUERY(metric),
-        variables: {
-          interval: settings.interval || '1d',
-          to: settings.to || moment().toISOString(),
-          from: settings.from || getTimeFromFromString(settings.timeRange),
-          ...settings
-        },
-        context: { isRetriable: true }
-      })
+      const { interval, from = null, to = null, ...rest } = action.payload[
+        metric
+      ]
+      return Observable.fromPromise(
+        client.query({
+          query: getMetricQUERY(metric),
+          variables: {
+            interval: interval || '1d',
+            to: to || moment().toISOString(),
+            from: from || getTimeFromFromString(rest.timeRange),
+            ...rest
+          }
+        })
+      )
     })
     return Observable.forkJoin(queries)
       .mergeMap(data => {
