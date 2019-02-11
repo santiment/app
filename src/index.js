@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
@@ -26,6 +26,7 @@ import uploadLink from './apollo/upload-link'
 import errorLink from './apollo/error-link'
 import authLink from './apollo/auth-link'
 import retryLink from './apollo/retry-link'
+import ChartPage from './ducks/SANCharts/ChartPage'
 import { unregister } from './serviceWorker'
 import './index.scss'
 
@@ -73,7 +74,10 @@ const main = () => {
     <ApolloProvider client={client}>
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <Route path='/' component={App} />
+          <Switch>
+            <Route exact path='/chart' component={ChartPage} />
+            <Route path='/' component={App} />
+          </Switch>
         </ConnectedRouter>
       </Provider>
     </ApolloProvider>,

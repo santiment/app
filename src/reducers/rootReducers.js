@@ -2,7 +2,9 @@ import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 import user, { initialState as userState } from './user'
 import projects, { initialState as projectsState } from './projects'
-import timeseries, { initialState as timeseriesState } from './timeseries'
+import timeseries, {
+  initialState as timeseriesState
+} from './../ducks/GetTimeSeries/reducers'
 import rootUi, { initialState as rootUiState } from './root-ui'
 import detailedPageUi, {
   initialState as detailedPageUiState
