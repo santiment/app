@@ -1,23 +1,37 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
+import { compose } from 'recompose'
 import Insights from './Insights'
 import { ALL_INSIGHTS_BY_TAG_QUERY } from './insightsGQL'
 
-const InsightsTrends = ({ data: { allInsightsByTag }, ...props }) => {
+const oneDayTimeStamp = 1000 * 60 * 60 * 24
+
+const InsightsTrends = ({ allInsightsByTag, ...props }) => {
   return <Insights insights={allInsightsByTag} {...props} />
 }
 
-export const getCurrentTrendsTag = () => {
-  const date = new Date()
-  return `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}-trending-words`
-}
+export const getInsightTrendTagByDate = date =>
+  `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}-trending-words`
 
-export default graphql(ALL_INSIGHTS_BY_TAG_QUERY, {
-  options: () => {
-    return {
-      variables: {
-        tag: getCurrentTrendsTag()
+const getPast3DaysInsightsByTrendTag = () =>
+  [0, oneDayTimeStamp, 2 * oneDayTimeStamp].map(timestamp =>
+    graphql(ALL_INSIGHTS_BY_TAG_QUERY, {
+      options: () => {
+        return {
+          variables: {
+            tag: getInsightTrendTagByDate(new Date(Date.now() - timestamp))
+          }
+        }
+      },
+      props: ({
+        data: { allInsightsByTag = [] },
+        ownProps: { allInsightsByTag: ownInsights = [] }
+      }) => {
+        return {
+          allInsightsByTag: allInsightsByTag.concat(ownInsights)
+        }
       }
-    }
-  }
-})(InsightsTrends)
+    })
+  )
+
+export default compose(...getPast3DaysInsightsByTrendTag())(InsightsTrends)

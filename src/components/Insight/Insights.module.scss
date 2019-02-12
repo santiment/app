@@ -15,7 +15,6 @@
 
 .bottom {
     display: flex;
-    justify-content: space-between;
 }
 
 .title {
@@ -44,4 +43,13 @@
 
 .icon {
     margin-right: 8px;
+}
+
+.insight {
+    margin-right: 13px;
+    flex-grow: 1;
+
+    &:last-child {
+        margin-right: 0;
+    }
 }
