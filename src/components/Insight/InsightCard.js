@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Panel, Icon } from '@santiment-network/ui'
 import moment from 'moment'
+import cx from 'classnames'
 import MultilineText from '../MultilineText/MultilineText'
 import styles from './InsightCard.module.scss'
 
@@ -12,10 +13,11 @@ const InsightCard = ({
   tags,
   createdAt,
   votes: { totalVotes },
-  comments
+  comments,
+  className
 }) => {
   return (
-    <Panel className={styles.wrapper}>
+    <Panel className={cx(styles.wrapper, className)}>
       <div className={styles.top}>
         <div className={styles.tags}>
           {tags.map(({ name }) => {

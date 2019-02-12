@@ -77,6 +77,7 @@ class Insights extends Component {
             .map(({ id, user, title, tags, createdAt, votes }) => {
               return (
                 <InsightCard
+                  className={styles.insight}
                   key={id}
                   id={id}
                   user={user}
