@@ -27,9 +27,22 @@ class WordCloudPage extends Component {
     return (
       <div className={ToolsPageStyles.ToolsPage + ' page'}>
         <div className={styles.title}>
-          <h1>Explore context of any word in crypto</h1>
+          <h1>Explore the social context of any word in crypto</h1>
         </div>
         <section>
+          <p>
+            See which words are most often used alongside your main keyword on
+            crypto social media. Larger words are found more frequently in
+            comments that also include your main keyword. To filter out the
+            noise, we only include comments from social channels where 90% of
+            talk is about crypto.
+          </p>
+          <p>
+            Results are gathered from 300+ Telegram channels, 300+ crypto
+            subreddits, 100s of Discord channels, BitcoinTalk and many private
+            trader chats hidden from Google search. More channels are constantly
+            being added!
+          </p>
           <div className={styles.searchContainer}>
             <Input
               value={this.state.word}

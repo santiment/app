@@ -6,17 +6,19 @@ export default () => (
   <HelpPopup>
     <div className='HelpPopupProjectsContent'>
       <p>
-        Our Social Trends search is unique in the industry, based on channels,
-        sites and forums.
+        Every 9 hours, we calculate top 10 words with the largest spike in
+        mentions on crypto social media.
       </p>
       <p>
-        We focus only on channels where 90% of the discussions about crypto,
-        including "insider" sites not open to public Google search.
+        These words have had the biggest ‘social gains’ relative to their
+        previous 2-week average, making them the top developing stories in
+        crypto.
       </p>
       <p>
-        Results include mentions from 20+ Telegram channels, numerous Subreddits
-        and Discord channels, plus mentions on BitcoinTalk and TradingView
-        forums.{' '}
+        Results are gathered from 300+ Telegram channels, 300+ crypto
+        subreddits, 100s of Discord channels, BitcoinTalk and many private
+        trader chats hidden from Google search. More channels are constantly
+        being added!
       </p>
     </div>
   </HelpPopup>

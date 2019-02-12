@@ -1,54 +1,93 @@
 import React, { Component } from 'react'
-import GetTimeSeries from '../../components/GetTimeSeries'
-import Selector from '../../components/Selector/Selector'
-import Panel from '../../components/Panel'
+import * as qs from 'query-string'
+import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
+import { ERRORS } from '../GetTimeSeries/reducers'
 import { mapQSToState } from './../../utils/utils'
 import Charts from './Charts'
 
 class ChartPage extends Component {
   state = {
     timeRange: '6m',
+    slug: 'bitcoin',
+    metrics: ['price', 'socialVolume'],
+    interval: '1d',
     ...mapQSToState(this.props)
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
     return {
+      timeRage: undefined,
+      from: undefined,
+      to: undefined,
       ...mapQSToState(nextProps)
     }
   }
 
-  setTimeRangeValue = timeRange => {
-    this.setState({
-      timeRange
+  onZoom = ({ refAreaLeft, refAreaRight }) => {
+    this.setState(
+      prevState => ({
+        ...prevState,
+        timeRange: undefined,
+        from: refAreaLeft,
+        to: refAreaRight
+      }),
+      () => {
+        this.updateSearchQuery(this.state)
+      }
+    )
+  }
+
+  mapStateToQS = props => '?' + qs.stringify(props, { arrayFormat: 'bracket' })
+
+  updateSearchQuery = newState => {
+    this.props.history.push({
+      search: this.mapStateToQS(newState)
     })
   }
 
   render () {
-    const { timeRange, slug } = this.state
+    const { timeRange, slug, metrics, from, to, interval } = this.state
+    const requestedMetrics = metrics.reduce((acc, metric) => {
+      acc = {
+        ...acc,
+        [metric]: {
+          slug,
+          timeRange: from ? undefined : timeRange,
+          from,
+          to,
+          interval
+        }
+      }
+      return acc
+    }, {})
     return (
-      <Panel>
-        <div>
-          <Selector
-            options={['1w', '1m', '3m', '6m']}
-            onSelectOption={this.setTimeRangeValue}
-            defaultSelected={timeRange}
-          />
-        </div>
-        <GetTimeSeries
-          price={{
-            timeRange,
-            slug,
-            interval: '1d'
-          }}
-          devActivity={{
-            timeRange,
-            slug
-          }}
-          render={({ timeseries: { price } }) => {
-            return <Charts chartData={price ? price.items : null} />
-          }}
-        />
-      </Panel>
+      <GetTimeSeries
+        {...requestedMetrics}
+        meta={{
+          mergedByDatetime: true
+        }}
+        render={({ timeseries, settings = {}, isError, errorType }) => {
+          if (isError) {
+            if (errorType === ERRORS.COMPLEXITY) {
+              return (
+                <div>
+                  Too complexed request
+                  <br />
+                  Decrease number of points
+                </div>
+              )
+            }
+            return <div>Something is going wrong</div>
+          }
+          return (
+            <Charts
+              onZoom={this.onZoom}
+              chartData={timeseries}
+              settings={settings}
+            />
+          )
+        }}
+      />
     )
   }
 }

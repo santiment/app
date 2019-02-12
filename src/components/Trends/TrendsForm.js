@@ -27,7 +27,7 @@ export class TrendsForm extends Component {
         <form onSubmit={this.handleSubmit}>
           <Search
             iconPosition='left'
-            placeholder='Enter your search query'
+            placeholder='type any word or phrase'
             value={this.state.topic}
             onChange={this.handleChange}
           />

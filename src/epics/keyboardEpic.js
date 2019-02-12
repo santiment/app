@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs'
-import { APP_TOGGLE_SEARCH_FOCUS } from './../actions/types'
+import { APP_TOGGLE_SEARCH_FOCUS, APP_LAUNCHED } from './../actions/types'
 
 const keyboard$ = Observable.fromEvent(window, 'keydown')
 
 const keyboardEpic = (action$, store, { client }) =>
-  action$.ofType('[app] LAUNCHED').mergeMap(() =>
+  action$.ofType(APP_LAUNCHED).mergeMap(() =>
     keyboard$
       .filter(({ key }) => {
         const bodyHasFocus = document.activeElement === document.body

@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import Insights from './Insights'
-import { allInsightsByTagGQL } from './insightsByTagGQL'
+import { ALL_INSIGHTS_BY_TAG_QUERY } from './insightsGQL'
 
 const oneDayTimeStamp = 1000 * 60 * 60 * 24
 
@@ -15,7 +15,7 @@ export const getInsightTrendTagByDate = date =>
 
 const getPast3DaysInsightsByTrendTag = () =>
   [0, oneDayTimeStamp, 2 * oneDayTimeStamp].map(timestamp =>
-    graphql(allInsightsByTagGQL, {
+    graphql(ALL_INSIGHTS_BY_TAG_QUERY, {
       options: () => {
         return {
           variables: {
