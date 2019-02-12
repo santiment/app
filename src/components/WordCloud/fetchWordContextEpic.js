@@ -44,10 +44,16 @@ export const preloadWordContextEpic = (action$, store, { client }) =>
           })
           console.log(wordContextMap)
           return Observable.of({
-            type: actions.WORDCLOUD_CONTEXT_TRENDS,
+            type: actions.WORDCLOUD_CONTEXT_TRENDS_PRELOAD,
             payload: wordContextMap
           })
         })
+
+        .catch(
+          handleErrorAndTriggerAction(
+            actions.WORDCLOUD_CONTEXT_TRENDS_PRELOAD_FAILED
+          )
+        )
     })
 
 export const fetchWordContextEpic = (action$, store, { client }) =>

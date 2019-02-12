@@ -34,7 +34,7 @@ export default (state = initialState, action) => {
         isLoading: false,
         error: false
       }
-    case actions.WORDCLOUD_CONTEXT_TRENDS:
+    case actions.WORDCLOUD_CONTEXT_TRENDS_PRELOAD:
       return {
         ...state,
         trendsContext: action.payload
