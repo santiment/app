@@ -50,10 +50,23 @@ export const fetchWordContextEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.WORDCLOUD_CONTEXT_FETCH)
     .switchMap(({ payload: word }) => {
-      if (store.getState().wordCloud.word === word) {
+      const wordCloudState = store.getState().wordCloud
+      if (wordCloudState.word === word) {
         return Observable.of({
           type: actions.WORDCLOUD_CONTEXT_FETCH_CANCEL,
           payload: 'New word is same as the last word'
+        })
+      }
+
+      const trendContext = wordCloudState.trendsContext[word]
+
+      if (trendContext) {
+        return Observable.of({
+          type: actions.WORDCLOUD_CONTEXT_FETCH_SUCCESS,
+          payload: {
+            word,
+            cloud: trendContext
+          }
         })
       }
 
