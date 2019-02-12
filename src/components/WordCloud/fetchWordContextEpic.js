@@ -8,6 +8,10 @@ export const preloadWordContextEpic = (action$, store, { client }) =>
   action$
     .ofType('[trends] HYPED_FETCH_SUCCESS')
     .switchMap(({ payload: { items } }) => {
+      if (window.innerWidth < 768) {
+        return Observable.of()
+      }
+
       const dateTo = moment().toISOString()
       const dateFrom = moment()
         .subtract(3, 'd')
