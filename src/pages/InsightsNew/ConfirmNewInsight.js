@@ -10,7 +10,7 @@ import Post from './../../components/Post'
 import { allInsightsGQL } from './../Insights/currentPollGQL'
 import ErrorBoundary from './../../ErrorBoundary'
 import { APP_DELETE_INSIGHT_DRAFT } from '../../actions/types.js'
-import { getCurrentTrendsTag } from '../../components/Insight/InsightsTrends'
+import { getInsightTrendTagByDate } from '../../components/Insight/InsightsTrends'
 
 const createPostGQL = gql`
   mutation createPost($title: String!, $text: String!, $tags: [String]) {
@@ -49,7 +49,7 @@ const createNewPost = ({ createPost, post, user, history }) => {
       title: post.title,
       text: post.text,
       tags: (window.location.search.includes('currentTrends')
-        ? [{ label: getCurrentTrendsTag() }, ...post.tags]
+        ? [{ label: getInsightTrendTagByDate(new Date()) }, ...post.tags]
         : post.tags
       ).map(tag => {
         return tag.label
