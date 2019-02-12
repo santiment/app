@@ -29,9 +29,9 @@ export default class HistoricalBalancePage extends Component {
     return (
       <div className={styles.HistoricalBalancePage + ' page'}>
         <div className={styles.title}>
-          <h1>
-            Explore historical balance <br />
-            of any wallets
+          <h1 style={{ width: '100%' }}>
+            Explore the historical balance <br />
+            of ANY wallet
           </h1>
         </div>
         <BalanceView
