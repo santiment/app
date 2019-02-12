@@ -42,7 +42,7 @@ export const preloadWordContextEpic = (action$, store, { client }) =>
           items.forEach((item, i) => {
             wordContextMap[words[i]] = item.data.wordContext
           })
-          console.log(wordContextMap)
+        
           return Observable.of({
             type: actions.WORDCLOUD_CONTEXT_TRENDS_PRELOAD,
             payload: wordContextMap
