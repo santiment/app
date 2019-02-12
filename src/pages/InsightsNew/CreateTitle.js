@@ -43,7 +43,6 @@ const normalizeTags = tags => {
       label: name,
       value: name
     }
-    
   })
 }
 
