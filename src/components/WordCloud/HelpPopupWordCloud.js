@@ -6,10 +6,9 @@ const HelpPopupWordCloud = ({ className }) => (
   <HelpPopup className={className}>
     <div className='HelpPopupProjectsContent'>
       <p>
-        This is created by displaying other words which are often used in
-        combination with your search term; bigger words were mentioned more
-        often. The word clouds uses the combined messages of all above data
-        sources.
+        These words are often used alongside the main keyword on crypto social
+        media. Larger words are found more frequently in comments that also
+        include the main keyword.
       </p>
     </div>
   </HelpPopup>

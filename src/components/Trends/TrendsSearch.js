@@ -9,7 +9,7 @@ const TrendsSearch = ({ topic }) => (
   <div className={styles.TrendsSearch}>
     <TrendsExploreSearch topic={topic} />
     <div className={styles.examples}>
-      <span>Try to select</span>
+      <span>Try searching for...</span>
       {SAMPLES.map((keyword, index, arr) => (
         <Fragment key={keyword}>
           <TrendsExampleLink keyword={keyword} />

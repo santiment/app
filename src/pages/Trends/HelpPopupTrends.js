@@ -5,7 +5,7 @@ import './../../components/HelpPopup/HelpPopupProjectsContent.css'
 const HelpPopupTrends = () => (
   <HelpPopup>
     <div className='HelpPopupProjectsContent'>
-      <p>Enter a single word, or a phrase in these formats:</p>
+      <p>Specify your search results with these modifiers:</p>
       <ul
         style={{
           listStyleType: 'disc',
@@ -17,16 +17,17 @@ const HelpPopupTrends = () => (
           <code>btc moon</code> will search for the exact phrase
         </li>
         <li className='HelpPopupProjectsContent__item'>
-          <code>btc AND moon</code> will search for btc and moon in the same
-          message
+          <code>btc AND moon</code> will search for comments including both
+          ‘btc’ and ‘moon’
         </li>
         <li className='HelpPopupProjectsContent__item'>
-          <code>btc OR moon</code> will search for either btc or moon
+          <code>btc OR moon</code> will search for comments including either
+          ‘btc’ or ‘moon’
         </li>
         <li className='HelpPopupProjectsContent__item'>
-          You can use a more complex query:{' '}
+          You can also combine modifiers by using brackets:{' '}
           <pre>
-            <code>(btc OR moon) AND something</code>
+            <code>(btc OR bitcoin) AND moon</code>
           </pre>
         </li>
       </ul>
