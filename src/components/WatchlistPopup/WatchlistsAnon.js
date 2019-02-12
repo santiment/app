@@ -9,7 +9,7 @@ const WatchlistsAnon = () => (
     <p className={styles.msg}>
       You'll need to have an account to use this feature.
     </p>
-    <Button variant='flat' className={styles.btn} as={Link} to={'login'}>
+    <Button variant='flat' className={styles.btn} as={Link} to={'/login'}>
       {' '}
       Log in{' '}
     </Button>

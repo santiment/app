@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+- 2019-02-11 | v.0.31.3 'Sonar':
+
+  Fix login button in Navbar
+  Add Centralized Exchanges List
+
 - 2019-02-11 | v.0.31.2 'Sonar':
 
   Watchlist creation notification changed;
