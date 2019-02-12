@@ -14,7 +14,14 @@ const linksLeft = [
   },
   { link: '/assets/list?name=stablecoins@86#shared', label: 'Stablecoins' },
   { link: '/assets/list?name=usa@138#shared', label: 'US-Based Projects' },
-  { link: '/assets/list?name=dex@127#shared', label: 'Decentralized Exchanges' }
+  {
+    link: '/assets/list?name=dex@127#shared',
+    label: 'Decentralized Exchanges'
+  },
+  {
+    link: '/assets/list?name=centralized%20exchanges@272#shared',
+    label: 'Centralized Exchanges'
+  }
 ]
 
 const linksRight = [
@@ -23,44 +30,39 @@ const linksRight = [
   { link: '/labs/api', label: 'Dividend Tokens' }
 ]
 
-const NavbarAssetsDropdown = ({ activeLink, isLoggedIn = true }) => {
-  // @NOTE(vanguard): remove isLoggedIn default
-  return (
-    <Panel>
-      <div className={styles.wrapper}>
-        <div>
-          <h3 className={styles.title}>Categories</h3>
-          <div className={dropdownStyles.list}>
-            {linksLeft.map(({ link, label }) => {
-              return (
-                <Button
-                  fluid
-                  variant='ghost'
-                  key={label}
-                  as={Link}
-                  className={dropdownStyles.item}
-                  to={link}
-                  isActive={link === activeLink}
-                >
-                  {label}
-                </Button>
-              )
-            })}
-          </div>
+const NavbarAssetsDropdown = ({ activeLink, isLoggedIn }) => (
+  <Panel>
+    <div className={styles.wrapper}>
+      <div>
+        <h3 className={styles.title}>Categories</h3>
+        <div className={dropdownStyles.list}>
+          {linksLeft.map(({ link, label }) => {
+            return (
+              <Button
+                fluid
+                variant='ghost'
+                key={label}
+                as={Link}
+                className={dropdownStyles.item}
+                to={link}
+                isActive={link === activeLink}
+              >
+                {label}
+              </Button>
+            )
+          })}
         </div>
-        {isLoggedIn && (
-          <div className={styles.list}>
-            <h3 className={styles.title}>My Watchlists</h3>
-            <NavbarAssetsDropdownWatchlist
-              isLoggedIn={isLoggedIn}
-              activeLink={activeLink}
-              list={linksRight}
-            />
-          </div>
-        )}
       </div>
-    </Panel>
-  )
-}
+      <div className={styles.list}>
+        <h3 className={styles.title}>My Watchlists</h3>
+        <NavbarAssetsDropdownWatchlist
+          isLoggedIn={isLoggedIn}
+          activeLink={activeLink}
+          list={linksRight}
+        />
+      </div>
+    </div>
+  </Panel>
+)
 
 export default NavbarAssetsDropdown
