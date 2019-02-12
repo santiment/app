@@ -4,7 +4,7 @@ import { Button } from '@santiment-network/ui'
 import styles from './NavbarDropdown.module.scss'
 
 const links = [
-  { link: '/labs/trends', label: 'Social Trends' },
+  { link: '/labs/trends', label: 'Social trends' },
   { link: '/ethereum-spent', label: 'ETH spent' },
   { link: '/labs/balance', label: 'Historical balance' },
   { link: '/labs/wordcloud', label: 'Word context' },
