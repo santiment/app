@@ -58,7 +58,8 @@ export const fetchWordContextEpic = (action$, store, { client }) =>
         })
       }
 
-      const trendContext = wordCloudState.trendsContext[word]
+      const trendContext =
+        wordCloudState.trendsContext && wordCloudState.trendsContext[word]
 
       if (trendContext) {
         return Observable.of({
