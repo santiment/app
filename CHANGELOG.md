@@ -1,5 +1,8 @@
 ## CHANGELOG
 
+- 2019-02-14 | v.0.31.3 'Sonar':
+  Using "slug" as an argument for the twitter requests
+
 - 2019-02-11 | v.0.31.3 'Sonar':
 
   Fix login button in Navbar
