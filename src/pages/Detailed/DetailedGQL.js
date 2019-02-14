@@ -94,17 +94,12 @@ export const projectBySlugGQL = gql`
 
 export const TwitterHistoryGQL = gql`
   query queryTwitterHistory(
-    $ticker: String!
+    $slug: String!
     $from: DateTime
     $to: DateTime
     $interval: String
   ) {
-    historyTwitterData(
-      ticker: $ticker
-      from: $from
-      to: $to
-      interval: $interval
-    ) {
+    historyTwitterData(slug: $slug, from: $from, to: $to, interval: $interval) {
       datetime
       followersCount
       __typename
@@ -113,8 +108,8 @@ export const TwitterHistoryGQL = gql`
 `
 
 export const TwitterDataGQL = gql`
-  query queryTwitterData($ticker: String!) {
-    twitterData(ticker: $ticker) {
+  query queryTwitterData($slug: String!) {
+    twitterData(slug: $slug) {
       datetime
       followersCount
       twitterName
