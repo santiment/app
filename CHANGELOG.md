@@ -4,6 +4,7 @@
 
   Fix login button in Navbar
   Add Centralized Exchanges List
+  Using "slug" as an argument for the twitter requests
 
 - 2019-02-11 | v.0.31.2 'Sonar':
 
