@@ -32,6 +32,7 @@ const SonarFeed = ({ location: { pathname } }) => {
         options={tabs}
         defaultSelectedIndex={pathname}
         passSelectionIndexToItem
+        className={styles.tabs}
         as={({ selectionIndex, ...props }) => (
           <Link {...props} to={selectionIndex} />
         )}
