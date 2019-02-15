@@ -18,7 +18,7 @@ const SignalCard = ({
       <div
         className={cx(
           styles.wrapper__left,
-          isSubscribed && styles.wrapper__left_subscription
+          author && styles.wrapper__left_subscription
         )}
       >
         <div className={styles.icon}>
@@ -36,7 +36,7 @@ const SignalCard = ({
             />
           </h3>
         </div>
-        {isSubscribed && (
+        {author && (
           <div className={styles.bottom}>
             <h4 className={styles.author}>
               by{' '}

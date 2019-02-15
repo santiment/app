@@ -61,7 +61,7 @@ const stories = storiesOf('SignalCard', module)
 stories.addDecorator(StoryRouter())
 stories.add('Signal Card', () => (
   <ColorModeComparison>
-    <SignalCard {...insights[0]} />
+    <SignalCard {...insights[0]} author={undefined} />
   </ColorModeComparison>
 ))
 stories.add('Signal Card With Subscription', () => (
