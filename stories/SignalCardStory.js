@@ -19,7 +19,9 @@ const insights = [
     subscriptionsNumber: 900,
     votes: {
       totalVotes: 5
-    }
+    },
+    isPublic: true,
+    isPublished: true
   },
   {
     id: 1,
@@ -66,6 +68,22 @@ stories.add('Signal Card', () => (
 ))
 stories.add('Signal Card With Subscription', () => (
   <ColorModeComparison>
+    Default
     <SignalCard isSubscribed {...insights[0]} />
+    <br />
+    By user (public)
+    <SignalCard isSubscribed {...insights[0]} username='Santiment team' />
+    <br />
+    By user (private)
+    <SignalCard
+      isSubscribed
+      {...insights[0]}
+      isPublic={false}
+      username='Santiment team'
+    />
+    <br />
+    By user (Awaiting posting)
+    <SignalCard isSubscribed {...insights[0]} isPublished={false} />
+    <br />
   </ColorModeComparison>
 ))
