@@ -1,19 +1,36 @@
 import React from 'react'
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
 import { Tabs, Button, Icon } from '@santiment-network/ui'
+import Loadable from 'react-loadable'
+import PageLoader from '../../components/PageLoader'
 import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar/feed'
 
 const tabs = [
-  { index: `${baseLocation}/activity`, content: 'Activity' },
+  {
+    index: `${baseLocation}/activity`,
+    content: 'Activity',
+    component: Loadable({
+      loader: () => import('./SonarFeedActivityPage'),
+      loading: () => <PageLoader />
+    })
+  },
   {
     index: `${baseLocation}/explore`,
-    content: 'Explore'
+    content: 'Explore',
+    component: Loadable({
+      loader: () => import('./SonarFeedActivityPage'),
+      loading: () => <PageLoader />
+    })
   },
   {
     index: `${baseLocation}/my-signals`,
-    content: 'My signals'
+    content: 'My signals',
+    component: Loadable({
+      loader: () => import('./SonarFeedActivityPage'),
+      loading: () => <PageLoader />
+    })
   }
 ]
 
@@ -42,8 +59,8 @@ const SonarFeed = ({ location: { pathname } }) => {
         )}
       />
       <Switch>
-        {tabs.map(({ index, content }) => (
-          <Route key={index} path={index} render={() => content} />
+        {tabs.map(({ index, component }) => (
+          <Route key={index} path={index} component={component} />
         ))}
       </Switch>
     </div>
