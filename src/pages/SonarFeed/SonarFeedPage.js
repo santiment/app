@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
-import { Tabs } from '@santiment-network/ui'
+import { Tabs, Button, Icon } from '@santiment-network/ui'
 import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar/feed'
@@ -27,6 +27,10 @@ const SonarFeed = ({ location: { pathname } }) => {
       <div className={styles.header}>
         <h1>Sonar</h1>
         {/* <HelpTrendsAbout /> */}
+        <Button className={styles.newSignal}>
+          <Icon type='plus-round' className={styles.newSignal__icon} />
+          New signal
+        </Button>
       </div>
       <Tabs
         options={tabs}
