@@ -42,7 +42,6 @@ import { getConsentUrl } from './utils/utils'
 import HeaderMsg from './HeaderMsg'
 import LogoutPage from './pages/Logout'
 import './App.scss'
-// import SonarFeedPage from './pages/SonarFeed'
 
 const LoadableDetailedPage = Loadable({
   loader: () => import('./pages/Detailed/Detailed'),
@@ -71,6 +70,11 @@ const LoadableTrendsPage = Loadable({
 
 const LoadableTrendsExplorePage = Loadable({
   loader: () => import('./pages/Trends/TrendsExplorePage'),
+  loading: () => <PageLoader />
+})
+
+const LoadableSonarFeedPage = Loadable({
+  loader: () => import('./pages/SonarFeed/SonarFeedPage'),
   loading: () => <PageLoader />
 })
 
@@ -221,6 +225,7 @@ export const App = ({
             <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
           )}
         />
+        <Route path='/sonar/feed' component={LoadableSonarFeedPage} />
         <Route
           exact
           path='/sonar'
