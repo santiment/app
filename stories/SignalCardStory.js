@@ -59,3 +59,6 @@ const insights = [
 const stories = storiesOf('SignalCard', module)
 stories.addDecorator(StoryRouter())
 stories.add('Signal Card', () => <SignalCard {...insights[0]} />)
+stories.add('Signal Card With Subscription', () => (
+  <SignalCard isSubscribed {...insights[0]} />
+))

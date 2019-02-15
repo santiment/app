@@ -7,6 +7,16 @@
         padding: 4px 0;
         flex: 1;
     }
+
+    &__left {
+        margin-right: 15px;
+        display: flex;
+        align-items: center;
+
+        &_subscription {
+            display: block;
+        }
+    }
 }
 
 .icon {
@@ -18,7 +28,6 @@
     fill: var(--blue);
     justify-content: center;
     align-items: center;
-    margin-right: 15px;
 }
 
 .title {
@@ -32,10 +41,10 @@
     @include text-normal;
     margin: 0;
     color: var(--grey-dark-2);
-    margin-bottom: 19px;
 }
 
 .bottom {
+    margin-top: 19px;
     display: flex;
     justify-content: space-between;
 
