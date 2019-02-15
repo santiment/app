@@ -10,10 +10,11 @@ const SignalCard = ({
   description,
   author,
   subscriptionsNumber,
-  isSubscribed
+  isSubscribed,
+  className = ''
 }) => {
   return (
-    <Panel padding className={styles.wrapper}>
+    <Panel padding className={cx(styles.wrapper, className)}>
       <div
         className={cx(
           styles.wrapper__left,

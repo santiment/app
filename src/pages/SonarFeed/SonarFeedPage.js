@@ -20,7 +20,7 @@ const tabs = [
     index: `${baseLocation}/explore`,
     content: 'Explore',
     component: Loadable({
-      loader: () => import('./SonarFeedActivityPage'),
+      loader: () => import('./SonarFeedExplorePage'),
       loading: () => <PageLoader />
     })
   },
