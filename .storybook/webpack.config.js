@@ -16,6 +16,7 @@ module.exports = (baseConfig, env, defaultConfig) => {
     ],
     include: [
       path.resolve(__dirname, '../src/'),
+      path.resolve(__dirname, '../stories/'),
       path.resolve(__dirname, '../node_modules/@santiment-network/ui')
     ]
   })

@@ -2,6 +2,7 @@ import React from 'react'
 import StoryRouter from 'storybook-react-router'
 import { storiesOf } from '@storybook/react'
 import SignalCard from './../src/components/SignalCard/SignalCard'
+import ColorModeComparison from './ColorModeComparison'
 
 const insights = [
   {
@@ -58,7 +59,13 @@ const insights = [
 
 const stories = storiesOf('SignalCard', module)
 stories.addDecorator(StoryRouter())
-stories.add('Signal Card', () => <SignalCard {...insights[0]} />)
+stories.add('Signal Card', () => (
+  <ColorModeComparison>
+    <SignalCard {...insights[0]} />
+  </ColorModeComparison>
+))
 stories.add('Signal Card With Subscription', () => (
-  <SignalCard isSubscribed {...insights[0]} />
+  <ColorModeComparison>
+    <SignalCard isSubscribed {...insights[0]} />
+  </ColorModeComparison>
 ))
