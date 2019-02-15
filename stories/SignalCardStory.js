@@ -11,8 +11,11 @@ const insights = [
       id: 0
     },
     title: 'Small title',
-    tags: [],
+    description:
+      'Subscribe to this signal to track the activity of selected address based on the Ethereum',
+    author: 'Santiment team',
     createdAt: new Date().toISOString(),
+    subscriptionsNumber: 900,
     votes: {
       totalVotes: 5
     }
@@ -55,4 +58,4 @@ const insights = [
 
 const stories = storiesOf('SignalCard', module)
 stories.addDecorator(StoryRouter())
-stories.add('Signal Card', () => <SignalCard {...insights[2]} />)
+stories.add('Signal Card', () => <SignalCard {...insights[0]} />)
