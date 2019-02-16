@@ -1,6 +1,6 @@
 import React from 'react'
 import SignalCard from '../../components/SignalCard/SignalCard'
-import styles from './SonarFeedExplorePage.module.scss'
+import styles from './SonarFeedSignalsGrid.module.scss'
 
 const signals = [
   {
@@ -9,7 +9,8 @@ const signals = [
       'Subscribe to this signal to get daily list of trending words connected with crypto',
     author: 'Santiment team',
     subscriptionsNumber: 0,
-    isSubscribed: false
+    isSubscribed: false,
+    isPublished: true
   },
   {
     title: 'Ethereum price tracking',
@@ -17,7 +18,8 @@ const signals = [
       'Subscribe to this signal to track the activity of selected address based on the Ethereum',
     author: 'Santiment team',
     subscriptionsNumber: 0,
-    isSubscribed: false
+    isSubscribed: false,
+    isPublished: true
   }
 ]
 

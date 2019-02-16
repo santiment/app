@@ -5,6 +5,11 @@ import Loadable from 'react-loadable'
 import PageLoader from '../../components/PageLoader'
 import styles from './SonarFeedPage.module.scss'
 
+const LoadableSignalsGrid = Loadable({
+  loader: () => import('./SonarFeedSignalsGrid'),
+  loading: () => <PageLoader />
+})
+
 const baseLocation = '/sonar/feed'
 
 const tabs = [
@@ -19,18 +24,12 @@ const tabs = [
   {
     index: `${baseLocation}/explore`,
     content: 'Explore',
-    component: Loadable({
-      loader: () => import('./SonarFeedExplorePage'),
-      loading: () => <PageLoader />
-    })
+    component: LoadableSignalsGrid
   },
   {
     index: `${baseLocation}/my-signals`,
     content: 'My signals',
-    component: Loadable({
-      loader: () => import('./SonarFeedActivityPage'),
-      loading: () => <PageLoader />
-    })
+    component: LoadableSignalsGrid
   }
 ]
 

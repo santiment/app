@@ -13,7 +13,7 @@ const statusMap = [
   }
 ]
 
-const AwaitingPostingMessage = () => (
+const UnpublishedMsg = () => (
   <h4 className={styles.awaiting}>
     <Icon type='clock' className={styles.awaiting__icon} /> Awaiting posting
   </h4>
@@ -49,7 +49,7 @@ const SignalCardBottom = ({
           </Link>
         </h4>
       ) : (
-        <AwaitingPostingMessage />
+        <UnpublishedMsg />
       )}
       <div className={styles.bottom__right}>
         {isPublic && isPublished && (
