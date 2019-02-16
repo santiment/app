@@ -31,7 +31,10 @@ import {
   fetchHypedTrends,
   selectHypedTrend
 } from '../components/Trends/fetchHypedTrends'
-import { fetchWordContextEpic } from '../components/WordCloud/fetchWordContextEpic'
+import {
+  fetchWordContextEpic,
+  preloadWordContextEpic
+} from '../components/WordCloud/fetchWordContextEpic'
 import { fetchSocialVolumeEpic } from '../components/SocialVolumeWidget/socialVolumeEpic'
 import fetchAllTickersSlugs from '../components/Trends/fetchAllTickersSlugs'
 import {
@@ -71,6 +74,7 @@ export default combineEpics(
   fetchAllTickersSlugs,
   // WordCloud
   fetchWordContextEpic,
+  preloadWordContextEpic,
   // SocialVolume
   fetchSocialVolumeEpic,
   // Settings

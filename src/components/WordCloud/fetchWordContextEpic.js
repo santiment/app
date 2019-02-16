@@ -4,14 +4,80 @@ import * as actions from './actions'
 import { wordCloudGQL } from './wordCloudGQL.js'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 
+export const preloadWordContextEpic = (action$, store, { client }) =>
+  action$
+    .ofType('[trends] HYPED_FETCH_SUCCESS')
+    .switchMap(({ payload: { items } }) => {
+      if (window.innerWidth < 768) {
+        return Observable.of()
+      }
+
+      const dateTo = moment().toISOString()
+      const dateFrom = moment()
+        .subtract(3, 'd')
+        .toISOString()
+      const allWords = items.reduce(
+        (acc, { topWords }) => acc.concat(topWords.map(({ word }) => word)),
+        []
+      )
+      const words = [...new Set(allWords)]
+
+      return Observable.from(
+        words.map(word =>
+          client.query({
+            query: wordCloudGQL,
+            variables: {
+              word,
+              to: dateTo,
+              from: dateFrom,
+              size: 25
+            }
+          })
+        )
+      )
+        .concatAll()
+        .toArray()
+        .mergeMap(items => {
+          const wordContextMap = {}
+          items.forEach((item, i) => {
+            wordContextMap[words[i]] = item.data.wordContext
+          })
+        
+          return Observable.of({
+            type: actions.WORDCLOUD_CONTEXT_TRENDS_PRELOAD,
+            payload: wordContextMap
+          })
+        })
+
+        .catch(
+          handleErrorAndTriggerAction(
+            actions.WORDCLOUD_CONTEXT_TRENDS_PRELOAD_FAILED
+          )
+        )
+    })
+
 export const fetchWordContextEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.WORDCLOUD_CONTEXT_FETCH)
     .switchMap(({ payload: word }) => {
-      if (store.getState().wordCloud.word === word) {
+      const wordCloudState = store.getState().wordCloud
+      if (wordCloudState.word === word) {
         return Observable.of({
           type: actions.WORDCLOUD_CONTEXT_FETCH_CANCEL,
           payload: 'New word is same as the last word'
+        })
+      }
+
+      const trendContext =
+        wordCloudState.trendsContext && wordCloudState.trendsContext[word]
+
+      if (trendContext) {
+        return Observable.of({
+          type: actions.WORDCLOUD_CONTEXT_FETCH_SUCCESS,
+          payload: {
+            word,
+            cloud: trendContext
+          }
         })
       }
 
