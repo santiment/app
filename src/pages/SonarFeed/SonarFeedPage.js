@@ -1,14 +1,9 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
 import { Tabs, Button, Icon } from '@santiment-network/ui'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/PageLoader'
 import styles from './SonarFeedPage.module.scss'
-
-const LoadableSignalsGrid = Loadable({
-  loader: () => import('./SonarFeedSignalsGrid'),
-  loading: () => <PageLoader />
-})
 
 const baseLocation = '/sonar/feed'
 
@@ -24,12 +19,18 @@ const tabs = [
   {
     index: `${baseLocation}/explore`,
     content: 'Explore',
-    component: LoadableSignalsGrid
+    component: Loadable({
+      loader: () => import('./SonarFeedSignalsGrid'),
+      loading: () => <PageLoader />
+    })
   },
   {
     index: `${baseLocation}/my-signals`,
     content: 'My signals',
-    component: LoadableSignalsGrid
+    component: Loadable({
+      loader: () => import('./SonarFeedMySignalsPage'),
+      loading: () => <PageLoader />
+    })
   }
 ]
 
@@ -43,10 +44,18 @@ const SonarFeed = ({ location: { pathname } }) => {
       <div className={styles.header}>
         <h1>Sonar</h1>
         {/* <HelpTrendsAbout /> */}
-        <Button className={styles.newSignal}>
-          <Icon type='plus-round' className={styles.newSignal__icon} />
-          New signal
-        </Button>
+        <div>
+          {pathname !== '/sonar/feed/activity' && (
+            <Fragment>
+              <Icon type='search' className={styles.search} />
+              <Icon type='filter' className={styles.filter} />
+            </Fragment>
+          )}
+          <Button className={styles.newSignal}>
+            <Icon type='plus-round' className={styles.newSignal__icon} />
+            New signal
+          </Button>
+        </div>
       </div>
       <Tabs
         options={tabs}
