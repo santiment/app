@@ -67,13 +67,9 @@ const SignalCardBottom = ({
 const SignalCard = ({
   title,
   description,
+  className = '',
   author,
-  subscriptionsNumber,
-  isSubscribed,
-  isPublic,
-  username,
-  isPublished,
-  className = ''
+  ...signalCardBottom
 }) => {
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
@@ -98,16 +94,7 @@ const SignalCard = ({
             />
           </h3>
         </div>
-        {author && (
-          <SignalCardBottom
-            author={author}
-            username={username}
-            isSubscribed={isSubscribed}
-            isPublic={isPublic}
-            isPublished={isPublished}
-            subscriptionsNumber={subscriptionsNumber}
-          />
-        )}
+        {author && <SignalCardBottom author={author} {...signalCardBottom} />}
       </div>
     </Panel>
   )
