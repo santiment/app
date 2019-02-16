@@ -6,11 +6,11 @@ import MultilineText from '../../components/MultilineText/MultilineText'
 import styles from './SignalCard.module.scss'
 
 const statusMap = [
-  { icon: 'public', label: 'Public' },
   {
     icon: 'lock',
     label: 'Private'
-  }
+  },
+  { icon: 'public', label: 'Public' }
 ]
 
 const UnpublishedMsg = () => (
