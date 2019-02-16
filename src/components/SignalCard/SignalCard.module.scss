@@ -78,3 +78,28 @@
         fill: var(--grey-dark);
     }
 }
+
+.awaiting {
+    @include text-normal;
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    color: var(--grey-dark);
+    fill: var(--grey-dark);
+
+    &__icon {
+        width: 15px;
+        margin-right: 9px;
+    }
+}
+
+.status {
+    vertical-align: sub;
+    fill: var(--grey-dark);
+    margin-right: 9px;
+    width: 15px;
+
+    &_public {
+        width: 17px;
+    }
+}

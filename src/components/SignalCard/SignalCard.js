@@ -45,7 +45,13 @@ const SignalCard = ({
               <h4 className={styles.author}>
                 {author === username && (
                   <Fragment>
-                    <Icon type={isPublic ? 'eye' : 'lock'} />{' '}
+                    <Icon
+                      type={isPublic ? 'public' : 'lock'}
+                      className={cx(
+                        styles.status,
+                        isPublic && styles.status_public
+                      )}
+                    />
                     {isPublic ? 'Public' : 'Private'},{' '}
                   </Fragment>
                 )}
@@ -56,7 +62,8 @@ const SignalCard = ({
               </h4>
             ) : (
               <h4 className={styles.awaiting}>
-                <Icon type='profile-round' /> Awaiting posting
+                <Icon type='clock' className={styles.awaiting__icon} /> Awaiting
+                posting
               </h4>
             )}
             <div className={styles.bottom__right}>
