@@ -5,6 +5,65 @@ import cx from 'classnames'
 import MultilineText from '../../components/MultilineText/MultilineText'
 import styles from './SignalCard.module.scss'
 
+const statusMap = [
+  { icon: 'public', label: 'Public' },
+  {
+    icon: 'lock',
+    label: 'Private'
+  }
+]
+
+const AwaitingPostingMessage = () => (
+  <h4 className={styles.awaiting}>
+    <Icon type='clock' className={styles.awaiting__icon} /> Awaiting posting
+  </h4>
+)
+
+const SignalCardBottom = ({
+  author,
+  username,
+  isPublic,
+  isPublished,
+  isSubscribed,
+  subscriptionsNumber
+}) => {
+  const Status = statusMap[Number(isPublic)]
+  const isUserTheAuthor = username === author
+
+  return (
+    <div className={styles.bottom}>
+      {isPublished ? (
+        <h4 className={styles.author}>
+          {isUserTheAuthor && (
+            <Fragment>
+              <Icon
+                type={Status.icon}
+                className={cx(styles.status, isPublic && styles.status_public)}
+              />
+              {Status.label},{' '}
+            </Fragment>
+          )}
+          by{' '}
+          <Link className={styles.author__link} to='/'>
+            {isUserTheAuthor ? 'Myself' : author}
+          </Link>
+        </h4>
+      ) : (
+        <AwaitingPostingMessage />
+      )}
+      <div className={styles.bottom__right}>
+        {isPublic && isPublished && (
+          <div className={styles.subscriptions}>
+            <Icon type='profile' className={styles.subscriptions__icon} />
+            {subscriptionsNumber}
+          </div>
+        )}
+        <Toggle isActive={isSubscribed} />
+      </div>
+    </div>
+  )
+}
+
 const SignalCard = ({
   title,
   description,
@@ -40,42 +99,14 @@ const SignalCard = ({
           </h3>
         </div>
         {author && (
-          <div className={styles.bottom}>
-            {isPublished ? (
-              <h4 className={styles.author}>
-                {author === username && (
-                  <Fragment>
-                    <Icon
-                      type={isPublic ? 'public' : 'lock'}
-                      className={cx(
-                        styles.status,
-                        isPublic && styles.status_public
-                      )}
-                    />
-                    {isPublic ? 'Public' : 'Private'},{' '}
-                  </Fragment>
-                )}
-                by{' '}
-                <Link className={styles.author__link} to='/'>
-                  {author === username ? 'Myself' : author}
-                </Link>
-              </h4>
-            ) : (
-              <h4 className={styles.awaiting}>
-                <Icon type='clock' className={styles.awaiting__icon} /> Awaiting
-                posting
-              </h4>
-            )}
-            <div className={styles.bottom__right}>
-              {isPublic && isPublished && (
-                <div className={styles.subscriptions}>
-                  <Icon type='profile' className={styles.subscriptions__icon} />
-                  {subscriptionsNumber}
-                </div>
-              )}
-              <Toggle isActive={isSubscribed} />
-            </div>
-          </div>
+          <SignalCardBottom
+            author={author}
+            username={username}
+            isSubscribed={isSubscribed}
+            isPublic={isPublic}
+            isPublished={isPublished}
+            subscriptionsNumber={subscriptionsNumber}
+          />
         )}
       </div>
     </Panel>
