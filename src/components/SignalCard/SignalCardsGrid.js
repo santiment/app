@@ -1,9 +1,9 @@
 import React from 'react'
 import cx from 'classnames'
-import SignalCard from '../../components/SignalCard/SignalCard'
-import styles from './SonarFeedSignalsGrid.module.scss'
+import SignalCard from './SignalCard'
+import styles from './SignalCardsGrid.module.scss'
 
-const defaultSignals = [
+export const defaultSignals = [
   {
     id: 0,
     title: 'Daily trending words',
@@ -26,7 +26,7 @@ const defaultSignals = [
   }
 ]
 
-const SignalCardGrid = ({ signals = defaultSignals, className = '' }) => {
+const SignalCardsGrid = ({ signals = defaultSignals, className = '' }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
       {signals.map(({ id, ...signal }) => (
@@ -36,4 +36,4 @@ const SignalCardGrid = ({ signals = defaultSignals, className = '' }) => {
   )
 }
 
-export default SignalCardGrid
+export default SignalCardsGrid

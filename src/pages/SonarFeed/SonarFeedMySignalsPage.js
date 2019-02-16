@@ -1,12 +1,12 @@
 import React from 'react'
 import SonarFeedRecommendations from './SonarFeedRecommendations'
-import SonarFeedSignalsGrid from './SonarFeedSignalsGrid'
+import SignalCardsGrid from '../../components/SignalCard/SignalCardsGrid'
 
 const SonarFeedMySignalsPage = ({ signals }) => {
   return (
     <div>
       {signals ? (
-        <SonarFeedSignalsGrid signals={signals} />
+        <SignalCardsGrid signals={signals} />
       ) : (
         <SonarFeedRecommendations />
       )}
