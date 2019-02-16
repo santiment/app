@@ -1,9 +1,11 @@
 import React from 'react'
+import cx from 'classnames'
 import SignalCard from '../../components/SignalCard/SignalCard'
 import styles from './SonarFeedSignalsGrid.module.scss'
 
-const signals = [
+const defaultSignals = [
   {
+    id: 0,
     title: 'Daily trending words',
     description:
       'Subscribe to this signal to get daily list of trending words connected with crypto',
@@ -13,6 +15,7 @@ const signals = [
     isPublished: true
   },
   {
+    id: 1,
     title: 'Ethereum price tracking',
     description:
       'Subscribe to this signal to track the activity of selected address based on the Ethereum',
@@ -23,14 +26,14 @@ const signals = [
   }
 ]
 
-const SonarFeedExplorePage = () => {
+const SignalCardGrid = ({ signals = defaultSignals, className = '' }) => {
   return (
-    <div className={styles.wrapper}>
-      {signals.map(signal => (
-        <SignalCard className={styles.card} {...signal} />
+    <div className={cx(styles.wrapper, className)}>
+      {signals.map(({ id, ...signal }) => (
+        <SignalCard key={id} className={styles.card} {...signal} />
       ))}
     </div>
   )
 }
 
-export default SonarFeedExplorePage
+export default SignalCardGrid

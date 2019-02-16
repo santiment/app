@@ -1,10 +1,16 @@
-.content {
-    text-align: center;
-    margin: 17px auto 50px;
-    width: 330px;
+@import "~@santiment-network/ui/mixins.scss";
+
+.wrapper {
+    margin: 0 auto;
+    max-width: 720px;
 }
 
+.date {
+    @include text-normal;
+    color: var(--grey-dark-2);
+    margin: 40px 0 16px;
+}
 
-.pic {
-    margin-top: -30px;
+.signal {
+    margin-bottom: 24px;
 }
