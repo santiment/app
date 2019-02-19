@@ -1,5 +1,8 @@
 ## CHANGELOG
 
+- 2019-02-19 | v.0.31.4 'Sonar':
+  Fixed creating trending insight issues
+
 - 2019-02-14 | v.0.31.3 'Sonar':
   Using "slug" as an argument for the twitter requests
 
