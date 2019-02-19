@@ -20,7 +20,8 @@ const getPast3DaysInsightsByTrendTag = () =>
         return {
           variables: {
             tag: getInsightTrendTagByDate(new Date(Date.now() - timestamp))
-          }
+          },
+          fetchPolicy: 'cache-and-network'
         }
       },
       props: ({
