@@ -44,11 +44,12 @@ const updatePostGQL = gql`
 `
 
 const createNewPost = ({ createPost, post, user, history }) => {
+  const isTrendingInsight = window.location.search.includes('currentTrends')
   return createPost({
     variables: {
       title: post.title,
       text: post.text,
-      tags: (window.location.search.includes('currentTrends')
+      tags: (isTrendingInsight
         ? [{ label: getInsightTrendTagByDate(new Date()) }, ...post.tags]
         : post.tags
       ).map(tag => {
@@ -62,7 +63,7 @@ const createNewPost = ({ createPost, post, user, history }) => {
     }
   })
     .then(data => {
-      history.push('/insights/my')
+      history.push(isTrendingInsight ? '/sonar/' : '/insights/my')
     })
     .catch(error => {
       Raven.captureException(
