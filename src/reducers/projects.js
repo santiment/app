@@ -26,7 +26,8 @@ export default (state = initialState, action) => {
     case actions.ASSETS_FETCH_SUCCESS:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        timestamp: Date.now()
       }
     case 'LOADING_PROJECTS':
       return {
