@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from '@santiment-network/ui'
 import { connect } from 'react-redux'
 import * as actions from './actions'
+import GetSignals from './GetSignals'
 
 export const SignalMaster = ({ createTrigger, fetchTriggers }) => {
   return (
@@ -25,7 +26,25 @@ export const SignalMaster = ({ createTrigger, fetchTriggers }) => {
       >
         Create
       </Button>
-      <Button onClick={fetchTriggers}>fetch Signals</Button>
+
+      <GetSignals
+        render={({ signals, isError, isLoading }) => {
+          return (
+            <div>
+              {isLoading ? 'loading...' : ''}
+              {isError ? 'error' : ''}
+              {signals.map(signal => (
+                <div key={signal.id}>
+                  {signal.title}
+                  {signal.id}
+                  {signal.description}
+                  {JSON.stringify(signal)}
+                </div>
+              ))}
+            </div>
+          )
+        }}
+      />
     </div>
   )
 }

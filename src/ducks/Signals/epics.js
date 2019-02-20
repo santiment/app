@@ -90,7 +90,14 @@ export const USER_TRIGGER_QUERY = gql`
       id
       triggers {
         id
+        isPublic
+        cooldown
+        settings
         title
+        description
+        tags {
+          name
+        }
       }
     }
   }
