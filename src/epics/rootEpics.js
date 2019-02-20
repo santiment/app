@@ -25,6 +25,7 @@ import {
   fetchAssetsFromSharedListEpic
 } from './fetchAssetsEpic'
 import fetchTimeseriesEpic from '../ducks/GetTimeSeries/epics'
+import { createSignalEpic, fetchSignalsEpic } from '../ducks/Signals/epics'
 import handleNightModeToggle from './handleNightModeToggle'
 import handleBetaModeToggle from './handleBetaModeToggle'
 import {
@@ -83,5 +84,8 @@ export default combineEpics(
   apikeyGenerateEpic,
   apikeyRevokeEpic,
   handleNightModeToggle,
-  handleBetaModeToggle
+  handleBetaModeToggle,
+  // Signals
+  createSignalEpic,
+  fetchSignalsEpic
 )

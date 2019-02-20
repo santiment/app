@@ -35,6 +35,7 @@ import GDPRModal from './components/GDPRModal'
 import ConfirmDeleteWatchlistModal from './components/WatchlistPopup/ConfirmDeleteWatchlistModal'
 import AssetsPage from './pages/assets/AssetsPage'
 import SignalsPriceVolume from './pages/Signals/SignalsPriceVolume'
+import SignalFormPage from './ducks/Signals/SignalFormPage'
 import HistoricalBalancePage from './ducks/HistoricalBalance/HistoricalBalancePage'
 import WordCloudPage from './components/WordCloud/WordCloudPage'
 import TrendsTool from './pages/Trends/TrendsToolPage'
@@ -193,6 +194,7 @@ export const App = ({
         <Route exact path='/insights/newest' component={LoadableInsights} />
         <Route exact path='/insights/popular' component={LoadableInsights} />
         <Route exact path='/insights/my' component={LoadableInsights} />
+        <Route exact path='/sonar/master' component={SignalFormPage} />
         <Route
           exact
           path='/insights/users/:userId'
