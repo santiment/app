@@ -8,6 +8,7 @@ import {
   INSIGHTS_BY_TAG_QUERY
 } from './InsightsGQL'
 import InsightCard from '../../components/Insight/InsightCard'
+import Feed from './Feed'
 
 const queryByVariableMap = {
   tag: INSIGHTS_BY_TAG_QUERY,
@@ -38,9 +39,22 @@ const InsightsFeedPage = ({ match: { path, params }, ...props }) => {
       <Query {...getQueryParams(path, params)}>
         {({ data: { insights = [] }, ...gprops }) => {
           console.log(gprops)
-          return insights.map(({ id, ...insight }) => {
-            return <InsightCard key={id} id={id} {...insight} />
-          })
+          return (
+            <Feed
+              items={insights}
+              component={InsightCard}
+              dateKey='createdAt'
+            />
+          )
+          {
+            /* return insights.map(({ id, ...insight }) => { */
+          }
+          {
+            /* return <InsightCard key={id} id={id} {...insight} /> */
+          }
+          {
+            /* }) */
+          }
         }}
       </Query>
     </div>
