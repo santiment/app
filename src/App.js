@@ -58,6 +58,11 @@ const LoadableInsight = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableSonarInsights = Loadable({
+  loader: () => import('./pages/SonarInsights/InsightsPage'),
+  loading: () => <PageLoader />
+})
+
 const LoadableInsightsNew = Loadable({
   loader: () => import('./pages/InsightsNew/InsightsNew'),
   loading: () => <PageLoader />
@@ -190,6 +195,7 @@ export const App = ({
           component={LoadableInsightsNew}
         />
         <Route exact path='/insights' component={LoadableInsights} />
+        <Route path='/insights-sonar' component={LoadableSonarInsights} />
         <Route exact path='/insights/newest' component={LoadableInsights} />
         <Route exact path='/insights/popular' component={LoadableInsights} />
         <Route exact path='/insights/my' component={LoadableInsights} />
