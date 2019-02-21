@@ -2,10 +2,10 @@ import React, { Fragment } from 'react'
 import moment from 'moment'
 import styles from './Feed.module.scss'
 
-const Feed = ({ component: El, items, dateKey }) => {
+const Feed = ({ component: El, data, dateKey }) => {
   let lastDateKey
 
-  return items.map((item, index) => {
+  return data.map((item, index) => {
     const id = item.id || index
     const date = moment(item[dateKey]).format('MMM D')
     const isNotSameAsLastDate = date !== lastDateKey

@@ -52,6 +52,7 @@ export const INSIGHTS_BY_USERID_QUERY = gql`
       id
       title
       user {
+        id
         username
       }
       createdAt
@@ -72,6 +73,7 @@ export const INSIGHTS_BY_TAG_QUERY = gql`
       id
       title
       user {
+        id
         username
       }
       createdAt

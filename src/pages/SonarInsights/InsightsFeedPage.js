@@ -1,6 +1,5 @@
 import React from 'react'
 import { Query } from 'react-apollo'
-import { Link, Route, Redirect, Switch } from 'react-router-dom'
 import { baseLocation } from './InsightsPage'
 import {
   ALL_INSIGHTS_QUERY,
@@ -9,16 +8,27 @@ import {
 } from './InsightsGQL'
 import InsightCard from '../../components/Insight/InsightCard'
 import Feed from './Feed'
+import styles from './InsightsFeedPage.module.scss'
+import { connect } from 'react-redux'
 
 const queryByVariableMap = {
   tag: INSIGHTS_BY_TAG_QUERY,
   userId: INSIGHTS_BY_USERID_QUERY
 }
 
-const getQueryParams = (path, params) => {
+const getQueryParams = (path, params, userId) => {
   if (path === baseLocation) {
     return {
       query: ALL_INSIGHTS_QUERY
+    }
+  }
+
+  if (path.includes(`${baseLocation}/my`)) {
+    return {
+      query: INSIGHTS_BY_USERID_QUERY,
+      variables: {
+        userId
+      }
     }
   }
 
@@ -32,33 +42,35 @@ const getQueryParams = (path, params) => {
   }
 }
 
-const InsightsFeedPage = ({ match: { path, params }, ...props }) => {
-  console.log(props)
+const sortInsightsByDateDescending = (
+  { createdAt: aCreatedAt },
+  { createdAt: bCreatedAt }
+) => (aCreatedAt < bCreatedAt ? 1 : -1)
+
+const InsightsFeedPage = ({ match: { path, params }, userId, ...props }) => {
+  console.log(props, userId)
   return (
-    <div>
-      <Query {...getQueryParams(path, params)}>
-        {({ data: { insights = [] }, ...gprops }) => {
-          console.log(gprops)
+    <div className={styles.wrapper}>
+      <Query {...getQueryParams(path, params, +userId)}>
+        {({ data = {}, ...gprops }) => {
+          const { insights = [] } = data
+          /* console.log(gprops, [...insights].sort(sortInsightsByDateDescending)) */
+
           return (
             <Feed
-              items={insights}
+              data={[...insights].sort(sortInsightsByDateDescending)}
               component={InsightCard}
               dateKey='createdAt'
             />
           )
-          {
-            /* return insights.map(({ id, ...insight }) => { */
-          }
-          {
-            /* return <InsightCard key={id} id={id} {...insight} /> */
-          }
-          {
-            /* }) */
-          }
         }}
       </Query>
     </div>
   )
 }
 
-export default InsightsFeedPage
+const mapStateToProps = ({ user }) => ({
+  userId: user.data.id
+})
+
+export default connect(mapStateToProps)(InsightsFeedPage)

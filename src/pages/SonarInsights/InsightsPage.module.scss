@@ -1,3 +1,22 @@
-.test {
-    
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.tabs {
+    display: block;
+    margin-bottom: 40px;
+}
+
+.newSignal {
+    background: var(--green) !important; // NOTE(vanguard): Delete after updating ui button green variant
+    color: var(--white) !important;
+    fill: var(--white) !important;
+
+    &__icon {
+        height: 18px;
+        margin-right: 7px;
+    }
 }
