@@ -39,7 +39,9 @@ const InsightCard = ({
       <div className={styles.bottom}>
         <div className={styles.left}>
           <div className={styles.profile}>
-            <div className={styles.profile__icon} />
+            <div className={styles.profile__icon}>
+              <Icon type='profile-round' />
+            </div>
             <div className={styles.profile__info}>
               <Link
                 to={`/insights-sonar/users/${author.id}`}

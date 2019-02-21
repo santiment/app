@@ -66,6 +66,14 @@
         border-radius: 50%;
         background: var(--grey-light-2);
         margin-right: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        fill: var(--white);
+
+        :global(.night-mode) & {
+            fill: var(--grey-dark);
+        }
     }
 
     &__info {
