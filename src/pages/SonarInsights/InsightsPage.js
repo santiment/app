@@ -35,7 +35,12 @@ const routes = [
   `${baseLocation}/users/:userId`
 ]
 
-const InsightsPage = ({ match: { path } }) => {
+const InsightsPage = ({
+  location: { pathname },
+  match: { path, ...matchRest },
+  ...props
+}) => {
+  console.log(path, matchRest, props)
   return (
     <div style={{ width: '100%' }} className='page'>
       <div className={styles.header}>
@@ -50,7 +55,9 @@ const InsightsPage = ({ match: { path } }) => {
       </div>
       <Tabs
         options={tabs}
-        defaultSelectedIndex={path}
+        defaultSelectedIndex={
+          pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
+        }
         passSelectionIndexToItem
         className={styles.tabs}
         as={({ selectionIndex, ...props }) => (

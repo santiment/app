@@ -59,6 +59,9 @@ export const INSIGHTS_BY_USERID_QUERY = gql`
       state
       readyState
       votedAt
+      tags {
+        name
+      }
       votes {
         totalSanVotes
         totalVotes
@@ -80,6 +83,9 @@ export const INSIGHTS_BY_TAG_QUERY = gql`
       state
       readyState
       votedAt
+      tags {
+        name
+      }
       votes {
         totalSanVotes
         totalVotes

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Query } from 'react-apollo'
+import { connect } from 'react-redux'
 import { baseLocation } from './InsightsPage'
 import {
   ALL_INSIGHTS_QUERY,
@@ -9,35 +10,27 @@ import {
 import InsightCard from '../../components/Insight/InsightCard'
 import Feed from './Feed'
 import styles from './InsightsFeedPage.module.scss'
-import { connect } from 'react-redux'
 
-const queryByVariableMap = {
-  tag: INSIGHTS_BY_TAG_QUERY,
-  userId: INSIGHTS_BY_USERID_QUERY
-}
-
-const getQueryParams = (path, params, userId) => {
+const getQueryParams = (path, { tag, userId: authorId }, userId) => {
   if (path === baseLocation) {
     return {
       query: ALL_INSIGHTS_QUERY
     }
   }
 
-  if (path.includes(`${baseLocation}/my`)) {
+  if (path.includes(`${baseLocation}/my`) || authorId) {
     return {
       query: INSIGHTS_BY_USERID_QUERY,
       variables: {
-        userId
+        userId: +authorId || userId
       }
     }
   }
 
-  const variable = Object.keys(params)[0]
-
   return {
-    query: queryByVariableMap[variable],
+    query: INSIGHTS_BY_TAG_QUERY,
     variables: {
-      [variable]: params[variable]
+      tag
     }
   }
 }

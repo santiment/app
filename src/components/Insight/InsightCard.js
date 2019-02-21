@@ -23,7 +23,7 @@ const InsightCard = ({
           {tags.map(({ name }) => {
             return (
               <Link
-                to={`/insights/tags/${name}`}
+                to={`/insights-sonar/tags/${name}`}
                 key={name}
                 className={styles.tag}
               >
@@ -32,7 +32,7 @@ const InsightCard = ({
             )
           })}
         </div>
-        <Link to={`/insights/${id}`} className={styles.title}>
+        <Link to={`/insights-sonar/${id}`} className={styles.title}>
           <MultilineText maxLines={2} id='insightCardTitle' text={title} />
         </Link>
       </div>
@@ -42,7 +42,7 @@ const InsightCard = ({
             <div className={styles.profile__icon} />
             <div className={styles.profile__info}>
               <Link
-                to={`/insights/users/${author.id}`}
+                to={`/insights-sonar/users/${author.id}`}
                 className={styles.profile__name}
               >
                 {author.username}
