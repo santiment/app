@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react'
 import moment from 'moment'
+import LazyLoad from 'react-lazyload'
 import styles from './Feed.module.scss'
 
+// NOTE(vanguard): implement infinite-scroll, not lazy load
 const Feed = ({ component: El, data, dateKey }) => {
   let lastDateKey
 
@@ -15,10 +17,10 @@ const Feed = ({ component: El, data, dateKey }) => {
     }
 
     return (
-      <Fragment key={id}>
+      <LazyLoad offset={1000} once key={id}>
         {isNotSameAsLastDate && <h4 className={styles.date}>{date}</h4>}
         <El className={styles.signal} {...item} />
-      </Fragment>
+      </LazyLoad>
     )
   })
 }

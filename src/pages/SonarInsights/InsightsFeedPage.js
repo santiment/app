@@ -40,18 +40,35 @@ const sortInsightsByDateDescending = (
   { createdAt: bCreatedAt }
 ) => (aCreatedAt < bCreatedAt ? 1 : -1)
 
-const InsightsFeedPage = ({ match: { path, params }, userId, ...props }) => {
+const filterInsightsNoDrafts = ({ readyState }) => readyState !== 'draft'
+const filterInsightsOnlyDrafts = ({ readyState }) => readyState === 'draft'
+
+const InsightsFeedPage = ({
+  location: { pathname },
+  match: { path, params },
+  userId,
+  ...props
+}) => {
   console.log(props, userId)
   return (
     <div className={styles.wrapper}>
       <Query {...getQueryParams(path, params, +userId)}>
         {({ data = {}, ...gprops }) => {
           const { insights = [] } = data
-          /* console.log(gprops, [...insights].sort(sortInsightsByDateDescending)) */
+
+          let feedInsights = insights
+            .filter(
+              pathname.includes(`${baseLocation}/my/drafts`)
+                ? filterInsightsOnlyDrafts
+                : filterInsightsNoDrafts
+            )
+            .sort(sortInsightsByDateDescending)
+
+          console.log(feedInsights)
 
           return (
             <Feed
-              data={[...insights].sort(sortInsightsByDateDescending)}
+              data={feedInsights} // NOTE(vanguard): Should implement lazy loading on scroll
               component={InsightCard}
               dateKey='createdAt'
             />
