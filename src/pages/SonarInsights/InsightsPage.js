@@ -12,6 +12,11 @@ const LoadableInsightsFeedPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableInsightsCreationPage = Loadable({
+  loader: () => import('./InsightsCreationPage'),
+  loading: () => <PageLoader />
+})
+
 const tabs = [
   {
     index: `${baseLocation}`,
@@ -27,7 +32,7 @@ const tabs = [
   }
 ]
 
-const routes = [
+const feedRoutes = [
   baseLocation,
   `${baseLocation}/my`,
   `${baseLocation}/my/drafts`,
@@ -65,7 +70,7 @@ const InsightsPage = ({
         )}
       />
       <Switch>
-        {routes.map((path, index) => (
+        {feedRoutes.map((path, index) => (
           <Route
             exact
             key={index}
@@ -73,6 +78,11 @@ const InsightsPage = ({
             component={LoadableInsightsFeedPage}
           />
         ))}
+        <Route
+          exact
+          path={`${baseLocation}/new`}
+          component={LoadableInsightsCreationPage}
+        />
       </Switch>
     </div>
   )
