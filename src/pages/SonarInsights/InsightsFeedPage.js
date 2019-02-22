@@ -68,7 +68,7 @@ const InsightsFeedPage = ({
 
           return (
             <Feed
-              data={feedInsights} // NOTE(vanguard): Should implement lazy loading on scroll
+              data={feedInsights}
               component={InsightCard}
               dateKey='createdAt'
             />
