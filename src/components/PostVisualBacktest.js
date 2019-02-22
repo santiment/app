@@ -7,6 +7,8 @@ import { HistoryPriceByTickerGQL } from './../pages/Detailed/DetailedGQL'
 import PercentChanges from './PercentChanges'
 import PostVisualBacktestChart from './PostVisualBacktestChart'
 import { binarySearchHistoryPriceIndex } from '../utils/utils'
+
+import LazyLoad from 'react-lazyload'
 import './PostVisualBacktest.css'
 
 const getChanges = (start, last, prop = 'priceUsd') =>
@@ -25,23 +27,33 @@ export const PostVisualBacktest = ({
   changeProp,
   changePriceProp,
   history,
-  postUpdatedAt
+  postUpdatedAt,
+  startValue
 }) => {
-  if (history.loading || !history.historyPrice) return null
+  if (history.loading || !history.historyPrice || !changePriceProp) return null
+  if (!changePriceProp) {
+    console.log(ticker)
+  }
   return (
     <div className='post-visual-backtest'>
       <div className='post-visual-backtest__info'>
         <div className='post-visual-backtest__changes'>
           {ticker} {changeProp} since publication
         </div>
-        {Number.isFinite(change) && <PercentChanges changes={change} />}
       </div>
       <PostVisualBacktestChart
         history={history}
         change={change}
         postUpdatedAt={postUpdatedAt}
         changePriceProp={changePriceProp}
+        startValue={startValue}
       />
+      {Number.isFinite(change) && (
+        <PercentChanges
+          className={'post-visual-backtest__percent'}
+          changes={change}
+        />
+      )}
     </div>
   )
 }
@@ -79,6 +91,7 @@ const enhance = compose(
       change: getChanges(start, last, changePriceProp),
       changeProp,
       changePriceProp,
+      startValue: start,
       postUpdatedAt: start.datetime
     }
   })
@@ -92,4 +105,11 @@ PostVisualBacktest.defaultProps = {
   }
 }
 
-export default enhance(PostVisualBacktest)
+/* export default enhance(PostVisualBacktest) */
+const Enhanced = enhance(PostVisualBacktest)
+
+export default props => (
+  <LazyLoad offset={1000} once>
+    <Enhanced {...props} />
+  </LazyLoad>
+)
