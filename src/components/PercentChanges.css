@@ -3,11 +3,11 @@
 }
 
 .percent-changes--positive {
-  color: rgb(48, 157, 129);
+  color: var(--green);
   font-size: 14px;
 }
 
 .percent-changes--negative {
-  color: rgb(200, 47, 63);
+  color: var(--red);
   font-size: 14px;
 }
