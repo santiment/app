@@ -7,7 +7,7 @@ import {
   INSIGHTS_BY_USERID_QUERY,
   INSIGHTS_BY_TAG_QUERY
 } from './InsightsGQL'
-import InsightCard from '../../components/Insight/InsightCard'
+import InsightCard from '../../components/Insight/InsightCardWithMarketcap'
 import Feed from './Feed'
 import styles from './InsightsFeedPage.module.scss'
 
