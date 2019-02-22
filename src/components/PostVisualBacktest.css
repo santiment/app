@@ -1,4 +1,6 @@
 .post-visual-backtest {
+  text-align: right;
+  color: var(--grey-dark-2);
   line-height: 16px;
   display: flex;
   flex-direction: column;
@@ -21,12 +23,10 @@
 .post-visual-backtest__changes {
   font-size: 14px;
   text-align: center;
-  color: var(--grey-dark-2);
 }
 
 .post-visual-backtest__percent {
   font-size: 14px;
-  text-align: right;
 }
 
 @media (min-width: 768px) {
