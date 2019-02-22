@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Signals actions createTrigger should return error if 0 channels 1`] = `"You must setup at least one channel for new signal"`;
+
+exports[`Signals actions createTrigger should work 1`] = `
+Object {
+  "payload": Object {
+    "cooldown": "1h",
+    "description": "check",
+    "isPublic": false,
+    "settings": Object {
+      "channel": "telegram",
+      "percent_threshold": "5",
+      "target": "santiment",
+      "time_window": "24h",
+      "type": "price",
+    },
+    "title": "Check",
+  },
+  "type": "[signal] CREATE_SIGNAL",
+}
+`;

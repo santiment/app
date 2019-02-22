@@ -1,65 +1,115 @@
 import React from 'react'
-import { Button } from '@santiment-network/ui'
+import { Button, Input } from '@santiment-network/ui'
 import { connect } from 'react-redux'
-import * as actions from './actions'
-import GetSignals from './GetSignals'
+import { createTrigger } from './actions'
+import { fork } from './../../utils/utils'
+import TriggerForm from './TriggerForm'
+import InfoSignalForm from './InfoSignalForm'
+import styles from './TriggerForm.module.scss'
 
-export const SignalMaster = ({ createTrigger, fetchTriggers }) => {
-  return (
+const STEPS = {
+  SETTINGS: 0,
+  CONFIRM: 1
+}
+
+export class SignalMaster extends React.Component {
+  state = {
+    step: STEPS.SETTINGS,
+    readyForConfirmitaion: false,
+    settings: {},
+    info: {}
+  }
+
+  render () {
+    return (
+      <div className={styles.wrapper}>
+        {ifStepSettings({
+          ...this.state,
+          handleChangeStep: this.handleChangeStep,
+          handleSettingsChange: this.handleSettingsChange
+        })}
+        {ifStepConfirm({
+          ...this.state,
+          ...this.props,
+          handleChangeStep: this.handleChangeStep,
+          handleInfoSignalChange: this.handleInfoSignalChange
+        })}
+      </div>
+    )
+  }
+
+  handleChangeStep = step => {
+    this.setState({ step })
+  }
+
+  handleSettingsChange = settings => {
+    this.setState({ settings }, () => {
+      this.setState({ readyForConfirmitaion: true })
+    })
+  }
+
+  handleInfoSignalChange = info => {
+    this.setState({ info })
+  }
+}
+
+const ifStepSettings = fork(
+  ({ step }) => step === STEPS.SETTINGS,
+  ({
+    handleChangeStep,
+    handleSettingsChange,
+    readyForConfirmitaion = false
+  }) => (
     <div>
+      <TriggerForm onSettingsChange={handleSettingsChange} />
       <Button
-        onClick={() =>
-          createTrigger({
-            settings: {
-              target: 'santiment',
-              type: 'price_percent_change',
-              channel: 'telegram',
-              time_window: '1d',
-              percent_threshold: 5.0
-            },
-            isPublic: false,
-            title: 'Example',
-            description: 'any',
-            cooldown: '30m'
-          })
-        }
+        variant={readyForConfirmitaion ? 'fill' : 'flat'}
+        accent='positive'
+        disabled={!readyForConfirmitaion}
+        isActive={readyForConfirmitaion}
+        onClick={() => handleChangeStep(STEPS.CONFIRM)}
+      >
+        Continue
+      </Button>
+    </div>
+  )
+)
+
+const ifStepConfirm = fork(
+  ({ step }) => step === STEPS.CONFIRM,
+  ({
+    createTrigger,
+    handleChangeStep,
+    readyForConfirmitaion,
+    handleInfoSignalChange,
+    step,
+    info,
+    ...rest
+  }) => (
+    <div>
+      <InfoSignalForm onInfoSignalChange={handleInfoSignalChange} />
+      <Button
+        variant={'flat'}
+        accent='normal'
+        border
+        onClick={() => handleChangeStep(STEPS.SETTINGS)}
+      >
+        Back
+      </Button>
+      <Button
+        variant={'fill'}
+        accent='positive'
+        onClick={() => createTrigger({ ...rest.settings, ...info })}
       >
         Create
       </Button>
-
-      <GetSignals
-        render={({ signals, isError, isLoading }) => {
-          return (
-            <div>
-              {isLoading ? 'loading...' : ''}
-              {isError ? 'error' : ''}
-              {signals.map(signal => (
-                <div key={signal.id}>
-                  {signal.title}
-                  {signal.id}
-                  {signal.description}
-                  {JSON.stringify(signal)}
-                </div>
-              ))}
-            </div>
-          )
-        }}
-      />
     </div>
   )
-}
+)
 
 const mapDispatchToProps = dispatch => ({
   createTrigger: payload => {
-    dispatch({
-      type: actions.SIGNAL_CREATE,
-      payload
-    })
-  },
-  fetchTriggers: () => {
-    dispatch({
-      type: actions.SIGNAL_FETCH_ALL
-    })
+    dispatch(createTrigger(payload))
   }
 })
 
