@@ -67,7 +67,7 @@ const enhance = compose(
         errorPolicy: 'all',
         variables: {
           from: moment(from)
-            .subtract(6, 'months')
+            .subtract(3, 'months')
             .utc()
             .format(),
           ticker: isTotalMarket(ticker) ? 'TOTAL_MARKET' : ticker,

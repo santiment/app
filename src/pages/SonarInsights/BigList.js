@@ -58,6 +58,10 @@ class BigList extends Component {
   onScroll = throttle(() => {
     const { scrollTarget, containerOffsetTop, container, scrollProp } = this
 
+    if (this.state.noMore) {
+      return
+    }
+
     console.log(
       scrollTarget,
       containerOffsetTop,
@@ -73,7 +77,7 @@ class BigList extends Component {
       console.log('adding new chunk')
       this.setState(this.updateState)
     }
-  }, 150)
+  }, 200)
 
   updateState ({ startSlice, endSlice, noMore }) {
     if (noMore) {
