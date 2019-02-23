@@ -1,0 +1,18 @@
+.title {
+    font-weight: 500;
+    line-height: 38px;
+    font-size: 28px;
+    color: var(--black);
+    background: var(--white) !important;
+    display: block;
+    width: 100%;
+    border: 0;
+    resize: none;
+    outline: none;
+    padding: 0;
+    margin-bottom: 14px;
+
+    &::placeholder {
+        color: var(--grey-dark);
+    }
+}
