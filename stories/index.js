@@ -20,6 +20,7 @@
 import '@santiment-network/ui/main.scss'
 
 import './NavbarStory.js'
+import './EditorStory.js'
 import './UISearchStory.js'
 import './PanelStory.js'
 import './WordCloudStory.js'

@@ -135,4 +135,62 @@
     color: $light-gray3;
     cursor: pointer;
 }
+
+.md-side-toolbar {
+    position: relative;
+}
+
+.md-open-button + div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation-fill-mode: forwards;
+    animation-name: fade;
+    animation-duration: 200ms;
+}
+
+@keyframes :global(fade) {
+    from {
+        opacity: 0;
+        left: 0;
+    }
+    to {
+        opacity: 1;
+        left: 36px;
+    }
+}
+
+.md-add-button {
+    cursor: pointer;
+    outline: none;
+    background: transparent;
+    border-radius: 50%;
+    border: 2px solid var(--black);
+    width: 16px;
+    height: 18px;
+    position: relative;
+
+    svg {
+        display: none;
+    }
+
+    &.md-open-button::before {
+        transform: translate3d(-42%, -50%, 0) rotate(45deg);
+    }
+
+    &::before {
+        color: var(--black);
+        content: '+';
+        display: inline-block;
+        position: absolute;
+        font-size: 18px;
+        line-height: 0;
+        transition: transform 200ms;
+        font-family: Rubik, sans-serif;
+        left: 52%;
+        top: 45%;
+        transform: translate3d(-50%, -50%, 0);
+    }
+}
+
 }
