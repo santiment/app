@@ -39,12 +39,13 @@ class SanEditor extends React.Component {
 
   render () {
     const { editorState } = this.state
+    const { placeholder = '' } = this.props
     return (
       <Editor
         ref={this.refsEditor}
         editorState={editorState}
         onChange={this.onChange}
-        placeholder=''
+        placeholder={placeholder}
         toolbarConfig={{
           block: ['blockquote', 'unordered-list-item'],
           inline: ['hyperlink', 'BOLD', 'UNDERLINE', 'ITALIC']
