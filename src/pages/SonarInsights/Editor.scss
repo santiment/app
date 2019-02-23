@@ -9,8 +9,11 @@
     background: var(--white);
     color: var(--black);
     position: relative;
+    
+    & span::selection {
+        background: var(--green-light-2);
+    }
 }
-
 
 .md-editor-toolbar {
     height: 32px;
@@ -23,7 +26,7 @@
         z-index: 2;
         border-radius: $border-radius;
         transition: all .1s ease;
-        // visibility: hidden;
+        visibility: hidden;
         box-shadow: 0px 2px 2px rgba(21, 24, 31, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.08), 0px 4px 12px rgba(0, 0, 0, 0.08);
 
         &.md-editor-toolbar--isopen {
@@ -137,7 +140,8 @@
 }
 
 .md-side-toolbar {
-    position: relative;
+    position: absolute;
+    left: -36px;
 }
 
 .md-open-button + div {
@@ -147,6 +151,7 @@
     animation-fill-mode: forwards;
     animation-name: fade;
     animation-duration: 200ms;
+    margin-top: 2px;
 }
 
 @keyframes :global(fade) {
@@ -169,6 +174,7 @@
     width: 16px;
     height: 18px;
     position: relative;
+    margin-top: 7px;
 
     svg {
         display: none;

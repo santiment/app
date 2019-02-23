@@ -5,7 +5,7 @@ import ColorModeComparison from './ColorModeComparison'
 
 storiesOf('Editor', module)
   .add('Simple', () => (
-    <div>
+    <div style={{ padding: 20 }}>
       <Editor />
     </div>
   ))
