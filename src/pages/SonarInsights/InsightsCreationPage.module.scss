@@ -34,10 +34,50 @@
 
 .bottom {
     position: fixed;
+    z-index: 2;
     left: 0;
     right: 0;
     bottom: 0;
     height: 50px;
     border-top: 1px solid var(--grey-light-2);
     background: var(--white);
+
+    &__left {
+        display: flex;
+    }
 }
+
+:global {
+.Select-menu-outer{
+    top: initial;
+    bottom: calc(100% + 4px);
+}
+
+.Select{
+    min-width: 200px;
+
+}
+
+.Select-control {
+    height: 32px;
+}
+
+.Select-input {
+    height: 32px;
+}
+
+.ReactVirtualized__List {
+    padding: 8px;
+}
+
+.VirtualizedSelectOption {
+    padding: 6px 8px;
+    border-radius: 4px;
+}
+
+.VirtualizedSelectFocusedOption {
+    background: var(--grey-light) !important;
+}
+
+}
+

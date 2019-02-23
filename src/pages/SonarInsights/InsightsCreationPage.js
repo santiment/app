@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button } from '@santiment-network/ui'
 import Editor from './Editor'
 import styles from './InsightsCreationPage.module.scss'
+import TagSelector from './TagSelector'
 
 class InsightsCreationPage extends Component {
   state = {
@@ -46,7 +47,10 @@ class InsightsCreationPage extends Component {
         <Editor placeholder='Write something interesting here...' />
         <div className={styles.bottom}>
           <div className={styles.container}>
-            <div className={styles.bottom__left}>Add Tags</div>
+            <div className={styles.bottom__left}>
+              Add Tags
+              <TagSelector />
+            </div>
             <div className={styles.bottom__right}>
               <span className={styles.save}>Saved few seconds ago</span>
               <Button border variant='ghost'>
