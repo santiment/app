@@ -1,3 +1,8 @@
+.wrapper {
+    margin-bottom: 100vh;
+    
+}
+
 .title {
     font-weight: 500;
     line-height: 38px;
@@ -15,4 +20,24 @@
     &::placeholder {
         color: var(--grey-dark);
     }
+}
+
+.container {
+    max-width: 1024px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0 15px;
+    height: 100%;
+}
+
+.bottom {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 50px;
+    border-top: 1px solid var(--grey-light-2);
+    background: var(--white);
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Button } from '@santiment-network/ui'
 import Editor from './Editor'
 import styles from './InsightsCreationPage.module.scss'
 
@@ -33,7 +34,7 @@ class InsightsCreationPage extends Component {
     } = this.state
 
     return (
-      <div>
+      <div className={styles.wrapper}>
         <textarea
           rows='1'
           ref={this.titleInputRef}
@@ -43,6 +44,17 @@ class InsightsCreationPage extends Component {
           onChange={this.onTitleChange}
         />
         <Editor placeholder='Write something interesting here...' />
+        <div className={styles.bottom}>
+          <div className={styles.container}>
+            <div className={styles.bottom__left}>Add Tags</div>
+            <div className={styles.bottom__right}>
+              <span className={styles.save}>Saved few seconds ago</span>
+              <Button border variant='ghost'>
+                Publish insight
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
