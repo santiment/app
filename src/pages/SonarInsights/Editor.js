@@ -6,7 +6,11 @@ import {
   Editor,
   createEditorState
 } from 'medium-draft'
+import mediumDraftImporter from 'medium-draft/lib/importer'
+import mediumDraftExporter from 'medium-draft/lib/exporter'
+import { sanitizeMediumDraftHtml } from './../../utils/utils'
 import './Editor.scss'
+import { convertToRaw } from 'draft-js'
 
 INLINE_BUTTONS[0].label = <Icon type='text-bold' />
 INLINE_BUTTONS[1].label = <Icon type='text-italic' />
@@ -17,18 +21,25 @@ BLOCK_BUTTONS[1].label = <Icon type='quote' />
 BLOCK_BUTTONS[2].label = <Icon type='bullet-list' />
 
 class SanEditor extends React.Component {
-  state = {
-    editorState: createEditorState() // for empty content
+  static defaultProps = {
+    defaultText: '',
+    onChange: () => {}
   }
 
-  /*
-       this.state = {
-       editorState: createEditorState(data), // with content
-       };
-     */
+  state = {
+    editorState: createEditorState(
+      convertToRaw(mediumDraftImporter(this.props.defaultText))
+    )
+  }
 
   onChange = editorState => {
-    this.setState({ editorState })
+    this.setState({ editorState }, () =>
+      this.props.onChange(
+        sanitizeMediumDraftHtml(
+          mediumDraftExporter(editorState.getCurrentContent())
+        )
+      )
+    )
   }
 
   refsEditor = React.createRef()
