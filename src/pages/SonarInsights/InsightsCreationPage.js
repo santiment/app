@@ -3,48 +3,47 @@ import { Button } from '@santiment-network/ui'
 import Editor from './Editor'
 import styles from './InsightsCreationPage.module.scss'
 import TagSelector from './TagSelector'
+import AutoresizeTextarea from './AutoresizeTextarea'
 
 class InsightsCreationPage extends Component {
+  static defaultProps = {
+    title: '',
+    text: ''
+  }
+
   state = {
-    titleInput: {
-      rows: 1,
-      value: ''
-    }
+    title: this.props.title,
+    text: this.props.text
   }
 
-  componentDidMount () {
-    this.titleOneLineHeight = this.titleInputRef.current.clientHeight
-  }
-
-  onTitleChange = ({ currentTarget }) => {
-    currentTarget.rows = 1
-    currentTarget.rows = currentTarget.scrollHeight / this.titleOneLineHeight
-
+  onTitleChange = title => {
     this.setState({
-      titleInput: {
-        value: currentTarget.value
-      }
+      title
     })
   }
 
-  titleInputRef = React.createRef()
+  onTextChange = text => {
+    this.setState({
+      text
+    })
+  }
 
   render () {
-    const {
-      titleInput: { rows, value }
-    } = this.state
+    const { title, text } = this.props
 
     return (
       <div className={styles.wrapper}>
-        <textarea
-          rows='1'
-          ref={this.titleInputRef}
+        <AutoresizeTextarea
           className={styles.title}
-          value={value}
           placeholder="Insight's title"
           onChange={this.onTitleChange}
+          defaultValue={title}
         />
-        <Editor placeholder='Write something interesting here...' />
+        <Editor
+          defaultText={text}
+          placeholder='Write something interesting here...'
+          onChange={this.onTextChange}
+        />
         <div className={styles.bottom}>
           <div className={styles.container}>
             <div className={styles.bottom__left}>
