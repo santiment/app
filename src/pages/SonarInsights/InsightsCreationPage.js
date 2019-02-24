@@ -52,7 +52,7 @@ class InsightsCreationPage extends Component {
               <TagSelector />
             </div>
             <div className={styles.bottom__right}>
-              <span className={styles.save}>Saved few seconds ago</span>
+              <span className={styles.save}>Draft saved few seconds ago</span>
               <Button border variant='ghost'>
                 Publish insight
               </Button>

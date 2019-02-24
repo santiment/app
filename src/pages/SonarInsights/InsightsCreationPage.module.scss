@@ -1,6 +1,15 @@
 .wrapper {
-    margin-bottom: 100vh;
-    
+    position: relative;
+
+    &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 105%;
+        height: 60vh;
+        background: var(--white);
+        width: 100%;
+    }
 }
 
 .title {
@@ -44,6 +53,7 @@
 
     &__left {
         display: flex;
+        align-items: center;
     }
 }
 
