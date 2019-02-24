@@ -8,12 +8,14 @@ import AutoresizeTextarea from './AutoresizeTextarea'
 class InsightsCreationPage extends Component {
   static defaultProps = {
     title: '',
-    text: ''
+    text: '',
+    tags: []
   }
 
   state = {
     title: this.props.title,
-    text: this.props.text
+    text: this.props.text,
+    tags: this.props.tags
   }
 
   onTitleChange = title => {
@@ -28,8 +30,12 @@ class InsightsCreationPage extends Component {
     })
   }
 
+  onTagsChange = tags => {
+    this.setState({ tags })
+  }
+
   render () {
-    const { title, text } = this.props
+    const { title, text, tags } = this.props
 
     return (
       <div className={styles.wrapper}>
@@ -48,7 +54,7 @@ class InsightsCreationPage extends Component {
           <div className={styles.container}>
             <div className={styles.bottom__left}>
               Add Tags
-              <TagSelector />
+              <TagSelector onChange={this.onTagsChange} defaultTags={tags} />
             </div>
             <div className={styles.bottom__right}>
               <span className={styles.save}>Draft saved few seconds ago</span>

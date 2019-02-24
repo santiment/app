@@ -9,47 +9,41 @@ for (let i = 0; i < defaultTags.length; i++) {
   defaultTags[i] = { name: 'Tag-' + i }
 }
 
-const getOptionsFromTags = tags => {
-  return (tags.allTags || []).map((tag, index) => {
-    return tag === null ? {} : { value: tag.name, label: tag.name }
-  })
-}
-
 class TagSelector extends Component {
-  state = {
-    tags: this.props.savedChosenTags
+  static defaultProps = {
+    onChange: () => {}
   }
 
-  handleOnChange = tags => {
+  state = {
+    tags: this.props.defaultTags
+  }
+
+  onChange = tags => {
     if (tags.length <= 5) {
       this.setState({ tags }, () => {
-        this.props.setTags(tags)
+        this.props.onChange(tags)
       })
     }
   }
 
   render () {
-    const { tags = defaultTags, className = '' } = this.props
+    const { options = defaultTags, className = '' } = this.props
+    const { tags } = this.state
     return (
       <Select
         multi
         placeholder='Add a tag...'
-        options={tags}
+        options={options}
         // isLoading={this.props.isTagsLoading}
-        // value={this.state.tags}
+        value={tags}
         className={className}
-        value={[]}
         optionHeight={32}
-        onChange={console.log}
+        onChange={this.onChange}
         valueKey='name'
         labelKey='name'
       />
     )
   }
-}
-
-TagSelector.propTypes = {
-  setTags: PropTypes.func.isRequired
 }
 
 export default TagSelector
