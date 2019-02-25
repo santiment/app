@@ -25,7 +25,7 @@ class LogoutPage extends React.Component {
   render () {
     return (
       <section className='page'>
-        <h1>Goodbuy...</h1>
+        <h1>Goodbye...</h1>
       </section>
     )
   }
