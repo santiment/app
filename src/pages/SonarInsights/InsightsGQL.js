@@ -49,6 +49,25 @@ export const INSIGHT_BY_ID_QUERY = gql`
   }
 `
 
+export const INSIGHTS_USER_DRAFTS_QUERY = gql`
+  query allInsightsForUser($userId: Int!) {
+    insights: allInsightsForUser(userId: $userId) {
+      id
+      title
+      text
+      readyState
+      updatedAt
+      tags {
+        name
+      }
+      user {
+        username
+        id
+      }
+    }
+  }
+`
+
 export const INSIGHTS_BY_USERID_QUERY = gql`
   query allInsightsForUser($userId: Int!) {
     insights: allInsightsForUser(userId: $userId) {

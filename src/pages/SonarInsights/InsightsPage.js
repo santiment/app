@@ -22,6 +22,11 @@ const LoadableInsightPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableInsightsDraftPage = Loadable({
+  loader: () => import('./InsightsDraftPage'),
+  loading: () => <PageLoader />
+})
+
 const tabs = [
   {
     index: `${baseLocation}`,
@@ -40,7 +45,6 @@ const tabs = [
 const feedRoutes = [
   baseLocation,
   `${baseLocation}/my`,
-  `${baseLocation}/my/drafts`,
   `${baseLocation}/tags/:tag`,
   `${baseLocation}/users/:userId`
 ]
@@ -83,6 +87,11 @@ const InsightsPage = ({
             component={LoadableInsightsFeedPage}
           />
         ))}
+        <Route
+          exact
+          path={`${baseLocation}/my/drafts`}
+          component={LoadableInsightsDraftPage}
+        />
         <Route
           exact
           path={`${baseLocation}/new`}
