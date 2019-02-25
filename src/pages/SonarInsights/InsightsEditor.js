@@ -4,6 +4,7 @@ import debounce from 'lodash.debounce'
 import { convertToRaw } from 'draft-js'
 import mediumDraftImporter from 'medium-draft/lib/importer'
 import mediumDraftExporter from 'medium-draft/lib/exporter'
+import { createEditorState } from 'medium-draft'
 import Editor from './Editor'
 import TagSelector from './TagSelector'
 import AutoresizeTextarea from './AutoresizeTextarea'
@@ -21,7 +22,7 @@ class InsightsEditor extends Component {
 
   state = {
     title: this.props.title,
-    textEditorState: this.defaultEditorState,
+    textEditorState: createEditorState(this.defaultEditorState),
     tags: this.props.tags
   }
 
@@ -35,12 +36,19 @@ class InsightsEditor extends Component {
   }
 
   onTextChange = textEditorState => {
-    // NOTE(vanguard): draftEditor triggers a lot of updates. Check if the content changed, then calling updateDraft
+    const currentContent = textEditorState.getCurrentContent()
+    if (
+      mediumDraftExporter(currentContent) ===
+      mediumDraftExporter(this.state.textEditorState.getCurrentContent())
+    ) {
+      return
+    }
+
     this.setState(
       {
         textEditorState
       },
-      this.updateDraft
+      () => this.updateDraft(currentContent)
     )
   }
 
@@ -48,26 +56,24 @@ class InsightsEditor extends Component {
     this.setState({ tags }, this.updateDraft)
   }
 
-  updateDraft = debounce(() => {
+  updateDraft = debounce(currentContent => {
     const { title, textEditorState, tags } = this.state
     const { readyState } = this.props
+
     if (
       !title.replace(/\s/g, '') ||
-      !textEditorState
-        .getCurrentContent()
-        .getPlainText()
-        .replace(/\s/g, '') ||
+      !currentContent.getPlainText().replace(/\s/g, '') ||
       readyState === 'published'
     ) {
       return
     }
 
+    const currentHtml = mediumDraftExporter(currentContent)
+
     console.log('updating draft, ', {
       title,
       tags,
-      textMarkup: sanitizeMediumDraftHtml(
-        mediumDraftExporter(textEditorState.getCurrentContent())
-      )
+      textMarkup: sanitizeMediumDraftHtml(currentHtml)
     })
   }, 1000)
 
