@@ -9,6 +9,7 @@ import {
 } from './InsightsGQL'
 import InsightCard from '../../components/Insight/InsightCardWithMarketcap'
 import Feed from './Feed'
+import { filterInsightsNoDrafts, sortInsightsByDateDescending } from './utils'
 import styles from './InsightsFeedPage.module.scss'
 
 const getQueryParams = (path, { tag, userId: authorId }, userId) => {
@@ -35,14 +36,6 @@ const getQueryParams = (path, { tag, userId: authorId }, userId) => {
   }
 }
 
-const sortInsightsByDateDescending = (
-  { createdAt: aCreatedAt },
-  { createdAt: bCreatedAt }
-) => (aCreatedAt < bCreatedAt ? 1 : -1)
-
-const filterInsightsNoDrafts = ({ readyState }) => readyState !== 'draft'
-const filterInsightsOnlyDrafts = ({ readyState }) => readyState === 'draft'
-
 const InsightsFeedPage = ({
   location: { pathname },
   match: { path, params },
@@ -57,11 +50,7 @@ const InsightsFeedPage = ({
           const { insights = [] } = data
 
           let feedInsights = insights
-            .filter(
-              pathname.includes(`${baseLocation}/my/drafts`)
-                ? filterInsightsOnlyDrafts
-                : filterInsightsNoDrafts
-            )
+            .filter(filterInsightsNoDrafts)
             .sort(sortInsightsByDateDescending)
 
           console.log(feedInsights)
