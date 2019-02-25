@@ -22,13 +22,13 @@ BLOCK_BUTTONS[2].label = <Icon type='bullet-list' />
 
 class SanEditor extends React.Component {
   static defaultProps = {
-    defaultText: '',
+    defaultValue: '',
     onChange: () => {}
   }
 
   state = {
     editorState: createEditorState(
-      convertToRaw(mediumDraftImporter(this.props.defaultText))
+      convertToRaw(mediumDraftImporter(this.props.defaultValue))
     )
   }
 

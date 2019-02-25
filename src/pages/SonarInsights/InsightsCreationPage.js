@@ -41,12 +41,12 @@ class InsightsCreationPage extends Component {
       <div className={styles.wrapper}>
         <AutoresizeTextarea
           className={styles.title}
+          defaultValue={title}
           placeholder="Insight's title"
           onChange={this.onTitleChange}
-          defaultValue={title}
         />
         <Editor
-          defaultText={text}
+          defaultValue={text}
           placeholder='Write something interesting here...'
           onChange={this.onTextChange}
         />

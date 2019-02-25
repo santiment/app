@@ -23,12 +23,16 @@ class AutoresizeTextarea extends Component {
   inputRef = React.createRef()
 
   componentDidMount () {
-    this.titleOneLineHeight = this.inputRef.current.clientHeight
+    const textarea = this.inputRef.current
+    const textareaOneLineHeight = textarea.clientHeight
+
+    textarea.rows = textarea.scrollHeight / textareaOneLineHeight
+    this.textareaOneLineHeight = textareaOneLineHeight
   }
 
   onChange = ({ currentTarget }) => {
     currentTarget.rows = 1
-    currentTarget.rows = currentTarget.scrollHeight / this.titleOneLineHeight
+    currentTarget.rows = currentTarget.scrollHeight / this.textareaOneLineHeight
 
     const { value } = currentTarget
 
