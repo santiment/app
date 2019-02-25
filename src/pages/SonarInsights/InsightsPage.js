@@ -85,13 +85,13 @@ const InsightsPage = ({
         ))}
         <Route
           exact
-          path={`${baseLocation}/:id`}
-          component={LoadableInsightPage}
+          path={`${baseLocation}/new`}
+          component={LoadableInsightsCreationPage}
         />
         <Route
           exact
-          path={`${baseLocation}/new`}
-          component={LoadableInsightsCreationPage}
+          path={`${baseLocation}/:id`}
+          component={LoadableInsightPage}
         />
       </Switch>
     </div>

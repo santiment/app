@@ -11,7 +11,8 @@ for (let i = 0; i < defaultTags.length; i++) {
 
 class TagSelector extends Component {
   static defaultProps = {
-    onChange: () => {}
+    onChange: () => {},
+    defaultTags: []
   }
 
   state = {

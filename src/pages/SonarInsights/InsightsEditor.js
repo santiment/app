@@ -5,7 +5,7 @@ import TagSelector from './TagSelector'
 import AutoresizeTextarea from './AutoresizeTextarea'
 import styles from './InsightsEditor.module.scss'
 
-class InsightsCreationPage extends Component {
+class InsightsEditor extends Component {
   static defaultProps = {
     title: '',
     text: '',
@@ -35,38 +35,44 @@ class InsightsCreationPage extends Component {
   }
 
   render () {
-    const { title, text, tags } = this.props
+    const { title, text, tags, readyState = 'draft' } = this.props
+
+    const isDraft = readyState === 'draft'
 
     return (
       <div className={styles.wrapper}>
         <AutoresizeTextarea
+          readOnly={!isDraft}
           className={styles.title}
           defaultValue={title}
           placeholder="Insight's title"
           onChange={this.onTitleChange}
         />
         <Editor
+          readOnly={!isDraft}
           defaultValue={text}
           placeholder='Write something interesting here...'
           onChange={this.onTextChange}
         />
-        <div className={styles.bottom}>
-          <div className={styles.container}>
-            <div className={styles.bottom__left}>
-              Add Tags
-              <TagSelector onChange={this.onTagsChange} defaultTags={tags} />
-            </div>
-            <div className={styles.bottom__right}>
-              <span className={styles.save}>Draft saved few seconds ago</span>
-              <Button border variant='ghost'>
-                Publish insight
-              </Button>
+        {isDraft && (
+          <div className={styles.bottom}>
+            <div className={styles.container}>
+              <div className={styles.bottom__left}>
+                Add Tags
+                <TagSelector onChange={this.onTagsChange} defaultTags={tags} />
+              </div>
+              <div className={styles.bottom__right}>
+                <span className={styles.save}>Draft saved few seconds ago</span>
+                <Button border variant='ghost'>
+                  Publish insight
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     )
   }
 }
 
-export default InsightsCreationPage
+export default InsightsEditor
