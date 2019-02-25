@@ -28,6 +28,7 @@ export const INSIGHT_BY_ID_QUERY = gql`
     insight: post(id: $id) {
       id
       title
+      text
       createdAt
       updatedAt
       state

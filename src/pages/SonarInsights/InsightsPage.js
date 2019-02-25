@@ -13,7 +13,12 @@ const LoadableInsightsFeedPage = Loadable({
 })
 
 const LoadableInsightsCreationPage = Loadable({
-  loader: () => import('./InsightsCreationPage'),
+  loader: () => import('./InsightsEditor'),
+  loading: () => <PageLoader />
+})
+
+const LoadableInsightPage = Loadable({
+  loader: () => import('./InsightPage'),
   loading: () => <PageLoader />
 })
 
@@ -78,6 +83,11 @@ const InsightsPage = ({
             component={LoadableInsightsFeedPage}
           />
         ))}
+        <Route
+          exact
+          path={`${baseLocation}/:id`}
+          component={LoadableInsightPage}
+        />
         <Route
           exact
           path={`${baseLocation}/new`}
