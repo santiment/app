@@ -52,9 +52,20 @@
     background: var(--white);
 
     &__left {
+        color: var(--grey-dark-2);
         display: flex;
         align-items: center;
     }
+}
+
+.save {
+    color: var(--grey-dark);
+}
+
+.publishBtn {
+    margin-left: 18px;
+    border-color: var(--green);
+    color: var(--green);
 }
 
 :global {

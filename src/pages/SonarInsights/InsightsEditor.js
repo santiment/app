@@ -100,7 +100,7 @@ class InsightsEditor extends Component {
               </div>
               <div className={styles.bottom__right}>
                 <span className={styles.save}>Draft saved few seconds ago</span>
-                <Button border variant='ghost'>
+                <Button className={styles.publishBtn} border variant='ghost'>
                   Publish insight
                 </Button>
               </div>

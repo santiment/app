@@ -28,6 +28,7 @@ const InsightDraftCard = ({ className = '', id, title, text, updatedAt }) => {
       </p>
       <h4 className={styles.date}>Edited {moment(updatedAt).fromNow()}</h4>
       <Icon type='close' className={styles.remove} />
+      <Icon type='edit' className={styles.edit} />
     </Panel>
   )
 }

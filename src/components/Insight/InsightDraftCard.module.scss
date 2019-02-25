@@ -3,6 +3,7 @@
     padding: 20px 24px;
     display: flex;
     flex-direction: column;
+    height: 150px;
 }
 
 .title {
@@ -36,6 +37,15 @@
     position: absolute;
     fill: var(--black);
     cursor: pointer;
-    top: 10px;
     right: 10px;
+    top: 10px;
+}
+
+.edit {
+    position: absolute;
+    fill: var(--black);
+    cursor: pointer;
+    right: 10px;
+    bottom: 10px;
+    width: 16px;
 }
