@@ -23,7 +23,8 @@ BLOCK_BUTTONS[2].label = <Icon type='bullet-list' />
 class SanEditor extends React.Component {
   static defaultProps = {
     defaultValue: '',
-    onChange: () => {}
+    onChange: () => {},
+    readOnly: false
   }
 
   state = {
@@ -50,9 +51,10 @@ class SanEditor extends React.Component {
 
   render () {
     const { editorState } = this.state
-    const { placeholder = '' } = this.props
+    const { placeholder = '', readOnly } = this.props
     return (
       <Editor
+        editorEnabled={!readOnly}
         ref={this.refsEditor}
         editorState={editorState}
         onChange={this.onChange}

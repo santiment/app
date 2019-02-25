@@ -6,14 +6,16 @@ class AutoresizeTextarea extends Component {
     onChange: PropTypes.func,
     defaultValue: PropTypes.string,
     className: PropTypes.string,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    readOnly: PropTypes.bool
   }
 
   static defaultProps = {
     onChange: () => {},
     defaultValue: '',
     className: '',
-    placeholder: ''
+    placeholder: '',
+    readOnly: false
   }
 
   state = {
@@ -46,10 +48,11 @@ class AutoresizeTextarea extends Component {
 
   render () {
     const { value } = this.state
-    const { className, placeholder } = this.props
+    const { className, placeholder, readOnly } = this.props
 
     return (
       <textarea
+        readOnly={readOnly}
         className={className}
         placeholder={placeholder}
         rows='1'
