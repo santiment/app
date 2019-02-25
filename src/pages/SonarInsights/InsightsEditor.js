@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Button } from '@santiment-network/ui'
 import Editor from './Editor'
-import styles from './InsightsCreationPage.module.scss'
 import TagSelector from './TagSelector'
 import AutoresizeTextarea from './AutoresizeTextarea'
+import styles from './InsightsEditor.module.scss'
 
 class InsightsCreationPage extends Component {
   static defaultProps = {
