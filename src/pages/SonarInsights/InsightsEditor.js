@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
 import { Button } from '@santiment-network/ui'
+import debounce from 'lodash.debounce'
+import { convertToRaw } from 'draft-js'
+import mediumDraftImporter from 'medium-draft/lib/importer'
+import mediumDraftExporter from 'medium-draft/lib/exporter'
 import Editor from './Editor'
 import TagSelector from './TagSelector'
 import AutoresizeTextarea from './AutoresizeTextarea'
 import styles from './InsightsEditor.module.scss'
+import { sanitizeMediumDraftHtml } from './../../utils/utils'
 
 class InsightsEditor extends Component {
   static defaultProps = {
@@ -12,27 +17,59 @@ class InsightsEditor extends Component {
     tags: []
   }
 
+  defaultEditorState = convertToRaw(mediumDraftImporter(this.props.text))
+
   state = {
     title: this.props.title,
-    text: this.props.text,
+    textEditorState: this.defaultEditorState,
     tags: this.props.tags
   }
 
   onTitleChange = title => {
-    this.setState({
-      title
-    })
+    this.setState(
+      {
+        title
+      },
+      this.updateDraft
+    )
   }
 
-  onTextChange = text => {
-    this.setState({
-      text
-    })
+  onTextChange = textEditorState => {
+    // NOTE(vanguard): draftEditor triggers a lot of updates. Check if the content changed, then calling updateDraft
+    this.setState(
+      {
+        textEditorState
+      },
+      this.updateDraft
+    )
   }
 
   onTagsChange = tags => {
-    this.setState({ tags })
+    this.setState({ tags }, this.updateDraft)
   }
+
+  updateDraft = debounce(() => {
+    const { title, textEditorState, tags } = this.state
+    const { readyState } = this.props
+    if (
+      !title.replace(/\s/g, '') ||
+      !textEditorState
+        .getCurrentContent()
+        .getPlainText()
+        .replace(/\s/g, '') ||
+      readyState === 'published'
+    ) {
+      return
+    }
+
+    console.log('updating draft, ', {
+      title,
+      tags,
+      textMarkup: sanitizeMediumDraftHtml(
+        mediumDraftExporter(textEditorState.getCurrentContent())
+      )
+    })
+  }, 1000)
 
   render () {
     const { title, text, tags, readyState = 'draft' } = this.props
@@ -50,7 +87,7 @@ class InsightsEditor extends Component {
         />
         <Editor
           readOnly={!isDraft}
-          defaultValue={text}
+          defaultEditorState={this.defaultEditorState}
           placeholder='Write something interesting here...'
           onChange={this.onTextChange}
         />
