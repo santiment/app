@@ -16,7 +16,7 @@ const InsightsDraftPage = ({ data = {} }) => {
   return (
     <div className={styles.wrapper}>
       {drafts.map(draft => (
-        <InsightDraftCard className={styles.card} {...draft} />
+        <InsightDraftCard key={draft.id} className={styles.card} {...draft} />
       ))}
     </div>
   )

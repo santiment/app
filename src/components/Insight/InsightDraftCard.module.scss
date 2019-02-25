@@ -1,1 +1,41 @@
-.wrapper {}
+.wrapper {
+    position: relative;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    display: block;
+    white-space: nowrap;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 18px;
+    line-height: 24px;
+    color: var(--black);
+    margin: 0 0 6px;
+}
+
+.text {
+    flex-grow: 1;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--grey-dark-2);
+    margin: 0 0 18px;
+}
+
+.date {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--black);
+    margin: 0;
+}
+
+.remove {
+    position: absolute;
+    fill: var(--black);
+    cursor: pointer;
+    top: 10px;
+    right: 10px;
+}
