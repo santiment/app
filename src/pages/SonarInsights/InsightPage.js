@@ -9,7 +9,14 @@ import { INSIGHT_BY_ID_QUERY } from './InsightsGQL'
 const isInsightADraftByDifferentUser = ({ readyState, user: { id } }, userId) =>
   readyState === 'draft' && id !== userId
 
-const InsightPage = ({ data, userId, ...props }) => {
+const InsightPage = ({
+  data,
+  userId,
+  match: {
+    path,
+    params: { id }
+  }
+}) => {
   if (!data) {
     console.log('Is not logged in')
     return <Redirect to='/insights-sonar' />
@@ -22,11 +29,13 @@ const InsightPage = ({ data, userId, ...props }) => {
     return <Redirect to='/insights-sonar' />
   }
 
-  return (
-    <div>
-      <InsightsEditor {...data.insight} />
-    </div>
-  )
+  const isEditLocation = path.includes('/edit/')
+  if (isEditLocation && data.insight.readyState !== 'draft') {
+    console.log(data.insight.readyState)
+    return <Redirect to={`/insights-sonar/${id}`} />
+  }
+
+  return <InsightsEditor readOnly={!isEditLocation} {...data.insight} />
 }
 
 const mapStateToProps = ({ user: { data } }) => ({

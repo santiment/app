@@ -35,7 +35,9 @@ const InsightDraftCard = ({
       </p>
       <h4 className={styles.date}>Edited {moment(updatedAt).fromNow()}</h4>
       <Icon onClick={onDeleteClick} type='close' className={styles.remove} />
-      <Icon type='edit' className={styles.edit} />
+      <Link to={`/insights-sonar/edit/${id}`}>
+        <Icon type='edit' className={styles.edit} />
+      </Link>
     </Panel>
   )
 }

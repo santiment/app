@@ -1,25 +1,29 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Button } from '@santiment-network/ui'
 import debounce from 'lodash.debounce'
 import { convertToRaw } from 'draft-js'
 import mediumDraftImporter from 'medium-draft/lib/importer'
 import mediumDraftExporter from 'medium-draft/lib/exporter'
 import { createEditorState } from 'medium-draft'
+import moment from 'moment'
 import Editor from './Editor'
 import TagSelector from './TagSelector'
 import AutoresizeTextarea from './AutoresizeTextarea'
-import styles from './InsightsEditor.module.scss'
-import { sanitizeMediumDraftHtml } from './../../utils/utils'
-import { connect } from 'react-redux'
+import { sanitizeMediumDraftHtml } from '../../utils/utils'
 import Timer from './Timer'
-import moment from 'moment'
-import * as actions from './actions'
+import styles from './InsightsEditor.module.scss'
 
 class InsightsEditor extends Component {
+  static propTypes = {
+    updateDraft: PropTypes.func
+  }
+
   static defaultProps = {
     title: '',
     text: '',
-    tags: []
+    tags: [],
+    updateDraft: () => {}
   }
 
   defaultEditorState = convertToRaw(mediumDraftImporter(this.props.text))
@@ -60,6 +64,7 @@ class InsightsEditor extends Component {
     this.setState({ tags }, this.updateDraft)
   }
 
+  // NOTE(vanguard): Maybe should be placed in the InsightsEditorPage?
   updateDraft = debounce(
     (currentContent = this.state.textEditorState.getCurrentContent()) => {
       const { title, tags } = this.state
@@ -76,12 +81,6 @@ class InsightsEditor extends Component {
       const currentHtml = mediumDraftExporter(currentContent)
       const { id, updateDraft } = this.props
 
-      console.log('updating draft, ', {
-        title,
-        tags,
-        textMarkup: sanitizeMediumDraftHtml(currentHtml)
-      })
-
       updateDraft({
         id,
         title,
@@ -93,26 +92,33 @@ class InsightsEditor extends Component {
   )
 
   render () {
-    const { title, text, tags, readyState = 'draft', updatedAt } = this.props
+    const {
+      title,
+      text,
+      tags,
+      readyState = 'draft',
+      updatedAt,
+      readOnly
+    } = this.props
 
     const isDraft = readyState === 'draft'
 
     return (
       <div className={styles.wrapper}>
         <AutoresizeTextarea
-          readOnly={!isDraft}
+          readOnly={readOnly}
           className={styles.title}
           defaultValue={title}
           placeholder="Insight's title"
           onChange={this.onTitleChange}
         />
         <Editor
-          readOnly={!isDraft}
+          readOnly={readOnly}
           defaultEditorState={this.defaultEditorState}
           placeholder='Write something interesting here...'
           onChange={this.onTextChange}
         />
-        {isDraft && (
+        {!readOnly && (
           <div className={styles.bottom}>
             <div className={styles.container}>
               <div className={styles.bottom__left}>
@@ -140,19 +146,4 @@ class InsightsEditor extends Component {
   }
 }
 
-const mapStateToProps = ({ insightDraft }, { id, updatedAt }) => {
-  return {
-    id: id || insightDraft.id,
-    updatedAt: insightDraft.updatedAt || updatedAt
-  }
-}
-
-const mapDispatchToProps = dispatch => ({
-  updateDraft: payload =>
-    dispatch({ type: actions.INSIGHT_DRAFT_UPDATE, payload })
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(InsightsEditor)
+export default InsightsEditor

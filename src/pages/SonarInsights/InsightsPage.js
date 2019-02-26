@@ -13,7 +13,7 @@ const LoadableInsightsFeedPage = Loadable({
 })
 
 const LoadableInsightsCreationPage = Loadable({
-  loader: () => import('./InsightsEditor'),
+  loader: () => import('./InsightsEditorPage'),
   loading: () => <PageLoader />
 })
 
@@ -55,6 +55,9 @@ const InsightsPage = ({
   ...props
 }) => {
   console.log(path, matchRest, props)
+
+  // implement check for logged in here
+
   return (
     <div style={{ width: '100%' }} className='page'>
       <div className={styles.header}>
@@ -104,6 +107,11 @@ const InsightsPage = ({
         <Route
           exact
           path={`${baseLocation}/:id`}
+          component={LoadableInsightPage}
+        />
+        <Route
+          exact
+          path={`${baseLocation}/edit/:id`}
           component={LoadableInsightPage}
         />
       </Switch>
