@@ -383,7 +383,7 @@ const enhance = compose(
     props: mapDataToProps,
     skip: ({ isLoggedIn }) => isLoggedIn,
     options: ({ isLoggedIn }) => ({
-      pollInterval: POLLING_INTERVAL
+      // pollInterval: POLLING_INTERVAL
     })
   }),
   graphql(allInsightsGQL, {
@@ -391,7 +391,7 @@ const enhance = compose(
     props: mapDataToProps,
     skip: ({ isLoggedIn }) => !isLoggedIn,
     options: ({ isLoggedIn }) => ({
-      pollInterval: POLLING_INTERVAL
+      // pollInterval: POLLING_INTERVAL
     })
   }),
   graphql(votePostGQL, {
