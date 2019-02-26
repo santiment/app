@@ -1,25 +1,58 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { INSIGHTS_USER_DRAFTS_QUERY } from './InsightsGQL'
+import {
+  INSIGHTS_USER_DRAFTS_QUERY,
+  DELETE_INSIGHT_MUTATION
+} from './InsightsGQL'
 import InsightDraftCard from '../../components/Insight/InsightDraftCard'
 import styles from './InsightsDraftPage.module.scss'
-import { filterInsightsOnlyDrafts, sortInsightsByDateDescending } from './utils'
+import {
+  filterInsightsOnlyDrafts,
+  sortInsightsByUpdateDateDescending
+} from './utils'
 
-const InsightsDraftPage = ({ data = {} }) => {
-  const { insights = [] } = data
-  const drafts = insights
-    .filter(filterInsightsOnlyDrafts)
-    .sort(sortInsightsByDateDescending)
+class InsightsDraftPage extends Component {
+  state = {
+    deleted: new Set()
+  }
+  deleteInsightDraft = id => {
+    const deleted = new Set([...this.state.deleted, id])
 
-  return (
-    <div className={styles.wrapper}>
-      {drafts.map(draft => (
-        <InsightDraftCard key={draft.id} className={styles.card} {...draft} />
-      ))}
-    </div>
-  )
+    this.props.deleteInsightDraft({
+      variables: {
+        id: +id
+      }
+    })
+
+    this.setState({ deleted })
+  }
+
+  render () {
+    const { deleted } = this.state
+    const { data = {} } = this.props
+
+    const { insights = [] } = data
+    const drafts = insights
+      .filter(filterInsightsOnlyDrafts)
+      .filter(({ id }) => !deleted.has(id))
+      .sort(sortInsightsByUpdateDateDescending)
+
+    return (
+      <div className={styles.wrapper}>
+        {drafts.map(({ id, ...draft }) => (
+          <InsightDraftCard
+            key={id}
+            className={styles.card}
+            onDeleteClick={() => this.deleteInsightDraft(id)}
+            id={id}
+            {...draft}
+          />
+        ))}
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = ({ user }) => ({
@@ -28,7 +61,7 @@ const mapStateToProps = ({ user }) => ({
 
 const enhance = compose(
   connect(mapStateToProps),
-
+  graphql(DELETE_INSIGHT_MUTATION, { name: 'deleteInsightDraft' }),
   graphql(INSIGHTS_USER_DRAFTS_QUERY, {
     options: ({ userId }) => ({
       variables: {

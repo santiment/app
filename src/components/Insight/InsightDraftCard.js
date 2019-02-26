@@ -13,7 +13,14 @@ const getInsightContent = htmlContent => {
   return content
 }
 
-const InsightDraftCard = ({ className = '', id, title, text, updatedAt }) => {
+const InsightDraftCard = ({
+  className = '',
+  id,
+  title,
+  text,
+  updatedAt,
+  onDeleteClick
+}) => {
   return (
     <Panel className={`${styles.wrapper} ${className}`}>
       <Link to={`/insights-sonar/${id}`} className={styles.title}>
@@ -27,10 +34,12 @@ const InsightDraftCard = ({ className = '', id, title, text, updatedAt }) => {
         />
       </p>
       <h4 className={styles.date}>Edited {moment(updatedAt).fromNow()}</h4>
-      <Icon type='close' className={styles.remove} />
+      <Icon onClick={onDeleteClick} type='close' className={styles.remove} />
       <Icon type='edit' className={styles.edit} />
     </Panel>
   )
 }
+
+// defautl props
 
 export default InsightDraftCard

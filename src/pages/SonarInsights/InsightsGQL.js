@@ -117,3 +117,11 @@ export const INSIGHTS_BY_TAG_QUERY = gql`
     }
   }
 `
+
+export const DELETE_INSIGHT_MUTATION = gql`
+  mutation deletePost($id: ID!) {
+    deletePost(id: $id) {
+      id
+    }
+  }
+`
