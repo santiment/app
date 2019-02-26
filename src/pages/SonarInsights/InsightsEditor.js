@@ -10,6 +10,10 @@ import TagSelector from './TagSelector'
 import AutoresizeTextarea from './AutoresizeTextarea'
 import styles from './InsightsEditor.module.scss'
 import { sanitizeMediumDraftHtml } from './../../utils/utils'
+import { connect } from 'react-redux'
+import Timer from './Timer'
+import moment from 'moment'
+import * as actions from './actions'
 
 class InsightsEditor extends Component {
   static defaultProps = {
@@ -56,29 +60,40 @@ class InsightsEditor extends Component {
     this.setState({ tags }, this.updateDraft)
   }
 
-  updateDraft = debounce(currentContent => {
-    const { title, textEditorState, tags } = this.state
-    const { readyState } = this.props
+  updateDraft = debounce(
+    (currentContent = this.state.textEditorState.getCurrentContent()) => {
+      const { title, tags } = this.state
+      const { readyState } = this.props
 
-    if (
-      !title.replace(/\s/g, '') ||
-      !currentContent.getPlainText().replace(/\s/g, '') ||
-      readyState === 'published'
-    ) {
-      return
-    }
+      if (
+        !title.replace(/\s/g, '') ||
+        !currentContent.getPlainText().replace(/\s/g, '') ||
+        readyState === 'published'
+      ) {
+        return
+      }
 
-    const currentHtml = mediumDraftExporter(currentContent)
+      const currentHtml = mediumDraftExporter(currentContent)
+      const { id, updateDraft } = this.props
 
-    console.log('updating draft, ', {
-      title,
-      tags,
-      textMarkup: sanitizeMediumDraftHtml(currentHtml)
-    })
-  }, 1000)
+      console.log('updating draft, ', {
+        title,
+        tags,
+        textMarkup: sanitizeMediumDraftHtml(currentHtml)
+      })
+
+      updateDraft({
+        id,
+        title,
+        text: sanitizeMediumDraftHtml(currentHtml),
+        tags
+      })
+    },
+    1000
+  )
 
   render () {
-    const { title, text, tags, readyState = 'draft' } = this.props
+    const { title, text, tags, readyState = 'draft', updatedAt } = this.props
 
     const isDraft = readyState === 'draft'
 
@@ -105,7 +120,14 @@ class InsightsEditor extends Component {
                 <TagSelector onChange={this.onTagsChange} defaultTags={tags} />
               </div>
               <div className={styles.bottom__right}>
-                <span className={styles.save}>Draft saved few seconds ago</span>
+                {updatedAt && (
+                  <span className={styles.save}>
+                    Draft saved{' '}
+                    <Timer interval={1000 * 60}>
+                      {() => moment(updatedAt).fromNow()}
+                    </Timer>
+                  </span>
+                )}
                 <Button className={styles.publishBtn} border variant='ghost'>
                   Publish insight
                 </Button>
@@ -118,4 +140,19 @@ class InsightsEditor extends Component {
   }
 }
 
-export default InsightsEditor
+const mapStateToProps = ({ insightDraft }, { id, updatedAt }) => {
+  return {
+    id: id || insightDraft.id,
+    updatedAt: insightDraft.updatedAt || updatedAt
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  updateDraft: payload =>
+    dispatch({ type: actions.INSIGHT_DRAFT_UPDATE, payload })
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InsightsEditor)

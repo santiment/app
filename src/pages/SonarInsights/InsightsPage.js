@@ -61,7 +61,11 @@ const InsightsPage = ({
         <h1>Insights</h1>
         {/* <HelpTrendsAbout /> */}
         <div>
-          <Button className={styles.newSignal}>
+          <Button
+            className={styles.newSignal}
+            as={Link}
+            to='/insights-sonar/new'
+          >
             <Icon type='plus-round' className={styles.newSignal__icon} />
             New insight
           </Button>

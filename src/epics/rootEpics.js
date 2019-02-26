@@ -44,6 +44,7 @@ import {
   connectTelegramEpic
 } from '../pages/Account/epics'
 import keyboardEpic from './keyboardEpic'
+import insightDraftEpic from '../pages/SonarInsights/insightDraftEpic'
 
 export default combineEpics(
   handleOffline,
@@ -87,5 +88,7 @@ export default combineEpics(
   apikeyGenerateEpic,
   apikeyRevokeEpic,
   handleNightModeToggle,
-  handleBetaModeToggle
+  handleBetaModeToggle,
+  // insight draft creation
+  insightDraftEpic
 )

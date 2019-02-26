@@ -125,3 +125,26 @@ export const DELETE_INSIGHT_MUTATION = gql`
     }
   }
 `
+
+export const CREATE_INSIGHT_DRAFT_MUTATION = gql`
+  mutation createPost($title: String!, $text: String, $tags: [String]) {
+    updatedDraft: createPost(title: $title, text: $text, tags: $tags) {
+      id
+      updatedAt
+    }
+  }
+`
+
+export const UPDATE_INSIGHT_DRAFT_MUTATION = gql`
+  mutation updatePost(
+    $id: ID!
+    $title: String
+    $text: String
+    $tags: [String]
+  ) {
+    updatedDraft: updatePost(id: $id, title: $title, text: $text, tags: $tags) {
+      id
+      updatedAt
+    }
+  }
+`
