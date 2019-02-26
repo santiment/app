@@ -55,9 +55,9 @@ class Assets extends React.Component {
 
   render () {
     const { children, render } = this.props
-    const type = this.getType()
+    const typeInfo = this.getType()
     const { Assets = {} } = this.props
-    const props = { type, ...Assets }
+    const props = { typeInfo, ...Assets }
 
     if (typeof children === 'function') return children(props)
 

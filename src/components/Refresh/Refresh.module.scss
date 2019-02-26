@@ -1,0 +1,13 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.refresh {
+    @include text-normal;
+    color: var(--grey-dark);
+    display: flex;
+    align-items: center;
+
+    &__icon {
+        cursor: pointer;
+        margin-right: 8px;
+    }
+}
