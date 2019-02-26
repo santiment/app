@@ -66,7 +66,8 @@ const enhance = compose(
     options: ({ userId }) => ({
       variables: {
         userId: +userId
-      }
+      },
+      fetchPolicy: 'cache-and-network'
     })
   })
 )
