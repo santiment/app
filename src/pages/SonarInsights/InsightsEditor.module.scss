@@ -66,4 +66,9 @@
     margin-left: 18px;
     border-color: var(--green);
     color: var(--green);
+
+    &[disabled] {
+        border-color: var(--grey-light-3);
+        color: var(--grey-light-3);
+    }
 }

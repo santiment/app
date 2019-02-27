@@ -61,23 +61,35 @@ class InsightsEditor extends Component {
     this.setState({ tags }, this.updateDraft)
   }
 
+  isTitleAndTextOk () {
+    const { title, textEditorState } = this.state
+
+    const trimmedTitle = title.trim()
+    const trimmedText = textEditorState
+      .getCurrentContent()
+      .getPlainText()
+      .trim()
+
+    console.log(trimmedTitle, trimmedText)
+
+    return trimmedTitle.length > 5 && trimmedText.length > 5
+  }
+
   // NOTE(vanguard): Maybe should be placed in the InsightsEditorPage?
   updateDraft = debounce(
     (currentContent = this.state.textEditorState.getCurrentContent()) => {
       const { title, tags } = this.state
       const { readyState } = this.props
 
-      if (
-        !title.replace(/\s/g, '') ||
-        !currentContent.getPlainText().replace(/\s/g, '') ||
-        readyState === 'published'
-      ) {
+      if (readyState === 'published' || !this.isTitleAndTextOk()) {
         return
       }
 
       const currentHtml = mediumDraftExporter(currentContent)
       const { id, updateDraft } = this.props
 
+      console.log('Updating insight')
+      return
       updateDraft({
         id,
         title,
@@ -89,7 +101,7 @@ class InsightsEditor extends Component {
   )
 
   render () {
-    const { title, text, tags, updatedAt } = this.props
+    const { title, text, tags, updatedAt, updating } = this.props
 
     return (
       <div className={styles.wrapper}>
@@ -106,6 +118,7 @@ class InsightsEditor extends Component {
           defaultTags={tags}
           updatedAt={updatedAt}
           onTagsChange={this.onTagsChange}
+          isPublishDisabled={updating || !this.isTitleAndTextOk()}
         />
       </div>
     )

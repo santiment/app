@@ -16,7 +16,8 @@ class InsightsEditorPage extends Component {
 const mapStateToProps = ({ insightDraft }, { id, updatedAt }) => {
   return {
     id: id || insightDraft.id,
-    updatedAt: insightDraft.updatedAt || updatedAt
+    updatedAt: insightDraft.updatedAt || updatedAt,
+    updating: insightDraft.updating
   }
 }
 

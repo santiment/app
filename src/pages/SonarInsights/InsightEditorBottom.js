@@ -9,7 +9,8 @@ const InsightEditorBottom = ({
   defaultTags,
   updatedAt,
   onTagsChange,
-  onPublishClick
+  onPublishClick,
+  isPublishDisabled = false
 }) => (
   <div className={styles.bottom}>
     <div className={styles.container}>
@@ -26,7 +27,13 @@ const InsightEditorBottom = ({
             </Timer>
           </span>
         )}
-        <Button className={styles.publishBtn} border variant='ghost'>
+        <Button
+          disabled={isPublishDisabled}
+          onClick={isPublishDisabled ? undefined : onPublishClick}
+          className={styles.publishBtn}
+          border
+          variant='ghost'
+        >
           Publish insight
         </Button>
       </div>
