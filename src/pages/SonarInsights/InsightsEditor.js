@@ -28,13 +28,15 @@ class InsightsEditor extends Component {
   state = {
     title: this.props.title,
     textEditorState: createEditorState(this.defaultEditorContent),
-    tags: this.props.tags
+    tags: this.props.tags,
+    editing: false
   }
 
   onTitleChange = title => {
     this.setState(
       {
-        title
+        title,
+        editing: true
       },
       this.updateDraft
     )
@@ -51,14 +53,15 @@ class InsightsEditor extends Component {
 
     this.setState(
       {
-        textEditorState
+        textEditorState,
+        editing: true
       },
       () => this.updateDraft(currentContent)
     )
   }
 
   onTagsChange = tags => {
-    this.setState({ tags }, this.updateDraft)
+    this.setState({ tags, editing: true }, this.updateDraft)
   }
 
   isTitleAndTextOk () {
@@ -88,20 +91,21 @@ class InsightsEditor extends Component {
       const currentHtml = mediumDraftExporter(currentContent)
       const { id, updateDraft } = this.props
 
-      console.log('Updating insight')
-      return
       updateDraft({
         id,
         title,
         text: sanitizeMediumDraftHtml(currentHtml),
         tags
       })
+
+      this.setState(prevState => ({ ...prevState, editing: false }))
     },
     1000
   )
 
   render () {
     const { title, text, tags, updatedAt, updating } = this.props
+    const { editing } = this.state
 
     return (
       <div className={styles.wrapper}>
@@ -118,7 +122,7 @@ class InsightsEditor extends Component {
           defaultTags={tags}
           updatedAt={updatedAt}
           onTagsChange={this.onTagsChange}
-          isPublishDisabled={updating || !this.isTitleAndTextOk()}
+          isPublishDisabled={editing || updating || !this.isTitleAndTextOk()}
         />
       </div>
     )
