@@ -3,8 +3,20 @@ import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { Redirect } from 'react-router-dom'
+import Loadable from 'react-loadable'
+import PageLoader from '../../components/PageLoader'
 import InsightsEditor from './InsightsEditor'
 import { INSIGHT_BY_ID_QUERY } from './InsightsGQL'
+
+const LoadableInsightCreationPage = Loadable({
+  loader: () => import('./InsightsEditorPage'),
+  loading: () => <PageLoader />
+})
+
+const LoadableInsightViewPage = Loadable({
+  loader: () => import('./InsightViewPage'),
+  loading: () => <PageLoader />
+})
 
 const isInsightADraftByDifferentUser = ({ readyState, user: { id } }, userId) =>
   readyState === 'draft' && id !== userId
@@ -35,7 +47,11 @@ const InsightPage = ({
     return <Redirect to={`/insights-sonar/${id}`} />
   }
 
-  return <InsightsEditor readOnly={!isEditLocation} {...data.insight} />
+  const View = isEditLocation
+    ? LoadableInsightCreationPage
+    : LoadableInsightViewPage
+
+  return <View readOnly={!isEditLocation} {...data.insight} />
 }
 
 const mapStateToProps = ({ user: { data } }) => ({

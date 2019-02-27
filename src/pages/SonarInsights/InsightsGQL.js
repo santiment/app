@@ -31,7 +31,6 @@ export const INSIGHT_BY_ID_QUERY = gql`
       text
       createdAt
       updatedAt
-      state
       readyState
       tags {
         name
@@ -39,11 +38,6 @@ export const INSIGHT_BY_ID_QUERY = gql`
       user {
         username
         id
-      }
-      votedAt
-      votes {
-        totalSanVotes
-        totalVotes
       }
     }
   }

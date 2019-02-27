@@ -18,23 +18,17 @@ BLOCK_BUTTONS[2].label = <Icon type='bullet-list' />
 
 class SanEditor extends React.Component {
   static defaultProps = {
-    defaultValue: '',
+    defaultEditorContent: undefined,
     onChange: () => {},
     readOnly: false
   }
 
   state = {
-    editorState: createEditorState(this.props.defaultEditorState)
+    editorState: createEditorState(this.props.defaultEditorContent)
   }
 
   onChange = editorState => {
     this.setState({ editorState }, () => this.props.onChange(editorState))
-  }
-
-  refsEditor = React.createRef()
-
-  componentDidMount () {
-    this.refsEditor.current.focus()
   }
 
   render () {
@@ -43,7 +37,6 @@ class SanEditor extends React.Component {
     return (
       <Editor
         editorEnabled={!readOnly}
-        ref={this.refsEditor}
         editorState={editorState}
         onChange={this.onChange}
         placeholder={placeholder}

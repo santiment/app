@@ -1,17 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button } from '@santiment-network/ui'
 import debounce from 'lodash.debounce'
 import { convertToRaw } from 'draft-js'
 import mediumDraftImporter from 'medium-draft/lib/importer'
 import mediumDraftExporter from 'medium-draft/lib/exporter'
 import { createEditorState } from 'medium-draft'
-import moment from 'moment'
 import Editor from './Editor'
-import TagSelector from './TagSelector'
-import AutoresizeTextarea from './AutoresizeTextarea'
+import InsightEditorBottom from './InsightEditorBottom'
+import InsightEditorTitle from './InsightEditorTitle'
 import { sanitizeMediumDraftHtml } from '../../utils/utils'
-import Timer from './Timer'
 import styles from './InsightsEditor.module.scss'
 
 class InsightsEditor extends Component {
@@ -26,11 +23,11 @@ class InsightsEditor extends Component {
     updateDraft: () => {}
   }
 
-  defaultEditorState = convertToRaw(mediumDraftImporter(this.props.text))
+  defaultEditorContent = convertToRaw(mediumDraftImporter(this.props.text))
 
   state = {
     title: this.props.title,
-    textEditorState: createEditorState(this.defaultEditorState),
+    textEditorState: createEditorState(this.defaultEditorContent),
     tags: this.props.tags
   }
 
@@ -92,55 +89,24 @@ class InsightsEditor extends Component {
   )
 
   render () {
-    const {
-      title,
-      text,
-      tags,
-      readyState = 'draft',
-      updatedAt,
-      readOnly
-    } = this.props
-
-    const isDraft = readyState === 'draft'
+    const { title, text, tags, updatedAt } = this.props
 
     return (
       <div className={styles.wrapper}>
-        <AutoresizeTextarea
-          readOnly={readOnly}
-          className={styles.title}
+        <InsightEditorTitle
           defaultValue={title}
-          placeholder="Insight's title"
           onChange={this.onTitleChange}
         />
         <Editor
-          readOnly={readOnly}
-          defaultEditorState={this.defaultEditorState}
+          defaultEditorContent={this.defaultEditorContent}
           placeholder='Write something interesting here...'
           onChange={this.onTextChange}
         />
-        {!readOnly && (
-          <div className={styles.bottom}>
-            <div className={styles.container}>
-              <div className={styles.bottom__left}>
-                Add Tags
-                <TagSelector onChange={this.onTagsChange} defaultTags={tags} />
-              </div>
-              <div className={styles.bottom__right}>
-                {updatedAt && (
-                  <span className={styles.save}>
-                    Draft saved{' '}
-                    <Timer interval={1000 * 60}>
-                      {() => moment(updatedAt).fromNow()}
-                    </Timer>
-                  </span>
-                )}
-                <Button className={styles.publishBtn} border variant='ghost'>
-                  Publish insight
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
+        <InsightEditorBottom
+          defaultTags={tags}
+          updatedAt={updatedAt}
+          onTagsChange={this.onTagsChange}
+        />
       </div>
     )
   }
