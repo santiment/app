@@ -67,38 +67,3 @@
     border-color: var(--green);
     color: var(--green);
 }
-
-:global {
-.Select-menu-outer{
-    top: initial;
-    bottom: calc(100% + 4px);
-}
-
-.Select{
-    min-width: 200px;
-
-}
-
-.Select-control {
-    height: 32px;
-}
-
-.Select-input {
-    height: 32px;
-}
-
-.ReactVirtualized__List {
-    padding: 8px;
-}
-
-.VirtualizedSelectOption {
-    padding: 6px 8px;
-    border-radius: 4px;
-}
-
-.VirtualizedSelectFocusedOption {
-    background: var(--grey-light) !important;
-}
-
-}
-

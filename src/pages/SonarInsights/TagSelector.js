@@ -1,15 +1,10 @@
 import React, { Component } from 'react'
+import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import Select from 'react-virtualized-select'
-import 'react-virtualized-select/styles.css'
+import { ALL_TAGS_QUERY } from './InsightsGQL'
+import Select from './Select'
 
-const defaultTags = []
-defaultTags.length = 100
-for (let i = 0; i < defaultTags.length; i++) {
-  defaultTags[i] = { name: 'Tag-' + i }
-}
-
-class TagSelector extends Component {
+class TagSelect extends Component {
   static defaultProps = {
     onChange: () => {},
     defaultTags: []
@@ -28,17 +23,19 @@ class TagSelector extends Component {
   }
 
   render () {
-    const { options = defaultTags, className = '' } = this.props
+    const {
+      data: { tags: options = [], loading },
+      className = ''
+    } = this.props
     const { tags } = this.state
     return (
       <Select
         multi
         placeholder='Add a tag...'
-        options={options}
-        // isLoading={this.props.isTagsLoading}
+        options={options.filter(option => !!option)}
+        isLoading={loading}
         value={tags}
         className={className}
-        optionHeight={32}
         onChange={this.onChange}
         valueKey='name'
         labelKey='name'
@@ -47,4 +44,10 @@ class TagSelector extends Component {
   }
 }
 
-export default TagSelector
+export default graphql(ALL_TAGS_QUERY, {
+  options: () => {
+    return {
+      errorPolicy: 'all'
+    }
+  }
+})(TagSelect)

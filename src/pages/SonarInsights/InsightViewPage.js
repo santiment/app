@@ -20,8 +20,9 @@ const InsightViewPage = ({
     <Fragment>
       <div className={styles.top}>
         <ProfileInfo
+          className={styles.profile}
           name={<Link to={`/insights-sonar/${id}`}>{username}</Link>}
-          status={moment(createdAt).format('MMM D')}
+          status={moment(createdAt).format('MMM D, YYYY')}
         />
       </div>
       <InsightEditorTitle defaultValue={title} readOnly />
@@ -29,7 +30,9 @@ const InsightViewPage = ({
         readOnly
         defaultEditorContent={convertToRaw(mediumDraftImporter(text))}
       />
-      <InsightTags tags={tags} />
+      <div className={styles.tags}>
+        <InsightTags tags={tags} />
+      </div>
     </Fragment>
   )
 }

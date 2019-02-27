@@ -1,5 +1,13 @@
 import gql from 'graphql-tag'
 
+export const ALL_TAGS_QUERY = gql`
+  query allTags {
+    tags: allTags {
+      name
+    }
+  }
+`
+
 export const ALL_INSIGHTS_QUERY = gql`
   query allInsights {
     insights: allInsights {
