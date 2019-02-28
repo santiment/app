@@ -23,7 +23,7 @@ export const ALL_INSIGHTS_BY_TAG_QUERY = gql`
 
 export const ALL_INSIGHTS_QUERY = gql`
   query allInsights {
-    allInsights(page: 1, pageSize: 50) {
+    allInsights {
       readyState
       id
       title
