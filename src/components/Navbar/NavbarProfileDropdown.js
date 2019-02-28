@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import { Button, Toggle, Icon } from '@santiment-network/ui'
+import { Button, Toggle } from '@santiment-network/ui'
 import DropdownDevider from './DropdownDevider'
 import ProfileInfo from '../Insight/ProfileInfo'
 import * as actions from '../../actions/types'
@@ -15,12 +15,6 @@ const links = [
   // { link: '/upgrade', label: 'Upgrade plan' },
   { link: '/logout', label: 'Log out' }
 ]
-
-const getStatusStyle = status => styles[status] || ''
-
-const Status = {
-  active: 'Active'
-}
 
 export const NavbarProfileDropdown = ({
   activeLink,

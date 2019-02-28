@@ -17,6 +17,7 @@ class InsightsDraftPage extends Component {
   state = {
     deleted: new Set()
   }
+
   deleteInsightDraft = id => {
     const deleted = new Set([...this.state.deleted, id])
 

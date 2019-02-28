@@ -73,8 +73,6 @@ class InsightEditor extends Component {
       .getPlainText()
       .trim()
 
-    console.log(trimmedTitle, trimmedText)
-
     return trimmedTitle.length > 5 && trimmedText.length > 5
   }
 
@@ -104,15 +102,7 @@ class InsightEditor extends Component {
   )
 
   render () {
-    const {
-      id,
-      title,
-      text,
-      tags,
-      updatedAt,
-      isUpdating,
-      publishDraft
-    } = this.props
+    const { id, title, tags, updatedAt, isUpdating, publishDraft } = this.props
     const { isEditing } = this.state
 
     return (

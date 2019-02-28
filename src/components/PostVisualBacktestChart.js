@@ -4,7 +4,6 @@ import {
   LineChart,
   Line,
   XAxis,
-  ReferenceLine,
   ReferenceDot
 } from 'recharts'
 import './PostVisualBacktestChart.css'

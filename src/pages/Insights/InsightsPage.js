@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react'
-import { Link, Route, Redirect, Switch } from 'react-router-dom'
+import React from 'react'
+import { Link, Route, Switch } from 'react-router-dom'
 import { Tabs, Button, Icon } from '@santiment-network/ui'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/PageLoader'
@@ -39,13 +39,7 @@ const feedRoutes = [
   baseLocation
 ]
 
-const InsightsPage = ({
-  location: { pathname },
-  match: { path, ...matchRest },
-  ...props
-}) => {
-  console.log(path, matchRest, pathname)
-
+const InsightsPage = ({ location: { pathname } }) => {
   return (
     <div>
       <div className={styles.header}>

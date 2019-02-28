@@ -36,27 +36,19 @@ const getQueryParams = (path, { tag, userId: authorId }, userId) => {
   }
 }
 
-const InsightsFeedPage = ({
-  location: { pathname },
-  match: { path, params },
-  userId,
-  ...props
-}) => {
-  console.log(props, userId)
+const InsightsFeedPage = ({ match: { path, params }, userId }) => {
   return (
     <div className={styles.wrapper}>
       <Query
         {...getQueryParams(path, params, +userId)}
         fetchPolicy='cache-and-network'
       >
-        {({ data = {}, ...gprops }) => {
+        {({ data = {} }) => {
           const { insights = [] } = data
 
-          let feedInsights = insights
+          const feedInsights = insights
             .filter(filterInsightsNoDrafts)
             .sort(sortInsightsByDateDescending)
-
-          console.log(feedInsights)
 
           return (
             <Feed

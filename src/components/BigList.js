@@ -62,19 +62,11 @@ class BigList extends Component {
       return
     }
 
-    /* console.log( */
-    /* scrollTarget, */
-    /* containerOffsetTop, */
-    /* scrollTarget[scrollProp], */
-    /* (scrollTarget[scrollProp] + containerOffsetTop) / container.scrollHeight */
-    /* ) */
-
     if (
       container.scrollHeight !== 0 &&
       (scrollTarget[scrollProp] + containerOffsetTop) / container.scrollHeight >
         0.8
     ) {
-      console.log('adding new chunk')
       this.setState(this.updateState)
     }
   }, 200)

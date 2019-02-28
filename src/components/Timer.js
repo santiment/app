@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 
 class Timer extends Component {
@@ -16,7 +16,6 @@ class Timer extends Component {
   }
 
   render () {
-    console.log('force updating timer')
     return this.props.children()
   }
 }
