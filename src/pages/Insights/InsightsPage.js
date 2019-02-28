@@ -46,8 +46,6 @@ const InsightsPage = ({
 }) => {
   console.log(path, matchRest, pathname)
 
-  // implement check for logged in here
-
   return (
     <div>
       <div className={styles.header}>
