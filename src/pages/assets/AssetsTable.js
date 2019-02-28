@@ -4,9 +4,13 @@ import cx from 'classnames'
 import Sticky from 'react-stickynode'
 import { connect } from 'react-redux'
 import 'react-table/react-table.css'
-import { ASSETS_FETCH } from '../../actions/types'
+import {
+  // Button,
+  Panel
+} from '@santiment-network/ui'
+import { millify } from '../../utils/formatting'
+import { ASSETS_FETCH, ASSETS_SET_MIN_VOLUME_FILTER } from '../../actions/types'
 import Refresh from '../../components/Refresh/Refresh'
-import Panel from '../../components/Panel'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import columns from './asset-columns'
 import './../Projects/ProjectsTable.css'
@@ -42,7 +46,9 @@ const AssetsTable = ({
   showAll = false,
   goto,
   preload,
-  refetchAssets
+  refetchAssets,
+  setMinVolumeFilter,
+  minVolume = 10000
 }) => {
   const { isLoading, items, error, type } = Assets
   if (error && error.message !== 'Network error: Failed to fetch') {
@@ -54,10 +60,20 @@ const AssetsTable = ({
       <div className={styles.top}>
         <Refresh
           timestamp={Assets.timestamp}
-          onRefreshClick={() => refetchAssets(Assets.typeInfo)}
+          onRefreshClick={() =>
+            refetchAssets({ ...Assets.typeInfo, minVolume })
+          }
         />
+        {
+          // <Button
+          // variant='fill'
+          // accent={minVolume > 0 ? 'positive': ''}
+          // onClick={setMinVolumeFilter}>
+          // {minVolume > 0 ? `remove filter min volume > ${millify(minVolume, 2)}` : 'add filter min volume > 10k'}
+          // </Button>
+        }
       </div>
-      <Panel className='assets-table-panel'>
+      <Panel>
         <ReactTable
           loading={isLoading}
           showPagination={!showAll}
@@ -97,14 +113,33 @@ const AssetsTable = ({
   )
 }
 
+const mapStateToProps = state => {
+  return {
+    minVolume: state.projects.filters.minVolume
+  }
+}
+
 const mapDispatchToProps = dispatch => ({
-  refetchAssets: ({ type, listName, listId }) =>
+  refetchAssets: ({ type, listName, listId, minVolume = 10000 }) =>
     dispatch({
       type: ASSETS_FETCH,
-      payload: { type, list: { name: listName, id: listId } }
+      payload: {
+        type,
+        list: {
+          name: listName,
+          id: listId
+        },
+        filters: {
+          minVolume
+        }
+      }
+    }),
+  setMinVolumeFilter: () =>
+    dispatch({
+      type: ASSETS_SET_MIN_VOLUME_FILTER
     })
 })
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(AssetsTable)
