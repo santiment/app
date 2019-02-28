@@ -11,7 +11,7 @@ const LoadableInsightsPage = Loadable({
 })
 
 const LoadableInsightCreationPage = Loadable({
-  loader: () => import('./InsightsEditorPage'),
+  loader: () => import('./InsightCreationPage'),
   loading: () => <PageLoader />
 })
 
@@ -21,7 +21,7 @@ const LoadableInsightPage = Loadable({
 })
 
 const LoadableUnAuthPage = Loadable({
-  loader: () => import('./UnAuthPage'),
+  loader: () => import('./InsightUnAuthPage'),
   loading: () => <PageLoader />
 })
 

@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import moment from 'moment'
 import { convertToRaw } from 'draft-js'
 import mediumDraftImporter from 'medium-draft/lib/importer'
-import InsightEditorTitle from './InsightEditorTitle'
+import InsightEditorTitle from './InsightEditor/InsightEditorTitle'
 import InsightTags from '../../components/Insight/InsightTags'
 import ProfileInfo from '../../components/Insight/ProfileInfo'
-import Editor from './Editor'
+import Editor from './Editor/Editor'
 import styles from './InsightViewPage.module.scss'
 
 const InsightViewPage = ({

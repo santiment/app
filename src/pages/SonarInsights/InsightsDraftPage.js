@@ -7,11 +7,11 @@ import {
   DELETE_INSIGHT_MUTATION
 } from './InsightsGQL'
 import InsightDraftCard from '../../components/Insight/InsightDraftCard'
-import styles from './InsightsDraftPage.module.scss'
 import {
   filterInsightsOnlyDrafts,
   sortInsightsByUpdateDateDescending
 } from './utils'
+import styles from './InsightsDraftPage.module.scss'
 
 class InsightsDraftPage extends Component {
   state = {

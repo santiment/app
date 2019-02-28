@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import moment from 'moment'
 import styles from './Feed.module.scss'
-import BigList from './BigList'
+import BigList from '../BigList'
 
 // NOTE(vanguard): implement infinite-scroll, not lazy load
 const Feed = ({ component: El, data, dateKey }) => {

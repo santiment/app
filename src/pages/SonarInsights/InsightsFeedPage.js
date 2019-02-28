@@ -8,7 +8,7 @@ import {
   INSIGHTS_BY_TAG_QUERY
 } from './InsightsGQL'
 import InsightCard from '../../components/Insight/InsightCardWithMarketcap'
-import Feed from './Feed'
+import Feed from './Feed/Feed'
 import { filterInsightsNoDrafts, sortInsightsByDateDescending } from './utils'
 import styles from './InsightsFeedPage.module.scss'
 

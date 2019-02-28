@@ -5,11 +5,10 @@ import { compose } from 'recompose'
 import { Redirect } from 'react-router-dom'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/PageLoader'
-import InsightsEditor from './InsightsEditor'
 import { INSIGHT_BY_ID_QUERY } from './InsightsGQL'
 
 const LoadableInsightCreationPage = Loadable({
-  loader: () => import('./InsightsEditorPage'),
+  loader: () => import('./InsightCreationPage'),
   loading: () => <PageLoader />
 })
 

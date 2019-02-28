@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import InsightsEditor from './InsightsEditor'
+import InsightEditor from './InsightEditor/InsightEditor'
 import * as actions from './actions'
 
-class InsightsEditorPage extends Component {
+class InsightCreationPage extends Component {
   componentWillUnmount () {
     this.props.wipeDraftUpdateData()
   }
@@ -17,7 +17,7 @@ class InsightsEditorPage extends Component {
       return <Redirect to='/insights/my' />
     }
 
-    return <InsightsEditor {...rest} />
+    return <InsightEditor {...rest} />
   }
 }
 
@@ -42,4 +42,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(InsightsEditorPage)
+)(InsightCreationPage)

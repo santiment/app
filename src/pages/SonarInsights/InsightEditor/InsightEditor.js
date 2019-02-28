@@ -5,13 +5,13 @@ import { convertToRaw } from 'draft-js'
 import mediumDraftImporter from 'medium-draft/lib/importer'
 import mediumDraftExporter from 'medium-draft/lib/exporter'
 import { createEditorState } from 'medium-draft'
-import Editor from './Editor'
+import Editor from '../Editor/Editor'
 import InsightEditorBottom from './InsightEditorBottom'
 import InsightEditorTitle from './InsightEditorTitle'
-import { sanitizeMediumDraftHtml } from '../../utils/utils'
-import styles from './InsightsEditor.module.scss'
+import { sanitizeMediumDraftHtml } from '../../../utils/utils'
+import styles from './InsightEditor.module.scss'
 
-class InsightsEditor extends Component {
+class InsightEditor extends Component {
   static propTypes = {
     updateDraft: PropTypes.func
   }
@@ -140,4 +140,4 @@ class InsightsEditor extends Component {
   }
 }
 
-export default InsightsEditor
+export default InsightEditor
