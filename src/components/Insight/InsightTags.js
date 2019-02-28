@@ -5,11 +5,7 @@ import styles from './InsightCard.module.scss'
 const InsightTags = ({ tags = [] }) => {
   return tags.map(({ name }) => {
     return (
-      <Link
-        to={`/insights-sonar/tags/${name}`}
-        key={name}
-        className={styles.tag}
-      >
+      <Link to={`/insights/tags/${name}`} key={name} className={styles.tag}>
         {name}
       </Link>
     )

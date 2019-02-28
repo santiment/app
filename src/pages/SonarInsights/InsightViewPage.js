@@ -21,7 +21,7 @@ const InsightViewPage = ({
       <div className={styles.top}>
         <ProfileInfo
           className={styles.profile}
-          name={<Link to={`/insights-sonar/users/${id}`}>{username}</Link>}
+          name={<Link to={`/insights/users/${id}`}>{username}</Link>}
           status={moment(createdAt).format('MMM D, YYYY')}
         />
       </div>

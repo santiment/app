@@ -34,13 +34,13 @@ const InsightPage = ({
 
   if (isInsightADraftByDifferentUser(data.insight, userId)) {
     console.log('Author of the draft is not current user')
-    return <Redirect to='/insights-sonar' />
+    return <Redirect to='/insights' />
   }
 
   const isEditLocation = path.includes('/edit/')
   if (isEditLocation && data.insight.readyState !== 'draft') {
     console.log(data.insight.readyState)
-    return <Redirect to={`/insights-sonar/${id}`} />
+    return <Redirect to={`/insights/${id}`} />
   }
 
   const View = isEditLocation

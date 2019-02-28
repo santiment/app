@@ -23,7 +23,7 @@ const InsightDraftCard = ({
 }) => {
   return (
     <Panel className={`${styles.wrapper} ${className}`}>
-      <Link to={`/insights-sonar/read/${id}`} className={styles.title}>
+      <Link to={`/insights/read/${id}`} className={styles.title}>
         {title}
       </Link>
       <p className={styles.text}>
@@ -35,7 +35,7 @@ const InsightDraftCard = ({
       </p>
       <h4 className={styles.date}>Edited {moment(updatedAt).fromNow()}</h4>
       <Icon onClick={onDeleteClick} type='close' className={styles.remove} />
-      <Link to={`/insights-sonar/edit/${id}`}>
+      <Link to={`/insights/edit/${id}`}>
         <Icon type='edit' className={styles.edit} />
       </Link>
     </Panel>

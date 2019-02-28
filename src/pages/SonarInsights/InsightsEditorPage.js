@@ -14,7 +14,7 @@ class InsightsEditorPage extends Component {
 
     if (isPublished) {
       // NOTE(vanguard): in future show thank you message
-      return <Redirect to='/insights-sonar/my' />
+      return <Redirect to='/insights/my' />
     }
 
     return <InsightsEditor {...rest} />

@@ -23,16 +23,14 @@ const InsightCardInternals = ({
         <div>
           <InsightTags tags={tags} />
         </div>
-        <Link to={`/insights-sonar/read/${id}`} className={styles.title}>
+        <Link to={`/insights/read/${id}`} className={styles.title}>
           <MultilineText maxLines={2} id='insightCardTitle' text={title} />
         </Link>
       </div>
       <div className={styles.bottom}>
         <div className={styles.left}>
           <ProfileInfo
-            name={
-              <Link to={`/insights-sonar/users/${authorId}`}>{authorName}</Link>
-            }
+            name={<Link to={`/insights/users/${authorId}`}>{authorName}</Link>}
             status={moment(createdAt).fromNow()}
           />
         </div>

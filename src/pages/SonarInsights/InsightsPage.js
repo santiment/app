@@ -5,7 +5,7 @@ import Loadable from 'react-loadable'
 import PageLoader from '../../components/PageLoader'
 import styles from './InsightsPage.module.scss'
 
-export const baseLocation = '/insights-sonar'
+export const baseLocation = '/insights'
 
 const LoadableInsightsFeedPage = Loadable({
   loader: () => import('./InsightsFeedPage'),
@@ -49,16 +49,12 @@ const InsightsPage = ({
   // implement check for logged in here
 
   return (
-    <div style={{ width: '100%' }} className='page'>
+    <div>
       <div className={styles.header}>
         <h1>Insights</h1>
         {/* <HelpTrendsAbout /> */}
         <div>
-          <Button
-            className={styles.newSignal}
-            as={Link}
-            to='/insights-sonar/new'
-          >
+          <Button className={styles.newSignal} as={Link} to='/insights/new'>
             <Icon type='plus-round' className={styles.newSignal__icon} />
             New insight
           </Button>

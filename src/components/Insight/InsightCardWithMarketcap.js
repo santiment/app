@@ -3,7 +3,7 @@ import { Panel } from '@santiment-network/ui'
 import cx from 'classnames'
 import styles from './InsightCard.module.scss'
 import InsightCardInternals from './InsightCardInternals'
-import PostVisualBacktest from '../PostVisualBacktest'
+import MarketcapChangeWidget from '../PostVisualBacktest'
 
 const InsightCard = ({ className, ...insight }) => {
   const { createdAt, updatedAt, tags } = insight
@@ -13,7 +13,7 @@ const InsightCard = ({ className, ...insight }) => {
         <InsightCardInternals {...insight} />
       </div>
       <div className={styles.wrapper_withMc__right}>
-        <PostVisualBacktest
+        <MarketcapChangeWidget
           from={createdAt}
           ticker={(tags[0] || {}).name}
           updatedAt={updatedAt}

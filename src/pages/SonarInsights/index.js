@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/PageLoader'
 
-export const baseLocation = '/insights-sonar'
+export const baseLocation = '/insights'
 
 const LoadableInsightsPage = Loadable({
   loader: () => import('./InsightsPage'),
