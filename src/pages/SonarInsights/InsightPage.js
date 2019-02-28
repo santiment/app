@@ -29,11 +29,6 @@ const InsightPage = ({
     params: { id }
   }
 }) => {
-  if (!data) {
-    console.log('Is not logged in')
-    return <Redirect to='/insights-sonar' />
-  }
-
   if (data.loading) return null
 
   if (isInsightADraftByDifferentUser(data.insight, userId)) {

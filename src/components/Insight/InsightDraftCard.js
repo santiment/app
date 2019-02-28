@@ -23,7 +23,7 @@ const InsightDraftCard = ({
 }) => {
   return (
     <Panel className={`${styles.wrapper} ${className}`}>
-      <Link to={`/insights-sonar/${id}`} className={styles.title}>
+      <Link to={`/insights-sonar/read/${id}`} className={styles.title}>
         {title}
       </Link>
       <p className={styles.text}>

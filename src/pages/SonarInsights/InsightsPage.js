@@ -12,16 +12,6 @@ const LoadableInsightsFeedPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableInsightsCreationPage = Loadable({
-  loader: () => import('./InsightsEditorPage'),
-  loading: () => <PageLoader />
-})
-
-const LoadableInsightPage = Loadable({
-  loader: () => import('./InsightPage'),
-  loading: () => <PageLoader />
-})
-
 const LoadableInsightsDraftPage = Loadable({
   loader: () => import('./InsightsDraftPage'),
   loading: () => <PageLoader />
@@ -43,10 +33,10 @@ const tabs = [
 ]
 
 const feedRoutes = [
-  baseLocation,
   `${baseLocation}/my`,
   `${baseLocation}/tags/:tag`,
-  `${baseLocation}/users/:userId`
+  `${baseLocation}/users/:userId`,
+  baseLocation
 ]
 
 const InsightsPage = ({
@@ -54,7 +44,7 @@ const InsightsPage = ({
   match: { path, ...matchRest },
   ...props
 }) => {
-  console.log(path, matchRest, props)
+  console.log(path, matchRest, pathname)
 
   // implement check for logged in here
 
@@ -98,21 +88,6 @@ const InsightsPage = ({
           exact
           path={`${baseLocation}/my/drafts`}
           component={LoadableInsightsDraftPage}
-        />
-        <Route
-          exact
-          path={`${baseLocation}/new`}
-          component={LoadableInsightsCreationPage}
-        />
-        <Route
-          exact
-          path={`${baseLocation}/:id`}
-          component={LoadableInsightPage}
-        />
-        <Route
-          exact
-          path={`${baseLocation}/edit/:id`}
-          component={LoadableInsightPage}
         />
       </Switch>
     </div>

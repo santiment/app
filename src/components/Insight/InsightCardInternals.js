@@ -23,7 +23,7 @@ const InsightCardInternals = ({
         <div>
           <InsightTags tags={tags} />
         </div>
-        <Link to={`/insights-sonar/${id}`} className={styles.title}>
+        <Link to={`/insights-sonar/read/${id}`} className={styles.title}>
           <MultilineText maxLines={2} id='insightCardTitle' text={title} />
         </Link>
       </div>
