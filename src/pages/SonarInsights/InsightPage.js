@@ -70,6 +70,7 @@ const enhance = compose(
         params: { id }
       }
     }) => ({
+      fetchPolicy: 'network-only',
       variables: {
         id: +id
       }
