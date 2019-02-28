@@ -16,7 +16,11 @@ const InsightEditorBottom = ({
     <div className={styles.container}>
       <div className={styles.bottom__left}>
         Add Tags
-        <TagSelector onChange={onTagsChange} defaultTags={defaultTags} />
+        <TagSelector
+          onChange={onTagsChange}
+          defaultTags={defaultTags}
+          className={styles.tags}
+        />
       </div>
       <div className={styles.bottom__right}>
         {updatedAt && (
