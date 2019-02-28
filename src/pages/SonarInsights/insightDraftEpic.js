@@ -2,7 +2,8 @@ import { Observable } from 'rxjs'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import {
   CREATE_INSIGHT_DRAFT_MUTATION,
-  UPDATE_INSIGHT_DRAFT_MUTATION
+  UPDATE_INSIGHT_DRAFT_MUTATION,
+  PUBLISH_INSIGHT_DRAFT_MUTATION
 } from './InsightsGQL'
 import * as actions from './actions'
 
@@ -35,9 +36,6 @@ const updateDraft$ = ({ id, title, text, tags }, client) => {
 
 export const insightDraftUpdateEpic = (action$, store, { client }) =>
   action$.ofType(actions.INSIGHT_DRAFT_UPDATE).switchMap(({ payload }) => {
-    console.log('Updating insight')
-    return Observable.of(null)
-
     const { tags, ...rest } = payload
     const normalizedTags = tags.map(({ name }) => name)
 
@@ -54,7 +52,7 @@ export const insightDraftUpdateEpic = (action$, store, { client }) =>
           }
         })
       })
-      .catch(handleErrorAndTriggerAction(actions.INSIGHT_DRAFT_UPDATE_FAILED))
+      .catch(handleErrorAndTriggerAction(actions.INSIGHT_DRAFT_UPDATE_FAIL))
   })
 
 export const insightDraftPublishEpic = (action$, store, { client }) =>
@@ -63,14 +61,14 @@ export const insightDraftPublishEpic = (action$, store, { client }) =>
       client.mutate({
         mutation: PUBLISH_INSIGHT_DRAFT_MUTATION,
         variables: {
-          id: +payload
+          id: payload
         }
       })
     )
-      .switchMap(({ data: { updatedDraft: { id, updatedAt } } }) => {
+      .switchMap(() => {
         return Observable.of({
           type: actions.INSIGHT_DRAFT_PUBLISH_SUCCESS
         })
       })
-      .catch(handleErrorAndTriggerAction(actions.INSIGHT_DRAFT_UPDATE_FAILED))
+      .catch(handleErrorAndTriggerAction(actions.INSIGHT_DRAFT_PUBLISH_FAIL))
   })

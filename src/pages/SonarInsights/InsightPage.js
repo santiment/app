@@ -27,7 +27,8 @@ const InsightPage = ({
   match: {
     path,
     params: { id }
-  }
+  },
+  ...rest
 }) => {
   if (data.loading) return null
 
@@ -46,7 +47,7 @@ const InsightPage = ({
     ? LoadableInsightCreationPage
     : LoadableInsightViewPage
 
-  return <View readOnly={!isEditLocation} {...data.insight} />
+  return <View {...rest} {...data.insight} />
 }
 
 const mapStateToProps = ({ user: { data } }) => ({

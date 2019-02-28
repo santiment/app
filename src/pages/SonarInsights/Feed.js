@@ -5,13 +5,12 @@ import BigList from './BigList'
 
 // NOTE(vanguard): implement infinite-scroll, not lazy load
 const Feed = ({ component: El, data, dateKey }) => {
-  let lastDateKey
-
   return (
     <BigList
       list={data}
-      render={list =>
-        list.map((item, index) => {
+      render={list => {
+        let lastDateKey
+        return list.map((item, index) => {
           const id = item.id || index
           const date = moment(item[dateKey]).format('MMM D')
           const isNotSameAsLastDate = date !== lastDateKey
@@ -27,7 +26,7 @@ const Feed = ({ component: El, data, dateKey }) => {
             </Fragment>
           )
         })
-      }
+      }}
     />
   )
 }

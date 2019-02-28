@@ -60,9 +60,9 @@ export const PostVisualBacktest = ({
 const enhance = compose(
   graphql(HistoryPriceByTickerGQL, {
     name: 'history',
+    skip: ({ ticker, from }) => !ticker || !from,
     options: ({ ticker, from }) => {
       return {
-        skip: !ticker || !from,
         errorPolicy: 'all',
         variables: {
           from: moment(from)
