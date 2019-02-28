@@ -4,6 +4,9 @@ export const initialState = {
   isLoading: true,
   error: false,
   ethPrice: null,
+  filters: {
+    minVolume: 10000
+  },
   items: [],
   tableInfo: {
     visibleItems: 0,
@@ -28,6 +31,14 @@ export default (state = initialState, action) => {
         ...state,
         ...action.payload,
         timestamp: Date.now()
+      }
+    case actions.ASSETS_SET_MIN_VOLUME_FILTER:
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          minVolume: state.filters.minVolume === 0 ? 10000 : 0
+        }
       }
     case 'LOADING_PROJECTS':
       return {

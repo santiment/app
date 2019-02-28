@@ -5,6 +5,11 @@ import { Icon } from '@santiment-network/ui'
 import styles from './Refresh.module.scss'
 
 class Refresh extends Component {
+  state = {
+    label: '',
+    timestamp: undefined
+  }
+
   static propTypes = {
     timestamp: PropTypes.number,
     onRefreshClick: PropTypes.func

@@ -32,7 +32,8 @@ class Assets extends React.Component {
       list: {
         name: listName,
         id: listId
-      }
+      },
+      minVolume: this.props.minVolume
     })
   }
 
@@ -48,7 +49,8 @@ class Assets extends React.Component {
         list: {
           name: listName,
           id: listId
-        }
+        },
+        minVolume: this.props.minVolume
       })
     }
   }
@@ -67,15 +69,22 @@ class Assets extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    Assets: state.projects
+    Assets: state.projects,
+    minVolume: state.projects.filters.minVolume
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchAssets: ({ type, list }) => {
+  fetchAssets: ({ type, list, minVolume }) => {
     return dispatch({
       type: actions.ASSETS_FETCH,
-      payload: { type, list }
+      payload: {
+        type,
+        list,
+        filters: {
+          minVolume
+        }
+      }
     })
   }
 })
