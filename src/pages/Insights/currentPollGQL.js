@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const allInsightsPublicGQL = gql`
   query allInsightsPublic {
-    allInsights {
+    allInsights(page: 1, pageSize: 50) {
       id
       title
       createdAt
@@ -24,7 +24,7 @@ export const allInsightsPublicGQL = gql`
 
 export const allInsightsGQL = gql`
   query allInsights {
-    allInsights {
+    allInsights(page: 1, pageSize: 50) {
       id
       title
       createdAt

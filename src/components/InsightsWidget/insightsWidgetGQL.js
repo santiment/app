@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const insightsWidgetGQL = gql`
   query allInsights {
-    allInsights {
+    allInsights(page: 1, pageSize: 50) {
       id
       createdAt
       title
