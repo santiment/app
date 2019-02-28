@@ -47,7 +47,7 @@ import keyboardEpic from './keyboardEpic'
 import {
   insightDraftUpdateEpic,
   insightDraftPublishEpic
-} from '../pages/SonarInsights/insightDraftEpic'
+} from '../pages/Insights/insightDraftEpic'
 
 export default combineEpics(
   handleOffline,

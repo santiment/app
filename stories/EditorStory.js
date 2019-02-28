@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import Editor from '../src/pages/SonarInsights/Editor'
+import Editor from '../src/components/Editor'
 import ColorModeComparison from './ColorModeComparison'
 
 storiesOf('Editor', module)

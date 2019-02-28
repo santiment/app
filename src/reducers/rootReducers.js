@@ -32,7 +32,7 @@ import accountUi, {
 } from '../pages/Account/reducers'
 import insightDraft, {
   initialState as initialInsightDraft
-} from '../pages/SonarInsights/reducers'
+} from '../pages/Insights/reducers'
 
 export const intitialState = {
   user: userState,
