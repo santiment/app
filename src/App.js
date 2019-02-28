@@ -48,8 +48,8 @@ const LoadableDetailedPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableSonarInsights = Loadable({
-  loader: () => import('./pages/SonarInsights/'),
+const LoadableInsights = Loadable({
+  loader: () => import('./pages/Insights/'),
   loading: () => <PageLoader />
 })
 
@@ -177,7 +177,7 @@ export const App = ({
         <Route
           path='/insights'
           render={props => (
-            <LoadableSonarInsights {...props} isLoggedIn={isLoggedIn} />
+            <LoadableInsights {...props} isLoggedIn={isLoggedIn} />
           )}
         />
         <Route
