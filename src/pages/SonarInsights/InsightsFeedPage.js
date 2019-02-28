@@ -45,7 +45,10 @@ const InsightsFeedPage = ({
   console.log(props, userId)
   return (
     <div className={styles.wrapper}>
-      <Query {...getQueryParams(path, params, +userId)}>
+      <Query
+        {...getQueryParams(path, params, +userId)}
+        fetchPolicy='cache-and-network'
+      >
         {({ data = {}, ...gprops }) => {
           const { insights = [] } = data
 

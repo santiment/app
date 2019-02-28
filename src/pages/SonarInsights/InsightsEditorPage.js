@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import InsightsEditor from './InsightsEditor'
 import * as actions from './actions'
 
@@ -9,11 +10,11 @@ class InsightsEditorPage extends Component {
   }
 
   render () {
-    const { isPublished, history, ...rest } = this.props
+    const { isPublished, ...rest } = this.props
 
     if (isPublished) {
       // NOTE(vanguard): in future show thank you message
-      history.push('/insights-sonar/my')
+      return <Redirect to='/insights-sonar/my' />
     }
 
     return <InsightsEditor {...rest} />
