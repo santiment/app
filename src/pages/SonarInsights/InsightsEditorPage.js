@@ -9,7 +9,14 @@ class InsightsEditorPage extends Component {
   }
 
   render () {
-    return <InsightsEditor {...this.props} />
+    const { isPublished, history, ...rest } = this.props
+
+    if (isPublished) {
+      // NOTE(vanguard): in future show thank you message
+      history.push('/insights-sonar/my')
+    }
+
+    return <InsightsEditor {...rest} />
   }
 }
 
@@ -17,13 +24,16 @@ const mapStateToProps = ({ insightDraft }, { id, updatedAt }) => {
   return {
     id: id || insightDraft.id,
     updatedAt: insightDraft.updatedAt || updatedAt,
-    updating: insightDraft.updating
+    isUpdating: insightDraft.isUpdating,
+    isPublished: insightDraft.isPublished
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   updateDraft: payload =>
     dispatch({ type: actions.INSIGHT_DRAFT_UPDATE, payload }),
+  publishDraft: payload =>
+    dispatch({ type: actions.INSIGHT_DRAFT_PUBLISH, payload }),
   wipeDraftUpdateData: () =>
     dispatch({ type: actions.INSIGHT_DRAFT_UPDATE_DATA_WIPE })
 })

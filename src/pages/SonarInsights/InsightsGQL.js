@@ -150,3 +150,11 @@ export const UPDATE_INSIGHT_DRAFT_MUTATION = gql`
     }
   }
 `
+
+export const PUBLISH_INSIGHT_DRAFT_MUTATION = gql`
+  mutation publishInsight($id: ID!) {
+    publishInsight(id: id) {
+      id
+    }
+  }
+`

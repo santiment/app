@@ -33,8 +33,11 @@ const updateDraft$ = ({ id, title, text, tags }, client) => {
   )
 }
 
-const insightDraftEpic = (action$, store, { client }) =>
+export const insightDraftUpdateEpic = (action$, store, { client }) =>
   action$.ofType(actions.INSIGHT_DRAFT_UPDATE).switchMap(({ payload }) => {
+    console.log('Updating insight')
+    return Observable.of(null)
+
     const { tags, ...rest } = payload
     const normalizedTags = tags.map(({ name }) => name)
 
@@ -54,4 +57,20 @@ const insightDraftEpic = (action$, store, { client }) =>
       .catch(handleErrorAndTriggerAction(actions.INSIGHT_DRAFT_UPDATE_FAILED))
   })
 
-export default insightDraftEpic
+export const insightDraftPublishEpic = (action$, store, { client }) =>
+  action$.ofType(actions.INSIGHT_DRAFT_PUBLISH).switchMap(({ payload }) => {
+    return Observable.from(
+      client.mutate({
+        mutation: PUBLISH_INSIGHT_DRAFT_MUTATION,
+        variables: {
+          id: +payload
+        }
+      })
+    )
+      .switchMap(({ data: { updatedDraft: { id, updatedAt } } }) => {
+        return Observable.of({
+          type: actions.INSIGHT_DRAFT_PUBLISH_SUCCESS
+        })
+      })
+      .catch(handleErrorAndTriggerAction(actions.INSIGHT_DRAFT_UPDATE_FAILED))
+  })

@@ -15,7 +15,7 @@ const getChanges = (start, last, prop = 'priceUsd') =>
 const isTotalMarket = ticker => ticker === 'Crypto Market'
 
 const propTypes = {
-  ticker: PropTypes.string.isRequired,
+  ticker: PropTypes.string,
   history: PropTypes.object
 }
 
@@ -99,6 +99,7 @@ const enhance = compose(
 PostVisualBacktest.propTypes = propTypes
 
 PostVisualBacktest.defaultProps = {
+  ticker: undefined,
   history: {
     historyPrice: []
   }
