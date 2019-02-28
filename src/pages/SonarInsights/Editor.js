@@ -6,6 +6,7 @@ import {
   Editor,
   createEditorState
 } from 'medium-draft'
+import CustomImageSideButton from './CustomImageSideButton'
 import './Editor.scss'
 
 INLINE_BUTTONS[0].label = <Icon type='text-bold' />
@@ -40,6 +41,12 @@ class SanEditor extends React.Component {
         editorState={editorState}
         onChange={this.onChange}
         placeholder={placeholder}
+        sideButtons={[
+          {
+            title: 'Image',
+            component: CustomImageSideButton
+          }
+        ]}
         toolbarConfig={{
           block: ['blockquote', 'unordered-list-item'],
           inline: ['hyperlink', 'BOLD', 'UNDERLINE', 'ITALIC']
