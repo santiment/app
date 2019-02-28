@@ -62,12 +62,12 @@ class BigList extends Component {
       return
     }
 
-    console.log(
-      scrollTarget,
-      containerOffsetTop,
-      scrollTarget[scrollProp],
-      (scrollTarget[scrollProp] + containerOffsetTop) / container.scrollHeight
-    )
+    /* console.log( */
+    /* scrollTarget, */
+    /* containerOffsetTop, */
+    /* scrollTarget[scrollProp], */
+    /* (scrollTarget[scrollProp] + containerOffsetTop) / container.scrollHeight */
+    /* ) */
 
     if (
       container.scrollHeight !== 0 &&

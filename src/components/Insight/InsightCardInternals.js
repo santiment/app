@@ -30,7 +30,9 @@ const InsightCardInternals = ({
       <div className={styles.bottom}>
         <div className={styles.left}>
           <ProfileInfo
-            name={<Link to={`/insights-sonar/users/${id}`}>{authorName}</Link>}
+            name={
+              <Link to={`/insights-sonar/users/${authorId}`}>{authorName}</Link>
+            }
             status={moment(createdAt).fromNow()}
           />
         </div>
