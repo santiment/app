@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import { ALL_TAGS_QUERY } from './InsightsGQL'
+import { ALL_TAGS_QUERY } from '../pages/SonarInsights/InsightsGQL'
 import Select from './Select/Select'
 
 class TagSelect extends Component {

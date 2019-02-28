@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button } from '@santiment-network/ui'
 import moment from 'moment'
-import Timer from '../Timer'
-import TagSelector from '../TagSelector'
+import Timer from '../../Timer'
+import TagSelector from '../../TagSelector'
 import styles from './InsightEditor.module.scss'
 
 const InsightEditorBottom = ({

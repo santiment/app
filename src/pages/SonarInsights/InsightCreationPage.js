@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import InsightEditor from './InsightEditor/InsightEditor'
+import InsightEditor from '../../components/Insight/InsightEditor/InsightEditor'
 import * as actions from './actions'
 
 class InsightCreationPage extends Component {
