@@ -4,8 +4,7 @@ export const initialState = {
   isLoading: false,
   error: false,
   cloud: undefined,
-  word: '',
-  trendsContext: undefined
+  word: ''
 }
 
 export default (state = initialState, action) => {
@@ -33,11 +32,6 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: false,
         error: false
-      }
-    case actions.WORDCLOUD_CONTEXT_TRENDS_PRELOAD:
-      return {
-        ...state,
-        trendsContext: action.payload
       }
     case actions.WORDCLOUD_CONTEXT_CLEAN:
       return { ...initialState }

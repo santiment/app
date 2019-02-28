@@ -3,10 +3,17 @@ import moment from 'moment'
 import * as actions from './actions'
 import { wordCloudGQL } from './wordCloudGQL.js'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
+import { TRENDS_HYPED_FETCH_SUCCESS } from '../Trends/actions'
+
+const trendsWordCloudCache = new Map()
+
+const saveWordCloudToCache = (word, { data: { wordContext } }) => {
+  trendsWordCloudCache.set(word, wordContext)
+}
 
 export const preloadWordContextEpic = (action$, store, { client }) =>
   action$
-    .ofType('[trends] HYPED_FETCH_SUCCESS')
+    .ofType(TRENDS_HYPED_FETCH_SUCCESS)
     .switchMap(({ payload: { items } }) => {
       if (window.innerWidth < 768) {
         return Observable.of()
@@ -22,9 +29,9 @@ export const preloadWordContextEpic = (action$, store, { client }) =>
       )
       const words = [...new Set(allWords)]
 
-      return Observable.from(
-        words.map(word =>
-          client.query({
+      words.map(word =>
+        client
+          .query({
             query: wordCloudGQL,
             variables: {
               word,
@@ -33,27 +40,15 @@ export const preloadWordContextEpic = (action$, store, { client }) =>
               size: 25
             }
           })
-        )
-      )
-        .concatAll()
-        .toArray()
-        .mergeMap(items => {
-          const wordContextMap = {}
-          items.forEach((item, i) => {
-            wordContextMap[words[i]] = item.data.wordContext
-          })
-
-          return Observable.of({
-            type: actions.WORDCLOUD_CONTEXT_TRENDS_PRELOAD,
-            payload: wordContextMap
-          })
-        })
-
-        .catch(
-          handleErrorAndTriggerAction(
-            actions.WORDCLOUD_CONTEXT_TRENDS_PRELOAD_FAILED
+          .then(data => saveWordCloudToCache(word, data))
+          .catch(
+            handleErrorAndTriggerAction(
+              actions.WORDCLOUD_CONTEXT_TRENDS_PRELOAD_FAILED
+            )
           )
-        )
+      )
+
+      return Observable.empty()
     })
 
 export const fetchWordContextEpic = (action$, store, { client }) =>
@@ -68,8 +63,7 @@ export const fetchWordContextEpic = (action$, store, { client }) =>
         })
       }
 
-      const trendContext =
-        wordCloudState.trendsContext && wordCloudState.trendsContext[word]
+      const trendContext = trendsWordCloudCache.get(word)
 
       if (trendContext) {
         return Observable.of({
