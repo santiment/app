@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Panel, Icon } from '@santiment-network/ui'
+import cx from 'classnames'
 import moment from 'moment'
 import MultilineText from '../MultilineText/MultilineText'
 import styles from './InsightDraftCard.module.scss'
@@ -22,7 +23,7 @@ const InsightDraftCard = ({
   onDeleteClick
 }) => {
   return (
-    <Panel className={`${styles.wrapper} ${className}`}>
+    <Panel className={cx(styles.wrapper, className)}>
       <Link to={`/insights/read/${id}`} className={styles.title}>
         {title}
       </Link>

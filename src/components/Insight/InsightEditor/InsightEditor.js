@@ -13,14 +13,13 @@ import styles from './InsightEditor.module.scss'
 
 class InsightEditor extends Component {
   static propTypes = {
-    updateDraft: PropTypes.func
+    updateDraft: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     title: '',
     text: '',
-    tags: [],
-    updateDraft: () => {}
+    tags: []
   }
 
   defaultEditorContent = convertToRaw(mediumDraftImporter(this.props.text))

@@ -6,7 +6,7 @@ const InsightEditorTitle = ({ className = '', ...props }) => {
   return (
     <AutoresizeTextarea
       className={`${styles.title} ${className}`}
-      placeholder="Insight's title"
+      placeholder='Title'
       {...props}
     />
   )

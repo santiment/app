@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Icon } from '@santiment-network/ui'
 import {
   BLOCK_BUTTONS,
@@ -18,9 +19,12 @@ BLOCK_BUTTONS[1].label = <Icon type='quote' />
 BLOCK_BUTTONS[2].label = <Icon type='bullet-list' />
 
 class SanEditor extends React.Component {
+  static propTypes = {
+    onChange: PropTypes.func.isRequired
+  }
+
   static defaultProps = {
     defaultEditorContent: undefined,
-    onChange: () => {},
     readOnly: false
   }
 
