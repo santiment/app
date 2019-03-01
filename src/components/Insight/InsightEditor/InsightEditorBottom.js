@@ -1,9 +1,9 @@
 import React from 'react'
-import { Button } from '@santiment-network/ui'
 import moment from 'moment'
 import Timer from '../../Timer'
 import TagSelector from '../../TagSelector'
 import InsightEditorBottomHelp from './InsightEditorBottomHelp'
+import InsightEditorBottomPublishBtn from './InsightEditorBottomPublishBtn'
 import styles from './InsightEditor.module.scss'
 
 const InsightEditorBottom = ({
@@ -33,15 +33,10 @@ const InsightEditorBottom = ({
             </Timer>
           </span>
         )}
-        <Button
-          disabled={isPublishDisabled}
-          onClick={isPublishDisabled ? undefined : onPublishClick}
-          className={styles.publishBtn}
-          border
-          variant='ghost'
-        >
-          Publish insight
-        </Button>
+        <InsightEditorBottomPublishBtn
+          isPublishDisabled={isPublishDisabled}
+          onPublishClick={onPublishClick}
+        />
       </div>
     </div>
   </div>
