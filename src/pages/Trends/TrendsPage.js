@@ -20,7 +20,7 @@ const TrendsPage = ({
 }) => (
   <div className={styles.TrendsPage + ' page'}>
     <div className={styles.header}>
-      <h1>Emerging social trends</h1>
+      <h1>Emerging Social Trends</h1>
       <HelpTrendsAbout />
     </div>
     <GetHypedTrends
