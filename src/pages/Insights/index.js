@@ -1,7 +1,9 @@
 import React from 'react'
+import cx from 'classnames'
 import { Route, Switch } from 'react-router-dom'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/PageLoader'
+import styles from './index.module.scss'
 
 export const baseLocation = '/insights'
 
@@ -29,8 +31,9 @@ const PageHub = ({ location: { pathname }, isLoggedIn }) => {
   const normalizedPathname = pathname.endsWith('/')
     ? pathname.slice(0, -1)
     : pathname
+
   return (
-    <div style={{ width: '100%' }} className='page'>
+    <div style={{ width: '100%' }} className={cx('page', styles.wrapper)}>
       <Switch>
         {!isLoggedIn && normalizedPathname !== baseLocation && (
           <Route component={LoadableUnAuthPage} />
