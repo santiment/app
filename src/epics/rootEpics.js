@@ -44,6 +44,10 @@ import {
   connectTelegramEpic
 } from '../pages/Account/epics'
 import keyboardEpic from './keyboardEpic'
+import {
+  insightDraftUpdateEpic,
+  insightDraftPublishEpic
+} from '../pages/Insights/insightDraftEpic'
 
 export default combineEpics(
   handleOffline,
@@ -87,5 +91,8 @@ export default combineEpics(
   apikeyGenerateEpic,
   apikeyRevokeEpic,
   handleNightModeToggle,
-  handleBetaModeToggle
+  handleBetaModeToggle,
+  // insight draft creation
+  insightDraftUpdateEpic,
+  insightDraftPublishEpic
 )

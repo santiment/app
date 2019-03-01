@@ -15,7 +15,7 @@ const getChanges = (start, last, prop = 'priceUsd') =>
 const isTotalMarket = ticker => ticker === 'Crypto Market'
 
 const propTypes = {
-  ticker: PropTypes.string.isRequired,
+  ticker: PropTypes.string,
   history: PropTypes.object
 }
 
@@ -25,23 +25,34 @@ export const PostVisualBacktest = ({
   changeProp,
   changePriceProp,
   history,
-  postUpdatedAt
+  postUpdatedAt,
+  startValue
 }) => {
-  if (history.loading || !history.historyPrice) return null
+  if (history.loading) {
+    return <div className='post-visual-backtest'>Loading...</div>
+  }
+  if (!history.historyPrice || !changePriceProp) return null
+
   return (
     <div className='post-visual-backtest'>
       <div className='post-visual-backtest__info'>
         <div className='post-visual-backtest__changes'>
           {ticker} {changeProp} since publication
         </div>
-        {Number.isFinite(change) && <PercentChanges changes={change} />}
       </div>
       <PostVisualBacktestChart
         history={history}
         change={change}
         postUpdatedAt={postUpdatedAt}
         changePriceProp={changePriceProp}
+        startValue={startValue}
       />
+      {Number.isFinite(change) && (
+        <PercentChanges
+          className={'post-visual-backtest__percent'}
+          changes={change}
+        />
+      )}
     </div>
   )
 }
@@ -49,13 +60,13 @@ export const PostVisualBacktest = ({
 const enhance = compose(
   graphql(HistoryPriceByTickerGQL, {
     name: 'history',
+    skip: ({ ticker, from }) => !ticker || !from,
     options: ({ ticker, from }) => {
       return {
-        skip: !ticker || !from,
         errorPolicy: 'all',
         variables: {
           from: moment(from)
-            .subtract(6, 'months')
+            .subtract(3, 'months')
             .utc()
             .format(),
           ticker: isTotalMarket(ticker) ? 'TOTAL_MARKET' : ticker,
@@ -79,6 +90,7 @@ const enhance = compose(
       change: getChanges(start, last, changePriceProp),
       changeProp,
       changePriceProp,
+      startValue: start,
       postUpdatedAt: start.datetime
     }
   })
@@ -87,6 +99,7 @@ const enhance = compose(
 PostVisualBacktest.propTypes = propTypes
 
 PostVisualBacktest.defaultProps = {
+  ticker: undefined,
   history: {
     historyPrice: []
   }

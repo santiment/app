@@ -4,7 +4,7 @@ import {
   LineChart,
   Line,
   XAxis,
-  ReferenceLine
+  ReferenceDot
 } from 'recharts'
 import './PostVisualBacktestChart.css'
 
@@ -17,12 +17,14 @@ const PostVisualBacktestChart = ({
   history: { historyPrice },
   postUpdatedAt,
   changePriceProp,
-  change
+  change,
+  startValue
 }) => {
   const dataset = historyPrice.map(data => ({
     datetime: data.datetime,
     value: data[changePriceProp]
   }))
+
   return (
     <div className='PostVisualBacktestChart'>
       <ResponsiveContainer width='100%'>
@@ -31,17 +33,23 @@ const PostVisualBacktestChart = ({
           margin={{ top: 5, right: 5, left: 0, bottom: 5 }}
         >
           <XAxis dataKey='datetime' hide />
-          <ReferenceLine
-            x={postUpdatedAt}
-            stroke={change > 0 ? Color.POSITIVE : Color.NEGATIVE}
-          />
           <Line
             dataKey='value'
             type='linear'
             dot={false}
             strokeWidth={2}
-            stroke='#000000'
+            stroke='var(--grey-dark)'
             isAnimationActive={false}
+          />
+          <ReferenceDot
+            x={postUpdatedAt}
+            y={startValue[changePriceProp]}
+            alwaysShow
+            r={4}
+            isFront
+            stroke={change > 0 ? Color.POSITIVE : Color.NEGATIVE}
+            strokeWidth='1.5px'
+            fill='var(--white)'
           />
         </LineChart>
       </ResponsiveContainer>

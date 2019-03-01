@@ -120,17 +120,6 @@ export default (state = initialState, action) => {
         ...initialState,
         isLoading: false
       }
-    case actions.APP_UPDATE_INSIGHT_DRAFT:
-      const insightDraft = { ...state.insightDraft, ...action.payload }
-      return {
-        ...state,
-        insightDraft
-      }
-    case actions.APP_DELETE_INSIGHT_DRAFT:
-      return {
-        ...state,
-        insightDraft: {}
-      }
     case actions.SETTINGS_CONNECT_TELEGRAM:
       return {
         ...state,
