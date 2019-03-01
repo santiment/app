@@ -6,7 +6,7 @@ import * as actions from './actions'
 import { WORDCLOUD_CONTEXT_FETCH } from '../WordCloud/actions'
 import { SOCIALVOLUME_DATA_FETCH } from '../SocialVolumeWidget/actions'
 
-const trendingWordsGQL = gql`
+const TRENDING_WORDS_QUERY = gql`
   query trendingWords($from: DateTime!, $to: DateTime!, $hour: Int!) {
     trendingWords(source: ALL, size: 10, hour: $hour, from: $from, to: $to) {
       datetime
@@ -50,7 +50,7 @@ const fetchTrends$ = ({ client, data = {} }) => {
   const startTime = Date.now()
   const queries = secretDataTeamHours.map(hour => {
     return client.query({
-      query: trendingWordsGQL,
+      query: TRENDING_WORDS_QUERY,
       variables: {
         hour,
         to: new Date().toISOString(),

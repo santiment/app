@@ -11,40 +11,6 @@ import styles from './TrendsPage.module.scss'
 import InsightsTrends from '../../components/Insight/InsightsTrends'
 import Devider from '../../components/Navbar/DropdownDevider'
 
-const WordCloudWrapper = ({
-  isLoading,
-  isDesktop,
-  word,
-  isCloudLoading,
-  isWordCloudSticky,
-  setWordCloudStiky
-}) => (
-  <div>
-    {!isLoading && isDesktop && (
-      <Sticky
-        top={'#word-cloud-sticky-anchor'}
-        innerZ={2}
-        onStateChange={({ status }) => {
-          setWordCloudStiky(status === Sticky.STATUS_FIXED)
-        }}
-        enabled
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginTop: isWordCloudSticky ? 0 : 24
-          }}
-          className={isWordCloudSticky ? styles.WordCloudSticky : ''}
-        >
-          <SocialVolumeWidget />
-          <WordCloud />
-        </div>
-      </Sticky>
-    )}
-  </div>
-)
-
 const TrendsPage = ({
   word,
   isCloudLoading,
@@ -79,6 +45,40 @@ const TrendsPage = ({
     />
     <Devider style={{ margin: '40px 0' }} />
     <InsightsTrends className={styles.insights} />
+  </div>
+)
+
+const WordCloudWrapper = ({
+  isLoading,
+  isDesktop,
+  word,
+  isCloudLoading,
+  isWordCloudSticky,
+  setWordCloudStiky
+}) => (
+  <div>
+    {!isLoading && isDesktop && (
+      <Sticky
+        top={'#word-cloud-sticky-anchor'}
+        innerZ={2}
+        onStateChange={({ status }) => {
+          setWordCloudStiky(status === Sticky.STATUS_FIXED)
+        }}
+        enabled
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: isWordCloudSticky ? 0 : 24
+          }}
+          className={isWordCloudSticky ? styles.WordCloudSticky : ''}
+        >
+          <SocialVolumeWidget />
+          <WordCloud />
+        </div>
+      </Sticky>
+    )}
   </div>
 )
 
