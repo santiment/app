@@ -20,11 +20,13 @@ BLOCK_BUTTONS[2].label = <Icon type='bullet-list' />
 
 class SanEditor extends React.Component {
   static propTypes = {
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func,
+    readOnly: PropTypes.bool
   }
 
   static defaultProps = {
     defaultEditorContent: undefined,
+    onChange: () => {},
     readOnly: false
   }
 
