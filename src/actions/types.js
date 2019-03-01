@@ -87,6 +87,8 @@ export const USER_CHOOSE_ASSET_LIST = '[user] USER_CHOOSE_ASSET_LIST'
 export const ASSETS_FETCH = '[assets] ASSETS_FETCH'
 export const ASSETS_FETCH_SUCCESS = '[assets] ASSETS_FETCH_SUCCESS'
 export const ASSETS_FETCH_FAILED = '[assets] ASSETS_FETCH_FAILED'
+export const ASSETS_SET_MIN_VOLUME_FILTER =
+  '[assets] ASSETS_SET_MIN_VOLUME_FILTER'
 
 // watchlists
 export const WATCHLIST_TOGGLE_CONFIRM_DELETE_MODAL =

@@ -20,10 +20,13 @@ const handleError = error => {
   })
 }
 
-const fetchAssets$ = ({ type = 'all', client }) => {
+const fetchAssets$ = ({ type = 'all', client, filters }) => {
   return Observable.of(type).switchMap(type =>
     client.query({
       query: pickProjectsType(type).gql,
+      variables: {
+        minVolume: filters.minVolume
+      },
       context: { isRetriable: true }
     })
   )
@@ -73,9 +76,9 @@ export const fetchAssetsEpic = (action$, store, { client }) =>
       return payload.type !== 'list' && payload.type !== 'list#shared'
     })
     .mergeMap(action => {
-      const { type } = action.payload
+      const { type, filters } = action.payload
       const startTime = Date.now()
-      return fetchAssets$({ type, client })
+      return fetchAssets$({ type, client, filters })
         .delayWhen(() => Observable.timer(500 + startTime - Date.now()))
         .exhaustMap(data => {
           return Observable.of({
