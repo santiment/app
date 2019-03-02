@@ -6,6 +6,7 @@ import {
   publicWatchlistGQL
 } from './../components/WatchlistPopup/WatchlistGQL.js'
 import {
+  allProjects50GQL,
   allProjectsGQL,
   allErc20ProjectsGQL,
   currenciesGQL
@@ -20,12 +21,12 @@ const handleError = error => {
   })
 }
 
-const fetchAssets$ = ({ type = 'all', client, filters }) => {
-  return Observable.of(type).switchMap(type =>
+const fetchAssets$ = ({ type = 'all', client, filters = {} }) => {
+  return Observable.from(
     client.query({
       query: pickProjectsType(type).gql,
       variables: {
-        minVolume: filters.minVolume
+        minVolume: filters.minVolume ? filters.minVolume : 0
       },
       context: { isRetriable: true }
     })
@@ -35,6 +36,11 @@ const fetchAssets$ = ({ type = 'all', client, filters }) => {
 const pickProjectsType = type => {
   switch (type) {
     case 'all':
+      return {
+        projects: 'allProjects',
+        gql: allProjects50GQL
+      }
+    case 'restAll':
       return {
         projects: 'allProjects',
         gql: allProjectsGQL
@@ -80,6 +86,27 @@ export const fetchAssetsEpic = (action$, store, { client }) =>
       const startTime = Date.now()
       return fetchAssets$({ type, client, filters })
         .delayWhen(() => Observable.timer(500 + startTime - Date.now()))
+        .exhaustMap(data => {
+          return Observable.of({
+            type: actions.ASSETS_FETCH_SUCCESS,
+            payload: {
+              ...mapDataToAssets({ type, data }),
+              first50: true
+            }
+          })
+        })
+        .catch(handleError)
+    })
+
+export const fetchRestAllAssetsEpic = (action$, store, { client }) =>
+  action$
+    .ofType(actions.ASSETS_FETCH_SUCCESS)
+    .filter(({ payload }) => {
+      return !!payload.first50
+    })
+    .mergeMap(action => {
+      const { type, filters, first50 } = action.payload
+      return fetchAssets$({ type: 'restAll', client, filters })
         .exhaustMap(data => {
           return Observable.of({
             type: actions.ASSETS_FETCH_SUCCESS,

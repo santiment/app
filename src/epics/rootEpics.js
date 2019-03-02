@@ -21,6 +21,7 @@ import removeWatchlistEpic from './removeWatchlistEpic'
 import removeAssetFromWatchlistEpic from './removeAssetFromWatchlistEpic'
 import {
   fetchAssetsEpic,
+  fetchRestAllAssetsEpic,
   fetchAssetsFromListEpic,
   fetchAssetsFromSharedListEpic
 } from './fetchAssetsEpic'
@@ -68,6 +69,7 @@ export default combineEpics(
   copyWatchlistEpic,
   // assets
   fetchAssetsEpic,
+  fetchRestAllAssetsEpic,
   fetchAssetsFromListEpic,
   fetchAssetsFromSharedListEpic,
   // timeseries
