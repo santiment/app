@@ -26,7 +26,7 @@ class InsightDraftCardDeleteBtn extends Component {
           />
         }
       >
-        <Modal.Header>Are you sure you want to delete the draft?</Modal.Header>
+        <Modal.Header>Are you sure you want to delete this draft?</Modal.Header>
         <Modal.Actions>
           <Button
             onClick={onDeleteClick}

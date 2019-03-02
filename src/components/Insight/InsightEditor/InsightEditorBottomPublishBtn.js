@@ -30,11 +30,10 @@ class InsightEditorBottom extends Component {
           </Button>
         }
       >
-        <Modal.Header>Publishing of the insight</Modal.Header>
-        <Modal.Content>
-          After publishing editing of the insight is not available. Are you sure
-          you want to publish it?
-        </Modal.Content>
+        <Modal.Header>
+          After publishing editing of the insight is not available. Do you want
+          to publish this insight?
+        </Modal.Header>
         <Modal.Actions>
           <Button
             onClick={isPublishDisabled ? undefined : onPublishClick}
