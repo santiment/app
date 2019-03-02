@@ -7,6 +7,11 @@ import styles from './InsightsPage.module.scss'
 
 export const baseLocation = '/insights'
 
+const LoadableInsightsAllFeedPage = Loadable({
+  loader: () => import('./InsightsAllFeedPage'),
+  loading: () => <PageLoader />
+})
+
 const LoadableInsightsFeedPage = Loadable({
   loader: () => import('./InsightsFeedPage'),
   loading: () => <PageLoader />
@@ -35,8 +40,7 @@ const tabs = [
 const feedRoutes = [
   `${baseLocation}/my`,
   `${baseLocation}/tags/:tag`,
-  `${baseLocation}/users/:userId`,
-  baseLocation
+  `${baseLocation}/users/:userId`
 ]
 
 const InsightsPage = ({ location: { pathname } }) => {
@@ -72,6 +76,11 @@ const InsightsPage = ({ location: { pathname } }) => {
             component={LoadableInsightsFeedPage}
           />
         ))}
+        <Route
+          exact
+          path={baseLocation}
+          component={LoadableInsightsAllFeedPage}
+        />
         <Route
           exact
           path={`${baseLocation}/my/drafts`}
