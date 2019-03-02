@@ -6,10 +6,18 @@ import { ImageSideButton, Block, addNewBlock } from 'medium-draft'
 class CustomImageSideButton extends ImageSideButton {
   onChange (e) {
     const file = e.target.files[0]
-    const { mutate, setEditorState, getEditorState, close } = this.props
+    const {
+      mutate,
+      setEditorState,
+      getEditorState,
+      close,
+      onImgLoad
+    } = this.props
     if (file.type.indexOf('image/') === 0) {
+      onImgLoad('start')
       mutate({ variables: { images: e.target.files } })
         .then(rest => {
+          onImgLoad('done')
           const imageData = rest['data'].uploadImage[0]
           const uploadImageUrl = imageData ? imageData.imageUrl : null
           setEditorState(
@@ -19,6 +27,7 @@ class CustomImageSideButton extends ImageSideButton {
           )
         })
         .catch(error => {
+          onImgLoad('error')
           Raven.captureException(error)
         })
     }
