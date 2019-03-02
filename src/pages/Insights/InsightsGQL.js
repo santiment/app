@@ -9,8 +9,8 @@ export const ALL_TAGS_QUERY = gql`
 `
 
 export const ALL_INSIGHTS_QUERY = gql`
-  query allInsights {
-    insights: allInsights {
+  query allInsights($page: Int) {
+    insights: allInsights(page: $page, pageSize: 10) {
       readyState
       id
       title

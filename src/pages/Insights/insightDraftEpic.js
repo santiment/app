@@ -6,6 +6,7 @@ import {
   PUBLISH_INSIGHT_DRAFT_MUTATION
 } from './InsightsGQL'
 import * as actions from './actions'
+import { getInsightTrendTagByDate } from '../../components/Insight/InsightsTrends'
 
 const createDraft$ = ({ title, text, tags }, client) => {
   return Observable.from(
@@ -37,10 +38,14 @@ const updateDraft$ = ({ id, title, text, tags }, client) => {
 export const insightDraftUpdateEpic = (action$, store, { client }) =>
   action$.ofType(actions.INSIGHT_DRAFT_UPDATE).switchMap(({ payload }) => {
     const { tags, ...rest } = payload
-    const normalizedTags = tags.map(({ name }) => name)
+    const tagsSet = new Set(tags.map(({ name }) => name))
+
+    if (window.location.href.includes('/insights/new?currentTrends')) {
+      tagsSet.add(getInsightTrendTagByDate(new Date()))
+    }
 
     return (payload.id ? updateDraft$ : createDraft$)(
-      { tags: normalizedTags, ...rest },
+      { tags: [...tagsSet], ...rest },
       client
     )
       .switchMap(({ data: { updatedDraft: { id, updatedAt } } }) => {

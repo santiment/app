@@ -30,9 +30,11 @@ import ChartPage from './ducks/SANCharts/ChartPage'
 import { unregister } from './serviceWorker'
 import './index.scss'
 
+export let client
+
 const main = () => {
   const httpLink = createHttpLink({ uri: `${getAPIUrl()}/graphql` })
-  const client = new ApolloClient({
+  client = new ApolloClient({
     link: from([authLink, errorLink, retryLink, uploadLink, httpLink]),
     shouldBatch: true,
     cache: new InMemoryCache()
