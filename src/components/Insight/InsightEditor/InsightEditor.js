@@ -104,6 +104,8 @@ class InsightEditor extends Component {
     const { id, title, tags, updatedAt, isUpdating, publishDraft } = this.props
     const { isEditing } = this.state
 
+    const isLoading = isEditing || isUpdating
+
     return (
       <div className={styles.wrapper}>
         <InsightEditorTitle
@@ -119,9 +121,8 @@ class InsightEditor extends Component {
           defaultTags={tags}
           updatedAt={updatedAt}
           onTagsChange={this.onTagsChange}
-          isPublishDisabled={
-            isEditing || isUpdating || !this.isTitleAndTextOk()
-          }
+          isLoading={isLoading}
+          isPublishDisabled={isLoading || !this.isTitleAndTextOk()}
           onPublishClick={() => publishDraft(id)}
         />
       </div>

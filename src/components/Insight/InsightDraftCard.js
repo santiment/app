@@ -4,6 +4,7 @@ import { Panel, Icon } from '@santiment-network/ui'
 import cx from 'classnames'
 import moment from 'moment'
 import MultilineText from '../MultilineText/MultilineText'
+import InsightDraftCardDeleteBtn from './InsightDraftCardDeleteBtn'
 import styles from './InsightDraftCard.module.scss'
 
 const getInsightContent = htmlContent => {
@@ -35,7 +36,7 @@ const InsightDraftCard = ({
         />
       </p>
       <h4 className={styles.date}>Edited {moment(updatedAt).fromNow()}</h4>
-      <Icon onClick={onDeleteClick} type='close' className={styles.remove} />
+      <InsightDraftCardDeleteBtn onDeleteClick={onDeleteClick} />
       <Link to={`/insights/edit/${id}`}>
         <Icon type='edit' className={styles.edit} />
       </Link>

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import nprogress from 'nprogress'
 import { Icon } from '@santiment-network/ui'
 import {
   BLOCK_BUTTONS,
@@ -38,6 +39,16 @@ class SanEditor extends React.Component {
     this.setState({ editorState }, () => this.props.onChange(editorState))
   }
 
+  onImgLoad = state => {
+    switch (state) {
+      case 'start':
+        return nprogress.start()
+      case 'done':
+      default:
+        return nprogress.done()
+    }
+  }
+
   render () {
     const { editorState } = this.state
     const { placeholder = '', readOnly } = this.props
@@ -50,7 +61,10 @@ class SanEditor extends React.Component {
         sideButtons={[
           {
             title: 'Image',
-            component: CustomImageSideButton
+            component: CustomImageSideButton,
+            props: {
+              onImgLoad: this.onImgLoad
+            }
           }
         ]}
         toolbarConfig={{
