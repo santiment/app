@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import moment from 'moment'
 import Timer from '../../Timer'
 import TagSelector from '../../TagSelector'
@@ -11,6 +11,7 @@ const InsightEditorBottom = ({
   updatedAt,
   onTagsChange,
   onPublishClick,
+  isLoading,
   isPublishDisabled = false
 }) => (
   <div className={styles.bottom}>
@@ -27,10 +28,16 @@ const InsightEditorBottom = ({
       <div className={styles.bottom__right}>
         {updatedAt && (
           <span className={styles.save}>
-            Draft saved{' '}
-            <Timer interval={1000 * 60}>
-              {() => moment(updatedAt).fromNow()}
-            </Timer>
+            {isLoading ? (
+              'Saving...'
+            ) : (
+              <Fragment>
+                Draft saved{' '}
+                <Timer interval={1000 * 60}>
+                  {() => moment(updatedAt).fromNow()}
+                </Timer>
+              </Fragment>
+            )}
           </span>
         )}
         <InsightEditorBottomPublishBtn
