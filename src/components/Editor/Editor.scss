@@ -210,8 +210,15 @@
         }
     }
 
-    .md-block-image-inner-container img {
-        max-width: 100%;
+
+    .md-block-image {
+        max-width: 70%;
+        margin: 1em auto;
+
+        img {
+            cursor: pointer;
+            max-width: 100%;
+        }
     }
 
     #nprogress {
