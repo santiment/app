@@ -1,8 +1,8 @@
 import React, { Fragment, Component } from 'react'
 import { Modal } from 'semantic-ui-react'
-import styles from './ImageModalWrapper.module.scss'
+import styles from './InsightViewPageImageModalWrapper.module.scss'
 
-class ImageModalWrapper extends Component {
+class InsightViewPageImageModalWrapper extends Component {
   state = {
     imgSrc: undefined
   }
@@ -45,4 +45,4 @@ class ImageModalWrapper extends Component {
   }
 }
 
-export default ImageModalWrapper
+export default InsightViewPageImageModalWrapper

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import moment from 'moment'
 import { convertToRaw } from 'draft-js'
 import mediumDraftImporter from 'medium-draft/lib/importer'
-import ImageModalWrapper from './ImageModalWrapper'
+import InsightViewPageImageModalWrapper from './InsightViewPageImageModalWrapper'
 import InsightEditorTitle from '../../components/Insight/InsightEditor/InsightEditorTitle'
 import InsightTags from '../../components/Insight/InsightTags'
 import ProfileInfo from '../../components/Insight/ProfileInfo'
@@ -27,12 +27,12 @@ const InsightViewPage = ({
         />
       </div>
       <InsightEditorTitle defaultValue={title} readOnly />
-      <ImageModalWrapper>
+      <InsightViewPageImageModalWrapper>
         <Editor
           readOnly
           defaultEditorContent={convertToRaw(mediumDraftImporter(text))}
         />
-      </ImageModalWrapper>
+      </InsightViewPageImageModalWrapper>
       <div className={styles.tags}>
         <InsightTags tags={tags} />
       </div>

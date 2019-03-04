@@ -214,6 +214,9 @@
     .md-block-image {
         max-width: 70%;
         margin: 1em auto;
+        text-align: center;
+        background: var(--grey-light-2);
+        font-size: 13px;
 
         img {
             cursor: pointer;
