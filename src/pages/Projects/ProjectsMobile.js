@@ -12,7 +12,6 @@ import Search from './../../components/Search/SearchContainer'
 import ProjectCard from './ProjectCard'
 import FloatingButton from './FloatingButton'
 import Filters, { DEFAULT_SORT_BY, DEFAULT_FILTER_BY } from './Filters'
-import AssetsCard from './../assets/AssetsCard'
 import './ProjectsMobile.css'
 
 export default class ProjectsMobile extends Component {
@@ -59,17 +58,14 @@ export default class ProjectsMobile extends Component {
       >
         {({ measure }) => (
           <div key={key} style={style}>
-            <AssetsCard {...project} />
-            {
-              // <ProjectCard
-              // type={type}
-              // history={history}
-              // onLoad={measure}
-              // toggleExpandCard={this.toggleExpandCard(index)}
-              // isExpanded={this.state.expandedCards[index]}
-              // {...project}
-              /// >
-            }
+            <ProjectCard
+              type={type}
+              history={history}
+              onLoad={measure}
+              toggleExpandCard={this.toggleExpandCard(index)}
+              isExpanded={this.state.expandedCards[index]}
+              {...project}
+            />
           </div>
         )}
       </CellMeasurer>
