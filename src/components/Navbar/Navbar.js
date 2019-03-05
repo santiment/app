@@ -91,7 +91,7 @@ const Navbar = ({ activeLink = '/' }) => {
                 key={link}
                 variant='flat'
                 as={props => <Link {...props} to={{ pathname: link }} />}
-                isActive={link === activeLink}
+                isActive={activeLink.includes(link)}
                 className={styles.leftLink}
               >
                 {label}
