@@ -19,6 +19,19 @@ INLINE_BUTTONS[4].label = <Icon type='link' />
 BLOCK_BUTTONS[1].label = <Icon type='quote' />
 BLOCK_BUTTONS[2].label = <Icon type='bullet-list' />
 
+BLOCK_BUTTONS.push({
+  label: <Icon type='text-big' />,
+  style: 'header-one',
+  icon: 'header',
+  description: 'Heading 1'
+})
+BLOCK_BUTTONS.push({
+  label: <Icon type='text-small' />,
+  style: 'header-two',
+  icon: 'header',
+  description: 'Heading 2'
+})
+
 class SanEditor extends React.Component {
   static propTypes = {
     onChange: PropTypes.func,
@@ -68,8 +81,13 @@ class SanEditor extends React.Component {
           }
         ]}
         toolbarConfig={{
-          block: ['blockquote', 'unordered-list-item'],
-          inline: ['hyperlink', 'BOLD', 'UNDERLINE', 'ITALIC']
+          block: [
+            'blockquote',
+            'unordered-list-item',
+            'header-one',
+            'header-two'
+          ],
+          inline: ['hyperlink', 'BOLD', 'UNDERLINE', 'ITALIC', 'header-two']
         }}
       />
     )

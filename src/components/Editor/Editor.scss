@@ -25,6 +25,23 @@
         pointer-events: none;
     }
 
+    .public-DraftEditor-content {
+
+        h1 {
+            color: var(--black);
+            font-weight: 800 !important;
+            line-height: 42px !important;
+            font-size: 30px !important;
+        }
+
+        h2 {
+            color: var(--black);
+            font-weight: 800;
+            line-height: 34px;
+            font-size: 24px;
+        }
+    }
+
     .md-editor-toolbar {
         height: 32px;
         position: absolute;
@@ -57,6 +74,10 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
+    }
+
+    .md-RichEditor-activeButton {
+        fill: var(--green);
     }
 
     [class*=hint--]{
@@ -108,12 +129,14 @@
     }
 
     .md-RichEditor-blockquote {
-        border-left: 5px solid #4ca8de;
-        color: #555;
-        font-size: 1.2em;
         margin: 0;
-        padding: 10px 0 10px 20px;
+        padding: 23px 32px;
         background-color: #e2f2ff;
+        background: var(--grey-light);
+        border-radius: $border-radius;
+        font-size: 24px;
+        line-height: 34px;
+        color: var(--black);
     }
 
     .md-RichEditor-show-link-input {
