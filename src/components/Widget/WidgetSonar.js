@@ -8,8 +8,24 @@ import { Link } from 'react-router-dom'
 import MarketcapWidget from '../TotalMarketcapWidget/GetTotalMarketcap'
 import InsightAddBtn from '../Insight/InsightAddBtn'
 import InsightCard from '../Insight/InsightCard'
-import { ALL_INSIGHTS_QUERY } from '../Insight/insightsGQL.js'
+import {
+  ALL_INSIGHTS_QUERY,
+  PINNED_INSIGHTS_QUERY
+} from '../Insight/insightsGQL.js'
 import styles from './WidgetSonar.module.scss'
+
+const getPinnedInsightId = () => {
+  const { search } = window.location
+
+  if (search.includes('stablecoins')) {
+    return 210
+  }
+
+  console.log(decodeURIComponent(search))
+  if (decodeURIComponent(search).includes('top 50 erc20')) {
+    return 209
+  }
+}
 
 class WidgetSonar extends Component {
   state = {
@@ -22,7 +38,20 @@ class WidgetSonar extends Component {
 
   render () {
     const { view } = this.state
-    const { insights, className, type, listName } = this.props
+    const { data, insights, className, type, listName } = this.props
+    const insightsSlice = insights.slice(0, 3)
+    let insightsToShow
+
+    if (data && !data.loading) {
+      const { pinnedInsight } = data
+      insightsToShow = [
+        pinnedInsight,
+        ...insightsSlice.filter(({ id }) => id !== pinnedInsight.id)
+      ]
+    } else {
+      insightsToShow = insightsSlice
+    }
+
     return (
       <div className={cx(styles.wrapper, className)}>
         <Tabs
@@ -42,7 +71,7 @@ class WidgetSonar extends Component {
               <InsightAddBtn />
             </div>
             <div className={styles.insights}>
-              {insights.slice(0, 3).map(insight => (
+              {insightsToShow.map(insight => (
                 <InsightCard
                   key={insight.id}
                   {...insight}
@@ -73,6 +102,16 @@ const enhance = compose(
               ({ name }) => name === 'Crypto Market' || tickers.includes(name)
             )
         )
+      }
+    }
+  }),
+  graphql(PINNED_INSIGHTS_QUERY, {
+    skip: () => !getPinnedInsightId(),
+    options: () => {
+      return {
+        variables: {
+          id: getPinnedInsightId()
+        }
       }
     }
   })
