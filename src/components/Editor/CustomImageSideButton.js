@@ -43,7 +43,7 @@ class CustomImageSideButton extends ImageSideButton {
           )
         })
         .catch(error => {
-          showNotification('Upload image error')
+          store.dispatch(showNotification('Upload image error'))
           Raven.captureException(error)
         })
     }
