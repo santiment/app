@@ -87,7 +87,7 @@ class SanEditor extends React.Component {
             'header-one',
             'header-two'
           ],
-          inline: ['hyperlink', 'BOLD', 'UNDERLINE', 'ITALIC', 'header-two']
+          inline: ['hyperlink', 'BOLD', 'UNDERLINE', 'ITALIC']
         }}
       />
     )
