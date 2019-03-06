@@ -4,8 +4,6 @@ import { graphql } from 'react-apollo'
 import Raven from 'raven-js'
 import { ImageSideButton, Block, addNewBlock } from 'medium-draft'
 import { Icon } from '@santiment-network/ui'
-import { store } from '../../index'
-import { showNotification } from '../../actions/rootActions'
 import styles from './CustomImageSideButton.module.scss'
 
 class CustomImageSideButton extends ImageSideButton {
