@@ -62,13 +62,12 @@
 }
 
 .left {
-    /* max-width: 65%; */ // Back to this value when showing .right
-    max-width: 90%;
+    max-width: 65%; // Back to this value when showing .right
+    // max-width: 90%;
 }
 
 .right {
-    /* display: flex; */
-    display: none;
+    display: flex;
 }
 
 .stat {
@@ -79,6 +78,7 @@
     color: var(--black);
     fill: var(--grey-dark);
     margin-left: 22px;
+    cursor: pointer;
 
     &:first-child {
         margin-left: 0;
@@ -87,4 +87,9 @@
     & svg {
         margin-right: 6px;
     }
+}
+
+.liked {
+    color: var(--green);
+    fill: var(--green);
 }
