@@ -8,8 +8,6 @@ import { store } from '../../index'
 import { showNotification } from '../../actions/rootActions'
 import styles from './CustomImageSideButton.module.scss'
 
-const MAX_IMG_SIZE = 5000 // NOTE(vanguard): after uploading file with size than 5mb backend does not return imageUrl
-
 class CustomImageSideButton extends ImageSideButton {
   onChange (e) {
     const file = e.target.files[0]
@@ -21,24 +19,14 @@ class CustomImageSideButton extends ImageSideButton {
       onImgLoad
     } = this.props
     if (file.type.indexOf('image/') === 0) {
-      if (file.size / 1024 > MAX_IMG_SIZE) {
-        store.dispatch(showNotification('Image size is too large'))
-        return
-      }
-
       onImgLoad('start')
 
       mutate({ variables: { images: e.target.files } })
-        .then(({ data: { uploadImage } }) => {
+        .then(rest => {
           onImgLoad('done')
-          const imageData = uploadImage[0]
-          const uploadImageUrl = imageData.imageUrl
-
-          if (!uploadImageUrl) {
-            store.dispatch(showNotification('Upload image error'))
-            return
-          }
-
+          const imageData = rest['data'].uploadImage[0]
+          const uploadImageUrl = imageData ? imageData.imageUrl : null
+          
           setEditorState(
             addNewBlock(getEditorState(), Block.IMAGE, {
               src: uploadImageUrl
@@ -46,7 +34,7 @@ class CustomImageSideButton extends ImageSideButton {
           )
         })
         .catch(error => {
-          showNotification('Upload image error')
+          onImgLoad('error')
           Raven.captureException(error)
         })
     }
