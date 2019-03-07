@@ -6,7 +6,7 @@ import styles from './InsightCard.module.scss'
 
 class InsightCardLikeBtn extends Component {
   state = {
-    liked: false
+    liked: this.props.liked
   }
 
   static propTypes = {
@@ -22,19 +22,15 @@ class InsightCardLikeBtn extends Component {
     disabled: false
   }
 
-  static getDerivedStateFromProps ({ liked }) {
-    return {
-      liked
-    }
-  }
-
   onClick = () => {
     const {
       state: { liked },
       props
     } = this
 
-    this.setState({ liked: !liked }, () => props.onClick(!liked))
+    this.setState({ liked: !liked }, () => {
+      props.onClick(liked)
+    })
   }
 
   render () {

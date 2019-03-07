@@ -6,6 +6,7 @@ import InsightTags from './InsightTags'
 import ProfileInfo from './ProfileInfo'
 import MultilineText from '../MultilineText/MultilineText'
 import styles from './InsightCard.module.scss'
+import InsightCardLikeBtn from './InsightCardLikeBtn'
 
 const InsightCardInternals = ({
   id,
@@ -15,6 +16,8 @@ const InsightCardInternals = ({
   createdAt,
   votes: { totalVotes },
   comments,
+  votedAt,
+  onLike,
   className
 }) => {
   return (
@@ -35,9 +38,11 @@ const InsightCardInternals = ({
           />
         </div>
         <div className={styles.right}>
-          <div className={styles.stat}>
-            <Icon type='like' /> {totalVotes}
-          </div>
+          <InsightCardLikeBtn
+            likesNumber={totalVotes}
+            liked={!!votedAt}
+            onClick={onLike}
+          />
           <div className={styles.stat}>
             <Icon type='comment' /> {comments}
           </div>

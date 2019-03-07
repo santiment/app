@@ -3,6 +3,7 @@ import { Selector } from '@santiment-network/ui'
 import InsightCard from './InsightCard'
 import InsightAddBtn from './InsightAddBtn'
 import styles from './Insights.module.scss'
+import WithLikesMutation from './WithLikesMutation'
 
 const View = {
   RECENT: 'Recent',
@@ -62,23 +63,32 @@ class Insights extends Component {
           </div>
         </div>
         <div className={styles.bottom}>
-          {[...insights]
-            .sort(view === View.RECENT ? sortByRecent : sortByPopularity)
-            .slice(0, 3)
-            .map(({ id, user, title, tags, createdAt, votes }) => {
-              return (
-                <InsightCard
-                  className={styles.insight}
-                  key={id}
-                  id={id}
-                  user={user}
-                  title={title}
-                  tags={tags}
-                  createdAt={createdAt}
-                  votes={votes}
-                />
-              )
-            })}
+          <WithLikesMutation isFor='insights'>
+            {(likeInsight, unlikeInsight) =>
+              [...insights]
+                .sort(view === View.RECENT ? sortByRecent : sortByPopularity)
+                .slice(0, 3)
+                .map(({ id, user, title, tags, createdAt, votes }) => {
+                  return (
+                    <InsightCard
+                      className={styles.insight}
+                      key={id}
+                      id={id}
+                      user={user}
+                      title={title}
+                      tags={tags}
+                      createdAt={createdAt}
+                      votes={votes}
+                      onLike={liked =>
+                        (liked ? unlikeInsight : likeInsight)({
+                          variables: { id: +id }
+                        })
+                      }
+                    />
+                  )
+                })
+            }
+          </WithLikesMutation>
         </div>
       </div>
     )
