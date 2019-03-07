@@ -13,7 +13,6 @@ import {
   ALL_INSIGHTS_QUERY,
   PINNED_INSIGHTS_QUERY
 } from '../Insight/insightsGQL.js'
-
 import styles from './WidgetSonar.module.scss'
 
 const pinnedInsightsIdByWatchlistName = {
