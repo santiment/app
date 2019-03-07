@@ -5,6 +5,7 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
+import qs from 'query-string'
 import MarketcapWidget from '../TotalMarketcapWidget/GetTotalMarketcap'
 import InsightAddBtn from '../Insight/InsightAddBtn'
 import InsightCard from '../Insight/InsightCard'
@@ -12,19 +13,18 @@ import {
   ALL_INSIGHTS_QUERY,
   PINNED_INSIGHTS_QUERY
 } from '../Insight/insightsGQL.js'
+
 import styles from './WidgetSonar.module.scss'
 
+const pinnedInsightsIdByWatchlistName = {
+  'stablecoins@86': 210,
+  'top 50 erc20@227': 209
+}
+
 const getPinnedInsightId = () => {
-  const { search } = window.location
+  const { name } = qs.parse(window.location.search)
 
-  if (search.includes('stablecoins')) {
-    return 210
-  }
-
-  console.log(decodeURIComponent(search))
-  if (decodeURIComponent(search).includes('top 50 erc20')) {
-    return 209
-  }
+  return pinnedInsightsIdByWatchlistName[name]
 }
 
 class WidgetSonar extends Component {
