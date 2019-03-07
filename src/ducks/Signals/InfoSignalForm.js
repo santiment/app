@@ -1,61 +1,101 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Input } from '@santiment-network/ui'
-import moment from 'moment'
+import { Formik, Form, Field } from 'formik'
+import { Input, Button } from '@santiment-network/ui'
 import styles from './TriggerForm.module.scss'
 
-class InfoSignalForm extends React.PureComponent {
-  state = {
-    title: 'Signal-' + moment().toISOString(),
-    description: ''
-  }
+const InfoSignalForm = ({ onInfoSignalSubmit, onBack }) => {
+  return (
+    <Fragment>
+      <Formik
+        initialValues={{
+          title: 'Signal-' + new Date().toISOString(),
+          description: ''
+        }}
+        validate={values => {
+          let errors = {}
+          if (!values.title) {
+            errors.title = 'Required'
+          } else if (values.title.length < 3) {
+            errors.title = 'Title has to be longer than 2 characters'
+          }
+          return errors
+        }}
+        onChange={values => {
+          console.log(values)
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          console.log('Submitted', values)
+          onInfoSignalSubmit(values)
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          isSubmitting,
+          handleChange,
+          handleBlur,
+          isValid,
+          ...rest
+        }) => (
+          <Form>
+            <div className={styles.Field}>
+              <label>Title</label>
+              <Field
+                id='title'
+                name='title'
+                type='text'
+                placeholder='Name of signal'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.title}
+                component={Input}
+              />
+              {errors.title && touched.title && errors.title}
+            </div>
+            <div className={styles.Field}>
+              <label>Description</label>
+              <Field
+                id='description'
+                component={Input}
+                type='text'
+                name='description'
+                value={values.description}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder='Description of the signal'
+              />
+            </div>
+            <Button
+              type='button'
+              variant={'flat'}
+              accent='normal'
+              border
+              onClick={onBack}
+            >
+              Back
+            </Button>
+            <Button
+              type='submit'
+              disabled={!isValid || isSubmitting}
+              isActive={isValid && !isSubmitting}
+              variant={'fill'}
+              accent='positive'
+            >
+              Create
+            </Button>
+            <hr />
+            {JSON.stringify(rest)}
+          </Form>
+        )}
+      </Formik>
+    </Fragment>
+  )
+}
 
-  static propTypes = {
-    onInfoSignalChange: PropTypes.func.isRequired
-  }
-
-  componentDidMount () {
-    this.props.onInfoSignalChange(this.state)
-  }
-
-  componentDidUpdate (prevProps, prevState) {
-    this.props.onInfoSignalChange(this.state)
-  }
-
-  render () {
-    return (
-      <Fragment>
-        <div className={styles.Field}>
-          <label>Title</label>
-          <Input
-            value={this.state.title}
-            id='title'
-            autoComplete='nope'
-            type='text'
-            name='title'
-            placeholder='Name of the signal'
-            onChange={this.handleInputChange}
-          />
-        </div>
-        <div className={styles.Field}>
-          <label>Description</label>
-          <Input
-            value={this.state.description}
-            id='description'
-            autoComplete='nope'
-            type='text'
-            name='description'
-            placeholder='Description of the signal'
-            onChange={this.handleInputChange}
-          />
-        </div>
-      </Fragment>
-    )
-  }
-
-  handleInputChange = event => {
-    this.setState({ [event.target.name]: event.target.value })
-  }
+InfoSignalForm.propTypes = {
+  onInfoSignalSubmit: PropTypes.func.isRequired
 }
 
 export default InfoSignalForm

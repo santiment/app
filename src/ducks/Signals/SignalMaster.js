@@ -12,7 +12,7 @@ const STEPS = {
   CONFIRM: 1
 }
 
-export class SignalMaster extends React.Component {
+export class SignalMaster extends React.PureComponent {
   state = {
     step: STEPS.SETTINGS,
     readyForConfirmitaion: false,
@@ -21,19 +21,29 @@ export class SignalMaster extends React.Component {
   }
 
   render () {
+    const { step, readyForConfirmitaion } = this.state
     return (
       <div className={styles.wrapper}>
-        {ifStepSettings({
-          ...this.state,
-          handleChangeStep: this.handleChangeStep,
-          handleSettingsChange: this.handleSettingsChange
-        })}
-        {ifStepConfirm({
-          ...this.state,
-          ...this.props,
-          handleChangeStep: this.handleChangeStep,
-          handleInfoSignalChange: this.handleInfoSignalChange
-        })}
+        {step === STEPS.SETTINGS && (
+          <div>
+            <TriggerForm onSettingsChange={this.handleSettingsChange} />
+            <Button
+              variant={readyForConfirmitaion ? 'fill' : 'flat'}
+              accent='positive'
+              disabled={!readyForConfirmitaion}
+              isActive={readyForConfirmitaion}
+              onClick={() => this.handleChangeStep(STEPS.CONFIRM)}
+            >
+              Continue
+            </Button>
+          </div>
+        )}
+        {step === STEPS.CONFIRM && (
+          <InfoSignalForm
+            onBack={() => this.handleChangeStep(STEPS.SETTINGS)}
+            onInfoSignalSubmit={this.handleInfoSignalSubmit}
+          />
+        )}
       </div>
     )
   }
@@ -48,64 +58,12 @@ export class SignalMaster extends React.Component {
     })
   }
 
-  handleInfoSignalChange = info => {
+  handleInfoSignalSubmit = info => {
     this.setState({ info })
+    console.log(info)
+    // this.props.createTrigger({ ...this.state.settings, ...info })
   }
 }
-
-const ifStepSettings = fork(
-  ({ step }) => step === STEPS.SETTINGS,
-  ({
-    handleChangeStep,
-    handleSettingsChange,
-    readyForConfirmitaion = false
-  }) => (
-    <div>
-      <TriggerForm onSettingsChange={handleSettingsChange} />
-      <Button
-        variant={readyForConfirmitaion ? 'fill' : 'flat'}
-        accent='positive'
-        disabled={!readyForConfirmitaion}
-        isActive={readyForConfirmitaion}
-        onClick={() => handleChangeStep(STEPS.CONFIRM)}
-      >
-        Continue
-      </Button>
-    </div>
-  )
-)
-
-const ifStepConfirm = fork(
-  ({ step }) => step === STEPS.CONFIRM,
-  ({
-    createTrigger,
-    handleChangeStep,
-    readyForConfirmitaion,
-    handleInfoSignalChange,
-    step,
-    info,
-    ...rest
-  }) => (
-    <div>
-      <InfoSignalForm onInfoSignalChange={handleInfoSignalChange} />
-      <Button
-        variant={'flat'}
-        accent='normal'
-        border
-        onClick={() => handleChangeStep(STEPS.SETTINGS)}
-      >
-        Back
-      </Button>
-      <Button
-        variant={'fill'}
-        accent='positive'
-        onClick={() => createTrigger({ ...rest.settings, ...info })}
-      >
-        Create
-      </Button>
-    </div>
-  )
-)
 
 const mapDispatchToProps = dispatch => ({
   createTrigger: payload => {
