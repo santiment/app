@@ -3,8 +3,7 @@ import { Query } from 'react-apollo'
 import { connect } from 'react-redux'
 import { baseLocation } from './InsightsPage'
 import { INSIGHTS_BY_USERID_QUERY, INSIGHTS_BY_TAG_QUERY } from './InsightsGQL'
-import InsightCard from '../../components/Insight/InsightCardWithMarketcap'
-import Feed from '../../components/Feed/Feed'
+import InsightsFeed from '../../components/Insight/InsightsFeed'
 import { filterInsightsNoDrafts, sortInsightsByDateDescending } from './utils'
 import styles from './InsightsFeedPage.module.scss'
 
@@ -40,13 +39,7 @@ const InsightsFeedPage = ({ match: { path, params }, userId }) => {
             .filter(filterInsightsNoDrafts)
             .sort(sortInsightsByDateDescending)
 
-          return (
-            <Feed
-              data={feedInsights}
-              component={InsightCard}
-              dateKey='createdAt'
-            />
-          )
+          return <InsightsFeed insights={feedInsights} />
         }}
       </Query>
     </div>

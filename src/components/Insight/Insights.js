@@ -68,17 +68,13 @@ class Insights extends Component {
               [...insights]
                 .sort(view === View.RECENT ? sortByRecent : sortByPopularity)
                 .slice(0, 3)
-                .map(({ id, user, title, tags, createdAt, votes }) => {
+                .map(({ id, ...insight }) => {
                   return (
                     <InsightCard
                       className={styles.insight}
                       key={id}
                       id={id}
-                      user={user}
-                      title={title}
-                      tags={tags}
-                      createdAt={createdAt}
-                      votes={votes}
+                      {...insight}
                       onLike={liked =>
                         (liked ? unlikeInsight : likeInsight)({
                           variables: { id: +id }

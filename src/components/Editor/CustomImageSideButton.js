@@ -24,7 +24,7 @@ class CustomImageSideButton extends ImageSideButton {
           onImgLoad('done')
           const imageData = rest['data'].uploadImage[0]
           const uploadImageUrl = imageData ? imageData.imageUrl : null
-          
+
           setEditorState(
             addNewBlock(getEditorState(), Block.IMAGE, {
               src: uploadImageUrl

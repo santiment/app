@@ -16,8 +16,8 @@ export const ALL_INSIGHTS_QUERY = gql`
       title
       createdAt
       updatedAt
+      votedAt
       votes {
-        totalSanVotes
         totalVotes
       }
       tags {
@@ -88,7 +88,6 @@ export const INSIGHTS_BY_USERID_QUERY = gql`
         name
       }
       votes {
-        totalSanVotes
         totalVotes
       }
     }
@@ -113,7 +112,6 @@ export const INSIGHTS_BY_TAG_QUERY = gql`
         name
       }
       votes {
-        totalSanVotes
         totalVotes
       }
     }

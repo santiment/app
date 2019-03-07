@@ -9,6 +9,7 @@ import MarketcapWidget from '../TotalMarketcapWidget/GetTotalMarketcap'
 import InsightAddBtn from '../Insight/InsightAddBtn'
 import InsightCard from '../Insight/InsightCard'
 import { ALL_INSIGHTS_QUERY } from '../Insight/insightsGQL.js'
+import WithLikesMutation from '../Insight/WithLikesMutation'
 import styles from './WidgetSonar.module.scss'
 
 class WidgetSonar extends Component {
@@ -42,13 +43,22 @@ class WidgetSonar extends Component {
               <InsightAddBtn />
             </div>
             <div className={styles.insights}>
-              {insights.slice(0, 3).map(insight => (
-                <InsightCard
-                  key={insight.id}
-                  {...insight}
-                  className={styles.insight}
-                />
-              ))}
+              <WithLikesMutation isFor='insights'>
+                {(likeInsight, unlikeInsight) =>
+                  insights.slice(0, 3).map(insight => (
+                    <InsightCard
+                      key={insight.id}
+                      {...insight}
+                      className={styles.insight}
+                      onLike={liked =>
+                        (liked ? unlikeInsight : likeInsight)({
+                          variables: { id: +insight.id }
+                        })
+                      }
+                    />
+                  ))
+                }
+              </WithLikesMutation>
             </div>
           </div>
         )}

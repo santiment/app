@@ -29,20 +29,21 @@ class InsightCardLikeBtn extends Component {
     } = this
 
     this.setState({ liked: !liked }, () => {
-      props.onClick(liked)
+      console.log(liked)
+      /* props.onClick(liked) */
     })
   }
 
   render () {
     const { liked } = this.state
-    const { disabled, likesNumber } = this.props
+    const { liked: savedLike, disabled, likesNumber } = this.props
 
     return (
       <div
         className={cx(styles.stat, liked && styles.liked)}
         onClick={disabled ? undefined : this.onClick}
       >
-        <Icon type='like' /> {likesNumber + liked}
+        <Icon type='like' /> {likesNumber + liked - savedLike}
       </div>
     )
   }

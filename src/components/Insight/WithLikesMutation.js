@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Mutation } from 'react-apollo'
+import { connect } from 'react-redux'
 import { LIKE_INSIGHT_MUTATION, UNLIKE_INSIGHT_MUTATION } from './insightsGQL'
 
 const Mutations = {
@@ -8,22 +9,24 @@ const Mutations = {
   /* comments: [LIKE_COMMENT_MUTATION, UNLIKE_COMMENT_MUTATION] */
 }
 
-const withLikesMutation = ({ isFor, children }) => {
-  const [LIKE_MUTATION, UNLIKE_MUTATION] = Mutations[isFor]
+const withLikesMutation = ({ isFor, insightLikeMutation, children }) => {
+  const mutation = isFor === 'insights' ? insightLikeMutation : undefined
 
-  return (
-    <Mutation mutation={LIKE_MUTATION}>
-      {like => (
-        <Mutation mutation={UNLIKE_MUTATION}>
-          {unlike => children(like, unlike)}
-        </Mutation>
-      )}
-    </Mutation>
-  )
+  return children(id => liked => ({ id, liked }))
 }
 
 withLikesMutation.propTypes = {
   isFor: PropTypes.oneOf(['insights']).isRequired
 }
 
-export default withLikesMutation
+const mapDispatchToProps = dispatch => ({
+  insightLikeMutation: payload => ({
+    type: '[voting] INSIGHTS_LIKE',
+    payload
+  })
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withLikesMutation)
