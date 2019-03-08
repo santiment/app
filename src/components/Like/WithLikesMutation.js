@@ -1,18 +1,14 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { INSIGHTS_LIKE } from './likesEpic'
+import { INSIGHTS_LIKE } from './actions'
 
-const withLikesMutation = ({ isFor, insightLikeMutation, children }) => {
+const withLikesMutation = ({ insightLikeMutation, children }) => {
   return children(id => shouldLike =>
     insightLikeMutation({
       id,
       shouldLike
     })
   )
-}
-
-withLikesMutation.propTypes = {
-  isFor: PropTypes.oneOf(['insights']).isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

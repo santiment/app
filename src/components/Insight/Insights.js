@@ -3,7 +3,7 @@ import { Selector } from '@santiment-network/ui'
 import InsightCard from './InsightCard'
 import InsightAddBtn from './InsightAddBtn'
 import styles from './Insights.module.scss'
-import WithLikesMutation from './WithLikesMutation'
+import WithLikesMutation from '../Like/WithLikesMutation'
 
 const View = {
   RECENT: 'Recent',

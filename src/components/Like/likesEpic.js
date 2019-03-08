@@ -1,13 +1,11 @@
 import { Observable } from 'rxjs'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
-import { LIKE_INSIGHT_MUTATION, UNLIKE_INSIGHT_MUTATION } from './insightsGQL'
-
-export const INSIGHTS_LIKE = '[voting] INSIGHTS_LIKE'
-export const INSIGHT_LIKE_FAIL = '[voting] INSIGHTS_LIKE_FAIL'
+import { LIKE_INSIGHT_MUTATION, UNLIKE_INSIGHT_MUTATION } from './likesGQL'
+import * as actions from './actions'
 
 export const likesEpic = (action$, store, { client }) =>
   action$
-    .ofType(INSIGHTS_LIKE)
+    .ofType(actions.INSIGHTS_LIKE)
     .debounceTime(300)
     .mergeMap(({ payload: { id, shouldLike } }) => {
       return Observable.from(
@@ -21,5 +19,5 @@ export const likesEpic = (action$, store, { client }) =>
         })
       )
         .switchMap(() => Observable.empty())
-        .catch(handleErrorAndTriggerAction(INSIGHT_LIKE_FAIL))
+        .catch(handleErrorAndTriggerAction(actions.INSIGHT_LIKE_FAIL))
     })

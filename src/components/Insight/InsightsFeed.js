@@ -1,5 +1,5 @@
 import React from 'react'
-import WithLikesMutation from './WithLikesMutation'
+import WithLikesMutation from '../Like/WithLikesMutation'
 import InsightCard from './InsightCardWithMarketcap'
 import Feed from '../Feed/Feed'
 

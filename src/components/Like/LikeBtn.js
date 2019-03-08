@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Icon } from '@santiment-network/ui'
 import cx from 'classnames'
-import styles from './InsightCard.module.scss'
+import { connect } from 'react-redux'
+import styles from './LikeBtn.module.scss'
 
-class InsightCardLikeBtn extends Component {
+class LikeBtn extends Component {
   state = {
     liked: this.props.liked
   }
@@ -35,17 +36,22 @@ class InsightCardLikeBtn extends Component {
 
   render () {
     const { liked } = this.state
-    const { liked: savedLike, disabled, likesNumber } = this.props
+    const { liked: savedLike, disabled, likesNumber, className } = this.props
 
     return (
       <div
-        className={cx(styles.stat, liked && styles.liked)}
+        className={cx(styles.wrapper, className, liked && styles.liked)}
         onClick={disabled ? undefined : this.onClick}
       >
-        <Icon type='like' /> {likesNumber + liked - savedLike}
+        <Icon className={styles.icon} type='like' />{' '}
+        {likesNumber + liked - savedLike}
       </div>
     )
   }
 }
 
-export default InsightCardLikeBtn
+const mapStateToProps = ({ user: { token } }) => ({
+  disabled: !token
+})
+
+export default connect(mapStateToProps)(LikeBtn)

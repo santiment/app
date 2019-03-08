@@ -9,7 +9,7 @@ import MarketcapWidget from '../TotalMarketcapWidget/GetTotalMarketcap'
 import InsightAddBtn from '../Insight/InsightAddBtn'
 import InsightCard from '../Insight/InsightCard'
 import { ALL_INSIGHTS_QUERY } from '../Insight/insightsGQL.js'
-import WithLikesMutation from '../Insight/WithLikesMutation'
+import WithLikesMutation from '../Like/WithLikesMutation'
 import styles from './WidgetSonar.module.scss'
 
 class WidgetSonar extends Component {

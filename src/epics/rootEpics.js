@@ -49,7 +49,7 @@ import {
   insightDraftUpdateEpic,
   insightDraftPublishEpic
 } from '../pages/Insights/insightDraftEpic'
-import { likesEpic } from '../components/Insight/likesEpic'
+import { likesEpic } from '../components/Like/likesEpic'
 
 export default combineEpics(
   handleOffline,
