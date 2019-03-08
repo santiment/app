@@ -29,7 +29,7 @@ const InsightPage = ({
   },
   ...rest
 }) => {
-  if (data.loading) return null
+  if (!data || data.loading) return null
 
   if (isInsightADraftByDifferentUser(data.insight, userId)) {
     return <Redirect to='/insights' />
@@ -57,10 +57,9 @@ const enhance = compose(
     skip: ({
       match: {
         params: { id }
-      },
-      userId
+      }
     }) => {
-      return !userId || !Number.isInteger(+id)
+      return !Number.isInteger(+id)
     },
     options: ({
       match: {
