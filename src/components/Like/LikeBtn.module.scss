@@ -7,7 +7,9 @@
     cursor: pointer;
     line-height: 20px;
     color: var(--black);
-    fill: var(--grey-dark);
+    stroke: var(--grey-dark);
+    fill: transparent;
+    stroke-width: 1.5;
 }
 
 .icon {
@@ -15,6 +17,6 @@
 }
 
 .liked {
-    color: var(--green);
-    fill: var(--green);
+    stroke: var(--red);
+    fill: var(--red);
 }
