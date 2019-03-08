@@ -8,21 +8,27 @@ import InsightEditorTitle from '../../components/Insight/InsightEditor/InsightEd
 import InsightTags from '../../components/Insight/InsightTags'
 import ProfileInfo from '../../components/Insight/ProfileInfo'
 import Editor from '../../components/Editor/Editor'
+import WithLikesMutation from '../../components/Like/WithLikesMutation'
+import LikeBtn from '../../components/Like/LikeBtn'
+import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import styles from './InsightViewPage.module.scss'
 
 const InsightViewPage = ({
-  user: { id, username },
+  id,
+  user: { userId, username },
   title,
   text,
   tags,
-  createdAt
+  createdAt,
+  votedAt,
+  votes: { totalVotes }
 }) => {
   return (
     <Fragment>
       <div className={styles.top}>
         <ProfileInfo
           className={styles.profile}
-          name={<Link to={`/insights/users/${id}`}>{username}</Link>}
+          name={<Link to={`/insights/users/${userId}`}>{username}</Link>}
           status={moment(createdAt).format('MMM D, YYYY')}
         />
       </div>
@@ -35,6 +41,26 @@ const InsightViewPage = ({
       </InsightViewPageImageModalWrapper>
       <div className={styles.tags}>
         <InsightTags tags={tags} />
+      </div>
+      <div className={styles.bottom}>
+        <div className={styles.left}>
+          <ProfileInfo
+            name={<Link to={`/insights/users/${userId}`}>{username}</Link>}
+          />
+        </div>
+        <div className={styles.right}>
+          <WithLikesMutation>
+            {mutateInsightById => (
+              <LikeBtn
+                likesNumber={totalVotes}
+                liked={!!votedAt}
+                onClick={mutateInsightById(id)}
+                className={styles.like}
+              />
+            )}
+          </WithLikesMutation>
+          <ShareModalTrigger asIcon shareLink={window.location.href} />
+        </div>
       </div>
     </Fragment>
   )

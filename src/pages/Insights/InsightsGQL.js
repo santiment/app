@@ -40,12 +40,16 @@ export const INSIGHT_BY_ID_QUERY = gql`
       createdAt
       updatedAt
       readyState
+      votedAt
       tags {
         name
       }
       user {
         username
         id
+      }
+      votes {
+        totalVotes
       }
     }
   }
