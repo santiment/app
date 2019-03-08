@@ -33,8 +33,13 @@ const InsightCardInternals = ({
       <div className={styles.bottom}>
         <div className={styles.left}>
           <ProfileInfo
-            name={<Link to={`/insights/users/${authorId}`}>{authorName}</Link>}
+            name={
+              <Link className={styles.name} to={`/insights/users/${authorId}`}>
+                {authorName}
+              </Link>
+            }
             status={moment(createdAt).fromNow()}
+            infoClassName={styles.info}
           />
         </div>
         <div className={styles.right}>

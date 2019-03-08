@@ -62,8 +62,20 @@
 }
 
 .left {
-    max-width: 65%; // Back to this value when showing .right
-    // max-width: 90%;
+    max-width: calc(70% - 40px); 
+    flex: 1;
+}
+
+.info {
+    position: relative;
+}
+
+.name {
+    position: absolute;
+    left: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .right {

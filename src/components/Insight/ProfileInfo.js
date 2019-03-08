@@ -8,7 +8,8 @@ const ProfileInfo = ({
   status,
   networkStatus,
   picUrl,
-  className = ''
+  className = '',
+  infoClassName = ''
 }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
@@ -23,7 +24,7 @@ const ProfileInfo = ({
         )}
       </div>
 
-      <div className={styles.info}>
+      <div className={cx(styles.info, infoClassName)}>
         <div className={styles.name}>{name}</div>
         <div className={styles.status}>{status}</div>
       </div>
