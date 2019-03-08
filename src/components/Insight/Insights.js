@@ -64,7 +64,7 @@ class Insights extends Component {
         </div>
         <div className={styles.bottom}>
           <WithLikesMutation isFor='insights'>
-            {(likeInsight, unlikeInsight) =>
+            {mutateInsightById =>
               [...insights]
                 .sort(view === View.RECENT ? sortByRecent : sortByPopularity)
                 .slice(0, 3)
@@ -75,11 +75,7 @@ class Insights extends Component {
                       key={id}
                       id={id}
                       {...insight}
-                      onLike={liked =>
-                        (liked ? unlikeInsight : likeInsight)({
-                          variables: { id: +id }
-                        })
-                      }
+                      onLike={mutateInsightById(id)}
                     />
                   )
                 })

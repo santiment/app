@@ -6,19 +6,11 @@ import Feed from '../Feed/Feed'
 const InsightsFeed = ({ insights }) => {
   return (
     <WithLikesMutation isFor='insights'>
-      {(likeInsight, unlikeInsight) => (
+      {mutateInsightById => (
         <Feed
           data={insights}
           component={({ id, ...rest }) => (
-            <InsightCard
-              id={id}
-              {...rest}
-              onLike={liked =>
-                (liked ? unlikeInsight : likeInsight)({
-                  variables: { id: +id }
-                })
-              }
-            />
+            <InsightCard id={id} {...rest} onLike={mutateInsightById(id)} />
           )}
           dateKey='createdAt'
         />

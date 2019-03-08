@@ -49,6 +49,7 @@ import {
   insightDraftUpdateEpic,
   insightDraftPublishEpic
 } from '../pages/Insights/insightDraftEpic'
+import { likesEpic } from '../components/Insight/likesEpic'
 
 export default combineEpics(
   handleOffline,
@@ -96,5 +97,7 @@ export default combineEpics(
   handleBetaModeToggle,
   // insight draft creation
   insightDraftUpdateEpic,
-  insightDraftPublishEpic
+  insightDraftPublishEpic,
+  // likes
+  likesEpic
 )

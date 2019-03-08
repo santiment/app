@@ -25,12 +25,11 @@ class InsightCardLikeBtn extends Component {
   onClick = () => {
     const {
       state: { liked },
-      props
+      props: { onClick }
     } = this
 
     this.setState({ liked: !liked }, () => {
-      console.log(liked)
-      /* props.onClick(liked) */
+      onClick(!liked)
     })
   }
 

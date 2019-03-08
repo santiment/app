@@ -44,19 +44,17 @@ class WidgetSonar extends Component {
             </div>
             <div className={styles.insights}>
               <WithLikesMutation isFor='insights'>
-                {(likeInsight, unlikeInsight) =>
-                  insights.slice(0, 3).map(insight => (
-                    <InsightCard
-                      key={insight.id}
-                      {...insight}
-                      className={styles.insight}
-                      onLike={liked =>
-                        (liked ? unlikeInsight : likeInsight)({
-                          variables: { id: +insight.id }
-                        })
-                      }
-                    />
-                  ))
+                {mutateInsightById =>
+                  insights
+                    .slice(0, 3)
+                    .map(insight => (
+                      <InsightCard
+                        key={insight.id}
+                        {...insight}
+                        className={styles.insight}
+                        onLike={mutateInsightById(insight.id)}
+                      />
+                    ))
                 }
               </WithLikesMutation>
             </div>
