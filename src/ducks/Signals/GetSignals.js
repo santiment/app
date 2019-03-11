@@ -4,6 +4,8 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { checkIsLoggedIn } from './../../pages/UserSelectors'
 
+const POLLING_INTERVAL = 5000
+
 const TRIGGERS_QUERY = gql`
   query {
     currentUser {
@@ -41,6 +43,7 @@ export default compose(
     name: 'Signals',
     skip: ({ isLoggedIn }) => !isLoggedIn,
     options: () => ({
+      pollInterval: POLLING_INTERVAL,
       context: { isRetriable: true }
     }),
     props: ({ Signals }) => {

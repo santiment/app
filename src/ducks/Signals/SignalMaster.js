@@ -45,10 +45,9 @@ export class SignalMaster extends React.PureComponent {
 
   handleInfoSignalSubmit = info => {
     this.setState({ info }, () => {
-      console.log({ ...info, ...this.state.settings })
+      this.props.createTrigger({ ...this.state.settings, ...info })
       this.props.onCreated && this.props.onCreated()
       this.props.redirect()
-      // this.props.createTrigger({ ...this.state.settings, ...info })
     })
   }
 }

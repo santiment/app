@@ -27,7 +27,7 @@ const METRICS = [
 const OPTIONS = {
   price: [
     { label: '% Threshold', value: 'price_percent_change' },
-    { label: 'Absolute', value: 'absolute' }
+    { label: 'Absolute', value: 'price_absolute_change' }
   ]
 }
 

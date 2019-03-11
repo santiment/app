@@ -1,16 +1,22 @@
 import React from 'react'
 import SonarFeedRecommendations from './SonarFeedRecommendations'
 import SignalCardsGrid from '../../components/SignalCard/SignalCardsGrid'
+import GetSignals from './../../ducks/Signals/GetSignals'
 
 const SonarFeedMySignalsPage = ({ signals }) => {
   return (
-    <div>
-      {signals ? (
-        <SignalCardsGrid signals={signals} />
-      ) : (
-        <SonarFeedRecommendations />
-      )}
-    </div>
+    <GetSignals
+      render={({ signals, isError, isLoading }) => {
+        return (
+          <div>
+            {isLoading ? 'Loading...' : ''}
+            {isError ? 'Error' : ''}
+            {signals && <SignalCardsGrid signals={signals} />}
+            {!signals && <SonarFeedRecommendations />}
+          </div>
+        )
+      }}
+    />
   )
 }
 

@@ -15,12 +15,16 @@ export const createTrigger = ({
   target,
   metric,
   channels,
-  percentThreshold,
   timeWindow,
   title,
   description,
-  cooldown
+  cooldown,
+  option,
+  values = {
+    percentThreshold: null
+  }
 }) => {
+  const { percentThreshold } = values
   if (!channels || channels.length < 1) {
     throw new Error(WithoutChannelsError)
   }
@@ -32,7 +36,7 @@ export const createTrigger = ({
         time_window: timeWindow,
         percent_threshold: percentThreshold,
         channel: channels[0].toLowerCase(),
-        type: metric
+        type: option
       },
       isPublic: false,
       title,

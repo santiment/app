@@ -23,12 +23,12 @@ const SignalCardBottom = ({
   author,
   username,
   isPublic,
-  isPublished,
-  isSubscribed,
+  isPublished = true,
+  isSubscribed = true,
   subscriptionsNumber
 }) => {
-  const Status = statusMap[Number(isPublic)]
-  const isUserTheAuthor = username === author
+  const Status = statusMap[Number(isPublic)] || statusMap[1]
+  const isUserTheAuthor = true
 
   return (
     <div className={styles.bottom}>
@@ -40,25 +40,29 @@ const SignalCardBottom = ({
                 type={Status.icon}
                 className={cx(styles.status, isPublic && styles.status_public)}
               />
-              {Status.label},{' '}
+              {Status.label}{' '}
             </Fragment>
           )}
-          by{' '}
-          <Link className={styles.author__link} to='/'>
-            {isUserTheAuthor ? 'Myself' : author}
-          </Link>
+          {!isUserTheAuthor && (
+            <Fragment>
+              by{' '}
+              <Link className={styles.author__link} to='/'>
+                {author}
+              </Link>
+            </Fragment>
+          )}
         </h4>
       ) : (
         <UnpublishedMsg />
       )}
       <div className={styles.bottom__right}>
-        {isPublic && isPublished && (
+        {isPublic && (
           <div className={styles.subscriptions}>
             <Icon type='profile' className={styles.subscriptions__icon} />
             {subscriptionsNumber}
           </div>
         )}
-        <Toggle isActive={isSubscribed} />
+        <Toggle disabled isActive={isSubscribed} />
       </div>
     </div>
   )
@@ -66,9 +70,9 @@ const SignalCardBottom = ({
 
 const SignalCard = ({
   title,
-  description,
+  description = '',
   className = '',
-  author,
+  author = 'Myself',
   ...signalCardBottom
 }) => {
   return (
@@ -86,13 +90,15 @@ const SignalCard = ({
       <div className={styles.wrapper__right}>
         <div className={styles.upper}>
           <h2 className={styles.title}>{title}</h2>
-          <h3 className={styles.description}>
-            <MultilineText
-              id='SignalCard__description'
-              maxLines={2}
-              text={description}
-            />
-          </h3>
+          {description && (
+            <h3 className={styles.description}>
+              <MultilineText
+                id='SignalCard__description'
+                maxLines={2}
+                text={description}
+              />
+            </h3>
+          )}
         </div>
         {author && <SignalCardBottom author={author} {...signalCardBottom} />}
       </div>

@@ -48,7 +48,6 @@ export const createSignalEpic = (action$, store, { client }) =>
           description = ''
         }
       }) => {
-        console.log(cooldown)
         const create = client.mutate({
           mutation: CREATE_TRIGGER_QUERY,
           variables: {
