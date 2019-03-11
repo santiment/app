@@ -11,6 +11,19 @@
   justify-content: flex-start;
 }
 
+.messages {
+  margin: 1rem 0;
+}
+
+span.connectLink {
+  color: var(--blue) !important;
+  margin-left: 0.3rem;
+}
+
+a.connectLink {
+  margin-left: -8px;
+}
+
 .Field {
   margin: 0.6rem 0;
   text-align: left;

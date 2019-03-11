@@ -12,6 +12,7 @@ const InfoSignalForm = ({ onInfoSignalSubmit, onBack }) => {
           title: 'Signal-' + new Date().toISOString(),
           description: ''
         }}
+        isInitialValid
         validate={values => {
           let errors = {}
           if (!values.title) {
@@ -21,11 +22,7 @@ const InfoSignalForm = ({ onInfoSignalSubmit, onBack }) => {
           }
           return errors
         }}
-        onChange={values => {
-          console.log(values)
-        }}
         onSubmit={(values, { setSubmitting }) => {
-          console.log('Submitted', values)
           onInfoSignalSubmit(values)
         }}
       >
@@ -41,7 +38,7 @@ const InfoSignalForm = ({ onInfoSignalSubmit, onBack }) => {
         }) => (
           <Form>
             <div className={styles.Field}>
-              <label>Title</label>
+              <label>Name of the signal</label>
               <Field
                 id='title'
                 name='title'
@@ -85,8 +82,6 @@ const InfoSignalForm = ({ onInfoSignalSubmit, onBack }) => {
             >
               Create
             </Button>
-            <hr />
-            {JSON.stringify(rest)}
           </Form>
         )}
       </Formik>
