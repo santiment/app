@@ -15,27 +15,8 @@ describe('InfoSignalForm', () => {
       }
     }
     const wrapper = shallow(
-      <InfoSignalForm onGoBack={() => {}} onInfoSignalSubmit={() => {}} />
+      <InfoSignalForm onBack={() => {}} onInfoSignalSubmit={() => {}} />
     )
     expect(toJson(wrapper)).toMatchSnapshot()
-  })
-
-  it('should be disabled, if title is empty', () => {
-    const mockCb = jest.fn()
-    const wrapper = mount(<InfoSignalForm onInfoSignalSubmit={mockCb} />)
-    const inputTitle = wrapper.find('#title').at(1)
-    inputTitle.simulate('change', {
-      target: {
-        value: '',
-        name: 'title'
-      }
-    })
-    console.log(wrapper.find('input'))
-    expect(
-      wrapper
-        .find('[type="submit"]')
-        .at(1)
-        .prop('disabled')
-    ).toBe(true)
   })
 })

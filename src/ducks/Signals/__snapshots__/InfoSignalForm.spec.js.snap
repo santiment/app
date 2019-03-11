@@ -10,8 +10,7 @@ exports[`InfoSignalForm render correctly text component 1`] = `
         "title": "Signal-2017-06-12T21:41:20.000Z",
       }
     }
-    isInitialValid={false}
-    onChange={[Function]}
+    isInitialValid={true}
     onSubmit={[Function]}
     validate={[Function]}
     validateOnBlur={true}

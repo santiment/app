@@ -10,10 +10,10 @@ Object {
     "isPublic": false,
     "settings": Object {
       "channel": "telegram",
-      "percent_threshold": "5",
+      "percent_threshold": null,
       "target": "santiment",
       "time_window": "24h",
-      "type": "price",
+      "type": undefined,
     },
     "title": "Check",
   },
