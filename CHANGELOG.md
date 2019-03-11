@@ -1,5 +1,8 @@
 ## CHANGELOG
 
+- 2019-03-11 | v.0.32.0 'Sonar':
+  Add sonar feed and signal creation form for beta users
+
 - 2019-02-19 | v.0.31.4 'Sonar':
   Fixed creating trending insight issues
 

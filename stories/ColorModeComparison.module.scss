@@ -1,0 +1,31 @@
+.wrapper {
+    display: flex;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 50%;
+}
+
+.title {
+    display: block;
+    font-size: 14px;
+    text-align: center;
+    margin: 0 0 10px;
+    border-bottom: 1px solid #999;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.column {
+    background-color: var(--white);
+}
+
+:global(.night-mode) .title {
+    color: #a0a0a0;
+}
+
+.br {
+    padding: 5px;
+}
