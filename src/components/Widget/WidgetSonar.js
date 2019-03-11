@@ -43,7 +43,7 @@ class WidgetSonar extends Component {
               <InsightAddBtn />
             </div>
             <div className={styles.insights}>
-              <WithLikesMutation isFor='insights'>
+              <WithLikesMutation>
                 {mutateInsightById =>
                   insights
                     .slice(0, 3)

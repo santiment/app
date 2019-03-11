@@ -15,7 +15,7 @@ import styles from './InsightViewPage.module.scss'
 
 const InsightViewPage = ({
   id,
-  user: { userId, username },
+  user: { id: userId, username },
   title,
   text,
   tags,

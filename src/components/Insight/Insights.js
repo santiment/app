@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Selector } from '@santiment-network/ui'
 import InsightCard from './InsightCard'
 import InsightAddBtn from './InsightAddBtn'
-import styles from './Insights.module.scss'
 import WithLikesMutation from '../Like/WithLikesMutation'
+import styles from './Insights.module.scss'
 
 const View = {
   RECENT: 'Recent',
@@ -63,7 +63,7 @@ class Insights extends Component {
           </div>
         </div>
         <div className={styles.bottom}>
-          <WithLikesMutation isFor='insights'>
+          <WithLikesMutation>
             {mutateInsightById =>
               [...insights]
                 .sort(view === View.RECENT ? sortByRecent : sortByPopularity)

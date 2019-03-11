@@ -5,7 +5,7 @@ import Feed from '../Feed/Feed'
 
 const InsightsFeed = ({ insights }) => {
   return (
-    <WithLikesMutation isFor='insights'>
+    <WithLikesMutation>
       {mutateInsightById => (
         <Feed
           data={insights}
