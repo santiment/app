@@ -21,6 +21,7 @@ import removeWatchlistEpic from './removeWatchlistEpic'
 import removeAssetFromWatchlistEpic from './removeAssetFromWatchlistEpic'
 import {
   fetchAssetsEpic,
+  fetchRestAllAssetsEpic,
   fetchAssetsFromListEpic,
   fetchAssetsFromSharedListEpic
 } from './fetchAssetsEpic'
@@ -32,7 +33,10 @@ import {
   fetchHypedTrends,
   selectHypedTrend
 } from '../components/Trends/fetchHypedTrends'
-import { fetchWordContextEpic } from '../components/WordCloud/fetchWordContextEpic'
+import {
+  fetchWordContextEpic,
+  preloadWordContextEpic
+} from '../components/WordCloud/fetchWordContextEpic'
 import { fetchSocialVolumeEpic } from '../components/SocialVolumeWidget/socialVolumeEpic'
 import fetchAllTickersSlugs from '../components/Trends/fetchAllTickersSlugs'
 import {
@@ -42,6 +46,10 @@ import {
   connectTelegramEpic
 } from '../pages/Account/epics'
 import keyboardEpic from './keyboardEpic'
+import {
+  insightDraftUpdateEpic,
+  insightDraftPublishEpic
+} from '../pages/Insights/insightDraftEpic'
 
 export default combineEpics(
   handleOffline,
@@ -62,6 +70,7 @@ export default combineEpics(
   copyWatchlistEpic,
   // assets
   fetchAssetsEpic,
+  fetchRestAllAssetsEpic,
   fetchAssetsFromListEpic,
   fetchAssetsFromSharedListEpic,
   // timeseries
@@ -72,6 +81,7 @@ export default combineEpics(
   fetchAllTickersSlugs,
   // WordCloud
   fetchWordContextEpic,
+  preloadWordContextEpic,
   // SocialVolume
   fetchSocialVolumeEpic,
   // Settings
@@ -87,5 +97,8 @@ export default combineEpics(
   handleBetaModeToggle,
   // Signals
   createSignalEpic,
-  fetchSignalsEpic
+  fetchSignalsEpic,
+  // insight draft creation
+  insightDraftUpdateEpic,
+  insightDraftPublishEpic
 )

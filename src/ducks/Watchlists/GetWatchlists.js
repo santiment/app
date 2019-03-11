@@ -29,7 +29,7 @@ export default compose(
     name: 'Watchlists',
     skip: ({ isLoggedIn }) => !isLoggedIn,
     options: () => ({
-      pollInterval: POLLING_INTERVAL,
+      // pollInterval: POLLING_INTERVAL,
       context: { isRetriable: true }
     }),
     props: ({ Watchlists }) => {

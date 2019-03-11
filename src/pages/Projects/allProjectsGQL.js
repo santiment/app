@@ -50,6 +50,17 @@ export const allProjectsGQL = gql`
   ${project}
 `
 
+export const allProjects50GQL = gql`
+  query allProjects {
+    allProjects(page: 1, pageSize: 50) {
+      ...generalData
+      ...project
+    }
+  }
+  ${generalData}
+  ${project}
+`
+
 export const projectBySlugGQL = gql`
   query projectBySlugGQL($slug: String!) {
     projectBySlug(slug: $slug) {

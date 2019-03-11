@@ -50,17 +50,7 @@ const LoadableDetailedPage = Loadable({
 })
 
 const LoadableInsights = Loadable({
-  loader: () => import('./pages/InsightsPage'),
-  loading: () => <PageLoader />
-})
-
-const LoadableInsight = Loadable({
-  loader: () => import('./pages/Insights/Insight'),
-  loading: () => <PageLoader />
-})
-
-const LoadableInsightsNew = Loadable({
-  loader: () => import('./pages/InsightsNew/InsightsNew'),
+  loader: () => import('./pages/Insights/'),
   loading: () => <PageLoader />
 })
 
@@ -190,27 +180,12 @@ export const App = ({
         <Route exact path='/signals/:slug' component={SignalsPriceVolume} />
         <Route exact path='/labs/balance' component={HistoricalBalancePage} />
         <Route exact path='/labs/wordcloud' component={WordCloudPage} />
-        <Route path='/insights/new' component={LoadableInsightsNew} />
         <Route
-          path='/insights/update/:insightId'
-          component={LoadableInsightsNew}
+          path='/insights'
+          render={props => (
+            <LoadableInsights {...props} isLoggedIn={isLoggedIn} />
+          )}
         />
-        <Route exact path='/insights' component={LoadableInsights} />
-        <Route exact path='/insights/newest' component={LoadableInsights} />
-        <Route exact path='/insights/popular' component={LoadableInsights} />
-        <Route exact path='/insights/my' component={LoadableInsights} />
-        <Route exact path='/sonar/master' component={SignalFormPage} />
-        <Route
-          exact
-          path='/insights/users/:userId'
-          component={LoadableInsights}
-        />
-        <Route
-          exact
-          path='/insights/tags/:tagName'
-          component={LoadableInsights}
-        />
-        <Route exact path='/insights/:insightId' component={LoadableInsight} />
         <Route
           exact
           path='/projects/:slug'
@@ -228,6 +203,7 @@ export const App = ({
           )}
         />
         <Route path='/sonar/feed' component={LoadableSonarFeedPage} />
+        <Route exact path='/sonar/master' component={SignalFormPage} />
         <Route
           exact
           path='/sonar'

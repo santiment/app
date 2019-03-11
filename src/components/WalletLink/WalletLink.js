@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import * as qs from 'query-string'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button } from '@santiment-network/ui'
 import { Label } from 'semantic-ui-react'
@@ -18,27 +19,29 @@ const WalletLink = ({
   address,
   assets = [],
   isTx = false,
-  isExchange = false
+  isExchange = false,
+  isBetaModeEnabled = false
 }) => (
   <SmoothDropdownItem
     trigger={<Address address={address} isTx={isTx} isExchange={isExchange} />}
   >
     <ul className={styles.wrapper}>
-      {!isTx && (
-        <li>
-          <Button
-            variant='fill'
-            accent='positive'
-            as={Link}
-            to={{
-              pathname: '/labs/balance',
-              search: getSearch({ address, assets })
-            }}
-          >
+      {// TODO: disabled until we don't fix historical balance
+        isBetaModeEnabled && !isTx && (
+          <li>
+            <Button
+              variant='fill'
+              accent='positive'
+              as={Link}
+              to={{
+                pathname: '/labs/balance',
+                search: getSearch({ address, assets })
+              }}
+            >
             Show historical balance
-          </Button>
-        </li>
-      )}
+            </Button>
+          </li>
+        )}
       <li>
         <EtherscanLink address={address} isTx={isTx}>
           Open Etherscan
@@ -66,4 +69,10 @@ const getSearch = ({ address, assets }) =>
 
 WalletLink.propTypes = propTypes
 
-export default WalletLink
+const mapStateToProps = state => {
+  return {
+    isBetaModeEnabled: state.rootUi.isBetaModeEnabled
+  }
+}
+
+export default connect(mapStateToProps)(WalletLink)

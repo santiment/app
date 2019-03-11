@@ -11,6 +11,43 @@ import styles from './TrendsPage.module.scss'
 import InsightsTrends from '../../components/Insight/InsightsTrends'
 import Devider from '../../components/Navbar/DropdownDevider'
 
+const TrendsPage = ({
+  word,
+  isCloudLoading,
+  setWordCloudStiky,
+  isWordCloudSticky = false,
+  isDesktop = true
+}) => (
+  <div className={styles.TrendsPage + ' page'}>
+    <div className={styles.header}>
+      <h1>Emerging Social Trends</h1>
+      <HelpTrendsAbout />
+    </div>
+    <GetHypedTrends
+      render={({ isLoading, items }) => (
+        <Fragment>
+          <div id='word-cloud-sticky-anchor' />
+          <WordCloudWrapper
+            isCloudLoading={isCloudLoading}
+            isLoading={isLoading}
+            word={word}
+            isDesktop={isDesktop}
+            setWordCloudStiky={setWordCloudStiky}
+            isWordCloudSticky={isWordCloudSticky}
+          />
+          <HypedBlocks
+            items={items}
+            isLoading={isLoading}
+            isDesktop={isDesktop}
+          />
+        </Fragment>
+      )}
+    />
+    <Devider style={{ margin: '40px 0' }} />
+    <InsightsTrends className={styles.insights} />
+  </div>
+)
+
 const WordCloudWrapper = ({
   isLoading,
   isDesktop,
@@ -42,43 +79,6 @@ const WordCloudWrapper = ({
         </div>
       </Sticky>
     )}
-  </div>
-)
-
-const TrendsPage = ({
-  word,
-  isCloudLoading,
-  setWordCloudStiky,
-  isWordCloudSticky = false,
-  isDesktop = true
-}) => (
-  <div className={styles.TrendsPage + ' page'}>
-    <div className={styles.header}>
-      <h1>Emerging social trends</h1>
-      <HelpTrendsAbout />
-    </div>
-    <GetHypedTrends
-      render={({ isLoading, items }) => (
-        <Fragment>
-          <div id='word-cloud-sticky-anchor' />
-          <WordCloudWrapper
-            isCloudLoading={isCloudLoading}
-            isLoading={isLoading}
-            word={word}
-            isDesktop={isDesktop}
-            setWordCloudStiky={setWordCloudStiky}
-            isWordCloudSticky={isWordCloudSticky}
-          />
-          <HypedBlocks
-            items={items}
-            isLoading={isLoading}
-            isDesktop={isDesktop}
-          />
-        </Fragment>
-      )}
-    />
-    <Devider style={{ margin: '40px 0' }} />
-    <InsightsTrends className={styles.insights} />
   </div>
 )
 

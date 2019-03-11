@@ -30,6 +30,9 @@ import socialVolume, {
 import accountUi, {
   initialState as initialAccountUiState
 } from '../pages/Account/reducers'
+import insightDraft, {
+  initialState as initialInsightDraft
+} from '../pages/Insights/reducers'
 
 export const intitialState = {
   user: userState,
@@ -44,7 +47,8 @@ export const intitialState = {
   router: routerReducer,
   wordCloud: initialWordCloud,
   socialVolume: initialSocialVolume,
-  accountUi: initialAccountUiState
+  accountUi: initialAccountUiState,
+  insightDraft: initialInsightDraft
 }
 
 export default combineReducers({
@@ -59,5 +63,6 @@ export default combineReducers({
   notification,
   wordCloud,
   socialVolume,
-  accountUi
+  accountUi,
+  insightDraft
 })

@@ -8,6 +8,7 @@ import { mergeTimeseriesByKey } from '../../utils/utils'
 export const fetchSocialVolumeEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.SOCIALVOLUME_DATA_FETCH)
+    .debounceTime(1000)
     .switchMap(({ payload: trendWord }) => {
       if (store.getState().socialVolume.trendWord === trendWord) {
         return Observable.of({

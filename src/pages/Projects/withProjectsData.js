@@ -16,6 +16,7 @@ const mapStateToProps = state => {
     search: state.projects.search,
     tableInfo: state.projects.tableInfo,
     categories: state.projects.categories,
+    timestamp: state.projects.timestamp,
     user: state.user
   }
 }

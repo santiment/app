@@ -2,8 +2,9 @@ import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import { Button, Toggle, Icon } from '@santiment-network/ui'
+import { Button, Toggle } from '@santiment-network/ui'
 import DropdownDevider from './DropdownDevider'
+import ProfileInfo from '../Insight/ProfileInfo'
 import * as actions from '../../actions/types'
 import { checkIsLoggedIn } from './../../pages/UserSelectors'
 import styles from './NavbarProfileDropdown.module.scss'
@@ -14,12 +15,6 @@ const links = [
   // { link: '/upgrade', label: 'Upgrade plan' },
   { link: '/logout', label: 'Log out' }
 ]
-
-const getStatusStyle = status => styles[status] || ''
-
-const Status = {
-  active: 'Active'
-}
 
 export const NavbarProfileDropdown = ({
   activeLink,
@@ -42,32 +37,17 @@ export const NavbarProfileDropdown = ({
     >
       {isLoggedIn && (
         <Fragment>
-          <div className={styles.profile}>
-            <div className={styles.profile__upper}>
-              <div className={styles.profile__left}>
-                <div className={styles.profile__pic}>
-                  {picUrl ? (
-                    <img src={picUrl} alt='Profile Pic' />
-                  ) : (
-                    <Icon type='profile-round' className={styles.icon} />
-                  )}
-                </div>
-                <div
-                  className={
-                    styles.onlineIndicator + ' ' + getStatusStyle(status)
-                  }
-                />
+          <ProfileInfo
+            className={styles.profile}
+            name={name}
+            status={
+              <div className={styles.tokens}>
+                <span className={styles.tokens__amount}>{balance}</span> tokens
+                available
               </div>
-              <div className={styles.profile__right}>
-                <h3 className={styles.profile__name}>{name}</h3>
-                <h4 className={styles.profile__status}>{Status[status]}</h4>
-              </div>
-            </div>
-            <div className={styles.tokens}>
-              <span className={styles.tokens__amount}>{balance}</span> tokens
-              available
-            </div>
-          </div>
+            }
+          />
+
           <DropdownDevider />
         </Fragment>
       )}

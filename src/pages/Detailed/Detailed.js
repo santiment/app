@@ -355,17 +355,23 @@ const enhance = compose(
   }),
   graphql(TwitterHistoryGQL, {
     name: 'TwitterHistory',
-    skip: ({ timeFilter, Project }) => {
-      const { from } = timeFilter
-      const ticker = Project.project.ticker
-      return !from || !ticker
+    skip: ({
+      timeFilter: { from },
+      Project: {
+        project: { slug }
+      }
+    }) => {
+      return !from || !slug
     },
-    options: ({ timeFilter, Project }) => {
-      const { from, to } = timeFilter
-      const ticker = Project.project.ticker
+    options: ({
+      timeFilter: { from, to },
+      Project: {
+        project: { slug }
+      }
+    }) => {
       return {
         variables: {
-          ticker,
+          slug,
           from,
           to,
           interval: ''
@@ -392,16 +398,22 @@ const enhance = compose(
   }),
   graphql(TwitterDataGQL, {
     name: 'TwitterData',
-    skip: ({ Project }) => {
-      const ticker = Project.project.ticker
-      return !ticker
+    skip: ({
+      Project: {
+        project: { slug }
+      }
+    }) => {
+      return !slug
     },
-    options: ({ Project }) => {
-      const ticker = Project.project.ticker
+    options: ({
+      Project: {
+        project: { slug }
+      }
+    }) => {
       return {
         errorPolicy: 'all',
         variables: {
-          ticker
+          slug
         }
       }
     }

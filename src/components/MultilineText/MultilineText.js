@@ -53,7 +53,7 @@ class MultilineText extends React.PureComponent {
     const container = this.textRef.current.parentNode
     this.container = container
 
-    this.updateRulerStyles()
+    this.updateRulerStyles() // NOTE(vanguard): calling this function every time even when the ruler with the same ID mounts
     const { id, maxLines } = this.props
 
     const oneLineHeight = getOneLineHeight(id)
@@ -68,6 +68,7 @@ class MultilineText extends React.PureComponent {
     const containerStyles = window.getComputedStyle(this.container)
     const rulerStyles = this.ruler.style
 
+    this.container.style.width = '100%'
     this.container.style.wordBreak = 'break-word'
     rulerStyles.wordBreak = 'break-word'
 
