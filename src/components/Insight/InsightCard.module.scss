@@ -99,7 +99,12 @@
     & svg {
         margin-right: 6px;
     }
+
+    &_comments {
+        display: none;
+    }
 }
+
 
 .liked {
     color: var(--green);

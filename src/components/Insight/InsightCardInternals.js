@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Icon } from '@santiment-network/ui'
 import moment from 'moment'
+import cx from 'classnames'
 import InsightTags from './InsightTags'
 import ProfileInfo from './ProfileInfo'
 import MultilineText from '../MultilineText/MultilineText'
@@ -48,7 +49,7 @@ const InsightCardInternals = ({
             liked={!!votedAt}
             onClick={onLike}
           />
-          <div className={styles.stat}>
+          <div className={cx(styles.stat, styles.stat_comments)}>
             <Icon type='comment' /> {comments}
           </div>
         </div>
