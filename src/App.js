@@ -74,6 +74,11 @@ const LoadableTrendsExplorePage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableSonarFeedPage = Loadable({
+  loader: () => import('./pages/SonarFeed/SonarFeedPage'),
+  loading: () => <PageLoader />
+})
+
 class Route extends React.Component {
   componentWillMount () {
     nprogress.start()
@@ -222,6 +227,7 @@ export const App = ({
             <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
           )}
         />
+        <Route path='/sonar/feed' component={LoadableSonarFeedPage} />
         <Route
           exact
           path='/sonar'

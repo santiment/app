@@ -1,4 +1,5 @@
 import React from 'react'
+import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { createTrigger } from './actions'
 import TriggerForm from './TriggerForm'
@@ -45,6 +46,8 @@ export class SignalMaster extends React.PureComponent {
   handleInfoSignalSubmit = info => {
     this.setState({ info }, () => {
       console.log({ ...info, ...this.state.settings })
+      this.props.onCreated && this.props.onCreated()
+      this.props.redirect()
       // this.props.createTrigger({ ...this.state.settings, ...info })
     })
   }
@@ -53,6 +56,9 @@ export class SignalMaster extends React.PureComponent {
 const mapDispatchToProps = dispatch => ({
   createTrigger: payload => {
     dispatch(createTrigger(payload))
+  },
+  redirect: (path = '/sonar/feed/my-signals') => {
+    dispatch(push(path))
   }
 })
 
