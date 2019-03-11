@@ -26,7 +26,7 @@ const getQueryParams = (path, { tag, userId: authorId }, userId) => {
   }
 }
 
-const InsightsFeedPage = ({ match: { path, params }, userId }) => {
+const InsightsFeedPage = ({ match: { path, params }, userId, sortReducer }) => {
   return (
     <div className={styles.wrapper}>
       <Query
@@ -36,13 +36,11 @@ const InsightsFeedPage = ({ match: { path, params }, userId }) => {
         {({ data = {} }) => {
           const { insights = [] } = data
 
-          const feedInsights = insights
-            .filter(filterInsightsNoDrafts)
-            .sort(sortInsightsByDateDescending)
+          const feedInsights = insights.filter(filterInsightsNoDrafts)
 
           return (
             <Feed
-              data={feedInsights}
+              data={sortReducer(feedInsights)}
               component={InsightCard}
               dateKey='createdAt'
             />
