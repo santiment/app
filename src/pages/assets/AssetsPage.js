@@ -59,8 +59,13 @@ const isNotSafari = () =>
 const AssetsPage = props => (
   <div className='page projects-table'>
     <Helmet>
-      <title>Assets</title>
+      <title>All Crypto Assets - SANbase</title>
       <link rel='canonical' href={`${getOrigin()}/assets`} />
+      <meta property='og:title' content='All Crypto Assets - SANbase' />
+      <meta
+        property='og:description'
+        content='Financial, on-chain and development data for 1100+ crypto projects in the Santiment database, including BTC, XRP, ETH and 700+ ERC-20 tokens'
+      />
     </Helmet>
     <Assets
       {...props}
