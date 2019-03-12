@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { compose, withProps } from 'recompose'
 import { Panel, Selector } from '@santiment-network/ui'
@@ -60,6 +61,17 @@ export class TrendsExplorePage extends Component {
     const topic = window.decodeURIComponent(word)
     return (
       <div className={styles.TrendsExplorePage}>
+        <Helmet>
+          <title>Crypto Social Trends for {topic} - SANbase</title>
+          <meta
+            property='og:title'
+            content={`Crypto Social Trends for ${topic} - SANbase`}
+          />
+          <meta
+            property='og:description'
+            content='Explore the social volume of ANY word (or phrase) on crypto social media, including 100s of Telegram groups, crypto subreddits, discord channels, trader chats and more.'
+          />
+        </Helmet>
         <div className={styles.settings}>
           <div className={styles.settingsLeft}>
             <TrendsExploreSearch className={styles.search} topic={topic} />
