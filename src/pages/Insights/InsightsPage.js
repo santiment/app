@@ -76,8 +76,9 @@ class InsightsPage extends Component {
         <div className={styles.header}>
           <h1>Insights</h1>
           {/* <HelpTrendsAbout /> */}
-          <div>
-            <Select
+          <div className={styles.header__right}>
+            <Select // TODO(vanguard): Create and change to the san-ui dropdown select
+              className={styles.sort}
               options={sortOptions}
               value={{ value: sort }}
               valueKey='value'

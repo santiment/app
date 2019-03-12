@@ -7,8 +7,6 @@
     }
 
     .Select{
-        min-width: 200px;
-
         &.is-focused > .Select-control {
             background: var(--white) !important;
         }
