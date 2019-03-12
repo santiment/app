@@ -32,11 +32,15 @@ class WordCloudPage extends Component {
           <title>Crypto Word Cloud for {word} - SANbase</title>
           <meta
             property='og:title'
-            content={`Crypto Word Cloud for ${word} - SANbase`}
+            content={`Crypto Word Cloud${word ? ` for ${word}` : ''} - SANbase`}
           />
           <meta
             property='og:description'
-            content={`Explore words often used with ‘${word}’ on crypto social media. Results from 100s of Telegram groups, crypto subreddits, discord channels, private trader chats and more.`}
+            content={`Explore words ${
+              word
+                ? `often used with ‘${word}’`
+                : 'that are often used together'
+            } on crypto social media. Results from 100s of Telegram groups, crypto subreddits, discord channels, private trader chats and more.`}
           />
         </Helmet>
         <div className={styles.title}>
