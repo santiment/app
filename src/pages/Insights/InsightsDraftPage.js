@@ -7,10 +7,7 @@ import {
   DELETE_INSIGHT_MUTATION
 } from './InsightsGQL'
 import InsightDraftCard from '../../components/Insight/InsightDraftCard'
-import {
-  filterInsightsOnlyDrafts,
-  sortInsightsByUpdateDateDescending
-} from './utils'
+import { filterInsightsOnlyDrafts, updateDateSort } from './utils'
 import styles from './InsightsDraftPage.module.scss'
 
 class InsightsDraftPage extends Component {
@@ -38,7 +35,7 @@ class InsightsDraftPage extends Component {
     const drafts = insights
       .filter(filterInsightsOnlyDrafts)
       .filter(({ id }) => !deleted.has(id))
-      .sort(sortInsightsByUpdateDateDescending)
+      .sort(updateDateSort)
 
     return (
       <div className={styles.wrapper}>

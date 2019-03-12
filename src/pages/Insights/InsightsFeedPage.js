@@ -5,7 +5,7 @@ import { baseLocation } from './InsightsPage'
 import { INSIGHTS_BY_USERID_QUERY, INSIGHTS_BY_TAG_QUERY } from './InsightsGQL'
 import InsightCard from '../../components/Insight/InsightCardWithMarketcap'
 import Feed from '../../components/Feed/Feed'
-import { filterInsightsNoDrafts, sortInsightsByDateDescending } from './utils'
+import { filterInsightsNoDrafts } from './utils'
 import styles from './InsightsFeedPage.module.scss'
 
 const getQueryParams = (path, { tag, userId: authorId }, userId) => {

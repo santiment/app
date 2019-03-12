@@ -5,7 +5,6 @@ import { ALL_INSIGHTS_QUERY } from './InsightsGQL'
 import { client } from '../../index'
 import Feed from '../../components/Feed/Feed'
 import InsightCard from '../../components/Insight/InsightCardWithMarketcap'
-import { sortInsightsByDateDescending, popularitySort } from './utils'
 import styles from './InsightsFeedPage.module.scss'
 
 class InsightsAllFeedPage extends Component {
