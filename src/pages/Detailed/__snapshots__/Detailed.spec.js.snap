@@ -11,6 +11,15 @@ exports[`Project detail page container it should render correctly 1`] = `
     <title>
       AE project page
     </title>
+    <meta
+      content="Project overview: Aragorn - SANbase"
+      property="og:title"
+    />
+    <meta
+      content="Financial, development, on-chain and social data for Aragorn. Get access to full historical data & advanced metrics for Aragorn by upgrading to SANbase Dashboards.
+"
+      property="og:description"
+    />
   </HelmetWrapper>
   <Apollo(withRouter(SearchContainer)) />
   <ExportedComponent
