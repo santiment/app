@@ -56,65 +56,79 @@ const normalizeCSV = items => {
 const isNotSafari = () =>
   !/^((?!chrome|android).)*safari/i.test(window.navigator.userAgent)
 
-const AssetsPage = props => (
-  <div className='page projects-table'>
-    <Helmet>
-      <title>All Crypto Assets - SANbase</title>
-      <link rel='canonical' href={`${getOrigin()}/assets`} />
-      <meta property='og:title' content='All Crypto Assets - SANbase' />
-      <meta
-        property='og:description'
-        content='Financial, on-chain and development data for 1100+ crypto projects in the Santiment database, including BTC, XRP, ETH and 700+ ERC-20 tokens'
+const getHelmetTags = (isList, listName) => {
+  return {
+    title: isList
+      ? `Crypto Watchlist: ${listName.split('@')[0]} - SANbase`
+      : 'All Crypto Assets - SANbase',
+    description: isList
+      ? 'Santiment Watchlists let you keep track of different crypto projects, and compare their performance, on-chain behavior and development activity.'
+      : 'Financial, on-chain and development data for 1100+ crypto projects in the Santiment database, including BTC, XRP, ETH and 700+ ERC-20 tokens'
+  }
+}
+
+const AssetsPage = props => {
+  const { name } = qs.parse(props.location.search)
+  const isList = props.type === 'list'
+  const { title, description } = getHelmetTags(isList, name)
+
+  return (
+    <div className='page projects-table'>
+      <Helmet>
+        <link rel='canonical' href={`${getOrigin()}/assets`} />
+        <title>{title}</title>,
+        <meta property='og:title' content={title} />,
+        <meta property='og:description' content={description} />
+      </Helmet>
+      <Assets
+        {...props}
+        type={props.type}
+        render={Assets => (
+          <Fragment>
+            <div className='page-head page-head-projects'>
+              <div className='page-head-projects__left'>
+                <h1>{getTableTitle(props)}</h1>
+                <HelpPopupAssets />
+              </div>
+              <div className='page-head-projects__right'>
+                {isList && props.location.hash !== '#shared' && (
+                  <WatchlistShare />
+                )}
+
+                {isList && <WatchlistCopy />}
+
+                {isNotSafari && Assets.items && Assets.items.length > 0 && (
+                  <CSVLink
+                    data={normalizeCSV(Assets.items)}
+                    filename={`${getTableTitle(props)}.csv`}
+                    target='_blank'
+                  >
+                    <Button variant='flat' isActive>
+                      Download CSV
+                    </Button>
+                  </CSVLink>
+                )}
+
+                {qs.parse(props.location.search).name === 'stablecoins@86' && (
+                  <StablecoinsDataDownloadBtn />
+                )}
+              </div>
+            </div>
+            <WidgetSonar
+              className='assets-table-widget-wrapper'
+              type={props.type}
+              listName={getTableTitle(props)}
+            />
+            <AssetsTable
+              Assets={Assets}
+              goto={props.history.push}
+              preload={props.preload}
+            />
+          </Fragment>
+        )}
       />
-    </Helmet>
-    <Assets
-      {...props}
-      type={props.type}
-      render={Assets => (
-        <Fragment>
-          <div className='page-head page-head-projects'>
-            <div className='page-head-projects__left'>
-              <h1>{getTableTitle(props)}</h1>
-              <HelpPopupAssets />
-            </div>
-            <div className='page-head-projects__right'>
-              {props.type === 'list' && props.location.hash !== '#shared' && (
-                <WatchlistShare />
-              )}
-
-              {props.type === 'list' && <WatchlistCopy />}
-
-              {isNotSafari && Assets.items && Assets.items.length > 0 && (
-                <CSVLink
-                  data={normalizeCSV(Assets.items)}
-                  filename={`${getTableTitle(props)}.csv`}
-                  target='_blank'
-                >
-                  <Button variant='flat' isActive>
-                    Download CSV
-                  </Button>
-                </CSVLink>
-              )}
-
-              {qs.parse(props.location.search).name === 'stablecoins@86' && (
-                <StablecoinsDataDownloadBtn />
-              )}
-            </div>
-          </div>
-          <WidgetSonar
-            className='assets-table-widget-wrapper'
-            type={props.type}
-            listName={getTableTitle(props)}
-          />
-          <AssetsTable
-            Assets={Assets}
-            goto={props.history.push}
-            preload={props.preload}
-          />
-        </Fragment>
-      )}
-    />
-  </div>
-)
+    </div>
+  )
+}
 
 export default AssetsPage
