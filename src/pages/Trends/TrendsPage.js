@@ -28,7 +28,7 @@ const TrendsPage = ({
       />
       <meta
         property='og:description'
-        content='Top 10 words with the biggest spike on crypto social media (compared to their previous 2-week average). These are the *biggest developing stories* in crypto.'
+        content='Top 10 words with the biggest spike on crypto social media (compared to their previous 2-week average). These are the biggest developing stories in crypto.'
       />
     </Helmet>
     <div className={styles.header}>
