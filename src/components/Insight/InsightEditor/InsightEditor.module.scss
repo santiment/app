@@ -1,3 +1,5 @@
+@import "../../../mixins.scss";
+
 .wrapper {
     position: relative;
     padding-bottom: 80px;
@@ -19,6 +21,11 @@
 
     &::placeholder {
         color: var(--grey-dark);
+    }
+
+    @include responsive('phone-xs'){
+        line-height: 42px;
+        font-size: 32px;
     }
 }
 
@@ -51,6 +58,9 @@
 
 .save {
     color: var(--grey-dark);
+    @include responsive('phone-xs'){
+        display: none;
+    }
 }
 
 .publishBtn {
@@ -64,8 +74,14 @@
     }
 }
 
+.tagsLabel {
+    margin-right: 18px;
+    @include responsive('phone-xs'){
+        display: none;
+    }
+}
+
 .tags {
     min-width: 200px;
-    margin-left: 18px;
     margin-right: 13px;
 }
