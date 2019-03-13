@@ -1,0 +1,105 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.wrapper {
+    display: flex;
+    // padding: 16px 20px;
+    &__right {
+        padding: 4px 0;
+        flex: 1;
+    }
+
+    &__left {
+        margin-right: 15px;
+        display: flex;
+        align-items: center;
+
+        &_subscription {
+            display: block;
+        }
+    }
+}
+
+.icon {
+    display: inline-flex;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    background: var(--blue-light);
+    fill: var(--blue);
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    @include text-normal;
+    font-size: 18px;
+    margin: 0;
+    margin-bottom: 4px;
+}
+
+.description {
+    @include text-normal;
+    margin: 0;
+    color: var(--grey-dark-2);
+}
+
+.bottom {
+    margin-top: 19px;
+    display: flex;
+    justify-content: space-between;
+
+    &__right {
+        display: flex;
+    }
+}
+
+.author {
+    @include text-normal;
+    margin: 0;
+
+    &__link {
+        color: var(--green);
+        text-decoration: none;
+
+        &:hover {
+            color: var(--green-hover);
+        }
+    }
+}
+
+.subscriptions {
+    @include text-normal;
+    margin-right: 24px;
+    display: flex;
+    align-items: center;
+
+    &__icon {
+        margin-right: 7px;
+        fill: var(--grey-dark);
+    }
+}
+
+.awaiting {
+    @include text-normal;
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    color: var(--grey-dark);
+    fill: var(--grey-dark);
+
+    &__icon {
+        width: 15px;
+        margin-right: 9px;
+    }
+}
+
+.status {
+    vertical-align: sub;
+    fill: var(--grey-dark);
+    margin-right: 9px;
+    width: 15px;
+
+    &_public {
+        width: 17px;
+    }
+}

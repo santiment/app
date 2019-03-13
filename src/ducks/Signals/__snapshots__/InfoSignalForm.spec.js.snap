@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InfoSignalForm render correctly text component 1`] = `
+<Fragment>
+  <Formik
+    enableReinitialize={false}
+    initialValues={
+      Object {
+        "description": "",
+        "title": "Signal-2017-06-12T21:41:20.000Z",
+      }
+    }
+    isInitialValid={true}
+    onSubmit={[Function]}
+    validate={[Function]}
+    validateOnBlur={true}
+    validateOnChange={true}
+  >
+    <Component />
+  </Formik>
+</Fragment>
+`;

@@ -1,0 +1,43 @@
+@import 'variables.scss';
+
+.wrapper {
+  width: 100%;
+  margin: 1rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.messages {
+  margin: 1rem 0;
+}
+
+span.connectLink {
+  color: var(--blue) !important;
+  margin-left: 0.3rem;
+}
+
+a.connectLink {
+  margin-left: -8px;
+}
+
+.Field {
+  margin: 0.6rem 0;
+  text-align: left;
+  width: 200px;
+  margin-right: 1rem;
+
+  label {
+    color: #7a859e;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px;
+    font-size: 12px;
+  }
+}
