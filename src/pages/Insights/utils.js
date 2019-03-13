@@ -11,3 +11,11 @@ export const sortInsightsByUpdateDateDescending = (
 export const filterInsightsNoDrafts = ({ readyState }) => readyState !== 'draft'
 export const filterInsightsOnlyDrafts = ({ readyState }) =>
   readyState === 'draft'
+
+export const getInsightContent = htmlContent => {
+  let tempHTMLElement = document.createElement('div')
+  tempHTMLElement.innerHTML = htmlContent
+  const content = tempHTMLElement.textContent
+  tempHTMLElement = null
+  return content
+}
