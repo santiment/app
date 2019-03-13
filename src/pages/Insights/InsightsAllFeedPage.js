@@ -5,7 +5,6 @@ import { ALL_INSIGHTS_QUERY } from './InsightsGQL'
 import { client } from '../../index'
 import Feed from '../../components/Feed/Feed'
 import InsightCard from '../../components/Insight/InsightCardWithMarketcap'
-import { sortInsightsByDateDescending } from './utils'
 import styles from './InsightsFeedPage.module.scss'
 
 class InsightsAllFeedPage extends Component {
@@ -17,7 +16,7 @@ class InsightsAllFeedPage extends Component {
   static getDerivedStateFromProps ({ data: { insights } }) {
     if (insights) {
       return {
-        insights: insights.slice().sort(sortInsightsByDateDescending)
+        insights: insights.slice()
       }
     }
 
@@ -41,9 +40,7 @@ class InsightsAllFeedPage extends Component {
     })
 
     this.setState(({ insights: ownInsights, nextPage }) => {
-      const newInsights = ownInsights
-        .concat(insights)
-        .sort(sortInsightsByDateDescending)
+      const newInsights = ownInsights.concat(insights)
 
       return {
         insights: newInsights,
@@ -54,6 +51,9 @@ class InsightsAllFeedPage extends Component {
 
   render () {
     const { insights } = this.state
+    const { sortReducer } = this.props
+
+    const sortedInsights = sortReducer(insights)
 
     return (
       <div className={styles.wrapper}>
@@ -63,7 +63,11 @@ class InsightsAllFeedPage extends Component {
           loadMore={this.loadMore}
           loader='Loading more insights...'
         >
-          <Feed data={insights} component={InsightCard} dateKey='createdAt' />
+          <Feed
+            data={sortedInsights}
+            component={InsightCard}
+            dateKey='createdAt'
+          />
         </InfiniteScroll>
       </div>
     )

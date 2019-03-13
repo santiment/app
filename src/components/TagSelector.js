@@ -30,6 +30,7 @@ class TagSelect extends Component {
     return (
       <Select
         multi
+        topDropdown
         placeholder='Add a tag...'
         options={options.filter(option => !!option)}
         isLoading={loading}

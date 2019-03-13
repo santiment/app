@@ -5,7 +5,7 @@ import { baseLocation } from './InsightsPage'
 import { INSIGHTS_BY_USERID_QUERY, INSIGHTS_BY_TAG_QUERY } from './InsightsGQL'
 import InsightCard from '../../components/Insight/InsightCardWithMarketcap'
 import Feed from '../../components/Feed/Feed'
-import { filterInsightsNoDrafts, sortInsightsByDateDescending } from './utils'
+import { filterInsightsNoDrafts } from './utils'
 import styles from './InsightsFeedPage.module.scss'
 
 const getQueryParams = (path, { tag, userId: authorId }, userId) => {
@@ -26,7 +26,7 @@ const getQueryParams = (path, { tag, userId: authorId }, userId) => {
   }
 }
 
-const InsightsFeedPage = ({ match: { path, params }, userId }) => {
+const InsightsFeedPage = ({ match: { path, params }, userId, sortReducer }) => {
   return (
     <div className={styles.wrapper}>
       <Query
@@ -36,13 +36,11 @@ const InsightsFeedPage = ({ match: { path, params }, userId }) => {
         {({ data = {} }) => {
           const { insights = [] } = data
 
-          const feedInsights = insights
-            .filter(filterInsightsNoDrafts)
-            .sort(sortInsightsByDateDescending)
+          const feedInsights = insights.filter(filterInsightsNoDrafts)
 
           return (
             <Feed
-              data={feedInsights}
+              data={sortReducer(feedInsights)}
               component={InsightCard}
               dateKey='createdAt'
             />
