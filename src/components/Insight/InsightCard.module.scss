@@ -10,7 +10,7 @@
     display: inline-flex;
     flex-direction: column;
 
-    @include responsive('phone-xs'){
+    @include responsive('phone-xs') {
         min-width: 100%;
     }
 

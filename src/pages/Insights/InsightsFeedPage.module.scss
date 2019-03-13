@@ -4,7 +4,7 @@
     width: 720px;
     margin: 0 auto;
 
-    @include responsive('tablet','phone','phone-xs'){
+    @include responsive('tablet','phone','phone-xs') {
         width: auto;
     }
 }

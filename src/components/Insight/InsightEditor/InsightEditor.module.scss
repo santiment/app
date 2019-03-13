@@ -23,7 +23,7 @@
         color: var(--grey-dark);
     }
 
-    @include responsive('phone-xs'){
+    @include responsive('phone-xs') {
         line-height: 42px;
         font-size: 32px;
     }
@@ -58,7 +58,7 @@
 
 .save {
     color: var(--grey-dark);
-    @include responsive('phone-xs'){
+    @include responsive('phone-xs') {
         display: none;
     }
 }
@@ -76,7 +76,7 @@
 
 .tagsLabel {
     margin-right: 18px;
-    @include responsive('phone-xs'){
+    @include responsive('phone-xs') {
         display: none;
     }
 }

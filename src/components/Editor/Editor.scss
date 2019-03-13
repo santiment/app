@@ -15,7 +15,7 @@
             background: var(--green-light-2);
         }
 
-        @include responsive('phone-xs'){
+        @include responsive('phone-xs') {
             font-size: 14px;
             line-height: 20px;
         }
@@ -207,7 +207,7 @@
     .md-side-toolbar {
         position: absolute;
         left: -36px;
-        @include responsive('phone-xs'){
+        @include responsive('phone-xs') {
             left: -8px;
             margin-top: 25px;
         }
