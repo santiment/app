@@ -1,3 +1,4 @@
+@import "../../mixins.scss";
 @import "~@santiment-network/ui/variables.scss";
 @import "~@santiment-network/ui/mixins.scss";
 
@@ -8,6 +9,10 @@
     border: 1px solid var(--grey-light-2);
     display: inline-flex;
     flex-direction: column;
+
+    @include responsive('phone-xs'){
+        min-width: 100%;
+    }
 
     &_withMc {
         flex-direction: row;
@@ -22,6 +27,10 @@
 
         &__right {
             height: 100%;
+
+            @include responsive('phone-xs') {
+                display: none;
+            }
         }
     }
 }

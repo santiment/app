@@ -1,4 +1,10 @@
+@import '../../mixins.scss';
+
 .wrapper {
     width: 720px;
     margin: 0 auto;
+
+    @include responsive('tablet','phone','phone-xs'){
+        width: auto;
+    }
 }
