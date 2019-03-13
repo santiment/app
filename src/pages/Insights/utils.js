@@ -34,6 +34,7 @@ export const filterInsightsOnlyDrafts = ({ readyState }) =>
 export const SortReducer = {
   Newest: creationSortReducer,
   Popular: popularitySortReducer
+}
 
 export const getInsightContent = htmlContent => {
   let tempHTMLElement = document.createElement('div')
