@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProjectChartFooter LinkToSocialTool 1`] = `
+<Button
+  accent="positive"
+  as={[Function]}
+  border={false}
+  className=""
+  fluid={false}
+  isActive={false}
+  to="/labs/trends/explore/santiment%20OR%20SAN%20OR%20Santiment%20Network%20Token"
+  variant="fill"
+>
+  Social analyze
+</Button>
+`;

@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import { Popup, Icon, Label, Loader, Message } from 'semantic-ui-react'
+import { Button } from '@santiment-network/ui'
 import AlertMessage from './../../components/AlertMessage'
 import help from './../../assets/help.json'
 import './ProjectChartFooter.css'
@@ -67,7 +68,7 @@ const FilterCategory = ({ children, name, className = '', settings }) => (
     <div className='filter-category-body'>{children}</div>
   </div>
 )
-//
+
 const ProjectChartFooter = ({
   Insights = {
     loading: false,
@@ -200,6 +201,7 @@ const ProjectChartFooter = ({
             !props.twitterData.error &&
             `| ${props.twitterData.followersCount}`}
         </ToggleBtn>
+        <LinkToSocialTool {...props.project} />
         {(props.project.slug === 'bitcoin' ||
           props.project.slug === 'ethereum') && (
           <ToggleBtn
@@ -274,5 +276,21 @@ const ProjectChartFooter = ({
     </div>
   </div>
 )
+
+export const LinkToSocialTool = ({ slug, ticker, name }) => {
+  const social = window.encodeURIComponent(
+    `${slug || ''}${ticker ? ' OR ' + ticker : ''}${name ? ' OR ' + name : ''}`
+  )
+  return (
+    <Button
+      as={Link}
+      to={`/labs/trends/explore/${social}`}
+      variant='fill'
+      accent='positive'
+    >
+      Social analyze
+    </Button>
+  )
+}
 
 export default ProjectChartFooter
