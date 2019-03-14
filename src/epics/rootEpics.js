@@ -26,6 +26,7 @@ import {
   fetchAssetsFromSharedListEpic
 } from './fetchAssetsEpic'
 import fetchTimeseriesEpic from '../ducks/GetTimeSeries/epics'
+import { createSignalEpic, fetchSignalsEpic } from '../ducks/Signals/epics'
 import handleNightModeToggle from './handleNightModeToggle'
 import handleBetaModeToggle from './handleBetaModeToggle'
 import {
@@ -95,6 +96,9 @@ export default combineEpics(
   apikeyRevokeEpic,
   handleNightModeToggle,
   handleBetaModeToggle,
+  // Signals
+  createSignalEpic,
+  fetchSignalsEpic,
   // insight draft creation
   insightDraftUpdateEpic,
   insightDraftPublishEpic,

@@ -10,6 +10,19 @@ export const checkIsLoggedIn = state => {
   return !!state.user.token
 }
 
+export const selectIsTelegramConnected = state => {
+  if (!state.user.data) {
+    return false
+  }
+  if (!state.user.data.settings) {
+    return false
+  }
+  return (
+    state.user.data.settings.hasTelegramConnected &&
+    state.user.data.settings.signalNotifyTelegram
+  )
+}
+
 export const getUserWallet = state => {
   const { ethAccounts = {} } = state.user.data
   const doesUserHaveEthAccounts = ethAccounts && ethAccounts.length > 0

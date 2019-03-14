@@ -245,6 +245,19 @@ export const Detailed = ({
             ? 'SANbase...'
             : `${Project.project.ticker} project page`}
         </title>
+        <meta
+          property='og:title'
+          content={`Project overview: ${Project.project.name} - SANbase`}
+        />
+        <meta
+          property='og:description'
+          content={`Financial, development, on-chain and social data for ${
+            Project.project.name
+          }. Get access to full historical data & advanced metrics for ${
+            Project.project.name
+          } by upgrading to SANbase Dashboards.
+`}
+        />
       </Helmet>
       {!isDesktop && <Search />}
       <DetailedHeader
@@ -259,7 +272,11 @@ export const Detailed = ({
       ) : (
         <div>{projectContainerChart}</div>
       )}
-      {project.slug === 'ethereum' && <EthSpent />}
+      {project.slug === 'ethereum' && (
+        <div className='information'>
+          <EthSpent />
+        </div>
+      )}
       <div className='information'>
         <PanelBlock isLoading={Project.loading} title='General Info'>
           <GeneralInfoBlock {...Project.project} />

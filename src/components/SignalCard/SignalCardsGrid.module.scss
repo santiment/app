@@ -1,0 +1,12 @@
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+$margin-between-cards: 24px;
+
+.card {
+    margin-bottom: 24px;
+    width: calc(50% - #{$margin-between-cards/2});
+}

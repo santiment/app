@@ -16,7 +16,7 @@ class InsightsAllFeedPage extends Component {
   static getDerivedStateFromProps ({ data: { insights } }) {
     if (insights) {
       return {
-        insights: insights.slice().sort(sortInsightsByDateDescending)
+        insights: insights.slice()
       }
     }
 
@@ -40,9 +40,7 @@ class InsightsAllFeedPage extends Component {
     })
 
     this.setState(({ insights: ownInsights, nextPage }) => {
-      const newInsights = ownInsights
-        .concat(insights)
-        .sort(sortInsightsByDateDescending)
+      const newInsights = ownInsights.concat(insights)
 
       return {
         insights: newInsights,
@@ -53,6 +51,9 @@ class InsightsAllFeedPage extends Component {
 
   render () {
     const { insights } = this.state
+    const { sortReducer } = this.props
+
+    const sortedInsights = sortReducer(insights)
 
     return (
       <div className={styles.wrapper}>

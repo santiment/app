@@ -10,7 +10,7 @@ $laptopMinWidth: 992px;
 $tabletMinWidth: 768px;
 $phoneMinWidth: 480px;
 
-@mixin responsive($device) {
+@mixin _responsive($device) {
   @if $device == 'desktop' {
     @media only screen and (min-width: $desktopMinWidth) {
       @content;
@@ -46,5 +46,13 @@ $phoneMinWidth: 480px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@mixin responsive($devices...) {
+    @each $device in $devices {
+        @include _responsive($device) {
+            @content;
+        }
+    }
 }
 /* stylelint-enable */

@@ -91,7 +91,7 @@ export const fetchAssetsEpic = (action$, store, { client }) =>
             type: actions.ASSETS_FETCH_SUCCESS,
             payload: {
               ...mapDataToAssets({ type, data }),
-              first50: true
+              first50: action.payload.type === 'all'
             }
           })
         })

@@ -1,6 +1,5 @@
 /* eslint-env jest */
 import React from 'react'
-import toJson from 'enzyme-to-json'
 import { shallow, mount, render } from 'enzyme'
 import { Provider } from 'react-redux'
 import { MockedProvider } from 'react-apollo/test-utils'

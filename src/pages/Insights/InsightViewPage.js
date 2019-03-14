@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
+import { Helmet } from 'react-helmet'
 import { convertToRaw } from 'draft-js'
 import mediumDraftImporter from 'medium-draft/lib/importer'
 import InsightViewPageImageModalWrapper from './InsightViewPageImageModalWrapper'
@@ -11,6 +12,7 @@ import Editor from '../../components/Editor/Editor'
 import WithLikesMutation from '../../components/Like/WithLikesMutation'
 import LikeBtn from '../../components/Like/LikeBtn'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
+import { getInsightContent } from './utils'
 import styles from './InsightViewPage.module.scss'
 
 const InsightViewPage = ({
@@ -25,6 +27,17 @@ const InsightViewPage = ({
 }) => {
   return (
     <Fragment>
+      <Helmet>
+        <title>Community Insight: {title} - SANbase</title>
+        <meta
+          property='og:title'
+          content={`Community Insight: ${title} - SANbase`}
+        />
+        <meta
+          property='og:description'
+          content={getInsightContent(text).slice(0, 140)}
+        />
+      </Helmet>
       <div className={styles.top}>
         <ProfileInfo
           className={styles.profile}
