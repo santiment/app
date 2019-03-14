@@ -23,30 +23,34 @@ const LoadableInsightPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const PageHub = ({ location: { pathname }, isLoggedIn }) => (
-  <div style={{ width: '100%' }} className={cx('page', styles.wrapper)}>
-    <Helmet>
-      <title>Insights</title>
-    </Helmet>
-    <Switch>
-      <Route
-        exact
-        path={`${baseLocation}/read/:id`}
-        component={LoadableInsightPage}
-      />
-      <Route
-        exact
-        path={`${baseLocation}/edit/:id`}
-        component={LoadableInsightPage}
-      />
-      <Route
-        exact
-        path={`${baseLocation}/new`}
-        component={LoadableInsightCreationPage}
-      />
-      <Route path={`${baseLocation}`} component={LoadableInsightsPage} />
-    </Switch>
-  </div>
-)
+const PageHub = ({ location: { pathname }, isLoggedIn }) => {
+  window.scrollTo(0, 0)
+
+  return (
+    <div style={{ width: '100%' }} className={cx('page', styles.wrapper)}>
+      <Helmet>
+        <title>Insights</title>
+      </Helmet>
+      <Switch>
+        <Route
+          exact
+          path={`${baseLocation}/read/:id`}
+          component={LoadableInsightPage}
+        />
+        <Route
+          exact
+          path={`${baseLocation}/edit/:id`}
+          component={LoadableInsightPage}
+        />
+        <Route
+          exact
+          path={`${baseLocation}/new`}
+          component={LoadableInsightCreationPage}
+        />
+        <Route path={`${baseLocation}`} component={LoadableInsightsPage} />
+      </Switch>
+    </div>
+  )
+}
 
 export default PageHub
