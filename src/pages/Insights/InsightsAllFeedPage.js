@@ -3,8 +3,8 @@ import { graphql } from 'react-apollo'
 import InfiniteScroll from 'react-infinite-scroller'
 import { ALL_INSIGHTS_QUERY } from './InsightsGQL'
 import { client } from '../../index'
-import Feed from '../../components/Feed/Feed'
-import InsightCard from '../../components/Insight/InsightCardWithMarketcap'
+import InsightsFeed from '../../components/Insight/InsightsFeed'
+import { sortInsightsByDateDescending } from './utils'
 import styles from './InsightsFeedPage.module.scss'
 
 class InsightsAllFeedPage extends Component {
@@ -63,11 +63,7 @@ class InsightsAllFeedPage extends Component {
           loadMore={this.loadMore}
           loader='Loading more insights...'
         >
-          <Feed
-            data={sortedInsights}
-            component={InsightCard}
-            dateKey='createdAt'
-          />
+          <InsightsFeed insights={insights} />
         </InfiniteScroll>
       </div>
     )

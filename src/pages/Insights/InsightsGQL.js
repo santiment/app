@@ -16,8 +16,8 @@ export const ALL_INSIGHTS_QUERY = gql`
       title
       createdAt
       updatedAt
+      votedAt
       votes {
-        totalSanVotes
         totalVotes
       }
       tags {
@@ -40,12 +40,16 @@ export const INSIGHT_BY_ID_QUERY = gql`
       createdAt
       updatedAt
       readyState
+      votedAt
       tags {
         name
       }
       user {
         username
         id
+      }
+      votes {
+        totalVotes
       }
     }
   }
@@ -88,7 +92,6 @@ export const INSIGHTS_BY_USERID_QUERY = gql`
         name
       }
       votes {
-        totalSanVotes
         totalVotes
       }
     }
@@ -113,7 +116,6 @@ export const INSIGHTS_BY_TAG_QUERY = gql`
         name
       }
       votes {
-        totalSanVotes
         totalVotes
       }
     }

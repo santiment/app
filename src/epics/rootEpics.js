@@ -50,6 +50,7 @@ import {
   insightDraftUpdateEpic,
   insightDraftPublishEpic
 } from '../pages/Insights/insightDraftEpic'
+import { likesEpic } from '../components/Like/likesEpic'
 
 export default combineEpics(
   handleOffline,
@@ -100,5 +101,7 @@ export default combineEpics(
   fetchSignalsEpic,
   // insight draft creation
   insightDraftUpdateEpic,
-  insightDraftPublishEpic
+  insightDraftPublishEpic,
+  // likes
+  likesEpic
 )

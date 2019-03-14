@@ -71,13 +71,24 @@
 }
 
 .left {
-    /* max-width: 65%; */ // Back to this value when showing .right
-    max-width: 90%;
+    max-width: calc(70% - 40px); 
+    flex: 1;
+}
+
+.info {
+    position: relative;
+}
+
+.name {
+    position: absolute;
+    left: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .right {
-    /* display: flex; */
-    display: none;
+    display: flex;
 }
 
 .stat {
@@ -88,6 +99,7 @@
     color: var(--black);
     fill: var(--grey-dark);
     margin-left: 22px;
+    cursor: pointer;
 
     &:first-child {
         margin-left: 0;
@@ -96,4 +108,14 @@
     & svg {
         margin-right: 6px;
     }
+
+    &_comments {
+        display: none;
+    }
+}
+
+
+.liked {
+    color: var(--green);
+    fill: var(--green);
 }
