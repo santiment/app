@@ -19,29 +19,27 @@ const WalletLink = ({
   address,
   assets = [],
   isTx = false,
-  isExchange = false,
-  isBetaModeEnabled = false
+  isExchange = false
 }) => (
   <SmoothDropdownItem
     trigger={<Address address={address} isTx={isTx} isExchange={isExchange} />}
   >
     <ul className={styles.wrapper}>
-      {// TODO: disabled until we don't fix historical balance
-        isBetaModeEnabled && !isTx && (
-          <li>
-            <Button
-              variant='fill'
-              accent='positive'
-              as={Link}
-              to={{
-                pathname: '/labs/balance',
-                search: getSearch({ address, assets })
-              }}
-            >
+      {!isTx && (
+        <li>
+          <Button
+            variant='fill'
+            accent='positive'
+            as={Link}
+            to={{
+              pathname: '/labs/balance',
+              search: getSearch({ address, assets })
+            }}
+          >
             Show historical balance
-            </Button>
-          </li>
-        )}
+          </Button>
+        </li>
+      )}
       <li>
         <EtherscanLink address={address} isTx={isTx}>
           Open Etherscan
@@ -69,10 +67,4 @@ const getSearch = ({ address, assets }) =>
 
 WalletLink.propTypes = propTypes
 
-const mapStateToProps = state => {
-  return {
-    isBetaModeEnabled: state.rootUi.isBetaModeEnabled
-  }
-}
-
-export default connect(mapStateToProps)(WalletLink)
+export default WalletLink

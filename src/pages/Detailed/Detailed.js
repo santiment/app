@@ -272,7 +272,11 @@ export const Detailed = ({
       ) : (
         <div>{projectContainerChart}</div>
       )}
-      {project.slug === 'ethereum' && <EthSpent />}
+      {project.slug === 'ethereum' && (
+        <div className='information'>
+          <EthSpent />
+        </div>
+      )}
       <div className='information'>
         <PanelBlock isLoading={Project.loading} title='General Info'>
           <GeneralInfoBlock {...Project.project} />
