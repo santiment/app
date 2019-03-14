@@ -5,6 +5,7 @@ import moment from 'moment'
 import InsightTags from './InsightTags'
 import ProfileInfo from './ProfileInfo'
 import MultilineText from '../MultilineText/MultilineText'
+import { getSEOLinkFromIdAndTitle } from '../../pages/Insights/utils'
 import styles from './InsightCard.module.scss'
 
 const InsightCardInternals = ({
@@ -23,7 +24,10 @@ const InsightCardInternals = ({
         <div>
           <InsightTags tags={tags} />
         </div>
-        <Link to={`/insights/read/${id}`} className={styles.title}>
+        <Link
+          to={`/insights/read/${getSEOLinkFromIdAndTitle(id, title)}`}
+          className={styles.title}
+        >
           <MultilineText maxLines={2} id='insightCardTitle' text={title} />
         </Link>
       </div>
