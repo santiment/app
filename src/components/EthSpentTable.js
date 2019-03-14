@@ -8,6 +8,8 @@ import PanelBlock from './PanelBlock'
 import { simpleSort } from './../utils/sortMethods'
 import { millify } from '../utils/formatting'
 import ProjectIcon from './ProjectIcon'
+import SmoothDropdown from './SmoothDropdown/SmoothDropdown'
+import WalletLink from './WalletLink/WalletLink'
 import {
   CustomThComponent,
   CustomHeadComponent
@@ -15,6 +17,10 @@ import {
 import './../pages/Projects/ProjectsTable.css'
 import './../pages/Detailed/EthereumBlock.css'
 import './EthSpentTable.css'
+
+const TrxAddressCell = ({ value, assets }) => (
+  <WalletLink {...value} assets={assets} />
+)
 
 const EthSpentTable = ({
   items = [],
@@ -123,14 +129,20 @@ const EthSpentTable = ({
       id: 'wallets',
       accessor: 'ethAddresses',
       minWidth: 250,
-      Cell: ({ value = {} }) => (
+      Cell: ({ value = {}, original }) => (
         <Fragment>
           {value.length > 0 ? (
             value.map((wallet, index) => (
               <div key={index} className='wallet-addresses'>
-                <a href={`https://etherscan.io/address/${wallet.address}`}>
-                  {wallet.address}
-                </a>
+                <TrxAddressCell
+                  value={wallet}
+                  assets={[original.slug, 'ethereum']}
+                />
+                {console.log(original.slug)
+                // <a href={`https://etherscan.io/address/${wallet.address}`}>
+                // {wallet.address}
+                // </a>
+                }
               </div>
             ))
           ) : (
@@ -147,53 +159,55 @@ const EthSpentTable = ({
       isLoading={loading}
       title='Ethereum Spent Overview'
     >
-      <ReactTable
-        loading={loading}
-        multiSort
-        showPagination={!showAll}
-        showPaginationTop={false}
-        showPaginationBottom={true}
-        pageSize={showAll ? items && items.length : undefined}
-        sortable
-        resizable
-        defaultSorted={[
-          {
-            id: 'eth_balance',
-            desc: false
-          }
-        ]}
-        className='-highlight eth-spent-table'
-        data={items}
-        columns={columns}
-        LoadingComponent={({ className, loading, loadingText, ...rest }) => (
-          <div
-            className={classnames(
-              '-loading',
-              { '-active': loading },
-              className
-            )}
-            {...rest}
-          >
-            <div className='-loading-inner'>
-              <Loader active size='large' />
+      <SmoothDropdown verticalMotion verticalOffset={0}>
+        <ReactTable
+          loading={loading}
+          multiSort
+          showPagination={!showAll}
+          showPaginationTop={false}
+          showPaginationBottom={true}
+          pageSize={showAll ? items && items.length : undefined}
+          sortable
+          resizable
+          defaultSorted={[
+            {
+              id: 'eth_balance',
+              desc: false
+            }
+          ]}
+          className='-highlight eth-spent-table'
+          data={items}
+          columns={columns}
+          LoadingComponent={({ className, loading, loadingText, ...rest }) => (
+            <div
+              className={classnames(
+                '-loading',
+                { '-active': loading },
+                className
+              )}
+              {...rest}
+            >
+              <div className='-loading-inner'>
+                <Loader active size='large' />
+              </div>
             </div>
-          </div>
-        )}
-        ThComponent={CustomThComponent}
-        TheadComponent={CustomHeadComponent}
-        getTdProps={(state, rowInfo, column, instance) => {
-          return {
-            onClick: (e, handleOriginal) => {
-              if (handleOriginal) {
-                handleOriginal()
-              }
-              if (rowInfo && rowInfo.original && rowInfo.original.ticker) {
-                history.push(`/projects/${rowInfo.original.coinmarketcapId}`)
+          )}
+          ThComponent={CustomThComponent}
+          TheadComponent={CustomHeadComponent}
+          getTdProps={(state, rowInfo, column, instance) => {
+            return {
+              onClick: (e, handleOriginal) => {
+                if (handleOriginal) {
+                  handleOriginal()
+                }
+                if (rowInfo && rowInfo.original && rowInfo.original.ticker) {
+                  history.push(`/projects/${rowInfo.original.coinmarketcapId}`)
+                }
               }
             }
-          }
-        }}
-      />
+          }}
+        />
+      </SmoothDropdown>
     </PanelBlock>
   )
 }
