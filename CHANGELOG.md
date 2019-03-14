@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+- 2019-03-14 | v.0.33.0 'Sonar':
+
+  Add social tool btn on detailed page
+
 - 2019-03-14 | v.0.32.1 'Sonar':
 
   Fix EthSpent

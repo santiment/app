@@ -88,6 +88,10 @@
   border-color: rgb(16, 195, 245) !important;
 }
 
+.filter-category-body a {
+  margin-top: 12px;
+}
+
 .sentimentLabel {
   color: #e23ab4 !important;
   background-color: #e23ab4 !important;
