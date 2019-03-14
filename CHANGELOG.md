@@ -1,12 +1,19 @@
 ## CHANGELOG
 
+- 2019-03-14 | v.0.32.1 'Sonar':
+
+  Fix EthSpent
+
 - 2019-03-11 | v.0.32.0 'Sonar':
+
   Add sonar feed and signal creation form for beta users
 
 - 2019-02-19 | v.0.31.4 'Sonar':
+
   Fixed creating trending insight issues
 
 - 2019-02-14 | v.0.31.3 'Sonar':
+
   Using "slug" as an argument for the twitter requests
 
 - 2019-02-11 | v.0.31.3 'Sonar':
