@@ -8,7 +8,6 @@ import {
   // Button,
   Panel
 } from '@santiment-network/ui'
-import { millify } from '../../utils/formatting'
 import { ASSETS_FETCH, ASSETS_SET_MIN_VOLUME_FILTER } from '../../actions/types'
 import Refresh from '../../components/Refresh/Refresh'
 import ServerErrorMessage from './../../components/ServerErrorMessage'

@@ -18,8 +18,8 @@ import './../pages/Projects/ProjectsTable.css'
 import './../pages/Detailed/EthereumBlock.css'
 import './EthSpentTable.css'
 
-const TrxAddressCell = ({ value, assets }) => (
-  <WalletLink {...value} assets={assets} />
+const TrxAddressCell = ({ wallet, assets }) => (
+  <WalletLink {...wallet} assets={assets} />
 )
 
 const EthSpentTable = ({
@@ -133,17 +133,11 @@ const EthSpentTable = ({
         <Fragment>
           {value.length > 0 ? (
             value.map((wallet, index) => (
-              <div key={index} className='wallet-addresses'>
-                <TrxAddressCell
-                  value={wallet}
-                  assets={[original.slug, 'ethereum']}
-                />
-                {console.log(original.slug)
-                // <a href={`https://etherscan.io/address/${wallet.address}`}>
-                // {wallet.address}
-                // </a>
-                }
-              </div>
+              <TrxAddressCell
+                key={index}
+                wallet={wallet}
+                assets={[original.slug, 'ethereum']}
+              />
             ))
           ) : (
             <div>No data</div>
