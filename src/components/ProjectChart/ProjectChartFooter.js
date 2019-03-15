@@ -2,9 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import { Popup, Icon, Label, Loader, Message } from 'semantic-ui-react'
-import { Button } from '@santiment-network/ui'
 import AlertMessage from './../../components/AlertMessage'
 import help from './../../assets/help.json'
+import LinkToSocialTool from './LinkToSocialTool'
 import './ProjectChartFooter.css'
 
 export const ToggleBtn = ({
@@ -276,21 +276,5 @@ const ProjectChartFooter = ({
     </div>
   </div>
 )
-
-export const LinkToSocialTool = ({ slug, ticker, name }) => {
-  const social = window.encodeURIComponent(
-    `${slug || ''}${ticker ? ' OR ' + ticker : ''}${name ? ' OR ' + name : ''}`
-  )
-  return (
-    <Button
-      as={Link}
-      to={`/labs/trends/explore/${social}`}
-      variant='fill'
-      accent='positive'
-    >
-      Social analyze
-    </Button>
-  )
-}
 
 export default ProjectChartFooter
