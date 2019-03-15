@@ -1,19 +1,19 @@
 /* eslint-env jest */
 import React from 'react'
-import { LinkToSocialTool } from './ProjectChartFooter'
+import LinkToSocialTool from './LinkToSocialTool'
 import toJson from 'enzyme-to-json'
-import { mount, shallow } from 'enzyme'
+import { shallow } from 'enzyme'
 
-describe('ProjectChartFooter', () => {
-  it('LinkToSocialTool', () => {
+describe('LinkToSocialTool', () => {
+  it('Smoke', () => {
     const project = {
       name: 'Santiment Network Token',
       ticker: 'SAN',
       slug: 'santiment'
     }
     const wrapper = shallow(<LinkToSocialTool {...project} />)
-    expect(wrapper.props().to).toEqual(
-      '/labs/trends/explore/santiment%20OR%20SAN%20OR%20Santiment%20Network%20Token'
+    expect(wrapper.find('Link').props().to).toEqual(
+      '/labs/trends/explore/santiment%20OR%20SAN%20OR%20Santiment%20Network%20Token?asset=santiment'
     )
     expect(toJson(wrapper)).toMatchSnapshot()
   })
@@ -25,8 +25,8 @@ describe('ProjectChartFooter', () => {
       slug: 'santiment'
     }
     const wrapper = shallow(<LinkToSocialTool {...project} />)
-    expect(wrapper.props().to).toEqual(
-      '/labs/trends/explore/santiment%20OR%20SAN'
+    expect(wrapper.find('Link').props().to).toEqual(
+      '/labs/trends/explore/santiment%20OR%20SAN?asset=santiment'
     )
 
     const projectWithoutTicker = {
@@ -35,6 +35,8 @@ describe('ProjectChartFooter', () => {
       slug: 'santiment'
     }
     const wrapper2 = shallow(<LinkToSocialTool {...projectWithoutTicker} />)
-    expect(wrapper2.props().to).toEqual('/labs/trends/explore/santiment')
+    expect(wrapper2.find('Link').props().to).toEqual(
+      '/labs/trends/explore/santiment?asset=santiment'
+    )
   })
 })
