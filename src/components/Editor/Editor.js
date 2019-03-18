@@ -9,6 +9,7 @@ import {
   createEditorState
 } from 'medium-draft'
 import CustomImageSideButton from './CustomImageSideButton'
+import ChartSideButton from './ChartSideButton'
 import './Editor.scss'
 
 INLINE_BUTTONS[0].label = <Icon type='text-bold' />
@@ -75,6 +76,13 @@ class SanEditor extends React.Component {
           {
             title: 'Image',
             component: CustomImageSideButton,
+            props: {
+              onImgLoad: this.onImgLoad
+            }
+          },
+          {
+            title: 'Chart Builder',
+            component: ChartSideButton,
             props: {
               onImgLoad: this.onImgLoad
             }
