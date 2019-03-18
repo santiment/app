@@ -74,13 +74,13 @@ class WidgetSonar extends Component {
               <WithLikesMutation>
                 {mutateInsightById =>
                   insightsToShow.map(insight => (
-                      <InsightCard
-                        key={insight.id}
-                        {...insight}
-                        className={styles.insight}
-                        onLike={mutateInsightById(insight.id)}
-                      />
-                    ))
+                    <InsightCard
+                      key={insight.id}
+                      {...insight}
+                      className={styles.insight}
+                      onLike={mutateInsightById(insight.id)}
+                    />
+                  ))
                 }
               </WithLikesMutation>
             </div>

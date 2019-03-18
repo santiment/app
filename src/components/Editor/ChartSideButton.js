@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Modal, Icon } from '@santiment-network/ui'
+import { Modal, Icon, Label, Button } from '@santiment-network/ui'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -12,11 +12,20 @@ import {
   ReferenceArea
 } from 'recharts'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
-import SearchContainer from '../Search/SearchContainer'
+import SearchProjects from '../Search/SearchProjects'
 import styles from './Chart.module.scss'
 
 class ChartSideButton extends PureComponent {
+  state = {
+    ticker: undefined
+  }
+
+  onSuggestionSelect = ({ ticker }) => {
+    this.setState({ ticker })
+  }
+
   render () {
+    const { ticker } = this.state
     return (
       <Modal
         title='Chart Builder'
@@ -27,14 +36,24 @@ class ChartSideButton extends PureComponent {
         }
         className={styles.modal}
       >
-        <SearchContainer />
-        <GetTimeSeries
-          price={{
-            slug: 'bitcoin',
-            interval: '1d',
-            from: '2019-03-10T17:17:57.711Z',
-            timeRange: '3m'
+        <SearchProjects
+          onSuggestionSelect={this.onSuggestionSelect}
+          inputProps={{
+            placeholder: 'Search for the ticker',
+            inplace: ticker
           }}
+        />
+        <GetTimeSeries
+          price={
+            ticker
+              ? {
+                slug: 'bitcoin',
+                interval: '1d',
+                from: '2019-03-10T17:17:57.711Z',
+                timeRange: '3m'
+              }
+              : {}
+          }
           meta={{
             mergedByDatetime: true
           }}
@@ -48,6 +67,9 @@ class ChartSideButton extends PureComponent {
             </ResponsiveContainer>
           )}
         />
+        <Button variant='flat'>
+          <Label accent='malibu' variant='circle' /> Price
+        </Button>
       </Modal>
     )
   }
