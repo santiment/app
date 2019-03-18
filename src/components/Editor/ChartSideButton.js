@@ -36,7 +36,7 @@ class ChartSideButton extends PureComponent {
         }
         className={styles.modal}
       >
-        <SearchProjects
+        <SearchProjects // TODO(vanguard): Preserve searchValue after selecting suggestion
           onSuggestionSelect={this.onSuggestionSelect}
           inputProps={{
             placeholder: 'Search for the ticker',
