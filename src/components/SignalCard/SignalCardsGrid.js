@@ -35,7 +35,6 @@ const SignalCardsGrid = ({
   toggleSignal,
   gotoSignalByID
 }) => {
-  console.log(signals)
   return (
     <div className={cx(styles.wrapper, className)}>
       {signals.map(({ id, ...signal }) => (
@@ -44,7 +43,7 @@ const SignalCardsGrid = ({
           toggleSignal={() =>
             toggleSignal({
               id,
-              active: signal.active
+              active: !signal.active
             })
           }
           gotoSignalByID={() => gotoSignalByID(id)}

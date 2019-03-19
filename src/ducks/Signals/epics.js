@@ -121,6 +121,7 @@ export const TRIGGER_TOGGLE_QUERY = gql`
     updateTrigger(id: $id, active: $active) {
       trigger {
         active
+        id
       }
     }
   }
@@ -135,16 +136,28 @@ export const toggleSignalEpic = (action$, store, { client }) =>
         variables: {
           id,
           active
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          updateTrigger: {
+            __typename: 'UserTrigger',
+            userId: -1,
+            trigger: {
+              __typename: 'Trigger',
+              id,
+              active: !active
+            }
+          }
         }
       })
 
       return Observable.fromPromise(toggle)
-        .mergeMap(({ data: { id, ...rest } }) => {
-          console.log(rest)
+        .mergeMap(({ data: { updateTrigger } }) => {
+          console.log(updateTrigger.trigger)
           return Observable.of({
             type: actions.SIGNAL_TOGGLE_SUCCESS,
             payload: {
-              id
+              id: updateTrigger.trigger.id
             }
           })
         })

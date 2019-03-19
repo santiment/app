@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Modal, Button, Icon } from '@santiment-network/ui'
 import SignalMaster from './SignalMaster'
 import styles from './SignalMasterModalForm.module.scss'
