@@ -154,7 +154,6 @@ class Charts extends React.Component {
               data: chartData
             })}
             <CartesianGrid stroke='rgba(200, 200, 200, .2)' />
-            <Legend />
           </ComposedChart>
         </ResponsiveContainer>
       </div>

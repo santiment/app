@@ -6,6 +6,7 @@ import { mapQSToState } from './../../utils/utils'
 import Charts from './Charts'
 import ChartSettings from './ChartSettings'
 import ChartMetrics from './ChartMetrics'
+import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 
 class ChartPage extends Component {
   state = {
@@ -81,31 +82,33 @@ class ChartPage extends Component {
       return acc
     }, {})
     return (
-      <GetTimeSeries
-        {...requestedMetrics}
-        meta={{
-          mergedByDatetime: true
-        }}
-        render={({ timeseries, settings = {}, isError, errorType }) => {
-          if (isError) {
-            if (errorType === ERRORS.COMPLEXITY) {
-              return (
-                <div>
-                  Too complexed request
-                  <br />
-                  Decrease number of points
-                </div>
-              )
+      <>
+        <ChartSettings
+          defaultTimerange={timeRange}
+          onTimerangeChange={this.onTimerangeChange}
+          onSlugSelect={this.onSlugSelect}
+        />
+        <ShareModalTrigger /> // TODO(vangaurd): Before sharing, modify from/to
+        based on the zoom
+        <GetTimeSeries
+          {...requestedMetrics}
+          meta={{
+            mergedByDatetime: true
+          }}
+          render={({ timeseries, settings = {}, isError, errorType }) => {
+            if (isError) {
+              if (errorType === ERRORS.COMPLEXITY) {
+                return (
+                  <div>
+                    Too complexed request
+                    <br />
+                    Decrease number of points
+                  </div>
+                )
+              }
+              return <div>Something is going wrong</div>
             }
-            return <div>Something is going wrong</div>
-          }
-          return (
-            <>
-              <ChartSettings
-                defaultTimerange={timeRange}
-                onTimerangeChange={this.onTimerangeChange}
-                onSlugSelect={this.onSlugSelect}
-              />
+            return (
               <Charts
                 onZoom={this.onZoom}
                 onZoomOut={this.onZoomOut}
@@ -116,14 +119,14 @@ class ChartPage extends Component {
                 }
                 settings={settings}
               />
-              <ChartMetrics
-                onMetricsChange={this.onMetricsChange}
-                defaultActiveMetrics={metrics}
-              />
-            </>
-          )
-        }}
-      />
+            )
+          }}
+        />
+        <ChartMetrics
+          onMetricsChange={this.onMetricsChange}
+          defaultActiveMetrics={metrics}
+        />
+      </>
     )
   }
 }
