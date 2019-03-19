@@ -116,11 +116,6 @@
   display: flex !important;
 }
 
-// Fix index level of san-ui Select menu list
-.Select-menu-outer {
-  z-index: 100;
-}
-
 @supports (--css: variables) {
   :root {
     --progress-bg-color: #d3d3d3;
