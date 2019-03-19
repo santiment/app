@@ -16,6 +16,7 @@ const TRIGGERS_QUERY = gql`
         cooldown
         settings
         title
+        active
         description
         tags {
           name

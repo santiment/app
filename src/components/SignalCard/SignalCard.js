@@ -10,8 +10,50 @@ const statusMap = [
     icon: 'lock',
     label: 'Private'
   },
-  { icon: 'public', label: 'Public' }
+  {
+    icon: 'public',
+    label: 'Public'
+  }
 ]
+
+const SignalCard = ({
+  title,
+  description = '',
+  className = '',
+  author = 'Myself',
+  gotoSignalByID,
+  ...signalCardBottom
+}) => {
+  return (
+    <Panel padding className={cx(styles.wrapper, className)}>
+      <div
+        className={cx(
+          styles.wrapper__left,
+          author && styles.wrapper__left_subscription
+        )}
+      >
+        <div className={styles.icon}>
+          <Icon type='wallet' />
+        </div>
+      </div>
+      <div className={styles.wrapper__right}>
+        <div onClick={gotoSignalByID} className={styles.upper}>
+          <h2 className={styles.title}>{title}</h2>
+          {description && (
+            <h3 className={styles.description}>
+              <MultilineText
+                id='SignalCard__description'
+                maxLines={2}
+                text={description}
+              />
+            </h3>
+          )}
+        </div>
+        {author && <SignalCardBottom author={author} {...signalCardBottom} />}
+      </div>
+    </Panel>
+  )
+}
 
 const UnpublishedMsg = () => (
   <h4 className={styles.awaiting}>
@@ -24,8 +66,9 @@ const SignalCardBottom = ({
   username,
   isPublic,
   isPublished = true,
-  isSubscribed = true,
-  subscriptionsNumber
+  active = true,
+  subscriptionsNumber,
+  toggleSignal
 }) => {
   const Status = statusMap[Number(isPublic)] || statusMap[1]
   const isUserTheAuthor = true
@@ -62,47 +105,9 @@ const SignalCardBottom = ({
             {subscriptionsNumber}
           </div>
         )}
-        <Toggle disabled isActive={isSubscribed} />
+        <Toggle onClick={toggleSignal} isActive={active} />
       </div>
     </div>
-  )
-}
-
-const SignalCard = ({
-  title,
-  description = '',
-  className = '',
-  author = 'Myself',
-  ...signalCardBottom
-}) => {
-  return (
-    <Panel padding className={cx(styles.wrapper, className)}>
-      <div
-        className={cx(
-          styles.wrapper__left,
-          author && styles.wrapper__left_subscription
-        )}
-      >
-        <div className={styles.icon}>
-          <Icon type='wallet' />
-        </div>
-      </div>
-      <div className={styles.wrapper__right}>
-        <div className={styles.upper}>
-          <h2 className={styles.title}>{title}</h2>
-          {description && (
-            <h3 className={styles.description}>
-              <MultilineText
-                id='SignalCard__description'
-                maxLines={2}
-                text={description}
-              />
-            </h3>
-          )}
-        </div>
-        {author && <SignalCardBottom author={author} {...signalCardBottom} />}
-      </div>
-    </Panel>
   )
 }
 

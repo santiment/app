@@ -115,3 +115,38 @@ export const fetchSignalsEpic = (action$, store, { client }) =>
       })
       .catch(handleErrorAndTriggerAction(actions.SIGNAL_FETCH_ALL_ERROR))
   })
+
+export const TRIGGER_TOGGLE_QUERY = gql`
+  mutation updateTrigger($id: Int, $active: Boolean) {
+    updateTrigger(id: $id, active: $active) {
+      trigger {
+        active
+      }
+    }
+  }
+`
+
+export const toggleSignalEpic = (action$, store, { client }) =>
+  action$
+    .ofType(actions.SIGNAL_TOGGLE_BY_ID)
+    .switchMap(({ payload: { id, active } }) => {
+      const toggle = client.mutate({
+        mutation: TRIGGER_TOGGLE_QUERY,
+        variables: {
+          id,
+          active
+        }
+      })
+
+      return Observable.fromPromise(toggle)
+        .mergeMap(({ data: { id, ...rest } }) => {
+          console.log(rest)
+          return Observable.of({
+            type: actions.SIGNAL_TOGGLE_SUCCESS,
+            payload: {
+              id
+            }
+          })
+        })
+        .catch(handleErrorAndTriggerAction(actions.SIGNAL_TOGGLE_FAILED))
+    })
