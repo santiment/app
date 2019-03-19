@@ -25,16 +25,15 @@ class ChartPage extends Component {
     }
   }
 
-  onZoom = ({ refAreaLeft, refAreaRight }) => {
+  onZoom = (leftZoomIndex, rightZoomIndex) => {
     this.setState(
-      prevState => ({
-        ...prevState,
-        timeRange: undefined,
-        from: refAreaLeft,
-        to: refAreaRight
-      }),
+      { zoom: [leftZoomIndex, rightZoomIndex + 1] },
       this.updateSearchQuery
     )
+  }
+
+  onZoomOut = () => {
+    this.setState({ zoom: undefined }, this.updateSearchQuery)
   }
 
   onTimerangeChange = timeRange => {
@@ -65,7 +64,8 @@ class ChartPage extends Component {
       from,
       to,
       interval,
-      editable
+      editable,
+      zoom
     } = this.state
     const requestedMetrics = metrics.reduce((acc, metric) => {
       acc = {
@@ -108,7 +108,12 @@ class ChartPage extends Component {
               />
               <Charts
                 onZoom={this.onZoom}
-                chartData={timeseries}
+                onZoomOut={this.onZoomOut}
+                chartData={
+                  timeseries && zoom
+                    ? timeseries.slice(zoom[0], zoom[1])
+                    : timeseries
+                }
                 settings={settings}
               />
               <ChartMetrics

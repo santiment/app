@@ -19,43 +19,64 @@ import { getMetricCssVarColor } from './ChartMetrics'
 
 class Charts extends React.Component {
   state = {
-    refAreaLeft: '',
-    refAreaRight: ''
+    leftZoomIndex: undefined,
+    rightZoomIndex: undefined,
+    refAreaLeft: undefined,
+    refAreaRight: undefined
   }
 
   onZoom = () => {
-    let { refAreaLeft, refAreaRight } = this.state
-    if (refAreaLeft === refAreaRight || refAreaRight === '') {
-      this.setState(() => ({
-        refAreaLeft: '',
-        refAreaRight: ''
-      }))
+    let { leftZoomIndex, rightZoomIndex } = this.state
+    if (leftZoomIndex === rightZoomIndex || !Number.isInteger(rightZoomIndex)) {
+      this.resetState()
       return
     }
-    if (refAreaLeft > refAreaRight) {
-      ;[refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft]
+    if (leftZoomIndex > rightZoomIndex) {
+      ;[leftZoomIndex, rightZoomIndex] = [rightZoomIndex, leftZoomIndex]
     }
-    this.props.onZoom({ refAreaLeft, refAreaRight })
-    this.setState({ refAreaLeft: '', refAreaRight: '' })
+    this.props.onZoom(leftZoomIndex, rightZoomIndex)
+    this.resetState()
+  }
+
+  resetState () {
+    this.setState({
+      refAreaLeft: undefined,
+      refAreaRight: undefined,
+      leftZoomIndex: undefined,
+      rightZoomIndex: undefined
+    })
   }
 
   render () {
     const {
       chartData = [],
-      settings: { socialVolume = {}, devActivity = {} }
+      settings: { socialVolume = {}, devActivity = {} },
+      onZoomOut
     } = this.props
     const { refAreaLeft, refAreaRight } = this.state
     return (
       <div className='TrendsExploreChart'>
+        <button onClick={onZoomOut}>Zoom out</button>
         <ResponsiveContainer width='100%' height={300}>
           <ComposedChart
             onMouseDown={e => {
-              e && this.setState({ refAreaLeft: e.activeLabel })
+              if (!e) return
+              const { activeTooltipIndex, activeLabel } = e
+              this.setState({
+                refAreaLeft: activeLabel,
+                leftZoomIndex: activeTooltipIndex
+              })
             }}
-            onMouseMove={e =>
+            onMouseMove={e => {
+              if (!e) return
+              const { activeTooltipIndex, activeLabel } = e
+
               this.state.refAreaLeft &&
-              this.setState({ refAreaRight: e.activeLabel })
-            }
+                this.setState({
+                  refAreaRight: activeLabel,
+                  rightZoomIndex: activeTooltipIndex
+                })
+            }}
             onMouseUp={this.onZoom}
             data={chartData}
           >
