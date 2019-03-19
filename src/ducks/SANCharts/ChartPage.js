@@ -4,6 +4,7 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import { mapQSToState } from './../../utils/utils'
 import Charts from './Charts'
+import ChartSettings from './ChartSettings'
 
 class ChartPage extends Component {
   state = {
@@ -31,22 +32,36 @@ class ChartPage extends Component {
         from: refAreaLeft,
         to: refAreaRight
       }),
-      () => {
-        this.updateSearchQuery(this.state)
-      }
+      this.updateSearchQuery
     )
+  }
+
+  onTimerangeChange = timeRange => {
+    this.setState({ timeRange }, this.updateSearchQuery)
+  }
+
+  onSlugSelect = ({ slug }) => {
+    this.setState({ slug }, this.updateSearchQuery)
   }
 
   mapStateToQS = props => '?' + qs.stringify(props, { arrayFormat: 'bracket' })
 
-  updateSearchQuery = newState => {
+  updateSearchQuery () {
     this.props.history.push({
-      search: this.mapStateToQS(newState)
+      search: this.mapStateToQS(this.state)
     })
   }
 
   render () {
-    const { timeRange, slug, metrics, from, to, interval } = this.state
+    const {
+      timeRange,
+      slug,
+      metrics,
+      from,
+      to,
+      interval,
+      editable
+    } = this.state
     const requestedMetrics = metrics.reduce((acc, metric) => {
       acc = {
         ...acc,
@@ -80,11 +95,18 @@ class ChartPage extends Component {
             return <div>Something is going wrong</div>
           }
           return (
-            <Charts
-              onZoom={this.onZoom}
-              chartData={timeseries}
-              settings={settings}
-            />
+            <>
+              <ChartSettings
+                defaultTimerange={timeRange}
+                onTimerangeChange={this.onTimerangeChange}
+                onSlugSelect={this.onSlugSelect}
+              />
+              <Charts
+                onZoom={this.onZoom}
+                chartData={timeseries}
+                settings={settings}
+              />
+            </>
           )
         }}
       />
