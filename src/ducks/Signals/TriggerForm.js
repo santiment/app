@@ -150,19 +150,21 @@ class TriggerForm extends React.Component {
                     component={Input}
                   />
                 </div>
-                <div className={styles.Field}>
-                  <label>Time Window</label>
-                  <Input
-                    value={this.state.timeWindow}
-                    id='timeWindow'
-                    autoComplete='nope'
-                    type='text'
-                    disabled
-                    name='timeWindow'
-                    placeholder='setup the time window'
-                    onChange={this.handleInputChange}
-                  />
-                </div>
+                {false && (
+                  <div className={styles.Field}>
+                    <label>Time Window</label>
+                    <Input
+                      value={this.state.timeWindow}
+                      id='timeWindow'
+                      autoComplete='nope'
+                      type='text'
+                      disabled
+                      name='timeWindow'
+                      placeholder='setup the time window'
+                      onChange={this.handleInputChange}
+                    />
+                  </div>
+                )}
               </div>
             )}
             <div className={styles.row}>
