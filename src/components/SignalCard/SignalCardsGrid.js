@@ -61,7 +61,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(toggleTrigger({ id, isActive }))
   },
   gotoSignalByID: id => {
-    dispatch(push(`/sonar/signals/${id}`))
+    dispatch(push(`/sonar/feed/details/${id}`))
   }
 })
 

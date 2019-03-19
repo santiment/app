@@ -78,6 +78,13 @@ const SonarFeed = ({ location: { pathname } }) => {
         {tabs.map(({ index, component }) => (
           <Route key={index} path={index} component={component} />
         ))}
+        <Route
+          path={`${baseLocation}/details/:id`}
+          component={Loadable({
+            loader: () => import('./SignalDetails'),
+            loading: () => <PageLoader />
+          })}
+        />
       </Switch>
     </div>
   )
