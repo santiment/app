@@ -5,6 +5,7 @@ import { ERRORS } from '../GetTimeSeries/reducers'
 import { mapQSToState } from './../../utils/utils'
 import Charts from './Charts'
 import ChartSettings from './ChartSettings'
+import ChartMetrics from './ChartMetrics'
 
 class ChartPage extends Component {
   state = {
@@ -42,6 +43,10 @@ class ChartPage extends Component {
 
   onSlugSelect = ({ slug }) => {
     this.setState({ slug }, this.updateSearchQuery)
+  }
+
+  onMetricsChange = metrics => {
+    this.setState({ metrics }, this.updateSearchQuery)
   }
 
   mapStateToQS = props => '?' + qs.stringify(props, { arrayFormat: 'bracket' })
@@ -105,6 +110,10 @@ class ChartPage extends Component {
                 onZoom={this.onZoom}
                 chartData={timeseries}
                 settings={settings}
+              />
+              <ChartMetrics
+                onMetricsChange={this.onMetricsChange}
+                defaultActiveMetrics={metrics}
               />
             </>
           )

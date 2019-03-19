@@ -15,6 +15,7 @@ import {
 import { compose, withProps } from 'recompose'
 import { formatNumber } from './../../utils/formatting'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
+import { getMetricCssVarColor } from './ChartMetrics'
 
 class Charts extends React.Component {
   state = {
@@ -81,7 +82,7 @@ class Charts extends React.Component {
               name={'Price'}
               dot={false}
               strokeWidth={1.5}
-              stroke='#70dbed'
+              stroke={getMetricCssVarColor('price')}
               fill='#70dbed55'
               dataKey='priceUsd'
               isAnimationActive={false}
@@ -102,7 +103,7 @@ class Charts extends React.Component {
               name={socialVolume.title}
               dot={false}
               strokeWidth={1.5}
-              stroke='red'
+              stroke={getMetricCssVarColor('socialVolume')}
               dataKey='socialVolume'
               isAnimationActive={false}
             />
