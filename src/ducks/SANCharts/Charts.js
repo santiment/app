@@ -15,7 +15,7 @@ import {
 import { compose, withProps } from 'recompose'
 import { formatNumber } from './../../utils/formatting'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
-import { getMetricCssVarColor } from './ChartMetrics'
+import { getMetricCssVarColor } from './utils'
 
 class Charts extends React.Component {
   state = {
@@ -154,6 +154,7 @@ class Charts extends React.Component {
               data: chartData
             })}
             <CartesianGrid stroke='rgba(200, 200, 200, .2)' />
+            <Legend />
           </ComposedChart>
         </ResponsiveContainer>
       </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import * as qs from 'query-string'
+import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import { mapQSToState } from './../../utils/utils'
@@ -7,6 +8,16 @@ import Charts from './Charts'
 import ChartSettings from './ChartSettings'
 import ChartMetrics from './ChartMetrics'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
+
+const LoadableChartSettings = Loadable({
+  loader: () => import('./ChartSettings'),
+  loading: () => <div />
+})
+
+const LoadableChartMetrics = Loadable({
+  loader: () => import('./ChartMetrics'),
+  loading: () => <div />
+})
 
 class ChartPage extends Component {
   state = {
@@ -81,48 +92,55 @@ class ChartPage extends Component {
       }
       return acc
     }, {})
+    const Chart = (
+      <GetTimeSeries
+        {...requestedMetrics}
+        meta={{
+          mergedByDatetime: true
+        }}
+        render={({ timeseries, settings = {}, isError, errorType }) => {
+          if (isError) {
+            if (errorType === ERRORS.COMPLEXITY) {
+              return (
+                <div>
+                  Too complexed request
+                  <br />
+                  Decrease number of points
+                </div>
+              )
+            }
+            return <div>Something is going wrong</div>
+          }
+          return (
+            <Charts
+              onZoom={this.onZoom}
+              onZoomOut={this.onZoomOut}
+              chartData={
+                timeseries && zoom
+                  ? timeseries.slice(zoom[0], zoom[1])
+                  : timeseries
+              }
+              settings={settings}
+            />
+          )
+        }}
+      />
+    )
+    if (!editable) {
+      return Chart
+    }
     return (
       <>
-        <ChartSettings
+        <LoadableChartSettings
           defaultTimerange={timeRange}
           onTimerangeChange={this.onTimerangeChange}
           onSlugSelect={this.onSlugSelect}
         />
-        <ShareModalTrigger /> // TODO(vangaurd): Before sharing, modify from/to
-        based on the zoom
-        <GetTimeSeries
-          {...requestedMetrics}
-          meta={{
-            mergedByDatetime: true
-          }}
-          render={({ timeseries, settings = {}, isError, errorType }) => {
-            if (isError) {
-              if (errorType === ERRORS.COMPLEXITY) {
-                return (
-                  <div>
-                    Too complexed request
-                    <br />
-                    Decrease number of points
-                  </div>
-                )
-              }
-              return <div>Something is going wrong</div>
-            }
-            return (
-              <Charts
-                onZoom={this.onZoom}
-                onZoomOut={this.onZoomOut}
-                chartData={
-                  timeseries && zoom
-                    ? timeseries.slice(zoom[0], zoom[1])
-                    : timeseries
-                }
-                settings={settings}
-              />
-            )
-          }}
+        <ShareModalTrigger
+        // TODO(vangaurd): Before sharing, modify from/to based on the zoom
         />
-        <ChartMetrics
+        {Chart}
+        <LoadableChartMetrics
           onMetricsChange={this.onMetricsChange}
           defaultActiveMetrics={metrics}
         />

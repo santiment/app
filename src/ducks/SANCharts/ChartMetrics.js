@@ -1,20 +1,8 @@
 import React, { Component } from 'react'
 import { Label } from '@santiment-network/ui'
 import cx from 'classnames'
+import { Metrics } from './utils'
 import styles from './ChartMetrics.module.scss'
-
-const Metrics = {
-  price: {
-    color: 'jungle-green',
-    label: 'Price'
-  },
-  socialVolume: {
-    color: 'persimmon',
-    label: 'Social Volume'
-  }
-}
-
-export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
 
 class ChartMetrics extends Component {
   state = {
