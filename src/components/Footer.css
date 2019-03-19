@@ -2,19 +2,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2em;
-  flex-direction: column;
-  margin-top: 3em;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  color: var(--casper);
 }
 
 .sanbase-footer__links {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 1rem;
 }
 
 .sanbase-footer__links a {
   margin-left: 1em;
+  color: var(--casper);
 }
 
 .sanbase-footer__links a:first-child {
@@ -23,8 +26,4 @@
 
 .sanbase-footer__greetings {
   margin-top: 1em;
-}
-
-.cashflow-indev-message {
-  margin-bottom: 16px;
 }
