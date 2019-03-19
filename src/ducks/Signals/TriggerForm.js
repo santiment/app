@@ -26,7 +26,7 @@ const METRICS = [
 
 const OPTIONS = {
   price: [
-    { label: '% Threshold', value: 'price_percent_change' },
+    { label: 'Percentage changes', value: 'price_percent_change' },
     { label: 'Absolute', value: 'price_absolute_change' }
   ]
 }
@@ -71,6 +71,8 @@ class TriggerForm extends React.Component {
             errors.percentThreshold = 'Required'
           } else if (values.percentThreshold <= 0) {
             errors.percentThreshold = 'Must be more 0'
+          } else if (values.percentThreshold >= 1000000) {
+            errors.percentThreshold = 'Less be 1000000'
           }
           if (this.state.channels[0] !== 'Telegram') {
             errors.channels = 'You must setup notification channel'
@@ -135,14 +137,14 @@ class TriggerForm extends React.Component {
             {this.state.metric !== 'trendingWords' && (
               <div className={styles.row}>
                 <div className={styles.Field}>
-                  <label>Threshold</label>
+                  <label>Percentage amount</label>
                   <Field
                     value={values.percentThreshold}
                     id='percentThreshold'
                     autoComplete='nope'
                     type='number'
                     name='percentThreshold'
-                    placeholder='Setup the threshold'
+                    placeholder='Setup percentage amount'
                     isError={errors.percentThreshold}
                     defaultValue={errors.percentThreshold}
                     onChange={handleChange}
@@ -168,41 +170,47 @@ class TriggerForm extends React.Component {
               </div>
             )}
             <div className={styles.row}>
-              <label>Notification settings</label>
-            </div>
-            <div className={styles.row}>
               <div className={styles.Field}>
-                <label>Cooldown</label>
-                <Selector
-                  id='cooldown'
-                  options={['1h', '24h']}
-                  onSelectOption={this.handleSelectCooldown}
-                  defaultSelected={this.state.cooldown}
-                />
+                <label>Message Frequency</label>
+                <div>
+                  <span>Once per</span>
+                  <Selector
+                    id='cooldown'
+                    options={['1h', '24h']}
+                    onSelectOption={this.handleSelectCooldown}
+                    defaultSelected={this.state.cooldown}
+                  />
+                </div>
               </div>
             </div>
             <div className={styles.row}>
-              <Checkboxes
-                options={['Email', 'Telegram']}
-                disabledIndexes={
-                  this.props.isTelegramConnected
-                    ? ['Email']
-                    : ['Email', 'Telegram']
-                }
-                defaultSelectedIndexes={this.state.channels}
-                onSelect={this.handleNotificationChannels}
-                style={{ marginRight: '15px' }}
-              />
-              {!this.props.isTelegramConnected && (
-                <Button
-                  className={styles.connectLink}
-                  variant='ghost'
-                  as={Link}
-                  to='/account'
-                >
-                  Telegram<span className={styles.connectLink}>Connect</span>
-                </Button>
-              )}
+              <div className={styles.Field}>
+                <label>Notify me via</label>
+                <div>
+                  <Checkboxes
+                    options={['Email', 'Telegram']}
+                    disabledIndexes={
+                      this.props.isTelegramConnected
+                        ? ['Email']
+                        : ['Email', 'Telegram']
+                    }
+                    defaultSelectedIndexes={this.state.channels}
+                    onSelect={this.handleNotificationChannels}
+                    style={{ marginRight: '15px' }}
+                  />
+                  {!this.props.isTelegramConnected && (
+                    <Button
+                      className={styles.connectLink}
+                      variant='ghost'
+                      as={Link}
+                      to='/account'
+                    >
+                      Telegram
+                      <span className={styles.connectLink}>Connect</span>
+                    </Button>
+                  )}
+                </div>
+              </div>
             </div>
 
             {errors.channels && (
@@ -210,15 +218,17 @@ class TriggerForm extends React.Component {
                 <Message variant='warn'>{errors.channels}</Message>
               </div>
             )}
-            <Button
-              type='submit'
-              disabled={!isValid || isSubmitting}
-              isActive={isValid && !isSubmitting}
-              variant={'fill'}
-              accent='positive'
-            >
-              Continue
-            </Button>
+            <div className={styles.controls}>
+              <Button
+                type='submit'
+                disabled={!isValid || isSubmitting}
+                isActive={isValid && !isSubmitting}
+                variant={'fill'}
+                accent='positive'
+              >
+                Continue
+              </Button>
+            </div>
           </Form>
         )}
       </Formik>
