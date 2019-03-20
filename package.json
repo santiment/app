@@ -66,6 +66,7 @@
     "react-infinite-scroller": "^1.2.4",
     "react-lazyload": "^2.5.0",
     "react-loadable": "^5.3.1",
+    "react-markdown": "^4.0.6",
     "react-notification": "^6.8.2",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
