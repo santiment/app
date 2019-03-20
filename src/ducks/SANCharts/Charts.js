@@ -107,14 +107,13 @@ class Charts extends React.Component {
               type='number'
               domain={['auto', 'dataMax']}
             />
-            <Area
+            <Line
               type='linear'
               yAxisId='axis-price'
               name={'Price'}
               dot={false}
               strokeWidth={1.5}
               stroke={getMetricCssVarColor('price')}
-              fill='#70dbed55'
               dataKey='priceUsd'
               isAnimationActive={false}
             />

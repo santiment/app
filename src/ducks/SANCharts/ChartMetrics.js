@@ -38,20 +38,26 @@ class ChartMetrics extends Component {
     const { metrics } = this.state
     return (
       <div className={styles.metrics}>
-        {Object.keys(Metrics).map(metric => {
-          const { color, label } = Metrics[metric]
-          return (
-            <button
-              key={label}
-              data-metric={metric}
-              className={cx(styles.btn, metrics.has(metric) && styles.active)}
-              onClick={this.onClick}
-            >
-              <Label variant='circle' accent={color} className={styles.label} />
-              {label}
-            </button>
-          )
-        })}
+        {Object.keys(Metrics)
+          .filter(metric => metric !== 'price')
+          .map(metric => {
+            const { color, label } = Metrics[metric]
+            return (
+              <button
+                key={label}
+                data-metric={metric}
+                className={cx(styles.btn, metrics.has(metric) && styles.active)}
+                onClick={this.onClick}
+              >
+                <Label
+                  variant='circle'
+                  accent={color}
+                  className={styles.label}
+                />
+                {label}
+              </button>
+            )
+          })}
       </div>
     )
   }
