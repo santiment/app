@@ -195,7 +195,7 @@ export const App = ({
           )}
         />
         <Route exact path='/labs/trends' render={props => <TrendsTool />} />
-        <Route exact path='/labs' render={props => <LabsPage />} />
+        <Route exact path='/labs' component={LabsPage} />
         <Redirect from='/trends' to='/labs/trends' />
         <Route
           exact
