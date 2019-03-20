@@ -42,6 +42,7 @@ import TrendsTool from './pages/Trends/TrendsToolPage'
 import { getConsentUrl } from './utils/utils'
 import HeaderMsg from './HeaderMsg'
 import LogoutPage from './pages/Logout'
+import LabsPage from './pages/Labs'
 import './App.scss'
 
 const LoadableDetailedPage = Loadable({
@@ -194,6 +195,7 @@ export const App = ({
           )}
         />
         <Route exact path='/labs/trends' render={props => <TrendsTool />} />
+        <Route exact path='/labs' render={props => <LabsPage />} />
         <Redirect from='/trends' to='/labs/trends' />
         <Route
           exact
