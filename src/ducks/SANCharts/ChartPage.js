@@ -34,9 +34,11 @@ class ChartPage extends Component {
     }
   }
 
-  onZoom = (leftZoomIndex, rightZoomIndex) => {
+  onZoom = (leftZoomIndex, rightZoomIndex, leftZoomDate, rightZoomDate) => {
     this.setState(
-      { zoom: [leftZoomIndex, rightZoomIndex + 1] },
+      {
+        zoom: [leftZoomIndex, rightZoomIndex + 1, leftZoomDate, rightZoomDate]
+      },
       this.updateSearchQuery
     )
   }
@@ -63,6 +65,29 @@ class ChartPage extends Component {
     this.props.history.push({
       search: this.mapStateToQS(this.state)
     })
+  }
+
+  generateShareLink = () => {
+    const { origin, pathname } = window.location
+    const { slug, timeRange, metrics, interval, zoom } = this.state
+    const settings = {
+      slug,
+      metrics,
+      interval,
+      viewOnly: true
+    }
+
+    if (zoom) {
+      const [, , from, to] = zoom
+      settings.from = from
+      settings.to = to
+    } else {
+      settings.timeRange = timeRange
+    }
+
+    return `${origin}${pathname}?${qs.stringify(settings, {
+      arrayFormat: 'bracket'
+    })}`
   }
 
   render () {
@@ -134,6 +159,7 @@ class ChartPage extends Component {
           defaultTimerange={timeRange}
           onTimerangeChange={this.onTimerangeChange}
           onSlugSelect={this.onSlugSelect}
+          generateShareLink={this.generateShareLink}
         />
         {Chart}
         <LoadableChartMetrics

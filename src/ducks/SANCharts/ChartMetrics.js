@@ -42,6 +42,7 @@ class ChartMetrics extends Component {
           const { color, label } = Metrics[metric]
           return (
             <button
+              key={label}
               data-metric={metric}
               className={cx(styles.btn, metrics.has(metric) && styles.active)}
               onClick={this.onClick}

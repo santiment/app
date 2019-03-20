@@ -17,6 +17,7 @@ import { compose, withProps } from 'recompose'
 import { formatNumber } from './../../utils/formatting'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
 import { getMetricCssVarColor } from './utils'
+import styles from './ChartPage.module.scss'
 
 class Charts extends React.Component {
   state = {
@@ -27,15 +28,21 @@ class Charts extends React.Component {
   }
 
   onZoom = () => {
-    let { leftZoomIndex, rightZoomIndex } = this.state
+    let {
+      leftZoomIndex,
+      rightZoomIndex,
+      refAreaLeft,
+      refAreaRight
+    } = this.state
     if (leftZoomIndex === rightZoomIndex || !Number.isInteger(rightZoomIndex)) {
       this.resetState()
       return
     }
     if (leftZoomIndex > rightZoomIndex) {
       ;[leftZoomIndex, rightZoomIndex] = [rightZoomIndex, leftZoomIndex]
+      ;[refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft]
     }
-    this.props.onZoom(leftZoomIndex, rightZoomIndex)
+    this.props.onZoom(leftZoomIndex, rightZoomIndex, refAreaLeft, refAreaRight)
     this.resetState()
   }
 
@@ -56,7 +63,7 @@ class Charts extends React.Component {
     } = this.props
     const { refAreaLeft, refAreaRight } = this.state
     return (
-      <div className='TrendsExploreChart'>
+      <div className={'TrendsExploreChart ' + styles.chart}>
         <Button border onClick={onZoomOut}>
           Zoom out
         </Button>

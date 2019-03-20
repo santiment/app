@@ -8,6 +8,10 @@
   width: 50%;
 }
 
+.chart {
+  user-select: none !important;
+}
+
 .metrics {
   padding: 10px 20px;
 }

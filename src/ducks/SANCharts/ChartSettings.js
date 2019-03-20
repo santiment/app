@@ -7,7 +7,8 @@ import styles from './ChartPage.module.scss'
 const ChartSettings = ({
   onTimerangeChange,
   defaultTimerange,
-  onSlugSelect
+  onSlugSelect,
+  generateShareLink
 }) => {
   return (
     <div className={styles.settings}>
@@ -21,9 +22,7 @@ const ChartSettings = ({
         defaultSelected={defaultTimerange}
       />
 
-      <ShareModalTrigger
-      // TODO(vangaurd): Before sharing, modify from/to based on the zoom
-      />
+      <ShareModalTrigger shareLink={generateShareLink()} />
     </div>
   )
 }
