@@ -37,20 +37,22 @@ const SignalCardsGrid = ({
 }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
-      {signals.map(({ id, ...signal }) => (
-        <SignalCard
-          key={id}
-          toggleSignal={() =>
-            toggleSignal({
-              id,
-              active: !signal.active
-            })
-          }
-          gotoSignalByID={() => gotoSignalByID(id)}
-          className={styles.card}
-          {...signal}
-        />
-      ))}
+      {signals
+        .sort((a, b) => a.id - b.id)
+        .map(({ id, ...signal }) => (
+          <SignalCard
+            key={id}
+            toggleSignal={() =>
+              toggleSignal({
+                id,
+                isActive: signal.active
+              })
+            }
+            gotoSignalByID={() => gotoSignalByID(id)}
+            className={styles.card}
+            {...signal}
+          />
+        ))}
     </div>
   )
 }

@@ -145,7 +145,7 @@ export const toggleSignalEpic = (action$, store, { client }) =>
             trigger: {
               __typename: 'Trigger',
               id,
-              active: !active
+              active
             }
           }
         }
@@ -153,7 +153,6 @@ export const toggleSignalEpic = (action$, store, { client }) =>
 
       return Observable.fromPromise(toggle)
         .mergeMap(({ data: { updateTrigger } }) => {
-          console.log(updateTrigger.trigger)
           return Observable.of({
             type: actions.SIGNAL_TOGGLE_SUCCESS,
             payload: {
