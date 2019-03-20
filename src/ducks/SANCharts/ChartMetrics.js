@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Label } from '@santiment-network/ui'
 import cx from 'classnames'
 import { Metrics } from './utils'
-import styles from './ChartMetrics.module.scss'
+import styles from './ChartPage.module.scss'
 
 class ChartMetrics extends Component {
   state = {
@@ -37,16 +37,16 @@ class ChartMetrics extends Component {
   render () {
     const { metrics } = this.state
     return (
-      <div>
+      <div className={styles.metrics}>
         {Object.keys(Metrics).map(metric => {
           const { color, label } = Metrics[metric]
           return (
             <button
               data-metric={metric}
-              className={cx(metrics.has(metric) && styles.active)}
+              className={cx(styles.btn, metrics.has(metric) && styles.active)}
               onClick={this.onClick}
             >
-              <Label variant='circle' accent={color} />
+              <Label variant='circle' accent={color} className={styles.label} />
               {label}
             </button>
           )

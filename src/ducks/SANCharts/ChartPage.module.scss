@@ -1,0 +1,33 @@
+.settings {
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+}
+
+.search {
+  width: 50%;
+}
+
+.metrics {
+  padding: 10px 20px;
+}
+
+.btn {
+  border: none;
+  outline: none;
+  color: var(--waterloo);
+  border-radius: 4px;
+  height: 32px;
+  cursor: pointer;
+  margin-right: 8px;
+  padding: 6px 12px;
+}
+
+.active {
+  color: var(--mirage);
+  background: var(--athens);
+}
+
+.label {
+  margin-right: 12px;
+}

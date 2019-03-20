@@ -12,6 +12,7 @@ import {
   Tooltip,
   ReferenceArea
 } from 'recharts'
+import { Button } from '@santiment-network/ui'
 import { compose, withProps } from 'recompose'
 import { formatNumber } from './../../utils/formatting'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
@@ -56,7 +57,9 @@ class Charts extends React.Component {
     const { refAreaLeft, refAreaRight } = this.state
     return (
       <div className='TrendsExploreChart'>
-        <button onClick={onZoomOut}>Zoom out</button>
+        <Button border onClick={onZoomOut}>
+          Zoom out
+        </Button>
         <ResponsiveContainer width='100%' height={300}>
           <ComposedChart
             onMouseDown={e => {

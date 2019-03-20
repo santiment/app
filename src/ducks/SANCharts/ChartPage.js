@@ -5,9 +5,6 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import { mapQSToState } from './../../utils/utils'
 import Charts from './Charts'
-import ChartSettings from './ChartSettings'
-import ChartMetrics from './ChartMetrics'
-import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./ChartSettings'),
@@ -76,7 +73,7 @@ class ChartPage extends Component {
       from,
       to,
       interval,
-      editable,
+      viewOnly,
       zoom
     } = this.state
     const requestedMetrics = metrics.reduce((acc, metric) => {
@@ -92,6 +89,7 @@ class ChartPage extends Component {
       }
       return acc
     }, {})
+
     const Chart = (
       <GetTimeSeries
         {...requestedMetrics}
@@ -126,18 +124,16 @@ class ChartPage extends Component {
         }}
       />
     )
-    if (!editable) {
+    if (viewOnly) {
       return Chart
     }
+
     return (
       <>
         <LoadableChartSettings
           defaultTimerange={timeRange}
           onTimerangeChange={this.onTimerangeChange}
           onSlugSelect={this.onSlugSelect}
-        />
-        <ShareModalTrigger
-        // TODO(vangaurd): Before sharing, modify from/to based on the zoom
         />
         {Chart}
         <LoadableChartMetrics
