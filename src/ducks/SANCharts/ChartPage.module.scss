@@ -8,6 +8,17 @@
   width: 50%;
 }
 
+.title {
+  text-align: center;
+  color: var(--mirage);
+  font-size: 16px;
+  line-height: 32px;
+}
+
+.zoom {
+  float: left;
+}
+
 .chart {
   user-select: none !important;
 }

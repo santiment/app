@@ -59,14 +59,18 @@ class Charts extends React.Component {
     const {
       chartData = [],
       settings: { socialVolume = {}, devActivity = {} },
-      onZoomOut
+      onZoomOut,
+      title
     } = this.props
     const { refAreaLeft, refAreaRight } = this.state
     return (
       <div className={'TrendsExploreChart ' + styles.chart}>
-        <Button border onClick={onZoomOut}>
-          Zoom out
-        </Button>
+        <div className={styles.header}>
+          <Button border onClick={onZoomOut} className={styles.zoom}>
+            Zoom out
+          </Button>
+          <div className={styles.title}>{title}</div>
+        </div>
         <ResponsiveContainer width='100%' height={300}>
           <ComposedChart
             onMouseDown={e => {

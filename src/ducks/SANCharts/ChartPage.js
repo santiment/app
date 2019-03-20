@@ -51,8 +51,11 @@ class ChartPage extends Component {
     this.setState({ timeRange }, this.updateSearchQuery)
   }
 
-  onSlugSelect = ({ slug }) => {
-    this.setState({ slug }, this.updateSearchQuery)
+  onSlugSelect = ({ slug, name, ticker }) => {
+    this.setState(
+      { slug, title: `${name} (${ticker})` },
+      this.updateSearchQuery
+    )
   }
 
   onMetricsChange = metrics => {
@@ -78,13 +81,22 @@ class ChartPage extends Component {
 
   generateShareLink = () => {
     const { origin, pathname } = window.location
-    const { slug, timeRange, metrics, interval, nightMode, zoom } = this.state
+    const {
+      slug,
+      title,
+      timeRange,
+      metrics,
+      interval,
+      nightMode,
+      zoom
+    } = this.state
 
     const settings = {
       slug,
       metrics,
       interval,
       nightMode,
+      title,
       viewOnly: true
     }
 
@@ -110,6 +122,7 @@ class ChartPage extends Component {
       to,
       interval,
       viewOnly,
+      title,
       zoom,
       nightMode
     } = this.state
@@ -158,6 +171,7 @@ class ChartPage extends Component {
                   : timeseries
               }
               settings={settings}
+              title={title}
             />
           )
         }}
