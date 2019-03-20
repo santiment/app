@@ -59,6 +59,15 @@ class ChartPage extends Component {
     this.setState({ metrics }, this.updateSearchQuery)
   }
 
+  onNightModeSelect = () => {
+    const { nightMode } = this.state
+
+    this.setState(
+      { nightMode: nightMode ? undefined : true },
+      this.updateSearchQuery
+    )
+  }
+
   mapStateToQS = props => '?' + qs.stringify(props, { arrayFormat: 'bracket' })
 
   updateSearchQuery () {
@@ -69,11 +78,13 @@ class ChartPage extends Component {
 
   generateShareLink = () => {
     const { origin, pathname } = window.location
-    const { slug, timeRange, metrics, interval, zoom } = this.state
+    const { slug, timeRange, metrics, interval, nightMode, zoom } = this.state
+
     const settings = {
       slug,
       metrics,
       interval,
+      nightMode,
       viewOnly: true
     }
 
@@ -99,7 +110,8 @@ class ChartPage extends Component {
       to,
       interval,
       viewOnly,
-      zoom
+      zoom,
+      nightMode
     } = this.state
     const requestedMetrics = metrics.reduce((acc, metric) => {
       acc = {
@@ -114,6 +126,8 @@ class ChartPage extends Component {
       }
       return acc
     }, {})
+
+    document.body.classList.toggle('night-mode', !!nightMode)
 
     const Chart = (
       <GetTimeSeries
@@ -160,6 +174,8 @@ class ChartPage extends Component {
           onTimerangeChange={this.onTimerangeChange}
           onSlugSelect={this.onSlugSelect}
           generateShareLink={this.generateShareLink}
+          onNightModeSelect={this.onNightModeSelect}
+          hasNightMode={nightMode}
         />
         {Chart}
         <LoadableChartMetrics

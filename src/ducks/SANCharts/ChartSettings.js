@@ -1,5 +1,5 @@
 import React from 'react'
-import { Panel, Selector } from '@santiment-network/ui'
+import { Checkboxes, Selector } from '@santiment-network/ui'
 import SearchProjects from '../../components/Search/SearchProjects'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import styles from './ChartPage.module.scss'
@@ -8,7 +8,9 @@ const ChartSettings = ({
   onTimerangeChange,
   defaultTimerange,
   onSlugSelect,
-  generateShareLink
+  generateShareLink,
+  onNightModeSelect,
+  hasNightMode
 }) => {
   return (
     <div className={styles.settings}>
@@ -22,6 +24,11 @@ const ChartSettings = ({
         defaultSelected={defaultTimerange}
       />
 
+      <Checkboxes
+        options={['Night mode']}
+        defaultSelectedIndexes={hasNightMode && ['Night mode']}
+        onSelect={onNightModeSelect}
+      />
       <ShareModalTrigger shareLink={generateShareLink()} />
     </div>
   )
