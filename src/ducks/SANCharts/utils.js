@@ -27,6 +27,11 @@ export const Metrics = {
     node: Line,
     color: 'malibu',
     label: 'Daily Active Addresses'
+  },
+  tokenCirculation: {
+    node: Line,
+    color: 'dodger-blue',
+    label: 'Token Circulation'
   }
 }
 
