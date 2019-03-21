@@ -102,6 +102,7 @@ class Charts extends React.Component {
               minTickGap={100}
               tickFormatter={timeStr => moment(timeStr).format('DD MMM YY')}
             />
+            {generateMetricsMarkup(metrics)}
             <YAxis
               yAxisId='axis-price'
               type='number'
@@ -117,7 +118,6 @@ class Charts extends React.Component {
               dataKey='priceUsd'
               isAnimationActive={false}
             />
-            {generateMetricsMarkup(metrics)}
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
                 yAxisId='axis-price'

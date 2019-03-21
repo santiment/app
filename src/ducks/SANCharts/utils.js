@@ -24,7 +24,7 @@ export const Metrics = {
     label: 'Exchange Flow Balance'
   },
   dailyActiveAddresses: {
-    node: Line,
+    node: Bar,
     color: 'malibu',
     label: 'Daily Active Addresses'
   },
@@ -37,6 +37,11 @@ export const Metrics = {
     node: Line,
     color: 'waterloo',
     label: 'Market Value To Realized Value'
+  },
+  transactionVolume: {
+    node: Line,
+    color: 'texas-rose',
+    label: 'Transaction Volume'
   }
 }
 
