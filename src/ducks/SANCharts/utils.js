@@ -53,6 +53,11 @@ export const Metrics = {
     color: 'heliotrope',
     label: 'Development Activity',
     dataKey: 'activity'
+  },
+  tokenVelocity: {
+    node: Line,
+    color: 'persimmon',
+    label: 'Token Velocity'
   }
 }
 

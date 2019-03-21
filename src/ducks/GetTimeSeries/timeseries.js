@@ -5,6 +5,7 @@ import { DAILY_ACTIVE_ADDRESSES_QUERY } from './queries/daily_active_addresses_q
 import { EXCHANGE_FUNDS_FLOW_QUERY } from './queries/exchange_funds_flow_query'
 import { TOKEN_AGE_CONSUMED_QUERY } from './queries/token_age_consumed_query'
 import { MVRV_QUERY } from './queries/mvrv_query'
+import { TOKEN_VELOCITY_QUERY } from './queries/token_velocity_query'
 import { TRANSACTION_VOLUME_QUERY } from './queries/transaction_volume_query'
 import { TOKEN_CIRCULATION_QUERY } from './queries/token_circulation_query'
 import { NETWORK_GROWTH_QUERY } from './queries/network_growth_query'
@@ -32,6 +33,9 @@ const TIMESERIES = {
   },
   mvrv: {
     query: MVRV_QUERY
+  },
+  tokenVelocity: {
+    query: TOKEN_VELOCITY_QUERY
   },
   transactionVolume: {
     query: TRANSACTION_VOLUME_QUERY
