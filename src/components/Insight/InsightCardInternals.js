@@ -2,10 +2,12 @@ import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Icon } from '@santiment-network/ui'
 import moment from 'moment'
+import cx from 'classnames'
 import InsightTags from './InsightTags'
 import ProfileInfo from './ProfileInfo'
 import MultilineText from '../MultilineText/MultilineText'
 import { getSEOLinkFromIdAndTitle } from '../../pages/Insights/utils'
+import LikeBtn from '../Like/LikeBtn'
 import styles from './InsightCard.module.scss'
 
 const InsightCardInternals = ({
@@ -16,6 +18,8 @@ const InsightCardInternals = ({
   createdAt,
   votes: { totalVotes },
   comments,
+  votedAt,
+  onLike,
   className
 }) => {
   return (
@@ -34,15 +38,22 @@ const InsightCardInternals = ({
       <div className={styles.bottom}>
         <div className={styles.left}>
           <ProfileInfo
-            name={<Link to={`/insights/users/${authorId}`}>{authorName}</Link>}
+            name={
+              <Link className={styles.name} to={`/insights/users/${authorId}`}>
+                {authorName}
+              </Link>
+            }
             status={moment(createdAt).fromNow()}
+            infoClassName={styles.info}
           />
         </div>
         <div className={styles.right}>
-          <div className={styles.stat}>
-            <Icon type='like' /> {totalVotes}
-          </div>
-          <div className={styles.stat}>
+          <LikeBtn
+            likesNumber={totalVotes}
+            liked={!!votedAt}
+            onClick={onLike}
+          />
+          <div className={cx(styles.stat, styles.stat_comments)}>
             <Icon type='comment' /> {comments}
           </div>
         </div>

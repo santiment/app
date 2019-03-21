@@ -13,6 +13,7 @@ import {
   ALL_INSIGHTS_QUERY,
   PINNED_INSIGHTS_QUERY
 } from '../Insight/insightsGQL.js'
+import WithLikesMutation from '../Like/WithLikesMutation'
 import styles from './WidgetSonar.module.scss'
 
 const pinnedInsightsIdByWatchlistName = {
@@ -70,13 +71,18 @@ class WidgetSonar extends Component {
               <InsightAddBtn />
             </div>
             <div className={styles.insights}>
-              {insightsToShow.map(insight => (
-                <InsightCard
-                  key={insight.id}
-                  {...insight}
-                  className={styles.insight}
-                />
-              ))}
+              <WithLikesMutation>
+                {mutateInsightById =>
+                  insightsToShow.map(insight => (
+                      <InsightCard
+                        key={insight.id}
+                        {...insight}
+                        className={styles.insight}
+                        onLike={mutateInsightById(insight.id)}
+                      />
+                    ))
+                }
+              </WithLikesMutation>
             </div>
           </div>
         )}

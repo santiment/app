@@ -24,7 +24,10 @@ const getMarketcapQuery = (type, projects) => {
     options: () => ({
       variables: {
         from,
-        slug: 'TOTAL_MARKET'
+        slug: 'TOTAL_MARKET',
+        to: moment()
+          .utc()
+          .format()
       }
     })
   })

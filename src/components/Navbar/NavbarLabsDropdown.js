@@ -6,8 +6,7 @@ import styles from './NavbarDropdown.module.scss'
 const links = [
   { link: '/labs/trends', label: 'Social trends' },
   { link: '/ethereum-spent', label: 'ETH spent' },
-  // TODO: Balance is off until we don't fix backend logic
-  // { link: '/labs/balance', label: 'Historical balance' },
+  { link: '/labs/balance', label: 'Historical balance' },
   { link: '/labs/wordcloud', label: 'Word context' },
   { link: '/dashboards', label: 'Dashboard' }
 ]

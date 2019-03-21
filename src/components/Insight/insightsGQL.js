@@ -6,8 +6,8 @@ export const ALL_INSIGHTS_BY_TAG_QUERY = gql`
       id
       title
       createdAt
+      votedAt
       votes {
-        totalSanVotes
         totalVotes
       }
       tags {
@@ -28,8 +28,8 @@ export const ALL_INSIGHTS_QUERY = gql`
       id
       title
       createdAt
+      votedAt
       votes {
-        totalSanVotes
         totalVotes
       }
       tags {

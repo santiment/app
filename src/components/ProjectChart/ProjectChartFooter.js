@@ -4,6 +4,7 @@ import cx from 'classnames'
 import { Popup, Icon, Label, Loader, Message } from 'semantic-ui-react'
 import AlertMessage from './../../components/AlertMessage'
 import help from './../../assets/help.json'
+import LinkToSocialTool from './LinkToSocialTool'
 import './ProjectChartFooter.css'
 
 export const ToggleBtn = ({
@@ -67,7 +68,7 @@ const FilterCategory = ({ children, name, className = '', settings }) => (
     <div className='filter-category-body'>{children}</div>
   </div>
 )
-//
+
 const ProjectChartFooter = ({
   Insights = {
     loading: false,
@@ -200,6 +201,7 @@ const ProjectChartFooter = ({
             !props.twitterData.error &&
             `| ${props.twitterData.followersCount}`}
         </ToggleBtn>
+        <LinkToSocialTool {...props.project} />
         {(props.project.slug === 'bitcoin' ||
           props.project.slug === 'ethereum') && (
           <ToggleBtn

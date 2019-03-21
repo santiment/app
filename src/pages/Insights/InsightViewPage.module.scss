@@ -5,3 +5,22 @@
 .tags {
     margin-top: 30px;
 }
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    border-top: 1px solid var(--grey-light-2);
+    padding: 24px 0;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+}
+
+.like {
+    margin-right: 31px;
+}
+
+
