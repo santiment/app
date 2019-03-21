@@ -4,6 +4,7 @@ import { SOCIAL_VOLUME_QUERY } from './queries/social_volume_query'
 import { DAILY_ACTIVE_ADDRESSES_QUERY } from './queries/daily_active_addresses_query'
 import { EXCHANGE_FUNDS_FLOW_QUERY } from './queries/exchange_funds_flow_query'
 import { TOKEN_AGE_CONSUMED_QUERY } from './queries/token_age_consumed_query'
+import { MVRV_QUERY } from './queries/mvrv_query'
 import { TOKEN_CIRCULATION_QUERY } from './queries/token_circulation_query'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import { formatNumber } from './../../utils/formatting'
@@ -26,6 +27,9 @@ const TIMESERIES = {
   },
   tokenCirculation: {
     query: TOKEN_CIRCULATION_QUERY
+  },
+  mvrv: {
+    query: MVRV_QUERY
   },
   socialVolume: {
     query: SOCIAL_VOLUME_QUERY,

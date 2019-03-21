@@ -32,6 +32,11 @@ export const Metrics = {
     node: Line,
     color: 'dodger-blue',
     label: 'Token Circulation'
+  },
+  mvrv: {
+    node: Line,
+    color: 'waterloo',
+    label: 'Market Value To Realized Value'
   }
 }
 
