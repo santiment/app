@@ -1,6 +1,7 @@
 import { DEV_ACTIVITY_QUERY } from './queries/dev_activity_query'
 import { HISTORY_PRICE_QUERY } from './queries/history_price_query'
 import { SOCIAL_VOLUME_QUERY } from './queries/social_volume_query'
+import { TOKEN_AGE_CONSUMED_QUERY } from './queries/token_age_consumed_query'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import { formatNumber } from './../../utils/formatting'
 
@@ -10,6 +11,9 @@ const TIMESERIES = {
   },
   devActivity: {
     query: DEV_ACTIVITY_QUERY
+  },
+  tokenAgeConsumed: {
+    query: TOKEN_AGE_CONSUMED_QUERY
   },
   socialVolume: {
     query: SOCIAL_VOLUME_QUERY,

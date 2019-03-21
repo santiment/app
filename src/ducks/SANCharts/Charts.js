@@ -5,6 +5,7 @@ import {
   ComposedChart,
   Legend,
   Area,
+  Bar,
   Line,
   CartesianGrid,
   XAxis,
@@ -110,6 +111,24 @@ class Charts extends React.Component {
               hide
               type='number'
               domain={['auto', 'dataMax']}
+            />
+
+            <YAxis
+              yAxisId='axis-tokenAgeConsumed'
+              hide
+              type='number'
+              domain={['auto', 'dataMax']}
+            />
+            <Bar
+              type='linear'
+              yAxisId='axis-tokenAgeConsumed'
+              name='Token Age Consumed'
+              dot={false}
+              strokeWidth={1.5}
+              // stroke={getMetricCssVarColor('price')}
+              fill='var(--texas-rose)'
+              dataKey='tokenAgeConsumed'
+              isAnimationActive={false}
             />
             <Line
               type='linear'
