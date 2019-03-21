@@ -18,6 +18,7 @@ const ChartSettings = ({
       <SearchProjects
         onSuggestionSelect={onSlugSelect}
         className={styles.search}
+        suggestionsProps={{ style: { zIndex: 5 } }}
       />
       <Selector
         options={['1w', '1m', '3m', '6m']}
