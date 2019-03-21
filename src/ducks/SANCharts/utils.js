@@ -58,6 +58,12 @@ export const Metrics = {
     node: Line,
     color: 'persimmon',
     label: 'Token Velocity'
+  },
+  dailyActiveDeposits: {
+    node: Bar,
+    color: 'jungle-green',
+    label: 'Daily Active Deposits',
+    dataKey: 'activeDeposits'
   }
 }
 

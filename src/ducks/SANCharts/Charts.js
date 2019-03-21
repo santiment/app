@@ -135,7 +135,9 @@ class Charts extends React.Component {
                 if (
                   name === Metrics.dailyActiveAddresses.label ||
                   name === Metrics.socialVolume.label ||
-                  name === Metrics.networkGrowth.label
+                  name === Metrics.networkGrowth.label ||
+                  name === Metrics.dailyActiveDeposits.label ||
+                  name === Metrics.devActivity.label
                 ) {
                   return value
                 }
