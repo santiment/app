@@ -17,7 +17,7 @@ import { Button } from '@santiment-network/ui'
 import { compose, withProps } from 'recompose'
 import { formatNumber } from './../../utils/formatting'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
-import { getMetricCssVarColor, generateMetricsMarkup } from './utils'
+import { Metrics, getMetricCssVarColor, generateMetricsMarkup } from './utils'
 import styles from './ChartPage.module.scss'
 
 class Charts extends React.Component {
@@ -129,10 +129,17 @@ class Charts extends React.Component {
             <Tooltip
               labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
               formatter={(value, name) => {
-                if (name === socialVolume.title) {
-                  return socialVolume.formatter(value)
+                if (name === Metrics.price.label) {
+                  return formatNumber(value, { currency: 'USD' })
                 }
-                return formatNumber(value, { currency: 'USD' })
+                if (
+                  name === Metrics.dailyActiveAddresses.label ||
+                  name === Metrics.socialVolume.label
+                ) {
+                  return value
+                }
+
+                return value.toFixed(2)
               }}
             />
             {mixWithPaywallArea({
