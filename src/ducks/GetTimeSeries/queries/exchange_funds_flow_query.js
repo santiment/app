@@ -9,7 +9,7 @@ export const EXCHANGE_FUNDS_FLOW_QUERY = gql`
   ) {
     exchangeFundsFlow(slug: $slug, from: $from, to: $to, interval: $interval) {
       datetime
-      inOutDifference
+      exchangeFundsFlow: inOutDifference
     }
   }
 `

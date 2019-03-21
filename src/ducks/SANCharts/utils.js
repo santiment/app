@@ -21,8 +21,12 @@ export const Metrics = {
   exchangeFundsFlow: {
     node: Line,
     color: 'heliotrope',
-    label: 'Exchange Flow Balance',
-    dataKey: 'inOutDifference'
+    label: 'Exchange Flow Balance'
+  },
+  dailyActiveAddresses: {
+    node: Line,
+    color: 'malibu',
+    label: 'Daily Active Addresses'
   }
 }
 
@@ -32,7 +36,7 @@ export const generateMetricsMarkup = metrics => {
   return metrics
     .filter(metric => metric !== 'price')
     .reduce((acc, metric) => {
-      const { node: El, label, color, dataKey = metric } = Metrics[metric]
+      const { node: El, label, color } = Metrics[metric]
       const rest = {
         [El === Bar ? 'fill' : 'stroke']: `var(--${color})`
       }
@@ -50,7 +54,7 @@ export const generateMetricsMarkup = metrics => {
           yAxisId={`axis-${metric}`}
           name={label}
           strokeWidth={1.5}
-          dataKey={dataKey}
+          dataKey={metric}
           dot={false}
           isAnimationActive={false}
           {...rest}

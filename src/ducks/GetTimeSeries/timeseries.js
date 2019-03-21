@@ -1,6 +1,7 @@
 import { DEV_ACTIVITY_QUERY } from './queries/dev_activity_query'
 import { HISTORY_PRICE_QUERY } from './queries/history_price_query'
 import { SOCIAL_VOLUME_QUERY } from './queries/social_volume_query'
+import { DAILY_ACTIVE_ADDRESSES_QUERY } from './queries/daily_active_addresses_query'
 import { EXCHANGE_FUNDS_FLOW_QUERY } from './queries/exchange_funds_flow_query'
 import { TOKEN_AGE_CONSUMED_QUERY } from './queries/token_age_consumed_query'
 import { mergeTimeseriesByKey } from './../../utils/utils'
@@ -18,6 +19,9 @@ const TIMESERIES = {
   },
   exchangeFundsFlow: {
     query: EXCHANGE_FUNDS_FLOW_QUERY
+  },
+  dailyActiveAddresses: {
+    query: DAILY_ACTIVE_ADDRESSES_QUERY
   },
   socialVolume: {
     query: SOCIAL_VOLUME_QUERY,
