@@ -17,6 +17,11 @@ export const Metrics = {
     color: 'texas-rose',
     label: 'Token Age Consumed',
     fill: true
+  },
+  exchangeFundsFlow: {
+    node: Line,
+    color: 'heliotrope',
+    label: 'Exchange Funds Flow'
   }
 }
 

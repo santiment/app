@@ -91,15 +91,17 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
         metric
       ]
       return Observable.fromPromise(
-        client.query({
-          query: getMetricQUERY(metric),
-          variables: {
-            interval: interval || '1d',
-            to: to || moment().toISOString(),
-            from: from || getTimeFromFromString(rest.timeRange),
-            ...rest
-          }
-        })
+        client
+          .query({
+            query: getMetricQUERY(metric),
+            variables: {
+              interval: interval || '1d',
+              to: to || moment().toISOString(),
+              from: from || getTimeFromFromString(rest.timeRange),
+              ...rest
+            }
+          })
+          .catch(() => [])
       )
     })
     return Observable.forkJoin(queries)
