@@ -173,6 +173,7 @@ class ChartPage extends Component {
               }
               settings={settings}
               title={title}
+              metrics={metrics}
             />
           )
         }}

@@ -17,7 +17,7 @@ import { Button } from '@santiment-network/ui'
 import { compose, withProps } from 'recompose'
 import { formatNumber } from './../../utils/formatting'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
-import { getMetricCssVarColor } from './utils'
+import { getMetricCssVarColor, generateMetricsMarkup } from './utils'
 import styles from './ChartPage.module.scss'
 
 class Charts extends React.Component {
@@ -58,6 +58,7 @@ class Charts extends React.Component {
 
   render () {
     const {
+      metrics,
       chartData = [],
       settings: { socialVolume = {}, devActivity = {} },
       onZoomOut,
@@ -106,30 +107,6 @@ class Charts extends React.Component {
               type='number'
               domain={['auto', 'dataMax']}
             />
-            <YAxis
-              yAxisId='axis-devActivity'
-              hide
-              type='number'
-              domain={['auto', 'dataMax']}
-            />
-
-            <YAxis
-              yAxisId='axis-tokenAgeConsumed'
-              hide
-              type='number'
-              domain={['auto', 'dataMax']}
-            />
-            <Bar
-              type='linear'
-              yAxisId='axis-tokenAgeConsumed'
-              name='Token Age Consumed'
-              dot={false}
-              strokeWidth={1.5}
-              // stroke={getMetricCssVarColor('price')}
-              fill='var(--texas-rose)'
-              dataKey='tokenAgeConsumed'
-              isAnimationActive={false}
-            />
             <Line
               type='linear'
               yAxisId='axis-price'
@@ -140,26 +117,7 @@ class Charts extends React.Component {
               dataKey='priceUsd'
               isAnimationActive={false}
             />
-            <Line
-              type='linear'
-              yAxisId='axis-devActivity'
-              name={devActivity.title}
-              dot={false}
-              strokeWidth={1.5}
-              stroke='red'
-              dataKey='activity'
-              isAnimationActive={false}
-            />
-            <Line
-              type='linear'
-              yAxisId='axis-devActivity'
-              name={socialVolume.title}
-              dot={false}
-              strokeWidth={1.5}
-              stroke={getMetricCssVarColor('socialVolume')}
-              dataKey='socialVolume'
-              isAnimationActive={false}
-            />
+            {generateMetricsMarkup(metrics)}
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
                 yAxisId='axis-price'
