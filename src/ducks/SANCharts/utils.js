@@ -42,6 +42,12 @@ export const Metrics = {
     node: Line,
     color: 'texas-rose',
     label: 'Transaction Volume'
+  },
+
+  networkGrowth: {
+    node: Line,
+    color: 'mirage',
+    label: 'Network Growth'
   }
 }
 
