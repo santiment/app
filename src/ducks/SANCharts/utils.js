@@ -43,11 +43,16 @@ export const Metrics = {
     color: 'texas-rose',
     label: 'Transaction Volume'
   },
-
   networkGrowth: {
     node: Line,
     color: 'mirage',
     label: 'Network Growth'
+  },
+  devActivity: {
+    node: Line,
+    color: 'heliotrope',
+    label: 'Development Activity',
+    dataKey: 'activity'
   }
 }
 
@@ -57,7 +62,7 @@ export const generateMetricsMarkup = metrics => {
   return metrics
     .filter(metric => metric !== 'price')
     .reduce((acc, metric) => {
-      const { node: El, label, color } = Metrics[metric]
+      const { node: El, label, color, dataKey = metric } = Metrics[metric]
       const rest = {
         [El === Bar ? 'fill' : 'stroke']: `var(--${color})`
       }
@@ -75,7 +80,7 @@ export const generateMetricsMarkup = metrics => {
           yAxisId={`axis-${metric}`}
           name={label}
           strokeWidth={1.5}
-          dataKey={metric}
+          dataKey={dataKey}
           dot={false}
           isAnimationActive={false}
           {...rest}
