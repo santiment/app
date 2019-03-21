@@ -86,6 +86,7 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
       })
 
     const transforms = getTransforms(metrics)
+    const errorMetrics = {}
     const queries = metrics.map(metric => {
       const { interval, from = null, to = null, ...rest } = action.payload[
         metric
@@ -101,19 +102,24 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
               ...rest
             }
           })
-          .catch(() => [])
+          .catch(({ message }) => {
+            errorMetrics[metric] = message
+          })
       )
     })
+
     return Observable.forkJoin(queries)
       .mergeMap(data => {
+        const filteredData = data.filter(value => !!value)
         const result = meta.mergedByDatetime
-          ? mapDataToMergedTimeserieByDatetime(data, transforms)
-          : mapDataToTimeseries(data, transforms)
+          ? mapDataToMergedTimeserieByDatetime(filteredData, transforms)
+          : mapDataToTimeseries(filteredData, transforms)
         const settings = getSettings(metrics)
         return Observable.of({
           type: actions.TIMESERIES_FETCH_SUCCESS,
           payload: {
             settings,
+            errorMetrics,
             ...result
           }
         })

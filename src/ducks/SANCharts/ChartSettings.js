@@ -10,7 +10,8 @@ const ChartSettings = ({
   onSlugSelect,
   generateShareLink,
   onNightModeSelect,
-  hasNightMode
+  hasNightMode,
+  disabledMetrics
 }) => {
   return (
     <div className={styles.settings}>
@@ -29,7 +30,7 @@ const ChartSettings = ({
         defaultSelectedIndexes={hasNightMode && ['Night mode']}
         onSelect={onNightModeSelect}
       />
-      <ShareModalTrigger shareLink={generateShareLink()} />
+      <ShareModalTrigger shareLink={generateShareLink(disabledMetrics)} />
     </div>
   )
 }

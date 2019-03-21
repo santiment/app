@@ -80,7 +80,7 @@ class ChartPage extends Component {
     })
   }
 
-  generateShareLink = () => {
+  generateShareLink = disabledMetrics => {
     const { origin, pathname } = window.location
     const {
       slug,
@@ -94,7 +94,7 @@ class ChartPage extends Component {
 
     const settings = {
       slug,
-      metrics,
+      metrics: metrics.filter(metric => !disabledMetrics.includes(metric)),
       interval,
       nightMode,
       title,
@@ -143,13 +143,19 @@ class ChartPage extends Component {
 
     document.body.classList.toggle('night-mode', !!nightMode)
 
-    const Chart = (
+    return (
       <GetTimeSeries
         {...requestedMetrics}
         meta={{
           mergedByDatetime: true
         }}
-        render={({ timeseries, settings = {}, isError, errorType }) => {
+        render={({
+          timeseries,
+          errorMetrics = {},
+          settings = {},
+          isError,
+          errorType
+        }) => {
           if (isError) {
             if (errorType === ERRORS.COMPLEXITY) {
               return (
@@ -162,43 +168,48 @@ class ChartPage extends Component {
             }
             return <div>Something is going wrong</div>
           }
+
+          const errors = Object.keys(errorMetrics)
+          const finalMetrics = metrics.filter(
+            metric => !errors.includes(metric)
+          )
+
           return (
-            <Charts
-              onZoom={this.onZoom}
-              onZoomOut={this.onZoomOut}
-              chartData={
-                timeseries && zoom
-                  ? timeseries.slice(zoom[0], zoom[1])
-                  : timeseries
-              }
-              settings={settings}
-              title={title}
-              metrics={metrics}
-            />
+            <>
+              {!viewOnly && (
+                <LoadableChartSettings
+                  defaultTimerange={timeRange}
+                  onTimerangeChange={this.onTimerangeChange}
+                  onSlugSelect={this.onSlugSelect}
+                  generateShareLink={this.generateShareLink}
+                  onNightModeSelect={this.onNightModeSelect}
+                  hasNightMode={nightMode}
+                  disabledMetrics={errors}
+                />
+              )}
+              <Charts
+                onZoom={this.onZoom}
+                onZoomOut={this.onZoomOut}
+                chartData={
+                  timeseries && zoom
+                    ? timeseries.slice(zoom[0], zoom[1])
+                    : timeseries
+                }
+                settings={settings}
+                title={title}
+                metrics={finalMetrics}
+              />
+              {!viewOnly && (
+                <LoadableChartMetrics
+                  onMetricsChange={this.onMetricsChange}
+                  defaultActiveMetrics={finalMetrics}
+                  disabledMetrics={errors}
+                />
+              )}
+            </>
           )
         }}
       />
-    )
-    if (viewOnly) {
-      return Chart
-    }
-
-    return (
-      <>
-        <LoadableChartSettings
-          defaultTimerange={timeRange}
-          onTimerangeChange={this.onTimerangeChange}
-          onSlugSelect={this.onSlugSelect}
-          generateShareLink={this.generateShareLink}
-          onNightModeSelect={this.onNightModeSelect}
-          hasNightMode={nightMode}
-        />
-        {Chart}
-        <LoadableChartMetrics
-          onMetricsChange={this.onMetricsChange}
-          defaultActiveMetrics={metrics}
-        />
-      </>
     )
   }
 }

@@ -43,6 +43,13 @@
   background: var(--athens);
 }
 
+.btn[disabled] {
+  color: var(--mystic) !important;
+  fill: var(--mystic) !important;
+  background: var(--white);
+  cursor: not-allowed;
+}
+
 .label {
   margin-right: 10px;
 }

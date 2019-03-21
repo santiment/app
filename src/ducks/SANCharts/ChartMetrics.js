@@ -36,6 +36,7 @@ class ChartMetrics extends Component {
 
   render () {
     const { metrics } = this.state
+    const { disabledMetrics } = this.props
     return (
       <div className={styles.metrics}>
         {Object.keys(Metrics)
@@ -48,6 +49,7 @@ class ChartMetrics extends Component {
                 data-metric={metric}
                 className={cx(styles.btn, metrics.has(metric) && styles.active)}
                 onClick={this.onClick}
+                disabled={disabledMetrics.includes(metric)}
               >
                 <Label
                   variant='circle'
