@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { compose, withState } from 'recompose'
+import { Helmet } from 'react-helmet'
 import Sticky from 'react-stickynode'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import HypedBlocks from './../../components/Trends/HypedBlocks'
@@ -19,6 +20,17 @@ const TrendsPage = ({
   isDesktop = true
 }) => (
   <div className={styles.TrendsPage + ' page'}>
+    <Helmet>
+      <title>Today’s Top Social Gainers in Crypto - SANbase</title>
+      <meta
+        property='og:title'
+        content='Today’s Top Social Gainers in Crypto - SANbase'
+      />
+      <meta
+        property='og:description'
+        content='Top 10 words with the biggest spike on crypto social media (compared to their previous 2-week average). These are the biggest developing stories in crypto.'
+      />
+    </Helmet>
     <div className={styles.header}>
       <h1>Emerging Social Trends</h1>
       <HelpTrendsAbout />

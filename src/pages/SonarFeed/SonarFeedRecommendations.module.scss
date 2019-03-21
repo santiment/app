@@ -1,0 +1,21 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.wrapper {
+    margin-top: 17px;
+}
+
+.container {
+    width: 330px;
+    text-align: center;
+    margin: 0 auto 50px;
+}
+
+.subtitle {
+    @include text-normal;
+    margin: 0 0 16px;
+    color: var(--grey-dark-2);
+}
+
+.pic {
+    margin-top: -30px;
+}

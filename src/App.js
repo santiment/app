@@ -35,6 +35,7 @@ import GDPRModal from './components/GDPRModal'
 import ConfirmDeleteWatchlistModal from './components/WatchlistPopup/ConfirmDeleteWatchlistModal'
 import AssetsPage from './pages/assets/AssetsPage'
 import SignalsPriceVolume from './pages/Signals/SignalsPriceVolume'
+import SignalFormPage from './ducks/Signals/SignalFormPage'
 import HistoricalBalancePage from './ducks/HistoricalBalance/HistoricalBalancePage'
 import WordCloudPage from './components/WordCloud/WordCloudPage'
 import TrendsTool from './pages/Trends/TrendsToolPage'
@@ -60,6 +61,11 @@ const LoadableTrendsPage = Loadable({
 
 const LoadableTrendsExplorePage = Loadable({
   loader: () => import('./pages/Trends/TrendsExplorePage'),
+  loading: () => <PageLoader />
+})
+
+const LoadableSonarFeedPage = Loadable({
+  loader: () => import('./pages/SonarFeed/SonarFeedPage'),
   loading: () => <PageLoader />
 })
 
@@ -196,6 +202,8 @@ export const App = ({
             <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
           )}
         />
+        <Route path='/sonar/feed' component={LoadableSonarFeedPage} />
+        <Route exact path='/sonar/master' component={SignalFormPage} />
         <Route
           exact
           path='/sonar'

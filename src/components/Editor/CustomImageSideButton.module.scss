@@ -1,0 +1,11 @@
+.input {
+    display: none;
+}
+
+.label {
+    background: var(--white);
+    fill: var(--black);
+    cursor: pointer;
+    display: flex;
+    height: 17px;
+}

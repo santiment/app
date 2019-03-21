@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { Route, Switch } from 'react-router-dom'
 import Loadable from 'react-loadable'
+import { Helmet } from 'react-helmet'
 import PageLoader from '../../components/PageLoader'
 import styles from './index.module.scss'
 
@@ -22,22 +23,15 @@ const LoadableInsightPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableUnAuthPage = Loadable({
-  loader: () => import('./InsightUnAuthPage'),
-  loading: () => <PageLoader />
-})
-
 const PageHub = ({ location: { pathname }, isLoggedIn }) => {
-  const normalizedPathname = pathname.endsWith('/')
-    ? pathname.slice(0, -1)
-    : pathname
+  window.scrollTo(0, 0)
 
   return (
     <div style={{ width: '100%' }} className={cx('page', styles.wrapper)}>
+      <Helmet>
+        <title>Insights</title>
+      </Helmet>
       <Switch>
-        {!isLoggedIn && normalizedPathname !== baseLocation && (
-          <Route component={LoadableUnAuthPage} />
-        )}
         <Route
           exact
           path={`${baseLocation}/read/:id`}
@@ -58,4 +52,5 @@ const PageHub = ({ location: { pathname }, isLoggedIn }) => {
     </div>
   )
 }
+
 export default PageHub

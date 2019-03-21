@@ -6,8 +6,8 @@ export const ALL_INSIGHTS_BY_TAG_QUERY = gql`
       id
       title
       createdAt
+      votedAt
       votes {
-        totalSanVotes
         totalVotes
       }
       tags {
@@ -28,10 +28,27 @@ export const ALL_INSIGHTS_QUERY = gql`
       id
       title
       createdAt
+      votedAt
       votes {
-        totalSanVotes
         totalVotes
       }
+      tags {
+        name
+      }
+      user {
+        id
+        username
+      }
+    }
+  }
+`
+
+export const PINNED_INSIGHTS_QUERY = gql`
+  query post($id: Int!) {
+    pinnedInsight: post(id: $id) {
+      id
+      title
+      createdAt
       tags {
         name
       }

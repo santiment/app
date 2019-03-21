@@ -56,11 +56,9 @@ export const handleLoginSuccess = (action$, store, { client }) =>
       const { token, consent } = action
       return Observable.merge(
         Observable.of(showNotification('You are logged in!')),
-        Observable.of(
-          consent
-            ? replace(`/consent?consent=${consent}&token=${token}`)
-            : replace('/')
-        )
+        consent
+          ? Observable.of(replace(`/consent?consent=${consent}&token=${token}`))
+          : Observable.empty()
       )
     })
     .catch(error => {

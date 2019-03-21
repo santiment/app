@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Helmet } from 'react-helmet'
 import WordCloud from './WordCloud'
 import { Input, Button } from '@santiment-network/ui'
 import ToolsPageStyles from './../ToolsPage/ToolsPage.module.scss'
@@ -24,8 +25,24 @@ class WordCloudPage extends Component {
   }
 
   render () {
+    const { word } = this.state
     return (
       <div className={ToolsPageStyles.ToolsPage + ' page'}>
+        <Helmet>
+          <title>Crypto Word Cloud{word ? ` for ${word}` : ''} - SANbase</title>
+          <meta
+            property='og:title'
+            content={`Crypto Word Cloud${word ? ` for ${word}` : ''} - SANbase`}
+          />
+          <meta
+            property='og:description'
+            content={`Explore words ${
+              word
+                ? `often used with ‘${word}’`
+                : 'that are often used together'
+            } on crypto social media. Results from 100s of Telegram groups, crypto subreddits, discord channels, private trader chats and more.`}
+          />
+        </Helmet>
         <div className={styles.title}>
           <h1>Explore the social context of any word in crypto</h1>
         </div>

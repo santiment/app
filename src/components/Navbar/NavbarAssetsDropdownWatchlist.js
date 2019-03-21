@@ -71,7 +71,9 @@ const ifData = fork(
             {name.toUpperCase()}
             <SmoothDropdownItem
               className={styles.visibility}
-              trigger={isPublic ? <Icon type='eye' /> : <Icon type='lock' />}
+              trigger={
+                isPublic ? <Icon type='eye' /> : <Icon type='lock-small' />
+              }
             >
               <Panel className={styles.label}>
                 {isPublic ? 'Public' : 'Private'}

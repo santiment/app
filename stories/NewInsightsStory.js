@@ -57,5 +57,7 @@ const insights = [
 const stories = storiesOf('Insights', module)
 stories.addDecorator(StoryRouter())
 stories
-  .add('Insight Card', () => <InsightCard {...insights[2]} />)
+  .add('Insight Card', () => (
+    <InsightCard {...insights[2]} onLike={console.log} />
+  ))
   .add('Insights Tab', () => <Insights insights={insights} />)
