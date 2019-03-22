@@ -11,6 +11,12 @@ export const SIGNAL_FETCH_ALL_ERROR = '[signal] FETCH_ALL_ERROR'
 export const SIGNAL_TOGGLE_BY_ID = '[signal] TOGGLE_BY_ID'
 export const SIGNAL_TOGGLE_SUCCESS = '[signal] TOGGLE_BY_ID_SUCCESS'
 export const SIGNAL_TOGGLE_FAILED = '[signal] TOGGLE_BY_ID_FAILED'
+// preview of history signal points
+export const SIGNAL_FETCH_HISTORY_POINTS = '[signal] FETCH_HISTORY_POINTS'
+export const SIGNAL_FETCH_HISTORY_POINTS_SUCCESS =
+  '[signal] FETCH_HISTORY_POINTS_SUCCESS'
+export const SIGNAL_FETCH_HISTORY_POINTS_FAILED =
+  '[signal] FETCH_HISTORY_POINTS_FAILED'
 
 export const WithoutChannelsError =
   'You must setup at least one channel for new signal'
@@ -55,5 +61,13 @@ export const toggleTrigger = ({ id, isActive }) => ({
   payload: {
     id,
     active: !isActive
+  }
+})
+
+export const fetchHistorySignalPoints = ({ cooldown, settings }) => ({
+  type: SIGNAL_FETCH_HISTORY_POINTS,
+  payload: {
+    settings,
+    cooldown
   }
 })

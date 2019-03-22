@@ -118,6 +118,10 @@
   align-items: normal;
 }
 
+.filter-category:first-child {
+  width: 220px;
+}
+
 .night-mode .filter-category {
   border-color: #2d3239;
   border-radius: 0;

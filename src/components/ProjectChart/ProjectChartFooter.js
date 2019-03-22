@@ -5,6 +5,7 @@ import { Popup, Icon, Label, Loader, Message } from 'semantic-ui-react'
 import AlertMessage from './../../components/AlertMessage'
 import help from './../../assets/help.json'
 import LinkToSocialTool from './LinkToSocialTool'
+import SignalMasterModalForm from './../../ducks/Signals/SignalMasterModalForm'
 import './ProjectChartFooter.css'
 
 export const ToggleBtn = ({
@@ -106,6 +107,9 @@ const ProjectChartFooter = ({
             ICO Price (USD)
           </ToggleBtn>
         )}
+        <br />
+        {// TODO: Partysun. Upgrade when modal with accept it
+          false && <SignalMasterModalForm label='New Price Signal' />}
       </FilterCategory>
       <FilterCategory name='Development'>
         <ToggleBtn
@@ -184,6 +188,9 @@ const ProjectChartFooter = ({
             <Label circular className='twitterLabel' empty />
             Daily Active Addresses
           </ToggleBtn>
+          <br />
+          {// TODO: Partysun. Upgrade when modal with accept it
+            false && <SignalMasterModalForm label='New Price Signal' />}
         </FilterCategory>
       )}
       <FilterCategory name='Social'>
