@@ -58,3 +58,7 @@
 .label {
   margin-right: 10px;
 }
+
+:global(.recharts-default-tooltip) {
+  background-color: var(--white) !important;
+}
