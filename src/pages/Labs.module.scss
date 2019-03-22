@@ -1,0 +1,45 @@
+.flexRow {
+   display: flex;
+   justify-content: space-between;
+   flex-wrap: wrap;
+}
+
+.historicalBalance {
+  background: #5275FF;
+
+  button {
+    background: #4567ED;
+    box-shadow: 0px 20px 30px #3955C4;
+  }
+}
+
+.historicalBalanceBg {
+  background-image: url("../../src/assets/historical_balance_card.svg");
+  background-position: -147px -37px;
+}
+
+.trends {
+  background-color: #8358FF;
+
+  button {
+    background: #774EED;
+    box-shadow: 0px 20px 30px #5F38CF;
+  }
+}
+
+.trendsBg {
+  background-image: url("../../src/assets/social_trends_card.svg");
+}
+
+.dashboard {
+  background: #222639;
+  
+  button {
+    background: #1C1F31;
+    box-shadow: 0px 20px 30px #0F101A;
+  }
+}
+
+.dashboardBg {
+  background-image: url("../../src/assets/dashboard_card.svg");
+}

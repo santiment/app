@@ -1,0 +1,64 @@
+:global(#root) {
+  height: auto;
+}
+
+.settings {
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+}
+
+.search {
+  width: 50%;
+}
+
+.title {
+  text-align: center;
+  color: var(--mirage);
+  font-size: 16px;
+  line-height: 32px;
+}
+
+.zoom {
+  float: left;
+}
+
+.chart {
+  user-select: none !important;
+}
+
+.metrics {
+  padding: 10px 20px;
+}
+
+.btn {
+  border: none;
+  background: var(--white);
+  outline: none;
+  color: var(--waterloo);
+  border-radius: 4px;
+  height: 32px;
+  cursor: pointer;
+  margin-right: 8px;
+  padding: 6px 12px;
+}
+
+.active {
+  color: var(--mirage);
+  background: var(--athens);
+}
+
+.btn[disabled] {
+  color: var(--mystic) !important;
+  fill: var(--mystic) !important;
+  background: var(--white);
+  cursor: not-allowed;
+}
+
+.label {
+  margin-right: 10px;
+}
+
+:global(.recharts-default-tooltip) {
+  background-color: var(--white) !important;
+}
