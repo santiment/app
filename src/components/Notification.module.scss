@@ -1,0 +1,11 @@
+.notificationStack {
+  position: fixed;
+  bottom: 50px;
+  left: 20px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.notification {
+  margin-bottom: 10px;
+}

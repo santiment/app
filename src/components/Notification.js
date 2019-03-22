@@ -1,17 +1,28 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { NotificationStack } from 'react-notification'
+import { Notification as NotificationItem } from '@santiment-network/ui'
+import SlideEntry from './Animated/SlideEntry'
+import styles from './Notification.module.scss'
 
 class Notification extends Component {
   state = {
-    notifications: []
+    notifications: [],
+    dissmisedNotification: []
   }
 
-  componentWillReceiveProps (newProps) {
-    if (newProps.notification !== null) {
-      this.setState({
-        notifications: [...this.state.notifications, newProps.notification]
-      })
+  componentWillReceiveProps ({ notification }) {
+    if (notification) {
+      this.setState(
+        {
+          notifications: [...this.state.notifications, notification]
+        },
+        () => {
+          setTimeout(
+            () => this.closeNotification(notification.key),
+            notification.dismissAfter
+          )
+        }
+      )
     } else {
       this.setState({
         notifications: []
@@ -19,18 +30,46 @@ class Notification extends Component {
     }
   }
 
-  render () {
-    return (
-      <NotificationStack
-        notifications={this.state.notifications}
-        onDismiss={notification =>
+  closeNotification = notificationId => {
+    this.setState(
+      {
+        dissmisedNotification: [
+          ...this.state.dissmisedNotification,
+          notificationId
+        ]
+      },
+      () => {
+        setTimeout(() => {
           this.setState({
             notifications: this.state.notifications.filter(
-              item => item.key !== notification.key
+              ({ key }) => key !== notificationId
             )
           })
-        }
-      />
+        }, 300)
+      }
+    )
+  }
+
+  render () {
+    const { notifications, dissmisedNotification } = this.state
+
+    if (!notifications.length) {
+      return null
+    }
+
+    return (
+      <div className={styles.notificationStack}>
+        {notifications.map(notification => (
+          <SlideEntry leaving={dissmisedNotification.includes(notification.id)}>
+            <NotificationItem
+              {...notification}
+              className={styles.notification}
+              onClose={() => this.closeNotification(notification.key)}
+              solidFill
+            />
+          </SlideEntry>
+        ))}
+      </div>
     )
   }
 }
