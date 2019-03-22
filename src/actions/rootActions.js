@@ -5,9 +5,7 @@ import {
 } from './types'
 
 const defaultNotification = {
-  title: 'Empty message',
-  description: undefined,
-  variant: 'info'
+  title: 'Empty message'
 }
 
 export const showNotification = (payload = defaultNotification) => {
