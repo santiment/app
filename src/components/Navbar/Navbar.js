@@ -13,9 +13,9 @@ import styles from './Navbar.module.scss'
 
 const leftLinks = [
   { link: '/sonar', label: 'Sonar' },
-  { link: '/assets', label: 'Assets' },
+  { link: '/assets', label: 'Assets', linkTo: '/assets/all' },
   { link: '/insights', label: 'Insights' },
-  { link: '/labs', label: 'Labs' }
+  { link: '/labs', label: 'Labs', linkTo: '/labs' }
 ]
 const rightBtns = [
   {
@@ -57,8 +57,8 @@ const Navbar = ({ activeLink = '/' }) => {
             </svg>
           </Link>
 
-          {leftLinks.map(({ link, label }) => {
-            if (label === 'Assets' || label === 'Labs') {
+          {leftLinks.map(({ link, label, linkTo }) => {
+            if (linkTo) {
               return (
                 <SmoothDropdownItem
                   key={label}
@@ -67,19 +67,16 @@ const Navbar = ({ activeLink = '/' }) => {
                       variant='flat'
                       className={styles.btn}
                       isActive={activeLink.includes(link)}
-                      as={
-                        label === 'Assets'
-                          ? props => <Link {...props} to='/assets/all' />
-                          : undefined
-                      }
+                      as={props => <Link {...props} to={linkTo} />}
                     >
                       {label}
                     </Button>
                   }
                 >
-                  {label === 'Assets' ? (
+                  {label === 'Assets' && (
                     <NavbarAssetsDropdown activeLink={activeLink} />
-                  ) : (
+                  )}
+                  {label === 'Labs' && (
                     <NavbarLabsDropdown activeLink={activeLink} />
                   )}
                 </SmoothDropdownItem>
