@@ -20,7 +20,7 @@ class ChartPage extends Component {
   state = {
     timeRange: '6m',
     slug: 'bitcoin',
-    metrics: ['price', 'socialVolume', 'tokenAgeConsumed', 'exchangeFundsFlow'],
+    metrics: ['price'],
     title: 'Bitcoin (BTC)',
     interval: '1d',
     ...mapQSToState(this.props)
