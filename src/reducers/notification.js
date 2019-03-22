@@ -7,6 +7,8 @@ export const initialState = {
 const defaultNotificationState = {
   key: 'any UID',
   message: `Notification ipsum...`,
+  description: undefined,
+  variant: 'info',
   dismissAfter: 4000
 }
 
