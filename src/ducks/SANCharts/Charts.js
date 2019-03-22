@@ -4,8 +4,6 @@ import {
   ResponsiveContainer,
   ComposedChart,
   Legend,
-  Area,
-  Bar,
   Line,
   CartesianGrid,
   XAxis,
@@ -57,13 +55,7 @@ class Charts extends React.Component {
   }
 
   render () {
-    const {
-      metrics,
-      chartData = [],
-      settings: { socialVolume = {}, devActivity = {} },
-      onZoomOut,
-      title
-    } = this.props
+    const { metrics, chartData = [], onZoomOut, title } = this.props
     const { refAreaLeft, refAreaRight } = this.state
     return (
       <div className={'TrendsExploreChart ' + styles.chart}>
