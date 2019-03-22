@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Notification as NotificationItem } from '@santiment-network/ui'
-import SlideEntry from './Animated/SlideEntry'
+import SlideEntry from './../Animated/SlideEntry'
 import styles from './Notification.module.scss'
 
 class Notification extends Component {
@@ -60,7 +60,10 @@ class Notification extends Component {
     return (
       <div className={styles.notificationStack}>
         {notifications.map(notification => (
-          <SlideEntry leaving={dissmisedNotification.includes(notification.id)}>
+          <SlideEntry
+            key={notification.id}
+            leaving={dissmisedNotification.includes(notification.id)}
+          >
             <NotificationItem
               {...notification}
               className={styles.notification}
