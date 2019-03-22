@@ -1,47 +1,18 @@
-import React, { Fragment } from 'react'
-import { compose } from 'recompose'
-import { graphql } from 'react-apollo'
+import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { SearchWithSuggestions } from '@santiment-network/ui'
-import { allProjectsForSearchGQL } from '../../pages/Projects/allProjectsGQL'
-import ProjectIcon from '../ProjectIcon'
+import SearchProjects from './SearchProjects'
 import styles from './SearchContainer.module.scss'
 
-export const SearchContainer = ({ history, data: { allProjects = [] } }) => {
+export const SearchContainer = ({ history }) => {
   return (
-    <SearchWithSuggestions
+    <SearchProjects
       className={styles.wrapper}
       iconPosition='left'
       onSuggestionSelect={({ coinmarketcapId }) =>
         history.push(`/projects/${coinmarketcapId}`)
       }
-      data={allProjects}
-      predicate={searchTerm => {
-        const upperCaseSearchTerm = searchTerm.toUpperCase()
-        return ({ ticker, name }) =>
-          name.toUpperCase().includes(upperCaseSearchTerm) ||
-          ticker.toUpperCase().includes(upperCaseSearchTerm)
-      }}
-      suggestionContent={({ name, ticker }) => {
-        return (
-          <Fragment>
-            <ProjectIcon
-              className={styles.icon}
-              size={16}
-              ticker={ticker}
-              name={name}
-            />{' '}
-            {name} ({ticker})
-          </Fragment>
-        )
-      }}
     />
   )
 }
 
-const enhance = compose(
-  graphql(allProjectsForSearchGQL),
-  withRouter
-)
-
-export default enhance(SearchContainer)
+export default withRouter(SearchContainer)

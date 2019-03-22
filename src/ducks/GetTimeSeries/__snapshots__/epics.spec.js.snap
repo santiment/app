@@ -16,6 +16,7 @@ Array [
         "isError": undefined,
         "isLoading": false,
       },
+      "errorMetrics": Object {},
       "price": Object {
         "isEmpty": false,
         "isError": undefined,
@@ -158,6 +159,7 @@ Array [
           },
         ],
       },
+      "errorMetrics": Object {},
       "price": Object {
         "isEmpty": false,
         "isError": undefined,
