@@ -81,7 +81,12 @@ export class TriggerForm extends React.Component {
       <Formik
         initialValues={{
           percentThreshold: defaultPercentTreshold,
-          target: 'ethereum'
+          target: 'ethereum',
+          metric: {
+            label: 'Price',
+            value: 'price'
+          },
+          option: OPTIONS['price'][0]
         }}
         isInitialValid
         validate={values => {
@@ -123,9 +128,9 @@ export class TriggerForm extends React.Component {
                     cooldown: this.state.cooldown,
                     settings: {
                       percent_threshold: current.values.percentThreshold,
-                      target: { slug: this.state.target },
+                      target: { slug: current.values.target },
                       time_window: this.state.timeWindow,
-                      type: this.state.option
+                      type: current.values.option.value
                     }
                   })
                 }
@@ -142,23 +147,20 @@ export class TriggerForm extends React.Component {
                   name='target'
                   render={({ field, form }) => (
                     <Select
-                      placeholder='For example, ethereum...'
                       options={allProjects.map(asset => ({
                         label: asset.slug,
                         value: asset.slug
                       }))}
                       onChange={data => {
-                        form.setFieldValue('target', data)
+                        form.setFieldValue('target', (data || {}).value)
                         form.setFieldTouched('target', true)
                       }}
-                      value={field.value}
+                      value={{
+                        label: field.value,
+                        value: field.value
+                      }}
                     />
                   )}
-
-                  // selected={values.service}
-                  // onChange={value => {
-                  // setValues({...values, service: value})
-                  // setTouched({...touched, servuce: true})
                 />
               </div>
             </div>
@@ -167,25 +169,18 @@ export class TriggerForm extends React.Component {
               <label>Metrics</label>
             </div>
             <div className={styles.row}>
-              <div className={styles.Field}>
-                <Select
-                  placeholder='Choose a metric'
-                  options={METRICS}
-                  disabled
-                  onChange={data => this.handleChange('metric', data)}
-                  value={this.state.metric}
+              <FieldCustomSelect
+                name='metric'
+                placeholder='Choose a metric'
+                options={METRICS}
+              />
+              {OPTIONS[(values.metric || {}).value] &&
+                OPTIONS[(values.metric || {}).value].length > 0 && (
+                <FieldCustomSelect
+                  name='option'
+                  placeholder='Choose an option'
+                  options={OPTIONS[values.metric.value]}
                 />
-              </div>
-              {this.state.metric !== 'trendingWords' && (
-                <div className={styles.Field}>
-                  <Select
-                    placeholder='Choose an option'
-                    disabled
-                    options={OPTIONS[this.state.metric]}
-                    onChange={data => this.handleChange('option', data)}
-                    value={this.state.option}
-                  />
-                </div>
               )}
             </div>
 
@@ -309,6 +304,31 @@ export class TriggerForm extends React.Component {
     })
   }
 }
+
+const FieldCustomSelect = ({
+  options,
+  name,
+  disabled = false,
+  placeholder
+}) => (
+  <div className={styles.Field}>
+    <Field
+      name={name}
+      render={({ field, form }) => (
+        <Select
+          placeholder={placeholder}
+          options={options}
+          disabled={disabled}
+          onChange={data => {
+            form.setFieldValue(name, data)
+            form.setFieldTouched(name, true)
+          }}
+          value={field.value}
+        />
+      )}
+    />
+  </div>
+)
 
 const mapStateToProps = state => {
   return {
