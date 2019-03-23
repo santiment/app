@@ -171,17 +171,16 @@ export const HISTORICAL_TRIGGER_POINTS_QUERY = gql`
 
 export const fetchHistorySignalPoints = (action$, store, { client }) =>
   action$.ofType(actions.SIGNAL_FETCH_HISTORY_POINTS).switchMap(action => {
-    console.log(JSON.stringify(action.payload.settings))
     return Observable.fromPromise(
       client.query({
         query: HISTORICAL_TRIGGER_POINTS_QUERY,
         variables: {
-          cooldown: '1d', // action.payload.cooldown,
+          cooldown: action.payload.cooldown,
           settings: JSON.stringify(action.payload.settings)
-          // "{\"percent_threshold\": 5.0,\"target\":\"santiment\",\"time_window\":\"1d\",\"type\":\"price_percent_change\"}"
         }
       })
     )
+      .debounceTime(200)
       .mergeMap(({ data }) => {
         return Observable.of({
           type: actions.SIGNAL_FETCH_HISTORY_POINTS_SUCCESS,

@@ -19,6 +19,7 @@ import { selectIsTelegramConnected } from './../../pages/UserSelectors'
 import { allProjectsForSearchGQL } from './../../pages/Projects/allProjectsGQL'
 import { fetchHistorySignalPoints } from './actions'
 import FormikEffect from './FormikEffect'
+import SignalPreview from './SignalPreview'
 import styles from './TriggerForm.module.scss'
 
 const METRICS = [
@@ -33,6 +34,8 @@ const OPTIONS = {
   ]
 }
 
+const defaultPercentTreshold = 5
+
 class TriggerForm extends React.Component {
   state = {
     metric: 'price',
@@ -46,6 +49,18 @@ class TriggerForm extends React.Component {
   constructor (props) {
     super(props)
     this.form = React.createRef()
+  }
+
+  componentDidMount () {
+    this.props.getSignalBacktestingPoints({
+      cooldown: this.state.cooldown,
+      settings: {
+        percent_threshold: defaultPercentTreshold,
+        target: { slug: this.state.target },
+        time_window: this.state.timeWindow,
+        type: this.state.option
+      }
+    })
   }
 
   static propTypes = {
@@ -65,7 +80,7 @@ class TriggerForm extends React.Component {
     return (
       <Formik
         initialValues={{
-          percentThreshold: 5
+          percentThreshold: defaultPercentTreshold
         }}
         isInitialValid
         validate={values => {
@@ -229,6 +244,7 @@ class TriggerForm extends React.Component {
                 <Message variant='warn'>{errors.channels}</Message>
               </div>
             )}
+            <SignalPreview />
             <div className={styles.controls}>
               <Button
                 type='submit'
