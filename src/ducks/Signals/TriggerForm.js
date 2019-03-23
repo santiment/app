@@ -129,6 +129,22 @@ class TriggerForm extends React.Component {
                 }
               }}
             />
+
+            <div className={styles.row}>
+              <div className={styles.Field}>
+                <label>Asset</label>
+                <Select
+                  placeholder='For example, ethereum...'
+                  options={allProjects.map(asset => ({
+                    label: asset.slug,
+                    value: asset.slug
+                  }))}
+                  onChange={data => this.handleChange('target', data)}
+                  value={this.state.target}
+                />
+              </div>
+            </div>
+
             <div className={styles.row}>
               <label>Metrics</label>
             </div>
@@ -154,20 +170,7 @@ class TriggerForm extends React.Component {
                 </div>
               )}
             </div>
-            <div className={styles.row}>
-              <div className={styles.Field}>
-                <label>Asset</label>
-                <Select
-                  placeholder='For example, ethereum...'
-                  options={allProjects.map(asset => ({
-                    label: asset.slug,
-                    value: asset.slug
-                  }))}
-                  onChange={data => this.handleChange('target', data)}
-                  value={this.state.target}
-                />
-              </div>
-            </div>
+
             {this.state.metric !== 'trendingWords' && (
               <div className={styles.row}>
                 <div className={styles.Field}>
@@ -202,11 +205,9 @@ class TriggerForm extends React.Component {
               </div>
             )}
             <div className={styles.row}>
-              <label>Notification settings</label>
-            </div>
-            <div className={styles.row}>
               <div className={styles.Field}>
-                <label>Cooldown</label>
+                <label>Message Frequency</label>
+                <div>How often would you like to receive messages?</div>
                 <Selector
                   id='cooldown'
                   options={['1h', '24h']}
