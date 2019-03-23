@@ -1,6 +1,9 @@
 import React from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import SignalCard from './SignalCard'
+import { toggleTrigger } from './../../ducks/Signals/actions'
 import styles from './SignalCardsGrid.module.scss'
 
 export const defaultSignals = [
@@ -26,14 +29,44 @@ export const defaultSignals = [
   }
 ]
 
-const SignalCardsGrid = ({ signals = defaultSignals, className = '' }) => {
+const SignalCardsGrid = ({
+  signals = defaultSignals,
+  className = '',
+  toggleSignal,
+  gotoSignalByID
+}) => {
   return (
     <div className={cx(styles.wrapper, className)}>
-      {signals.map(({ id, ...signal }) => (
-        <SignalCard key={id} className={styles.card} {...signal} />
-      ))}
+      {signals
+        .sort((a, b) => a.id - b.id)
+        .map(({ id, ...signal }) => (
+          <SignalCard
+            key={id}
+            toggleSignal={() =>
+              toggleSignal({
+                id,
+                isActive: signal.active
+              })
+            }
+            gotoSignalByID={() => gotoSignalByID(id)}
+            className={styles.card}
+            {...signal}
+          />
+        ))}
     </div>
   )
 }
 
-export default SignalCardsGrid
+const mapDispatchToProps = dispatch => ({
+  toggleSignal: ({ id, isActive }) => {
+    dispatch(toggleTrigger({ id, isActive }))
+  },
+  gotoSignalByID: id => {
+    dispatch(push(`/sonar/feed/details/${id}`))
+  }
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignalCardsGrid)

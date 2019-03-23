@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { Select } from '@santiment-network/ui'
-import '@santiment-network/ui/styles.css'
 
 const allAssetsGQL = gql`
   {

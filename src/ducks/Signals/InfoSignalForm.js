@@ -64,24 +64,26 @@ const InfoSignalForm = ({ onInfoSignalSubmit, onBack }) => {
                 placeholder='Description of the signal'
               />
             </div>
-            <Button
-              type='button'
-              variant={'flat'}
-              accent='normal'
-              border
-              onClick={onBack}
-            >
-              Back
-            </Button>
-            <Button
-              type='submit'
-              disabled={!isValid || isSubmitting}
-              isActive={isValid && !isSubmitting}
-              variant={'fill'}
-              accent='positive'
-            >
-              Create
-            </Button>
+            <div className={styles.controls}>
+              <Button
+                type='button'
+                variant={'flat'}
+                accent='normal'
+                border
+                onClick={onBack}
+              >
+                Back
+              </Button>
+              <Button
+                type='submit'
+                disabled={!isValid || isSubmitting}
+                isActive={isValid && !isSubmitting}
+                variant={'fill'}
+                accent='positive'
+              >
+                Create
+              </Button>
+            </div>
           </Form>
         )}
       </Formik>

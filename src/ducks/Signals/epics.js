@@ -115,3 +115,81 @@ export const fetchSignalsEpic = (action$, store, { client }) =>
       })
       .catch(handleErrorAndTriggerAction(actions.SIGNAL_FETCH_ALL_ERROR))
   })
+
+export const TRIGGER_TOGGLE_QUERY = gql`
+  mutation updateTrigger($id: Int, $active: Boolean) {
+    updateTrigger(id: $id, active: $active) {
+      trigger {
+        active
+        id
+      }
+    }
+  }
+`
+
+export const toggleSignalEpic = (action$, store, { client }) =>
+  action$
+    .ofType(actions.SIGNAL_TOGGLE_BY_ID)
+    .switchMap(({ payload: { id, active } }) => {
+      const toggle = client.mutate({
+        mutation: TRIGGER_TOGGLE_QUERY,
+        variables: {
+          id,
+          active
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          updateTrigger: {
+            __typename: 'UserTrigger',
+            userId: -1,
+            trigger: {
+              __typename: 'Trigger',
+              id,
+              active
+            }
+          }
+        }
+      })
+
+      return Observable.fromPromise(toggle)
+        .mergeMap(({ data: { updateTrigger } }) => {
+          return Observable.of({
+            type: actions.SIGNAL_TOGGLE_SUCCESS,
+            payload: {
+              id: updateTrigger.trigger.id
+            }
+          })
+        })
+        .catch(handleErrorAndTriggerAction(actions.SIGNAL_TOGGLE_FAILED))
+    })
+
+export const HISTORICAL_TRIGGER_POINTS_QUERY = gql`
+  query historicalTriggerPoints($cooldown: String, $settings: json!) {
+    historicalTriggerPoints(cooldown: $cooldown, settings: $settings)
+  }
+`
+
+export const fetchHistorySignalPoints = (action$, store, { client }) =>
+  action$.ofType(actions.SIGNAL_FETCH_HISTORY_POINTS).switchMap(action => {
+    return Observable.fromPromise(
+      client.query({
+        query: HISTORICAL_TRIGGER_POINTS_QUERY,
+        variables: {
+          cooldown: action.payload.cooldown,
+          settings: JSON.stringify(action.payload.settings)
+        }
+      })
+    )
+      .debounceTime(200)
+      .mergeMap(({ data }) => {
+        return Observable.of({
+          type: actions.SIGNAL_FETCH_HISTORY_POINTS_SUCCESS,
+          payload: {
+            points: data.historicalTriggerPoints
+          }
+        })
+      })
+      .catch(
+        handleErrorAndTriggerAction(actions.SIGNAL_FETCH_HISTORY_POINTS_FAILED)
+      )
+  })

@@ -28,6 +28,7 @@ import authLink from './apollo/auth-link'
 import retryLink from './apollo/retry-link'
 import ChartPage from './ducks/SANCharts/ChartPage'
 import { unregister } from './serviceWorker'
+import '@santiment-network/ui/styles.css'
 import './index.scss'
 
 export let client
