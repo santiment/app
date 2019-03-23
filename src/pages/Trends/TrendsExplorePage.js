@@ -105,6 +105,12 @@ export class TrendsExplorePage extends Component {
             />
           </div>
         </div>
+        {topic === 'IEO OR IEOs OR launchpad' && (
+          <div style={{ marginTop: 10 }}>
+            Emerging IEOs (Initial Exchange Offerings) and their impact on BNB
+            (Binance Coin) price.
+          </div>
+        )}
         <div>
           <GetWordContext
             word={word}

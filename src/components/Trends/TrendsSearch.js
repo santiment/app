@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import styles from './TrendsSearch.module.scss'
 import TrendsExploreSearch from './Explore/TrendsExploreSearch'
 
-const SAMPLES = ['stablecoin', 'ICO', '(XRP OR Ripple OR XLM OR ETH) AND top']
+const SAMPLES = ['IEO OR IEOs OR launchpad']
 
 const TrendsSearch = ({ topic }) => (
   <div className={styles.TrendsSearch}>
