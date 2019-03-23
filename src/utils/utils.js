@@ -170,12 +170,50 @@ const mergeTimeseriesByKey = ({
       for (; longestTSRightIndexBoundary > -1; longestTSRightIndexBoundary--) {
         const longestTSData = longestTS[longestTSRightIndexBoundary]
         const timeserieData = timeserie[timeserieRightIndex]
+
+        console.log(`${longestTSData[mergeKey]} ${timeserieData[mergeKey]}`)
         if (longestTSData[mergeKey] === timeserieData[mergeKey]) {
           longestTS[longestTSRightIndexBoundary] = mergeData(
             longestTSData,
             timeserieData
           )
+          console.log(
+            `%c ${longestTSData[mergeKey]} ${timeserieData[mergeKey]}`,
+            'color: red;'
+          )
+          longestTSRightIndexBoundary--
           break
+        }
+
+        const longestDate = new Date(longestTSData[mergeKey])
+        if (longestDate < new Date(timeserieData[mergeKey])) {
+          const to = timeserieRightIndex
+          timeserieRightIndex--
+          while (
+            longestDate < new Date(timeserie[timeserieRightIndex][mergeKey])
+          ) {
+            timeserieRightIndex--
+          }
+
+          console.log(
+            `%c ${longestTSData[mergeKey]} ${
+              timeserie[timeserieRightIndex][mergeKey]
+            }  || ${timeserieRightIndex} ${to}`,
+            'color: blue'
+          )
+
+          longestTS[longestTSRightIndexBoundary] = mergeData(
+            longestTSData,
+            timeserie[timeserieRightIndex]
+          )
+
+          longestTS.splice(
+            longestTSRightIndexBoundary + 1,
+            0,
+            ...timeserie.slice(timeserieRightIndex + 1, to + 1)
+          )
+
+          timeserieRightIndex--
         }
       }
       if (longestTSRightIndexBoundary === -1) {
