@@ -29,7 +29,7 @@ const METRICS = [
 
 const OPTIONS = {
   price: [
-    { label: '% Threshold', value: 'price_percent_change' },
+    { label: 'Percentage Change', value: 'price_percent_change' },
     { label: 'Absolute', value: 'price_absolute_change' }
   ]
 }
@@ -171,14 +171,14 @@ class TriggerForm extends React.Component {
             {this.state.metric !== 'trendingWords' && (
               <div className={styles.row}>
                 <div className={styles.Field}>
-                  <label>Threshold</label>
+                  <label>Percentage change</label>
                   <Field
                     value={values.percentThreshold}
                     id='percentThreshold'
                     autoComplete='nope'
                     type='number'
                     name='percentThreshold'
-                    placeholder='Setup the threshold'
+                    placeholder='Setup the percentage change'
                     isError={errors.percentThreshold}
                     defaultValue={errors.percentThreshold}
                     onChange={handleChange}
