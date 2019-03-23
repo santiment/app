@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Notification as NotificationItem } from '@santiment-network/ui'
-import SlideEntry from './Animated/SlideEntry'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import styles from './Notification.module.scss'
+
+const notifyDuration = +styles.notifyDuration
 
 class Notification extends Component {
   state = {
@@ -31,45 +33,30 @@ class Notification extends Component {
   }
 
   closeNotification = notificationId => {
-    this.setState(
-      {
-        dissmisedNotification: [
-          ...this.state.dissmisedNotification,
-          notificationId
-        ]
-      },
-      () => {
-        setTimeout(() => {
-          this.setState({
-            notifications: this.state.notifications.filter(
-              ({ key }) => key !== notificationId
-            )
-          })
-        }, 300)
-      }
-    )
+    this.setState(({ notifications }) => ({
+      notifications: notifications.filter(({ id }) => id !== notificationId)
+    }))
   }
 
   render () {
     const { notifications, dissmisedNotification } = this.state
 
-    if (!notifications.length) {
-      return null
-    }
-
     return (
-      <div className={styles.notificationStack}>
-        {notifications.map(notification => (
-          <SlideEntry leaving={dissmisedNotification.includes(notification.id)}>
+      <TransitionGroup className={styles.notificationStack}>
+        {notifications.map(({ id, dismissAfter, ...notification }, i) => (
+          <CSSTransition key={id} timeout={notifyDuration} classNames={styles}>
             <NotificationItem
               {...notification}
               className={styles.notification}
               onClose={() => this.closeNotification(notification.key)}
               solidFill
+              style={{
+                '--y-offset': `calc(-${i}00% - ${i}0px)`
+              }}
             />
-          </SlideEntry>
+          </CSSTransition>
         ))}
-      </div>
+      </TransitionGroup>
     )
   }
 }

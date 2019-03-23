@@ -10,7 +10,7 @@ const defaultNotificationState = {
   description: undefined,
   variant: 'info',
   dismissAfter: 4000,
-  actions: []
+  actions: undefined
 }
 
 export default (state = initialState, action) => {

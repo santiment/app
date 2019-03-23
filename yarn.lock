@@ -933,10 +933,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@santiment-network/ui@^0.4.42":
-  version "0.4.44"
-  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.4.44.tgz#7a7e1e9c2271c03939652f70cd91d4a67d056bce"
-  integrity sha512-uEkEBRDzncGmSiByvz4a5tC2J04zXGZL3D3s7G8QNyelJ7LROItE5wwWlVC9vhrvcQkaSTXLv9rM0RrmNCazMg==
+"@santiment-network/ui@^0.4.46":
+  version "0.4.46"
+  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.4.46.tgz#7d14b7f8637f37fd6bb97e689a946d0016a38ba5"
+  integrity sha512-KDLqDqQkWpl4EXi7xk0AqsrUSbBqouB9AQP6BQ3ahtotJWEb6bp9yJ/7YMTQKO0kNZK1UWSrvobWZO3ytfNEiA==
 
 "@semantic-ui-react/event-stack@^2.0.0":
   version "2.0.0"
@@ -13100,6 +13100,16 @@ react-transition-group@^2.0.0, react-transition-group@^2.2.1, react-transition-g
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.5.2.tgz#9457166a9ba6ce697a3e1b076b3c049b9fb2c408"
   integrity sha512-vwHP++S+f6KL7rg8V1mfs62+MBKtbMeZDR8KiNmD7v98Gs3UPGsDZDahPJH2PVprFW5YHJfh6cbNim3zPndaSQ==
+  dependencies:
+    dom-helpers "^3.3.1"
+    loose-envify "^1.4.0"
+    prop-types "^15.6.2"
+    react-lifecycles-compat "^3.0.4"
+
+react-transition-group@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.7.0.tgz#60ca3bb2bf83fe71c50816a936e985ce7b8134dc"
+  integrity sha512-CzF22K0x6arjQO4AxkasMaiYcFG/QH0MhPNs45FmNsfWsQmsO9jv52sIZJAalnlryD5RgrrbLtV5CMJSokrrMA==
   dependencies:
     dom-helpers "^3.3.1"
     loose-envify "^1.4.0"

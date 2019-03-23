@@ -1,11 +1,37 @@
+$notify-duration: 300;
+:export {
+  notifyDuration: $notify-duration;
+}
+
 .notificationStack {
+  z-index: 1000;
   position: fixed;
-  bottom: 50px;
+  bottom: 100px;
   left: 20px;
-  display: flex;
-  flex-direction: column-reverse;
 }
 
 .notification {
-  margin-bottom: 10px;
+  position: absolute;
+  transform: translateY(var(--y-offset));
+  transition: transform 200ms;
+  transition-delay: #{$notify-duration - 100}ms;
+}
+
+.enter {
+  animation: notify #{$notify-duration}ms forwards;
+}
+
+.exit {
+  animation: notify #{$notify-duration}ms reverse forwards;
+}
+
+@keyframes notify {
+  0% {
+    transform: translate3d(-120%, var(--y-offset), 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, var(--y-offset), 0);
+    opacity: 1;
+  }
 }
