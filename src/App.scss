@@ -22,6 +22,22 @@
   font-weight: bold;
 }
 
+.App .new-status-message a {
+  border-bottom: none;
+}
+
+.App .no-username-status-message a {
+  display: inline-block;
+  padding: 5px;
+  border-bottom: 0;
+  width: 100%;
+}
+
+.App .no-username-status-message a,
+.App .no-username-status-message a:hover {
+  color: #000;
+}
+
 .App .new-status-message {
   color: var(--black);
   background: var(--white);
@@ -33,10 +49,6 @@
 
 .App .new-status-message button {
   padding: 5px 10px;
-}
-
-.App .new-status-message a {
-  border-bottom: none;
 }
 
 .App .new-status-message a:hover {
@@ -58,18 +70,6 @@
 }
 
 .night-mode .App .no-username-status-message i {
-  color: #000;
-}
-
-.App .no-username-status-message a {
-  display: inline-block;
-  padding: 5px;
-  border-bottom: 0;
-  width: 100%;
-}
-
-.App .no-username-status-message a,
-.App .no-username-status-message a:hover {
   color: #000;
 }
 

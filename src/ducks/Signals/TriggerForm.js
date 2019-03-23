@@ -36,7 +36,7 @@ const OPTIONS = {
 
 const defaultPercentTreshold = 5
 
-class TriggerForm extends React.Component {
+export class TriggerForm extends React.Component {
   state = {
     metric: 'price',
     target: 'santiment',

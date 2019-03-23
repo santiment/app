@@ -49,10 +49,10 @@ $phoneMinWidth: 480px;
 }
 
 @mixin responsive($devices...) {
-    @each $device in $devices {
-        @include _responsive($device) {
-            @content;
-        }
+  @each $device in $devices {
+    @include _responsive($device) {
+      @content;
     }
+  }
 }
 /* stylelint-enable */

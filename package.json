@@ -8,7 +8,7 @@
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "build": "REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(echo $GIT_HEAD) react-scripts build",
-    "test:lint:css": "stylelint \"**/*.css\"",
+    "test:lint:css": "yarn stylelint src/*{sass,scss} --syntax scss --fix",
     "test:js": "react-scripts test",
     "test:e2e": "jest src/pages/assets/AssetsPage.e2e.js",
     "test": "npm run test:lint:css && CI=true npm run test:js",
@@ -18,7 +18,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
     "@fortawesome/free-solid-svg-icons": "^5.5.0",
     "@fortawesome/react-fontawesome": "^0.1.3",
-    "@santiment-network/ui": "^0.4.44",
+    "@santiment-network/ui": "^0.4.46",
     "@trainline/react-skeletor": "^1.0.2",
     "animate-components": "^1.4.8",
     "apollo-cache-inmemory": "^1.1.2",
@@ -116,6 +116,7 @@
     "redux-mock-store": "^1.5.3",
     "standard-reporter": "^1.0.5",
     "storybook-react-router": "^1.0.1",
+    "stylefmt": "^6.0.3",
     "stylelint": "^9.5.0",
     "stylelint-config-standard": "^18.2.0",
     "why-did-you-update": "^0.1.1"
@@ -133,14 +134,17 @@
         "yarn format",
         "git add"
       ],
-      "src/**/*.css": [
-        "yarn test:lint:css"
+      "*.{sass,scss,css}": [
+        "yarn stylefmt",
+        "yarn stylelint src/*{sass,scss} --syntax scss --fix",
+        "git add"
       ]
     }
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn precommit"
+      "pre-commit": "yarn precommit",
+      "pre-push": "yarn test"
     }
   },
   "browserslist": [
