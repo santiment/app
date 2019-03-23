@@ -135,7 +135,7 @@ const mergeTimeseriesByKey = ({
   }, [])
 
   const longestTS = longestTSMut.slice()
-  const longestTSLastIndex = longestTS.length - 1
+  let longestTSLastIndex = longestTS.length - 1
 
   for (const timeserie of timeseries) {
     if (timeserie === longestTSMut) {
@@ -172,33 +172,41 @@ const mergeTimeseriesByKey = ({
         const timeserieData = timeserie[timeserieRightIndex]
 
         console.log(`${longestTSData[mergeKey]} ${timeserieData[mergeKey]}`)
+
         if (longestTSData[mergeKey] === timeserieData[mergeKey]) {
           longestTS[longestTSRightIndexBoundary] = mergeData(
             longestTSData,
             timeserieData
           )
+
           console.log(
             `%c ${longestTSData[mergeKey]} ${timeserieData[mergeKey]}`,
             'color: red;'
           )
+
           longestTSRightIndexBoundary--
           break
         }
 
         const longestDate = new Date(longestTSData[mergeKey])
         if (longestDate < new Date(timeserieData[mergeKey])) {
-          const to = timeserieRightIndex
+          const timeserieFirstUnfoundIndex = timeserieRightIndex
           timeserieRightIndex--
           while (
+            timeserieRightIndex > 0 &&
             longestDate < new Date(timeserie[timeserieRightIndex][mergeKey])
           ) {
             timeserieRightIndex--
           }
 
+          if (timeserieRightIndex < 0) {
+            break
+          }
+
           console.log(
             `%c ${longestTSData[mergeKey]} ${
               timeserie[timeserieRightIndex][mergeKey]
-            }  || ${timeserieRightIndex} ${to}`,
+            }  || ${timeserieRightIndex} ${timeserieFirstUnfoundIndex}`,
             'color: blue'
           )
 
@@ -210,12 +218,18 @@ const mergeTimeseriesByKey = ({
           longestTS.splice(
             longestTSRightIndexBoundary + 1,
             0,
-            ...timeserie.slice(timeserieRightIndex + 1, to + 1)
+            ...timeserie.slice(
+              timeserieRightIndex + 1,
+              timeserieFirstUnfoundIndex + 1
+            )
           )
+
+          longestTSLastIndex = longestTS.length - 1
 
           timeserieRightIndex--
         }
       }
+
       if (longestTSRightIndexBoundary === -1) {
         break
       }

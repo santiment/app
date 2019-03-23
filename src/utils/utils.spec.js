@@ -364,6 +364,41 @@ describe('mergeTimeseriesByKey', () => {
     expect(expected).toEqual(goodMerge)
   })
 
+  it('should merge 3 timeseries when large one has gaps', () => {
+    const goodMerge = [
+      {
+        value2: 23,
+        value5: 51,
+        value6: 61,
+        datetime: '2018-08-20T00:00:00Z'
+      },
+      {
+        value5: 52,
+        value6: 62,
+        datetime: '2018-09-20T00:00:00Z'
+      },
+      {
+        value5: 53,
+        datetime: '2018-10-20T00:00:00Z'
+      },
+      {
+        value6: 63,
+        datetime: '2018-11-20T00:00:00Z'
+      },
+      {
+        value6: 64,
+        datetime: '2018-12-20T00:00:00Z'
+      }
+    ]
+
+    const expected = mergeTimeseriesByKey({
+      timeseries: [ts5, ts6, ts2],
+      key: 'datetime'
+    })
+
+    expect(expected).toEqual(goodMerge)
+  })
+
   it('should merge 2 timeseries leaving the unfound datetime', () => {
     const goodMerged = [
       {
