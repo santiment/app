@@ -4,14 +4,16 @@ import { Formik, Form, Field } from 'formik'
 import { Input, Button } from '@santiment-network/ui'
 import styles from './TriggerForm.module.scss'
 
-const InfoSignalForm = ({ onInfoSignalSubmit, onBack }) => {
+const InfoSignalForm = ({
+  title = 'Signal-' + new Date().toISOString(),
+  description = '',
+  onInfoSignalSubmit,
+  onBack
+}) => {
   return (
     <Fragment>
       <Formik
-        initialValues={{
-          title: 'Signal-' + new Date().toISOString(),
-          description: ''
-        }}
+        initialValues={{ title, description }}
         isInitialValid
         validate={values => {
           let errors = {}

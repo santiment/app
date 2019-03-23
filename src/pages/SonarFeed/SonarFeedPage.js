@@ -80,8 +80,17 @@ const SonarFeed = ({ location: { pathname } }) => {
         ))}
         <Route
           path={`${baseLocation}/details/:id`}
+          exact
           component={Loadable({
             loader: () => import('./SignalDetails'),
+            loading: () => <PageLoader />
+          })}
+        />
+        <Route
+          path={`${baseLocation}/details/:id/edit`}
+          component={Loadable({
+            loader: () => import('./../../ducks/Signals/SignalMaster'),
+            render: (loaded, props) => <loaded.default isEdit {...props} />,
             loading: () => <PageLoader />
           })}
         />

@@ -80,7 +80,8 @@ export class TriggerForm extends React.Component {
     return (
       <Formik
         initialValues={{
-          percentThreshold: defaultPercentTreshold
+          percentThreshold: defaultPercentTreshold,
+          target: 'ethereum'
         }}
         isInitialValid
         validate={values => {
@@ -97,6 +98,7 @@ export class TriggerForm extends React.Component {
         }}
         ref={this.form}
         onSubmit={(values, { setSubmitting }) => {
+          console.log(values)
           this.props.onSettingsChange({ values, ...this.state })
         }}
       >
@@ -133,14 +135,30 @@ export class TriggerForm extends React.Component {
             <div className={styles.row}>
               <div className={styles.Field}>
                 <label>Asset</label>
-                <Select
-                  placeholder='For example, ethereum...'
-                  options={allProjects.map(asset => ({
-                    label: asset.slug,
-                    value: asset.slug
-                  }))}
-                  onChange={data => this.handleChange('target', data)}
-                  value={this.state.target}
+                {(() => {
+                  // console.log(rest, values)
+                })()}
+                <Field
+                  name='target'
+                  render={({ field, form }) => (
+                    <Select
+                      placeholder='For example, ethereum...'
+                      options={allProjects.map(asset => ({
+                        label: asset.slug,
+                        value: asset.slug
+                      }))}
+                      onChange={data => {
+                        form.setFieldValue('target', data)
+                        form.setFieldTouched('target', true)
+                      }}
+                      value={field.value}
+                    />
+                  )}
+
+                  // selected={values.service}
+                  // onChange={value => {
+                  // setValues({...values, service: value})
+                  // setTouched({...touched, servuce: true})
                 />
               </div>
             </div>

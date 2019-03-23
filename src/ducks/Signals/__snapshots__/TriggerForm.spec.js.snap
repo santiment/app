@@ -6,6 +6,7 @@ exports[`TriggerForm smoke 1`] = `
   initialValues={
     Object {
       "percentThreshold": 5,
+      "target": "ethereum",
     }
   }
   isInitialValid={true}

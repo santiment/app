@@ -1,31 +1,11 @@
 import React from 'react'
-import gql from 'graphql-tag'
+import { Link } from 'react-router-dom'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
 import { PanelWithHeader as Panel, Toggle } from '@santiment-network/ui'
+import { TRIGGER_BY_ID_QUERY } from './../../ducks/Signals/SignalsGQL'
 import { toggleTrigger } from './../../ducks/Signals/actions'
-
-export const TRIGGER_BY_ID_QUERY = gql`
-  query getTriggerById($id: Int) {
-    trigger: getTriggerById(id: $id) {
-      trigger {
-        id
-        settings
-        isPublic
-        active
-        repeating
-        cooldown
-        tags {
-          name
-        }
-        title
-        description
-      }
-      userId
-    }
-  }
-`
 
 const SignalDetails = ({ data: { trigger, loading }, toggleSignal }) => {
   if (loading) {
@@ -38,6 +18,7 @@ const SignalDetails = ({ data: { trigger, loading }, toggleSignal }) => {
       {cooldown}
       {isPublic}
       {id}
+      <Link to={`/sonar/feed/details/${id}/edit`}>Edit</Link>
       <Toggle
         onClick={() => toggleSignal({ id, isActive: active })}
         isActive={active}
