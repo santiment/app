@@ -1,6 +1,15 @@
 import { DEV_ACTIVITY_QUERY } from './queries/dev_activity_query'
 import { HISTORY_PRICE_QUERY } from './queries/history_price_query'
 import { SOCIAL_VOLUME_QUERY } from './queries/social_volume_query'
+import { DAILY_ACTIVE_ADDRESSES_QUERY } from './queries/daily_active_addresses_query'
+import { EXCHANGE_FUNDS_FLOW_QUERY } from './queries/exchange_funds_flow_query'
+import { TOKEN_AGE_CONSUMED_QUERY } from './queries/token_age_consumed_query'
+import { MVRV_QUERY } from './queries/mvrv_query'
+import { DAILY_ACTIVE_DEPOSITS_QUERY } from './queries/daily_active_deposits_query'
+import { TOKEN_VELOCITY_QUERY } from './queries/token_velocity_query'
+import { TRANSACTION_VOLUME_QUERY } from './queries/transaction_volume_query'
+import { TOKEN_CIRCULATION_QUERY } from './queries/token_circulation_query'
+import { NETWORK_GROWTH_QUERY } from './queries/network_growth_query'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import { formatNumber } from './../../utils/formatting'
 
@@ -10,6 +19,33 @@ const TIMESERIES = {
   },
   devActivity: {
     query: DEV_ACTIVITY_QUERY
+  },
+  tokenAgeConsumed: {
+    query: TOKEN_AGE_CONSUMED_QUERY
+  },
+  exchangeFundsFlow: {
+    query: EXCHANGE_FUNDS_FLOW_QUERY
+  },
+  dailyActiveAddresses: {
+    query: DAILY_ACTIVE_ADDRESSES_QUERY
+  },
+  tokenCirculation: {
+    query: TOKEN_CIRCULATION_QUERY
+  },
+  mvrv: {
+    query: MVRV_QUERY
+  },
+  dailyActiveDeposits: {
+    query: DAILY_ACTIVE_DEPOSITS_QUERY
+  },
+  tokenVelocity: {
+    query: TOKEN_VELOCITY_QUERY
+  },
+  transactionVolume: {
+    query: TRANSACTION_VOLUME_QUERY
+  },
+  networkGrowth: {
+    query: NETWORK_GROWTH_QUERY
   },
   socialVolume: {
     query: SOCIAL_VOLUME_QUERY,

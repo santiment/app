@@ -21,7 +21,7 @@ exports[`Project detail page container it should render correctly 1`] = `
       property="og:description"
     />
   </HelmetWrapper>
-  <Apollo(withRouter(SearchContainer)) />
+  <withRouter(SearchContainer) />
   <ExportedComponent
     project={
       Object {

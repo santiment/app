@@ -32,6 +32,7 @@ import '@santiment-network/ui/styles.css'
 import './index.scss'
 
 export let client
+export let store
 
 const main = () => {
   const httpLink = createHttpLink({ uri: `${getAPIUrl()}/graphql` })
@@ -53,7 +54,7 @@ const main = () => {
     createRavenMiddleware(getRaven())
   ]
 
-  const store = createStore(
+  store = createStore(
     reducers,
     { user: loadState() } || {},
     composeWithDevTools(applyMiddleware(...middleware))

@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/PageLoader'
 import { INSIGHT_BY_ID_QUERY } from './InsightsGQL'
+import { getInsightIdFromSEOLink } from './utils'
 
 const LoadableInsightCreationPage = Loadable({
   loader: () => import('./InsightCreationPage'),
@@ -59,7 +60,7 @@ const enhance = compose(
         params: { id }
       }
     }) => {
-      return !Number.isInteger(+id)
+      return !Number.isInteger(getInsightIdFromSEOLink(id))
     },
     options: ({
       match: {
@@ -68,7 +69,7 @@ const enhance = compose(
     }) => ({
       fetchPolicy: 'network-only',
       variables: {
-        id: +id
+        id: getInsightIdFromSEOLink(id)
       }
     })
   })

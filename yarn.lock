@@ -933,10 +933,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@santiment-network/ui@^0.4.42":
-  version "0.4.42"
-  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.4.42.tgz#7c84e7272337b7a525dab5ad04199c9d505cf5a8"
-  integrity sha512-HR5GQJ6QJXwFWlXyn8EG6rxb9kRAs9V1fkeFyZs0grBNHOE1c/IJ829CAYFxykGNymCmxJqMUgPgZ3sSoivl0w==
+"@santiment-network/ui@^0.4.44":
+  version "0.4.44"
+  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.4.44.tgz#7a7e1e9c2271c03939652f70cd91d4a67d056bce"
+  integrity sha512-uEkEBRDzncGmSiByvz4a5tC2J04zXGZL3D3s7G8QNyelJ7LROItE5wwWlVC9vhrvcQkaSTXLv9rM0RrmNCazMg==
 
 "@semantic-ui-react/event-stack@^2.0.0":
   version "2.0.0"

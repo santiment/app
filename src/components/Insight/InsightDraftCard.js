@@ -5,6 +5,7 @@ import cx from 'classnames'
 import moment from 'moment'
 import MultilineText from '../MultilineText/MultilineText'
 import InsightDraftCardDeleteBtn from './InsightDraftCardDeleteBtn'
+import { getSEOLinkFromIdAndTitle } from '../../pages/Insights/utils'
 import styles from './InsightDraftCard.module.scss'
 
 const getInsightContent = htmlContent => {
@@ -25,7 +26,10 @@ const InsightDraftCard = ({
 }) => {
   return (
     <Panel className={cx(styles.wrapper, className)}>
-      <Link to={`/insights/read/${id}`} className={styles.title}>
+      <Link
+        to={`/insights/read/${getSEOLinkFromIdAndTitle(id, title)}`}
+        className={styles.title}
+      >
         {title}
       </Link>
       <p className={styles.text}>
