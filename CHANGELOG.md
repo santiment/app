@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+- 2019-03-23 | v.0.34.0 'Sonar':
+
+  Add Visual Backtest for Signal Form
+  Small changes for Signals
+
 - 2019-03-14 | v.0.33.0 'Sonar':
 
   Add social tool btn on detailed page

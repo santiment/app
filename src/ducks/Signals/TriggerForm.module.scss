@@ -1,8 +1,8 @@
 @import 'variables.scss';
+@import 'mixins.scss';
 
 .wrapper {
   width: 100%;
-  margin: 1rem;
 }
 
 .row {
@@ -27,17 +27,45 @@ a.connectLink {
 .Field {
   margin: 0.6rem 0;
   text-align: left;
-  width: 200px;
-  margin-right: 1rem;
+  width: 50%;
+  padding-right: 1rem;
+}
 
-  label {
-    color: #7a859e;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 18px;
-    font-size: 12px;
+.Field:last-child {
+  padding-right: 0;
+}
+
+.Field:only-child {
+  padding-right: 1rem;
+}
+
+label {
+  color: var(--waterloo);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-weight: 500;
+  line-height: 18px;
+  font-size: 12px;
+}
+
+.controls {
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    width: 92px;
+    justify-content: center;
+    margin-right: 1rem;
+  }
+
+  button:last-child {
+    margin-right: 0;
+  }
+}
+
+@include responsive('desktop') {
+  .wrapper {
+    width: 496px;
   }
 }

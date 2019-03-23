@@ -53,12 +53,13 @@ const SonarFeed = ({ location: { pathname } }) => {
         <h1>Sonar</h1>
         {/* <HelpTrendsAbout /> */}
         <div>
-          {pathname !== '/sonar/feed/activity' && (
-            <Fragment>
-              <Icon type='search' className={styles.search} />
-              <Icon type='filter' className={styles.filter} />
-            </Fragment>
-          )}
+          {// TODO: Disable search and filter buttons
+            false && pathname !== '/sonar/feed/activity' && (
+              <Fragment>
+                <Icon type='search' className={styles.search} />
+                <Icon type='filter' className={styles.filter} />
+              </Fragment>
+            )}
           <SignalMasterModalForm>
             <NewSignalBtn />
           </SignalMasterModalForm>
@@ -77,6 +78,13 @@ const SonarFeed = ({ location: { pathname } }) => {
         {tabs.map(({ index, component }) => (
           <Route key={index} path={index} component={component} />
         ))}
+        <Route
+          path={`${baseLocation}/details/:id`}
+          component={Loadable({
+            loader: () => import('./SignalDetails'),
+            loading: () => <PageLoader />
+          })}
+        />
       </Switch>
     </div>
   )

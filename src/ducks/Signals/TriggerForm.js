@@ -17,6 +17,9 @@ import { Formik, Form, Field } from 'formik'
 import { connect } from 'react-redux'
 import { selectIsTelegramConnected } from './../../pages/UserSelectors'
 import { allProjectsForSearchGQL } from './../../pages/Projects/allProjectsGQL'
+import { fetchHistorySignalPoints } from './actions'
+import FormikEffect from './FormikEffect'
+import SignalPreview from './SignalPreview'
 import styles from './TriggerForm.module.scss'
 
 const METRICS = [
@@ -26,12 +29,14 @@ const METRICS = [
 
 const OPTIONS = {
   price: [
-    { label: '% Threshold', value: 'price_percent_change' },
+    { label: 'Percentage Change', value: 'price_percent_change' },
     { label: 'Absolute', value: 'price_absolute_change' }
   ]
 }
 
-class TriggerForm extends React.Component {
+const defaultPercentTreshold = 5
+
+export class TriggerForm extends React.Component {
   state = {
     metric: 'price',
     target: 'santiment',
@@ -46,6 +51,18 @@ class TriggerForm extends React.Component {
     this.form = React.createRef()
   }
 
+  componentDidMount () {
+    this.props.getSignalBacktestingPoints({
+      cooldown: this.state.cooldown,
+      settings: {
+        percent_threshold: defaultPercentTreshold,
+        target: { slug: this.state.target },
+        time_window: this.state.timeWindow,
+        type: this.state.option
+      }
+    })
+  }
+
   static propTypes = {
     onSettingsChange: PropTypes.func.isRequired,
     isTelegramConnected: PropTypes.bool.isRequired
@@ -57,12 +74,13 @@ class TriggerForm extends React.Component {
 
   render () {
     const {
-      data: { allProjects = [] }
+      data: { allProjects = [] },
+      getSignalBacktestingPoints
     } = this.props
     return (
       <Formik
         initialValues={{
-          percentThreshold: 5
+          percentThreshold: defaultPercentTreshold
         }}
         isInitialValid
         validate={values => {
@@ -93,6 +111,40 @@ class TriggerForm extends React.Component {
           ...rest
         }) => (
           <Form>
+            <FormikEffect
+              onChange={(current, prev) => {
+                if (
+                  current.values.percentThreshold !==
+                  prev.values.percentThreshold
+                ) {
+                  getSignalBacktestingPoints({
+                    cooldown: this.state.cooldown,
+                    settings: {
+                      percent_threshold: current.values.percentThreshold,
+                      target: { slug: this.state.target },
+                      time_window: this.state.timeWindow,
+                      type: this.state.option
+                    }
+                  })
+                }
+              }}
+            />
+
+            <div className={styles.row}>
+              <div className={styles.Field}>
+                <label>Asset</label>
+                <Select
+                  placeholder='For example, ethereum...'
+                  options={allProjects.map(asset => ({
+                    label: asset.slug,
+                    value: asset.slug
+                  }))}
+                  onChange={data => this.handleChange('target', data)}
+                  value={this.state.target}
+                />
+              </div>
+            </div>
+
             <div className={styles.row}>
               <label>Metrics</label>
             </div>
@@ -118,31 +170,18 @@ class TriggerForm extends React.Component {
                 </div>
               )}
             </div>
-            <div className={styles.row}>
-              <div className={styles.Field}>
-                <label>Asset</label>
-                <Select
-                  placeholder='For example, ethereum...'
-                  options={allProjects.map(asset => ({
-                    label: asset.slug,
-                    value: asset.slug
-                  }))}
-                  onChange={data => this.handleChange('target', data)}
-                  value={this.state.target}
-                />
-              </div>
-            </div>
+
             {this.state.metric !== 'trendingWords' && (
               <div className={styles.row}>
                 <div className={styles.Field}>
-                  <label>Threshold</label>
+                  <label>Percentage change</label>
                   <Field
                     value={values.percentThreshold}
                     id='percentThreshold'
                     autoComplete='nope'
                     type='number'
                     name='percentThreshold'
-                    placeholder='Setup the threshold'
+                    placeholder='Setup the percentage change'
                     isError={errors.percentThreshold}
                     defaultValue={errors.percentThreshold}
                     onChange={handleChange}
@@ -166,11 +205,9 @@ class TriggerForm extends React.Component {
               </div>
             )}
             <div className={styles.row}>
-              <label>Notification settings</label>
-            </div>
-            <div className={styles.row}>
               <div className={styles.Field}>
-                <label>Cooldown</label>
+                <label>Message Frequency</label>
+                <div>How often would you like to receive messages?</div>
                 <Selector
                   id='cooldown'
                   options={['1h', '24h']}
@@ -208,15 +245,18 @@ class TriggerForm extends React.Component {
                 <Message variant='warn'>{errors.channels}</Message>
               </div>
             )}
-            <Button
-              type='submit'
-              disabled={!isValid || isSubmitting}
-              isActive={isValid && !isSubmitting}
-              variant={'fill'}
-              accent='positive'
-            >
-              Continue
-            </Button>
+            <SignalPreview />
+            <div className={styles.controls}>
+              <Button
+                type='submit'
+                disabled={!isValid || isSubmitting}
+                isActive={isValid && !isSubmitting}
+                variant={'fill'}
+                accent='positive'
+              >
+                Continue
+              </Button>
+            </div>
           </Form>
         )}
       </Formik>
@@ -258,8 +298,17 @@ const mapStateToProps = state => {
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  getSignalBacktestingPoints: payload => {
+    dispatch(fetchHistorySignalPoints(payload))
+  }
+})
+
 const enhance = compose(
-  connect(mapStateToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   graphql(allProjectsForSearchGQL)
 )
 
