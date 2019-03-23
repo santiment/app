@@ -47,8 +47,7 @@ const SignalPreview = ({ points = [] }) => {
             <ReferenceLine
               key={point.datetime}
               yAxisId='axis-price'
-              strokeDasharray='3 3'
-              stroke='black'
+              stroke='green'
               x={point.datetime}
             />
           ))}
