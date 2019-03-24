@@ -34,7 +34,6 @@ import FeedbackModal from './components/FeedbackModal'
 import GDPRModal from './components/GDPRModal'
 import ConfirmDeleteWatchlistModal from './components/WatchlistPopup/ConfirmDeleteWatchlistModal'
 import AssetsPage from './pages/assets/AssetsPage'
-import SignalsPriceVolume from './pages/Signals/SignalsPriceVolume'
 import SignalFormPage from './ducks/Signals/SignalFormPage'
 import HistoricalBalancePage from './ducks/HistoricalBalance/HistoricalBalancePage'
 import WordCloudPage from './components/WordCloud/WordCloudPage'
@@ -178,7 +177,6 @@ export const App = ({
         <Redirect from='/assets' to='/assets/all' />
         <Route exact path='/roadmap' component={Roadmap} />
         <Route exact path='/signals' component={Signals} />
-        <Route exact path='/signals/:slug' component={SignalsPriceVolume} />
         <Route exact path='/labs/balance' component={HistoricalBalancePage} />
         <Route exact path='/labs/wordcloud' component={WordCloudPage} />
         <Route
