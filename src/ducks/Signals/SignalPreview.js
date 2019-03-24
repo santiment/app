@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import {
@@ -65,10 +65,10 @@ const SignalPreview = ({ points = [] }) => {
   )
 
   return (
-    <>
+    <Fragment>
       <label>Signal Visual Backtest</label>
       {visualBacktestChart}
-    </>
+    </Fragment>
   )
 }
 

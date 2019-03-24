@@ -11,7 +11,7 @@ const getRaven = () => {
     release: process.env.REACT_APP_VERSION,
     environment: process.env.NODE_ENV,
     tags: {
-      git_commit: process.env.REACT_APP_VERSION.split('-')[1]
+      git_commit: (process.env.REACT_APP_VERSION || '').split('-')[1]
     }
   }).install()
   return Raven

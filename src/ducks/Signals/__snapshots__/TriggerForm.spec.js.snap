@@ -5,8 +5,19 @@ exports[`TriggerForm smoke 1`] = `
   enableReinitialize={false}
   initialValues={
     Object {
+      "channel": "Telegram",
+      "cooldown": 24,
+      "metric": Object {
+        "label": "Price",
+        "value": "price",
+      },
       "percentThreshold": 5,
       "target": "ethereum",
+      "timeWindow": 24,
+      "type": Object {
+        "label": "Percentage Change",
+        "value": "price_percent_change",
+      },
     }
   }
   isInitialValid={true}

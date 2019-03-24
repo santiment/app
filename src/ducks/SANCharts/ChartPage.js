@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import * as qs from 'query-string'
 import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
@@ -175,7 +175,7 @@ class ChartPage extends Component {
           )
 
           return (
-            <>
+            <Fragment>
               {!viewOnly && (
                 <LoadableChartSettings
                   defaultTimerange={timeRange}
@@ -206,7 +206,7 @@ class ChartPage extends Component {
                   disabledMetrics={errors}
                 />
               )}
-            </>
+            </Fragment>
           )
         }}
       />
