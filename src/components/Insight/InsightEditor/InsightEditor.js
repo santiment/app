@@ -122,7 +122,7 @@ class InsightEditor extends Component {
           updatedAt={updatedAt}
           onTagsChange={this.onTagsChange}
           isLoading={isLoading}
-          isPublishDisabled={isLoading || !this.isTitleAndTextOk()}
+          hasMetTextRequirements={this.isTitleAndTextOk()}
           onPublishClick={() => publishDraft(id)}
         />
       </div>
