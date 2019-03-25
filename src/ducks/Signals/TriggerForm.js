@@ -7,18 +7,14 @@ import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { Formik, Form, Field } from 'formik'
 import { connect } from 'react-redux'
-import {
-  Button,
-  Input,
-  Select,
-  Checkboxes,
-  Selector,
-  SearchWithSuggestions,
-  Message
-} from '@santiment-network/ui'
+import { Button, Message } from '@santiment-network/ui'
 import { selectIsTelegramConnected } from './../../pages/UserSelectors'
 import { allProjectsForSearchGQL } from './../../pages/Projects/allProjectsGQL'
 import { fetchHistorySignalPoints } from './actions'
+import FormikInput from './../../components/formik-santiment-ui/FormikInput'
+import FormikSelect from './../../components/formik-santiment-ui/FormikSelect'
+import FormikSelector from './../../components/formik-santiment-ui/FormikSelector'
+import FormikCheckboxes from './../../components/formik-santiment-ui/FormikCheckboxes'
 import FormikEffect from './FormikEffect'
 import SignalPreview from './SignalPreview'
 import styles from './TriggerForm.module.scss'
@@ -36,7 +32,7 @@ const TYPES = {
 }
 
 const initialValues = {
-  cooldown: 24,
+  cooldown: '24h',
   percentThreshold: 5,
   target: 'ethereum',
   metric: {
@@ -45,11 +41,11 @@ const initialValues = {
   },
   timeWindow: 24,
   type: TYPES['price'][0],
-  channel: 'Telegram'
+  channels: ['Telegram']
 }
 
 const mapValuesToTriggerProps = values => ({
-  cooldown: values.cooldown + 'h',
+  cooldown: values.cooldown,
   settings: {
     percent_threshold: values.percentThreshold,
     target: { slug: values.target },
@@ -84,8 +80,8 @@ export const TriggerForm = ({
         } else if (values.percentThreshold <= 0) {
           errors.percentThreshold = 'Must be more 0'
         }
-        if (values.channel !== 'Telegram') {
-          errors.channel = 'You must setup notification channel'
+        if (values.channels.length === 0) {
+          errors.channels = 'You must setup notification channel'
         }
         return errors
       }}
@@ -115,24 +111,13 @@ export const TriggerForm = ({
           <div className={styles.row}>
             <div className={styles.Field}>
               <label>Asset</label>
-              <Field
+              <FormikSelect
                 name='target'
-                render={({ field, form }) => (
-                  <Select
-                    options={allProjects.map(asset => ({
-                      label: asset.slug,
-                      value: asset.slug
-                    }))}
-                    onChange={data => {
-                      form.setFieldValue('target', (data || {}).value)
-                      form.setFieldTouched('target', true)
-                    }}
-                    value={{
-                      label: field.value,
-                      value: field.value
-                    }}
-                  />
-                )}
+                placeholder='Pick an asset'
+                options={allProjects.map(asset => ({
+                  label: asset.slug,
+                  value: asset.slug
+                }))}
               />
             </div>
           </div>
@@ -141,18 +126,22 @@ export const TriggerForm = ({
             <label>Metrics</label>
           </div>
           <div className={styles.row}>
-            <FieldCustomSelect
-              name='metric'
-              placeholder='Choose a metric'
-              options={METRICS}
-            />
+            <div className={styles.Field}>
+              <FormikSelect
+                name='metric'
+                placeholder='Choose a metric'
+                options={METRICS}
+              />
+            </div>
             {TYPES[(values.metric || {}).value] &&
               TYPES[(values.metric || {}).value].length > 0 && (
-              <FieldCustomSelect
-                name='type'
-                placeholder='Choose a type'
-                options={TYPES[values.metric.value]}
-              />
+              <div className={styles.Field}>
+                <FormikSelect
+                  name='type'
+                  placeholder='Choose a type'
+                  options={TYPES[values.metric.value]}
+                />
+              </div>
             )}
           </div>
 
@@ -160,32 +149,26 @@ export const TriggerForm = ({
             <div className={styles.row}>
               <div className={styles.Field}>
                 <label>Percentage change</label>
-                <Field
-                  value={values.percentThreshold}
-                  id='percentThreshold'
-                  autoComplete='nope'
-                  type='number'
+                <FormikInput
                   name='percentThreshold'
+                  type='number'
                   placeholder='Setup the percentage change'
-                  isError={errors.percentThreshold}
+                  errors={errors}
+                  values={values}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  component={Input}
                 />
               </div>
               <div className={styles.Field}>
                 <label>Time Window</label>
-                <Field
-                  value={values.timeWindow}
-                  id='timeWindow'
-                  autoComplete='nope'
-                  type='number'
+                <FormikInput
                   name='timeWindow'
+                  type='number'
                   placeholder='Setup the time window'
-                  isError={errors.timeWindow}
+                  errors={errors}
+                  values={values}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  component={Input}
                 />
               </div>
             </div>
@@ -193,15 +176,20 @@ export const TriggerForm = ({
           <div className={styles.row}>
             <div className={styles.Field}>
               <label>Message Frequency</label>
-              <FieldCustomSelector name='cooldown' options={['1h', '24h']} />
+              <div className={styles.Field}>
+                <FormikSelector name='cooldown' options={['1h', '24h']} />
+              </div>
             </div>
           </div>
           <div className={styles.row}>
-            <FieldCustomCheckboxes
-              name='channel'
-              disabledIndexes='Email'
-              options={['Email', 'Telegram']}
-            />
+            <div className={styles.Field}>
+              <FormikCheckboxes
+                name='channels'
+                disabledIndexes={'Email'}
+                options={['Email', 'Telegram']}
+                styles={{ marginRight: 15 }}
+              />
+            </div>
             {!isTelegramConnected && (
               <Button
                 className={styles.connectLink}
@@ -214,9 +202,9 @@ export const TriggerForm = ({
             )}
           </div>
 
-          {errors.channel && (
+          {errors.channels && (
             <div className={cx(styles.row, styles.messages)}>
-              <Message variant='warn'>{errors.channel}</Message>
+              <Message variant='warn'>{errors.channels}</Message>
             </div>
           )}
           <SignalPreview />
@@ -236,77 +224,6 @@ export const TriggerForm = ({
     </Formik>
   )
 }
-
-const FieldCustomSelect = ({
-  options,
-  name,
-  disabled = false,
-  placeholder
-}) => (
-  <div className={styles.Field}>
-    <Field
-      name={name}
-      render={({ field, form }) => (
-        <Select
-          placeholder={placeholder}
-          options={options}
-          disabled={disabled}
-          onChange={value => {
-            form.setFieldValue(name, value)
-            form.setFieldTouched(name, true)
-          }}
-          value={field.value}
-        />
-      )}
-    />
-  </div>
-)
-
-const FieldCustomSelector = ({ options, name, disabled = false }) => (
-  <div className={styles.Field}>
-    <Field
-      name={name}
-      render={({ field, form }) => (
-        <Selector
-          options={options}
-          disabled={disabled}
-          onSelectOption={value => {
-            form.setFieldValue(name, value)
-            form.setFieldTouched(name, true)
-          }}
-          defaultSelected={field.value}
-        />
-      )}
-    />
-  </div>
-)
-
-const FieldCustomCheckboxes = ({
-  options,
-  disabledIndexes,
-  name,
-  disabled = false,
-  style
-}) => (
-  <div className={styles.Field}>
-    <Field
-      name={name}
-      render={({ field, form }) => (
-        <Checkboxes
-          options={options}
-          disabledIndexes={disabledIndexes}
-          defaultSelectedIndexes={field.value}
-          onSelect={value => {
-            form.setFieldValue(name, value)
-            form.setFieldTouched(name, true)
-            // form.current.validateForm()
-          }}
-          style={style}
-        />
-      )}
-    />
-  </div>
-)
 
 TriggerForm.propTypes = propTypes
 
