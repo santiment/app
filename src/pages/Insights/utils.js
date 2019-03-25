@@ -1,8 +1,3 @@
-export const popularitySortReducer = insights =>
-  insights.sort(creationDateSort).sort(popularitySort)
-
-export const creationSortReducer = insights => insights.sort(creationDateSort)
-
 export const popularitySort = (
   { createdAt: aCreatedAt, votes: { totalVotes: aTotalVotes } },
   { createdAt: bCreatedAt, votes: { totalVotes: bTotalVotes } }
@@ -26,6 +21,11 @@ export const updateDateSort = (
   { updatedAt: aUpdatedAt },
   { updatedAt: bUpdatedAt }
 ) => (new Date(aUpdatedAt) < new Date(bUpdatedAt) ? 1 : -1)
+
+export const popularitySortReducer = insights =>
+  insights.sort(creationDateSort).sort(popularitySort)
+
+export const creationSortReducer = insights => insights.sort(creationDateSort)
 
 export const filterInsightsNoDrafts = ({ readyState }) => readyState !== 'draft'
 export const filterInsightsOnlyDrafts = ({ readyState }) =>
