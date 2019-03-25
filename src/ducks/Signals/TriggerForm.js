@@ -117,20 +117,28 @@ const mapValuesToTriggerProps = values => ({
 
 const validate = values => {
   let errors = {}
-  if (!values.percentThreshold) {
-    errors.percentThreshold = 'Required'
-  } else if (values.percentThreshold <= 0) {
-    errors.percentThreshold = 'Must be more 0'
+
+  if (
+    values.type.value === 'daily_active_addresses' ||
+    values.type.value === 'price_percent_change'
+  ) {
+    if (!values.percentThreshold) {
+      errors.percentThreshold = 'Required'
+    } else if (values.percentThreshold <= 0) {
+      errors.percentThreshold = 'Must be more 0'
+    }
+    if (!values.timeWindow) {
+      errors.timeWindow = 'Required'
+    } else if (values.timeWindow <= 0) {
+      errors.timeWindow = 'Must be more 0'
+    }
   }
-  if (!values.timeWindow) {
-    errors.timeWindow = 'Required'
-  } else if (values.timeWindow <= 0) {
-    errors.timeWindow = 'Must be more 0'
-  }
-  if (!values.threshold) {
-    errors.threshold = 'Required'
-  } else if (values.threshold < 0) {
-    errors.threshold = 'Must be more 0'
+  if (values.type.value === 'price_volume_difference') {
+    if (!values.threshold) {
+      errors.threshold = 'Required'
+    } else if (values.threshold < 0) {
+      errors.threshold = 'Must be more 0'
+    }
   }
   if (values.channels.length === 0) {
     errors.channels = 'You must setup notification channel'
