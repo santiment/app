@@ -1,87 +1,98 @@
-@import "../../../mixins.scss";
+@import '../../../mixins.scss';
 
 .wrapper {
-    position: relative;
-    padding-bottom: 80px;
+  position: relative;
+  padding-bottom: 80px;
 }
 
 .title {
-    font-weight: 800;
-    line-height: 50px;
-    font-size: 38px;
-    color: var(--black);
-    background: var(--white) !important;
-    display: block;
-    width: 100%;
-    border: 0;
-    resize: none;
-    outline: none;
-    padding: 0;
-    margin-bottom: 14px;
+  font-weight: 800;
+  line-height: 50px;
+  font-size: 38px;
+  color: var(--black);
+  background: var(--white) !important;
+  display: block;
+  width: 100%;
+  border: 0;
+  resize: none;
+  outline: none;
+  padding: 0;
+  margin-bottom: 14px;
 
-    &::placeholder {
-        color: var(--grey-dark);
-    }
+  &::placeholder {
+    color: var(--grey-dark);
+  }
 
-    @include responsive('phone-xs') {
-        line-height: 42px;
-        font-size: 32px;
-    }
+  @include responsive('phone-xs') {
+    line-height: 42px;
+    font-size: 32px;
+  }
 }
 
 .container {
-    max-width: 1024px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 auto;
-    padding: 0 15px;
-    height: 100%;
+  max-width: 1024px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0 15px;
+  height: 100%;
 }
 
 .bottom {
-    position: fixed;
-    z-index: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 50px;
-    border-top: 1px solid var(--grey-light-2);
-    background: var(--white);
+  position: fixed;
+  z-index: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 50px;
+  border-top: 1px solid var(--grey-light-2);
+  background: var(--white);
 
-    &__left {
-        color: var(--grey-dark-2);
-        display: flex;
-        align-items: center;
-    }
+  &__left {
+    color: var(--grey-dark-2);
+    display: flex;
+    align-items: center;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .save {
-    color: var(--grey-dark);
-    @include responsive('phone-xs') {
-        display: none;
-    }
+  color: var(--grey-dark);
+
+  @include responsive('phone-xs') {
+    display: none;
+  }
+
+  + svg {
+    margin-left: 10px;
+  }
 }
 
 .publishBtn {
-    margin-left: 18px;
-    border-color: var(--green);
-    color: var(--green);
+  margin-left: 18px;
+  border-color: var(--green);
+  color: var(--green);
 
-    &[disabled] {
-        border-color: var(--grey-light-3);
-        color: var(--grey-light-3);
-    }
+  &[disabled] {
+    border-color: var(--grey-light-3);
+    color: var(--grey-light-3);
+  }
 }
 
 .tagsLabel {
-    margin-right: 18px;
-    @include responsive('phone-xs') {
-        display: none;
-    }
+  margin-right: 18px;
+
+  @include responsive('phone-xs') {
+    display: none;
+  }
 }
 
 .tags {
-    min-width: 200px;
-    margin-right: 13px;
+  min-width: 200px;
+  margin-right: 13px;
 }

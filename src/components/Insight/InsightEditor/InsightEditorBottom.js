@@ -3,6 +3,7 @@ import moment from 'moment'
 import Timer from '../../Timer'
 import TagSelector from '../../TagSelector'
 import InsightEditorBottomHelp from './InsightEditorBottomHelp'
+import InsightEditorBottomPublishHelp from './InsightEditorBottomPublishHelp'
 import InsightEditorBottomPublishBtn from './InsightEditorBottomPublishBtn'
 import styles from './InsightEditor.module.scss'
 
@@ -12,7 +13,7 @@ const InsightEditorBottom = ({
   onTagsChange,
   onPublishClick,
   isLoading,
-  isPublishDisabled = false
+  hasMetTextRequirements
 }) => (
   <div className={styles.bottom}>
     <div className={styles.container}>
@@ -28,7 +29,7 @@ const InsightEditorBottom = ({
       <div className={styles.bottom__right}>
         {updatedAt && (
           <span className={styles.save}>
-            {isLoading ? (
+            {hasMetTextRequirements && isLoading ? (
               'Saving...'
             ) : (
               <Fragment>
@@ -40,8 +41,9 @@ const InsightEditorBottom = ({
             )}
           </span>
         )}
+        {!hasMetTextRequirements && <InsightEditorBottomPublishHelp />}
         <InsightEditorBottomPublishBtn
-          isPublishDisabled={isPublishDisabled}
+          isPublishDisabled={isLoading || !hasMetTextRequirements}
           onPublishClick={onPublishClick}
         />
       </div>
