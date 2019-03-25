@@ -10,8 +10,7 @@ class NotificationStack extends Component {
   timerHandles = {}
 
   state = {
-    notifications: [],
-    dissmisedNotification: []
+    notifications: []
   }
 
   static getDerivedStateFromProps ({ notification }, prevState) {
@@ -50,7 +49,7 @@ class NotificationStack extends Component {
   }
 
   render () {
-    const { notifications, dissmisedNotification } = this.state
+    const { notifications } = this.state
 
     return (
       <TransitionGroup className={styles.notificationStack}>
