@@ -7,6 +7,8 @@ import styles from './NotificationStack.module.scss'
 const notifyDuration = +styles.notifyDuration
 
 class NotificationStack extends Component {
+  timerHandles = {}
+
   state = {
     notifications: [],
     dissmisedNotification: []
@@ -19,10 +21,10 @@ class NotificationStack extends Component {
           notifications: [...this.state.notifications, notification]
         },
         () => {
-          setTimeout(
-            () => this.closeNotification(notification.key),
-            notification.dismissAfter
-          )
+          this.timerHandles[notification.key] = setTimeout(() => {
+            this.closeNotification(notification.key)
+            this.timerHandles[notification.key] = null
+          }, notification.dismissAfter)
         }
       )
     } else {
@@ -30,6 +32,14 @@ class NotificationStack extends Component {
         notifications: []
       })
     }
+  }
+
+  componentWillUnmount () {
+    Object.keys(this.timerHandles).forEach(timerName => {
+      if (this.timerHandles[timerName]) {
+        clearTimeout(this.timerHandles[timerName])
+      }
+    })
   }
 
   closeNotification = notificationId => {
