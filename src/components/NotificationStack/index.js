@@ -31,14 +31,14 @@ class NotificationStack extends Component {
 
   componentDidUpdate (prevProps, prevState) {
     if (this.state.notifications.length > prevState.notifications.length) {
-      const notification = this.state.notifications[
+      const { id, dismissAfter } = this.state.notifications[
         this.state.notifications.length - 1
       ]
 
-      this.timerHandles[notification.key] = setTimeout(() => {
-        this.closeNotification(notification.key)
-        this.timerHandles[notification.key] = null
-      }, notification.dismissAfter)
+      this.timerHandles[id] = setTimeout(() => {
+        this.closeNotification(id)
+        this.timerHandles[id] = null
+      }, dismissAfter)
     }
   }
 
@@ -58,7 +58,7 @@ class NotificationStack extends Component {
             <NotificationItem
               {...notification}
               className={styles.notification}
-              onClose={() => this.closeNotification(notification.key)}
+              onClose={() => this.closeNotification(id)}
               style={{
                 '--y-offset': `calc(-${i}00% - ${i}0px)`
               }}
