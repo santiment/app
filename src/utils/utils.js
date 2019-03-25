@@ -130,8 +130,6 @@ const mergeTimeseriesByKey = ({
   mergeData = (longestTSData, timeserieData) =>
     Object.assign({}, longestTSData, timeserieData)
 }) => {
-  console.time('merge')
-
   const longestTSMut = timeseries.reduce((acc, val) => {
     return acc.length > val.length ? acc : val
   }, [])
@@ -156,18 +154,11 @@ const mergeTimeseriesByKey = ({
         const longestTSData = longestTS[longestTSRightIndexBoundary]
         const timeserieData = timeserie[timeserieRightIndex]
 
-        /* console.log(`${longestTSData[mergeKey]} ${timeserieData[mergeKey]}`) */
-
         if (longestTSData[mergeKey] === timeserieData[mergeKey]) {
           longestTS[longestTSRightIndexBoundary] = mergeData(
             longestTSData,
             timeserieData
           )
-
-          /* console.log( */
-          /* `%c ${longestTSData[mergeKey]} ${timeserieData[mergeKey]}`, */
-          /* 'color: red;' */
-          /* ) */
 
           longestTSRightIndexBoundary--
           break
@@ -189,13 +180,6 @@ const mergeTimeseriesByKey = ({
           if (timeserieRightIndex < 0) {
             break
           }
-
-          /* console.log( */
-          /* `%c ${longestTSData[mergeKey]} ${ */
-          /* timeserie[timeserieRightIndex][mergeKey] */
-          /* }  || ${timeserieRightIndex} ${timeserieFirstUnfoundIndex}`, */
-          /* 'color: blue' */
-          /* ) */
 
           longestTS[longestTSRightIndexBoundary] = mergeData(
             longestTSData,
@@ -226,8 +210,6 @@ const mergeTimeseriesByKey = ({
       }
     }
   }
-
-  console.timeEnd('merge')
 
   return longestTS
 }
