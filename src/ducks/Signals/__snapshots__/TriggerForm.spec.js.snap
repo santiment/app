@@ -5,8 +5,10 @@ exports[`TriggerForm smoke 1`] = `
   enableReinitialize={false}
   initialValues={
     Object {
-      "channel": "Telegram",
-      "cooldown": 24,
+      "channels": Array [
+        "Telegram",
+      ],
+      "cooldown": "24h",
       "metric": Object {
         "label": "Price",
         "value": "price",
