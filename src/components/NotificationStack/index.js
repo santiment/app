@@ -14,23 +14,11 @@ class NotificationStack extends Component {
     dissmisedNotification: []
   }
 
-  componentWillReceiveProps ({ notification }) {
-    if (notification) {
-      this.setState(
-        {
-          notifications: [...this.state.notifications, notification]
-        },
-        () => {
-          this.timerHandles[notification.key] = setTimeout(() => {
-            this.closeNotification(notification.key)
-            this.timerHandles[notification.key] = null
-          }, notification.dismissAfter)
-        }
-      )
-    } else {
-      this.setState({
-        notifications: []
-      })
+  static getDerivedStateFromProps ({ notification }, prevState) {
+    return {
+      notifications: notification
+        ? [...prevState.notifications, notification]
+        : []
     }
   }
 
@@ -40,6 +28,19 @@ class NotificationStack extends Component {
         clearTimeout(this.timerHandles[timerName])
       }
     })
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (this.state.notifications.length > prevState.notifications.length) {
+      const notification = this.state.notifications[
+        this.state.notifications.length - 1
+      ]
+
+      this.timerHandles[notification.key] = setTimeout(() => {
+        this.closeNotification(notification.key)
+        this.timerHandles[notification.key] = null
+      }, notification.dismissAfter)
+    }
   }
 
   closeNotification = notificationId => {
