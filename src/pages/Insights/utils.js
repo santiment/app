@@ -48,7 +48,9 @@ export const getInsightIdFromSEOLink = link =>
   +link.slice(link.lastIndexOf('-') + 1)
 
 export const getSEOLinkFromIdAndTitle = (id, title) =>
-  `${title
-    .toLowerCase()
-    .split(' ')
-    .join('-')}-${id}`
+  encodeURIComponent(
+    `${title
+      .toLowerCase()
+      .split(' ')
+      .join('-')}-${id}`
+  )
