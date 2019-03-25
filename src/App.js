@@ -12,7 +12,7 @@ import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import nprogress from 'nprogress'
-import Notification from './components/Notification'
+import NotificationStack from './components/NotificationStack'
 import LoginPage from './pages/Login/LoginPage'
 import CashflowMobile from './pages/CashflowMobile'
 import CurrenciesMobile from './pages/CurrenciesMobile'
@@ -271,7 +271,7 @@ export const App = ({
         <Redirect from='/' to='/projects' />
       </Switch>
     </ErrorBoundary>
-    <Notification />
+    <NotificationStack />
     <ConfirmDeleteWatchlistModal />
     <FeedbackModal />
     <GDPRModal />

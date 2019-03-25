@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Notification as NotificationItem } from '@santiment-network/ui'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import styles from './Notification.module.scss'
+import styles from './NotificationStack.module.scss'
 
 const notifyDuration = +styles.notifyDuration
 
-class Notification extends Component {
+class NotificationStack extends Component {
   state = {
     notifications: [],
     dissmisedNotification: []
@@ -61,10 +61,6 @@ class Notification extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    notification: state.notification
-  }
-}
+const mapStateToProps = ({ notification }) => ({ notification })
 
-export default connect(mapStateToProps)(Notification)
+export default connect(mapStateToProps)(NotificationStack)
