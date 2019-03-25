@@ -4,25 +4,19 @@ import {
   APP_LAUNCHED
 } from './types'
 
-const defaultNotification = {
-  title: 'Empty message'
-}
-
-export const showNotification = (payload = defaultNotification) => {
-  const newPayload =
-    typeof payload === 'string'
-      ? {
-        ...defaultNotification,
-        title: payload
-      }
-      : payload
+export const showNotification = (payload = { title: 'Empty message' }) => {
+  const newPayload = typeof payload === 'string' ? { title: payload } : payload
 
   const notificationId = Date.now()
+
+  newPayload.variant = newPayload.variant || 'info'
+  newPayload.dismissAfter = newPayload.dismissAfter || 4000
 
   return {
     type: SHOW_NOTIFICATION,
     payload: {
       ...newPayload,
+      solidFill: true,
       key: notificationId,
       id: notificationId
     }

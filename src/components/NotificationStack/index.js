@@ -59,7 +59,6 @@ class NotificationStack extends Component {
               {...notification}
               className={styles.notification}
               onClose={() => this.closeNotification(notification.key)}
-              solidFill
               style={{
                 '--y-offset': `calc(-${i}00% - ${i}0px)`
               }}
