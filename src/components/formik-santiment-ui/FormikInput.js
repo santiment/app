@@ -1,26 +1,46 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Input } from '@santiment-network/ui'
-import { Field } from 'formik'
+import { Field, ErrorMessage } from 'formik'
 
 const FormikInput = ({
   name,
-  type = 'text',
+  type,
+  step,
   placeholder,
-  values,
-  errors,
-  onBlur,
-  onChange
+  disabled = false,
+  onChange,
+  ...rest
 }) => (
   <Field
-    id={name}
-    value={values[name]}
-    type={type}
     name={name}
-    placeholder={placeholder}
-    isError={errors[name]}
-    onChange={onChange}
-    onBlur={onBlur}
-    component={Input}
+    render={({ field, form }) => (
+      <Fragment>
+        <Input
+          id={name}
+          type={type}
+          name={name}
+          step={step}
+          placeholder={placeholder}
+          disabled={disabled}
+          noValidate
+          isError={!!form.errors[name]}
+          onChange={value => {
+            const newValue =
+              type === 'number'
+                ? parseFloat(value.target.value)
+                : value.target.value
+            form.setFieldValue(name, newValue)
+            form.setFieldTouched(name, true)
+            onChange && onChange(newValue)
+          }}
+          value={!isNaN(field.value) && field.value}
+          {...rest}
+        />
+        <ErrorMessage name={name}>
+          {msg => <div className='error error-message'>{msg}</div>}
+        </ErrorMessage>
+      </Fragment>
+    )}
   />
 )
 
