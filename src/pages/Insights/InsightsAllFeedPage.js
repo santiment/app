@@ -4,7 +4,6 @@ import InfiniteScroll from 'react-infinite-scroller'
 import { ALL_INSIGHTS_QUERY } from './InsightsGQL'
 import { client } from '../../index'
 import InsightsFeed from '../../components/Insight/InsightsFeed'
-import { sortInsightsByDateDescending } from './utils'
 import styles from './InsightsFeedPage.module.scss'
 
 class InsightsAllFeedPage extends Component {
@@ -53,8 +52,6 @@ class InsightsAllFeedPage extends Component {
     const { insights } = this.state
     const { sortReducer } = this.props
 
-    const sortedInsights = sortReducer(insights)
-
     return (
       <div className={styles.wrapper}>
         <InfiniteScroll
@@ -63,7 +60,7 @@ class InsightsAllFeedPage extends Component {
           loadMore={this.loadMore}
           loader='Loading more insights...'
         >
-          <InsightsFeed insights={insights} />
+          <InsightsFeed insights={sortReducer(insights)} />
         </InfiniteScroll>
       </div>
     )
