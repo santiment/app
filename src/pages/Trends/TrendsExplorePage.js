@@ -12,6 +12,7 @@ import TrendsExploreSearch from './../../components/Trends/Explore/TrendsExplore
 import * as actions from '../../components/Trends/actions'
 import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import WordCloud from './../../components/WordCloud/WordCloud'
+import SocialVolumeWidget from './../../components/SocialVolumeWidget/SocialVolumeWidget'
 import GetWordContext from './../../components/WordCloud/GetWordContext'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import { checkHasPremium } from './../UserSelectors'
@@ -48,7 +49,9 @@ export class TrendsExplorePage extends Component {
   }
 
   componentDidMount () {
-    this.props.fetchAllTickersSlugs()
+    const { word, fetchAllTickersSlugs, fetchTrendSocialData } = this.props
+    fetchAllTickersSlugs()
+    fetchTrendSocialData(word)
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
@@ -112,19 +115,10 @@ export class TrendsExplorePage extends Component {
           </div>
         )}
         <div>
-          <GetWordContext
-            word={word}
-            render={({ cloud }) => {
-              if (cloud && cloud.length === 0) {
-                return ''
-              }
-              return (
-                <div className={styles.wordCloud}>
-                  <WordCloud />
-                </div>
-              )
-            }}
-          />
+          <div className={styles.widgets}>
+            <WordCloud />
+            <SocialVolumeWidget />
+          </div>
           <GetTrends
             topic={word}
             timeRange={timeRange}
@@ -183,6 +177,12 @@ const mapDispatchToProps = dispatch => ({
   fetchAllTickersSlugs: () => {
     dispatch({
       type: actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS
+    })
+  },
+  fetchTrendSocialData: payload => {
+    dispatch({
+      type: actions.TRENDS_HYPED_WORD_SELECTED,
+      payload
     })
   }
 })
