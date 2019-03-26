@@ -69,6 +69,7 @@ const enhance = compose(
             .subtract(3, 'months')
             .utc()
             .format(),
+          to: new Date().toISOString(),
           ticker: isTotalMarket(ticker) ? 'TOTAL_MARKET' : ticker,
           interval: '1d'
         }
