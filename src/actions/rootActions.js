@@ -4,15 +4,14 @@ import {
   APP_LAUNCHED
 } from './types'
 
-export const showNotification = (payload = { message: 'Empty message' }) => {
-  const newPayload =
-    typeof payload === 'string' ? { message: payload } : payload
+export const showNotification = (payload = { title: 'Empty message' }) => {
+  const newPayload = typeof payload === 'string' ? { title: payload } : payload
 
   return {
     type: SHOW_NOTIFICATION,
     payload: {
       ...newPayload,
-      key: new Date().getTime()
+      id: Date.now()
     }
   }
 }
