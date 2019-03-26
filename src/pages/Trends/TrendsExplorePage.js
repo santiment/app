@@ -53,6 +53,13 @@ export class TrendsExplorePage extends Component {
     fetchTrendSocialData(word)
   }
 
+  componentDidUpdate ({ word: prevWord }) {
+    const { word, fetchTrendSocialData } = this.props
+    if (prevWord !== word) {
+      fetchTrendSocialData(word)
+    }
+  }
+
   static getDerivedStateFromProps (nextProps, prevState) {
     return { ...mapQSToState(nextProps) }
   }
