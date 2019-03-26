@@ -13,12 +13,14 @@ class NotificationStack extends Component {
     notifications: []
   }
 
+  static lastNotification = null
+
   static getDerivedStateFromProps ({ notification }, prevState) {
-    return {
-      notifications: notification
-        ? [...prevState.notifications, notification]
-        : []
-    }
+    NotificationStack.lastNotification = notification
+
+    return notification
+      ? { notifications: [...prevState.notifications, notification] }
+      : null
   }
 
   componentWillUnmount () {
@@ -30,10 +32,8 @@ class NotificationStack extends Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if (this.state.notifications.length > prevState.notifications.length) {
-      const { id, dismissAfter } = this.state.notifications[
-        this.state.notifications.length - 1
-      ]
+    if (NotificationStack.lastNotification) {
+      const { id, dismissAfter } = NotificationStack.lastNotification
 
       this.timerHandles[id] = setTimeout(() => {
         this.closeNotification(id)
