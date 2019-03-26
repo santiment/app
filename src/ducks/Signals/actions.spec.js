@@ -15,12 +15,4 @@ describe('Signals actions', () => {
     })
     expect(resultAction).toMatchSnapshot()
   })
-
-  it('createTrigger should return error if 0 channels', () => {
-    const resultAction = () =>
-      createTrigger({
-        channels: undefined
-      })
-    expect(resultAction).toThrowErrorMatchingSnapshot()
-  })
 })

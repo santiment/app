@@ -6,7 +6,7 @@ exports[`TriggerForm smoke 1`] = `
   initialValues={
     Object {
       "channels": Array [
-        "Telegram",
+        "telegram",
       ],
       "cooldown": "24h",
       "metric": Object {
