@@ -56,7 +56,7 @@ const Labs = () => (
   <div className='page'>
     <div className={styles.flexRow}>
       {cards.map(card => (
-        <Card {...card} />
+        <Card key={card.link} {...card} />
       ))}
     </div>
   </div>
