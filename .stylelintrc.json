@@ -1,6 +1,7 @@
 {
   "extends": "stylelint-config-standard",
   "rules": {
-    "declaration-colon-newline-after": null
+    "declaration-colon-newline-after": null,
+    "at-rule-no-unknown": null
   }
 }
