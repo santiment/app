@@ -3,11 +3,12 @@ import { push } from 'react-router-redux'
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import { createTrigger } from './actions'
+import { createTrigger, updateTrigger } from './actions'
 import TriggerForm from './TriggerForm'
 import InfoSignalForm from './InfoSignalForm'
 import styles from './TriggerForm.module.scss'
 import { TRIGGER_BY_ID_QUERY } from './SignalsGQL'
+import { mapTriggerToFormProps, mapFormPropsToTrigger } from './utils'
 
 const STEPS = {
   SETTINGS: 0,
@@ -17,16 +18,24 @@ const STEPS = {
 export class SignalMaster extends React.PureComponent {
   state = {
     step: STEPS.SETTINGS,
-    settings: {}
+    trigger: undefined
   }
 
   render () {
-    const { step } = this.state
+    if (this.props.isEdit && this.props.trigger.isLoading) {
+      return 'Loading...'
+    }
+    if (this.props.isEdit && this.props.trigger.isError) {
+      return this.props.trigger.errorMessage
+    }
+    const { step, trigger } = this.state
+    const currentTrigger = trigger || (this.props.trigger || {}).trigger
+    console.log(currentTrigger)
     return (
       <div className={styles.wrapper}>
         {step === STEPS.SETTINGS && (
           <TriggerForm
-            {...this.props.trigger.trigger}
+            settings={mapTriggerToFormProps(currentTrigger)}
             onSettingsChange={this.handleSettingsChange}
           />
         )}
@@ -45,21 +54,34 @@ export class SignalMaster extends React.PureComponent {
     this.setState({ step: STEPS.SETTINGS })
   }
 
-  handleSettingsChange = settings => {
-    this.setState({ settings, step: STEPS.CONFIRM })
+  handleSettingsChange = formProps => {
+    this.setState({
+      trigger: mapFormPropsToTrigger(
+        formProps,
+        (this.props.trigger || {}).trigger
+      ),
+      step: STEPS.CONFIRM
+    })
   }
 
   handleInfoSignalSubmit = info => {
-    console.log('sended')
-    // this.props.createTrigger({ ...this.state.settings, ...info })
-    // this.props.onCreated && this.props.onCreated()
-    // this.props.redirect()
+    if (this.props.isEdit) {
+      this.props.updateTrigger({ ...this.state.trigger, ...info })
+    } else {
+      this.props.createTrigger({ ...this.state.trigger, ...info })
+    }
+    // TODO: make it async
+    this.props.onCreated && this.props.onCreated()
+    this.props.redirect()
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   createTrigger: payload => {
     dispatch(createTrigger(payload))
+  },
+  updateTrigger: payload => {
+    dispatch(updateTrigger(payload))
   },
   redirect: (path = '/sonar/feed/my-signals') => {
     dispatch(push(path))
@@ -90,6 +112,16 @@ const enhance = compose(
       }
     },
     props: ({ data: { trigger, loading, error } }) => {
+      if (!loading && !trigger.trigger.settings.target.hasOwnProperty('slug')) {
+        return {
+          trigger: {
+            isError: true,
+            isLoading: false,
+            trigger: null,
+            errorMessage: 'This is an unsupported type of signal'
+          }
+        }
+      }
       return {
         trigger: {
           trigger: (trigger || {}).trigger,

@@ -48,6 +48,7 @@ export const createSignalEpic = (action$, store, { client }) =>
           description = ''
         }
       }) => {
+        console.log('create epic')
         const create = client.mutate({
           mutation: CREATE_TRIGGER_QUERY,
           variables: {
@@ -193,3 +194,57 @@ export const fetchHistorySignalPoints = (action$, store, { client }) =>
         handleErrorAndTriggerAction(actions.SIGNAL_FETCH_HISTORY_POINTS_FAILED)
       )
   })
+
+export const TRIGGER_UPDATE_QUERY = gql`
+  mutation updateTrigger(
+    $id: Int
+    $title: String
+    $description: String
+    $active: Boolean
+    $isPublic: Boolean
+    $settings: json!
+  ) {
+    updateTrigger(
+      id: $id
+      isPublic: $isPublic
+      active: $active
+      settings: $settings
+      title: $title
+      description: $description
+    ) {
+      trigger {
+        id
+        title
+        description
+        isPublic
+        cooldown
+        iconUrl
+        active
+        repeating
+        settings
+      }
+    }
+  }
+`
+
+export const updateSignalEpic = (action$, store, { client }) =>
+  action$
+    .ofType(actions.SIGNAL_UPDATE)
+    .switchMap(({ payload: { tags, __typename, ...trigger } }) => {
+      console.log('update epic', trigger)
+      const toggle = client.mutate({
+        mutation: TRIGGER_UPDATE_QUERY,
+        variables: { ...trigger }
+      })
+
+      return Observable.fromPromise(toggle)
+        .mergeMap(({ data: { updateTrigger } }) => {
+          return Observable.of({
+            type: actions.SIGNAL_UPDATE_SUCCESS,
+            payload: {
+              id: updateTrigger.trigger.id
+            }
+          })
+        })
+        .catch(handleErrorAndTriggerAction(actions.SIGNAL_UPDATE_FAILED))
+    })

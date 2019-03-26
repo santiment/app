@@ -21,37 +21,32 @@ export const SIGNAL_FETCH_HISTORY_POINTS_FAILED =
 export const WithoutChannelsError =
   'You must setup at least one channel for new signal'
 
-export const createTrigger = ({
-  target,
-  metric,
-  channels,
-  timeWindow,
-  title,
-  description,
-  cooldown,
-  option,
-  values = {
-    percentThreshold: null
-  }
-}) => {
-  const { percentThreshold } = values
-  if (!channels || channels.length < 1) {
-    throw new Error(WithoutChannelsError)
-  }
+export const createTrigger = payload => mutateTrigger({ payload })
+export const updateTrigger = payload => mutateTrigger({ payload, isEdit: true })
+
+// {
+// target,
+// metric,
+// channels,
+// timeWindow,
+// title,
+// description,
+// cooldown,
+// option,
+// values = {
+// percentThreshold: null
+// }
+// }
+
+const mutateTrigger = ({ payload, isEdit }) => {
+  console.log(isEdit ? 'update' : 'create')
+  // TODO: return repeating
+  const { repeating, ...rest } = payload
   return {
-    type: SIGNAL_CREATE,
+    type: isEdit ? SIGNAL_UPDATE : SIGNAL_CREATE,
     payload: {
-      settings: {
-        target,
-        time_window: timeWindow,
-        percent_threshold: percentThreshold,
-        channel: channels[0].toLowerCase(),
-        type: option
-      },
-      isPublic: false,
-      title,
-      description,
-      cooldown
+      ...rest,
+      settings: JSON.stringify(payload.settings)
     }
   }
 }

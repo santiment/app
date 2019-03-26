@@ -54,7 +54,7 @@ const defaultValues = {
     timeWindow: 24,
     timeWindowUnit: { label: 'hours', value: 'h' },
     type: { label: 'Percentage Change', value: 'price_percent_change' },
-    channels: ['Telegram']
+    channels: ['telegram']
   },
   daily_active_addresses: {
     cooldown: '24h',
@@ -67,7 +67,7 @@ const defaultValues = {
     timeWindow: 2,
     timeWindowUnit: { label: 'days', value: 'd' },
     type: { label: 'Daily Active Addresses', value: 'daily_active_addresses' },
-    channels: ['Telegram']
+    channels: ['telegram']
   },
   price_volume_difference: {
     cooldown: '24h',
@@ -81,7 +81,7 @@ const defaultValues = {
       label: 'Price/volume difference',
       value: 'price_volume_difference'
     },
-    channels: ['Telegram']
+    channels: ['telegram']
   }
 }
 
@@ -156,9 +156,9 @@ export const TriggerForm = ({
   getSignalBacktestingPoints,
   data: { allProjects = [] },
   isTelegramConnected = false,
-  propsValues = INITIAL_VALUES
+  settings = INITIAL_VALUES
 }) => {
-  const [initialValues, setInitialValues] = useState(propsValues)
+  const [initialValues, setInitialValues] = useState(settings)
 
   useEffect(() => {
     getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
@@ -171,8 +171,7 @@ export const TriggerForm = ({
       enableReinitialize
       validate={validate}
       onSubmit={(values, { setSubmitting }) => {
-        console.log(values)
-        onSettingsChange({ values })
+        onSettingsChange(values)
       }}
     >
       {({
@@ -317,8 +316,8 @@ export const TriggerForm = ({
             <div className={styles.Field}>
               <FormikCheckboxes
                 name='channels'
-                disabledIndexes={'Email'}
-                options={['Email', 'Telegram']}
+                disabledIndexes={'email'}
+                options={['email', 'telegram']}
                 styles={{ marginRight: 15 }}
               />
             </div>

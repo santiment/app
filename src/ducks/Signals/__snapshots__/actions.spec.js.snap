@@ -4,19 +4,7 @@ exports[`Signals actions createTrigger should return error if 0 channels 1`] = `
 
 exports[`Signals actions createTrigger should work 1`] = `
 Object {
-  "payload": Object {
-    "cooldown": "1h",
-    "description": "check",
-    "isPublic": false,
-    "settings": Object {
-      "channel": "telegram",
-      "percent_threshold": null,
-      "target": "santiment",
-      "time_window": "24h",
-      "type": undefined,
-    },
-    "title": "Check",
-  },
+  "payload": Object {},
   "type": "[signal] CREATE_SIGNAL",
 }
 `;
