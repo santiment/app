@@ -31,7 +31,7 @@ class NotificationStack extends Component {
     })
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate () {
     if (NotificationStack.lastNotification) {
       const { id, dismissAfter } = NotificationStack.lastNotification
 
