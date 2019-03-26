@@ -79,8 +79,19 @@ export class TrendsExplorePage extends Component {
     }
   }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
-    return { ...mapQSToState(nextProps) }
+  static getDerivedStateFromProps (nextProps, { asset }) {
+    const { detectedAsset } = nextProps
+
+    let resultAsset = asset
+
+    if (detectedAsset && asset !== 'ethereum' && asset !== 'bitcoin') {
+      resultAsset = 'bitcoin'
+    }
+
+    return {
+      ...mapQSToState(nextProps),
+      asset: resultAsset
+    }
   }
 
   render () {
