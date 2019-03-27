@@ -232,3 +232,75 @@ export const updateSignalEpic = (action$, store, { client }) =>
         })
         .catch(handleErrorAndTriggerAction(actions.SIGNAL_UPDATE_FAILED))
     })
+
+export const TRIGGER_REMOVE_QUERY = gql`
+  mutation removeTrigger($id: Int) {
+    removeTrigger(id: $id) {
+      trigger {
+        id
+      }
+    }
+  }
+`
+
+const TRIGGERS_QUERY = gql`
+  query {
+    currentUser {
+      id
+      triggers {
+        id
+        isPublic
+        cooldown
+        settings
+        title
+        active
+        description
+        tags {
+          name
+        }
+      }
+    }
+  }
+`
+
+export const removeSignalEpic = (action$, store, { client }) =>
+  action$
+    .ofType(actions.SIGNAL_REMOVE_BY_ID)
+    .switchMap(({ payload: { id } }) => {
+      const toggle = client.mutate({
+        mutation: TRIGGER_REMOVE_QUERY,
+        variables: { id },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          removeTrigger: {
+            __typename: 'UserTrigger',
+            userId: -1,
+            trigger: {
+              __typename: 'Trigger',
+              id
+            }
+          }
+        },
+        update: proxy => {
+          let data = proxy.readQuery({ query: TRIGGERS_QUERY })
+          const userTriggers = data.currentUser.triggers
+            ? [...data.currentUser.triggers]
+            : []
+          data.currentUser.triggers = userTriggers.filter(
+            obj => +obj.id !== +id
+          )
+          proxy.writeQuery({ query: TRIGGERS_QUERY, data })
+        }
+      })
+
+      return Observable.fromPromise(toggle)
+        .mergeMap(({ data: { removeTrigger } }) => {
+          return Observable.of({
+            type: actions.SIGNAL_REMOVE_BY_ID_SUCCESS,
+            payload: {
+              id: removeTrigger.trigger.id
+            }
+          })
+        })
+        .catch(handleErrorAndTriggerAction(actions.SIGNAL_REMOVE_BY_ID_FAILED))
+    })

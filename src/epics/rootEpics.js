@@ -31,6 +31,7 @@ import {
   updateSignalEpic,
   fetchSignalsEpic,
   toggleSignalEpic,
+  removeSignalEpic,
   fetchHistorySignalPoints
 } from '../ducks/Signals/epics'
 import handleNightModeToggle from './handleNightModeToggle'
@@ -107,6 +108,7 @@ export default combineEpics(
   updateSignalEpic,
   fetchSignalsEpic,
   toggleSignalEpic,
+  removeSignalEpic,
   fetchHistorySignalPoints,
   // insight draft creation
   insightDraftUpdateEpic,
