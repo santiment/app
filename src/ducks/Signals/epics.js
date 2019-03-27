@@ -187,14 +187,14 @@ export const TRIGGER_UPDATE_QUERY = gql`
     $title: String
     $description: String
     $cooldown: String
-    $active: Boolean
+    $isActive: Boolean
     $isPublic: Boolean
     $settings: json!
   ) {
     updateTrigger(
       id: $id
       isPublic: $isPublic
-      active: $active
+      isActive: $isActive
       settings: $settings
       cooldown: $cooldown
       title: $title
@@ -207,8 +207,8 @@ export const TRIGGER_UPDATE_QUERY = gql`
         isPublic
         cooldown
         iconUrl
-        active
-        repeating
+        isActive
+        isRepeating
         settings
       }
     }

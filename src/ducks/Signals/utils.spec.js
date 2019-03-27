@@ -12,8 +12,8 @@ const TRIGGERS = [
       type: 'price_percent_change'
     },
     isPublic: false,
-    active: false,
-    repeating: true,
+    isActive: false,
+    isRepeating: true,
     cooldown: '30m',
     tags: [],
     title: 'Example',
@@ -30,8 +30,8 @@ const TRIGGERS = [
       type: 'daily_active_addresses'
     },
     isPublic: false,
-    active: false,
-    repeating: true,
+    isActive: false,
+    isRepeating: true,
     cooldown: '30m',
     tags: [],
     title: 'Example',
@@ -47,8 +47,8 @@ const TRIGGERS = [
       type: 'price_volume_difference'
     },
     isPublic: false,
-    active: false,
-    repeating: true,
+    isActive: false,
+    isRepeating: true,
     cooldown: '30m',
     tags: [],
     title: 'Example',
@@ -61,7 +61,7 @@ const FORM_PROPS = [
   {
     cooldown: '30m',
     percentThreshold: 5,
-    repeating: true,
+    isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
     timeWindow: 1,
     timeWindowUnit: { label: 'days', value: 'd' },
@@ -72,7 +72,7 @@ const FORM_PROPS = [
   {
     cooldown: '30m',
     percentThreshold: 6,
-    repeating: true,
+    isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
     timeWindow: 30,
     timeWindowUnit: { label: 'minutes', value: 'm' },
@@ -86,7 +86,7 @@ const FORM_PROPS = [
   {
     cooldown: '30m',
     threshold: 0.002,
-    repeating: true,
+    isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
     type: {
       label: 'Price/volume difference',

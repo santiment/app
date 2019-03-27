@@ -51,7 +51,6 @@ export default compose(
     props: ({ Signals }) => {
       const { currentUser, loading, error } = Signals
       const signals = (currentUser || {}).triggers || []
-      console.log(signals)
       return {
         signals,
         isLoading: loading,

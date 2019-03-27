@@ -42,6 +42,7 @@ const SignalCardsGrid = ({
         .map(({ id, ...signal }) => (
           <SignalCard
             key={id}
+            id={id}
             toggleSignal={() =>
               toggleSignal({
                 id,

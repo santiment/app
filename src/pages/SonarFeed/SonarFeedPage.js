@@ -17,14 +17,14 @@ const tabs = [
       loading: () => <PageLoader />
     })
   },
-  {
-    index: `${baseLocation}/explore`,
-    content: 'Explore',
-    component: Loadable({
-      loader: () => import('../../components/SignalCard/SignalCardsGrid'),
-      loading: () => <PageLoader />
-    })
-  },
+  // {
+  // index: `${baseLocation}/explore`,
+  // content: 'Explore',
+  // component: Loadable({
+  // loader: () => import('../../components/SignalCard/SignalCardsGrid'),
+  // loading: () => <PageLoader />
+  // })
+  // },
   {
     index: `${baseLocation}/my-signals`,
     content: 'My signals',

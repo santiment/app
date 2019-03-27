@@ -69,18 +69,13 @@ export class SignalMaster extends React.PureComponent {
   }
 
   handleSettingsChange = formProps => {
-    this.setState(
-      {
-        trigger: mapFormPropsToTrigger(
-          formProps,
-          (this.props.trigger || {}).trigger
-        ),
-        step: STEPS.CONFIRM
-      },
-      () => {
-        console.log(this.state)
-      }
-    )
+    this.setState({
+      trigger: mapFormPropsToTrigger(
+        formProps,
+        (this.props.trigger || {}).trigger
+      ),
+      step: STEPS.CONFIRM
+    })
   }
 
   handleInfoSignalSubmit = info => {

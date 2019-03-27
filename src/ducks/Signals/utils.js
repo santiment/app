@@ -47,8 +47,8 @@ export const mapTriggerToFormProps = currentTrigger => {
 
   return {
     cooldown: currentTrigger.cooldown,
-    repeating: currentTrigger.repeating,
-    active: currentTrigger.active,
+    isRepeating: currentTrigger.isRepeating,
+    isActive: currentTrigger.isActive,
     isPublic: currentTrigger.isPublic,
     metric: getMetric(settings.type),
     timeWindow: settings.time_window
@@ -83,14 +83,27 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       type: formProps.type.value
     },
     isPublic: !!formProps.isPublic,
-    repeating: formProps.repeating ? formProps.repeating : undefined,
+    isRepeating: formProps.isRepeating ? formProps.isRepeating : undefined,
     cooldown: formProps.cooldown ? formProps.cooldown : undefined,
-    active: !!formProps.active
+    isActive: !!formProps.isActive
   }
 }
 
 export const mapTriggerToProps = ({ data: { trigger, loading, error } }) => {
-  if (!loading && !trigger.trigger.settings.target.hasOwnProperty('slug')) {
+  if (!loading && !trigger) {
+    return {
+      trigger: {
+        isError: false,
+        isEmpty: true,
+        trigger: null,
+        isLoading: false
+      }
+    }
+  }
+  if (
+    !loading &&
+    !(trigger || {}).trigger.settings.target.hasOwnProperty('slug')
+  ) {
     return {
       trigger: {
         isError: true,
