@@ -36,53 +36,36 @@ export const CREATE_TRIGGER_QUERY = gql`
 `
 
 export const createSignalEpic = (action$, store, { client }) =>
-  action$
-    .ofType(actions.SIGNAL_CREATE)
-    .switchMap(
-      ({
-        payload: {
-          settings,
-          isPublic = false,
-          cooldown = '30m',
-          title = '',
-          description = ''
+  action$.ofType(actions.SIGNAL_CREATE).switchMap(({ payload }) => {
+    const create = client.mutate({
+      mutation: CREATE_TRIGGER_QUERY,
+      variables: {
+        ...payload,
+        tags: []
+      },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        createTrigger: {
+          __typename: 'UserTrigger',
+          userId: -1,
+          trigger: {
+            id: +new Date()
+          }
         }
-      }) => {
-        console.log('create epic')
-        const create = client.mutate({
-          mutation: CREATE_TRIGGER_QUERY,
-          variables: {
-            settings: JSON.stringify(settings),
-            isPublic,
-            cooldown,
-            title,
-            description,
-            tags: []
-          },
-          optimisticResponse: {
-            __typename: 'Mutation',
-            createTrigger: {
-              __typename: 'UserTrigger',
-              userId: -1,
-              trigger: {
-                id: +new Date()
-              }
-            }
+      }
+    })
+
+    return Observable.fromPromise(create)
+      .mergeMap(({ data: { id } }) => {
+        return Observable.of({
+          type: actions.SIGNAL_CREATE_SUCCESS,
+          payload: {
+            id
           }
         })
-
-        return Observable.fromPromise(create)
-          .mergeMap(({ data: { id } }) => {
-            return Observable.of({
-              type: actions.SIGNAL_CREATE_SUCCESS,
-              payload: {
-                id
-              }
-            })
-          })
-          .catch(handleErrorAndTriggerAction(actions.SIGNAL_CREATE_FAILED))
-      }
-    )
+      })
+      .catch(handleErrorAndTriggerAction(actions.SIGNAL_CREATE_FAILED))
+  })
 
 export const USER_TRIGGER_QUERY = gql`
   query {
@@ -233,7 +216,6 @@ export const updateSignalEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.SIGNAL_UPDATE)
     .switchMap(({ payload: { tags, __typename, ...trigger } }) => {
-      console.log('update epic', trigger)
       const toggle = client.mutate({
         mutation: TRIGGER_UPDATE_QUERY,
         variables: { ...trigger }
