@@ -30,7 +30,7 @@ const InsightPage = ({
   },
   ...rest
 }) => {
-  if (!data || data.loading) return null
+  if (!data || data.loading || !data.insight) return null
 
   if (isInsightADraftByDifferentUser(data.insight, userId)) {
     return <Redirect to='/insights' />

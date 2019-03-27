@@ -23,8 +23,16 @@ const LoadableInsightPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableUnAuthPage = Loadable({
+  loader: () => import('./InsightUnAuthPage'),
+  loading: () => <PageLoader />
+})
+
 const PageHub = ({ location: { pathname }, isLoggedIn }) => {
   window.scrollTo(0, 0)
+  const normalizedPathname = pathname.endsWith('/')
+    ? pathname.slice(0, -1)
+    : pathname
 
   return (
     <div style={{ width: '100%' }} className={cx('page', styles.wrapper)}>
@@ -32,6 +40,11 @@ const PageHub = ({ location: { pathname }, isLoggedIn }) => {
         <title>Insights</title>
       </Helmet>
       <Switch>
+        {!isLoggedIn &&
+          (normalizedPathname !== baseLocation &&
+            !normalizedPathname.startsWith('/insights/read/')) && (
+          <Route component={LoadableUnAuthPage} />
+        )}
         <Route
           exact
           path={`${baseLocation}/read/:id`}

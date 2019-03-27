@@ -31,6 +31,25 @@ export const ALL_INSIGHTS_QUERY = gql`
   }
 `
 
+export const CURRENT_USER_DRAFT_INSIGHTS = gql`
+  query currentUser {
+    currentUser {
+      id
+      insights {
+        readyState
+        id
+        title
+        text
+        updatedAt
+        user {
+          username
+          id
+        }
+      }
+    }
+  }
+`
+
 export const INSIGHT_BY_ID_QUERY = gql`
   query insightById($id: ID!) {
     insight: post(id: $id) {
@@ -55,25 +74,6 @@ export const INSIGHT_BY_ID_QUERY = gql`
   }
 `
 
-export const INSIGHTS_USER_DRAFTS_QUERY = gql`
-  query allInsightsForUser($userId: Int!) {
-    insights: allInsightsForUser(userId: $userId) {
-      id
-      title
-      text
-      readyState
-      updatedAt
-      tags {
-        name
-      }
-      user {
-        username
-        id
-      }
-    }
-  }
-`
-
 export const INSIGHTS_BY_USERID_QUERY = gql`
   query allInsightsForUser($userId: Int!) {
     insights: allInsightsForUser(userId: $userId) {
@@ -85,7 +85,6 @@ export const INSIGHTS_BY_USERID_QUERY = gql`
       }
       createdAt
       updatedAt
-      state
       readyState
       votedAt
       tags {
@@ -109,7 +108,6 @@ export const INSIGHTS_BY_TAG_QUERY = gql`
       }
       createdAt
       updatedAt
-      state
       readyState
       votedAt
       tags {

@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import {
-  INSIGHTS_USER_DRAFTS_QUERY,
+  CURRENT_USER_DRAFT_INSIGHTS,
   DELETE_INSIGHT_MUTATION
 } from './InsightsGQL'
 import InsightDraftCard from '../../components/Insight/InsightDraftCard'
@@ -29,9 +29,8 @@ class InsightsDraftPage extends Component {
 
   render () {
     const { deleted } = this.state
-    const { data = {} } = this.props
+    const { insights = [] } = this.props
 
-    const { insights = [] } = data
     const drafts = insights
       .filter(filterInsightsOnlyDrafts)
       .filter(({ id }) => !deleted.has(id))
@@ -60,11 +59,11 @@ const mapStateToProps = ({ user }) => ({
 const enhance = compose(
   connect(mapStateToProps),
   graphql(DELETE_INSIGHT_MUTATION, { name: 'deleteInsightDraft' }),
-  graphql(INSIGHTS_USER_DRAFTS_QUERY, {
-    options: ({ userId }) => ({
-      variables: {
-        userId: +userId
-      },
+  graphql(CURRENT_USER_DRAFT_INSIGHTS, {
+    props: ({ data: { currentUser = {} } }) => ({
+      insights: currentUser.insights
+    }),
+    options: () => ({
       fetchPolicy: 'cache-and-network'
     })
   })

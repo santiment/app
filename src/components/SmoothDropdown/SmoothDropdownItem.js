@@ -6,8 +6,7 @@ class SmoothDropdownItem extends Component {
   triggerRef = React.createRef()
 
   static propTypes = {
-    children: PropTypes.oneOfType([PropTypes.element, PropTypes.string])
-      .isRequired,
+    children: PropTypes.any.isRequired,
     trigger: PropTypes.element.isRequired,
     showIf: PropTypes.func
   }
