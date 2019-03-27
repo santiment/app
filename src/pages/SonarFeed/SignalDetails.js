@@ -47,7 +47,7 @@ const SignalDetails = ({
   if (!isLoading && !trigger) {
     return <Redirect exact to={'/sonar/feed/my-signals'} />
   }
-  const { isActive, cooldown, isPublic, title, description } = trigger
+  const { isActive, isPublic, title, description } = trigger
   return (
     <Panel header='Signals details'>
       {title}

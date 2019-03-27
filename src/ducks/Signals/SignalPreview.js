@@ -4,9 +4,7 @@ import { connect } from 'react-redux'
 import {
   ResponsiveContainer,
   ComposedChart,
-  Legend,
   Line,
-  CartesianGrid,
   XAxis,
   YAxis,
   Tooltip,

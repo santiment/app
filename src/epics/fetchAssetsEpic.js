@@ -105,7 +105,7 @@ export const fetchRestAllAssetsEpic = (action$, store, { client }) =>
       return !!payload.first50
     })
     .mergeMap(action => {
-      const { type, filters, first50 } = action.payload
+      const { type, filters } = action.payload
       return fetchAssets$({ type: 'restAll', client, filters })
         .exhaustMap(data => {
           return Observable.of({

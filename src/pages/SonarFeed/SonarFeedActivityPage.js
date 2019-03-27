@@ -3,7 +3,6 @@ import { graphql } from 'react-apollo'
 import Markdown from 'react-markdown'
 import gql from 'graphql-tag'
 import SonarFeedRecommendations from './SonarFeedRecommendations'
-import SignalCard from '../../components/SignalCard/SignalCard'
 import styles from './SonarFeedActivityPage.module.scss'
 
 export const TRIGGER_ACTIVITIES_QUERY = gql`
