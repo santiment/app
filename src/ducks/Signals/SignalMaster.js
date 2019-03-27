@@ -4,6 +4,7 @@ import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { createTrigger, updateTrigger } from './actions'
+import { Message } from '@santiment-network/ui'
 import TriggerForm from './TriggerForm'
 import InfoSignalForm from './InfoSignalForm'
 import styles from './TriggerForm.module.scss'
@@ -26,22 +27,31 @@ export class SignalMaster extends React.PureComponent {
       return 'Loading...'
     }
     if (this.props.isEdit && this.props.trigger.isError) {
-      return this.props.trigger.errorMessage
+      return (
+        <Message variant='error'>{this.props.trigger.errorMessage}</Message>
+      )
     }
     const { step, trigger } = this.state
     const currentTrigger = trigger || (this.props.trigger || {}).trigger
-    console.log(currentTrigger)
+    const formProps = currentTrigger
+      ? mapTriggerToFormProps(currentTrigger)
+      : undefined
+    console.log(formProps)
+    const meta = {
+      title: currentTrigger ? currentTrigger.title : 'Any',
+      description: currentTrigger ? currentTrigger.description : 'Any'
+    }
     return (
       <div className={styles.wrapper}>
         {step === STEPS.SETTINGS && (
           <TriggerForm
-            settings={mapTriggerToFormProps(currentTrigger)}
+            settings={formProps}
             onSettingsChange={this.handleSettingsChange}
           />
         )}
         {step === STEPS.CONFIRM && (
           <InfoSignalForm
-            {...this.props.trigger.trigger}
+            {...meta}
             onBack={this.backToSettings}
             onInfoSignalSubmit={this.handleInfoSignalSubmit}
           />
@@ -55,13 +65,18 @@ export class SignalMaster extends React.PureComponent {
   }
 
   handleSettingsChange = formProps => {
-    this.setState({
-      trigger: mapFormPropsToTrigger(
-        formProps,
-        (this.props.trigger || {}).trigger
-      ),
-      step: STEPS.CONFIRM
-    })
+    this.setState(
+      {
+        trigger: mapFormPropsToTrigger(
+          formProps,
+          (this.props.trigger || {}).trigger
+        ),
+        step: STEPS.CONFIRM
+      },
+      () => {
+        console.log(this.state)
+      }
+    )
   }
 
   handleInfoSignalSubmit = info => {
@@ -118,7 +133,7 @@ const enhance = compose(
             isError: true,
             isLoading: false,
             trigger: null,
-            errorMessage: 'This is an unsupported type of signal'
+            errorMessage: 'This is the unsupported signal format'
           }
         }
       }

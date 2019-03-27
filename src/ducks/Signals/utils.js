@@ -40,7 +40,7 @@ const getMetric = type => {
 }
 
 export const mapTriggerToFormProps = currentTrigger => {
-  if (!currentTrigger || !currentTrigger.id) {
+  if (!currentTrigger) {
     return undefined
   }
   const settings = currentTrigger.settings

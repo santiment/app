@@ -200,6 +200,7 @@ export const TRIGGER_UPDATE_QUERY = gql`
     $id: Int
     $title: String
     $description: String
+    $cooldown: String
     $active: Boolean
     $isPublic: Boolean
     $settings: json!
@@ -209,6 +210,7 @@ export const TRIGGER_UPDATE_QUERY = gql`
       isPublic: $isPublic
       active: $active
       settings: $settings
+      cooldown: $cooldown
       title: $title
       description: $description
     ) {
