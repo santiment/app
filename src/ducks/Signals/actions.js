@@ -58,7 +58,7 @@ export const toggleTrigger = ({ id, isActive }) => ({
   type: SIGNAL_TOGGLE_BY_ID,
   payload: {
     id,
-    active: !isActive
+    isActive: !isActive
   }
 })
 

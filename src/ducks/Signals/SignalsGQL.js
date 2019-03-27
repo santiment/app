@@ -7,8 +7,8 @@ export const TRIGGER_BY_ID_QUERY = gql`
         id
         settings
         isPublic
-        active
-        repeating
+        isActive
+        isRepeating
         cooldown
         tags {
           name

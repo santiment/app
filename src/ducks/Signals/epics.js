@@ -75,6 +75,8 @@ export const USER_TRIGGER_QUERY = gql`
       triggers {
         id
         isPublic
+        isActive
+        isRepeating
         cooldown
         settings
         title
@@ -102,10 +104,10 @@ export const fetchSignalsEpic = (action$, store, { client }) =>
   })
 
 export const TRIGGER_TOGGLE_QUERY = gql`
-  mutation updateTrigger($id: Int, $active: Boolean) {
-    updateTrigger(id: $id, active: $active) {
+  mutation updateTrigger($id: Int, $isActive: Boolean) {
+    updateTrigger(id: $id, isActive: $isActive) {
       trigger {
-        active
+        isActive
         id
       }
     }
@@ -115,12 +117,12 @@ export const TRIGGER_TOGGLE_QUERY = gql`
 export const toggleSignalEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.SIGNAL_TOGGLE_BY_ID)
-    .switchMap(({ payload: { id, active } }) => {
+    .switchMap(({ payload: { id, isActive } }) => {
       const toggle = client.mutate({
         mutation: TRIGGER_TOGGLE_QUERY,
         variables: {
           id,
-          active
+          isActive
         },
         optimisticResponse: {
           __typename: 'Mutation',
@@ -130,7 +132,7 @@ export const toggleSignalEpic = (action$, store, { client }) =>
             trigger: {
               __typename: 'Trigger',
               id,
-              active
+              isActive
             }
           }
         }
@@ -235,7 +237,7 @@ export const updateSignalEpic = (action$, store, { client }) =>
     })
 
 export const TRIGGER_REMOVE_QUERY = gql`
-  mutation removeTrigger($id: Int) {
+  mutation removeTrigger($id: Int!) {
     removeTrigger(id: $id) {
       trigger {
         id
@@ -254,7 +256,8 @@ const TRIGGERS_QUERY = gql`
         cooldown
         settings
         title
-        active
+        isActive
+        isRepeating
         description
         tags {
           name
@@ -305,5 +308,17 @@ export const removeSignalEpic = (action$, store, { client }) =>
             Observable.of(showNotification('Trigger is removed'))
           )
         })
-        .catch(handleErrorAndTriggerAction(actions.SIGNAL_REMOVE_BY_ID_FAILED))
+        .catch(action => {
+          return Observable.merge(
+            handleErrorAndTriggerAction(actions.SIGNAL_REMOVE_BY_ID_FAILED)(
+              action
+            ),
+            Observable.of(
+              showNotification({
+                title: "Trigger doesn't removed",
+                variant: 'error'
+              })
+            )
+          )
+        })
     })

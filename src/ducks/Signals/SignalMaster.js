@@ -9,7 +9,11 @@ import TriggerForm from './TriggerForm'
 import InfoSignalForm from './InfoSignalForm'
 import styles from './TriggerForm.module.scss'
 import { TRIGGER_BY_ID_QUERY } from './SignalsGQL'
-import { mapTriggerToFormProps, mapFormPropsToTrigger } from './utils'
+import {
+  mapTriggerToFormProps,
+  mapFormPropsToTrigger,
+  mapTriggerToProps
+} from './utils'
 
 const STEPS = {
   SETTINGS: 0,
@@ -36,7 +40,6 @@ export class SignalMaster extends React.PureComponent {
     const formProps = currentTrigger
       ? mapTriggerToFormProps(currentTrigger)
       : undefined
-    console.log(formProps)
     const meta = {
       title: currentTrigger ? currentTrigger.title : 'Any',
       description: currentTrigger ? currentTrigger.description : 'Any'
@@ -52,6 +55,7 @@ export class SignalMaster extends React.PureComponent {
         {step === STEPS.CONFIRM && (
           <InfoSignalForm
             {...meta}
+            isEdit={this.props.isEdit}
             onBack={this.backToSettings}
             onInfoSignalSubmit={this.handleInfoSignalSubmit}
           />
@@ -126,25 +130,7 @@ const enhance = compose(
         variables: { id: +id }
       }
     },
-    props: ({ data: { trigger, loading, error } }) => {
-      if (!loading && !trigger.trigger.settings.target.hasOwnProperty('slug')) {
-        return {
-          trigger: {
-            isError: true,
-            isLoading: false,
-            trigger: null,
-            errorMessage: 'This is the unsupported signal format'
-          }
-        }
-      }
-      return {
-        trigger: {
-          trigger: (trigger || {}).trigger,
-          isLoading: loading,
-          isError: !!error
-        }
-      }
-    }
+    props: mapTriggerToProps
   })
 )
 

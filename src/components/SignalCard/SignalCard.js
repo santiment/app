@@ -66,7 +66,7 @@ const SignalCardBottom = ({
   username,
   isPublic,
   isPublished = true,
-  active = true,
+  isActive,
   subscriptionsNumber,
   toggleSignal
 }) => {
@@ -105,7 +105,7 @@ const SignalCardBottom = ({
             {subscriptionsNumber}
           </div>
         )}
-        <Toggle onClick={toggleSignal} isActive={active} />
+        <Toggle onClick={toggleSignal} isActive={isActive} />
       </div>
     </div>
   )

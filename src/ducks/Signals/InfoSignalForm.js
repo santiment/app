@@ -7,6 +7,7 @@ import styles from './TriggerForm.module.scss'
 const InfoSignalForm = ({
   title = 'Signal-' + new Date().toISOString(),
   description = '',
+  isEdit = false,
   onInfoSignalSubmit,
   onBack
 }) => {
@@ -83,7 +84,7 @@ const InfoSignalForm = ({
                 variant={'fill'}
                 accent='positive'
               >
-                Create
+                {isEdit ? 'Update' : 'Create'}
               </Button>
             </div>
           </Form>

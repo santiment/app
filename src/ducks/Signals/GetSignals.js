@@ -16,7 +16,8 @@ const TRIGGERS_QUERY = gql`
         cooldown
         settings
         title
-        active
+        isActive
+        isRepeating
         description
         tags {
           name
@@ -50,6 +51,7 @@ export default compose(
     props: ({ Signals }) => {
       const { currentUser, loading, error } = Signals
       const signals = (currentUser || {}).triggers || []
+      console.log(signals)
       return {
         signals,
         isLoading: loading,

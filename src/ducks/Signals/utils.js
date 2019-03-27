@@ -88,3 +88,23 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     active: !!formProps.active
   }
 }
+
+export const mapTriggerToProps = ({ data: { trigger, loading, error } }) => {
+  if (!loading && !trigger.trigger.settings.target.hasOwnProperty('slug')) {
+    return {
+      trigger: {
+        isError: true,
+        isLoading: false,
+        trigger: null,
+        errorMessage: 'This is the unsupported signal format'
+      }
+    }
+  }
+  return {
+    trigger: {
+      trigger: (trigger || {}).trigger,
+      isLoading: loading,
+      isError: !!error
+    }
+  }
+}

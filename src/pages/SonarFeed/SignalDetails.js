@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import { compose } from 'recompose'
@@ -7,20 +8,24 @@ import { graphql } from 'react-apollo'
 import { PanelWithHeader as Panel, Toggle, Button } from '@santiment-network/ui'
 import { TRIGGER_BY_ID_QUERY } from './../../ducks/Signals/SignalsGQL'
 import { toggleTrigger, removeTrigger } from './../../ducks/Signals/actions'
+import { mapTriggerToProps } from './../../ducks/Signals/utils'
 
 const SignalDetails = ({
-  data: { trigger, loading },
+  trigger: { trigger, isLoading, isError, errorMessage },
   toggleSignal,
   removeSignal,
   redirect
 }) => {
-  if (loading) {
+  if (isLoading) {
     return <Panel header='Signals details'>Loading...</Panel>
   }
-  const { active, cooldown, isPublic, id } = trigger.trigger
+  if (!isLoading && !trigger) {
+    return <Redirect exact to={'/sonar/feed/my-signals'} />
+  }
+  const { isActive, cooldown, isPublic, id } = trigger
   return (
     <Panel header='Signals details'>
-      {active ? 'active' : 'not active'}
+      {isActive ? 'active' : 'not active'}
       {cooldown}
       {isPublic}
       {id}
@@ -37,8 +42,8 @@ const SignalDetails = ({
         Remove
       </Button>
       <Toggle
-        onClick={() => toggleSignal({ id, isActive: active })}
-        isActive={active}
+        onClick={() => toggleSignal({ id, isActive })}
+        isActive={isActive}
       />
     </Panel>
   )
@@ -71,7 +76,8 @@ const enhance = compose(
         id: +id
       },
       fetchPolicy: 'network-only'
-    })
+    }),
+    props: mapTriggerToProps
   })
 )
 
