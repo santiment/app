@@ -1,6 +1,6 @@
 import React from 'react'
 import { configure, addDecorator, setAddon } from '@storybook/react'
-import InfoAddon, { setDefaults } from '@storybook/addon-info'
+import { withInfo, setDefaults } from '@storybook/addon-info'
 
 // addon-info
 setDefaults({
@@ -23,10 +23,8 @@ if (window.document) {
 }
 
 
-addDecorator(story => (
-    <div style={{ padding: 20, background: '#F6F6F8' }}>{story()}</div>
-))
-setAddon(InfoAddon)
+addDecorator(withInfo)
+addDecorator(story => <div style={{ padding: 20, background: '#F6F6F8' }}>{story()}</div>)
 
 function loadStories() {
   require('../stories/index.js')

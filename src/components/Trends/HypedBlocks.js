@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import HypedWordsBlock from './HypedWordsBlock'
-import Selector from './../../components/Selector/Selector'
+import { Selector } from '@santiment-network/ui'
 import styles from './HypedBlocks.module.css'
 
 const DesktopList = ({ items = [] }) => (

@@ -16,7 +16,8 @@ const TRIGGERS_QUERY = gql`
         cooldown
         settings
         title
-        active
+        isActive
+        isRepeating
         description
         tags {
           name

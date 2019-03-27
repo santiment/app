@@ -32,6 +32,7 @@
 
 .title {
   @include text-normal;
+
   font-size: 18px;
   margin: 0;
   margin-bottom: 4px;
@@ -39,6 +40,7 @@
 
 .description {
   @include text-normal;
+
   margin: 0;
   color: var(--grey-dark-2);
 }
@@ -59,6 +61,7 @@
 
 .author {
   @include text-normal;
+
   margin: 0;
 
   &__link {
@@ -73,6 +76,7 @@
 
 .subscriptions {
   @include text-normal;
+
   margin-right: 24px;
   display: flex;
   align-items: center;
@@ -85,6 +89,7 @@
 
 .awaiting {
   @include text-normal;
+
   display: inline-flex;
   align-items: center;
   margin: 0;
@@ -94,16 +99,5 @@
   &__icon {
     width: 15px;
     margin-right: 9px;
-  }
-}
-
-.status {
-  vertical-align: sub;
-  fill: var(--grey-dark);
-  margin-right: 9px;
-  width: 15px;
-
-  &_public {
-    width: 17px;
   }
 }

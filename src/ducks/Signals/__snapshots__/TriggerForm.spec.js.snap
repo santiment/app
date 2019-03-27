@@ -2,10 +2,31 @@
 
 exports[`TriggerForm smoke 1`] = `
 <Formik
-  enableReinitialize={false}
+  enableReinitialize={true}
   initialValues={
     Object {
+      "channels": Array [
+        "telegram",
+      ],
+      "cooldown": "24h",
+      "metric": Object {
+        "label": "Price",
+        "value": "price",
+      },
       "percentThreshold": 5,
+      "target": Object {
+        "label": "santiment",
+        "value": "santiment",
+      },
+      "timeWindow": 24,
+      "timeWindowUnit": Object {
+        "label": "hours",
+        "value": "h",
+      },
+      "type": Object {
+        "label": "Percentage Change",
+        "value": "price_percent_change",
+      },
     }
   }
   isInitialValid={true}

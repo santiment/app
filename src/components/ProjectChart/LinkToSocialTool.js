@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import { Button } from '@santiment-network/ui'
 
 export const LinkToSocialTool = ({ slug, ticker, name }) => {
   const social =
