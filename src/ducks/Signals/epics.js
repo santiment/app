@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import * as actions from './actions'
+import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 
 export const CREATE_TRIGGER_QUERY = gql`
@@ -294,13 +295,15 @@ export const removeSignalEpic = (action$, store, { client }) =>
       })
 
       return Observable.fromPromise(toggle)
+
         .mergeMap(({ data: { removeTrigger } }) => {
-          return Observable.of({
-            type: actions.SIGNAL_REMOVE_BY_ID_SUCCESS,
-            payload: {
-              id: removeTrigger.trigger.id
-            }
-          })
+          return Observable.merge(
+            Observable.of({
+              type: actions.SIGNAL_REMOVE_BY_ID_SUCCESS,
+              payload: { id: removeTrigger.trigger.id }
+            }),
+            Observable.of(showNotification('Trigger is removed'))
+          )
         })
         .catch(handleErrorAndTriggerAction(actions.SIGNAL_REMOVE_BY_ID_FAILED))
     })
