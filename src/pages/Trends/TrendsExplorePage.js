@@ -28,6 +28,25 @@ const getCustomInterval = timeframe => {
   return '1d'
 }
 
+const defaultPrices = {
+  options: ['bitcoin', 'ethereum'],
+  labels: ['BTC/USD', 'ETH/USD']
+}
+
+const getPriceOptions = asset => {
+  const { options, labels } = defaultPrices
+  if (!asset) {
+    return [options, labels]
+  }
+
+  const { slug, ticker } = asset
+  if (ticker === 'BTC' || ticker === 'ETH') {
+    return [options, labels]
+  }
+
+  return [[...options, slug], [...labels, `${ticker}/USD`]]
+}
+
 export class TrendsExplorePage extends Component {
   state = {
     timeRange: '3m',
@@ -67,6 +86,8 @@ export class TrendsExplorePage extends Component {
   render () {
     const { word, hasPremium, detectedAsset } = this.props
     const { timeRange, asset = '' } = this.state
+    const [priceOptions, priceLabels] = getPriceOptions(detectedAsset)
+
     const topic = window.decodeURIComponent(word)
     return (
       <div className={styles.TrendsExplorePage}>
@@ -93,16 +114,8 @@ export class TrendsExplorePage extends Component {
             />
             <Panel className={styles.pricePair}>
               <Selector
-                options={
-                  detectedAsset
-                    ? ['bitcoin', 'ethereum', detectedAsset.slug]
-                    : ['bitcoin', 'ethereum']
-                }
-                nameOptions={
-                  detectedAsset
-                    ? ['BTC/USD', 'ETH/USD', `${detectedAsset.ticker}/USD`]
-                    : ['BTC/USD', 'ETH/USD']
-                }
+                options={priceOptions}
+                nameOptions={priceLabels}
                 onSelectOption={this.handleSelectAsset}
                 defaultSelected={asset}
               />
