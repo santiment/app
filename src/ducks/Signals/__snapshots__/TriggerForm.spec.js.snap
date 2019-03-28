@@ -9,6 +9,7 @@ exports[`TriggerForm smoke 1`] = `
         "telegram",
       ],
       "cooldown": "24h",
+      "isRepeating": true,
       "metric": Object {
         "label": "Price",
         "value": "price",
