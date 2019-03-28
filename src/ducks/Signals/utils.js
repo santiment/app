@@ -83,7 +83,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       type: formProps.type.value
     },
     isPublic: !!formProps.isPublic,
-    isRepeating: formProps.isRepeating ? formProps.isRepeating : undefined,
+    isRepeating: !!formProps.isRepeating,
     cooldown: formProps.cooldown ? formProps.cooldown : undefined,
     isActive: !!formProps.isActive
   }

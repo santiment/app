@@ -8,6 +8,7 @@ export const CREATE_TRIGGER_QUERY = gql`
   mutation createTrigger(
     $settings: json!
     $isPublic: Boolean
+    $isRepeating: Boolean
     $cooldown: String
     $tags: [String]
     $title: String!
@@ -16,6 +17,7 @@ export const CREATE_TRIGGER_QUERY = gql`
     createTrigger(
       settings: $settings
       isPublic: $isPublic
+      isRepeating: $isRepeating
       cooldown: $cooldown
       tags: $tags
       title: $title
@@ -25,6 +27,7 @@ export const CREATE_TRIGGER_QUERY = gql`
       trigger {
         id
         isPublic
+        isRepeating
         settings
         title
         description
@@ -37,36 +40,39 @@ export const CREATE_TRIGGER_QUERY = gql`
 `
 
 export const createSignalEpic = (action$, store, { client }) =>
-  action$.ofType(actions.SIGNAL_CREATE).switchMap(({ payload }) => {
-    const create = client.mutate({
-      mutation: CREATE_TRIGGER_QUERY,
-      variables: {
-        ...payload,
-        tags: []
-      },
-      optimisticResponse: {
-        __typename: 'Mutation',
-        createTrigger: {
-          __typename: 'UserTrigger',
-          userId: -1,
-          trigger: {
-            id: +new Date()
+  action$
+    .ofType(actions.SIGNAL_CREATE)
+    .debounceTime(200)
+    .switchMap(({ payload: { tags, __typename, isActive, ...trigger } }) => {
+      const create = client.mutate({
+        mutation: CREATE_TRIGGER_QUERY,
+        variables: {
+          ...trigger
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          createTrigger: {
+            __typename: 'UserTrigger',
+            userId: -1,
+            trigger: {
+              __typename: 'Trigger',
+              id: +new Date()
+            }
           }
         }
-      }
-    })
-
-    return Observable.fromPromise(create)
-      .mergeMap(({ data: { id } }) => {
-        return Observable.of({
-          type: actions.SIGNAL_CREATE_SUCCESS,
-          payload: {
-            id
-          }
-        })
       })
-      .catch(handleErrorAndTriggerAction(actions.SIGNAL_CREATE_FAILED))
-  })
+
+      return Observable.fromPromise(create)
+        .mergeMap(({ data: { id } }) => {
+          return Observable.of({
+            type: actions.SIGNAL_CREATE_SUCCESS,
+            payload: {
+              id
+            }
+          })
+        })
+        .catch(handleErrorAndTriggerAction(actions.SIGNAL_CREATE_FAILED))
+    })
 
 export const USER_TRIGGER_QUERY = gql`
   query {
@@ -188,6 +194,7 @@ export const TRIGGER_UPDATE_QUERY = gql`
     $description: String
     $cooldown: String
     $isActive: Boolean
+    $isRepeating: Boolean
     $isPublic: Boolean
     $settings: json!
   ) {
@@ -195,6 +202,7 @@ export const TRIGGER_UPDATE_QUERY = gql`
       id: $id
       isPublic: $isPublic
       isActive: $isActive
+      isRepeating: $isRepeating
       settings: $settings
       cooldown: $cooldown
       title: $title

@@ -21,34 +21,14 @@ export const SIGNAL_FETCH_HISTORY_POINTS_SUCCESS =
 export const SIGNAL_FETCH_HISTORY_POINTS_FAILED =
   '[signal] FETCH_HISTORY_POINTS_FAILED'
 
-export const WithoutChannelsError =
-  'You must setup at least one channel for new signal'
-
 export const createTrigger = payload => mutateTrigger({ payload })
 export const updateTrigger = payload => mutateTrigger({ payload, isEdit: true })
 
-// {
-// target,
-// metric,
-// channels,
-// timeWindow,
-// title,
-// description,
-// cooldown,
-// option,
-// values = {
-// percentThreshold: null
-// }
-// }
-
 const mutateTrigger = ({ payload, isEdit }) => {
-  console.log(isEdit ? 'update' : 'create')
-  // TODO: return repeating
-  const { repeating, ...rest } = payload
   return {
     type: isEdit ? SIGNAL_UPDATE : SIGNAL_CREATE,
     payload: {
-      ...rest,
+      ...payload,
       settings: JSON.stringify(payload.settings)
     }
   }
