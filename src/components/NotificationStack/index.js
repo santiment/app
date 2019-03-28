@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Notification as NotificationItem } from '@santiment-network/ui'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import * as Actions from '../../actions/rootActions'
+import * as actions from '../../actions/rootActions'
 import styles from './NotificationStack.module.scss'
 
 const notifyDuration = +styles.notifyduration
@@ -32,8 +32,8 @@ class NotificationStack extends Component {
     }
   }
 
-  closeNotification = notificationId => {
-    this.props.hideNotification(notificationId)
+  closeNotification = id => {
+    this.props.hideNotification(id)
   }
 
   render () {
@@ -65,7 +65,7 @@ const mapStateToProps = ({ notification }) => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      hideNotification: Actions.hideNotification
+      hideNotification: actions.hideNotification
     },
     dispatch
   )
