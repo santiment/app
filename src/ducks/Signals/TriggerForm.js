@@ -7,7 +7,11 @@ import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
-import { Button, Message } from '@santiment-network/ui'
+import {
+  PanelWithHeader as Panel,
+  Button,
+  Message
+} from '@santiment-network/ui'
 import { selectIsTelegramConnected } from './../../pages/UserSelectors'
 import { allProjectsForSearchGQL } from './../../pages/Projects/allProjectsGQL'
 import { fetchHistorySignalPoints } from './actions'
@@ -15,6 +19,7 @@ import FormikInput from './../../components/formik-santiment-ui/FormikInput'
 import FormikSelect from './../../components/formik-santiment-ui/FormikSelect'
 import FormikSelector from './../../components/formik-santiment-ui/FormikSelector'
 import FormikCheckboxes from './../../components/formik-santiment-ui/FormikCheckboxes'
+import FormikToggle from './../../components/formik-santiment-ui/FormikToggle'
 import FormikEffect from './FormikEffect'
 import SignalPreview from './SignalPreview'
 import styles from './TriggerForm.module.scss'
@@ -28,8 +33,40 @@ const METRICS = [
 
 const TYPES = {
   price: [
-    { label: 'Percentage Change', value: 'price_percent_change' }
-    // { label: 'Absolute', value: 'price_absolute_change' }
+    {
+      label: 'Price changing',
+      options: [
+        {
+          value: '',
+          label: 'More than'
+        },
+        {
+          value: '',
+          label: 'Less than'
+        },
+        {
+          value: '',
+          label: 'Entering channel'
+        },
+        {
+          value: '',
+          label: 'Outside channel'
+        }
+      ]
+    },
+    {
+      label: 'Percent change',
+      options: [
+        {
+          value: 'price_percent_change',
+          label: 'Moving up %'
+        },
+        {
+          value: '',
+          label: 'Moving down %'
+        }
+      ]
+    }
   ],
   daily_active_addresses: [
     { label: 'Daily Active Addresses', value: 'daily_active_addresses' }
@@ -53,7 +90,8 @@ const defaultValues = {
     metric: { label: 'Price', value: 'price' },
     timeWindow: 24,
     timeWindowUnit: { label: 'hours', value: 'h' },
-    type: { label: 'Percentage Change', value: 'price_percent_change' },
+    type: { value: 'price_percent_change', label: 'Moving up %' },
+    isRepeating: true,
     channels: ['telegram']
   },
   daily_active_addresses: {
@@ -67,6 +105,7 @@ const defaultValues = {
     timeWindow: 2,
     timeWindowUnit: { label: 'days', value: 'd' },
     type: { label: 'Daily Active Addresses', value: 'daily_active_addresses' },
+    isRepeating: true,
     channels: ['telegram']
   },
   price_volume_difference: {
@@ -81,11 +120,23 @@ const defaultValues = {
       label: 'Price/volume difference',
       value: 'price_volume_difference'
     },
+    isRepeating: true,
     channels: ['telegram']
   }
 }
 
 const INITIAL_VALUES = defaultValues['price_percent_change']
+
+const getTypeByMetric = metric => {
+  if (metric.value === 'price') {
+    return {
+      value: 'price_percent_change',
+      label: 'Moving up %'
+    }
+  } else {
+    return TYPES[metric.value][0]
+  }
+}
 
 const mapValuesToTriggerProps = values => ({
   cooldown: values.cooldown,
@@ -215,130 +266,144 @@ export const TriggerForm = ({
               }
             }}
           />
-          <div className={styles.row}>
-            <div className={styles.Field}>
-              <label>Asset</label>
-              <FormikSelect
-                name='target'
-                placeholder='Pick an asset'
-                options={allProjects.map(asset => ({
-                  label: asset.slug,
-                  value: asset.slug
-                }))}
-              />
+          <Panel header='Trigger #1' className={styles.TriggerPanel}>
+            <div className={styles.row}>
+              <div className={styles.Field}>
+                <label>Asset</label>
+                <FormikSelect
+                  name='target'
+                  placeholder='Pick an asset'
+                  options={allProjects.map(asset => ({
+                    label: asset.slug,
+                    value: asset.slug
+                  }))}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className={styles.row}>
-            <label>Metrics</label>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.Field}>
-              <FormikSelect
-                name='metric'
-                clearable={false}
-                placeholder='Choose a metric'
-                options={METRICS}
-                onChange={metric => {
-                  metric.value !== values.metric.value &&
-                    setFieldValue('type', TYPES[metric.value][0])
-                }}
-              />
+            <div className={styles.row}>
+              <label>Metrics</label>
             </div>
-            {TYPES[(values.metric || {}).value] &&
-              TYPES[(values.metric || {}).value].length > 1 && (
+            <div className={styles.row}>
               <div className={styles.Field}>
                 <FormikSelect
-                  name='type'
-                  clearable={false}
-                  placeholder='Choose a type'
-                  options={TYPES[values.metric.value]}
+                  name='metric'
+                  isClearable={false}
+                  isSearchable
+                  placeholder='Choose a metric'
+                  options={METRICS}
+                  onChange={metric => {
+                    metric.value !== values.metric.value &&
+                      setFieldValue('type', getTypeByMetric(metric))
+                  }}
                 />
               </div>
-            )}
-          </div>
+              {TYPES[(values.metric || {}).value] &&
+                TYPES[(values.metric || {}).value].length > 1 && (
+                <div className={styles.Field}>
+                  <FormikSelect
+                    name='type'
+                    isClearable={false}
+                    isSearchable
+                    placeholder='Choose a type'
+                    options={TYPES[values.metric.value]}
+                    isOptionDisabled={option => !option.value}
+                  />
+                </div>
+              )}
+            </div>
 
-          <div className={styles.row}>
-            {(() => {
-              // console.log(values.type.value, values, errors)
-            })()}
-            {ARGS[values.type.value].includes('percentThreshold') && (
+            <div className={styles.row}>
+              {ARGS[values.type.value].includes('percentThreshold') && (
+                <div className={styles.Field}>
+                  <label>Percentage change</label>
+                  <FormikInput
+                    name='percentThreshold'
+                    type='number'
+                    placeholder='Setup the percentage change'
+                  />
+                </div>
+              )}
+              {ARGS[values.type.value].includes('threshold') && (
+                <div className={styles.Field}>
+                  <label>Threshold</label>
+                  <FormikInput
+                    name='threshold'
+                    step={0.001}
+                    type='number'
+                    placeholder='Setup the threshold'
+                  />
+                </div>
+              )}
+              {ARGS[values.type.value].includes('timeWindow') && (
+                <div className={styles.Field}>
+                  <label>Time Window</label>
+                  <FormikInput
+                    name='timeWindow'
+                    type='number'
+                    placeholder='Setup the time window'
+                  />
+                  <FormikSelect
+                    name='timeWindowUnit'
+                    clearable={false}
+                    placeholder='Choose unit'
+                    options={[
+                      { value: 'h', label: 'hours' },
+                      { value: 'd', label: 'days' }
+                    ]}
+                  />
+                </div>
+              )}
+            </div>
+            <div className={styles.row}>
               <div className={styles.Field}>
-                <label>Percentage change</label>
-                <FormikInput
-                  name='percentThreshold'
-                  type='number'
-                  placeholder='Setup the percentage change'
-                />
-              </div>
-            )}
-            {ARGS[values.type.value].includes('threshold') && (
-              <div className={styles.Field}>
-                <label>Threshold</label>
-                <FormikInput
-                  name='threshold'
-                  step={0.001}
-                  type='number'
-                  placeholder='Setup the threshold'
-                />
-              </div>
-            )}
-            {ARGS[values.type.value].includes('timeWindow') && (
-              <div className={styles.Field}>
-                <label>Time Window</label>
-                <FormikInput
-                  name='timeWindow'
-                  type='number'
-                  placeholder='Setup the time window'
-                />
-                <FormikSelect
-                  name='timeWindowUnit'
-                  clearable={false}
-                  placeholder='Choose unit'
-                  options={[
-                    { value: 'h', label: 'hours' },
-                    { value: 'd', label: 'days' }
-                  ]}
-                />
-              </div>
-            )}
-          </div>
-          <div className={styles.row}>
-            <div className={styles.Field}>
-              <label>Message Frequency</label>
-              <div>Once per</div>
-              <div className={styles.Field}>
-                <FormikSelector name='cooldown' options={['1h', '24h']} />
+                <label>Message Frequency</label>
+                <div>Once per</div>
+                <div className={styles.Field}>
+                  <FormikSelector name='cooldown' options={['1h', '24h']} />
+                </div>
               </div>
             </div>
-          </div>
-          <div className={styles.row}>
-            <div className={styles.Field}>
-              <FormikCheckboxes
-                name='channels'
-                disabledIndexes={'email'}
-                options={['email', 'telegram']}
-                styles={{ marginRight: 15 }}
-              />
+            <div className={styles.row}>
+              <div className={styles.Field}>
+                <div className={styles.isRepeating}>
+                  <FormikToggle name='isRepeating' />
+                  <span>
+                    {values.isRepeating
+                      ? 'Task never ends'
+                      : 'Task fires only once'}
+                  </span>
+                </div>
+              </div>
             </div>
-            {!isTelegramConnected && (
-              <Button
-                className={styles.connectLink}
-                variant='ghost'
-                as={Link}
-                to='/account'
-              >
-                Telegram<span className={styles.connectLink}>Connect</span>
-              </Button>
-            )}
-          </div>
+            <div className={styles.row}>
+              <div className={styles.Field}>
+                <FormikCheckboxes
+                  name='channels'
+                  disabledIndexes={'email'}
+                  options={['email', 'telegram']}
+                  styles={{ marginRight: 15 }}
+                />
+              </div>
+              {!isTelegramConnected && (
+                <Button
+                  className={styles.connectLink}
+                  variant='ghost'
+                  as={Link}
+                  to='/account'
+                >
+                  Telegram<span className={styles.connectLink}>Connect</span>
+                </Button>
+              )}
+            </div>
 
-          {errors.channels && (
-            <div className={cx(styles.row, styles.messages)}>
-              <Message variant='warn'>{errors.channels}</Message>
-            </div>
-          )}
-          <SignalPreview />
+            {errors.channels && (
+              <div className={cx(styles.row, styles.messages)}>
+                <Message variant='warn'>{errors.channels}</Message>
+              </div>
+            )}
+            <SignalPreview />
+          </Panel>
           <div className={styles.controls}>
             <Button
               type='submit'

@@ -15,6 +15,10 @@
   margin: 1rem 0;
 }
 
+.TriggerPanel {
+  margin-bottom: 1rem;
+}
+
 span.connectLink {
   color: var(--blue) !important;
   margin-left: 0.3rem;
@@ -29,6 +33,16 @@ a.connectLink {
   text-align: left;
   width: 50%;
   padding-right: 1rem;
+  user-select: none;
+}
+
+.isRepeating {
+  display: flex;
+  align-items: center;
+
+  div:first-child {
+    margin-right: 0.5rem;
+  }
 }
 
 .Field:last-child {
