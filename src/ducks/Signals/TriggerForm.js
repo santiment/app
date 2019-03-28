@@ -241,11 +241,13 @@ export const TriggerForm = ({
               if (current.values.type !== prev.values.type) {
                 setInitialValues(defaultValues[current.values.type.value])
                 validateForm()
-                getSignalBacktestingPoints(
-                  mapValuesToTriggerProps(
-                    defaultValues[current.values.type.value]
+                window.setTimeout(() => {
+                  getSignalBacktestingPoints(
+                    mapValuesToTriggerProps(
+                      defaultValues[current.values.type.value]
+                    )
                   )
-                )
+                }, 0)
                 return
               }
               if (!isEqual(current.values, prev.values)) {
