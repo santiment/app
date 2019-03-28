@@ -4,7 +4,7 @@ import { Notification as NotificationItem } from '@santiment-network/ui'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import styles from './NotificationStack.module.scss'
 
-const notifyDuration = +styles.notifyDuration
+const notifyDuration = +styles.notifyduration
 
 class NotificationStack extends Component {
   timerHandles = {}
