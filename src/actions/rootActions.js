@@ -1,5 +1,6 @@
 import {
   SHOW_NOTIFICATION,
+  HIDE_NOTIFICATION,
   APP_CHANGE_ONLINE_STATUS,
   APP_LAUNCHED
 } from './types'
@@ -15,6 +16,13 @@ export const showNotification = (payload = { title: 'Empty message' }) => {
     }
   }
 }
+
+export const hideNotification = id => ({
+  type: HIDE_NOTIFICATION,
+  payload: {
+    id
+  }
+})
 
 export const changeNetworkStatus = newtworkStatus => ({
   type: APP_CHANGE_ONLINE_STATUS,

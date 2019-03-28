@@ -1,5 +1,6 @@
 // app
 export const SHOW_NOTIFICATION = '[app] SHOW_NOTIFICATION'
+export const HIDE_NOTIFICATION = '[app] HIDE_NOTIFICATION'
 export const APP_CHANGE_ONLINE_STATUS = '[app] CHANGE_ONLINE_STATUS'
 export const APP_LAUNCHED = '[app] LAUNCHED'
 export const APP_SHOW_ONBOARDING = '[app] SHOW_ONBOARDING'
