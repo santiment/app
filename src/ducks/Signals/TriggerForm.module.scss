@@ -5,6 +5,10 @@
   width: 100%;
 }
 
+.Trigger {
+  display: flex;
+}
+
 .row {
   display: flex;
   align-items: center;
@@ -17,6 +21,13 @@
 
 .TriggerPanel {
   margin-bottom: 1rem;
+  width: 50%;
+}
+
+.TriggerChart {
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  width: 50%;
 }
 
 span.connectLink {
@@ -80,6 +91,7 @@ label {
 
 @include responsive('desktop') {
   .wrapper {
-    width: 496px;
+    width: 100%;
+    min-width: 1000px;
   }
 }
