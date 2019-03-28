@@ -65,7 +65,7 @@ const FORM_PROPS = [
     target: { value: 'santiment', label: 'santiment' },
     timeWindow: 1,
     timeWindowUnit: { label: 'days', value: 'd' },
-    type: { label: 'Percentage Change', value: 'price_percent_change' },
+    type: { label: 'Moving up %', value: 'price_percent_change' },
     metric: { label: 'Price', value: 'price' },
     channels: ['telegram']
   },

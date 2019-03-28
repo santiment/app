@@ -25,7 +25,7 @@ exports[`TriggerForm smoke 1`] = `
         "value": "h",
       },
       "type": Object {
-        "label": "Percentage Change",
+        "label": "Moving up %",
         "value": "price_percent_change",
       },
     }

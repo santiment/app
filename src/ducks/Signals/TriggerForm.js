@@ -33,8 +33,40 @@ const METRICS = [
 
 const TYPES = {
   price: [
-    { label: 'Percentage Change', value: 'price_percent_change' }
-    // { label: 'Absolute', value: 'price_absolute_change' }
+    {
+      label: 'Price changing',
+      options: [
+        {
+          value: '',
+          label: 'More than'
+        },
+        {
+          value: '',
+          label: 'Less than'
+        },
+        {
+          value: '',
+          label: 'Entering channel'
+        },
+        {
+          value: '',
+          label: 'Outside channel'
+        }
+      ]
+    },
+    {
+      label: 'Percent change',
+      options: [
+        {
+          value: 'price_percent_change',
+          label: 'Moving up %'
+        },
+        {
+          value: '',
+          label: 'Moving down %'
+        }
+      ]
+    }
   ],
   daily_active_addresses: [
     { label: 'Daily Active Addresses', value: 'daily_active_addresses' }
@@ -58,7 +90,7 @@ const defaultValues = {
     metric: { label: 'Price', value: 'price' },
     timeWindow: 24,
     timeWindowUnit: { label: 'hours', value: 'h' },
-    type: { label: 'Percentage Change', value: 'price_percent_change' },
+    type: { value: 'price_percent_change', label: 'Moving up %' },
     isRepeating: true,
     channels: ['telegram']
   },
@@ -94,6 +126,17 @@ const defaultValues = {
 }
 
 const INITIAL_VALUES = defaultValues['price_percent_change']
+
+const getTypeByMetric = metric => {
+  if (metric.value === 'price') {
+    return {
+      value: 'price_percent_change',
+      label: 'Moving up %'
+    }
+  } else {
+    return TYPES[metric.value][0]
+  }
+}
 
 const mapValuesToTriggerProps = values => ({
   cooldown: values.cooldown,
@@ -245,12 +288,13 @@ export const TriggerForm = ({
               <div className={styles.Field}>
                 <FormikSelect
                   name='metric'
-                  clearable={false}
+                  isClearable={false}
+                  isSearchable
                   placeholder='Choose a metric'
                   options={METRICS}
                   onChange={metric => {
                     metric.value !== values.metric.value &&
-                      setFieldValue('type', TYPES[metric.value][0])
+                      setFieldValue('type', getTypeByMetric(metric))
                   }}
                 />
               </div>
@@ -259,9 +303,11 @@ export const TriggerForm = ({
                 <div className={styles.Field}>
                   <FormikSelect
                     name='type'
-                    clearable={false}
+                    isClearable={false}
+                    isSearchable
                     placeholder='Choose a type'
                     options={TYPES[values.metric.value]}
+                    isOptionDisabled={option => !option.value}
                   />
                 </div>
               )}

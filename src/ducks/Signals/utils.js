@@ -24,7 +24,7 @@ const getTarget = target => {
 
 const getType = type => {
   const ALL_TYPES = {
-    price_percent_change: 'Percentage Change',
+    price_percent_change: 'Moving up %',
     daily_active_addresses: 'Daily Active Addresses',
     price_volume_difference: 'Price/volume difference'
   }
@@ -80,7 +80,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       time_window: formProps.timeWindow
         ? formProps.timeWindow + '' + formProps.timeWindowUnit.value
         : undefined,
-      type: formProps.type.value
+      type: getType(formProps.type.value).value
     },
     isPublic: !!formProps.isPublic,
     isRepeating: !!formProps.isRepeating,
