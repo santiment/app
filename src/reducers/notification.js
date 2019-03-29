@@ -12,7 +12,6 @@ export default (state = initialState, action) => {
           ...state.notifications,
           {
             variant: 'info',
-            solidFill: true,
             dismissAfter: 4000,
             ...action.payload
           }
