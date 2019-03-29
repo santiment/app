@@ -1,31 +1,10 @@
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { checkIsLoggedIn } from './../../pages/UserSelectors'
+import { TRIGGERS_QUERY } from './SignalsGQL'
 
 const POLLING_INTERVAL = 5000
-
-const TRIGGERS_QUERY = gql`
-  query {
-    currentUser {
-      id
-      triggers {
-        id
-        isPublic
-        cooldown
-        settings
-        title
-        isActive
-        isRepeating
-        description
-        tags {
-          name
-        }
-      }
-    }
-  }
-`
 
 const GetSignals = ({ render, ...props }) => render({ ...props })
 
@@ -45,8 +24,8 @@ export default compose(
     name: 'Signals',
     skip: ({ isLoggedIn }) => !isLoggedIn,
     options: () => ({
-      pollInterval: POLLING_INTERVAL,
-      context: { isRetriable: true }
+      // pollInterval: POLLING_INTERVAL,
+      // context: { isRetriable: true }
     }),
     props: ({ Signals }) => {
       const { currentUser, loading, error } = Signals
