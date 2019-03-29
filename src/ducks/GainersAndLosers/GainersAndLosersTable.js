@@ -34,7 +34,8 @@ class GainersLosersTable extends React.Component {
         getTdProps={() => ({
           style: {
             display: 'flex',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            alignItems: 'center'
           }
         })}
         getTbodyProps={() => ({ style: { overflow: 'hidden' } })}
