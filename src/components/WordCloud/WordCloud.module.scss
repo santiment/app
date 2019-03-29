@@ -8,19 +8,18 @@ $top: 22px;
   font-style: normal;
   font-weight: normal;
   line-height: 20px;
-  color: var(--grey-dark);
+  color: var(--casper);
+  font-size: 12px;
 
-  &_big,
   &_medium {
-    color: var(--grey-dark-2);
+    color: var(--mirage);
+    font-size: 18px !important;
   }
 
   &_big {
+    color: var(--dodger-blue);
     font-size: 28px !important;
-  }
-
-  &_medium {
-    font-size: 20px !important;
+    font-weight: 800 !important;
   }
 }
 
