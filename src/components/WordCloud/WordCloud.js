@@ -1,34 +1,36 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
+import cx from 'classnames'
 import TagCloud from 'react-tag-cloud'
 import HelpPopupWordCloud from './HelpPopupWordCloud'
 import WidgetTrend from '../Widget/WidgetTrend'
 import styles from './WordCloud.module.scss'
 
 const WORD_BIG = {
-  color: '#7a859e',
-  fontSize: 28
+  color: 'var(--dodger-blue)',
+  fontSize: 20,
+  fontWeight: 800
 }
 
 const WORD_MEDIUM = {
-  color: '#7a859e',
-  fontSize: 20
+  color: 'var(--mirage)',
+  fontSize: 16
 }
 
 const WORD_SMALL = {
-  fontSize: 12
+  fontSize: 10
 }
 
 const getWordStyles = index => {
-  switch (index) {
-    case 0:
-      return WORD_BIG
-    case 1:
-    case 2:
-      return WORD_MEDIUM
-    default:
-      return WORD_SMALL
+  if (index < 3) {
+    return WORD_BIG
   }
+
+  if (index < 9) {
+    return WORD_MEDIUM
+  }
+
+  return WORD_SMALL
 }
 
 export const WordCloud = ({
@@ -53,14 +55,10 @@ export const WordCloud = ({
       hasData={cloud.length > 0}
     >
       <TagCloud
-        style={{ width: '95%', height: '85%', padding: 10, marginTop: 0 }}
+        style={{ width: '100%', height: '100%', padding: 15, marginTop: 0 }}
       >
         {cloud.map(({ word }, index) => (
-          <div
-            key={word}
-            style={getWordStyles(index)}
-            className={`${styles.text}`}
-          >
+          <div key={word} style={getWordStyles(index)} className={styles.text}>
             {word}
           </div>
         ))}
