@@ -5,8 +5,6 @@ import moment from 'moment'
 import { WatchlistGQL } from './../../components/WatchlistPopup/WatchlistGQL'
 import { checkIsLoggedIn } from './../../pages/UserSelectors'
 
-const POLLING_INTERVAL = 15000
-
 const GetWatchlists = ({ render, ...props }) => render({ ...props })
 
 GetWatchlists.defaultProps = {
@@ -29,7 +27,6 @@ export default compose(
     name: 'Watchlists',
     skip: ({ isLoggedIn }) => !isLoggedIn,
     options: () => ({
-      // pollInterval: POLLING_INTERVAL,
       context: { isRetriable: true }
     }),
     props: ({ Watchlists }) => {

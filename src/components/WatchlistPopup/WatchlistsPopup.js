@@ -10,8 +10,6 @@ import WatchlistsAnon from './WatchlistsAnon'
 import * as actions from './../../actions/types'
 import './WatchlistsPopup.css'
 
-const POLLING_INTERVAL = 4000
-
 const AddToListBtn = (
   <Button basic className='watchlists-button'>
     ADD TO WATCHLISTS
@@ -146,7 +144,6 @@ export default compose(
     name: 'Watchlists',
     skip: ({ isLoggedIn }) => !isLoggedIn,
     options: () => ({
-      // pollInterval: POLLING_INTERVAL,
       context: { isRetriable: true }
     }),
     props: ({ Watchlists }) => {

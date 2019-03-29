@@ -12,7 +12,6 @@
 // import './InsightsStory.js'
 // import './HelpPopupStory.js'
 // import './MenuStory.js'
-// import './SelectorStory.js'
 // import './ShareOptionsStory.js'
 // import './FeedbackButtonStory.js'
 // import './ButtonStory.js'

@@ -1,0 +1,21 @@
+.status {
+  vertical-align: sub;
+  fill: var(--grey-dark);
+  margin-right: 9px;
+  width: 15px;
+
+  &_public {
+    width: 17px;
+  }
+}
+
+.icon {
+  display: inline-flex;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  background: var(--blue-light);
+  fill: var(--blue);
+  justify-content: center;
+  align-items: center;
+}

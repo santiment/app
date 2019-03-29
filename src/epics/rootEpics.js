@@ -28,8 +28,10 @@ import {
 import fetchTimeseriesEpic from '../ducks/GetTimeSeries/epics'
 import {
   createSignalEpic,
+  updateSignalEpic,
   fetchSignalsEpic,
   toggleSignalEpic,
+  removeSignalEpic,
   fetchHistorySignalPoints
 } from '../ducks/Signals/epics'
 import handleNightModeToggle from './handleNightModeToggle'
@@ -103,8 +105,10 @@ export default combineEpics(
   handleBetaModeToggle,
   // Signals
   createSignalEpic,
+  updateSignalEpic,
   fetchSignalsEpic,
   toggleSignalEpic,
+  removeSignalEpic,
   fetchHistorySignalPoints,
   // insight draft creation
   insightDraftUpdateEpic,

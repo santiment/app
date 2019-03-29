@@ -1,12 +1,14 @@
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import * as actions from './actions'
+import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 
 export const CREATE_TRIGGER_QUERY = gql`
   mutation createTrigger(
     $settings: json!
     $isPublic: Boolean
+    $isRepeating: Boolean
     $cooldown: String
     $tags: [String]
     $title: String!
@@ -15,6 +17,7 @@ export const CREATE_TRIGGER_QUERY = gql`
     createTrigger(
       settings: $settings
       isPublic: $isPublic
+      isRepeating: $isRepeating
       cooldown: $cooldown
       tags: $tags
       title: $title
@@ -24,6 +27,7 @@ export const CREATE_TRIGGER_QUERY = gql`
       trigger {
         id
         isPublic
+        isRepeating
         settings
         title
         description
@@ -38,50 +42,37 @@ export const CREATE_TRIGGER_QUERY = gql`
 export const createSignalEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.SIGNAL_CREATE)
-    .switchMap(
-      ({
-        payload: {
-          settings,
-          isPublic = false,
-          cooldown = '30m',
-          title = '',
-          description = ''
-        }
-      }) => {
-        const create = client.mutate({
-          mutation: CREATE_TRIGGER_QUERY,
-          variables: {
-            settings: JSON.stringify(settings),
-            isPublic,
-            cooldown,
-            title,
-            description,
-            tags: []
-          },
-          optimisticResponse: {
-            __typename: 'Mutation',
-            createTrigger: {
-              __typename: 'UserTrigger',
-              userId: -1,
-              trigger: {
-                id: +new Date()
-              }
+    .debounceTime(200)
+    .switchMap(({ payload: { tags, __typename, isActive, ...trigger } }) => {
+      const create = client.mutate({
+        mutation: CREATE_TRIGGER_QUERY,
+        variables: {
+          ...trigger
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          createTrigger: {
+            __typename: 'UserTrigger',
+            userId: -1,
+            trigger: {
+              __typename: 'Trigger',
+              id: +new Date()
             }
           }
-        })
+        }
+      })
 
-        return Observable.fromPromise(create)
-          .mergeMap(({ data: { id } }) => {
-            return Observable.of({
-              type: actions.SIGNAL_CREATE_SUCCESS,
-              payload: {
-                id
-              }
-            })
+      return Observable.fromPromise(create)
+        .mergeMap(({ data: { id } }) => {
+          return Observable.of({
+            type: actions.SIGNAL_CREATE_SUCCESS,
+            payload: {
+              id
+            }
           })
-          .catch(handleErrorAndTriggerAction(actions.SIGNAL_CREATE_FAILED))
-      }
-    )
+        })
+        .catch(handleErrorAndTriggerAction(actions.SIGNAL_CREATE_FAILED))
+    })
 
 export const USER_TRIGGER_QUERY = gql`
   query {
@@ -90,6 +81,8 @@ export const USER_TRIGGER_QUERY = gql`
       triggers {
         id
         isPublic
+        isActive
+        isRepeating
         cooldown
         settings
         title
@@ -117,10 +110,10 @@ export const fetchSignalsEpic = (action$, store, { client }) =>
   })
 
 export const TRIGGER_TOGGLE_QUERY = gql`
-  mutation updateTrigger($id: Int, $active: Boolean) {
-    updateTrigger(id: $id, active: $active) {
+  mutation updateTrigger($id: Int, $isActive: Boolean) {
+    updateTrigger(id: $id, isActive: $isActive) {
       trigger {
-        active
+        isActive
         id
       }
     }
@@ -130,12 +123,12 @@ export const TRIGGER_TOGGLE_QUERY = gql`
 export const toggleSignalEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.SIGNAL_TOGGLE_BY_ID)
-    .switchMap(({ payload: { id, active } }) => {
+    .switchMap(({ payload: { id, isActive } }) => {
       const toggle = client.mutate({
         mutation: TRIGGER_TOGGLE_QUERY,
         variables: {
           id,
-          active
+          isActive
         },
         optimisticResponse: {
           __typename: 'Mutation',
@@ -145,7 +138,7 @@ export const toggleSignalEpic = (action$, store, { client }) =>
             trigger: {
               __typename: 'Trigger',
               id,
-              active
+              isActive
             }
           }
         }
@@ -193,3 +186,147 @@ export const fetchHistorySignalPoints = (action$, store, { client }) =>
         handleErrorAndTriggerAction(actions.SIGNAL_FETCH_HISTORY_POINTS_FAILED)
       )
   })
+
+export const TRIGGER_UPDATE_QUERY = gql`
+  mutation updateTrigger(
+    $id: Int
+    $title: String
+    $description: String
+    $cooldown: String
+    $isActive: Boolean
+    $isRepeating: Boolean
+    $isPublic: Boolean
+    $settings: json!
+  ) {
+    updateTrigger(
+      id: $id
+      isPublic: $isPublic
+      isActive: $isActive
+      isRepeating: $isRepeating
+      settings: $settings
+      cooldown: $cooldown
+      title: $title
+      description: $description
+    ) {
+      trigger {
+        id
+        title
+        description
+        isPublic
+        cooldown
+        iconUrl
+        isActive
+        isRepeating
+        settings
+      }
+    }
+  }
+`
+
+export const updateSignalEpic = (action$, store, { client }) =>
+  action$
+    .ofType(actions.SIGNAL_UPDATE)
+    .switchMap(({ payload: { tags, __typename, ...trigger } }) => {
+      const toggle = client.mutate({
+        mutation: TRIGGER_UPDATE_QUERY,
+        variables: { ...trigger }
+      })
+
+      return Observable.fromPromise(toggle)
+        .mergeMap(({ data: { updateTrigger } }) => {
+          return Observable.of({
+            type: actions.SIGNAL_UPDATE_SUCCESS,
+            payload: {
+              id: updateTrigger.trigger.id
+            }
+          })
+        })
+        .catch(handleErrorAndTriggerAction(actions.SIGNAL_UPDATE_FAILED))
+    })
+
+export const TRIGGER_REMOVE_QUERY = gql`
+  mutation removeTrigger($id: Int!) {
+    removeTrigger(id: $id) {
+      trigger {
+        id
+      }
+    }
+  }
+`
+
+const TRIGGERS_QUERY = gql`
+  query {
+    currentUser {
+      id
+      triggers {
+        id
+        isPublic
+        cooldown
+        settings
+        title
+        isActive
+        isRepeating
+        description
+        tags {
+          name
+        }
+      }
+    }
+  }
+`
+
+export const removeSignalEpic = (action$, store, { client }) =>
+  action$
+    .ofType(actions.SIGNAL_REMOVE_BY_ID)
+    .switchMap(({ payload: { id } }) => {
+      const toggle = client.mutate({
+        mutation: TRIGGER_REMOVE_QUERY,
+        variables: { id },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          removeTrigger: {
+            __typename: 'UserTrigger',
+            userId: -1,
+            trigger: {
+              __typename: 'Trigger',
+              id
+            }
+          }
+        },
+        update: proxy => {
+          let data = proxy.readQuery({ query: TRIGGERS_QUERY })
+          const userTriggers = data.currentUser.triggers
+            ? [...data.currentUser.triggers]
+            : []
+          data.currentUser.triggers = userTriggers.filter(
+            obj => +obj.id !== +id
+          )
+          proxy.writeQuery({ query: TRIGGERS_QUERY, data })
+        }
+      })
+
+      return Observable.fromPromise(toggle)
+
+        .mergeMap(({ data: { removeTrigger } }) => {
+          return Observable.merge(
+            Observable.of({
+              type: actions.SIGNAL_REMOVE_BY_ID_SUCCESS,
+              payload: { id: removeTrigger.trigger.id }
+            }),
+            Observable.of(showNotification('Trigger is removed'))
+          )
+        })
+        .catch(action => {
+          return Observable.merge(
+            handleErrorAndTriggerAction(actions.SIGNAL_REMOVE_BY_ID_FAILED)(
+              action
+            ),
+            Observable.of(
+              showNotification({
+                title: "Trigger doesn't removed",
+                variant: 'error'
+              })
+            )
+          )
+        })
+    })

@@ -1,7 +1,10 @@
 $notify-duration: 300;
+
+/* stylelint-disable */
 :export {
-  notifyDuration: $notify-duration;
+  notifyduration: $notify-duration;
 }
+/* stylelint-enabled */
 
 .notificationStack {
   z-index: 1000;
@@ -30,6 +33,7 @@ $notify-duration: 300;
     transform: translate3d(-120%, var(--y-offset), 0);
     opacity: 0;
   }
+
   100% {
     transform: translate3d(0, var(--y-offset), 0);
     opacity: 1;

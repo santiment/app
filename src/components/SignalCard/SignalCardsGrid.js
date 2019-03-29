@@ -42,10 +42,11 @@ const SignalCardsGrid = ({
         .map(({ id, ...signal }) => (
           <SignalCard
             key={id}
+            id={id}
             toggleSignal={() =>
               toggleSignal({
                 id,
-                isActive: signal.active
+                isActive: signal.isActive
               })
             }
             gotoSignalByID={() => gotoSignalByID(id)}

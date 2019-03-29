@@ -1,22 +1,14 @@
 import React, { Fragment } from 'react'
-import { Panel, Icon, Toggle } from '@santiment-network/ui'
+import { Panel, Icon, Toggle, Modal } from '@santiment-network/ui'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import MultilineText from '../../components/MultilineText/MultilineText'
+import StatusLabel from './../../components/StatusLabel'
+import SignalDetails from '../../pages/SonarFeed/SignalDetails'
 import styles from './SignalCard.module.scss'
 
-const statusMap = [
-  {
-    icon: 'lock',
-    label: 'Private'
-  },
-  {
-    icon: 'public',
-    label: 'Public'
-  }
-]
-
 const SignalCard = ({
+  id,
   title,
   description = '',
   className = '',
@@ -37,18 +29,20 @@ const SignalCard = ({
         </div>
       </div>
       <div className={styles.wrapper__right}>
-        <div onClick={gotoSignalByID} className={styles.upper}>
-          <h2 className={styles.title}>{title}</h2>
-          {description && (
-            <h3 className={styles.description}>
-              <MultilineText
-                id='SignalCard__description'
-                maxLines={2}
-                text={description}
-              />
-            </h3>
-          )}
-        </div>
+        <SignalCardDetailsModal id={id}>
+          <div className={styles.upper}>
+            <h2 className={styles.title}>{title}</h2>
+            {description && (
+              <h3 className={styles.description}>
+                <MultilineText
+                  id='SignalCard__description'
+                  maxLines={2}
+                  text={description}
+                />
+              </h3>
+            )}
+          </div>
+        </SignalCardDetailsModal>
         {author && <SignalCardBottom author={author} {...signalCardBottom} />}
       </div>
     </Panel>
@@ -66,26 +60,17 @@ const SignalCardBottom = ({
   username,
   isPublic,
   isPublished = true,
-  active = true,
+  isActive,
   subscriptionsNumber,
   toggleSignal
 }) => {
-  const Status = statusMap[Number(isPublic)] || statusMap[1]
   const isUserTheAuthor = true
 
   return (
     <div className={styles.bottom}>
       {isPublished ? (
         <h4 className={styles.author}>
-          {isUserTheAuthor && (
-            <Fragment>
-              <Icon
-                type={Status.icon}
-                className={cx(styles.status, isPublic && styles.status_public)}
-              />
-              {Status.label}{' '}
-            </Fragment>
-          )}
+          {isUserTheAuthor && <StatusLabel isPublic={isPublic} />}
           {!isUserTheAuthor && (
             <Fragment>
               by{' '}
@@ -105,10 +90,16 @@ const SignalCardBottom = ({
             {subscriptionsNumber}
           </div>
         )}
-        <Toggle onClick={toggleSignal} isActive={active} />
+        <Toggle onClick={toggleSignal} isActive={isActive} />
       </div>
     </div>
   )
 }
+
+const SignalCardDetailsModal = ({ children, id }) => (
+  <Modal trigger={children} showDefaultActions={false}>
+    {({ closeModal }) => <SignalDetails id={id} closeModal={closeModal} />}
+  </Modal>
+)
 
 export default SignalCard

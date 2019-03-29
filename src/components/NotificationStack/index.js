@@ -1,27 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { Notification as NotificationItem } from '@santiment-network/ui'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import * as actions from '../../actions/rootActions'
 import styles from './NotificationStack.module.scss'
 
-const notifyDuration = +styles.notifyDuration
+const notifyDuration = +styles.notifyduration
 
 class NotificationStack extends Component {
   timerHandles = {}
-
-  state = {
-    notifications: []
-  }
-
-  static lastNotification = null
-
-  static getDerivedStateFromProps ({ notification }, prevState) {
-    NotificationStack.lastNotification = notification
-
-    return notification
-      ? { notifications: [...prevState.notifications, notification] }
-      : null
-  }
 
   componentWillUnmount () {
     Object.keys(this.timerHandles).forEach(timerName => {
@@ -31,9 +19,11 @@ class NotificationStack extends Component {
     })
   }
 
-  componentDidUpdate () {
-    if (NotificationStack.lastNotification) {
-      const { id, dismissAfter } = NotificationStack.lastNotification
+  componentDidUpdate ({ notifications }) {
+    if (notifications.length < this.props.notifications.length) {
+      const { id, dismissAfter } = this.props.notifications[
+        this.props.notifications.length - 1
+      ]
 
       this.timerHandles[id] = setTimeout(() => {
         this.closeNotification(id)
@@ -42,14 +32,12 @@ class NotificationStack extends Component {
     }
   }
 
-  closeNotification = notificationId => {
-    this.setState(({ notifications }) => ({
-      notifications: notifications.filter(({ id }) => id !== notificationId)
-    }))
+  closeNotification = id => {
+    this.props.hideNotification(id)
   }
 
   render () {
-    const { notifications } = this.state
+    const { notifications } = this.props
 
     return (
       <TransitionGroup className={styles.notificationStack}>
@@ -70,6 +58,19 @@ class NotificationStack extends Component {
   }
 }
 
-const mapStateToProps = ({ notification }) => ({ notification })
+const mapStateToProps = ({ notification }) => ({
+  notifications: notification.notifications
+})
 
-export default connect(mapStateToProps)(NotificationStack)
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      hideNotification: actions.hideNotification
+    },
+    dispatch
+  )
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NotificationStack)

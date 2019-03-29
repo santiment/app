@@ -17,14 +17,14 @@ const tabs = [
       loading: () => <PageLoader />
     })
   },
-  {
-    index: `${baseLocation}/explore`,
-    content: 'Explore',
-    component: Loadable({
-      loader: () => import('../../components/SignalCard/SignalCardsGrid'),
-      loading: () => <PageLoader />
-    })
-  },
+  // {
+  // index: `${baseLocation}/explore`,
+  // content: 'Explore',
+  // component: Loadable({
+  // loader: () => import('../../components/SignalCard/SignalCardsGrid'),
+  // loading: () => <PageLoader />
+  // })
+  // },
   {
     index: `${baseLocation}/my-signals`,
     content: 'My signals',
@@ -80,8 +80,17 @@ const SonarFeed = ({ location: { pathname } }) => {
         ))}
         <Route
           path={`${baseLocation}/details/:id`}
+          exact
           component={Loadable({
             loader: () => import('./SignalDetails'),
+            loading: () => <PageLoader />
+          })}
+        />
+        <Route
+          path={`${baseLocation}/details/:id/edit`}
+          component={Loadable({
+            loader: () => import('./../../ducks/Signals/SignalMaster'),
+            render: (loaded, props) => <loaded.default isEdit {...props} />,
             loading: () => <PageLoader />
           })}
         />
