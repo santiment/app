@@ -3,11 +3,17 @@ import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import Insights from './Insights'
 import { ALL_INSIGHTS_BY_TAG_QUERY } from './insightsGQL'
+import { filterInsightsNoDrafts } from '../../pages/Insights/utils'
 
 const oneDayTimeStamp = 1000 * 60 * 60 * 24
 
 const InsightsTrends = ({ allInsightsByTag, ...props }) => {
-  return <Insights insights={allInsightsByTag} {...props} />
+  return (
+    <Insights
+      insights={allInsightsByTag.filter(filterInsightsNoDrafts)}
+      {...props}
+    />
+  )
 }
 
 export const getInsightTrendTagByDate = date =>

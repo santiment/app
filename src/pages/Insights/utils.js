@@ -28,6 +28,7 @@ export const popularitySortReducer = insights =>
 export const creationSortReducer = insights => insights.sort(creationDateSort)
 
 export const filterInsightsNoDrafts = ({ readyState }) => readyState !== 'draft'
+
 export const filterInsightsOnlyDrafts = ({ readyState }) =>
   readyState === 'draft'
 

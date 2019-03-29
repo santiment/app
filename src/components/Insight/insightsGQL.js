@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 export const ALL_INSIGHTS_BY_TAG_QUERY = gql`
   query allInsightsByTag($tag: String!) {
     allInsightsByTag(tag: $tag) {
+      readyState
       id
       title
       createdAt
