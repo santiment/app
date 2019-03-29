@@ -85,7 +85,6 @@ const TrendsReChart = ({
 
   return (
     <div className='TrendsExploreChart'>
-      {console.log(chartSummaryData)}
       {chartSummaryData
         .filter(({ index }) => !disabledToggles.includes(index))
         .map((entity, key) => (
