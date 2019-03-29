@@ -6,14 +6,31 @@ import HelpPopupWordCloud from './HelpPopupWordCloud'
 import WidgetTrend from '../Widget/WidgetTrend'
 import styles from './WordCloud.module.scss'
 
+const WORD_BIG = {
+  color: 'var(--dodger-blue)',
+  fontSize: 20,
+  fontWeight: 800
+}
+
+const WORD_MEDIUM = {
+  color: 'var(--mirage)',
+  fontSize: 16
+}
+
+const WORD_SMALL = {
+  fontSize: 10
+}
+
 const getWordStyles = index => {
   if (index < 3) {
-    return styles.text_big
+    return WORD_BIG
   }
 
   if (index < 9) {
-    return styles.text_medium
+    return WORD_MEDIUM
   }
+
+  return WORD_SMALL
 }
 
 export const WordCloud = ({
@@ -38,10 +55,10 @@ export const WordCloud = ({
       hasData={cloud.length > 0}
     >
       <TagCloud
-        style={{ width: '100%', height: '100%', padding: 10, marginTop: 0 }}
+        style={{ width: '100%', height: '100%', padding: 15, marginTop: 0 }}
       >
         {cloud.map(({ word }, index) => (
-          <div key={word} className={cx(styles.text, getWordStyles(index))}>
+          <div key={word} style={getWordStyles(index)} className={styles.text}>
             {word}
           </div>
         ))}

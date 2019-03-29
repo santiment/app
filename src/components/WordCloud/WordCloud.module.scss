@@ -9,18 +9,6 @@ $top: 22px;
   font-weight: normal;
   line-height: 20px;
   color: var(--casper);
-  font-size: 12px !important;
-
-  &_medium {
-    color: var(--mirage);
-    font-size: 18px !important;
-  }
-
-  &_big {
-    color: var(--dodger-blue);
-    font-size: 28px !important;
-    font-weight: 800 !important;
-  }
 }
 
 .hint {
