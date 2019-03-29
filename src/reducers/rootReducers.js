@@ -27,6 +27,9 @@ import hypedTrends, {
 import wordCloud, {
   initialState as initialWordCloud
 } from './../components/WordCloud/reducers'
+import gainersLosers, {
+  initialState as initialGainersLosers
+} from '../ducks/GainersAndLosers/reducers'
 import socialVolume, {
   initialState as initialSocialVolume
 } from './../components/SocialVolumeWidget/reducers'
@@ -52,7 +55,8 @@ export const intitialState = {
   wordCloud: initialWordCloud,
   socialVolume: initialSocialVolume,
   accountUi: initialAccountUiState,
-  insightDraft: initialInsightDraft
+  insightDraft: initialInsightDraft,
+  gainersLosers: initialGainersLosers
 }
 
 export default combineReducers({
@@ -69,5 +73,6 @@ export default combineReducers({
   wordCloud,
   socialVolume,
   accountUi,
-  insightDraft
+  insightDraft,
+  gainersLosers
 })
