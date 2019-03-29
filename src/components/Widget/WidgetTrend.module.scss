@@ -1,38 +1,48 @@
-
-@import "~@santiment-network/ui/variables.scss";
-@import "~@santiment-network/ui/mixins.scss";
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
 
 .wrapper {
-    box-sizing: border-box;
-    background-color: var(--white);
-    border: 1px solid var(--grey-light-2);
-    width: 49%;
-    height: 170px;
-    display: inline-block;
-    border-radius: $border-radius;
-    padding: 12px 24px;
+  box-sizing: border-box;
+  background-color: var(--white);
+  border: 1px solid var(--porcelain);
+  width: 49%;
+  height: 230px;
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
-    display: flex;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .msg {
-    @include text-normal;
-    text-align: center;
-    font-size: 20px;
-    margin: 0;
-    color: var(--grey-dark);
+  @include text-normal;
+
+  text-align: center;
+  font-size: 20px;
+  margin: 0;
+  color: var(--grey-dark);
 }
 
 .info {
-    @include text-normal;
-    color: var(--grey-dark-2);
+  @include text-normal;
+
+  color: var(--grey-dark-2);
+  border-bottom: 1px solid var(--porcelain);
+  padding: 10px 24px;
+  display: flex;
+}
+
+.content {
+  padding: 10px 24px;
+  flex: 1;
 }
 
 .word {
-    color: var(--black);
+  color: var(--black);
+  margin-right: 5px;
 }

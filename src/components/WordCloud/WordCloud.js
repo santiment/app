@@ -38,7 +38,7 @@ export const WordCloud = ({
       hasData={cloud.length > 0}
     >
       <TagCloud
-        style={{ width: '95%', height: '85%', padding: 10, marginTop: 0 }}
+        style={{ width: '100%', height: '100%', padding: 10, marginTop: 0 }}
       >
         {cloud.map(({ word }, index) => (
           <div key={word} className={cx(styles.text, getWordStyles(index))}>

@@ -55,7 +55,7 @@ const WidgetTrend = ({
             <span className={styles.word}>{trendWord} </span>
             {description}
           </div>
-          {children}
+          <div className={styles.content}>{children}</div>
         </Fragment>
       )}
     </div>

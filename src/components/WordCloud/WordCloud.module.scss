@@ -9,7 +9,7 @@ $top: 22px;
   font-weight: normal;
   line-height: 20px;
   color: var(--casper);
-  font-size: 12px;
+  font-size: 12px !important;
 
   &_medium {
     color: var(--mirage);
