@@ -12,13 +12,17 @@ import {
   YAxis,
   Tooltip
 } from 'recharts'
-import { Panel } from '@santiment-network/ui'
+import cx from 'classnames'
+import { Panel, Button, Label } from '@santiment-network/ui'
 import { formatNumber } from './../../utils/formatting'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import mixWithPaywallArea from './../PaywallArea/PaywallArea'
 import PaywallMessage from './../PaywallMessage/PaywallMessage'
 import { sourcesMeta as chartsMeta } from './trendsUtils'
 import { mapSizesToProps } from '../../App'
+import styles from './TrendsReChart.module.scss'
+
+const toggleCharts = Object.keys(chartsMeta).filter(key => key !== 'total')
 
 const ASSET_PRICE_COLOR = '#A4ACB7'
 
@@ -55,88 +59,130 @@ const getChartMargins = isDesktop => {
 
 const displayEmptyState = branch(props => props.isEmpty, renderComponent(Empty))
 
+const useToggles = (defaultState = []) => {
+  const [state, setState] = React.useState(defaultState)
+
+  const setToggles = toggle => {
+    setState(prevState => {
+      if (prevState.includes(toggle)) {
+        return prevState.filter(tog => tog !== toggle)
+      }
+      return [...prevState, toggle]
+    })
+  }
+
+  return [state, setToggles]
+}
+
 const TrendsReChart = ({
   chartSummaryData = [],
   chartData,
   asset,
   isDesktop,
   hasPremium
-}) => (
-  <div className='TrendsExploreChart'>
-    {chartSummaryData.map((entity, key) => (
-      <Panel key={key} style={{ marginTop: '1rem' }}>
-        {!hasPremium && (
-          <div style={{ padding: '0.5rem' }}>
-            <PaywallMessage />
-          </div>
-        )}
-        <ResponsiveContainer width='100%' height={isDesktop ? 300 : 250}>
-          <ComposedChart
-            data={chartData}
-            syncId='trends'
-            margin={getChartMargins(isDesktop)}
-          >
-            <XAxis
-              dataKey='datetime'
-              tickLine={false}
-              tickMargin={5}
-              minTickGap={100}
-              tickFormatter={timeStr => moment(timeStr).format('DD MMM YY')}
-            />
-            <YAxis />
-            <YAxis
-              yAxisId='axis-price'
-              hide
-              tickFormatter={priceUsd =>
-                formatNumber(priceUsd, { currency: 'USD' })
-              }
-              domain={['auto', 'dataMax']}
-            />
-            <CartesianGrid
-              vertical={false}
-              strokeDasharray='4 10'
-              stroke='#ebeef5'
-            />
-            <Tooltip
-              labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
-              formatter={(value, name) => {
-                if (name === `${asset}/USD`) {
-                  return formatNumber(value, { currency: 'USD' })
-                }
-                return value
-              }}
-            />
-            <Line
-              type='linear'
-              yAxisId='axis-price'
-              name={asset + '/USD'}
-              dot={false}
-              strokeWidth={1.5}
-              dataKey='priceUsd'
-              stroke={ASSET_PRICE_COLOR}
-            />
-            <Line
-              type='linear'
-              dataKey={entity.index}
-              dot={false}
-              strokeWidth={entity.index === 'merged' ? 1.5 : 3}
-              name={entity.name}
-              stroke={entity.color}
-            />
-            {!hasPremium &&
-              mixWithPaywallArea({
-                dataKey: entity.index,
-                stroke: '#ffad4d',
-                strokeOpacity: 0.9,
-                data: chartData
-              })}
-            <Legend />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </Panel>
-    ))}
-  </div>
-)
+}) => {
+  const [disabledToggles, setDisabledToggles] = useToggles(toggleCharts)
+
+  return (
+    <div className='TrendsExploreChart'>
+      {chartSummaryData
+        .filter(({ index }) => !disabledToggles.includes(index))
+        .map((entity, key) => (
+          <Panel key={key} style={{ marginTop: '1rem' }}>
+            {!hasPremium && (
+              <div style={{ padding: '0.5rem' }}>
+                <PaywallMessage />
+              </div>
+            )}
+            <ResponsiveContainer width='100%' height={isDesktop ? 300 : 250}>
+              <ComposedChart
+                data={chartData}
+                syncId='trends'
+                margin={getChartMargins(isDesktop)}
+              >
+                <XAxis
+                  dataKey='datetime'
+                  tickLine={false}
+                  tickMargin={5}
+                  minTickGap={100}
+                  tickFormatter={timeStr => moment(timeStr).format('DD MMM YY')}
+                />
+                <YAxis />
+                <YAxis
+                  yAxisId='axis-price'
+                  hide
+                  tickFormatter={priceUsd =>
+                    formatNumber(priceUsd, { currency: 'USD' })
+                  }
+                  domain={['auto', 'dataMax']}
+                />
+                <CartesianGrid
+                  vertical={false}
+                  strokeDasharray='4 10'
+                  stroke='#ebeef5'
+                />
+                <Tooltip
+                  labelFormatter={date =>
+                    moment(date).format('dddd, MMM DD YYYY')
+                  }
+                  formatter={(value, name) => {
+                    if (name === `${asset}/USD`) {
+                      return formatNumber(value, { currency: 'USD' })
+                    }
+                    return value
+                  }}
+                />
+                <Line
+                  type='linear'
+                  yAxisId='axis-price'
+                  name={asset + '/USD'}
+                  dot={false}
+                  strokeWidth={1.5}
+                  dataKey='priceUsd'
+                  stroke={ASSET_PRICE_COLOR}
+                />
+                <Line
+                  type='linear'
+                  dataKey={entity.index}
+                  dot={false}
+                  strokeWidth={entity.index === 'merged' ? 1.5 : 3}
+                  name={entity.name}
+                  stroke={`var(--${entity.color})`}
+                />
+                {!hasPremium &&
+                  mixWithPaywallArea({
+                    dataKey: entity.index,
+                    stroke: '#ffad4d',
+                    strokeOpacity: 0.9,
+                    data: chartData
+                  })}
+                <Legend />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </Panel>
+        ))}
+      <div className={styles.toggles}>
+        {toggleCharts.map(key => {
+          const { index, name, color } = chartsMeta[key]
+          return (
+            <Button
+              key={index}
+              onClick={() => setDisabledToggles(index)}
+              className={cx(
+                styles.toggle,
+                !disabledToggles.includes(index) && styles.toggle_active
+              )}
+              border
+            >
+              <Label className={styles.label} accent={color} variant='circle' />{' '}
+              {name}
+            </Button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
 
 TrendsReChart.defaultProps = {
   data: {},
