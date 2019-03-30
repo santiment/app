@@ -1,6 +1,12 @@
 import React, { PureComponent } from 'react'
 import Table from 'react-table'
-import { Icon, PanelWithHeader, Label } from '@santiment-network/ui'
+import {
+  Icon,
+  PanelWithHeader,
+  Label,
+  toggleSingle,
+  toggleMultiple
+} from '@santiment-network/ui'
 import styles from './TrendTable.module.scss'
 
 const Change = {
@@ -8,9 +14,11 @@ const Change = {
   false: ['persimmon', 'triangle-down']
 }
 
+const notChanged = ['texas-rose', 'lock-small']
+
 const ValueChange = ({ oldValue, newValue }) => {
   const amp = newValue - oldValue
-  const [accent, triangle] = Change[amp >= 0]
+  const [accent, triangle] = amp !== 0 ? Change[amp > 0] : notChanged
 
   return (
     <Label accent={accent} className={styles.change}>
@@ -74,7 +82,11 @@ class Trends extends PureComponent {
             500 <ValueChange oldValue={index * 100} newValue={500} />
           </>
         ),
-        volume: 500
+        volume: (
+          <>
+            500 <ValueChange oldValue={index * 100} newValue={500} />
+          </>
+        )
       }))
     }
     return (
