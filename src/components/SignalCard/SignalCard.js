@@ -16,6 +16,8 @@ const SignalCard = ({
   gotoSignalByID,
   ...signalCardBottom
 }) => {
+  const isAwaiting = id === -1
+  const SignalTopDetails = isAwaiting ? 'div' : SignalCardDetailsModal
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
       <div
@@ -29,7 +31,7 @@ const SignalCard = ({
         </div>
       </div>
       <div className={styles.wrapper__right}>
-        <SignalCardDetailsModal id={id}>
+        <SignalTopDetails id={id}>
           <div className={styles.upper}>
             <h2 className={styles.title}>{title}</h2>
             {description && (
@@ -42,8 +44,14 @@ const SignalCard = ({
               </h3>
             )}
           </div>
-        </SignalCardDetailsModal>
-        {author && <SignalCardBottom author={author} {...signalCardBottom} />}
+        </SignalTopDetails>
+        {author && (
+          <SignalCardBottom
+            isAwaiting={isAwaiting}
+            author={author}
+            {...signalCardBottom}
+          />
+        )}
       </div>
     </Panel>
   )
@@ -61,6 +69,7 @@ const SignalCardBottom = ({
   isPublic,
   isPublished = true,
   isActive,
+  isAwaiting = false,
   subscriptionsNumber,
   toggleSignal
 }) => {
@@ -70,7 +79,10 @@ const SignalCardBottom = ({
     <div className={styles.bottom}>
       {isPublished ? (
         <h4 className={styles.author}>
-          {isUserTheAuthor && <StatusLabel isPublic={isPublic} />}
+          {isAwaiting && 'Awaiting confirmation'}
+          {isUserTheAuthor && !isAwaiting && (
+            <StatusLabel isPublic={isPublic} />
+          )}
           {!isUserTheAuthor && (
             <Fragment>
               by{' '}

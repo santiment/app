@@ -62,12 +62,7 @@ const SignalPreview = ({ points = [] }) => {
     </ResponsiveContainer>
   )
 
-  return (
-    <Fragment>
-      <label>Signal Visual Backtest</label>
-      {visualBacktestChart}
-    </Fragment>
-  )
+  return <Fragment>{visualBacktestChart}</Fragment>
 }
 
 const mapStateToProps = state => {
