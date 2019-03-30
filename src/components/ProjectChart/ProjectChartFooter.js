@@ -108,8 +108,21 @@ const ProjectChartFooter = ({
           </ToggleBtn>
         )}
         <br />
-        {// TODO: Partysun. Upgrade when modal with accept it
-          false && <SignalMasterModalForm label='New Price Signal' />}
+        {
+          <SignalMasterModalForm
+            metaFormSettings={{
+              target: {
+                isDisabled: true,
+                value: { value: props.project.slug, label: props.project.slug }
+              },
+              metric: {
+                value: { label: 'Price', value: 'price' },
+                isDisabled: true
+              }
+            }}
+            label='New Price Signal'
+          />
+        }
       </FilterCategory>
       <FilterCategory name='Development'>
         <ToggleBtn

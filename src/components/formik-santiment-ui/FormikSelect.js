@@ -17,7 +17,6 @@ const FormikSelect = ({
         <Select
           placeholder={placeholder}
           options={options}
-          disabled={disabled}
           onChange={value => {
             form.setFieldValue(name, value)
             form.setFieldTouched(name, true)

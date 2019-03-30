@@ -87,10 +87,10 @@ const defaultValues = {
     cooldown: '24h',
     percentThreshold: 5,
     target: { value: 'santiment', label: 'santiment' },
-    metric: { label: 'Price', value: 'price' },
     timeWindow: 24,
     timeWindowUnit: { label: 'hours', value: 'h' },
     type: { value: 'price_percent_change', label: 'Moving up %' },
+    metric: { label: 'Price', value: 'price' },
     isRepeating: true,
     channels: ['telegram']
   },
@@ -197,6 +197,18 @@ const validate = values => {
   return errors
 }
 
+const DEFAULT_META_FORM_SETTINGS = {
+  target: {
+    isDisabled: false
+  },
+  type: {
+    isDisabled: false
+  },
+  metric: {
+    isDisabled: false
+  }
+}
+
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
   isTelegramConnected: PropTypes.bool.isRequired
@@ -207,8 +219,10 @@ export const TriggerForm = ({
   getSignalBacktestingPoints,
   data: { allProjects = [] },
   isTelegramConnected = false,
-  settings = INITIAL_VALUES
+  settings = INITIAL_VALUES,
+  metaFormSettings
 }) => {
+  metaFormSettings = { ...DEFAULT_META_FORM_SETTINGS, ...metaFormSettings }
   const [initialValues, setInitialValues] = useState(settings)
 
   useEffect(() => {
@@ -275,6 +289,8 @@ export const TriggerForm = ({
                   <label>Asset</label>
                   <FormikSelect
                     name='target'
+                    isDisabled={metaFormSettings.target.isDisabled}
+                    defaultValue={metaFormSettings.target.value}
                     placeholder='Pick an asset'
                     options={allProjects.map(asset => ({
                       label: asset.slug,
@@ -292,6 +308,8 @@ export const TriggerForm = ({
                   <FormikSelect
                     name='metric'
                     isClearable={false}
+                    isDisabled={metaFormSettings.metric.isDisabled}
+                    defaultValue={metaFormSettings.metric.value}
                     isSearchable
                     placeholder='Choose a metric'
                     options={METRICS}
@@ -308,6 +326,8 @@ export const TriggerForm = ({
                       name='type'
                       isClearable={false}
                       isSearchable
+                      isDisabled={metaFormSettings.type.isDisabled}
+                      defaultValue={metaFormSettings.type.value}
                       placeholder='Choose a type'
                       options={TYPES[values.metric.value]}
                       isOptionDisabled={option => !option.value}
