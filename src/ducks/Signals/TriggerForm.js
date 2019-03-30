@@ -125,7 +125,7 @@ const defaultValues = {
   }
 }
 
-const INITIAL_VALUES = defaultValues['price_percent_change']
+const DEFAULT_FORM_SETTINGS = defaultValues['price_percent_change']
 
 const getTypeByMetric = metric => {
   if (metric.value === 'price') {
@@ -197,7 +197,7 @@ const validate = values => {
   return errors
 }
 
-const DEFAULT_META_FORM_SETTINGS = {
+const DEFAULT_FORM_META_SETTINGS = {
   target: {
     isDisabled: false
   },
@@ -219,10 +219,22 @@ export const TriggerForm = ({
   getSignalBacktestingPoints,
   data: { allProjects = [] },
   isTelegramConnected = false,
-  settings = INITIAL_VALUES,
+  settings = DEFAULT_FORM_SETTINGS,
   metaFormSettings
 }) => {
-  metaFormSettings = { ...DEFAULT_META_FORM_SETTINGS, ...metaFormSettings }
+  metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
+  settings = {
+    ...settings,
+    target: metaFormSettings.target.value
+      ? metaFormSettings.target.value
+      : settings.target,
+    metric: metaFormSettings.metric.value
+      ? metaFormSettings.metric.value
+      : settings.metric,
+    type: metaFormSettings.type.value
+      ? metaFormSettings.type.value
+      : settings.type
+  }
   const [initialValues, setInitialValues] = useState(settings)
 
   useEffect(() => {
