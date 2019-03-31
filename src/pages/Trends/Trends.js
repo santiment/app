@@ -52,20 +52,20 @@ const columns = [
   },
   {
     Cell: props => (
-      <div>
+      <div className={styles.test}>
         <Icon type='connection' />
       </div>
     ),
-    width: 50
+    width: 32
   },
   {
     Cell: props => (
-      <div>
+      <div className={styles.test}>
         <Icon type='insight' />
       </div>
     ),
 
-    width: 50
+    width: 32
   }
 ]
 
@@ -85,7 +85,7 @@ class Trends extends PureComponent {
   }
 
   render () {
-    const { trend, scoreChange, volumeChange } = this.props
+    const { notSelected, trend, scoreChange, volumeChange } = this.props
     console.log(trend)
     let topWords
     const { topWords: test = [] } = trend
@@ -118,7 +118,7 @@ class Trends extends PureComponent {
           className={styles.table}
           resizable={false}
           data={topWords}
-          columns={columns}
+          columns={notSelected ? columns.slice(0, 2) : columns}
           showPagination={false}
           defaultPageSize={10}
           minRows={10}

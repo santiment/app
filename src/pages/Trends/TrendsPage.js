@@ -40,10 +40,18 @@ const TrendsPage = ({
     <GetHypedTrends
       render={({ isLoading, items }) => (
         <>
-          <Trends
-            isLoading={isLoading}
-            trend={items.length > 0 ? items[items.length - 1] : {}}
-          />
+          <div className={styles.tables}>
+            {items.length > 1 &&
+              items
+                .slice(0, -1)
+                .map((trend, index) => (
+                  <Trends notSelected key={index} trend={trend} />
+                ))}
+            <Trends
+              isLoading={isLoading}
+              trend={items.length > 0 ? items[items.length - 1] : {}}
+            />
+          </div>
           {false && (
             <Fragment>
               <div id='word-cloud-sticky-anchor' />
