@@ -58,6 +58,7 @@ import {
   insightDraftPublishEpic
 } from '../pages/Insights/insightDraftEpic'
 import { likesEpic } from '../components/Like/likesEpic'
+import wordTrendScoreEpic from '../pages/Trends/changesEpic.js'
 
 export default combineEpics(
   handleOffline,
@@ -114,5 +115,7 @@ export default combineEpics(
   insightDraftUpdateEpic,
   insightDraftPublishEpic,
   // likes
-  likesEpic
+  likesEpic,
+  // trend changes
+  wordTrendScoreEpic
 )
