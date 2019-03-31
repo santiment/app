@@ -35,10 +35,6 @@ export const selectHypedTrend = action$ =>
       return payload
         ? Observable.from([
           {
-            type: WORDCLOUD_CONTEXT_FETCH,
-            payload
-          },
-          {
             type: SOCIALVOLUME_DATA_FETCH,
             payload
           }

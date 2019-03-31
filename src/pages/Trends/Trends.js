@@ -85,23 +85,25 @@ class Trends extends PureComponent {
   }
 
   render () {
-    const { trend, scoreChange } = this.props
+    const { trend, scoreChange, volumeChange } = this.props
     console.log(trend)
     let topWords
     const { topWords: test = [] } = trend
     topWords = test.map(({ word }, index) => {
-      const [oldValue, newValue] = scoreChange[word] || []
+      const [oldScore, newScore] = scoreChange[word] || []
+      const [oldVolume, newVolume] = volumeChange[word] || []
       return {
         index: index + 1,
         word,
         score: (
           <>
-            {newValue} <ValueChange oldValue={oldValue} newValue={newValue} />
+            {newScore} <ValueChange oldValue={oldScore} newValue={newScore} />
           </>
         ),
         volume: (
           <>
-            500 <ValueChange oldValue={index * 100} newValue={500} />
+            {newVolume}{' '}
+            <ValueChange oldValue={oldVolume} newValue={newVolume} />
           </>
         )
       }
@@ -126,8 +128,9 @@ class Trends extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ hypedTrends: { scoreChange } }) => ({
-  scoreChange
+const mapStateToProps = ({ hypedTrends: { scoreChange, volumeChange } }) => ({
+  scoreChange,
+  volumeChange
 })
 
 export default connect(mapStateToProps)(Trends)

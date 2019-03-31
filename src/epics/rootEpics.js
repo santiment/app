@@ -58,7 +58,10 @@ import {
   insightDraftPublishEpic
 } from '../pages/Insights/insightDraftEpic'
 import { likesEpic } from '../components/Like/likesEpic'
-import wordTrendScoreEpic from '../pages/Trends/changesEpic.js'
+import {
+  wordTrendScoreEpic,
+  wordTrendSocialVolumeEpic
+} from '../pages/Trends/changesEpic.js'
 
 export default combineEpics(
   handleOffline,
@@ -90,7 +93,7 @@ export default combineEpics(
   fetchAllTickersSlugs,
   // WordCloud
   fetchWordContextEpic,
-  preloadWordContextEpic,
+  /* preloadWordContextEpic, */
   // SocialVolume
   fetchSocialVolumeEpic,
   // Settings
@@ -117,5 +120,6 @@ export default combineEpics(
   // likes
   likesEpic,
   // trend changes
-  wordTrendScoreEpic
+  wordTrendScoreEpic,
+  wordTrendSocialVolumeEpic
 )
