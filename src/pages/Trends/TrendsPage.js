@@ -40,7 +40,10 @@ const TrendsPage = ({
     <GetHypedTrends
       render={({ isLoading, items }) => (
         <>
-          <Trends isLoading={isLoading} trends={items} />
+          <Trends
+            isLoading={isLoading}
+            trend={items.length > 0 ? items[items.length - 1] : {}}
+          />
           {false && (
             <Fragment>
               <div id='word-cloud-sticky-anchor' />

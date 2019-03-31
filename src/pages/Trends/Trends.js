@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 import Table from 'react-table'
+import { connect } from 'react-redux'
+import { store } from '../../index'
 import {
   Icon,
   PanelWithHeader,
@@ -36,7 +38,7 @@ const columns = [
     headerClassName: styles.index
   },
   {
-    Header: 'Trending word',
+    Header: 'Word',
     accessor: 'word',
     className: styles.word
   },
@@ -67,19 +69,34 @@ const columns = [
   }
 ]
 
+const dis = payload =>
+  store.dispatch({
+    type: 'TREND_WORD_SCORE_CHANGE',
+    payload
+  })
+
+window.dis = dis
+
 class Trends extends PureComponent {
+  componentDidUpdate ({ trend: { datetime: prevDatetime } }) {
+    if (prevDatetime !== this.props.trend.datetime) {
+      dis(this.props.trend.datetime)
+    }
+  }
+
   render () {
-    const { trends } = this.props
-    console.log(trends)
+    const { trend, scoreChange } = this.props
+    console.log(trend)
     let topWords
-    if (trends.length > 0) {
-      const [{ topWords: test }] = trends
-      topWords = test.map(({ word }, index) => ({
+    const { topWords: test = [] } = trend
+    topWords = test.map(({ word }, index) => {
+      const [oldValue, newValue] = scoreChange[word] || []
+      return {
         index: index + 1,
         word,
         score: (
           <>
-            500 <ValueChange oldValue={index * 100} newValue={500} />
+            {newValue} <ValueChange oldValue={oldValue} newValue={newValue} />
           </>
         ),
         volume: (
@@ -87,8 +104,8 @@ class Trends extends PureComponent {
             500 <ValueChange oldValue={index * 100} newValue={500} />
           </>
         )
-      }))
-    }
+      }
+    })
     return (
       <PanelWithHeader
         header='Last trends'
@@ -109,4 +126,8 @@ class Trends extends PureComponent {
   }
 }
 
-export default Trends
+const mapStateToProps = ({ hypedTrends: { scoreChange } }) => ({
+  scoreChange
+})
+
+export default connect(mapStateToProps)(Trends)
