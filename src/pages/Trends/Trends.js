@@ -49,25 +49,12 @@ const columns = [
   {
     Header: 'Social volume',
     accessor: 'volume'
-  },
-  {
-    Cell: props => (
-      <div className={styles.test}>
-        <Icon type='connection' />
-      </div>
-    ),
-    width: 32
-  },
-  {
-    Cell: props => (
-      <div className={styles.test}>
-        <Icon type='insight' />
-      </div>
-    ),
-
-    width: 32
   }
 ]
+
+const getContextCells = iconProps => {
+  return []
+}
 
 const dis = payload =>
   store.dispatch({
@@ -82,6 +69,13 @@ class Trends extends PureComponent {
     if (prevDatetime !== this.props.trend.datetime) {
       dis(this.props.trend.datetime)
     }
+  }
+
+  onConnectedWordsMouseOver = word => {
+    store.dispatch({
+      type: 'CONNECTED_TREND_WORDS',
+      payload: word
+    })
   }
 
   render () {
@@ -108,6 +102,7 @@ class Trends extends PureComponent {
         )
       }
     })
+
     return (
       <PanelWithHeader
         header='Last trends'
@@ -118,7 +113,36 @@ class Trends extends PureComponent {
           className={styles.table}
           resizable={false}
           data={topWords}
-          columns={notSelected ? columns.slice(0, 2) : columns}
+          columns={
+            notSelected
+              ? columns.slice(0, 2)
+              : [
+                ...columns,
+                {
+                  Cell: ({ original: { word } }) => {
+                    return (
+                      <div className={styles.test}>
+                        <Icon
+                          onMouseEnter={() =>
+                            this.onConnectedWordsMouseOver(word)
+                          }
+                          type='connection'
+                        />
+                      </div>
+                    )
+                  },
+                  width: 32
+                },
+                {
+                  Cell: props => (
+                    <div className={styles.test}>
+                      <Icon type='insight' />
+                    </div>
+                  ),
+                  width: 32
+                }
+              ]
+          }
           showPagination={false}
           defaultPageSize={10}
           minRows={10}

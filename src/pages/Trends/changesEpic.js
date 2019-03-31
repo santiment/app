@@ -9,6 +9,8 @@ import {
 import { SOCIAL_VOLUME_QUERY } from '../../components/SocialVolumeWidget/socialVolumeGQL'
 import { mergeTimeseriesByKey } from '../../utils/utils'
 
+import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../components/Insight/insightsGQL'
+
 const secretDataTeamHours = [1, 8, 14]
 
 const WORD_TREND_SCORE_QUERY = gql`
@@ -129,6 +131,77 @@ export const wordTrendScoreEpic = (action$, store, { client }) =>
             Object.assign(acc, value)
             return acc
           }, {})
+        })
+      })
+      .catch(handleErrorAndTriggerAction('changes failed'))
+  })
+
+export const getInsightTrendTagByDate = date =>
+  `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}-trending-words`
+const oneDayTimeStamp = 1000 * 60 * 60 * 24
+
+export const connectedWordsEpic = (action$, store, { client }) =>
+  action$.ofType('CONNECTED_TREND_WORDS').switchMap(({ payload }) => {
+    // HACK(vanguard): wordTrendScore from/to does not work correctly
+    // Can't fetch only needed time period, should fetch for all day
+    const dates = []
+
+    for (let i = 0; i < 3; i++) {
+      console.log(
+        getInsightTrendTagByDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * i))
+      )
+
+      dates.push(
+        client.query({
+          query: ALL_INSIGHTS_BY_TAG_QUERY,
+          variables: {
+            tag: getInsightTrendTagByDate(
+              new Date(Date.now() - oneDayTimeStamp * i)
+            )
+          }
+        })
+      )
+    }
+
+    return Observable.forkJoin(...dates)
+      .flatMap(result => {
+        const connections = {}
+
+        for (const {
+          data: { allInsightsByTag }
+        } of result) {
+          if (allInsightsByTag.length < 1) continue
+
+          for (const { tags } of allInsightsByTag) {
+            const filteredTags = tags.filter(
+              ({ name }) => !name.endsWith('-trending-words')
+            )
+            const { length } = filteredTags
+            if (length < 1) continue
+
+            for (let i = 0; i < length; i++) {
+              const { name: tag } = filteredTags[i]
+              const inter = filteredTags.slice(0, i)
+              const rightOffset = i - (length - 1)
+
+              if (rightOffset !== 0) {
+                inter.push(...filteredTags.slice(rightOffset))
+              }
+
+              const connection = connections[tag]
+              if (connection) {
+                connection.push(...inter)
+              } else {
+                connections[tag] = inter
+              }
+            }
+          }
+        }
+
+        console.log(connections)
+        return Observable.of({
+          type: '[trends] CONNECTED_WORDS_FULFILLED',
+          payload: connections
         })
       })
       .catch(handleErrorAndTriggerAction('changes failed'))
