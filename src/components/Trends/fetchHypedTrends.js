@@ -49,14 +49,18 @@ export const selectHypedTrend = action$ =>
 const fetchTrends$ = ({ client, data = {} }) => {
   const startTime = Date.now()
   const queries = secretDataTeamHours.map(hour => {
+    const toDate = new Date()
+    toDate.setHours(24, 0, 0, 0)
+    const fromDate = new Date()
+    fromDate.setHours(24, 0, 0, 0)
+    fromDate.setDate(fromDate.getDate() - 2)
+
     return client.query({
       query: TRENDING_WORDS_QUERY,
       variables: {
         hour,
-        to: new Date().toISOString(),
-        from: moment()
-          .subtract(3, 'd')
-          .toISOString()
+        to: toDate.toISOString(),
+        from: fromDate.toISOString()
       },
       context: { isRetriable: true }
     })
