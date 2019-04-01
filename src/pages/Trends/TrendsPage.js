@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { compose, withState } from 'recompose'
 import { Helmet } from 'react-helmet'
 import Sticky from 'react-stickynode'
+import { Link } from 'react-router-dom'
+import { Button, Icon } from '@santiment-network/ui'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import HypedBlocks from './../../components/Trends/HypedBlocks'
 import WordCloud from './../../components/WordCloud/WordCloud'
@@ -18,7 +20,7 @@ const TrendsPage = ({
   isCloudLoading,
   setWordCloudStiky,
   isWordCloudSticky = false,
-  isDesktop = true
+  isDesktop = true,
 }) => (
   <div className={styles.TrendsPage + ' page'}>
     <Helmet>
@@ -34,6 +36,9 @@ const TrendsPage = ({
     </Helmet>
     <div className={styles.header}>
       <h1>Trending Words</h1>
+      <Button border as={Link} to='/insights/new?currentTrends'>
+        <Icon className={styles.icon} type='plus-round' /> Write insight
+      </Button>
     </div>
     <TotalSocialVolume />
     <GetHypedTrends
@@ -62,10 +67,10 @@ const TrendsPage = ({
 const mapStateToProps = (state, ownProps) => ({
   isCloudLoading: state.wordCloud.isLoading,
   error: state.wordCloud.error,
-  word: state.wordCloud.word
+  word: state.wordCloud.word,
 })
 
 export default compose(
   withState('isWordCloudSticky', 'setWordCloudStiky', false),
-  connect(mapStateToProps)
+  connect(mapStateToProps),
 )(TrendsPage)

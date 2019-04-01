@@ -5,6 +5,7 @@
   .header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     h1 {
       margin-right: 0.5rem !important;
@@ -59,4 +60,9 @@
       margin-right: 0;
     }
   }
+}
+
+.icon {
+  margin-right: 8px;
+  margin-top: -1px;
 }

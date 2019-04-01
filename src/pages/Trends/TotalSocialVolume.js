@@ -33,14 +33,17 @@ const TotalSocialVolume = ({ className, data }) => {
               minTickGap={150}
             />
             <YAxis
-              // domain={[0, dataMax => dataMax + parseInt(0.35 * dataMax)]}
               orientation='left'
               axisLine={false}
               tickLine={false}
               tickFormatter={count => millify(count, 0)}
             />
 
-            <Bar dataKey='mentionsCount' shape={<RoundBar />} />
+            <Bar
+              isAnimationActive={false}
+              dataKey='mentionsCount'
+              shape={<RoundBar />}
+            />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -49,7 +52,7 @@ const TotalSocialVolume = ({ className, data }) => {
 }
 
 const defaultTS = {
-  chartData: []
+  chartData: [],
 }
 
 export default graphql(SOCIAL_VOLUME_QUERY, {
@@ -58,9 +61,9 @@ export default graphql(SOCIAL_VOLUME_QUERY, {
       discord = defaultTS,
       reddit = defaultTS,
       telegram = defaultTS,
-      professional_traders_chat: ptc = defaultTS
+      professional_traders_chat: ptc = defaultTS,
     },
-    loading
+    loading,
   }) => {
     return {
       data: mergeTimeseriesByKey({
@@ -68,17 +71,17 @@ export default graphql(SOCIAL_VOLUME_QUERY, {
           telegram.chartData,
           reddit.chartData,
           discord.chartData,
-          ptc.chartData
+          ptc.chartData,
         ],
         mergeData: (longestTSData, timeserieData) => {
           return {
             mentionsCount:
               longestTSData.mentionsCount + timeserieData.mentionsCount,
-            datetime: longestTSData.datetime
+            datetime: longestTSData.datetime,
           }
-        }
+        },
       }),
-      loading
+      loading,
     }
   },
   options: () => {
@@ -92,8 +95,8 @@ export default graphql(SOCIAL_VOLUME_QUERY, {
       variables: {
         word: '*',
         from: fromDate.toISOString(),
-        to: toDate.toISOString()
-      }
+        to: toDate.toISOString(),
+      },
     }
-  }
+  },
 })(TotalSocialVolume)
