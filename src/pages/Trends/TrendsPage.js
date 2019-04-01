@@ -3,18 +3,14 @@ import { connect } from 'react-redux'
 import { compose, withState } from 'recompose'
 import { Helmet } from 'react-helmet'
 import Sticky from 'react-stickynode'
-import moment from 'moment'
-import { Link } from 'react-router-dom'
-import { Button, Icon } from '@santiment-network/ui'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import HypedBlocks from './../../components/Trends/HypedBlocks'
 import WordCloud from './../../components/WordCloud/WordCloud'
+import SocialVolumeWidget from '../../components/SocialVolumeWidget/SocialVolumeWidget'
 import HelpTrendsAbout from './HelpPopupTrendsAbout'
 import styles from './TrendsPage.module.scss'
 import InsightsTrends from '../../components/Insight/InsightsTrends'
 import Devider from '../../components/Navbar/DropdownDevider'
-import TotalSocialVolume from './TotalSocialVolume'
-import Trends from './Trends'
 
 const TrendsPage = ({
   word,
@@ -36,38 +32,65 @@ const TrendsPage = ({
       />
     </Helmet>
     <div className={styles.header}>
-      <h1>Trending Words</h1>
-      <Button border as={Link} to='/insights/new?currentTrends'>
-        <Icon className={styles.icon} type='plus-round' /> Write insight
-      </Button>
+      <h1>Emerging Social Trends</h1>
+      <HelpTrendsAbout />
     </div>
-    <TotalSocialVolume />
     <GetHypedTrends
       render={({ isLoading, items }) => (
-        <>
-          <div className={styles.tables}>
-            {items.length > 1 &&
-              items
-                .slice(0, -1)
-                .map((trend, index) => (
-                  <Trends
-                    header={`Compiled ${moment(trend.datetime).fromNow()}`}
-                    notSelected
-                    key={index}
-                    trend={trend}
-                  />
-                ))}
-            <Trends
-              isLoading={isLoading}
-              trend={items.length > 0 ? items[items.length - 1] : {}}
-              header='Last trends'
-            />
-          </div>
-        </>
+        <Fragment>
+          <div id='word-cloud-sticky-anchor' />
+          <WordCloudWrapper
+            isCloudLoading={isCloudLoading}
+            isLoading={isLoading}
+            word={word}
+            isDesktop={isDesktop}
+            setWordCloudStiky={setWordCloudStiky}
+            isWordCloudSticky={isWordCloudSticky}
+          />
+          <HypedBlocks
+            items={items}
+            isLoading={isLoading}
+            isDesktop={isDesktop}
+          />
+        </Fragment>
       )}
     />
     <Devider style={{ margin: '40px 0' }} />
     <InsightsTrends className={styles.insights} />
+  </div>
+)
+
+const WordCloudWrapper = ({
+  isLoading,
+  isDesktop,
+  word,
+  isCloudLoading,
+  isWordCloudSticky,
+  setWordCloudStiky
+}) => (
+  <div>
+    {!isLoading && isDesktop && (
+      <Sticky
+        top={'#word-cloud-sticky-anchor'}
+        innerZ={2}
+        onStateChange={({ status }) => {
+          setWordCloudStiky(status === Sticky.STATUS_FIXED)
+        }}
+        enabled
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: isWordCloudSticky ? 0 : 24
+          }}
+          className={isWordCloudSticky ? styles.WordCloudSticky : ''}
+        >
+          <SocialVolumeWidget />
+          <WordCloud />
+        </div>
+      </Sticky>
+    )}
   </div>
 )
 

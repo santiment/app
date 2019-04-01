@@ -59,6 +59,11 @@ const LoadableTrendsPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableTrendsLabsPage = Loadable({
+  loader: () => import('./pages/Trends/LabsTrends'),
+  loading: () => <PageLoader />
+})
+
 const LoadableTrendsExplorePage = Loadable({
   loader: () => import('./pages/Trends/TrendsExplorePage'),
   loading: () => <PageLoader />
@@ -192,7 +197,7 @@ export const App = ({
             <LoadableDetailedPage isDesktop={isDesktop} {...props} />
           )}
         />
-        <Route exact path='/labs/trends' render={props => <TrendsTool />} />
+        <Route exact path='/labs/trends' component={LoadableTrendsLabsPage} />
         <Route exact path='/labs' component={LabsPage} />
         <Redirect from='/trends' to='/labs/trends' />
         <Route
