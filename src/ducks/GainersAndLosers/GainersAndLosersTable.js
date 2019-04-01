@@ -67,7 +67,7 @@ const withGainersLosers = graphql(TOP_SOCIAL_GAINERS_LOSERS_GQL, {
 
     return {
       topSocialGainersLosers: topGainersLosers,
-      isLoadingGainersLosers: loading
+      isLoading: loading
     }
   }
 })
