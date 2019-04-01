@@ -312,6 +312,17 @@ const getTimeRangeByDuration = timeWindow => {
   }
 }
 
+const mapItemsToKeys = (items, { keyPath, getKeyPath }) => {
+  const obj = {}
+
+  items.forEach(item => {
+    const key = getKeyPath ? getKeyPath(item) : item[keyPath]
+    obj[key] = item
+  })
+
+  return obj
+}
+
 export {
   findIndexByDatetime,
   calculateBTCVolume,
@@ -333,5 +344,6 @@ export {
   fork,
   pickFork,
   isEthStrictAddress,
-  getTimeRangeByDuration
+  getTimeRangeByDuration,
+  mapItemsToKeys
 }

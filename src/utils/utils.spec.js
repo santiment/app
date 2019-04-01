@@ -8,7 +8,8 @@ import {
   mergeTimeseriesByKey,
   getEscapedGQLFieldAlias,
   getTimeRangeByDuration,
-  isEthStrictAddress
+  isEthStrictAddress,
+  mapItemsToKeys
 } from './utils'
 
 const labels = [
@@ -500,5 +501,31 @@ describe('getTimeRangeByDuration', () => {
     }
 
     expect(getTimeRangeByDuration('3w')).toEqual(goodTimeRange)
+  })
+})
+
+describe('mapItemsToKeys', () => {
+  const items = [{ name: 'name1' }, { name: 'name2' }, { name: 'name3' }]
+
+  it('Should map correctly using keyPath', () => {
+    const goodItems = {
+      name1: { name: 'name1' },
+      name2: { name: 'name2' },
+      name3: { name: 'name3' }
+    }
+
+    const expected = mapItemsToKeys(items, { keyPath: 'name' })
+    expect(expected).toEqual(goodItems)
+  })
+
+  it('Should map correctly using getKeyPath function', () => {
+    const goodItems = {
+      name1: { name: 'name1' },
+      name2: { name: 'name2' },
+      name3: { name: 'name3' }
+    }
+
+    const expected = mapItemsToKeys(items, { getKeyPath: item => item.name })
+    expect(expected).toEqual(goodItems)
   })
 })
