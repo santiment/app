@@ -3,6 +3,7 @@
 
 .wrapper {
   width: 100%;
+  max-width: 553px;
 }
 
 .Trigger {
@@ -86,6 +87,22 @@ label {
   button:last-child {
     margin-right: 0;
   }
+}
+
+.timeWindow {
+  display: flex;
+  align-items: center;
+}
+
+.timeWindowInput {
+  flex: 1;
+  width: 50%;
+  margin-right: 8px;
+}
+
+.timeWindowUnit {
+  width: 50%;
+  flex: 1;
 }
 
 @include responsive('desktop') {

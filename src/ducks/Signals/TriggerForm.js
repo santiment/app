@@ -373,20 +373,24 @@ export const TriggerForm = ({
                 {ARGS[values.type.value].includes('timeWindow') && (
                   <div className={styles.Field}>
                     <label>Time Window</label>
-                    <FormikInput
-                      name='timeWindow'
-                      type='number'
-                      placeholder='Setup the time window'
-                    />
-                    <FormikSelect
-                      name='timeWindowUnit'
-                      clearable={false}
-                      placeholder='Choose unit'
-                      options={[
-                        { value: 'h', label: 'hours' },
-                        { value: 'd', label: 'days' }
-                      ]}
-                    />
+                    <div className={styles.timeWindow}>
+                      <FormikInput
+                        name='timeWindow'
+                        type='number'
+                        className={styles.timeWindowInput}
+                        placeholder='Setup the time window'
+                      />
+                      <FormikSelect
+                        name='timeWindowUnit'
+                        className={styles.timeWindowUnit}
+                        clearable={false}
+                        placeholder='Choose unit'
+                        options={[
+                          { value: 'h', label: 'hours' },
+                          { value: 'd', label: 'days' }
+                        ]}
+                      />
+                    </div>
                   </div>
                 )}
               </div>
