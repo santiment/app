@@ -176,7 +176,7 @@ export const fetchHistorySignalPoints = (action$, store, { client }) =>
         }
       })
     )
-      .debounceTime(200)
+      .debounceTime(500)
       .mergeMap(({ data }) => {
         return Observable.of({
           type: actions.SIGNAL_FETCH_HISTORY_POINTS_SUCCESS,

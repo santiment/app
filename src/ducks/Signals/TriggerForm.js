@@ -247,7 +247,7 @@ export const TriggerForm = ({
       isInitialValid
       enableReinitialize
       validate={validate}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={values => {
         onSettingsChange(values)
       }}
     >
