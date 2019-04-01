@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import Table from 'react-table'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { store } from '../../index'
 import {
@@ -39,8 +40,7 @@ const columns = [
   },
   {
     Header: 'Word',
-    accessor: 'word',
-    className: styles.word
+    accessor: 'word'
   },
   {
     Header: 'Trending score',
@@ -71,16 +71,15 @@ class Trends extends PureComponent {
     }
   }
 
-  onConnectedWordsMouseOver = word => {
-    store.dispatch({
-      type: 'CONNECTED_TREND_WORDS',
-      payload: word
-    })
-  }
-
   render () {
-    const { notSelected, trend, scoreChange, volumeChange } = this.props
-    console.log(trend)
+    const {
+      notSelected,
+      trend,
+      scoreChange,
+      volumeChange,
+      allAssets
+    } = this.props
+
     let topWords
     const { topWords: test = [] } = trend
     topWords = test.map(({ word }, index) => {
@@ -88,7 +87,11 @@ class Trends extends PureComponent {
       const [oldVolume, newVolume] = volumeChange[word] || []
       return {
         index: index + 1,
-        word,
+        word: (
+          <Link className={styles.word} to={`/labs/trends/explore/${word}`}>
+            {word}
+          </Link>
+        ),
         score: (
           <>
             {newScore} <ValueChange oldValue={oldScore} newValue={newScore} />
@@ -122,12 +125,7 @@ class Trends extends PureComponent {
                   Cell: ({ original: { word } }) => {
                     return (
                       <div className={styles.test}>
-                        <Icon
-                          onMouseEnter={() =>
-                            this.onConnectedWordsMouseOver(word)
-                          }
-                          type='connection'
-                        />
+                        <Icon type='connection' />
                       </div>
                     )
                   },
@@ -152,9 +150,12 @@ class Trends extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ hypedTrends: { scoreChange, volumeChange } }) => ({
+const mapStateToProps = ({
+  hypedTrends: { scoreChange, volumeChange, allAssets }
+}) => ({
   scoreChange,
-  volumeChange
+  volumeChange,
+  allAssets
 })
 
 export default connect(mapStateToProps)(Trends)

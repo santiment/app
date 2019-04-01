@@ -60,8 +60,7 @@ import {
 import { likesEpic } from '../components/Like/likesEpic'
 import {
   wordTrendScoreEpic,
-  wordTrendSocialVolumeEpic,
-  connectedWordsEpic
+  wordTrendSocialVolumeEpic
 } from '../pages/Trends/changesEpic.js'
 
 export default combineEpics(
@@ -122,6 +121,5 @@ export default combineEpics(
   likesEpic,
   // trend changes
   wordTrendScoreEpic,
-  wordTrendSocialVolumeEpic,
-  connectedWordsEpic
+  wordTrendSocialVolumeEpic
 )
