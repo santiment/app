@@ -21,10 +21,7 @@ const SignalCard = ({
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
       <div
-        className={cx(
-          styles.wrapper__left,
-          author && styles.wrapper__left_subscription
-        )}
+        className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
       >
         <div className={styles.icon}>
           <Icon type='wallet' />
@@ -62,6 +59,42 @@ const UnpublishedMsg = () => (
     <Icon type='clock' className={styles.awaiting__icon} /> Awaiting posting
   </h4>
 )
+
+export const SignalCardWrapper = ({
+  isLink = false,
+  isAwaiting = false,
+  id,
+  description,
+  title
+}) => {
+  const SignalTopDetails =
+    isAwaiting && !isLink ? 'div' : SignalCardDetailsModal
+  return (
+    <div className={styles.wrapper__top}>
+      <div
+        className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
+      >
+        <div className={styles.icon}>
+          <Icon type='wallet' />
+        </div>
+      </div>
+      <div className={styles.wrapper__right}>
+        <SignalTopDetails id={id}>
+          <div className={styles.upper}>
+            <h2 className={styles.title}>{title}</h2>
+            <h3 className={styles.description}>
+              <MultilineText
+                id='SignalCard__description'
+                maxLines={2}
+                text={description && description}
+              />
+            </h3>
+          </div>
+        </SignalTopDetails>
+      </div>
+    </div>
+  )
+}
 
 const SignalCardBottom = ({
   author,
