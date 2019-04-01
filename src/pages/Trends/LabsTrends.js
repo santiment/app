@@ -8,6 +8,7 @@ import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import styles from './TrendsPage.module.scss'
 import InsightsTrends from '../../components/Insight/InsightsTrends'
 import Devider from '../../components/Navbar/DropdownDevider'
+import TrendsSearch from '../../components/Trends/TrendsSearch'
 import TotalSocialVolume from './TotalSocialVolume'
 import Trends from './Trends'
 
@@ -30,6 +31,7 @@ const TrendsPage = ({ word }) => (
         <Icon className={styles.icon} type='plus-round' /> Write insight
       </Button>
     </div>
+    <TrendsSearch />
     <TotalSocialVolume />
     <GetHypedTrends
       render={({ isLoading, items }) => (
