@@ -93,7 +93,7 @@ export default combineEpics(
   fetchAllTickersSlugs,
   // WordCloud
   fetchWordContextEpic,
-  /* preloadWordContextEpic, */
+  // preloadWordContextEpic, // Disabling preloading for faster data fetching
   // SocialVolume
   fetchSocialVolumeEpic,
   // Settings

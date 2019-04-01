@@ -8,7 +8,7 @@ import { mergeTimeseriesByKey } from '../../utils/utils'
 export const fetchSocialVolumeEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.SOCIALVOLUME_DATA_FETCH)
-    .debounceTime(1000)
+    .debounceTime(200)
     .switchMap(({ payload: trendWord }) => {
       if (store.getState().socialVolume.trendWord === trendWord) {
         return Observable.of({
@@ -20,15 +20,19 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
       const isFetchingTotalSocialVolume =
         trendWord === actions.TOTAL_SOCIALVOLUME_SECRET
 
+      const dateTo = new Date()
+      dateTo.setHours(24, 0, 0, 0)
+      const dateFrom = new Date()
+      dateFrom.setMonth(dateFrom.getMonth() - 1)
+      dateFrom.setHours(0, 0, 0, 0)
+
       return Observable.fromPromise(
         client.query({
           query: SOCIAL_VOLUME_QUERY,
           variables: {
             word: isFetchingTotalSocialVolume ? '*' : trendWord,
-            to: moment().toISOString(),
-            from: moment()
-              .subtract(1, 'months')
-              .toISOString()
+            to: dateTo.toISOString(),
+            from: dateFrom.toISOString()
           }
         })
       )

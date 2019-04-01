@@ -49,11 +49,6 @@ export default (state = initialState, action) => {
         ...state,
         volumeChange: action.payload
       }
-    case actions.TREND_CONNECTED_WORDS_FULFILLED:
-      return {
-        ...state,
-        connectedWords: action.payload
-      }
     default:
       return state
   }

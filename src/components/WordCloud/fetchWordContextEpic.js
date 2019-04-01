@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs'
-import moment from 'moment'
 import * as actions from './actions'
 import { wordCloudGQL } from './wordCloudGQL.js'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
@@ -19,10 +18,12 @@ export const preloadWordContextEpic = (action$, store, { client }) =>
         return Observable.of()
       }
 
-      const dateTo = moment().toISOString()
-      const dateFrom = moment()
-        .subtract(3, 'd')
-        .toISOString()
+      const dateTo = new Date()
+      dateTo.setHours(24, 0, 0, 0)
+      const dateFrom = new Date()
+      dateFrom.setDate(dateFrom.getDate() - 3)
+      dateFrom.setHours(0, 0, 0, 0)
+
       const allWords = items.reduce(
         (acc, { topWords }) => acc.concat(topWords.map(({ word }) => word)),
         []
@@ -35,8 +36,8 @@ export const preloadWordContextEpic = (action$, store, { client }) =>
             query: wordCloudGQL,
             variables: {
               word,
-              to: dateTo,
-              from: dateFrom,
+              to: dateTo.toISOString(),
+              from: dateFrom.toISOString(),
               size: 25
             }
           })
@@ -54,6 +55,7 @@ export const preloadWordContextEpic = (action$, store, { client }) =>
 export const fetchWordContextEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.WORDCLOUD_CONTEXT_FETCH)
+    .debounceTime(200)
     .switchMap(({ payload: word }) => {
       const wordCloudState = store.getState().wordCloud
       if (wordCloudState.word === word) {
@@ -75,15 +77,19 @@ export const fetchWordContextEpic = (action$, store, { client }) =>
         })
       }
 
+      const dateTo = new Date()
+      dateTo.setHours(24, 0, 0, 0)
+      const dateFrom = new Date()
+      dateFrom.setDate(dateFrom.getDate() - 3)
+      dateFrom.setHours(0, 0, 0, 0)
+
       return Observable.fromPromise(
         client.query({
           query: wordCloudGQL,
           variables: {
             word,
-            to: moment().toISOString(),
-            from: moment()
-              .subtract(3, 'd') // @NOTE(vanguard) query fails, if the value is more in past
-              .toISOString(),
+            to: dateTo.toISOString(),
+            from: dateFrom.toISOString(),
             size: 25
           }
         })
