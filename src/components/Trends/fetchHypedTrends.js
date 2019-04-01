@@ -63,7 +63,6 @@ const fetchTrends$ = ({ client, data = {} }) => {
   })
 
   return Observable.forkJoin(queries)
-    .delayWhen(() => Observable.timer(500 + startTime - Date.now()))
     .mergeMap(data => {
       const trends = data
         .reduce((acc, val, index) => {
