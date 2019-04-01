@@ -22,6 +22,10 @@ const WORD_TREND_SCORE_QUERY = gql`
   }
 `
 
+const defaultMentionsCount = {
+  mentionsCount: 0
+}
+
 export const wordTrendSocialVolumeEpic = (action$, store, { client }) =>
   action$.ofType('[trends] HYPED_FETCH_SUCCESS').mergeMap(({ payload }) => {
     // HACK(vanguard): wordTrendScore from/to does not work correctly
@@ -50,8 +54,8 @@ export const wordTrendSocialVolumeEpic = (action$, store, { client }) =>
           data: { telegram, reddit, discord, professional_traders_chat: ptc }
         }) => {
           const [
-            { mentionsCount: oldValue },
-            { mentionsCount: newValue }
+            oldValue = defaultMentionsCount,
+            newValue = defaultMentionsCount
           ] = mergeTimeseriesByKey({
             timeseries: [
               telegram.chartData,
@@ -59,6 +63,7 @@ export const wordTrendSocialVolumeEpic = (action$, store, { client }) =>
               discord.chartData,
               ptc.chartData
             ],
+            key: 'datetime',
             mergeData: (longestTSData, timeserieData) => {
               return {
                 mentionsCount:
@@ -69,7 +74,7 @@ export const wordTrendSocialVolumeEpic = (action$, store, { client }) =>
           }).slice(-2)
 
           return {
-            [word]: [oldValue, newValue]
+            [word]: [oldValue.mentionsCount, newValue.mentionsCount]
           }
         }
       )
