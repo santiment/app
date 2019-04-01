@@ -10,6 +10,7 @@ const oneDayTimeStamp = 1000 * 60 * 60 * 24
 const InsightsTrends = ({ allInsightsByTag, ...props }) => {
   return (
     <Insights
+      title='Insights based on last trends'
       insights={allInsightsByTag.filter(filterInsightsNoDrafts)}
       {...props}
     />

@@ -21,6 +21,7 @@ const sortByPopularity = (
 class Insights extends Component {
   static defaultProps = {
     insights: [],
+    title: 'Insights',
     className: ''
   }
 
@@ -39,7 +40,7 @@ class Insights extends Component {
 
   render () {
     const { view } = this.state
-    const { insights, className } = this.props
+    const { title, insights, className } = this.props
 
     const length = insights.length
 
@@ -47,7 +48,7 @@ class Insights extends Component {
       <div className={className}>
         <div className={styles.top}>
           <div className={styles.title}>
-            Insights
+            {title}
             <span className={styles.count}> ({length})</span>
           </div>
           <div className={styles.controls}>

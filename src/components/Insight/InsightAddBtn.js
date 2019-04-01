@@ -7,7 +7,8 @@ const InsightAddBtn = ({ searchParams = '', ...props }) => (
   <Button
     as={Link}
     className={styles.btn}
-    accent='green'
+    accent='positive'
+    variant='fill'
     to={`/insights/new?${searchParams}`}
     {...props}
   >
