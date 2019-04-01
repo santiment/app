@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
+import { graphql } from 'react-apollo'
 import { Panel } from '@santiment-network/ui'
 import GainersLosersTable from './GainersAndLosersTable'
 import { Tabs } from '@santiment-network/ui'
+import { allProjectsGQL } from '../../pages/Projects/allProjectsGQL'
 import styles from './GainersAndLosersPage.module.scss'
+import { mapItemsToKeys } from '../../utils/utils'
 
 const statusMapping = {
   Gainers: 'GAINER',
@@ -22,6 +25,7 @@ class GainersAndLosersPage extends Component {
 
   render () {
     const { timeWindow, status } = this.state
+    const { allProjects } = this.props
     return (
       <div className='page'>
         <h1>Top Gainers And Top Losers</h1>
@@ -46,11 +50,24 @@ class GainersAndLosersPage extends Component {
               }
             />
           </div>
-          <GainersLosersTable timeWindow={timeWindow} status={status} />
+          <GainersLosersTable
+            timeWindow={timeWindow}
+            status={status}
+            allProjects={allProjects}
+          />
         </Panel>
       </div>
     )
   }
 }
 
-export default GainersAndLosersPage
+const withProjects = graphql(allProjectsGQL, {
+  props: ({ data: { allProjects = [], loading } }) => ({
+    allProjects: !loading
+      ? mapItemsToKeys(allProjects, { keyPath: 'slug' })
+      : undefined,
+    isLoadingProjects: loading
+  })
+})
+
+export default withProjects(GainersAndLosersPage)

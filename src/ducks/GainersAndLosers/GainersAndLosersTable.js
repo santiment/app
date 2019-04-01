@@ -36,7 +36,7 @@ const GainersLosersTable = ({
   />
 )
 
-const withApollo = graphql(TOP_SOCIAL_GAINERS_LOSERS_GQL, {
+const withGainersLosers = graphql(TOP_SOCIAL_GAINERS_LOSERS_GQL, {
   options: ({ status, timeWindow }) => ({
     variables: {
       status,
@@ -44,20 +44,32 @@ const withApollo = graphql(TOP_SOCIAL_GAINERS_LOSERS_GQL, {
       ...getTimeRangeByDuration(timeWindow)
     }
   }),
-  props: ({ data: { topSocialGainersLosers = [] } }) => {
+  props: ({ data: { topSocialGainersLosers = [], loading }, ownProps }) => {
+    // TODO: remove this block when TOP_SOCIAL_GAINERS_LOSERS_GQL
+    // returns results sorted by date
+
     const topGainersDatetime = (topSocialGainersLosers || []).map(
       ({ datetime }) => moment(datetime)
     )
     const recentRecordTime = moment.max(topGainersDatetime)
-    const { projects } =
+    const { projects = [] } =
       (topSocialGainersLosers || []).find(({ datetime }) =>
         moment(datetime).isSame(recentRecordTime)
       ) || {}
 
+    const topGainersLosers =
+      !loading && ownProps.allProjects
+        ? projects.map(projectItem => ({
+          ...projectItem,
+          name: ownProps.allProjects[projectItem.project].name
+        }))
+        : []
+
     return {
-      topSocialGainersLosers: projects
+      topSocialGainersLosers: topGainersLosers,
+      isLoadingGainersLosers: loading
     }
   }
 })
 
-export default withApollo(GainersLosersTable)
+export default withGainersLosers(GainersLosersTable)
