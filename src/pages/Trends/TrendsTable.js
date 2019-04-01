@@ -3,7 +3,7 @@ import Table from 'react-table'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { PanelWithHeader } from '@santiment-network/ui'
-import ValueChange from './ValueChange'
+import ValueChange from '../../components/ValueChange/ValueChange'
 import styles from './TrendTable.module.scss'
 
 const columns = [
@@ -72,6 +72,7 @@ class TrendsTable extends PureComponent {
       >
         <Table
           className={styles.table}
+          sortable={false}
           resizable={false}
           data={tableData}
           columns={notSelected ? columns.slice(0, 2) : columns}

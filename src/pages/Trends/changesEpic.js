@@ -2,16 +2,11 @@ import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import {
-  TREND_WORD_SCORE_CHANGE_FETCH,
   TREND_WORD_SCORE_CHANGE_FULFILLED,
   TREND_WORD_VOLUME_CHANGE_FULFILLED
 } from '../../components/Trends/actions'
 import { SOCIAL_VOLUME_QUERY } from '../../components/SocialVolumeWidget/socialVolumeGQL'
 import { mergeTimeseriesByKey } from '../../utils/utils'
-
-import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../components/Insight/insightsGQL'
-
-const secretDataTeamHours = [1, 8, 14]
 
 const WORD_TREND_SCORE_QUERY = gql`
   query wordTrendScore($word: String!, $from: DateTime!, $to: DateTime!) {
@@ -139,7 +134,3 @@ export const wordTrendScoreEpic = (action$, store, { client }) =>
       })
       .catch(handleErrorAndTriggerAction('changes failed'))
   })
-
-export const getInsightTrendTagByDate = date =>
-  `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}-trending-words`
-const oneDayTimeStamp = 1000 * 60 * 60 * 24

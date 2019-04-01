@@ -47,14 +47,13 @@ export const selectHypedTrend = action$ =>
     })
 
 const fetchTrends$ = ({ client, data = {} }) => {
-  const startTime = Date.now()
-  const queries = secretDataTeamHours.map(hour => {
-    const toDate = new Date()
-    toDate.setHours(24, 0, 0, 0)
-    const fromDate = new Date()
-    fromDate.setHours(24, 0, 0, 0)
-    fromDate.setDate(fromDate.getDate() - 2)
+  const toDate = new Date()
+  toDate.setHours(24, 0, 0, 0)
+  const fromDate = new Date()
+  fromDate.setHours(24, 0, 0, 0)
+  fromDate.setDate(fromDate.getDate() - 2)
 
+  const queries = secretDataTeamHours.map(hour => {
     return client.query({
       query: TRENDING_WORDS_QUERY,
       variables: {

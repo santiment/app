@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs'
-import moment from 'moment'
 import * as actions from './actions'
 import { SOCIAL_VOLUME_QUERY } from './socialVolumeGQL'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
