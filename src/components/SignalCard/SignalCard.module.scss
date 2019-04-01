@@ -2,10 +2,13 @@
 
 .wrapper {
   display: flex;
-  // padding: 16px 20px;
+
   &__right {
     padding: 4px 0;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   &__left {
@@ -21,6 +24,7 @@
 
 .wrapper__top {
   display: flex;
+  height: 100%;
 }
 
 .icon {

@@ -65,7 +65,8 @@ export const SignalCardWrapper = ({
   isAwaiting = false,
   id,
   description,
-  title
+  title,
+  children
 }) => {
   const SignalTopDetails =
     isAwaiting && !isLink ? 'div' : SignalCardDetailsModal
@@ -91,6 +92,7 @@ export const SignalCardWrapper = ({
             </h3>
           </div>
         </SignalTopDetails>
+        {children}
       </div>
     </div>
   )
