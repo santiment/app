@@ -103,6 +103,9 @@ const AssetsTable = ({
                 if (rowInfo && rowInfo.original && rowInfo.original.ticker) {
                   goto(`/projects/${rowInfo.original.coinmarketcapId}`)
                 }
+              },
+              style: {
+                border: 'none'
               }
             }
           }}
