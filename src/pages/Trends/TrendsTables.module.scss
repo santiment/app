@@ -1,14 +1,14 @@
 .tables {
   display: flex;
   justify-content: space-between;
+}
 
-  > * {
-    flex: 1;
-    margin-right: 15px;
+.table {
+  flex: 1;
+  margin-right: 15px;
 
-    &:last-child {
-      flex: 3;
-      margin-right: 0;
-    }
+  &:last-child {
+    flex: 3;
+    margin-right: 0;
   }
 }

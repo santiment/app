@@ -35,7 +35,8 @@ class TrendsTable extends PureComponent {
       trend: { topWords = [] },
       scoreChange,
       volumeChange,
-      header
+      header,
+      className
     } = this.props
 
     const tableData = topWords.map(({ word }, index) => {
@@ -65,6 +66,7 @@ class TrendsTable extends PureComponent {
     return (
       <PanelWithHeader
         header={header}
+        className={className}
         contentClassName={styles.panel}
         headerClassName={styles.header}
       >

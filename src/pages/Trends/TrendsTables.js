@@ -3,7 +3,7 @@ import moment from 'moment'
 import TrendsTable from './TrendsTable'
 import styles from './TrendsTables.module.scss'
 
-class Trends extends PureComponent {
+class TrendsTables extends PureComponent {
   render () {
     const { trends, isLoading } = this.props
 
@@ -17,10 +17,12 @@ class Trends extends PureComponent {
                 header={`Compiled ${moment(trend.datetime).fromNow()}`}
                 notSelected
                 key={index}
+                className={styles.table}
                 trend={trend}
               />
             ))}
         <TrendsTable
+          className={styles.table}
           isLoading={isLoading}
           trend={trends.length > 0 ? trends[trends.length - 1] : {}}
           header='Last trends'
@@ -30,4 +32,4 @@ class Trends extends PureComponent {
   }
 }
 
-export default Trends
+export default TrendsTables

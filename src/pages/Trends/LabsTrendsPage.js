@@ -7,10 +7,10 @@ import InsightsTrends from '../../components/Insight/InsightsTrends'
 import Devider from '../../components/Navbar/DropdownDevider'
 import TrendsSearch from '../../components/Trends/TrendsSearch'
 import TotalSocialVolume from './TotalSocialVolume'
-import TrendsTables from './Trends'
+import TrendsTables from './TrendsTables'
 import styles from './LabsTrendsPage.module.scss'
 
-const TrendsPage = () => (
+const LabsTrendsPage = () => (
   <div className={styles.wrapper + ' page'}>
     <Helmet>
       <title>Today’s Top Social Gainers in Crypto - SANbase</title>
@@ -41,4 +41,4 @@ const TrendsPage = () => (
   </div>
 )
 
-export default TrendsPage
+export default LabsTrendsPage

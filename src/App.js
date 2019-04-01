@@ -60,7 +60,7 @@ const LoadableTrendsPage = Loadable({
 })
 
 const LoadableTrendsLabsPage = Loadable({
-  loader: () => import('./pages/Trends/LabsTrends'),
+  loader: () => import('./pages/Trends/LabsTrendsPage'),
   loading: () => <PageLoader />
 })
 
