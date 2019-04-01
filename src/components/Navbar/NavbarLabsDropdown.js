@@ -8,7 +8,8 @@ const links = [
   { link: '/ethereum-spent', label: 'ETH spent' },
   { link: '/labs/balance', label: 'Historical balance' },
   { link: '/labs/wordcloud', label: 'Word context' },
-  { link: '/dashboards', label: 'Dashboard' }
+  { link: '/dashboards', label: 'Dashboard' },
+  { link: '/social-movers', label: 'Social movers' }
 ]
 
 const NavbarLabsDropdown = ({ activeLink }) => (

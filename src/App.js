@@ -150,7 +150,7 @@ export const App = ({
         />
         <Route
           exact
-          path='/gainers-losers'
+          path='/social-movers'
           component={LoadableGainersAndLosersPage}
         />
         <Route
