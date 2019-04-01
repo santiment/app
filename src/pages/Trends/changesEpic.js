@@ -63,7 +63,6 @@ export const wordTrendSocialVolumeEpic = (action$, store, { client }) =>
               discord.chartData,
               ptc.chartData
             ],
-            key: 'datetime',
             mergeData: (longestTSData, timeserieData) => {
               return {
                 mentionsCount:

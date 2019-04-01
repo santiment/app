@@ -126,7 +126,7 @@ const getYesterday = () => {
 
 const mergeTimeseriesByKey = ({
   timeseries,
-  key: mergeKey,
+  key: mergeKey = 'datetime',
   mergeData = (longestTSData, timeserieData) =>
     Object.assign({}, longestTSData, timeserieData)
 }) => {
