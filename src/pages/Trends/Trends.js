@@ -83,8 +83,8 @@ class Trends extends PureComponent {
     let topWords
     const { topWords: test = [] } = trend
     topWords = test.map(({ word }, index) => {
-      const [oldScore, newScore] = scoreChange[word] || []
-      const [oldVolume, newVolume] = volumeChange[word] || []
+      const [oldScore = 0, newScore = 0] = scoreChange[word] || []
+      const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
       return {
         index: index + 1,
         word: (
@@ -116,31 +116,7 @@ class Trends extends PureComponent {
           className={styles.table}
           resizable={false}
           data={topWords}
-          columns={
-            notSelected
-              ? columns.slice(0, 2)
-              : [
-                ...columns,
-                {
-                  Cell: ({ original: { word } }) => {
-                    return (
-                      <div className={styles.test}>
-                        <Icon type='connection' />
-                      </div>
-                    )
-                  },
-                  width: 32
-                },
-                {
-                  Cell: props => (
-                    <div className={styles.test}>
-                      <Icon type='insight' />
-                    </div>
-                  ),
-                  width: 32
-                }
-              ]
-          }
+          columns={notSelected ? columns.slice(0, 2) : columns}
           showPagination={false}
           defaultPageSize={10}
           minRows={10}
