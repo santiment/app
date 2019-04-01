@@ -1,11 +1,17 @@
+.label {
+  width: 100%;
+  text-align: left;
+  padding: 0 10px;
+}
+
 .name {
   color: var(--black);
-  padding: 8px 0 10px 10px;
+  padding-left: 10px;
   font-size: 14px;
 }
 
 .ticker {
-  padding: 10px 10px 10px 4px;
+  padding-left: 4px;
   color: #7a859e;
   font-size: 14px;
 }

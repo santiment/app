@@ -1,14 +1,19 @@
 import React from 'react'
 import GainersLosersGraph from './GainersLosersGraph'
+import ProjectLabel from '../../components/ProjectLabel'
+import PercentChanges from '../../components/PercentChanges'
 
 const getColumns = ({ timeWindow }) => [
   {
     Header: 'Project',
     id: 'project',
     sortable: true,
-    minWidth: 200,
-    maxWidth: 300,
-    accessor: 'project'
+    minWidth: 300,
+    accessor: ({ project, name }) => ({
+      ticker: project,
+      name
+    }),
+    Cell: ({ value }) => <ProjectLabel {...value} />
   },
   {
     Header: 'Change',
@@ -16,11 +21,8 @@ const getColumns = ({ timeWindow }) => [
     sortable: true,
     maxWidth: 100,
     accessor: 'change',
-    getProps: (state, rowInfo) => ({
-      style: {
-        color: rowInfo && rowInfo.row.change >= 0 ? 'green' : 'red'
-      }
-    })
+    Cell: ({ value }) =>
+      value ? <PercentChanges changes={value} /> : 'No data'
   },
   {
     Header: 'Graph',
