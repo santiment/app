@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import { Popup, Icon, Label, Loader, Message } from 'semantic-ui-react'
 import AlertMessage from './../../components/AlertMessage'
+import ShowIf from './../../components/ShowIf'
 import help from './../../assets/help.json'
 import LinkToSocialTool from './LinkToSocialTool'
 import SignalMasterModalForm from './../../ducks/Signals/SignalMasterModalForm'
@@ -108,7 +109,7 @@ const ProjectChartFooter = ({
           </ToggleBtn>
         )}
         <br />
-        {
+        <ShowIf beta>
           <SignalMasterModalForm
             metaFormSettings={{
               target: {
@@ -122,7 +123,7 @@ const ProjectChartFooter = ({
             }}
             label='New Price Signal'
           />
-        }
+        </ShowIf>
       </FilterCategory>
       <FilterCategory name='Development'>
         <ToggleBtn
