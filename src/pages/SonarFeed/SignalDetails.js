@@ -26,9 +26,10 @@ const SignalDetails = ({
   id,
   match = {}
 }) => {
+  const WrapperEl = isModal(match) ? 'div' : Panel
   const signalId = id || (match.params || {}).id
   if (isLoading) {
-    return <Panel header='Signals details'>Loading...</Panel>
+    return <WrapperEl header='Signals details'>Loading...</WrapperEl>
   }
   if (isError) {
     return (
@@ -49,7 +50,7 @@ const SignalDetails = ({
   }
   const { isActive, isPublic, title, description } = trigger
   return (
-    <Panel header='Signals details'>
+    <WrapperEl header='Signals details'>
       {title}
       {description}
       <StatusLabel isPublic={isPublic} />
@@ -63,7 +64,7 @@ const SignalDetails = ({
         onClick={() => toggleSignal({ id: signalId, isActive })}
         isActive={isActive}
       />
-    </Panel>
+    </WrapperEl>
   )
 }
 
@@ -86,6 +87,8 @@ const SettingsSignalButton = ({ id }) => (
     </Link>
   </Button>
 )
+
+const isModal = (match = {}) => !match.params
 
 const mapDispatchToProps = dispatch => ({
   toggleSignal: ({ id, isActive }) => {

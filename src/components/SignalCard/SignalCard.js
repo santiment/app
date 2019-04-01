@@ -109,7 +109,7 @@ const SignalCardBottom = ({
 }
 
 const SignalCardDetailsModal = ({ children, id }) => (
-  <Modal trigger={children} showDefaultActions={false}>
+  <Modal trigger={children} title='Signal details' showDefaultActions={false}>
     {({ closeModal }) => <SignalDetails id={id} closeModal={closeModal} />}
   </Modal>
 )
