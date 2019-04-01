@@ -20,7 +20,7 @@ const TotalSocialVolume = ({ className, data }) => {
         <ResponsiveContainer width='100%' className={styles.chart}>
           <BarChart
             data={data}
-            margin={{ top: 20, right: -39, left: -23, bottom: -10 }}
+            margin={{ top: 20, right: -31, left: -23, bottom: -10 }}
           >
             <XAxis
               dataKey='datetime'
@@ -52,7 +52,7 @@ const TotalSocialVolume = ({ className, data }) => {
 }
 
 const defaultTS = {
-  chartData: [],
+  chartData: []
 }
 
 export default graphql(SOCIAL_VOLUME_QUERY, {
@@ -61,9 +61,9 @@ export default graphql(SOCIAL_VOLUME_QUERY, {
       discord = defaultTS,
       reddit = defaultTS,
       telegram = defaultTS,
-      professional_traders_chat: ptc = defaultTS,
+      professional_traders_chat: ptc = defaultTS
     },
-    loading,
+    loading
   }) => {
     return {
       data: mergeTimeseriesByKey({
@@ -71,17 +71,17 @@ export default graphql(SOCIAL_VOLUME_QUERY, {
           telegram.chartData,
           reddit.chartData,
           discord.chartData,
-          ptc.chartData,
+          ptc.chartData
         ],
         mergeData: (longestTSData, timeserieData) => {
           return {
             mentionsCount:
               longestTSData.mentionsCount + timeserieData.mentionsCount,
-            datetime: longestTSData.datetime,
+            datetime: longestTSData.datetime
           }
-        },
+        }
       }),
-      loading,
+      loading
     }
   },
   options: () => {
@@ -95,8 +95,8 @@ export default graphql(SOCIAL_VOLUME_QUERY, {
       variables: {
         word: '*',
         from: fromDate.toISOString(),
-        to: toDate.toISOString(),
-      },
+        to: toDate.toISOString()
+      }
     }
-  },
+  }
 })(TotalSocialVolume)

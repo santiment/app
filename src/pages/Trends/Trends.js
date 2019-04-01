@@ -77,7 +77,8 @@ class Trends extends PureComponent {
       trend,
       scoreChange,
       volumeChange,
-      allAssets
+      allAssets,
+      header
     } = this.props
 
     let topWords
@@ -108,7 +109,7 @@ class Trends extends PureComponent {
 
     return (
       <PanelWithHeader
-        header='Last trends'
+        header={header}
         contentClassName={styles.panel}
         headerClassName={styles.header}
       >
