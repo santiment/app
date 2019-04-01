@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import { Popup, Icon, Label, Loader, Message } from 'semantic-ui-react'
 import AlertMessage from './../../components/AlertMessage'
+import ShowIf from './../../components/ShowIf'
 import help from './../../assets/help.json'
 import LinkToSocialTool from './LinkToSocialTool'
 import SignalMasterModalForm from './../../ducks/Signals/SignalMasterModalForm'
@@ -108,8 +109,21 @@ const ProjectChartFooter = ({
           </ToggleBtn>
         )}
         <br />
-        {// TODO: Partysun. Upgrade when modal with accept it
-          false && <SignalMasterModalForm label='New Price Signal' />}
+        <ShowIf beta>
+          <SignalMasterModalForm
+            metaFormSettings={{
+              target: {
+                isDisabled: true,
+                value: { value: props.project.slug, label: props.project.slug }
+              },
+              metric: {
+                value: { label: 'Price', value: 'price' },
+                isDisabled: true
+              }
+            }}
+            label='New Price Signal'
+          />
+        </ShowIf>
       </FilterCategory>
       <FilterCategory name='Development'>
         <ToggleBtn

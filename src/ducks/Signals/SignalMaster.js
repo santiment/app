@@ -49,6 +49,7 @@ export class SignalMaster extends React.PureComponent {
         {step === STEPS.SETTINGS && (
           <TriggerForm
             settings={formProps}
+            metaFormSettings={this.props.metaFormSettings}
             onSettingsChange={this.handleSettingsChange}
           />
         )}
