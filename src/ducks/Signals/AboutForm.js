@@ -21,13 +21,18 @@ const AboutForm = ({
         errors.title = 'Required'
       } else if (values.title.length < 3) {
         errors.title = 'Title has to be longer than 2 characters'
+      } else if (values.title.length > 120) {
+        errors.title = 'Title has to be less than 120 characters'
+      }
+      if (values.description.length > 240) {
+        errors.description = 'Description has to be less than 240 characters'
       }
       return errors
     }}
     onSubmit={values => onSubmit(values)}
   >
     {({ isSubmitting, isValid }) => (
-      <Form>
+      <Form className={styles.AboutForm}>
         <div className={styles.Field}>
           <label>Name of the signal</label>
           <FormikInput name='title' type='text' placeholder='Name of signal' />

@@ -105,6 +105,17 @@ label {
   flex: 1;
 }
 
+.AboutForm {
+  .Field {
+    width: 100%;
+    padding: 0;
+  }
+
+  .controls {
+    margin-top: 1.1rem;
+  }
+}
+
 @include responsive('desktop') {
   .wrapper {
     width: 100%;
