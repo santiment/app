@@ -61,7 +61,7 @@ class GainersAndLosersPage extends Component {
   }
 }
 
-const withProjects = graphql(allProjectsGQL, {
+const enhance = graphql(allProjectsGQL, {
   props: ({ data: { allProjects = [], loading } }) => ({
     allProjects: !loading
       ? mapItemsToKeys(allProjects, { keyPath: 'slug' })
@@ -70,4 +70,4 @@ const withProjects = graphql(allProjectsGQL, {
   })
 })
 
-export default withProjects(GainersAndLosersPage)
+export default enhance(GainersAndLosersPage)

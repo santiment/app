@@ -4,7 +4,7 @@ import {
   createSkeletonElement
 } from '@trainline/react-skeletor'
 import { compose } from 'recompose'
-import ProjectIcon from '../../components/ProjectIcon'
+import ProjectIcon from './../../components/ProjectIcon'
 import PercentChanges from './../../components/PercentChanges'
 import WatchlistsPopup from './../../components/WatchlistPopup/WatchlistsPopup'
 import ChooseWatchlists from './../../components/WatchlistPopup/ChooseWatchlists'
