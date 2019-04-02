@@ -16,6 +16,8 @@ import StatusLabel from './../../components/StatusLabel'
 import { TRIGGER_BY_ID_QUERY } from './../../ducks/Signals/SignalsGQL'
 import { toggleTrigger, removeTrigger } from './../../ducks/Signals/actions'
 import { mapTriggerToProps } from './../../ducks/Signals/utils'
+import { SignalCardWrapper } from './../../components/SignalCard/SignalCard'
+import styles from './SignalDetails.module.scss'
 
 const SignalDetails = ({
   trigger: { trigger, isLoading, isError, errorMessage = '' },
@@ -26,9 +28,14 @@ const SignalDetails = ({
   id,
   match = {}
 }) => {
+  const WrapperEl = isModal(match) ? 'div' : Panel
   const signalId = id || (match.params || {}).id
   if (isLoading) {
-    return <Panel header='Signals details'>Loading...</Panel>
+    return (
+      <WrapperEl header='Signals details'>
+        <div className={styles.wrapper}>Loading...</div>
+      </WrapperEl>
+    )
   }
   if (isError) {
     return (
@@ -49,23 +56,42 @@ const SignalDetails = ({
   }
   const { isActive, isPublic, title, description } = trigger
   return (
-    <Panel header='Signals details'>
-      {title}
-      {description}
-      <StatusLabel isPublic={isPublic} />
-      <SettingsSignalButton id={signalId} />
-      <RemoveSignalButton
-        id={signalId}
-        removeSignal={removeSignal}
-        redirect={closeModal || redirect}
-      />
-      <Toggle
-        onClick={() => toggleSignal({ id: signalId, isActive })}
-        isActive={isActive}
-      />
-    </Panel>
+    <WrapperEl header='Signals details'>
+      <div className={styles.wrapper}>
+        <SignalCardWrapper title={title} description={description} id={id}>
+          <div className={styles.status}>
+            <StatusLabel isPublic={isPublic} />
+          </div>
+          <div className={styles.bottom}>
+            <div className={styles.leftActions}>
+              <SettingsSignalButton id={signalId} />
+              <RemoveSignalButton
+                id={signalId}
+                removeSignal={removeSignal}
+                redirect={closeModal || redirect}
+              />
+            </div>
+            <ToggleSignal
+              isActive={isActive}
+              toggleSignal={toggleSignal}
+              id={signalId}
+            />
+          </div>
+        </SignalCardWrapper>
+      </div>
+    </WrapperEl>
   )
 }
+
+const ToggleSignal = ({ isActive, toggleSignal, id }) => (
+  <div className={styles.toggleSignal}>
+    {!isActive && <span>Signal disabled</span>}
+    <Toggle
+      onClick={() => toggleSignal({ id, isActive })}
+      isActive={isActive}
+    />
+  </div>
+)
 
 const RemoveSignalButton = ({ id, removeSignal, redirect }) => (
   <Button
@@ -86,6 +112,8 @@ const SettingsSignalButton = ({ id }) => (
     </Link>
   </Button>
 )
+
+const isModal = (match = {}) => !match.params
 
 const mapDispatchToProps = dispatch => ({
   toggleSignal: ({ id, isActive }) => {

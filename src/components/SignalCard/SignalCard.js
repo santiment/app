@@ -16,20 +16,19 @@ const SignalCard = ({
   gotoSignalByID,
   ...signalCardBottom
 }) => {
+  const isAwaiting = id === -1
+  const SignalTopDetails = isAwaiting ? 'div' : SignalCardDetailsModal
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
       <div
-        className={cx(
-          styles.wrapper__left,
-          author && styles.wrapper__left_subscription
-        )}
+        className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
       >
         <div className={styles.icon}>
           <Icon type='wallet' />
         </div>
       </div>
       <div className={styles.wrapper__right}>
-        <SignalCardDetailsModal id={id}>
+        <SignalTopDetails id={id}>
           <div className={styles.upper}>
             <h2 className={styles.title}>{title}</h2>
             {description && (
@@ -42,8 +41,14 @@ const SignalCard = ({
               </h3>
             )}
           </div>
-        </SignalCardDetailsModal>
-        {author && <SignalCardBottom author={author} {...signalCardBottom} />}
+        </SignalTopDetails>
+        {author && (
+          <SignalCardBottom
+            isAwaiting={isAwaiting}
+            author={author}
+            {...signalCardBottom}
+          />
+        )}
       </div>
     </Panel>
   )
@@ -55,12 +60,51 @@ const UnpublishedMsg = () => (
   </h4>
 )
 
+export const SignalCardWrapper = ({
+  isLink = false,
+  isAwaiting = false,
+  id,
+  description,
+  title,
+  children
+}) => {
+  const SignalTopDetails =
+    isAwaiting && !isLink ? 'div' : SignalCardDetailsModal
+  return (
+    <div className={styles.wrapper__top}>
+      <div
+        className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
+      >
+        <div className={styles.icon}>
+          <Icon type='wallet' />
+        </div>
+      </div>
+      <div className={styles.wrapper__right}>
+        <SignalTopDetails id={id}>
+          <div className={styles.upper}>
+            <h2 className={styles.title}>{title}</h2>
+            <h3 className={styles.description}>
+              <MultilineText
+                id='SignalCard__description'
+                maxLines={2}
+                text={description && description}
+              />
+            </h3>
+          </div>
+        </SignalTopDetails>
+        {children}
+      </div>
+    </div>
+  )
+}
+
 const SignalCardBottom = ({
   author,
   username,
   isPublic,
   isPublished = true,
   isActive,
+  isAwaiting = false,
   subscriptionsNumber,
   toggleSignal
 }) => {
@@ -70,7 +114,10 @@ const SignalCardBottom = ({
     <div className={styles.bottom}>
       {isPublished ? (
         <h4 className={styles.author}>
-          {isUserTheAuthor && <StatusLabel isPublic={isPublic} />}
+          {isAwaiting && 'Awaiting confirmation'}
+          {isUserTheAuthor && !isAwaiting && (
+            <StatusLabel isPublic={isPublic} />
+          )}
           {!isUserTheAuthor && (
             <Fragment>
               by{' '}
@@ -97,7 +144,7 @@ const SignalCardBottom = ({
 }
 
 const SignalCardDetailsModal = ({ children, id }) => (
-  <Modal trigger={children} showDefaultActions={false}>
+  <Modal trigger={children} title='Signal details' showDefaultActions={false}>
     {({ closeModal }) => <SignalDetails id={id} closeModal={closeModal} />}
   </Modal>
 )

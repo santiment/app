@@ -1,31 +1,10 @@
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { checkIsLoggedIn } from './../../pages/UserSelectors'
+import { TRIGGERS_QUERY } from './SignalsGQL'
 
-const POLLING_INTERVAL = 5000
-
-const TRIGGERS_QUERY = gql`
-  query {
-    currentUser {
-      id
-      triggers {
-        id
-        isPublic
-        cooldown
-        settings
-        title
-        isActive
-        isRepeating
-        description
-        tags {
-          name
-        }
-      }
-    }
-  }
-`
+const POLLING_INTERVAL = 25000
 
 const GetSignals = ({ render, ...props }) => render({ ...props })
 

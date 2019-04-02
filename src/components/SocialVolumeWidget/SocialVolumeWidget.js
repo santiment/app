@@ -31,7 +31,7 @@ export class SocialVolumeWidget extends React.Component {
         <ResponsiveContainer width='100%'>
           <BarChart
             data={data}
-            margin={{ top: 0, right: -35, left: 0, bottom: 5 }}
+            margin={{ top: 0, right: -35, left: 0, bottom: -7 }}
           >
             <XAxis
               dataKey='datetime'

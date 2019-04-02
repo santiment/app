@@ -19,20 +19,11 @@ const LoadableChartMetrics = Loadable({
 class ChartPage extends Component {
   state = {
     timeRange: '6m',
-    slug: 'bitcoin',
+    slug: 'santiment',
     metrics: ['price'],
-    title: 'Bitcoin (BTC)',
+    title: 'Santiment (SAN)',
     interval: '1d',
     ...mapQSToState(this.props)
-  }
-
-  static getDerivedStateFromProps (nextProps, prevState) {
-    return {
-      timeRage: undefined,
-      from: undefined,
-      to: undefined,
-      ...mapQSToState(nextProps)
-    }
   }
 
   onZoom = (leftZoomIndex, rightZoomIndex, leftZoomDate, rightZoomDate) => {
@@ -75,7 +66,7 @@ class ChartPage extends Component {
   mapStateToQS = props => '?' + qs.stringify(props, { arrayFormat: 'bracket' })
 
   updateSearchQuery () {
-    this.props.history.push({
+    this.props.history.replace({
       search: this.mapStateToQS(this.state)
     })
   }

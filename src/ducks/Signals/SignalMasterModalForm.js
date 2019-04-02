@@ -3,7 +3,7 @@ import { Modal, Button, Icon } from '@santiment-network/ui'
 import SignalMaster from './SignalMaster'
 import styles from './SignalMasterModalForm.module.scss'
 
-const SignalMasterModalForm = ({ label = 'New signal' }) => (
+const SignalMasterModalForm = ({ label = 'New signal', metaFormSettings }) => (
   <Modal
     trigger={
       <Button className={styles.newSignal}>
@@ -14,7 +14,12 @@ const SignalMasterModalForm = ({ label = 'New signal' }) => (
     showDefaultActions={false}
     title='Create signal'
   >
-    {({ closeModal }) => <SignalMaster onCreated={closeModal} />}
+    {({ closeModal }) => (
+      <SignalMaster
+        onCreated={closeModal}
+        metaFormSettings={metaFormSettings}
+      />
+    )}
   </Modal>
 )
 

@@ -1,0 +1,17 @@
+.toggles {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.toggle {
+  margin-left: 1rem;
+  color: var(--waterloo);
+
+  &_active {
+    color: var(--mirage);
+  }
+}
+
+.label {
+  margin-right: 8px;
+}

@@ -8,20 +8,7 @@ $top: 22px;
   font-style: normal;
   font-weight: normal;
   line-height: 20px;
-  color: var(--grey-dark);
-
-  &_big,
-  &_medium {
-    color: var(--grey-dark-2);
-  }
-
-  &_big {
-    font-size: 28px !important;
-  }
-
-  &_medium {
-    font-size: 20px !important;
-  }
+  color: var(--casper);
 }
 
 .hint {
