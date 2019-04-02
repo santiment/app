@@ -2,8 +2,11 @@ import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import {
+  TRENDS_HYPED_FETCH_SUCCESS,
   TREND_WORD_SCORE_CHANGE_FULFILLED,
-  TREND_WORD_VOLUME_CHANGE_FULFILLED
+  TREND_WORD_SCORE_CHANGE_FAILED,
+  TREND_WORD_VOLUME_CHANGE_FULFILLED,
+  TREND_WORD_VOLUME_CHANGE_FAILED
 } from '../../components/Trends/actions'
 import { SOCIAL_VOLUME_QUERY } from '../../components/SocialVolumeWidget/socialVolumeGQL'
 import { mergeTimeseriesByKey } from '../../utils/utils'
@@ -22,7 +25,7 @@ const defaultMentionsCount = {
 }
 
 export const wordTrendSocialVolumeEpic = (action$, store, { client }) =>
-  action$.ofType('[trends] HYPED_FETCH_SUCCESS').mergeMap(({ payload }) => {
+  action$.ofType(TRENDS_HYPED_FETCH_SUCCESS).mergeMap(({ payload }) => {
     // HACK(vanguard): wordTrendScore from/to does not work correctly
     // Can't fetch only needed time period, should fetch for all day
     const fromDate = new Date()
@@ -84,11 +87,11 @@ export const wordTrendSocialVolumeEpic = (action$, store, { client }) =>
           }, {})
         })
       })
-      .catch(handleErrorAndTriggerAction('changes failed'))
+      .catch(handleErrorAndTriggerAction(TREND_WORD_VOLUME_CHANGE_FAILED))
   })
 
 export const wordTrendScoreEpic = (action$, store, { client }) =>
-  action$.ofType('[trends] HYPED_FETCH_SUCCESS').mergeMap(({ payload }) => {
+  action$.ofType(TRENDS_HYPED_FETCH_SUCCESS).mergeMap(({ payload }) => {
     // HACK(vanguard): wordTrendScore from/to does not work correctly
     // Can't fetch only needed time period, should fetch for all day
     const fromDate = new Date()
@@ -132,5 +135,5 @@ export const wordTrendScoreEpic = (action$, store, { client }) =>
           }, {})
         })
       })
-      .catch(handleErrorAndTriggerAction('changes failed'))
+      .catch(handleErrorAndTriggerAction(TREND_WORD_SCORE_CHANGE_FAILED))
   })
