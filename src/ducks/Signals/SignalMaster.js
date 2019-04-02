@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { createTrigger, updateTrigger } from './actions'
 import { Message } from '@santiment-network/ui'
 import TriggerForm from './TriggerForm'
-import InfoSignalForm from './InfoSignalForm'
+import AboutForm from './AboutForm'
 import styles from './TriggerForm.module.scss'
 import { TRIGGER_BY_ID_QUERY } from './SignalsGQL'
 import {
@@ -54,11 +54,11 @@ export class SignalMaster extends React.PureComponent {
           />
         )}
         {step === STEPS.CONFIRM && (
-          <InfoSignalForm
+          <AboutForm
             {...meta}
             isEdit={this.props.isEdit}
             onBack={this.backToSettings}
-            onInfoSignalSubmit={this.handleInfoSignalSubmit}
+            onSubmit={this.handleAboutFormSubmit}
           />
         )}
       </div>
@@ -79,13 +79,12 @@ export class SignalMaster extends React.PureComponent {
     })
   }
 
-  handleInfoSignalSubmit = info => {
+  handleAboutFormSubmit = about => {
     if (this.props.isEdit) {
-      this.props.updateTrigger({ ...this.state.trigger, ...info })
+      this.props.updateTrigger({ ...this.state.trigger, ...about })
     } else {
-      this.props.createTrigger({ ...this.state.trigger, ...info })
+      this.props.createTrigger({ ...this.state.trigger, ...about })
     }
-    // TODO: make it async
     this.props.onCreated && this.props.onCreated()
     this.props.redirect()
   }

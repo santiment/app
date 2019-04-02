@@ -2,9 +2,9 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import toJson from 'enzyme-to-json'
-import InfoSignalForm from './InfoSignalForm'
+import AboutForm from './AboutForm'
 
-describe('InfoSignalForm', () => {
+describe('AboutForm', () => {
   xit('render correctly text component', () => {
     const constantDate = new Date('2017-06-13T04:41:20')
 
@@ -15,7 +15,7 @@ describe('InfoSignalForm', () => {
       }
     }
     const wrapper = shallow(
-      <InfoSignalForm onBack={() => {}} onInfoSignalSubmit={() => {}} />
+      <InfoSignalForm onBack={() => {}} onSubmit={() => {}} />
     )
     expect(toJson(wrapper)).toMatchSnapshot()
   })

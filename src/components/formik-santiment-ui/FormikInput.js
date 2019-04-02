@@ -33,7 +33,7 @@ const FormikInput = ({
             form.setFieldTouched(name, true)
             onChange && onChange(newValue)
           }}
-          value={!isNaN(field.value) && field.value}
+          value={field.value}
           {...rest}
         />
         <ErrorMessage name={name}>
