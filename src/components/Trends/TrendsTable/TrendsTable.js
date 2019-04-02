@@ -3,8 +3,8 @@ import Table from 'react-table'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { PanelWithHeader } from '@santiment-network/ui'
-import ValueChange from '../../components/ValueChange/ValueChange'
-import styles from './TrendTable.module.scss'
+import ValueChange from '../../../components/ValueChange/ValueChange'
+import styles from './TrendsTable.module.scss'
 
 const columns = [
   {

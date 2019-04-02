@@ -7,7 +7,7 @@ import InsightsTrends from '../../components/Insight/InsightsTrends'
 import Devider from '../../components/Navbar/DropdownDevider'
 import TrendsSearch from '../../components/Trends/TrendsSearch'
 import TotalSocialVolume from './TotalSocialVolume'
-import TrendsTables from './TrendsTables'
+import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
 import styles from './LabsTrendsPage.module.scss'
 
 const LabsTrendsPage = () => (
