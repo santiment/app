@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactTable from 'react-table'
-import moment from 'moment'
 import { graphql } from 'react-apollo'
 import getColumns from './gainers-and-losers-table-columns'
 import { TOP_SOCIAL_GAINERS_LOSERS_GQL } from './gainersLosersGQL'
