@@ -37,7 +37,7 @@ export const TOP_SOCIAL_GAINERS_LOSERS_QUERY = gql`
       datetime
       projects {
         change
-        project
+        slug
         status
       }
     }

@@ -9,8 +9,8 @@ const getColumns = ({ timeWindow }) => [
     id: 'project',
     sortable: true,
     minWidth: 300,
-    accessor: ({ project, name }) => ({
-      ticker: project,
+    accessor: ({ slug, name }) => ({
+      ticker: slug,
       name
     }),
     Cell: ({ value }) => <ProjectLabel {...value} />
@@ -29,7 +29,7 @@ const getColumns = ({ timeWindow }) => [
     id: 'status',
     minWidth: 320,
     Cell: ({ original }) => (
-      <GainersLosersGraph slug={original.project} timeWindow={timeWindow} />
+      <GainersLosersGraph slug={original.slug} timeWindow={timeWindow} />
     )
   }
 ]

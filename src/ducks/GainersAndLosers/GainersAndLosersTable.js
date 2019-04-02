@@ -52,7 +52,7 @@ const withGainersLosers = graphql(TOP_SOCIAL_GAINERS_LOSERS_QUERY, {
       mappedGainersLosers = ownProps.allProjects
         ? projects.map(projectItem => ({
           ...projectItem,
-          name: ownProps.allProjects[projectItem.project].name
+          name: ownProps.allProjects[projectItem.slug].name
         }))
         : []
     }
