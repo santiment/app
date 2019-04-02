@@ -2,7 +2,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
-import { ProjectIcon } from './ProjectIcon'
+import { ProjectIcon } from '.'
 
 describe('ProjectIcon component', () => {
   it('(smoke) it should render correctly', () => {
