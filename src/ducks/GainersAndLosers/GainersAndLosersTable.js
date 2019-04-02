@@ -45,28 +45,21 @@ const withGainersLosers = graphql(TOP_SOCIAL_GAINERS_LOSERS_GQL, {
     }
   }),
   props: ({ data: { topSocialGainersLosers = [], loading }, ownProps }) => {
-    // TODO: remove this block when TOP_SOCIAL_GAINERS_LOSERS_GQL
-    // returns results sorted by date
+    let mappedGainersLosers = []
 
-    const topGainersDatetime = (topSocialGainersLosers || []).map(
-      ({ datetime }) => moment(datetime)
-    )
-    const recentRecordTime = moment.max(topGainersDatetime)
-    const { projects = [] } =
-      (topSocialGainersLosers || []).find(({ datetime }) =>
-        moment(datetime).isSame(recentRecordTime)
-      ) || {}
+    if (!loading) {
+      const { projects } = topSocialGainersLosers.pop() || {}
 
-    const topGainersLosers =
-      !loading && ownProps.allProjects
+      mappedGainersLosers = ownProps.allProjects
         ? projects.map(projectItem => ({
           ...projectItem,
           name: ownProps.allProjects[projectItem.project].name
         }))
         : []
+    }
 
     return {
-      topSocialGainersLosers: topGainersLosers,
+      topSocialGainersLosers: mappedGainersLosers,
       isLoading: loading
     }
   }
