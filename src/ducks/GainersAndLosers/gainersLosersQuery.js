@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const SOCIAL_GAINERS_LOSERS_STATUS_GQL = gql`
+export const SOCIAL_GAINERS_LOSERS_STATUS_QUERY = gql`
   query socialGainersLosersStatus(
     $slug: String!
     $timeWindow: String!
@@ -19,7 +19,7 @@ export const SOCIAL_GAINERS_LOSERS_STATUS_GQL = gql`
   }
 `
 
-export const TOP_SOCIAL_GAINERS_LOSERS_GQL = gql`
+export const TOP_SOCIAL_GAINERS_LOSERS_QUERY = gql`
   query topSocialGainersLosers(
     $status: SocialGainersLosersStatusEnum!
     $from: DateTime!
