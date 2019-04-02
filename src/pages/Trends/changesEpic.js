@@ -103,7 +103,7 @@ export const wordTrendScoreEpic = (action$, store, { client }) =>
           variables: {
             word,
             from: from.toISOString(),
-            to: from.toISOString()
+            to: to.toISOString()
           }
         })
       ).map(({ data: { wordTrendScore } }) => {
