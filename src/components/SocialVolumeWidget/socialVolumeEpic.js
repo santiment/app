@@ -3,6 +3,7 @@ import * as actions from './actions'
 import { SOCIAL_VOLUME_QUERY } from './socialVolumeGQL'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { mergeTimeseriesByKey } from '../../utils/utils'
+import { getTimeIntervalFromToday } from '../../utils/dates'
 
 export const fetchSocialVolumeEpic = (action$, store, { client }) =>
   action$
@@ -19,19 +20,15 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
       const isFetchingTotalSocialVolume =
         trendWord === actions.TOTAL_SOCIALVOLUME_SECRET
 
-      const dateTo = new Date()
-      dateTo.setHours(24, 0, 0, 0)
-      const dateFrom = new Date()
-      dateFrom.setMonth(dateFrom.getMonth() - 1)
-      dateFrom.setHours(0, 0, 0, 0)
+      const { from, to } = getTimeIntervalFromToday(-1, 'm')
 
       return Observable.fromPromise(
         client.query({
           query: SOCIAL_VOLUME_QUERY,
           variables: {
             word: isFetchingTotalSocialVolume ? '*' : trendWord,
-            to: dateTo.toISOString(),
-            from: dateFrom.toISOString()
+            to: to.toISOString(),
+            from: from.toISOString()
           }
         })
       )

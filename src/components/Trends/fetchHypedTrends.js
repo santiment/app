@@ -5,6 +5,7 @@ import moment from 'moment'
 import * as actions from './actions'
 import { WORDCLOUD_CONTEXT_FETCH } from '../WordCloud/actions'
 import { SOCIALVOLUME_DATA_FETCH } from '../SocialVolumeWidget/actions'
+import { getTimeIntervalFromToday } from '../../utils/dates'
 
 const TRENDING_WORDS_QUERY = gql`
   query trendingWords($from: DateTime!, $to: DateTime!, $hour: Int!) {
@@ -47,19 +48,15 @@ export const selectHypedTrend = action$ =>
     })
 
 const fetchTrends$ = ({ client, data = {} }) => {
-  const toDate = new Date()
-  toDate.setHours(24, 0, 0, 0)
-  const fromDate = new Date()
-  fromDate.setHours(24, 0, 0, 0)
-  fromDate.setDate(fromDate.getDate() - 2)
+  const { from, to } = getTimeIntervalFromToday(-2, 'd')
 
   const queries = secretDataTeamHours.map(hour => {
     return client.query({
       query: TRENDING_WORDS_QUERY,
       variables: {
         hour,
-        to: toDate.toISOString(),
-        from: fromDate.toISOString()
+        to: to.toISOString(),
+        from: from.toISOString()
       },
       context: { isRetriable: true }
     })

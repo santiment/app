@@ -6,6 +6,7 @@ import moment from 'moment'
 import { millify } from '../../utils/formatting'
 import { SOCIAL_VOLUME_QUERY } from '../../components/SocialVolumeWidget/socialVolumeGQL'
 import { mergeTimeseriesByKey } from '../../utils/utils'
+import { getTimeIntervalFromToday } from '../../utils/dates'
 import styles from './TotalSocialVolume.module.scss'
 
 const RoundBar = ({ x, y, height }) => (
@@ -85,17 +86,13 @@ export default graphql(SOCIAL_VOLUME_QUERY, {
     }
   },
   options: () => {
-    const toDate = new Date()
-    toDate.setHours(24, 0, 0, 0)
-    const fromDate = new Date()
-    fromDate.setHours(0, 0, 0, 0)
-    fromDate.setMonth(fromDate.getMonth() - 2)
+    const { from, to } = getTimeIntervalFromToday(-2, 'm')
 
     return {
       variables: {
         word: '*',
-        from: fromDate.toISOString(),
-        to: toDate.toISOString()
+        from: from.toISOString(),
+        to: to.toISOString()
       }
     }
   }

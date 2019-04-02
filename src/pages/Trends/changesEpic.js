@@ -10,6 +10,7 @@ import {
 } from '../../components/Trends/actions'
 import { SOCIAL_VOLUME_QUERY } from '../../components/SocialVolumeWidget/socialVolumeGQL'
 import { mergeTimeseriesByKey } from '../../utils/utils'
+import { getTimeIntervalFromToday } from '../../utils/dates'
 
 const WORD_TREND_SCORE_QUERY = gql`
   query wordTrendScore($word: String!, $from: DateTime!, $to: DateTime!) {
@@ -28,11 +29,7 @@ export const wordTrendSocialVolumeEpic = (action$, store, { client }) =>
   action$.ofType(TRENDS_HYPED_FETCH_SUCCESS).mergeMap(({ payload }) => {
     // HACK(vanguard): wordTrendScore from/to does not work correctly
     // Can't fetch only needed time period, should fetch for all day
-    const fromDate = new Date()
-    fromDate.setHours(0, 0, 0, 0)
-    fromDate.setDate(fromDate.getDate() - 2)
-    const toDate = new Date()
-    toDate.setHours(24, 0, 0, 0)
+    const { from, to } = getTimeIntervalFromToday(-2, 'd')
 
     const { items } = store.getState().hypedTrends
     const { topWords } = items[items.length - 1]
@@ -43,8 +40,8 @@ export const wordTrendSocialVolumeEpic = (action$, store, { client }) =>
           query: SOCIAL_VOLUME_QUERY,
           variables: {
             word,
-            from: fromDate.toISOString(),
-            to: toDate.toISOString()
+            from: from.toISOString(),
+            to: to.toISOString()
           }
         })
       ).map(
@@ -94,11 +91,7 @@ export const wordTrendScoreEpic = (action$, store, { client }) =>
   action$.ofType(TRENDS_HYPED_FETCH_SUCCESS).mergeMap(({ payload }) => {
     // HACK(vanguard): wordTrendScore from/to does not work correctly
     // Can't fetch only needed time period, should fetch for all day
-    const fromDate = new Date()
-    fromDate.setHours(0, 0, 0, 0)
-    fromDate.setDate(fromDate.getDate() - 2)
-    const toDate = new Date()
-    toDate.setHours(24, 0, 0, 0)
+    const { from, to } = getTimeIntervalFromToday(-2, 'd')
 
     const { items } = store.getState().hypedTrends
     const { topWords } = items[items.length - 1]
@@ -109,8 +102,8 @@ export const wordTrendScoreEpic = (action$, store, { client }) =>
           query: WORD_TREND_SCORE_QUERY,
           variables: {
             word,
-            from: fromDate,
-            to: toDate
+            from: from.toISOString(),
+            to: from.toISOString()
           }
         })
       ).map(({ data: { wordTrendScore } }) => {

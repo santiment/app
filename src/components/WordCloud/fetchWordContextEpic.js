@@ -3,6 +3,7 @@ import * as actions from './actions'
 import { wordCloudGQL } from './wordCloudGQL.js'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { TRENDS_HYPED_FETCH_SUCCESS } from '../Trends/actions'
+import { getTimeIntervalFromToday } from '../../utils/dates'
 
 const trendsWordCloudCache = new Map()
 
@@ -18,11 +19,7 @@ export const preloadWordContextEpic = (action$, store, { client }) =>
         return Observable.of()
       }
 
-      const dateTo = new Date()
-      dateTo.setHours(24, 0, 0, 0)
-      const dateFrom = new Date()
-      dateFrom.setDate(dateFrom.getDate() - 3)
-      dateFrom.setHours(0, 0, 0, 0)
+      const { from, to } = getTimeIntervalFromToday(-3, 'd')
 
       const allWords = items.reduce(
         (acc, { topWords }) => acc.concat(topWords.map(({ word }) => word)),
@@ -36,8 +33,8 @@ export const preloadWordContextEpic = (action$, store, { client }) =>
             query: wordCloudGQL,
             variables: {
               word,
-              to: dateTo.toISOString(),
-              from: dateFrom.toISOString(),
+              to: to.toISOString(),
+              from: from.toISOString(),
               size: 25
             }
           })
@@ -77,19 +74,15 @@ export const fetchWordContextEpic = (action$, store, { client }) =>
         })
       }
 
-      const dateTo = new Date()
-      dateTo.setHours(24, 0, 0, 0)
-      const dateFrom = new Date()
-      dateFrom.setDate(dateFrom.getDate() - 3)
-      dateFrom.setHours(0, 0, 0, 0)
+      const { from, to } = getTimeIntervalFromToday(-3, 'd')
 
       return Observable.fromPromise(
         client.query({
           query: wordCloudGQL,
           variables: {
             word,
-            to: dateTo.toISOString(),
-            from: dateFrom.toISOString(),
+            to: to.toISOString(),
+            from: from.toISOString(),
             size: 25
           }
         })
