@@ -15,10 +15,6 @@ class ChartMetrics extends Component {
     const { metric } = currentTarget.dataset
 
     if (metrics.has(metric)) {
-      if (metrics.size === 1) {
-        return
-      }
-
       metrics.delete(metric)
       this.setState({ metrics: new Set([...metrics]) }, () =>
         onMetricsChange([...this.state.metrics])
@@ -36,16 +32,18 @@ class ChartMetrics extends Component {
 
   render () {
     const { metrics } = this.state
-    const { disabledMetrics } = this.props
+    const { disabledMetrics = [] } = this.props
+    const listOfMetrics = this.props.listOfMetrics || Metrics
     return (
       <div className={styles.metrics}>
-        {Object.keys(Metrics)
+        {Object.keys(listOfMetrics)
           .filter(metric => metric !== 'price')
           .map(metric => {
-            const { color, label } = Metrics[metric]
+            const { color, label } = listOfMetrics[metric]
             return (
               <button
                 key={label}
+                type='button'
                 data-metric={metric}
                 className={cx(styles.btn, metrics.has(metric) && styles.active)}
                 onClick={this.onClick}

@@ -15,6 +15,9 @@ const FormikInput = ({
     name={name}
     render={({ field, form }) => (
       <Fragment>
+        {(() => {
+          console.log(field.value)
+        })()}
         <Input
           id={name}
           type={type}
@@ -33,7 +36,7 @@ const FormikInput = ({
             form.setFieldTouched(name, true)
             onChange && onChange(newValue)
           }}
-          value={field.value}
+          value={field.value || null}
           {...rest}
         />
         <ErrorMessage name={name}>

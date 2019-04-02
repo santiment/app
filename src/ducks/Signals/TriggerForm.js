@@ -197,6 +197,17 @@ const validate = values => {
   return errors
 }
 
+const getMetricsByType = type => {
+  switch (type.value) {
+    case 'daily_active_addresses':
+      return ['active_addresses', 'price']
+    case 'price_volume_difference':
+      return ['price', 'volume']
+    default:
+      return ['price']
+  }
+}
+
 const DEFAULT_FORM_META_SETTINGS = {
   target: {
     isDisabled: false
@@ -443,7 +454,10 @@ export const TriggerForm = ({
               )}
             </Panel>
             <Panel header='Visual Backtest' className={styles.TriggerChart}>
-              <SignalPreview />
+              <SignalPreview
+                target={values.target.value}
+                metrics={getMetricsByType(values.type)}
+              />
             </Panel>
           </div>
           <div className={styles.controls}>

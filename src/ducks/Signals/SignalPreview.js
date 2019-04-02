@@ -1,22 +1,82 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import {
   ResponsiveContainer,
   ComposedChart,
   Line,
+  Bar,
   XAxis,
   YAxis,
   Tooltip,
   ReferenceLine
 } from 'recharts'
+import { mergeTimeseriesByKey } from './../../utils/utils'
+import {
+  getMetricCssVarColor,
+  Metrics,
+  generateMetricsMarkup
+} from './../SANCharts/utils'
+import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
+import ChartMetrics from './../SANCharts/ChartMetrics'
 import { formatNumber } from './../../utils/formatting'
 
-const SignalPreview = ({ points = [] }) => {
-  // TODO: add error, loading
-  const visualBacktestChart = (
+// TODO: add error, loading
+const SignalPreview = ({
+  points = [],
+  target,
+  metrics: initialMetrics = ['price']
+}) => {
+  const [metrics, setMetrics] = useState(initialMetrics)
+  console.log(metrics, initialMetrics)
+  const amountOfTriggers = points.reduce(
+    (acc, val) => (acc += +val['triggered?']),
+    0
+  )
+
+  return (
+    <Fragment>
+      <div>Trigger fires {amountOfTriggers} times in past 6m</div>
+      <GetTimeSeries
+        price={{
+          timeRange: '6m',
+          slug: target,
+          interval: '1d'
+        }}
+        meta={{
+          mergedByDatetime: true
+        }}
+        render={({
+          timeseries = [],
+          errorMetrics = {},
+          isError,
+          errorType,
+          ...rest
+        }) => {
+          const data = mergeTimeseriesByKey({
+            timeseries: [timeseries, points],
+            key: 'datetime'
+          })
+          return <VisualBacktestChart data={data} metrics={metrics} />
+        }}
+      />
+
+      <ChartMetrics
+        onMetricsChange={metrics => setMetrics(metrics)}
+        defaultActiveMetrics={initialMetrics}
+        listOfMetrics={initialMetrics.reduce((acc, metric) => {
+          acc[metric] = Metrics[metric]
+          return acc
+        }, {})}
+      />
+    </Fragment>
+  )
+}
+
+const VisualBacktestChart = ({ data, metrics }) => {
+  return (
     <ResponsiveContainer width='100%' height={150}>
-      <ComposedChart data={points}>
+      <ComposedChart data={data}>
         <XAxis
           dataKey='datetime'
           hide
@@ -33,13 +93,17 @@ const SignalPreview = ({ points = [] }) => {
         <Line
           type='linear'
           yAxisId='axis-price'
-          name={'price'}
+          name={'Price'}
           dot={false}
           strokeWidth={1.5}
-          dataKey='price'
+          stroke={getMetricCssVarColor('price')}
+          dataKey='priceUsd'
           isAnimationActive={false}
         />
-        {points
+
+        {generateMetricsMarkup(metrics)}
+
+        {data
           .filter(point => point['triggered?'])
           .map(point => (
             <ReferenceLine
@@ -61,8 +125,6 @@ const SignalPreview = ({ points = [] }) => {
       </ComposedChart>
     </ResponsiveContainer>
   )
-
-  return <Fragment>{visualBacktestChart}</Fragment>
 }
 
 const mapStateToProps = state => {

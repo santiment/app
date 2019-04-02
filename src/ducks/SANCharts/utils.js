@@ -7,6 +7,12 @@ export const Metrics = {
     color: 'jungle-green',
     label: 'Price'
   },
+  volume: {
+    node: Bar,
+    color: 'mirage',
+    label: 'Volume',
+    fill: true
+  },
   socialVolume: {
     node: Line,
     color: 'persimmon',
@@ -27,6 +33,13 @@ export const Metrics = {
     node: Bar,
     color: 'malibu',
     label: 'Daily Active Addresses'
+  },
+  active_addresses: {
+    node: Bar,
+    color: 'malibu',
+    label: 'Daily Active Addresses',
+    hide: false,
+    orientation: 'right'
   },
   tokenCirculation: {
     node: Line,
@@ -73,7 +86,14 @@ export const generateMetricsMarkup = metrics => {
   return metrics
     .filter(metric => metric !== 'price')
     .reduce((acc, metric) => {
-      const { node: El, label, color, dataKey = metric } = Metrics[metric]
+      const {
+        node: El,
+        label,
+        color,
+        hide = true,
+        orientation = 'left',
+        dataKey = metric
+      } = Metrics[metric]
       const rest = {
         [El === Bar ? 'fill' : 'stroke']: `var(--${color})`
       }
@@ -82,8 +102,9 @@ export const generateMetricsMarkup = metrics => {
           key={`axis-${metric}`}
           yAxisId={`axis-${metric}`}
           type='number'
+          orientation={orientation}
           domain={['auto', 'dataMax']}
-          hide
+          hide={hide}
         />,
         <El
           key={`line-${metric}`}
