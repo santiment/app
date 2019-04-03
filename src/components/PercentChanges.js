@@ -1,35 +1,16 @@
 import React from 'react'
 import cx from 'classnames'
-import './PercentChanges.css'
+import ValueChange from './ValueChange/ValueChange'
+import styles from './PercentChanges.module.scss'
 
-export const PercentChanges = ({ changes, className }) => {
-  if (changes === 0) {
-    return 'has not changed'
-  }
-  const normalizedChanges = parseFloat(changes).toFixed(2)
-  return (
-    <div
-      className={cx({
-        [className]: !!className,
-        'percent-changes': true,
-        'percent-changes--positive': normalizedChanges >= 0,
-        'percent-changes--negative': normalizedChanges < 0
-      })}
-    >
-      <i
-        className={cx({
-          fa: true,
-          'fa-caret-up': changes >= 0,
-          'fa-caret-down': changes < 0
-        })}
-      />
-      &nbsp;
-      {normalizedChanges < 0
-        ? normalizedChanges.toString().split('-')[1]
-        : normalizedChanges}
-      %
-    </div>
-  )
-}
+const render = change => `${parseFloat(change).toFixed(2)} %`
+
+const PercentChanges = ({ className, changes }) => (
+  <ValueChange
+    className={cx(styles.change, className)}
+    change={changes}
+    render={render}
+  />
+)
 
 export default PercentChanges
