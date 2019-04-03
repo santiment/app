@@ -15,7 +15,6 @@ import {
   CustomHeadComponent
 } from './../pages/Projects/ProjectsTable'
 import './../pages/Projects/ProjectsTable.css'
-import './../pages/Detailed/EthereumBlock.css'
 import './EthSpentTable.css'
 
 const TrxAddressCell = ({ wallet, assets }) => (
