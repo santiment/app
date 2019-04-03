@@ -11,7 +11,6 @@ const ProjectLabel = ({ name, ticker, className }) => (
       ticker={ticker}
       size={20}
       className='project-icon-default'
-      useFallbackIcon
     />
     <span className={styles.name}>{name}</span>
     <span className={styles.ticker}>({ticker})</span>

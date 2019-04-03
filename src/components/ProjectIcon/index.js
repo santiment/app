@@ -4,18 +4,9 @@ import { setDisplayName } from 'recompose'
 import DefaultProjectIcon from './DefaultProjectIcon'
 import './ProjectIcon.css'
 
-export const DefaultIcon = () => ''
-
-export const ProjectIcon = ({
-  name,
-  size,
-  ticker,
-  className,
-  useFallbackIcon
-}) => {
-  const Icon = useFallbackIcon ? DefaultProjectIcon : DefaultIcon
+export const ProjectIcon = ({ name, size, ticker, className }) => {
   if (!name) {
-    return <Icon size={size} className={className} />
+    return <DefaultProjectIcon size={size} className={className} />
   }
   let imgSource = ''
   try {
@@ -28,7 +19,7 @@ export const ProjectIcon = ({
     try {
       imgSource = require(`../../assets/32x32/${ticker}-32.png`)
     } catch (e) {
-      return <Icon size={size} className={className} />
+      return <DefaultProjectIcon size={size} className={className} />
     }
   }
   return (
@@ -46,15 +37,13 @@ ProjectIcon.propTypes = {
   size: PropTypes.number,
   name: PropTypes.string.isRequired,
   ticker: PropTypes.string,
-  className: PropTypes.string,
-  useFallbackIcon: PropTypes.bool
+  className: PropTypes.string
 }
 
 ProjectIcon.defaultProps = {
   size: 16,
   ticker: '',
-  className: '',
-  useFallbackIcon: false
+  className: ''
 }
 
 export default setDisplayName('ProjectIcon')(ProjectIcon)
