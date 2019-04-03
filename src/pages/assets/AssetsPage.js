@@ -10,7 +10,7 @@ import HelpPopupAssets from './HelpPopupAssets'
 import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
 import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
 import WidgetSonar from '../../components/Widget/WidgetSonar'
-import StablecoinsDataDownloadBtn from '../../components/StablecoinsDataDownloadBtn/StablecoinsDataDownloadBtn'
+import StablecoinsDownloadBtn from './StablecoinsDownloadBtn'
 import './Assets.css'
 
 const getTableTitle = ({ type, location: { search } }) => {
@@ -110,7 +110,7 @@ const AssetsPage = props => {
                 )}
 
                 {qs.parse(props.location.search).name === 'stablecoins@86' && (
-                  <StablecoinsDataDownloadBtn />
+                  <StablecoinsDownloadBtn />
                 )}
               </div>
             </div>
