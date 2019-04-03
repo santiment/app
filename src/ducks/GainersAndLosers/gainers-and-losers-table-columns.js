@@ -9,6 +9,7 @@ const getColumns = ({ timeWindow }) => [
     id: 'project',
     sortable: true,
     minWidth: 300,
+    maxWidth: 450,
     accessor: ({ slug, name }) => ({
       ticker: slug,
       name

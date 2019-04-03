@@ -1,9 +1,10 @@
-.table {
-  margin-top: 24px;
+.wrapper {
+  width: 100%;
 }
 
 .tabs {
-  padding: 16px 20px 0;
+  margin: 16px 0 60px;
+  border-bottom: 1px solid var(--grey-light-2);
   justify-content: space-between;
   display: flex;
 }
