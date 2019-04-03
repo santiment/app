@@ -9,7 +9,8 @@ import 'react-table/react-table.css'
 const GainersLosersTable = ({
   isLoading,
   timeWindow,
-  topSocialGainersLosers
+  topSocialGainersLosers,
+  error
 }) => (
   <ReactTable
     loading={isLoading}
@@ -29,6 +30,7 @@ const GainersLosersTable = ({
     pageSizeOptions={[5, 10, 20, 25, 50, 100]}
     sortable={false}
     loadingText='Loading...'
+    noDataText={error && 'Error fetching data'}
     resizable
     data={topSocialGainersLosers}
     columns={getColumns({ timeWindow })}
@@ -43,23 +45,28 @@ const withGainersLosers = graphql(TOP_SOCIAL_GAINERS_LOSERS_QUERY, {
       ...getTimeRangeByDuration(timeWindow)
     }
   }),
-  props: ({ data: { topSocialGainersLosers = [], loading }, ownProps }) => {
+  props: ({
+    data: { topSocialGainersLosers = [], loading, error },
+    ownProps
+  }) => {
     let mappedGainersLosers = []
 
     if (!loading) {
       const { projects } = topSocialGainersLosers.pop() || {}
 
-      mappedGainersLosers = ownProps.allProjects
-        ? projects.map(projectItem => ({
-          ...projectItem,
-          name: ownProps.allProjects[projectItem.slug].name
-        }))
-        : []
+      mappedGainersLosers =
+        ownProps.allProjects && projects
+          ? projects.map(projectItem => ({
+            ...projectItem,
+            name: ownProps.allProjects[projectItem.slug].name
+          }))
+          : []
     }
 
     return {
       topSocialGainersLosers: mappedGainersLosers,
-      isLoading: loading
+      isLoading: loading,
+      error: ownProps.error || error
     }
   }
 })

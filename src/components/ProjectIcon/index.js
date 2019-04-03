@@ -15,7 +15,7 @@ export const ProjectIcon = ({
 }) => {
   const Icon = useFallbackIcon ? DefaultProjectIcon : DefaultIcon
   if (!name) {
-    return <Icon size={size} />
+    return <Icon size={size} className={className} />
   }
   let imgSource = ''
   try {
@@ -28,7 +28,7 @@ export const ProjectIcon = ({
     try {
       imgSource = require(`../../assets/32x32/${ticker}-32.png`)
     } catch (e) {
-      return <Icon size={size} />
+      return <Icon size={size} className={className} />
     }
   }
   return (

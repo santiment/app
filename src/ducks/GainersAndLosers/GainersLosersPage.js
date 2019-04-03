@@ -19,13 +19,25 @@ const timeWindowMapping = {
 
 class GainersAndLosersPage extends Component {
   state = {
-    timeWindow: '2d',
-    status: 'GAINER'
+    timeWindow: timeWindowMapping['24h'],
+    status: statusMapping.Gainers
+  }
+
+  onSelectStatus = status => {
+    this.setState({
+      status: statusMapping[status]
+    })
+  }
+
+  onSelectTimeWindow = timeWindow => {
+    this.setState({
+      timeWindow: timeWindowMapping[timeWindow]
+    })
   }
 
   render () {
     const { timeWindow, status } = this.state
-    const { allProjects } = this.props
+    const { allProjects, error } = this.props
     return (
       <div className='page'>
         <h1>Top Gainers And Top Losers</h1>
@@ -34,26 +46,19 @@ class GainersAndLosersPage extends Component {
             <Tabs
               options={['Gainers', 'Losers']}
               defaultSelectedIndex='Gainers'
-              onSelect={selectedTab =>
-                this.setState({
-                  status: statusMapping[selectedTab]
-                })
-              }
+              onSelect={this.onSelectStatus}
             />
             <Tabs
               options={['24h', '2w']}
               defaultSelectedIndex='24h'
-              onSelect={selectedTab =>
-                this.setState({
-                  timeWindow: timeWindowMapping[selectedTab]
-                })
-              }
+              onSelect={this.onSelectTimeWindow}
             />
           </div>
           <GainersLosersTable
             timeWindow={timeWindow}
             status={status}
             allProjects={allProjects}
+            error={error}
           />
         </Panel>
       </div>
@@ -62,11 +67,11 @@ class GainersAndLosersPage extends Component {
 }
 
 const enhance = graphql(allProjectsGQL, {
-  props: ({ data: { allProjects = [], loading } }) => ({
+  props: ({ data: { allProjects = [], loading, error } }) => ({
     allProjects: !loading
       ? mapItemsToKeys(allProjects, { keyPath: 'slug' })
       : undefined,
-    isLoadingProjects: loading
+    error
   })
 })
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { LineChart, Line, CartesianGrid } from 'recharts'
+import { LineChart, Line } from 'recharts'
 import { graphql } from 'react-apollo'
 import { SOCIAL_GAINERS_LOSERS_STATUS_QUERY } from './gainersLosersQuery'
 import { getTimeRangeByDuration } from '../../utils/utils'
@@ -11,7 +11,6 @@ const GainersLosersGraph = ({ socialGainersLosersStatus }) => (
     data={socialGainersLosersStatus}
     margin={{ top: 5, right: 20, left: 20, bottom: 5 }}
   >
-    <CartesianGrid strokeDasharray='3 3' />
     <Line
       type='monotone'
       dataKey='change'

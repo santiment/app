@@ -312,16 +312,14 @@ const getTimeRangeByDuration = timeWindow => {
   }
 }
 
-const mapItemsToKeys = (items, { keyPath, getKeyPath }) => {
-  const obj = {}
-
-  items.forEach(item => {
-    const key = getKeyPath ? getKeyPath(item) : item[keyPath]
-    obj[key] = item
-  })
-
-  return obj
-}
+const mapItemsToKeys = (items, { keyPath, getKeyPath }) =>
+  items.reduce(
+    (prev, next) => ({
+      ...prev,
+      [getKeyPath ? getKeyPath(next) : next[keyPath]]: next
+    }),
+    {}
+  )
 
 export {
   findIndexByDatetime,
