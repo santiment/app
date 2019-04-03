@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'recompose'
 import { Loader } from 'semantic-ui-react'
-import PanelBlock from './PanelBlock'
+import { PanelWithHeader as Panel } from '@santiment-network/ui'
 import { simpleSort } from './../utils/sortMethods'
 import { millify } from '../utils/formatting'
 import ProjectIcon from './ProjectIcon'
@@ -147,11 +147,7 @@ const EthSpentTable = ({
     }
   ]
   return (
-    <PanelBlock
-      withDelimeter={false}
-      isLoading={loading}
-      title='Ethereum Spent Overview'
-    >
+    <Panel header='Ethereum Spent Overview' className='panel-full-width'>
       <SmoothDropdown verticalMotion verticalOffset={0}>
         <ReactTable
           loading={loading}
@@ -201,7 +197,7 @@ const EthSpentTable = ({
           }}
         />
       </SmoothDropdown>
-    </PanelBlock>
+    </Panel>
   )
 }
 

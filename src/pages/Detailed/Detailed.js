@@ -10,8 +10,7 @@ import GeneralInfoBlock from './GeneralInfoBlock'
 import FinancialsBlock from './FinancialsBlock'
 import DetailedHeader from './DetailedHeader'
 import ProjectChartContainer from './../../components/ProjectChart/ProjectChartContainer'
-import PanelBlock from './../../components/PanelBlock'
-import { Panel } from '@santiment-network/ui'
+import { Panel, PanelWithHeader } from '@santiment-network/ui'
 import Search from './../../components/Search/SearchContainer'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import EthSpent from './../../pages/EthSpent'
@@ -279,12 +278,15 @@ export const Detailed = ({
         </div>
       )}
       <div className='information'>
-        <PanelBlock isLoading={Project.loading} title='General Info'>
+        <PanelWithHeader
+          header='General Info'
+          className='panel panel-full-width'
+        >
           <GeneralInfoBlock {...Project.project} />
-        </PanelBlock>
-        <PanelBlock isLoading={Project.loading} title='Financials'>
+        </PanelWithHeader>
+        <PanelWithHeader header='Financials' className='panel panel-full-width'>
           <FinancialsBlock {...Project.project} />
-        </PanelBlock>
+        </PanelWithHeader>
       </div>
       {isDesktop &&
         project.isERC20 &&
