@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import Loadable from 'react-loadable'
 import { Helmet } from 'react-helmet'
 import PageLoader from '../../components/PageLoader'
@@ -33,6 +33,17 @@ const PageHub = ({ location: { pathname }, isLoggedIn }) => {
   const normalizedPathname = pathname.endsWith('/')
     ? pathname.slice(0, -1)
     : pathname
+
+  const oldInsightId = normalizedPathname.slice(
+    normalizedPathname.lastIndexOf('/') - normalizedPathname.length + 1
+  )
+
+  if (
+    normalizedPathname === `/insights/${oldInsightId}` &&
+    Number.isInteger(+oldInsightId)
+  ) {
+    return <Redirect to={`/insights/read/${oldInsightId}`} />
+  }
 
   return (
     <div style={{ width: '100%' }} className={cx('page', styles.wrapper)}>
