@@ -7,13 +7,8 @@
 }
 
 .login-inner {
-  padding: 4em 1em !important;
-  width: 100%;
+  padding: 4em 1em;
   text-align: center;
-  background-color: rgba(255, 255, 255, 1);
-  border-radius: 2px;
-  box-shadow: 0 7px 14px 0 rgba(60, 60, 90, 0.1),
-    0 3px 6px 0 rgba(0, 0, 0, 0.07);
 }
 
 .login-inner .ui.negative.message.content {
@@ -82,10 +77,7 @@
 }
 
 .last-auth-provider-label {
-  user-select: none;
-  position: absolute;
-  top: 22px;
-  left: -120px;
+  display: none;
 }
 
 .auth-provider-button .ui.basic.button {
@@ -115,6 +107,14 @@
   .login-inner {
     max-width: 30%;
     min-width: 600px;
+  }
+
+  .last-auth-provider-label {
+    display: block;
+    user-select: none;
+    position: absolute;
+    top: 22px;
+    left: -130px;
   }
 
   @-moz-document url-prefix() {

@@ -130,6 +130,10 @@
   flex-direction: column;
 }
 
+.panel-full-width {
+  width: 100%;
+}
+
 .detailed .information .panel {
   flex: 1 1 0;
   margin: 0;

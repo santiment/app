@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import ReactTable from 'react-table'
-import PanelBlock from './../../components/PanelBlock'
+import { PanelWithHeader as Panel } from '@santiment-network/ui'
 import { formatNumber } from './../../utils/formatting'
 import SmoothDropdown from '../../components/SmoothDropdown/SmoothDropdown'
 import WalletLink from '../../components/WalletLink/WalletLink'
@@ -75,7 +75,7 @@ const DetailedTopTransactions = ({
       }))
     : []
   return (
-    <PanelBlock isLoading={Project.loading} title={title}>
+    <Panel header={title} className={'panel-full-width'}>
       <SmoothDropdown verticalMotion>
         <ReactTable
           data={data}
@@ -91,7 +91,7 @@ const DetailedTopTransactions = ({
           ]}
         />
       </SmoothDropdown>
-    </PanelBlock>
+    </Panel>
   )
 }
 

@@ -10,8 +10,7 @@ import GeneralInfoBlock from './GeneralInfoBlock'
 import FinancialsBlock from './FinancialsBlock'
 import DetailedHeader from './DetailedHeader'
 import ProjectChartContainer from './../../components/ProjectChart/ProjectChartContainer'
-import PanelBlock from './../../components/PanelBlock'
-import Panel from './../../components/Panel'
+import { Panel, PanelWithHeader } from '@santiment-network/ui'
 import Search from './../../components/Search/SearchContainer'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import EthSpent from './../../pages/EthSpent'
@@ -33,6 +32,7 @@ import {
   AllInsightsByTagGQL
 } from './DetailedGQL'
 import './Detailed.css'
+import styles from './Detailed.module.scss'
 
 const propTypes = {
   match: PropTypes.object.isRequired
@@ -267,7 +267,7 @@ export const Detailed = ({
       />
       {isDesktop ? (
         <div className='information'>
-          <Panel zero>{projectContainerChart}</Panel>
+          <Panel className={styles.panel}>{projectContainerChart}</Panel>
         </div>
       ) : (
         <div>{projectContainerChart}</div>
@@ -278,12 +278,15 @@ export const Detailed = ({
         </div>
       )}
       <div className='information'>
-        <PanelBlock isLoading={Project.loading} title='General Info'>
+        <PanelWithHeader
+          header='General Info'
+          className='panel panel-full-width'
+        >
           <GeneralInfoBlock {...Project.project} />
-        </PanelBlock>
-        <PanelBlock isLoading={Project.loading} title='Financials'>
+        </PanelWithHeader>
+        <PanelWithHeader header='Financials' className='panel panel-full-width'>
           <FinancialsBlock {...Project.project} />
-        </PanelBlock>
+        </PanelWithHeader>
       </div>
       {isDesktop &&
         project.isERC20 &&
