@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import { compose, withProps } from 'recompose'
 import moment from 'moment'
+import LazyLoad from 'react-lazyload'
 import { HistoryPriceByTickerGQL } from './../pages/Detailed/DetailedGQL'
 import PercentChanges from './PercentChanges'
 import PostVisualBacktestChart from './PostVisualBacktestChart'
@@ -62,14 +63,17 @@ const enhance = compose(
     name: 'history',
     skip: ({ ticker, from }) => !ticker || !from,
     options: ({ ticker, from }) => {
+      const to = new Date()
+      to.setHours(24, 0, 0, 0)
       return {
         errorPolicy: 'all',
         variables: {
           from: moment(from)
             .subtract(3, 'months')
             .utc()
+            .startOf('hour')
             .format(),
-          to: new Date().toISOString(),
+          to: to.toISOString(),
           ticker: isTotalMarket(ticker) ? 'TOTAL_MARKET' : ticker,
           interval: '1d'
         }
@@ -105,5 +109,10 @@ PostVisualBacktest.defaultProps = {
     historyPrice: []
   }
 }
+const Enhanced = enhance(PostVisualBacktest)
 
-export default enhance(PostVisualBacktest)
+export default props => (
+  <LazyLoad offset={700} once>
+    <Enhanced {...props} />
+  </LazyLoad>
+)

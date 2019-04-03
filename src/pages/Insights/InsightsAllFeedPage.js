@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { graphql } from 'react-apollo'
 import InfiniteScroll from 'react-infinite-scroller'
 import { ALL_INSIGHTS_QUERY } from './InsightsGQL'
 import { client } from '../../index'
@@ -8,31 +7,23 @@ import styles from './InsightsFeedPage.module.scss'
 
 class InsightsAllFeedPage extends Component {
   state = {
-    nextPage: 2,
+    nextPage: 1,
     insights: []
   }
 
-  static getDerivedStateFromProps ({ data: { insights } }) {
-    if (insights) {
-      return {
-        insights: insights.slice()
-      }
-    }
-
-    return null
-  }
-
   loadMore = async () => {
-    if (this.props.data.loading) {
+    const { nextPage: page, loading } = this.state
+
+    if (loading) {
       return
     }
 
-    const { nextPage: page } = this.state
-
+    this.setState({ loading: true })
     const {
       data: { insights }
     } = await client.query({
       query: ALL_INSIGHTS_QUERY,
+      fetchPolicy: 'network-only',
       variables: {
         page
       }
@@ -42,6 +33,7 @@ class InsightsAllFeedPage extends Component {
       const newInsights = ownInsights.concat(insights)
 
       return {
+        loading: false,
         insights: newInsights,
         nextPage: nextPage + 1
       }
@@ -49,14 +41,15 @@ class InsightsAllFeedPage extends Component {
   }
 
   render () {
-    const { insights } = this.state
+    const { insights, loading } = this.state
     const { sortReducer } = this.props
 
     return (
       <div className={styles.wrapper}>
         <InfiniteScroll
           pageStart={0}
-          hasMore
+          hasMore={!loading}
+          initialLoad
           loadMore={this.loadMore}
           loader='Loading more insights...'
         >
@@ -67,11 +60,4 @@ class InsightsAllFeedPage extends Component {
   }
 }
 
-export default graphql(ALL_INSIGHTS_QUERY, {
-  options: () => ({
-    variables: {
-      page: 1
-    },
-    fetchPolicy: 'cache-and-network'
-  })
-})(InsightsAllFeedPage)
+export default InsightsAllFeedPage
