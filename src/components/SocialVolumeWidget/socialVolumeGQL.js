@@ -1,11 +1,16 @@
 import gql from 'graphql-tag'
 
 export const SOCIAL_VOLUME_QUERY = gql`
-  query topicSearch($word: String!, $from: DateTime!, $to: DateTime!) {
+  query topicSearch(
+    $word: String!
+    $from: DateTime!
+    $to: DateTime!
+    $interval: String
+  ) {
     telegram: topicSearch(
       source: TELEGRAM
       searchText: $word
-      interval: "1d"
+      interval: $interval
       from: $from
       to: $to
     ) {

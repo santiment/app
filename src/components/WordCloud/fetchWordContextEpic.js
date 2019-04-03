@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs'
-import moment from 'moment'
 import * as actions from './actions'
 import { wordCloudGQL } from './wordCloudGQL.js'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { TRENDS_HYPED_FETCH_SUCCESS } from '../Trends/actions'
+import { getTimeIntervalFromToday } from '../../utils/dates'
 
 const trendsWordCloudCache = new Map()
 
@@ -19,10 +19,8 @@ export const preloadWordContextEpic = (action$, store, { client }) =>
         return Observable.of()
       }
 
-      const dateTo = moment().toISOString()
-      const dateFrom = moment()
-        .subtract(3, 'd')
-        .toISOString()
+      const { from, to } = getTimeIntervalFromToday(-3, 'd')
+
       const allWords = items.reduce(
         (acc, { topWords }) => acc.concat(topWords.map(({ word }) => word)),
         []
@@ -35,8 +33,8 @@ export const preloadWordContextEpic = (action$, store, { client }) =>
             query: wordCloudGQL,
             variables: {
               word,
-              to: dateTo,
-              from: dateFrom,
+              to: to.toISOString(),
+              from: from.toISOString(),
               size: 25
             }
           })
@@ -54,6 +52,7 @@ export const preloadWordContextEpic = (action$, store, { client }) =>
 export const fetchWordContextEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.WORDCLOUD_CONTEXT_FETCH)
+    .debounceTime(200)
     .switchMap(({ payload: word }) => {
       const wordCloudState = store.getState().wordCloud
       if (wordCloudState.word === word) {
@@ -75,15 +74,15 @@ export const fetchWordContextEpic = (action$, store, { client }) =>
         })
       }
 
+      const { from, to } = getTimeIntervalFromToday(-3, 'd')
+
       return Observable.fromPromise(
         client.query({
           query: wordCloudGQL,
           variables: {
             word,
-            to: moment().toISOString(),
-            from: moment()
-              .subtract(3, 'd') // @NOTE(vanguard) query fails, if the value is more in past
-              .toISOString(),
+            to: to.toISOString(),
+            from: from.toISOString(),
             size: 25
           }
         })

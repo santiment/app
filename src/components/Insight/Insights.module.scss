@@ -1,55 +1,46 @@
-@import "~@santiment-network/ui/variables.scss";
-@import "~@santiment-network/ui/mixins.scss";
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
 
 .top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .controls {
-    display: inline-flex;
-
+  display: inline-flex;
 }
 
 .bottom {
-    display: flex;
+  display: flex;
 }
 
 .title {
-    @include text-normal;
-    line-height: 20px;
-    font-size:22px;
-    color: var(--black);
+  @include text-normal;
+
+  line-height: 20px;
+  font-size: 22px;
+  color: var(--black);
 }
 
 .count {
-    color: var(--grey-dark-2);
+  color: var(--grey-dark-2);
 }
 
 .btn {
-    margin-left: 15px;
-    background: var(--green);
-    color: var(--white);
-    fill: var(--white);
-    text-decoration: none;
-    line-height: 13px;
-
-    &:hover {
-        color: var(--white);
-    }
+  margin-left: 15px;
 }
 
 .icon {
-    margin-right: 8px;
+  margin-right: 8px;
 }
 
 .insight {
-    margin-right: 13px;
-    flex-grow: 1;
+  margin-right: 13px;
+  flex-grow: 1;
 
-    &:last-child {
-        margin-right: 0;
-    }
+  &:last-child {
+    margin-right: 0;
+  }
 }

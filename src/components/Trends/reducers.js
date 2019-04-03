@@ -5,6 +5,8 @@ export const initialState = {
   error: false,
   items: [],
   selected: null,
+  scoreChange: {},
+  volumeChange: {},
   allAssets: []
 }
 
@@ -36,6 +38,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         selected: action.payload
+      }
+    case actions.TREND_WORD_SCORE_CHANGE_FULFILLED:
+      return {
+        ...state,
+        scoreChange: action.payload
+      }
+    case actions.TREND_WORD_VOLUME_CHANGE_FULFILLED:
+      return {
+        ...state,
+        volumeChange: action.payload
       }
     default:
       return state

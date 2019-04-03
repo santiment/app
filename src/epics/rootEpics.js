@@ -40,10 +40,7 @@ import {
   fetchHypedTrends,
   selectHypedTrend
 } from '../components/Trends/fetchHypedTrends'
-import {
-  fetchWordContextEpic,
-  preloadWordContextEpic
-} from '../components/WordCloud/fetchWordContextEpic'
+import { fetchWordContextEpic } from '../components/WordCloud/fetchWordContextEpic'
 import { fetchSocialVolumeEpic } from '../components/SocialVolumeWidget/socialVolumeEpic'
 import fetchAllTickersSlugs from '../components/Trends/fetchAllTickersSlugs'
 import {
@@ -58,6 +55,10 @@ import {
   insightDraftPublishEpic
 } from '../pages/Insights/insightDraftEpic'
 import { likesEpic } from '../components/Like/likesEpic'
+import {
+  wordTrendScoreEpic,
+  wordTrendSocialVolumeEpic
+} from '../pages/Trends/changesEpic.js'
 
 export default combineEpics(
   handleOffline,
@@ -89,7 +90,6 @@ export default combineEpics(
   fetchAllTickersSlugs,
   // WordCloud
   fetchWordContextEpic,
-  preloadWordContextEpic,
   // SocialVolume
   fetchSocialVolumeEpic,
   // Settings
@@ -114,5 +114,8 @@ export default combineEpics(
   insightDraftUpdateEpic,
   insightDraftPublishEpic,
   // likes
-  likesEpic
+  likesEpic,
+  // trend changes
+  wordTrendScoreEpic,
+  wordTrendSocialVolumeEpic
 )

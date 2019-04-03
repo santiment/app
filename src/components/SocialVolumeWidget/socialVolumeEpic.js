@@ -1,14 +1,14 @@
 import { Observable } from 'rxjs'
-import moment from 'moment'
 import * as actions from './actions'
 import { SOCIAL_VOLUME_QUERY } from './socialVolumeGQL'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { mergeTimeseriesByKey } from '../../utils/utils'
+import { getTimeIntervalFromToday } from '../../utils/dates'
 
 export const fetchSocialVolumeEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.SOCIALVOLUME_DATA_FETCH)
-    .debounceTime(1000)
+    .debounceTime(200)
     .switchMap(({ payload: trendWord }) => {
       if (store.getState().socialVolume.trendWord === trendWord) {
         return Observable.of({
@@ -20,15 +20,15 @@ export const fetchSocialVolumeEpic = (action$, store, { client }) =>
       const isFetchingTotalSocialVolume =
         trendWord === actions.TOTAL_SOCIALVOLUME_SECRET
 
+      const { from, to } = getTimeIntervalFromToday(-1, 'm')
+
       return Observable.fromPromise(
         client.query({
           query: SOCIAL_VOLUME_QUERY,
           variables: {
             word: isFetchingTotalSocialVolume ? '*' : trendWord,
-            to: moment().toISOString(),
-            from: moment()
-              .subtract(1, 'months')
-              .toISOString()
+            to: to.toISOString(),
+            from: from.toISOString()
           }
         })
       )

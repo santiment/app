@@ -37,7 +37,6 @@ import AssetsPage from './pages/assets/AssetsPage'
 import SignalFormPage from './ducks/Signals/SignalFormPage'
 import HistoricalBalancePage from './ducks/HistoricalBalance/HistoricalBalancePage'
 import WordCloudPage from './components/WordCloud/WordCloudPage'
-import TrendsTool from './pages/Trends/TrendsToolPage'
 import { getConsentUrl } from './utils/utils'
 import HeaderMsg from './HeaderMsg'
 import LogoutPage from './pages/Logout'
@@ -56,6 +55,11 @@ const LoadableInsights = Loadable({
 
 const LoadableTrendsPage = Loadable({
   loader: () => import('./pages/Trends/TrendsPage'),
+  loading: () => <PageLoader />
+})
+
+const LoadableTrendsLabsPage = Loadable({
+  loader: () => import('./pages/Trends/LabsTrendsPage'),
   loading: () => <PageLoader />
 })
 
@@ -192,7 +196,7 @@ export const App = ({
             <LoadableDetailedPage isDesktop={isDesktop} {...props} />
           )}
         />
-        <Route exact path='/labs/trends' render={props => <TrendsTool />} />
+        <Route exact path='/labs/trends' component={LoadableTrendsLabsPage} />
         <Route exact path='/labs' component={LabsPage} />
         <Redirect from='/trends' to='/labs/trends' />
         <Route
