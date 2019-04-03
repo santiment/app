@@ -12,7 +12,7 @@ import NavbarAssetsDropdown from './NavbarAssetsDropdown'
 import styles from './Navbar.module.scss'
 
 const leftLinks = [
-  { link: '/sonar', label: 'Sonar' },
+  { link: '/dashboard', label: 'Dashboard' },
   { link: '/assets', label: 'Assets', linkTo: '/assets/all' },
   { link: '/insights', label: 'Insights' },
   { link: '/labs', label: 'Labs', linkTo: '/labs' }

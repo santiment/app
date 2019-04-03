@@ -142,7 +142,7 @@ export const App = ({
           path='/projects'
           render={props => {
             if (isDesktop) {
-              return <Redirect to='/sonar' />
+              return <Redirect to='/dashboard' />
             }
             return <CashflowMobile {...props} />
           }}
@@ -210,7 +210,7 @@ export const App = ({
         <Route exact path='/sonar/master' component={SignalFormPage} />
         <Route
           exact
-          path='/sonar'
+          path='/dashboard'
           render={props => (
             <LoadableTrendsPage isDesktop={isDesktop} {...props} />
           )}

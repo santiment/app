@@ -14,13 +14,14 @@ class LikeBtn extends Component {
     liked: PropTypes.bool,
     disabled: PropTypes.bool,
     likesNumber: PropTypes.number,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func
   }
 
   static defaultProps = {
     liked: false,
     likesNumber: 0,
-    disabled: false
+    disabled: false,
+    onClick: () => {}
   }
 
   onClick = () => {

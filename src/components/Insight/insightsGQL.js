@@ -1,5 +1,26 @@
 import gql from 'graphql-tag'
 
+export const FEATURED_INSIGHTS_QUERY = gql`
+  query featuredInsights {
+    insights: featuredInsights {
+      id
+      title
+      createdAt
+      votedAt
+      votes {
+        totalVotes
+      }
+      tags {
+        name
+      }
+      user {
+        id
+        username
+      }
+    }
+  }
+`
+
 export const ALL_INSIGHTS_BY_TAG_QUERY = gql`
   query allInsightsByTag($tag: String!) {
     allInsightsByTag(tag: $tag) {

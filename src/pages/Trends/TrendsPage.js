@@ -1,106 +1,54 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import { compose, withState } from 'recompose'
-import { Helmet } from 'react-helmet'
-import Sticky from 'react-stickynode'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Panel, Label, Icon } from '@santiment-network/ui'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
-import HypedBlocks from './../../components/Trends/HypedBlocks'
-import WordCloud from './../../components/WordCloud/WordCloud'
-import SocialVolumeWidget from '../../components/SocialVolumeWidget/SocialVolumeWidget'
-import HelpTrendsAbout from './HelpPopupTrendsAbout'
+import InsightsFeatured from '../../components/Insight/InsightsFeatured'
+import TrendsTable from '../../components/Trends/TrendsTable/TrendsTable'
 import styles from './TrendsPage.module.scss'
-import InsightsTrends from '../../components/Insight/InsightsTrends'
-import Devider from '../../components/Navbar/DropdownDevider'
 
-const TrendsPage = ({
-  word,
-  isCloudLoading,
-  setWordCloudStiky,
-  isWordCloudSticky = false,
-  isDesktop = true
-}) => (
+const More = ({ link }) => (
+  <Link to={link} className={styles.more}>
+    <Label accent='jungle-green'>
+      More <Icon className={styles.pointer} type='pointer-right' />
+    </Label>
+  </Link>
+)
+
+const TrendsPage = () => (
   <div className={styles.TrendsPage + ' page'}>
-    <Helmet>
-      <title>Today’s Top Social Gainers in Crypto - SANbase</title>
-      <meta
-        property='og:title'
-        content='Today’s Top Social Gainers in Crypto - SANbase'
-      />
-      <meta
-        property='og:description'
-        content='Top 10 words with the biggest spike on crypto social media (compared to their previous 2-week average). These are the biggest developing stories in crypto.'
-      />
-    </Helmet>
     <div className={styles.header}>
-      <h1>Emerging Social Trends</h1>
-      <HelpTrendsAbout />
+      <h1>Overview</h1>
     </div>
-    <GetHypedTrends
-      render={({ isLoading, items }) => (
-        <Fragment>
-          <div id='word-cloud-sticky-anchor' />
-          <WordCloudWrapper
-            isCloudLoading={isCloudLoading}
-            isLoading={isLoading}
-            word={word}
-            isDesktop={isDesktop}
-            setWordCloudStiky={setWordCloudStiky}
-            isWordCloudSticky={isWordCloudSticky}
-          />
-          <HypedBlocks
-            items={items}
-            isLoading={isLoading}
-            isDesktop={isDesktop}
-          />
-        </Fragment>
-      )}
-    />
-    <Devider style={{ margin: '40px 0' }} />
-    <InsightsTrends className={styles.insights} />
-  </div>
-)
+    <div className={styles.column}>
+      <div className={styles.column__left}>
+        <h2 className={styles.subtitle}>
+          Trending words <More link='/labs/trends/' />
+        </h2>
+        <GetHypedTrends
+          render={({ isLoading, items }) => (
+            <TrendsTable
+              header='Last trends'
+              trend={items.length > 0 ? items[items.length - 1] : {}}
+              isLoading={isLoading}
+            />
+          )}
+        />
+      </div>
+      <div className={styles.column__right}>
+        <h2 className={styles.subtitle}>
+          Featured insights <More link='/insights/' />
+        </h2>
 
-const WordCloudWrapper = ({
-  isLoading,
-  isDesktop,
-  word,
-  isCloudLoading,
-  isWordCloudSticky,
-  setWordCloudStiky
-}) => (
-  <div>
-    {!isLoading && isDesktop && (
-      <Sticky
-        top={'#word-cloud-sticky-anchor'}
-        innerZ={2}
-        onStateChange={({ status }) => {
-          setWordCloudStiky(status === Sticky.STATUS_FIXED)
-        }}
-        enabled
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginTop: isWordCloudSticky ? 0 : 24
-          }}
-          className={isWordCloudSticky ? styles.WordCloudSticky : ''}
-        >
-          <SocialVolumeWidget />
-          <WordCloud />
+        <div className={styles.gradient}>
+          <Panel className={styles.finsights}>
+            <div className={styles.finsights__scroller}>
+              <InsightsFeatured className={styles.card} />
+            </div>
+          </Panel>
         </div>
-      </Sticky>
-    )}
+      </div>
+    </div>
   </div>
 )
 
-const mapStateToProps = (state, ownProps) => ({
-  isCloudLoading: state.wordCloud.isLoading,
-  error: state.wordCloud.error,
-  word: state.wordCloud.word
-})
-
-export default compose(
-  withState('isWordCloudSticky', 'setWordCloudStiky', false),
-  connect(mapStateToProps)
-)(TrendsPage)
+export default TrendsPage

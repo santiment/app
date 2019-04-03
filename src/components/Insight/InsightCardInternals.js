@@ -20,6 +20,7 @@ const InsightCardInternals = ({
   comments,
   votedAt,
   onLike,
+  noAuthorPic,
   className
 }) => {
   return (
@@ -38,6 +39,7 @@ const InsightCardInternals = ({
       <div className={styles.bottom}>
         <div className={styles.left}>
           <ProfileInfo
+            noPic={noAuthorPic}
             name={
               <Link className={styles.name} to={`/insights/users/${authorId}`}>
                 {authorName}
