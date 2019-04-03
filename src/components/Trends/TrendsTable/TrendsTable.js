@@ -51,13 +51,12 @@ class TrendsTable extends PureComponent {
         ),
         score: (
           <>
-            {newScore} <ValueChange oldValue={oldScore} newValue={newScore} />
+            {newScore} <ValueChange change={newScore - oldScore} />
           </>
         ),
         volume: (
           <>
-            {newVolume}{' '}
-            <ValueChange oldValue={oldVolume} newValue={newVolume} />
+            {newVolume} <ValueChange change={newVolume - oldVolume} />
           </>
         )
       }

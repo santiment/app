@@ -9,22 +9,20 @@ const Change = {
 
 const notChanged = ['texas-rose', 'lock-small']
 
-const ValueChange = ({ oldValue, newValue, render }) => {
-  const amp = newValue - oldValue
-  const [accent, triangle] = amp !== 0 ? Change[amp > 0] : notChanged
+const ValueChange = ({ change, render }) => {
+  const [accent, triangle] = change !== 0 ? Change[change > 0] : notChanged
 
   return (
     <Label accent={accent} className={styles.change}>
       <Icon type={triangle} className={styles.triangle} />
-      {render(Math.abs(amp))}
+      {render(Math.abs(change))}
     </Label>
   )
 }
 
 ValueChange.defaultProps = {
-  newValue: 0,
-  oldValue: 0,
-  render: amp => amp
+  change: 0,
+  render: change => change
 }
 
 export default ValueChange
