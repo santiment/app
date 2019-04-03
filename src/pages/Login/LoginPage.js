@@ -2,7 +2,7 @@ import React from 'react'
 import * as qs from 'query-string'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import Panel from './../../components/Panel'
+import { Panel } from '@santiment-network/ui'
 import Login from './Login'
 import './Login.css'
 
@@ -24,11 +24,12 @@ export const LoginPage = ({
     }
     return <Redirect to='/' />
   }
+  const WrapperEl = isDesktop ? Panel : 'div'
   return (
     <div className='page login wrapper'>
-      <Panel className='login-inner'>
+      <WrapperEl className='login-inner'>
         <Login isDesktop={isDesktop} consent={consent} />
-      </Panel>
+      </WrapperEl>
     </div>
   )
 }
