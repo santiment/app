@@ -23,6 +23,7 @@ class InsightsAllFeedPage extends Component {
       data: { insights }
     } = await client.query({
       query: ALL_INSIGHTS_QUERY,
+      fetchPolicy: 'network-only',
       variables: {
         page
       }
