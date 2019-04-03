@@ -150,11 +150,6 @@ export const App = ({
         />
         <Route
           exact
-          path='/social-movers'
-          component={LoadableGainersAndLosersPage}
-        />
-        <Route
-          exact
           path='/currencies'
           render={props => {
             if (isDesktop) {
@@ -189,6 +184,11 @@ export const App = ({
         <Route exact path='/signals' component={Signals} />
         <Route exact path='/labs/balance' component={HistoricalBalancePage} />
         <Route exact path='/labs/wordcloud' component={WordCloudPage} />
+        <Route
+          exact
+          path='/labs/social-movers'
+          component={LoadableGainersAndLosersPage}
+        />
         <Route
           path='/insights'
           render={props => (

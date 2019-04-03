@@ -9,7 +9,7 @@ const links = [
   { link: '/labs/balance', label: 'Historical balance' },
   { link: '/labs/wordcloud', label: 'Word context' },
   { link: '/dashboards', label: 'Dashboard' },
-  { link: '/social-movers', label: 'Social movers' }
+  { link: '/labs/social-movers', label: 'Social movers' }
 ]
 
 const NavbarLabsDropdown = ({ activeLink }) => (
