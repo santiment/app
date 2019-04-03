@@ -15,9 +15,6 @@ const FormikInput = ({
     name={name}
     render={({ field, form }) => (
       <Fragment>
-        {(() => {
-          console.log(field.value)
-        })()}
         <Input
           id={name}
           type={type}

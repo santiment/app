@@ -96,7 +96,7 @@ const defaultValues = {
   },
   daily_active_addresses: {
     cooldown: '24h',
-    percentThreshold: 8,
+    percentThreshold: 200,
     target: { value: 'santiment', label: 'santiment' },
     metric: {
       label: 'Daily Active Addresses',
@@ -426,6 +426,7 @@ export const TriggerForm = ({
                   </div>
                 </div>
               </div>
+              <label>Notify me via</label>
               <div className={styles.row}>
                 <div className={styles.Field}>
                   <FormikCheckboxes
@@ -452,8 +453,8 @@ export const TriggerForm = ({
                   <Message variant='warn'>{errors.channels}</Message>
                 </div>
               )}
-            </Panel>
-            <Panel header='Visual Backtest' className={styles.TriggerChart}>
+
+              <label>Visual Backtesting</label>
               <SignalPreview
                 target={values.target.value}
                 metrics={getMetricsByType(values.type)}

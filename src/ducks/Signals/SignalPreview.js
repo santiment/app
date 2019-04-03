@@ -11,6 +11,7 @@ import {
   Tooltip,
   ReferenceLine
 } from 'recharts'
+import { Message } from '@santiment-network/ui'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import {
   getMetricCssVarColor,
@@ -28,7 +29,7 @@ const SignalPreview = ({
   metrics: initialMetrics = ['price']
 }) => {
   const [metrics, setMetrics] = useState(initialMetrics)
-  console.log(metrics, initialMetrics)
+  // console.log(metrics, initialMetrics)
   const amountOfTriggers = points.reduce(
     (acc, val) => (acc += +val['triggered?']),
     0
@@ -36,28 +37,39 @@ const SignalPreview = ({
 
   return (
     <Fragment>
-      <div>Trigger fires {amountOfTriggers} times in past 6m</div>
+      <Message variant='success'>
+        Trigger fired {amountOfTriggers} times in past 6m
+      </Message>
+      {
+        // JSON.stringify(points.filter(point => !!point['triggered?']))
+      }
       <GetTimeSeries
         price={{
           timeRange: '6m',
           slug: target,
           interval: '1d'
         }}
-        meta={{
-          mergedByDatetime: true
-        }}
-        render={({
-          timeseries = [],
-          errorMetrics = {},
-          isError,
-          errorType,
-          ...rest
-        }) => {
-          const data = mergeTimeseriesByKey({
-            timeseries: [timeseries, points],
-            key: 'datetime'
-          })
-          return <VisualBacktestChart data={data} metrics={metrics} />
+        // meta={{
+        // mergedByDatetime: true
+        // }}
+        render={({ price, errorMetrics = {}, isError, errorType, ...rest }) => {
+          if (!price) {
+            return 'Loading...'
+          }
+          // const data = mergeTimeseriesByKey({
+          // timeseries: [timeseries, points],
+          // key: 'datetime'
+          // })
+          // console.log(timeseries, points, data)
+          return (
+            price && (
+              <VisualBacktestChart
+                data={points}
+                price={price.items}
+                metrics={metrics}
+              />
+            )
+          )
         }}
       />
 
@@ -73,17 +85,27 @@ const SignalPreview = ({
   )
 }
 
-const VisualBacktestChart = ({ data, metrics }) => {
+const VisualBacktestChart = ({ data, price, metrics }) => {
+  const _data = data.map(item => ({
+    ...item,
+    datetime: moment(item.datetime).unix()
+  }))
+
+  const _price = price.map(item => ({
+    ...item,
+    datetime: moment(item.datetime).unix()
+  }))
   return (
     <ResponsiveContainer width='100%' height={150}>
-      <ComposedChart data={data}>
+      <ComposedChart data={_data}>
         <XAxis
           dataKey='datetime'
-          hide
+          type='number'
           tickLine={false}
-          minTickGap={100}
-          tickFormatter={timeStr => moment(timeStr).format('DD MMM YY')}
+          tickFormatter={timeStr => moment.unix(timeStr).format('DD MMM YY')}
+          domain={['dataMin', 'dataMax']}
         />
+        <YAxis hide />
         <YAxis
           yAxisId='axis-price'
           hide
@@ -92,6 +114,7 @@ const VisualBacktestChart = ({ data, metrics }) => {
         />
         <Line
           type='linear'
+          data={_price}
           yAxisId='axis-price'
           name={'Price'}
           dot={false}
@@ -101,20 +124,19 @@ const VisualBacktestChart = ({ data, metrics }) => {
           isAnimationActive={false}
         />
 
-        {generateMetricsMarkup(metrics)}
+        {generateMetricsMarkup(metrics.filter(metric => metric !== 'price'))}
 
-        {data
+        {_data
           .filter(point => point['triggered?'])
           .map(point => (
             <ReferenceLine
               key={point.datetime}
-              yAxisId='axis-price'
               stroke='green'
               x={point.datetime}
             />
           ))}
         <Tooltip
-          labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
+          labelFormatter={date => moment.unix(date).format('dddd, MMM DD YYYY')}
           formatter={(value, name) => {
             if (name === 'price') {
               return formatNumber(value, { currency: 'USD' })
