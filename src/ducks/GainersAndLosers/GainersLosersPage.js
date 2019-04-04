@@ -7,31 +7,31 @@ import { allProjectsGQL } from '../../pages/Projects/allProjectsGQL'
 import { mapItemsToKeys } from '../../utils/utils'
 import styles from './GainersAndLosersPage.module.scss'
 
-const statusMapping = {
+const STATUSES = {
   Gainers: 'GAINER',
   Losers: 'LOSER'
 }
 
-const timeWindowMapping = {
+const TIME_WINDOWS = {
   '24h': '2d',
   '2w': '15d'
 }
 
 class GainersAndLosersPage extends Component {
   state = {
-    timeWindow: timeWindowMapping['24h'],
-    status: statusMapping.Gainers
+    timeWindow: TIME_WINDOWS['24h'],
+    status: STATUSES.Gainers
   }
 
   onSelectStatus = status => {
     this.setState({
-      status: statusMapping[status]
+      status: STATUSES[status]
     })
   }
 
   onSelectTimeWindow = timeWindow => {
     this.setState({
-      timeWindow: timeWindowMapping[timeWindow]
+      timeWindow: TIME_WINDOWS[timeWindow]
     })
   }
 
@@ -43,12 +43,12 @@ class GainersAndLosersPage extends Component {
         <h1>Top Gainers And Losers</h1>
         <div className={styles.tabs}>
           <Selector
-            options={['Gainers', 'Losers']}
+            options={Object.keys(STATUSES)}
             defaultSelected='Gainers'
             onSelectOption={this.onSelectStatus}
           />
           <Selector
-            options={['24h', '2w']}
+            options={Object.keys(TIME_WINDOWS)}
             defaultSelected='24h'
             onSelectOption={this.onSelectTimeWindow}
           />

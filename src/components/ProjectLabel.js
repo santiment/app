@@ -6,12 +6,7 @@ import styles from './ProjectLabel.module.scss'
 
 const ProjectLabel = ({ name, ticker, className }) => (
   <div className={cx(styles.label, className)}>
-    <ProjectIcon
-      name={name}
-      ticker={ticker}
-      size={20}
-      className='project-icon-default'
-    />
+    <ProjectIcon name={name} ticker={ticker} size={20} />
     <span className={styles.name}>{name}</span>
     <span className={styles.ticker}>({ticker})</span>
   </div>
