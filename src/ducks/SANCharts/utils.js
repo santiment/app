@@ -37,13 +37,6 @@ export const Metrics = {
     color: 'malibu',
     label: 'Daily Active Addresses'
   },
-  active_addresses: {
-    node: Bar,
-    color: 'malibu',
-    label: 'Daily Active Addresses',
-    hide: false,
-    orientation: 'right'
-  },
   tokenCirculation: {
     node: Line,
     color: 'dodger-blue',
@@ -98,23 +91,21 @@ export const generateMetricsMarkup = (metrics, data = {}) => {
     const rest = {
       [El === Bar ? 'fill' : 'stroke']: `var(--${color})`
     }
-    const hide = !yAxisVisible
-    console.log(label, color, dataKey)
     acc.push(
       <YAxis
-        key={`axis-${metric}`}
-        yAxisId={`axis-${metric}`}
+        key={`axis-${dataKey}`}
+        yAxisId={`axis-${dataKey}`}
         type='number'
         orientation={orientation}
         domain={['auto', 'dataMax']}
-        hide={hide}
+        hide={!yAxisVisible}
       />,
       <El
-        key={`line-${metric}`}
+        key={`line-${dataKey}`}
         type='linear'
-        yAxisId={`axis-${metric}`}
+        yAxisId={`axis-${dataKey}`}
         name={label}
-        data={data[metric]}
+        data={data[dataKey]}
         strokeWidth={1.5}
         dataKey={dataKey}
         dot={false}

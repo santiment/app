@@ -89,7 +89,7 @@ const SignalPreview = ({
         onMetricsChange={metrics => setMetrics(metrics)}
         defaultActiveMetrics={initialMetrics}
         listOfMetrics={initialMetrics.reduce((acc, metric) => {
-          acc[metric] = Metrics[metric]
+          acc[metric] = Metrics[metric] || CHART_SETTINGS[metric]
           return acc
         }, {})}
       />
@@ -98,7 +98,6 @@ const SignalPreview = ({
 }
 
 const VisualBacktestChart = ({ data, price, metrics }) => {
-  console.log(data)
   return (
     <ResponsiveContainer width='100%' height={150}>
       <ComposedChart data={price}>
