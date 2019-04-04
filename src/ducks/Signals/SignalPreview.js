@@ -106,9 +106,7 @@ const VisualBacktestChart = ({ data, price, metrics }) => {
           type='number'
           scale='time'
           tickLine={true}
-          tickCount={180}
-          minTickGap={10}
-          interval={'preserveStart'}
+          allowDataOverflow={true}
           tickFormatter={timeStr => moment.unix(timeStr).format('MMM YY')}
           domain={['dataMin', 'dataMax']}
         />
@@ -126,16 +124,36 @@ const VisualBacktestChart = ({ data, price, metrics }) => {
           ))}
         <Tooltip
           labelFormatter={date => moment.unix(date).format('dddd, MMM DD YYYY')}
-          formatter={(value, name) => {
-            if (name === 'price') {
-              return formatNumber(value, { currency: 'USD' })
-            }
-            return value.toFixed(2)
-          }}
+          content={<CustomTooltip />}
         />
       </ComposedChart>
     </ResponsiveContainer>
   )
+}
+
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active) {
+    const priceValue = payload[0].payload.price
+      ? formatNumber(payload[0].payload.price, { currency: 'USD' })
+      : undefined
+    return (
+      <div
+        className='custom-tooltip'
+        style={{
+          margin: 0,
+          padding: 10,
+          backgroundColor: 'rgb(255, 255, 255)',
+          border: '1px solid rgb(204, 204, 204)',
+          whiteSpace: 'nowrap'
+        }}
+      >
+        <p className='label'>{`${payload[0].name} : ${payload[0].value}`}</p>
+        {priceValue && <p className='price'>{`Price : ${priceValue}`}</p>}
+      </div>
+    )
+  }
+
+  return ''
 }
 
 const mapStateToProps = state => {
