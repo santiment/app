@@ -137,6 +137,7 @@ export const testEpic = action$ =>
 export const connectedWordsEpic = (action$, store, { client }) =>
   action$
     .ofType('[trends] HYPED_FETCH_SUCCESS')
+    .take(1)
     .switchMap(({ payload: { items } }) => {
       // HACK(vanguard): wordTrendScore from/to does not work correctly
       // Can't fetch only needed time period, should fetch for all day
@@ -164,6 +165,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
       ]
 
       const TrendTicker = {}
+      const TickerTrend = {}
 
       return Observable.forkJoin(...dates)
         .flatMap(result => {
@@ -198,6 +200,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
 
                   if (words.includes(tag)) {
                     TrendTicker[tag] = tag
+                    TickerTrend[tag] = tag
                   }
                 }
               }
@@ -234,10 +237,38 @@ export const connectedWordsEpic = (action$, store, { client }) =>
               foundTicker = ticker2
             }
 
-            if (foundTicker) TrendTicker[trend] = foundTicker
+            if (foundTicker) {
+              TrendTicker[trend] = foundTicker
+              TickerTrend[foundTicker] = trend
+            }
           })
 
-          console.log({ words, connections, TrendTicker })
+          const connectedTrends = Object.keys(TickerTrend).reduce(
+            (acc, ticker) => {
+              const con = connections[ticker]
+
+              if (con) {
+                acc[TickerTrend[ticker]] = con.reduce((accum, value) => {
+                  const a = TickerTrend[value]
+                  if (a) {
+                    accum.push(a)
+                  }
+                  return accum
+                }, [])
+              }
+
+              return acc
+            },
+            {}
+          )
+
+          console.log({
+            words,
+            connections,
+            TrendTicker,
+            TickerTrend,
+            connectedTrends
+          })
           return Observable.of({
             type: '[trends] CONNECTED_WORDS_FULFILLED',
             payload: []
