@@ -4,7 +4,7 @@ import { Panel, Label, Icon } from '@santiment-network/ui'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import InsightsFeatured from '../../components/Insight/InsightsFeatured'
 import TrendsTable from '../../components/Trends/TrendsTable/TrendsTable'
-import styles from './TrendsPage.module.scss'
+import styles from './DashboardPage.module.scss'
 
 const More = ({ link }) => (
   <Link to={link} className={styles.more}>
@@ -14,8 +14,8 @@ const More = ({ link }) => (
   </Link>
 )
 
-const TrendsPage = () => (
-  <div className={styles.TrendsPage + ' page'}>
+const DashboardPage = () => (
+  <div className={styles.wrapper + ' page'}>
     <div className={styles.header}>
       <h1>Overview</h1>
     </div>
@@ -39,10 +39,10 @@ const TrendsPage = () => (
           Featured insights <More link='/insights/' />
         </h2>
 
-        <div className={styles.gradient}>
-          <Panel className={styles.finsights}>
-            <div className={styles.finsights__scroller}>
-              <InsightsFeatured className={styles.card} />
+        <div className={styles.insights}>
+          <Panel className={styles.insights__panel}>
+            <div className={styles.insights__list}>
+              <InsightsFeatured className={styles.insights__card} />
             </div>
           </Panel>
         </div>
@@ -51,4 +51,4 @@ const TrendsPage = () => (
   </div>
 )
 
-export default TrendsPage
+export default DashboardPage

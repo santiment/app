@@ -53,8 +53,8 @@ const LoadableInsights = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableTrendsPage = Loadable({
-  loader: () => import('./pages/Trends/TrendsPage'),
+const LoadableDashboardPage = Loadable({
+  loader: () => import('./pages/Dashboard/DashboardPage'),
   loading: () => <PageLoader />
 })
 
@@ -212,7 +212,7 @@ export const App = ({
           exact
           path='/dashboard'
           render={props => (
-            <LoadableTrendsPage isDesktop={isDesktop} {...props} />
+            <LoadableDashboardPage isDesktop={isDesktop} {...props} />
           )}
         />
         <Route path='/logout' component={LogoutPage} />
