@@ -7,7 +7,9 @@ import {
   filterProjectsByMarketSegment,
   mergeTimeseriesByKey,
   getEscapedGQLFieldAlias,
-  isEthStrictAddress
+  getTimeRangeByDuration,
+  isEthStrictAddress,
+  mapItemsToKeys
 } from './utils'
 
 const labels = [
@@ -452,5 +454,78 @@ describe('isEthAddress', () => {
       isEthStrictAddress('1f3df0b8390bb8e9e322972c5e75583e87608ec2')
     ).toBeFalsy()
     expect(isEthStrictAddress('asjdfh92ef2boejv')).toBeFalsy()
+  })
+})
+
+describe('getTimeRangeByDuration', () => {
+  it('should calculate time range for 4 hours', () => {
+    const goodTimeRange = {
+      to: moment()
+        .startOf('hour')
+        .toISOString(),
+      from: moment()
+        .startOf('hour')
+        .subtract('4', 'h')
+        .toISOString(),
+      timeWindow: '4h'
+    }
+
+    expect(getTimeRangeByDuration('4h')).toEqual(goodTimeRange)
+  })
+
+  it('should calculate time range for 2 days', () => {
+    const goodTimeRange = {
+      to: moment()
+        .startOf('hour')
+        .toISOString(),
+      from: moment()
+        .startOf('hour')
+        .subtract('2', 'd')
+        .toISOString(),
+      timeWindow: '2d'
+    }
+
+    expect(getTimeRangeByDuration('2d')).toEqual(goodTimeRange)
+  })
+
+  it('should calculate time range for 3 weeks', () => {
+    const goodTimeRange = {
+      to: moment()
+        .startOf('hour')
+        .toISOString(),
+      from: moment()
+        .startOf('hour')
+        .subtract('3', 'w')
+        .toISOString(),
+      timeWindow: '3w'
+    }
+
+    expect(getTimeRangeByDuration('3w')).toEqual(goodTimeRange)
+  })
+})
+
+describe('mapItemsToKeys', () => {
+  const items = [{ name: 'name1' }, { name: 'name2' }, { name: 'name3' }]
+
+  it('Should map correctly using keyPath', () => {
+    const goodItems = {
+      name1: { name: 'name1' },
+      name2: { name: 'name2' },
+      name3: { name: 'name3' }
+    }
+
+    const expected = mapItemsToKeys(items, { keyPath: 'name' })
+    expect(expected).toEqual(goodItems)
+  })
+
+  it('Should map correctly using getKeyPath function', () => {
+    const goodItems = {
+      name1: { name: 'name1' },
+      name2: { name: 'name2' },
+      name3: { name: 'name3' }
+    }
+
+    const expected = mapItemsToKeys(items, { getKeyPath: item => item.name })
+    expect(expected).toEqual(goodItems)
   })
 })

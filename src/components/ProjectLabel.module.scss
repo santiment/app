@@ -1,0 +1,19 @@
+.label {
+  width: 100%;
+  text-align: left;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+}
+
+.name {
+  color: var(--shark);
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+.ticker {
+  padding-left: 4px;
+  color: var(--waterloo);
+  font-size: 14px;
+}

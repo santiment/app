@@ -1,26 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { setDisplayName } from 'recompose'
+import DefaultProjectIcon from './DefaultProjectIcon'
 import './ProjectIcon.css'
-
-export const DefaultIcon = () => ''
 
 export const ProjectIcon = ({ name, size, ticker, className }) => {
   if (!name) {
-    return <DefaultIcon size={size} />
+    return <DefaultProjectIcon size={size} className={className} />
   }
   let imgSource = ''
   try {
-    imgSource = require(`../assets/project-icons/${name
+    imgSource = require(`../../assets/project-icons/${name
       .toString()
       .toLowerCase()
       .split(/[ /.]+/)
       .join('-')}.png`)
   } catch (e) {
     try {
-      imgSource = require(`../assets/32x32/${ticker}-32.png`)
+      imgSource = require(`../../assets/32x32/${ticker}-32.png`)
     } catch (e) {
-      return <DefaultIcon size={size} />
+      return <DefaultProjectIcon size={size} className={className} />
     }
   }
   return (

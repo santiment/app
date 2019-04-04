@@ -2,40 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { simpleSort } from '../../utils/sortMethods'
 import { formatNumber, millify } from '../../utils/formatting'
-import ProjectIcon from '../../components/ProjectIcon'
+import ProjectLabel from '../../components/ProjectLabel'
 import PercentChanges from '../../components/PercentChanges'
 
 const columns = preload => [
   {
-    Header: '',
-    id: 'icon',
-    filterable: true,
-    sortable: true,
-    minWidth: 44,
-    maxWidth: 100,
-    accessor: d => ({
-      name: d.name,
-      ticker: d.ticker
-    }),
-    Cell: ({ value }) => (
-      <div className='overview-ticker'>
-        <ProjectIcon name={value.name} ticker={value.ticker} />
-        <br />
-        <span className='ticker'>{value.ticker}</span>
-      </div>
-    ),
-    filterMethod: (filter, row) => {
-      const name = row[filter.id].name || ''
-      const ticker = row[filter.id].ticker || ''
-      return (
-        name.toLowerCase().indexOf(filter.value) !== -1 ||
-        ticker.toLowerCase().indexOf(filter.value) !== -1
-      )
-    }
-  },
-  {
     Header: 'Project',
     id: 'project',
+    minWidth: 150,
     filterable: true,
     sortable: true,
     accessor: d => ({
@@ -49,7 +23,7 @@ const columns = preload => [
         to={`/projects/${value.cmcId}`}
         className='overview-name'
       >
-        {value.name}
+        <ProjectLabel {...value} />
       </Link>
     ),
     filterMethod: (filter, row) => {

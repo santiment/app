@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { Card, Button, Statistic, Label, Icon, Popup } from 'semantic-ui-react'
-import ProjectIcon from './../../components/ProjectIcon'
+import ProjectIcon from '../../components/ProjectIcon'
 import PercentChanges from './../../components/PercentChanges'
 import { formatNumber, millify } from './../../utils/formatting'
 import './ProjectCard.css'

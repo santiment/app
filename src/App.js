@@ -73,6 +73,11 @@ const LoadableSonarFeedPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableGainersAndLosersPage = Loadable({
+  loader: () => import('./ducks/GainersAndLosers/GainersLosersPage'),
+  loading: () => <PageLoader />
+})
+
 class Route extends React.Component {
   componentWillMount () {
     nprogress.start()
@@ -183,6 +188,11 @@ export const App = ({
         <Route exact path='/signals' component={Signals} />
         <Route exact path='/labs/balance' component={HistoricalBalancePage} />
         <Route exact path='/labs/wordcloud' component={WordCloudPage} />
+        <Route
+          exact
+          path='/labs/social-movers'
+          component={LoadableGainersAndLosersPage}
+        />
         <Route
           path='/insights'
           render={props => (

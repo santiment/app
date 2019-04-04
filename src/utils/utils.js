@@ -297,6 +297,30 @@ const pickFork = (...forks) => props => {
  */
 const isEthStrictAddress = address => /^0x[0-9a-f]{40}$/i.test(address)
 
+const getTimeRangeByDuration = timeWindow => {
+  const unit = timeWindow.slice(-1)
+  const timeAmount = timeWindow.slice(0, -1)
+  return {
+    to: moment()
+      .startOf('hour')
+      .toISOString(),
+    from: moment()
+      .startOf('hour')
+      .subtract(timeAmount, unit)
+      .toISOString(),
+    timeWindow
+  }
+}
+
+const mapItemsToKeys = (items, { keyPath, getKeyPath }) =>
+  items.reduce(
+    (prev, next) => ({
+      ...prev,
+      [getKeyPath ? getKeyPath(next) : next[keyPath]]: next
+    }),
+    {}
+  )
+
 export {
   findIndexByDatetime,
   calculateBTCVolume,
@@ -317,5 +341,7 @@ export {
   mapStateToQS,
   fork,
   pickFork,
-  isEthStrictAddress
+  isEthStrictAddress,
+  getTimeRangeByDuration,
+  mapItemsToKeys
 }
