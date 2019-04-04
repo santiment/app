@@ -38,7 +38,6 @@ const DashboardPage = () => (
         <h2 className={styles.subtitle}>
           Featured insights <More link='/insights/' />
         </h2>
-
         <div className={styles.insights}>
           <Panel className={styles.insights__panel}>
             <div className={styles.insights__list}>
