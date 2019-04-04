@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import {
   ResponsiveContainer,
   ComposedChart,
-  Line,
   Bar,
   XAxis,
   YAxis,
@@ -12,24 +11,43 @@ import {
   ReferenceLine
 } from 'recharts'
 import { Message } from '@santiment-network/ui'
-import { mergeTimeseriesByKey } from './../../utils/utils'
-import {
-  getMetricCssVarColor,
-  Metrics,
-  generateMetricsMarkup
-} from './../SANCharts/utils'
+import { Metrics, generateMetricsMarkup } from './../SANCharts/utils'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import ChartMetrics from './../SANCharts/ChartMetrics'
 import { formatNumber } from './../../utils/formatting'
 
-// TODO: add error, loading
+const normalizeTimeseries = items =>
+  items.map(item => ({ ...item, datetime: moment(item.datetime).unix() }))
+
+const PREVIEWS_TIMERANGE_BY_TYPE = {
+  daily_active_addresses: '3m',
+  price_absolute_change: '3m',
+  price_percent_change: '3m',
+  price_volume_difference: '6m'
+}
+
+const CHART_SETTINGS = {
+  active_addresses: {
+    node: Bar,
+    color: 'malibu',
+    label: 'Daily Active Addresses',
+    orientation: 'right',
+    yAxisVisible: true,
+    dataKey: 'active_addresses'
+  }
+}
+
+const getTimerangeByType = type =>
+  PREVIEWS_TIMERANGE_BY_TYPE[type] ? PREVIEWS_TIMERANGE_BY_TYPE[type] : '3m'
+
 const SignalPreview = ({
   points = [],
   target,
-  metrics: initialMetrics = ['price']
+  initialMetrics = ['price'],
+  type
 }) => {
   const [metrics, setMetrics] = useState(initialMetrics)
-  // console.log(metrics, initialMetrics)
+  const _metrics = metrics.filter(metric => initialMetrics.includes(metric))
   const amountOfTriggers = points.reduce(
     (acc, val) => (acc += +val['triggered?']),
     0
@@ -40,33 +58,27 @@ const SignalPreview = ({
       <Message variant='success'>
         Trigger fired {amountOfTriggers} times in past 6m
       </Message>
-      {
-        // JSON.stringify(points.filter(point => !!point['triggered?']))
-      }
       <GetTimeSeries
         price={{
-          timeRange: '6m',
+          timeRange: getTimerangeByType(type),
           slug: target,
           interval: '1d'
         }}
-        // meta={{
-        // mergedByDatetime: true
-        // }}
         render={({ price, errorMetrics = {}, isError, errorType, ...rest }) => {
           if (!price) {
             return 'Loading...'
           }
-          // const data = mergeTimeseriesByKey({
-          // timeseries: [timeseries, points],
-          // key: 'datetime'
-          // })
-          // console.log(timeseries, points, data)
+          const data = normalizeTimeseries(points)
+          const customMetrics = _metrics.map(metric =>
+            CHART_SETTINGS[metric] ? CHART_SETTINGS[metric] : metric
+          )
+          const _price = normalizeTimeseries(price.items)
           return (
             price && (
               <VisualBacktestChart
-                data={points}
-                price={price.items}
-                metrics={metrics}
+                data={data}
+                price={_price}
+                metrics={customMetrics}
               />
             )
           )
@@ -86,47 +98,25 @@ const SignalPreview = ({
 }
 
 const VisualBacktestChart = ({ data, price, metrics }) => {
-  const _data = data.map(item => ({
-    ...item,
-    datetime: moment(item.datetime).unix()
-  }))
-
-  const _price = price.map(item => ({
-    ...item,
-    datetime: moment(item.datetime).unix()
-  }))
+  console.log(data)
   return (
     <ResponsiveContainer width='100%' height={150}>
-      <ComposedChart data={_data}>
+      <ComposedChart data={price}>
         <XAxis
           dataKey='datetime'
           type='number'
-          tickLine={false}
-          tickFormatter={timeStr => moment.unix(timeStr).format('DD MMM YY')}
+          scale='time'
+          tickLine={true}
+          tickCount={180}
+          minTickGap={10}
+          interval={'preserveStart'}
+          tickFormatter={timeStr => moment.unix(timeStr).format('MMM YY')}
           domain={['dataMin', 'dataMax']}
         />
         <YAxis hide />
-        <YAxis
-          yAxisId='axis-price'
-          hide
-          type='number'
-          domain={['auto', 'dataMax']}
-        />
-        <Line
-          type='linear'
-          data={_price}
-          yAxisId='axis-price'
-          name={'Price'}
-          dot={false}
-          strokeWidth={1.5}
-          stroke={getMetricCssVarColor('price')}
-          dataKey='priceUsd'
-          isAnimationActive={false}
-        />
+        {generateMetricsMarkup(metrics, { active_addresses: data })}
 
-        {generateMetricsMarkup(metrics.filter(metric => metric !== 'price'))}
-
-        {_data
+        {data
           .filter(point => point['triggered?'])
           .map(point => (
             <ReferenceLine

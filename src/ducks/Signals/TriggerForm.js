@@ -457,7 +457,8 @@ export const TriggerForm = ({
               <label>Visual Backtesting</label>
               <SignalPreview
                 target={values.target.value}
-                metrics={getMetricsByType(values.type)}
+                initialMetrics={getMetricsByType(values.type)}
+                type={values.type}
               />
             </Panel>
           </div>

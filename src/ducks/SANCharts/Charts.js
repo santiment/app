@@ -3,7 +3,6 @@ import moment from 'moment'
 import {
   ResponsiveContainer,
   ComposedChart,
-  Legend,
   Line,
   CartesianGrid,
   XAxis,
@@ -94,25 +93,10 @@ class Charts extends React.Component {
               minTickGap={100}
               tickFormatter={timeStr => moment(timeStr).format('DD MMM YY')}
             />
+            <YAxis hide />
             {generateMetricsMarkup(metrics)}
-            <YAxis
-              yAxisId='axis-price'
-              type='number'
-              domain={['auto', 'dataMax']}
-            />
-            <Line
-              type='linear'
-              yAxisId='axis-price'
-              name={'Price'}
-              dot={false}
-              strokeWidth={1.5}
-              stroke={getMetricCssVarColor('price')}
-              dataKey='priceUsd'
-              isAnimationActive={false}
-            />
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
-                yAxisId='axis-price'
                 x1={refAreaLeft}
                 x2={refAreaRight}
                 strokeOpacity={0.3}
@@ -138,7 +122,6 @@ class Charts extends React.Component {
               }}
             />
             {mixWithPaywallArea({
-              yAxisId: 'axis-price',
               dataKey: 'priceUsd',
               domain: [0],
               stroke: 'red',
@@ -146,7 +129,6 @@ class Charts extends React.Component {
               data: chartData
             })}
             <CartesianGrid stroke='rgba(200, 200, 200, .2)' />
-            <Legend />
           </ComposedChart>
         </ResponsiveContainer>
       </div>

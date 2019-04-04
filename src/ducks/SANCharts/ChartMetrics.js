@@ -36,28 +36,22 @@ class ChartMetrics extends Component {
     const listOfMetrics = this.props.listOfMetrics || Metrics
     return (
       <div className={styles.metrics}>
-        {Object.keys(listOfMetrics)
-          .filter(metric => metric !== 'price')
-          .map(metric => {
-            const { color, label } = listOfMetrics[metric]
-            return (
-              <button
-                key={label}
-                type='button'
-                data-metric={metric}
-                className={cx(styles.btn, metrics.has(metric) && styles.active)}
-                onClick={this.onClick}
-                disabled={disabledMetrics.includes(metric)}
-              >
-                <Label
-                  variant='circle'
-                  accent={color}
-                  className={styles.label}
-                />
-                {label}
-              </button>
-            )
-          })}
+        {Object.keys(listOfMetrics).map(metric => {
+          const { color, label } = listOfMetrics[metric]
+          return (
+            <button
+              key={label}
+              type='button'
+              data-metric={metric}
+              className={cx(styles.btn, metrics.has(metric) && styles.active)}
+              onClick={this.onClick}
+              disabled={disabledMetrics.includes(metric)}
+            >
+              <Label variant='circle' accent={color} className={styles.label} />
+              {label}
+            </button>
+          )
+        })}
       </div>
     )
   }

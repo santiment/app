@@ -5,13 +5,16 @@ export const Metrics = {
   price: {
     node: Line,
     color: 'jungle-green',
-    label: 'Price'
+    label: 'Price',
+    dataKey: 'priceUsd',
+    yAxisVisible: true
   },
   volume: {
     node: Bar,
     color: 'mirage',
     label: 'Volume',
-    fill: true
+    fill: true,
+    dataKey: 'volume'
   },
   socialVolume: {
     node: Line,
@@ -82,42 +85,43 @@ export const Metrics = {
 
 export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
 
-export const generateMetricsMarkup = metrics => {
-  return metrics
-    .filter(metric => metric !== 'price')
-    .reduce((acc, metric) => {
-      const {
-        node: El,
-        label,
-        color,
-        hide = true,
-        orientation = 'left',
-        dataKey = metric
-      } = Metrics[metric]
-      const rest = {
-        [El === Bar ? 'fill' : 'stroke']: `var(--${color})`
-      }
-      acc.push(
-        <YAxis
-          key={`axis-${metric}`}
-          yAxisId={`axis-${metric}`}
-          type='number'
-          orientation={orientation}
-          domain={['auto', 'dataMax']}
-          hide={hide}
-        />,
-        <El
-          key={`line-${metric}`}
-          type='linear'
-          yAxisId={`axis-${metric}`}
-          name={label}
-          strokeWidth={1.5}
-          dataKey={dataKey}
-          dot={false}
-          isAnimationActive={false}
-          {...rest}
-        />
-      )
-      return acc
-    }, [])
+export const generateMetricsMarkup = (metrics, data = {}) => {
+  return metrics.reduce((acc, metric) => {
+    const {
+      node: El,
+      label,
+      color,
+      yAxisVisible = false,
+      orientation = 'left',
+      dataKey = metric
+    } = typeof metric === 'object' ? metric : Metrics[metric]
+    const rest = {
+      [El === Bar ? 'fill' : 'stroke']: `var(--${color})`
+    }
+    const hide = !yAxisVisible
+    console.log(label, color, dataKey)
+    acc.push(
+      <YAxis
+        key={`axis-${metric}`}
+        yAxisId={`axis-${metric}`}
+        type='number'
+        orientation={orientation}
+        domain={['auto', 'dataMax']}
+        hide={hide}
+      />,
+      <El
+        key={`line-${metric}`}
+        type='linear'
+        yAxisId={`axis-${metric}`}
+        name={label}
+        data={data[metric]}
+        strokeWidth={1.5}
+        dataKey={dataKey}
+        dot={false}
+        isAnimationActive={false}
+        {...rest}
+      />
+    )
+    return acc
+  }, [])
 }
