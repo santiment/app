@@ -10,11 +10,11 @@ const ProfileInfo = ({
   picUrl,
   className = '',
   infoClassName = '',
-  noPic
+  withPic
 }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
-      {!noPic && (
+      {withPic && (
         <div className={styles.icon}>
           {picUrl ? (
             <img src={picUrl} alt='Profile Pic' />

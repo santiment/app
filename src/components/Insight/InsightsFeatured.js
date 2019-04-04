@@ -5,7 +5,13 @@ import { FEATURED_INSIGHTS_QUERY } from './insightsGQL'
 
 const InsightsTrends = ({ data: { insights = [] }, ...props }) => {
   return insights.map(({ id, ...insight }) => (
-    <InsightCard key={id} {...props} id={id} {...insight} noAuthorPic />
+    <InsightCard
+      key={id}
+      {...props}
+      id={id}
+      {...insight}
+      withAuthorPic={false}
+    />
   ))
 }
 
