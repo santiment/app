@@ -10,8 +10,8 @@ const getColumns = ({ timeWindow }) => [
     sortable: true,
     minWidth: 300,
     maxWidth: 450,
-    accessor: ({ slug, name }) => ({
-      ticker: slug,
+    accessor: ({ ticker, name }) => ({
+      ticker,
       name
     }),
     Cell: ({ value }) => <ProjectLabel {...value} />

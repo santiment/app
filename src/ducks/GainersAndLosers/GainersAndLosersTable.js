@@ -65,6 +65,7 @@ const withGainersLosers = graphql(TOP_SOCIAL_GAINERS_LOSERS_QUERY, {
             .filter(({ slug }) => ownProps.allProjects[slug])
             .map(project => ({
               ...project,
+              ticker: ownProps.allProjects[project.slug].ticker,
               name: ownProps.allProjects[project.slug].name
             }))
           : []
