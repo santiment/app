@@ -9,20 +9,25 @@ const ProfileInfo = ({
   networkStatus,
   picUrl,
   className = '',
-  infoClassName = ''
+  infoClassName = '',
+  withPic
 }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
-      <div className={styles.icon}>
-        {picUrl ? (
-          <img src={picUrl} alt='Profile Pic' />
-        ) : (
-          <Icon type='profile-round' />
-        )}
-        {networkStatus && (
-          <div className={cx(styles.onlineIndicator, styles[networkStatus])} />
-        )}
-      </div>
+      {withPic && (
+        <div className={styles.icon}>
+          {picUrl ? (
+            <img src={picUrl} alt='Profile Pic' />
+          ) : (
+            <Icon type='profile-round' />
+          )}
+          {networkStatus && (
+            <div
+              className={cx(styles.onlineIndicator, styles[networkStatus])}
+            />
+          )}
+        </div>
+      )}
 
       <div className={cx(styles.info, infoClassName)}>
         <div className={cx(styles.info__item, styles.name)}>{name}</div>

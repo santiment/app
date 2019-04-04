@@ -53,8 +53,8 @@ const LoadableInsights = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableTrendsPage = Loadable({
-  loader: () => import('./pages/Trends/TrendsPage'),
+const LoadableDashboardPage = Loadable({
+  loader: () => import('./pages/Dashboard/DashboardPage'),
   loading: () => <PageLoader />
 })
 
@@ -142,7 +142,7 @@ export const App = ({
           path='/projects'
           render={props => {
             if (isDesktop) {
-              return <Redirect to='/sonar' />
+              return <Redirect to='/dashboard' />
             }
             return <CashflowMobile {...props} />
           }}
@@ -210,9 +210,9 @@ export const App = ({
         <Route exact path='/sonar/master' component={SignalFormPage} />
         <Route
           exact
-          path='/sonar'
+          path='/dashboard'
           render={props => (
-            <LoadableTrendsPage isDesktop={isDesktop} {...props} />
+            <LoadableDashboardPage isDesktop={isDesktop} {...props} />
           )}
         />
         <Route path='/logout' component={LogoutPage} />

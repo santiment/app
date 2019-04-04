@@ -20,6 +20,7 @@ const InsightCardInternals = ({
   comments,
   votedAt,
   onLike,
+  withAuthorPic,
   className
 }) => {
   return (
@@ -38,6 +39,7 @@ const InsightCardInternals = ({
       <div className={styles.bottom}>
         <div className={styles.left}>
           <ProfileInfo
+            withPic={withAuthorPic}
             name={
               <Link className={styles.name} to={`/insights/users/${authorId}`}>
                 {authorName}
@@ -65,7 +67,8 @@ const InsightCardInternals = ({
 InsightCardInternals.defaultProps = {
   votes: {},
   tags: [],
-  comments: 0
+  comments: 0,
+  withAuthorPic: true
 }
 
 export default InsightCardInternals
