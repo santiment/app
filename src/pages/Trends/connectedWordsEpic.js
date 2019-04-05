@@ -69,12 +69,9 @@ export const connectedWordsEpic = (action$, store, { client }) =>
     .ofType('[trends] HYPED_FETCH_SUCCESS')
     .take(1)
     .switchMap(({ payload: { items } }) => {
-      // HACK(vanguard): wordTrendScore from/to does not work correctly
-      // Can't fetch only needed time period, should fetch for all day
-      const dates = []
-
+      const insightQueries = []
       for (let i = 0; i < 3; i++) {
-        dates.push(
+        insightQueries.push(
           client.query({
             query: ALL_INSIGHTS_BY_TAG_QUERY,
             variables: {
@@ -86,7 +83,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
         )
       }
 
-      const words = [
+      const trendingWords = [
         ...new Set(
           items.reduce((acc, { topWords }) => {
             return acc.concat(topWords.map(({ word }) => word.toUpperCase()))
@@ -94,12 +91,12 @@ export const connectedWordsEpic = (action$, store, { client }) =>
         )
       ]
 
-      const TrendTicker = {}
-      const TickerTrend = {}
+      const TrendToTag = {}
+      const TagToTrend = {}
 
-      return Observable.forkJoin(...dates)
+      return Observable.forkJoin(...insightQueries)
         .flatMap(result => {
-          const connections = {}
+          const tagsGraph = {}
 
           for (const {
             data: { allInsightsByTag }
@@ -110,37 +107,38 @@ export const connectedWordsEpic = (action$, store, { client }) =>
               const filteredTags = tags.filter(
                 ({ name }) => !name.endsWith('-trending-words')
               )
-              const { length } = filteredTags
-              if (length < 1) continue
+              const { length: filteredTagsLength } = filteredTags
+              if (filteredTagsLength < 1) continue
 
-              for (let i = 0; i < length; i++) {
+              for (let i = 0; i < filteredTagsLength; i++) {
                 const { name: tag } = filteredTags[i]
-                const inter = filteredTags.slice(0, i)
-                const rightOffset = i - (length - 1)
+                const connectedTags = filteredTags.slice(0, i)
+                const rightOffset = i - (filteredTagsLength - 1)
 
                 if (rightOffset !== 0) {
-                  inter.push(...filteredTags.slice(rightOffset))
+                  connectedTags.push(...filteredTags.slice(rightOffset))
                 }
 
-                const connection = connections[tag]
-                if (connection) {
-                  connection.push(...inter)
-                } else {
-                  connections[tag] = inter
+                const tagConnections = tagsGraph[tag]
 
-                  if (words.includes(tag)) {
-                    TrendTicker[tag] = tag
-                    TickerTrend[tag] = tag
+                if (tagConnections) {
+                  tagConnections.push(...connectedTags)
+                } else {
+                  tagsGraph[tag] = connectedTags
+
+                  if (trendingWords.includes(tag)) {
+                    TrendToTag[tag] = tag
+                    TagToTrend[tag] = tag
                   }
                 }
               }
             }
           }
 
-          const unfoundTrends = words.filter(word => !TrendTicker[word])
+          const unfoundTrends = trendingWords.filter(word => !TrendToTag[word])
 
           unfoundTrends.forEach(trend => {
-            const { item: { ticker } = {} } = binarySearch({
+            const { value: { ticker } = {} } = binarySearch({
               array: projectsSortedByTicker,
               target: trend,
               checkFn: tickerCheckFn,
@@ -149,7 +147,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
             let foundTicker = ticker
 
             if (!foundTicker) {
-              const { item: { ticker: ticker1 } = {} } = binarySearch({
+              const { value: { ticker: ticker1 } = {} } = binarySearch({
                 array: projectsSortedBySlug,
                 target: trend,
                 checkFn: slugCheckFn,
@@ -168,18 +166,18 @@ export const connectedWordsEpic = (action$, store, { client }) =>
             }
 
             if (foundTicker) {
-              TrendTicker[trend] = foundTicker
-              TickerTrend[foundTicker] = trend
+              TrendToTag[trend] = foundTicker
+              TagToTrend[foundTicker] = trend
             }
           })
 
-          const connectedTrends = Object.keys(TickerTrend).reduce(
+          const connectedTrends = Object.keys(TagToTrend).reduce(
             (acc, ticker) => {
-              const con = connections[ticker]
+              const con = tagsGraph[ticker]
 
               if (con) {
-                acc[TickerTrend[ticker]] = con.reduce((accum, value) => {
-                  const a = TickerTrend[value]
+                acc[TagToTrend[ticker]] = con.reduce((accum, value) => {
+                  const a = TagToTrend[value]
                   if (a) {
                     accum.push(a)
                   }
@@ -193,10 +191,10 @@ export const connectedWordsEpic = (action$, store, { client }) =>
           )
 
           console.log({
-            words,
-            connections,
-            TrendTicker,
-            TickerTrend,
+            trendingWords,
+            tagsGraph,
+            TrendToTag,
+            TagToTrend,
             connectedTrends
           })
           return Observable.of({
