@@ -33,7 +33,7 @@ const FormikInput = ({
             form.setFieldTouched(name, true)
             onChange && onChange(newValue)
           }}
-          value={field.value || null}
+          value={field.value}
           {...rest}
         />
         <ErrorMessage name={name}>
