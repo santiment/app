@@ -96,7 +96,7 @@ const defaultValues = {
   },
   daily_active_addresses: {
     cooldown: '24h',
-    percentThreshold: 8,
+    percentThreshold: 200,
     target: { value: 'santiment', label: 'santiment' },
     metric: {
       label: 'Daily Active Addresses',
@@ -195,6 +195,17 @@ const validate = values => {
     errors.channels = 'You must setup notification channel'
   }
   return errors
+}
+
+const getMetricsByType = type => {
+  switch (type.value) {
+    case 'daily_active_addresses':
+      return ['active_addresses', 'price']
+    case 'price_volume_difference':
+      return ['price', 'volume']
+    default:
+      return ['price']
+  }
 }
 
 const DEFAULT_FORM_META_SETTINGS = {
@@ -415,6 +426,7 @@ export const TriggerForm = ({
                   </div>
                 </div>
               </div>
+              <label>Notify me via</label>
               <div className={styles.row}>
                 <div className={styles.Field}>
                   <FormikCheckboxes
@@ -441,9 +453,13 @@ export const TriggerForm = ({
                   <Message variant='warn'>{errors.channels}</Message>
                 </div>
               )}
-            </Panel>
-            <Panel header='Visual Backtest' className={styles.TriggerChart}>
-              <SignalPreview />
+
+              <label>Visual Backtesting</label>
+              <SignalPreview
+                target={values.target.value}
+                initialMetrics={getMetricsByType(values.type)}
+                type={values.type}
+              />
             </Panel>
           </div>
           <div className={styles.controls}>
