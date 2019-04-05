@@ -1,6 +1,12 @@
 import { Observable } from 'rxjs'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
-import { TRENDS_HYPED_FETCH_SUCCESS } from '../../components/Trends/actions'
+import {
+  TRENDS_HYPED_FETCH_SUCCESS,
+  TRENDS_HYPED_FETCH_TICKERS_SLUGS_SUCCESS,
+  TRENDS_CONNECTED_WORDS_SUCCESS,
+  TRENDS_CONNECTED_WORDS_FAILED,
+  TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS
+} from '../../components/Trends/actions'
 import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../components/Insight/insightsGQL'
 import { binarySearch } from './utils'
 
@@ -16,7 +22,6 @@ const slugMoveFn = (target, { slug }) => target < slug
 
 let projectsSortedByTicker
 let projectsSortedBySlug
-let projectsSortedByName
 
 const basicSort = (a, b) => {
   if (a > b) {
@@ -27,47 +32,6 @@ const basicSort = (a, b) => {
   }
   return 0
 }
-
-const TRENDS_CONNECTED_WORDS_SUCCESS = '[trends] CONNECTED_WORDS_SUCCESS'
-const TRENDS_CONNECTED_WORDS_FAILED = '[trends] CONNECTED_WORDS_FAILED'
-const TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS =
-  '[trends] CONNECTED_WORDS_OPTIMIZATION_SUCCESS'
-
-export const connectedWordsOptimizationEpic = action$ =>
-  action$
-    .ofType('[trends] HYPED_FETCH_TICKERS_SLUGS_SUCCESS')
-    .take(1)
-    .switchMap(({ payload: { allAssets } }) => {
-      const { length } = allAssets
-      const tempAssets = allAssets.slice()
-
-      for (let i = 0; i < length; i++) {
-        const { ticker, slug, name } = tempAssets[i]
-        tempAssets[i].ticker = ticker.toUpperCase()
-        tempAssets[i].slug = slug.toUpperCase()
-        tempAssets[i].name = name.toUpperCase()
-      }
-
-      projectsSortedByTicker = tempAssets.slice()
-      projectsSortedBySlug = tempAssets.slice()
-
-      projectsSortedByTicker.sort(({ ticker: aTicker }, { ticker: bTicker }) =>
-        basicSort(aTicker, bTicker)
-      )
-      projectsSortedBySlug.sort(({ slug: aSlug }, { slug: bSlug }) =>
-        basicSort(aSlug, bSlug)
-      )
-
-      console.log({
-        projectsSortedByTicker,
-        projectsSortedBySlug,
-        projectsSortedByName
-      })
-
-      return Observable.of({
-        type: '[trends] CONNECTED_WORDS_OPTIMIZATION_SUCCESS'
-      })
-    })
 
 const mapWordToProjectsTicker = word => {
   const { value: { ticker } = {} } = binarySearch({
@@ -98,9 +62,39 @@ const mapWordToProjectsTicker = word => {
   return foundTicker
 }
 
+export const connectedWordsOptimizationEpic = action$ =>
+  action$
+    .ofType(TRENDS_HYPED_FETCH_TICKERS_SLUGS_SUCCESS)
+    .take(1)
+    .switchMap(({ payload: { allAssets } }) => {
+      const { length } = allAssets
+      const tempAssets = allAssets.slice()
+
+      for (let i = 0; i < length; i++) {
+        const { ticker, slug, name } = tempAssets[i]
+        tempAssets[i].ticker = ticker.toUpperCase()
+        tempAssets[i].slug = slug.toUpperCase()
+        tempAssets[i].name = name.toUpperCase()
+      }
+
+      projectsSortedByTicker = tempAssets.slice()
+      projectsSortedBySlug = tempAssets.slice()
+
+      projectsSortedByTicker.sort(({ ticker: aTicker }, { ticker: bTicker }) =>
+        basicSort(aTicker, bTicker)
+      )
+      projectsSortedBySlug.sort(({ slug: aSlug }, { slug: bSlug }) =>
+        basicSort(aSlug, bSlug)
+      )
+
+      return Observable.of({
+        type: TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS
+      })
+    })
+
 export const connectedWordsEpic = (action$, store, { client }) =>
   Observable.concat(
-    action$.ofType('[trends] HYPED_FETCH_SUCCESS'),
+    action$.ofType(TRENDS_HYPED_FETCH_SUCCESS),
     action$.ofType(TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS)
   )
     .take(1)
@@ -146,6 +140,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
                 .filter(({ name }) => !name.endsWith('-trending-words'))
                 .map(({ name }) => name)
               const { length: filteredTagsLength } = filteredTags
+
               if (filteredTagsLength < 1) continue
 
               // Looping over insight's tags
@@ -237,6 +232,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
             TagToTrend,
             connectedTrends
           })
+
           return Observable.of({
             type: TRENDS_CONNECTED_WORDS_SUCCESS,
             payload: connectedTrends

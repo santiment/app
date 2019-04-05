@@ -52,7 +52,7 @@ export default (state = initialState, action) => {
         volumeChange: action.payload
       }
 
-    case '[trends] CONNECTED_WORDS_SUCCESS':
+    case actions.TRENDS_CONNECTED_WORDS_SUCCESS:
       return {
         ...state,
         connectedTrends: action.payload
