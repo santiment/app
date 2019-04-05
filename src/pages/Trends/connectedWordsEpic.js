@@ -160,7 +160,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
 
                   if (trendingWords.includes(tag)) {
                     TrendToTag[tag] = tag
-                    TagToTrend[tag] = tag
+                    TagToTrend[tag] = [tag]
                   }
                 }
               }
@@ -175,7 +175,13 @@ export const connectedWordsEpic = (action$, store, { client }) =>
             const foundTicker = mapWordToProjectsTicker(trend)
             if (foundTicker) {
               TrendToTag[trend] = foundTicker
-              TagToTrend[foundTicker] = trend // tag may contain an array of mapped trends
+              /* TagToTrend[foundTicker] = trend // tag may contain an array of mapped trends */
+              const test = TagToTrend[foundTicker]
+              if (test) {
+                test.push(trend)
+              } else {
+                TagToTrend[foundTicker] = [trend]
+              }
             }
           })
 
@@ -204,17 +210,27 @@ export const connectedWordsEpic = (action$, store, { client }) =>
               const tagConnections = tagsGraph[tag]
 
               if (tagConnections) {
-                connectedTrendsAcc[trend] = tagConnections.reduce(
-                  (trendConnections, connectedTag) => {
+                const trendConnections = tagConnections.reduce(
+                  (trendConnectionsAcc, connectedTag) => {
                     const connectedTrend = TagToTrend[connectedTag]
 
                     if (connectedTrend) {
-                      trendConnections.push(connectedTrend)
+                      trendConnectionsAcc.push(...connectedTrend)
                     }
-                    return trendConnections
+                    return trendConnectionsAcc
                   },
                   []
                 )
+
+                const trendSynonyms = TagToTrend[tag]
+                if (trendSynonyms.length > 1) {
+                  // NOTE(vanguard): maybe just to push without checking and filtering? It's okay if one of connected words will be the same as the key
+                  trendConnections.push(
+                    ...trendSynonyms.filter(synonym => synonym !== trend)
+                  )
+                }
+
+                connectedTrendsAcc[trend] = trendConnections
               }
               return connectedTrendsAcc
             },
