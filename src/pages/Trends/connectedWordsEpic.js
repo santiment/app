@@ -225,14 +225,6 @@ export const connectedWordsEpic = (action$, store, { client }) =>
             {}
           )
 
-          console.log({
-            trendingWords,
-            tagsGraph,
-            TrendToTag,
-            TagToTrend,
-            connectedTrends
-          })
-
           return Observable.of({
             type: TRENDS_CONNECTED_WORDS_SUCCESS,
             payload: connectedTrends
