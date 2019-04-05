@@ -111,6 +111,24 @@ hr {
   z-index: 100;
 }
 
+// Custom Scrollbar
+::-webkit-scrollbar {
+  width: 4px;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--porcelain);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--casper);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--waterloo);
+}
+
 .night-mode a.ui.basic.button {
   color: #a0a0a0 !important;
   box-shadow: none !important;

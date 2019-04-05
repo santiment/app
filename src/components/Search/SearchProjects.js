@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { graphql } from 'react-apollo'
 import { SearchWithSuggestions } from '@santiment-network/ui'
 import { allProjectsForSearchGQL } from '../../pages/Projects/allProjectsGQL'
-import ProjectIcon from '../ProjectIcon'
+import ProjectIcon from './../ProjectIcon'
 import styles from './SearchContainer.module.scss'
 
 const SearchProjects = ({ data: { allProjects = [] }, ...props }) => {

@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { setDisplayName } from 'recompose'
 import DefaultProjectIcon from './DefaultProjectIcon'
 import './ProjectIcon.css'
 
@@ -46,4 +45,4 @@ ProjectIcon.defaultProps = {
   className: ''
 }
 
-export default setDisplayName('ProjectIcon')(ProjectIcon)
+export default ProjectIcon
