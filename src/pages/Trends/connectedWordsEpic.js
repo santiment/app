@@ -34,32 +34,32 @@ const basicSort = (a, b) => {
 }
 
 const mapWordToProjectsTicker = word => {
-  const { value: { ticker } = {} } = binarySearch({
+  const { value: { ticker: ticker1 } = {} } = binarySearch({
     array: projectsSortedByTicker,
     target: word,
     checkFn: tickerCheckFn,
     moveFn: tickerMoveFn
   })
-  let foundTicker = ticker
 
-  if (!foundTicker) {
-    const { value: { ticker: ticker1 } = {} } = binarySearch({
-      array: projectsSortedBySlug,
-      target: word,
-      checkFn: slugCheckFn,
-      moveFn: slugMoveFn
-    })
-    foundTicker = ticker1
+  if (ticker1) {
+    return ticker1
   }
 
-  if (!foundTicker) {
-    const { ticker: ticker2 } =
-      projectsSortedByTicker.find(({ name }) => name.includes(word)) || {}
+  const { value: { ticker: ticker2 } = {} } = binarySearch({
+    array: projectsSortedBySlug,
+    target: word,
+    checkFn: slugCheckFn,
+    moveFn: slugMoveFn
+  })
 
-    foundTicker = ticker2
+  if (ticker2) {
+    return ticker2
   }
 
-  return foundTicker
+  const { ticker: ticker3 } =
+    projectsSortedByTicker.find(({ name }) => name.includes(word)) || {}
+
+  return ticker3
 }
 
 export const connectedWordsOptimizationEpic = action$ =>
@@ -128,22 +128,22 @@ export const connectedWordsEpic = (action$, store, { client }) =>
         .flatMap(result => {
           const tagsGraph = {}
 
-          // Looping over requests
+          // [START] Looping over requests
           for (const {
             data: { allInsightsByTag }
           } of result) {
             if (allInsightsByTag.length < 1) continue
 
-            // Looping over request's insights
+            // [START] Looping over request's insights
             for (const { tags } of allInsightsByTag) {
               const filteredTags = tags
                 .filter(({ name }) => !name.endsWith('-trending-words'))
-                .map(({ name }) => name)
+                .map(({ name }) => name.toUpperCase())
               const { length: filteredTagsLength } = filteredTags
 
               if (filteredTagsLength < 1) continue
 
-              // Looping over insight's tags
+              // [START] Looping over insight's tags
               for (let i = 0; i < filteredTagsLength; i++) {
                 const tag = filteredTags[i]
                 const connectedTags = filteredTags.slice(0, i)
@@ -165,9 +165,9 @@ export const connectedWordsEpic = (action$, store, { client }) =>
                     TagToTrend[tag] = [tag]
                   }
                 }
-              }
-            }
-          }
+              } // [END] Looping over insight's tags
+            } // [END] Looping over request's insights
+          } // [END] Looping over requests
 
           const unmappedTrendingWords = trendingWords.filter(
             word => !TrendToTag[word]
