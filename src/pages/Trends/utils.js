@@ -1,9 +1,9 @@
-const defaultMoveFn = (target, value) => target < value
-const defaultCheckFn = (target, value) => target === value
+const defaultMoveClb = (target, value) => target < value
+const defaultCheckClb = (target, value) => target === value
 
 export const binarySearch = ({
-  moveFn = defaultMoveFn,
-  checkFn = defaultCheckFn,
+  moveClb = defaultMoveClb,
+  checkClb = defaultCheckClb,
   array,
   target
 }) => {
@@ -14,12 +14,12 @@ export const binarySearch = ({
   let wasFound = false
 
   while (start < stop) {
-    if (checkFn(target, value)) {
+    if (checkClb(target, value)) {
       wasFound = true
       break
     }
 
-    if (moveFn(target, value)) {
+    if (moveClb(target, value)) {
       stop = middle - 1
     } else {
       start = middle + 1

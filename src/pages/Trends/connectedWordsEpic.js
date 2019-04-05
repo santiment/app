@@ -9,36 +9,27 @@ import {
 } from '../../components/Trends/actions'
 import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../components/Insight/insightsGQL'
 import { binarySearch } from './utils'
+import { simpleSortStrings } from '../../utils/sortMethods'
 
 const oneDayTimestamp = 1000 * 60 * 60 * 24
 
 const getInsightTrendTagByDate = date =>
   `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}-trending-words`
 
-const tickerCheckFn = (target, { ticker }) => target === ticker
-const tickerMoveFn = (target, { ticker }) => target < ticker
-const slugCheckFn = (target, { slug }) => target === slug
-const slugMoveFn = (target, { slug }) => target < slug
+const tickerCheckClb = (target, { ticker }) => target === ticker
+const tickerMoveClb = (target, { ticker }) => target < ticker
+const slugCheckClb = (target, { slug }) => target === slug
+const slugMoveClb = (target, { slug }) => target < slug
 
 let projectsSortedByTicker
 let projectsSortedBySlug
-
-const basicSort = (a, b) => {
-  if (a > b) {
-    return 1
-  }
-  if (a < b) {
-    return -1
-  }
-  return 0
-}
 
 const mapWordToProjectsTicker = word => {
   const { value: { ticker: ticker1 } = {} } = binarySearch({
     array: projectsSortedByTicker,
     target: word,
-    checkFn: tickerCheckFn,
-    moveFn: tickerMoveFn
+    checkClb: tickerCheckClb,
+    moveClb: tickerMoveClb
   })
 
   if (ticker1) {
@@ -48,8 +39,8 @@ const mapWordToProjectsTicker = word => {
   const { value: { ticker: ticker2 } = {} } = binarySearch({
     array: projectsSortedBySlug,
     target: word,
-    checkFn: slugCheckFn,
-    moveFn: slugMoveFn
+    checkFn: slugCheckClb,
+    moveFn: slugMoveClb
   })
 
   if (ticker2) {
@@ -72,19 +63,20 @@ export const connectedWordsOptimizationEpic = action$ =>
 
       for (let i = 0; i < length; i++) {
         const { ticker, slug, name } = tempAssets[i]
-        tempAssets[i].ticker = ticker.toUpperCase()
-        tempAssets[i].slug = slug.toUpperCase()
-        tempAssets[i].name = name.toUpperCase()
+        const asset = tempAssets[i]
+        asset.ticker = ticker.toUpperCase()
+        asset.slug = slug.toUpperCase()
+        asset.name = name.toUpperCase()
       }
 
       projectsSortedByTicker = tempAssets.slice()
       projectsSortedBySlug = tempAssets.slice()
 
       projectsSortedByTicker.sort(({ ticker: aTicker }, { ticker: bTicker }) =>
-        basicSort(aTicker, bTicker)
+        simpleSortStrings(aTicker, bTicker)
       )
       projectsSortedBySlug.sort(({ slug: aSlug }, { slug: bSlug }) =>
-        basicSort(aSlug, bSlug)
+        simpleSortStrings(aSlug, bSlug)
       )
 
       return Observable.of({
