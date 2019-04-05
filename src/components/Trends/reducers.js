@@ -14,7 +14,7 @@ export const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case actions.TRENDS_HYPED_FETCH:
-      return initialState
+      return { ...initialState, connectedTrends: state.connectedTrends }
     case actions.TRENDS_HYPED_FETCH_SUCCESS:
       return {
         ...state,
@@ -24,7 +24,8 @@ export default (state = initialState, action) => {
       return {
         isLoading: false,
         error: true,
-        items: []
+        items: [],
+        connectedTrends: state.connectedTrends
       }
     case actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS_SUCCESS:
       return {

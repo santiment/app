@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import Table from 'react-table'
+import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { PanelWithHeader } from '@santiment-network/ui'
@@ -60,9 +61,14 @@ class TrendsTable extends PureComponent {
       return {
         index: index + 1,
         word: (
-          <Link className={styles.word} to={`/labs/trends/explore/${word}`}>
+          <Link
+            className={cx(
+              styles.word,
+              connectedWords.includes(word.toUpperCase()) && styles.connected
+            )}
+            to={`/labs/trends/explore/${word}`}
+          >
             {word}{' '}
-            {connectedWords.includes(word.toUpperCase()) && '[connected]'}
           </Link>
         ),
         rawWord: word,

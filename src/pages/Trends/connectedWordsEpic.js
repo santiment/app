@@ -30,6 +30,8 @@ const basicSort = (a, b) => {
 
 const TRENDS_CONNECTED_WORDS_SUCCESS = '[trends] CONNECTED_WORDS_SUCCESS'
 const TRENDS_CONNECTED_WORDS_FAILED = '[trends] CONNECTED_WORDS_FAILED'
+const TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS =
+  '[trends] CONNECTED_WORDS_OPTIMIZATION_SUCCESS'
 
 export const connectedWordsOptimizationEpic = action$ =>
   action$
@@ -63,7 +65,7 @@ export const connectedWordsOptimizationEpic = action$ =>
       })
 
       return Observable.of({
-        type: 'TICK_READY'
+        type: '[trends] CONNECTED_WORDS_OPTIMIZATION_SUCCESS'
       })
     })
 
@@ -97,8 +99,10 @@ const mapWordToProjectsTicker = word => {
 }
 
 export const connectedWordsEpic = (action$, store, { client }) =>
-  action$
-    .ofType('[trends] HYPED_FETCH_SUCCESS')
+  Observable.concat(
+    action$.ofType('[trends] HYPED_FETCH_SUCCESS'),
+    action$.ofType(TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS)
+  )
     .take(1)
     .switchMap(({ payload: { items } }) => {
       const insightQueries = []
