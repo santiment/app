@@ -49,11 +49,11 @@ const SignalPreview = ({
     <Fragment>
       <Message variant='success'>
         Trigger fired {amountOfTriggers} times in past{' '}
-        {getTimerangeByType(type)}
+        {getTimerangeByType(type.value)}
       </Message>
       <GetTimeSeries
         price={{
-          timeRange: getTimerangeByType(type),
+          timeRange: getTimerangeByType(type.value),
           slug: target,
           interval: '1d'
         }}
