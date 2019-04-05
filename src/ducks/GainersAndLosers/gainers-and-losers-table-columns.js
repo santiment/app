@@ -1,7 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import GainersLosersGraph from './GainersLosersGraph'
 import ProjectLabel from '../../components/ProjectLabel'
 import PercentChanges from '../../components/PercentChanges'
+import styles from './GainersAndLosersPage.module.scss'
 
 const getColumns = ({ timeWindow }) => [
   {
@@ -10,11 +12,19 @@ const getColumns = ({ timeWindow }) => [
     sortable: true,
     minWidth: 300,
     maxWidth: 450,
-    accessor: ({ ticker, name }) => ({
+    accessor: ({ ticker, name, coinmarketcapId }) => ({
       ticker,
-      name
+      name,
+      coinmarketcapId
     }),
-    Cell: ({ value }) => <ProjectLabel {...value} />
+    Cell: ({ value }) => (
+      <Link
+        className={styles.wrapper}
+        to={`/projects/${value.coinmarketcapId}`}
+      >
+        <ProjectLabel {...value} />
+      </Link>
+    )
   },
   {
     Header: 'Change',
