@@ -63,7 +63,7 @@ class TrendsTable extends PureComponent {
                 onMouseEnter={() => {
                   this.connectTrends(rawWord)
                 }}
-                onMouseLeave={this.clearConnectedWords}
+                onMouseLeave={this.clearConnectedTrends}
               />
             </div>
           )
