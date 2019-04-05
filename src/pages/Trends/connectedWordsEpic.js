@@ -28,7 +28,10 @@ const basicSort = (a, b) => {
   return 0
 }
 
-export const testEpic = action$ =>
+const TRENDS_CONNECTED_WORDS_SUCCESS = '[trends] CONNECTED_WORDS_SUCCESS'
+const TRENDS_CONNECTED_WORDS_FAILED = '[trends] CONNECTED_WORDS_FAILED'
+
+export const connectedWordsOptimizationEpic = action$ =>
   action$
     .ofType('[trends] HYPED_FETCH_TICKERS_SLUGS_SUCCESS')
     .take(1)
@@ -212,7 +215,12 @@ export const connectedWordsEpic = (action$, store, { client }) =>
                 }
 
                 connectedTrendsAcc[trend] = trendConnections
+              } else if (TagToTrend[tag].length > 1) {
+                connectedTrendsAcc[trend] = TagToTrend[tag].filter(
+                  synonym => synonym !== trend
+                )
               }
+
               return connectedTrendsAcc
             },
             {}
@@ -226,9 +234,9 @@ export const connectedWordsEpic = (action$, store, { client }) =>
             connectedTrends
           })
           return Observable.of({
-            type: '[trends] CONNECTED_WORDS_FULFILLED',
-            payload: []
+            type: TRENDS_CONNECTED_WORDS_SUCCESS,
+            payload: connectedTrends
           })
         })
-        .catch(handleErrorAndTriggerAction('changes failed'))
+        .catch(handleErrorAndTriggerAction(TRENDS_CONNECTED_WORDS_FAILED))
     })

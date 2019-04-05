@@ -29,6 +29,20 @@ const columns = [
 ]
 
 class TrendsTable extends PureComponent {
+  state = {
+    connectedWords: []
+  }
+  getConnectedWords (word) {
+    const { connectedTrends } = this.props
+    const trendConnections = connectedTrends[word.toUpperCase()]
+
+    if (trendConnections && trendConnections.length > 0) {
+      this.setState({
+        connectedWords: trendConnections
+      })
+    }
+  }
+
   render () {
     const {
       notSelected,
@@ -38,6 +52,7 @@ class TrendsTable extends PureComponent {
       header,
       className
     } = this.props
+    const { connectedWords } = this.state
 
     const tableData = topWords.map(({ word }, index) => {
       const [oldScore = 0, newScore = 0] = scoreChange[word] || []
@@ -46,9 +61,11 @@ class TrendsTable extends PureComponent {
         index: index + 1,
         word: (
           <Link className={styles.word} to={`/labs/trends/explore/${word}`}>
-            {word}
+            {word}{' '}
+            {connectedWords.includes(word.toUpperCase()) && '[connected]'}
           </Link>
         ),
+        rawWord: word,
         score: (
           <>
             {newScore} <ValueChange change={newScore - oldScore} />
@@ -70,6 +87,19 @@ class TrendsTable extends PureComponent {
         headerClassName={styles.header}
       >
         <Table
+          getTrGroupProps={(state, rowInfo) => {
+            return {
+              onClick: (e, handleOriginal) => {
+                console.log('It was in this row:', rowInfo)
+
+                this.getConnectedWords(rowInfo.original.rawWord)
+
+                if (handleOriginal) {
+                  handleOriginal()
+                }
+              }
+            }
+          }}
           className={styles.table}
           sortable={false}
           resizable={false}
@@ -84,9 +114,12 @@ class TrendsTable extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ hypedTrends: { scoreChange, volumeChange } }) => ({
+const mapStateToProps = ({
+  hypedTrends: { scoreChange, volumeChange, connectedTrends }
+}) => ({
   scoreChange,
-  volumeChange
+  volumeChange,
+  connectedTrends
 })
 
 export default connect(mapStateToProps)(TrendsTable)

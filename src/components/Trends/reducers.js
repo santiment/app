@@ -7,7 +7,8 @@ export const initialState = {
   selected: null,
   scoreChange: {},
   volumeChange: {},
-  allAssets: []
+  allAssets: [],
+  connectedTrends: {}
 }
 
 export default (state = initialState, action) => {
@@ -49,6 +50,13 @@ export default (state = initialState, action) => {
         ...state,
         volumeChange: action.payload
       }
+
+    case '[trends] CONNECTED_WORDS_SUCCESS':
+      return {
+        ...state,
+        connectedTrends: action.payload
+      }
+
     default:
       return state
   }
