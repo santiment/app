@@ -3,7 +3,7 @@ import Table from 'react-table'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { PanelWithHeader } from '@santiment-network/ui'
+import { PanelWithHeader, Icon } from '@santiment-network/ui'
 import ValueChange from '../../../components/ValueChange/ValueChange'
 import styles from './TrendsTable.module.scss'
 
@@ -33,7 +33,36 @@ class TrendsTable extends PureComponent {
   state = {
     connectedWords: []
   }
-  getConnectedWords (word) {
+
+  clearConnectedWords = () => {
+    this.setState({
+      connectedWords: []
+    })
+  }
+
+  getActionButtons = () => {
+    return [
+      {
+        Cell: ({ original: { rawWord } }) => {
+          return (
+            <div className={styles.action}>
+              <Icon
+                className={styles.action__icon}
+                type='connection-big'
+                onMouseEnter={() => {
+                  this.connectTrends(rawWord)
+                }}
+                onMouseLeave={this.clearConnectedWords}
+              />
+            </div>
+          )
+        },
+        width: 40
+      }
+    ]
+  }
+
+  connectTrends (word) {
     const { connectedTrends } = this.props
     const trendConnections = connectedTrends[word.toUpperCase()]
 
@@ -93,24 +122,15 @@ class TrendsTable extends PureComponent {
         headerClassName={styles.header}
       >
         <Table
-          getTrGroupProps={(state, rowInfo) => {
-            return {
-              onClick: (e, handleOriginal) => {
-                console.log('It was in this row:', rowInfo)
-
-                this.getConnectedWords(rowInfo.original.rawWord)
-
-                if (handleOriginal) {
-                  handleOriginal()
-                }
-              }
-            }
-          }}
           className={styles.table}
           sortable={false}
           resizable={false}
           data={tableData}
-          columns={notSelected ? columns.slice(0, 2) : columns}
+          columns={
+            notSelected
+              ? columns.slice(0, 2)
+              : columns.concat(this.getActionButtons())
+          }
           showPagination={false}
           defaultPageSize={10}
           minRows={10}

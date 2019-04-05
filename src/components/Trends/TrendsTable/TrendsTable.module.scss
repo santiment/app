@@ -10,12 +10,25 @@
 .connected {
   color: var(--jungle-green);
 }
+
 .index {
   color: var(--waterloo) !important;
 }
 
 .panel {
   padding: 0;
+}
+
+.action {
+  text-align: right;
+
+  &__icon {
+    vertical-align: middle;
+
+    &:hover {
+      fill: var(--jungle-green);
+    }
+  }
 }
 
 .table:global(.ReactTable) {
