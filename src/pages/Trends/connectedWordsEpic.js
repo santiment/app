@@ -1,84 +1,31 @@
-import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
-import {
-  TRENDS_HYPED_FETCH_SUCCESS,
-  TREND_WORD_SCORE_CHANGE_FULFILLED,
-  TREND_WORD_SCORE_CHANGE_FAILED,
-  TREND_WORD_VOLUME_CHANGE_FULFILLED,
-  TREND_WORD_VOLUME_CHANGE_FAILED
-} from '../../components/Trends/actions'
-import { SOCIAL_VOLUME_QUERY } from '../../components/SocialVolumeWidget/socialVolumeGQL'
+import { TRENDS_HYPED_FETCH_SUCCESS } from '../../components/Trends/actions'
 import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../components/Insight/insightsGQL'
-import { mergeTimeseriesByKey } from '../../utils/utils'
-import { getTimeIntervalFromToday } from '../../utils/dates'
+import { binarySearch } from './utils'
 
 const oneDayTimestamp = 1000 * 60 * 60 * 24
 
 const getInsightTrendTagByDate = date =>
   `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}-trending-words`
 
-let projectsSortedByTicker
-let projectsSortedBySlug
-let projectsSortedByName
-
-const binarySearch = (list, value) => {
-  // initial values for start, middle and end
-  let start = 0
-  let stop = list.length - 1
-  let middle = Math.floor((start + stop) / 2)
-
-  // While the middle is not what we're looking for and the list does not have a single item
-  while (list[middle] !== value && start < stop) {
-    if (value < list[middle]) {
-      stop = middle - 1
-    } else {
-      start = middle + 1
-    }
-
-    // recalculate middle on every iteration
-    middle = Math.floor((start + stop) / 2)
-  }
-
-  // if the current middle item is what we're looking for return it's index, else return -1
-  return list[middle] !== value ? -1 : middle
-}
-
 const tickerCheckFn = (target, { ticker }) => target === ticker
 const tickerMoveFn = (target, { ticker }) => target < ticker
 const slugCheckFn = (target, { slug }) => target === slug
 const slugMoveFn = (target, { slug }) => target < slug
 
-const myBinary = ({
-  moveFn = (target, item) => target < item,
-  checkFn = (target, item) => target === item,
-  array = [],
-  target = ''
-}) => {
-  let start = 0
-  let stop = array.length - 1
-  let middle = Math.floor(stop / 2)
-  let item = array[middle]
+let projectsSortedByTicker
+let projectsSortedBySlug
+let projectsSortedByName
 
-  while (start < stop) {
-    if (checkFn(target, item)) {
-      break
-    }
-
-    if (moveFn(target, item)) {
-      stop = middle - 1
-    } else {
-      start = middle + 1
-    }
-
-    middle = Math.floor((start + stop) / 2)
-    item = array[middle]
+const basicSort = (a, b) => {
+  if (a > b) {
+    return 1
   }
-
-  return {
-    item: checkFn(target, item) ? item : undefined,
-    index: middle
+  if (a < b) {
+    return -1
   }
+  return 0
 }
 
 export const testEpic = action$ =>
@@ -99,29 +46,12 @@ export const testEpic = action$ =>
       projectsSortedByTicker = tempAssets.slice()
       projectsSortedBySlug = tempAssets.slice()
 
-      projectsSortedByTicker.sort(
-        ({ ticker: aTicker }, { ticker: bTicker }) => {
-          if (aTicker > bTicker) {
-            return 1
-          }
-          if (aTicker < bTicker) {
-            return -1
-          }
-          return 0
-        }
+      projectsSortedByTicker.sort(({ ticker: aTicker }, { ticker: bTicker }) =>
+        basicSort(aTicker, bTicker)
       )
-
-      projectsSortedBySlug.sort(({ slug: aTicker }, { slug: bTicker }) => {
-        if (aTicker > bTicker) {
-          return 1
-        }
-        if (aTicker < bTicker) {
-          return -1
-        }
-        return 0
-      })
-      /* projectsSortedBySlug.sort() */
-      /* projectsSortedByName.sort() */
+      projectsSortedBySlug.sort(({ slug: aSlug }, { slug: bSlug }) =>
+        basicSort(aSlug, bSlug)
+      )
 
       console.log({
         projectsSortedByTicker,
@@ -210,7 +140,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
           const unfoundTrends = words.filter(word => !TrendTicker[word])
 
           unfoundTrends.forEach(trend => {
-            const { item: { ticker } = {} } = myBinary({
+            const { item: { ticker } = {} } = binarySearch({
               array: projectsSortedByTicker,
               target: trend,
               checkFn: tickerCheckFn,
@@ -219,7 +149,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
             let foundTicker = ticker
 
             if (!foundTicker) {
-              const { item: { ticker: ticker1 } = {} } = myBinary({
+              const { item: { ticker: ticker1 } = {} } = binarySearch({
                 array: projectsSortedBySlug,
                 target: trend,
                 checkFn: slugCheckFn,
