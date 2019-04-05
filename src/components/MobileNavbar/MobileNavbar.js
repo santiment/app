@@ -2,16 +2,14 @@ import React from 'react'
 import { withRouter, NavLink as Link } from 'react-router-dom'
 import cx from 'classnames'
 import { connect } from 'react-redux'
-import { Icon } from 'react-fa'
-import { Button, Label } from 'semantic-ui-react'
+import { Icon, Button } from '@santiment-network/ui'
 import { compose, withStateHandlers } from 'recompose'
-import 'font-awesome/css/font-awesome.css'
+import MobileNavbarAction from './MobileNavbarAction'
 import './MobileMenu.css'
-import styles from './MobileNavbar.module.scss'
-import logo from '../assets/logo_sanbase.png'
-import * as actions from './../actions/types'
+import styles from './MobileMenu.module.scss'
+import * as actions from './../../actions/types'
 
-const MobileMenu = ({
+const MobileNavbar = ({
   isOpened = false,
   toggleMenu,
   history,
@@ -24,22 +22,20 @@ const MobileMenu = ({
       overlay: isOpened
     })}
   >
-    <div className='app-bar'>
-      <Icon
-        className={isOpened ? 'close-btn--rotation' : ''}
+    <div className={styles.wrapper}>
+      <MobileNavbarAction iconType='fire' label='Trends' />
+      <MobileNavbarAction iconType='bulb' label='Insights' />
+      <MobileNavbarAction iconType='assets' label='Assets' />
+      <MobileNavbarAction
         onClick={toggleMenu}
-        name={isOpened ? 'close' : 'bars'}
+        iconType={isOpened ? 'close' : 'hamburger'}
+        label='Menu'
       />
     </div>
     {isOpened && (
       <div className='overlay-content'>
         <div onClick={toggleMenu} className='navigation-list'>
-          <Link to={'/trends'}>
-            Trends{' '}
-            <Label color='green' horizontal>
-              new
-            </Label>
-          </Link>
+          <Link to={'/trends'}>Trends</Link>
           <Link to={'/insights'}>Insights</Link>
           <Link to={'/signals'}>Signals</Link>
           <Link to={'/roadmap'}>Roadmap</Link>
@@ -48,7 +44,7 @@ const MobileMenu = ({
         </div>
         {isLogined ? (
           <Button
-            color='orange'
+            accent='orange'
             onClick={() => {
               toggleMenu()
               logout()
@@ -58,7 +54,7 @@ const MobileMenu = ({
           </Button>
         ) : (
           <Button
-            color='green'
+            accent='green'
             onClick={() => {
               toggleMenu()
               history.push('/login')
@@ -102,4 +98,4 @@ const enhance = compose(
   )
 )
 
-export default enhance(MobileMenu)
+export default enhance(MobileNavbar)

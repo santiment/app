@@ -17,6 +17,9 @@ const TIMESERIES = {
   price: {
     query: HISTORY_PRICE_QUERY
   },
+  volume: {
+    query: HISTORY_PRICE_QUERY
+  },
   devActivity: {
     query: DEV_ACTIVITY_QUERY
   },

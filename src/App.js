@@ -22,7 +22,7 @@ import Account from './pages/Account/Account'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import BuildChallenge from './pages/BuildChallenge'
 import EmailLoginVerification from './pages/EmailLoginVerification'
-import MobileMenu from './components/MobileMenu'
+import MobileNavbar from './components/MobileNavbar/MobileNavbar'
 import Navbar from './components/Navbar/Navbar'
 import withTracker from './withTracker'
 import withIntercom from './withIntercom'
@@ -138,7 +138,7 @@ export const App = ({
     ) : isDesktop ? (
       <Navbar activeLink={location.pathname} />
     ) : (
-      <MobileMenu />
+      <MobileNavbar />
     )}
     <ErrorBoundary>
       <Switch>

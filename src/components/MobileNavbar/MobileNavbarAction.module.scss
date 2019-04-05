@@ -1,0 +1,21 @@
+.button {
+  padding: 0;
+  margin: 5px;
+  margin-bottom: 7px;
+}
+
+.selected {
+  color: var(--jungle-green);
+}
+
+.icon {
+  width: 19px;
+  height: 19px;
+}
+
+.label {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--casper);
+  margin-top: 0.2rem;
+}
