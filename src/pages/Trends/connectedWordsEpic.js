@@ -175,36 +175,17 @@ export const connectedWordsEpic = (action$, store, { client }) =>
             const foundTicker = mapWordToProjectsTicker(trend)
             if (foundTicker) {
               TrendToTag[trend] = foundTicker
-              /* TagToTrend[foundTicker] = trend // tag may contain an array of mapped trends */
-              const test = TagToTrend[foundTicker]
-              if (test) {
-                test.push(trend)
+
+              const trendSynonyms = TagToTrend[foundTicker]
+              if (trendSynonyms) {
+                trendSynonyms.push(trend)
               } else {
                 TagToTrend[foundTicker] = [trend]
               }
             }
           })
 
-          const connectedTrends = Object.keys(TagToTrend).reduce(
-            (acc, ticker) => {
-              const con = tagsGraph[ticker]
-
-              if (con) {
-                acc[TagToTrend[ticker]] = con.reduce((accum, value) => {
-                  const a = TagToTrend[value]
-                  if (a) {
-                    accum.push(a)
-                  }
-                  return accum
-                }, [])
-              }
-
-              return acc
-            },
-            {}
-          )
-
-          const connectedTrends2 = Object.keys(TrendToTag).reduce(
+          const connectedTrends = Object.keys(TrendToTag).reduce(
             (connectedTrendsAcc, trend) => {
               const tag = TrendToTag[trend]
               const tagConnections = tagsGraph[tag]
@@ -242,8 +223,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
             tagsGraph,
             TrendToTag,
             TagToTrend,
-            connectedTrends,
-            connectedTrends2
+            connectedTrends
           })
           return Observable.of({
             type: '[trends] CONNECTED_WORDS_FULFILLED',
