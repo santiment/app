@@ -36,7 +36,7 @@ const getColumns = ({ timeWindow }) => [
       value ? <PercentChanges changes={value} /> : 'No data'
   },
   {
-    Header: 'Graph',
+    Header: '',
     id: 'status',
     minWidth: 320,
     Cell: ({ original }) => (
