@@ -39,8 +39,8 @@ const mapWordToProjectsTicker = word => {
   const { value: { ticker: ticker2 } = {} } = binarySearch({
     array: projectsSortedBySlug,
     target: word,
-    checkFn: slugCheckClb,
-    moveFn: slugMoveClb
+    checkClb: slugCheckClb,
+    moveClb: slugMoveClb
   })
 
   if (ticker2) {
