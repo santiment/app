@@ -149,6 +149,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
 
                 if (tagConnections) {
                   tagConnections.push(...connectedTags)
+                  tagsGraph[tag] = [...new Set(tagConnections)]
                 } else {
                   tagsGraph[tag] = connectedTags
 
