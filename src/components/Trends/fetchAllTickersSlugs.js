@@ -8,6 +8,7 @@ const allTickersSlugsGQL = gql`
     allProjects {
       ticker
       slug
+      name
     }
   }
 `

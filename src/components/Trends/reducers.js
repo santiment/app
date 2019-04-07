@@ -7,13 +7,14 @@ export const initialState = {
   selected: null,
   scoreChange: {},
   volumeChange: {},
-  allAssets: []
+  allAssets: [],
+  connectedTrends: {}
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case actions.TRENDS_HYPED_FETCH:
-      return initialState
+      return { ...initialState, connectedTrends: state.connectedTrends }
     case actions.TRENDS_HYPED_FETCH_SUCCESS:
       return {
         ...state,
@@ -23,7 +24,8 @@ export default (state = initialState, action) => {
       return {
         isLoading: false,
         error: true,
-        items: []
+        items: [],
+        connectedTrends: state.connectedTrends
       }
     case actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS_SUCCESS:
       return {
@@ -49,6 +51,13 @@ export default (state = initialState, action) => {
         ...state,
         volumeChange: action.payload
       }
+
+    case actions.TRENDS_CONNECTED_WORDS_SUCCESS:
+      return {
+        ...state,
+        connectedTrends: action.payload
+      }
+
     default:
       return state
   }
