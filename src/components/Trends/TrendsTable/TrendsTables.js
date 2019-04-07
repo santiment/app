@@ -14,7 +14,10 @@ class TrendsTables extends PureComponent {
             .slice(0, -1)
             .map((trend, index) => (
               <TrendsTable
-                header={`Compiled ${moment(trend.datetime).fromNow()}`}
+                header={`${moment(Date.now()).diff(
+                  new Date(trend.datetime),
+                  'hours'
+                )} hours ago`}
                 notSelected
                 key={index}
                 className={styles.table}
