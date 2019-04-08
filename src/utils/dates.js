@@ -72,6 +72,19 @@ const getUnitFormattedString = (amount, format) => {
   return `${number}${FormatToString[format]}${plural} ago`
 }
 
+/**
+ * @param {Object} args - Arguments
+ * @param {Date} args.from - from
+ * @param {Date} args.to - to
+ * @param {'y'|'m'|'d'|'h'|'min'|'s'} args.format - format in which return the string
+ *
+ * @example
+ * // Getting the difference from: 2nd April 2019
+ * // to: 4th April 2019
+ * dateDifferenceInWords({ from: new Date(2019, 3, 2), to: new Date(2019, 3, 4)})
+ * //=> '2 days ago'
+ *
+ */
 export const dateDifferenceInWords = ({
   from,
   to = new Date(),
