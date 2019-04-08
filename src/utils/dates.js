@@ -36,7 +36,6 @@ const FormatToString = {
 const IndexToFormat = [SECOND, MINUTE, HOUR, DAY, MONTH, YEAR]
 
 export const getTimeIntervalFromToday = (amount, dateFormat) => {
-  ddd
   const from = new Date()
   const to = new Date()
   const [get, set] = DateFormat[dateFormat]
@@ -78,15 +77,15 @@ export const timeDifference = (from, to) => {
 }
 
 const _getTimeFromTo = (from, to = new Date(), format = 'y') => {
-  if (format === YEAR) {
-    return to.getFullYear() - from.getFullYear()
+  const yearDiff = to.getFullYear() - from.getFullYear()
+  const monthDiff = to.getMonth() - from.getMonth() + yearDiff * 12
+
+  if (format === YEAR && monthDiff > 11) {
+    return yearDiff
   }
+
   if (format === MONTH) {
-    let months = to.getMonth() - from.getMonth()
-    if (months < 0) {
-      months += 12
-    }
-    return months
+    return monthDiff
   }
 
   return timeDifference(from, to)[FormatToIndex[format]]

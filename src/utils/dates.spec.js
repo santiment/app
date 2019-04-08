@@ -117,4 +117,23 @@ describe('getTimeFromTo', () => {
       expect(getTimeFromTo(FROM, TO)).toEqual('2 years ago')
     })
   })
+
+  describe('special cases', () => {
+    it('should return year difference in months', () => {
+      const FROM = new Date('2018-03-08T08:05:50.038Z')
+      expect(getTimeFromTo(FROM, TO, 'm')).toEqual('13 months ago')
+    })
+
+    it('should return month difference when year changed but 12 months not passed', () => {
+      const FROM = new Date('2018-12-08T08:05:50.038Z')
+      const TO_SPECIAL = new Date('2019-01-08T08:05:50.038Z')
+      expect(getTimeFromTo(FROM, TO_SPECIAL, 'm')).toEqual('a month ago')
+    })
+
+    it('should return month difference when year changed but 12 months not passed (auto format)', () => {
+      const FROM = new Date('2018-12-08T08:05:50.038Z')
+      const TO_SPECIAL = new Date('2019-01-08T08:05:50.038Z')
+      expect(getTimeFromTo(FROM, TO_SPECIAL)).toEqual('a month ago')
+    })
+  })
 })
