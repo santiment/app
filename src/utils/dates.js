@@ -2,6 +2,8 @@ export const ONE_SECOND_IN_MS = 1000
 export const ONE_MINUTE_IN_MS = ONE_SECOND_IN_MS * 60
 export const ONE_HOUR_IN_MS = ONE_MINUTE_IN_MS * 60
 export const ONE_DAY_IN_MS = ONE_HOUR_IN_MS * 24
+export const ONE_MONTH_IN_MS = ONE_DAY_IN_MS * 29 // Estimate
+export const ONE_YEAR_IN_MS = 31557600000 - ONE_MONTH_IN_MS // Estimate
 
 export const SECOND = 's'
 export const MINUTE = 'min'
@@ -76,38 +78,45 @@ export const timeDifference = (from, to) => {
   return result
 }
 
-const _getTimeFromTo = (from, to = new Date(), format = 'y') => {
-  const yearDiff = to.getFullYear() - from.getFullYear()
-  const monthDiff = to.getMonth() - from.getMonth() + yearDiff * 12
-
-  if (format === YEAR && monthDiff > 11) {
-    return yearDiff
-  }
-
-  if (format === MONTH) {
-    return monthDiff
-  }
-
-  return timeDifference(from, to)[FormatToIndex[format]]
+const FormatToTimestamp = {
+  [SECOND]: ONE_SECOND_IN_MS,
+  [MINUTE]: ONE_MINUTE_IN_MS,
+  [HOUR]: ONE_HOUR_IN_MS,
+  [DAY]: ONE_DAY_IN_MS
 }
 
+const getDiffWithFormat = (diff, format) =>
+  parseInt(diff / FormatToTimestamp[format], 10)
+
+const _getTimeFromTo = (from, to = new Date(), format = YEAR) => {
+  const isFormatYear = format === YEAR
+  if (isFormatYear || format === MONTH) {
+    const yearDiff = to.getFullYear() - from.getFullYear()
+    const monthDiff = to.getMonth() - from.getMonth() + yearDiff * 12
+
+    if (isFormatYear && monthDiff > 11) {
+      return yearDiff
+    }
+
+    const dayDiff = getDiffWithFormat(to - from, DAY)
+
+    if (format === MONTH && dayDiff > 28) {
+      return monthDiff
+    }
+  }
+
+  /* return timeDifference(from, to)[FormatToIndex[format]] */
+  return getDiffWithFormat(to - from, format)
+}
 const getFormattedDiffString = (amount, format) => {
   if (format === SECOND && amount < 60) {
     return 'a few seconds ago'
   }
 
-  let article = ''
-  let number = ''
-  let plural = ''
+  const number = amount + ' '
+  const plural = amount > 1 ? 's' : ''
 
-  if (amount === 1) {
-    article = format === HOUR ? 'an ' : 'a '
-  } else {
-    plural = 's'
-    number = amount + ' '
-  }
-
-  return `${article}${number}${FormatToString[format]}${plural} ago`
+  return `${number}${FormatToString[format]}${plural} ago`
 }
 
 export const getTimeFromTo = (from, to = new Date(), format = YEAR) => {
@@ -121,4 +130,39 @@ export const getTimeFromTo = (from, to = new Date(), format = YEAR) => {
   }
 
   return getFormattedDiffString(result, IndexToFormat[index])
+}
+
+export const new_getTimeFromTo = (from, to = new Date(), format = YEAR) => {
+  const diff = to - from
+  let resultFormat
+
+  if (diff < ONE_MINUTE_IN_MS) {
+    resultFormat = SECOND
+  } else if (diff < ONE_HOUR_IN_MS) {
+    resultFormat = MINUTE
+  } else if (diff < ONE_DAY_IN_MS) {
+    resultFormat = HOUR
+  } else if (diff < ONE_MONTH_IN_MS) {
+    resultFormat = DAY
+  } else if (diff < ONE_YEAR_IN_MS) {
+    resultFormat = MONTH
+  } else {
+    resultFormat = YEAR
+  }
+  resultFormat =
+    FormatToIndex[format] < FormatToIndex[resultFormat] ? format : resultFormat
+
+  let result
+  if (resultFormat === YEAR) {
+    result = to.getFullYear() - from.getFullYear()
+  } else if (resultFormat === MONTH) {
+    result =
+      to.getMonth() -
+      from.getMonth() +
+      (to.getFullYear() - from.getFullYear()) * 12
+  } else {
+    result = getDiffWithFormat(diff, resultFormat)
+  }
+  /* return timeDifference(from, to)[FormatToIndex[format]] */
+  return getFormattedDiffString(result, resultFormat)
 }
