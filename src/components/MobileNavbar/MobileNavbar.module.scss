@@ -53,20 +53,20 @@
       justify-content: center;
       margin: 24px 16px;
     }
-  }
 
-  .navigationList {
-    display: flex;
-    flex-direction: column;
-  }
+    .navigationList {
+      display: flex;
+      flex-direction: column;
+    }
 
-  .navigationList a {
-    color: var(--mirage);
-    font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 26px;
-    text-align: center;
-    margin-bottom: 32px;
+    .navigationList a {
+      color: var(--mirage);
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 26px;
+      text-align: center;
+      margin-bottom: 32px;
+    }
   }
 }

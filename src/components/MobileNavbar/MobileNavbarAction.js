@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { Button, Icon, Link } from '@santiment-network/ui'
+import { Button, Icon } from '@santiment-network/ui'
 import styles from './MobileNavbarAction.module.scss'
 
 // TODO: How to fill with our brand color names?
