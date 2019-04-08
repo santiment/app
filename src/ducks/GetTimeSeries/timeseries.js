@@ -10,6 +10,9 @@ import { TOKEN_VELOCITY_QUERY } from './queries/token_velocity_query'
 import { TRANSACTION_VOLUME_QUERY } from './queries/transaction_volume_query'
 import { TOKEN_CIRCULATION_QUERY } from './queries/token_circulation_query'
 import { NETWORK_GROWTH_QUERY } from './queries/network_growth_query'
+import { SOCIAL_DOMINANCE_QUERY } from './queries/social_dominance_query'
+import { PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES } from './queries/percent_of_token_supply_on_exchanges_query'
+import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from './queries/top_holders_percent_of_total_supply'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import { formatNumber } from './../../utils/formatting'
 
@@ -22,6 +25,16 @@ const TIMESERIES = {
   },
   devActivity: {
     query: DEV_ACTIVITY_QUERY
+  },
+  // TODO: Fix working with this metric for visualization
+  socialDominance: {
+    query: SOCIAL_DOMINANCE_QUERY
+  },
+  percentOfTokenSupplyOnExchanges: {
+    query: PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES
+  },
+  topHoldersPercentOfTotalSupply: {
+    query: TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY
   },
   tokenAgeConsumed: {
     query: TOKEN_AGE_CONSUMED_QUERY

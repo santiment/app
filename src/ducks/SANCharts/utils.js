@@ -37,6 +37,20 @@ export const Metrics = {
     color: 'malibu',
     label: 'Daily Active Addresses'
   },
+  percentOfTokenSupplyOnExchanges: {
+    node: Line,
+    color: 'malibu',
+    label: 'Percent of token supply on exchanges',
+    dataKey: 'percentOnExchanges'
+  },
+  topHoldersPercentOfTotalSupply: {
+    node: Line,
+    color: 'malibu',
+    label: 'In top holders total',
+    // TODO: Add support for 3 datakeys of single metric:
+    // inExchanges outsideExchanges inTopHoldersTotal
+    dataKey: 'inTopHoldersTotal'
+  },
   tokenCirculation: {
     node: Line,
     color: 'dodger-blue',
