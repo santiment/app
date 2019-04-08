@@ -138,7 +138,7 @@ export const App = ({
     ) : isDesktop ? (
       <Navbar activeLink={location.pathname} />
     ) : (
-      <MobileNavbar />
+      <MobileNavbar activeLink={location.pathname} />
     )}
     <ErrorBoundary>
       <Switch>

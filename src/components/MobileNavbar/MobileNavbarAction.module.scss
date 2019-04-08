@@ -2,10 +2,10 @@
   padding: 0;
   margin: 5px;
   margin-bottom: 7px;
-}
-
-.selected {
-  color: var(--jungle-green);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .icon {
@@ -18,4 +18,8 @@
   line-height: 18px;
   color: var(--casper);
   margin-top: 0.2rem;
+
+  &.isActive {
+    color: var(--jungle-green);
+  }
 }

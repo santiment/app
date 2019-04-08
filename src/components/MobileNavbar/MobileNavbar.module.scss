@@ -8,12 +8,10 @@
   overflow-y: hide;
   z-index: 11;
   display: flex;
-  //justify-content: center;
   justify-content: space-evenly;
   align-items: center;
   color: rgba(255, 255, 255, 0.5);
-  //padding: 16px 22px;
-  padding: 5px;
+  padding-top: 5px;
   box-shadow: 0 0 20px rgba(28, 31, 49, 0.05);
   border-top: 1px solid var(--porcelain);
 }

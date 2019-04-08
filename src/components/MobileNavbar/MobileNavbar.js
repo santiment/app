@@ -6,7 +6,7 @@ import { Icon, Button } from '@santiment-network/ui'
 import { compose, withStateHandlers } from 'recompose'
 import MobileNavbarAction from './MobileNavbarAction'
 import './MobileMenu.css'
-import styles from './MobileMenu.module.scss'
+import styles from './MobileNavbar.module.scss'
 import * as actions from './../../actions/types'
 
 const MobileNavbar = ({
@@ -14,6 +14,7 @@ const MobileNavbar = ({
   toggleMenu,
   history,
   isLogined,
+  activeLink,
   logout
 }) => (
   <div
@@ -23,12 +24,25 @@ const MobileNavbar = ({
     })}
   >
     <div className={styles.wrapper}>
-      <MobileNavbarAction iconType='fire' label='Trends' />
-      <MobileNavbarAction iconType='bulb' label='Insights' />
-      <MobileNavbarAction iconType='assets' label='Assets' />
+      <MobileNavbarAction
+        isActive={!isOpened && activeLink.includes('/labs/trends')}
+        iconType='fire'
+        label='Trends'
+      />
+      <MobileNavbarAction
+        isActive={!isOpened && activeLink.includes('/insights')}
+        iconType='bulb'
+        label='Insights'
+      />
+      <MobileNavbarAction
+        isActive={!isOpened && activeLink.includes('/assets')}
+        iconType='assets'
+        label='Assets'
+      />
       <MobileNavbarAction
         onClick={toggleMenu}
         iconType={isOpened ? 'close' : 'hamburger'}
+        isActive={isOpened}
         label='Menu'
       />
     </div>
