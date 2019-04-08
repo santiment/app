@@ -25,48 +25,44 @@
   top: 0;
   background-color: var(--white);
   overflow-x: hidden;
+}
 
-  .closeBtn__rotation {
-    animation: rotate 0.2s 1;
-  }
+.overlayContent {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 50px);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  justify-content: space-between;
+  cursor: pointer;
+}
 
-  .overlayContent {
-    position: relative;
-    width: 100%;
-    height: calc(100vh - 50px);
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-    justify-content: space-between;
-    cursor: pointer;
+.logo {
+  display: flex;
+  justify-content: center;
+  margin-top: 62px;
+  margin-bottom: 122px;
+}
 
-    .logo {
-      display: flex;
-      justify-content: center;
-      margin-top: 62px;
-      margin-bottom: 122px;
-    }
+.loginBtn {
+  display: flex;
+  justify-content: center;
+  margin: 24px 16px;
+}
 
-    .loginBtn {
-      display: flex;
-      justify-content: center;
-      margin: 24px 16px;
-    }
+.navigationList {
+  display: flex;
+  flex-direction: column;
+}
 
-    .navigationList {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .navigationList a {
-      color: var(--mirage);
-      font-style: normal;
-      font-weight: normal;
-      font-size: 18px;
-      line-height: 26px;
-      text-align: center;
-      margin-bottom: 32px;
-    }
-  }
+.navigationList__link {
+  color: var(--mirage);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 26px;
+  text-align: center;
+  margin-bottom: 32px;
 }

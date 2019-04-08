@@ -74,7 +74,11 @@ const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
             </div>
             <div onClick={toggleMenu} className={styles.navigationList}>
               {MENU_LINKS.map(({ link, label }) => (
-                <Link key={link} to={link}>
+                <Link
+                  key={link}
+                  to={link}
+                  className={styles.navigationList__link}
+                >
                   {label}
                 </Link>
               ))}

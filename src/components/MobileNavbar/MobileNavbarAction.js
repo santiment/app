@@ -22,20 +22,16 @@ const MobileNavbarAction = ({
 
   return (
     <Button
-      className={cx(
-        { [classes.isActive]: isActive },
-        classes.button,
-        className
-      )}
+      className={cx(isActive && classes.isActive, classes.button, className)}
       isActive={isActive}
       onClick={handleOnClick}
     >
       <Icon
         type={iconType}
         className={classes.icon}
-        fill={isActive ? 'var(--jungle-green)' : '#000'}
+        fill={isActive ? 'var(--jungle-green)' : 'var(--mirage)'}
       />
-      <div className={cx(classes.label, { [classes.isActive]: isActive })}>
+      <div className={cx(classes.label, isActive && classes.isActive)}>
         {label}
       </div>
     </Button>
