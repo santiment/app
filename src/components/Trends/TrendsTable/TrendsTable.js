@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react'
 import Table from 'react-table'
+import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { PanelWithHeader } from '@santiment-network/ui'
+import { PanelWithHeader, Icon } from '@santiment-network/ui'
 import ValueChange from '../../../components/ValueChange/ValueChange'
 import styles from './TrendsTable.module.scss'
 
@@ -29,6 +30,49 @@ const columns = [
 ]
 
 class TrendsTable extends PureComponent {
+  state = {
+    connectedTrends: []
+  }
+
+  connectTrends (word) {
+    const { connectedTrends } = this.props
+    const trendConnections = connectedTrends[word.toUpperCase()]
+
+    if (trendConnections && trendConnections.length > 0) {
+      this.setState({
+        connectedTrends: trendConnections
+      })
+    }
+  }
+
+  clearConnectedTrends = () => {
+    this.setState({
+      connectedTrends: []
+    })
+  }
+
+  getActionButtons = () => {
+    return [
+      {
+        Cell: ({ original: { rawWord } }) => {
+          return (
+            <div className={styles.action}>
+              <Icon
+                className={styles.action__icon}
+                type='connection-big'
+                onMouseEnter={() => {
+                  this.connectTrends(rawWord)
+                }}
+                onMouseLeave={this.clearConnectedTrends}
+              />
+            </div>
+          )
+        },
+        width: 40
+      }
+    ]
+  }
+
   render () {
     const {
       notSelected,
@@ -38,6 +82,7 @@ class TrendsTable extends PureComponent {
       header,
       className
     } = this.props
+    const { connectedTrends } = this.state
 
     const tableData = topWords.map(({ word }, index) => {
       const [oldScore = 0, newScore = 0] = scoreChange[word] || []
@@ -45,10 +90,17 @@ class TrendsTable extends PureComponent {
       return {
         index: index + 1,
         word: (
-          <Link className={styles.word} to={`/labs/trends/explore/${word}`}>
-            {word}
+          <Link
+            className={cx(
+              styles.word,
+              connectedTrends.includes(word.toUpperCase()) && styles.connected
+            )}
+            to={`/labs/trends/explore/${word}`}
+          >
+            {word}{' '}
           </Link>
         ),
+        rawWord: word,
         score: (
           <>
             {newScore} <ValueChange change={newScore - oldScore} />
@@ -74,7 +126,11 @@ class TrendsTable extends PureComponent {
           sortable={false}
           resizable={false}
           data={tableData}
-          columns={notSelected ? columns.slice(0, 2) : columns}
+          columns={
+            notSelected
+              ? columns.slice(0, 2)
+              : columns.concat(this.getActionButtons())
+          }
           showPagination={false}
           defaultPageSize={10}
           minRows={10}
@@ -84,9 +140,12 @@ class TrendsTable extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ hypedTrends: { scoreChange, volumeChange } }) => ({
+const mapStateToProps = ({
+  hypedTrends: { scoreChange, volumeChange, connectedTrends }
+}) => ({
   scoreChange,
-  volumeChange
+  volumeChange,
+  connectedTrends
 })
 
 export default connect(mapStateToProps)(TrendsTable)

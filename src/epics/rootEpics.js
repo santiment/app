@@ -59,6 +59,10 @@ import {
   wordTrendScoreEpic,
   wordTrendSocialVolumeEpic
 } from '../pages/Trends/changesEpic.js'
+import {
+  connectedWordsOptimizationEpic,
+  connectedWordsEpic
+} from '../pages/Trends/connectedWordsEpic.js'
 
 export default combineEpics(
   handleOffline,
@@ -117,5 +121,8 @@ export default combineEpics(
   likesEpic,
   // trend changes
   wordTrendScoreEpic,
-  wordTrendSocialVolumeEpic
+  wordTrendSocialVolumeEpic,
+  // connected trends
+  connectedWordsOptimizationEpic,
+  connectedWordsEpic
 )
