@@ -3,8 +3,6 @@ import cx from 'classnames'
 import { Button, Icon } from '@santiment-network/ui'
 import styles from './MobileNavbarAction.module.scss'
 
-// TODO: How to fill with our brand color names?
-
 const MobileNavbarAction = ({
   onClick,
   iconType,
@@ -35,7 +33,7 @@ const MobileNavbarAction = ({
       <Icon
         type={iconType}
         className={classes.icon}
-        fill={isActive ? '#14c393' : '#000'}
+        fill={isActive ? 'var(--jungle-green)' : '#000'}
       />
       <div className={cx(classes.label, { [classes.isActive]: isActive })}>
         {label}
