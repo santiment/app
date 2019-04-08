@@ -1,9 +1,42 @@
+export const ONE_SECOND_IN_MS = 1000
+export const ONE_MINUTE_IN_MS = ONE_SECOND_IN_MS * 60
+export const ONE_HOUR_IN_MS = ONE_MINUTE_IN_MS * 60
+export const ONE_DAY_IN_MS = ONE_HOUR_IN_MS * 24
+
+export const SECOND = 's'
+export const MINUTE = 'min'
+export const HOUR = 'h'
+export const DAY = 'd'
+export const MONTH = 'm'
+export const YEAR = 'y'
+
 const DateFormat = {
-  m: ['getMonth', 'setMonth'],
-  d: ['getDate', 'setDate']
+  [MONTH]: ['getMonth', 'setMonth'],
+  [DAY]: ['getDate', 'setDate']
 }
 
+const FormatToIndex = {
+  [SECOND]: 0,
+  [MINUTE]: 1,
+  [HOUR]: 2,
+  [DAY]: 3,
+  [MONTH]: 4,
+  [YEAR]: 5
+}
+
+const FormatToString = {
+  [SECOND]: 'second',
+  [MINUTE]: 'minute',
+  [HOUR]: 'hour',
+  [DAY]: 'day',
+  [MONTH]: 'month',
+  [YEAR]: 'year'
+}
+
+const IndexToFormat = [SECOND, MINUTE, HOUR, DAY, MONTH, YEAR]
+
 export const getTimeIntervalFromToday = (amount, dateFormat) => {
+  ddd
   const from = new Date()
   const to = new Date()
   const [get, set] = DateFormat[dateFormat]
@@ -19,52 +52,36 @@ export const getTimeIntervalFromToday = (amount, dateFormat) => {
   }
 }
 
-const ONE_SECOND = 1000
-const ONE_MINUTE = ONE_SECOND * 60
-const ONE_HOUR = ONE_MINUTE * 60
-const ONE_DAY = ONE_HOUR * 24
-
-export const timeDifference = ({ from, to = Date.now() }) => {
+export const timeDifference = (from, to) => {
   const diff = to - from
   const result = []
 
-  const seconds = parseInt(diff / ONE_SECOND, 10)
+  const seconds = parseInt(diff / ONE_SECOND_IN_MS, 10)
   result.push(seconds)
 
   if (seconds < 60) return result
 
-  const minutes = parseInt(diff / ONE_MINUTE, 10)
+  const minutes = parseInt(diff / ONE_MINUTE_IN_MS, 10)
   result.push(minutes)
 
   if (minutes < 60) return result
 
-  const hours = parseInt(diff / ONE_HOUR, 10)
+  const hours = parseInt(diff / ONE_HOUR_IN_MS, 10)
   result.push(hours)
 
   if (hours < 24) return result
 
-  const days = parseInt(diff / ONE_DAY, 10)
+  const days = parseInt(diff / ONE_DAY_IN_MS, 10)
   result.push(days)
 
   return result
 }
 
-const FormatToIndex = {
-  s: 0,
-  min: 1,
-  h: 2,
-  d: 3,
-  m: 4,
-  y: 5
-}
-
-const IndexToFormat = ['s', 'min', 'h', 'd', 'm', 'y']
-
 const _getTimeFromTo = (from, to = new Date(), format = 'y') => {
-  if (format === 'y') {
+  if (format === YEAR) {
     return to.getFullYear() - from.getFullYear()
   }
-  if (format === 'm') {
+  if (format === MONTH) {
     let months = to.getMonth() - from.getMonth()
     if (months < 0) {
       months += 12
@@ -72,20 +89,11 @@ const _getTimeFromTo = (from, to = new Date(), format = 'y') => {
     return months
   }
 
-  return timeDifference({ from, to })[FormatToIndex[format]]
-}
-
-const FormatToString = {
-  s: 'second',
-  min: 'minute',
-  h: 'hour',
-  d: 'day',
-  m: 'month',
-  y: 'year'
+  return timeDifference(from, to)[FormatToIndex[format]]
 }
 
 const getFormattedDiffString = (amount, format) => {
-  if (format === 's' && amount < 60) {
+  if (format === SECOND && amount < 60) {
     return 'a few seconds ago'
   }
 
@@ -94,7 +102,7 @@ const getFormattedDiffString = (amount, format) => {
   let plural = ''
 
   if (amount === 1) {
-    article = format === 'h' ? 'an ' : 'a '
+    article = format === HOUR ? 'an ' : 'a '
   } else {
     plural = 's'
     number = amount + ' '
@@ -103,7 +111,7 @@ const getFormattedDiffString = (amount, format) => {
   return `${article}${number}${FormatToString[format]}${plural} ago`
 }
 
-export const getTimeFromTo = (from, to = new Date(), format = 'y') => {
+export const getTimeFromTo = (from, to = new Date(), format = YEAR) => {
   let index = FormatToIndex[format]
   let result
 
