@@ -1,0 +1,68 @@
+.wrapper {
+  background: white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  overflow-y: hide;
+  z-index: 11;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.5);
+  padding-top: 5px;
+  box-shadow: 0 0 20px rgba(28, 31, 49, 0.05);
+  border-top: 1px solid var(--porcelain);
+}
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 99999;
+  left: 0;
+  top: 0;
+  background-color: var(--white);
+  overflow-x: hidden;
+}
+
+.overlayContent {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 50px);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  margin-top: 62px;
+  margin-bottom: 122px;
+}
+
+.loginBtn {
+  display: flex;
+  justify-content: center;
+  margin: 24px 16px;
+}
+
+.navigationList {
+  display: flex;
+  flex-direction: column;
+}
+
+.navigationList__link {
+  color: var(--mirage);
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 26px;
+  text-align: center;
+  margin-bottom: 32px;
+}
