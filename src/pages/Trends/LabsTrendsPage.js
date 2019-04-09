@@ -1,7 +1,5 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import { Link } from 'react-router-dom'
-import { Button, Icon } from '@santiment-network/ui'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import InsightsTrends from '../../components/Insight/InsightsTrends'
 import Devider from '../../components/Navbar/DropdownDevider'
@@ -22,7 +20,7 @@ const LabsTrendsPage = () => (
         content='Top 10 words with the biggest spike on crypto social media (compared to their previous 2-week average). These are the biggest developing stories in crypto.'
       />
     </Helmet>
-    <h1 className={styles.title}>Trending Words</h1>
+    <h1 className={styles.title}>Emerging Trends</h1>
     <TrendsSearch className={styles.search} />
     <GetHypedTrends
       render={({ isLoading, items }) => (
