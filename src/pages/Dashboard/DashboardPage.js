@@ -109,6 +109,7 @@ const DashboardPage = () => (
       <Checkboxes
         options={['Receive product updated and weekly newsletter']}
         labelOnRight
+        labelClassName={styles.subscription__label}
       />
     </div>
   </div>
