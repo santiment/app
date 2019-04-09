@@ -10,18 +10,21 @@ class TrendsTables extends PureComponent {
     return (
       <div className={styles.tables}>
         {trends.length > 1 &&
-          trends.slice(0, -1).map((trend, index) => (
-            <TrendsTable
-              header={dateDifferenceInWords({
-                from: new Date(trend.datetime),
-                format: HOUR
-              })}
-              notSelected
-              key={index}
-              className={styles.table}
-              trend={trend}
-            />
-          ))}
+          trends.slice(0, -1).map(trend => {
+            const { datetime } = trend
+            return (
+              <TrendsTable
+                key={datetime}
+                header={dateDifferenceInWords({
+                  from: new Date(datetime),
+                  format: HOUR
+                })}
+                notSelected
+                className={styles.table}
+                trend={trend}
+              />
+            )
+          })}
         <TrendsTable
           className={styles.table}
           isLoading={isLoading}
