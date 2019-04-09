@@ -59,6 +59,8 @@ class TrendsTable extends PureComponent {
           return (
             <Tooltip
               closeTimeout={50}
+              position='bottom'
+              className={styles.tooltip}
               trigger={
                 <Icon className={styles.action__icon} type='cloud-big' />
               }
