@@ -14,8 +14,6 @@ import { compose } from 'recompose'
 import nprogress from 'nprogress'
 import NotificationStack from './components/NotificationStack'
 import LoginPage from './pages/Login/LoginPage'
-import CashflowMobile from './pages/CashflowMobile'
-import CurrenciesMobile from './pages/CurrenciesMobile'
 import Roadmap from './pages/Roadmap'
 import Signals from './pages/Signals'
 import Account from './pages/Account/Account'
@@ -265,7 +263,7 @@ export const App = ({
           path='/login'
           render={props => <LoginPage isDesktop={isDesktop} {...props} />}
         />
-        <Redirect from='/' to='/projects' />
+        <Redirect from='/' to='/dashboard' />
       </Switch>
     </ErrorBoundary>
     <NotificationStack />
