@@ -3,13 +3,11 @@ import { Panel } from '@santiment-network/ui'
 import cx from 'classnames'
 import styles from './InsightCard.module.scss'
 import InsightCardInternals from './InsightCardInternals'
-import { noTrendTagsFilter } from './utils'
 
-const InsightCard = ({ className, tags, ...insight }) => {
-  const filteredTags = tags.filter(noTrendTagsFilter)
+const InsightCard = ({ className, ...insight }) => {
   return (
     <Panel className={cx(styles.wrapper, className)}>
-      <InsightCardInternals {...insight} tags={filteredTags} />
+      <InsightCardInternals {...insight} />
     </Panel>
   )
 }
