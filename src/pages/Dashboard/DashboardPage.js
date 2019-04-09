@@ -22,7 +22,7 @@ const DashboardPage = () => (
     <div className={styles.column}>
       <div className={styles.column__left}>
         <h2 className={styles.subtitle}>
-          Trending words <More link='/labs/trends/' />
+          Emerging trends <More link='/labs/trends/' />
         </h2>
         <GetHypedTrends
           render={({ isLoading, items }) => (

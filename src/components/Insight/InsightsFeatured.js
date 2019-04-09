@@ -2,17 +2,20 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import InsightCardSmall from './InsightCardSmall'
 import { FEATURED_INSIGHTS_QUERY } from './insightsGQL'
+import { creationDateSort } from '../../pages/Insights/utils'
 
 const InsightsTrends = ({ data: { insights = [] }, ...props }) => {
-  return insights.map(({ id, ...insight }) => (
-    <InsightCardSmall
-      key={id}
-      {...props}
-      id={id}
-      {...insight}
-      withAuthorPic={false}
-    />
-  ))
+  return insights
+    .sort(creationDateSort)
+    .map(({ id, ...insight }) => (
+      <InsightCardSmall
+        key={id}
+        {...props}
+        id={id}
+        {...insight}
+        withAuthorPic={false}
+      />
+    ))
 }
 
 export default graphql(FEATURED_INSIGHTS_QUERY, {
