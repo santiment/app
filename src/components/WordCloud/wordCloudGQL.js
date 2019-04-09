@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const wordCloudGQL = gql`
+export const WORD_CLOUD_QUERY = gql`
   query wordContext(
     $from: DateTime!
     $to: DateTime!
