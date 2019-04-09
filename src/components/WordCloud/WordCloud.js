@@ -3,7 +3,7 @@ import TagCloud from 'react-tag-cloud'
 import { graphql } from 'react-apollo'
 import HelpPopupWordCloud from './HelpPopupWordCloud'
 import WidgetTrend from '../Widget/WidgetTrend'
-import { wordCloudGQL as WORD_CLOUD_QUERY } from './wordCloudGQL.js'
+import { WORD_CLOUD_QUERY } from './wordCloudGQL.js'
 import { getTimeIntervalFromToday } from '../../utils/dates'
 import styles from './WordCloud.module.scss'
 

@@ -3,7 +3,6 @@ import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import moment from 'moment'
 import * as actions from './actions'
-import { WORDCLOUD_CONTEXT_FETCH } from '../WordCloud/actions'
 import { SOCIALVOLUME_DATA_FETCH } from '../SocialVolumeWidget/actions'
 import { getTimeIntervalFromToday } from '../../utils/dates'
 
@@ -35,10 +34,6 @@ export const selectHypedTrend = action$ =>
     .switchMap(({ payload }) => {
       return payload
         ? Observable.from([
-          {
-            type: WORDCLOUD_CONTEXT_FETCH,
-            payload
-          },
           {
             type: SOCIALVOLUME_DATA_FETCH,
             payload
