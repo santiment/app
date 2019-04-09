@@ -17,7 +17,7 @@ const AssetsCard = ({
   <Link className={styles.wrapper} to={`/projects/${slug}`}>
     <div className={styles.left}>
       <div className={styles.icon}>
-        <ProjectIcon size={20} name={name} />
+        <ProjectIcon size={20} name={name} ticker={ticker} />
       </div>
       <div className={styles.name}>
         <div>
