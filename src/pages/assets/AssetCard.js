@@ -24,11 +24,11 @@ const AssetsCard = ({
           {capitalizeStr(slug)}{' '}
           <span className={styles.ticker}>({ticker.toUpperCase()})</span>
         </div>
-        <div>{millify(marketcapUsd, 2)}</div>
+        <div>$ {millify(marketcapUsd, 2)}</div>
       </div>
     </div>
     <div className={styles.right}>
-      {millify(priceUsd, 2)}
+      $ {millify(priceUsd, 2)}
       <PercentChanges
         className={styles.percentChanges}
         changes={percentChange24h}
