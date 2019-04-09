@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
@@ -45,7 +45,7 @@ const MobileHeader = ({
   )
 }
 
-const propTypes = {
+MobileHeader.propTypes = {
   title: PropTypes.string.isRequired,
   backRoute: PropTypes.string,
   rightActions: PropTypes.node,
