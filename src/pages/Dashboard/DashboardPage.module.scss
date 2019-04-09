@@ -134,3 +134,33 @@
 .pointer {
   vertical-align: middle;
 }
+
+.subscription {
+  margin-top: 32px;
+  padding: 35px;
+  background: var(--athens);
+  text-align: center;
+
+  &__title {
+    font-size: 28px;
+    line-height: 40px;
+    color: var(--mirage);
+  }
+
+  &__text {
+    color: var(--waterloo);
+    width: 350px;
+    margin: 0 auto 24px;
+  }
+
+  &__form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+
+  &__input {
+    width: 300px;
+    margin-right: 10px;
+  }
+}

@@ -1,6 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Panel, Label, Icon } from '@santiment-network/ui'
+import {
+  Input,
+  Checkboxes,
+  Button,
+  Panel,
+  Label,
+  Icon
+} from '@santiment-network/ui'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import InsightsFeatured from '../../components/Insight/InsightsFeatured'
 import TrendsTable from '../../components/Trends/TrendsTable/TrendsTable'
@@ -79,6 +86,30 @@ const DashboardPage = () => (
           </Panel>
         </div>
       </div>
+    </div>
+    <div className={styles.subscription}>
+      <div className={styles.subscription__title}>Better way of research</div>
+      <div className={styles.subscription__text}>
+        Optimal way to be informed about fresh news and summaries from the world
+        of crypto
+      </div>
+      <form className={styles.subscription__form} action=''>
+        <Input
+          className={styles.subscription__input}
+          placeholder='Write your email'
+        />
+        <Button
+          variant='fill'
+          accent='positive'
+          className={styles.subscription__btn}
+        >
+          Get started
+        </Button>
+      </form>
+      <Checkboxes
+        options={['Receive product updated and weekly newsletter']}
+        labelOnRight
+      />
     </div>
   </div>
 )
