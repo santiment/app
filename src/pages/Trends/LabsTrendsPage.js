@@ -6,7 +6,6 @@ import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import InsightsTrends from '../../components/Insight/InsightsTrends'
 import Devider from '../../components/Navbar/DropdownDevider'
 import TrendsSearch from '../../components/Trends/TrendsSearch'
-import TotalSocialVolume from './TotalSocialVolume'
 import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
 import styles from './LabsTrendsPage.module.scss'
 
@@ -23,14 +22,8 @@ const LabsTrendsPage = () => (
         content='Top 10 words with the biggest spike on crypto social media (compared to their previous 2-week average). These are the biggest developing stories in crypto.'
       />
     </Helmet>
-    <div className={styles.header}>
-      <h1 className={styles.title}>Trending Words</h1>
-      <Button border as={Link} to='/insights/new?currentTrends'>
-        <Icon className={styles.icon} type='plus-round' /> Write insight
-      </Button>
-    </div>
-    <TrendsSearch />
-    <TotalSocialVolume />
+    <h1 className={styles.title}>Trending Words</h1>
+    <TrendsSearch className={styles.search} />
     <GetHypedTrends
       render={({ isLoading, items }) => (
         <TrendsTables trends={items} isLoading={isLoading} />
