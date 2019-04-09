@@ -1,6 +1,7 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
 import WatchlistCard from '../../components/Watchlists/WatchlistCard'
+import FeaturedWatchlist from '../../components/Watchlists/FeaturedWatchlist'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { allSlugsForAssetTypesGQL } from './../Projects/allProjectsGQL'
 import styles from './AssetsOverview.module.scss'
@@ -41,12 +42,12 @@ const AssetsOverview = props => (
         <WatchlistCard
           key={name}
           name={name}
-          price={32}
           change={-1.22}
           slugs={props.slugs[assetType] || []}
         />
       ))}
     </div>
+    <FeaturedWatchlist />
     <h4>My watchlists</h4>
     <div className={styles.flexRow}>
       <GetWatchlists
@@ -56,7 +57,6 @@ const AssetsOverview = props => (
             .map(watchlist => (
               <WatchlistCard
                 key={watchlist.id}
-                price={32}
                 change={1.22}
                 name={watchlist.name}
                 isPublic={watchlist.isPublic}
