@@ -16,7 +16,9 @@ const AssetsCard = ({
 }) => (
   <Link className={styles.wrapper} to={`/projects/${slug}`}>
     <div className={styles.left}>
-      <ProjectIcon className={styles.icon} name={name} />
+      <div className={styles.icon}>
+        <ProjectIcon size={20} name={name} />
+      </div>
       <div className={styles.name}>
         <div>
           {capitalizeStr(slug)}{' '}

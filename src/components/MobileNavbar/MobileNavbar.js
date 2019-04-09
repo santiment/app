@@ -35,7 +35,7 @@ const MENU_LINKS = [
 ]
 
 const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
-  const [isOpened, setOpened] = useState(true)
+  const [isOpened, setOpened] = useState(false)
 
   const toggleMenu = () => setOpened(!isOpened)
 

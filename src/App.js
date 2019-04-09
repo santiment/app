@@ -78,6 +78,11 @@ const LoadableGainersAndLosersPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableAssetsMobilePage = Loadable({
+  loader: () => import('./pages/assets/AssetsMobilePage'),
+  loading: () => <PageLoader />
+})
+
 class Route extends React.Component {
   componentWillMount () {
     nprogress.start()
@@ -142,26 +147,6 @@ export const App = ({
     )}
     <ErrorBoundary>
       <Switch>
-        <Route
-          exact
-          path='/projects'
-          render={props => {
-            if (isDesktop) {
-              return <Redirect to='/dashboard' />
-            }
-            return <CashflowMobile {...props} />
-          }}
-        />
-        <Route
-          exact
-          path='/currencies'
-          render={props => {
-            if (isDesktop) {
-              return <Redirect to='/assets/currencies' />
-            }
-            return <CurrenciesMobile {...props} />
-          }}
-        />
         {['currencies', 'erc20', 'all', 'list'].map(name => (
           <Route
             exact
@@ -179,7 +164,7 @@ export const App = ({
                   />
                 )
               }
-              return <Redirect to='/projects' />
+              return <LoadableAssetsMobilePage type={name} {...props} />
             }}
           />
         ))}
