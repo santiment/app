@@ -48,6 +48,7 @@ const LoadableDetailedPage = Loadable({
 
 const LoadableInsights = Loadable({
   loader: () => import('./pages/Insights/'),
+  render: (loaded, props) => <loaded.default {...props} />,
   loading: () => <PageLoader />
 })
 
@@ -193,9 +194,17 @@ export const App = ({
         />
         <Route
           path='/insights'
-          render={props => (
-            <LoadableInsights {...props} isLoggedIn={isLoggedIn} />
-          )}
+          component={Loadable({
+            loader: () => import('./pages/Insights/'),
+            render: (loaded, props) => (
+              <loaded.default
+                isDesktop={isDesktop}
+                isLoggedIn={isLoggedIn}
+                {...props}
+              />
+            ),
+            loading: () => <PageLoader />
+          })}
         />
         <Route
           exact

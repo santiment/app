@@ -3,6 +3,7 @@ import { Link, Route, Switch } from 'react-router-dom'
 import { Tabs, Button, Icon } from '@santiment-network/ui'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/PageLoader'
+import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import Select from '../../components/Select/Select'
 import { SortReducer } from './utils'
 import styles from './InsightsPage.module.scss'
@@ -67,14 +68,15 @@ class InsightsPage extends Component {
   render () {
     const { sort } = this.state
     const {
-      location: { pathname }
+      location: { pathname },
+      isDesktop
     } = this.props
 
     const sortReducer = SortReducer[sort]
     return (
       <div>
         <div className={styles.header}>
-          <h1>Insights</h1>
+          {isDesktop ? <h1>Insights</h1> : <MobileHeader title='Insights' />}
           {/* <HelpTrendsAbout /> */}
           <div className={styles.header__right}>
             <Select // TODO(vanguard): change to the san-ui dropdown select
