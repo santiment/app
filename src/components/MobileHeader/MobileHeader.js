@@ -5,28 +5,36 @@ import { Link } from 'react-router-dom'
 import { Button, Icon } from '@santiment-network/ui'
 import styles from './MobileHeader.module.scss'
 
+const defaultClasses = {
+  wrapper: styles.wrapper,
+  title: styles.title,
+  left: styles.left,
+  right: styles.right,
+  searchBtn: styles.searchBtn,
+  isTitleLink: styles.isTitleLink
+}
+
 const MobileHeader = ({
   title,
+  // if we have goBack func, onClick of title element is goBack func
+  goBack,
+  // if we have backRoute, title element is a link with 'to' param === backRoute
   backRoute,
   rightActions,
-  classes = {
-    wrapper: styles.wrapper,
-    title: styles.title,
-    left: styles.left,
-    right: styles.right,
-    searchBtn: styles.searchBtn,
-    isTitleLink: styles.isTitleLink
-  }
+  classes: _classes,
+  children
 }) => {
-  const Title = backRoute ? Link : 'div'
+  const classes = { ...defaultClasses, ..._classes }
+  const Title = backRoute && !goBack ? Link : 'div'
   return (
     <div className={classes.wrapper}>
-      <Title to={backRoute} className={classes.left}>
+      <Title onClick={goBack && goBack} to={backRoute} className={classes.left}>
         {backRoute && <Icon type='arrow-left-big' />}
         <h1 className={cx(classes.title, backRoute && classes.isTitleLink)}>
           {title}
         </h1>
       </Title>
+      {children}
       <div className={classes.right}>
         {rightActions}
         <Button to='/search' as={Link} className={classes.searchBtn}>
@@ -40,7 +48,8 @@ const MobileHeader = ({
 const propTypes = {
   title: PropTypes.string.isRequired,
   backRoute: PropTypes.string,
-  rightActions: PropTypes.node
+  rightActions: PropTypes.node,
+  goBack: PropTypes.func
 }
 
 export default MobileHeader

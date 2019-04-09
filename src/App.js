@@ -81,6 +81,11 @@ const LoadableAssetsMobilePage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableSearchMobilePage = Loadable({
+  loader: () => import('./pages/SearchMobilePage/SearchMobilePage'),
+  loading: () => <PageLoader />
+})
+
 class Route extends React.Component {
   componentWillMount () {
     nprogress.start()
@@ -167,6 +172,16 @@ export const App = ({
           />
         ))}
         <Redirect from='/assets' to='/assets/all' />
+        <Route
+          exact
+          path='/search'
+          render={props => {
+            if (isDesktop) {
+              return <Redirect to='/dashboard' />
+            }
+            return <LoadableSearchMobilePage {...props} />
+          }}
+        />
         <Route exact path='/roadmap' component={Roadmap} />
         <Route exact path='/signals' component={Signals} />
         <Route exact path='/labs/balance' component={HistoricalBalancePage} />

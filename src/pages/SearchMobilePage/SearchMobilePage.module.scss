@@ -1,0 +1,14 @@
+.wrapper {
+  background: var(--white);
+  display: flex;
+  justify-content: unset;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.search {
+  width: 100%;
+}
