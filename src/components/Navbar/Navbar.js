@@ -13,7 +13,7 @@ import styles from './Navbar.module.scss'
 
 const leftLinks = [
   { link: '/dashboard', label: 'Dashboard' },
-  { link: '/assets', label: 'Assets', linkTo: '/assets/all' },
+  { link: '/assets', label: 'Assets', linkTo: '/assets' },
   { link: '/insights', label: 'Insights' },
   { link: '/labs', label: 'Labs', linkTo: '/labs' }
 ]

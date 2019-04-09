@@ -1,0 +1,39 @@
+@import '~@santiment-network/ui/variables.scss';
+@import '../../mixins.scss';
+
+.mainWrapper {
+  width: 22%;
+  margin: 12px 24px 12px 0;
+  border: 1px solid #e7eaf3;
+  transition: 0.3s;
+  border-radius: $border-radius;
+  display: inline-block;
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.volume {
+  display: flex;
+  align-items: center;
+}
+
+.volumeLabel {
+  color: #7a859e;
+  margin-left: 5px;
+}

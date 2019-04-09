@@ -78,6 +78,11 @@ const LoadableGainersAndLosersPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableAssetsOverviewPage = Loadable({
+  loader: () => import('./pages/assets/AssetsOverviewPage'),
+  loading: () => <PageLoader />
+})
+
 class Route extends React.Component {
   componentWillMount () {
     nprogress.start()
@@ -183,7 +188,7 @@ export const App = ({
             }}
           />
         ))}
-        <Redirect from='/assets' to='/assets/all' />
+        <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
         <Route exact path='/roadmap' component={Roadmap} />
         <Route exact path='/signals' component={Signals} />
         <Route exact path='/labs/balance' component={HistoricalBalancePage} />
