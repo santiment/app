@@ -1,9 +1,12 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
+import { compose } from 'recompose'
 import WatchlistCard from '../../components/Watchlists/WatchlistCard'
 import FeaturedWatchlist from '../../components/Watchlists/FeaturedWatchlist'
+import { publicWatchlistGQL } from './../../components/WatchlistPopup/WatchlistGQL'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { allSlugsForAssetTypesGQL } from './../Projects/allProjectsGQL'
+import { mapItemsToKeys } from '../../utils/utils'
 import styles from './AssetsOverview.module.scss'
 
 const categories = [
@@ -18,18 +21,29 @@ const categories = [
   {
     name: 'Top 50 ERC20',
     assetType: 'top50Erc20'
+  }
+]
+
+const publicWatchlists = [
+  {
+    name: 'Stablecoins',
+    assetType: 'stablecoins',
+    id: '86'
   },
   {
-    name: 'Stablecoins'
+    name: 'US-Based Projects',
+    assetType: 'usa',
+    id: '138'
   },
   {
-    name: 'US-based projects'
+    name: 'Decentralized Exchanges',
+    assetType: 'dex',
+    id: '127'
   },
   {
-    name: 'Decentralized exchanges'
-  },
-  {
-    name: 'Centralized exchanged'
+    name: 'Centralized Exchanges',
+    assetType: 'centralized exchanges',
+    id: '272'
   }
 ]
 
@@ -38,7 +52,7 @@ const AssetsOverview = props => (
     <h1>Assets overview</h1>
     <h4>Categories</h4>
     <div className={styles.flexRow}>
-      {categories.map(({ name, assetType }) => (
+      {[...categories, ...publicWatchlists].map(({ name, assetType }) => (
         <WatchlistCard
           key={name}
           name={name}
@@ -69,17 +83,47 @@ const AssetsOverview = props => (
   </div>
 )
 
-const enhance = graphql(allSlugsForAssetTypesGQL, {
-  props: ({ data }) => ({
-    isLoading: data.loading,
-    slugs: {
-      all: data.loading ? [] : data.allProjects.map(({ slug }) => slug),
-      erc20: data.loading ? [] : data.erc20Projects.map(({ slug }) => slug),
-      top50Erc20: data.loading
-        ? []
-        : data.top50Erc20Projects.map(({ slug }) => slug)
+const enhance = compose(
+  graphql(allSlugsForAssetTypesGQL, {
+    props: ({ data }) => ({
+      isLoading: data.loading,
+      slugs: {
+        all: data.loading ? [] : data.allProjects.map(({ slug }) => slug),
+        erc20: data.loading ? [] : data.erc20Projects.map(({ slug }) => slug),
+        top50Erc20: data.loading
+          ? []
+          : data.top50Erc20Projects.map(({ slug }) => slug)
+      }
+    })
+  }),
+  graphql(publicWatchlistGQL, {
+    props: ({
+      data: { fetchAllPublicUserLists = [], loading = true },
+      ownProps: { slugs = {} }
+    }) => {
+      const publicWatchlistMap = mapItemsToKeys(publicWatchlists, {
+        keyPath: 'id'
+      })
+
+      const publicWatchilstSlugs = fetchAllPublicUserLists
+        .filter(({ id }) => publicWatchlistMap[id])
+        .reduce(
+          (prev, next) => ({
+            ...prev,
+            [next.name]: next.listItems.map(({ project: { slug } }) => slug)
+          }),
+          {}
+        )
+
+      return {
+        slugs: {
+          ...slugs,
+          ...publicWatchilstSlugs
+        },
+        isPublicWatchlistsLoading: loading
+      }
     }
   })
-})
+)
 
 export default enhance(AssetsOverview)
