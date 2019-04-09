@@ -21,6 +21,11 @@
 
 .action {
   text-align: right;
+  margin-right: 10px;
+
+  &:last-child {
+    margin: 0;
+  }
 
   &__icon {
     vertical-align: middle;

@@ -57,36 +57,34 @@ class TrendsTable extends PureComponent {
       {
         Cell: ({ original: { rawWord } }) => {
           return (
-            <div className={styles.action}>
-              <Tooltip
-                closeTimeout={50}
-                trigger={
-                  <Icon className={styles.action__icon} type='cloud-big' />
-                }
-              >
-                <WordCloud className={styles.wordCloud} word={rawWord} />
-              </Tooltip>
-            </div>
+            <Tooltip
+              closeTimeout={50}
+              trigger={
+                <Icon className={styles.action__icon} type='cloud-big' />
+              }
+            >
+              <WordCloud className={styles.wordCloud} word={rawWord} />
+            </Tooltip>
           )
         },
-        width: 40
+        width: 40,
+        className: styles.action
       },
       {
         Cell: ({ original: { rawWord } }) => {
           return (
-            <div className={styles.action}>
-              <Icon
-                className={styles.action__icon}
-                type='connection-big'
-                onMouseEnter={() => {
-                  this.connectTrends(rawWord)
-                }}
-                onMouseLeave={this.clearConnectedTrends}
-              />
-            </div>
+            <Icon
+              className={styles.action__icon}
+              type='connection-big'
+              onMouseEnter={() => {
+                this.connectTrends(rawWord)
+              }}
+              onMouseLeave={this.clearConnectedTrends}
+            />
           )
         },
-        width: 40
+        width: 40,
+        className: styles.action
       }
     ]
   }
