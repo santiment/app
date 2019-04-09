@@ -4,9 +4,15 @@ import TrendsForm from './../TrendsForm'
 import HelpPopupTrends from './../../../pages/Trends/HelpPopupTrends'
 import styles from './TrendsExploreSearch.module.scss'
 
-const TrendsExploreSearch = ({ topic, className }) => (
-  <div className={cx(styles.wrapper, className)}>
-    <TrendsForm classes={{ input: cx(styles.search) }} defaultTopic={topic} />
+const TrendsExploreSearch = ({
+  topic,
+  classes: { wrapper: className, input: inputClassName } = {}
+}) => (
+  <div className={cx(styles.wrapper, inputClassName)}>
+    <TrendsForm
+      classes={{ wrapper: className, input: styles.search }}
+      defaultTopic={topic}
+    />
     <HelpPopupTrends />
   </div>
 )
