@@ -19,9 +19,12 @@ const SAMPLES = [
   }
 ]
 
-const TrendsSearch = ({ topic, className }) => (
+const TrendsSearch = ({
+  topic,
+  classes: { wrapper: className, input: inputClassName } = {}
+}) => (
   <div className={cx(styles.TrendsSearch, className)}>
-    <TrendsExploreSearch topic={topic} />
+    <TrendsExploreSearch topic={topic} className={inputClassName} />
     <div className={styles.examples}>
       Try to search
       {SAMPLES.map(({ trend, options }, index, arr) => (

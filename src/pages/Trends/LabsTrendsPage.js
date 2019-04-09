@@ -21,7 +21,9 @@ const LabsTrendsPage = () => (
       />
     </Helmet>
     <h1 className={styles.title}>Emerging Trends</h1>
-    <TrendsSearch className={styles.search} />
+    <TrendsSearch
+      classes={{ wrapper: styles.search, input: styles.search__input }}
+    />
     <GetHypedTrends
       render={({ isLoading, items }) => (
         <TrendsTables trends={items} isLoading={isLoading} />

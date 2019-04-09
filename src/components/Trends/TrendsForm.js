@@ -32,7 +32,7 @@ export class TrendsForm extends Component {
     return (
       <form onSubmit={this.handleSubmit} className={className}>
         <Search
-          inputClassName={inputClassName}
+          className={inputClassName}
           iconPosition='left'
           placeholder='Enter a search word or phrase'
           value={this.state.topic}
