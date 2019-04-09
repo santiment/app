@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
 import TagCloud from 'react-tag-cloud'
+import { graphql } from 'react-apollo'
 import HelpPopupWordCloud from './HelpPopupWordCloud'
 import WidgetTrend from '../Widget/WidgetTrend'
+import { wordCloudGQL as WORD_CLOUD_QUERY } from './wordCloudGQL.js'
+import { getTimeIntervalFromToday } from '../../utils/dates'
 import styles from './WordCloud.module.scss'
 
 const WORD_BIG = {
@@ -33,10 +35,8 @@ const getWordStyles = index => {
 }
 
 export const WordCloud = ({
-  cloud = [],
-  searchWord,
-  isLoading,
-  error,
+  word: searchWord,
+  data: { wordContext: cloud = [], loading: isLoading, error } = {},
   className = ''
 }) => {
   return (
@@ -66,11 +66,19 @@ export const WordCloud = ({
   )
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  cloud: state.wordCloud.cloud || ownProps.cloud,
-  isLoading: state.wordCloud.isLoading,
-  error: state.wordCloud.error,
-  searchWord: state.wordCloud.word
-})
-
-export default connect(mapStateToProps)(WordCloud)
+export default React.memo(
+  graphql(WORD_CLOUD_QUERY, {
+    skip: ({ word }) => !word,
+    options: ({ word }) => {
+      const { from, to } = getTimeIntervalFromToday(-3, 'd')
+      return {
+        variables: {
+          from: from.toISOString(),
+          to: to.toISOString(),
+          size: 25,
+          word
+        }
+      }
+    }
+  })(WordCloud)
+)

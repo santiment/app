@@ -3,8 +3,9 @@ import Table from 'react-table'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { PanelWithHeader, Icon } from '@santiment-network/ui'
+import { PanelWithHeader, Icon, Tooltip } from '@santiment-network/ui'
 import ValueChange from '../../../components/ValueChange/ValueChange'
+import WordCloud from '../../../components/WordCloud/WordCloud'
 import styles from './TrendsTable.module.scss'
 
 const columns = [
@@ -53,6 +54,23 @@ class TrendsTable extends PureComponent {
 
   getActionButtons = () => {
     return [
+      {
+        Cell: ({ original: { rawWord } }) => {
+          return (
+            <div className={styles.action}>
+              <Tooltip
+                closeTimeout={50}
+                trigger={
+                  <Icon className={styles.action__icon} type='cloud-big' />
+                }
+              >
+                <WordCloud className={styles.wordCloud} word={rawWord} />
+              </Tooltip>
+            </div>
+          )
+        },
+        width: 40
+      },
       {
         Cell: ({ original: { rawWord } }) => {
           return (

@@ -24,6 +24,7 @@
 
   &__icon {
     vertical-align: middle;
+    fill: var(--mirage);
 
     &:hover {
       fill: var(--jungle-green);
@@ -80,6 +81,6 @@
   }
 }
 
-.test {
-  text-align: right !important;
+.wordCloud {
+  width: 400px;
 }
