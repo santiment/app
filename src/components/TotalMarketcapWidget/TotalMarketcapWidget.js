@@ -50,7 +50,7 @@ class TotalMarketcapWidget extends Component {
 
     let {
       totalmarketCapPrice = '.',
-      volumeAmplitudePrice = '.',
+      volume24h = '.',
       volume24PercentChange,
       marketcapDataset = []
     } = generateWidgetData(
@@ -105,7 +105,7 @@ class TotalMarketcapWidget extends Component {
             <div className='TotalMarketcapWidget__right'>
               <h3 className='TotalMarketcapWidget__label'>Volume, 24h</h3>
               <h4 className={valueClassNames}>
-                {volumeAmplitudePrice}
+                {volume24h}
                 <PercentChanges
                   changes={volume24PercentChange}
                   className='TotalMarketcapWidget__change'
