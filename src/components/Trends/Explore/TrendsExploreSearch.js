@@ -5,7 +5,7 @@ import styles from './TrendsExploreSearch.module.scss'
 
 const TrendsExploreSearch = ({ topic }) => (
   <div className={styles.wrapper}>
-    <TrendsForm className={styles.search} defaultTopic={topic} />
+    <TrendsForm inputClassName={styles.search} defaultTopic={topic} />
     <HelpPopupTrends />
   </div>
 )

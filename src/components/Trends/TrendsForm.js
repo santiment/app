@@ -22,17 +22,17 @@ export class TrendsForm extends Component {
   }
 
   render () {
+    const { inputClassName, className } = this.props
     return (
-      <div className={this.props.className}>
-        <form onSubmit={this.handleSubmit}>
-          <Search
-            iconPosition='left'
-            placeholder='type any word or phrase'
-            value={this.state.topic}
-            onChange={this.handleChange}
-          />
-        </form>
-      </div>
+      <form onSubmit={this.handleSubmit} className={className}>
+        <Search
+          inputClassName={inputClassName}
+          iconPosition='left'
+          placeholder='Enter a search word or phrase'
+          value={this.state.topic}
+          onChange={this.handleChange}
+        />
+      </form>
     )
   }
 }
