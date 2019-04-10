@@ -2,7 +2,7 @@
 @import "~@santiment-network/ui/mixins.scss";
 
 .desktop {
-  @include responsive('phone') {
+  @include responsive('phone', 'phone-xs') {
     display: none;
   }
 }
@@ -10,7 +10,7 @@
 .mobile {
   display: none;
 
-  @include responsive('phone') {
+  @include responsive('phone', 'phone-xs') {
     display: inherit;
   }
 }
