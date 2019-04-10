@@ -9,8 +9,12 @@
   margin-bottom: 50px;
 }
 
+.section {
+  margin-top: 70px;
+}
+
 .subtitle {
-  font-family: Rubik;
+  font-family: Rubik, sans-serif;
   font-size: 22px;
   line-height: 30px;
   margin-bottom: 26px;
@@ -45,7 +49,7 @@
     right: 6px;
     height: 24px;
     background: linear-gradient(
-      0,
+      0deg,
       var(--white) 20%,
       rgba(255, 255, 255, 0) 100%
     );

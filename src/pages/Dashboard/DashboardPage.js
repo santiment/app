@@ -4,6 +4,7 @@ import { Panel, Label, Icon } from '@santiment-network/ui'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import InsightsFeatured from '../../components/Insight/InsightsFeatured'
 import TrendsTable from '../../components/Trends/TrendsTable/TrendsTable'
+import FeaturedWatchlists from '../../components/Watchlists/FeaturedWatchlist'
 import styles from './DashboardPage.module.scss'
 
 const More = ({ link }) => (
@@ -46,6 +47,9 @@ const DashboardPage = () => (
           </Panel>
         </div>
       </div>
+    </div>
+    <div className={styles.section}>
+      <FeaturedWatchlists />
     </div>
   </div>
 )
