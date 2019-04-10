@@ -28,7 +28,7 @@ const WatchlistCard = ({
         )}
       </div>
       <div className={styles.wrapper}>
-        {marketcap ? millify(marketcap) : '. . .'}
+        {marketcap ? `$ ${millify(marketcap)}` : '. . .'}
         <AreaChart
           width={150}
           height={50}
