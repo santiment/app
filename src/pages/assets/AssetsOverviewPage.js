@@ -8,6 +8,9 @@ import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
 import { top50Erc20Projects } from './../Projects/allProjectsGQL'
 import { mapItemsToKeys } from '../../utils/utils'
+import MobileHeader from './../../components/MobileHeader/MobileHeader'
+import DesktopOnly from './../../components/Responsive/DesktopOnly'
+import MobileOnly from './../../components/Responsive/MobileOnly'
 import styles from './AssetsOverview.module.scss'
 
 const categories = [
@@ -58,9 +61,14 @@ const publicWatchlists = [
 
 const AssetsOverview = props => (
   <div className='page'>
-    <h1>Assets overview</h1>
+    <DesktopOnly>
+      <h1>Assets overview</h1>
+    </DesktopOnly>
+    <MobileOnly>
+      <MobileHeader title='Assets overview' />
+    </MobileOnly>
     <h4>Categories</h4>
-    <div className={styles.flexRow}>
+    <div className={styles.row}>
       {[...categories, ...publicWatchlists].map(
         ({ name, assetType, ...rest }) => (
           <WatchlistCard
@@ -72,9 +80,11 @@ const AssetsOverview = props => (
         )
       )}
     </div>
-    <FeaturedWatchlist />
+    <div className={styles.row}>
+      <FeaturedWatchlist />
+    </div>
     <h4>My watchlists</h4>
-    <div className={styles.flexRow}>
+    <div className={styles.row}>
       <GetWatchlists
         render={({ isWatchlistsLoading, watchlists }) =>
           watchlists
@@ -96,7 +106,7 @@ const AssetsOverview = props => (
 
 const enhance = compose(
   graphql(top50Erc20Projects, {
-    props: ({ data: { loading, top50Erc20Projects } }) => ({
+    props: ({ data: { loading = true, top50Erc20Projects = [] } }) => ({
       isLoading: loading,
       slugs: {
         top50Erc20: loading ? [] : top50Erc20Projects.map(({ slug }) => slug)
