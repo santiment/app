@@ -158,10 +158,6 @@
     justify-content: center;
     margin-bottom: 15px;
     position: relative;
-
-    &_error:hover > .subscription__error {
-      display: block;
-    }
   }
 
   &__input {
@@ -171,11 +167,5 @@
 
   &__label {
     color: var(--casper);
-  }
-
-  &__error {
-    display: none;
-    position: absolute;
-    bottom: 130%;
   }
 }

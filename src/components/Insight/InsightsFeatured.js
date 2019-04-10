@@ -8,13 +8,7 @@ const InsightsTrends = ({ data: { insights = [] }, ...props }) => {
   return insights
     .sort(creationDateSort)
     .map(({ id, ...insight }) => (
-      <InsightCardSmall
-        key={id}
-        {...props}
-        id={id}
-        {...insight}
-        withAuthorPic={false}
-      />
+      <InsightCardSmall key={id} {...props} id={id} {...insight} />
     ))
 }
 
