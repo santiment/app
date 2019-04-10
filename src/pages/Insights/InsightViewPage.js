@@ -43,6 +43,7 @@ const InsightViewPage = ({
           className={styles.profile}
           name={<Link to={`/insights/users/${userId}`}>{username}</Link>}
           status={moment(createdAt).format('MMM D, YYYY')}
+          withPic
         />
       </div>
       <InsightEditorTitle defaultValue={title} readOnly />
@@ -58,6 +59,7 @@ const InsightViewPage = ({
       <div className={styles.bottom}>
         <div className={styles.left}>
           <ProfileInfo
+            withPic
             name={<Link to={`/insights/users/${userId}`}>{username}</Link>}
           />
         </div>

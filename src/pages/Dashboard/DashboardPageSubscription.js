@@ -106,13 +106,7 @@ class DashboardPageSubscription extends PureComponent {
           world of crypto
         </div>
 
-        <form
-          className={cx(
-            styles.subscription__form,
-            error && styles.subscription__form_error
-          )}
-          onSubmit={this.onSubmit}
-        >
+        <form className={cx(styles.subscription__form)}>
           <Input
             className={styles.subscription__input}
             placeholder='Write your email'
@@ -129,10 +123,6 @@ class DashboardPageSubscription extends PureComponent {
           >
             {waiting ? 'Waiting...' : 'Get started'}
           </Button>
-
-          <Panel padding className={styles.subscription__error}>
-            <Label accent='persimmon'>{error}</Label>
-          </Panel>
         </form>
         <Checkboxes
           options={[SUBSCRIPTION_LABEL]}
