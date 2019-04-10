@@ -59,15 +59,17 @@ export const connectedWordsOptimizationEpic = action$ =>
     .take(1)
     .switchMap(({ payload: { allAssets } }) => {
       const { length } = allAssets
-      const tempAssets = allAssets.slice()
-
-      for (let i = 0; i < length; i++) {
-        const { ticker, slug, name } = tempAssets[i]
-        const asset = tempAssets[i]
-        asset.ticker = ticker.toUpperCase()
-        asset.slug = slug.toUpperCase()
-        asset.name = name.toUpperCase()
-      }
+      const tempAssets =
+        length > 0
+          ? allAssets.map(asset => {
+            return {
+              ...asset,
+              ticker: asset.ticker.toUpperCase(),
+              slug: asset.slug.toUpperCase(),
+              name: asset.name.toUpperCase()
+            }
+          })
+          : []
 
       projectsSortedByTicker = tempAssets.slice()
       projectsSortedBySlug = tempAssets.slice()
