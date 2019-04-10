@@ -14,8 +14,6 @@ import { compose } from 'recompose'
 import nprogress from 'nprogress'
 import NotificationStack from './components/NotificationStack'
 import LoginPage from './pages/Login/LoginPage'
-import CashflowMobile from './pages/CashflowMobile'
-import CurrenciesMobile from './pages/CurrenciesMobile'
 import Roadmap from './pages/Roadmap'
 import Signals from './pages/Signals'
 import Account from './pages/Account/Account'
@@ -83,6 +81,11 @@ const LoadableAssetsOverviewPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableAssetsMobilePage = Loadable({
+  loader: () => import('./pages/assets/AssetsMobilePage'),
+  loading: () => <PageLoader />
+})
+
 class Route extends React.Component {
   componentWillMount () {
     nprogress.start()
@@ -147,26 +150,6 @@ export const App = ({
     )}
     <ErrorBoundary>
       <Switch>
-        <Route
-          exact
-          path='/projects'
-          render={props => {
-            if (isDesktop) {
-              return <Redirect to='/dashboard' />
-            }
-            return <CashflowMobile {...props} />
-          }}
-        />
-        <Route
-          exact
-          path='/currencies'
-          render={props => {
-            if (isDesktop) {
-              return <Redirect to='/assets/currencies' />
-            }
-            return <CurrenciesMobile {...props} />
-          }}
-        />
         {['currencies', 'erc20', 'all', 'list'].map(name => (
           <Route
             exact
@@ -184,7 +167,7 @@ export const App = ({
                   />
                 )
               }
-              return <Redirect to='/projects' />
+              return <LoadableAssetsMobilePage type={name} {...props} />
             }}
           />
         ))}
@@ -285,7 +268,7 @@ export const App = ({
           path='/login'
           render={props => <LoginPage isDesktop={isDesktop} {...props} />}
         />
-        <Redirect from='/' to='/projects' />
+        <Redirect from='/' to='/dashboard' />
       </Switch>
     </ErrorBoundary>
     <NotificationStack />
