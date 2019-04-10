@@ -4,6 +4,7 @@ import { Tabs, Button, Icon } from '@santiment-network/ui'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/PageLoader'
 import SignalMasterModalForm from '../../ducks/Signals/SignalMasterModalForm'
+import InsightUnAuthPage from './../../pages/Insights/InsightUnAuthPage'
 import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar/feed'
@@ -35,14 +36,7 @@ const tabs = [
   }
 ]
 
-const NewSignalBtn = ({ handleOpen }) => (
-  <Button onClick={handleOpen} className={styles.newSignal}>
-    <Icon type='plus-round' className={styles.newSignal__icon} />
-    New signal
-  </Button>
-)
-
-const SonarFeed = ({ location: { pathname } }) => {
+const SonarFeed = ({ location: { pathname }, isLoggedIn }) => {
   if (pathname === baseLocation) {
     return <Redirect exact from={baseLocation} to={tabs[0].index} />
   }
@@ -51,7 +45,6 @@ const SonarFeed = ({ location: { pathname } }) => {
     <div style={{ width: '100%' }} className='page'>
       <div className={styles.header}>
         <h1>Sonar</h1>
-        {/* <HelpTrendsAbout /> */}
         <div>
           {// TODO: Disable search and filter buttons
             false && pathname !== '/sonar/feed/activity' && (
@@ -60,9 +53,7 @@ const SonarFeed = ({ location: { pathname } }) => {
                 <Icon type='filter' className={styles.filter} />
               </Fragment>
             )}
-          <SignalMasterModalForm>
-            <NewSignalBtn />
-          </SignalMasterModalForm>
+          <SignalMasterModalForm />
         </div>
       </div>
       <Tabs
@@ -75,6 +66,7 @@ const SonarFeed = ({ location: { pathname } }) => {
         )}
       />
       <Switch>
+        {!isLoggedIn ? <InsightUnAuthPage /> : ''}
         {tabs.map(({ index, component }) => (
           <Route key={index} path={index} component={component} />
         ))}

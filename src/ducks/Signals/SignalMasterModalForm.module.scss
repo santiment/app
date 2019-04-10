@@ -1,12 +1,6 @@
 .newSignal {
-  background: var(--green) !important; // NOTE(vanguard): Delete after updating ui button green variant
-  color: var(--white) !important;
-  fill: var(--white) !important;
-
   &__icon {
     height: 18px;
     margin-right: 7px;
   }
 }
-
-

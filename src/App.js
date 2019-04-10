@@ -223,7 +223,16 @@ export const App = ({
             <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
           )}
         />
-        <Route path='/sonar/feed' component={LoadableSonarFeedPage} />
+        <Route
+          path='/sonar/feed'
+          render={props => (
+            <LoadableSonarFeedPage
+              isDesktop={isDesktop}
+              isLoggedIn={isLoggedIn}
+              {...props}
+            />
+          )}
+        />
         <Route exact path='/sonar/master' component={SignalFormPage} />
         <Route
           exact
