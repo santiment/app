@@ -3,6 +3,7 @@ import { Link, Route, Switch } from 'react-router-dom'
 import { Tabs, Button, Icon } from '@santiment-network/ui'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/PageLoader'
+import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import Select from '../../components/Select/Select'
 import { SortReducer } from './utils'
 import styles from './InsightsPage.module.scss'
@@ -67,30 +68,49 @@ class InsightsPage extends Component {
   render () {
     const { sort } = this.state
     const {
-      location: { pathname }
+      location: { pathname },
+      isDesktop
     } = this.props
 
     const sortReducer = SortReducer[sort]
+    const rightActionFilter = (
+      <Select // TODO(vanguard): change to the san-ui dropdown select
+        className={styles.sort}
+        options={sortOptions}
+        value={{ value: sort }}
+        valueKey='value'
+        labelKey='value'
+        onChange={this.onSortChange}
+        {...selectOptions}
+      />
+    )
+    const newInsightBtn = (
+      <Button
+        accent='positive'
+        variant='fill'
+        className={styles.newSignal}
+        as={Link}
+        to='/insights/new'
+      >
+        <Icon type='plus-round' className={styles.newSignal__icon} />
+        Write insight
+      </Button>
+    )
+
     return (
       <div>
         <div className={styles.header}>
-          <h1>Insights</h1>
-          {/* <HelpTrendsAbout /> */}
-          <div className={styles.header__right}>
-            <Select // TODO(vanguard): change to the san-ui dropdown select
-              className={styles.sort}
-              options={sortOptions}
-              value={{ value: sort }}
-              valueKey='value'
-              labelKey='value'
-              onChange={this.onSortChange}
-              {...selectOptions}
-            />
-            <Button className={styles.newSignal} as={Link} to='/insights/new'>
-              <Icon type='plus-round' className={styles.newSignal__icon} />
-              New insight
-            </Button>
-          </div>
+          {isDesktop ? (
+            <h1>Insights</h1>
+          ) : (
+            <MobileHeader rightActions={rightActionFilter} title='Insights' />
+          )}
+          {isDesktop && (
+            <div className={styles.header__right}>
+              {rightActionFilter}
+              {newInsightBtn}
+            </div>
+          )}
         </div>
         <Tabs
           options={tabs}
@@ -103,36 +123,39 @@ class InsightsPage extends Component {
             <Link {...props} to={selectionIndex} />
           )}
         />
-        <Switch>
-          {feedRoutes.map((path, index) => (
+        <div className={styles.mainSection}>
+          {!isDesktop && newInsightBtn}
+          <Switch>
+            {feedRoutes.map((path, index) => (
+              <Route
+                exact
+                key={index}
+                path={path}
+                render={props => (
+                  <LoadableInsightsFeedPage
+                    sortReducer={sortReducer}
+                    {...props}
+                  />
+                )}
+              />
+            ))}
             <Route
               exact
-              key={index}
-              path={path}
+              path={baseLocation}
               render={props => (
-                <LoadableInsightsFeedPage
+                <LoadableInsightsAllFeedPage
                   sortReducer={sortReducer}
                   {...props}
                 />
               )}
             />
-          ))}
-          <Route
-            exact
-            path={baseLocation}
-            render={props => (
-              <LoadableInsightsAllFeedPage
-                sortReducer={sortReducer}
-                {...props}
-              />
-            )}
-          />
-          <Route
-            exact
-            path={`${baseLocation}/my/drafts`}
-            component={LoadableInsightsDraftPage}
-          />
-        </Switch>
+            <Route
+              exact
+              path={`${baseLocation}/my/drafts`}
+              component={LoadableInsightsDraftPage}
+            />
+          </Switch>
+        </div>
       </div>
     )
   }

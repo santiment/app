@@ -1,7 +1,3 @@
-// Should be commented out because it breaks our UI Framework styles.
-// import 'semantic-ui-css/semantic.min.css'
-
-// import 'font-awesome/css/font-awesome.css'
 // import './Welcome.js'
 // import './ProjectChartStory.js'
 // import './StandardsStory.js'
@@ -31,3 +27,5 @@ import './SignalMasterStory'
 import './SignalCardStory'
 import './SonarFeedPageStory'
 import './ProjectLabelStory'
+import './AssetsMobileStory'
+import './MobileHeaderStory'

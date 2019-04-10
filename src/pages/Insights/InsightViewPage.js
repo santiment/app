@@ -11,6 +11,7 @@ import ProfileInfo from '../../components/Insight/ProfileInfo'
 import Editor from '../../components/Editor/Editor'
 import WithLikesMutation from '../../components/Like/WithLikesMutation'
 import LikeBtn from '../../components/Like/LikeBtn'
+import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import { getInsightContent } from './utils'
 import styles from './InsightViewPage.module.scss'
@@ -23,7 +24,8 @@ const InsightViewPage = ({
   tags,
   createdAt,
   votedAt,
-  votes: { totalVotes }
+  votes: { totalVotes },
+  isDesktop
 }) => {
   return (
     <Fragment>
@@ -38,43 +40,46 @@ const InsightViewPage = ({
           content={getInsightContent(text).slice(0, 140)}
         />
       </Helmet>
-      <div className={styles.top}>
-        <ProfileInfo
-          className={styles.profile}
-          name={<Link to={`/insights/users/${userId}`}>{username}</Link>}
-          status={moment(createdAt).format('MMM D, YYYY')}
-          withPic
-        />
-      </div>
-      <InsightEditorTitle defaultValue={title} readOnly />
-      <InsightViewPageImageModalWrapper>
-        <Editor
-          readOnly
-          defaultEditorContent={convertToRaw(mediumDraftImporter(text))}
-        />
-      </InsightViewPageImageModalWrapper>
-      <div className={styles.tags}>
-        <InsightTags tags={tags} />
-      </div>
-      <div className={styles.bottom}>
-        <div className={styles.left}>
+      {!isDesktop && (
+        <MobileHeader title='All Insights' backRoute='/insights' />
+      )}
+      <div className={styles.wrapper}>
+        <div className={styles.top}>
           <ProfileInfo
-            withPic
+            className={styles.profile}
             name={<Link to={`/insights/users/${userId}`}>{username}</Link>}
+            status={moment(createdAt).format('MMM D, YYYY')}
           />
         </div>
-        <div className={styles.right}>
-          <WithLikesMutation>
-            {mutateInsightById => (
-              <LikeBtn
-                likesNumber={totalVotes}
-                liked={!!votedAt}
-                onClick={mutateInsightById(id)}
-                className={styles.like}
-              />
-            )}
-          </WithLikesMutation>
-          <ShareModalTrigger asIcon shareLink={window.location.href} />
+        <InsightEditorTitle defaultValue={title} readOnly />
+        <InsightViewPageImageModalWrapper>
+          <Editor
+            readOnly
+            defaultEditorContent={convertToRaw(mediumDraftImporter(text))}
+          />
+        </InsightViewPageImageModalWrapper>
+        <div className={styles.tags}>
+          <InsightTags tags={tags} />
+        </div>
+        <div className={styles.bottom}>
+          <div className={styles.left}>
+            <ProfileInfo
+              name={<Link to={`/insights/users/${userId}`}>{username}</Link>}
+            />
+          </div>
+          <div className={styles.right}>
+            <WithLikesMutation>
+              {mutateInsightById => (
+                <LikeBtn
+                  likesNumber={totalVotes}
+                  liked={!!votedAt}
+                  onClick={mutateInsightById(id)}
+                  className={styles.like}
+                />
+              )}
+            </WithLikesMutation>
+            <ShareModalTrigger asIcon shareLink={window.location.href} />
+          </div>
         </div>
       </div>
     </Fragment>

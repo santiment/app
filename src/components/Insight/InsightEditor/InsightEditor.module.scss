@@ -1,15 +1,16 @@
+@import 'variables.scss';
 @import '../../../mixins.scss';
 
 .wrapper {
-  position: relative;
-  padding-bottom: 80px;
+  padding: 0 16px;
+  margin-bottom: 24px;
 }
 
 .title {
   font-weight: 800;
   line-height: 50px;
   font-size: 38px;
-  color: var(--black);
+  color: var(--mirage);
   background: var(--white) !important;
   display: block;
   width: 100%;
@@ -20,7 +21,7 @@
   margin-bottom: 14px;
 
   &::placeholder {
-    color: var(--grey-dark);
+    color: var(--casper);
   }
 
   @include responsive('phone-xs') {
@@ -44,13 +45,13 @@
   z-index: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 50px;
   height: 50px;
-  border-top: 1px solid var(--grey-light-2);
+  border-top: 1px solid var(--porcelain);
   background: var(--white);
 
   &__left {
-    color: var(--grey-dark-2);
+    color: var(--waterloo);
     display: flex;
     align-items: center;
   }
@@ -62,7 +63,7 @@
 }
 
 .save {
-  color: var(--grey-dark);
+  color: var(--casper);
 
   @include responsive('phone-xs') {
     display: none;
@@ -75,12 +76,12 @@
 
 .publishBtn {
   margin-left: 18px;
-  border-color: var(--green);
-  color: var(--green);
+  border-color: var(--jungle-green);
+  color: var(--jungle-green);
 
   &[disabled] {
-    border-color: var(--grey-light-3);
-    color: var(--grey-light-3);
+    border-color: var(--mystic);
+    color: var(--mystic);
   }
 }
 
@@ -95,4 +96,17 @@
 .tags {
   min-width: 200px;
   margin-right: 13px;
+}
+
+@media (min-width: $breakpoint-desktop) {
+  .wrapper {
+    position: relative;
+    padding: 0;
+    padding-bottom: 80px;
+    margin-bottom: 0;
+  }
+
+  .bottom {
+    bottom: 0;
+  }
 }
