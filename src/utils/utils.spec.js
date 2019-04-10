@@ -533,19 +533,19 @@ describe('mapItemsToKeys', () => {
 
 describe('calcPercentageChange', () => {
   it('Calc percentage for 8.5 on 12', () => {
-    const change = 41.18
+    const change = '41.18'
     const expected = calcPercentageChange(8.5, 12)
     expect(expected).toEqual(change)
   })
 
   it('Calc percentage for 12 on 10', () => {
-    const change = -16.67
+    const change = '-16.67'
     const expected = calcPercentageChange(12, 10)
     expect(expected).toEqual(change)
   })
 
   it('Calc percentage for 13 on -2', () => {
-    const change = -115.38
+    const change = '-115.38'
     const expected = calcPercentageChange(13, -2)
     expect(expected).toEqual(change)
   })
