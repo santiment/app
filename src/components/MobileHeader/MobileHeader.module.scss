@@ -1,0 +1,33 @@
+.wrapper {
+  background: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.left,
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.left {
+  padding: 16px;
+}
+
+.title {
+  font-family: Rubik, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 26px !important;
+  color: var(--mirage);
+  margin: 0 !important;
+}
+
+.searchBtn {
+  padding-right: 16px;
+}
+
+.isTitleLink {
+  margin: 0 0 0 17px !important;
+}

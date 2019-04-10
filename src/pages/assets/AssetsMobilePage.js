@@ -1,13 +1,16 @@
 import React from 'react'
 import cx from 'classnames'
 import { List, AutoSizer } from 'react-virtualized'
+import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import Assets from './Assets'
 import AssetCard from './AssetCard'
+import { getTableTitle } from './utils'
 import styles from './AssetsMobilePage.module.scss'
 
 const AssetsMobilePage = props => {
   return (
     <div className={cx('page', styles.wrapper)}>
+      <MobileHeader title={getTableTitle(props)} backRoute='/assets' />
       <Assets
         {...props}
         type={props.type}
