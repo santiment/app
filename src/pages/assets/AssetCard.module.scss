@@ -16,7 +16,6 @@
 
 .name {
   display: flex;
-  width: 120px;
   flex-direction: column;
   margin-left: 1rem;
 }
@@ -31,7 +30,11 @@
 }
 
 .icon {
-  width: 40px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 5px;
 }
 
 .right {
