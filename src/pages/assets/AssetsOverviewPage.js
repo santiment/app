@@ -6,24 +6,25 @@ import FeaturedWatchlist from '../../components/Watchlists/FeaturedWatchlist'
 import { publicWatchlistGQL } from './../../components/WatchlistPopup/WatchlistGQL'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
-import { allSlugsForAssetTypesGQL } from './../Projects/allProjectsGQL'
+import { top50Erc20Projects } from './../Projects/allProjectsGQL'
 import { mapItemsToKeys } from '../../utils/utils'
 import styles from './AssetsOverview.module.scss'
 
 const categories = [
   {
     name: 'All assets',
-    link: '/assets/all',
+    to: '/assets/all',
+    slug: 'TOTAL_MARKET',
     assetType: 'all'
   },
   {
     name: 'ERC20',
-    link: '/assets/erc20',
+    to: '/assets/erc20',
     assetType: 'erc20'
   },
   {
     name: 'Top 50 ERC20',
-    link: '/assets/list?name=top%2050%20erc20%40227#shared',
+    to: '/assets/list?name=top%2050%20erc20%40227#shared',
     assetType: 'top50Erc20'
   }
 ]
@@ -32,25 +33,25 @@ const publicWatchlists = [
   {
     name: 'Stablecoins',
     assetType: 'stablecoins',
-    link: '/assets/list?name=stablecoins@86#shared',
+    to: '/assets/list?name=stablecoins@86#shared',
     id: '86'
   },
   {
     name: 'US-Based Projects',
     assetType: 'usa',
-    link: '/assets/list?name=usa@138#shared',
+    to: '/assets/list?name=usa@138#shared',
     id: '138'
   },
   {
     name: 'Decentralized Exchanges',
     assetType: 'dex',
-    link: '/assets/list?name=dex@127#shared',
+    to: '/assets/list?name=dex@127#shared',
     id: '127'
   },
   {
     name: 'Centralized Exchanges',
     assetType: 'centralized exchanges',
-    link: '/assets/list?name=centralized%20exchanges@272#shared',
+    to: '/assets/list?name=centralized%20exchanges@272#shared',
     id: '272'
   }
 ]
@@ -60,15 +61,16 @@ const AssetsOverview = props => (
     <h1>Assets overview</h1>
     <h4>Categories</h4>
     <div className={styles.flexRow}>
-      {[...categories, ...publicWatchlists].map(({ name, assetType, link }) => (
-        <WatchlistCard
-          key={name}
-          name={name}
-          change={-1.22}
-          to={link}
-          slugs={props.slugs[assetType] || []}
-        />
-      ))}
+      {[...categories, ...publicWatchlists].map(
+        ({ name, assetType, ...rest }) => (
+          <WatchlistCard
+            key={name}
+            name={name}
+            slugs={props.slugs[assetType] || []}
+            {...rest}
+          />
+        )
+      )}
     </div>
     <FeaturedWatchlist />
     <h4>My watchlists</h4>
@@ -80,7 +82,6 @@ const AssetsOverview = props => (
             .map(watchlist => (
               <WatchlistCard
                 key={watchlist.id}
-                change={1.22}
                 name={watchlist.name}
                 to={getWatchlistLink(watchlist)}
                 isPublic={watchlist.isPublic}
@@ -94,15 +95,11 @@ const AssetsOverview = props => (
 )
 
 const enhance = compose(
-  graphql(allSlugsForAssetTypesGQL, {
-    props: ({ data }) => ({
-      isLoading: data.loading,
+  graphql(top50Erc20Projects, {
+    props: ({ data: { loading, top50Erc20Projects } }) => ({
+      isLoading: loading,
       slugs: {
-        all: data.loading ? [] : data.allProjects.map(({ slug }) => slug),
-        erc20: data.loading ? [] : data.erc20Projects.map(({ slug }) => slug),
-        top50Erc20: data.loading
-          ? []
-          : data.top50Erc20Projects.map(({ slug }) => slug)
+        top50Erc20: loading ? [] : top50Erc20Projects.map(({ slug }) => slug)
       }
     })
   }),

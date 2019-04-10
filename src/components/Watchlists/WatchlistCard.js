@@ -1,4 +1,5 @@
 import React from 'react'
+import { compose } from 'redux'
 import { AreaChart, Area } from 'recharts'
 import { Icon } from '@santiment-network/ui'
 import cx from 'classnames'
@@ -6,7 +7,10 @@ import { graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import PercentChanges from '../PercentChanges'
-import { projectsListHistoryStatsGQL } from '../TotalMarketcapWidget/TotalMarketcapGQL'
+import {
+  projectsListHistoryStatsGQL,
+  totalMarketcapGQL
+} from '../TotalMarketcapWidget/TotalMarketcapGQL'
 import { getTimeIntervalFromToday, MONTH } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
@@ -63,21 +67,39 @@ WatchlistCard.propTypes = {
 }
 
 WatchlistCard.defaultProps = {
-  to: '#'
+  to: '#',
+  stats: []
 }
 
-const enhance = graphql(projectsListHistoryStatsGQL, {
-  options: ({ slugs = [] }) => ({
-    variables: {
-      slugs,
-      ...getTimeIntervalFromToday(-1, MONTH)
-    }
+const enhance = compose(
+  graphql(projectsListHistoryStatsGQL, {
+    options: ({ slugs = [] }) => ({
+      variables: {
+        slugs,
+        ...getTimeIntervalFromToday(-1, MONTH)
+      }
+    }),
+    skip: ({ slugs }) => !slugs.length,
+    props: ({ data: { projectsListHistoryStats = [], loading, error } }) => ({
+      stats: projectsListHistoryStats,
+      isLoading: loading,
+      isError: error
+    })
   }),
-  props: ({ data: { projectsListHistoryStats = [], loading, error } }) => ({
-    stats: projectsListHistoryStats,
-    isLoading: loading,
-    isError: error
+  graphql(totalMarketcapGQL, {
+    options: ({ slug }) => ({
+      variables: {
+        slug,
+        ...getTimeIntervalFromToday(-1, MONTH)
+      }
+    }),
+    skip: ({ slug }) => !slug,
+    props: ({ data: { historyPrice = [], loading, error } }) => ({
+      stats: historyPrice,
+      isLoading: loading,
+      isError: error
+    })
   })
-})
+)
 
 export default enhance(WatchlistCard)
