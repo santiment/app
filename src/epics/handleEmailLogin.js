@@ -65,11 +65,7 @@ export const handleLoginSuccess = (action$, store, { client }) =>
   action$
     .ofType(actions.USER_LOGIN_SUCCESS)
     .mergeMap(action => {
-      const {
-        token,
-        consent,
-        user: { email }
-      } = action
+      const { token, consent } = action
 
       const hasSubscribed = localStorage.getItem(SUBSCRIPTION_FLAG)
 
@@ -84,7 +80,8 @@ export const handleLoginSuccess = (action$, store, { client }) =>
           ? Observable.of(replace(`/consent?consent=${consent}&token=${token}`))
           : Observable.empty()
       ).map(() =>
-        // NOTE(@vanguard): Delaying mutation because there is possible bug that appolo store have not updated it's store and query will fail
+        // NOTE(@vanguard): Delaying mutation because there is possible bug
+        // that appolo store has not updated and will consider user unathorized = mutation will fail
         Observable.timer(2000).subscribe(() =>
           hasSubscribed
             ? client.mutate({
