@@ -7,6 +7,7 @@ import {
 } from './InsightsGQL'
 import * as actions from './actions'
 import { getInsightTrendTagByDate } from '../../components/Insight/InsightsTrends'
+import { completeOnboardingTask } from '../../pages/Dashboard/utils'
 
 const createDraft$ = ({ title, text, tags }, client) => {
   return Observable.from(
@@ -71,6 +72,7 @@ export const insightDraftPublishEpic = (action$, store, { client }) =>
       })
     )
       .switchMap(() => {
+        completeOnboardingTask('insight')
         return Observable.of({
           type: actions.INSIGHT_DRAFT_PUBLISH_SUCCESS
         })

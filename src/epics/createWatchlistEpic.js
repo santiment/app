@@ -4,6 +4,7 @@ import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
 import { WatchlistGQL } from './../components/WatchlistPopup/WatchlistGQL'
 import * as actions from './../actions/types'
+import { completeOnboardingTask } from '../pages/Dashboard/utils'
 
 const createUserListGQL = gql`
   mutation createUserList(
@@ -66,6 +67,7 @@ const createWatchlistEpic = (action$, store, { client }) =>
       })
       return Observable.from(mutationPromise)
         .mergeMap(({ data }) => {
+          completeOnboardingTask('watchlist')
           return Observable.merge(
             Observable.of({
               type: actions.USER_ADD_NEW_ASSET_LIST_SUCCESS
