@@ -10,7 +10,7 @@
     padding: 20px 24px;
     margin-bottom: 50px;
     background-color: $mirage;
-    background-image: url(./test.svg);
+    background-image: url(./waves.svg);
     background-repeat: no-repeat;
     background-position: 107% 57%;
     background-size: 52%;
@@ -52,7 +52,7 @@
   }
 
   &__text {
-    width: 235px;
+    max-width: 235px;
   }
 }
 
@@ -157,6 +157,11 @@
     display: flex;
     justify-content: center;
     margin-bottom: 15px;
+    position: relative;
+
+    &_error:hover > .subscription__error {
+      display: block;
+    }
   }
 
   &__input {
@@ -166,5 +171,11 @@
 
   &__label {
     color: var(--casper);
+  }
+
+  &__error {
+    display: none;
+    position: absolute;
+    bottom: 130%;
   }
 }
