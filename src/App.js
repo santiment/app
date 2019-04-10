@@ -222,7 +222,11 @@ export const App = ({
           exact
           path='/dashboard'
           render={props => (
-            <LoadableDashboardPage isDesktop={isDesktop} {...props} />
+            <LoadableDashboardPage
+              isDesktop={isDesktop}
+              isLoggedIn={isLoggedIn}
+              {...props}
+            />
           )}
         />
         <Route path='/logout' component={LogoutPage} />
