@@ -7,18 +7,16 @@ import PropTypes from 'prop-types'
 import PercentChanges from '../PercentChanges'
 import { projectsListHistoryStatsGQL } from '../TotalMarketcapWidget/TotalMarketcapGQL'
 import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
+import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
 import styles from './WatchlistCard.module.scss'
 
-const WatchlistCard = ({
-  name,
-  change,
-  isPublic,
-  stats,
-  isError,
-  isLoading
-}) => {
-  const { marketcap } = stats.slice(-1)[0] || {}
+const WatchlistCard = ({ name, isPublic, stats, isError, isLoading }) => {
+  const { marketcap: latestMarketcap } = stats.slice(-1)[0] || {}
+  const { marketcap } = stats.slice(0, 1)[0] || {}
+  const change = marketcap
+    ? calcPercentageChange(marketcap, latestMarketcap)
+    : 0
 
   return (
     <div className={styles.wrapper}>
@@ -29,8 +27,10 @@ const WatchlistCard = ({
         )}
       </div>
       <div className={cx(styles.flexRow, styles.content)}>
-        {marketcap ? (
-          <h3 className={styles.marketcap}>$&nbsp;{millify(marketcap)}</h3>
+        {latestMarketcap ? (
+          <h3 className={styles.marketcap}>
+            $&nbsp;{millify(latestMarketcap)}
+          </h3>
         ) : (
           '. . .'
         )}
