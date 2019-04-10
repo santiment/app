@@ -46,12 +46,6 @@ const LoadableDetailedPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableInsights = Loadable({
-  loader: () => import('./pages/Insights/'),
-  render: (loaded, props) => <loaded.default {...props} />,
-  loading: () => <PageLoader />
-})
-
 const LoadableDashboardPage = Loadable({
   loader: () => import('./pages/Dashboard/DashboardPage'),
   loading: () => <PageLoader />
@@ -84,6 +78,11 @@ const LoadableAssetsMobilePage = Loadable({
 
 const LoadableSearchMobilePage = Loadable({
   loader: () => import('./pages/SearchMobilePage/SearchMobilePage'),
+  loading: () => <PageLoader />
+})
+
+const LoadableInsights = Loadable({
+  loader: () => import('./pages/Insights/'),
   loading: () => <PageLoader />
 })
 
@@ -194,17 +193,13 @@ export const App = ({
         />
         <Route
           path='/insights'
-          component={Loadable({
-            loader: () => import('./pages/Insights/'),
-            render: (loaded, props) => (
-              <loaded.default
-                isDesktop={isDesktop}
-                isLoggedIn={isLoggedIn}
-                {...props}
-              />
-            ),
-            loading: () => <PageLoader />
-          })}
+          render={props => (
+            <LoadableInsights
+              isDesktop={isDesktop}
+              isLoggedIn={isLoggedIn}
+              {...props}
+            />
+          )}
         />
         <Route
           exact
