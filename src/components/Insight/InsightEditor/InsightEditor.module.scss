@@ -1,8 +1,9 @@
+@import 'variables.scss';
 @import '../../../mixins.scss';
 
 .wrapper {
-  position: relative;
-  padding-bottom: 80px;
+  padding: 0 16px;
+  margin-bottom: 24px;
 }
 
 .title {
@@ -95,4 +96,17 @@
 .tags {
   min-width: 200px;
   margin-right: 13px;
+}
+
+@media (min-width: $breakpoint-desktop) {
+  .wrapper {
+    position: relative;
+    padding: 0;
+    padding-bottom: 80px;
+    margin-bottom: 0;
+  }
+
+  .bottom {
+    bottom: 0;
+  }
 }

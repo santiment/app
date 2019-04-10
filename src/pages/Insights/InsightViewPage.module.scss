@@ -1,9 +1,15 @@
+@import 'variables.scss';
 @import "../../mixins.scss";
 
 .wrapper {
-  @include responsive('phone-xs') {
-    padding: 0 16px;
-    margin-bottom: 24px;
+  padding: 0 16px;
+  margin-bottom: 24px;
+}
+
+@media (min-width: $breakpoint-desktop) {
+  .wrapper {
+    padding: 0;
+    margin-bottom: 0;
   }
 }
 
