@@ -321,10 +321,31 @@ const mapItemsToKeys = (items, { keyPath, getKeyPath }) =>
     {}
   )
 
+/**
+ * Function to calculate the percentage change between two numbers.
+ * @param {number} originalValue Original number
+ * @param {number} newValue New number
+ *
+ * @example
+ * // Calc percentage change for originalValue: 12 & newValue: 10
+ * calcPercentageChange(12, 10)
+ * //=> -17.67
+ */
+const calcPercentageChange = (originalValue, newValue) => {
+  if (originalValue === 0) {
+    throw new Error(
+      "Can't calculate percentage change when original value if 0"
+    )
+  }
+
+  return Math.round(((newValue - originalValue) / originalValue) * 10000) / 100
+}
+
 export {
   findIndexByDatetime,
   calculateBTCVolume,
   calculateBTCMarketcap,
+  calcPercentageChange,
   getOrigin,
   getAPIUrl,
   getConsentUrl,

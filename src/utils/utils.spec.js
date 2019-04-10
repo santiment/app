@@ -9,7 +9,8 @@ import {
   getEscapedGQLFieldAlias,
   getTimeRangeByDuration,
   isEthStrictAddress,
-  mapItemsToKeys
+  mapItemsToKeys,
+  calcPercentageChange
 } from './utils'
 
 const labels = [
@@ -527,5 +528,33 @@ describe('mapItemsToKeys', () => {
 
     const expected = mapItemsToKeys(items, { getKeyPath: item => item.name })
     expect(expected).toEqual(goodItems)
+  })
+})
+
+describe('calcPercentageChange', () => {
+  it('Calc percentage for 8.5 on 12', () => {
+    const change = 41.18
+    const expected = calcPercentageChange(8.5, 12)
+    expect(expected).toEqual(change)
+  })
+
+  it('Calc percentage for 12 on 10', () => {
+    const change = -16.67
+    const expected = calcPercentageChange(12, 10)
+    expect(expected).toEqual(change)
+  })
+
+  it('Calc percentage for 13 on -2', () => {
+    const change = -115.38
+    const expected = calcPercentageChange(13, -2)
+    expect(expected).toEqual(change)
+  })
+
+  it('Should throw error', () => {
+    const error = new Error(
+      "Can't calculate percentage change when original value if 0"
+    )
+
+    expect(calcPercentageChange.bind(null, 0, -2)).toThrow(error)
   })
 })
