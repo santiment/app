@@ -5,6 +5,7 @@ import WatchlistCard from '../../components/Watchlists/WatchlistCard'
 import FeaturedWatchlist from '../../components/Watchlists/FeaturedWatchlist'
 import { publicWatchlistGQL } from './../../components/WatchlistPopup/WatchlistGQL'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
+import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
 import { allSlugsForAssetTypesGQL } from './../Projects/allProjectsGQL'
 import { mapItemsToKeys } from '../../utils/utils'
 import styles from './AssetsOverview.module.scss'
@@ -12,14 +13,17 @@ import styles from './AssetsOverview.module.scss'
 const categories = [
   {
     name: 'All assets',
+    link: '/assets/all',
     assetType: 'all'
   },
   {
     name: 'ERC20',
+    link: '/assets/erc20',
     assetType: 'erc20'
   },
   {
     name: 'Top 50 ERC20',
+    link: '/assets/list?name=top%2050%20erc20%40227#shared',
     assetType: 'top50Erc20'
   }
 ]
@@ -28,21 +32,25 @@ const publicWatchlists = [
   {
     name: 'Stablecoins',
     assetType: 'stablecoins',
+    link: '/assets/list?name=stablecoins@86#shared',
     id: '86'
   },
   {
     name: 'US-Based Projects',
     assetType: 'usa',
+    link: '/assets/list?name=usa@138#shared',
     id: '138'
   },
   {
     name: 'Decentralized Exchanges',
     assetType: 'dex',
+    link: '/assets/list?name=dex@127#shared',
     id: '127'
   },
   {
     name: 'Centralized Exchanges',
     assetType: 'centralized exchanges',
+    link: '/assets/list?name=centralized%20exchanges@272#shared',
     id: '272'
   }
 ]
@@ -52,11 +60,12 @@ const AssetsOverview = props => (
     <h1>Assets overview</h1>
     <h4>Categories</h4>
     <div className={styles.flexRow}>
-      {[...categories, ...publicWatchlists].map(({ name, assetType }) => (
+      {[...categories, ...publicWatchlists].map(({ name, assetType, link }) => (
         <WatchlistCard
           key={name}
           name={name}
           change={-1.22}
+          to={link}
           slugs={props.slugs[assetType] || []}
         />
       ))}
@@ -73,6 +82,7 @@ const AssetsOverview = props => (
                 key={watchlist.id}
                 change={1.22}
                 name={watchlist.name}
+                to={getWatchlistLink(watchlist)}
                 isPublic={watchlist.isPublic}
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
               />
