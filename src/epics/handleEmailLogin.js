@@ -49,16 +49,52 @@ const emailChangeVerifyGQL = gql`
   }
 `
 
+const SUBSCRIPTION_FLAG = 'hasToggledSubscription'
+
+const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
+  mutation changeNewsletterSubscription(
+    $subscription: NewsletterSubscriptionType
+  ) {
+    changeNewsletterSubscription(newsletterSubscription: $subscription) {
+      newsletterSubscription
+    }
+  }
+`
+
 export const handleLoginSuccess = (action$, store, { client }) =>
   action$
     .ofType(actions.USER_LOGIN_SUCCESS)
     .mergeMap(action => {
-      const { token, consent } = action
+      const {
+        token,
+        consent,
+        user: { email }
+      } = action
+
+      const hasSubscribed = localStorage.getItem(SUBSCRIPTION_FLAG)
+
+      if (hasSubscribed) {
+        localStorage.removeItem(SUBSCRIPTION_FLAG)
+      }
+
       return Observable.merge(
         Observable.of(showNotification('You are logged in!')),
+
         consent
           ? Observable.of(replace(`/consent?consent=${consent}&token=${token}`))
           : Observable.empty()
+      ).map(() =>
+        // NOTE(@vanguard): Delaying mutation because there is possible bug that appolo store have not updated it's store and query will fail
+        Observable.timer(2000).subscribe(() =>
+          hasSubscribed
+            ? client.mutate({
+              mutation: NEWSLETTER_SUBSCRIPTION_MUTATION,
+              variables: {
+                subscription: 'WEEKLY'
+              }
+            })
+            : undefined
+        )
       )
     })
     .catch(error => {
