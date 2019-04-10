@@ -33,4 +33,8 @@ const SearchProjects = ({ data: { allProjects = [] }, ...props }) => {
   )
 }
 
-export default graphql(allProjectsForSearchGQL)(SearchProjects)
+export default graphql(allProjectsForSearchGQL, {
+  options: () => ({
+    context: { isRetriable: true }
+  })
+})(SearchProjects)
