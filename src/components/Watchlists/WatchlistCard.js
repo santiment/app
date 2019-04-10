@@ -1,6 +1,7 @@
 import React from 'react'
 import { AreaChart, Area } from 'recharts'
 import { Icon } from '@santiment-network/ui'
+import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import PercentChanges from '../PercentChanges'
@@ -20,21 +21,20 @@ const WatchlistCard = ({
   const { marketcap } = stats.slice(-1)[0] || {}
 
   return (
-    <div className={styles.mainWrapper}>
-      <div className={styles.wrapper}>
-        <div>{name}</div>
+    <div className={styles.wrapper}>
+      <div className={cx(styles.flexRow, styles.content, styles.name)}>
+        {name}
         {typeof isPublic !== 'undefined' && (
           <Icon type={isPublic ? 'eye' : 'lock-small'} fill='var(--casper)' />
         )}
       </div>
-      <div className={styles.wrapper}>
-        {marketcap ? `$ ${millify(marketcap)}` : '. . .'}
-        <AreaChart
-          width={150}
-          height={50}
-          data={stats}
-          margin={{ top: 5, right: 20, left: 20, bottom: 5 }}
-        >
+      <div className={cx(styles.flexRow, styles.content)}>
+        {marketcap ? (
+          <h3 className={styles.marketcap}>$&nbsp;{millify(marketcap)}</h3>
+        ) : (
+          '. . .'
+        )}
+        <AreaChart width={65} height={30} data={stats}>
           <Area
             type='monotone'
             dataKey='marketcap'
@@ -45,9 +45,9 @@ const WatchlistCard = ({
           />
         </AreaChart>
       </div>
-      <div className={styles.volume}>
-        <PercentChanges changes={change} />
-        &nbsp;<span className={styles.volumeLabel}> total cap, 7d </span>
+      <div className={styles.flexRow}>
+        <PercentChanges changes={change} className={styles.change} />
+        &nbsp;&nbsp;<span className={styles.volumeLabel}> total cap, 7d </span>
       </div>
     </div>
   )
