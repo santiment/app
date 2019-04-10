@@ -7,13 +7,14 @@
 
   width: 22%;
   margin: 12px 24px 12px 0;
-  border: 1px solid #e7eaf3;
+  border: 1px solid var(--porcelain);
   transition: 0.3s;
   border-radius: $border-radius;
   display: inline-block;
   padding: 16px 20px;
   position: relative;
   overflow: hidden;
+  color: var(--shark);
 
   &:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
@@ -39,7 +40,7 @@
 }
 
 .volumeLabel {
-  color: #7a859e;
+  color: var(--waterloo);
   margin-left: 5px;
 }
 

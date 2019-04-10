@@ -338,7 +338,7 @@ const calcPercentageChange = (originalValue, newValue) => {
     )
   }
 
-  return Math.round(((newValue - originalValue) / originalValue) * 10000) / 100
+  return (((newValue - originalValue) / originalValue) * 100).toFixed(2)
 }
 
 export {

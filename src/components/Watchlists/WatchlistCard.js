@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import PercentChanges from '../PercentChanges'
 import { projectsListHistoryStatsGQL } from '../TotalMarketcapWidget/TotalMarketcapGQL'
-import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
+import { getTimeIntervalFromToday, MONTH } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
 import styles from './WatchlistCard.module.scss'
@@ -23,7 +23,7 @@ const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
     <Link to={to} className={styles.wrapper}>
       <div className={cx(styles.flexRow, styles.content, styles.name)}>
         {name}
-        {typeof isPublic !== 'undefined' && (
+        {isPublic !== undefined && (
           <Icon type={isPublic ? 'eye' : 'lock-small'} fill='var(--casper)' />
         )}
       </div>
@@ -70,7 +70,7 @@ const enhance = graphql(projectsListHistoryStatsGQL, {
   options: ({ slugs = [] }) => ({
     variables: {
       slugs,
-      ...getTimeIntervalFromToday(-7, DAY)
+      ...getTimeIntervalFromToday(-1, MONTH)
     }
   }),
   props: ({ data: { projectsListHistoryStats = [], loading, error } }) => ({
