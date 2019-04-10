@@ -2,6 +2,12 @@
   "extends": "stylelint-config-standard",
   "rules": {
     "declaration-colon-newline-after": null,
-    "at-rule-no-unknown": null
+    "at-rule-no-unknown": null,
+    "selector-pseudo-class-no-unknown": [true, {
+      "ignorePseudoClasses": ["global"]
+    }],
+    "selector-pseudo-element-no-unknown": [true, {
+      "ignorePseudoElements": ["global"]
+    }]
   }
 }

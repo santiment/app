@@ -1,43 +1,59 @@
 @import "../../mixins.scss";
 
 .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+
+  @include responsive('phone-xs') {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+
+  &__right {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 22px;
-    @include responsive('phone-xs') {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    &__right {
-        display: flex;
-        align-items: center;
-    }
-
+  }
 }
 
 .tabs {
-    display: block;
-    margin-bottom: 40px;
+  display: block;
+  margin-bottom: 40px;
+
+  @include responsive('phone-xs') {
+    padding: 0 16px;
+    margin-bottom: 24px;
+  }
+}
+
+.mainSection {
+  @include responsive('phone-xs') {
+    padding: 0 16px;
+  }
 }
 
 .newSignal {
-    background: var(--green) !important; // NOTE(vanguard): Delete after updating ui button green variant
-    color: var(--white) !important;
-    fill: var(--white) !important;
+  @include responsive('phone-xs') {
+    width: 100%;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    &__icon {
-        height: 18px;
-        margin-right: 7px;
-    }
+  &__icon {
+    height: 18px;
+    margin-right: 7px;
+  }
 }
 
 .sort {
-    width: 90px;
-    margin-right: 16px;
+  width: 90px;
+  margin-right: 16px;
 
-    :global(.ReactVirtualized__List) { 
-        height: auto !important;
-    }
+  :global(.ReactVirtualized__List) {
+    height: auto !important;
+  }
 }

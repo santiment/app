@@ -28,7 +28,7 @@ const LoadableUnAuthPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const PageHub = ({ location: { pathname }, isLoggedIn }) => {
+const PageHub = ({ location: { pathname }, isLoggedIn, isDesktop }) => {
   window.scrollTo(0, 0)
   const normalizedPathname = pathname.endsWith('/')
     ? pathname.slice(0, -1)
@@ -59,19 +59,28 @@ const PageHub = ({ location: { pathname }, isLoggedIn }) => {
         <Route
           exact
           path={`${baseLocation}/read/:id`}
-          component={LoadableInsightPage}
+          render={props => (
+            <LoadableInsightPage {...props} isDesktop={isDesktop} />
+          )}
         />
         <Route
           exact
           path={`${baseLocation}/edit/:id`}
-          component={LoadableInsightPage}
+          render={props => (
+            <LoadableInsightPage {...props} isDesktop={isDesktop} />
+          )}
         />
         <Route
           exact
           path={`${baseLocation}/new`}
           component={LoadableInsightCreationPage}
         />
-        <Route path={`${baseLocation}`} component={LoadableInsightsPage} />
+        <Route
+          path={`${baseLocation}`}
+          render={props => (
+            <LoadableInsightsPage {...props} isDesktop={isDesktop} />
+          )}
+        />
       </Switch>
     </div>
   )

@@ -46,11 +46,6 @@ const LoadableDetailedPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableInsights = Loadable({
-  loader: () => import('./pages/Insights/'),
-  loading: () => <PageLoader />
-})
-
 const LoadableDashboardPage = Loadable({
   loader: () => import('./pages/Dashboard/DashboardPage'),
   loading: () => <PageLoader />
@@ -78,6 +73,16 @@ const LoadableGainersAndLosersPage = Loadable({
 
 const LoadableAssetsMobilePage = Loadable({
   loader: () => import('./pages/assets/AssetsMobilePage'),
+  loading: () => <PageLoader />
+})
+
+const LoadableSearchMobilePage = Loadable({
+  loader: () => import('./pages/SearchMobilePage/SearchMobilePage'),
+  loading: () => <PageLoader />
+})
+
+const LoadableInsights = Loadable({
+  loader: () => import('./pages/Insights/'),
   loading: () => <PageLoader />
 })
 
@@ -167,6 +172,16 @@ export const App = ({
           />
         ))}
         <Redirect from='/assets' to='/assets/all' />
+        <Route
+          exact
+          path='/search'
+          render={props => {
+            if (isDesktop) {
+              return <Redirect to='/dashboard' />
+            }
+            return <LoadableSearchMobilePage {...props} />
+          }}
+        />
         <Route exact path='/roadmap' component={Roadmap} />
         <Route exact path='/signals' component={Signals} />
         <Route exact path='/labs/balance' component={HistoricalBalancePage} />
@@ -179,7 +194,11 @@ export const App = ({
         <Route
           path='/insights'
           render={props => (
-            <LoadableInsights {...props} isLoggedIn={isLoggedIn} />
+            <LoadableInsights
+              isDesktop={isDesktop}
+              isLoggedIn={isLoggedIn}
+              {...props}
+            />
           )}
         />
         <Route
