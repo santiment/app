@@ -1,5 +1,5 @@
-@import "~@santiment-network/ui/variables.scss";
-@import "~@santiment-network/ui/mixins.scss";
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
 
 .wrapper {
   display: flex;
@@ -43,10 +43,11 @@
   margin-bottom: 4px;
   box-sizing: border-box;
   height: 15px;
-  width: 180px;
+  min-width: 180px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  width: 100%;
 
   * {
     color: var(--black);

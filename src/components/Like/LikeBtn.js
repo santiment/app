@@ -37,14 +37,26 @@ class LikeBtn extends Component {
 
   render () {
     const { liked } = this.state
-    const { liked: savedLike, disabled, likesNumber, className } = this.props
+    const {
+      liked: savedLike,
+      disabled,
+      likesNumber,
+      className,
+      small,
+      grey
+    } = this.props
 
     return (
       <div
-        className={cx(styles.wrapper, className, liked && styles.liked)}
+        className={cx(
+          styles.wrapper,
+          className,
+          liked && styles.liked,
+          grey && styles.grey
+        )}
         onClick={disabled ? undefined : this.onClick}
       >
-        <Icon className={styles.icon} type='like' />{' '}
+        <Icon className={cx(styles.icon, small && styles.small)} type='like' />{' '}
         {likesNumber + liked - savedLike}
       </div>
     )
