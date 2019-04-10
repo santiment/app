@@ -73,7 +73,9 @@ const PageHub = ({ location: { pathname }, isLoggedIn, isDesktop }) => {
         <Route
           exact
           path={`${baseLocation}/new`}
-          component={LoadableInsightCreationPage}
+          render={props => (
+            <LoadableInsightCreationPage {...props} isDesktop={isDesktop} />
+          )}
         />
         <Route
           path={`${baseLocation}`}
