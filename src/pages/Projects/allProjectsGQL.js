@@ -170,4 +170,12 @@ export const currenciesMarketSegmentsGQL = gql`
   }
 `
 
+export const top50Erc20Projects = gql`
+  {
+    top50Erc20Projects: allErc20Projects(page: 1, pageSize: 50) {
+      slug
+    }
+  }
+`
+
 export default allProjectsGQL

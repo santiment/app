@@ -37,3 +37,22 @@ export const publicWatchlistGQL = gql`
     }
   }
 `
+
+export const FEATURED_WATCHLIST_QUERY = gql`
+  query featuredWatchlists {
+    featuredWatchlists {
+      id
+      color
+      isPublic
+      name
+      listItems {
+        project {
+          id
+          slug
+        }
+      }
+      insertedAt
+      updatedAt
+    }
+  }
+`

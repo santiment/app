@@ -71,6 +71,11 @@ const LoadableGainersAndLosersPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableAssetsOverviewPage = Loadable({
+  loader: () => import('./pages/assets/AssetsOverviewPage'),
+  loading: () => <PageLoader />
+})
+
 const LoadableAssetsMobilePage = Loadable({
   loader: () => import('./pages/assets/AssetsMobilePage'),
   loading: () => <PageLoader />
@@ -171,7 +176,7 @@ export const App = ({
             }}
           />
         ))}
-        <Redirect from='/assets' to='/assets/all' />
+        <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
         <Route
           exact
           path='/search'
