@@ -6,3 +6,10 @@
   flex-wrap: wrap;
   margin: 25px 0 50px 0;
 }
+
+.tabs {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 10px;
+}

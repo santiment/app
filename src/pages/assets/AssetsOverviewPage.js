@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { graphql } from 'react-apollo'
 import { compose } from 'redux'
+import { Tabs } from '@santiment-network/ui'
 import WatchlistCard from '../../components/Watchlists/WatchlistCard'
 import FeaturedWatchlist from '../../components/Watchlists/FeaturedWatchlist'
 import { publicWatchlistGQL } from './../../components/WatchlistPopup/WatchlistGQL'
@@ -59,50 +60,63 @@ const publicWatchlists = [
   }
 ]
 
-const AssetsOverview = props => (
-  <div className='page'>
-    <DesktopOnly>
-      <h1>Assets overview</h1>
-    </DesktopOnly>
-    <MobileOnly>
-      <MobileHeader title='Assets overview' />
-    </MobileOnly>
-    <h4>Categories</h4>
-    <div className={styles.row}>
-      {[...categories, ...publicWatchlists].map(
-        ({ name, assetType, ...rest }) => (
-          <WatchlistCard
-            key={name}
-            name={name}
-            slugs={props.slugs[assetType] || []}
-            {...rest}
-          />
-        )
-      )}
+const tabs = ['Categories', 'Featured', 'My Watchlists']
+
+const AssetsOverview = props => {
+  const [selectedTab, selectTab] = useState(tabs[0])
+  const onSelectTab = selected => selectTab(selected)
+
+  return (
+    <div className='page'>
+      <DesktopOnly>
+        <h1>Assets overview</h1>
+      </DesktopOnly>
+      <MobileOnly>
+        <MobileHeader title='Assets overview' />
+        <Tabs
+          options={tabs}
+          defaultSelectedIndex={selectedTab}
+          onSelect={onSelectTab}
+          className={styles.tabs}
+        />
+      </MobileOnly>
+      <h4>Categories</h4>
+      <div className={styles.row}>
+        {[...categories, ...publicWatchlists].map(
+          ({ name, assetType, ...rest }) => (
+            <WatchlistCard
+              key={name}
+              name={name}
+              slugs={props.slugs[assetType] || []}
+              {...rest}
+            />
+          )
+        )}
+      </div>
+      <div className={styles.row}>
+        <FeaturedWatchlist />
+      </div>
+      <h4>My watchlists</h4>
+      <div className={styles.row}>
+        <GetWatchlists
+          render={({ isWatchlistsLoading, watchlists }) =>
+            watchlists
+              .filter(({ listItems }) => Boolean(listItems.length))
+              .map(watchlist => (
+                <WatchlistCard
+                  key={watchlist.id}
+                  name={watchlist.name}
+                  to={getWatchlistLink(watchlist)}
+                  isPublic={watchlist.isPublic}
+                  slugs={watchlist.listItems.map(({ project }) => project.slug)}
+                />
+              ))
+          }
+        />
+      </div>
     </div>
-    <div className={styles.row}>
-      <FeaturedWatchlist />
-    </div>
-    <h4>My watchlists</h4>
-    <div className={styles.row}>
-      <GetWatchlists
-        render={({ isWatchlistsLoading, watchlists }) =>
-          watchlists
-            .filter(({ listItems }) => Boolean(listItems.length))
-            .map(watchlist => (
-              <WatchlistCard
-                key={watchlist.id}
-                name={watchlist.name}
-                to={getWatchlistLink(watchlist)}
-                isPublic={watchlist.isPublic}
-                slugs={watchlist.listItems.map(({ project }) => project.slug)}
-              />
-            ))
-        }
-      />
-    </div>
-  </div>
-)
+  )
+}
 
 const enhance = compose(
   graphql(top50Erc20Projects, {
