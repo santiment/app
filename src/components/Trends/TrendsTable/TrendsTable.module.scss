@@ -21,9 +21,15 @@
 
 .action {
   text-align: right;
+  margin-right: 10px;
+
+  &:last-child {
+    margin: 0;
+  }
 
   &__icon {
     vertical-align: middle;
+    fill: var(--mirage);
 
     &:hover {
       fill: var(--jungle-green);
@@ -80,6 +86,11 @@
   }
 }
 
-.test {
-  text-align: right !important;
+.wordCloud {
+  width: 400px;
+  height: 320px;
+}
+
+.tooltip {
+  z-index: 10;
 }

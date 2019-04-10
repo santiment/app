@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
-import moment from 'moment'
 import TrendsTable from './TrendsTable'
+import { dateDifferenceInWords, HOUR } from '../../../utils/dates'
 import styles from './TrendsTables.module.scss'
 
 class TrendsTables extends PureComponent {
@@ -10,20 +10,21 @@ class TrendsTables extends PureComponent {
     return (
       <div className={styles.tables}>
         {trends.length > 1 &&
-          trends
-            .slice(0, -1)
-            .map((trend, index) => (
+          trends.slice(0, -1).map(trend => {
+            const { datetime } = trend
+            return (
               <TrendsTable
-                header={`${moment(Date.now()).diff(
-                  new Date(trend.datetime),
-                  'hours'
-                )} hours ago`}
+                key={datetime}
+                header={dateDifferenceInWords({
+                  from: new Date(datetime),
+                  format: HOUR
+                })}
                 notSelected
-                key={index}
                 className={styles.table}
                 trend={trend}
               />
-            ))}
+            )
+          })}
         <TrendsTable
           className={styles.table}
           isLoading={isLoading}

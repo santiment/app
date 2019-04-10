@@ -3,14 +3,22 @@
   margin-bottom: 2rem;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.title {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-.title {
-  margin-right: 0.5rem !important;
+.search {
+  margin-bottom: 45px;
+  align-items: center;
+
+  &__input {
+    margin-bottom: 13px;
+  }
+
+  &__form {
+    width: 430px;
+  }
 }
 
 .icon {

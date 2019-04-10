@@ -9,7 +9,12 @@
   display: block !important;
 }
 
-.examples a {
+.link {
   border-bottom: none;
-  color: #14c393;
+  color: var(--jungle-green);
+  margin-left: 4px;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

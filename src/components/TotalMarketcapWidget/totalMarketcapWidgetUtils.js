@@ -22,20 +22,13 @@ export const generateWidgetData = historyPrice => {
     marketcap: data.marketcap
   }))
 
-  const volumeAmplitude =
-    historyPrice[historyPriceLastIndex].volume -
-    historyPrice[historyPriceLastIndex - 1].volume
+  const lastPriceVolume = historyPrice[historyPriceLastIndex].volume
+
+  const volume24h = formatNumber(lastPriceVolume, currencyFormatOptions)
 
   const volume24PercentChange =
-    (1 -
-      historyPrice[historyPriceLastIndex].volume /
-        historyPrice[historyPriceLastIndex - 1].volume) *
+    (1 - lastPriceVolume / historyPrice[historyPriceLastIndex - 1].volume) *
     -100
-
-  const volumeAmplitudePrice = formatNumber(
-    volumeAmplitude,
-    currencyFormatOptions
-  )
 
   const totalmarketCapPrice = formatNumber(
     historyPrice[historyPriceLastIndex].marketcap,
@@ -44,7 +37,7 @@ export const generateWidgetData = historyPrice => {
 
   return {
     totalmarketCapPrice,
-    volumeAmplitudePrice,
+    volume24h,
     volume24PercentChange,
     marketcapDataset
   }

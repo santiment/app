@@ -3,8 +3,9 @@ import Table from 'react-table'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { PanelWithHeader, Icon } from '@santiment-network/ui'
+import { PanelWithHeader, Icon, Tooltip } from '@santiment-network/ui'
 import ValueChange from '../../../components/ValueChange/ValueChange'
+import WordCloud from '../../../components/WordCloud/WordCloud'
 import styles from './TrendsTable.module.scss'
 
 const columns = [
@@ -56,19 +57,36 @@ class TrendsTable extends PureComponent {
       {
         Cell: ({ original: { rawWord } }) => {
           return (
-            <div className={styles.action}>
-              <Icon
-                className={styles.action__icon}
-                type='connection-big'
-                onMouseEnter={() => {
-                  this.connectTrends(rawWord)
-                }}
-                onMouseLeave={this.clearConnectedTrends}
-              />
-            </div>
+            <Tooltip
+              closeTimeout={50}
+              position='bottom'
+              className={styles.tooltip}
+              trigger={
+                <Icon className={styles.action__icon} type='cloud-big' />
+              }
+            >
+              <WordCloud className={styles.wordCloud} word={rawWord} />
+            </Tooltip>
           )
         },
-        width: 40
+        width: 40,
+        className: styles.action
+      },
+      {
+        Cell: ({ original: { rawWord } }) => {
+          return (
+            <Icon
+              className={styles.action__icon}
+              type='connection-big'
+              onMouseEnter={() => {
+                this.connectTrends(rawWord)
+              }}
+              onMouseLeave={this.clearConnectedTrends}
+            />
+          )
+        },
+        width: 40,
+        className: styles.action
       }
     ]
   }

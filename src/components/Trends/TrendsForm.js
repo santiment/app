@@ -7,6 +7,10 @@ import { Search } from '@santiment-network/ui'
 import { gotoExplore } from './trendsUtils'
 
 export class TrendsForm extends Component {
+  static defaultProps = {
+    classes: {}
+  }
+
   state = {
     topic: this.props.defaultTopic || ''
   }
@@ -22,17 +26,19 @@ export class TrendsForm extends Component {
   }
 
   render () {
+    const {
+      classes: { wrapper: className, input: inputClassName }
+    } = this.props
     return (
-      <div className={this.props.className}>
-        <form onSubmit={this.handleSubmit}>
-          <Search
-            iconPosition='left'
-            placeholder='type any word or phrase'
-            value={this.state.topic}
-            onChange={this.handleChange}
-          />
-        </form>
-      </div>
+      <form onSubmit={this.handleSubmit} className={className}>
+        <Search
+          className={inputClassName}
+          iconPosition='left'
+          placeholder='Enter a search word or phrase'
+          value={this.state.topic}
+          onChange={this.handleChange}
+        />
+      </form>
     )
   }
 }

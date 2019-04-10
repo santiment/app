@@ -24,9 +24,6 @@ import watchlistUi, {
 import hypedTrends, {
   initialState as initialHypedTrends
 } from './../components/Trends/reducers'
-import wordCloud, {
-  initialState as initialWordCloud
-} from './../components/WordCloud/reducers'
 import socialVolume, {
   initialState as initialSocialVolume
 } from './../components/SocialVolumeWidget/reducers'
@@ -49,7 +46,6 @@ export const intitialState = {
   rootUi: rootUiState,
   notification: initialNotificationState,
   router: routerReducer,
-  wordCloud: initialWordCloud,
   socialVolume: initialSocialVolume,
   accountUi: initialAccountUiState,
   insightDraft: initialInsightDraft
@@ -66,7 +62,6 @@ export default combineReducers({
   insightsPageUi,
   watchlistUi,
   notification,
-  wordCloud,
   socialVolume,
   accountUi,
   insightDraft

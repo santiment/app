@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { MemoryRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import WordCloud, {
-  WordCloud as UnwrappedWordCloud
+  WordCloud as UnwrappedWordCloud,
 } from './../src/components/WordCloud/WordCloud'
 import HypedWordsBlock from '../src/components/Trends/HypedWordsBlock'
 import store from './store'
@@ -23,7 +23,7 @@ const defaultWords = [
   { word: 'coins', score: 2 },
   { word: 'stable', score: 1 },
   { word: 'nodes', score: 0 },
-  { word: 'liquidity', score: 5 }
+  { word: 'liquidity', score: 5 },
 ]
 
 storiesOf('WordCloud', module)
@@ -41,6 +41,6 @@ storiesOf('WordCloud', module)
       <HypedWordsBlock
         trends={[{ word: 'bitcoin', score: 5 }, { word: 'eth', score: 4 }]}
       />
-      <WordCloud />
+      <WordCloud word='bitcoin' />
     </div>
   ))

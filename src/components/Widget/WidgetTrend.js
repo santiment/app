@@ -3,9 +3,9 @@ import { FadeIn } from 'animate-components'
 import styles from './WidgetTrend.module.scss'
 
 const Message = {
-  initial: 'Choose any word below to see its social context',
+  initial: 'Choose any word to see its social context',
   isLoading: 'Loading...',
-  hasNoData: 'No social volume/social context available...'
+  hasNoData: 'No data available...'
 }
 
 const getMessage = ({ initial, isLoading, hasNoData }) => {
