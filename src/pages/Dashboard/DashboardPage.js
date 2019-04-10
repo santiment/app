@@ -4,6 +4,7 @@ import { Button, Panel, Label, Icon } from '@santiment-network/ui'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import InsightsFeatured from '../../components/Insight/InsightsFeatured'
 import TrendsTable from '../../components/Trends/TrendsTable/TrendsTable'
+import FeaturedWatchlists from '../../components/Watchlists/FeaturedWatchlist'
 import DashboardPageSubscription from './DashboardPageSubscription'
 import DashboardPageOnboard from './DashboardPageOnboard'
 import styles from './DashboardPage.module.scss'
@@ -87,6 +88,9 @@ const DashboardPage = ({ isLoggedIn }) => (
           </Panel>
         </div>
       </div>
+    </div>
+    <div className={styles.section}>
+      <FeaturedWatchlists />
     </div>
     {!isLoggedIn && <DashboardPageSubscription />}
   </div>
