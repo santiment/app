@@ -550,11 +550,9 @@ describe('calcPercentageChange', () => {
     expect(expected).toEqual(change)
   })
 
-  it('Should throw error', () => {
-    const error = new Error(
-      "Can't calculate percentage change when original value if 0"
-    )
-
-    expect(calcPercentageChange.bind(null, 0, -2)).toThrow(error)
+  it('Calc percentage for 0 on 2', () => {
+    const change = 'Infinity'
+    const expected = calcPercentageChange(0, 2)
+    expect(expected).toEqual(change)
   })
 })
