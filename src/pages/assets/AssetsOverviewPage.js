@@ -1,6 +1,6 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
-import { compose } from 'recompose'
+import { compose } from 'redux'
 import WatchlistCard from '../../components/Watchlists/WatchlistCard'
 import FeaturedWatchlist from '../../components/Watchlists/FeaturedWatchlist'
 import { publicWatchlistGQL } from './../../components/WatchlistPopup/WatchlistGQL'
