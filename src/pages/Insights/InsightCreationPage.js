@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import InsightEditor from '../../components/Insight/InsightEditor/InsightEditor'
+import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import * as actions from './actions'
 
 class InsightCreationPage extends Component {
@@ -17,7 +18,14 @@ class InsightCreationPage extends Component {
       return <Redirect to='/insights/my' />
     }
 
-    return <InsightEditor {...rest} />
+    return (
+      <>
+        {!this.props.isDesktop && (
+          <MobileHeader title='All Insights' backRoute='/insights' />
+        )}
+        <InsightEditor {...rest} />
+      </>
+    )
   }
 }
 
