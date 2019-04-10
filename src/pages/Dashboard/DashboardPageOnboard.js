@@ -1,9 +1,12 @@
 import React from 'react'
 import { Label, Panel, Icon } from '@santiment-network/ui'
+import cx from 'classnames'
 import styles from './DashboardPageOnboard.module.scss'
 
 const useShown = () => {
-  const [state, setState] = React.useState(true)
+  const [state, setState] = React.useState(
+    !localStorage.getItem('isOnboardingHidden')
+  )
   if (!state) {
     localStorage.setItem('isOnboardingHidden', '+')
   }
@@ -11,13 +14,21 @@ const useShown = () => {
   return [state, () => setState(false)]
 }
 
-const Task = ({ title, text, icon, iconClassName }) => (
+const Task = ({ title, text, icon, iconClassName, isCompleted }) => (
   <Panel className={styles.task}>
     <div className={styles.task__icon}>
       <Icon type={icon} className={iconClassName} />
     </div>
     <div className={styles.task__title}>{title}</div>
     <div className={styles.task__text}>{text}</div>
+    <div
+      className={cx(
+        styles.task__state,
+        isCompleted && styles.task__state_completed
+      )}
+    >
+      <Icon type='checkmark' />
+    </div>
   </Panel>
 )
 
@@ -62,6 +73,7 @@ const DashboardPageOnboard = () => {
             title='Connect Metamask'
             text='By connecting the Metamask you will be able to deposit SAN tokens to your account'
             iconClassName={styles.icon_connection}
+            isCompleted
           />
         </div>
       </Panel>

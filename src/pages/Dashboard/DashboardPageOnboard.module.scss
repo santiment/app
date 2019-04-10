@@ -44,16 +44,16 @@ $margin-between-cards: 24px;
   width: calc(50% - #{$margin-between-cards/2});
 
   &__icon {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    left: 16px;
-    top: 16px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #f9fafc 0%, #d2d6e7 100%);
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f9fafc 0%, #d2d6e7 100%);
+    left: 16px;
     fill: var(--casper);
   }
 
@@ -65,6 +65,27 @@ $margin-between-cards: 24px;
 
   &__text {
     color: var(--waterloo);
+  }
+
+  &__state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 16px;
+    border-radius: 50%;
+    background: var(--athens);
+    right: 16px;
+    border: 1px solid var(--porcelain);
+    fill: var(--athens);
+
+    &_completed {
+      fill: var(--jungle-green);
+      background: var(--jungle-green-light);
+      border: 0;
+    }
   }
 }
 
