@@ -1,14 +1,22 @@
 import React, { PureComponent } from 'react'
 import cx from 'classnames'
+import { graphql } from 'react-apollo'
+import GoogleAnalytics from 'react-ga'
+import Raven from 'raven-js'
 import { Panel, Label, Button, Input, Checkboxes } from '@santiment-network/ui'
+import { EMAIL_LOGIN_MUTATION } from './loginGQL'
+import { store } from '../../index'
+import { showNotification } from '../../actions/rootActions'
 import styles from './DashboardPage.module.scss'
 
 export const SUBSCRIPTION_FLAG = 'hasToggledSubscription'
+const SUBSCRIPTION_LABEL = 'Receive product updated and weekly newsletter'
 
 class DashboardPageSubscription extends PureComponent {
   state = {
     email: '',
-    error: undefined
+    error: undefined,
+    hasSubscribed: false
   }
 
   componentWilllUnmout () {
@@ -17,15 +25,49 @@ class DashboardPageSubscription extends PureComponent {
 
   onSubmit = e => {
     e.preventDefault()
-    const { email, error } = this.state
+    const { email, error, hasSubscribed, waiting } = this.state
 
-    if (error) {
+    if (error || waiting) {
       return
     }
 
     if (!email) {
       this.setState({ error: 'Email is required' })
+      return
     }
+
+    this.setState({ waiting: true })
+
+    const { emailLogin } = this.props
+
+    emailLogin({ variables: { email } })
+      .then(() => {
+        this.setState({ waiting: false })
+        GoogleAnalytics.event({
+          category: 'User',
+          action: `User requested an email for verification ${
+            hasSubscribed ? 'with' : 'without'
+          } subscription`
+        })
+        store.dispatch(
+          showNotification({
+            variant: 'success',
+            title: `Verification email has been sent to "${email}"`,
+            dismissAfter: 8000
+          })
+        )
+      })
+      .catch(error => {
+        this.setState({ waiting: false })
+        store.dispatch(
+          showNotification({
+            variant: 'error',
+            title: `We got an error while generating verification email. Please try again`,
+            dismissAfter: 8000
+          })
+        )
+        Raven.captureException(error)
+      })
   }
 
   onSelect = (_, { selectedIndexes: { length } }) => {
@@ -34,6 +76,7 @@ class DashboardPageSubscription extends PureComponent {
     } else {
       localStorage.setItem(SUBSCRIPTION_FLAG, '+')
     }
+    this.setState({ hasSubscribed: !!length })
   }
 
   onEmailChange (email) {
@@ -53,7 +96,7 @@ class DashboardPageSubscription extends PureComponent {
   }
 
   render () {
-    const { error } = this.state
+    const { error, waiting } = this.state
 
     return (
       <div className={styles.subscription}>
@@ -73,6 +116,7 @@ class DashboardPageSubscription extends PureComponent {
           <Input
             className={styles.subscription__input}
             placeholder='Write your email'
+            disabled={waiting}
             onChange={this.onEmailChangeDebounced}
             isError={error}
           />
@@ -80,9 +124,10 @@ class DashboardPageSubscription extends PureComponent {
             variant='fill'
             accent='positive'
             className={styles.subscription__btn}
+            disabled={waiting}
             type='submit'
           >
-            Get started
+            {waiting ? 'Waiting...' : 'Get started'}
           </Button>
 
           <Panel padding className={styles.subscription__error}>
@@ -90,9 +135,10 @@ class DashboardPageSubscription extends PureComponent {
           </Panel>
         </form>
         <Checkboxes
-          options={['Receive product updated and weekly newsletter']}
+          options={[SUBSCRIPTION_LABEL]}
           labelOnRight
           labelClassName={styles.subscription__label}
+          disabledIndexes={waiting ? [SUBSCRIPTION_LABEL] : undefined}
           onSelect={this.onSelect}
         />
       </div>
@@ -100,4 +146,6 @@ class DashboardPageSubscription extends PureComponent {
   }
 }
 
-export default DashboardPageSubscription
+export default graphql(EMAIL_LOGIN_MUTATION, { name: 'emailLogin' })(
+  DashboardPageSubscription
+)
