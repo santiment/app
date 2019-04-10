@@ -7,6 +7,8 @@ import { showNotification } from './../actions/rootActions'
 import * as actions from './../actions/types'
 import { savePrevAuthProvider } from './../utils/localStorage'
 
+export const SUBSCRIPTION_FLAG = 'hasToggledSubscription'
+
 const emailLoginVerifyGQL = gql`
   mutation emailLoginVerify($email: String!, $token: String!) {
     emailLoginVerify(email: $email, token: $token) {
@@ -48,8 +50,6 @@ const emailChangeVerifyGQL = gql`
     }
   }
 `
-
-const SUBSCRIPTION_FLAG = 'hasToggledSubscription'
 
 const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
   mutation changeNewsletterSubscription(

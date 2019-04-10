@@ -7,9 +7,9 @@ import { Panel, Label, Button, Input, Checkboxes } from '@santiment-network/ui'
 import { EMAIL_LOGIN_MUTATION } from './loginGQL'
 import { store } from '../../index'
 import { showNotification } from '../../actions/rootActions'
+import { SUBSCRIPTION_FLAG } from '../../epics/handleEmailLogin'
 import styles from './DashboardPage.module.scss'
 
-export const SUBSCRIPTION_FLAG = 'hasToggledSubscription'
 const SUBSCRIPTION_LABEL = 'Receive product updated and weekly newsletter'
 
 class DashboardPageSubscription extends PureComponent {
