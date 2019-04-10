@@ -72,7 +72,9 @@ const AssetsOverview = props => (
         )
       )}
     </div>
-    <FeaturedWatchlist />
+    <div className={styles.flexRow}>
+      <FeaturedWatchlist />
+    </div>
     <h4>My watchlists</h4>
     <div className={styles.flexRow}>
       <GetWatchlists
