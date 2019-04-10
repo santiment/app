@@ -2,6 +2,16 @@ import React from 'react'
 import { Label, Panel, Icon } from '@santiment-network/ui'
 import styles from './DashboardPageOnboard.module.scss'
 
+const Task = ({ title, text, icon, iconClassName }) => (
+  <Panel className={styles.task}>
+    <div className={styles.task__icon}>
+      <Icon type={icon} className={iconClassName} />
+    </div>
+    <div className={styles.task__title}>{title}</div>
+    <div className={styles.task__text}>{text}</div>
+  </Panel>
+)
+
 const DashboardPageOnboard = () => {
   return (
     <Panel className={styles.wrapper}>
@@ -17,46 +27,31 @@ const DashboardPageOnboard = () => {
         </div>
       </div>
       <div className={styles.tasks}>
-        <Panel className={styles.task}>
-          <div className={styles.task__icon}>
-            <Icon type='eye' />
-          </div>
-          <div className={styles.task__title}>Create your first watchlist</div>
-          <div className={styles.task__text}>
-            You can track your selected assets in one place and check the
-            information
-          </div>
-        </Panel>
-        <Panel className={styles.task}>
-          <div className={styles.task__icon}>
-            <Icon type='eye' />
-          </div>
-          <div className={styles.task__title}>Create your first watchlist</div>
-          <div className={styles.task__text}>
-            You can track your selected assets in one place and check the
-            information
-          </div>
-        </Panel>
-        <Panel className={styles.task}>
-          <div className={styles.task__icon}>
-            <Icon type='eye' />
-          </div>
-          <div className={styles.task__title}>Create your first watchlist</div>
-          <div className={styles.task__text}>
-            You can track your selected assets in one place and check the
-            information
-          </div>
-        </Panel>
-        <Panel className={styles.task}>
-          <div className={styles.task__icon}>
-            <Icon type='eye' />
-          </div>
-          <div className={styles.task__title}>Create your first watchlist</div>
-          <div className={styles.task__text}>
-            You can track your selected assets in one place and check the
-            information
-          </div>
-        </Panel>
+        <Task
+          icon='eye'
+          title='Create your first watchlist'
+          text='You can track your selected assets in one place and check the
+          information'
+        />
+
+        <Task
+          icon='insight-small'
+          title='Write the insight'
+          text='Try to write your first insight and share people your knowledge about current situation on the market'
+        />
+
+        <Task
+          icon='signal'
+          title='Create the signal'
+          text='Set up your signal and begin to receive personalized notifications about any changes on the market'
+        />
+
+        <Task
+          icon='connection'
+          title='Connect Metamask'
+          text='By connecting the Metamask you will be able to deposit SAN tokens to your account'
+          iconClassName={styles.icon_connection}
+        />
       </div>
     </Panel>
   )
