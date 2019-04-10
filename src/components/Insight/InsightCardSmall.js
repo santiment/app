@@ -1,6 +1,4 @@
 import React from 'react'
-import { Panel } from '@santiment-network/ui'
-import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import LikeBtn from '../Like/LikeBtn'
