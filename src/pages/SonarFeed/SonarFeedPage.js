@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
-import { Tabs, Button, Icon } from '@santiment-network/ui'
+import { Tabs, Icon } from '@santiment-network/ui'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/PageLoader'
 import SignalMasterModalForm from '../../ducks/Signals/SignalMasterModalForm'
