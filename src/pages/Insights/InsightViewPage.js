@@ -46,6 +46,7 @@ const InsightViewPage = ({
       <div className={styles.wrapper}>
         <div className={styles.top}>
           <ProfileInfo
+            withPic
             className={styles.profile}
             name={<Link to={`/insights/users/${userId}`}>{username}</Link>}
             status={moment(createdAt).format('MMM D, YYYY')}
@@ -64,6 +65,7 @@ const InsightViewPage = ({
         <div className={styles.bottom}>
           <div className={styles.left}>
             <ProfileInfo
+              withPic
               name={<Link to={`/insights/users/${userId}`}>{username}</Link>}
             />
           </div>
