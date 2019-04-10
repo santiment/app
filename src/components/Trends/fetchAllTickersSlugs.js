@@ -24,14 +24,14 @@ const handleError = error => {
 export default (action$, store, { client }) =>
   action$
     .ofType(actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS)
-    .switchMap(({ data = {} }) => {
+    .exhaustMap(({ data = {} }) => {
       return Observable.from(
         client.query({
           query: allTickersSlugsGQL,
           context: { isRetriable: true }
         })
       )
-        .exhaustMap(({ data = {} }) => {
+        .flatMap(({ data = {} }) => {
           return Observable.of({
             type: actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS_SUCCESS,
             payload: {

@@ -79,10 +79,6 @@ export class TrendsExplorePage extends Component {
     }
   }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
-    return { ...mapQSToState(nextProps) }
-  }
-
   render () {
     const { word, hasPremium, detectedAsset } = this.props
     const { timeRange, asset = '' } = this.state
@@ -146,7 +142,7 @@ export class TrendsExplorePage extends Component {
               <GetTimeSeries
                 price={{
                   timeRange,
-                  slug: asset,
+                  slug: asset.toLowerCase(),
                   interval: getCustomInterval(timeRange)
                 }}
                 render={({ price = {} }) => (
