@@ -4,6 +4,7 @@ import * as actions from './actions'
 import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { TRIGGERS_QUERY } from './SignalsGQL'
+import { completeOnboardingTask } from '../../pages/Dashboard/utils'
 
 export const CREATE_TRIGGER_QUERY = gql`
   mutation createTrigger(
@@ -87,6 +88,7 @@ export const createSignalEpic = (action$, store, { client }) =>
 
         return Observable.fromPromise(create)
           .mergeMap(({ data: { id } }) => {
+            completeOnboardingTask('signal')
             return Observable.of({
               type: actions.SIGNAL_CREATE_SUCCESS,
               payload: {

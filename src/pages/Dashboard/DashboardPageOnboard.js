@@ -1,6 +1,7 @@
 import React from 'react'
 import { Label, Panel, Icon } from '@santiment-network/ui'
 import cx from 'classnames'
+import { getOnboardingCompletedTasks } from './utils'
 import styles from './DashboardPageOnboard.module.scss'
 
 const useShown = () => {
@@ -34,6 +35,7 @@ const Task = ({ title, text, icon, iconClassName, isCompleted }) => (
 
 const DashboardPageOnboard = () => {
   const [isShown, setShown] = useShown()
+  const completedTasks = getOnboardingCompletedTasks()
   return (
     isShown && (
       <Panel className={styles.wrapper}>
@@ -54,18 +56,21 @@ const DashboardPageOnboard = () => {
             title='Create your first watchlist'
             text='You can track your selected assets in one place and check the
           information'
+            isCompleted={completedTasks.includes('watchlist')}
           />
 
           <Task
             icon='insight-small'
             title='Write the insight'
             text='Try to write your first insight and share people your knowledge about current situation on the market'
+            isCompleted={completedTasks.includes('insight')}
           />
 
           <Task
             icon='signal'
             title='Create the signal'
             text='Set up your signal and begin to receive personalized notifications about any changes on the market'
+            isCompleted={completedTasks.includes('signal')}
           />
 
           <Task
@@ -73,7 +78,7 @@ const DashboardPageOnboard = () => {
             title='Connect Metamask'
             text='By connecting the Metamask you will be able to deposit SAN tokens to your account'
             iconClassName={styles.icon_connection}
-            isCompleted
+            isCompleted={completedTasks.includes('metamask')}
           />
         </div>
       </Panel>
