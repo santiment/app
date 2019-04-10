@@ -1,4 +1,4 @@
-
+@import 'variables.scss';
 @import '~semantic-ui-css/semantic.min.css';
 @import "~@santiment-network/ui/main.scss";
 
@@ -7,12 +7,12 @@ body {
   padding: 0;
   font: 14px/1.6 'Rubik', sans-serif;
   font-weight: 400;
-  color: var(--black);
+  color: var(--shark);
 }
 
 a:hover,
 a:focus {
-  color: var(--green); // NOTE(vanguard): remove after removing semantic css
+  color: var(--jungle-green); // NOTE(vanguard): remove after removing semantic css
 }
 
 h1 {
@@ -77,6 +77,16 @@ hr {
 .hidden {
   visibility: false;
   display: none;
+}
+
+.intercom-container {
+  display: none;
+}
+
+@media (min-width: $breakpoint-desktop) {
+  .intercom-container {
+    display: block;
+  }
 }
 
 .ui.button {
