@@ -9,8 +9,8 @@
     "storybook": "start-storybook -p 9001 -c .storybook",
     "build": "REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(echo $GIT_HEAD) react-scripts build",
     "test:lint:css": "yarn stylelint src/*{sass,scss} --syntax scss --fix",
-    "test:js": "react-scripts test",
-    "test:e2e": "jest src/pages/assets/AssetsPage.e2e.js",
+    "test:js": "react-scripts test --testPathIgnorePatterns='e2e.*'",
+    "test:e2e": "react-scripts test --testPathPattern='e2e.*'",
     "test": "npm run test:lint:css && CI=true npm run test:js",
     "eject": "react-scripts eject"
   },
@@ -125,6 +125,7 @@
     "redux-axios-middleware": "^4.0.0",
     "redux-devtools-extension": "^2.13.2",
     "redux-mock-store": "^1.5.3",
+    "selenium-webdriver": "^4.0.0-alpha.1",
     "standard-reporter": "^1.0.5",
     "storybook-react-router": "^1.0.3",
     "stylefmt": "^6.0.3",
