@@ -10,7 +10,7 @@ export const DesktopOnly = enhance(({ children, isDesktop }) =>
 )
 
 DesktopOnly.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.node.isRequired
 }
 
 export const MobileOnly = enhance(({ children, isDesktop }) =>
@@ -18,5 +18,5 @@ export const MobileOnly = enhance(({ children, isDesktop }) =>
 )
 
 MobileOnly.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.node.isRequired
 }
