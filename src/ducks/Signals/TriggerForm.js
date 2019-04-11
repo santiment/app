@@ -31,25 +31,35 @@ const METRICS = [
   { label: 'Price/volume difference', value: 'price_volume_difference' }
 ]
 
+const OPERATIONS = {
+  price_absolute_change: [
+    'above',
+    'below',
+    'inside_channel',
+    'outside_channel'
+  ],
+  price_percent_change: ['percent_up', 'percent_down']
+}
+
 const TYPES = {
   price: [
     {
       label: 'Price changing',
       options: [
         {
-          value: '',
+          value: 'above',
           label: 'More than'
         },
         {
-          value: '',
+          value: 'below',
           label: 'Less than'
         },
         {
-          value: '',
+          value: 'inside_channel',
           label: 'Entering channel'
         },
         {
-          value: '',
+          value: 'outside_channel',
           label: 'Outside channel'
         }
       ]
@@ -58,11 +68,11 @@ const TYPES = {
       label: 'Percent change',
       options: [
         {
-          value: 'price_percent_change',
+          value: 'percent_up',
           label: 'Moving up %'
         },
         {
-          value: '',
+          value: 'percent_down',
           label: 'Moving down %'
         }
       ]
@@ -90,6 +100,7 @@ const defaultValues = {
     timeWindow: 24,
     timeWindowUnit: { label: 'hours', value: 'h' },
     type: { value: 'price_percent_change', label: 'Moving up %' },
+    operation: { value: 'percent_up', label: 'Moving up %' },
     metric: { label: 'Price', value: 'price' },
     isRepeating: true,
     channels: ['telegram']
@@ -230,27 +241,27 @@ export const TriggerForm = ({
   getSignalBacktestingPoints,
   data: { allProjects = [] },
   isTelegramConnected = false,
-  settings = DEFAULT_FORM_SETTINGS,
-  metaFormSettings
+  settings = DEFAULT_FORM_SETTINGS
+  // metaFormSettings
 }) => {
-  metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
-  settings = {
-    ...settings,
-    target: metaFormSettings.target.value
-      ? metaFormSettings.target.value
-      : settings.target,
-    metric: metaFormSettings.metric.value
-      ? metaFormSettings.metric.value
-      : settings.metric,
-    type: metaFormSettings.type.value
-      ? metaFormSettings.type.value
-      : settings.type
-  }
+  // metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
+  // settings = {
+  // ...settings,
+  // target: metaFormSettings.target.value
+  // ? metaFormSettings.target.value
+  // : settings.target,
+  // metric: metaFormSettings.metric.value
+  // ? metaFormSettings.metric.value
+  // : settings.metric,
+  // type: metaFormSettings.type.value
+  // ? metaFormSettings.type.value
+  // : settings.type
+  // }
   const [initialValues, setInitialValues] = useState(settings)
 
-  useEffect(() => {
-    getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
-  }, [])
+  // useEffect(() => {
+  // getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
+  // }, [])
 
   return (
     <Formik
@@ -275,16 +286,17 @@ export const TriggerForm = ({
         <Form>
           <FormikEffect
             onChange={(current, prev) => {
+              console.table(current.values)
               if (current.values.type !== prev.values.type) {
                 setInitialValues(defaultValues[current.values.type.value])
                 validateForm()
-                window.setTimeout(() => {
-                  getSignalBacktestingPoints(
-                    mapValuesToTriggerProps(
-                      defaultValues[current.values.type.value]
-                    )
-                  )
-                }, 0)
+                // window.setTimeout(() => {
+                // getSignalBacktestingPoints(
+                // mapValuesToTriggerProps(
+                // defaultValues[current.values.type.value]
+                // )
+                // )
+                // }, 0)
                 return
               }
               if (!isEqual(current.values, prev.values)) {
@@ -299,9 +311,9 @@ export const TriggerForm = ({
                   false
                 )
 
-                !!current.values.target &&
-                  !isError &&
-                  getSignalBacktestingPoints(mapValuesToTriggerProps(values))
+                //! !current.values.target &&
+                //! isError &&
+                // getSignalBacktestingPoints(mapValuesToTriggerProps(values))
               }
             }}
           />
@@ -312,8 +324,8 @@ export const TriggerForm = ({
                   <label>Asset</label>
                   <FormikSelect
                     name='target'
-                    isDisabled={metaFormSettings.target.isDisabled}
-                    defaultValue={metaFormSettings.target.value}
+                    // isDisabled={metaFormSettings.target.isDisabled}
+                    // defaultValue={metaFormSettings.target.value}
                     placeholder='Pick an asset'
                     options={allProjects.map(asset => ({
                       label: asset.slug,
@@ -331,8 +343,8 @@ export const TriggerForm = ({
                   <FormikSelect
                     name='metric'
                     isClearable={false}
-                    isDisabled={metaFormSettings.metric.isDisabled}
-                    defaultValue={metaFormSettings.metric.value}
+                    // isDisabled={metaFormSettings.metric.isDisabled}
+                    // defaultValue={metaFormSettings.metric.value}
                     isSearchable
                     placeholder='Choose a metric'
                     options={METRICS}
@@ -349,8 +361,8 @@ export const TriggerForm = ({
                       name='type'
                       isClearable={false}
                       isSearchable
-                      isDisabled={metaFormSettings.type.isDisabled}
-                      defaultValue={metaFormSettings.type.value}
+                      // isDisabled={metaFormSettings.type.isDisabled}
+                      // defaultValue={metaFormSettings.type.value}
                       placeholder='Choose a type'
                       options={TYPES[values.metric.value]}
                       isOptionDisabled={option => !option.value}
@@ -454,12 +466,14 @@ export const TriggerForm = ({
                 </div>
               )}
 
-              <label>Visual Backtesting</label>
-              <SignalPreview
-                target={values.target.value}
-                initialMetrics={getMetricsByType(values.type)}
-                type={values.type}
-              />
+              {
+                // <label>Visual Backtesting</label>
+                // <SignalPreview
+                // target={values.target.value}
+                // initialMetrics={getMetricsByType(values.type)}
+                // type={values.type}
+                /// >
+              }
             </Panel>
           </div>
           <div className={styles.controls}>
