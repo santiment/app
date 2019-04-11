@@ -2,6 +2,10 @@
 @import "~@santiment-network/ui/mixins.scss";
 @import '../../mixins.scss';
 
+.name {
+  margin-bottom: 10px;
+}
+
 .wrapper {
   @include text-normal;
 
@@ -17,7 +21,12 @@
   color: var(--shark);
 
   &:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+    box-shadow: 0 14px 20px rgba(24, 27, 43, 0.06);
+    color: initial;
+
+    .name {
+      color: var(--jungle-green);
+    }
   }
 
   @include responsive('phone', 'phone-xs', 'tablet') {
@@ -34,10 +43,6 @@
 .flexRow {
   display: flex;
   align-items: center;
-}
-
-.name {
-  margin-bottom: 10px;
 }
 
 .content {
