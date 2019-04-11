@@ -16,7 +16,6 @@ import NotificationStack from './components/NotificationStack'
 import LoginPage from './pages/Login/LoginPage'
 import Roadmap from './pages/Roadmap'
 import Signals from './pages/Signals'
-import Account from './pages/Account/Account'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import BuildChallenge from './pages/BuildChallenge'
 import EmailLoginVerification from './pages/EmailLoginVerification'
@@ -40,6 +39,11 @@ import HeaderMsg from './HeaderMsg'
 import LogoutPage from './pages/Logout'
 import LabsPage from './pages/Labs'
 import './App.scss'
+
+const LoadableAccountPage = Loadable({
+  loader: () => import('./pages/Account/AccountPage'),
+  loading: () => <PageLoader />
+})
 
 const LoadableDetailedPage = Loadable({
   loader: () => import('./pages/Detailed/Detailed'),
@@ -246,7 +250,13 @@ export const App = ({
           )}
         />
         <Route path='/logout' component={LogoutPage} />
-        <Route exact path='/account' component={Account} />
+        <Route
+          exact
+          path='/account'
+          render={props => (
+            <LoadableAccountPage {...props} isLoggedIn={isLoggedIn} />
+          )}
+        />
         <Route exact path='/status' component={Status} />
         <Redirect from='/ethereum-spent' to='/projects/ethereum' />
         <Route exact path='/build' component={BuildChallenge} />

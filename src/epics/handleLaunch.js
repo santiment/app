@@ -23,6 +23,7 @@ export const userGQL = gql`
         hasTelegramConnected
         signalNotifyEmail
         signalNotifyTelegram
+        newsletterSubscription
       }
       apikeys
     }
