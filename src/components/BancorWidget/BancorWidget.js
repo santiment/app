@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
+import cx from 'classnames'
 
 const PRIMARY_COLOR = '#14c393'
 
-class BancorWidget extends Component {
+class BancorWidget extends PureComponent {
   componentDidMount () {
     const script = document.createElement('script')
     script.setAttribute('src', 'https://widget-convert.bancor.network/v1')
@@ -21,7 +22,12 @@ class BancorWidget extends Component {
   }
 
   render () {
-    return <div className='bancor-wc' id='bancor-wc-san' />
+    return (
+      <div
+        className={cx('bancor-wc', this.props.className)}
+        id='bancor-wc-san'
+      />
+    )
   }
 }
 
