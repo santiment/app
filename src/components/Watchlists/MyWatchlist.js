@@ -1,29 +1,27 @@
 import React from 'react'
-import AssetsOverviewCard from './WatchlistCard'
-import GetFeaturedWatchlists from './../../ducks/Watchlists/GetFeaturedWatchlists'
+import WatchlistCard from './WatchlistCard'
+import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
 import { DesktopOnly } from './../../components/Responsive'
 import Row from './../../components/Row'
 import styles from './Watchlist.module.scss'
 
-const FeaturedWatchlists = () => (
+const MyWatchlist = () => (
   <div className={styles.wrapper}>
     <DesktopOnly>
-      <h4>Featured Watchlists</h4>
+      <h4>My watchlists</h4>
     </DesktopOnly>
     <Row>
-      <GetFeaturedWatchlists
+      <GetWatchlists
         render={({ isWatchlistsLoading, watchlists }) =>
           watchlists
             .filter(({ listItems }) => Boolean(listItems.length))
             .map(watchlist => (
-              <AssetsOverviewCard
+              <WatchlistCard
                 key={watchlist.id}
-                price={32}
-                change={1.22}
                 name={watchlist.name}
-                isPublic={watchlist.isPublic}
                 to={getWatchlistLink(watchlist)}
+                isPublic={watchlist.isPublic}
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
               />
             ))
@@ -33,4 +31,4 @@ const FeaturedWatchlists = () => (
   </div>
 )
 
-export default FeaturedWatchlists
+export default MyWatchlist

@@ -1,8 +1,12 @@
 @import '../../mixins.scss';
 
-.flexRow {
+.section {
+  margin: 25px 0 50px;
+}
+
+.tabs {
+  width: 100%;
   display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin: 25px 0 50px 0;
+  justify-content: space-around;
+  padding: 4px 10px 0;
 }
