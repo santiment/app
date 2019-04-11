@@ -5,7 +5,7 @@ import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
 import styles from './FeaturedWatchlist.module.scss'
 
 const FeaturedWatchlists = () => (
-  <>
+  <div className={styles.wrapper}>
     <h4>Featured Watchlists</h4>
     <div className={styles.flexRow}>
       <GetFeaturedWatchlists
@@ -26,7 +26,7 @@ const FeaturedWatchlists = () => (
         }
       />
     </div>
-  </>
+  </div>
 )
 
 export default FeaturedWatchlists
