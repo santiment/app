@@ -79,12 +79,12 @@ hr {
   display: none;
 }
 
-.intercom-container {
+#intercom-container {
   display: none;
 }
 
 @media (min-width: $breakpoint-desktop) {
-  .intercom-container {
+  #intercom-container {
     display: block;
   }
 }
