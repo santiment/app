@@ -39,9 +39,7 @@ const SettingsGeneral = ({
 )
 
 const mapStateToProps = ({
-  user: {
-    data: { email, username }
-  },
+  user: { data: { email, username } = {} },
   rootUi: { isNightModeEnabled, isBetaModeEnabled }
 }) => ({
   email,

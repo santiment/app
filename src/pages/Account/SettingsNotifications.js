@@ -98,7 +98,7 @@ const mapStateToProps = ({
         signalNotifyEmail,
         signalNotifyTelegram,
         newsletterSubscription
-      }
+      } = {}
     }
   }
 }) => ({
