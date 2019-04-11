@@ -11,7 +11,8 @@ export const initialState = {
       telegramDeepLink: '',
       signalNotifyEmail: false,
       signalNotifyTelegram: false,
-      isTelegramConnecting: false
+      isTelegramConnecting: false,
+      newsletterSubscription: 'OFF'
     }
   },
   account: null,
