@@ -145,14 +145,11 @@ describe('Connect Trending Words', () => {
     const promise = epic$.toPromise()
     const result = await promise
 
-    expect(result).toEqual({
-      payload: {
-        BITCOIN: ['BTC'],
-        BTC: ['BITCOIN'],
-        ETH: ['ETHEREUM'],
-        ETHEREUM: ['ETH']
-      },
-      type: TRENDS_CONNECTED_WORDS_SUCCESS
+    expect(result.payload.connectedTrends).toEqual({
+      BITCOIN: ['BTC'],
+      BTC: ['BITCOIN'],
+      ETH: ['ETHEREUM'],
+      ETHEREUM: ['ETH']
     })
   })
 
@@ -167,14 +164,11 @@ describe('Connect Trending Words', () => {
     const promise = epic$.toPromise()
     const result = await promise
 
-    expect(result).toEqual({
-      payload: {
-        BCH: ['DOGE', 'ETHEREUM'],
-        BTC: ['DOGE'],
-        DOGE: ['BTC', 'BCH', 'ETHEREUM'],
-        ETHEREUM: ['BCH', 'DOGE']
-      },
-      type: TRENDS_CONNECTED_WORDS_SUCCESS
+    expect(result.payload.connectedTrends).toEqual({
+      BCH: ['DOGE', 'ETHEREUM'],
+      BTC: ['DOGE'],
+      DOGE: ['BTC', 'BCH', 'ETHEREUM'],
+      ETHEREUM: ['BCH', 'DOGE']
     })
   })
 })

@@ -3,9 +3,10 @@ import Table from 'react-table'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { PanelWithHeader, Icon, Tooltip } from '@santiment-network/ui'
+import { PanelWithHeader, Panel, Icon, Tooltip } from '@santiment-network/ui'
 import ValueChange from '../../../components/ValueChange/ValueChange'
 import WordCloud from '../../../components/WordCloud/WordCloud'
+import InsightCardSmall from '../../../components/Insight/InsightCardSmall'
 import styles from './TrendsTable.module.scss'
 
 const columns = [
@@ -29,6 +30,10 @@ const columns = [
     accessor: 'volume'
   }
 ]
+
+const NumberCircle = props => (
+  <div {...props} className={styles.insights__number} />
+)
 
 class TrendsTable extends PureComponent {
   state = {
@@ -87,6 +92,47 @@ class TrendsTable extends PureComponent {
         },
         width: 40,
         className: styles.action
+      },
+      {
+        Cell: ({ original: { rawWord } }) => {
+          const insights = this.props.TrendToInsights[rawWord.toUpperCase()]
+
+          const icon = (
+            <Icon
+              className={cx(
+                styles.action__icon,
+                !insights && styles.insights__icon_disabled
+              )}
+              type='insight'
+            />
+          )
+
+          return insights && insights.length > 0 ? (
+            <>
+              <Tooltip
+                closeTimeout={50}
+                position='bottom'
+                className={styles.tooltip}
+                trigger={icon}
+              >
+                <Panel>
+                  {insights.map((insight, i) => (
+                    <InsightCardSmall
+                      key={i}
+                      {...insight}
+                      className={styles.insight}
+                    />
+                  ))}
+                </Panel>
+              </Tooltip>
+              <NumberCircle>{insights.length}</NumberCircle>
+            </>
+          ) : (
+            icon
+          )
+        },
+        width: 40,
+        className: cx(styles.action, styles.insights)
       }
     ]
   }
@@ -159,11 +205,12 @@ class TrendsTable extends PureComponent {
 }
 
 const mapStateToProps = ({
-  hypedTrends: { scoreChange, volumeChange, connectedTrends }
+  hypedTrends: { scoreChange, volumeChange, connectedTrends, TrendToInsights }
 }) => ({
   scoreChange,
   volumeChange,
-  connectedTrends
+  connectedTrends,
+  TrendToInsights
 })
 
 export default connect(mapStateToProps)(TrendsTable)
