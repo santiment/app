@@ -98,7 +98,11 @@ const mapStateToProps = ({
     data: {
       email,
       ethAccounts = [],
-      settings: { telegramDeepLink, isTelegramConnecting, hasTelegramConnected }
+      settings: {
+        telegramDeepLink,
+        isTelegramConnecting,
+        hasTelegramConnected
+      } = {}
     }
   },
   accountUi: { isConnectWalletPending, isConnectWalletFailed }
