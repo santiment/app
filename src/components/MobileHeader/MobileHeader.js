@@ -46,7 +46,7 @@ const MobileHeader = ({
 }
 
 MobileHeader.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   backRoute: PropTypes.string,
   rightActions: PropTypes.node,
   goBack: PropTypes.func

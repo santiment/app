@@ -46,6 +46,11 @@ const LoadableDetailedPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableMobileDetailedPage = Loadable({
+  loader: () => import('./pages/Detailed/MobileDetailedPage'),
+  loading: () => <PageLoader />
+})
+
 const LoadableDashboardPage = Loadable({
   loader: () => import('./pages/Dashboard/DashboardPage'),
   loading: () => <PageLoader />
@@ -209,9 +214,13 @@ export const App = ({
         <Route
           exact
           path='/projects/:slug'
-          render={props => (
-            <LoadableDetailedPage isDesktop={isDesktop} {...props} />
-          )}
+          render={props =>
+            isDesktop ? (
+              <LoadableDetailedPage isDesktop={isDesktop} {...props} />
+            ) : (
+              <LoadableMobileDetailedPage isDesktop={isDesktop} {...props} />
+            )
+          }
         />
         <Route exact path='/labs/trends' component={LoadableTrendsLabsPage} />
         <Route exact path='/labs' component={LabsPage} />
