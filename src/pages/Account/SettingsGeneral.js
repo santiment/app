@@ -1,14 +1,6 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import {
-  Panel,
-  Input,
-  Tabs,
-  Toggle,
-  Label,
-  Button,
-  Selector
-} from '@santiment-network/ui'
+import { Toggle, Label } from '@santiment-network/ui'
 import Settings from './Settings'
 import UsernameSetting from './UsernameSetting'
 import EmailSetting from './EmailSetting'

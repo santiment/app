@@ -1,13 +1,5 @@
 import React, { PureComponent } from 'react'
-import {
-  Panel,
-  Input,
-  Tabs,
-  Toggle,
-  Label,
-  Button,
-  Selector
-} from '@santiment-network/ui'
+import { Panel, Input, Label, Button } from '@santiment-network/ui'
 import cx from 'classnames'
 import styles from './AccountPage.module.scss'
 

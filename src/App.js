@@ -241,7 +241,13 @@ export const App = ({
           )}
         />
         <Route path='/logout' component={LogoutPage} />
-        <Route exact path='/account' component={LoadableAccountPage} />
+        <Route
+          exact
+          path='/account'
+          render={props => (
+            <LoadableAccountPage {...props} isLoggedIn={isLoggedIn} />
+          )}
+        />
         <Route exact path='/status' component={Status} />
         <Redirect from='/ethereum-spent' to='/projects/ethereum' />
         <Route exact path='/build' component={BuildChallenge} />

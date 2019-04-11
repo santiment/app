@@ -1,5 +1,4 @@
 import React from 'react'
-import { Tabs, Toggle, Label, Button, Selector } from '@santiment-network/ui'
 import Settings from './Settings'
 import BancorWidget from '../../components/BancorWidget/BancorWidget'
 import styles from './AccountPage.module.scss'

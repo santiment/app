@@ -1,16 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import * as actions from '../../actions/types'
-import {
-  Icon,
-  Tabs,
-  Toggle,
-  Label,
-  Button,
-  Selector
-} from '@santiment-network/ui'
+import { Icon, Label, Button } from '@santiment-network/ui'
 import copy from 'copy-to-clipboard'
 import Settings from './Settings'
+import * as actions from '../../actions/types'
 import styles from './AccountPage.module.scss'
 
 const SettingsAPIKeys = ({ apikey, generateAPIKey, revokeAPIKey }) => (

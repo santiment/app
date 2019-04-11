@@ -1,6 +1,7 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 import { HashLink as Link } from 'react-router-hash-link'
-import { Tabs, Toggle, Label, Button, Selector } from '@santiment-network/ui'
+import { Tabs } from '@santiment-network/ui'
 import SettingsGeneral from './SettingsGeneral'
 import SettingsConnections from './SettingsConnections'
 import SettingsNotifications from './SettingsNotifications'
@@ -51,7 +52,10 @@ const tabs = [
   }
 ]
 
-const AccountPage = () => {
+const AccountPage = ({ isLoggedIn }) => {
+  if (!isLoggedIn) {
+    return <Redirect to='/dashboard' />
+  }
   return (
     <div className={styles.wrapper + ' page'}>
       <h2 className={styles.title}>Account settings</h2>

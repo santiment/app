@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Tabs, Toggle, Label, Button, Selector } from '@santiment-network/ui'
+import { Label, Button } from '@santiment-network/ui'
 import Settings from './Settings'
 import * as actions from '../../actions/types'
 import { hasMetamask } from '../../web3Helpers'
@@ -97,7 +97,7 @@ const mapStateToProps = ({
   user: {
     data: {
       email,
-      ethAccounts,
+      ethAccounts = [],
       settings: { telegramDeepLink, isTelegramConnecting, hasTelegramConnected }
     }
   },
