@@ -4,6 +4,7 @@ import { compose } from 'redux'
 import { Tabs } from '@santiment-network/ui'
 import WatchlistCard from '../../components/Watchlists/WatchlistCard'
 import FeaturedWatchlist from '../../components/Watchlists/FeaturedWatchlist'
+import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import { publicWatchlistGQL } from './../../components/WatchlistPopup/WatchlistGQL'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
@@ -13,7 +14,7 @@ import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
 import styles from './AssetsOverview.module.scss'
 
-const categories = [
+const basicCategories = [
   {
     name: 'All assets',
     to: '/assets/all',
@@ -59,10 +60,24 @@ const publicWatchlists = [
   }
 ]
 
-const tabs = ['Categories', 'Featured', 'My Watchlists']
+const tabs = [
+  { content: 'Categories', index: 'categories' },
+  { content: 'Featured', index: 'featured' },
+  { content: 'My Watchlists', index: 'myWatchlists' }
+]
 
-const AssetsOverview = props => {
-  const [selectedTab, selectTab] = useState(tabs[0])
+const WatchlistCards = ({ watchlists, slugs }) =>
+  watchlists.map(({ name, assetType, ...rest }) => (
+    <WatchlistCard
+      key={name}
+      name={name}
+      slugs={slugs[assetType] || []}
+      {...rest}
+    />
+  ))
+
+const AssetsOverview = ({ slugs }) => {
+  const [selectedTab, selectTab] = useState(tabs[0].index)
   const onSelectTab = selected => selectTab(selected)
 
   return (
@@ -81,42 +96,31 @@ const AssetsOverview = props => {
       </MobileOnly>
       <DesktopOnly>
         <h4>Categories</h4>
+        <div className={styles.row}>
+          <WatchlistCards
+            watchlists={[...basicCategories, ...publicWatchlists]}
+            slugs={slugs}
+          />
+        </div>
+        <div className={styles.row}>
+          <FeaturedWatchlist />
+        </div>
+        <div className={styles.row}>
+          <MyWatchlist />
+        </div>
       </DesktopOnly>
-      <div className={styles.row}>
-        {[...categories, ...publicWatchlists].map(
-          ({ name, assetType, ...rest }) => (
-            <WatchlistCard
-              key={name}
-              name={name}
-              slugs={props.slugs[assetType] || []}
-              {...rest}
+      <MobileOnly>
+        <div className={styles.row}>
+          {selectedTab === 'categories' && (
+            <WatchlistCards
+              watchlists={[...basicCategories, ...publicWatchlists]}
+              slugs={slugs}
             />
-          )
-        )}
-      </div>
-      <div className={styles.row}>
-        <FeaturedWatchlist />
-      </div>
-      <DesktopOnly>
-        <h4>My watchlists</h4>
-      </DesktopOnly>
-      <div className={styles.row}>
-        <GetWatchlists
-          render={({ isWatchlistsLoading, watchlists }) =>
-            watchlists
-              .filter(({ listItems }) => Boolean(listItems.length))
-              .map(watchlist => (
-                <WatchlistCard
-                  key={watchlist.id}
-                  name={watchlist.name}
-                  to={getWatchlistLink(watchlist)}
-                  isPublic={watchlist.isPublic}
-                  slugs={watchlist.listItems.map(({ project }) => project.slug)}
-                />
-              ))
-          }
-        />
-      </div>
+          )}
+          {selectedTab === 'featured' && <FeaturedWatchlist />}
+          {selectedTab === 'myWatchlists' && <MyWatchlist />}
+        </div>
+      </MobileOnly>
     </div>
   )
 }
