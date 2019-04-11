@@ -18,7 +18,7 @@ const NAVBAR_LINKS = [
   {
     link: '/assets',
     label: 'Assets',
-    linkTo: '/assets/all',
+    linkTo: '/assets',
     iconType: 'assets'
   },
   {
