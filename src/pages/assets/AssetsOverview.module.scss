@@ -4,12 +4,17 @@
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  margin: 25px 0 50px 0;
+  margin: 25px 0 50px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    margin: 20px 0;
+    justify-content: space-between;
+  }
 }
 
 .tabs {
   width: 100%;
   display: flex;
   justify-content: space-around;
-  padding: 0 10px;
+  padding: 4px 10px 0;
 }

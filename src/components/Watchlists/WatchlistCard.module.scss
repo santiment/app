@@ -22,7 +22,12 @@
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     width: 100%;
-    margin: 0;
+    margin: 4px 16px;
+  }
+
+  @include responsive('tablet') {
+    width: 49%;
+    margin: 4px 0;
   }
 }
 

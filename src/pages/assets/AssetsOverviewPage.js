@@ -10,8 +10,7 @@ import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
 import { top50Erc20Projects } from './../Projects/allProjectsGQL'
 import { mapItemsToKeys } from '../../utils/utils'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
-import DesktopOnly from './../../components/Responsive/DesktopOnly'
-import MobileOnly from './../../components/Responsive/MobileOnly'
+import { DesktopOnly, MobileOnly } from './../../components/Responsive'
 import styles from './AssetsOverview.module.scss'
 
 const categories = [
@@ -80,7 +79,9 @@ const AssetsOverview = props => {
           className={styles.tabs}
         />
       </MobileOnly>
-      <h4>Categories</h4>
+      <DesktopOnly>
+        <h4>Categories</h4>
+      </DesktopOnly>
       <div className={styles.row}>
         {[...categories, ...publicWatchlists].map(
           ({ name, assetType, ...rest }) => (
@@ -96,7 +97,9 @@ const AssetsOverview = props => {
       <div className={styles.row}>
         <FeaturedWatchlist />
       </div>
-      <h4>My watchlists</h4>
+      <DesktopOnly>
+        <h4>My watchlists</h4>
+      </DesktopOnly>
       <div className={styles.row}>
         <GetWatchlists
           render={({ isWatchlistsLoading, watchlists }) =>
