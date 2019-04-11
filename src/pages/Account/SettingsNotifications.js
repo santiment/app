@@ -40,9 +40,6 @@ const SettingsNotifications = ({
       <Settings.Row>
         <Label>Email notifications</Label>
         <div className={styles.setting__right_notifications}>
-          <Label className={styles.signalInfo} accent='jungle-green'>
-            Manage followed signals (15/25)
-          </Label>
           <Toggle
             isActive={isEmailNotificationEnabled}
             onClick={() => toggleEmailNotification(!isEmailNotificationEnabled)}
@@ -54,9 +51,6 @@ const SettingsNotifications = ({
         <Label>Telegram notifications</Label>
 
         <div className={styles.setting__right_notifications}>
-          <Label className={styles.signalInfo} accent='jungle-green'>
-            Manage followed signals (25/25)
-          </Label>
           <Toggle
             isActive={isTelegramNotificationEnabled}
             onClick={() =>

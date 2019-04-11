@@ -80,6 +80,7 @@ class SettingsConnections extends PureComponent {
             variant='fill'
             accent='positive'
             as='a'
+            className={styles.connect_telegram}
             href={telegramDeepLink}
             rel='noopener noreferrer'
             target='_blank'
