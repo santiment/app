@@ -15,9 +15,10 @@ class EditableInputSetting extends PureComponent {
   state = {
     value: '',
     editing: false,
-    defaultValue: this.props.defaultValue,
     error: ''
   }
+
+  inputRef = React.createRef()
 
   componentWilllUnmout () {
     clearTimeout(this.timeout)
@@ -30,7 +31,15 @@ class EditableInputSetting extends PureComponent {
       return
     }
 
-    this.props.onSubmit(value)
+    const { defaultValue, onSubmit } = this.props
+
+    if (value === defaultValue) {
+      this.disableEditing()
+      return
+    }
+
+    this.disableEditing()
+    onSubmit(value)
   }
 
   disableEditing = () => {
@@ -38,7 +47,8 @@ class EditableInputSetting extends PureComponent {
   }
 
   onEditClick = () => {
-    this.setState({ editing: true })
+    this.inputRef.current.focus()
+    this.setState({ editing: true, value: this.props.defaultValue })
   }
 
   onChange (value) {
@@ -48,12 +58,12 @@ class EditableInputSetting extends PureComponent {
 
   onChangeDebounced = ({ currentTarget: { value } }) => {
     clearTimeout(this.timeout)
-    this.timeout = setTimeout(() => this.onChange(value), 300)
+    this.timeout = setTimeout(() => this.onChange(value), 100)
   }
 
   render () {
-    const { defaultValue, editing, error } = this.state
-    const { label } = this.props
+    const { editing, error } = this.state
+    const { label, defaultValue } = this.props
     return (
       <form
         style={{ height: 70 }}
@@ -72,14 +82,16 @@ class EditableInputSetting extends PureComponent {
               {defaultValue || `Please add your ${label.toLowerCase()}`}
             </Label>
           )}
-          {editing && (
-            <Input
-              className={styles.form__input}
-              defaultValue={defaultValue}
-              onChange={this.onChangeDebounced}
-              isError={error}
-            />
-          )}
+          <Input
+            forwardedRef={this.inputRef}
+            className={cx(
+              styles.form__input,
+              editing && styles.form__input_edit
+            )}
+            defaultValue={defaultValue}
+            onChange={this.onChangeDebounced}
+            isError={error}
+          />
           <Panel padding className={styles.form__error}>
             <Label accent='persimmon'>{error}</Label>
           </Panel>

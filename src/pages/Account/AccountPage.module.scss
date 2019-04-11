@@ -46,6 +46,7 @@
   &__left {
     display: flex;
     flex-direction: column;
+
     &_form {
       flex-direction: row;
       align-items: center;
@@ -123,8 +124,14 @@
   position: relative;
 
   &__input {
+    position: absolute;
+    left: -9999px;
     margin-left: 16px;
     width: 320px;
+
+    &_edit {
+      position: static;
+    }
   }
 
   &__action {

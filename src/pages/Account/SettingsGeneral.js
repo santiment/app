@@ -10,48 +10,27 @@ import {
   Selector
 } from '@santiment-network/ui'
 import Settings from './Settings'
-import EditableInputSetting from './EditableInputSetting'
+import UsernameSetting from './UsernameSetting'
+import EmailSetting from './EmailSetting'
 import * as actions from '../../actions/types'
 import styles from './AccountPage.module.scss'
-
-const validateUsername = username => {
-  if (!username || username.length < 3) {
-    return 'Username should be at least 3 characters long'
-  }
-}
-
-const validateEmail = email => {
-  if (!email) {
-    return 'Email is required'
-  }
-
-  if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
-    return 'Invalid email address'
-  }
-}
 
 const SettingsGeneral = ({
   email,
   username,
+  dispatchNewUsername,
+  dispatchNewEmail,
   toggleNightMode,
   toggleBetaMode,
   isNightModeEnabled,
   isBetaModeEnabled
 }) => (
   <Settings id='general' header='General'>
-    <EditableInputSetting
-      label='Username'
-      defaultValue={username}
-      validate={validateUsername}
-      onSubmit={console.log}
+    <UsernameSetting
+      dispatchNewUsername={dispatchNewUsername}
+      username={username}
     />
-
-    <EditableInputSetting
-      label='Email'
-      defaultValue={email}
-      validate={validateEmail}
-      onSubmit={console.log}
-    />
+    <EmailSetting dispatchNewEmail={dispatchNewEmail} email={email} />
     <Settings.Row>
       <div className={styles.setting__left}>
         <Label>Night mode</Label>
@@ -80,12 +59,12 @@ const mapStateToProps = ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  changeEmail: email =>
+  dispatchNewEmail: email =>
     dispatch({
       type: actions.USER_EMAIL_CHANGE,
       email
     }),
-  changeUsername: username =>
+  dispatchNewUsername: username =>
     dispatch({
       type: actions.USER_USERNAME_CHANGE,
       username
