@@ -46,6 +46,10 @@
   &__left {
     display: flex;
     flex-direction: column;
+    &_form {
+      flex-direction: row;
+      align-items: center;
+    }
   }
 
   &__right {
@@ -112,5 +116,48 @@
     &:last-child {
       margin: 0;
     }
+  }
+}
+
+.form {
+  position: relative;
+
+  &__input {
+    margin-left: 16px;
+    width: 320px;
+  }
+
+  &__action {
+    cursor: pointer;
+  }
+
+  &__error {
+    display: none;
+    position: absolute;
+    bottom: 87%;
+    left: 100px;
+  }
+
+  &_error:hover .form__error {
+    display: block;
+  }
+
+  &_error .form__input:focus + .form__error {
+    display: block;
+  }
+}
+
+.btns {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.btn {
+  display: inline-block;
+  width: 80px;
+  text-align: center;
+
+  &_cancel {
+    margin-right: 16px;
   }
 }

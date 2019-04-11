@@ -1,29 +1,57 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Tabs, Toggle, Label, Button, Selector } from '@santiment-network/ui'
+import {
+  Panel,
+  Input,
+  Tabs,
+  Toggle,
+  Label,
+  Button,
+  Selector
+} from '@santiment-network/ui'
 import Settings from './Settings'
+import EditableInputSetting from './EditableInputSetting'
 import * as actions from '../../actions/types'
 import styles from './AccountPage.module.scss'
 
+const validateUsername = username => {
+  if (!username || username.length < 3) {
+    return 'Username should be at least 3 characters long'
+  }
+}
+
+const validateEmail = email => {
+  if (!email) {
+    return 'Email is required'
+  }
+
+  if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+    return 'Invalid email address'
+  }
+}
+
 const SettingsGeneral = ({
+  email,
+  username,
   toggleNightMode,
   toggleBetaMode,
   isNightModeEnabled,
   isBetaModeEnabled
 }) => (
   <Settings id='general' header='General'>
-    <Settings.Row>
-      <div className={styles.setting__left}>
-        <Label>Nickname</Label>
-      </div>
-      <Label accent='jungle-green'>Add your nickname</Label>
-    </Settings.Row>
-    <Settings.Row>
-      <div className={styles.setting__left}>
-        <Label>Email</Label>
-      </div>
-      <Label accent='jungle-green'>Add your email</Label>
-    </Settings.Row>
+    <EditableInputSetting
+      label='Username'
+      defaultValue={username}
+      validate={validateUsername}
+      onSubmit={console.log}
+    />
+
+    <EditableInputSetting
+      label='Email'
+      defaultValue={email}
+      validate={validateEmail}
+      onSubmit={console.log}
+    />
     <Settings.Row>
       <div className={styles.setting__left}>
         <Label>Night mode</Label>
@@ -40,10 +68,13 @@ const SettingsGeneral = ({
 )
 
 const mapStateToProps = ({
-  user,
+  user: {
+    data: { email, username }
+  },
   rootUi: { isNightModeEnabled, isBetaModeEnabled }
 }) => ({
-  user: user.data,
+  email,
+  username,
   isNightModeEnabled,
   isBetaModeEnabled
 })
