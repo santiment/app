@@ -109,21 +109,27 @@ const ProjectChartFooter = ({
           </ToggleBtn>
         )}
         <br />
-        <ShowIf beta>
-          <SignalMasterModalForm
-            metaFormSettings={{
-              target: {
-                isDisabled: true,
-                value: { value: props.project.slug, label: props.project.slug }
-              },
-              metric: {
-                value: { label: 'Price', value: 'price' },
-                isDisabled: true
-              }
-            }}
-            label='New Price Signal'
-          />
-        </ShowIf>
+        {// Disable until we don't update to new Signals API
+          false && (
+            <ShowIf beta>
+              <SignalMasterModalForm
+                metaFormSettings={{
+                  target: {
+                    isDisabled: true,
+                    value: {
+                      value: props.project.slug,
+                      label: props.project.slug
+                    }
+                  },
+                  metric: {
+                    value: { label: 'Price', value: 'price' },
+                    isDisabled: true
+                  }
+                }}
+                label='New Price Signal'
+              />
+            </ShowIf>
+          )}
       </FilterCategory>
       <FilterCategory name='Development'>
         <ToggleBtn
