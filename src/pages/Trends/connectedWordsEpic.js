@@ -138,7 +138,6 @@ export const connectedWordsEpic = (action$, store, { client }) =>
               const { length: filteredTagsLength } = filteredTags
 
               if (filteredTagsLength < 1) continue
-              lastConnectedInsight = insight
               // [START] Looping over insight's tags
               for (let i = 0; i < filteredTagsLength; i++) {
                 const tag = filteredTags[i]
@@ -158,14 +157,16 @@ export const connectedWordsEpic = (action$, store, { client }) =>
                   const trendInsights = TrendToInsights[tag]
                   if (trendInsights && lastConnectedInsight !== insight) {
                     trendInsights.push(insight)
+                    lastConnectedInsight = insight
                   }
                 } else {
                   tagsGraph[tag] = connectedTags
+                  TrendToInsights[tag] = [insight]
+                  lastConnectedInsight = insight
 
                   if (trendingWords.includes(tag)) {
                     TrendToTag[tag] = tag
                     TagToTrend[tag] = [tag]
-                    TrendToInsights[tag] = [insight]
                   }
                 }
               } // [END] Looping over insight's tags
@@ -228,8 +229,6 @@ export const connectedWordsEpic = (action$, store, { client }) =>
             },
             {}
           )
-
-          console.log({ TrendToInsights })
 
           return Observable.of({
             type: TRENDS_CONNECTED_WORDS_SUCCESS,
