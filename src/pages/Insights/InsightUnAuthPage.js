@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { Panel, Button, Icon } from '@santiment-network/ui'
 
 const InsightUnAuthPage = ({ history }) => {
@@ -11,15 +12,17 @@ const InsightUnAuthPage = ({ history }) => {
         and more.
       </p>
       <Button
+        variant='fill'
+        accent='positive'
         onClick={() =>
           history.push(`/login?redirect_to=${history.location.pathname}`)
         }
         color='green'
       >
-        <Icon type='checkmark' /> Login or Sign up
+        <Icon type='checkmark' /> &nbsp;Get started
       </Button>
     </Panel>
   )
 }
 
-export default InsightUnAuthPage
+export default withRouter(InsightUnAuthPage)
