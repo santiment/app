@@ -63,6 +63,12 @@ const AccountPage = () => {
         </Settings.Row>
         <Settings.Row>
           <div className={styles.setting__left}>
+            <Label>Email</Label>
+          </div>
+          <Label accent='jungle-green'>Add your email</Label>
+        </Settings.Row>
+        <Settings.Row>
+          <div className={styles.setting__left}>
             <Label>Night mode</Label>
           </div>
           <Toggle />
@@ -127,12 +133,23 @@ const AccountPage = () => {
       <Settings id='notifications' header='Notifications'>
         <Settings.Row>
           <Label>Email notifications</Label>
-          <Toggle />
+          <div className={styles.setting__right_notifications}>
+            <Label className={styles.signalInfo} accent='jungle-green'>
+              Manage followed signals (15/25)
+            </Label>
+            <Toggle />
+          </div>
         </Settings.Row>
 
         <Settings.Row>
           <Label>Telegram notifications</Label>
-          <Toggle />
+
+          <div className={styles.setting__right_notifications}>
+            <Label className={styles.signalInfo} accent='jungle-green'>
+              Manage followed signals (25/25)
+            </Label>
+            <Toggle />
+          </div>
         </Settings.Row>
 
         <Settings.Row>

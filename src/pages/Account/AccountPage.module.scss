@@ -21,6 +21,7 @@
 
 .settings {
   margin-bottom: 50px;
+
   &__header {
     background: var(--athens);
   }
@@ -47,9 +48,19 @@
     flex-direction: column;
   }
 
+  &__right {
+    &_notifications {
+      display: flex;
+      align-items: center;
+    }
+  }
   &__description {
     margin-top: 4px;
   }
+}
+
+.signalInfo {
+  margin-right: 24px;
 }
 
 .tokens {
