@@ -52,7 +52,7 @@ const SettingsAPIKeys = ({ apikey, generateAPIKey, revokeAPIKey }) => (
 
 const mapStateToProps = ({
   user: {
-    data: { apikeys }
+    data: { apikeys = [] }
   }
 }) => ({
   apikey: apikeys[0]
