@@ -94,3 +94,40 @@
 .tooltip {
   z-index: 10;
 }
+
+.insights {
+  position: relative;
+  overflow: visible !important;
+
+  &__wrapper {
+    text-align: right !important;
+  }
+
+  &__icon {
+    &_disabled {
+      pointer-events: none;
+      fill: var(--mystic);
+    }
+  }
+
+  &__number {
+    border-radius: 50%;
+    position: absolute;
+    background: var(--porcelain);
+    color: var(--waterloo);
+    font-size: 12px !important;
+    right: -7px;
+    top: -5px;
+    width: 14px;
+    text-align: center;
+  }
+}
+
+.insight {
+  padding: 24px 18px;
+  border-bottom: 1px solid var(--porcelain);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}

@@ -116,6 +116,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
       ]
 
       const TrendToTag = {}
+      const TrendToInsights = {}
       const TagToTrend = {}
 
       return Observable.forkJoin(...insightQueries)
@@ -128,15 +129,16 @@ export const connectedWordsEpic = (action$, store, { client }) =>
           } of result) {
             if (allInsightsByTag.length < 1) continue
 
+            let lastConnectedInsight
             // [START] Looping over request's insights
-            for (const { tags } of allInsightsByTag) {
+            for (const { tags, ...insight } of allInsightsByTag) {
               const filteredTags = tags
                 .filter(({ name }) => !name.endsWith('-trending-words'))
                 .map(({ name }) => name.toUpperCase())
               const { length: filteredTagsLength } = filteredTags
 
               if (filteredTagsLength < 1) continue
-
+              lastConnectedInsight = insight
               // [START] Looping over insight's tags
               for (let i = 0; i < filteredTagsLength; i++) {
                 const tag = filteredTags[i]
@@ -152,12 +154,18 @@ export const connectedWordsEpic = (action$, store, { client }) =>
                 if (tagConnections) {
                   tagConnections.push(...connectedTags)
                   tagsGraph[tag] = [...new Set(tagConnections)]
+
+                  const trendInsights = TrendToInsights[tag]
+                  if (trendInsights && lastConnectedInsight !== insight) {
+                    trendInsights.push(insight)
+                  }
                 } else {
                   tagsGraph[tag] = connectedTags
 
                   if (trendingWords.includes(tag)) {
                     TrendToTag[tag] = tag
                     TagToTrend[tag] = [tag]
+                    TrendToInsights[tag] = [insight]
                   }
                 }
               } // [END] Looping over insight's tags
@@ -176,6 +184,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
               const trendSynonyms = TagToTrend[foundTicker]
               if (trendSynonyms) {
                 trendSynonyms.push(trend)
+                TrendToInsights[trend] = TrendToInsights[foundTicker]
               } else {
                 TagToTrend[foundTicker] = [trend]
               }
@@ -220,9 +229,11 @@ export const connectedWordsEpic = (action$, store, { client }) =>
             {}
           )
 
+          console.log({ TrendToInsights })
+
           return Observable.of({
             type: TRENDS_CONNECTED_WORDS_SUCCESS,
-            payload: connectedTrends
+            payload: { connectedTrends, TrendToInsights }
           })
         })
         .catch(handleErrorAndTriggerAction(TRENDS_CONNECTED_WORDS_FAILED))
