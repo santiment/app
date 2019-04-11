@@ -12,14 +12,15 @@ export const initialState = {
       signalNotifyEmail: false,
       signalNotifyTelegram: false,
       isTelegramConnecting: false,
-      newsletterSubscription: 'OFF'
-    }
+      newsletterSubscription: 'OFF',
+    },
+    apikeys: [],
   },
   account: null,
   token: null,
   hasMetamask: false,
   consent: null,
-  insightDraft: {}
+  insightDraft: {},
 }
 
 export default (state = initialState, action) => {
@@ -27,7 +28,7 @@ export default (state = initialState, action) => {
     case actions.USER_LOGIN_PENDING:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       }
     case actions.USER_LOGIN_SUCCESS:
       return {
@@ -37,8 +38,8 @@ export default (state = initialState, action) => {
         token: action.token,
         consent: action.consent,
         data: {
-          ...action.user
-        }
+          ...action.user,
+        },
       }
     case actions.USER_LOGOUT_SUCCESS:
       return {
@@ -47,7 +48,7 @@ export default (state = initialState, action) => {
         isLoading: false,
         data: {},
         token: null,
-        consent: null
+        consent: null,
       }
     case actions.USER_LOGIN_FAILED:
       return {
@@ -57,36 +58,36 @@ export default (state = initialState, action) => {
         data: {},
         token: null,
         consent: null,
-        errorMessage: action.payload
+        errorMessage: action.payload,
       }
     case actions.USER_EMAIL_CHANGE:
       return {
         ...state,
         data: {
           ...state.data,
-          email: action.email
-        }
+          email: action.email,
+        },
       }
     case actions.USER_USERNAME_CHANGE:
       return {
         ...state,
         data: {
           ...state.data,
-          username: action.username
-        }
+          username: action.username,
+        },
       }
     case actions.USER_SETTING_GDPR:
       const {
         privacyPolicyAccepted = false,
-        marketingAccepted = false
+        marketingAccepted = false,
       } = action.payload
       return {
         ...state,
         data: {
           ...state.data,
           privacyPolicyAccepted,
-          marketingAccepted
-        }
+          marketingAccepted,
+        },
       }
     case actions.USER_APIKEY_GENERATE_SUCCESS:
     case actions.USER_APIKEY_REVOKE_SUCCESS:
@@ -94,15 +95,15 @@ export default (state = initialState, action) => {
         ...state,
         data: {
           ...state.data,
-          apikeys: action.apikeys
-        }
+          apikeys: action.apikeys,
+        },
       }
     case actions.CHANGE_USER_DATA:
       if (!action.user) {
         return {
           ...initialState,
           hasMetamask: action.hasMetamask,
-          isLoading: false
+          isLoading: false,
         }
       }
       return {
@@ -112,14 +113,14 @@ export default (state = initialState, action) => {
           ...action.user,
           settings: {
             ...action.user.settings,
-            ...state.data.settings
-          }
-        }
+            ...state.data.settings,
+          },
+        },
       }
     case actions.APP_USER_HAS_INACTIVE_TOKEN:
       return {
         ...initialState,
-        isLoading: false
+        isLoading: false,
       }
     case actions.SETTINGS_CONNECT_TELEGRAM:
       return {
@@ -128,9 +129,9 @@ export default (state = initialState, action) => {
           ...state.data,
           settings: {
             ...state.data.settings,
-            isTelegramConnecting: true
-          }
-        }
+            isTelegramConnecting: true,
+          },
+        },
       }
     case actions.SETTINGS_CONNECT_TELEGRAM_SUCCESS:
       return {
@@ -140,9 +141,9 @@ export default (state = initialState, action) => {
           settings: {
             ...state.data.settings,
             hasTelegramConnected: true,
-            isTelegramConnecting: false
-          }
-        }
+            isTelegramConnecting: false,
+          },
+        },
       }
     case actions.SETTINGS_CONNECT_TELEGRAM_CANCEL:
       return {
@@ -151,9 +152,9 @@ export default (state = initialState, action) => {
           ...state.data,
           settings: {
             ...state.data.settings,
-            isTelegramConnecting: false
-          }
-        }
+            isTelegramConnecting: false,
+          },
+        },
       }
     case actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL_SUCCESS:
       return {
@@ -162,9 +163,9 @@ export default (state = initialState, action) => {
           ...state.data,
           settings: {
             ...state.data.settings,
-            ...action.payload
-          }
-        }
+            ...action.payload,
+          },
+        },
       }
     case actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK:
       return {
@@ -174,9 +175,9 @@ export default (state = initialState, action) => {
           settings: {
             ...state.data.settings,
             isTelegarmDeepLinkLoading: true,
-            isTelegramConnecting: false
-          }
-        }
+            isTelegramConnecting: false,
+          },
+        },
       }
     case actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK_SUCCESS:
       return {
@@ -186,9 +187,9 @@ export default (state = initialState, action) => {
           settings: {
             ...state.data.settings,
             isTelegarmDeepLinkLoading: false,
-            telegramDeepLink: action.payload.link
-          }
-        }
+            telegramDeepLink: action.payload.link,
+          },
+        },
       }
     case actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK_FAILED:
       return {
@@ -199,25 +200,25 @@ export default (state = initialState, action) => {
             ...state.data.settings,
             isTelegarmDeepLinkLoading: false,
             isTelegarmDeepLinkError: true,
-            telegramDeepLink: undefined
-          }
-        }
+            telegramDeepLink: undefined,
+          },
+        },
       }
     case actions.SETTINGS_CONNECT_NEW_WALLET_SUCCESS:
       return {
         ...state,
         data: {
           ...state.data,
-          ethAccounts: action.payload.accounts
-        }
+          ethAccounts: action.payload.accounts,
+        },
       }
     case actions.SETTINGS_REMOVE_CONNECTED_WALLET_SUCCESS:
       return {
         ...state,
         data: {
           ...state.data,
-          ethAccounts: action.payload.accounts
-        }
+          ethAccounts: action.payload.accounts,
+        },
       }
     default:
       return state

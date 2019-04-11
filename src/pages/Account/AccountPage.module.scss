@@ -60,6 +60,10 @@
     }
   }
 
+  &_apikey {
+    display: flex;
+  }
+
   &__description {
     margin-top: 4px;
   }
@@ -166,5 +170,50 @@
 
   &_cancel {
     margin-right: 16px;
+  }
+}
+
+.apikey {
+  display: flex;
+  height: 32px;
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  position: relative;
+  min-width: 250px;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    right: 32px;
+    width: 30px;
+    height: 100%;
+    background: linear-gradient(
+      270deg,
+      #fff 0%,
+      #fff 30.94%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
+  &__input {
+    color: var(--mirage);
+    width: 100%;
+    outline: none;
+    border: none;
+    background: transparent;
+    padding: 6px 0 6px 10px;
+    border-right: 1px solid var(--porcelain);
+  }
+
+  &__icon {
+    height: 100%;
+    fill: var(--mirage);
+    margin: 0 8px;
+    cursor: pointer;
+
+    &:hover {
+      fill: var(--jungle-green);
+    }
   }
 }

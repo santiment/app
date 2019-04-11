@@ -1,9 +1,19 @@
 import React from 'react'
-import { Tabs, Toggle, Label, Button, Selector } from '@santiment-network/ui'
+import { connect } from 'react-redux'
+import * as actions from '../../actions/types'
+import {
+  Icon,
+  Tabs,
+  Toggle,
+  Label,
+  Button,
+  Selector
+} from '@santiment-network/ui'
+import copy from 'copy-to-clipboard'
 import Settings from './Settings'
 import styles from './AccountPage.module.scss'
 
-const SettingsAPIKeys = () => (
+const SettingsAPIKeys = ({ apikey, generateAPIKey, revokeAPIKey }) => (
   <Settings id='api-keys' header='API keys'>
     <Settings.Row>
       <div className={styles.setting__left}>
@@ -16,11 +26,57 @@ const SettingsAPIKeys = () => (
           mutations.
         </Label>
       </div>
-      <Button variant='fill' accent='positive'>
-        Generate
-      </Button>
+      <div>
+        <div className={styles.setting_apikey}>
+          {apikey ? (
+            <>
+              <div className={styles.apikey}>
+                <input
+                  className={styles.apikey__input}
+                  defaultValue={apikey}
+                  readOnly
+                />
+                <Icon
+                  onClick={() => copy(apikey)}
+                  type='copy'
+                  className={styles.apikey__icon}
+                />
+              </div>
+              <Button onClick={() => revokeAPIKey(apikey)} accent='negative'>
+                Revoke
+              </Button>
+            </>
+          ) : (
+            <Button onClick={generateAPIKey} variant='fill' accent='positive'>
+              Generate
+            </Button>
+          )}
+        </div>
+      </div>
     </Settings.Row>
   </Settings>
 )
 
-export default SettingsAPIKeys
+const mapStateToProps = ({
+  user: {
+    data: { apikeys }
+  }
+}) => ({
+  apikey: apikeys[0]
+})
+const mapDispatchToProps = dispatch => ({
+  generateAPIKey: () =>
+    dispatch({
+      type: actions.USER_APIKEY_GENERATE
+    }),
+  revokeAPIKey: apikey =>
+    dispatch({
+      type: actions.USER_APIKEY_REVOKE,
+      apikey
+    })
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsAPIKeys)
