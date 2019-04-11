@@ -6,7 +6,7 @@ import { DesktopOnly } from './../../components/Responsive'
 import styles from './FeaturedWatchlist.module.scss'
 
 const FeaturedWatchlists = () => (
-  <>
+  <div className={styles.wrapper}>
     <DesktopOnly>
       <h4>Featured Watchlists</h4>
     </DesktopOnly>
@@ -29,7 +29,7 @@ const FeaturedWatchlists = () => (
         }
       />
     </div>
-  </>
+  </div>
 )
 
 export default FeaturedWatchlists

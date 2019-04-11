@@ -4,12 +4,11 @@ import { Button } from '@santiment-network/ui'
 import styles from './NavbarDropdown.module.scss'
 
 const links = [
-  { link: '/labs/trends', label: 'Social trends' },
+  { link: '/labs/trends', label: 'Social trends 🔥' },
+  { link: '/labs/social-movers', label: 'Social movers' },
   { link: '/ethereum-spent', label: 'ETH spent' },
   { link: '/labs/balance', label: 'Historical balance' },
-  { link: '/labs/wordcloud', label: 'Word context' },
-  { link: '/dashboards', label: 'Dashboard' },
-  { link: '/labs/social-movers', label: 'Social movers' }
+  { link: '/dashboards', label: 'Dashboards' }
 ]
 
 const NavbarLabsDropdown = ({ activeLink }) => (

@@ -28,7 +28,7 @@
     line-height: 20px;
     color: $bali-hai;
     margin-bottom: 24px;
-    width: 50%;
+    width: 39%;
   }
 }
 
@@ -60,11 +60,16 @@
   margin-bottom: 50px;
 }
 
+.section {
+  margin-top: 70px;
+}
+
 .subtitle {
-  font-family: Rubik;
+  font-family: Rubik, sans-serif;
   font-size: 22px;
   line-height: 30px;
   margin-bottom: 26px;
+  color: var(--mirage);
 }
 
 .column {
@@ -96,7 +101,7 @@
     right: 6px;
     height: 24px;
     background: linear-gradient(
-      0,
+      0deg,
       var(--white) 20%,
       rgba(255, 255, 255, 0) 100%
     );
@@ -153,6 +158,12 @@
     margin: 0 auto 24px;
   }
 
+  &__error {
+    display: none;
+    position: absolute;
+    bottom: 130%;
+  }
+
   &__form {
     display: flex;
     justify-content: center;
@@ -171,11 +182,5 @@
 
   &__label {
     color: var(--casper);
-  }
-
-  &__error {
-    display: none;
-    position: absolute;
-    bottom: 130%;
   }
 }
