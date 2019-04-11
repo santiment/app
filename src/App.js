@@ -16,7 +16,6 @@ import NotificationStack from './components/NotificationStack'
 import LoginPage from './pages/Login/LoginPage'
 import Roadmap from './pages/Roadmap'
 import Signals from './pages/Signals'
-import Account from './pages/Account/Account'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import BuildChallenge from './pages/BuildChallenge'
 import EmailLoginVerification from './pages/EmailLoginVerification'
@@ -242,8 +241,7 @@ export const App = ({
           )}
         />
         <Route path='/logout' component={LogoutPage} />
-        <Route exact path='/account' component={Account} />
-        <Route exact path='/account/new' component={LoadableAccountPage} />
+        <Route exact path='/account' component={LoadableAccountPage} />
         <Route exact path='/status' component={Status} />
         <Redirect from='/ethereum-spent' to='/projects/ethereum' />
         <Route exact path='/build' component={BuildChallenge} />
