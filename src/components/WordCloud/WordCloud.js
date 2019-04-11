@@ -70,7 +70,7 @@ export default React.memo(
   graphql(WORD_CLOUD_QUERY, {
     skip: ({ word }) => !word,
     options: ({ word }) => {
-      const { from, to } = getTimeIntervalFromToday(-3, 'd')
+      const { from, to } = getTimeIntervalFromToday(-1, 'd')
       return {
         variables: {
           from: from.toISOString(),
