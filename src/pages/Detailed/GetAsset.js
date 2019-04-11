@@ -1,7 +1,7 @@
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
-import moment from 'moment'
 import { projectBySlugGQL } from './DetailedGQL'
+import { getTimeIntervalFromToday } from '../../utils/dates'
 
 const GetAsset = ({ render, ...props }) => render({ ...props })
 
@@ -18,26 +18,10 @@ export default graphql(projectBySlugGQL, {
     }
   },
   options: ({ slug }) => {
-    const to = moment()
-      .endOf('day')
-      .utc()
-      .format()
-    const fromOverTime = moment()
-      .subtract(2, 'years')
-      .utc()
-      .format()
-    const interval = moment(to).diff(fromOverTime, 'days') > 300 ? '7d' : '1d'
+    const { from: fromOverTime, to } = getTimeIntervalFromToday(-12 * 5, 'm')
+    const { from, to: _ } = getTimeIntervalFromToday(-1, 'm')
     return {
-      variables: {
-        slug: slug,
-        from: moment()
-          .subtract(30, 'days')
-          .utc()
-          .format(),
-        to,
-        fromOverTime,
-        interval
-      }
+      variables: { slug, from, to, fromOverTime, interval: '1d' }
     }
   }
 })(GetAsset)

@@ -22,6 +22,7 @@ const MobileHeader = ({
   backRoute,
   rightActions,
   classes: _classes,
+  showBack = false,
   children
 }) => {
   const classes = { ...defaultClasses, ..._classes }
@@ -29,8 +30,13 @@ const MobileHeader = ({
   return (
     <div className={classes.wrapper}>
       <Title onClick={goBack && goBack} to={backRoute} className={classes.left}>
-        {backRoute && <Icon type='arrow-left-big' />}
-        <h1 className={cx(classes.title, backRoute && classes.isTitleLink)}>
+        {(backRoute || showBack) && <Icon type='arrow-left-big' />}
+        <h1
+          className={cx(
+            classes.title,
+            (backRoute || showBack) && classes.isTitleLink
+          )}
+        >
           {title}
         </h1>
       </Title>
