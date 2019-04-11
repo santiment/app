@@ -1,4 +1,3 @@
-import React from 'react'
 import withSizes from 'react-sizes'
 import PropTypes from 'prop-types'
 import { mapSizesToProps } from '../../App'

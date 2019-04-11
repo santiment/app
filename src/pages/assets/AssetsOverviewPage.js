@@ -2,79 +2,22 @@ import React, { useState } from 'react'
 import { graphql } from 'react-apollo'
 import { compose } from 'redux'
 import { Tabs } from '@santiment-network/ui'
-import WatchlistCard from '../../components/Watchlists/WatchlistCard'
+import WatchlistCards from '../../components/Watchlists/WatchlistCards'
 import FeaturedWatchlist from '../../components/Watchlists/FeaturedWatchlist'
 import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import { publicWatchlistGQL } from './../../components/WatchlistPopup/WatchlistGQL'
-import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
-import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
 import { top50Erc20Projects } from './../Projects/allProjectsGQL'
 import { mapItemsToKeys } from '../../utils/utils'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
+import { PUBLIC_WATCHLISTS, CATEGORIES } from './assets-overview-constants'
 import styles from './AssetsOverview.module.scss'
-
-const basicCategories = [
-  {
-    name: 'All assets',
-    to: '/assets/all',
-    slug: 'TOTAL_MARKET',
-    assetType: 'all'
-  },
-  {
-    name: 'ERC20',
-    to: '/assets/erc20',
-    assetType: 'erc20'
-  },
-  {
-    name: 'Top 50 ERC20',
-    to: '/assets/list?name=top%2050%20erc20%40227#shared',
-    assetType: 'top50Erc20'
-  }
-]
-
-const publicWatchlists = [
-  {
-    name: 'Stablecoins',
-    assetType: 'stablecoins',
-    to: '/assets/list?name=stablecoins@86#shared',
-    id: '86'
-  },
-  {
-    name: 'US-Based Projects',
-    assetType: 'usa',
-    to: '/assets/list?name=usa@138#shared',
-    id: '138'
-  },
-  {
-    name: 'Decentralized Exchanges',
-    assetType: 'dex',
-    to: '/assets/list?name=dex@127#shared',
-    id: '127'
-  },
-  {
-    name: 'Centralized Exchanges',
-    assetType: 'centralized exchanges',
-    to: '/assets/list?name=centralized%20exchanges@272#shared',
-    id: '272'
-  }
-]
 
 const tabs = [
   { content: 'Categories', index: 'categories' },
   { content: 'Featured', index: 'featured' },
   { content: 'My Watchlists', index: 'myWatchlists' }
 ]
-
-const WatchlistCards = ({ watchlists, slugs }) =>
-  watchlists.map(({ name, assetType, ...rest }) => (
-    <WatchlistCard
-      key={name}
-      name={name}
-      slugs={slugs[assetType] || []}
-      {...rest}
-    />
-  ))
 
 const AssetsOverview = ({ slugs }) => {
   const [selectedTab, selectTab] = useState(tabs[0].index)
@@ -96,30 +39,22 @@ const AssetsOverview = ({ slugs }) => {
       </MobileOnly>
       <DesktopOnly>
         <h4>Categories</h4>
-        <div className={styles.row}>
-          <WatchlistCards
-            watchlists={[...basicCategories, ...publicWatchlists]}
-            slugs={slugs}
-          />
+        <div className={styles.section}>
+          <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
         </div>
-        <div className={styles.row}>
+        <div className={styles.section}>
           <FeaturedWatchlist />
         </div>
-        <div className={styles.row}>
+        <div className={styles.section}>
           <MyWatchlist />
         </div>
       </DesktopOnly>
       <MobileOnly>
-        <div className={styles.row}>
-          {selectedTab === 'categories' && (
-            <WatchlistCards
-              watchlists={[...basicCategories, ...publicWatchlists]}
-              slugs={slugs}
-            />
-          )}
-          {selectedTab === 'featured' && <FeaturedWatchlist />}
-          {selectedTab === 'myWatchlists' && <MyWatchlist />}
-        </div>
+        {selectedTab === 'categories' && (
+          <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
+        )}
+        {selectedTab === 'featured' && <FeaturedWatchlist />}
+        {selectedTab === 'myWatchlists' && <MyWatchlist />}
       </MobileOnly>
     </div>
   )
@@ -139,7 +74,7 @@ const enhance = compose(
       data: { fetchAllPublicUserLists = [], loading = true },
       ownProps: { slugs = {} }
     }) => {
-      const publicWatchlistMap = mapItemsToKeys(publicWatchlists, {
+      const publicWatchlistMap = mapItemsToKeys(PUBLIC_WATCHLISTS, {
         keyPath: 'id'
       })
 

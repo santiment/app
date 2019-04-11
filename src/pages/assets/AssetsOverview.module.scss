@@ -1,15 +1,7 @@
 @import '../../mixins.scss';
 
-.row {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
+.section {
   margin: 25px 0 50px;
-
-  @include responsive('phone', 'phone-xs', 'tablet') {
-    margin: 20px 0;
-    justify-content: space-between;
-  }
 }
 
 .tabs {

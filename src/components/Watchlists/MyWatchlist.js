@@ -3,14 +3,15 @@ import WatchlistCard from './WatchlistCard'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
 import { DesktopOnly } from './../../components/Responsive'
-import styles from './FeaturedWatchlist.module.scss'
+import Row from './../../components/Row'
+import styles from './Watchlist.module.scss'
 
 const MyWatchlist = () => (
   <div className={styles.wrapper}>
     <DesktopOnly>
       <h4>My watchlists</h4>
     </DesktopOnly>
-    <div className={styles.row}>
+    <Row>
       <GetWatchlists
         render={({ isWatchlistsLoading, watchlists }) =>
           watchlists
@@ -26,7 +27,7 @@ const MyWatchlist = () => (
             ))
         }
       />
-    </div>
+    </Row>
   </div>
 )
 
