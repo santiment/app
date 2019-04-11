@@ -1,9 +1,17 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Tabs, Toggle, Label, Button, Selector } from '@santiment-network/ui'
 import Settings from './Settings'
+import * as actions from '../../actions/types'
 import styles from './AccountPage.module.scss'
 
-const SettingsConnections = () => (
+const SettingsConnections = ({
+  address,
+  connectNewWallet,
+  removeConnectedWallet,
+  telegramDeepLink,
+  isConnectWalletPending
+}) => (
   <Settings id='connections' header='Connections'>
     <Settings.Row>
       <div className={styles.setting__left}>
@@ -14,8 +22,16 @@ const SettingsConnections = () => (
           Please follow futher instructions.
         </Label>
       </div>
-      <Button variant='fill' accent='positive'>
-        Connect
+      <Button
+        variant='fill'
+        accent='positive'
+        onClick={address ? removeConnectedWallet : connectNewWallet}
+      >
+        {address
+          ? 'Disconnect'
+          : isConnectWalletPending
+            ? 'Connecting'
+            : 'Connect'}
       </Button>
     </Settings.Row>
 
@@ -30,27 +46,60 @@ const SettingsConnections = () => (
           correctly.
         </Label>
       </div>
-      <Button variant='fill' accent='positive'>
-        Connect
-      </Button>
-    </Settings.Row>
-
-    <Settings.Row>
-      <div className={styles.setting__left}>
-        <Label>Email</Label>
-        <Label className={styles.setting__description} accent='waterloo'>
-          You will get the ability to receive notifications and log in through
-          your email.
-          <br />
-          Don't forget to confirm your email address. Follow futher
-          instructions.
-        </Label>
-      </div>
-      <Button variant='fill' accent='positive'>
+      <Button
+        variant='fill'
+        accent='positive'
+        as='a'
+        href={telegramDeepLink}
+        rel='noopener noreferrer'
+        target='_blank'
+      >
         Connect
       </Button>
     </Settings.Row>
   </Settings>
 )
 
-export default SettingsConnections
+const mapStateToProps = ({
+  user: {
+    data: {
+      email,
+      ethAccounts,
+      settings: {
+        telegramDeepLink,
+        isTelegramConnecting,
+        hasTelegramConnected,
+        signalNotifyEmail,
+        signalNotifyTelegram
+      }
+    }
+  },
+  accountUi: { isConnectWalletPending, isConnectWalletFailed }
+}) => ({
+  hasEmail: !!email,
+  address: ethAccounts.length > 0 && ethAccounts[0].address,
+  telegramDeepLink,
+  isTelegramConnecting,
+  hasTelegramConnected,
+  signalNotifyEmail,
+  signalNotifyTelegram,
+  isConnectWalletPending,
+  isConnectWalletFailed
+})
+
+const mapDispatchToProps = dispatch => ({
+  removeConnectedWallet: () =>
+    dispatch({ type: actions.SETTINGS_REMOVE_CONNECTED_WALLET }),
+  connectNewWallet: () =>
+    dispatch({ type: actions.SETTINGS_CONNECT_NEW_WALLET }),
+  generateTelegramDeepLink: () =>
+    dispatch({ type: actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK }),
+  revokeTelegramDeepLink: () =>
+    dispatch({ type: actions.SETTINGS_REVOKE_TELEGRAM_DEEP_LINK }),
+  connectTelegram: () => dispatch({ type: actions.SETTINGS_CONNECT_TELEGRAM })
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsConnections)
