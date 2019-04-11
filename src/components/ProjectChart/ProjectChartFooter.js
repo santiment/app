@@ -46,7 +46,7 @@ export const ToggleBtn = ({
       <Popup
         trigger={<div>{children}</div>}
         inverted
-        content='There was a problem fetching the data. Please, try again or come back later...'
+        content="We don't have the data for this project."
         position='bottom left'
       />
     )}
@@ -145,68 +145,63 @@ const ProjectChartFooter = ({
           />
         </ToggleBtn>
       </FilterCategory>
-      {props.isERC20 && (
-        <FilterCategory
-          className='filter-category-blockchain'
-          name='Blockchain'
+      <FilterCategory className='filter-category-blockchain' name='Blockchain'>
+        <ToggleBtn
+          loading={props.burnRate.loading}
+          error={props.burnRate.error}
+          disabled={props.burnRate.items.length === 0 || props.burnRate.error}
+          isToggled={
+            props.isToggledBurnRate && props.burnRate.items.length !== 0
+          }
+          toggle={props.toggleBurnRate}
         >
-          <ToggleBtn
-            loading={props.burnRate.loading}
-            error={props.burnRate.error}
-            disabled={props.burnRate.items.length === 0 || props.burnRate.error}
-            isToggled={
-              props.isToggledBurnRate && props.burnRate.items.length !== 0
-            }
-            toggle={props.toggleBurnRate}
-          >
-            <Label circular className='burnRateLabel' empty />
-            Token Age Consumed
-            <Popup
-              trigger={<Icon name='info circle' />}
-              inverted
-              content={help['Transaction Volume'].description}
-              position='top left'
-            />
-          </ToggleBtn>
-          <ToggleBtn
-            loading={props.transactionVolume.loading}
-            error={props.transactionVolume.error}
-            disabled={
-              props.transactionVolume.items.length === 0 ||
-              props.transactionVolume.error
-            }
-            isToggled={
-              props.isToggledTransactionVolume &&
-              props.transactionVolume.items.length !== 0
-            }
-            toggle={props.toggleTransactionVolume}
-          >
-            <Label circular className='transactionVolumeLabel' empty />
-            Transaction Volume
-            <Popup
-              trigger={<Icon name='info circle' />}
-              inverted
-              content={help['Transaction Volume'].description}
-              position='top left'
-            />
-          </ToggleBtn>
-          <ToggleBtn
-            loading={props.dailyActiveAddresses.loading}
-            disabled={props.dailyActiveAddresses.items.length === 0}
-            isToggled={
-              props.isToggledDailyActiveAddresses &&
-              props.dailyActiveAddresses.items.length !== 0
-            }
-            toggle={props.toggleActiveAddresses}
-          >
-            <Label circular className='twitterLabel' empty />
-            Daily Active Addresses
-          </ToggleBtn>
-          <br />
-          {// TODO: Partysun. Upgrade when modal with accept it
-            false && <SignalMasterModalForm label='New Price Signal' />}
-        </FilterCategory>
-      )}
+          <Label circular className='burnRateLabel' empty />
+          Token Age Consumed
+          <Popup
+            trigger={<Icon name='info circle' />}
+            inverted
+            content={help['Transaction Volume'].description}
+            position='top left'
+          />
+        </ToggleBtn>
+        <ToggleBtn
+          loading={props.transactionVolume.loading}
+          error={props.transactionVolume.error}
+          disabled={
+            props.transactionVolume.items.length === 0 ||
+            props.transactionVolume.error
+          }
+          isToggled={
+            props.isToggledTransactionVolume &&
+            props.transactionVolume.items.length !== 0
+          }
+          toggle={props.toggleTransactionVolume}
+        >
+          <Label circular className='transactionVolumeLabel' empty />
+          Transaction Volume
+          <Popup
+            trigger={<Icon name='info circle' />}
+            inverted
+            content={help['Transaction Volume'].description}
+            position='top left'
+          />
+        </ToggleBtn>
+        <ToggleBtn
+          loading={props.dailyActiveAddresses.loading}
+          disabled={props.dailyActiveAddresses.items.length === 0}
+          isToggled={
+            props.isToggledDailyActiveAddresses &&
+            props.dailyActiveAddresses.items.length !== 0
+          }
+          toggle={props.toggleActiveAddresses}
+        >
+          <Label circular className='twitterLabel' empty />
+          Daily Active Addresses
+        </ToggleBtn>
+        <br />
+        {// TODO: Partysun. Upgrade when modal with accept it
+          false && <SignalMasterModalForm label='New Price Signal' />}
+      </FilterCategory>
       <FilterCategory name='Social'>
         <ToggleBtn
           loading={props.twitterHistory.loading}
@@ -261,39 +256,36 @@ const ProjectChartFooter = ({
           </Message>
         )}
       </FilterCategory>
-      {(props.isERC20 || props.ticker === 'ETH') && (
-        <FilterCategory name='Ethereum'>
-          <ToggleBtn
-            loading={props.ethSpentOverTime.loading}
-            disabled={props.ethSpentOverTime.items.length === 0}
-            isToggled={
-              props.isToggledEthSpentOverTime &&
-              props.ethSpentOverTime.items.length !== 0
-            }
-            toggle={props.toggleEthSpentOverTime}
-          >
-            <Label circular className='ethSpentOverTimeLabel' empty />
-            ETH spent over time
-            <Popup
-              trigger={<Icon name='info circle' />}
-              inverted
-              content={help['ETH Spent Over Time'].description}
-              position='top left'
-            />
-          </ToggleBtn>
-          <ToggleBtn
-            loading={props.ethPrice.history.loading}
-            disabled={props.ethPrice.history.items.length === 0}
-            isToggled={
-              props.isToggledEthPrice &&
-              props.ethPrice.history.items.length !== 0
-            }
-            toggle={props.toggleEthPrice}
-          >
-            Compare with ETH price
-          </ToggleBtn>
-        </FilterCategory>
-      )}
+      <FilterCategory name='Ethereum'>
+        <ToggleBtn
+          loading={props.ethSpentOverTime.loading}
+          disabled={props.ethSpentOverTime.items.length === 0}
+          isToggled={
+            props.isToggledEthSpentOverTime &&
+            props.ethSpentOverTime.items.length !== 0
+          }
+          toggle={props.toggleEthSpentOverTime}
+        >
+          <Label circular className='ethSpentOverTimeLabel' empty />
+          ETH spent over time
+          <Popup
+            trigger={<Icon name='info circle' />}
+            inverted
+            content={help['ETH Spent Over Time'].description}
+            position='top left'
+          />
+        </ToggleBtn>
+        <ToggleBtn
+          loading={props.ethPrice.history.loading}
+          disabled={props.ethPrice.history.items.length === 0}
+          isToggled={
+            props.isToggledEthPrice && props.ethPrice.history.items.length !== 0
+          }
+          toggle={props.toggleEthPrice}
+        >
+          Compare with ETH price
+        </ToggleBtn>
+      </FilterCategory>
     </div>
   </div>
 )
