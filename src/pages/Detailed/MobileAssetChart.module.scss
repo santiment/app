@@ -1,0 +1,16 @@
+.icoPrice {
+  display: flex;
+}
+
+.icoPriceLegend {
+  width: 20px;
+  height: 1px;
+  margin-top: 10px;
+  margin-left: 10px;
+  border: 1px dashed black;
+}
+
+//Hide first YAxis tick on MobileAssetChart :with-love:
+:global(.recharts-cartesian-axis-tick:first-child) {
+  display: none;
+}
