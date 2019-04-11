@@ -1,0 +1,104 @@
+.wrapper {
+  width: 100%;
+}
+
+.title {
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 40px;
+  color: var(--mirage);
+  margin-bottom: 21px;
+}
+
+.tabs {
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.tab {
+  color: inherit;
+}
+
+.settings {
+  margin-bottom: 50px;
+  &__header {
+    background: var(--athens);
+  }
+
+  &__content {
+    padding: 0;
+  }
+}
+
+.setting {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--porcelain);
+  min-height: 60px;
+  padding: 17px 20px;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__description {
+    margin-top: 4px;
+  }
+}
+
+.tokens {
+  flex-direction: column;
+  position: relative;
+}
+
+.bancor {
+  max-width: 100%;
+  margin-top: 14px;
+
+  & > div > div > div > div {
+    // NOTE(vangaurd): I know....
+
+    box-shadow: none !important;
+    border: 1px solid var(--porcelain);
+    display: flex;
+    align-items: center;
+  }
+
+  :global(.container) {
+    margin-top: -16px !important;
+  }
+
+  a[href="https://www.bancor.network"] {
+    position: absolute;
+    top: -42px;
+  }
+}
+
+.tokens {
+  &__markets {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__market {
+    padding: 20px;
+    border: 1px solid var(--porcelain);
+    color: var(--jungle-green);
+    border-radius: 4px;
+    text-align: center;
+    flex: 1;
+    margin-right: 24px;
+
+    &:last-child {
+      margin: 0;
+    }
+  }
+}

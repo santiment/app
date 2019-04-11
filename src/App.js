@@ -41,6 +41,11 @@ import LogoutPage from './pages/Logout'
 import LabsPage from './pages/Labs'
 import './App.scss'
 
+const LoadableAccountPage = Loadable({
+  loader: () => import('./pages/Account/AccountPage'),
+  loading: () => <PageLoader />
+})
+
 const LoadableDetailedPage = Loadable({
   loader: () => import('./pages/Detailed/Detailed'),
   loading: () => <PageLoader />
@@ -238,6 +243,7 @@ export const App = ({
         />
         <Route path='/logout' component={LogoutPage} />
         <Route exact path='/account' component={Account} />
+        <Route exact path='/account/new' component={LoadableAccountPage} />
         <Route exact path='/status' component={Status} />
         <Redirect from='/ethereum-spent' to='/projects/ethereum' />
         <Route exact path='/build' component={BuildChallenge} />
