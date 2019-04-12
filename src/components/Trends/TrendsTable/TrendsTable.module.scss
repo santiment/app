@@ -22,6 +22,8 @@
 .action {
   text-align: right;
   margin-right: 10px;
+  position: relative;
+  overflow: visible !important;
 
   &:last-child {
     margin: 0;
@@ -33,6 +35,11 @@
 
     &:hover {
       fill: var(--jungle-green);
+    }
+
+    &_disabled {
+      pointer-events: none;
+      fill: var(--mystic);
     }
   }
 }
@@ -96,18 +103,8 @@
 }
 
 .insights {
-  position: relative;
-  overflow: visible !important;
-
   &__wrapper {
     text-align: right !important;
-  }
-
-  &__icon {
-    &_disabled {
-      pointer-events: none;
-      fill: var(--mystic);
-    }
   }
 
   &__number {
