@@ -3,8 +3,9 @@ import { Icon, Button } from '@santiment-network/ui'
 import WatchlistCard from './WatchlistCard'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
-import { DesktopOnly } from './../../components/Responsive'
-import Row from './../../components/Row'
+import { DesktopOnly } from './../Responsive'
+import Row from './../Row'
+import EmptySection from '../EmptySection/EmptySection'
 import styles from './Watchlist.module.scss'
 
 const MyWatchlist = () => (
@@ -20,8 +21,18 @@ const MyWatchlist = () => (
     </DesktopOnly>
     <Row>
       <GetWatchlists
-        render={({ isWatchlistsLoading, watchlists }) =>
-          watchlists
+        render={({ isWatchlistsLoading, watchlists }) => {
+          if (!watchlists.length) {
+            return (
+              <EmptySection>
+                Create your own wathclist to track assets
+                <br />
+                you are interested in
+              </EmptySection>
+            )
+          }
+
+          return watchlists
             .filter(({ listItems }) => Boolean(listItems.length))
             .map(watchlist => (
               <WatchlistCard
@@ -32,7 +43,7 @@ const MyWatchlist = () => (
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
               />
             ))
-        }
+        }}
       />
     </Row>
   </div>
