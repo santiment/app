@@ -36,7 +36,12 @@ const normalizeSelectedTrends = (
 export default (state = initialState, action) => {
   switch (action.type) {
     case actions.TRENDS_HYPED_FETCH:
-      return { ...initialState, connectedTrends: state.connectedTrends }
+      return {
+        ...initialState,
+        connectedTrends: state.connectedTrends,
+        TrendToInsights: state.TrendToInsights,
+        TrendToTag: state.TrendToTag
+      }
     case actions.TRENDS_HYPED_FETCH_SUCCESS:
       return {
         ...state,
