@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   Label,
+  Checkbox,
   PanelWithHeader,
   Panel,
   Icon,
@@ -200,17 +201,17 @@ class TrendsTable extends PureComponent {
     const tableData = topWords.map(({ word }, index) => {
       const [oldScore = 0, newScore = 0] = scoreChange[word] || []
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
+      const isWordSelected = selected.has(word)
       return {
         index: (
           <>
-            <Label
-              variant='circle'
+            <Checkbox
+              isActive={isWordSelected}
               className={cx(
                 styles.checkbox,
-                selected.has(word) && styles.checkbox_active
+                isWordSelected && styles.checkbox_active
               )}
             />
-
             <Label accent='waterloo' className={styles.index}>
               {index + 1}
             </Label>
