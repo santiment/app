@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+- 2019-04-12 | v.1.0.0 'Sonar':
+
+  First version :)
+
 - 2019-03-23 | v.0.34.0 'Sonar':
 
   Add Visual Backtest for Signal Form
