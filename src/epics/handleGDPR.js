@@ -76,7 +76,7 @@ const handleGDPR = (action$, store, { client }) =>
             Observable.of(showNotification('Privacy settings is changed'))
           )
         })
-        .catch(handleErrorAndTriggerAction(actions.APP_TOGGLE_GDPR_FAILED))
+        .catch(handleErrorAndTriggerAction(actions.APP_GDPR_FAILED))
     })
 
 export default handleGDPR

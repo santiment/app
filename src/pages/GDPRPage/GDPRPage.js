@@ -6,11 +6,7 @@ import { Panel, Checkbox, Button } from '@santiment-network/ui'
 import styles from './GDPRPage.module.scss'
 import * as actions from './../../actions/types'
 
-const GDPRPage = ({
-  toggleGDPRModal,
-  togglePrivacyPolicy,
-  privacyPolicyAccepted
-}) => {
+const GDPRPage = ({ togglePrivacyPolicy, privacyPolicyAccepted }) => {
   const [isGDPR, setGDPR] = useState(false)
   const toggleGDPR = () => setGDPR(!isGDPR)
 
@@ -28,9 +24,7 @@ const GDPRPage = ({
       <div>
         <Checkbox isActive={isGDPR} onClick={toggleGDPR} />
         <label>&nbsp;I have read and accept the &nbsp;</label>
-        <Link onClick={toggleGDPRModal} to='/privacy-policy'>
-          Santiment Privacy Policy
-        </Link>
+        <Link to='/privacy-policy'>Santiment Privacy Policy</Link>
       </div>
       <div className={styles.toggleBtn}>
         <Button
@@ -54,11 +48,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggleGDPRModal: () => {
-      dispatch({
-        type: actions.APP_TOGGLE_GDPR_MODAL
-      })
-    },
     togglePrivacyPolicy: () => {
       dispatch({ type: actions.USER_TOGGLE_PRIVACY_POLICY })
     }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Panel, Toggle, Message, Button } from '@santiment-network/ui'
+import { Panel, Toggle, Message } from '@santiment-network/ui'
 import * as actions from './../actions/types'
 import './ManagerPrivacyActivity.css'
 
