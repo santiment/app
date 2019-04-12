@@ -67,7 +67,10 @@ class TrendsTable extends PureComponent {
               position='bottom'
               className={styles.tooltip}
               trigger={
-                <Icon className={styles.action__icon} type='cloud-big' />
+                <Icon
+                  className={cx(styles.action__icon, styles.action__icon_cloud)}
+                  type='cloud-big'
+                />
               }
             >
               <WordCloud className={styles.wordCloud} word={rawWord} />
@@ -79,15 +82,25 @@ class TrendsTable extends PureComponent {
       },
       {
         Cell: ({ original: { rawWord } }) => {
+          const trendConnections = this.props.connectedTrends[rawWord]
+          const hasConnections = trendConnections && trendConnections.length > 0
           return (
-            <Icon
-              className={styles.action__icon}
-              type='connection-big'
-              onMouseEnter={() => {
-                this.connectTrends(rawWord)
-              }}
-              onMouseLeave={this.clearConnectedTrends}
-            />
+            <>
+              <Icon
+                className={cx(
+                  styles.action__icon,
+                  !hasConnections && styles.action__icon_disabled
+                )}
+                type='connection-big'
+                onMouseEnter={() => {
+                  this.connectTrends(rawWord)
+                }}
+                onMouseLeave={this.clearConnectedTrends}
+              />
+              {hasConnections && (
+                <NumberCircle>{trendConnections.length}</NumberCircle>
+              )}
+            </>
           )
         },
         width: 40,
@@ -101,7 +114,7 @@ class TrendsTable extends PureComponent {
             <Icon
               className={cx(
                 styles.action__icon,
-                !insights && styles.insights__icon_disabled
+                !insights && styles.action__icon_disabled
               )}
               type='insight'
             />
@@ -132,7 +145,7 @@ class TrendsTable extends PureComponent {
           )
         },
         width: 40,
-        className: cx(styles.action, styles.insights)
+        className: styles.action
       }
     ]
   }
