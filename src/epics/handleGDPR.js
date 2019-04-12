@@ -1,11 +1,11 @@
-import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
+import { handleErrorAndTriggerAction } from './utils'
 import { userGQL } from './handleLaunch'
 import * as actions from './../actions/types'
 
-const PrivacyGQL = gql`
+const PRIVACY_QUERY = gql`
   mutation updateTermsAndConditions(
     $privacyPolicyAccepted: Boolean!
     $marketingAccepted: Boolean!
@@ -21,7 +21,7 @@ const PrivacyGQL = gql`
   }
 `
 
-const privacyGQLHelper = (user, type) => {
+const getVariablesByType = ({ user, type }) => {
   const marketingAccepted =
     type === actions.USER_TOGGLE_MARKETING
       ? !user.data.marketingAccepted
@@ -31,27 +31,29 @@ const privacyGQLHelper = (user, type) => {
       ? !user.data.privacyPolicyAccepted
       : user.data.privacyPolicyAccepted
   return {
-    variables: {
-      marketingAccepted,
-      privacyPolicyAccepted
-    },
+    marketingAccepted,
+    privacyPolicyAccepted
+  }
+}
+
+const privacyGQLHelper = (user, type) => {
+  const variables = getVariablesByType({ user, type })
+  return {
+    variables,
     optimisticResponse: {
       __typename: 'Mutation',
       updateTermsAndConditions: {
         __typename: 'User',
         id: user.data.id,
-        privacyPolicyAccepted,
-        marketingAccepted
+        ...variables
       }
     },
-    update: proxy => {
+    update: (proxy, newData) => {
       let data = proxy.readQuery({ query: userGQL })
-      if (type === actions.USER_TOGGLE_PRIVACY_POLICY) {
-        data.privacyPolicyAccepted = !data.privacyPolicyAccepted
-      }
-      if (type === actions.USER_TOGGLE_MARKETING) {
-        data.marketingAccepted = !data.marketingAccepted
-      }
+      data.currentUser.privacyPolicyAccepted =
+        newData.data.updateTermsAndConditions.privacyPolicyAccepted
+      data.currentUser.marketingAccepted =
+        newData.data.updateTermsAndConditions.marketingAccepted
       proxy.writeQuery({ query: userGQL, data })
     }
   }
@@ -63,28 +65,18 @@ const handleGDPR = (action$, store, { client }) =>
     .switchMap(action => {
       const user = store.getState().user
       const mutationPromise = client.mutate({
-        mutation: PrivacyGQL,
+        mutation: PRIVACY_QUERY,
         ...privacyGQLHelper(user, action.type)
       })
       return Observable.from(mutationPromise)
-        .mergeMap(({ data }) => {
+        .mergeMap(({ data: { updateTermsAndConditions = {} } }) => {
+          const { id, __typename, ...payload } = updateTermsAndConditions
           return Observable.merge(
-            Observable.of({
-              type: actions.USER_SETTING_GDPR,
-              payload: {
-                privacyPolicyAccepted: (data.updateTermsAndConditions || {})
-                  .privacyPolicyAccepted,
-                marketingAccepted: (data.updateTermsAndConditions || {})
-                  .marketingAccepted
-              }
-            }),
+            Observable.of({ type: actions.USER_SETTING_GDPR, payload }),
             Observable.of(showNotification('Privacy settings is changed'))
           )
         })
-        .catch(error => {
-          Raven.captureException(error)
-          return Observable.of({ type: 'TOGGLE_GDPR_FAILED', payload: error })
-        })
+        .catch(handleErrorAndTriggerAction(actions.APP_GDPR_FAILED))
     })
 
 export default handleGDPR
