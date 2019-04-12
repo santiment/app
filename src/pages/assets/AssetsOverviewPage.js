@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { graphql } from 'react-apollo'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import cx from 'classnames'
 import { Tabs } from '@santiment-network/ui'
 import WatchlistCards from '../../components/Watchlists/WatchlistCards'
 import FeaturedWatchlist from '../../components/Watchlists/FeaturedWatchlist'
@@ -27,7 +28,7 @@ const AssetsOverview = ({ slugs, isLoggedIn }) => {
   const availableTabs = isLoggedIn ? tabs : tabs.slice(0, -1)
 
   return (
-    <div className='page'>
+    <div className={cx(styles.overviewPage, 'page')}>
       <DesktopOnly>
         <h1>Assets overview</h1>
       </DesktopOnly>

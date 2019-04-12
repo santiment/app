@@ -1,5 +1,9 @@
 @import '../../mixins.scss';
 
+.overviewPage {
+  color: var(--mirage);
+}
+
 .section {
   margin: 25px 0 50px;
 }
