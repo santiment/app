@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import cx from 'classnames'
 import { Tabs } from '@santiment-network/ui'
 import WatchlistCards from '../../components/Watchlists/WatchlistCards'
-import FeaturedWatchlist from '../../components/Watchlists/FeaturedWatchlist'
 import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import { publicWatchlistGQL } from './../../components/WatchlistPopup/WatchlistGQL'
 import { top50Erc20Projects } from './../Projects/allProjectsGQL'
@@ -18,7 +17,6 @@ import styles from './AssetsOverview.module.scss'
 
 const tabs = [
   { content: 'Categories', index: 'categories' },
-  { content: 'Featured', index: 'featured' },
   { content: 'My Watchlists', index: 'myWatchlists' }
 ]
 
@@ -46,9 +44,6 @@ const AssetsOverview = ({ slugs, isLoggedIn }) => {
         <div className={styles.section}>
           <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
         </div>
-        <div className={styles.section}>
-          <FeaturedWatchlist />
-        </div>
         {isLoggedIn && (
           <div className={styles.section}>
             <MyWatchlist />
@@ -59,7 +54,6 @@ const AssetsOverview = ({ slugs, isLoggedIn }) => {
         {selectedTab === 'categories' && (
           <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
         )}
-        {selectedTab === 'featured' && <FeaturedWatchlist />}
         {isLoggedIn && selectedTab === 'myWatchlists' && (
           <MyWatchlist isLoggedIn={isLoggedIn} />
         )}

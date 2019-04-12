@@ -92,7 +92,7 @@ class TrendsTable extends PureComponent {
           return (
             <Tooltip
               closeTimeout={50}
-              position='bottom'
+              position='left'
               className={styles.tooltip}
               trigger={
                 <Icon
