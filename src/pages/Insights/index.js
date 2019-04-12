@@ -60,7 +60,11 @@ const PageHub = ({ location: { pathname }, isLoggedIn, isDesktop }) => {
           exact
           path={`${baseLocation}/read/:id`}
           render={props => (
-            <LoadableInsightPage {...props} isDesktop={isDesktop} />
+            <LoadableInsightPage
+              {...props}
+              isLoggedIn={isLoggedIn}
+              isDesktop={isDesktop}
+            />
           )}
         />
         <Route
