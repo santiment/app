@@ -1,4 +1,5 @@
-import * as actions from './../actions/types'
+import { Observable } from 'rxjs'
+import { push } from 'react-router-redux'
 import { checkIsLoggedIn } from './../pages/UserSelectors'
 
 const ignoredPages = ['/privacy-policy', '/roadmap']
@@ -18,8 +19,6 @@ const handleRouter = (action$, store, { client }) =>
         !ignoredPages.includes(payload.pathname)
       )
     })
-    .map(() => ({
-      type: actions.APP_SHOW_GDPR_MODAL
-    }))
+    .exhaustMap(() => Observable.of(push('/gdpr')))
 
 export default handleRouter
