@@ -1,5 +1,5 @@
 @import 'variables.scss';
-@import "../../mixins.scss";
+@import '../../mixins.scss';
 
 .header {
   display: flex;
@@ -18,6 +18,10 @@
   display: block;
   padding: 0 16px;
   margin-bottom: 24px;
+}
+
+.title {
+  color: var(--mirage);
 }
 
 .mainSection {
