@@ -3,7 +3,6 @@ import moment from 'moment'
 import {
   ResponsiveContainer,
   ComposedChart,
-  Legend,
   Line,
   CartesianGrid,
   XAxis,

@@ -77,10 +77,7 @@ export default (state = initialState, action) => {
         }
       }
     case actions.USER_SETTING_GDPR:
-      const {
-        privacyPolicyAccepted = false,
-        marketingAccepted = false
-      } = action.payload
+      const { privacyPolicyAccepted, marketingAccepted } = action.payload
       return {
         ...state,
         data: {

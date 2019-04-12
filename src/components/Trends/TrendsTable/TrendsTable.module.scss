@@ -11,7 +11,7 @@
   color: var(--jungle-green);
 }
 
-.index {
+.headerIndex {
   color: var(--waterloo) !important;
 }
 
@@ -79,12 +79,22 @@
         background: var(--athens);
         cursor: pointer;
 
-        & :local(.word) {
-          color: var(--jungle-green);
-        }
+        :local {
+          .word {
+            color: var(--jungle-green);
+          }
 
-        & :local(.action__icon_cloud) {
-          visibility: visible;
+          .action__icon_cloud {
+            visibility: visible;
+          }
+
+          .index {
+            display: none;
+          }
+
+          .checkbox {
+            display: inline-flex;
+          }
         }
       }
     }
@@ -134,5 +144,18 @@
 
   &:last-child {
     border-bottom: none;
+  }
+}
+
+.checkbox {
+  display: none;
+  vertical-align: middle;
+
+  &_active {
+    display: inline-flex;
+
+    & + .index {
+      display: none;
+    }
   }
 }

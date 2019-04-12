@@ -28,7 +28,7 @@ import PageLoader from './components/PageLoader'
 import Status from './pages/Status'
 import Footer from './components/Footer'
 import FeedbackModal from './components/FeedbackModal'
-import GDPRModal from './components/GDPRModal'
+import GDPRPage from './pages/GDPRPage/GDPRPage'
 import ConfirmDeleteWatchlistModal from './components/WatchlistPopup/ConfirmDeleteWatchlistModal'
 import AssetsPage from './pages/assets/AssetsPage'
 import SignalFormPage from './ducks/Signals/SignalFormPage'
@@ -185,6 +185,7 @@ export const App = ({
             }}
           />
         ))}
+        <Route exact path='/gdpr' component={GDPRPage} />
         <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
         <Route
           exact
@@ -329,7 +330,6 @@ export const App = ({
     <NotificationStack />
     <ConfirmDeleteWatchlistModal />
     <FeedbackModal />
-    <GDPRModal />
     {isDesktop && <Footer />}
   </div>
 )

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
 import { ALL_TAGS_QUERY } from '../pages/Insights/InsightsGQL'
 import Select from './Select/Select'
+import { noTrendTagsFilter } from './Insight/utils'
 
 class TagSelect extends Component {
   static defaultProps = {
@@ -10,7 +11,7 @@ class TagSelect extends Component {
   }
 
   state = {
-    tags: this.props.defaultTags
+    tags: this.props.defaultTags.filter(noTrendTagsFilter)
   }
 
   onChange = tags => {
@@ -45,6 +46,13 @@ class TagSelect extends Component {
 }
 
 export default graphql(ALL_TAGS_QUERY, {
+  props: ({ data }) => {
+    const tags = data.tags || []
+    data.tags = tags.filter(noTrendTagsFilter)
+    return {
+      data
+    }
+  },
   options: () => {
     return {
       errorPolicy: 'all'

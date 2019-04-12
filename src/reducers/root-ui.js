@@ -15,7 +15,6 @@ export const initialState = {
   loginSuccess: false,
   loginError: false,
   loginErrorMessage: '',
-  isGDPRModalOpened: false,
   isNightModeEnabled: isNightModeEnabled,
   isBetaModeEnabled: isBetaModeEnabled,
   isSearchInputFocused: false
@@ -52,27 +51,8 @@ export default (state = initialState, action) => {
         loginError: true,
         loginErrorMessage: action.payload
       }
-    case actions.APP_SHOW_GDPR_MODAL:
-      return {
-        ...state,
-        isGDPRModalOpened: true
-      }
     case actions.APP_USER_HAS_INACTIVE_TOKEN:
-      return {
-        ...state,
-        isGDPRModalOpened: false
-      }
-    case actions.APP_TOGGLE_GDPR_MODAL:
-      return {
-        ...state,
-        isGDPRModalOpened: !state.isGDPRModalOpened
-      }
-    case actions.USER_SETTING_GDPR:
-      const { privacyPolicyAccepted = false } = action.payload
-      return {
-        ...state,
-        isGDPRModalOpened: !privacyPolicyAccepted
-      }
+      return { ...state }
     case actions.APP_USER_NIGHT_MODE_SAVE:
       return {
         ...state,

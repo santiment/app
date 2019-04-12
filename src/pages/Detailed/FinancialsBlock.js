@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import { Label } from 'semantic-ui-react'
+import { Label } from '@santiment-network/ui'
 import {
   formatCryptoCurrency,
   formatNumber,
@@ -25,7 +25,7 @@ export const collectedField = (currency, amount) => {
 const showStatus = status => {
   if (status === 'Certified') {
     return (
-      <Label color='green' horizontal>
+      <Label variant='fill' accent='jungle-green'>
         Certified
       </Label>
     )
@@ -65,11 +65,11 @@ const FinancialsBlock = ({
     )}
     {ethAddresses && ethAddresses.length > 0 && (
       <Fragment>
-        {ethBalance && (
+        {ethBalance !== undefined && (
           <div
             className={cx({
               'row-info wallets': true,
-              'info-disabled': !ethBalance || ethAddresses.length === 0
+              'info-disabled': ethAddresses.length === 0
             })}
           >
             <div>Wallet Balances</div>
@@ -92,27 +92,27 @@ const FinancialsBlock = ({
             </div>
           )}
         </SmoothDropdown>
-        {ethBalance && (
+        {ethBalance !== undefined && (
           <div
             className={cx({
               'row-info': true,
-              'info-disabled': ethAddresses.length === 0 && +ethBalance === 0
+              'info-disabled': ethAddresses.length === 0
             })}
           >
             <div>Total Balance</div>
-            {ethBalance ? `ETH ${millify(ethBalance, 2)}` : 0}
+            {`ETH ${millify(ethBalance, 2)}`}
           </div>
         )}
-        {ethSpent && (
+        {ethSpent !== undefined && (
           <div
             className={cx({
               'row-info': true,
-              'info-disabled': !ethBalance
+              'info-disabled': ethBalance === undefined
             })}
           >
             <div>ETH Spent 30d</div>
             <div style={{ textAlign: 'right' }}>
-              {ethSpent ? `ETH ${millify(ethSpent, 2)}` : 0}
+              {`ETH ${millify(ethSpent, 2)}`}
             </div>
           </div>
         )}

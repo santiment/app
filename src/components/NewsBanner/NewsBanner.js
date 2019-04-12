@@ -25,7 +25,10 @@ class NewsBanner extends PureComponent {
       <div className={styles.container}>
         <div className={cx(styles.wrapper, 'page')}>
           <div className={styles.message}>
-            🔥 We prepared for you crypto trends in social media&nbsp;
+            <span aria-label='sadly' role='img'>
+              🔥
+            </span>{' '}
+            We prepared for you crypto trends in social media&nbsp;
             <Link to='/trends' onClick={this.hideMsg} className={styles.more}>
               More&nbsp;&nbsp;
               <Icon type='pointer-right' />
