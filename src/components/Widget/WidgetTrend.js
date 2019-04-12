@@ -5,7 +5,7 @@ import styles from './WidgetTrend.module.scss'
 const Message = {
   initial: 'Choose any word to see its social context',
   isLoading: 'Loading...',
-  hasNoData: 'No data available...'
+  hasNoData: 'No data available for last 48 hours...'
 }
 
 const getMessage = ({ initial, isLoading, hasNoData }) => {
