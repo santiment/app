@@ -39,13 +39,7 @@ const MobileDetailedPage = props => {
             )
           }
 
-          const {
-            ticker,
-            percentChange24h,
-            priceUsd,
-            icoPrice,
-            ...rest
-          } = project
+          const { ticker, percentChange24h, priceUsd, icoPrice } = project
 
           return (
             <>

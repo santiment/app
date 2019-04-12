@@ -1,5 +1,4 @@
 import { graphql } from 'react-apollo'
-import { connect } from 'react-redux'
 import { projectBySlugGQL } from './DetailedGQL'
 import { getTimeIntervalFromToday } from '../../utils/dates'
 
@@ -19,7 +18,7 @@ export default graphql(projectBySlugGQL, {
   },
   options: ({ slug }) => {
     const { from: fromOverTime, to } = getTimeIntervalFromToday(-12 * 5, 'm')
-    const { from, to: _ } = getTimeIntervalFromToday(-1, 'm')
+    const { from } = getTimeIntervalFromToday(-1, 'm')
     return {
       variables: { slug, from, to, fromOverTime, interval: '7d' }
     }
