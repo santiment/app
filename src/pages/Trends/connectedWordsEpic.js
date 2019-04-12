@@ -232,7 +232,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
 
           return Observable.of({
             type: TRENDS_CONNECTED_WORDS_SUCCESS,
-            payload: { connectedTrends, TrendToInsights }
+            payload: { connectedTrends, TrendToInsights, TrendToTag }
           })
         })
         .catch(handleErrorAndTriggerAction(TRENDS_CONNECTED_WORDS_FAILED))

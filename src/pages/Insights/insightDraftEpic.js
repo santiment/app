@@ -43,6 +43,7 @@ export const insightDraftUpdateEpic = (action$, store, { client }) =>
 
     if (window.location.href.includes('/insights/new?currentTrends')) {
       tagsSet.add(getInsightTrendTagByDate(new Date()))
+      store.dispatch({ type: '[trends] SELECTED_WORDS_CLEAR' })
     }
 
     return (payload.id ? updateDraft$ : createDraft$)(

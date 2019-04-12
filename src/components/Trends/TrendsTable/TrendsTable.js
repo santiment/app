@@ -42,8 +42,15 @@ const NumberCircle = props => (
 
 class TrendsTable extends PureComponent {
   state = {
-    selected: new Set(),
+    selected: this.props.selectedTrends,
     connectedTrends: []
+  }
+
+  componentWillUnmount () {
+    const { selected } = this.state
+    if (selected.size > 0) {
+      this.props.dispatchSelectedTrends(selected)
+    }
   }
 
   connectTrends (word) {
@@ -101,7 +108,9 @@ class TrendsTable extends PureComponent {
       },
       {
         Cell: ({ original: { rawWord } }) => {
-          const trendConnections = this.props.connectedTrends[rawWord]
+          const trendConnections = this.props.connectedTrends[
+            rawWord.toUpperCase()
+          ]
           const hasConnections = trendConnections && trendConnections.length > 0
           return (
             <>
@@ -260,12 +269,27 @@ class TrendsTable extends PureComponent {
 }
 
 const mapStateToProps = ({
-  hypedTrends: { scoreChange, volumeChange, connectedTrends, TrendToInsights }
+  hypedTrends: {
+    scoreChange,
+    volumeChange,
+    connectedTrends,
+    TrendToInsights,
+    selectedTrends
+  }
 }) => ({
   scoreChange,
   volumeChange,
   connectedTrends,
-  TrendToInsights
+  TrendToInsights,
+  selectedTrends
 })
 
-export default connect(mapStateToProps)(TrendsTable)
+const mapDispatchToProps = dispatch => ({
+  dispatchSelectedTrends: payload =>
+    dispatch({ type: '[trends] SELECTED_WORDS', payload })
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TrendsTable)
