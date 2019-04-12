@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Checkbox, Message } from 'semantic-ui-react'
+import { Panel, Toggle, Message, Button } from '@santiment-network/ui'
 import * as actions from './../actions/types'
 import './ManagerPrivacyActivity.css'
 
@@ -11,9 +11,9 @@ const ManagerPrivacyActivity = ({
   toggleMarketing
 }) => {
   return (
-    <div className='panel'>
+    <Panel padding>
       <h2>Data & Privacy</h2>
-      <Message color='teal'>Manage your activity</Message>
+      <Message>Manage your activity</Message>
       <div className='gdpr-settings-privacy'>
         <div className='gdpr-settings-privacy__card'>
           <div className='gdpr-settings-privacy__card-header'>
@@ -24,10 +24,9 @@ const ManagerPrivacyActivity = ({
               Process the personal data provided by me for the registration on
               this website to support and administer my user account.
             </p>
-            <Checkbox
-              toggle
+            <Toggle
               onClick={togglePrivacyPolicy}
-              checked={privacyPolicyAccepted}
+              isActive={privacyPolicyAccepted}
             />
           </div>
         </div>
@@ -40,15 +39,11 @@ const ManagerPrivacyActivity = ({
               Contact me to send me marketing materials related to the Company’s
               services and operations.
             </p>
-            <Checkbox
-              toggle
-              onClick={toggleMarketing}
-              checked={marketingAccepted}
-            />
+            <Toggle onClick={toggleMarketing} isActive={marketingAccepted} />
           </div>
         </div>
       </div>
-    </div>
+    </Panel>
   )
 }
 
