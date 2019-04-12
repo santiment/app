@@ -14,6 +14,7 @@ import {
 import ValueChange from '../../../components/ValueChange/ValueChange'
 import WordCloud from '../../../components/WordCloud/WordCloud'
 import InsightCardSmall from '../../../components/Insight/InsightCardSmall'
+import { TRENDS_SELECTED_WORDS } from '../../../components/Trends/actions'
 import styles from './TrendsTable.module.scss'
 
 const columns = [
@@ -287,7 +288,7 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = dispatch => ({
   dispatchSelectedTrends: payload =>
-    dispatch({ type: '[trends] SELECTED_WORDS', payload })
+    dispatch({ type: TRENDS_SELECTED_WORDS, payload })
 })
 
 export default connect(
