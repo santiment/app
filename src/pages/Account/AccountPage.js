@@ -56,7 +56,7 @@ const tabs = [
 
 const AccountPage = ({ isLoggedIn }) => {
   if (!isLoggedIn) {
-    return <Redirect to='/dashboard' />
+    return <Redirect to='/' />
   }
   return (
     <div className={styles.wrapper + ' page'}>
