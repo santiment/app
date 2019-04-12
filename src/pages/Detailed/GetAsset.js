@@ -21,7 +21,7 @@ export default graphql(projectBySlugGQL, {
     const { from: fromOverTime, to } = getTimeIntervalFromToday(-12 * 5, 'm')
     const { from, to: _ } = getTimeIntervalFromToday(-1, 'm')
     return {
-      variables: { slug, from, to, fromOverTime, interval: '1d' }
+      variables: { slug, from, to, fromOverTime, interval: '7d' }
     }
   }
 })(GetAsset)
