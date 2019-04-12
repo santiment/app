@@ -1,11 +1,12 @@
 import React from 'react'
+import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { Button, Icon } from '@santiment-network/ui'
 import styles from './DashboardPage.module.scss'
 
-const AnonBanner = () => {
+const AnonBanner = ({ className }) => {
   return (
-    <div className={styles.banner}>
+    <div className={cx(styles.banner, className)}>
       <div className={styles.banner__top}>
         <div className={styles.banner__title}>
           Noise control for the crypto market
@@ -25,7 +26,7 @@ const AnonBanner = () => {
               <Icon type='data-big' />
             </div>
             <div className={styles.advantage__text}>
-              On-chain, social and development data for 1000+ crypto projects
+              On-chain, social and development data for 1200+ crypto projects
             </div>
           </div>
           <div className={styles.advantage}>
