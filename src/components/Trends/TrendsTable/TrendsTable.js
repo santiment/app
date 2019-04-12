@@ -3,7 +3,13 @@ import Table from 'react-table'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { PanelWithHeader, Panel, Icon, Tooltip } from '@santiment-network/ui'
+import {
+  Label,
+  PanelWithHeader,
+  Panel,
+  Icon,
+  Tooltip
+} from '@santiment-network/ui'
 import ValueChange from '../../../components/ValueChange/ValueChange'
 import WordCloud from '../../../components/WordCloud/WordCloud'
 import InsightCardSmall from '../../../components/Insight/InsightCardSmall'
@@ -14,8 +20,7 @@ const columns = [
     Header: '#',
     accessor: 'index',
     width: 35,
-    className: styles.index,
-    headerClassName: styles.index
+    headerClassName: styles.headerIndex
   },
   {
     Header: 'Word',
@@ -37,6 +42,7 @@ const NumberCircle = props => (
 
 class TrendsTable extends PureComponent {
   state = {
+    selected: new Set(),
     connectedTrends: []
   }
 
@@ -55,6 +61,19 @@ class TrendsTable extends PureComponent {
     this.setState({
       connectedTrends: []
     })
+  }
+
+  selectTrend (trend) {
+    const { selected: oldSelected } = this.state
+    const selected = new Set([...oldSelected])
+
+    if (selected.has(trend)) {
+      selected.delete(trend)
+    } else {
+      selected.add(trend)
+    }
+
+    this.setState({ selected })
   }
 
   getActionButtons = () => {
@@ -150,6 +169,14 @@ class TrendsTable extends PureComponent {
     ]
   }
 
+  getTrGroupProps = (_, rowInfo) => {
+    return {
+      onClick: () => {
+        this.selectTrend(rowInfo.original.rawWord)
+      }
+    }
+  }
+
   render () {
     const {
       notSelected,
@@ -159,13 +186,27 @@ class TrendsTable extends PureComponent {
       header,
       className
     } = this.props
-    const { connectedTrends } = this.state
+    const { selected, connectedTrends } = this.state
 
     const tableData = topWords.map(({ word }, index) => {
       const [oldScore = 0, newScore = 0] = scoreChange[word] || []
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
       return {
-        index: index + 1,
+        index: (
+          <>
+            <Label
+              variant='circle'
+              className={cx(
+                styles.checkbox,
+                selected.has(word) && styles.checkbox_active
+              )}
+            />
+
+            <Label accent='waterloo' className={styles.index}>
+              {index + 1}
+            </Label>
+          </>
+        ),
         word: (
           <Link
             className={cx(
@@ -211,6 +252,7 @@ class TrendsTable extends PureComponent {
           showPagination={false}
           defaultPageSize={10}
           minRows={10}
+          getTrGroupProps={this.getTrGroupProps}
         />
       </PanelWithHeader>
     )
