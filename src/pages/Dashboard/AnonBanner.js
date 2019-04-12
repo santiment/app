@@ -1,5 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Button, Icon } from '@santiment-network/ui'
+import styles from './DashboardPage.module.scss'
 
 const AnonBanner = () => {
   return (

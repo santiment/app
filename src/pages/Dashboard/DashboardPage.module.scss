@@ -46,9 +46,13 @@
   &__img {
     width: 48px;
     height: 48px;
-    background: var(--athens);
     margin-right: 12px;
     border-radius: 50%;
+    background: linear-gradient(135deg, #dcf6ef 0%, #b9eddf 100%);
+    fill: var(--jungle-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__text {
