@@ -36,10 +36,11 @@ const makeAllQueries = () =>
   ['TELEGRAM', 'PROFESSIONAL_TRADERS_CHAT', 'REDDIT', 'DISCORD'].map(source =>
     graphql(trendsExploreGQL, {
       props: parseTrendsGQLProps(source),
-      options: ({ topic, timeRange }) => ({
+      options: ({ topic, timeRange, interval }) => ({
         variables: {
           searchText: normalizeTopic(topic),
           source: source,
+          interval: interval,
           to: moment().toISOString(),
           from: getTimeFromFromString(timeRange)
         }

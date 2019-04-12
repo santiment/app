@@ -7,12 +7,13 @@ export const trendsExploreGQL = gql`
     $to: DateTime!
     $searchText: String!
     $source: TopicSearchSources
+    $interval: String
   ) {
     topicSearch(
       source: $source
       searchText: $searchText
       from: $from
-      interval: "1d"
+      interval: $interval
       to: $to
     ) {
       chartData {
