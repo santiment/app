@@ -2,6 +2,8 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { HashLink as Link } from 'react-router-hash-link'
 import { Tabs } from '@santiment-network/ui'
+import { DesktopOnly, MobileOnly } from './../../components/Responsive'
+import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import SettingsGeneral from './SettingsGeneral'
 import SettingsConnections from './SettingsConnections'
 import SettingsNotifications from './SettingsNotifications'
@@ -58,7 +60,12 @@ const AccountPage = ({ isLoggedIn }) => {
   }
   return (
     <div className={styles.wrapper + ' page'}>
-      <h2 className={styles.title}>Account settings</h2>
+      <DesktopOnly>
+        <h2 className={styles.title}>Account settings</h2>
+      </DesktopOnly>
+      <MobileOnly>
+        <MobileHeader title='Account settings' />
+      </MobileOnly>
       <Tabs className={styles.tabs} options={tabs} defaultSelectedIndex={1} />
       <SettingsGeneral />
       <SettingsConnections />
