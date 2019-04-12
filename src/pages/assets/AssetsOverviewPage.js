@@ -48,16 +48,18 @@ const AssetsOverview = ({ slugs, isLoggedIn }) => {
         <div className={styles.section}>
           <FeaturedWatchlist />
         </div>
-        <div className={styles.section}>
-          <MyWatchlist isLoggedIn={isLoggedIn} />
-        </div>
+        {isLoggedIn && (
+          <div className={styles.section}>
+            <MyWatchlist />
+          </div>
+        )}
       </DesktopOnly>
       <MobileOnly>
         {selectedTab === 'categories' && (
           <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
         )}
         {selectedTab === 'featured' && <FeaturedWatchlist />}
-        {selectedTab === 'myWatchlists' && (
+        {isLoggedIn && selectedTab === 'myWatchlists' && (
           <MyWatchlist isLoggedIn={isLoggedIn} />
         )}
       </MobileOnly>
