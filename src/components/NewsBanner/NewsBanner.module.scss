@@ -1,5 +1,4 @@
 .wrapper {
-  height: 32px;
   width: 100%;
   padding: 6px 0;
   display: flex;
@@ -10,6 +9,7 @@
 
 .container {
   background-color: var(--athens);
+  height: 32px;
 }
 
 .message {
