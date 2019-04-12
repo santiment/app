@@ -155,14 +155,20 @@ export const connectedWordsEpic = (action$, store, { client }) =>
                   tagsGraph[tag] = [...new Set(tagConnections)]
 
                   const trendInsights = TrendToInsights[tag]
-                  if (trendInsights && lastConnectedInsight !== insight) {
+                  if (
+                    trendInsights &&
+                    lastConnectedInsight !== insight &&
+                    insight.readyState !== 'draft'
+                  ) {
                     trendInsights.push(insight)
                     lastConnectedInsight = insight
                   }
                 } else {
                   tagsGraph[tag] = connectedTags
-                  TrendToInsights[tag] = [insight]
                   lastConnectedInsight = insight
+                  if (insight.readyState !== 'draft') {
+                    TrendToInsights[tag] = [insight]
+                  }
 
                   if (trendingWords.includes(tag)) {
                     TrendToTag[tag] = tag
