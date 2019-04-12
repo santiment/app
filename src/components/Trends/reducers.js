@@ -9,7 +9,28 @@ export const initialState = {
   volumeChange: {},
   allAssets: [],
   connectedTrends: {},
-  TrendToInsights: {}
+  TrendToInsights: {},
+  TrendToTag: {},
+  selectedTrends: new Set()
+}
+
+const normalizeSelectedTrends = (
+  selectedTrends,
+  newSelectedTrends,
+  TrendToTag
+) => {
+  const newState = new Set([...selectedTrends])
+
+  newSelectedTrends.forEach(trend => {
+    const ticker = TrendToTag[trend.toUpperCase()]
+    if (ticker) {
+      newState.add(ticker.toLowerCase())
+    } else {
+      newState.add(trend)
+    }
+  })
+
+  return newState
 }
 
 export default (state = initialState, action) => {
@@ -57,7 +78,25 @@ export default (state = initialState, action) => {
       return {
         ...state,
         connectedTrends: action.payload.connectedTrends,
-        TrendToInsights: action.payload.TrendToInsights
+        TrendToInsights: action.payload.TrendToInsights,
+        TrendToTag: action.payload.TrendToTag
+      }
+
+    case actions.TRENDS_SELECTED_WORDS:
+      return {
+        ...state,
+
+        selectedTrends: normalizeSelectedTrends(
+          state.selectedTrends,
+          action.payload,
+          state.TrendToTag
+        )
+      }
+
+    case actions.TRENDS_SELECTED_WORDS_CLEAR:
+      return {
+        ...state,
+        selectedTrends: new Set()
       }
 
     default:
