@@ -1,0 +1,24 @@
+.wrapper {
+  height: 32px;
+  width: 100%;
+  padding: 6px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--waterloo);
+}
+
+.container {
+  background-color: var(--athens);
+}
+
+.message {
+  display: flex;
+}
+
+.more {
+  color: var(--jungle-green);
+  fill: var(--jungle-green);
+  display: flex;
+  align-items: center;
+}
