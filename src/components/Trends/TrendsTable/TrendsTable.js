@@ -51,7 +51,7 @@ class TrendsTable extends PureComponent {
   componentWillUnmount () {
     const { selected } = this.state
     if (selected.size > 0) {
-      this.props.dispatchSelectedTrends(selected)
+      this.props.setSelectedTrends(selected)
     }
   }
 
@@ -287,7 +287,7 @@ const mapStateToProps = ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  dispatchSelectedTrends: payload =>
+  setSelectedTrends: payload =>
     dispatch({ type: TRENDS_SELECTED_WORDS, payload })
 })
 
