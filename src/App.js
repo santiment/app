@@ -319,7 +319,11 @@ export const App = ({
           path='/login'
           render={props => <LoginPage isDesktop={isDesktop} {...props} />}
         />
-        <Redirect from='/' to='/dashboard' />
+        {isDesktop ? (
+          <Redirect from='/' to='/dashboard' />
+        ) : (
+          <Redirect from='/' to='/assets' />
+        )}
       </Switch>
     </ErrorBoundary>
     <NotificationStack />

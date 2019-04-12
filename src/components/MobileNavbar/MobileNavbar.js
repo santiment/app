@@ -10,12 +10,13 @@ import styles from './MobileNavbar.module.scss'
 import * as actions from './../../actions/types'
 
 const NAVBAR_LINKS = [
-  {
-    link: '/trends',
-    label: 'Trends',
-    linkTo: '/labs/trends',
-    iconType: 'fire'
-  },
+  // TODO: until we don't have mobile good view
+  // {
+  // link: '/trends',
+  // label: 'Trends',
+  // linkTo: '/labs/trends',
+  // iconType: 'fire'
+  // },
   {
     link: '/assets',
     label: 'Assets',
