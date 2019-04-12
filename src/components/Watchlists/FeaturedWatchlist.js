@@ -23,7 +23,7 @@ const FeaturedWatchlists = () => (
                 change={1.22}
                 name={watchlist.name}
                 isPublic={watchlist.isPublic}
-                to={getWatchlistLink(watchlist)}
+                to={getWatchlistLink(watchlist) + '#shared'}
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
               />
             ))
