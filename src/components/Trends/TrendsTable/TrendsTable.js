@@ -67,7 +67,10 @@ class TrendsTable extends PureComponent {
               position='bottom'
               className={styles.tooltip}
               trigger={
-                <Icon className={styles.action__icon} type='cloud-big' />
+                <Icon
+                  className={cx(styles.action__icon, styles.action__icon_cloud)}
+                  type='cloud-big'
+                />
               }
             >
               <WordCloud className={styles.wordCloud} word={rawWord} />

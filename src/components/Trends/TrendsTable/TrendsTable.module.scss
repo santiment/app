@@ -37,6 +37,10 @@
       fill: var(--jungle-green);
     }
 
+    &_cloud {
+      visibility: hidden;
+    }
+
     &_disabled {
       pointer-events: none;
       fill: var(--mystic);
@@ -77,6 +81,10 @@
 
         & :local(.word) {
           color: var(--jungle-green);
+        }
+
+        & :local(.action__icon_cloud) {
+          visibility: visible;
         }
       }
     }
