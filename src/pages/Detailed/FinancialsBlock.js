@@ -47,9 +47,6 @@ const FinancialsBlock = ({
     Project Transparency:&nbsp;
     {isERC20 ? showStatus(projectTransparencyStatus) : 'Not applicable'}
     <hr />
-    {(() => {
-      console.log(JSON.stringify(fundsRaisedIcos))
-    })()}
     {fundsRaisedIcos && fundsRaisedIcos.length !== 0 && (
       <div className='row-info'>
         <div>Collected</div>
