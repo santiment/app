@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { graphql } from 'react-apollo'
 import { compose } from 'redux'
+import { connect } from 'react-redux'
 import { Tabs } from '@santiment-network/ui'
 import WatchlistCards from '../../components/Watchlists/WatchlistCards'
 import FeaturedWatchlist from '../../components/Watchlists/FeaturedWatchlist'
@@ -10,6 +11,7 @@ import { top50Erc20Projects } from './../Projects/allProjectsGQL'
 import { mapItemsToKeys } from '../../utils/utils'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
+import { checkIsLoggedIn } from './../UserSelectors'
 import { PUBLIC_WATCHLISTS, CATEGORIES } from './assets-overview-constants'
 import styles from './AssetsOverview.module.scss'
 
@@ -19,9 +21,10 @@ const tabs = [
   { content: 'My Watchlists', index: 'myWatchlists' }
 ]
 
-const AssetsOverview = ({ slugs }) => {
+const AssetsOverview = ({ slugs, isLoggedIn }) => {
   const [selectedTab, selectTab] = useState(tabs[0].index)
   const onSelectTab = selected => selectTab(selected)
+  const availableTabs = isLoggedIn ? tabs : tabs.slice(0, -1)
 
   return (
     <div className='page'>
@@ -31,7 +34,7 @@ const AssetsOverview = ({ slugs }) => {
       <MobileOnly>
         <MobileHeader title='Assets overview' />
         <Tabs
-          options={tabs}
+          options={availableTabs}
           defaultSelectedIndex={selectedTab}
           onSelect={onSelectTab}
           className={styles.tabs}
@@ -45,19 +48,29 @@ const AssetsOverview = ({ slugs }) => {
         <div className={styles.section}>
           <FeaturedWatchlist />
         </div>
-        <div className={styles.section}>
-          <MyWatchlist />
-        </div>
+        {isLoggedIn && (
+          <div className={styles.section}>
+            <MyWatchlist />
+          </div>
+        )}
       </DesktopOnly>
       <MobileOnly>
         {selectedTab === 'categories' && (
           <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
         )}
         {selectedTab === 'featured' && <FeaturedWatchlist />}
-        {selectedTab === 'myWatchlists' && <MyWatchlist />}
+        {isLoggedIn && selectedTab === 'myWatchlists' && (
+          <MyWatchlist isLoggedIn={isLoggedIn} />
+        )}
       </MobileOnly>
     </div>
   )
+}
+
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: checkIsLoggedIn(state)
+  }
 }
 
 const enhance = compose(
@@ -96,7 +109,8 @@ const enhance = compose(
         isPublicWatchlistsLoading: loading
       }
     }
-  })
+  }),
+  connect(mapStateToProps)
 )
 
 export default enhance(AssetsOverview)
