@@ -1,6 +1,5 @@
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
-import moment from 'moment'
 import { trendsExploreGQL } from '../../components/Trends/trendsExploreGQL'
 import { getTimeIntervalFromToday, MONTH, DAY } from './../../utils/dates.js'
 
@@ -42,6 +41,8 @@ const customTimeRange = timeRange => {
       return getTimeIntervalFromToday(-3, MONTH)
     case '6m':
       return getTimeIntervalFromToday(-6, MONTH)
+    default:
+      return getTimeIntervalFromToday(-1, MONTH)
   }
 }
 
