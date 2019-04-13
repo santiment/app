@@ -6,11 +6,12 @@ import ProjectIcon from './../ProjectIcon'
 import styles from './SearchContainer.module.scss'
 import ALL_PROJECTS from './../../allProjects.json'
 
-const SearchProjects = ({ data: { allProjects = ALL_PROJECTS }, ...props }) => {
+const SearchProjects = ({ data: { allProjects = [] }, ...props }) => {
+  const projects = allProjects.length > 0 ? allProjects : ALL_PROJECTS
   return (
     <SearchWithSuggestions
       {...props}
-      data={allProjects}
+      data={projects}
       predicate={searchTerm => {
         const upperCaseSearchTerm = searchTerm.toUpperCase()
         return ({ ticker, name }) =>
