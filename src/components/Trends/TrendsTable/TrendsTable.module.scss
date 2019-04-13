@@ -88,12 +88,12 @@
             visibility: visible;
           }
 
-          .index {
-            display: none;
-          }
-
           .checkbox {
             display: inline-flex;
+
+            & + .index {
+              display: none;
+            }
           }
         }
       }

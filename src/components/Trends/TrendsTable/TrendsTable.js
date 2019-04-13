@@ -43,6 +43,11 @@ const NumberCircle = props => (
 )
 
 class TrendsTable extends PureComponent {
+  static defaultProps = {
+    selectable: true,
+    selectedTrends: new Set()
+  }
+
   state = {
     selected: this.props.selectedTrends,
     connectedTrends: []
@@ -180,22 +185,15 @@ class TrendsTable extends PureComponent {
     ]
   }
 
-  getTrGroupProps = (_, rowInfo) => {
-    return {
-      onClick: () => {
-        this.selectTrend(rowInfo.original.rawWord)
-      }
-    }
-  }
-
   render () {
     const {
-      notSelected,
+      small,
       trend: { topWords = [] },
       scoreChange,
       volumeChange,
       header,
-      className
+      className,
+      selectable
     } = this.props
     const { selected, connectedTrends } = this.state
 
@@ -206,13 +204,16 @@ class TrendsTable extends PureComponent {
       return {
         index: (
           <>
-            <Checkbox
-              isActive={isWordSelected}
-              className={cx(
-                styles.checkbox,
-                isWordSelected && styles.checkbox_active
-              )}
-            />
+            {selectable && (
+              <Checkbox
+                isActive={isWordSelected}
+                className={cx(
+                  styles.checkbox,
+                  isWordSelected && styles.checkbox_active
+                )}
+                onClick={() => this.selectTrend(word)}
+              />
+            )}
             <Label accent='waterloo' className={styles.index}>
               {index + 1}
             </Label>
@@ -256,14 +257,13 @@ class TrendsTable extends PureComponent {
           resizable={false}
           data={tableData}
           columns={
-            notSelected
+            small
               ? columns.slice(0, 2)
               : columns.concat(this.getActionButtons())
           }
           showPagination={false}
           defaultPageSize={10}
           minRows={10}
-          getTrGroupProps={this.getTrGroupProps}
         />
       </PanelWithHeader>
     )

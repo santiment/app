@@ -5,7 +5,7 @@ import styles from './TrendsTables.module.scss'
 
 class TrendsTables extends PureComponent {
   render () {
-    const { trends, isLoading } = this.props
+    const { trends, isLoading, selectable } = this.props
 
     return (
       <div className={styles.tables}>
@@ -19,7 +19,7 @@ class TrendsTables extends PureComponent {
                   from: new Date(datetime),
                   format: HOUR
                 })}
-                notSelected
+                small
                 className={styles.table}
                 trend={trend}
               />
@@ -30,6 +30,7 @@ class TrendsTables extends PureComponent {
           isLoading={isLoading}
           trend={trends.length > 0 ? trends[trends.length - 1] : {}}
           header='Last trends'
+          selectable={selectable}
         />
       </div>
     )
