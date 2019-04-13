@@ -4,8 +4,9 @@ import { SearchWithSuggestions } from '@santiment-network/ui'
 import { allProjectsForSearchGQL } from '../../pages/Projects/allProjectsGQL'
 import ProjectIcon from './../ProjectIcon'
 import styles from './SearchContainer.module.scss'
+import ALL_PROJECTS from './../../allProjects.json'
 
-const SearchProjects = ({ data: { allProjects = [] }, ...props }) => {
+const SearchProjects = ({ data: { allProjects = ALL_PROJECTS }, ...props }) => {
   return (
     <SearchWithSuggestions
       {...props}
