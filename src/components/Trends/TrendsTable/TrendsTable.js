@@ -14,7 +14,6 @@ import {
 import ValueChange from '../../../components/ValueChange/ValueChange'
 import WordCloud from '../../../components/WordCloud/WordCloud'
 import InsightCardSmall from '../../../components/Insight/InsightCardSmall'
-import { TRENDS_SELECTED_WORDS } from '../../../components/Trends/actions'
 import styles from './TrendsTable.module.scss'
 
 const columns = [
@@ -43,16 +42,12 @@ const NumberCircle = props => (
 )
 
 class TrendsTable extends PureComponent {
-  state = {
-    selected: this.props.selectedTrends,
-    connectedTrends: []
+  static defaultProps = {
+    selectable: true
   }
 
-  componentWillUnmount () {
-    const { selected } = this.state
-    if (selected.size > 0) {
-      this.props.setSelectedTrends(selected)
-    }
+  state = {
+    connectedTrends: []
   }
 
   connectTrends (word) {
@@ -70,19 +65,6 @@ class TrendsTable extends PureComponent {
     this.setState({
       connectedTrends: []
     })
-  }
-
-  selectTrend (trend) {
-    const { selected: oldSelected } = this.state
-    const selected = new Set([...oldSelected])
-
-    if (selected.has(trend)) {
-      selected.delete(trend)
-    } else {
-      selected.add(trend)
-    }
-
-    this.setState({ selected })
   }
 
   getActionButtons = () => {
@@ -180,39 +162,39 @@ class TrendsTable extends PureComponent {
     ]
   }
 
-  getTrGroupProps = (_, rowInfo) => {
-    return {
-      onClick: () => {
-        this.selectTrend(rowInfo.original.rawWord)
-      }
-    }
-  }
-
   render () {
     const {
-      notSelected,
+      small,
       trend: { topWords = [] },
       scoreChange,
       volumeChange,
       header,
-      className
+      className,
+      selectable,
+      isLoggedIn,
+      username,
+      selectTrend,
+      selectedTrends
     } = this.props
-    const { selected, connectedTrends } = this.state
+    const { connectedTrends } = this.state
 
     const tableData = topWords.map(({ word }, index) => {
       const [oldScore = 0, newScore = 0] = scoreChange[word] || []
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
-      const isWordSelected = selected.has(word)
+      const isWordSelected = selectedTrends.has(word)
       return {
         index: (
           <>
-            <Checkbox
-              isActive={isWordSelected}
-              className={cx(
-                styles.checkbox,
-                isWordSelected && styles.checkbox_active
-              )}
-            />
+            {selectable && !!username && isLoggedIn && (
+              <Checkbox
+                isActive={isWordSelected}
+                className={cx(
+                  styles.checkbox,
+                  isWordSelected && styles.checkbox_active
+                )}
+                onClick={() => selectTrend(word)}
+              />
+            )}
             <Label accent='waterloo' className={styles.index}>
               {index + 1}
             </Label>
@@ -256,14 +238,13 @@ class TrendsTable extends PureComponent {
           resizable={false}
           data={tableData}
           columns={
-            notSelected
+            small
               ? columns.slice(0, 2)
               : columns.concat(this.getActionButtons())
           }
           showPagination={false}
           defaultPageSize={10}
           minRows={10}
-          getTrGroupProps={this.getTrGroupProps}
         />
       </PanelWithHeader>
     )
@@ -271,27 +252,16 @@ class TrendsTable extends PureComponent {
 }
 
 const mapStateToProps = ({
-  hypedTrends: {
-    scoreChange,
-    volumeChange,
-    connectedTrends,
-    TrendToInsights,
-    selectedTrends
+  hypedTrends: { scoreChange, volumeChange, connectedTrends, TrendToInsights },
+  user: {
+    data: { username }
   }
 }) => ({
   scoreChange,
   volumeChange,
   connectedTrends,
   TrendToInsights,
-  selectedTrends
+  username
 })
 
-const mapDispatchToProps = dispatch => ({
-  setSelectedTrends: payload =>
-    dispatch({ type: TRENDS_SELECTED_WORDS, payload })
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TrendsTable)
+export default connect(mapStateToProps)(TrendsTable)
