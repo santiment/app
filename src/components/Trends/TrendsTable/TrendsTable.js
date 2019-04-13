@@ -14,7 +14,6 @@ import {
 import ValueChange from '../../../components/ValueChange/ValueChange'
 import WordCloud from '../../../components/WordCloud/WordCloud'
 import InsightCardSmall from '../../../components/Insight/InsightCardSmall'
-import { TRENDS_SELECTED_WORDS } from '../../../components/Trends/actions'
 import styles from './TrendsTable.module.scss'
 
 const columns = [
@@ -53,13 +52,6 @@ class TrendsTable extends PureComponent {
     connectedTrends: []
   }
 
-  componentWillUnmount () {
-    const { selected } = this.state
-    if (selected.size > 0) {
-      this.props.setSelectedTrends(selected)
-    }
-  }
-
   connectTrends (word) {
     const { connectedTrends } = this.props
     const trendConnections = connectedTrends[word.toUpperCase()]
@@ -75,19 +67,6 @@ class TrendsTable extends PureComponent {
     this.setState({
       connectedTrends: []
     })
-  }
-
-  selectTrend (trend) {
-    const { selected: oldSelected } = this.state
-    const selected = new Set([...oldSelected])
-
-    if (selected.has(trend)) {
-      selected.delete(trend)
-    } else {
-      selected.add(trend)
-    }
-
-    this.setState({ selected })
   }
 
   getActionButtons = () => {
@@ -195,14 +174,16 @@ class TrendsTable extends PureComponent {
       className,
       selectable,
       isLoggedIn,
-      username
+      username,
+      selectTrend,
+      selectedTrends
     } = this.props
-    const { selected, connectedTrends } = this.state
+    const { connectedTrends } = this.state
 
     const tableData = topWords.map(({ word }, index) => {
       const [oldScore = 0, newScore = 0] = scoreChange[word] || []
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
-      const isWordSelected = selected.has(word)
+      const isWordSelected = selectedTrends.has(word)
       return {
         index: (
           <>
@@ -213,7 +194,7 @@ class TrendsTable extends PureComponent {
                   styles.checkbox,
                   isWordSelected && styles.checkbox_active
                 )}
-                onClick={() => this.selectTrend(word)}
+                onClick={() => selectTrend(word)}
               />
             )}
             <Label accent='waterloo' className={styles.index}>
@@ -273,13 +254,7 @@ class TrendsTable extends PureComponent {
 }
 
 const mapStateToProps = ({
-  hypedTrends: {
-    scoreChange,
-    volumeChange,
-    connectedTrends,
-    TrendToInsights,
-    selectedTrends
-  },
+  hypedTrends: { scoreChange, volumeChange, connectedTrends, TrendToInsights },
   user: {
     data: { username }
   }
@@ -288,16 +263,7 @@ const mapStateToProps = ({
   volumeChange,
   connectedTrends,
   TrendToInsights,
-  selectedTrends,
   username
 })
 
-const mapDispatchToProps = dispatch => ({
-  setSelectedTrends: payload =>
-    dispatch({ type: TRENDS_SELECTED_WORDS, payload })
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TrendsTable)
+export default connect(mapStateToProps)(TrendsTable)

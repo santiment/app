@@ -33,7 +33,6 @@ const DashboardPage = ({ isLoggedIn }) => (
               trend={items.length > 0 ? items[items.length - 1] : {}}
               isLoading={isLoading}
               selectable={false}
-              isLoggedIn={isLoggedIn}
             />
           )}
         />
