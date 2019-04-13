@@ -61,42 +61,54 @@ const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
   }
 `
 
-export const handleLoginSuccess = (action$, store, { client }) =>
+export const handleLoginSuccess = action$ =>
   action$
     .ofType(actions.USER_LOGIN_SUCCESS)
     .mergeMap(action => {
       const { token, consent } = action
 
-      const hasSubscribed = localStorage.getItem(SUBSCRIPTION_FLAG)
-
-      if (hasSubscribed) {
-        localStorage.removeItem(SUBSCRIPTION_FLAG)
-      }
-
       return Observable.merge(
         Observable.of(showNotification('You are logged in!')),
-
         consent
           ? Observable.of(replace(`/consent?consent=${consent}&token=${token}`))
           : Observable.empty()
-      ).map(() =>
-        // NOTE(@vanguard): Delaying mutation because there is possible bug
-        // that appolo store has not updated and will consider user unathorized = mutation will fail
-        Observable.timer(2000).subscribe(() =>
-          hasSubscribed
-            ? client.mutate({
-              mutation: NEWSLETTER_SUBSCRIPTION_MUTATION,
-              variables: {
-                subscription: 'WEEKLY'
-              }
-            })
-            : undefined
-        )
       )
     })
     .catch(error => {
       return Observable.of({ type: actions.USER_LOGIN_FAILED, payload: error })
     })
+
+export const digestSubscriptionEpic = (action$, store, { client }) =>
+  action$
+    .ofType(actions.USER_LOGIN_SUCCESS)
+    .take(1)
+    .mergeMap(({ user: { privacyPolicyAccepted } }) =>
+      (privacyPolicyAccepted
+        ? Observable.of(true)
+        : action$.ofType(actions.USER_SETTING_GDPR)
+      )
+        .delayWhen(() => Observable.timer(2000))
+        .take(1)
+        .map(() => {
+          console.log('DIGEST ACTIVATED')
+
+          const hasSubscribed = localStorage.getItem(SUBSCRIPTION_FLAG)
+
+          if (hasSubscribed) {
+            localStorage.removeItem(SUBSCRIPTION_FLAG)
+          }
+
+          console.log('fetching')
+          return Observable.from(
+            client.mutate({
+              mutation: NEWSLETTER_SUBSCRIPTION_MUTATION,
+              variables: {
+                subscription: 'WEEKLY'
+              }
+            })
+          ).map(() => Observable.empty)
+        })
+    )
 
 const handleEmailLogin = (action$, store, { client }) =>
   action$.ofType(actions.USER_EMAIL_LOGIN).switchMap(action => {
