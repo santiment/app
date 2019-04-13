@@ -15,12 +15,17 @@ class InsightCreationPage extends Component {
       isPublished,
       location: { search },
       selectedTrends,
+      username,
       ...rest
     } = this.props
 
     if (isPublished) {
       // NOTE(vanguard): in future show thank you message
       return <Redirect to='/insights/my' />
+    }
+
+    if (!username) {
+      return <Redirect to='/account' />
     }
 
     let tags
@@ -40,7 +45,13 @@ class InsightCreationPage extends Component {
 }
 
 const mapStateToProps = (
-  { insightDraft, hypedTrends: { selectedTrends } },
+  {
+    insightDraft,
+    hypedTrends: { selectedTrends },
+    user: {
+      data: { username }
+    }
+  },
   { id, updatedAt }
 ) => {
   return {
@@ -48,6 +59,7 @@ const mapStateToProps = (
     updatedAt: insightDraft.updatedAt || updatedAt,
     isUpdating: insightDraft.isUpdating,
     isPublished: insightDraft.isPublished,
+    username,
     selectedTrends
   }
 }
