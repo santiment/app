@@ -43,7 +43,8 @@ const NumberCircle = props => (
 
 class TrendsTable extends PureComponent {
   static defaultProps = {
-    selectable: true
+    selectable: true,
+    selectedTrends: new Set()
   }
 
   state = {
