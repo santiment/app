@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { List, AutoSizer } from 'react-virtualized'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
-import Assets, { SORT_TYPES } from './Assets'
+import GetAssets, { SORT_TYPES } from './GetAssets'
 import AssetCard from './AssetCard'
 import { getTableTitle } from './utils'
 import styles from './AssetsMobilePage.module.scss'
@@ -11,7 +11,7 @@ const AssetsMobilePage = props => {
   return (
     <div className={cx('page', styles.wrapper)}>
       <MobileHeader title={getTableTitle(props)} backRoute='/assets' />
-      <Assets
+      <GetAssets
         {...props}
         sortBy={SORT_TYPES.marketcap}
         type={props.type}
