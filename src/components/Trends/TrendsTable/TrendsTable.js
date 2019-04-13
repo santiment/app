@@ -193,7 +193,9 @@ class TrendsTable extends PureComponent {
       volumeChange,
       header,
       className,
-      selectable
+      selectable,
+      isLoggedIn,
+      username
     } = this.props
     const { selected, connectedTrends } = this.state
 
@@ -204,7 +206,7 @@ class TrendsTable extends PureComponent {
       return {
         index: (
           <>
-            {selectable && (
+            {selectable && !!username && isLoggedIn && (
               <Checkbox
                 isActive={isWordSelected}
                 className={cx(
@@ -277,13 +279,17 @@ const mapStateToProps = ({
     connectedTrends,
     TrendToInsights,
     selectedTrends
+  },
+  user: {
+    data: { username }
   }
 }) => ({
   scoreChange,
   volumeChange,
   connectedTrends,
   TrendToInsights,
-  selectedTrends
+  selectedTrends,
+  username
 })
 
 const mapDispatchToProps = dispatch => ({
