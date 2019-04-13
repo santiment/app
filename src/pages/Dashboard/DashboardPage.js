@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Panel, Label, Icon } from '@santiment-network/ui'
+import { Panel, Label, Icon } from '@santiment-network/ui'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import InsightsFeatured from '../../components/Insight/InsightsFeatured'
 import TrendsTable from '../../components/Trends/TrendsTable/TrendsTable'
