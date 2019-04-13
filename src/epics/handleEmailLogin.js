@@ -90,20 +90,24 @@ export const digestSubscriptionEpic = (action$, store, { client }) =>
         .delayWhen(() => Observable.timer(2000))
         .take(1)
         .mergeMap(() => {
-          console.log('DIGEST ACTIVATED')
-
           const hasSubscribed = localStorage.getItem(SUBSCRIPTION_FLAG)
 
           if (hasSubscribed) {
             localStorage.removeItem(SUBSCRIPTION_FLAG)
 
-            console.log('fetching')
-            client.mutate({
-              mutation: NEWSLETTER_SUBSCRIPTION_MUTATION,
-              variables: {
-                subscription: 'WEEKLY'
-              }
-            })
+            return Observable.from(
+              client.mutate({
+                mutation: NEWSLETTER_SUBSCRIPTION_MUTATION,
+                variables: {
+                  subscription: 'WEEKLY'
+                }
+              })
+            ).mergeMap(() =>
+              Observable.of({
+                type: actions.USER_DIGEST_CHANGE,
+                payload: 'WEEKLY'
+              })
+            )
           }
 
           return Observable.empty()
