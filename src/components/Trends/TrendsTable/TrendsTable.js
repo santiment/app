@@ -43,12 +43,10 @@ const NumberCircle = props => (
 
 class TrendsTable extends PureComponent {
   static defaultProps = {
-    selectable: true,
-    selectedTrends: new Set()
+    selectable: true
   }
 
   state = {
-    selected: this.props.selectedTrends,
     connectedTrends: []
   }
 
