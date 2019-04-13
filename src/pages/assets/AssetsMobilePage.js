@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { List, AutoSizer } from 'react-virtualized'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
-import Assets from './Assets'
+import Assets, { SORT_TYPES } from './Assets'
 import AssetCard from './AssetCard'
 import { getTableTitle } from './utils'
 import styles from './AssetsMobilePage.module.scss'
@@ -13,8 +13,11 @@ const AssetsMobilePage = props => {
       <MobileHeader title={getTableTitle(props)} backRoute='/assets' />
       <Assets
         {...props}
+        sortBy={SORT_TYPES.marketcap}
         type={props.type}
-        render={Assets => !Assets.isLoading && <AssetsList {...Assets} />}
+        render={Assets => {
+          return !Assets.isLoading && <AssetsList {...Assets} />
+        }}
       />
     </div>
   )

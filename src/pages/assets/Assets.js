@@ -1,10 +1,29 @@
-import React from 'react'
+import { Component } from 'react'
+import PropTypes from 'prop-types'
 import * as qs from 'query-string'
 import { connect } from 'react-redux'
-import { compose, pure } from 'recompose'
+import { compose } from 'redux'
 import * as actions from './../../actions/types.js'
+import { simpleSort } from './../../utils/sortMethods'
 
-class Assets extends React.Component {
+export const SORT_TYPES = {
+  marketcap: 'marketcapUsd',
+  devActivity: 'averageDevActivity',
+  ethSpent: 'ethSpent'
+}
+
+class GetAssets extends Component {
+  static defaultProps = {
+    sortBy: PropTypes.string.isRequired
+  }
+
+  static defaultProps = {
+    sortBy: SORT_TYPES.marketcap,
+    Assets: {
+      items: []
+    }
+  }
+
   getNameIdFromListname = (listname = '') => {
     const data = listname.split('@')
     return {
@@ -58,14 +77,19 @@ class Assets extends React.Component {
   render () {
     const { children, render } = this.props
     const typeInfo = this.getType()
-    const { Assets = {} } = this.props
-    const props = { typeInfo, ...Assets }
-
+    const { Assets, sortBy } = this.props
+    const items = Assets.items
+    const props = {
+      ...Assets,
+      typeInfo,
+      items: items.sort(sort(sortBy))
+    }
     if (typeof children === 'function') return children(props)
-
     return render(props)
   }
 }
+
+const sort = sortBy => (a, b) => simpleSort(a[sortBy], b[sortBy])
 
 const mapStateToProps = state => {
   return {
@@ -89,12 +113,7 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  pure
-)
-
-export default enhance(Assets)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GetAssets)

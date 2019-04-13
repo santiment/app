@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import ProjectIcon from './../../components/ProjectIcon'
 import PercentChanges from './../../components/PercentChanges'
 import { capitalizeStr } from './../../utils/utils'
-import { millify } from '../../utils/formatting'
+import { formatNumber, millify } from '../../utils/formatting'
 import styles from './AssetCard.module.scss'
 
 const AssetsCard = ({
@@ -28,7 +28,7 @@ const AssetsCard = ({
       </div>
     </div>
     <div className={styles.right}>
-      $ {millify(priceUsd, 2)}
+      {priceUsd ? formatNumber(priceUsd, { currency: 'USD' }) : 'No data'}
       <PercentChanges
         className={styles.percentChanges}
         changes={percentChange24h}
