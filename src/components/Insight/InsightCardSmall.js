@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import LikeBtn from '../Like/LikeBtn'
+import MultilineText from '../MultilineText/MultilineText'
 import { getSEOLinkFromIdAndTitle } from '../../pages/Insights/utils'
 import styles from './InsightCardSmall.module.scss'
-import MultilineText from '../MultilineText/MultilineText'
 
 const InsightCard = ({
   className = '',
