@@ -6,11 +6,11 @@
   
 3. `yarn`
   
-4. `yarn start:light`
+4. `yarn start`
   
 5. `yarn test` - One time run all tests
   
-6. `yarn run test:js` - Run js tests watcher
+6. `yarn test:js` - Run js tests watcher
 
 ## Lint and Format
 
