@@ -11,7 +11,8 @@ import {
 import {
   TRENDS_HYPED_FETCH_SUCCESS,
   TRENDS_HYPED_FETCH_TICKERS_SLUGS_SUCCESS,
-  TRENDS_CONNECTED_WORDS_SUCCESS
+  TRENDS_CONNECTED_WORDS_SUCCESS,
+  TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS
 } from '../../components/Trends/actions'
 import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../components/Insight/insightsGQL'
 
@@ -137,10 +138,15 @@ describe('Connect Trending Words', () => {
   it('should should connect synonyms', async () => {
     const client = await createClient(link)
 
-    const action$ = ActionsObservable.of({
-      type: TRENDS_HYPED_FETCH_SUCCESS,
-      payload: mockedData.trends.synonyms
-    })
+    const action$ = ActionsObservable.from([
+      {
+        type: TRENDS_HYPED_FETCH_SUCCESS,
+        payload: mockedData.trends.synonyms
+      },
+      {
+        type: TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS
+      }
+    ])
     const epic$ = connectedWordsEpic(action$, mockStore({}), { client })
     const promise = epic$.toPromise()
     const result = await promise
@@ -156,10 +162,15 @@ describe('Connect Trending Words', () => {
   it('should should connect trends', async () => {
     const client = await createClient(link)
 
-    const action$ = ActionsObservable.of({
-      type: TRENDS_HYPED_FETCH_SUCCESS,
-      payload: mockedData.trends.hard
-    })
+    const action$ = ActionsObservable.from([
+      {
+        type: TRENDS_HYPED_FETCH_SUCCESS,
+        payload: mockedData.trends.hard
+      },
+      {
+        type: TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS
+      }
+    ])
     const epic$ = connectedWordsEpic(action$, mockStore({}), { client })
     const promise = epic$.toPromise()
     const result = await promise

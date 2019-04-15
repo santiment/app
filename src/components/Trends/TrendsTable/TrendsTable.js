@@ -28,7 +28,7 @@ const columns = [
     accessor: 'word'
   },
   {
-    Header: 'Trending score',
+    Header: 'Hyped score',
     accessor: 'score'
   },
   {
