@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Panel, Label, Icon } from '@santiment-network/ui'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import InsightsFeatured from '../../components/Insight/InsightsFeatured'
-import TrendsTable from '../../components/Trends/TrendsTable/TrendsTable'
+import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
 import FeaturedWatchlists from '../../components/Watchlists/FeaturedWatchlist'
 import DashboardPageSubscription from './DashboardPageSubscription'
 import DashboardPageOnboard from './DashboardPageOnboard'
@@ -28,9 +28,8 @@ const DashboardPage = ({ isLoggedIn }) => (
         </h2>
         <GetHypedTrends
           render={({ isLoading, items }) => (
-            <TrendsTable
-              header='Last trends'
-              trend={items.length > 0 ? items[items.length - 1] : {}}
+            <TrendsTables
+              trends={items.slice(-1)}
               isLoading={isLoading}
               selectable={false}
             />

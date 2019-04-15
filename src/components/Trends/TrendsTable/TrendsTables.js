@@ -63,11 +63,12 @@ class TrendsTables extends PureComponent {
       connectedTrends
     } = this.props
 
+    const { length } = trends
+
     return (
       <div className={styles.tables}>
         {trends.length > 1 &&
-          trends.slice(0, -1).map(trend => {
-            const { datetime } = trend
+          trends.slice(0, -1).map(({ datetime, topWords }) => {
             return (
               <TrendsTable
                 key={datetime}
@@ -77,7 +78,7 @@ class TrendsTables extends PureComponent {
                 })}
                 small
                 className={styles.table}
-                trend={trend}
+                trend={topWords.map(({ word }) => word)}
                 isLoggedIn={isLoggedIn}
                 selectTrend={this.selectTrend}
                 selectedTrends={selected}
@@ -91,7 +92,11 @@ class TrendsTables extends PureComponent {
         <TrendsTable
           className={styles.table}
           isLoading={isLoading}
-          trend={trends.length > 0 ? trends[trends.length - 1] : {}}
+          trend={
+            length > 0
+              ? trends[length - 1].topWords.map(({ word }) => word)
+              : []
+          }
           header='Last trends'
           selectable={selectable}
           isLoggedIn={isLoggedIn || true}

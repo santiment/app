@@ -44,7 +44,9 @@ const NumberCircle = props => (
 class TrendsTable extends PureComponent {
   static defaultProps = {
     selectable: true,
-    selectedTrends: new Set()
+    selectedTrends: new Set(),
+    trendConnections: [],
+    connectedTrends: {}
   }
 
   getActionButtons = () => {
@@ -75,10 +77,14 @@ class TrendsTable extends PureComponent {
           const {
             connectedTrends,
             connectTrends,
-            clearConnectedTrends
+            clearConnectedTrends,
+            trend
           } = this.props
           const trendConnections = connectedTrends[rawWord.toUpperCase()]
-          const hasConnections = trendConnections && trendConnections.length > 0
+          const hasConnections =
+            trendConnections &&
+            trendConnections.filter(word => trend.includes(word.toLowerCase()))
+              .length > 0
           return (
             <>
               <Icon
@@ -148,7 +154,7 @@ class TrendsTable extends PureComponent {
   render () {
     const {
       small,
-      trend: { topWords = [] },
+      trend,
       scoreChange,
       volumeChange,
       header,
@@ -161,7 +167,7 @@ class TrendsTable extends PureComponent {
       trendConnections
     } = this.props
 
-    const tableData = topWords.map(({ word }, index) => {
+    const tableData = trend.map((word, index) => {
       const [oldScore = 0, newScore = 0] = scoreChange[word] || []
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
       const isWordSelected = selectedTrends.has(word)
