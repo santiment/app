@@ -43,6 +43,7 @@ const NumberCircle = props => (
 
 class TrendsTable extends PureComponent {
   static defaultProps = {
+    trendWords: [],
     selectable: true,
     selectedTrends: new Set(),
     trendConnections: [],
@@ -156,7 +157,7 @@ class TrendsTable extends PureComponent {
   render () {
     const {
       small,
-      trend,
+      trendWords,
       scoreChange,
       volumeChange,
       header,
@@ -169,7 +170,7 @@ class TrendsTable extends PureComponent {
       trendConnections
     } = this.props
 
-    const tableData = trend.map((word, index) => {
+    const tableData = trendWords.map((word, index) => {
       const [oldScore = 0, newScore = 0] = scoreChange[word] || []
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
       const isWordSelected = selectedTrends.has(word)

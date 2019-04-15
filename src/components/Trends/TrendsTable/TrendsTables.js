@@ -22,13 +22,20 @@ class TrendsTables extends PureComponent {
       return null
     }
 
+    const newAllTrends = []
+    const ownTrends = trends.map(({ datetime, topWords }) => {
+      const words = topWords.map(({ word }) => word)
+      newAllTrends.push(...words)
+
+      return {
+        datetime,
+        words
+      }
+    })
+
     return {
-      allTrends: new Set(
-        trends.reduce(
-          (acc, { topWords }) => acc.concat(topWords.map(({ word }) => word)),
-          []
-        )
-      )
+      allTrends: new Set(newAllTrends),
+      trends: ownTrends
     }
   }
 
@@ -70,21 +77,15 @@ class TrendsTables extends PureComponent {
   }
 
   render () {
-    const { selected, trendConnections, allTrends } = this.state
-    const {
-      trends,
-      isLoading,
-      selectable,
-      isLoggedIn,
-      connectedTrends
-    } = this.props
+    const { selected, trendConnections, allTrends, trends } = this.state
+    const { isLoading, selectable, isLoggedIn, connectedTrends } = this.props
 
     const { length } = trends
 
     return (
       <div className={styles.tables}>
-        {trends.length > 1 &&
-          trends.slice(0, -1).map(({ datetime, topWords }) => {
+        {length > 1 &&
+          trends.slice(0, -1).map(({ datetime, words }) => {
             return (
               <TrendsTable
                 key={datetime}
@@ -94,7 +95,7 @@ class TrendsTables extends PureComponent {
                 })}
                 small
                 className={styles.table}
-                trend={topWords.map(({ word }) => word)}
+                trendWords={words}
                 isLoggedIn={isLoggedIn}
                 selectTrend={this.selectTrend}
                 selectedTrends={selected}
@@ -108,11 +109,7 @@ class TrendsTables extends PureComponent {
         <TrendsTable
           className={styles.table}
           isLoading={isLoading}
-          trend={
-            length > 0
-              ? trends[length - 1].topWords.map(({ word }) => word)
-              : []
-          }
+          trendWords={length > 0 ? trends[length - 1].words : undefined}
           header='Last trends'
           selectable={selectable}
           isLoggedIn={isLoggedIn || true}
