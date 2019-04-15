@@ -78,12 +78,12 @@ class TrendsTable extends PureComponent {
             connectedTrends,
             connectTrends,
             clearConnectedTrends,
-            trend
+            allTrends
           } = this.props
           const trendConnections = connectedTrends[rawWord.toUpperCase()]
           const hasConnections =
             trendConnections &&
-            trendConnections.filter(word => trend.includes(word.toLowerCase()))
+            trendConnections.filter(word => allTrends.has(word.toLowerCase()))
               .length > 0
           return (
             <>

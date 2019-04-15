@@ -13,7 +13,23 @@ class TrendsTables extends PureComponent {
 
   state = {
     selected: this.props.selectedTrends,
-    trendConnections: []
+    trendConnections: [],
+    allTrends: []
+  }
+
+  static getDerivedStateFromProps ({ trends }, { allTrends }) {
+    if (allTrends.length > 0) {
+      return null
+    }
+
+    return {
+      allTrends: new Set(
+        trends.reduce(
+          (acc, { topWords }) => acc.concat(topWords.map(({ word }) => word)),
+          []
+        )
+      )
+    }
   }
 
   componentWillUnmount () {
@@ -54,7 +70,7 @@ class TrendsTables extends PureComponent {
   }
 
   render () {
-    const { selected, trendConnections } = this.state
+    const { selected, trendConnections, allTrends } = this.state
     const {
       trends,
       isLoading,
@@ -106,6 +122,7 @@ class TrendsTables extends PureComponent {
           trendConnections={trendConnections}
           connectTrends={this.connectTrends}
           clearConnectedTrends={this.clearConnectedTrends}
+          allTrends={allTrends}
         />
       </div>
     )
