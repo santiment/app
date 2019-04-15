@@ -1,18 +1,11 @@
 .title {
+  display: inline-block;
   font-size: 16px;
   line-height: 24px;
   color: var(--mirage);
-  max-width: 100%;
+  max-width: 400px;
   margin-bottom: 6px;
-  overflow: hidden;
-  text-overflow: ellipsis;
   word-wrap: break-word;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  max-height: 48px;
-
-  /* autoprefixer: ignore next */
-  -webkit-box-orient: vertical;
 
   &:hover {
     color: var(--jungle-green);
@@ -21,10 +14,11 @@
 
 .meta {
   display: flex;
+  justify-content: space-between;
 }
 
 .username {
-  width: 100px;
+  max-width: 200px;
   font-size: 14px;
   line-height: 20px;
   color: var(--waterloo);

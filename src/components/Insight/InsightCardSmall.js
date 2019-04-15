@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import LikeBtn from '../Like/LikeBtn'
 import { getSEOLinkFromIdAndTitle } from '../../pages/Insights/utils'
 import styles from './InsightCardSmall.module.scss'
+import MultilineText from '../MultilineText/MultilineText'
 
 const InsightCard = ({
   className = '',
@@ -18,7 +19,7 @@ const InsightCard = ({
         to={`/insights/read/${getSEOLinkFromIdAndTitle(id, title)}`}
         className={styles.title}
       >
-        {title}
+        <MultilineText id='InsightCardSmall__title' maxLines={2} text={title} />
       </Link>
       <div className={styles.meta}>
         <div className={styles.username} title={user.username}>
