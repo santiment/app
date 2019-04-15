@@ -55,7 +55,9 @@ const NewWatchlistBtn = ({ createWatchlist }) => {
             Secret
           </div>
           <div>
-            <Button border>Cancel</Button>
+            <Button border className={styles.cancel}>
+              Cancel
+            </Button>
             <Button
               variant='fill'
               accent='positive'

@@ -1,6 +1,7 @@
 import React from 'react'
 import WatchlistCard from './WatchlistCard'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
+import NewWatchlistBtn from './NewWatchlistBtn'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
 import { DesktopOnly } from './../Responsive'
 import Row from './../Row'
@@ -10,7 +11,10 @@ import styles from './Watchlist.module.scss'
 const MyWatchlist = () => (
   <div className={styles.wrapper}>
     <DesktopOnly>
-      <h4>My watchlists</h4>
+      <div className={styles.header}>
+        <h4>My watchlists</h4>
+        <NewWatchlistBtn />
+      </div>
     </DesktopOnly>
     <Row>
       <GetWatchlists
