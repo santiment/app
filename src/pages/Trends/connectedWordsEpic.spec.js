@@ -27,7 +27,6 @@ const createClient = link => {
 }
 
 const insightFields = {
-  id: 0,
   readyState: '',
   title: '',
   createdAt: '',
@@ -85,18 +84,22 @@ const mockedData = {
     allInsightsByTag: [
       {
         ...insightFields,
+        id: 0,
         tags: [{ name: 'BTC' }, { name: 'DOGE' }]
       },
       {
         ...insightFields,
+        id: 1,
         tags: [{ name: 'ETH' }]
       },
       {
         ...insightFields,
+        id: 2,
         tags: [{ name: 'DOGE' }]
       },
       {
         ...insightFields,
+        id: 3,
         tags: [{ name: 'BCH' }, { name: 'DOGE' }, { name: 'ETH' }]
       }
     ]
@@ -137,7 +140,7 @@ describe('Connect Trending Words', () => {
     await promise
   })
 
-  xit('should connect synonyms', async () => {
+  it('should connect synonyms', async () => {
     const client = await createClient(link)
 
     const action$ = ActionsObservable.of({
@@ -156,7 +159,7 @@ describe('Connect Trending Words', () => {
     })
   })
 
-  xit('should connect trends', async () => {
+  it('should connect trends', async () => {
     const client = await createClient(link)
 
     const action$ = ActionsObservable.of({
