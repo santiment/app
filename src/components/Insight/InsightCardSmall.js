@@ -22,9 +22,9 @@ const InsightCard = ({
         <MultilineText id='InsightCardSmall__title' maxLines={2} text={title} />
       </Link>
       <div className={styles.meta}>
-        <div className={styles.username} title={user.username}>
+        <Link to={`/insights/users/${user.id}`} className={styles.username}>
           {user.username}
-        </div>
+        </Link>
         <LikeBtn small grey liked={!!votedAt} likesNumber={totalVotes} />
       </div>
     </div>
