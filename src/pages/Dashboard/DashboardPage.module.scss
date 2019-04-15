@@ -1,5 +1,4 @@
 @import '~@santiment-network/ui/variables.scss';
-@import 'mixins.scss';
 
 .wrapper {
   width: 100%;
@@ -113,8 +112,13 @@
 
   &__panel {
     flex: 1;
-    overflow-y: auto;
+    overflow-y: hidden;
     position: relative;
+
+    &:hover {
+      overflow-y: auto;
+      overflow-y: overlay;
+    }
   }
 
   &__list {
