@@ -7,11 +7,13 @@ import styles from './TrendsTables.module.scss'
 
 class TrendsTables extends PureComponent {
   static defaultProps = {
-    selectedTrends: new Set()
+    selectedTrends: new Set(),
+    connectedTrends: {}
   }
 
   state = {
-    selected: this.props.selectedTrends
+    selected: this.props.selectedTrends,
+    trendConnections: []
   }
 
   componentWillUnmount () {
@@ -34,9 +36,32 @@ class TrendsTables extends PureComponent {
     this.setState({ selected })
   }
 
+  connectTrends = word => {
+    const { connectedTrends } = this.props
+    const trendConnections = connectedTrends[word.toUpperCase()]
+
+    if (trendConnections && trendConnections.length > 0) {
+      this.setState({
+        trendConnections
+      })
+    }
+  }
+
+  clearConnectedTrends = () => {
+    this.setState({
+      trendConnections: []
+    })
+  }
+
   render () {
-    const { selected } = this.state
-    const { trends, isLoading, selectable, isLoggedIn } = this.props
+    const { selected, trendConnections } = this.state
+    const {
+      trends,
+      isLoading,
+      selectable,
+      isLoggedIn,
+      connectedTrends
+    } = this.props
 
     return (
       <div className={styles.tables}>
@@ -56,6 +81,10 @@ class TrendsTables extends PureComponent {
                 isLoggedIn={isLoggedIn}
                 selectTrend={this.selectTrend}
                 selectedTrends={selected}
+                connectedTrends={connectedTrends}
+                trendConnections={trendConnections}
+                connectTrends={this.connectTrends}
+                clearConnectedTrends={this.clearConnectedTrends}
               />
             )
           })}
@@ -68,6 +97,10 @@ class TrendsTables extends PureComponent {
           isLoggedIn={isLoggedIn || true}
           selectTrend={this.selectTrend}
           selectedTrends={selected}
+          connectedTrends={connectedTrends}
+          trendConnections={trendConnections}
+          connectTrends={this.connectTrends}
+          clearConnectedTrends={this.clearConnectedTrends}
         />
       </div>
     )
@@ -75,10 +108,11 @@ class TrendsTables extends PureComponent {
 }
 
 const mapStateToProps = ({
-  hypedTrends: { selectedTrends },
+  hypedTrends: { selectedTrends, connectedTrends },
   user: { token }
 }) => ({
   selectedTrends,
+  connectedTrends,
   isLoggedIn: !!token
 })
 

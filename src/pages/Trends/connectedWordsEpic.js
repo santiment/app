@@ -187,11 +187,11 @@ export const connectedWordsEpic = (action$, store, { client }) =>
             const foundTicker = mapWordToProjectsTicker(trend)
             if (foundTicker) {
               TrendToTag[trend] = foundTicker
+              TrendToInsights[trend] = TrendToInsights[foundTicker]
 
               const trendSynonyms = TagToTrend[foundTicker]
               if (trendSynonyms) {
                 trendSynonyms.push(trend)
-                TrendToInsights[trend] = TrendToInsights[foundTicker]
               } else {
                 TagToTrend[foundTicker] = [trend]
               }

@@ -47,27 +47,6 @@ class TrendsTable extends PureComponent {
     selectedTrends: new Set()
   }
 
-  state = {
-    connectedTrends: []
-  }
-
-  connectTrends (word) {
-    const { connectedTrends } = this.props
-    const trendConnections = connectedTrends[word.toUpperCase()]
-
-    if (trendConnections && trendConnections.length > 0) {
-      this.setState({
-        connectedTrends: trendConnections
-      })
-    }
-  }
-
-  clearConnectedTrends = () => {
-    this.setState({
-      connectedTrends: []
-    })
-  }
-
   getActionButtons = () => {
     return [
       {
@@ -93,9 +72,12 @@ class TrendsTable extends PureComponent {
       },
       {
         Cell: ({ original: { rawWord } }) => {
-          const trendConnections = this.props.connectedTrends[
-            rawWord.toUpperCase()
-          ]
+          const {
+            connectedTrends,
+            connectTrends,
+            clearConnectedTrends
+          } = this.props
+          const trendConnections = connectedTrends[rawWord.toUpperCase()]
           const hasConnections = trendConnections && trendConnections.length > 0
           return (
             <>
@@ -106,9 +88,9 @@ class TrendsTable extends PureComponent {
                 )}
                 type='connection-big'
                 onMouseEnter={() => {
-                  this.connectTrends(rawWord)
+                  connectTrends(rawWord)
                 }}
-                onMouseLeave={this.clearConnectedTrends}
+                onMouseLeave={clearConnectedTrends}
               />
               {hasConnections && (
                 <NumberCircle>{trendConnections.length}</NumberCircle>
@@ -175,9 +157,9 @@ class TrendsTable extends PureComponent {
       isLoggedIn,
       username,
       selectTrend,
-      selectedTrends
+      selectedTrends,
+      trendConnections
     } = this.props
-    const { connectedTrends } = this.state
 
     const tableData = topWords.map(({ word }, index) => {
       const [oldScore = 0, newScore = 0] = scoreChange[word] || []
@@ -205,7 +187,7 @@ class TrendsTable extends PureComponent {
           <Link
             className={cx(
               styles.word,
-              connectedTrends.includes(word.toUpperCase()) && styles.connected
+              trendConnections.includes(word.toUpperCase()) && styles.connected
             )}
             to={`/labs/trends/explore/${word}`}
           >
@@ -253,14 +235,13 @@ class TrendsTable extends PureComponent {
 }
 
 const mapStateToProps = ({
-  hypedTrends: { scoreChange, volumeChange, connectedTrends, TrendToInsights },
+  hypedTrends: { scoreChange, volumeChange, TrendToInsights },
   user: {
     data: { username }
   }
 }) => ({
   scoreChange,
   volumeChange,
-  connectedTrends,
   TrendToInsights,
   username
 })
