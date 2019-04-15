@@ -11,7 +11,27 @@ class TagSelect extends Component {
   }
 
   state = {
-    tags: this.props.defaultTags.filter(noTrendTagsFilter)
+    tags: [],
+    defaultTagsLoaded: false
+  }
+
+  static getDerivedStateFromProps (
+    { defaultTags, onChange },
+    { tags, defaultTagsLoaded }
+  ) {
+    if (defaultTagsLoaded || defaultTags.length === 0) {
+      return null
+    }
+
+    const newTags = [...new Set(tags.concat(defaultTags))].filter(
+      noTrendTagsFilter
+    )
+
+    onChange(newTags)
+    return {
+      tags: newTags,
+      defaultTagsLoaded: true
+    }
   }
 
   onChange = tags => {
