@@ -81,10 +81,12 @@ class TrendsTable extends PureComponent {
             allTrends
           } = this.props
           const trendConnections = connectedTrends[rawWord.toUpperCase()]
-          const hasConnections =
-            trendConnections &&
-            trendConnections.filter(word => allTrends.has(word.toLowerCase()))
-              .length > 0
+          const visibleConnectionsLength = trendConnections
+            ? trendConnections.filter(word => allTrends.has(word.toLowerCase()))
+              .length
+            : 0
+
+          const hasConnections = visibleConnectionsLength > 0
           return (
             <>
               <Icon
@@ -99,7 +101,7 @@ class TrendsTable extends PureComponent {
                 onMouseLeave={clearConnectedTrends}
               />
               {hasConnections && (
-                <NumberCircle>{trendConnections.length}</NumberCircle>
+                <NumberCircle>{visibleConnectionsLength}</NumberCircle>
               )}
             </>
           )
