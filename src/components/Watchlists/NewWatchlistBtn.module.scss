@@ -1,0 +1,34 @@
+.wrapper {
+  padding: none;
+}
+
+.header {
+  border-bottom: 1px solid var(--porcelain);
+  font-size: 16px;
+  color: var(--mirage);
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.leftActions {
+  display: flex;
+  align-items: center;
+}
+
+.splitContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content {
+  padding: 18px 0 40px;
+  width: 392px;
+}
+
+.toggle {
+  margin-right: 12px;
+}
