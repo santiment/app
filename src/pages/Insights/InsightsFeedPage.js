@@ -2,7 +2,10 @@ import React from 'react'
 import { Query } from 'react-apollo'
 import { connect } from 'react-redux'
 import { baseLocation } from './InsightsPage'
-import { INSIGHTS_BY_USERID_QUERY, INSIGHTS_BY_TAG_QUERY } from './InsightsGQL'
+import {
+  INSIGHTS_BY_USERID_QUERY,
+  INSIGHTS_BY_TAG_QUERY
+} from './../../queries/InsightsGQL'
 import InsightsFeed from '../../components/Insight/InsightsFeed'
 import styles from './InsightsFeedPage.module.scss'
 
@@ -33,6 +36,7 @@ const InsightsFeedPage = ({ match: { path, params }, userId, sortReducer }) => {
       >
         {({ data = {} }) => {
           const { insights = [] } = data
+          console.log(insights)
 
           return <InsightsFeed insights={sortReducer(insights)} />
         }}

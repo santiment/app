@@ -27,13 +27,14 @@ export const PostVisualBacktest = ({
   changePriceProp,
   history,
   postUpdatedAt,
-  startValue
+  startValue,
+  ...rest
 }) => {
   if (history.loading) {
     return <div className='post-visual-backtest'>Loading...</div>
   }
   if (!history.historyPrice || !changePriceProp) return null
-
+  console.log(rest)
   return (
     <div className='post-visual-backtest'>
       <div className='post-visual-backtest__info'>
@@ -80,12 +81,12 @@ const enhance = compose(
       }
     }
   }),
-  withProps(({ ticker, history = {}, updatedAt }) => {
+  withProps(({ ticker, history = {}, publishedAt }) => {
     const { historyPrice } = history
     if (!historyPrice || historyPrice.length === 0) return {}
 
     const start =
-      historyPrice[binarySearchHistoryPriceIndex(historyPrice, updatedAt)]
+      historyPrice[binarySearchHistoryPriceIndex(historyPrice, publishedAt)]
 
     const last = historyPrice[historyPrice.length - 1]
     if (!start || !last) return {}

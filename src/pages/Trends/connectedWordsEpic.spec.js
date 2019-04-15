@@ -13,7 +13,7 @@ import {
   TRENDS_HYPED_FETCH_TICKERS_SLUGS_SUCCESS,
   TRENDS_CONNECTED_WORDS_SUCCESS
 } from '../../components/Trends/actions'
-import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../components/Insight/insightsGQL'
+import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../queries/InsightsGQL'
 
 const mockStore = configureStore([])
 

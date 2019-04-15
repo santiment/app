@@ -7,7 +7,7 @@ import {
   TRENDS_CONNECTED_WORDS_FAILED,
   TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS
 } from '../../components/Trends/actions'
-import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../components/Insight/insightsGQL'
+import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../queries/InsightsGQL'
 import { binarySearch } from './utils'
 import { simpleSortStrings } from '../../utils/sortMethods'
 

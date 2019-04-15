@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
-import { ALL_TAGS_QUERY } from '../pages/Insights/InsightsGQL'
+import { ALL_TAGS_QUERY } from '../queries/InsightsGQL'
 import Select from './Select/Select'
 import { noTrendTagsFilter } from './Insight/utils'
 
