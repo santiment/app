@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import moment from 'moment'
 import LikeBtn from '../Like/LikeBtn'
 import { getSEOLinkFromIdAndTitle } from '../../pages/Insights/utils'
 import styles from './InsightCardSmall.module.scss'
@@ -9,7 +8,7 @@ const InsightCard = ({
   className = '',
   id,
   title,
-  createdAt,
+  user,
   votedAt,
   votes: { totalVotes }
 }) => {
@@ -22,8 +21,8 @@ const InsightCard = ({
         {title}
       </Link>
       <div className={styles.meta}>
-        <div className={styles.date}>
-          {moment(createdAt).format('MMM D, YYYY')}
+        <div className={styles.username} title={user.username}>
+          {user.username}
         </div>
         <LikeBtn small grey liked={!!votedAt} likesNumber={totalVotes} />
       </div>
