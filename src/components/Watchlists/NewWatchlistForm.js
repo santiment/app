@@ -45,13 +45,14 @@ class NewWatchlistForm extends Component {
 
   render () {
     const { name, isPublic } = this.state
+    const { isMobile } = this.props
     const isError = name.length > MAX_NAME_LENGTH
 
     return (
       <PanelWithHeader
         header={<WatchlistFormHeader />}
         headerClassName={styles.header}
-        contentClassName={styles.content}
+        contentClassName={cx(styles.content, { [styles.mobile]: isMobile })}
       >
         <div className={styles.input}>
           Name{' '}
@@ -93,7 +94,8 @@ class NewWatchlistForm extends Component {
 }
 
 NewWatchlistForm.propTypes = {
-  createWatchlist: PropTypes.func.isRequired
+  createWatchlist: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool
 }
 
 const mapDispatchToProps = dispatch => ({

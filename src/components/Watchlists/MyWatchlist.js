@@ -1,10 +1,9 @@
 import React from 'react'
-import { Icon, Button } from '@santiment-network/ui'
 import WatchlistCard from './WatchlistCard'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import NewWatchlistBtn from './NewWatchlistBtn'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
-import { DesktopOnly } from './../Responsive'
+import { DesktopOnly, MobileOnly } from './../Responsive'
 import Row from './../Row'
 import EmptySection from '../EmptySection/EmptySection'
 import styles from './Watchlist.module.scss'
@@ -18,6 +17,9 @@ const MyWatchlist = () => (
       </div>
     </DesktopOnly>
     <Row>
+      <MobileOnly>
+        <NewWatchlistBtn isMobile />
+      </MobileOnly>
       <GetWatchlists
         render={({ isWatchlistsLoading, watchlists }) => {
           if (!watchlists.length) {

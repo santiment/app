@@ -5,6 +5,7 @@
 
 .content {
   padding: 18px 24px 24px;
+  width: 392px;
 }
 
 .actions {
@@ -25,12 +26,15 @@
 
 .input {
   padding-bottom: 40px;
-  width: 392px;
   color: var(--casper);
 
   & span {
     color: var(--waterloo);
   }
+}
+
+.mobile {
+  width: 100%;
 }
 
 .toggle {
