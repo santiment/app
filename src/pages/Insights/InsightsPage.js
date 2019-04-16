@@ -101,7 +101,7 @@ class InsightsPage extends Component {
       <div>
         <div className={styles.header}>
           {isDesktop ? (
-            <h1>Insights</h1>
+            <h1 className={styles.title}>Insights</h1>
           ) : (
             <MobileHeader rightActions={rightActionFilter} title='Insights' />
           )}

@@ -3,7 +3,6 @@ import moment from 'moment'
 import {
   ResponsiveContainer,
   ComposedChart,
-  Line,
   CartesianGrid,
   XAxis,
   YAxis,
@@ -14,7 +13,7 @@ import { Button } from '@santiment-network/ui'
 import { compose, withProps } from 'recompose'
 import { formatNumber } from './../../utils/formatting'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
-import { Metrics, getMetricCssVarColor, generateMetricsMarkup } from './utils'
+import { Metrics, generateMetricsMarkup } from './utils'
 import styles from './ChartPage.module.scss'
 
 class Charts extends React.Component {

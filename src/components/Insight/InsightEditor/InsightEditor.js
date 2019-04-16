@@ -31,6 +31,10 @@ class InsightEditor extends Component {
     isEditing: false
   }
 
+  trendTag = this.props.tags.find(({ name }) =>
+    name.endsWith('-trending-words')
+  )
+
   onTitleChange = title => {
     this.setState(
       {
@@ -92,7 +96,7 @@ class InsightEditor extends Component {
         id,
         title,
         text: sanitizeMediumDraftHtml(currentHtml),
-        tags
+        tags: this.trendTag ? [...tags, this.trendTag] : tags
       })
 
       this.setState(prevState => ({ ...prevState, isEditing: false }))

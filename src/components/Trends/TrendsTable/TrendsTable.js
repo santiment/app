@@ -3,7 +3,14 @@ import Table from 'react-table'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { PanelWithHeader, Panel, Icon, Tooltip } from '@santiment-network/ui'
+import {
+  Label,
+  Checkbox,
+  PanelWithHeader,
+  Panel,
+  Icon,
+  Tooltip
+} from '@santiment-network/ui'
 import ValueChange from '../../../components/ValueChange/ValueChange'
 import WordCloud from '../../../components/WordCloud/WordCloud'
 import InsightCardSmall from '../../../components/Insight/InsightCardSmall'
@@ -14,8 +21,7 @@ const columns = [
     Header: '#',
     accessor: 'index',
     width: 35,
-    className: styles.index,
-    headerClassName: styles.index
+    headerClassName: styles.headerIndex
   },
   {
     Header: 'Word',
@@ -36,6 +42,11 @@ const NumberCircle = props => (
 )
 
 class TrendsTable extends PureComponent {
+  static defaultProps = {
+    selectable: true,
+    selectedTrends: new Set()
+  }
+
   state = {
     connectedTrends: []
   }
@@ -64,7 +75,7 @@ class TrendsTable extends PureComponent {
           return (
             <Tooltip
               closeTimeout={50}
-              position='bottom'
+              position='left'
               className={styles.tooltip}
               trigger={
                 <Icon
@@ -82,7 +93,9 @@ class TrendsTable extends PureComponent {
       },
       {
         Cell: ({ original: { rawWord } }) => {
-          const trendConnections = this.props.connectedTrends[rawWord]
+          const trendConnections = this.props.connectedTrends[
+            rawWord.toUpperCase()
+          ]
           const hasConnections = trendConnections && trendConnections.length > 0
           return (
             <>
@@ -152,20 +165,42 @@ class TrendsTable extends PureComponent {
 
   render () {
     const {
-      notSelected,
+      small,
       trend: { topWords = [] },
       scoreChange,
       volumeChange,
       header,
-      className
+      className,
+      selectable,
+      isLoggedIn,
+      username,
+      selectTrend,
+      selectedTrends
     } = this.props
     const { connectedTrends } = this.state
 
     const tableData = topWords.map(({ word }, index) => {
       const [oldScore = 0, newScore = 0] = scoreChange[word] || []
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
+      const isWordSelected = selectedTrends.has(word)
       return {
-        index: index + 1,
+        index: (
+          <>
+            {selectable && !!username && isLoggedIn && (
+              <Checkbox
+                isActive={isWordSelected}
+                className={cx(
+                  styles.checkbox,
+                  isWordSelected && styles.checkbox_active
+                )}
+                onClick={() => selectTrend(word)}
+              />
+            )}
+            <Label accent='waterloo' className={styles.index}>
+              {index + 1}
+            </Label>
+          </>
+        ),
         word: (
           <Link
             className={cx(
@@ -204,7 +239,7 @@ class TrendsTable extends PureComponent {
           resizable={false}
           data={tableData}
           columns={
-            notSelected
+            small
               ? columns.slice(0, 2)
               : columns.concat(this.getActionButtons())
           }
@@ -218,12 +253,16 @@ class TrendsTable extends PureComponent {
 }
 
 const mapStateToProps = ({
-  hypedTrends: { scoreChange, volumeChange, connectedTrends, TrendToInsights }
+  hypedTrends: { scoreChange, volumeChange, connectedTrends, TrendToInsights },
+  user: {
+    data: { username }
+  }
 }) => ({
   scoreChange,
   volumeChange,
   connectedTrends,
-  TrendToInsights
+  TrendToInsights,
+  username
 })
 
 export default connect(mapStateToProps)(TrendsTable)

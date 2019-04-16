@@ -11,11 +11,26 @@ class InsightCreationPage extends Component {
   }
 
   render () {
-    const { isPublished, ...rest } = this.props
+    const {
+      isPublished,
+      location: { search },
+      selectedTrends,
+      username,
+      ...rest
+    } = this.props
 
     if (isPublished) {
       // NOTE(vanguard): in future show thank you message
       return <Redirect to='/insights/my' />
+    }
+
+    if (!username) {
+      return <Redirect to='/account' />
+    }
+
+    let tags
+    if (search.includes('currentTrends')) {
+      tags = [...selectedTrends].map(tag => ({ name: tag.toUpperCase() }))
     }
 
     return (
@@ -23,18 +38,29 @@ class InsightCreationPage extends Component {
         {!this.props.isDesktop && (
           <MobileHeader title='All Insights' backRoute='/insights' />
         )}
-        <InsightEditor {...rest} />
+        <InsightEditor tags={tags} {...rest} />
       </>
     )
   }
 }
 
-const mapStateToProps = ({ insightDraft }, { id, updatedAt }) => {
+const mapStateToProps = (
+  {
+    insightDraft,
+    hypedTrends: { selectedTrends },
+    user: {
+      data: { username }
+    }
+  },
+  { id, updatedAt }
+) => {
   return {
     id: id || insightDraft.id,
     updatedAt: insightDraft.updatedAt || updatedAt,
     isUpdating: insightDraft.isUpdating,
-    isPublished: insightDraft.isPublished
+    isPublished: insightDraft.isPublished,
+    username,
+    selectedTrends
   }
 }
 

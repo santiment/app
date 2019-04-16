@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
 import * as qs from 'query-string'
@@ -16,11 +17,7 @@ export const EmailLoginVerification = ({ isSuccess, isError }) => {
     )
   }
   if (isSuccess) {
-    return (
-      <div style={{ margin: '1em' }}>
-        <h2>Email address confirmed</h2>
-      </div>
-    )
+    return <Redirect to='/' />
   }
   return (
     <div style={{ margin: '1em' }}>

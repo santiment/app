@@ -4,7 +4,7 @@ import qs from 'query-string'
 import { CSVLink } from 'react-csv'
 import { Button } from '@santiment-network/ui'
 import { getOrigin } from '../../utils/utils'
-import Assets from './Assets'
+import GetAssets from './GetAssets'
 import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
 import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
@@ -32,7 +32,7 @@ const AssetsPage = props => {
         <meta property='og:title' content={title} />,
         <meta property='og:description' content={description} />
       </Helmet>
-      <Assets
+      <GetAssets
         {...props}
         type={props.type}
         render={Assets => (

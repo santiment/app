@@ -3,7 +3,10 @@ import { combineEpics } from 'redux-observable'
 import handleOffline from './handleOffline'
 import handleLauched from './handleLaunch'
 import handleLogout from './handleLogout'
-import handleEmailLogin, { handleLoginSuccess } from './handleEmailLogin'
+import handleEmailLogin, {
+  handleLoginSuccess,
+  digestSubscriptionEpic
+} from './handleEmailLogin'
 import handleEthLogin, {
   removeConnectedWallet,
   connectNewWallet
@@ -69,6 +72,7 @@ export default combineEpics(
   handleLogout,
   handleEmailLogin,
   handleLoginSuccess,
+  digestSubscriptionEpic,
   handleEthLogin,
   handleGDPR,
   handleRouter,

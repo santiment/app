@@ -3,17 +3,13 @@ import { graphql, compose } from 'react-apollo'
 import { connect } from 'react-redux'
 import {
   totalMarketcapGQL,
-  constructTotalMarketcapGQL,
   projectsListHistoryStatsGQL
 } from './TotalMarketcapGQL'
 import TotalMarketcapWidget from './TotalMarketcapWidget'
-import moment from 'moment'
+import { getTimeIntervalFromToday, MONTH } from '../../utils/dates'
 
 const getMarketcapQuery = (type, projects) => {
-  const from = moment()
-    .subtract(3, 'months')
-    .utc()
-    .format()
+  const { from, to } = getTimeIntervalFromToday(-3, MONTH)
 
   const slugsQueryTotal = graphql(totalMarketcapGQL, {
     props: ({ data: { historyPrice = [] } }) => ({
@@ -23,11 +19,9 @@ const getMarketcapQuery = (type, projects) => {
     }),
     options: () => ({
       variables: {
-        from,
-        slug: 'TOTAL_MARKET',
-        to: moment()
-          .utc()
-          .format()
+        from: from.toISOString(),
+        to: to.toISOString(),
+        slug: 'TOTAL_MARKET'
       }
     })
   })
@@ -57,48 +51,12 @@ const getMarketcapQuery = (type, projects) => {
     }),
     options: () => ({
       variables: {
-        from,
-        slugs,
-        to: moment()
-          .utc()
-          .format()
+        from: from.toISOString(),
+        to: to.toISOString(),
+        slugs
       }
     })
   })
-
-  if (projects.length > 1) {
-    const top3Slugs = slugs.slice(0, 3)
-    const top3Tickers = sortedProjects.slice(0, 3).map(({ ticker }) => ticker)
-
-    const top3SlugsAliasesMap = top3Slugs.map((slug, i) => [
-      slug,
-      top3Tickers[i]
-    ])
-
-    const slugsQuery2 = graphql(
-      constructTotalMarketcapGQL(top3SlugsAliasesMap, from),
-      {
-        props: ({ data: historyPrice = {}, ownProps: { historyPrices } }) => {
-          return top3Tickers.reduce(
-            (acc, ticker) => {
-              acc.historyPrices[ticker] = historyPrice[ticker]
-              return acc
-            },
-            {
-              historyPrices,
-              loading: historyPrice.loading
-            }
-          )
-        }
-      }
-    )
-
-    return compose(
-      slugsQueryTotal,
-      slugsQuery
-      /* slugsQuery2 */
-    )
-  }
 
   return compose(
     slugsQueryTotal,

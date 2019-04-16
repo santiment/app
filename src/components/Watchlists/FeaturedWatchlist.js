@@ -9,7 +9,7 @@ import styles from './Watchlist.module.scss'
 const FeaturedWatchlists = () => (
   <div className={styles.wrapper}>
     <DesktopOnly>
-      <h4>Featured Watchlists</h4>
+      <h4 style={{ color: 'var(--mirage)' }}>Featured Watchlists</h4>
     </DesktopOnly>
     <Row>
       <GetFeaturedWatchlists
@@ -23,7 +23,7 @@ const FeaturedWatchlists = () => (
                 change={1.22}
                 name={watchlist.name}
                 isPublic={watchlist.isPublic}
-                to={getWatchlistLink(watchlist)}
+                to={getWatchlistLink(watchlist) + '#shared'}
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
               />
             ))
