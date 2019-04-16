@@ -36,7 +36,6 @@ const InsightsFeedPage = ({ match: { path, params }, userId, sortReducer }) => {
       >
         {({ data = {} }) => {
           const { insights = [] } = data
-          console.log(insights)
 
           return <InsightsFeed insights={sortReducer(insights)} />
         }}

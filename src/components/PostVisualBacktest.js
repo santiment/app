@@ -27,14 +27,12 @@ export const PostVisualBacktest = ({
   changePriceProp,
   history,
   postUpdatedAt,
-  startValue,
-  ...rest
+  startValue
 }) => {
   if (history.loading) {
     return <div className='post-visual-backtest'>Loading...</div>
   }
   if (!history.historyPrice || !changePriceProp) return null
-  console.log(rest)
   return (
     <div className='post-visual-backtest'>
       <div className='post-visual-backtest__info'>

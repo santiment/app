@@ -19,7 +19,6 @@ const insightCommon = gql`
       id
       username
     }
-    __typename
   }
 `
 
@@ -81,16 +80,24 @@ export const CURRENT_USER_DRAFT_INSIGHTS = gql`
     currentUser {
       id
       insights {
-        ...insightCommon
+        readyState
+        id
+        title
+        text
+        updatedAt
+        user {
+          username
+          id
+        }
       }
     }
   }
-  ${insightCommon}
 `
 
 export const INSIGHT_BY_ID_QUERY = gql`
   query insightById($id: ID!) {
     insight: post(id: $id) {
+      text
       ...insightCommon
     }
   }
