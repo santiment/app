@@ -145,6 +145,7 @@ class InsightsPage extends Component {
               render={props => (
                 <LoadableInsightsAllFeedPage
                   sortReducer={sortReducer}
+                  isDesktop={isDesktop}
                   {...props}
                 />
               )}

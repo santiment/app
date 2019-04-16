@@ -43,7 +43,7 @@ class InsightsAllFeedPage extends Component {
 
   render () {
     const { insights, loading } = this.state
-    const { sortReducer } = this.props
+    const { sortReducer, isDesktop } = this.props
 
     return (
       <div className={styles.wrapper}>
@@ -55,7 +55,10 @@ class InsightsAllFeedPage extends Component {
             loadMore={this.loadMore}
             loader='Loading more insights...'
           >
-            <InsightsFeed insights={sortReducer(insights)} />
+            <InsightsFeed
+              insights={sortReducer(insights)}
+              isDesktop={isDesktop}
+            />
           </InfiniteScroll>
         </div>
         <div className={styles.featuredInsights}>
