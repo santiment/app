@@ -12,6 +12,47 @@ export const DAY = 'd'
 export const MONTH = 'm'
 export const YEAR = 'y'
 
+const MONTH_NAMES = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
+const SHORT_MONTH_NAMES = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec'
+]
+
+const WEEK_DAY_NAMES = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday'
+]
+
+const SHORT_WEEK_DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
 const DateFormat = {
   [MONTH]: ['getMonth', 'setMonth'],
   [DAY]: ['getDate', 'setDate']
@@ -124,4 +165,23 @@ export const dateDifferenceInWords = ({
   }
 
   return getUnitFormattedString(result, resultFormat)
+}
+
+export const getDateFormats = date => {
+  const month = date.getMonth()
+  const M = month + 1
+  const D = date.getDate()
+  const d = date.getDay()
+
+  return {
+    D,
+    DD: D < 10 ? `0${D}` : D,
+    ddd: WEEK_DAY_NAMES[d],
+    dddd: SHORT_WEEK_DAY_NAMES[d],
+    M,
+    MM: M < 10 ? `0${M}` : M,
+    MMM: SHORT_MONTH_NAMES[month],
+    MMMM: MONTH_NAMES[month],
+    YYYY: date.getFullYear()
+  }
 }
