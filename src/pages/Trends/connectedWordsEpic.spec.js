@@ -14,7 +14,7 @@ import {
   TRENDS_CONNECTED_WORDS_SUCCESS,
   TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS
 } from '../../components/Trends/actions'
-import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../components/Insight/insightsGQL'
+import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../queries/InsightsGQL'
 
 const mockStore = configureStore([])
 
@@ -28,10 +28,11 @@ const createClient = link => {
 }
 
 const insightFields = {
-  id: 0,
   readyState: '',
   title: '',
   createdAt: '',
+  publishedAt: '',
+  updatedAt: '',
   votedAt: '',
   votes: {
     totalVotes: ''
@@ -39,7 +40,8 @@ const insightFields = {
   user: {
     username: '',
     id: ''
-  }
+  },
+  __typename: 'Post'
 }
 
 const mockedData = {
@@ -83,18 +85,22 @@ const mockedData = {
     allInsightsByTag: [
       {
         ...insightFields,
+        id: 0,
         tags: [{ name: 'BTC' }, { name: 'DOGE' }]
       },
       {
         ...insightFields,
+        id: 1,
         tags: [{ name: 'ETH' }]
       },
       {
         ...insightFields,
+        id: 2,
         tags: [{ name: 'DOGE' }]
       },
       {
         ...insightFields,
+        id: 3,
         tags: [{ name: 'BCH' }, { name: 'DOGE' }, { name: 'ETH' }]
       }
     ]
@@ -135,7 +141,7 @@ describe('Connect Trending Words', () => {
     await promise
   })
 
-  it('should should connect synonyms', async () => {
+  it('should connect synonyms', async () => {
     const client = await createClient(link)
 
     const action$ = ActionsObservable.from([
@@ -159,7 +165,7 @@ describe('Connect Trending Words', () => {
     })
   })
 
-  it('should should connect trends', async () => {
+  it('should connect trends', async () => {
     const client = await createClient(link)
 
     const action$ = ActionsObservable.from([

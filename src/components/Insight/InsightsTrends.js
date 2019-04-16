@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import Insights from './Insights'
-import { ALL_INSIGHTS_BY_TAG_QUERY } from './insightsGQL'
+import { ALL_INSIGHTS_BY_TAG_QUERY } from './../../queries/InsightsGQL'
 import { filterInsightsNoDrafts } from '../../pages/Insights/utils'
 
 const oneDayTimeStamp = 1000 * 60 * 60 * 24

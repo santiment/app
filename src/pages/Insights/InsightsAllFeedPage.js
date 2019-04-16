@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
-import { ALL_INSIGHTS_QUERY } from './InsightsGQL'
 import { client } from '../../index'
 import InsightsFeed from '../../components/Insight/InsightsFeed'
+import { ALL_INSIGHTS_BY_PAGE_QUERY } from './../../queries/InsightsGQL'
 import styles from './InsightsFeedPage.module.scss'
 
 class InsightsAllFeedPage extends Component {
@@ -22,7 +22,7 @@ class InsightsAllFeedPage extends Component {
     const {
       data: { insights }
     } = await client.query({
-      query: ALL_INSIGHTS_QUERY,
+      query: ALL_INSIGHTS_BY_PAGE_QUERY,
       fetchPolicy: 'network-only',
       variables: {
         page

@@ -5,7 +5,7 @@ import { compose } from 'recompose'
 import { Redirect } from 'react-router-dom'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/PageLoader'
-import { INSIGHT_BY_ID_QUERY } from './InsightsGQL'
+import { INSIGHT_BY_ID_QUERY } from './../../queries/InsightsGQL'
 import { getInsightIdFromSEOLink } from './utils'
 
 const LoadableInsightCreationPage = Loadable({
