@@ -39,6 +39,12 @@ const GainersLosersTable = ({
     noDataText={isError && 'Error fetching data'}
     data={topSocialGainersLosers}
     columns={getColumns({ timeWindow })}
+    defaultSorted={[
+      {
+        id: 'project',
+        desc: true
+      }
+    ]}
   />
 )
 

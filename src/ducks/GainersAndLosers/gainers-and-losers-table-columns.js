@@ -35,7 +35,7 @@ const getColumns = ({ timeWindow }) => [
     maxWidth: 100,
     accessor: 'change',
     Cell: ({ value }) =>
-      value ? <PercentChanges changes={value} /> : 'No data'
+      value ? <PercentChanges changes={value * 100} /> : 'No data'
   },
   {
     Header: '',
