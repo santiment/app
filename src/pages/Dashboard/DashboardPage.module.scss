@@ -68,11 +68,18 @@
 }
 
 .subtitle {
-  font-family: Rubik, sans-serif;
-  font-size: 22px;
-  line-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 26px;
-  color: var(--mirage);
+
+  &__text {
+    font-family: Rubik, sans-serif;
+    font-size: 22px;
+    line-height: 30px;
+    color: var(--mirage);
+    margin: 0;
+  }
 }
 
 .column {
