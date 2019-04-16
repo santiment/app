@@ -11,7 +11,7 @@ import {
   Panel,
   Icon,
   Tooltip,
-  Button
+  Button,
 } from '@santiment-network/ui'
 import { store } from '../../../index'
 import ValueChange from '../../../components/ValueChange/ValueChange'
@@ -24,20 +24,20 @@ const columns = [
     Header: '#',
     accessor: 'index',
     width: 35,
-    headerClassName: styles.headerIndex
+    headerClassName: styles.headerIndex,
   },
   {
     Header: 'Word',
-    accessor: 'word'
+    accessor: 'word',
   },
   {
-    Header: 'Hyped score',
-    accessor: 'score'
+    Header: 'Hype score',
+    accessor: 'score',
   },
   {
     Header: 'Social volume',
-    accessor: 'volume'
-  }
+    accessor: 'volume',
+  },
 ]
 
 const NumberCircle = ({ className, ...props }) => (
@@ -70,7 +70,7 @@ const getTrGroupProps = (_, rowInfo) => {
         node = node.parentNode
       }
       store.dispatch(push(`/labs/trends/explore/${rowInfo.original.rawWord}`))
-    }
+    },
   }
 }
 
@@ -80,7 +80,7 @@ class TrendsTable extends PureComponent {
     selectable: true,
     selectedTrends: new Set(),
     trendConnections: [],
-    connectedTrends: {}
+    connectedTrends: {},
   }
 
   getActionButtons = () => {
@@ -91,12 +91,12 @@ class TrendsTable extends PureComponent {
             connectedTrends,
             connectTrends,
             clearConnectedTrends,
-            allTrends
+            allTrends,
           } = this.props
           const trendConnections = connectedTrends[rawWord.toUpperCase()]
           const visibleConnectionsLength = trendConnections
             ? trendConnections.filter(word => allTrends.has(word.toLowerCase()))
-              .length
+                .length
             : 0
 
           const hasConnections = visibleConnectionsLength > 0
@@ -106,7 +106,7 @@ class TrendsTable extends PureComponent {
                 <span
                   className={cx(
                     styles.action__icon,
-                    !hasConnections && styles.action__icon_disabled
+                    !hasConnections && styles.action__icon_disabled,
                   )}
                 >
                   <Icon
@@ -126,7 +126,7 @@ class TrendsTable extends PureComponent {
           )
         },
         width: 42,
-        className: styles.action
+        className: styles.action,
       },
       {
         Cell: ({ original: { rawWord } }) => {
@@ -172,7 +172,7 @@ class TrendsTable extends PureComponent {
           )
         },
         width: 42,
-        className: styles.action
+        className: styles.action,
       },
       {
         Cell: ({ original: { rawWord } }) => {
@@ -199,12 +199,12 @@ class TrendsTable extends PureComponent {
           )
         },
         width: 42,
-        className: styles.action
-      }
+        className: styles.action,
+      },
     ]
   }
 
-  render () {
+  render() {
     const {
       small,
       trendWords,
@@ -217,7 +217,7 @@ class TrendsTable extends PureComponent {
       username,
       selectTrend,
       selectedTrends,
-      trendConnections
+      trendConnections,
     } = this.props
 
     const tableData = trendWords.map((word, index) => {
@@ -232,7 +232,7 @@ class TrendsTable extends PureComponent {
                 isActive={isWordSelected}
                 className={cx(
                   styles.checkbox,
-                  isWordSelected && styles.checkbox_active
+                  isWordSelected && styles.checkbox_active,
                 )}
                 onClick={() => selectTrend(word)}
               />
@@ -246,7 +246,7 @@ class TrendsTable extends PureComponent {
           <Link
             className={cx(
               styles.word,
-              trendConnections.includes(word.toUpperCase()) && styles.connected
+              trendConnections.includes(word.toUpperCase()) && styles.connected,
             )}
             to={`/labs/trends/explore/${word}`}
           >
@@ -263,7 +263,7 @@ class TrendsTable extends PureComponent {
           <>
             {newVolume} <ValueChange change={newVolume - oldVolume} />
           </>
-        )
+        ),
       }
     })
 
@@ -297,13 +297,13 @@ class TrendsTable extends PureComponent {
 const mapStateToProps = ({
   hypedTrends: { scoreChange, volumeChange, TrendToInsights },
   user: {
-    data: { username }
-  }
+    data: { username },
+  },
 }) => ({
   scoreChange,
   volumeChange,
   TrendToInsights,
-  username
+  username,
 })
 
 export default connect(mapStateToProps)(TrendsTable)
