@@ -3,14 +3,14 @@ import moment from 'moment'
 import InsightsFeatured from '../Insight/InsightsFeatured'
 import styles from './Feed.module.scss'
 
-const FeaturedInsightsBlock = ({ maxLines }) => (
+const FeaturedInsightsBlock = ({ maxLines, multilineTextId }) => (
   <section className={styles.featuredInsights}>
     <h4 className={styles.featuredInsights__title}>Featured insights</h4>
     <div className={styles.featuredInsights__wrapper}>
       <div className={styles.featuredInsights__scrollableWrapper}>
         <div className={styles.featuredInsights__scrollable}>
           <InsightsFeatured
-            multilineTextId='InsightCard__insightsPageMobile'
+            multilineTextId={multilineTextId}
             maxLines={maxLines}
             className={styles.featuredInsights__card}
           />
@@ -20,12 +20,13 @@ const FeaturedInsightsBlock = ({ maxLines }) => (
   </section>
 )
 
-const Feed = ({ component: El, data, dateKey }) => {
+const Feed = ({ component: El, data, dateKey, maxLines, multilineTextId }) => {
   let lastDateKey
   return data.map((item, index) => {
     const id = item.id || index
     const date = moment(item[dateKey]).format('MMM D')
     const isNotSameAsLastDate = date !== lastDateKey
+    const showAfterElNumber = 2
 
     if (isNotSameAsLastDate) {
       lastDateKey = date
@@ -35,7 +36,12 @@ const Feed = ({ component: El, data, dateKey }) => {
       <Fragment key={id}>
         {isNotSameAsLastDate && <h4 className={styles.date}>{date}</h4>}
         <El className={styles.signal} {...item} />
-        {index === 2 && <FeaturedInsightsBlock maxLines={3} />}
+        {index === showAfterElNumber && (
+          <FeaturedInsightsBlock
+            multilineTextId={multilineTextId}
+            maxLines={maxLines}
+          />
+        )}
       </Fragment>
     )
   })
