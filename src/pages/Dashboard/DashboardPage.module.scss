@@ -1,5 +1,4 @@
 @import '~@santiment-network/ui/variables.scss';
-@import 'mixins.scss';
 
 .wrapper {
   width: 100%;
@@ -69,11 +68,18 @@
 }
 
 .subtitle {
-  font-family: Rubik, sans-serif;
-  font-size: 22px;
-  line-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 26px;
-  color: var(--mirage);
+
+  &__text {
+    font-family: Rubik, sans-serif;
+    font-size: 22px;
+    line-height: 30px;
+    color: var(--mirage);
+    margin: 0;
+  }
 }
 
 .column {
@@ -113,26 +119,24 @@
 
   &__panel {
     flex: 1;
-    overflow-y: auto;
+    overflow-y: hidden;
     position: relative;
+
+    &:hover {
+      overflow-y: auto;
+      overflow-y: overlay;
+    }
   }
 
   &__list {
     position: absolute;
     width: 100%;
-    padding: 24px;
   }
 
   &__card {
     min-width: 100%;
-    margin-bottom: 15px;
     padding: 16px 23px;
-    border: 1px solid var(--porcelain);
-    border-radius: $border-radius;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
+    border-bottom: 1px solid var(--porcelain);
   }
 }
 
