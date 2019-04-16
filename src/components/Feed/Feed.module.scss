@@ -34,6 +34,20 @@
   &__wrapper {
     height: 153px;
     overflow: hidden;
+    position: relative;
+
+    @include responsive('tablet') {
+      &::after {
+        position: absolute;
+        display: block;
+        content: '';
+        top: 0;
+        right: -1px;
+        bottom: 0;
+        width: 60px;
+        background: linear-gradient(270deg, var(--white) 20%, rgba(255, 255, 255, 0) 100%);
+      }
+    }
   }
 
   &__scrollableWrapper {
@@ -55,6 +69,10 @@
     padding-left: 16px;
     margin: 0;
     margin-bottom: 12px;
+
+    @include responsive('tablet') {
+      padding-left: 0;
+    }
   }
 
   &__scrollable {
@@ -74,12 +92,25 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background-color: var(--white);
 
     &:first-child {
       margin-left: 16px;
+
+      @include responsive('tablet') {
+        margin-left: 0;
+      }
     }
 
     &:last-child {
+      margin-right: 16px;
+
+      @include responsive('tablet') {
+        margin-right: 34px;
+      }
+    }
+
+    @include responsive('tablet') {
       margin-right: 16px;
     }
   }
@@ -91,6 +122,6 @@
   @include responsive('tablet') {
     margin-left: 16px;
     margin-right: 16px;
-    border-radius: $border-radius;
+    background-color: transparent;
   }
 }
