@@ -17,6 +17,8 @@ const getColumns = ({ timeWindow }) => [
       name,
       coinmarketcapId
     }),
+    sortMethod: (previous, next) =>
+      previous.name.toLowerCase() <= next.name.toLowerCase() ? 1 : -1,
     Cell: ({ value }) => (
       <Link
         className={styles.wrapper}
