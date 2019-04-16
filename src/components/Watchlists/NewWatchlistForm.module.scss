@@ -1,0 +1,42 @@
+.header {
+  font-size: 16px;
+  padding-left: 24px;
+}
+
+.content {
+  padding: 18px 24px 24px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.leftActions {
+  display: flex;
+  align-items: flex-start;
+}
+
+.splitContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input {
+  padding-bottom: 40px;
+  width: 392px;
+  color: var(--casper);
+
+  & span {
+    color: var(--waterloo);
+  }
+}
+
+.toggle {
+  margin-right: 12px;
+}
+
+.cancel {
+  margin-right: 16px;
+}

@@ -1,44 +1,4 @@
-.wrapper {
-  padding: 0;
-}
-
-.header {
-  border-bottom: 1px solid var(--porcelain);
-  font-size: 16px;
-  color: var(--mirage);
-  padding: 12px 0;
-}
-
-.actions {
+.btn {
   display: flex;
-  justify-content: space-between;
-}
-
-.leftActions {
-  display: flex;
-  align-items: center;
-}
-
-.splitContent {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.content {
-  padding: 18px 0 40px;
-  width: 392px;
-  color: var(--casper);
-}
-
-.charCount {
-  color: var(--waterloo);
-}
-
-.toggle {
-  margin-right: 12px;
-}
-
-.cancel {
-  margin-right: 16px;
+  align-items: flex-end;
 }
