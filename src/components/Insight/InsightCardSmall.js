@@ -11,7 +11,9 @@ const InsightCard = ({
   title,
   user,
   votedAt,
-  votes: { totalVotes }
+  votes: { totalVotes },
+  maxLines,
+  multilineTextId
 }) => {
   return (
     <div className={className}>
@@ -19,7 +21,11 @@ const InsightCard = ({
         to={`/insights/read/${getSEOLinkFromIdAndTitle(id, title)}`}
         className={styles.title}
       >
-        <MultilineText id='InsightCardSmall__title' maxLines={2} text={title} />
+        <MultilineText
+          id={multilineTextId}
+          maxLines={maxLines || 2}
+          text={`${title} ${title} ${title} ${title}`}
+        />
       </Link>
       <div className={styles.meta}>
         <Link to={`/insights/users/${user.id}`} className={styles.username}>

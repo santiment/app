@@ -43,7 +43,11 @@ const DashboardPage = ({ isLoggedIn }) => (
         <div className={styles.insights}>
           <Panel className={styles.insights__panel}>
             <div className={styles.insights__list}>
-              <InsightsFeatured className={styles.insights__card} />
+              <InsightsFeatured
+                maxLines={2}
+                multilineTextId='InsightCard__dashboardPage'
+                className={styles.insights__card}
+              />
             </div>
           </Panel>
         </div>

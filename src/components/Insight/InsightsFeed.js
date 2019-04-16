@@ -3,13 +3,12 @@ import WithLikesMutation from '../Like/WithLikesMutation'
 import InsightCard from './InsightCardWithMarketcap'
 import Feed from '../Feed/Feed'
 
-const InsightsFeed = ({ insights, isDesktop }) => {
+const InsightsFeed = ({ insights }) => {
   return (
     <WithLikesMutation>
       {mutateInsightById => (
         <Feed
           data={insights}
-          isDesktop={isDesktop}
           component={({ id, ...rest }) => (
             <InsightCard id={id} {...rest} onLike={mutateInsightById(id)} />
           )}

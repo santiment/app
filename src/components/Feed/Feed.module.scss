@@ -1,5 +1,6 @@
-@import "~@santiment-network/ui/mixins.scss";
 @import '~@santiment-network/ui/variables.scss';
+@import "~@santiment-network/ui/mixins.scss";
+@import "../../mixins.scss";
 
 .wrapper {
   margin: 0 auto;
@@ -31,7 +32,7 @@
   margin: 24px 0;
 
   &__wrapper {
-    height: 140px;
+    height: 153px;
     overflow: hidden;
   }
 
@@ -70,6 +71,9 @@
     padding: 18px 24px;
     border: 1px solid var(--porcelain);
     border-radius: $border-radius;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     &:first-child {
       margin-left: 16px;
@@ -78,5 +82,15 @@
     &:last-child {
       margin-right: 16px;
     }
+  }
+
+  @include responsive('desktop', 'laptop') {
+    display: none;
+  }
+
+  @include responsive('tablet') {
+    margin-left: 16px;
+    margin-right: 16px;
+    border-radius: $border-radius;
   }
 }

@@ -10,6 +10,7 @@ const FeaturedInsightsBlock = ({ maxLines }) => (
       <div className={styles.featuredInsights__scrollableWrapper}>
         <div className={styles.featuredInsights__scrollable}>
           <InsightsFeatured
+            multilineTextId='InsightCard__insightsPageMobile'
             maxLines={maxLines}
             className={styles.featuredInsights__card}
           />
@@ -19,7 +20,7 @@ const FeaturedInsightsBlock = ({ maxLines }) => (
   </section>
 )
 
-const Feed = ({ component: El, data, dateKey, isDesktop }) => {
+const Feed = ({ component: El, data, dateKey }) => {
   let lastDateKey
   return data.map((item, index) => {
     const id = item.id || index
@@ -34,7 +35,7 @@ const Feed = ({ component: El, data, dateKey, isDesktop }) => {
       <Fragment key={id}>
         {isNotSameAsLastDate && <h4 className={styles.date}>{date}</h4>}
         <El className={styles.signal} {...item} />
-        {index === 2 && !isDesktop && <FeaturedInsightsBlock maxLines={3} />}
+        {index === 2 && <FeaturedInsightsBlock maxLines={3} />}
       </Fragment>
     )
   })
