@@ -3,10 +3,8 @@
   font-size: 16px;
   line-height: 24px;
   color: var(--mirage);
-  max-width: 100%;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  max-width: 400px;
+  margin-bottom: 6px;
 
   &:hover {
     color: var(--jungle-green);
@@ -15,11 +13,16 @@
 
 .meta {
   display: flex;
+  justify-content: space-between;
 }
 
-.date {
-  width: 100px;
+.username {
+  max-width: 200px;
   font-size: 14px;
   line-height: 20px;
   color: var(--waterloo);
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 21px;
 }
