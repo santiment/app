@@ -1,3 +1,5 @@
+@import '~@santiment-network/ui/variables.scss';
+
 .header {
   padding: 13px 23px;
 }
@@ -20,8 +22,10 @@
 }
 
 .action {
-  text-align: right;
-  margin-right: 10px;
+  /* text-align: right; */
+  text-align: center;
+
+  /* margin-right: 10px; */
   position: relative;
   overflow: visible !important;
 
@@ -69,7 +73,8 @@
     }
 
     .rt-tr-group {
-      padding: 20px 23px;
+      padding: 0 10px 0 23px;
+      height: 60px;
 
       &:hover {
         background: var(--athens);
@@ -96,6 +101,10 @@
       border: none !important;
     }
 
+    .rt-tr {
+      align-items: center;
+    }
+
     .rt-tr:hover {
       background: initial !important;
       transition: initial;
@@ -111,6 +120,10 @@
 .tooltip {
   z-index: 10;
   width: 400px;
+
+  &__trigger {
+    background: transparent;
+  }
 }
 
 .insights {
@@ -124,12 +137,17 @@
     background: var(--porcelain);
     color: var(--waterloo);
     font-size: 12px !important;
-    right: -7px;
+    right: 3px;
     top: -5px;
     padding-top: 1px;
     width: 14px;
     text-align: center;
     pointer-events: none;
+
+    &_btn {
+      top: 0;
+      left: 23px;
+    }
   }
 }
 
@@ -153,4 +171,16 @@
       display: none;
     }
   }
+}
+
+.explanation {
+  background: $fiord;
+  padding: 3px 12px;
+  color: $white;
+  border-radius: $border-radius;
+  font-size: 12px;
+}
+
+.icon {
+  vertical-align: middle;
 }
