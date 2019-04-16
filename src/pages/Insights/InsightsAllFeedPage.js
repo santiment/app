@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 import { client } from '../../index'
-import InsightsFeed from '../../components/Insight/InsightsFeed'
 import { ALL_INSIGHTS_BY_PAGE_QUERY } from './../../queries/InsightsGQL'
-import styles from './InsightsFeedPage.module.scss'
+import InsightsFeed from '../../components/Insight/InsightsFeed'
+import InsightsFeatured from '../../components/Insight/InsightsFeatured'
+import styles from './InsightsAllFeedPage.module.scss'
 
 class InsightsAllFeedPage extends Component {
   state = {
@@ -46,15 +47,23 @@ class InsightsAllFeedPage extends Component {
 
     return (
       <div className={styles.wrapper}>
-        <InfiniteScroll
-          pageStart={0}
-          hasMore={!loading}
-          initialLoad
-          loadMore={this.loadMore}
-          loader='Loading more insights...'
-        >
-          <InsightsFeed insights={sortReducer(insights)} />
-        </InfiniteScroll>
+        <div className={styles.insights}>
+          <InfiniteScroll
+            pageStart={0}
+            hasMore={!loading}
+            initialLoad
+            loadMore={this.loadMore}
+            loader='Loading more insights...'
+          >
+            <InsightsFeed insights={sortReducer(insights)} />
+          </InfiniteScroll>
+        </div>
+        <div className={styles.featuredInsights}>
+          <h4 className={styles.featuredInsights__title}>Featured insights</h4>
+          <div>
+            <InsightsFeatured className={styles.featuredInsights__card} />
+          </div>
+        </div>
       </div>
     )
   }
