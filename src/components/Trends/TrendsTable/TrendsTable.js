@@ -54,27 +54,6 @@ class TrendsTable extends PureComponent {
     return [
       {
         Cell: ({ original: { rawWord } }) => {
-          return (
-            <Tooltip
-              closeTimeout={50}
-              position='left'
-              className={styles.tooltip}
-              trigger={
-                <Icon
-                  className={cx(styles.action__icon, styles.action__icon_cloud)}
-                  type='cloud-big'
-                />
-              }
-            >
-              <WordCloud className={styles.wordCloud} word={rawWord} />
-            </Tooltip>
-          )
-        },
-        width: 40,
-        className: styles.action
-      },
-      {
-        Cell: ({ original: { rawWord } }) => {
           const {
             connectedTrends,
             connectTrends,
@@ -146,6 +125,27 @@ class TrendsTable extends PureComponent {
             </>
           ) : (
             icon
+          )
+        },
+        width: 40,
+        className: styles.action
+      },
+      {
+        Cell: ({ original: { rawWord } }) => {
+          return (
+            <Tooltip
+              closeTimeout={50}
+              position='left'
+              className={styles.tooltip}
+              trigger={
+                <Icon
+                  className={cx(styles.action__icon, styles.action__icon_cloud)}
+                  type='cloud-big'
+                />
+              }
+            >
+              <WordCloud className={styles.wordCloud} word={rawWord} />
+            </Tooltip>
           )
         },
         width: 40,

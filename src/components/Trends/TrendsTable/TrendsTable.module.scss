@@ -37,10 +37,6 @@
       fill: var(--jungle-green);
     }
 
-    &_cloud {
-      visibility: hidden;
-    }
-
     &_disabled {
       pointer-events: none;
       fill: var(--mystic);
@@ -84,10 +80,6 @@
             color: var(--jungle-green);
           }
 
-          .action__icon_cloud {
-            visibility: visible;
-          }
-
           .checkbox {
             display: inline-flex;
 
@@ -112,12 +104,13 @@
 }
 
 .wordCloud {
-  width: 400px;
   height: 320px;
+  width: 100%;
 }
 
 .tooltip {
   z-index: 10;
+  width: 400px;
 }
 
 .insights {
@@ -133,8 +126,10 @@
     font-size: 12px !important;
     right: -7px;
     top: -5px;
+    padding-top: 1px;
     width: 14px;
     text-align: center;
+    pointer-events: none;
   }
 }
 
