@@ -14,17 +14,21 @@
   @include text-normal;
 
   color: var(--grey-dark-2);
-  margin: 40px 0 16px;
+  margin: 40px 16px 16px 16px;
 }
 
 .signal {
   margin-bottom: 24px;
+  margin-right: 16px;
+  margin-left: 16px;
   display: flex;
+  min-width: auto;
 }
 
 .featuredInsights {
   background-color: var(--athens);
   padding-top: 16px;
+  margin: 24px 0;
 
   &__wrapper {
     height: 140px;
