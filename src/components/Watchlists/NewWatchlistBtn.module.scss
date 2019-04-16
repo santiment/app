@@ -1,3 +1,7 @@
+.wrapper {
+  padding: 0;
+}
+
 .header {
   border-bottom: 1px solid var(--porcelain);
   font-size: 16px;
@@ -24,6 +28,11 @@
 .content {
   padding: 18px 0 40px;
   width: 392px;
+  color: var(--casper);
+}
+
+.charCount {
+  color: var(--waterloo);
 }
 
 .toggle {

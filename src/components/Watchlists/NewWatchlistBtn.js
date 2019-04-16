@@ -28,6 +28,7 @@ const NewWatchlistBtn = ({ createWatchlist }) => {
       <Tooltip
         closeTimeout={500000000000000}
         position='top'
+        className={styles.wrapper}
         on='click'
         trigger={
           <Button border>
