@@ -124,19 +124,13 @@
   &__list {
     position: absolute;
     width: 100%;
-    padding: 24px;
   }
 
   &__card {
     min-width: 100%;
-    margin-bottom: 15px;
     padding: 16px 23px;
-    border: 1px solid var(--porcelain);
+    border-bottom: 1px solid var(--porcelain);
     border-radius: $border-radius;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 }
 
