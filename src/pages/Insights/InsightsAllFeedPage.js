@@ -1,8 +1,6 @@
 import React from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 import { client } from '../../index'
-import withSizes from 'react-sizes'
-import { mapSizesToProps } from '../../App'
 import { ALL_INSIGHTS_BY_PAGE_QUERY } from './../../queries/InsightsGQL'
 import InsightsFeed from '../../components/Insight/InsightsFeed'
 import InsightsFeatured from '../../components/Insight/InsightsFeatured'
@@ -12,28 +10,6 @@ class InsightsAllFeedPage extends React.PureComponent {
   state = {
     nextPage: 1,
     insights: []
-  }
-
-  static getDerivedStateFromProps (props, state) {
-    if (
-      (props.isPhone || props.isTablet) &&
-      state.multilineTextId !== 'InsightCard__insightsPageMobile'
-    ) {
-      return {
-        multilineTextId: 'InsightCard__insightsPageMobile',
-        maxLines: 3
-      }
-    } else if (
-      !props.isPhone &&
-      !props.isTablet &&
-      state.multilineTextId !== 'InsightCard__insightsPageDesktop'
-    ) {
-      return {
-        multilineTextId: 'InsightCard__insightsPageDesktop',
-        maxLines: 2
-      }
-    }
-    return null
   }
 
   loadMore = async () => {
@@ -66,7 +42,7 @@ class InsightsAllFeedPage extends React.PureComponent {
   }
 
   render () {
-    const { insights, loading, multilineTextId, maxLines } = this.state
+    const { insights, loading } = this.state
     const { sortReducer } = this.props
 
     return (
@@ -79,19 +55,15 @@ class InsightsAllFeedPage extends React.PureComponent {
             loadMore={this.loadMore}
             loader='Loading more insights...'
           >
-            <InsightsFeed
-              multilineTextId={multilineTextId}
-              maxLines={maxLines}
-              insights={sortReducer(insights)}
-            />
+            <InsightsFeed insights={sortReducer(insights)} />
           </InfiniteScroll>
         </div>
         <div className={styles.featuredInsights}>
           <h4 className={styles.featuredInsights__title}>Featured insights</h4>
           <div>
             <InsightsFeatured
-              maxLines={maxLines}
-              multilineTextId={multilineTextId}
+              maxLines={2}
+              multilineTextId='SidebarInsights'
               className={styles.featuredInsights__card}
             />
           </div>
@@ -101,4 +73,4 @@ class InsightsAllFeedPage extends React.PureComponent {
   }
 }
 
-export default withSizes(mapSizesToProps)(InsightsAllFeedPage)
+export default InsightsAllFeedPage

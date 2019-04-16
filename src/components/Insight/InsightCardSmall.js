@@ -24,7 +24,7 @@ const InsightCard = ({
         <MultilineText
           id={multilineTextId}
           maxLines={maxLines || 2}
-          text={`${title} ${title} ${title} ${title}`}
+          text={title}
         />
       </Link>
       <div className={styles.meta}>

@@ -2,15 +2,6 @@
 @import "~@santiment-network/ui/mixins.scss";
 @import "../../mixins.scss";
 
-.wrapper {
-  margin: 0 auto;
-  max-width: 720px;
-}
-
-.feed {
-  position: relative;
-}
-
 .date {
   @include text-normal;
 

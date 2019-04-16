@@ -3,15 +3,15 @@ import moment from 'moment'
 import InsightsFeatured from '../Insight/InsightsFeatured'
 import styles from './Feed.module.scss'
 
-const FeaturedInsightsBlock = ({ maxLines, multilineTextId }) => (
+const FeaturedInsightsBlock = () => (
   <section className={styles.featuredInsights}>
     <h4 className={styles.featuredInsights__title}>Featured insights</h4>
     <div className={styles.featuredInsights__wrapper}>
       <div className={styles.featuredInsights__scrollableWrapper}>
         <div className={styles.featuredInsights__scrollable}>
           <InsightsFeatured
-            multilineTextId={multilineTextId}
-            maxLines={maxLines}
+            multilineTextId='InsightsBetweenFeeds'
+            maxLines={3}
             className={styles.featuredInsights__card}
           />
         </div>
@@ -20,7 +20,7 @@ const FeaturedInsightsBlock = ({ maxLines, multilineTextId }) => (
   </section>
 )
 
-const Feed = ({ component: El, data, dateKey, maxLines, multilineTextId }) => {
+const Feed = ({ component: El, data, dateKey }) => {
   let lastDateKey
   return data.map((item, index) => {
     const id = item.id || index
@@ -36,12 +36,7 @@ const Feed = ({ component: El, data, dateKey, maxLines, multilineTextId }) => {
       <Fragment key={id}>
         {isNotSameAsLastDate && <h4 className={styles.date}>{date}</h4>}
         <El className={styles.signal} {...item} />
-        {index === showAfterElNumber && (
-          <FeaturedInsightsBlock
-            multilineTextId={multilineTextId}
-            maxLines={maxLines}
-          />
-        )}
+        {index === showAfterElNumber && <FeaturedInsightsBlock />}
       </Fragment>
     )
   })
