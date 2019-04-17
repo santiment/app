@@ -69,7 +69,8 @@ class TrendsTable extends PureComponent {
     selectable: true,
     selectedTrends: new Set(),
     trendConnections: [],
-    connectedTrends: {}
+    connectedTrends: {},
+    TrendToInsights: {}
   }
 
   getActionButtons = () => {
