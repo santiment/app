@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import moment from 'moment'
-import styles from './Feed.module.scss'
 import FeaturedInsightsHorizontal from '../FeaturedInsights/FeaturedInsightsHorizontal'
+import styles from './Feed.module.scss'
 
 const SHOW_AFTER_EL_NUMBER = 2
 
