@@ -1,3 +1,5 @@
+@import "~@santiment-network/ui/mixins.scss";
+
 .content {
   width: 392px;
 }
@@ -37,4 +39,11 @@
 
 .cancel {
   margin-right: 16px;
+}
+
+.error {
+  @include text-normal;
+
+  font-size: 12px;
+  color: var(--persimmon);
 }
