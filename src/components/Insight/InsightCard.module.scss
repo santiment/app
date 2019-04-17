@@ -3,119 +3,118 @@
 @import "~@santiment-network/ui/mixins.scss";
 
 .wrapper {
-    padding: 20px;
-    min-width: 320px;
-    height: 200px;
-    border: 1px solid var(--grey-light-2);
-    display: inline-flex;
-    flex-direction: column;
+  padding: 20px;
+  min-width: 320px;
+  height: 200px;
+  border: 1px solid var(--grey-light-2);
+  display: inline-flex;
+  flex-direction: column;
 
-    @include responsive('phone-xs') {
-        min-width: 100%;
+  @include responsive('phone-xs') {
+    min-width: 100%;
+  }
+
+  &_withMc {
+    flex-direction: row;
+    padding: 0;
+
+    &__left {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
     }
 
-    &_withMc {
-        flex-direction: row;
-        padding: 0;
-
-        &__left {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
-
-        &__right {
-            height: 100%;
-
-            @include responsive('phone-xs') {
-                display: none;
-            }
-        }
+    &__right {
+      height: 100%;
     }
+  }
 }
 
 .top {
-    flex: 1;
+  flex: 1;
 }
 
 .tag {
-    @include text-normal;
-    padding: 1px 6px;
-    color: var(--grey-dark-2);
-    box-sizing: border-box;
-    border: 1px solid var(--grey-light-2);
-    border-radius: $border-radius;
-    line-height: 20px;
-    font-size: 12px;
-    display: inline-block;
-    margin-right: 4px;
-    text-decoration: none;
+  @include text-normal;
+
+  padding: 1px 6px;
+  color: var(--grey-dark-2);
+  box-sizing: border-box;
+  border: 1px solid var(--grey-light-2);
+  border-radius: $border-radius;
+  line-height: 20px;
+  font-size: 12px;
+  display: inline-block;
+  margin-right: 4px;
+  text-decoration: none;
 }
 
 .title {
-    @include text-normal;
-    line-height: 26px;
-    font-size: 18px;
-    color: var(--black);
-    margin-top: 18px;
-    display: inline-block;
-    text-decoration: none;
-    word-break: break-word;
+  @include text-normal;
+
+  line-height: 26px;
+  font-size: 18px;
+  color: var(--black);
+  margin-top: 18px;
+  display: inline-block;
+  text-decoration: none;
+  word-break: break-word;
 }
 
 .bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .left {
-    max-width: calc(70% - 40px); 
-    flex: 1;
+  max-width: calc(70% - 40px);
+  flex: 1;
 }
 
 .info {
-    position: relative;
+  position: relative;
 }
 
 .name {
-    position: absolute;
-    left: 0;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  position: absolute;
+  left: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .right {
-    display: flex;
+  display: flex;
 }
 
 .stat {
-    display: inline-flex;
-    align-items: center;
-    @include text-normal;
-    line-height: 20px;
-    color: var(--black);
-    fill: var(--grey-dark);
-    margin-left: 22px;
-    cursor: pointer;
+  display: inline-flex;
+  align-items: center;
 
-    &:first-child {
-        margin-left: 0;
-    }
+  @include text-normal;
 
-    & svg {
-        margin-right: 6px;
-    }
+  line-height: 20px;
+  color: var(--black);
+  fill: var(--grey-dark);
+  margin-left: 22px;
+  cursor: pointer;
 
-    &_comments {
-        display: none;
-    }
+  &:first-child {
+    margin-left: 0;
+  }
+
+  & svg {
+    margin-right: 6px;
+  }
+
+  &_comments {
+    display: none;
+  }
 }
 
-
 .liked {
-    color: var(--green);
-    fill: var(--green);
+  color: var(--green);
+  fill: var(--green);
 }

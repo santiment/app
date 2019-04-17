@@ -345,7 +345,9 @@ const mapStateToProps = state => {
 }
 
 export const mapSizesToProps = ({ width }) => ({
-  isDesktop: width > 768
+  isDesktop: width > 768,
+  isTablet: width <= 992 && width > 768,
+  isPhone: width <= 768
 })
 
 const enchance = compose(

@@ -36,8 +36,4 @@
     padding: 18px 0;
     border-bottom: 1px solid var(--porcelain);
   }
-
-  @include responsive('tablet', 'phone', 'phone-xs') {
-    display: none;
-  }
 }
