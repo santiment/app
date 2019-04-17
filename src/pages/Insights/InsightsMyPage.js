@@ -4,7 +4,7 @@ import InsightsFeed from '../../components/Insight/InsightsFeed'
 import { CURRENT_USER_INSIGHTS_QUERY } from './../../queries/InsightsGQL'
 import styles from './InsightsFeedPage.module.scss'
 
-const InsightsAllFeedPage = ({
+const InsightsMyPage = ({
   sortReducer,
   data: { currentUser: { insights = [] } = {} }
 }) => {
@@ -19,4 +19,4 @@ export default graphql(CURRENT_USER_INSIGHTS_QUERY, {
   options: () => ({
     fetchPolicy: 'cache-and-network'
   })
-})(InsightsAllFeedPage)
+})(InsightsMyPage)
