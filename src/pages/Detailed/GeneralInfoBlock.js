@@ -47,11 +47,6 @@ const GeneralInfoBlock = ({
       title='Volume (USD)'
     />
     <Row
-      value={volumeUsd}
-      format={value => formatNumber(value, { currency: 'USD' })}
-      title='Volume (USD)'
-    />
-    <Row
       value={totalSupply}
       format={value => formatCryptoCurrency(ticker, formatNumber(totalSupply))}
       title='Total supply'
