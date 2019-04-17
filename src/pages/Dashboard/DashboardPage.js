@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Panel, Label } from '@santiment-network/ui'
+import { Label } from '@santiment-network/ui'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
-import InsightsFeatured from '../../components/Insight/InsightsFeatured'
 import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
 import FeaturedWatchlists from '../../components/Watchlists/FeaturedWatchlist'
 import DashboardPageSubscription from './DashboardPageSubscription'
 import DashboardPageOnboard from './DashboardPageOnboard'
+import FeaturedInsightsScrollable from '../../components/FeaturedInsights/FeaturedInsightsScrollable'
 import AnonBanner from './AnonBanner'
 import styles from './DashboardPage.module.scss'
 
@@ -40,17 +40,10 @@ const DashboardPage = ({ isLoggedIn }) => (
           <h2 className={styles.subtitle__text}>Featured insights</h2>
           <More link='/insights/' />
         </div>
-        <div className={styles.insights}>
-          <Panel className={styles.insights__panel}>
-            <div className={styles.insights__list}>
-              <InsightsFeatured
-                maxLines={2}
-                multilineTextId='InsightCard__dashboardPage'
-                className={styles.insights__card}
-              />
-            </div>
-          </Panel>
-        </div>
+        <FeaturedInsightsScrollable
+          maxLines={2}
+          multilineTextId='InsightsDashboardPage'
+        />
       </div>
     </div>
     <div className={styles.section}>

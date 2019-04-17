@@ -1,26 +1,9 @@
 import React, { Fragment } from 'react'
 import moment from 'moment'
-import InsightsFeatured from '../Insight/InsightsFeatured'
 import styles from './Feed.module.scss'
+import FeaturedInsightsHorizontal from '../FeaturedInsights/FeaturedInsightsHorizontal'
 
 const SHOW_AFTER_EL_NUMBER = 2
-
-const FeaturedInsightsBlock = () => (
-  <section className={styles.featuredInsights}>
-    <h4 className={styles.featuredInsights__title}>Featured insights</h4>
-    <div className={styles.featuredInsights__wrapper}>
-      <div className={styles.featuredInsights__scrollableWrapper}>
-        <div className={styles.featuredInsights__scrollable}>
-          <InsightsFeatured
-            multilineTextId='InsightsBetweenFeeds'
-            maxLines={3}
-            className={styles.featuredInsights__card}
-          />
-        </div>
-      </div>
-    </div>
-  </section>
-)
 
 const Feed = ({ component: El, data, dateKey, isAllInsightsPage }) => {
   let lastDateKey
@@ -38,7 +21,10 @@ const Feed = ({ component: El, data, dateKey, isAllInsightsPage }) => {
         {isNotSameAsLastDate && <h4 className={styles.date}>{date}</h4>}
         <El className={styles.signal} {...item} />
         {isAllInsightsPage && index === SHOW_AFTER_EL_NUMBER && (
-          <FeaturedInsightsBlock />
+          <FeaturedInsightsHorizontal
+            maxLines={3}
+            multilineTextId='InsightsBetweenFeeds'
+          />
         )}
       </Fragment>
     )

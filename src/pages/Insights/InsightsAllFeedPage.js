@@ -5,8 +5,8 @@ import { mapSizesToProps } from '../../App'
 import { client } from '../../index'
 import { ALL_INSIGHTS_BY_PAGE_QUERY } from './../../queries/InsightsGQL'
 import InsightsFeed from '../../components/Insight/InsightsFeed'
-import InsightsFeatured from '../../components/Insight/InsightsFeatured'
 import styles from './InsightsAllFeedPage.module.scss'
+import FeaturedInsightsWithTitle from '../../components/FeaturedInsights/FeaturedInsightsWithTitle'
 
 class InsightsAllFeedPage extends React.PureComponent {
   state = {
@@ -64,18 +64,10 @@ class InsightsAllFeedPage extends React.PureComponent {
           </InfiniteScroll>
         </div>
         {!isPhone && !isTablet && (
-          <div className={styles.featuredInsights}>
-            <h4 className={styles.featuredInsights__title}>
-              Featured insights
-            </h4>
-            <div>
-              <InsightsFeatured
-                maxLines={2}
-                multilineTextId='SidebarInsights'
-                className={styles.featuredInsights__card}
-              />
-            </div>
-          </div>
+          <FeaturedInsightsWithTitle
+            maxLines={2}
+            multilineTextId='sidebarInsights'
+          />
         )}
       </div>
     )
