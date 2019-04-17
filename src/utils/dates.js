@@ -83,6 +83,16 @@ const FormatToTimestamp = {
   [DAY]: ONE_DAY_IN_MS
 }
 
+/**
+ * @param {number} amount - Amount of days/months to add or substract
+ * @param {'d'|'m'} dateFormat - Modifier
+ *
+ * @example
+ * // Getting past interval
+ * // Current date: 16th April 2019
+ * // Target: 9 days prior to current date
+ * // getTimeIntervalFromToday(-9, 'd')
+ */
 export const getTimeIntervalFromToday = (amount, dateFormat) => {
   const from = new Date()
   const to = new Date()
@@ -91,7 +101,9 @@ export const getTimeIntervalFromToday = (amount, dateFormat) => {
   to.setHours(24, 0, 0, 0)
   from.setHours(0, 0, 0, 0)
 
-  from[set](from[get]() + amount)
+  const target = amount < 0 ? from : to
+
+  target[set](from[get]() + amount)
 
   return {
     from,
