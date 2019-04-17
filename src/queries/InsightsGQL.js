@@ -19,6 +19,7 @@ const insightCommon = gql`
       id
       username
     }
+    __typename
   }
 `
 
