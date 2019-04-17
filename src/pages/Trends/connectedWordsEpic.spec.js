@@ -122,11 +122,15 @@ const getMockedQueries = () => {
         )
       }
     },
-    result: { data: mockedData.insights }
+    result: { data: i === 0 ? mockedData.insights : { allInsightsByTag: [] } }
   }))
 }
 
-const link = mockSingleLink(...getMockedQueries(), ...getMockedQueries())
+const link = mockSingleLink(
+  ...getMockedQueries(),
+  ...getMockedQueries(),
+  ...getMockedQueries()
+)
 
 describe('Connect Trending Words', () => {
   beforeEach(async () => {
@@ -186,6 +190,35 @@ describe('Connect Trending Words', () => {
       BTC: ['DOGE'],
       DOGE: ['BTC', 'BCH', 'ETHEREUM'],
       ETHEREUM: ['BCH', 'DOGE']
+    })
+  })
+
+  it('should connect insights', async () => {
+    const client = await createClient(link)
+
+    const action$ = ActionsObservable.from([
+      {
+        type: TRENDS_HYPED_FETCH_SUCCESS,
+        payload: mockedData.trends.hard
+      },
+      {
+        type: TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS
+      }
+    ])
+    const epic$ = connectedWordsEpic(action$, mockStore({}), { client })
+    const promise = epic$.toPromise()
+    const result = await promise
+
+    const mockedInsights = mockedData.insights.allInsightsByTag.map(
+      ({ tags, ...insight }) => insight
+    )
+
+    expect(result.payload.TrendToInsights).toEqual({
+      BCH: [mockedInsights[3]],
+      BTC: [mockedInsights[0]],
+      DOGE: [mockedInsights[0], mockedInsights[2], mockedInsights[3]],
+      ETHEREUM: [mockedInsights[1], mockedInsights[3]],
+      ETH: [mockedInsights[1], mockedInsights[3]]
     })
   })
 })
