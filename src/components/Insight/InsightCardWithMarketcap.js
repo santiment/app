@@ -7,7 +7,7 @@ import MarketcapChangeWidget from '../PostVisualBacktest'
 import { noTrendTagsFilter } from './utils'
 
 const InsightCard = ({ className, tags, ...insight }) => {
-  const { createdAt, updatedAt, publishedAt } = insight
+  const { createdAt, updatedAt, publishedAt = updatedAt } = insight
   const filteredTags = tags.filter(noTrendTagsFilter)
   return (
     <Panel className={cx(styles.wrapper, styles.wrapper_withMc, className)}>
