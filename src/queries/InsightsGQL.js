@@ -81,26 +81,12 @@ export const CURRENT_USER_INSIGHTS_QUERY = gql`
     currentUser {
       id
       insights {
-        id
-        title
         state
-        readyState
-        createdAt
-        publishedAt
-        votedAt
-        tags {
-          name
-        }
-        user {
-          username
-          id
-        }
-        votes {
-          totalVotes
-        }
+        ...insightCommon
       }
     }
   }
+  ${insightCommon}
 `
 
 export const CURRENT_USER_DRAFT_INSIGHTS = gql`
