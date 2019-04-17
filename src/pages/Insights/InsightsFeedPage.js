@@ -1,7 +1,6 @@
 import React from 'react'
 import { Query } from 'react-apollo'
 import { connect } from 'react-redux'
-import { baseLocation } from './InsightsPage'
 import {
   INSIGHTS_BY_USERID_QUERY,
   INSIGHTS_BY_TAG_QUERY
@@ -10,7 +9,7 @@ import InsightsFeed from '../../components/Insight/InsightsFeed'
 import styles from './InsightsFeedPage.module.scss'
 
 const getQueryParams = (path, { tag, userId: authorId }, userId) => {
-  if (path.includes(`${baseLocation}/my`) || authorId) {
+  if (authorId) {
     return {
       query: INSIGHTS_BY_USERID_QUERY,
       variables: {

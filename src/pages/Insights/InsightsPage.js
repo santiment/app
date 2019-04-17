@@ -20,6 +20,11 @@ const LoadableInsightsFeedPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableInsightsMyPage = Loadable({
+  loader: () => import('./InsightsMyPage'),
+  loading: () => <PageLoader />
+})
+
 const LoadableInsightsDraftPage = Loadable({
   loader: () => import('./InsightsDraftPage'),
   loading: () => <PageLoader />
@@ -41,7 +46,6 @@ const tabs = [
 ]
 
 const feedRoutes = [
-  `${baseLocation}/my`,
   `${baseLocation}/tags/:tag`,
   `${baseLocation}/users/:userId`
 ]
@@ -139,6 +143,14 @@ class InsightsPage extends Component {
                 )}
               />
             ))}
+            <Route
+              exact
+              path={`${baseLocation}/my`}
+              component={props => (
+                <LoadableInsightsMyPage sortReducer={sortReducer} {...props} />
+              )}
+            />
+
             <Route
               exact
               path={baseLocation}
