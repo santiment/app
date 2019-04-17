@@ -188,8 +188,8 @@ export const dateDifferenceInWords = ({
    *
    * @example
    * // Getting formats for current date
-   * const {EEEE, D, MMMM, YYYY} = getDateFormats(new Date())
-   * console.log(`${EEEE}, ${D} ${MMMM} ${YYYY}`)
+   * const {dddd, D, MMMM, YYYY} = getDateFormats(new Date())
+   * console.log(`${dddd}, ${D} ${MMMM} ${YYYY}`)
    * //=> "Wednesday, 17 April 2019"
 
  */
