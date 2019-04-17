@@ -91,7 +91,7 @@ const FormatToTimestamp = {
  * // Getting past interval
  * // Current date: 16th April 2019
  * // Target: 9 days prior to current date
- * // getTimeIntervalFromToday(-9, 'd')
+ *  getTimeIntervalFromToday(-9, 'd')
  */
 export const getTimeIntervalFromToday = (amount, dateFormat) => {
   const from = new Date()
@@ -179,17 +179,32 @@ export const dateDifferenceInWords = ({
   return getUnitFormattedString(result, resultFormat)
 }
 
+/**
+ *
+ * @param {Date} date - Date object to get formats from
+ *
+ * @description
+ * Formatting is based on the "Unicode Date Field Symbol Table"
+ * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
+   *
+   * @example
+   * // Getting formats for current date
+   * const {EEEE, D, MMMM, YYYY} = getDateFormats(new Date())
+   * console.log(`${EEEE}, ${D} ${MMMM} ${YYYY}`)
+   * //=> "Wednesday, 17 April 2019"
+
+ */
 export const getDateFormats = date => {
   const month = date.getMonth()
   const M = month + 1
   const D = date.getDate()
-  const d = date.getDay()
+  const E = date.getDay()
 
   return {
     D,
     DD: D < 10 ? `0${D}` : D,
-    ddd: WEEK_DAY_NAMES[d],
-    dddd: SHORT_WEEK_DAY_NAMES[d],
+    EEE: SHORT_WEEK_DAY_NAMES[E],
+    EEEE: WEEK_DAY_NAMES[E],
     M,
     MM: M < 10 ? `0${M}` : M,
     MMM: SHORT_MONTH_NAMES[month],
