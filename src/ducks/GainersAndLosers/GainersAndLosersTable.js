@@ -41,7 +41,7 @@ const GainersLosersTable = ({
     columns={getColumns({ timeWindow })}
     defaultSorted={[
       {
-        id: 'project',
+        id: 'change',
         desc: true
       }
     ]}
