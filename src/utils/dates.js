@@ -184,8 +184,7 @@ export const dateDifferenceInWords = ({
  * @param {Date} date - Date object to get formats from
  *
  * @description
- * Formatting is based on the "Unicode Date Field Symbol Table"
- * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
+ * Format tokens are similar to the "moment.js"
    *
    * @example
    * // Getting formats for current date
