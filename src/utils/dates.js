@@ -197,13 +197,13 @@ export const getDateFormats = date => {
   const month = date.getMonth()
   const M = month + 1
   const D = date.getDate()
-  const E = date.getDay()
+  const d = date.getDay()
 
   return {
     D,
     DD: D < 10 ? `0${D}` : D,
-    EEE: SHORT_WEEK_DAY_NAMES[E],
-    EEEE: WEEK_DAY_NAMES[E],
+    ddd: SHORT_WEEK_DAY_NAMES[d],
+    dddd: WEEK_DAY_NAMES[d],
     M,
     MM: M < 10 ? `0${M}` : M,
     MMM: SHORT_MONTH_NAMES[month],
