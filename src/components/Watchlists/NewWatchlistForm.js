@@ -2,24 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import cx from 'classnames'
-import {
-  Icon,
-  Button,
-  Toggle,
-  Input,
-  PanelWithHeader
-} from '@santiment-network/ui'
+import { Button, Toggle, Input } from '@santiment-network/ui'
 import * as actions from './../../actions/types'
 import styles from './NewWatchlistForm.module.scss'
 
 const MAX_NAME_LENGTH = 50
-
-const WatchlistFormHeader = () => (
-  <div className={styles.splitContent}>
-    New watchlist
-    <Icon type='close' fill='var(--waterloo)' />
-  </div>
-)
 
 class NewWatchlistForm extends Component {
   state = {
@@ -49,11 +36,7 @@ class NewWatchlistForm extends Component {
     const isError = name.length > MAX_NAME_LENGTH
 
     return (
-      <PanelWithHeader
-        header={<WatchlistFormHeader />}
-        headerClassName={styles.header}
-        contentClassName={cx(styles.content, { [styles.mobile]: isMobile })}
-      >
+      <div className={cx(styles.content, { [styles.mobile]: isMobile })}>
         <div className={styles.input}>
           Name{' '}
           <span>
@@ -88,7 +71,7 @@ class NewWatchlistForm extends Component {
             </Button>
           </div>
         </div>
-      </PanelWithHeader>
+      </div>
     )
   }
 }
