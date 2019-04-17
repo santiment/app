@@ -118,3 +118,15 @@
   color: var(--green);
   fill: var(--green);
 }
+
+.awaiting {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  line-height: 18px;
+
+  &__icon {
+    width: 12px;
+    margin-right: 5px;
+  }
+}
