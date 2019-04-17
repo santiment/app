@@ -1,29 +1,22 @@
 import React from 'react'
-import cx from 'classnames'
 import { Icon, Button, Modal } from '@santiment-network/ui'
 import NewWatchlistForm from './NewWatchlistForm'
 import styles from './NewWatchlistBtn.module.scss'
 
-const NewWatchlistBtn = ({ isMobile }) => {
+const NewWatchlistBtn = () => {
   return (
     <Modal
       showDefaultActions={false}
+      className={styles.wrapper}
       title='New watchlist'
       trigger={
-        <Button
-          border
-          className={cx(styles.btn, {
-            [styles.mobile]: isMobile
-          })}
-        >
+        <Button border className={styles.btn}>
           <Icon type='plus-round' />
           &nbsp; New watchlist
         </Button>
       }
     >
-      {({ closeModal }) => (
-        <NewWatchlistForm isMobile={isMobile} onSuccess={closeModal} />
-      )}
+      {({ closeModal }) => <NewWatchlistForm onSuccess={closeModal} />}
     </Modal>
   )
 }

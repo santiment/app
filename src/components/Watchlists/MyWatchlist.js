@@ -18,7 +18,7 @@ const MyWatchlist = () => (
     </DesktopOnly>
     <Row>
       <MobileOnly>
-        <NewWatchlistBtn isMobile />
+        <NewWatchlistBtn />
       </MobileOnly>
       <GetWatchlists
         render={({ isWatchlistsLoading, watchlists }) => {

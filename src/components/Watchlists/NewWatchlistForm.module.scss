@@ -1,5 +1,11 @@
+@import "../../mixins.scss";
+
 .content {
   width: 392px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    width: 100%;
+  }
 }
 
 .actions {
@@ -25,10 +31,6 @@
   & span {
     color: var(--waterloo);
   }
-}
-
-.mobile {
-  width: 100%;
 }
 
 .toggle {
