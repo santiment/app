@@ -11,9 +11,10 @@ import {
 import {
   TRENDS_HYPED_FETCH_SUCCESS,
   TRENDS_HYPED_FETCH_TICKERS_SLUGS_SUCCESS,
-  TRENDS_CONNECTED_WORDS_SUCCESS
+  TRENDS_CONNECTED_WORDS_SUCCESS,
+  TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS
 } from '../../components/Trends/actions'
-import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../components/Insight/insightsGQL'
+import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../queries/InsightsGQL'
 
 const mockStore = configureStore([])
 
@@ -27,10 +28,11 @@ const createClient = link => {
 }
 
 const insightFields = {
-  id: 0,
   readyState: '',
   title: '',
   createdAt: '',
+  publishedAt: '',
+  updatedAt: '',
   votedAt: '',
   votes: {
     totalVotes: ''
@@ -38,7 +40,8 @@ const insightFields = {
   user: {
     username: '',
     id: ''
-  }
+  },
+  __typename: 'Post'
 }
 
 const mockedData = {
@@ -82,18 +85,22 @@ const mockedData = {
     allInsightsByTag: [
       {
         ...insightFields,
+        id: 0,
         tags: [{ name: 'BTC' }, { name: 'DOGE' }]
       },
       {
         ...insightFields,
+        id: 1,
         tags: [{ name: 'ETH' }]
       },
       {
         ...insightFields,
+        id: 2,
         tags: [{ name: 'DOGE' }]
       },
       {
         ...insightFields,
+        id: 3,
         tags: [{ name: 'BCH' }, { name: 'DOGE' }, { name: 'ETH' }]
       }
     ]
@@ -134,13 +141,18 @@ describe('Connect Trending Words', () => {
     await promise
   })
 
-  it('should should connect synonyms', async () => {
+  it('should connect synonyms', async () => {
     const client = await createClient(link)
 
-    const action$ = ActionsObservable.of({
-      type: TRENDS_HYPED_FETCH_SUCCESS,
-      payload: mockedData.trends.synonyms
-    })
+    const action$ = ActionsObservable.from([
+      {
+        type: TRENDS_HYPED_FETCH_SUCCESS,
+        payload: mockedData.trends.synonyms
+      },
+      {
+        type: TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS
+      }
+    ])
     const epic$ = connectedWordsEpic(action$, mockStore({}), { client })
     const promise = epic$.toPromise()
     const result = await promise
@@ -153,13 +165,18 @@ describe('Connect Trending Words', () => {
     })
   })
 
-  it('should should connect trends', async () => {
+  it('should connect trends', async () => {
     const client = await createClient(link)
 
-    const action$ = ActionsObservable.of({
-      type: TRENDS_HYPED_FETCH_SUCCESS,
-      payload: mockedData.trends.hard
-    })
+    const action$ = ActionsObservable.from([
+      {
+        type: TRENDS_HYPED_FETCH_SUCCESS,
+        payload: mockedData.trends.hard
+      },
+      {
+        type: TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS
+      }
+    ])
     const epic$ = connectedWordsEpic(action$, mockStore({}), { client })
     const promise = epic$.toPromise()
     const result = await promise

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import moment from 'moment'
 import LikeBtn from '../Like/LikeBtn'
+import MultilineText from '../MultilineText/MultilineText'
 import { getSEOLinkFromIdAndTitle } from '../../pages/Insights/utils'
 import styles from './InsightCardSmall.module.scss'
 
@@ -9,7 +9,7 @@ const InsightCard = ({
   className = '',
   id,
   title,
-  createdAt,
+  user,
   votedAt,
   votes: { totalVotes }
 }) => {
@@ -19,12 +19,12 @@ const InsightCard = ({
         to={`/insights/read/${getSEOLinkFromIdAndTitle(id, title)}`}
         className={styles.title}
       >
-        {title}
+        <MultilineText id='InsightCardSmall__title' maxLines={2} text={title} />
       </Link>
       <div className={styles.meta}>
-        <div className={styles.date}>
-          {moment(createdAt).format('MMM D, YYYY')}
-        </div>
+        <Link to={`/insights/users/${user.id}`} className={styles.username}>
+          {user.username}
+        </Link>
         <LikeBtn small grey liked={!!votedAt} likesNumber={totalVotes} />
       </div>
     </div>

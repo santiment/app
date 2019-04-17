@@ -1,5 +1,63 @@
 import gql from 'graphql-tag'
 
+const insightCommon = gql`
+  fragment insightCommon on Post {
+    readyState
+    id
+    title
+    createdAt
+    publishedAt
+    updatedAt
+    tags {
+      name
+    }
+    votedAt
+    votes {
+      totalVotes
+    }
+    user {
+      id
+      username
+    }
+  }
+`
+
+export const FEATURED_INSIGHTS_QUERY = gql`
+  query featuredInsights {
+    insights: featuredInsights {
+      ...insightCommon
+    }
+  }
+  ${insightCommon}
+`
+
+export const ALL_INSIGHTS_BY_TAG_QUERY = gql`
+  query allInsightsByTag($tag: String!) {
+    allInsightsByTag(tag: $tag) {
+      ...insightCommon
+    }
+  }
+  ${insightCommon}
+`
+
+export const ALL_INSIGHTS_QUERY = gql`
+  query allInsights {
+    allInsights {
+      ...insightCommon
+    }
+  }
+  ${insightCommon}
+`
+
+export const PINNED_INSIGHTS_QUERY = gql`
+  query post($id: Int!) {
+    pinnedInsight: post(id: $id) {
+      ...insightCommon
+    }
+  }
+  ${insightCommon}
+`
+
 export const ALL_TAGS_QUERY = gql`
   query allTags {
     tags: allTags {
@@ -8,27 +66,13 @@ export const ALL_TAGS_QUERY = gql`
   }
 `
 
-export const ALL_INSIGHTS_QUERY = gql`
+export const ALL_INSIGHTS_BY_PAGE_QUERY = gql`
   query allInsights($page: Int) {
     insights: allInsights(page: $page, pageSize: 10) {
-      readyState
-      id
-      title
-      createdAt
-      updatedAt
-      votedAt
-      votes {
-        totalVotes
-      }
-      tags {
-        name
-      }
-      user {
-        id
-        username
-      }
+      ...insightCommon
     }
   }
+  ${insightCommon}
 `
 
 export const CURRENT_USER_DRAFT_INSIGHTS = gql`
@@ -53,71 +97,29 @@ export const CURRENT_USER_DRAFT_INSIGHTS = gql`
 export const INSIGHT_BY_ID_QUERY = gql`
   query insightById($id: ID!) {
     insight: post(id: $id) {
-      id
-      title
       text
-      createdAt
-      updatedAt
-      readyState
-      votedAt
-      tags {
-        name
-      }
-      user {
-        username
-        id
-      }
-      votes {
-        totalVotes
-      }
+      ...insightCommon
     }
   }
+  ${insightCommon}
 `
 
 export const INSIGHTS_BY_USERID_QUERY = gql`
   query allInsightsForUser($userId: Int!) {
     insights: allInsightsForUser(userId: $userId) {
-      id
-      title
-      user {
-        id
-        username
-      }
-      createdAt
-      updatedAt
-      readyState
-      votedAt
-      tags {
-        name
-      }
-      votes {
-        totalVotes
-      }
+      ...insightCommon
     }
   }
+  ${insightCommon}
 `
 
 export const INSIGHTS_BY_TAG_QUERY = gql`
   query allInsightsByTag($tag: String!) {
     insights: allInsightsByTag(tag: $tag) {
-      id
-      title
-      user {
-        id
-        username
-      }
-      createdAt
-      updatedAt
-      readyState
-      votedAt
-      tags {
-        name
-      }
-      votes {
-        totalVotes
-      }
+      ...insightCommon
     }
   }
+  ${insightCommon}
 `
 
 export const DELETE_INSIGHT_MUTATION = gql`

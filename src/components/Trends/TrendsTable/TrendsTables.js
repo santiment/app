@@ -7,11 +7,36 @@ import styles from './TrendsTables.module.scss'
 
 class TrendsTables extends PureComponent {
   static defaultProps = {
-    selectedTrends: new Set()
+    selectedTrends: new Set(),
+    connectedTrends: {}
   }
 
   state = {
-    selected: this.props.selectedTrends
+    selected: this.props.selectedTrends,
+    trendConnections: [],
+    allTrends: []
+  }
+
+  static getDerivedStateFromProps ({ trends }, { allTrends }) {
+    if (allTrends.length > 0) {
+      return null
+    }
+
+    const newAllTrends = []
+    const ownTrends = trends.map(({ datetime, topWords }) => {
+      const words = topWords.map(({ word }) => word)
+      newAllTrends.push(...words)
+
+      return {
+        datetime,
+        words
+      }
+    })
+
+    return {
+      allTrends: new Set(newAllTrends),
+      trends: ownTrends
+    }
   }
 
   componentWillUnmount () {
@@ -34,15 +59,33 @@ class TrendsTables extends PureComponent {
     this.setState({ selected })
   }
 
+  connectTrends = word => {
+    const { connectedTrends } = this.props
+    const trendConnections = connectedTrends[word.toUpperCase()]
+
+    if (trendConnections && trendConnections.length > 0) {
+      this.setState({
+        trendConnections
+      })
+    }
+  }
+
+  clearConnectedTrends = () => {
+    this.setState({
+      trendConnections: []
+    })
+  }
+
   render () {
-    const { selected } = this.state
-    const { trends, isLoading, selectable, isLoggedIn } = this.props
+    const { selected, trendConnections, allTrends, trends } = this.state
+    const { isLoading, selectable, isLoggedIn, connectedTrends } = this.props
+
+    const { length } = trends
 
     return (
       <div className={styles.tables}>
-        {trends.length > 1 &&
-          trends.slice(0, -1).map(trend => {
-            const { datetime } = trend
+        {length > 1 &&
+          trends.slice(0, -1).map(({ datetime, words }) => {
             return (
               <TrendsTable
                 key={datetime}
@@ -52,22 +95,31 @@ class TrendsTables extends PureComponent {
                 })}
                 small
                 className={styles.table}
-                trend={trend}
+                trendWords={words}
                 isLoggedIn={isLoggedIn}
                 selectTrend={this.selectTrend}
                 selectedTrends={selected}
+                connectedTrends={connectedTrends}
+                trendConnections={trendConnections}
+                connectTrends={this.connectTrends}
+                clearConnectedTrends={this.clearConnectedTrends}
               />
             )
           })}
         <TrendsTable
           className={styles.table}
           isLoading={isLoading}
-          trend={trends.length > 0 ? trends[trends.length - 1] : {}}
+          trendWords={length > 0 ? trends[length - 1].words : undefined}
           header='Last trends'
           selectable={selectable}
           isLoggedIn={isLoggedIn || true}
           selectTrend={this.selectTrend}
           selectedTrends={selected}
+          connectedTrends={connectedTrends}
+          trendConnections={trendConnections}
+          connectTrends={this.connectTrends}
+          clearConnectedTrends={this.clearConnectedTrends}
+          allTrends={allTrends}
         />
       </div>
     )
@@ -75,10 +127,11 @@ class TrendsTables extends PureComponent {
 }
 
 const mapStateToProps = ({
-  hypedTrends: { selectedTrends },
+  hypedTrends: { selectedTrends, connectedTrends },
   user: { token }
 }) => ({
   selectedTrends,
+  connectedTrends,
   isLoggedIn: !!token
 })
 
