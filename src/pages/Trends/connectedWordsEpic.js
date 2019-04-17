@@ -97,6 +97,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
       insightQueries.push(
         client.query({
           query: ALL_INSIGHTS_BY_TAG_QUERY,
+          fetchPolicy: 'no-cache',
           variables: {
             tag: getInsightTrendTagByDate(
               new Date(Date.now() - oneDayTimestamp * i)
