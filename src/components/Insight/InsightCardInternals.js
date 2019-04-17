@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import { Label, Icon } from '@santiment-network/ui'
+import { Icon } from '@santiment-network/ui'
 import cx from 'classnames'
 import InsightTags from './InsightTags'
 import ProfileInfo from './ProfileInfo'
@@ -12,9 +12,9 @@ import styles from './InsightCard.module.scss'
 
 const AWAITING_APPROVAL_STATE = 'awaiting_approval'
 const AwaitingApproval = () => (
-  <Label accent='casper' className={styles.awaiting}>
+  <div className={styles.awaiting}>
     <Icon type='awaiting' className={styles.awaiting__icon} /> Awaiting approval
-  </Label>
+  </div>
 )
 
 const InsightCardInternals = ({
@@ -23,7 +23,7 @@ const InsightCardInternals = ({
   title,
   tags,
   createdAt,
-  publishedAt = createdAt,
+  publishedAt,
   state,
   votes: { totalVotes },
   comments,
@@ -58,7 +58,9 @@ const InsightCardInternals = ({
               state === AWAITING_APPROVAL_STATE ? (
                 <AwaitingApproval />
               ) : (
-                dateDifferenceInWords({ from: new Date(publishedAt) })
+                dateDifferenceInWords({
+                  from: new Date(publishedAt || createdAt)
+                })
               )
             }
             infoClassName={styles.info}

@@ -22,7 +22,7 @@ const InsightCard = ({ className, tags, isDesktop, ...insight }) => {
             from={createdAt}
             ticker={(filteredTags[0] || {}).name}
             updatedAt={updatedAt}
-            publishedAt={publishedAt}
+            publishedAt={publishedAt || updatedAt}
           />
         </div>
       )}
