@@ -2,17 +2,8 @@ import React from 'react'
 import cx from 'classnames'
 import { Icon } from '@santiment-network/ui'
 import { formatCryptoCurrency, formatNumber } from './../../utils/formatting'
-import './GeneralInfoBlock.css'
-
-const DATA_IS_EMPTY = 'No data'
-
-const SocialLink = ({ link, text = '' }) => (
-  <a href={link || ''}>
-    {text || (
-      <Icon type='link' fill={link ? 'var(--shark)' : 'var(--porcelain)'} />
-    )}
-  </a>
-)
+import HelpPopup from './../../components/HelpPopup/HelpPopup'
+import styles from './GeneralInfoBlock.module.scss'
 
 const GeneralInfoBlock = ({
   websiteLink,
@@ -31,58 +22,73 @@ const GeneralInfoBlock = ({
   isERC20
 }) => (
   <div>
-    <p className='social-icons'>
-      <SocialLink link={websiteLink} />
-      <SocialLink link={slackLink} />
-      <SocialLink link={twitterLink} />
-      <SocialLink link={blogLink} />
-      <SocialLink link={githubLink} />
-      <SocialLink link={whitepaperLink} text={'Whitepaper'} />
+    <p>
+      <SocialLink link={websiteLink} text='Website' />
+      <SocialLink link={slackLink} text='Community' />
+      <SocialLink link={twitterLink} text='Twitter' />
+      <SocialLink link={blogLink} text='Blog' />
+      <SocialLink link={githubLink} text='Github' />
+      <SocialLink link={whitepaperLink} text='Whitepaper' />
     </p>
     <hr />
-    <div className={`row-info ${!marketcapUsd && 'info-disabled'}`}>
-      <div>Market Cap</div>
-      <div>
-        {marketcapUsd && formatNumber(marketcapUsd, { currency: 'USD' })}
-      </div>
-    </div>
-    <div className={`row-info ${!priceUsd && 'info-disabled'}`}>
-      <div>Price</div>
-      <div>{priceUsd && formatNumber(priceUsd, { currency: 'USD' })}</div>
-    </div>
-    <div className={`row-info ${!volumeUsd && 'info-disabled'}`}>
-      <div>Volume</div>
-      <div>{volumeUsd && formatNumber(volumeUsd, { currency: 'USD' })}</div>
-    </div>
-    <div className={`row-info ${!marketcapUsd && 'info-disabled'}`}>
-      <div>Circulating</div>
-      <div>
-        {marketcapUsd && priceUsd
-          ? formatCryptoCurrency(ticker, formatNumber(marketcapUsd / priceUsd))
-          : DATA_IS_EMPTY}
-      </div>
-    </div>
-    <div
-      className={cx({
-        'row-info': true,
-        'info-disabled': !totalSupply
-      })}
-    >
-      <div>Total supply</div>
-      <div>
-        {totalSupply
-          ? formatCryptoCurrency(ticker, formatNumber(totalSupply))
-          : DATA_IS_EMPTY}
-      </div>
-    </div>
-    <div className={`row-info ${!rank && 'info-disabled'}`}>
-      <div>Rank</div>
-      <div>{rank || DATA_IS_EMPTY}</div>
-    </div>
-    <div className={`row-info ${!roiUsd && 'info-disabled'}`}>
-      <div>ROI since ICO</div>
-      <div>{roiUsd ? parseFloat(roiUsd).toFixed(2) : DATA_IS_EMPTY}</div>
-    </div>
+    <Row
+      value={marketcapUsd}
+      format={value => formatNumber(value, { currency: 'USD' })}
+      title='Market Cap'
+    />
+    <Row
+      value={priceUsd}
+      format={value => formatNumber(value, { currency: 'USD' })}
+      title='Price (USD)'
+    />
+    <Row
+      value={volumeUsd}
+      format={value => formatNumber(value, { currency: 'USD' })}
+      title='Volume (USD)'
+    />
+    <Row
+      value={volumeUsd}
+      format={value => formatNumber(value, { currency: 'USD' })}
+      title='Volume (USD)'
+    />
+    <Row
+      value={totalSupply}
+      format={value => formatCryptoCurrency(ticker, formatNumber(totalSupply))}
+      title='Total supply'
+    />
+    <Row value={rank} format={value => value} title='Rank' />
+    <Row
+      value={roiUsd}
+      format={value => parseFloat(value).toFixed(2)}
+      title={
+        <span>
+          ROI since ICO
+          <HelpPopup content='This ROI takes into account pre-sales, the token price during all sales and the amount of tokens distributed in each sale. Example: SAN had a pre-sale when around ~15m (12k ETH) tokens were distributed at a much lower price, and an ICO where the equivalent of 33k ETH were distributed. Both these sales are taken into account for this ROI, while most aggregators calculate ROI based only on the ICO’s price.' />
+        </span>
+      }
+    />
+  </div>
+)
+
+const SocialLink = ({ link, text = '' }) => (
+  <a className={styles.socialLink} href={link || ''}>
+    {text || (
+      <Icon type='link' fill={link ? 'var(--shark)' : 'var(--porcelain)'} />
+    )}
+  </a>
+)
+
+const DATA_IS_EMPTY = 'No data'
+
+const Row = ({ title, value, format }) => (
+  <div
+    className={cx(
+      'row-info',
+      value === undefined || (!value && styles.disabled)
+    )}
+  >
+    <div>{title}</div>
+    <div>{!!value && value !== undefined ? format(value) : DATA_IS_EMPTY}</div>
   </div>
 )
 
