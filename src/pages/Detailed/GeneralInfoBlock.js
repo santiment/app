@@ -1,9 +1,18 @@
 import React from 'react'
 import cx from 'classnames'
+import { Icon } from '@santiment-network/ui'
 import { formatCryptoCurrency, formatNumber } from './../../utils/formatting'
 import './GeneralInfoBlock.css'
 
 const DATA_IS_EMPTY = 'No data'
+
+const SocialLink = ({ link, text = '' }) => (
+  <a href={link || ''}>
+    {text || (
+      <Icon type='link' fill={link ? 'var(--shark)' : 'var(--porcelain)'} />
+    )}
+  </a>
+)
 
 const GeneralInfoBlock = ({
   websiteLink,
@@ -23,27 +32,12 @@ const GeneralInfoBlock = ({
 }) => (
   <div>
     <p className='social-icons'>
-      <a href={websiteLink || ''}>
-        <i className={`fa fa-globe ${!websiteLink && 'fa-disabled'}`} />
-      </a>
-      <a href={slackLink || ''}>
-        <i className={`fa fa-slack ${!slackLink && 'fa-disabled'}`} />
-      </a>
-      <a href={twitterLink || ''}>
-        <i className={`fa fa-twitter ${!twitterLink && 'fa-disabled'}`} />
-      </a>
-      <a href={blogLink || ''}>
-        <i className={`fa fa-medium ${!blogLink && 'fa-disabled'}`} />
-      </a>
-      <a href={githubLink || ''}>
-        <i className={`fa fa-github ${!githubLink && 'fa-disabled'}`} />
-      </a>
-      <a
-        className={`${!whitepaperLink && 'fa-disabled'}`}
-        href={whitepaperLink || ''}
-      >
-        Whitepaper
-      </a>
+      <SocialLink link={websiteLink} />
+      <SocialLink link={slackLink} />
+      <SocialLink link={twitterLink} />
+      <SocialLink link={blogLink} />
+      <SocialLink link={githubLink} />
+      <SocialLink link={whitepaperLink} text={'Whitepaper'} />
     </p>
     <hr />
     <div className={`row-info ${!marketcapUsd && 'info-disabled'}`}>
