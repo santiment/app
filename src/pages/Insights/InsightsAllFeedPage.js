@@ -57,7 +57,10 @@ class InsightsAllFeedPage extends React.PureComponent {
             loadMore={this.loadMore}
             loader='Loading more insights...'
           >
-            <InsightsFeed insights={sortReducer(insights)} />
+            <InsightsFeed
+              insights={sortReducer(insights)}
+              isAllInsightsPage={true}
+            />
           </InfiniteScroll>
         </div>
         {!isPhone && !isTablet && (

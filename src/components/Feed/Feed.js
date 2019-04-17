@@ -3,6 +3,8 @@ import moment from 'moment'
 import InsightsFeatured from '../Insight/InsightsFeatured'
 import styles from './Feed.module.scss'
 
+const SHOW_AFTER_EL_NUMBER = 2
+
 const FeaturedInsightsBlock = () => (
   <section className={styles.featuredInsights}>
     <h4 className={styles.featuredInsights__title}>Featured insights</h4>
@@ -20,13 +22,12 @@ const FeaturedInsightsBlock = () => (
   </section>
 )
 
-const Feed = ({ component: El, data, dateKey }) => {
+const Feed = ({ component: El, data, dateKey, isAllInsightsPage }) => {
   let lastDateKey
   return data.map((item, index) => {
     const id = item.id || index
     const date = moment(item[dateKey]).format('MMM D')
     const isNotSameAsLastDate = date !== lastDateKey
-    const showAfterElNumber = 2
 
     if (isNotSameAsLastDate) {
       lastDateKey = date
@@ -36,7 +37,9 @@ const Feed = ({ component: El, data, dateKey }) => {
       <Fragment key={id}>
         {isNotSameAsLastDate && <h4 className={styles.date}>{date}</h4>}
         <El className={styles.signal} {...item} />
-        {index === showAfterElNumber && <FeaturedInsightsBlock />}
+        {isAllInsightsPage && index === SHOW_AFTER_EL_NUMBER && (
+          <FeaturedInsightsBlock />
+        )}
       </Fragment>
     )
   })
