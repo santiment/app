@@ -7,11 +7,20 @@ import * as actions from './../../actions/types'
 import styles from './NewWatchlistForm.module.scss'
 
 const MAX_NAME_LENGTH = 50
+const ERROR_MESSAGE =
+  'Something went wrong while creating watchlist, please try again!!!'
 
 class NewWatchlistForm extends Component {
   state = {
     name: '',
     isPublic: false
+  }
+
+  componentDidUpdate () {
+    const { newItemSuccess, newItemPending, onSuccess } = this.props
+    if (!newItemPending && newItemSuccess) {
+      onSuccess()
+    }
   }
 
   onChangeName = e => {
@@ -32,6 +41,7 @@ class NewWatchlistForm extends Component {
 
   render () {
     const { name, isPublic } = this.state
+    const { newItemFailed } = this.props
     const isError = name.length > MAX_NAME_LENGTH
 
     return (
@@ -46,6 +56,7 @@ class NewWatchlistForm extends Component {
             placeholder='For example, Favorites'
             onChange={this.onChangeName}
           />
+          {newItemFailed && <div className={styles.error}>{ERROR_MESSAGE}</div>}
         </div>
         <div className={cx(styles.actions, styles.splitContent)}>
           <div className={styles.leftActions}>
@@ -76,8 +87,17 @@ class NewWatchlistForm extends Component {
 }
 
 NewWatchlistForm.propTypes = {
-  createWatchlist: PropTypes.func.isRequired
+  createWatchlist: PropTypes.func.isRequired,
+  newItemSuccess: PropTypes.bool.isRequired,
+  newItemPending: PropTypes.bool.isRequired,
+  newItemFailed: PropTypes.bool.isRequired
 }
+
+const mapStateToProps = state => ({
+  newItemSuccess: state.watchlistUi.newItemSuccess,
+  newItemPending: state.watchlistUi.newItemPending,
+  newItemFailed: state.watchlistUi.newItemFailed
+})
 
 const mapDispatchToProps = dispatch => ({
   createWatchlist: payload =>
@@ -88,6 +108,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(NewWatchlistForm)
