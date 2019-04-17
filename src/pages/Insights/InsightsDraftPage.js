@@ -5,7 +5,7 @@ import { compose } from 'recompose'
 import {
   CURRENT_USER_DRAFT_INSIGHTS,
   DELETE_INSIGHT_MUTATION
-} from './InsightsGQL'
+} from './../../queries/InsightsGQL'
 import InsightDraftCard from '../../components/Insight/InsightDraftCard'
 import { filterInsightsOnlyDrafts, updateDateSort } from './utils'
 import styles from './InsightsDraftPage.module.scss'

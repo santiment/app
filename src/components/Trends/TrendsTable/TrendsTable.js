@@ -3,17 +3,21 @@ import Table from 'react-table'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import {
   Label,
   Checkbox,
   PanelWithHeader,
   Panel,
   Icon,
-  Tooltip
+  Tooltip,
+  Button
 } from '@santiment-network/ui'
+import { store } from '../../../index'
 import ValueChange from '../../../components/ValueChange/ValueChange'
 import WordCloud from '../../../components/WordCloud/WordCloud'
 import InsightCardSmall from '../../../components/Insight/InsightCardSmall'
+import ExplanationTooltip from '../../../components/ExplanationTooltip/ExplanationTooltip'
 import styles from './TrendsTable.module.scss'
 
 const columns = [
@@ -28,7 +32,7 @@ const columns = [
     accessor: 'word'
   },
   {
-    Header: 'Trending score',
+    Header: 'Hype score',
     accessor: 'score'
   },
   {
@@ -37,109 +41,106 @@ const columns = [
   }
 ]
 
-const NumberCircle = props => (
-  <div {...props} className={styles.insights__number} />
+const NumberCircle = ({ className, ...props }) => (
+  <div {...props} className={cx(className, styles.insights__number)} />
 )
+
+const getTrGroupProps = (_, rowInfo) => {
+  return {
+    onClick: ({ target, currentTarget }) => {
+      let node = target
+      while (node && node !== currentTarget) {
+        if (
+          node.classList.contains(styles.action) ||
+          node.classList.contains(styles.checkbox)
+        ) {
+          return
+        }
+        node = node.parentNode
+      }
+      store.dispatch(push(`/labs/trends/explore/${rowInfo.original.rawWord}`))
+    }
+  }
+}
 
 class TrendsTable extends PureComponent {
   static defaultProps = {
+    trendWords: [],
     selectable: true,
-    selectedTrends: new Set()
-  }
-
-  state = {
-    connectedTrends: []
-  }
-
-  connectTrends (word) {
-    const { connectedTrends } = this.props
-    const trendConnections = connectedTrends[word.toUpperCase()]
-
-    if (trendConnections && trendConnections.length > 0) {
-      this.setState({
-        connectedTrends: trendConnections
-      })
-    }
-  }
-
-  clearConnectedTrends = () => {
-    this.setState({
-      connectedTrends: []
-    })
+    selectedTrends: new Set(),
+    trendConnections: [],
+    connectedTrends: {}
   }
 
   getActionButtons = () => {
     return [
       {
         Cell: ({ original: { rawWord } }) => {
-          return (
-            <Tooltip
-              closeTimeout={50}
-              position='left'
-              className={styles.tooltip}
-              trigger={
-                <Icon
-                  className={cx(styles.action__icon, styles.action__icon_cloud)}
-                  type='cloud-big'
-                />
-              }
-            >
-              <WordCloud className={styles.wordCloud} word={rawWord} />
-            </Tooltip>
-          )
-        },
-        width: 40,
-        className: styles.action
-      },
-      {
-        Cell: ({ original: { rawWord } }) => {
-          const trendConnections = this.props.connectedTrends[
-            rawWord.toUpperCase()
-          ]
-          const hasConnections = trendConnections && trendConnections.length > 0
+          const {
+            connectedTrends,
+            connectTrends,
+            clearConnectedTrends,
+            allTrends
+          } = this.props
+          const trendConnections = connectedTrends[rawWord.toUpperCase()]
+          const visibleConnectionsLength = trendConnections
+            ? trendConnections.filter(word => allTrends.has(word.toLowerCase()))
+              .length
+            : 0
+
+          const hasConnections = visibleConnectionsLength > 0
           return (
             <>
-              <Icon
-                className={cx(
-                  styles.action__icon,
-                  !hasConnections && styles.action__icon_disabled
-                )}
-                type='connection-big'
-                onMouseEnter={() => {
-                  this.connectTrends(rawWord)
-                }}
-                onMouseLeave={this.clearConnectedTrends}
-              />
+              <ExplanationTooltip text='Connected trends' offsetY={5}>
+                <span
+                  className={cx(
+                    styles.action__icon,
+                    !hasConnections && styles.action__icon_disabled
+                  )}
+                >
+                  <Icon
+                    type='connection-big'
+                    className={styles.icon}
+                    onMouseEnter={() => {
+                      connectTrends(rawWord)
+                    }}
+                    onMouseLeave={clearConnectedTrends}
+                  />
+                </span>
+              </ExplanationTooltip>
               {hasConnections && (
-                <NumberCircle>{trendConnections.length}</NumberCircle>
+                <NumberCircle>{visibleConnectionsLength}</NumberCircle>
               )}
             </>
           )
         },
-        width: 40,
+        width: 42,
         className: styles.action
       },
       {
         Cell: ({ original: { rawWord } }) => {
           const insights = this.props.TrendToInsights[rawWord.toUpperCase()]
 
-          const icon = (
-            <Icon
-              className={cx(
-                styles.action__icon,
-                !insights && styles.action__icon_disabled
-              )}
-              type='insight'
-            />
+          const insightsTrigger = (
+            <Button variant='flat' className={styles.tooltip__trigger}>
+              <ExplanationTooltip text='Connected insights' offsetY={5}>
+                <Icon
+                  className={cx(!insights && styles.action__icon_disabled)}
+                  type='insight'
+                />
+              </ExplanationTooltip>
+            </Button>
           )
 
           return insights && insights.length > 0 ? (
             <>
               <Tooltip
-                closeTimeout={50}
+                closeTimeout={200}
                 position='bottom'
                 className={styles.tooltip}
-                trigger={icon}
+                on='click'
+                passOpenStateAs='isActive'
+                trigger={insightsTrigger}
               >
                 <Panel>
                   {insights.map((insight, i) => (
@@ -151,13 +152,42 @@ class TrendsTable extends PureComponent {
                   ))}
                 </Panel>
               </Tooltip>
-              <NumberCircle>{insights.length}</NumberCircle>
+              <NumberCircle className={styles.insights__number_btn}>
+                {insights.length}
+              </NumberCircle>
             </>
           ) : (
-            icon
+            insightsTrigger
           )
         },
-        width: 40,
+        width: 42,
+        className: styles.action
+      },
+      {
+        Cell: ({ original: { rawWord } }) => {
+          return (
+            <Tooltip
+              on='click'
+              closeTimeout={200}
+              position='left'
+              className={styles.tooltip}
+              passOpenStateAs='isActive'
+              trigger={
+                <Button variant='flat' className={styles.tooltip__trigger}>
+                  <ExplanationTooltip text='Social context' offsetY={7}>
+                    <Icon
+                      className={styles.action__icon_cloud}
+                      type='cloud-big'
+                    />
+                  </ExplanationTooltip>
+                </Button>
+              }
+            >
+              <WordCloud className={styles.wordCloud} word={rawWord} />
+            </Tooltip>
+          )
+        },
+        width: 42,
         className: styles.action
       }
     ]
@@ -166,7 +196,7 @@ class TrendsTable extends PureComponent {
   render () {
     const {
       small,
-      trend: { topWords = [] },
+      trendWords,
       scoreChange,
       volumeChange,
       header,
@@ -175,11 +205,11 @@ class TrendsTable extends PureComponent {
       isLoggedIn,
       username,
       selectTrend,
-      selectedTrends
+      selectedTrends,
+      trendConnections
     } = this.props
-    const { connectedTrends } = this.state
 
-    const tableData = topWords.map(({ word }, index) => {
+    const tableData = trendWords.map((word, index) => {
       const [oldScore = 0, newScore = 0] = scoreChange[word] || []
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
       const isWordSelected = selectedTrends.has(word)
@@ -205,7 +235,7 @@ class TrendsTable extends PureComponent {
           <Link
             className={cx(
               styles.word,
-              connectedTrends.includes(word.toUpperCase()) && styles.connected
+              trendConnections.includes(word.toUpperCase()) && styles.connected
             )}
             to={`/labs/trends/explore/${word}`}
           >
@@ -246,6 +276,7 @@ class TrendsTable extends PureComponent {
           showPagination={false}
           defaultPageSize={10}
           minRows={10}
+          getTrGroupProps={getTrGroupProps}
         />
       </PanelWithHeader>
     )
@@ -253,14 +284,13 @@ class TrendsTable extends PureComponent {
 }
 
 const mapStateToProps = ({
-  hypedTrends: { scoreChange, volumeChange, connectedTrends, TrendToInsights },
+  hypedTrends: { scoreChange, volumeChange, TrendToInsights },
   user: {
     data: { username }
   }
 }) => ({
   scoreChange,
   volumeChange,
-  connectedTrends,
   TrendToInsights,
   username
 })

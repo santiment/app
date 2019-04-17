@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
-import { ALL_TAGS_QUERY } from '../pages/Insights/InsightsGQL'
+import { ALL_TAGS_QUERY } from '../queries/InsightsGQL'
 import Select from './Select/Select'
 import { noTrendTagsFilter } from './Insight/utils'
 
@@ -11,7 +11,27 @@ class TagSelect extends Component {
   }
 
   state = {
-    tags: this.props.defaultTags.filter(noTrendTagsFilter)
+    tags: [],
+    defaultTagsLoaded: false
+  }
+
+  static getDerivedStateFromProps (
+    { defaultTags, onChange },
+    { tags, defaultTagsLoaded }
+  ) {
+    if (defaultTagsLoaded || defaultTags.length === 0) {
+      return null
+    }
+
+    const newTags = [...new Set(tags.concat(defaultTags))].filter(
+      noTrendTagsFilter
+    )
+
+    onChange(newTags)
+    return {
+      tags: newTags,
+      defaultTagsLoaded: true
+    }
   }
 
   onChange = tags => {
