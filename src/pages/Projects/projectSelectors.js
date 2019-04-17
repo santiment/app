@@ -1,5 +1,5 @@
 export const isERC20 = project =>
-  project && project.ethAddresses && project.ethAddresses.length > 0
+  project && project.mainContractAddress && project.infrastructure === 'ETH'
 
 const defaulFilter = project => project
 

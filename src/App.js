@@ -16,7 +16,6 @@ import NotificationStack from './components/NotificationStack'
 import LoginPage from './pages/Login/LoginPage'
 import Roadmap from './pages/Roadmap'
 import Signals from './pages/Signals'
-import Account from './pages/Account/Account'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import BuildChallenge from './pages/BuildChallenge'
 import EmailLoginVerification from './pages/EmailLoginVerification'
@@ -29,20 +28,30 @@ import PageLoader from './components/PageLoader'
 import Status from './pages/Status'
 import Footer from './components/Footer'
 import FeedbackModal from './components/FeedbackModal'
-import GDPRModal from './components/GDPRModal'
+import GDPRPage from './pages/GDPRPage/GDPRPage'
 import ConfirmDeleteWatchlistModal from './components/WatchlistPopup/ConfirmDeleteWatchlistModal'
 import AssetsPage from './pages/assets/AssetsPage'
 import SignalFormPage from './ducks/Signals/SignalFormPage'
 import HistoricalBalancePage from './ducks/HistoricalBalance/HistoricalBalancePage'
 import WordCloudPage from './components/WordCloud/WordCloudPage'
 import { getConsentUrl } from './utils/utils'
-import HeaderMsg from './HeaderMsg'
+import NewsBanner from './components/NewsBanner/NewsBanner'
 import LogoutPage from './pages/Logout'
 import LabsPage from './pages/Labs'
 import './App.scss'
 
+const LoadableAccountPage = Loadable({
+  loader: () => import('./pages/Account/AccountPage'),
+  loading: () => <PageLoader />
+})
+
 const LoadableDetailedPage = Loadable({
   loader: () => import('./pages/Detailed/Detailed'),
+  loading: () => <PageLoader />
+})
+
+const LoadableMobileDetailedPage = Loadable({
+  loader: () => import('./pages/Detailed/MobileDetailedPage'),
   loading: () => <PageLoader />
 })
 
@@ -145,7 +154,7 @@ export const App = ({
         </Link>
       </div>
     )}
-    {isDesktop && <HeaderMsg />}
+    {isDesktop && <NewsBanner />}
     {isFullscreenMobile ? (
       undefined
     ) : isDesktop ? (
@@ -176,6 +185,7 @@ export const App = ({
             }}
           />
         ))}
+        <Route exact path='/gdpr' component={GDPRPage} />
         <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
         <Route
           exact
@@ -209,9 +219,13 @@ export const App = ({
         <Route
           exact
           path='/projects/:slug'
-          render={props => (
-            <LoadableDetailedPage isDesktop={isDesktop} {...props} />
-          )}
+          render={props =>
+            isDesktop ? (
+              <LoadableDetailedPage isDesktop={isDesktop} {...props} />
+            ) : (
+              <LoadableMobileDetailedPage isDesktop={isDesktop} {...props} />
+            )
+          }
         />
         <Route exact path='/labs/trends' component={LoadableTrendsLabsPage} />
         <Route exact path='/labs' component={LabsPage} />
@@ -246,7 +260,13 @@ export const App = ({
           )}
         />
         <Route path='/logout' component={LogoutPage} />
-        <Route exact path='/account' component={Account} />
+        <Route
+          exact
+          path='/account'
+          render={props => (
+            <LoadableAccountPage {...props} isLoggedIn={isLoggedIn} />
+          )}
+        />
         <Route exact path='/status' component={Status} />
         <Redirect from='/ethereum-spent' to='/projects/ethereum' />
         <Route exact path='/build' component={BuildChallenge} />
@@ -300,13 +320,16 @@ export const App = ({
           path='/login'
           render={props => <LoginPage isDesktop={isDesktop} {...props} />}
         />
-        <Redirect from='/' to='/dashboard' />
+        {isDesktop ? (
+          <Redirect from='/' to='/dashboard' />
+        ) : (
+          <Redirect from='/' to='/assets' />
+        )}
       </Switch>
     </ErrorBoundary>
     <NotificationStack />
     <ConfirmDeleteWatchlistModal />
     <FeedbackModal />
-    <GDPRModal />
     {isDesktop && <Footer />}
   </div>
 )

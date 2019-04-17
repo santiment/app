@@ -23,10 +23,6 @@
   font-weight: bold;
 }
 
-.App .new-status-message a {
-  border-bottom: none;
-}
-
 .App .no-username-status-message a {
   display: inline-block;
   padding: 5px;
@@ -36,28 +32,6 @@
 
 .App .no-username-status-message a,
 .App .no-username-status-message a:hover {
-  color: #000;
-}
-
-.App .new-status-message {
-  color: var(--black);
-  background: var(--white);
-  text-align: center;
-  font-weight: normal;
-  padding: 5px;
-  height: 33px;
-}
-
-.App .new-status-message button {
-  padding: 5px 10px;
-}
-
-.App .new-status-message a:hover {
-  color: black;
-}
-
-.App .new-status-message a:focus,
-.App .new-status-message a:active {
   color: #000;
 }
 
@@ -92,6 +66,7 @@
 }
 
 .App .page h1 {
+  color: var(--mirage);
   font-family: Rubik, sans-serif;
   font-style: normal;
   font-weight: normal;

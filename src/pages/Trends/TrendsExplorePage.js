@@ -137,7 +137,7 @@ export class TrendsExplorePage extends Component {
           <GetTrends
             topic={word}
             timeRange={timeRange}
-            interval={'1d'}
+            interval={getCustomInterval(timeRange)}
             render={trends => (
               <GetTimeSeries
                 price={{

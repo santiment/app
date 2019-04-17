@@ -12,7 +12,7 @@ import InsightCard from '../Insight/InsightCard'
 import {
   ALL_INSIGHTS_QUERY,
   PINNED_INSIGHTS_QUERY
-} from '../Insight/insightsGQL.js'
+} from '../../queries/InsightsGQL.js'
 import WithLikesMutation from '../Like/WithLikesMutation'
 import styles from './WidgetSonar.module.scss'
 

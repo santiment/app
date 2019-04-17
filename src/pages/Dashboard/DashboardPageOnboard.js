@@ -1,7 +1,6 @@
 import React from 'react'
 import { Label, Panel, Icon } from '@santiment-network/ui'
 import cx from 'classnames'
-import ShowIf from '../../components/ShowIf'
 import { getOnboardingCompletedTasks } from './utils'
 import styles from './DashboardPageOnboard.module.scss'
 
@@ -59,23 +58,6 @@ const DashboardPageOnboard = () => {
           information'
             isCompleted={completedTasks.includes('watchlist')}
           />
-
-          <Task
-            icon='insight-small'
-            title='Write the insight'
-            text='Try to write your first insight and share people your knowledge about current situation on the market'
-            isCompleted={completedTasks.includes('insight')}
-          />
-
-          <ShowIf beta>
-            <Task
-              icon='signal'
-              title='Create the signal'
-              text='Set up your signal and begin to receive personalized notifications about any changes on the market'
-              isCompleted={completedTasks.includes('signal')}
-            />
-          </ShowIf>
-
           <Task
             icon='connection'
             title='Connect Metamask'

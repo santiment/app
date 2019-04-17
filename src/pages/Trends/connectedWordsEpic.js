@@ -7,9 +7,10 @@ import {
   TRENDS_CONNECTED_WORDS_FAILED,
   TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS
 } from '../../components/Trends/actions'
-import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../components/Insight/insightsGQL'
+import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../queries/InsightsGQL'
 import { binarySearch } from './utils'
 import { simpleSortStrings } from '../../utils/sortMethods'
+import { creationDateSort } from '../Insights/utils'
 
 const oneDayTimestamp = 1000 * 60 * 60 * 24
 
@@ -87,143 +88,156 @@ export const connectedWordsOptimizationEpic = action$ =>
     })
 
 export const connectedWordsEpic = (action$, store, { client }) =>
-  Observable.concat(
+  Observable.combineLatest(
     action$.ofType(TRENDS_HYPED_FETCH_SUCCESS),
-    action$.ofType(TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS)
-  )
-    .take(1)
-    .switchMap(({ payload: { items } }) => {
-      const insightQueries = []
-      for (let i = 0; i < 3; i++) {
-        insightQueries.push(
-          client.query({
-            query: ALL_INSIGHTS_BY_TAG_QUERY,
-            variables: {
-              tag: getInsightTrendTagByDate(
-                new Date(Date.now() - oneDayTimestamp * i)
-              )
-            }
-          })
-        )
-      }
+    action$.ofType(TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS).take(1)
+  ).switchMap(([{ payload: { items } }]) => {
+    const insightQueries = []
+    for (let i = 0; i < 3; i++) {
+      insightQueries.push(
+        client.query({
+          query: ALL_INSIGHTS_BY_TAG_QUERY,
+          fetchPolicy: 'no-cache',
+          variables: {
+            tag: getInsightTrendTagByDate(
+              new Date(Date.now() - oneDayTimestamp * i)
+            )
+          }
+        })
+      )
+    }
 
-      const trendingWords = [
-        ...new Set(
-          items.reduce((acc, { topWords }) => {
-            return acc.concat(topWords.map(({ word }) => word.toUpperCase()))
-          }, [])
-        )
-      ]
+    const trendingWords = [
+      ...new Set(
+        items.reduce((acc, { topWords }) => {
+          return acc.concat(topWords.map(({ word }) => word.toUpperCase()))
+        }, [])
+      )
+    ]
 
-      const TrendToTag = {}
-      const TagToTrend = {}
+    const TrendToTag = {}
+    const TrendToInsights = {}
+    const TagToTrend = {}
 
-      return Observable.forkJoin(...insightQueries)
-        .flatMap(result => {
-          const tagsGraph = {}
+    return Observable.forkJoin(...insightQueries)
+      .flatMap(result => {
+        const tagsGraph = {}
 
-          // [START] Looping over requests
-          for (const {
+        // [START] Looping over requests
+        const { length: resultLength } = result
+        for (let i = 0; i < resultLength; i++) {
+          const {
             data: { allInsightsByTag }
-          } of result) {
-            if (allInsightsByTag.length < 1) continue
+          } = result[i]
 
-            // [START] Looping over request's insights
-            for (const { tags } of allInsightsByTag) {
-              const filteredTags = tags
-                .filter(({ name }) => !name.endsWith('-trending-words'))
-                .map(({ name }) => name.toUpperCase())
-              const { length: filteredTagsLength } = filteredTags
+          if (allInsightsByTag.length < 1) continue
+          allInsightsByTag.sort(creationDateSort)
+          // [START] Looping over request's insights
+          const { length: insightsLength } = allInsightsByTag
+          for (let y = 0; y < insightsLength; y++) {
+            const { tags, ...insight } = allInsightsByTag[y]
+            const filteredTags = tags
+              .filter(({ name }) => !name.endsWith('-trending-words'))
+              .map(({ name }) => name.toUpperCase())
+            const { length: filteredTagsLength } = filteredTags
 
-              if (filteredTagsLength < 1) continue
+            if (filteredTagsLength < 1) continue
+            // [START] Looping over insight's tags
+            for (let z = 0; z < filteredTagsLength; z++) {
+              const tag = filteredTags[z]
+              const connectedTags = filteredTags.slice(0, z)
+              const rightOffset = z - (filteredTagsLength - 1)
 
-              // [START] Looping over insight's tags
-              for (let i = 0; i < filteredTagsLength; i++) {
-                const tag = filteredTags[i]
-                const connectedTags = filteredTags.slice(0, i)
-                const rightOffset = i - (filteredTagsLength - 1)
-
-                if (rightOffset !== 0) {
-                  connectedTags.push(...filteredTags.slice(rightOffset))
-                }
-
-                const tagConnections = tagsGraph[tag]
-
-                if (tagConnections) {
-                  tagConnections.push(...connectedTags)
-                  tagsGraph[tag] = [...new Set(tagConnections)]
-                } else {
-                  tagsGraph[tag] = connectedTags
-
-                  if (trendingWords.includes(tag)) {
-                    TrendToTag[tag] = tag
-                    TagToTrend[tag] = [tag]
-                  }
-                }
-              } // [END] Looping over insight's tags
-            } // [END] Looping over request's insights
-          } // [END] Looping over requests
-
-          const unmappedTrendingWords = trendingWords.filter(
-            word => !TrendToTag[word]
-          )
-
-          unmappedTrendingWords.forEach(trend => {
-            const foundTicker = mapWordToProjectsTicker(trend)
-            if (foundTicker) {
-              TrendToTag[trend] = foundTicker
-
-              const trendSynonyms = TagToTrend[foundTicker]
-              if (trendSynonyms) {
-                trendSynonyms.push(trend)
-              } else {
-                TagToTrend[foundTicker] = [trend]
+              if (rightOffset !== 0) {
+                connectedTags.push(...filteredTags.slice(rightOffset))
               }
-            }
-          })
 
-          const connectedTrends = Object.keys(TrendToTag).reduce(
-            (connectedTrendsAcc, trend) => {
-              const tag = TrendToTag[trend]
               const tagConnections = tagsGraph[tag]
 
               if (tagConnections) {
-                const trendConnections = tagConnections.reduce(
-                  (trendConnectionsAcc, connectedTag) => {
-                    const connectedTrend = TagToTrend[connectedTag]
+                tagConnections.push(...connectedTags)
+                tagsGraph[tag] = [...new Set(tagConnections)]
 
-                    if (connectedTrend) {
-                      trendConnectionsAcc.push(...connectedTrend)
-                    }
-                    return trendConnectionsAcc
-                  },
-                  []
-                )
-
-                const trendSynonyms = TagToTrend[tag]
-                if (trendSynonyms.length > 1) {
-                  // NOTE(vanguard): maybe just to push without checking and filtering? It's okay if one of connected words will be the same as the key
-                  trendConnections.push(
-                    ...trendSynonyms.filter(synonym => synonym !== trend)
-                  )
+                const trendInsights = TrendToInsights[tag]
+                if (trendInsights && insight.readyState !== 'draft') {
+                  trendInsights.push(insight)
+                }
+              } else {
+                tagsGraph[tag] = connectedTags
+                if (insight.readyState !== 'draft') {
+                  TrendToInsights[tag] = [insight]
                 }
 
-                connectedTrendsAcc[trend] = trendConnections
-              } else if (TagToTrend[tag].length > 1) {
-                connectedTrendsAcc[trend] = TagToTrend[tag].filter(
-                  synonym => synonym !== trend
+                if (trendingWords.includes(tag)) {
+                  TrendToTag[tag] = tag
+                  TagToTrend[tag] = [tag]
+                }
+              }
+            } // [END] Looping over insight's tags
+          } // [END] Looping over request's insights
+        } // [END] Looping over requests
+
+        const unmappedTrendingWords = trendingWords.filter(
+          word => !TrendToTag[word]
+        )
+
+        unmappedTrendingWords.forEach(trend => {
+          const foundTicker = mapWordToProjectsTicker(trend)
+          if (foundTicker) {
+            TrendToTag[trend] = foundTicker
+            TrendToInsights[trend] = TrendToInsights[foundTicker]
+
+            const trendSynonyms = TagToTrend[foundTicker]
+            if (trendSynonyms) {
+              trendSynonyms.push(trend)
+            } else {
+              TagToTrend[foundTicker] = [trend]
+            }
+          }
+        })
+
+        const connectedTrends = Object.keys(TrendToTag).reduce(
+          (connectedTrendsAcc, trend) => {
+            const tag = TrendToTag[trend]
+            const tagConnections = tagsGraph[tag]
+
+            if (tagConnections) {
+              const trendConnections = tagConnections.reduce(
+                (trendConnectionsAcc, connectedTag) => {
+                  const connectedTrend = TagToTrend[connectedTag]
+
+                  if (connectedTrend) {
+                    trendConnectionsAcc.push(...connectedTrend)
+                  }
+                  return trendConnectionsAcc
+                },
+                []
+              )
+
+              const trendSynonyms = TagToTrend[tag]
+              if (trendSynonyms.length > 1) {
+                // NOTE(vanguard): maybe just to push without checking and filtering? It's okay if one of connected words will be the same as the key
+                trendConnections.push(
+                  ...trendSynonyms.filter(synonym => synonym !== trend)
                 )
               }
 
-              return connectedTrendsAcc
-            },
-            {}
-          )
+              connectedTrendsAcc[trend] = trendConnections
+            } else if (TagToTrend[tag].length > 1) {
+              connectedTrendsAcc[trend] = TagToTrend[tag].filter(
+                synonym => synonym !== trend
+              )
+            }
 
-          return Observable.of({
-            type: TRENDS_CONNECTED_WORDS_SUCCESS,
-            payload: connectedTrends
-          })
+            return connectedTrendsAcc
+          },
+          {}
+        )
+
+        return Observable.of({
+          type: TRENDS_CONNECTED_WORDS_SUCCESS,
+          payload: { connectedTrends, TrendToInsights, TrendToTag }
         })
-        .catch(handleErrorAndTriggerAction(TRENDS_CONNECTED_WORDS_FAILED))
-    })
+      })
+      .catch(handleErrorAndTriggerAction(TRENDS_CONNECTED_WORDS_FAILED))
+  })

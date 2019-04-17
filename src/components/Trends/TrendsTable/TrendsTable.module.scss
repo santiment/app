@@ -11,7 +11,7 @@
   color: var(--jungle-green);
 }
 
-.index {
+.headerIndex {
   color: var(--waterloo) !important;
 }
 
@@ -20,8 +20,9 @@
 }
 
 .action {
-  text-align: right;
-  margin-right: 10px;
+  text-align: center;
+  position: relative;
+  overflow: visible !important;
 
   &:last-child {
     margin: 0;
@@ -33,6 +34,11 @@
 
     &:hover {
       fill: var(--jungle-green);
+    }
+
+    &_disabled {
+      pointer-events: none;
+      fill: var(--mystic);
     }
   }
 }
@@ -62,14 +68,25 @@
     }
 
     .rt-tr-group {
-      padding: 20px 23px;
+      padding: 0 10px 0 23px;
+      height: 60px;
 
       &:hover {
         background: var(--athens);
         cursor: pointer;
 
-        & :local(.word) {
-          color: var(--jungle-green);
+        :local {
+          .word {
+            color: var(--jungle-green);
+          }
+
+          .checkbox {
+            display: inline-flex;
+
+            & + .index {
+              display: none;
+            }
+          }
         }
       }
     }
@@ -77,6 +94,10 @@
     .rt-td {
       padding: 0;
       border: none !important;
+    }
+
+    .rt-tr {
+      align-items: center;
     }
 
     .rt-tr:hover {
@@ -87,10 +108,67 @@
 }
 
 .wordCloud {
-  width: 400px;
   height: 320px;
+  width: 100%;
 }
 
 .tooltip {
   z-index: 10;
+  width: 400px;
+
+  &__trigger {
+    background: transparent;
+    padding: 6px 7px;
+  }
+}
+
+.insights {
+  &__wrapper {
+    text-align: right !important;
+  }
+
+  &__number {
+    border-radius: 50%;
+    position: absolute;
+    background: var(--porcelain);
+    color: var(--waterloo);
+    font-size: 12px !important;
+    right: 3px;
+    top: -5px;
+    padding-top: 1px;
+    width: 14px;
+    text-align: center;
+    pointer-events: none;
+
+    &_btn {
+      top: 0;
+      left: 23px;
+    }
+  }
+}
+
+.insight {
+  padding: 24px 18px;
+  border-bottom: 1px solid var(--porcelain);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.checkbox {
+  display: none;
+  vertical-align: middle;
+
+  &_active {
+    display: inline-flex;
+
+    & + .index {
+      display: none;
+    }
+  }
+}
+
+.icon {
+  vertical-align: middle;
 }

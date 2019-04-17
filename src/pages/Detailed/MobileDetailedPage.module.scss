@@ -1,0 +1,30 @@
+.wrapper {
+  height: calc(100vh - 50px);
+}
+
+.main {
+  padding: 0 16px;
+}
+
+.ticker {
+  color: var(--waterloo);
+}
+
+.priceBlock {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timeRangeBlock {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.priceUsd {
+  font-size: 29px;
+}
+
+.changes24 {
+  font-size: 24px;
+}

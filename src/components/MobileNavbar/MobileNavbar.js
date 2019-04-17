@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { withRouter, NavLink as Link } from 'react-router-dom'
 import cx from 'classnames'
 import { compose } from 'redux'
@@ -9,16 +10,17 @@ import styles from './MobileNavbar.module.scss'
 import * as actions from './../../actions/types'
 
 const NAVBAR_LINKS = [
-  {
-    link: '/trends',
-    label: 'Trends',
-    linkTo: '/labs/trends',
-    iconType: 'fire'
-  },
+  // TODO: until we don't have mobile good view
+  // {
+  // link: '/trends',
+  // label: 'Trends',
+  // linkTo: '/labs/trends',
+  // iconType: 'fire'
+  // },
   {
     link: '/assets',
     label: 'Assets',
-    linkTo: '/assets/all',
+    linkTo: '/assets',
     iconType: 'assets'
   },
   {
@@ -46,6 +48,11 @@ const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
 
   return (
     <div className={cx({ [styles.overlay]: isOpened })}>
+      <Helmet>
+        <body
+          style={isOpened ? { position: 'fixed', overflow: 'hidden' } : ''}
+        />
+      </Helmet>
       <div className={styles.wrapper}>
         {NAVBAR_LINKS.map(({ link, label, linkTo, iconType }) => {
           return (

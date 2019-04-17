@@ -1,0 +1,223 @@
+.wrapper {
+  width: 100%;
+}
+
+.title {
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 40px;
+  color: var(--mirage);
+  margin-bottom: 21px;
+}
+
+.tabs {
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.tab {
+  color: inherit;
+}
+
+.settings {
+  margin-bottom: 50px;
+
+  &__header {
+    background: var(--athens);
+  }
+
+  &__content {
+    padding: 0;
+  }
+}
+
+.setting {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--porcelain);
+  min-height: 60px;
+  padding: 17px 20px;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+
+    &_form {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  &__right {
+    &_notifications {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &_apikey {
+    display: flex;
+  }
+
+  &__description {
+    margin-top: 4px;
+  }
+}
+
+.signalInfo {
+  margin-right: 24px;
+}
+
+.tokens {
+  flex-direction: column;
+  position: relative;
+}
+
+.bancor {
+  max-width: 100%;
+  margin-top: 14px;
+
+  & > div > div > div > div {
+    // NOTE(vangaurd): I know....
+
+    box-shadow: none !important;
+    border: 1px solid var(--porcelain);
+    display: flex;
+    align-items: center;
+  }
+
+  :global(.container) {
+    margin-top: -16px !important;
+  }
+
+  a[href="https://www.bancor.network"] {
+    position: absolute;
+    top: -42px;
+  }
+}
+
+.tokens {
+  &__markets {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__market {
+    padding: 20px;
+    border: 1px solid var(--porcelain);
+    color: var(--jungle-green);
+    border-radius: 4px;
+    text-align: center;
+    flex: 1;
+    margin-right: 24px;
+
+    &:last-child {
+      margin: 0;
+    }
+  }
+}
+
+.form {
+  position: relative;
+
+  &__input {
+    position: absolute;
+    left: -9999px;
+    margin-left: 16px;
+    width: 320px;
+
+    &_edit {
+      position: static;
+    }
+  }
+
+  &__action {
+    cursor: pointer;
+  }
+
+  &__error {
+    display: none;
+    position: absolute;
+    bottom: 87%;
+    left: 100px;
+  }
+
+  &_error:hover .form__error {
+    display: block;
+  }
+
+  &_error .form__input:focus + .form__error {
+    display: block;
+  }
+}
+
+.btns {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.btn {
+  display: inline-block;
+  width: 80px;
+  text-align: center;
+
+  &_cancel {
+    margin-right: 16px;
+  }
+}
+
+.apikey {
+  display: flex;
+  height: 32px;
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  position: relative;
+  min-width: 250px;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    right: 32px;
+    width: 30px;
+    height: 100%;
+    background: linear-gradient(
+      270deg,
+      #fff 0%,
+      #fff 30.94%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
+  &__input {
+    color: var(--mirage);
+    width: 100%;
+    outline: none;
+    border: none;
+    background: transparent;
+    padding: 6px 0 6px 10px;
+    border-right: 1px solid var(--porcelain);
+  }
+
+  &__icon {
+    height: 100%;
+    fill: var(--mirage);
+    margin: 0 8px;
+    cursor: pointer;
+
+    &:hover {
+      fill: var(--jungle-green);
+    }
+  }
+}
+
+.connect_telegram {
+  color: var(--white) !important;
+}

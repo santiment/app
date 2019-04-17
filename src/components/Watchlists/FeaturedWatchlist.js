@@ -2,12 +2,16 @@ import React from 'react'
 import AssetsOverviewCard from './WatchlistCard'
 import GetFeaturedWatchlists from './../../ducks/Watchlists/GetFeaturedWatchlists'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
-import styles from './FeaturedWatchlist.module.scss'
+import { DesktopOnly } from './../../components/Responsive'
+import Row from './../../components/Row'
+import styles from './Watchlist.module.scss'
 
 const FeaturedWatchlists = () => (
-  <>
-    <h4>Featured Watchlists</h4>
-    <div className={styles.flexRow}>
+  <div className={styles.wrapper}>
+    <DesktopOnly>
+      <h4 style={{ color: 'var(--mirage)' }}>Featured Watchlists</h4>
+    </DesktopOnly>
+    <Row>
       <GetFeaturedWatchlists
         render={({ isWatchlistsLoading, watchlists }) =>
           watchlists
@@ -19,14 +23,14 @@ const FeaturedWatchlists = () => (
                 change={1.22}
                 name={watchlist.name}
                 isPublic={watchlist.isPublic}
-                to={getWatchlistLink(watchlist)}
+                to={getWatchlistLink(watchlist) + '#shared'}
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
               />
             ))
         }
       />
-    </div>
-  </>
+    </Row>
+  </div>
 )
 
 export default FeaturedWatchlists

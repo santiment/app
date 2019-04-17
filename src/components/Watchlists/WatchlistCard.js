@@ -1,6 +1,5 @@
 import React from 'react'
 import { compose } from 'redux'
-import { AreaChart, Area } from 'recharts'
 import { Icon } from '@santiment-network/ui'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
@@ -41,16 +40,6 @@ const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
             ) : (
               '. . .'
             )}
-            <AreaChart width={65} height={30} data={stats}>
-              <Area
-                type='monotone'
-                dataKey='marketcap'
-                stroke={change < 0 ? 'var(--persimmon)' : 'var(--jungle-green)'}
-                dot={null}
-                fillOpacity={0.5}
-                fill={change < 0 ? '#fcf4f4' : '#f4fcf5'}
-              />
-            </AreaChart>
           </div>
           <div className={styles.flexRow}>
             <PercentChanges changes={change} className={styles.change} />

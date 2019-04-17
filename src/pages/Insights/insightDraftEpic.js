@@ -4,10 +4,11 @@ import {
   CREATE_INSIGHT_DRAFT_MUTATION,
   UPDATE_INSIGHT_DRAFT_MUTATION,
   PUBLISH_INSIGHT_DRAFT_MUTATION
-} from './InsightsGQL'
+} from './../../queries/InsightsGQL'
 import * as actions from './actions'
 import { getInsightTrendTagByDate } from '../../components/Insight/InsightsTrends'
 import { completeOnboardingTask } from '../../pages/Dashboard/utils'
+import { TRENDS_SELECTED_WORDS_CLEAR } from '../../components/Trends/actions'
 
 const createDraft$ = ({ title, text, tags }, client) => {
   return Observable.from(
@@ -43,6 +44,7 @@ export const insightDraftUpdateEpic = (action$, store, { client }) =>
 
     if (window.location.href.includes('/insights/new?currentTrends')) {
       tagsSet.add(getInsightTrendTagByDate(new Date()))
+      store.dispatch({ type: TRENDS_SELECTED_WORDS_CLEAR })
     }
 
     return (payload.id ? updateDraft$ : createDraft$)(

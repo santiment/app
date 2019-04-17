@@ -1,9 +1,9 @@
 import React from 'react'
-import Assets from './../pages/assets/Assets'
+import GetAssets from './../pages/assets/GetAssets'
 import EthSpentTable from './../components/EthSpentTable'
 
 const EthSpent = () => (
-  <Assets type='erc20' render={Assets => <EthSpentTable {...Assets} />} />
+  <GetAssets type='erc20' render={Assets => <EthSpentTable {...Assets} />} />
 )
 
 export default EthSpent

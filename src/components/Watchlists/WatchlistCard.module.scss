@@ -1,6 +1,10 @@
 @import '~@santiment-network/ui/variables.scss';
-@import "~@santiment-network/ui/mixins.scss";
+@import '~@santiment-network/ui/mixins.scss';
 @import '../../mixins.scss';
+
+.name {
+  margin-bottom: 10px;
+}
 
 .wrapper {
   @include text-normal;
@@ -8,31 +12,36 @@
   width: 22%;
   margin: 12px 24px 12px 0;
   border: 1px solid var(--porcelain);
-  transition: 0.3s;
   border-radius: $border-radius;
   display: inline-block;
   padding: 16px 20px;
   position: relative;
   overflow: hidden;
-  color: var(--shark);
+  color: var(--mirage);
+  cursor: pointer;
 
   &:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4);
+    box-shadow: 0 14px 20px rgba(24, 27, 43, 0.06);
+
+    .name {
+      color: var(--jungle-green);
+    }
   }
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     width: 100%;
-    margin: 0;
+    margin: 4px 16px;
+  }
+
+  @include responsive('tablet') {
+    width: 49%;
+    margin: 4px 0;
   }
 }
 
 .flexRow {
   display: flex;
   align-items: center;
-}
-
-.name {
-  margin-bottom: 10px;
 }
 
 .content {
@@ -46,8 +55,11 @@
 
 .change {
   margin-left: 0;
+  font-size: 14px;
 }
 
 .marketcap {
   margin-bottom: 6px;
+  color: var(--mirage);
+  font-weight: bold;
 }
