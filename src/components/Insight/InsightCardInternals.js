@@ -1,14 +1,21 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import { Icon } from '@santiment-network/ui'
-import moment from 'moment'
+import { Label, Icon } from '@santiment-network/ui'
 import cx from 'classnames'
 import InsightTags from './InsightTags'
 import ProfileInfo from './ProfileInfo'
 import MultilineText from '../MultilineText/MultilineText'
 import { getSEOLinkFromIdAndTitle } from '../../pages/Insights/utils'
 import LikeBtn from '../Like/LikeBtn'
+import { dateDifferenceInWords } from '../../utils/dates'
 import styles from './InsightCard.module.scss'
+
+const AWAITING_APPROVAL_STATE = 'awaiting_approval'
+const AwaitingApproval = () => (
+  <Label accent='casper' className={styles.awaiting}>
+    <Icon type='awaiting' className={styles.awaiting__icon} /> Awaiting approval
+  </Label>
+)
 
 const InsightCardInternals = ({
   id,
@@ -16,6 +23,8 @@ const InsightCardInternals = ({
   title,
   tags,
   createdAt,
+  publishedAt = createdAt,
+  state,
   votes: { totalVotes },
   comments,
   votedAt,
@@ -45,7 +54,13 @@ const InsightCardInternals = ({
                 {authorName}
               </Link>
             }
-            status={moment(createdAt).fromNow()}
+            status={
+              state === AWAITING_APPROVAL_STATE ? (
+                <AwaitingApproval />
+              ) : (
+                dateDifferenceInWords({ from: new Date(publishedAt) })
+              )
+            }
             infoClassName={styles.info}
           />
         </div>

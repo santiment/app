@@ -76,6 +76,33 @@ export const ALL_INSIGHTS_BY_PAGE_QUERY = gql`
   ${insightCommon}
 `
 
+export const CURRENT_USER_INSIGHTS_QUERY = gql`
+  query currentUser {
+    currentUser {
+      id
+      insights {
+        id
+        title
+        state
+        readyState
+        createdAt
+        publishedAt
+        votedAt
+        tags {
+          name
+        }
+        user {
+          username
+          id
+        }
+        votes {
+          totalVotes
+        }
+      }
+    }
+  }
+`
+
 export const CURRENT_USER_DRAFT_INSIGHTS = gql`
   query currentUser {
     currentUser {
