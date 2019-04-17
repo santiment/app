@@ -15,4 +15,8 @@ const InsightsAllFeedPage = ({
   )
 }
 
-export default graphql(CURRENT_USER_INSIGHTS_QUERY)(InsightsAllFeedPage)
+export default graphql(CURRENT_USER_INSIGHTS_QUERY, {
+  options: () => ({
+    fetchPolicy: 'cache-and-network'
+  })
+})(InsightsAllFeedPage)
