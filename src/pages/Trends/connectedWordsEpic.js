@@ -10,6 +10,7 @@ import {
 import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../queries/InsightsGQL'
 import { binarySearch } from './utils'
 import { simpleSortStrings } from '../../utils/sortMethods'
+import { creationDateSort } from '../Insights/utils'
 
 const oneDayTimestamp = 1000 * 60 * 60 * 24
 
@@ -96,6 +97,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
       insightQueries.push(
         client.query({
           query: ALL_INSIGHTS_BY_TAG_QUERY,
+          fetchPolicy: 'no-cache',
           variables: {
             tag: getInsightTrendTagByDate(
               new Date(Date.now() - oneDayTimestamp * i)
@@ -129,8 +131,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
           } = result[i]
 
           if (allInsightsByTag.length < 1) continue
-
-          let lastConnectedInsight
+          allInsightsByTag.sort(creationDateSort)
           // [START] Looping over request's insights
           const { length: insightsLength } = allInsightsByTag
           for (let y = 0; y < insightsLength; y++) {
@@ -158,17 +159,11 @@ export const connectedWordsEpic = (action$, store, { client }) =>
                 tagsGraph[tag] = [...new Set(tagConnections)]
 
                 const trendInsights = TrendToInsights[tag]
-                if (
-                  trendInsights &&
-                  lastConnectedInsight !== insight &&
-                  insight.readyState !== 'draft'
-                ) {
+                if (trendInsights && insight.readyState !== 'draft') {
                   trendInsights.push(insight)
-                  lastConnectedInsight = insight
                 }
               } else {
                 tagsGraph[tag] = connectedTags
-                lastConnectedInsight = insight
                 if (insight.readyState !== 'draft') {
                   TrendToInsights[tag] = [insight]
                 }
