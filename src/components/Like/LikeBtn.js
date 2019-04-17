@@ -52,11 +52,12 @@ class LikeBtn extends Component {
           styles.wrapper,
           className,
           liked && styles.liked,
-          grey && styles.grey
+          grey && styles.grey,
+          small && styles.small
         )}
         onClick={disabled ? undefined : this.onClick}
       >
-        <Icon className={cx(styles.icon, small && styles.small)} type='like' />{' '}
+        <Icon className={styles.icon} type='like' />{' '}
         {likesNumber + liked - savedLike}
       </div>
     )
