@@ -23,7 +23,7 @@ const InsightCardInternals = ({
   title,
   tags,
   createdAt,
-  publishedAt = createdAt,
+  publishedAt,
   state,
   votes: { totalVotes },
   comments,
@@ -58,7 +58,9 @@ const InsightCardInternals = ({
               state === AWAITING_APPROVAL_STATE ? (
                 <AwaitingApproval />
               ) : (
-                dateDifferenceInWords({ from: new Date(publishedAt) })
+                dateDifferenceInWords({
+                  from: new Date(publishedAt || createdAt)
+                })
               )
             }
             infoClassName={styles.info}
