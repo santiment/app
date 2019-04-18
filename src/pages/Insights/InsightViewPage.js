@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import { Helmet } from 'react-helmet'
@@ -16,6 +16,7 @@ import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import { getInsightContent } from './utils'
 import styles from './InsightViewPage.module.scss'
 import AnonBannerStatic from '../../components/AnonBanner/AnonBannerStatic'
+import AnonBannerSticky from '../../components/AnonBanner/AnonBannerSticky'
 
 const InsightViewPage = ({
   id,
@@ -29,6 +30,8 @@ const InsightViewPage = ({
   isDesktop,
   isLoggedIn
 }) => {
+  const bannerRef = useRef(null)
+
   return (
     <Fragment>
       <Helmet>
@@ -85,7 +88,10 @@ const InsightViewPage = ({
             <ShareModalTrigger asIcon shareLink={window.location.href} />
           </div>
         </div>
-        {!isLoggedIn && <AnonBannerStatic className={styles.banner} />}
+        {!isLoggedIn && (
+          <AnonBannerStatic className={styles.banner} bannerRef={bannerRef} />
+        )}
+        {!isLoggedIn && <AnonBannerSticky bannerStaticRef={bannerRef} />}
       </div>
     </Fragment>
   )

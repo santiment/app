@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 import { Button, Icon } from '@santiment-network/ui'
 import styles from './AnonBannerStatic.module.scss'
 
-const AnonBanner = ({ className }) => {
+const AnonBannerStatic = ({ className, bannerRef }) => {
   return (
-    <div className={cx(styles.banner, className)}>
+    <div className={cx(styles.banner, className)} ref={bannerRef}>
       <div className={styles.banner__top}>
         <div className={styles.banner__title}>
           Noise control for the crypto market
@@ -52,4 +52,4 @@ const AnonBanner = ({ className }) => {
   )
 }
 
-export default React.memo(AnonBanner)
+export default React.memo(AnonBannerStatic)
