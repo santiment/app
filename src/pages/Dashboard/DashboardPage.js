@@ -7,7 +7,7 @@ import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
 import FeaturedWatchlists from '../../components/Watchlists/FeaturedWatchlist'
 import DashboardPageSubscription from './DashboardPageSubscription'
 import DashboardPageOnboard from './DashboardPageOnboard'
-import AnonBanner from './AnonBanner'
+import AnonBannerStatic from '../../components/AnonBanner/AnonBannerStatic'
 import styles from './DashboardPage.module.scss'
 
 const More = ({ link }) => (
@@ -18,7 +18,7 @@ const More = ({ link }) => (
 
 const DashboardPage = ({ isLoggedIn }) => (
   <div className={styles.wrapper + ' page'}>
-    {isLoggedIn ? <DashboardPageOnboard /> : <AnonBanner />}
+    {isLoggedIn ? <DashboardPageOnboard /> : <AnonBannerStatic />}
     <div className={styles.column}>
       <div className={styles.column__left}>
         <div className={styles.subtitle}>

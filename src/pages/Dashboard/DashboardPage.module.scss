@@ -4,61 +4,6 @@
   width: 100%;
 }
 
-.banner {
-  &__top {
-    padding: 20px 24px;
-    margin-bottom: 50px;
-    background-color: $mirage;
-    background-image: url(./waves.svg);
-    background-repeat: no-repeat;
-    background-position: 107% 57%;
-    background-size: 52%;
-  }
-
-  &__title {
-    font-size: 18px;
-    line-height: 26px;
-    color: $white;
-    margin-bottom: 14px;
-  }
-
-  &__description {
-    font-size: 14px;
-    line-height: 20px;
-    color: $bali-hai;
-    margin-bottom: 24px;
-    width: 39%;
-  }
-}
-
-.advantages {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 75px;
-}
-
-.advantage {
-  display: flex;
-  color: var(--waterloo);
-  align-items: center;
-
-  &__img {
-    width: 48px;
-    height: 48px;
-    margin-right: 12px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #dcf6ef 0%, #b9eddf 100%);
-    fill: var(--jungle-green);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__text {
-    max-width: 235px;
-  }
-}
-
 .header {
   margin-bottom: 50px;
 }

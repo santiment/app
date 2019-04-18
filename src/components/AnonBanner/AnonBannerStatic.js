@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { Button, Icon } from '@santiment-network/ui'
-import styles from './DashboardPage.module.scss'
+import styles from './AnonBannerStatic.module.scss'
 
 const AnonBanner = ({ className }) => {
   return (
