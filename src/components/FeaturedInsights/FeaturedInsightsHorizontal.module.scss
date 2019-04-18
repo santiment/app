@@ -12,6 +12,8 @@
     position: relative;
 
     @include responsive('tablet') {
+      height: 137px;
+
       &::after {
         position: absolute;
         display: block;
