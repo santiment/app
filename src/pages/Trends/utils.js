@@ -11,11 +11,9 @@ export const binarySearch = ({
   let stop = array.length - 1
   let middle = Math.floor(stop / 2)
   let value = array[middle]
-  let wasFound = false
 
   while (start < stop) {
     if (checkClb(target, value)) {
-      wasFound = true
       break
     }
 
@@ -30,7 +28,7 @@ export const binarySearch = ({
   }
 
   return {
-    value: wasFound ? value : undefined,
+    value: checkClb(target, value) ? value : undefined,
     index: middle
   }
 }
