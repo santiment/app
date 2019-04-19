@@ -7,7 +7,7 @@ import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
 import FeaturedWatchlists from '../../components/Watchlists/FeaturedWatchlist'
 import DashboardPageSubscription from './DashboardPageSubscription'
 import DashboardPageOnboard from './DashboardPageOnboard'
-import AnonBannerStatic from '../../components/AnonBanner/AnonBannerStatic'
+import AnonBannerStatic from '../../components/Banner/AnonBannerStatic'
 import styles from './DashboardPage.module.scss'
 
 const More = ({ link }) => (

@@ -15,8 +15,8 @@ import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import { getInsightContent } from './utils'
 import styles from './InsightViewPage.module.scss'
-import AnonBannerStatic from '../../components/AnonBanner/AnonBannerStatic'
-import AnonBannerSticky from '../../components/AnonBanner/AnonBannerSticky'
+import AnonBannerStatic from '../../components/Banner/AnonBannerStatic'
+import AnonBannerSticky from '../../components/Banner/AnonBannerSticky'
 
 const InsightViewPage = ({
   id,

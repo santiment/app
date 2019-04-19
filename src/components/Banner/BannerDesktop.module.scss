@@ -1,0 +1,27 @@
+.default {
+  display: none;
+}
+
+.container {
+  display: flex;
+  height: 116px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: var(--white);
+  box-shadow: 0 -5px 20px rgba(24, 27, 43, 0.05);
+  z-index: 10;
+}
+
+.banner {
+  width: 80%;
+  margin: 0 auto;
+  position: relative;
+
+  &__closeIcon {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
