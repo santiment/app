@@ -51,8 +51,10 @@ const getTrGroupProps = (_, rowInfo) => {
       let node = target
       while (node && node !== currentTarget) {
         if (
-          node.classList.contains(styles.action) ||
-          node.classList.contains(styles.checkbox)
+          node.classList &&
+          (node.classList.contains(styles.tooltip) ||
+            node.classList.contains(styles.action) ||
+            node.classList.contains(styles.checkbox))
         ) {
           return
         }
@@ -143,7 +145,7 @@ class TrendsTable extends PureComponent {
                 passOpenStateAs='isActive'
                 trigger={insightsTrigger}
               >
-                <Panel>
+                <Panel className={styles.insights}>
                   {insights.map((insight, i) => (
                     <InsightCardSmall
                       key={i}
