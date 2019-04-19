@@ -10,7 +10,7 @@ class GetHypedTrends extends React.Component {
     const trends = items.slice(-1)
     const props = {
       ...rest,
-      items: trends.length > 0 ? [sortByHype(trends)] : trends
+      items: sortByHype(trends)
     }
     return render(props)
   }
@@ -21,11 +21,10 @@ class GetHypedTrends extends React.Component {
 }
 
 const sortByHype = items => {
-  const sortedData = items[0].topWords.sort(sortBy('score'))
-  return {
-    ...items,
-    topWords: sortedData
+  if (items.length > 0) {
+    items[0].topWords.sort(sortBy('score'))
   }
+  return items
 }
 
 const mapStateToProps = state => {
