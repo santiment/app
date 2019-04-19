@@ -1,0 +1,41 @@
+.subscription {
+  margin-top: 32px;
+  padding: 35px;
+  background: var(--athens);
+  text-align: center;
+
+  &__error {
+    display: none;
+    position: absolute;
+    bottom: 130%;
+  }
+
+  &__form {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 430px;
+    margin: 0 auto 15px;
+
+    &_error:hover > .subscription__error {
+      display: block;
+    }
+  }
+
+  &__input {
+    padding: 10px 136px 10px 12px;
+    border: 1px solid var(--porcelain);
+    height: 40px;
+  }
+
+  &__btn {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    padding: 6px 23px;
+  }
+
+  &__label {
+    color: var(--casper);
+  }
+}

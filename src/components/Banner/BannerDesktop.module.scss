@@ -1,9 +1,11 @@
+@import '~@santiment-network/ui/variables.scss';
+@import '../../mixins.scss';
+
 .default {
   display: none;
 }
 
 .container {
-  display: flex;
   height: 116px;
   position: fixed;
   bottom: 0;
@@ -15,13 +17,65 @@
 }
 
 .banner {
-  width: 80%;
   margin: 0 auto;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px;
+  max-width: 1050px;
+
+  @include responsive('laptop') {
+    padding: 22px 60px;
+  }
+
+  @include responsive('laptop') {
+    padding: 22px;
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+  }
+
+  &__imageWrapper {
+    width: 93px;
+    height: 84px;
+    margin-right: 24px;
+
+    @include responsive('laptop', 'tablet') {
+      display: none;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: auto;
+  }
+
+  &__title {
+    font-family: Rubik, sans-serif;
+    font-size: 18px;
+    line-height: 26px;
+    color: var(--mirage);
+    margin: 0 0 0 4px;
+  }
+
+  &__description {
+    font-family: Rubik, sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--waterloo);
+    margin: 0;
+    max-width: 374px;
+  }
 
   &__closeIcon {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 20px;
+    right: 20px;
+    fill: var(--casper);
   }
 }

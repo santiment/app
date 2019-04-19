@@ -1,6 +1,8 @@
 import React from 'react'
 import { Icon } from '@santiment-network/ui'
+import Image from '../../assets/sticky_banner_icon.png'
 import styles from './BannerDesktop.module.scss'
+import SubscriptionForm from '../SubscriptionForm/SubscriptionForm'
 
 class BannerDesktop extends React.PureComponent {
   state = { sticky: true, isHidden: false }
@@ -57,17 +59,33 @@ class BannerDesktop extends React.PureComponent {
     return (
       <div className={styles.container}>
         <div className={styles.banner}>
-          <h2 className={styles.banner__title}>Want more crypto insights?</h2>
-          <p className={styles.banner__description}>
-            Read daily analysis of top emerging words/stories on crypto social
-            media, be the first to spot
-          </p>
-          <Icon
-            onClick={this.hideBanner}
-            type='close'
-            className={styles.banner__closeIcon}
-          />
+          <div className={styles.banner__left}>
+            <div className={styles.banner__imageWrapper}>
+              <img
+                src={Image}
+                alt='banner logo'
+                className={styles.banner__image}
+              />
+            </div>
+            <div>
+              <h2 className={styles.banner__title}>
+                Want more crypto insights?
+              </h2>
+              <p className={styles.banner__description}>
+                Read daily analysis of top emerging words/stories on crypto
+                social media, be the first to spot
+              </p>
+            </div>
+          </div>
+          <div className={styles.banner__right}>
+            <SubscriptionForm />
+          </div>
         </div>
+        <Icon
+          onClick={this.hideBanner}
+          type='close'
+          className={styles.banner__closeIcon}
+        />
       </div>
     )
   }
