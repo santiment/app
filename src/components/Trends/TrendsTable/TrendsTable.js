@@ -145,7 +145,7 @@ class TrendsTable extends PureComponent {
                 passOpenStateAs='isActive'
                 trigger={insightsTrigger}
               >
-                <Panel className={styles.insights}>
+                <Panel>
                   {insights.map((insight, i) => (
                     <InsightCardSmall
                       key={i}
