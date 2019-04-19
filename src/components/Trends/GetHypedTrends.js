@@ -7,10 +7,9 @@ import { sortBy } from '../../utils/sortMethods'
 class GetHypedTrends extends React.Component {
   render () {
     const { render, items, ...rest } = this.props
-    const trends = items.slice(-1)
     const props = {
       ...rest,
-      items: sortByHype(trends)
+      items: sortByHype(items)
     }
     return render(props)
   }
@@ -22,7 +21,7 @@ class GetHypedTrends extends React.Component {
 
 const sortByHype = items => {
   if (items.length > 0) {
-    items[0].topWords.sort(sortBy('score'))
+    items.map(item => item.topWords.sort(sortBy('score')))
   }
   return items
 }

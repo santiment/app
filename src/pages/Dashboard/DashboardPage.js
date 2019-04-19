@@ -28,7 +28,7 @@ const DashboardPage = ({ isLoggedIn }) => (
         <GetHypedTrends
           render={({ isLoading, items }) => (
             <TrendsTables
-              trends={items}
+              trends={items.slice(-1)}
               isLoading={isLoading}
               selectable={false}
             />
