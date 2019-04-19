@@ -93,28 +93,28 @@ class SmoothDropdown extends Component {
   handleMouseLeave = () => this.startCloseTimeout()
 
   setupDropdownContent = (ddItem, ddContent) => {
-    if (!this.ddItemsRef.has(ddItem)) {
-      this.ddItemsRef.set(ddItem, React.createRef())
-      this.setState(prevState => ({
-        ...prevState,
-        ddItems: new Map([...prevState.ddItems, [ddItem, ddContent]])
-      }))
-    }
-
-    const dropdownItem = this.ddItemsRef.get(ddItem).current
-    const {
-      currentDropdown,
-      dropdownStyles: { width: widthPx, height: heightPx }
-    } = this.state
-
-    if (
-      !dropdownItem ||
-      currentDropdown !== dropdownItem.querySelector('.dd__content')
-    ) {
-      return
-    }
-
     setTimeout(() => {
+      if (!this.ddItemsRef.has(ddItem)) {
+        this.ddItemsRef.set(ddItem, React.createRef())
+        this.setState(prevState => ({
+          ...prevState,
+          ddItems: new Map([...prevState.ddItems, [ddItem, ddContent]])
+        }))
+      }
+
+      const dropdownItem = this.ddItemsRef.get(ddItem).current
+      const {
+        currentDropdown,
+        dropdownStyles: { width: widthPx, height: heightPx }
+      } = this.state
+
+      if (
+        !dropdownItem ||
+        currentDropdown !== dropdownItem.querySelector('.dd__content')
+      ) {
+        return
+      }
+
       if (
         currentDropdown.clientHeight !== parseInt(heightPx, 10) ||
         currentDropdown.clientWidth !== parseInt(widthPx, 10)
