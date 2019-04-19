@@ -1,0 +1,19 @@
+@import '~@santiment-network/ui/variables.scss';
+@import '../../mixins.scss';
+
+.wrapper {
+  display: flex;
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    width: auto;
+  }
+}
+
+.insights {
+  flex: 2 1;
+  margin-right: 30px;
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    margin-right: 0;
+  }
+}
