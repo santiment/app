@@ -4,7 +4,7 @@ import * as qs from 'query-string'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import * as actions from './../../actions/types.js'
-import { simpleSort } from './../../utils/sortMethods'
+import { sortBy } from './../../utils/sortMethods'
 
 export const SORT_TYPES = {
   marketcap: 'marketcapUsd',
@@ -77,19 +77,17 @@ class GetAssets extends Component {
   render () {
     const { children, render } = this.props
     const typeInfo = this.getType()
-    const { Assets, sortBy } = this.props
+    const { Assets, sortBy: sortType } = this.props
     const items = Assets.items
     const props = {
       ...Assets,
       typeInfo,
-      items: items.sort(sort(sortBy))
+      items: items.sort(sortBy(sortType))
     }
     if (typeof children === 'function') return children(props)
     return render(props)
   }
 }
-
-const sort = sortBy => (a, b) => simpleSort(a[sortBy], b[sortBy])
 
 const mapStateToProps = state => {
   return {

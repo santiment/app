@@ -1,12 +1,14 @@
 import React from 'react'
 import { Panel } from '@santiment-network/ui'
 import cx from 'classnames'
-import styles from './InsightCard.module.scss'
+import withSizes from 'react-sizes'
+import { mapSizesToProps } from '../../App'
 import InsightCardInternals from './InsightCardInternals'
 import MarketcapChangeWidget from '../PostVisualBacktest'
 import { noTrendTagsFilter } from './utils'
+import styles from './InsightCard.module.scss'
 
-const InsightCard = ({ className, tags, ...insight }) => {
+const InsightCard = ({ className, tags, isDesktop, ...insight }) => {
   const { createdAt, updatedAt, publishedAt } = insight
   const filteredTags = tags.filter(noTrendTagsFilter)
   return (
@@ -14,14 +16,16 @@ const InsightCard = ({ className, tags, ...insight }) => {
       <div className={styles.wrapper_withMc__left}>
         <InsightCardInternals {...insight} tags={filteredTags} />
       </div>
-      <div className={styles.wrapper_withMc__right}>
-        <MarketcapChangeWidget
-          from={createdAt}
-          ticker={(filteredTags[0] || {}).name}
-          updatedAt={updatedAt}
-          publishedAt={publishedAt || updatedAt}
-        />
-      </div>
+      {isDesktop && (
+        <div className={styles.wrapper_withMc__right}>
+          <MarketcapChangeWidget
+            from={createdAt}
+            ticker={(filteredTags[0] || {}).name}
+            updatedAt={updatedAt}
+            publishedAt={publishedAt || updatedAt}
+          />
+        </div>
+      )}
     </Panel>
   )
 }
@@ -32,4 +36,4 @@ InsightCard.defaultProps = {
   comments: 0
 }
 
-export default InsightCard
+export default withSizes(mapSizesToProps)(InsightCard)

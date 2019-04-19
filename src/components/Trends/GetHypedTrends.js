@@ -2,16 +2,28 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose, pure } from 'recompose'
 import * as actions from './actions.js'
+import { sortBy } from '../../utils/sortMethods'
 
 class GetHypedTrends extends React.Component {
   render () {
-    const { render, ...rest } = this.props
-    return render(rest)
+    const { render, items, ...rest } = this.props
+    const props = {
+      ...rest,
+      items: sortByHype(items)
+    }
+    return render(props)
   }
 
   componentDidMount () {
     this.props.fetchHypedTrends()
   }
+}
+
+const sortByHype = items => {
+  if (items.length > 0) {
+    items.map(item => item.topWords.sort(sortBy('score')))
+  }
+  return items
 }
 
 const mapStateToProps = state => {

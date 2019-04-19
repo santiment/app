@@ -1,11 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
+import withSizes from 'react-sizes'
+import { mapSizesToProps } from '../../App'
 import { client } from '../../index'
-import InsightsFeed from '../../components/Insight/InsightsFeed'
 import { ALL_INSIGHTS_BY_PAGE_QUERY } from './../../queries/InsightsGQL'
-import styles from './InsightsFeedPage.module.scss'
+import InsightsFeed from '../../components/Insight/InsightsFeed'
+import styles from './InsightsAllFeedPage.module.scss'
+import FeaturedInsightsWithTitle from '../../components/FeaturedInsights/FeaturedInsightsWithTitle'
 
-class InsightsAllFeedPage extends Component {
+class InsightsAllFeedPage extends React.PureComponent {
   state = {
     nextPage: 1,
     insights: []
@@ -42,22 +45,33 @@ class InsightsAllFeedPage extends Component {
 
   render () {
     const { insights, loading } = this.state
-    const { sortReducer } = this.props
+    const { sortReducer, isPhone, isTablet } = this.props
 
     return (
       <div className={styles.wrapper}>
-        <InfiniteScroll
-          pageStart={0}
-          hasMore={!loading}
-          initialLoad
-          loadMore={this.loadMore}
-          loader='Loading more insights...'
-        >
-          <InsightsFeed insights={sortReducer(insights)} />
-        </InfiniteScroll>
+        <div className={styles.insights}>
+          <InfiniteScroll
+            pageStart={0}
+            hasMore={!loading}
+            initialLoad
+            loadMore={this.loadMore}
+            loader='Loading more insights...'
+          >
+            <InsightsFeed
+              insights={sortReducer(insights)}
+              isAllInsightsPage={true}
+            />
+          </InfiniteScroll>
+        </div>
+        {!isPhone && !isTablet && (
+          <FeaturedInsightsWithTitle
+            maxLines={2}
+            multilineTextId='sidebarInsights'
+          />
+        )}
       </div>
     )
   }
 }
 
-export default InsightsAllFeedPage
+export default withSizes(mapSizesToProps)(InsightsAllFeedPage)

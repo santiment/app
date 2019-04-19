@@ -1,17 +1,16 @@
+@import '~@santiment-network/ui/variables.scss';
 @import "~@santiment-network/ui/mixins.scss";
-
-.wrapper {
-    margin: 0 auto;
-    max-width: 720px;
-}
+@import "../../mixins.scss";
 
 .date {
-    @include text-normal;
-    color: var(--grey-dark-2);
-    margin: 40px 0 16px;
+  @include text-normal;
+
+  color: var(--waterloo);
+  margin: 40px 16px 16px;
 }
 
 .signal {
-    margin-bottom: 24px;
-    display: flex;
+  margin: 0 16px 24px;
+  display: flex;
+  min-width: auto;
 }

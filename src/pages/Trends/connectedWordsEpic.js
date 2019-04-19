@@ -47,11 +47,6 @@ const mapWordToProjectsTicker = word => {
   if (ticker2) {
     return ticker2
   }
-
-  const { ticker: ticker3 } =
-    projectsSortedByTicker.find(({ name }) => name.includes(word)) || {}
-
-  return ticker3
 }
 
 export const connectedWordsOptimizationEpic = action$ =>

@@ -58,3 +58,5 @@ export const sortTxOut = (a, b) => {
   const _b = sumTXOutFromWallets(b)
   return simpleSort(_a, _b)
 }
+
+export const sortBy = sortBy => (a, b) => simpleSort(a[sortBy], b[sortBy])
