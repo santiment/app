@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose, pure } from 'recompose'
 import * as actions from './actions.js'
-import { simpleSort } from '../../utils/sortMethods'
+import { sortBy } from '../../utils/sortMethods'
 
 class GetHypedTrends extends React.Component {
   render () {
@@ -21,14 +21,12 @@ class GetHypedTrends extends React.Component {
 }
 
 const sortByHype = items => {
-  const sortedData = items[0].topWords.sort(sort('score'))
+  const sortedData = items[0].topWords.sort(sortBy('score'))
   return {
     ...items,
     topWords: sortedData
   }
 }
-
-const sort = sortBy => (a, b) => simpleSort(a[sortBy], b[sortBy])
 
 const mapStateToProps = state => {
   return {
