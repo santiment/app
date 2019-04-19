@@ -4,10 +4,6 @@ import { compose, pure } from 'recompose'
 import * as actions from './actions.js'
 import { simpleSort } from '../../utils/sortMethods'
 
-export const SORT_TYPES = {
-  hypeScore: 'score'
-}
-
 class GetHypedTrends extends React.Component {
   render () {
     const { render, items, ...rest } = this.props
@@ -25,7 +21,7 @@ class GetHypedTrends extends React.Component {
 }
 
 const sortByHype = items => {
-  const sortedData = items[0].topWords.sort(sort(SORT_TYPES.hypeScore))
+  const sortedData = items[0].topWords.sort(sort('score'))
   return {
     ...items,
     topWords: sortedData
