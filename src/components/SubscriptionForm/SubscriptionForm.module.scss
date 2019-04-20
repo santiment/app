@@ -1,9 +1,4 @@
 .subscription {
-  margin-top: 32px;
-  padding: 35px;
-  background: var(--athens);
-  text-align: center;
-
   &__error {
     display: none;
     position: absolute;
@@ -15,7 +10,6 @@
     justify-content: center;
     position: relative;
     width: 430px;
-    margin: 0 auto 15px;
 
     &_error:hover > .subscription__error {
       display: block;
@@ -37,5 +31,9 @@
 
   &__label {
     color: var(--casper);
+  }
+
+  &__checkbox {
+    margin-top: 15px;
   }
 }

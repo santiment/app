@@ -16,7 +16,7 @@ class SubscriptionForm extends PureComponent {
   state = {
     email: '',
     error: undefined,
-    hasSubscribed: false
+    hasSubscribed: true
   }
 
   componentWillUnmount () {
@@ -96,7 +96,8 @@ class SubscriptionForm extends PureComponent {
   }
 
   render () {
-    const { error, waiting } = this.state
+    const { error, waiting, email } = this.state
+    const { hideCheckbox } = this.props
 
     return (
       <>
@@ -127,13 +128,19 @@ class SubscriptionForm extends PureComponent {
             <Label accent='persimmon'>{error}</Label>
           </Panel>
         </form>
-        <Checkboxes
-          options={[SUBSCRIPTION_LABEL]}
-          labelOnRight
-          labelClassName={styles.subscription__label}
-          disabledIndexes={waiting ? [SUBSCRIPTION_LABEL] : undefined}
-          onSelect={this.onSelect}
-        />
+        {!hideCheckbox && (
+          <Checkboxes
+            className={styles.subscription__checkbox}
+            options={[SUBSCRIPTION_LABEL]}
+            labelOnRight
+            labelClassName={styles.subscription__label}
+            defaultSelectedIndexes={[SUBSCRIPTION_LABEL]}
+            disabledIndexes={
+              waiting || !email ? [SUBSCRIPTION_LABEL] : undefined
+            }
+            onSelect={this.onSelect}
+          />
+        )}
       </>
     )
   }

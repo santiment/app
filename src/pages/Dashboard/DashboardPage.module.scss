@@ -55,6 +55,9 @@
   padding: 35px;
   background: var(--athens);
   text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 
   &__title {
     font-size: 28px;
