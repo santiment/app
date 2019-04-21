@@ -17,3 +17,22 @@
     margin-right: 0;
   }
 }
+
+.featuredInsights {
+  flex: 1 1;
+  height: 90vh;
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  top: 5vh;
+  margin-top: 30px;
+
+  &__title {
+    font-family: Rubik, sans-serif;
+    font-size: 22px;
+    line-height: 30px;
+    color: var(--mirage);
+    margin: 0;
+    margin-bottom: 12px;
+  }
+}
