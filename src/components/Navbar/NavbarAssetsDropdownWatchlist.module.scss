@@ -1,63 +1,69 @@
-@import "~@santiment-network/ui/variables.scss";
-@import "~@santiment-network/ui/mixins.scss";
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
+
+.wrapper {
+  box-sizing: border-box;
+  flex: 1;
+  overflow: auto;
+  position: relative;
+}
 
 .list {
-    box-sizing: border-box;
-    flex: 1;
-    max-height: 174px;
-    overflow: auto;
-    padding: 8px;
-
-    a {
-        text-decoration: none;
-    }
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 8px;
+  width: 100%;
 }
 
 .item {
-    padding: 6px 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
 }
 
+.icon {
+  fill: var(--casper);
+  width: 16px;
 
-.visibility {
-    display: inline-flex;
-
-     svg {
-        fill: var(--grey-dark) !important;
-        width: 16px;
-
-        &:hover {
-            fill: var(--grey-dark-2) !important;
-        }
-    }
+  &:hover {
+    fill: var(--waterloo);
+  }
 }
 
 .label {
-    padding: 3px 8px;
-    @include text-normal;
-    font-size: 12px;
-    line-height: 18px;
+  padding: 3px 8px;
+
+  @include text-normal;
+
+  font-size: 12px;
+  line-height: 18px;
 }
 
 .newList {
-    @include text-normal;
-    display: flex;
-    border-top: 1px solid var(--grey-light-2);
-    height: 48px;
+  @include text-normal;
 
-    &__btn {
-        height: 100% !important;
-        padding: 14px 16px !important;
+  display: flex;
+  border-top: 1px solid var(--grey-light-2);
+  height: 48px;
 
-        svg {
-            margin-right: 8px;
-        }
-    }
+  &__btn {
+    height: 100% !important;
+    padding: 14px 16px !important;
+  }
 }
 
 .createForm {
-    padding: 8px !important;
-    width: 100%;
+  padding: 8px !important;
+  width: 100%;
+}
+
+.explanation {
+  z-index: 10000;
+}
+
+.plus {
+  margin-right: 8px;
 }

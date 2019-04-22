@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import { Panel, Button, Icon } from '@santiment-network/ui'
+import { Button, Icon } from '@santiment-network/ui'
 import WatchlistsAnon from './../WatchlistPopup/WatchlistsAnon'
-import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
-import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
+import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
 import NavbarAssetsDropdownWatchlistBottom from './NavbarAssetsDropdownWatchlistBottom'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { pickFork, fork } from './../../utils/utils'
@@ -49,40 +48,36 @@ const ifData = fork(
   props => props.watchlists.length > 0,
   // TODO: activeLink is '/sonar' and we can't highlight here choosed watchlist
   ({ watchlists, isWatchlistsLoading, activeLink }) => (
-    <SmoothDropdown
-      showArrow={false}
-      verticalOffset={5}
-      closeAfterTimeout={0}
-      verticalMotion
-      className={styles.list}
-    >
-      {watchlists.map(({ name, id, isPublic }) => {
-        const link = `/assets/list?name=${name}@${id}`
-        return (
-          <Button
-            fluid
-            variant='ghost'
-            key={id}
-            as={Link}
-            className={styles.item}
-            to={link}
-            isActive={activeLink === link}
-          >
-            {name.toUpperCase()}
-            <SmoothDropdownItem
-              className={styles.visibility}
-              trigger={
-                isPublic ? <Icon type='eye' /> : <Icon type='lock-small' />
-              }
+    <div className={styles.wrapper}>
+      <div className={styles.list}>
+        {watchlists.map(({ name, id, isPublic }) => {
+          const link = `/assets/list?name=${name}@${id}`
+          return (
+            <Button
+              fluid
+              variant='ghost'
+              key={id}
+              as={Link}
+              className={styles.item}
+              to={link}
+              isActive={activeLink === link}
             >
-              <Panel className={styles.label}>
-                {isPublic ? 'Public' : 'Private'}
-              </Panel>
-            </SmoothDropdownItem>
-          </Button>
-        )
-      })}
-    </SmoothDropdown>
+              {name.toUpperCase()}
+              <ExplanationTooltip
+                text={isPublic ? 'Public' : 'Private'}
+                className={styles.explanation}
+                offsetY={5}
+              >
+                <Icon
+                  type={isPublic ? 'eye' : 'lock-small'}
+                  className={styles.icon}
+                />
+              </ExplanationTooltip>
+            </Button>
+          )
+        })}
+      </div>
+    </div>
   )
 )
 
