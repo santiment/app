@@ -1,4 +1,17 @@
-
 .wrapper {
   width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn {
+  fill: var(--casper);
+
+  &__icon {
+    margin-right: 8px;
+  }
 }
