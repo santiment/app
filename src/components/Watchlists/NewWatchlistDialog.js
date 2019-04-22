@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react'
 import { Dialog, Toggle, Input, Label } from '@santiment-network/ui'
+import { connect } from 'react-redux'
+import { USER_ADD_NEW_ASSET_LIST } from '../../actions/types'
+import { showNotification } from '../../actions/rootActions'
 import styles from './NewWatchlistDialog.module.scss'
 
 class NewWatchlistDialog extends PureComponent {
@@ -25,6 +28,11 @@ class NewWatchlistDialog extends PureComponent {
     this.setState({ value })
   }
 
+  onSubmit = e => {
+    e.preventDefault()
+    console.log(this.state)
+  }
+
   render () {
     const {
       open,
@@ -41,33 +49,57 @@ class NewWatchlistDialog extends PureComponent {
         onClose={this.cancelDialog}
         open={open}
       >
-        <Dialog.ScrollContent withPadding className={styles.content}>
-          <Label accent='waterloo'>Name</Label> ({inputLength}/25)
-          <Input
-            placeholder='For example, Favorites'
-            maxLength='25'
-            onChange={this.onInputChange}
-          />
-        </Dialog.ScrollContent>
-        <Dialog.Actions className={styles.actions}>
-          <div className={styles.left}>
-            <Toggle
-              isActive={isSecret}
-              className={styles.toggle}
-              onClick={this.onToggleClick}
+        <form onSubmit={this.onSubmit}>
+          <Dialog.ScrollContent withPadding className={styles.content}>
+            <Label accent='waterloo'>Name</Label> ({inputLength}/25)
+            <Input
+              placeholder='For example, Favorites'
+              maxLength='25'
+              onChange={this.onInputChange}
             />
-            Secret
-          </div>
-          <div className={styles.right}>
-            <Dialog.Cancel onClick={this.cancelDialog}>Cancel</Dialog.Cancel>
-            <Dialog.Approve className={styles.approve} disabled={!inputLength}>
-              Create
-            </Dialog.Approve>
-          </div>
-        </Dialog.Actions>
+            <button type='submit' style={{ display: 'none' }} />
+          </Dialog.ScrollContent>
+          <Dialog.Actions className={styles.actions}>
+            <div className={styles.left}>
+              <Toggle
+                isActive={isSecret}
+                className={styles.toggle}
+                onClick={this.onToggleClick}
+              />
+              Secret
+            </div>
+            <div className={styles.right}>
+              <Dialog.Cancel onClick={this.cancelDialog} type='cancel'>
+                Cancel
+              </Dialog.Cancel>
+              <Dialog.Approve
+                className={styles.approve}
+                disabled={!inputLength}
+                type='submit'
+              >
+                Create
+              </Dialog.Approve>
+            </div>
+          </Dialog.Actions>
+        </form>
       </Dialog>
     )
   }
 }
 
-export default NewWatchlistDialog
+const mapStateToProps = ({ watchlistUi: { newItemPending } }) => ({
+  isPending: newItemPending
+})
+
+const mapDispatchToProps = dispatch => ({
+  createWatchlist: payload =>
+    dispatch({
+      type: USER_ADD_NEW_ASSET_LIST,
+      payload
+    })
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NewWatchlistDialog)

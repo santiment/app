@@ -10,7 +10,7 @@ import NewWatchlistDialog from './NewWatchlistDialog.js'
 import styles from './Watchlist.module.scss'
 
 const WatchlistNewBtn = props => (
-  <Button border className={styles.btn} {...props}>
+  <Button className={styles.btn} {...props}>
     <Icon type='plus-round' className={styles.btn__icon} />
     New watchlist
   </Button>
@@ -21,12 +21,14 @@ const MyWatchlist = () => (
     <DesktopOnly>
       <div className={styles.header}>
         <h4>My watchlists</h4>
-        <NewWatchlistDialog trigger={<WatchlistNewBtn />} />
+        <NewWatchlistDialog trigger={<WatchlistNewBtn border />} />
       </div>
     </DesktopOnly>
     <Row>
       <MobileOnly>
-        <NewWatchlistDialog trigger={<WatchlistNewBtn />} />
+        <NewWatchlistDialog
+          trigger={<WatchlistNewBtn variant='fill' accent='positive' />}
+        />
       </MobileOnly>
       <GetWatchlists
         render={({ isWatchlistsLoading, watchlists }) => {
