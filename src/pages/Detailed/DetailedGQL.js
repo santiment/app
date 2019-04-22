@@ -88,6 +88,7 @@ export const projectBySlugGQL = gql`
       rank
       totalSupply
       percentChange24h
+      percentChange7d
     }
   }
 `

@@ -57,10 +57,18 @@ const DetailedHeader = ({
           formatNumber(project.priceUsd, { currency: 'USD' })}
       </div>
       {!loading && project && (
-        <PercentChanges
-          className={styles.percentChanges}
-          changes={project.percentChange24h}
-        />
+        <div>
+          <PercentChanges
+            className={styles.percentChanges}
+            changes={project.percentChange24h}
+            label='24h'
+          />
+          <PercentChanges
+            className={styles.percentChanges}
+            changes={project.percentChange7d}
+            label='7d'
+          />
+        </div>
       )}
     </div>
   </div>
@@ -74,6 +82,7 @@ export default compose(
         description: '______ ___ ______ __ _____ __ ______',
         ticker: '',
         percentChange24h: 0,
+        percentChange7d: 0,
         priceBtc: 0,
         priceUsd: 0
       }

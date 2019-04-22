@@ -68,9 +68,13 @@
 }
 
 .percentChanges {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 300;
   text-align: right;
+}
+
+.percentChanges:first-of-type {
+  margin-left: 0;
 }
 
 .pending-header {

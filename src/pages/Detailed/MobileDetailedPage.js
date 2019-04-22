@@ -39,7 +39,13 @@ const MobileDetailedPage = props => {
             )
           }
 
-          const { ticker, percentChange24h, priceUsd, icoPrice } = project
+          const {
+            ticker,
+            percentChange24h,
+            percentChange7d,
+            priceUsd,
+            icoPrice
+          } = project
 
           return (
             <>
@@ -50,7 +56,8 @@ const MobileDetailedPage = props => {
               />
               <div className={styles.main}>
                 <PriceBlock
-                  percentChange24h={percentChange24h}
+                  changes24h={percentChange24h}
+                  changes7d={percentChange7d}
                   priceUsd={priceUsd}
                 />
                 {timeRangeBlock}
@@ -90,12 +97,17 @@ const Title = ({ slug, ticker }) => (
   </>
 )
 
-const PriceBlock = ({ percentChange24h, priceUsd }) => (
-  <div className={styles.priceBlock}>
+const PriceBlock = ({ changes24h, changes7d, priceUsd }) => (
+  <div>
     <div className={styles.priceUsd}>
       {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
     </div>
-    <PercentChanges className={styles.changes24} changes={percentChange24h} />
+    <PercentChanges
+      className={styles.changes}
+      changes={changes24h}
+      label='24h'
+    />
+    <PercentChanges className={styles.changes} changes={changes7d} label='7d' />
   </div>
 )
 
