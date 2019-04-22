@@ -200,7 +200,6 @@ class TrendsTable extends PureComponent {
     const {
       small,
       trendWords,
-      scoreChange,
       volumeChange,
       header,
       className,
@@ -212,8 +211,7 @@ class TrendsTable extends PureComponent {
       trendConnections
     } = this.props
 
-    const tableData = trendWords.map((word, index) => {
-      const [oldScore = 0, newScore = 0] = scoreChange[word] || []
+    const tableData = trendWords.map(({ word, score }, index) => {
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
       const isWordSelected = selectedTrends.has(word)
       return {
@@ -246,11 +244,7 @@ class TrendsTable extends PureComponent {
           </Link>
         ),
         rawWord: word,
-        score: (
-          <>
-            {newScore} <ValueChange change={newScore - oldScore} />
-          </>
-        ),
+        score: parseInt(score, 10),
         volume: (
           <>
             {newVolume} <ValueChange change={newVolume - oldVolume} />
@@ -287,12 +281,11 @@ class TrendsTable extends PureComponent {
 }
 
 const mapStateToProps = ({
-  hypedTrends: { scoreChange, volumeChange, TrendToInsights },
+  hypedTrends: { volumeChange, TrendToInsights },
   user: {
     data: { username }
   }
 }) => ({
-  scoreChange,
   volumeChange,
   TrendToInsights,
   username
