@@ -149,6 +149,7 @@ class TrendsTable extends PureComponent {
                   {insights.map((insight, i) => (
                     <InsightCardSmall
                       key={i}
+                      multilineTextId='TrendsTable__insights'
                       {...insight}
                       className={styles.insight}
                     />
