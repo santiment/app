@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { Dialog, Toggle, Input, Label } from '@santiment-network/ui'
 import { connect } from 'react-redux'
 import { USER_ADD_NEW_ASSET_LIST } from '../../actions/types'
-import { showNotification } from '../../actions/rootActions'
 import styles from './NewWatchlistDialog.module.scss'
 
 class NewWatchlistDialog extends PureComponent {
@@ -30,7 +29,13 @@ class NewWatchlistDialog extends PureComponent {
 
   onSubmit = e => {
     e.preventDefault()
-    console.log(this.state)
+    const { value, isSecret } = this.state
+
+    if (!value) {
+      return
+    }
+
+    this.props.createWatchlist({ name: value, isPublic: !isSecret })
   }
 
   render () {
@@ -58,6 +63,7 @@ class NewWatchlistDialog extends PureComponent {
               onChange={this.onInputChange}
             />
             <button type='submit' style={{ display: 'none' }} />
+            {/* hack for submiting form */}
           </Dialog.ScrollContent>
           <Dialog.Actions className={styles.actions}>
             <div className={styles.left}>
