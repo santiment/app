@@ -7,7 +7,7 @@ $notify-duration: 300;
 /* stylelint-enabled */
 
 .notificationStack {
-  z-index: 1000;
+  z-index: 10000;
   position: fixed;
   bottom: 100px;
   left: 20px;

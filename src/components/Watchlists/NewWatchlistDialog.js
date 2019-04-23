@@ -12,19 +12,19 @@ class NewWatchlistDialog extends PureComponent {
 
     return {
       open: false,
-      value: '',
-      isSecret: false
+      name: '',
+      isPublic: true
     }
   }
 
   state = {
     open: false,
-    value: '',
-    isSecret: false
+    name: '',
+    isPublic: true
   }
 
   onToggleClick = () => {
-    this.setState(({ isSecret }) => ({ isSecret: !isSecret }))
+    this.setState(({ isPublic }) => ({ isPublic: !isPublic }))
   }
 
   openDialog = () => {
@@ -35,26 +35,26 @@ class NewWatchlistDialog extends PureComponent {
     this.setState({ open: false })
   }
 
-  onInputChange = ({ currentTarget: { value } }) => {
-    this.setState({ value })
+  onInputChange = ({ currentTarget: { value: name } }) => {
+    this.setState({ name })
   }
 
   onSubmit = e => {
     e.preventDefault()
-    const { value, isSecret } = this.state
+    const { name, isPublic } = this.state
     const { isPending } = this.props
 
-    if (!value || isPending) {
+    if (!name || isPending) {
       return
     }
 
-    this.props.createWatchlist({ name: value, isPublic: !isSecret })
+    this.props.createWatchlist({ name, isPublic })
   }
 
   render () {
-    const { open, value, isSecret } = this.state
+    const { open, name, isPublic } = this.state
     const { isPending, trigger } = this.props
-    const { length: inputLength } = value
+    const { length: inputLength } = name
 
     return (
       <Dialog
@@ -71,7 +71,7 @@ class NewWatchlistDialog extends PureComponent {
               placeholder='For example, Favorites'
               maxLength='25'
               onChange={this.onInputChange}
-              defaultValue={value}
+              defaultValue={name}
             />
             <button type='submit' style={{ display: 'none' }} />
             {/* hack for submiting form */}
@@ -79,7 +79,7 @@ class NewWatchlistDialog extends PureComponent {
           <Dialog.Actions className={styles.actions}>
             <div className={styles.left}>
               <Toggle
-                isActive={isSecret}
+                isActive={!isPublic}
                 className={styles.toggle}
                 onClick={this.onToggleClick}
               />
