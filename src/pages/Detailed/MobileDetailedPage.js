@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { Selector } from '@santiment-network/ui'
+import { Label, Selector } from '@santiment-network/ui'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import PercentChanges from './../../components/PercentChanges'
 import { capitalizeStr } from './../../utils/utils'
@@ -102,12 +102,14 @@ const PriceBlock = ({ changes24h, changes7d, priceUsd }) => (
     <div className={styles.priceUsd}>
       {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
     </div>
-    <PercentChanges
-      className={styles.changes}
-      changes={changes24h}
-      label='24h'
-    />
-    <PercentChanges className={styles.changes} changes={changes7d} label='7d' />
+    <PercentChanges className={styles.changes} changes={changes24h} />
+    <Label className={styles.label} accent='waterloo'>
+      24h
+    </Label>
+    <PercentChanges className={styles.changes} changes={changes7d} />
+    <Label className={styles.label} accent='waterloo'>
+      7d
+    </Label>
   </div>
 )
 

@@ -3,13 +3,8 @@ import ValueChange from './ValueChange/ValueChange'
 
 const render = change => `${parseFloat(change).toFixed(2)}%`
 
-const PercentChanges = ({ className, changes, label }) => (
-  <ValueChange
-    className={className}
-    change={changes}
-    render={render}
-    label={label}
-  />
+const PercentChanges = ({ className, changes }) => (
+  <ValueChange className={className} change={changes} render={render} />
 )
 
 export default PercentChanges

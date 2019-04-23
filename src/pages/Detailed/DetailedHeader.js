@@ -9,7 +9,8 @@ import PercentChanges from './../../components/PercentChanges'
 import WatchlistsPopup from './../../components/WatchlistPopup/WatchlistsPopup'
 import ChooseWatchlists from './../../components/WatchlistPopup/ChooseWatchlists'
 import { formatNumber } from './../../utils/formatting'
-import styles from './DetailedHeader.module.css'
+import { Label } from '@santiment-network/ui'
+import styles from './DetailedHeader.module.scss'
 
 const DIV = createSkeletonElement('div', 'pending-header pending-div')
 
@@ -61,13 +62,17 @@ const DetailedHeader = ({
           <PercentChanges
             className={styles.percentChanges}
             changes={project.percentChange24h}
-            label='24h'
           />
+          <Label className={styles.label} accent='waterloo'>
+            24h
+          </Label>
           <PercentChanges
             className={styles.percentChanges}
             changes={project.percentChange7d}
-            label='7d'
           />
+          <Label className={styles.label} accent='waterloo'>
+            7d
+          </Label>
         </div>
       )}
     </div>
