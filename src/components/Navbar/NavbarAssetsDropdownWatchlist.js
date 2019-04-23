@@ -34,14 +34,14 @@ const renderNewWatchlistForm = fork(
 
 const ifLoading = fork(
   props => props.isWatchlistsLoading,
-  () => <h2 style={{ marginLeft: 30 }}>Loading...</h2>
+  () => <h2 style={{ marginLeft: 30, flex: 1 }}>Loading...</h2>
 )
 
 const ifAnonymous = fork(props => !props.isLoggedIn, WatchlistsAnon)
 
 const ifEmpty = fork(
   props => props.watchlists.length === 0,
-  () => <h2 style={{ marginLeft: 30 }}>Empty</h2>
+  () => <h2 style={{ marginLeft: 30, flex: 1 }}>Empty</h2>
 )
 
 const ifData = fork(
