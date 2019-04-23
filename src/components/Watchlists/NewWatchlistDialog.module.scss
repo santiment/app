@@ -1,0 +1,30 @@
+.content {
+  width: 440px;
+  margin-bottom: 40px !important;
+  max-width: 100%;
+  position: relative;
+  overflow: initial;
+}
+
+.actions {
+  justify-content: space-between;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.toggle {
+  margin-right: 12px;
+}
+
+.approve {
+  margin-left: 16px;
+}
+
+.error {
+  position: absolute;
+  left: 20px;
+  top: 100%;
+}

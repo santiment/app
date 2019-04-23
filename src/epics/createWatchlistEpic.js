@@ -77,10 +77,21 @@ const createWatchlistEpic = (action$, store, { client }) =>
         })
         .catch(error => {
           Raven.captureException(error)
-          return Observable.of({
-            type: actions.USER_ADD_NEW_ASSET_LIST_FAILED,
-            payload: error
-          })
+          return Observable.merge(
+            Observable.of({
+              type: actions.USER_ADD_NEW_ASSET_LIST_FAILED,
+              payload: error
+            }),
+
+            Observable.of(
+              showNotification({
+                variant: 'error',
+                title: 'Error',
+                description:
+                  "Can't create the watchlist. Please, try again later."
+              })
+            )
+          )
         })
     })
 
