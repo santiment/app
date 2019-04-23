@@ -1,3 +1,5 @@
+@import '../../mixins.scss';
+
 .subscription {
   &__error {
     display: none;
@@ -7,12 +9,19 @@
 
   &__form {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     position: relative;
     width: 430px;
 
     &_error:hover > .subscription__error {
       display: block;
+    }
+
+    @include responsive('phone-xs') {
+      align-items: baseline;
+      width: 100%;
     }
   }
 
@@ -27,6 +36,14 @@
     right: 4px;
     top: 4px;
     padding: 6px 23px;
+
+    @include responsive('phone-xs') {
+      margin-top: 15px;
+      width: 100%;
+      display: block;
+      position: relative;
+      right: 0;
+    }
   }
 
   &__label {

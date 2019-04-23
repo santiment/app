@@ -1,4 +1,5 @@
 @import '~@santiment-network/ui/variables.scss';
+@import "../../mixins.scss";
 
 .TrendsExplorePage {
   margin: 0;
@@ -48,7 +49,7 @@
   margin-left: 1rem;
 }
 
-@media (min-width: $breakpoint-tablet) {
+@include responsive('tablet', 'laptop', 'desktop') {
   .TrendsExplorePage {
     width: 1024px;
     margin: 0 auto;

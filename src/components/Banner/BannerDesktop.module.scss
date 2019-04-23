@@ -24,6 +24,10 @@
     width: 728px;
   }
 
+  @include responsive('phone-xs', 'phone') {
+    display: none;
+  }
+
   &__imageWrapper {
     width: 93px;
     height: 84px;
@@ -31,6 +35,13 @@
 
     @include responsive('laptop', 'tablet') {
       margin-right: 24px;
+    }
+
+    @include responsive('phone-xs', 'phone') {
+      width: 157px;
+      height: 144px;
+      margin-bottom: 7px;
+      margin-right: 0;
     }
   }
 
@@ -42,6 +53,11 @@
       flex-direction: column;
       align-items: baseline;
     }
+
+    @include responsive('phone', 'phone-xs') {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 
   &__textWrapper {
@@ -50,6 +66,12 @@
     @include responsive('laptop', 'tablet') {
       margin-bottom: 18px;
       margin-right: 0;
+    }
+
+    @include responsive('phone-xs', 'phone') {
+      margin-bottom: 34px;
+      margin-right: 0;
+      text-align: center;
     }
   }
 

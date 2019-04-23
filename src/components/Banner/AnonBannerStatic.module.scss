@@ -53,11 +53,9 @@
 .advantages {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 75px;
 
   @include responsive('phone-xs') {
     flex-direction: column;
-    margin-bottom: 45px;
   }
 }
 

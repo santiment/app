@@ -1,7 +1,16 @@
 @import '~@santiment-network/ui/variables.scss';
+@import '../../mixins.scss';
 
 .wrapper {
   width: 100%;
+}
+
+.anonBanner {
+  margin-bottom: 75px;
+
+  @include responsive('phone-xs') {
+    margin-bottom: 45px;
+  }
 }
 
 .header {

@@ -115,6 +115,19 @@ class SubscriptionForm extends PureComponent {
             onChange={this.onEmailChangeDebounced}
             isError={error}
           />
+          {!hideCheckbox && (
+            <Checkboxes
+              className={styles.subscription__checkbox}
+              options={[SUBSCRIPTION_LABEL]}
+              labelOnRight
+              labelClassName={styles.subscription__label}
+              defaultSelectedIndexes={[SUBSCRIPTION_LABEL]}
+              disabledIndexes={
+                waiting || !email ? [SUBSCRIPTION_LABEL] : undefined
+              }
+              onSelect={this.onSelect}
+            />
+          )}
           <Button
             variant='fill'
             accent='positive'
@@ -128,19 +141,6 @@ class SubscriptionForm extends PureComponent {
             <Label accent='persimmon'>{error}</Label>
           </Panel>
         </form>
-        {!hideCheckbox && (
-          <Checkboxes
-            className={styles.subscription__checkbox}
-            options={[SUBSCRIPTION_LABEL]}
-            labelOnRight
-            labelClassName={styles.subscription__label}
-            defaultSelectedIndexes={[SUBSCRIPTION_LABEL]}
-            disabledIndexes={
-              waiting || !email ? [SUBSCRIPTION_LABEL] : undefined
-            }
-            onSelect={this.onSelect}
-          />
-        )}
       </>
     )
   }

@@ -18,7 +18,11 @@ const More = ({ link }) => (
 
 const DashboardPage = ({ isLoggedIn }) => (
   <div className={styles.wrapper + ' page'}>
-    {isLoggedIn ? <DashboardPageOnboard /> : <AnonBannerStatic />}
+    {isLoggedIn ? (
+      <DashboardPageOnboard />
+    ) : (
+      <AnonBannerStatic className={styles.anonBanner} />
+    )}
     <div className={styles.column}>
       <div className={styles.column__left}>
         <div className={styles.subtitle}>

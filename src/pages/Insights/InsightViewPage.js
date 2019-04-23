@@ -14,9 +14,9 @@ import LikeBtn from '../../components/Like/LikeBtn'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import { getInsightContent } from './utils'
-import styles from './InsightViewPage.module.scss'
 import AnonBannerStatic from '../../components/Banner/AnonBannerStatic'
 import AnonBannerSticky from '../../components/Banner/AnonBannerSticky'
+import styles from './InsightViewPage.module.scss'
 
 const InsightViewPage = ({
   id,
@@ -89,9 +89,11 @@ const InsightViewPage = ({
           </div>
         </div>
         {!isLoggedIn && (
-          <AnonBannerStatic className={styles.banner} bannerRef={bannerRef} />
+          <>
+            <AnonBannerStatic className={styles.banner} bannerRef={bannerRef} />
+            <AnonBannerSticky bannerStaticRef={bannerRef} />
+          </>
         )}
-        {!isLoggedIn && <AnonBannerSticky bannerStaticRef={bannerRef} />}
       </div>
     </Fragment>
   )
