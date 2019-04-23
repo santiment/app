@@ -1,8 +1,12 @@
 import React, { PureComponent } from 'react'
+import debounce from 'lodash.debounce'
 import { Dialog, Toggle, Input, Label } from '@santiment-network/ui'
 import { connect } from 'react-redux'
 import { USER_ADD_NEW_ASSET_LIST } from '../../actions/types'
 import styles from './NewWatchlistDialog.module.scss'
+
+const WATCHLIST_NAME_EXISTS_ERROR =
+  'The watchlist with this name already exists'
 
 class NewWatchlistDialog extends PureComponent {
   static getDerivedStateFromProps ({ isSuccess }) {
@@ -37,14 +41,28 @@ class NewWatchlistDialog extends PureComponent {
 
   onInputChange = ({ currentTarget: { value: name } }) => {
     this.setState({ name })
+    this.checkName()
   }
+
+  checkName = debounce(() => {
+    const { name } = this.state
+    let error
+    if (
+      this.props.watchlists.some(
+        ({ name: existingName }) => existingName === name
+      )
+    ) {
+      error = WATCHLIST_NAME_EXISTS_ERROR
+    }
+    this.setState({ error })
+  }, 300)
 
   onSubmit = e => {
     e.preventDefault()
-    const { name, isPublic } = this.state
+    const { name, isPublic, error } = this.state
     const { isPending } = this.props
 
-    if (!name || isPending) {
+    if (!name || isPending || error) {
       return
     }
 
@@ -52,9 +70,9 @@ class NewWatchlistDialog extends PureComponent {
   }
 
   render () {
-    const { open, name, isPublic } = this.state
+    const { open, name, isPublic, error } = this.state
     const { isPending, trigger } = this.props
-    const { length: inputLength } = name
+    const { length: nameLength } = name
 
     return (
       <Dialog
@@ -66,15 +84,22 @@ class NewWatchlistDialog extends PureComponent {
       >
         <form onSubmit={this.onSubmit}>
           <Dialog.ScrollContent withPadding className={styles.content}>
-            <Label accent='waterloo'>Name</Label> ({inputLength}/25)
+            <Label accent='waterloo'>Name</Label> ({nameLength}/25)
             <Input
               placeholder='For example, Favorites'
               maxLength='25'
               onChange={this.onInputChange}
               defaultValue={name}
+              isError={error}
             />
-            <button type='submit' style={{ display: 'none' }} />
-            {/* hack for submiting form */}
+            <button
+              // hack for submiting form
+              type='submit'
+              style={{ display: 'none' }}
+            />
+            <Label accent='persimmon' className={styles.error}>
+              {error}
+            </Label>
           </Dialog.ScrollContent>
           <Dialog.Actions className={styles.actions}>
             <div className={styles.left}>
@@ -91,7 +116,7 @@ class NewWatchlistDialog extends PureComponent {
               </Dialog.Cancel>
               <Dialog.Approve
                 className={styles.approve}
-                disabled={!inputLength || isPending}
+                disabled={!nameLength || isPending || error}
                 type='submit'
               >
                 {isPending ? 'Creating...' : 'Create'}

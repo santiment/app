@@ -2,6 +2,8 @@
   width: 440px;
   margin-bottom: 40px !important;
   max-width: 100%;
+  position: relative;
+  overflow: initial;
 }
 
 .actions {
@@ -19,4 +21,10 @@
 
 .approve {
   margin-left: 16px;
+}
+
+.error {
+  position: absolute;
+  left: 20px;
+  top: 100%;
 }
