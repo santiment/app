@@ -1,4 +1,4 @@
-import React, { Fragment, useRef } from 'react'
+import React, { Fragment, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import { Helmet } from 'react-helmet'
@@ -30,7 +30,13 @@ const InsightViewPage = ({
   isDesktop,
   isLoggedIn
 }) => {
-  const bannerRef = useRef(null)
+  const [bannerRef, setBannerRef] = useState()
+
+  const measuredRef = useCallback(node => {
+    if (node !== null) {
+      setBannerRef(node)
+    }
+  }, [])
 
   return (
     <Fragment>
@@ -90,7 +96,10 @@ const InsightViewPage = ({
         </div>
         {!isLoggedIn && (
           <>
-            <AnonBannerStatic className={styles.banner} bannerRef={bannerRef} />
+            <AnonBannerStatic
+              className={styles.banner}
+              bannerRef={measuredRef}
+            />
             <AnonBannerSticky bannerStaticRef={bannerRef} />
           </>
         )}

@@ -2,38 +2,38 @@ import React from 'react'
 import { Icon } from '@santiment-network/ui'
 import styles from './BannerDesktop.module.scss'
 
-class BannerDesktop extends React.Component {
-  state = { sticky: false, isHidden: false }
+class BannerDesktop extends React.PureComponent {
+  state = { sticky: true, isHidden: false }
 
   componentDidMount () {
-    this.viewportHeight = window.innerHeight
     this.checkVisibility()
-    window.addEventListener('scroll', this.checkVisibility)
+    window.addEventListener('scroll', this.props.checkVisibility)
+  }
+
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    if (prevProps.isVisible !== this.props.isVisible) {
+      this.checkVisibility()
+    }
   }
 
   componentWillUnmount () {
-    window.removeEventListener('scroll', this.checkVisibility)
+    window.removeEventListener('scroll', this.props.checkVisibility)
   }
 
   hideBanner = () => {
     this.setState({ isHidden: true })
-    window.removeEventListener('scroll', this.checkVisibility)
+    window.removeEventListener('scroll', this.props.checkVisibility)
   }
 
   checkVisibility = () => {
-    const { bannerStaticRef } = this.props
+    const { isVisible } = this.props
 
-    if (bannerStaticRef) {
-      const bannerTop = bannerStaticRef.current.getBoundingClientRect().top
-      const isVisible = bannerTop <= this.viewportHeight && bannerTop >= 0
+    if (!isVisible && !this.state.sticky) {
+      this.setState({ sticky: true })
+    }
 
-      if (!isVisible && !this.state.sticky) {
-        this.setState({ sticky: true })
-      }
-
-      if (isVisible && this.state.sticky) {
-        this.setState({ sticky: false })
-      }
+    if (isVisible && this.state.sticky) {
+      this.setState({ sticky: false })
     }
   }
 
