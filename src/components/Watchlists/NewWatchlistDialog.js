@@ -5,6 +5,18 @@ import { USER_ADD_NEW_ASSET_LIST } from '../../actions/types'
 import styles from './NewWatchlistDialog.module.scss'
 
 class NewWatchlistDialog extends PureComponent {
+  static getDerivedStateFromProps ({ isSuccess }) {
+    if (!isSuccess) {
+      return null
+    }
+
+    return {
+      open: false,
+      value: '',
+      isSecret: false
+    }
+  }
+
   state = {
     open: false,
     value: '',
@@ -30,8 +42,9 @@ class NewWatchlistDialog extends PureComponent {
   onSubmit = e => {
     e.preventDefault()
     const { value, isSecret } = this.state
+    const { isPending } = this.props
 
-    if (!value) {
+    if (!value || isPending) {
       return
     }
 
@@ -39,12 +52,9 @@ class NewWatchlistDialog extends PureComponent {
   }
 
   render () {
-    const {
-      open,
-      value: { length: inputLength },
-      isSecret
-    } = this.state
-    const { trigger } = this.props
+    const { open, value, isSecret } = this.state
+    const { isPending, trigger } = this.props
+    const { length: inputLength } = value
 
     return (
       <Dialog
@@ -61,6 +71,7 @@ class NewWatchlistDialog extends PureComponent {
               placeholder='For example, Favorites'
               maxLength='25'
               onChange={this.onInputChange}
+              defaultValue={value}
             />
             <button type='submit' style={{ display: 'none' }} />
             {/* hack for submiting form */}
@@ -80,10 +91,10 @@ class NewWatchlistDialog extends PureComponent {
               </Dialog.Cancel>
               <Dialog.Approve
                 className={styles.approve}
-                disabled={!inputLength}
+                disabled={!inputLength || isPending}
                 type='submit'
               >
-                Create
+                {isPending ? 'Creating...' : 'Create'}
               </Dialog.Approve>
             </div>
           </Dialog.Actions>
@@ -93,8 +104,11 @@ class NewWatchlistDialog extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ watchlistUi: { newItemPending } }) => ({
-  isPending: newItemPending
+const mapStateToProps = ({
+  watchlistUi: { newItemPending, newItemSuccess }
+}) => ({
+  isPending: newItemPending,
+  isSuccess: newItemSuccess
 })
 
 const mapDispatchToProps = dispatch => ({
