@@ -1,6 +1,4 @@
 import React from 'react'
-import { graphql } from 'react-apollo'
-import { EMAIL_LOGIN_MUTATION } from '../../components/SubscriptionForm/loginGQL'
 import SubscriptionForm from '../../components/SubscriptionForm/SubscriptionForm'
 import styles from './DashboardPage.module.scss'
 
@@ -17,6 +15,4 @@ const DashboardPageSubscription = () => {
   )
 }
 
-export default graphql(EMAIL_LOGIN_MUTATION, { name: 'emailLogin' })(
-  DashboardPageSubscription
-)
+export default DashboardPageSubscription

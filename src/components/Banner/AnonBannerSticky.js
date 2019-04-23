@@ -2,12 +2,10 @@ import React from 'react'
 import { DesktopOnly, MobileOnly } from './../Responsive'
 import BannerDesktop from './BannerDesktop'
 import BannerMobile from './BannerMobile'
-import Image from '../../assets/sticky_banner_icon.png'
-import SubscriptionForm from '../SubscriptionForm/SubscriptionForm'
-import styles from './BannerDesktop.module.scss'
+import StickyBannerContent from './StickyBannerContent'
 
 class AnonBannerSticky extends React.PureComponent {
-  state = { isVisible: true }
+  state = { isVisible: false }
 
   componentDidMount () {
     this.viewportHeight = window.innerHeight
@@ -28,7 +26,7 @@ class AnonBannerSticky extends React.PureComponent {
     const { bannerStaticRef } = this.props
 
     if (bannerStaticRef) {
-      const bannerTop = bannerStaticRef.getBoundingClientRect().top
+      const bannerTop = bannerStaticRef.getBoundingClientRect().top + 100
       const isVisible = bannerTop <= this.viewportHeight && bannerTop >= 0
       this.setState({ isVisible })
     }
@@ -42,38 +40,19 @@ class AnonBannerSticky extends React.PureComponent {
             isVisible={this.state.isVisible}
             checkVisibility={this.checkVisibility}
           >
-            <BannerContent />
+            <StickyBannerContent />
           </BannerDesktop>
         </DesktopOnly>
         {!this.state.isVisible && (
           <MobileOnly>
             <BannerMobile>
-              <BannerContent />
+              <StickyBannerContent />
             </BannerMobile>
           </MobileOnly>
         )}
       </>
     )
   }
-}
-
-const BannerContent = () => {
-  return (
-    <>
-      <div className={styles.banner__imageWrapper}>
-        <img src={Image} alt='banner logo' className={styles.banner__image} />
-      </div>
-      <div className={styles.banner__contentWrapper}>
-        <div className={styles.banner__textWrapper}>
-          <h2 className={styles.banner__title}>Want more crypto insights?</h2>
-          <p className={styles.banner__description}>
-            Read daily analysis of top emerging words/stories
-          </p>
-        </div>
-        <SubscriptionForm hideCheckbox />
-      </div>
-    </>
-  )
 }
 
 export default AnonBannerSticky
