@@ -1,13 +1,14 @@
 import React from 'react'
 import { Panel, Button, Icon, ContextMenu, Toggle } from '@santiment-network/ui'
 import { CSVLink } from 'react-csv'
+import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
 import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
 import WatchlistDeleteDialog from './WatchlistDeleteDialog'
 import { getTableTitle, normalizeCSV, isNotSafari } from './utils'
 import styles from './WatchlistContextMenu.module.scss'
 
 const WatchlistContextMenu = props => {
-  const { assets, id } = props
+  const { isAuthor, assets, id } = props
   return (
     <ContextMenu
       trigger={
@@ -19,12 +20,12 @@ const WatchlistContextMenu = props => {
       position='bottom'
       align='end'
     >
-      <Panel variant='modal'>
-        <div className={styles.block}>
-          <Button variant='ghost' fluid className={styles.btn}>
-            Secret <Toggle />
-          </Button>
-        </div>
+      <Panel variant='modal' className={styles.wrapper}>
+        {isAuthor && (
+          <div className={styles.block}>
+            <WatchlistShare />
+          </div>
+        )}
         <div className={styles.block}>
           <WatchlistCopy
             trigger={
@@ -45,14 +46,16 @@ const WatchlistContextMenu = props => {
             </CSVLink>
           )}
 
-          <WatchlistDeleteDialog
-            id={id}
-            trigger={
-              <Button variant='ghost' fluid>
-                Delete
-              </Button>
-            }
-          />
+          {isAuthor && (
+            <WatchlistDeleteDialog
+              id={id}
+              trigger={
+                <Button variant='ghost' fluid>
+                  Delete
+                </Button>
+              }
+            />
+          )}
         </div>
       </Panel>
     </ContextMenu>

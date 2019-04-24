@@ -7,8 +7,6 @@ import { getOrigin } from '../../utils/utils'
 import GetAssets from './GetAssets'
 import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
-import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
-import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
 import WidgetSonar from '../../components/Widget/WidgetSonar'
 import StablecoinsDownloadBtn from './StablecoinsDownloadBtn'
 import WatchlistContextMenu from './WatchlistContextMenu'
@@ -39,18 +37,15 @@ const AssetsPage = props => {
         type={props.type}
         render={Assets => (
           <Fragment>
-            {console.log(Assets)}
             <div className='page-head page-head-projects'>
               <div className='page-head-projects__left'>
                 <h1>{getTableTitle(props)}</h1>
                 <HelpPopupAssets />
               </div>
               <div className='page-head-projects__right'>
-                {isList && props.location.hash !== '#shared' && (
-                  <WatchlistShare />
-                )}
                 {isList && (
                   <WatchlistContextMenu
+                    isAuthor={Assets.isCurrentUserTheAuthor}
                     id={Assets.typeInfo.listId}
                     assets={Assets.items}
                     type={props.type}

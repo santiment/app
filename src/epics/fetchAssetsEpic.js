@@ -131,7 +131,7 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
       ).concatMap(({ data = {} }) => {
         const startTime = Date.now()
         const { fetchUserLists } = data
-        const { listItems = [] } =
+        const { listItems = [], user: { id } = {} } =
           fetchUserLists.find(item => item.id === payload.list.id) || {}
         const queries = listItems
           .map(asset => {
@@ -145,6 +145,8 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
               context: { isRetriable: true }
             })
           })
+        const isCurrentUserTheAuthor = store.getState().user.data.id === id
+        console.log(store.getState().user.data.id, id)
 
         if (listItems.length === 0) {
           return Observable.of({
@@ -152,7 +154,8 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
             payload: {
               items: [],
               isLoading: false,
-              error: false
+              error: false,
+              isCurrentUserTheAuthor
             }
           })
         }
@@ -168,6 +171,7 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
               type: actions.ASSETS_FETCH_SUCCESS,
               payload: {
                 items,
+                isCurrentUserTheAuthor,
                 isLoading: false,
                 error: false
               }

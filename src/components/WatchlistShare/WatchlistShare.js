@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { graphql } from 'react-apollo'
-import { Button, Popup } from 'semantic-ui-react'
-import cx from 'classnames'
+import { Button, Toggle } from '@santiment-network/ui'
 import * as qs from 'query-string'
 import { compose } from 'recompose'
 import copy from 'copy-to-clipboard'
@@ -17,43 +16,26 @@ const WatchlistShare = ({
   isPublic,
   toggleWatchlistPublicity,
   watchlistId
-}) => (
-  <div
-    className={cx({
-      [styles.wrapper]: true,
-      [styles.public]: isPublic
-    })}
-  >
+}) => {
+  const [isActive, setActive] = useState(!isPublic)
+  return (
     <Button
-      toggle
-      active={isPublic}
-      style={{ boxShadow: 'none !important' }}
+      variant='ghost'
       onClick={() => {
+        setActive(!isActive)
         toggleWatchlistPublicity({
           variables: { id: parseInt(watchlistId, 10), isPublic: !isPublic }
         }).catch(error => {
           alert('Error in publicity query: ', error)
         })
       }}
-      className={styles.publicityBtn}
+      fluid
+      className={styles.btn}
     >
-      {isPublic ? 'Public' : 'Private'}
+      Secret <Toggle isActive={isActive} />
     </Button>
-
-    <Popup
-      trigger={
-        <Button
-          style={{ boxShadow: 'none !important' }}
-          icon='linkify'
-          className={styles.linkCopy}
-          onClick={copyUrl}
-        />
-      }
-      content='Click to copy the watchlist link'
-      inverted
-    />
-  </div>
-)
+  )
+}
 
 const enhance = compose(
   withRouter,
