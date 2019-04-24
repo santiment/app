@@ -7,6 +7,7 @@ import { getOrigin } from '../../utils/utils'
 import GetAssets from './GetAssets'
 import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
+import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import WidgetSonar from '../../components/Widget/WidgetSonar'
 import StablecoinsDownloadBtn from './StablecoinsDownloadBtn'
 import WatchlistContextMenu from './WatchlistContextMenu'
@@ -43,6 +44,11 @@ const AssetsPage = props => {
                 <HelpPopupAssets />
               </div>
               <div className='page-head-projects__right'>
+                {isList && props.location.hash !== '#shared' && (
+                  <ShareModalTrigger
+                    shareLink={window.location.href + '#shared'}
+                  />
+                )}
                 {isList && (
                   <WatchlistContextMenu
                     isAuthor={Assets.isCurrentUserTheAuthor}

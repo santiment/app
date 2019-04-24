@@ -146,7 +146,6 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
             })
           })
         const isCurrentUserTheAuthor = store.getState().user.data.id === id
-        console.log(store.getState().user.data.id, id)
 
         if (listItems.length === 0) {
           return Observable.of({

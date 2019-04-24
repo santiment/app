@@ -1,7 +1,7 @@
 import React from 'react'
-import { Panel, Button, Icon, ContextMenu, Toggle } from '@santiment-network/ui'
+import { Panel, Button, Icon, ContextMenu } from '@santiment-network/ui'
 import { CSVLink } from 'react-csv'
-import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
+import WatchlistPublicityToggle from '../../components/WatchlistShare/WatchlistShare'
 import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
 import WatchlistDeleteDialog from './WatchlistDeleteDialog'
 import { getTableTitle, normalizeCSV, isNotSafari } from './utils'
@@ -23,7 +23,7 @@ const WatchlistContextMenu = props => {
       <Panel variant='modal' className={styles.wrapper}>
         {isAuthor && (
           <div className={styles.block}>
-            <WatchlistShare />
+            <WatchlistPublicityToggle />
           </div>
         )}
         <div className={styles.block}>
@@ -45,7 +45,6 @@ const WatchlistContextMenu = props => {
               </Button>
             </CSVLink>
           )}
-
           {isAuthor && (
             <WatchlistDeleteDialog
               id={id}

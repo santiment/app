@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Popup } from 'semantic-ui-react'
 import { Button } from '@santiment-network/ui'
 import * as actions from '../../actions/types'
+import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import WatchlistCopyPopup from './WatchlistCopyPopup'
 
 const style = {
@@ -81,7 +82,11 @@ class WatchlistCopy extends PureComponent {
 
   render () {
     const { isPopupVisible, assetsToCopy } = this.state
-    const { assets, trigger } = this.props
+    const { assets, trigger, isLoggedIn } = this.props
+
+    if (!isLoggedIn) {
+      return null
+    }
 
     return (
       assets.length > 0 && (
@@ -110,6 +115,7 @@ class WatchlistCopy extends PureComponent {
 
 const mapStateToProps = state => {
   return {
+    isLoggedIn: checkIsLoggedIn(state),
     assets: state.projects.items
   }
 }
