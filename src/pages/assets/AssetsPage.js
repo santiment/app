@@ -49,15 +49,6 @@ const AssetsPage = props => {
                     shareLink={window.location.href + '#shared'}
                   />
                 )}
-                {isList && (
-                  <WatchlistContextMenu
-                    isAuthor={Assets.isCurrentUserTheAuthor}
-                    id={Assets.typeInfo.listId}
-                    assets={Assets.items}
-                    type={props.type}
-                    location={props.location}
-                  />
-                )}
 
                 {!isList &&
                   isNotSafari &&
@@ -76,6 +67,16 @@ const AssetsPage = props => {
 
                 {qs.parse(props.location.search).name === 'stablecoins@86' && (
                   <StablecoinsDownloadBtn />
+                )}
+
+                {isList && (
+                  <WatchlistContextMenu
+                    isAuthor={Assets.isCurrentUserTheAuthor}
+                    id={Assets.typeInfo.listId}
+                    assets={Assets.items}
+                    type={props.type}
+                    location={props.location}
+                  />
                 )}
               </div>
             </div>
