@@ -1,37 +1,30 @@
 import React from 'react'
-import { Icon } from '@santiment-network/ui'
-import styles from './BannerDesktop.module.scss'
+import throttle from 'lodash.throttle'
+import StickyBannerContent from './StickyBannerContent'
 
 class BannerDesktop extends React.PureComponent {
   state = { isHidden: false }
 
   componentDidMount () {
-    window.addEventListener('scroll', this.props.checkVisibility)
+    window.addEventListener('scroll', this.throttledCheckVisibility)
   }
 
   componentWillUnmount () {
-    window.removeEventListener('scroll', this.props.checkVisibility)
+    window.removeEventListener('scroll', this.throttledCheckVisibility)
   }
+
+  throttledCheckVisibility = throttle(this.props.checkVisibility, 150)
 
   hideBanner = () => {
     this.setState({ isHidden: true })
-    window.removeEventListener('scroll', this.props.checkVisibility)
+    window.removeEventListener('scroll', this.throttledCheckVisibility)
   }
 
   render () {
     const { isHidden } = this.state
-    const { children, isVisible } = this.props
+    const { isVisible } = this.props
     if (isHidden || isVisible) return null
-    return (
-      <div className={styles.banner}>
-        {children}
-        <Icon
-          onClick={this.hideBanner}
-          type='close'
-          className={styles.banner__closeIcon}
-        />
-      </div>
-    )
+    return <StickyBannerContent onClose={this.hideBanner} />
   }
 }
 

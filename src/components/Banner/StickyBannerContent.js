@@ -1,11 +1,12 @@
 import React from 'react'
+import { Icon } from '@santiment-network/ui'
 import Image from '../../assets/sticky_banner_icon.png'
 import SubscriptionForm from '../SubscriptionForm/SubscriptionForm'
 import styles from './StickyBannerContent.module.scss'
 
-const StickyBannerContent = () => {
+const StickyBannerContent = ({ onClose }) => {
   return (
-    <>
+    <div className={styles.banner}>
       <div className={styles.banner__imageWrapper}>
         <img src={Image} alt='banner logo' className={styles.banner__image} />
       </div>
@@ -18,7 +19,12 @@ const StickyBannerContent = () => {
         </div>
         <SubscriptionForm hideCheckbox />
       </div>
-    </>
+      <Icon
+        onClick={onClose}
+        type='close'
+        className={styles.banner__closeIcon}
+      />
+    </div>
   )
 }
 

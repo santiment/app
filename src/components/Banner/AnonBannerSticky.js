@@ -2,7 +2,8 @@ import React from 'react'
 import { DesktopOnly, MobileOnly } from './../Responsive'
 import BannerDesktop from './BannerDesktop'
 import BannerMobile from './BannerMobile'
-import StickyBannerContent from './StickyBannerContent'
+
+const BOTTOM_BANNER_EXTRA_VIEWPORT = 100
 
 class AnonBannerSticky extends React.PureComponent {
   state = { isVisible: false }
@@ -14,20 +15,17 @@ class AnonBannerSticky extends React.PureComponent {
   componentDidUpdate (prevProps) {
     if (!prevProps.bannerStaticRef && this.props.bannerStaticRef) {
       this.checkVisibility()
-      this.timer = setTimeout(this.checkVisibility, 50)
     }
-  }
-
-  componentWillUnmount () {
-    clearTimeout(this.timer)
   }
 
   checkVisibility = () => {
     const { bannerStaticRef } = this.props
 
     if (bannerStaticRef) {
-      const bannerTop = bannerStaticRef.getBoundingClientRect().top + 100
-      const isVisible = bannerTop <= this.viewportHeight && bannerTop >= 0
+      const bannerTop =
+        bannerStaticRef.getBoundingClientRect().top +
+        BOTTOM_BANNER_EXTRA_VIEWPORT
+      const isVisible = bannerTop <= this.viewportHeight
       this.setState({ isVisible })
     }
   }
@@ -39,17 +37,9 @@ class AnonBannerSticky extends React.PureComponent {
           <BannerDesktop
             isVisible={this.state.isVisible}
             checkVisibility={this.checkVisibility}
-          >
-            <StickyBannerContent />
-          </BannerDesktop>
+          />
         </DesktopOnly>
-        {!this.state.isVisible && (
-          <MobileOnly>
-            <BannerMobile>
-              <StickyBannerContent />
-            </BannerMobile>
-          </MobileOnly>
-        )}
+        <MobileOnly>{!this.state.isVisible && <BannerMobile />}</MobileOnly>
       </>
     )
   }

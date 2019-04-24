@@ -2,6 +2,36 @@
 @import '../../mixins.scss';
 
 .banner {
+  height: 90px;
+  position: fixed;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background-color: var(--white);
+  box-shadow: 0 10px 20px rgba(24, 27, 43, 0.05);
+  border: 1px solid var(--porcelain);
+  border-radius: 10px;
+  z-index: 10;
+  width: 1140px;
+  display: flex;
+  align-items: center;
+  padding: 3px 18px;
+
+  @include responsive('laptop', 'tablet') {
+    padding: 22px 24px;
+    height: auto;
+    width: 728px;
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    flex-direction: column;
+    padding: 19px 18px 40px;
+    height: auto;
+    width: auto;
+    margin: 0 16px 16px;
+  }
+
   &__imageWrapper {
     width: 93px;
     height: 84px;
@@ -69,5 +99,15 @@
     color: var(--waterloo);
     margin: 0;
     max-width: 374px;
+  }
+
+  &__closeIcon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 10px;
+    box-sizing: content-box;
+    cursor: pointer;
+    fill: var(--casper);
   }
 }

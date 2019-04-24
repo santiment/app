@@ -1,14 +1,12 @@
 import React from 'react'
-import { Dialog } from '@santiment-network/ui'
-import styles from './BannerMobile.module.scss'
+import { Modal } from '@santiment-network/ui'
+import StickyBannerContent from './StickyBannerContent'
 
-const classes = { title: styles.title }
-
-const BannerMobile = ({ children }) => {
+const BannerMobile = () => {
   return (
-    <Dialog trigger={<></>} position='bottom' defaultOpen classes={classes}>
-      <div className={styles.banner}>{children}</div>
-    </Dialog>
+    <Modal trigger={<></>} defaultOpen>
+      {closeModal => <StickyBannerContent onClose={closeModal} />}
+    </Modal>
   )
 }
 
