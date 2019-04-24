@@ -1466,10 +1466,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@santiment-network/ui@^0.4.76":
-  version "0.4.76"
-  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.4.76.tgz#b897c08fcbd9d52947e8c5b948b93ae5578a494c"
-  integrity sha512-PXt225q416YY8ciBojBYY9D7at3Rf22G6M8WBtudOxlnCtBShN3ODAyezN51etp27jlWFSzG3loU1QVY0nPwcQ==
+"@santiment-network/ui@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.0.tgz#d583164554bb2ad35c4e3ce7e61c6cb36a9c460b"
+  integrity sha512-4Y9UZNxWuwyo0ExEGA6Red9zqVF+XjAjyqnW5A/wqBvWESZJ5Sb6RcF9k4KqknHJYP1/GO+ilI/fvh2j6dSO+Q==
 
 "@semantic-ui-react/event-stack@^2.0.0":
   version "2.0.0"
@@ -13023,7 +13023,7 @@ react-docgen@^3.0.0:
     node-dir "^0.1.10"
     recast "^0.16.0"
 
-react-dom@16.8.5, react-dom@^16.7.0:
+react-dom@^16.7.0:
   version "16.8.5"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.8.5.tgz#b3e37d152b49e07faaa8de41fdf562be3463335e"
   integrity sha512-VIEIvZLpFafsfu4kgmftP5L8j7P1f0YThfVTrANMhZUFMDOsA6e0kfR6wxw/8xxKs4NB59TZYbxNdPCDW34x4w==
@@ -13032,6 +13032,16 @@ react-dom@16.8.5, react-dom@^16.7.0:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.13.5"
+
+react-dom@^16.8.6:
+  version "16.8.6"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.8.6.tgz#71d6303f631e8b0097f56165ef608f051ff6e10f"
+  integrity sha512-1nL7PIq9LTL3fthPqwkvr2zY7phIPjYrT0jp4HjyEQrEROnw4dG41VVwi/wfoCneoleqrNX7iAD+pXebJZwrwA==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.13.6"
 
 react-error-overlay@^5.1.0:
   version "5.1.2"
@@ -13566,7 +13576,7 @@ react@^16.7.0:
     prop-types "^15.6.2"
     scheduler "^0.13.5"
 
-react@^16.8.5:
+react@^16.8.6:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react/-/react-16.8.6.tgz#ad6c3a9614fd3a4e9ef51117f54d888da01f2bbe"
   integrity sha512-pC0uMkhLaHm11ZSJULfOBqV4tIZkx87ZLvbbQYunNixAAvjnC+snJCg0XQXn9VIsttVsbZP/H/ewzgsd5fxKXw==

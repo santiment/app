@@ -1,0 +1,12 @@
+.block {
+  padding: 8px;
+  border-bottom: 1px solid var(--porcelain);
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.btn {
+  justify-content: space-between;
+}

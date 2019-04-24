@@ -11,12 +11,14 @@ import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
 import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
 import WidgetSonar from '../../components/Widget/WidgetSonar'
 import StablecoinsDownloadBtn from './StablecoinsDownloadBtn'
+import WatchlistContextMenu from './WatchlistContextMenu'
 import {
   getTableTitle,
   normalizeCSV,
   isNotSafari,
   getHelmetTags
 } from './utils'
+
 import './Assets.css'
 
 const AssetsPage = props => {
@@ -46,17 +48,25 @@ const AssetsPage = props => {
                 {isList && props.location.hash !== '#shared' && (
                   <WatchlistShare />
                 )}
+                {isList && (
+                  <WatchlistContextMenu
+                    assets={Assets.items}
+                    type={props.type}
+                    location={props.location}
+                  />
+                )}
 
-                {isList && <WatchlistCopy />}
-
-                {isNotSafari && Assets.items && Assets.items.length > 0 && (
+                {!isList &&
+                  isNotSafari &&
+                  Assets.items &&
+                  Assets.items.length > 0 && (
                   <CSVLink
                     data={normalizeCSV(Assets.items)}
                     filename={`${getTableTitle(props)}.csv`}
                     target='_blank'
                   >
                     <Button variant='flat' isActive>
-                      Download CSV
+                        Download CSV
                     </Button>
                   </CSVLink>
                 )}

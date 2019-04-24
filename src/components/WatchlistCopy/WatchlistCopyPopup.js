@@ -1,5 +1,6 @@
 import React from 'react'
-import { Input, Button, Checkbox } from 'semantic-ui-react'
+import { Checkbox } from '@santiment-network/ui'
+import { Input, Button } from 'semantic-ui-react'
 import styles from './WatchlistCopyPopup.module.scss'
 
 const WatchlistCopyPopup = ({
@@ -15,7 +16,7 @@ const WatchlistCopyPopup = ({
       <ul className={styles.list}>
         {assets.map(({ id, name }) => (
           <li key={id} onClick={() => onAssetClick(id)} className={styles.item}>
-            {name} <Checkbox checked={assetsToCopy.has(id)} />
+            {name} <Checkbox isActive={assetsToCopy.has(id)} />
           </li>
         ))}
       </ul>

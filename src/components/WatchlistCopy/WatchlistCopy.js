@@ -13,13 +13,18 @@ class WatchlistCopy extends PureComponent {
   state = {
     isPopupVisible: false,
     newWatchlistName: '',
-    assetsToCopy: new Set()
+    assetsToCopy: new Set(),
+    loaded: false
   }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
+  static getDerivedStateFromProps ({ assets }, { loaded }) {
+    if (loaded || assets.length === 0) {
+      return null
+    }
+
     return {
-      ...prevState,
-      assetsToCopy: new Set(nextProps.assets.map(({ id }) => id))
+      loaded: true,
+      assetsToCopy: new Set(assets.map(({ id }) => id))
     }
   }
 
@@ -34,6 +39,7 @@ class WatchlistCopy extends PureComponent {
     const assetsToCopy = new Set([...this.state.assetsToCopy])
 
     if (assetsToCopy.has(id)) {
+      console.log(id)
       assetsToCopy.delete(id)
     } else {
       assetsToCopy.add(id)
@@ -75,7 +81,7 @@ class WatchlistCopy extends PureComponent {
 
   render () {
     const { isPopupVisible, assetsToCopy } = this.state
-    const { assets } = this.props
+    const { assets, trigger } = this.props
 
     return (
       assets.length > 0 && (
@@ -89,11 +95,7 @@ class WatchlistCopy extends PureComponent {
               onChange={this.onWatchlistTitleChange}
             />
           }
-          trigger={
-            <Button variant='flat' isActive>
-              Copy
-            </Button>
-          }
+          trigger={trigger}
           position='bottom center'
           style={style}
           open={isPopupVisible}
