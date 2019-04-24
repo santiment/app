@@ -30,8 +30,8 @@ const AssetsPage = props => {
     <div className='page projects-table'>
       <Helmet>
         <link rel='canonical' href={`${getOrigin()}/assets`} />
-        <title>{title}</title>,
-        <meta property='og:title' content={title} />,
+        <title>{title}</title>
+        <meta property='og:title' content={title} />
         <meta property='og:description' content={description} />
       </Helmet>
       <GetAssets
@@ -39,6 +39,7 @@ const AssetsPage = props => {
         type={props.type}
         render={Assets => (
           <Fragment>
+            {console.log(Assets)}
             <div className='page-head page-head-projects'>
               <div className='page-head-projects__left'>
                 <h1>{getTableTitle(props)}</h1>
@@ -50,6 +51,7 @@ const AssetsPage = props => {
                 )}
                 {isList && (
                   <WatchlistContextMenu
+                    id={Assets.typeInfo.listId}
                     assets={Assets.items}
                     type={props.type}
                     location={props.location}

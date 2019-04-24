@@ -2,11 +2,12 @@ import React from 'react'
 import { Panel, Button, Icon, ContextMenu, Toggle } from '@santiment-network/ui'
 import { CSVLink } from 'react-csv'
 import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
+import WatchlistDeleteDialog from './WatchlistDeleteDialog'
 import { getTableTitle, normalizeCSV, isNotSafari } from './utils'
 import styles from './WatchlistContextMenu.module.scss'
 
 const WatchlistContextMenu = props => {
-  const { assets } = props
+  const { assets, id } = props
   return (
     <ContextMenu
       trigger={
@@ -44,9 +45,14 @@ const WatchlistContextMenu = props => {
             </CSVLink>
           )}
 
-          <Button variant='ghost' fluid>
-            Delete
-          </Button>
+          <WatchlistDeleteDialog
+            id={id}
+            trigger={
+              <Button variant='ghost' fluid>
+                Delete
+              </Button>
+            }
+          />
         </div>
       </Panel>
     </ContextMenu>
