@@ -40,7 +40,6 @@ class WatchlistCopy extends PureComponent {
     const assetsToCopy = new Set([...this.state.assetsToCopy])
 
     if (assetsToCopy.has(id)) {
-      console.log(id)
       assetsToCopy.delete(id)
     } else {
       assetsToCopy.add(id)
