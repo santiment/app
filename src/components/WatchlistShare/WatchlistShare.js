@@ -4,13 +4,8 @@ import { graphql } from 'react-apollo'
 import { Button, Toggle } from '@santiment-network/ui'
 import * as qs from 'query-string'
 import { compose } from 'recompose'
-import copy from 'copy-to-clipboard'
 import { updateUserListGQL, fetchUserListsGQL } from './watchlistShareGQL'
 import styles from './WatchlistShare.module.css'
-
-const copyUrl = () => {
-  copy(window.location.href + '#shared')
-}
 
 const WatchlistShare = ({
   isPublic,

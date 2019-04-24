@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Popup } from 'semantic-ui-react'
-import { Button } from '@santiment-network/ui'
 import * as actions from '../../actions/types'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import WatchlistCopyPopup from './WatchlistCopyPopup'
