@@ -131,11 +131,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch({
       type: actions.USER_REMOVE_ASSET_LIST,
       payload: { id }
-    }),
-  toggleConfirmDeleteAssetList: id =>
-    dispatch({
-      type: actions.WATCHLIST_TOGGLE_CONFIRM_DELETE_MODAL,
-      payload: { id }
     })
 })
 

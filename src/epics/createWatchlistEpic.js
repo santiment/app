@@ -24,6 +24,9 @@ const createUserListGQL = gql`
           id
         }
       }
+      user {
+        id
+      }
     }
   }
 `
@@ -56,7 +59,11 @@ const createWatchlistEpic = (action$, store, { client }) =>
             name,
             listItems,
             insertedAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            user: {
+              __typename: 'PostAuthor',
+              id: +new Date()
+            }
           }
         },
         update: (store, { data: { createUserList } }) => {

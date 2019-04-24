@@ -15,6 +15,9 @@ export const WatchlistGQL = gql`
       }
       insertedAt
       updatedAt
+      user {
+        id
+      }
     }
   }
 `
@@ -34,6 +37,9 @@ export const publicWatchlistGQL = gql`
       }
       insertedAt
       updatedAt
+      user {
+        id
+      }
     }
   }
 `

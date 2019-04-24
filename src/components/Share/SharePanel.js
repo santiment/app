@@ -66,21 +66,17 @@ const SharePanel = ({ shareTitle, shareText, shareLink, onCloseBtnClick }) => {
             <Button
               key={label}
               variant='flat'
-              as={props => (
-                <a
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  href={href
-                    .replace(SECRET_LINK_TAG, encodedLink)
-                    .replace(SECRET_TEXT_TAG, encodedText)
-                    .replace(SECRET_TITLE_TAG, encodedTitle)}
-                  {...props}
-                >
-                  <Icon type={icon} className={styles.icon} /> Share on {label}
-                </a>
-              )}
+              as='a'
               className={styles.btn}
-            />
+              target='_blank'
+              rel='noopener noreferrer'
+              href={href
+                .replace(SECRET_LINK_TAG, encodedLink)
+                .replace(SECRET_TEXT_TAG, encodedText)
+                .replace(SECRET_TITLE_TAG, encodedTitle)}
+            >
+              <Icon type={icon} className={styles.icon} /> Share on {label}
+            </Button>
           )
         })}
       </div>

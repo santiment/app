@@ -14,6 +14,7 @@ export const initialState = {
     page: 1
   },
   search: '',
+  isCurrentUserTheAuthor: false,
   categories: {}
 }
 
@@ -29,6 +30,7 @@ export default (state = initialState, action) => {
     case actions.ASSETS_FETCH_SUCCESS:
       return {
         ...state,
+        isCurrentUserTheAuthor: false,
         ...action.payload,
         timestamp: Date.now()
       }
