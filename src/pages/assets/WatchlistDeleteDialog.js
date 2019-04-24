@@ -3,6 +3,7 @@ import { push } from 'react-router-redux'
 import Dialog from '@santiment-network/ui/Dialog'
 import { connect } from 'react-redux'
 import { USER_REMOVE_ASSET_LIST } from '../../actions/types'
+import styles from './WatchlistDeleteDialog.module.scss'
 
 class WatchlistDeleteDialog extends PureComponent {
   state = { open: false }
@@ -29,13 +30,19 @@ class WatchlistDeleteDialog extends PureComponent {
         onOpen={this.openDialog}
         trigger={this.props.trigger}
         title='Do you want to delete this watchlist?'
+        classes={styles}
       >
         <Dialog.ScrollContent withPadding>
           This actions cannot be undone
         </Dialog.ScrollContent>
         <Dialog.Actions>
           <Dialog.Cancel onClick={this.closeDialog}>Cancel</Dialog.Cancel>
-          <Dialog.Approve onClick={this.onDeleteClick}>Delete</Dialog.Approve>
+          <Dialog.Approve
+            onClick={this.onDeleteClick}
+            className={styles.approve}
+          >
+            Delete
+          </Dialog.Approve>
         </Dialog.Actions>
       </Dialog>
     )
