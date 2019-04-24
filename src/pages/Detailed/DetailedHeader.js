@@ -4,12 +4,13 @@ import {
   createSkeletonElement
 } from '@trainline/react-skeletor'
 import { compose } from 'recompose'
+import { Label } from '@santiment-network/ui'
 import ProjectIcon from './../../components/ProjectIcon'
 import PercentChanges from './../../components/PercentChanges'
 import WatchlistsPopup from './../../components/WatchlistPopup/WatchlistsPopup'
 import ChooseWatchlists from './../../components/WatchlistPopup/ChooseWatchlists'
 import { formatNumber } from './../../utils/formatting'
-import styles from './DetailedHeader.module.css'
+import styles from './DetailedHeader.module.scss'
 
 const DIV = createSkeletonElement('div', 'pending-header pending-div')
 
@@ -57,10 +58,22 @@ const DetailedHeader = ({
           formatNumber(project.priceUsd, { currency: 'USD' })}
       </div>
       {!loading && project && (
-        <PercentChanges
-          className={styles.percentChanges}
-          changes={project.percentChange24h}
-        />
+        <div>
+          <PercentChanges
+            className={styles.percentChanges}
+            changes={project.percentChange24h}
+          />
+          <Label className={styles.label} accent='waterloo'>
+            24h
+          </Label>
+          <PercentChanges
+            className={styles.percentChanges}
+            changes={project.percentChange7d}
+          />
+          <Label className={styles.label} accent='waterloo'>
+            7d
+          </Label>
+        </div>
       )}
     </div>
   </div>
@@ -74,6 +87,7 @@ export default compose(
         description: '______ ___ ______ __ _____ __ ______',
         ticker: '',
         percentChange24h: 0,
+        percentChange7d: 0,
         priceBtc: 0,
         priceUsd: 0
       }
