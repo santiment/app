@@ -3,17 +3,10 @@ import { Icon } from '@santiment-network/ui'
 import styles from './BannerDesktop.module.scss'
 
 class BannerDesktop extends React.PureComponent {
-  state = { sticky: true, isHidden: false }
+  state = { isHidden: false }
 
   componentDidMount () {
-    this.checkVisibility()
     window.addEventListener('scroll', this.props.checkVisibility)
-  }
-
-  componentDidUpdate (prevProps, prevState, snapshot) {
-    if (prevProps.isVisible !== this.props.isVisible) {
-      this.checkVisibility()
-    }
   }
 
   componentWillUnmount () {
@@ -25,22 +18,10 @@ class BannerDesktop extends React.PureComponent {
     window.removeEventListener('scroll', this.props.checkVisibility)
   }
 
-  checkVisibility = () => {
-    const { isVisible } = this.props
-
-    if (!isVisible && !this.state.sticky) {
-      this.setState({ sticky: true })
-    }
-
-    if (isVisible && this.state.sticky) {
-      this.setState({ sticky: false })
-    }
-  }
-
   render () {
-    const { sticky, isHidden } = this.state
-    const { children } = this.props
-    if (isHidden || !sticky) return null
+    const { isHidden } = this.state
+    const { children, isVisible } = this.props
+    if (isHidden || isVisible) return null
     return (
       <div className={styles.banner}>
         {children}
