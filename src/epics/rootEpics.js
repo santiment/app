@@ -57,10 +57,7 @@ import {
   insightDraftPublishEpic
 } from '../pages/Insights/insightDraftEpic'
 import { likesEpic } from '../components/Like/likesEpic'
-import {
-  wordTrendScoreEpic,
-  wordTrendSocialVolumeEpic
-} from '../pages/Trends/changesEpic.js'
+import { wordTrendSocialVolumeEpic } from '../pages/Trends/changesEpic.js'
 import {
   connectedWordsOptimizationEpic,
   connectedWordsEpic
@@ -121,7 +118,6 @@ export default combineEpics(
   // likes
   likesEpic,
   // trend changes
-  wordTrendScoreEpic,
   wordTrendSocialVolumeEpic,
   // connected trends
   connectedWordsOptimizationEpic,

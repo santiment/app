@@ -51,7 +51,7 @@ class NavbarAssetsDropdownWatchlistBottom extends Component {
             variant='ghost'
             className={styles.newList__btn}
           >
-            <Icon type='plus-round' />
+            <Icon className={styles.plus} type='plus-round' />
             Create new watchlist
           </Button>
         )}

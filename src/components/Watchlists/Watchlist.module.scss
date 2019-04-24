@@ -1,4 +1,27 @@
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
   width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn {
+  @include responsive('laptop', 'desktop', 'tablet') {
+    fill: var(--casper);
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+    margin: 0 16px 20px;
+    justify-content: center;
+  }
+
+  &__icon {
+    margin-right: 8px;
+  }
 }
