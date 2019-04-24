@@ -13369,12 +13369,13 @@ react-side-effect@^1.1.0:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
 
-react-sizes@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/react-sizes/-/react-sizes-0.4.3.tgz#a48f2788a9499ecd51868d989b2e5752796a40a1"
-  integrity sha512-H/zzN09qg28j+5JaMcCsquNE/L4CYgZUKRqlFlniKfhwxZk9f4UwxD+pw35B6amGYlcylzqmEZrHYtGokOSy5w==
+react-sizes@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-sizes/-/react-sizes-2.0.0.tgz#c2100daf3bf74077fb410f09204340c1af5c1d4f"
+  integrity sha512-YNGPQGJTxNMD4wdFRmVmqlLZlwhETVW06H7dVbOjj+OV1ckz/gkH3/5MfRuSO8t99nMOmi+Uj14jkvG+zlP57w==
   dependencies:
     lodash.throttle "^4.1.1"
+    prop-types "^15.6.0"
 
 react-slick@^0.23.1:
   version "0.23.2"
