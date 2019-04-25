@@ -29,7 +29,6 @@ import Status from './pages/Status'
 import Footer from './components/Footer'
 import FeedbackModal from './components/FeedbackModal'
 import GDPRPage from './pages/GDPRPage/GDPRPage'
-import ConfirmDeleteWatchlistModal from './components/WatchlistPopup/ConfirmDeleteWatchlistModal'
 import AssetsPage from './pages/assets/AssetsPage'
 import SignalFormPage from './ducks/Signals/SignalFormPage'
 import HistoricalBalancePage from './ducks/HistoricalBalance/HistoricalBalancePage'
@@ -328,7 +327,6 @@ export const App = ({
       </Switch>
     </ErrorBoundary>
     <NotificationStack />
-    <ConfirmDeleteWatchlistModal />
     <FeedbackModal />
     {isDesktop && <Footer />}
   </div>

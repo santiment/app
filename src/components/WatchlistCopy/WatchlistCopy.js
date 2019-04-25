@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Popup } from 'semantic-ui-react'
-import { Button } from '@santiment-network/ui'
 import * as actions from '../../actions/types'
+import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import WatchlistCopyPopup from './WatchlistCopyPopup'
 
 const style = {
@@ -13,13 +13,18 @@ class WatchlistCopy extends PureComponent {
   state = {
     isPopupVisible: false,
     newWatchlistName: '',
-    assetsToCopy: new Set()
+    assetsToCopy: new Set(),
+    loaded: false
   }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
+  static getDerivedStateFromProps ({ assets }, { loaded }) {
+    if (loaded || assets.length === 0) {
+      return null
+    }
+
     return {
-      ...prevState,
-      assetsToCopy: new Set(nextProps.assets.map(({ id }) => id))
+      loaded: true,
+      assetsToCopy: new Set(assets.map(({ id }) => id))
     }
   }
 
@@ -75,7 +80,11 @@ class WatchlistCopy extends PureComponent {
 
   render () {
     const { isPopupVisible, assetsToCopy } = this.state
-    const { assets } = this.props
+    const { assets, trigger, isLoggedIn } = this.props
+
+    if (!isLoggedIn) {
+      return null
+    }
 
     return (
       assets.length > 0 && (
@@ -89,11 +98,7 @@ class WatchlistCopy extends PureComponent {
               onChange={this.onWatchlistTitleChange}
             />
           }
-          trigger={
-            <Button variant='flat' isActive>
-              Copy
-            </Button>
-          }
+          trigger={trigger}
           position='bottom center'
           style={style}
           open={isPopupVisible}
@@ -108,6 +113,7 @@ class WatchlistCopy extends PureComponent {
 
 const mapStateToProps = state => {
   return {
+    isLoggedIn: checkIsLoggedIn(state),
     assets: state.projects.items
   }
 }

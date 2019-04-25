@@ -7,16 +7,17 @@ import { getOrigin } from '../../utils/utils'
 import GetAssets from './GetAssets'
 import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
-import WatchlistShare from '../../components/WatchlistShare/WatchlistShare'
-import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
+import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import WidgetSonar from '../../components/Widget/WidgetSonar'
 import StablecoinsDownloadBtn from './StablecoinsDownloadBtn'
+import WatchlistContextMenu from './WatchlistContextMenu'
 import {
   getTableTitle,
   normalizeCSV,
   isNotSafari,
   getHelmetTags
 } from './utils'
+
 import './Assets.css'
 
 const AssetsPage = props => {
@@ -28,8 +29,8 @@ const AssetsPage = props => {
     <div className='page projects-table'>
       <Helmet>
         <link rel='canonical' href={`${getOrigin()}/assets`} />
-        <title>{title}</title>,
-        <meta property='og:title' content={title} />,
+        <title>{title}</title>
+        <meta property='og:title' content={title} />
         <meta property='og:description' content={description} />
       </Helmet>
       <GetAssets
@@ -44,25 +45,38 @@ const AssetsPage = props => {
               </div>
               <div className='page-head-projects__right'>
                 {isList && props.location.hash !== '#shared' && (
-                  <WatchlistShare />
+                  <ShareModalTrigger
+                    shareLink={window.location.href + '#shared'}
+                  />
                 )}
 
-                {isList && <WatchlistCopy />}
-
-                {isNotSafari && Assets.items && Assets.items.length > 0 && (
+                {!isList &&
+                  isNotSafari &&
+                  Assets.items &&
+                  Assets.items.length > 0 && (
                   <CSVLink
                     data={normalizeCSV(Assets.items)}
                     filename={`${getTableTitle(props)}.csv`}
                     target='_blank'
                   >
                     <Button variant='flat' isActive>
-                      Download CSV
+                        Download CSV
                     </Button>
                   </CSVLink>
                 )}
 
                 {qs.parse(props.location.search).name === 'stablecoins@86' && (
                   <StablecoinsDownloadBtn />
+                )}
+
+                {isList && (
+                  <WatchlistContextMenu
+                    isAuthor={Assets.isCurrentUserTheAuthor}
+                    id={Assets.typeInfo.listId}
+                    assets={Assets.items}
+                    type={props.type}
+                    location={props.location}
+                  />
                 )}
               </div>
             </div>

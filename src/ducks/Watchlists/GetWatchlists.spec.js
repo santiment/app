@@ -15,7 +15,10 @@ const mockedData = {
     isPublic: Boolean(index % 2),
     listItems: [],
     name: 'Test-' + index,
-    updatedAt: '2018-12-21T07:25:02.51675' + index
+    updatedAt: '2018-12-21T07:25:02.51675' + index,
+    user: {
+      id: index
+    }
   }))
 }
 

@@ -5,8 +5,7 @@ export const initialState = {
   newItemPending: false,
   newItemFailed: false,
   newItemSuccess: false,
-  statusDeleteAssetList: null,
-  showConfirmDeleteModal: false
+  statusDeleteAssetList: null
 }
 
 export default (state = initialState, action) => {
@@ -42,8 +41,7 @@ export default (state = initialState, action) => {
     case actions.USER_REMOVE_ASSET_LIST_SUCCESS:
       return {
         ...state,
-        statusDeleteAssetList: 'SUCCESS',
-        showConfirmDeleteModal: false
+        statusDeleteAssetList: 'SUCCESS'
       }
     case actions.USER_REMOVE_ASSET_LIST_FAILED:
       return {
@@ -54,13 +52,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         selectedId: action.payload.id
-      }
-    case actions.WATCHLIST_TOGGLE_CONFIRM_DELETE_MODAL:
-      return {
-        ...state,
-        showConfirmDeleteModal: !state.showConfirmDeleteModal,
-        statusDeleteAssetList: null,
-        selectedId: !state.showConfirmDeleteModal ? action.payload.id : null
       }
     default:
       return state
