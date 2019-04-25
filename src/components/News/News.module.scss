@@ -1,0 +1,19 @@
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border-top: 1px solid var(--porcelain);
+  padding: 40px 0;
+  margin: 60px 0;
+}
+
+.item {
+  width: 32%;
+  min-width: 318px;
+  margin-bottom: 2%;
+  margin-right: 2%;
+
+  &:nth-child(3n) {
+    margin-right: 0;
+  }
+}
