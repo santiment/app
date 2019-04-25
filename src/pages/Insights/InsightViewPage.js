@@ -13,7 +13,7 @@ import WithLikesMutation from '../../components/Like/WithLikesMutation'
 import LikeBtn from '../../components/Like/LikeBtn'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
-import AnonBanner from '../../pages/Dashboard/AnonBanner'
+import AnonBannerExperiment from '../../components/AnonBanner/AnonBannerExperiment'
 import { getInsightContent } from './utils'
 import styles from './InsightViewPage.module.scss'
 
@@ -85,7 +85,7 @@ const InsightViewPage = ({
             <ShareModalTrigger asIcon shareLink={window.location.href} />
           </div>
         </div>
-        {!isLoggedIn && <AnonBanner className={styles.banner} />}
+        {!isLoggedIn && <AnonBannerExperiment className={styles.banner} />}
       </div>
     </Fragment>
   )
