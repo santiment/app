@@ -10,6 +10,7 @@ import ProjectChartHeader from './ProjectChartHeader'
 import ProjectChartFooter from './ProjectChartFooter'
 import ProjectChart from './ProjectChart'
 import ProjectChartMobile from './ProjectChartMobile'
+import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
 import { normalizeData, makeItervalBounds } from './utils'
 
 // Fix X mode in Chart.js lib. Monkey loves this.
@@ -313,11 +314,15 @@ const mapDispatchToProps = dispatch => {
       })
     },
     changeTimeFilter: ({ timeframe, from, to, interval }) => {
+      const { from: dateFrom, to: dateTo } = getTimeIntervalFromToday(0, DAY, {
+        from: new Date(from),
+        to: new Date(to)
+      })
       dispatch({
         type: 'CHANGE_TIME_FILTER',
         timeframe,
-        from,
-        to,
+        from: dateFrom.toISOString(),
+        to: dateTo.toISOString(),
         interval
       })
     }

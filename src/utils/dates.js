@@ -101,7 +101,7 @@ export const getTimeIntervalFromToday = (amount, dateFormat, defaults = {}) => {
   to.setHours(24, 0, 0, 0)
   from.setHours(0, 0, 0, 0)
 
-  const target = amount < 0 ? from : to
+  const target = amount <= 0 ? from : to
 
   target[set](from[get]() + amount)
 
