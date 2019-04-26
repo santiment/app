@@ -2,7 +2,7 @@ import React from 'react'
 import { LineChart, Line } from 'recharts'
 import { graphql } from 'react-apollo'
 import { SOCIAL_GAINERS_LOSERS_STATUS_QUERY } from './gainersLosersQuery'
-import { getTimeRangeByDuration } from '../../utils/utils'
+import { getIntervalByTimeRange } from '../../utils/dates'
 
 const GainersLosersGraph = ({ socialGainersLosersStatus }) => (
   <LineChart
@@ -21,12 +21,17 @@ const GainersLosersGraph = ({ socialGainersLosersStatus }) => (
 )
 
 export default graphql(SOCIAL_GAINERS_LOSERS_STATUS_QUERY, {
-  options: ({ slug, timeWindow }) => ({
-    variables: {
-      slug,
-      ...getTimeRangeByDuration(timeWindow)
+  options: ({ slug, timeWindow }) => {
+    const { from, to } = getIntervalByTimeRange(timeWindow)
+    return {
+      variables: {
+        slug,
+        from: from.toISOString(),
+        to: to.toISOString(),
+        timeWindow
+      }
     }
-  }),
+  },
   props: ({ data: { socialGainersLosersStatus = [] } }) => ({
     socialGainersLosersStatus
   })

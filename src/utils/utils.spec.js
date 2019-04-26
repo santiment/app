@@ -7,7 +7,6 @@ import {
   filterProjectsByMarketSegment,
   mergeTimeseriesByKey,
   getEscapedGQLFieldAlias,
-  getTimeRangeByDuration,
   isEthStrictAddress,
   mapItemsToKeys,
   calcPercentageChange
@@ -455,53 +454,6 @@ describe('isEthAddress', () => {
       isEthStrictAddress('1f3df0b8390bb8e9e322972c5e75583e87608ec2')
     ).toBeFalsy()
     expect(isEthStrictAddress('asjdfh92ef2boejv')).toBeFalsy()
-  })
-})
-
-describe('getTimeRangeByDuration', () => {
-  it('should calculate time range for 4 hours', () => {
-    const goodTimeRange = {
-      to: moment()
-        .startOf('hour')
-        .toISOString(),
-      from: moment()
-        .startOf('hour')
-        .subtract('4', 'h')
-        .toISOString(),
-      timeWindow: '4h'
-    }
-
-    expect(getTimeRangeByDuration('4h')).toEqual(goodTimeRange)
-  })
-
-  it('should calculate time range for 2 days', () => {
-    const goodTimeRange = {
-      to: moment()
-        .startOf('hour')
-        .toISOString(),
-      from: moment()
-        .startOf('hour')
-        .subtract('2', 'd')
-        .toISOString(),
-      timeWindow: '2d'
-    }
-
-    expect(getTimeRangeByDuration('2d')).toEqual(goodTimeRange)
-  })
-
-  it('should calculate time range for 3 weeks', () => {
-    const goodTimeRange = {
-      to: moment()
-        .startOf('hour')
-        .toISOString(),
-      from: moment()
-        .startOf('hour')
-        .subtract('3', 'w')
-        .toISOString(),
-      timeWindow: '3w'
-    }
-
-    expect(getTimeRangeByDuration('3w')).toEqual(goodTimeRange)
   })
 })
 

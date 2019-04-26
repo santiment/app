@@ -4,10 +4,24 @@ import PropTypes from 'prop-types'
 class Timer extends Component {
   static propTypes = {
     interval: PropTypes.number.isRequired,
-    children: PropTypes.func.isRequired
+    children: PropTypes.func.isRequired,
+    syncRef: PropTypes.any
+  }
+
+  static defaultProps = {
+    syncRef: undefined
   }
 
   componentDidMount () {
+    this.intervalID = setInterval(() => this.forceUpdate(), this.props.interval)
+  }
+
+  componentDidUpdate ({ syncRef }) {
+    if (syncRef === this.props.syncRef) {
+      return
+    }
+
+    clearInterval(this.intervalID)
     this.intervalID = setInterval(() => this.forceUpdate(), this.props.interval)
   }
 

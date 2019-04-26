@@ -9,6 +9,7 @@ export const SECOND = 's'
 export const MINUTE = 'min'
 export const HOUR = 'h'
 export const DAY = 'd'
+export const WEEK = 'w'
 export const MONTH = 'm'
 export const YEAR = 'y'
 
@@ -210,4 +211,31 @@ export const getDateFormats = date => {
     MMMM: MONTH_NAMES[month],
     YYYY: date.getFullYear()
   }
+}
+
+/**
+ *
+ * @param {string} timeRange - String wich represents time range from the current datime
+ *
+ *
+ * @example
+ * // Getting time range for '2m'
+ * // Current datetime -> "2019-04-08T00:00:00.000Z"
+ * getIntervalByTimeRange('2m')
+ * //=> {from: new Date("2019-02-08T00:00:00.000Z"), to: new Date("2019-04-08T00:00:00.000Z") }
+ */
+export const getIntervalByTimeRange = timeRange => {
+  const amount = -timeRange.slice(0, -1)
+  const format = timeRange.slice(-1)
+  const result = { amount, format }
+
+  if (format === WEEK) {
+    result.amount = amount * 7
+    result.format = DAY
+  } else if (format === YEAR) {
+    result.amount = amount * 12
+    result.format = MONTH
+  }
+
+  return getTimeIntervalFromToday(result.amount, result.format)
 }
