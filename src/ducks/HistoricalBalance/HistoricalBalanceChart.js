@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from 'moment'
 import {
   LineChart,
   Line,
@@ -9,9 +8,17 @@ import {
   Tooltip,
   CartesianGrid
 } from 'recharts'
-import { mergeTimeseriesByKey } from './../../utils/utils'
+import { mergeTimeseriesByKey } from '../../utils/utils'
+import { getDateFormats } from '../../utils/dates'
 
-const formatDatetime = datetime => moment(datetime).format('MMM')
+const formatDatetime = datetime => {
+  const { MMM } = getDateFormats(new Date(datetime))
+  return MMM
+}
+const labelFormatter = datetime => {
+  const { YYYY, MMMM } = getDateFormats(new Date(datetime))
+  return `${YYYY} ${MMMM}`
+}
 
 const COLORS = [
   '#8884d8',
@@ -48,7 +55,7 @@ const HistoricalBalanceChart = ({ data }) => {
         <YAxis yAxisId={name} hide key={name} />
       ))}
       <Tooltip
-        labelFormatter={datetime => moment(datetime).format('YYYY MMMM')}
+        labelFormatter={labelFormatter}
         formatter={value => new Intl.NumberFormat().format(value)}
       />
       {Object.keys(data).map((name, index) => {
