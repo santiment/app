@@ -1,5 +1,4 @@
 /* eslint-env jest */
-import moment from 'moment'
 import {
   findIndexByDatetime,
   calculateBTCVolume,
@@ -13,9 +12,9 @@ import {
 } from './utils'
 
 const labels = [
-  moment('2018-01-15T06:00:00Z'),
-  moment('2018-01-12T06:00:00Z'),
-  moment('2018-01-11T18:00:00Z')
+  new Date('2018-01-15T06:00:00Z'),
+  new Date('2018-01-12T06:00:00Z'),
+  new Date('2018-01-11T18:00:00Z')
 ]
 
 describe('findIndexByDatetime', () => {

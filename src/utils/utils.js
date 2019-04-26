@@ -1,6 +1,5 @@
 import sanitizeHtml from 'sanitize-html'
 import { createFactory } from 'react'
-import moment from 'moment'
 import * as qs from 'query-string'
 import ms from 'ms'
 
@@ -82,7 +81,8 @@ const binarySearchDirection = {
 }
 
 const isCurrentDatetimeBeforeTarget = (current, target) =>
-  moment(current.datetime).isBefore(moment(target))
+  new Date(current.datetime) < new Date(target)
+/* moment(current.datetime).isBefore(moment(target)) */
 
 const binarySearchHistoryPriceIndex = (history, targetDatetime) => {
   let start = 0

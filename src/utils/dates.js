@@ -225,6 +225,10 @@ export const getDateFormats = date => {
  * //=> {from: new Date("2019-02-08T00:00:00.000Z"), to: new Date("2019-04-08T00:00:00.000Z") }
  */
 export const getIntervalByTimeRange = timeRange => {
+  if (timeRange === 'all') {
+    return getTimeIntervalFromToday(-24, MONTH) // utils/utils.js - getTimeFromFromString
+  }
+
   const amount = -timeRange.slice(0, -1)
   const format = timeRange.slice(-1)
   const result = { amount, format }

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
-import moment from 'moment'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { getDateFormats } from '../../utils/dates'
 import './InsightsWidgetItem.css'
 
 const CHARACTERS_AMOUNT_FIT_IN_ONE_LINE = 36
@@ -58,6 +58,7 @@ const InsightsWidgetItem = ({
   if (typeof insightContent === 'object') {
     insightContent = createInsightThumbnail(insightContent)
   }
+  const { MMM, DD, YYYY } = getDateFormats(new Date(createdAt))
   return (
     <div className='InsightsWidgetItem'>
       <h2 className='InsightsWidgetItem__title'>
@@ -71,7 +72,7 @@ const InsightsWidgetItem = ({
           by <Link to={`/insights/users/${userId}`}>{username}</Link>
         </h4>
         <h4 className='InsightsWidgetItem__info InsightsWidgetItem__info_time'>
-          {moment(createdAt).format('MMM DD, YYYY')}
+          {`${MMM} ${DD}, ${YYYY}`}
         </h4>
       </div>
     </div>
