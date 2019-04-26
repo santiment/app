@@ -1,7 +1,6 @@
 import Raven from 'raven-js'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
-import moment from 'moment'
 import * as actions from './actions'
 import { SOCIALVOLUME_DATA_FETCH } from '../SocialVolumeWidget/actions'
 import { getTimeIntervalFromToday } from '../../utils/dates'
@@ -63,17 +62,17 @@ const fetchTrends$ = ({ client, data = {} }) => {
         .reduce((acc, val, index) => {
           const { data = [] } = val
           data.trendingWords.forEach(el => {
+            const date = new Date(el.datetime)
+            date.setHours(date.getHours() + secretDataTeamHours[index])
+
             acc.push({
               ...el,
-              datetime: moment(el.datetime)
-                .add(secretDataTeamHours[index], 'hours')
-                .utc()
-                .format()
+              datetime: date.toISOString()
             })
           })
           return acc
         }, [])
-        .sort((a, b) => (moment(a.datetime).isAfter(b.datetime) ? 1 : -1))
+        .sort((a, b) => (new Date(a.datetime) > new Date(b.datetime) ? 1 : -1))
         .reverse()
         .filter((_, index) => index < 3)
         .reverse()
