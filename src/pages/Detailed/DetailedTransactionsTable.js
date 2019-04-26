@@ -1,8 +1,8 @@
 import React from 'react'
-import moment from 'moment'
 import ReactTable from 'react-table'
 import { PanelWithHeader as Panel } from '@santiment-network/ui'
 import { formatNumber } from './../../utils/formatting'
+import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import SmoothDropdown from '../../components/SmoothDropdown/SmoothDropdown'
 import WalletLink from '../../components/WalletLink/WalletLink'
 import './DetailedTransactionsTable.css'
@@ -20,9 +20,7 @@ const COLUMNS = [
     accessor: 'datetime',
     minWidth: 100,
     maxWidth: 200,
-    sortMethod: (a, b) => {
-      return moment(a).isAfter(moment(b)) ? 1 : -1
-    }
+    sortMethod: (a, b) => (new Date(a) > new Date(b) ? 1 : -1)
   },
   {
     Header: 'Value',
@@ -60,19 +58,25 @@ const DetailedTopTransactions = ({
   const data = Project.project[show]
     ? Project.project[show]
       .slice(0, 10)
-      .map(({ trxValue, trxHash, fromAddress, toAddress, datetime }) => ({
-        trxHash,
-        fromAddress: {
-          ...fromAddress,
-          assets: [slug, 'ethereum']
-        },
-        toAddress: {
-          ...toAddress,
-          assets: [slug, 'ethereum']
-        },
-        trxValue: formatNumber(trxValue),
-        datetime: moment(datetime).format('YYYY-MM-DD HH:mm:ss')
-      }))
+      .map(({ trxValue, trxHash, fromAddress, toAddress, datetime }) => {
+        const targetDate = new Date(datetime)
+        const { YYYY, MM, DD } = getDateFormats(targetDate)
+        const { HH, mm, ss } = getTimeFormats(targetDate)
+
+        return {
+          trxHash,
+          fromAddress: {
+            ...fromAddress,
+            assets: [slug, 'ethereum']
+          },
+          toAddress: {
+            ...toAddress,
+            assets: [slug, 'ethereum']
+          },
+          trxValue: formatNumber(trxValue),
+          datetime: `${YYYY}-${MM}-${DD} ${HH}:${mm}:${ss}`
+        }
+      })
     : []
   return (
     <Panel header={title} className={'panel-full-width'}>

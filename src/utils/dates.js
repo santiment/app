@@ -94,9 +94,8 @@ const FormatToTimestamp = {
  * // Target: 9 days prior to current date
  *  getTimeIntervalFromToday(-9, 'd')
  */
-export const getTimeIntervalFromToday = (amount, dateFormat) => {
-  const from = new Date()
-  const to = new Date()
+export const getTimeIntervalFromToday = (amount, dateFormat, defaults = {}) => {
+  const { from = new Date(), to = new Date() } = defaults
   const [get, set] = DateFormat[dateFormat]
 
   to.setHours(24, 0, 0, 0)
@@ -200,6 +199,7 @@ export const getDateFormats = date => {
   const M = month + 1
   const D = date.getDate()
   const d = date.getDay()
+  const YYYY = date.getFullYear()
 
   return {
     D,
@@ -210,7 +210,23 @@ export const getDateFormats = date => {
     MM: M < 10 ? `0${M}` : M,
     MMM: SHORT_MONTH_NAMES[month],
     MMMM: MONTH_NAMES[month],
-    YYYY: date.getFullYear()
+    YYYY,
+    YY: YYYY.toString().slice(-2)
+  }
+}
+
+export const getTimeFormats = date => {
+  const m = date.getMinutes()
+  const s = date.getSeconds()
+  const H = date.getHours()
+
+  return {
+    H,
+    HH: H < 10 ? `0${H}` : H,
+    m,
+    mm: m < 10 ? `0${m}` : m,
+    s,
+    ss: s < 10 ? `0${s}` : s
   }
 }
 
