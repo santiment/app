@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { Panel } from '@santiment-network/ui'
 import { dateDifferenceInWords } from '../../utils/dates'
 import MultilineText from '../MultilineText/MultilineText'
@@ -13,14 +14,14 @@ const NewsCard = ({
   className = ''
 }) => {
   return (
-    <div className={className}>
+    <Panel className={cx(styles.wrapper, className)}>
       <a
         href={url}
         target='_blank'
         rel='noopener noreferrer'
         className={styles.link}
       >
-        <Panel className={styles.news}>
+        <div className={styles.news}>
           <div>
             <div className={styles.news__title}>
               <MultilineText id={'NewsCardTitle'} maxLines={2} text={title} />
@@ -35,9 +36,9 @@ const NewsCard = ({
             </span>
             <span className={styles.news__sourceName}>{sourceName}</span>
           </div>
-        </Panel>
+        </div>
       </a>
-    </div>
+    </Panel>
   )
 }
 
