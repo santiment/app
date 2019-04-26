@@ -1,4 +1,3 @@
-import moment from 'moment'
 import { push } from 'react-router-redux'
 
 export const mergeDataSourcesForChart = sources =>
@@ -98,7 +97,7 @@ export const getMentionsChartData = (mentionsBySources, selectedSources) =>
     selectedSources.includes('merged')
       ? getMergedMentionsDataset(mentionsBySources)
       : getComposedMentionsDataset(mentionsBySources, selectedSources)
-  ).sort((a, b) => (moment(a.datetime).isAfter(b.datetime) ? 1 : -1))
+  ).sort((a, b) => (new Date(a.datetime) > new Date(b.datetime) ? 1 : -1))
 
 const defaultSources = ['merged']
 
