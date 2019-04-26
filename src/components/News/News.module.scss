@@ -1,10 +1,28 @@
+.wrapper {
+  margin: 60px 0;
+  min-width: 1000px;
+  width: 100%;
+}
+
+.title {
+  font-family: Rubik, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--jungle-green);
+  display: inline-block;
+  vertical-align: center;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--jungle-green);
+  border-radius: 1px;
+  margin: 0;
+}
+
 .items {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   border-top: 1px solid var(--porcelain);
   padding: 40px 0;
-  margin: 60px 0;
 }
 
 .item {

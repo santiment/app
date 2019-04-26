@@ -14,6 +14,7 @@ import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import WordCloud from './../../components/WordCloud/WordCloud'
 import SocialVolumeWidget from './../../components/SocialVolumeWidget/SocialVolumeWidget'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
+import News from '../../components/News/News'
 import { checkHasPremium } from './../UserSelectors'
 import { mapQSToState, mapStateToQS, capitalizeStr } from './../../utils/utils'
 import styles from './TrendsExplorePage.module.scss'
@@ -161,6 +162,7 @@ export class TrendsExplorePage extends Component {
               />
             )}
           />
+          <News />
         </div>
       </div>
     )

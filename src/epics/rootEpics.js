@@ -45,6 +45,7 @@ import {
 } from '../components/Trends/fetchHypedTrends'
 import { fetchSocialVolumeEpic } from '../components/SocialVolumeWidget/socialVolumeEpic'
 import fetchAllTickersSlugs from '../components/Trends/fetchAllTickersSlugs'
+import { fetchNewsEpic } from '../components/News/NewsEpic'
 import {
   generateTelegramDeepLinkEpic,
   revokeTelegramDeepLinkEpic,
@@ -121,5 +122,7 @@ export default combineEpics(
   wordTrendSocialVolumeEpic,
   // connected trends
   connectedWordsOptimizationEpic,
-  connectedWordsEpic
+  connectedWordsEpic,
+  // news
+  fetchNewsEpic
 )

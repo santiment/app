@@ -33,7 +33,7 @@ const NewsCard = ({
             <span className={styles.news__date}>
               {dateDifferenceInWords({ from: new Date(datetime) })}
             </span>
-            <span>{sourceName}</span>
+            <span className={styles.news__sourceName}>{sourceName}</span>
           </div>
         </Panel>
       </a>
