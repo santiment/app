@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import cx from 'classnames'
-import moment from 'moment'
 import { Button } from 'semantic-ui-react'
 import { Chart } from 'react-chartjs-2'
 import * as qs from 'query-string'
@@ -10,7 +9,11 @@ import ProjectChartHeader from './ProjectChartHeader'
 import ProjectChartFooter from './ProjectChartFooter'
 import ProjectChart from './ProjectChart'
 import ProjectChartMobile from './ProjectChartMobile'
-import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
+import {
+  dateDifference,
+  getTimeIntervalFromToday,
+  DAY
+} from '../../utils/dates'
 import { normalizeData, makeItervalBounds } from './utils'
 
 // Fix X mode in Chart.js lib. Monkey loves this.
@@ -80,8 +83,8 @@ class ProjectChartContainer extends Component {
       isError: false,
       errorMessage: '',
       selected: undefined,
-      startDate: moment(shareableState.from) || moment(from),
-      endDate: moment(shareableState.from) || moment(to),
+      startDate: new Date(shareableState.from) || new Date(from),
+      endDate: new Date(shareableState.from) || new Date(to),
       focusedInput: null,
       isToggledBTC: shareableState.currency && shareableState.currency === 'BTC'
     }
@@ -119,11 +122,20 @@ class ProjectChartContainer extends Component {
   }
 
   setFromTo (from, to) {
-    if (!moment.isMoment(from) || !moment.isMoment(to)) {
+    if (!from || !to) {
       return
     }
     let interval = '1w'
-    const diffInDays = moment(to).diff(from, 'days')
+
+    const fromDate = new Date(from)
+    const toDate = new Date(to)
+
+    const { diff: diffInDays } = dateDifference({
+      from: fromDate,
+      to: toDate,
+      format: DAY
+    })
+
     if (diffInDays > 32 && diffInDays < 900) {
       interval = '1d'
     } else if (diffInDays >= 900) {
@@ -134,8 +146,8 @@ class ProjectChartContainer extends Component {
       interval = '5m'
     }
     this.props.changeTimeFilter({
-      to: to.utc().format(),
-      from: from.utc().format(),
+      to: toDate.toISOString(),
+      from: fromDate.toISOString(),
       interval,
       timeframe: undefined
     })
@@ -144,7 +156,12 @@ class ProjectChartContainer extends Component {
   setFilter (timeframe) {
     const { from, to, minInterval } = makeItervalBounds(timeframe)
     let interval = minInterval
-    const diffInDays = moment(to).diff(from, 'days')
+    const { diff: diffInDays } = dateDifference({
+      from: new Date(from),
+      to: new Date(to),
+      format: DAY
+    })
+
     if (diffInDays > 32 && diffInDays < 900) {
       interval = '1d'
     } else if (diffInDays >= 900) {
@@ -189,7 +206,7 @@ class ProjectChartContainer extends Component {
       this.setFilter(timeframe)
     }
     if (from && to && !timeframe) {
-      this.setFromTo(moment(from), moment(to))
+      this.setFromTo(new Date(from), new Date(to))
     }
     if (!from && !to && !timeframe) {
       this.setFilter('all')

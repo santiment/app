@@ -215,10 +215,46 @@ export const getDateFormats = date => {
   }
 }
 
+export const getUTCDateFormats = date => {
+  const month = date.getUTCMonth()
+  const M = month + 1
+  const D = date.getUTCDate()
+  const d = date.getUTCDay()
+  const YYYY = date.getUTCFullYear()
+
+  return {
+    D,
+    DD: D < 10 ? `0${D}` : D,
+    ddd: SHORT_WEEK_DAY_NAMES[d],
+    dddd: WEEK_DAY_NAMES[d],
+    M,
+    MM: M < 10 ? `0${M}` : M,
+    MMM: SHORT_MONTH_NAMES[month],
+    MMMM: MONTH_NAMES[month],
+    YYYY,
+    YY: YYYY.toString().slice(-2)
+  }
+}
+
 export const getTimeFormats = date => {
   const m = date.getMinutes()
   const s = date.getSeconds()
   const H = date.getHours()
+
+  return {
+    H,
+    HH: H < 10 ? `0${H}` : H,
+    m,
+    mm: m < 10 ? `0${m}` : m,
+    s,
+    ss: s < 10 ? `0${s}` : s
+  }
+}
+
+export const getUTCTimeFormats = date => {
+  const m = date.getUTCMinutes()
+  const s = date.getUTCSeconds()
+  const H = date.getUTCHours()
 
   return {
     H,
