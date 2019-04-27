@@ -3,12 +3,6 @@ import { createFactory } from 'react'
 import * as qs from 'query-string'
 import ms from 'ms'
 
-const findIndexByDatetime = (labels, datetime) => {
-  return labels.findIndex(label => {
-    return label.isSame(datetime)
-  })
-}
-
 const calculateBTCVolume = ({ volume, priceUsd, priceBtc }) => {
   return (parseFloat(volume) / parseFloat(priceUsd)) * parseFloat(priceBtc)
 }
@@ -322,7 +316,6 @@ const calcPercentageChange = (originalValue, newValue) => {
 }
 
 export {
-  findIndexByDatetime,
   calculateBTCVolume,
   calculateBTCMarketcap,
   calcPercentageChange,
