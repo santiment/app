@@ -1,18 +1,5 @@
 @import '../../mixins.scss';
 
-.title {
-  font-family: Rubik, sans-serif;
-  font-size: 14px;
-  line-height: 20px;
-  color: var(--jungle-green);
-  display: inline-block;
-  vertical-align: center;
-  padding-bottom: 15px;
-  border-bottom: 2px solid var(--jungle-green);
-  border-radius: 1px;
-  margin: 0;
-}
-
 .items {
   display: flex;
   flex-wrap: wrap;
