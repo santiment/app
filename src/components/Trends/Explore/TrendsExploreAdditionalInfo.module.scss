@@ -1,0 +1,11 @@
+@import '../../../mixins.scss';
+
+.wrapper {
+  width: 100%;
+  margin: 0;
+  margin-top: 60px;
+
+  @include responsive('phone-xs', 'phone') {
+    padding: 0 20px;
+  }
+}

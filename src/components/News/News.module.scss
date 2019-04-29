@@ -1,14 +1,5 @@
 @import '../../mixins.scss';
 
-.wrapper {
-  margin: 60px 0;
-  width: 100%;
-
-  @include responsive('phone-xs', 'phone') {
-    padding: 0 20px;
-  }
-}
-
 .title {
   font-family: Rubik, sans-serif;
   font-size: 14px;
@@ -28,6 +19,7 @@
   align-items: center;
   border-top: 1px solid var(--porcelain);
   padding: 40px 0;
+  margin-top: -1px;
 
   @include responsive('phone-xs') {
     justify-content: center;
@@ -49,7 +41,7 @@
   }
 
   @include responsive('tablet') {
-    width: 48%;
+    width: 49%;
     margin-bottom: 2%;
     margin-right: 2%;
 
@@ -61,5 +53,6 @@
   @include responsive('phone-xs', 'phone') {
     width: 100%;
     margin-bottom: 24px;
+    margin-right: 0;
   }
 }
