@@ -18,7 +18,7 @@ const InsightsTrends = ({ allInsightsByTag, ...props }) => {
 }
 
 export const getInsightTrendTagByDate = date =>
-  `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}-trending-words`
+  `${date.getUTCDate()}-${date.getUTCMonth()}-${date.getUTCFullYear()}-trending-words`
 
 const getPast3DaysInsightsByTrendTag = () =>
   [0, oneDayTimeStamp, 2 * oneDayTimeStamp].map(timestamp =>
