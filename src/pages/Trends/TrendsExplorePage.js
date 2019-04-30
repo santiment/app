@@ -161,7 +161,7 @@ export class TrendsExplorePage extends Component {
               />
             )}
           />
-          <TrendsExploreAdditionalInfo />
+          <TrendsExploreAdditionalInfo word={word} />
         </div>
       </div>
     )

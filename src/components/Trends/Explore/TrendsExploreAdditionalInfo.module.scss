@@ -9,3 +9,47 @@
     padding: 0 20px;
   }
 }
+
+.insights {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border-top: 1px solid var(--porcelain);
+  padding: 40px 0;
+  margin-top: -1px;
+
+  @include responsive('phone-xs') {
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+}
+
+.insight {
+  width: 32%;
+  min-width: 318px;
+  margin-bottom: 2%;
+  margin-right: 2%;
+
+  @include responsive('desktop', 'laptop') {
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+  }
+
+  @include responsive('tablet') {
+    width: 49%;
+    margin-bottom: 2%;
+    margin-right: 2%;
+
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+    margin-bottom: 24px;
+    margin-right: 0;
+  }
+}
