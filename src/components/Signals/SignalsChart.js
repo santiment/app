@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from 'moment'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -10,7 +9,18 @@ import {
   YAxis,
   Tooltip
 } from 'recharts'
+import { getDateFormats } from '../../utils/dates'
 import { formatNumber, millify } from './../../utils/formatting'
+
+const labelFormatter = date => {
+  const { dddd, MMM, DD, YYYY } = getDateFormats(new Date(date))
+  return `${dddd}, ${MMM} ${DD} ${YYYY}`
+}
+
+const tickFormatter = date => {
+  const { DD, MMM, YY } = getDateFormats(new Date(date))
+  return `${DD} ${MMM} ${YY}`
+}
 
 const SignalsChart = ({ chartData = [] }) => {
   return (
@@ -21,7 +31,7 @@ const SignalsChart = ({ chartData = [] }) => {
             dataKey='datetime'
             tickLine={false}
             minTickGap={100}
-            tickFormatter={timeStr => moment(timeStr).format('DD MMM YY')}
+            tickFormatter={tickFormatter}
           />
 
           <YAxis
@@ -63,7 +73,7 @@ const SignalsChart = ({ chartData = [] }) => {
           />
 
           <Tooltip
-            labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
+            labelFormatter={labelFormatter}
             formatter={(value, name) =>
               formatNumber(value, { currency: 'USD' })
             }

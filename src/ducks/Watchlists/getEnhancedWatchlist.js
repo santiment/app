@@ -1,7 +1,6 @@
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import moment from 'moment'
 import { checkIsLoggedIn } from './../../pages/UserSelectors'
 
 const GetWatchlists = ({ render, ...props }) => render({ ...props })
@@ -12,7 +11,7 @@ GetWatchlists.defaultProps = {
 }
 
 const sortWatchlists = (list, list2) =>
-  moment.utc(list.insertedAt).diff(moment.utc(list2.insertedAt))
+  new Date(list.insertedAt) > new Date(list2.insertedAt) ? 1 : -1
 
 const mapStateToProps = state => ({
   isLoggedIn: checkIsLoggedIn(state)

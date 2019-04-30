@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from 'moment'
 import { compose, withState } from 'recompose'
 import {
   ResponsiveContainer,
@@ -12,6 +11,7 @@ import {
   Brush
 } from 'recharts'
 import { formatNumber } from './../utils/formatting'
+import { getDateFormats } from '../utils/dates'
 import './Analytics.css'
 
 const COLOR = '#009663'
@@ -22,7 +22,7 @@ const getChartDataFromHistory = (data, label, chart = {}) => {
   const items = data.items || []
   const borderColor = (data.dataset || {}).borderColor || COLOR
   return {
-    labels: items ? items.map(data => moment(data.datetime).utc()) : [],
+    labels: items ? items.map(data => new Date(data.datetime)) : [],
     datasets: [
       {
         label,
@@ -98,7 +98,8 @@ const Analytics = ({
       formatter={formatData}
       labelFormatter={index => {
         const datetime = chartData.datasets[0].data[index].x
-        return moment(datetime).format('DD.MM.YYYY')
+        const { DD, MM, YYYY } = getDateFormats(new Date(datetime))
+        return `${DD}.${MM}.${YYYY}`
       }}
       label={'asdf'}
     />
@@ -133,7 +134,10 @@ const Analytics = ({
                   <Brush
                     travellerWidth={20}
                     data={chartData.datasets[0].data}
-                    tickFormatter={tick => moment(tick).format('MM.DD.YYYY')}
+                    tickFormatter={tick => {
+                      const { MM, DD, YYYY } = getDateFormats(new Date(tick))
+                      return `${MM}.${DD}.${YYYY}`
+                    }}
                     dataKey='x'
                     height={50}
                   />

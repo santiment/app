@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { Redirect } from 'react-router-dom'
-import moment from 'moment'
 import { Helmet } from 'react-helmet'
 import { graphql, withApollo } from 'react-apollo'
 import { connect } from 'react-redux'
@@ -31,6 +30,12 @@ import {
   DailyActiveAddressesGQL,
   AllInsightsByTagGQL
 } from './DetailedGQL'
+import {
+  dateDifference,
+  DAY,
+  getTimeIntervalFromToday,
+  MONTH
+} from '../../utils/dates'
 import './Detailed.css'
 import styles from './Detailed.module.scss'
 
@@ -326,6 +331,15 @@ const mapStateToProps = state => {
   }
 }
 
+const getCustomInterval = (from, to) => {
+  const { diff } = dateDifference({
+    from: new Date(from),
+    to: new Date(to),
+    format: DAY
+  })
+  return diff > 300 ? '7d' : '1d'
+}
+
 const enhance = compose(
   connect(mapStateToProps),
   withApollo,
@@ -350,25 +364,16 @@ const enhance = compose(
       }
     },
     options: ({ match }) => {
-      const to = moment()
-        .endOf('day')
-        .utc()
-        .format()
-      const fromOverTime = moment()
-        .subtract(2, 'years')
-        .utc()
-        .format()
-      const interval = moment(to).diff(fromOverTime, 'days') > 300 ? '7d' : '1d'
+      const { from: fromOverTime, to } = getTimeIntervalFromToday(-24, MONTH)
+      const { from } = getTimeIntervalFromToday(-1, MONTH)
+
       return {
         variables: {
           slug: match.params.slug,
-          from: moment()
-            .subtract(30, 'days')
-            .utc()
-            .format(),
-          to,
-          fromOverTime,
-          interval
+          from: from.toISOString(),
+          to: to.toISOString(),
+          fromOverTime: fromOverTime.toISOString(),
+          interval: '7d'
         }
       }
     }
@@ -488,10 +493,14 @@ const enhance = compose(
     },
     options: ({ timeFilter, match }) => {
       const { from, to } = timeFilter
+      const { from: newFrom } = getTimeIntervalFromToday(-7, DAY, {
+        from: new Date(from)
+      })
+
       const slug = match.params.slug
       return {
         variables: {
-          from: from ? moment(from).subtract(7, 'days') : undefined,
+          from: from ? newFrom.toISOString() : undefined,
           to,
           slug,
           interval: '1d',
@@ -557,7 +566,7 @@ const enhance = compose(
         variables: {
           from,
           to,
-          interval: moment(to).diff(from, 'days') > 300 ? '7d' : '1d'
+          interval: getCustomInterval(from, to)
         }
       }
     }
@@ -576,7 +585,7 @@ const enhance = compose(
         variables: {
           from,
           to,
-          interval: moment(to).diff(from, 'days') > 300 ? '7d' : '1d'
+          interval: getCustomInterval(from, to)
         }
       }
     }

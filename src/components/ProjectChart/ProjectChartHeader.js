@@ -1,10 +1,5 @@
 import React from 'react'
-import moment from 'moment'
-import { Merge } from 'animate-components'
-import { fadeIn, slideUp } from 'animate-keyframes'
 import { withState, compose, lifecycle } from 'recompose'
-import { DateRangePicker } from 'react-dates'
-import { formatNumber } from './../../utils/formatting'
 import PaywallMessage from './../PaywallMessage/PaywallMessage'
 import ShareableBtn from './ShareableBtn'
 import './ProjectChartHeader.css'
@@ -56,8 +51,6 @@ export const CurrencyFilter = ({ ticker, isToggledBTC, toggleBTC }) => (
   </div>
 )
 
-const HiddenElements = () => ''
-
 const ProjectChartHeader = ({
   from,
   to,
@@ -82,41 +75,6 @@ const ProjectChartHeader = ({
     <div className='chart-header'>
       <div className='chart-datetime-settings'>
         <TimeFilter interval={interval} setFilter={setFilter} />
-        <HiddenElements>
-          {isDesktop && (
-            <DateRangePicker
-              small
-              startDateId='startDate'
-              endDateId='endDate'
-              readOnly
-              startDate={moment(dates.from)}
-              endDate={moment(dates.to)}
-              onDatesChange={({ startDate, endDate }) => {
-                changeFromTo({
-                  from: moment(startDate)
-                    .utc()
-                    .format(),
-                  to: moment(endDate)
-                    .utc()
-                    .format()
-                })
-              }}
-              focusedInput={focusedInput}
-              onFocusChange={focusedInput => {
-                if (!focusedInput) {
-                  setFromTo(moment(dates.from), moment(dates.to))
-                }
-                onFocusChange(focusedInput)
-              }}
-              displayFormat={() => moment.localeData().longDateFormat('L')}
-              hideKeyboardShortcutsPanel
-              isOutsideRange={day => {
-                const today = moment().endOf('day')
-                return day > today
-              }}
-            />
-          )}
-        </HiddenElements>
         {!isPremium && <PaywallMessage />}
       </div>
       <div className='chart-header-actions'>
@@ -131,60 +89,6 @@ const ProjectChartHeader = ({
           shareableURL={shareableURL}
         />
       </div>
-      {!isDesktop &&
-        selected && [
-        <div key='selected-datetime' className='selected-value'>
-          {selected && (
-            <Merge
-              one={{
-                name: fadeIn,
-                duration: '0.3s',
-                timingFunction: 'ease-in'
-              }}
-              two={{
-                name: slideUp,
-                duration: '0.5s',
-                timingFunction: 'ease-out'
-              }}
-              as='div'
-            >
-              <span className='selected-value-datetime'>
-                {moment(history[selected].datetime)
-                  .utc()
-                  .format('MMMM DD, YYYY')}
-              </span>
-            </Merge>
-          )}
-        </div>,
-        <div key='selected-value' className='selected-value'>
-          {selected && (
-            <Merge
-              one={{
-                name: fadeIn,
-                duration: '0.3s',
-                timingFunction: 'ease-in'
-              }}
-              two={{
-                name: slideUp,
-                duration: '0.5s',
-                timingFunction: 'ease-out'
-              }}
-              as='div'
-            >
-              <span className='selected-value-data'>
-                  Price:
-                {formatNumber(history[selected].priceUsd, {
-                  currency: 'USD'
-                })}
-              </span>
-              <span className='selected-value-data'>
-                  Volume:
-                {formatNumber(history[selected].volume, { currency: 'USD' })}
-              </span>
-            </Merge>
-          )}
-        </div>
-      ]}
     </div>
   )
 }

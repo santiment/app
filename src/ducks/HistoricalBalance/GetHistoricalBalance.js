@@ -4,7 +4,6 @@ import gql from 'graphql-tag'
 import isEqual from 'lodash.isequal'
 import pick from 'lodash.pick'
 import { withApollo } from 'react-apollo'
-import moment from 'moment'
 
 const historicalBalanceGQL = gql`
   query historicalBalance(
@@ -91,7 +90,7 @@ class GetHistoricalBalance extends Component {
             slug,
             address: this.props.wallet,
             interval: '1d',
-            to: moment().toISOString(),
+            to: new Date().toISOString(),
             from: '2017-12-01T16:28:22.486Z'
           }
         })

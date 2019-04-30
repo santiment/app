@@ -3,7 +3,7 @@ import ReactTable, { ReactTableDefaults } from 'react-table'
 import { graphql } from 'react-apollo'
 import getColumns from './gainers-and-losers-table-columns'
 import { TOP_SOCIAL_GAINERS_LOSERS_QUERY } from './gainersLosersQuery'
-import { getTimeRangeByDuration } from '../../utils/utils'
+import { getIntervalByTimeRange } from '../../utils/dates'
 import 'react-table/react-table.css'
 
 const defaultTableProps = {
@@ -49,13 +49,18 @@ const GainersLosersTable = ({
 )
 
 const withGainersLosers = graphql(TOP_SOCIAL_GAINERS_LOSERS_QUERY, {
-  options: ({ status, timeWindow }) => ({
-    variables: {
-      status,
-      size: 10000,
-      ...getTimeRangeByDuration(timeWindow)
+  options: ({ status, timeWindow }) => {
+    const { from, to } = getIntervalByTimeRange(timeWindow)
+    return {
+      variables: {
+        status,
+        size: 10000,
+        from: from.toISOString(),
+        to: to.toISOString(),
+        timeWindow
+      }
     }
-  }),
+  },
   props: ({
     data: { topSocialGainersLosers = [], loading, error },
     ownProps

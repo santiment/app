@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import moment from 'moment'
 import { Helmet } from 'react-helmet'
 import { convertToRaw } from 'draft-js'
 import mediumDraftImporter from 'medium-draft/lib/importer'
@@ -15,6 +14,7 @@ import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import AnonBanner from '../../pages/Dashboard/AnonBanner'
 import { getInsightContent } from './utils'
+import { getDateFormats } from '../../utils/dates'
 import styles from './InsightViewPage.module.scss'
 
 const InsightViewPage = ({
@@ -29,6 +29,7 @@ const InsightViewPage = ({
   isDesktop,
   isLoggedIn
 }) => {
+  const { MMM, D, YYYY } = getDateFormats(new Date(createdAt))
   return (
     <Fragment>
       <Helmet>
@@ -51,7 +52,7 @@ const InsightViewPage = ({
             withPic
             className={styles.profile}
             name={<Link to={`/insights/users/${userId}`}>{username}</Link>}
-            status={moment(createdAt).format('MMM D, YYYY')}
+            status={`${MMM} ${D}, ${YYYY}`}
           />
         </div>
         <InsightEditorTitle defaultValue={title} readOnly />

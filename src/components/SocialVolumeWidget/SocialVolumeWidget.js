@@ -1,8 +1,8 @@
 import React from 'react'
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts'
-import moment from 'moment'
 import { connect } from 'react-redux'
 import { SOCIALVOLUME_DATA_FETCH, TOTAL_SOCIALVOLUME_SECRET } from './actions'
+import { getDateFormats } from '../../utils/dates'
 import { millify } from '../../utils/formatting'
 import WidgetTrend from '../Widget/WidgetTrend'
 import styles from './SocialVolumeWidget.module.scss'
@@ -10,6 +10,11 @@ import styles from './SocialVolumeWidget.module.scss'
 const RoundBar = ({ x, y, height }) => (
   <rect x={x} y={y} width='6px' height={height} rx='3' />
 )
+
+const tickFormatter = date => {
+  const { MMM, DD } = getDateFormats(new Date(date))
+  return `${MMM} ${DD}`
+}
 
 export class SocialVolumeWidget extends React.Component {
   componentDidMount () {
@@ -38,13 +43,7 @@ export class SocialVolumeWidget extends React.Component {
               interval='preserveStartEnd'
               axisLine={false}
               tickLine={false}
-              tickFormatter={date => {
-                const tickDate = moment(date)
-
-                return tickDate.isSame(Date.now(), 'year')
-                  ? tickDate.format('MMM DD')
-                  : tickDate.format('MMM DD YYYY')
-              }}
+              tickFormatter={tickFormatter}
               minTickGap={20}
             />
             <YAxis

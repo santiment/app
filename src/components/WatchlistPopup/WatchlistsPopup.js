@@ -2,7 +2,6 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import moment from 'moment'
 import { Popup, Button } from 'semantic-ui-react'
 import { WatchlistGQL } from './WatchlistGQL'
 import Watchlists, { hasAssetById } from './Watchlists'
@@ -94,7 +93,7 @@ const WatchlistPopup = ({
 }
 
 const sortWatchlists = (list, list2) =>
-  moment.utc(list.insertedAt).diff(moment.utc(list2.insertedAt))
+  new Date(list.insertedAt) > new Date(list2.insertedAt) ? 1 : -1
 
 const mapStateToProps = state => {
   return {

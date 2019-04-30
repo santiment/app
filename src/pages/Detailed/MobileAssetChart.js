@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from 'moment'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -11,7 +10,18 @@ import {
   ReferenceLine
 } from 'recharts'
 import { formatNumber } from './../../utils/formatting'
+import { getDateFormats } from '../../utils/dates'
 import styles from './MobileAssetChart.module.scss'
+
+const labelFormatter = date => {
+  const { dddd, MMM, DD, YYYY } = getDateFormats(new Date(date))
+  return `${dddd}, ${MMM} ${DD} ${YYYY}`
+}
+
+const tickFormatter = date => {
+  const { DD, MMM, YY } = getDateFormats(new Date(date))
+  return `${DD} ${MMM} ${YY}`
+}
 
 const MobileAssetChart = ({ data, slug: asset, icoPrice }) => {
   return (
@@ -23,7 +33,7 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice }) => {
             tickLine={false}
             tickMargin={5}
             minTickGap={100}
-            tickFormatter={timeStr => moment(timeStr).format('DD MMM YY')}
+            tickFormatter={tickFormatter}
           />
           <YAxis
             yAxisId='axis-price'
@@ -36,7 +46,7 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice }) => {
           />
           <CartesianGrid vertical={false} stroke='#ebeef5' />
           <Tooltip
-            labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
+            labelFormatter={labelFormatter}
             formatter={(value, name) => {
               if (name === `${asset}/USD`) {
                 return formatNumber(value, { currency: 'USD' })

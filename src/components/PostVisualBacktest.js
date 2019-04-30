@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import { compose, withProps } from 'recompose'
-import moment from 'moment'
 import LazyLoad from 'react-lazyload'
 import { HistoryPriceByTickerGQL } from './../pages/Detailed/DetailedGQL'
 import PercentChanges from './PercentChanges'
 import PostVisualBacktestChart from './PostVisualBacktestChart'
 import { binarySearchHistoryPriceIndex } from '../utils/utils'
+import { getTimeIntervalFromToday, MONTH } from '../utils/dates'
 import './PostVisualBacktest.css'
 
 const getChanges = (start, last, prop = 'priceUsd') =>
@@ -61,17 +61,15 @@ const enhance = compose(
   graphql(HistoryPriceByTickerGQL, {
     name: 'history',
     skip: ({ ticker, from }) => !ticker || !from,
-    options: ({ ticker, from }) => {
-      const to = new Date()
-      to.setHours(24, 0, 0, 0)
+    options: ({ ticker, from: fromDate }) => {
+      const { from, to } = getTimeIntervalFromToday(-2, MONTH, {
+        from: new Date(fromDate)
+      })
+
       return {
         errorPolicy: 'all',
         variables: {
-          from: moment(from)
-            .subtract(3, 'months')
-            .utc()
-            .startOf('hour')
-            .format(),
+          from: from.toISOString(),
           to: to.toISOString(),
           ticker: isTotalMarket(ticker) ? 'TOTAL_MARKET' : ticker,
           interval: '1d'

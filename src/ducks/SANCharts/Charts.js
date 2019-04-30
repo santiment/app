@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from 'moment'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -12,9 +11,20 @@ import {
 import { Button } from '@santiment-network/ui'
 import { compose, withProps } from 'recompose'
 import { formatNumber } from './../../utils/formatting'
+import { getDateFormats } from '../../utils/dates'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
 import { Metrics, generateMetricsMarkup } from './utils'
 import styles from './ChartPage.module.scss'
+
+const tickFormatter = date => {
+  const { DD, MMM, YY } = getDateFormats(new Date(date))
+  return `${DD} ${MMM} ${YY}`
+}
+
+const labelFormatter = date => {
+  const { dddd, DD, MMM, YYYY } = getDateFormats(new Date(date))
+  return `${dddd}, ${MMM} ${DD} ${YYYY}`
+}
 
 class Charts extends React.Component {
   state = {
@@ -90,7 +100,7 @@ class Charts extends React.Component {
               dataKey='datetime'
               tickLine={false}
               minTickGap={100}
-              tickFormatter={timeStr => moment(timeStr).format('DD MMM YY')}
+              tickFormatter={tickFormatter}
             />
             <YAxis hide />
             {generateMetricsMarkup(metrics)}
@@ -102,7 +112,7 @@ class Charts extends React.Component {
               />
             )}
             <Tooltip
-              labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
+              labelFormatter={labelFormatter}
               formatter={(value, name) => {
                 if (name === Metrics.price.label) {
                   return formatNumber(value, { currency: 'USD' })

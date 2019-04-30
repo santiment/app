@@ -1,37 +1,20 @@
 /* eslint-env jest */
-import moment from 'moment'
 import {
-  findIndexByDatetime,
   calculateBTCVolume,
   sanitizeMediumDraftHtml,
   filterProjectsByMarketSegment,
   mergeTimeseriesByKey,
   getEscapedGQLFieldAlias,
-  getTimeRangeByDuration,
   isEthStrictAddress,
   mapItemsToKeys,
   calcPercentageChange
 } from './utils'
 
 const labels = [
-  moment('2018-01-15T06:00:00Z'),
-  moment('2018-01-12T06:00:00Z'),
-  moment('2018-01-11T18:00:00Z')
+  new Date('2018-01-15T06:00:00Z'),
+  new Date('2018-01-12T06:00:00Z'),
+  new Date('2018-01-11T18:00:00Z')
 ]
-
-describe('findIndexByDatetime', () => {
-  it('should return right index by datetime', () => {
-    expect(findIndexByDatetime(labels, '2018-01-11T18:00:00Z')).toEqual(2)
-  })
-
-  it('should return -1, if labels array doesnt have datetime', () => {
-    expect(findIndexByDatetime(labels, '2017-01-11T18:00:00Z')).toEqual(-1)
-  })
-
-  it('should return -1, if labels array is empty', () => {
-    expect(findIndexByDatetime([], '2017-01-11T18:00:00Z')).toEqual(-1)
-  })
-})
 
 const historyPrice = [
   {
@@ -455,53 +438,6 @@ describe('isEthAddress', () => {
       isEthStrictAddress('1f3df0b8390bb8e9e322972c5e75583e87608ec2')
     ).toBeFalsy()
     expect(isEthStrictAddress('asjdfh92ef2boejv')).toBeFalsy()
-  })
-})
-
-describe('getTimeRangeByDuration', () => {
-  it('should calculate time range for 4 hours', () => {
-    const goodTimeRange = {
-      to: moment()
-        .startOf('hour')
-        .toISOString(),
-      from: moment()
-        .startOf('hour')
-        .subtract('4', 'h')
-        .toISOString(),
-      timeWindow: '4h'
-    }
-
-    expect(getTimeRangeByDuration('4h')).toEqual(goodTimeRange)
-  })
-
-  it('should calculate time range for 2 days', () => {
-    const goodTimeRange = {
-      to: moment()
-        .startOf('hour')
-        .toISOString(),
-      from: moment()
-        .startOf('hour')
-        .subtract('2', 'd')
-        .toISOString(),
-      timeWindow: '2d'
-    }
-
-    expect(getTimeRangeByDuration('2d')).toEqual(goodTimeRange)
-  })
-
-  it('should calculate time range for 3 weeks', () => {
-    const goodTimeRange = {
-      to: moment()
-        .startOf('hour')
-        .toISOString(),
-      from: moment()
-        .startOf('hour')
-        .subtract('3', 'w')
-        .toISOString(),
-      timeWindow: '3w'
-    }
-
-    expect(getTimeRangeByDuration('3w')).toEqual(goodTimeRange)
   })
 })
 
