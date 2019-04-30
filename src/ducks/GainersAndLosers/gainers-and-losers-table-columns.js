@@ -17,6 +17,8 @@ const getColumns = ({ timeWindow }) => [
       name,
       coinmarketcapId
     }),
+    sortMethod: (previous, next) =>
+      previous.name.toLowerCase() <= next.name.toLowerCase() ? 1 : -1,
     Cell: ({ value }) => (
       <Link
         className={styles.wrapper}
@@ -33,7 +35,7 @@ const getColumns = ({ timeWindow }) => [
     maxWidth: 100,
     accessor: 'change',
     Cell: ({ value }) =>
-      value ? <PercentChanges changes={value} /> : 'No data'
+      value ? <PercentChanges changes={value * 100} /> : 'No data'
   },
   {
     Header: '',
