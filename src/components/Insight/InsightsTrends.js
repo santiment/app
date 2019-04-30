@@ -17,6 +17,8 @@ const InsightsTrends = ({ allInsightsByTag, ...props }) => {
   )
 }
 
+export const oneDayTimestamp = 1000 * 60 * 60 * 24
+
 export const getInsightTrendTagByDate = date =>
   `${date.getUTCDate()}-${date.getUTCMonth()}-${date.getUTCFullYear()}-trending-words`
 

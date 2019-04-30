@@ -10,10 +10,11 @@ import {
 import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../queries/InsightsGQL'
 import { binarySearch } from './utils'
 import { simpleSortStrings } from '../../utils/sortMethods'
-import { getInsightTrendTagByDate } from '../../components/Insight/InsightsTrends'
+import {
+  getInsightTrendTagByDate,
+  oneDayTimestamp
+} from '../../components/Insight/InsightsTrends'
 import { creationDateSort } from '../Insights/utils'
-
-const oneDayTimestamp = 1000 * 60 * 60 * 24
 
 const tickerCheckClb = (target, { ticker }) => target === ticker
 const tickerMoveClb = (target, { ticker }) => target < ticker
