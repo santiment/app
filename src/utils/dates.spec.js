@@ -1,5 +1,9 @@
 /* eslint-env jest */
-import { dateDifferenceInWords } from './dates'
+import {
+  dateDifferenceInWords,
+  getIntervalByTimeRange,
+  getTimeIntervalFromToday
+} from './dates'
 
 const TO = new Date('2019-04-08T08:05:50.038Z')
 
@@ -207,5 +211,55 @@ describe('dateDifferenceInWords', () => {
         '11 months ago'
       )
     })
+  })
+})
+
+describe('getIntervalByTimeRange', () => {
+  it('1d', () => {
+    expect(getIntervalByTimeRange('1d')).toEqual(
+      getTimeIntervalFromToday(-1, 'd')
+    )
+  })
+
+  it('7d', () => {
+    expect(getIntervalByTimeRange('7d')).toEqual(
+      getTimeIntervalFromToday(-7, 'd')
+    )
+  })
+
+  it('1w', () => {
+    expect(getIntervalByTimeRange('1w')).toEqual(
+      getTimeIntervalFromToday(-7, 'd')
+    )
+  })
+
+  it('3w', () => {
+    expect(getIntervalByTimeRange('3w')).toEqual(
+      getTimeIntervalFromToday(-3 * 7, 'd')
+    )
+  })
+
+  it('1m', () => {
+    expect(getIntervalByTimeRange('1m')).toEqual(
+      getTimeIntervalFromToday(-1, 'm')
+    )
+  })
+
+  it('12m', () => {
+    expect(getIntervalByTimeRange('12m')).toEqual(
+      getTimeIntervalFromToday(-12, 'm')
+    )
+  })
+
+  it('1y', () => {
+    expect(getIntervalByTimeRange('1y')).toEqual(
+      getTimeIntervalFromToday(-1 * 12, 'm')
+    )
+  })
+
+  it('3y', () => {
+    expect(getIntervalByTimeRange('3y')).toEqual(
+      getTimeIntervalFromToday(-3 * 12, 'm')
+    )
   })
 })

@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from 'moment'
 import { Button, Popup, Input } from 'semantic-ui-react'
 import { compose, withState } from 'recompose'
 import copy from 'copy-to-clipboard'
@@ -75,7 +74,7 @@ const ShareableBtn = enhance(
           {sanbaseChartImg && (
             <div className='shareable-image'>
               <a
-                download={`sanbase-chart-${ticker.toUpperCase()}-${moment().format()}.jpg`}
+                download={`sanbase-chart-${ticker.toUpperCase()}-${new Date().toISOString()}.jpg`}
                 href={sanbaseChartImg}
               >
                 Download JPG

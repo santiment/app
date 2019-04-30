@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from 'moment'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -10,6 +9,7 @@ import {
 } from 'recharts'
 import { generateMetricsMarkup } from './../SANCharts/utils'
 import { formatNumber } from './../../utils/formatting'
+import { getDateFormats } from '../../utils/dates'
 
 const VisualBacktestChart = ({ data, price, metrics }) => {
   return (
@@ -19,9 +19,12 @@ const VisualBacktestChart = ({ data, price, metrics }) => {
           dataKey='datetime'
           type='number'
           scale='time'
-          tickLine={true}
-          allowDataOverflow={true}
-          tickFormatter={timeStr => moment.unix(timeStr).format('MMM YY')}
+          tickLine
+          allowDataOverflow
+          tickFormatter={timeStr => {
+            const { MMM, YY } = getDateFormats(new Date(timeStr))
+            return `${MMM} ${YY}`
+          }}
           domain={['dataMin', 'dataMax']}
         />
         <YAxis hide />
@@ -37,7 +40,10 @@ const VisualBacktestChart = ({ data, price, metrics }) => {
             />
           ))}
         <Tooltip
-          labelFormatter={date => moment.unix(date).format('dddd, MMM DD YYYY')}
+          labelFormatter={date => {
+            const { dddd, MMM, DD, YYYY } = getDateFormats(new Date(date))
+            return `${dddd}, ${MMM} ${DD} ${YYYY}`
+          }}
           content={<CustomTooltip />}
         />
       </ComposedChart>

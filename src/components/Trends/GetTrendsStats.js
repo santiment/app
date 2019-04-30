@@ -1,6 +1,6 @@
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { getStartOfTheDay, getTimeFromFromString } from './../../utils/utils'
+import { getIntervalByTimeRange } from '../../utils/dates'
 
 export const trendsStatsExploreGQL = gql`
   query elasticsearchStats($from: DateTime!, $to: DateTime!) {
@@ -28,10 +28,13 @@ const makeProps = () => ({
 
 export default graphql(trendsStatsExploreGQL, {
   props: makeProps(),
-  options: ({ timeRange }) => ({
-    variables: {
-      to: getStartOfTheDay(),
-      from: getTimeFromFromString(timeRange)
+  options: ({ timeRange }) => {
+    const { from, to } = getIntervalByTimeRange(timeRange)
+    return {
+      variables: {
+        from: from.toISOString(),
+        to: to.toISOString()
+      }
     }
-  })
+  }
 })(GetTrendsStats)

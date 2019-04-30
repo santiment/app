@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from 'moment'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import ProjectChart from './../src/components/ProjectChart/ProjectChart'
@@ -25,10 +24,11 @@ storiesOf('ProjectChart', module)
         focusedInput='startDate'
         selected={null}
         changeDate={action('changeDates')}
-        startDate={moment('2017-12-21T00:00:00Z')}
-        endDate={moment('2017-12-28T00:00:00Z')}
+        startDate={new Date('2017-12-21T00:00:00Z')}
+        endDate={new Date('2017-12-28T00:00:00Z')}
         showBTC={action('showBTC')}
-        showUSD={action('showUSD')} />
+        showUSD={action('showUSD')}
+      />
     </Panel>
   ))
   .add('with 1 month history', () => (
@@ -46,10 +46,11 @@ storiesOf('ProjectChart', module)
         isToggledMatketCap={false}
         selected={null}
         changeDate={action('changeDates')}
-        startDate={moment('2017-11-28T00:00:00Z')}
-        endDate={moment('2017-12-28T00:00:00Z')}
+        startDate={new Date('2017-11-28T00:00:00Z')}
+        endDate={new Date('2017-12-28T00:00:00Z')}
         showBTC={action('showBTC')}
-        showUSD={action('showUSD')} />
+        showUSD={action('showUSD')}
+      />
     </Panel>
   ))
   .add('is loading', () => (
@@ -59,10 +60,11 @@ storiesOf('ProjectChart', module)
         interval='1m'
         isLoading
         changeDate={action('changeDates')}
-        startDate={moment('2017-11-28T00:00:00Z')}
-        endDate={moment('2017-12-28T00:00:00Z')}
+        startDate={new Date('2017-11-28T00:00:00Z')}
+        endDate={new Date('2017-12-28T00:00:00Z')}
         showBTC={action('showBTC')}
-        showUSD={action('showUSD')} />
+        showUSD={action('showUSD')}
+      />
     </Panel>
   ))
   .add('is error', () => (
@@ -71,10 +73,11 @@ storiesOf('ProjectChart', module)
         setFilter={action('setFilter')}
         isError
         changeDate={action('changeDates')}
-        startDate={moment('2017-11-28T00:00:00Z')}
-        endDate={moment('2017-12-28T00:00:00Z')}
+        startDate={new Date('2017-11-28T00:00:00Z')}
+        endDate={new Date('2017-12-28T00:00:00Z')}
         showBTC={action('showBTC')}
-        showUSD={action('showUSD')} />
+        showUSD={action('showUSD')}
+      />
     </Panel>
   ))
   .add('is empty', () => (
@@ -84,9 +87,10 @@ storiesOf('ProjectChart', module)
         isEmpty
         isLoading={false}
         changeDate={action('changeDates')}
-        startDate={moment('2017-11-28T00:00:00Z')}
-        endDate={moment('2017-12-28T00:00:00Z')}
+        startDate={new Date('2017-11-28T00:00:00Z')}
+        endDate={new Date('2017-12-28T00:00:00Z')}
         showBTC={action('showBTC')}
-        showUSD={action('showUSD')} />
+        showUSD={action('showUSD')}
+      />
     </Panel>
   ))
