@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
@@ -8,88 +8,56 @@ import InsightCard from '../../Insight/InsightCardWithMarketcap'
 import News from '../../../components/News/News'
 import styles from './TrendsExploreAdditionalInfo.module.scss'
 
-const newsTabDefault = { content: 'News', index: 'News' }
-const insightsTabDefault = { content: 'Insights', index: 'Insights' }
+const NEWS_INDEX = 'News'
+const INSIGHTS_INDEX = 'Insights'
 
-class TrendsExploreAdditionalInfo extends React.PureComponent {
-  state = {
-    newsTab: newsTabDefault,
-    insightsTab: insightsTabDefault,
-    selectedTab: newsTabDefault.index
+const TrendsExploreAdditionalInfo = ({
+  news,
+  isLoadingNews,
+  isErrorNews,
+  insights,
+  isLoadingInsights
+}) => {
+  let [insightsLength, setInsightsLength] = useState(insights.length)
+  let [selectedTab, setSelectedTab] = useState(NEWS_INDEX)
+
+  if (insights.length !== insightsLength && insights.length > 0) {
+    setInsightsLength(insights.length)
+    setSelectedTab(INSIGHTS_INDEX)
   }
 
-  static getDerivedStateFromProps (props, state) {
-    const newsLength = props.news.length
-    const insightsLength = props.insights.length
-
-    const newsContent = `${newsTabDefault.index} (${newsLength})`
-    const insightsContent = `${insightsTabDefault.index} (${insightsLength})`
-
-    if (
-      newsContent !== state.newsTab.content ||
-      insightsContent !== state.insightsTab.content
-    ) {
-      const newsTab = { ...state.newsTab, content: newsContent }
-      const insightsTab = { ...state.insightsTab, content: insightsContent }
-
-      let selectedTab
-      if (state.selectedTab === insightsTabDefault.index) {
-        selectedTab =
-          insightsLength > 0 ? insightsTabDefault.index : newsTabDefault.index
-      } else {
-        selectedTab =
-          newsLength > 0 ? newsTabDefault.index : insightsTabDefault.index
-      }
-
-      return { ...state, newsTab, insightsTab, selectedTab }
+  function handleSelectTab (tab) {
+    if (tab !== selectedTab) {
+      setSelectedTab(tab)
     }
-
-    return null
   }
 
-  render () {
-    const { newsTab, insightsTab, selectedTab } = this.state
-    const {
-      news,
-      isErrorNews,
-      isLoadingNews,
-      insights,
-      isLoadingInsights
-    } = this.props
+  const newsTab = {
+    index: NEWS_INDEX,
+    content: `${NEWS_INDEX} (${news.length})`
+  }
+  const insightsTab = {
+    index: INSIGHTS_INDEX,
+    content: `${INSIGHTS_INDEX} (${insights.length})`
+  }
 
-    let isNotVisible = isErrorNews || isLoadingNews || isLoadingInsights
+  const isNotVisible = isErrorNews || isLoadingNews || isLoadingInsights
 
-    const tabs = []
-    const tabsDisabled = []
-    insights.length > 0
-      ? tabs.push(insightsTab)
-      : tabsDisabled.push(insightsTab)
-    news.length > 0 ? tabs.push(newsTab) : tabsDisabled.push(newsTab)
+  const tabs = []
+  if (insights.length > 0) tabs.push(insightsTab)
+  if (news.length > 0) tabs.push(newsTab)
 
-    console.log(
-      'isNotVisible: ',
-      isNotVisible,
-      'tabs: ',
-      tabs,
-      'insights: ',
-      insights,
-      'news: ',
-      news
-    )
-
-    if (tabs.length === 0 || isNotVisible) return null
-    return (
-      <section className={styles.wrapper}>
-        <Tabs
-          options={tabs}
-          defaultSelectedIndex={selectedTab}
-          disabledIndexes={tabsDisabled}
-          onSelect={this.handleSelectTab}
-        />
-        {news.length > 0 && selectedTab === newsTab.index && (
-          <News data={news} />
-        )}
-        {insights.length > 0 && selectedTab === insightsTab.index && (
+  if (tabs.length === 0 || isNotVisible) return null
+  return (
+    <section className={styles.wrapper}>
+      <Tabs
+        options={tabs}
+        defaultSelectedIndex={selectedTab}
+        onSelect={handleSelectTab}
+      />
+      <div className={styles.tabsContent}>
+        {news.length > 0 && selectedTab === NEWS_INDEX && <News data={news} />}
+        {insights.length > 0 && selectedTab === INSIGHTS_INDEX && (
           <div className={styles.insights}>
             {insights.map(insight => (
               <InsightCard
@@ -100,15 +68,16 @@ class TrendsExploreAdditionalInfo extends React.PureComponent {
             ))}
           </div>
         )}
-      </section>
-    )
-  }
+      </div>
+    </section>
+  )
+}
 
-  handleSelectTab = tab => {
-    if (tab !== this.state.selectedTab) {
-      this.setState({ selectedTab: tab })
-    }
-  }
+const filteredInsightsByTrends = insights => {
+  const isTrend = tagName => tagName.endsWith('trending-words')
+  return insights.filter(
+    insight => insight.tags.find(tag => isTrend(tag.name)) !== undefined
+  )
 }
 
 const mapStateToProps = ({ news: { data = [], isLoading, isError } }) => ({
@@ -126,7 +95,7 @@ const enhance = compose(
       }
     }),
     props: ({ data: { allInsightsByTag = [], loading } }) => ({
-      insights: allInsightsByTag,
+      insights: filteredInsightsByTrends(allInsightsByTag),
       isLoadingInsights: loading
     })
   })

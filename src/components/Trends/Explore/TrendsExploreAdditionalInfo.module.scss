@@ -10,13 +10,18 @@
   }
 }
 
+.tabsContent {
+  display: flex;
+  padding: 40px 0;
+  margin-top: -1px;
+  border-top: 1px solid var(--porcelain);
+}
+
 .insights {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  border-top: 1px solid var(--porcelain);
-  padding: 40px 0;
-  margin-top: -1px;
+  width: 100%;
 
   @include responsive('phone-xs') {
     justify-content: center;
@@ -27,7 +32,7 @@
 
 .insight {
   width: 32%;
-  min-width: 318px;
+  min-width: auto;
   margin-bottom: 2%;
   margin-right: 2%;
 
