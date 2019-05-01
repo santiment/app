@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react'
-import moment from 'moment'
 import { connect } from 'react-redux'
 import { Bar } from 'recharts'
 import { Message } from '@santiment-network/ui'
@@ -27,7 +26,7 @@ const CHART_SETTINGS = {
 }
 
 const normalizeTimeseries = items =>
-  items.map(item => ({ ...item, datetime: moment(item.datetime).unix() }))
+  items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
 const getTimerangeByType = type =>
   PREVIEWS_TIMERANGE_BY_TYPE[type] ? PREVIEWS_TIMERANGE_BY_TYPE[type] : '3m'

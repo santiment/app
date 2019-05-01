@@ -1,11 +1,8 @@
-import moment from 'moment'
 import { Observable } from 'rxjs'
 import * as actions from './actions'
 import { handleErrorAndTriggerAction } from './../../epics/utils'
-import {
-  mergeTimeseriesByKey,
-  getTimeFromFromString
-} from './../../utils/utils'
+import { mergeTimeseriesByKey } from './../../utils/utils'
+import { getIntervalByTimeRange } from '../../utils/dates'
 import {
   hasMetric,
   getMetricQUERY,
@@ -91,14 +88,24 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
       const { interval, from = null, to = null, ...rest } = action.payload[
         metric
       ]
+
+      const timePeriod = {}
+      if (!from || !to) {
+        const { from: fromDate, to: toDate } = getIntervalByTimeRange(
+          rest.timeRange
+        )
+        timePeriod.from = fromDate.toISOString()
+        timePeriod.to = toDate.toISOString()
+      }
+
       return Observable.fromPromise(
         client
           .query({
             query: getMetricQUERY(metric),
             variables: {
               interval: interval || '1d',
-              to: to || moment().toISOString(),
-              from: from || getTimeFromFromString(rest.timeRange),
+              to: to || timePeriod.to,
+              from: from || timePeriod.from,
               ...rest
             }
           })

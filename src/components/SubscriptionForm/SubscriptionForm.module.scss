@@ -19,7 +19,7 @@
       display: block;
     }
 
-    @include responsive('phone-xs') {
+    @include responsive('phone-xs', 'phone') {
       align-items: baseline;
       width: 100%;
     }
@@ -38,7 +38,7 @@
     padding: 6px 23px;
 
     @include responsive('phone-xs') {
-      margin-top: 15px;
+      margin-top: 8px;
       width: 100%;
       display: block;
       position: relative;

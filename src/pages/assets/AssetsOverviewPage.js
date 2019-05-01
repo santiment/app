@@ -14,13 +14,14 @@ import { DesktopOnly, MobileOnly } from './../../components/Responsive'
 import { checkIsLoggedIn } from './../UserSelectors'
 import { PUBLIC_WATCHLISTS, CATEGORIES } from './assets-overview-constants'
 import styles from './AssetsOverview.module.scss'
+import PageLoader from '../../components/PageLoader'
 
 const tabs = [
   { content: 'Categories', index: 'categories' },
   { content: 'My Watchlists', index: 'myWatchlists' }
 ]
 
-const AssetsOverview = ({ slugs, isLoggedIn }) => {
+const AssetsOverview = ({ slugs, isLoggedIn, isPublicWatchlistsLoading }) => {
   const [selectedTab, selectTab] = useState(tabs[0].index)
   const onSelectTab = selected => selectTab(selected)
   const availableTabs = isLoggedIn ? tabs : tabs.slice(0, -1)
@@ -51,7 +52,8 @@ const AssetsOverview = ({ slugs, isLoggedIn }) => {
         )}
       </DesktopOnly>
       <MobileOnly>
-        {selectedTab === 'categories' && (
+        {isPublicWatchlistsLoading && <PageLoader />}
+        {!isPublicWatchlistsLoading && selectedTab === 'categories' && (
           <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
         )}
         {isLoggedIn && selectedTab === 'myWatchlists' && (

@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 import WordCloud, {
   WordCloud as UnwrappedWordCloud,
 } from './../src/components/WordCloud/WordCloud'
-import HypedWordsBlock from '../src/components/Trends/HypedWordsBlock'
 import store from './store'
 
 const defaultWords = [
@@ -38,9 +37,6 @@ storiesOf('WordCloud', module)
   ))
   .add('With Trends', () => (
     <div>
-      <HypedWordsBlock
-        trends={[{ word: 'bitcoin', score: 5 }, { word: 'eth', score: 4 }]}
-      />
       <WordCloud word='bitcoin' />
     </div>
   ))

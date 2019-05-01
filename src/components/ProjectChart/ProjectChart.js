@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import moment from 'moment'
 import { Chart, Bar } from 'react-chartjs-2'
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
@@ -8,8 +7,12 @@ import 'chartjs-plugin-datalabels'
 import annotation from 'chartjs-plugin-annotation'
 import watermark from 'chartjs-plugin-watermark'
 import { formatNumber, formatBTC, millify } from './../../utils/formatting'
-import { findIndexByDatetime } from './../../utils/utils'
 import logo from './../../assets/logo_sanbase.png'
+import {
+  getUTCTimeFormats,
+  getUTCDateFormats,
+  dateDifference
+} from '../../utils/dates'
 import './ProjectChart.css'
 import './react-dates-override.css'
 
@@ -70,8 +73,17 @@ const makeChartDataFromHistory = (
   const transactionVolume = props.transactionVolume.items || []
   const dailyActiveAddresses = props.dailyActiveAddresses.items || []
   const exchangeFundFlow = props.exchangeFundFlow.items || []
-  const labels = history ? history.map(data => moment(data.datetime).utc()) : []
-  const eventIndex = findIndexByDatetime(labels, '2018-01-13T18:00:00Z')
+
+  let eventIndex = -1
+  const labels = history
+    ? history.map((data, i) => {
+      if (data.datetime === '2018-01-13T18:00:00Z') {
+        eventIndex = i
+      }
+      return new Date(data.datetime)
+    })
+    : []
+
   const priceDataset = {
     label: 'Price',
     type: 'LineWithLine',
@@ -488,9 +500,11 @@ const makeOptionsFromProps = (props, COLORS) => {
       displayColors: true,
       callbacks: {
         title: item => {
-          return moment(item[0].xLabel).format(
-            'dddd, MMM DD YYYY, HH:mm:ss UTC'
-          )
+          const date = new Date(item[0].xLabel)
+          const { dddd, MMM, DD, YYYY } = getUTCDateFormats(date)
+          const { HH, mm, ss } = getUTCTimeFormats(date)
+
+          return `${dddd}, ${MMM} ${DD} ${YYYY}, ${HH}:${mm}:${ss} UTC`
         },
         label: (tooltipItem, data) => {
           const label = data.datasets[tooltipItem.datasetIndex].label.toString()
@@ -768,9 +782,9 @@ const makeOptionsFromProps = (props, COLORS) => {
                 Math.max(
                   ...props.ethSpentOverTime.items
                     .filter(data => {
+                      const date = new Date(data.datetime)
                       return (
-                        moment(data.datetime).isAfter(props.from) &&
-                        moment(data.datetime).isBefore(props.to)
+                        date > new Date(props.from) && date < new Date(props.to)
                       )
                     })
                     .map(data => data.ethSpent)
@@ -880,8 +894,8 @@ const makeOptionsFromProps = (props, COLORS) => {
           time: {
             min:
               props.history && props.history.length > 0
-                ? moment(props.history[0].datetime)
-                : moment()
+                ? new Date(props.history[0].datetime)
+                : new Date()
           },
           ticks: {
             autoSkipPadding: 1,
@@ -890,16 +904,24 @@ const makeOptionsFromProps = (props, COLORS) => {
               if (!values[index]) {
                 return
               }
-              const time = moment.utc(values[index]['value'])
+              const time = new Date(values[index]['value'])
               const { from, to } = props.timeFilter
-              const diff = moment(to).diff(from, 'days')
-              if (diff <= 1) {
-                return time.format('HH:mm')
+
+              const { diff } = dateDifference({
+                from: new Date(from),
+                to: new Date(to),
+                format: 'd'
+              })
+
+              const { D, MMM, MMMM, YYYY } = getUTCDateFormats(time)
+              const { HH, mm } = getUTCTimeFormats(time)
+              if (diff <= 3) {
+                return `${HH}:${mm}`
               }
-              if (diff > 1 && diff < 95) {
-                return time.format('D MMM')
+              if (diff < 95) {
+                return `${D} ${MMM}`
               }
-              return time.format('MMMM Y')
+              return `${MMMM} ${YYYY}`
             }
           },
           gridLines: {

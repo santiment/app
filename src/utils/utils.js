@@ -1,14 +1,7 @@
 import sanitizeHtml from 'sanitize-html'
 import { createFactory } from 'react'
-import moment from 'moment'
 import * as qs from 'query-string'
 import ms from 'ms'
-
-const findIndexByDatetime = (labels, datetime) => {
-  return labels.findIndex(label => {
-    return label.isSame(datetime)
-  })
-}
 
 const calculateBTCVolume = ({ volume, priceUsd, priceBtc }) => {
   return (parseFloat(volume) / parseFloat(priceUsd)) * parseFloat(priceBtc)
@@ -82,7 +75,8 @@ const binarySearchDirection = {
 }
 
 const isCurrentDatetimeBeforeTarget = (current, target) =>
-  moment(current.datetime).isBefore(moment(target))
+  new Date(current.datetime) < new Date(target)
+/* moment(current.datetime).isBefore(moment(target)) */
 
 const binarySearchHistoryPriceIndex = (history, targetDatetime) => {
   let start = 0
@@ -105,7 +99,10 @@ const binarySearchHistoryPriceIndex = (history, targetDatetime) => {
     middle = Math.floor((start + stop) / 2)
   }
   // Correcting the result to the first data of post's creation date
-  while (!isCurrentDatetimeBeforeTarget(history[middle], targetDatetime)) {
+  while (
+    middle > 0 &&
+    !isCurrentDatetimeBeforeTarget(history[middle], targetDatetime)
+  ) {
     middle--
   }
 
@@ -297,21 +294,6 @@ const pickFork = (...forks) => props => {
  */
 const isEthStrictAddress = address => /^0x[0-9a-f]{40}$/i.test(address)
 
-const getTimeRangeByDuration = timeWindow => {
-  const unit = timeWindow.slice(-1)
-  const timeAmount = timeWindow.slice(0, -1)
-  return {
-    to: moment()
-      .startOf('hour')
-      .toISOString(),
-    from: moment()
-      .startOf('hour')
-      .subtract(timeAmount, unit)
-      .toISOString(),
-    timeWindow
-  }
-}
-
 const mapItemsToKeys = (items, { keyPath, getKeyPath }) =>
   items.reduce(
     (prev, next) => ({
@@ -337,7 +319,6 @@ const calcPercentageChange = (originalValue, newValue) => {
 }
 
 export {
-  findIndexByDatetime,
   calculateBTCVolume,
   calculateBTCMarketcap,
   calcPercentageChange,
@@ -358,6 +339,5 @@ export {
   fork,
   pickFork,
   isEthStrictAddress,
-  getTimeRangeByDuration,
   mapItemsToKeys
 }

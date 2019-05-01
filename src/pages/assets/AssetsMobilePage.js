@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { List, AutoSizer } from 'react-virtualized'
+import PageLoader from '../../components/PageLoader'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import GetAssets, { SORT_TYPES } from './GetAssets'
 import AssetCard from './AssetCard'
@@ -16,7 +17,7 @@ const AssetsMobilePage = props => {
         sortBy={SORT_TYPES.marketcap}
         type={props.type}
         render={Assets => {
-          return !Assets.isLoading && <AssetsList {...Assets} />
+          return Assets.isLoading ? <PageLoader /> : <AssetsList {...Assets} />
         }}
       />
     </div>

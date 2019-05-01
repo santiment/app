@@ -1,76 +1,39 @@
-import moment from 'moment'
 import outliers from 'outliers'
+import { getIntervalByTimeRange } from '../../utils/dates'
 
-export const makeItervalBounds = interval => {
+export const makeItervalBounds = (interval = '1m') => {
+  const { from, to } = getIntervalByTimeRange(interval)
+  const result = {
+    from: from.toISOString(),
+    to: to.toISOString()
+  }
+
   switch (interval) {
     case '1d':
-      return {
-        from:
-          moment()
-            .subtract(1, 'd')
-            .utc()
-            .format('YYYY-MM-DD') + 'T00:00:00Z',
-        to: moment()
-          .utc()
-          .format(),
-        minInterval: '5m'
-      }
+      result.minInterval = '5m'
+      break
+
     case '1w':
-      return {
-        from: moment()
-          .subtract(1, 'weeks')
-          .utc()
-          .format(),
-        to: moment()
-          .utc()
-          .format(),
-        minInterval: '1h'
-      }
+      result.minInterval = '1h'
+      break
+
     case '2w':
-      return {
-        from: moment()
-          .subtract(2, 'weeks')
-          .utc()
-          .format(),
-        to: moment()
-          .utc()
-          .format(),
-        minInterval: '1h'
-      }
+      result.minInterval = '1h'
+      break
+
     case '3m':
-      return {
-        from: moment()
-          .subtract(3, 'months')
-          .utc()
-          .format(),
-        to: moment()
-          .utc()
-          .format(),
-        minInterval: '1d'
-      }
+      result.minInterval = '1d'
+      break
+
     case 'all':
-      return {
-        from: moment()
-          .subtract(2, 'years')
-          .utc()
-          .format(),
-        to: moment()
-          .utc()
-          .format(),
-        minInterval: '1d'
-      }
+      result.minInterval = '1d'
+      break
+
     default:
-      return {
-        from: moment()
-          .subtract(1, 'months')
-          .utc()
-          .format(),
-        to: moment()
-          .utc()
-          .format(),
-        minInterval: '1h'
-      }
+      result.minInterval = '1h'
   }
+
+  return result
 }
 
 export const normalizeData = ({ data = [], fieldName, filter = 'all' }) => {

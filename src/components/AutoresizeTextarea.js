@@ -28,13 +28,15 @@ class AutoresizeTextarea extends Component {
     const textarea = this.inputRef.current
     const textareaOneLineHeight = textarea.clientHeight
 
-    textarea.rows = textarea.scrollHeight / textareaOneLineHeight
+    textarea.rows = Math.ceil(textarea.scrollHeight / textareaOneLineHeight)
     this.textareaOneLineHeight = textareaOneLineHeight
   }
 
   onChange = ({ currentTarget }) => {
     currentTarget.rows = 1
-    currentTarget.rows = currentTarget.scrollHeight / this.textareaOneLineHeight
+    currentTarget.rows = Math.ceil(
+      currentTarget.scrollHeight / this.textareaOneLineHeight
+    )
 
     const { value } = currentTarget
 

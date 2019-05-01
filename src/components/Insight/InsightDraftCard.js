@@ -2,10 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Panel, Icon } from '@santiment-network/ui'
 import cx from 'classnames'
-import moment from 'moment'
 import MultilineText from '../MultilineText/MultilineText'
 import InsightDraftCardDeleteBtn from './InsightDraftCardDeleteBtn'
 import { getSEOLinkFromIdAndTitle } from '../../pages/Insights/utils'
+import { dateDifferenceInWords } from '../../utils/dates'
 import styles from './InsightDraftCard.module.scss'
 
 const getInsightContent = htmlContent => {
@@ -39,7 +39,9 @@ const InsightDraftCard = ({
           text={getInsightContent(text)}
         />
       </p>
-      <h4 className={styles.date}>Edited {moment(updatedAt).fromNow()}</h4>
+      <h4 className={styles.date}>
+        Edited {dateDifferenceInWords({ from: new Date(updatedAt) })}
+      </h4>
       <InsightDraftCardDeleteBtn onDeleteClick={onDeleteClick} />
       <Link to={`/insights/edit/${id}`}>
         <Icon type='edit' className={styles.edit} />

@@ -6,7 +6,7 @@ export const initialState = {
     timeframe: 'all',
     from: undefined,
     to: undefined,
-    interval: '1d'
+    interval: '7d'
   }
 }
 

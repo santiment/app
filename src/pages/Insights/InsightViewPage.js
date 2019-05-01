@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import moment from 'moment'
 import { Helmet } from 'react-helmet'
 import { convertToRaw } from 'draft-js'
 import mediumDraftImporter from 'medium-draft/lib/importer'
@@ -14,6 +13,7 @@ import LikeBtn from '../../components/Like/LikeBtn'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import { getInsightContent } from './utils'
+import { getDateFormats } from '../../utils/dates'
 import AnonBannerStatic from '../../components/Banner/AnonBannerStatic'
 import AnonBannerSticky from '../../components/Banner/AnonBannerSticky'
 import styles from './InsightViewPage.module.scss'
@@ -30,6 +30,7 @@ const InsightViewPage = ({
   isDesktop,
   isLoggedIn
 }) => {
+  const { MMM, D, YYYY } = getDateFormats(new Date(createdAt))
   const [bannerRef, setBannerRef] = useState()
 
   const measuredRef = useCallback(node => {
@@ -60,7 +61,7 @@ const InsightViewPage = ({
             withPic
             className={styles.profile}
             name={<Link to={`/insights/users/${userId}`}>{username}</Link>}
-            status={moment(createdAt).format('MMM D, YYYY')}
+            status={`${MMM} ${D}, ${YYYY}`}
           />
         </div>
         <InsightEditorTitle defaultValue={title} readOnly />

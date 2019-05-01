@@ -1,7 +1,5 @@
 import React from 'react'
-import { DesktopOnly, MobileOnly } from './../Responsive'
 import BannerDesktop from './BannerDesktop'
-import BannerMobile from './BannerMobile'
 
 const BOTTOM_BANNER_EXTRA_VIEWPORT = 100
 
@@ -32,15 +30,10 @@ class AnonBannerSticky extends React.PureComponent {
 
   render () {
     return (
-      <>
-        <DesktopOnly>
-          <BannerDesktop
-            isVisible={this.state.isVisible}
-            checkVisibility={this.checkVisibility}
-          />
-        </DesktopOnly>
-        <MobileOnly>{!this.state.isVisible && <BannerMobile />}</MobileOnly>
-      </>
+      <BannerDesktop
+        isVisible={this.state.isVisible}
+        checkVisibility={this.checkVisibility}
+      />
     )
   }
 }

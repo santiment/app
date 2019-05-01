@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from 'moment'
 import withSizes from 'react-sizes'
 import { compose, withProps, branch, renderComponent } from 'recompose'
 import {
@@ -20,6 +19,7 @@ import mixWithPaywallArea from './../PaywallArea/PaywallArea'
 import PaywallMessage from './../PaywallMessage/PaywallMessage'
 import { sourcesMeta as chartsMeta } from './trendsUtils'
 import { mapSizesToProps } from '../../App'
+import { getDateFormats } from '../../utils/dates'
 import styles from './TrendsReChart.module.scss'
 
 const toggleCharts = Object.keys(chartsMeta).filter(key => key !== 'total')
@@ -74,6 +74,16 @@ const useToggles = (defaultState = []) => {
   return [state, setToggles]
 }
 
+const tickFormatter = date => {
+  const { DD, MMM, YYYY } = getDateFormats(new Date(date))
+  return `${DD} ${MMM} ${YYYY}`
+}
+
+const labelFormatter = date => {
+  const { dddd, MMM, DD, YYYY } = getDateFormats(new Date(date))
+  return `${dddd}, ${MMM} ${DD} ${YYYY}`
+}
+
 const TrendsReChart = ({
   chartSummaryData = [],
   chartData,
@@ -105,7 +115,7 @@ const TrendsReChart = ({
                   tickLine={false}
                   tickMargin={5}
                   minTickGap={100}
-                  tickFormatter={timeStr => moment(timeStr).format('DD MMM YY')}
+                  tickFormatter={tickFormatter}
                 />
                 <YAxis />
                 <YAxis
@@ -122,9 +132,7 @@ const TrendsReChart = ({
                   stroke='#ebeef5'
                 />
                 <Tooltip
-                  labelFormatter={date =>
-                    moment(date).format('dddd, MMM DD YYYY')
-                  }
+                  labelFormatter={labelFormatter}
                   formatter={(value, name) => {
                     if (name === `${asset}/USD`) {
                       return formatNumber(value, { currency: 'USD' })
@@ -293,15 +301,12 @@ export default compose(
       calcSumOfMentions(chartsMeta)
     )(chartData)
 
+    const currentDate = new Date()
+    currentDate.setHours(0, 0, 0, 0)
+
     chartSummaryData.forEach(({ index }) => {
       chartData.forEach(data => {
-        if (
-          moment(data.datetime).isBefore(
-            moment()
-              .startOf('day')
-              .toISOString()
-          )
-        ) {
+        if (new Date(data.datetime) < currentDate) {
           if (data[index] === undefined) {
             data[index] = 0
           }

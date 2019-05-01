@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import moment from 'moment'
 import cx from 'classnames'
 import { Selector } from '@santiment-network/ui'
 import {
@@ -16,6 +15,7 @@ import {
   combineDataset,
   generateWidgetData
 } from './totalMarketcapWidgetUtils'
+import { getDateFormats } from '../../utils/dates'
 import { formatNumber, millify } from '../../utils/formatting'
 
 import './TotalMarketcapWidget.scss'
@@ -26,6 +26,16 @@ const WidgetMarketView = {
 }
 
 // NOTE(vanguard): Linear gradient should use css vars?
+
+const labelFormatter = date => {
+  const { dddd, MMM, DD, YYYY } = getDateFormats(new Date(date))
+  return `${dddd}, ${MMM} ${DD} ${YYYY}`
+}
+
+const tickFormatter = date => {
+  const { DD, MMM, YYYY } = getDateFormats(new Date(date))
+  return `${DD} ${MMM} ${YYYY}`
+}
 
 class TotalMarketcapWidget extends Component {
   state = {
@@ -165,7 +175,7 @@ class TotalMarketcapWidget extends Component {
             {restAreas}
             <XAxis
               dataKey='datetime'
-              tickFormatter={date => moment(date).format('DD MMM  YYYY')}
+              tickFormatter={tickFormatter}
               minTickGap={30}
               hide
             />
@@ -180,7 +190,7 @@ class TotalMarketcapWidget extends Component {
             />
 
             <Tooltip
-              labelFormatter={date => moment(date).format('dddd, MMM DD YYYY')}
+              labelFormatter={labelFormatter}
               formatter={value => formatNumber(value, { currency: 'USD' })}
               itemSorter={({ value }) => value}
             />

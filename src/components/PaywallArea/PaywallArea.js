@@ -1,21 +1,23 @@
 import React from 'react'
-import moment from 'moment'
 import { ReferenceArea } from 'recharts'
 import PaywallAreaShape from './PaywallAreaShape'
 import PaywallAreaLabel from './PaywallAreaLabel'
+import { dateDifference, DAY } from '../../utils/dates'
 
 const closesTo = (dateToCompare, datesArray) => {
-  const diff = datesArray.map(item =>
-    Math.abs(moment(dateToCompare).unix() - moment(item).unix())
-  )
+  const target = +new Date(dateToCompare)
+  const diff = datesArray.map(item => Math.abs(target - new Date(item)))
   const index = diff.indexOf(Math.min(...diff))
   return datesArray[index]
 }
 
 const isLessWeek = (end, start) => {
-  const duration = moment.duration(moment(end).diff(moment(start)))
-  const days = duration.asDays()
-  return days <= 7
+  const { diff } = dateDifference({
+    from: new Date(start),
+    to: new Date(end),
+    format: DAY
+  })
+  return diff <= 7
 }
 
 const mixWithPaywallArea = ({
@@ -32,12 +34,11 @@ const mixWithPaywallArea = ({
   }
   const datetimes = data.map(item => item.datetime)
   const startX = data[0].datetime
-  const endX = closesTo(
-    moment(data[data.length - 1])
-      .subtract(3, 'M')
-      .toISOString(),
-    datetimes
-  )
+
+  const date = new Date(data[data.length - 1].datetime)
+  date.setMonth(date.getMonth() - 3)
+  const endX = closesTo(date.toISOString(), datetimes)
+
   const startLastDayX = data[data.length - 2].datetime
   const endLastDayX = data[data.length - 1].datetime
   const y1 =

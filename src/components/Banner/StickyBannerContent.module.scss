@@ -26,10 +26,11 @@
 
   @include responsive('phone-xs', 'phone') {
     flex-direction: column;
-    padding: 19px 18px 40px;
+    padding: 16px;
     height: auto;
     width: auto;
     margin: 0 16px 16px;
+    bottom: 40px;
   }
 
   &__imageWrapper {
@@ -42,10 +43,7 @@
     }
 
     @include responsive('phone-xs', 'phone') {
-      width: 157px;
-      height: 144px;
-      margin-bottom: 7px;
-      margin-right: 0;
+      display: none;
     }
   }
 
@@ -73,9 +71,8 @@
     }
 
     @include responsive('phone-xs', 'phone') {
-      margin-bottom: 34px;
-      margin-right: 0;
-      text-align: center;
+      margin-bottom: 16px;
+      margin-right: 20px;
     }
   }
 
@@ -90,6 +87,12 @@
     line-height: 26px;
     color: var(--mirage);
     margin: 0 0 4px 0;
+
+    @include responsive('phone-xs', 'phone') {
+      font-size: 16px;
+      display: inline;
+      margin: 0 4px 0 0;
+    }
   }
 
   &__description {
@@ -99,6 +102,13 @@
     color: var(--waterloo);
     margin: 0;
     max-width: 374px;
+
+    @include responsive('phone-xs', 'phone') {
+      display: inline;
+      font-size: 16px;
+      line-height: 26px;
+      color: var(--mirage);
+    }
   }
 
   &__closeIcon {
