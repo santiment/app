@@ -1,40 +1,45 @@
 import React from 'react'
-import BannerDesktop from './BannerDesktop'
+import throttle from 'lodash.throttle'
+import StickyBannerContent from './StickyBannerContent'
 
 const BOTTOM_BANNER_EXTRA_VIEWPORT = 100
 
 class AnonBannerSticky extends React.PureComponent {
-  state = { isVisible: false }
+  state = { isVisibleStatic: true, isHiddenSticky: false }
 
   componentDidMount () {
     this.viewportHeight = window.innerHeight
+    window.addEventListener('scroll', this.throttledCheckVisibility)
   }
 
-  componentDidUpdate (prevProps) {
-    if (!prevProps.bannerStaticRef && this.props.bannerStaticRef) {
-      this.checkVisibility()
-    }
+  componentWillUnmount () {
+    window.removeEventListener('scroll', this.throttledCheckVisibility)
   }
 
   checkVisibility = () => {
-    const { bannerStaticRef } = this.props
+    const {
+      bannerStaticRef: { current }
+    } = this.props
 
-    if (bannerStaticRef) {
+    if (current) {
       const bannerTop =
-        bannerStaticRef.getBoundingClientRect().top +
-        BOTTOM_BANNER_EXTRA_VIEWPORT
-      const isVisible = bannerTop <= this.viewportHeight
-      this.setState({ isVisible })
+        current.getBoundingClientRect().top + BOTTOM_BANNER_EXTRA_VIEWPORT
+      const isVisibleStatic = bannerTop <= this.viewportHeight
+      this.setState({ isVisibleStatic })
     }
   }
 
+  throttledCheckVisibility = throttle(this.checkVisibility, 150)
+
+  hideBanner = () => {
+    this.setState({ isHiddenSticky: true })
+    window.removeEventListener('scroll', this.throttledCheckVisibility)
+  }
+
   render () {
-    return (
-      <BannerDesktop
-        isVisible={this.state.isVisible}
-        checkVisibility={this.checkVisibility}
-      />
-    )
+    const { isVisibleStatic, isHiddenSticky } = this.state
+    if (isHiddenSticky || isVisibleStatic) return null
+    return <StickyBannerContent onClose={this.hideBanner} />
   }
 }
 

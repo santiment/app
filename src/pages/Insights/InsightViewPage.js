@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useCallback } from 'react'
+import React, { Fragment, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { convertToRaw } from 'draft-js'
@@ -31,13 +31,7 @@ const InsightViewPage = ({
   isLoggedIn
 }) => {
   const { MMM, D, YYYY } = getDateFormats(new Date(createdAt))
-  const [bannerRef, setBannerRef] = useState()
-
-  const measuredRef = useCallback(node => {
-    if (node !== null) {
-      setBannerRef(node)
-    }
-  }, [])
+  const bannerRef = useRef()
 
   return (
     <Fragment>
@@ -97,10 +91,7 @@ const InsightViewPage = ({
         </div>
         {!isLoggedIn && (
           <>
-            <AnonBannerStatic
-              className={styles.banner}
-              bannerRef={measuredRef}
-            />
+            <AnonBannerStatic className={styles.banner} bannerRef={bannerRef} />
             <AnonBannerSticky bannerStaticRef={bannerRef} />
           </>
         )}
