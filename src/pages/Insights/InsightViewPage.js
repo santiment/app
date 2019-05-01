@@ -12,10 +12,10 @@ import WithLikesMutation from '../../components/Like/WithLikesMutation'
 import LikeBtn from '../../components/Like/LikeBtn'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
+import AnonBannerStaticExperiment from '../../components/Banner/AnonBanner/AnonBannerStaticExperiment'
+import AnonBannerSticky from '../../components/Banner/AnonBannerSticky'
 import { getInsightContent } from './utils'
 import { getDateFormats } from '../../utils/dates'
-import AnonBannerStatic from '../../components/Banner/AnonBannerStatic'
-import AnonBannerSticky from '../../components/Banner/AnonBannerSticky'
 import styles from './InsightViewPage.module.scss'
 
 const InsightViewPage = ({
@@ -91,7 +91,10 @@ const InsightViewPage = ({
         </div>
         {!isLoggedIn && (
           <>
-            <AnonBannerStatic className={styles.banner} bannerRef={bannerRef} />
+            <AnonBannerStaticExperiment
+              className={styles.banner}
+              bannerRef={bannerRef}
+            />
             <AnonBannerSticky bannerStaticRef={bannerRef} />
           </>
         )}

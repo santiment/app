@@ -1,0 +1,37 @@
+@import '../../../../node_modules/@santiment-network/ui/variables';
+@import '../../../mixins';
+
+.banner {
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 33px 60px 33px 24px;
+    background-image: url(./wavesB.svg);
+
+    @include responsive('phone-xs', 'phone') {
+      align-items: baseline;
+      flex-direction: column;
+    }
+  }
+
+  &__left {
+    flex: 1;
+  }
+
+  &__description {
+    margin: 0;
+    width: 100%;
+
+    @include responsive('phone-xs', 'phone') {
+      margin-bottom: 16px;
+      max-width: 250px;
+    }
+  }
+
+  &__btn {
+    width: 180px;
+    justify-content: center;
+    height: 40px;
+  }
+}

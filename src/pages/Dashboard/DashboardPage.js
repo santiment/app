@@ -7,7 +7,7 @@ import FeaturedWatchlists from '../../components/Watchlists/FeaturedWatchlist'
 import DashboardPageSubscription from './DashboardPageSubscription'
 import DashboardPageOnboard from './DashboardPageOnboard'
 import FeaturedInsightsScrollable from '../../components/FeaturedInsights/FeaturedInsightsScrollable'
-import AnonBannerStatic from '../../components/Banner/AnonBannerStatic'
+import AnonBannerStaticExperiment from '../../components/Banner/AnonBanner/AnonBannerStaticExperiment'
 import styles from './DashboardPage.module.scss'
 
 const More = ({ link }) => (
@@ -21,7 +21,7 @@ const DashboardPage = ({ isLoggedIn }) => (
     {isLoggedIn ? (
       <DashboardPageOnboard />
     ) : (
-      <AnonBannerStatic className={styles.anonBanner} />
+      <AnonBannerStaticExperiment className={styles.anonBanner} />
     )}
     <div className={styles.column}>
       <div className={styles.column__left}>
