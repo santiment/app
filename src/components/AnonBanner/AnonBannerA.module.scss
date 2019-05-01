@@ -1,0 +1,20 @@
+@import '~@santiment-network/ui/variables.scss';
+
+.banner {
+  &__top {
+    padding: 20px 24px;
+    background-color: $mirage;
+    background-image: url(./waves.svg);
+    background-repeat: no-repeat;
+    background-position: 107% 57%;
+    background-size: 52%;
+  }
+
+  &__title {
+    margin-bottom: 4px;
+  }
+
+  &__description {
+    margin-bottom: 16px;
+  }
+}
