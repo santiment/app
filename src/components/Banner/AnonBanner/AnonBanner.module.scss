@@ -1,28 +1,13 @@
-@import '~@santiment-network/ui/variables';
+@import '~@santiment-network/ui/variables.scss';
 @import '../../../mixins';
 
 .banner {
   &__top {
-    padding: 20px 24px 24px;
     margin-bottom: 50px;
-    background-color: $mirage;
-    background-image: url(./waves.svg);
-    background-repeat: no-repeat;
-    background-position: 107% 57%;
-    background-size: 52%;
+    border-radius: 4px;
 
     @include responsive('phone-xs', 'phone') {
       margin-bottom: 40px;
-    }
-
-    @include responsive('phone-xs', 'phone', 'tablet') {
-      background-size: 95%;
-      background-position: 600% 60%;
-    }
-
-    @include responsive('phone-xs') {
-      background-size: 115%;
-      background-position: -250% 57%;
     }
   }
 
@@ -30,14 +15,12 @@
     font-size: 18px;
     line-height: 26px;
     color: $white;
-    margin-bottom: 4px;
   }
 
   &__description {
     font-size: 16px;
     line-height: 24px;
     color: $bali-hai;
-    margin-bottom: 16px;
     width: 400px;
 
     @include responsive('phone-xs') {
@@ -61,7 +44,7 @@
 
 .advantage {
   display: flex;
-  color: $waterloo;
+  color: var(--waterloo);
   align-items: center;
 
   @include responsive('phone-xs', 'phone', 'tablet') {
