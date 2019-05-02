@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { Label, Selector } from '@santiment-network/ui'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import PercentChanges from './../../components/PercentChanges'
+import PageLoader from '../../components/PageLoader'
 import { capitalizeStr } from './../../utils/utils'
 import { formatNumber } from './../../utils/formatting'
 import GetAsset from './GetAsset'
@@ -31,11 +32,14 @@ const MobileDetailedPage = props => {
         render={({ isLoading, slug, project }) => {
           if (isLoading) {
             return (
-              <MobileHeader
-                showBack
-                title={<Title slug={slug} />}
-                goBack={props.history.goBack}
-              />
+              <>
+                <MobileHeader
+                  showBack
+                  title={<Title slug={slug} />}
+                  goBack={props.history.goBack}
+                />
+                <PageLoader />
+              </>
             )
           }
 
