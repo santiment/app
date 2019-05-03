@@ -1,7 +1,16 @@
 @import '~@santiment-network/ui/variables.scss';
+@import '../../mixins.scss';
 
 .wrapper {
   width: 100%;
+}
+
+.anonBanner {
+  margin-bottom: 75px;
+
+  @include responsive('phone-xs') {
+    margin-bottom: 45px;
+  }
 }
 
 .header {
@@ -55,6 +64,9 @@
   padding: 35px;
   background: var(--athens);
   text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 
   &__title {
     font-size: 28px;
@@ -66,31 +78,5 @@
     color: var(--waterloo);
     width: 350px;
     margin: 0 auto 24px;
-  }
-
-  &__error {
-    display: none;
-    position: absolute;
-    bottom: 130%;
-  }
-
-  &__form {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
-    position: relative;
-
-    &_error:hover > .subscription__error {
-      display: block;
-    }
-  }
-
-  &__input {
-    width: 300px;
-    margin-right: 10px;
-  }
-
-  &__label {
-    color: var(--casper);
   }
 }
