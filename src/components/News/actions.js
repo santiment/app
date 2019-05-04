@@ -1,4 +1,0 @@
-export const NEWS_DATA_FETCH = '[news] DATA_FETCH'
-export const NEWS_DATA_FETCH_CANCEL = '[news] DATA_FETCH_CANCEL'
-export const NEWS_DATA_FETCH_SUCCESS = '[news] DATA_FETCH_SUCCESS'
-export const NEWS_DATA_FETCH_FAILED = '[news] DATA_FETCH_FAILED'

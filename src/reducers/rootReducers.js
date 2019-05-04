@@ -1,18 +1,55 @@
 import { combineReducers } from 'redux'
-import user from './user'
-import projects from './projects'
-import timeseries from './../ducks/GetTimeSeries/reducers'
-import signals from './../ducks/Signals/reducers'
-import rootUi from './root-ui'
-import detailedPageUi from './detailed-page-ui'
-import insightsPageUi from './insights-page-ui'
-import notification from './notification'
-import watchlistUi from './watchlist-ui'
-import news from './../components/News/reducers'
-import hypedTrends from './../components/Trends/reducers'
-import socialVolume from './../components/SocialVolumeWidget/reducers'
-import accountUi from '../pages/Account/reducers'
-import insightDraft from '../pages/Insights/reducers'
+import { routerReducer } from 'react-router-redux'
+import user, { initialState as userState } from './user'
+import projects, { initialState as projectsState } from './projects'
+import timeseries, {
+  initialState as timeseriesState
+} from './../ducks/GetTimeSeries/reducers'
+import signals, {
+  initialState as signalsState
+} from './../ducks/Signals/reducers'
+import rootUi, { initialState as rootUiState } from './root-ui'
+import detailedPageUi, {
+  initialState as detailedPageUiState
+} from './detailed-page-ui'
+import insightsPageUi, {
+  initialState as insightsPageUiState
+} from './insights-page-ui'
+import notification, {
+  initialState as initialNotificationState
+} from './notification'
+import watchlistUi, {
+  initialState as initialWatchlistUiState
+} from './watchlist-ui'
+import hypedTrends, {
+  initialState as initialHypedTrends
+} from './../components/Trends/reducers'
+import socialVolume, {
+  initialState as initialSocialVolume
+} from './../components/SocialVolumeWidget/reducers'
+import accountUi, {
+  initialState as initialAccountUiState
+} from '../pages/Account/reducers'
+import insightDraft, {
+  initialState as initialInsightDraft
+} from '../pages/Insights/reducers'
+
+export const intitialState = {
+  user: userState,
+  projects: projectsState,
+  hypedTrends: initialHypedTrends,
+  timeseries: timeseriesState,
+  signals: signalsState,
+  detailedPageUi: detailedPageUiState,
+  insightsPageUi: insightsPageUiState,
+  watchlistUi: initialWatchlistUiState,
+  rootUi: rootUiState,
+  notification: initialNotificationState,
+  router: routerReducer,
+  socialVolume: initialSocialVolume,
+  accountUi: initialAccountUiState,
+  insightDraft: initialInsightDraft
+}
 
 export default combineReducers({
   user,
@@ -27,6 +64,5 @@ export default combineReducers({
   notification,
   socialVolume,
   accountUi,
-  insightDraft,
-  news
+  insightDraft
 })

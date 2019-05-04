@@ -2,7 +2,6 @@ import Raven from 'raven-js'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import * as actions from './actions'
-import { NEWS_DATA_FETCH } from '../News/actions'
 import { SOCIALVOLUME_DATA_FETCH } from '../SocialVolumeWidget/actions'
 import { getTimeIntervalFromToday } from '../../utils/dates'
 
@@ -36,10 +35,6 @@ export const selectHypedTrend = action$ =>
         ? Observable.from([
           {
             type: SOCIALVOLUME_DATA_FETCH,
-            payload
-          },
-          {
-            type: NEWS_DATA_FETCH,
             payload
           }
         ])

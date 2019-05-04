@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { Tabs } from '@santiment-network/ui'
+import { NEWS_QUERY } from '../../News/NewsGQL'
 import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../../queries/InsightsGQL'
 import InsightCard from '../../Insight/InsightCardWithMarketcap'
 import News from '../../../components/News/News'
@@ -11,6 +11,7 @@ import {
   getInsightTrendTagByDate,
   oneDayTimestamp
 } from '../../Insight/InsightsTrends'
+import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
 
 const NEWS_INDEX = 'News'
 const INSIGHTS_INDEX = 'Insights'
@@ -95,12 +96,6 @@ const filteredInsightsByWord = (insights, word) => {
   )
 }
 
-const mapStateToProps = ({ news: { data = [], isLoading, isError } }) => ({
-  news: data,
-  isLoadingNews: isLoading,
-  isErrorNews: isError
-})
-
 const getPast3DaysInsightsByTrendTag = () => {
   let filterInsightsByWord
   return getTrendsTags(3).map(tag =>
@@ -126,8 +121,21 @@ const getPast3DaysInsightsByTrendTag = () => {
 }
 
 const enhance = compose(
-  connect(mapStateToProps),
-  ...getPast3DaysInsightsByTrendTag()
+  ...getPast3DaysInsightsByTrendTag(),
+  graphql(NEWS_QUERY, {
+    options: ({ word }) => {
+      const { from, to } = getTimeIntervalFromToday(-3, DAY)
+      return {
+        variables: {
+          from,
+          to,
+          tag: word,
+          size: 6
+        }
+      }
+    },
+    props: ({ data: { news = [] } }) => ({ news: news.reverse() })
+  })
 )
 
 export default enhance(TrendsExploreAdditionalInfo)
