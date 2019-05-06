@@ -10,8 +10,8 @@ import {
   oneDayTimestamp
 } from '../../Insight/InsightsTrends'
 import News from '../../News/News'
-import styles from './TrendsExploreAdditionalInfo.module.scss'
 import InsightsWrap from '../../Insight/InsightsWrap'
+import styles from './TrendsExploreAdditionalInfo.module.scss'
 
 const NEWS_INDEX = 'News'
 const INSIGHTS_INDEX = 'Insights'
