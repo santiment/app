@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { Tabs } from '@santiment-network/ui'
-import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
+import {
+  DAY,
+  getTimeIntervalFromToday,
+  ONE_DAY_IN_MS
+} from '../../../utils/dates'
 import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../../queries/InsightsGQL'
 import { NEWS_QUERY } from '../../News/NewsGQL'
-import {
-  getInsightTrendTagByDate,
-  oneDayTimestamp
-} from '../../Insight/InsightsTrends'
+import { getInsightTrendTagByDate } from '../../Insight/InsightsTrends'
 import News from '../../News/News'
 import InsightsWrap from '../../Insight/InsightsWrap'
 import styles from './TrendsExploreAdditionalInfo.module.scss'
@@ -39,10 +40,8 @@ const TrendsExploreAdditionalInfo = ({ news, insights }) => {
   if (insights.length > 0) tabs.push(insightsTab)
   if (news.length > 0) tabs.push(newsTab)
 
-  let defaultSelectedTab
-
   if (tabs.length === 0) return null
-  else defaultSelectedTab = tabs[0].index
+  const defaultSelectedTab = tabs[0].index
 
   return (
     <section className={styles.wrapper}>
@@ -63,16 +62,10 @@ const TrendsExploreAdditionalInfo = ({ news, insights }) => {
   )
 }
 
-const getTrendsTags = numberOfLastDays => {
-  const trendsTags = []
-  for (let i = 0; i < numberOfLastDays; i++) {
-    trendsTags.push(
-      getInsightTrendTagByDate(new Date(Date.now() - oneDayTimestamp * i))
-    )
-  }
-
-  return trendsTags
-}
+const getTrendsTags = numberOfLastDays =>
+  Array.from({ length: numberOfLastDays }, (_, idx) =>
+    getInsightTrendTagByDate(new Date(Date.now() - ONE_DAY_IN_MS * idx))
+  )
 
 const filterInsights = (insights = [], word) =>
   insights.filter(({ tags }) => tags.find(({ name }) => name === word))

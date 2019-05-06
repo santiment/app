@@ -1,11 +1,10 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
-import Insights from './Insights'
 import { ALL_INSIGHTS_BY_TAG_QUERY } from './../../queries/InsightsGQL'
 import { filterInsightsNoDrafts } from '../../pages/Insights/utils'
-
-const oneDayTimeStamp = 1000 * 60 * 60 * 24
+import { ONE_DAY_IN_MS } from '../../utils/dates'
+import Insights from './Insights'
 
 const InsightsTrends = ({ allInsightsByTag, ...props }) => {
   return (
@@ -17,13 +16,11 @@ const InsightsTrends = ({ allInsightsByTag, ...props }) => {
   )
 }
 
-export const oneDayTimestamp = 1000 * 60 * 60 * 24
-
 export const getInsightTrendTagByDate = date =>
   `${date.getUTCDate()}-${date.getUTCMonth()}-${date.getUTCFullYear()}-trending-words`
 
 const getPast3DaysInsightsByTrendTag = () =>
-  [0, oneDayTimeStamp, 2 * oneDayTimeStamp].map(timestamp =>
+  [0, ONE_DAY_IN_MS, 2 * ONE_DAY_IN_MS].map(timestamp =>
     graphql(ALL_INSIGHTS_BY_TAG_QUERY, {
       options: () => {
         return {
