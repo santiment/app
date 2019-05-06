@@ -39,10 +39,8 @@ const TrendsExploreAdditionalInfo = ({ news, insights }) => {
   if (insights.length > 0) tabs.push(insightsTab)
   if (news.length > 0) tabs.push(newsTab)
 
-  let defaultSelectedTab
-
   if (tabs.length === 0) return null
-  else defaultSelectedTab = tabs[0].index
+  const defaultSelectedTab = tabs[0].index
 
   return (
     <section className={styles.wrapper}>
@@ -74,16 +72,10 @@ const TrendsExploreAdditionalInfo = ({ news, insights }) => {
   )
 }
 
-const getTrendsTags = numberOfLastDays => {
-  const trendsTags = []
-  for (let i = 0; i < numberOfLastDays; i++) {
-    trendsTags.push(
-      getInsightTrendTagByDate(new Date(Date.now() - oneDayTimestamp * i))
-    )
-  }
-
-  return trendsTags
-}
+const getTrendsTags = numberOfLastDays =>
+  Array.from({ length: numberOfLastDays }, (_, idx) =>
+    getInsightTrendTagByDate(new Date(Date.now() - oneDayTimestamp * idx))
+  )
 
 const filterInsights = (insights = [], word) =>
   insights.filter(({ tags }) => tags.find(({ name }) => name === word))
