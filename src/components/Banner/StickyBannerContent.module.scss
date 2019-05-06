@@ -13,7 +13,8 @@
   border: 1px solid var(--porcelain);
   border-radius: 10px;
   z-index: 10;
-  width: 1140px;
+  max-width: 1140px;
+  width: 86%;
   display: flex;
   align-items: center;
   padding: 3px 18px;
