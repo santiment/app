@@ -59,6 +59,9 @@ const TrendsExploreAdditionalInfo = ({ news, insights }) => {
           <div className={styles.insights}>
             {insights.map(insight => (
               <InsightCard
+                small
+                grey
+                withAuthorPic={false}
                 {...insight}
                 key={insight.id}
                 className={styles.insight}
@@ -86,19 +89,15 @@ const filterInsights = (insights = [], word) =>
   insights.filter(({ tags }) => tags.find(({ name }) => name === word))
 
 const getPast3DaysInsightsByTrendTag = () => {
-  let filterByWord
   return getTrendsTags(3).map(tag =>
     graphql(ALL_INSIGHTS_BY_TAG_QUERY, {
-      options: ({ word }) => {
-        filterByWord = word.toUpperCase()
-        return { variables: { tag } }
-      },
+      options: () => ({ variables: { tag } }),
       props: ({
         data: { allInsightsByTag = [] },
-        ownProps: { insights: ownInsights = [] }
+        ownProps: { insights: ownInsights = [], word }
       }) => ({
         insights: ownInsights.concat(
-          filterInsights(allInsightsByTag, filterByWord)
+          filterInsights(allInsightsByTag, word.toUpperCase())
         )
       })
     })
