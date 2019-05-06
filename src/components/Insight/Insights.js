@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { Selector } from '@santiment-network/ui'
-import InsightCard from './InsightCard'
 import InsightAddBtn from './InsightAddBtn'
-import WithLikesMutation from '../Like/WithLikesMutation'
+import InsightsWrap from './InsightsWrap'
 import styles from './Insights.module.scss'
 
 const View = {
@@ -63,26 +62,11 @@ class Insights extends Component {
             <InsightAddBtn searchParams='currentTrends' />
           </div>
         </div>
-        <div className={styles.bottom}>
-          <WithLikesMutation>
-            {mutateInsightById =>
-              [...insights]
-                .sort(view === View.RECENT ? sortByRecent : sortByPopularity)
-                .slice(0, 3)
-                .map(({ id, ...insight }) => {
-                  return (
-                    <InsightCard
-                      className={styles.insight}
-                      key={id}
-                      id={id}
-                      {...insight}
-                      onLike={mutateInsightById(id)}
-                    />
-                  )
-                })
-            }
-          </WithLikesMutation>
-        </div>
+        <InsightsWrap
+          insights={insights.sort(
+            view === View.RECENT ? sortByRecent : sortByPopularity
+          )}
+        />
       </div>
     )
   }

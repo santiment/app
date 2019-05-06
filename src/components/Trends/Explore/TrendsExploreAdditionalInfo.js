@@ -9,9 +9,9 @@ import {
   getInsightTrendTagByDate,
   oneDayTimestamp
 } from '../../Insight/InsightsTrends'
-import InsightCard from '../../Insight/InsightCard'
 import News from '../../News/News'
 import styles from './TrendsExploreAdditionalInfo.module.scss'
+import InsightsWrap from '../../Insight/InsightsWrap'
 
 const NEWS_INDEX = 'News'
 const INSIGHTS_INDEX = 'Insights'
@@ -56,18 +56,7 @@ const TrendsExploreAdditionalInfo = ({ news, insights }) => {
           <News data={news} />
         )}
         {(selectedTab || defaultSelectedTab) === INSIGHTS_INDEX && (
-          <div className={styles.insights}>
-            {insights.map(insight => (
-              <InsightCard
-                small
-                grey
-                withAuthorPic={false}
-                {...insight}
-                key={insight.id}
-                className={styles.insight}
-              />
-            ))}
-          </div>
+          <InsightsWrap insights={insights} />
         )}
       </div>
     </section>
