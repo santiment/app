@@ -16,7 +16,7 @@ import styles from './TrendsExploreAdditionalInfo.module.scss'
 const NEWS_INDEX = 'News'
 const INSIGHTS_INDEX = 'Insights'
 
-const TrendsExploreAdditionalInfo = ({ news, allInsightsByTag: insights }) => {
+const TrendsExploreAdditionalInfo = ({ news, insights }) => {
   let [selectedTab, setSelectedTab] = useState(null)
 
   function handleSelectTab (tab) {
@@ -82,29 +82,23 @@ const getTrendsTags = numberOfLastDays => {
   return trendsTags
 }
 
-const filteredInsightsByWord = (insights, word) => {
-  return insights.filter(
-    insight => insight.tags.find(tag => tag.name === word) !== undefined
-  )
-}
+const filterInsights = (insights = [], word) =>
+  insights.filter(({ tags }) => tags.find(({ name }) => name === word))
 
 const getPast3DaysInsightsByTrendTag = () => {
-  let filterInsightsByWord
+  let filterByWord
   return getTrendsTags(3).map(tag =>
     graphql(ALL_INSIGHTS_BY_TAG_QUERY, {
       options: ({ word }) => {
-        filterInsightsByWord = word.toUpperCase()
-        return {
-          variables: { tag },
-          fetchPolicy: 'cache-and-network'
-        }
+        filterByWord = word.toUpperCase()
+        return { variables: { tag } }
       },
       props: ({
         data: { allInsightsByTag = [] },
-        ownProps: { allInsightsByTag: ownInsights = [] }
+        ownProps: { insights: ownInsights = [] }
       }) => ({
-        allInsightsByTag: allInsightsByTag.concat(
-          filteredInsightsByWord(ownInsights, filterInsightsByWord)
+        insights: ownInsights.concat(
+          filterInsights(allInsightsByTag, filterByWord)
         )
       })
     })
@@ -114,15 +108,10 @@ const getPast3DaysInsightsByTrendTag = () => {
 const enhance = compose(
   ...getPast3DaysInsightsByTrendTag(),
   graphql(NEWS_QUERY, {
-    options: ({ word }) => {
+    options: ({ word: tag }) => {
       const { from, to } = getTimeIntervalFromToday(-3, DAY)
       return {
-        variables: {
-          from,
-          to,
-          tag: word,
-          size: 6
-        }
+        variables: { from, to, tag, size: 6 }
       }
     },
     props: ({ data: { news = [] } }) => ({ news: news.reverse() })
