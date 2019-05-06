@@ -26,8 +26,6 @@
 
   @include responsive('tablet') {
     width: 49%;
-    margin-bottom: 2%;
-    margin-right: 2%;
 
     &:nth-child(2n) {
       margin-right: 0;

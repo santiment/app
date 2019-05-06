@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { Tabs } from '@santiment-network/ui'
-import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
+import {
+  DAY,
+  getTimeIntervalFromToday,
+  ONE_DAY_IN_MS
+} from '../../../utils/dates'
 import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../../queries/InsightsGQL'
 import { NEWS_QUERY } from '../../News/NewsGQL'
-import {
-  getInsightTrendTagByDate,
-  oneDayTimestamp
-} from '../../Insight/InsightsTrends'
+import { getInsightTrendTagByDate } from '../../Insight/InsightsTrends'
 import InsightCard from '../../Insight/InsightCard'
 import News from '../../News/News'
 import styles from './TrendsExploreAdditionalInfo.module.scss'
@@ -74,7 +75,7 @@ const TrendsExploreAdditionalInfo = ({ news, insights }) => {
 
 const getTrendsTags = numberOfLastDays =>
   Array.from({ length: numberOfLastDays }, (_, idx) =>
-    getInsightTrendTagByDate(new Date(Date.now() - oneDayTimestamp * idx))
+    getInsightTrendTagByDate(new Date(Date.now() - ONE_DAY_IN_MS * idx))
   )
 
 const filterInsights = (insights = [], word) =>
