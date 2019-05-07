@@ -5,13 +5,13 @@ import { Button, Icon } from '@santiment-network/ui'
 import styles from './AnonBanner.module.scss'
 import stylesB from './AnonBannerB.module.scss'
 
-const AnonBanner = ({ className, onClick }) => {
+const AnonBanner = ({ className, onClick, bannerRef }) => {
   return (
-    <div className={cx(styles.banner, className)}>
+    <div className={cx(styles.banner, className)} ref={bannerRef}>
       <div className={cx(styles.banner__top, stylesB.banner__top)}>
         <div className={stylesB.banner__left}>
           <div className={cx(styles.banner__title, stylesB.banner__title)}>
-            Noise control for the crypto market
+            Get noise control for the crypto market
           </div>
           <div
             className={cx(

@@ -13,7 +13,7 @@ const AnonBannerB = Loadable({
   loading: () => <div />
 })
 
-class AnonBannerExperiment extends PureComponent {
+class AnonBannerStaticExperiment extends PureComponent {
   experimentRef = React.createRef()
 
   onClick = () => {
@@ -34,4 +34,4 @@ class AnonBannerExperiment extends PureComponent {
   }
 }
 
-export default AnonBannerExperiment
+export default AnonBannerStaticExperiment
