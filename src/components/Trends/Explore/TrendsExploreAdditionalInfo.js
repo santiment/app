@@ -2,14 +2,9 @@ import React, { useState } from 'react'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { Tabs } from '@santiment-network/ui'
-import {
-  DAY,
-  getTimeIntervalFromToday,
-  ONE_DAY_IN_MS
-} from '../../../utils/dates'
-import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../../queries/InsightsGQL'
+import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
 import { NEWS_QUERY } from '../../News/NewsGQL'
-import { getInsightTrendTagByDate } from '../../Insight/InsightsTrends'
+import { getPast3DaysInsightsByTrendTag } from '../../Insight/InsightsTrends'
 import InsightCard from '../../Insight/InsightCard'
 import News from '../../News/News'
 import styles from './TrendsExploreAdditionalInfo.module.scss'
@@ -17,7 +12,12 @@ import styles from './TrendsExploreAdditionalInfo.module.scss'
 const NEWS_INDEX = 'News'
 const INSIGHTS_INDEX = 'Insights'
 
-const TrendsExploreAdditionalInfo = ({ news, insights }) => {
+const TrendsExploreAdditionalInfo = ({ news, allInsightsByTag, word }) => {
+  const modifiedWord = word.toUpperCase()
+  const insights = allInsightsByTag.filter(({ tags }) =>
+    tags.some(({ name }) => name === modifiedWord)
+  )
+
   let [selectedTab, setSelectedTab] = useState(null)
 
   function handleSelectTab (tab) {
@@ -70,30 +70,6 @@ const TrendsExploreAdditionalInfo = ({ news, insights }) => {
         )}
       </div>
     </section>
-  )
-}
-
-const getTrendsTags = numberOfLastDays =>
-  Array.from({ length: numberOfLastDays }, (_, idx) =>
-    getInsightTrendTagByDate(new Date(Date.now() - ONE_DAY_IN_MS * idx))
-  )
-
-const filterInsights = (insights = [], word) =>
-  insights.filter(({ tags }) => tags.find(({ name }) => name === word))
-
-const getPast3DaysInsightsByTrendTag = () => {
-  return getTrendsTags(3).map(tag =>
-    graphql(ALL_INSIGHTS_BY_TAG_QUERY, {
-      options: () => ({ variables: { tag } }),
-      props: ({
-        data: { allInsightsByTag = [] },
-        ownProps: { insights: ownInsights = [], word }
-      }) => ({
-        insights: ownInsights.concat(
-          filterInsights(allInsightsByTag, word.toUpperCase())
-        )
-      })
-    })
   )
 }
 

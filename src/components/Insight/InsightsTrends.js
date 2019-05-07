@@ -19,7 +19,7 @@ const InsightsTrends = ({ allInsightsByTag, ...props }) => {
 export const getInsightTrendTagByDate = date =>
   `${date.getUTCDate()}-${date.getUTCMonth()}-${date.getUTCFullYear()}-trending-words`
 
-const getPast3DaysInsightsByTrendTag = () =>
+export const getPast3DaysInsightsByTrendTag = () =>
   [0, ONE_DAY_IN_MS, 2 * ONE_DAY_IN_MS].map(timestamp =>
     graphql(ALL_INSIGHTS_BY_TAG_QUERY, {
       options: () => {
