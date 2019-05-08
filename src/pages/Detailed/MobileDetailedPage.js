@@ -210,7 +210,7 @@ const enhance = compose(
   graphql(DailyActiveAddressesGQL, {
     options: ({ match }) => {
       const slug = match.params.slug
-      // const {from, to} = getTimeIntervalFromToday(-1, DAY) // change next two lines to it before prod
+      // const {from, to} = getTimeIntervalFromToday(-2, DAY) // change next two lines to it before prod
       const { from } = getTimeIntervalFromToday(-661, DAY)
       const { from: to } = getTimeIntervalFromToday(-659, DAY)
       return { variables: { from, to, slug } }
