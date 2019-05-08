@@ -76,6 +76,14 @@ const MobileDetailedPage = props => {
             icoPrice
           } = project
 
+          let devActivityDiff
+          if (devActivity30 && devActivity60) {
+            devActivityDiff = calculateDiff(
+              devActivity60 * 2 - devActivity30,
+              devActivity30
+            )
+          }
+
           return (
             <>
               <MobileHeader
@@ -112,11 +120,14 @@ const MobileDetailedPage = props => {
                           name='Daily Active Adresses'
                           label='24h'
                         />
-                        <MobileMetricCard
-                          name='Development Activity'
-                          label='30d'
-                          value={devActivity30}
-                        />
+                        {devActivityDiff && (
+                          <MobileMetricCard
+                            name='Development Activity'
+                            label='30d'
+                            value={devActivity30}
+                            changes={devActivityDiff}
+                          />
+                        )}
                         {transactionVolumeDiff && (
                           <MobileMetricCard
                             name='Transaction volume'
