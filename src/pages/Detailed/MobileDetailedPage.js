@@ -39,32 +39,40 @@ const MobileDetailedPage = props => {
     return (curr / prev - 1) * 100
   }
 
-  let transactionVolumeToday
-  let transactionVolumeYesterday
-  let transactionVolumeDiff
-
+  let transactionVolumeInfo
   const { transactionVolume } = props
   if (transactionVolume && transactionVolume.length === 2) {
-    transactionVolumeYesterday = transactionVolume[0].transactionVolume
-    transactionVolumeToday = transactionVolume[1].transactionVolume
-    transactionVolumeDiff = calculateDiff(
-      transactionVolumeYesterday,
-      transactionVolumeToday
+    const [yesterday, today] = transactionVolume
+    const TVDiff = calculateDiff(
+      yesterday.transactionVolume,
+      today.transactionVolume
     )
+    if (TVDiff) {
+      transactionVolumeInfo = {
+        name: 'Transaction Volume',
+        value: today.transactionVolume,
+        label: '24h',
+        changes: TVDiff
+      }
+    }
   }
 
-  let activeAddressesToday
-  let activeAddressesYesterday
-  let activeAddressesDiff
-
+  let activeAddressesInfo
   const { dailyActiveAddresses } = props
   if (dailyActiveAddresses && dailyActiveAddresses.length === 2) {
-    activeAddressesYesterday = dailyActiveAddresses[0].activeAddresses
-    activeAddressesToday = dailyActiveAddresses[1].activeAddresses
-    activeAddressesDiff = calculateDiff(
-      activeAddressesYesterday,
-      activeAddressesToday
+    const [yesterday, today] = dailyActiveAddresses
+    const DAADiff = calculateDiff(
+      yesterday.activeAddresses,
+      today.activeAddresses
     )
+    if (DAADiff) {
+      activeAddressesInfo = {
+        name: 'Daily Active Addresses',
+        value: today.activeAddresses,
+        label: '24h',
+        changes: DAADiff
+      }
+    }
   }
 
   return (
@@ -95,12 +103,20 @@ const MobileDetailedPage = props => {
             icoPrice
           } = project
 
-          let devActivityDiff
+          let devActivityInfo
           if (devActivity30 && devActivity60) {
-            devActivityDiff = calculateDiff(
+            const DADiff = calculateDiff(
               devActivity60 * 2 - devActivity30,
               devActivity30
             )
+            if (DADiff) {
+              devActivityInfo = {
+                name: 'Development Activity',
+                value: devActivity30,
+                label: '30d',
+                changes: DADiff
+              }
+            }
           }
 
           return (
@@ -135,29 +151,14 @@ const MobileDetailedPage = props => {
                           slug={slug}
                           icoPrice={icoPrice}
                         />
-                        {activeAddressesDiff && (
-                          <MobileMetricCard
-                            name='Daily Active Addresses'
-                            label='24h'
-                            value={activeAddressesToday}
-                            changes={activeAddressesDiff}
-                          />
+                        {activeAddressesInfo && (
+                          <MobileMetricCard {...activeAddressesInfo} />
                         )}
-                        {devActivityDiff && (
-                          <MobileMetricCard
-                            name='Development Activity'
-                            label='30d'
-                            value={devActivity30}
-                            changes={devActivityDiff}
-                          />
+                        {devActivityInfo && (
+                          <MobileMetricCard {...devActivityInfo} />
                         )}
-                        {transactionVolumeDiff && (
-                          <MobileMetricCard
-                            name='Transaction volume'
-                            label='24h'
-                            value={transactionVolumeToday}
-                            changes={transactionVolumeDiff}
-                          />
+                        {transactionVolumeInfo && (
+                          <MobileMetricCard {...transactionVolumeInfo} />
                         )}
                       </>
                     )
@@ -202,9 +203,7 @@ const enhance = compose(
       const { from } = getTimeIntervalFromToday(-61, DAY)
       const { from: to } = getTimeIntervalFromToday(-60, DAY)
       const slug = match.params.slug
-      return {
-        variables: { slug, from, to, interval: '1d' }
-      }
+      return { variables: { slug, from, to, interval: '1d' } }
     },
     props: ({ data: { transactionVolume = [] } }) => ({ transactionVolume })
   }),
@@ -214,14 +213,7 @@ const enhance = compose(
       // const {from, to} = getTimeIntervalFromToday(-1, DAY) // change next two lines to it before prod
       const { from } = getTimeIntervalFromToday(-661, DAY)
       const { from: to } = getTimeIntervalFromToday(-659, DAY)
-      return {
-        variables: {
-          from,
-          to,
-          slug,
-          interval: '1d'
-        }
-      }
+      return { variables: { from, to, slug } }
     },
     props: ({ data: { dailyActiveAddresses = [] } }) => ({
       dailyActiveAddresses

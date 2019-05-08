@@ -118,15 +118,14 @@
 }
 
 @media (max-width: $breakpoint-tablet) {
-  .App .page {
-    overflow-y: auto;
-    overflow: scroll;
+  .page {
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     margin-bottom: 50px;
-  }
 
-  .App .page::-webkit-scrollbar {
-    display: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
