@@ -11,10 +11,10 @@ import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import PercentChanges from './../../components/PercentChanges'
 import PageLoader from '../../components/PageLoader'
+import MobileMetricCard from '../../components/MobileMetricCard/MobileMetricCard'
 import GetAsset from './GetAsset'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import MobileAssetChart from './MobileAssetChart'
-import MobileMetricCard from './MobileMetricCard'
 import styles from './MobileDetailedPage.module.scss'
 
 const MobileDetailedPage = props => {

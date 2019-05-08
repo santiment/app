@@ -1,10 +1,10 @@
 import React from 'react'
 import { Label } from '@santiment-network/ui'
 import { formatNumber } from '../../utils/formatting'
-import PercentChanges from '../../components/PercentChanges'
+import PercentChanges from '../PercentChanges'
 import styles from './MobileMetricCard.module.scss'
 
-const MobileMetricCard = ({ name, value = '24.5', label, changes }) => {
+const MobileMetricCard = ({ name, value, label, changes }) => {
   return (
     <article className={styles.metric}>
       <div className={styles.metric__left}>
