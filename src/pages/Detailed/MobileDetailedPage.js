@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
+import { compose } from 'recompose'
+import { graphql } from 'react-apollo'
 import { Label, Selector } from '@santiment-network/ui'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import PercentChanges from './../../components/PercentChanges'
@@ -9,6 +11,9 @@ import { formatNumber } from './../../utils/formatting'
 import GetAsset from './GetAsset'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import MobileAssetChart from './MobileAssetChart'
+import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
+import { TRANSACTION_VOLUME_QUERY } from '../../ducks/GetTimeSeries/queries/transaction_volume_query'
+import MobileMetricCard from './MobileMetricCard'
 import styles from './MobileDetailedPage.module.scss'
 
 const MobileDetailedPage = props => {
@@ -24,6 +29,24 @@ const MobileDetailedPage = props => {
       />
     </div>
   )
+
+  function calculateDiff (prev, curr) {
+    return (prev / curr - 1) * 100
+  }
+
+  let transactionVolumeToday
+  let transactionVolumeYesterday
+  let transactionVolumeDiff
+
+  const { transactionVolume } = props
+  if (transactionVolume && transactionVolume.length === 2) {
+    transactionVolumeToday = transactionVolume[0].transactionVolume
+    transactionVolumeYesterday = transactionVolume[1].transactionVolume
+    transactionVolumeDiff = calculateDiff(
+      transactionVolumeYesterday,
+      transactionVolumeToday
+    )
+  }
 
   return (
     <div className={cx('page', styles.wrapper)}>
@@ -47,6 +70,8 @@ const MobileDetailedPage = props => {
             ticker,
             percentChange24h,
             percentChange7d,
+            devActivity30,
+            devActivity60,
             priceUsd,
             icoPrice
           } = project
@@ -77,11 +102,30 @@ const MobileDetailedPage = props => {
                       return 'Loading...'
                     }
                     return (
-                      <MobileAssetChart
-                        data={price.items}
-                        slug={slug}
-                        icoPrice={icoPrice}
-                      />
+                      <>
+                        <MobileAssetChart
+                          data={price.items}
+                          slug={slug}
+                          icoPrice={icoPrice}
+                        />
+                        <MobileMetricCard
+                          name='Daily Active Adresses'
+                          label='24h'
+                        />
+                        <MobileMetricCard
+                          name='Development Activity'
+                          label='30d'
+                          value={devActivity30}
+                        />
+                        {transactionVolumeDiff && (
+                          <MobileMetricCard
+                            name='Transaction volume'
+                            label='24h'
+                            value={transactionVolumeToday}
+                            changes={transactionVolumeDiff}
+                          />
+                        )}
+                      </>
                     )
                   }}
                 />
@@ -117,4 +161,34 @@ const PriceBlock = ({ changes24h, changes7d, priceUsd }) => (
   </div>
 )
 
-export default MobileDetailedPage
+const enhance = compose(
+  graphql(TRANSACTION_VOLUME_QUERY, {
+    options: ({ match }) => {
+      // const {from, to} = getTimeIntervalFromToday(-1, DAY)
+      const { from } = getTimeIntervalFromToday(-61, DAY)
+      const { from: to } = getTimeIntervalFromToday(-60, DAY)
+      const slug = match.params.slug
+      return {
+        variables: { slug, from, to, interval: '1d' }
+      }
+    },
+    props: ({ data: { transactionVolume = [] } }) => ({ transactionVolume })
+  })
+  // graphql(DailyActiveAddressesGQL, {
+  //   name: 'DailyActiveAddresses',
+  //   options: ({match}) => {
+  //     const slug = match.params.slug
+  //     const {from, to} = getTimeIntervalFromToday(-30, DAY)
+  //     return {
+  //       variables: {
+  //         from,
+  //         to,
+  //         slug,
+  //         interval: ''
+  //       }
+  //     }
+  //   }
+  // }),
+)
+
+export default enhance(MobileDetailedPage)
