@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
+import { compose } from 'recompose'
+import { graphql } from 'react-apollo'
+import { NEWS_QUERY } from '../../components/News/NewsGQL'
 import { Label, Selector } from '@santiment-network/ui'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import PercentChanges from './../../components/PercentChanges'
+import NewsSmall from '../../components/News/NewsSmall'
 import { capitalizeStr } from './../../utils/utils'
 import { formatNumber } from './../../utils/formatting'
+import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import GetAsset from './GetAsset'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import MobileAssetChart from './MobileAssetChart'
@@ -73,11 +78,19 @@ const MobileDetailedPage = props => {
                       return 'Loading...'
                     }
                     return (
-                      <MobileAssetChart
-                        data={price.items}
-                        slug={slug}
-                        icoPrice={icoPrice}
-                      />
+                      <>
+                        <MobileAssetChart
+                          data={price.items}
+                          slug={slug}
+                          icoPrice={icoPrice}
+                        />
+                        {props.news && (
+                          <>
+                            <h3 className={styles.news__heading}>News</h3>
+                            <NewsSmall data={props.news} />
+                          </>
+                        )}
+                      </>
                     )
                   }}
                 />
@@ -113,4 +126,17 @@ const PriceBlock = ({ changes24h, changes7d, priceUsd }) => (
   </div>
 )
 
-export default MobileDetailedPage
+const enhance = compose(
+  graphql(NEWS_QUERY, {
+    options: ({ match }) => {
+      const tag = match.params.slug
+      const { from, to } = getTimeIntervalFromToday(-3, DAY)
+      return {
+        variables: { from, to, tag, size: 6 }
+      }
+    },
+    props: ({ data: { news = [] } }) => ({ news: news.reverse() })
+  })
+)
+
+export default enhance(MobileDetailedPage)
