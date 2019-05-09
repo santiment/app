@@ -16,6 +16,7 @@ import GetAsset from './GetAsset'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import MobileAssetChart from './MobileAssetChart'
 import styles from './MobileDetailedPage.module.scss'
+import { calcPercentageChange } from '../../utils/utils'
 
 const MobileDetailedPage = props => {
   const slug = props.match.params.slug
@@ -31,23 +32,15 @@ const MobileDetailedPage = props => {
     </div>
   )
 
-  function calculateDiff (prev, curr) {
-    if (prev === 0 && curr === 0) return
-    if (prev === 0) return curr
-    if (curr === 0) return -prev
-
-    return (curr / prev - 1) * 100
-  }
-
   let transactionVolumeInfo
   const { transactionVolume } = props
   if (transactionVolume && transactionVolume.length === 2) {
     const [yesterday, today] = transactionVolume
-    const TVDiff = calculateDiff(
+    const TVDiff = calcPercentageChange(
       yesterday.transactionVolume,
       today.transactionVolume
     )
-    if (TVDiff) {
+    if (today.transactionVolume > 0) {
       transactionVolumeInfo = {
         name: 'Transaction Volume',
         value: today.transactionVolume,
@@ -61,11 +54,11 @@ const MobileDetailedPage = props => {
   const { dailyActiveAddresses } = props
   if (dailyActiveAddresses && dailyActiveAddresses.length === 2) {
     const [yesterday, today] = dailyActiveAddresses
-    const DAADiff = calculateDiff(
+    const DAADiff = calcPercentageChange(
       yesterday.activeAddresses,
       today.activeAddresses
     )
-    if (DAADiff) {
+    if (today.activeAddresses > 0) {
       activeAddressesInfo = {
         name: 'Daily Active Addresses',
         value: today.activeAddresses,
@@ -105,11 +98,11 @@ const MobileDetailedPage = props => {
 
           let devActivityInfo
           if (devActivity30 && devActivity60) {
-            const DADiff = calculateDiff(
+            const DADiff = calcPercentageChange(
               devActivity60 * 2 - devActivity30,
               devActivity30
             )
-            if (DADiff) {
+            if (devActivity30 > 0) {
               devActivityInfo = {
                 name: 'Development Activity',
                 value: devActivity30,
