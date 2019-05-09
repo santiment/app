@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { convertToRaw } from 'draft-js'
@@ -12,7 +12,8 @@ import WithLikesMutation from '../../components/Like/WithLikesMutation'
 import LikeBtn from '../../components/Like/LikeBtn'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
-import AnonBanner from '../../pages/Dashboard/AnonBanner'
+import AnonBannerStaticExperiment from '../../components/Banner/AnonBanner/AnonBannerStaticExperiment'
+import AnonBannerSticky from '../../components/Banner/AnonBannerSticky'
 import { getInsightContent } from './utils'
 import { getDateFormats } from '../../utils/dates'
 import styles from './InsightViewPage.module.scss'
@@ -30,6 +31,8 @@ const InsightViewPage = ({
   isLoggedIn
 }) => {
   const { MMM, D, YYYY } = getDateFormats(new Date(createdAt))
+  const bannerRef = useRef()
+
   return (
     <Fragment>
       <Helmet>
@@ -86,7 +89,15 @@ const InsightViewPage = ({
             <ShareModalTrigger asIcon shareLink={window.location.href} />
           </div>
         </div>
-        {!isLoggedIn && <AnonBanner className={styles.banner} />}
+        {!isLoggedIn && (
+          <>
+            <AnonBannerStaticExperiment
+              className={styles.banner}
+              bannerRef={bannerRef}
+            />
+            <AnonBannerSticky bannerStaticRef={bannerRef} />
+          </>
+        )}
       </div>
     </Fragment>
   )

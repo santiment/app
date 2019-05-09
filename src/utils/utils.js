@@ -99,7 +99,10 @@ const binarySearchHistoryPriceIndex = (history, targetDatetime) => {
     middle = Math.floor((start + stop) / 2)
   }
   // Correcting the result to the first data of post's creation date
-  while (!isCurrentDatetimeBeforeTarget(history[middle], targetDatetime)) {
+  while (
+    middle > 0 &&
+    !isCurrentDatetimeBeforeTarget(history[middle], targetDatetime)
+  ) {
     middle--
   }
 

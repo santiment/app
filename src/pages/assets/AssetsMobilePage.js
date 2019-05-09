@@ -37,18 +37,20 @@ const AssetsList = ({ items }) => {
   }
 
   return (
-    <AutoSizer>
-      {({ height, width }) => (
-        <List
-          width={width}
-          height={height}
-          rowHeight={ROW_HEIGHT}
-          rowCount={items.length}
-          overscanRowCount={5}
-          rowRenderer={rowRenderer}
-        />
-      )}
-    </AutoSizer>
+    <div className={styles.wrapperList}>
+      <AutoSizer>
+        {({ height, width }) => (
+          <List
+            width={width}
+            height={height}
+            rowHeight={ROW_HEIGHT}
+            rowCount={items.length}
+            overscanRowCount={5}
+            rowRenderer={rowRenderer}
+          />
+        )}
+      </AutoSizer>
+    </div>
   )
 }
 
