@@ -7,16 +7,16 @@ import { DailyActiveAddressesGQL } from './DetailedGQL'
 import { TRANSACTION_VOLUME_QUERY } from '../../ducks/GetTimeSeries/queries/transaction_volume_query'
 import { capitalizeStr } from './../../utils/utils'
 import { formatNumber } from './../../utils/formatting'
+import { calcPercentageChange } from '../../utils/utils'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import PercentChanges from './../../components/PercentChanges'
-import PageLoader from '../../components/PageLoader'
+import PageLoader from '../../components/Loader/PageLoader'
 import MobileMetricCard from '../../components/MobileMetricCard/MobileMetricCard'
 import GetAsset from './GetAsset'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import MobileAssetChart from './MobileAssetChart'
 import styles from './MobileDetailedPage.module.scss'
-import { calcPercentageChange } from '../../utils/utils'
 
 const MobileDetailedPage = props => {
   const slug = props.match.params.slug

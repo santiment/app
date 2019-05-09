@@ -117,18 +117,6 @@
   }
 }
 
-@media (max-width: $breakpoint-tablet) {
-  .page {
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    margin-bottom: 50px;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-}
-
 @media (min-width: $breakpoint-tablet) {
   .App .page {
     height: 100%;

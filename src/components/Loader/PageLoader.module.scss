@@ -1,0 +1,31 @@
+@import '../../mixins.scss';
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+
+  @include responsive('phone', 'phone-xs') {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 50%;
+    margin-top: -25vh;
+  }
+
+  &__img {
+    animation: load 1s infinite alternate;
+  }
+}
+
+@keyframes load {
+  from {
+    transform: scale(0.9);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
