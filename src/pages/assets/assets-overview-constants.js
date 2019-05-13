@@ -9,15 +9,16 @@ export const BASIC_CATEGORIES = [
     name: 'ERC20',
     to: '/assets/erc20',
     assetType: 'erc20'
-  },
-  {
-    name: 'Top 50 ERC20',
-    to: '/assets/list?name=top%2050%20erc20%40227#shared',
-    assetType: 'top50Erc20'
   }
 ]
 
 export const PUBLIC_WATCHLISTS = [
+  {
+    name: 'Top 50 ERC20',
+    assetType: 'top50Erc20',
+    to: '/assets/list?name=top%2050%20erc20@344#shared',
+    id: '344'
+  },
   {
     name: 'Stablecoins',
     assetType: 'stablecoins',

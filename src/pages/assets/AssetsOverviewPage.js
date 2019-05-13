@@ -7,7 +7,6 @@ import { Tabs } from '@santiment-network/ui'
 import WatchlistCards from '../../components/Watchlists/WatchlistCards'
 import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import { publicWatchlistGQL } from './../../components/WatchlistPopup/WatchlistGQL'
-import { top50Erc20Projects } from './../Projects/allProjectsGQL'
 import { mapItemsToKeys } from '../../utils/utils'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
@@ -71,14 +70,6 @@ const mapStateToProps = state => {
 }
 
 const enhance = compose(
-  graphql(top50Erc20Projects, {
-    props: ({ data: { loading = true, top50Erc20Projects = [] } }) => ({
-      isLoading: loading,
-      slugs: {
-        top50Erc20: loading ? [] : top50Erc20Projects.map(({ slug }) => slug)
-      }
-    })
-  }),
   graphql(publicWatchlistGQL, {
     props: ({
       data: { fetchAllPublicUserLists = [], loading = true },
