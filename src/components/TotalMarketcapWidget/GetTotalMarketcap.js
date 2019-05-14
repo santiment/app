@@ -42,14 +42,15 @@ const getMarketcapQuery = (type, projects) => {
     })
   })
 
-  if (type !== 'list') {
-    if (type === 'erc20') {
-      return compose(
-        slugsQueryTotal,
-        slugsQueryERC20
-      )
-    }
+  if (type === 'all') {
     return slugsQueryTotal
+  }
+
+  if (type === 'erc20') {
+    return compose(
+      slugsQueryTotal,
+      slugsQueryERC20
+    )
   }
 
   const sortedProjects = projects
