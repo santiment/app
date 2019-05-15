@@ -35,15 +35,20 @@ const MobileDetailedPage = props => {
   let transactionVolumeInfo
   const { transactionVolume } = props
   if (transactionVolume && transactionVolume.length === 2) {
-    const [yesterday, today] = transactionVolume
+    const [
+      {
+        transactionVolume: yesterdayTransactionVolume,
+        transactionVolume: todayTransactionVolume
+      }
+    ] = transactionVolume
     const TVDiff = calcPercentageChange(
-      yesterday.transactionVolume,
-      today.transactionVolume
+      yesterdayTransactionVolume,
+      todayTransactionVolume
     )
-    if (today.transactionVolume > 0) {
+    if (todayTransactionVolume > 0) {
       transactionVolumeInfo = {
         name: 'Transaction Volume',
-        value: today.transactionVolume,
+        value: todayTransactionVolume,
         label: '24h',
         changes: TVDiff
       }
@@ -53,15 +58,18 @@ const MobileDetailedPage = props => {
   let activeAddressesInfo
   const { dailyActiveAddresses } = props
   if (dailyActiveAddresses && dailyActiveAddresses.length === 2) {
-    const [yesterday, today] = dailyActiveAddresses
+    const [
+      { activeAddresses: yesterdayActiveAddresses },
+      { activeAddresses: todayActiveAddresses }
+    ] = dailyActiveAddresses
     const DAADiff = calcPercentageChange(
-      yesterday.activeAddresses,
-      today.activeAddresses
+      yesterdayActiveAddresses,
+      todayActiveAddresses
     )
-    if (today.activeAddresses > 0) {
+    if (todayActiveAddresses > 0) {
       activeAddressesInfo = {
         name: 'Daily Active Addresses',
-        value: today.activeAddresses,
+        value: todayActiveAddresses,
         label: '24h',
         changes: DAADiff
       }
@@ -195,14 +203,14 @@ const enhance = compose(
       // const {from, to} = getTimeIntervalFromToday(-1, DAY) // change next two lines to it before prod
       const { from } = getTimeIntervalFromToday(-61, DAY)
       const { from: to } = getTimeIntervalFromToday(-60, DAY)
-      const slug = match.params.slug
+      const { slug } = match.params
       return { variables: { slug, from, to, interval: '1d' } }
     },
     props: ({ data: { transactionVolume = [] } }) => ({ transactionVolume })
   }),
   graphql(DailyActiveAddressesGQL, {
     options: ({ match }) => {
-      const slug = match.params.slug
+      const { slug } = match.params
       // const {from, to} = getTimeIntervalFromToday(-2, DAY) // change next two lines to it before prod
       const { from } = getTimeIntervalFromToday(-661, DAY)
       const { from: to } = getTimeIntervalFromToday(-659, DAY)
