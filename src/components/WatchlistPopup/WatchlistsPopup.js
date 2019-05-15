@@ -2,16 +2,17 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { Popup, Button } from 'semantic-ui-react'
+import { Button, ContextMenu, Panel } from '@santiment-network/ui'
 import { WatchlistGQL } from './WatchlistGQL'
 import Watchlists, { hasAssetById } from './Watchlists'
+import ChooseWatchlists from './ChooseWatchlists'
 import WatchlistsAnon from './WatchlistsAnon'
 import * as actions from './../../actions/types'
-import './WatchlistsPopup.css'
+import styles from './WatchlistsPopup.module.scss'
 
 const AddToListBtn = (
-  <Button basic className='watchlists-button'>
-    ADD TO WATCHLISTS
+  <Button variant='fill' accent='positive' className={styles.btn}>
+    Add to watchlists
   </Button>
 )
 
@@ -28,8 +29,7 @@ const WatchlistPopup = ({
   removeAssetList,
   toggleConfirmDeleteAssetList,
   toggleAssetInList,
-  searchParams,
-  children
+  searchParams
 }) => {
   return isNavigation ? ( // NOTE(vanguard): i know this is ugly as hell, but we should refactor Watchlist + WatchlistPopup component logic first to make it better.
     isLoggedIn ? (
@@ -50,45 +50,27 @@ const WatchlistPopup = ({
       <WatchlistsAnon />
     )
   ) : (
-    <Popup
-      className='watchlists-popup'
-      content={
-        isLoggedIn ? (
-          children ? (
-            React.cloneElement(children, {
-              isLoading,
-              projectId,
-              createWatchlist,
-              removeAssetList,
-              toggleConfirmDeleteAssetList,
-              toggleAssetInList,
-              watchlistUi,
-              slug,
-              lists
-            })
-          ) : (
-            <Watchlists
-              isNavigation={isNavigation}
-              isLoading={isLoading}
-              projectId={projectId}
-              createWatchlist={createWatchlist}
-              removeAssetList={removeAssetList}
-              toggleConfirmDeleteAssetList={toggleConfirmDeleteAssetList}
-              toggleAssetInList={toggleAssetInList}
-              watchlistUi={watchlistUi}
-              slug={slug}
-              lists={lists}
-              searchParams={searchParams}
-            />
-          )
+    <ContextMenu position='bottom' align='center' trigger={trigger}>
+      <Panel padding variant='modal'>
+        {isLoggedIn ? (
+          <ChooseWatchlists
+            isNavigation={isNavigation}
+            isLoading={isLoading}
+            projectId={projectId}
+            createWatchlist={createWatchlist}
+            removeAssetList={removeAssetList}
+            toggleConfirmDeleteAssetList={toggleConfirmDeleteAssetList}
+            toggleAssetInList={toggleAssetInList}
+            watchlistUi={watchlistUi}
+            slug={slug}
+            lists={lists}
+            searchParams={searchParams}
+          />
         ) : (
           <WatchlistsAnon />
-        )
-      }
-      trigger={trigger}
-      position='bottom center'
-      on='click'
-    />
+        )}
+      </Panel>
+    </ContextMenu>
   )
 }
 

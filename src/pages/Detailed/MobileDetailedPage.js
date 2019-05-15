@@ -8,6 +8,8 @@ import { formatNumber } from './../../utils/formatting'
 import GetAsset from './GetAsset'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import MobileAssetChart from './MobileAssetChart'
+import GetWatchlists from '../../ducks/Watchlists/GetWatchlists'
+import WatchlistsPopup from '../../components/WatchlistPopup/WatchlistsPopup'
 import styles from './MobileDetailedPage.module.scss'
 
 const MobileDetailedPage = props => {
@@ -53,6 +55,15 @@ const MobileDetailedPage = props => {
                 showBack
                 title={<Title slug={slug} ticker={ticker} />}
                 goBack={props.history.goBack}
+              />
+              <GetWatchlists
+                render={({ isLoggedIn }) => (
+                  <WatchlistsPopup
+                    projectId={project.id}
+                    slug={project.slug}
+                    isLoggedIn={isLoggedIn}
+                  />
+                )}
               />
               <div className={styles.main}>
                 <PriceBlock
