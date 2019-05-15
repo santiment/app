@@ -1,28 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Panel, Button } from '@santiment-network/ui'
+import { CATEGORIES } from '../../pages/assets/assets-overview-constants'
 import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
 import styles from './NavbarAssetsDropdown.module.scss'
 import dropdownStyles from './NavbarDropdown.module.scss'
 
-const linksLeft = [
-  { link: '/assets/all', label: 'All Assets' },
-  { link: '/assets/erc20', label: 'ERC20' },
-  {
-    link: '/assets/list?name=top%2050%20erc20%40227#shared',
-    label: 'Top 50 ERC20'
-  },
-  { link: '/assets/list?name=stablecoins@86#shared', label: 'Stablecoins' },
-  { link: '/assets/list?name=usa@138#shared', label: 'US-Based Projects' },
-  {
-    link: '/assets/list?name=dex@127#shared',
-    label: 'Decentralized Exchanges'
-  },
-  {
-    link: '/assets/list?name=centralized%20exchanges@272#shared',
-    label: 'Centralized Exchanges'
-  }
-]
+const linksLeft = CATEGORIES
 
 const linksRight = [
   { link: '/labs/trends', label: 'Favorites' },
@@ -36,7 +20,7 @@ const NavbarAssetsDropdown = ({ activeLink, isLoggedIn }) => (
       <div>
         <h3 className={styles.title}>Categories</h3>
         <div className={dropdownStyles.list}>
-          {linksLeft.map(({ link, label }) => {
+          {linksLeft.map(({ to: link, name: label }) => {
             return (
               <Button
                 fluid

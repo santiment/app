@@ -3,7 +3,8 @@ import { Observable } from 'rxjs'
 import { projectBySlugGQL } from './../pages/Projects/allProjectsGQL'
 import {
   WatchlistGQL,
-  publicWatchlistGQL
+  publicWatchlistGQL,
+  projectsByFunctionGQL
 } from './../components/WatchlistPopup/WatchlistGQL.js'
 import {
   allProjects50GQL,
@@ -184,7 +185,7 @@ export const fetchAssetsFromSharedListEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.ASSETS_FETCH)
     .filter(({ payload }) => {
-      return payload.type === 'list#shared'
+      return payload.type === 'list#shared' && !payload.list.function
     })
     .mergeMap(({ payload }) => {
       return Observable.from(
@@ -211,6 +212,66 @@ export const fetchAssetsFromSharedListEpic = (action$, store, { client }) =>
           })
 
         if (listItems.length === 0) {
+          return Observable.of({
+            type: actions.ASSETS_FETCH_SUCCESS,
+            payload: {
+              items: [],
+              isLoading: false,
+              error: false
+            }
+          })
+        }
+
+        return Observable.forkJoin(queries)
+          .delayWhen(() => Observable.timer(500 + startTime - Date.now()))
+          .mergeMap(data => {
+            const items =
+              data.map(project => {
+                return project.data.projectBySlug
+              }) || []
+            return Observable.of({
+              type: actions.ASSETS_FETCH_SUCCESS,
+              payload: {
+                items,
+                isLoading: false,
+                error: false
+              }
+            })
+          })
+          .catch(handleError)
+      })
+    })
+
+export const fetchAssetsFromSharedListWithFunctionEpic = (
+  action$,
+  store,
+  { client }
+) =>
+  action$
+    .ofType(actions.ASSETS_FETCH)
+    .filter(({ payload }) => {
+      return payload.type === 'list#shared' && payload.list.function
+    })
+    .mergeMap(({ payload }) => {
+      return Observable.from(
+        client.query({
+          query: projectsByFunctionGQL,
+          variables: { function: payload.list.function }
+        })
+      ).concatMap(({ data = {} }) => {
+        const startTime = Date.now()
+        const { allProjectsByFunction = [] } = data
+        const queries = allProjectsByFunction
+          .filter(({ slug }) => !!slug)
+          .map(({ slug }) => {
+            return client.query({
+              query: projectBySlugGQL,
+              variables: { slug },
+              context: { isRetriable: true }
+            })
+          })
+
+        if (allProjectsByFunction.length === 0) {
           return Observable.of({
             type: actions.ASSETS_FETCH_SUCCESS,
             payload: {

@@ -44,6 +44,15 @@ export const publicWatchlistGQL = gql`
   }
 `
 
+export const projectsByFunctionGQL = gql`
+  query allProjectsByFunction($function: json!) {
+    allProjectsByFunction(function: $function) {
+      id
+      slug
+    }
+  }
+`
+
 export const FEATURED_WATCHLIST_QUERY = gql`
   query featuredWatchlists {
     featuredWatchlists {
