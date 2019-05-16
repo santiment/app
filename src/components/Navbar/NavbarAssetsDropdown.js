@@ -6,8 +6,6 @@ import NavbarAssetsDropdownWatchlist from './NavbarAssetsDropdownWatchlist'
 import styles from './NavbarAssetsDropdown.module.scss'
 import dropdownStyles from './NavbarDropdown.module.scss'
 
-const linksLeft = CATEGORIES
-
 const linksRight = [
   { link: '/labs/trends', label: 'Favorites' },
   { link: '/labs/dashboard', label: 'Full Portfolio' },
@@ -20,7 +18,7 @@ const NavbarAssetsDropdown = ({ activeLink, isLoggedIn }) => (
       <div>
         <h3 className={styles.title}>Categories</h3>
         <div className={dropdownStyles.list}>
-          {linksLeft.map(({ to: link, name: label }) => {
+          {CATEGORIES.map(({ to: link, name: label }) => {
             return (
               <Button
                 fluid

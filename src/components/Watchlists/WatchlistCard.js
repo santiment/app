@@ -33,13 +33,9 @@ const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
       {latestMarketcap ? (
         <>
           <div className={cx(styles.flexRow, styles.content)}>
-            {latestMarketcap ? (
-              <h3 className={styles.marketcap}>
-                $&nbsp;{millify(latestMarketcap)}
-              </h3>
-            ) : (
-              '. . .'
-            )}
+            <h3 className={styles.marketcap}>
+              $&nbsp;{millify(latestMarketcap)}
+            </h3>
           </div>
           <div className={styles.flexRow}>
             <PercentChanges changes={change} className={styles.change} />

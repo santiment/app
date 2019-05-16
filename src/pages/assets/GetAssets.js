@@ -34,7 +34,6 @@ class GetAssets extends Component {
       ? { listName, listId }
       : {
         listName,
-        listId,
         listFunction: listByFunction ? listByFunction.byFunction : null
       }
   }

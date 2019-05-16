@@ -27,7 +27,7 @@ import {
   fetchRestAllAssetsEpic,
   fetchAssetsFromListEpic,
   fetchAssetsFromSharedListEpic,
-  fetchAssetsFromSharedListWithFunctionEpic
+  fetchAssetsFromListWithFunctionEpic
 } from './fetchAssetsEpic'
 import fetchTimeseriesEpic from '../ducks/GetTimeSeries/epics'
 import {
@@ -87,7 +87,7 @@ export default combineEpics(
   fetchRestAllAssetsEpic,
   fetchAssetsFromListEpic,
   fetchAssetsFromSharedListEpic,
-  fetchAssetsFromSharedListWithFunctionEpic,
+  fetchAssetsFromListWithFunctionEpic,
   // timeseries
   fetchTimeseriesEpic,
   // trends
