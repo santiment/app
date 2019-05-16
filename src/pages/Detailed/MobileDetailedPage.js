@@ -1,10 +1,18 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
+import { compose } from 'recompose'
+import { graphql } from 'react-apollo'
 import { Label, Selector } from '@santiment-network/ui'
-import MobileHeader from './../../components/MobileHeader/MobileHeader'
-import PercentChanges from './../../components/PercentChanges'
+import { DailyActiveAddressesGQL } from './DetailedGQL'
+import { TRANSACTION_VOLUME_QUERY } from '../../ducks/GetTimeSeries/queries/transaction_volume_query'
 import { capitalizeStr } from './../../utils/utils'
 import { formatNumber } from './../../utils/formatting'
+import { calcPercentageChange } from '../../utils/utils'
+import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
+import MobileHeader from './../../components/MobileHeader/MobileHeader'
+import PercentChanges from './../../components/PercentChanges'
+import PageLoader from '../../components/Loader/PageLoader'
+import MobileMetricCard from '../../components/MobileMetricCard/MobileMetricCard'
 import GetAsset from './GetAsset'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import MobileAssetChart from './MobileAssetChart'
@@ -24,6 +32,50 @@ const MobileDetailedPage = props => {
     </div>
   )
 
+  let transactionVolumeInfo
+  const { transactionVolume } = props
+  if (transactionVolume && transactionVolume.length === 2) {
+    const [
+      {
+        transactionVolume: yesterdayTransactionVolume,
+        transactionVolume: todayTransactionVolume
+      }
+    ] = transactionVolume
+    const TVDiff = calcPercentageChange(
+      yesterdayTransactionVolume,
+      todayTransactionVolume
+    )
+    if (todayTransactionVolume > 0) {
+      transactionVolumeInfo = {
+        name: 'Transaction Volume',
+        value: todayTransactionVolume,
+        label: '24h',
+        changes: TVDiff
+      }
+    }
+  }
+
+  let activeAddressesInfo
+  const { dailyActiveAddresses } = props
+  if (dailyActiveAddresses && dailyActiveAddresses.length === 2) {
+    const [
+      { activeAddresses: yesterdayActiveAddresses },
+      { activeAddresses: todayActiveAddresses }
+    ] = dailyActiveAddresses
+    const DAADiff = calcPercentageChange(
+      yesterdayActiveAddresses,
+      todayActiveAddresses
+    )
+    if (todayActiveAddresses > 0) {
+      activeAddressesInfo = {
+        name: 'Daily Active Addresses',
+        value: todayActiveAddresses,
+        label: '24h',
+        changes: DAADiff
+      }
+    }
+  }
+
   return (
     <div className={cx('page', styles.wrapper)}>
       <GetAsset
@@ -31,11 +83,14 @@ const MobileDetailedPage = props => {
         render={({ isLoading, slug, project }) => {
           if (isLoading) {
             return (
-              <MobileHeader
-                showBack
-                title={<Title slug={slug} />}
-                goBack={props.history.goBack}
-              />
+              <>
+                <MobileHeader
+                  showBack
+                  title={<Title slug={slug} />}
+                  goBack={props.history.goBack}
+                />
+                <PageLoader />
+              </>
             )
           }
 
@@ -43,9 +98,27 @@ const MobileDetailedPage = props => {
             ticker,
             percentChange24h,
             percentChange7d,
+            devActivity30,
+            devActivity60,
             priceUsd,
             icoPrice
           } = project
+
+          let devActivityInfo
+          if (devActivity30 && devActivity60) {
+            const DADiff = calcPercentageChange(
+              devActivity60 * 2 - devActivity30,
+              devActivity30
+            )
+            if (devActivity30 > 0) {
+              devActivityInfo = {
+                name: 'Development Activity',
+                value: devActivity30,
+                label: '30d',
+                changes: DADiff
+              }
+            }
+          }
 
           return (
             <>
@@ -73,11 +146,22 @@ const MobileDetailedPage = props => {
                       return 'Loading...'
                     }
                     return (
-                      <MobileAssetChart
-                        data={price.items}
-                        slug={slug}
-                        icoPrice={icoPrice}
-                      />
+                      <>
+                        <MobileAssetChart
+                          data={price.items}
+                          slug={slug}
+                          icoPrice={icoPrice}
+                        />
+                        {activeAddressesInfo && (
+                          <MobileMetricCard {...activeAddressesInfo} />
+                        )}
+                        {devActivityInfo && (
+                          <MobileMetricCard {...devActivityInfo} />
+                        )}
+                        {transactionVolumeInfo && (
+                          <MobileMetricCard {...transactionVolumeInfo} />
+                        )}
+                      </>
                     )
                   }}
                 />
@@ -113,4 +197,29 @@ const PriceBlock = ({ changes24h, changes7d, priceUsd }) => (
   </div>
 )
 
-export default MobileDetailedPage
+const enhance = compose(
+  graphql(TRANSACTION_VOLUME_QUERY, {
+    options: ({ match }) => {
+      // const {from, to} = getTimeIntervalFromToday(-1, DAY) // change next two lines to it before prod
+      const { from } = getTimeIntervalFromToday(-61, DAY)
+      const { from: to } = getTimeIntervalFromToday(-60, DAY)
+      const { slug } = match.params
+      return { variables: { slug, from, to, interval: '1d' } }
+    },
+    props: ({ data: { transactionVolume = [] } }) => ({ transactionVolume })
+  }),
+  graphql(DailyActiveAddressesGQL, {
+    options: ({ match }) => {
+      const { slug } = match.params
+      // const {from, to} = getTimeIntervalFromToday(-2, DAY) // change next two lines to it before prod
+      const { from } = getTimeIntervalFromToday(-661, DAY)
+      const { from: to } = getTimeIntervalFromToday(-659, DAY)
+      return { variables: { from, to, slug } }
+    },
+    props: ({ data: { dailyActiveAddresses = [] } }) => ({
+      dailyActiveAddresses
+    })
+  })
+)
+
+export default enhance(MobileDetailedPage)

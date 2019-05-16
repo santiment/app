@@ -89,6 +89,8 @@ export const projectBySlugGQL = gql`
       totalSupply
       percentChange24h
       percentChange7d
+      devActivity30: averageDevActivity
+      devActivity60: averageDevActivity(days: 60)
     }
   }
 `
