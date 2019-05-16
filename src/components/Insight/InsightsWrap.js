@@ -5,7 +5,7 @@ import styles from './InsightsWrap.module.scss'
 const InsightsWrap = ({ insights }) => {
   return (
     <div className={styles.insights}>
-      {insights.map(insight => (
+      {insights.slice(0, 9).map(insight => (
         <InsightCard
           small
           grey
