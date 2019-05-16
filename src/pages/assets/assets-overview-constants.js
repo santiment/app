@@ -8,6 +8,7 @@ export const BASIC_CATEGORIES = [
   {
     name: 'ERC20',
     to: '/assets/erc20',
+    slug: 'TOTAL_ERC20',
     assetType: 'erc20'
   },
   {
