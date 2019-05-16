@@ -1,6 +1,18 @@
 @import 'variables.scss';
 @import '~semantic-ui-css/semantic.min.css';
 @import "~@santiment-network/ui/main.scss";
+@import 'mixins.scss';
+
+:global(#root) {
+  @include responsive('phone', 'phone-xs') {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
 
 body {
   margin: 0;

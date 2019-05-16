@@ -9,11 +9,10 @@ import {
 } from '../../components/Trends/actions'
 import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../queries/InsightsGQL'
 import { binarySearch } from './utils'
+import { ONE_DAY_IN_MS } from '../../utils/dates'
 import { simpleSortStrings } from '../../utils/sortMethods'
 import { getInsightTrendTagByDate } from '../../components/Insight/InsightsTrends'
 import { creationDateSort } from '../Insights/utils'
-
-const oneDayTimestamp = 1000 * 60 * 60 * 24
 
 const tickerCheckClb = (target, { ticker }) => target === ticker
 const tickerMoveClb = (target, { ticker }) => target < ticker
@@ -93,7 +92,7 @@ export const connectedWordsEpic = (action$, store, { client }) =>
           fetchPolicy: 'no-cache',
           variables: {
             tag: getInsightTrendTagByDate(
-              new Date(Date.now() - oneDayTimestamp * i)
+              new Date(Date.now() - ONE_DAY_IN_MS * i)
             )
           }
         })

@@ -59,7 +59,7 @@ class MultilineText extends React.PureComponent {
     const oneLineHeight = getOneLineHeight(id)
     this.oneLineHeight = oneLineHeight
 
-    if (Math.floor(container.offsetHeight / oneLineHeight) > maxLines) {
+    if (Math.ceil(container.offsetHeight / oneLineHeight) > maxLines) {
       this.forceUpdate()
     }
   }

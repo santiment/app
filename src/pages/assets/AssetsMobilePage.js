@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { List, AutoSizer } from 'react-virtualized'
-import PageLoader from '../../components/PageLoader'
+import PageLoader from '../../components/Loader/PageLoader'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import GetAssets, { SORT_TYPES } from './GetAssets'
 import AssetCard from './AssetCard'

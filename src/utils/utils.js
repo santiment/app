@@ -314,7 +314,7 @@ const mapItemsToKeys = (items, { keyPath, getKeyPath }) =>
  * //=> -17.67
  */
 const calcPercentageChange = (originalValue, newValue) => {
-  // TODO: handle if originalValue or newValue is 0
+  if (originalValue === 0) return 0
   return (((newValue - originalValue) / originalValue) * 100).toFixed(2)
 }
 

@@ -51,7 +51,8 @@
 
 @media (min-width: $breakpoint-tablet) {
   .TrendsExplorePage {
-    width: 1024px;
+    width: 100%;
+    max-width: 1024px;
     margin: 0 auto;
     padding: 0 15px;
   }

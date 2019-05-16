@@ -26,8 +26,31 @@ const getMarketcapQuery = (type, projects) => {
     })
   })
 
-  if (type !== 'list') {
+  if (type === 'all') {
     return slugsQueryTotal
+  }
+
+  const slugsQueryERC20 = graphql(totalMarketcapGQL, {
+    props: ({ data: { historyPrice = [] }, ownProps: { historyPrices } }) => ({
+      historyPrices: {
+        ...historyPrices,
+        TOTAL_LIST_MARKET: historyPrice
+      }
+    }),
+    options: () => ({
+      variables: {
+        from: from.toISOString(),
+        to: to.toISOString(),
+        slug: 'TOTAL_ERC20'
+      }
+    })
+  })
+
+  if (type === 'erc20') {
+    return compose(
+      slugsQueryTotal,
+      slugsQueryERC20
+    )
   }
 
   const sortedProjects = projects
