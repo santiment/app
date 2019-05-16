@@ -5,8 +5,8 @@ import { Tabs } from '@santiment-network/ui'
 import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
 import { NEWS_QUERY } from '../../News/NewsGQL'
 import { getPast3DaysInsightsByTrendTag } from '../../Insight/InsightsTrends'
-import InsightCard from '../../Insight/InsightCard'
 import News from '../../News/News'
+import InsightsWrap from '../../Insight/InsightsWrap'
 import styles from './TrendsExploreAdditionalInfo.module.scss'
 
 const NEWS_INDEX = 'News'
@@ -55,18 +55,7 @@ const TrendsExploreAdditionalInfo = ({ news, allInsightsByTag, word }) => {
           <News data={news} />
         )}
         {(selectedTab || defaultSelectedTab) === INSIGHTS_INDEX && (
-          <div className={styles.insights}>
-            {insights.map(insight => (
-              <InsightCard
-                small
-                grey
-                withAuthorPic={false}
-                {...insight}
-                key={insight.id}
-                className={styles.insight}
-              />
-            ))}
-          </div>
+          <InsightsWrap insights={insights} />
         )}
       </div>
     </section>
