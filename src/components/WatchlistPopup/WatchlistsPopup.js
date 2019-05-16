@@ -18,54 +18,20 @@ const AddToListBtn = (
 
 const WatchlistPopup = ({
   isNavigation = false,
-  isLoading,
-  isLoggedIn,
-  projectId,
-  slug,
-  lists,
   trigger = AddToListBtn,
-  watchlistUi,
-  createWatchlist,
-  removeAssetList,
-  toggleConfirmDeleteAssetList,
-  toggleAssetInList,
-  searchParams
+  ...props
 }) => {
   return isNavigation ? ( // NOTE(vanguard): i know this is ugly as hell, but we should refactor Watchlist + WatchlistPopup component logic first to make it better.
-    isLoggedIn ? (
-      <Watchlists
-        isNavigation={isNavigation}
-        isLoading={isLoading}
-        projectId={projectId}
-        createWatchlist={createWatchlist}
-        removeAssetList={removeAssetList}
-        toggleConfirmDeleteAssetList={toggleConfirmDeleteAssetList}
-        toggleAssetInList={toggleAssetInList}
-        watchlistUi={watchlistUi}
-        slug={slug}
-        lists={lists}
-        searchParams={searchParams}
-      />
+    props.isLoggedIn ? (
+      <Watchlists isNavigation={isNavigation} {...props} />
     ) : (
       <WatchlistsAnon />
     )
   ) : (
     <ContextMenu position='bottom' align='center' trigger={trigger}>
       <Panel padding variant='modal'>
-        {isLoggedIn ? (
-          <ChooseWatchlists
-            isNavigation={isNavigation}
-            isLoading={isLoading}
-            projectId={projectId}
-            createWatchlist={createWatchlist}
-            removeAssetList={removeAssetList}
-            toggleConfirmDeleteAssetList={toggleConfirmDeleteAssetList}
-            toggleAssetInList={toggleAssetInList}
-            watchlistUi={watchlistUi}
-            slug={slug}
-            lists={lists}
-            searchParams={searchParams}
-          />
+        {props.isLoggedIn ? (
+          <ChooseWatchlists isNavigation={isNavigation} {...props} />
         ) : (
           <WatchlistsAnon />
         )}
@@ -74,14 +40,12 @@ const WatchlistPopup = ({
   )
 }
 
-const sortWatchlists = (list, list2) =>
-  new Date(list.insertedAt) > new Date(list2.insertedAt) ? 1 : -1
+const sortWatchlists = (
+  { insertedAt: insertedAtList1 },
+  { insertedAt: insertedAtList2 }
+) => new Date(insertedAtList1) - new Date(insertedAtList2)
 
-const mapStateToProps = state => {
-  return {
-    watchlistUi: state.watchlistUi
-  }
-}
+const mapStateToProps = ({ watchlistUi }) => ({ watchlistUi })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   toggleAssetInList: ({ projectId, assetsListId, listItems, slug }) => {
@@ -91,6 +55,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         .listItems,
       id: projectId
     })
+
     if (isAssetInList) {
       return dispatch({
         type: actions.USER_REMOVE_ASSET_FROM_LIST,
@@ -107,11 +72,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch({
       type: actions.USER_ADD_NEW_ASSET_LIST,
       payload
-    }),
-  removeAssetList: id =>
-    dispatch({
-      type: actions.USER_REMOVE_ASSET_LIST,
-      payload: { id }
     })
 })
 
@@ -119,15 +79,10 @@ export default compose(
   graphql(WatchlistGQL, {
     name: 'Watchlists',
     skip: ({ isLoggedIn }) => !isLoggedIn,
-    options: () => ({
-      context: { isRetriable: true }
-    }),
+    options: () => ({ context: { isRetriable: true } }),
     props: ({ Watchlists }) => {
       const { fetchUserLists = [], loading = true } = Watchlists
-      return {
-        lists: [...fetchUserLists].sort(sortWatchlists),
-        isLoading: loading
-      }
+      return { lists: fetchUserLists.sort(sortWatchlists), isLoading: loading }
     }
   }),
   connect(
