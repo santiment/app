@@ -5,12 +5,13 @@ import { graphql } from 'react-apollo'
 import { Label, Selector } from '@santiment-network/ui'
 import { DailyActiveAddressesGQL } from './DetailedGQL'
 import { TRANSACTION_VOLUME_QUERY } from '../../ducks/GetTimeSeries/queries/transaction_volume_query'
-import { capitalizeStr } from './../../utils/utils'
-import { formatNumber } from './../../utils/formatting'
-import { calcPercentageChange } from '../../utils/utils'
+import { NEWS_QUERY } from '../../components/News/NewsGQL'
+import { calcPercentageChange, capitalizeStr } from './../../utils/utils'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
+import { formatNumber } from './../../utils/formatting'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import PercentChanges from './../../components/PercentChanges'
+import NewsSmall from '../../components/News/NewsSmall'
 import PageLoader from '../../components/Loader/PageLoader'
 import MobileMetricCard from '../../components/MobileMetricCard/MobileMetricCard'
 import GetAsset from './GetAsset'
@@ -36,22 +37,18 @@ const MobileDetailedPage = props => {
   const { transactionVolume } = props
   if (transactionVolume && transactionVolume.length === 2) {
     const [
-      {
-        transactionVolume: yesterdayTransactionVolume,
-        transactionVolume: todayTransactionVolume
-      }
+      { transactionVolume: yesterdayTransactionVolume },
+      { transactionVolume: todayTransactionVolume }
     ] = transactionVolume
     const TVDiff = calcPercentageChange(
       yesterdayTransactionVolume,
       todayTransactionVolume
     )
-    if (todayTransactionVolume > 0) {
-      transactionVolumeInfo = {
-        name: 'Transaction Volume',
-        value: todayTransactionVolume,
-        label: '24h',
-        changes: TVDiff
-      }
+    transactionVolumeInfo = {
+      name: 'Transaction Volume',
+      value: todayTransactionVolume,
+      label: '24h',
+      changes: TVDiff
     }
   }
 
@@ -66,13 +63,11 @@ const MobileDetailedPage = props => {
       yesterdayActiveAddresses,
       todayActiveAddresses
     )
-    if (todayActiveAddresses > 0) {
-      activeAddressesInfo = {
-        name: 'Daily Active Addresses',
-        value: todayActiveAddresses,
-        label: '24h',
-        changes: DAADiff
-      }
+    activeAddressesInfo = {
+      name: 'Daily Active Addresses',
+      value: todayActiveAddresses,
+      label: '24h',
+      changes: DAADiff
     }
   }
 
@@ -110,13 +105,11 @@ const MobileDetailedPage = props => {
               devActivity60 * 2 - devActivity30,
               devActivity30
             )
-            if (devActivity30 > 0) {
-              devActivityInfo = {
-                name: 'Development Activity',
-                value: devActivity30,
-                label: '30d',
-                changes: DADiff
-              }
+            devActivityInfo = {
+              name: 'Development Activity',
+              value: devActivity30,
+              label: '30d',
+              changes: DADiff
             }
           }
 
@@ -161,6 +154,12 @@ const MobileDetailedPage = props => {
                         {transactionVolumeInfo && (
                           <MobileMetricCard {...transactionVolumeInfo} />
                         )}
+                        {props.news && (
+                          <>
+                            <h3 className={styles.news__heading}>News</h3>
+                            <NewsSmall data={props.news} />
+                          </>
+                        )}
                       </>
                     )
                   }}
@@ -198,11 +197,19 @@ const PriceBlock = ({ changes24h, changes7d, priceUsd }) => (
 )
 
 const enhance = compose(
+  graphql(NEWS_QUERY, {
+    options: ({ match }) => {
+      const tag = match.params.slug
+      const { from, to } = getTimeIntervalFromToday(-3, DAY)
+      return {
+        variables: { from, to, tag, size: 6 }
+      }
+    },
+    props: ({ data: { news = [] } }) => ({ news: news.reverse() })
+  }),
   graphql(TRANSACTION_VOLUME_QUERY, {
     options: ({ match }) => {
-      // const {from, to} = getTimeIntervalFromToday(-1, DAY) // change next two lines to it before prod
-      const { from } = getTimeIntervalFromToday(-61, DAY)
-      const { from: to } = getTimeIntervalFromToday(-60, DAY)
+      const { from, to } = getTimeIntervalFromToday(-1, DAY)
       const { slug } = match.params
       return { variables: { slug, from, to, interval: '1d' } }
     },
@@ -211,9 +218,7 @@ const enhance = compose(
   graphql(DailyActiveAddressesGQL, {
     options: ({ match }) => {
       const { slug } = match.params
-      // const {from, to} = getTimeIntervalFromToday(-2, DAY) // change next two lines to it before prod
-      const { from } = getTimeIntervalFromToday(-661, DAY)
-      const { from: to } = getTimeIntervalFromToday(-659, DAY)
+      const { from, to } = getTimeIntervalFromToday(-2, DAY)
       return { variables: { from, to, slug } }
     },
     props: ({ data: { dailyActiveAddresses = [] } }) => ({

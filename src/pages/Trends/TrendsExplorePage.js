@@ -14,6 +14,7 @@ import withDetectionAsset from '../../components/Trends/withDetectionAsset'
 import WordCloud from './../../components/WordCloud/WordCloud'
 import SocialVolumeWidget from './../../components/SocialVolumeWidget/SocialVolumeWidget'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
+import TrendsExploreAdditionalInfo from '../../components/Trends/Explore/TrendsExploreAdditionalInfo'
 import { checkHasPremium } from './../UserSelectors'
 import { mapQSToState, mapStateToQS, capitalizeStr } from './../../utils/utils'
 import styles from './TrendsExplorePage.module.scss'
@@ -83,7 +84,6 @@ export class TrendsExplorePage extends Component {
     const { word, hasPremium, detectedAsset } = this.props
     const { timeRange, asset = '' } = this.state
     const [priceOptions, priceLabels] = getPriceOptions(detectedAsset)
-
     const topic = window.decodeURIComponent(word)
     return (
       <div className={styles.TrendsExplorePage}>
@@ -161,6 +161,7 @@ export class TrendsExplorePage extends Component {
               />
             )}
           />
+          <TrendsExploreAdditionalInfo word={word} />
         </div>
       </div>
     )

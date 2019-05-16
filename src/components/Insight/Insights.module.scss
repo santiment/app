@@ -12,10 +12,6 @@
   display: inline-flex;
 }
 
-.bottom {
-  display: flex;
-}
-
 .title {
   @include text-normal;
 
@@ -34,13 +30,4 @@
 
 .icon {
   margin-right: 8px;
-}
-
-.insight {
-  margin-right: 13px;
-  flex-grow: 1;
-
-  &:last-child {
-    margin-right: 0;
-  }
 }
