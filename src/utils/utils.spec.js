@@ -487,7 +487,7 @@ describe('calcPercentageChange', () => {
   })
 
   it('Calc percentage for 0 on 2', () => {
-    const change = 'Infinity'
+    const change = 0
     const expected = calcPercentageChange(0, 2)
     expect(expected).toEqual(change)
   })

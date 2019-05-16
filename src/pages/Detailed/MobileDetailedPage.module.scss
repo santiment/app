@@ -1,9 +1,11 @@
 .wrapper {
   height: calc(100vh - 50px);
+  overflow: visible;
 }
 
 .main {
   padding: 0 16px;
+  margin-bottom: 50px;
 }
 
 .ticker {

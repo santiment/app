@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Loadable from 'react-loadable'
 import { Helmet } from 'react-helmet'
-import PageLoader from '../../components/PageLoader'
+import PageLoader from '../../components/Loader/PageLoader'
 import styles from './index.module.scss'
 
 export const baseLocation = '/insights'

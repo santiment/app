@@ -2,14 +2,18 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
-import { NEWS_QUERY } from '../../components/News/NewsGQL'
 import { Label, Selector } from '@santiment-network/ui'
+import { DailyActiveAddressesGQL } from './DetailedGQL'
+import { TRANSACTION_VOLUME_QUERY } from '../../ducks/GetTimeSeries/queries/transaction_volume_query'
+import { NEWS_QUERY } from '../../components/News/NewsGQL'
+import { calcPercentageChange, capitalizeStr } from './../../utils/utils'
+import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
+import { formatNumber } from './../../utils/formatting'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import PercentChanges from './../../components/PercentChanges'
 import NewsSmall from '../../components/News/NewsSmall'
-import { capitalizeStr } from './../../utils/utils'
-import { formatNumber } from './../../utils/formatting'
-import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
+import PageLoader from '../../components/Loader/PageLoader'
+import MobileMetricCard from '../../components/MobileMetricCard/MobileMetricCard'
 import GetAsset from './GetAsset'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import MobileAssetChart from './MobileAssetChart'
@@ -29,6 +33,44 @@ const MobileDetailedPage = props => {
     </div>
   )
 
+  let transactionVolumeInfo
+  const { transactionVolume } = props
+  if (transactionVolume && transactionVolume.length === 2) {
+    const [
+      { transactionVolume: yesterdayTransactionVolume },
+      { transactionVolume: todayTransactionVolume }
+    ] = transactionVolume
+    const TVDiff = calcPercentageChange(
+      yesterdayTransactionVolume,
+      todayTransactionVolume
+    )
+    transactionVolumeInfo = {
+      name: 'Transaction Volume',
+      value: todayTransactionVolume,
+      label: '24h',
+      changes: TVDiff
+    }
+  }
+
+  let activeAddressesInfo
+  const { dailyActiveAddresses } = props
+  if (dailyActiveAddresses && dailyActiveAddresses.length === 2) {
+    const [
+      { activeAddresses: yesterdayActiveAddresses },
+      { activeAddresses: todayActiveAddresses }
+    ] = dailyActiveAddresses
+    const DAADiff = calcPercentageChange(
+      yesterdayActiveAddresses,
+      todayActiveAddresses
+    )
+    activeAddressesInfo = {
+      name: 'Daily Active Addresses',
+      value: todayActiveAddresses,
+      label: '24h',
+      changes: DAADiff
+    }
+  }
+
   return (
     <div className={cx('page', styles.wrapper)}>
       <GetAsset
@@ -36,11 +78,14 @@ const MobileDetailedPage = props => {
         render={({ isLoading, slug, project }) => {
           if (isLoading) {
             return (
-              <MobileHeader
-                showBack
-                title={<Title slug={slug} />}
-                goBack={props.history.goBack}
-              />
+              <>
+                <MobileHeader
+                  showBack
+                  title={<Title slug={slug} />}
+                  goBack={props.history.goBack}
+                />
+                <PageLoader />
+              </>
             )
           }
 
@@ -48,9 +93,25 @@ const MobileDetailedPage = props => {
             ticker,
             percentChange24h,
             percentChange7d,
+            devActivity30,
+            devActivity60,
             priceUsd,
             icoPrice
           } = project
+
+          let devActivityInfo
+          if (devActivity30 && devActivity60) {
+            const DADiff = calcPercentageChange(
+              devActivity60 * 2 - devActivity30,
+              devActivity30
+            )
+            devActivityInfo = {
+              name: 'Development Activity',
+              value: devActivity30,
+              label: '30d',
+              changes: DADiff
+            }
+          }
 
           return (
             <>
@@ -84,6 +145,15 @@ const MobileDetailedPage = props => {
                           slug={slug}
                           icoPrice={icoPrice}
                         />
+                        {activeAddressesInfo && (
+                          <MobileMetricCard {...activeAddressesInfo} />
+                        )}
+                        {devActivityInfo && (
+                          <MobileMetricCard {...devActivityInfo} />
+                        )}
+                        {transactionVolumeInfo && (
+                          <MobileMetricCard {...transactionVolumeInfo} />
+                        )}
                         {props.news && (
                           <>
                             <h3 className={styles.news__heading}>News</h3>
@@ -136,6 +206,24 @@ const enhance = compose(
       }
     },
     props: ({ data: { news = [] } }) => ({ news: news.reverse() })
+  }),
+  graphql(TRANSACTION_VOLUME_QUERY, {
+    options: ({ match }) => {
+      const { from, to } = getTimeIntervalFromToday(-1, DAY)
+      const { slug } = match.params
+      return { variables: { slug, from, to, interval: '1d' } }
+    },
+    props: ({ data: { transactionVolume = [] } }) => ({ transactionVolume })
+  }),
+  graphql(DailyActiveAddressesGQL, {
+    options: ({ match }) => {
+      const { slug } = match.params
+      const { from, to } = getTimeIntervalFromToday(-2, DAY)
+      return { variables: { from, to, slug } }
+    },
+    props: ({ data: { dailyActiveAddresses = [] } }) => ({
+      dailyActiveAddresses
+    })
   })
 )
 
