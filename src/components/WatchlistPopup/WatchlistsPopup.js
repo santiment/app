@@ -4,10 +4,13 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { Button, ContextMenu, Panel } from '@santiment-network/ui'
 import { WatchlistGQL } from './WatchlistGQL'
-import Watchlists, { hasAssetById } from './Watchlists'
+import {
+  USER_ADD_ASSET_TO_LIST,
+  USER_ADD_NEW_ASSET_LIST,
+  USER_REMOVE_ASSET_FROM_LIST
+} from './../../actions/types'
 import ChooseWatchlists from './ChooseWatchlists'
 import WatchlistsAnon from './WatchlistsAnon'
-import * as actions from './../../actions/types'
 import styles from './WatchlistsPopup.module.scss'
 
 const AddToListBtn = (
@@ -16,34 +19,21 @@ const AddToListBtn = (
   </Button>
 )
 
-const WatchlistPopup = ({
-  isNavigation = false,
-  trigger = AddToListBtn,
-  ...props
-}) => {
-  return isNavigation ? ( // NOTE(vanguard): i know this is ugly as hell, but we should refactor Watchlist + WatchlistPopup component logic first to make it better.
-    props.isLoggedIn ? (
-      <Watchlists isNavigation={isNavigation} {...props} />
-    ) : (
-      <WatchlistsAnon />
-    )
-  ) : (
-    <ContextMenu position='bottom' align='center' trigger={trigger}>
-      <Panel padding variant='modal'>
-        {props.isLoggedIn ? (
-          <ChooseWatchlists isNavigation={isNavigation} {...props} />
-        ) : (
-          <WatchlistsAnon />
-        )}
-      </Panel>
-    </ContextMenu>
-  )
-}
+export const hasAssetById = ({ id, listItems }) =>
+  listItems.some(({ project }) => project.id === id)
+
+const WatchlistPopup = ({ isLoggedIn, trigger = AddToListBtn, ...props }) => (
+  <ContextMenu position='bottom' align='center' trigger={trigger}>
+    <Panel padding variant='modal'>
+      {isLoggedIn ? <ChooseWatchlists {...props} /> : <WatchlistsAnon />}
+    </Panel>
+  </ContextMenu>
+)
 
 const sortWatchlists = (
-  { insertedAt: insertedAtList1 },
-  { insertedAt: insertedAtList2 }
-) => new Date(insertedAtList1) - new Date(insertedAtList2)
+  { insertedAt: insertedList1 },
+  { insertedAt: insertedList2 }
+) => new Date(insertedList1) - new Date(insertedList2)
 
 const mapStateToProps = ({ watchlistUi }) => ({ watchlistUi })
 
@@ -51,28 +41,19 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   toggleAssetInList: ({ projectId, assetsListId, listItems, slug }) => {
     if (!projectId) return
     const isAssetInList = hasAssetById({
-      listItems: ownProps.lists.find(list => list.id === assetsListId)
-        .listItems,
+      listItems: ownProps.lists.find(({ id }) => id === assetsListId).listItems,
       id: projectId
     })
 
-    if (isAssetInList) {
-      return dispatch({
-        type: actions.USER_REMOVE_ASSET_FROM_LIST,
-        payload: { projectId, assetsListId, listItems, slug }
-      })
-    } else {
-      return dispatch({
-        type: actions.USER_ADD_ASSET_TO_LIST,
-        payload: { projectId, assetsListId, listItems, slug }
-      })
-    }
+    return dispatch({
+      type: isAssetInList
+        ? USER_REMOVE_ASSET_FROM_LIST
+        : USER_ADD_ASSET_TO_LIST,
+      payload: { projectId, assetsListId, listItems, slug }
+    })
   },
   createWatchlist: payload =>
-    dispatch({
-      type: actions.USER_ADD_NEW_ASSET_LIST,
-      payload
-    })
+    dispatch({ type: USER_ADD_NEW_ASSET_LIST, payload })
 })
 
 export default compose(
@@ -80,10 +61,10 @@ export default compose(
     name: 'Watchlists',
     skip: ({ isLoggedIn }) => !isLoggedIn,
     options: () => ({ context: { isRetriable: true } }),
-    props: ({ Watchlists }) => {
-      const { fetchUserLists = [], loading = true } = Watchlists
-      return { lists: fetchUserLists.sort(sortWatchlists), isLoading: loading }
-    }
+    props: ({ Watchlists: { fetchUserLists = [], loading = true } }) => ({
+      lists: fetchUserLists.sort(sortWatchlists),
+      isLoading: loading
+    })
   }),
   connect(
     mapStateToProps,
