@@ -12,7 +12,14 @@ import styles from './TrendsExploreAdditionalInfo.module.scss'
 const NEWS_INDEX = 'News'
 const INSIGHTS_INDEX = 'Insights'
 
-const TrendsExploreAdditionalInfo = ({ news, allInsightsByTag, word }) => {
+const TrendsExploreAdditionalInfo = ({
+  news,
+  allInsightsByTag,
+  word,
+  isLoadingInsights,
+  isLoadingNews
+}) => {
+  if (isLoadingInsights || isLoadingNews) return null
   const modifiedWord = word.toUpperCase()
   const insights = allInsightsByTag.filter(({ tags }) =>
     tags.some(({ name }) => name === modifiedWord)
@@ -71,7 +78,10 @@ const enhance = compose(
         variables: { from, to, tag, size: 6 }
       }
     },
-    props: ({ data: { news = [] } }) => ({ news: news.reverse() })
+    props: ({ data: { news = [], loading } }) => ({
+      news: news.reverse(),
+      isLoadingNews: loading
+    })
   })
 )
 

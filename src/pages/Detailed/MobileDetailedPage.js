@@ -154,7 +154,7 @@ const MobileDetailedPage = props => {
                         {transactionVolumeInfo && (
                           <MobileMetricCard {...transactionVolumeInfo} />
                         )}
-                        {props.news && (
+                        {props.news && props.news.length > 0 && (
                           <>
                             <h3 className={styles.news__heading}>News</h3>
                             <NewsSmall data={props.news} />
