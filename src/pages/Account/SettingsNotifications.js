@@ -73,12 +73,14 @@ const SettingsNotifications = ({
         <Selector
           options={['DAILY', 'WEEKLY', 'OFF']}
           nameOptions={['Daily', 'Weekly', 'Off']}
-          onSelectOption={subscription => {
-            changeDigestType(subscription)
+          onSelectOption={subscription =>
             mutateDigestType({ variables: { subscription } })
-              .then(onDigestChangeSuccess)
+              .then(() => {
+                changeDigestType(subscription)
+                onDigestChangeSuccess()
+              })
               .catch(onDigestChangeError)
-          }}
+          }
           defaultSelected={digestType}
         />
       </Settings.Row>
