@@ -9,6 +9,11 @@ import styles from './WatchlistContextMenu.module.scss'
 
 const WatchlistContextMenu = props => {
   const { isAuthor, assets, id } = props
+  const hasCSV = isNotSafari && assets && assets.length > 0
+  if (!(isAuthor || hasCSV)) {
+    return null
+  }
+
   return (
     <ContextMenu
       trigger={
@@ -34,7 +39,7 @@ const WatchlistContextMenu = props => {
               </Button>
             }
           />
-          {isNotSafari && assets && assets.length > 0 && (
+          {hasCSV && (
             <CSVLink
               data={normalizeCSV(assets)}
               filename={`${getTableTitle(props)}.csv`}
