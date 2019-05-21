@@ -31,7 +31,11 @@ const ChartSettings = ({
         defaultSelectedIndexes={hasNightMode && ['Night mode']}
         onSelect={onNightModeSelect}
       />
-      <ShareModalTrigger shareLink={generateShareLink(disabledMetrics)} />
+      <ShareModalTrigger
+        shareLink={`<iframe frameborder="0" height="340" src="${generateShareLink(
+          disabledMetrics
+        )}"></iframe>`}
+      />
     </div>
   )
 }
