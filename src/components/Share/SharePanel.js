@@ -37,7 +37,13 @@ const mediasToShare = [
   }
 ]
 
-const SharePanel = ({ shareTitle, shareText, shareLink, onCloseBtnClick }) => {
+const SharePanel = ({
+  shareTitle,
+  shareText,
+  shareLink,
+  onCloseBtnClick,
+  extraShare
+}) => {
   const encodedTitle = encodeURIComponent(shareTitle)
   const encodedText = encodeURIComponent(shareText)
   const encodedLink = encodeURIComponent(shareLink)
@@ -60,6 +66,16 @@ const SharePanel = ({ shareTitle, shareText, shareLink, onCloseBtnClick }) => {
           />
           <ShareCopyBtn shareLink={shareLink} />
         </div>
+        {extraShare.map(({ value, label }) => (
+          <div className={styles.link}>
+            <Input
+              className={styles.link__input}
+              readOnly
+              defaultValue={value}
+            />
+            <ShareCopyBtn shareLink={value} label={label} />
+          </div>
+        ))}
 
         {mediasToShare.map(({ label, icon, href }) => {
           return (
@@ -93,7 +109,8 @@ SharePanel.propTypes = {
 
 SharePanel.defaultProps = {
   shareTitle: 'Sanbase',
-  shareText: 'Hey! Look what I have found at the app.santiment.net!'
+  shareText: 'Hey! Look what I have found at the app.santiment.net!',
+  extraShare: []
 }
 
 export default SharePanel

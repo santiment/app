@@ -13,6 +13,7 @@ const ChartSettings = ({
   hasNightMode,
   disabledMetrics
 }) => {
+  const shareLink = generateShareLink(disabledMetrics)
   return (
     <div className={styles.settings}>
       <SearchProjects
@@ -32,9 +33,13 @@ const ChartSettings = ({
         onSelect={onNightModeSelect}
       />
       <ShareModalTrigger
-        shareLink={`<iframe frameborder="0" height="340" src="${generateShareLink(
-          disabledMetrics
-        )}"></iframe>`}
+        shareLink={shareLink}
+        extraShare={[
+          {
+            value: `<iframe frameborder="0" height="340" src="${shareLink}"></iframe>`,
+            label: 'Copy iframe'
+          }
+        ]}
       />
     </div>
   )
