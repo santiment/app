@@ -16,7 +16,13 @@ class ShareModalTrigger extends Component {
   }
 
   render () {
-    const { shareTitle, shareText, shareLink, ...props } = this.props
+    const {
+      shareTitle,
+      shareText,
+      shareLink,
+      extraShare,
+      ...props
+    } = this.props
     const { isOpen } = this.state
 
     return window.navigator.share ? (
@@ -41,6 +47,7 @@ class ShareModalTrigger extends Component {
           shareText={shareText}
           shareLink={shareLink}
           onCloseBtnClick={this.closeModal}
+          extraShare={extraShare}
         />
       </Modal>
     )
