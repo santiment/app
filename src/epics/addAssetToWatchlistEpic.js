@@ -1,7 +1,6 @@
 import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
-import { showNotification } from './../actions/rootActions'
 import { WatchlistGQL } from './../components/WatchlistPopup/WatchlistGQL.js'
 import * as actions from './../actions/types'
 
@@ -24,7 +23,11 @@ export const updateUserListGQL = gql`
       listItems {
         project {
           id
+          slug
         }
+      }
+      user {
+        id
       }
       isPublic
       name
@@ -38,46 +41,30 @@ export const updateUserListGQL = gql`
 const addAssetToWatchlistEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.USER_ADD_ASSET_TO_LIST)
-    .debounceTime(200)
-    .mergeMap(action => {
-      const { assetsListId, listItems = [], projectId } = action.payload
-      const normalizedList = listItems.map(val => {
-        return { project_id: +val.project.id }
-      })
+    .mergeMap(({ payload: { assetsListId, listItems = [], projectId } }) => {
+      const normalizedList = listItems.map(val => ({
+        project_id: +val.project.id
+      }))
       const newListItems = projectId
         ? [...normalizedList, { project_id: +projectId }]
         : normalizedList
 
       const userListUpdate = client.mutate({
         mutation: updateUserListGQL,
-        variables: {
-          id: +assetsListId,
-          listItems: newListItems
-        },
+        variables: { id: +assetsListId, listItems: newListItems },
         update: (store, { data: { updateUserList } }) => {
           const data = store.readQuery({ query: WatchlistGQL })
           const index = data.fetchUserLists.findIndex(
-            list => list.id === updateUserList.id
+            ({ id }) => id === updateUserList.id
           )
           data.fetchUserLists[index] = updateUserList
           store.writeQuery({ query: WatchlistGQL, data })
         }
       })
       return Observable.from(userListUpdate)
-        .mergeMap(({ data }) => {
-          const assetSlug = action.payload.slug || ''
-          const watchlistName = data.updateUserList.name
-          return Observable.merge(
-            Observable.of({
-              type: actions.USER_ADD_ASSET_TO_LIST_SUCCESS
-            }),
-            Observable.of(
-              showNotification(
-                `Added "${assetSlug}" to the list "${watchlistName}"`
-              )
-            )
-          )
-        })
+        .mergeMap(() =>
+          Observable.of({ type: actions.USER_ADD_ASSET_TO_LIST_SUCCESS })
+        )
         .catch(error => {
           Raven.captureException(error)
           return Observable.of({

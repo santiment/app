@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Icon } from '@santiment-network/ui'
-import WatchlistsAnon from './../WatchlistPopup/WatchlistsAnon'
-import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
-import NavbarAssetsDropdownWatchlistBottom from './NavbarAssetsDropdownWatchlistBottom'
-import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { pickFork, fork } from './../../utils/utils'
+import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
+import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
+import WatchlistsAnon from './../WatchlistPopup/WatchlistsAnon'
+import WatchlistNewBtn from '../WatchlistPopup/WatchlistNewBtn'
+import NewWatchlistDialog from '../Watchlists/NewWatchlistDialog'
 import styles from './NavbarAssetsDropdownWatchlist.module.scss'
 
 const NavbarAssetsDropdownWatchlist = ({ activeLink }) => (
@@ -20,7 +21,10 @@ const NavbarAssetsDropdownWatchlist = ({ activeLink }) => (
       return (
         <Fragment>
           {renderWatchlistsList({ activeLink, ...props })}
-          {renderNewWatchlistForm(props)}
+          {renderNewWatchlistForm({
+            trigger: <WatchlistNewBtn border className={styles.watchlistNew} />,
+            ...props
+          })}
         </Fragment>
       )
     }}
@@ -29,7 +33,7 @@ const NavbarAssetsDropdownWatchlist = ({ activeLink }) => (
 
 const renderNewWatchlistForm = fork(
   props => props.isLoggedIn,
-  NavbarAssetsDropdownWatchlistBottom
+  NewWatchlistDialog
 )
 
 const ifLoading = fork(
@@ -62,7 +66,7 @@ const ifData = fork(
               to={link}
               isActive={activeLink === link}
             >
-              {name.toUpperCase()}
+              <span className={styles.watchlistName}>{name}</span>
               <ExplanationTooltip
                 text={isPublic ? 'Public' : 'Private'}
                 className={styles.explanation}

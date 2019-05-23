@@ -1,12 +1,12 @@
 import React from 'react'
 import WatchlistCard from './WatchlistCard'
-import { Button, Icon } from '@santiment-network/ui'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
 import { DesktopOnly, MobileOnly } from './../Responsive'
 import Row from './../Row'
 import EmptySection from '../EmptySection/EmptySection'
 import NewWatchlistDialog from './NewWatchlistDialog.js'
+import WatchlistNewBtn from '../WatchlistPopup/WatchlistNewBtn'
 import styles from './Watchlist.module.scss'
 
 const WATCHLIST_EMPTY_SECTION = (
@@ -15,13 +15,6 @@ const WATCHLIST_EMPTY_SECTION = (
     <br />
     you are interested in
   </EmptySection>
-)
-
-const WatchlistNewBtn = props => (
-  <Button className={styles.btn} {...props}>
-    <Icon type='plus-round' className={styles.btn__icon} />
-    New watchlist
-  </Button>
 )
 
 const MyWatchlist = () => (
@@ -41,13 +34,7 @@ const MyWatchlist = () => (
           <MobileOnly>
             <NewWatchlistDialog
               watchlists={watchlists}
-              trigger={
-                <WatchlistNewBtn
-                  variant='fill'
-                  accent='positive'
-                  watchlists={watchlists}
-                />
-              }
+              trigger={<WatchlistNewBtn variant='fill' accent='positive' />}
             />
           </MobileOnly>
           {!watchlists.length
