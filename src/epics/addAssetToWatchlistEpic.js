@@ -63,7 +63,10 @@ const addAssetToWatchlistEpic = (action$, store, { client }) =>
       })
       return Observable.from(userListUpdate)
         .mergeMap(() =>
-          Observable.of({ type: actions.USER_ADD_ASSET_TO_LIST_SUCCESS })
+          Observable.of({
+            type: actions.USER_ADD_ASSET_TO_LIST_SUCCESS,
+            payload: { projectId, assetsListId }
+          })
         )
         .catch(error => {
           Raven.captureException(error)

@@ -28,7 +28,10 @@ const removeAssetFromWatchlist = (action$, store, { client }) =>
       })
       return Observable.from(mutationPromise)
         .mergeMap(() =>
-          Observable.of({ type: actions.USER_REMOVED_ASSET_FROM_LIST_SUCCESS })
+          Observable.of({
+            type: actions.USER_REMOVED_ASSET_FROM_LIST_SUCCESS,
+            payload: { projectId, assetsListId }
+          })
         )
         .catch(error => {
           Raven.captureException(error)

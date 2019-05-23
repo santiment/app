@@ -26,6 +26,7 @@ const WatchlistPopup = ({
   trigger = AddToListBtn,
   applyChanges,
   lists = [],
+  watchlistUi: { editableAssetsInList },
   ...props
 }) => {
   const [changes, setChanges] = useState([])
@@ -58,10 +59,16 @@ const WatchlistPopup = ({
     addChange({ projectId, assetsListId, listItems, slug, isAssetInList })
   }
 
-  const add = () => {
-    applyChanges(changes)
-    close()
+  const [editableAssets, setEditableAssets] = useState(editableAssetsInList)
+
+  if (editableAssetsInList !== editableAssets) {
+    setEditableAssets(editableAssetsInList)
+    if (editableAssetsInList.length === 0) {
+      close()
+    }
   }
+
+  const add = () => applyChanges(changes)
 
   return (
     <Dialog
@@ -90,12 +97,12 @@ const WatchlistPopup = ({
               Cancel
             </Dialog.Cancel>
             <Dialog.Approve
-              disabled={changes.length === 0}
+              disabled={editableAssetsInList.length > 0 || changes.length === 0}
               type='submit'
               variant='flat'
               onClick={add}
             >
-              Add
+              {editableAssetsInList.length > 0 ? 'Adding...' : 'Add'}
             </Dialog.Approve>
           </Dialog.Actions>
         </>

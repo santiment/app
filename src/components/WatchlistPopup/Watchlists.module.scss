@@ -4,7 +4,6 @@
   position: relative;
   overflow-x: hidden;
   width: 100%;
-  min-width: 40vw;
 }
 
 .list {
@@ -46,6 +45,7 @@
   white-space: nowrap;
   overflow: hidden;
   padding-right: 10px;
+  min-width: 180px;
   width: calc(100% - (16px + 20px));
 
   &::first-letter {
