@@ -8,6 +8,7 @@ import {
   USER_ADD_ASSET_TO_LIST,
   USER_REMOVE_ASSET_FROM_LIST
 } from './../../actions/types'
+import { showNotification } from '../../actions/rootActions'
 import WatchlistsAnon from './WatchlistsAnon'
 import Watchlists from './Watchlists'
 import styles from './WatchlistsPopup.module.scss'
@@ -25,6 +26,7 @@ const WatchlistPopup = ({
   isLoggedIn,
   trigger = AddToListBtn,
   applyChanges,
+  setNotification,
   lists = [],
   watchlistUi: { editableAssetsInList },
   ...props
@@ -64,6 +66,12 @@ const WatchlistPopup = ({
   if (editableAssetsInList !== editableAssets) {
     setEditableAssets(editableAssetsInList)
     if (editableAssetsInList.length === 0) {
+      const amount = changes.length
+      if (amount !== 0) {
+        setNotification(
+          `${amount} watchlist${amount > 1 ? 's were' : ' was'} modified`
+        )
+      }
       close()
     }
   }
@@ -130,7 +138,8 @@ const mapDispatchToProps = dispatch => ({
         payload: { projectId, assetsListId, listItems, slug }
       })
     )
-  }
+  },
+  setNotification: message => dispatch(showNotification(message))
 })
 
 export default compose(
