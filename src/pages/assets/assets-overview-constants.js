@@ -10,11 +10,6 @@ export const BASIC_CATEGORIES = [
     to: '/assets/erc20',
     slug: 'TOTAL_ERC20',
     assetType: 'erc20'
-  },
-  {
-    name: 'Top 50 ERC20',
-    to: '/assets/list?name=top%2050%20erc20%40227#shared',
-    assetType: 'top50Erc20'
   }
 ]
 
@@ -45,4 +40,17 @@ export const PUBLIC_WATCHLISTS = [
   }
 ]
 
-export const CATEGORIES = [...BASIC_CATEGORIES, ...PUBLIC_WATCHLISTS]
+export const WATCHLISTS_BY_FUNCTION = [
+  {
+    name: 'Top 50 ERC20',
+    assetType: 'top 50 erc20',
+    to: '/assets/list?name=top%2050%20erc20#shared',
+    byFunction: '{"args":{"size":50},"name":"top_erc20_projects"}'
+  }
+]
+
+export const CATEGORIES = [
+  ...BASIC_CATEGORIES,
+  ...WATCHLISTS_BY_FUNCTION,
+  ...PUBLIC_WATCHLISTS
+]

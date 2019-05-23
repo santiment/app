@@ -18,7 +18,7 @@ import styles from './WidgetSonar.module.scss'
 
 const pinnedInsightsIdByWatchlistName = {
   'stablecoins@86': 210,
-  'top 50 erc20@227': 209
+  'top 50 erc20': 209
 }
 
 const getPinnedInsightId = () => {
@@ -44,10 +44,12 @@ class WidgetSonar extends Component {
 
     if (data && !data.loading) {
       const { pinnedInsight } = data
-      insightsToShow = [
-        pinnedInsight,
-        ...insightsSlice.filter(({ id }) => id !== pinnedInsight.id)
-      ]
+      insightsToShow = pinnedInsight
+        ? [
+          pinnedInsight,
+          ...insightsSlice.filter(({ id }) => id !== pinnedInsight.id)
+        ]
+        : insightsSlice
     } else {
       insightsToShow = insightsSlice
     }
