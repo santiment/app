@@ -80,7 +80,7 @@ const WatchlistPopup = ({
               {...props}
             />
           </Dialog.ScrollContent>
-          <Dialog.Actions>
+          <Dialog.Actions className={styles.actions}>
             <Dialog.Cancel
               border={false}
               accent='grey'
