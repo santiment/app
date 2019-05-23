@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { compose } from 'recompose'
+import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
 import { Tabs } from '@santiment-network/ui'
 import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
@@ -13,17 +14,20 @@ const NEWS_INDEX = 'News'
 const INSIGHTS_INDEX = 'Insights'
 
 const TrendsExploreAdditionalInfo = ({
-  news,
+  news: newsRaw,
   allInsightsByTag,
   word,
   isLoadingInsights,
-  isLoadingNews
+  isLoadingNews,
+  isBetaModeEnabled
 }) => {
   if (isLoadingInsights || isLoadingNews) return null
   const modifiedWord = word.toUpperCase()
   const insights = allInsightsByTag.filter(({ tags }) =>
     tags.some(({ name }) => name === modifiedWord)
   )
+
+  const news = isBetaModeEnabled ? newsRaw : []
 
   let [selectedTab, setSelectedTab] = useState(null)
 
@@ -69,7 +73,12 @@ const TrendsExploreAdditionalInfo = ({
   )
 }
 
+const mapStateToProps = ({ rootUi: { isBetaModeEnabled } }) => ({
+  isBetaModeEnabled
+})
+
 const enhance = compose(
+  connect(mapStateToProps),
   ...getPast3DaysInsightsByTrendTag(),
   graphql(NEWS_QUERY, {
     options: ({ word: tag }) => {
