@@ -33,7 +33,8 @@ const SettingsNotifications = ({
   toggleEmailNotification,
   toggleTelegramNotification,
   digestType,
-  changeDigestType
+  changeDigestType,
+  mutateDigestType
 }) => {
   return (
     <Settings id='notifications' header='Notifications'>
@@ -73,8 +74,11 @@ const SettingsNotifications = ({
           options={['DAILY', 'WEEKLY', 'OFF']}
           nameOptions={['Daily', 'Weekly', 'Off']}
           onSelectOption={subscription =>
-            changeDigestType({ variables: { subscription } })
-              .then(onDigestChangeSuccess)
+            mutateDigestType({ variables: { subscription } })
+              .then(() => {
+                changeDigestType(subscription)
+                onDigestChangeSuccess()
+              })
               .catch(onDigestChangeError)
           }
           defaultSelected={digestType}
@@ -112,6 +116,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL,
       payload: { signalNotifyTelegram }
+    }),
+  changeDigestType: type =>
+    dispatch({
+      type: actions.USER_DIGEST_CHANGE,
+      payload: type
     })
 })
 
@@ -120,7 +129,7 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  graphql(NEWSLETTER_SUBSCRIPTION_MUTATION, { name: 'changeDigestType' })
+  graphql(NEWSLETTER_SUBSCRIPTION_MUTATION, { name: 'mutateDigestType' })
 )
 
 export default enhance(SettingsNotifications)

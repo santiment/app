@@ -6,14 +6,20 @@ import cx from 'classnames'
 import { Tabs } from '@santiment-network/ui'
 import WatchlistCards from '../../components/Watchlists/WatchlistCards'
 import MyWatchlist from '../../components/Watchlists/MyWatchlist'
-import { publicWatchlistGQL } from './../../components/WatchlistPopup/WatchlistGQL'
-import { top50Erc20Projects } from './../Projects/allProjectsGQL'
+import {
+  publicWatchlistGQL,
+  projectsByFunctionGQL
+} from './../../components/WatchlistPopup/WatchlistGQL'
 import { mapItemsToKeys } from '../../utils/utils'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
 import PageLoader from '../../components/Loader/PageLoader'
 import { checkIsLoggedIn } from './../UserSelectors'
-import { PUBLIC_WATCHLISTS, CATEGORIES } from './assets-overview-constants'
+import {
+  PUBLIC_WATCHLISTS,
+  CATEGORIES,
+  WATCHLISTS_BY_FUNCTION
+} from './assets-overview-constants'
 import styles from './AssetsOverview.module.scss'
 
 const tabs = [
@@ -70,19 +76,31 @@ const mapStateToProps = state => {
   }
 }
 
-const enhance = compose(
-  graphql(top50Erc20Projects, {
-    props: ({ data: { loading = true, top50Erc20Projects = [] } }) => ({
-      isLoading: loading,
-      slugs: {
-        top50Erc20: loading ? [] : top50Erc20Projects.map(({ slug }) => slug)
-      }
+const getProjectsByFunction = () =>
+  WATCHLISTS_BY_FUNCTION.map(({ assetType, byFunction }) =>
+    graphql(projectsByFunctionGQL, {
+      options: () => ({ variables: { function: byFunction } }),
+      props: ({
+        data: { loading = true, allProjectsByFunction = [] },
+        ownProps: { slugs = {}, isLoading }
+      }) => ({
+        isLoading: loading || isLoading,
+        slugs: {
+          ...slugs,
+          [assetType]: loading
+            ? []
+            : allProjectsByFunction.map(({ slug }) => slug)
+        }
+      })
     })
-  }),
+  )
+
+const enhance = compose(
+  ...getProjectsByFunction(),
   graphql(publicWatchlistGQL, {
     props: ({
       data: { fetchAllPublicUserLists = [], loading = true },
-      ownProps: { slugs = {} }
+      ownProps: { slugs = {}, isLoading }
     }) => {
       const publicWatchlistMap = mapItemsToKeys(PUBLIC_WATCHLISTS, {
         keyPath: 'id'
@@ -103,7 +121,7 @@ const enhance = compose(
           ...slugs,
           ...publicWatchilstSlugs
         },
-        isPublicWatchlistsLoading: loading
+        isPublicWatchlistsLoading: loading || isLoading
       }
     }
   }),

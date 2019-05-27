@@ -17,6 +17,7 @@ import MobileMetricCard from '../../components/MobileMetricCard/MobileMetricCard
 import GetAsset from './GetAsset'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import MobileAssetChart from './MobileAssetChart'
+import ShowIf from '../../components/ShowIf'
 import GetWatchlists from '../../ducks/Watchlists/GetWatchlists'
 import WatchlistsPopup from '../../components/WatchlistPopup/WatchlistsPopup'
 import styles from './MobileDetailedPage.module.scss'
@@ -165,12 +166,14 @@ const MobileDetailedPage = props => {
                         {transactionVolumeInfo && (
                           <MobileMetricCard {...transactionVolumeInfo} />
                         )}
-                        {props.news && (
-                          <>
-                            <h3 className={styles.news__heading}>News</h3>
-                            <NewsSmall data={props.news} />
-                          </>
-                        )}
+                        <ShowIf beta>
+                          {props.news && props.news.length > 0 && (
+                            <>
+                              <h3 className={styles.news__heading}>News</h3>
+                              <NewsSmall data={props.news} />
+                            </>
+                          )}
+                        </ShowIf>
                       </>
                     )
                   }}

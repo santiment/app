@@ -31,13 +31,12 @@ export const getPast3DaysInsightsByTrendTag = () =>
         }
       },
       props: ({
-        data: { allInsightsByTag = [] },
-        ownProps: { allInsightsByTag: ownInsights = [] }
-      }) => {
-        return {
-          allInsightsByTag: allInsightsByTag.concat(ownInsights)
-        }
-      }
+        data: { allInsightsByTag = [], loading },
+        ownProps: { allInsightsByTag: ownInsights = [], isLoadingInsights }
+      }) => ({
+        isLoadingInsights: loading || isLoadingInsights,
+        allInsightsByTag: allInsightsByTag.concat(ownInsights)
+      })
     })
   )
 

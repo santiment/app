@@ -9,6 +9,10 @@ class ShareCopyBtn extends PureComponent {
     shareLink: PropTypes.string.isRequired
   }
 
+  static defaultProps = {
+    label: 'Copy link'
+  }
+
   state = {
     notificationTimer: null
   }
@@ -32,14 +36,14 @@ class ShareCopyBtn extends PureComponent {
   }
 
   render () {
+    const { label } = this.props
     return (
       <Button
         className={styles.link__btn}
         variant='flat'
         onClick={this.onCopyClick}
-        style={{ minWidth: 83 }}
       >
-        {this.state.notificationTimer ? 'Copied!' : 'Copy link'}
+        {this.state.notificationTimer ? 'Copied!' : label}
       </Button>
     )
   }

@@ -19,7 +19,20 @@ const WatchlistShare = ({
       onClick={() => {
         setActive(!isActive)
         toggleWatchlistPublicity({
-          variables: { id: parseInt(watchlistId, 10), isPublic: !isPublic }
+          variables: { id: parseInt(watchlistId, 10), isPublic: !isPublic },
+          update: cache => {
+            const data = cache.readQuery({
+              query: fetchUserListsGQL
+            })
+            const list = data.fetchUserLists.find(
+              ({ id }) => id === watchlistId
+            )
+            list.isPublic = !isPublic
+            cache.writeQuery({
+              query: fetchUserListsGQL,
+              data
+            })
+          }
         }).catch(error => {
           alert('Error in publicity query: ', error)
         })

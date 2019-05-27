@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { compose } from 'recompose'
+import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
 import { Tabs } from '@santiment-network/ui'
 import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
@@ -12,11 +13,21 @@ import styles from './TrendsExploreAdditionalInfo.module.scss'
 const NEWS_INDEX = 'News'
 const INSIGHTS_INDEX = 'Insights'
 
-const TrendsExploreAdditionalInfo = ({ news, allInsightsByTag, word }) => {
+const TrendsExploreAdditionalInfo = ({
+  news: newsRaw,
+  allInsightsByTag,
+  word,
+  isLoadingInsights,
+  isLoadingNews,
+  isBetaModeEnabled
+}) => {
+  if (isLoadingInsights || isLoadingNews) return null
   const modifiedWord = word.toUpperCase()
   const insights = allInsightsByTag.filter(({ tags }) =>
     tags.some(({ name }) => name === modifiedWord)
   )
+
+  const news = isBetaModeEnabled ? newsRaw : []
 
   let [selectedTab, setSelectedTab] = useState(null)
 
@@ -62,7 +73,12 @@ const TrendsExploreAdditionalInfo = ({ news, allInsightsByTag, word }) => {
   )
 }
 
+const mapStateToProps = ({ rootUi: { isBetaModeEnabled } }) => ({
+  isBetaModeEnabled
+})
+
 const enhance = compose(
+  connect(mapStateToProps),
   ...getPast3DaysInsightsByTrendTag(),
   graphql(NEWS_QUERY, {
     options: ({ word: tag }) => {
@@ -71,7 +87,10 @@ const enhance = compose(
         variables: { from, to, tag, size: 6 }
       }
     },
-    props: ({ data: { news = [] } }) => ({ news: news.reverse() })
+    props: ({ data: { news = [], loading } }) => ({
+      news: news.reverse(),
+      isLoadingNews: loading
+    })
   })
 )
 
