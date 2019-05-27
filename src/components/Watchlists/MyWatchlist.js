@@ -8,6 +8,7 @@ import Row from './../Row'
 import EmptySection from '../EmptySection/EmptySection'
 import NewWatchlistDialog from './NewWatchlistDialog.js'
 import styles from './Watchlist.module.scss'
+import WatchlistsAnon from '../WatchlistPopup/WatchlistsAnon'
 
 const WATCHLIST_EMPTY_SECTION = (
   <EmptySection>
@@ -24,7 +25,7 @@ const WatchlistNewBtn = props => (
   </Button>
 )
 
-const MyWatchlist = () => (
+const MyWatchlist = ({ isLoggedIn }) => (
   <GetWatchlists
     render={({ isWatchlistsLoading, watchlists }) => (
       <div className={styles.wrapper}>
@@ -39,18 +40,20 @@ const MyWatchlist = () => (
         </DesktopOnly>
         <Row>
           <MobileOnly>
-            <NewWatchlistDialog
-              watchlists={watchlists}
-              trigger={
-                <WatchlistNewBtn
-                  variant='fill'
-                  accent='positive'
-                  watchlists={watchlists}
-                />
-              }
-            />
+            {isLoggedIn && (
+              <NewWatchlistDialog
+                watchlists={watchlists}
+                trigger={
+                  <WatchlistNewBtn
+                    variant='fill'
+                    accent='positive'
+                    watchlists={watchlists}
+                  />
+                }
+              />
+            )}
           </MobileOnly>
-          {!watchlists.length
+          {isLoggedIn && !watchlists.length
             ? WATCHLIST_EMPTY_SECTION
             : watchlists
               .filter(({ listItems }) => Boolean(listItems.length))
@@ -65,6 +68,7 @@ const MyWatchlist = () => (
                   )}
                 />
               ))}
+          {!isLoggedIn && <WatchlistsAnon />}
         </Row>
       </div>
     )}

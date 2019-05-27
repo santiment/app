@@ -30,7 +30,6 @@ const tabs = [
 const AssetsOverview = ({ slugs, isLoggedIn, isPublicWatchlistsLoading }) => {
   const [selectedTab, selectTab] = useState(tabs[0].index)
   const onSelectTab = selected => selectTab(selected)
-  const availableTabs = isLoggedIn ? tabs : tabs.slice(0, -1)
 
   return (
     <div className={cx(styles.overviewPage, 'page')}>
@@ -40,7 +39,7 @@ const AssetsOverview = ({ slugs, isLoggedIn, isPublicWatchlistsLoading }) => {
       <MobileOnly>
         <MobileHeader title='Assets overview' />
         <Tabs
-          options={availableTabs}
+          options={tabs}
           defaultSelectedIndex={selectedTab}
           onSelect={onSelectTab}
           className={styles.tabs}
@@ -62,7 +61,7 @@ const AssetsOverview = ({ slugs, isLoggedIn, isPublicWatchlistsLoading }) => {
         {!isPublicWatchlistsLoading && selectedTab === 'categories' && (
           <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
         )}
-        {isLoggedIn && selectedTab === 'myWatchlists' && (
+        {selectedTab === 'myWatchlists' && (
           <MyWatchlist isLoggedIn={isLoggedIn} />
         )}
       </MobileOnly>
