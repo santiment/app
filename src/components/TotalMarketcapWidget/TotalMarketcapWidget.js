@@ -1,29 +1,23 @@
 import React, { Component } from 'react'
 import cx from 'classnames'
-import { Selector } from '@santiment-network/ui'
 import {
-  ResponsiveContainer,
-  AreaChart,
   Area,
+  AreaChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
-  YAxis,
-  Tooltip
+  YAxis
 } from 'recharts'
 import PercentChanges from '../PercentChanges'
 import {
-  getTop3Area,
   combineDataset,
-  generateWidgetData
+  generateWidgetData,
+  getTop3Area
 } from './totalMarketcapWidgetUtils'
 import { getDateFormats } from '../../utils/dates'
 import { formatNumber, millify } from '../../utils/formatting'
 
 import './TotalMarketcapWidget.scss'
-
-const WidgetMarketView = {
-  TOTAL: 'Compare with Total MC',
-  LIST: 'List'
-}
 
 // NOTE(vanguard): Linear gradient should use css vars?
 
@@ -38,48 +32,34 @@ const tickFormatter = date => {
 }
 
 class TotalMarketcapWidget extends Component {
-  state = {
-    view: WidgetMarketView.TOTAL
-  }
-
-  toggleMarketView = view => {
-    this.setState({
-      view
-    })
-  }
-
   render () {
     const {
-      historyPrices: { TOTAL_MARKET, TOTAL_LIST_MARKET, ...restProjects },
+      historyPrices: { TOTAL_MARKET, TOTAL_LIST_MARKET },
       loading,
       listName
     } = this.props
 
-    const { view } = this.state
-    const isListView = view === WidgetMarketView.LIST
-
     let {
       totalmarketCapPrice = '.',
-      volume24h = '.',
-      volume24PercentChange,
+      marketcap24PercentChange,
       marketcapDataset = []
-    } = generateWidgetData(
-      TOTAL_LIST_MARKET && isListView ? TOTAL_LIST_MARKET : TOTAL_MARKET
-    )
+    } = generateWidgetData(TOTAL_MARKET)
+
+    const {
+      totalmarketCapPrice: totalmarketCapPriceList = '.',
+      marketcap24PercentChange: marketcap24PercentChangeList
+    } = generateWidgetData(TOTAL_LIST_MARKET)
 
     let restAreas = null
     let listYAxis = null
 
     if (!loading && TOTAL_LIST_MARKET) {
-      const target = isListView
-        ? restProjects
-        : { [`${listName} Marketcap`]: TOTAL_LIST_MARKET }
-
+      const target = { [`${listName} Marketcap`]: TOTAL_LIST_MARKET }
       marketcapDataset = combineDataset(marketcapDataset, target)
-      restAreas = getTop3Area(target, !isListView)
+      restAreas = getTop3Area(target)
     }
 
-    if (TOTAL_LIST_MARKET && !isListView) {
+    if (TOTAL_LIST_MARKET) {
       const listMaxValue = Math.max(
         0,
         ...TOTAL_LIST_MARKET.map(({ marketcap }) => marketcap)
@@ -107,31 +87,32 @@ class TotalMarketcapWidget extends Component {
         <div className='TotalMarketcapWidget__upper'>
           <div className='TotalMarketcapWidget__info'>
             <div className='TotalMarketcapWidget__left'>
-              <h3 className='TotalMarketcapWidget__label'>{`${
-                TOTAL_LIST_MARKET && isListView ? listName : 'All Crypto'
-              } marketcap`}</h3>
-              <h4 className={valueClassNames}>{totalmarketCapPrice}</h4>
-            </div>
-            <div className='TotalMarketcapWidget__right'>
-              <h3 className='TotalMarketcapWidget__label'>Volume, 24h</h3>
+              <h3 className='TotalMarketcapWidget__label'>
+                All Crypto marketcap, 24h
+              </h3>
               <h4 className={valueClassNames}>
-                {volume24h}
+                {totalmarketCapPrice}
                 <PercentChanges
-                  changes={volume24PercentChange}
+                  changes={marketcap24PercentChange}
                   className='TotalMarketcapWidget__change'
                 />
               </h4>
             </div>
+            {TOTAL_LIST_MARKET && (
+              <div className='TotalMarketcapWidget__right'>
+                <h3 className='TotalMarketcapWidget__label'>
+                  {listName} marketcap, 24h
+                </h3>
+                <h4 className={valueClassNames}>
+                  {totalmarketCapPriceList}
+                  <PercentChanges
+                    changes={marketcap24PercentChangeList}
+                    className='TotalMarketcapWidget__change'
+                  />
+                </h4>
+              </div>
+            )}
           </div>
-
-          {false && TOTAL_LIST_MARKET && (
-            <Selector
-              options={[WidgetMarketView.LIST, WidgetMarketView.TOTAL]}
-              defaultSelected={WidgetMarketView.LIST}
-              onSelectOption={this.toggleMarketView}
-              style={{ width: 122 }}
-            />
-          )}
         </div>
         <ResponsiveContainer
           height={235}
@@ -169,7 +150,7 @@ class TotalMarketcapWidget extends Component {
               strokeWidth={1.5}
               stroke='#5275FF'
               isAnimationActive={false}
-              name={`${isListView ? listName : 'All Crypto'} Marketcap`}
+              name='All Crypto Marketcap'
               fill='url(#total)'
             />
             {restAreas}

@@ -2,7 +2,7 @@ import React from 'react'
 import { Area } from 'recharts'
 
 import { formatNumber } from '../../utils/formatting'
-import { mergeTimeseriesByKey } from '../../utils/utils'
+import { calcPercentageChange, mergeTimeseriesByKey } from '../../utils/utils'
 
 const COLORS = ['#14C393', '#FFAD4D', '#8358FF']
 
@@ -17,30 +17,21 @@ export const generateWidgetData = historyPrice => {
 
   const historyPriceLastIndex = historyPrice.length - 1
 
-  const marketcapDataset = historyPrice.map(data => ({
-    datetime: data.datetime,
-    marketcap: data.marketcap
+  const marketcapDataset = historyPrice.map(({ datetime, marketcap }) => ({
+    datetime,
+    marketcap
   }))
 
-  const lastPriceVolume = historyPrice[historyPriceLastIndex].volume
+  const lastMarketcap = historyPrice[historyPriceLastIndex].marketcap
 
-  const volume24h = formatNumber(lastPriceVolume, currencyFormatOptions)
+  const totalmarketCapPrice = formatNumber(lastMarketcap, currencyFormatOptions)
 
-  const volume24PercentChange =
-    (1 - lastPriceVolume / historyPrice[historyPriceLastIndex - 1].volume) *
-    -100
-
-  const totalmarketCapPrice = formatNumber(
-    historyPrice[historyPriceLastIndex].marketcap,
-    currencyFormatOptions
+  const marketcap24PercentChange = calcPercentageChange(
+    historyPrice[historyPriceLastIndex - 1].marketcap,
+    lastMarketcap
   )
 
-  return {
-    totalmarketCapPrice,
-    volume24h,
-    volume24PercentChange,
-    marketcapDataset
-  }
+  return { totalmarketCapPrice, marketcap24PercentChange, marketcapDataset }
 }
 
 const constructProjectMarketcapKey = projectName => `${projectName}-marketcap`
@@ -66,11 +57,11 @@ export const combineDataset = (totalMarketHistory, restProjects) => {
   return result
 }
 
-export const getTop3Area = (restProjects, isTotalView) => {
+export const getTop3Area = restProjects => {
   return Object.keys(restProjects).map((key, i) => {
     return (
       <Area
-        yAxisId={isTotalView ? 'list' : 'total'}
+        yAxisId='list'
         key={key}
         dataKey={constructProjectMarketcapKey(key)}
         name={key}
