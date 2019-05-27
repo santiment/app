@@ -32,6 +32,8 @@ const WatchlistPopup = ({
   ...props
 }) => {
   const [changes, setChanges] = useState([])
+  const [isShown, setIsShown] = useState(false)
+  const [editableAssets, setEditableAssets] = useState(editableAssetsInList)
 
   const addChange = change => {
     const prevLength = changes.length
@@ -45,7 +47,6 @@ const WatchlistPopup = ({
       : setChanges(changesWithoutProjectAndList)
   }
 
-  const [isShown, setIsShown] = useState(false)
   const close = () => {
     setChanges([])
     setIsShown(false)
@@ -60,8 +61,6 @@ const WatchlistPopup = ({
     })
     addChange({ projectId, assetsListId, listItems, slug, isAssetInList })
   }
-
-  const [editableAssets, setEditableAssets] = useState(editableAssetsInList)
 
   if (editableAssetsInList !== editableAssets) {
     setEditableAssets(editableAssetsInList)
