@@ -5,7 +5,8 @@ export const initialState = {
   newItemPending: false,
   newItemFailed: false,
   newItemSuccess: false,
-  statusDeleteAssetList: null
+  statusDeleteAssetList: null,
+  editableAssetsInList: []
 }
 
 export default (state = initialState, action) => {
@@ -48,10 +49,45 @@ export default (state = initialState, action) => {
         ...state,
         statusDeleteAssetList: 'FAILED'
       }
-    case actions.USER_CHOOSE_ASSET_LIST:
+    case actions.USER_REMOVE_ASSET_FROM_LIST:
       return {
         ...state,
-        selectedId: action.payload.id
+        editableAssetsInList: [
+          ...state.editableAssetsInList,
+          {
+            projectId: action.payload.projectId,
+            assetsListId: action.payload.assetsListId
+          }
+        ]
+      }
+    case actions.USER_REMOVED_ASSET_FROM_LIST_SUCCESS:
+      return {
+        ...state,
+        editableAssetsInList: state.editableAssetsInList.filter(
+          ({ projectId, assetsListId }) =>
+            projectId !== action.payload.projectId &&
+            assetsListId !== action.payload.assetsListId
+        )
+      }
+    case actions.USER_ADD_ASSET_TO_LIST:
+      return {
+        ...state,
+        editableAssetsInList: [
+          ...state.editableAssetsInList,
+          {
+            projectId: action.payload.projectId,
+            assetsListId: action.payload.assetsListId
+          }
+        ]
+      }
+    case actions.USER_ADD_ASSET_TO_LIST_SUCCESS:
+      return {
+        ...state,
+        editableAssetsInList: state.editableAssetsInList.filter(
+          ({ projectId, assetsListId }) =>
+            projectId !== action.payload.projectId &&
+            assetsListId !== action.payload.assetsListId
+        )
       }
     default:
       return state

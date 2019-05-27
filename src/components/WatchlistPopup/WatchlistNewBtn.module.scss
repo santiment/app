@@ -1,0 +1,20 @@
+@import '~@santiment-network/ui/mixins';
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include responsive('laptop', 'desktop', 'tablet') {
+    fill: var(--casper);
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+    margin: 0 16px 20px;
+  }
+}
+
+.icon {
+  margin-right: 8px;
+}

@@ -88,6 +88,7 @@ class NewWatchlistDialog extends PureComponent {
             <Input
               placeholder='For example, Favorites'
               maxLength='25'
+              autoFocus
               onChange={this.onInputChange}
               defaultValue={name}
               isError={error}
