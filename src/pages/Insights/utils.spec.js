@@ -5,12 +5,12 @@ const insights = {
   small: {
     id: 0,
     title: 'How are you?',
-    seo: 'how-are-you%3F-0'
+    seo: 'how-are-you%253F-0'
   },
   strange: {
     id: 1,
     title: 'ThIS -- a., &&lre you?-0',
-    seo: 'this----a.%2C-%26%26lre-you%3F-0-1'
+    seo: 'this----a.%252C-%2526%2526lre-you%253F-0-1'
   }
 }
 
