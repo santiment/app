@@ -1,4 +1,4 @@
-import { hasAssetById } from './Watchlists'
+import { hasAssetById } from './WatchlistsPopup'
 
 describe('hasListItemsThisAssetById', () => {
   it('should return false if we dont have item in the list', () => {
