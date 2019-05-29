@@ -55,7 +55,7 @@ const MyWatchlist = ({ isLoggedIn }) => (
                   )}
                 />
               ))}
-          {!isLoggedIn && <WatchlistsAnon isPopup={false} />}
+          {!isLoggedIn && <WatchlistsAnon isFullScreen={true} />}
         </Row>
       </div>
     )}
