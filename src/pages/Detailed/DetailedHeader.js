@@ -1,14 +1,13 @@
 import React from 'react'
 import {
-  createSkeletonProvider,
-  createSkeletonElement
+  createSkeletonElement,
+  createSkeletonProvider
 } from '@trainline/react-skeletor'
 import { compose } from 'recompose'
 import { Label } from '@santiment-network/ui'
 import ProjectIcon from './../../components/ProjectIcon'
 import PercentChanges from './../../components/PercentChanges'
 import WatchlistsPopup from './../../components/WatchlistPopup/WatchlistsPopup'
-import ChooseWatchlists from './../../components/WatchlistPopup/ChooseWatchlists'
 import { formatNumber } from './../../utils/formatting'
 import styles from './DetailedHeader.module.scss'
 
@@ -47,9 +46,7 @@ const DetailedHeader = ({
           projectId={project.id}
           slug={project.slug}
           isLoggedIn={isLoggedIn}
-        >
-          <ChooseWatchlists />
-        </WatchlistsPopup>
+        />
       )}
     </div>
     <div className={styles.price}>

@@ -50,8 +50,10 @@ export const getInsightIdFromSEOLink = link =>
 
 export const getSEOLinkFromIdAndTitle = (id, title) =>
   encodeURIComponent(
-    `${title
-      .toLowerCase()
-      .split(' ')
-      .join('-')}-${id}`
+    encodeURIComponent(
+      `${title
+        .toLowerCase()
+        .split(' ')
+        .join('-')}-${id}`
+    )
   )

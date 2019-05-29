@@ -43,7 +43,6 @@ const AssetsTable = ({
     type: 'all'
   },
   showAll = false,
-  goto,
   preload,
   refetchAssets,
   setMinVolumeFilter,
@@ -94,21 +93,12 @@ const AssetsTable = ({
           columns={filterColumnsByTableSection(type, columns(preload))}
           loadingText='Loading...'
           TheadComponent={CustomHeadComponent}
-          getTdProps={(state, rowInfo, column, instance) => {
-            return {
-              onClick: (e, handleOriginal) => {
-                if (handleOriginal) {
-                  handleOriginal()
-                }
-                if (rowInfo && rowInfo.original && rowInfo.original.ticker) {
-                  goto(`/projects/${rowInfo.original.coinmarketcapId}`)
-                }
-              },
-              style: {
-                border: 'none'
-              }
-            }
-          }}
+          getTdProps={() => ({
+            onClick: (e, handleOriginal) => {
+              if (handleOriginal) handleOriginal()
+            },
+            style: { border: 'none' }
+          })}
         />
       </Panel>
     </Fragment>

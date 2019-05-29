@@ -1,152 +1,155 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { Popup, Button } from 'semantic-ui-react'
+import { Button, Dialog } from '@santiment-network/ui'
 import { WatchlistGQL } from './WatchlistGQL'
-import Watchlists, { hasAssetById } from './Watchlists'
+import {
+  USER_ADD_ASSET_TO_LIST,
+  USER_REMOVE_ASSET_FROM_LIST
+} from './../../actions/types'
+import { showNotification } from '../../actions/rootActions'
 import WatchlistsAnon from './WatchlistsAnon'
-import * as actions from './../../actions/types'
-import './WatchlistsPopup.css'
+import Watchlists from './Watchlists'
+import styles from './WatchlistsPopup.module.scss'
 
 const AddToListBtn = (
-  <Button basic className='watchlists-button'>
-    ADD TO WATCHLISTS
+  <Button variant='fill' accent='positive' className={styles.btn}>
+    Add to watchlists
   </Button>
 )
 
+export const hasAssetById = ({ id, listItems }) =>
+  listItems.some(({ project }) => project.id === id)
+
 const WatchlistPopup = ({
-  isNavigation = false,
-  isLoading,
   isLoggedIn,
-  projectId,
-  slug,
-  lists,
   trigger = AddToListBtn,
-  watchlistUi,
-  createWatchlist,
-  removeAssetList,
-  toggleConfirmDeleteAssetList,
-  toggleAssetInList,
-  searchParams,
-  children
+  applyChanges,
+  setNotification,
+  lists = [],
+  watchlistUi: { editableAssetsInList },
+  ...props
 }) => {
-  return isNavigation ? ( // NOTE(vanguard): i know this is ugly as hell, but we should refactor Watchlist + WatchlistPopup component logic first to make it better.
-    isLoggedIn ? (
-      <Watchlists
-        isNavigation={isNavigation}
-        isLoading={isLoading}
-        projectId={projectId}
-        createWatchlist={createWatchlist}
-        removeAssetList={removeAssetList}
-        toggleConfirmDeleteAssetList={toggleConfirmDeleteAssetList}
-        toggleAssetInList={toggleAssetInList}
-        watchlistUi={watchlistUi}
-        slug={slug}
-        lists={lists}
-        searchParams={searchParams}
-      />
-    ) : (
-      <WatchlistsAnon />
+  const [changes, setChanges] = useState([])
+  const [isShown, setIsShown] = useState(false)
+  const [editableAssets, setEditableAssets] = useState(editableAssetsInList)
+
+  const addChange = change => {
+    const prevLength = changes.length
+    const changesWithoutProjectAndList = changes.filter(
+      ({ projectId, assetsListId }) =>
+        projectId !== change.projectId || assetsListId !== change.assetsListId
     )
-  ) : (
-    <Popup
-      className='watchlists-popup'
-      content={
-        isLoggedIn ? (
-          children ? (
-            React.cloneElement(children, {
-              isLoading,
-              projectId,
-              createWatchlist,
-              removeAssetList,
-              toggleConfirmDeleteAssetList,
-              toggleAssetInList,
-              watchlistUi,
-              slug,
-              lists
-            })
-          ) : (
-            <Watchlists
-              isNavigation={isNavigation}
-              isLoading={isLoading}
-              projectId={projectId}
-              createWatchlist={createWatchlist}
-              removeAssetList={removeAssetList}
-              toggleConfirmDeleteAssetList={toggleConfirmDeleteAssetList}
-              toggleAssetInList={toggleAssetInList}
-              watchlistUi={watchlistUi}
-              slug={slug}
-              lists={lists}
-              searchParams={searchParams}
-            />
-          )
-        ) : (
-          <WatchlistsAnon />
+    const currLength = changesWithoutProjectAndList.length
+    prevLength === currLength
+      ? setChanges([...changes, change])
+      : setChanges(changesWithoutProjectAndList)
+  }
+
+  const close = () => {
+    setChanges([])
+    setIsShown(false)
+  }
+  const open = () => setIsShown(true)
+
+  const toggleAssetInList = ({ projectId, assetsListId, listItems, slug }) => {
+    if (!projectId) return
+    const isAssetInList = hasAssetById({
+      listItems: lists.find(({ id }) => id === assetsListId).listItems,
+      id: projectId
+    })
+    addChange({ projectId, assetsListId, listItems, slug, isAssetInList })
+  }
+
+  if (editableAssetsInList !== editableAssets) {
+    setEditableAssets(editableAssetsInList)
+    if (editableAssetsInList.length === 0) {
+      const amount = changes.length
+      if (amount !== 0) {
+        setNotification(
+          `${amount} watchlist${amount > 1 ? 's were' : ' was'} modified`
         )
       }
+      close()
+    }
+  }
+
+  const add = () => applyChanges(changes)
+
+  return (
+    <Dialog
+      title='Add to watchlist'
       trigger={trigger}
-      position='bottom center'
-      on='click'
-    />
+      onOpen={open}
+      onClose={close}
+      open={isShown}
+    >
+      {isLoggedIn ? (
+        <>
+          <Dialog.ScrollContent withPadding>
+            <Watchlists
+              toggleAssetInList={toggleAssetInList}
+              lists={lists}
+              {...props}
+            />
+          </Dialog.ScrollContent>
+          <Dialog.Actions className={styles.actions}>
+            <Dialog.Cancel
+              border={false}
+              accent='grey'
+              onClick={close}
+              type='cancel'
+            >
+              Cancel
+            </Dialog.Cancel>
+            <Dialog.Approve
+              disabled={editableAssetsInList.length > 0 || changes.length === 0}
+              type='submit'
+              variant='flat'
+              onClick={add}
+            >
+              {editableAssetsInList.length > 0 ? 'Adding...' : 'Add'}
+            </Dialog.Approve>
+          </Dialog.Actions>
+        </>
+      ) : (
+        <WatchlistsAnon />
+      )}
+    </Dialog>
   )
 }
 
-const sortWatchlists = (list, list2) =>
-  new Date(list.insertedAt) > new Date(list2.insertedAt) ? 1 : -1
+const sortWatchlists = (
+  { insertedAt: insertedList1 },
+  { insertedAt: insertedList2 }
+) => new Date(insertedList1) - new Date(insertedList2)
 
-const mapStateToProps = state => {
-  return {
-    watchlistUi: state.watchlistUi
-  }
-}
+const mapStateToProps = ({ watchlistUi }) => ({ watchlistUi })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  toggleAssetInList: ({ projectId, assetsListId, listItems, slug }) => {
-    if (!projectId) return
-    const isAssetInList = hasAssetById({
-      listItems: ownProps.lists.find(list => list.id === assetsListId)
-        .listItems,
-      id: projectId
-    })
-    if (isAssetInList) {
-      return dispatch({
-        type: actions.USER_REMOVE_ASSET_FROM_LIST,
+const mapDispatchToProps = dispatch => ({
+  applyChanges: changes => {
+    changes.map(({ projectId, assetsListId, listItems, slug, isAssetInList }) =>
+      dispatch({
+        type: isAssetInList
+          ? USER_REMOVE_ASSET_FROM_LIST
+          : USER_ADD_ASSET_TO_LIST,
         payload: { projectId, assetsListId, listItems, slug }
       })
-    } else {
-      return dispatch({
-        type: actions.USER_ADD_ASSET_TO_LIST,
-        payload: { projectId, assetsListId, listItems, slug }
-      })
-    }
+    )
   },
-  createWatchlist: payload =>
-    dispatch({
-      type: actions.USER_ADD_NEW_ASSET_LIST,
-      payload
-    }),
-  removeAssetList: id =>
-    dispatch({
-      type: actions.USER_REMOVE_ASSET_LIST,
-      payload: { id }
-    })
+  setNotification: message => dispatch(showNotification(message))
 })
 
 export default compose(
   graphql(WatchlistGQL, {
     name: 'Watchlists',
     skip: ({ isLoggedIn }) => !isLoggedIn,
-    options: () => ({
-      context: { isRetriable: true }
-    }),
-    props: ({ Watchlists }) => {
-      const { fetchUserLists = [], loading = true } = Watchlists
-      return {
-        lists: [...fetchUserLists].sort(sortWatchlists),
-        isLoading: loading
-      }
-    }
+    options: () => ({ context: { isRetriable: true } }),
+    props: ({ Watchlists: { fetchUserLists = [], loading = true } }) => ({
+      lists: fetchUserLists.sort(sortWatchlists),
+      isLoading: loading
+    })
   }),
   connect(
     mapStateToProps,

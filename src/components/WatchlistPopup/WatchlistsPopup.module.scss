@@ -1,0 +1,19 @@
+@import '~@santiment-network/ui/mixins';
+
+.btn {
+  height: auto;
+
+  @include responsive('laptop', 'desktop', 'tablet') {
+    fill: var(--casper);
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    width: calc(100% - 32px);
+    margin: 0 16px 20px;
+    justify-content: center;
+  }
+}
+
+.actions {
+  padding: 8px;
+}

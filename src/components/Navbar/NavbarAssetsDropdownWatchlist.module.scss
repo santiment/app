@@ -4,7 +4,8 @@
 .wrapper {
   box-sizing: border-box;
   flex: 1;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
 }
 
@@ -33,38 +34,23 @@
   }
 }
 
-.label {
-  padding: 3px 8px;
-
-  @include text-normal;
-
-  font-size: 12px;
-  line-height: 18px;
-}
-
-.newList {
-  @include text-normal;
-
-  display: flex;
-  border-top: 1px solid var(--grey-light-2);
-  height: 48px;
-
-  &__btn {
-    height: 100% !important;
-    padding: 14px 16px !important;
-    fill: var(--casper);
-  }
-}
-
-.createForm {
-  padding: 8px !important;
-  width: 100%;
-}
-
 .explanation {
   z-index: 10000;
 }
 
-.plus {
-  margin-right: 8px;
+.watchlistName {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.watchlistNew {
+  margin: 10px;
+  width: calc(100% - 20px);
+  fill: var(--casper);
+  justify-content: center;
 }
