@@ -7,7 +7,7 @@ import styles from './InsightTags.module.scss'
 
 const VISIBLE_TAGS_BY_DEFAULT = 3
 
-const InsightTags = ({ tags = [] }) => {
+const InsightTags = ({ tags = [], isDesktop }) => {
   const filteredTags = tags.filter(noTrendTagsFilter)
   const tagsOverflow =
     filteredTags.length > VISIBLE_TAGS_BY_DEFAULT
@@ -27,10 +27,15 @@ const InsightTags = ({ tags = [] }) => {
               +{tagsOverflow}
             </Button>
           }
-          position='bottom'
+          position='top'
+          align='start'
+          classes={styles}
         >
           <Panel className={styles.overflowTags}>
-            {filteredTags.slice(VISIBLE_TAGS_BY_DEFAULT).map(({ name }) => (
+            {(isDesktop
+              ? filteredTags.slice(VISIBLE_TAGS_BY_DEFAULT)
+              : filteredTags
+            ).map(({ name }) => (
               <Link
                 to={`/insights/tags/${name}`}
                 key={name}

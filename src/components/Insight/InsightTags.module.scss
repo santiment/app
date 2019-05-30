@@ -24,5 +24,15 @@
 }
 
 .overflowTags {
-  padding: 5px;
+  padding: 5px 5px 0;
+
+  & .tag {
+    margin-bottom: 5px;
+  }
+}
+
+.menu {
+  @include responsive('tablet', 'laptop', 'desktop') {
+    max-width: 250px;
+  }
 }
