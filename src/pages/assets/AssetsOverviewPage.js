@@ -52,7 +52,7 @@ const AssetsOverview = ({ slugs, isLoggedIn, isPublicWatchlistsLoading }) => {
         </div>
         {isLoggedIn && (
           <div className={styles.section}>
-            <MyWatchlist />
+            <MyWatchlist isLoggedIn={isLoggedIn} />
           </div>
         )}
       </DesktopOnly>

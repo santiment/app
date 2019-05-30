@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import WatchlistCard from './WatchlistCard'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
@@ -61,5 +62,9 @@ const MyWatchlist = ({ isLoggedIn }) => (
     )}
   />
 )
+
+MyWatchlist.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired
+}
 
 export default MyWatchlist
