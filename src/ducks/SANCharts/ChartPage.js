@@ -109,15 +109,24 @@ class ChartPage extends Component {
     const {
       timeRange,
       slug,
-      metrics,
+      metrics: metricsOriginal,
       from,
       to,
       interval,
       viewOnly,
       title,
       zoom,
-      nightMode
+      nightMode,
+      ...restState
     } = this.state
+
+    const modifiedMetrics = []
+    for (let [key, value] of Object.entries(restState)) {
+      if (key.match(/metrics\[\d+]$/) !== null) modifiedMetrics.push(value)
+    }
+    const metrics =
+      modifiedMetrics.length > 0 ? modifiedMetrics : metricsOriginal
+
     const requestedMetrics = metrics.reduce((acc, metric) => {
       acc = {
         ...acc,

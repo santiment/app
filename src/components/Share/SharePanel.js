@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Input, Panel, Icon, Button } from '@santiment-network/ui'
+import { Button, Icon, Input, Panel } from '@santiment-network/ui'
 import ShareComposition from './ShareComposition'
 import ShareCopyBtn from './ShareCopyBtn.js'
 import styles from './SharePanel.module.scss'
@@ -66,8 +66,8 @@ const SharePanel = ({
           />
           <ShareCopyBtn shareLink={shareLink} />
         </div>
-        {extraShare.map(({ value, label }) => (
-          <div className={styles.link}>
+        {extraShare.map(({ value, label }, idx) => (
+          <div className={styles.link} key={idx}>
             <Input
               className={styles.link__input}
               readOnly
