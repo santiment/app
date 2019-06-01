@@ -46,7 +46,7 @@ const AssetsOverview = ({ slugs, isLoggedIn, isPublicWatchlistsLoading }) => {
         />
       </MobileOnly>
       <DesktopOnly>
-        <h4>Categories</h4>
+        <h4 className={styles.heading}>Categories</h4>
         <div className={styles.section}>
           <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
         </div>
