@@ -1,0 +1,41 @@
+@import '~@santiment-network/ui/variables.scss';
+
+.wrapper {
+  width: 100%;
+  padding: 33px 60px 33px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  box-shadow: 0 6px 50px rgba(24, 27, 43, 0.03);
+  background-color: $white;
+  background-image: url(./wavesWhite.svg);
+  background-repeat: no-repeat;
+  background-position: 110% 35%;
+}
+
+.left {
+  flex: 1;
+}
+
+.title {
+  font-size: 18px;
+  line-height: 26px;
+  color: $mirage;
+  margin-bottom: 4px;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 24px;
+  color: $waterloo;
+  margin: 0;
+  width: 100%;
+}
+
+.btn {
+  width: 180px;
+  justify-content: center;
+  height: 40px;
+}

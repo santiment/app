@@ -10,6 +10,7 @@ import EmptySection from '../EmptySection/EmptySection'
 import NewWatchlistDialog from './NewWatchlistDialog.js'
 import WatchlistNewBtn from '../WatchlistPopup/WatchlistNewBtn'
 import WatchlistsAnon from '../WatchlistPopup/WatchlistsAnon'
+import WatchlistsAnonBanner from '../Banner/WatchlistsAnonBanner'
 import styles from './Watchlist.module.scss'
 
 const WatchlistEmptySection = ({ watchlists }) => (
@@ -37,7 +38,7 @@ const MyWatchlist = ({ isLoggedIn }) => (
           <div className={styles.header}>
             <h4 className={styles.heading}>My watchlists</h4>
             <NewWatchlistDialog
-              trigger={<WatchlistNewBtn border />}
+              trigger={<WatchlistNewBtn border disabled={!isLoggedIn} />}
               watchlists={watchlists}
             />
           </div>
@@ -66,7 +67,16 @@ const MyWatchlist = ({ isLoggedIn }) => (
                 />
               ))
           )}
-          {!isLoggedIn && <WatchlistsAnon isFullScreen={true} />}
+          {!isLoggedIn && (
+            <>
+              <DesktopOnly>
+                <WatchlistsAnonBanner className={styles.anonBanner} />
+              </DesktopOnly>
+              <MobileOnly>
+                <WatchlistsAnon isFullScreen={true} />
+              </MobileOnly>
+            </>
+          )}
         </Row>
       </div>
     )}
