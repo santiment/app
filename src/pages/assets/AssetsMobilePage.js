@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
-import { List, AutoSizer } from 'react-virtualized'
+import { AutoSizer, List } from 'react-virtualized'
+import { Label } from '@santiment-network/ui'
 import PageLoader from '../../components/Loader/PageLoader'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import GetAssets, { SORT_TYPES } from './GetAssets'
@@ -12,6 +13,10 @@ const AssetsMobilePage = props => {
   return (
     <div className={cx('page', styles.wrapper)}>
       <MobileHeader title={getTableTitle(props)} backRoute='/assets' />
+      <div className={styles.headings}>
+        <Label accent='casper'>Coin</Label>
+        <Label accent='casper'>Price, 24h</Label>
+      </div>
       <GetAssets
         {...props}
         sortBy={SORT_TYPES.marketcap}
