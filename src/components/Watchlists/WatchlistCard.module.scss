@@ -2,15 +2,11 @@
 @import '~@santiment-network/ui/mixins.scss';
 @import '../../mixins.scss';
 
-.name {
-  margin-bottom: 10px;
-}
-
 .wrapper {
   @include text-normal;
 
-  width: 22%;
-  margin: 12px 24px 12px 0;
+  width: 23%;
+  margin: 12px 2.6% 12px 0;
   border: 1px solid var(--porcelain);
   border-radius: $border-radius;
   display: inline-block;
@@ -19,12 +15,20 @@
   overflow: hidden;
   color: var(--mirage);
   cursor: pointer;
+  transition: all ease-in-out 0.1s;
 
-  &:hover {
-    box-shadow: 0 14px 20px rgba(24, 27, 43, 0.06);
+  @include responsive('laptop', 'desktop') {
+    &:nth-child(4n) {
+      margin-right: 0;
+    }
 
-    .name {
-      color: var(--jungle-green);
+    &:hover {
+      box-shadow: 0 14px 20px rgba(24, 27, 43, 0.06);
+      transform: translateY(-4px);
+
+      .name {
+        color: var(--jungle-green);
+      }
     }
   }
 
@@ -39,6 +43,10 @@
   }
 }
 
+.name {
+  line-height: 20px;
+}
+
 .flexRow {
   display: flex;
   align-items: center;
@@ -50,6 +58,7 @@
 
 .volumeLabel {
   color: var(--waterloo);
+  line-height: 20px;
   margin-left: 5px;
 }
 
@@ -59,7 +68,10 @@
 }
 
 .marketcap {
-  margin-bottom: 6px;
+  font-family: 'Rubik', sans-serif;
+  font-size: 22px;
+  line-height: 30px;
   color: var(--mirage);
-  font-weight: bold;
+  margin-top: 12px;
+  margin-bottom: 6px;
 }

@@ -55,17 +55,15 @@ const MyWatchlist = ({ isLoggedIn }) => (
           {isLoggedIn && !watchlists.length ? (
             <WatchlistEmptySection watchlists={watchlists} />
           ) : (
-            watchlists
-              .filter(({ listItems }) => Boolean(listItems.length))
-              .map(watchlist => (
-                <WatchlistCard
-                  key={watchlist.id}
-                  name={watchlist.name}
-                  to={getWatchlistLink(watchlist)}
-                  isPublic={watchlist.isPublic}
-                  slugs={watchlist.listItems.map(({ project }) => project.slug)}
-                />
-              ))
+            watchlists.map(watchlist => (
+              <WatchlistCard
+                key={watchlist.id}
+                name={watchlist.name}
+                to={getWatchlistLink(watchlist)}
+                isPublic={watchlist.isPublic}
+                slugs={watchlist.listItems.map(({ project }) => project.slug)}
+              />
+            ))
           )}
           {!isLoggedIn && (
             <>
