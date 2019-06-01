@@ -10,12 +10,13 @@ import HelpPopupAssets from './HelpPopupAssets'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import WidgetSonar from '../../components/Widget/WidgetSonar'
 import StablecoinsDownloadBtn from './StablecoinsDownloadBtn'
+import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
 import WatchlistContextMenu from './WatchlistContextMenu'
 import {
+  getHelmetTags,
   getTableTitle,
-  normalizeCSV,
   isNotSafari,
-  getHelmetTags
+  normalizeCSV
 } from './utils'
 
 import './Assets.css'
@@ -45,9 +46,14 @@ const AssetsPage = props => {
               </div>
               <div className='page-head-projects__right'>
                 {isList && props.location.hash !== '#shared' && (
-                  <ShareModalTrigger
-                    shareLink={window.location.href + '#shared'}
-                  />
+                  <>
+                    <ShareModalTrigger
+                      shareLink={window.location.href + '#shared'}
+                    />
+                    {Assets.isCurrentUserTheAuthor && (
+                      <WatchlistEditTrigger name={getTableTitle(props)} />
+                    )}
+                  </>
                 )}
 
                 {!isList &&
