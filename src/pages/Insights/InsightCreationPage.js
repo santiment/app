@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 import InsightEditor from '../../components/Insight/InsightEditor/InsightEditor'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import * as actions from './actions'
@@ -35,6 +36,9 @@ class InsightCreationPage extends Component {
 
     return (
       <>
+        <Helmet>
+          <title>Draft insight</title>
+        </Helmet>
         {!this.props.isDesktop && (
           <MobileHeader title='All Insights' backRoute='/insights' />
         )}
