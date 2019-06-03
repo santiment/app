@@ -12,11 +12,10 @@ const SearchProjects = ({ data: { allProjects = [] }, ...props }) => {
     <SearchWithSuggestions
       {...props}
       data={projects}
+      sorter={({ name: { length: a } }, { name: { length: b } }) => a - b}
       predicate={searchTerm => {
         const upperCaseSearchTerm = searchTerm.toUpperCase()
         return ({ ticker, name }) =>
-          name.toUpperCase() === upperCaseSearchTerm ||
-          ticker.toUpperCase() === upperCaseSearchTerm ||
           name.toUpperCase().includes(upperCaseSearchTerm) ||
           ticker.toUpperCase().includes(upperCaseSearchTerm)
       }}
