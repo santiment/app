@@ -3,9 +3,10 @@ import { Button, Icon } from '@santiment-network/ui'
 import WatchlistEdit from './WatchlistEdit'
 import styles from './WatchlistEditButton.module.scss'
 
-const WatchlistEditTrigger = ({ name }) => {
+const WatchlistEditTrigger = ({ name, ...props }) => {
   return (
     <WatchlistEdit
+      {...props}
       name={name}
       trigger={
         <Button border variant='flat'>

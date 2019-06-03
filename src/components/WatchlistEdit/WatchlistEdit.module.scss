@@ -1,0 +1,42 @@
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
+
+.wrapper {
+  padding: 4px 0;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 318px;
+  height: 382px;
+}
+
+.search {
+  z-index: 5;
+}
+
+.heading {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: bold;
+  margin: 16px 0 8px;
+}
+
+.wrapperList {
+  height: 100%;
+}
+
+.project {
+  @include text-normal;
+
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ticker {
+  margin-left: 5px;
+}

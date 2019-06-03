@@ -1,9 +1,15 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Helmet } from 'react-helmet'
 import qs from 'query-string'
 import { CSVLink } from 'react-csv'
-import { Button } from '@santiment-network/ui'
+import { Button, Label } from '@santiment-network/ui'
 import { getOrigin } from '../../utils/utils'
+import {
+  getHelmetTags,
+  getTableTitle,
+  isNotSafari,
+  normalizeCSV
+} from './utils'
 import GetAssets from './GetAssets'
 import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
@@ -12,13 +18,10 @@ import WidgetSonar from '../../components/Widget/WidgetSonar'
 import StablecoinsDownloadBtn from './StablecoinsDownloadBtn'
 import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
 import WatchlistContextMenu from './WatchlistContextMenu'
-import {
-  getHelmetTags,
-  getTableTitle,
-  isNotSafari,
-  normalizeCSV
-} from './utils'
+import EmptySection from '../../components/EmptySection/EmptySection'
+import WatchlistEdit from '../../components/WatchlistEdit/WatchlistEdit'
 
+import styles from '../../components/Watchlists/Watchlist.module.scss'
 import './Assets.css'
 
 const AssetsPage = props => {
@@ -38,7 +41,7 @@ const AssetsPage = props => {
         {...props}
         type={props.type}
         render={Assets => (
-          <Fragment>
+          <>
             <div className='page-head page-head-projects'>
               <div className='page-head-projects__left'>
                 <h1>{getTableTitle(props)}</h1>
@@ -51,7 +54,11 @@ const AssetsPage = props => {
                       shareLink={window.location.href + '#shared'}
                     />
                     {Assets.isCurrentUserTheAuthor && (
-                      <WatchlistEditTrigger name={getTableTitle(props)} />
+                      <WatchlistEditTrigger
+                        name={getTableTitle(props)}
+                        id={Assets.typeInfo.listId}
+                        assets={Assets.items}
+                      />
                     )}
                   </>
                 )}
@@ -86,17 +93,44 @@ const AssetsPage = props => {
                 )}
               </div>
             </div>
-            <WidgetSonar
-              className='assets-table-widget-wrapper'
-              type={props.type}
-              listName={getTableTitle(props)}
-            />
-            <AssetsTable
-              Assets={Assets}
-              goto={props.history.push}
-              preload={props.preload}
-            />
-          </Fragment>
+            {Assets.items.length > 0 && (
+              <>
+                <WidgetSonar
+                  className='assets-table-widget-wrapper'
+                  type={props.type}
+                  listName={getTableTitle(props)}
+                />
+                <AssetsTable
+                  Assets={Assets}
+                  goto={props.history.push}
+                  preload={props.preload}
+                />
+              </>
+            )}
+            {Assets.items.length === 0 && Assets.isCurrentUserTheAuthor && (
+              <div className={styles.emptyWrapper}>
+                <EmptySection imgClassName={styles.img}>
+                  <Label accent='mirage' className={styles.emptyText}>
+                    Start to add assets you want to track or just interested in
+                  </Label>
+                  <WatchlistEdit
+                    name={getTableTitle(props)}
+                    id={Assets.typeInfo.listId}
+                    assets={Assets.items}
+                    trigger={
+                      <Button
+                        accent='positive'
+                        variant='fill'
+                        className={styles.emptyBtn}
+                      >
+                        Add assets
+                      </Button>
+                    }
+                  />
+                </EmptySection>
+              </div>
+            )}
+          </>
         )}
       />
     </div>

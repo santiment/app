@@ -9,7 +9,7 @@ export const getTableTitle = ({ type, location: { search } }) => {
     case 'erc20':
       return 'ERC20 Assets'
     case 'list':
-      return (qs.parse(search).name || '').split('@')[0].toUpperCase()
+      return (qs.parse(search).name || '').split('@')[0]
     default:
       return 'Assets'
   }
