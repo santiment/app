@@ -1,12 +1,15 @@
 import React from 'react'
+import withSizes from 'react-sizes'
+import { mapSizesToProps } from '../../App'
 import InsightCard from './InsightCard'
 import styles from './InsightsWrap.module.scss'
 
-const InsightsWrap = ({ insights }) => {
+const InsightsWrap = ({ insights, isDesktop }) => {
   return (
     <div className={styles.insights}>
       {insights.slice(0, 9).map(insight => (
         <InsightCard
+          isDesktop={isDesktop}
           small
           grey
           withAuthorPic={false}
@@ -19,4 +22,4 @@ const InsightsWrap = ({ insights }) => {
   )
 }
 
-export default InsightsWrap
+export default withSizes(mapSizesToProps)(InsightsWrap)

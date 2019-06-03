@@ -32,13 +32,14 @@ const InsightCardInternals = ({
   withAuthorPic,
   small,
   grey,
-  className
+  className,
+  isDesktop
 }) => {
   return (
     <Fragment>
       <div className={styles.top}>
         <div>
-          <InsightTags tags={tags} />
+          <InsightTags tags={tags} isDesktop={isDesktop} />
         </div>
         <Link
           to={`/insights/read/${getSEOLinkFromIdAndTitle(id, title)}`}

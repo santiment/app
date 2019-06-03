@@ -66,7 +66,7 @@ const InsightViewPage = ({
           />
         </InsightViewPageImageModalWrapper>
         <div className={styles.tags}>
-          <InsightTags tags={tags} />
+          <InsightTags isDesktop={isDesktop} tags={tags} />
         </div>
         <div className={styles.bottom}>
           <div className={styles.left}>
