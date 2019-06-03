@@ -14,7 +14,11 @@ const InsightCard = ({ className, tags, isDesktop, ...insight }) => {
   return (
     <Panel className={cx(styles.wrapper, styles.wrapper_withMc, className)}>
       <div className={styles.wrapper_withMc__left}>
-        <InsightCardInternals {...insight} tags={filteredTags} />
+        <InsightCardInternals
+          {...insight}
+          tags={filteredTags}
+          isDesktop={isDesktop}
+        />
       </div>
       {isDesktop && (
         <div className={styles.wrapper_withMc__right}>

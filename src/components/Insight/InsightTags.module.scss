@@ -1,0 +1,38 @@
+@import "../../mixins.scss";
+@import "~@santiment-network/ui/variables.scss";
+@import "~@santiment-network/ui/mixins.scss";
+
+.tag {
+  @include text-normal;
+
+  padding: 1px 6px;
+  color: var(--grey-dark-2);
+  box-sizing: border-box;
+  border: 1px solid var(--grey-light-2);
+  border-radius: $border-radius;
+  line-height: 20px;
+  font-size: 12px;
+  display: inline-block;
+  margin-right: 4px;
+  text-decoration: none;
+  text-transform: lowercase;
+}
+
+.moreTagsTrigger {
+  height: auto;
+  background: var(--porcelain);
+}
+
+.overflowTags {
+  padding: 5px 5px 0;
+
+  & .tag {
+    margin-bottom: 5px;
+  }
+}
+
+.menu {
+  @include responsive('tablet', 'laptop', 'desktop') {
+    max-width: 250px;
+  }
+}
