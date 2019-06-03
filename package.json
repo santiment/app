@@ -50,7 +50,7 @@
     "ms": "^2.1.1",
     "nprogress": "^0.2.0",
     "outliers": "^0.0.3",
-    "query-string": "^5.0.1",
+    "query-string": "^6.5.0",
     "raven-for-redux": "^1.1.1",
     "raven-js": "^3.20.1",
     "react": "^16.8.6",

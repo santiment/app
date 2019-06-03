@@ -3,7 +3,6 @@ import * as qs from 'query-string'
 import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
-import { mapQSToState } from './../../utils/utils'
 import Charts from './Charts'
 
 const LoadableChartSettings = Loadable({
@@ -17,13 +16,16 @@ const LoadableChartMetrics = Loadable({
 })
 
 class ChartPage extends Component {
+  mapQSToState = ({ location: { search } }) =>
+    qs.parse(search, { arrayFormat: 'comma' })
+
   state = {
     timeRange: '6m',
     slug: 'santiment',
     metrics: ['price'],
     title: 'Santiment (SAN)',
     interval: '1d',
-    ...mapQSToState(this.props)
+    ...this.mapQSToState(this.props)
   }
 
   onZoom = (leftZoomIndex, rightZoomIndex, leftZoomDate, rightZoomDate) => {
@@ -63,7 +65,7 @@ class ChartPage extends Component {
     )
   }
 
-  mapStateToQS = props => '?' + qs.stringify(props, { arrayFormat: 'bracket' })
+  mapStateToQS = props => '?' + qs.stringify(props, { arrayFormat: 'comma' })
 
   updateSearchQuery () {
     this.props.history.replace({
@@ -101,7 +103,7 @@ class ChartPage extends Component {
     }
 
     return `${origin}${pathname}?${qs.stringify(settings, {
-      arrayFormat: 'bracket'
+      arrayFormat: 'comma'
     })}`
   }
 
@@ -109,23 +111,15 @@ class ChartPage extends Component {
     const {
       timeRange,
       slug,
-      metrics: metricsOriginal,
+      metrics,
       from,
       to,
       interval,
       viewOnly,
       title,
       zoom,
-      nightMode,
-      ...restState
+      nightMode
     } = this.state
-
-    const modifiedMetrics = []
-    for (let [key, value] of Object.entries(restState)) {
-      if (key.match(/metrics\[\d+]$/) !== null) modifiedMetrics.push(value)
-    }
-    const metrics =
-      modifiedMetrics.length > 0 ? modifiedMetrics : metricsOriginal
 
     const requestedMetrics = metrics.reduce((acc, metric) => {
       acc = {
