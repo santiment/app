@@ -7,7 +7,7 @@ import * as actions from './../actions/types'
 const removeAssetFromWatchlist = (action$, store, { client }) =>
   action$
     .ofType(actions.USER_REMOVE_ASSET_FROM_LIST)
-    .mergeMap(({ payload: { assetsListId, listItems, projectId } }) => {
+    .mergeMap(({ payload: { assetsListId, listItems = [], projectId } }) => {
       const newListItems = listItems
         .map(val => ({ project_id: +val.id }))
         .reduce(

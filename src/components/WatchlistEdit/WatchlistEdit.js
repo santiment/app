@@ -41,23 +41,38 @@ class WatchlistEdit extends PureComponent {
         open={open}
       >
         <Dialog.ScrollContent className={styles.wrapper}>
-          <SearchProjects className={styles.search} />
+          <SearchProjects
+            watchlistItems={assets}
+            isEditingWatchlist={true}
+            className={styles.search}
+            onSuggestionSelect={({ id: projectId }) =>
+              this.toggleAsset({
+                projectId,
+                assetsListId: id,
+                listItems: assets,
+                isAssetInList: hasAssetById({
+                  listItems: assets,
+                  id: projectId
+                })
+              })
+            }
+          />
           <div className={styles.contentWrapper}>
+            <Label accent='waterloo' className={styles.heading}>
+              Add more assets
+            </Label>
+            <AssetsList
+              items={allProjects}
+              assetsListId={id}
+              listItems={assets}
+              onToggleProject={this.toggleAsset}
+            />
             <Label accent='waterloo' className={styles.heading}>
               Contained in watchlist
             </Label>
             <AssetsList
               isContained={true}
               items={assets}
-              assetsListId={id}
-              listItems={assets}
-              onToggleProject={this.toggleAsset}
-            />
-            <Label accent='waterloo' className={styles.heading}>
-              Add more assets
-            </Label>
-            <AssetsList
-              items={allProjects}
               assetsListId={id}
               listItems={assets}
               onToggleProject={this.toggleAsset}

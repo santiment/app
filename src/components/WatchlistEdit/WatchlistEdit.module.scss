@@ -4,8 +4,10 @@
 
 .wrapper {
   padding: 12px 0 12px 20px;
+  width: 318px;
 
   @include responsive('phone-xs', 'phone', 'tablet') {
+    width: 100%;
     overflow-y: hidden;
   }
 }
@@ -13,17 +15,12 @@
 .contentWrapper {
   display: flex;
   flex-direction: column;
-  width: 318px;
-  height: 382px;
-
-  @include responsive('phone-xs', 'phone', 'tablet') {
-    width: 100%;
-  }
+  height: 390px;
 }
 
 .search {
   z-index: 5;
-  padding-right: 20px;
+  margin-right: 20px;
 }
 
 .heading {
@@ -53,8 +50,4 @@
 
 .actionBtn {
   margin-right: 10px;
-}
-
-.explanation {
-  z-index: 10000;
 }
