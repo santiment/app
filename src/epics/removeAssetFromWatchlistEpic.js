@@ -9,7 +9,7 @@ const removeAssetFromWatchlist = (action$, store, { client }) =>
     .ofType(actions.USER_REMOVE_ASSET_FROM_LIST)
     .mergeMap(({ payload: { assetsListId, listItems, projectId } }) => {
       const newListItems = listItems
-        .map(val => ({ project_id: +val.project.id }))
+        .map(val => ({ project_id: +val.id }))
         .reduce(
           (acc, val) => (val.project_id !== +projectId ? [...acc, val] : acc),
           []

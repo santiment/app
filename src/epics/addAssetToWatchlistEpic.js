@@ -42,9 +42,7 @@ const addAssetToWatchlistEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.USER_ADD_ASSET_TO_LIST)
     .mergeMap(({ payload: { assetsListId, listItems = [], projectId } }) => {
-      const normalizedList = listItems.map(val => ({
-        project_id: +val.project.id
-      }))
+      const normalizedList = listItems.map(val => ({ project_id: +val.id }))
       const newListItems = projectId
         ? [...normalizedList, { project_id: +projectId }]
         : normalizedList

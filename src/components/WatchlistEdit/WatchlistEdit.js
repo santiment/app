@@ -1,23 +1,25 @@
 import React, { PureComponent } from 'react'
-import { Button, Dialog, Icon, Label } from '@santiment-network/ui'
-import SearchProjects from '../Search/SearchProjects'
-import { AutoSizer, List } from 'react-virtualized'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
+import { AutoSizer, List } from 'react-virtualized'
+import { Button, Dialog, Icon, Label } from '@santiment-network/ui'
+import {
+  USER_ADD_ASSET_TO_LIST,
+  USER_REMOVE_ASSET_FROM_LIST
+} from '../../actions/types'
 import { allProjectsForSearchGQL } from '../../pages/Projects/allProjectsGQL'
+import SearchProjects from '../Search/SearchProjects'
 import styles from './WatchlistEdit.module.scss'
 
 class WatchlistEdit extends PureComponent {
-  state = {
-    open: false
-  }
+  state = { open: false }
 
-  openDialog = () => {
-    this.setState({ open: true })
-  }
+  openDialog = () => this.setState({ open: true })
 
-  cancelDialog = () => {
-    this.setState({ open: false })
-  }
+  cancelDialog = () => this.setState({ open: false })
+
+  toggleAsset = props => this.props.toggleAsset(props)
 
   render () {
     const { open } = this.state
@@ -44,7 +46,7 @@ class WatchlistEdit extends PureComponent {
               <Label accent='waterloo' className={styles.heading}>
                 Contained in watchlist
               </Label>
-              {assets.map(({ name, ticker }) => (
+              {assets.map(({ name, ticker, id: projectId }) => (
                 <div key={name} className={styles.project}>
                   <div className={styles.info}>
                     <Label accent='mirage'>{name}</Label>
@@ -52,17 +54,30 @@ class WatchlistEdit extends PureComponent {
                       ({ticker})
                     </Label>
                   </div>
-                  <div className={styles.actions}>
-                    <Button accent='positive'>
-                      <Icon type='plus-round' />
-                    </Button>
-                  </div>
+                  <Button
+                    accent='grey'
+                    onClick={() =>
+                      this.toggleAsset({
+                        projectId,
+                        assetsListId: id,
+                        listItems: assets,
+                        isAssetInList: true
+                      })
+                    }
+                  >
+                    <Icon type='remove' />
+                  </Button>
                 </div>
               ))}
               <Label accent='waterloo' className={styles.heading}>
                 Add more assets
               </Label>
-              <AssetsList items={allProjects} />
+              <AssetsList
+                items={allProjects}
+                assetsListId={id}
+                listItems={assets}
+                onAddProject={this.toggleAsset}
+              />
             </div>
           </div>
         </Dialog.ScrollContent>
@@ -73,9 +88,12 @@ class WatchlistEdit extends PureComponent {
 
 const ROW_HEIGHT = 32
 
-const AssetsList = ({ items }) => {
+const AssetsList = ({ items, listItems, assetsListId, onAddProject }) => {
   const rowRenderer = ({ key, index, style }) => {
-    const { name, ticker } = items[index]
+    const { name, ticker, id } = items[index]
+    const isAssetInList = listItems.some(
+      ({ id: projectId }) => projectId === id
+    )
     return (
       <div key={key} className={styles.project} style={style}>
         <div className={styles.info}>
@@ -84,11 +102,20 @@ const AssetsList = ({ items }) => {
             ({ticker})
           </Label>
         </div>
-        <div className={styles.actions}>
-          <Button accent='positive'>
-            <Icon type='plus-round' />
-          </Button>
-        </div>
+        <Button
+          accent='positive'
+          disabled={isAssetInList}
+          onClick={() =>
+            onAddProject({
+              projectId: id,
+              assetsListId,
+              listItems,
+              isAssetInList
+            })
+          }
+        >
+          <Icon type='plus-round' />
+        </Button>
       </div>
     )
   }
@@ -111,8 +138,24 @@ const AssetsList = ({ items }) => {
   )
 }
 
-export default graphql(allProjectsForSearchGQL, {
-  options: () => ({
-    context: { isRetriable: true }
-  })
-})(WatchlistEdit)
+const mapStateToProps = ({ watchlistUi }) => ({ watchlistUi })
+
+const mapDispatchToProps = dispatch => ({
+  toggleAsset: ({ projectId, assetsListId, listItems, slug, isAssetInList }) =>
+    dispatch({
+      type: isAssetInList
+        ? USER_REMOVE_ASSET_FROM_LIST
+        : USER_ADD_ASSET_TO_LIST,
+      payload: { projectId, assetsListId, listItems, slug }
+    })
+})
+
+export default compose(
+  graphql(allProjectsForSearchGQL, {
+    options: () => ({ context: { isRetriable: true } })
+  }),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(WatchlistEdit)
