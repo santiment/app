@@ -107,11 +107,14 @@ const AssetsPage = props => {
                 />
               </>
             )}
-            {Assets.items.length === 0 && Assets.isCurrentUserTheAuthor && (
+            {!Assets.isLoading &&
+              Assets.items.length === 0 &&
+              Assets.isCurrentUserTheAuthor && (
               <div className={styles.emptyWrapper}>
                 <EmptySection imgClassName={styles.img}>
                   <Label accent='mirage' className={styles.emptyText}>
-                    Start to add assets you want to track or just interested in
+                      Start to add assets you want to track or just interested
+                      in
                   </Label>
                   <WatchlistEdit
                     name={getTableTitle(props)}
@@ -123,7 +126,7 @@ const AssetsPage = props => {
                         variant='fill'
                         className={styles.emptyBtn}
                       >
-                        Add assets
+                          Add assets
                       </Button>
                     }
                   />

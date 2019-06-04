@@ -10,5 +10,34 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 32px 5px 54px;
+  padding: 0 32px 5px 54px;
+  position: sticky;
+  top: 58px;
+  z-index: 1;
+  background: var(--white);
+}
+
+.emptyWrapper {
+  margin-top: 12vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyImg {
+  height: 150px;
+}
+
+.emptyText {
+  width: 230px;
+  margin-bottom: 29px;
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.emptyBtn {
+  justify-content: center;
+  align-items: center;
+  width: 200px;
 }
