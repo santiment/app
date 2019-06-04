@@ -15,7 +15,7 @@ describe('hasListItemsThisAssetById', () => {
       hasAssetById({
         listItems: [
           {
-            project: { id: '736', __typename: 'Project' },
+            id: '736',
             __typename: 'ListItem'
           }
         ],
@@ -27,11 +27,11 @@ describe('hasListItemsThisAssetById', () => {
       hasAssetById({
         listItems: [
           {
-            project: { id: '736', __typename: 'Project' },
+            id: '736',
             __typename: 'ListItem'
           },
           {
-            project: { id: '716', __typename: 'Project' },
+            id: '716',
             __typename: 'ListItem'
           }
         ],
