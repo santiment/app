@@ -135,6 +135,27 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
       })
     )
 
+export const fetchAssetsFromListWithEditEpic = action$ =>
+  action$
+    .ofType(actions.ASSETS_FETCH_SUCCESS)
+    .filter(
+      ({ payload: { isCurrentUserTheAuthor } }) =>
+        isCurrentUserTheAuthor === true
+    )
+    .switchMap(() =>
+      action$
+        .ofType(
+          actions.USER_ADD_ASSET_TO_LIST_SUCCESS,
+          actions.USER_REMOVED_ASSET_FROM_LIST_SUCCESS
+        )
+        .mergeMap(({ payload: { assetsListId } }) =>
+          Observable.of({
+            type: actions.ASSETS_FETCH,
+            payload: { type: 'list', list: { id: assetsListId } }
+          })
+        )
+    )
+
 export const fetchAssetsFromSharedListEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.ASSETS_FETCH)
