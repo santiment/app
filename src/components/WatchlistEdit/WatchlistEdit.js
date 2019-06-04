@@ -9,6 +9,7 @@ import {
   USER_REMOVE_ASSET_FROM_LIST
 } from '../../actions/types'
 import { allProjectsForSearchGQL } from '../../pages/Projects/allProjectsGQL'
+import { hasAssetById } from '../WatchlistPopup/WatchlistsPopup'
 import SearchProjects from '../Search/SearchProjects'
 import styles from './WatchlistEdit.module.scss'
 
@@ -39,46 +40,28 @@ class WatchlistEdit extends PureComponent {
         onClose={this.cancelDialog}
         open={open}
       >
-        <Dialog.ScrollContent withPadding>
-          <div className={styles.wrapper}>
-            <SearchProjects className={styles.search} />
-            <div className={styles.contentWrapper}>
-              <Label accent='waterloo' className={styles.heading}>
-                Contained in watchlist
-              </Label>
-              {assets.map(({ name, ticker, id: projectId }) => (
-                <div key={name} className={styles.project}>
-                  <div className={styles.info}>
-                    <Label accent='mirage'>{name}</Label>
-                    <Label accent='waterloo' className={styles.ticker}>
-                      ({ticker})
-                    </Label>
-                  </div>
-                  <Button
-                    accent='grey'
-                    onClick={() =>
-                      this.toggleAsset({
-                        projectId,
-                        assetsListId: id,
-                        listItems: assets,
-                        isAssetInList: true
-                      })
-                    }
-                  >
-                    <Icon type='remove' />
-                  </Button>
-                </div>
-              ))}
-              <Label accent='waterloo' className={styles.heading}>
-                Add more assets
-              </Label>
-              <AssetsList
-                items={allProjects}
-                assetsListId={id}
-                listItems={assets}
-                onAddProject={this.toggleAsset}
-              />
-            </div>
+        <Dialog.ScrollContent className={styles.wrapper}>
+          <SearchProjects className={styles.search} />
+          <div className={styles.contentWrapper}>
+            <Label accent='waterloo' className={styles.heading}>
+              Contained in watchlist
+            </Label>
+            <AssetsList
+              isContained={true}
+              items={assets}
+              assetsListId={id}
+              listItems={assets}
+              onToggleProject={this.toggleAsset}
+            />
+            <Label accent='waterloo' className={styles.heading}>
+              Add more assets
+            </Label>
+            <AssetsList
+              items={allProjects}
+              assetsListId={id}
+              listItems={assets}
+              onToggleProject={this.toggleAsset}
+            />
           </div>
         </Dialog.ScrollContent>
       </Dialog>
@@ -88,25 +71,30 @@ class WatchlistEdit extends PureComponent {
 
 const ROW_HEIGHT = 32
 
-const AssetsList = ({ items, listItems, assetsListId, onAddProject }) => {
+const AssetsList = ({
+  items,
+  listItems,
+  assetsListId,
+  isContained,
+  onToggleProject
+}) => {
   const rowRenderer = ({ key, index, style }) => {
     const { name, ticker, id } = items[index]
-    const isAssetInList = listItems.some(
-      ({ id: projectId }) => projectId === id
-    )
+    const isAssetInList = hasAssetById({ listItems, id })
     return (
       <div key={key} className={styles.project} style={style}>
-        <div className={styles.info}>
+        <div>
           <Label accent='mirage'>{name}</Label>
           <Label accent='waterloo' className={styles.ticker}>
             ({ticker})
           </Label>
         </div>
         <Button
-          accent='positive'
-          disabled={isAssetInList}
+          className={styles.actionBtn}
+          accent={isContained ? 'grey' : 'positive'}
+          disabled={isContained ? false : isAssetInList}
           onClick={() =>
-            onAddProject({
+            onToggleProject({
               projectId: id,
               assetsListId,
               listItems,
@@ -114,7 +102,7 @@ const AssetsList = ({ items, listItems, assetsListId, onAddProject }) => {
             })
           }
         >
-          <Icon type='plus-round' />
+          <Icon type={isContained ? 'remove' : 'plus-round'} />
         </Button>
       </div>
     )

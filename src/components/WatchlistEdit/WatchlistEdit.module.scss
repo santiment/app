@@ -1,8 +1,13 @@
 @import '~@santiment-network/ui/variables.scss';
 @import '~@santiment-network/ui/mixins.scss';
+@import "../../mixins.scss";
 
 .wrapper {
-  padding: 4px 0;
+  padding: 12px 0 12px 20px;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    overflow-y: hidden;
+  }
 }
 
 .contentWrapper {
@@ -10,10 +15,15 @@
   flex-direction: column;
   width: 318px;
   height: 382px;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    width: 100%;
+  }
 }
 
 .search {
   z-index: 5;
+  padding-right: 20px;
 }
 
 .heading {
@@ -39,4 +49,12 @@
 
 .ticker {
   margin-left: 5px;
+}
+
+.actionBtn {
+  margin-right: 10px;
+}
+
+.explanation {
+  z-index: 10000;
 }
