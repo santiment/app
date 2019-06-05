@@ -7,6 +7,7 @@ import {
 } from './TotalMarketcapGQL'
 import TotalMarketcapWidget from './TotalMarketcapWidget'
 import { getTimeIntervalFromToday, MONTH } from '../../utils/dates'
+import { normalizeStats } from '../Watchlists/WatchlistCard'
 
 const getMarketcapQuery = (type, projects) => {
   const { from, to } = getTimeIntervalFromToday(-3, MONTH)
@@ -14,7 +15,7 @@ const getMarketcapQuery = (type, projects) => {
   const slugsQueryTotal = graphql(totalMarketcapGQL, {
     props: ({ data: { historyPrice = [] } }) => ({
       historyPrices: {
-        TOTAL_MARKET: historyPrice
+        TOTAL_MARKET: normalizeStats(historyPrice)
       }
     }),
     options: () => ({
@@ -34,7 +35,7 @@ const getMarketcapQuery = (type, projects) => {
     props: ({ data: { historyPrice = [] }, ownProps: { historyPrices } }) => ({
       historyPrices: {
         ...historyPrices,
-        TOTAL_LIST_MARKET: historyPrice
+        TOTAL_LIST_MARKET: normalizeStats(historyPrice)
       }
     }),
     options: () => ({
@@ -69,7 +70,7 @@ const getMarketcapQuery = (type, projects) => {
     }) => ({
       historyPrices: {
         ...historyPrices,
-        TOTAL_LIST_MARKET: projectsListHistoryStats
+        TOTAL_LIST_MARKET: normalizeStats(projectsListHistoryStats)
       }
     }),
     options: () => ({
