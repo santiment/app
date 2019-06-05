@@ -3,19 +3,18 @@
 @import "../../mixins.scss";
 
 .wrapper {
-  padding: 12px 0 12px 20px;
+  padding: 12px 0 0 20px;
   width: 318px;
+  overflow-y: hidden;
 
   @include responsive('phone-xs', 'phone') {
     width: 100%;
-    overflow-y: hidden;
   }
 }
 
 .contentWrapper {
   display: flex;
   flex-direction: column;
-  height: 390px;
 }
 
 .search {
@@ -31,7 +30,6 @@
 }
 
 .wrapperList {
-  height: 145px;
   position: relative;
 
   &::after {
@@ -61,4 +59,8 @@
 
 .actionBtn {
   margin-right: 10px;
+}
+
+.actions {
+  padding: 10px 15px;
 }

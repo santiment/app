@@ -6,7 +6,8 @@ export const initialState = {
   newItemFailed: false,
   newItemSuccess: false,
   statusDeleteAssetList: null,
-  editableAssetsInList: []
+  editableAssetsInList: [],
+  isEditWatchlist: false
 }
 
 export default (state = initialState, action) => {
@@ -88,6 +89,16 @@ export default (state = initialState, action) => {
             projectId !== action.payload.projectId &&
             assetsListId !== action.payload.assetsListId
         )
+      }
+    case actions.USER_EDIT_ASSETS_IN_LIST:
+      return {
+        ...state,
+        isEditWatchlist: true
+      }
+    case actions.USER_EDIT_ASSETS_IN_LIST_SUCCESS:
+      return {
+        ...state,
+        isEditWatchlist: false
       }
     default:
       return state

@@ -14,26 +14,40 @@ const WatchlistEdit = ({
   assets,
   trigger,
   name,
+  watchlistUi: { isEditWatchlist },
   data: { allProjects },
   id,
-  applyChanges
+  sendChanges
 }) => {
-  const [listItems, setListItems] = useState(assets)
   const [isShown, setIsShown] = useState(false)
+  const [isEditing, setEditing] = useState(false)
+  const [listItems, setListItems] = useState(assets)
+  const [editWatchlistState, setEditWatchlistState] = useState(isEditWatchlist)
 
   const close = () => {
-    applyChanges({ listItems, assetsListId: id })
+    setEditing(false)
     setIsShown(false)
   }
+
   const open = () => setIsShown(true)
 
+  const applyChanges = () => sendChanges({ listItems, assetsListId: id })
+
   const toggleAsset = ({ project, listItems, isAssetInList }) => {
+    if (!isEditing) setEditing(true)
     setListItems(
       isAssetInList
         ? listItems.filter(({ id }) => id !== project.id)
         : [...listItems, project]
     )
   }
+
+  if (isEditWatchlist !== editWatchlistState) {
+    setEditWatchlistState(isEditWatchlist)
+    if (!isEditWatchlist) close()
+  }
+
+  if (!isEditing && assets !== listItems) setListItems(assets)
 
   return (
     <Dialog
@@ -42,6 +56,7 @@ const WatchlistEdit = ({
       onOpen={open}
       onClose={close}
       open={isShown}
+      showCloseBtn={false}
     >
       <Dialog.ScrollContent className={styles.wrapper}>
         <SearchProjects
@@ -78,6 +93,24 @@ const WatchlistEdit = ({
           />
         </div>
       </Dialog.ScrollContent>
+      <Dialog.Actions className={styles.actions}>
+        <Dialog.Cancel
+          border={false}
+          accent='grey'
+          onClick={close}
+          type='cancel'
+        >
+          Cancel
+        </Dialog.Cancel>
+        <Dialog.Approve
+          disabled={editWatchlistState}
+          type='submit'
+          variant='flat'
+          onClick={applyChanges}
+        >
+          {editWatchlistState ? 'Applying...' : 'Apply'}
+        </Dialog.Approve>
+      </Dialog.Actions>
     </Dialog>
   )
 }
@@ -115,7 +148,13 @@ const AssetsList = ({ items, listItems, isContained, onToggleProject }) => {
   }
 
   return (
-    <div className={styles.wrapperList}>
+    <div
+      style={{
+        height: items.length > 4 ? '145px' : `${32 * items.length}px`,
+        paddingRight: items.length > 4 ? '0' : `5px`
+      }}
+      className={styles.wrapperList}
+    >
       <AutoSizer>
         {({ height, width }) => (
           <List
@@ -135,7 +174,7 @@ const AssetsList = ({ items, listItems, isContained, onToggleProject }) => {
 const mapStateToProps = ({ watchlistUi }) => ({ watchlistUi })
 
 const mapDispatchToProps = dispatch => ({
-  applyChanges: ({ assetsListId, listItems }) =>
+  sendChanges: ({ assetsListId, listItems }) =>
     dispatch({
       type: USER_EDIT_ASSETS_IN_LIST,
       payload: { assetsListId, listItems }
