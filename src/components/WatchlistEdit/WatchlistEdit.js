@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
@@ -10,82 +10,76 @@ import { hasAssetById } from '../WatchlistPopup/WatchlistsPopup'
 import SearchProjects from '../Search/SearchProjects'
 import styles from './WatchlistEdit.module.scss'
 
-class WatchlistEdit extends PureComponent {
-  state = { open: false, listItems: this.props.assets }
+const WatchlistEdit = ({
+  assets,
+  trigger,
+  name,
+  data: { allProjects },
+  id,
+  applyChanges
+}) => {
+  const [listItems, setListItems] = useState(assets)
+  const [isShown, setIsShown] = useState(false)
 
-  openDialog = () => this.setState({ open: true })
-
-  cancelDialog = () => {
-    this.props.editWatchlist({
-      listItems: this.state.listItems,
-      assetsListId: this.props.id
-    })
-    this.setState({ open: false })
+  const close = () => {
+    applyChanges({ listItems, assetsListId: id })
+    setIsShown(false)
   }
+  const open = () => setIsShown(true)
 
-  toggleAsset = ({ project, listItems, isAssetInList }) => {
-    this.setState({
-      listItems: isAssetInList
+  const toggleAsset = ({ project, listItems, isAssetInList }) => {
+    setListItems(
+      isAssetInList
         ? listItems.filter(({ id }) => id !== project.id)
         : [...listItems, project]
-    })
-  }
-
-  render () {
-    const { open, listItems } = this.state
-    const {
-      trigger,
-      name,
-      data: { allProjects },
-      id
-    } = this.props
-
-    return (
-      <Dialog
-        title={`Edit "${name}"`}
-        trigger={trigger}
-        onOpen={this.openDialog}
-        onClose={this.cancelDialog}
-        open={open}
-      >
-        <Dialog.ScrollContent className={styles.wrapper}>
-          <SearchProjects
-            watchlistItems={listItems}
-            isEditingWatchlist={true}
-            className={styles.search}
-            onSuggestionSelect={project =>
-              this.toggleAsset({
-                project,
-                listItems,
-                isAssetInList: hasAssetById({ listItems, id })
-              })
-            }
-          />
-          <div className={styles.contentWrapper}>
-            <Label accent='waterloo' className={styles.heading}>
-              Add more assets
-            </Label>
-            <AssetsList
-              items={allProjects}
-              assetsListId={id}
-              listItems={listItems}
-              onToggleProject={this.toggleAsset}
-            />
-            <Label accent='waterloo' className={styles.heading}>
-              Contained in watchlist
-            </Label>
-            <AssetsList
-              isContained={true}
-              items={listItems}
-              assetsListId={id}
-              listItems={listItems}
-              onToggleProject={this.toggleAsset}
-            />
-          </div>
-        </Dialog.ScrollContent>
-      </Dialog>
     )
   }
+
+  return (
+    <Dialog
+      title={`Edit "${name}"`}
+      trigger={trigger}
+      onOpen={open}
+      onClose={close}
+      open={isShown}
+    >
+      <Dialog.ScrollContent className={styles.wrapper}>
+        <SearchProjects
+          watchlistItems={listItems}
+          isEditingWatchlist={true}
+          className={styles.search}
+          onSuggestionSelect={project =>
+            toggleAsset({
+              project,
+              listItems,
+              isAssetInList: hasAssetById({ listItems, id })
+            })
+          }
+        />
+        <div className={styles.contentWrapper}>
+          <Label accent='waterloo' className={styles.heading}>
+            Add more assets
+          </Label>
+          <AssetsList
+            items={allProjects}
+            assetsListId={id}
+            listItems={listItems}
+            onToggleProject={toggleAsset}
+          />
+          <Label accent='waterloo' className={styles.heading}>
+            Contained in watchlist
+          </Label>
+          <AssetsList
+            isContained={true}
+            items={listItems}
+            assetsListId={id}
+            listItems={listItems}
+            onToggleProject={toggleAsset}
+          />
+        </div>
+      </Dialog.ScrollContent>
+    </Dialog>
+  )
 }
 
 const ROW_HEIGHT = 32
@@ -141,7 +135,7 @@ const AssetsList = ({ items, listItems, isContained, onToggleProject }) => {
 const mapStateToProps = ({ watchlistUi }) => ({ watchlistUi })
 
 const mapDispatchToProps = dispatch => ({
-  editWatchlist: ({ assetsListId, listItems }) =>
+  applyChanges: ({ assetsListId, listItems }) =>
     dispatch({
       type: USER_EDIT_ASSETS_IN_LIST,
       payload: { assetsListId, listItems }
