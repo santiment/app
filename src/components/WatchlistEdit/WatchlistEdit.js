@@ -58,20 +58,20 @@ const WatchlistEdit = ({
         />
         <div className={styles.contentWrapper}>
           <Label accent='waterloo' className={styles.heading}>
-            Add more assets
-          </Label>
-          <AssetsList
-            items={allProjects}
-            assetsListId={id}
-            listItems={listItems}
-            onToggleProject={toggleAsset}
-          />
-          <Label accent='waterloo' className={styles.heading}>
             Contained in watchlist
           </Label>
           <AssetsList
             isContained={true}
             items={listItems}
+            assetsListId={id}
+            listItems={listItems}
+            onToggleProject={toggleAsset}
+          />
+          <Label accent='waterloo' className={styles.heading}>
+            Add more assets
+          </Label>
+          <AssetsList
+            items={allProjects}
             assetsListId={id}
             listItems={listItems}
             onToggleProject={toggleAsset}

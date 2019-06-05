@@ -18,7 +18,11 @@
 }
 
 .emptyWrapper {
-  margin-top: 12vh;
+  top: 50%;
+  right: 0;
+  left: 0;
+  margin-top: -135px;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;

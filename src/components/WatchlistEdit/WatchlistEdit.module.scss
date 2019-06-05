@@ -6,7 +6,7 @@
   padding: 12px 0 12px 20px;
   width: 318px;
 
-  @include responsive('phone-xs', 'phone', 'tablet') {
+  @include responsive('phone-xs', 'phone') {
     width: 100%;
     overflow-y: hidden;
   }
@@ -31,7 +31,18 @@
 }
 
 .wrapperList {
-  height: 100%;
+  height: 145px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0), var(--white));
+  }
 }
 
 .project {
