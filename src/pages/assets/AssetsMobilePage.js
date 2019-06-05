@@ -9,6 +9,7 @@ import AssetCard from './AssetCard'
 import { getTableTitle } from './utils'
 import EmptySection from '../../components/EmptySection/EmptySection'
 import WatchlistEdit from '../../components/WatchlistEdit/WatchlistEdit'
+import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
 import styles from './AssetsMobilePage.module.scss'
 
 const AssetsMobilePage = props => {
@@ -26,6 +27,16 @@ const AssetsMobilePage = props => {
             <>
               {Assets.items.length > 0 && (
                 <>
+                  {Assets.isCurrentUserTheAuthor && (
+                    <div className={styles.editWrapper}>
+                      <WatchlistEditTrigger
+                        className={styles.editWrapper}
+                        name={getTableTitle(props)}
+                        id={Assets.typeInfo.listId}
+                        assets={Assets.items}
+                      />
+                    </div>
+                  )}
                   <div className={styles.headings}>
                     <Label accent='casper'>Coin</Label>
                     <Label accent='casper'>Price, 24h</Label>

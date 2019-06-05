@@ -67,7 +67,7 @@ const WatchlistEdit = ({
             toggleAsset({
               project,
               listItems,
-              isAssetInList: hasAssetById({ listItems, id })
+              isAssetInList: hasAssetById({ listItems, id: project.id })
             })
           }
         />
@@ -94,17 +94,11 @@ const WatchlistEdit = ({
         </div>
       </Dialog.ScrollContent>
       <Dialog.Actions className={styles.actions}>
-        <Dialog.Cancel
-          border={false}
-          accent='grey'
-          onClick={close}
-          type='cancel'
-        >
+        <Dialog.Cancel border={false} accent='grey' onClick={close}>
           Cancel
         </Dialog.Cancel>
         <Dialog.Approve
-          disabled={editWatchlistState}
-          type='submit'
+          disabled={editWatchlistState || !isEditing}
           variant='flat'
           onClick={applyChanges}
         >
@@ -124,10 +118,8 @@ const AssetsList = ({ items, listItems, isContained, onToggleProject }) => {
     return (
       <div key={key} className={styles.project} style={style}>
         <div>
-          <Label accent='mirage'>{name}</Label>
-          <Label accent='waterloo' className={styles.ticker}>
-            ({ticker})
-          </Label>
+          <Label className={styles.name}>{name}</Label>
+          <Label accent='waterloo'>({ticker})</Label>
         </div>
         <Button
           className={styles.actionBtn}
@@ -147,14 +139,13 @@ const AssetsList = ({ items, listItems, isContained, onToggleProject }) => {
     )
   }
 
+  const wrapperStyles = {
+    height: items.length > 4 ? '145px' : `${32 * items.length}px`,
+    paddingRight: items.length > 4 ? '0' : `5px`
+  }
+
   return (
-    <div
-      style={{
-        height: items.length > 4 ? '145px' : `${32 * items.length}px`,
-        paddingRight: items.length > 4 ? '0' : `5px`
-      }}
-      className={styles.wrapperList}
-    >
+    <div style={wrapperStyles} className={styles.wrapperList}>
       <AutoSizer>
         {({ height, width }) => (
           <List
