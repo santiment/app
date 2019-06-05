@@ -4,6 +4,7 @@ import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { AutoSizer, List } from 'react-virtualized'
 import { Button, Dialog, Icon, Label } from '@santiment-network/ui'
+import { showNotification } from '../../actions/rootActions'
 import { USER_EDIT_ASSETS_IN_LIST } from '../../actions/types'
 import { allProjectsForSearchGQL } from '../../pages/Projects/allProjectsGQL'
 import { hasAssetById } from '../WatchlistPopup/WatchlistsPopup'
@@ -17,7 +18,8 @@ const WatchlistEdit = ({
   watchlistUi: { isEditWatchlist },
   data: { allProjects },
   id,
-  sendChanges
+  sendChanges,
+  setNotification
 }) => {
   const [isShown, setIsShown] = useState(false)
   const [isEditing, setEditing] = useState(false)
@@ -44,7 +46,10 @@ const WatchlistEdit = ({
 
   if (isEditWatchlist !== editWatchlistState) {
     setEditWatchlistState(isEditWatchlist)
-    if (!isEditWatchlist) close()
+    if (!isEditWatchlist) {
+      setNotification('Watchlist was modified')
+      close()
+    }
   }
 
   if (!isEditing && assets !== listItems) setListItems(assets)
@@ -169,7 +174,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: USER_EDIT_ASSETS_IN_LIST,
       payload: { assetsListId, listItems }
-    })
+    }),
+  setNotification: message => dispatch(showNotification(message))
 })
 
 export default compose(
