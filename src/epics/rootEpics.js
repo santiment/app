@@ -19,15 +19,18 @@ import createWatchlistEpic, {
   createWatchlistSuccessEpic
 } from './createWatchlistEpic'
 import copyWatchlistEpic from './copyWatchlistEpic'
-import addAssetToWatchlistEpic from './addAssetToWatchlistEpic'
 import removeWatchlistEpic from './removeWatchlistEpic'
-import removeAssetFromWatchlistEpic from './removeAssetFromWatchlistEpic'
+import {
+  removeAssetFromWatchlistEpic,
+  addAssetToWatchlistEpic,
+  editAssetsInWatchlistEpic
+} from './../components/WatchlistEdit/editAssetsInWatchlistEpic'
 import {
   fetchAssetsEpic,
   fetchAssetsFromListEpic,
-  fetchAssetsFromListWithEditEpic,
   fetchAssetsFromListWithFuncEpic,
   fetchAssetsFromSharedListEpic,
+  fetchAssetsFromListWithEditEpic,
   fetchRestAllAssetsEpic
 } from './fetchAssetsEpic'
 import fetchTimeseriesEpic from '../ducks/GetTimeSeries/epics'
@@ -82,6 +85,7 @@ export default combineEpics(
   removeWatchlistEpic,
   addAssetToWatchlistEpic,
   removeAssetFromWatchlistEpic,
+  editAssetsInWatchlistEpic,
   copyWatchlistEpic,
   // assets
   fetchAssetsEpic,

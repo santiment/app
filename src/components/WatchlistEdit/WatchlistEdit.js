@@ -4,31 +4,39 @@ import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { AutoSizer, List } from 'react-virtualized'
 import { Button, Dialog, Icon, Label } from '@santiment-network/ui'
-import {
-  USER_ADD_ASSET_TO_LIST,
-  USER_REMOVE_ASSET_FROM_LIST
-} from '../../actions/types'
+import { USER_EDIT_ASSETS_IN_LIST } from '../../actions/types'
 import { allProjectsForSearchGQL } from '../../pages/Projects/allProjectsGQL'
 import { hasAssetById } from '../WatchlistPopup/WatchlistsPopup'
 import SearchProjects from '../Search/SearchProjects'
 import styles from './WatchlistEdit.module.scss'
 
 class WatchlistEdit extends PureComponent {
-  state = { open: false }
+  state = { open: false, listItems: this.props.assets }
 
   openDialog = () => this.setState({ open: true })
 
-  cancelDialog = () => this.setState({ open: false })
+  cancelDialog = () => {
+    this.props.editWatchlist({
+      listItems: this.state.listItems,
+      assetsListId: this.props.id
+    })
+    this.setState({ open: false })
+  }
 
-  toggleAsset = props => this.props.toggleAsset(props)
+  toggleAsset = ({ project, listItems, isAssetInList }) => {
+    this.setState({
+      listItems: isAssetInList
+        ? listItems.filter(({ id }) => id !== project.id)
+        : [...listItems, project]
+    })
+  }
 
   render () {
-    const { open } = this.state
+    const { open, listItems } = this.state
     const {
       trigger,
       name,
       data: { allProjects },
-      assets,
       id
     } = this.props
 
@@ -42,18 +50,14 @@ class WatchlistEdit extends PureComponent {
       >
         <Dialog.ScrollContent className={styles.wrapper}>
           <SearchProjects
-            watchlistItems={assets}
+            watchlistItems={listItems}
             isEditingWatchlist={true}
             className={styles.search}
-            onSuggestionSelect={({ id: projectId }) =>
+            onSuggestionSelect={project =>
               this.toggleAsset({
-                projectId,
-                assetsListId: id,
-                listItems: assets,
-                isAssetInList: hasAssetById({
-                  listItems: assets,
-                  id: projectId
-                })
+                project,
+                listItems,
+                isAssetInList: hasAssetById({ listItems, id })
               })
             }
           />
@@ -64,7 +68,7 @@ class WatchlistEdit extends PureComponent {
             <AssetsList
               items={allProjects}
               assetsListId={id}
-              listItems={assets}
+              listItems={listItems}
               onToggleProject={this.toggleAsset}
             />
             <Label accent='waterloo' className={styles.heading}>
@@ -72,9 +76,9 @@ class WatchlistEdit extends PureComponent {
             </Label>
             <AssetsList
               isContained={true}
-              items={assets}
+              items={listItems}
               assetsListId={id}
-              listItems={assets}
+              listItems={listItems}
               onToggleProject={this.toggleAsset}
             />
           </div>
@@ -86,13 +90,7 @@ class WatchlistEdit extends PureComponent {
 
 const ROW_HEIGHT = 32
 
-const AssetsList = ({
-  items,
-  listItems,
-  assetsListId,
-  isContained,
-  onToggleProject
-}) => {
+const AssetsList = ({ items, listItems, isContained, onToggleProject }) => {
   const rowRenderer = ({ key, index, style }) => {
     const { name, ticker, id } = items[index]
     const isAssetInList = hasAssetById({ listItems, id })
@@ -110,8 +108,7 @@ const AssetsList = ({
           disabled={isContained ? false : isAssetInList}
           onClick={() =>
             onToggleProject({
-              projectId: id,
-              assetsListId,
+              project: items[index],
               listItems,
               isAssetInList
             })
@@ -144,12 +141,10 @@ const AssetsList = ({
 const mapStateToProps = ({ watchlistUi }) => ({ watchlistUi })
 
 const mapDispatchToProps = dispatch => ({
-  toggleAsset: ({ projectId, assetsListId, listItems, slug, isAssetInList }) =>
+  editWatchlist: ({ assetsListId, listItems }) =>
     dispatch({
-      type: isAssetInList
-        ? USER_REMOVE_ASSET_FROM_LIST
-        : USER_ADD_ASSET_TO_LIST,
-      payload: { projectId, assetsListId, listItems, slug }
+      type: USER_EDIT_ASSETS_IN_LIST,
+      payload: { assetsListId, listItems }
     })
 })
 

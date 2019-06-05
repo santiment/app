@@ -144,10 +144,7 @@ export const fetchAssetsFromListWithEditEpic = action$ =>
     )
     .switchMap(() =>
       action$
-        .ofType(
-          actions.USER_ADD_ASSET_TO_LIST_SUCCESS,
-          actions.USER_REMOVED_ASSET_FROM_LIST_SUCCESS
-        )
+        .ofType(actions.USER_EDIT_ASSETS_IN_LIST_SUCCESS)
         .mergeMap(({ payload: { assetsListId } }) =>
           Observable.of({
             type: actions.ASSETS_FETCH,
