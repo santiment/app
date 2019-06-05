@@ -1,4 +1,6 @@
-@import '../../mixins.scss';
+@import '~@santiment-network/ui/variables.scss';
+@import "~@santiment-network/ui/mixins.scss";
+@import "../../mixins.scss";
 
 .overviewPage {
   color: var(--mirage);
@@ -14,4 +16,12 @@
   display: flex;
   justify-content: space-around;
   padding: 4px 10px 0;
+}
+
+.heading {
+  font-family: 'Rubik', sans-serif;
+  color: var(--mirage);
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: normal;
 }

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Icon } from '@santiment-network/ui'
-import { pickFork, fork } from './../../utils/utils'
+import { fork, pickFork } from './../../utils/utils'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
 import WatchlistsAnon from './../WatchlistPopup/WatchlistsAnon'
@@ -45,7 +45,22 @@ const ifAnonymous = fork(props => !props.isLoggedIn, WatchlistsAnon)
 
 const ifEmpty = fork(
   props => props.watchlists.length === 0,
-  () => <h2 style={{ marginLeft: 30, flex: 1 }}>Empty</h2>
+  ({ watchlists }) => (
+    <div className={styles.emptyWrapper}>
+      <span>
+        <NewWatchlistDialog
+          trigger={
+            <Button accent='positive' className={styles.createBtn}>
+              Create
+            </Button>
+          }
+          watchlists={watchlists}
+        />
+        your own watchlist to track
+      </span>
+      <span>assets you are interested in</span>
+    </div>
+  )
 )
 
 const ifData = fork(

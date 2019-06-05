@@ -7,8 +7,8 @@ import { Tabs } from '@santiment-network/ui'
 import WatchlistCards from '../../components/Watchlists/WatchlistCards'
 import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import {
-  publicWatchlistGQL,
-  projectsByFunctionGQL
+  projectsByFunctionGQL,
+  publicWatchlistGQL
 } from './../../components/WatchlistPopup/WatchlistGQL'
 import { mapItemsToKeys } from '../../utils/utils'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
@@ -16,8 +16,8 @@ import { DesktopOnly, MobileOnly } from './../../components/Responsive'
 import PageLoader from '../../components/Loader/PageLoader'
 import { checkIsLoggedIn } from './../UserSelectors'
 import {
-  PUBLIC_WATCHLISTS,
   CATEGORIES,
+  PUBLIC_WATCHLISTS,
   WATCHLISTS_BY_FUNCTION
 } from './assets-overview-constants'
 import styles from './AssetsOverview.module.scss'
@@ -46,15 +46,13 @@ const AssetsOverview = ({ slugs, isLoggedIn, isPublicWatchlistsLoading }) => {
         />
       </MobileOnly>
       <DesktopOnly>
-        <h4>Categories</h4>
+        <h4 className={styles.heading}>Categories</h4>
         <div className={styles.section}>
           <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
         </div>
-        {isLoggedIn && (
-          <div className={styles.section}>
-            <MyWatchlist isLoggedIn={isLoggedIn} />
-          </div>
-        )}
+        <div className={styles.section}>
+          <MyWatchlist isLoggedIn={isLoggedIn} />
+        </div>
       </DesktopOnly>
       <MobileOnly>
         {isPublicWatchlistsLoading && <PageLoader />}

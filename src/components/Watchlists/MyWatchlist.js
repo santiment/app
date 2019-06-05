@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Button } from '@santiment-network/ui'
 import WatchlistCard from './WatchlistCard'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
@@ -9,13 +10,23 @@ import EmptySection from '../EmptySection/EmptySection'
 import NewWatchlistDialog from './NewWatchlistDialog.js'
 import WatchlistNewBtn from '../WatchlistPopup/WatchlistNewBtn'
 import WatchlistsAnon from '../WatchlistPopup/WatchlistsAnon'
+import WatchlistsAnonBanner from '../Banner/WatchlistsAnonBanner'
 import styles from './Watchlist.module.scss'
 
-const WATCHLIST_EMPTY_SECTION = (
-  <EmptySection>
-    Create your own wathclist to track assets
-    <br />
-    you are interested in
+const WatchlistEmptySection = ({ watchlists }) => (
+  <EmptySection imgClassName={styles.img}>
+    <span>
+      <NewWatchlistDialog
+        trigger={
+          <Button accent='positive' className={styles.createBtn}>
+            Create
+          </Button>
+        }
+        watchlists={watchlists}
+      />
+      your own watchlist to track assets
+    </span>
+    <span>you are interested in</span>
   </EmptySection>
 )
 
@@ -25,9 +36,9 @@ const MyWatchlist = ({ isLoggedIn }) => (
       <div className={styles.wrapper}>
         <DesktopOnly>
           <div className={styles.header}>
-            <h4>My watchlists</h4>
+            <h4 className={styles.heading}>My watchlists</h4>
             <NewWatchlistDialog
-              trigger={<WatchlistNewBtn border />}
+              trigger={<WatchlistNewBtn border disabled={!isLoggedIn} />}
               watchlists={watchlists}
             />
           </div>
@@ -41,22 +52,29 @@ const MyWatchlist = ({ isLoggedIn }) => (
               />
             )}
           </MobileOnly>
-          {isLoggedIn && !watchlists.length
-            ? WATCHLIST_EMPTY_SECTION
-            : watchlists
-              .filter(({ listItems }) => Boolean(listItems.length))
-              .map(watchlist => (
-                <WatchlistCard
-                  key={watchlist.id}
-                  name={watchlist.name}
-                  to={getWatchlistLink(watchlist)}
-                  isPublic={watchlist.isPublic}
-                  slugs={watchlist.listItems.map(
-                    ({ project }) => project.slug
-                  )}
-                />
-              ))}
-          {!isLoggedIn && <WatchlistsAnon isFullScreen={true} />}
+          {isLoggedIn && !watchlists.length ? (
+            <WatchlistEmptySection watchlists={watchlists} />
+          ) : (
+            watchlists.map(watchlist => (
+              <WatchlistCard
+                key={watchlist.id}
+                name={watchlist.name}
+                to={getWatchlistLink(watchlist)}
+                isPublic={watchlist.isPublic}
+                slugs={watchlist.listItems.map(({ project }) => project.slug)}
+              />
+            ))
+          )}
+          {!isLoggedIn && (
+            <>
+              <DesktopOnly>
+                <WatchlistsAnonBanner className={styles.anonBanner} />
+              </DesktopOnly>
+              <MobileOnly>
+                <WatchlistsAnon isFullScreen={true} />
+              </MobileOnly>
+            </>
+          )}
         </Row>
       </div>
     )}
