@@ -415,8 +415,6 @@ export const TriggerForm = ({
                     <FormikInput
                       name='percentThreshold'
                       type='number'
-                      min={0}
-                      max={100}
                       placeholder='Setup the percentage change'
                     />
                   </div>
