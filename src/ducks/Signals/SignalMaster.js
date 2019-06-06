@@ -47,17 +47,12 @@ export class SignalMaster extends React.PureComponent {
 
     let metaFormSettings = { ...this.props.metaFormSettings }
 
-    if (!this.props.metaFormSettings && this.props.asset) {
-      metaFormSettings = {
-        ...metaFormSettings,
-        ...{
-          target: {
-            isDisabled: false,
-            value: {
-              value: this.props.asset,
-              label: this.props.asset
-            }
-          }
+    if (this.props.asset) {
+      formProps = {
+        ...formProps,
+        target: {
+          value: this.props.asset,
+          label: this.props.asset
         }
       }
     }

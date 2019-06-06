@@ -13,19 +13,6 @@ const FormikCheckboxes = ({
     <Field
       name={name}
       render={({ field, form }) => {
-        let preselectedValues = []
-
-        if (disabledIndexes && disabledIndexes.length > 0) {
-          preselectedValues = options.filter(
-            x => !disabledIndexes.find(y => y === x)
-          )
-        }
-
-        if (!field.value) {
-          form.setFieldValue(name, preselectedValues)
-          field.value = preselectedValues
-        }
-
         return (
           <Checkboxes
             options={options}

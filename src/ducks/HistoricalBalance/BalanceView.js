@@ -43,10 +43,7 @@ class BalanceView extends React.Component {
         </div>
 
         {assets && assets.length === 1 && (
-          <div>
-            <SignalMasterModalForm canRedirect={false} asset={assets[0]} />
-            <br />
-          </div>
+          <SignalMasterModalForm canRedirect={false} asset={assets[0]} />
         )}
 
         <GetHistoricalBalance
