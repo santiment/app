@@ -16,6 +16,7 @@ describe('TriggerForm', () => {
     const wrapper = shallow(
       <TriggerForm
         data={allProjects}
+        canRedirect={true}
         isTelegramConnected={true}
         onSettingsChange={mockCb}
         getSignalBacktestingPoints={() => {}}

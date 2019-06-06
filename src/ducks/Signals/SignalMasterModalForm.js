@@ -8,6 +8,8 @@ import styles from './SignalMasterModalForm.module.scss'
 const SignalMasterModalForm = ({
   label = 'New signal',
   metaFormSettings,
+  asset,
+  canRedirect = true,
   isLoggedIn
 }) => (
   <Modal
@@ -25,9 +27,11 @@ const SignalMasterModalForm = ({
     showDefaultActions={false}
     title='Create signal'
   >
-    {({ closeModal }) => (
+    {closeModal => (
       <SignalMaster
         onCreated={closeModal}
+        canRedirect={canRedirect}
+        asset={asset}
         metaFormSettings={metaFormSettings}
       />
     )}

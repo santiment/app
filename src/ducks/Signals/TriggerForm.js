@@ -24,14 +24,23 @@ import FormikEffect from './FormikEffect'
 import SignalPreview from './SignalPreview'
 import styles from './TriggerForm.module.scss'
 
+const DAILY_ACTIVE_ADDRESSES = 'daily_active_addresses'
+const PRICE_PERCENT_CHANGE = 'price_percent_change'
+const PRICE_VOLUME_DIFFERENCE = 'price_volume_difference'
+
+const PRICE_CHANGE_TYPES = {
+  MOVING_UP: 'percent_up',
+  MOVING_DOWN: 'percent_down'
+}
+
 const METRICS = [
   { label: 'Price', value: 'price' },
   // { label: 'Trending Words', value: 'trendingWords' },
-  { label: 'Daily Active Addresses', value: 'daily_active_addresses' },
-  { label: 'Price/volume difference', value: 'price_volume_difference' }
+  { label: 'Daily Active Addresses', value: DAILY_ACTIVE_ADDRESSES },
+  { label: 'Price/volume difference', value: PRICE_VOLUME_DIFFERENCE }
 ]
 
-const TYPES = {
+const PRICE_TYPES = {
   price: [
     {
       label: 'Price changing',
@@ -58,21 +67,26 @@ const TYPES = {
       label: 'Percent change',
       options: [
         {
-          value: 'price_percent_change',
-          label: 'Moving up %'
+          value: PRICE_PERCENT_CHANGE,
+          label: 'Moving up %',
+          type: PRICE_CHANGE_TYPES.MOVING_UP
         },
         {
-          value: '',
-          label: 'Moving down %'
+          value: PRICE_PERCENT_CHANGE,
+          label: 'Moving down %',
+          type: PRICE_CHANGE_TYPES.MOVING_DOWN
         }
       ]
     }
   ],
   daily_active_addresses: [
-    { label: 'Daily Active Addresses', value: 'daily_active_addresses' }
+    { label: 'Daily Active Addresses', value: DAILY_ACTIVE_ADDRESSES }
   ],
   price_volume_difference: [
-    { label: 'Price/volume difference', value: 'price_volume_difference' }
+    { label: 'Price/volume difference', value: PRICE_VOLUME_DIFFERENCE }
+  ],
+  price_percent_change: [
+    { label: 'Price percentage change', value: PRICE_PERCENT_CHANGE }
   ]
 }
 
@@ -82,86 +96,94 @@ const ARGS = {
   price_percent_change: ['percentThreshold', 'timeWindow']
 }
 
-const defaultValues = {
+const PRICE_DEFAULT_VALUES = {
   price_percent_change: {
     cooldown: '24h',
     percentThreshold: 5,
-    target: { value: 'santiment', label: 'santiment' },
+    // target: { value: 'santiment', label: 'santiment' },
+    // metric: { label: 'Price', value: 'price' },
     timeWindow: 24,
     timeWindowUnit: { label: 'hours', value: 'h' },
-    type: { value: 'price_percent_change', label: 'Moving up %' },
-    metric: { label: 'Price', value: 'price' },
+    type: {
+      value: PRICE_PERCENT_CHANGE,
+      label: 'Moving up %',
+      type: PRICE_CHANGE_TYPES.MOVING_UP
+    },
     isRepeating: true,
     channels: ['telegram']
   },
   daily_active_addresses: {
     cooldown: '24h',
     percentThreshold: 200,
-    target: { value: 'santiment', label: 'santiment' },
-    metric: {
-      label: 'Daily Active Addresses',
-      value: 'daily_active_addresses'
-    },
+    // target: { value: 'santiment', label: 'santiment' },
+    // metric: { label: 'Price', value: 'price' },
     timeWindow: 2,
     timeWindowUnit: { label: 'days', value: 'd' },
-    type: { label: 'Daily Active Addresses', value: 'daily_active_addresses' },
+    type: { label: 'Daily Active Addresses', value: DAILY_ACTIVE_ADDRESSES },
     isRepeating: true,
     channels: ['telegram']
   },
   price_volume_difference: {
     cooldown: '24h',
     threshold: 0.002,
-    target: { value: 'santiment', label: 'santiment' },
-    metric: {
-      label: 'Price/volume difference',
-      value: 'price_volume_difference'
-    },
+    // target: { value: 'santiment', label: 'santiment' },
+    // metric: { label: 'Price', value: 'price' },
     type: {
       label: 'Price/volume difference',
-      value: 'price_volume_difference'
+      value: PRICE_VOLUME_DIFFERENCE
     },
     isRepeating: true,
     channels: ['telegram']
   }
 }
 
-const DEFAULT_FORM_SETTINGS = defaultValues['price_percent_change']
-
 const getTypeByMetric = metric => {
   if (metric.value === 'price') {
     return {
-      value: 'price_percent_change',
-      label: 'Moving up %'
+      value: PRICE_PERCENT_CHANGE,
+      label: 'Moving up %',
+      type: PRICE_TYPES.MOVING_UP
     }
   } else {
-    return TYPES[metric.value][0]
+    return PRICE_TYPES[metric.value][0]
   }
 }
 
 const mapValuesToTriggerProps = values => ({
   cooldown: values.cooldown,
   settings: (() => {
+    const type = values.type ? values.type.value : undefined
+    const time = values.timeWindowUnit
+      ? values.timeWindow + values.timeWindowUnit.value
+      : undefined
+
+    const defaultValue = {
+      percent_threshold: values.percentThreshold,
+      target: { slug: values.target.value },
+      time_window: time,
+      type: type
+    }
+
+    if (!values.metric) {
+      return defaultValue
+    }
+
     switch (values.metric.value) {
-      case 'daily_active_addresses':
+      case DAILY_ACTIVE_ADDRESSES:
         return {
           percent_threshold: values.percentThreshold,
           target: { slug: values.target.value },
-          time_window: values.timeWindow + values.timeWindowUnit.value,
-          type: values.type.value
+          time_window: time,
+          type: type
         }
-      case 'price_volume_difference':
+      case PRICE_VOLUME_DIFFERENCE:
         return {
           target: { slug: values.target.value },
           threshold: values.threshold,
-          type: values.type.value
+          type: type
         }
       default:
-        return {
-          percent_threshold: values.percentThreshold,
-          target: { slug: values.target.value },
-          time_window: values.timeWindow + values.timeWindowUnit.value,
-          type: values.type.value
-        }
+        return defaultValue
     }
   })()
 })
@@ -170,8 +192,8 @@ const validate = values => {
   let errors = {}
 
   if (
-    values.type.value === 'daily_active_addresses' ||
-    values.type.value === 'price_percent_change'
+    values.type.value === DAILY_ACTIVE_ADDRESSES ||
+    values.type.value === PRICE_PERCENT_CHANGE
   ) {
     if (!values.percentThreshold) {
       errors.percentThreshold = 'Required'
@@ -184,14 +206,14 @@ const validate = values => {
       errors.timeWindow = 'Must be more 0'
     }
   }
-  if (values.type.value === 'price_volume_difference') {
+  if (values.type.value === PRICE_VOLUME_DIFFERENCE) {
     if (!values.threshold) {
       errors.threshold = 'Required'
     } else if (values.threshold < 0) {
       errors.threshold = 'Must be more 0'
     }
   }
-  if (values.channels.length === 0) {
+  if (values.channels && values.channels.length === 0) {
     errors.channels = 'You must setup notification channel'
   }
   return errors
@@ -199,9 +221,9 @@ const validate = values => {
 
 const getMetricsByType = type => {
   switch (type.value) {
-    case 'daily_active_addresses':
+    case DAILY_ACTIVE_ADDRESSES:
       return ['active_addresses', 'price']
-    case 'price_volume_difference':
+    case PRICE_VOLUME_DIFFERENCE:
       return ['price', 'volume']
     default:
       return ['price']
@@ -210,13 +232,24 @@ const getMetricsByType = type => {
 
 const DEFAULT_FORM_META_SETTINGS = {
   target: {
-    isDisabled: false
-  },
-  type: {
-    isDisabled: false
+    isDisabled: false,
+    value: {
+      value: 'santiment',
+      label: 'santiment'
+    }
   },
   metric: {
-    isDisabled: false
+    isDisabled: false,
+    value: {
+      value: 'price',
+      label: 'Price'
+    }
+  },
+  type: {
+    isDisabled: false,
+    value: {
+      value: PRICE_PERCENT_CHANGE
+    }
   }
 }
 
@@ -225,17 +258,19 @@ const propTypes = {
   isTelegramConnected: PropTypes.bool.isRequired
 }
 
+let formLoaded = false
+
 export const TriggerForm = ({
   onSettingsChange,
   getSignalBacktestingPoints,
   data: { allProjects = [] },
   isTelegramConnected = false,
-  settings = DEFAULT_FORM_SETTINGS,
+  settings,
   metaFormSettings
 }) => {
   metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
+
   settings = {
-    ...settings,
     target: metaFormSettings.target.value
       ? metaFormSettings.target.value
       : settings.target,
@@ -244,13 +279,32 @@ export const TriggerForm = ({
       : settings.metric,
     type: metaFormSettings.type.value
       ? metaFormSettings.type.value
-      : settings.type
+      : settings.type,
+    ...settings
   }
+
   const [initialValues, setInitialValues] = useState(settings)
 
   useEffect(() => {
     getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
   }, [])
+
+  const defaultAsset = metaFormSettings.target
+  const defaultMetric = metaFormSettings.metric
+  const defaultType = metaFormSettings.type
+
+  const setDefaultPriceValues = values => {
+    const newValues = { ...values, ...PRICE_DEFAULT_VALUES[values.type.value] }
+    setInitialValues(newValues)
+    window.setTimeout(() => {
+      getSignalBacktestingPoints(mapValuesToTriggerProps(newValues))
+    }, 0)
+  }
+
+  if (!formLoaded) {
+    setDefaultPriceValues(initialValues)
+    formLoaded = true
+  }
 
   return (
     <Formik
@@ -275,16 +329,9 @@ export const TriggerForm = ({
         <Form>
           <FormikEffect
             onChange={(current, prev) => {
-              if (current.values.type !== prev.values.type) {
-                setInitialValues(defaultValues[current.values.type.value])
+              if (current.values.type.value !== prev.values.type.value) {
+                setDefaultPriceValues(current.values)
                 validateForm()
-                window.setTimeout(() => {
-                  getSignalBacktestingPoints(
-                    mapValuesToTriggerProps(
-                      defaultValues[current.values.type.value]
-                    )
-                  )
-                }, 0)
                 return
               }
               if (!isEqual(current.values, prev.values)) {
@@ -306,14 +353,14 @@ export const TriggerForm = ({
             }}
           />
           <div className={styles.Trigger}>
-            <Panel header='Trigger #1' className={styles.TriggerPanel}>
+            <Panel header='Trigger #' className={styles.TriggerPanel}>
               <div className={styles.row}>
                 <div className={styles.Field}>
                   <label>Asset</label>
                   <FormikSelect
                     name='target'
-                    isDisabled={metaFormSettings.target.isDisabled}
-                    defaultValue={metaFormSettings.target.value}
+                    isDisabled={defaultAsset.isDisabled}
+                    defaultValue={defaultAsset.value.value}
                     placeholder='Pick an asset'
                     options={allProjects.map(asset => ({
                       label: asset.slug,
@@ -331,28 +378,29 @@ export const TriggerForm = ({
                   <FormikSelect
                     name='metric'
                     isClearable={false}
-                    isDisabled={metaFormSettings.metric.isDisabled}
-                    defaultValue={metaFormSettings.metric.value}
+                    isDisabled={defaultMetric.isDisabled}
+                    defaultValue={defaultMetric.value}
                     isSearchable
                     placeholder='Choose a metric'
                     options={METRICS}
                     onChange={metric => {
-                      metric.value !== values.metric.value &&
+                      values.metric &&
+                        metric.value !== values.metric.value &&
                         setFieldValue('type', getTypeByMetric(metric))
                     }}
                   />
                 </div>
-                {TYPES[(values.metric || {}).value] &&
-                  TYPES[(values.metric || {}).value].length > 1 && (
+                {PRICE_TYPES[(values.metric || {}).value] &&
+                  PRICE_TYPES[(values.metric || {}).value].length > 1 && (
                   <div className={styles.Field}>
                     <FormikSelect
                       name='type'
                       isClearable={false}
                       isSearchable
-                      isDisabled={metaFormSettings.type.isDisabled}
-                      defaultValue={metaFormSettings.type.value}
+                      isDisabled={defaultType.isDisabled}
+                      defaultValue={defaultType.value}
                       placeholder='Choose a type'
-                      options={TYPES[values.metric.value]}
+                      options={PRICE_TYPES[values.metric.value]}
                       isOptionDisabled={option => !option.value}
                     />
                   </div>
@@ -360,17 +408,20 @@ export const TriggerForm = ({
               </div>
 
               <div className={styles.row}>
-                {ARGS[values.type.value].includes('percentThreshold') && (
+                {values.type &&
+                  ARGS[values.type.value].includes('percentThreshold') && (
                   <div className={styles.Field}>
                     <label>Percentage change</label>
                     <FormikInput
                       name='percentThreshold'
                       type='number'
+                      min={0}
+                      max={100}
                       placeholder='Setup the percentage change'
                     />
                   </div>
                 )}
-                {ARGS[values.type.value].includes('threshold') && (
+                {values.type && ARGS[values.type.value].includes('threshold') && (
                   <div className={styles.Field}>
                     <label>Threshold</label>
                     <FormikInput
@@ -381,13 +432,14 @@ export const TriggerForm = ({
                     />
                   </div>
                 )}
-                {ARGS[values.type.value].includes('timeWindow') && (
+                {values.type && ARGS[values.type.value].includes('timeWindow') && (
                   <div className={styles.Field}>
                     <label>Time Window</label>
                     <div className={styles.timeWindow}>
                       <FormikInput
                         name='timeWindow'
                         type='number'
+                        min={0}
                         className={styles.timeWindowInput}
                         placeholder='Setup the time window'
                       />
@@ -395,7 +447,7 @@ export const TriggerForm = ({
                         name='timeWindowUnit'
                         className={styles.timeWindowUnit}
                         clearable={false}
-                        placeholder='Choose unit'
+                        placeholder='Unit'
                         options={[
                           { value: 'h', label: 'hours' },
                           { value: 'd', label: 'days' }
@@ -410,7 +462,11 @@ export const TriggerForm = ({
                   <label>Message Frequency</label>
                   <div>Once per</div>
                   <div className={styles.Field}>
-                    <FormikSelector name='cooldown' options={['1h', '24h']} />
+                    <FormikSelector
+                      name='cooldown'
+                      options={['1h', '24h']}
+                      defaultSelected={'1h'}
+                    />
                   </div>
                 </div>
               </div>
@@ -431,7 +487,7 @@ export const TriggerForm = ({
                 <div className={styles.Field}>
                   <FormikCheckboxes
                     name='channels'
-                    disabledIndexes={'email'}
+                    disabledIndexes={['email']}
                     options={['email', 'telegram']}
                     styles={{ marginRight: 15 }}
                   />
@@ -454,24 +510,27 @@ export const TriggerForm = ({
                 </div>
               )}
 
-              <label>Visual Backtesting</label>
-              <SignalPreview
-                target={values.target.value}
-                initialMetrics={getMetricsByType(values.type)}
-                type={values.type}
-              />
+              <div>
+                <label>Visual Backtesting</label>
+                <SignalPreview
+                  target={values.target.value}
+                  initialMetrics={getMetricsByType(values.type)}
+                  type={values.type}
+                />
+              </div>
+
+              <div className={styles.controls}>
+                <Button
+                  type='submit'
+                  disabled={!isValid || isSubmitting}
+                  isActive={isValid && !isSubmitting}
+                  variant={'fill'}
+                  accent='positive'
+                >
+                  Continue
+                </Button>
+              </div>
             </Panel>
-          </div>
-          <div className={styles.controls}>
-            <Button
-              type='submit'
-              disabled={!isValid || isSubmitting}
-              isActive={isValid && !isSubmitting}
-              variant={'fill'}
-              accent='positive'
-            >
-              Continue
-            </Button>
           </div>
         </Form>
       )}
@@ -487,7 +546,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getSignalBacktestingPoints: payload => {
-    dispatch(fetchHistorySignalPoints(payload))
+    if (payload.settings.time_window) {
+      dispatch(fetchHistorySignalPoints(payload))
+    }
   }
 })
 

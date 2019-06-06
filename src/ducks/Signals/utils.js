@@ -31,6 +31,12 @@ const getType = type => {
   return { value: type, label: ALL_TYPES[type] }
 }
 
+const getTriggerOperation = (model, percentThreshold) => {
+  const mapped = {}
+  mapped[model.type] = percentThreshold
+  return mapped
+}
+
 const getMetric = type => {
   if (type === 'price_percent_change') {
     // TODO: add absolute price changing
@@ -80,7 +86,8 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       time_window: formProps.timeWindow
         ? formProps.timeWindow + '' + formProps.timeWindowUnit.value
         : undefined,
-      type: getType(formProps.type.value).value
+      type: getType(formProps.type.value).value,
+      operation: getTriggerOperation(formProps.type, formProps.percentThreshold)
     },
     isPublic: !!formProps.isPublic,
     isRepeating: !!formProps.isRepeating,

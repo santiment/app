@@ -206,7 +206,7 @@ const ProjectChartFooter = ({
         </ToggleBtn>
         <br />
         {// TODO: Partysun. Upgrade when modal with accept it
-          false && <SignalMasterModalForm label='New Price Signal' />}
+          false && <SignalMasterModalForm />}
       </FilterCategory>
       <FilterCategory name='Social'>
         <ToggleBtn

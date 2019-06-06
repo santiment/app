@@ -37,19 +37,38 @@ export class SignalMaster extends React.PureComponent {
     }
     const { step, trigger } = this.state
     const currentTrigger = trigger || (this.props.trigger || {}).trigger
-    const formProps = currentTrigger
+    let formProps = currentTrigger
       ? mapTriggerToFormProps(currentTrigger)
       : undefined
     const meta = {
       title: currentTrigger ? currentTrigger.title : 'Any',
       description: currentTrigger ? currentTrigger.description : 'Any'
     }
+
+    let metaFormSettings = { ...this.props.metaFormSettings }
+
+    if (!this.props.metaFormSettings && this.props.asset) {
+      metaFormSettings = {
+        ...metaFormSettings,
+        ...{
+          target: {
+            isDisabled: false,
+            value: {
+              value: this.props.asset,
+              label: this.props.asset
+            }
+          }
+        }
+      }
+    }
+
     return (
       <div className={styles.wrapper}>
         {step === STEPS.SETTINGS && (
           <TriggerForm
             settings={formProps}
-            metaFormSettings={this.props.metaFormSettings}
+            canRedirect={this.props.canRedirect}
+            metaFormSettings={metaFormSettings}
             onSettingsChange={this.handleSettingsChange}
           />
         )}
@@ -85,8 +104,11 @@ export class SignalMaster extends React.PureComponent {
     } else {
       this.props.createTrigger({ ...this.state.trigger, ...about })
     }
-    this.props.onCreated && this.props.onCreated()
-    this.props.redirect()
+    if (this.props.onCreated) this.props.onCreated()
+
+    if (this.props.canRedirect) {
+      this.props.redirect()
+    }
   }
 }
 

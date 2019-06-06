@@ -49,7 +49,7 @@ const AboutForm = ({
           <Button
             type='button'
             variant={'flat'}
-            accent='normal'
+            accent='grey'
             border
             onClick={onBack}
           >
