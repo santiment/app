@@ -22,13 +22,31 @@ const getTarget = target => {
   return { value: slug, label: slug }
 }
 
+export const DAILY_ACTIVE_ADDRESSES = 'daily_active_addresses'
+export const PRICE_PERCENT_CHANGE = 'price_percent_change'
+export const PRICE_VOLUME_DIFFERENCE = 'price_volume_difference'
+
+export const PRICE_CHANGE_TYPES = {
+  MOVING_UP: 'percent_up',
+  MOVING_DOWN: 'percent_down'
+}
+export const pricePercentChangeUp = {
+  value: PRICE_PERCENT_CHANGE,
+  label: 'Moving up %',
+  type: PRICE_CHANGE_TYPES.MOVING_UP
+}
+
 const getType = type => {
   const ALL_TYPES = {
-    price_percent_change: 'Moving up %',
-    daily_active_addresses: 'Daily Active Addresses',
-    price_volume_difference: 'Price/volume difference'
+    price_percent_change: { ...pricePercentChangeUp },
+    daily_active_addresses: {
+      label: 'Daily Active Addresses'
+    },
+    price_volume_difference: {
+      label: 'Price/volume difference'
+    }
   }
-  return { value: type, label: ALL_TYPES[type] }
+  return { value: type, ...ALL_TYPES[type] }
 }
 
 const getTriggerOperation = (model, percentThreshold) => {

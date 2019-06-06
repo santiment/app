@@ -24,14 +24,13 @@ import FormikEffect from './FormikEffect'
 import SignalPreview from './SignalPreview'
 import styles from './TriggerForm.module.scss'
 
-const DAILY_ACTIVE_ADDRESSES = 'daily_active_addresses'
-const PRICE_PERCENT_CHANGE = 'price_percent_change'
-const PRICE_VOLUME_DIFFERENCE = 'price_volume_difference'
-
-const PRICE_CHANGE_TYPES = {
-  MOVING_UP: 'percent_up',
-  MOVING_DOWN: 'percent_down'
-}
+import {
+  DAILY_ACTIVE_ADDRESSES,
+  PRICE_PERCENT_CHANGE,
+  PRICE_VOLUME_DIFFERENCE,
+  PRICE_CHANGE_TYPES,
+  pricePercentChangeUp
+} from './utils'
 
 const METRICS = [
   { label: 'Price', value: 'price' },
@@ -66,11 +65,7 @@ const PRICE_TYPES = {
     {
       label: 'Percent change',
       options: [
-        {
-          value: PRICE_PERCENT_CHANGE,
-          label: 'Moving up %',
-          type: PRICE_CHANGE_TYPES.MOVING_UP
-        },
+        pricePercentChangeUp,
         {
           value: PRICE_PERCENT_CHANGE,
           label: 'Moving down %',
@@ -96,27 +91,19 @@ const ARGS = {
   price_percent_change: ['percentThreshold', 'timeWindow']
 }
 
-const PRICE_DEFAULT_VALUES = {
+const METRIC_DEFAULT_VALUES = {
   price_percent_change: {
     cooldown: '24h',
     percentThreshold: 5,
-    // target: { value: 'santiment', label: 'santiment' },
-    // metric: { label: 'Price', value: 'price' },
     timeWindow: 24,
     timeWindowUnit: { label: 'hours', value: 'h' },
-    type: {
-      value: PRICE_PERCENT_CHANGE,
-      label: 'Moving up %',
-      type: PRICE_CHANGE_TYPES.MOVING_UP
-    },
+    type: pricePercentChangeUp,
     isRepeating: true,
     channels: ['telegram']
   },
   daily_active_addresses: {
     cooldown: '24h',
     percentThreshold: 200,
-    // target: { value: 'santiment', label: 'santiment' },
-    // metric: { label: 'Price', value: 'price' },
     timeWindow: 2,
     timeWindowUnit: { label: 'days', value: 'd' },
     type: { label: 'Daily Active Addresses', value: DAILY_ACTIVE_ADDRESSES },
@@ -126,8 +113,6 @@ const PRICE_DEFAULT_VALUES = {
   price_volume_difference: {
     cooldown: '24h',
     threshold: 0.002,
-    // target: { value: 'santiment', label: 'santiment' },
-    // metric: { label: 'Price', value: 'price' },
     type: {
       label: 'Price/volume difference',
       value: PRICE_VOLUME_DIFFERENCE
@@ -139,48 +124,53 @@ const PRICE_DEFAULT_VALUES = {
 
 const getTypeByMetric = metric => {
   if (metric.value === 'price') {
-    return {
-      value: PRICE_PERCENT_CHANGE,
-      label: 'Moving up %',
-      type: PRICE_TYPES.MOVING_UP
-    }
+    return pricePercentChangeUp
   } else {
     return PRICE_TYPES[metric.value][0]
   }
 }
 
-const mapValuesToTriggerProps = values => ({
-  cooldown: values.cooldown,
+const mapValuesToTriggerProps = ({
+  type,
+  timeWindowUnit,
+  timeWindow,
+  percentThreshold,
+  target,
+  metric,
+  threshold,
+  cooldown
+}) => ({
+  cooldown,
   settings: (() => {
-    const type = values.type ? values.type.value : undefined
-    const time = values.timeWindowUnit
-      ? values.timeWindow + values.timeWindowUnit.value
-      : undefined
+    const metricType = type ? type.value : undefined
+    const time = timeWindowUnit ? timeWindow + timeWindowUnit.value : undefined
+
+    const slug = { slug: target.value }
 
     const defaultValue = {
-      percent_threshold: values.percentThreshold,
-      target: { slug: values.target.value },
-      time_window: time,
-      type: type
+      target: slug,
+      type: metricType,
+      percent_threshold: percentThreshold,
+      time_window: time
     }
 
-    if (!values.metric) {
+    if (!metric) {
       return defaultValue
     }
 
-    switch (values.metric.value) {
+    switch (metric.value) {
       case DAILY_ACTIVE_ADDRESSES:
         return {
-          percent_threshold: values.percentThreshold,
-          target: { slug: values.target.value },
+          target: slug,
+          type: metricType,
           time_window: time,
-          type: type
+          percent_threshold: percentThreshold
         }
       case PRICE_VOLUME_DIFFERENCE:
         return {
-          target: { slug: values.target.value },
-          threshold: values.threshold,
-          type: type
+          target: slug,
+          type: metricType,
+          threshold: threshold
         }
       default:
         return defaultValue
@@ -247,9 +237,7 @@ const DEFAULT_FORM_META_SETTINGS = {
   },
   type: {
     isDisabled: false,
-    value: {
-      value: PRICE_PERCENT_CHANGE
-    }
+    value: { ...pricePercentChangeUp }
   }
 }
 
@@ -257,8 +245,6 @@ const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
   isTelegramConnected: PropTypes.bool.isRequired
 }
-
-let formLoaded = false
 
 export const TriggerForm = ({
   onSettingsChange,
@@ -269,6 +255,7 @@ export const TriggerForm = ({
   metaFormSettings
 }) => {
   metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
+  settings = { ...METRIC_DEFAULT_VALUES[PRICE_PERCENT_CHANGE], ...settings }
 
   settings = {
     target: metaFormSettings.target.value
@@ -294,16 +281,11 @@ export const TriggerForm = ({
   const defaultType = metaFormSettings.type
 
   const setDefaultPriceValues = values => {
-    const newValues = { ...values, ...PRICE_DEFAULT_VALUES[values.type.value] }
+    const newValues = { ...values, ...METRIC_DEFAULT_VALUES[values.type.value] }
     setInitialValues(newValues)
     window.setTimeout(() => {
       getSignalBacktestingPoints(mapValuesToTriggerProps(newValues))
     }, 0)
-  }
-
-  if (!formLoaded) {
-    setDefaultPriceValues(initialValues)
-    formLoaded = true
   }
 
   return (
