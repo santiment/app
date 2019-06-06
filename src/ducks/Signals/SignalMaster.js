@@ -94,10 +94,16 @@ export class SignalMaster extends React.PureComponent {
   }
 
   handleAboutFormSubmit = about => {
+    const data = {
+      ...this.state.trigger,
+      ...about,
+      ...{ shouldReload: this.props.canRedirect }
+    }
+
     if (this.props.isEdit) {
-      this.props.updateTrigger({ ...this.state.trigger, ...about })
+      this.props.updateTrigger(data)
     } else {
-      this.props.createTrigger({ ...this.state.trigger, ...about })
+      this.props.createTrigger(data)
     }
     if (this.props.onCreated) this.props.onCreated()
 

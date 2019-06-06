@@ -46,7 +46,9 @@ export const createSignalEpic = (action$, store, { client }) =>
     .ofType(actions.SIGNAL_CREATE)
     .debounceTime(200)
     .switchMap(
-      ({ payload: { tags = [], __typename, isActive, ...trigger } }) => {
+      ({
+        payload: { tags = [], __typename, isActive, shouldReload, ...trigger }
+      }) => {
         const create = client.mutate({
           mutation: CREATE_TRIGGER_QUERY,
           variables: {
@@ -68,21 +70,23 @@ export const createSignalEpic = (action$, store, { client }) =>
             }
           },
           update: (proxy, newData) => {
-            let data = proxy.readQuery({ query: TRIGGERS_QUERY })
-            try {
-              const newTrigger = {
-                ...newData.data.createTrigger.trigger,
-                cooldown: '1h',
-                isActive: true
+            if (shouldReload) {
+              let data = proxy.readQuery({ query: TRIGGERS_QUERY })
+              try {
+                const newTrigger = {
+                  ...newData.data.createTrigger.trigger,
+                  cooldown: '1h',
+                  isActive: true
+                }
+                data.currentUser.triggers = [
+                  ...data.currentUser.triggers,
+                  newTrigger
+                ]
+              } catch {
+                /* handle error */
               }
-              data.currentUser.triggers = [
-                ...data.currentUser.triggers,
-                newTrigger
-              ]
-            } catch {
-              /* handle error */
+              proxy.writeQuery({ query: TRIGGERS_QUERY, data })
             }
-            proxy.writeQuery({ query: TRIGGERS_QUERY, data })
           }
         })
 
