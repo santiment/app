@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import Image from './../../pages/SonarFeed/sonar_activity_artboard.png'
+import Image from '../../assets/watchlists.png'
 import styles from './EmptySection.module.scss'
 
 const EmptySection = ({

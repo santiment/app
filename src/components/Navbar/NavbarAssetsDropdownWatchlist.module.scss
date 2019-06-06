@@ -54,3 +54,15 @@
   fill: var(--casper);
   justify-content: center;
 }
+
+.emptyWrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.createBtn {
+  padding: 12px 5px;
+}
