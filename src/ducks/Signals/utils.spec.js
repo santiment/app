@@ -1,5 +1,9 @@
 /* eslint-env jest */
-import { mapTriggerToFormProps, mapFormPropsToTrigger } from './utils'
+import {
+  mapTriggerToFormProps,
+  mapFormPropsToTrigger,
+  pricePercentChangeUp
+} from './utils'
 
 const TRIGGERS = [
   {
