@@ -18,7 +18,7 @@ const DashboardPage = ({ isLoggedIn }) => (
     <div className={styles.column}>
       <div className={styles.column__left}>
         <div className={styles.subtitle}>
-          <h2 className={styles.subtitle__text}>Emerging trends</h2>
+          <h2 className={styles.subtitle__text}>Trending words</h2>
         </div>
         <GetHypedTrends
           render={({ isLoading, items }) => (
@@ -32,7 +32,7 @@ const DashboardPage = ({ isLoggedIn }) => (
       </div>
       <div className={styles.column__right}>
         <div className={styles.subtitle}>
-          <h2 className={styles.subtitle__text}>Featured insights</h2>
+          <h2 className={styles.subtitle__text}>Latest insights</h2>
         </div>
         <FeaturedInsightsScrollable
           maxLines={2}
