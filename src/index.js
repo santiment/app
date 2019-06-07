@@ -54,7 +54,7 @@ export let store
 const main = () => {
   const httpLink = createHttpLink({
     uri: `${getAPIUrl()}/graphql`,
-    credentials: 'include'
+    credentials: 'same-origin'
   })
   client = new ApolloClient({
     link: from([authLink, errorLink, retryLink, uploadLink, httpLink]),
