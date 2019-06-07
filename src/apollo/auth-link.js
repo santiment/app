@@ -4,10 +4,12 @@ import { loadState } from './../utils/localStorage'
 const AuthLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
   const token = loadState() ? loadState().token : undefined
+  authHeaders = token ? { authorization: `Bearer ${token}` } : {}
+
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : null
+      ...authHeaders
     }
   }
 })
