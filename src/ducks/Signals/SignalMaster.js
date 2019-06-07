@@ -4,8 +4,8 @@ import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { createTrigger, updateTrigger } from './actions'
-import { Message } from '@santiment-network/ui'
-import TriggerForm from './TriggerForm'
+import { Message, PanelWithHeader as Panel } from '@santiment-network/ui'
+import TriggersForm from './TriggersForm'
 import AboutForm from './AboutForm'
 import styles from './TriggerForm.module.scss'
 import { TRIGGER_BY_ID_QUERY } from './SignalsGQL'
@@ -37,9 +37,8 @@ export class SignalMaster extends React.PureComponent {
     }
     const { step, trigger } = this.state
     const currentTrigger = trigger || (this.props.trigger || {}).trigger
-    let formProps = currentTrigger
-      ? mapTriggerToFormProps(currentTrigger)
-      : undefined
+    let formProps = currentTrigger ? mapTriggerToFormProps(currentTrigger) : {}
+    formProps.showTrigger = true
     const meta = {
       title: currentTrigger ? currentTrigger.title : 'Any',
       description: currentTrigger ? currentTrigger.description : 'Any'
@@ -56,16 +55,21 @@ export class SignalMaster extends React.PureComponent {
         }
       }
     }
+    const getTitle = () => {
+      return this.props.isEdit ? 'Update signal' : 'Create Signal'
+    }
 
     return (
       <div className={styles.wrapper}>
         {step === STEPS.SETTINGS && (
-          <TriggerForm
-            settings={formProps}
-            canRedirect={this.props.canRedirect}
-            metaFormSettings={metaFormSettings}
-            onSettingsChange={this.handleSettingsChange}
-          />
+          <Panel header={getTitle()} className={styles.TriggerPanel}>
+            <TriggersForm
+              settings={formProps}
+              canRedirect={this.props.canRedirect}
+              metaFormSettings={metaFormSettings}
+              onSettingsChange={this.handleSettingsChange}
+            />
+          </Panel>
         )}
         {step === STEPS.CONFIRM && (
           <AboutForm

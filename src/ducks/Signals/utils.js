@@ -113,6 +113,151 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     isActive: !!formProps.isActive
   }
 }
+export const mapValuesToTriggerProps = ({
+  type,
+  timeWindowUnit,
+  timeWindow,
+  percentThreshold,
+  target,
+  metric,
+  threshold,
+  cooldown
+}) => ({
+  cooldown,
+  settings: (() => {
+    const metricType = type ? type.value : undefined
+    const time = timeWindowUnit ? timeWindow + timeWindowUnit.value : undefined
+
+    const slug = { slug: target.value }
+
+    const defaultValue = {
+      target: slug,
+      type: metricType,
+      percent_threshold: percentThreshold,
+      time_window: time
+    }
+
+    if (!metric) {
+      return defaultValue
+    }
+
+    switch (metric.value) {
+      case DAILY_ACTIVE_ADDRESSES:
+        return {
+          target: slug,
+          type: metricType,
+          time_window: time,
+          percent_threshold: percentThreshold
+        }
+      case PRICE_VOLUME_DIFFERENCE:
+        return {
+          target: slug,
+          type: metricType,
+          threshold: threshold
+        }
+      default:
+        return defaultValue
+    }
+  })()
+})
+
+export const METRICS = [
+  { label: 'Price', value: 'price' },
+  // { label: 'Trending Words', value: 'trendingWords' },
+  { label: 'Daily Active Addresses', value: DAILY_ACTIVE_ADDRESSES },
+  { label: 'Price/volume difference', value: PRICE_VOLUME_DIFFERENCE }
+]
+
+export const PRICE_TYPES = {
+  price: [
+    {
+      label: 'Price changing',
+      options: [
+        {
+          value: '',
+          label: 'More than'
+        },
+        {
+          value: '',
+          label: 'Less than'
+        },
+        {
+          value: '',
+          label: 'Entering channel'
+        },
+        {
+          value: '',
+          label: 'Outside channel'
+        }
+      ]
+    },
+    {
+      label: 'Percent change',
+      options: [
+        pricePercentChangeUp,
+        {
+          value: PRICE_PERCENT_CHANGE,
+          label: 'Moving down %',
+          type: PRICE_CHANGE_TYPES.MOVING_DOWN
+        }
+      ]
+    }
+  ],
+  daily_active_addresses: [
+    { label: 'Daily Active Addresses', value: DAILY_ACTIVE_ADDRESSES }
+  ],
+  price_volume_difference: [
+    { label: 'Price/volume difference', value: PRICE_VOLUME_DIFFERENCE }
+  ],
+  price_percent_change: [
+    { label: 'Price percentage change', value: PRICE_PERCENT_CHANGE }
+  ]
+}
+
+export const ARGS = {
+  price_volume_difference: ['threshold'],
+  daily_active_addresses: ['percentThreshold', 'timeWindow'],
+  price_percent_change: ['percentThreshold', 'timeWindow']
+}
+
+export const METRIC_DEFAULT_VALUES = {
+  price_percent_change: {
+    cooldown: '24h',
+    percentThreshold: 5,
+    timeWindow: 24,
+    timeWindowUnit: { label: 'hours', value: 'h' },
+    type: pricePercentChangeUp,
+    isRepeating: true,
+    channels: ['telegram']
+  },
+  daily_active_addresses: {
+    cooldown: '24h',
+    percentThreshold: 200,
+    timeWindow: 2,
+    timeWindowUnit: { label: 'days', value: 'd' },
+    type: { label: 'Daily Active Addresses', value: DAILY_ACTIVE_ADDRESSES },
+    isRepeating: true,
+    channels: ['telegram']
+  },
+  price_volume_difference: {
+    cooldown: '24h',
+    threshold: 0.002,
+    type: {
+      label: 'Price/volume difference',
+      value: PRICE_VOLUME_DIFFERENCE
+    },
+    isRepeating: true,
+    channels: ['telegram']
+  }
+}
+
+export const getTypeByMetric = metric => {
+  if (metric.value === 'price') {
+    return pricePercentChangeUp
+  } else {
+    return PRICE_TYPES[metric.value][0]
+  }
+}
 
 export const mapTriggerToProps = ({ data: { trigger, loading, error } }) => {
   if (!loading && !trigger) {

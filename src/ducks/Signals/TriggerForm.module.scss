@@ -11,6 +11,7 @@
   flex-direction: column;
   justify-content: center;
   max-width: 448px;
+  padding: 0 20px 20px 20px;
 }
 
 .row {
@@ -119,6 +120,41 @@ label {
 
   .controls {
     margin-top: 1.1rem;
+  }
+}
+
+.TriggerFormItem {
+  border: 1px solid #e7eaf3;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.triggerHeader {
+  width: 100%;
+  background: #f9fafc;
+  border: 1px solid #e7eaf3;
+  box-sizing: border-box;
+  border-radius: 4px;
+  display: flex;
+  padding: 10px 20px;
+  color: var(--grey-dark-2);
+}
+
+.triggerHeaderName {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.triggerHeaderActions {
+  display: flex;
+  margin-left: auto;
+}
+
+a {
+  &:hover {
+    fill: var(--jungle-green);
   }
 }
 
