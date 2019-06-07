@@ -15,28 +15,33 @@ import styles from './AssetsMobilePage.module.scss'
 const AssetsMobilePage = props => {
   return (
     <div className={cx('page', styles.wrapper)}>
-      <MobileHeader title={getTableTitle(props)} backRoute='/assets' />
       <GetAssets
         {...props}
         sortBy={SORT_TYPES.marketcap}
         type={props.type}
         render={Assets => {
           return Assets.isLoading ? (
-            <PageLoader />
+            <>
+              <MobileHeader title={getTableTitle(props)} backRoute='/assets' />
+              <PageLoader />
+            </>
           ) : (
             <>
+              <MobileHeader
+                title={getTableTitle(props)}
+                backRoute='/assets'
+                rightActions={
+                  Assets.isCurrentUserTheAuthor && (
+                    <WatchlistEditTrigger
+                      name={getTableTitle(props)}
+                      id={Assets.typeInfo.listId}
+                      assets={Assets.items}
+                    />
+                  )
+                }
+              />
               {Assets.items.length > 0 && (
                 <>
-                  {Assets.isCurrentUserTheAuthor && (
-                    <div className={styles.editWrapper}>
-                      <WatchlistEditTrigger
-                        className={styles.editWrapper}
-                        name={getTableTitle(props)}
-                        id={Assets.typeInfo.listId}
-                        assets={Assets.items}
-                      />
-                    </div>
-                  )}
                   <div className={styles.headings}>
                     <Label accent='casper'>Coin</Label>
                     <Label accent='casper'>Price, 24h</Label>
