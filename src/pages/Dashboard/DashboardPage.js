@@ -1,6 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Label } from '@santiment-network/ui'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
 import FeaturedWatchlists from '../../components/Watchlists/FeaturedWatchlist'
@@ -9,12 +7,6 @@ import DashboardPageOnboard from './DashboardPageOnboard'
 import FeaturedInsightsScrollable from '../../components/FeaturedInsights/FeaturedInsightsScrollable'
 import AnonBannerStaticExperiment from '../../components/Banner/AnonBanner/AnonBannerStaticExperiment'
 import styles from './DashboardPage.module.scss'
-
-const More = ({ link }) => (
-  <Link to={link} className={styles.more}>
-    <Label accent='jungle-green'>More</Label>
-  </Link>
-)
 
 const DashboardPage = ({ isLoggedIn }) => (
   <div className={styles.wrapper + ' page'}>
@@ -27,7 +19,6 @@ const DashboardPage = ({ isLoggedIn }) => (
       <div className={styles.column__left}>
         <div className={styles.subtitle}>
           <h2 className={styles.subtitle__text}>Emerging trends</h2>
-          <More link='/labs/trends/' />
         </div>
         <GetHypedTrends
           render={({ isLoading, items }) => (
@@ -42,7 +33,6 @@ const DashboardPage = ({ isLoggedIn }) => (
       <div className={styles.column__right}>
         <div className={styles.subtitle}>
           <h2 className={styles.subtitle__text}>Featured insights</h2>
-          <More link='/insights/' />
         </div>
         <FeaturedInsightsScrollable
           maxLines={2}
