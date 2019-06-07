@@ -105,11 +105,8 @@ export class SignalMaster extends React.PureComponent {
     } else {
       this.props.createTrigger(data)
     }
-    if (this.props.onCreated) this.props.onCreated()
-
-    if (this.props.canRedirect) {
-      this.props.redirect()
-    }
+    this.props.onCreated && this.props.onCreated()
+    this.props.canRedirect && this.props.redirect && this.props.redirect()
   }
 }
 
