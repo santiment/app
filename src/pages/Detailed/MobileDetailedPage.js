@@ -166,7 +166,10 @@ const MobileDetailedPage = props => {
                           <MobileMetricCard {...devActivityInfo} />
                         )}
                         {transactionVolumeInfo && (
-                          <MobileMetricCard {...transactionVolumeInfo} />
+                          <MobileMetricCard
+                            {...transactionVolumeInfo}
+                            measure={ticker}
+                          />
                         )}
                         <ShowIf beta>
                           {props.news && props.news.length > 0 && (

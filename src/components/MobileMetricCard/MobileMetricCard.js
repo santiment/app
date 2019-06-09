@@ -4,7 +4,7 @@ import { formatNumber } from '../../utils/formatting'
 import PercentChanges from '../PercentChanges'
 import styles from './MobileMetricCard.module.scss'
 
-const MobileMetricCard = ({ name, value, label, changes }) => {
+const MobileMetricCard = ({ name, value, label, changes, measure = '' }) => {
   return (
     <article className={styles.metric}>
       <div>
@@ -12,7 +12,9 @@ const MobileMetricCard = ({ name, value, label, changes }) => {
         <Label accent='waterloo'>({label})</Label>
       </div>
       <div className={styles.right}>
-        <span>{formatNumber(value)}</span>
+        <span>
+          {formatNumber(value)} {measure}
+        </span>
         <PercentChanges changes={changes} />
       </div>
     </article>
