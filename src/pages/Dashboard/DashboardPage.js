@@ -4,7 +4,9 @@ import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
 import FeaturedWatchlists from '../../components/Watchlists/FeaturedWatchlist'
 import DashboardPageSubscription from './DashboardPageSubscription'
 import DashboardPageOnboard from './DashboardPageOnboard'
-import FeaturedInsightsScrollable from '../../components/FeaturedInsights/FeaturedInsightsScrollable'
+import InsightsScrollable, {
+  TYPES
+} from '../../components/Insight/InsightsScrollable'
 import AnonBannerStaticExperiment from '../../components/Banner/AnonBanner/AnonBannerStaticExperiment'
 import styles from './DashboardPage.module.scss'
 
@@ -34,7 +36,8 @@ const DashboardPage = ({ isLoggedIn }) => (
         <div className={styles.subtitle}>
           <h2 className={styles.subtitle__text}>Latest insights</h2>
         </div>
-        <FeaturedInsightsScrollable
+        <InsightsScrollable
+          type={TYPES.latest}
           maxLines={2}
           multilineTextId='InsightsDashboardPage'
         />
