@@ -23,7 +23,7 @@ class NewsBanner extends PureComponent {
     }
     return (
       <div className={styles.container}>
-        <div className={cx(styles.wrapper, 'page')}>
+        <div className={cx(styles.wrapper, 'container')}>
           <div className={styles.message}>
             <span aria-label='sadly' role='img'>
               🔥
