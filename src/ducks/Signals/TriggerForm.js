@@ -7,11 +7,11 @@ import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
-import { Icon } from '@santiment-network/ui'
+import { Icon, Toggle } from '@santiment-network/ui'
 import { Button, Message } from '@santiment-network/ui'
 import { selectIsTelegramConnected } from './../../pages/UserSelectors'
 import { allProjectsForSearchGQL } from './../../pages/Projects/allProjectsGQL'
-import { fetchHistorySignalPoints } from './actions'
+import { fetchHistorySignalPoints, toggleTrigger } from './actions'
 import FormikInput from './../../components/formik-santiment-ui/FormikInput'
 import FormikSelect from './../../components/formik-santiment-ui/FormikSelect'
 import FormikSelector from './../../components/formik-santiment-ui/FormikSelector'
@@ -34,6 +34,9 @@ import {
   mapValuesToTriggerProps
 } from './utils'
 import { Label } from 'semantic-ui-react'
+import StatusLabel from '../../components/StatusLabel'
+import SignalCard from '../../components/SignalCard/SignalCard'
+import ShowIf from '../../components/ShowIf/ShowIf'
 
 const validate = values => {
   let errors = {}
@@ -92,7 +95,8 @@ const propTypes = {
   isTelegramConnected: PropTypes.bool.isRequired,
   canRedirect: PropTypes.bool,
   settings: PropTypes.any,
-  metaFormSettings: PropTypes.any
+  metaFormSettings: PropTypes.any,
+  toggleSignal: PropTypes.func.isRequired
 }
 
 export const TriggerForm = ({
@@ -101,7 +105,8 @@ export const TriggerForm = ({
   data: { allProjects = [] },
   isTelegramConnected = false,
   settings,
-  metaFormSettings
+  metaFormSettings,
+  toggleSignal
 }) => {
   metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
   settings = { ...METRIC_DEFAULT_VALUES[PRICE_PERCENT_CHANGE], ...settings }
@@ -143,6 +148,12 @@ export const TriggerForm = ({
   const addTrigger = () => {
     // pass
   }
+
+  const toggleSignalCallback = () =>
+    toggleSignal({
+      id: initialValues.id,
+      isActive: initialValues.isActive
+    })
 
   const showTriggerFunc = () => {
     setShowTrigger(!showTrigger)
@@ -201,6 +212,7 @@ export const TriggerForm = ({
               settings={initialValues}
               showTrigger={showTrigger}
               showTriggerFunc={showTriggerFunc}
+              actionsEnabled={false} // Make dynamic if trigger more 1 (in future)
             />
 
             {showTrigger && (
@@ -373,6 +385,15 @@ export const TriggerForm = ({
               </Button>
             </div>
           </div>
+
+          <ShowIf condition={initialValues.id}>
+            <Toggle
+              onClick={toggleSignalCallback}
+              isActive={initialValues.isActive}
+            />
+            <div>{initialValues.isActive ? 'Public' : 'Private'}</div>
+          </ShowIf>
+
           <div className={styles.controls}>
             <Button
               type='submit'
@@ -401,6 +422,9 @@ const mapDispatchToProps = dispatch => ({
     if (payload.settings.time_window) {
       dispatch(fetchHistorySignalPoints(payload))
     }
+  },
+  toggleSignal: ({ id, isActive }) => {
+    dispatch(toggleTrigger({ id, isActive }))
   }
 })
 

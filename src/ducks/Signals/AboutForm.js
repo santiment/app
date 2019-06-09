@@ -35,7 +35,11 @@ const AboutForm = ({
       <Form className={styles.AboutForm}>
         <div className={styles.Field}>
           <label>Name of the signal</label>
-          <FormikInput name='title' type='text' placeholder='Name of signal' />
+          <FormikInput
+            name='title'
+            type='text'
+            placeholder='Name of the signal'
+          />
         </div>
         <div className={styles.Field}>
           <label>Description</label>

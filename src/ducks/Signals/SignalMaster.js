@@ -38,7 +38,6 @@ export class SignalMaster extends React.PureComponent {
     const { step, trigger } = this.state
     const currentTrigger = trigger || (this.props.trigger || {}).trigger
     let formProps = currentTrigger ? mapTriggerToFormProps(currentTrigger) : {}
-    formProps.showTrigger = true
     const meta = {
       title: currentTrigger ? currentTrigger.title : 'Any',
       description: currentTrigger ? currentTrigger.description : 'Any'
@@ -56,29 +55,38 @@ export class SignalMaster extends React.PureComponent {
       }
     }
     const getTitle = () => {
-      return this.props.isEdit ? 'Update signal' : 'Create Signal'
+      switch (step) {
+        case STEPS.SETTINGS: {
+          return this.props.isEdit ? 'Update signal' : 'Create Signal'
+        }
+        case STEPS.CONFIRM: {
+          return formProps.isActive
+            ? 'Create public signal'
+            : 'Create private signal'
+        }
+      }
     }
 
     return (
       <div className={styles.wrapper}>
-        {step === STEPS.SETTINGS && (
-          <Panel header={getTitle()} className={styles.TriggerPanel}>
+        <Panel header={getTitle()} className={styles.TriggerPanel}>
+          {step === STEPS.SETTINGS && (
             <TriggersForm
               settings={formProps}
               canRedirect={this.props.canRedirect}
               metaFormSettings={metaFormSettings}
               onSettingsChange={this.handleSettingsChange}
             />
-          </Panel>
-        )}
-        {step === STEPS.CONFIRM && (
-          <AboutForm
-            {...meta}
-            isEdit={this.props.isEdit}
-            onBack={this.backToSettings}
-            onSubmit={this.handleAboutFormSubmit}
-          />
-        )}
+          )}
+          {step === STEPS.CONFIRM && (
+            <AboutForm
+              {...meta}
+              isEdit={this.props.isEdit}
+              onBack={this.backToSettings}
+              onSubmit={this.handleAboutFormSubmit}
+            />
+          )}
+        </Panel>
       </div>
     )
   }

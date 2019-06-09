@@ -14,18 +14,28 @@ export const TriggerFormHeader = ({
   settings,
   deleteTriggerFunc,
   showTriggerFunc,
-  showTrigger
+  showTrigger,
+  actionsEnabled
 }) => {
+  console.log(settings)
   return (
     <div className={styles.triggerHeader}>
       <div className={styles.triggerHeaderName}>
-        {settings.name || 'Name the Trigger'}
+        {settings.title || 'Name the Trigger'}
       </div>
       <div className={styles.triggerHeaderActions}>
-        <Button type='button' onClick={deleteTriggerFunc}>
+        <Button
+          type='button'
+          onClick={deleteTriggerFunc}
+          disabled={!actionsEnabled}
+        >
           <Icon type='remove' />
         </Button>
-        <Button type='button' onClick={showTriggerFunc}>
+        <Button
+          type='button'
+          onClick={showTriggerFunc}
+          disabled={!actionsEnabled}
+        >
           {showTrigger && <Icon type='arrow-up' />}
           {!showTrigger && <Icon type='arrow-down' />}
         </Button>

@@ -5,6 +5,7 @@ import HistoricalBalanceChart from './HistoricalBalanceChart'
 import AssetsField from './AssetsField'
 import styles from './BalanceView.module.scss'
 import SignalMasterModalForm from '../../ducks/Signals/SignalMasterModalForm'
+import ShowIf from '../../components/ShowIf'
 
 class BalanceView extends React.Component {
   state = {
@@ -42,9 +43,11 @@ class BalanceView extends React.Component {
           </div>
         </div>
 
-        {assets && assets.length === 1 && (
-          <SignalMasterModalForm canRedirect={false} asset={assets[0]} />
-        )}
+        <ShowIf beta>
+          {assets && assets.length === 1 && (
+            <SignalMasterModalForm canRedirect={false} asset={assets[0]} />
+          )}
+        </ShowIf>
 
         <GetHistoricalBalance
           assets={assets}

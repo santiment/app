@@ -26,6 +26,7 @@ const SignalMasterModalForm = ({
     }
     showDefaultActions={false}
     title='Create signal'
+    classes={{ modal: styles.modalCentered }}
   >
     {closeModal => (
       <SignalMaster
