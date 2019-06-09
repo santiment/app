@@ -17,7 +17,8 @@ import authLink from '../src/apollo/auth-link'
 import retryLink from '../src/apollo/retry-link'
 
 const httpLink = createHttpLink({
-  uri: `https://api-stage.santiment.net/graphql`
+  uri: `https://api-stage.santiment.net/graphql`,
+  credentials: 'include'
 })
 const client = new ApolloClient({
   link: from([authLink, errorLink, retryLink, uploadLink, httpLink]),
