@@ -10,10 +10,12 @@ const TRIGGERS = [
     id: 1,
     settings: {
       channel: 'telegram',
-      percent_threshold: 5,
       target: { slug: 'santiment' },
       time_window: '1d',
-      type: 'price_percent_change'
+      type: 'price_percent_change',
+      operation: {
+        percent_up: 5
+      }
     },
     isPublic: false,
     isActive: false,
