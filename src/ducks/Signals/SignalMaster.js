@@ -3,12 +3,7 @@ import { push } from 'react-router-redux'
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import {
-  createTrigger,
-  removeTrigger,
-  toggleTrigger,
-  updateTrigger
-} from './actions'
+import { createTrigger, toggleTrigger, updateTrigger } from './actions'
 import {
   Message,
   PanelWithHeader as Panel,
@@ -111,6 +106,7 @@ export class SignalMaster extends React.PureComponent {
         <Panel header={getTitle()} className={styles.TriggerPanel}>
           {step === STEPS.SETTINGS && (
             <TriggersForm
+              onClose={this.props.onClose}
               triggers={[currentTrigger]}
               settings={triggerSettingsFormData}
               canRedirect={this.props.canRedirect}

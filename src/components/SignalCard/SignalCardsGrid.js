@@ -38,7 +38,7 @@ const SignalCardsGrid = ({
   return (
     <div className={cx(styles.wrapper, className)}>
       {signals
-        .sort((a, b) => a.id - b.id)
+        .sort((a, b) => b.id - a.id)
         .map(({ id, ...signal }) => (
           <SignalCard
             key={id}
@@ -49,7 +49,6 @@ const SignalCardsGrid = ({
                 isActive: signal.isActive
               })
             }
-            gotoSignalByID={() => gotoSignalByID(id)}
             className={styles.card}
             {...signal}
           />

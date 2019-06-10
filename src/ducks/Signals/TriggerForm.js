@@ -9,7 +9,11 @@ import { connect } from 'react-redux'
 import { Button, Message } from '@santiment-network/ui'
 import { selectIsTelegramConnected } from './../../pages/UserSelectors'
 import { allProjectsForSearchGQL } from './../../pages/Projects/allProjectsGQL'
-import { fetchHistorySignalPoints, toggleTrigger } from './actions'
+import {
+  fetchHistorySignalPoints,
+  removeTrigger,
+  toggleTrigger
+} from './actions'
 import FormikInput from './../../components/formik-santiment-ui/FormikInput'
 import FormikSelect from './../../components/formik-santiment-ui/FormikSelect'
 import FormikSelector from './../../components/formik-santiment-ui/FormikSelector'
@@ -99,7 +103,9 @@ export const TriggerForm = ({
   isTelegramConnected = false,
   settings,
   metaFormSettings,
-  trigger
+  trigger,
+  removeSignal,
+  onRemovedSignal
 }) => {
   metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
   settings = { ...METRIC_DEFAULT_VALUES[PRICE_PERCENT_CHANGE], ...settings }
@@ -138,6 +144,11 @@ export const TriggerForm = ({
 
   const showTriggerFunc = () => {
     setShowTrigger(!showTrigger)
+  }
+
+  const deleteTrigger = () => {
+    trigger.id && removeSignal(trigger.id)
+    onRemovedSignal && onRemovedSignal()
   }
 
   return (
@@ -189,7 +200,7 @@ export const TriggerForm = ({
 
           <div className={styles.TriggerFormItem}>
             <TriggerFormHeader
-              deleteTriggerFunc={() => {}}
+              deleteTriggerFunc={deleteTrigger}
               name={trigger.title}
               showTrigger={showTrigger}
               showTriggerFunc={showTriggerFunc}
@@ -387,8 +398,8 @@ const mapDispatchToProps = dispatch => ({
       dispatch(fetchHistorySignalPoints(payload))
     }
   },
-  toggleSignal: ({ id, isActive }) => {
-    dispatch(toggleTrigger({ id, isActive }))
+  removeSignal: id => {
+    dispatch(removeTrigger(id))
   }
 })
 

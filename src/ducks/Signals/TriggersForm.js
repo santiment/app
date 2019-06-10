@@ -18,7 +18,8 @@ export const TriggersForm = ({
   triggers,
   canRedirect,
   metaFormSettings,
-  onSettingsChange
+  onSettingsChange,
+  onClose
 }) => {
   return (
     <div>
@@ -30,6 +31,7 @@ export const TriggersForm = ({
           canRedirect={canRedirect}
           settings={settings}
           onSettingsChange={onSettingsChange}
+          onRemovedSignal={onClose}
         />
       ))}
       <div className={styles.addNewTriggerBlock}>

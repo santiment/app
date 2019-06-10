@@ -26,7 +26,6 @@ export const TriggerFormHeader = ({
           type='button'
           className={styles.triggerHeaderButton}
           onClick={deleteTriggerFunc}
-          disabled={!actionsEnabled}
         >
           <Icon type='remove' />
         </Button>
