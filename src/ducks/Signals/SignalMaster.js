@@ -9,11 +9,13 @@ import TriggersForm from './TriggersForm'
 import AboutForm from './AboutForm'
 import styles from './TriggerForm.module.scss'
 import { TRIGGER_BY_ID_QUERY } from './SignalsGQL'
+import { Icon } from '@santiment-network/ui'
 import {
   mapTriggerToFormProps,
   mapFormPropsToTrigger,
   mapTriggerToProps
 } from './utils'
+import { Button } from 'semantic-ui-react'
 
 const STEPS = {
   SETTINGS: 0,
@@ -23,7 +25,10 @@ const STEPS = {
 export class SignalMaster extends React.PureComponent {
   state = {
     step: STEPS.SETTINGS,
-    trigger: undefined
+    trigger: {
+      title: `Signal_[${new Date().toLocaleDateString('en-US')}]`,
+      description: 'Any'
+    }
   }
 
   render () {
@@ -37,17 +42,20 @@ export class SignalMaster extends React.PureComponent {
     }
     const { step, trigger } = this.state
     const currentTrigger = trigger || (this.props.trigger || {}).trigger
-    let formProps = currentTrigger ? mapTriggerToFormProps(currentTrigger) : {}
-    const meta = {
-      title: currentTrigger ? currentTrigger.title : 'Any',
-      description: currentTrigger ? currentTrigger.description : 'Any'
+    let triggerSettingsFormData = currentTrigger
+      ? mapTriggerToFormProps(currentTrigger)
+      : {}
+
+    const triggerAboutFormData = {
+      title: currentTrigger.title,
+      description: currentTrigger.description
     }
 
     let metaFormSettings = { ...this.props.metaFormSettings }
 
     if (this.props.asset) {
-      formProps = {
-        ...formProps,
+      triggerSettingsFormData = {
+        ...triggerSettingsFormData,
         target: {
           value: this.props.asset,
           label: this.props.asset
@@ -60,27 +68,36 @@ export class SignalMaster extends React.PureComponent {
           return this.props.isEdit ? 'Update signal' : 'Create Signal'
         }
         case STEPS.CONFIRM: {
-          return formProps.isActive
+          return triggerSettingsFormData.isActive
             ? 'Create public signal'
             : 'Create private signal'
+        }
+        default: {
+          return ''
         }
       }
     }
 
     return (
       <div className={styles.wrapper}>
+        <Icon
+          className={styles.closeButton}
+          onClick={this.props.onClose}
+          type='close'
+        />
         <Panel header={getTitle()} className={styles.TriggerPanel}>
           {step === STEPS.SETTINGS && (
             <TriggersForm
-              settings={formProps}
+              settings={triggerSettingsFormData}
               canRedirect={this.props.canRedirect}
               metaFormSettings={metaFormSettings}
+              triggerMeta={triggerAboutFormData}
               onSettingsChange={this.handleSettingsChange}
             />
           )}
           {step === STEPS.CONFIRM && (
             <AboutForm
-              {...meta}
+              triggerMeta={triggerAboutFormData}
               isEdit={this.props.isEdit}
               onBack={this.backToSettings}
               onSubmit={this.handleAboutFormSubmit}
@@ -91,15 +108,20 @@ export class SignalMaster extends React.PureComponent {
     )
   }
 
-  backToSettings = () => {
-    this.setState({ step: STEPS.SETTINGS })
+  backToSettings = prefilledData => {
+    const { trigger } = this.state
+    this.setState({
+      step: STEPS.SETTINGS,
+      trigger: { ...trigger, ...prefilledData }
+    })
   }
 
   handleSettingsChange = formProps => {
+    const { trigger } = this.state
     this.setState({
       trigger: mapFormPropsToTrigger(
         formProps,
-        (this.props.trigger || {}).trigger
+        (this.props.trigger || {}).trigger || trigger
       ),
       step: STEPS.CONFIRM
     })
@@ -117,7 +139,7 @@ export class SignalMaster extends React.PureComponent {
     } else {
       this.props.createTrigger(data)
     }
-    this.props.onCreated && this.props.onCreated()
+    this.props.onClose && this.props.onClose()
     this.props.canRedirect && this.props.redirect && this.props.redirect()
   }
 }

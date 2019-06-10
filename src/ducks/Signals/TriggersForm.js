@@ -8,20 +8,23 @@ const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
   canRedirect: PropTypes.bool,
   settings: PropTypes.any,
-  metaFormSettings: PropTypes.any
+  metaFormSettings: PropTypes.any,
+  triggerMeta: PropTypes.any
 }
 
 export const TriggersForm = ({
   settings,
   canRedirect,
   metaFormSettings,
-  onSettingsChange
+  onSettingsChange,
+  triggerMeta
 }) => {
   return (
     <TriggerForm
       metaFormSettings={metaFormSettings}
       canRedirect={canRedirect}
       settings={settings}
+      triggerMeta={triggerMeta}
       onSettingsChange={onSettingsChange}
     />
   )

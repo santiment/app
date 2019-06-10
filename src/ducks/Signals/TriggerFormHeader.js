@@ -6,22 +6,21 @@ import styles from './TriggerForm.module.scss'
 import { Icon, Button } from '@santiment-network/ui'
 
 const propTypes = {
-  settings: PropTypes.any.isRequired,
+  triggerMeta: PropTypes.any.isRequired,
   showTrigger: PropTypes.bool.isRequired
 }
 
 export const TriggerFormHeader = ({
-  settings,
+  triggerMeta,
   deleteTriggerFunc,
   showTriggerFunc,
   showTrigger,
   actionsEnabled
 }) => {
-  console.log(settings)
   return (
     <div className={styles.triggerHeader}>
       <div className={styles.triggerHeaderName}>
-        {settings.title || 'Name the Trigger'}
+        {triggerMeta.title || 'Name the Trigger'}
       </div>
       <div className={styles.triggerHeaderActions}>
         <Button

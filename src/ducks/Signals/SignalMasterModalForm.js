@@ -30,7 +30,7 @@ const SignalMasterModalForm = ({
   >
     {closeModal => (
       <SignalMaster
-        onCreated={closeModal}
+        onClose={closeModal}
         canRedirect={canRedirect}
         asset={asset}
         metaFormSettings={metaFormSettings}

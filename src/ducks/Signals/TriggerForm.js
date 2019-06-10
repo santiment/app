@@ -33,9 +33,6 @@ import {
   getTypeByMetric,
   mapValuesToTriggerProps
 } from './utils'
-import { Label } from 'semantic-ui-react'
-import StatusLabel from '../../components/StatusLabel'
-import SignalCard from '../../components/SignalCard/SignalCard'
 import ShowIf from '../../components/ShowIf/ShowIf'
 
 const validate = values => {
@@ -96,7 +93,8 @@ const propTypes = {
   canRedirect: PropTypes.bool,
   settings: PropTypes.any,
   metaFormSettings: PropTypes.any,
-  toggleSignal: PropTypes.func.isRequired
+  toggleSignal: PropTypes.func.isRequired,
+  triggerMeta: PropTypes.any
 }
 
 export const TriggerForm = ({
@@ -106,7 +104,8 @@ export const TriggerForm = ({
   isTelegramConnected = false,
   settings,
   metaFormSettings,
-  toggleSignal
+  toggleSignal,
+  triggerMeta
 }) => {
   metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
   settings = { ...METRIC_DEFAULT_VALUES[PRICE_PERCENT_CHANGE], ...settings }
@@ -209,7 +208,7 @@ export const TriggerForm = ({
           <div className={styles.TriggerFormItem}>
             <TriggerFormHeader
               deleteTriggerFunc={deleteTriggerFunc}
-              settings={initialValues}
+              triggerMeta={triggerMeta}
               showTrigger={showTrigger}
               showTriggerFunc={showTriggerFunc}
               actionsEnabled={false} // Make dynamic if trigger more 1 (in future)

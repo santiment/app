@@ -4,6 +4,15 @@
 .wrapper {
   width: 100%;
   max-width: 496px;
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  cursor: pointer;
+  right: 20px;
+  top: 15px;
+  fill: var(--grey-dark-2);
 }
 
 .Trigger {
