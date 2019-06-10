@@ -230,8 +230,8 @@ const enhance = compose(
     options: ({ match }) => {
       const to = new Date()
       const from = new Date()
-      to.setHours(to.getHours() - 1, 0, 0, 0)
-      from.setHours(from.getHours() - 48, 0, 0, 0)
+      to.setUTCHours(to.getUTCHours() - 1, 0, 0, 0)
+      from.setUTCHours(from.getUTCHours() - 48, 0, 0, 0)
       const { slug } = match.params
       return {
         variables: {
