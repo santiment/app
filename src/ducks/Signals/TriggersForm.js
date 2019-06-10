@@ -36,7 +36,7 @@ export const TriggersForm = ({
       ))}
       <div className={styles.addNewTriggerBlock}>
         <div className={styles.row}>
-          <Button type='button' onClick={() => {}} disabled>
+          <Button type='button' disabled>
             <Icon type='plus-round' />
             <div>&nbsp; Add Trigger</div>
           </Button>

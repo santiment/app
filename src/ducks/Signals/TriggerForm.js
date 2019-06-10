@@ -9,11 +9,7 @@ import { connect } from 'react-redux'
 import { Button, Message } from '@santiment-network/ui'
 import { selectIsTelegramConnected } from './../../pages/UserSelectors'
 import { allProjectsForSearchGQL } from './../../pages/Projects/allProjectsGQL'
-import {
-  fetchHistorySignalPoints,
-  removeTrigger,
-  toggleTrigger
-} from './actions'
+import { fetchHistorySignalPoints, removeTrigger } from './actions'
 import FormikInput from './../../components/formik-santiment-ui/FormikInput'
 import FormikSelect from './../../components/formik-santiment-ui/FormikSelect'
 import FormikSelector from './../../components/formik-santiment-ui/FormikSelector'
@@ -198,7 +194,7 @@ export const TriggerForm = ({
             }}
           />
 
-          <div className={styles.TriggerFormItem}>
+          <div className={styles.triggerFormItem}>
             <TriggerFormHeader
               deleteTriggerFunc={deleteTrigger}
               name={trigger.title}

@@ -89,18 +89,16 @@ export const mapTriggerToFormProps = currentTrigger => {
   }
 }
 
-const getPercentTreshold = settings => {
-  switch (settings.type) {
+const getPercentTreshold = ({ type, operation, percent_threshold }) => {
+  switch (type) {
     case PRICE_PERCENT_CHANGE: {
-      return settings.operation
-        ? settings.operation[Object.keys(settings.operation)[0]]
-        : undefined
+      return operation ? operation[Object.keys(operation)[0]] : undefined
     }
     case DAILY_ACTIVE_ADDRESSES: {
-      return settings.percent_threshold
+      return percent_threshold
     }
     default: {
-      return settings.percent_threshold
+      return percent_threshold
     }
   }
 }

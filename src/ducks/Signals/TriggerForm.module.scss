@@ -12,7 +12,7 @@
   cursor: pointer;
   right: 20px;
   top: 15px;
-  fill: var(--grey-dark-2);
+  fill: #9faac4;
   z-index: 100;
 }
 
@@ -139,7 +139,7 @@ label {
 }
 
 .triggerFormItem {
-  border: 1px solid #e7eaf3;
+  border: 1px solid $trigger-border;
   box-sizing: border-box;
   border-radius: 4px;
   margin-bottom: 20px;
@@ -147,8 +147,8 @@ label {
 
 .triggerHeader {
   width: 100%;
-  background: #f9fafc;
-  border: 1px solid #e7eaf3;
+  background: $trigger-header-bg;
+  border: 1px solid $trigger-border;
   box-sizing: border-box;
   border-radius: 4px;
   display: flex;
@@ -168,7 +168,7 @@ label {
 }
 
 .triggerHeaderButton {
-  background-color: #f9fafc !important;
+  background-color: $trigger-header-bg !important;
 }
 
 .triggerToggleBlock {

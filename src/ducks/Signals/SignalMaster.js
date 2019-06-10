@@ -80,10 +80,10 @@ export class SignalMaster extends React.PureComponent {
       }
     }
 
-    const getTitle = () => {
+    const getTitle = ({ id }) => {
       switch (step) {
         case STEPS.SETTINGS: {
-          return this.props.isEdit ? 'Update signal' : 'Create Signal'
+          return id > 0 ? 'Update signal' : 'Create Signal'
         }
         case STEPS.CONFIRM: {
           return triggerSettingsFormData.isActive
@@ -103,7 +103,10 @@ export class SignalMaster extends React.PureComponent {
           onClick={this.props.onClose}
           type='close'
         />
-        <Panel header={getTitle()} className={styles.TriggerPanel}>
+        <Panel
+          header={getTitle(currentTrigger)}
+          className={styles.TriggerPanel}
+        >
           {step === STEPS.SETTINGS && (
             <TriggersForm
               onClose={this.props.onClose}
@@ -160,7 +163,7 @@ export class SignalMaster extends React.PureComponent {
     const data = {
       ...this.state.trigger,
       ...about,
-      ...{ shouldReload: this.props.canRedirect }
+      shouldReload: this.props.canRedirect
     }
 
     if (this.props.isEdit) {

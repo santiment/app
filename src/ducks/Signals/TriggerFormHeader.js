@@ -1,7 +1,5 @@
-import { compose } from 'recompose'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { connect } from 'react-redux'
 import styles from './TriggerForm.module.scss'
 import { Icon, Button } from '@santiment-network/ui'
 
@@ -14,13 +12,11 @@ export const TriggerFormHeader = ({
   showTriggerFunc,
   showTrigger,
   actionsEnabled,
-  name
+  name = 'Name the Trigger'
 }) => {
   return (
     <div className={styles.triggerHeader}>
-      <div className={styles.triggerHeaderName}>
-        {name || 'Name the Trigger'}
-      </div>
+      <div className={styles.triggerHeaderName}>{name}</div>
       <div className={styles.triggerHeaderActions}>
         <Button
           type='button'
@@ -45,11 +41,4 @@ export const TriggerFormHeader = ({
 
 TriggerFormHeader.propTypes = propTypes
 
-const enhance = compose(
-  connect(
-    null,
-    null
-  )
-)
-
-export default enhance(TriggerFormHeader)
+export default TriggerFormHeader
