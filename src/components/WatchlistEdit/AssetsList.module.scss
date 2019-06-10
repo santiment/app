@@ -1,0 +1,36 @@
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
+@import "../../mixins.scss";
+
+.wrapperList {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0), var(--white));
+  }
+}
+
+.project {
+  @include text-normal;
+
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.name {
+  margin-right: 5px;
+  color: var(--mirage);
+}
+
+.actionBtn {
+  margin-right: 10px;
+}
