@@ -20,7 +20,7 @@ const AddToListBtn = (
 )
 
 export const hasAssetById = ({ id, listItems }) =>
-  listItems.some(({ project }) => project.id === id)
+  listItems.some(({ id: projectId }) => projectId === id)
 
 const WatchlistPopup = ({
   isLoggedIn,
@@ -147,7 +147,10 @@ export default compose(
     skip: ({ isLoggedIn }) => !isLoggedIn,
     options: () => ({ context: { isRetriable: true } }),
     props: ({ Watchlists: { fetchUserLists = [], loading = true } }) => ({
-      lists: fetchUserLists.sort(sortWatchlists),
+      lists: fetchUserLists.sort(sortWatchlists).map(list => ({
+        ...list,
+        listItems: list.listItems.map(assets => assets.project)
+      })),
       isLoading: loading
     })
   }),

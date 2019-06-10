@@ -4,6 +4,11 @@
   align-items: center;
 }
 
+.projects-table {
+  width: 100%;
+  min-height: 78vh;
+}
+
 .page-head-projects__left h1 {
   margin-right: 1rem !important;
 }

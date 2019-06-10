@@ -1,0 +1,34 @@
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
+@import "../../mixins.scss";
+
+.wrapper {
+  padding: 12px 0 0 20px;
+  width: 318px;
+  overflow-y: hidden;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.search {
+  z-index: 5;
+  margin-right: 20px;
+}
+
+.heading {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: bold;
+  margin: 16px 0 8px;
+}
+
+.actions {
+  padding: 10px 15px;
+}

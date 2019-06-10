@@ -1,12 +1,18 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { graphql } from 'react-apollo'
-import { SearchWithSuggestions } from '@santiment-network/ui'
+import { Icon, SearchWithSuggestions } from '@santiment-network/ui'
 import { allProjectsForSearchGQL } from '../../pages/Projects/allProjectsGQL'
+import { hasAssetById } from '../WatchlistPopup/WatchlistsPopup'
 import ProjectIcon from './../ProjectIcon'
 import styles from './SearchContainer.module.scss'
 import ALL_PROJECTS from './../../allProjects.json'
 
-const SearchProjects = ({ data: { allProjects = [] }, ...props }) => {
+const SearchProjects = ({
+  data: { allProjects = [] },
+  isEditingWatchlist,
+  watchlistItems,
+  ...props
+}) => {
   const projects = allProjects.length > 0 ? allProjects : ALL_PROJECTS
   return (
     <SearchWithSuggestions
@@ -19,17 +25,28 @@ const SearchProjects = ({ data: { allProjects = [] }, ...props }) => {
           name.toUpperCase().includes(upperCaseSearchTerm) ||
           ticker.toUpperCase().includes(upperCaseSearchTerm)
       }}
-      suggestionContent={({ name, ticker }) => {
+      suggestionContent={({ name, ticker, id }) => {
+        const isAssetInList = isEditingWatchlist
+          ? hasAssetById({ listItems: watchlistItems, id })
+          : false
         return (
-          <Fragment>
-            <ProjectIcon
-              className={styles.icon}
-              size={16}
-              ticker={ticker}
-              name={name}
-            />{' '}
-            {name} ({ticker})
-          </Fragment>
+          <div className={styles.projectWrapper}>
+            <div>
+              <ProjectIcon
+                className={styles.icon}
+                size={16}
+                ticker={ticker}
+                name={name}
+              />{' '}
+              {name} ({ticker})
+            </div>
+            {isEditingWatchlist && (
+              <Icon
+                fill={`var(--${isAssetInList ? 'casper' : 'jungle-green'}`}
+                type={isAssetInList ? 'remove' : 'plus-round'}
+              />
+            )}
+          </div>
         )
       }}
     />
