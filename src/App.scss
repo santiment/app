@@ -10,6 +10,7 @@
     flex: 1;
     padding: 0;
     max-width: 1140px;
+    box-sizing: content-box;
     height: calc(100vh - 50px);
 
     @include responsive('tablet') {
@@ -43,6 +44,7 @@
 
   @include responsive('desktop') {
     max-width: 1140px;
+    box-sizing: content-box;
   }
 }
 
