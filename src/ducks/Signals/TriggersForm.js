@@ -32,11 +32,4 @@ export const TriggersForm = ({
 
 TriggersForm.propTypes = propTypes
 
-const enhance = compose(
-  connect(
-    null,
-    null
-  )
-)
-
-export default enhance(TriggersForm)
+export default TriggersForm
