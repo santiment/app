@@ -8916,5 +8916,11 @@
     "name": "ZrCoin",
     "slug": "zrcoin",
     "ticker": "ZRC"
-  }
+  },
+  {
+    "id": "235624",
+    "name": "BOMB",
+    "slug": "bomb",
+    "ticker": "BOMB"
+  },
 ]
