@@ -71,14 +71,14 @@ $phoneMinWidth: 480px;
     @include responsive('tablet') {
       grid-template-columns: 1fr 1fr;
     }
-
-    @include responsive('phone-xs', 'phone') {
-      grid-template-columns: 1fr;
-    }
   }
 
   @if $columns == 4 {
     grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    grid-template-columns: 1fr;
   }
 }
 

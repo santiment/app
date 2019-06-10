@@ -1,15 +1,15 @@
+@import '../mixins.scss';
+
 .flexRow {
-   display: flex;
-   justify-content: space-between;
-   flex-wrap: wrap;
+  @include grid-wrap(2);
 }
 
 .historicalBalance {
-  background: #5275FF;
+  background: #5275ff;
 
   button {
-    background: #4567ED;
-    box-shadow: 0px 20px 30px #3955C4;
+    background: #4567ed;
+    box-shadow: 0 20px 30px #3955c4;
   }
 }
 
@@ -19,11 +19,11 @@
 }
 
 .trends {
-  background-color: #8358FF;
+  background-color: #8358ff;
 
   button {
-    background: #774EED;
-    box-shadow: 0px 20px 30px #5F38CF;
+    background: #774eed;
+    box-shadow: 0 20px 30px #5f38cf;
   }
 }
 
@@ -33,10 +33,10 @@
 
 .dashboard {
   background: #222639;
-  
+
   button {
-    background: #1C1F31;
-    box-shadow: 0px 20px 30px #0F101A;
+    background: #1c1f31;
+    box-shadow: 0 20px 30px #0f101a;
   }
 }
 
