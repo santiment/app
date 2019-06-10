@@ -83,14 +83,27 @@ export const mapTriggerToFormProps = currentTrigger => {
       : undefined,
     target: getTarget(settings.target),
     type: getType(settings.type),
-    percentThreshold: settings.percent_threshold
-      ? settings.percent_threshold
-      : undefined,
+    percentThreshold: getPercentTreshold(settings),
     threshold: settings.threshold ? settings.threshold : undefined,
     channels: [settings.channel]
   }
 }
 
+const getPercentTreshold = settings => {
+  switch (settings.type) {
+    case PRICE_PERCENT_CHANGE: {
+      return settings.operation
+        ? settings.operation[Object.keys(settings.operation)[0]]
+        : undefined
+    }
+    case DAILY_ACTIVE_ADDRESSES: {
+      return settings.percent_threshold
+    }
+    default: {
+      return settings.percent_threshold
+    }
+  }
+}
 export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   return {
     ...prevTrigger,

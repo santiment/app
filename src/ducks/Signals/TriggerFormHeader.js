@@ -6,25 +6,25 @@ import styles from './TriggerForm.module.scss'
 import { Icon, Button } from '@santiment-network/ui'
 
 const propTypes = {
-  triggerMeta: PropTypes.any.isRequired,
   showTrigger: PropTypes.bool.isRequired
 }
 
 export const TriggerFormHeader = ({
-  triggerMeta,
   deleteTriggerFunc,
   showTriggerFunc,
   showTrigger,
-  actionsEnabled
+  actionsEnabled,
+  name
 }) => {
   return (
     <div className={styles.triggerHeader}>
       <div className={styles.triggerHeaderName}>
-        {triggerMeta.title || 'Name the Trigger'}
+        {name || 'Name the Trigger'}
       </div>
       <div className={styles.triggerHeaderActions}>
         <Button
           type='button'
+          className={styles.triggerHeaderButton}
           onClick={deleteTriggerFunc}
           disabled={!actionsEnabled}
         >
@@ -32,6 +32,7 @@ export const TriggerFormHeader = ({
         </Button>
         <Button
           type='button'
+          className={styles.triggerHeaderButton}
           onClick={showTriggerFunc}
           disabled={!actionsEnabled}
         >

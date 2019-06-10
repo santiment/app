@@ -3,8 +3,17 @@ import { push } from 'react-router-redux'
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import { createTrigger, updateTrigger } from './actions'
-import { Message, PanelWithHeader as Panel } from '@santiment-network/ui'
+import {
+  createTrigger,
+  removeTrigger,
+  toggleTrigger,
+  updateTrigger
+} from './actions'
+import {
+  Message,
+  PanelWithHeader as Panel,
+  Toggle
+} from '@santiment-network/ui'
 import TriggersForm from './TriggersForm'
 import AboutForm from './AboutForm'
 import styles from './TriggerForm.module.scss'
@@ -15,7 +24,6 @@ import {
   mapFormPropsToTrigger,
   mapTriggerToProps
 } from './utils'
-import { Button } from 'semantic-ui-react'
 
 const STEPS = {
   SETTINGS: 0,
@@ -27,7 +35,8 @@ export class SignalMaster extends React.PureComponent {
     step: STEPS.SETTINGS,
     trigger: {
       title: `Signal_[${new Date().toLocaleDateString('en-US')}]`,
-      description: 'Any'
+      description: 'Any',
+      isActive: true
     }
   }
 
@@ -41,7 +50,7 @@ export class SignalMaster extends React.PureComponent {
       )
     }
     const { step, trigger } = this.state
-    const currentTrigger = trigger || (this.props.trigger || {}).trigger
+    const currentTrigger = (this.props.trigger || {}).trigger || trigger
     let triggerSettingsFormData = currentTrigger
       ? mapTriggerToFormProps(currentTrigger)
       : {}
@@ -62,6 +71,20 @@ export class SignalMaster extends React.PureComponent {
         }
       }
     }
+
+    const toggleSignalCallback = () => {
+      if (currentTrigger.id) {
+        this.props.toggleSignal({
+          id: currentTrigger.id,
+          isActive: currentTrigger.isActive
+        })
+      } else {
+        const { trigger } = this.state
+        const newTrigger = { ...trigger, isActive: !trigger.isActive }
+        this.setState({ trigger: newTrigger })
+      }
+    }
+
     const getTitle = () => {
       switch (step) {
         case STEPS.SETTINGS: {
@@ -88,10 +111,10 @@ export class SignalMaster extends React.PureComponent {
         <Panel header={getTitle()} className={styles.TriggerPanel}>
           {step === STEPS.SETTINGS && (
             <TriggersForm
+              triggers={[currentTrigger]}
               settings={triggerSettingsFormData}
               canRedirect={this.props.canRedirect}
               metaFormSettings={metaFormSettings}
-              triggerMeta={triggerAboutFormData}
               onSettingsChange={this.handleSettingsChange}
             />
           )}
@@ -103,6 +126,16 @@ export class SignalMaster extends React.PureComponent {
               onSubmit={this.handleAboutFormSubmit}
             />
           )}
+
+          <div className={styles.triggerToggleBlock}>
+            <Toggle
+              onClick={toggleSignalCallback}
+              isActive={currentTrigger.isActive}
+            />
+            <div className={styles.triggerToggleLabel}>
+              {currentTrigger.isActive ? 'Public' : 'Private'}
+            </div>
+          </div>
         </Panel>
       </div>
     )
@@ -145,6 +178,9 @@ export class SignalMaster extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
+  toggleSignal: ({ id, isActive }) => {
+    dispatch(toggleTrigger({ id, isActive }))
+  },
   createTrigger: payload => {
     dispatch(createTrigger(payload))
   },

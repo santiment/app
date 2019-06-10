@@ -35,6 +35,8 @@
 
 .TriggerPanel {
   margin-bottom: 1rem;
+  position: relative;
+  padding: 0 0 30px 0;
 }
 
 .TriggerChart {
@@ -88,6 +90,9 @@ label {
 .controls {
   display: flex;
   justify-content: flex-end;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
 
   button {
     width: 92px;
@@ -159,6 +164,25 @@ label {
 .triggerHeaderActions {
   display: flex;
   margin-left: auto;
+}
+
+.triggerHeaderButton {
+  background-color: #f9fafc !important;
+}
+
+.triggerToggleBlock {
+  display: flex;
+  padding: 10px;
+  position: absolute;
+  bottom: 15px;
+}
+
+.addNewTriggerBlock {
+  margin-bottom: 20px;
+}
+
+.triggerToggleLabel {
+  margin-left: 20px;
 }
 
 a {

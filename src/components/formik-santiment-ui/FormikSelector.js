@@ -18,7 +18,7 @@ const FormikSelector = ({
           form.setFieldValue(name, value)
           form.setFieldTouched(name, true)
         }}
-        defaultSelected={defaultSelected || field.value}
+        defaultSelected={field.value || defaultSelected}
       />
     )}
   />

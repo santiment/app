@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import isEqual from 'lodash.isequal'
 import cx from 'classnames'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
-import { Icon, Toggle } from '@santiment-network/ui'
 import { Button, Message } from '@santiment-network/ui'
 import { selectIsTelegramConnected } from './../../pages/UserSelectors'
 import { allProjectsForSearchGQL } from './../../pages/Projects/allProjectsGQL'
@@ -30,10 +28,8 @@ import {
   PRICE_TYPES,
   ARGS,
   METRIC_DEFAULT_VALUES,
-  getTypeByMetric,
-  mapValuesToTriggerProps
+  getTypeByMetric
 } from './utils'
-import ShowIf from '../../components/ShowIf/ShowIf'
 
 const validate = values => {
   let errors = {}
@@ -93,7 +89,6 @@ const propTypes = {
   canRedirect: PropTypes.bool,
   settings: PropTypes.any,
   metaFormSettings: PropTypes.any,
-  toggleSignal: PropTypes.func.isRequired,
   triggerMeta: PropTypes.any
 }
 
@@ -104,8 +99,7 @@ export const TriggerForm = ({
   isTelegramConnected = false,
   settings,
   metaFormSettings,
-  toggleSignal,
-  triggerMeta
+  trigger
 }) => {
   metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
   settings = { ...METRIC_DEFAULT_VALUES[PRICE_PERCENT_CHANGE], ...settings }
@@ -126,9 +120,9 @@ export const TriggerForm = ({
   const [initialValues, setInitialValues] = useState(settings)
   const [showTrigger, setShowTrigger] = useState(true)
 
-  useEffect(() => {
+  /* useEffect(() => {
     getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
-  }, [])
+  }, []) */
 
   const defaultAsset = metaFormSettings.target
   const defaultMetric = metaFormSettings.metric
@@ -137,22 +131,10 @@ export const TriggerForm = ({
   const setDefaultPriceValues = values => {
     const newValues = { ...values, ...METRIC_DEFAULT_VALUES[values.type.value] }
     setInitialValues(newValues)
-    window.setTimeout(() => {
+    /* window.setTimeout(() => {
       getSignalBacktestingPoints(mapValuesToTriggerProps(newValues))
-    }, 0)
+    }, 0) */
   }
-
-  const deleteTriggerFunc = () => {}
-
-  const addTrigger = () => {
-    // pass
-  }
-
-  const toggleSignalCallback = () =>
-    toggleSignal({
-      id: initialValues.id,
-      isActive: initialValues.isActive
-    })
 
   const showTriggerFunc = () => {
     setShowTrigger(!showTrigger)
@@ -184,31 +166,31 @@ export const TriggerForm = ({
               if (current.values.type.value !== prev.values.type.value) {
                 setDefaultPriceValues(current.values)
                 validateForm()
-                return
               }
-              if (!isEqual(current.values, prev.values)) {
-                const lastErrors = validate(current.values)
-                const isError = Object.keys(current.values).reduce(
-                  (acc, val) => {
-                    if (lastErrors.hasOwnProperty(val)) {
-                      acc = true
-                    }
-                    return acc
-                  },
-                  false
-                )
 
-                !!current.values.target &&
-                  !isError &&
-                  getSignalBacktestingPoints(mapValuesToTriggerProps(values))
-              }
+              /* if (!isEqual(current.values, prev.values)) {
+              const lastErrors = validate(current.values)
+              const isError = Object.keys(current.values).reduce(
+                (acc, val) => {
+                  if (lastErrors.hasOwnProperty(val)) {
+                    acc = true
+                  }
+                  return acc
+                },
+                false
+              )
+
+              !!current.values.target &&
+                !isError &&
+                getSignalBacktestingPoints(mapValuesToTriggerProps(values))
+              } */
             }}
           />
 
           <div className={styles.TriggerFormItem}>
             <TriggerFormHeader
-              deleteTriggerFunc={deleteTriggerFunc}
-              triggerMeta={triggerMeta}
+              deleteTriggerFunc={() => {}}
+              name={trigger.title}
               showTrigger={showTrigger}
               showTriggerFunc={showTriggerFunc}
               actionsEnabled={false} // Make dynamic if trigger more 1 (in future)
@@ -375,23 +357,6 @@ export const TriggerForm = ({
               </div>
             )}
           </div>
-
-          <div className={styles.row}>
-            <div className={styles.Field}>
-              <Button type='button' onClick={addTrigger} disabled>
-                <Icon type='plus-round' />
-                <div>&nbsp; Add Trigger</div>
-              </Button>
-            </div>
-          </div>
-
-          <ShowIf condition={initialValues.id}>
-            <Toggle
-              onClick={toggleSignalCallback}
-              isActive={initialValues.isActive}
-            />
-            <div>{initialValues.isActive ? 'Public' : 'Private'}</div>
-          </ShowIf>
 
           <div className={styles.controls}>
             <Button
