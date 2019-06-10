@@ -9,8 +9,7 @@
   & .page {
     flex: 1;
     padding: 0;
-    max-width: 1140px;
-    box-sizing: content-box;
+    max-width: 1170px;
     height: calc(100vh - 50px);
 
     @include responsive('tablet') {
@@ -43,8 +42,7 @@
   width: 100%;
 
   @include responsive('desktop') {
-    max-width: 1140px;
-    box-sizing: content-box;
+    max-width: 1170px;
   }
 }
 
