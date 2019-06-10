@@ -2,8 +2,7 @@
 @import './../../mixins.scss';
 
 .header {
-  margin: 0;
-  margin-bottom: 32px;
+  margin: 0 0 32px;
   background: var(--white);
   max-height: 70px;
   border-bottom: 1px solid var(--porcelain);

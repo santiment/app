@@ -5,9 +5,7 @@ import { mapSizesToProps } from '../../App'
 import { client } from '../../index'
 import { ALL_INSIGHTS_BY_PAGE_QUERY } from './../../queries/InsightsGQL'
 import InsightsFeed from '../../components/Insight/InsightsFeed'
-import InsightsScrollable, {
-  TYPES
-} from '../../components/Insight/InsightsScrollable'
+import InsightsScrollable from '../../components/Insight/InsightsScrollable'
 import styles from './InsightsAllFeedPage.module.scss'
 
 class InsightsAllFeedPage extends React.PureComponent {
@@ -71,7 +69,7 @@ class InsightsAllFeedPage extends React.PureComponent {
               Featured insights
             </h4>
             <InsightsScrollable
-              type={TYPES.featured}
+              type='featured'
               maxLines={2}
               multilineTextId='sidebarInsights'
             />
