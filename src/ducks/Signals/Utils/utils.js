@@ -118,10 +118,10 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       type: getType(formProps.type.value).value,
       operation: getTriggerOperation(formProps.type, formProps.percentThreshold)
     },
-    isPublic: !!formProps.isPublic,
     isRepeating: !!formProps.isRepeating,
-    cooldown: formProps.cooldown ? formProps.cooldown : undefined,
-    isActive: !!formProps.isActive
+    cooldown: formProps.cooldown ? formProps.cooldown : undefined
+    // isPublic: !!formProps.isPublic,
+    // isActive: !!formProps.isActive
   }
 }
 export const mapValuesToTriggerProps = ({

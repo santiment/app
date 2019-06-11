@@ -31,7 +31,8 @@ export class SignalMaster extends React.PureComponent {
     trigger: {
       title: `Signal_[${new Date().toLocaleDateString('en-US')}]`,
       description: 'Any',
-      isActive: true
+      isActive: true,
+      isPublic: true
     }
   }
 
@@ -44,8 +45,10 @@ export class SignalMaster extends React.PureComponent {
         <Message variant='error'>{this.props.trigger.errorMessage}</Message>
       )
     }
+
     const { step, trigger } = this.state
     const currentTrigger = (this.props.trigger || {}).trigger || trigger
+
     let triggerSettingsFormData = currentTrigger
       ? mapTriggerToFormProps(currentTrigger)
       : {}
@@ -71,11 +74,11 @@ export class SignalMaster extends React.PureComponent {
       if (currentTrigger.id) {
         this.props.toggleSignal({
           id: currentTrigger.id,
-          isActive: currentTrigger.isActive
+          isPublic: currentTrigger.isPublic
         })
       } else {
         const { trigger } = this.state
-        const newTrigger = { ...trigger, isActive: !trigger.isActive }
+        const newTrigger = { ...trigger, isPublic: !trigger.isPublic }
         this.setState({ trigger: newTrigger })
       }
     }
@@ -86,7 +89,7 @@ export class SignalMaster extends React.PureComponent {
           return id > 0 ? 'Update signal' : 'Create Signal'
         }
         case STEPS.CONFIRM: {
-          return triggerSettingsFormData.isActive
+          return triggerSettingsFormData.isPublic
             ? 'Create public signal'
             : 'Create private signal'
         }
@@ -129,10 +132,10 @@ export class SignalMaster extends React.PureComponent {
           <div className={styles.triggerToggleBlock}>
             <Toggle
               onClick={toggleSignalCallback}
-              isActive={currentTrigger.isActive}
+              isActive={currentTrigger.isPublic}
             />
             <div className={styles.triggerToggleLabel}>
-              {currentTrigger.isActive ? 'Public' : 'Private'}
+              {currentTrigger.isPublic ? 'Public' : 'Private'}
             </div>
           </div>
         </Panel>
@@ -150,11 +153,10 @@ export class SignalMaster extends React.PureComponent {
 
   handleSettingsChange = formProps => {
     const { trigger } = this.state
+    const prevTrigger = (this.props.trigger || {}).trigger || trigger
+
     this.setState({
-      trigger: mapFormPropsToTrigger(
-        formProps,
-        (this.props.trigger || {}).trigger || trigger
-      ),
+      trigger: mapFormPropsToTrigger(formProps, prevTrigger),
       step: STEPS.CONFIRM
     })
   }
