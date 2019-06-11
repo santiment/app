@@ -16,7 +16,17 @@ const DashboardPage = ({ isLoggedIn }) => (
       <AnonBannerStaticExperiment className={styles.anonBanner} />
     )}
     <div className={styles.column}>
-      <div className={styles.column__left}>
+      <div className={styles.column__insights}>
+        <div className={styles.subtitle}>
+          <h2 className={styles.subtitle__text}>Latest insights</h2>
+        </div>
+        <InsightsScrollable
+          type='latest'
+          maxLines={2}
+          multilineTextId='InsightsDashboardPage'
+        />
+      </div>
+      <div className={styles.column__trends}>
         <div className={styles.subtitle}>
           <h2 className={styles.subtitle__text}>Trending words</h2>
         </div>
@@ -30,16 +40,7 @@ const DashboardPage = ({ isLoggedIn }) => (
           )}
         />
       </div>
-      <div className={styles.column__right}>
-        <div className={styles.subtitle}>
-          <h2 className={styles.subtitle__text}>Latest insights</h2>
-        </div>
-        <InsightsScrollable
-          type='latest'
-          maxLines={2}
-          multilineTextId='InsightsDashboardPage'
-        />
-      </div>
+      <div className={styles.column__GLTable} />
     </div>
     <div className={styles.section}>
       <FeaturedWatchlists />
