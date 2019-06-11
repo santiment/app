@@ -56,34 +56,4 @@ $phoneMinWidth: 480px;
   }
 }
 
-@mixin grid-wrap($columns) {
-  width: 100%;
-  display: grid;
-  grid-gap: 24px;
-
-  @include responsive('tablet') {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  @include responsive('phone-xs', 'phone') {
-    grid-template-columns: 1fr;
-  }
-
-  @if $columns == 2 {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  @if $columns == 3 {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-
-  @if $columns == 4 {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-
-    @include responsive('phone') {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-}
-
 /* stylelint-enable */
