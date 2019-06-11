@@ -16,8 +16,13 @@ const LoadableChartMetrics = Loadable({
 })
 
 class ChartPage extends Component {
-  mapQSToState = ({ location: { search } }) =>
-    qs.parse(search, { arrayFormat: 'comma' })
+  mapQSToState = ({ location: { search } }) => {
+    const data = qs.parse(search, { arrayFormat: 'comma' })
+    if (typeof data.metrics === 'string') {
+      data.metrics = [data.metrics]
+    }
+    return data
+  }
 
   state = {
     timeRange: '6m',
@@ -42,7 +47,21 @@ class ChartPage extends Component {
   }
 
   onTimerangeChange = timeRange => {
-    this.setState({ timeRange }, this.updateSearchQuery)
+    this.setState(
+      { timeRange, from: undefined, to: undefined },
+      this.updateSearchQuery
+    )
+  }
+
+  onCalendarChange = ([from, to]) => {
+    this.setState(
+      {
+        timeRange: undefined,
+        from: from.toISOString(),
+        to: to.toISOString()
+      },
+      this.updateSearchQuery
+    )
   }
 
   onSlugSelect = ({ slug, name, ticker }) => {
@@ -82,7 +101,9 @@ class ChartPage extends Component {
       metrics,
       interval,
       nightMode,
-      zoom
+      zoom,
+      from,
+      to
     } = this.state
 
     const settings = {
@@ -95,7 +116,10 @@ class ChartPage extends Component {
     }
 
     if (zoom) {
-      const [, , from, to] = zoom
+      const [, , zoomFrom, zoomTo] = zoom
+      settings.from = zoomFrom
+      settings.to = zoomTo
+    } else if (from && to) {
       settings.from = from
       settings.to = to
     } else {
@@ -174,6 +198,7 @@ class ChartPage extends Component {
                 <LoadableChartSettings
                   defaultTimerange={timeRange}
                   onTimerangeChange={this.onTimerangeChange}
+                  onCalendarChange={this.onCalendarChange}
                   onSlugSelect={this.onSlugSelect}
                   generateShareLink={this.generateShareLink}
                   onNightModeSelect={this.onNightModeSelect}
