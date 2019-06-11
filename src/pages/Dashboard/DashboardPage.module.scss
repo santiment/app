@@ -22,18 +22,11 @@
 }
 
 .subtitle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 26px;
-
-  &__text {
-    font-family: Rubik, sans-serif;
-    font-size: 22px;
-    line-height: 30px;
-    color: var(--mirage);
-    margin: 0;
-  }
+  margin: 0 0 26px;
+  font-family: Rubik, sans-serif;
+  font-size: 22px;
+  line-height: 30px;
+  color: var(--mirage);
 }
 
 .column {

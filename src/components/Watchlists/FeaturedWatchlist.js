@@ -2,15 +2,11 @@ import React from 'react'
 import AssetsOverviewCard from './WatchlistCard'
 import GetFeaturedWatchlists from './../../ducks/Watchlists/GetFeaturedWatchlists'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
-import { DesktopOnly } from './../../components/Responsive'
 import Row from './../../components/Row'
 import styles from './Watchlist.module.scss'
 
 const FeaturedWatchlists = () => (
   <div className={styles.wrapper}>
-    <DesktopOnly>
-      <h4 style={{ color: 'var(--mirage)' }}>Featured Watchlists</h4>
-    </DesktopOnly>
     <Row>
       <GetFeaturedWatchlists
         render={({ isWatchlistsLoading, watchlists }) =>
