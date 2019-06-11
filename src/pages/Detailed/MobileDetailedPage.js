@@ -38,11 +38,13 @@ const MobileDetailedPage = props => {
 
   let transactionVolumeInfo
   const { transactionVolume } = props
-  if (transactionVolume && transactionVolume.length === 2) {
-    const [
-      { transactionVolume: yesterdayTransactionVolume },
-      { transactionVolume: todayTransactionVolume }
-    ] = transactionVolume
+  if (transactionVolume && transactionVolume.length === 48) {
+    const yesterdayTransactionVolume = transactionVolume
+      .slice(0, 24)
+      .reduce((acc, { transactionVolume }) => acc + transactionVolume, 0)
+    const todayTransactionVolume = transactionVolume
+      .slice(-24)
+      .reduce((acc, { transactionVolume }) => acc + transactionVolume, 0)
     const TVDiff = calcPercentageChange(
       yesterdayTransactionVolume,
       todayTransactionVolume
@@ -164,7 +166,10 @@ const MobileDetailedPage = props => {
                           <MobileMetricCard {...devActivityInfo} />
                         )}
                         {transactionVolumeInfo && (
-                          <MobileMetricCard {...transactionVolumeInfo} />
+                          <MobileMetricCard
+                            {...transactionVolumeInfo}
+                            measure={ticker}
+                          />
                         )}
                         <ShowIf beta>
                           {props.news && props.news.length > 0 && (
@@ -223,9 +228,19 @@ const enhance = compose(
   }),
   graphql(TRANSACTION_VOLUME_QUERY, {
     options: ({ match }) => {
-      const { from, to } = getTimeIntervalFromToday(-1, DAY)
+      const to = new Date()
+      const from = new Date()
+      to.setUTCHours(to.getUTCHours() - 1, 0, 0, 0)
+      from.setUTCHours(from.getUTCHours() - 48, 0, 0, 0)
       const { slug } = match.params
-      return { variables: { slug, from, to, interval: '1d' } }
+      return {
+        variables: {
+          slug,
+          from: from.toISOString(),
+          to: to.toISOString(),
+          interval: '1h'
+        }
+      }
     },
     props: ({ data: { transactionVolume = [] } }) => ({ transactionVolume })
   }),

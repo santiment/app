@@ -4,12 +4,12 @@ import handleOffline from './handleOffline'
 import handleLauched from './handleLaunch'
 import handleLogout from './handleLogout'
 import handleEmailLogin, {
-  handleLoginSuccess,
-  digestSubscriptionEpic
+  digestSubscriptionEpic,
+  handleLoginSuccess
 } from './handleEmailLogin'
 import handleEthLogin, {
-  removeConnectedWallet,
-  connectNewWallet
+  connectNewWallet,
+  removeConnectedWallet
 } from './handleEthLogin'
 import handleGDPR from './handleGDPR'
 import handleRouter from './handleRouter'
@@ -19,24 +19,28 @@ import createWatchlistEpic, {
   createWatchlistSuccessEpic
 } from './createWatchlistEpic'
 import copyWatchlistEpic from './copyWatchlistEpic'
-import addAssetToWatchlistEpic from './addAssetToWatchlistEpic'
 import removeWatchlistEpic from './removeWatchlistEpic'
-import removeAssetFromWatchlistEpic from './removeAssetFromWatchlistEpic'
+import {
+  removeAssetFromWatchlistEpic,
+  addAssetToWatchlistEpic,
+  editAssetsInWatchlistEpic
+} from './../components/WatchlistEdit/editAssetsInWatchlistEpic'
 import {
   fetchAssetsEpic,
-  fetchRestAllAssetsEpic,
   fetchAssetsFromListEpic,
+  fetchAssetsFromListWithFuncEpic,
   fetchAssetsFromSharedListEpic,
-  fetchAssetsFromListWithFuncEpic
+  fetchAssetsFromListWithEditEpic,
+  fetchRestAllAssetsEpic
 } from './fetchAssetsEpic'
 import fetchTimeseriesEpic from '../ducks/GetTimeSeries/epics'
 import {
   createSignalEpic,
-  updateSignalEpic,
+  fetchHistorySignalPoints,
   fetchSignalsEpic,
-  toggleSignalEpic,
   removeSignalEpic,
-  fetchHistorySignalPoints
+  toggleSignalEpic,
+  updateSignalEpic
 } from '../ducks/Signals/epics'
 import handleNightModeToggle from './handleNightModeToggle'
 import handleBetaModeToggle from './handleBetaModeToggle'
@@ -47,21 +51,21 @@ import {
 import { fetchSocialVolumeEpic } from '../components/SocialVolumeWidget/socialVolumeEpic'
 import fetchAllTickersSlugs from '../components/Trends/fetchAllTickersSlugs'
 import {
+  connectTelegramEpic,
   generateTelegramDeepLinkEpic,
   revokeTelegramDeepLinkEpic,
-  toggleNotificationChannelEpic,
-  connectTelegramEpic
+  toggleNotificationChannelEpic
 } from '../pages/Account/epics'
 import keyboardEpic from './keyboardEpic'
 import {
-  insightDraftUpdateEpic,
-  insightDraftPublishEpic
+  insightDraftPublishEpic,
+  insightDraftUpdateEpic
 } from '../pages/Insights/insightDraftEpic'
 import { likesEpic } from '../components/Like/likesEpic'
 import { wordTrendSocialVolumeEpic } from '../pages/Trends/changesEpic.js'
 import {
-  connectedWordsOptimizationEpic,
-  connectedWordsEpic
+  connectedWordsEpic,
+  connectedWordsOptimizationEpic
 } from '../pages/Trends/connectedWordsEpic.js'
 
 export default combineEpics(
@@ -81,6 +85,7 @@ export default combineEpics(
   removeWatchlistEpic,
   addAssetToWatchlistEpic,
   removeAssetFromWatchlistEpic,
+  editAssetsInWatchlistEpic,
   copyWatchlistEpic,
   // assets
   fetchAssetsEpic,
@@ -88,6 +93,7 @@ export default combineEpics(
   fetchAssetsFromListEpic,
   fetchAssetsFromSharedListEpic,
   fetchAssetsFromListWithFuncEpic,
+  fetchAssetsFromListWithEditEpic,
   // timeseries
   fetchTimeseriesEpic,
   // trends
