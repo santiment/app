@@ -5,6 +5,7 @@ import FeaturedWatchlists from '../../components/Watchlists/FeaturedWatchlist'
 import DashboardPageSubscription from './DashboardPageSubscription'
 import DashboardPageOnboard from './DashboardPageOnboard'
 import InsightsScrollable from '../../components/Insight/InsightsScrollable'
+import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import AnonBannerStaticExperiment from '../../components/Banner/AnonBanner/AnonBannerStaticExperiment'
 import styles from './DashboardPage.module.scss'
 
@@ -40,7 +41,9 @@ const DashboardPage = ({ isLoggedIn }) => (
           )}
         />
       </div>
-      <div className={styles.column__GLTable} />
+      <div className={styles.column__GLTable}>
+        <GainersLosersTabs timeWindow='2d' size={8} />
+      </div>
     </div>
     <div className={styles.section}>
       <FeaturedWatchlists />
