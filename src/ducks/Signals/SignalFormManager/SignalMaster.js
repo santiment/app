@@ -35,27 +35,31 @@ export class SignalMaster extends React.PureComponent {
       isPublic: true
     }
   }
-
+  componentWillReceiveProps (newProps) {
+    if (newProps.trigger.trigger) {
+      this.setState({
+        trigger: {
+          ...newProps.trigger.trigger
+        }
+      })
+    }
+  }
   render () {
-    if (this.props.isEdit && this.props.trigger.isLoading) {
+    const loadedTrigger = this.props.trigger
+    if (this.props.isEdit && loadedTrigger.isLoading) {
       return 'Loading...'
     }
-    if (this.props.isEdit && this.props.trigger.isError) {
-      return (
-        <Message variant='error'>{this.props.trigger.errorMessage}</Message>
-      )
+    if (this.props.isEdit && loadedTrigger.isError) {
+      return <Message variant='error'>{loadedTrigger.errorMessage}</Message>
     }
 
     const { step, trigger } = this.state
-    const currentTrigger = (this.props.trigger || {}).trigger || trigger
 
-    let triggerSettingsFormData = currentTrigger
-      ? mapTriggerToFormProps(currentTrigger)
-      : {}
+    let triggerSettingsFormData = trigger ? mapTriggerToFormProps(trigger) : {}
 
     const triggerAboutFormData = {
-      title: currentTrigger.title,
-      description: currentTrigger.description
+      title: trigger.title,
+      description: trigger.description
     }
 
     let metaFormSettings = { ...this.props.metaFormSettings }
@@ -71,10 +75,10 @@ export class SignalMaster extends React.PureComponent {
     }
 
     const toggleSignalCallback = () => {
-      if (currentTrigger.id) {
+      if (trigger.id) {
         this.props.toggleSignal({
-          id: currentTrigger.id,
-          isPublic: currentTrigger.isPublic
+          id: trigger.id,
+          isPublic: trigger.isPublic
         })
       } else {
         const { trigger } = this.state
@@ -106,14 +110,11 @@ export class SignalMaster extends React.PureComponent {
           onClick={this.props.onClose}
           type='close'
         />
-        <Panel
-          header={getTitle(currentTrigger)}
-          className={styles.TriggerPanel}
-        >
+        <Panel header={getTitle(trigger)} className={styles.TriggerPanel}>
           {step === STEPS.SETTINGS && (
             <TriggersForm
               onClose={this.props.onClose}
-              triggers={[currentTrigger]}
+              triggers={[trigger]}
               settings={triggerSettingsFormData}
               canRedirect={this.props.canRedirect}
               metaFormSettings={metaFormSettings}
@@ -132,10 +133,10 @@ export class SignalMaster extends React.PureComponent {
           <div className={styles.triggerToggleBlock}>
             <Toggle
               onClick={toggleSignalCallback}
-              isActive={currentTrigger.isPublic}
+              isActive={trigger.isPublic}
             />
             <div className={styles.triggerToggleLabel}>
-              {currentTrigger.isPublic ? 'Public' : 'Private'}
+              {trigger.isPublic ? 'Public' : 'Private'}
             </div>
           </div>
         </Panel>
@@ -153,10 +154,9 @@ export class SignalMaster extends React.PureComponent {
 
   handleSettingsChange = formProps => {
     const { trigger } = this.state
-    const prevTrigger = (this.props.trigger || {}).trigger || trigger
 
     this.setState({
-      trigger: mapFormPropsToTrigger(formProps, prevTrigger),
+      trigger: mapFormPropsToTrigger(formProps, trigger),
       step: STEPS.CONFIRM
     })
   }
