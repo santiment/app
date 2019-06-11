@@ -30,7 +30,7 @@ export const PRICE_CHANGE_TYPES = {
   MOVING_UP: 'percent_up',
   MOVING_DOWN: 'percent_down'
 }
-export const pricePercentChangeUp = {
+export const PRICE_PERCENT_CHANGE_UP_MODEL = {
   value: PRICE_PERCENT_CHANGE,
   label: 'Moving up %',
   type: PRICE_CHANGE_TYPES.MOVING_UP
@@ -38,7 +38,7 @@ export const pricePercentChangeUp = {
 
 const getType = type => {
   const ALL_TYPES = {
-    price_percent_change: { ...pricePercentChangeUp },
+    price_percent_change: { ...PRICE_PERCENT_CHANGE_UP_MODEL },
     daily_active_addresses: {
       label: 'Daily Active Addresses'
     },
@@ -205,7 +205,7 @@ export const PRICE_TYPES = {
     {
       label: 'Percent change',
       options: [
-        pricePercentChangeUp,
+        PRICE_PERCENT_CHANGE_UP_MODEL,
         {
           value: PRICE_PERCENT_CHANGE,
           label: 'Moving down %',
@@ -237,7 +237,7 @@ export const METRIC_DEFAULT_VALUES = {
     percentThreshold: 5,
     timeWindow: 24,
     timeWindowUnit: { label: 'hours', value: 'h' },
-    type: pricePercentChangeUp,
+    type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
     channels: ['telegram']
   },
@@ -264,7 +264,7 @@ export const METRIC_DEFAULT_VALUES = {
 
 export const getTypeByMetric = metric => {
   if (metric.value === 'price') {
-    return pricePercentChangeUp
+    return PRICE_PERCENT_CHANGE_UP_MODEL
   } else {
     return PRICE_TYPES[metric.value][0]
   }

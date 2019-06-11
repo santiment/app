@@ -2,7 +2,7 @@
 import {
   mapTriggerToFormProps,
   mapFormPropsToTrigger,
-  pricePercentChangeUp
+  PRICE_PERCENT_CHANGE_UP_MODEL
 } from './utils'
 
 const TRIGGERS = [
@@ -71,7 +71,7 @@ const FORM_PROPS = [
     target: { value: 'santiment', label: 'santiment' },
     timeWindow: 1,
     timeWindowUnit: { label: 'days', value: 'd' },
-    type: pricePercentChangeUp,
+    type: PRICE_PERCENT_CHANGE_UP_MODEL,
     metric: { label: 'Price', value: 'price' },
     channels: ['telegram']
   },

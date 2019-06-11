@@ -23,7 +23,7 @@ import {
   DAILY_ACTIVE_ADDRESSES,
   PRICE_PERCENT_CHANGE,
   PRICE_VOLUME_DIFFERENCE,
-  pricePercentChangeUp,
+  PRICE_PERCENT_CHANGE_UP_MODEL,
   METRICS,
   PRICE_TYPES,
   ARGS,
@@ -79,7 +79,7 @@ const DEFAULT_FORM_META_SETTINGS = {
   },
   type: {
     isDisabled: false,
-    value: { ...pricePercentChangeUp }
+    value: { ...PRICE_PERCENT_CHANGE_UP_MODEL }
   }
 }
 
