@@ -116,7 +116,7 @@ const SignalCardBottom = ({
         <h4 className={styles.author}>
           {isAwaiting && 'Awaiting confirmation'}
           {isUserTheAuthor && !isAwaiting && (
-            <StatusLabel isPublic={isPublic} />
+            <StatusLabel isPublic={!isActive} />
           )}
           {!isUserTheAuthor && (
             <Fragment>
@@ -131,7 +131,7 @@ const SignalCardBottom = ({
         <UnpublishedMsg />
       )}
       <div className={styles.bottom__right}>
-        {isPublic && (
+        {!isActive && (
           <div className={styles.subscriptions}>
             <Icon type='profile' className={styles.subscriptions__icon} />
             {subscriptionsNumber}
