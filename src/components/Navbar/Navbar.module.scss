@@ -1,12 +1,11 @@
 @import '~@santiment-network/ui/variables.scss';
-@import './../../mixins.scss';
+@import '~@santiment-network/ui/mixins.scss';
 
 .header {
-  margin: 0 !important;
-  margin-bottom: 2rem !important;
+  margin: 0 0 32px;
   background: var(--white);
   max-height: 70px;
-  border-bottom: 1px solid var(--grey-light-2);
+  border-bottom: 1px solid var(--porcelain);
 
   a {
     text-decoration: none;
@@ -18,25 +17,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  /* stylelint-disable */
-  @include responsive('desktop') {
-    margin: 0 auto;
-    max-width: 1200px !important;
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-  }
-  /* stylelint-enable */
 }
 
 .logo {
-    margin-right: 46px;
-    display: inline-flex;
-    align-items: center;
+  margin-right: 46px;
+  display: inline-flex;
+  align-items: center;
 
-    svg {
-        fill: var(--black);
-    }
+  svg {
+    fill: var(--mirage);
+  }
 }
 
 .right,
@@ -50,18 +40,19 @@
   justify-content: flex-end;
 }
 
-/* stylelint-disable */
-.right :global .search-panel {
-  margin-right: 1rem !important;
-}
-/* stylelint-enable */
-
 .btn {
   display: flex;
   align-items: center;
   background: transparent;
+  color: var(--waterloo);
+}
 
-  &:focus {
-    background-color: none;
+.leftLink {
+  color: var(--waterloo);
+}
+
+.rightBtns {
+  svg {
+    fill: var(--mirage);
   }
 }
