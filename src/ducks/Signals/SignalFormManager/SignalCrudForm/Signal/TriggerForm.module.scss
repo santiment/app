@@ -1,13 +1,6 @@
 @import 'variables.scss';
 @import 'mixins.scss';
-
-.defaultFont {
-  font-family: Rubik, sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 20px;
-}
+@import "~@santiment-network/ui/mixins.scss";
 
 .wrapper {
   width: 100%;
@@ -29,7 +22,7 @@
   flex-direction: column;
   justify-content: center;
   max-width: 448px;
-  padding: 0 20px 20px 20px;
+  padding: 0 20px 20px;
 }
 
 .row {
@@ -37,7 +30,7 @@
   align-items: center;
   justify-content: flex-start;
 
-  @extend .defaultFont;
+  @include text-normal;
 }
 
 .messages {
@@ -55,7 +48,7 @@
 }
 
 .connectLink {
-  @extend .defaultFont;
+  @include text-normal;
 }
 
 span.connectLink {
@@ -80,7 +73,7 @@ a.connectLink {
   padding-right: 1rem;
   user-select: none;
 
-  @extend .defaultFont;
+  @include text-normal;
 }
 
 .isRepeating {
@@ -173,7 +166,7 @@ label {
   position: absolute;
   bottom: 15px;
 
-  @extend .defaultFont;
+  @include text-normal;
 }
 
 .addNewTriggerBlock {
