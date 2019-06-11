@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import SignalCard from './SignalCard'
-import { toggleTrigger } from './../../ducks/Signals/actions'
+import { toggleTrigger } from '../../ducks/Signals/Redux/actions'
 import styles from './SignalCardsGrid.module.scss'
 
 export const defaultSignals = [
@@ -38,7 +38,7 @@ const SignalCardsGrid = ({
   return (
     <div className={cx(styles.wrapper, className)}>
       {signals
-        .sort((a, b) => a.id - b.id)
+        .sort((a, b) => b.id - a.id)
         .map(({ id, ...signal }) => (
           <SignalCard
             key={id}
@@ -49,7 +49,6 @@ const SignalCardsGrid = ({
                 isActive: signal.isActive
               })
             }
-            gotoSignalByID={() => gotoSignalByID(id)}
             className={styles.card}
             {...signal}
           />

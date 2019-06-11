@@ -9,7 +9,8 @@ const ShowIf = ({
   isBeta,
   isLoggedIn,
   isPremium,
-  children
+  children,
+  condition
 }) => {
   if (beta && isBeta) {
     return <Fragment>{children}</Fragment>
@@ -18,6 +19,9 @@ const ShowIf = ({
     return <Fragment>{children}</Fragment>
   }
   if (loggedIn && isLoggedIn) {
+    return <Fragment>{children}</Fragment>
+  }
+  if (condition) {
     return <Fragment>{children}</Fragment>
   }
   return ''

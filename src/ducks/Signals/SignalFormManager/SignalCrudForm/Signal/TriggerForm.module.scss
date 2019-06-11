@@ -1,9 +1,20 @@
 @import 'variables.scss';
 @import 'mixins.scss';
+@import "~@santiment-network/ui/mixins.scss";
 
 .wrapper {
   width: 100%;
   max-width: 496px;
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  cursor: pointer;
+  right: 20px;
+  top: 15px;
+  fill: var(--waterloo);
+  z-index: 100;
 }
 
 .Trigger {
@@ -11,12 +22,15 @@
   flex-direction: column;
   justify-content: center;
   max-width: 448px;
+  padding: 0 20px 20px;
 }
 
 .row {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
+  @include text-normal;
 }
 
 .messages {
@@ -25,19 +39,31 @@
 
 .TriggerPanel {
   margin-bottom: 1rem;
+  position: relative;
+  padding: 0 0 30px 0;
 }
 
 .TriggerChart {
   margin-bottom: 1rem;
 }
 
+.connectLink {
+  @include text-normal;
+}
+
 span.connectLink {
-  color: var(--blue) !important;
+  color: var(--dodger-blue) !important;
   margin-left: 0.3rem;
 }
 
 a.connectLink {
-  margin-left: -8px;
+  margin-left: 0;
+  padding-left: 0;
+  color: var(--mirage) !important;
+}
+
+.notifyBlock {
+  display: flex;
 }
 
 .Field {
@@ -46,6 +72,8 @@ a.connectLink {
   width: 50%;
   padding-right: 1rem;
   user-select: none;
+
+  @include text-normal;
 }
 
 .isRepeating {
@@ -78,6 +106,9 @@ label {
 .controls {
   display: flex;
   justify-content: flex-end;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
 
   button {
     width: 92px;
@@ -107,6 +138,11 @@ label {
 }
 
 .AboutForm {
+  box-sizing: border-box;
+  background-color: var(--white);
+  border-radius: 4px;
+  padding: 10px;
+
   .Field {
     width: 100%;
     padding: 0;
@@ -114,6 +150,36 @@ label {
 
   .controls {
     margin-top: 1.1rem;
+  }
+}
+
+.triggerFormItem {
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.triggerToggleBlock {
+  display: flex;
+  padding: 10px;
+  position: absolute;
+  bottom: 15px;
+
+  @include text-normal;
+}
+
+.addNewTriggerBlock {
+  margin-bottom: 20px;
+}
+
+.triggerToggleLabel {
+  margin-left: 20px;
+}
+
+a {
+  &:hover {
+    fill: var(--jungle-green);
   }
 }
 
