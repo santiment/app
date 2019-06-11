@@ -8,7 +8,7 @@ import {
   Tooltip,
   ReferenceArea
 } from 'recharts'
-import { Button } from '@santiment-network/ui'
+import Button from '@santiment-network/ui/Button'
 import { compose, withProps } from 'recompose'
 import { formatNumber } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
