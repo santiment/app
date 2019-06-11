@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Label } from '@santiment-network/ui'
+import Label from '@santiment-network/ui/Label'
 import cx from 'classnames'
 import { Metrics } from './utils'
 import styles from './ChartPage.module.scss'
