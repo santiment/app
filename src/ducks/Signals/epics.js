@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import * as actions from './Redux/actions'
 import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
+import { getTriggerNotificationData } from './Utils/utils'
 import { TRIGGERS_QUERY } from './GQL/SignalsGQL'
 import { completeOnboardingTask } from '../../pages/Dashboard/utils'
 
@@ -90,15 +91,29 @@ export const createSignalEpic = (action$, store, { client }) =>
           }
         })
 
+        const notifData = getTriggerNotificationData(trigger)
+
         return Observable.fromPromise(create)
           .mergeMap(({ data: { id } }) => {
             completeOnboardingTask('signal')
-            return Observable.of({
-              type: actions.SIGNAL_CREATE_SUCCESS,
-              payload: {
-                id
-              }
-            })
+            return Observable.merge(
+              Observable.of({
+                type: actions.SIGNAL_CREATE_SUCCESS,
+                payload: {
+                  id
+                }
+              }),
+              Observable.of(
+                showNotification({
+                  variant: 'success',
+                  title: notifData.title,
+                  description: notifData.description,
+                  dismissAfter: notifData.dismissAfter,
+                  className: notifData.className,
+                  titleIconName: 'social'
+                })
+              )
+            )
           })
           .catch(handleErrorAndTriggerAction(actions.SIGNAL_CREATE_FAILED))
       }

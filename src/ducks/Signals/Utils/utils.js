@@ -1,3 +1,5 @@
+import styles from './../SignalNotification.module.scss'
+
 const getTimeWindowUnit = timeWindow => {
   if (!timeWindow) return undefined
   const value = timeWindow.replace(/[0-9]/g, '')
@@ -36,17 +38,31 @@ export const PRICE_PERCENT_CHANGE_UP_MODEL = {
   type: PRICE_CHANGE_TYPES.MOVING_UP
 }
 
-const getType = type => {
-  const ALL_TYPES = {
-    price_percent_change: { ...PRICE_PERCENT_CHANGE_UP_MODEL },
+const METRIC_TYPES_DESCRIPTION = (asset = 'Asset') => {
+  return {
+    price_percent_change: {
+      ...PRICE_PERCENT_CHANGE_UP_MODEL,
+      title: `${asset} price tracking`,
+      description:
+        'Subscribe to this signal to get daily list of trending words connected with crypto'
+    },
     daily_active_addresses: {
-      label: 'Daily Active Addresses'
+      label: 'Daily Active Addresses',
+      title: `"${asset} addresses tracking"`,
+      description:
+        'Subscribe to this signal to get daily list of trending words connected with crypto'
     },
     price_volume_difference: {
-      label: 'Price/volume difference'
+      label: 'Price/volume difference',
+      title: `"${asset} price/volume tracking"`,
+      description:
+        'Subscribe to this signal to get daily list of trending words connected with crypto'
     }
   }
-  return { value: type, ...ALL_TYPES[type] }
+}
+
+const getType = type => {
+  return { value: type, ...METRIC_TYPES_DESCRIPTION()[type] }
 }
 
 const getTriggerOperation = (model, percentThreshold) => {
@@ -321,5 +337,28 @@ export const mapTriggerToProps = ({ data: { trigger, loading, error } }) => {
       isLoading: loading,
       isError: !!error
     }
+  }
+}
+
+export const getTriggerNotificationData = trigger => {
+  let { settings } = trigger
+
+  if (typeof settings === 'string') {
+    settings = JSON.parse(settings)
+  }
+
+  const {
+    target: { slug }
+  } = settings
+
+  const { title, description } = METRIC_TYPES_DESCRIPTION(slug)[settings.type]
+
+  console.log(styles.notificationStyle)
+
+  return {
+    title: title,
+    description: description,
+    dismissAfter: 60000,
+    className: styles.notificationStyle
   }
 }
