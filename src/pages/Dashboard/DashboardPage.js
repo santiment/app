@@ -21,7 +21,7 @@ const DashboardPage = ({ isLoggedIn }) => (
           <h2 className={styles.subtitle__text}>Trending words</h2>
         </div>
         <GetHypedTrends
-          render={({ isLoading, items }) => (
+          render={({ isLoading, items = [] }) => (
             <TrendsTables
               trends={items.slice(-1)}
               isLoading={isLoading}
