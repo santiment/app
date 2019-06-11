@@ -20,7 +20,7 @@ class GetHypedTrends extends React.Component {
 }
 
 const sortByHype = items => {
-  if (items.length > 0) {
+  if (items && items.length > 0) {
     items.map(item => item.topWords.sort(sortBy('score')))
   }
   return items

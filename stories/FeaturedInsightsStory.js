@@ -7,7 +7,7 @@ import configureStore from 'redux-mock-store'
 import {FEATURED_INSIGHTS_QUERY} from './../src/queries/InsightsGQL'
 import FeaturedInsightsHorizontal from "../src/components/FeaturedInsights/FeaturedInsightsHorizontal";
 import FeaturedInsightsWithTitle from "../src/components/FeaturedInsights/FeaturedInsightsWithTitle";
-import FeaturedInsightsScrollable from "../src/components/FeaturedInsights/FeaturedInsightsScrollable";
+import InsightsScrollable from "../src/components/Insight/InsightsScrollable";
 
 const title = 'How Stable Are Stablecoins? ';
 const usernames = ['N', 'Nastya', 'Nastya Kharitonova', 'LooooooooooongNameAndSurname'];
@@ -45,7 +45,7 @@ storiesOf('FeaturedInsights', module)
     <>
       <h2>Component for flex container with scrollable Panel</h2>
       <div style={{width: '300px', height: '350px', display: 'flex'}}>
-        <FeaturedInsightsScrollable maxLines={2} multilineTextId="testScrollable" />
+        <InsightsScrollable type='featured' maxLines={2} multilineTextId="testScrollable" />
       </div>
     </>
   ))

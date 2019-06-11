@@ -1,20 +1,12 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Label } from '@santiment-network/ui'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
 import FeaturedWatchlists from '../../components/Watchlists/FeaturedWatchlist'
 import DashboardPageSubscription from './DashboardPageSubscription'
 import DashboardPageOnboard from './DashboardPageOnboard'
-import FeaturedInsightsScrollable from '../../components/FeaturedInsights/FeaturedInsightsScrollable'
+import InsightsScrollable from '../../components/Insight/InsightsScrollable'
 import AnonBannerStaticExperiment from '../../components/Banner/AnonBanner/AnonBannerStaticExperiment'
 import styles from './DashboardPage.module.scss'
-
-const More = ({ link }) => (
-  <Link to={link} className={styles.more}>
-    <Label accent='jungle-green'>More</Label>
-  </Link>
-)
 
 const DashboardPage = ({ isLoggedIn }) => (
   <div className={styles.wrapper + ' page'}>
@@ -26,11 +18,10 @@ const DashboardPage = ({ isLoggedIn }) => (
     <div className={styles.column}>
       <div className={styles.column__left}>
         <div className={styles.subtitle}>
-          <h2 className={styles.subtitle__text}>Emerging trends</h2>
-          <More link='/labs/trends/' />
+          <h2 className={styles.subtitle__text}>Trending words</h2>
         </div>
         <GetHypedTrends
-          render={({ isLoading, items }) => (
+          render={({ isLoading, items = [] }) => (
             <TrendsTables
               trends={items.slice(-1)}
               isLoading={isLoading}
@@ -41,10 +32,10 @@ const DashboardPage = ({ isLoggedIn }) => (
       </div>
       <div className={styles.column__right}>
         <div className={styles.subtitle}>
-          <h2 className={styles.subtitle__text}>Featured insights</h2>
-          <More link='/insights/' />
+          <h2 className={styles.subtitle__text}>Latest insights</h2>
         </div>
-        <FeaturedInsightsScrollable
+        <InsightsScrollable
+          type='latest'
           maxLines={2}
           multilineTextId='InsightsDashboardPage'
         />
