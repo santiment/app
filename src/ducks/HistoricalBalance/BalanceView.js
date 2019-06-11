@@ -4,7 +4,7 @@ import GetHistoricalBalance from './GetHistoricalBalance'
 import HistoricalBalanceChart from './HistoricalBalanceChart'
 import AssetsField from './AssetsField'
 import styles from './BalanceView.module.scss'
-import SignalMasterModalForm from '../../ducks/Signals/SignalMasterModalForm'
+import SignalMasterModalForm from '../Signals/SignalModal/SignalMasterModalForm'
 import ShowIf from '../../components/ShowIf'
 
 class BalanceView extends React.Component {

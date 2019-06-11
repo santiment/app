@@ -139,36 +139,10 @@ label {
 }
 
 .triggerFormItem {
-  border: 1px solid $trigger-border;
+  border: 1px solid var(--grey-light-3);
   box-sizing: border-box;
   border-radius: 4px;
   margin-bottom: 20px;
-}
-
-.triggerHeader {
-  width: 100%;
-  background: $trigger-header-bg;
-  border: 1px solid $trigger-border;
-  box-sizing: border-box;
-  border-radius: 4px;
-  display: flex;
-  padding: 10px 20px;
-  color: var(--grey-dark-2);
-}
-
-.triggerHeaderName {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.triggerHeaderActions {
-  display: flex;
-  margin-left: auto;
-}
-
-.triggerHeaderButton {
-  background-color: $trigger-header-bg !important;
 }
 
 .triggerToggleBlock {

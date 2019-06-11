@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import TriggerForm from './TriggerForm'
-import styles from './TriggerForm.module.scss'
+import TriggerForm from '../Signal/TriggerForm'
+import styles from '../Signal/TriggerForm.module.scss'
 import { Button, Icon } from '@santiment-network/ui'
 
 const propTypes = {

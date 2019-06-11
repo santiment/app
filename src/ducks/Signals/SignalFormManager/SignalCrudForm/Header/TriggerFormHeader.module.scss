@@ -1,0 +1,28 @@
+@import 'variables.scss';
+@import 'mixins.scss';
+
+.triggerHeader {
+  width: 100%;
+  background: var(--grey-light);
+  border: 1px solid var(--grey-light-3);
+  box-sizing: border-box;
+  border-radius: 4px;
+  display: flex;
+  padding: 10px 20px;
+  color: var(--grey-dark-2);
+}
+
+.triggerHeaderName {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.triggerHeaderActions {
+  display: flex;
+  margin-left: auto;
+}
+
+.triggerHeaderButton {
+  background-color: var(--grey-light) !important;
+}

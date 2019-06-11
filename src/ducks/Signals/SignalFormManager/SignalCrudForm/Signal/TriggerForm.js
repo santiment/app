@@ -7,17 +7,17 @@ import { graphql } from 'react-apollo'
 import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
 import { Button, Message } from '@santiment-network/ui'
-import { selectIsTelegramConnected } from './../../pages/UserSelectors'
-import { allProjectsForSearchGQL } from './../../pages/Projects/allProjectsGQL'
-import { fetchHistorySignalPoints, removeTrigger } from './actions'
-import FormikInput from './../../components/formik-santiment-ui/FormikInput'
-import FormikSelect from './../../components/formik-santiment-ui/FormikSelect'
-import FormikSelector from './../../components/formik-santiment-ui/FormikSelector'
-import FormikCheckboxes from './../../components/formik-santiment-ui/FormikCheckboxes'
-import FormikToggle from './../../components/formik-santiment-ui/FormikToggle'
-import FormikEffect from './FormikEffect'
+import { selectIsTelegramConnected } from '../../../../../pages/UserSelectors'
+import { allProjectsForSearchGQL } from '../../../../../pages/Projects/allProjectsGQL'
+import { fetchHistorySignalPoints, removeTrigger } from '../../../Redux/actions'
+import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
+import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
+import FormikSelector from '../../../../../components/formik-santiment-ui/FormikSelector'
+import FormikCheckboxes from '../../../../../components/formik-santiment-ui/FormikCheckboxes'
+import FormikToggle from '../../../../../components/formik-santiment-ui/FormikToggle'
+import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
 import styles from './TriggerForm.module.scss'
-import { TriggerFormHeader } from './TriggerFormHeader'
+import { TriggerFormHeader } from '../Header/TriggerFormHeader'
 
 import {
   DAILY_ACTIVE_ADDRESSES,
@@ -29,7 +29,7 @@ import {
   ARGS,
   METRIC_DEFAULT_VALUES,
   getTypeByMetric
-} from './utils'
+} from '../../../Utils/utils'
 
 const validate = values => {
   let errors = {}

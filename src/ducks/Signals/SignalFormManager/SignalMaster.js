@@ -3,22 +3,22 @@ import { push } from 'react-router-redux'
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import { createTrigger, toggleTrigger, updateTrigger } from './actions'
+import { createTrigger, toggleTrigger, updateTrigger } from '../Redux/actions'
 import {
   Message,
   PanelWithHeader as Panel,
   Toggle
 } from '@santiment-network/ui'
-import TriggersForm from './TriggersForm'
-import AboutForm from './AboutForm'
-import styles from './TriggerForm.module.scss'
-import { TRIGGER_BY_ID_QUERY } from './SignalsGQL'
+import TriggersForm from './SignalCrudForm/SignalsList/TriggersForm'
+import AboutForm from './AboutForm/AboutForm'
+import styles from './SignalCrudForm/Signal/TriggerForm.module.scss'
+import { TRIGGER_BY_ID_QUERY } from '../GQL/SignalsGQL'
 import { Icon } from '@santiment-network/ui'
 import {
   mapTriggerToFormProps,
   mapFormPropsToTrigger,
   mapTriggerToProps
-} from './utils'
+} from '../Utils/utils'
 
 const STEPS = {
   SETTINGS: 0,

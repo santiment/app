@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
-import * as actions from './actions'
+import * as actions from './Redux/actions'
 import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
-import { TRIGGERS_QUERY } from './SignalsGQL'
+import { TRIGGERS_QUERY } from './GQL/SignalsGQL'
 import { completeOnboardingTask } from '../../pages/Dashboard/utils'
 
 export const CREATE_TRIGGER_QUERY = gql`

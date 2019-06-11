@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import SignalCard from './SignalCard'
-import { toggleTrigger } from './../../ducks/Signals/actions'
+import { toggleTrigger } from '../../ducks/Signals/Redux/actions'
 import styles from './SignalCardsGrid.module.scss'
 
 export const defaultSignals = [
