@@ -79,7 +79,7 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
               variant={'fill'}
               accent='positive'
             >
-              {isEdit ? 'Update' : 'Create'}
+              Confirm
             </Button>
           </div>
         </Form>

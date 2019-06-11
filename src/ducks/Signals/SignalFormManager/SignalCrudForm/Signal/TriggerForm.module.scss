@@ -1,6 +1,14 @@
 @import 'variables.scss';
 @import 'mixins.scss';
 
+.defaultFont {
+  font-family: Rubik, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}
+
 .wrapper {
   width: 100%;
   max-width: 496px;
@@ -12,7 +20,7 @@
   cursor: pointer;
   right: 20px;
   top: 15px;
-  fill: #9faac4;
+  fill: var(--waterloo);
   z-index: 100;
 }
 
@@ -28,6 +36,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
+  @extend .defaultFont;
 }
 
 .messages {
@@ -44,13 +54,23 @@
   margin-bottom: 1rem;
 }
 
+.connectLink {
+  @extend .defaultFont;
+}
+
 span.connectLink {
-  color: var(--blue) !important;
+  color: var(--dodger-blue) !important;
   margin-left: 0.3rem;
 }
 
 a.connectLink {
-  margin-left: -8px;
+  margin-left: 0;
+  padding-left: 0;
+  color: var(--mirage) !important;
+}
+
+.notifyBlock {
+  display: flex;
 }
 
 .Field {
@@ -59,6 +79,8 @@ a.connectLink {
   width: 50%;
   padding-right: 1rem;
   user-select: none;
+
+  @extend .defaultFont;
 }
 
 .isRepeating {
@@ -139,7 +161,7 @@ label {
 }
 
 .triggerFormItem {
-  border: 1px solid var(--grey-light-3);
+  border: 1px solid var(--porcelain);
   box-sizing: border-box;
   border-radius: 4px;
   margin-bottom: 20px;
@@ -150,6 +172,8 @@ label {
   padding: 10px;
   position: absolute;
   bottom: 15px;
+
+  @extend .defaultFont;
 }
 
 .addNewTriggerBlock {

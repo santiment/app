@@ -15,6 +15,7 @@ const FormikCheckboxes = ({
       render={({ field, form }) => {
         return (
           <Checkboxes
+            labelOnRight
             options={options}
             disabledIndexes={disabledIndexes}
             defaultSelectedIndexes={field.value}

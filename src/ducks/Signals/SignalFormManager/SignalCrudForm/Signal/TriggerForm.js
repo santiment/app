@@ -222,28 +222,29 @@ export const TriggerForm = ({
                 </div>
 
                 <div className={styles.row}>
-                  <label>Metrics</label>
-                </div>
-                <div className={styles.row}>
                   <div className={styles.Field}>
-                    <FormikSelect
-                      name='metric'
-                      isClearable={false}
-                      isDisabled={defaultMetric.isDisabled}
-                      defaultValue={defaultMetric.value}
-                      isSearchable
-                      placeholder='Choose a metric'
-                      options={METRICS}
-                      onChange={metric => {
-                        values.metric &&
-                          metric.value !== values.metric.value &&
-                          setFieldValue('type', getTypeByMetric(metric))
-                      }}
-                    />
+                    <label>Metrics</label>
+                    <div>
+                      <FormikSelect
+                        name='metric'
+                        isClearable={false}
+                        isDisabled={defaultMetric.isDisabled}
+                        defaultValue={defaultMetric.value}
+                        isSearchable
+                        placeholder='Choose a metric'
+                        options={METRICS}
+                        onChange={metric => {
+                          values.metric &&
+                            metric.value !== values.metric.value &&
+                            setFieldValue('type', getTypeByMetric(metric))
+                        }}
+                      />
+                    </div>
                   </div>
                   {PRICE_TYPES[(values.metric || {}).value] &&
                     PRICE_TYPES[(values.metric || {}).value].length > 1 && (
                     <div className={styles.Field}>
+                      <label>&nbsp;</label>
                       <FormikSelect
                         name='type'
                         isClearable={false}
@@ -335,25 +336,24 @@ export const TriggerForm = ({
                 </div>
                 <label>Notify me via</label>
                 <div className={styles.row}>
-                  <div className={styles.Field}>
+                  <div className={cx(styles.Field, styles.notifyBlock)}>
                     <FormikCheckboxes
                       name='channels'
                       disabledIndexes={['email']}
                       options={['email', 'telegram']}
-                      styles={{ marginRight: 15 }}
+                      styles={{ marginRight: 5 }}
                     />
+                    {!isTelegramConnected && (
+                      <Button
+                        className={styles.connectLink}
+                        variant='ghost'
+                        as={Link}
+                        to='/account'
+                      >
+                        <span className={styles.connectLink}>Connect</span>
+                      </Button>
+                    )}
                   </div>
-                  {!isTelegramConnected && (
-                    <Button
-                      className={styles.connectLink}
-                      variant='ghost'
-                      as={Link}
-                      to='/account'
-                    >
-                      Telegram
-                      <span className={styles.connectLink}>Connect</span>
-                    </Button>
-                  )}
                 </div>
 
                 {errors.channels && (
