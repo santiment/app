@@ -36,16 +36,16 @@ export class SignalMaster extends React.PureComponent {
   }
 
   render () {
-    if (this.props.isEdit && this.props.trigger.isLoading) {
+    const { isEdit, triggerObj = {}, metaFormSettings } = this.props
+
+    if (isEdit && triggerObj.isLoading) {
       return 'Loading...'
     }
-    if (this.props.isEdit && this.props.trigger.isError) {
-      return (
-        <Message variant='error'>{this.props.trigger.errorMessage}</Message>
-      )
+    if (isEdit && triggerObj.isError) {
+      return <Message variant='error'>{triggerObj.errorMessage}</Message>
     }
-    const { step, trigger } = this.state
-    const currentTrigger = (this.props.trigger || {}).trigger || trigger
+    const { step, trigger: stateTrigger } = this.state
+    const currentTrigger = triggerObj.trigger || stateTrigger
     let triggerSettingsFormData = currentTrigger
       ? mapTriggerToFormProps(currentTrigger)
       : {}
@@ -54,8 +54,6 @@ export class SignalMaster extends React.PureComponent {
       title: currentTrigger.title,
       description: currentTrigger.description
     }
-
-    let metaFormSettings = { ...this.props.metaFormSettings }
 
     if (this.props.asset) {
       triggerSettingsFormData = {
@@ -113,7 +111,7 @@ export class SignalMaster extends React.PureComponent {
               triggers={[currentTrigger]}
               settings={triggerSettingsFormData}
               canRedirect={this.props.canRedirect}
-              metaFormSettings={metaFormSettings}
+              metaFormSettings={{ ...metaFormSettings }}
               onSettingsChange={this.handleSettingsChange}
             />
           )}
