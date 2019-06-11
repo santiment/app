@@ -103,25 +103,37 @@ const getPercentTreshold = ({ type, operation, percent_threshold }) => {
   }
 }
 export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
+  const {
+    channels,
+    percentThreshold,
+    threshold,
+    target,
+    timeWindow,
+    timeWindowUnit,
+    isActive,
+    cooldown,
+    type,
+    isPublic,
+    isRepeating
+  } = formProps
+
   return {
     ...prevTrigger,
     settings: {
-      channel: formProps.channels[0],
-      percent_threshold: formProps.percentThreshold
-        ? formProps.percentThreshold
+      channel: channels[0],
+      percent_threshold: percentThreshold || undefined,
+      threshold: threshold || undefined,
+      target: { slug: target.value },
+      time_window: timeWindow
+        ? timeWindow + '' + timeWindowUnit.value
         : undefined,
-      threshold: formProps.threshold ? formProps.threshold : undefined,
-      target: { slug: formProps.target.value },
-      time_window: formProps.timeWindow
-        ? formProps.timeWindow + '' + formProps.timeWindowUnit.value
-        : undefined,
-      type: getType(formProps.type.value).value,
-      operation: getTriggerOperation(formProps.type, formProps.percentThreshold)
+      type: getType(type.value).value,
+      operation: getTriggerOperation(type, percentThreshold)
     },
-    isPublic: !!formProps.isPublic,
-    isRepeating: !!formProps.isRepeating,
-    cooldown: formProps.cooldown ? formProps.cooldown : undefined,
-    isActive: !!formProps.isActive
+    isPublic: !!isPublic,
+    isRepeating: !!isRepeating,
+    cooldown: cooldown || undefined,
+    isActive: !!isActive
   }
 }
 export const mapValuesToTriggerProps = ({
@@ -283,7 +295,8 @@ export const mapTriggerToProps = ({ data: { trigger, loading, error } }) => {
   }
   if (
     !loading &&
-    !(trigger || {}).trigger.settings.target.hasOwnProperty('slug')
+    trigger &&
+    !trigger.trigger.settings.target.hasOwnProperty('slug')
   ) {
     return {
       trigger: {
