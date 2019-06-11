@@ -15,7 +15,6 @@ const InsightsWrap = ({ insights, isDesktop }) => {
           withAuthorPic={false}
           {...insight}
           key={insight.id}
-          className={styles.insight}
         />
       ))}
     </div>

@@ -1,5 +1,6 @@
 @import '~@santiment-network/ui/variables.scss';
 @import '../../variables.scss';
+@import '~@santiment-network/ui/mixins';
 
 .TrendsExplorePage {
   margin: 0;
@@ -18,8 +19,8 @@
 
 .widgets {
   margin-top: 1rem;
-  display: flex;
-  justify-content: space-between;
+
+  @include grid-wrap(2);
 }
 
 .search {
