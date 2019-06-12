@@ -67,10 +67,7 @@ export const SignalCardWrapper = ({
   id,
   description,
   title,
-  children,
-  likesCount = 0,
-  author = 'Santiment Team',
-  authorLink = 'https://santiment.net'
+  children
 }) => {
   const SignalTopDetails =
     isAwaiting && !isLink ? 'div' : SignalCardDetailsModal
@@ -96,16 +93,6 @@ export const SignalCardWrapper = ({
             </h3>
           </div>
         </SignalTopDetails>
-
-        <div className={styles.teamBlock}>
-          <span className={styles.teamLink}>
-            by &nbsp;<a href={authorLink}>{author}</a>
-          </span>
-          <span className={styles.likesBlock}>
-            <Icon type='like' />
-            &nbsp;{likesCount}
-          </span>
-        </div>
 
         {children}
       </div>

@@ -38,21 +38,6 @@
   align-items: center;
 }
 
-.teamBlock {
-  @include text-normal;
-
-  margin-top: 15px;
-  display: flex;
-}
-
-.likesBlock {
-  @include text-normal;
-
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
-}
-
 .title {
   margin: 0;
   margin-bottom: 4px;

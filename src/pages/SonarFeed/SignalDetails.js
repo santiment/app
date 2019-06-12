@@ -26,7 +26,10 @@ const SignalDetails = ({
   redirect,
   closeModal,
   id,
-  match = {}
+  match = {},
+  author = 'Santiment Team',
+  link = 'https://santiment.net',
+  likesCount = 0
 }) => {
   const WrapperEl = Panel
   const signalId = id || (match.params || {}).id
@@ -64,9 +67,23 @@ const SignalDetails = ({
       />
       <div className={styles.wrapper}>
         <SignalCardWrapper title={title} description={description} id={id}>
-          <div className={styles.status}>
-            <StatusLabel isPublic={isPublic} />
+          <div className={styles.row}>
+            <div className={styles.teamBlock}>
+              {author && (
+                <div className={styles.teamLink}>
+                  by &nbsp;<a href={link}>{author}</a>
+                </div>
+              )}
+              <div className={styles.likesBlock}>
+                <Icon type='like' />
+                <div className={styles.likesCount}>{likesCount}</div>
+              </div>
+            </div>
+            <div className={styles.status}>
+              <StatusLabel isPublic={isPublic} />
+            </div>
           </div>
+
           <div className={styles.bottom}>
             <div className={styles.leftActions}>
               <SettingsSignalButton id={signalId} />

@@ -1,6 +1,30 @@
+@import "~@santiment-network/ui/mixins.scss";
+
 .container {
   background-color: var(--white);
   position: relative;
+}
+
+.teamBlock {
+  @include text-normal;
+
+  display: flex;
+  justify-content: center;
+}
+
+.likesBlock {
+  @include text-normal;
+
+  margin-left: 25px;
+  fill: var(--white);
+  stroke: var(--waterloo);
+  color: var(--mirage);
+  display: flex;
+  justify-content: center;
+
+  .likesCount {
+    margin-left: 10px;
+  }
 }
 
 .wrapper {
@@ -9,6 +33,11 @@
   max-width: 100%;
   // max-height: 80%;
   background-color: var(--white);
+}
+
+.row {
+  display: flex;
+  margin-top: 15px;
 }
 
 .closeButton {
@@ -24,11 +53,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 20px;
 }
 
 .status {
-  margin-bottom: 10px;
-  margin-top: 20px;
+  margin: 0 0 0 25px;
 }
 
 .leftActions {

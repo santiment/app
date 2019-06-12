@@ -180,7 +180,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateTrigger(payload))
   },
   redirect: (path = '/sonar/feed/my-signals') => {
-    debugger
     dispatch(push(path))
   }
 })
