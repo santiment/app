@@ -31,14 +31,15 @@ const SearchProjects = ({
           : false
         return (
           <div className={styles.projectWrapper}>
-            <div>
+            <div className={styles.projectInfo}>
               <ProjectIcon
                 className={styles.icon}
                 size={16}
                 ticker={ticker}
                 name={name}
               />{' '}
-              {name} ({ticker})
+              <span className={styles.name}>{name}</span>
+              <span className={styles.ticker}>({ticker})</span>
             </div>
             {isEditingWatchlist && (
               <Icon
