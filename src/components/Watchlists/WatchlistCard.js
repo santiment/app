@@ -24,8 +24,8 @@ const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
 
   return (
     <Link to={to} className={styles.wrapper}>
-      <div className={cx(styles.flexRow, styles.content, styles.name)}>
-        {name}
+      <div className={cx(styles.flexRow, styles.content)}>
+        <span className={styles.name}>{name}</span>
         {isPublic !== undefined && (
           <Icon type={isPublic ? 'eye' : 'lock-small'} fill='var(--casper)' />
         )}
