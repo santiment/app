@@ -1,5 +1,6 @@
 .container {
   background-color: var(--white);
+  position: relative;
 }
 
 .wrapper {
@@ -8,6 +9,15 @@
   max-width: 100%;
   // max-height: 80%;
   background-color: var(--white);
+}
+
+.closeButton {
+  position: absolute;
+  cursor: pointer;
+  right: 20px;
+  top: 15px;
+  fill: var(--waterloo);
+  z-index: 100;
 }
 
 .bottom {

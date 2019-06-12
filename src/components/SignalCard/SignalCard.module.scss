@@ -92,9 +92,15 @@
   }
 }
 
+.awaitingBlock {
+  display: flex;
+  fill: var(--waterloo);
+}
+
 .author {
   @include text-normal;
 
+  color: var(--waterloo);
   margin: 0;
 
   &__link {

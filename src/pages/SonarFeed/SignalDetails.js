@@ -56,7 +56,12 @@ const SignalDetails = ({
   }
   const { isActive, isPublic, title, description } = trigger
   return (
-    <WrapperEl header='Signals details'>
+    <WrapperEl header='Signals details' className={styles.container}>
+      <Icon
+        className={styles.closeButton}
+        onClick={() => closeModal()}
+        type='close'
+      />
       <div className={styles.wrapper}>
         <SignalCardWrapper title={title} description={description} id={id}>
           <div className={styles.status}>

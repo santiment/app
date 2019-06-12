@@ -16,7 +16,8 @@ const SignalCard = ({
   gotoSignalByID,
   ...signalCardBottom
 }) => {
-  const isAwaiting = id === -1
+  const isAwaiting = +id <= 0
+
   const SignalTopDetails = isAwaiting ? 'div' : SignalCardDetailsModal
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
@@ -128,9 +129,14 @@ const SignalCardBottom = ({
     <div className={styles.bottom}>
       {isPublished ? (
         <h4 className={styles.author}>
-          {isAwaiting && 'Awaiting confirmation'}
+          {isAwaiting && (
+            <div className={styles.awaitingBlock}>
+              <Icon type='awaiting' />
+              <span>&nbsp;&nbsp;Awaiting confirmation</span>
+            </div>
+          )}
           {isUserTheAuthor && !isAwaiting && (
-            <StatusLabel isPublic={!isActive} />
+            <StatusLabel isPublic={!isPublic} />
           )}
           {!isUserTheAuthor && (
             <Fragment>
@@ -164,7 +170,7 @@ const SignalCardDetailsModal = ({ children, id }) => (
     classes={{ modal: styles.modalCentered }}
     showDefaultActions={false}
   >
-    {({ closeModal }) => <SignalDetails id={id} closeModal={closeModal} />}
+    {closeModal => <SignalDetails id={id} closeModal={closeModal} />}
   </Modal>
 )
 

@@ -3,7 +3,7 @@ import { push } from 'react-router-redux'
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import { createTrigger, toggleTrigger, updateTrigger } from '../Redux/actions'
+import { createTrigger, updateTrigger } from '../Redux/actions'
 import {
   Message,
   PanelWithHeader as Panel,
@@ -73,17 +73,12 @@ export class SignalMaster extends React.PureComponent {
       }
     }
 
-    const toggleSignalCallback = () => {
-      if (trigger.id) {
-        this.props.toggleSignal({
-          id: trigger.id,
-          isPublic: trigger.isPublic
-        })
-      } else {
-        const { trigger } = this.state
-        const newTrigger = { ...trigger, isPublic: !trigger.isPublic }
-        this.setState({ trigger: newTrigger })
-      }
+    const toggleSignalPublic = () => {
+      const { trigger } = this.state
+      const newValue = !trigger.isPublic
+      const newTrigger = { ...trigger, isPublic: newValue }
+
+      this.setState({ trigger: newTrigger })
     }
 
     const getTitle = ({ id }) => {
@@ -132,10 +127,7 @@ export class SignalMaster extends React.PureComponent {
           )}
 
           <div className={styles.triggerToggleBlock}>
-            <Toggle
-              onClick={toggleSignalCallback}
-              isActive={trigger.isPublic}
-            />
+            <Toggle onClick={toggleSignalPublic} isActive={trigger.isPublic} />
             <div className={styles.triggerToggleLabel}>
               {trigger.isPublic ? 'Public' : 'Private'}
             </div>
@@ -181,9 +173,6 @@ export class SignalMaster extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  toggleSignal: ({ id, isActive }) => {
-    dispatch(toggleTrigger({ id, isActive }))
-  },
   createTrigger: payload => {
     dispatch(createTrigger(payload))
   },
