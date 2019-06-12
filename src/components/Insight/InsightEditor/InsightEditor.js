@@ -112,15 +112,17 @@ class InsightEditor extends Component {
 
     return (
       <div className={styles.wrapper}>
-        <InsightEditorTitle
-          defaultValue={title}
-          onChange={this.onTitleChange}
-        />
-        <Editor
-          defaultEditorContent={this.defaultEditorContent}
-          placeholder='Write something interesting here...'
-          onChange={this.onTextChange}
-        />
+        <div className={styles.insightWrapper}>
+          <InsightEditorTitle
+            defaultValue={title}
+            onChange={this.onTitleChange}
+          />
+          <Editor
+            defaultEditorContent={this.defaultEditorContent}
+            placeholder='Write something interesting here...'
+            onChange={this.onTextChange}
+          />
+        </div>
         <InsightEditorBottom
           defaultTags={tags}
           updatedAt={updatedAt}
