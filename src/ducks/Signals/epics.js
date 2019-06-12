@@ -316,7 +316,7 @@ export const removeSignalEpic = (action$, store, { client }) =>
               type: actions.SIGNAL_REMOVE_BY_ID_SUCCESS,
               payload: { id: removeTrigger.trigger.id }
             }),
-            Observable.of(showNotification('Trigger is removed'))
+            Observable.of(showNotification('Trigger was removed'))
           )
         })
         .catch(action => {

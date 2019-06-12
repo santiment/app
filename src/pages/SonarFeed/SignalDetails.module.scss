@@ -1,8 +1,13 @@
+.container {
+  background-color: var(--white);
+}
+
 .wrapper {
   width: 437px;
-  height: 160px;
+  // height: 160px;
   max-width: 100%;
-  max-height: 80%;
+  // max-height: 80%;
+  background-color: var(--white);
 }
 
 .bottom {
@@ -12,7 +17,7 @@
 }
 
 .status {
-  margin-bottom: 40px;
+  margin-bottom: 10px;
   margin-top: 20px;
 }
 

@@ -66,7 +66,10 @@ export const SignalCardWrapper = ({
   id,
   description,
   title,
-  children
+  children,
+  likesCount = 0,
+  author = 'Santiment Team',
+  authorLink = 'https://santiment.net'
 }) => {
   const SignalTopDetails =
     isAwaiting && !isLink ? 'div' : SignalCardDetailsModal
@@ -76,7 +79,7 @@ export const SignalCardWrapper = ({
         className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
       >
         <div className={styles.icon}>
-          <Icon type='wallet' />
+          <Icon type='connection' />
         </div>
       </div>
       <div className={styles.wrapper__right}>
@@ -92,6 +95,17 @@ export const SignalCardWrapper = ({
             </h3>
           </div>
         </SignalTopDetails>
+
+        <div className={styles.teamBlock}>
+          <span className={styles.teamLink}>
+            by &nbsp;<a href={authorLink}>{author}</a>
+          </span>
+          <span className={styles.likesBlock}>
+            <Icon type='like' />
+            &nbsp;{likesCount}
+          </span>
+        </div>
+
         {children}
       </div>
     </div>
@@ -144,7 +158,12 @@ const SignalCardBottom = ({
 }
 
 const SignalCardDetailsModal = ({ children, id }) => (
-  <Modal trigger={children} title='Signal details' showDefaultActions={false}>
+  <Modal
+    trigger={children}
+    title='Signal details'
+    classes={{ modal: styles.modalCentered }}
+    showDefaultActions={false}
+  >
     {({ closeModal }) => <SignalDetails id={id} closeModal={closeModal} />}
   </Modal>
 )

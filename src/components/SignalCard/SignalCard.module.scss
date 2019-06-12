@@ -38,12 +38,29 @@
   align-items: center;
 }
 
-.title {
+.teamBlock {
   @include text-normal;
 
-  font-size: 18px;
+  margin-top: 15px;
+  display: flex;
+}
+
+.likesBlock {
+  @include text-normal;
+
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.title {
   margin: 0;
   margin-bottom: 4px;
+  font-family: Rubik, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 30px;
 }
 
 .description {
@@ -51,6 +68,7 @@
 
   margin: 0;
   color: var(--grey-dark-2);
+  margin-top: 10px;
 }
 
 .upper {

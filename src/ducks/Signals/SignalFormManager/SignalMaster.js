@@ -102,11 +102,13 @@ export class SignalMaster extends React.PureComponent {
       }
     }
 
+    const close = this.props.onClose || this.props.redirect
+
     return (
       <div className={styles.wrapper}>
         <Icon
           className={styles.closeButton}
-          onClick={this.props.onClose}
+          onClick={() => close()}
           type='close'
         />
         <Panel header={getTitle(trigger)} className={styles.TriggerPanel}>
@@ -172,6 +174,7 @@ export class SignalMaster extends React.PureComponent {
     } else {
       this.props.createTrigger(data)
     }
+
     this.props.onClose && this.props.onClose()
     this.props.canRedirect && this.props.redirect && this.props.redirect()
   }
@@ -188,6 +191,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateTrigger(payload))
   },
   redirect: (path = '/sonar/feed/my-signals') => {
+    debugger
     dispatch(push(path))
   }
 })

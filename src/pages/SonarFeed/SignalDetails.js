@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
 import {
   PanelWithHeader as Panel,
-  Toggle,
   Button,
   Icon,
   Message
@@ -18,6 +17,7 @@ import { toggleTrigger, removeTrigger } from '../../ducks/Signals/Redux/actions'
 import { mapTriggerToProps } from '../../ducks/Signals/Utils/utils'
 import { SignalCardWrapper } from './../../components/SignalCard/SignalCard'
 import styles from './SignalDetails.module.scss'
+import { ToggleSignal } from './ToggleSignal'
 
 const SignalDetails = ({
   trigger: { trigger, isLoading, isError, errorMessage = '' },
@@ -28,7 +28,7 @@ const SignalDetails = ({
   id,
   match = {}
 }) => {
-  const WrapperEl = isModal(match) ? 'div' : Panel
+  const WrapperEl = Panel
   const signalId = id || (match.params || {}).id
   if (isLoading) {
     return (
@@ -83,16 +83,6 @@ const SignalDetails = ({
   )
 }
 
-const ToggleSignal = ({ isActive, toggleSignal, id }) => (
-  <div className={styles.toggleSignal}>
-    {!isActive && <span>Signal disabled</span>}
-    <Toggle
-      onClick={() => toggleSignal({ id, isActive })}
-      isActive={isActive}
-    />
-  </div>
-)
-
 const RemoveSignalButton = ({ id, removeSignal, redirect }) => (
   <Button
     variant='ghost'
@@ -112,8 +102,6 @@ const SettingsSignalButton = ({ id }) => (
     </Link>
   </Button>
 )
-
-const isModal = (match = {}) => !match.params
 
 const mapDispatchToProps = dispatch => ({
   toggleSignal: ({ id, isActive }) => {
