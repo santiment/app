@@ -132,13 +132,11 @@ class TrendsTables extends PureComponent {
 
 const mapStateToProps = ({
   hypedTrends: { selectedTrends, connectedTrends },
-  user: {
-    data: { id }
-  }
+  user: { data }
 }) => ({
   selectedTrends,
   connectedTrends,
-  isLoggedIn: !!id
+  isLoggedIn: data && !!data.id
 })
 
 const mapDispatchToProps = dispatch => ({

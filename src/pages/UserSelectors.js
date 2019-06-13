@@ -7,7 +7,7 @@ export const checkHasPremium = state => {
 }
 
 export const checkIsLoggedIn = state => {
-  return !!state.user.data.id
+  return state.user.data && !!state.user.data.id
 }
 
 export const selectIsTelegramConnected = state => {
