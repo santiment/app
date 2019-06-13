@@ -23,10 +23,9 @@
 
 .subtitle {
   margin: 0 0 26px;
-  font-family: Rubik, sans-serif;
-  font-size: 22px;
-  line-height: 30px;
   color: var(--mirage);
+
+  @include text(h4, null);
 }
 
 .column {
