@@ -42,7 +42,7 @@ describe('ShowIf', () => {
   })
 
   it('it should render if loggedIn', () => {
-    store = mockStore({ user: { token: 'any' } })
+    store = mockStore({ user: { token: 'any', data: { id: '455' } } })
     const wrapper = mount(
       <ShowIf loggedIn store={store}>
         <AnyComponent />
