@@ -334,7 +334,7 @@ export const App = ({
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: !!state.user.token,
+    isLoggedIn: state.user.data && !!state.user.data.id,
     isFullscreenMobile: state.detailedPageUi.isFullscreenMobile,
     isOffline: !state.rootUi.isOnline,
     isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
