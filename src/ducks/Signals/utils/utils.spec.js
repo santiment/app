@@ -139,9 +139,9 @@ describe('Mapping Trigger data should work', () => {
 
 describe('Mapping Form to Trigger data should work', () => {
   it('it should transform form with price_volume_difference to trigger', () => {
-    const mapped_1 = mapFormPropsToTrigger(FORM_PROPS[0], TRIGGERS[0])
-    console.log(mapped_1)
-    expect(mapped_1).toMatchObject(TRIGGERS[0])
+    expect(mapFormPropsToTrigger(FORM_PROPS[0], TRIGGERS[0])).toMatchObject(
+      TRIGGERS[0]
+    )
     expect(mapFormPropsToTrigger(FORM_PROPS[1], TRIGGERS[1])).toMatchObject(
       TRIGGERS[1]
     )
