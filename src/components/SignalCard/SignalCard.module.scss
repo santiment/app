@@ -43,11 +43,7 @@
   margin-bottom: 4px;
 
   @include text-normal;
-
-  font-style: normal;
-  font-weight: 500;
-  font-size: 22px;
-  line-height: 30px;
+  @include text('h4','m');
 }
 
 .description {
