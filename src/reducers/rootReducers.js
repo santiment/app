@@ -7,7 +7,7 @@ import timeseries, {
 } from './../ducks/GetTimeSeries/reducers'
 import signals, {
   initialState as signalsState
-} from '../ducks/Signals/Redux/reducers'
+} from '../ducks/Signals/requx/reducers'
 import rootUi, { initialState as rootUiState } from './root-ui'
 import detailedPageUi, {
   initialState as detailedPageUiState

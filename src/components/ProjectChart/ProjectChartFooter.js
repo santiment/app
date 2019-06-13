@@ -6,7 +6,7 @@ import AlertMessage from './../../components/AlertMessage'
 import ShowIf from './../../components/ShowIf'
 import help from './../../assets/help.json'
 import LinkToSocialTool from './LinkToSocialTool'
-import SignalMasterModalForm from '../../ducks/Signals/SignalModal/SignalMasterModalForm'
+import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import './ProjectChartFooter.css'
 
 export const ToggleBtn = ({

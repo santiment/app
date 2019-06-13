@@ -9,14 +9,14 @@ import { connect } from 'react-redux'
 import { Button, Message } from '@santiment-network/ui'
 import { selectIsTelegramConnected } from '../../../../../pages/UserSelectors'
 import { allProjectsForSearchGQL } from '../../../../../pages/Projects/allProjectsGQL'
-import { fetchHistorySignalPoints, removeTrigger } from '../../../Redux/actions'
+import { fetchHistorySignalPoints, removeTrigger } from '../../../requx/actions'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikCheckboxes from '../../../../../components/formik-santiment-ui/FormikCheckboxes'
 import FormikToggle from '../../../../../components/formik-santiment-ui/FormikToggle'
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
 import styles from './TriggerForm.module.scss'
-import { TriggerFormHeader } from '../Header/TriggerFormHeader'
+import { TriggerFormHeader } from '../header/TriggerFormHeader'
 
 import {
   DAILY_ACTIVE_ADDRESSES,
@@ -34,7 +34,7 @@ import {
   getFrequencyTimeValues,
   getNearestFrequencyTimeValue,
   getNearestFrequencyTypeValue
-} from '../../../Utils/utils'
+} from '../../../utils/utils'
 
 const REQUIRED_MESSAGE = 'Required'
 

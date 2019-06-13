@@ -3,7 +3,7 @@ import { Link, Route, Redirect, Switch } from 'react-router-dom'
 import { Tabs, Icon } from '@santiment-network/ui'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
-import SignalMasterModalForm from '../../ducks/Signals/SignalModal/SignalMasterModalForm'
+import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import InsightUnAuthPage from './../../pages/Insights/InsightUnAuthPage'
 import styles from './SonarFeedPage.module.scss'
 
@@ -82,7 +82,7 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn }) => {
           path={`${baseLocation}/details/:id/edit`}
           component={Loadable({
             loader: () =>
-              import('../../ducks/Signals/SignalFormManager/SignalMaster'),
+              import('../../ducks/Signals/signalFormManager/SignalMaster'),
             render: (loaded, props) => <loaded.default isEdit {...props} />,
             loading: () => <PageLoader />
           })}

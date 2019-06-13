@@ -41,7 +41,9 @@
 .title {
   margin: 0;
   margin-bottom: 4px;
-  font-family: Rubik, sans-serif;
+
+  @include text-normal;
+
   font-style: normal;
   font-weight: 500;
   font-size: 22px;
@@ -52,7 +54,7 @@
   @include text-normal;
 
   margin: 0;
-  color: var(--grey-dark-2);
+  color: var(--waterloo);
   margin-top: 10px;
 }
 

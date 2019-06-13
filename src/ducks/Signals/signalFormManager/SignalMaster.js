@@ -3,22 +3,22 @@ import { push } from 'react-router-redux'
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import { createTrigger, updateTrigger } from '../Redux/actions'
+import { createTrigger, updateTrigger } from '../requx/actions'
 import {
   Message,
   PanelWithHeader as Panel,
   Toggle
 } from '@santiment-network/ui'
-import TriggersForm from './SignalCrudForm/SignalsList/TriggersForm'
-import AboutForm from './AboutForm/AboutForm'
-import styles from './SignalCrudForm/Signal/TriggerForm.module.scss'
-import { TRIGGER_BY_ID_QUERY } from '../GQL/SignalsGQL'
+import TriggersForm from './signalCrudForm/signalsList/TriggersForm'
+import AboutForm from './aboutForm/AboutForm'
+import styles from './signalCrudForm/signal/TriggerForm.module.scss'
+import { TRIGGER_BY_ID_QUERY } from '../gql/SignalsGQL'
 import { Icon } from '@santiment-network/ui'
 import {
   mapTriggerToFormProps,
   mapFormPropsToTrigger,
   mapGQLTriggerToProps
-} from '../Utils/utils'
+} from '../utils/utils'
 
 const STEPS = {
   SETTINGS: 0,
@@ -84,7 +84,7 @@ export class SignalMaster extends React.PureComponent {
     const getTitle = ({ id }) => {
       switch (step) {
         case STEPS.SETTINGS: {
-          return id > 0 ? 'Update signal' : 'Create Signal'
+          return id > 0 ? 'Update signal' : 'Create signal'
         }
         case STEPS.CONFIRM: {
           return triggerSettingsFormData.isPublic
@@ -97,13 +97,10 @@ export class SignalMaster extends React.PureComponent {
       }
     }
 
+    const close = this.props.onClose || this.props.redirect
     return (
       <div className={styles.wrapper}>
-        <Icon
-          className={styles.closeButton}
-          onClick={this.props.onClose || this.props.redirect}
-          type='close'
-        />
+        <Icon className={styles.closeButton} onClick={close} type='close' />
         <Panel header={getTitle(trigger)} className={styles.TriggerPanel}>
           {step === STEPS.SETTINGS && (
             <TriggersForm
@@ -177,8 +174,8 @@ const mapDispatchToProps = dispatch => ({
   updateTrigger: payload => {
     dispatch(updateTrigger(payload))
   },
-  redirect: (path = '/sonar/feed/my-signals') => {
-    dispatch(push(path))
+  redirect: () => {
+    dispatch(push('/sonar/feed/my-signals'))
   }
 })
 

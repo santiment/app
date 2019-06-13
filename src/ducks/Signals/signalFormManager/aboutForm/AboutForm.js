@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Formik, Form } from 'formik'
 import { Button } from '@santiment-network/ui'
 import FormikInput from '../../../../components/formik-santiment-ui/FormikInput'
-import styles from '../SignalCrudForm/Signal/TriggerForm.module.scss'
+import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
 const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
   const [trigger, setTrigger] = useState(triggerMeta)
