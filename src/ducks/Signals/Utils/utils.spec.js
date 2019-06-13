@@ -2,7 +2,10 @@
 import {
   mapTriggerToFormProps,
   mapFormPropsToTrigger,
-  PRICE_PERCENT_CHANGE_UP_MODEL
+  PRICE_PERCENT_CHANGE_UP_MODEL,
+  DEFAULT_FREQUENCY_TIME_TYPE_MODEL,
+  FREQUENCY_TYPE_HOUR_MODEL,
+  frequencyTymeValueBuilder
 } from './utils'
 
 const TRIGGERS = [
@@ -20,7 +23,7 @@ const TRIGGERS = [
     isPublic: false,
     isActive: false,
     isRepeating: true,
-    cooldown: '30m',
+    cooldown: '22h',
     tags: [],
     title: 'Example',
     description: 'any',
@@ -38,7 +41,7 @@ const TRIGGERS = [
     isPublic: false,
     isActive: false,
     isRepeating: true,
-    cooldown: '30m',
+    cooldown: '22h',
     tags: [],
     title: 'Example',
     description: 'any',
@@ -55,7 +58,7 @@ const TRIGGERS = [
     isPublic: false,
     isActive: false,
     isRepeating: true,
-    cooldown: '30m',
+    cooldown: '22h',
     tags: [],
     title: 'Example',
     description: 'any',
@@ -63,20 +66,31 @@ const TRIGGERS = [
   }
 ]
 
+const frequencyTimeValue = {
+  value: '22',
+  label: '22'
+}
+
 const FORM_PROPS = [
   {
-    cooldown: '30m',
+    cooldown: '22h',
+    frequencyType: { ...FREQUENCY_TYPE_HOUR_MODEL },
+    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeValue: { ...frequencyTimeValue },
     percentThreshold: 5,
     isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
     timeWindow: 1,
     timeWindowUnit: { label: 'days', value: 'd' },
-    type: PRICE_PERCENT_CHANGE_UP_MODEL,
+    type: { ...PRICE_PERCENT_CHANGE_UP_MODEL },
     metric: { label: 'Price', value: 'price' },
     channels: ['telegram']
   },
   {
-    cooldown: '30m',
+    cooldown: '22h',
+    frequencyType: { ...FREQUENCY_TYPE_HOUR_MODEL },
+    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeValue: { ...frequencyTimeValue },
     percentThreshold: 6,
     isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
@@ -90,7 +104,10 @@ const FORM_PROPS = [
     channels: ['telegram']
   },
   {
-    cooldown: '30m',
+    cooldown: '22h',
+    frequencyType: { ...FREQUENCY_TYPE_HOUR_MODEL },
+    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeValue: { ...frequencyTimeValue },
     threshold: 0.002,
     isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
@@ -122,9 +139,9 @@ describe('Mapping Trigger data should work', () => {
 
 describe('Mapping Form to Trigger data should work', () => {
   it('it should transform form with price_volume_difference to trigger', () => {
-    expect(mapFormPropsToTrigger(FORM_PROPS[0], TRIGGERS[0])).toMatchObject(
-      TRIGGERS[0]
-    )
+    const mapped_1 = mapFormPropsToTrigger(FORM_PROPS[0], TRIGGERS[0])
+    console.log(mapped_1)
+    expect(mapped_1).toMatchObject(TRIGGERS[0])
     expect(mapFormPropsToTrigger(FORM_PROPS[1], TRIGGERS[1])).toMatchObject(
       TRIGGERS[1]
     )

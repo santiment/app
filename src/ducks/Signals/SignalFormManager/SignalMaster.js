@@ -17,7 +17,7 @@ import { Icon } from '@santiment-network/ui'
 import {
   mapTriggerToFormProps,
   mapFormPropsToTrigger,
-  mapTriggerToProps
+  mapGQLTriggerToProps
 } from '../Utils/utils'
 
 const STEPS = {
@@ -97,13 +97,11 @@ export class SignalMaster extends React.PureComponent {
       }
     }
 
-    const close = this.props.onClose || this.props.redirect
-
     return (
       <div className={styles.wrapper}>
         <Icon
           className={styles.closeButton}
-          onClick={() => close()}
+          onClick={this.props.onClose || this.props.redirect}
           type='close'
         />
         <Panel header={getTitle(trigger)} className={styles.TriggerPanel}>
@@ -207,7 +205,7 @@ const enhance = compose(
         variables: { id: +id }
       }
     },
-    props: mapTriggerToProps
+    props: mapGQLTriggerToProps
   })
 )
 

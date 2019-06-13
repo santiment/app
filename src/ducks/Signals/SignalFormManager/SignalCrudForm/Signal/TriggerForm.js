@@ -12,7 +12,6 @@ import { allProjectsForSearchGQL } from '../../../../../pages/Projects/allProjec
 import { fetchHistorySignalPoints, removeTrigger } from '../../../Redux/actions'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
-import FormikSelector from '../../../../../components/formik-santiment-ui/FormikSelector'
 import FormikCheckboxes from '../../../../../components/formik-santiment-ui/FormikCheckboxes'
 import FormikToggle from '../../../../../components/formik-santiment-ui/FormikToggle'
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
@@ -23,13 +22,23 @@ import {
   DAILY_ACTIVE_ADDRESSES,
   PRICE_PERCENT_CHANGE,
   PRICE_VOLUME_DIFFERENCE,
-  PRICE_PERCENT_CHANGE_UP_MODEL,
   METRICS,
   PRICE_TYPES,
-  ARGS,
+  METRICS_DEPENDENCIES,
   METRIC_DEFAULT_VALUES,
-  getTypeByMetric
+  FREQUENCY_TYPES,
+  DEFAULT_FORM_META_SETTINGS,
+  frequencyTymeValueBuilder,
+  getTypeByMetric,
+  getFrequencyTimeType,
+  getFrequencyTimeValues,
+  getNearestFrequencyTimeValue,
+  getNearestFrequencyTypeValue
 } from '../../../Utils/utils'
+
+const REQUIRED_MESSAGE = 'Required'
+
+const MUST_BE_MORE_ZERO_MESSAGE = 'Must be more 0'
 
 const validate = values => {
   let errors = {}
@@ -39,48 +48,40 @@ const validate = values => {
     values.type.value === PRICE_PERCENT_CHANGE
   ) {
     if (!values.percentThreshold) {
-      errors.percentThreshold = 'Required'
+      errors.percentThreshold = REQUIRED_MESSAGE
     } else if (values.percentThreshold <= 0) {
-      errors.percentThreshold = 'Must be more 0'
+      errors.percentThreshold = MUST_BE_MORE_ZERO_MESSAGE
     }
     if (!values.timeWindow) {
-      errors.timeWindow = 'Required'
+      errors.timeWindow = REQUIRED_MESSAGE
     } else if (values.timeWindow <= 0) {
-      errors.timeWindow = 'Must be more 0'
+      errors.timeWindow = MUST_BE_MORE_ZERO_MESSAGE
     }
   }
   if (values.type.value === PRICE_VOLUME_DIFFERENCE) {
     if (!values.threshold) {
-      errors.threshold = 'Required'
+      errors.threshold = REQUIRED_MESSAGE
     } else if (values.threshold < 0) {
-      errors.threshold = 'Must be more 0'
+      errors.threshold = MUST_BE_MORE_ZERO_MESSAGE
     }
   }
   if (values.channels && values.channels.length === 0) {
     errors.channels = 'You must setup notification channel'
   }
-  return errors
-}
 
-const DEFAULT_FORM_META_SETTINGS = {
-  target: {
-    isDisabled: false,
-    value: {
-      value: 'santiment',
-      label: 'santiment'
-    }
-  },
-  metric: {
-    isDisabled: false,
-    value: {
-      value: 'price',
-      label: 'Price'
-    }
-  },
-  type: {
-    isDisabled: false,
-    value: { ...PRICE_PERCENT_CHANGE_UP_MODEL }
+  if (!values.frequencyType || !values.frequencyType.value) {
+    errors.frequencyType = REQUIRED_MESSAGE
   }
+
+  if (!values.frequencyTimeValue || !values.frequencyTimeValue.value) {
+    errors.frequencyTimeValue = REQUIRED_MESSAGE
+  }
+
+  if (!values.frequencyTimeType || !values.frequencyTimeType.value) {
+    errors.frequencyTimeType = REQUIRED_MESSAGE
+  }
+
+  return errors
 }
 
 const propTypes = {
@@ -122,13 +123,14 @@ export const TriggerForm = ({
   const [initialValues, setInitialValues] = useState(settings)
   const [showTrigger, setShowTrigger] = useState(true)
 
-  /* useEffect(() => {
-    getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
-  }, []) */
-
   const defaultAsset = metaFormSettings.target
   const defaultMetric = metaFormSettings.metric
   const defaultType = metaFormSettings.type
+  const defaultFrequencyType = metaFormSettings.frequencyType
+
+  /* useEffect(() => {
+    getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
+  }, []) */
 
   const setDefaultPriceValues = values => {
     const newValues = { ...values, ...METRIC_DEFAULT_VALUES[values.type.value] }
@@ -200,7 +202,7 @@ export const TriggerForm = ({
               name={trigger.title}
               showTrigger={showTrigger}
               showTriggerFunc={showTriggerFunc}
-              actionsEnabled={false} // Make dynamic if trigger more 1 (in future)
+              actionsEnabled={false} // Make dynamic if triggers more than 1 (in future)
             />
 
             {showTrigger && (
@@ -258,10 +260,11 @@ export const TriggerForm = ({
                     </div>
                   )}
                 </div>
-
                 <div className={styles.row}>
                   {values.type &&
-                    ARGS[values.type.value].includes('percentThreshold') && (
+                    METRICS_DEPENDENCIES[values.type.value].includes(
+                      'percentThreshold'
+                    ) && (
                     <div className={styles.Field}>
                       <label>Percentage change</label>
                       <FormikInput
@@ -272,7 +275,9 @@ export const TriggerForm = ({
                     </div>
                   )}
                   {values.type &&
-                    ARGS[values.type.value].includes('threshold') && (
+                    METRICS_DEPENDENCIES[values.type.value].includes(
+                      'threshold'
+                    ) && (
                     <div className={styles.Field}>
                       <label>Threshold</label>
                       <FormikInput
@@ -284,40 +289,86 @@ export const TriggerForm = ({
                     </div>
                   )}
                   {values.type &&
-                    ARGS[values.type.value].includes('timeWindow') && (
+                    METRICS_DEPENDENCIES[values.type.value].includes(
+                      'timeWindow'
+                    ) && (
                     <div className={styles.Field}>
                       <label>Time Window</label>
                       <div className={styles.timeWindow}>
-                        <FormikInput
-                          name='timeWindow'
-                          type='number'
-                          min={0}
-                          className={styles.timeWindowInput}
-                          placeholder='Setup the time window'
-                        />
+                        <div className={styles.timeWindowInput}>
+                          <FormikInput
+                            name='timeWindow'
+                            type='number'
+                            min={0}
+                            placeholder='Setup the time window'
+                          />
+                        </div>
                         <FormikSelect
                           name='timeWindowUnit'
                           className={styles.timeWindowUnit}
                           clearable={false}
                           placeholder='Unit'
                           options={[
-                            { value: 'h', label: 'hours' },
-                            { value: 'd', label: 'days' }
+                            { value: 'h', label: 'Hours' },
+                            { value: 'd', label: 'Days' }
                           ]}
                         />
                       </div>
                     </div>
                   )}
                 </div>
+
                 <div className={styles.row}>
                   <div className={styles.Field}>
-                    <label>Message Frequency</label>
-                    <div>Once per</div>
-                    <div className={styles.Field}>
-                      <FormikSelector
-                        name='cooldown'
-                        options={['1h', '24h']}
-                        defaultSelected={'1h'}
+                    <label>Frequency of notifications</label>
+                    <FormikSelect
+                      name='frequencyType'
+                      isClearable={false}
+                      isDisabled={defaultFrequencyType.isDisabled}
+                      defaultValue={defaultFrequencyType.value.value}
+                      isSearchable
+                      placeholder='Choose frequency'
+                      options={FREQUENCY_TYPES}
+                      onChange={frequencyType => {
+                        const newFrequencyTimeType = getNearestFrequencyTypeValue(
+                          frequencyType
+                        )
+                        setFieldValue('frequencyTimeType', newFrequencyTimeType)
+                        setFieldValue(
+                          'frequencyTimeValue',
+                          getNearestFrequencyTimeValue(newFrequencyTimeType)
+                        )
+                      }}
+                    />
+                  </div>
+                  <div className={styles.Field}>
+                    <label>&nbsp;</label>
+
+                    <div className={styles.frequency}>
+                      <FormikSelect
+                        name='frequencyTimeValue'
+                        className={styles.frequencyTimeValue}
+                        isClearable={false}
+                        isDisabled={
+                          !values.frequencyType || !values.frequencyTimeType
+                        }
+                        isSearchable
+                        options={getFrequencyTimeValues(
+                          values.frequencyTimeType
+                        )}
+                      />
+                      <FormikSelect
+                        className={styles.frequencyTimeType}
+                        name='frequencyTimeType'
+                        isDisabled={!values.frequencyType}
+                        isClearable={false}
+                        onChange={frequencyTimeType => {
+                          setFieldValue(
+                            'frequencyTimeValue',
+                            frequencyTymeValueBuilder(1)
+                          )
+                        }}
+                        options={getFrequencyTimeType(values.frequencyType)}
                       />
                     </div>
                   </div>
@@ -334,6 +385,7 @@ export const TriggerForm = ({
                     </div>
                   </div>
                 </div>
+
                 <label>Notify me via</label>
                 <div className={styles.row}>
                   <div className={cx(styles.Field, styles.notifyBlock)}>

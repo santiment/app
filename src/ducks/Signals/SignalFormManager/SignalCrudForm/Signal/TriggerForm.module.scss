@@ -124,17 +124,33 @@ label {
 .timeWindow {
   display: flex;
   align-items: center;
+
+  .timeWindowInput {
+    flex: 1;
+    width: 50%;
+    margin-right: 8px;
+  }
+
+  .timeWindowUnit {
+    width: 50%;
+    flex: 1;
+  }
 }
 
-.timeWindowInput {
-  flex: 1;
-  width: 50%;
-  margin-right: 8px;
-}
+.frequency {
+  display: flex;
+  align-items: center;
 
-.timeWindowUnit {
-  width: 50%;
-  flex: 1;
+  .frequencyTimeValue {
+    flex: 1;
+    width: 50%;
+    margin-right: 8px;
+  }
+
+  .frequencyTimeType {
+    width: 50%;
+    flex: 1;
+  }
 }
 
 .AboutForm {

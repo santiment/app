@@ -79,6 +79,8 @@ export const mapTriggerToFormProps = currentTrigger => {
     settings: { type, time_window, target, threshold, channel }
   } = currentTrigger
 
+  const frequencyModels = getFrequencyFromCooldown(currentTrigger)
+
   return {
     cooldown: cooldown,
     isRepeating: isRepeating,
@@ -91,7 +93,8 @@ export const mapTriggerToFormProps = currentTrigger => {
     type: getType(type),
     percentThreshold: getPercentTreshold(settings),
     threshold: threshold || undefined,
-    channels: [channel]
+    channels: [channel],
+    ...frequencyModels
   }
 }
 
@@ -108,6 +111,49 @@ const getPercentTreshold = ({ type, operation, percent_threshold }) => {
     }
   }
 }
+
+const getCooldownParams = ({ frequencyTimeType, frequencyTimeValue }) => {
+  const cooldown = frequencyTimeValue.value + frequencyTimeType.value
+  return {
+    cooldown: cooldown
+  }
+}
+
+const COOLDOWN_REGEXP = /([0-9]+)*([smhdw])/i
+
+const getFrequencyFromCooldown = ({ cooldown }) => {
+  const [original, value, type] = COOLDOWN_REGEXP.exec(cooldown)
+
+  let frequencyType
+
+  switch (type) {
+    case COOLDOWN_TYPES.minutly:
+    case COOLDOWN_TYPES.hourly:
+    case COOLDOWN_TYPES.daily:
+    case COOLDOWN_TYPES.weekly: {
+      frequencyType = FREQUENCY_TYPES.find(item => item.value === type)
+      break
+    }
+    default: {
+      frequencyType = FREQUENCY_TYPE_ONCEPER_MODEL
+      break
+    }
+  }
+
+  const frequencyTimeType = FREQUENCY_VALUES.find(item => item.value === type)
+  const frequencyTimeValue = {
+    value: value,
+    label: value
+  }
+
+  return {
+    frequencyType: frequencyType,
+    frequencyTimeType: frequencyTimeType,
+    frequencyTimeValue: frequencyTimeValue,
+    cooldown: original
+  }
+}
+
 export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   const {
     channels,
@@ -116,10 +162,11 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     target,
     timeWindow,
     timeWindowUnit,
-    type,
     isRepeating,
-    cooldown
+    type
   } = formProps
+
+  const cooldownParams = getCooldownParams(formProps)
 
   return {
     ...prevTrigger,
@@ -135,7 +182,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       operation: getTriggerOperation(type, percentThreshold)
     },
     isRepeating: !!isRepeating,
-    cooldown: cooldown || undefined
+    ...cooldownParams
     // isPublic: !!formProps.isPublic,
     // isActive: !!formProps.isActive
   }
@@ -241,15 +288,68 @@ export const PRICE_TYPES = {
   ]
 }
 
-export const ARGS = {
+export const METRICS_DEPENDENCIES = {
   price_volume_difference: ['threshold'],
   daily_active_addresses: ['percentThreshold', 'timeWindow'],
   price_percent_change: ['percentThreshold', 'timeWindow']
 }
 
+export const frequencyTymeValueBuilder = value => {
+  return {
+    value: value,
+    label: value
+  }
+}
+
+const createLabelValueArray = (from, to) => {
+  const array = []
+  for (let i = from; i <= to; i++) {
+    array.push(frequencyTymeValueBuilder(i))
+  }
+  return array
+}
+
+export const WEEKS = createLabelValueArray(1, 56)
+export const DAYS = createLabelValueArray(1, 7)
+export const HOURS = createLabelValueArray(1, 23)
+export const MINUTES = createLabelValueArray(1, 59)
+
+export const FREQUENCY_VALUES_TYPES = {
+  minutes: 'm',
+  hours: 'h',
+  days: 'd',
+  weeks: 'w'
+}
+
+const COOLDOWN_TYPES = {
+  oncePer: 'onceper',
+  minutly: 'm',
+  hourly: 'h',
+  daily: 'd',
+  weekly: 'w'
+}
+
+export const FREQUENCY_TYPE_ONCEPER_MODEL = {
+  label: 'Once Per',
+  value: COOLDOWN_TYPES.oncePer
+}
+
+export const FREQUENCY_TYPE_HOUR_MODEL = {
+  label: 'Hourly',
+  value: COOLDOWN_TYPES.hourly,
+  available: [FREQUENCY_VALUES_TYPES.hours]
+}
+
+export const DEFAULT_FREQUENCY_TIME_TYPE_MODEL = {
+  label: 'Hours',
+  value: FREQUENCY_VALUES_TYPES.hours
+}
+
 export const METRIC_DEFAULT_VALUES = {
   price_percent_change: {
-    cooldown: '24h',
+    frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
+    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
     percentThreshold: 5,
     timeWindow: 24,
     timeWindowUnit: { label: 'hours', value: 'h' },
@@ -258,16 +358,23 @@ export const METRIC_DEFAULT_VALUES = {
     channels: ['telegram']
   },
   daily_active_addresses: {
-    cooldown: '24h',
+    frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
+    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
     percentThreshold: 200,
     timeWindow: 2,
     timeWindowUnit: { label: 'days', value: 'd' },
-    type: { label: 'Daily Active Addresses', value: DAILY_ACTIVE_ADDRESSES },
+    type: {
+      label: 'Daily Active Addresses',
+      value: DAILY_ACTIVE_ADDRESSES
+    },
     isRepeating: true,
     channels: ['telegram']
   },
   price_volume_difference: {
-    cooldown: '24h',
+    frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
+    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
     threshold: 0.002,
     type: {
       label: 'Price/volume difference',
@@ -286,7 +393,7 @@ export const getTypeByMetric = metric => {
   }
 }
 
-export const mapTriggerToProps = ({ data: { trigger, loading, error } }) => {
+export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
   if (!loading && !trigger) {
     return {
       trigger: {
@@ -326,3 +433,124 @@ export const mapTriggerToProps = ({ data: { trigger, loading, error } }) => {
     }
   }
 }
+
+export const DEFAULT_FORM_META_SETTINGS = {
+  target: {
+    isDisabled: false,
+    value: {
+      value: 'santiment',
+      label: 'santiment'
+    }
+  },
+  metric: {
+    isDisabled: false,
+    value: {
+      value: 'price',
+      label: 'Price'
+    }
+  },
+  type: {
+    isDisabled: false,
+    value: { ...PRICE_PERCENT_CHANGE_UP_MODEL }
+  },
+  frequencyType: {
+    isDisabled: false,
+    value: { ...FREQUENCY_TYPE_ONCEPER_MODEL }
+  }
+}
+
+export const FREQUENCY_TYPES = [
+  FREQUENCY_TYPE_ONCEPER_MODEL,
+  {
+    label: 'Minutly',
+    value: COOLDOWN_TYPES.minutly,
+    available: [FREQUENCY_VALUES_TYPES.minutes]
+  },
+  FREQUENCY_TYPE_HOUR_MODEL,
+  {
+    label: 'Daily',
+    value: COOLDOWN_TYPES.daily,
+    available: [FREQUENCY_VALUES_TYPES.days]
+  },
+  {
+    label: 'Weekly',
+    value: COOLDOWN_TYPES.weekly,
+    available: [FREQUENCY_VALUES_TYPES.weeks]
+  }
+]
+
+const FREQUENCY_MAPPINGS = () => {
+  const maps = {}
+  maps[FREQUENCY_VALUES_TYPES.minutes] = MINUTES
+  maps[FREQUENCY_VALUES_TYPES.hours] = HOURS
+  maps[FREQUENCY_VALUES_TYPES.weeks] = WEEKS
+  maps[FREQUENCY_VALUES_TYPES.days] = DAYS
+  return maps
+}
+
+const FREQUENCY_VALUES = [
+  {
+    label: 'Minutes',
+    value: FREQUENCY_VALUES_TYPES.minutes
+  },
+  { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+  {
+    label: 'Days',
+    value: FREQUENCY_VALUES_TYPES.days
+  },
+  {
+    label: 'Weeks',
+    value: FREQUENCY_VALUES_TYPES.weeks
+  }
+]
+
+export function getFrequencyTimeType (frequencyType) {
+  if (frequencyType && frequencyType.available) {
+    return FREQUENCY_VALUES.filter(item => {
+      return frequencyType.available.indexOf(item.value) !== -1
+    })
+  } else {
+    return FREQUENCY_VALUES
+  }
+}
+
+export function getFrequencyTimeValues (frequencyTimeType) {
+  let selectedValues
+  if (frequencyTimeType) {
+    selectedValues = FREQUENCY_VALUES.find(
+      item => item.value === frequencyTimeType.value
+    )
+  }
+  return selectedValues ? FREQUENCY_MAPPINGS[selectedValues.value] : []
+}
+
+export function getNearestFrequencyTimeValue (frequencyTimeType) {
+  return getFrequencyTimeValues(frequencyTimeType)[0]
+}
+
+export function getNearestFrequencyTypeValue (frequencyType) {
+  return getFrequencyTimeType(frequencyType)[0]
+}
+
+const ASSET_FILTER_TYPES = {
+  asset: 'assets',
+  assetGroup: 'assetGroup',
+  watchlist: 'watchlist'
+}
+
+export const ASSETS_FILTERS = [
+  {
+    label: 'Assets',
+    value: ASSET_FILTER_TYPES.asset
+  },
+  {
+    label: 'Asset group',
+    value: ASSET_FILTER_TYPES.assetGroup,
+    isDisabled: true
+  },
+  {
+    label: 'Watchlist',
+    value: ASSET_FILTER_TYPES.watchlist,
+    isDisabled: true
+  }
+]

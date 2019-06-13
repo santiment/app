@@ -14,7 +14,7 @@ import {
 import StatusLabel from './../../components/StatusLabel'
 import { TRIGGER_BY_ID_QUERY } from '../../ducks/Signals/GQL/SignalsGQL'
 import { toggleTrigger, removeTrigger } from '../../ducks/Signals/Redux/actions'
-import { mapTriggerToProps } from '../../ducks/Signals/Utils/utils'
+import { mapGQLTriggerToProps } from '../../ducks/Signals/Utils/utils'
 import { SignalCardWrapper } from './../../components/SignalCard/SignalCard'
 import styles from './SignalDetails.module.scss'
 import { ToggleSignal } from './ToggleSignal'
@@ -149,7 +149,7 @@ const enhance = compose(
       },
       fetchPolicy: 'network-only'
     }),
-    props: mapTriggerToProps
+    props: mapGQLTriggerToProps
   })
 )
 
