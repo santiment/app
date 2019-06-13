@@ -1,16 +1,17 @@
-@import 'variables.scss';
-@import '../../mixins.scss';
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
   padding: 0 16px;
   margin-bottom: 24px;
+
+  @include responsive('laptop', 'desktop') {
+    padding: 0;
+  }
 }
 
-@media (min-width: $breakpoint-desktop) {
-  .wrapper {
-    padding: 0;
-    margin-bottom: 0;
-  }
+.insightWrapper {
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 .profile {
@@ -26,7 +27,7 @@
   justify-content: space-between;
   margin-top: 16px;
   border-top: 1px solid var(--porcelain);
-  padding: 24px 0;
+  padding: 22px 0;
 }
 
 .right {

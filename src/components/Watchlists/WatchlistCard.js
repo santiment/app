@@ -24,8 +24,8 @@ const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
 
   return (
     <Link to={to} className={styles.wrapper}>
-      <div className={cx(styles.flexRow, styles.content, styles.name)}>
-        {name}
+      <div className={cx(styles.flexRow, styles.content)}>
+        <span className={styles.name}>{name}</span>
         {isPublic !== undefined && (
           <Icon type={isPublic ? 'eye' : 'lock-small'} fill='var(--casper)' />
         )}
@@ -61,6 +61,14 @@ WatchlistCard.defaultProps = {
   stats: []
 }
 
+export const normalizeStats = arr => {
+  const { length } = arr
+  const isNotEmpty = length > 0
+  const lastEl = isNotEmpty ? arr[length - 1] : {}
+
+  return lastEl.marketcap === 0 && lastEl.volume === 0 ? arr.slice(0, -1) : arr
+}
+
 const enhance = compose(
   graphql(projectsListHistoryStatsGQL, {
     options: ({ slugs = [] }) => ({
@@ -71,7 +79,7 @@ const enhance = compose(
     }),
     skip: ({ slugs }) => !slugs.length,
     props: ({ data: { projectsListHistoryStats = [], loading, error } }) => ({
-      stats: projectsListHistoryStats,
+      stats: normalizeStats(projectsListHistoryStats),
       isLoading: loading,
       isError: error
     })
@@ -85,7 +93,7 @@ const enhance = compose(
     }),
     skip: ({ slug }) => !slug,
     props: ({ data: { historyPrice = [], loading, error } }) => ({
-      stats: historyPrice,
+      stats: normalizeStats(historyPrice),
       isLoading: loading,
       isError: error
     })

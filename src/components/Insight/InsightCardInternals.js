@@ -7,7 +7,7 @@ import ProfileInfo from './ProfileInfo'
 import MultilineText from '../MultilineText/MultilineText'
 import { getSEOLinkFromIdAndTitle } from '../../pages/Insights/utils'
 import LikeBtn from '../Like/LikeBtn'
-import { dateDifferenceInWords } from '../../utils/dates'
+import { getDateFormats } from '../../utils/dates'
 import styles from './InsightCard.module.scss'
 
 const AWAITING_APPROVAL_STATE = 'awaiting_approval'
@@ -35,6 +35,7 @@ const InsightCardInternals = ({
   className,
   isDesktop
 }) => {
+  const { DD, MMM, YYYY } = getDateFormats(new Date(publishedAt || createdAt))
   return (
     <Fragment>
       <div className={styles.top}>
@@ -61,9 +62,7 @@ const InsightCardInternals = ({
               state === AWAITING_APPROVAL_STATE ? (
                 <AwaitingApproval />
               ) : (
-                dateDifferenceInWords({
-                  from: new Date(publishedAt || createdAt)
-                })
+                `${MMM} ${DD}, ${YYYY}`
               )
             }
             infoClassName={styles.info}

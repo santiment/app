@@ -44,7 +44,7 @@ const AssetsPage = props => {
           <>
             <div className='page-head page-head-projects'>
               <div className='page-head-projects__left'>
-                <h1>{getTableTitle(props)}</h1>
+                <h1 className={styles.heading}>{getTableTitle(props)}</h1>
                 <HelpPopupAssets />
               </div>
               <div className='page-head-projects__right'>

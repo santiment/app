@@ -19,12 +19,21 @@
   padding: 16px;
 }
 
+.icon {
+  fill: var(--mirage);
+}
+
 .title {
   font-family: Rubik, sans-serif !important;
   font-size: 18px !important;
   line-height: 26px !important;
   color: var(--mirage);
   margin: 0 !important;
+  width: 100%;
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
 }
 
 .searchBtn {

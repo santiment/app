@@ -46,12 +46,10 @@ class NewWatchlistDialog extends PureComponent {
 
   checkName = debounce(() => {
     const { name } = this.state
+    const { watchlists } = this.props
+    const upperCaseName = name.toUpperCase()
     let error
-    if (
-      this.props.watchlists.some(
-        ({ name: existingName }) => existingName === name
-      )
-    ) {
+    if (watchlists.some(({ name }) => name.toUpperCase() === upperCaseName)) {
       error = WATCHLIST_NAME_EXISTS_ERROR
     }
     this.setState({ error })

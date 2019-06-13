@@ -4,13 +4,30 @@
   margin-right: 12px;
 }
 
+.name {
+  color: var(--mirage);
+  margin: 0 3px 0 5px;
+}
+
+.ticker {
+  color: var(--waterloo);
+}
+
 .projectWrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
+
+  &:hover {
+    & .name,
+    & .ticker {
+      color: var(---btn-accent-color-hover);
+    }
+  }
 }
 
-.icon {
-  margin-right: 5px;
+.projectInfo {
+  display: flex;
+  align-items: center;
 }
