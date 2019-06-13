@@ -35,7 +35,7 @@ import HistoricalBalancePage from './ducks/HistoricalBalance/HistoricalBalancePa
 import WordCloudPage from './components/WordCloud/WordCloudPage'
 import { getConsentUrl } from './utils/utils'
 import NewsBanner from './components/Banner/NewsBanner'
-import LogoutPage from './pages/Logout'
+import LogoutPage from './pages/Logout/Logout'
 import LabsPage from './pages/Labs'
 import './App.scss'
 

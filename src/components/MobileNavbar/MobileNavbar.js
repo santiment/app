@@ -169,7 +169,7 @@ const SantimentLogo = () => (
 
 const mapStateToProps = ({ user = {} }) => {
   return {
-    isLogined: !!user.token
+    isLogined: user.data && !!user.data.id
   }
 }
 
@@ -177,7 +177,7 @@ const mapDispatchToProps = dispatch => {
   return {
     logout: () => {
       dispatch({
-        type: actions.USER_LOGOUT_SUCCESS
+        type: actions.USER_LOGOUT
       })
     }
   }
