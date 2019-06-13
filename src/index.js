@@ -76,7 +76,7 @@ const main = () => {
 
   store = createStore(
     reducers,
-    { user: loadState() } || {},
+    {},
     composeWithDevTools(applyMiddleware(...middleware))
   )
 
