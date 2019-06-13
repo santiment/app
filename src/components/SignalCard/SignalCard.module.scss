@@ -57,6 +57,13 @@
   cursor: pointer;
 }
 
+.modalCentered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .bottom {
   margin-top: 19px;
   display: flex;

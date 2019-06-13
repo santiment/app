@@ -4,6 +4,8 @@ import GetHistoricalBalance from './GetHistoricalBalance'
 import HistoricalBalanceChart from './HistoricalBalanceChart'
 import AssetsField from './AssetsField'
 import styles from './BalanceView.module.scss'
+import SignalMasterModalForm from '../Signals/SignalModal/SignalMasterModalForm'
+import ShowIf from '../../components/ShowIf'
 
 class BalanceView extends React.Component {
   state = {
@@ -40,6 +42,13 @@ class BalanceView extends React.Component {
             This tool is beta. We give no guarantee data is correct
           </div>
         </div>
+
+        <ShowIf condition={false}>
+          {assets && assets.length === 1 && (
+            <SignalMasterModalForm canRedirect={false} asset={assets[0]} />
+          )}
+        </ShowIf>
+
         <GetHistoricalBalance
           assets={assets}
           wallet={address}

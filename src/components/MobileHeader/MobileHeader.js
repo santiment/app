@@ -7,6 +7,7 @@ import styles from './MobileHeader.module.scss'
 
 const defaultClasses = {
   wrapper: styles.wrapper,
+  icon: styles.icon,
   title: styles.title,
   left: styles.left,
   right: styles.right,
@@ -30,7 +31,9 @@ const MobileHeader = ({
   return (
     <div className={classes.wrapper}>
       <Title onClick={goBack && goBack} to={backRoute} className={classes.left}>
-        {(backRoute || showBack) && <Icon type='arrow-left-big' />}
+        {(backRoute || showBack) && (
+          <Icon className={classes.icon} type='arrow-left-big' />
+        )}
         <h1
           className={cx(
             classes.title,

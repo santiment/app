@@ -50,43 +50,43 @@ const InsightViewPage = ({
         <MobileHeader title='All Insights' backRoute='/insights' />
       )}
       <div className={styles.wrapper}>
-        <div className={styles.top}>
+        <div className={styles.insightWrapper}>
           <ProfileInfo
             withPic
             className={styles.profile}
             name={<Link to={`/insights/users/${userId}`}>{username}</Link>}
             status={`${MMM} ${D}, ${YYYY}`}
           />
-        </div>
-        <InsightEditorTitle defaultValue={title} readOnly />
-        <InsightViewPageImageModalWrapper>
-          <Editor
-            readOnly
-            defaultEditorContent={convertToRaw(mediumDraftImporter(text))}
-          />
-        </InsightViewPageImageModalWrapper>
-        <div className={styles.tags}>
-          <InsightTags isDesktop={isDesktop} tags={tags} />
-        </div>
-        <div className={styles.bottom}>
-          <div className={styles.left}>
-            <ProfileInfo
-              withPic
-              name={<Link to={`/insights/users/${userId}`}>{username}</Link>}
+          <InsightEditorTitle defaultValue={title} readOnly />
+          <InsightViewPageImageModalWrapper>
+            <Editor
+              readOnly
+              defaultEditorContent={convertToRaw(mediumDraftImporter(text))}
             />
+          </InsightViewPageImageModalWrapper>
+          <div className={styles.tags}>
+            <InsightTags isDesktop={isDesktop} tags={tags} />
           </div>
-          <div className={styles.right}>
-            <WithLikesMutation>
-              {mutateInsightById => (
-                <LikeBtn
-                  likesNumber={totalVotes}
-                  liked={!!votedAt}
-                  onClick={mutateInsightById(id)}
-                  className={styles.like}
-                />
-              )}
-            </WithLikesMutation>
-            <ShareModalTrigger asIcon shareLink={window.location.href} />
+          <div className={styles.bottom}>
+            <div className={styles.left}>
+              <ProfileInfo
+                withPic
+                name={<Link to={`/insights/users/${userId}`}>{username}</Link>}
+              />
+            </div>
+            <div className={styles.right}>
+              <WithLikesMutation>
+                {mutateInsightById => (
+                  <LikeBtn
+                    likesNumber={totalVotes}
+                    liked={!!votedAt}
+                    onClick={mutateInsightById(id)}
+                    className={styles.like}
+                  />
+                )}
+              </WithLikesMutation>
+              <ShareModalTrigger asIcon shareLink={window.location.href} />
+            </div>
           </div>
         </div>
         {!isLoggedIn && (

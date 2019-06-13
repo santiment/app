@@ -21,12 +21,6 @@ export const PUBLIC_WATCHLISTS = [
     id: '86'
   },
   {
-    name: 'US-Based Projects',
-    assetType: 'usa',
-    to: '/assets/list?name=usa@138#shared',
-    id: '138'
-  },
-  {
     name: 'Decentralized Exchanges',
     assetType: 'dex',
     to: '/assets/list?name=dex@127#shared',

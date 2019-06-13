@@ -1,15 +1,21 @@
 /* eslint-env jest */
-import { mapTriggerToFormProps, mapFormPropsToTrigger } from './utils'
+import {
+  mapTriggerToFormProps,
+  mapFormPropsToTrigger,
+  PRICE_PERCENT_CHANGE_UP_MODEL
+} from './utils'
 
 const TRIGGERS = [
   {
     id: 1,
     settings: {
       channel: 'telegram',
-      percent_threshold: 5,
       target: { slug: 'santiment' },
       time_window: '1d',
-      type: 'price_percent_change'
+      type: 'price_percent_change',
+      operation: {
+        percent_up: 5
+      }
     },
     isPublic: false,
     isActive: false,
@@ -65,7 +71,7 @@ const FORM_PROPS = [
     target: { value: 'santiment', label: 'santiment' },
     timeWindow: 1,
     timeWindowUnit: { label: 'days', value: 'd' },
-    type: { label: 'Moving up %', value: 'price_percent_change' },
+    type: PRICE_PERCENT_CHANGE_UP_MODEL,
     metric: { label: 'Price', value: 'price' },
     channels: ['telegram']
   },

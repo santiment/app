@@ -13,9 +13,9 @@ import {
   Message
 } from '@santiment-network/ui'
 import StatusLabel from './../../components/StatusLabel'
-import { TRIGGER_BY_ID_QUERY } from './../../ducks/Signals/SignalsGQL'
-import { toggleTrigger, removeTrigger } from './../../ducks/Signals/actions'
-import { mapTriggerToProps } from './../../ducks/Signals/utils'
+import { TRIGGER_BY_ID_QUERY } from '../../ducks/Signals/GQL/SignalsGQL'
+import { toggleTrigger, removeTrigger } from '../../ducks/Signals/Redux/actions'
+import { mapTriggerToProps } from '../../ducks/Signals/Utils/utils'
 import { SignalCardWrapper } from './../../components/SignalCard/SignalCard'
 import styles from './SignalDetails.module.scss'
 

@@ -1,40 +1,5 @@
-@import '../../mixins.scss';
+@import '~@santiment-network/ui/mixins';
 
 .items {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  width: 100%;
-
-  @include responsive('phone-xs') {
-    justify-content: center;
-    flex-direction: column;
-    flex-wrap: nowrap;
-  }
-}
-
-.item {
-  width: 32%;
-  margin-bottom: 2%;
-  margin-right: 2%;
-
-  @include responsive('desktop', 'laptop') {
-    &:nth-child(3n) {
-      margin-right: 0;
-    }
-  }
-
-  @include responsive('tablet') {
-    width: 49%;
-
-    &:nth-child(2n) {
-      margin-right: 0;
-    }
-  }
-
-  @include responsive('phone-xs', 'phone') {
-    width: 100%;
-    margin-bottom: 24px;
-    margin-right: 0;
-  }
+  @include grid-wrap(3);
 }

@@ -9,6 +9,8 @@ const FormikInput = ({
   placeholder,
   disabled = false,
   onChange,
+  min,
+  max,
   ...rest
 }) => (
   <Field
@@ -20,6 +22,8 @@ const FormikInput = ({
           type={type}
           name={name}
           step={step}
+          min={min}
+          max={max}
           placeholder={placeholder}
           disabled={disabled}
           noValidate
