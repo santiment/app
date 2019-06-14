@@ -28,6 +28,7 @@ import {
   METRIC_DEFAULT_VALUES,
   FREQUENCY_TYPES,
   DEFAULT_FORM_META_SETTINGS,
+  ASSETS_FILTERS,
   frequencyTymeValueBuilder,
   getTypeByMetric,
   getFrequencyTimeType,
@@ -117,16 +118,22 @@ export const TriggerForm = ({
     type: metaFormSettings.type.value
       ? metaFormSettings.type.value
       : settings.type,
+    signalType: metaFormSettings.signalType.value
+      ? metaFormSettings.signalType.value
+      : settings.signalType,
     ...settings
   }
 
   const [initialValues, setInitialValues] = useState(settings)
   const [showTrigger, setShowTrigger] = useState(true)
 
+  const defaultSignalType = metaFormSettings.signalType
   const defaultAsset = metaFormSettings.target
   const defaultMetric = metaFormSettings.metric
   const defaultType = metaFormSettings.type
   const defaultFrequencyType = metaFormSettings.frequencyType
+
+  console.log(defaultSignalType)
 
   /* useEffect(() => {
     getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
@@ -210,6 +217,16 @@ export const TriggerForm = ({
                 <div className={styles.row}>
                   <div className={styles.Field}>
                     <label>Asset</label>
+                    <FormikSelect
+                      name='signalType'
+                      isDisabled={defaultSignalType.isDisabled}
+                      defaultValue={defaultSignalType.value.value}
+                      placeholder='Pick signal type'
+                      options={ASSETS_FILTERS}
+                    />
+                  </div>
+                  <div className={styles.Field}>
+                    <label>&nbsp;</label>
                     <FormikSelect
                       name='target'
                       isDisabled={defaultAsset.isDisabled}

@@ -345,6 +345,29 @@ export const DEFAULT_FREQUENCY_TIME_TYPE_MODEL = {
   value: FREQUENCY_VALUES_TYPES.hours
 }
 
+const ASSET_FILTER_TYPES = {
+  asset: 'assets',
+  assetGroup: 'assetGroup',
+  watchlist: 'watchlist'
+}
+
+const DEFAULT_ASSETS_FILTER_MODEL = {
+  label: 'Assets',
+  value: ASSET_FILTER_TYPES.asset
+}
+
+export const ASSETS_FILTERS = [
+  DEFAULT_ASSETS_FILTER_MODEL,
+  {
+    label: 'Asset group',
+    value: ASSET_FILTER_TYPES.assetGroup
+  },
+  {
+    label: 'Watchlist',
+    value: ASSET_FILTER_TYPES.watchlist
+  }
+]
+
 export const METRIC_DEFAULT_VALUES = {
   price_percent_change: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
@@ -456,6 +479,10 @@ export const DEFAULT_FORM_META_SETTINGS = {
   frequencyType: {
     isDisabled: false,
     value: { ...FREQUENCY_TYPE_ONCEPER_MODEL }
+  },
+  signalType: {
+    isDisabled: true,
+    value: { ...DEFAULT_ASSETS_FILTER_MODEL }
   }
 }
 
@@ -531,26 +558,3 @@ export function getNearestFrequencyTimeValue (frequencyTimeType) {
 export function getNearestFrequencyTypeValue (frequencyType) {
   return getFrequencyTimeType(frequencyType)[0]
 }
-
-const ASSET_FILTER_TYPES = {
-  asset: 'assets',
-  assetGroup: 'assetGroup',
-  watchlist: 'watchlist'
-}
-
-export const ASSETS_FILTERS = [
-  {
-    label: 'Assets',
-    value: ASSET_FILTER_TYPES.asset
-  },
-  {
-    label: 'Asset group',
-    value: ASSET_FILTER_TYPES.assetGroup,
-    isDisabled: true
-  },
-  {
-    label: 'Watchlist',
-    value: ASSET_FILTER_TYPES.watchlist,
-    isDisabled: true
-  }
-]
