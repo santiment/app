@@ -216,7 +216,7 @@ export const TriggerForm = ({
               <div className={styles.Trigger}>
                 <div className={styles.row}>
                   <div className={styles.Field}>
-                    <label>Asset</label>
+                    <label>Type</label>
                     <FormikSelect
                       name='signalType'
                       isDisabled={defaultSignalType.isDisabled}
