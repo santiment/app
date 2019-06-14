@@ -36,7 +36,7 @@ describe('GetWatchlists', () => {
   let store
 
   beforeEach(() => {
-    const initialState = { user: { token: 'any' } }
+    const initialState = { user: { token: 'any', data: { id: '346' } } }
     store = mockStore(initialState)
   })
 
@@ -70,7 +70,7 @@ describe('GetWatchlists', () => {
     expect(wrapper.find('#flag').text()).toEqual('0')
     expect(renderMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        isLoggedIn: false,
+        isLoggedIn: true,
         isWatchlistsLoading: false
       })
     )

@@ -2,12 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import * as qs from 'query-string'
-import * as actions from './../actions/types'
+import * as actions from '../../actions/types'
 
 class LogoutPage extends React.Component {
-  static defaultProps = {
-    to: '/'
-  }
+  static defaultProps = { to: '/' }
 
   componentDidMount () {
     this.props.logout()
@@ -34,7 +32,7 @@ class LogoutPage extends React.Component {
 const mapDispatchToProps = dispatch => ({
   logout: () => {
     dispatch({
-      type: actions.USER_LOGOUT_SUCCESS
+      type: actions.USER_LOGOUT
     })
   },
   redirect: (path = '/') => {

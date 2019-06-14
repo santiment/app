@@ -11,6 +11,7 @@ import handleEthLogin, {
   connectNewWallet,
   removeConnectedWallet
 } from './handleEthLogin'
+import logoutEpic from './../pages/Logout/LogoutEpic'
 import handleGDPR from './handleGDPR'
 import handleRouter from './handleRouter'
 import apikeyGenerateEpic from './apikeyGenerateEpic'
@@ -72,6 +73,7 @@ export default combineEpics(
   handleOffline,
   handleLauched,
   handleLogout,
+  logoutEpic,
   handleEmailLogin,
   handleLoginSuccess,
   digestSubscriptionEpic,
