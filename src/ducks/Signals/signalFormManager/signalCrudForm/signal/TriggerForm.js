@@ -9,7 +9,10 @@ import { connect } from 'react-redux'
 import { Button, Message } from '@santiment-network/ui'
 import { selectIsTelegramConnected } from '../../../../../pages/UserSelectors'
 import { allProjectsForSearchGQL } from '../../../../../pages/Projects/allProjectsGQL'
-import { fetchHistorySignalPoints, removeTrigger } from '../../../requx/actions'
+import {
+  fetchHistorySignalPoints,
+  removeTrigger
+} from '../../../common/actions'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikCheckboxes from '../../../../../components/formik-santiment-ui/FormikCheckboxes'
@@ -35,7 +38,6 @@ import {
   getFrequencyTimeValues,
   getNearestFrequencyTimeValue,
   getNearestFrequencyTypeValue,
-  PRICE_ABSOLUTE_CHANGE,
   PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
   PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER
 } from '../../../utils/utils'
@@ -183,7 +185,15 @@ export const TriggerForm = ({
       }}
     >
       {({
-        values,
+        values: {
+          metric,
+          type,
+          absoluteBorderRight,
+          absoluteBorderLeft,
+          frequencyType,
+          frequencyTimeType,
+          isRepeating
+        },
         errors,
         isSubmitting,
         handleChange,
@@ -242,7 +252,6 @@ export const TriggerForm = ({
                     />
                   </div>
                   <div className={styles.Field}>
-                    <label>&nbsp;</label>
                     <FormikSelect
                       name='target'
                       isDisabled={defaultAsset.isDisabled}
@@ -268,18 +277,17 @@ export const TriggerForm = ({
                         isSearchable
                         placeholder='Choose a metric'
                         options={METRICS}
-                        onChange={metric => {
-                          values.metric &&
-                            metric.value !== values.metric.value &&
-                            setFieldValue('type', getTypeByMetric(metric))
+                        onChange={newMetric => {
+                          metric &&
+                            newMetric.value !== metric.value &&
+                            setFieldValue('type', getTypeByMetric(newMetric))
                         }}
                       />
                     </div>
                   </div>
-                  {PRICE_TYPES[(values.metric || {}).value] &&
-                    PRICE_TYPES[(values.metric || {}).value].length > 1 && (
+                  {PRICE_TYPES[(metric || {}).value] &&
+                    PRICE_TYPES[(metric || {}).value].length > 1 && (
                     <div className={styles.Field}>
-                      <label>&nbsp;</label>
                       <FormikSelect
                         name='type'
                         isClearable={false}
@@ -287,15 +295,15 @@ export const TriggerForm = ({
                         isDisabled={defaultType.isDisabled}
                         defaultValue={defaultType.value}
                         placeholder='Choose a type'
-                        options={PRICE_TYPES[values.metric.value]}
+                        options={PRICE_TYPES[metric.value]}
                         isOptionDisabled={option => !option.value}
                       />
                     </div>
                   )}
                 </div>
                 <div className={styles.row}>
-                  {values.type &&
-                    METRICS_DEPENDENCIES[values.type.value].includes(
+                  {type &&
+                    METRICS_DEPENDENCIES[type.value].includes(
                       'absoluteBorderLeft'
                     ) && (
                     <div className={styles.Field}>
@@ -303,28 +311,27 @@ export const TriggerForm = ({
                       <FormikInput
                         name='absoluteBorderLeft'
                         type='number'
-                        max={values.absoluteBorderRight}
+                        max={absoluteBorderRight}
                         placeholder='Left border'
                       />
                     </div>
                   )}
-                  {values.type &&
-                    METRICS_DEPENDENCIES[values.type.value].includes(
+                  {type &&
+                    METRICS_DEPENDENCIES[type.value].includes(
                       'absoluteBorderRight'
                     ) && (
                     <div className={styles.Field}>
-                      <label>&nbsp;</label>
                       <FormikInput
                         name='absoluteBorderRight'
-                        min={values.absoluteBorderLeft}
+                        min={absoluteBorderLeft}
                         type='number'
                         placeholder='Right border'
                       />
                     </div>
                   )}
 
-                  {values.type &&
-                    METRICS_DEPENDENCIES[values.type.value].includes(
+                  {type &&
+                    METRICS_DEPENDENCIES[type.value].includes(
                       'absoluteThreshold'
                     ) && (
                     <div className={styles.Field}>
@@ -337,8 +344,8 @@ export const TriggerForm = ({
                     </div>
                   )}
 
-                  {values.type &&
-                    METRICS_DEPENDENCIES[values.type.value].includes(
+                  {type &&
+                    METRICS_DEPENDENCIES[type.value].includes(
                       'percentThreshold'
                     ) && (
                     <div className={styles.Field}>
@@ -350,10 +357,8 @@ export const TriggerForm = ({
                       />
                     </div>
                   )}
-                  {values.type &&
-                    METRICS_DEPENDENCIES[values.type.value].includes(
-                      'threshold'
-                    ) && (
+                  {type &&
+                    METRICS_DEPENDENCIES[type.value].includes('threshold') && (
                     <div className={styles.Field}>
                       <label>Threshold</label>
                       <FormikInput
@@ -364,10 +369,8 @@ export const TriggerForm = ({
                       />
                     </div>
                   )}
-                  {values.type &&
-                    METRICS_DEPENDENCIES[values.type.value].includes(
-                      'timeWindow'
-                    ) && (
+                  {type &&
+                    METRICS_DEPENDENCIES[type.value].includes('timeWindow') && (
                     <div className={styles.Field}>
                       <label>Time Window</label>
                       <div className={styles.timeWindow}>
@@ -418,25 +421,19 @@ export const TriggerForm = ({
                     />
                   </div>
                   <div className={styles.Field}>
-                    <label>&nbsp;</label>
-
                     <div className={styles.frequency}>
                       <FormikSelect
                         name='frequencyTimeValue'
                         className={styles.frequencyTimeValue}
                         isClearable={false}
-                        isDisabled={
-                          !values.frequencyType || !values.frequencyTimeType
-                        }
+                        isDisabled={!frequencyType || !frequencyTimeType}
                         isSearchable
-                        options={getFrequencyTimeValues(
-                          values.frequencyTimeType
-                        )}
+                        options={getFrequencyTimeValues(frequencyTimeType)}
                       />
                       <FormikSelect
                         className={styles.frequencyTimeType}
                         name='frequencyTimeType'
-                        isDisabled={!values.frequencyType}
+                        isDisabled={!frequencyType}
                         isClearable={false}
                         onChange={frequencyTimeType => {
                           setFieldValue(
@@ -444,7 +441,7 @@ export const TriggerForm = ({
                             frequencyTymeValueBuilder(1)
                           )
                         }}
-                        options={getFrequencyTimeType(values.frequencyType)}
+                        options={getFrequencyTimeType(frequencyType)}
                       />
                     </div>
                   </div>
@@ -454,7 +451,7 @@ export const TriggerForm = ({
                     <div className={styles.isRepeating}>
                       <FormikToggle name='isRepeating' />
                       <span>
-                        {values.isRepeating
+                        {isRepeating
                           ? 'Task never ends'
                           : 'Task fires only once'}
                       </span>
@@ -462,25 +459,27 @@ export const TriggerForm = ({
                   </div>
                 </div>
 
-                <label>Notify me via</label>
                 <div className={styles.row}>
-                  <div className={cx(styles.Field, styles.notifyBlock)}>
-                    <FormikCheckboxes
-                      name='channels'
-                      disabledIndexes={['email']}
-                      options={['email', 'telegram']}
-                      styles={{ marginRight: 5 }}
-                    />
-                    {!isTelegramConnected && (
-                      <Button
-                        className={styles.connectLink}
-                        variant='ghost'
-                        as={Link}
-                        to='/account'
-                      >
-                        <span className={styles.connectLink}>Connect</span>
-                      </Button>
-                    )}
+                  <div className={styles.Field}>
+                    <label>Notify me via</label>
+                    <div className={styles.notifyBlock}>
+                      <FormikCheckboxes
+                        name='channels'
+                        disabledIndexes={['email']}
+                        options={['email', 'telegram']}
+                        styles={{ marginRight: 5 }}
+                      />
+                      {!isTelegramConnected && (
+                        <Button
+                          className={styles.connectLink}
+                          variant='ghost'
+                          as={Link}
+                          to='/account'
+                        >
+                          <span className={styles.connectLink}>Connect</span>
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
 

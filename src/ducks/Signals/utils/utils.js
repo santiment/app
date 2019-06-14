@@ -411,15 +411,8 @@ export const PRICE_TYPES = {
       options: [PRICE_PERCENT_CHANGE_UP_MODEL, PRICE_PERCENT_CHANGE_DOWN_MODEL]
     }
   ],
-  daily_active_addresses: [
-    { label: 'Daily Active Addresses', value: DAILY_ACTIVE_ADDRESSES }
-  ],
-  price_volume_difference: [
-    { label: 'Price/volume difference', value: PRICE_VOLUME_DIFFERENCE }
-  ],
-  price_percent_change: [
-    { label: 'Price percentage change', value: PRICE_PERCENT_CHANGE }
-  ]
+  daily_active_addresses: [DAILY_ACTIVE_ADRESSES_METRIC],
+  price_volume_difference: [PRICE_VOLUME_DIFFERENCE_METRIC]
 }
 
 export const METRICS_DEPENDENCIES = {
@@ -561,10 +554,19 @@ export const METRIC_DEFAULT_VALUES = {
 }
 
 export const getTypeByMetric = metric => {
-  if (metric.value === 'price') {
-    return PRICE_PERCENT_CHANGE_UP_MODEL
-  } else {
-    return PRICE_TYPES[metric.value][0]
+  switch (metric.value) {
+    case PRICE_METRIC.value: {
+      return PRICE_PERCENT_CHANGE_UP_MODEL
+    }
+    case DAILY_ACTIVE_ADRESSES_METRIC.value: {
+      return DAILY_ACTIVE_ADRESSES_METRIC
+    }
+    case PRICE_VOLUME_DIFFERENCE_METRIC.value: {
+      return PRICE_VOLUME_DIFFERENCE_METRIC
+    }
+    default: {
+      return undefined
+    }
   }
 }
 

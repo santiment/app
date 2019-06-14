@@ -29,6 +29,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  margin-top: 15px;
 
   @include text-normal;
 }
@@ -67,7 +68,7 @@ a.connectLink {
 }
 
 .Field {
-  margin: 0.6rem 0;
+  margin: auto 0 0 0;
   text-align: left;
   width: 50%;
   padding-right: 1rem;
@@ -157,11 +158,15 @@ label {
   box-sizing: border-box;
   background-color: var(--white);
   border-radius: 4px;
-  padding: 10px;
+  padding-bottom: 20px;
 
   .Field {
     width: 100%;
     padding: 0;
+  }
+
+  .row {
+    margin: 0 0 15px 0;
   }
 
   .controls {
