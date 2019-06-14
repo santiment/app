@@ -26,6 +26,10 @@ exports[`TriggerForm smoke 1`] = `
         "value": "price",
       },
       "percentThreshold": 5,
+      "signalType": Object {
+        "label": "Assets",
+        "value": "assets",
+      },
       "target": Object {
         "label": "santiment",
         "value": "santiment",
