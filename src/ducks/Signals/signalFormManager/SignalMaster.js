@@ -63,16 +63,6 @@ export class SignalMaster extends React.PureComponent {
       description: trigger.description
     }
 
-    if (this.props.asset) {
-      triggerSettingsFormData = {
-        ...triggerSettingsFormData,
-        target: {
-          value: this.props.asset,
-          label: this.props.asset
-        }
-      }
-    }
-
     const toggleSignalPublic = () => {
       const { trigger } = this.state
       const newValue = !trigger.isPublic

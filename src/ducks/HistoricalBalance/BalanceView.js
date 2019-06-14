@@ -43,9 +43,21 @@ class BalanceView extends React.Component {
           </div>
         </div>
 
-        <ShowIf condition={false}>
-          {assets && assets.length === 1 && (
-            <SignalMasterModalForm canRedirect={false} asset={assets[0]} />
+        <ShowIf beta>
+          {address && assets && assets.length === 1 && (
+            <SignalMasterModalForm
+              canRedirect={false}
+              metaFormSettings={{
+                target: {
+                  isDisabled: true,
+                  value: {
+                    value: assets[0],
+                    label: assets[0]
+                  }
+                },
+                adress: address
+              }}
+            />
           )}
         </ShowIf>
 
