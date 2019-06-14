@@ -5,7 +5,6 @@ import { Notification as NotificationItem } from '@santiment-network/ui'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import * as actions from '../../actions/rootActions'
 import styles from './NotificationStack.module.scss'
-import cx from 'classnames'
 
 const notifyDuration = +styles.notifyduration
 
@@ -46,10 +45,10 @@ class NotificationStack extends Component {
           <CSSTransition key={id} timeout={notifyDuration} classNames={styles}>
             <NotificationItem
               {...notification}
-              className={cx(styles.notification, notification.className)}
+              className={styles.notification}
               onClose={() => this.closeNotification(id)}
               style={{
-                '--y-offset': `calc(-${i}00% - ${i}0px - 10px)`
+                '--y-offset': `calc(-${i}00% - ${i}0px)`
               }}
             />
           </CSSTransition>
