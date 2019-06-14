@@ -31,7 +31,6 @@ import {
   METRIC_DEFAULT_VALUES,
   FREQUENCY_TYPES,
   DEFAULT_FORM_META_SETTINGS,
-  ASSETS_FILTERS,
   frequencyTymeValueBuilder,
   getTypeByMetric,
   getFrequencyTimeType,
@@ -41,12 +40,17 @@ import {
   PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
   PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER
 } from '../../../utils/utils'
+import { TriggerFormAssetWallet } from '../formParts/TriggerFormAssetWallet'
 
 const REQUIRED_MESSAGE = 'Required'
 const MUST_BE_MORE_ZERO_MESSAGE = 'Must be more 0'
 
 const validate = values => {
   let errors = {}
+
+  if (values.address === '') {
+    errors.address = REQUIRED_MESSAGE
+  }
 
   if (
     values.type.value === DAILY_ACTIVE_ADDRESSES ||
@@ -141,14 +145,13 @@ export const TriggerForm = ({
     signalType: metaFormSettings.signalType.value
       ? metaFormSettings.signalType.value
       : settings.signalType,
+    address: metaFormSettings.address,
     ...settings
   }
 
   const [initialValues, setInitialValues] = useState(settings)
   const [showTrigger, setShowTrigger] = useState(true)
 
-  const defaultSignalType = metaFormSettings.signalType
-  const defaultAsset = metaFormSettings.target
   const defaultMetric = metaFormSettings.metric
   const defaultType = metaFormSettings.type
   const defaultFrequencyType = metaFormSettings.frequencyType
@@ -185,6 +188,7 @@ export const TriggerForm = ({
       }}
     >
       {({
+        values,
         values: {
           metric,
           type,
@@ -240,30 +244,12 @@ export const TriggerForm = ({
 
             {showTrigger && (
               <div className={styles.Trigger}>
-                <div className={styles.row}>
-                  <div className={styles.Field}>
-                    <label>Type</label>
-                    <FormikSelect
-                      name='signalType'
-                      isDisabled={defaultSignalType.isDisabled}
-                      defaultValue={defaultSignalType.value.value}
-                      placeholder='Pick signal type'
-                      options={ASSETS_FILTERS}
-                    />
-                  </div>
-                  <div className={styles.Field}>
-                    <FormikSelect
-                      name='target'
-                      isDisabled={defaultAsset.isDisabled}
-                      defaultValue={defaultAsset.value.value}
-                      placeholder='Pick an asset'
-                      options={allProjects.map(asset => ({
-                        label: asset.slug,
-                        value: asset.slug
-                      }))}
-                    />
-                  </div>
-                </div>
+                <TriggerFormAssetWallet
+                  values={values}
+                  metaFormSettings={metaFormSettings}
+                  allProjects={allProjects}
+                  setFieldValue={setFieldValue}
+                />
 
                 <div className={styles.row}>
                   <div className={styles.Field}>

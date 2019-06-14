@@ -308,12 +308,30 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
   }
 }
 
+export const getTriggerTarget = (target, address) => {
+  let newTarget = { slug: target.value }
+
+  if (address) {
+    newTarget = { eth_address: address }
+  }
+
+  return {
+    target: newTarget
+  }
+}
+export const getAssetTarget = target => {
+  return {
+    asset: { slug: target.value }
+  }
+}
+
 export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   const {
     channels,
     percentThreshold,
     threshold,
     target,
+    address,
     timeWindow,
     timeWindowUnit,
     isRepeating,
@@ -327,7 +345,10 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       channel: channels[0],
       percent_threshold: percentThreshold || undefined,
       threshold: threshold || undefined,
-      target: { slug: target.value },
+
+      ...getTriggerTarget(target, address),
+      ...getAssetTarget(target, address),
+
       time_window: timeWindow
         ? timeWindow + '' + timeWindowUnit.value
         : undefined,

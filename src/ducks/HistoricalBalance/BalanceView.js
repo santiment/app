@@ -55,7 +55,7 @@ class BalanceView extends React.Component {
                     label: assets[0]
                   }
                 },
-                adress: address
+                address: address
               }}
             />
           )}
