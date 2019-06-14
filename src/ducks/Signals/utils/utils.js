@@ -189,26 +189,28 @@ const getOperationType = operation => {
 const getAbsolutePriceValues = ({ settings: { operation, type } }) => {
   const values = {}
 
-  if (type === PRICE_ABSOLUTE_CHANGE) {
-    const operationType = getOperationType(operation)
+  if (operation) {
+    if (type === PRICE_ABSOLUTE_CHANGE) {
+      const operationType = getOperationType(operation)
 
-    switch (operationType) {
-      case PRICE_CHANGE_TYPES.ABOVE:
-      case PRICE_CHANGE_TYPES.BELOW: {
-        values['absoluteThreshold'] = operation[operationType]
-        break
-      }
-      case PRICE_CHANGE_TYPES.INSIDE_CHANNEL:
-      case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
-        const [left, right] = operation[operationType]
+      switch (operationType) {
+        case PRICE_CHANGE_TYPES.ABOVE:
+        case PRICE_CHANGE_TYPES.BELOW: {
+          values['absoluteThreshold'] = operation[operationType]
+          break
+        }
+        case PRICE_CHANGE_TYPES.INSIDE_CHANNEL:
+        case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
+          const [left, right] = operation[operationType]
 
-        values['absoluteBorderLeft'] = left
-        values['absoluteBorderRight'] = right
+          values['absoluteBorderLeft'] = left
+          values['absoluteBorderRight'] = right
 
-        break
-      }
-      default: {
-        break
+          break
+        }
+        default: {
+          break
+        }
       }
     }
   }
