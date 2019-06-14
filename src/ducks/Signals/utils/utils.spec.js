@@ -63,6 +63,26 @@ const TRIGGERS = [
     title: 'Example',
     description: 'any',
     __typename: 'Trigger'
+  },
+  {
+    id: 1,
+    settings: {
+      channel: 'telegram',
+      target: { slug: 'santiment' },
+      time_window: '1d',
+      type: 'price_absolute_change',
+      operation: {
+        above: 5
+      }
+    },
+    isPublic: false,
+    isActive: false,
+    isRepeating: true,
+    cooldown: '22h',
+    tags: [],
+    title: 'Example',
+    description: 'any',
+    __typename: 'Trigger'
   }
 ]
 
@@ -96,9 +116,11 @@ const FORM_PROPS = [
     target: { value: 'santiment', label: 'santiment' },
     timeWindow: 30,
     timeWindowUnit: { label: 'minutes', value: 'm' },
-    type: { label: 'Daily Active Addresses', value: 'daily_active_addresses' },
     metric: {
       label: 'Daily Active Addresses',
+      value: 'daily_active_addresses'
+    },
+    type: {
       value: 'daily_active_addresses'
     },
     channels: ['telegram']
@@ -111,12 +133,11 @@ const FORM_PROPS = [
     threshold: 0.002,
     isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
-    type: {
+    metric: {
       label: 'Price/volume difference',
       value: 'price_volume_difference'
     },
-    metric: {
-      label: 'Price/volume difference',
+    type: {
       value: 'price_volume_difference'
     },
     channels: ['telegram']

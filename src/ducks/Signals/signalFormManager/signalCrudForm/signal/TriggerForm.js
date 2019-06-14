@@ -34,11 +34,13 @@ import {
   getFrequencyTimeType,
   getFrequencyTimeValues,
   getNearestFrequencyTimeValue,
-  getNearestFrequencyTypeValue
+  getNearestFrequencyTypeValue,
+  PRICE_ABSOLUTE_CHANGE,
+  PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
+  PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER
 } from '../../../utils/utils'
 
 const REQUIRED_MESSAGE = 'Required'
-
 const MUST_BE_MORE_ZERO_MESSAGE = 'Must be more 0'
 
 const validate = values => {
@@ -59,6 +61,22 @@ const validate = values => {
       errors.timeWindow = MUST_BE_MORE_ZERO_MESSAGE
     }
   }
+
+  if (values.type.value === PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER) {
+    if (!values.absoluteThreshold) {
+      errors.absoluteThreshold = REQUIRED_MESSAGE
+    }
+  }
+
+  if (values.type.value === PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER) {
+    if (!values.absoluteBorderLeft) {
+      errors.absoluteBorderLeft = REQUIRED_MESSAGE
+    }
+    if (!values.absoluteBorderRight) {
+      errors.absoluteBorderRight = REQUIRED_MESSAGE
+    }
+  }
+
   if (values.type.value === PRICE_VOLUME_DIFFERENCE) {
     if (!values.threshold) {
       errors.threshold = REQUIRED_MESSAGE
@@ -132,8 +150,6 @@ export const TriggerForm = ({
   const defaultMetric = metaFormSettings.metric
   const defaultType = metaFormSettings.type
   const defaultFrequencyType = metaFormSettings.frequencyType
-
-  console.log(defaultSignalType)
 
   /* useEffect(() => {
     getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
@@ -280,6 +296,49 @@ export const TriggerForm = ({
                 <div className={styles.row}>
                   {values.type &&
                     METRICS_DEPENDENCIES[values.type.value].includes(
+                      'absoluteBorderLeft'
+                    ) && (
+                    <div className={styles.Field}>
+                      <label>Select channel borders</label>
+                      <FormikInput
+                        name='absoluteBorderLeft'
+                        type='number'
+                        max={values.absoluteBorderRight}
+                        placeholder='Left border'
+                      />
+                    </div>
+                  )}
+                  {values.type &&
+                    METRICS_DEPENDENCIES[values.type.value].includes(
+                      'absoluteBorderRight'
+                    ) && (
+                    <div className={styles.Field}>
+                      <label>&nbsp;</label>
+                      <FormikInput
+                        name='absoluteBorderRight'
+                        min={values.absoluteBorderLeft}
+                        type='number'
+                        placeholder='Right border'
+                      />
+                    </div>
+                  )}
+
+                  {values.type &&
+                    METRICS_DEPENDENCIES[values.type.value].includes(
+                      'absoluteThreshold'
+                    ) && (
+                    <div className={styles.Field}>
+                      <label>Absolute change</label>
+                      <FormikInput
+                        name='absoluteThreshold'
+                        type='number'
+                        placeholder='Absolute change'
+                      />
+                    </div>
+                  )}
+
+                  {values.type &&
+                    METRICS_DEPENDENCIES[values.type.value].includes(
                       'percentThreshold'
                     ) && (
                     <div className={styles.Field}>
@@ -287,7 +346,7 @@ export const TriggerForm = ({
                       <FormikInput
                         name='percentThreshold'
                         type='number'
-                        placeholder='Setup the percentage change'
+                        placeholder='Percentage change'
                       />
                     </div>
                   )}
@@ -301,7 +360,7 @@ export const TriggerForm = ({
                         name='threshold'
                         step={0.001}
                         type='number'
-                        placeholder='Setup the threshold'
+                        placeholder='Threshold'
                       />
                     </div>
                   )}
@@ -317,7 +376,7 @@ export const TriggerForm = ({
                             name='timeWindow'
                             type='number'
                             min={0}
-                            placeholder='Setup the time window'
+                            placeholder='Time window'
                           />
                         </div>
                         <FormikSelect

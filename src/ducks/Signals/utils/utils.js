@@ -24,46 +24,196 @@ const getTarget = target => {
 
 export const DAILY_ACTIVE_ADDRESSES = 'daily_active_addresses'
 export const PRICE_PERCENT_CHANGE = 'price_percent_change'
+export const PRICE_ABSOLUTE_CHANGE = 'price_absolute_change'
+export const PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER =
+  'price_absolute_change_single_border'
+export const PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER =
+  'price_absolute_change_double_border'
 export const PRICE_VOLUME_DIFFERENCE = 'price_volume_difference'
 
 export const PRICE_CHANGE_TYPES = {
   MOVING_UP: 'percent_up',
-  MOVING_DOWN: 'percent_down'
+  MOVING_DOWN: 'percent_down',
+  INSIDE_CHANNEL: 'inside_channel',
+  OUTSIDE_CHANNEL: 'outside_channel',
+  ABOVE: 'above',
+  BELOW: 'below'
 }
 export const PRICE_PERCENT_CHANGE_UP_MODEL = {
   value: PRICE_PERCENT_CHANGE,
   label: 'Moving up %',
   type: PRICE_CHANGE_TYPES.MOVING_UP
 }
+export const PRICE_PERCENT_CHANGE_DOWN_MODEL = {
+  value: PRICE_PERCENT_CHANGE,
+  label: 'Moving down %',
+  type: PRICE_CHANGE_TYPES.MOVING_DOWN
+}
 
-const METRIC_TYPES_DESCRIPTION = {
-  price_percent_change: {
-    ...PRICE_PERCENT_CHANGE_UP_MODEL
-  },
-  daily_active_addresses: {
-    label: 'Daily Active Addresses'
-  },
-  price_volume_difference: {
-    label: 'Price/volume difference'
+const PRICE_ABS_CHANGE_ABOVE = {
+  value: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
+  mainValue: PRICE_ABSOLUTE_CHANGE,
+  label: 'More than',
+  type: PRICE_CHANGE_TYPES.ABOVE
+}
+
+const PRICE_ABS_CHANGE_BELOW = {
+  value: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
+  mainValue: PRICE_ABSOLUTE_CHANGE,
+  label: 'Less than',
+  type: PRICE_CHANGE_TYPES.BELOW
+}
+
+const PRICE_ABS_CHANGE_INSIDE = {
+  value: PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
+  mainValue: PRICE_ABSOLUTE_CHANGE,
+  label: 'Entering channel',
+  type: PRICE_CHANGE_TYPES.INSIDE_CHANNEL
+}
+
+const PRICE_ABS_CHANGE_OUTSIDE = {
+  value: PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
+  mainValue: PRICE_ABSOLUTE_CHANGE,
+  label: 'Outside channel',
+  type: PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL
+}
+
+const getType = (type, operation) => {
+  if (!operation) {
+    return {
+      value: type
+    }
+  }
+
+  const operationType = getOperationType(operation)
+
+  switch (operationType) {
+    case PRICE_CHANGE_TYPES.MOVING_UP: {
+      return PRICE_PERCENT_CHANGE_UP_MODEL
+    }
+
+    case PRICE_CHANGE_TYPES.MOVING_DOWN: {
+      return PRICE_PERCENT_CHANGE_DOWN_MODEL
+    }
+
+    case PRICE_CHANGE_TYPES.ABOVE: {
+      return PRICE_ABS_CHANGE_ABOVE
+    }
+    case PRICE_CHANGE_TYPES.BELOW: {
+      return PRICE_ABS_CHANGE_BELOW
+    }
+    case PRICE_CHANGE_TYPES.INSIDE_CHANNEL: {
+      return PRICE_ABS_CHANGE_INSIDE
+    }
+    case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
+      return PRICE_ABS_CHANGE_OUTSIDE
+    }
+
+    default: {
+      console.log("Can't map type and operation to form structure")
+      return undefined
+    }
   }
 }
 
-const getType = type => {
-  return { value: type, ...METRIC_TYPES_DESCRIPTION[type] }
-}
+const getTriggerOperation = ({
+  type,
+  percentThreshold,
+  absoluteThreshold,
+  absoluteBorderRight,
+  absoluteBorderLeft
+}) => {
+  if (!type) {
+    return undefined
+  }
 
-const getTriggerOperation = (model, percentThreshold) => {
   const mapped = {}
-  mapped[model.type] = percentThreshold
+
+  switch (type.type) {
+    case PRICE_CHANGE_TYPES.MOVING_DOWN:
+    case PRICE_CHANGE_TYPES.MOVING_UP: {
+      mapped[type.type] = percentThreshold
+      break
+    }
+    case PRICE_CHANGE_TYPES.ABOVE:
+    case PRICE_CHANGE_TYPES.BELOW: {
+      mapped[type.type] = absoluteThreshold
+      break
+    }
+    case PRICE_CHANGE_TYPES.INSIDE_CHANNEL:
+    case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
+      mapped[type.type] = [absoluteBorderLeft, absoluteBorderRight]
+      break
+    }
+    default: {
+      break
+    }
+  }
+
   return mapped
 }
 
+const PRICE_METRIC = { label: 'Price', value: 'price' }
+const DAILY_ACTIVE_ADRESSES_METRIC = {
+  label: 'Daily Active Addresses',
+  value: DAILY_ACTIVE_ADDRESSES
+}
+const PRICE_VOLUME_DIFFERENCE_METRIC = {
+  label: 'Price/volume difference',
+  value: PRICE_VOLUME_DIFFERENCE
+}
+
 const getMetric = type => {
-  if (type === 'price_percent_change') {
-    // TODO: add absolute price changing
-    return { label: 'Price', value: 'price' }
+  switch (type) {
+    case PRICE_PERCENT_CHANGE:
+    case PRICE_ABSOLUTE_CHANGE: {
+      return PRICE_METRIC
+    }
+    case DAILY_ACTIVE_ADDRESSES: {
+      return DAILY_ACTIVE_ADRESSES_METRIC
+    }
+    case PRICE_VOLUME_DIFFERENCE: {
+      return PRICE_VOLUME_DIFFERENCE_METRIC
+    }
+    default: {
+      console.log("Can't find possible metric")
+      return undefined
+    }
   }
-  return getType(type)
+}
+
+const getOperationType = operation => {
+  return Object.keys(operation)[0]
+}
+
+const getAbsolutePriceValues = ({ settings: { operation, type } }) => {
+  const values = {}
+
+  if (type === PRICE_ABSOLUTE_CHANGE) {
+    const operationType = getOperationType(operation)
+
+    switch (operationType) {
+      case PRICE_CHANGE_TYPES.ABOVE:
+      case PRICE_CHANGE_TYPES.BELOW: {
+        values['absoluteThreshold'] = operation[operationType]
+        break
+      }
+      case PRICE_CHANGE_TYPES.INSIDE_CHANNEL:
+      case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
+        const [left, right] = operation[operationType]
+
+        values['absoluteBorderLeft'] = left
+        values['absoluteBorderRight'] = right
+
+        break
+      }
+      default: {
+        break
+      }
+    }
+  }
+
+  return values
 }
 
 export const mapTriggerToFormProps = currentTrigger => {
@@ -76,25 +226,27 @@ export const mapTriggerToFormProps = currentTrigger => {
     isPublic,
     isRepeating,
     settings,
-    settings: { type, time_window, target, threshold, channel }
+    settings: { type, operation, time_window, target, threshold, channel }
   } = currentTrigger
 
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
+  const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
 
   return {
     cooldown: cooldown,
     isRepeating: isRepeating,
     isActive: isActive,
     isPublic: isPublic,
-    metric: getMetric(type),
+    metric: getMetric(type, operation),
+    type: getType(type, operation),
     timeWindow: time_window ? +time_window.match(/\d+/)[0] : undefined,
     timeWindowUnit: time_window ? getTimeWindowUnit(time_window) : undefined,
     target: getTarget(target),
-    type: getType(type),
     percentThreshold: getPercentTreshold(settings),
     threshold: threshold || undefined,
     channels: [channel],
-    ...frequencyModels
+    ...frequencyModels,
+    ...absolutePriceValues
   }
 }
 
@@ -167,7 +319,6 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   } = formProps
 
   const cooldownParams = getCooldownParams(formProps)
-
   return {
     ...prevTrigger,
     settings: {
@@ -178,8 +329,8 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       time_window: timeWindow
         ? timeWindow + '' + timeWindowUnit.value
         : undefined,
-      type: getType(type.value).value,
-      operation: getTriggerOperation(type, percentThreshold)
+      type: type ? type.mainValue || type.value : undefined,
+      operation: getTriggerOperation(formProps)
     },
     isRepeating: !!isRepeating,
     ...cooldownParams
@@ -236,10 +387,10 @@ export const mapValuesToTriggerProps = ({
 })
 
 export const METRICS = [
-  { label: 'Price', value: 'price' },
+  { ...PRICE_METRIC },
   // { label: 'Trending Words', value: 'trendingWords' },
-  { label: 'Daily Active Addresses', value: DAILY_ACTIVE_ADDRESSES },
-  { label: 'Price/volume difference', value: PRICE_VOLUME_DIFFERENCE }
+  { ...DAILY_ACTIVE_ADRESSES_METRIC },
+  { ...PRICE_VOLUME_DIFFERENCE_METRIC }
 ]
 
 export const PRICE_TYPES = {
@@ -247,34 +398,15 @@ export const PRICE_TYPES = {
     {
       label: 'Price changing',
       options: [
-        {
-          value: '',
-          label: 'More than'
-        },
-        {
-          value: '',
-          label: 'Less than'
-        },
-        {
-          value: '',
-          label: 'Entering channel'
-        },
-        {
-          value: '',
-          label: 'Outside channel'
-        }
+        PRICE_ABS_CHANGE_ABOVE,
+        PRICE_ABS_CHANGE_BELOW,
+        PRICE_ABS_CHANGE_INSIDE,
+        PRICE_ABS_CHANGE_OUTSIDE
       ]
     },
     {
       label: 'Percent change',
-      options: [
-        PRICE_PERCENT_CHANGE_UP_MODEL,
-        {
-          value: PRICE_PERCENT_CHANGE,
-          label: 'Moving down %',
-          type: PRICE_CHANGE_TYPES.MOVING_DOWN
-        }
-      ]
+      options: [PRICE_PERCENT_CHANGE_UP_MODEL, PRICE_PERCENT_CHANGE_DOWN_MODEL]
     }
   ],
   daily_active_addresses: [
@@ -291,7 +423,12 @@ export const PRICE_TYPES = {
 export const METRICS_DEPENDENCIES = {
   price_volume_difference: ['threshold'],
   daily_active_addresses: ['percentThreshold', 'timeWindow'],
-  price_percent_change: ['percentThreshold', 'timeWindow']
+  price_percent_change: ['percentThreshold', 'timeWindow'],
+  price_absolute_change_single_border: ['absoluteThreshold'],
+  price_absolute_change_double_border: [
+    'absoluteBorderLeft',
+    'absoluteBorderRight'
+  ]
 }
 
 export const frequencyTymeValueBuilder = value => {
@@ -369,6 +506,19 @@ export const ASSETS_FILTERS = [
 ]
 
 export const METRIC_DEFAULT_VALUES = {
+  price_absolute_change: {
+    frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
+    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
+    absoluteThreshold: 5,
+    absoluteBorderLeft: 50,
+    absoluteBorderRight: 75,
+    timeWindow: 24,
+    timeWindowUnit: { label: 'hours', value: 'h' },
+    type: PRICE_PERCENT_CHANGE_UP_MODEL,
+    isRepeating: true,
+    channels: ['telegram']
+  },
   price_percent_change: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
     frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
@@ -467,10 +617,7 @@ export const DEFAULT_FORM_META_SETTINGS = {
   },
   metric: {
     isDisabled: false,
-    value: {
-      value: 'price',
-      label: 'Price'
-    }
+    value: { ...PRICE_METRIC }
   },
   type: {
     isDisabled: false,
@@ -506,14 +653,14 @@ export const FREQUENCY_TYPES = [
   }
 ]
 
-const FREQUENCY_MAPPINGS = () => {
+const FREQUENCY_MAPPINGS = (() => {
   const maps = {}
   maps[FREQUENCY_VALUES_TYPES.minutes] = MINUTES
   maps[FREQUENCY_VALUES_TYPES.hours] = HOURS
   maps[FREQUENCY_VALUES_TYPES.weeks] = WEEKS
   maps[FREQUENCY_VALUES_TYPES.days] = DAYS
   return maps
-}
+})()
 
 const FREQUENCY_VALUES = [
   {
@@ -552,7 +699,8 @@ export function getFrequencyTimeValues (frequencyTimeType) {
 }
 
 export function getNearestFrequencyTimeValue (frequencyTimeType) {
-  return getFrequencyTimeValues(frequencyTimeType)[0]
+  const timeValues = getFrequencyTimeValues(frequencyTimeType)
+  return timeValues[0]
 }
 
 export function getNearestFrequencyTypeValue (frequencyType) {
