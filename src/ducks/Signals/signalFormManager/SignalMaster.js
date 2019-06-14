@@ -3,7 +3,7 @@ import { push } from 'react-router-redux'
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import { createTrigger, updateTrigger } from '../requx/actions'
+import { createTrigger, updateTrigger } from '../common/actions'
 import {
   Message,
   PanelWithHeader as Panel,

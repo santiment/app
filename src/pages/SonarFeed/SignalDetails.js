@@ -13,7 +13,10 @@ import {
 } from '@santiment-network/ui'
 import StatusLabel from './../../components/StatusLabel'
 import { TRIGGER_BY_ID_QUERY } from '../../ducks/Signals/gql/SignalsGQL'
-import { toggleTrigger, removeTrigger } from '../../ducks/Signals/requx/actions'
+import {
+  toggleTrigger,
+  removeTrigger
+} from '../../ducks/Signals/common/actions'
 import { mapGQLTriggerToProps } from '../../ducks/Signals/utils/utils'
 import { SignalCardWrapper } from './../../components/SignalCard/SignalCard'
 import styles from './SignalDetails.module.scss'
@@ -31,13 +34,12 @@ const SignalDetails = ({
   link = 'https://santiment.net',
   likesCount = 0
 }) => {
-  const WrapperEl = Panel
   const signalId = id || (match.params || {}).id
   if (isLoading) {
     return (
-      <WrapperEl header='Signals details'>
+      <Panel header='Signals details'>
         <div className={styles.wrapper}>Loading...</div>
-      </WrapperEl>
+      </Panel>
     )
   }
   if (isError) {
@@ -59,7 +61,7 @@ const SignalDetails = ({
   }
   const { isActive, isPublic, title, description } = trigger
   return (
-    <WrapperEl header='Signals details' className={styles.container}>
+    <Panel header='Signals details' className={styles.container}>
       <Icon
         className={styles.closeButton}
         onClick={() => closeModal()}
@@ -101,7 +103,7 @@ const SignalDetails = ({
           </div>
         </SignalCardWrapper>
       </div>
-    </WrapperEl>
+    </Panel>
   )
 }
 

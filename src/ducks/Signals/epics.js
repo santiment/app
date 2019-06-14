@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
-import * as actions from './requx/actions'
+import * as actions from './common/actions'
 import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { TRIGGERS_QUERY } from './gql/SignalsGQL'

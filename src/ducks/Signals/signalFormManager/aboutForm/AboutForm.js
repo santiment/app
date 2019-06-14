@@ -32,34 +32,40 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
     >
       {({ isSubmitting, isValid }) => (
         <Form className={styles.AboutForm}>
-          <div className={styles.Field}>
-            <label>Name of the signal</label>
-            <FormikInput
-              name='title'
-              type='text'
-              placeholder='Name of the signal'
-              onChange={value =>
-                setTrigger({
-                  ...trigger,
-                  title: value
-                })
-              }
-            />
+          <div className={styles.row}>
+            <div className={styles.Field}>
+              <label>Name of the signal</label>
+              <FormikInput
+                name='title'
+                type='text'
+                placeholder='Name of the signal'
+                onChange={value =>
+                  setTrigger({
+                    ...trigger,
+                    title: value
+                  })
+                }
+              />
+            </div>
           </div>
-          <div className={styles.Field}>
-            <label>Description</label>
-            <FormikInput
-              name='description'
-              type='text'
-              placeholder='Description of the signal'
-              onChange={value => {
-                setTrigger({
-                  ...trigger,
-                  description: value
-                })
-              }}
-            />
+
+          <div className={styles.row}>
+            <div className={styles.Field}>
+              <label>Description</label>
+              <FormikInput
+                name='description'
+                type='text'
+                placeholder='Description of the signal'
+                onChange={value => {
+                  setTrigger({
+                    ...trigger,
+                    description: value
+                  })
+                }}
+              />
+            </div>
           </div>
+
           <div className={styles.controls}>
             <Button
               type='button'
