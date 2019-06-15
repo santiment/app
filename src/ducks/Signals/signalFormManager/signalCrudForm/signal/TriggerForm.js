@@ -153,16 +153,9 @@ export const TriggerForm = ({
   const defaultType = metaFormSettings.type
   const defaultFrequencyType = metaFormSettings.frequencyType
 
-  /* useEffect(() => {
-    getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
-  }, []) */
-
   const setDefaultPriceValues = values => {
     const newValues = { ...values, ...METRIC_DEFAULT_VALUES[values.type.value] }
     setInitialValues(newValues)
-    /* window.setTimeout(() => {
-      getSignalBacktestingPoints(mapValuesToTriggerProps(newValues))
-    }, 0) */
   }
 
   const showTriggerFunc = () => {
@@ -209,23 +202,6 @@ export const TriggerForm = ({
                 setDefaultPriceValues(current.values)
                 validateForm()
               }
-
-              /* if (!isEqual(current.values, prev.values)) {
-              const lastErrors = validate(current.values)
-              const isError = Object.keys(current.values).reduce(
-                (acc, val) => {
-                  if (lastErrors.hasOwnProperty(val)) {
-                    acc = true
-                  }
-                  return acc
-                },
-                false
-              )
-
-              !!current.values.target &&
-                !isError &&
-                getSignalBacktestingPoints(mapValuesToTriggerProps(values))
-              } */
             }}
           />
 
@@ -235,7 +211,7 @@ export const TriggerForm = ({
               name={trigger.title}
               showTrigger={showTrigger}
               showTriggerFunc={showTriggerFunc}
-              actionsEnabled={false} // Make dynamic if triggers more than 1 (in future)
+              actionsEnabled={false}
             />
 
             {showTrigger && (
