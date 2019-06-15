@@ -28,7 +28,8 @@ const UploadLink = new ApolloLink((operation, forward) => {
           headers: {
             ...headers
           },
-          body: formData
+          body: formData,
+          credentials: 'include'
         })
           .then(response => {
             if (!response.ok) {
