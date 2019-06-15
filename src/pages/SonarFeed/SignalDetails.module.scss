@@ -12,6 +12,10 @@
   justify-content: center;
 }
 
+.teamLink {
+  color: var(--green);
+}
+
 .likesBlock {
   @include text-normal;
 

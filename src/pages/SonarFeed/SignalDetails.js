@@ -32,7 +32,6 @@ const SignalDetails = ({
   id,
   match = {},
   author = 'Santiment Team',
-  link = 'https://santiment.net',
   likesCount = 0
 }) => {
   const signalId = id || (match.params || {}).id
@@ -73,8 +72,8 @@ const SignalDetails = ({
           <div className={styles.row}>
             <div className={styles.teamBlock}>
               {author && (
-                <div className={styles.teamLink}>
-                  by &nbsp;<a href={link}>{author}</a>
+                <div>
+                  by &nbsp;<span className={styles.teamLink}>{author}</span>
                 </div>
               )}
               <div className={styles.likesBlock}>
