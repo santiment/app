@@ -63,8 +63,8 @@ class LikeBtn extends Component {
   }
 }
 
-const mapStateToProps = ({ user: { token } }) => ({
-  disabled: !token
+const mapStateToProps = ({ user: { data } }) => ({
+  disabled: !(data && !!data.id)
 })
 
 export default connect(mapStateToProps)(LikeBtn)
