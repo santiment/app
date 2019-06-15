@@ -33,7 +33,7 @@ const ProjectsNavigation = ({
         >
           Currencies
         </Link>
-        {user.token && (
+        {user.data && user.data.id && (
           <Link
             activeClassName='projects-navigation-list__page-link--active'
             className='projects-navigation-list__page-link'
