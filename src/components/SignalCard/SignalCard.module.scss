@@ -39,10 +39,8 @@
 }
 
 .title {
-  margin: 0;
-  margin-bottom: 4px;
+  margin: 0 0 4px 0;
 
-  @include text-normal;
   @include text('h4','m');
 }
 

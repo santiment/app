@@ -21,6 +21,7 @@ import { mapGQLTriggerToProps } from '../../ducks/Signals/utils/utils'
 import { SignalCardWrapper } from './../../components/SignalCard/SignalCard'
 import styles from './SignalDetails.module.scss'
 import { ToggleSignal } from './ToggleSignal'
+import LikeBtn from '../../components/Like/LikeBtn'
 
 const SignalDetails = ({
   trigger: { trigger, isLoading, isError, errorMessage = '' },
@@ -77,8 +78,7 @@ const SignalDetails = ({
                 </div>
               )}
               <div className={styles.likesBlock}>
-                <Icon type='like' />
-                <div className={styles.likesCount}>{likesCount}</div>
+                <LikeBtn disabled={true} likesNumber={likesCount} />
               </div>
             </div>
             <div className={styles.status}>
