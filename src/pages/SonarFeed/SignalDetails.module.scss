@@ -12,6 +12,10 @@
   justify-content: center;
 }
 
+.teamLink {
+  color: var(--green);
+}
+
 .likesBlock {
   @include text-normal;
 
@@ -21,10 +25,6 @@
   color: var(--mirage);
   display: flex;
   justify-content: center;
-
-  .likesCount {
-    margin-left: 10px;
-  }
 }
 
 .wrapper {

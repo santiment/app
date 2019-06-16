@@ -21,6 +21,7 @@ import { mapGQLTriggerToProps } from '../../ducks/Signals/utils/utils'
 import { SignalCardWrapper } from './../../components/SignalCard/SignalCard'
 import styles from './SignalDetails.module.scss'
 import { ToggleSignal } from './ToggleSignal'
+import LikeBtn from '../../components/Like/LikeBtn'
 
 const SignalDetails = ({
   trigger: { trigger, isLoading, isError, errorMessage = '' },
@@ -31,7 +32,6 @@ const SignalDetails = ({
   id,
   match = {},
   author = 'Santiment Team',
-  link = 'https://santiment.net',
   likesCount = 0
 }) => {
   const signalId = id || (match.params || {}).id
@@ -72,13 +72,12 @@ const SignalDetails = ({
           <div className={styles.row}>
             <div className={styles.teamBlock}>
               {author && (
-                <div className={styles.teamLink}>
-                  by &nbsp;<a href={link}>{author}</a>
+                <div>
+                  by &nbsp;<span className={styles.teamLink}>{author}</span>
                 </div>
               )}
               <div className={styles.likesBlock}>
-                <Icon type='like' />
-                <div className={styles.likesCount}>{likesCount}</div>
+                <LikeBtn disabled={true} likesNumber={likesCount} />
               </div>
             </div>
             <div className={styles.status}>

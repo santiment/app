@@ -1,0 +1,101 @@
+@import "~@santiment-network/ui/variables";
+@import "~@santiment-network/ui/mixins";
+
+.wrapper {
+  border: 1px solid var(--porcelain);
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.04),
+    0 8px 16px rgba(24, 27, 43, 0.05),
+ 0 12px 32px rgba(24, 27, 43, 0.05);
+  border-radius: $border-radius;
+  width: 246px;
+  background: var(--white);
+
+  :global {
+    .react-calendar__month-view__weekdays__weekday {
+      @include text("caption");
+
+      color: var(--waterloo);
+    }
+
+    abbr[title] {
+      text-decoration: none;
+      text-transform: capitalize;
+    }
+
+    .react-calendar__navigation {
+      margin: 0;
+      padding: 5px;
+
+      & + div {
+        border-top: 1px solid var(--porcelain);
+        padding: 10px;
+      }
+    }
+
+    .react-calendar__navigation__label {
+      @include text("body-3");
+    }
+
+    .react-calendar__navigation__label,
+    .react-calendar__navigation__arrow {
+      color: var(--mirage);
+      border-radius: $border-radius;
+
+      &:enabled:focus,
+      &:enabled:hover {
+        background: var(--athens);
+      }
+    }
+
+    .react-calendar__navigation__prev2-button,
+    .react-calendar__navigation__next2-button {
+      display: none;
+    }
+  }
+
+  &:global(.react-calendar--selectRange) :global(.react-calendar__tile--hover) {
+    border-radius: 0;
+    background: var(--jungle-green-light);
+  }
+}
+
+.tile {
+  border-radius: $border-radius;
+
+  @include text("caption");
+
+  height: 32px;
+  padding: 0 !important;
+  color: var(--mirage);
+
+  &:enabled:hover {
+    background: var(--athens);
+    color: var(--jungle-green);
+  }
+
+  &:global(.react-calendar__tile--hasActive),
+  &:enabled:focus {
+    color: var(--jungle-green);
+    background: var(--jungle-green-light);
+  }
+
+  &:global(.react-calendar__tile--active) {
+    border-radius: 0;
+    background: var(--jungle-green-light);
+    color: var(--jungle-green);
+  }
+
+  &:global(.react-calendar__tile--rangeEnd) {
+    border-radius: 0;
+    border-bottom-right-radius: $border-radius;
+  }
+
+  &:global(.react-calendar__tile--rangeStart) {
+    border-radius: 0;
+    border-top-left-radius: $border-radius;
+  }
+
+  &:global(.react-calendar__month-view__days__day--neighboringMonth) {
+    color: var(--casper);
+  }
+}
