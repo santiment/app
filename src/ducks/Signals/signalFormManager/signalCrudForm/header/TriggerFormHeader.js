@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types'
 import React from 'react'
-import styles from './TriggerFormHeader.module.scss'
+import PropTypes from 'prop-types'
 import { Icon, Button } from '@santiment-network/ui'
+import styles from './TriggerFormHeader.module.scss'
 
 const propTypes = {
   showTrigger: PropTypes.bool.isRequired

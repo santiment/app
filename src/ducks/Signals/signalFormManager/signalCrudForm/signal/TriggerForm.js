@@ -18,8 +18,8 @@ import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSe
 import FormikCheckboxes from '../../../../../components/formik-santiment-ui/FormikCheckboxes'
 import FormikToggle from '../../../../../components/formik-santiment-ui/FormikToggle'
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
-import styles from './TriggerForm.module.scss'
 import { TriggerFormHeader } from '../header/TriggerFormHeader'
+import styles from './TriggerForm.module.scss'
 
 import {
   DAILY_ACTIVE_ADDRESSES,
