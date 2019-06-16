@@ -13,8 +13,6 @@ import {
   fetchHistorySignalPoints,
   removeTrigger
 } from '../../../common/actions'
-import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
-import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikCheckboxes from '../../../../../components/formik-santiment-ui/FormikCheckboxes'
 import FormikToggle from '../../../../../components/formik-santiment-ui/FormikToggle'
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
@@ -25,22 +23,15 @@ import {
   DAILY_ACTIVE_ADDRESSES,
   PRICE_PERCENT_CHANGE,
   PRICE_VOLUME_DIFFERENCE,
-  METRICS,
-  PRICE_TYPES,
-  METRICS_DEPENDENCIES,
   METRIC_DEFAULT_VALUES,
-  FREQUENCY_TYPES,
   DEFAULT_FORM_META_SETTINGS,
-  frequencyTymeValueBuilder,
-  getTypeByMetric,
-  getFrequencyTimeType,
-  getFrequencyTimeValues,
-  getNearestFrequencyTimeValue,
-  getNearestFrequencyTypeValue,
   PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
   PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER
 } from '../../../utils/utils'
 import { TriggerFormAssetWallet } from '../formParts/TriggerFormAssetWallet'
+import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
+import { TriggerFormMetricTypes } from '../formParts/TriggerFormMetricTypes'
+import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'
 
 const REQUIRED_MESSAGE = 'Required'
 const MUST_BE_MORE_ZERO_MESSAGE = 'Must be more 0'
@@ -152,10 +143,6 @@ export const TriggerForm = ({
   const [initialValues, setInitialValues] = useState(settings)
   const [showTrigger, setShowTrigger] = useState(true)
 
-  const defaultMetric = metaFormSettings.metric
-  const defaultType = metaFormSettings.type
-  const defaultFrequencyType = metaFormSettings.frequencyType
-
   const setDefaultPriceValues = values => {
     const newValues = { ...values, ...METRIC_DEFAULT_VALUES[values.type.value] }
     setInitialValues(newValues)
@@ -227,187 +214,25 @@ export const TriggerForm = ({
                   setFieldValue={setFieldValue}
                 />
 
-                <div className={styles.row}>
-                  <div className={styles.Field}>
-                    <label>Metrics</label>
-                    <div>
-                      <FormikSelect
-                        name='metric'
-                        isClearable={false}
-                        isDisabled={defaultMetric.isDisabled}
-                        defaultValue={defaultMetric.value}
-                        isSearchable
-                        placeholder='Choose a metric'
-                        options={METRICS}
-                        onChange={newMetric => {
-                          metric &&
-                            newMetric.value !== metric.value &&
-                            setFieldValue('type', getTypeByMetric(newMetric))
-                        }}
-                      />
-                    </div>
-                  </div>
-                  {PRICE_TYPES[(metric || {}).value] &&
-                    PRICE_TYPES[(metric || {}).value].length > 1 && (
-                    <div className={styles.Field}>
-                      <FormikSelect
-                        name='type'
-                        isClearable={false}
-                        isSearchable
-                        isDisabled={defaultType.isDisabled}
-                        defaultValue={defaultType.value}
-                        placeholder='Choose a type'
-                        options={PRICE_TYPES[metric.value]}
-                        isOptionDisabled={option => !option.value}
-                      />
-                    </div>
-                  )}
-                </div>
-                <div className={styles.row}>
-                  {type &&
-                    METRICS_DEPENDENCIES[type.value].includes(
-                      'absoluteBorderLeft'
-                    ) && (
-                    <div className={styles.Field}>
-                      <label>Select channel borders</label>
-                      <FormikInput
-                        name='absoluteBorderLeft'
-                        type='number'
-                        max={absoluteBorderRight}
-                        placeholder='Left border'
-                      />
-                    </div>
-                  )}
-                  {type &&
-                    METRICS_DEPENDENCIES[type.value].includes(
-                      'absoluteBorderRight'
-                    ) && (
-                    <div className={styles.Field}>
-                      <FormikInput
-                        name='absoluteBorderRight'
-                        min={absoluteBorderLeft}
-                        type='number'
-                        placeholder='Right border'
-                      />
-                    </div>
-                  )}
+                <TriggerFormMetricTypes
+                  metaFormSettings={metaFormSettings}
+                  setFieldValue={setFieldValue}
+                  metric={metric}
+                />
 
-                  {type &&
-                    METRICS_DEPENDENCIES[type.value].includes(
-                      'absoluteThreshold'
-                    ) && (
-                    <div className={styles.Field}>
-                      <label>Absolute change</label>
-                      <FormikInput
-                        name='absoluteThreshold'
-                        type='number'
-                        placeholder='Absolute change'
-                      />
-                    </div>
-                  )}
+                <TriggerFormMetricValues
+                  type={type}
+                  absoluteBorderLeft={absoluteBorderLeft}
+                  absoluteBorderRight={absoluteBorderRight}
+                />
 
-                  {type &&
-                    METRICS_DEPENDENCIES[type.value].includes(
-                      'percentThreshold'
-                    ) && (
-                    <div className={styles.Field}>
-                      <label>Percentage change</label>
-                      <FormikInput
-                        name='percentThreshold'
-                        type='number'
-                        placeholder='Percentage change'
-                      />
-                    </div>
-                  )}
-                  {type &&
-                    METRICS_DEPENDENCIES[type.value].includes('threshold') && (
-                    <div className={styles.Field}>
-                      <label>Threshold</label>
-                      <FormikInput
-                        name='threshold'
-                        step={0.001}
-                        type='number'
-                        placeholder='Threshold'
-                      />
-                    </div>
-                  )}
-                  {type &&
-                    METRICS_DEPENDENCIES[type.value].includes('timeWindow') && (
-                    <div className={styles.Field}>
-                      <label>Time Window</label>
-                      <div className={styles.timeWindow}>
-                        <div className={styles.timeWindowInput}>
-                          <FormikInput
-                            name='timeWindow'
-                            type='number'
-                            min={0}
-                            placeholder='Time window'
-                          />
-                        </div>
-                        <FormikSelect
-                          name='timeWindowUnit'
-                          className={styles.timeWindowUnit}
-                          clearable={false}
-                          placeholder='Unit'
-                          options={[
-                            { value: 'h', label: 'Hours' },
-                            { value: 'd', label: 'Days' }
-                          ]}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <TriggerFormFrequency
+                  metaFormSettings={metaFormSettings}
+                  setFieldValue={setFieldValue}
+                  frequencyType={frequencyType}
+                  frequencyTimeType={frequencyTimeType}
+                />
 
-                <div className={styles.row}>
-                  <div className={styles.Field}>
-                    <label>Frequency of notifications</label>
-                    <FormikSelect
-                      name='frequencyType'
-                      isClearable={false}
-                      isDisabled={defaultFrequencyType.isDisabled}
-                      defaultValue={defaultFrequencyType.value.value}
-                      isSearchable
-                      placeholder='Choose frequency'
-                      options={FREQUENCY_TYPES}
-                      onChange={frequencyType => {
-                        const newFrequencyTimeType = getNearestFrequencyTypeValue(
-                          frequencyType
-                        )
-                        setFieldValue('frequencyTimeType', newFrequencyTimeType)
-                        setFieldValue(
-                          'frequencyTimeValue',
-                          getNearestFrequencyTimeValue(newFrequencyTimeType)
-                        )
-                      }}
-                    />
-                  </div>
-                  <div className={styles.Field}>
-                    <div className={styles.frequency}>
-                      <FormikSelect
-                        name='frequencyTimeValue'
-                        className={styles.frequencyTimeValue}
-                        isClearable={false}
-                        isDisabled={!frequencyType || !frequencyTimeType}
-                        isSearchable
-                        options={getFrequencyTimeValues(frequencyTimeType)}
-                      />
-                      <FormikSelect
-                        className={styles.frequencyTimeType}
-                        name='frequencyTimeType'
-                        isDisabled={!frequencyType}
-                        isClearable={false}
-                        onChange={frequencyTimeType => {
-                          setFieldValue(
-                            'frequencyTimeValue',
-                            frequencyTymeValueBuilder(1)
-                          )
-                        }}
-                        options={getFrequencyTimeType(frequencyType)}
-                      />
-                    </div>
-                  </div>
-                </div>
                 <div className={styles.row}>
                   <div className={styles.Field}>
                     <div className={styles.isRepeating}>
