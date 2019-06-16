@@ -62,6 +62,7 @@ const UnpublishedMsg = () => (
 )
 
 export const SignalCardWrapper = ({
+  isModal = true,
   isLink = false,
   isAwaiting = false,
   id,
@@ -69,8 +70,11 @@ export const SignalCardWrapper = ({
   title,
   children
 }) => {
+  const showAsModal = isAwaiting && !isLink
+
   const SignalTopDetails =
-    isAwaiting && !isLink ? 'div' : SignalCardDetailsModal
+    !showAsModal || !isModal ? 'div' : SignalCardDetailsModal
+
   return (
     <div className={styles.wrapper__top}>
       <div
@@ -82,7 +86,7 @@ export const SignalCardWrapper = ({
       </div>
       <div className={styles.wrapper__right}>
         <SignalTopDetails id={id}>
-          <div className={styles.upper}>
+          <div className={isModal ? styles.upper : ''}>
             <h2 className={styles.title}>{title}</h2>
             <h3 className={styles.description}>
               <MultilineText
@@ -123,7 +127,7 @@ const SignalCardBottom = ({
             </div>
           )}
           {isUserTheAuthor && !isAwaiting && (
-            <StatusLabel isPublic={!isPublic} />
+            <StatusLabel isPublic={isPublic} />
           )}
           {!isUserTheAuthor && (
             <Fragment>

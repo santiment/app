@@ -19,9 +19,9 @@ import {
 } from '../../ducks/Signals/common/actions'
 import { mapGQLTriggerToProps } from '../../ducks/Signals/utils/utils'
 import { SignalCardWrapper } from './../../components/SignalCard/SignalCard'
-import styles from './SignalDetails.module.scss'
 import { ToggleSignal } from './ToggleSignal'
 import LikeBtn from '../../components/Like/LikeBtn'
+import styles from './SignalDetails.module.scss'
 
 const SignalDetails = ({
   trigger: { trigger, isLoading, isError, errorMessage = '' },
@@ -31,7 +31,7 @@ const SignalDetails = ({
   closeModal,
   id,
   match = {},
-  author = 'Santiment Team',
+  author,
   likesCount = 0
 }) => {
   const signalId = id || (match.params || {}).id
@@ -68,21 +68,24 @@ const SignalDetails = ({
         type='close'
       />
       <div className={styles.wrapper}>
-        <SignalCardWrapper title={title} description={description} id={id}>
+        <SignalCardWrapper
+          title={title}
+          description={description}
+          id={id}
+          isModal={false}
+        >
           <div className={styles.row}>
-            <div className={styles.teamBlock}>
-              {author && (
-                <div>
-                  by &nbsp;<span className={styles.teamLink}>{author}</span>
-                </div>
-              )}
+            {author && (
+              <div className={styles.authorName}>
+                by &nbsp;<span className={styles.teamLink}>{author}</span>
+              </div>
+            )}
+            {isPublic && (
               <div className={styles.likesBlock}>
                 <LikeBtn disabled={true} likesNumber={likesCount} />
               </div>
-            </div>
-            <div className={styles.status}>
-              <StatusLabel isPublic={isPublic} />
-            </div>
+            )}
+            <StatusLabel isPublic={isPublic} />
           </div>
 
           <div className={styles.bottom}>
