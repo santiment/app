@@ -162,8 +162,6 @@ export const TriggerForm = ({
     onRemovedSignal && onRemovedSignal()
   }
 
-  console.log(initialValues)
-
   return (
     <Formik
       initialValues={initialValues}

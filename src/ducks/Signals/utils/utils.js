@@ -265,6 +265,17 @@ const getAbsolutePriceValues = ({ settings: { operation, type } }) => {
   return values
 }
 
+const getTriggerToFormThreshold = ({ threshold, operation }) => {
+  let newThreshold = threshold || undefined
+
+  if (operation && !newThreshold) {
+    const operationType = getOperationType(operation)
+    newThreshold = operation[operationType]
+  }
+
+  return newThreshold
+}
+
 export const mapTriggerToFormProps = currentTrigger => {
   if (!currentTrigger || !currentTrigger.settings) {
     return undefined
@@ -275,21 +286,11 @@ export const mapTriggerToFormProps = currentTrigger => {
     isPublic,
     isRepeating,
     settings,
-    settings: {
-      type,
-      operation,
-      time_window,
-      target,
-      asset,
-      threshold,
-      channel
-    }
+    settings: { type, operation, time_window, target, asset, channel }
   } = currentTrigger
 
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
-
-  debugger
 
   const address = target.eth_address
 
@@ -310,7 +311,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     timeWindowUnit: time_window ? getTimeWindowUnit(time_window) : undefined,
     target: newTarget,
     percentThreshold: getPercentTreshold(settings),
-    threshold: threshold || undefined,
+    threshold: getTriggerToFormThreshold(settings),
     channels: [channel],
     ...frequencyModels,
     ...absolutePriceValues
@@ -686,15 +687,14 @@ export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
 
   const checkingTrigger = trigger ? trigger.trigger : undefined
 
-  if (
-    !loading &&
-    !(
-      checkingTrigger &&
-      checkingTrigger.settings &&
-      checkingTrigger.settings.target &&
-      checkingTrigger.settings.target.hasOwnProperty('slug')
-    )
-  ) {
+  let triggerAsset = {}
+
+  if (checkingTrigger && checkingTrigger.settings) {
+    const { target, asset } = checkingTrigger.settings
+    triggerAsset = target || asset
+  }
+
+  if (!loading && !triggerAsset.hasOwnProperty('slug')) {
     return {
       trigger: {
         isError: true,
