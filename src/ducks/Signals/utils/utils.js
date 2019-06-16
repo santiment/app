@@ -16,11 +16,34 @@ const getTimeWindowUnit = timeWindow => {
   }
 }
 
-const getTarget = target => {
+const getFormTriggerTarget = target => {
   // TODO: only for one asset as target
   const { slug } = target
   return { value: slug, label: slug }
 }
+
+export const ETH_WALLETS_OPERATIONS = {
+  AMOUNT_DOWN: 'amount_down',
+  AMOUNT_UP: 'amount_up'
+}
+
+const ETH_WALLET = 'eth_wallet'
+
+export const ETH_WALLET_AMOUNT_UP = {
+  label: 'Amount up',
+  value: ETH_WALLET,
+  type: ETH_WALLETS_OPERATIONS.AMOUNT_UP
+}
+export const ETH_WALLET_AMOUNT_DOWN = {
+  label: 'Amount down',
+  value: ETH_WALLET,
+  type: ETH_WALLETS_OPERATIONS.AMOUNT_DOWN
+}
+
+export const ETH_WALLETS_OPTIONS = [
+  { ...ETH_WALLET_AMOUNT_UP },
+  { ...ETH_WALLET_AMOUNT_DOWN }
+]
 
 export const DAILY_ACTIVE_ADDRESSES = 'daily_active_addresses'
 export const PRICE_PERCENT_CHANGE = 'price_percent_change'
@@ -44,6 +67,7 @@ export const PRICE_PERCENT_CHANGE_UP_MODEL = {
   label: 'Moving up %',
   type: PRICE_CHANGE_TYPES.MOVING_UP
 }
+
 export const PRICE_PERCENT_CHANGE_DOWN_MODEL = {
   value: PRICE_PERCENT_CHANGE,
   label: 'Moving down %',
@@ -78,7 +102,7 @@ const PRICE_ABS_CHANGE_OUTSIDE = {
   type: PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL
 }
 
-const getType = (type, operation) => {
+const getFormTriggerType = (type, operation) => {
   if (!operation) {
     return {
       value: type
@@ -88,6 +112,14 @@ const getType = (type, operation) => {
   const operationType = getOperationType(operation)
 
   switch (operationType) {
+    case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
+      return ETH_WALLET_AMOUNT_UP
+    }
+
+    case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN: {
+      return ETH_WALLET_AMOUNT_DOWN
+    }
+
     case PRICE_CHANGE_TYPES.MOVING_UP: {
       return PRICE_PERCENT_CHANGE_UP_MODEL
     }
@@ -118,6 +150,7 @@ const getType = (type, operation) => {
 
 const getTriggerOperation = ({
   type,
+  threshold,
   percentThreshold,
   absoluteThreshold,
   absoluteBorderRight,
@@ -130,6 +163,11 @@ const getTriggerOperation = ({
   const mapped = {}
 
   switch (type.type) {
+    case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN:
+    case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
+      mapped[type.type] = threshold
+      break
+    }
     case PRICE_CHANGE_TYPES.MOVING_DOWN:
     case PRICE_CHANGE_TYPES.MOVING_UP: {
       mapped[type.type] = percentThreshold
@@ -153,6 +191,12 @@ const getTriggerOperation = ({
   return mapped
 }
 
+export const ETH_WALLET_METRIC = {
+  label: 'Historical balance',
+  value: ETH_WALLET,
+  hidden: true
+}
+
 const PRICE_METRIC = { label: 'Price', value: 'price' }
 const DAILY_ACTIVE_ADRESSES_METRIC = {
   label: 'Daily Active Addresses',
@@ -165,6 +209,9 @@ const PRICE_VOLUME_DIFFERENCE_METRIC = {
 
 const getMetric = type => {
   switch (type) {
+    case ETH_WALLET: {
+      return ETH_WALLET_METRIC
+    }
     case PRICE_PERCENT_CHANGE:
     case PRICE_ABSOLUTE_CHANGE: {
       return PRICE_METRIC
@@ -228,22 +275,40 @@ export const mapTriggerToFormProps = currentTrigger => {
     isPublic,
     isRepeating,
     settings,
-    settings: { type, operation, time_window, target, threshold, channel }
+    settings: {
+      type,
+      operation,
+      time_window,
+      target,
+      asset,
+      threshold,
+      channel
+    }
   } = currentTrigger
 
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
 
+  debugger
+
+  const address = target.eth_address
+
+  const targetForParser = address ? asset : target
+
+  const newTarget = getFormTriggerTarget(targetForParser)
+  const newType = getFormTriggerType(type, operation)
+
   return {
+    address: address,
     cooldown: cooldown,
     isRepeating: isRepeating,
     isActive: isActive,
     isPublic: isPublic,
     metric: getMetric(type, operation),
-    type: getType(type, operation),
+    type: newType,
     timeWindow: time_window ? +time_window.match(/\d+/)[0] : undefined,
     timeWindowUnit: time_window ? getTimeWindowUnit(time_window) : undefined,
-    target: getTarget(target),
+    target: newTarget,
     percentThreshold: getPercentTreshold(settings),
     threshold: threshold || undefined,
     channels: [channel],
@@ -308,7 +373,7 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
   }
 }
 
-export const getTriggerTarget = (target, address) => {
+export const mapTriggerTarget = (target, address) => {
   let newTarget = { slug: target.value }
 
   if (address) {
@@ -319,7 +384,7 @@ export const getTriggerTarget = (target, address) => {
     target: newTarget
   }
 }
-export const getAssetTarget = target => {
+export const mapAssetTarget = target => {
   return {
     asset: { slug: target.value }
   }
@@ -338,7 +403,11 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     type
   } = formProps
 
+  const newAsset = mapAssetTarget(target, address)
+  const newTarget = mapTriggerTarget(target, address)
+
   const cooldownParams = getCooldownParams(formProps)
+
   return {
     ...prevTrigger,
     settings: {
@@ -346,8 +415,8 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       percent_threshold: percentThreshold || undefined,
       threshold: threshold || undefined,
 
-      ...getTriggerTarget(target, address),
-      ...getAssetTarget(target, address),
+      ...newTarget,
+      ...newAsset,
 
       time_window: timeWindow
         ? timeWindow + '' + timeWindowUnit.value
@@ -411,6 +480,7 @@ export const mapValuesToTriggerProps = ({
 
 export const METRICS = [
   { ...PRICE_METRIC },
+  { ...ETH_WALLET_METRIC },
   // { label: 'Trending Words', value: 'trendingWords' },
   { ...DAILY_ACTIVE_ADRESSES_METRIC },
   { ...PRICE_VOLUME_DIFFERENCE_METRIC }
@@ -433,7 +503,8 @@ export const PRICE_TYPES = {
     }
   ],
   daily_active_addresses: [DAILY_ACTIVE_ADRESSES_METRIC],
-  price_volume_difference: [PRICE_VOLUME_DIFFERENCE_METRIC]
+  price_volume_difference: [PRICE_VOLUME_DIFFERENCE_METRIC],
+  eth_wallet: ETH_WALLETS_OPTIONS
 }
 
 export const METRICS_DEPENDENCIES = {
@@ -444,7 +515,8 @@ export const METRICS_DEPENDENCIES = {
   price_absolute_change_double_border: [
     'absoluteBorderLeft',
     'absoluteBorderRight'
-  ]
+  ],
+  eth_wallet: ['threshold', 'walletBalanceChangeType']
 }
 
 export const frequencyTymeValueBuilder = value => {
@@ -565,17 +637,26 @@ export const METRIC_DEFAULT_VALUES = {
     frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
     threshold: 0.002,
-    type: {
-      label: 'Price/volume difference',
-      value: PRICE_VOLUME_DIFFERENCE
-    },
+    type: { ...PRICE_VOLUME_DIFFERENCE_METRIC },
+    isRepeating: true,
+    channels: ['telegram']
+  },
+  eth_wallet: {
+    frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
+    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
+    threshold: 100,
+    type: { ...ETH_WALLET_AMOUNT_UP },
     isRepeating: true,
     channels: ['telegram']
   }
 }
 
-export const getTypeByMetric = metric => {
+export const getNearestTypeByMetric = metric => {
   switch (metric.value) {
+    case ETH_WALLET_METRIC.value: {
+      return ETH_WALLET_AMOUNT_UP
+    }
     case PRICE_METRIC.value: {
       return PRICE_PERCENT_CHANGE_UP_MODEL
     }

@@ -133,10 +133,7 @@ const FORM_PROPS = [
     threshold: 0.002,
     isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
-    metric: {
-      label: 'Price/volume difference',
-      value: 'price_volume_difference'
-    },
+    metric: { ...PRICE_VOLUME_DIFFERENCE_METRIC },
     type: {
       value: 'price_volume_difference'
     },

@@ -56,7 +56,9 @@ export class SignalMaster extends React.PureComponent {
     const { step, trigger: stateTrigger } = this.state
 
     const trigger = triggerObj.trigger || stateTrigger
-    let triggerSettingsFormData = trigger ? mapTriggerToFormProps(trigger) : {}
+    const triggerSettingsFormData = trigger
+      ? mapTriggerToFormProps(trigger)
+      : {}
 
     const triggerAboutFormData = {
       title: trigger.title,

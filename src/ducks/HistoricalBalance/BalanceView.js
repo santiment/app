@@ -6,6 +6,7 @@ import AssetsField from './AssetsField'
 import styles from './BalanceView.module.scss'
 import SignalMasterModalForm from '../Signals/signalModal/SignalMasterModalForm'
 import ShowIf from '../../components/ShowIf'
+import { ETH_WALLET_METRIC } from '../Signals/utils/utils'
 
 class BalanceView extends React.Component {
   state = {
@@ -49,11 +50,13 @@ class BalanceView extends React.Component {
               canRedirect={false}
               metaFormSettings={{
                 target: {
-                  isDisabled: true,
                   value: {
                     value: assets[0],
                     label: assets[0]
                   }
+                },
+                metric: {
+                  value: { ...ETH_WALLET_METRIC }
                 },
                 address: address
               }}

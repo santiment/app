@@ -1,18 +1,20 @@
 import styles from '../signal/TriggerForm.module.scss'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
-import { ASSETS_FILTERS } from '../../../utils/utils'
+import { ASSETS_FILTERS, ETH_WALLET_METRIC } from '../../../utils/utils'
 import React from 'react'
 import PropTypes from 'prop-types'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 
 const propTypes = {
   metaFormSettings: PropTypes.any,
+  metric: PropTypes.any.isRequired,
   allProjects: PropTypes.any,
   setFieldValue: PropTypes.func.isRequired
 }
 
 export const TriggerFormAssetWallet = ({
   metaFormSettings,
+  metric,
   allProjects,
   setFieldValue
 }) => {
@@ -21,9 +23,11 @@ export const TriggerFormAssetWallet = ({
 
   const { address } = metaFormSettings
 
+  const isEthWallet = metric.value === ETH_WALLET_METRIC.value
+
   return (
     <div>
-      {!address && (
+      {!isEthWallet && (
         <div className={styles.row}>
           <div className={styles.Field}>
             <label>Type</label>
@@ -49,7 +53,7 @@ export const TriggerFormAssetWallet = ({
           </div>
         </div>
       )}
-      {address && (
+      {isEthWallet && (
         <div className={styles.row}>
           <div className={styles.Field}>
             <label>Wallet</label>

@@ -120,8 +120,13 @@ export const TriggerForm = ({
   removeSignal,
   onRemovedSignal
 }) => {
+  const formMetric =
+    metaFormSettings && metaFormSettings.metric
+      ? metaFormSettings.metric.value.value
+      : PRICE_PERCENT_CHANGE
+
   metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
-  settings = { ...METRIC_DEFAULT_VALUES[PRICE_PERCENT_CHANGE], ...settings }
+  settings = { ...METRIC_DEFAULT_VALUES[formMetric], ...settings }
 
   settings = {
     target: metaFormSettings.target.value
@@ -157,6 +162,8 @@ export const TriggerForm = ({
     onRemovedSignal && onRemovedSignal()
   }
 
+  console.log(initialValues)
+
   return (
     <Formik
       initialValues={initialValues}
@@ -189,7 +196,10 @@ export const TriggerForm = ({
         <Form className={styles.TriggerForm}>
           <FormikEffect
             onChange={(current, prev) => {
-              if (current.values.type.value !== prev.values.type.value) {
+              if (
+                !prev.values.type ||
+                current.values.type.value !== prev.values.type.value
+              ) {
                 setDefaultPriceValues(current.values)
                 validateForm()
               }
@@ -207,17 +217,17 @@ export const TriggerForm = ({
 
             {showTrigger && (
               <div className={styles.Trigger}>
-                <TriggerFormAssetWallet
-                  values={values}
-                  metaFormSettings={metaFormSettings}
-                  allProjects={allProjects}
-                  setFieldValue={setFieldValue}
-                />
-
                 <TriggerFormMetricTypes
                   metaFormSettings={metaFormSettings}
                   setFieldValue={setFieldValue}
                   metric={metric}
+                />
+
+                <TriggerFormAssetWallet
+                  metric={metric}
+                  metaFormSettings={metaFormSettings}
+                  allProjects={allProjects}
+                  setFieldValue={setFieldValue}
                 />
 
                 <TriggerFormMetricValues

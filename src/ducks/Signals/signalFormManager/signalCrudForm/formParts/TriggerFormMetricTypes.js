@@ -1,6 +1,10 @@
 import styles from '../signal/TriggerForm.module.scss'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
-import { getTypeByMetric, METRICS, PRICE_TYPES } from '../../../utils/utils'
+import {
+  getNearestTypeByMetric,
+  METRICS,
+  PRICE_TYPES
+} from '../../../utils/utils'
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -34,12 +38,13 @@ export const TriggerFormMetricTypes = ({
             onChange={newMetric => {
               metric &&
                 newMetric.value !== metric.value &&
-                setFieldValue('type', getTypeByMetric(newMetric))
+                setFieldValue('type', getNearestTypeByMetric(newMetric))
             }}
           />
         </div>
       </div>
-      {PRICE_TYPES[(metric || {}).value] &&
+      {!metric.hidden &&
+        PRICE_TYPES[(metric || {}).value] &&
         PRICE_TYPES[(metric || {}).value].length > 1 && (
         <div className={styles.Field}>
           <FormikSelect
