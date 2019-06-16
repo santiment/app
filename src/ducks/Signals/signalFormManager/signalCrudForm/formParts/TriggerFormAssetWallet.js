@@ -1,9 +1,9 @@
-import styles from '../signal/TriggerForm.module.scss'
-import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
-import { ASSETS_FILTERS, ETH_WALLET_METRIC } from '../../../utils/utils'
 import React from 'react'
 import PropTypes from 'prop-types'
+import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
+import { ASSETS_FILTERS, ETH_WALLET_METRIC } from '../../../utils/utils'
+import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
   metaFormSettings: PropTypes.any,

@@ -1,4 +1,5 @@
-import styles from '../signal/TriggerForm.module.scss'
+import React from 'react'
+import PropTypes from 'prop-types'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import {
   FREQUENCY_TYPES,
@@ -8,8 +9,7 @@ import {
   getNearestFrequencyTimeValue,
   getNearestFrequencyTypeValue
 } from '../../../utils/utils'
-import React from 'react'
-import PropTypes from 'prop-types'
+import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
   metaFormSettings: PropTypes.any.isRequired,
