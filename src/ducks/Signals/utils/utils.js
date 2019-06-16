@@ -691,7 +691,7 @@ export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
 
   if (checkingTrigger && checkingTrigger.settings) {
     const { target, asset } = checkingTrigger.settings
-    triggerAsset = target || asset
+    triggerAsset = asset || target
   }
 
   if (!loading && !triggerAsset.hasOwnProperty('slug')) {
