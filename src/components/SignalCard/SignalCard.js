@@ -16,7 +16,8 @@ const SignalCard = ({
   gotoSignalByID,
   ...signalCardBottom
 }) => {
-  const isAwaiting = id === -1
+  const isAwaiting = +id <= 0
+
   const SignalTopDetails = isAwaiting ? 'div' : SignalCardDetailsModal
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
@@ -61,6 +62,7 @@ const UnpublishedMsg = () => (
 )
 
 export const SignalCardWrapper = ({
+  isModal = true,
   isLink = false,
   isAwaiting = false,
   id,
@@ -68,20 +70,23 @@ export const SignalCardWrapper = ({
   title,
   children
 }) => {
+  const showAsModal = isAwaiting && !isLink
+
   const SignalTopDetails =
-    isAwaiting && !isLink ? 'div' : SignalCardDetailsModal
+    !showAsModal || !isModal ? 'div' : SignalCardDetailsModal
+
   return (
     <div className={styles.wrapper__top}>
       <div
         className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
       >
         <div className={styles.icon}>
-          <Icon type='wallet' />
+          <Icon type='connection' />
         </div>
       </div>
       <div className={styles.wrapper__right}>
         <SignalTopDetails id={id}>
-          <div className={styles.upper}>
+          <div className={isModal ? styles.upper : ''}>
             <h2 className={styles.title}>{title}</h2>
             <h3 className={styles.description}>
               <MultilineText
@@ -92,6 +97,7 @@ export const SignalCardWrapper = ({
             </h3>
           </div>
         </SignalTopDetails>
+
         {children}
       </div>
     </div>
@@ -114,9 +120,14 @@ const SignalCardBottom = ({
     <div className={styles.bottom}>
       {isPublished ? (
         <h4 className={styles.author}>
-          {isAwaiting && 'Awaiting confirmation'}
+          {isAwaiting && (
+            <div className={styles.awaitingBlock}>
+              <Icon type='awaiting' />
+              <span>&nbsp;&nbsp;Awaiting confirmation</span>
+            </div>
+          )}
           {isUserTheAuthor && !isAwaiting && (
-            <StatusLabel isPublic={!isActive} />
+            <StatusLabel isPublic={isPublic} />
           )}
           {!isUserTheAuthor && (
             <Fragment>
@@ -144,8 +155,13 @@ const SignalCardBottom = ({
 }
 
 const SignalCardDetailsModal = ({ children, id }) => (
-  <Modal trigger={children} title='Signal details' showDefaultActions={false}>
-    {({ closeModal }) => <SignalDetails id={id} closeModal={closeModal} />}
+  <Modal
+    trigger={children}
+    title='Signal details'
+    classes={{ modal: styles.modalCentered }}
+    showDefaultActions={false}
+  >
+    {closeModal => <SignalDetails id={id} closeModal={closeModal} />}
   </Modal>
 )
 

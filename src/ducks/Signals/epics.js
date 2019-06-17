@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
-import * as actions from './Redux/actions'
+import * as actions from './common/actions'
 import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
-import { TRIGGERS_QUERY } from './GQL/SignalsGQL'
+import { TRIGGERS_QUERY } from './gql/SignalsGQL'
 import { completeOnboardingTask } from '../../pages/Dashboard/utils'
 
 export const CREATE_TRIGGER_QUERY = gql`
@@ -93,12 +93,15 @@ export const createSignalEpic = (action$, store, { client }) =>
         return Observable.fromPromise(create)
           .mergeMap(({ data: { id } }) => {
             completeOnboardingTask('signal')
-            return Observable.of({
-              type: actions.SIGNAL_CREATE_SUCCESS,
-              payload: {
-                id
-              }
-            })
+            return Observable.merge(
+              Observable.of({
+                type: actions.SIGNAL_CREATE_SUCCESS,
+                payload: {
+                  id
+                }
+              }),
+              Observable.of(showNotification('Signal was created'))
+            )
           })
           .catch(handleErrorAndTriggerAction(actions.SIGNAL_CREATE_FAILED))
       }
@@ -301,7 +304,7 @@ export const removeSignalEpic = (action$, store, { client }) =>
               type: actions.SIGNAL_REMOVE_BY_ID_SUCCESS,
               payload: { id: removeTrigger.trigger.id }
             }),
-            Observable.of(showNotification('Trigger is removed'))
+            Observable.of(showNotification('Trigger was removed'))
           )
         })
         .catch(action => {

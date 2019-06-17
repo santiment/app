@@ -8,13 +8,28 @@ exports[`TriggerForm smoke 1`] = `
       "channels": Array [
         "telegram",
       ],
-      "cooldown": "24h",
+      "frequencyTimeType": Object {
+        "label": "Hours",
+        "value": "h",
+      },
+      "frequencyTimeValue": Object {
+        "label": 1,
+        "value": 1,
+      },
+      "frequencyType": Object {
+        "label": "Once Per",
+        "value": "onceper",
+      },
       "isRepeating": true,
       "metric": Object {
         "label": "Price",
         "value": "price",
       },
       "percentThreshold": 5,
+      "signalType": Object {
+        "label": "Assets",
+        "value": "assets",
+      },
       "target": Object {
         "label": "santiment",
         "value": "santiment",
