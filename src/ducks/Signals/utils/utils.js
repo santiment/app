@@ -212,6 +212,10 @@ const getTriggerToFormThreshold = ({ threshold, operation }) => {
   return newThreshold
 }
 
+function capitalizeFirstLetter (string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
 export const mapTriggerToFormProps = currentTrigger => {
   if (!currentTrigger || !currentTrigger.settings) {
     return undefined
@@ -248,7 +252,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     target: newTarget,
     percentThreshold: getPercentTreshold(settings),
     threshold: getTriggerToFormThreshold(settings),
-    channels: [channel],
+    channels: [capitalizeFirstLetter(channel)],
     ...frequencyModels,
     ...absolutePriceValues
   }
@@ -344,10 +348,11 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
 
   const cooldownParams = getCooldownParams(formProps)
 
+  const channel = channels.length ? channels[0].toLowerCase() : undefined
   return {
     ...prevTrigger,
     settings: {
-      channel: channels[0],
+      channel: channel,
       percent_threshold: percentThreshold || undefined,
       threshold: threshold || undefined,
 
@@ -577,4 +582,13 @@ export const validateTriggerForm = values => {
   }
 
   return errors
+}
+
+export const couldShowChart = metric => {
+  const possibleForChart = [
+    PRICE_METRIC.value,
+    DAILY_ACTIVE_ADRESSES_METRIC.value,
+    PRICE_VOLUME_DIFFERENCE_METRIC.value
+  ]
+  return metric ? possibleForChart.indexOf(metric.value) >= 0 : false
 }

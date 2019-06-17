@@ -95,6 +95,10 @@ a.connectLink {
   }
 }
 
+.repeatingItem {
+  cursor: pointer;
+}
+
 .Field:last-child {
   padding-right: 0;
 }
@@ -197,10 +201,6 @@ label {
   bottom: 15px;
 
   @include text-normal;
-}
-
-.addNewTriggerBlock {
-  margin-bottom: 20px;
 }
 
 .triggerToggleLabel {

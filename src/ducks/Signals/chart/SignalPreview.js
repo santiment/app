@@ -1,11 +1,12 @@
 import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import { Bar } from 'recharts'
-import { Metrics } from '../../SANCharts/utils'
+import { CHART_METRICS } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartMetrics from '../../SANCharts/ChartMetrics'
 import VisualBacktestChart from '../VisualBacktestChart'
 import styles from './SignalPreview.module.scss'
+import { getMetricsByType } from '../utils/utils'
 
 const PREVIEWS_TIMERANGE_BY_TYPE = {
   daily_active_addresses: '3m',
@@ -31,31 +32,31 @@ const normalizeTimeseries = items =>
 const getTimerangeByType = type =>
   PREVIEWS_TIMERANGE_BY_TYPE[type] ? PREVIEWS_TIMERANGE_BY_TYPE[type] : '3m'
 
-const SignalPreview = ({
-  points = [],
-  target,
-  initialMetrics = ['price'],
-  type
-}) => {
+const SignalPreview = ({ points = [], target, type }) => {
+  const initialMetrics = getMetricsByType(type) || ['price']
+
   const [metrics, setMetrics] = useState(initialMetrics)
+
   const _metrics = metrics.filter(metric => initialMetrics.includes(metric))
   const amountOfTriggers = points.reduce(
     (acc, val) => (acc += +val['triggered?']),
     0
   )
 
+  const timeRange = getTimerangeByType(type.value)
+
   return (
     <Fragment>
       <div>
         <span className={styles.fired}>Signal was fired:</span>{' '}
         <span className={styles.times}>
-          {amountOfTriggers} times in {getTimerangeByType(type.value)}
+          {amountOfTriggers} times in {timeRange}
         </span>
       </div>
       <div className={styles.chartBlock}>
         <GetTimeSeries
           price={{
-            timeRange: getTimerangeByType(type.value),
+            timeRange: timeRange,
             slug: target,
             interval: '1d'
           }}
@@ -90,7 +91,7 @@ const SignalPreview = ({
           onMetricsChange={metrics => setMetrics(metrics)}
           defaultActiveMetrics={initialMetrics}
           listOfMetrics={initialMetrics.reduce((acc, metric) => {
-            acc[metric] = Metrics[metric] || CHART_SETTINGS[metric]
+            acc[metric] = CHART_METRICS[metric] || CHART_SETTINGS[metric]
             return acc
           }, {})}
         />

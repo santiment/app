@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Label from '@santiment-network/ui/Label'
 import cx from 'classnames'
-import { Metrics } from './utils'
+import { CHART_METRICS } from './utils'
 import styles from './ChartPage.module.scss'
 
 class ChartMetrics extends Component {
@@ -33,7 +33,7 @@ class ChartMetrics extends Component {
   render () {
     const { metrics } = this.state
     const { disabledMetrics = [] } = this.props
-    const listOfMetrics = this.props.listOfMetrics || Metrics
+    const listOfMetrics = this.props.listOfMetrics || CHART_METRICS
     return (
       <div className={styles.metrics}>
         {Object.keys(listOfMetrics).map(metric => {

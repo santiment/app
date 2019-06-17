@@ -34,14 +34,6 @@ export const TriggersForm = ({
           onRemovedSignal={onClose}
         />
       ))}
-      <div className={styles.addNewTriggerBlock}>
-        <div className={styles.row}>
-          <Button type='button' disabled>
-            <Icon type='plus-round' />
-            <div>&nbsp; Add Trigger</div>
-          </Button>
-        </div>
-      </div>
     </div>
   )
 }

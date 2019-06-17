@@ -7,7 +7,6 @@ import { graphql } from 'react-apollo'
 import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
 import isEqual from 'lodash.isequal'
-import { Button, Message } from '@santiment-network/ui'
 import { selectIsTelegramConnected } from '../../../../../pages/UserSelectors'
 import { allProjectsForSearchGQL } from '../../../../../pages/Projects/allProjectsGQL'
 import {
@@ -15,19 +14,16 @@ import {
   removeTrigger
 } from '../../../common/actions'
 import FormikCheckboxes from '../../../../../components/formik-santiment-ui/FormikCheckboxes'
-import FormikToggle from '../../../../../components/formik-santiment-ui/FormikToggle'
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
+import { Checkbox, Button, Message } from '@santiment-network/ui'
 import { TriggerFormHeader } from '../header/TriggerFormHeader'
-import styles from './TriggerForm.module.scss'
-
 import {
   PRICE_PERCENT_CHANGE,
   METRIC_DEFAULT_VALUES,
   DEFAULT_FORM_META_SETTINGS
 } from '../../../utils/constants'
-
 import {
-  getMetricsByType,
+  couldShowChart,
   mapValuesToTriggerProps,
   validateTriggerForm
 } from '../../../utils/utils'
@@ -36,6 +32,7 @@ import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/TriggerFormMetricTypes'
 import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'
 import SignalPreview from '../../../chart/SignalPreview'
+import styles from './TriggerForm.module.scss'
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
@@ -102,6 +99,8 @@ export const TriggerForm = ({
     trigger && trigger.id && removeSignal(trigger.id)
     onRemovedSignal && onRemovedSignal()
   }
+
+  const showChart = couldShowChart(initialValues.metric)
 
   return (
     <Formik
@@ -193,13 +192,14 @@ export const TriggerForm = ({
                   absoluteBorderRight={absoluteBorderRight}
                 />
 
-                <div className={cx(styles.row, styles.signalPreview)}>
-                  <SignalPreview
-                    target={values.target.value}
-                    initialMetrics={getMetricsByType(values.type)}
-                    type={values.type}
-                  />
-                </div>
+                {showChart && (
+                  <div className={cx(styles.row, styles.signalPreview)}>
+                    <SignalPreview
+                      target={values.target.value}
+                      type={values.type}
+                    />
+                  </div>
+                )}
 
                 <TriggerFormFrequency
                   metaFormSettings={metaFormSettings}
@@ -211,8 +211,20 @@ export const TriggerForm = ({
                 <div className={styles.row}>
                   <div className={styles.Field}>
                     <div className={styles.isRepeating}>
-                      <FormikToggle name='isRepeating' />
-                      <span>
+                      <Checkbox
+                        isActive={values.isRepeating}
+                        name='isRepeating'
+                        className={styles.repeatingItem}
+                        onClick={() => {
+                          setFieldValue('isRepeating', !isRepeating)
+                        }}
+                      />
+                      <span
+                        className={styles.repeatingItem}
+                        onClick={() => {
+                          setFieldValue('isRepeating', !isRepeating)
+                        }}
+                      >
                         {isRepeating
                           ? 'Task never ends'
                           : 'Task fires only once'}
@@ -227,8 +239,9 @@ export const TriggerForm = ({
                     <div className={styles.notifyBlock}>
                       <FormikCheckboxes
                         name='channels'
-                        disabledIndexes={['email']}
-                        options={['email', 'telegram']}
+                        labelOnRight
+                        disabledIndexes={['Email']}
+                        options={['Email', 'Telegram']}
                         styles={{ marginRight: 5 }}
                       />
                       {!isTelegramConnected && (

@@ -32,7 +32,7 @@ export class SignalMaster extends React.PureComponent {
       title: `Signal_[${new Date().toLocaleDateString('en-US')}]`,
       description: 'Any',
       isActive: true,
-      isPublic: true
+      isPublic: false
     }
   }
   componentWillReceiveProps (newProps) {

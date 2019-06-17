@@ -104,7 +104,7 @@ const FORM_PROPS = [
     timeWindowUnit: { label: 'days', value: 'd' },
     type: { ...PRICE_PERCENT_CHANGE_UP_MODEL },
     metric: { label: 'Price', value: 'price' },
-    channels: ['telegram']
+    channels: ['Telegram']
   },
   {
     cooldown: '22h',
@@ -123,7 +123,7 @@ const FORM_PROPS = [
     type: {
       value: 'daily_active_addresses'
     },
-    channels: ['telegram']
+    channels: ['Telegram']
   },
   {
     cooldown: '22h',
@@ -137,7 +137,7 @@ const FORM_PROPS = [
     type: {
       value: 'price_volume_difference'
     },
-    channels: ['telegram']
+    channels: ['Telegram']
   }
 ]
 

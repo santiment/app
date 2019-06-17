@@ -52,7 +52,7 @@ const VisualBacktestChart = ({ data, price, metrics }) => {
 }
 
 const CustomTooltip = ({ active, payload, label }) => {
-  if (active) {
+  if (active && payload) {
     const priceValue = payload[0].payload.price
       ? formatNumber(payload[0].payload.price, { currency: 'USD' })
       : undefined
