@@ -19,6 +19,8 @@ export const TriggerFormMetricTypes = ({
   const defaultMetric = metaFormSettings.metric
   const defaultType = metaFormSettings.type
 
+  const typeSelectors = PRICE_TYPES[(metric || {}).value]
+
   return (
     <div className={styles.row}>
       <div className={styles.Field}>
@@ -40,9 +42,7 @@ export const TriggerFormMetricTypes = ({
           />
         </div>
       </div>
-      {!metric.hidden &&
-        PRICE_TYPES[(metric || {}).value] &&
-        PRICE_TYPES[(metric || {}).value].length > 1 && (
+      {!metric.hidden && typeSelectors && typeSelectors.length > 1 && (
         <div className={styles.Field}>
           <FormikSelect
             name='type'
@@ -51,7 +51,7 @@ export const TriggerFormMetricTypes = ({
             isDisabled={defaultType.isDisabled}
             defaultValue={defaultType.value}
             placeholder='Choose a type'
-            options={PRICE_TYPES[metric.value]}
+            options={typeSelectors}
             isOptionDisabled={option => !option.value}
           />
         </div>
