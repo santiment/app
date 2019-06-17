@@ -7,12 +7,7 @@ export const HISTORY_PRICE_QUERY = gql`
     $to: DateTime
     $interval: String
   ) {
-    price: historyPrice(
-      slug: $slug
-      from: $from
-      to: $to
-      interval: $interval
-    ) {
+    historyPrice(slug: $slug, from: $from, to: $to, interval: $interval) {
       priceBtc
       priceUsd
       volume

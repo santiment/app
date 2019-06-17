@@ -15,7 +15,7 @@ describe('GetTimeSeries', () => {
   beforeEach(() => {
     const initialState = {
       timeseries: {
-        price: {
+        historyPrice: {
           isLoading: false,
           isError: false,
           items: []
@@ -28,7 +28,7 @@ describe('GetTimeSeries', () => {
   const getWrapper = store =>
     mount(
       <GetTimeSeries
-        price={{
+        historyPrice={{
           timeRange: '6m',
           slug: 'santiment',
           interval: '1d'
