@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import cx from 'classnames'
 import { simpleSort } from '../../utils/sortMethods'
 import { formatNumber, millify } from '../../utils/formatting'
 import ProjectLabel from '../../components/ProjectLabel'
@@ -7,9 +8,10 @@ import PercentChanges from '../../components/PercentChanges'
 
 const columns = preload => [
   {
-    Header: 'Project',
+    Header: () => <div className={cx('heading', 'overview-name')}>Project</div>,
     id: 'project',
     minWidth: 150,
+    maxWidth: 280,
     filterable: true,
     sortable: true,
     accessor: d => ({
@@ -36,13 +38,28 @@ const columns = preload => [
     }
   },
   {
-    Header: 'Price',
+    Header: () => (
+      <div className={cx('heading', 'overview-marketcap')}>Market Cap</div>
+    ),
+    id: 'marketcapUsd',
+    maxWidth: 130,
+    accessor: 'marketcapUsd',
+    Cell: ({ value }) => (
+      <div className='overview-marketcap'>
+        {value !== null ? `$${millify(value, 2)}` : 'No data'}
+      </div>
+    ),
+    sortable: true,
+    sortMethod: (a, b) => simpleSort(+a, +b)
+  },
+  {
+    Header: () => <div className={cx('heading', 'overview-price')}>Price</div>,
     id: 'price',
     maxWidth: 100,
     accessor: d => ({
       priceUsd: d.priceUsd
     }),
-    Cell: ({ value: { priceUsd, change24h } }) => (
+    Cell: ({ value: { priceUsd } }) => (
       <div className='overview-price'>
         {priceUsd ? formatNumber(priceUsd, { currency: 'USD' }) : 'No data'}
       </div>
@@ -52,7 +69,9 @@ const columns = preload => [
       simpleSort(parseFloat(a.priceUsd || 0), parseFloat(b.priceUsd || 0))
   },
   {
-    Header: 'Price +/-',
+    Header: () => (
+      <div className={cx('heading', 'overview-price')}>Price +/-</div>
+    ),
     id: 'price_change',
     maxWidth: 100,
     accessor: d => ({
@@ -68,7 +87,9 @@ const columns = preload => [
       simpleSort(parseFloat(a.change24h || 0), parseFloat(b.change24h || 0))
   },
   {
-    Header: 'Volume',
+    Header: () => (
+      <div className={cx('heading', 'overview-volume')}>Volume</div>
+    ),
     id: 'volume',
     maxWidth: 100,
     accessor: d => ({
@@ -84,7 +105,9 @@ const columns = preload => [
       simpleSort(parseFloat(a.volumeUsd || 0), parseFloat(b.volumeUsd || 0))
   },
   {
-    Header: 'Volume +/-',
+    Header: () => (
+      <div className={cx('heading', 'overview-volume')}>Volume +/-</div>
+    ),
     id: 'volume_change_24h',
     maxWidth: 100,
     accessor: d => ({
@@ -100,21 +123,11 @@ const columns = preload => [
       simpleSort(parseFloat(a.change24h || 0), parseFloat(b.change24h || 0))
   },
   {
-    Header: 'Market Cap',
-    id: 'marketcapUsd',
-    maxWidth: 130,
-    accessor: 'marketcapUsd',
-    Cell: ({ value }) => (
-      <div className='overview-marketcap'>
-        {value !== null ? `$${millify(value, 2)}` : 'No data'}
-      </div>
+    Header: () => (
+      <div className={cx('heading', 'overview-ethspent')}>ETH spent, 30d</div>
     ),
-    sortable: true,
-    sortMethod: (a, b) => simpleSort(+a, +b)
-  },
-  {
-    Header: 'ETH spent (30D)',
-    maxWidth: 110,
+    maxWidth: 120,
+    minWidth: 110,
     id: 'eth_spent',
     accessor: d => d.ethSpent,
     Cell: ({ value }) => (
@@ -124,26 +137,30 @@ const columns = preload => [
     sortMethod: (a, b) => simpleSort(a, b)
   },
   {
-    Header: 'Dev activity (30D)',
+    Header: () => (
+      <div className={cx('heading', 'overview-devactivity')}>Dev act., 30d</div>
+    ),
     id: 'dev_activity',
-    maxWidth: 110,
+    maxWidth: 100,
     accessor: d => d.averageDevActivity,
     Cell: ({ value }) => (
       <div className='overview-devactivity'>
-        {value ? parseFloat(value).toFixed(2) : ''}
+        {value ? parseFloat(value).toFixed(2) : 'No data'}
       </div>
     ),
     sortable: true,
     sortMethod: (a, b) => simpleSort(a, b)
   },
   {
-    Header: 'Daily active addresses (30D)',
+    Header: () => (
+      <div className={cx('heading', 'overview-activeaddresses')}>DAA, 30d</div>
+    ),
     id: 'daily_active_addresses',
     maxWidth: 110,
     accessor: d => d.averageDailyActiveAddresses,
     Cell: ({ value }) => (
       <div className='overview-activeaddresses'>
-        {value ? formatNumber(value) : ''}
+        {value ? formatNumber(value) : 'No data'}
       </div>
     ),
     sortable: true,
