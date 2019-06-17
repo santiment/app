@@ -2,7 +2,7 @@ import React from 'react'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-import Calendar from '../../components/Calendar/Calendar'
+import Calendar from './Calendar'
 import { getDateFormats } from '../../utils/dates'
 import styles from './CalendarBtn.module.scss'
 
