@@ -63,17 +63,12 @@ const UnpublishedMsg = () => (
 
 export const SignalCardWrapper = ({
   isModal = true,
-  isLink = false,
-  isAwaiting = false,
   id,
   description,
   title,
   children
 }) => {
-  const showAsModal = isAwaiting && !isLink
-
-  const SignalTopDetails =
-    !showAsModal || !isModal ? 'div' : SignalCardDetailsModal
+  const SignalTopDetails = !isModal ? 'div' : SignalCardDetailsModal
 
   return (
     <div className={styles.wrapper__top}>
