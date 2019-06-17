@@ -1,10 +1,10 @@
 import React from 'react'
-import SignalMaster from './SignalFormManager/SignalMaster'
+import SignalMaster from './signalFormManager/SignalMaster'
 
 const SignalFormPage = () => {
   return (
     <div>
-      <SignalMaster />
+      <SignalMaster canRedirect={true} />
     </div>
   )
 }

@@ -7,16 +7,20 @@ import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
 import {
   PanelWithHeader as Panel,
-  Toggle,
   Button,
   Icon,
   Message
 } from '@santiment-network/ui'
 import StatusLabel from './../../components/StatusLabel'
-import { TRIGGER_BY_ID_QUERY } from '../../ducks/Signals/GQL/SignalsGQL'
-import { toggleTrigger, removeTrigger } from '../../ducks/Signals/Redux/actions'
-import { mapTriggerToProps } from '../../ducks/Signals/Utils/utils'
+import { TRIGGER_BY_ID_QUERY } from '../../ducks/Signals/gql/SignalsGQL'
+import {
+  toggleTrigger,
+  removeTrigger
+} from '../../ducks/Signals/common/actions'
+import { mapGQLTriggerToProps } from '../../ducks/Signals/utils/utils'
 import { SignalCardWrapper } from './../../components/SignalCard/SignalCard'
+import { ToggleSignal } from './ToggleSignal'
+import LikeBtn from '../../components/Like/LikeBtn'
 import styles from './SignalDetails.module.scss'
 
 const SignalDetails = ({
@@ -26,15 +30,16 @@ const SignalDetails = ({
   redirect,
   closeModal,
   id,
-  match = {}
+  match = {},
+  author,
+  likesCount = 0
 }) => {
-  const WrapperEl = isModal(match) ? 'div' : Panel
   const signalId = id || (match.params || {}).id
   if (isLoading) {
     return (
-      <WrapperEl header='Signals details'>
+      <Panel header='Signals details'>
         <div className={styles.wrapper}>Loading...</div>
-      </WrapperEl>
+      </Panel>
     )
   }
   if (isError) {
@@ -56,12 +61,33 @@ const SignalDetails = ({
   }
   const { isActive, isPublic, title, description } = trigger
   return (
-    <WrapperEl header='Signals details'>
+    <Panel header='Signals details' className={styles.container}>
+      <Icon
+        className={styles.closeButton}
+        onClick={() => closeModal()}
+        type='close'
+      />
       <div className={styles.wrapper}>
-        <SignalCardWrapper title={title} description={description} id={id}>
-          <div className={styles.status}>
+        <SignalCardWrapper
+          title={title}
+          description={description}
+          id={id}
+          isModal={false}
+        >
+          <div className={styles.row}>
+            {author && (
+              <div className={styles.authorName}>
+                by &nbsp;<span className={styles.teamLink}>{author}</span>
+              </div>
+            )}
+            {isPublic && (
+              <div className={styles.likesBlock}>
+                <LikeBtn disabled={true} likesNumber={likesCount} />
+              </div>
+            )}
             <StatusLabel isPublic={isPublic} />
           </div>
+
           <div className={styles.bottom}>
             <div className={styles.leftActions}>
               <SettingsSignalButton id={signalId} />
@@ -79,19 +105,9 @@ const SignalDetails = ({
           </div>
         </SignalCardWrapper>
       </div>
-    </WrapperEl>
+    </Panel>
   )
 }
-
-const ToggleSignal = ({ isActive, toggleSignal, id }) => (
-  <div className={styles.toggleSignal}>
-    {!isActive && <span>Signal disabled</span>}
-    <Toggle
-      onClick={() => toggleSignal({ id, isActive })}
-      isActive={isActive}
-    />
-  </div>
-)
 
 const RemoveSignalButton = ({ id, removeSignal, redirect }) => (
   <Button
@@ -112,8 +128,6 @@ const SettingsSignalButton = ({ id }) => (
     </Link>
   </Button>
 )
-
-const isModal = (match = {}) => !match.params
 
 const mapDispatchToProps = dispatch => ({
   toggleSignal: ({ id, isActive }) => {
@@ -139,7 +153,7 @@ const enhance = compose(
       },
       fetchPolicy: 'network-only'
     }),
-    props: mapTriggerToProps
+    props: mapGQLTriggerToProps
   })
 )
 

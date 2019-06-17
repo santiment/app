@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import TriggerForm from '../Signal/TriggerForm'
-import styles from '../Signal/TriggerForm.module.scss'
 import { Button, Icon } from '@santiment-network/ui'
+import TriggerForm from '../signal/TriggerForm'
+import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,

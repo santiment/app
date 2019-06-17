@@ -3,22 +3,22 @@ import { push } from 'react-router-redux'
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import { createTrigger, toggleTrigger, updateTrigger } from '../Redux/actions'
+import { createTrigger, updateTrigger } from '../common/actions'
 import {
   Message,
   PanelWithHeader as Panel,
   Toggle
 } from '@santiment-network/ui'
-import TriggersForm from './SignalCrudForm/SignalsList/TriggersForm'
-import AboutForm from './AboutForm/AboutForm'
-import styles from './SignalCrudForm/Signal/TriggerForm.module.scss'
-import { TRIGGER_BY_ID_QUERY } from '../GQL/SignalsGQL'
+import TriggersForm from './signalCrudForm/signalsList/TriggersForm'
+import AboutForm from './aboutForm/AboutForm'
+import { TRIGGER_BY_ID_QUERY } from '../gql/SignalsGQL'
 import { Icon } from '@santiment-network/ui'
 import {
   mapTriggerToFormProps,
   mapFormPropsToTrigger,
-  mapTriggerToProps
-} from '../Utils/utils'
+  mapGQLTriggerToProps
+} from '../utils/utils'
+import styles from './signalCrudForm/signal/TriggerForm.module.scss'
 
 const STEPS = {
   SETTINGS: 0,
@@ -35,7 +35,15 @@ export class SignalMaster extends React.PureComponent {
       isPublic: true
     }
   }
-
+  componentWillReceiveProps (newProps) {
+    if (newProps.trigger.trigger) {
+      this.setState({
+        trigger: {
+          ...newProps.trigger.trigger
+        }
+      })
+    }
+  }
   render () {
     const { isEdit, triggerObj = {}, metaFormSettings } = this.props
 
@@ -46,43 +54,29 @@ export class SignalMaster extends React.PureComponent {
       return <Message variant='error'>{triggerObj.errorMessage}</Message>
     }
     const { step, trigger: stateTrigger } = this.state
-    const currentTrigger = triggerObj.trigger || stateTrigger
-    let triggerSettingsFormData = currentTrigger
-      ? mapTriggerToFormProps(currentTrigger)
+
+    const trigger = triggerObj.trigger || stateTrigger
+    const triggerSettingsFormData = trigger
+      ? mapTriggerToFormProps(trigger)
       : {}
 
     const triggerAboutFormData = {
-      title: currentTrigger.title,
-      description: currentTrigger.description
+      title: trigger.title,
+      description: trigger.description
     }
 
-    if (this.props.asset) {
-      triggerSettingsFormData = {
-        ...triggerSettingsFormData,
-        target: {
-          value: this.props.asset,
-          label: this.props.asset
-        }
-      }
-    }
+    const toggleSignalPublic = () => {
+      const { trigger } = this.state
+      const newValue = !trigger.isPublic
+      const newTrigger = { ...trigger, isPublic: newValue }
 
-    const toggleSignalCallback = () => {
-      if (currentTrigger.id) {
-        this.props.toggleSignal({
-          id: currentTrigger.id,
-          isPublic: currentTrigger.isPublic
-        })
-      } else {
-        const { trigger } = this.state
-        const newTrigger = { ...trigger, isPublic: !trigger.isPublic }
-        this.setState({ trigger: newTrigger })
-      }
+      this.setState({ trigger: newTrigger })
     }
 
     const getTitle = ({ id }) => {
       switch (step) {
         case STEPS.SETTINGS: {
-          return id > 0 ? 'Update signal' : 'Create Signal'
+          return id > 0 ? 'Update signal' : 'Create signal'
         }
         case STEPS.CONFIRM: {
           return triggerSettingsFormData.isPublic
@@ -95,21 +89,15 @@ export class SignalMaster extends React.PureComponent {
       }
     }
 
+    const close = this.props.onClose || this.props.redirect
     return (
       <div className={styles.wrapper}>
-        <Icon
-          className={styles.closeButton}
-          onClick={this.props.onClose}
-          type='close'
-        />
-        <Panel
-          header={getTitle(currentTrigger)}
-          className={styles.TriggerPanel}
-        >
+        <Icon className={styles.closeButton} onClick={close} type='close' />
+        <Panel header={getTitle(trigger)} className={styles.TriggerPanel}>
           {step === STEPS.SETTINGS && (
             <TriggersForm
               onClose={this.props.onClose}
-              triggers={[currentTrigger]}
+              triggers={[trigger]}
               settings={triggerSettingsFormData}
               canRedirect={this.props.canRedirect}
               metaFormSettings={{ ...metaFormSettings }}
@@ -126,12 +114,9 @@ export class SignalMaster extends React.PureComponent {
           )}
 
           <div className={styles.triggerToggleBlock}>
-            <Toggle
-              onClick={toggleSignalCallback}
-              isActive={currentTrigger.isPublic}
-            />
+            <Toggle onClick={toggleSignalPublic} isActive={trigger.isPublic} />
             <div className={styles.triggerToggleLabel}>
-              {currentTrigger.isPublic ? 'Public' : 'Private'}
+              {trigger.isPublic ? 'Public' : 'Private'}
             </div>
           </div>
         </Panel>
@@ -149,10 +134,9 @@ export class SignalMaster extends React.PureComponent {
 
   handleSettingsChange = formProps => {
     const { trigger } = this.state
-    const prevTrigger = (this.props.trigger || {}).trigger || trigger
 
     this.setState({
-      trigger: mapFormPropsToTrigger(formProps, prevTrigger),
+      trigger: mapFormPropsToTrigger(formProps, trigger),
       step: STEPS.CONFIRM
     })
   }
@@ -169,23 +153,21 @@ export class SignalMaster extends React.PureComponent {
     } else {
       this.props.createTrigger(data)
     }
+
     this.props.onClose && this.props.onClose()
     this.props.canRedirect && this.props.redirect && this.props.redirect()
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  toggleSignal: ({ id, isActive }) => {
-    dispatch(toggleTrigger({ id, isActive }))
-  },
   createTrigger: payload => {
     dispatch(createTrigger(payload))
   },
   updateTrigger: payload => {
     dispatch(updateTrigger(payload))
   },
-  redirect: (path = '/sonar/feed/my-signals') => {
-    dispatch(push(path))
+  redirect: () => {
+    dispatch(push('/sonar/feed/my-signals'))
   }
 })
 
@@ -212,7 +194,7 @@ const enhance = compose(
         variables: { id: +id }
       }
     },
-    props: mapTriggerToProps
+    props: mapGQLTriggerToProps
   })
 )
 

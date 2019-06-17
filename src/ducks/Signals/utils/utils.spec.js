@@ -1,9 +1,12 @@
 /* eslint-env jest */
+
 import {
-  mapTriggerToFormProps,
-  mapFormPropsToTrigger,
-  PRICE_PERCENT_CHANGE_UP_MODEL
-} from './utils'
+  PRICE_PERCENT_CHANGE_UP_MODEL,
+  DEFAULT_FREQUENCY_TIME_TYPE_MODEL,
+  FREQUENCY_TYPE_HOUR_MODEL,
+  PRICE_VOLUME_DIFFERENCE_METRIC
+} from './constants'
+import { mapTriggerToFormProps, mapFormPropsToTrigger } from './utils'
 
 const TRIGGERS = [
   {
@@ -20,7 +23,7 @@ const TRIGGERS = [
     isPublic: false,
     isActive: false,
     isRepeating: true,
-    cooldown: '30m',
+    cooldown: '22h',
     tags: [],
     title: 'Example',
     description: 'any',
@@ -38,7 +41,7 @@ const TRIGGERS = [
     isPublic: false,
     isActive: false,
     isRepeating: true,
-    cooldown: '30m',
+    cooldown: '22h',
     tags: [],
     title: 'Example',
     description: 'any',
@@ -55,7 +58,27 @@ const TRIGGERS = [
     isPublic: false,
     isActive: false,
     isRepeating: true,
-    cooldown: '30m',
+    cooldown: '22h',
+    tags: [],
+    title: 'Example',
+    description: 'any',
+    __typename: 'Trigger'
+  },
+  {
+    id: 1,
+    settings: {
+      channel: 'telegram',
+      target: { slug: 'santiment' },
+      time_window: '1d',
+      type: 'price_absolute_change',
+      operation: {
+        above: 5
+      }
+    },
+    isPublic: false,
+    isActive: false,
+    isRepeating: true,
+    cooldown: '22h',
     tags: [],
     title: 'Example',
     description: 'any',
@@ -63,43 +86,55 @@ const TRIGGERS = [
   }
 ]
 
+const frequencyTimeValue = {
+  value: '22',
+  label: '22'
+}
+
 const FORM_PROPS = [
   {
-    cooldown: '30m',
+    cooldown: '22h',
+    frequencyType: { ...FREQUENCY_TYPE_HOUR_MODEL },
+    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeValue: { ...frequencyTimeValue },
     percentThreshold: 5,
     isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
     timeWindow: 1,
     timeWindowUnit: { label: 'days', value: 'd' },
-    type: PRICE_PERCENT_CHANGE_UP_MODEL,
+    type: { ...PRICE_PERCENT_CHANGE_UP_MODEL },
     metric: { label: 'Price', value: 'price' },
     channels: ['telegram']
   },
   {
-    cooldown: '30m',
+    cooldown: '22h',
+    frequencyType: { ...FREQUENCY_TYPE_HOUR_MODEL },
+    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeValue: { ...frequencyTimeValue },
     percentThreshold: 6,
     isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
     timeWindow: 30,
     timeWindowUnit: { label: 'minutes', value: 'm' },
-    type: { label: 'Daily Active Addresses', value: 'daily_active_addresses' },
     metric: {
       label: 'Daily Active Addresses',
+      value: 'daily_active_addresses'
+    },
+    type: {
       value: 'daily_active_addresses'
     },
     channels: ['telegram']
   },
   {
-    cooldown: '30m',
+    cooldown: '22h',
+    frequencyType: { ...FREQUENCY_TYPE_HOUR_MODEL },
+    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeValue: { ...frequencyTimeValue },
     threshold: 0.002,
     isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
+    metric: { ...PRICE_VOLUME_DIFFERENCE_METRIC },
     type: {
-      label: 'Price/volume difference',
-      value: 'price_volume_difference'
-    },
-    metric: {
-      label: 'Price/volume difference',
       value: 'price_volume_difference'
     },
     channels: ['telegram']

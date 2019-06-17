@@ -4,8 +4,9 @@ import GetHistoricalBalance from './GetHistoricalBalance'
 import HistoricalBalanceChart from './HistoricalBalanceChart'
 import AssetsField from './AssetsField'
 import styles from './BalanceView.module.scss'
-import SignalMasterModalForm from '../Signals/SignalModal/SignalMasterModalForm'
+import SignalMasterModalForm from '../Signals/signalModal/SignalMasterModalForm'
 import ShowIf from '../../components/ShowIf'
+import { ETH_WALLET_METRIC } from '../Signals/utils/constants'
 
 class BalanceView extends React.Component {
   state = {
@@ -43,9 +44,23 @@ class BalanceView extends React.Component {
           </div>
         </div>
 
-        <ShowIf condition={false}>
-          {assets && assets.length === 1 && (
-            <SignalMasterModalForm canRedirect={false} asset={assets[0]} />
+        <ShowIf beta>
+          {address && assets && assets.length === 1 && (
+            <SignalMasterModalForm
+              canRedirect={false}
+              metaFormSettings={{
+                target: {
+                  value: {
+                    value: assets[0],
+                    label: assets[0]
+                  }
+                },
+                metric: {
+                  value: { ...ETH_WALLET_METRIC }
+                },
+                address: address
+              }}
+            />
           )}
         </ShowIf>
 
