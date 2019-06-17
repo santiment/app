@@ -108,7 +108,9 @@ const enhance = compose(
         .reduce(
           (prev, next) => ({
             ...prev,
-            [next.name]: next.listItems.map(({ project: { slug } }) => slug)
+            [next.name.toLowerCase()]: next.listItems.map(
+              ({ project: { slug } }) => slug
+            )
           }),
           {}
         )
