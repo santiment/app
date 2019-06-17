@@ -193,15 +193,13 @@ export const TriggerForm = ({
                   absoluteBorderRight={absoluteBorderRight}
                 />
 
-                {trigger && trigger.id && (
-                  <div className={cx(styles.row, styles.signalPreview)}>
-                    <SignalPreview
-                      target={values.target.value}
-                      initialMetrics={getMetricsByType(values.type)}
-                      type={values.type}
-                    />
-                  </div>
-                )}
+                <div className={cx(styles.row, styles.signalPreview)}>
+                  <SignalPreview
+                    target={values.target.value}
+                    initialMetrics={getMetricsByType(values.type)}
+                    type={values.type}
+                  />
+                </div>
 
                 <TriggerFormFrequency
                   metaFormSettings={metaFormSettings}
