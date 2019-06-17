@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import { Bar } from 'recharts'
-import { CHART_METRICS } from '../../SANCharts/utils'
+import { Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartMetrics from '../../SANCharts/ChartMetrics'
 import VisualBacktestChart from '../VisualBacktestChart'
@@ -91,7 +91,7 @@ const SignalPreview = ({ points = [], target, type }) => {
           onMetricsChange={metrics => setMetrics(metrics)}
           defaultActiveMetrics={initialMetrics}
           listOfMetrics={initialMetrics.reduce((acc, metric) => {
-            acc[metric] = CHART_METRICS[metric] || CHART_SETTINGS[metric]
+            acc[metric] = Metrics[metric] || CHART_SETTINGS[metric]
             return acc
           }, {})}
         />

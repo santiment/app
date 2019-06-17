@@ -13,7 +13,7 @@ import { compose, withProps } from 'recompose'
 import { formatNumber } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
-import { CHART_METRICS, generateMetricsMarkup } from './utils'
+import { Metrics, generateMetricsMarkup } from './utils'
 import styles from './ChartPage.module.scss'
 
 const tickFormatter = date => {
@@ -114,15 +114,15 @@ class Charts extends React.Component {
             <Tooltip
               labelFormatter={labelFormatter}
               formatter={(value, name) => {
-                if (name === CHART_METRICS.price.label) {
+                if (name === Metrics.price.label) {
                   return formatNumber(value, { currency: 'USD' })
                 }
                 if (
-                  name === CHART_METRICS.dailyActiveAddresses.label ||
-                  name === CHART_METRICS.socialVolume.label ||
-                  name === CHART_METRICS.networkGrowth.label ||
-                  name === CHART_METRICS.dailyActiveDeposits.label ||
-                  name === CHART_METRICS.devActivity.label
+                  name === Metrics.dailyActiveAddresses.label ||
+                  name === Metrics.socialVolume.label ||
+                  name === Metrics.networkGrowth.label ||
+                  name === Metrics.dailyActiveDeposits.label ||
+                  name === Metrics.devActivity.label
                 ) {
                   return value
                 }

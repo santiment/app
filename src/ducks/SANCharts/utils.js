@@ -1,7 +1,7 @@
 import React from 'react'
 import { YAxis, Bar, Line } from 'recharts'
 
-export const CHART_METRICS = {
+export const Metrics = {
   price: {
     node: Line,
     color: 'jungle-green',
@@ -90,8 +90,7 @@ export const CHART_METRICS = {
   }
 }
 
-export const getMetricCssVarColor = metric =>
-  `var(--${CHART_METRICS[metric].color})`
+export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
 
 export const generateMetricsMarkup = (metrics, data = {}) => {
   return metrics.reduce((acc, metric) => {
@@ -102,7 +101,7 @@ export const generateMetricsMarkup = (metrics, data = {}) => {
       yAxisVisible = false,
       orientation = 'left',
       dataKey = metric
-    } = typeof metric === 'object' ? metric : CHART_METRICS[metric]
+    } = typeof metric === 'object' ? metric : Metrics[metric]
     const rest = {
       [El === Bar ? 'fill' : 'stroke']: `var(--${color})`
     }
