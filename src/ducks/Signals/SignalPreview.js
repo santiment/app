@@ -34,7 +34,7 @@ const getTimerangeByType = type =>
 const SignalPreview = ({
   points = [],
   target,
-  initialMetrics = ['price'],
+  initialMetrics = ['historyPrice'],
   type
 }) => {
   const [metrics, setMetrics] = useState(initialMetrics)
@@ -51,22 +51,28 @@ const SignalPreview = ({
         {getTimerangeByType(type.value)}
       </Message>
       <GetTimeSeries
-        price={{
+        historyPrice={{
           timeRange: getTimerangeByType(type.value),
           slug: target,
           interval: '1d'
         }}
-        render={({ price, errorMetrics = {}, isError, errorType, ...rest }) => {
-          if (!price) {
+        render={({
+          historyPrice,
+          errorMetrics = {},
+          isError,
+          errorType,
+          ...rest
+        }) => {
+          if (!historyPrice) {
             return 'Loading...'
           }
           const data = normalizeTimeseries(points)
           const customMetrics = _metrics.map(metric =>
             CHART_SETTINGS[metric] ? CHART_SETTINGS[metric] : metric
           )
-          const _price = normalizeTimeseries(price.items)
+          const _price = normalizeTimeseries(historyPrice.items)
           return (
-            price && (
+            historyPrice && (
               <VisualBacktestChart
                 data={data}
                 price={_price}

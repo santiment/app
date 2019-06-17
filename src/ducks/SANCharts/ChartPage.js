@@ -27,7 +27,7 @@ class ChartPage extends Component {
   state = {
     timeRange: '6m',
     slug: 'santiment',
-    metrics: ['price'],
+    metrics: ['historyPrice'],
     title: 'Santiment (SAN)',
     interval: '1d',
     ...this.mapQSToState(this.props)
@@ -220,6 +220,7 @@ class ChartPage extends Component {
               />
               {!viewOnly && (
                 <LoadableChartMetrics
+                  slug={slug}
                   onMetricsChange={this.onMetricsChange}
                   defaultActiveMetrics={finalMetrics}
                   disabledMetrics={errors}
