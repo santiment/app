@@ -43,9 +43,6 @@ class ChartMetrics extends Component {
       <div className={styles.metrics}>
         {availableMetrics.map(metric => {
           const { color, label = metric } = listOfMetrics[metric] || {}
-          if (!color) {
-            debugger
-          }
           return (
             <button
               key={label}
