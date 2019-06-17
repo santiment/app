@@ -88,8 +88,10 @@ const SignalPreview = ({ points = [], target, type }) => {
         />
 
         <ChartMetrics
+          slug={target}
           onMetricsChange={metrics => setMetrics(metrics)}
           defaultActiveMetrics={initialMetrics}
+          showOnlyDefault={true}
           listOfMetrics={initialMetrics.reduce((acc, metric) => {
             acc[metric] = Metrics[metric] || CHART_SETTINGS[metric]
             return acc
