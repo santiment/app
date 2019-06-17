@@ -51,7 +51,7 @@ const link = mockSingleLink(
   },
   {
     request: {
-      query: getMetricQUERY('price'),
+      query: getMetricQUERY('historyPrice'),
       variables: {
         slug: 'santiment',
         interval: '1d',
