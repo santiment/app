@@ -1,12 +1,12 @@
 /* eslint-env jest */
+
 import {
-  mapTriggerToFormProps,
-  mapFormPropsToTrigger,
   PRICE_PERCENT_CHANGE_UP_MODEL,
   DEFAULT_FREQUENCY_TIME_TYPE_MODEL,
   FREQUENCY_TYPE_HOUR_MODEL,
-  frequencyTymeValueBuilder
-} from './utils'
+  PRICE_VOLUME_DIFFERENCE_METRIC
+} from './constants'
+import { mapTriggerToFormProps, mapFormPropsToTrigger } from './utils'
 
 const TRIGGERS = [
   {
@@ -133,10 +133,7 @@ const FORM_PROPS = [
     threshold: 0.002,
     isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
-    metric: {
-      label: 'Price/volume difference',
-      value: 'price_volume_difference'
-    },
+    metric: { ...PRICE_VOLUME_DIFFERENCE_METRIC },
     type: {
       value: 'price_volume_difference'
     },

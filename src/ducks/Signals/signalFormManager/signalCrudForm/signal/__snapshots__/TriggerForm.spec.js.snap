@@ -5,6 +5,7 @@ exports[`TriggerForm smoke 1`] = `
   enableReinitialize={true}
   initialValues={
     Object {
+      "address": undefined,
       "channels": Array [
         "telegram",
       ],

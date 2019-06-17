@@ -1,3 +1,35 @@
+import {
+  ETH_WALLETS_OPERATIONS,
+  ETH_WALLET_AMOUNT_UP,
+  ETH_WALLET_METRIC,
+  REQUIRED_MESSAGE,
+  PRICE_PERCENT_CHANGE_UP_MODEL,
+  PRICE_PERCENT_CHANGE,
+  PRICE_VOLUME_DIFFERENCE,
+  PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
+  PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
+  PRICE_ABSOLUTE_CHANGE,
+  DAILY_ACTIVE_ADDRESSES,
+  PRICE_CHANGE_TYPES,
+  FREQUENCY_TYPE_ONCEPER_MODEL,
+  FREQUENCY_TYPES_OPTIONS,
+  ETH_WALLET_AMOUNT_DOWN,
+  MUST_BE_MORE_ZERO_MESSAGE,
+  PRICE_PERCENT_CHANGE_DOWN_MODEL,
+  ETH_WALLET,
+  DAILY_ACTIVE_ADRESSES_METRIC,
+  PRICE_VOLUME_DIFFERENCE_METRIC,
+  PRICE_METRIC,
+  PRICE_ABS_CHANGE_OUTSIDE,
+  PRICE_ABS_CHANGE_INSIDE,
+  PRICE_ABS_CHANGE_BELOW,
+  PRICE_ABS_CHANGE_ABOVE,
+  COOLDOWN_TYPES,
+  COOLDOWN_REGEXP,
+  FREQUENCY_MAPPINGS,
+  FREQUENCY_VALUES
+} from './constants'
+
 const getTimeWindowUnit = timeWindow => {
   if (!timeWindow) return undefined
   const value = timeWindow.replace(/[0-9]/g, '')
@@ -16,69 +48,13 @@ const getTimeWindowUnit = timeWindow => {
   }
 }
 
-const getTarget = target => {
+const getFormTriggerTarget = target => {
   // TODO: only for one asset as target
   const { slug } = target
   return { value: slug, label: slug }
 }
 
-export const DAILY_ACTIVE_ADDRESSES = 'daily_active_addresses'
-export const PRICE_PERCENT_CHANGE = 'price_percent_change'
-export const PRICE_ABSOLUTE_CHANGE = 'price_absolute_change'
-export const PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER =
-  'price_absolute_change_single_border'
-export const PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER =
-  'price_absolute_change_double_border'
-export const PRICE_VOLUME_DIFFERENCE = 'price_volume_difference'
-
-export const PRICE_CHANGE_TYPES = {
-  MOVING_UP: 'percent_up',
-  MOVING_DOWN: 'percent_down',
-  INSIDE_CHANNEL: 'inside_channel',
-  OUTSIDE_CHANNEL: 'outside_channel',
-  ABOVE: 'above',
-  BELOW: 'below'
-}
-export const PRICE_PERCENT_CHANGE_UP_MODEL = {
-  value: PRICE_PERCENT_CHANGE,
-  label: 'Moving up %',
-  type: PRICE_CHANGE_TYPES.MOVING_UP
-}
-export const PRICE_PERCENT_CHANGE_DOWN_MODEL = {
-  value: PRICE_PERCENT_CHANGE,
-  label: 'Moving down %',
-  type: PRICE_CHANGE_TYPES.MOVING_DOWN
-}
-
-const PRICE_ABS_CHANGE_ABOVE = {
-  value: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
-  mainValue: PRICE_ABSOLUTE_CHANGE,
-  label: 'More than',
-  type: PRICE_CHANGE_TYPES.ABOVE
-}
-
-const PRICE_ABS_CHANGE_BELOW = {
-  value: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
-  mainValue: PRICE_ABSOLUTE_CHANGE,
-  label: 'Less than',
-  type: PRICE_CHANGE_TYPES.BELOW
-}
-
-const PRICE_ABS_CHANGE_INSIDE = {
-  value: PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
-  mainValue: PRICE_ABSOLUTE_CHANGE,
-  label: 'Entering channel',
-  type: PRICE_CHANGE_TYPES.INSIDE_CHANNEL
-}
-
-const PRICE_ABS_CHANGE_OUTSIDE = {
-  value: PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
-  mainValue: PRICE_ABSOLUTE_CHANGE,
-  label: 'Outside channel',
-  type: PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL
-}
-
-const getType = (type, operation) => {
+const getFormTriggerType = (type, operation) => {
   if (!operation) {
     return {
       value: type
@@ -88,6 +64,14 @@ const getType = (type, operation) => {
   const operationType = getOperationType(operation)
 
   switch (operationType) {
+    case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
+      return ETH_WALLET_AMOUNT_UP
+    }
+
+    case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN: {
+      return ETH_WALLET_AMOUNT_DOWN
+    }
+
     case PRICE_CHANGE_TYPES.MOVING_UP: {
       return PRICE_PERCENT_CHANGE_UP_MODEL
     }
@@ -118,6 +102,7 @@ const getType = (type, operation) => {
 
 const getTriggerOperation = ({
   type,
+  threshold,
   percentThreshold,
   absoluteThreshold,
   absoluteBorderRight,
@@ -130,6 +115,11 @@ const getTriggerOperation = ({
   const mapped = {}
 
   switch (type.type) {
+    case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN:
+    case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
+      mapped[type.type] = threshold
+      break
+    }
     case PRICE_CHANGE_TYPES.MOVING_DOWN:
     case PRICE_CHANGE_TYPES.MOVING_UP: {
       mapped[type.type] = percentThreshold
@@ -153,18 +143,11 @@ const getTriggerOperation = ({
   return mapped
 }
 
-const PRICE_METRIC = { label: 'Price', value: 'price' }
-const DAILY_ACTIVE_ADRESSES_METRIC = {
-  label: 'Daily Active Addresses',
-  value: DAILY_ACTIVE_ADDRESSES
-}
-const PRICE_VOLUME_DIFFERENCE_METRIC = {
-  label: 'Price/volume difference',
-  value: PRICE_VOLUME_DIFFERENCE
-}
-
 const getMetric = type => {
   switch (type) {
+    case ETH_WALLET: {
+      return ETH_WALLET_METRIC
+    }
     case PRICE_PERCENT_CHANGE:
     case PRICE_ABSOLUTE_CHANGE: {
       return PRICE_METRIC
@@ -218,6 +201,17 @@ const getAbsolutePriceValues = ({ settings: { operation, type } }) => {
   return values
 }
 
+const getTriggerToFormThreshold = ({ threshold, operation }) => {
+  let newThreshold = threshold || undefined
+
+  if (operation && !newThreshold) {
+    const operationType = getOperationType(operation)
+    newThreshold = operation[operationType]
+  }
+
+  return newThreshold
+}
+
 export const mapTriggerToFormProps = currentTrigger => {
   if (!currentTrigger || !currentTrigger.settings) {
     return undefined
@@ -228,24 +222,32 @@ export const mapTriggerToFormProps = currentTrigger => {
     isPublic,
     isRepeating,
     settings,
-    settings: { type, operation, time_window, target, threshold, channel }
+    settings: { type, operation, time_window, target, asset, channel }
   } = currentTrigger
 
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
 
+  const address = target.eth_address
+
+  const targetForParser = address ? asset : target
+
+  const newTarget = getFormTriggerTarget(targetForParser)
+  const newType = getFormTriggerType(type, operation)
+
   return {
+    address: address,
     cooldown: cooldown,
     isRepeating: isRepeating,
     isActive: isActive,
     isPublic: isPublic,
     metric: getMetric(type, operation),
-    type: getType(type, operation),
+    type: newType,
     timeWindow: time_window ? +time_window.match(/\d+/)[0] : undefined,
     timeWindowUnit: time_window ? getTimeWindowUnit(time_window) : undefined,
-    target: getTarget(target),
+    target: newTarget,
     percentThreshold: getPercentTreshold(settings),
-    threshold: threshold || undefined,
+    threshold: getTriggerToFormThreshold(settings),
     channels: [channel],
     ...frequencyModels,
     ...absolutePriceValues
@@ -273,8 +275,6 @@ const getCooldownParams = ({ frequencyTimeType, frequencyTimeValue }) => {
   }
 }
 
-const COOLDOWN_REGEXP = /([0-9]+)*([smhdw])/i
-
 const getFrequencyFromCooldown = ({ cooldown }) => {
   const [original, value, type] = COOLDOWN_REGEXP.exec(cooldown)
 
@@ -285,7 +285,7 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
     case COOLDOWN_TYPES.hourly:
     case COOLDOWN_TYPES.daily:
     case COOLDOWN_TYPES.weekly: {
-      frequencyType = FREQUENCY_TYPES.find(item => item.value === type)
+      frequencyType = FREQUENCY_TYPES_OPTIONS.find(item => item.value === type)
       break
     }
     default: {
@@ -308,26 +308,52 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
   }
 }
 
+export const mapTriggerTarget = (target, address) => {
+  let newTarget = { slug: target.value }
+
+  if (address) {
+    newTarget = { eth_address: address }
+  }
+
+  return {
+    target: newTarget
+  }
+}
+
+export const mapAssetTarget = target => {
+  return {
+    asset: { slug: target.value }
+  }
+}
+
 export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   const {
     channels,
     percentThreshold,
     threshold,
     target,
+    address,
     timeWindow,
     timeWindowUnit,
     isRepeating,
     type
   } = formProps
 
+  const newAsset = mapAssetTarget(target, address)
+  const newTarget = mapTriggerTarget(target, address)
+
   const cooldownParams = getCooldownParams(formProps)
+
   return {
     ...prevTrigger,
     settings: {
       channel: channels[0],
       percent_threshold: percentThreshold || undefined,
       threshold: threshold || undefined,
-      target: { slug: target.value },
+
+      ...newTarget,
+      ...newAsset,
+
       time_window: timeWindow
         ? timeWindow + '' + timeWindowUnit.value
         : undefined,
@@ -388,173 +414,11 @@ export const mapValuesToTriggerProps = ({
   })()
 })
 
-export const METRICS = [
-  { ...PRICE_METRIC },
-  // { label: 'Trending Words', value: 'trendingWords' },
-  { ...DAILY_ACTIVE_ADRESSES_METRIC },
-  { ...PRICE_VOLUME_DIFFERENCE_METRIC }
-]
-
-export const PRICE_TYPES = {
-  price: [
-    {
-      label: 'Price changing',
-      options: [
-        PRICE_ABS_CHANGE_ABOVE,
-        PRICE_ABS_CHANGE_BELOW,
-        PRICE_ABS_CHANGE_INSIDE,
-        PRICE_ABS_CHANGE_OUTSIDE
-      ]
-    },
-    {
-      label: 'Percent change',
-      options: [PRICE_PERCENT_CHANGE_UP_MODEL, PRICE_PERCENT_CHANGE_DOWN_MODEL]
-    }
-  ],
-  daily_active_addresses: [DAILY_ACTIVE_ADRESSES_METRIC],
-  price_volume_difference: [PRICE_VOLUME_DIFFERENCE_METRIC]
-}
-
-export const METRICS_DEPENDENCIES = {
-  price_volume_difference: ['threshold'],
-  daily_active_addresses: ['percentThreshold', 'timeWindow'],
-  price_percent_change: ['percentThreshold', 'timeWindow'],
-  price_absolute_change_single_border: ['absoluteThreshold'],
-  price_absolute_change_double_border: [
-    'absoluteBorderLeft',
-    'absoluteBorderRight'
-  ]
-}
-
-export const frequencyTymeValueBuilder = value => {
-  return {
-    value: value,
-    label: value
-  }
-}
-
-const createLabelValueArray = (from, to) => {
-  const array = []
-  for (let i = from; i <= to; i++) {
-    array.push(frequencyTymeValueBuilder(i))
-  }
-  return array
-}
-
-export const WEEKS = createLabelValueArray(1, 56)
-export const DAYS = createLabelValueArray(1, 7)
-export const HOURS = createLabelValueArray(1, 23)
-export const MINUTES = createLabelValueArray(1, 59)
-
-export const FREQUENCY_VALUES_TYPES = {
-  minutes: 'm',
-  hours: 'h',
-  days: 'd',
-  weeks: 'w'
-}
-
-const COOLDOWN_TYPES = {
-  oncePer: 'onceper',
-  minutly: 'm',
-  hourly: 'h',
-  daily: 'd',
-  weekly: 'w'
-}
-
-export const FREQUENCY_TYPE_ONCEPER_MODEL = {
-  label: 'Once Per',
-  value: COOLDOWN_TYPES.oncePer
-}
-
-export const FREQUENCY_TYPE_HOUR_MODEL = {
-  label: 'Hourly',
-  value: COOLDOWN_TYPES.hourly,
-  available: [FREQUENCY_VALUES_TYPES.hours]
-}
-
-export const DEFAULT_FREQUENCY_TIME_TYPE_MODEL = {
-  label: 'Hours',
-  value: FREQUENCY_VALUES_TYPES.hours
-}
-
-const ASSET_FILTER_TYPES = {
-  asset: 'assets',
-  assetGroup: 'assetGroup',
-  watchlist: 'watchlist'
-}
-
-const DEFAULT_ASSETS_FILTER_MODEL = {
-  label: 'Assets',
-  value: ASSET_FILTER_TYPES.asset
-}
-
-export const ASSETS_FILTERS = [
-  DEFAULT_ASSETS_FILTER_MODEL,
-  {
-    label: 'Asset group',
-    value: ASSET_FILTER_TYPES.assetGroup
-  },
-  {
-    label: 'Watchlist',
-    value: ASSET_FILTER_TYPES.watchlist
-  }
-]
-
-export const METRIC_DEFAULT_VALUES = {
-  price_absolute_change: {
-    frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
-    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
-    frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
-    absoluteThreshold: 5,
-    absoluteBorderLeft: 50,
-    absoluteBorderRight: 75,
-    timeWindow: 24,
-    timeWindowUnit: { label: 'hours', value: 'h' },
-    type: PRICE_PERCENT_CHANGE_UP_MODEL,
-    isRepeating: true,
-    channels: ['telegram']
-  },
-  price_percent_change: {
-    frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
-    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
-    frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
-    percentThreshold: 5,
-    timeWindow: 24,
-    timeWindowUnit: { label: 'hours', value: 'h' },
-    type: PRICE_PERCENT_CHANGE_UP_MODEL,
-    isRepeating: true,
-    channels: ['telegram']
-  },
-  daily_active_addresses: {
-    frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
-    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
-    frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
-    percentThreshold: 200,
-    timeWindow: 2,
-    timeWindowUnit: { label: 'days', value: 'd' },
-    type: {
-      label: 'Daily Active Addresses',
-      value: DAILY_ACTIVE_ADDRESSES
-    },
-    isRepeating: true,
-    channels: ['telegram']
-  },
-  price_volume_difference: {
-    frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
-    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
-    frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
-    threshold: 0.002,
-    type: {
-      label: 'Price/volume difference',
-      value: PRICE_VOLUME_DIFFERENCE
-    },
-    isRepeating: true,
-    channels: ['telegram']
-  }
-}
-
-export const getTypeByMetric = metric => {
+export const getNearestTypeByMetric = metric => {
   switch (metric.value) {
+    case ETH_WALLET_METRIC.value: {
+      return ETH_WALLET_AMOUNT_UP
+    }
     case PRICE_METRIC.value: {
       return PRICE_PERCENT_CHANGE_UP_MODEL
     }
@@ -584,15 +448,14 @@ export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
 
   const checkingTrigger = trigger ? trigger.trigger : undefined
 
-  if (
-    !loading &&
-    !(
-      checkingTrigger &&
-      checkingTrigger.settings &&
-      checkingTrigger.settings.target &&
-      checkingTrigger.settings.target.hasOwnProperty('slug')
-    )
-  ) {
+  let triggerAsset = {}
+
+  if (checkingTrigger && checkingTrigger.settings) {
+    const { target, asset } = checkingTrigger.settings
+    triggerAsset = asset || target
+  }
+
+  if (!loading && !triggerAsset.hasOwnProperty('slug')) {
     return {
       trigger: {
         isError: true,
@@ -610,77 +473,6 @@ export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
     }
   }
 }
-
-export const DEFAULT_FORM_META_SETTINGS = {
-  target: {
-    isDisabled: false,
-    value: {
-      value: 'santiment',
-      label: 'santiment'
-    }
-  },
-  metric: {
-    isDisabled: false,
-    value: { ...PRICE_METRIC }
-  },
-  type: {
-    isDisabled: false,
-    value: { ...PRICE_PERCENT_CHANGE_UP_MODEL }
-  },
-  frequencyType: {
-    isDisabled: false,
-    value: { ...FREQUENCY_TYPE_ONCEPER_MODEL }
-  },
-  signalType: {
-    isDisabled: true,
-    value: { ...DEFAULT_ASSETS_FILTER_MODEL }
-  }
-}
-
-export const FREQUENCY_TYPES = [
-  FREQUENCY_TYPE_ONCEPER_MODEL,
-  {
-    label: 'Minutly',
-    value: COOLDOWN_TYPES.minutly,
-    available: [FREQUENCY_VALUES_TYPES.minutes]
-  },
-  FREQUENCY_TYPE_HOUR_MODEL,
-  {
-    label: 'Daily',
-    value: COOLDOWN_TYPES.daily,
-    available: [FREQUENCY_VALUES_TYPES.days]
-  },
-  {
-    label: 'Weekly',
-    value: COOLDOWN_TYPES.weekly,
-    available: [FREQUENCY_VALUES_TYPES.weeks]
-  }
-]
-
-const FREQUENCY_MAPPINGS = (() => {
-  const maps = {}
-  maps[FREQUENCY_VALUES_TYPES.minutes] = MINUTES
-  maps[FREQUENCY_VALUES_TYPES.hours] = HOURS
-  maps[FREQUENCY_VALUES_TYPES.weeks] = WEEKS
-  maps[FREQUENCY_VALUES_TYPES.days] = DAYS
-  return maps
-})()
-
-const FREQUENCY_VALUES = [
-  {
-    label: 'Minutes',
-    value: FREQUENCY_VALUES_TYPES.minutes
-  },
-  { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
-  {
-    label: 'Days',
-    value: FREQUENCY_VALUES_TYPES.days
-  },
-  {
-    label: 'Weeks',
-    value: FREQUENCY_VALUES_TYPES.weeks
-  }
-]
 
 export function getFrequencyTimeType (frequencyType) {
   if (frequencyType && frequencyType.available) {
@@ -709,4 +501,68 @@ export function getNearestFrequencyTimeValue (frequencyTimeType) {
 
 export function getNearestFrequencyTypeValue (frequencyType) {
   return getFrequencyTimeType(frequencyType)[0]
+}
+
+export const validateTriggerForm = values => {
+  let errors = {}
+
+  if (values.address === '') {
+    errors.address = REQUIRED_MESSAGE
+  }
+
+  if (
+    values.type.value === DAILY_ACTIVE_ADDRESSES ||
+    values.type.value === PRICE_PERCENT_CHANGE
+  ) {
+    if (!values.percentThreshold) {
+      errors.percentThreshold = REQUIRED_MESSAGE
+    } else if (values.percentThreshold <= 0) {
+      errors.percentThreshold = MUST_BE_MORE_ZERO_MESSAGE
+    }
+    if (!values.timeWindow) {
+      errors.timeWindow = REQUIRED_MESSAGE
+    } else if (values.timeWindow <= 0) {
+      errors.timeWindow = MUST_BE_MORE_ZERO_MESSAGE
+    }
+  }
+
+  if (values.type.value === PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER) {
+    if (!values.absoluteThreshold) {
+      errors.absoluteThreshold = REQUIRED_MESSAGE
+    }
+  }
+
+  if (values.type.value === PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER) {
+    if (!values.absoluteBorderLeft) {
+      errors.absoluteBorderLeft = REQUIRED_MESSAGE
+    }
+    if (!values.absoluteBorderRight) {
+      errors.absoluteBorderRight = REQUIRED_MESSAGE
+    }
+  }
+
+  if (values.type.value === PRICE_VOLUME_DIFFERENCE) {
+    if (!values.threshold) {
+      errors.threshold = REQUIRED_MESSAGE
+    } else if (values.threshold < 0) {
+      errors.threshold = MUST_BE_MORE_ZERO_MESSAGE
+    }
+  }
+  if (values.channels && values.channels.length === 0) {
+    errors.channels = 'You must setup notification channel'
+  }
+
+  if (!values.frequencyType || !values.frequencyType.value) {
+    errors.frequencyType = REQUIRED_MESSAGE
+  }
+
+  if (!values.frequencyTimeValue || !values.frequencyTimeValue.value) {
+    errors.frequencyTimeValue = REQUIRED_MESSAGE
+  }
+
+  if (!values.frequencyTimeType || !values.frequencyTimeType.value) {
+    errors.frequencyTimeType = REQUIRED_MESSAGE
+  }
+
+  return errors
 }

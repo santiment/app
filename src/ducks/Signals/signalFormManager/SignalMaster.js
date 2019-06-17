@@ -11,7 +11,6 @@ import {
 } from '@santiment-network/ui'
 import TriggersForm from './signalCrudForm/signalsList/TriggersForm'
 import AboutForm from './aboutForm/AboutForm'
-import styles from './signalCrudForm/signal/TriggerForm.module.scss'
 import { TRIGGER_BY_ID_QUERY } from '../gql/SignalsGQL'
 import { Icon } from '@santiment-network/ui'
 import {
@@ -19,6 +18,7 @@ import {
   mapFormPropsToTrigger,
   mapGQLTriggerToProps
 } from '../utils/utils'
+import styles from './signalCrudForm/signal/TriggerForm.module.scss'
 
 const STEPS = {
   SETTINGS: 0,
@@ -56,21 +56,13 @@ export class SignalMaster extends React.PureComponent {
     const { step, trigger: stateTrigger } = this.state
 
     const trigger = triggerObj.trigger || stateTrigger
-    let triggerSettingsFormData = trigger ? mapTriggerToFormProps(trigger) : {}
+    const triggerSettingsFormData = trigger
+      ? mapTriggerToFormProps(trigger)
+      : {}
 
     const triggerAboutFormData = {
       title: trigger.title,
       description: trigger.description
-    }
-
-    if (this.props.asset) {
-      triggerSettingsFormData = {
-        ...triggerSettingsFormData,
-        target: {
-          value: this.props.asset,
-          label: this.props.asset
-        }
-      }
     }
 
     const toggleSignalPublic = () => {
