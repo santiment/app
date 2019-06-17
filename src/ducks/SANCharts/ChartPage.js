@@ -4,6 +4,7 @@ import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
+import { getIntervalByTimeRange } from '../../utils/dates'
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./ChartSettings'),
@@ -15,6 +16,10 @@ const LoadableChartMetrics = Loadable({
   loading: () => <div />
 })
 
+const DEFAULT_TIME_RANGE = '6m'
+
+const { from, to } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
+
 class ChartPage extends Component {
   mapQSToState = ({ location: { search } }) => {
     const data = qs.parse(search, { arrayFormat: 'comma' })
@@ -25,7 +30,9 @@ class ChartPage extends Component {
   }
 
   state = {
-    timeRange: '6m',
+    timeRange: DEFAULT_TIME_RANGE,
+    from,
+    to,
     slug: 'santiment',
     metrics: ['historyPrice'],
     title: 'Santiment (SAN)',
@@ -47,8 +54,9 @@ class ChartPage extends Component {
   }
 
   onTimerangeChange = timeRange => {
+    const { from, to } = getIntervalByTimeRange(timeRange)
     this.setState(
-      { timeRange, from: undefined, to: undefined },
+      { timeRange, from: from.toISOString(), to: to.toISOString() },
       this.updateSearchQuery
     )
   }
@@ -56,7 +64,6 @@ class ChartPage extends Component {
   onCalendarChange = ([from, to]) => {
     this.setState(
       {
-        timeRange: undefined,
         from: from.toISOString(),
         to: to.toISOString()
       },
@@ -97,7 +104,6 @@ class ChartPage extends Component {
     const {
       slug,
       title,
-      timeRange,
       metrics,
       interval,
       nightMode,
@@ -122,8 +128,6 @@ class ChartPage extends Component {
     } else if (from && to) {
       settings.from = from
       settings.to = to
-    } else {
-      settings.timeRange = timeRange
     }
 
     return `${origin}${pathname}?${qs.stringify(settings, {
@@ -150,7 +154,6 @@ class ChartPage extends Component {
         ...acc,
         [metric]: {
           slug,
-          timeRange: from ? undefined : timeRange,
           from,
           to,
           interval
@@ -204,6 +207,8 @@ class ChartPage extends Component {
                   onNightModeSelect={this.onNightModeSelect}
                   hasNightMode={nightMode}
                   disabledMetrics={errors}
+                  from={from}
+                  to={to}
                 />
               )}
               <Charts
