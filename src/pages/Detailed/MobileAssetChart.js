@@ -13,6 +13,8 @@ import { formatNumber } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
 import styles from './MobileAssetChart.module.scss'
 
+//
+
 const labelFormatter = date => {
   const { dddd, MMM, DD, YYYY } = getDateFormats(new Date(date))
   return `${dddd}, ${MMM} ${DD} ${YYYY}`
