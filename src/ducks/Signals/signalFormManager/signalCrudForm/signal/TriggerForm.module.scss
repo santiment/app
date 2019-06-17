@@ -17,6 +17,15 @@
   z-index: 100;
 }
 
+.signalPreview {
+  display: block !important;
+  padding: 15px 15px 0 15px;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
 .Trigger {
   display: flex;
   flex-direction: column;

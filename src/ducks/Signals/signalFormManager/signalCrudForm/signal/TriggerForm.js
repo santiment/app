@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
@@ -6,6 +6,7 @@ import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
+import isEqual from 'lodash.isequal'
 import { Button, Message } from '@santiment-network/ui'
 import { selectIsTelegramConnected } from '../../../../../pages/UserSelectors'
 import { allProjectsForSearchGQL } from '../../../../../pages/Projects/allProjectsGQL'
@@ -25,11 +26,16 @@ import {
   DEFAULT_FORM_META_SETTINGS
 } from '../../../utils/constants'
 
-import { validateTriggerForm } from '../../../utils/utils'
+import {
+  getMetricsByType,
+  mapValuesToTriggerProps,
+  validateTriggerForm
+} from '../../../utils/utils'
 import { TriggerFormAssetWallet } from '../formParts/TriggerFormAssetWallet'
 import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/TriggerFormMetricTypes'
 import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'
+import SignalPreview from '../../../chart/SignalPreview'
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
@@ -79,6 +85,10 @@ export const TriggerForm = ({
   const [initialValues, setInitialValues] = useState(settings)
   const [showTrigger, setShowTrigger] = useState(true)
 
+  useEffect(() => {
+    getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
+  }, [])
+
   const setDefaultPriceValues = values => {
     const newValues = { ...values, ...METRIC_DEFAULT_VALUES[values.type.value] }
     setInitialValues(newValues)
@@ -88,8 +98,10 @@ export const TriggerForm = ({
     setShowTrigger(!showTrigger)
   }
 
+  const { id } = trigger
+
   const deleteTrigger = () => {
-    trigger.id && removeSignal(trigger.id)
+    id && removeSignal(id)
     onRemovedSignal && onRemovedSignal()
   }
 
@@ -131,6 +143,24 @@ export const TriggerForm = ({
               ) {
                 setDefaultPriceValues(current.values)
                 validateForm()
+                return
+              }
+
+              if (!isEqual(current.values, prev.values)) {
+                const lastErrors = validateTriggerForm(current.values)
+                const isError = Object.keys(current.values).reduce(
+                  (acc, val) => {
+                    if (lastErrors.hasOwnProperty(val)) {
+                      acc = true
+                    }
+                    return acc
+                  },
+                  false
+                )
+
+                !!current.values.target &&
+                  !isError &&
+                  getSignalBacktestingPoints(mapValuesToTriggerProps(values))
               }
             }}
           />
@@ -164,6 +194,16 @@ export const TriggerForm = ({
                   absoluteBorderLeft={absoluteBorderLeft}
                   absoluteBorderRight={absoluteBorderRight}
                 />
+
+                {id && (
+                  <div className={cx(styles.row, styles.signalPreview)}>
+                    <SignalPreview
+                      target={values.target.value}
+                      initialMetrics={getMetricsByType(values.type)}
+                      type={values.type}
+                    />
+                  </div>
+                )}
 
                 <TriggerFormFrequency
                   metaFormSettings={metaFormSettings}

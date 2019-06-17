@@ -366,6 +366,18 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     // isActive: !!formProps.isActive
   }
 }
+
+export const getMetricsByType = type => {
+  switch (type.value) {
+    case 'daily_active_addresses':
+      return ['active_addresses', 'price']
+    case 'price_volume_difference':
+      return ['price', 'volume']
+    default:
+      return ['price']
+  }
+}
+
 export const mapValuesToTriggerProps = ({
   type,
   timeWindowUnit,

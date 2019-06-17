@@ -1,0 +1,17 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.fired {
+  @include text-normal;
+
+  color: var(--casper);
+}
+
+.times {
+  @include text-normal;
+
+  margin-left: 10px;
+}
+
+.chartBlock {
+  margin-top: 20px;
+}
