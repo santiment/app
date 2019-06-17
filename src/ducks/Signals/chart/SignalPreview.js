@@ -55,28 +55,28 @@ const SignalPreview = ({ points = [], target, type }) => {
       </div>
       <div className={styles.chartBlock}>
         <GetTimeSeries
-          price={{
+          historyPrice={{
             timeRange: timeRange,
             slug: target,
             interval: '1d'
           }}
           render={({
-            price,
+            historyPrice,
             errorMetrics = {},
             isError,
             errorType,
             ...rest
           }) => {
-            if (!price) {
+            if (!historyPrice) {
               return 'Loading...'
             }
             const data = normalizeTimeseries(points)
             const customMetrics = _metrics.map(metric =>
               CHART_SETTINGS[metric] ? CHART_SETTINGS[metric] : metric
             )
-            const _price = normalizeTimeseries(price.items)
+            const _price = normalizeTimeseries(historyPrice.items)
             return (
-              price && (
+              historyPrice && (
                 <VisualBacktestChart
                   data={data}
                   price={_price}
