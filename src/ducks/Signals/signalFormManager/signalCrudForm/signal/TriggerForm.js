@@ -98,10 +98,8 @@ export const TriggerForm = ({
     setShowTrigger(!showTrigger)
   }
 
-  const { id } = trigger
-
   const deleteTrigger = () => {
-    id && removeSignal(id)
+    trigger && trigger.id && removeSignal(trigger.id)
     onRemovedSignal && onRemovedSignal()
   }
 
@@ -195,7 +193,7 @@ export const TriggerForm = ({
                   absoluteBorderRight={absoluteBorderRight}
                 />
 
-                {id && (
+                {trigger && trigger.id && (
                   <div className={cx(styles.row, styles.signalPreview)}>
                     <SignalPreview
                       target={values.target.value}
