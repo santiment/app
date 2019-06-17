@@ -17,7 +17,7 @@ Array [
         "isLoading": false,
       },
       "errorMetrics": Object {},
-      "price": Object {
+      "historyPrice": Object {
         "isEmpty": false,
         "isError": undefined,
         "isLoading": false,
@@ -27,9 +27,9 @@ Array [
           "formatter": [Function],
           "title": "devActivity",
         },
-        "price": Object {
+        "historyPrice": Object {
           "formatter": [Function],
-          "title": "price",
+          "title": "historyPrice",
         },
       },
       "timeseries": Array [
@@ -160,7 +160,7 @@ Array [
         ],
       },
       "errorMetrics": Object {},
-      "price": Object {
+      "historyPrice": Object {
         "isEmpty": false,
         "isError": undefined,
         "isLoading": false,
@@ -235,9 +235,9 @@ Array [
           "formatter": [Function],
           "title": "devActivity",
         },
-        "price": Object {
+        "historyPrice": Object {
           "formatter": [Function],
-          "title": "price",
+          "title": "historyPrice",
         },
       },
     },

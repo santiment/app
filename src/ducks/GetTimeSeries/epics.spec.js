@@ -20,7 +20,7 @@ const createClient = link => {
 }
 
 const mockedData = {
-  price: [0, 1, 2, 3, 4, 5, 6, 7, 8].map(index => ({
+  historyPrice: [0, 1, 2, 3, 4, 5, 6, 7, 8].map(index => ({
     priceBtc: Math.round(100),
     priceUsd: Math.round(100),
     volume: Math.round(100),
@@ -39,7 +39,7 @@ const mockedDevActivity = {
 const link = mockSingleLink(
   {
     request: {
-      query: getMetricQUERY('price'),
+      query: getMetricQUERY('historyPrice'),
       variables: {
         slug: 'santiment',
         interval: '1d',
@@ -77,7 +77,7 @@ const link = mockSingleLink(
   },
   {
     request: {
-      query: getMetricQUERY('price'),
+      query: getMetricQUERY('historyPrice'),
       variables: {
         slug: 'santiment',
         interval: '1d',
@@ -109,7 +109,7 @@ describe('Fetch timeseries', () => {
     const action$ = ActionsObservable.of({
       type: actions.TIMESERIES_FETCH,
       payload: {
-        price: {
+        historyPrice: {
           from: '2018-12-01',
           to: '2018-12-10',
           slug: 'santiment',
@@ -128,7 +128,7 @@ describe('Fetch timeseries', () => {
     const action$ = ActionsObservable.of({
       type: actions.TIMESERIES_FETCH,
       payload: {
-        price: {
+        historyPrice: {
           from: '2018-12-01',
           to: '2018-12-10',
           slug: 'santiment',
@@ -156,7 +156,7 @@ describe('Fetch timeseries', () => {
     const action$ = ActionsObservable.of({
       type: actions.TIMESERIES_FETCH,
       payload: {
-        price: {
+        historyPrice: {
           from: '2018-12-01',
           to: '2018-12-10',
           slug: 'santiment',
