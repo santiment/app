@@ -1,11 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
-import {
-  getNearestTypeByMetric,
-  METRICS,
-  PRICE_TYPES
-} from '../../../utils/utils'
+import { getNearestTypeByMetric } from '../../../utils/utils'
+import { METRICS_OPTIONS, PRICE_TYPES } from '../../../utils/constants'
 import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
@@ -34,7 +31,7 @@ export const TriggerFormMetricTypes = ({
             defaultValue={defaultMetric.value}
             isSearchable
             placeholder='Choose a metric'
-            options={METRICS}
+            options={METRICS_OPTIONS}
             onChange={newMetric => {
               metric &&
                 newMetric.value !== metric.value &&

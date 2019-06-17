@@ -20,85 +20,16 @@ import { TriggerFormHeader } from '../header/TriggerFormHeader'
 import styles from './TriggerForm.module.scss'
 
 import {
-  DAILY_ACTIVE_ADDRESSES,
   PRICE_PERCENT_CHANGE,
-  PRICE_VOLUME_DIFFERENCE,
   METRIC_DEFAULT_VALUES,
-  DEFAULT_FORM_META_SETTINGS,
-  PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
-  PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER
-} from '../../../utils/utils'
+  DEFAULT_FORM_META_SETTINGS
+} from '../../../utils/constants'
+
+import { validateTriggerForm } from '../../../utils/utils'
 import { TriggerFormAssetWallet } from '../formParts/TriggerFormAssetWallet'
 import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/TriggerFormMetricTypes'
 import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'
-
-const REQUIRED_MESSAGE = 'Required'
-const MUST_BE_MORE_ZERO_MESSAGE = 'Must be more 0'
-
-const validate = values => {
-  let errors = {}
-
-  if (values.address === '') {
-    errors.address = REQUIRED_MESSAGE
-  }
-
-  if (
-    values.type.value === DAILY_ACTIVE_ADDRESSES ||
-    values.type.value === PRICE_PERCENT_CHANGE
-  ) {
-    if (!values.percentThreshold) {
-      errors.percentThreshold = REQUIRED_MESSAGE
-    } else if (values.percentThreshold <= 0) {
-      errors.percentThreshold = MUST_BE_MORE_ZERO_MESSAGE
-    }
-    if (!values.timeWindow) {
-      errors.timeWindow = REQUIRED_MESSAGE
-    } else if (values.timeWindow <= 0) {
-      errors.timeWindow = MUST_BE_MORE_ZERO_MESSAGE
-    }
-  }
-
-  if (values.type.value === PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER) {
-    if (!values.absoluteThreshold) {
-      errors.absoluteThreshold = REQUIRED_MESSAGE
-    }
-  }
-
-  if (values.type.value === PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER) {
-    if (!values.absoluteBorderLeft) {
-      errors.absoluteBorderLeft = REQUIRED_MESSAGE
-    }
-    if (!values.absoluteBorderRight) {
-      errors.absoluteBorderRight = REQUIRED_MESSAGE
-    }
-  }
-
-  if (values.type.value === PRICE_VOLUME_DIFFERENCE) {
-    if (!values.threshold) {
-      errors.threshold = REQUIRED_MESSAGE
-    } else if (values.threshold < 0) {
-      errors.threshold = MUST_BE_MORE_ZERO_MESSAGE
-    }
-  }
-  if (values.channels && values.channels.length === 0) {
-    errors.channels = 'You must setup notification channel'
-  }
-
-  if (!values.frequencyType || !values.frequencyType.value) {
-    errors.frequencyType = REQUIRED_MESSAGE
-  }
-
-  if (!values.frequencyTimeValue || !values.frequencyTimeValue.value) {
-    errors.frequencyTimeValue = REQUIRED_MESSAGE
-  }
-
-  if (!values.frequencyTimeType || !values.frequencyTimeType.value) {
-    errors.frequencyTimeType = REQUIRED_MESSAGE
-  }
-
-  return errors
-}
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
@@ -167,7 +98,7 @@ export const TriggerForm = ({
       initialValues={initialValues}
       isInitialValid
       enableReinitialize
-      validate={validate}
+      validate={validateTriggerForm}
       onSubmit={values => {
         onSettingsChange(values)
       }}

@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import {
-  FREQUENCY_TYPES,
   frequencyTymeValueBuilder,
   getFrequencyTimeType,
   getFrequencyTimeValues,
   getNearestFrequencyTimeValue,
   getNearestFrequencyTypeValue
 } from '../../../utils/utils'
+import { FREQUENCY_TYPES_OPTIONS } from '../../../utils/constants'
 import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
@@ -37,7 +37,7 @@ export const TriggerFormFrequency = ({
           defaultValue={defaultFrequencyType.value.value}
           isSearchable
           placeholder='Choose frequency'
-          options={FREQUENCY_TYPES}
+          options={FREQUENCY_TYPES_OPTIONS}
           onChange={frequencyType => {
             const newFrequencyTimeType = getNearestFrequencyTypeValue(
               frequencyType

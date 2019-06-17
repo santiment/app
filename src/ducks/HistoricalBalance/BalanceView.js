@@ -6,7 +6,7 @@ import AssetsField from './AssetsField'
 import styles from './BalanceView.module.scss'
 import SignalMasterModalForm from '../Signals/signalModal/SignalMasterModalForm'
 import ShowIf from '../../components/ShowIf'
-import { ETH_WALLET_METRIC } from '../Signals/utils/utils'
+import { ETH_WALLET_METRIC } from '../Signals/utils/constants'
 
 class BalanceView extends React.Component {
   state = {

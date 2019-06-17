@@ -1,13 +1,12 @@
 /* eslint-env jest */
+
 import {
-  mapTriggerToFormProps,
-  mapFormPropsToTrigger,
   PRICE_PERCENT_CHANGE_UP_MODEL,
   DEFAULT_FREQUENCY_TIME_TYPE_MODEL,
   FREQUENCY_TYPE_HOUR_MODEL,
-  PRICE_VOLUME_DIFFERENCE_METRIC,
-  frequencyTymeValueBuilder
-} from './utils'
+  PRICE_VOLUME_DIFFERENCE_METRIC
+} from './constants'
+import { mapTriggerToFormProps, mapFormPropsToTrigger } from './utils'
 
 const TRIGGERS = [
   {
