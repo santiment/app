@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import Label from '@santiment-network/ui/Label'
+import { graphql } from 'react-apollo'
 import cx from 'classnames'
+import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
 import { Metrics } from './utils'
 import styles from './ChartPage.module.scss'
 
@@ -32,12 +34,18 @@ class ChartMetrics extends Component {
 
   render () {
     const { metrics } = this.state
-    const { disabledMetrics = [] } = this.props
+    const {
+      disabledMetrics = [],
+      data: { project: { availableMetrics = [] } = {} }
+    } = this.props
     const listOfMetrics = this.props.listOfMetrics || Metrics
     return (
       <div className={styles.metrics}>
-        {Object.keys(listOfMetrics).map(metric => {
-          const { color, label } = listOfMetrics[metric]
+        {availableMetrics.map(metric => {
+          const { color, label = metric } = listOfMetrics[metric] || {}
+          if (!color) {
+            debugger
+          }
           return (
             <button
               key={label}
@@ -57,4 +65,6 @@ class ChartMetrics extends Component {
   }
 }
 
-export default ChartMetrics
+export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
+  options: ({ slug }) => ({ variables: { slug } })
+})(ChartMetrics)

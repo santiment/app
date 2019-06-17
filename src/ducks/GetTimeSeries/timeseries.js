@@ -17,7 +17,7 @@ import { mergeTimeseriesByKey } from './../../utils/utils'
 import { formatNumber } from './../../utils/formatting'
 
 const TIMESERIES = {
-  price: {
+  historyPrice: {
     query: HISTORY_PRICE_QUERY
   },
   volume: {
@@ -48,7 +48,7 @@ const TIMESERIES = {
   tokenCirculation: {
     query: TOKEN_CIRCULATION_QUERY
   },
-  mvrv: {
+  mvrvRatio: {
     query: MVRV_QUERY
   },
   dailyActiveDeposits: {
