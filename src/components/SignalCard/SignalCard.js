@@ -137,12 +137,6 @@ const SignalCardBottom = ({
         <UnpublishedMsg />
       )}
       <div className={styles.bottom__right}>
-        {!isActive && (
-          <div className={styles.subscriptions}>
-            <Icon type='profile' className={styles.subscriptions__icon} />
-            {subscriptionsNumber}
-          </div>
-        )}
         <Toggle onClick={toggleSignal} isActive={isActive} />
       </div>
     </div>

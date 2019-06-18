@@ -239,7 +239,7 @@ export const mapTriggerToFormProps = currentTrigger => {
   const newType = getFormTriggerType(type, operation)
 
   return {
-    address: address,
+    ethAddress: address,
     cooldown: cooldown,
     isRepeating: isRepeating,
     isActive: isActive,
@@ -335,15 +335,15 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     percentThreshold,
     threshold,
     target,
-    address,
+    ethAddress,
     timeWindow,
     timeWindowUnit,
     isRepeating,
     type
   } = formProps
 
-  const newAsset = mapAssetTarget(target, address)
-  const newTarget = mapTriggerTarget(target, address)
+  const newAsset = mapAssetTarget(target, ethAddress)
+  const newTarget = mapTriggerTarget(target, ethAddress)
 
   const cooldownParams = getCooldownParams(formProps)
 
@@ -522,8 +522,8 @@ export function getNearestFrequencyTypeValue (frequencyType) {
 export const validateTriggerForm = values => {
   let errors = {}
 
-  if (values.type.value === ETH_WALLET && !values.address) {
-    errors.address = REQUIRED_MESSAGE
+  if (values.type.value === ETH_WALLET && !values.ethAddress) {
+    errors.ethAddress = REQUIRED_MESSAGE
   }
 
   if (

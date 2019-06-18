@@ -74,6 +74,10 @@ a.connectLink {
 
 .notifyBlock {
   display: flex;
+
+  div:first-child {
+    margin-right: 25px !important;
+  }
 }
 
 .Field {
@@ -81,6 +85,7 @@ a.connectLink {
   width: 50%;
   padding-right: 1rem;
   user-select: none;
+  margin-bottom: auto;
 
   @include text-normal;
 }

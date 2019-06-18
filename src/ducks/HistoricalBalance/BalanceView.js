@@ -58,7 +58,7 @@ class BalanceView extends React.Component {
                 metric: {
                   value: { ...ETH_WALLET_METRIC }
                 },
-                address: address
+                ethAddress: address
               }}
             />
           )}

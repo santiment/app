@@ -75,7 +75,7 @@ export const TriggerForm = ({
     signalType: metaFormSettings.signalType.value
       ? metaFormSettings.signalType.value
       : settings.signalType,
-    address: metaFormSettings.address,
+    ethAddress: metaFormSettings.ethAddress,
     ...settings
   }
 

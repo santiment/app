@@ -21,7 +21,7 @@ export const TriggerFormAssetWallet = ({
   const defaultSignalType = metaFormSettings.signalType
   const defaultAsset = metaFormSettings.target
 
-  const { address } = metaFormSettings
+  const { ethAddress } = metaFormSettings
 
   const isEthWallet = metric.value === ETH_WALLET_METRIC.value
 
@@ -42,7 +42,7 @@ export const TriggerFormAssetWallet = ({
       {isEthWallet && (
         <div className={styles.Field}>
           <label>Wallet</label>
-          <FormikInput name='address' placeholder='Wallet address' />
+          <FormikInput name='ethAddress' placeholder='Wallet address' />
         </div>
       )}
 
@@ -58,11 +58,11 @@ export const TriggerFormAssetWallet = ({
             value: asset.slug
           }))}
           onChange={newAsset => {
-            if (address) {
+            if (ethAddress) {
               if (metaFormSettings.target.value.value === newAsset.value) {
-                setFieldValue('address', address)
+                setFieldValue('ethAddress', ethAddress)
               } else {
-                setFieldValue('address', '')
+                setFieldValue('ethAddress', '')
               }
             }
           }}
