@@ -1,34 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
 import cx from 'classnames'
-import { Label } from '@santiment-network/ui'
+import Label from '@santiment-network/ui/Label'
 import { formatNumber } from '../../utils/formatting'
 import PercentChanges from '../PercentChanges'
 import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
+import { METRIC_ANOMALIE_QUERY } from '../../pages/Detailed/DetailedGQL'
 import styles from './MobileMetricCard.module.scss'
 
 const { from: FROM, to: TO } = getTimeIntervalFromToday(-7, DAY)
-
-const METRIC_ANOMALIE_QUERY = gql`
-  query metricAnomaly(
-    $from: DateTime!
-    $metric: AnomaliesMetricsEnum!
-    $slug: String!
-    $to: DateTime!
-  ) {
-    metricAnomaly(
-      from: $from
-      to: $to
-      slug: $slug
-      metric: $metric
-      interval: "8h"
-    ) {
-      datetime
-      metricValue
-    }
-  }
-`
 
 const ANOMALIES_METRICS_ENUM = {
   dailyActiveAddresses: 'DAILY_ACTIVE_ADDRESSES',
@@ -43,20 +23,20 @@ const MobileMetricCard = ({
   changes,
   measure = '',
   data: { metricAnomaly: anomalies } = {},
-  onClick = () => {}
+  onClick,
+  activeMetric
 }) => {
-  const [active, setActive] = useState(false)
-
   const onButtonClick = () => {
-    const newState = !active
-    setActive(newState)
-    onClick(newState && { metric, anomalies })
+    onClick({ metric, anomalies })
   }
 
   return (
     <button
-      className={cx(styles.wrapper, active && styles.active)}
-      onClick={onButtonClick}
+      className={cx(
+        styles.wrapper,
+        activeMetric && activeMetric.metric === metric && styles.active
+      )}
+      onClick={onClick ? onButtonClick : undefined}
     >
       <div className={cx(styles.row, styles.row_top)}>
         <h3 className={styles.metric}>{name}</h3>

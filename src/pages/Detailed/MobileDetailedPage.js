@@ -28,6 +28,14 @@ const MobileDetailedPage = props => {
   const [timeRange, setTimeRange] = useState('6m')
   const [extraMetric, setExtraMetric] = useState()
 
+  const toggleExtraMetric = toggledMetric => {
+    if (extraMetric && toggledMetric.metric === extraMetric.metric) {
+      setExtraMetric(undefined)
+    } else {
+      setExtraMetric(toggledMetric)
+    }
+  }
+
   const timeRangeBlock = (
     <div className={styles.timeRangeBlock}>
       <Selector
@@ -190,14 +198,16 @@ const MobileDetailedPage = props => {
                             <MobileMetricCard
                               {...activeAddressesInfo}
                               slug={slug}
-                              onClick={setExtraMetric}
+                              activeMetric={extraMetric}
+                              onClick={toggleExtraMetric}
                             />
                           )}
                           {devActivityInfo && (
                             <MobileMetricCard
                               {...devActivityInfo}
                               slug={slug}
-                              onClick={setExtraMetric}
+                              activeMetric={extraMetric}
+                              onClick={toggleExtraMetric}
                             />
                           )}
                           {transactionVolumeInfo && (

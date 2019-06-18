@@ -25,7 +25,6 @@ const tickFormatter = date => {
 }
 
 const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
-  console.log(extraMetric && Metrics[extraMetric.metric])
   return (
     <div>
       <ResponsiveContainer width='100%' height={300}>
