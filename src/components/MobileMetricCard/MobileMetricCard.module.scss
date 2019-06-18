@@ -1,19 +1,35 @@
-@import '~@santiment-network/ui/mixins';
-@import '~@santiment-network/ui/variables';
+@import "~@santiment-network/ui/mixins";
 
-.metric {
-  @include text-normal;
+.wrapper {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  border-top: 1px solid var(--porcelain);
+  padding: 14px 16px 11px;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--porcelain);
-  line-height: 20px;
+  &:last-child {
+    border-bottom: 1px solid var(--porcelain);
+  }
 }
 
-.right {
+.row {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  justify-content: space-between;
+
+  &_top {
+    margin: 0 0 2px;
+  }
+}
+
+.metric,
+.value,
+.anomalies {
+  margin: 0;
+
+  @include text("body-3");
+}
+
+.anomalies {
+  color: var(--persimmon);
 }

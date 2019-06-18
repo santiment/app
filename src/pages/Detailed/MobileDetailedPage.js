@@ -159,18 +159,20 @@ const MobileDetailedPage = props => {
                           slug={slug}
                           icoPrice={icoPrice}
                         />
-                        {activeAddressesInfo && (
-                          <MobileMetricCard {...activeAddressesInfo} />
-                        )}
-                        {devActivityInfo && (
-                          <MobileMetricCard {...devActivityInfo} />
-                        )}
-                        {transactionVolumeInfo && (
-                          <MobileMetricCard
-                            {...transactionVolumeInfo}
-                            measure={ticker}
-                          />
-                        )}
+                        <div className={styles.metrics}>
+                          {activeAddressesInfo && (
+                            <MobileMetricCard {...activeAddressesInfo} />
+                          )}
+                          {devActivityInfo && (
+                            <MobileMetricCard {...devActivityInfo} />
+                          )}
+                          {transactionVolumeInfo && (
+                            <MobileMetricCard
+                              {...transactionVolumeInfo}
+                              measure={ticker}
+                            />
+                          )}
+                        </div>
                         <ShowIf beta>
                           {props.news && props.news.length > 0 && (
                             <>
