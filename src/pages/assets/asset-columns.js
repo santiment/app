@@ -9,12 +9,21 @@ import help from './../../assets/help.json'
 
 const columns = preload => [
   {
+    Header: () => <div className={cx('heading', 'overview-rank')}>#</div>,
+    id: 'rank',
+    maxWidth: 45,
+    sortable: true,
+    accessor: d => ({ rank: d.rank }),
+    Cell: ({ value: { rank } }) => <div className='overview-rank'>{rank}</div>
+  },
+  {
     Header: () => <div className={cx('heading', 'overview-name')}>Project</div>,
     id: 'project',
-    minWidth: 150,
+    minWidth: 200,
     maxWidth: 280,
     filterable: true,
     sortable: true,
+    resizable: true,
     accessor: d => ({
       name: d.name,
       ticker: d.ticker,
@@ -170,6 +179,7 @@ const columns = preload => [
 ]
 
 export const columnSettingsDefault = {
+  rank: { show: true, selectable: false, name: 'Rank' },
   project: { show: true, selectable: false, name: 'Project' },
   marketcapUsd: { show: true, selectable: true, name: 'Market capitalization' },
   price: { show: true, selectable: true, name: 'Price' },

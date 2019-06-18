@@ -94,9 +94,7 @@ const AssetsTable = ({
         resizable={false}
         defaultSorted={[
           {
-            id: columnsSettings['marketcapUsd'].show
-              ? 'marketcapUsd'
-              : 'project',
+            id: 'rank',
             desc: false
           }
         ]}
