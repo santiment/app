@@ -113,14 +113,15 @@
 }
 
 .ReactTable .rt-thead .rt-th {
-  background: var(--athens);
   color: var(--casper);
   border: none;
   letter-spacing: normal;
+  background: inherit;
 }
 
 .ReactTable .rt-thead.-header {
   box-shadow: initial;
+  background: var(--athens);
   border-bottom: 1px solid var(--porcelain);
 }
 
