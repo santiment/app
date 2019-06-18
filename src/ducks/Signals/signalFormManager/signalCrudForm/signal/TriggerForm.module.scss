@@ -121,7 +121,7 @@ label {
   justify-content: flex-end;
   position: absolute;
   right: 20px;
-  bottom: 20px;
+  bottom: 15px;
 
   button {
     width: 92px;
@@ -136,7 +136,6 @@ label {
 
 .timeWindow {
   display: flex;
-  align-items: center;
 }
 
 .timeWindowInput {
@@ -196,6 +195,7 @@ label {
 .triggerToggleBlock {
   display: flex;
   padding: 10px;
+  margin-right: 230px;
 
   @include text-normal;
 }

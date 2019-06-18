@@ -56,8 +56,18 @@ const getFormTriggerTarget = target => {
 
 const getFormTriggerType = (type, operation) => {
   if (!operation) {
-    return {
-      value: type
+    switch (type) {
+      case DAILY_ACTIVE_ADDRESSES: {
+        return DAILY_ACTIVE_ADRESSES_METRIC
+      }
+      case PRICE_VOLUME_DIFFERENCE: {
+        return PRICE_VOLUME_DIFFERENCE_METRIC
+      }
+      default: {
+        return {
+          value: type
+        }
+      }
     }
   }
 
@@ -113,25 +123,26 @@ const getTriggerOperation = ({
 
   const mapped = {}
 
-  switch (type.type) {
+  const value = type.value
+  switch (value) {
     case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN:
     case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
-      mapped[type.type] = threshold
+      mapped[value] = threshold
       break
     }
     case PRICE_CHANGE_TYPES.MOVING_DOWN:
     case PRICE_CHANGE_TYPES.MOVING_UP: {
-      mapped[type.type] = percentThreshold
+      mapped[value] = percentThreshold
       break
     }
     case PRICE_CHANGE_TYPES.ABOVE:
     case PRICE_CHANGE_TYPES.BELOW: {
-      mapped[type.type] = absoluteThreshold
+      mapped[value] = absoluteThreshold
       break
     }
     case PRICE_CHANGE_TYPES.INSIDE_CHANNEL:
     case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
-      mapped[type.type] = [absoluteBorderLeft, absoluteBorderRight]
+      mapped[value] = [absoluteBorderLeft, absoluteBorderRight]
       break
     }
     default: {
@@ -348,6 +359,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   const cooldownParams = getCooldownParams(formProps)
 
   const channel = channels.length ? channels[0].toLowerCase() : undefined
+
   return {
     ...prevTrigger,
     settings: {
@@ -361,7 +373,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       time_window: timeWindow
         ? timeWindow + '' + timeWindowUnit.value
         : undefined,
-      type: type ? type.mainValue || type.value : undefined,
+      type: type ? type.metric : undefined,
       operation: getTriggerOperation(formProps)
     },
     isRepeating: !!isRepeating,
@@ -372,7 +384,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
 }
 
 export const getMetricsByType = type => {
-  switch (type.value) {
+  switch (type) {
     case 'daily_active_addresses':
       return ['active_addresses', 'historyPrice']
     case 'price_volume_difference':
@@ -394,7 +406,7 @@ export const mapValuesToTriggerProps = ({
 }) => ({
   cooldown,
   settings: (() => {
-    const metricType = type ? type.value : undefined
+    const metricType = type ? type.metric : undefined
     const time = timeWindowUnit ? timeWindow + timeWindowUnit.value : undefined
 
     const slug = { slug: target.value }
@@ -522,13 +534,13 @@ export function getNearestFrequencyTypeValue (frequencyType) {
 export const validateTriggerForm = values => {
   let errors = {}
 
-  if (values.type.value === ETH_WALLET && !values.ethAddress) {
+  if (values.type.metric === ETH_WALLET && !values.ethAddress) {
     errors.ethAddress = REQUIRED_MESSAGE
   }
 
   if (
-    values.type.value === DAILY_ACTIVE_ADDRESSES ||
-    values.type.value === PRICE_PERCENT_CHANGE
+    values.type.metric === DAILY_ACTIVE_ADDRESSES ||
+    values.type.metric === PRICE_PERCENT_CHANGE
   ) {
     if (!values.percentThreshold) {
       errors.percentThreshold = REQUIRED_MESSAGE
@@ -542,13 +554,13 @@ export const validateTriggerForm = values => {
     }
   }
 
-  if (values.type.value === PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER) {
+  if (values.type.metric === PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER) {
     if (!values.absoluteThreshold) {
       errors.absoluteThreshold = REQUIRED_MESSAGE
     }
   }
 
-  if (values.type.value === PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER) {
+  if (values.type.metric === PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER) {
     if (!values.absoluteBorderLeft) {
       errors.absoluteBorderLeft = REQUIRED_MESSAGE
     }
@@ -557,7 +569,7 @@ export const validateTriggerForm = values => {
     }
   }
 
-  if (values.type.value === PRICE_VOLUME_DIFFERENCE) {
+  if (values.type.metric === PRICE_VOLUME_DIFFERENCE) {
     if (!values.threshold) {
       errors.threshold = REQUIRED_MESSAGE
     } else if (values.threshold < 0) {

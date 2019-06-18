@@ -5,12 +5,7 @@ import { push } from 'react-router-redux'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
-import {
-  PanelWithHeader as Panel,
-  Button,
-  Icon,
-  Message
-} from '@santiment-network/ui'
+import { Button, Icon, Message } from '@santiment-network/ui'
 import StatusLabel from './../../components/StatusLabel'
 import { TRIGGER_BY_ID_QUERY } from '../../ducks/Signals/gql/SignalsGQL'
 import {
@@ -20,7 +15,6 @@ import {
 import { mapGQLTriggerToProps } from '../../ducks/Signals/utils/utils'
 import { SignalCardWrapper } from './../../components/SignalCard/SignalCard'
 import { ToggleSignal } from './ToggleSignal'
-import LikeBtn from '../../components/Like/LikeBtn'
 import styles from './SignalDetails.module.scss'
 
 const SignalDetails = ({

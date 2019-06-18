@@ -145,8 +145,7 @@ const SignalCardBottom = ({
 }
 
 const SignalCardDetailsModal = ({ children, id }) => {
-  const [dialogOpenState, setDialogOpenState] = useState(false)
-
+  const [, setDialogOpenState] = useState(false)
   return (
     <Dialog trigger={children} title='Signal details'>
       <Dialog.ScrollContent>

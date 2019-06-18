@@ -30,7 +30,7 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
         onSubmit(values)
       }}
     >
-      {({ isSubmitting, isValid }) => (
+      {({ values: { description }, isSubmitting, isValid }) => (
         <Form className={styles.AboutForm}>
           <div className={styles.row}>
             <div className={styles.Field}>
@@ -51,10 +51,13 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
 
           <div className={styles.row}>
             <div className={styles.Field}>
-              <label>Description</label>
+              <label>
+                Description ({description ? description.length : 0}/140)
+              </label>
               <FormikInput
                 name='description'
                 type='text'
+                maxLength={140}
                 placeholder='Description of the signal'
                 onChange={value => {
                   setTrigger({

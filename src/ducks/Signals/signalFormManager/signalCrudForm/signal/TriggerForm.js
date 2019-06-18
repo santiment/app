@@ -56,7 +56,7 @@ export const TriggerForm = ({
 }) => {
   const formMetric =
     metaFormSettings && metaFormSettings.metric
-      ? metaFormSettings.metric.value.value
+      ? metaFormSettings.metric.value.metric
       : PRICE_PERCENT_CHANGE
 
   metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
@@ -199,7 +199,7 @@ export const TriggerForm = ({
                   <div className={cx(styles.row, styles.signalPreview)}>
                     <SignalPreview
                       target={values.target.value}
-                      type={values.type}
+                      type={values.type.type}
                     />
                   </div>
                 )}

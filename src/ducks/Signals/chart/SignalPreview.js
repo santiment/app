@@ -43,7 +43,7 @@ const SignalPreview = ({ points = [], target, type }) => {
     0
   )
 
-  const timeRange = getTimerangeByType(type.value)
+  const timeRange = getTimerangeByType(type)
 
   return (
     <Fragment>

@@ -18,13 +18,13 @@ export const ETH_WALLETS_OPERATIONS = {
 
 export const ETH_WALLET_AMOUNT_UP = {
   label: 'Amount up',
-  value: ETH_WALLET,
-  type: ETH_WALLETS_OPERATIONS.AMOUNT_UP
+  metric: ETH_WALLET,
+  value: ETH_WALLETS_OPERATIONS.AMOUNT_UP
 }
 export const ETH_WALLET_AMOUNT_DOWN = {
   label: 'Amount down',
-  value: ETH_WALLET,
-  type: ETH_WALLETS_OPERATIONS.AMOUNT_DOWN
+  metric: ETH_WALLET,
+  value: ETH_WALLETS_OPERATIONS.AMOUNT_DOWN
 }
 
 export const ETH_WALLETS_OPTIONS = [
@@ -42,43 +42,43 @@ export const PRICE_CHANGE_TYPES = {
 }
 
 export const PRICE_PERCENT_CHANGE_UP_MODEL = {
-  value: PRICE_PERCENT_CHANGE,
+  metric: PRICE_PERCENT_CHANGE,
   label: 'Moving up %',
-  type: PRICE_CHANGE_TYPES.MOVING_UP
+  value: PRICE_CHANGE_TYPES.MOVING_UP
 }
 
 export const PRICE_PERCENT_CHANGE_DOWN_MODEL = {
-  value: PRICE_PERCENT_CHANGE,
+  metric: PRICE_PERCENT_CHANGE,
   label: 'Moving down %',
-  type: PRICE_CHANGE_TYPES.MOVING_DOWN
+  value: PRICE_CHANGE_TYPES.MOVING_DOWN
 }
 
 export const PRICE_ABS_CHANGE_ABOVE = {
-  value: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
-  mainValue: PRICE_ABSOLUTE_CHANGE,
+  metric: PRICE_ABSOLUTE_CHANGE,
+  subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
   label: 'More than',
-  type: PRICE_CHANGE_TYPES.ABOVE
+  value: PRICE_CHANGE_TYPES.ABOVE
 }
 
 export const PRICE_ABS_CHANGE_BELOW = {
-  value: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
-  mainValue: PRICE_ABSOLUTE_CHANGE,
+  metric: PRICE_ABSOLUTE_CHANGE,
+  subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
   label: 'Less than',
-  type: PRICE_CHANGE_TYPES.BELOW
+  value: PRICE_CHANGE_TYPES.BELOW
 }
 
 export const PRICE_ABS_CHANGE_INSIDE = {
-  value: PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
-  mainValue: PRICE_ABSOLUTE_CHANGE,
+  metric: PRICE_ABSOLUTE_CHANGE,
+  subMetric: PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
   label: 'Entering channel',
-  type: PRICE_CHANGE_TYPES.INSIDE_CHANNEL
+  value: PRICE_CHANGE_TYPES.INSIDE_CHANNEL
 }
 
 export const PRICE_ABS_CHANGE_OUTSIDE = {
-  value: PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
-  mainValue: PRICE_ABSOLUTE_CHANGE,
+  metric: PRICE_ABSOLUTE_CHANGE,
+  subMetric: PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
   label: 'Outside channel',
-  type: PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL
+  value: PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL
 }
 
 export const ETH_WALLET_METRIC = {
@@ -90,11 +90,13 @@ export const ETH_WALLET_METRIC = {
 export const PRICE_METRIC = { label: 'Price', value: 'price' }
 export const DAILY_ACTIVE_ADRESSES_METRIC = {
   label: 'Daily Active Addresses',
-  value: DAILY_ACTIVE_ADDRESSES
+  value: DAILY_ACTIVE_ADDRESSES,
+  metric: DAILY_ACTIVE_ADDRESSES
 }
 export const PRICE_VOLUME_DIFFERENCE_METRIC = {
   label: 'Price/volume difference',
-  value: PRICE_VOLUME_DIFFERENCE
+  value: PRICE_VOLUME_DIFFERENCE,
+  metric: PRICE_VOLUME_DIFFERENCE
 }
 
 export const COOLDOWN_REGEXP = /([0-9]+)*([smhdw])/i
@@ -237,7 +239,10 @@ export const METRIC_DEFAULT_VALUES = {
     timeWindowUnit: { label: 'hours', value: 'h' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
-    channels: ['Telegram']
+    channels: ['Telegram'],
+    absoluteThreshold: 5,
+    absoluteBorderLeft: 50,
+    absoluteBorderRight: 75
   },
   daily_active_addresses: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
@@ -246,10 +251,7 @@ export const METRIC_DEFAULT_VALUES = {
     percentThreshold: 200,
     timeWindow: 2,
     timeWindowUnit: { label: 'days', value: 'd' },
-    type: {
-      label: 'Daily Active Addresses',
-      value: DAILY_ACTIVE_ADDRESSES
-    },
+    type: { ...DAILY_ACTIVE_ADRESSES_METRIC },
     isRepeating: true,
     channels: ['Telegram']
   },

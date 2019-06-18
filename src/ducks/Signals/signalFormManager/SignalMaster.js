@@ -37,7 +37,9 @@ export class SignalMaster extends React.PureComponent {
   }
 
   componentWillReceiveProps (newProps) {
-    if (newProps.trigger && newProps.trigger.trigger) {
+    const { trigger } = this.state
+    if (newProps.trigger && newProps.trigger.trigger && !trigger.id) {
+      const { trigger } = this.state
       this.setState({
         trigger: {
           ...newProps.trigger.trigger
@@ -47,17 +49,22 @@ export class SignalMaster extends React.PureComponent {
   }
 
   render () {
-    const { isEdit, triggerObj = {}, metaFormSettings, setTitle } = this.props
+    const {
+      triggerId,
+      trigger: triggerObj = {},
+      metaFormSettings,
+      setTitle
+    } = this.props
 
-    if (isEdit && triggerObj.isLoading) {
+    if (triggerId && triggerObj.isLoading) {
       return 'Loading...'
     }
-    if (isEdit && triggerObj.isError) {
+    if (triggerId && triggerObj.isError) {
       return <Message variant='error'>{triggerObj.errorMessage}</Message>
     }
-    const { step, trigger: stateTrigger } = this.state
 
-    const trigger = triggerObj.trigger || stateTrigger
+    const { step, trigger } = this.state
+
     const triggerSettingsFormData = trigger
       ? mapTriggerToFormProps(trigger)
       : {}
@@ -95,6 +102,8 @@ export class SignalMaster extends React.PureComponent {
 
     const close = this.props.onClose || this.props.redirect
 
+    console.log(trigger)
+
     return (
       <div className={styles.wrapper}>
         {step === STEPS.SETTINGS && (
@@ -112,7 +121,7 @@ export class SignalMaster extends React.PureComponent {
         {step === STEPS.CONFIRM && (
           <AboutForm
             triggerMeta={triggerAboutFormData}
-            isEdit={this.props.isEdit}
+            isEdit={+triggerId > 0}
             onBack={this.backToSettings}
             onSubmit={this.handleAboutFormSubmit}
           />
@@ -152,7 +161,11 @@ export class SignalMaster extends React.PureComponent {
       shouldReload: this.props.canRedirect
     }
 
-    if (this.props.isEdit) {
+    const {
+      trigger: { id }
+    } = this.state
+
+    if (id > 0) {
       this.props.updateTrigger(data)
     } else {
       this.props.createTrigger(data)
@@ -181,18 +194,11 @@ const enhance = compose(
     mapDispatchToProps
   ),
   graphql(TRIGGER_BY_ID_QUERY, {
-    skip: ({ isEdit, match }) => {
-      if (!match) {
-        return true
-      }
-      const id = match.params.id
-      return !isEdit || !id
+    skip: data => {
+      const { triggerId } = data
+      return !triggerId
     },
-    options: ({
-      match: {
-        params: { id }
-      }
-    }) => {
+    options: ({ triggerId: id }) => {
       return {
         fetchPolicy: 'network-only',
         variables: { id: +id }

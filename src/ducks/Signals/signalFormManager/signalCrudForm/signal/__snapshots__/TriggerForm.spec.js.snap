@@ -5,6 +5,9 @@ exports[`TriggerForm smoke 1`] = `
   enableReinitialize={true}
   initialValues={
     Object {
+      "absoluteBorderLeft": 50,
+      "absoluteBorderRight": 75,
+      "absoluteThreshold": 5,
       "channels": Array [
         "Telegram",
       ],
@@ -42,8 +45,8 @@ exports[`TriggerForm smoke 1`] = `
       },
       "type": Object {
         "label": "Moving up %",
-        "type": "percent_up",
-        "value": "price_percent_change",
+        "metric": "price_percent_change",
+        "value": "percent_up",
       },
     }
   }

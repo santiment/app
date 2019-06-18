@@ -14,7 +14,8 @@ const SignalMasterModalForm = ({
   canRedirect = true,
   redirectEnabled = false,
   isLoggedIn,
-  redirect
+  redirect,
+  match
 }) => {
   const [dialogOpenState, setDialogOpenState] = useState(redirectEnabled)
   const [dialogTitle, onSetDialogTitle] = useState('')
@@ -37,6 +38,7 @@ const SignalMasterModalForm = ({
     >
       <Dialog.ScrollContent className={styles.TriggerPanel}>
         <SignalMaster
+          triggerId={match ? match.params.id : undefined}
           setTitle={onSetDialogTitle}
           onClose={() => setDialogOpenState(false)}
           canRedirect={canRedirect}
