@@ -5,10 +5,11 @@
   border: 1px solid var(--porcelain);
   box-shadow: 0 4px 8px rgba(24, 27, 43, 0.04),
     0 8px 16px rgba(24, 27, 43, 0.05),
- 0 12px 32px rgba(24, 27, 43, 0.05);
+    0 12px 32px rgba(24, 27, 43, 0.05);
   border-radius: $border-radius;
   width: 246px;
   background: var(--white);
+  margin: 0 auto;
 
   :global {
     .react-calendar__month-view__weekdays__weekday {

@@ -114,7 +114,7 @@ class Charts extends React.Component {
             <Tooltip
               labelFormatter={labelFormatter}
               formatter={(value, name) => {
-                if (name === Metrics.price.label) {
+                if (name === Metrics.historyPrice.label) {
                   return formatNumber(value, { currency: 'USD' })
                 }
                 if (

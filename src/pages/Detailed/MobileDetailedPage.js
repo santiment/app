@@ -142,20 +142,20 @@ const MobileDetailedPage = props => {
                 />
                 {timeRangeBlock}
                 <GetTimeSeries
-                  price={{
+                  historyPrice={{
                     slug,
                     timeRange,
                     interval:
                       timeRange === '1w' || timeRange === '1m' ? '1h' : '1d'
                   }}
-                  render={({ price = {} }) => {
-                    if (price.isLoading) {
+                  render={({ historyPrice = {} }) => {
+                    if (historyPrice.isLoading) {
                       return 'Loading...'
                     }
                     return (
                       <>
                         <MobileAssetChart
-                          data={price.items}
+                          data={historyPrice.items}
                           slug={slug}
                           icoPrice={icoPrice}
                         />

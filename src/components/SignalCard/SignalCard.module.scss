@@ -39,18 +39,16 @@
 }
 
 .title {
-  @include text-normal;
+  margin: 0 0 4px 0;
 
-  font-size: 18px;
-  margin: 0;
-  margin-bottom: 4px;
+  @include text('h4','m');
 }
 
 .description {
   @include text-normal;
 
-  margin: 0;
-  color: var(--grey-dark-2);
+  color: var(--waterloo);
+  margin-top: 10px;
 }
 
 .upper {
@@ -74,9 +72,15 @@
   }
 }
 
+.awaitingBlock {
+  display: flex;
+  fill: var(--waterloo);
+}
+
 .author {
   @include text-normal;
 
+  color: var(--waterloo);
   margin: 0;
 
   &__link {

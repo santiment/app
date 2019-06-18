@@ -1,14 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Modal, Button, Icon } from '@santiment-network/ui'
-import SignalMaster from '../SignalFormManager/SignalMaster'
+import SignalMaster from '../signalFormManager/SignalMaster'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import styles from './SignalMasterModalForm.module.scss'
 
 const SignalMasterModalForm = ({
   label = 'New signal',
   metaFormSettings,
-  asset,
   canRedirect = true,
   isLoggedIn
 }) => (
@@ -32,7 +31,6 @@ const SignalMasterModalForm = ({
       <SignalMaster
         onClose={closeModal}
         canRedirect={canRedirect}
-        asset={asset}
         metaFormSettings={metaFormSettings}
       />
     )}

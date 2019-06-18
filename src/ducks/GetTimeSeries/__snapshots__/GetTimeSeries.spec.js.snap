@@ -12,7 +12,7 @@ Array [
         "to": "2018-12-10",
         "transform": "movingAverage",
       },
-      "price": Object {
+      "historyPrice": Object {
         "interval": "1d",
         "slug": "santiment",
         "timeRange": "6m",

@@ -2,7 +2,7 @@ import React from 'react'
 import { YAxis, Bar, Line } from 'recharts'
 
 export const Metrics = {
-  price: {
+  historyPrice: {
     node: Line,
     color: 'jungle-green',
     label: 'Price',
@@ -11,7 +11,6 @@ export const Metrics = {
   },
   volume: {
     node: Bar,
-    color: 'mirage',
     label: 'Volume',
     fill: true,
     dataKey: 'volume'
@@ -56,7 +55,7 @@ export const Metrics = {
     color: 'dodger-blue',
     label: 'Token Circulation'
   },
-  mvrv: {
+  mvrvRatio: {
     node: Line,
     color: 'waterloo',
     label: 'Market Value To Realized Value'
@@ -68,7 +67,6 @@ export const Metrics = {
   },
   networkGrowth: {
     node: Line,
-    color: 'mirage',
     label: 'Network Growth'
   },
   devActivity: {
@@ -87,7 +85,38 @@ export const Metrics = {
     color: 'jungle-green',
     label: 'Daily Active Deposits',
     dataKey: 'activeDeposits'
-  }
+  },
+  ohlc: {},
+  priceVolumeDiff: {},
+  githubActivity: {},
+  aveargeDevActivity: {},
+  averageGithubActivity: {},
+  historyTwitterData: {
+    label: 'Twitter'
+  },
+  twitterData: {}, // NOTE(vanguard): NOT A TIMESERIE
+  socialGainersLosersStatus: {},
+  socialDominance: {},
+  historicalBalance: {},
+  shareOfDeposits: {},
+  tokenTopTransactions: {},
+  realizedValue: {},
+  burnRate: {},
+  averageTokenAgeConsumedInDays: {},
+  nvtRatio: {},
+  ethSpent: {},
+  ethSpentOverTime: {
+    label: 'ETH spent over time'
+  },
+  ethTopTransactions: {},
+  ethBalance: {},
+  usdBalance: {},
+  icos: {},
+  icoPrice: {},
+  initialIco: {},
+  fundsRaisedUsdIcoEndPrice: {},
+  fundsRaisedEthIcoEndPrice: {},
+  fundsRaisedBtcIcoEndPrice: {}
 }
 
 export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
