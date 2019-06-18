@@ -5,10 +5,10 @@ exports[`TriggerForm smoke 1`] = `
   enableReinitialize={true}
   initialValues={
     Object {
-      "address": undefined,
       "channels": Array [
         "Telegram",
       ],
+      "ethAddress": undefined,
       "frequencyTimeType": Object {
         "label": "Hours",
         "value": "h",
