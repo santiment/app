@@ -36,12 +36,11 @@ const SignalDetails = ({
 }) => {
   const signalId = id || (match.params || {}).id
   if (isLoading) {
-    return (
-      <Panel header='Signals details'>
-        <div className={styles.wrapper}>Loading...</div>
-      </Panel>
-    )
+    return <div className={styles.wrapper}>Loading...</div>
   }
+
+  const close = closeModal || redirect
+
   if (isError) {
     return (
       <div>
@@ -51,7 +50,7 @@ const SignalDetails = ({
         <RemoveSignalButton
           id={signalId}
           removeSignal={removeSignal}
-          redirect={closeModal || redirect}
+          redirect={close}
         />
       </div>
     )
@@ -61,12 +60,7 @@ const SignalDetails = ({
   }
   const { isActive, isPublic, title, description } = trigger
   return (
-    <Panel header='Signals details' className={styles.container}>
-      <Icon
-        className={styles.closeButton}
-        onClick={() => closeModal()}
-        type='close'
-      />
+    <div className={styles.container}>
       <div className={styles.wrapper}>
         <SignalCardWrapper
           title={title}
@@ -80,11 +74,6 @@ const SignalDetails = ({
                 by &nbsp;<span className={styles.teamLink}>{author}</span>
               </div>
             )}
-            {isPublic && (
-              <div className={styles.likesBlock}>
-                <LikeBtn disabled={true} likesNumber={likesCount} />
-              </div>
-            )}
             <StatusLabel isPublic={isPublic} />
           </div>
 
@@ -94,7 +83,7 @@ const SignalDetails = ({
               <RemoveSignalButton
                 id={signalId}
                 removeSignal={removeSignal}
-                redirect={closeModal || redirect}
+                redirect={close}
               />
             </div>
             <ToggleSignal
@@ -105,7 +94,7 @@ const SignalDetails = ({
           </div>
         </SignalCardWrapper>
       </div>
-    </Panel>
+    </div>
   )
 }
 

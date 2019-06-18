@@ -1,11 +1,12 @@
-import React, { Fragment } from 'react'
-import { Panel, Icon, Toggle, Modal } from '@santiment-network/ui'
+import React, { Fragment, useState } from 'react'
+import { Panel, Icon, Toggle } from '@santiment-network/ui'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import MultilineText from '../../components/MultilineText/MultilineText'
 import StatusLabel from './../../components/StatusLabel'
 import SignalDetails from '../../pages/SonarFeed/SignalDetails'
 import styles from './SignalCard.module.scss'
+import Dialog from '@santiment-network/ui/Dialog'
 
 const SignalCard = ({
   id,
@@ -143,15 +144,16 @@ const SignalCardBottom = ({
   )
 }
 
-const SignalCardDetailsModal = ({ children, id }) => (
-  <Modal
-    trigger={children}
-    title='Signal details'
-    classes={{ modal: styles.modalCentered }}
-    showDefaultActions={false}
-  >
-    {closeModal => <SignalDetails id={id} closeModal={closeModal} />}
-  </Modal>
-)
+const SignalCardDetailsModal = ({ children, id }) => {
+  const [dialogOpenState, setDialogOpenState] = useState(false)
+
+  return (
+    <Dialog trigger={children} title='Signal details'>
+      <Dialog.ScrollContent>
+        <SignalDetails id={id} closeModal={() => setDialogOpenState(false)} />
+      </Dialog.ScrollContent>
+    </Dialog>
+  )
+}
 
 export default SignalCard

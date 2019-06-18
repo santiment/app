@@ -8,13 +8,13 @@ import { Message, Toggle } from '@santiment-network/ui'
 import TriggersForm from './signalCrudForm/signalsList/TriggersForm'
 import AboutForm from './aboutForm/AboutForm'
 import { TRIGGER_BY_ID_QUERY } from '../gql/SignalsGQL'
-import { Icon } from '@santiment-network/ui'
 import {
   mapTriggerToFormProps,
   mapFormPropsToTrigger,
   mapGQLTriggerToProps
 } from '../utils/utils'
 import styles from './signalCrudForm/signal/TriggerForm.module.scss'
+import { SIGNAL_ROUTES } from '../common/constants'
 
 const STEPS = {
   SETTINGS: 0,
@@ -171,7 +171,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateTrigger(payload))
   },
   redirect: () => {
-    dispatch(push('/sonar/feed/my-signals'))
+    dispatch(push(SIGNAL_ROUTES.MY_SIGNALS))
   }
 })
 
