@@ -20,8 +20,17 @@ export const CustomHeadComponent = ({ children, className, ...rest }) => (
   </Sticky>
 )
 
-export const filterColumns = (columns, settings) =>
-  columns.filter(({ id }) => settings[id].show)
+export const filterColumnsByTableSection = (tableSection, columns) => {
+  if (tableSection === 'currencies') {
+    return columns.filter(
+      column =>
+        column.id !== 'eth_spent' &&
+        column.id !== 'daily_active_addresses' &&
+        column.id !== 'signals'
+    )
+  }
+  return columns
+}
 
 const AssetsTable = ({
   Assets = {
@@ -93,7 +102,7 @@ const AssetsTable = ({
         ]}
         className={cx('-highlight', styles.assetsTable)}
         data={items}
-        columns={filterColumns(columns(preload), columnsSettings)}
+        columns={columns(preload).filter(({ id }) => columnsSettings[id].show)}
         loadingText='Loading...'
         TheadComponent={CustomHeadComponent}
         getTdProps={() => ({
