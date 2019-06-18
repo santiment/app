@@ -52,7 +52,7 @@ const MobileDetailedPage = props => {
     transactionVolumeInfo = {
       name: 'Transaction Volume',
       value: todayTransactionVolume,
-      label: '24h',
+      period: '24h',
       changes: TVDiff
     }
   }
@@ -69,9 +69,10 @@ const MobileDetailedPage = props => {
       todayActiveAddresses
     )
     activeAddressesInfo = {
+      metric: 'DAILY_ACTIVE_ADDRESSES',
       name: 'Daily Active Addresses',
       value: todayActiveAddresses,
-      label: '24h',
+      period: '24h',
       changes: DAADiff
     }
   }
@@ -111,9 +112,10 @@ const MobileDetailedPage = props => {
               devActivity30
             )
             devActivityInfo = {
+              metric: 'DEV_ACTIVITY',
               name: 'Development Activity',
               value: devActivity30,
-              label: '30d',
+              period: '30d',
               changes: DADiff
             }
           }
@@ -161,10 +163,18 @@ const MobileDetailedPage = props => {
                         />
                         <div className={styles.metrics}>
                           {activeAddressesInfo && (
-                            <MobileMetricCard {...activeAddressesInfo} />
+                            <MobileMetricCard
+                              {...activeAddressesInfo}
+                              slug={slug}
+                              onClick={console.log}
+                            />
                           )}
                           {devActivityInfo && (
-                            <MobileMetricCard {...devActivityInfo} />
+                            <MobileMetricCard
+                              {...devActivityInfo}
+                              slug={slug}
+                              onClick={console.log}
+                            />
                           )}
                           {transactionVolumeInfo && (
                             <MobileMetricCard
