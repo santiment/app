@@ -100,7 +100,7 @@ export const createSignalEpic = (action$, store, { client }) =>
                   id
                 }
               }),
-              Observable.of(showNotification('Signal was created'))
+              Observable.of(showNotification('Signal was succesfully created'))
             )
           })
           .catch(handleErrorAndTriggerAction(actions.SIGNAL_CREATE_FAILED))
@@ -246,12 +246,15 @@ export const updateSignalEpic = (action$, store, { client }) =>
 
       return Observable.fromPromise(toggle)
         .mergeMap(({ data: { updateTrigger } }) => {
-          return Observable.of({
-            type: actions.SIGNAL_UPDATE_SUCCESS,
-            payload: {
-              id: updateTrigger.trigger.id
-            }
-          })
+          return Observable.merge(
+            Observable.of({
+              type: actions.SIGNAL_UPDATE_SUCCESS,
+              payload: {
+                id: updateTrigger.trigger.id
+              }
+            }),
+            Observable.of(showNotification('Signal was succesfully update'))
+          )
         })
         .catch(handleErrorAndTriggerAction(actions.SIGNAL_UPDATE_FAILED))
     })
