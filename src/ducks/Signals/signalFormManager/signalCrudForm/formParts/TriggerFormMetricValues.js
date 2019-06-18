@@ -40,6 +40,7 @@ export const TriggerFormMetricValues = ({
           'absoluteBorderRight'
         ) && (
         <div className={styles.Field}>
+          <label>&nbsp;</label>
           <FormikInput
             name='absoluteBorderRight'
             min={absoluteBorderLeft}

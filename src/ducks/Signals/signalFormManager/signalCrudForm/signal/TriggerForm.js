@@ -82,8 +82,11 @@ export const TriggerForm = ({
   const [initialValues, setInitialValues] = useState(settings)
   const [showTrigger, setShowTrigger] = useState(true)
 
+  const showChart = couldShowChart(initialValues.metric)
+
   useEffect(() => {
-    getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
+    showChart &&
+      getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
   }, [])
 
   const setDefaultPriceValues = values => {
@@ -99,8 +102,6 @@ export const TriggerForm = ({
     trigger && trigger.id && removeSignal(trigger.id)
     onRemovedSignal && onRemovedSignal()
   }
-
-  const showChart = couldShowChart(initialValues.metric)
 
   return (
     <Formik
@@ -157,6 +158,7 @@ export const TriggerForm = ({
 
                 !!current.values.target &&
                   !isError &&
+                  showChart &&
                   getSignalBacktestingPoints(mapValuesToTriggerProps(values))
               }
             }}
@@ -192,6 +194,7 @@ export const TriggerForm = ({
                   absoluteBorderRight={absoluteBorderRight}
                 />
 
+                {showChart}
                 {showChart && (
                   <div className={cx(styles.row, styles.signalPreview)}>
                     <SignalPreview

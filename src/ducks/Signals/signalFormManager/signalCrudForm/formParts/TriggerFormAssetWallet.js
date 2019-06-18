@@ -47,11 +47,16 @@ export const TriggerFormAssetWallet = ({
       )}
 
       <div className={styles.Field}>
+        <label>&nbsp;</label>
         <FormikSelect
           name='target'
           isDisabled={defaultAsset.isDisabled}
           defaultValue={defaultAsset.value.value}
           placeholder='Pick an asset'
+          options={allProjects.map(asset => ({
+            label: asset.slug,
+            value: asset.slug
+          }))}
           onChange={newAsset => {
             if (address) {
               if (metaFormSettings.target.value.value === newAsset.value) {

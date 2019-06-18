@@ -226,7 +226,7 @@ export const METRIC_DEFAULT_VALUES = {
     timeWindowUnit: { label: 'hours', value: 'h' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
-    channels: ['telegram']
+    channels: ['Telegram']
   },
   price_percent_change: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
@@ -237,7 +237,7 @@ export const METRIC_DEFAULT_VALUES = {
     timeWindowUnit: { label: 'hours', value: 'h' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
-    channels: ['telegram']
+    channels: ['Telegram']
   },
   daily_active_addresses: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
@@ -251,7 +251,7 @@ export const METRIC_DEFAULT_VALUES = {
       value: DAILY_ACTIVE_ADDRESSES
     },
     isRepeating: true,
-    channels: ['telegram']
+    channels: ['Telegram']
   },
   price_volume_difference: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
@@ -260,7 +260,7 @@ export const METRIC_DEFAULT_VALUES = {
     threshold: 0.002,
     type: { ...PRICE_VOLUME_DIFFERENCE_METRIC },
     isRepeating: true,
-    channels: ['telegram']
+    channels: ['Telegram']
   },
   eth_wallet: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
@@ -269,7 +269,7 @@ export const METRIC_DEFAULT_VALUES = {
     threshold: 100,
     type: { ...ETH_WALLET_AMOUNT_UP },
     isRepeating: true,
-    channels: ['telegram']
+    channels: ['Telegram']
   }
 }
 

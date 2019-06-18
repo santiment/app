@@ -7,7 +7,7 @@ exports[`TriggerForm smoke 1`] = `
     Object {
       "address": undefined,
       "channels": Array [
-        "telegram",
+        "Telegram",
       ],
       "frequencyTimeType": Object {
         "label": "Hours",

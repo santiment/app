@@ -94,7 +94,6 @@ const getFormTriggerType = (type, operation) => {
     }
 
     default: {
-      console.log("Can't map type and operation to form structure")
       return undefined
     }
   }
@@ -375,11 +374,11 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
 export const getMetricsByType = type => {
   switch (type.value) {
     case 'daily_active_addresses':
-      return ['active_addresses', 'price']
+      return ['active_addresses', 'historyPrice']
     case 'price_volume_difference':
-      return ['price', 'volume']
+      return ['historyPrice', 'volume']
     default:
-      return ['price']
+      return ['historyPrice']
   }
 }
 
@@ -523,7 +522,7 @@ export function getNearestFrequencyTypeValue (frequencyType) {
 export const validateTriggerForm = values => {
   let errors = {}
 
-  if (values.address === '') {
+  if (values.type.value === ETH_WALLET && !values.address) {
     errors.address = REQUIRED_MESSAGE
   }
 

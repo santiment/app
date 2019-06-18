@@ -33,7 +33,7 @@ const getTimerangeByType = type =>
   PREVIEWS_TIMERANGE_BY_TYPE[type] ? PREVIEWS_TIMERANGE_BY_TYPE[type] : '3m'
 
 const SignalPreview = ({ points = [], target, type }) => {
-  const initialMetrics = getMetricsByType(type) || ['price']
+  const initialMetrics = getMetricsByType(type) || ['historyPrice']
 
   const [metrics, setMetrics] = useState(initialMetrics)
 

@@ -44,6 +44,7 @@ export const TriggerFormMetricTypes = ({
       </div>
       {!metric.hidden && typeSelectors && typeSelectors.length > 1 && (
         <div className={styles.Field}>
+          <label>&nbsp;</label>
           <FormikSelect
             name='type'
             isClearable={false}
