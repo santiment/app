@@ -102,8 +102,6 @@ export class SignalMaster extends React.PureComponent {
 
     const close = this.props.onClose || this.props.redirect
 
-    console.log(trigger)
-
     return (
       <div className={styles.wrapper}>
         {step === STEPS.SETTINGS && (
