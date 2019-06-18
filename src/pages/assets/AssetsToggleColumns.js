@@ -4,7 +4,8 @@ import {
   Checkbox,
   ContextMenu,
   Icon,
-  Panel
+  Panel,
+  Tooltip
 } from '@santiment-network/ui'
 import styles from './AssetsToggleColumns.module.scss'
 
@@ -22,17 +23,39 @@ const AssetsToggleColumns = ({ columns = [], onChange }) => (
     <Panel variant='modal' className={styles.wrapper}>
       <div className={styles.heading}>Displayed asset attributes</div>
       <div className={styles.columns}>
-        {Object.entries(columns).map(([id, { name, selectable, show }]) => (
-          <div key={id} className={styles.column} onClick={() => onChange(id)}>
-            <Checkbox
-              className={styles.checkbox}
-              isActive={show}
-              disabled={!selectable}
-            />
-            <span className={styles.name}>{name}</span>
-            {!show && !selectable && <span className={styles.soon}>soon</span>}
-          </div>
-        ))}
+        {Object.entries(columns).map(
+          ([id, { name, selectable, show, description }]) => (
+            <div
+              key={id}
+              className={styles.column}
+              onClick={() => onChange(id)}
+            >
+              <Checkbox
+                className={styles.checkbox}
+                isActive={show}
+                disabled={!selectable}
+              />
+              <span className={styles.name}>{name}</span>
+              {description && (
+                <Tooltip
+                  className={styles.tooltip}
+                  position='top'
+                  trigger={
+                    <Icon
+                      type='question-round-small'
+                      className={styles.description}
+                    />
+                  }
+                >
+                  <Panel padding>{description}</Panel>
+                </Tooltip>
+              )}
+              {!show && !selectable && (
+                <span className={styles.soon}>soon</span>
+              )}
+            </div>
+          )
+        )}
       </div>
     </Panel>
   </ContextMenu>

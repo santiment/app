@@ -46,3 +46,13 @@
   color: var(--jungle-green);
   font-size: 12px;
 }
+
+.description {
+  fill: var(--casper);
+  position: relative;
+}
+
+.tooltip {
+  max-width: 400px;
+  z-index: 1000;
+}

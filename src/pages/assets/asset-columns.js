@@ -5,6 +5,7 @@ import { simpleSort } from '../../utils/sortMethods'
 import { formatNumber, millify } from '../../utils/formatting'
 import ProjectLabel from '../../components/ProjectLabel'
 import PercentChanges from '../../components/PercentChanges'
+import help from './../../assets/help.json'
 
 const columns = preload => [
   {
@@ -179,8 +180,18 @@ export const columnSettingsDefault = {
     selectable: true,
     name: 'Volume (last 24h)'
   },
-  eth_spent: { show: true, selectable: true, name: 'ETH spent' },
-  dev_activity: { show: true, selectable: true, name: 'Development activity' },
+  eth_spent: {
+    show: true,
+    selectable: true,
+    name: 'ETH spent',
+    description: help['ETH Spent Over Time'].description
+  },
+  dev_activity: {
+    show: true,
+    selectable: true,
+    name: 'Development activity',
+    description: help['Development Activity'].description
+  },
   daily_active_addresses: {
     show: true,
     selectable: true,
