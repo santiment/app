@@ -48,7 +48,7 @@ const MobileMetricCard = ({
         <h4 className={styles.anomalies}>
           {anomalies && anomalies.length ? `${anomalies.length} anomalies` : ''}
         </h4>
-        <div className={styles.right}>
+        <div>
           <PercentChanges changes={changes} />
           <Label accent='casper'>, {period}</Label>
         </div>
