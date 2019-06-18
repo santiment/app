@@ -17,18 +17,17 @@ const METRIC_ANOMALIE_QUERY = gql`
     $slug: String!
     $to: DateTime!
   ) {
-    metricAnomaly(
-      from: $from
-      to: $to
-      slug: $slug
-      metric: $metric
-      interval: "8h"
-    ) {
+    metricAnomaly(from: $from, to: $to, slug: $slug, metric: $metric) {
       datetime
       metricValue
     }
   }
 `
+
+const ANOMALIES_METRICS_ENUM = {
+  dailyActiveAddresses: 'DAILY_ACTIVE_ADDRESSES',
+  devActivity: 'DEV_ACTIVITY'
+}
 
 const MobileMetricCard = ({
   metric,
@@ -37,7 +36,7 @@ const MobileMetricCard = ({
   period,
   changes,
   measure = '',
-  anomalies = '',
+  data: { metricAnomaly: anomalies } = {},
   onClick = () => {}
 }) => {
   const [active, setActive] = useState(false)
@@ -61,8 +60,7 @@ const MobileMetricCard = ({
       </div>
       <div className={styles.row}>
         <h4 className={styles.anomalies}>
-          {/* {anomalies && `${anomalies} anomalies`} */}
-          25 anomalies
+          {anomalies && anomalies.length ? `${anomalies.length} anomalies` : ''}
         </h4>
         <div className={styles.right}>
           <PercentChanges changes={changes} />
@@ -78,7 +76,7 @@ export default graphql(METRIC_ANOMALIE_QUERY, {
   options: ({ metric, slug }) => {
     return {
       variables: {
-        metric,
+        metric: ANOMALIES_METRICS_ENUM[metric],
         slug,
         from: FROM.toISOString(),
         to: TO.toISOString()

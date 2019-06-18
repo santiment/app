@@ -7,10 +7,13 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ReferenceLine
+  ReferenceLine,
+  Scatter,
+  Dot
 } from 'recharts'
 import { formatNumber } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
+import { generateMetricsMarkup } from '../../ducks/SANCharts/utils.js'
 import styles from './MobileAssetChart.module.scss'
 
 //
@@ -25,7 +28,8 @@ const tickFormatter = date => {
   return `${DD} ${MMM} ${YY}`
 }
 
-const MobileAssetChart = ({ data, slug: asset, icoPrice }) => {
+const MobileAssetChart = ({ data, slug: asset, icoPrice, metrics }) => {
+  console.log(data, metrics)
   return (
     <div>
       <ResponsiveContainer width='100%' height={300}>
@@ -63,8 +67,17 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice }) => {
             dot={false}
             strokeWidth={1.5}
             dataKey='priceUsd'
-            stroke={'var(--jungle-green)'}
+            stroke='var(--jungle-green)'
           />
+          {metrics && generateMetricsMarkup(metrics)}
+          {metrics && [
+            <YAxis yAxisId='axis-anomaly' domain={['dataMin', 'auto']} hide />,
+            <Scatter
+              dataKey='metricValue'
+              yAxisId='axis-anomaly'
+              fill='#ff0000'
+            />
+          ]}
           {icoPrice && (
             <ReferenceLine
               yAxisId='axis-price'

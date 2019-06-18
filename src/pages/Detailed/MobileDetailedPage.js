@@ -20,11 +20,13 @@ import MobileAssetChart from './MobileAssetChart'
 import ShowIf from '../../components/ShowIf'
 import GetWatchlists from '../../ducks/Watchlists/GetWatchlists'
 import WatchlistsPopup from '../../components/WatchlistPopup/WatchlistsPopup'
+import { mergeTimeseriesByKey } from '../../utils/utils'
 import styles from './MobileDetailedPage.module.scss'
 
 const MobileDetailedPage = props => {
   const slug = props.match.params.slug
-  const [timeRange, setTimeRange] = useState('all')
+  const [timeRange, setTimeRange] = useState('6m')
+  const [extraMetric, setExtraMetric] = useState()
 
   const timeRangeBlock = (
     <div className={styles.timeRangeBlock}>
@@ -69,13 +71,25 @@ const MobileDetailedPage = props => {
       todayActiveAddresses
     )
     activeAddressesInfo = {
-      metric: 'DAILY_ACTIVE_ADDRESSES',
+      metric: 'dailyActiveAddresses',
       name: 'Daily Active Addresses',
       value: todayActiveAddresses,
       period: '24h',
       changes: DAADiff
     }
   }
+
+  const timeseriesOptions = {
+    slug,
+    timeRange,
+    interval: timeRange === '1w' ? '2h' : timeRange === '1m' ? '8h' : '1d'
+  }
+
+  const extraTimeserie = extraMetric
+    ? {
+      [extraMetric.metric]: timeseriesOptions
+    }
+    : {}
 
   return (
     <div className={cx('page', styles.wrapper)}>
@@ -112,14 +126,13 @@ const MobileDetailedPage = props => {
               devActivity30
             )
             devActivityInfo = {
-              metric: 'DEV_ACTIVITY',
+              metric: 'devActivity',
               name: 'Development Activity',
               value: devActivity30,
               period: '30d',
               changes: DADiff
             }
           }
-
           return (
             <>
               <MobileHeader
@@ -144,36 +157,53 @@ const MobileDetailedPage = props => {
                 />
                 {timeRangeBlock}
                 <GetTimeSeries
-                  historyPrice={{
-                    slug,
-                    timeRange,
-                    interval:
-                      timeRange === '1w' || timeRange === '1m' ? '1h' : '1d'
-                  }}
-                  render={({ historyPrice = {} }) => {
+                  historyPrice={timeseriesOptions}
+                  {...extraTimeserie}
+                  render={({
+                    historyPrice = { items: [] },
+                    ...otherTimeseries
+                  }) => {
                     if (historyPrice.isLoading) {
                       return 'Loading...'
+                    }
+
+                    const timeseries = [historyPrice.items]
+                    let chartMetrics
+                    if (
+                      extraMetric &&
+                      otherTimeseries[extraMetric.metric] &&
+                      otherTimeseries[extraMetric.metric].items
+                    ) {
+                      console.log(extraMetric.anomalies)
+                      timeseries.push(
+                        otherTimeseries[extraMetric.metric].items,
+                        extraMetric.anomalies
+                      )
+                      chartMetrics = [extraMetric.metric]
                     }
                     return (
                       <>
                         <MobileAssetChart
-                          data={historyPrice.items}
+                          data={mergeTimeseriesByKey({
+                            timeseries
+                          })}
                           slug={slug}
                           icoPrice={icoPrice}
+                          metrics={chartMetrics}
                         />
                         <div className={styles.metrics}>
                           {activeAddressesInfo && (
                             <MobileMetricCard
                               {...activeAddressesInfo}
                               slug={slug}
-                              onClick={console.log}
+                              onClick={setExtraMetric}
                             />
                           )}
                           {devActivityInfo && (
                             <MobileMetricCard
                               {...devActivityInfo}
                               slug={slug}
-                              onClick={console.log}
+                              onClick={setExtraMetric}
                             />
                           )}
                           {transactionVolumeInfo && (
