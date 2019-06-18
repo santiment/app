@@ -4,11 +4,7 @@ import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { createTrigger, updateTrigger } from '../common/actions'
-import {
-  Message,
-  PanelWithHeader as Panel,
-  Toggle
-} from '@santiment-network/ui'
+import { Message, Toggle } from '@santiment-network/ui'
 import TriggersForm from './signalCrudForm/signalsList/TriggersForm'
 import AboutForm from './aboutForm/AboutForm'
 import { TRIGGER_BY_ID_QUERY } from '../gql/SignalsGQL'
@@ -39,8 +35,9 @@ export class SignalMaster extends React.PureComponent {
       isPublic: false
     }
   }
+
   componentWillReceiveProps (newProps) {
-    if (newProps.trigger.trigger) {
+    if (newProps.trigger && newProps.trigger.trigger) {
       this.setState({
         trigger: {
           ...newProps.trigger.trigger
@@ -48,8 +45,9 @@ export class SignalMaster extends React.PureComponent {
       })
     }
   }
+
   render () {
-    const { isEdit, triggerObj = {}, metaFormSettings } = this.props
+    const { isEdit, triggerObj = {}, metaFormSettings, setTitle } = this.props
 
     if (isEdit && triggerObj.isLoading) {
       return 'Loading...'
@@ -93,37 +91,39 @@ export class SignalMaster extends React.PureComponent {
       }
     }
 
+    setTitle && setTitle(getTitle(trigger))
+
     const close = this.props.onClose || this.props.redirect
+
     return (
       <div className={styles.wrapper}>
-        <Icon className={styles.closeButton} onClick={close} type='close' />
-        <Panel header={getTitle(trigger)} className={styles.TriggerPanel}>
-          {step === STEPS.SETTINGS && (
-            <TriggersForm
-              onClose={this.props.onClose}
-              triggers={[trigger]}
-              settings={triggerSettingsFormData}
-              canRedirect={this.props.canRedirect}
-              metaFormSettings={{ ...metaFormSettings }}
-              onSettingsChange={this.handleSettingsChange}
-            />
-          )}
-          {step === STEPS.CONFIRM && (
-            <AboutForm
-              triggerMeta={triggerAboutFormData}
-              isEdit={this.props.isEdit}
-              onBack={this.backToSettings}
-              onSubmit={this.handleAboutFormSubmit}
-            />
-          )}
+        {step === STEPS.SETTINGS && (
+          <TriggersForm
+            onClose={() => {
+              close()
+            }}
+            triggers={[trigger]}
+            settings={triggerSettingsFormData}
+            canRedirect={this.props.canRedirect}
+            metaFormSettings={{ ...metaFormSettings }}
+            onSettingsChange={this.handleSettingsChange}
+          />
+        )}
+        {step === STEPS.CONFIRM && (
+          <AboutForm
+            triggerMeta={triggerAboutFormData}
+            isEdit={this.props.isEdit}
+            onBack={this.backToSettings}
+            onSubmit={this.handleAboutFormSubmit}
+          />
+        )}
 
-          <div className={styles.triggerToggleBlock}>
-            <Toggle onClick={toggleSignalPublic} isActive={trigger.isPublic} />
-            <div className={styles.triggerToggleLabel}>
-              {trigger.isPublic ? 'Public' : 'Private'}
-            </div>
+        <div className={styles.triggerToggleBlock}>
+          <Toggle onClick={toggleSignalPublic} isActive={trigger.isPublic} />
+          <div className={styles.triggerToggleLabel}>
+            {trigger.isPublic ? 'Public' : 'Private'}
           </div>
-        </Panel>
+        </div>
       </div>
     )
   }

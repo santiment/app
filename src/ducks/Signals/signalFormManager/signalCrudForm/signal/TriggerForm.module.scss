@@ -6,6 +6,7 @@
   width: 100%;
   max-width: 496px;
   position: relative;
+  padding: 10px 20px;
 }
 
 .closeButton {
@@ -45,12 +46,6 @@
 
 .messages {
   margin: 1rem 0;
-}
-
-.TriggerPanel {
-  margin-bottom: 1rem;
-  position: relative;
-  padding: 0 0 30px 0;
 }
 
 .TriggerChart {
@@ -201,8 +196,6 @@ label {
 .triggerToggleBlock {
   display: flex;
   padding: 10px;
-  position: absolute;
-  bottom: 15px;
 
   @include text-normal;
 }
