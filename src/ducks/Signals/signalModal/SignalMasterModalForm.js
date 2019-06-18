@@ -12,7 +12,7 @@ const SignalMasterModalForm = ({
   canRedirect = true,
   isLoggedIn
 }) => {
-  const [dialogOpenState, setDialogOpenState] = useState(true)
+  const [dialogOpenState, setDialogOpenState] = useState(false)
   const [dialogTitle, onSetDialogTitle] = useState('')
 
   return (

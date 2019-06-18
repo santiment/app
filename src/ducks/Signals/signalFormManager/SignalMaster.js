@@ -158,7 +158,6 @@ export class SignalMaster extends React.PureComponent {
       this.props.createTrigger(data)
     }
 
-    console.log(this.props)
     this.props.onClose && this.props.onClose()
     this.props.canRedirect && this.props.redirect && this.props.redirect()
   }
