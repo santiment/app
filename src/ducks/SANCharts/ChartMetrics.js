@@ -70,8 +70,7 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
   skip: ({ showOnlyDefault }) => {
     return showOnlyDefault
   },
-  options: data => {
-    const { slug } = data
+  options: ({ slug }) => {
     return { variables: { slug } }
   }
 })(ChartMetrics)
