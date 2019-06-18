@@ -168,4 +168,26 @@ const columns = preload => [
   }
 ]
 
+export const columnSettingsDefault = {
+  project: { show: true, selectable: false, name: 'Project' },
+  marketcapUsd: { show: true, selectable: true, name: 'Market capitalization' },
+  price: { show: true, selectable: true, name: 'Price' },
+  price_change: { show: true, selectable: true, name: 'Price (last 24h)' },
+  volume: { show: true, selectable: true, name: 'Volume' },
+  volume_change_24h: {
+    show: true,
+    selectable: true,
+    name: 'Volume (last 24h)'
+  },
+  eth_spent: { show: true, selectable: true, name: 'ETH spent' },
+  dev_activity: { show: true, selectable: true, name: 'Development activity' },
+  daily_active_addresses: {
+    show: true,
+    selectable: true,
+    name: 'Daily active addresses'
+  },
+  graph: { show: false, selectable: false, name: 'Graph' },
+  signals: { show: false, selectable: false, name: 'New signals' }
+}
+
 export default columns
