@@ -7,16 +7,12 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ReferenceLine,
-  Scatter,
-  Dot
+  ReferenceLine
 } from 'recharts'
 import { formatNumber } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
-import { generateMetricsMarkup } from '../../ducks/SANCharts/utils.js'
+import { generateMetricsMarkup, Metrics } from '../../ducks/SANCharts/utils.js'
 import styles from './MobileAssetChart.module.scss'
-
-//
 
 const labelFormatter = date => {
   const { dddd, MMM, DD, YYYY } = getDateFormats(new Date(date))
@@ -28,8 +24,8 @@ const tickFormatter = date => {
   return `${DD} ${MMM} ${YY}`
 }
 
-const MobileAssetChart = ({ data, slug: asset, icoPrice, metrics }) => {
-  console.log(data, metrics)
+const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
+  console.log(extraMetric && Metrics[extraMetric.metric])
   return (
     <div>
       <ResponsiveContainer width='100%' height={300}>
@@ -69,15 +65,17 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice, metrics }) => {
             dataKey='priceUsd'
             stroke='var(--jungle-green)'
           />
-          {metrics && generateMetricsMarkup(metrics)}
-          {metrics && [
-            <YAxis yAxisId='axis-anomaly' domain={['dataMin', 'auto']} hide />,
-            <Scatter
-              dataKey='metricValue'
-              yAxisId='axis-anomaly'
-              fill='#ff0000'
-            />
-          ]}
+          {extraMetric && generateMetricsMarkup([extraMetric.metric])}
+          {extraMetric &&
+            extraMetric.anomalies.map(({ datetime }) => (
+              <ReferenceLine
+                key={datetime}
+                yAxisId={`axis-${Metrics[extraMetric.metric].dataKey ||
+                  extraMetric.metric}`}
+                x={datetime}
+                stroke='red'
+              />
+            ))}
           {icoPrice && (
             <ReferenceLine
               yAxisId='axis-price'

@@ -168,18 +168,12 @@ const MobileDetailedPage = props => {
                     }
 
                     const timeseries = [historyPrice.items]
-                    let chartMetrics
                     if (
                       extraMetric &&
                       otherTimeseries[extraMetric.metric] &&
                       otherTimeseries[extraMetric.metric].items
                     ) {
-                      console.log(extraMetric.anomalies)
-                      timeseries.push(
-                        otherTimeseries[extraMetric.metric].items,
-                        extraMetric.anomalies
-                      )
-                      chartMetrics = [extraMetric.metric]
+                      timeseries.push(otherTimeseries[extraMetric.metric].items)
                     }
                     return (
                       <>
@@ -189,7 +183,7 @@ const MobileDetailedPage = props => {
                           })}
                           slug={slug}
                           icoPrice={icoPrice}
-                          metrics={chartMetrics}
+                          extraMetric={extraMetric}
                         />
                         <div className={styles.metrics}>
                           {activeAddressesInfo && (

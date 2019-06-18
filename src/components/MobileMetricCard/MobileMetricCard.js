@@ -17,7 +17,13 @@ const METRIC_ANOMALIE_QUERY = gql`
     $slug: String!
     $to: DateTime!
   ) {
-    metricAnomaly(from: $from, to: $to, slug: $slug, metric: $metric) {
+    metricAnomaly(
+      from: $from
+      to: $to
+      slug: $slug
+      metric: $metric
+      interval: "8h"
+    ) {
       datetime
       metricValue
     }
