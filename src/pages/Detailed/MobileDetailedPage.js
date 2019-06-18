@@ -29,7 +29,7 @@ const MobileDetailedPage = props => {
   const [extraMetric, setExtraMetric] = useState()
 
   const toggleExtraMetric = toggledMetric => {
-    if (extraMetric && toggledMetric.metric === extraMetric.metric) {
+    if (extraMetric && toggledMetric.name === extraMetric.name) {
       setExtraMetric(undefined)
     } else {
       setExtraMetric(toggledMetric)
@@ -95,7 +95,7 @@ const MobileDetailedPage = props => {
 
   const extraTimeserie = extraMetric
     ? {
-      [extraMetric.metric]: timeseriesOptions
+      [extraMetric.name]: timeseriesOptions
     }
     : {}
 
@@ -178,10 +178,10 @@ const MobileDetailedPage = props => {
                     const timeseries = [historyPrice.items]
                     if (
                       extraMetric &&
-                      otherTimeseries[extraMetric.metric] &&
-                      otherTimeseries[extraMetric.metric].items
+                      otherTimeseries[extraMetric.name] &&
+                      otherTimeseries[extraMetric.name].items
                     ) {
-                      timeseries.push(otherTimeseries[extraMetric.metric].items)
+                      timeseries.push(otherTimeseries[extraMetric.name].items)
                     }
                     return (
                       <>

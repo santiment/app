@@ -22,19 +22,19 @@ const MobileMetricCard = ({
   period,
   changes,
   measure = '',
-  data: { metricAnomaly: anomalies } = {},
+  data: { metricAnomaly: anomalies = [] } = {},
   onClick,
   activeMetric
 }) => {
   const onButtonClick = () => {
-    onClick({ metric, anomalies })
+    onClick({ name: metric, anomalies })
   }
 
   return (
     <button
       className={cx(
         styles.wrapper,
-        activeMetric && activeMetric.metric === metric && styles.active
+        activeMetric && activeMetric.name === metric && styles.active
       )}
       onClick={onClick ? onButtonClick : undefined}
     >

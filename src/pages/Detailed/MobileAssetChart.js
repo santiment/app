@@ -64,13 +64,13 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
             dataKey='priceUsd'
             stroke='var(--jungle-green)'
           />
-          {extraMetric && generateMetricsMarkup([extraMetric.metric])}
+          {extraMetric && generateMetricsMarkup([extraMetric.name])}
           {extraMetric &&
             extraMetric.anomalies.map(({ datetime }) => (
               <ReferenceLine
                 key={datetime}
-                yAxisId={`axis-${Metrics[extraMetric.metric].dataKey ||
-                  extraMetric.metric}`}
+                yAxisId={`axis-${Metrics[extraMetric.name].dataKey ||
+                  extraMetric.name}`}
                 x={datetime}
                 stroke='red'
               />
