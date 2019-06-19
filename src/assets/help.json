@@ -13,7 +13,7 @@
   },
   "Development Activity": {
     "title": "Development activity",
-    "description": "Metric based on number of Github 'events' including issue interactions, pull requests, comments, and wiki edits, plus the number of public repositories a project is maintaining"
+    "description": "Based on number of Github 'events' including issue interactions, PRs, comments, and wiki edits, plus the number of public repositories a project is maintaining"
   },
   "Sentiment": {
     "title": "Sentiment",
@@ -25,6 +25,10 @@
   },
   "Daily Active Addresses": {
     "title": "Daily active addresses",
-    "description": "This metric includes the number of unique addresses that participated in the transfers of given token during the day"
+    "description": "Includes the number of unique addresses that participated in the transfers of given token during the day"
+  },
+  "Token Circulation": {
+    "title": "Token circulation",
+    "description": "Shows the number of unique tokens being used during each day"
   }
 }
