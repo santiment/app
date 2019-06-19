@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
 import { Message } from '@santiment-network/ui'
 import StatusLabel from './../../components/StatusLabel'
-import { TRIGGER_BY_ID_QUERY } from '../../ducks/Signals/gql/SignalsGQL'
+import { TRIGGER_BY_ID_QUERY } from '../../ducks/Signals/common/queries'
 import {
   toggleTrigger,
   removeTrigger

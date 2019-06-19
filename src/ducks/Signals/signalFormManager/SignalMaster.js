@@ -5,9 +5,9 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { createTrigger, updateTrigger } from '../common/actions'
 import { Message, Toggle } from '@santiment-network/ui'
-import TriggersForm from './signalCrudForm/signalsList/TriggersForm'
+import TriggersForm from './signalsList/TriggersForm'
 import AboutForm from './aboutForm/AboutForm'
-import { TRIGGER_BY_ID_QUERY } from '../gql/SignalsGQL'
+import { TRIGGER_BY_ID_QUERY } from '../common/queries'
 import {
   mapTriggerToFormProps,
   mapFormPropsToTrigger,

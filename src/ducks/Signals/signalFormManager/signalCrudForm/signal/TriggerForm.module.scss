@@ -21,8 +21,10 @@
   padding: 15px 15px 0;
   background: var(--white);
   border: 1px solid var(--porcelain);
-  box-sizing: border-box;
-  border-radius: 4px;
+
+  @include border-box();
+
+  border-radius: $border-radius;
 }
 
 .Trigger {
@@ -163,9 +165,11 @@ label {
 }
 
 .AboutForm {
-  box-sizing: border-box;
   background-color: var(--white);
-  border-radius: 4px;
+
+  @include border-box();
+
+  border-radius: $border-radius;
   padding-bottom: 20px;
 
   .Field {
@@ -184,8 +188,10 @@ label {
 
 .triggerFormItem {
   border: 1px solid var(--porcelain);
-  box-sizing: border-box;
-  border-radius: 4px;
+
+  @include border-box();
+
+  border-radius: $border-radius;
   margin-bottom: 20px;
 }
 

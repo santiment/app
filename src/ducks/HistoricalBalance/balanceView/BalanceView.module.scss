@@ -1,41 +1,46 @@
 @import 'variables.scss';
+@import "~@santiment-network/ui/mixins.scss";
 
-.BalanceExtension {
-  margin: 0;
+.container {
   width: 100%;
+  border-radius: $border-radius;
+  border: 1px solid var(--porcelain);
+
+  @include border-box();
+}
+
+.filters {
+  width: 100%;
+  background: var(--athens);
+  border: 1px solid var(--porcelain);
+  padding: 16px 0;
+
+  @include border-box();
+
+  display: flex;
 }
 
 .InputWrapper {
-  margin: 18px 0;
-  text-align: left;
+  width: 50%;
+  padding: 0 24px;
+
+  @include text('body-3');
 }
 
-.InputWrapper label {
-  font-style: normal;
-  font-weight: 600;
-  line-height: 20px;
-  font-size: 14px;
-  color: #7a859e;
+.wallet {
+  padding: 0 12px 0 24px;
 }
 
-.InputWrapper input#address {
-  margin-top: 0.5rem;
-  font-size: 14px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+.walletInput {
+  height: 36px;
 }
 
-.InputWithAction {
-  display: flex;
-  align-items: center;
-  border: 1px solid #e0e4ee;
-  border-radius: 4px;
+.address {
+  padding: 0 24px 0 12px;
 }
 
-.InputWithAction,
-.AssetsField {
-  margin-top: 6px;
+.label {
+  @include text('caption');
 }
 
 .InputWithAction input {
@@ -81,11 +86,4 @@
   margin-top: 8px;
   min-height: 1em;
   line-height: 1em;
-}
-
-@media (min-width: $breakpoint-tablet) {
-  .BalanceExtension {
-    width: 400px;
-    min-width: 400px;
-  }
 }

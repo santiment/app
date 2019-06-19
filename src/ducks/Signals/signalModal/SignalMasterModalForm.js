@@ -14,6 +14,7 @@ const SignalMasterModalForm = ({
   redirectEnabled = false,
   isLoggedIn,
   redirect,
+  enabled = true,
   match
 }) => {
   const [dialogOpenState, setDialogOpenState] = useState(redirectEnabled)
@@ -32,7 +33,7 @@ const SignalMasterModalForm = ({
       open={dialogOpenState}
       onClose={onClose}
       onOpen={() => setDialogOpenState(true)}
-      trigger={signalModalTrigger(isLoggedIn, label, !redirectEnabled)}
+      trigger={signalModalTrigger(isLoggedIn, label, enabled, !redirectEnabled)}
       title={dialogTitle}
     >
       <Dialog.ScrollContent className={styles.TriggerPanel}>
@@ -65,14 +66,14 @@ export default connect(
   mapDispatchToProps
 )(SignalMasterModalForm)
 
-const signalModalTrigger = (isLoggedIn, label, canShow) =>
+const signalModalTrigger = (isLoggedIn, label, enabled, canShow) =>
   !canShow ? (
     <div />
   ) : (
     <Button
       variant='fill'
       accent='positive'
-      disabled={!isLoggedIn}
+      disabled={!isLoggedIn || !enabled}
       className={styles.newSignal}
     >
       <Icon type='plus-round' className={styles.newSignal__icon} />
