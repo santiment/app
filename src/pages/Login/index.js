@@ -30,7 +30,7 @@ export default ({
   location: { search = '' }
 }) => {
   if (isLoggedIn) {
-    const consent = parse(search).consent
+    const { consent } = parse(search)
     let redirectTo = '/'
 
     if (consent) {
