@@ -23,7 +23,7 @@ export const PUBLIC_WATCHLISTS = [
   {
     name: 'Decentralized Exchanges',
     assetType: 'decentralized exchanges',
-    to: '/assets/list?name=dex@127#shared',
+    to: '/assets/list?name=decentralized%20exchanges@127#shared',
     id: '127'
   },
   {
