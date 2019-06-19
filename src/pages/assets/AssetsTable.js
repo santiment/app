@@ -45,7 +45,7 @@ const AssetsTable = ({
   setMinVolumeFilter,
   minVolume = 10000
 }) => {
-  const { isLoading, items, error, type } = Assets
+  const { isLoading, items, error } = Assets
   if (error && error.message !== 'Network error: Failed to fetch') {
     return <ServerErrorMessage />
   }
