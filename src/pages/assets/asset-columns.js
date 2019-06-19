@@ -14,7 +14,8 @@ const columns = preload => [
     maxWidth: 45,
     sortable: true,
     accessor: d => ({ rank: d.rank }),
-    Cell: ({ value: { rank } }) => <div className='overview-rank'>{rank}</div>
+    Cell: ({ value: { rank } }) => <div className='overview-rank'>{rank}</div>,
+    sortMethod: (a, b) => simpleSort(b.rank, a.rank)
   },
   {
     Header: () => <div className={cx('heading', 'overview-name')}>Project</div>,
