@@ -1,13 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import ReactTable from 'react-table'
 import cx from 'classnames'
 import Sticky from 'react-stickynode'
 import { connect } from 'react-redux'
 import 'react-table/react-table.css'
-import {
-  // Button,
-  Panel
-} from '@santiment-network/ui'
 import { ASSETS_FETCH, ASSETS_SET_MIN_VOLUME_FILTER } from '../../actions/types'
 import Refresh from '../../components/Refresh/Refresh'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
@@ -54,7 +50,7 @@ const AssetsTable = ({
   }
 
   return (
-    <Fragment>
+    <>
       <div className={styles.top}>
         <Refresh
           timestamp={Assets.timestamp}
@@ -71,37 +67,35 @@ const AssetsTable = ({
           // </Button>
         }
       </div>
-      <Panel>
-        <ReactTable
-          loading={isLoading}
-          showPagination={!showAll}
-          showPaginationTop={false}
-          showPaginationBottom
-          defaultPageSize={20}
-          pageSizeOptions={[5, 10, 20, 25, 50, 100]}
-          pageSize={showAll ? items && items.length : undefined}
-          sortable={false}
-          resizable
-          defaultSorted={[
-            {
-              id: 'marketcapUsd',
-              desc: false
-            }
-          ]}
-          className='-highlight'
-          data={items}
-          columns={filterColumnsByTableSection(type, columns(preload))}
-          loadingText='Loading...'
-          TheadComponent={CustomHeadComponent}
-          getTdProps={() => ({
-            onClick: (e, handleOriginal) => {
-              if (handleOriginal) handleOriginal()
-            },
-            style: { border: 'none' }
-          })}
-        />
-      </Panel>
-    </Fragment>
+      <ReactTable
+        loading={isLoading}
+        showPagination={!showAll}
+        showPaginationTop={false}
+        showPaginationBottom
+        defaultPageSize={20}
+        pageSizeOptions={[5, 10, 20, 25, 50, 100]}
+        pageSize={showAll ? items && items.length : undefined}
+        sortable={false}
+        resizable={false}
+        defaultSorted={[
+          {
+            id: 'marketcapUsd',
+            desc: false
+          }
+        ]}
+        className={cx('-highlight', styles.assetsTable)}
+        data={items}
+        columns={filterColumnsByTableSection(type, columns(preload))}
+        loadingText='Loading...'
+        TheadComponent={CustomHeadComponent}
+        getTdProps={() => ({
+          onClick: (e, handleOriginal) => {
+            if (handleOriginal) handleOriginal()
+          },
+          style: { border: 'none' }
+        })}
+      />
+    </>
   )
 }
 
