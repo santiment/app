@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import nprogress from 'nprogress'
 import NotificationStack from './components/NotificationStack'
-import LoginPage from './pages/Login/LoginPage'
+/* import LoginPage from './pages/Login/LoginPage' */
 import Roadmap from './pages/Roadmap'
 import Signals from './pages/Signals'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
@@ -36,6 +36,7 @@ import WordCloudPage from './components/WordCloud/WordCloudPage'
 import { getConsentUrl } from './utils/utils'
 import NewsBanner from './components/Banner/NewsBanner'
 import LogoutPage from './pages/Logout/Logout'
+import LoginPage from './pages/Login'
 import LabsPage from './pages/Labs'
 import './App.scss'
 
@@ -315,9 +316,14 @@ export const App = ({
           )}
         />
         <Route
-          exact
           path='/login'
-          render={props => <LoginPage isDesktop={isDesktop} {...props} />}
+          render={props => (
+            <LoginPage
+              isLoggedIn={isLoggedIn}
+              isDesktop={isDesktop}
+              {...props}
+            />
+          )}
         />
         {isDesktop ? (
           <Redirect from='/' to='/dashboard' />

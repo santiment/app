@@ -91,21 +91,24 @@ const loginWithEthereum = client => {
 }
 
 const handleEthLogin = (action$, store, { client }) =>
-  action$.ofType(actions.USER_ETH_LOGIN).exhaustMap(action => {
-    const { consent } = action.payload
-    return Observable.from(loginWithEthereum(client))
-      .mergeMap(({ data }) => {
-        const { token, user } = data.ethLogin
-        savePrevAuthProvider('metamask')
-        return Observable.of({
-          type: actions.USER_LOGIN_SUCCESS,
-          token,
-          user,
-          consent: user.consent_id || consent
+  action$
+    .ofType(actions.USER_ETH_LOGIN)
+    .takeUntil(action$.ofType(actions.USER_LOGIN_SUCCESS))
+    .switchMap(action => {
+      const { consent } = action.payload
+      return Observable.from(loginWithEthereum(client))
+        .mergeMap(({ data }) => {
+          const { token, user } = data.ethLogin
+          savePrevAuthProvider('metamask')
+          return Observable.of({
+            type: actions.USER_LOGIN_SUCCESS,
+            token,
+            user,
+            consent: user.consent_id || consent
+          })
         })
-      })
-      .catch(handleErrorAndTriggerAction(actions.USER_LOGIN_FAILED))
-  })
+        .catch(handleErrorAndTriggerAction(actions.USER_LOGIN_FAILED))
+    })
 
 const connectingNewWallet = client => {
   return new Promise(async (resolve, reject) => {
