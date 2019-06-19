@@ -28,7 +28,7 @@ const AssetsToggleColumns = ({ columns = [], onChange }) => (
             <div
               key={id}
               className={styles.column}
-              onClick={() => onChange(id)}
+              onClick={() => onChange({ id, show, selectable })}
             >
               <Checkbox
                 className={styles.checkbox}
