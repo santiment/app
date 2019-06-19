@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import { parse } from 'query-string'
 import { Switch, Route, Link, Redirect } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
@@ -22,9 +23,21 @@ const LoginOptions = ({ isDesktop }) => (
   </>
 )
 
-export default ({ isDesktop, isLoggedIn }) => {
+export default ({
+  isDesktop,
+  isLoggedIn,
+  token,
+  location: { search = '' }
+}) => {
   if (isLoggedIn) {
-    return <Redirect to='/' />
+    const consent = parse(search).consent
+    let redirectTo = '/'
+
+    if (consent) {
+      redirectTo = `/consent?consent=${consent}&token=${token}`
+    }
+
+    return <Redirect to={redirectTo} />
   }
 
   return (

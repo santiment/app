@@ -130,6 +130,7 @@ class ExternalRedirect extends React.Component {
 export const App = ({
   isDesktop,
   isLoggedIn,
+  token,
   isFullscreenMobile,
   isOffline,
   hasUsername,
@@ -323,6 +324,7 @@ export const App = ({
           render={props => (
             <LoadableLoginPage
               isLoggedIn={isLoggedIn}
+              token={token}
               isDesktop={isDesktop}
               {...props}
             />
@@ -344,6 +346,7 @@ export const App = ({
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.user.data && !!state.user.data.id,
+    token: state.user.token,
     isFullscreenMobile: state.detailedPageUi.isFullscreenMobile,
     isOffline: !state.rootUi.isOnline,
     isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
