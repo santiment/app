@@ -595,11 +595,12 @@ export const validateTriggerForm = values => {
   return errors
 }
 
+const POSSIBLE_METRICS_FOR_CHART = [
+  PRICE_METRIC.value,
+  DAILY_ACTIVE_ADRESSES_METRIC.value,
+  PRICE_VOLUME_DIFFERENCE_METRIC.value
+]
+
 export const couldShowChart = metric => {
-  const possibleForChart = [
-    PRICE_METRIC.value,
-    DAILY_ACTIVE_ADRESSES_METRIC.value,
-    PRICE_VOLUME_DIFFERENCE_METRIC.value
-  ]
-  return metric ? possibleForChart.indexOf(metric.value) >= 0 : false
+  return metric ? POSSIBLE_METRICS_FOR_CHART.indexOf(metric.value) >= 0 : false
 }

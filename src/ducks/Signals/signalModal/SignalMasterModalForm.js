@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Button, Icon } from '@santiment-network/ui'
-import Dialog from '@santiment-network/ui/Dialog'
+import { Button, Icon, Dialog } from '@santiment-network/ui'
 import SignalMaster from '../signalFormManager/SignalMaster'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
-import styles from './SignalMasterModalForm.module.scss'
 import { push } from 'react-router-redux'
 import { SIGNAL_ROUTES } from '../common/constants'
+import styles from './SignalMasterModalForm.module.scss'
 
 const SignalMasterModalForm = ({
   label = 'New signal',

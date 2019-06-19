@@ -13,8 +13,8 @@ import {
   mapFormPropsToTrigger,
   mapGQLTriggerToProps
 } from '../utils/utils'
-import styles from './signalCrudForm/signal/TriggerForm.module.scss'
 import { SIGNAL_ROUTES } from '../common/constants'
+import styles from './signalCrudForm/signal/TriggerForm.module.scss'
 
 const STEPS = {
   SETTINGS: 0,
@@ -39,7 +39,6 @@ export class SignalMaster extends React.PureComponent {
   componentWillReceiveProps (newProps) {
     const { trigger } = this.state
     if (newProps.trigger && newProps.trigger.trigger && !trigger.id) {
-      const { trigger } = this.state
       this.setState({
         trigger: {
           ...newProps.trigger.trigger
@@ -57,7 +56,7 @@ export class SignalMaster extends React.PureComponent {
     } = this.props
 
     if (triggerId && triggerObj.isLoading) {
-      return 'Loading...'
+      return <div className={styles.wrapper}>{'Loading...'}</div>
     }
     if (triggerId && triggerObj.isError) {
       return <Message variant='error'>{triggerObj.errorMessage}</Message>
@@ -112,7 +111,7 @@ export class SignalMaster extends React.PureComponent {
             triggers={[trigger]}
             settings={triggerSettingsFormData}
             canRedirect={this.props.canRedirect}
-            metaFormSettings={{ ...metaFormSettings }}
+            metaFormSettings={metaFormSettings}
             onSettingsChange={this.handleSettingsChange}
           />
         )}

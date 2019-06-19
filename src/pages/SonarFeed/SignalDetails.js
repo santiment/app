@@ -30,7 +30,7 @@ const SignalDetails = ({
 }) => {
   const signalId = id || (match.params || {}).id
   if (isLoading) {
-    return <div className={styles.wrapper}>Loading...</div>
+    return <div className={styles.wrapperLoading}>Loading...</div>
   }
 
   const close = closeModal || redirect

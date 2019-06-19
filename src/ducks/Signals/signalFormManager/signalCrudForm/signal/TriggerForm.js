@@ -194,7 +194,6 @@ export const TriggerForm = ({
                   absoluteBorderRight={absoluteBorderRight}
                 />
 
-                {showChart}
                 {showChart && (
                   <div className={cx(styles.row, styles.signalPreview)}>
                     <SignalPreview
@@ -245,7 +244,7 @@ export const TriggerForm = ({
                         labelOnRight
                         disabledIndexes={['Email']}
                         options={['Email', 'Telegram']}
-                        styles={{ marginRight: 5 }}
+                        styles={{ marginRight: 20 }}
                       />
                       {!isTelegramConnected && (
                         <Button

@@ -1,13 +1,13 @@
 @import "~@santiment-network/ui/mixins.scss";
 
 .fired {
-  @include text-normal;
+  @include text('body-3');
 
   color: var(--casper);
 }
 
 .times {
-  @include text-normal;
+  @include text('body-3');
 
   margin-left: 10px;
 }

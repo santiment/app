@@ -5,8 +5,8 @@ import cx from 'classnames'
 import MultilineText from '../../components/MultilineText/MultilineText'
 import StatusLabel from './../../components/StatusLabel'
 import SignalDetails from '../../pages/SonarFeed/SignalDetails'
-import styles from './SignalCard.module.scss'
 import Dialog from '@santiment-network/ui/Dialog'
+import styles from './SignalCard.module.scss'
 
 const SignalCard = ({
   id,
