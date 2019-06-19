@@ -206,7 +206,8 @@ export const columnSettingsDefault = {
   daily_active_addresses: {
     show: true,
     selectable: true,
-    name: 'Daily active addresses'
+    name: 'Daily active addresses',
+    description: help['Daily Active Addresses'].description
   },
   graph: { show: false, selectable: false, name: 'Graph' },
   signals: { show: false, selectable: false, name: 'New signals' }

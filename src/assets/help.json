@@ -22,5 +22,9 @@
   "Social Trends": {
     "title": "Social Trends",
     "description": "Our Social Trends search is unique in the industry, based on channels, sites and forums.  We focus only on channels where 90% of the discussions about crypto, including 'insider' sites not open to public Google search."
+  },
+  "Daily Active Addresses": {
+    "title": "Daily active addresses",
+    "description": "This metric includes the number of unique addresses that participated in the transfers of given token during the day"
   }
 }
