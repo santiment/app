@@ -27,7 +27,10 @@ const AssetsToggleColumns = ({ columns = [], onChange }) => (
           ([id, { name, selectable, show, description }]) => (
             <Fragment key={id}>
               {name !== 'Rank' && name !== 'Project' && (
-                <div className={styles.column} onClick={() => onChange(id)}>
+                <div
+                  className={styles.column}
+                  onClick={() => onChange({ id, show, selectable })}
+                >
                   <Checkbox
                     className={styles.checkbox}
                     isActive={show}

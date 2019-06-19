@@ -54,10 +54,10 @@ const AssetsTable = ({
     columnSettingsDefault
   )
 
-  const toggleColumn = id =>
+  const toggleColumn = ({ id, show, selectable }) =>
     changeColumnsSettings({
       ...columnsSettings,
-      [id]: { ...columnsSettings[id], show: !columnsSettings[id].show }
+      [id]: { ...columnsSettings[id], show: selectable ? !show : show }
     })
 
   return (
