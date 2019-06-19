@@ -9,7 +9,7 @@
   },
   "ETH Spent Over Time": {
     "title": "ETH Spent Over Time",
-    "description": "How much ETH has moved out of team wallets over time.  While not tracked all the way to exchanges, this metric may suggest pottential selling activity."
+    "description": "How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity"
   },
   "Development Activity": {
     "title": "Development activity",

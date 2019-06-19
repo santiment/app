@@ -5,15 +5,25 @@ import { simpleSort } from '../../utils/sortMethods'
 import { formatNumber, millify } from '../../utils/formatting'
 import ProjectLabel from '../../components/ProjectLabel'
 import PercentChanges from '../../components/PercentChanges'
+import help from './../../assets/help.json'
 
 const columns = preload => [
   {
+    Header: () => <div className={cx('heading', 'overview-rank')}>#</div>,
+    id: 'rank',
+    maxWidth: 45,
+    sortable: true,
+    accessor: d => ({ rank: d.rank }),
+    Cell: ({ value: { rank } }) => <div className='overview-rank'>{rank}</div>
+  },
+  {
     Header: () => <div className={cx('heading', 'overview-name')}>Project</div>,
     id: 'project',
-    minWidth: 150,
+    minWidth: 200,
     maxWidth: 280,
     filterable: true,
     sortable: true,
+    resizable: true,
     accessor: d => ({
       name: d.name,
       ticker: d.ticker,
@@ -167,5 +177,38 @@ const columns = preload => [
     sortMethod: (a, b) => simpleSort(a, b)
   }
 ]
+
+export const columnSettingsDefault = {
+  rank: { show: true, selectable: false, name: 'Rank' },
+  project: { show: true, selectable: false, name: 'Project' },
+  marketcapUsd: { show: true, selectable: true, name: 'Market capitalization' },
+  price: { show: true, selectable: true, name: 'Price' },
+  price_change: { show: true, selectable: true, name: 'Price (last 24h)' },
+  volume: { show: true, selectable: true, name: 'Volume' },
+  volume_change_24h: {
+    show: true,
+    selectable: true,
+    name: 'Volume (last 24h)'
+  },
+  eth_spent: {
+    show: true,
+    selectable: true,
+    name: 'ETH spent',
+    description: help['ETH Spent Over Time'].description
+  },
+  dev_activity: {
+    show: true,
+    selectable: true,
+    name: 'Development activity',
+    description: help['Development Activity'].description
+  },
+  daily_active_addresses: {
+    show: true,
+    selectable: true,
+    name: 'Daily active addresses'
+  },
+  graph: { show: false, selectable: false, name: 'Graph' },
+  signals: { show: false, selectable: false, name: 'New signals' }
+}
 
 export default columns

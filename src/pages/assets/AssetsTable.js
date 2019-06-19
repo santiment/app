@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactTable from 'react-table'
 import cx from 'classnames'
 import Sticky from 'react-stickynode'
@@ -7,7 +7,8 @@ import 'react-table/react-table.css'
 import { ASSETS_FETCH, ASSETS_SET_MIN_VOLUME_FILTER } from '../../actions/types'
 import Refresh from '../../components/Refresh/Refresh'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
-import columns from './asset-columns'
+import AssetsToggleColumns from './AssetsToggleColumns'
+import columns, { columnSettingsDefault } from './asset-columns'
 import './../Projects/ProjectsTable.css'
 import styles from './AssetsTable.module.scss'
 
@@ -49,6 +50,16 @@ const AssetsTable = ({
     return <ServerErrorMessage />
   }
 
+  const [columnsSettings, changeColumnsSettings] = useState(
+    columnSettingsDefault
+  )
+
+  const toggleColumn = id =>
+    changeColumnsSettings({
+      ...columnsSettings,
+      [id]: { ...columnsSettings[id], show: !columnsSettings[id].show }
+    })
+
   return (
     <>
       <div className={styles.top}>
@@ -66,6 +77,10 @@ const AssetsTable = ({
           // {minVolume > 0 ? `remove filter min volume > ${millify(minVolume, 2)}` : 'add filter min volume > 10k'}
           // </Button>
         }
+        <AssetsToggleColumns
+          columns={columnsSettings}
+          onChange={toggleColumn}
+        />
       </div>
       <ReactTable
         loading={isLoading}
@@ -79,13 +94,13 @@ const AssetsTable = ({
         resizable={false}
         defaultSorted={[
           {
-            id: 'marketcapUsd',
+            id: 'rank',
             desc: false
           }
         ]}
         className={cx('-highlight', styles.assetsTable)}
         data={items}
-        columns={filterColumnsByTableSection(type, columns(preload))}
+        columns={columns(preload).filter(({ id }) => columnsSettings[id].show)}
         loadingText='Loading...'
         TheadComponent={CustomHeadComponent}
         getTdProps={() => ({
