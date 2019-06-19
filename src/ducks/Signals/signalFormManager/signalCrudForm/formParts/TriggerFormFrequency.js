@@ -53,6 +53,7 @@ export const TriggerFormFrequency = ({
         />
       </div>
       <div className={styles.Field}>
+        <label>&nbsp;</label>
         <div className={styles.frequency}>
           <FormikSelect
             name='frequencyTimeValue'

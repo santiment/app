@@ -1,0 +1,24 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+@mixin icon($color, $bg) {
+  display: inline-flex;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  background: var($bg);
+  fill: var($color);
+}
+
+.iconSocial {
+  @include icon(--blue, --blue-light);
+}
+
+.iconFinance {
+  @include icon(--persimmon, --persimmon-light);
+}
+
+.iconConnection {
+  @include icon(--jungle-green, --jungle-green-light);
+}

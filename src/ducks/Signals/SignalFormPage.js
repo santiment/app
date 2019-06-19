@@ -4,7 +4,7 @@ import SignalMaster from './signalFormManager/SignalMaster'
 const SignalFormPage = () => {
   return (
     <div>
-      <SignalMaster canRedirect={true} />
+      <SignalMaster />
     </div>
   )
 }

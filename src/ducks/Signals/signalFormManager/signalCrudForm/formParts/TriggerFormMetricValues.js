@@ -4,7 +4,8 @@ import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSe
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import {
   ETH_WALLETS_OPTIONS,
-  METRIC_TYPES_DEPENDENCIES
+  METRIC_TYPES_DEPENDENCIES,
+  PRICE_ABSOLUTE_CHANGE
 } from '../../../utils/constants'
 import styles from '../signal/TriggerForm.module.scss'
 
@@ -19,10 +20,21 @@ export const TriggerFormMetricValues = ({
   absoluteBorderRight,
   absoluteBorderLeft
 }) => {
+  let metricValue = type ? type.metric : undefined
+
+  switch (metricValue) {
+    case PRICE_ABSOLUTE_CHANGE: {
+      metricValue = type ? type.subMetric : undefined
+      break
+    }
+    default: {
+    }
+  }
+
   return (
     <div className={styles.row}>
       {type &&
-        METRIC_TYPES_DEPENDENCIES[type.value].includes(
+        METRIC_TYPES_DEPENDENCIES[metricValue].includes(
           'absoluteBorderLeft'
         ) && (
         <div className={styles.Field}>
@@ -36,10 +48,11 @@ export const TriggerFormMetricValues = ({
         </div>
       )}
       {type &&
-        METRIC_TYPES_DEPENDENCIES[type.value].includes(
+        METRIC_TYPES_DEPENDENCIES[metricValue].includes(
           'absoluteBorderRight'
         ) && (
         <div className={styles.Field}>
+          <label>&nbsp;</label>
           <FormikInput
             name='absoluteBorderRight'
             min={absoluteBorderLeft}
@@ -50,7 +63,9 @@ export const TriggerFormMetricValues = ({
       )}
 
       {type &&
-        METRIC_TYPES_DEPENDENCIES[type.value].includes('absoluteThreshold') && (
+        METRIC_TYPES_DEPENDENCIES[metricValue].includes(
+          'absoluteThreshold'
+        ) && (
         <div className={styles.Field}>
           <label>Absolute change</label>
           <FormikInput
@@ -62,7 +77,7 @@ export const TriggerFormMetricValues = ({
       )}
 
       {type &&
-        METRIC_TYPES_DEPENDENCIES[type.value].includes('percentThreshold') && (
+        METRIC_TYPES_DEPENDENCIES[metricValue].includes('percentThreshold') && (
         <div className={styles.Field}>
           <label>Percentage change</label>
           <FormikInput
@@ -74,7 +89,7 @@ export const TriggerFormMetricValues = ({
       )}
 
       {type &&
-        METRIC_TYPES_DEPENDENCIES[type.value].includes(
+        METRIC_TYPES_DEPENDENCIES[metricValue].includes(
           'walletBalanceChangeType'
         ) && (
         <div className={styles.Field}>
@@ -90,7 +105,7 @@ export const TriggerFormMetricValues = ({
         </div>
       )}
 
-      {type && METRIC_TYPES_DEPENDENCIES[type.value].includes('threshold') && (
+      {type && METRIC_TYPES_DEPENDENCIES[metricValue].includes('threshold') && (
         <div className={styles.Field}>
           <label>Threshold</label>
           <FormikInput
@@ -101,9 +116,9 @@ export const TriggerFormMetricValues = ({
           />
         </div>
       )}
-      {type && METRIC_TYPES_DEPENDENCIES[type.value].includes('timeWindow') && (
+      {type && METRIC_TYPES_DEPENDENCIES[metricValue].includes('timeWindow') && (
         <div className={styles.Field}>
-          <label>Time Window</label>
+          <label>Time window</label>
           <div className={styles.timeWindow}>
             <div className={styles.timeWindowInput}>
               <FormikInput

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
@@ -6,7 +6,7 @@ import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
-import { Button, Message } from '@santiment-network/ui'
+import isEqual from 'lodash.isequal'
 import { selectIsTelegramConnected } from '../../../../../pages/UserSelectors'
 import { allProjectsForSearchGQL } from '../../../../../pages/Projects/allProjectsGQL'
 import {
@@ -14,22 +14,25 @@ import {
   removeTrigger
 } from '../../../common/actions'
 import FormikCheckboxes from '../../../../../components/formik-santiment-ui/FormikCheckboxes'
-import FormikToggle from '../../../../../components/formik-santiment-ui/FormikToggle'
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
+import { Checkbox, Button, Message } from '@santiment-network/ui'
 import { TriggerFormHeader } from '../header/TriggerFormHeader'
-import styles from './TriggerForm.module.scss'
-
 import {
   PRICE_PERCENT_CHANGE,
   METRIC_DEFAULT_VALUES,
   DEFAULT_FORM_META_SETTINGS
 } from '../../../utils/constants'
-
-import { validateTriggerForm } from '../../../utils/utils'
+import {
+  couldShowChart,
+  mapValuesToTriggerProps,
+  validateTriggerForm
+} from '../../../utils/utils'
 import { TriggerFormAssetWallet } from '../formParts/TriggerFormAssetWallet'
 import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/TriggerFormMetricTypes'
 import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'
+import SignalPreview from '../../../chart/SignalPreview'
+import styles from './TriggerForm.module.scss'
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
@@ -53,7 +56,7 @@ export const TriggerForm = ({
 }) => {
   const formMetric =
     metaFormSettings && metaFormSettings.metric
-      ? metaFormSettings.metric.value.value
+      ? metaFormSettings.metric.value.metric
       : PRICE_PERCENT_CHANGE
 
   metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
@@ -72,12 +75,19 @@ export const TriggerForm = ({
     signalType: metaFormSettings.signalType.value
       ? metaFormSettings.signalType.value
       : settings.signalType,
-    address: metaFormSettings.address,
+    ethAddress: metaFormSettings.ethAddress,
     ...settings
   }
 
   const [initialValues, setInitialValues] = useState(settings)
   const [showTrigger, setShowTrigger] = useState(true)
+
+  const showChart = couldShowChart(initialValues.metric)
+
+  useEffect(() => {
+    showChart &&
+      getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
+  }, [])
 
   const setDefaultPriceValues = values => {
     const newValues = { ...values, ...METRIC_DEFAULT_VALUES[values.type.value] }
@@ -89,7 +99,7 @@ export const TriggerForm = ({
   }
 
   const deleteTrigger = () => {
-    trigger.id && removeSignal(trigger.id)
+    trigger && trigger.id && removeSignal(trigger.id)
     onRemovedSignal && onRemovedSignal()
   }
 
@@ -131,6 +141,25 @@ export const TriggerForm = ({
               ) {
                 setDefaultPriceValues(current.values)
                 validateForm()
+                return
+              }
+
+              if (!isEqual(current.values, prev.values)) {
+                const lastErrors = validateTriggerForm(current.values)
+                const isError = Object.keys(current.values).reduce(
+                  (acc, val) => {
+                    if (lastErrors.hasOwnProperty(val)) {
+                      acc = true
+                    }
+                    return acc
+                  },
+                  false
+                )
+
+                !!current.values.target &&
+                  !isError &&
+                  showChart &&
+                  getSignalBacktestingPoints(mapValuesToTriggerProps(values))
               }
             }}
           />
@@ -165,6 +194,15 @@ export const TriggerForm = ({
                   absoluteBorderRight={absoluteBorderRight}
                 />
 
+                {showChart && (
+                  <div className={cx(styles.row, styles.signalPreview)}>
+                    <SignalPreview
+                      target={values.target.value}
+                      type={values.type.type}
+                    />
+                  </div>
+                )}
+
                 <TriggerFormFrequency
                   metaFormSettings={metaFormSettings}
                   setFieldValue={setFieldValue}
@@ -175,8 +213,20 @@ export const TriggerForm = ({
                 <div className={styles.row}>
                   <div className={styles.Field}>
                     <div className={styles.isRepeating}>
-                      <FormikToggle name='isRepeating' />
-                      <span>
+                      <Checkbox
+                        isActive={values.isRepeating}
+                        name='isRepeating'
+                        className={styles.repeatingItem}
+                        onClick={() => {
+                          setFieldValue('isRepeating', !isRepeating)
+                        }}
+                      />
+                      <span
+                        className={styles.repeatingItem}
+                        onClick={() => {
+                          setFieldValue('isRepeating', !isRepeating)
+                        }}
+                      >
                         {isRepeating
                           ? 'Task never ends'
                           : 'Task fires only once'}
@@ -191,9 +241,10 @@ export const TriggerForm = ({
                     <div className={styles.notifyBlock}>
                       <FormikCheckboxes
                         name='channels'
-                        disabledIndexes={['email']}
-                        options={['email', 'telegram']}
-                        styles={{ marginRight: 5 }}
+                        labelOnRight
+                        disabledIndexes={['Email']}
+                        options={['Email', 'Telegram']}
+                        styles={{ marginRight: 20 }}
                       />
                       {!isTelegramConnected && (
                         <Button

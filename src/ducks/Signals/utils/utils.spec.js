@@ -104,7 +104,7 @@ const FORM_PROPS = [
     timeWindowUnit: { label: 'days', value: 'd' },
     type: { ...PRICE_PERCENT_CHANGE_UP_MODEL },
     metric: { label: 'Price', value: 'price' },
-    channels: ['telegram']
+    channels: ['Telegram']
   },
   {
     cooldown: '22h',
@@ -121,9 +121,9 @@ const FORM_PROPS = [
       value: 'daily_active_addresses'
     },
     type: {
-      value: 'daily_active_addresses'
+      metric: 'daily_active_addresses'
     },
-    channels: ['telegram']
+    channels: ['Telegram']
   },
   {
     cooldown: '22h',
@@ -135,9 +135,9 @@ const FORM_PROPS = [
     target: { value: 'santiment', label: 'santiment' },
     metric: { ...PRICE_VOLUME_DIFFERENCE_METRIC },
     type: {
-      value: 'price_volume_difference'
+      metric: 'price_volume_difference'
     },
-    channels: ['telegram']
+    channels: ['Telegram']
   }
 ]
 

@@ -82,8 +82,10 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn }) => {
           path={`${baseLocation}/details/:id/edit`}
           component={Loadable({
             loader: () =>
-              import('../../ducks/Signals/signalFormManager/SignalMaster'),
-            render: (loaded, props) => <loaded.default isEdit {...props} />,
+              import('../../ducks/Signals/signalModal/SignalMasterModalForm'),
+            render: (loaded, props) => (
+              <loaded.default redirectEnabled {...props} />
+            ),
             loading: () => <PageLoader />
           })}
         />

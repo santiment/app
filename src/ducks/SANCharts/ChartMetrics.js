@@ -33,12 +33,16 @@ class ChartMetrics extends Component {
   }
 
   render () {
-    const { metrics } = this.state
+    const { metrics = [] } = this.state
+    const { defaultActiveMetrics } = this.props
     const {
       disabledMetrics = [],
-      data: { project: { availableMetrics = [] } = {} }
+      data: {
+        project: { availableMetrics = defaultActiveMetrics || [] } = {}
+      } = {}
     } = this.props
     const listOfMetrics = this.props.listOfMetrics || Metrics
+
     return (
       <div className={styles.metrics}>
         {availableMetrics.map(metric => {
@@ -63,5 +67,10 @@ class ChartMetrics extends Component {
 }
 
 export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
-  options: ({ slug }) => ({ variables: { slug } })
+  skip: ({ showOnlyDefault }) => {
+    return showOnlyDefault
+  },
+  options: ({ slug }) => {
+    return { variables: { slug } }
+  }
 })(ChartMetrics)
