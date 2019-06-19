@@ -15,7 +15,6 @@ import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import WidgetSonar from '../../components/Widget/WidgetSonar'
-import StablecoinsDownloadBtn from './StablecoinsDownloadBtn'
 import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
 import WatchlistContextMenu from './WatchlistContextMenu'
 import EmptySection from '../../components/EmptySection/EmptySection'
@@ -77,11 +76,6 @@ const AssetsPage = props => {
                     </Button>
                   </CSVLink>
                 )}
-
-                {qs.parse(props.location.search).name === 'stablecoins@86' && (
-                  <StablecoinsDownloadBtn />
-                )}
-
                 {isList && (
                   <WatchlistContextMenu
                     isAuthor={Assets.isCurrentUserTheAuthor}
