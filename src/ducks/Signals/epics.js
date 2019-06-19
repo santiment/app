@@ -253,7 +253,7 @@ export const updateSignalEpic = (action$, store, { client }) =>
                 id: updateTrigger.trigger.id
               }
             }),
-            Observable.of(showNotification('Signal was succesfully update'))
+            Observable.of(showNotification('Signal was succesfully updated'))
           )
         })
         .catch(handleErrorAndTriggerAction(actions.SIGNAL_UPDATE_FAILED))
