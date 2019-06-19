@@ -1,11 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
+import { Panel, Tooltip } from '@santiment-network/ui'
 import { simpleSort } from '../../utils/sortMethods'
 import { formatNumber, millify } from '../../utils/formatting'
 import ProjectLabel from '../../components/ProjectLabel'
 import PercentChanges from '../../components/PercentChanges'
 import help from './../../assets/help.json'
+import styles from './AssetsToggleColumns.module.scss'
+
+const HeaderWithDesc = ({ description, heading }) => (
+  <Tooltip className={styles.tooltip} trigger={<span>{heading}</span>}>
+    <Panel padding>{description}</Panel>
+  </Tooltip>
+)
 
 const columns = preload => [
   {
@@ -135,7 +143,12 @@ const columns = preload => [
   },
   {
     Header: () => (
-      <div className={cx('heading', 'overview-ethspent')}>ETH spent, 30d</div>
+      <div className={cx('heading', 'overview-ethspent')}>
+        <HeaderWithDesc
+          description={help['ETH Spent Over Time'].description}
+          heading={'ETH spent, 30d'}
+        />
+      </div>
     ),
     maxWidth: 120,
     minWidth: 110,
@@ -149,7 +162,12 @@ const columns = preload => [
   },
   {
     Header: () => (
-      <div className={cx('heading', 'overview-devactivity')}>Dev act., 30d</div>
+      <div className={cx('heading', 'overview-devactivity')}>
+        <HeaderWithDesc
+          description={help['Development Activity'].description}
+          heading={'Dev act., 30d'}
+        />
+      </div>
     ),
     id: 'dev_activity',
     maxWidth: 100,
@@ -164,7 +182,12 @@ const columns = preload => [
   },
   {
     Header: () => (
-      <div className={cx('heading', 'overview-activeaddresses')}>DAA, 30d</div>
+      <div className={cx('heading', 'overview-activeaddresses')}>
+        <HeaderWithDesc
+          description={help['Daily Active Addresses'].description}
+          heading={'DAA, 30d'}
+        />
+      </div>
     ),
     id: 'daily_active_addresses',
     maxWidth: 110,
@@ -210,7 +233,12 @@ export const columnSettingsDefault = {
     description: help['Daily Active Addresses'].description
   },
   graph: { show: false, selectable: false, name: 'Graph' },
-  signals: { show: false, selectable: false, name: 'New signals' }
+  token_circulation: {
+    show: false,
+    selectable: false,
+    name: 'Token Circulation',
+    description: help['Token Circulation'].description
+  }
 }
 
 export default columns
