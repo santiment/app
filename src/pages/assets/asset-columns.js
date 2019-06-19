@@ -14,7 +14,8 @@ const columns = preload => [
     maxWidth: 45,
     sortable: true,
     accessor: d => ({ rank: d.rank }),
-    Cell: ({ value: { rank } }) => <div className='overview-rank'>{rank}</div>
+    Cell: ({ value: { rank } }) => <div className='overview-rank'>{rank}</div>,
+    sortMethod: (a, b) => simpleSort(b.rank, a.rank)
   },
   {
     Header: () => <div className={cx('heading', 'overview-name')}>Project</div>,
@@ -205,7 +206,8 @@ export const columnSettingsDefault = {
   daily_active_addresses: {
     show: true,
     selectable: true,
-    name: 'Daily active addresses'
+    name: 'Daily active addresses',
+    description: help['Daily Active Addresses'].description
   },
   graph: { show: false, selectable: false, name: 'Graph' },
   signals: { show: false, selectable: false, name: 'New signals' }
