@@ -26,7 +26,7 @@ export default () => {
       ) => (
         <>
           <h2 className={cx(styles.title, styles.email__title)}>
-            Thanks for your interest in our free API plan!
+            Authenticate
           </h2>
           {success ? (
             <h3 className={styles.email__subtitle}>
@@ -36,8 +36,7 @@ export default () => {
           ) : (
             <>
               <h3 className={styles.email__subtitle}>
-                Enter your email and you'll receive a link to your API key
-                (email titled: Sanbase Login Link).
+                To sign up or log in, fill in your email address below:
               </h3>
               <form
                 className={styles.email__form}
