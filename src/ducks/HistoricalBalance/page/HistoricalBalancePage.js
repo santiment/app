@@ -5,8 +5,6 @@ import styles from './HistoricalBalancePage.module.scss'
 import ShowIf from '../../../components/ShowIf'
 import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
 import { ETH_WALLET_METRIC } from '../../Signals/utils/constants'
-import { Icon } from '@santiment-network/ui'
-import { Tooltip } from 'recharts'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 
 export const mapQSToState = ({ location }) => {
@@ -34,6 +32,25 @@ export default class HistoricalBalancePage extends Component {
   render () {
     const { address, assets } = this.state
 
+    let metaFormSettings = {
+      metric: {
+        value: { ...ETH_WALLET_METRIC }
+      },
+      ethAddress: address
+    }
+
+    if (assets && assets.length) {
+      metaFormSettings = {
+        ...metaFormSettings,
+        target: {
+          value: {
+            value: assets[0],
+            label: assets[0]
+          }
+        }
+      }
+    }
+
     return (
       <div className={styles.historicalBalancePage + ' page'}>
         <div className={styles.header}>
@@ -50,20 +67,8 @@ export default class HistoricalBalancePage extends Component {
           <ShowIf beta>
             <div className={styles.newTrigger}>
               <SignalMasterModalForm
-                enabled={address && assets && assets.length === 1}
                 canRedirect={false}
-                metaFormSettings={{
-                  target: {
-                    value: {
-                      value: assets[0],
-                      label: assets[0]
-                    }
-                  },
-                  metric: {
-                    value: { ...ETH_WALLET_METRIC }
-                  },
-                  ethAddress: address
-                }}
+                metaFormSettings={metaFormSettings}
               />
             </div>
           </ShowIf>

@@ -5,6 +5,8 @@ import GetHistoricalBalance from '../GetHistoricalBalance'
 import HistoricalBalanceChart from '../chart/HistoricalBalanceChart'
 import AssetsField from '../AssetsField'
 import styles from './BalanceView.module.scss'
+import { ETH_WALLET_METRIC } from '../../Signals/utils/constants'
+import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
 
 class BalanceView extends React.Component {
   state = {
@@ -14,6 +16,7 @@ class BalanceView extends React.Component {
 
   render () {
     const { address, assets } = this.state
+
     return (
       <div className={styles.container}>
         <div className={styles.filters}>
@@ -43,7 +46,27 @@ class BalanceView extends React.Component {
           </div>
         </div>
 
-        <div>
+        <div className={styles.chart}>
+          <div className={styles.addTrigger}>
+            <SignalMasterModalForm
+              label='Create signal'
+              enabled={address && assets && assets.length === 1}
+              canRedirect={false}
+              metaFormSettings={{
+                target: {
+                  value: {
+                    value: assets[0],
+                    label: assets[0]
+                  }
+                },
+                metric: {
+                  value: { ...ETH_WALLET_METRIC }
+                },
+                ethAddress: address
+              }}
+            />
+          </div>
+
           <GetHistoricalBalance
             assets={assets}
             wallet={address}

@@ -26,6 +26,17 @@
   justify-content: center;
 }
 
+.chart {
+  position: relative;
+}
+
+.addTrigger {
+  position: absolute;
+  left: 24px;
+  top: 15px;
+  z-index: 1000;
+}
+
 .InputWrapper {
   width: 50%;
   padding: 0 24px;
