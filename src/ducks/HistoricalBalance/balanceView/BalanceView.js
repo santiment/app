@@ -2,7 +2,7 @@ import React from 'react'
 import { Input } from '@santiment-network/ui'
 import cx from 'classnames'
 import GetHistoricalBalance from '../GetHistoricalBalance'
-import HistoricalBalanceChart from '../HistoricalBalanceChart'
+import HistoricalBalanceChart from '../chart/HistoricalBalanceChart'
 import AssetsField from '../AssetsField'
 import styles from './BalanceView.module.scss'
 
@@ -58,7 +58,11 @@ class BalanceView extends React.Component {
                 }).length > 0
               return (
                 <div>
-                  {loading && <span>Calculating balance...</span>}
+                  {loading && (
+                    <span className={styles.centered}>
+                      Calculating balance...
+                    </span>
+                  )}
                   {<HistoricalBalanceChart data={data} />}
                 </div>
               )

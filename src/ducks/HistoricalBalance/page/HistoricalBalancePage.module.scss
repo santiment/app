@@ -24,17 +24,16 @@
   margin-left: 15px;
 }
 
-/* stylelint-disable */
 @include responsive('desktop') {
-  .HistoricalBalancePage {
+  .historicalBalancePage {
     margin-bottom: 2em !important;
     width: $breakpoint-desktop;
   }
+}
 
-  .title h1 {
-    width: 392px;
-    line-height: 37px !important;
-    font-size: 32px !important;
+@include responsive('phone', 'phone-xs') {
+  .header {
+    flex-direction: column;
+    padding: 10px;
   }
 }
-/* stylelint-enable */

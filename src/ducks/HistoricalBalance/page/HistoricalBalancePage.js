@@ -35,7 +35,7 @@ export default class HistoricalBalancePage extends Component {
     const { address, assets } = this.state
 
     return (
-      <div className={styles.HistoricalBalancePage + ' page'}>
+      <div className={styles.historicalBalancePage + ' page'}>
         <div className={styles.header}>
           <div className={styles.title}>
             <span>Historycal balance</span>

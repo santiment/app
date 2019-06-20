@@ -20,6 +20,12 @@
   display: flex;
 }
 
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .InputWrapper {
   width: 50%;
   padding: 0 24px;
@@ -53,37 +59,24 @@
   border-radius: 0;
 }
 
-.historyDropdown {
-  border: 1px solid #e0e4ee;
-  box-sizing: border-box;
-  box-shadow: 0 8px 30px rgba(21, 24, 31, 0.1);
-  border-radius: 4px;
-  margin: 0;
-  position: absolute;
-  background: white;
-  width: 400px;
-  z-index: 100;
-}
+@include responsive('phone', 'phone-xs') {
+  .header {
+    flex-direction: column;
+    padding: 10px;
+  }
 
-.addressLink {
-  padding: 10px;
-  cursor: pointer;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 20px;
-  font-size: 14px;
-}
+  .filters {
+    flex-direction: column;
+  }
 
-.addressLink:hover {
-  color: #14c393;
-  background: #f6f6f9;
-}
+  .wallet {
+    width: 100%;
+    padding: 0 24px 0 24px;
+  }
 
-.hint {
-  font-size: 0.75rem;
-  color: var(--grey-dark-2);
-  text-align: left;
-  margin-top: 8px;
-  min-height: 1em;
-  line-height: 1em;
+  .address {
+    width: 100%;
+    padding: 0 24px 0 24px;
+    margin-top: 10px;
+  }
 }
