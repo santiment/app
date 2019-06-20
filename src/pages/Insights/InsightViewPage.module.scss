@@ -30,13 +30,25 @@
   padding: 22px 0;
 }
 
-.right {
+.wrapperBottom {
   display: flex;
   align-items: center;
 }
 
+.wrapperAside {
+  display: none;
+
+  @include responsive('laptop', 'desktop') {
+    position: fixed;
+    top: 200px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .like {
-  margin-right: 31px;
+  margin-right: 11px;
+  padding: 10px;
 }
 
 .banner {
