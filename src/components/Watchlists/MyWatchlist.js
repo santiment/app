@@ -11,6 +11,7 @@ import NewWatchlistDialog from './NewWatchlistDialog.js'
 import WatchlistNewBtn from '../WatchlistPopup/WatchlistNewBtn'
 import WatchlistsAnon from '../WatchlistPopup/WatchlistsAnon'
 import WatchlistsAnonBanner from '../Banner/WatchlistsAnonBanner'
+import stylesGrid from './WatchlistCards.module.scss'
 import styles from './Watchlist.module.scss'
 
 const WatchlistEmptySection = ({ watchlists }) => (
@@ -43,19 +44,21 @@ const MyWatchlist = ({ isLoggedIn }) => (
             />
           </div>
         </DesktopOnly>
-        <Row>
-          <MobileOnly>
+        <MobileOnly>
+          <Row>
             {isLoggedIn && (
               <NewWatchlistDialog
                 watchlists={watchlists}
                 trigger={<WatchlistNewBtn variant='fill' accent='positive' />}
               />
             )}
-          </MobileOnly>
-          {isLoggedIn && !watchlists.length ? (
-            <WatchlistEmptySection watchlists={watchlists} />
-          ) : (
-            watchlists.map(watchlist => (
+          </Row>
+        </MobileOnly>
+        {isLoggedIn && !watchlists.length ? (
+          <WatchlistEmptySection watchlists={watchlists} />
+        ) : (
+          <div className={stylesGrid.wrapper}>
+            {watchlists.map(watchlist => (
               <WatchlistCard
                 key={watchlist.id}
                 name={watchlist.name}
@@ -63,19 +66,19 @@ const MyWatchlist = ({ isLoggedIn }) => (
                 isPublic={watchlist.isPublic}
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
               />
-            ))
-          )}
-          {!isLoggedIn && (
-            <>
-              <DesktopOnly>
-                <WatchlistsAnonBanner className={styles.anonBanner} />
-              </DesktopOnly>
-              <MobileOnly>
-                <WatchlistsAnon isFullScreen={true} />
-              </MobileOnly>
-            </>
-          )}
-        </Row>
+            ))}
+          </div>
+        )}
+        {!isLoggedIn && (
+          <>
+            <DesktopOnly>
+              <WatchlistsAnonBanner className={styles.anonBanner} />
+            </DesktopOnly>
+            <MobileOnly>
+              <WatchlistsAnon isFullScreen={true} />
+            </MobileOnly>
+          </>
+        )}
       </div>
     )}
   />
