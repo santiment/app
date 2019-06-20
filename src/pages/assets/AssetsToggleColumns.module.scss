@@ -11,6 +11,7 @@
 .wrapper {
   min-width: 240px;
   padding: 12px 16px;
+  user-select: none;
 }
 
 .heading {
@@ -45,6 +46,7 @@
 .soon {
   color: var(--jungle-green);
   font-size: 12px;
+  margin-left: 5px;
 }
 
 .description {

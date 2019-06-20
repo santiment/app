@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
   Button,
   Checkbox,
@@ -25,35 +25,38 @@ const AssetsToggleColumns = ({ columns = [], onChange }) => (
       <div className={styles.columns}>
         {Object.entries(columns).map(
           ([id, { name, selectable, show, description }]) => (
-            <div
-              key={id}
-              className={styles.column}
-              onClick={() => onChange(id)}
-            >
-              <Checkbox
-                className={styles.checkbox}
-                isActive={show}
-                disabled={!selectable}
-              />
-              <span className={styles.name}>{name}</span>
-              {description && (
-                <Tooltip
-                  className={styles.tooltip}
-                  position='top'
-                  trigger={
-                    <Icon
-                      type='question-round-small'
-                      className={styles.description}
-                    />
-                  }
+            <Fragment key={id}>
+              {name !== 'Rank' && name !== 'Project' && (
+                <div
+                  className={styles.column}
+                  onClick={() => onChange({ id, show, selectable })}
                 >
-                  <Panel padding>{description}</Panel>
-                </Tooltip>
+                  <Checkbox
+                    className={styles.checkbox}
+                    isActive={show}
+                    disabled={!selectable}
+                  />
+                  <span className={styles.name}>{name}</span>
+                  {description && (
+                    <Tooltip
+                      className={styles.tooltip}
+                      position='top'
+                      trigger={
+                        <Icon
+                          type='question-round-small'
+                          className={styles.description}
+                        />
+                      }
+                    >
+                      <Panel padding>{description}</Panel>
+                    </Tooltip>
+                  )}
+                  {!show && !selectable && (
+                    <span className={styles.soon}>soon</span>
+                  )}
+                </div>
               )}
-              {!show && !selectable && (
-                <span className={styles.soon}>soon</span>
-              )}
-            </div>
+            </Fragment>
           )
         )}
       </div>

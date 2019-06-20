@@ -20,11 +20,21 @@ import MobileAssetChart from './MobileAssetChart'
 import ShowIf from '../../components/ShowIf'
 import GetWatchlists from '../../ducks/Watchlists/GetWatchlists'
 import WatchlistsPopup from '../../components/WatchlistPopup/WatchlistsPopup'
+import { mergeTimeseriesByKey } from '../../utils/utils'
 import styles from './MobileDetailedPage.module.scss'
 
 const MobileDetailedPage = props => {
   const slug = props.match.params.slug
-  const [timeRange, setTimeRange] = useState('all')
+  const [timeRange, setTimeRange] = useState('6m')
+  const [extraMetric, setExtraMetric] = useState()
+
+  const toggleExtraMetric = toggledMetric => {
+    if (extraMetric && toggledMetric.name === extraMetric.name) {
+      setExtraMetric(undefined)
+    } else {
+      setExtraMetric(toggledMetric)
+    }
+  }
 
   const timeRangeBlock = (
     <div className={styles.timeRangeBlock}>
@@ -52,7 +62,7 @@ const MobileDetailedPage = props => {
     transactionVolumeInfo = {
       name: 'Transaction Volume',
       value: todayTransactionVolume,
-      label: '24h',
+      period: '24h',
       changes: TVDiff
     }
   }
@@ -69,12 +79,25 @@ const MobileDetailedPage = props => {
       todayActiveAddresses
     )
     activeAddressesInfo = {
+      metric: 'dailyActiveAddresses',
       name: 'Daily Active Addresses',
       value: todayActiveAddresses,
-      label: '24h',
+      period: '24h',
       changes: DAADiff
     }
   }
+
+  const timeseriesOptions = {
+    slug,
+    timeRange,
+    interval: timeRange === '1w' ? '2h' : timeRange === '1m' ? '8h' : '1d'
+  }
+
+  const extraTimeserie = extraMetric
+    ? {
+      [extraMetric.name]: timeseriesOptions
+    }
+    : {}
 
   return (
     <div className={cx('page', styles.wrapper)}>
@@ -111,13 +134,13 @@ const MobileDetailedPage = props => {
               devActivity30
             )
             devActivityInfo = {
+              metric: 'devActivity',
               name: 'Development Activity',
               value: devActivity30,
-              label: '30d',
+              period: '30d',
               changes: DADiff
             }
           }
-
           return (
             <>
               <MobileHeader
@@ -142,35 +165,58 @@ const MobileDetailedPage = props => {
                 />
                 {timeRangeBlock}
                 <GetTimeSeries
-                  historyPrice={{
-                    slug,
-                    timeRange,
-                    interval:
-                      timeRange === '1w' || timeRange === '1m' ? '1h' : '1d'
-                  }}
-                  render={({ historyPrice = {} }) => {
+                  historyPrice={timeseriesOptions}
+                  {...extraTimeserie}
+                  render={({
+                    historyPrice = { items: [] },
+                    ...otherTimeseries
+                  }) => {
                     if (historyPrice.isLoading) {
                       return 'Loading...'
+                    }
+
+                    const timeseries = [historyPrice.items]
+                    if (
+                      extraMetric &&
+                      otherTimeseries[extraMetric.name] &&
+                      otherTimeseries[extraMetric.name].items
+                    ) {
+                      timeseries.push(otherTimeseries[extraMetric.name].items)
                     }
                     return (
                       <>
                         <MobileAssetChart
-                          data={historyPrice.items}
+                          data={mergeTimeseriesByKey({
+                            timeseries
+                          })}
                           slug={slug}
                           icoPrice={icoPrice}
+                          extraMetric={extraMetric}
                         />
-                        {activeAddressesInfo && (
-                          <MobileMetricCard {...activeAddressesInfo} />
-                        )}
-                        {devActivityInfo && (
-                          <MobileMetricCard {...devActivityInfo} />
-                        )}
-                        {transactionVolumeInfo && (
-                          <MobileMetricCard
-                            {...transactionVolumeInfo}
-                            measure={ticker}
-                          />
-                        )}
+                        <div className={styles.metrics}>
+                          {activeAddressesInfo && (
+                            <MobileMetricCard
+                              {...activeAddressesInfo}
+                              slug={slug}
+                              activeMetric={extraMetric}
+                              onClick={toggleExtraMetric}
+                            />
+                          )}
+                          {devActivityInfo && (
+                            <MobileMetricCard
+                              {...devActivityInfo}
+                              slug={slug}
+                              activeMetric={extraMetric}
+                              onClick={toggleExtraMetric}
+                            />
+                          )}
+                          {transactionVolumeInfo && (
+                            <MobileMetricCard
+                              {...transactionVolumeInfo}
+                              measure={ticker}
+                            />
+                          )}
+                        </div>
                         <ShowIf beta>
                           {props.news && props.news.length > 0 && (
                             <>
