@@ -105,9 +105,7 @@ export class SignalMaster extends React.PureComponent {
       <div className={styles.wrapper}>
         {step === STEPS.SETTINGS && (
           <TriggersForm
-            onClose={() => {
-              close()
-            }}
+            onClose={close}
             triggers={[trigger]}
             settings={triggerSettingsFormData}
             canRedirect={this.props.canRedirect}

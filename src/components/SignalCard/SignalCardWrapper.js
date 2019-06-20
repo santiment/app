@@ -3,7 +3,7 @@ import cx from 'classnames'
 import MultilineText from '../MultilineText/MultilineText'
 import { SignalCardDetailsModal } from './SignalCardDetailsModal'
 import styles from './SignalCard.module.scss'
-import { SignalControls } from './controls/SignalControls'
+import { SignalTypeIcon } from './controls/SignalControls'
 
 export const SignalCardWrapper = ({
   isModal = true,
@@ -20,7 +20,7 @@ export const SignalCardWrapper = ({
       <div
         className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
       >
-        <SignalControls type={type} />
+        <SignalTypeIcon type={type} />
       </div>
       <div className={styles.wrapper__right}>
         <SignalTopDetails id={id}>
