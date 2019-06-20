@@ -56,7 +56,7 @@ export const TriggerForm = ({
 }) => {
   const formMetric =
     metaFormSettings && metaFormSettings.metric
-      ? metaFormSettings.metric.value.metric
+      ? metaFormSettings.metric.value.value
       : PRICE_PERCENT_CHANGE
 
   metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
