@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import WatchlistCard from './WatchlistCard'
-import Row from '../Row'
+import styles from './WatchlistCards.module.scss'
 
 const WatchlistCards = ({ watchlists = [], slugs = {} }) => (
-  <Row>
+  <div className={styles.wrapper}>
     {watchlists.map(({ name, assetType, ...rest }) => (
       <WatchlistCard
         key={name}
@@ -13,7 +13,7 @@ const WatchlistCards = ({ watchlists = [], slugs = {} }) => (
         {...rest}
       />
     ))}
-  </Row>
+  </div>
 )
 
 WatchlistCards.propTypes = {

@@ -1,0 +1,15 @@
+@import '~@santiment-network/ui/mixins.scss';
+
+.wrapper {
+  @include grid-wrap(4);
+
+  @include responsive('phone-xs', 'phone') {
+    grid-template-columns: 1fr;
+    margin: 16px;
+    width: auto;
+  }
+
+  @include responsive('tablet') {
+    grid-template-columns: 1fr 1fr;
+  }
+}
