@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
+import { matchPath } from 'react-router'
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
 import { Tabs, Icon } from '@santiment-network/ui'
 import Loadable from 'react-loadable'
@@ -8,6 +9,8 @@ import InsightUnAuthPage from './../../pages/Insights/InsightUnAuthPage'
 import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar/feed'
+
+const detailsModalLocation = `${baseLocation}/details/:id/edit`
 
 const tabs = [
   {
@@ -36,10 +39,22 @@ const tabs = [
   }
 ]
 
-const SonarFeed = ({ location: { pathname }, isLoggedIn }) => {
+const SonarFeed = ({ location: { pathname }, isLoggedIn, match }) => {
   if (pathname === baseLocation) {
     return <Redirect exact from={baseLocation} to={tabs[0].index} />
   }
+
+  const [triggerId, setTriggerId] = useState(undefined)
+
+  const setLoadingSignalId = id => {
+    setTriggerId(id)
+  }
+
+  useEffect(() => {
+    if (triggerId && !matchPath(pathname, detailsModalLocation)) {
+      triggerId && setTriggerId(undefined)
+    }
+  })
 
   return (
     <div style={{ width: '100%' }} className='page'>
@@ -53,7 +68,7 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn }) => {
                 <Icon type='filter' className={styles.filter} />
               </Fragment>
             )}
-          <SignalMasterModalForm />
+          <SignalMasterModalForm triggerId={triggerId} />
         </div>
       </div>
       <Tabs
@@ -78,17 +93,22 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn }) => {
             loading: () => <PageLoader />
           })}
         />
+        ,
         <Route
-          path={`${baseLocation}/details/:id/edit`}
+          path={detailsModalLocation}
+          exact
           component={Loadable({
-            loader: () =>
-              import('../../ducks/Signals/signalModal/SignalMasterModalForm'),
+            loader: () => import('./SonarFeedMySignalsPage'),
+            loading: () => <PageLoader />,
             render: (loaded, props) => (
-              <loaded.default redirectEnabled {...props} />
-            ),
-            loading: () => <PageLoader />
+              <loaded.default
+                setLoadingSignalId={setLoadingSignalId}
+                {...props}
+              />
+            )
           })}
         />
+        }
       </Switch>
     </div>
   )

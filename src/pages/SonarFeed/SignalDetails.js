@@ -28,8 +28,7 @@ const SignalDetails = ({
   closeModal,
   id,
   match = {},
-  author,
-  likesCount = 0
+  author
 }) => {
   const signalId = id || (match.params || {}).id
   if (isLoading) {
