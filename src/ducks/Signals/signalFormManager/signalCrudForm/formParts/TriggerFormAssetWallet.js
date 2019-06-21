@@ -21,65 +21,53 @@ export const TriggerFormAssetWallet = ({
   const defaultSignalType = metaFormSettings.signalType
   const defaultAsset = metaFormSettings.target
 
-  const { address } = metaFormSettings
+  const { ethAddress } = metaFormSettings
 
   const isEthWallet = metric.value === ETH_WALLET_METRIC.value
 
   return (
-    <div>
+    <div className={styles.row}>
       {!isEthWallet && (
-        <div className={styles.row}>
-          <div className={styles.Field}>
-            <label>Type</label>
-            <FormikSelect
-              name='signalType'
-              isDisabled={defaultSignalType.isDisabled}
-              defaultValue={defaultSignalType.value.value}
-              placeholder='Pick signal type'
-              options={ASSETS_FILTERS}
-            />
-          </div>
-          <div className={styles.Field}>
-            <FormikSelect
-              name='target'
-              isDisabled={defaultAsset.isDisabled}
-              defaultValue={defaultAsset.value.value}
-              placeholder='Pick an asset'
-              options={allProjects.map(asset => ({
-                label: asset.slug,
-                value: asset.slug
-              }))}
-            />
-          </div>
+        <div className={styles.Field}>
+          <label>Type</label>
+          <FormikSelect
+            name='signalType'
+            isDisabled={defaultSignalType.isDisabled}
+            defaultValue={defaultSignalType.value.value}
+            placeholder='Pick signal type'
+            options={ASSETS_FILTERS}
+          />
         </div>
       )}
       {isEthWallet && (
-        <div className={styles.row}>
-          <div className={styles.Field}>
-            <label>Wallet</label>
-            <FormikInput name='address' placeholder='Wallet address' />
-          </div>
-          <div className={styles.Field}>
-            <label>Asset</label>
-            <FormikSelect
-              name='target'
-              defaultValue={defaultAsset.value.value}
-              placeholder='Pick an asset'
-              options={allProjects.map(asset => ({
-                label: asset.slug,
-                value: asset.slug
-              }))}
-              onChange={newAsset => {
-                if (metaFormSettings.target.value.value === newAsset.value) {
-                  setFieldValue('address', address)
-                } else {
-                  setFieldValue('address', '')
-                }
-              }}
-            />
-          </div>
+        <div className={styles.Field}>
+          <label>Wallet</label>
+          <FormikInput name='ethAddress' placeholder='Wallet address' />
         </div>
       )}
+
+      <div className={styles.Field}>
+        <label>&nbsp;</label>
+        <FormikSelect
+          name='target'
+          isDisabled={defaultAsset.isDisabled}
+          defaultValue={defaultAsset.value.value}
+          placeholder='Pick an asset'
+          options={allProjects.map(asset => ({
+            label: asset.slug,
+            value: asset.slug
+          }))}
+          onChange={newAsset => {
+            if (ethAddress) {
+              if (metaFormSettings.target.value.value === newAsset.value) {
+                setFieldValue('ethAddress', ethAddress)
+              } else {
+                setFieldValue('ethAddress', '')
+              }
+            }
+          }}
+        />
+      </div>
     </div>
   )
 }

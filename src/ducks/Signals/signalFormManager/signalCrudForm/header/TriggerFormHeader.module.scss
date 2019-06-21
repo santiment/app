@@ -1,5 +1,4 @@
-@import 'variables.scss';
-@import 'mixins.scss';
+@import "~@santiment-network/ui/mixins.scss";
 
 .triggerHeader {
   width: 100%;
@@ -8,18 +7,18 @@
   box-sizing: border-box;
   border-radius: 4px;
   display: flex;
-  padding: 10px 20px;
+  padding: 3px 20px;
   color: var(--casper);
-  font-size: 14px;
-  line-height: 20px;
+
+  @include text('body-3');
 }
 
 .triggerHeaderName {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
-  line-height: 20px;
+
+  @include text('body-3');
 }
 
 .triggerHeaderActions {

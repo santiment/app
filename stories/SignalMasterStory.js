@@ -24,6 +24,6 @@ storiesOf('Sonar', module)
   .addDecorator(story => <Provider store={store}>{story()}</Provider>)
   .add('SignalMaster default', () => (
     <div>
-      <SignalMaster canRedirect={true}/>
+      <SignalMaster />
     </div>
   ))

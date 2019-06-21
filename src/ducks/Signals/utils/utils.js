@@ -29,6 +29,7 @@ import {
   FREQUENCY_MAPPINGS,
   FREQUENCY_VALUES
 } from './constants'
+import { capitalizeStr } from '../../../utils/utils'
 
 const getTimeWindowUnit = timeWindow => {
   if (!timeWindow) return undefined
@@ -56,8 +57,18 @@ const getFormTriggerTarget = target => {
 
 const getFormTriggerType = (type, operation) => {
   if (!operation) {
-    return {
-      value: type
+    switch (type) {
+      case DAILY_ACTIVE_ADDRESSES: {
+        return DAILY_ACTIVE_ADRESSES_METRIC
+      }
+      case PRICE_VOLUME_DIFFERENCE: {
+        return PRICE_VOLUME_DIFFERENCE_METRIC
+      }
+      default: {
+        return {
+          value: type
+        }
+      }
     }
   }
 
@@ -94,7 +105,6 @@ const getFormTriggerType = (type, operation) => {
     }
 
     default: {
-      console.log("Can't map type and operation to form structure")
       return undefined
     }
   }
@@ -114,25 +124,26 @@ const getTriggerOperation = ({
 
   const mapped = {}
 
-  switch (type.type) {
+  const { value } = type
+  switch (value) {
     case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN:
     case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
-      mapped[type.type] = threshold
+      mapped[value] = threshold
       break
     }
     case PRICE_CHANGE_TYPES.MOVING_DOWN:
     case PRICE_CHANGE_TYPES.MOVING_UP: {
-      mapped[type.type] = percentThreshold
+      mapped[value] = percentThreshold
       break
     }
     case PRICE_CHANGE_TYPES.ABOVE:
     case PRICE_CHANGE_TYPES.BELOW: {
-      mapped[type.type] = absoluteThreshold
+      mapped[value] = absoluteThreshold
       break
     }
     case PRICE_CHANGE_TYPES.INSIDE_CHANNEL:
     case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
-      mapped[type.type] = [absoluteBorderLeft, absoluteBorderRight]
+      mapped[value] = [absoluteBorderLeft, absoluteBorderRight]
       break
     }
     default: {
@@ -236,7 +247,7 @@ export const mapTriggerToFormProps = currentTrigger => {
   const newType = getFormTriggerType(type, operation)
 
   return {
-    address: address,
+    ethAddress: address,
     cooldown: cooldown,
     isRepeating: isRepeating,
     isActive: isActive,
@@ -248,7 +259,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     target: newTarget,
     percentThreshold: getPercentTreshold(settings),
     threshold: getTriggerToFormThreshold(settings),
-    channels: [channel],
+    channels: [capitalizeStr(channel)],
     ...frequencyModels,
     ...absolutePriceValues
   }
@@ -332,22 +343,24 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     percentThreshold,
     threshold,
     target,
-    address,
+    ethAddress,
     timeWindow,
     timeWindowUnit,
     isRepeating,
     type
   } = formProps
 
-  const newAsset = mapAssetTarget(target, address)
-  const newTarget = mapTriggerTarget(target, address)
+  const newAsset = mapAssetTarget(target, ethAddress)
+  const newTarget = mapTriggerTarget(target, ethAddress)
 
   const cooldownParams = getCooldownParams(formProps)
+
+  const channel = channels.length ? channels[0].toLowerCase() : undefined
 
   return {
     ...prevTrigger,
     settings: {
-      channel: channels[0],
+      channel: channel,
       percent_threshold: percentThreshold || undefined,
       threshold: threshold || undefined,
 
@@ -357,7 +370,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       time_window: timeWindow
         ? timeWindow + '' + timeWindowUnit.value
         : undefined,
-      type: type ? type.mainValue || type.value : undefined,
+      type: type ? type.metric : undefined,
       operation: getTriggerOperation(formProps)
     },
     isRepeating: !!isRepeating,
@@ -366,6 +379,18 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     // isActive: !!formProps.isActive
   }
 }
+
+export const getMetricsByType = type => {
+  switch (type) {
+    case DAILY_ACTIVE_ADDRESSES:
+      return ['active_addresses', 'historyPrice']
+    case PRICE_VOLUME_DIFFERENCE:
+      return ['historyPrice', 'volume']
+    default:
+      return ['historyPrice']
+  }
+}
+
 export const mapValuesToTriggerProps = ({
   type,
   timeWindowUnit,
@@ -378,7 +403,7 @@ export const mapValuesToTriggerProps = ({
 }) => ({
   cooldown,
   settings: (() => {
-    const metricType = type ? type.value : undefined
+    const metricType = type ? type.metric : undefined
     const time = timeWindowUnit ? timeWindow + timeWindowUnit.value : undefined
 
     const slug = { slug: target.value }
@@ -506,13 +531,13 @@ export function getNearestFrequencyTypeValue (frequencyType) {
 export const validateTriggerForm = values => {
   let errors = {}
 
-  if (values.address === '') {
-    errors.address = REQUIRED_MESSAGE
+  if (values.type.metric === ETH_WALLET && !values.ethAddress) {
+    errors.ethAddress = REQUIRED_MESSAGE
   }
 
   if (
-    values.type.value === DAILY_ACTIVE_ADDRESSES ||
-    values.type.value === PRICE_PERCENT_CHANGE
+    values.type.metric === DAILY_ACTIVE_ADDRESSES ||
+    values.type.metric === PRICE_PERCENT_CHANGE
   ) {
     if (!values.percentThreshold) {
       errors.percentThreshold = REQUIRED_MESSAGE
@@ -526,13 +551,13 @@ export const validateTriggerForm = values => {
     }
   }
 
-  if (values.type.value === PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER) {
+  if (values.type.metric === PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER) {
     if (!values.absoluteThreshold) {
       errors.absoluteThreshold = REQUIRED_MESSAGE
     }
   }
 
-  if (values.type.value === PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER) {
+  if (values.type.metric === PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER) {
     if (!values.absoluteBorderLeft) {
       errors.absoluteBorderLeft = REQUIRED_MESSAGE
     }
@@ -541,7 +566,7 @@ export const validateTriggerForm = values => {
     }
   }
 
-  if (values.type.value === PRICE_VOLUME_DIFFERENCE) {
+  if (values.type.metric === PRICE_VOLUME_DIFFERENCE) {
     if (!values.threshold) {
       errors.threshold = REQUIRED_MESSAGE
     } else if (values.threshold < 0) {
@@ -565,4 +590,27 @@ export const validateTriggerForm = values => {
   }
 
   return errors
+}
+
+const POSSIBLE_METRICS_FOR_CHART = [
+  PRICE_METRIC.value,
+  DAILY_ACTIVE_ADRESSES_METRIC.value,
+  PRICE_VOLUME_DIFFERENCE_METRIC.value
+]
+
+export const couldShowChart = metric => {
+  return metric ? POSSIBLE_METRICS_FOR_CHART.indexOf(metric.value) >= 0 : false
+}
+
+export const getFormMetricValue = type => {
+  if (type) {
+    switch (type.metric) {
+      case PRICE_ABSOLUTE_CHANGE: {
+        return type.subMetric
+      }
+      default: {
+        return type.metric
+      }
+    }
+  }
 }

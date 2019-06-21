@@ -1,16 +1,10 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
-import {
-  PanelWithHeader as Panel,
-  Button,
-  Icon,
-  Message
-} from '@santiment-network/ui'
+import { Message } from '@santiment-network/ui'
 import StatusLabel from './../../components/StatusLabel'
 import { TRIGGER_BY_ID_QUERY } from '../../ducks/Signals/gql/SignalsGQL'
 import {
@@ -18,9 +12,12 @@ import {
   removeTrigger
 } from '../../ducks/Signals/common/actions'
 import { mapGQLTriggerToProps } from '../../ducks/Signals/utils/utils'
-import { SignalCardWrapper } from './../../components/SignalCard/SignalCard'
+import { SignalCardWrapper } from './../../components/SignalCard/SignalCardWrapper'
 import { ToggleSignal } from './ToggleSignal'
-import LikeBtn from '../../components/Like/LikeBtn'
+import {
+  RemoveSignalButton,
+  SettingsSignalButton
+} from '../../components/SignalCard/controls/SignalControls'
 import styles from './SignalDetails.module.scss'
 
 const SignalDetails = ({
@@ -31,17 +28,15 @@ const SignalDetails = ({
   closeModal,
   id,
   match = {},
-  author,
-  likesCount = 0
+  author
 }) => {
   const signalId = id || (match.params || {}).id
   if (isLoading) {
-    return (
-      <Panel header='Signals details'>
-        <div className={styles.wrapper}>Loading...</div>
-      </Panel>
-    )
+    return <div className={styles.wrapperLoading}>Loading...</div>
   }
+
+  const close = closeModal || redirect
+
   if (isError) {
     return (
       <div>
@@ -51,7 +46,7 @@ const SignalDetails = ({
         <RemoveSignalButton
           id={signalId}
           removeSignal={removeSignal}
-          redirect={closeModal || redirect}
+          redirect={close}
         />
       </div>
     )
@@ -59,18 +54,22 @@ const SignalDetails = ({
   if (!isLoading && !trigger) {
     return <Redirect exact to={'/sonar/feed/my-signals'} />
   }
-  const { isActive, isPublic, title, description } = trigger
+
+  const {
+    isActive,
+    isPublic,
+    title,
+    description,
+    settings: { type }
+  } = trigger
+
   return (
-    <Panel header='Signals details' className={styles.container}>
-      <Icon
-        className={styles.closeButton}
-        onClick={() => closeModal()}
-        type='close'
-      />
+    <div className={styles.container}>
       <div className={styles.wrapper}>
         <SignalCardWrapper
           title={title}
           description={description}
+          type={type}
           id={id}
           isModal={false}
         >
@@ -78,11 +77,6 @@ const SignalDetails = ({
             {author && (
               <div className={styles.authorName}>
                 by &nbsp;<span className={styles.teamLink}>{author}</span>
-              </div>
-            )}
-            {isPublic && (
-              <div className={styles.likesBlock}>
-                <LikeBtn disabled={true} likesNumber={likesCount} />
               </div>
             )}
             <StatusLabel isPublic={isPublic} />
@@ -94,7 +88,7 @@ const SignalDetails = ({
               <RemoveSignalButton
                 id={signalId}
                 removeSignal={removeSignal}
-                redirect={closeModal || redirect}
+                redirect={close}
               />
             </div>
             <ToggleSignal
@@ -105,29 +99,9 @@ const SignalDetails = ({
           </div>
         </SignalCardWrapper>
       </div>
-    </Panel>
+    </div>
   )
 }
-
-const RemoveSignalButton = ({ id, removeSignal, redirect }) => (
-  <Button
-    variant='ghost'
-    onClick={() => {
-      removeSignal(id)
-      redirect()
-    }}
-  >
-    <Icon type='remove' />
-  </Button>
-)
-
-const SettingsSignalButton = ({ id }) => (
-  <Button variant='ghost'>
-    <Link to={`/sonar/feed/details/${id}/edit`}>
-      <Icon type='settings' />
-    </Link>
-  </Button>
-)
 
 const mapDispatchToProps = dispatch => ({
   toggleSignal: ({ id, isActive }) => {

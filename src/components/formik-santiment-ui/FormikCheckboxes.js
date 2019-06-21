@@ -7,7 +7,6 @@ const FormikCheckboxes = ({
   disabledIndexes,
   name,
   labelOnRight,
-  disabled = false,
   styles
 }) => {
   return (

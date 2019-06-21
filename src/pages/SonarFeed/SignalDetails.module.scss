@@ -6,7 +6,7 @@
 }
 
 .teamBlock {
-  @include text-normal;
+  @include text('body-3');
 
   display: flex;
   justify-content: center;
@@ -31,6 +31,10 @@
   max-width: 100%;
   // max-height: 80%;
   background-color: var(--white);
+}
+
+.wrapperLoading {
+  padding: 12px 20px;
 }
 
 .row {

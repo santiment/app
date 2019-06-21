@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Icon } from '@santiment-network/ui'
 import TriggerForm from '../signal/TriggerForm'
-import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
@@ -34,14 +32,6 @@ export const TriggersForm = ({
           onRemovedSignal={onClose}
         />
       ))}
-      <div className={styles.addNewTriggerBlock}>
-        <div className={styles.row}>
-          <Button type='button' disabled>
-            <Icon type='plus-round' />
-            <div>&nbsp; Add Trigger</div>
-          </Button>
-        </div>
-      </div>
     </div>
   )
 }
