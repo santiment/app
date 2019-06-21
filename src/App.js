@@ -27,7 +27,6 @@ import ErrorBoundary from './ErrorBoundary'
 import PageLoader from './components/Loader/PageLoader'
 import Status from './pages/Status'
 import Footer from './components/Footer'
-import FeedbackModal from './components/FeedbackModal'
 import GDPRPage from './pages/GDPRPage/GDPRPage'
 import AssetsPage from './pages/assets/AssetsPage'
 import SignalFormPage from './ducks/Signals/SignalFormPage'
@@ -327,7 +326,6 @@ export const App = ({
       </Switch>
     </ErrorBoundary>
     <NotificationStack />
-    <FeedbackModal />
     {isDesktop && <Footer />}
   </div>
 )
