@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Button, Icon, Dialog } from '@santiment-network/ui'
 import SignalMaster from '../signalFormManager/SignalMaster'
@@ -11,34 +11,49 @@ const SignalMasterModalForm = ({
   label = 'New signal',
   metaFormSettings,
   canRedirect = true,
-  redirectEnabled = false,
+  triggerId,
   isLoggedIn,
   redirect,
   enabled = true,
   match
 }) => {
-  const [dialogOpenState, setDialogOpenState] = useState(redirectEnabled)
+  if (!triggerId && match) {
+    triggerId = match.params.id
+  }
+
+  const hasTrigger = +triggerId > 0
+
+  const [dialogOpenState, setDialogOpenState] = useState(hasTrigger)
   const [dialogTitle, onSetDialogTitle] = useState('')
 
+  useEffect(
+    data => {
+      setDialogOpenState(hasTrigger)
+    },
+    [triggerId]
+  )
+
   const onClose = () => {
-    if (redirectEnabled) {
+    setDialogOpenState(false)
+
+    if (hasTrigger) {
       redirect()
-    } else {
-      setDialogOpenState(false)
     }
   }
 
   return (
     <Dialog
       open={dialogOpenState}
+      onOpen={() => {
+        setDialogOpenState(true)
+      }}
       onClose={onClose}
-      onOpen={() => setDialogOpenState(true)}
-      trigger={signalModalTrigger(isLoggedIn, label, enabled, !redirectEnabled)}
+      trigger={signalModalTrigger(isLoggedIn, label)}
       title={dialogTitle}
     >
       <Dialog.ScrollContent className={styles.TriggerPanel}>
         <SignalMaster
-          triggerId={match ? match.params.id : undefined}
+          triggerId={triggerId}
           setTitle={onSetDialogTitle}
           onClose={() => setDialogOpenState(false)}
           canRedirect={canRedirect}
@@ -66,17 +81,14 @@ export default connect(
   mapDispatchToProps
 )(SignalMasterModalForm)
 
-const signalModalTrigger = (isLoggedIn, label, enabled, canShow) =>
-  !canShow ? (
-    <div />
-  ) : (
-    <Button
-      variant='fill'
-      accent='positive'
-      disabled={!isLoggedIn || !enabled}
-      className={styles.newSignal}
-    >
-      <Icon type='plus-round' className={styles.newSignal__icon} />
-      {label}
-    </Button>
-  )
+const signalModalTrigger = (isLoggedIn, label) => (
+  <Button
+    variant='fill'
+    accent='positive'
+    disabled={!isLoggedIn}
+    className={styles.newSignal}
+  >
+    <Icon type='plus-round' className={styles.newSignal__icon} />
+    {label}
+  </Button>
+)

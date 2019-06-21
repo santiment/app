@@ -4,8 +4,6 @@
 .wrapper {
   @include text-normal;
 
-  width: 23%;
-  margin: 12px 2.6% 12px 0;
   border: 1px solid var(--porcelain);
   border-radius: $border-radius;
   display: inline-block;
@@ -17,10 +15,6 @@
   transition: all ease-in-out 0.1s;
 
   @include responsive('laptop', 'desktop') {
-    &:nth-child(4n) {
-      margin-right: 0;
-    }
-
     &:hover {
       box-shadow: 0 14px 20px rgba(24, 27, 43, 0.06);
       transform: translateY(-4px);
@@ -29,16 +23,6 @@
         color: var(--jungle-green);
       }
     }
-  }
-
-  @include responsive('phone', 'phone-xs', 'tablet') {
-    width: 100%;
-    margin: 4px 16px;
-  }
-
-  @include responsive('tablet') {
-    width: 49%;
-    margin: 4px 0;
   }
 }
 
@@ -66,7 +50,6 @@
 .volumeLabel {
   color: var(--waterloo);
   line-height: 20px;
-  margin-left: 5px;
 }
 
 .change {
@@ -81,4 +64,12 @@
   color: var(--mirage);
   margin-top: 12px;
   margin-bottom: 6px;
+}
+
+.chart {
+  max-width: 100px;
+
+  @include responsive('laptop', 'desktop', 'tablet') {
+    width: 65px;
+  }
 }

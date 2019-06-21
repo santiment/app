@@ -1,0 +1,12 @@
+.undetected {
+  padding: 15px;
+  background: var(--texas-rose-light);
+  border-color: var(--texas-rose-hover);
+  margin-bottom: 8px;
+
+  &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

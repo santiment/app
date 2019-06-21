@@ -10,33 +10,29 @@ import {
   PRICE_VOLUME_DIFFERENCE
 } from '../../../ducks/Signals/utils/constants'
 
-export const SignalControls = ({ type }) => {
-  let iconType
-  let iconStyle
-
+const getIconStyles = type => {
   switch (type) {
     case ETH_WALLET:
     case PRICE_VOLUME_DIFFERENCE:
     case PRICE_ABSOLUTE_CHANGE:
     case PRICE_PERCENT_CHANGE: {
-      iconType = 'finance'
-      iconStyle = styles.iconFinance
-      break
+      return ['finance', styles.iconFinance]
     }
     case DAILY_ACTIVE_ADDRESSES: {
-      iconType = 'connection'
-      iconStyle = styles.iconConnection
-      break
+      return ['connection', styles.iconConnection]
     }
     default: {
-      iconType = 'social'
-      iconStyle = styles.iconSocial
+      return ['social', styles.iconSocial]
     }
   }
+}
+
+export const SignalTypeIcon = ({ type }) => {
+  const [icon, className] = getIconStyles(type)
 
   return (
-    <div className={iconStyle}>
-      <Icon type={iconType} />
+    <div className={className}>
+      <Icon type={icon} />
     </div>
   )
 }

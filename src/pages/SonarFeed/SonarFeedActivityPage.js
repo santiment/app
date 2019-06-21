@@ -38,8 +38,8 @@ const SonarFeedActivityPage = ({ activities, isLoading, isError, isEmpty }) => {
   }
   return activities ? (
     <div className={styles.wrapper}>
-      {activities.map((activity, index) => (
-        <Fragment key={index}>
+      {activities.map(activity => (
+        <Fragment key={activity.triggeredAt}>
           <h4 className={styles.date}>{activity.triggeredAt}</h4>
           <Markdown source={Object.values(activity.payload)[0]} />
         </Fragment>

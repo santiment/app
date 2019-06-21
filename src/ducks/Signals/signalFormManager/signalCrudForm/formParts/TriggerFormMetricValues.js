@@ -4,9 +4,9 @@ import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSe
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import {
   ETH_WALLETS_OPTIONS,
-  METRIC_TYPES_DEPENDENCIES,
-  PRICE_ABSOLUTE_CHANGE
+  METRIC_TYPES_DEPENDENCIES
 } from '../../../utils/constants'
+import { getFormMetricValue } from '../../../utils/utils'
 import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
@@ -20,16 +20,7 @@ export const TriggerFormMetricValues = ({
   absoluteBorderRight,
   absoluteBorderLeft
 }) => {
-  let metricValue = type ? type.metric : undefined
-
-  switch (metricValue) {
-    case PRICE_ABSOLUTE_CHANGE: {
-      metricValue = type ? type.subMetric : undefined
-      break
-    }
-    default: {
-    }
-  }
+  let metricValue = getFormMetricValue(type)
 
   return (
     <div className={styles.row}>

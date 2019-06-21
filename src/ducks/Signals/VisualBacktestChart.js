@@ -11,10 +11,15 @@ import { generateMetricsMarkup } from './../SANCharts/utils'
 import { formatNumber } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
 
+const mapWithTimeseries = items =>
+  items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
+
 const VisualBacktestChart = ({ data, price, metrics }) => {
+  const formattedPrice = mapWithTimeseries(price)
+
   return (
     <ResponsiveContainer width='100%' height={150}>
-      <ComposedChart data={price}>
+      <ComposedChart data={formattedPrice}>
         <XAxis
           dataKey='datetime'
           type='number'

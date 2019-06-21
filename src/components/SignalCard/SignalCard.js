@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import MultilineText from '../../components/MultilineText/MultilineText'
 import StatusLabel from './../../components/StatusLabel'
-import styles from './SignalCard.module.scss'
-import { SignalControls } from './controls/SignalControls'
+import { SignalTypeIcon } from './controls/SignalControls'
 import { SignalCardDetailsModal } from './SignalCardDetailsModal'
+import styles from './SignalCard.module.scss'
 
 const SignalCard = ({
   id,
@@ -26,7 +26,7 @@ const SignalCard = ({
       <div
         className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
       >
-        <SignalControls type={type} />
+        <SignalTypeIcon type={type} />
       </div>
       <div className={styles.wrapper__right}>
         <SignalTopDetails id={id}>

@@ -1,0 +1,10 @@
+@import '~@santiment-network/ui/mixins.scss';
+
+.wrapper {
+  @include grid-wrap(4);
+
+  @include responsive('phone-xs', 'phone') {
+    margin: 16px;
+    width: auto;
+  }
+}
