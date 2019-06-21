@@ -23,9 +23,7 @@ const columns = preload => [
     sortable: true,
     accessor: d => ({ index: d.index }),
     Cell: ({ index }) => <div className='overview-index'>{index + 1}</div>,
-    sortMethod: (a, b) => {
-      simpleSort(b.index, a.index)
-    }
+    sortMethod: (a, b) => simpleSort(b.index, a.index)
   },
   {
     Header: () => <div className={cx('heading', 'overview-name')}>Project</div>,
@@ -150,7 +148,6 @@ const columns = preload => [
     sortable: true,
     accessor: d => ({ rank: d.rank }),
     Cell: prop => {
-      console.log(prop)
       const {
         value: { rank }
       } = prop
@@ -162,10 +159,7 @@ const columns = preload => [
         </div>
       )
     },
-    sortMethod: (a, b) => {
-      simpleSort(b.rank, a.rank)
-      console.log(a)
-    }
+    sortMethod: (a, b) => simpleSort(b.rank, a.rank)
   },
   {
     Header: () => (
