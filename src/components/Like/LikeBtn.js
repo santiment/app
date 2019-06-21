@@ -14,14 +14,16 @@ class LikeBtn extends Component {
     liked: PropTypes.bool,
     disabled: PropTypes.bool,
     likesNumber: PropTypes.number,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    useProps: PropTypes.bool
   }
 
   static defaultProps = {
     liked: false,
     likesNumber: 0,
     disabled: false,
-    onClick: () => {}
+    onClick: () => {},
+    useProps: false
   }
 
   onClick = () => {
@@ -43,7 +45,8 @@ class LikeBtn extends Component {
       likesNumber,
       className,
       small,
-      grey
+      grey,
+      useProps
     } = this.props
 
     return (
@@ -51,13 +54,13 @@ class LikeBtn extends Component {
         className={cx(
           styles.wrapper,
           className,
-          liked && styles.liked,
+          (useProps ? savedLike : liked) && styles.liked,
           grey && styles.grey
         )}
         onClick={disabled || small ? undefined : this.onClick}
       >
         <Icon className={cx(styles.icon, small && styles.small)} type='like' />{' '}
-        {likesNumber + liked - savedLike}
+        {useProps ? likesNumber : likesNumber + liked - savedLike}
       </div>
     )
   }

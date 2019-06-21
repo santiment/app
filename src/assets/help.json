@@ -9,11 +9,11 @@
   },
   "ETH Spent Over Time": {
     "title": "ETH Spent Over Time",
-    "description": "How much ETH has moved out of team wallets over time.  While not tracked all the way to exchanges, this metric may suggest pottential selling activity."
+    "description": "How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity"
   },
   "Development Activity": {
     "title": "Development activity",
-    "description": "Metric based on number of Github 'events' including issue interactions, pull requests, comments, and wiki edits, plus the number of public repositories a project is maintaining"
+    "description": "Based on number of Github 'events' including issue interactions, PRs, comments, and wiki edits, plus the number of public repositories a project is maintaining"
   },
   "Sentiment": {
     "title": "Sentiment",
@@ -22,5 +22,13 @@
   "Social Trends": {
     "title": "Social Trends",
     "description": "Our Social Trends search is unique in the industry, based on channels, sites and forums.  We focus only on channels where 90% of the discussions about crypto, including 'insider' sites not open to public Google search."
+  },
+  "Daily Active Addresses": {
+    "title": "Daily active addresses",
+    "description": "Includes the number of unique addresses that participated in the transfers of given token during the day"
+  },
+  "Token Circulation": {
+    "title": "Token circulation",
+    "description": "Shows the number of unique tokens being used during each day"
   }
 }
