@@ -214,7 +214,7 @@ const getAbsolutePriceValues = ({ settings: { operation, type } }) => {
 }
 
 const mapTriggerToFormThreshold = ({ threshold, operation }) => {
-  let newThreshold = threshold || BASE_THRESHOLD
+  let newThreshold = threshold || undefined
 
   if (operation && !newThreshold) {
     const operationType = getOperationType(operation)
