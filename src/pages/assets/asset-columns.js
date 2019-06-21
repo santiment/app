@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
-import { Panel, Tooltip } from '@santiment-network/ui'
+import { Panel, Tooltip, Label } from '@santiment-network/ui'
 import { simpleSort } from '../../utils/sortMethods'
 import { formatNumber, millify } from '../../utils/formatting'
 import ProjectLabel from '../../components/ProjectLabel'
@@ -17,13 +17,15 @@ const HeaderWithDesc = ({ description, heading }) => (
 
 const columns = preload => [
   {
-    Header: () => <div className={cx('heading', 'overview-rank')}>#</div>,
-    id: 'rank',
+    Header: () => <div className={cx('heading', 'overview-index')}>#</div>,
+    id: 'index',
     maxWidth: 45,
     sortable: true,
-    accessor: d => ({ rank: d.rank }),
-    Cell: ({ value: { rank } }) => <div className='overview-rank'>{rank}</div>,
-    sortMethod: (a, b) => simpleSort(b.rank, a.rank)
+    accessor: d => ({ index: d.index }),
+    Cell: ({ index }) => <div className='overview-index'>{index + 1}</div>,
+    sortMethod: (a, b) => {
+      simpleSort(b.index, a.index)
+    }
   },
   {
     Header: () => <div className={cx('heading', 'overview-name')}>Project</div>,
@@ -89,7 +91,7 @@ const columns = preload => [
   },
   {
     Header: () => (
-      <div className={cx('heading', 'overview-price')}>Price +/-</div>
+      <div className={cx('heading', 'overview-price-percent')}>Price +/-</div>
     ),
     id: 'price_change',
     maxWidth: 100,
@@ -97,7 +99,7 @@ const columns = preload => [
       change24h: d.percentChange24h
     }),
     Cell: ({ value: { change24h } }) => (
-      <div className='overview-price'>
+      <div className='overview-price-percent'>
         {change24h ? <PercentChanges changes={change24h} /> : 'No data'}
       </div>
     ),
@@ -125,7 +127,7 @@ const columns = preload => [
   },
   {
     Header: () => (
-      <div className={cx('heading', 'overview-volume')}>Volume +/-</div>
+      <div className={cx('heading', 'overview-volume-percent')}>Volume +/-</div>
     ),
     id: 'volume_change_24h',
     maxWidth: 100,
@@ -133,13 +135,37 @@ const columns = preload => [
       change24h: d.volumeChange24h
     }),
     Cell: ({ value: { change24h } }) => (
-      <div className='overview-volume'>
+      <div className='overview-volume-percent'>
         {change24h ? <PercentChanges changes={change24h} /> : 'No data'}
       </div>
     ),
     sortable: true,
     sortMethod: (a, b) =>
       simpleSort(parseFloat(a.change24h || 0), parseFloat(b.change24h || 0))
+  },
+  {
+    Header: () => <div className={cx('heading', 'overview-rank')}>Rank</div>,
+    id: 'rank',
+    maxWidth: 60,
+    sortable: true,
+    accessor: d => ({ rank: d.rank }),
+    Cell: prop => {
+      console.log(prop)
+      const {
+        value: { rank }
+      } = prop
+      return (
+        <div className='overview-rank'>
+          <Label variant='fill' className={styles.rank}>
+            {rank}
+          </Label>
+        </div>
+      )
+    },
+    sortMethod: (a, b) => {
+      simpleSort(b.rank, a.rank)
+      console.log(a)
+    }
   },
   {
     Header: () => (
@@ -203,7 +229,7 @@ const columns = preload => [
 ]
 
 export const columnSettingsDefault = {
-  rank: { show: true, selectable: false, name: 'Rank' },
+  index: { show: true, selectable: false, name: 'Index' },
   project: { show: true, selectable: false, name: 'Project' },
   marketcapUsd: { show: true, selectable: true, name: 'Market capitalization' },
   price: { show: true, selectable: true, name: 'Price' },
@@ -214,6 +240,7 @@ export const columnSettingsDefault = {
     selectable: true,
     name: 'Volume (last 24h)'
   },
+  rank: { show: true, selectable: true, name: 'Rank' },
   eth_spent: {
     show: true,
     selectable: true,
