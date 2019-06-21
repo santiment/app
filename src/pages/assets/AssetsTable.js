@@ -101,7 +101,7 @@ const AssetsTable = ({
         resizable={false}
         defaultSorted={[
           {
-            id: 'rank',
+            id: 'index',
             desc: false
           }
         ]}
