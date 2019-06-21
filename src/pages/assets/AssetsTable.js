@@ -43,7 +43,8 @@ const AssetsTable = ({
   preload,
   refetchAssets,
   setMinVolumeFilter,
-  minVolume = 10000
+  minVolume = 10000,
+  listName
 }) => {
   const { isLoading, items, error } = Assets
   if (error && error.message !== 'Network error: Failed to fetch') {
@@ -63,6 +64,8 @@ const AssetsTable = ({
 
     return changeColumnsSettings(toggledColumns)
   }
+
+  const pageSize = items.length <= 5 ? 5 : items.length <= 10 ? 10 : 20
 
   return (
     <>
@@ -91,7 +94,7 @@ const AssetsTable = ({
         showPagination={!showAll}
         showPaginationTop={false}
         showPaginationBottom
-        defaultPageSize={20}
+        defaultPageSize={listName === 'Top 50 ERC20' ? 50 : pageSize}
         pageSizeOptions={[5, 10, 20, 25, 50, 100]}
         pageSize={showAll ? items && items.length : undefined}
         sortable={false}

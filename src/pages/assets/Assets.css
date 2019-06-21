@@ -6,7 +6,7 @@
 
 .projects-table {
   width: 100%;
-  min-height: 78vh;
+  height: auto !important;
 }
 
 .page-head-projects__left h1 {

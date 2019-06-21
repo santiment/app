@@ -98,6 +98,7 @@ const AssetsPage = props => {
                   Assets={Assets}
                   goto={props.history.push}
                   preload={props.preload}
+                  listName={getTableTitle(props)}
                 />
               </>
             )}
