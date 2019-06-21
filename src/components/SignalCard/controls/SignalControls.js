@@ -9,7 +9,6 @@ import {
   PRICE_PERCENT_CHANGE,
   PRICE_VOLUME_DIFFERENCE
 } from '../../../ducks/Signals/utils/constants'
-import SignalDeleteDialog from '../../../pages/SonarFeed/SignalDeleteDialog'
 import DeleteDialog from '../../DeleteDialog/DeleteDialog'
 
 const getIconStyles = type => {

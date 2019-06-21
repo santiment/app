@@ -34,10 +34,7 @@ export const Metrics = {
   dailyActiveAddresses: {
     node: Bar,
     color: 'malibu',
-    label: 'Daily Active Addresses',
-    dataKey: 'active_addresses',
-    orientation: 'right',
-    yAxisVisible: true
+    label: 'Daily Active Addresses'
   },
   percentOfTokenSupplyOnExchanges: {
     node: Line,
