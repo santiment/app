@@ -11,7 +11,6 @@ import AssetsToggleColumns from './AssetsToggleColumns'
 import columns, { columnSettingsDefault } from './asset-columns'
 import './../Projects/ProjectsTable.css'
 import styles from './AssetsTable.module.scss'
-import { WATCHLISTS_BY_FUNCTION } from './assets-overview-constants'
 
 export const CustomHeadComponent = ({ children, className, ...rest }) => (
   <Sticky enabled>
@@ -66,7 +65,7 @@ const AssetsTable = ({
     return changeColumnsSettings(toggledColumns)
   }
 
-  const pageSize = items.length < 5 ? 5 : items.length < 10 ? 10 : 20
+  const pageSize = items.length <= 5 ? 5 : items.length <= 10 ? 10 : 20
 
   return (
     <>
