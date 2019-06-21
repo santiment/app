@@ -14,7 +14,7 @@ const LoginOptions = ({ isDesktop }) => (
   <>
     <h2 className={styles.title}>Log in your account with</h2>
     <div className={styles.options}>
-      {isDesktop && <LoginMetamaskBtn />}
+      <LoginMetamaskBtn />
       <Link to='/login/email' className={cx(styles.btn, styles.btn_email)}>
         <Icon type='envelope' className={styles.btn__icon} />
         Email
