@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Raven from 'raven-js'
-import axios from 'axios'
 import GoogleAnalytics from 'react-ga'
 import { connect } from 'react-redux'
 import { Search } from '@santiment-network/ui'
@@ -45,21 +44,21 @@ export class TrendsForm extends Component {
 
 const trackTopicSearch = topic => {
   if (process.env.NODE_ENV === 'production') {
-    try {
-      axios({
-        method: 'post',
-        url:
-          'https://us-central1-sanbase-search-ea4dc.cloudfunctions.net/trackTrends',
+    fetch(
+      'https://us-central1-sanbase-search-ea4dc.cloudfunctions.net/trackTrends',
+      {
+        method: 'POST',
         headers: {
-          authorization: ''
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
         },
-        data: { topic }
-      })
-    } catch (error) {
+        body: JSON.stringify({ topic })
+      }
+    ).catch(error =>
       Raven.captureException(
         'tracking search trends queries ' + JSON.stringify(error)
       )
-    }
+    )
     GoogleAnalytics.event({
       category: 'Trends Search',
       action: 'Search: ' + topic

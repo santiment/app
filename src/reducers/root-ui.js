@@ -9,7 +9,6 @@ if (isNightModeEnabled) {
 }
 
 export const initialState = {
-  isFeedbackModalOpened: false,
   isOnline: true,
   loginPending: false,
   loginSuccess: false,
@@ -22,11 +21,6 @@ export const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'TOGGLE_FEEDBACK_MODAL':
-      return {
-        ...state,
-        isFeedbackModalOpened: !state.isFeedbackModalOpened
-      }
     case actions.APP_CHANGE_ONLINE_STATUS:
       return {
         ...state,
