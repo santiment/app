@@ -65,3 +65,11 @@
   margin-top: 12px;
   margin-bottom: 6px;
 }
+
+.chart {
+  max-width: 100px;
+
+  @include responsive('laptop', 'desktop', 'tablet') {
+    width: 65px;
+  }
+}
