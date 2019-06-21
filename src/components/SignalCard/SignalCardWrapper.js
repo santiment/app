@@ -2,8 +2,8 @@ import React from 'react'
 import cx from 'classnames'
 import MultilineText from '../MultilineText/MultilineText'
 import { SignalCardDetailsModal } from './SignalCardDetailsModal'
-import styles from './SignalCard.module.scss'
 import { SignalTypeIcon } from './controls/SignalControls'
+import styles from './SignalCard.module.scss'
 
 export const SignalCardWrapper = ({
   isModal = true,

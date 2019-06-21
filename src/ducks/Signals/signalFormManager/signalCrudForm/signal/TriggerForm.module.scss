@@ -50,13 +50,6 @@
   margin-bottom: 1rem;
 }
 
-.connectLink {
-  @include text('body-3');
-
-  position: relative;
-  right: 10px;
-}
-
 span.connectLink {
   color: var(--dodger-blue) !important;
   margin-left: 0.3rem;
@@ -70,6 +63,14 @@ a.connectLink {
 
 .notifyBlock {
   display: flex;
+
+  div:first-child {
+    margin-right: 20px;
+  }
+}
+
+.connectLink {
+  @include text('body-3');
 }
 
 .Field {

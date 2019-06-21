@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import MultilineText from '../../components/MultilineText/MultilineText'
 import StatusLabel from './../../components/StatusLabel'
-import styles from './SignalCard.module.scss'
 import { SignalTypeIcon } from './controls/SignalControls'
 import { SignalCardDetailsModal } from './SignalCardDetailsModal'
+import styles from './SignalCard.module.scss'
 
 const SignalCard = ({
   id,

@@ -5,8 +5,8 @@ import { Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartMetrics from '../../SANCharts/ChartMetrics'
 import VisualBacktestChart from '../VisualBacktestChart'
-import styles from './SignalPreview.module.scss'
 import { getMetricsByType } from '../utils/utils'
+import styles from './SignalPreview.module.scss'
 
 const PREVIEWS_TIMERANGE_BY_TYPE = {
   daily_active_addresses: '3m',
@@ -29,9 +29,6 @@ const CHART_SETTINGS = {
 const normalizeTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
-const getTimerangeByType = type =>
-  PREVIEWS_TIMERANGE_BY_TYPE[type] ? PREVIEWS_TIMERANGE_BY_TYPE[type] : '3m'
-
 const SignalPreview = ({ points = [], target, type }) => {
   const initialMetrics = getMetricsByType(type) || ['historyPrice']
 
@@ -43,7 +40,7 @@ const SignalPreview = ({ points = [], target, type }) => {
     0
   )
 
-  const timeRange = getTimerangeByType(type)
+  const timeRange = PREVIEWS_TIMERANGE_BY_TYPE[type] || '3m'
 
   return (
     <Fragment>
@@ -71,8 +68,8 @@ const SignalPreview = ({ points = [], target, type }) => {
               return 'Loading...'
             }
             const data = normalizeTimeseries(points)
-            const customMetrics = _metrics.map(metric =>
-              CHART_SETTINGS[metric] ? CHART_SETTINGS[metric] : metric
+            const customMetrics = _metrics.map(
+              metric => CHART_SETTINGS[metric] || metric
             )
             const _price = normalizeTimeseries(historyPrice.items)
             return (

@@ -29,6 +29,7 @@ import {
   FREQUENCY_MAPPINGS,
   FREQUENCY_VALUES
 } from './constants'
+import { capitalizeStr } from '../../../utils/utils'
 
 const getTimeWindowUnit = timeWindow => {
   if (!timeWindow) return undefined
@@ -123,7 +124,7 @@ const getTriggerOperation = ({
 
   const mapped = {}
 
-  const value = type.value
+  const { value } = type
   switch (value) {
     case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN:
     case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
@@ -222,10 +223,6 @@ const getTriggerToFormThreshold = ({ threshold, operation }) => {
   return newThreshold
 }
 
-function capitalizeFirstLetter (string) {
-  return string.charAt(0).toUpperCase() + string.slice(1)
-}
-
 export const mapTriggerToFormProps = currentTrigger => {
   if (!currentTrigger || !currentTrigger.settings) {
     return undefined
@@ -262,7 +259,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     target: newTarget,
     percentThreshold: getPercentTreshold(settings),
     threshold: getTriggerToFormThreshold(settings),
-    channels: [capitalizeFirstLetter(channel)],
+    channels: [capitalizeStr(channel)],
     ...frequencyModels,
     ...absolutePriceValues
   }
@@ -603,4 +600,17 @@ const POSSIBLE_METRICS_FOR_CHART = [
 
 export const couldShowChart = metric => {
   return metric ? POSSIBLE_METRICS_FOR_CHART.indexOf(metric.value) >= 0 : false
+}
+
+export const getFormMetricValue = type => {
+  if (type) {
+    switch (type.metric) {
+      case PRICE_ABSOLUTE_CHANGE: {
+        return type.subMetric
+      }
+      default: {
+        return type.metric
+      }
+    }
+  }
 }

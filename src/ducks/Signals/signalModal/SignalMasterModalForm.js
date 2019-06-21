@@ -65,17 +65,14 @@ export default connect(
   mapDispatchToProps
 )(SignalMasterModalForm)
 
-const signalModalTrigger = (isLoggedIn, label, canShow) =>
-  !canShow ? (
-    <div />
-  ) : (
-    <Button
-      variant='fill'
-      accent='positive'
-      disabled={!isLoggedIn}
-      className={styles.newSignal}
-    >
-      <Icon type='plus-round' className={styles.newSignal__icon} />
-      {label}
-    </Button>
-  )
+const signalModalTrigger = (isLoggedIn, label, canShow) => (
+  <Button
+    variant='fill'
+    accent='positive'
+    disabled={!isLoggedIn}
+    className={styles.newSignal}
+  >
+    <Icon type='plus-round' className={styles.newSignal__icon} />
+    {label}
+  </Button>
+)

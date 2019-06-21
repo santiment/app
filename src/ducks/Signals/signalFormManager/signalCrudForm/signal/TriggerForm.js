@@ -146,17 +146,11 @@ export const TriggerForm = ({
 
               if (!isEqual(current.values, prev.values)) {
                 const lastErrors = validateTriggerForm(current.values)
-                const isError = Object.keys(current.values).reduce(
-                  (acc, val) => {
-                    if (lastErrors.hasOwnProperty(val)) {
-                      acc = true
-                    }
-                    return acc
-                  },
-                  false
+                const isError = Object.keys(current.values).some(
+                  key => lastErrors[key]
                 )
 
-                !!current.values.target &&
+                current.values.target &&
                   !isError &&
                   showChart &&
                   getSignalBacktestingPoints(mapValuesToTriggerProps(values))
@@ -244,7 +238,6 @@ export const TriggerForm = ({
                         labelOnRight
                         disabledIndexes={['Email']}
                         options={['Email', 'Telegram']}
-                        styles={{ marginRight: 20 }}
                       />
                       {!isTelegramConnected && (
                         <Button
