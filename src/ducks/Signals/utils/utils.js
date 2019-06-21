@@ -27,7 +27,8 @@ import {
   COOLDOWN_TYPES,
   COOLDOWN_REGEXP,
   FREQUENCY_MAPPINGS,
-  FREQUENCY_VALUES
+  FREQUENCY_VALUES,
+  BASE_THRESHOLD
 } from './constants'
 import { capitalizeStr } from '../../../utils/utils'
 
@@ -212,8 +213,8 @@ const getAbsolutePriceValues = ({ settings: { operation, type } }) => {
   return values
 }
 
-const getTriggerToFormThreshold = ({ threshold, operation }) => {
-  let newThreshold = threshold || undefined
+const mapTriggerToFormThreshold = ({ threshold, operation }) => {
+  let newThreshold = threshold || BASE_THRESHOLD
 
   if (operation && !newThreshold) {
     const operationType = getOperationType(operation)
@@ -258,7 +259,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     timeWindowUnit: time_window ? getTimeWindowUnit(time_window) : undefined,
     target: newTarget,
     percentThreshold: getPercentTreshold(settings),
-    threshold: getTriggerToFormThreshold(settings),
+    threshold: mapTriggerToFormThreshold(settings),
     channels: [capitalizeStr(channel)],
     ...frequencyModels,
     ...absolutePriceValues

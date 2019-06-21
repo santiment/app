@@ -216,6 +216,8 @@ export const ASSETS_FILTERS = [
   }
 ]
 
+export const BASE_THRESHOLD = 0.002
+
 export const METRIC_DEFAULT_VALUES = {
   price_absolute_change: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
@@ -224,6 +226,7 @@ export const METRIC_DEFAULT_VALUES = {
     absoluteThreshold: 5,
     absoluteBorderLeft: 50,
     absoluteBorderRight: 75,
+    threshold: BASE_THRESHOLD,
     timeWindow: 24,
     timeWindowUnit: { label: 'hours', value: 'h' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
@@ -235,6 +238,7 @@ export const METRIC_DEFAULT_VALUES = {
     frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
     percentThreshold: 5,
+    threshold: BASE_THRESHOLD,
     timeWindow: 24,
     timeWindowUnit: { label: 'hours', value: 'h' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
@@ -249,6 +253,7 @@ export const METRIC_DEFAULT_VALUES = {
     frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
     percentThreshold: 200,
+    threshold: BASE_THRESHOLD,
     timeWindow: 2,
     timeWindowUnit: { label: 'days', value: 'd' },
     type: { ...DAILY_ACTIVE_ADRESSES_METRIC },
@@ -259,7 +264,7 @@ export const METRIC_DEFAULT_VALUES = {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
     frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
-    threshold: 0.002,
+    threshold: BASE_THRESHOLD,
     type: { ...PRICE_VOLUME_DIFFERENCE_METRIC },
     isRepeating: true,
     channels: ['Telegram']
