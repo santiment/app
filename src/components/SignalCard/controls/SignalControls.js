@@ -9,6 +9,8 @@ import {
   PRICE_PERCENT_CHANGE,
   PRICE_VOLUME_DIFFERENCE
 } from '../../../ducks/Signals/utils/constants'
+import SignalDeleteDialog from '../../../pages/SonarFeed/SignalDeleteDialog'
+import DeleteDialog from '../../DeleteDialog/DeleteDialog'
 
 const getIconStyles = type => {
   switch (type) {
@@ -38,15 +40,17 @@ export const SignalTypeIcon = ({ type }) => {
 }
 
 export const RemoveSignalButton = ({ id, removeSignal, redirect }) => (
-  <Button
-    variant='ghost'
-    onClick={() => {
-      removeSignal(id)
-      redirect()
-    }}
-  >
-    <Icon type='remove' />
-  </Button>
+  <DeleteDialog
+    id={id}
+    title='Do you want to delete this trigger?'
+    deleteItem={removeSignal}
+    redirect={redirect}
+    trigger={
+      <Button variant='ghost' fluid>
+        <Icon type='remove' />
+      </Button>
+    }
+  />
 )
 
 export const SettingsSignalButton = ({ id }) => (
