@@ -13,7 +13,6 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import nprogress from 'nprogress'
 import NotificationStack from './components/NotificationStack'
-import LoginPage from './pages/Login/LoginPage'
 import Roadmap from './pages/Roadmap'
 import Signals from './pages/Signals'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
@@ -38,6 +37,11 @@ import NewsBanner from './components/Banner/NewsBanner'
 import LogoutPage from './pages/Logout/Logout'
 import LabsPage from './pages/Labs'
 import './App.scss'
+
+const LoadableLoginPage = Loadable({
+  loader: () => import('./pages/Login'),
+  loading: () => <PageLoader />
+})
 
 const LoadableAccountPage = Loadable({
   loader: () => import('./pages/Account/AccountPage'),
@@ -126,6 +130,7 @@ class ExternalRedirect extends React.Component {
 export const App = ({
   isDesktop,
   isLoggedIn,
+  token,
   isFullscreenMobile,
   isOffline,
   hasUsername,
@@ -315,9 +320,15 @@ export const App = ({
           )}
         />
         <Route
-          exact
           path='/login'
-          render={props => <LoginPage isDesktop={isDesktop} {...props} />}
+          render={props => (
+            <LoadableLoginPage
+              isLoggedIn={isLoggedIn}
+              token={token}
+              isDesktop={isDesktop}
+              {...props}
+            />
+          )}
         />
         {isDesktop ? (
           <Redirect from='/' to='/dashboard' />
@@ -335,6 +346,7 @@ export const App = ({
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.user.data && !!state.user.data.id,
+    token: state.user.token,
     isFullscreenMobile: state.detailedPageUi.isFullscreenMobile,
     isOffline: !state.rootUi.isOnline,
     isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
