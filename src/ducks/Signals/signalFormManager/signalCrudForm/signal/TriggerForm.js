@@ -192,7 +192,7 @@ export const TriggerForm = ({
                   <div className={cx(styles.row, styles.signalPreview)}>
                     <SignalPreview
                       target={values.target.value}
-                      type={values.type.type}
+                      type={values.type.metric}
                     />
                   </div>
                 )}

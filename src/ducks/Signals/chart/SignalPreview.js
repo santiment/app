@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
-import { Bar } from 'recharts'
 import { Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartMetrics from '../../SANCharts/ChartMetrics'
@@ -14,20 +13,6 @@ const PREVIEWS_TIMERANGE_BY_TYPE = {
   price_percent_change: '3m',
   price_volume_difference: '6m'
 }
-
-const CHART_SETTINGS = {
-  active_addresses: {
-    node: Bar,
-    color: 'malibu',
-    label: 'Daily Active Addresses',
-    orientation: 'right',
-    yAxisVisible: true,
-    dataKey: 'active_addresses'
-  }
-}
-
-const normalizeTimeseries = items =>
-  items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
 const SignalPreview = ({ points = [], target, type }) => {
   const initialMetrics = getMetricsByType(type) || ['historyPrice']
@@ -67,17 +52,12 @@ const SignalPreview = ({ points = [], target, type }) => {
             if (!historyPrice) {
               return 'Loading...'
             }
-            const data = normalizeTimeseries(points)
-            const customMetrics = _metrics.map(
-              metric => CHART_SETTINGS[metric] || metric
-            )
-            const _price = normalizeTimeseries(historyPrice.items)
             return (
               historyPrice && (
                 <VisualBacktestChart
-                  data={data}
-                  price={_price}
-                  metrics={customMetrics}
+                  data={points}
+                  price={historyPrice.items}
+                  metrics={_metrics}
                 />
               )
             )
@@ -90,7 +70,7 @@ const SignalPreview = ({ points = [], target, type }) => {
           defaultActiveMetrics={initialMetrics}
           showOnlyDefault={true}
           listOfMetrics={initialMetrics.reduce((acc, metric) => {
-            acc[metric] = Metrics[metric] || CHART_SETTINGS[metric]
+            acc[metric] = Metrics[metric]
             return acc
           }, {})}
         />
