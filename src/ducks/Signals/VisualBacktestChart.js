@@ -16,6 +16,7 @@ const mapWithTimeseries = items =>
 
 const VisualBacktestChart = ({ data, price, metrics }) => {
   const formattedPrice = mapWithTimeseries(price)
+  const formattedData = mapWithTimeseries(data)
 
   return (
     <ResponsiveContainer width='100%' height={150}>
@@ -33,9 +34,9 @@ const VisualBacktestChart = ({ data, price, metrics }) => {
           domain={['dataMin', 'dataMax']}
         />
         <YAxis hide />
-        {generateMetricsMarkup(metrics, { active_addresses: data })}
+        {generateMetricsMarkup(metrics, { active_addresses: formattedData })}
 
-        {data
+        {formattedData
           .filter(point => point['triggered?'])
           .map(point => (
             <ReferenceLine
@@ -56,8 +57,8 @@ const VisualBacktestChart = ({ data, price, metrics }) => {
   )
 }
 
-const CustomTooltip = ({ active, payload, label }) => {
-  if (active && payload) {
+const CustomTooltip = ({ active, payload }) => {
+  if (active && payload && payload[0]) {
     const priceValue = payload[0].payload.price
       ? formatNumber(payload[0].payload.price, { currency: 'USD' })
       : undefined

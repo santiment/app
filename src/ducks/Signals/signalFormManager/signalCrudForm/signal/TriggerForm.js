@@ -60,9 +60,8 @@ export const TriggerForm = ({
       : PRICE_PERCENT_CHANGE
 
   metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
-  settings = { ...METRIC_DEFAULT_VALUES[formMetric], ...settings }
-
   settings = {
+    ...METRIC_DEFAULT_VALUES[formMetric],
     target: metaFormSettings.target.value
       ? metaFormSettings.target.value
       : settings.target,
@@ -89,11 +88,6 @@ export const TriggerForm = ({
       getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
   }, [])
 
-  const setDefaultPriceValues = values => {
-    const newValues = { ...values, ...METRIC_DEFAULT_VALUES[values.type.value] }
-    setInitialValues(newValues)
-  }
-
   const showTriggerFunc = () => {
     setShowTrigger(!showTrigger)
   }
@@ -114,10 +108,10 @@ export const TriggerForm = ({
       }}
     >
       {({
-        values,
         values: {
           metric,
           type,
+          target,
           absoluteBorderRight,
           absoluteBorderLeft,
           frequencyType,
@@ -139,7 +133,11 @@ export const TriggerForm = ({
                 !prev.values.type ||
                 current.values.type.value !== prev.values.type.value
               ) {
-                setDefaultPriceValues(current.values)
+                const newValues = {
+                  ...current.values,
+                  ...METRIC_DEFAULT_VALUES[current.values.type.value]
+                }
+                setInitialValues(newValues)
                 validateForm()
                 return
               }
@@ -153,7 +151,9 @@ export const TriggerForm = ({
                 current.values.target &&
                   !isError &&
                   showChart &&
-                  getSignalBacktestingPoints(mapValuesToTriggerProps(values))
+                  getSignalBacktestingPoints(
+                    mapValuesToTriggerProps(current.values)
+                  )
               }
             }}
           />
@@ -190,10 +190,7 @@ export const TriggerForm = ({
 
                 {showChart && (
                   <div className={cx(styles.row, styles.signalPreview)}>
-                    <SignalPreview
-                      target={values.target.value}
-                      type={values.type.metric}
-                    />
+                    <SignalPreview target={target.value} type={type.metric} />
                   </div>
                 )}
 
@@ -208,7 +205,7 @@ export const TriggerForm = ({
                   <div className={styles.Field}>
                     <div className={styles.isRepeating}>
                       <Checkbox
-                        isActive={values.isRepeating}
+                        isActive={isRepeating}
                         name='isRepeating'
                         className={styles.repeatingItem}
                         onClick={() => {
