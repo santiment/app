@@ -217,6 +217,7 @@ export const ASSETS_FILTERS = [
 ]
 
 export const BASE_THRESHOLD = 0.002
+export const BASE_PERCENT_THRESHOLD = 5
 
 export const METRIC_DEFAULT_VALUES = {
   price_absolute_change: {

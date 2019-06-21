@@ -28,7 +28,8 @@ import {
   COOLDOWN_REGEXP,
   FREQUENCY_MAPPINGS,
   FREQUENCY_VALUES,
-  BASE_THRESHOLD
+  BASE_THRESHOLD,
+  BASE_PERCENT_THRESHOLD
 } from './constants'
 import { capitalizeStr } from '../../../utils/utils'
 
@@ -255,11 +256,11 @@ export const mapTriggerToFormProps = currentTrigger => {
     isPublic: isPublic,
     metric: getMetric(type, operation),
     type: newType,
-    timeWindow: time_window ? +time_window.match(/\d+/)[0] : undefined,
-    timeWindowUnit: time_window ? getTimeWindowUnit(time_window) : undefined,
+    timeWindow: time_window ? +time_window.match(/\d+/)[0] : '24',
+    timeWindowUnit: time_window ? getTimeWindowUnit(time_window) : 'h',
     target: newTarget,
-    percentThreshold: getPercentTreshold(settings),
-    threshold: mapTriggerToFormThreshold(settings),
+    percentThreshold: getPercentTreshold(settings) || BASE_PERCENT_THRESHOLD,
+    threshold: mapTriggerToFormThreshold(settings) || BASE_THRESHOLD,
     channels: [capitalizeStr(channel)],
     ...frequencyModels,
     ...absolutePriceValues
