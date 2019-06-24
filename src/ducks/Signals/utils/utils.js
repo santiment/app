@@ -33,6 +33,10 @@ import {
 } from './constants'
 import { capitalizeStr } from '../../../utils/utils'
 
+export const TIME_WINDOW_UNITS = [
+  [{ value: 'h', label: 'Hours' }, { value: 'd', label: 'Days' }]
+]
+
 const getTimeWindowUnit = timeWindow => {
   if (!timeWindow) return undefined
   const value = timeWindow.replace(/[0-9]/g, '')
@@ -41,11 +45,11 @@ const getTimeWindowUnit = timeWindow => {
     label: (() => {
       switch (value) {
         case 'd':
-          return 'days'
+          return 'Days'
         case 'm':
-          return 'minutes'
+          return 'Minutes'
         default:
-          return 'hours'
+          return 'Hours'
       }
     })()
   }
@@ -406,10 +410,17 @@ export const mapValuesToTriggerProps = ({
   cooldown,
   settings: (() => {
     const metricType = type ? type.metric : undefined
-    const time = timeWindowUnit ? timeWindow + timeWindowUnit.value : undefined
+
+    let timeUnit = timeWindowUnit
+    if (timeWindowUnit && timeWindowUnit.value) {
+      timeUnit = timeWindowUnit.value
+    }
+
+    const time = timeWindow + timeUnit
 
     const slug = { slug: target.value }
 
+    debugger
     const defaultValue = {
       target: slug,
       type: metricType,

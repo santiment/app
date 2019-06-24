@@ -71,45 +71,47 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn, match }) => {
           <SignalMasterModalForm triggerId={triggerId} />
         </div>
       </div>
-      <Tabs
-        options={tabs}
-        defaultSelectedIndex={pathname}
-        passSelectionIndexToItem
-        className={styles.tabs}
-        as={({ selectionIndex, ...props }) => (
-          <Link {...props} to={selectionIndex} />
-        )}
-      />
-      <Switch>
-        {!isLoggedIn ? <InsightUnAuthPage /> : ''}
-        {tabs.map(({ index, component }) => (
-          <Route key={index} path={index} component={component} />
-        ))}
-        <Route
-          path={`${baseLocation}/details/:id`}
-          exact
-          component={Loadable({
-            loader: () => import('./SignalDetails'),
-            loading: () => <PageLoader />
-          })}
+      <div className={styles.pages}>
+        <Tabs
+          options={tabs}
+          defaultSelectedIndex={pathname}
+          passSelectionIndexToItem
+          className={styles.tabs}
+          as={({ selectionIndex, ...props }) => (
+            <Link {...props} to={selectionIndex} />
+          )}
         />
-        ,
-        <Route
-          path={detailsModalLocation}
-          exact
-          component={Loadable({
-            loader: () => import('./SonarFeedMySignalsPage'),
-            loading: () => <PageLoader />,
-            render: (loaded, props) => (
-              <loaded.default
-                setLoadingSignalId={setLoadingSignalId}
-                {...props}
-              />
-            )
-          })}
-        />
-        }
-      </Switch>
+        <Switch>
+          {!isLoggedIn ? <InsightUnAuthPage /> : ''}
+          {tabs.map(({ index, component }) => (
+            <Route key={index} path={index} component={component} />
+          ))}
+          <Route
+            path={`${baseLocation}/details/:id`}
+            exact
+            component={Loadable({
+              loader: () => import('./SignalDetails'),
+              loading: () => <PageLoader />
+            })}
+          />
+          ,
+          <Route
+            path={detailsModalLocation}
+            exact
+            component={Loadable({
+              loader: () => import('./SonarFeedMySignalsPage'),
+              loading: () => <PageLoader />,
+              render: (loaded, props) => (
+                <loaded.default
+                  setLoadingSignalId={setLoadingSignalId}
+                  {...props}
+                />
+              )
+            })}
+          />
+          }
+        </Switch>
+      </div>
     </div>
   )
 }

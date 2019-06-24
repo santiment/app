@@ -84,7 +84,8 @@ export const TriggerForm = ({
   const showChart = couldShowChart(initialValues.metric)
 
   useEffect(() => {
-    showChart &&
+    console.log('Try load getSignalBacktestingPoints 1')
+    couldShowChart(initialValues.metric) &&
       getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
   }, [])
 
@@ -129,31 +130,33 @@ export const TriggerForm = ({
         <Form className={styles.TriggerForm}>
           <FormikEffect
             onChange={(current, prev) => {
+              let { values: newValues } = current
               if (
                 !prev.values.type ||
-                current.values.type.value !== prev.values.type.value
+                newValues.type.value !== prev.values.type.value
               ) {
-                const newValues = {
-                  ...current.values,
-                  ...METRIC_DEFAULT_VALUES[current.values.type.value]
+                newValues = {
+                  ...newValues,
+                  ...METRIC_DEFAULT_VALUES[newValues.type.value]
                 }
                 setInitialValues(newValues)
                 validateForm()
-                return
               }
 
-              if (!isEqual(current.values, prev.values)) {
-                const lastErrors = validateTriggerForm(current.values)
-                const isError = Object.keys(current.values).some(
+              if (!isEqual(newValues, prev.values)) {
+                const lastErrors = validateTriggerForm(newValues)
+                const isError = Object.keys(newValues).some(
                   key => lastErrors[key]
                 )
 
-                current.values.target &&
+                console.log('Try load getSignalBacktestingPoints 2')
+                const canLoadChart =
+                  newValues && couldShowChart(newValues.metric)
+
+                newValues.target &&
                   !isError &&
-                  showChart &&
-                  getSignalBacktestingPoints(
-                    mapValuesToTriggerProps(current.values)
-                  )
+                  canLoadChart &&
+                  getSignalBacktestingPoints(mapValuesToTriggerProps(newValues))
               }
             }}
           />
@@ -284,9 +287,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getSignalBacktestingPoints: payload => {
-    if (payload.settings.time_window) {
-      dispatch(fetchHistorySignalPoints(payload))
-    }
+    console.log('getSignalBacktestingPoints')
+    console.log(payload)
+    dispatch(fetchHistorySignalPoints(payload))
   },
   removeSignal: id => {
     dispatch(removeTrigger(id))

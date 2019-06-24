@@ -6,7 +6,7 @@ import {
   ETH_WALLETS_OPTIONS,
   METRIC_TYPES_DEPENDENCIES
 } from '../../../utils/constants'
-import { getFormMetricValue } from '../../../utils/utils'
+import { getFormMetricValue, TIME_WINDOW_UNITS } from '../../../utils/utils'
 import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
@@ -124,10 +124,7 @@ export const TriggerFormMetricValues = ({
               className={styles.timeWindowUnit}
               clearable={false}
               placeholder='Unit'
-              options={[
-                { value: 'h', label: 'Hours' },
-                { value: 'd', label: 'Days' }
-              ]}
+              options={TIME_WINDOW_UNITS}
             />
           </div>
         </div>
