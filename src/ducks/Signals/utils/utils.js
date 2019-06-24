@@ -27,7 +27,9 @@ import {
   COOLDOWN_TYPES,
   COOLDOWN_REGEXP,
   FREQUENCY_MAPPINGS,
-  FREQUENCY_VALUES
+  FREQUENCY_VALUES,
+  BASE_THRESHOLD,
+  BASE_PERCENT_THRESHOLD
 } from './constants'
 import { capitalizeStr } from '../../../utils/utils'
 
@@ -212,7 +214,7 @@ const getAbsolutePriceValues = ({ settings: { operation, type } }) => {
   return values
 }
 
-const getTriggerToFormThreshold = ({ threshold, operation }) => {
+const mapTriggerToFormThreshold = ({ threshold, operation }) => {
   let newThreshold = threshold || undefined
 
   if (operation && !newThreshold) {
@@ -254,11 +256,11 @@ export const mapTriggerToFormProps = currentTrigger => {
     isPublic: isPublic,
     metric: getMetric(type, operation),
     type: newType,
-    timeWindow: time_window ? +time_window.match(/\d+/)[0] : undefined,
-    timeWindowUnit: time_window ? getTimeWindowUnit(time_window) : undefined,
+    timeWindow: time_window ? +time_window.match(/\d+/)[0] : '24',
+    timeWindowUnit: time_window ? getTimeWindowUnit(time_window) : 'h',
     target: newTarget,
-    percentThreshold: getPercentTreshold(settings),
-    threshold: getTriggerToFormThreshold(settings),
+    percentThreshold: getPercentTreshold(settings) || BASE_PERCENT_THRESHOLD,
+    threshold: mapTriggerToFormThreshold(settings) || BASE_THRESHOLD,
     channels: [capitalizeStr(channel)],
     ...frequencyModels,
     ...absolutePriceValues
@@ -383,7 +385,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
 export const getMetricsByType = type => {
   switch (type) {
     case DAILY_ACTIVE_ADDRESSES:
-      return ['active_addresses', 'historyPrice']
+      return ['customDailyActiveAdresses', 'historyPrice']
     case PRICE_VOLUME_DIFFERENCE:
       return ['historyPrice', 'volume']
     default:

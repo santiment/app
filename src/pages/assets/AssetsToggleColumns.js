@@ -26,7 +26,7 @@ const AssetsToggleColumns = ({ columns = [], onChange }) => (
         {Object.entries(columns).map(
           ([id, { name, selectable, show, description }]) => (
             <Fragment key={id}>
-              {name !== 'Rank' && name !== 'Project' && (
+              {name !== 'Index' && name !== 'Project' && (
                 <div
                   className={styles.column}
                   onClick={() => onChange({ id, show, selectable })}

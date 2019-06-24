@@ -1,63 +1,19 @@
-import React, { PureComponent } from 'react'
 import { push } from 'react-router-redux'
-import Dialog from '@santiment-network/ui/Dialog'
 import { connect } from 'react-redux'
 import { USER_REMOVE_ASSET_LIST } from '../../actions/types'
-import styles from './WatchlistDeleteDialog.module.scss'
+import DeleteDialog from '../../components/DeleteDialog/DeleteDialog'
 
-class WatchlistDeleteDialog extends PureComponent {
-  state = { open: false }
-
-  openDialog = () => {
-    this.setState({ open: true })
-  }
-
-  closeDialog = () => {
-    this.setState({ open: false })
-  }
-
-  onDeleteClick = () => {
-    const { id, deleteWatchlist, goToAssetsRoot } = this.props
-    deleteWatchlist(id)
-    goToAssetsRoot()
-  }
-
-  render () {
-    return (
-      <Dialog
-        open={this.state.open}
-        onClose={this.closeDialog}
-        onOpen={this.openDialog}
-        trigger={this.props.trigger}
-        title='Do you want to delete this watchlist?'
-        classes={styles}
-      >
-        <Dialog.ScrollContent withPadding>
-          This actions cannot be undone
-        </Dialog.ScrollContent>
-        <Dialog.Actions>
-          <Dialog.Cancel onClick={this.closeDialog}>Cancel</Dialog.Cancel>
-          <Dialog.Approve
-            onClick={this.onDeleteClick}
-            className={styles.approve}
-          >
-            Delete
-          </Dialog.Approve>
-        </Dialog.Actions>
-      </Dialog>
-    )
-  }
-}
+class WatchlistDeleteDialog extends DeleteDialog {}
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteWatchlist: id => {
+    deleteItem: id => {
       dispatch({
         type: USER_REMOVE_ASSET_LIST,
         payload: { id }
       })
     },
-    goToAssetsRoot: () => dispatch(push('/assets'))
+    redirect: () => dispatch(push('/assets'))
   }
 }
 

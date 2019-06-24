@@ -6,12 +6,24 @@ import ChartMetrics from '../../SANCharts/ChartMetrics'
 import VisualBacktestChart from '../VisualBacktestChart'
 import { getMetricsByType } from '../utils/utils'
 import styles from './SignalPreview.module.scss'
+import { Bar } from 'recharts'
 
 const PREVIEWS_TIMERANGE_BY_TYPE = {
   daily_active_addresses: '3m',
   price_absolute_change: '3m',
   price_percent_change: '3m',
   price_volume_difference: '6m'
+}
+
+const CUSTOM_METRICS = {
+  customDailyActiveAdresses: {
+    node: Bar,
+    color: 'malibu',
+    label: 'Daily Active Addresses',
+    dataKey: 'active_addresses',
+    orientation: 'right',
+    yAxisVisible: true
+  }
 }
 
 const SignalPreview = ({ points = [], target, type }) => {
@@ -52,12 +64,17 @@ const SignalPreview = ({ points = [], target, type }) => {
             if (!historyPrice) {
               return 'Loading...'
             }
+
+            const customMetrics = _metrics.map(metric => {
+              return CUSTOM_METRICS[metric] || metric
+            })
+
             return (
               historyPrice && (
                 <VisualBacktestChart
                   data={points}
                   price={historyPrice.items}
-                  metrics={_metrics}
+                  metrics={customMetrics}
                 />
               )
             )
@@ -70,7 +87,7 @@ const SignalPreview = ({ points = [], target, type }) => {
           defaultActiveMetrics={initialMetrics}
           showOnlyDefault={true}
           listOfMetrics={initialMetrics.reduce((acc, metric) => {
-            acc[metric] = Metrics[metric]
+            acc[metric] = Metrics[metric] || CUSTOM_METRICS[metric]
             return acc
           }, {})}
         />
