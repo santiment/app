@@ -102,6 +102,8 @@ const AssetsPage = props => {
                   type={props.type}
                   range={range}
                   changeRange={changeRange}
+                  assetsAmount={Assets.items.length}
+                  top3={Assets.items.slice(0, 3)}
                 />
                 <AssetsTable
                   Assets={Assets}
