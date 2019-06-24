@@ -30,15 +30,10 @@ import {
   FREQUENCY_VALUES,
   BASE_THRESHOLD,
   BASE_PERCENT_THRESHOLD,
-  PREVIEWS_TIMERANGE_BY_TYPE
+  PREVIEWS_TIMERANGE_BY_TYPE,
+  TIME_WINDOW_UNITS
 } from './constants'
 import { capitalizeStr } from '../../../utils/utils'
-
-export const TIME_WINDOW_UNITS = [
-  { value: 'd', label: 'Days' },
-  { value: 'h', label: 'Hours' },
-  { value: 'm', label: 'Minutes' }
-]
 
 const getTimeWindowUnit = timeWindow => {
   if (!timeWindow) return undefined
@@ -511,9 +506,9 @@ export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
 }
 
 export function getFrequencyTimeType (frequencyType) {
-  if (frequencyType && frequencyType.available) {
+  if (frequencyType && frequencyType.availableTypes) {
     return FREQUENCY_VALUES.filter(item => {
-      return frequencyType.available.indexOf(item.value) !== -1
+      return frequencyType.availableTypes.indexOf(item.value) !== -1
     })
   } else {
     return FREQUENCY_VALUES
@@ -521,13 +516,7 @@ export function getFrequencyTimeType (frequencyType) {
 }
 
 export function getFrequencyTimeValues (frequencyTimeType) {
-  let selectedValues
-  if (frequencyTimeType) {
-    selectedValues = FREQUENCY_VALUES.find(
-      item => item.value === frequencyTimeType.value
-    )
-  }
-  return selectedValues ? FREQUENCY_MAPPINGS[selectedValues.value] : []
+  return FREQUENCY_MAPPINGS[frequencyTimeType.value]
 }
 
 export function getNearestFrequencyTimeValue (frequencyTimeType) {

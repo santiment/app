@@ -200,6 +200,7 @@ export const TriggerForm = ({
                   metaFormSettings={metaFormSettings}
                   setFieldValue={setFieldValue}
                   frequencyType={frequencyType}
+                  metric={type.metric}
                   frequencyTimeType={frequencyTimeType}
                 />
 

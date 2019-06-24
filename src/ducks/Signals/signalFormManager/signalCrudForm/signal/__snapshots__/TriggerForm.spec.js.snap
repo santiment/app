@@ -21,6 +21,9 @@ exports[`TriggerForm smoke 1`] = `
         "value": 1,
       },
       "frequencyType": Object {
+        "disabledMetrics": Array [
+          "daily_active_addresses",
+        ],
         "label": "Once Per",
         "value": "onceper",
       },

@@ -179,18 +179,30 @@ export const COOLDOWN_TYPES = {
 
 export const FREQUENCY_TYPE_ONCEPER_MODEL = {
   label: 'Once Per',
-  value: COOLDOWN_TYPES.oncePer
+  value: COOLDOWN_TYPES.oncePer,
+  disabledMetrics: [DAILY_ACTIVE_ADDRESSES]
 }
 
 export const FREQUENCY_TYPE_HOUR_MODEL = {
   label: 'Hourly',
   value: COOLDOWN_TYPES.hourly,
-  available: [FREQUENCY_VALUES_TYPES.hours]
+  availableTypes: [FREQUENCY_VALUES_TYPES.hours],
+  disabledMetrics: [DAILY_ACTIVE_ADDRESSES]
+}
+
+export const FREQUENCY_TYPE_DAILY_MODEL = {
+  label: 'Daily',
+  value: COOLDOWN_TYPES.daily,
+  availableTypes: [FREQUENCY_VALUES_TYPES.days]
 }
 
 export const DEFAULT_FREQUENCY_TIME_TYPE_MODEL = {
   label: 'Hours',
   value: FREQUENCY_VALUES_TYPES.hours
+}
+export const FREQUENCY_TIME_TYPE_DAILY_MODEL = {
+  label: 'Days',
+  value: FREQUENCY_VALUES_TYPES.days
 }
 
 const ASSET_FILTER_TYPES = {
@@ -250,8 +262,8 @@ export const METRIC_DEFAULT_VALUES = {
     absoluteBorderRight: 75
   },
   daily_active_addresses: {
-    frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
-    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyType: { ...FREQUENCY_TYPE_DAILY_MODEL },
+    frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
     percentThreshold: 200,
     threshold: BASE_THRESHOLD,
@@ -314,18 +326,15 @@ export const FREQUENCY_TYPES_OPTIONS = [
   {
     label: 'Minutly',
     value: COOLDOWN_TYPES.minutly,
-    available: [FREQUENCY_VALUES_TYPES.minutes]
+    availableTypes: [FREQUENCY_VALUES_TYPES.minutes],
+    disabledMetrics: [DAILY_ACTIVE_ADDRESSES]
   },
   FREQUENCY_TYPE_HOUR_MODEL,
-  {
-    label: 'Daily',
-    value: COOLDOWN_TYPES.daily,
-    available: [FREQUENCY_VALUES_TYPES.days]
-  },
+  FREQUENCY_TYPE_DAILY_MODEL,
   {
     label: 'Weekly',
     value: COOLDOWN_TYPES.weekly,
-    available: [FREQUENCY_VALUES_TYPES.weeks]
+    availableTypes: [FREQUENCY_VALUES_TYPES.weeks]
   }
 ]
 
@@ -345,8 +354,7 @@ export const FREQUENCY_VALUES = [
   },
   { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
   {
-    label: 'Days',
-    value: FREQUENCY_VALUES_TYPES.days
+    ...FREQUENCY_TIME_TYPE_DAILY_MODEL
   },
   {
     label: 'Weeks',
@@ -360,3 +368,9 @@ export const PREVIEWS_TIMERANGE_BY_TYPE = {
   price_percent_change: '3m',
   price_volume_difference: '6m'
 }
+
+export const TIME_WINDOW_UNITS = [
+  { value: 'd', label: 'Days' },
+  { value: 'h', label: 'Hours' },
+  { value: 'm', label: 'Minutes' }
+]

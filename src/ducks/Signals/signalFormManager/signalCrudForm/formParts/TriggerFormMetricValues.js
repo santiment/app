@@ -4,9 +4,10 @@ import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSe
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import {
   ETH_WALLETS_OPTIONS,
-  METRIC_TYPES_DEPENDENCIES
+  METRIC_TYPES_DEPENDENCIES,
+  TIME_WINDOW_UNITS
 } from '../../../utils/constants'
-import { getFormMetricValue, TIME_WINDOW_UNITS } from '../../../utils/utils'
+import { getFormMetricValue } from '../../../utils/utils'
 import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {

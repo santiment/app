@@ -23,10 +23,15 @@ const propTypes = {
 export const TriggerFormFrequency = ({
   metaFormSettings,
   setFieldValue,
+  metric,
   frequencyType,
   frequencyTimeType
 }) => {
   const defaultFrequencyType = metaFormSettings.frequencyType
+
+  const frequencyOptions = FREQUENCY_TYPES_OPTIONS.filter(item => {
+    return !item.disabledMetrics || item.disabledMetrics.indexOf(metric) === -1
+  })
 
   return (
     <div className={styles.row}>
@@ -39,7 +44,7 @@ export const TriggerFormFrequency = ({
           defaultValue={defaultFrequencyType.value.value}
           isSearchable
           placeholder='Choose frequency'
-          options={FREQUENCY_TYPES_OPTIONS}
+          options={frequencyOptions}
           onChange={frequencyType => {
             const newFrequencyTimeType = getNearestFrequencyTypeValue(
               frequencyType
