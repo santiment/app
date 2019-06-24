@@ -10,7 +10,8 @@ import PercentChanges from '../PercentChanges'
 import {
   projectsListHistoryStatsGQL,
   totalMarketcapGQL
-} from '../TotalMarketcapWidget/TotalMarketcapGQL'
+} from '../ListInfoWidget/TotalMarketcapGQL'
+import Gradients from '../ListInfoWidget/Gradients'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
@@ -45,22 +46,7 @@ const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
             <ResponsiveContainer height={35} className={styles.chart}>
               <AreaChart data={chartStats}>
                 <defs>
-                  <linearGradient id='totalDown' x1='0' x2='0' y1='0' y2='1'>
-                    <stop
-                      offset='5%'
-                      stopColor='var(--persimmon)'
-                      stopOpacity={0.3}
-                    />
-                    <stop offset='95%' stopColor='#fff' stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id='totalUp' x1='0' x2='0' y1='0' y2='1'>
-                    <stop
-                      offset='5%'
-                      stopColor='var(--lima)'
-                      stopOpacity={0.3}
-                    />
-                    <stop offset='95%' stopColor='#fff' stopOpacity={0} />
-                  </linearGradient>
+                  <Gradients />
                 </defs>
                 <Area
                   dataKey='marketcap'
@@ -97,12 +83,17 @@ WatchlistCard.defaultProps = {
   stats: []
 }
 
-export const normalizeStats = arr => {
-  const { length } = arr
-  const isNotEmpty = length > 0
-  const lastEl = isNotEmpty ? arr[length - 1] : {}
+export const normalizeStats = arr =>
+  arr.filter(({ marketcap, volume }) => marketcap !== 0 && volume !== 0)
 
-  return lastEl.marketcap === 0 && lastEl.volume === 0 ? arr.slice(0, -1) : arr
+export const statsForGraphics = arr => {
+  const minMarketcap = Math.min(...arr.map(({ marketcap }) => marketcap))
+  const minVolume = Math.min(...arr.map(({ volume }) => volume))
+  return arr.map(item => ({
+    ...item,
+    marketcap: item.marketcap - minMarketcap,
+    volume: item.volume - minVolume
+  }))
 }
 
 const enhance = compose(
