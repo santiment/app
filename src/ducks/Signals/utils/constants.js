@@ -229,7 +229,7 @@ export const METRIC_DEFAULT_VALUES = {
     absoluteBorderRight: 75,
     threshold: BASE_THRESHOLD,
     timeWindow: 24,
-    timeWindowUnit: { label: 'hours', value: 'h' },
+    timeWindowUnit: { label: 'Hours', value: 'h' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
     channels: ['Telegram']
@@ -241,7 +241,7 @@ export const METRIC_DEFAULT_VALUES = {
     percentThreshold: 5,
     threshold: BASE_THRESHOLD,
     timeWindow: 24,
-    timeWindowUnit: { label: 'hours', value: 'h' },
+    timeWindowUnit: { label: 'Hours', value: 'h' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
     channels: ['Telegram'],
@@ -256,7 +256,7 @@ export const METRIC_DEFAULT_VALUES = {
     percentThreshold: 200,
     threshold: BASE_THRESHOLD,
     timeWindow: 2,
-    timeWindowUnit: { label: 'days', value: 'd' },
+    timeWindowUnit: { label: 'Days', value: 'd' },
     type: { ...DAILY_ACTIVE_ADRESSES_METRIC },
     isRepeating: true,
     channels: ['Telegram']

@@ -34,25 +34,16 @@ import {
 import { capitalizeStr } from '../../../utils/utils'
 
 export const TIME_WINDOW_UNITS = [
-  [{ value: 'h', label: 'Hours' }, { value: 'd', label: 'Days' }]
+  { value: 'd', label: 'Days' },
+  { value: 'h', label: 'Hours' },
+  { value: 'm', label: 'Minutes' }
 ]
 
 const getTimeWindowUnit = timeWindow => {
   if (!timeWindow) return undefined
+
   const value = timeWindow.replace(/[0-9]/g, '')
-  return {
-    value,
-    label: (() => {
-      switch (value) {
-        case 'd':
-          return 'Days'
-        case 'm':
-          return 'Minutes'
-        default:
-          return 'Hours'
-      }
-    })()
-  }
+  return TIME_WINDOW_UNITS.find(item => item.value === value)
 }
 
 const getFormTriggerTarget = target => {
@@ -261,7 +252,9 @@ export const mapTriggerToFormProps = currentTrigger => {
     metric: getMetric(type, operation),
     type: newType,
     timeWindow: time_window ? +time_window.match(/\d+/)[0] : '24',
-    timeWindowUnit: time_window ? getTimeWindowUnit(time_window) : 'h',
+    timeWindowUnit: time_window
+      ? getTimeWindowUnit(time_window)
+      : TIME_WINDOW_UNITS[0],
     target: newTarget,
     percentThreshold: getPercentTreshold(settings) || BASE_PERCENT_THRESHOLD,
     threshold: mapTriggerToFormThreshold(settings) || BASE_THRESHOLD,
@@ -411,16 +404,11 @@ export const mapValuesToTriggerProps = ({
   settings: (() => {
     const metricType = type ? type.metric : undefined
 
-    let timeUnit = timeWindowUnit
-    if (timeWindowUnit && timeWindowUnit.value) {
-      timeUnit = timeWindowUnit.value
-    }
-
+    const timeUnit = timeWindowUnit.value
     const time = timeWindow + timeUnit
 
     const slug = { slug: target.value }
 
-    debugger
     const defaultValue = {
       target: slug,
       type: metricType,

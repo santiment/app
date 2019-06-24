@@ -41,7 +41,7 @@ exports[`TriggerForm smoke 1`] = `
       "threshold": 0.002,
       "timeWindow": 24,
       "timeWindowUnit": Object {
-        "label": "hours",
+        "label": "Hours",
         "value": "h",
       },
       "type": Object {
