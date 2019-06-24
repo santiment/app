@@ -7,13 +7,7 @@ import VisualBacktestChart from '../VisualBacktestChart'
 import { getMetricsByType } from '../utils/utils'
 import styles from './SignalPreview.module.scss'
 import { Bar } from 'recharts'
-
-const PREVIEWS_TIMERANGE_BY_TYPE = {
-  daily_active_addresses: '3m',
-  price_absolute_change: '3m',
-  price_percent_change: '3m',
-  price_volume_difference: '6m'
-}
+import { PREVIEWS_TIMERANGE_BY_TYPE } from '../utils/constants'
 
 const CUSTOM_METRICS = {
   customDailyActiveAdresses: {

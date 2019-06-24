@@ -353,3 +353,10 @@ export const FREQUENCY_VALUES = [
     value: FREQUENCY_VALUES_TYPES.weeks
   }
 ]
+
+export const PREVIEWS_TIMERANGE_BY_TYPE = {
+  daily_active_addresses: '3m',
+  price_absolute_change: '3m',
+  price_percent_change: '3m',
+  price_volume_difference: '6m'
+}
