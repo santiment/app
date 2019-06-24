@@ -11,6 +11,7 @@ import {
   projectsListHistoryStatsGQL,
   totalMarketcapGQL
 } from '../TotalMarketcapWidget/TotalMarketcapGQL'
+import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
@@ -33,7 +34,15 @@ const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
       <div className={cx(styles.flexRow, styles.content)}>
         <span className={styles.name}>{name}</span>
         {isPublic !== undefined && (
-          <Icon type={isPublic ? 'eye' : 'lock-small'} fill='var(--casper)' />
+          <ExplanationTooltip
+            text={isPublic ? 'Public' : 'Private'}
+            offsetY={7}
+          >
+            <Icon
+              type={isPublic ? 'eye' : 'lock-small'}
+              className={styles.icon}
+            />
+          </ExplanationTooltip>
         )}
       </div>
       {latestMarketcap ? (
