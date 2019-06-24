@@ -73,3 +73,11 @@
     width: 65px;
   }
 }
+
+.icon {
+  fill: var(--casper);
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}

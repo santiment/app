@@ -38,7 +38,10 @@ const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
             text={isPublic ? 'Public' : 'Private'}
             offsetY={7}
           >
-            <Icon type={isPublic ? 'eye' : 'lock-small'} fill='var(--casper)' />
+            <Icon
+              type={isPublic ? 'eye' : 'lock-small'}
+              className={styles.icon}
+            />
           </ExplanationTooltip>
         )}
       </div>
