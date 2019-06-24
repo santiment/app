@@ -6,7 +6,10 @@ import AssetsField from './AssetsField'
 import styles from './BalanceView.module.scss'
 import SignalMasterModalForm from '../Signals/signalModal/SignalMasterModalForm'
 import ShowIf from '../../components/ShowIf'
-import { ETH_WALLET_METRIC } from '../Signals/utils/constants'
+import {
+  ETH_WALLET_AMOUNT_UP,
+  ETH_WALLET_METRIC
+} from '../Signals/utils/constants'
 
 class BalanceView extends React.Component {
   state = {
@@ -57,6 +60,9 @@ class BalanceView extends React.Component {
                 },
                 metric: {
                   value: { ...ETH_WALLET_METRIC }
+                },
+                type: {
+                  value: { ...ETH_WALLET_AMOUNT_UP }
                 },
                 ethAddress: address
               }}

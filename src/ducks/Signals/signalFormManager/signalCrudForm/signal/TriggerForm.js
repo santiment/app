@@ -84,7 +84,6 @@ export const TriggerForm = ({
   const showChart = couldShowChart(initialValues.metric)
 
   useEffect(() => {
-    console.log('Try load getSignalBacktestingPoints 1')
     couldShowChart(initialValues.metric) &&
       getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
   }, [])
@@ -132,12 +131,13 @@ export const TriggerForm = ({
             onChange={(current, prev) => {
               let { values: newValues } = current
               if (
-                !prev.values.type ||
+                !prev.values.metric ||
+                newValues.metric.value !== prev.values.metric.value ||
                 newValues.type.value !== prev.values.type.value
               ) {
                 newValues = {
                   ...newValues,
-                  ...METRIC_DEFAULT_VALUES[newValues.type.value]
+                  ...METRIC_DEFAULT_VALUES[newValues.type.metric]
                 }
                 setInitialValues(newValues)
                 validateForm()
@@ -149,7 +149,6 @@ export const TriggerForm = ({
                   key => lastErrors[key]
                 )
 
-                console.log('Try load getSignalBacktestingPoints 2')
                 const canLoadChart =
                   newValues && couldShowChart(newValues.metric)
 
@@ -287,8 +286,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getSignalBacktestingPoints: payload => {
-    console.log('getSignalBacktestingPoints')
-    console.log(payload)
     dispatch(fetchHistorySignalPoints(payload))
   },
   removeSignal: id => {

@@ -277,7 +277,9 @@ export const METRIC_DEFAULT_VALUES = {
     threshold: 100,
     type: { ...ETH_WALLET_AMOUNT_UP },
     isRepeating: true,
-    channels: ['Telegram']
+    channels: ['Telegram'],
+    percentThreshold: 200,
+    timeWindow: 24
   }
 }
 

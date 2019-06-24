@@ -404,9 +404,7 @@ export const mapValuesToTriggerProps = ({
   settings: (() => {
     const metricType = type ? type.metric : undefined
 
-    const timeUnit = timeWindowUnit.value
-    const time = timeWindow + timeUnit
-
+    const time = timeWindow + timeWindowUnit.value
     const slug = { slug: target.value }
 
     const defaultValue = {
