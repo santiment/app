@@ -15,22 +15,30 @@
       margin-right: auto;
     }
 
-    .overview-activeaddresses,
-    .overview-devactivity,
-    .overview-ethspent {
+    .overview-ethspent,
+    .overview-rank {
       margin: 0 auto;
       text-align: center;
     }
 
     .overview-price,
+    .overview-price-percent,
     .overview-volume,
-    .overview-marketcap {
-      margin-left: auto;
+    .overview-volume-percent,
+    .overview-marketcap,
+    .overview-activeaddresses,
+    .overview-devactivity {
+      margin-right: auto;
       text-align: right;
 
       & span {
         margin-left: 0;
       }
+    }
+
+    .overview-price-percent,
+    .overview-volume-percent {
+      margin-left: -10px;
     }
 
     .rt-th {
