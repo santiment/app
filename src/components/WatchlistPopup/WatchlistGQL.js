@@ -45,13 +45,23 @@ export const publicWatchlistGQL = gql`
   }
 `
 
-export const projectsByFunctionGQL = gql`
+export const projectsByFunctionShortGQL = gql`
   query allProjectsByFunction($function: json!) {
     allProjectsByFunction(function: $function) {
-      id
       slug
     }
   }
+`
+
+export const projectsByFunctionBigGQL = gql`
+  query allProjectsByFunction($function: json!) {
+    allProjectsByFunction(function: $function) {
+      ...generalData
+      ...project
+    }
+  }
+  ${generalData}
+  ${project}
 `
 
 export const FEATURED_WATCHLIST_QUERY = gql`

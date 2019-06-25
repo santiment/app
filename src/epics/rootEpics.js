@@ -29,8 +29,6 @@ import {
 import {
   fetchAssetsEpic,
   fetchAssetsFromListEpic,
-  fetchAssetsFromListWithFuncEpic,
-  fetchAssetsFromSharedListEpic,
   fetchAssetsFromListWithEditEpic,
   fetchRestAllAssetsEpic
 } from './fetchAssetsEpic'
@@ -93,8 +91,6 @@ export default combineEpics(
   fetchAssetsEpic,
   fetchRestAllAssetsEpic,
   fetchAssetsFromListEpic,
-  fetchAssetsFromSharedListEpic,
-  fetchAssetsFromListWithFuncEpic,
   fetchAssetsFromListWithEditEpic,
   // timeseries
   fetchTimeseriesEpic,
