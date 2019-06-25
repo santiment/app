@@ -10,7 +10,7 @@ import {
 import {
   projectsByFunctionGQL,
   publicWatchlistGQL,
-  WatchlistGQL
+  WATCHLIST_QUERY
 } from './../components/WatchlistPopup/WatchlistGQL.js'
 import * as actions from './../actions/types'
 
@@ -88,52 +88,45 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.ASSETS_FETCH)
     .filter(({ payload: { type } }) => type === 'list')
-    .mergeMap(({ payload: { list } }) =>
-      Observable.from(
-        client.query({ query: WatchlistGQL, context: { isRetriable: true } })
-      ).concatMap(({ data: { fetchUserLists } }) => {
-        const { listItems = [], user: { id } = {} } =
-          fetchUserLists.find(({ id }) => id === list.id) || {}
-        const queries = listItems
-          .map(asset => asset.project.slug)
-          .filter(slug => !!slug)
-          .map(slug =>
-            client.query({
-              query: projectBySlugGQL,
-              variables: { slug },
-              context: { isRetriable: true }
-            })
-          )
-        const isCurrentUserTheAuthor = store.getState().user.data.id === id
-
-        if (listItems.length === 0) {
+    .mergeMap(({ payload: { list } }) => {
+      console.log('list: ', list)
+      return Observable.from(
+        client.query({
+          query: WATCHLIST_QUERY,
+          variables: { id: list.id },
+          context: { isRetriable: true }
+        })
+      ).concatMap(({ data: { watchlist } }) => {
+        console.log(watchlist)
+        if (!watchlist) {
           return Observable.of({
             type: actions.ASSETS_FETCH_SUCCESS,
             payload: {
               items: [],
+              isCurrentUserTheAuthor: false,
               isLoading: false,
               error: false,
-              isCurrentUserTheAuthor
+              isPublicWatchlist: false
             }
           })
         }
 
-        return Observable.forkJoin(queries)
-          .mergeMap(data => {
-            const items = data.map(project => project.data.projectBySlug)
-            return Observable.of({
-              type: actions.ASSETS_FETCH_SUCCESS,
-              payload: {
-                items,
-                isCurrentUserTheAuthor,
-                isLoading: false,
-                error: false
-              }
-            })
-          })
-          .catch(handleError)
+        const { listItems = [], user: { id } = {}, isPublic } = watchlist
+        const items = listItems.map(asset => asset.project)
+        const isCurrentUserTheAuthor = store.getState().user.data.id === id
+
+        return Observable.of({
+          type: actions.ASSETS_FETCH_SUCCESS,
+          payload: {
+            items,
+            isCurrentUserTheAuthor,
+            isLoading: false,
+            error: false,
+            isPublicWatchlist: isPublic
+          }
+        }).catch(handleError)
       })
-    )
+    })
 
 export const fetchAssetsFromListWithEditEpic = action$ =>
   action$

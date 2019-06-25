@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-const generalData = gql`
+export const generalData = gql`
   fragment generalData on Project {
     id
     name
@@ -20,7 +20,7 @@ const ethereumData = gql`
   }
 `
 
-const project = gql`
+export const project = gql`
   fragment project on Project {
     rank
     marketSegment

@@ -1,4 +1,5 @@
 import gql from 'graphql-tag'
+import { generalData, project } from '../../pages/Projects/allProjectsGQL'
 
 export const WatchlistGQL = gql`
   query fetchUserLists {
@@ -70,4 +71,24 @@ export const FEATURED_WATCHLIST_QUERY = gql`
       updatedAt
     }
   }
+`
+
+export const WATCHLIST_QUERY = gql`
+  query watchlist($id: Int!) {
+    watchlist(id: $id) {
+      name
+      user {
+        id
+      }
+      isPublic
+      listItems {
+        project {
+          ...generalData
+          ...project
+        }
+      }
+    }
+  }
+  ${generalData}
+  ${project}
 `

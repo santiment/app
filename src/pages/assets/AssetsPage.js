@@ -16,7 +16,9 @@ import HelpPopupAssets from './HelpPopupAssets'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import WidgetSonar from '../../components/Widget/WidgetSonar'
 import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
+import WatchlistPrivateSection from '../../components/Watchlists/WatchlistPrivateSection'
 import WatchlistContextMenu from './WatchlistContextMenu'
+import PageLoader from '../../components/Loader/PageLoader'
 import EmptySection from '../../components/EmptySection/EmptySection'
 import WatchlistEdit from '../../components/WatchlistEdit/WatchlistEdit'
 
@@ -87,6 +89,8 @@ const AssetsPage = props => {
                 )}
               </div>
             </div>
+            {Assets.isLoading && <PageLoader />}
+
             {Assets.items.length > 0 && (
               <>
                 <WidgetSonar
@@ -101,6 +105,19 @@ const AssetsPage = props => {
                   listName={getTableTitle(props)}
                 />
               </>
+            )}
+            {!Assets.isLoading &&
+              !Assets.isCurrentUserTheAuthor &&
+              !Assets.isPublicWatchlist && <WatchlistPrivateSection />}
+            {!Assets.isLoading &&
+              Assets.items.length === 0 &&
+              !Assets.isCurrentUserTheAuthor &&
+              Assets.isPublicWatchlist && (
+              <EmptySection imgClassName={styles.img}>
+                <Label accent='mirage' className={styles.emptyText}>
+                    This watchlist is empty
+                </Label>
+              </EmptySection>
             )}
             {!Assets.isLoading &&
               Assets.items.length === 0 &&
