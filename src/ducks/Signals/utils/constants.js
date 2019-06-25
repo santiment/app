@@ -363,11 +363,13 @@ export const FREQUENCY_VALUES = [
 ]
 
 export const PREVIEWS_TIMERANGE_BY_TYPE = {
-  daily_active_addresses: '3m',
-  price_absolute_change: '3m',
-  price_percent_change: '3m',
-  price_volume_difference: '6m'
+  daily_active_addresses: '90d',
+  price_absolute_change: '90d',
+  price_percent_change: '90d',
+  price_volume_difference: '180d'
 }
+
+export const PREVIEWS_TIMERANGE_MAPS_BY_TYPE = {}
 
 export const TIME_WINDOW_UNITS = [
   { value: 'd', label: 'Days' },

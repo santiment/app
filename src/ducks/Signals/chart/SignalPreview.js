@@ -4,10 +4,9 @@ import { Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartMetrics from '../../SANCharts/ChartMetrics'
 import VisualBacktestChart from '../VisualBacktestChart'
-import { getMetricsByType } from '../utils/utils'
+import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
 import styles from './SignalPreview.module.scss'
 import { Bar } from 'recharts'
-import { PREVIEWS_TIMERANGE_BY_TYPE } from '../utils/constants'
 
 const CUSTOM_METRICS = {
   customDailyActiveAdresses: {
@@ -31,7 +30,7 @@ const SignalPreview = ({ points = [], target, type }) => {
     0
   )
 
-  const timeRange = PREVIEWS_TIMERANGE_BY_TYPE[type] || '3m'
+  const timeRange = getTimeRangeForChart(type)
 
   return (
     <Fragment>

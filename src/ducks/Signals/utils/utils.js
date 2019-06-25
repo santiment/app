@@ -393,53 +393,58 @@ export const getMetricsByType = type => {
   }
 }
 
+export const getTimeRangeForChart = type => {
+  return PREVIEWS_TIMERANGE_BY_TYPE[type] || '90d'
+}
+
 export const mapValuesToTriggerProps = formProps => {
   const {
     type,
     percentThreshold,
     target,
-    metric,
     threshold,
-    cooldown
+    timeWindow,
+    timeWindowUnit
   } = formProps
 
-  let time_window = PREVIEWS_TIMERANGE_BY_TYPE[type.value] || '3m'
   const cooldownParams = getCooldownParams(formProps)
-
   return {
-    cooldown: cooldown || cooldownParams.cooldown,
+    cooldown: cooldownParams.cooldown,
     settings: (() => {
       const metricType = type ? type.metric : undefined
 
       const slug = { slug: target.value }
 
-      const defaultValue = {
-        target: slug,
-        type: metricType,
-        percent_threshold: percentThreshold,
-        time_window: time_window
-      }
-
-      if (!metric) {
-        return defaultValue
-      }
-
-      switch (metric.value) {
-        case DAILY_ACTIVE_ADDRESSES:
-          return {
-            target: slug,
-            type: metricType,
-            time_window: time_window,
-            percent_threshold: percentThreshold
-          }
+      switch (metricType) {
         case PRICE_VOLUME_DIFFERENCE:
           return {
             target: slug,
             type: metricType,
             threshold: threshold
           }
+        case PRICE_ABSOLUTE_CHANGE:
+          return {
+            target: slug,
+            type: metricType,
+            threshold: threshold,
+            operation: getTriggerOperation(formProps)
+          }
         default:
-          return defaultValue
+          let time_window = getTimeRangeForChart(type.value)
+
+          if (timeWindow && timeWindowUnit) {
+            time_window = timeWindow + timeWindowUnit.value
+          }
+
+          const operation = getTriggerOperation(formProps)
+
+          return {
+            target: slug,
+            type: metricType,
+            percent_threshold: percentThreshold,
+            time_window: time_window,
+            operation: operation
+          }
       }
     })()
   }
