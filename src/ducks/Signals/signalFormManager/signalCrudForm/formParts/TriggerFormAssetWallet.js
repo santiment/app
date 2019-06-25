@@ -29,7 +29,7 @@ export const TriggerFormAssetWallet = ({
     <div className={styles.row}>
       {!isEthWallet && (
         <div className={styles.Field}>
-          <label>Type</label>
+          <div className={styles.label}>Type</div>
           <FormikSelect
             name='signalType'
             isDisabled={defaultSignalType.isDisabled}
@@ -41,13 +41,13 @@ export const TriggerFormAssetWallet = ({
       )}
       {isEthWallet && (
         <div className={styles.Field}>
-          <label>Wallet</label>
+          <div className={styles.label}>Wallet</div>
           <FormikInput name='ethAddress' placeholder='Wallet address' />
         </div>
       )}
 
       <div className={styles.Field}>
-        <label>&nbsp;</label>
+        <div className={styles.label}>&nbsp;</div>
         <FormikSelect
           name='target'
           isDisabled={defaultAsset.isDisabled}

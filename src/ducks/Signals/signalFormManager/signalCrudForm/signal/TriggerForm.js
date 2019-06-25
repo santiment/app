@@ -190,12 +190,6 @@ export const TriggerForm = ({
                   absoluteBorderRight={absoluteBorderRight}
                 />
 
-                {showChart && (
-                  <div className={cx(styles.row, styles.signalPreview)}>
-                    <SignalPreview target={target.value} type={type.metric} />
-                  </div>
-                )}
-
                 <TriggerFormFrequency
                   metaFormSettings={metaFormSettings}
                   setFieldValue={setFieldValue}
@@ -204,34 +198,36 @@ export const TriggerForm = ({
                   frequencyTimeType={frequencyTimeType}
                 />
 
-                <div className={styles.row}>
-                  <div className={styles.Field}>
-                    <div className={styles.isRepeating}>
-                      <Checkbox
-                        isActive={isRepeating}
-                        name='isRepeating'
-                        className={styles.repeatingItem}
-                        onClick={() => {
-                          setFieldValue('isRepeating', !isRepeating)
-                        }}
-                      />
-                      <span
-                        className={styles.repeatingItem}
-                        onClick={() => {
-                          setFieldValue('isRepeating', !isRepeating)
-                        }}
-                      >
-                        {isRepeating
-                          ? 'Task never ends'
-                          : 'Task fires only once'}
-                      </span>
-                    </div>
+                {showChart && (
+                  <div className={cx(styles.row, styles.signalPreview)}>
+                    <SignalPreview target={target.value} type={type.metric} />
+                  </div>
+                )}
+
+                <div className={cx(styles.row, styles.isRepeatingRow)}>
+                  <div className={styles.isRepeating}>
+                    <Checkbox
+                      isActive={isRepeating}
+                      name='isRepeating'
+                      className={styles.repeatingItem}
+                      onClick={() => {
+                        setFieldValue('isRepeating', !isRepeating)
+                      }}
+                    />
+                    <span
+                      className={styles.repeatingItem}
+                      onClick={() => {
+                        setFieldValue('isRepeating', !isRepeating)
+                      }}
+                    >
+                      {isRepeating ? 'Task never ends' : 'Task fires only once'}
+                    </span>
                   </div>
                 </div>
 
                 <div className={styles.row}>
                   <div className={styles.Field}>
-                    <label>Notify me via</label>
+                    <label className={styles.label}>Notify me via</label>
                     <div className={styles.notifyBlock}>
                       <FormikCheckboxes
                         name='channels'

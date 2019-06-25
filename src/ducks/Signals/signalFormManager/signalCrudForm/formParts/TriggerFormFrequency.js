@@ -36,7 +36,7 @@ export const TriggerFormFrequency = ({
   return (
     <div className={styles.row}>
       <div className={styles.Field}>
-        <label>Frequency of notifications</label>
+        <div className={styles.label}>Frequency of notifications</div>
         <FormikSelect
           name='frequencyType'
           isClearable={false}
@@ -58,7 +58,7 @@ export const TriggerFormFrequency = ({
         />
       </div>
       <div className={styles.Field}>
-        <label>&nbsp;</label>
+        <div className={styles.label}>&nbsp;</div>
         <div className={styles.frequency}>
           <FormikSelect
             name='frequencyTimeValue'

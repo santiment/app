@@ -24,7 +24,7 @@ export const TriggerFormMetricTypes = ({
   return (
     <div className={styles.row}>
       <div className={styles.Field}>
-        <label>Metrics</label>
+        <div className={styles.label}>Metrics</div>
         <div>
           <FormikSelect
             name='metric'
@@ -44,7 +44,7 @@ export const TriggerFormMetricTypes = ({
       </div>
       {!metric.hidden && typeSelectors && typeSelectors.length > 1 && (
         <div className={styles.Field}>
-          <label>&nbsp;</label>
+          <div className={styles.label}>&nbsp;</div>
           <FormikSelect
             name='type'
             isClearable={false}

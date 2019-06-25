@@ -34,7 +34,7 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
         <Form className={styles.AboutForm}>
           <div className={styles.row}>
             <div className={styles.Field}>
-              <label>Name of the signal</label>
+              <div className={styles.label}>Name of the signal</div>
               <FormikInput
                 name='title'
                 type='text'
@@ -51,7 +51,9 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
 
           <div className={styles.row}>
             <div className={styles.Field}>
-              <label>Description ({description.length}/140)</label>
+              <div className={styles.label}>
+                Description ({description.length}/140)
+              </div>
               <FormikInput
                 name='description'
                 type='text'
