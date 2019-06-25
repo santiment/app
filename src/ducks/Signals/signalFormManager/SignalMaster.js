@@ -176,7 +176,6 @@ export class SignalMaster extends React.PureComponent {
 
 const mapDispatchToProps = dispatch => ({
   createTrigger: payload => {
-    console.log(JSON.stringify(payload))
     dispatch(createTrigger(payload))
   },
   updateTrigger: payload => {

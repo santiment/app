@@ -24,7 +24,7 @@ import {
 } from '../../../utils/constants'
 import {
   couldShowChart,
-  mapValuesToTriggerProps,
+  mapFormPropsToTrigger,
   validateTriggerForm
 } from '../../../utils/utils'
 import { TriggerFormAssetWallet } from '../formParts/TriggerFormAssetWallet'
@@ -85,7 +85,7 @@ export const TriggerForm = ({
 
   useEffect(() => {
     couldShowChart(initialValues.metric) &&
-      getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
+      getSignalBacktestingPoints(initialValues)
   }, [])
 
   const showTriggerFunc = () => {
@@ -155,7 +155,7 @@ export const TriggerForm = ({
                 newValues.target &&
                   !isError &&
                   canLoadChart &&
-                  getSignalBacktestingPoints(mapValuesToTriggerProps(newValues))
+                  getSignalBacktestingPoints(newValues)
               }
             }}
           />
@@ -283,7 +283,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getSignalBacktestingPoints: payload => {
-    dispatch(fetchHistorySignalPoints(payload))
+    const trigger = mapFormPropsToTrigger(payload)
+
+    dispatch(fetchHistorySignalPoints(trigger))
   },
   removeSignal: id => {
     dispatch(removeTrigger(id))

@@ -397,59 +397,6 @@ export const getTimeRangeForChart = type => {
   return PREVIEWS_TIMERANGE_BY_TYPE[type] || '90d'
 }
 
-export const mapValuesToTriggerProps = formProps => {
-  const {
-    type,
-    percentThreshold,
-    target,
-    threshold,
-    timeWindow,
-    timeWindowUnit
-  } = formProps
-
-  const cooldownParams = getCooldownParams(formProps)
-  return {
-    cooldown: cooldownParams.cooldown,
-    settings: (() => {
-      const metricType = type ? type.metric : undefined
-
-      const slug = { slug: target.value }
-
-      switch (metricType) {
-        case PRICE_VOLUME_DIFFERENCE:
-          return {
-            target: slug,
-            type: metricType,
-            threshold: threshold
-          }
-        case PRICE_ABSOLUTE_CHANGE:
-          return {
-            target: slug,
-            type: metricType,
-            threshold: threshold,
-            operation: getTriggerOperation(formProps)
-          }
-        default:
-          let time_window = getTimeRangeForChart(type.value)
-
-          if (timeWindow && timeWindowUnit) {
-            time_window = timeWindow + timeWindowUnit.value
-          }
-
-          const operation = getTriggerOperation(formProps)
-
-          return {
-            target: slug,
-            type: metricType,
-            percent_threshold: percentThreshold,
-            time_window: time_window,
-            operation: operation
-          }
-      }
-    })()
-  }
-}
-
 export const getNearestTypeByMetric = metric => {
   switch (metric.value) {
     case ETH_WALLET_METRIC.value: {
