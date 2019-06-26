@@ -8,7 +8,7 @@ import {
 } from './../pages/Projects/allProjectsGQL'
 import {
   projectsByFunctionBigGQL,
-  WATCHLIST_QUERY
+  watchlistGQL
 } from './../components/WatchlistPopup/WatchlistGQL.js'
 import * as actions from './../actions/types'
 
@@ -89,20 +89,16 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
       ({ payload: { type } }) => type === 'list' || type === 'list#shared'
     )
     .mergeMap(({ payload: { list } }) => {
-      console.log('list: ', list)
       return Observable.from(
-        list.function
-          ? client.query({
-            query: projectsByFunctionBigGQL,
-            variables: { function: list.function }
-          })
-          : client.query({
-            query: WATCHLIST_QUERY,
-            variables: { id: list.id },
-            context: { isRetriable: true }
-          })
+        client.watchQuery({
+          query: list.function ? projectsByFunctionBigGQL : watchlistGQL,
+          variables: list.function
+            ? { function: list.function }
+            : { id: list.id },
+          context: { isRetriable: true },
+          fetchPolicy: 'network-only'
+        })
       ).concatMap(({ data }) => {
-        console.log(data)
         const { watchlist } = data
         if (!watchlist && !list.function) {
           return Observable.of({

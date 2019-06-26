@@ -110,21 +110,21 @@ const AssetsPage = props => {
               !Assets.isCurrentUserTheAuthor &&
               !Assets.isPublicWatchlist && <WatchlistPrivateSection />}
             {!Assets.isLoading &&
-              Assets.items.length === 0 &&
               !Assets.isCurrentUserTheAuthor &&
-              Assets.isPublicWatchlist && (
+              Assets.isPublicWatchlist &&
+              Assets.items.length === 0 && (
               <EmptySection imgClassName={styles.img}>
-                <Label accent='mirage' className={styles.emptyText}>
+                <Label className={styles.emptyText}>
                     This watchlist is empty
                 </Label>
               </EmptySection>
             )}
             {!Assets.isLoading &&
-              Assets.items.length === 0 &&
-              Assets.isCurrentUserTheAuthor && (
+              Assets.isCurrentUserTheAuthor &&
+              Assets.items.length === 0 && (
               <div className={styles.emptyWrapper}>
                 <EmptySection imgClassName={styles.img}>
-                  <Label accent='mirage' className={styles.emptyText}>
+                  <Label className={styles.emptyText}>
                       Start to add assets you want to track or just interested
                       in
                   </Label>

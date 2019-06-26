@@ -106,43 +106,6 @@ export const currenciesGQL = gql`
   ${project}
 `
 
-export const allErc20ShortProjectsGQL = gql`
-  query allErc20Projects {
-    allErc20Projects {
-      ...generalData
-      rank
-      ethSpent
-      coinmarketcapId
-      marketcapUsd
-      fundsRaisedIcos {
-        amount
-        currencyCode
-      }
-    }
-  }
-  ${generalData}
-`
-
-export const allShortProjectsGQL = gql`
-  {
-    allProjects {
-      id
-      name
-      rank
-      ethSpent
-      coinmarketcapId
-      marketcapUsd
-      fundsRaisedIcos {
-        amount
-        currencyCode
-      }
-      ethAddresses {
-        address
-      }
-    }
-  }
-`
-
 export const allMarketSegmentsGQL = gql`
   {
     allMarketSegments {

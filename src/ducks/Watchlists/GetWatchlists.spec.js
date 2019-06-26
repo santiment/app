@@ -1,10 +1,9 @@
 /* eslint-env jest */
 import React from 'react'
-import { shallow, mount, render } from 'enzyme'
-import { Provider } from 'react-redux'
+import { mount } from 'enzyme'
 import { MockedProvider } from 'react-apollo/test-utils'
 import configureStore from 'redux-mock-store'
-import { WatchlistGQL } from './../../components/WatchlistPopup/WatchlistGQL'
+import { allWatchlistsGQL } from './../../components/WatchlistPopup/WatchlistGQL'
 import GetWatchlists from './GetWatchlists'
 
 const mockedData = {
@@ -22,9 +21,7 @@ const mockedData = {
   }))
 }
 
-const query = WatchlistGQL
-
-const mocks = [{ request: { query }, result: { data: mockedData } }]
+const mocks = [{ request: { allWatchlistsGQL }, result: { data: mockedData } }]
 
 const wait = (amount = 0) => new Promise(resolve => setTimeout(resolve, amount))
 

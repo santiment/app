@@ -1,6 +1,6 @@
 import Raven from 'raven-js'
 import { Observable } from 'rxjs'
-import { WatchlistGQL } from '../WatchlistPopup/WatchlistGQL'
+import { allWatchlistsGQL, watchlistGQL } from '../WatchlistPopup/WatchlistGQL'
 import { updateUserListGQL } from './updateWatchlistQGL'
 import * as actions from '../../actions/types'
 
@@ -13,15 +13,7 @@ export const editAssetsInWatchlistEpic = (action$, store, { client }) =>
       }))
       const userListUpdate = client.mutate({
         mutation: updateUserListGQL,
-        variables: { id: +assetsListId, listItems: normalizedListItems },
-        update: (store, { data: { updateUserList } }) => {
-          const data = store.readQuery({ query: WatchlistGQL })
-          const index = data.fetchUserLists.findIndex(
-            ({ id }) => id === updateUserList.id
-          )
-          data.fetchUserLists[index] = updateUserList
-          store.writeQuery({ query: WatchlistGQL, data })
-        }
+        variables: { id: +assetsListId, listItems: normalizedListItems }
       })
       return Observable.from(userListUpdate)
         .mergeMap(() =>
@@ -52,12 +44,12 @@ export const addAssetToWatchlistEpic = (action$, store, { client }) =>
         mutation: updateUserListGQL,
         variables: { id: +assetsListId, listItems: newListItems },
         update: (store, { data: { updateUserList } }) => {
-          const data = store.readQuery({ query: WatchlistGQL })
+          const data = store.readQuery({ query: watchlistGQL })
           const index = data.fetchUserLists.findIndex(
             ({ id }) => id === updateUserList.id
           )
           data.fetchUserLists[index] = updateUserList
-          store.writeQuery({ query: WatchlistGQL, data })
+          store.writeQuery({ query: watchlistGQL, data })
         }
       })
       return Observable.from(userListUpdate)
@@ -90,12 +82,12 @@ export const removeAssetFromWatchlistEpic = (action$, store, { client }) =>
         mutation: updateUserListGQL,
         variables: { listItems: newListItems, id: +assetsListId },
         update: (store, { data: { updateUserList } }) => {
-          const data = store.readQuery({ query: WatchlistGQL })
+          const data = store.readQuery({ query: allWatchlistsGQL })
           const index = data.fetchUserLists.findIndex(
             ({ id }) => id === updateUserList.id
           )
           data.fetchUserLists[index] = updateUserList
-          store.writeQuery({ query: WatchlistGQL, data })
+          store.writeQuery({ query: allWatchlistsGQL, data })
         }
       })
       return Observable.from(mutationPromise)
