@@ -39,6 +39,16 @@ const tabs = [
   }
 ]
 
+const LoadableSignalDetailsPage = Loadable({
+  loader: () => import('./SignalDetails'),
+  loading: () => <PageLoader />
+})
+
+const LoadableEditSignalPage = Loadable({
+  loader: () => import('./SonarFeedMySignalsPage'),
+  loading: () => <PageLoader />
+})
+
 const SonarFeed = ({ location: { pathname }, isLoggedIn, match }) => {
   if (pathname === baseLocation) {
     return <Redirect exact from={baseLocation} to={tabs[0].index} />
@@ -89,25 +99,18 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn, match }) => {
           <Route
             path={`${baseLocation}/details/:id`}
             exact
-            component={Loadable({
-              loader: () => import('./SignalDetails'),
-              loading: () => <PageLoader />
-            })}
+            render={props => <LoadableSignalDetailsPage {...props} />}
           />
           ,
           <Route
             path={detailsModalLocation}
             exact
-            component={Loadable({
-              loader: () => import('./SonarFeedMySignalsPage'),
-              loading: () => <PageLoader />,
-              render: (loaded, props) => (
-                <loaded.default
-                  setLoadingSignalId={setLoadingSignalId}
-                  {...props}
-                />
-              )
-            })}
+            render={props => (
+              <LoadableEditSignalPage
+                setLoadingSignalId={setLoadingSignalId}
+                {...props}
+              />
+            )}
           />
           }
         </Switch>
