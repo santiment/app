@@ -4,7 +4,7 @@ import { shallow, mount, render } from 'enzyme'
 import { Provider } from 'react-redux'
 import { MockedProvider } from 'react-apollo/test-utils'
 import configureStore from 'redux-mock-store'
-import { ALL_WATCHLISTS_QUERY } from './../../components/WatchlistPopup/WatchlistGQL'
+import { ALL_WATCHLISTS_QUERY } from '../../queries/WatchlistGQL'
 import GetWatchlists from './GetWatchlists'
 
 const mockedData = {

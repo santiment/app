@@ -9,7 +9,7 @@ import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import {
   projectsByFunctionShortGQL,
   publicWatchlistGQL
-} from './../../components/WatchlistPopup/WatchlistGQL'
+} from '../../queries/WatchlistGQL'
 import { mapItemsToKeys } from '../../utils/utils'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'

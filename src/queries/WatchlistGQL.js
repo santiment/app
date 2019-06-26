@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { generalData, project } from '../../pages/Projects/allProjectsGQL'
+import { generalData, project } from '../pages/Projects/allProjectsGQL'
 
 export const ALL_WATCHLISTS_QUERY = gql`
   query fetchUserLists {

@@ -2,7 +2,7 @@ import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
-import { ALL_WATCHLISTS_QUERY } from './../components/WatchlistPopup/WatchlistGQL'
+import { ALL_WATCHLISTS_QUERY } from '../queries/WatchlistGQL'
 import * as actions from './../actions/types'
 import { completeOnboardingTask } from '../pages/Dashboard/utils'
 

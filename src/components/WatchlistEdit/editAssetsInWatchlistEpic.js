@@ -5,7 +5,7 @@ import { updateUserListGQL } from './updateWatchlistQGL'
 import {
   ALL_WATCHLISTS_QUERY,
   WATCHLIST_QUERY
-} from '../WatchlistPopup/WatchlistGQL'
+} from '../../queries/WatchlistGQL'
 
 export const editAssetsInWatchlistEpic = (action$, store, { client }) =>
   action$

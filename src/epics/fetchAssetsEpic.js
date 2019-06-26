@@ -9,7 +9,7 @@ import {
 import {
   projectsByFunctionBigGQL,
   WATCHLIST_QUERY
-} from './../components/WatchlistPopup/WatchlistGQL.js'
+} from '../queries/WatchlistGQL.js'
 import * as actions from './../actions/types'
 
 const handleError = error => {
@@ -128,7 +128,7 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
             isCurrentUserTheAuthor,
             isLoading: false,
             error: false,
-            isPublicWatchlist: list.function ? true : watchlist.isPublic
+            isPublicWatchlist: list.function || watchlist.isPublic
           }
         }).catch(handleError)
       })
