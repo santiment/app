@@ -1,7 +1,9 @@
 import React from 'react'
-import { Label, Panel, Icon } from '@santiment-network/ui'
+import { Label, Panel, Icon, Button } from '@santiment-network/ui'
 import cx from 'classnames'
 import { getOnboardingCompletedTasks } from './utils'
+import NewWatchlistDialog from '../../components/Watchlists/NewWatchlistDialog'
+import Image from './hand.svg'
 import styles from './DashboardPageOnboard.module.scss'
 
 const useShown = () => {
@@ -16,7 +18,7 @@ const useShown = () => {
 }
 
 const Task = ({ title, text, icon, iconClassName, isCompleted }) => (
-  <Panel className={styles.task}>
+  <Panel className={cx(styles.task, !isCompleted && styles.selectable)}>
     <div className={styles.task__icon}>
       <Icon type={icon} className={iconClassName} />
     </div>
@@ -42,21 +44,37 @@ const DashboardPageOnboard = () => {
         <Label onClick={setShown} className={styles.skip} accent='casper'>
           Skip for now
         </Label>
-        <div className={styles.text}>
-          <div className={styles.title}>Great to have you on board!</div>
-          <div className={styles.subtitle}>
-            You are on your way to better crypto analysis.
-            <br />
-            Feel free to explore and test our features
+        <div className={styles.top}>
+          <img
+            src={Image}
+            alt='hello icon'
+            width='60'
+            height='60'
+            className={styles.hand}
+          />
+          <div className={styles.text}>
+            <div className={styles.title}>Great to have you on board!</div>
+            <div className={styles.subtitle}>
+              You are on your way to better crypto analysis
+            </div>
           </div>
         </div>
         <div className={styles.tasks}>
-          <Task
-            icon='eye'
-            title='Create your first watchlist'
-            text='You can track your selected assets in one place and check the
-          information'
-            isCompleted={completedTasks.includes('watchlist')}
+          <NewWatchlistDialog
+            trigger={
+              <Button
+                className={styles.button}
+                disabled={completedTasks.includes('watchlist')}
+              >
+                <Task
+                  icon='eye'
+                  title='Create your first watchlist'
+                  text='You can track your selected assets in one place and check it’s status'
+                  isCompleted={completedTasks.includes('watchlist')}
+                />
+              </Button>
+            }
+            watchlists={[]}
           />
           <Task
             icon='connection'

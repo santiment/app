@@ -100,6 +100,7 @@ const handleEthLogin = (action$, store, { client }) =>
         .mergeMap(({ data }) => {
           const { token, user } = data.ethLogin
           savePrevAuthProvider('metamask')
+          completeOnboardingTask('metamask')
           return Observable.of({
             type: actions.USER_LOGIN_SUCCESS,
             token,

@@ -1,7 +1,11 @@
+@import "~@santiment-network/ui/mixins";
+
 .wrapper {
   position: relative;
   padding: 28px 24px 24px;
   margin-bottom: 70px;
+  background-color: var(--jungle-green-light);
+  background-image: url('./waves.svg');
 }
 
 .skip {
@@ -9,39 +13,76 @@
   position: absolute;
   top: 16px;
   right: 20px;
+  color: var(--waterloo);
+
+  @include text('body-3');
+
+  &:hover {
+    color: var(--mirage);
+  }
+}
+
+.top {
+  display: flex;
+}
+
+.hand {
+  animation: rotation 2s infinite ease-in-out;
+  transform-origin: 100% 100%;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(10deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 .text {
-  text-align: center;
+  margin-left: 24px;
+  text-align: left;
 }
 
 .title {
-  font-size: 22px;
-  line-height: 30px;
   color: var(--mirage);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
+
+  @include text('h4');
 }
 
 .subtitle {
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--casper);
+  color: var(--waterloo);
   margin-bottom: 8px;
+
+  @include text('body-2');
 }
 
 .tasks {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  margin-top: 24px;
+
+  @include grid-wrap(2);
 }
 
-$margin-between-cards: 24px;
+.button {
+  height: 100%;
+  padding: 0;
+  background: inherit;
+  cursor: default;
+  text-align: left;
+  display: block;
+}
 
 .task {
   position: relative;
   padding: 16px 52px;
-  margin-top: $margin-between-cards;
-  width: calc(50% - #{$margin-between-cards/2});
+  height: 100%;
 
   &__icon {
     display: flex;
@@ -51,21 +92,21 @@ $margin-between-cards: 24px;
     width: 24px;
     height: 24px;
     top: 16px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #f9fafc 0%, #d2d6e7 100%);
     left: 16px;
-    fill: var(--casper);
+    fill: var(--mirage);
   }
 
   &__title {
-    font-size: 16px;
-    line-height: 24px;
     color: var(--mirage);
     margin-bottom: 8px;
+
+    @include text('body-2');
   }
 
   &__text {
     color: var(--waterloo);
+
+    @include text('body-3');
   }
 
   &__state {
@@ -87,6 +128,16 @@ $margin-between-cards: 24px;
       background: var(--jungle-green-light);
       border: 0;
     }
+  }
+}
+
+.selectable {
+  cursor: pointer;
+  transition: all ease-in-out 0.1s;
+
+  &:hover {
+    box-shadow: 0 14px 20px rgba(24, 27, 43, 0.06);
+    transform: translateY(-4px);
   }
 }
 
