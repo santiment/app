@@ -21,7 +21,7 @@ exports[`TriggerForm EthWallet smoke 1`] = `
         "disabledMetrics": Array [
           "daily_active_addresses",
         ],
-        "label": "Once Per",
+        "label": "No more than once per",
         "value": "onceper",
       },
       "isRepeating": true,
@@ -82,7 +82,7 @@ exports[`TriggerForm smoke 1`] = `
         "disabledMetrics": Array [
           "daily_active_addresses",
         ],
-        "label": "Once Per",
+        "label": "No more than once per",
         "value": "onceper",
       },
       "isRepeating": true,
