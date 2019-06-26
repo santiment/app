@@ -2,7 +2,7 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import qs from 'query-string'
 import { CSVLink } from 'react-csv'
-import { Button, Label } from '@santiment-network/ui'
+import { Button } from '@santiment-network/ui'
 import { getOrigin } from '../../utils/utils'
 import {
   getHelmetTags,
@@ -16,11 +16,9 @@ import HelpPopupAssets from './HelpPopupAssets'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import WidgetSonar from '../../components/Widget/WidgetSonar'
 import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
-import WatchlistPrivateSection from '../../components/Watchlists/WatchlistPrivateSection'
 import WatchlistContextMenu from './WatchlistContextMenu'
+import AssetsTemplates from './AssetsTemplates'
 import PageLoader from '../../components/Loader/PageLoader'
-import EmptySection from '../../components/EmptySection/EmptySection'
-import WatchlistEdit from '../../components/WatchlistEdit/WatchlistEdit'
 
 import styles from '../../components/Watchlists/Watchlist.module.scss'
 import './Assets.css'
@@ -41,112 +39,89 @@ const AssetsPage = props => {
       <GetAssets
         {...props}
         type={props.type}
-        render={Assets => (
-          <>
-            <div className='page-head page-head-projects'>
-              <div className='page-head-projects__left'>
-                <h1 className={styles.heading}>{getTableTitle(props)}</h1>
-                <HelpPopupAssets />
-              </div>
-              <div className='page-head-projects__right'>
-                {isList && props.location.hash !== '#shared' && (
-                  <>
-                    <ShareModalTrigger
-                      shareLink={window.location.href + '#shared'}
-                    />
-                    {Assets.isCurrentUserTheAuthor && (
-                      <WatchlistEditTrigger
-                        name={getTableTitle(props)}
-                        id={Assets.typeInfo.listId}
-                        assets={Assets.items}
+        render={Assets => {
+          const title = getTableTitle(props)
+          const {
+            typeInfo: { listId },
+            isLoading,
+            isCurrentUserTheAuthor,
+            isPublicWatchlist,
+            items
+          } = Assets
+          return (
+            <>
+              <div className='page-head page-head-projects'>
+                <div className='page-head-projects__left'>
+                  <h1 className={styles.heading}>{title}</h1>
+                  <HelpPopupAssets />
+                </div>
+                <div className='page-head-projects__right'>
+                  {isList && props.location.hash !== '#shared' && (
+                    <>
+                      <ShareModalTrigger
+                        shareLink={window.location.href + '#shared'}
                       />
-                    )}
-                  </>
-                )}
+                      {isCurrentUserTheAuthor && (
+                        <WatchlistEditTrigger
+                          name={title}
+                          id={listId}
+                          assets={items}
+                        />
+                      )}
+                    </>
+                  )}
 
-                {!isList &&
-                  isNotSafari &&
-                  Assets.items &&
-                  Assets.items.length > 0 && (
-                  <CSVLink
-                    data={normalizeCSV(Assets.items)}
-                    filename={`${getTableTitle(props)}.csv`}
-                    target='_blank'
-                  >
-                    <Button variant='flat' isActive>
+                  {!isList && isNotSafari && items && items.length > 0 && (
+                    <CSVLink
+                      data={normalizeCSV(items)}
+                      filename={`${title}.csv`}
+                      target='_blank'
+                    >
+                      <Button variant='flat' isActive>
                         Download CSV
-                    </Button>
-                  </CSVLink>
-                )}
-                {isList && (
-                  <WatchlistContextMenu
-                    isAuthor={Assets.isCurrentUserTheAuthor}
-                    id={Assets.typeInfo.listId}
-                    assets={Assets.items}
-                    type={props.type}
-                    location={props.location}
-                  />
-                )}
-              </div>
-            </div>
-            {Assets.isLoading && <PageLoader />}
-
-            {Assets.items.length > 0 && (
-              <>
-                <WidgetSonar
-                  className='assets-table-widget-wrapper'
-                  type={props.type}
-                  listName={getTableTitle(props)}
-                />
-                <AssetsTable
-                  Assets={Assets}
-                  goto={props.history.push}
-                  preload={props.preload}
-                  listName={getTableTitle(props)}
-                />
-              </>
-            )}
-            {!Assets.isLoading &&
-              !Assets.isCurrentUserTheAuthor &&
-              !Assets.isPublicWatchlist && <WatchlistPrivateSection />}
-            {!Assets.isLoading &&
-              !Assets.isCurrentUserTheAuthor &&
-              Assets.isPublicWatchlist &&
-              Assets.items.length === 0 && (
-              <EmptySection imgClassName={styles.img}>
-                <Label className={styles.emptyText}>
-                    This watchlist is empty
-                </Label>
-              </EmptySection>
-            )}
-            {!Assets.isLoading &&
-              Assets.isCurrentUserTheAuthor &&
-              Assets.items.length === 0 && (
-              <div className={styles.emptyWrapper}>
-                <EmptySection imgClassName={styles.img}>
-                  <Label className={styles.emptyText}>
-                      Start to add assets you want to track or just interested
-                      in
-                  </Label>
-                  <WatchlistEdit
-                    name={getTableTitle(props)}
-                    id={Assets.typeInfo.listId}
-                    assets={Assets.items}
-                    trigger={
-                      <Button
-                        accent='positive'
-                        variant='fill'
-                        className={styles.emptyBtn}
-                      >
-                          Add assets
                       </Button>
-                    }
-                  />
-                </EmptySection>
+                    </CSVLink>
+                  )}
+                  {isList && (
+                    <WatchlistContextMenu
+                      isAuthor={isCurrentUserTheAuthor}
+                      id={listId}
+                      assets={items}
+                      type={props.type}
+                      location={props.location}
+                    />
+                  )}
+                </div>
               </div>
-            )}
-          </>
-        )}
+              {isLoading && <PageLoader />}
+
+              {items.length > 0 && (
+                <>
+                  <WidgetSonar
+                    className='assets-table-widget-wrapper'
+                    type={props.type}
+                    listName={title}
+                  />
+                  <AssetsTable
+                    Assets={Assets}
+                    goto={props.history.push}
+                    preload={props.preload}
+                    listName={title}
+                  />
+                </>
+              )}
+              {!isLoading && (
+                <AssetsTemplates
+                  items={items}
+                  isAuthor={isCurrentUserTheAuthor}
+                  isPublic={isPublicWatchlist}
+                  listId={listId}
+                  title={title}
+                />
+              )}
+            </>
+          )
+        }}
       />
     </div>
   )
