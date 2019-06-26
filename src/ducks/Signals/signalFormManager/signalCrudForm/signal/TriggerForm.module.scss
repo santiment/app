@@ -5,7 +5,7 @@ $trigger-form-width: 496px;
 .wrapper {
   width: $trigger-form-width;
   position: relative;
-  padding: 0 20px 20px 20px;
+  padding: 0 20px 20px;
 }
 
 .loading {
@@ -99,14 +99,12 @@ a.connectLink {
 }
 
 .label {
-  margin-bottom: 8px;
-  color: var(--waterloo);
+  margin-bottom: 2px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  font-weight: 500;
-  line-height: 18px;
-  font-size: 12px;
+
+  @include text('caption');
 }
 
 .isRepeatingRow {
@@ -225,12 +223,6 @@ a.connectLink {
 a {
   &:hover {
     fill: var(--jungle-green);
-  }
-}
-
-@include responsive('desktop') {
-  .wrapper {
-    width: 100%;
   }
 }
 

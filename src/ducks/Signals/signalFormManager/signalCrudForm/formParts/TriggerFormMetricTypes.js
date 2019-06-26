@@ -4,6 +4,7 @@ import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSe
 import { getNearestTypeByMetric } from '../../../utils/utils'
 import { METRICS_OPTIONS, PRICE_TYPES } from '../../../utils/constants'
 import styles from '../signal/TriggerForm.module.scss'
+import { Label } from '@santiment-network/ui'
 
 const propTypes = {
   metric: PropTypes.any,
@@ -24,7 +25,9 @@ export const TriggerFormMetricTypes = ({
   return (
     <div className={styles.row}>
       <div className={styles.Field}>
-        <div className={styles.label}>Metrics</div>
+        <Label accent='waterloo' className={styles.label}>
+          Metrics
+        </Label>
         <div>
           <FormikSelect
             name='metric'
@@ -44,7 +47,9 @@ export const TriggerFormMetricTypes = ({
       </div>
       {!metric.hidden && typeSelectors && typeSelectors.length > 1 && (
         <div className={styles.Field}>
-          <div className={styles.label}>&nbsp;</div>
+          <Label accent='waterloo' className={styles.label}>
+            &nbsp;
+          </Label>
           <FormikSelect
             name='type'
             isClearable={false}

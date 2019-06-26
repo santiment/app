@@ -4,6 +4,7 @@ import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSe
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import { ASSETS_FILTERS, ETH_WALLET_METRIC } from '../../../utils/constants'
 import styles from '../signal/TriggerForm.module.scss'
+import { Label } from '@santiment-network/ui'
 
 const propTypes = {
   metaFormSettings: PropTypes.any,
@@ -29,7 +30,9 @@ export const TriggerFormAssetWallet = ({
     <div className={styles.row}>
       {!isEthWallet && (
         <div className={styles.Field}>
-          <div className={styles.label}>Type</div>
+          <Label accent='waterloo' className={styles.label}>
+            Type
+          </Label>
           <FormikSelect
             name='signalType'
             isDisabled={defaultSignalType.isDisabled}
@@ -41,13 +44,13 @@ export const TriggerFormAssetWallet = ({
       )}
       {isEthWallet && (
         <div className={styles.Field}>
-          <div className={styles.label}>Wallet</div>
+          <Label className={styles.label}>Wallet</Label>
           <FormikInput name='ethAddress' placeholder='Wallet address' />
         </div>
       )}
 
       <div className={styles.Field}>
-        <div className={styles.label}>&nbsp;</div>
+        <Label className={styles.label}>&nbsp;</Label>
         <FormikSelect
           name='target'
           isDisabled={defaultAsset.isDisabled}
