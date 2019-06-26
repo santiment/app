@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Button, Icon, Dialog } from '@santiment-network/ui'
-import SignalMaster from '../signalFormManager/SignalMaster'
+import SignalMaster from '../signalFormManager/signalMaster/SignalMaster'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import { push } from 'react-router-redux'
 import { SIGNAL_ROUTES } from '../common/constants'

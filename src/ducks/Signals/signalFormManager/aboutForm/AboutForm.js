@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { Formik, Form } from 'formik'
-import { Button } from '@santiment-network/ui'
+import { Button, Label } from '@santiment-network/ui'
 import FormikInput from '../../../../components/formik-santiment-ui/FormikInput'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
@@ -34,7 +34,9 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
         <Form className={styles.AboutForm}>
           <div className={styles.row}>
             <div className={styles.Field}>
-              <label>Name of the signal</label>
+              <Label accent='waterloo' className={styles.label}>
+                Name of the signal
+              </Label>
               <FormikInput
                 name='title'
                 type='text'
@@ -51,7 +53,9 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
 
           <div className={styles.row}>
             <div className={styles.Field}>
-              <label>Description ({description.length}/140)</label>
+              <Label accent='waterloo' className={styles.label}>
+                Description ({description.length}/140)
+              </Label>
               <FormikInput
                 name='description'
                 type='text'

@@ -24,7 +24,7 @@ import {
 } from '../../../utils/constants'
 import {
   couldShowChart,
-  mapValuesToTriggerProps,
+  mapFormPropsToTrigger,
   validateTriggerForm
 } from '../../../utils/utils'
 import { TriggerFormAssetWallet } from '../formParts/TriggerFormAssetWallet'
@@ -84,8 +84,8 @@ export const TriggerForm = ({
   const showChart = couldShowChart(initialValues.metric)
 
   useEffect(() => {
-    showChart &&
-      getSignalBacktestingPoints(mapValuesToTriggerProps(initialValues))
+    couldShowChart(initialValues.metric) &&
+      getSignalBacktestingPoints(initialValues)
   }, [])
 
   const showTriggerFunc = () => {
@@ -129,31 +129,33 @@ export const TriggerForm = ({
         <Form className={styles.TriggerForm}>
           <FormikEffect
             onChange={(current, prev) => {
+              let { values: newValues } = current
               if (
-                !prev.values.type ||
-                current.values.type.value !== prev.values.type.value
+                !prev.values.metric ||
+                newValues.metric.value !== prev.values.metric.value ||
+                newValues.type.value !== prev.values.type.value
               ) {
-                const newValues = {
-                  ...current.values,
-                  ...METRIC_DEFAULT_VALUES[current.values.type.value]
+                newValues = {
+                  ...METRIC_DEFAULT_VALUES[newValues.type.metric],
+                  ...newValues
                 }
                 setInitialValues(newValues)
                 validateForm()
-                return
               }
 
-              if (!isEqual(current.values, prev.values)) {
-                const lastErrors = validateTriggerForm(current.values)
-                const isError = Object.keys(current.values).some(
+              if (!isEqual(newValues, prev.values)) {
+                const lastErrors = validateTriggerForm(newValues)
+                const isError = Object.keys(newValues).some(
                   key => lastErrors[key]
                 )
 
-                current.values.target &&
+                const canLoadChart =
+                  newValues && couldShowChart(newValues.metric)
+
+                newValues.target &&
                   !isError &&
-                  showChart &&
-                  getSignalBacktestingPoints(
-                    mapValuesToTriggerProps(current.values)
-                  )
+                  canLoadChart &&
+                  getSignalBacktestingPoints(newValues)
               }
             }}
           />
@@ -188,47 +190,44 @@ export const TriggerForm = ({
                   absoluteBorderRight={absoluteBorderRight}
                 />
 
+                <TriggerFormFrequency
+                  metaFormSettings={metaFormSettings}
+                  setFieldValue={setFieldValue}
+                  frequencyType={frequencyType}
+                  metric={type.metric}
+                  frequencyTimeType={frequencyTimeType}
+                />
+
                 {showChart && (
                   <div className={cx(styles.row, styles.signalPreview)}>
                     <SignalPreview target={target.value} type={type.metric} />
                   </div>
                 )}
 
-                <TriggerFormFrequency
-                  metaFormSettings={metaFormSettings}
-                  setFieldValue={setFieldValue}
-                  frequencyType={frequencyType}
-                  frequencyTimeType={frequencyTimeType}
-                />
-
-                <div className={styles.row}>
-                  <div className={styles.Field}>
-                    <div className={styles.isRepeating}>
-                      <Checkbox
-                        isActive={isRepeating}
-                        name='isRepeating'
-                        className={styles.repeatingItem}
-                        onClick={() => {
-                          setFieldValue('isRepeating', !isRepeating)
-                        }}
-                      />
-                      <span
-                        className={styles.repeatingItem}
-                        onClick={() => {
-                          setFieldValue('isRepeating', !isRepeating)
-                        }}
-                      >
-                        {isRepeating
-                          ? 'Task never ends'
-                          : 'Task fires only once'}
-                      </span>
-                    </div>
+                <div className={cx(styles.row, styles.isRepeatingRow)}>
+                  <div className={styles.isRepeating}>
+                    <Checkbox
+                      isActive={isRepeating}
+                      name='isRepeating'
+                      className={styles.repeatingItem}
+                      onClick={() => {
+                        setFieldValue('isRepeating', !isRepeating)
+                      }}
+                    />
+                    <span
+                      className={styles.repeatingItem}
+                      onClick={() => {
+                        setFieldValue('isRepeating', !isRepeating)
+                      }}
+                    >
+                      {isRepeating ? 'Task never ends' : 'Task fires only once'}
+                    </span>
                   </div>
                 </div>
 
                 <div className={styles.row}>
                   <div className={styles.Field}>
-                    <label>Notify me via</label>
+                    <label className={styles.label}>Notify me via</label>
                     <div className={styles.notifyBlock}>
                       <FormikCheckboxes
                         name='channels'
@@ -284,9 +283,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getSignalBacktestingPoints: payload => {
-    if (payload.settings.time_window) {
-      dispatch(fetchHistorySignalPoints(payload))
-    }
+    const trigger = mapFormPropsToTrigger(payload)
+
+    dispatch(fetchHistorySignalPoints(trigger))
   },
   removeSignal: id => {
     dispatch(removeTrigger(id))

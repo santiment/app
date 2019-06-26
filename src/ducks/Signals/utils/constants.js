@@ -56,14 +56,14 @@ export const PRICE_PERCENT_CHANGE_DOWN_MODEL = {
 export const PRICE_ABS_CHANGE_ABOVE = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
-  label: 'More than',
+  label: 'Above',
   value: PRICE_CHANGE_TYPES.ABOVE
 }
 
 export const PRICE_ABS_CHANGE_BELOW = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
-  label: 'Less than',
+  label: 'Below',
   value: PRICE_CHANGE_TYPES.BELOW
 }
 
@@ -178,19 +178,31 @@ export const COOLDOWN_TYPES = {
 }
 
 export const FREQUENCY_TYPE_ONCEPER_MODEL = {
-  label: 'Once Per',
-  value: COOLDOWN_TYPES.oncePer
+  label: 'No more than once per',
+  value: COOLDOWN_TYPES.oncePer,
+  disabledMetrics: [DAILY_ACTIVE_ADDRESSES]
 }
 
 export const FREQUENCY_TYPE_HOUR_MODEL = {
   label: 'Hourly',
   value: COOLDOWN_TYPES.hourly,
-  available: [FREQUENCY_VALUES_TYPES.hours]
+  availableTypes: [FREQUENCY_VALUES_TYPES.hours],
+  disabledMetrics: [DAILY_ACTIVE_ADDRESSES]
+}
+
+export const FREQUENCY_TYPE_DAILY_MODEL = {
+  label: 'Daily',
+  value: COOLDOWN_TYPES.daily,
+  availableTypes: [FREQUENCY_VALUES_TYPES.days]
 }
 
 export const DEFAULT_FREQUENCY_TIME_TYPE_MODEL = {
   label: 'Hours',
   value: FREQUENCY_VALUES_TYPES.hours
+}
+export const FREQUENCY_TIME_TYPE_DAILY_MODEL = {
+  label: 'Days',
+  value: FREQUENCY_VALUES_TYPES.days
 }
 
 const ASSET_FILTER_TYPES = {
@@ -229,7 +241,7 @@ export const METRIC_DEFAULT_VALUES = {
     absoluteBorderRight: 75,
     threshold: BASE_THRESHOLD,
     timeWindow: 24,
-    timeWindowUnit: { label: 'hours', value: 'h' },
+    timeWindowUnit: { label: 'Hours', value: 'h' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
     channels: ['Telegram']
@@ -241,7 +253,7 @@ export const METRIC_DEFAULT_VALUES = {
     percentThreshold: 5,
     threshold: BASE_THRESHOLD,
     timeWindow: 24,
-    timeWindowUnit: { label: 'hours', value: 'h' },
+    timeWindowUnit: { label: 'Hours', value: 'h' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
     channels: ['Telegram'],
@@ -250,13 +262,13 @@ export const METRIC_DEFAULT_VALUES = {
     absoluteBorderRight: 75
   },
   daily_active_addresses: {
-    frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
-    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyType: { ...FREQUENCY_TYPE_DAILY_MODEL },
+    frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
     percentThreshold: 200,
     threshold: BASE_THRESHOLD,
     timeWindow: 2,
-    timeWindowUnit: { label: 'days', value: 'd' },
+    timeWindowUnit: { label: 'Days', value: 'd' },
     type: { ...DAILY_ACTIVE_ADRESSES_METRIC },
     isRepeating: true,
     channels: ['Telegram']
@@ -277,7 +289,9 @@ export const METRIC_DEFAULT_VALUES = {
     threshold: 100,
     type: { ...ETH_WALLET_AMOUNT_UP },
     isRepeating: true,
-    channels: ['Telegram']
+    channels: ['Telegram'],
+    percentThreshold: 200,
+    timeWindow: 24
   }
 }
 
@@ -312,18 +326,15 @@ export const FREQUENCY_TYPES_OPTIONS = [
   {
     label: 'Minutly',
     value: COOLDOWN_TYPES.minutly,
-    available: [FREQUENCY_VALUES_TYPES.minutes]
+    availableTypes: [FREQUENCY_VALUES_TYPES.minutes],
+    disabledMetrics: [DAILY_ACTIVE_ADDRESSES]
   },
   FREQUENCY_TYPE_HOUR_MODEL,
-  {
-    label: 'Daily',
-    value: COOLDOWN_TYPES.daily,
-    available: [FREQUENCY_VALUES_TYPES.days]
-  },
+  FREQUENCY_TYPE_DAILY_MODEL,
   {
     label: 'Weekly',
     value: COOLDOWN_TYPES.weekly,
-    available: [FREQUENCY_VALUES_TYPES.weeks]
+    availableTypes: [FREQUENCY_VALUES_TYPES.weeks]
   }
 ]
 
@@ -343,11 +354,30 @@ export const FREQUENCY_VALUES = [
   },
   { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
   {
-    label: 'Days',
-    value: FREQUENCY_VALUES_TYPES.days
+    ...FREQUENCY_TIME_TYPE_DAILY_MODEL
   },
   {
     label: 'Weeks',
     value: FREQUENCY_VALUES_TYPES.weeks
   }
+]
+
+export const getDefaultTimeRangeValue = days => {
+  return {
+    value: days + 'd',
+    label: days / 30 + ' months'
+  }
+}
+
+export const PREVIEWS_TIMERANGE_BY_TYPE = {
+  daily_active_addresses: getDefaultTimeRangeValue(90),
+  price_absolute_change: getDefaultTimeRangeValue(90),
+  price_percent_change: getDefaultTimeRangeValue(90),
+  price_volume_difference: getDefaultTimeRangeValue(180)
+}
+
+export const TIME_WINDOW_UNITS = [
+  { value: 'd', label: 'Days' },
+  { value: 'h', label: 'Hours' },
+  { value: 'm', label: 'Minutes' }
 ]

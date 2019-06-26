@@ -14,12 +14,12 @@ import { getDateFormats } from '../../utils/dates'
 const mapWithTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
-const VisualBacktestChart = ({ data, price, metrics }) => {
+const VisualBacktestChart = ({ data, price, metrics, height }) => {
   const formattedPrice = mapWithTimeseries(price)
   const formattedData = mapWithTimeseries(data)
 
-  return (
-    <ResponsiveContainer width='100%' height={150}>
+  const renderChart = () => {
+    return (
       <ComposedChart data={formattedPrice}>
         <XAxis
           dataKey='datetime'
@@ -53,6 +53,12 @@ const VisualBacktestChart = ({ data, price, metrics }) => {
           content={<CustomTooltip />}
         />
       </ComposedChart>
+    )
+  }
+
+  return (
+    <ResponsiveContainer width='100%' height={height || 150}>
+      {renderChart()}
     </ResponsiveContainer>
   )
 }
