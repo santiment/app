@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button, Label } from '@santiment-network/ui'
+import Label from '@santiment-network/ui/Label'
+import Button from '@santiment-network/ui/Button'
 import EmptySection from '../../components/EmptySection/EmptySection'
 import WatchlistEdit from '../../components/WatchlistEdit/WatchlistEdit'
 import styles from '../../components/Watchlists/Watchlist.module.scss'

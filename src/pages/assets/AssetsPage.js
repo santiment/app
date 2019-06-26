@@ -2,7 +2,7 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import qs from 'query-string'
 import { CSVLink } from 'react-csv'
-import { Button } from '@santiment-network/ui'
+import Button from '@santiment-network/ui/Button'
 import { getOrigin } from '../../utils/utils'
 import {
   getHelmetTags,

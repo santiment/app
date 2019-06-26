@@ -2,7 +2,10 @@ import { Observable } from 'rxjs'
 import * as actions from '../../actions/types'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { updateUserListGQL } from './updateWatchlistQGL'
-import { allWatchlistsGQL, watchlistGQL } from '../WatchlistPopup/WatchlistGQL'
+import {
+  ALL_WATCHLISTS_QUERY,
+  WATCHLIST_QUERY
+} from '../WatchlistPopup/WatchlistGQL'
 
 export const editAssetsInWatchlistEpic = (action$, store, { client }) =>
   action$
@@ -40,12 +43,12 @@ export const addAssetToWatchlistEpic = (action$, store, { client }) =>
         mutation: updateUserListGQL,
         variables: { id: +assetsListId, listItems: newListItems },
         update: (store, { data: { updateUserList } }) => {
-          const data = store.readQuery({ query: watchlistGQL })
+          const data = store.readQuery({ query: WATCHLIST_QUERY })
           const index = data.fetchUserLists.findIndex(
             ({ id }) => id === updateUserList.id
           )
           data.fetchUserLists[index] = updateUserList
-          store.writeQuery({ query: watchlistGQL, data })
+          store.writeQuery({ query: WATCHLIST_QUERY, data })
         }
       })
       return Observable.from(userListUpdate)
@@ -74,12 +77,12 @@ export const removeAssetFromWatchlistEpic = (action$, store, { client }) =>
         mutation: updateUserListGQL,
         variables: { listItems: newListItems, id: +assetsListId },
         update: (store, { data: { updateUserList } }) => {
-          const data = store.readQuery({ query: allWatchlistsGQL })
+          const data = store.readQuery({ query: ALL_WATCHLISTS_QUERY })
           const index = data.fetchUserLists.findIndex(
             ({ id }) => id === updateUserList.id
           )
           data.fetchUserLists[index] = updateUserList
-          store.writeQuery({ query: allWatchlistsGQL, data })
+          store.writeQuery({ query: ALL_WATCHLISTS_QUERY, data })
         }
       })
       return Observable.from(mutationPromise)

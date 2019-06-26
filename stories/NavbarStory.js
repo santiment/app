@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import StoryRouter from 'storybook-react-router'
 import { Provider } from 'react-redux'
 import { MockedProvider } from 'react-apollo/test-utils'
-import { allWatchlistsGQL } from './../src/components/WatchlistPopup/WatchlistGQL'
+import { ALL_WATCHLISTS_QUERY } from './../src/components/WatchlistPopup/WatchlistGQL'
 import { Panel } from '@santiment-network/ui'
 import Navbar from './../src/components/Navbar/Navbar'
 import { NavbarProfileDropdown } from './../src/components/Navbar/NavbarProfileDropdown'
@@ -26,7 +26,7 @@ const mockedData = {
 }
 
 const mocks = [
-  { request: { WatchlistGQL: allWatchlistsGQL, variables: {} }, result: { data: mockedData } }
+  { request: { WatchlistGQL: ALL_WATCHLISTS_QUERY, variables: {} }, result: { data: mockedData } }
 ]
 
 storiesOf('Navbar', module)

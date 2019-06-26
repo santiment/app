@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 import { generalData, project } from '../../pages/Projects/allProjectsGQL'
 
-export const allWatchlistsGQL = gql`
+export const ALL_WATCHLISTS_QUERY = gql`
   query fetchUserLists {
     fetchUserLists {
       id
@@ -64,7 +64,7 @@ export const projectsByFunctionBigGQL = gql`
   ${project}
 `
 
-export const featuredWatchlistGQL = gql`
+export const FEATURED_WATCHLIST_QUERY = gql`
   query featuredWatchlists {
     featuredWatchlists {
       id
@@ -83,7 +83,7 @@ export const featuredWatchlistGQL = gql`
   }
 `
 
-export const watchlistGQL = gql`
+export const WATCHLIST_QUERY = gql`
   query watchlist($id: Int!) {
     watchlist(id: $id) {
       name

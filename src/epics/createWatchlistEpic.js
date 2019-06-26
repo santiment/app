@@ -2,7 +2,7 @@ import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
-import { allWatchlistsGQL } from './../components/WatchlistPopup/WatchlistGQL'
+import { ALL_WATCHLISTS_QUERY } from './../components/WatchlistPopup/WatchlistGQL'
 import * as actions from './../actions/types'
 import { completeOnboardingTask } from '../pages/Dashboard/utils'
 
@@ -67,9 +67,9 @@ const createWatchlistEpic = (action$, store, { client }) =>
           }
         },
         update: (store, { data: { createUserList } }) => {
-          const data = store.readQuery({ query: allWatchlistsGQL })
+          const data = store.readQuery({ query: ALL_WATCHLISTS_QUERY })
           data.fetchUserLists.push(createUserList)
-          store.writeQuery({ query: allWatchlistsGQL, data })
+          store.writeQuery({ query: ALL_WATCHLISTS_QUERY, data })
         }
       })
       return Observable.from(mutationPromise)

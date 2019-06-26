@@ -2,7 +2,7 @@ import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
-import { allWatchlistsGQL } from './../components/WatchlistPopup/WatchlistGQL'
+import { ALL_WATCHLISTS_QUERY } from './../components/WatchlistPopup/WatchlistGQL'
 import * as actions from './../actions/types'
 
 const removeUserListGQL = gql`
@@ -38,10 +38,10 @@ const removeWatchlistEpic = (action$, store, { client }) =>
           }
         },
         update: proxy => {
-          let data = proxy.readQuery({ query: allWatchlistsGQL })
+          let data = proxy.readQuery({ query: ALL_WATCHLISTS_QUERY })
           const _userLists = data.fetchUserLists ? [...data.fetchUserLists] : []
           data.fetchUserLists = _userLists.filter(obj => +obj.id !== id)
-          proxy.writeQuery({ query: allWatchlistsGQL, data })
+          proxy.writeQuery({ query: ALL_WATCHLISTS_QUERY, data })
         }
       })
       return Observable.from(mutationPromise)

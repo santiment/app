@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { AutoSizer, List } from 'react-virtualized'
-import { Label } from '@santiment-network/ui'
+import Label from '@santiment-network/ui/Label'
 import PageLoader from '../../components/Loader/PageLoader'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import GetAssets, { SORT_TYPES } from './GetAssets'
