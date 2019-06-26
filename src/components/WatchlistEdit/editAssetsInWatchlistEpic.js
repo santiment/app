@@ -1,8 +1,11 @@
-import Raven from 'raven-js'
 import { Observable } from 'rxjs'
-import { WatchlistGQL } from '../WatchlistPopup/WatchlistGQL'
-import { updateUserListGQL } from './updateWatchlistQGL'
 import * as actions from '../../actions/types'
+import { handleErrorAndTriggerAction } from '../../epics/utils'
+import { updateUserListGQL } from './updateWatchlistQGL'
+import {
+  ALL_WATCHLISTS_QUERY,
+  WATCHLIST_QUERY
+} from '../../queries/WatchlistGQL'
 
 export const editAssetsInWatchlistEpic = (action$, store, { client }) =>
   action$
@@ -13,15 +16,7 @@ export const editAssetsInWatchlistEpic = (action$, store, { client }) =>
       }))
       const userListUpdate = client.mutate({
         mutation: updateUserListGQL,
-        variables: { id: +assetsListId, listItems: normalizedListItems },
-        update: (store, { data: { updateUserList } }) => {
-          const data = store.readQuery({ query: WatchlistGQL })
-          const index = data.fetchUserLists.findIndex(
-            ({ id }) => id === updateUserList.id
-          )
-          data.fetchUserLists[index] = updateUserList
-          store.writeQuery({ query: WatchlistGQL, data })
-        }
+        variables: { id: +assetsListId, listItems: normalizedListItems }
       })
       return Observable.from(userListUpdate)
         .mergeMap(() =>
@@ -30,13 +25,9 @@ export const editAssetsInWatchlistEpic = (action$, store, { client }) =>
             payload: { listItems, assetsListId }
           })
         )
-        .catch(error => {
-          Raven.captureException(error)
-          return Observable.of({
-            type: actions.USER_EDIT_ASSETS_IN_LIST_FAILED,
-            payload: error
-          })
-        })
+        .catch(
+          handleErrorAndTriggerAction(actions.USER_EDIT_ASSETS_IN_LIST_FAILED)
+        )
     })
 
 export const addAssetToWatchlistEpic = (action$, store, { client }) =>
@@ -52,12 +43,12 @@ export const addAssetToWatchlistEpic = (action$, store, { client }) =>
         mutation: updateUserListGQL,
         variables: { id: +assetsListId, listItems: newListItems },
         update: (store, { data: { updateUserList } }) => {
-          const data = store.readQuery({ query: WatchlistGQL })
+          const data = store.readQuery({ query: WATCHLIST_QUERY })
           const index = data.fetchUserLists.findIndex(
             ({ id }) => id === updateUserList.id
           )
           data.fetchUserLists[index] = updateUserList
-          store.writeQuery({ query: WatchlistGQL, data })
+          store.writeQuery({ query: WATCHLIST_QUERY, data })
         }
       })
       return Observable.from(userListUpdate)
@@ -67,13 +58,9 @@ export const addAssetToWatchlistEpic = (action$, store, { client }) =>
             payload: { projectId, assetsListId }
           })
         )
-        .catch(error => {
-          Raven.captureException(error)
-          return Observable.of({
-            type: actions.USER_ADD_ASSET_TO_LIST_FAILED,
-            payload: error
-          })
-        })
+        .catch(
+          handleErrorAndTriggerAction(actions.USER_ADD_ASSET_TO_LIST_FAILED)
+        )
     })
 
 export const removeAssetFromWatchlistEpic = (action$, store, { client }) =>
@@ -90,12 +77,12 @@ export const removeAssetFromWatchlistEpic = (action$, store, { client }) =>
         mutation: updateUserListGQL,
         variables: { listItems: newListItems, id: +assetsListId },
         update: (store, { data: { updateUserList } }) => {
-          const data = store.readQuery({ query: WatchlistGQL })
+          const data = store.readQuery({ query: ALL_WATCHLISTS_QUERY })
           const index = data.fetchUserLists.findIndex(
             ({ id }) => id === updateUserList.id
           )
           data.fetchUserLists[index] = updateUserList
-          store.writeQuery({ query: WatchlistGQL, data })
+          store.writeQuery({ query: ALL_WATCHLISTS_QUERY, data })
         }
       })
       return Observable.from(mutationPromise)
@@ -105,11 +92,9 @@ export const removeAssetFromWatchlistEpic = (action$, store, { client }) =>
             payload: { projectId, assetsListId }
           })
         )
-        .catch(error => {
-          Raven.captureException(error)
-          return Observable.of({
-            type: actions.USER_REMOVED_ASSET_FROM_LIST_FAILED,
-            payload: error
-          })
-        })
+        .catch(
+          handleErrorAndTriggerAction(
+            actions.USER_REMOVED_ASSET_FROM_LIST_FAILED
+          )
+        )
     })
