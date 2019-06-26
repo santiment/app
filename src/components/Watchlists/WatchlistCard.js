@@ -15,6 +15,7 @@ import Gradients from '../ListInfoWidget/Gradients'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
+import { normalizeStats } from '../ListInfoWidget/totalMarketcapWidgetUtils'
 import styles from './WatchlistCard.module.scss'
 
 const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
@@ -81,19 +82,6 @@ WatchlistCard.propTypes = {
 WatchlistCard.defaultProps = {
   to: '#',
   stats: []
-}
-
-export const normalizeStats = arr =>
-  arr.filter(({ marketcap, volume }) => marketcap !== 0 && volume !== 0)
-
-export const statsForGraphics = arr => {
-  const minMarketcap = Math.min(...arr.map(({ marketcap }) => marketcap))
-  const minVolume = Math.min(...arr.map(({ volume }) => volume))
-  return arr.map(item => ({
-    ...item,
-    marketcap: item.marketcap - minMarketcap,
-    volume: item.volume - minVolume
-  }))
 }
 
 const enhance = compose(

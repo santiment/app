@@ -1,76 +1,47 @@
-import React from 'react'
-import { Area } from 'recharts'
-
 import { formatNumber } from '../../utils/formatting'
-import { calcPercentageChange, mergeTimeseriesByKey } from '../../utils/utils'
-
-const COLORS = ['#14C393', '#FFAD4D', '#8358FF']
+import { calcPercentageChange } from '../../utils/utils'
 
 const currencyFormatOptions = {
   currency: 'USD',
   minimumFractionDigits: 0,
-  maximumFractionDigits: 0
+  maximumFractionDigits: 0,
+  style: 'decimal'
+}
+
+export const normalizeStats = arr =>
+  arr.filter(({ marketcap, volume }) => marketcap !== 0 && volume !== 0)
+
+export const statsForGraphics = arr => {
+  const minMarketcap = Math.min(...arr.map(({ marketcap }) => marketcap))
+  const minVolume = Math.min(...arr.map(({ volume }) => volume))
+  return arr.map(item => ({
+    ...item,
+    marketcap: item.marketcap - minMarketcap,
+    volume: item.volume - minVolume
+  }))
 }
 
 export const generateWidgetData = historyPrice => {
   if (!historyPrice || historyPrice.length === 0) return {}
 
-  const historyPriceLastIndex = historyPrice.length - 1
+  const { marketcap: latestMarketcap, volume: latestVolume } = historyPrice[
+    historyPrice.length - 1
+  ]
+  const { marketcap, volume } = historyPrice[0]
 
-  const marketcapDataset = historyPrice.map(({ datetime, marketcap }) => ({
-    datetime,
-    marketcap
-  }))
+  const marketcapPrice = formatNumber(latestMarketcap, currencyFormatOptions)
+  const volumePrice = formatNumber(latestVolume, currencyFormatOptions)
 
-  const lastMarketcap = historyPrice[historyPriceLastIndex].marketcap
+  const marketcapChanges = calcPercentageChange(marketcap, latestMarketcap)
+  const volumeChanges = calcPercentageChange(volume, latestVolume)
 
-  const totalmarketCapPrice = formatNumber(lastMarketcap, currencyFormatOptions)
+  const chartStats = statsForGraphics(historyPrice)
 
-  const marketcap24PercentChange = calcPercentageChange(
-    historyPrice[historyPriceLastIndex - 1].marketcap,
-    lastMarketcap
-  )
-
-  return { totalmarketCapPrice, marketcap24PercentChange, marketcapDataset }
-}
-
-const constructProjectMarketcapKey = projectName => `${projectName}-marketcap`
-
-export const combineDataset = (totalMarketHistory, restProjects) => {
-  const LAST_INDEX = totalMarketHistory.length - 1
-  if (LAST_INDEX < 0) {
-    return
+  return {
+    marketcapPrice,
+    volumePrice,
+    chartStats,
+    volumeChanges,
+    marketcapChanges
   }
-
-  const restProjectTimeseries = Object.keys(restProjects).map(key =>
-    (restProjects[key] || []).map(({ marketcap, datetime }) => ({
-      datetime,
-      [constructProjectMarketcapKey(key)]: marketcap
-    }))
-  )
-
-  const result = mergeTimeseriesByKey({
-    timeseries: [totalMarketHistory, ...restProjectTimeseries],
-    key: 'datetime'
-  })
-
-  return result
-}
-
-export const getTop3Area = restProjects => {
-  return Object.keys(restProjects).map((key, i) => {
-    return (
-      <Area
-        yAxisId='list'
-        key={key}
-        dataKey={constructProjectMarketcapKey(key)}
-        name={key}
-        type='monotone'
-        strokeWidth={1.5}
-        stroke={COLORS[i]}
-        fill={`url(#mc-${i})`}
-        isAnimationActive={false}
-      />
-    )
-  })
 }

@@ -2,7 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import { Button } from '@santiment-network/ui'
 import { Area, AreaChart, ResponsiveContainer } from 'recharts'
-import { formatNumber } from '../../utils/formatting'
 import PercentChanges from '../PercentChanges'
 import ItemLoader from '../Loader/ItemLoader'
 import Gradients from './Gradients'
@@ -36,17 +35,7 @@ const ListInfoWidgetItem = ({
           </Button>
         </div>
         <div className={styles.bottom}>
-          {value && (
-            <span className={styles.value}>
-              ${' '}
-              {formatNumber(value, {
-                currency: 'USD',
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-                style: 'decimal'
-              })}
-            </span>
-          )}
+          <span className={styles.value}>$ {value}</span>
           {!isLoading && (
             <PercentChanges changes={change} className={styles.change} />
           )}

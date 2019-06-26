@@ -1,7 +1,7 @@
 import React from 'react'
-import { Panel, Label } from '@santiment-network/ui'
-import { calcPercentageChange } from '../../utils/utils'
-import { statsForGraphics } from '../Watchlists/WatchlistCard'
+import { Panel } from '@santiment-network/ui'
+import Label from '@santiment-network/ui/Label'
+import { generateWidgetData } from './totalMarketcapWidgetUtils'
 import ListInfoWidgetItem from './ListInfoWidgetItem'
 import styles from './ListInfoWidget.module.scss'
 
@@ -13,30 +13,31 @@ const ListInfoWidget = ({
   top3 = [],
   ...rest
 }) => {
-  const { marketcap: latestMarketcap, volume: latestVolume } =
-    historyPrice.slice(-1)[0] || {}
-  const { marketcap, volume } = historyPrice.slice(0, 1)[0] || {}
-  const changeMarketcap = calcPercentageChange(marketcap, latestMarketcap)
-  const changeVolume = calcPercentageChange(volume, latestVolume)
-  const chartStats = statsForGraphics(historyPrice)
+  const {
+    marketcapPrice,
+    volumePrice,
+    chartStats,
+    volumeChanges,
+    marketcapChanges
+  } = generateWidgetData(historyPrice)
 
   return (
     <Panel className={styles.wrapper}>
       <div className={styles.top}>
         <ListInfoWidgetItem
           stats={chartStats}
-          change={changeMarketcap}
+          change={marketcapChanges}
           label={`${type} marketcap`}
           metric='marketcap'
-          value={latestMarketcap}
+          value={marketcapPrice}
           {...rest}
         />
         <ListInfoWidgetItem
           stats={chartStats}
-          change={changeVolume}
+          change={volumeChanges}
           label='Volume'
           metric='volume'
-          value={latestVolume}
+          value={volumePrice}
           {...rest}
         />
       </div>
@@ -55,7 +56,7 @@ const ListInfoWidget = ({
           <Label className={styles.statName}>Dominance:</Label>
           {top3.map(({ ticker, marketcapUsd }) => (
             <Label className={styles.statValue} key={ticker}>
-              {ticker} {((marketcapUsd * 100) / latestMarketcap).toFixed(2)}%
+              {ticker} {((marketcapUsd * 100) / marketcapPrice).toFixed(2)}%
             </Label>
           ))}
         </div>

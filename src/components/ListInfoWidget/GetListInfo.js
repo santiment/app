@@ -7,7 +7,7 @@ import {
   projectsListHistoryStatsGQL
 } from './TotalMarketcapGQL'
 import ListInfoWidget from './ListInfoWidget'
-import { normalizeStats } from '../Watchlists/WatchlistCard'
+import { normalizeStats } from './totalMarketcapWidgetUtils'
 
 const getMarketcapQuery = ({ type, projects, range }) => {
   const { from, to } = range.method
