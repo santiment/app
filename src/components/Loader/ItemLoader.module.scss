@@ -1,0 +1,49 @@
+.loader {
+  font-size: 3px;
+  position: relative;
+  width: 4em;
+  height: 1em;
+  margin: 10px auto;
+}
+
+.dot {
+  display: block;
+  width: 1em;
+  height: 1em;
+  border-radius: 0.5em;
+  background: var(--mirage);
+  position: absolute;
+  animation-duration: 0.5s;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+}
+
+.dot:nth-child(1),
+.dot:nth-child(2) {
+  left: 0;
+}
+.dot:nth-child(3) { left: 2em; }
+
+@keyframes reveal {
+  from { transform: scale(0.001); }
+  to { transform: scale(1); }
+}
+
+@keyframes slide {
+  to { transform: translateX(2em); }
+}
+
+.dot:nth-child(1) {
+  animation-name: reveal;
+}
+
+.dot:nth-child(2),
+.dot:nth-child(3) {
+  animation-name: slide;
+}
+
+.dot:nth-child(4) {
+  left: 4em;
+  animation-name: reveal;
+  animation-direction: reverse;
+}

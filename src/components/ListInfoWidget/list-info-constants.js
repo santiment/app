@@ -14,7 +14,7 @@ const RANGES_METHOD = new Map()
 
 export const RANGES = [
   { value: '24h', interval: '1h', method: RANGES_METHOD.get('24h') },
-  { value: '7d', interval: '12h', method: RANGES_METHOD.get('7d') },
+  { value: '7d', interval: '6h', method: RANGES_METHOD.get('7d') },
   { value: '1m', interval: '1d', method: RANGES_METHOD.get('1m') },
   { value: '3m', interval: '3d', method: RANGES_METHOD.get('3m') },
   { value: '6m', interval: '3d', method: RANGES_METHOD.get('6m') }

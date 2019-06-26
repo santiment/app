@@ -25,7 +25,7 @@ import styles from '../../components/Watchlists/Watchlist.module.scss'
 import './Assets.css'
 
 const AssetsPage = props => {
-  const [pointer, setPointer] = useState(0)
+  const [pointer, setPointer] = useState(1)
   const [range, setRange] = useState(RANGES[pointer])
   const { name } = qs.parse(props.location.search)
   const isList = props.type === 'list'

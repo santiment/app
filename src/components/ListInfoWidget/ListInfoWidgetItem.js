@@ -4,6 +4,7 @@ import { Button } from '@santiment-network/ui'
 import { Area, AreaChart, ResponsiveContainer } from 'recharts'
 import { formatNumber } from '../../utils/formatting'
 import PercentChanges from '../PercentChanges'
+import ItemLoader from '../Loader/ItemLoader'
 import Gradients from './Gradients'
 import styles from './ListInfoWidgetItem.module.scss'
 
@@ -11,10 +12,11 @@ const ListInfoWidgetItem = ({
   stats = [],
   label,
   metric,
-  change = 0,
-  value = 0,
+  change,
+  value,
   interval,
-  changeRange
+  changeRange,
+  isLoading
 }) => {
   const color = `var(--${change >= 0 ? 'lima' : 'persimmon'})`
 
@@ -34,32 +36,39 @@ const ListInfoWidgetItem = ({
           </Button>
         </div>
         <div className={styles.bottom}>
-          <span className={styles.value}>
-            ${' '}
-            {formatNumber(value, {
-              currency: 'USD',
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-              style: 'decimal'
-            })}
-          </span>
-          <PercentChanges changes={change} className={styles.change} />
+          {value && (
+            <span className={styles.value}>
+              ${' '}
+              {formatNumber(value, {
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+                style: 'decimal'
+              })}
+            </span>
+          )}
+          {!isLoading && (
+            <PercentChanges changes={change} className={styles.change} />
+          )}
+          {isLoading && <ItemLoader className={styles.loader} />}
         </div>
       </div>
-      <ResponsiveContainer height={35} className={styles.chart}>
-        <AreaChart data={stats}>
-          <defs>
-            <Gradients />
-          </defs>
-          <Area
-            dataKey={metric}
-            type='monotone'
-            strokeWidth={2}
-            stroke={color}
-            fill={`url(#total${change >= 0 ? 'Up' : 'Down'})`}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+      {!isLoading && (
+        <ResponsiveContainer height={35} className={styles.chart}>
+          <AreaChart data={stats}>
+            <defs>
+              <Gradients />
+            </defs>
+            <Area
+              dataKey={metric}
+              type='monotone'
+              strokeWidth={2}
+              stroke={color}
+              fill={`url(#total${change >= 0 ? 'Up' : 'Down'})`}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      )}
     </div>
   )
 }

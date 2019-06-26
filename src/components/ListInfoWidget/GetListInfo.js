@@ -13,8 +13,9 @@ const getMarketcapQuery = ({ type, projects, range }) => {
   const { from, to } = range.method
 
   const slugsQueryTotal = graphql(totalMarketcapGQL, {
-    props: ({ data: { historyPrice = [] } }) => ({
-      historyPrice: normalizeStats(historyPrice)
+    props: ({ data: { historyPrice = [], loading: isLoading } }) => ({
+      historyPrice: normalizeStats(historyPrice),
+      isLoading
     }),
     options: () => ({
       variables: {
@@ -36,8 +37,11 @@ const getMarketcapQuery = ({ type, projects, range }) => {
     )
 
   return graphql(projectsListHistoryStatsGQL, {
-    props: ({ data: { projectsListHistoryStats = [] } }) => ({
-      historyPrice: normalizeStats(projectsListHistoryStats)
+    props: ({
+      data: { projectsListHistoryStats = [], loading: isLoading }
+    }) => ({
+      historyPrice: normalizeStats(projectsListHistoryStats),
+      isLoading
     }),
     options: () => ({
       variables: {
