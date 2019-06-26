@@ -56,14 +56,14 @@ export const PRICE_PERCENT_CHANGE_DOWN_MODEL = {
 export const PRICE_ABS_CHANGE_ABOVE = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
-  label: 'More than',
+  label: 'Above',
   value: PRICE_CHANGE_TYPES.ABOVE
 }
 
 export const PRICE_ABS_CHANGE_BELOW = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
-  label: 'Less than',
+  label: 'Below',
   value: PRICE_CHANGE_TYPES.BELOW
 }
 
@@ -178,7 +178,7 @@ export const COOLDOWN_TYPES = {
 }
 
 export const FREQUENCY_TYPE_ONCEPER_MODEL = {
-  label: 'Once Per',
+  label: 'No more than once per',
   value: COOLDOWN_TYPES.oncePer,
   disabledMetrics: [DAILY_ACTIVE_ADDRESSES]
 }
@@ -362,14 +362,19 @@ export const FREQUENCY_VALUES = [
   }
 ]
 
-export const PREVIEWS_TIMERANGE_BY_TYPE = {
-  daily_active_addresses: '90d',
-  price_absolute_change: '90d',
-  price_percent_change: '90d',
-  price_volume_difference: '180d'
+export const getDefaultTimeRangeValue = days => {
+  return {
+    value: days + 'd',
+    label: days / 30 + ' months'
+  }
 }
 
-export const PREVIEWS_TIMERANGE_MAPS_BY_TYPE = {}
+export const PREVIEWS_TIMERANGE_BY_TYPE = {
+  daily_active_addresses: getDefaultTimeRangeValue(90),
+  price_absolute_change: getDefaultTimeRangeValue(90),
+  price_percent_change: getDefaultTimeRangeValue(90),
+  price_volume_difference: getDefaultTimeRangeValue(180)
+}
 
 export const TIME_WINDOW_UNITS = [
   { value: 'd', label: 'Days' },

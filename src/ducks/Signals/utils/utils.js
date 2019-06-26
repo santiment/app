@@ -31,7 +31,8 @@ import {
   BASE_THRESHOLD,
   BASE_PERCENT_THRESHOLD,
   PREVIEWS_TIMERANGE_BY_TYPE,
-  TIME_WINDOW_UNITS
+  TIME_WINDOW_UNITS,
+  getDefaultTimeRangeValue
 } from './constants'
 import { capitalizeStr } from '../../../utils/utils'
 
@@ -394,7 +395,7 @@ export const getMetricsByType = type => {
 }
 
 export const getTimeRangeForChart = type => {
-  return PREVIEWS_TIMERANGE_BY_TYPE[type] || '90d'
+  return PREVIEWS_TIMERANGE_BY_TYPE[type] || getDefaultTimeRangeValue(90)
 }
 
 export const getNearestTypeByMetric = metric => {
