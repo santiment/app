@@ -1,8 +1,8 @@
-import Raven from 'raven-js'
 import { Observable } from 'rxjs'
-import { allWatchlistsGQL, watchlistGQL } from '../WatchlistPopup/WatchlistGQL'
-import { updateUserListGQL } from './updateWatchlistQGL'
 import * as actions from '../../actions/types'
+import { handleErrorAndTriggerAction } from '../../epics/utils'
+import { updateUserListGQL } from './updateWatchlistQGL'
+import { allWatchlistsGQL, watchlistGQL } from '../WatchlistPopup/WatchlistGQL'
 
 export const editAssetsInWatchlistEpic = (action$, store, { client }) =>
   action$
@@ -22,13 +22,9 @@ export const editAssetsInWatchlistEpic = (action$, store, { client }) =>
             payload: { listItems, assetsListId }
           })
         )
-        .catch(error => {
-          Raven.captureException(error)
-          return Observable.of({
-            type: actions.USER_EDIT_ASSETS_IN_LIST_FAILED,
-            payload: error
-          })
-        })
+        .catch(
+          handleErrorAndTriggerAction(actions.USER_EDIT_ASSETS_IN_LIST_FAILED)
+        )
     })
 
 export const addAssetToWatchlistEpic = (action$, store, { client }) =>
@@ -59,13 +55,9 @@ export const addAssetToWatchlistEpic = (action$, store, { client }) =>
             payload: { projectId, assetsListId }
           })
         )
-        .catch(error => {
-          Raven.captureException(error)
-          return Observable.of({
-            type: actions.USER_ADD_ASSET_TO_LIST_FAILED,
-            payload: error
-          })
-        })
+        .catch(
+          handleErrorAndTriggerAction(actions.USER_ADD_ASSET_TO_LIST_FAILED)
+        )
     })
 
 export const removeAssetFromWatchlistEpic = (action$, store, { client }) =>
@@ -97,11 +89,9 @@ export const removeAssetFromWatchlistEpic = (action$, store, { client }) =>
             payload: { projectId, assetsListId }
           })
         )
-        .catch(error => {
-          Raven.captureException(error)
-          return Observable.of({
-            type: actions.USER_REMOVED_ASSET_FROM_LIST_FAILED,
-            payload: error
-          })
-        })
+        .catch(
+          handleErrorAndTriggerAction(
+            actions.USER_REMOVED_ASSET_FROM_LIST_FAILED
+          )
+        )
     })
