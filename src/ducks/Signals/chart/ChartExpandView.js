@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button, Dialog, Icon } from '@santiment-network/ui'
+import { Button, Dialog } from '@santiment-network/ui'
+import full_screen from '../../../assets/full_screen.svg'
 import styles from './ChartExpandView.module.scss'
 
 export const ChartExpandView = ({ children }) => {
@@ -21,7 +22,7 @@ export const ChartExpandView = ({ children }) => {
             type='button'
             variant='ghost'
           >
-            <Icon type='plus-round' />
+            <img src={full_screen} alt='Expand' />
           </Button>
         }
       >

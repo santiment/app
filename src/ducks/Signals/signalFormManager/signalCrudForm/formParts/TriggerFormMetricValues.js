@@ -65,12 +65,12 @@ export const TriggerFormMetricValues = ({
         ) && (
         <div className={styles.Field}>
           <Label accent='waterloo' className={styles.label}>
-              Absolute change
+              Absolute value
           </Label>
           <FormikInput
             name='absoluteThreshold'
             type='number'
-            placeholder='Absolute change'
+            placeholder='Absolute value'
           />
         </div>
       )}
@@ -95,7 +95,7 @@ export const TriggerFormMetricValues = ({
         ) && (
         <div className={styles.Field}>
           <Label accent='waterloo' className={styles.label}>
-              Condition
+              Absolute change
           </Label>
           <div>
             <FormikSelect

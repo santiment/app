@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Icon, Button } from '@santiment-network/ui'
 import styles from './TriggerFormHeader.module.scss'
+import { RemoveSignalButton } from '../../../../../components/SignalCard/controls/SignalControls'
 
 const propTypes = {
   showTrigger: PropTypes.bool.isRequired
@@ -18,13 +19,10 @@ export const TriggerFormHeader = ({
     <div className={styles.triggerHeader}>
       <div className={styles.triggerHeaderName}>{name}</div>
       <div className={styles.triggerHeaderActions}>
-        <Button
-          type='button'
+        <RemoveSignalButton
           className={styles.triggerHeaderButton}
-          onClick={deleteTriggerFunc}
-        >
-          <Icon type='remove' />
-        </Button>
+          removeSignal={deleteTriggerFunc}
+        />
         <Button
           type='button'
           className={styles.triggerHeaderButton}

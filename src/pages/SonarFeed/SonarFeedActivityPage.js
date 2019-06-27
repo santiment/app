@@ -29,14 +29,11 @@ export const TRIGGER_ACTIVITIES_QUERY = gql`
   }
 `
 
-const SonarFeedActivityPage = ({ activities, isLoading, isError, isEmpty }) => {
+const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
   if (isLoading) {
     return <div className={styles.wrapper}>Loading...</div>
   }
-  if (isEmpty) {
-    return ''
-  }
-  return activities ? (
+  return activities && activities.length ? (
     <div className={styles.wrapper}>
       {activities.map(activity => (
         <Fragment key={activity.triggeredAt}>
@@ -46,7 +43,7 @@ const SonarFeedActivityPage = ({ activities, isLoading, isError, isEmpty }) => {
       ))}
     </div>
   ) : (
-    <SonarFeedRecommendations />
+    <SonarFeedRecommendations showButton />
   )
 }
 
@@ -61,8 +58,7 @@ const enhance = graphql(TRIGGER_ACTIVITIES_QUERY, {
     return {
       activities: (data.activities || {}).activity,
       isLoading: data.loading,
-      isError: !!data.error,
-      isEmpty: ((data.activities || {}).activity || []).length === 0
+      isError: !!data.error
     }
   }
 })
