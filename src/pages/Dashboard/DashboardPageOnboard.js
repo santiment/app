@@ -1,6 +1,8 @@
 import React from 'react'
-import { Label, Panel, Icon, Button } from '@santiment-network/ui'
 import cx from 'classnames'
+import { connect } from 'react-redux'
+import Link from 'react-router-dom/es/Link'
+import { Label, Panel, Icon, Button } from '@santiment-network/ui'
 import { getOnboardingCompletedTasks } from './utils'
 import NewWatchlistDialog from '../../components/Watchlists/NewWatchlistDialog'
 import Image from './hand.svg'
@@ -35,7 +37,7 @@ const Task = ({ title, text, icon, iconClassName, isCompleted }) => (
   </Panel>
 )
 
-const DashboardPageOnboard = () => {
+const DashboardPageOnboard = ({ hasMetamask }) => {
   const [isShown, setShown] = useShown()
   const completedTasks = getOnboardingCompletedTasks()
   return (
@@ -63,7 +65,7 @@ const DashboardPageOnboard = () => {
           <NewWatchlistDialog
             trigger={
               <Button
-                className={styles.button}
+                className={cx(styles.button, styles.default)}
                 disabled={completedTasks.includes('watchlist')}
               >
                 <Task
@@ -76,17 +78,27 @@ const DashboardPageOnboard = () => {
             }
             watchlists={[]}
           />
-          <Task
-            icon='connection'
-            title='Connect Metamask'
-            text='By connecting the Metamask you will be able to deposit SAN tokens to your account'
-            iconClassName={styles.icon_connection}
-            isCompleted={completedTasks.includes('metamask')}
-          />
+          <Link to={hasMetamask ? '' : '/account'} className={styles.default}>
+            <Task
+              icon='connection'
+              title='Connect Metamask'
+              text='By connecting the Metamask you will be able to deposit SAN tokens to your account'
+              iconClassName={styles.icon_connection}
+              isCompleted={hasMetamask}
+            />
+          </Link>
         </div>
       </Panel>
     )
   )
 }
 
-export default DashboardPageOnboard
+const mapStateToProps = ({
+  user: {
+    data: { ethAccounts = [] }
+  }
+}) => ({
+  hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address
+})
+
+export default connect(mapStateToProps)(DashboardPageOnboard)
