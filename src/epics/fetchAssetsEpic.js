@@ -44,7 +44,7 @@ const pickProjectsType = type => {
 const mapDataToAssets = ({ type, data: { loading, error, data } }) => {
   const items = !error ? data[pickProjectsType(type).projects] : []
   const isEmpty = items.length === 0
-  return { isLoading: loading, isEmpty, items, error }
+  return { isLoading: loading, isEmpty, items, error, isPublicWatchlist: true }
 }
 
 export const fetchAssetsEpic = (action$, store, { client }) =>
