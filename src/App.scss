@@ -16,10 +16,6 @@
       padding: 0 0 50px;
     }
 
-    @include responsive("tablet") {
-      height: 100%;
-    }
-
     @include responsive("tablet", "laptop", "desktop") {
       padding: 0 15px;
       margin: 0 auto;

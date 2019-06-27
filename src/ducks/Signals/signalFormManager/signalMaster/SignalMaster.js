@@ -1,20 +1,21 @@
 import React from 'react'
 import { push } from 'react-router-redux'
+import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import { createTrigger, updateTrigger } from '../common/actions'
+import { createTrigger, updateTrigger } from '../../common/actions'
 import { Message, Toggle } from '@santiment-network/ui'
-import TriggersForm from './signalsList/TriggersForm'
-import AboutForm from './aboutForm/AboutForm'
-import { TRIGGER_BY_ID_QUERY } from '../common/queries'
+import TriggersForm from '../signalCrudForm/signal/TriggerForm'
+import AboutForm from '../aboutForm/AboutForm'
+import { TRIGGER_BY_ID_QUERY } from '../../common/queries'
 import {
   mapTriggerToFormProps,
   mapFormPropsToTrigger,
   mapGQLTriggerToProps
-} from '../utils/utils'
-import { SIGNAL_ROUTES } from '../common/constants'
-import styles from './signalCrudForm/signal/TriggerForm.module.scss'
+} from '../../utils/utils'
+import { SIGNAL_ROUTES } from '../../common/constants'
+import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
 const STEPS = {
   SETTINGS: 0,
@@ -56,7 +57,9 @@ export class SignalMaster extends React.PureComponent {
     } = this.props
 
     if (triggerId && triggerObj.isLoading) {
-      return <div className={styles.wrapper}>{'Loading...'}</div>
+      return (
+        <div className={cx(styles.wrapper, styles.loading)}>{'Loading...'}</div>
+      )
     }
     if (triggerId && triggerObj.isError) {
       return <Message variant='error'>{triggerObj.errorMessage}</Message>

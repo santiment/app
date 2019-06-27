@@ -1,19 +1,13 @@
 import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
+import { Bar } from 'recharts'
+import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
 import { Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartMetrics from '../../SANCharts/ChartMetrics'
 import VisualBacktestChart from '../VisualBacktestChart'
-import { getMetricsByType } from '../utils/utils'
 import styles from './SignalPreview.module.scss'
-import { Bar } from 'recharts'
-
-const PREVIEWS_TIMERANGE_BY_TYPE = {
-  daily_active_addresses: '3m',
-  price_absolute_change: '3m',
-  price_percent_change: '3m',
-  price_volume_difference: '6m'
-}
+import { ChartExpandView } from './ChartExpandView'
 
 const CUSTOM_METRICS = {
   customDailyActiveAdresses: {
@@ -26,8 +20,23 @@ const CUSTOM_METRICS = {
   }
 }
 
-const SignalPreview = ({ points = [], target, type }) => {
-  const initialMetrics = getMetricsByType(type) || ['historyPrice']
+const SignalPreview = ({ type, points = [], target, height }) => {
+  return (
+    <Fragment>
+      <ChartExpandView>
+        <SignalPreviewChart
+          type={type}
+          points={points}
+          target={target}
+          height={height}
+        />
+      </ChartExpandView>
+    </Fragment>
+  )
+}
+
+const SignalPreviewChart = ({ type, points, target, height }) => {
+  const initialMetrics = getMetricsByType() || ['historyPrice']
 
   const [metrics, setMetrics] = useState(initialMetrics)
 
@@ -37,20 +46,20 @@ const SignalPreview = ({ points = [], target, type }) => {
     0
   )
 
-  const timeRange = PREVIEWS_TIMERANGE_BY_TYPE[type] || '3m'
+  const { label, value } = getTimeRangeForChart(type)
 
   return (
-    <Fragment>
-      <div>
+    <div>
+      <div className={styles.description}>
         <span className={styles.fired}>Signal was fired:</span>{' '}
         <span className={styles.times}>
-          {amountOfTriggers} times in {timeRange}
+          {amountOfTriggers} times in {label}
         </span>
       </div>
       <div className={styles.chartBlock}>
         <GetTimeSeries
           historyPrice={{
-            timeRange: timeRange,
+            timeRange: value,
             slug: target,
             interval: '1d'
           }}
@@ -75,6 +84,7 @@ const SignalPreview = ({ points = [], target, type }) => {
                   data={points}
                   price={historyPrice.items}
                   metrics={customMetrics}
+                  height={height}
                 />
               )
             )
@@ -92,7 +102,7 @@ const SignalPreview = ({ points = [], target, type }) => {
           }, {})}
         />
       </div>
-    </Fragment>
+    </div>
   )
 }
 

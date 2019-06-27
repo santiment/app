@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-const generalData = gql`
+export const generalData = gql`
   fragment generalData on Project {
     id
     name
@@ -20,7 +20,7 @@ const ethereumData = gql`
   }
 `
 
-const project = gql`
+export const project = gql`
   fragment project on Project {
     rank
     marketSegment
@@ -104,43 +104,6 @@ export const currenciesGQL = gql`
   }
   ${generalData}
   ${project}
-`
-
-export const allErc20ShortProjectsGQL = gql`
-  query allErc20Projects {
-    allErc20Projects {
-      ...generalData
-      rank
-      ethSpent
-      coinmarketcapId
-      marketcapUsd
-      fundsRaisedIcos {
-        amount
-        currencyCode
-      }
-    }
-  }
-  ${generalData}
-`
-
-export const allShortProjectsGQL = gql`
-  {
-    allProjects {
-      id
-      name
-      rank
-      ethSpent
-      coinmarketcapId
-      marketcapUsd
-      fundsRaisedIcos {
-        amount
-        currencyCode
-      }
-      ethAddresses {
-        address
-      }
-    }
-  }
 `
 
 export const allMarketSegmentsGQL = gql`
