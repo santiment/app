@@ -1,35 +1,44 @@
+@import 'variables.scss';
+@import "~@santiment-network/ui/mixins.scss";
+
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
 }
 
 .tabs {
-    display: block;
-    margin-bottom: 40px;
+  display: block;
+  margin-bottom: 40px;
 }
 
 .newSignal {
-    background: var(--green) !important; // NOTE(vanguard): Delete after updating ui button green variant
-    color: var(--white) !important;
-    fill: var(--white) !important;
-
-    &__icon {
-        height: 18px;
-        margin-right: 7px;
-    }
+  &__icon {
+    height: 18px;
+    margin-right: 7px;
+  }
 }
 
 .search,
-.filter{
-    fill: var(--black);
+.filter {
+  fill: var(--mirage);
 }
 
 .search {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .filter {
-    margin-right: 24px;
+  margin-right: 24px;
+}
+
+@include responsive('phone', 'phone-xs') {
+  .header {
+    padding: 10px;
+  }
+
+  .pages {
+    padding: 10px;
+  }
 }

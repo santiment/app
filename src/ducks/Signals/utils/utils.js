@@ -29,26 +29,18 @@ import {
   FREQUENCY_MAPPINGS,
   FREQUENCY_VALUES,
   BASE_THRESHOLD,
-  BASE_PERCENT_THRESHOLD
+  BASE_PERCENT_THRESHOLD,
+  PREVIEWS_TIMERANGE_BY_TYPE,
+  TIME_WINDOW_UNITS,
+  getDefaultTimeRangeValue
 } from './constants'
 import { capitalizeStr } from '../../../utils/utils'
 
 const getTimeWindowUnit = timeWindow => {
   if (!timeWindow) return undefined
+
   const value = timeWindow.replace(/[0-9]/g, '')
-  return {
-    value,
-    label: (() => {
-      switch (value) {
-        case 'd':
-          return 'days'
-        case 'm':
-          return 'minutes'
-        default:
-          return 'hours'
-      }
-    })()
-  }
+  return TIME_WINDOW_UNITS.find(item => item.value === value)
 }
 
 const getFormTriggerTarget = target => {
@@ -257,7 +249,9 @@ export const mapTriggerToFormProps = currentTrigger => {
     metric: getMetric(type, operation),
     type: newType,
     timeWindow: time_window ? +time_window.match(/\d+/)[0] : '24',
-    timeWindowUnit: time_window ? getTimeWindowUnit(time_window) : 'h',
+    timeWindowUnit: time_window
+      ? getTimeWindowUnit(time_window)
+      : TIME_WINDOW_UNITS[0],
     target: newTarget,
     percentThreshold: getPercentTreshold(settings) || BASE_PERCENT_THRESHOLD,
     threshold: mapTriggerToFormThreshold(settings) || BASE_THRESHOLD,
@@ -321,10 +315,10 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
   }
 }
 
-export const mapTriggerTarget = (target, address) => {
+export const mapTriggerTarget = (target, address, isEthWalletTrigger) => {
   let newTarget = { slug: target.value }
 
-  if (address) {
+  if (isEthWalletTrigger && address) {
     newTarget = { eth_address: address }
   }
 
@@ -333,7 +327,11 @@ export const mapTriggerTarget = (target, address) => {
   }
 }
 
-export const mapAssetTarget = target => {
+export const mapAssetTarget = (target, isEthWalletTrigger) => {
+  if (!isEthWalletTrigger) {
+    return undefined
+  }
+
   return {
     asset: { slug: target.value }
   }
@@ -352,8 +350,10 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     type
   } = formProps
 
-  const newAsset = mapAssetTarget(target, ethAddress)
-  const newTarget = mapTriggerTarget(target, ethAddress)
+  const isEthWalletTrigger = type.metric === ETH_WALLET
+
+  const newAsset = mapAssetTarget(target, isEthWalletTrigger)
+  const newTarget = mapTriggerTarget(target, ethAddress, isEthWalletTrigger)
 
   const cooldownParams = getCooldownParams(formProps)
 
@@ -369,9 +369,10 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       ...newTarget,
       ...newAsset,
 
-      time_window: timeWindow
-        ? timeWindow + '' + timeWindowUnit.value
-        : undefined,
+      time_window:
+        timeWindow && timeWindowUnit
+          ? timeWindow + '' + timeWindowUnit.value
+          : undefined,
       type: type ? type.metric : undefined,
       operation: getTriggerOperation(formProps)
     },
@@ -393,53 +394,9 @@ export const getMetricsByType = type => {
   }
 }
 
-export const mapValuesToTriggerProps = ({
-  type,
-  timeWindowUnit,
-  timeWindow,
-  percentThreshold,
-  target,
-  metric,
-  threshold,
-  cooldown
-}) => ({
-  cooldown,
-  settings: (() => {
-    const metricType = type ? type.metric : undefined
-    const time = timeWindowUnit ? timeWindow + timeWindowUnit.value : undefined
-
-    const slug = { slug: target.value }
-
-    const defaultValue = {
-      target: slug,
-      type: metricType,
-      percent_threshold: percentThreshold,
-      time_window: time
-    }
-
-    if (!metric) {
-      return defaultValue
-    }
-
-    switch (metric.value) {
-      case DAILY_ACTIVE_ADDRESSES:
-        return {
-          target: slug,
-          type: metricType,
-          time_window: time,
-          percent_threshold: percentThreshold
-        }
-      case PRICE_VOLUME_DIFFERENCE:
-        return {
-          target: slug,
-          type: metricType,
-          threshold: threshold
-        }
-      default:
-        return defaultValue
-    }
-  })()
-})
+export const getTimeRangeForChart = type => {
+  return PREVIEWS_TIMERANGE_BY_TYPE[type] || getDefaultTimeRangeValue(90)
+}
 
 export const getNearestTypeByMetric = metric => {
   switch (metric.value) {
@@ -502,9 +459,9 @@ export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
 }
 
 export function getFrequencyTimeType (frequencyType) {
-  if (frequencyType && frequencyType.available) {
+  if (frequencyType && frequencyType.availableTypes) {
     return FREQUENCY_VALUES.filter(item => {
-      return frequencyType.available.indexOf(item.value) !== -1
+      return frequencyType.availableTypes.indexOf(item.value) !== -1
     })
   } else {
     return FREQUENCY_VALUES
@@ -512,13 +469,7 @@ export function getFrequencyTimeType (frequencyType) {
 }
 
 export function getFrequencyTimeValues (frequencyTimeType) {
-  let selectedValues
-  if (frequencyTimeType) {
-    selectedValues = FREQUENCY_VALUES.find(
-      item => item.value === frequencyTimeType.value
-    )
-  }
-  return selectedValues ? FREQUENCY_MAPPINGS[selectedValues.value] : []
+  return FREQUENCY_MAPPINGS[frequencyTimeType.value]
 }
 
 export function getNearestFrequencyTimeValue (frequencyTimeType) {
@@ -533,8 +484,9 @@ export function getNearestFrequencyTypeValue (frequencyType) {
 export const validateTriggerForm = values => {
   let errors = {}
 
-  if (values.type.metric === ETH_WALLET && !values.ethAddress) {
-    errors.ethAddress = REQUIRED_MESSAGE
+  if (values.type.metric === ETH_WALLET) {
+    if (!values.ethAddress) errors.ethAddress = REQUIRED_MESSAGE
+    if (!values.threshold) errors.threshold = REQUIRED_MESSAGE
   }
 
   if (

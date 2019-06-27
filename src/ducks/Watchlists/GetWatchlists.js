@@ -1,8 +1,8 @@
 import getEnhancedWatchlist from './getEnhancedWatchlist'
-import { WatchlistGQL } from './../../components/WatchlistPopup/WatchlistGQL'
+import { ALL_WATCHLISTS_QUERY } from '../../queries/WatchlistGQL'
 
 export default getEnhancedWatchlist({
-  query: WatchlistGQL,
+  query: ALL_WATCHLISTS_QUERY,
   name: 'fetchUserLists',
   requiresAuth: true
 })

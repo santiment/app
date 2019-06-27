@@ -1,5 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Signals ETH wallet actions createTrigger should work 1`] = `
+Object {
+  "payload": Object {
+    "cooldown": "3d",
+    "description": "Any D",
+    "isActive": true,
+    "isPublic": false,
+    "isRepeating": true,
+    "settings": "{\\"channel\\":\\"telegram\\",\\"percent_threshold\\":200,\\"threshold\\":101,\\"target\\":{\\"eth_address\\":\\"0x44fcfabfbe32024a01b778c025d70498382cced0\\"},\\"asset\\":{\\"slug\\":\\"adx-net\\"},\\"time_window\\":\\"24d\\",\\"type\\":\\"eth_wallet\\",\\"operation\\":{\\"amount_down\\":101}}",
+    "shouldReload": false,
+    "title": "Signal_[6/25/2019]",
+  },
+  "type": "[signal] CREATE_SIGNAL",
+}
+`;
+
 exports[`Signals actions createTrigger should work 1`] = `
 Object {
   "payload": Object {
@@ -8,7 +24,6 @@ Object {
     ],
     "cooldown": "1h",
     "description": "check",
-    "metric": "price",
     "percentThreshold": "5",
     "settings": undefined,
     "target": "santiment",

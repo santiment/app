@@ -1,5 +1,5 @@
 import React from 'react'
-import SignalMaster from './signalFormManager/SignalMaster'
+import SignalMaster from './signalFormManager/signalMaster/SignalMaster'
 
 const SignalFormPage = () => {
   return (

@@ -1,12 +1,21 @@
+@import 'variables.scss';
+@import "~@santiment-network/ui/mixins.scss";
+
 .wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 $margin-between-cards: 24px;
 
 .card {
-    margin-bottom: 24px;
-    width: calc(50% - #{$margin-between-cards/2});
+  margin-bottom: 24px;
+  width: calc(50% - #{$margin-between-cards/2});
+}
+
+@include responsive('phone', 'phone-xs') {
+  .card {
+    width: 100%;
+  }
 }

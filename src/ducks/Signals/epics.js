@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import * as actions from './common/actions'
 import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
-import { TRIGGERS_QUERY } from './gql/SignalsGQL'
+import { TRIGGERS_QUERY } from './common/queries'
 import { completeOnboardingTask } from '../../pages/Dashboard/utils'
 
 export const CREATE_TRIGGER_QUERY = gql`

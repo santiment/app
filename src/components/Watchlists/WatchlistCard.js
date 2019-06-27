@@ -11,6 +11,7 @@ import {
   projectsListHistoryStatsGQL,
   totalMarketcapGQL
 } from '../ListInfoWidget/TotalMarketcapGQL'
+import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
 import Gradients from '../ListInfoWidget/Gradients'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
@@ -35,7 +36,15 @@ const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
       <div className={cx(styles.flexRow, styles.content)}>
         <span className={styles.name}>{name}</span>
         {isPublic !== undefined && (
-          <Icon type={isPublic ? 'eye' : 'lock-small'} fill='var(--casper)' />
+          <ExplanationTooltip
+            text={isPublic ? 'Public' : 'Private'}
+            offsetY={7}
+          >
+            <Icon
+              type={isPublic ? 'eye' : 'lock-small'}
+              className={styles.icon}
+            />
+          </ExplanationTooltip>
         )}
       </div>
       {latestMarketcap ? (
@@ -89,7 +98,8 @@ const enhance = compose(
     options: ({ slugs = [] }) => ({
       variables: {
         slugs,
-        ...getTimeIntervalFromToday(-6, DAY)
+        ...getTimeIntervalFromToday(-6, DAY),
+        interval: '6h'
       }
     }),
     skip: ({ slugs }) => !slugs.length,
@@ -103,7 +113,8 @@ const enhance = compose(
     options: ({ slug }) => ({
       variables: {
         slug,
-        ...getTimeIntervalFromToday(-6, DAY)
+        ...getTimeIntervalFromToday(-6, DAY),
+        interval: '6h'
       }
     }),
     skip: ({ slug }) => !slug,

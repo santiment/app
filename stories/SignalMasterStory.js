@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { Provider } from 'react-redux'
 import { MockedProvider } from 'react-apollo/test-utils'
-import { SignalMaster } from '../src/ducks/Signals/signalFormManager/SignalMaster'
+import { SignalMaster } from '../src/ducks/Signals/signalFormManager/signalMaster/SignalMaster'
 import { allProjectsForSearchGQL } from './../src/pages/Projects/allProjectsGQL'
 import store from './store'
 

@@ -1,10 +1,16 @@
 @import "~@santiment-network/ui/mixins.scss";
 
+$trigger-form-width: 496px;
+
 .wrapper {
-  width: 100%;
-  max-width: 496px;
+  width: $trigger-form-width;
   position: relative;
-  padding: 10px 20px;
+  padding: 0 20px 20px;
+}
+
+.loading {
+  padding-top: 20px;
+  text-align: center;
 }
 
 .closeButton {
@@ -29,7 +35,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 448px;
   padding: 0 20px 20px;
 }
 
@@ -37,9 +42,13 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 15px;
+  margin-top: 24px;
 
   @include text('body-3');
+
+  &:first-child {
+    margin-top: 16px;
+  }
 }
 
 .messages {
@@ -76,11 +85,30 @@ a.connectLink {
 .Field {
   text-align: left;
   width: 50%;
-  padding-right: 1rem;
   user-select: none;
   margin-bottom: auto;
+  padding-right: 0;
+  padding-left: 8px;
 
   @include text('body-3');
+
+  &:first-child {
+    padding-right: 8px;
+    padding-left: 0;
+  }
+}
+
+.label {
+  margin-bottom: 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+  @include text('caption');
+}
+
+.isRepeatingRow {
+  margin-top: 12px;
 }
 
 .isRepeating {
@@ -104,22 +132,12 @@ a.connectLink {
   padding-right: 1rem;
 }
 
-label {
-  color: var(--waterloo);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  font-weight: 500;
-  line-height: 18px;
-  font-size: 12px;
-}
-
 .controls {
   display: flex;
   justify-content: flex-end;
   position: absolute;
   right: 20px;
-  bottom: 15px;
+  bottom: 20px;
 
   button {
     width: 92px;
@@ -167,7 +185,7 @@ label {
   box-sizing: border-box;
   background-color: var(--white);
   border-radius: 4px;
-  padding-bottom: 20px;
+  padding-top: 16px;
 
   .Field {
     width: 100%;
@@ -187,13 +205,13 @@ label {
   border: 1px solid var(--porcelain);
   box-sizing: border-box;
   border-radius: 4px;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .triggerToggleBlock {
   display: flex;
-  padding: 10px;
-  margin-right: 230px;
+  margin: 40px 230px 0 0;
+  height: 25px;
 
   @include text('body-3');
 }
@@ -208,8 +226,9 @@ a {
   }
 }
 
-@include responsive('desktop') {
+@include responsive('phone', 'phone-xs') {
   .wrapper {
-    width: 100%;
+    width: initial;
+    max-width: $trigger-form-width;
   }
 }

@@ -27,12 +27,14 @@ const FormikInput = ({
           placeholder={placeholder}
           disabled={disabled}
           noValidate
-          isError={!!form.errors[name]}
+          isError={form.errors[name]}
           onChange={value => {
+            const oldValue = value.target.value
+
             const newValue =
-              type === 'number'
-                ? parseFloat(value.target.value)
-                : value.target.value
+              type === 'number' && oldValue.length > 0
+                ? parseFloat(oldValue)
+                : oldValue
             form.setFieldValue(name, newValue)
             form.setFieldTouched(name, true)
             onChange && onChange(newValue)

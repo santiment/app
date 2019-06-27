@@ -97,6 +97,7 @@ const AssetsTable = ({
         defaultPageSize={listName === 'Top 50 ERC20' ? 50 : pageSize}
         pageSizeOptions={[5, 10, 20, 25, 50, 100]}
         pageSize={showAll ? items && items.length : undefined}
+        minRows={0}
         sortable={false}
         resizable={false}
         defaultSorted={[

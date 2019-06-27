@@ -12,6 +12,7 @@ import {
   frequencyTymeValueBuilder
 } from '../../../utils/constants'
 import styles from '../signal/TriggerForm.module.scss'
+import { Label } from '@santiment-network/ui'
 
 const propTypes = {
   metaFormSettings: PropTypes.any.isRequired,
@@ -23,15 +24,22 @@ const propTypes = {
 export const TriggerFormFrequency = ({
   metaFormSettings,
   setFieldValue,
+  metric,
   frequencyType,
   frequencyTimeType
 }) => {
   const defaultFrequencyType = metaFormSettings.frequencyType
 
+  const frequencyOptions = FREQUENCY_TYPES_OPTIONS.filter(item => {
+    return !item.disabledMetrics || item.disabledMetrics.indexOf(metric) === -1
+  })
+
   return (
     <div className={styles.row}>
       <div className={styles.Field}>
-        <label>Frequency of notifications</label>
+        <Label accent='waterloo' className={styles.label}>
+          Frequency of notifications
+        </Label>
         <FormikSelect
           name='frequencyType'
           isClearable={false}
@@ -39,7 +47,7 @@ export const TriggerFormFrequency = ({
           defaultValue={defaultFrequencyType.value.value}
           isSearchable
           placeholder='Choose frequency'
-          options={FREQUENCY_TYPES_OPTIONS}
+          options={frequencyOptions}
           onChange={frequencyType => {
             const newFrequencyTimeType = getNearestFrequencyTypeValue(
               frequencyType
@@ -53,7 +61,9 @@ export const TriggerFormFrequency = ({
         />
       </div>
       <div className={styles.Field}>
-        <label>&nbsp;</label>
+        <Label accent='waterloo' className={styles.label}>
+          &nbsp;
+        </Label>
         <div className={styles.frequency}>
           <FormikSelect
             name='frequencyTimeValue'
