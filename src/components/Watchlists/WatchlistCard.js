@@ -16,8 +16,10 @@ import Gradients from '../ListInfoWidget/Gradients'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
-import { normalizeStats } from '../ListInfoWidget/totalMarketcapWidgetUtils'
+import { filterEmptyStats } from '../ListInfoWidget/utils'
 import styles from './WatchlistCard.module.scss'
+
+const INTERVAL = '6h'
 
 const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
   const { marketcap: latestMarketcap } = stats.slice(-1)[0] || {}
@@ -99,12 +101,12 @@ const enhance = compose(
       variables: {
         slugs,
         ...getTimeIntervalFromToday(-6, DAY),
-        interval: '6h'
+        interval: INTERVAL
       }
     }),
     skip: ({ slugs }) => !slugs.length,
     props: ({ data: { projectsListHistoryStats = [], loading, error } }) => ({
-      stats: normalizeStats(projectsListHistoryStats),
+      stats: filterEmptyStats(projectsListHistoryStats),
       isLoading: loading,
       isError: error
     })
@@ -114,12 +116,12 @@ const enhance = compose(
       variables: {
         slug,
         ...getTimeIntervalFromToday(-6, DAY),
-        interval: '6h'
+        interval: INTERVAL
       }
     }),
     skip: ({ slug }) => !slug,
     props: ({ data: { historyPrice = [], loading, error } }) => ({
-      stats: normalizeStats(historyPrice),
+      stats: filterEmptyStats(historyPrice),
       isLoading: loading,
       isError: error
     })

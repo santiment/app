@@ -8,7 +8,7 @@ const currencyFormatOptions = {
   style: 'decimal'
 }
 
-export const normalizeStats = arr =>
+export const filterEmptyStats = arr =>
   arr.filter(({ marketcap, volume }) => marketcap !== 0 && volume !== 0)
 
 export const statsForGraphics = arr => {

@@ -34,23 +34,3 @@ export const projectsListHistoryStatsGQL = gql`
     }
   }
 `
-
-// CONSTRUCTING QUERY ALIASES
-export const constructTotalMarketcapGQL = (slugs, from) => {
-  if (slugs.length === 0) gql``
-  return gql`
-  query historyPrice {
-    ${slugs.reduce((acc, [slug, escapedAlias]) => {
-    return (
-      acc +
-        `
-      ${escapedAlias}: historyPrice(from: "${from}", slug: "${slug}", interval: "1d") {
-        marketcap
-        volume
-        datetime
-      }`
-    )
-  }, ``)}
-  }
-`
-}

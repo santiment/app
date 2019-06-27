@@ -1,7 +1,7 @@
 import React from 'react'
 import { Panel } from '@santiment-network/ui'
 import Label from '@santiment-network/ui/Label'
-import { generateWidgetData } from './totalMarketcapWidgetUtils'
+import { generateWidgetData } from './utils'
 import ListInfoWidgetItem from './ListInfoWidgetItem'
 import styles from './ListInfoWidget.module.scss'
 

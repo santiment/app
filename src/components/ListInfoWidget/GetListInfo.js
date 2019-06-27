@@ -7,14 +7,14 @@ import {
   projectsListHistoryStatsGQL
 } from './TotalMarketcapGQL'
 import ListInfoWidget from './ListInfoWidget'
-import { normalizeStats } from './totalMarketcapWidgetUtils'
+import { filterEmptyStats } from './utils'
 
 const getMarketcapQuery = ({ type, projects, range }) => {
   const { from, to } = range.method
 
   const slugsQueryTotal = graphql(totalMarketcapGQL, {
     props: ({ data: { historyPrice = [], loading: isLoading } }) => ({
-      historyPrice: normalizeStats(historyPrice),
+      historyPrice: filterEmptyStats(historyPrice),
       isLoading
     }),
     options: () => ({
@@ -40,7 +40,7 @@ const getMarketcapQuery = ({ type, projects, range }) => {
     props: ({
       data: { projectsListHistoryStats = [], loading: isLoading }
     }) => ({
-      historyPrice: normalizeStats(projectsListHistoryStats),
+      historyPrice: filterEmptyStats(projectsListHistoryStats),
       isLoading
     }),
     options: () => ({
