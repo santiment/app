@@ -1,6 +1,6 @@
 import React from 'react'
 import { compose } from 'redux'
-import { Icon } from '@santiment-network/ui'
+import Icon from '@santiment-network/ui/Icon'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
@@ -11,6 +11,7 @@ import {
   projectsListHistoryStatsGQL,
   totalMarketcapGQL
 } from '../ListInfoWidget/TotalMarketcapGQL'
+import { WATCHLIST_HISTORY_QUERY } from '../../queries/WatchlistGQL'
 import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
 import Gradients from '../ListInfoWidget/Gradients'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
@@ -122,6 +123,23 @@ const enhance = compose(
     skip: ({ slug }) => !slug,
     props: ({ data: { historyPrice = [], loading, error } }) => ({
       stats: filterEmptyStats(historyPrice),
+      isLoading: loading,
+      isError: error
+    })
+  }),
+  graphql(WATCHLIST_HISTORY_QUERY, {
+    options: ({ id }) => ({
+      variables: {
+        id,
+        ...getTimeIntervalFromToday(-6, DAY),
+        interval: INTERVAL
+      }
+    }),
+    skip: ({ id }) => !id,
+    props: ({ data: { watchlist = {}, loading, error } }) => ({
+      stats: watchlist.historicalStats
+        ? filterEmptyStats(watchlist.historicalStats)
+        : [],
       isLoading: loading,
       isError: error
     })

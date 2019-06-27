@@ -29,13 +29,6 @@ const getMarketcapQuery = ({ type, projects, range }) => {
 
   if (TOTAL_TYPES[type]) return slugsQueryTotal
 
-  const sortedProjects = projects
-    .slice()
-    .sort(
-      ({ marketcapUsd: a_marketcapUsd }, { marketcapUsd: b_marketcapUsd }) =>
-        a_marketcapUsd < b_marketcapUsd ? 1 : -1
-    )
-
   return graphql(projectsListHistoryStatsGQL, {
     props: ({
       data: { projectsListHistoryStats = [], loading: isLoading }
@@ -47,7 +40,7 @@ const getMarketcapQuery = ({ type, projects, range }) => {
       variables: {
         from: from.toISOString(),
         to: to.toISOString(),
-        slugs: sortedProjects.map(({ slug }) => slug),
+        slugs: projects.map(({ slug }) => slug),
         interval: range.interval
       }
     })
