@@ -13,7 +13,6 @@
   position: absolute;
   top: 16px;
   right: 20px;
-  color: var(--waterloo);
 
   @include text('body-3');
 
@@ -82,70 +81,6 @@
   cursor: default;
 }
 
-.task {
-  position: relative;
-  padding: 16px 52px;
-  height: 100%;
-
-  &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    top: 16px;
-    left: 16px;
-    fill: var(--mirage);
-  }
-
-  &__title {
-    color: var(--mirage);
-    margin-bottom: 8px;
-
-    @include text('body-2');
-  }
-
-  &__text {
-    color: var(--waterloo);
-
-    @include text('body-3');
-  }
-
-  &__state {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    top: 16px;
-    border-radius: 50%;
-    background: var(--athens);
-    right: 16px;
-    border: 1px solid var(--porcelain);
-    fill: var(--athens);
-
-    &_completed {
-      fill: var(--jungle-green);
-      background: var(--jungle-green-light);
-      border: 0;
-    }
-  }
-}
-
-.selectable {
-  cursor: pointer;
-  transition: all ease-in-out 0.1s;
-
-  &:hover {
-    box-shadow: 0 14px 20px rgba(24, 27, 43, 0.06);
-    transform: translateY(-4px);
-  }
-}
-
-.icon {
-  &_connection {
-    transform: rotate(-45deg);
-  }
+.connection {
+  transform: rotate(-45deg);
 }
