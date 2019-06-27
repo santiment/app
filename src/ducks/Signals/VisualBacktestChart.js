@@ -59,12 +59,9 @@ const VisualBacktestChart = ({ data, price, metrics }) => {
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload[0]) {
-    const isPriceValue =
-      payload[0].name === 'Price' && payload[0].payload.priceUsd
-
-    const value = isPriceValue
-      ? formatNumber(payload[0].payload.priceUsd, { currency: 'USD' })
-      : payload[0].value
+    const priceValue = payload[0].payload.price
+      ? formatNumber(payload[0].payload.price, { currency: 'USD' })
+      : undefined
 
     return (
       <div
@@ -77,7 +74,8 @@ const CustomTooltip = ({ active, payload }) => {
           whiteSpace: 'nowrap'
         }}
       >
-        {<p className='label'>{`${payload[0].name} : ${value}`}</p>}
+        <p className='label'>{`${payload[0].name} : ${payload[0].value}`}</p>
+        {priceValue && <p className='price'>{`Price : ${priceValue}`}</p>}
       </div>
     )
   }
