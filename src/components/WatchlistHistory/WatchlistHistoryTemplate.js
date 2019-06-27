@@ -1,13 +1,13 @@
 import React from 'react'
 import cx from 'classnames'
-import { Button } from '@santiment-network/ui'
 import { Area, AreaChart, ResponsiveContainer } from 'recharts'
+import Button from '@santiment-network/ui/Button'
 import PercentChanges from '../PercentChanges'
 import ItemLoader from '../Loader/ItemLoader'
 import Gradients from './Gradients'
-import styles from './ListInfoWidgetItem.module.scss'
+import styles from './WatchlistHistoryTemplate.module.scss'
 
-const ListInfoWidgetItem = ({
+const WatchlistHistoryTemplate = ({
   stats = [],
   label,
   metric,
@@ -62,4 +62,4 @@ const ListInfoWidgetItem = ({
   )
 }
 
-export default ListInfoWidgetItem
+export default WatchlistHistoryTemplate

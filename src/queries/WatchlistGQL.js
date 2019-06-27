@@ -102,21 +102,3 @@ export const WATCHLIST_QUERY = gql`
   ${generalData}
   ${project}
 `
-
-export const WATCHLIST_HISTORY_QUERY = gql`
-  query watchlist(
-    $id: Int!
-    $from: DateTime!
-    $to: DateTime!
-    $interval: String = "1d"
-  ) {
-    watchlist(id: $id) {
-      name
-      historicalStats(from: $from, to: $to, interval: $interval) {
-        datetime
-        marketcap
-        volume
-      }
-    }
-  }
-`

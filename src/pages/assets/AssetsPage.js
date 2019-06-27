@@ -10,12 +10,12 @@ import {
   isNotSafari,
   normalizeCSV
 } from './utils'
-import { RANGES } from '../../components/ListInfoWidget/list-info-constants'
+import { RANGES } from '../../components/WatchlistHistory/constants'
 import GetAssets from './GetAssets'
 import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
-import GetMarketcap from '../../components/ListInfoWidget/GetListInfo'
+import GetMarketcap from '../../components/WatchlistHistory/GetWatchlistHistory'
 import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
 import WatchlistContextMenu from './WatchlistContextMenu'
 import AssetsTemplates from './AssetsTemplates'

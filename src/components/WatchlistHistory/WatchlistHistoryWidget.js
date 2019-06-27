@@ -1,11 +1,11 @@
 import React from 'react'
-import { Panel } from '@santiment-network/ui'
+import Panel from '@santiment-network/ui/Panel/Panel'
 import Label from '@santiment-network/ui/Label'
-import { generateWidgetData } from './utils'
-import ListInfoWidgetItem from './ListInfoWidgetItem'
-import styles from './ListInfoWidget.module.scss'
+import { generateWidgetData, getRelativeMarketcapInPercents } from './utils'
+import WatchlistHistoryTemplate from './WatchlistHistoryTemplate'
+import styles from './WatchlistHistoryWidget.module.scss'
 
-const ListInfoWidget = ({
+const WatchlistHistoryWidget = ({
   historyPrice,
   type,
   assetsAmount,
@@ -14,8 +14,9 @@ const ListInfoWidget = ({
   ...rest
 }) => {
   const {
-    marketcapPrice,
-    volumePrice,
+    latestMarketcap,
+    marketcapFormatted,
+    volumeFormatted,
     chartStats,
     volumeChanges,
     marketcapChanges
@@ -24,20 +25,20 @@ const ListInfoWidget = ({
   return (
     <Panel className={styles.wrapper}>
       <div className={styles.top}>
-        <ListInfoWidgetItem
+        <WatchlistHistoryTemplate
           stats={chartStats}
           change={marketcapChanges}
           label={`${type} marketcap`}
           metric='marketcap'
-          value={marketcapPrice}
+          value={marketcapFormatted}
           {...rest}
         />
-        <ListInfoWidgetItem
+        <WatchlistHistoryTemplate
           stats={chartStats}
           change={volumeChanges}
           label='Volume'
           metric='volume'
-          value={volumePrice}
+          value={volumeFormatted}
           {...rest}
         />
       </div>
@@ -56,7 +57,8 @@ const ListInfoWidget = ({
           <Label className={styles.statName}>Dominance:</Label>
           {top3.map(({ ticker, marketcapUsd }) => (
             <Label className={styles.statValue} key={ticker}>
-              {ticker} {((marketcapUsd * 100) / marketcapPrice).toFixed(2)}%
+              {ticker}{' '}
+              {getRelativeMarketcapInPercents(latestMarketcap, marketcapUsd)}%
             </Label>
           ))}
         </div>
@@ -65,4 +67,4 @@ const ListInfoWidget = ({
   )
 }
 
-export default ListInfoWidget
+export default WatchlistHistoryWidget

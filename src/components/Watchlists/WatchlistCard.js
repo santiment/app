@@ -8,16 +8,16 @@ import PropTypes from 'prop-types'
 import { Area, AreaChart, ResponsiveContainer } from 'recharts'
 import PercentChanges from '../PercentChanges'
 import {
-  projectsListHistoryStatsGQL,
-  totalMarketcapGQL
-} from '../ListInfoWidget/TotalMarketcapGQL'
-import { WATCHLIST_HISTORY_QUERY } from '../../queries/WatchlistGQL'
+  PROJECTS_HISTORY_QUERY,
+  CATEGORY_HISTORY_QUERY
+} from '../WatchlistHistory/WatchlistHistoryGQL'
+import { WATCHLIST_HISTORY_QUERY } from '../WatchlistHistory/WatchlistHistoryGQL'
 import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
-import Gradients from '../ListInfoWidget/Gradients'
+import Gradients from '../WatchlistHistory/Gradients'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
-import { filterEmptyStats } from '../ListInfoWidget/utils'
+import { filterEmptyStats } from '../WatchlistHistory/utils'
 import styles from './WatchlistCard.module.scss'
 
 const INTERVAL = '6h'
@@ -97,7 +97,7 @@ WatchlistCard.defaultProps = {
 }
 
 const enhance = compose(
-  graphql(projectsListHistoryStatsGQL, {
+  graphql(PROJECTS_HISTORY_QUERY, {
     options: ({ slugs = [] }) => ({
       variables: {
         slugs,
@@ -112,7 +112,7 @@ const enhance = compose(
       isError: error
     })
   }),
-  graphql(totalMarketcapGQL, {
+  graphql(CATEGORY_HISTORY_QUERY, {
     options: ({ slug }) => ({
       variables: {
         slug,

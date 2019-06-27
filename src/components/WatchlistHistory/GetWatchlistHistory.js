@@ -1,18 +1,18 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
-import { TOTAL_TYPES } from './list-info-constants'
+import { TOTAL_TYPES } from './constants'
 import {
-  totalMarketcapGQL,
-  projectsListHistoryStatsGQL
-} from './TotalMarketcapGQL'
-import ListInfoWidget from './ListInfoWidget'
+  CATEGORY_HISTORY_QUERY,
+  PROJECTS_HISTORY_QUERY
+} from './WatchlistHistoryGQL'
+import WatchlistHistoryWidget from './WatchlistHistoryWidget'
 import { filterEmptyStats } from './utils'
 
 const getMarketcapQuery = ({ type, projects, range }) => {
   const { from, to } = range.method
 
-  const slugsQueryTotal = graphql(totalMarketcapGQL, {
+  const slugsQueryTotal = graphql(CATEGORY_HISTORY_QUERY, {
     props: ({ data: { historyPrice = [], loading: isLoading } }) => ({
       historyPrice: filterEmptyStats(historyPrice),
       isLoading
@@ -29,7 +29,7 @@ const getMarketcapQuery = ({ type, projects, range }) => {
 
   if (TOTAL_TYPES[type]) return slugsQueryTotal
 
-  return graphql(projectsListHistoryStatsGQL, {
+  return graphql(PROJECTS_HISTORY_QUERY, {
     props: ({
       data: { projectsListHistoryStats = [], loading: isLoading }
     }) => ({
@@ -47,10 +47,10 @@ const getMarketcapQuery = ({ type, projects, range }) => {
   })
 }
 
-const GetListInfo = ({ type, from, projects, range, ...rest }) => {
+const GetWatchlistHistory = ({ type, from, projects, range, ...rest }) => {
   if (range) {
     const resultQuery = getMarketcapQuery({ type, projects, range })
-    const HistoryQuery = resultQuery(ListInfoWidget)
+    const HistoryQuery = resultQuery(WatchlistHistoryWidget)
     return (
       <HistoryQuery
         {...rest}
@@ -63,4 +63,4 @@ const GetListInfo = ({ type, from, projects, range, ...rest }) => {
 
 const mapStateToProps = ({ projects: { items } }) => ({ projects: items })
 
-export default connect(mapStateToProps)(GetListInfo)
+export default connect(mapStateToProps)(GetWatchlistHistory)
