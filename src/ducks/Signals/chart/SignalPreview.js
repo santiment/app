@@ -6,8 +6,8 @@ import { Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartMetrics from '../../SANCharts/ChartMetrics'
 import VisualBacktestChart from '../VisualBacktestChart'
-import styles from './SignalPreview.module.scss'
 import { ChartExpandView } from './ChartExpandView'
+import styles from './SignalPreview.module.scss'
 
 const CUSTOM_METRICS = {
   customDailyActiveAdresses: {
@@ -35,12 +35,20 @@ const SignalPreview = ({ type, points = [], target, height }) => {
   )
 }
 
-const SignalPreviewChart = ({ type, points, target, height }) => {
-  const initialMetrics = getMetricsByType() || ['historyPrice']
+const SignalPreviewChart = ({ type, points, target, height = 150 }) => {
+  const initialMetrics = getMetricsByType(type) || ['historyPrice']
 
   const [metrics, setMetrics] = useState(initialMetrics)
+  const [baseType, setType] = useState(type)
+
+  if (baseType !== type) {
+    setType(type)
+    setMetrics(initialMetrics)
+    return
+  }
 
   const _metrics = metrics.filter(metric => initialMetrics.includes(metric))
+
   const amountOfTriggers = points.reduce(
     (acc, val) => (acc += +val['triggered?']),
     0
@@ -49,47 +57,48 @@ const SignalPreviewChart = ({ type, points, target, height }) => {
   const { label, value } = getTimeRangeForChart(type)
 
   return (
-    <div>
+    <div className={styles.preview} style={{ minHeight: height }}>
       <div className={styles.description}>
         <span className={styles.fired}>Signal was fired:</span>{' '}
         <span className={styles.times}>
           {amountOfTriggers} times in {label}
         </span>
       </div>
-      <div className={styles.chartBlock}>
-        <GetTimeSeries
-          historyPrice={{
-            timeRange: value,
-            slug: target,
-            interval: '1d'
-          }}
-          render={({
-            historyPrice,
-            errorMetrics = {},
-            isError,
-            errorType,
-            ...rest
-          }) => {
-            if (!historyPrice) {
-              return 'Loading...'
-            }
+      <div className={styles.chartBlock} style={{ height: height }}>
+        <div className={styles.chart}>
+          <GetTimeSeries
+            historyPrice={{
+              timeRange: value,
+              slug: target,
+              interval: '1d'
+            }}
+            render={({
+              historyPrice,
+              errorMetrics = {},
+              isError,
+              errorType,
+              ...rest
+            }) => {
+              if (!historyPrice) {
+                return 'Loading...'
+              }
 
-            const customMetrics = _metrics.map(metric => {
-              return CUSTOM_METRICS[metric] || metric
-            })
+              const customMetrics = _metrics.map(metric => {
+                return CUSTOM_METRICS[metric] || metric
+              })
 
-            return (
-              historyPrice && (
-                <VisualBacktestChart
-                  data={points}
-                  price={historyPrice.items}
-                  metrics={customMetrics}
-                  height={height}
-                />
+              return (
+                historyPrice && (
+                  <VisualBacktestChart
+                    data={points}
+                    price={historyPrice.items}
+                    metrics={customMetrics}
+                  />
+                )
               )
-            )
-          }}
-        />
+            }}
+          />
+        </div>
 
         <ChartMetrics
           slug={target}

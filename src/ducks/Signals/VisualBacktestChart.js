@@ -8,13 +8,13 @@ import {
   ReferenceLine
 } from 'recharts'
 import { generateMetricsMarkup } from './../SANCharts/utils'
-import { formatNumber } from './../../utils/formatting'
+import { formatNumber, labelFormatter } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
 
 const mapWithTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
-const VisualBacktestChart = ({ data, price, metrics, height }) => {
+const VisualBacktestChart = ({ data, price, metrics }) => {
   const formattedPrice = mapWithTimeseries(price)
   const formattedData = mapWithTimeseries(data)
 
@@ -45,19 +45,13 @@ const VisualBacktestChart = ({ data, price, metrics, height }) => {
               x={point.datetime}
             />
           ))}
-        <Tooltip
-          labelFormatter={date => {
-            const { dddd, MMM, DD, YYYY } = getDateFormats(new Date(date))
-            return `${dddd}, ${MMM} ${DD} ${YYYY}`
-          }}
-          content={<CustomTooltip />}
-        />
+        <Tooltip labelFormatter={labelFormatter} content={<CustomTooltip />} />
       </ComposedChart>
     )
   }
 
   return (
-    <ResponsiveContainer width='100%' height={height || 150}>
+    <ResponsiveContainer width='100%' height='100%'>
       {renderChart()}
     </ResponsiveContainer>
   )
@@ -65,9 +59,13 @@ const VisualBacktestChart = ({ data, price, metrics, height }) => {
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload[0]) {
-    const priceValue = payload[0].payload.price
-      ? formatNumber(payload[0].payload.price, { currency: 'USD' })
-      : undefined
+    const isPriceValue =
+      payload[0].name === 'Price' && payload[0].payload.priceUsd
+
+    const value = isPriceValue
+      ? formatNumber(payload[0].payload.priceUsd, { currency: 'USD' })
+      : payload[0].value
+
     return (
       <div
         className='custom-tooltip'
@@ -79,8 +77,7 @@ const CustomTooltip = ({ active, payload }) => {
           whiteSpace: 'nowrap'
         }}
       >
-        <p className='label'>{`${payload[0].name} : ${payload[0].value}`}</p>
-        {priceValue && <p className='price'>{`Price : ${priceValue}`}</p>}
+        {<p className='label'>{`${payload[0].name} : ${value}`}</p>}
       </div>
     )
   }

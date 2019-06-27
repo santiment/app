@@ -5,6 +5,7 @@ import cx from 'classnames'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
 import { Metrics } from './utils'
 import styles from './ChartPage.module.scss'
+import isEqual from 'lodash.isequal'
 
 class ChartMetrics extends Component {
   state = {
@@ -30,6 +31,17 @@ class ChartMetrics extends Component {
       },
       () => onMetricsChange([...this.state.metrics])
     )
+  }
+
+  componentWillReceiveProps (nextProps, nextContext) {
+    const { defaultActiveMetrics, onMetricsChange } = this.props
+
+    const { defaultActiveMetrics: nextMetrics } = nextProps
+    if (!isEqual(defaultActiveMetrics, nextMetrics)) {
+      this.setState({ metrics: new Set([...nextMetrics]) }, () =>
+        onMetricsChange([...this.state.metrics])
+      )
+    }
   }
 
   render () {

@@ -4,11 +4,11 @@ import full_screen from '../../../assets/full_screen.svg'
 import styles from './ChartExpandView.module.scss'
 
 export const ChartExpandView = ({ children }) => {
-  const height = window.innerHeight * 0.7
   const width = window.innerWidth * 0.8
+  const height = window.innerHeight * 0.6
 
   const renderChildWithHeight = () => {
-    return React.cloneElement(children, { height: 0.7 * height })
+    return React.cloneElement(children, { height: height - 75 })
   }
 
   return (
@@ -25,6 +25,7 @@ export const ChartExpandView = ({ children }) => {
             <img src={full_screen} alt='Expand' />
           </Button>
         }
+        classes={styles}
       >
         <Dialog.ScrollContent>
           <div
