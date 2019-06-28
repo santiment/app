@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Icon, Button } from '@santiment-network/ui'
-import styles from './TriggerFormHeader.module.scss'
+import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
 import { RemoveSignalButton } from '../../../../../components/SignalCard/controls/SignalControls'
+import styles from './TriggerFormHeader.module.scss'
 
 const propTypes = {
   showTrigger: PropTypes.bool.isRequired

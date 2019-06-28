@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
-import { Label } from '@santiment-network/ui'
+import Label from '@santiment-network/ui/Label'
 import {
   ETH_WALLETS_OPTIONS,
   METRIC_TYPES_DEPENDENCIES,

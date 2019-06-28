@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button, Dialog } from '@santiment-network/ui'
+import Dialog from '@santiment-network/ui/Dialog'
+import Button from '@santiment-network/ui/Button'
 import full_screen from '../../../assets/full_screen.svg'
 import styles from './ChartExpandView.module.scss'
 
