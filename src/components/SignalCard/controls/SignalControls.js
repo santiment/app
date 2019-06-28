@@ -38,14 +38,19 @@ export const SignalTypeIcon = ({ type }) => {
   )
 }
 
-export const RemoveSignalButton = ({ id, removeSignal, redirect }) => (
+export const RemoveSignalButton = ({
+  id,
+  removeSignal,
+  redirect,
+  className
+}) => (
   <DeleteDialog
     id={id}
     title='Do you want to delete this trigger?'
     deleteItem={removeSignal}
     redirect={redirect}
     trigger={
-      <Button variant='ghost' fluid>
+      <Button variant='ghost' type='button' className={className}>
         <Icon type='remove' />
       </Button>
     }

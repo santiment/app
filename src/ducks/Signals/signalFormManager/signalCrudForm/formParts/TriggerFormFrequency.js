@@ -11,8 +11,8 @@ import {
   FREQUENCY_TYPES_OPTIONS,
   frequencyTymeValueBuilder
 } from '../../../utils/constants'
+import Label from '@santiment-network/ui/Label'
 import styles from '../signal/TriggerForm.module.scss'
-import { Label } from '@santiment-network/ui'
 
 const propTypes = {
   metaFormSettings: PropTypes.any.isRequired,

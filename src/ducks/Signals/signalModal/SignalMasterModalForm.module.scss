@@ -1,3 +1,5 @@
+@import "~@santiment-network/ui/mixins.scss";
+
 .newSignal {
   &__icon {
     height: 18px;
@@ -7,4 +9,13 @@
 
 .TriggerPanel {
   position: relative;
+}
+
+@include responsive('phone', 'phone-xs') {
+  .dialog {
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
 }

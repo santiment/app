@@ -13,12 +13,15 @@ const SonarFeedMySignalsPage = ({ match, setLoadingSignalId }) => {
   return (
     <GetSignals
       render={({ signals, isError, isLoading }) => {
+        const hasSignals = signals && signals.length
         return (
           <div>
-            {isLoading ? 'Loading...' : ''}
-            {isError ? 'Error' : ''}
-            {signals && <SignalCardsGrid signals={signals} />}
-            {!signals && <SonarFeedRecommendations />}
+            {isLoading && 'Loading...'}
+            {isError && 'Error'}
+            {!isLoading && !hasSignals && (
+              <SonarFeedRecommendations showButton />
+            )}
+            {!isLoading && hasSignals && <SignalCardsGrid signals={signals} />}
           </div>
         )
       }}

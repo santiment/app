@@ -24,7 +24,7 @@ $trigger-form-width: 496px;
 
 .signalPreview {
   display: block !important;
-  padding: 15px 15px 0;
+  padding: 15px 15px;
   background: var(--white);
   border: 1px solid var(--porcelain);
 
@@ -185,7 +185,9 @@ a.connectLink {
 
 .AboutForm {
   background-color: var(--white);
+
   @include border-box();
+
   border-radius: $border-radius;
   padding-top: 16px;
 
@@ -205,7 +207,9 @@ a.connectLink {
 
 .triggerFormItem {
   border: 1px solid var(--porcelain);
+
   @include border-box();
+
   border-radius: $border-radius;
   margin-top: 20px;
 }
@@ -232,5 +236,19 @@ a {
   .wrapper {
     width: initial;
     max-width: $trigger-form-width;
+    padding: 0;
+  }
+
+  .triggerFormItem {
+    margin-top: 0;
+    border-radius: 0;
+  }
+
+  .triggerToggleBlock {
+    margin: 20px 230px 10px 20px;
+  }
+
+  .controls {
+    bottom: 0;
   }
 }

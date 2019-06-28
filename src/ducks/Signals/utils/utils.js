@@ -17,7 +17,7 @@ import {
   MUST_BE_MORE_ZERO_MESSAGE,
   PRICE_PERCENT_CHANGE_DOWN_MODEL,
   ETH_WALLET,
-  DAILY_ACTIVE_ADRESSES_METRIC,
+  DAILY_ACTIVE_ADDRESSES_METRIC,
   PRICE_VOLUME_DIFFERENCE_METRIC,
   PRICE_METRIC,
   PRICE_ABS_CHANGE_OUTSIDE,
@@ -53,7 +53,7 @@ const getFormTriggerType = (type, operation) => {
   if (!operation) {
     switch (type) {
       case DAILY_ACTIVE_ADDRESSES: {
-        return DAILY_ACTIVE_ADRESSES_METRIC
+        return DAILY_ACTIVE_ADDRESSES_METRIC
       }
       case PRICE_VOLUME_DIFFERENCE: {
         return PRICE_VOLUME_DIFFERENCE_METRIC
@@ -158,7 +158,7 @@ const getMetric = type => {
       return PRICE_METRIC
     }
     case DAILY_ACTIVE_ADDRESSES: {
-      return DAILY_ACTIVE_ADRESSES_METRIC
+      return DAILY_ACTIVE_ADDRESSES_METRIC
     }
     case PRICE_VOLUME_DIFFERENCE: {
       return PRICE_VOLUME_DIFFERENCE_METRIC
@@ -386,7 +386,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
 export const getMetricsByType = type => {
   switch (type) {
     case DAILY_ACTIVE_ADDRESSES:
-      return ['customDailyActiveAdresses', 'historyPrice']
+      return ['triggerDailyActiveAdresses', 'historyPrice']
     case PRICE_VOLUME_DIFFERENCE:
       return ['historyPrice', 'volume']
     default:
@@ -406,8 +406,8 @@ export const getNearestTypeByMetric = metric => {
     case PRICE_METRIC.value: {
       return PRICE_PERCENT_CHANGE_UP_MODEL
     }
-    case DAILY_ACTIVE_ADRESSES_METRIC.value: {
-      return DAILY_ACTIVE_ADRESSES_METRIC
+    case DAILY_ACTIVE_ADDRESSES_METRIC.value: {
+      return DAILY_ACTIVE_ADDRESSES_METRIC
     }
     case PRICE_VOLUME_DIFFERENCE_METRIC.value: {
       return PRICE_VOLUME_DIFFERENCE_METRIC
@@ -548,7 +548,7 @@ export const validateTriggerForm = values => {
 
 const POSSIBLE_METRICS_FOR_CHART = [
   PRICE_METRIC.value,
-  DAILY_ACTIVE_ADRESSES_METRIC.value,
+  DAILY_ACTIVE_ADDRESSES_METRIC.value,
   PRICE_VOLUME_DIFFERENCE_METRIC.value
 ]
 
