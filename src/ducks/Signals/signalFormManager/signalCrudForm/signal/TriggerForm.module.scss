@@ -230,5 +230,19 @@ a {
   .wrapper {
     width: initial;
     max-width: $trigger-form-width;
+    padding: 0;
+  }
+
+  .triggerFormItem {
+    margin-top: 0;
+    border-radius: 0;
+  }
+
+  .triggerToggleBlock {
+    margin: 20px 230px 10px 20px;
+  }
+
+  .controls {
+    bottom: 0;
   }
 }

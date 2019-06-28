@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { RemoveSignalButton } from '../../../../../components/SignalCard/controls/SignalControls'
@@ -26,7 +27,7 @@ export const TriggerFormHeader = ({
         />
         <Button
           type='button'
-          className={styles.triggerHeaderButton}
+          className={cx(styles.triggerHeaderButton, styles.close)}
           onClick={showTriggerFunc}
           disabled={!actionsEnabled}
         >

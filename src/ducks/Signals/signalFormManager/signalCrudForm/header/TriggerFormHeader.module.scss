@@ -7,7 +7,7 @@
   box-sizing: border-box;
   border-radius: 4px;
   display: flex;
-  padding: 3px 20px;
+  padding: 3px 10px 3px 20px;
   color: var(--casper);
 
   @include text('body-3');
@@ -26,11 +26,29 @@
   margin-left: auto;
 }
 
+.close {
+  display: none;
+}
+
 .triggerHeaderButton {
   background-color: var(--athens) !important;
   fill: var(--waterloo);
 
   &:hover {
     fill: var(---btn-accent-color-hover);
+  }
+}
+
+@include responsive('phone', 'phone-xs') {
+  .triggerHeader {
+    border-radius: 0;
+    border: none;
+    background: none;
+    padding: 3px 2px 3px 20px;
+    color: var(--mirage);
+  }
+
+  .triggerHeaderButton {
+    background-color: var(--white) !important;
   }
 }
