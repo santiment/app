@@ -58,3 +58,15 @@
     background: var(--casper);
   }
 }
+
+.transparent {
+  color: transparent;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader {
+  position: absolute;
+}

@@ -9,14 +9,15 @@
 }
 
 .chart {
-  margin-left: 40px;
+  margin-left: 30px;
 
   @include responsive('desktop', 'laptop') {
     max-width: 150px;
   }
 
   @include responsive('tablet') {
-    display: none;
+    max-width: 130px;
+    margin-left: auto;
   }
 }
 
@@ -30,6 +31,7 @@
   display: flex;
   align-items: center;
   white-space: nowrap;
+  margin-right: 10px;
 }
 
 .label {

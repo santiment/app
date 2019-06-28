@@ -51,12 +51,13 @@ const AssetsPage = props => {
         render={Assets => {
           const title = getTableTitle(props)
           const {
-            typeInfo: { listId },
+            typeInfo: { listId, listFunction },
             isLoading,
             isCurrentUserTheAuthor,
             isPublicWatchlist,
-            items
+            items = []
           } = Assets
+
           return (
             <>
               <div className='page-head page-head-projects'>
@@ -112,6 +113,8 @@ const AssetsPage = props => {
                     changeRange={changeRange}
                     assetsAmount={items.length}
                     top3={items.slice(0, 3)}
+                    byFunction={listFunction}
+                    id={listId}
                   />
                   <AssetsTable
                     Assets={Assets}

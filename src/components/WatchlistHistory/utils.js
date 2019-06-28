@@ -21,12 +21,16 @@ export const statsForGraphics = arr => {
   }))
 }
 
+export const getRelativeMarketcapInPercents = (total, part) =>
+  ((part * 100) / total).toFixed(2)
+
 export const generateWidgetData = historyPrice => {
   if (!historyPrice || historyPrice.length === 0) return {}
 
   const { marketcap: latestMarketcap, volume: latestVolume } = historyPrice[
     historyPrice.length - 1
   ]
+
   const { marketcap, volume } = historyPrice[0]
 
   const marketcapFormatted = formatNumber(
@@ -49,6 +53,3 @@ export const generateWidgetData = historyPrice => {
     marketcapChanges
   }
 }
-
-export const getRelativeMarketcapInPercents = (total, part) =>
-  ((part * 100) / total).toFixed(2)
