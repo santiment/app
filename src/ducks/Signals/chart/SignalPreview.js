@@ -10,13 +10,20 @@ import { ChartExpandView } from './ChartExpandView'
 import styles from './SignalPreview.module.scss'
 
 const CUSTOM_METRICS = {
-  customDailyActiveAdresses: {
+  triggerDailyActiveAdresses: {
     node: Bar,
     color: 'malibu',
     label: 'Daily Active Addresses',
     dataKey: 'active_addresses',
     orientation: 'right',
     yAxisVisible: true
+  },
+  volume: {
+    node: Bar,
+    color: 'waterloo',
+    label: 'Volume',
+    fill: true,
+    dataKey: 'price_volume_diff'
   }
 }
 
@@ -106,7 +113,7 @@ const SignalPreviewChart = ({ type, points, target, height = 150 }) => {
           defaultActiveMetrics={initialMetrics}
           showOnlyDefault={true}
           listOfMetrics={initialMetrics.reduce((acc, metric) => {
-            acc[metric] = Metrics[metric] || CUSTOM_METRICS[metric]
+            acc[metric] = CUSTOM_METRICS[metric] || Metrics[metric]
             return acc
           }, {})}
         />

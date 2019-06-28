@@ -12,6 +12,13 @@ class ChartMetrics extends Component {
     metrics: new Set(this.props.defaultActiveMetrics)
   }
 
+  setMetrics = metrics => {
+    const { onMetricsChange } = this.props
+    this.setState({ metrics: new Set([...metrics]) }, () =>
+      onMetricsChange([...this.state.metrics])
+    )
+  }
+
   onClick = ({ currentTarget }) => {
     const { metrics } = this.state
     const { onMetricsChange } = this.props
@@ -19,9 +26,7 @@ class ChartMetrics extends Component {
 
     if (metrics.has(metric)) {
       metrics.delete(metric)
-      this.setState({ metrics: new Set([...metrics]) }, () =>
-        onMetricsChange([...this.state.metrics])
-      )
+      this.setMetrics(metrics)
       return
     }
 
@@ -34,13 +39,11 @@ class ChartMetrics extends Component {
   }
 
   componentWillReceiveProps (nextProps, nextContext) {
-    const { defaultActiveMetrics, onMetricsChange } = this.props
+    const { defaultActiveMetrics } = this.props
 
     const { defaultActiveMetrics: nextMetrics } = nextProps
-    if (!isEqual(defaultActiveMetrics, nextMetrics)) {
-      this.setState({ metrics: new Set([...nextMetrics]) }, () =>
-        onMetricsChange([...this.state.metrics])
-      )
+    if (nextMetrics && !isEqual(defaultActiveMetrics, nextMetrics)) {
+      this.setMetrics(nextMetrics)
     }
   }
 

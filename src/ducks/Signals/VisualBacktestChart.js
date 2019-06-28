@@ -7,7 +7,7 @@ import {
   Tooltip,
   ReferenceLine
 } from 'recharts'
-import { generateMetricsMarkup } from './../SANCharts/utils'
+import { generateMetricsMarkup, Metrics } from './../SANCharts/utils'
 import { formatNumber, labelFormatter } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
 
@@ -34,7 +34,10 @@ const VisualBacktestChart = ({ data, price, metrics }) => {
           domain={['dataMin', 'dataMax']}
         />
         <YAxis hide />
-        {generateMetricsMarkup(metrics, { active_addresses: formattedData })}
+        {generateMetricsMarkup(metrics, {
+          active_addresses: formattedData,
+          price_volume_diff: formattedData
+        })}
 
         {formattedData
           .filter(point => point['triggered?'])
@@ -62,6 +65,8 @@ const CustomTooltip = ({ active, payload }) => {
     const priceValue = payload[0].payload.price
       ? formatNumber(payload[0].payload.price, { currency: 'USD' })
       : undefined
+
+    console.log(payload[0])
 
     return (
       <div
