@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import SignalCardsGrid, {
   defaultSignals
 } from '../../components/SignalCard/SignalCardsGrid'
@@ -12,8 +11,7 @@ const SonarFeedRecommendations = ({ showButton }) => (
     <div className={styles.container}>
       <img className={styles.pic} alt='Artboard' src={Image} />
       <div className={styles.description}>
-        Please create your own signal or subscribe to existing in the{' '}
-        <Link to='/sonar/feed/explore'>Explore</Link> tab to get signals feed
+        Start to add signals you want to track or just interested in
       </div>
       {showButton && <SignalMasterModalForm label='Add your first signal' />}
     </div>

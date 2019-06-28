@@ -1,7 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { matchPath } from 'react-router'
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
-import { Tabs, Icon } from '@santiment-network/ui'
+import Icon from '@santiment-network/ui/Icon'
+import Tabs from '@santiment-network/ui/Tabs'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
@@ -9,7 +10,6 @@ import InsightUnAuthPage from './../../pages/Insights/InsightUnAuthPage'
 import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar/feed'
-
 const detailsModalLocation = `${baseLocation}/details/:id/edit`
 
 const tabs = [

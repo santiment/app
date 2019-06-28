@@ -51,6 +51,7 @@ const SignalMasterModalForm = ({
       onClose={onClose}
       trigger={signalModalTrigger(isLoggedIn, label)}
       title={dialogTitle}
+      classes={styles}
     >
       <Dialog.ScrollContent className={styles.TriggerPanel}>
         <SignalMaster
