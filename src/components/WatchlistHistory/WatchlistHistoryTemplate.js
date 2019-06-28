@@ -1,9 +1,9 @@
 import React from 'react'
 import cx from 'classnames'
 import { Area, AreaChart, ResponsiveContainer } from 'recharts'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import Button from '@santiment-network/ui/Button'
 import PercentChanges from '../PercentChanges'
-import ItemLoader from '../Loader/ItemLoader'
 import Gradients from './Gradients'
 import styles from './WatchlistHistoryTemplate.module.scss'
 
@@ -39,7 +39,7 @@ const WatchlistHistoryTemplate = ({
           {!isLoading && (
             <PercentChanges changes={change} className={styles.change} />
           )}
-          {isLoading && <ItemLoader className={styles.loader} />}
+          {isLoading && <Loader className={styles.loader} />}
         </div>
       </div>
       {!isLoading && (

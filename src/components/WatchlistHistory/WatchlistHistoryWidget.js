@@ -1,10 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Label from '@santiment-network/ui/Label'
 import { generateWidgetData, getRelativeMarketcapInPercents } from './utils'
 import WatchlistHistoryTemplate from './WatchlistHistoryTemplate'
-import ItemLoader from '../Loader/ItemLoader'
 import styles from './WatchlistHistoryWidget.module.scss'
 
 const WatchlistHistoryWidget = ({
@@ -68,7 +68,7 @@ const WatchlistHistoryWidget = ({
             >
               {ticker}{' '}
               {getRelativeMarketcapInPercents(latestMarketcap, marketcapUsd)}%
-              {!latestMarketcap && <ItemLoader className={styles.loader} />}
+              {!latestMarketcap && <Loader className={styles.loader} />}
             </Label>
           ))}
         </div>
