@@ -64,3 +64,13 @@
   margin-left: 12px;
   line-height: 30px;
 }
+
+.description {
+  fill: var(--casper);
+  position: relative;
+  margin-left: 6px;
+}
+
+.tooltip {
+  max-width: 330px;
+}

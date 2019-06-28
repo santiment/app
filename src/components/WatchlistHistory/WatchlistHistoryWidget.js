@@ -45,34 +45,36 @@ const WatchlistHistoryWidget = ({
           {...rest}
         />
       </div>
-      <div className={styles.bottom}>
-        <div className={styles.stat}>
-          <Label className={styles.statName}>Assets:</Label>
-          <Label className={styles.statValue}>{assetsAmount}</Label>
-        </div>
-        {exchangesAmount && (
+      {false && (
+        <div className={styles.bottom}>
           <div className={styles.stat}>
-            <Label className={styles.statName}>Exchanges:</Label>
-            <Label className={styles.statValue}>{exchangesAmount}</Label>
+            <Label className={styles.statName}>Assets:</Label>
+            <Label className={styles.statValue}>{assetsAmount}</Label>
           </div>
-        )}
-        <div className={styles.stat}>
-          <Label className={styles.statName}>Dominance:</Label>
-          {top3.map(({ ticker, marketcapUsd }) => (
-            <Label
-              className={cx(
-                styles.statValue,
-                !latestMarketcap && styles.transparent
-              )}
-              key={ticker}
-            >
-              {ticker}{' '}
-              {getRelativeMarketcapInPercents(latestMarketcap, marketcapUsd)}%
-              {!latestMarketcap && <Loader className={styles.loader} />}
-            </Label>
-          ))}
+          {exchangesAmount && (
+            <div className={styles.stat}>
+              <Label className={styles.statName}>Exchanges:</Label>
+              <Label className={styles.statValue}>{exchangesAmount}</Label>
+            </div>
+          )}
+          <div className={styles.stat}>
+            <Label className={styles.statName}>Dominance:</Label>
+            {top3.map(({ ticker, marketcapUsd }) => (
+              <Label
+                className={cx(
+                  styles.statValue,
+                  !latestMarketcap && styles.transparent
+                )}
+                key={ticker}
+              >
+                {ticker}{' '}
+                {getRelativeMarketcapInPercents(latestMarketcap, marketcapUsd)}%
+                {!latestMarketcap && <Loader className={styles.loader} />}
+              </Label>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </Panel>
   )
 }

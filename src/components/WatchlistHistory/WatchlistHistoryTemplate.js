@@ -3,6 +3,9 @@ import cx from 'classnames'
 import { Area, AreaChart, ResponsiveContainer } from 'recharts'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Button from '@santiment-network/ui/Button'
+import Tooltip from '@santiment-network/ui/Tooltip'
+import Icon from '@santiment-network/ui/Icon'
+import Panel from '@santiment-network/ui/Panel/Panel'
 import PercentChanges from '../PercentChanges'
 import Gradients from './Gradients'
 import styles from './WatchlistHistoryTemplate.module.scss'
@@ -15,7 +18,8 @@ const WatchlistHistoryTemplate = ({
   value,
   interval,
   changeRange,
-  isLoading
+  isLoading,
+  combinedPeriod
 }) => {
   const color = `var(--${change >= 0 ? 'lima' : 'persimmon'})`
 
@@ -33,6 +37,20 @@ const WatchlistHistoryTemplate = ({
           >
             {interval}
           </Button>
+          <Tooltip
+            className={styles.tooltip}
+            position='top'
+            trigger={
+              <Icon
+                type='question-round-small'
+                className={styles.description}
+              />
+            }
+          >
+            <Panel
+              padding
+            >{`Calculated as average value for the last ${combinedPeriod}. You can change period by pressing button`}</Panel>
+          </Tooltip>
         </div>
         <div className={styles.bottom}>
           <span className={styles.value}>$ {value}</span>

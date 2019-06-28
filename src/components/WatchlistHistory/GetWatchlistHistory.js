@@ -82,6 +82,7 @@ const GetWatchlistHistory = ({
         {...rest}
         type={TOTAL_TYPES[type] ? 'Total' : 'Watchlist'}
         interval={range.value}
+        combinedPeriod={range.interval}
       />
     )
   } else return null
