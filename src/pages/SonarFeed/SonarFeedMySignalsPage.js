@@ -16,7 +16,7 @@ const SonarFeedMySignalsPage = ({ match, setLoadingSignalId }) => {
         const hasSignals = signals && signals.length
         return (
           <div>
-            ` {isLoading && 'Loading...'}
+            {isLoading && 'Loading...'}
             {isError && 'Error'}
             {!isLoading && !hasSignals && (
               <SonarFeedRecommendations showButton />

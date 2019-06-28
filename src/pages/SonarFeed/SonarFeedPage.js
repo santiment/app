@@ -8,6 +8,7 @@ import PageLoader from '../../components/Loader/PageLoader'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import InsightUnAuthPage from './../../pages/Insights/InsightUnAuthPage'
 import styles from './SonarFeedPage.module.scss'
+import MobileHeader from '../../components/MobileHeader/MobileHeader'
 
 const baseLocation = '/sonar/feed'
 const detailsModalLocation = `${baseLocation}/details/:id/edit`
@@ -49,7 +50,12 @@ const LoadableEditSignalPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const SonarFeed = ({ location: { pathname }, isLoggedIn, match }) => {
+const SonarFeed = ({
+  location: { pathname },
+  isLoggedIn,
+  isDesktop,
+  match
+}) => {
   if (pathname === baseLocation) {
     return <Redirect exact from={baseLocation} to={tabs[0].index} />
   }
@@ -68,29 +74,36 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn, match }) => {
 
   return (
     <div style={{ width: '100%' }} className='page'>
-      <div className={styles.header}>
-        <h1>Sonar</h1>
-        <div>
-          {// TODO: Disable search and filter buttons
-            false && pathname !== '/sonar/feed/activity' && (
-              <Fragment>
-                <Icon type='search' className={styles.search} />
-                <Icon type='filter' className={styles.filter} />
-              </Fragment>
-            )}
-          <SignalMasterModalForm triggerId={triggerId} />
+      {isDesktop ? (
+        <div className={styles.header}>
+          <h1>Sonar</h1>
+          <div>
+            {// TODO: Disable search and filter buttons
+              false && pathname !== '/sonar/feed/activity' && (
+                <Fragment>
+                  <Icon type='search' className={styles.search} />
+                  <Icon type='filter' className={styles.filter} />
+                </Fragment>
+              )}
+            <SignalMasterModalForm triggerId={triggerId} />
+          </div>
         </div>
-      </div>
-      <div className={styles.pages}>
-        <Tabs
-          options={tabs}
-          defaultSelectedIndex={pathname}
-          passSelectionIndexToItem
-          className={styles.tabs}
-          as={({ selectionIndex, ...props }) => (
-            <Link {...props} to={selectionIndex} />
-          )}
+      ) : (
+        <MobileHeader
+          title='Sonar'
+          rightActions={<SignalMasterModalForm triggerId={triggerId} />}
         />
+      )}
+      <Tabs
+        options={tabs}
+        defaultSelectedIndex={pathname}
+        passSelectionIndexToItem
+        className={styles.tabs}
+        as={({ selectionIndex, ...props }) => (
+          <Link {...props} to={selectionIndex} />
+        )}
+      />
+      <div className={styles.content}>
         <Switch>
           {!isLoggedIn ? <InsightUnAuthPage /> : ''}
           {tabs.map(({ index, component }) => (

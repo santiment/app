@@ -18,6 +18,10 @@
   padding: 20px 20px 10px 20px;
 }
 
+.explanation {
+  z-index: 10000;
+}
+
 @include responsive('descktop', 'phone-xs') {
   .expanded {
     width: 100%;
