@@ -14,6 +14,7 @@ const emailLoginVerifyGQL = gql`
     emailLoginVerify(email: $email, token: $token) {
       token
       user {
+        firstLogin
         id
         email
         username
@@ -65,7 +66,20 @@ export const handleLoginSuccess = action$ =>
   action$
     .ofType(actions.USER_LOGIN_SUCCESS)
     .mergeMap(action => {
-      const { token, consent } = action
+      const { token, consent, user } = action
+
+      const loggedEmails = localStorage.getItem('loggedEmails') || ''
+      const { email } = user
+
+      if (user.firstLogin || (email && !loggedEmails.includes(email))) {
+        GoogleAnalytics.event({
+          category: 'User',
+          action: 'First login'
+        })
+        if (email) {
+          localStorage.setItem('loggedEmails', loggedEmails + email + ';')
+        }
+      }
 
       return Observable.merge(
         Observable.of(showNotification('You are logged in!')),
