@@ -1,298 +1,343 @@
-@import "../../mixins.scss";
-@import "~@santiment-network/ui/mixins.scss";
-@import "~@santiment-network/ui/variables.scss";
+@import "~@santiment-network/ui/mixins";
+@import "~@santiment-network/ui/variables";
 
-:global{
-    .md-RichEditor-root {
-        @include text-normal;
-        font-size: 18px;
-        line-height: 28px;
-        background: var(--white);
-        color: var(--black);
-        position: relative;
-        
-        & span::selection {
-            background: var(--green-light-2);
-        }
+:global {
+  .md-RichEditor-root {
+    background: var(--white);
+    color: var(--mirage);
+    position: relative;
 
-        @include responsive('phone-xs') {
-            font-size: 14px;
-            line-height: 20px;
-        }
+    & span::selection {
+      background: var(--green-light-2);
     }
 
-    .public-DraftEditorPlaceholder-inner {
-        color: var(--grey-dark);
+    @include text('body-1', 't');
+
+    @include responsive('phone-xs') {
+      font-size: 14px;
+      line-height: 20px;
     }
 
-    .public-DraftEditorPlaceholder-root{
-        position: absolute;
-        z-index: 1;
-        pointer-events: none;
-    }
-
-    .public-DraftEditor-content {
-
-        h1 {
-            color: var(--black);
-            font-weight: 800 !important;
-            line-height: 42px !important;
-            font-size: 30px !important;
-        }
-
-        h2 {
-            color: var(--black);
-            font-weight: 800;
-            line-height: 34px;
-            font-size: 24px;
-        }
-    }
-
-    .md-editor-toolbar {
-        height: 32px;
-        position: absolute;
-        background: $dark-4;
-        display: flex;
-        color: $light-gray3;
-        fill: $light-gray3;
-        cursor: auto;
-        z-index: 2;
-        border-radius: $border-radius;
-        transition: all .1s ease;
-        visibility: hidden;
-        box-shadow: 0px 2px 2px rgba(21, 24, 31, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.08), 0px 4px 12px rgba(0, 0, 0, 0.08);
-        padding: 6px 0;
-
-        &.md-editor-toolbar--isopen {
-            visibility: visible;
-        }
-
-        a {
-            color: var(--green);
-            text-decoration: none;
-            padding: 3px 8px;
-        }
-    }
-
-    .md-RichEditor-controls {
-        height: 20px;
-        display: flex;
-        align-items: center;
-        border-right: 1px solid #7b829d;
-
-        &:last-of-type {
-            border-right: none;
-        }
-    }
-
-    .md-RichEditor-styleButton {
-        display: inline-flex;
-        width: 32px;
-        height: 20px;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-    }
-
-    .md-RichEditor-activeButton {
-        fill: var(--green);
-    }
-
-    [class*=hint--]{
-        position: relative;
-
-        &[aria-label]:after {
-            background: #4c516c;
-            white-space: nowrap;
-            font-size: 12px;
-            padding: 4px 10px;
-            content: attr(aria-label);
-            margin-top: -8px;
-        }
-
-        &:before {
-            content: "";
-            position: absolute;
-            border: 6px solid transparent;
-            z-index: 1000001;
-            margin-top: 15px;
-        }
-
-        &:after,
-        &:before {
-            position: absolute;
-            visibility: hidden;
-            opacity: 0;
-            left: 50%;
-            transform: translate3d(-50%, -32px, 0);
-            z-index: 1000000;
-            pointer-events: none;
-            transition: .3s ease;
-        }
-
-        &:hover:after,
-        &:hover:before {
-            visibility: visible;
-            opacity: 1;
-        }
-    }
-
-
-    .hint--top-left:before, .hint--top-right:before, .hint--top:before {
-        border-top-color: #4c516c;
-    }
-
-    .md-RichEditor-blockquote {
+    & .public-DraftEditor-content {
+      h1 {
+        color: var(--mirage);
         margin: 0;
-        padding: 23px 32px;
-        background-color: #e2f2ff;
-        background: var(--grey-light);
-        border-radius: $border-radius;
-        font-size: 24px;
-        line-height: 34px;
-        color: var(--black);
-        position: relative;
 
-        &::before {
-            content: '“';
-            position: absolute;
-            display: block;
-            left: 28px;
-            top: 1px;
-            font-size: 74px;
-            font-family: sans-serif;
-            font-weight: bold;
-            color: var(--grey-dark);
-        }
+        @include text('h3', 'm');
+      }
 
-        & + .md-block-quote::before {
-            display: none;
-        }
-        
+      h2 {
+        color: var(--mirage);
+        margin: 0;
+
+        @include text('h4', 'm');
+      }
     }
 
-    .md-RichEditor-show-link-input {
-        width: 100%;
-        padding: 4px 10px;
-    }
-
-    .md-url-input-close {
+    .md-block-image-caption--empty {
+      &::before {
+        content: 'Add image caption...';
+        color: var(--casper);
         position: absolute;
-        right: 8px;
-        top: 2.5px;
-        font-size: 20px;
-        cursor: pointer;
-    }
-
-    .md-url-input {
-        box-sizing: border-box;
-        display: block;
-        width: 100%;
-        height: 100%;
-        padding-right: 11px;
-        border: none;
-        outline: none;
-        background: $dark-4;
-        color: $white;
-    }
-
-    .md-editor-toolbar-unlink-button,
-    .md-editor-toolbar-edit-button {
-        background: transparent;
-        border: none;
-        color: $light-gray3;
-        cursor: pointer;
-    }
-
-    .md-side-toolbar {
-        position: absolute;
-        left: -36px;
-        @include responsive('phone-xs') {
-            left: -8px;
-            margin-top: 25px;
-        }
-    }
-
-    .md-open-button + div {
-        z-index: 9;
-        position: absolute;
-        top: 0;
         left: 0;
-        animation-fill-mode: forwards;
-        animation-name: fade;
-        animation-duration: 200ms;
-        margin-top: 7px;
-    }
-
-    @keyframes :global(fade) {
-        from {
-            opacity: 0;
-            left: 0;
-        }
-        to {
-            opacity: 1;
-            left: 36px;
-        }
-    }
-
-    .md-add-button {
-        cursor: pointer;
-        outline: none;
-        background: transparent;
-        border-radius: 50%;
-        border: 2px solid var(--black);
-        width: 16px;
-        height: 18px;
-        position: relative;
-        margin-top: 7px;
-
-        svg {
-            display: none;
-        }
-
-        &.md-open-button::before {
-            transform: translate3d(-44%, -50%, 0) rotate(45deg);
-        }
-
-        &::before {
-            color: var(--black);
-            content: '+';
-            display: inline-block;
-            position: absolute;
-            font-size: 17px;
-            line-height: 0;
-            transition: transform 200ms;
-            font-family: Rubik, sans-serif;
-            left: 52%;
-            top: 45%;
-            transform: translate3d(-50%, -50%, 0);
-        }
-    }
-
-
-    .md-block-image {
-        max-width: 70%;
-        margin: 1em auto;
+        cursor: text;
+        width: 720px;
         text-align: center;
-        background: var(--grey-light-2);
-        font-size: 13px;
-        border: 1px solid var(--grey-light-3);
+      }
+    }
+  }
 
-        img {
-            cursor: pointer;
-            max-width: 100%;
-        }
+  .md-RichEditor-readonly {
+    .md-block-image-caption--empty {
+      display: none;
+    }
+  }
+
+  .public-DraftEditorPlaceholder-inner {
+    color: var(--casper);
+
+    @include text('body-1', 't');
+  }
+
+  .public-DraftEditorPlaceholder-root {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .md-editor-toolbar {
+    height: 32px;
+    position: absolute;
+    background: $fiord;
+    display: flex;
+    color: $mystic;
+    fill: $mystic;
+    cursor: auto;
+    z-index: 2;
+    border-radius: $border-radius;
+    transition: all 0.1s ease;
+    visibility: hidden;
+    box-shadow: 0 2px 2px rgba(21, 24, 31, 0.04), 0 2px 6px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 6px 0;
+
+    &.md-editor-toolbar--isopen {
+      visibility: visible;
     }
 
-    #nprogress {
-        .bar {
-            height: 3px;
-            background: var(--green);
-        }
-
-        .peg {
-            box-shadow: 0 0 10px var(--green-light-2), 0 0 5px var(--green-light-2);
-        }
-
+    a {
+      color: var(--green);
+      text-decoration: none;
+      padding: 3px 8px;
     }
+  }
+
+  .md-RichEditor-controls {
+    height: 20px;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #7b829d;
+
+    &:last-of-type {
+      border-right: none;
+    }
+  }
+
+  .md-RichEditor-styleButton {
+    display: inline-flex;
+    width: 32px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .md-RichEditor-activeButton {
+    fill: var(--green);
+  }
+
+  [class*=hint--] {
+    position: relative;
+
+    &[aria-label]::after {
+      background: #4c516c;
+      white-space: nowrap;
+      font-size: 12px;
+      padding: 4px 10px;
+      content: attr(aria-label);
+      margin-top: -8px;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      border: 6px solid transparent;
+      z-index: 1000001;
+      margin-top: 15px;
+    }
+
+    &::after,
+    &::before {
+      position: absolute;
+      visibility: hidden;
+      opacity: 0;
+      left: 50%;
+      transform: translate3d(-50%, -32px, 0);
+      z-index: 1000000;
+      pointer-events: none;
+      transition: 0.3s ease;
+    }
+
+    &:hover::after,
+    &:hover::before {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  .hint--top-left::before,
+  .hint--top-right::before,
+  .hint--top::before {
+    border-top-color: #4c516c;
+  }
+
+  .md-RichEditor-blockquote {
+    margin: 0;
+    padding: 23px 32px;
+    background: var(--athens);
+    border-radius: $border-radius;
+    color: var(--mirage);
+    position: relative;
+
+    @include text('h4');
+
+    &::before {
+      content: '“';
+      position: absolute;
+      display: block;
+      left: 28px;
+      top: 1px;
+      font-size: 74px;
+      font-family: sans-serif;
+      font-weight: bold;
+      color: var(--casper);
+    }
+
+    & + .md-block-quote::before {
+      display: none;
+    }
+  }
+
+  .md-RichEditor-show-link-input {
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .md-url-input-close {
+    position: absolute;
+    right: 8px;
+    top: 2.5px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .md-url-input {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding-right: 11px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: $white;
+
+    &::placeholder {
+      color: $white;
+      padding-left: 3px;
+    }
+  }
+
+  .md-editor-toolbar-unlink-button,
+  .md-editor-toolbar-edit-button {
+    background: transparent;
+    border: none;
+    color: $light-gray3;
+    cursor: pointer;
+  }
+
+  .md-link {
+    color: var(--jungle-green);
+
+    &:hover {
+      color: var(--jungle-green-hover);
+      cursor: pointer;
+    }
+  }
+
+  .md-side-toolbar {
+    position: absolute;
+    left: -36px;
+
+    @include responsive('phone-xs') {
+      left: -8px;
+      margin-top: 25px;
+    }
+  }
+
+  .md-open-button + div {
+    z-index: 9;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation-fill-mode: forwards;
+    animation-name: fade;
+    animation-duration: 200ms;
+    margin-top: 7px;
+  }
+
+  @keyframes:global (fade) {
+    from {
+      opacity: 0;
+      left: 0;
+    }
+
+    to {
+      opacity: 1;
+      left: 36px;
+    }
+  }
+
+  .md-add-button {
+    cursor: pointer;
+    outline: none;
+    background: transparent;
+    border-radius: 50%;
+    border: 2px solid var(--black);
+    width: 16px;
+    height: 18px;
+    position: relative;
+    margin-top: 7px;
+
+    svg {
+      display: none;
+    }
+
+    &.md-open-button::before {
+      transform: translate3d(-44%, -50%, 0) rotate(45deg);
+    }
+
+    &::before {
+      color: var(--black);
+      content: '+';
+      display: inline-block;
+      position: absolute;
+      font-size: 17px;
+      line-height: 0;
+      transition: transform 200ms;
+      font-family: Rubik, sans-serif;
+      left: 52%;
+      top: 45%;
+      transform: translate3d(-50%, -50%, 0);
+    }
+  }
+
+  .md-block-image {
+    font-size: 13px;
+    width: fit-content;
+    margin: 20px auto;
+
+    .md-block-image-inner-container {
+      max-height: 500px;
+      box-sizing: border-box;
+      border: none;
+      background: transparent;
+    }
+
+    img {
+      cursor: pointer;
+      max-height: 500px;
+      max-width: 100%;
+      object-fit: scale-down;
+    }
+
+    figcaption {
+      text-align: center;
+
+      span span {
+        width: 100%;
+        display: block;
+      }
+    }
+  }
+
+  #nprogress {
+    .bar {
+      height: 3px;
+      background: var(--green);
+    }
+
+    .peg {
+      box-shadow: 0 0 10px var(--green-light-2), 0 0 5px var(--green-light-2);
+    }
+  }
 }
