@@ -51,7 +51,10 @@ const sanitizeMediumDraftHtml = html =>
       ...sanitizeHtml.defaults.allowedTags,
       'figure',
       'figcaption',
-      'img'
+      'img',
+      'h1',
+      'h2',
+      'u'
     ],
     allowedAttributes: {
       ...sanitizeHtml.defaults.allowedAttributes,
