@@ -4,7 +4,7 @@ import { push } from 'react-router-redux'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
-import { Message } from '@santiment-network/ui'
+import Message from '@santiment-network/ui/Message'
 import StatusLabel from './../../components/StatusLabel'
 import { TRIGGER_BY_ID_QUERY } from '../../ducks/Signals/common/queries'
 import {

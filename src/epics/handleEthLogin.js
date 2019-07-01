@@ -19,6 +19,7 @@ const ETH_LOGIN_QUERY = gql`
     ) {
       token
       user {
+        firstLogin
         id
         email
         username

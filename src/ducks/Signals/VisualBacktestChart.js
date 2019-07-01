@@ -8,13 +8,13 @@ import {
   ReferenceLine
 } from 'recharts'
 import { generateMetricsMarkup } from './../SANCharts/utils'
-import { formatNumber } from './../../utils/formatting'
+import { formatNumber, labelFormatter } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
 
 const mapWithTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
-const VisualBacktestChart = ({ data, price, metrics, height }) => {
+const VisualBacktestChart = ({ data, price, metrics }) => {
   const formattedPrice = mapWithTimeseries(price)
   const formattedData = mapWithTimeseries(data)
 
@@ -34,7 +34,10 @@ const VisualBacktestChart = ({ data, price, metrics, height }) => {
           domain={['dataMin', 'dataMax']}
         />
         <YAxis hide />
-        {generateMetricsMarkup(metrics, { active_addresses: formattedData })}
+        {generateMetricsMarkup(metrics, {
+          active_addresses: formattedData,
+          price_volume_diff: formattedData
+        })}
 
         {formattedData
           .filter(point => point['triggered?'])
@@ -45,19 +48,13 @@ const VisualBacktestChart = ({ data, price, metrics, height }) => {
               x={point.datetime}
             />
           ))}
-        <Tooltip
-          labelFormatter={date => {
-            const { dddd, MMM, DD, YYYY } = getDateFormats(new Date(date))
-            return `${dddd}, ${MMM} ${DD} ${YYYY}`
-          }}
-          content={<CustomTooltip />}
-        />
+        <Tooltip labelFormatter={labelFormatter} content={<CustomTooltip />} />
       </ComposedChart>
     )
   }
 
   return (
-    <ResponsiveContainer width='100%' height={height || 150}>
+    <ResponsiveContainer width='100%' height='100%'>
       {renderChart()}
     </ResponsiveContainer>
   )
@@ -68,6 +65,7 @@ const CustomTooltip = ({ active, payload }) => {
     const priceValue = payload[0].payload.price
       ? formatNumber(payload[0].payload.price, { currency: 'USD' })
       : undefined
+
     return (
       <div
         className='custom-tooltip'

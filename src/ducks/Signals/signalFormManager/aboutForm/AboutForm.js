@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { Formik, Form } from 'formik'
-import { Button, Label } from '@santiment-network/ui'
+import Label from '@santiment-network/ui/Label'
+import Button from '@santiment-network/ui/Button'
 import FormikInput from '../../../../components/formik-santiment-ui/FormikInput'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
