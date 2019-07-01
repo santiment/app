@@ -57,7 +57,6 @@ const AssetsOverview = ({ slugs, isLoggedIn, isPublicWatchlistsLoading }) => {
             <RecentlyWatched />
             <h2 className={styles.subtitle}>Categories</h2>
             <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
-            <h2 className={styles.subtitle}>My Watchlists</h2>
             <MyWatchlist isLoggedIn={isLoggedIn} />
           </>
         )}
