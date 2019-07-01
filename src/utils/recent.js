@@ -1,5 +1,6 @@
 const RECENT_ASSETS = 'RECENT_ASSETS'
 const RECENT_WATCHLISTS = 'RECENT_WATCHLISTS'
+
 const getRecent = type => (localStorage.getItem(type) || '').split(',')
 
 const removeRecent = (type, item) => {
