@@ -10,7 +10,7 @@ import styles from './index.module.scss'
 
 const baseLocation = '/login'
 
-const LoginOptions = ({ isDesktop }) => (
+const LoginOptions = () => (
   <>
     <h2 className={styles.title}>Log in your account with</h2>
     <div className={styles.options}>
@@ -23,12 +23,7 @@ const LoginOptions = ({ isDesktop }) => (
   </>
 )
 
-export default ({
-  isDesktop,
-  isLoggedIn,
-  token,
-  location: { search = '' }
-}) => {
+export default ({ isLoggedIn, token, location: { search = '' } }) => {
   if (isLoggedIn) {
     const { consent } = parse(search)
     let redirectTo = '/'
@@ -44,15 +39,8 @@ export default ({
     <div className={styles.wrapper}>
       <Panel className={styles.panel}>
         <Switch>
-          <Route
-            exact
-            path={`${baseLocation}/email`}
-            render={props => <LoginEmail {...props} isDesktop={isDesktop} />}
-          />
-          <Route
-            path={`${baseLocation}`}
-            render={props => <LoginOptions {...props} isDesktop={isDesktop} />}
-          />
+          <Route exact path={`${baseLocation}/email`} render={LoginEmail} />
+          <Route path={baseLocation} render={LoginOptions} />
         </Switch>
       </Panel>
     </div>

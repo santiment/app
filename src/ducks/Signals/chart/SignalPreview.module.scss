@@ -24,14 +24,16 @@
 
 .description {
   margin-right: 45px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-right: 0;
+  }
 }
 
 .preview {
   position: relative;
 }
 
-@include responsive('phone', 'phone-xs') {
-  .description {
-    margin-right: 0;
-  }
+.metrics {
+  padding: 0;
 }

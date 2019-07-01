@@ -50,12 +50,7 @@ const LoadableEditSignalPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const SonarFeed = ({
-  location: { pathname },
-  isLoggedIn,
-  isDesktop,
-  match
-}) => {
+const SonarFeed = ({ location: { pathname }, isLoggedIn, isDesktop }) => {
   if (pathname === baseLocation) {
     return <Redirect exact from={baseLocation} to={tabs[0].index} />
   }

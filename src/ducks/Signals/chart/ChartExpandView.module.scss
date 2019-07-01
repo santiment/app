@@ -16,22 +16,14 @@
 
 .expanded {
   padding: 20px 20px 10px 20px;
-}
 
-.explanation {
-  z-index: 10000;
-}
-
-@include responsive('descktop', 'phone-xs') {
-  .expanded {
-    width: 100%;
+  @include responsive('phone', 'phone-xs') {
+    width: 100% !important;
     max-width: 100%;
     max-height: 100%;
   }
 }
 
-@include responsive('phone', 'phone-xs') {
-  .expanded {
-    width: 100% !important;
-  }
+.explanation {
+  z-index: 10000;
 }

@@ -32,7 +32,7 @@ export const TRIGGER_ACTIVITIES_QUERY = gql`
 
 const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
   if (isLoading) {
-    return <div className={styles.wrapper}>Loading...</div>
+    return ''
   }
 
   const formatDate = dateString => {
