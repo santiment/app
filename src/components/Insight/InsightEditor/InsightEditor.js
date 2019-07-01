@@ -119,7 +119,7 @@ class InsightEditor extends Component {
           />
           <Editor
             defaultEditorContent={this.defaultEditorContent}
-            placeholder='Write something interesting here...'
+            placeholder='Write something interesting ...'
             onChange={this.onTextChange}
           />
         </div>
