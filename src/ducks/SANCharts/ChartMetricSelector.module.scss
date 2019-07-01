@@ -1,0 +1,46 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  box-shadow: none;
+  display: flex;
+}
+
+.column {
+  flex: 1;
+}
+
+.categories,
+.metrics {
+  border-right: 1px solid var(--porcelain);
+}
+
+.category,
+.metrics {
+  padding: 8px;
+}
+
+.category {
+  border-bottom: 1px solid var(--porcelain);
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.explanation {
+  padding: 14px 16px;
+}
+
+.btn {
+  justify-content: space-between;
+}
+
+.title {
+  color: var(--waterloo);
+  margin-bottom: 8px;
+}
+
+.title,
+.text {
+  @include text('body-3');
+}

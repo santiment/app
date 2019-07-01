@@ -17,34 +17,28 @@ export const Metrics = {
   },
   socialVolume: {
     node: Line,
-    color: 'persimmon',
     label: 'Social Volume'
   },
   tokenAgeConsumed: {
     node: Bar,
-    color: 'texas-rose',
     label: 'Token Age Consumed',
     fill: true
   },
   exchangeFundsFlow: {
     node: Line,
-    color: 'heliotrope',
     label: 'Exchange Flow Balance'
   },
   dailyActiveAddresses: {
     node: Bar,
-    color: 'malibu',
     label: 'Daily Active Addresses'
   },
   percentOfTokenSupplyOnExchanges: {
     node: Line,
-    color: 'malibu',
     label: 'Percent of token supply on exchanges',
     dataKey: 'percentOnExchanges'
   },
   topHoldersPercentOfTotalSupply: {
     node: Line,
-    color: 'malibu',
     label: 'In top holders total',
     // TODO: Add support for 3 datakeys of single metric:
     // inExchanges outsideExchanges inTopHoldersTotal
@@ -52,38 +46,31 @@ export const Metrics = {
   },
   tokenCirculation: {
     node: Line,
-    color: 'dodger-blue',
     label: 'Token Circulation'
   },
   mvrvRatio: {
     node: Line,
-    color: 'waterloo',
     label: 'Market Value To Realized Value'
   },
   transactionVolume: {
     node: Line,
-    color: 'texas-rose',
     label: 'Transaction Volume'
   },
   networkGrowth: {
     node: Line,
-    label: 'Network Growth',
-    color: 'dodger-blue'
+    label: 'Network Growth'
   },
   devActivity: {
     node: Line,
-    color: 'heliotrope',
     label: 'Development Activity',
     dataKey: 'activity'
   },
   tokenVelocity: {
     node: Line,
-    color: 'persimmon',
     label: 'Token Velocity'
   },
   dailyActiveDeposits: {
     node: Bar,
-    color: 'jungle-green',
     label: 'Daily Active Deposits',
     dataKey: 'activeDeposits'
   },
@@ -118,7 +105,16 @@ export const Metrics = {
 
 export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
 
+const METRIC_COLORS = [
+  'persimmon',
+  'heliotrope',
+  'texas-rose',
+  'dodger-blue',
+  'malibu'
+]
+
 export const generateMetricsMarkup = (metrics, data = {}) => {
+  let colorIndex = 0
   return metrics.reduce((acc, metric) => {
     const {
       node: El,
@@ -128,9 +124,12 @@ export const generateMetricsMarkup = (metrics, data = {}) => {
       orientation = 'left',
       dataKey = metric
     } = typeof metric === 'object' ? metric : Metrics[metric]
+
     const rest = {
-      [El === Bar ? 'fill' : 'stroke']: `var(--${color})`
+      [El === Bar ? 'fill' : 'stroke']: `var(--${color ||
+        METRIC_COLORS[colorIndex++]})`
     }
+
     acc.push(
       <YAxis
         key={`axis-${dataKey}`}
