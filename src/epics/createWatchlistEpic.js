@@ -3,8 +3,11 @@ import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
 import { ALL_WATCHLISTS_QUERY } from '../queries/WatchlistGQL'
+import {
+  completeOnboardingTask,
+  getOnboardingCompletedTasks
+} from '../pages/Dashboard/utils'
 import * as actions from './../actions/types'
-import { completeOnboardingTask } from '../pages/Dashboard/utils'
 
 const createUserListGQL = gql`
   mutation createUserList(
@@ -74,7 +77,10 @@ const createWatchlistEpic = (action$, store, { client }) =>
       })
       return Observable.from(mutationPromise)
         .mergeMap(() => {
-          completeOnboardingTask('watchlist')
+          const completedTasks = getOnboardingCompletedTasks()
+          if (!completedTasks.includes('watchlist')) {
+            completeOnboardingTask('watchlist')
+          }
           return Observable.merge(
             Observable.of({
               type: actions.USER_ADD_NEW_ASSET_LIST_SUCCESS

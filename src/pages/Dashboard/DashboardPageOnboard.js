@@ -92,13 +92,7 @@ const DashboardPageOnboard = ({ hasMetamask, hasWatchlist }) => {
   )
 }
 
-const mapStateToProps = ({
-  user: {
-    data: { ethAccounts = [] }
-  },
-  watchlistUi: { firstWatchlistCreated }
-}) => ({
-  hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address,
+const mapStateToProps = ({ watchlistUi: { firstWatchlistCreated } }) => ({
   hasWatchlist: firstWatchlistCreated
 })
 

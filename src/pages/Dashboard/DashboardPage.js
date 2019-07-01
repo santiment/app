@@ -9,10 +9,10 @@ import InsightsScrollable from '../../components/Insight/InsightsScrollable'
 import AnonBannerStaticExperiment from '../../components/Banner/AnonBanner/AnonBannerStaticExperiment'
 import styles from './DashboardPage.module.scss'
 
-const DashboardPage = ({ isLoggedIn }) => (
+const DashboardPage = ({ isLoggedIn, hasMetamask }) => (
   <div className={styles.wrapper + ' page'}>
     {isLoggedIn ? (
-      <DashboardPageOnboard />
+      <DashboardPageOnboard hasMetamask={hasMetamask} />
     ) : (
       <AnonBannerStaticExperiment className={styles.anonBanner} />
     )}
