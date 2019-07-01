@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { graphql } from 'react-apollo'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import cx from 'classnames'
-import { Tabs } from '@santiment-network/ui'
 import WatchlistCards from '../../components/Watchlists/WatchlistCards'
 import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import {
@@ -14,6 +13,7 @@ import { mapItemsToKeys } from '../../utils/utils'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
 import PageLoader from '../../components/Loader/PageLoader'
+import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
 import { checkIsLoggedIn } from './../UserSelectors'
 import {
   CATEGORIES,
@@ -21,17 +21,8 @@ import {
   WATCHLISTS_BY_FUNCTION
 } from './assets-overview-constants'
 import styles from './AssetsOverview.module.scss'
-import RecentlyWatched from './RecentlyWatched'
-
-const tabs = [
-  { content: 'Categories', index: 'categories' },
-  { content: 'My Watchlists', index: 'myWatchlists' }
-]
 
 const AssetsOverview = ({ slugs, isLoggedIn, isPublicWatchlistsLoading }) => {
-  const [selectedTab, selectTab] = useState(tabs[0].index)
-  const onSelectTab = selected => selectTab(selected)
-
   return (
     <div className={cx(styles.overviewPage, 'page')}>
       <DesktopOnly>

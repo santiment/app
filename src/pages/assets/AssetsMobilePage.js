@@ -13,7 +13,6 @@ import { addRecentWatchlists, removeRecentWatchlists } from '../../utils/recent'
 import styles from './AssetsMobilePage.module.scss'
 
 const AssetsMobilePage = props => {
-  console.log(props)
   return (
     <div className={cx('page', styles.wrapper)}>
       <GetAssets

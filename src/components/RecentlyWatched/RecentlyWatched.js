@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import ProjectIcon from '../../components/ProjectIcon'
-import PercentChanges from './../../components/PercentChanges'
-import styles from './RecentlyWatched.module.scss'
+import ProjectIcon from '../ProjectIcon'
+import PercentChanges from '../PercentChanges'
+import WatchlistCard from '../Watchlists/WatchlistCard'
 import { store } from '../../index'
 import {
   RECENT_ASSETS_FETCH,
   RECENT_WATCHLISTS_FETCH
 } from '../../actions/types'
 import { formatNumber } from '../../utils/formatting'
-import WatchlistCard from '../../components/Watchlists/WatchlistCard'
 import { getWatchlistLink } from '../../ducks/Watchlists/watchlistUtils'
+import styles from './RecentlyWatched.module.scss'
 
 const RecentlyWatched = ({ assets, watchlists }) => {
   useEffect(() => {

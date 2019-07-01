@@ -29,8 +29,11 @@
   @include text('h4', 'm');
 
   color: var(--mirage);
-  // margin: 0 !important;
   width: 100%;
+
+  @include responsive('desktop', 'laptop', 'tablet') {
+    margin: 0 !important;
+  }
 
   &::first-letter {
     text-transform: uppercase;

@@ -16,7 +16,9 @@ const addRecent = (type, item) =>
 
 // Return array of slugs
 export const getRecentAssets = () => getRecent(RECENT_ASSETS)
+// Return array of watchlist ids
 export const getRecentWatchlists = () => getRecent(RECENT_WATCHLISTS)
+
 export const addRecentAssets = slug => addRecent(RECENT_ASSETS, slug)
 export const addRecentWatchlists = id => addRecent(RECENT_WATCHLISTS, id)
 export const removeRecentWatchlists = id =>
