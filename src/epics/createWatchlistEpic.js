@@ -1,12 +1,14 @@
 import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
+import GoogleAnalytics from 'react-ga'
 import { showNotification } from './../actions/rootActions'
 import { ALL_WATCHLISTS_QUERY } from '../queries/WatchlistGQL'
 import {
   completeOnboardingTask,
   getOnboardingCompletedTasks
 } from '../pages/Dashboard/utils'
+import { GA_FIRST_WATCHLIST } from '../enums/GaEvents'
 import * as actions from './../actions/types'
 
 const createUserListGQL = gql`
@@ -80,6 +82,7 @@ const createWatchlistEpic = (action$, store, { client }) =>
           const completedTasks = getOnboardingCompletedTasks()
           if (!completedTasks.includes('watchlist')) {
             completeOnboardingTask('watchlist')
+            GoogleAnalytics.event(GA_FIRST_WATCHLIST)
           }
           return Observable.merge(
             Observable.of({
