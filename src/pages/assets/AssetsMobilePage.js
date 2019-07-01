@@ -9,9 +9,11 @@ import AssetCard from './AssetCard'
 import { getTableTitle } from './utils'
 import AssetsTemplates from './AssetsTemplates'
 import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
+import { addRecentWatchlists, removeRecentWatchlists } from '../../utils/recent'
 import styles from './AssetsMobilePage.module.scss'
 
 const AssetsMobilePage = props => {
+  console.log(props)
   return (
     <div className={cx('page', styles.wrapper)}>
       <GetAssets
@@ -26,6 +28,15 @@ const AssetsMobilePage = props => {
           items
         }) => {
           const title = getTableTitle(props)
+
+          if (items.length && (isCurrentUserTheAuthor || isPublicWatchlist)) {
+            addRecentWatchlists(listId)
+          } else {
+            // NOTE(vanguard): it's needed because when visiting empty/private watchlist all props stays the same for some time
+            // but listId is changed immediatly which leads to adding listId to recents
+            removeRecentWatchlists(listId)
+          }
+
           return isLoading ? (
             <>
               <MobileHeader title={title} backRoute='/assets' />
