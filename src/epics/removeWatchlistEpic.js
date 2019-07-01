@@ -50,7 +50,7 @@ const removeWatchlistEpic = (action$, store, { client }) =>
             Observable.of({
               type: actions.USER_REMOVE_ASSET_LIST_SUCCESS
             }),
-            Observable.of(showNotification('Removed assets list'))
+            Observable.of(showNotification('Removed watchlist'))
           )
         })
         .catch(error => {
