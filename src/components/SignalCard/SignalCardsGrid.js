@@ -32,8 +32,7 @@ export const defaultSignals = [
 const SignalCardsGrid = ({
   signals = defaultSignals,
   className = '',
-  toggleSignal,
-  gotoSignalByID
+  toggleSignal
 }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
