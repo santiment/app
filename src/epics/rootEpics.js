@@ -66,6 +66,7 @@ import {
   connectedWordsEpic,
   connectedWordsOptimizationEpic
 } from '../pages/Trends/connectedWordsEpic.js'
+import { fetchRecentAssets } from './fetchRecents'
 
 export default combineEpics(
   handleOffline,
@@ -127,5 +128,7 @@ export default combineEpics(
   wordTrendSocialVolumeEpic,
   // connected trends
   connectedWordsOptimizationEpic,
-  connectedWordsEpic
+  connectedWordsEpic,
+  // Recents
+  fetchRecentAssets
 )
