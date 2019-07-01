@@ -52,7 +52,7 @@ const DashboardPageOnboard = ({ hasMetamask, hasWatchlist }) => {
             className={styles.hand}
           />
           <div className={styles.text}>
-            <div className={styles.title}>Great to have you on board!</div>
+            <h4 className={styles.title}>Great to have you on board!</h4>
             <div className={styles.subtitle}>
               You are on your way to better crypto analysis
             </div>

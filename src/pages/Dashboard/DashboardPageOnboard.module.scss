@@ -51,7 +51,7 @@
 
 .title {
   color: var(--mirage);
-  margin-bottom: 4px;
+  margin: 0 0 4px 0;
 
   @include text('h4');
 }
