@@ -19,9 +19,9 @@ const CalendarBtn = ({ onChange, value = [new Date(), new Date()] }) => {
     <ContextMenu
       passOpenStateAs='isActive'
       position='bottom'
-      align='start'
+      align='end'
       trigger={
-        <Button border classes={styles}>
+        <Button border classes={styles} className={styles.btn}>
           {fromDate} - {toDate}{' '}
           <Icon type='arrow-down' className={styles.icon} />
         </Button>

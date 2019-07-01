@@ -25,14 +25,14 @@ const ChartSettings = ({
         className={styles.search}
         suggestionsProps={{ style: { zIndex: 5 } }}
       />
-      <CalendarBtn
-        onChange={onCalendarChange}
-        value={[new Date(from), new Date(to)]}
-      />
       <Selector
         options={['1w', '1m', '3m', '6m']}
         onSelectOption={onTimerangeChange}
         defaultSelected={defaultTimerange}
+      />
+      <CalendarBtn
+        onChange={onCalendarChange}
+        value={[new Date(from), new Date(to)]}
       />
       <ChartSettingsContextMenu
         hasNightMode={hasNightMode}
