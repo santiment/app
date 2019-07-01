@@ -12,6 +12,13 @@ export default (state = initialState, action) => {
         ...state,
         assets: action.payload
       }
+
+    case actions.RECENT_WATCHLISTS_FETCH_SUCCESS:
+      return {
+        ...state,
+        watchlists: action.payload
+      }
+
     default:
       return state
   }

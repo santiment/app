@@ -12,7 +12,7 @@ const saveRecent = (type, items) =>
   localStorage.setItem(type, items.slice(0, 5).toString())
 
 const addRecent = (type, item) =>
-  saveRecent(type, [item, ...removeRecent(type, item)])
+  saveRecent(type, [item, ...removeRecent(type, item)].filter(Boolean))
 
 // Return array of slugs
 export const getRecentAssets = () => getRecent(RECENT_ASSETS)
