@@ -11,14 +11,15 @@ const Change = {
 const notChanged = ['texas-rose', 'lock-small']
 
 const ValueChange = ({ className, change, render }) => {
-  const [accent, triangle] = change !== 0 ? Change[change > 0] : notChanged
+  const changed = change !== 0
+  const [accent, triangle] = changed ? Change[change > 0] : notChanged
 
   return (
     <span
       className={cx(styles.change, className)}
       style={{ color: `var(--${accent})`, fill: `var(--${accent})` }}
     >
-      <Icon type={triangle} className={styles.triangle} />
+      {changed && <Icon type={triangle} className={styles.triangle} />}
       {render(Math.abs(change))}
     </span>
   )
