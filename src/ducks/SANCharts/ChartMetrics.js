@@ -5,10 +5,18 @@ import cx from 'classnames'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
 import { Metrics } from './utils'
 import styles from './ChartPage.module.scss'
+import isEqual from 'lodash.isequal'
 
 class ChartMetrics extends Component {
   state = {
     metrics: new Set(this.props.defaultActiveMetrics)
+  }
+
+  setMetrics = metrics => {
+    const { onMetricsChange } = this.props
+    this.setState({ metrics: new Set([...metrics]) }, () =>
+      onMetricsChange([...this.state.metrics])
+    )
   }
 
   onClick = ({ currentTarget }) => {
@@ -18,9 +26,7 @@ class ChartMetrics extends Component {
 
     if (metrics.has(metric)) {
       metrics.delete(metric)
-      this.setState({ metrics: new Set([...metrics]) }, () =>
-        onMetricsChange([...this.state.metrics])
-      )
+      this.setMetrics(metrics)
       return
     }
 
@@ -32,19 +38,29 @@ class ChartMetrics extends Component {
     )
   }
 
+  componentDidUpdate (prevProps) {
+    const { defaultActiveMetrics: prevMetrics } = prevProps
+    const { defaultActiveMetrics: currentMetrics } = this.props
+
+    if (currentMetrics && !isEqual(prevMetrics, currentMetrics)) {
+      this.setMetrics(currentMetrics)
+    }
+  }
+
   render () {
     const { metrics = [] } = this.state
     const {
-      defaultActiveMetrics,
       disabledMetrics = [],
+      defaultActiveMetrics,
       data: {
         project: { availableMetrics = defaultActiveMetrics || [] } = {}
       } = {},
-      listOfMetrics = Metrics
+      listOfMetrics = Metrics,
+      classes = {}
     } = this.props
 
     return (
-      <div className={styles.metrics}>
+      <div className={cx(styles.metrics, classes.metrics)}>
         {availableMetrics.map(metric => {
           const { color, label } = listOfMetrics[metric] || {}
           if (!label) {

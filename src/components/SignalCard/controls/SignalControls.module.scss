@@ -12,7 +12,7 @@
 }
 
 .iconSocial {
-  @include icon(--blue, --blue-light);
+  @include icon(--jungle-green, --jungle-green-light);
 }
 
 .iconFinance {
@@ -20,5 +20,5 @@
 }
 
 .iconConnection {
-  @include icon(--jungle-green, --jungle-green-light);
+  @include icon(--blue, --blue-light);
 }

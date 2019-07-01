@@ -12,7 +12,7 @@ const SignalCard = ({
   id,
   title,
   description = '',
-  settings: { type },
+  settings: { type } = {},
   className = '',
   author = 'Myself',
   gotoSignalByID,

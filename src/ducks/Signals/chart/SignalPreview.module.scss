@@ -13,9 +13,27 @@
 }
 
 .chartBlock {
-  margin-top: 20px;
+  margin-top: 10px;
+  width: 100%;
+  height: calc(100% - 20px);
+}
+
+.chart {
+  height: calc(100% - 32px);
 }
 
 .description {
   margin-right: 45px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-right: 0;
+  }
+}
+
+.preview {
+  position: relative;
+}
+
+.metrics {
+  padding: 0;
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
-import { Label } from '@santiment-network/ui'
+import Label from '@santiment-network/ui/Label'
 import {
   ETH_WALLETS_OPTIONS,
   METRIC_TYPES_DEPENDENCIES,
@@ -65,12 +65,12 @@ export const TriggerFormMetricValues = ({
         ) && (
         <div className={styles.Field}>
           <Label accent='waterloo' className={styles.label}>
-              Absolute change
+              Absolute value
           </Label>
           <FormikInput
             name='absoluteThreshold'
             type='number'
-            placeholder='Absolute change'
+            placeholder='Absolute value'
           />
         </div>
       )}
@@ -95,7 +95,7 @@ export const TriggerFormMetricValues = ({
         ) && (
         <div className={styles.Field}>
           <Label accent='waterloo' className={styles.label}>
-              Condition
+              Absolute change
           </Label>
           <div>
             <FormikSelect

@@ -20,7 +20,7 @@ class DeleteDialog extends PureComponent {
   onDeleteClick = () => {
     const { id, deleteItem, redirect } = this.props
     deleteItem(id)
-    redirect()
+    redirect && redirect()
   }
 
   render () {
