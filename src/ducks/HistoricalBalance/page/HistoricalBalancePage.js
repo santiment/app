@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import * as qs from 'query-string'
 import BalanceView from '../balanceView/BalanceView'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
+import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import styles from './HistoricalBalancePage.module.scss'
 
 export const mapQSToState = ({ location }) => {
@@ -27,21 +28,19 @@ export default class HistoricalBalancePage extends Component {
   }
 
   render () {
+    const { isDesktop } = this.props
     const { address, assets } = this.state
 
     return (
       <div className={styles.historicalBalancePage + ' page'}>
-        <div className={styles.header}>
-          <div className={styles.title}>
-            <span>Historycal balance</span>
-            <span className={styles.questionIcon}>
-              <HelpPopup>
-                Enter any ERC-20 wallet's address and choose up to 5 assets for
-                a detailed breakdown of the wallet's balance over time.
-              </HelpPopup>
-            </span>
+        {isDesktop && (
+          <div className={styles.header}>
+            <div className={styles.title}>
+              <BalancePageExplanation />
+            </div>
           </div>
-        </div>
+        )}
+        {!isDesktop && <MobileHeader title={<BalancePageExplanation />} />}
         <BalanceView
           onChangeQuery={this.handleChangeQuery}
           address={address}
@@ -64,3 +63,15 @@ export default class HistoricalBalancePage extends Component {
     this.updateSearchQuery(newState)
   }
 }
+
+const BalancePageExplanation = () => (
+  <div>
+    <span>Historycal balance</span>
+    <span className={styles.questionIcon}>
+      <HelpPopup>
+        Enter any ERC-20 wallet's address and choose up to 5 assets for a
+        detailed breakdown of the wallet's balance over time.
+      </HelpPopup>
+    </span>
+  </div>
+)

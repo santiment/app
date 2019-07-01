@@ -58,6 +58,8 @@
 
 .label {
   @include text('caption');
+
+  color: var(--waterloo);
 }
 
 .InputWithAction input {

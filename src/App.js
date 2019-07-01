@@ -202,7 +202,13 @@ export const App = ({
         />
         <Route exact path='/roadmap' component={Roadmap} />
         <Route exact path='/signals' component={Signals} />
-        <Route exact path='/labs/balance' component={HistoricalBalancePage} />
+        <Route
+          exact
+          path='/labs/balance'
+          render={props => (
+            <HistoricalBalancePage {...props} isDesktop={isDesktop} />
+          )}
+        />
         <Route exact path='/labs/wordcloud' component={WordCloudPage} />
         <Route
           exact
