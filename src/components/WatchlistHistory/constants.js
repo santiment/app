@@ -1,10 +1,5 @@
 import { DAY, getTimeIntervalFromToday, MONTH } from '../../utils/dates'
 
-export const TOTAL_TYPES = {
-  all: 'TOTAL_MARKET',
-  erc20: 'TOTAL_ERC20'
-}
-
 const RANGES_METHOD = new Map()
   .set('24h', getTimeIntervalFromToday(-1, DAY))
   .set('7d', getTimeIntervalFromToday(-7, DAY))

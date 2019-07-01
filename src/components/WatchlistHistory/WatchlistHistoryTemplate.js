@@ -16,10 +16,10 @@ const WatchlistHistoryTemplate = ({
   metric,
   change,
   value,
-  interval,
+  period,
   changeRange,
   isLoading,
-  combinedPeriod
+  combinedInterval
 }) => {
   const color = `var(--${change >= 0 ? 'lima' : 'persimmon'})`
 
@@ -35,7 +35,7 @@ const WatchlistHistoryTemplate = ({
             className={styles.button}
             onClick={changeRange}
           >
-            {interval}
+            {period}
           </Button>
           <Tooltip
             className={styles.tooltip}
@@ -49,15 +49,15 @@ const WatchlistHistoryTemplate = ({
           >
             <Panel
               padding
-            >{`Calculated as average value for the last ${combinedPeriod}. You can change period by pressing button`}</Panel>
+            >{`Calculated as average value for the last ${combinedInterval}. You can change period by pressing button`}</Panel>
           </Tooltip>
         </div>
         <div className={styles.bottom}>
           <span className={styles.value}>$ {value}</span>
+          {isLoading && <Loader className={styles.loader} />}
           {!isLoading && (
             <PercentChanges changes={change} className={styles.change} />
           )}
-          {isLoading && <Loader className={styles.loader} />}
         </div>
       </div>
       {!isLoading && (
@@ -72,6 +72,7 @@ const WatchlistHistoryTemplate = ({
               strokeWidth={2}
               stroke={color}
               fill={`url(#total${change >= 0 ? 'Up' : 'Down'})`}
+              isAnimationActive={false}
             />
           </AreaChart>
         </ResponsiveContainer>

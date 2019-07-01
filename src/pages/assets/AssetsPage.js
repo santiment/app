@@ -15,7 +15,7 @@ import GetAssets from './GetAssets'
 import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
-import GetMarketcap from '../../components/WatchlistHistory/GetWatchlistHistory'
+import GetWatchlistHistory from '../../components/WatchlistHistory/GetWatchlistHistory'
 import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
 import WatchlistContextMenu from './WatchlistContextMenu'
 import AssetsTemplates from './AssetsTemplates'
@@ -51,7 +51,7 @@ const AssetsPage = props => {
         render={Assets => {
           const title = getTableTitle(props)
           const {
-            typeInfo: { listId, listFunction },
+            typeInfo: { listId },
             isLoading,
             isCurrentUserTheAuthor,
             isPublicWatchlist,
@@ -105,15 +105,14 @@ const AssetsPage = props => {
               </div>
               {isLoading && <PageLoader />}
 
-              {items.length > 0 && (
+              {!isLoading && items.length > 0 && (
                 <>
-                  <GetMarketcap
+                  <GetWatchlistHistory
                     type={props.type}
                     range={range}
                     changeRange={changeRange}
                     assetsAmount={items.length}
                     top3={items.slice(0, 3)}
-                    byFunction={listFunction}
                     id={listId}
                   />
                   <AssetsTable

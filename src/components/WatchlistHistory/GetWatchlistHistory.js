@@ -1,91 +1,70 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
-import { TOTAL_TYPES } from './constants'
 import {
   CATEGORY_HISTORY_QUERY,
-  PROJECTS_HISTORY_QUERY,
-  WATCHLIST_HISTORY_QUERY
+  PROJECTS_HISTORY_QUERY
 } from './WatchlistHistoryGQL'
+import { BASIC_CATEGORIES } from '../../pages/assets/assets-overview-constants'
 import WatchlistHistoryWidget from './WatchlistHistoryWidget'
 import { filterEmptyStats } from './utils'
 
-const getMarketcapQuery = ({ type, projects, range, byFunction }) => {
-  const { from, to } = range.method
+const getHistoryQuery = ({ projects, interval, method, slug }) => {
+  const { from, to } = method
 
   const slugsQueryTotal = graphql(CATEGORY_HISTORY_QUERY, {
-    props: ({ data: { historyPrice = [], loading: isLoading } }) => ({
-      historyPrice: filterEmptyStats(historyPrice),
-      isLoading
-    }),
     options: () => ({
       variables: {
         from: from.toISOString(),
         to: to.toISOString(),
-        interval: range.interval,
-        slug: TOTAL_TYPES[type]
+        interval,
+        slug
       }
+    }),
+    props: ({ data: { historyPrice = [], loading: isLoading } }) => ({
+      historyPrice: filterEmptyStats(historyPrice),
+      isLoading
     })
   })
 
-  if (TOTAL_TYPES[type]) return slugsQueryTotal
+  if (slug) return slugsQueryTotal
 
-  return byFunction
-    ? graphql(PROJECTS_HISTORY_QUERY, {
-      props: ({
-        data: { projectsListHistoryStats = [], loading: isLoading }
-      }) => ({
-        historyPrice: filterEmptyStats(projectsListHistoryStats),
-        isLoading
-      }),
-      options: () => ({
-        variables: {
-          from: from.toISOString(),
-          to: to.toISOString(),
-          slugs: projects.map(({ slug }) => slug),
-          interval: range.interval
-        }
-      })
+  return graphql(PROJECTS_HISTORY_QUERY, {
+    options: () => ({
+      variables: {
+        from: from.toISOString(),
+        to: to.toISOString(),
+        slugs: projects.map(({ slug }) => slug),
+        interval
+      }
+    }),
+    props: ({
+      data: { projectsListHistoryStats = [], loading: isLoading }
+    }) => ({
+      historyPrice: filterEmptyStats(projectsListHistoryStats),
+      isLoading
     })
-    : graphql(WATCHLIST_HISTORY_QUERY, {
-      options: ({ id }) => ({
-        variables: {
-          id,
-          from: from.toISOString(),
-          to: to.toISOString(),
-          interval: range.interval
-        }
-      }),
-      props: ({ data: { watchlist = {}, loading } }) => ({
-        historyPrice:
-            watchlist && watchlist.historicalStats
-              ? filterEmptyStats(watchlist.historicalStats)
-              : [],
-        isLoading: loading
-      })
-    })
+  })
 }
 
-const GetWatchlistHistory = ({
-  type,
-  from,
-  projects,
-  range,
-  byFunction,
-  ...rest
-}) => {
+const GetWatchlistHistory = ({ type, from, projects, range, ...rest }) => {
   if (range) {
-    const resultQuery = getMarketcapQuery({ type, projects, range, byFunction })
+    const category = BASIC_CATEGORIES.find(
+      ({ assetType }) => assetType === type
+    )
+    const slug = category && category.slug
+    const { interval, value, method } = range
+    const resultQuery = getHistoryQuery({ projects, slug, interval, method })
     const HistoryQuery = resultQuery(WatchlistHistoryWidget)
     return (
       <HistoryQuery
         {...rest}
-        type={TOTAL_TYPES[type] ? 'Total' : 'Watchlist'}
-        interval={range.value}
-        combinedPeriod={range.interval}
+        type={slug ? 'Total' : 'Watchlist'}
+        period={value}
+        combinedInterval={interval}
       />
     )
-  } else return null
+  }
 }
 
 const mapStateToProps = ({ projects: { items } }) => ({ projects: items })
