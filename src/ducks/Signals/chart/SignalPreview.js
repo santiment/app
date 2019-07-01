@@ -108,6 +108,7 @@ const SignalPreviewChart = ({ type, points, target, height = 150 }) => {
         </div>
 
         <ChartMetrics
+          classes={styles}
           slug={target}
           onMetricsChange={metrics => setMetrics(metrics)}
           defaultActiveMetrics={initialMetrics}

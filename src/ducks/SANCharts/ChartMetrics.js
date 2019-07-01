@@ -38,28 +38,30 @@ class ChartMetrics extends Component {
     )
   }
 
-  componentWillReceiveProps (nextProps, nextContext) {
-    const { defaultActiveMetrics } = this.props
+  componentDidUpdate (prevProps) {
+    const { defaultActiveMetrics: prevMetrics } = prevProps
+    const { defaultActiveMetrics: currentMetrics } = this.props
 
-    const { defaultActiveMetrics: nextMetrics } = nextProps
-    if (nextMetrics && !isEqual(defaultActiveMetrics, nextMetrics)) {
-      this.setMetrics(nextMetrics)
+    if (currentMetrics && !isEqual(prevMetrics, currentMetrics)) {
+      this.setMetrics(currentMetrics)
     }
   }
 
   render () {
     const { metrics = [] } = this.state
-    const { defaultActiveMetrics } = this.props
     const {
       disabledMetrics = [],
+      defaultActiveMetrics,
       data: {
         project: { availableMetrics = defaultActiveMetrics || [] } = {}
-      } = {}
+      } = {},
+      classes = {}
     } = this.props
+
     const listOfMetrics = this.props.listOfMetrics || Metrics
 
     return (
-      <div className={styles.metrics}>
+      <div className={cx(styles.metrics, classes.metrics)}>
         {availableMetrics.map(metric => {
           const { color, label = metric } = listOfMetrics[metric] || {}
           return (
