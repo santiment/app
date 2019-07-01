@@ -10014,10 +10014,10 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
-medium-draft@^0.5.10:
-  version "0.5.10"
-  resolved "https://registry.yarnpkg.com/medium-draft/-/medium-draft-0.5.10.tgz#e367c8f40f3beb09a6c1f870f35f1355c1bec3c5"
-  integrity sha512-FeRYk9O9b9OgOa5WKJbRkLtUXma9697ptPAocnroJV5zp5w0114EHljWPBUmp1kkEf7/hT2wNShcL9uwfIZMtA==
+medium-draft@^0.5.15:
+  version "0.5.15"
+  resolved "https://registry.yarnpkg.com/medium-draft/-/medium-draft-0.5.15.tgz#699dac1b3831d9e4c7a84d57b32c7843d6b09d37"
+  integrity sha512-gcp2z8WuzrQ3BhnmTjPIbWHHs9HOWn2SGiTi0p72hBoopGribwAws30BHr5Ob8PJoA0KPy29Ed9Kr81LGp3BQA==
   dependencies:
     draft-js "^0.10.0"
     immutable "^3.7.6"
