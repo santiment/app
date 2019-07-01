@@ -10,7 +10,8 @@
 
 .tabs {
   display: block;
-  margin-bottom: 40px;
+  padding: 0 16px;
+  margin-bottom: 24px;
 }
 
 .newSignal {
@@ -34,11 +35,7 @@
 }
 
 @include responsive('phone', 'phone-xs') {
-  .header {
-    padding: 10px;
-  }
-
-  .pages {
-    padding: 10px;
+  .content {
+    margin: 0 16px;
   }
 }

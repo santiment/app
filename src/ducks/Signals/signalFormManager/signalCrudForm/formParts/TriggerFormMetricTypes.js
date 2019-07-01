@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import { getNearestTypeByMetric } from '../../../utils/utils'
 import { METRICS_OPTIONS, PRICE_TYPES } from '../../../utils/constants'
+import Label from '@santiment-network/ui/Label'
 import styles from '../signal/TriggerForm.module.scss'
-import { Label } from '@santiment-network/ui'
 
 const propTypes = {
   metric: PropTypes.any,

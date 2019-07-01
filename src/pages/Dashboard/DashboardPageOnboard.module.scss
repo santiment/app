@@ -1,7 +1,11 @@
+@import "~@santiment-network/ui/mixins";
+
 .wrapper {
   position: relative;
   padding: 28px 24px 24px;
   margin-bottom: 70px;
+  background-color: var(--jungle-green-light);
+  background-image: url('./waves.svg');
 }
 
 .skip {
@@ -9,89 +13,74 @@
   position: absolute;
   top: 16px;
   right: 20px;
+
+  @include text('body-3');
+
+  &:hover {
+    color: var(--mirage);
+  }
+}
+
+.top {
+  display: flex;
+}
+
+.hand {
+  animation: rotation 2s infinite ease-in-out;
+  transform-origin: 100% 100%;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(10deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 .text {
-  text-align: center;
+  margin-left: 24px;
+  text-align: left;
 }
 
 .title {
-  font-size: 22px;
-  line-height: 30px;
   color: var(--mirage);
-  margin-bottom: 8px;
+  margin: 0 0 4px 0;
+
+  @include text('h4');
 }
 
 .subtitle {
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--casper);
+  color: var(--waterloo);
   margin-bottom: 8px;
+
+  @include text('body-2');
 }
 
 .tasks {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  margin-top: 24px;
+
+  @include grid-wrap(2);
 }
 
-$margin-between-cards: 24px;
-
-.task {
-  position: relative;
-  padding: 16px 52px;
-  margin-top: $margin-between-cards;
-  width: calc(50% - #{$margin-between-cards/2});
-
-  &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    top: 16px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #f9fafc 0%, #d2d6e7 100%);
-    left: 16px;
-    fill: var(--casper);
-  }
-
-  &__title {
-    font-size: 16px;
-    line-height: 24px;
-    color: var(--mirage);
-    margin-bottom: 8px;
-  }
-
-  &__text {
-    color: var(--waterloo);
-  }
-
-  &__state {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    top: 16px;
-    border-radius: 50%;
-    background: var(--athens);
-    right: 16px;
-    border: 1px solid var(--porcelain);
-    fill: var(--athens);
-
-    &_completed {
-      fill: var(--jungle-green);
-      background: var(--jungle-green-light);
-      border: 0;
-    }
-  }
+.button {
+  height: 100%;
+  padding: 0;
+  background: inherit;
+  text-align: left;
+  display: block;
 }
 
-.icon {
-  &_connection {
-    transform: rotate(-45deg);
-  }
+.default {
+  cursor: default;
+}
+
+.connection {
+  transform: rotate(-45deg);
 }

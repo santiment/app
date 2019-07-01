@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Button, Icon, Dialog } from '@santiment-network/ui'
+import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
+import Dialog from '@santiment-network/ui/Dialog'
 import SignalMaster from '../signalFormManager/signalMaster/SignalMaster'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import { push } from 'react-router-redux'
@@ -49,6 +51,7 @@ const SignalMasterModalForm = ({
       onClose={onClose}
       trigger={signalModalTrigger(isLoggedIn, label)}
       title={dialogTitle}
+      classes={styles}
     >
       <Dialog.ScrollContent className={styles.TriggerPanel}>
         <SignalMaster
