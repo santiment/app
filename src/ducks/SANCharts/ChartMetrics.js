@@ -55,15 +55,17 @@ class ChartMetrics extends Component {
       data: {
         project: { availableMetrics = defaultActiveMetrics || [] } = {}
       } = {},
+      listOfMetrics = Metrics,
       classes = {}
     } = this.props
-
-    const listOfMetrics = this.props.listOfMetrics || Metrics
 
     return (
       <div className={cx(styles.metrics, classes.metrics)}>
         {availableMetrics.map(metric => {
-          const { color, label = metric } = listOfMetrics[metric] || {}
+          const { color, label } = listOfMetrics[metric] || {}
+          if (!label) {
+            return null
+          }
           return (
             <button
               key={label}

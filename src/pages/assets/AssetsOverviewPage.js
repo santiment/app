@@ -7,9 +7,9 @@ import { Tabs } from '@santiment-network/ui'
 import WatchlistCards from '../../components/Watchlists/WatchlistCards'
 import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import {
-  projectsByFunctionGQL,
+  projectsByFunctionShortGQL,
   publicWatchlistGQL
-} from './../../components/WatchlistPopup/WatchlistGQL'
+} from '../../queries/WatchlistGQL'
 import { mapItemsToKeys } from '../../utils/utils'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
@@ -75,7 +75,7 @@ const mapStateToProps = state => {
 
 const getProjectsByFunction = () =>
   WATCHLISTS_BY_FUNCTION.map(({ assetType, byFunction }) =>
-    graphql(projectsByFunctionGQL, {
+    graphql(projectsByFunctionShortGQL, {
       options: () => ({ variables: { function: byFunction } }),
       props: ({
         data: { loading = true, allProjectsByFunction = [] },

@@ -1,6 +1,7 @@
 import gql from 'graphql-tag'
+import { generalData, project } from '../pages/Projects/allProjectsGQL'
 
-export const WatchlistGQL = gql`
+export const ALL_WATCHLISTS_QUERY = gql`
   query fetchUserLists {
     fetchUserLists {
       id
@@ -44,13 +45,23 @@ export const publicWatchlistGQL = gql`
   }
 `
 
-export const projectsByFunctionGQL = gql`
+export const projectsByFunctionShortGQL = gql`
   query allProjectsByFunction($function: json!) {
     allProjectsByFunction(function: $function) {
-      id
       slug
     }
   }
+`
+
+export const projectsByFunctionBigGQL = gql`
+  query allProjectsByFunction($function: json!) {
+    allProjectsByFunction(function: $function) {
+      ...generalData
+      ...project
+    }
+  }
+  ${generalData}
+  ${project}
 `
 
 export const FEATURED_WATCHLIST_QUERY = gql`
@@ -70,4 +81,24 @@ export const FEATURED_WATCHLIST_QUERY = gql`
       updatedAt
     }
   }
+`
+
+export const WATCHLIST_QUERY = gql`
+  query watchlist($id: Int!) {
+    watchlist(id: $id) {
+      name
+      user {
+        id
+      }
+      isPublic
+      listItems {
+        project {
+          ...generalData
+          ...project
+        }
+      }
+    }
+  }
+  ${generalData}
+  ${project}
 `

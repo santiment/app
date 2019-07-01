@@ -9,6 +9,7 @@ import * as actions from './../actions/types'
 export const userGQL = gql`
   query {
     currentUser {
+      firstLogin
       id
       email
       username

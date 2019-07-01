@@ -106,20 +106,16 @@ WatchlistCard.defaultProps = {
   stats: []
 }
 
-export const normalizeStats = arr => {
-  const { length } = arr
-  const isNotEmpty = length > 0
-  const lastEl = isNotEmpty ? arr[length - 1] : {}
-
-  return lastEl.marketcap === 0 && lastEl.volume === 0 ? arr.slice(0, -1) : arr
-}
+export const normalizeStats = arr =>
+  arr.filter(({ marketcap, volume }) => marketcap !== 0 && volume !== 0)
 
 const enhance = compose(
   graphql(projectsListHistoryStatsGQL, {
     options: ({ slugs = [] }) => ({
       variables: {
         slugs,
-        ...getTimeIntervalFromToday(-6, DAY)
+        ...getTimeIntervalFromToday(-6, DAY),
+        interval: '6h'
       }
     }),
     skip: ({ slugs }) => !slugs.length,
@@ -133,7 +129,8 @@ const enhance = compose(
     options: ({ slug }) => ({
       variables: {
         slug,
-        ...getTimeIntervalFromToday(-6, DAY)
+        ...getTimeIntervalFromToday(-6, DAY),
+        interval: '6h'
       }
     }),
     skip: ({ slug }) => !slug,
