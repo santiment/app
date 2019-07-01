@@ -1,10 +1,12 @@
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
+import GoogleAnalytics from 'react-ga'
 import * as actions from './common/actions'
 import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { TRIGGERS_QUERY } from './common/queries'
 import { completeOnboardingTask } from '../../pages/Dashboard/utils'
+import { GA_FIRST_SIGNAL } from '../../enums/GaEvents'
 
 export const CREATE_TRIGGER_QUERY = gql`
   mutation createTrigger(
@@ -78,6 +80,14 @@ export const createSignalEpic = (action$, store, { client }) =>
                   cooldown: '1h',
                   isActive: true
                 }
+
+                if (
+                  newTrigger.id > 0 &&
+                  data.currentUser.triggers.length === 0
+                ) {
+                  GoogleAnalytics.event(GA_FIRST_SIGNAL)
+                }
+
                 data.currentUser.triggers = [
                   ...data.currentUser.triggers,
                   newTrigger
@@ -93,6 +103,7 @@ export const createSignalEpic = (action$, store, { client }) =>
         return Observable.fromPromise(create)
           .mergeMap(({ data: { id } }) => {
             completeOnboardingTask('signal')
+
             return Observable.merge(
               Observable.of({
                 type: actions.SIGNAL_CREATE_SUCCESS,
