@@ -34,19 +34,22 @@ class ChartMetrics extends Component {
 
   render () {
     const { metrics = [] } = this.state
-    const { defaultActiveMetrics } = this.props
     const {
+      defaultActiveMetrics,
       disabledMetrics = [],
       data: {
         project: { availableMetrics = defaultActiveMetrics || [] } = {}
-      } = {}
+      } = {},
+      listOfMetrics = Metrics
     } = this.props
-    const listOfMetrics = this.props.listOfMetrics || Metrics
 
     return (
       <div className={styles.metrics}>
         {availableMetrics.map(metric => {
-          const { color, label = metric } = listOfMetrics[metric] || {}
+          const { color, label } = listOfMetrics[metric] || {}
+          if (!label) {
+            return null
+          }
           return (
             <button
               key={label}

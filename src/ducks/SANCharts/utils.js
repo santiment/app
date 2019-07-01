@@ -67,7 +67,8 @@ export const Metrics = {
   },
   networkGrowth: {
     node: Line,
-    label: 'Network Growth'
+    label: 'Network Growth',
+    color: 'dodger-blue'
   },
   devActivity: {
     node: Line,
@@ -91,9 +92,7 @@ export const Metrics = {
   githubActivity: {},
   aveargeDevActivity: {},
   averageGithubActivity: {},
-  historyTwitterData: {
-    label: 'Twitter'
-  },
+  historyTwitterData: {},
   twitterData: {}, // NOTE(vanguard): NOT A TIMESERIE
   socialGainersLosersStatus: {},
   socialDominance: {},
@@ -105,9 +104,7 @@ export const Metrics = {
   averageTokenAgeConsumedInDays: {},
   nvtRatio: {},
   ethSpent: {},
-  ethSpentOverTime: {
-    label: 'ETH spent over time'
-  },
+  ethSpentOverTime: {},
   ethTopTransactions: {},
   ethBalance: {},
   usdBalance: {},

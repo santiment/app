@@ -31,8 +31,8 @@ class ChartPage extends Component {
 
   state = {
     timeRange: DEFAULT_TIME_RANGE,
-    from,
-    to,
+    from: from.toISOString(),
+    to: to.toISOString(),
     slug: 'santiment',
     metrics: ['historyPrice'],
     title: 'Santiment (SAN)',
