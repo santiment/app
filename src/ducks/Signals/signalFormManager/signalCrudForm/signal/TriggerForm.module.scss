@@ -6,6 +6,12 @@ $trigger-form-width: 496px;
   width: $trigger-form-width;
   position: relative;
   padding: 0 20px 20px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: initial;
+    max-width: $trigger-form-width;
+    padding: 0;
+  }
 }
 
 .loading {
@@ -148,6 +154,10 @@ a.connectLink {
   button:last-child {
     margin-right: 0;
   }
+
+  @include responsive('phone', 'phone-xs') {
+    bottom: 0;
+  }
 }
 
 .timeWindow {
@@ -206,6 +216,11 @@ a.connectLink {
   box-sizing: border-box;
   border-radius: 4px;
   margin-top: 20px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 0;
+    border-radius: 0;
+  }
 }
 
 .triggerToggleBlock {
@@ -214,6 +229,10 @@ a.connectLink {
   height: 25px;
 
   @include text('body-3');
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 20px 230px 10px 20px;
+  }
 }
 
 .triggerToggleLabel {
@@ -223,26 +242,5 @@ a.connectLink {
 a {
   &:hover {
     fill: var(--jungle-green);
-  }
-}
-
-@include responsive('phone', 'phone-xs') {
-  .wrapper {
-    width: initial;
-    max-width: $trigger-form-width;
-    padding: 0;
-  }
-
-  .triggerFormItem {
-    margin-top: 0;
-    border-radius: 0;
-  }
-
-  .triggerToggleBlock {
-    margin: 20px 230px 10px 20px;
-  }
-
-  .controls {
-    bottom: 0;
   }
 }

@@ -11,6 +11,14 @@
   color: var(--casper);
 
   @include text('body-3');
+
+  @include responsive('phone', 'phone-xs') {
+    border-radius: 0;
+    border: none;
+    background: none;
+    padding: 3px 2px 3px 20px;
+    color: var(--mirage);
+  }
 }
 
 .triggerHeaderName {
@@ -37,18 +45,8 @@
   &:hover {
     fill: var(---btn-accent-color-hover);
   }
-}
 
-@include responsive('phone', 'phone-xs') {
-  .triggerHeader {
-    border-radius: 0;
-    border: none;
-    background: none;
-    padding: 3px 2px 3px 20px;
-    color: var(--mirage);
-  }
-
-  .triggerHeaderButton {
+  @include responsive('phone', 'phone-xs') {
     background-color: var(--white) !important;
   }
 }
