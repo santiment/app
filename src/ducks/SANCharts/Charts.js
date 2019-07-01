@@ -9,7 +9,6 @@ import {
   ReferenceArea
 } from 'recharts'
 import Button from '@santiment-network/ui/Button'
-import { compose, withProps } from 'recompose'
 import { formatNumber } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
@@ -150,9 +149,4 @@ Charts.defaultProps = {
   isLoading: true
 }
 
-export default compose(
-  withProps(({ ...rest }) => {
-    // console.log(rest)
-    return rest
-  })
-)(Charts)
+export default Charts
