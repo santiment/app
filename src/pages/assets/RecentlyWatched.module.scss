@@ -1,0 +1,45 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  padding: 0 16px;
+}
+
+.title {
+  @include text('body-1', 'm');
+
+  margin-bottom: 13px;
+}
+
+.item {
+  margin-bottom: 4px;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid var(--porcelain);
+  display: flex;
+  justify-content: space-between;
+}
+
+.price,
+.name {
+  @include text('body-3');
+
+  margin: 0;
+}
+
+.name {
+  text-transform: capitalize;
+  margin: 0 8px;
+}
+
+.ticker {
+  text-transform: uppercase;
+  color: var(--waterloo);
+}
+
+.change {
+  margin: 0 0 0 12px;
+}
+
+.group {
+  display: flex;
+}

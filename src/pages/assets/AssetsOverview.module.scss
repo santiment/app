@@ -1,6 +1,6 @@
 @import '~@santiment-network/ui/variables.scss';
-@import "~@santiment-network/ui/mixins.scss";
-@import "../../mixins.scss";
+@import '~@santiment-network/ui/mixins.scss';
+@import '../../mixins.scss';
 
 .overviewPage {
   color: var(--mirage);
@@ -23,4 +23,10 @@
   font-size: 22px;
   line-height: 30px;
   font-weight: normal;
+}
+
+.subtitle {
+  @include text('body-1', 'm');
+
+  margin: 32px 16px 12px;
 }

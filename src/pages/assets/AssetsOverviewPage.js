@@ -21,6 +21,7 @@ import {
   WATCHLISTS_BY_FUNCTION
 } from './assets-overview-constants'
 import styles from './AssetsOverview.module.scss'
+import RecentlyWatched from './RecentlyWatched'
 
 const tabs = [
   { content: 'Categories', index: 'categories' },
@@ -38,12 +39,6 @@ const AssetsOverview = ({ slugs, isLoggedIn, isPublicWatchlistsLoading }) => {
       </DesktopOnly>
       <MobileOnly>
         <MobileHeader title='Assets overview' />
-        <Tabs
-          options={tabs}
-          defaultSelectedIndex={selectedTab}
-          onSelect={onSelectTab}
-          className={styles.tabs}
-        />
       </MobileOnly>
       <DesktopOnly>
         <h4 className={styles.heading}>Categories</h4>
@@ -55,12 +50,16 @@ const AssetsOverview = ({ slugs, isLoggedIn, isPublicWatchlistsLoading }) => {
         </div>
       </DesktopOnly>
       <MobileOnly>
-        {isPublicWatchlistsLoading && <PageLoader />}
-        {!isPublicWatchlistsLoading && selectedTab === 'categories' && (
-          <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
-        )}
-        {selectedTab === 'myWatchlists' && (
-          <MyWatchlist isLoggedIn={isLoggedIn} />
+        {isPublicWatchlistsLoading ? (
+          <PageLoader />
+        ) : (
+          <>
+            <RecentlyWatched />
+            <h2 className={styles.subtitle}>Categories</h2>
+            <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
+            <h2 className={styles.subtitle}>My Watchlists</h2>
+            <MyWatchlist isLoggedIn={isLoggedIn} />
+          </>
         )}
       </MobileOnly>
     </div>
