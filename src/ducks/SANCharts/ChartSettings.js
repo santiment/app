@@ -1,9 +1,8 @@
 import React from 'react'
-import Checkboxes from '@santiment-network/ui/Checkboxes'
 import Selector from '@santiment-network/ui/Selector/Selector'
+import ChartSettingsContextMenu from './ChartSettingsContextMenu'
 import CalendarBtn from '../../components/Calendar/CalendarBtn'
 import SearchProjects from '../../components/Search/SearchProjects'
-import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import styles from './ChartPage.module.scss'
 
 const ChartSettings = ({
@@ -35,20 +34,10 @@ const ChartSettings = ({
         onSelectOption={onTimerangeChange}
         defaultSelected={defaultTimerange}
       />
-
-      <Checkboxes
-        options={['Night mode']}
-        defaultSelectedIndexes={hasNightMode && ['Night mode']}
-        onSelect={onNightModeSelect}
-      />
-      <ShareModalTrigger
+      <ChartSettingsContextMenu
+        hasNightMode={hasNightMode}
+        onNightModeSelect={onNightModeSelect}
         shareLink={shareLink}
-        extraShare={[
-          {
-            value: `<iframe frameborder="0" height="340" src="${shareLink}"></iframe>`,
-            label: 'Copy iframe'
-          }
-        ]}
       />
     </div>
   )
