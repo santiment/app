@@ -51,9 +51,10 @@ class BalanceView extends React.Component {
           <div className={styles.addTrigger}>
             <ShowIf beta>
               <SignalMasterModalForm
-                label='Create signal'
+                label='Generate signal'
                 enabled={address && assets && assets.length === 1}
                 canRedirect={false}
+                classes={styles}
                 metaFormSettings={{
                   target: {
                     value: {

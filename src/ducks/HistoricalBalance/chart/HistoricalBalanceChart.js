@@ -12,14 +12,11 @@ import {
 import { mergeTimeseriesByKey } from '../../../utils/utils'
 import { getDateFormats } from '../../../utils/dates'
 import styles from './HistoricalBalanceChart.module.scss'
+import { labelFormatter } from '../../../utils/formatting'
 
 const formatDatetime = datetime => {
   const { MMM } = getDateFormats(new Date(datetime))
   return MMM
-}
-const labelFormatter = datetime => {
-  const { YYYY, MMMM } = getDateFormats(new Date(datetime))
-  return `${YYYY} ${MMMM}`
 }
 
 const COLORS = ['#14C393', '#8358FF', '#5275FF', '#FF5B5B', '#68DBF4']
@@ -44,7 +41,11 @@ const HistoricalBalanceChart = ({ data }) => {
           data={normalizedData}
           margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
         >
-          <XAxis dataKey='datetime' tickFormatter={formatDatetime} />
+          <XAxis
+            minTickGap={30}
+            dataKey='datetime'
+            tickFormatter={formatDatetime}
+          />
           <CartesianGrid
             vertical={false}
             strokeDasharray='4 10'

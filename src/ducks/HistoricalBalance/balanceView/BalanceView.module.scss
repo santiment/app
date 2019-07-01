@@ -70,6 +70,13 @@
   border-radius: 0;
 }
 
+.signalTrigger {
+  color: var(--jungle-green);
+  background-color: var(--athens);
+  border: 1px solid var(--jungle-green);
+  fill: var(--jungle-green);
+}
+
 @include responsive('phone', 'phone-xs') {
   .header {
     flex-direction: column;
