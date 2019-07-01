@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import * as qs from 'query-string'
 import BalanceView from '../balanceView/BalanceView'
-import styles from './HistoricalBalancePage.module.scss'
-import ShowIf from '../../../components/ShowIf'
-import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
-import { ETH_WALLET_METRIC } from '../../Signals/utils/constants'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
+import styles from './HistoricalBalancePage.module.scss'
 
 export const mapQSToState = ({ location }) => {
   const { address, assets } = qs.parse(location.search, {
@@ -32,25 +29,6 @@ export default class HistoricalBalancePage extends Component {
   render () {
     const { address, assets } = this.state
 
-    let metaFormSettings = {
-      metric: {
-        value: { ...ETH_WALLET_METRIC }
-      },
-      ethAddress: address
-    }
-
-    if (assets && assets.length) {
-      metaFormSettings = {
-        ...metaFormSettings,
-        target: {
-          value: {
-            value: assets[0],
-            label: assets[0]
-          }
-        }
-      }
-    }
-
     return (
       <div className={styles.historicalBalancePage + ' page'}>
         <div className={styles.header}>
@@ -63,15 +41,6 @@ export default class HistoricalBalancePage extends Component {
               </HelpPopup>
             </span>
           </div>
-
-          <ShowIf beta>
-            <div className={styles.newTrigger}>
-              <SignalMasterModalForm
-                canRedirect={false}
-                metaFormSettings={metaFormSettings}
-              />
-            </div>
-          </ShowIf>
         </div>
         <BalanceView
           onChangeQuery={this.handleChangeQuery}

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import TriggerForm from '../signalCrudForm/signal/TriggerForm'
+import TriggerForm from '../signal/TriggerForm'
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,

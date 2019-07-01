@@ -16,7 +16,6 @@ const SignalMasterModalForm = ({
   triggerId,
   isLoggedIn,
   redirect,
-  enabled = true,
   match
 }) => {
   if (!triggerId && match) {
