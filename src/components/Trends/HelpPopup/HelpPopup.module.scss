@@ -1,16 +1,25 @@
 @import "~@santiment-network/ui/mixins.scss";
 
+.description {
+  fill: var(--casper);
+  position: relative;
+  margin: 0 6px;
+}
+
 .trigger {
   display: flex;
   align-items: center;
   color: var(--casper);
   margin-left: 10px;
-}
+  cursor: pointer;
 
-.description {
-  fill: var(--casper);
-  position: relative;
-  margin: 0 6px;
+  &:hover {
+    color: var(--jungle-green);
+
+    & .description {
+      fill: var(--jungle-green);
+    }
+  }
 }
 
 .tooltip {
@@ -19,8 +28,7 @@
 
 /* stylelint-disable */
 .container {
-  max-width: 600px;
-  height: 540px;
+  max-width: 580px;
   max-height: 80vh;
   overflow-y: auto;
   overflow-y: overlay;
