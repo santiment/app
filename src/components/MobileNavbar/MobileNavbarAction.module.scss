@@ -1,23 +1,21 @@
+@import '~@santiment-network/ui/mixins';
+
 .button {
-  padding: 0 !important;
-  margin: 5px;
-  margin-bottom: 7px;
-  height: 100% !important;
-  display: block !important;
+  padding: 0;
+  height: 100%;
+  flex-direction: column;
+  color: var(--casper);
+
+  @include text('caption');
 }
 
 .icon {
-  width: 19px;
-  height: 19px;
+  margin-bottom: 3px;
 }
 
-.label {
-  font-size: 12px;
-  line-height: 18px;
-  color: var(--casper);
-  margin-top: 0.2rem;
+.isActive {
+  --menu-active-accent: var(--jungle-green);
+  --menu-active-shade: var(--jungle-green-light-2);
 
-  &.isActive {
-    color: var(--jungle-green);
-  }
+  color: var(--jungle-green);
 }

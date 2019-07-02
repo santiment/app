@@ -7,10 +7,11 @@ import DashboardPageSubscription from './DashboardPageSubscription'
 import DashboardPageOnboard from './DashboardPageOnboard'
 import FeaturedInsightsGrid from '../../components/FeaturedInsights/FeaturedInsightsGrid'
 import InsightsScrollable from '../../components/Insight/InsightsScrollable'
+import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import AnonBannerStaticExperiment from '../../components/Banner/AnonBanner/AnonBannerStaticExperiment'
 import styles from './DashboardPage.module.scss'
 
-const DashboardPage = ({ isLoggedIn, hasMetamask }) => (
+const DashboardPage = ({ isLoggedIn, hasMetamask, history }) => (
   <div className={styles.wrapper + ' page'}>
     {isLoggedIn ? (
       <DashboardPageOnboard hasMetamask={hasMetamask} />
@@ -18,9 +19,19 @@ const DashboardPage = ({ isLoggedIn, hasMetamask }) => (
       <AnonBannerStaticExperiment className={styles.anonBanner} />
     )}
     <div className={styles.column}>
-      <div className={styles.column__left}>
+      <div className={styles.column__insights}>
+        <div className={styles.subtitle}>
+          <h2 className={styles.subtitle__text}>Latest insights</h2>
+        </div>
+        <InsightsScrollable
+          type='latest'
+          maxLines={2}
+          multilineTextId='InsightsDashboardPage'
+        />
+      </div>
+      <div className={styles.column__trends}>
         <div className={styles.subtitleWrapper}>
-          <h2 className={styles.subtitle}>Trending words</h2>
+          <h2 className={styles.subtitle__text}>Trending words</h2>
           <HelpPopup />
         </div>
         <GetHypedTrends
@@ -33,12 +44,13 @@ const DashboardPage = ({ isLoggedIn, hasMetamask }) => (
           )}
         />
       </div>
-      <div className={styles.column__right}>
-        <h2 className={styles.subtitle}>Latest insights</h2>
-        <InsightsScrollable
-          type='latest'
-          maxLines={2}
-          multilineTextId='InsightsDashboardPage'
+      <div className={styles.column__GLTable}>
+        <GainersLosersTabs
+          timeWindow='2d'
+          size={8}
+          onProjectClick={({ coinmarketcapId }) => {
+            history.push(`/projects/${coinmarketcapId}`)
+          }}
         />
       </div>
     </div>

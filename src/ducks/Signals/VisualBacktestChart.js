@@ -14,13 +14,19 @@ import { getDateFormats } from '../../utils/dates'
 const mapWithTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
-const VisualBacktestChart = ({ data, price, metrics }) => {
+const VisualBacktestChart = ({ data, price, metrics, showXY = false }) => {
   const formattedPrice = mapWithTimeseries(price)
   const formattedData = mapWithTimeseries(data)
 
   const renderChart = () => {
     return (
-      <ComposedChart data={formattedPrice}>
+      <ComposedChart
+        data={formattedPrice}
+        margin={{
+          left: -40,
+          bottom: 10
+        }}
+      >
         <XAxis
           dataKey='datetime'
           type='number'
@@ -32,8 +38,11 @@ const VisualBacktestChart = ({ data, price, metrics }) => {
             return `${MMM} ${YY}`
           }}
           domain={['dataMin', 'dataMax']}
+          hide={!showXY}
         />
+
         <YAxis hide />
+
         {generateMetricsMarkup(metrics, {
           active_addresses: formattedData,
           price_volume_diff: formattedData

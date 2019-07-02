@@ -14,9 +14,6 @@ const HelpPopupContent = () => {
   }
   return (
     <div className={styles.wrapper}>
-      <h3 className={styles.heading}>
-        About Santiment’s Top 10 Trending Words in Crypto
-      </h3>
       <p>
         Every 9 hours, we calculate the top 10 words with the highest spike in
         mentions on crypto social media, compared to their previous 2-week

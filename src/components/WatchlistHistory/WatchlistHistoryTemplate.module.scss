@@ -1,4 +1,4 @@
-@import "~@santiment-network/ui/mixins.scss";
+@import '~@santiment-network/ui/mixins.scss';
 
 .wrapper {
   display: flex;
@@ -63,6 +63,7 @@
 .loader {
   margin-left: 12px;
   line-height: 30px;
+  font-size: 5px;
 }
 
 .description {
