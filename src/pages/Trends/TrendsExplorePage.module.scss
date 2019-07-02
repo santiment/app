@@ -5,7 +5,7 @@
 
   .recharts-responsive-container {
     margin-bottom: 24px;
-    background-color: #fcfdfe;
+    background-color: var(--white);
   }
 
   /* @NOTE(vanguard): This is a hack for correctly centering legend on mobile and desktops. */

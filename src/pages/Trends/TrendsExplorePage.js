@@ -140,37 +140,33 @@ export class TrendsExplorePage extends Component {
             <WordCloud word={topic} />
             <SocialVolumeWidget />
           </div>
-          {isDesktop && (
-            <GetTrends
-              topic={word}
-              timeRange={timeRange}
-              interval={getCustomInterval(timeRange)}
-              render={trends => (
-                <GetTimeSeries
-                  historyPrice={{
-                    timeRange,
-                    slug: asset.toLowerCase(),
-                    interval: getCustomInterval(timeRange)
-                  }}
-                  render={({ historyPrice = {} }) => (
-                    <Fragment>
-                      <div style={{ minHeight: 300 }}>
-                        <TrendsReChart
-                          asset={asset && capitalizeStr(asset)}
-                          data={historyPrice}
-                          trends={trends}
-                          hasPremium={hasPremium}
-                        />
-                      </div>
-                      {trends.length > 0 && (
-                        <TrendsStats timeRange={timeRange} />
-                      )}
-                    </Fragment>
-                  )}
-                />
-              )}
-            />
-          )}
+          <GetTrends
+            topic={word}
+            timeRange={timeRange}
+            interval={getCustomInterval(timeRange)}
+            render={trends => (
+              <GetTimeSeries
+                historyPrice={{
+                  timeRange,
+                  slug: asset.toLowerCase(),
+                  interval: getCustomInterval(timeRange)
+                }}
+                render={({ historyPrice = {} }) => (
+                  <Fragment>
+                    <div style={{ minHeight: 300 }}>
+                      <TrendsReChart
+                        asset={asset && capitalizeStr(asset)}
+                        data={historyPrice}
+                        trends={trends}
+                        hasPremium={hasPremium}
+                      />
+                    </div>
+                    {trends.length > 0 && <TrendsStats timeRange={timeRange} />}
+                  </Fragment>
+                )}
+              />
+            )}
+          />
           <TrendsExploreAdditionalInfo word={word} />
         </div>
       </div>
