@@ -1,10 +1,10 @@
-@import "~@santiment-network/ui/variables.scss";
-@import "~@santiment-network/ui/mixins.scss";
+@import '~@santiment-network/ui/variables';
+@import '~@santiment-network/ui/mixins';
 
 .upper {
   padding: 12px 20px;
   position: relative;
-  border-bottom: 1px solid var(--grey-light-3);
+  border-bottom: 1px solid var(--porcelain);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -23,19 +23,20 @@
 
 .title {
   @include text-normal;
+
   margin: 0;
   font-size: 16px;
   line-height: 24px;
-  color: var(--black);
+  color: var(--mirage);
 }
 
 .close {
-    fill: var(--grey-dark-2);
+  fill: var(--waterloo);
   cursor: pointer;
 }
 
 .link {
-    border: 1px solid var(--grey-light-3);
+  border: 1px solid var(--porcelain);
   display: flex;
   border-radius: $border-radius;
   overflow: hidden;
@@ -44,17 +45,19 @@
   &__input {
     border: none;
     height: 32px;
+
     @include text-normal;
-    color: var(--blue);
+
+    color: var(--dodger-blue);
     padding: 6px 10px;
     background-color: var(--white) !important;
   }
 
   &__btn {
     white-space: nowrap;
-    border-left: 1px solid var(--grey-light-3);
+    border-left: 1px solid var(--porcelain);
     border-radius: 0;
-    color: var(--black);
+    color: var(--mirage);
     position: relative;
 
     &::before {
@@ -66,18 +69,28 @@
       top: 0;
       left: -31px;
       width: 30px;
-      background: linear-gradient(270deg, $white 0%, $white 30.94%, rgba($white, 0) 100%);
+      background: linear-gradient(
+        270deg,
+        $white 0%,
+        $white 30.94%,
+        rgba($white, 0) 100%
+      );
 
-      :global(.night-mode) &{
-          background: linear-gradient(270deg, $black 0%, $black 30.94%, rgba($black, 0) 100%);
+      :global(.night-mode) & {
+        background: linear-gradient(
+          270deg,
+          $mirage 0%,
+          $mirage 30.94%,
+          rgba($mirage, 0) 100%
+        );
       }
     }
   }
 }
 
 .btn {
-    border: 1px solid var(--grey-light-3);
-  color: var(--black);
+  border: 1px solid var(--porcelain);
+  color: var(--mirage);
   text-decoration: none;
   margin-bottom: 8px;
   padding: 8px 10px;
@@ -93,5 +106,11 @@
   width: 16px;
   text-align: center;
   margin-right: 7px;
-  fill: var(--grey-dark) !important;
+  fill: var(--casper) !important;
+}
+
+.wrapper {
+  @include responsive('desktop', 'laptop', 'tablet') {
+    min-width: 700px;
+  }
 }

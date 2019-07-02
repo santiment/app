@@ -3,6 +3,12 @@
   margin-bottom: 2rem;
 }
 
+.titleWrapper {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
 .title {
   text-align: center;
   margin-bottom: 30px;

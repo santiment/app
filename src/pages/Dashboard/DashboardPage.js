@@ -1,6 +1,7 @@
 import React from 'react'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
+import HelpPopup from '../../components/Trends/HelpPopup/HelpPopup'
 import FeaturedWatchlists from '../../components/Watchlists/FeaturedWatchlist'
 import DashboardPageSubscription from './DashboardPageSubscription'
 import DashboardPageOnboard from './DashboardPageOnboard'
@@ -18,7 +19,10 @@ const DashboardPage = ({ isLoggedIn, hasMetamask }) => (
     )}
     <div className={styles.column}>
       <div className={styles.column__left}>
-        <h2 className={styles.subtitle}>Trending words</h2>
+        <div className={styles.subtitleWrapper}>
+          <h2 className={styles.subtitle}>Trending words</h2>
+          <HelpPopup />
+        </div>
         <GetHypedTrends
           render={({ isLoading, items = [] }) => (
             <TrendsTables

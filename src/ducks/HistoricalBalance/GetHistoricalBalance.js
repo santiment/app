@@ -1,30 +1,9 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
-import gql from 'graphql-tag'
 import isEqual from 'lodash.isequal'
 import pick from 'lodash.pick'
 import { withApollo } from 'react-apollo'
-
-const historicalBalanceGQL = gql`
-  query historicalBalance(
-    $from: DateTime!
-    $to: DateTime!
-    $address: String!
-    $interval: String!
-    $slug: String
-  ) {
-    historicalBalance(
-      address: $address
-      interval: $interval
-      slug: $slug
-      from: $from
-      to: $to
-    ) {
-      datetime
-      balance
-    }
-  }
-`
+import { historicalBalanceGQL } from './common/queries'
 
 class GetHistoricalBalance extends Component {
   state = {

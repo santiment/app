@@ -11,11 +11,6 @@
   justify-content: center;
 }
 
-.wrapperFullscreen {
-  position: fixed;
-  margin-top: -135px;
-}
-
 .hide {
   display: none;
 }
@@ -52,10 +47,4 @@
   align-items: center;
   flex-direction: column;
   margin-top: 20px;
-}
-
-.bottomFixed {
-  position: fixed;
-  bottom: 74px;
-  padding: 0 16px;
 }

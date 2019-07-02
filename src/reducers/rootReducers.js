@@ -33,6 +33,7 @@ import accountUi, {
 import insightDraft, {
   initialState as initialInsightDraft
 } from '../pages/Insights/reducers'
+import recents, { initialState as initialRecents } from './recents'
 
 export const intitialState = {
   user: userState,
@@ -48,7 +49,8 @@ export const intitialState = {
   router: routerReducer,
   socialVolume: initialSocialVolume,
   accountUi: initialAccountUiState,
-  insightDraft: initialInsightDraft
+  insightDraft: initialInsightDraft,
+  recents: initialRecents
 }
 
 export default combineReducers({
@@ -64,5 +66,6 @@ export default combineReducers({
   notification,
   socialVolume,
   accountUi,
-  insightDraft
+  insightDraft,
+  recents
 })
