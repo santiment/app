@@ -6,6 +6,7 @@ import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import styles from './ChartPage.module.scss'
+import ChartSidecar from './ChartSidecar'
 
 const MAX_METRICS_PER_CHART = 5
 
@@ -244,6 +245,7 @@ class ChartPage extends Component {
                 title={title}
                 metrics={finalMetrics}
               />
+              <ChartSidecar />
               {!viewOnly && (
                 <LoadableChartMetricsTool
                   classes={styles}
