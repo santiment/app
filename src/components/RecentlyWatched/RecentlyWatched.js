@@ -16,12 +16,11 @@ import styles from './RecentlyWatched.module.scss'
 
 export const Asset = ({ project, classes = {}, onClick }) => {
   const { name, ticker, priceUsd, percentChange24h, coinmarketcapId } = project
+  const res = onClick
+    ? { Component: 'div', props: { onClick: () => onClick(project) } }
+    : { Component: Link, props: { to: `/projects/${coinmarketcapId}` } }
   return (
-    <div
-      className={cx(styles.item, classes.asset)}
-      key={coinmarketcapId}
-      onClick={() => onClick(project)}
-    >
+    <res.Component className={cx(styles.item, classes.asset)} {...res.props}>
       <div className={styles.group}>
         <ProjectIcon size={20} name={name} ticker={ticker} />
         <h3 className={cx(styles.name, classes.asset__name)}>
@@ -34,7 +33,7 @@ export const Asset = ({ project, classes = {}, onClick }) => {
         </h4>
         <PercentChanges changes={percentChange24h} className={styles.change} />
       </div>
-    </div>
+    </res.Component>
   )
 }
 

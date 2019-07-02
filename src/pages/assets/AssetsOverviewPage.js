@@ -47,10 +47,7 @@ const AssetsOverview = ({
           <PageLoader />
         ) : (
           <>
-            <RecentlyWatched
-              className={styles.recents}
-              onProjectClick={onProjectClick}
-            />
+            <RecentlyWatched className={styles.recents} />
             <h2 className={styles.subtitle}>Categories</h2>
             <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
             <MyWatchlist
