@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import GoogleAnalytics from 'react-ga'
-import { Link } from 'react-router-dom'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
 import styles from './CookiePopup.module.scss'
