@@ -21,9 +21,19 @@
   }
 
   @include responsive('phone-xs', 'phone') {
-    margin: 16px;
+    margin: 0 16px;
     width: auto;
   }
+}
+
+.wrapperHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: -16px;
+  padding-top: 6px;
+  width: 100%;
+  flex: 1 1;
 }
 
 .widgets {
@@ -43,11 +53,12 @@
 .settings {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
+  align-items: flex-start;
   flex-direction: column;
 
   @include responsive('desktop', 'laptop', 'tablet') {
+    align-items: center;
     flex-direction: row;
   }
 }
@@ -61,13 +72,25 @@
 }
 
 .settingsRight {
+  text-transform: uppercase;
+
   @include responsive('phone-xs', 'phone') {
     width: 100%;
     margin: 24px 0 16px;
   }
 }
 
+.settingsLeft {
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
+}
+
 .pricePair {
   margin-right: 1rem;
   margin-left: 1rem;
+}
+
+.fullSearchBtn {
+  display: none;
 }

@@ -17,6 +17,7 @@ import SocialVolumeWidget from './../../components/SocialVolumeWidget/SocialVolu
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import TrendsExploreAdditionalInfo from '../../components/Trends/Explore/TrendsExploreAdditionalInfo'
 import { checkHasPremium } from './../UserSelectors'
+import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { mapQSToState, mapStateToQS, capitalizeStr } from './../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
 import styles from './TrendsExplorePage.module.scss'
@@ -83,7 +84,7 @@ export class TrendsExplorePage extends Component {
   }
 
   render () {
-    const { word, hasPremium, detectedAsset, isDesktop } = this.props
+    const { word, hasPremium, detectedAsset, isDesktop, history } = this.props
     addRecentTrends(word)
 
     const { timeRange, asset = '' } = this.state
@@ -104,7 +105,32 @@ export class TrendsExplorePage extends Component {
         </Helmet>
         <div className={styles.settings}>
           <div className={styles.settingsLeft}>
-            <TrendsExploreSearch className={styles.search} topic={topic} />
+            {isDesktop && (
+              <TrendsExploreSearch
+                className={styles.search}
+                topic={topic}
+                isDesktop={isDesktop}
+              />
+            )}
+            {!isDesktop && (
+              <MobileHeader
+                goBack={history.goBack}
+                backRoute={'/'}
+                classes={{
+                  wrapper: styles.wrapperHeader,
+                  right: styles.hidden,
+                  title: styles.hidden,
+                  searchBtn: styles.fullSearchBtn
+                }}
+                title=''
+              >
+                <TrendsExploreSearch
+                  className={styles.search}
+                  topic={topic}
+                  isDesktop={isDesktop}
+                />
+              </MobileHeader>
+            )}
           </div>
           <div className={styles.settingsRight}>
             <Selector

@@ -1,8 +1,21 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
-  display: flex;
-  align-items: center;
+  @include responsive('tablet', 'laptop', 'desktop') {
+    display: flex;
+    align-items: center;
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+    margin-left: -16px;
+  }
 }
 
 .search {
   margin-right: 1rem;
+
+  @include responsive('phone-xs', 'phone') {
+    margin-right: 0;
+  }
 }
