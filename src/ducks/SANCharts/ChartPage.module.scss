@@ -74,12 +74,6 @@
   }
 }
 
-.dialog {
-  @include responsive('desktop', 'laptop', 'tablet') {
-    min-width: 700px;
-  }
-}
-
 .selector {
   margin: 10px 20px;
 }
