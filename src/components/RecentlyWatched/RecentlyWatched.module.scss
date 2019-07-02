@@ -29,7 +29,10 @@
 
 .name {
   text-transform: capitalize;
-  margin: 0 8px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  margin: 0 0 0 8px;
 }
 
 .ticker {
@@ -39,8 +42,17 @@
 
 .change {
   margin: 0 0 0 12px;
+  white-space: nowrap;
 }
 
 .group {
   display: flex;
+
+  &:first-child {
+    max-width: 65%;
+
+    @include responsive('phone-xs') {
+      max-width: 55%;
+    }
+  }
 }

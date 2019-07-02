@@ -19,54 +19,65 @@ const RecentlyWatched = ({ className = '', assets, watchlists }) => {
     store.dispatch({ type: RECENT_ASSETS_FETCH })
     store.dispatch({ type: RECENT_WATCHLISTS_FETCH })
   }, [])
+
+  const hasAssets = assets.length > 0
+  const hasWatchlists = watchlists.length > 0
   return (
-    <section className={cx(className, styles.wrapper)}>
-      {assets.length > 0 && (
-        <>
-          <h2 className={styles.title}>Recently watched assets</h2>
-          {assets.map(
-            ({ name, ticker, priceUsd, percentChange24h, coinmarketcapId }) => (
-              <Link
-                className={styles.item}
-                key={coinmarketcapId}
-                to={`/projects/${coinmarketcapId}`}
-              >
-                <div className={styles.group}>
-                  <ProjectIcon size={20} name={name} ticker={ticker} />
-                  <h3 className={styles.name}>
-                    {name} <span className={styles.ticker}>{ticker}</span>
-                  </h3>
-                </div>
-                <div className={styles.group}>
-                  <h4 className={styles.price}>
-                    {priceUsd
-                      ? formatNumber(priceUsd, { currency: 'USD' })
-                      : 'No data'}
-                  </h4>
-                  <PercentChanges
-                    changes={percentChange24h}
-                    className={styles.change}
-                  />
-                </div>
-              </Link>
-            )
-          )}
-        </>
-      )}
-      {watchlists.length > 0 && (
-        <>
-          <h2 className={styles.title}>Recently watched watchlists</h2>
-          {watchlists.map(watchlist => (
-            <WatchlistCard
-              key={watchlist.name}
-              name={watchlist.name}
-              to={getWatchlistLink(watchlist)}
-              slugs={watchlist.listItems.map(({ project }) => project.slug)}
-            />
-          ))}
-        </>
-      )}
-    </section>
+    (hasAssets || hasWatchlists) && (
+      <section className={cx(className, styles.wrapper)}>
+        {hasAssets && (
+          <>
+            <h2 className={styles.title}>Recently watched assets</h2>
+            {assets.map(
+              ({
+                name,
+                ticker,
+                priceUsd,
+                percentChange24h,
+                coinmarketcapId
+              }) => (
+                <Link
+                  className={styles.item}
+                  key={coinmarketcapId}
+                  to={`/projects/${coinmarketcapId}`}
+                >
+                  <div className={styles.group}>
+                    <ProjectIcon size={20} name={name} ticker={ticker} />
+                    <h3 className={styles.name}>
+                      {name} <span className={styles.ticker}>{ticker}</span>
+                    </h3>
+                  </div>
+                  <div className={styles.group}>
+                    <h4 className={styles.price}>
+                      {priceUsd
+                        ? formatNumber(priceUsd, { currency: 'USD' })
+                        : 'No data'}
+                    </h4>
+                    <PercentChanges
+                      changes={percentChange24h}
+                      className={styles.change}
+                    />
+                  </div>
+                </Link>
+              )
+            )}
+          </>
+        )}
+        {hasWatchlists && (
+          <>
+            <h2 className={styles.title}>Recently watched watchlists</h2>
+            {watchlists.map(watchlist => (
+              <WatchlistCard
+                key={watchlist.name}
+                name={watchlist.name}
+                to={getWatchlistLink(watchlist)}
+                slugs={watchlist.listItems.map(({ project }) => project.slug)}
+              />
+            ))}
+          </>
+        )}
+      </section>
+    )
   )
 }
 
