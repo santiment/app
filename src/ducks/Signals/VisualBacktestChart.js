@@ -20,7 +20,13 @@ const VisualBacktestChart = ({ data, price, metrics, showXY = false }) => {
 
   const renderChart = () => {
     return (
-      <ComposedChart data={formattedPrice}>
+      <ComposedChart
+        data={formattedPrice}
+        margin={{
+          left: -40,
+          bottom: 10
+        }}
+      >
         <XAxis
           dataKey='datetime'
           type='number'
@@ -34,7 +40,9 @@ const VisualBacktestChart = ({ data, price, metrics, showXY = false }) => {
           domain={['dataMin', 'dataMax']}
           hide={!showXY}
         />
+
         <YAxis hide />
+
         {generateMetricsMarkup(metrics, {
           active_addresses: formattedData,
           price_volume_diff: formattedData
