@@ -96,10 +96,16 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn, isDesktop }) => {
           </div>
         </div>
       ) : (
-        <MobileHeader
-          title='Sonar'
-          rightActions={<SignalMasterModalForm triggerId={triggerId} />}
-        />
+        <div className={styles.header}>
+          <MobileHeader
+            title='Sonar'
+            rightActions={
+              <div className={styles.addSignal}>
+                <SignalMasterModalForm triggerId={triggerId} />
+              </div>
+            }
+          />
+        </div>
       )}
       <Tabs
         options={tabs}

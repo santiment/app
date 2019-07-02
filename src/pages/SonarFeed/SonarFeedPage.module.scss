@@ -5,13 +5,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .tabs {
   display: block;
-  padding: 0 16px;
   margin-bottom: 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 0 16px;
+  }
 }
 
 .newSignal {
@@ -34,8 +37,14 @@
   margin-right: 24px;
 }
 
-@include responsive('phone', 'phone-xs') {
-  .content {
+.addSignal {
+  @include responsive('phone', 'phone-xs') {
+    margin-right: 16px;
+  }
+}
+
+.content {
+  @include responsive('phone', 'phone-xs') {
     margin: 0 16px;
   }
 }
