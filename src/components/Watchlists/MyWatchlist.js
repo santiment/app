@@ -46,10 +46,11 @@ const MyWatchlist = ({ isLoggedIn }) => (
         </DesktopOnly>
         <MobileOnly>
           <Row>
+            <h2 className={styles.subtitle}>My Watchlists</h2>
             {isLoggedIn && (
               <NewWatchlistDialog
                 watchlists={watchlists}
-                trigger={<WatchlistNewBtn variant='fill' accent='positive' />}
+                trigger={<WatchlistNewBtn border />}
               />
             )}
           </Row>

@@ -86,6 +86,7 @@ export const FEATURED_WATCHLIST_QUERY = gql`
 export const WATCHLIST_QUERY = gql`
   query watchlist($id: Int!) {
     watchlist(id: $id) {
+      id
       name
       user {
         id

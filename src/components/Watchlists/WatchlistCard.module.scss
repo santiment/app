@@ -6,13 +6,14 @@
 
   border: 1px solid var(--porcelain);
   border-radius: $border-radius;
-  display: inline-block;
+  display: block;
   padding: 16px 20px;
   position: relative;
   overflow: hidden;
   color: var(--mirage);
   cursor: pointer;
   transition: all ease-in-out 0.1s;
+  margin-bottom: 8px;
 
   @include responsive('laptop', 'desktop') {
     &:hover {
