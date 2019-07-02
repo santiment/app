@@ -14,7 +14,12 @@ import { formatNumber } from '../../utils/formatting'
 import { getWatchlistLink } from '../../ducks/Watchlists/watchlistUtils'
 import styles from './RecentlyWatched.module.scss'
 
-const RecentlyWatched = ({ className = '', assets, watchlists }) => {
+const RecentlyWatched = ({
+  className = '',
+  assets,
+  watchlists,
+  onProjectClick
+}) => {
   useEffect(() => {
     store.dispatch({ type: RECENT_ASSETS_FETCH })
     store.dispatch({ type: RECENT_WATCHLISTS_FETCH })
@@ -28,18 +33,19 @@ const RecentlyWatched = ({ className = '', assets, watchlists }) => {
         {hasAssets && (
           <>
             <h2 className={styles.title}>Recently watched assets</h2>
-            {assets.map(
-              ({
+            {assets.map(project => {
+              const {
                 name,
                 ticker,
                 priceUsd,
                 percentChange24h,
                 coinmarketcapId
-              }) => (
-                <Link
+              } = project
+              return (
+                <div
                   className={styles.item}
                   key={coinmarketcapId}
-                  to={`/projects/${coinmarketcapId}`}
+                  onClick={() => onProjectClick(project)}
                 >
                   <div className={styles.group}>
                     <ProjectIcon size={20} name={name} ticker={ticker} />
@@ -58,9 +64,9 @@ const RecentlyWatched = ({ className = '', assets, watchlists }) => {
                       className={styles.change}
                     />
                   </div>
-                </Link>
+                </div>
               )
-            )}
+            })}
           </>
         )}
         {hasWatchlists && (
