@@ -5,6 +5,7 @@ import InsightsTrends from '../../components/Insight/InsightsTrends'
 import Devider from '../../components/Navbar/DropdownDevider'
 import TrendsSearch from '../../components/Trends/TrendsSearch'
 import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
+import HelpPopup from '../../components/Trends/HelpPopup/HelpPopup'
 import styles from './LabsTrendsPage.module.scss'
 
 const LabsTrendsPage = () => (
@@ -20,7 +21,10 @@ const LabsTrendsPage = () => (
         content='Top 10 words with the biggest spike on crypto social media (compared to their previous 2-week average). These are the biggest developing stories in crypto.'
       />
     </Helmet>
-    <h1 className={styles.title}>Emerging Trends</h1>
+    <div className={styles.titleWrapper}>
+      <h1 className={styles.title}>Emerging Trends</h1>
+      <HelpPopup />
+    </div>
     <TrendsSearch
       classes={{
         wrapper: styles.search,
