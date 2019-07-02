@@ -2,7 +2,6 @@ import React from 'react'
 import {
   ResponsiveContainer,
   ComposedChart,
-  CartesianGrid,
   XAxis,
   YAxis,
   Tooltip,
@@ -13,11 +12,17 @@ import { formatNumber, labelFormatter } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
 import { Metrics, generateMetricsMarkup } from './utils'
-import styles from './ChartPage.module.scss'
+import sharedStyles from './ChartPage.module.scss'
+import styles from './Chart.module.scss'
 
 const tickFormatter = date => {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
   return `${DD} ${MMM} ${YY}`
+}
+
+const CHART_MARGINS = {
+  left: -10,
+  right: 18
 }
 
 class Charts extends React.Component {
@@ -60,15 +65,16 @@ class Charts extends React.Component {
     const { metrics, chartData = [], onZoomOut, title } = this.props
     const { refAreaLeft, refAreaRight } = this.state
     return (
-      <div className={'TrendsExploreChart ' + styles.chart}>
-        <div className={styles.header}>
-          <Button border onClick={onZoomOut} className={styles.zoom}>
+      <div className={styles.wrapper + ' ' + sharedStyles.chart}>
+        <div className={sharedStyles.header}>
+          <Button border onClick={onZoomOut} className={sharedStyles.zoom}>
             Zoom out
           </Button>
-          <div className={styles.title}>{title}</div>
+          <div className={sharedStyles.title}>{title}</div>
         </div>
         <ResponsiveContainer width='100%' height={300}>
           <ComposedChart
+            margin={CHART_MARGINS}
             onMouseDown={e => {
               if (!e) return
               const { activeTooltipIndex, activeLabel } = e
@@ -131,7 +137,6 @@ class Charts extends React.Component {
               strokeOpacity: 0.9,
               data: chartData
             })}
-            <CartesianGrid stroke='rgba(200, 200, 200, .2)' />
           </ComposedChart>
         </ResponsiveContainer>
       </div>

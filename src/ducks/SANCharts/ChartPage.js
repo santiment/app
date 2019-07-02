@@ -5,14 +5,17 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import { getIntervalByTimeRange } from '../../utils/dates'
+import styles from './ChartPage.module.scss'
+
+const MAX_METRICS_PER_CHART = 5
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./ChartSettings'),
   loading: () => <div />
 })
 
-const LoadableChartMetrics = Loadable({
-  loader: () => import('./ChartMetrics'),
+const LoadableChartMetricsTool = Loadable({
+  loader: () => import('./ChartMetricsTool'),
   loading: () => <div />
 })
 
@@ -80,6 +83,24 @@ class ChartPage extends Component {
 
   onMetricsChange = metrics => {
     this.setState({ metrics }, this.updateSearchQuery)
+  }
+
+  toggleMetric = metric => {
+    this.setState(state => {
+      const newMetrics = new Set(state.metrics)
+      if (newMetrics.has(metric)) {
+        newMetrics.delete(metric)
+      } else {
+        if (newMetrics.size >= MAX_METRICS_PER_CHART) {
+          return state
+        }
+        newMetrics.add(metric)
+      }
+      return {
+        ...state,
+        metrics: [...newMetrics]
+      }
+    }, this.updateSearchQuery)
   }
 
   onNightModeSelect = () => {
@@ -224,11 +245,12 @@ class ChartPage extends Component {
                 metrics={finalMetrics}
               />
               {!viewOnly && (
-                <LoadableChartMetrics
+                <LoadableChartMetricsTool
+                  classes={styles}
                   slug={slug}
-                  onMetricsChange={this.onMetricsChange}
-                  defaultActiveMetrics={finalMetrics}
+                  toggleMetric={this.toggleMetric}
                   disabledMetrics={errors}
+                  activeMetrics={finalMetrics}
                 />
               )}
             </Fragment>

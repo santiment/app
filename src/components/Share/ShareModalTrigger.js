@@ -1,57 +1,44 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Modal } from 'semantic-ui-react'
+import Dialog from '@santiment-network/ui/Dialog'
 import SharePanel from './SharePanel'
 import ShareBtn from './ShareBtn'
 
-class ShareModalTrigger extends Component {
-  state = { isOpen: false }
-
-  closeModal = () => {
-    this.setState({ isOpen: false })
-  }
-
-  openModal = () => {
-    this.setState({ isOpen: true })
-  }
-
-  render () {
-    const {
-      shareTitle,
-      shareText,
-      shareLink,
-      extraShare,
-      ...props
-    } = this.props
-    const { isOpen } = this.state
-
-    return window.navigator.share ? (
-      <ShareBtn
-        {...props}
-        onClick={() => {
-          window.navigator.share({
-            title: shareTitle,
-            text: shareText,
-            url: shareLink
-          })
-        }}
+const ShareModalTrigger = ({
+  shareTitle,
+  shareText,
+  shareLink,
+  extraShare,
+  trigger: Trigger = ShareBtn,
+  classes,
+  ...props
+}) => {
+  return window.navigator.share ? (
+    <Trigger
+      {...props}
+      onClick={() => {
+        window.navigator.share({
+          title: shareTitle,
+          text: shareText,
+          url: shareLink
+        })
+      }}
+    />
+  ) : (
+    <Dialog
+      trigger={<Trigger {...props} />}
+      title='Share the data'
+      classes={classes}
+    >
+      <SharePanel
+        shareTitle={shareTitle}
+        shareText={shareText}
+        shareLink={shareLink}
+        extraShare={extraShare}
+        classes={classes}
       />
-    ) : (
-      <Modal
-        open={isOpen}
-        trigger={<ShareBtn {...props} onClick={this.openModal} />}
-        onClose={this.closeModal}
-      >
-        <SharePanel
-          shareTitle={shareTitle}
-          shareText={shareText}
-          shareLink={shareLink}
-          onCloseBtnClick={this.closeModal}
-          extraShare={extraShare}
-        />
-      </Modal>
-    )
-  }
+    </Dialog>
+  )
 }
 
 ShareModalTrigger.propTypes = {
