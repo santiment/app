@@ -42,7 +42,13 @@ const SignalPreview = ({ type, points = [], target, height }) => {
   )
 }
 
-const SignalPreviewChart = ({ type, points, target, height = 150 }) => {
+const SignalPreviewChart = ({
+  type,
+  points,
+  target,
+  showXY = false,
+  height = 150
+}) => {
   const initialMetrics = getMetricsByType(type) || ['historyPrice']
 
   const [metrics, setMetrics] = useState(initialMetrics)
@@ -98,6 +104,7 @@ const SignalPreviewChart = ({ type, points, target, height = 150 }) => {
                 historyPrice && (
                   <VisualBacktestChart
                     data={points}
+                    showXY={showXY}
                     price={historyPrice.items}
                     metrics={customMetrics}
                   />

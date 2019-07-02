@@ -18,11 +18,11 @@ import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEf
 import Button from '@santiment-network/ui/Button'
 import { Checkbox } from '@santiment-network/ui'
 import Message from '@santiment-network/ui/Message'
-import { TriggerFormHeader } from '../header/TriggerFormHeader'
 import {
   PRICE_PERCENT_CHANGE,
   METRIC_DEFAULT_VALUES,
-  DEFAULT_FORM_META_SETTINGS
+  DEFAULT_FORM_META_SETTINGS,
+  PRICE_TYPES
 } from '../../../utils/constants'
 import {
   couldShowChart,
@@ -34,11 +34,14 @@ import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/TriggerFormMetricTypes'
 import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'
 import SignalPreview from '../../../chart/SignalPreview'
+import Label from '@santiment-network/ui/Label'
+import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import styles from './TriggerForm.module.scss'
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
   isTelegramConnected: PropTypes.bool.isRequired,
+  lastPriceItem: PropTypes.any,
   canRedirect: PropTypes.bool,
   settings: PropTypes.any,
   metaFormSettings: PropTypes.any,
@@ -50,6 +53,7 @@ export const TriggerForm = ({
   getSignalBacktestingPoints,
   data: { allProjects = [] },
   isTelegramConnected = false,
+  lastPriceItem,
   settings,
   metaFormSettings,
   trigger,
@@ -81,7 +85,7 @@ export const TriggerForm = ({
   }
 
   const [initialValues, setInitialValues] = useState(settings)
-  const [showTrigger, setShowTrigger] = useState(true)
+  const [showTrigger /*, setShowTrigger */] = useState(true)
 
   const showChart = couldShowChart(initialValues.metric)
 
@@ -90,6 +94,7 @@ export const TriggerForm = ({
       getSignalBacktestingPoints(initialValues)
   }, [])
 
+  /* GarageInc: temporary removed
   const showTriggerFunc = () => {
     setShowTrigger(!showTrigger)
   }
@@ -97,7 +102,9 @@ export const TriggerForm = ({
   const deleteTrigger = () => {
     trigger && trigger.id && removeSignal(trigger.id)
     onRemovedSignal && onRemovedSignal()
-  }
+  } */
+
+  const defaultType = metaFormSettings.type
 
   return (
     <Formik
@@ -127,52 +134,48 @@ export const TriggerForm = ({
         setFieldValue,
         isValid,
         validateForm
-      }) => (
-        <Form className={styles.TriggerForm}>
-          <FormikEffect
-            onChange={(current, prev) => {
-              let { values: newValues } = current
-              if (
-                !prev.values.metric ||
-                newValues.metric.value !== prev.values.metric.value ||
-                newValues.type.value !== prev.values.type.value
-              ) {
-                newValues = {
-                  ...METRIC_DEFAULT_VALUES[newValues.type.metric],
-                  ...newValues
+      }) => {
+        const typeSelectors = PRICE_TYPES[(metric || {}).value]
+
+        const { price } = lastPriceItem || {}
+
+        return (
+          <Form className={styles.TriggerForm}>
+            <FormikEffect
+              onChange={(current, prev) => {
+                let { values: newValues } = current
+                if (
+                  !prev.values.metric ||
+                  newValues.metric.value !== prev.values.metric.value ||
+                  newValues.type.value !== prev.values.type.value
+                ) {
+                  newValues = {
+                    ...METRIC_DEFAULT_VALUES[newValues.type.metric],
+                    ...newValues
+                  }
+                  setInitialValues(newValues)
+                  validateForm()
                 }
-                setInitialValues(newValues)
-                validateForm()
-              }
 
-              if (!isEqual(newValues, prev.values)) {
-                const lastErrors = validateTriggerForm(newValues)
-                const isError = Object.keys(newValues).some(
-                  key => lastErrors[key]
-                )
+                if (!isEqual(newValues, prev.values)) {
+                  const lastErrors = validateTriggerForm(newValues)
+                  const isError = Object.keys(newValues).some(
+                    key => lastErrors[key]
+                  )
 
-                const canLoadChart =
-                  newValues && couldShowChart(newValues.metric)
+                  const canLoadChart =
+                    newValues && couldShowChart(newValues.metric)
 
-                newValues.target &&
-                  !isError &&
-                  canLoadChart &&
-                  getSignalBacktestingPoints(newValues)
-              }
-            }}
-          />
-
-          <div className={styles.triggerFormItem}>
-            <TriggerFormHeader
-              deleteTriggerFunc={deleteTrigger}
-              name={trigger.title}
-              showTrigger={showTrigger}
-              showTriggerFunc={showTriggerFunc}
-              actionsEnabled={false}
+                  newValues.target &&
+                    !isError &&
+                    canLoadChart &&
+                    getSignalBacktestingPoints(newValues)
+                }
+              }}
             />
 
             {showTrigger && (
-              <div className={styles.Trigger}>
+              <div className={styles.triggerFormItem}>
                 <TriggerFormMetricTypes
                   metaFormSettings={metaFormSettings}
                   setFieldValue={setFieldValue}
@@ -185,9 +188,29 @@ export const TriggerForm = ({
                   allProjects={allProjects}
                   setFieldValue={setFieldValue}
                 />
+                {!metric.hidden && typeSelectors && typeSelectors.length > 1 && (
+                  <div className={cx(styles.row)}>
+                    <div className={cx(styles.Field, styles.fieldFilled)}>
+                      <Label accent='waterloo' className={styles.label}>
+                        Condition
+                      </Label>
+                      <FormikSelect
+                        name='type'
+                        isClearable={false}
+                        isSearchable
+                        isDisabled={defaultType.isDisabled}
+                        defaultValue={defaultType.value}
+                        placeholder='Choose a type'
+                        options={typeSelectors}
+                        isOptionDisabled={option => !option.value}
+                      />
+                    </div>
+                  </div>
+                )}
 
                 <TriggerFormMetricValues
                   type={type}
+                  lastPrice={price}
                   absoluteBorderLeft={absoluteBorderLeft}
                   absoluteBorderRight={absoluteBorderRight}
                 />
@@ -229,7 +252,9 @@ export const TriggerForm = ({
 
                 <div className={styles.row}>
                   <div className={styles.Field}>
-                    <label className={styles.label}>Notify me via</label>
+                    <Label accent='waterloo' className={styles.label}>
+                      Notify me via
+                    </Label>
                     <div className={styles.notifyBlock}>
                       <FormikCheckboxes
                         name='channels'
@@ -258,21 +283,21 @@ export const TriggerForm = ({
                 )}
               </div>
             )}
-          </div>
 
-          <div className={styles.controls}>
-            <Button
-              type='submit'
-              disabled={!isValid || isSubmitting}
-              isActive={isValid && !isSubmitting}
-              variant={'fill'}
-              accent='positive'
-            >
-              Continue
-            </Button>
-          </div>
-        </Form>
-      )}
+            <div className={styles.controls}>
+              <Button
+                type='submit'
+                disabled={!isValid || isSubmitting}
+                isActive={isValid && !isSubmitting}
+                variant={'fill'}
+                accent='positive'
+              >
+                Continue
+              </Button>
+            </div>
+          </Form>
+        )
+      }}
     </Formik>
   )
 }
@@ -280,7 +305,8 @@ export const TriggerForm = ({
 TriggerForm.propTypes = propTypes
 
 const mapStateToProps = state => ({
-  isTelegramConnected: selectIsTelegramConnected(state)
+  isTelegramConnected: selectIsTelegramConnected(state),
+  lastPriceItem: state.signals.points ? state.signals.points[0] : undefined
 })
 
 const mapDispatchToProps = dispatch => ({
