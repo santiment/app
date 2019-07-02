@@ -19,7 +19,7 @@ const ChartSidecar = ({ onSlugSelect }) => {
     const { project } = openedList.listItems[index]
     return (
       <div key={key} style={style}>
-        <Asset project={project} onProjectClick={onSlugSelect} />
+        <Asset project={project} onClick={onSlugSelect} />
       </div>
     )
   }
@@ -39,7 +39,7 @@ const ChartSidecar = ({ onSlugSelect }) => {
           <AssetsList
             items={openedList.listItems.map(({ project }) => project)}
             renderer={assetsRenderer}
-            rowHeight={54}
+            rowHeight={50}
           />
         </div>
       ) : (

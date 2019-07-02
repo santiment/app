@@ -14,13 +14,13 @@ import { formatNumber } from '../../utils/formatting'
 import { getWatchlistLink } from '../../ducks/Watchlists/watchlistUtils'
 import styles from './RecentlyWatched.module.scss'
 
-export const Asset = ({ project, classes = {}, onProjectClick }) => {
+export const Asset = ({ project, classes = {}, onClick }) => {
   const { name, ticker, priceUsd, percentChange24h, coinmarketcapId } = project
   return (
     <div
       className={cx(styles.item, classes.asset)}
       key={coinmarketcapId}
-      onClick={() => onProjectClick(project)}
+      onClick={() => onClick(project)}
     >
       <div className={styles.group}>
         <ProjectIcon size={20} name={name} ticker={ticker} />
@@ -76,10 +76,11 @@ const RecentlyWatched = ({
             {watchlists.map(watchlist => (
               <WatchlistCard
                 key={watchlist.name}
+                watchlist={watchlist}
                 name={watchlist.name}
                 to={getWatchlistLink(watchlist)}
-                onWatchlistClick={() => onWatchlistClick(watchlist)}
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
+                onClick={onWatchlistClick}
               />
             ))}
           </>

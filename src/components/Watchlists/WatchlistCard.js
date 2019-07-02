@@ -29,8 +29,8 @@ const WatchlistCard = ({
   to,
   isError,
   isLoading,
-  onWatchlistClick,
-  ...props
+  watchlist,
+  onClick
 }) => {
   const { marketcap: latestMarketcap } = stats.slice(-1)[0] || {}
   const { marketcap } = stats.slice(0, 1)[0] || {}
@@ -43,17 +43,17 @@ const WatchlistCard = ({
     marketcap: stat.marketcap - minMarketcap
   }))
 
-  const test = onWatchlistClick
+  const res = onClick
     ? {
       Component: 'div',
       props: {
-        onClick: () => onWatchlistClick(props)
+        onClick: () => onClick(watchlist)
       }
     }
     : { Component: Link, props: { to } }
 
   return (
-    <test.Component className={styles.wrapper} {...test.props}>
+    <res.Component className={styles.wrapper} {...res.props}>
       <div className={cx(styles.flexRow, styles.content)}>
         <span className={styles.name}>{name}</span>
         {isPublic !== undefined && (
@@ -97,7 +97,7 @@ const WatchlistCard = ({
           </div>
         </>
       ) : null}
-    </test.Component>
+    </res.Component>
   )
 }
 
