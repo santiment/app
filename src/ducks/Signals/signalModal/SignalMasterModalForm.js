@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
+import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dialog from '@santiment-network/ui/Dialog'
@@ -16,7 +17,8 @@ const SignalMasterModalForm = ({
   triggerId,
   isLoggedIn,
   redirect,
-  match
+  match,
+  buttonParams = {}
 }) => {
   if (!triggerId && match) {
     triggerId = match.params.id
@@ -42,6 +44,8 @@ const SignalMasterModalForm = ({
     }
   }
 
+  const { variant, border } = buttonParams
+
   return (
     <Dialog
       open={dialogOpenState}
@@ -49,7 +53,7 @@ const SignalMasterModalForm = ({
         setDialogOpenState(true)
       }}
       onClose={onClose}
-      trigger={signalModalTrigger(isLoggedIn, label)}
+      trigger={signalModalTrigger(isLoggedIn, label, variant, border)}
       title={dialogTitle}
       classes={styles}
     >
@@ -83,12 +87,18 @@ export default connect(
   mapDispatchToProps
 )(SignalMasterModalForm)
 
-const signalModalTrigger = (isLoggedIn, label) => (
+const signalModalTrigger = (
+  isLoggedIn,
+  label,
+  variant = 'fill',
+  border = false
+) => (
   <Button
-    variant='fill'
+    variant={variant}
+    border={border}
     accent='positive'
     disabled={!isLoggedIn}
-    className={styles.newSignal}
+    className={cx(styles.newSignal)}
   >
     <Icon type='plus-round' className={styles.newSignal__icon} />
     {label}

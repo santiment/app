@@ -33,8 +33,10 @@ $trigger-form-width: 496px;
   padding: 15px;
   background: var(--white);
   border: 1px solid var(--porcelain);
-  box-sizing: border-box;
-  border-radius: 4px;
+
+  @include border-box();
+
+  border-radius: $border-radius;
 }
 
 .Trigger {
@@ -192,9 +194,11 @@ a.connectLink {
 }
 
 .AboutForm {
-  box-sizing: border-box;
   background-color: var(--white);
-  border-radius: 4px;
+
+  @include border-box();
+
+  border-radius: $border-radius;
   padding-top: 16px;
 
   .Field {
@@ -213,8 +217,10 @@ a.connectLink {
 
 .triggerFormItem {
   border: 1px solid var(--porcelain);
-  box-sizing: border-box;
-  border-radius: 4px;
+
+  @include border-box();
+
+  border-radius: $border-radius;
   margin-top: 20px;
 
   @include responsive('phone', 'phone-xs') {

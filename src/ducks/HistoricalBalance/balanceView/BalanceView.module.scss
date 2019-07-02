@@ -1,0 +1,95 @@
+@import 'variables.scss';
+@import "~@santiment-network/ui/mixins.scss";
+
+.container {
+  width: 100%;
+  border-radius: $border-radius;
+  border: 1px solid var(--porcelain);
+
+  @include border-box();
+}
+
+.filters {
+  width: 100%;
+  background: var(--athens);
+  border: 1px solid var(--porcelain);
+  padding: 16px 0;
+
+  @include border-box();
+
+  display: flex;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart {
+  position: relative;
+}
+
+.addTrigger {
+  position: absolute;
+  left: 24px;
+  top: 15px;
+  z-index: 1000;
+}
+
+.InputWrapper {
+  width: 50%;
+  padding: 0 24px;
+
+  @include text('body-3');
+}
+
+.wallet {
+  padding: 0 12px 0 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    padding: 0 24px 0 24px;
+  }
+}
+
+.walletInput {
+  height: 36px;
+}
+
+.address {
+  padding: 0 24px 0 12px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    padding: 0 24px 0 24px;
+    margin-top: 10px;
+  }
+}
+
+.label {
+  @include text('caption');
+
+  color: var(--waterloo);
+}
+
+.InputWithAction input {
+  margin-top: 0;
+  border: none;
+}
+
+.InputWithAction button {
+  border-left: 1px solid #e0e4ee;
+  border-radius: 0;
+}
+
+.header {
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+    padding: 10px;
+  }
+}

@@ -46,7 +46,7 @@ export const TriggerFormFrequency = ({
           isDisabled={defaultFrequencyType.isDisabled}
           defaultValue={defaultFrequencyType.value.value}
           isSearchable
-          placeholder='Choose frequency'
+          placeholder='Choose a frequency'
           options={frequencyOptions}
           onChange={frequencyType => {
             const newFrequencyTimeType = getNearestFrequencyTypeValue(
