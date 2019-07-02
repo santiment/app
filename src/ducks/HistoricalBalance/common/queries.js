@@ -29,3 +29,12 @@ export const allAssetsGQL = gql`
     }
   }
 `
+
+export const ASSETS_BY_WALLET_QUERY = gql`
+  query assetsHeldByAddress($address: String!) {
+    assetsHeldByAddress(address: $address) {
+      slug
+      balance
+    }
+  }
+`
