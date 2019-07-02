@@ -27,5 +27,9 @@
 .subtitle {
   @include text('body-1', 'm');
 
-  margin: 32px 16px 12px;
+  margin: 0 16px 12px;
+}
+
+.recents {
+  margin-bottom: 32px;
 }

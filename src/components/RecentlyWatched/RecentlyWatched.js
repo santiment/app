@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import ProjectIcon from '../ProjectIcon'
@@ -13,13 +14,13 @@ import { formatNumber } from '../../utils/formatting'
 import { getWatchlistLink } from '../../ducks/Watchlists/watchlistUtils'
 import styles from './RecentlyWatched.module.scss'
 
-const RecentlyWatched = ({ assets, watchlists }) => {
+const RecentlyWatched = ({ className = '', assets, watchlists }) => {
   useEffect(() => {
     store.dispatch({ type: RECENT_ASSETS_FETCH })
     store.dispatch({ type: RECENT_WATCHLISTS_FETCH })
   }, [])
   return (
-    <section className={styles.wrapper}>
+    <section className={cx(className, styles.wrapper)}>
       {assets.length > 0 && (
         <>
           <h2 className={styles.title}>Recently watched assets</h2>
