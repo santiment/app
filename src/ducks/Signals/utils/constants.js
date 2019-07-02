@@ -56,14 +56,14 @@ export const PRICE_PERCENT_CHANGE_DOWN_MODEL = {
 export const PRICE_ABS_CHANGE_ABOVE = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
-  label: 'Above',
+  label: 'More than',
   value: PRICE_CHANGE_TYPES.ABOVE
 }
 
 export const PRICE_ABS_CHANGE_BELOW = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
-  label: 'Below',
+  label: 'Less than',
   value: PRICE_CHANGE_TYPES.BELOW
 }
 

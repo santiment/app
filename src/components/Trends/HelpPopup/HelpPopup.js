@@ -1,15 +1,14 @@
 import React from 'react'
-import Tooltip from '@santiment-network/ui/Tooltip'
+import Dialog from '@santiment-network/ui/Dialog'
 import Icon from '@santiment-network/ui/Icon'
-import Panel from '@santiment-network/ui/Panel/Panel'
 import HelpPopupContent from './HelpPopupContent'
 import styles from './HelpPopup.module.scss'
 
 const HelpPopup = () => (
-  <Tooltip
+  <Dialog
     className={styles.tooltip}
-    align='center'
-    on='click'
+    position='center'
+    title='About Santiment’s Top 10 Trending Words in Crypto'
     trigger={
       <div className={styles.trigger}>
         <Icon type='question-round-small' className={styles.description} />
@@ -17,10 +16,10 @@ const HelpPopup = () => (
       </div>
     }
   >
-    <Panel padding className={styles.container}>
+    <div padding className={styles.container}>
       <HelpPopupContent />
-    </Panel>
-  </Tooltip>
+    </div>
+  </Dialog>
 )
 
 export default HelpPopup

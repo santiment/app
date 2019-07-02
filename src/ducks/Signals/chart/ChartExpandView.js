@@ -12,7 +12,10 @@ export const ChartExpandView = ({ children }) => {
   const height = window.innerHeight * 0.6
 
   const renderChildWithHeight = () => {
-    return React.cloneElement(children, { height: height - TITLE_HEIGHT })
+    return React.cloneElement(children, {
+      height: height - TITLE_HEIGHT,
+      showXY: true
+    })
   }
 
   return (
