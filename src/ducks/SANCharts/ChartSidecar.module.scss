@@ -1,3 +1,5 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   position: fixed;
   top: 0;
@@ -27,7 +29,7 @@
   }
 }
 
-.recents {
+.section {
   width: 100%;
   padding: 0;
 }
@@ -42,4 +44,21 @@
 
 .visible {
   position: absolute;
+}
+
+.subtitle {
+  @include text('body-1', 'm');
+
+  margin-top: 26px !important;
+}
+
+.tabs {
+  padding: 0;
+
+  & > div {
+    width: 50%;
+    padding: 16px;
+    margin: 0;
+    justify-content: center;
+  }
 }

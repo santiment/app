@@ -245,7 +245,7 @@ class ChartPage extends Component {
                 title={title}
                 metrics={finalMetrics}
               />
-              <ChartSidecar />
+              <ChartSidecar onSlugSelect={this.onSlugSelect} />
               {!viewOnly && (
                 <LoadableChartMetricsTool
                   classes={styles}

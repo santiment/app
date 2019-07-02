@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import Tabs from '@santiment-network/ui/Tabs'
 import Label from '@santiment-network/ui/Label'
@@ -39,7 +40,12 @@ const tabs = [
   }
 ]
 
-const GainersLosersTabs = ({ gainers, losers, onProjectClick }) => {
+const GainersLosersTabs = ({
+  gainers,
+  losers,
+  onProjectClick,
+  classes = {}
+}) => {
   let [selectedTab, setSelectedTab] = useState(tabs[0].index)
 
   function handleSelectTab (tab) {
@@ -53,7 +59,7 @@ const GainersLosersTabs = ({ gainers, losers, onProjectClick }) => {
   return (
     <Panel>
       <Tabs
-        className={styles.tabs}
+        className={cx(styles.tabs, classes.tabs)}
         options={tabs}
         defaultSelectedIndex={selectedTab}
         onSelect={handleSelectTab}
