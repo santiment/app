@@ -21,6 +21,11 @@ const tickFormatter = date => {
   return `${DD} ${MMM} ${YY}`
 }
 
+const CHART_MARGINS = {
+  left: -10,
+  right: 18
+}
+
 class Charts extends React.Component {
   state = {
     leftZoomIndex: undefined,
@@ -70,6 +75,7 @@ class Charts extends React.Component {
         </div>
         <ResponsiveContainer width='100%' height={300}>
           <ComposedChart
+            margin={CHART_MARGINS}
             onMouseDown={e => {
               if (!e) return
               const { activeTooltipIndex, activeLabel } = e

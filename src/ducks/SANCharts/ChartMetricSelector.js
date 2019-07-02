@@ -37,6 +37,15 @@ const initState = categories => {
   return keys[0]
 }
 
+const DEFAULT_CATEGORIES = {
+  Financial: [
+    {
+      label: 'Price',
+      description: 'Description of the Price metric'
+    }
+  ]
+}
+
 const ChartMetricSelector = ({
   className = '',
   toggleMetric,
@@ -45,8 +54,10 @@ const ChartMetricSelector = ({
 }) => {
   const categories = getCategoryGraph(availableMetrics)
 
-  const [activeCategory, setCategory] = React.useState(initState(categories))
-  const [activeMetric, setMetric] = React.useState(categories[activeCategory])
+  const [activeCategory, setCategory] = React.useState('Financial')
+  const [activeMetric, setMetric] = React.useState(
+    DEFAULT_CATEGORIES.Financial[0]
+  )
 
   if (loading) {
     return 'Loading...'
