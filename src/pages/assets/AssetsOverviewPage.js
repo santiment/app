@@ -2,6 +2,7 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import cx from 'classnames'
 import { CATEGORIES, WATCHLISTS_BY_FUNCTION } from './assets-overview-constants'
 import { PROJECTS_BY_FUNCTION_SHORT_QUERY } from '../../queries/WatchlistGQL'
@@ -10,11 +11,17 @@ import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
 import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import PageLoader from '../../components/Loader/PageLoader'
+import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
 import { checkIsLoggedIn } from './../UserSelectors'
 import styles from './AssetsOverview.module.scss'
 
-const AssetsOverview = ({ slugs, isLoggedIn, isPublicWatchlistsLoading }) => {
+const AssetsOverview = ({
+  slugs,
+  isLoggedIn,
+  isPublicWatchlistsLoading,
+  history
+}) => {
   return (
     <div className={cx(styles.overviewPage, 'page')}>
       <DesktopOnly>
@@ -40,7 +47,21 @@ const AssetsOverview = ({ slugs, isLoggedIn, isPublicWatchlistsLoading }) => {
             <RecentlyWatched className={styles.recents} />
             <h2 className={styles.subtitle}>Categories</h2>
             <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
-            <MyWatchlist isLoggedIn={isLoggedIn} />
+            <MyWatchlist
+              isLoggedIn={isLoggedIn}
+              className={styles.watchlists}
+            />
+            <h2 className={styles.subtitle}>Gainers and losers</h2>
+            <section className={styles.gainers}>
+              <GainersLosersTabs
+                timeWindow='2d'
+                size={8}
+                onProjectClick={({ coinmarketcapId }) => {
+                  console.log(history, coinmarketcapId)
+                  history.push(`/projects/${coinmarketcapId}`)
+                }}
+              />
+            </section>
           </>
         )}
       </MobileOnly>
@@ -74,4 +95,4 @@ const enhance = compose(
   connect(mapStateToProps)
 )
 
-export default enhance(AssetsOverview)
+export default withRouter(enhance(AssetsOverview))

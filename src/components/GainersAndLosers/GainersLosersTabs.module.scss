@@ -1,3 +1,5 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   padding: 12px;
 }
@@ -5,6 +7,17 @@
 .tabs {
   width: 100%;
   padding: 16px 20px 0;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 0;
+
+    & > div {
+      justify-content: center;
+      margin: 0;
+      padding: 16px;
+      width: 50%;
+    }
+  }
 }
 
 .project {
