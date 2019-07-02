@@ -7,18 +7,23 @@
 .expanderButton {
   position: absolute;
   top: -5px;
-  right: 5px;
+  right: -10px;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
 }
 
 .expanded {
-  width: 100%;
-  max-width: 100%;
-  max-height: 100%;
   padding: 20px 20px 10px 20px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100% !important;
+    max-width: 100%;
+    max-height: 100%;
+  }
 }
 
-@include responsive('phone', 'phone-xs') {
-  .expanded {
-    width: 100% !important;
-  }
+.explanation {
+  z-index: 10000;
 }

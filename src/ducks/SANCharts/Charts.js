@@ -9,7 +9,7 @@ import {
   ReferenceArea
 } from 'recharts'
 import Button from '@santiment-network/ui/Button'
-import { formatNumber } from './../../utils/formatting'
+import { formatNumber, labelFormatter } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
 import { Metrics, generateMetricsMarkup } from './utils'
@@ -18,11 +18,6 @@ import styles from './ChartPage.module.scss'
 const tickFormatter = date => {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
   return `${DD} ${MMM} ${YY}`
-}
-
-const labelFormatter = date => {
-  const { dddd, DD, MMM, YYYY } = getDateFormats(new Date(date))
-  return `${dddd}, ${MMM} ${DD} ${YYYY}`
 }
 
 class Charts extends React.Component {

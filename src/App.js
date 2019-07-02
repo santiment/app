@@ -29,7 +29,7 @@ import Footer from './components/Footer'
 import GDPRPage from './pages/GDPRPage/GDPRPage'
 import AssetsPage from './pages/assets/AssetsPage'
 import SignalFormPage from './ducks/Signals/SignalFormPage'
-import HistoricalBalancePage from './ducks/HistoricalBalance/HistoricalBalancePage'
+import HistoricalBalancePage from './ducks/HistoricalBalance/page/HistoricalBalancePage'
 import WordCloudPage from './components/WordCloud/WordCloudPage'
 import { getConsentUrl } from './utils/utils'
 import NewsBanner from './components/Banner/NewsBanner'
@@ -133,6 +133,7 @@ export const App = ({
   isFullscreenMobile,
   isOffline,
   hasUsername,
+  hasMetamask,
   isBetaModeEnabled,
   location
 }) => (
@@ -202,7 +203,13 @@ export const App = ({
         />
         <Route exact path='/roadmap' component={Roadmap} />
         <Route exact path='/signals' component={Signals} />
-        <Route exact path='/labs/balance' component={HistoricalBalancePage} />
+        <Route
+          exact
+          path='/labs/balance'
+          render={props => (
+            <HistoricalBalancePage {...props} isDesktop={isDesktop} />
+          )}
+        />
         <Route exact path='/labs/wordcloud' component={WordCloudPage} />
         <Route
           exact
@@ -258,6 +265,7 @@ export const App = ({
             <LoadableDashboardPage
               isDesktop={isDesktop}
               isLoggedIn={isLoggedIn}
+              hasMetamask={hasMetamask}
               {...props}
             />
           )}
@@ -342,13 +350,15 @@ export const App = ({
 )
 
 const mapStateToProps = state => {
+  const { ethAccounts = [] } = state.user.data
   return {
     isLoggedIn: state.user.data && !!state.user.data.id,
     token: state.user.token,
     isFullscreenMobile: state.detailedPageUi.isFullscreenMobile,
     isOffline: !state.rootUi.isOnline,
     isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
-    hasUsername: !!state.user.data.username
+    hasUsername: !!state.user.data.username,
+    hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address
   }
 }
 

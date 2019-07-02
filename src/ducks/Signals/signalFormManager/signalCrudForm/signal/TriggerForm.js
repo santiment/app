@@ -15,7 +15,9 @@ import {
 } from '../../../common/actions'
 import FormikCheckboxes from '../../../../../components/formik-santiment-ui/FormikCheckboxes'
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
-import { Checkbox, Button, Message } from '@santiment-network/ui'
+import Button from '@santiment-network/ui/Button'
+import { Checkbox } from '@santiment-network/ui'
+import Message from '@santiment-network/ui/Message'
 import { TriggerFormHeader } from '../header/TriggerFormHeader'
 import {
   PRICE_PERCENT_CHANGE,

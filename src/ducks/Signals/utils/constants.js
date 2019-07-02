@@ -88,7 +88,7 @@ export const ETH_WALLET_METRIC = {
 }
 
 export const PRICE_METRIC = { label: 'Price', value: 'price' }
-export const DAILY_ACTIVE_ADRESSES_METRIC = {
+export const DAILY_ACTIVE_ADDRESSES_METRIC = {
   label: 'Daily Active Addresses',
   value: DAILY_ACTIVE_ADDRESSES,
   metric: DAILY_ACTIVE_ADDRESSES
@@ -105,7 +105,7 @@ export const METRICS_OPTIONS = [
   { ...PRICE_METRIC },
   { ...ETH_WALLET_METRIC },
   // { label: 'Trending Words', value: 'trendingWords' },
-  { ...DAILY_ACTIVE_ADRESSES_METRIC },
+  // { ...DAILY_ACTIVE_ADDRESSES_METRIC }, GarageInc: temporary disabled
   { ...PRICE_VOLUME_DIFFERENCE_METRIC }
 ]
 
@@ -125,7 +125,7 @@ export const PRICE_TYPES = {
       options: [PRICE_PERCENT_CHANGE_UP_MODEL, PRICE_PERCENT_CHANGE_DOWN_MODEL]
     }
   ],
-  daily_active_addresses: [DAILY_ACTIVE_ADRESSES_METRIC],
+  daily_active_addresses: [DAILY_ACTIVE_ADDRESSES_METRIC],
   price_volume_difference: [PRICE_VOLUME_DIFFERENCE_METRIC],
   eth_wallet: ETH_WALLETS_OPTIONS
 }
@@ -269,7 +269,7 @@ export const METRIC_DEFAULT_VALUES = {
     threshold: BASE_THRESHOLD,
     timeWindow: 2,
     timeWindowUnit: { label: 'Days', value: 'd' },
-    type: { ...DAILY_ACTIVE_ADRESSES_METRIC },
+    type: { ...DAILY_ACTIVE_ADDRESSES_METRIC },
     isRepeating: true,
     channels: ['Telegram']
   },

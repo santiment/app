@@ -122,8 +122,8 @@ export default (state = initialState, action) => {
         data: {
           ...action.user,
           settings: {
-            ...action.user.settings,
-            ...state.data.settings
+            ...state.data.settings,
+            ...action.user.settings
           }
         }
       }
