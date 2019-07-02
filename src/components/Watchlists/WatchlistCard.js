@@ -1,6 +1,6 @@
 import React from 'react'
 import { compose } from 'redux'
-import { Icon } from '@santiment-network/ui'
+import Icon from '@santiment-network/ui/Icon'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import { Link } from 'react-router-dom'
@@ -8,14 +8,19 @@ import PropTypes from 'prop-types'
 import { Area, AreaChart, ResponsiveContainer } from 'recharts'
 import PercentChanges from '../PercentChanges'
 import {
-  projectsListHistoryStatsGQL,
-  totalMarketcapGQL
-} from '../TotalMarketcapWidget/TotalMarketcapGQL'
+  PROJECTS_HISTORY_QUERY,
+  CATEGORY_HISTORY_QUERY
+} from '../WatchlistHistory/WatchlistHistoryGQL'
+import { WATCHLIST_HISTORY_QUERY } from '../WatchlistHistory/WatchlistHistoryGQL'
 import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
+import Gradients from '../WatchlistHistory/Gradients'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
+import { filterEmptyStats } from '../WatchlistHistory/utils'
 import styles from './WatchlistCard.module.scss'
+
+const INTERVAL = '6h'
 
 const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
   const { marketcap: latestMarketcap } = stats.slice(-1)[0] || {}
@@ -54,22 +59,7 @@ const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
             <ResponsiveContainer height={35} className={styles.chart}>
               <AreaChart data={chartStats}>
                 <defs>
-                  <linearGradient id='totalDown' x1='0' x2='0' y1='0' y2='1'>
-                    <stop
-                      offset='5%'
-                      stopColor='var(--persimmon)'
-                      stopOpacity={0.3}
-                    />
-                    <stop offset='95%' stopColor='#fff' stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id='totalUp' x1='0' x2='0' y1='0' y2='1'>
-                    <stop
-                      offset='5%'
-                      stopColor='var(--lima)'
-                      stopOpacity={0.3}
-                    />
-                    <stop offset='95%' stopColor='#fff' stopOpacity={0} />
-                  </linearGradient>
+                  <Gradients />
                 </defs>
                 <Area
                   dataKey='marketcap'
@@ -106,36 +96,51 @@ WatchlistCard.defaultProps = {
   stats: []
 }
 
-export const normalizeStats = arr =>
-  arr.filter(({ marketcap, volume }) => marketcap !== 0 && volume !== 0)
-
 const enhance = compose(
-  graphql(projectsListHistoryStatsGQL, {
+  graphql(PROJECTS_HISTORY_QUERY, {
     options: ({ slugs = [] }) => ({
       variables: {
         slugs,
         ...getTimeIntervalFromToday(-6, DAY),
-        interval: '6h'
+        interval: INTERVAL
       }
     }),
     skip: ({ slugs }) => !slugs.length,
     props: ({ data: { projectsListHistoryStats = [], loading, error } }) => ({
-      stats: normalizeStats(projectsListHistoryStats),
+      stats: filterEmptyStats(projectsListHistoryStats),
       isLoading: loading,
       isError: error
     })
   }),
-  graphql(totalMarketcapGQL, {
+  graphql(CATEGORY_HISTORY_QUERY, {
     options: ({ slug }) => ({
       variables: {
         slug,
         ...getTimeIntervalFromToday(-6, DAY),
-        interval: '6h'
+        interval: INTERVAL
       }
     }),
     skip: ({ slug }) => !slug,
     props: ({ data: { historyPrice = [], loading, error } }) => ({
-      stats: normalizeStats(historyPrice),
+      stats: filterEmptyStats(historyPrice),
+      isLoading: loading,
+      isError: error
+    })
+  }),
+  graphql(WATCHLIST_HISTORY_QUERY, {
+    options: ({ id }) => ({
+      variables: {
+        id,
+        ...getTimeIntervalFromToday(-6, DAY),
+        interval: INTERVAL
+      }
+    }),
+    skip: ({ id }) => !id,
+    props: ({ data: { watchlist = {}, loading, error } }) => ({
+      stats:
+        watchlist && watchlist.historicalStats
+          ? filterEmptyStats(watchlist.historicalStats)
+          : [],
       isLoading: loading,
       isError: error
     })
