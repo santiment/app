@@ -1,8 +1,9 @@
 import React from 'react'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import { getNearestTypeByMetric } from '../../../utils/utils'
-import { METRICS_OPTIONS, PRICE_TYPES } from '../../../utils/constants'
+import { METRICS_OPTIONS } from '../../../utils/constants'
 import Label from '@santiment-network/ui/Label'
 import styles from '../signal/TriggerForm.module.scss'
 
@@ -18,13 +19,10 @@ export const TriggerFormMetricTypes = ({
   metaFormSettings
 }) => {
   const defaultMetric = metaFormSettings.metric
-  const defaultType = metaFormSettings.type
-
-  const typeSelectors = PRICE_TYPES[(metric || {}).value]
 
   return (
     <div className={styles.row}>
-      <div className={styles.Field}>
+      <div className={cx(styles.Field, styles.fieldFilled)}>
         <Label accent='waterloo' className={styles.label}>
           Metrics
         </Label>
@@ -45,23 +43,6 @@ export const TriggerFormMetricTypes = ({
           />
         </div>
       </div>
-      {!metric.hidden && typeSelectors && typeSelectors.length > 1 && (
-        <div className={styles.Field}>
-          <Label accent='waterloo' className={styles.label}>
-            &nbsp;
-          </Label>
-          <FormikSelect
-            name='type'
-            isClearable={false}
-            isSearchable
-            isDisabled={defaultType.isDisabled}
-            defaultValue={defaultType.value}
-            placeholder='Choose a type'
-            options={typeSelectors}
-            isOptionDisabled={option => !option.value}
-          />
-        </div>
-      )}
     </div>
   )
 }

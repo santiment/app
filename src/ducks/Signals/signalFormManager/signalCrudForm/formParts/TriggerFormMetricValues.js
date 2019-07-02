@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import cx from 'classnames'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import Label from '@santiment-network/ui/Label'
@@ -10,6 +11,7 @@ import {
 } from '../../../utils/constants'
 import { getFormMetricValue } from '../../../utils/utils'
 import styles from '../signal/TriggerForm.module.scss'
+import { LastPriceComponent } from './TriggerLastPrice'
 
 const propTypes = {
   type: PropTypes.any,
@@ -20,7 +22,8 @@ const propTypes = {
 export const TriggerFormMetricValues = ({
   type,
   absoluteBorderRight,
-  absoluteBorderLeft
+  absoluteBorderLeft,
+  lastPrice
 }) => {
   let metricValue = getFormMetricValue(type)
 
@@ -28,33 +31,26 @@ export const TriggerFormMetricValues = ({
     <div className={styles.row}>
       {type &&
         METRIC_TYPES_DEPENDENCIES[metricValue].includes(
-          'absoluteBorderLeft'
+          'absoluteBorderRight'
         ) && (
         <div className={styles.Field}>
-          <Label accent='waterloo' className={styles.label}>
-              Select channel borders
-          </Label>
           <FormikInput
-            name='absoluteBorderLeft'
+            name='absoluteBorderRight'
             type='number'
-            max={absoluteBorderRight}
-            placeholder='Left border'
+            placeholder='Upper border'
           />
+          <LastPriceComponent lastPrice={lastPrice} />
         </div>
       )}
       {type &&
         METRIC_TYPES_DEPENDENCIES[metricValue].includes(
-          'absoluteBorderRight'
+          'absoluteBorderLeft'
         ) && (
         <div className={styles.Field}>
-          <Label accent='waterloo' className={styles.label}>
-              &nbsp;
-          </Label>
           <FormikInput
-            name='absoluteBorderRight'
-            min={absoluteBorderLeft}
+            name='absoluteBorderLeft'
             type='number'
-            placeholder='Right border'
+            placeholder='Lower border'
           />
         </div>
       )}
@@ -63,15 +59,13 @@ export const TriggerFormMetricValues = ({
         METRIC_TYPES_DEPENDENCIES[metricValue].includes(
           'absoluteThreshold'
         ) && (
-        <div className={styles.Field}>
-          <Label accent='waterloo' className={styles.label}>
-              Absolute value
-          </Label>
+        <div className={cx(styles.Field, styles.fieldFilled)}>
           <FormikInput
             name='absoluteThreshold'
             type='number'
             placeholder='Absolute value'
           />
+          <LastPriceComponent lastPrice={lastPrice} />
         </div>
       )}
 
@@ -79,13 +73,14 @@ export const TriggerFormMetricValues = ({
         METRIC_TYPES_DEPENDENCIES[metricValue].includes('percentThreshold') && (
         <div className={styles.Field}>
           <Label accent='waterloo' className={styles.label}>
-              Percentage change
+              Percentage amount
           </Label>
           <FormikInput
             name='percentThreshold'
             type='number'
-            placeholder='Percentage change'
+            placeholder='Percentage amount'
           />
+          <LastPriceComponent lastPrice={lastPrice} />
         </div>
       )}
 

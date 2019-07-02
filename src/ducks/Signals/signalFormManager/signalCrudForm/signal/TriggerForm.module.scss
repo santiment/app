@@ -3,14 +3,12 @@
 $trigger-form-width: 496px;
 
 .wrapper {
-  width: $trigger-form-width;
   position: relative;
-  padding: 0 20px 20px;
+  width: $trigger-form-width;
+  padding: 0;
 
   @include responsive('phone', 'phone-xs') {
-    width: initial;
-    max-width: $trigger-form-width;
-    padding: 0;
+    width: 100%;
   }
 }
 
@@ -35,13 +33,6 @@ $trigger-form-width: 496px;
   border: 1px solid var(--porcelain);
   box-sizing: border-box;
   border-radius: 4px;
-}
-
-.Trigger {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 20px 20px;
 }
 
 .row {
@@ -78,6 +69,7 @@ a.connectLink {
 
 .notifyBlock {
   display: flex;
+  margin-top: 5px;
 
   div:first-child {
     margin-right: 20px;
@@ -104,6 +96,11 @@ a.connectLink {
   }
 }
 
+.fieldFilled {
+  width: 100%;
+  padding: 0 !important;
+}
+
 .label {
   margin-bottom: 2px;
   text-overflow: ellipsis;
@@ -111,10 +108,6 @@ a.connectLink {
   overflow: hidden;
 
   @include text('caption');
-}
-
-.isRepeatingRow {
-  margin-top: 12px;
 }
 
 .isRepeating {
@@ -143,7 +136,7 @@ a.connectLink {
   justify-content: flex-end;
   position: absolute;
   right: 20px;
-  bottom: 20px;
+  bottom: 0;
 
   button {
     width: 92px;
@@ -211,21 +204,27 @@ a.connectLink {
   }
 }
 
-.triggerFormItem {
-  border: 1px solid var(--porcelain);
-  box-sizing: border-box;
-  border-radius: 4px;
-  margin-top: 20px;
+.lastPrice {
+  @include text('body-3');
 
-  @include responsive('phone', 'phone-xs') {
-    margin-top: 0;
-    border-radius: 0;
-  }
+  font-size: 10px;
+  color: var(--casper);
+  margin-left: 2px;
+  margin-top: 1px;
+}
+
+.triggerFormItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px 20px;
+  margin-top: 0;
+  border-radius: 0;
 }
 
 .triggerToggleBlock {
   display: flex;
-  margin: 40px 230px 0 0;
+  margin: 20px 230px 20px 20px;
   height: 25px;
 
   @include text('body-3');

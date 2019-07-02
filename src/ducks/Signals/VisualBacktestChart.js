@@ -14,7 +14,7 @@ import { getDateFormats } from '../../utils/dates'
 const mapWithTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
-const VisualBacktestChart = ({ data, price, metrics }) => {
+const VisualBacktestChart = ({ data, price, metrics, showXY = false }) => {
   const formattedPrice = mapWithTimeseries(price)
   const formattedData = mapWithTimeseries(data)
 
@@ -32,6 +32,7 @@ const VisualBacktestChart = ({ data, price, metrics }) => {
             return `${MMM} ${YY}`
           }}
           domain={['dataMin', 'dataMax']}
+          hide={!showXY}
         />
         <YAxis hide />
         {generateMetricsMarkup(metrics, {
