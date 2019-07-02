@@ -53,55 +53,58 @@ const ChartMetricSelector = ({
   }
 
   return (
-    <Panel className={cx(styles.wrapper, className)}>
-      <div className={cx(styles.column, styles.categories)}>
-        {Object.keys(categories).map(category => (
-          <div key={category} className={styles.category}>
-            <Button
-              onClick={() => setCategory(category)}
-              variant='ghost'
-              fluid
-              className={styles.btn}
-              isActive={category === activeCategory}
-              classes={styles}
-            >
-              {category} <Icon type='arrow-right' />
-            </Button>
-          </div>
-        ))}
-      </div>
-      <div className={cx(styles.column, styles.metrics)}>
-        <div className={styles.visible}>
-          <div className={styles.visible__scroll}>
-            {categories[activeCategory] &&
-              categories[activeCategory].map(metric => (
-                <Button
-                  key={metric.label}
-                  variant='ghost'
-                  fluid
-                  className={styles.btn}
-                  classes={styles}
-                  onMouseEnter={() => setMetric(metric)}
-                  onClick={() => toggleMetric(metric.key)}
-                  disabled={activeMetrics.includes(metric.key)}
-                >
-                  {metric.label} <Icon type='plus-round' />
-                </Button>
-              ))}
-          </div>
-        </div>
-      </div>
-      <div className={cx(styles.column, styles.explanation)}>
-        <div className={styles.visible}>
-          {activeMetric && (
-            <div className={styles.visible__scroll}>
-              <h3 className={styles.title}>{activeMetric.label}</h3>
-              <p className={styles.text}>{activeMetric.description}</p>
+    <>
+      <h4 className={styles.constraint}>Select up to 5 metrics</h4>
+      <Panel className={cx(styles.wrapper, className)}>
+        <div className={cx(styles.column, styles.categories)}>
+          {Object.keys(categories).map(category => (
+            <div key={category} className={styles.category}>
+              <Button
+                onClick={() => setCategory(category)}
+                variant='ghost'
+                fluid
+                className={styles.btn}
+                isActive={category === activeCategory}
+                classes={styles}
+              >
+                {category} <Icon type='arrow-right' />
+              </Button>
             </div>
-          )}
+          ))}
         </div>
-      </div>
-    </Panel>
+        <div className={cx(styles.column, styles.metrics)}>
+          <div className={styles.visible}>
+            <div className={styles.visible__scroll}>
+              {categories[activeCategory] &&
+                categories[activeCategory].map(metric => (
+                  <Button
+                    key={metric.label}
+                    variant='ghost'
+                    fluid
+                    className={styles.btn}
+                    classes={styles}
+                    onMouseEnter={() => setMetric(metric)}
+                    onClick={() => toggleMetric(metric.key)}
+                    disabled={activeMetrics.includes(metric.key)}
+                  >
+                    {metric.label} <Icon type='plus-round' />
+                  </Button>
+                ))}
+            </div>
+          </div>
+        </div>
+        <div className={cx(styles.column, styles.explanation)}>
+          <div className={styles.visible}>
+            {activeMetric && (
+              <div className={styles.visible__scroll}>
+                <h3 className={styles.title}>{activeMetric.label}</h3>
+                <p className={styles.text}>{activeMetric.description}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </Panel>
+    </>
   )
 }
 

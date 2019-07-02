@@ -4,8 +4,6 @@ import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
-import ChartMetricSelector from './ChartMetricSelector'
-import ChartActiveMetrics from './ChartActiveMetrics'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import styles from './ChartPage.module.scss'
 
@@ -16,6 +14,11 @@ const LoadableChartSettings = Loadable({
 
 const LoadableChartMetrics = Loadable({
   loader: () => import('./ChartMetrics'),
+  loading: () => <div />
+})
+
+const LoadableChartMetricsTool = Loadable({
+  loader: () => import('./ChartMetricsTool'),
   loading: () => <div />
 })
 
@@ -245,24 +248,14 @@ class ChartPage extends Component {
                 metrics={finalMetrics}
               />
               {!viewOnly && (
-                <LoadableChartMetrics
+                <LoadableChartMetricsTool
+                  classes={styles}
                   slug={slug}
-                  onMetricsChange={this.onMetricsChange}
-                  defaultActiveMetrics={finalMetrics}
+                  toggleMetric={this.toggleMetric}
                   disabledMetrics={errors}
+                  activeMetrics={finalMetrics}
                 />
               )}
-              <ChartActiveMetrics
-                activeMetrics={finalMetrics}
-                toggleMetric={this.toggleMetric}
-              />
-              <ChartMetricSelector
-                className={styles.sel}
-                slug={slug}
-                toggleMetric={this.toggleMetric}
-                disabledMetrics={errors}
-                activeMetrics={finalMetrics}
-              />
             </Fragment>
           )
         }}

@@ -69,3 +69,10 @@
 .active {
   background: var(--athens);
 }
+
+.constraint {
+  @include text('caption', 'm');
+
+  margin: 24px 20px 12px;
+  color: var(--waterloo);
+}
