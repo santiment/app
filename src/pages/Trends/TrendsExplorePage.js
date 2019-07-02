@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { compose, withProps } from 'recompose'
+import cx from 'classnames'
 import { Panel, Selector } from '@santiment-network/ui'
 import GetTimeSeries from './../../ducks/GetTimeSeries/GetTimeSeries'
 import GetTrends from './../../components/Trends/GetTrends'
@@ -82,14 +83,14 @@ export class TrendsExplorePage extends Component {
   }
 
   render () {
-    const { word, hasPremium, detectedAsset } = this.props
+    const { word, hasPremium, detectedAsset, isDesktop } = this.props
     addRecentTrends(word)
 
     const { timeRange, asset = '' } = this.state
     const [priceOptions, priceLabels] = getPriceOptions(detectedAsset)
     const topic = window.decodeURIComponent(word)
     return (
-      <div className={styles.TrendsExplorePage}>
+      <div className={cx('page', styles.wrapper)}>
         <Helmet>
           <title>Crypto Social Trends for {topic} - SANbase</title>
           <meta
@@ -111,14 +112,16 @@ export class TrendsExplorePage extends Component {
               onSelectOption={this.handleSelectTimeRange}
               defaultSelected={timeRange}
             />
-            <Panel className={styles.pricePair}>
-              <Selector
-                options={priceOptions}
-                nameOptions={priceLabels}
-                onSelectOption={this.handleSelectAsset}
-                defaultSelected={asset}
-              />
-            </Panel>
+            {isDesktop && (
+              <Panel className={styles.pricePair}>
+                <Selector
+                  options={priceOptions}
+                  nameOptions={priceLabels}
+                  onSelectOption={this.handleSelectAsset}
+                  defaultSelected={asset}
+                />
+              </Panel>
+            )}
             <ShareModalTrigger
               shareTitle='Santiment'
               shareText={`Crypto Social Trends for "${topic}"`}
@@ -137,33 +140,37 @@ export class TrendsExplorePage extends Component {
             <WordCloud word={topic} />
             <SocialVolumeWidget />
           </div>
-          <GetTrends
-            topic={word}
-            timeRange={timeRange}
-            interval={getCustomInterval(timeRange)}
-            render={trends => (
-              <GetTimeSeries
-                historyPrice={{
-                  timeRange,
-                  slug: asset.toLowerCase(),
-                  interval: getCustomInterval(timeRange)
-                }}
-                render={({ historyPrice = {} }) => (
-                  <Fragment>
-                    <div style={{ minHeight: 300 }}>
-                      <TrendsReChart
-                        asset={asset && capitalizeStr(asset)}
-                        data={historyPrice}
-                        trends={trends}
-                        hasPremium={hasPremium}
-                      />
-                    </div>
-                    {trends.length > 0 && <TrendsStats timeRange={timeRange} />}
-                  </Fragment>
-                )}
-              />
-            )}
-          />
+          {isDesktop && (
+            <GetTrends
+              topic={word}
+              timeRange={timeRange}
+              interval={getCustomInterval(timeRange)}
+              render={trends => (
+                <GetTimeSeries
+                  historyPrice={{
+                    timeRange,
+                    slug: asset.toLowerCase(),
+                    interval: getCustomInterval(timeRange)
+                  }}
+                  render={({ historyPrice = {} }) => (
+                    <Fragment>
+                      <div style={{ minHeight: 300 }}>
+                        <TrendsReChart
+                          asset={asset && capitalizeStr(asset)}
+                          data={historyPrice}
+                          trends={trends}
+                          hasPremium={hasPremium}
+                        />
+                      </div>
+                      {trends.length > 0 && (
+                        <TrendsStats timeRange={timeRange} />
+                      )}
+                    </Fragment>
+                  )}
+                />
+              )}
+            />
+          )}
           <TrendsExploreAdditionalInfo word={word} />
         </div>
       </div>

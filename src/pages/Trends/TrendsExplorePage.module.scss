@@ -1,8 +1,6 @@
-@import '~@santiment-network/ui/variables.scss';
-@import '../../variables.scss';
 @import '~@santiment-network/ui/mixins';
 
-.TrendsExplorePage {
+.wrapper {
   margin: 0;
 
   .recharts-responsive-container {
@@ -14,6 +12,17 @@
   .recharts-legend-wrapper {
     width: 100% !important;
     left: 0 !important;
+  }
+
+  @include responsive('desktop', 'laptop', 'tablet') {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    margin: 16px;
+    width: auto;
   }
 }
 
@@ -35,36 +44,30 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   flex-direction: column;
+
+  @include responsive('desktop', 'laptop', 'tablet') {
+    flex-direction: row;
+  }
 }
 
 .settingsLeft,
 .settingsRight {
   display: flex;
   align-items: center;
-  flex-direction: column;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.settingsRight {
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+    margin: 24px 0 16px;
+  }
 }
 
 .pricePair {
   margin-right: 1rem;
   margin-left: 1rem;
-}
-
-@media (min-width: $breakpoint-tablet) {
-  .TrendsExplorePage {
-    width: 100%;
-    max-width: 1024px;
-    margin: 0 auto;
-    padding: 0 15px;
-  }
-
-  .settings {
-    justify-content: space-between;
-    flex-direction: row;
-  }
-
-  .settingsLeft,
-  .settingsRight {
-    flex-direction: row;
-  }
 }
