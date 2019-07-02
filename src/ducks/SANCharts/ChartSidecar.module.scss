@@ -61,6 +61,17 @@
   width: 100%;
   overflow-y: auto;
   padding: 20px 16px;
+
+  &_assets {
+    display: flex;
+    flex-direction: column;
+
+    > div {
+      flex: 1;
+      height: auto;
+      margin-bottom: -20px;
+    }
+  }
 }
 
 .visible {

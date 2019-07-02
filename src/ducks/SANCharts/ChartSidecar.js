@@ -32,7 +32,7 @@ const ChartSidecar = ({ onSlugSelect }) => {
         onClick={toggleSidecard}
       />
       {openedList ? (
-        <div className={styles.content}>
+        <div className={cx(styles.content, styles.content_assets)}>
           <h2 className={styles.back} onClick={() => setOpenedList()}>
             <Icon type='arrow-left' /> Back
           </h2>
