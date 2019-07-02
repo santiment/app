@@ -18,7 +18,6 @@ const leftLinks = [
   {
     link: '/sonar/feed',
     label: 'Sonar',
-    linkTo: '/sonar/feed',
     showIf: { beta: true }
   },
   { link: '/insights', label: 'Insights' },
@@ -68,41 +67,41 @@ const Navbar = ({ activeLink = '/' }) => {
             ({ link, label, linkTo, showIf = { condition: true } }) => {
               if (linkTo) {
                 return (
-                  <ShowIf {...showIf}>
-                    <SmoothDropdownItem
-                      key={label}
-                      trigger={
-                        <Button
-                          variant='flat'
-                          className={styles.btn}
-                          isActive={activeLink.includes(link)}
-                          as={props => <Link {...props} to={linkTo} />}
-                        >
-                          {label}
-                        </Button>
-                      }
-                    >
-                      {label === 'Assets' && (
-                        <NavbarAssetsDropdown activeLink={activeLink} />
-                      )}
-                      {label === 'Labs' && (
-                        <NavbarLabsDropdown activeLink={activeLink} />
-                      )}
-                    </SmoothDropdownItem>
-                  </ShowIf>
+                  <SmoothDropdownItem
+                    key={label}
+                    trigger={
+                      <Button
+                        variant='flat'
+                        className={styles.btn}
+                        isActive={activeLink.includes(link)}
+                        as={props => <Link {...props} to={linkTo} />}
+                      >
+                        {label}
+                      </Button>
+                    }
+                  >
+                    {label === 'Assets' && (
+                      <NavbarAssetsDropdown activeLink={activeLink} />
+                    )}
+                    {label === 'Labs' && (
+                      <NavbarLabsDropdown activeLink={activeLink} />
+                    )}
+                  </SmoothDropdownItem>
                 )
               }
 
               return (
-                <Button
-                  key={link}
-                  variant='flat'
-                  as={props => <Link {...props} to={{ pathname: link }} />}
-                  isActive={activeLink.includes(link)}
-                  className={styles.leftLink}
-                >
-                  {label}
-                </Button>
+                <ShowIf {...showIf}>
+                  <Button
+                    key={link}
+                    variant='flat'
+                    as={props => <Link {...props} to={{ pathname: link }} />}
+                    isActive={activeLink.includes(link)}
+                    className={styles.leftLink}
+                  >
+                    {label}
+                  </Button>
+                </ShowIf>
               )
             }
           )}
