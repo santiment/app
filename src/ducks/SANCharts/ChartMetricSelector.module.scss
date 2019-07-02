@@ -19,6 +19,10 @@
   padding: 8px;
 }
 
+.categories {
+  min-height: 195px;
+}
+
 .category {
   border-bottom: 1px solid var(--porcelain);
 
@@ -43,4 +47,25 @@
 .title,
 .text {
   @include text('body-3');
+}
+
+.visible {
+  position: relative;
+  overflow-y: auto;
+  height: 100%;
+
+  &__scroll {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .disabled {
+    background: transparent !important;
+  }
+}
+
+.active {
+  background: var(--athens);
 }

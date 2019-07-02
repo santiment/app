@@ -13,7 +13,7 @@ const getCategoryGraph = availableMetrics => {
   const { length } = availableMetrics
 
   for (let i = 0; i < length; i++) {
-    const metric = Metrics[availableMetrics[i]]
+    const metric = { ...Metrics[availableMetrics[i]], key: availableMetrics[i] }
     const metricCategory = metric.category
     if (!metricCategory) {
       continue
@@ -38,6 +38,9 @@ const initState = categories => {
 }
 
 const ChartMetricSelector = ({
+  className = '',
+  toggleMetric,
+  activeMetrics,
   data: { project: { availableMetrics = [] } = {}, loading }
 }) => {
   const categories = getCategoryGraph(availableMetrics)
@@ -50,7 +53,7 @@ const ChartMetricSelector = ({
   }
 
   return (
-    <Panel className={styles.wrapper}>
+    <Panel className={cx(styles.wrapper, className)}>
       <div className={cx(styles.column, styles.categories)}>
         {Object.keys(categories).map(category => (
           <div key={category} className={styles.category}>
@@ -60,6 +63,7 @@ const ChartMetricSelector = ({
               fluid
               className={styles.btn}
               isActive={category === activeCategory}
+              classes={styles}
             >
               {category} <Icon type='arrow-right' />
             </Button>
@@ -67,26 +71,35 @@ const ChartMetricSelector = ({
         ))}
       </div>
       <div className={cx(styles.column, styles.metrics)}>
-        {categories[activeCategory] &&
-          categories[activeCategory].map(metric => (
-            <Button
-              key={metric.label}
-              variant='ghost'
-              fluid
-              className={styles.btn}
-              onMouseEnter={() => setMetric(metric)}
-            >
-              {metric.label} <Icon type='plus-round' />
-            </Button>
-          ))}
+        <div className={styles.visible}>
+          <div className={styles.visible__scroll}>
+            {categories[activeCategory] &&
+              categories[activeCategory].map(metric => (
+                <Button
+                  key={metric.label}
+                  variant='ghost'
+                  fluid
+                  className={styles.btn}
+                  classes={styles}
+                  onMouseEnter={() => setMetric(metric)}
+                  onClick={() => toggleMetric(metric.key)}
+                  disabled={activeMetrics.includes(metric.key)}
+                >
+                  {metric.label} <Icon type='plus-round' />
+                </Button>
+              ))}
+          </div>
+        </div>
       </div>
       <div className={cx(styles.column, styles.explanation)}>
-        {activeMetric && (
-          <>
-            <h3 className={styles.title}>{activeMetric.label}</h3>
-            <p className={styles.text}>{activeMetric.description}</p>
-          </>
-        )}
+        <div className={styles.visible}>
+          {activeMetric && (
+            <div className={styles.visible__scroll}>
+              <h3 className={styles.title}>{activeMetric.label}</h3>
+              <p className={styles.text}>{activeMetric.description}</p>
+            </div>
+          )}
+        </div>
       </div>
     </Panel>
   )
