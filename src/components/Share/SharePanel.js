@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Input from '@santiment-network/ui/Input'
+import Dialog from '@santiment-network/ui/Dialog'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import ShareComposition from './ShareComposition'
 import ShareCopyBtn from './ShareCopyBtn.js'
@@ -46,7 +47,7 @@ const SharePanel = ({ shareTitle, shareText, shareLink, extraShare }) => {
   const encodedLink = encodeURIComponent(shareLink)
 
   return (
-    <Panel className={styles.wrapper}>
+    <Dialog.ScrollContent className={styles.wrapper}>
       <div className={styles.composition}>
         <ShareComposition />
       </div>
@@ -89,7 +90,7 @@ const SharePanel = ({ shareTitle, shareText, shareLink, extraShare }) => {
           )
         })}
       </div>
-    </Panel>
+    </Dialog.ScrollContent>
   )
 }
 
