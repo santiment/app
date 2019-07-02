@@ -87,13 +87,13 @@ class ChartPage extends Component {
 
   toggleMetric = metric => {
     this.setState(state => {
-      if (state.metrics.length >= MAX_METRICS_PER_CHART) {
-        return state
-      }
       const newMetrics = new Set(state.metrics)
       if (newMetrics.has(metric)) {
         newMetrics.delete(metric)
       } else {
+        if (newMetrics.size >= MAX_METRICS_PER_CHART) {
+          return state
+        }
         newMetrics.add(metric)
       }
       return {
