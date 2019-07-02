@@ -51,7 +51,7 @@ const AssetsOverview = ({
               isLoggedIn={isLoggedIn}
               className={styles.watchlists}
             />
-            <h2 className={styles.subtitle}>Gainers and losers</h2>
+            <h2 className={styles.subtitle}>Social gainers and losers</h2>
             <section className={styles.gainers}>
               <GainersLosersTabs
                 timeWindow='2d'
