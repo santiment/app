@@ -5,6 +5,15 @@
   align-items: center;
   color: var(--casper);
   margin-left: 10px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green);
+
+    & .description {
+      fill: var(--jungle-green);
+    }
+  }
 }
 
 .description {
@@ -19,8 +28,7 @@
 
 /* stylelint-disable */
 .container {
-  max-width: 600px;
-  height: 540px;
+  max-width: 580px;
   max-height: 80vh;
   overflow-y: auto;
   overflow-y: overlay;
