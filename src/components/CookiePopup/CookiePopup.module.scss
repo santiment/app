@@ -10,12 +10,21 @@
   margin: 0 auto;
   padding: 23px 24px 21px;
   border-radius: 10px;
+  background-image: url('./cookie.svg');
+  background-repeat: no-repeat;
 
   @include responsive('desktop', 'laptop', 'tablet') {
     padding-left: 108px;
-    background-image: url('./cookie.svg');
-    background-repeat: no-repeat;
     background-position: 20px 50%;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    padding-top: 104px;
+    background-position: 50% 24px;
+    text-align: center;
+    bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }
 
@@ -31,7 +40,7 @@
 
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
   }
 }
 
@@ -45,6 +54,11 @@
 .btn {
   width: 100px;
   justify-content: center;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    margin-top: 20px;
+  }
 }
 
 .link {
