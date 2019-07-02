@@ -18,6 +18,10 @@
   @include border-box();
 
   display: flex;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
 }
 
 .centered {
@@ -46,6 +50,11 @@
 
 .wallet {
   padding: 0 12px 0 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    padding: 0 24px 0 24px;
+  }
 }
 
 .walletInput {
@@ -54,6 +63,12 @@
 
 .address {
   padding: 0 24px 0 12px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    padding: 0 24px 0 24px;
+    margin-top: 10px;
+  }
 }
 
 .label {
@@ -72,31 +87,9 @@
   border-radius: 0;
 }
 
-.signalTrigger {
-  color: var(--jungle-green);
-  background-color: var(--athens);
-  border: 1px solid var(--jungle-green);
-  fill: var(--jungle-green);
-}
-
-@include responsive('phone', 'phone-xs') {
-  .header {
+.header {
+  @include responsive('phone', 'phone-xs') {
     flex-direction: column;
     padding: 10px;
-  }
-
-  .filters {
-    flex-direction: column;
-  }
-
-  .wallet {
-    width: 100%;
-    padding: 0 24px 0 24px;
-  }
-
-  .address {
-    width: 100%;
-    padding: 0 24px 0 24px;
-    margin-top: 10px;
   }
 }

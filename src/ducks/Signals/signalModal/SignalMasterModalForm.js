@@ -18,7 +18,7 @@ const SignalMasterModalForm = ({
   isLoggedIn,
   redirect,
   match,
-  classes = {}
+  buttonParams = {}
 }) => {
   if (!triggerId && match) {
     triggerId = match.params.id
@@ -44,6 +44,8 @@ const SignalMasterModalForm = ({
     }
   }
 
+  const { variant, border } = buttonParams
+
   return (
     <Dialog
       open={dialogOpenState}
@@ -51,7 +53,7 @@ const SignalMasterModalForm = ({
         setDialogOpenState(true)
       }}
       onClose={onClose}
-      trigger={signalModalTrigger(isLoggedIn, label, classes.signalTrigger)}
+      trigger={signalModalTrigger(isLoggedIn, label, variant, border)}
       title={dialogTitle}
       classes={styles}
     >
@@ -85,12 +87,18 @@ export default connect(
   mapDispatchToProps
 )(SignalMasterModalForm)
 
-const signalModalTrigger = (isLoggedIn, label, cssClass) => (
+const signalModalTrigger = (
+  isLoggedIn,
+  label,
+  variant = 'fill',
+  border = false
+) => (
   <Button
-    variant='fill'
+    variant={variant}
+    border={border}
     accent='positive'
     disabled={!isLoggedIn}
-    className={cx(styles.newSignal, cssClass)}
+    className={cx(styles.newSignal)}
   >
     <Icon type='plus-round' className={styles.newSignal__icon} />
     {label}

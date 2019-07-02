@@ -4,6 +4,11 @@
 .header {
   display: flex;
   width: 100%;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+    padding: 10px;
+  }
 }
 
 .title {
@@ -26,16 +31,9 @@
   position: relative;
 }
 
-@include responsive('desktop') {
-  .historicalBalancePage {
+.historicalBalancePage {
+  @include responsive('desktop') {
     margin-bottom: 2em !important;
     width: $breakpoint-desktop;
-  }
-}
-
-@include responsive('phone', 'phone-xs') {
-  .header {
-    flex-direction: column;
-    padding: 10px;
   }
 }

@@ -4,13 +4,14 @@ import cx from 'classnames'
 import GetHistoricalBalance from '../GetHistoricalBalance'
 import HistoricalBalanceChart from '../chart/HistoricalBalanceChart'
 import AssetsField from '../AssetsField'
-import styles from './BalanceView.module.scss'
 import {
   ETH_WALLET_AMOUNT_UP,
   ETH_WALLET_METRIC
 } from '../../Signals/utils/constants'
 import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
 import ShowIf from '../../../components/ShowIf'
+import styles from './BalanceView.module.scss'
+import Button from '@santiment-network/ui/Button'
 
 class BalanceView extends React.Component {
   state = {
@@ -57,7 +58,6 @@ class BalanceView extends React.Component {
                 label='Generate signal'
                 enabled={address && assets && assets.length === 1}
                 canRedirect={false}
-                classes={styles}
                 metaFormSettings={{
                   target: {
                     value: {
@@ -72,6 +72,10 @@ class BalanceView extends React.Component {
                     value: { ...ETH_WALLET_AMOUNT_UP }
                   },
                   ethAddress: address
+                }}
+                buttonParams={{
+                  variant: 'ghost',
+                  border: true
                 }}
               />
             </ShowIf>
