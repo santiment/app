@@ -88,7 +88,7 @@ const SignalCardBottom = ({
           <span>More</span>
         </div>
         {isOpen && (
-          <div className={styles.popup}>
+          <div className={styles.popup} onMouseLeave={() => setOpen(false)}>
             <div className={cx(styles.popupItem, styles.popupButton)}>
               <Link
                 to={`/sonar/feed/details/${signalId}/edit`}
