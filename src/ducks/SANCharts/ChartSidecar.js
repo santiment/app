@@ -13,6 +13,7 @@ const ChartSidecar = ({ onSlugSelect }) => {
           <RecentlyWatched
             className={styles.section}
             onProjectClick={onSlugSelect}
+            classes={styles}
           />
           <section className={styles.section}>
             <h2 className={styles.subtitle}>Social gainers and losers</h2>

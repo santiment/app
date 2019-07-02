@@ -18,7 +18,8 @@ const RecentlyWatched = ({
   className = '',
   assets,
   watchlists,
-  onProjectClick
+  onProjectClick,
+  classes = {}
 }) => {
   useEffect(() => {
     store.dispatch({ type: RECENT_ASSETS_FETCH })
@@ -43,13 +44,13 @@ const RecentlyWatched = ({
               } = project
               return (
                 <div
-                  className={styles.item}
+                  className={cx(styles.item, classes.asset)}
                   key={coinmarketcapId}
                   onClick={() => onProjectClick(project)}
                 >
                   <div className={styles.group}>
                     <ProjectIcon size={20} name={name} ticker={ticker} />
-                    <h3 className={styles.name}>
+                    <h3 className={cx(styles.name, classes.asset__name)}>
                       {name} <span className={styles.ticker}>{ticker}</span>
                     </h3>
                   </div>
