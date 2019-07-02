@@ -23,7 +23,7 @@ export const ALL_WATCHLISTS_QUERY = gql`
   }
 `
 
-export const publicWatchlistGQL = gql`
+export const PUBLIC_WATCHLIST_QUERY = gql`
   query fetchAllPublicUserLists {
     fetchAllPublicUserLists {
       id
@@ -45,7 +45,7 @@ export const publicWatchlistGQL = gql`
   }
 `
 
-export const projectsByFunctionShortGQL = gql`
+export const PROJECTS_BY_FUNCTION_SHORT_QUERY = gql`
   query allProjectsByFunction($function: json!) {
     allProjectsByFunction(function: $function) {
       slug
@@ -53,7 +53,7 @@ export const projectsByFunctionShortGQL = gql`
   }
 `
 
-export const projectsByFunctionBigGQL = gql`
+export const PROJECTS_BY_FUNCTION_BIG_QUERY = gql`
   query allProjectsByFunction($function: json!) {
     allProjectsByFunction(function: $function) {
       ...generalData
@@ -86,6 +86,7 @@ export const FEATURED_WATCHLIST_QUERY = gql`
 export const WATCHLIST_QUERY = gql`
   query watchlist($id: Int!) {
     watchlist(id: $id) {
+      id
       name
       user {
         id

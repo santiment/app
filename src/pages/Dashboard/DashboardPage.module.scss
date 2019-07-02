@@ -29,17 +29,23 @@
 }
 
 .column {
-  display: flex;
+  display: grid;
+  width: 100%;
+  grid-gap: 40px;
+  grid-template-columns: minmax(250px, 306px) minmax(530px, 1fr) 224px;
 
-  &__left {
-    flex: 2;
-    margin-right: 30px;
-  }
-
-  &__right {
-    flex: 1;
+  &__insights {
     display: flex;
     flex-direction: column;
+  }
+
+  &__trends {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__GLTable {
+    margin-top: 55px;
   }
 }
 
@@ -71,4 +77,9 @@
     width: 350px;
     margin: 0 auto 24px;
   }
+}
+
+.subtitleWrapper {
+  display: flex;
+  align-items: baseline;
 }

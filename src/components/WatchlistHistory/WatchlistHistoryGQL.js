@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const totalMarketcapGQL = gql`
+export const CATEGORY_HISTORY_QUERY = gql`
   query historyPrice(
     $from: DateTime!
     $to: DateTime!
@@ -15,7 +15,7 @@ export const totalMarketcapGQL = gql`
   }
 `
 
-export const projectsListHistoryStatsGQL = gql`
+export const PROJECTS_HISTORY_QUERY = gql`
   query projectsListHistoryStats(
     $from: DateTime!
     $to: DateTime!
@@ -35,22 +35,20 @@ export const projectsListHistoryStatsGQL = gql`
   }
 `
 
-// CONSTRUCTING QUERY ALIASES
-export const constructTotalMarketcapGQL = (slugs, from) => {
-  if (slugs.length === 0) gql``
-  return gql`
-  query historyPrice {
-    ${slugs.reduce((acc, [slug, escapedAlias]) => {
-    return (
-      acc +
-        `
-      ${escapedAlias}: historyPrice(from: "${from}", slug: "${slug}", interval: "1d") {
+export const WATCHLIST_HISTORY_QUERY = gql`
+  query watchlist(
+    $id: Int!
+    $from: DateTime!
+    $to: DateTime!
+    $interval: String = "1d"
+  ) {
+    watchlist(id: $id) {
+      name
+      historicalStats(from: $from, to: $to, interval: $interval) {
+        datetime
         marketcap
         volume
-        datetime
-      }`
-    )
-  }, ``)}
+      }
+    }
   }
 `
-}

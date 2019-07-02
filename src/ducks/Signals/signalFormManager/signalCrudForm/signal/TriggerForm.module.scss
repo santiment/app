@@ -31,8 +31,10 @@ $trigger-form-width: 496px;
   padding: 15px;
   background: var(--white);
   border: 1px solid var(--porcelain);
-  box-sizing: border-box;
-  border-radius: 4px;
+
+  @include border-box();
+
+  border-radius: $border-radius;
 }
 
 .row {
@@ -185,9 +187,11 @@ a.connectLink {
 }
 
 .AboutForm {
-  box-sizing: border-box;
   background-color: var(--white);
-  border-radius: 4px;
+
+  @include border-box();
+
+  border-radius: $border-radius;
   padding-top: 16px;
 
   .Field {

@@ -1,8 +1,12 @@
 @import '~@santiment-network/ui/variables.scss';
-@import "~@santiment-network/ui/mixins.scss";
+@import '~@santiment-network/ui/mixins.scss';
 
 .wrapper {
   width: 100%;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 32px;
+  }
 }
 
 .header {
@@ -52,4 +56,10 @@
   justify-content: center;
   align-items: center;
   width: 200px;
+}
+
+.subtitle {
+  @include text('body-1', 'm');
+
+  margin: 32px 16px 12px;
 }

@@ -7,7 +7,7 @@ import {
   currenciesGQL
 } from './../pages/Projects/allProjectsGQL'
 import {
-  projectsByFunctionBigGQL,
+  PROJECTS_BY_FUNCTION_BIG_QUERY,
   WATCHLIST_QUERY
 } from '../queries/WatchlistGQL.js'
 import * as actions from './../actions/types'
@@ -91,7 +91,9 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
     .mergeMap(({ payload: { list } }) => {
       return Observable.from(
         client.watchQuery({
-          query: list.function ? projectsByFunctionBigGQL : WATCHLIST_QUERY,
+          query: list.function
+            ? PROJECTS_BY_FUNCTION_BIG_QUERY
+            : WATCHLIST_QUERY,
           variables: list.function
             ? { function: list.function }
             : { id: list.id },

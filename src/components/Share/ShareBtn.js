@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Icon } from '@santiment-network/ui'
+import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
 import styles from './ShareBtn.module.scss'
 
 const ShareBtn = ({ asIcon, className, ...props }) => {

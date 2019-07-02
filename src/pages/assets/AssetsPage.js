@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import qs from 'query-string'
 import { CSVLink } from 'react-csv'
@@ -10,11 +10,12 @@ import {
   isNotSafari,
   normalizeCSV
 } from './utils'
+import { RANGES } from '../../components/WatchlistHistory/constants'
 import GetAssets from './GetAssets'
 import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
-import WidgetSonar from '../../components/Widget/WidgetSonar'
+import GetWatchlistHistory from '../../components/WatchlistHistory/GetWatchlistHistory'
 import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
 import WatchlistContextMenu from './WatchlistContextMenu'
 import AssetsTemplates from './AssetsTemplates'
@@ -24,9 +25,17 @@ import styles from '../../components/Watchlists/Watchlist.module.scss'
 import './Assets.css'
 
 const AssetsPage = props => {
+  const [pointer, setPointer] = useState(1)
+  const [range, setRange] = useState(RANGES[pointer])
   const { name } = qs.parse(props.location.search)
   const isList = props.type === 'list'
   const { title, description } = getHelmetTags(isList, name)
+
+  const changeRange = () => {
+    const newPointer = pointer === RANGES.length - 1 ? 0 : pointer + 1
+    setPointer(newPointer)
+    setRange(RANGES[newPointer])
+  }
 
   return (
     <div className='page projects-table'>
@@ -46,8 +55,9 @@ const AssetsPage = props => {
             isLoading,
             isCurrentUserTheAuthor,
             isPublicWatchlist,
-            items
+            items = []
           } = Assets
+
           return (
             <>
               <div className='page-head page-head-projects'>
@@ -95,12 +105,15 @@ const AssetsPage = props => {
               </div>
               {isLoading && <PageLoader />}
 
-              {items.length > 0 && (
+              {!isLoading && items.length > 0 && (
                 <>
-                  <WidgetSonar
-                    className='assets-table-widget-wrapper'
+                  <GetWatchlistHistory
                     type={props.type}
-                    listName={title}
+                    range={range}
+                    changeRange={changeRange}
+                    assetsAmount={items.length}
+                    top3={items.slice(0, 3)}
+                    id={listId}
                   />
                   <AssetsTable
                     Assets={Assets}

@@ -21,12 +21,15 @@ import ShowIf from '../../components/ShowIf'
 import GetWatchlists from '../../ducks/Watchlists/GetWatchlists'
 import WatchlistsPopup from '../../components/WatchlistPopup/WatchlistsPopup'
 import { mergeTimeseriesByKey } from '../../utils/utils'
+import { addRecentAssets } from '../../utils/recent'
 import styles from './MobileDetailedPage.module.scss'
 
 const MobileDetailedPage = props => {
   const slug = props.match.params.slug
   const [timeRange, setTimeRange] = useState('6m')
   const [extraMetric, setExtraMetric] = useState()
+
+  addRecentAssets(slug)
 
   const toggleExtraMetric = toggledMetric => {
     if (extraMetric && toggledMetric.name === extraMetric.name) {

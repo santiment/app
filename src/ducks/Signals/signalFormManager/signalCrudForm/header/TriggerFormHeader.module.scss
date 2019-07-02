@@ -4,8 +4,10 @@
   width: 100%;
   background: var(--athens);
   border: 1px solid var(--porcelain);
-  box-sizing: border-box;
-  border-radius: 4px;
+
+  @include border-box();
+
+  border-radius: $border-radius;
   display: flex;
   padding: 3px 10px 3px 20px;
   color: var(--casper);

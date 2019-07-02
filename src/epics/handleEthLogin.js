@@ -5,7 +5,6 @@ import * as actions from './../actions/types'
 import { handleErrorAndTriggerAction } from './utils'
 import { getUserWallet } from '../pages/UserSelectors'
 import { savePrevAuthProvider } from './../utils/localStorage'
-import { completeOnboardingTask } from '../pages/Dashboard/utils'
 
 const ETH_LOGIN_QUERY = gql`
   mutation ethLogin(
@@ -137,7 +136,6 @@ export const connectNewWallet = (action$, store, { client }) =>
   action$.ofType(actions.SETTINGS_CONNECT_NEW_WALLET).mergeMap(action => {
     return Observable.from(connectingNewWallet(client))
       .mergeMap(accounts => {
-        completeOnboardingTask('metamask')
         return Observable.of({
           type: actions.SETTINGS_CONNECT_NEW_WALLET_SUCCESS,
           payload: {

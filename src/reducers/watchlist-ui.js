@@ -7,7 +7,8 @@ export const initialState = {
   newItemSuccess: false,
   statusDeleteAssetList: null,
   editableAssetsInList: [],
-  isEditWatchlist: false
+  isEditWatchlist: false,
+  firstWatchlistCreated: false
 }
 
 export default (state = initialState, action) => {
@@ -22,7 +23,8 @@ export default (state = initialState, action) => {
         ...state,
         newItemSuccess: true,
         newItemFailed: false,
-        newItemPending: false
+        newItemPending: false,
+        firstWatchlistCreated: true
       }
     case actions.USER_ADD_NEW_ASSET_LIST_FAILED:
       return {
