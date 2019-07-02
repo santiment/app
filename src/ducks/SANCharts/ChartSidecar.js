@@ -4,10 +4,18 @@ import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import styles from './ChartSidecar.module.scss'
 
+function toggleSidecard ({ currentTarget }) {
+  currentTarget.parentNode.classList.toggle(styles.opened)
+}
+
 const ChartSidecar = ({ onSlugSelect }) => {
   return (
     <div className={styles.wrapper}>
-      <Icon type='arrow-left-big' className={styles.toggle} />
+      <Icon
+        type='arrow-left-big'
+        className={styles.toggle}
+        onClick={toggleSidecard}
+      />
       <div className={styles.content}>
         <div className={styles.visible}>
           <RecentlyWatched
