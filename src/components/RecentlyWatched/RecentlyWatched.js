@@ -26,7 +26,7 @@ const RecentlyWatched = ({ className = '', assets, watchlists }) => {
     (hasAssets || hasWatchlists) && (
       <section className={cx(className, styles.wrapper)}>
         {hasAssets && (
-          <>
+          <div className={styles.recentAssets}>
             <h2 className={styles.title}>Recently watched assets</h2>
             {assets.map(
               ({
@@ -61,7 +61,7 @@ const RecentlyWatched = ({ className = '', assets, watchlists }) => {
                 </Link>
               )
             )}
-          </>
+          </div>
         )}
         {hasWatchlists && (
           <>

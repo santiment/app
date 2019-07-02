@@ -16,6 +16,9 @@
       margin: 0;
       padding: 16px;
       width: 50%;
+      cursor: default;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
   }
 }

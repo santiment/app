@@ -1,12 +1,21 @@
 import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import { Button } from '@santiment-network/ui'
+import Button from '@santiment-network/ui/Button'
+import Panel from '@santiment-network/ui/Panel/Panel'
 import Image from '../../assets/watchlists.png'
 import styles from './WatchlistsAnon.module.scss'
 
+const WrapperType = ({ isFullScreen, children }) => {
+  return isFullScreen ? (
+    <Panel className={cx(styles.fullScreen, styles.wrapper)}>{children}</Panel>
+  ) : (
+    <div className={styles.wrapper}>{children}</div>
+  )
+}
+
 const WatchlistsAnon = ({ isFullScreen }) => (
-  <div className={styles.wrapper}>
+  <WrapperType isFullScreen={isFullScreen}>
     <img
       alt='watchlists'
       src={Image}
@@ -27,7 +36,7 @@ const WatchlistsAnon = ({ isFullScreen }) => (
         Login
       </Button>
     </div>
-  </div>
+  </WrapperType>
 )
 
 export default WatchlistsAnon
