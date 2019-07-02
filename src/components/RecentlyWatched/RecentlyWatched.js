@@ -14,11 +14,37 @@ import { formatNumber } from '../../utils/formatting'
 import { getWatchlistLink } from '../../ducks/Watchlists/watchlistUtils'
 import styles from './RecentlyWatched.module.scss'
 
+export const Asset = ({ project, classes = {}, onProjectClick }) => {
+  const { name, ticker, priceUsd, percentChange24h, coinmarketcapId } = project
+  return (
+    <div
+      className={cx(styles.item, classes.asset)}
+      key={coinmarketcapId}
+      onClick={() => onProjectClick(project)}
+    >
+      <div className={styles.group}>
+        <ProjectIcon size={20} name={name} ticker={ticker} />
+        <h3 className={cx(styles.name, classes.asset__name)}>
+          {name} <span className={styles.ticker}>{ticker}</span>
+        </h3>
+      </div>
+      <div className={styles.group}>
+        <h4 className={styles.price}>
+          {priceUsd ? formatNumber(priceUsd, { currency: 'USD' }) : 'No data'}
+        </h4>
+        <PercentChanges changes={percentChange24h} className={styles.change} />
+      </div>
+    </div>
+  )
+}
+
 const RecentlyWatched = ({
   className = '',
   assets,
   watchlists,
   onProjectClick,
+
+  onWatchlistClick,
   classes = {}
 }) => {
   useEffect(() => {
@@ -34,40 +60,14 @@ const RecentlyWatched = ({
         {hasAssets && (
           <>
             <h2 className={styles.title}>Recently watched assets</h2>
-            {assets.map(project => {
-              const {
-                name,
-                ticker,
-                priceUsd,
-                percentChange24h,
-                coinmarketcapId
-              } = project
-              return (
-                <div
-                  className={cx(styles.item, classes.asset)}
-                  key={coinmarketcapId}
-                  onClick={() => onProjectClick(project)}
-                >
-                  <div className={styles.group}>
-                    <ProjectIcon size={20} name={name} ticker={ticker} />
-                    <h3 className={cx(styles.name, classes.asset__name)}>
-                      {name} <span className={styles.ticker}>{ticker}</span>
-                    </h3>
-                  </div>
-                  <div className={styles.group}>
-                    <h4 className={styles.price}>
-                      {priceUsd
-                        ? formatNumber(priceUsd, { currency: 'USD' })
-                        : 'No data'}
-                    </h4>
-                    <PercentChanges
-                      changes={percentChange24h}
-                      className={styles.change}
-                    />
-                  </div>
-                </div>
-              )
-            })}
+            {assets.map(project => (
+              <Asset
+                key={project.slug}
+                project={project}
+                onClick={onProjectClick}
+                classes={classes}
+              />
+            ))}
           </>
         )}
         {hasWatchlists && (
@@ -78,6 +78,7 @@ const RecentlyWatched = ({
                 key={watchlist.name}
                 name={watchlist.name}
                 to={getWatchlistLink(watchlist)}
+                onWatchlistClick={() => onWatchlistClick(watchlist)}
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
               />
             ))}

@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
+import { AssetsList } from '../../pages/assets/AssetsMobilePage'
+import RecentlyWatched, {
+  Asset
+} from '../../components/RecentlyWatched/RecentlyWatched'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import styles from './ChartSidecar.module.scss'
 
@@ -9,31 +13,56 @@ function toggleSidecard ({ currentTarget }) {
 }
 
 const ChartSidecar = ({ onSlugSelect }) => {
+  const [openedList, setOpenedList] = useState()
+
+  const assetsRenderer = ({ key, index, style }) => {
+    const { project } = openedList.listItems[index]
+    return (
+      <div key={key} style={style}>
+        <Asset project={project} onProjectClick={onSlugSelect} />
+      </div>
+    )
+  }
+
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, styles.opened)}>
       <Icon
         type='arrow-left-big'
         className={styles.toggle}
         onClick={toggleSidecard}
       />
-      <div className={styles.content}>
-        <div className={styles.visible}>
-          <RecentlyWatched
-            className={styles.section}
-            onProjectClick={onSlugSelect}
-            classes={styles}
+      {openedList ? (
+        <div className={styles.content}>
+          <h2 className={styles.back} onClick={() => setOpenedList()}>
+            <Icon type='arrow-left' /> Back
+          </h2>
+          <AssetsList
+            items={openedList.listItems.map(({ project }) => project)}
+            renderer={assetsRenderer}
+            rowHeight={54}
           />
-          <section className={styles.section}>
-            <h2 className={styles.subtitle}>Social gainers and losers</h2>
-            <GainersLosersTabs
-              timeWindow='2d'
-              size={8}
+        </div>
+      ) : (
+        <div className={styles.content}>
+          <div className={styles.visible}>
+            <RecentlyWatched
+              className={styles.section}
               onProjectClick={onSlugSelect}
+              onWatchlistClick={setOpenedList}
               classes={styles}
             />
-          </section>
+            <section className={styles.section}>
+              <h2 className={styles.subtitle}>Social gainers and losers</h2>
+              <GainersLosersTabs
+                timeWindow='2d'
+                size={8}
+                onProjectClick={onSlugSelect}
+                classes={styles}
+              />
+            </section>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
