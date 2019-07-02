@@ -44,7 +44,9 @@ export const TriggerFormAssetWallet = ({
       )}
       {isEthWallet && (
         <div className={styles.Field}>
-          <Label className={styles.label}>Wallet</Label>
+          <Label accent='waterloo' className={styles.label}>
+            Wallet
+          </Label>
           <FormikInput name='ethAddress' placeholder='Wallet address' />
         </div>
       )}
