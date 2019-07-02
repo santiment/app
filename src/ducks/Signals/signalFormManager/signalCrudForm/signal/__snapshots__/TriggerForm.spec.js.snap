@@ -10,8 +10,8 @@ exports[`TriggerForm EthWallet smoke 1`] = `
       ],
       "ethAddress": "some_custom_address",
       "frequencyTimeType": Object {
-        "label": "Hours",
-        "value": "h",
+        "label": "Days",
+        "value": "d",
       },
       "frequencyTimeValue": Object {
         "label": 1,
@@ -71,8 +71,8 @@ exports[`TriggerForm smoke 1`] = `
       ],
       "ethAddress": undefined,
       "frequencyTimeType": Object {
-        "label": "Hours",
-        "value": "h",
+        "label": "Days",
+        "value": "d",
       },
       "frequencyTimeValue": Object {
         "label": 1,
@@ -100,10 +100,10 @@ exports[`TriggerForm smoke 1`] = `
         "value": "santiment",
       },
       "threshold": 0.002,
-      "timeWindow": 24,
+      "timeWindow": 1,
       "timeWindowUnit": Object {
-        "label": "Hours",
-        "value": "h",
+        "label": "Days",
+        "value": "d",
       },
       "type": Object {
         "label": "Moving up %",
