@@ -7,6 +7,8 @@ import Charts from './Charts'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import styles from './ChartPage.module.scss'
 
+const MAX_METRICS_PER_CHART = 5
+
 const LoadableChartSettings = Loadable({
   loader: () => import('./ChartSettings'),
   loading: () => <div />
@@ -85,7 +87,7 @@ class ChartPage extends Component {
 
   toggleMetric = metric => {
     this.setState(state => {
-      if (state.metrics.length > 4) {
+      if (state.metrics.length >= MAX_METRICS_PER_CHART) {
         return state
       }
       const newMetrics = new Set(state.metrics)

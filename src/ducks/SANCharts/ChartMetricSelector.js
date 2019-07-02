@@ -8,6 +8,15 @@ import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
 import { Metrics } from './utils'
 import styles from './ChartMetricSelector.module.scss'
 
+const DEFAULT_CATEGORIES = {
+  Financial: [
+    {
+      label: 'Price',
+      description: 'Description of the Price metric'
+    }
+  ]
+}
+
 const getCategoryGraph = availableMetrics => {
   const categories = {}
   const { length } = availableMetrics
@@ -18,24 +27,15 @@ const getCategoryGraph = availableMetrics => {
     if (!metricCategory) {
       continue
     }
-    const cat = categories[metricCategory]
-    if (cat) {
-      cat.push(metric)
+    const category = categories[metricCategory]
+    if (category) {
+      category.push(metric)
       continue
     }
-    categories[metric.category] = [metric]
+    categories[metricCategory] = [metric]
   }
 
   return categories
-}
-
-const DEFAULT_CATEGORIES = {
-  Financial: [
-    {
-      label: 'Price',
-      description: 'Description of the Price metric'
-    }
-  ]
 }
 
 const ChartMetricSelector = ({
