@@ -136,7 +136,7 @@ export const Metrics = {
 
 export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
 
-const METRIC_COLORS = [
+export const METRIC_COLORS = [
   'persimmon',
   'heliotrope',
   'texas-rose',
