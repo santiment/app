@@ -82,8 +82,8 @@ const RecentlyWatched = ({ className = '', assets, watchlists }) => {
 }
 
 const mapStateToProps = ({ recents }) => ({
-  assets: recents.assets,
-  watchlists: recents.watchlists
+  assets: recents.assets.filter(Boolean),
+  watchlists: recents.watchlists.filter(Boolean)
 })
 
 export default connect(mapStateToProps)(RecentlyWatched)
