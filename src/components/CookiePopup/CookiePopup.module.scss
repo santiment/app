@@ -40,7 +40,6 @@
 
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
-    align-items: center;
   }
 }
 
