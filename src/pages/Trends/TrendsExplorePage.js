@@ -76,17 +76,16 @@ export class TrendsExplorePage extends Component {
     fetchTrendSocialData(word)
   }
 
-  componentDidUpdate ({ word: prevWord }) {
-    const { word, fetchTrendSocialData } = this.props
-    if (prevWord !== word) {
-      fetchTrendSocialData(word)
-    }
+  componentDidUpdate ({ word: prevWord }, { timeRange: timeRangePrev }) {
+    const { word, fetchTrendSocialData, ...props } = this.props
+    const { timeRange } = { ...mapQSToState(props) }
+    if (timeRange && timeRange !== timeRangePrev) this.setState({ timeRange })
+    if (prevWord !== word) fetchTrendSocialData(word)
   }
 
   render () {
     const { word, hasPremium, detectedAsset, isDesktop, history } = this.props
     addRecentTrends(word)
-
     const { timeRange, asset = '' } = this.state
     const [priceOptions, priceLabels] = getPriceOptions(detectedAsset)
     const topic = window.decodeURIComponent(word)

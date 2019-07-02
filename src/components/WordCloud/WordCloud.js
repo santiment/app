@@ -45,7 +45,7 @@ export const WordCloud = ({
       trendWord={searchWord}
       description={
         <Fragment>
-          social context
+          <span className={styles.heading}>social context</span>
           <HelpPopupWordCloud />
         </Fragment>
       }

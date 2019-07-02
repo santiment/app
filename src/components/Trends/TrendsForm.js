@@ -16,7 +16,7 @@ export class TrendsForm extends Component {
 
   componentDidUpdate (prevProps) {
     if (this.props.defaultTopic !== prevProps.defaultTopic) {
-      this.setState({ ...this.state, topic: this.props.defaultTopic })
+      this.setState({ topic: this.props.defaultTopic })
     }
   }
 
