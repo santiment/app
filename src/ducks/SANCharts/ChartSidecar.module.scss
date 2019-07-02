@@ -19,9 +19,14 @@
 
 .opened {
   transform: translateX(0);
+
+  .toggle__arrow {
+    transform: rotate(180deg);
+  }
 }
 
 .toggle {
+  display: flex;
   background: var(--white);
   border: 1px solid var(--porcelain);
   box-sizing: content-box;
