@@ -11,7 +11,6 @@ import {
 import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
 import ShowIf from '../../../components/ShowIf'
 import styles from './BalanceView.module.scss'
-import Button from '@santiment-network/ui/Button'
 
 class BalanceView extends React.Component {
   state = {
