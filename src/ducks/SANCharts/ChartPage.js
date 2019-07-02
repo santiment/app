@@ -6,9 +6,13 @@ import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import styles from './ChartPage.module.scss'
-import ChartSidecar from './ChartSidecar'
 
 const MAX_METRICS_PER_CHART = 5
+
+const LoadableChartSidecar = Loadable({
+  loader: () => import('./ChartSidecar'),
+  loading: () => <div />
+})
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./ChartSettings'),
@@ -245,15 +249,17 @@ class ChartPage extends Component {
                 title={title}
                 metrics={finalMetrics}
               />
-              <ChartSidecar onSlugSelect={this.onSlugSelect} />
               {!viewOnly && (
-                <LoadableChartMetricsTool
-                  classes={styles}
-                  slug={slug}
-                  toggleMetric={this.toggleMetric}
-                  disabledMetrics={errors}
-                  activeMetrics={finalMetrics}
-                />
+                <>
+                  <LoadableChartSidecar onSlugSelect={this.onSlugSelect} />
+                  <LoadableChartMetricsTool
+                    classes={styles}
+                    slug={slug}
+                    toggleMetric={this.toggleMetric}
+                    disabledMetrics={errors}
+                    activeMetrics={finalMetrics}
+                  />
+                </>
               )}
             </Fragment>
           )
