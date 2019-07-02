@@ -80,7 +80,7 @@ export const Metrics = {
   networkGrowth: {
     node: Line,
     label: 'Network Growth',
-    category: 'Financial',
+    category: 'On-chain',
     description:
       'The number of new addresses being created on the network each day.'
   },
