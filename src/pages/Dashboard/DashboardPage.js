@@ -49,7 +49,6 @@ const DashboardPage = ({ isLoggedIn, hasMetamask, history }) => (
           timeWindow='2d'
           size={8}
           onProjectClick={({ coinmarketcapId }) => {
-            console.log(history, coinmarketcapId)
             history.push(`/projects/${coinmarketcapId}`)
           }}
         />
