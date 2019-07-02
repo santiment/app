@@ -14,6 +14,7 @@ const SignalMasterModalForm = ({
   label = 'New signal',
   metaFormSettings,
   canRedirect = true,
+  enabled = true,
   triggerId,
   isLoggedIn,
   redirect,
@@ -53,7 +54,12 @@ const SignalMasterModalForm = ({
         setDialogOpenState(true)
       }}
       onClose={onClose}
-      trigger={signalModalTrigger(isLoggedIn, label, variant, border)}
+      trigger={signalModalTrigger(
+        isLoggedIn && enabled,
+        label,
+        variant,
+        border
+      )}
       title={dialogTitle}
       classes={styles}
     >
