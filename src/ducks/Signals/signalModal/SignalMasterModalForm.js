@@ -16,6 +16,7 @@ const SignalMasterModalForm = ({
   canRedirect = true,
   enabled = true,
   triggerId,
+  step,
   isLoggedIn,
   redirect,
   match,
@@ -65,6 +66,7 @@ const SignalMasterModalForm = ({
     >
       <Dialog.ScrollContent className={styles.TriggerPanel}>
         <SignalMaster
+          step={step}
           triggerId={triggerId}
           setTitle={onSetDialogTitle}
           onClose={() => setDialogOpenState(false)}

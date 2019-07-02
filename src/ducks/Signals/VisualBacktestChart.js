@@ -7,9 +7,13 @@ import {
   Tooltip,
   ReferenceLine
 } from 'recharts'
+import cx from 'classnames'
 import { generateMetricsMarkup } from './../SANCharts/utils'
 import { formatNumber, labelFormatter } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
+import chartStyles from './../SANCharts/Chart.module.scss'
+import sharedStyles from './../SANCharts/ChartPage.module.scss'
+import styles from './chart/SignalPreview.module.scss'
 
 const mapWithTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
@@ -24,21 +28,20 @@ const VisualBacktestChart = ({ data, price, metrics, showXY = false }) => {
         data={formattedPrice}
         margin={{
           left: -40,
-          bottom: 10
+          bottom: 0
         }}
       >
         <XAxis
           dataKey='datetime'
           type='number'
           scale='time'
-          tickLine
+          tickLine={false}
           allowDataOverflow
           tickFormatter={timeStr => {
             const { MMM, YY } = getDateFormats(new Date(timeStr))
             return `${MMM} ${YY}`
           }}
           domain={['dataMin', 'dataMax']}
-          hide={!showXY}
         />
 
         <YAxis hide />
@@ -63,17 +66,30 @@ const VisualBacktestChart = ({ data, price, metrics, showXY = false }) => {
   }
 
   return (
-    <ResponsiveContainer width='100%' height='100%'>
-      {renderChart()}
-    </ResponsiveContainer>
+    <div
+      className={cx(
+        chartStyles.wrapper + ' ' + sharedStyles.chart,
+        styles.container
+      )}
+    >
+      <ResponsiveContainer width='100%' height='100%'>
+        {renderChart()}
+      </ResponsiveContainer>
+    </div>
   )
 }
+
+const formatTooltipValue = (isPrice, value) =>
+  isPrice ? formatNumber(value, { currency: 'USD' }) : value
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload[0]) {
     const priceValue = payload[0].payload.price
-      ? formatNumber(payload[0].payload.price, { currency: 'USD' })
+      ? formatTooltipValue(true, payload[0].payload.price)
       : undefined
+
+    const { name, value } = payload[0]
+    const formattedValue = formatTooltipValue(name === 'Price', value)
 
     return (
       <div
@@ -86,7 +102,7 @@ const CustomTooltip = ({ active, payload }) => {
           whiteSpace: 'nowrap'
         }}
       >
-        <p className='label'>{`${payload[0].name} : ${payload[0].value}`}</p>
+        <p className='label'>{`${name} : ${formattedValue}`}</p>
         {priceValue && <p className='price'>{`Price : ${priceValue}`}</p>}
       </div>
     )

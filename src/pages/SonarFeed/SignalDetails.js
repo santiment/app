@@ -72,6 +72,7 @@ const SignalDetails = ({
           type={type}
           id={id}
           isModal={false}
+          removeSignal={removeSignal}
         >
           <div className={styles.row}>
             {author && (

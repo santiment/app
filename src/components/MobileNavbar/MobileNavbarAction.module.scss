@@ -5,6 +5,9 @@
   height: 100%;
   flex-direction: column;
   color: var(--casper);
+  cursor: default;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 
   @include text('caption');
 }

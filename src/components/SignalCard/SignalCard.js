@@ -1,11 +1,12 @@
-import React, { Fragment } from 'react'
-import { Panel, Icon, Toggle } from '@santiment-network/ui'
+import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
+import Panel from '@santiment-network/ui/Panel/Panel'
+import Icon from '@santiment-network/ui/Icon'
+import Toggle from '@santiment-network/ui/Toggle'
 import MultilineText from '../../components/MultilineText/MultilineText'
 import StatusLabel from './../../components/StatusLabel'
-import { SignalTypeIcon } from './controls/SignalControls'
-import { SignalCardDetailsModal } from './SignalCardDetailsModal'
+import { RemoveSignalButton, SignalTypeIcon } from './controls/SignalControls'
 import styles from './SignalCard.module.scss'
 
 const SignalCard = ({
@@ -14,13 +15,13 @@ const SignalCard = ({
   description = '',
   settings: { type } = {},
   className = '',
+  removeSignal,
+  goToSignalSettings,
   author = 'Myself',
-  gotoSignalByID,
   ...signalCardBottom
 }) => {
   const isAwaiting = +id <= 0
 
-  const SignalTopDetails = isAwaiting ? 'div' : SignalCardDetailsModal
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
       <div
@@ -29,7 +30,7 @@ const SignalCard = ({
         <SignalTypeIcon type={type} />
       </div>
       <div className={styles.wrapper__right}>
-        <SignalTopDetails id={id}>
+        <div onClick={goToSignalSettings}>
           <div className={styles.upper}>
             <h2 className={styles.title}>{title}</h2>
             {description && (
@@ -42,9 +43,11 @@ const SignalCard = ({
               </h3>
             )}
           </div>
-        </SignalTopDetails>
+        </div>
         {author && (
           <SignalCardBottom
+            signalId={id}
+            removeSignal={removeSignal}
             isAwaiting={isAwaiting}
             author={author}
             {...signalCardBottom}
@@ -62,19 +65,60 @@ const UnpublishedMsg = () => (
 )
 
 const SignalCardBottom = ({
+  signalId,
+  removeSignal,
   author,
-  username,
   isPublic,
   isPublished = true,
   isActive,
   isAwaiting = false,
-  subscriptionsNumber,
   toggleSignal
 }) => {
   const isUserTheAuthor = true
+  const [isOpen, setOpen] = useState(false)
 
   return (
     <div className={styles.bottom}>
+      <div className={styles.more}>
+        <div
+          onClick={() => setOpen(!isOpen)}
+          className={cx(styles.expandButton, styles.popupButton)}
+        >
+          <Icon type='dots' className={styles.moreIcon} />
+          <span>More</span>
+        </div>
+        {isOpen && (
+          <div className={styles.popup} onMouseLeave={() => setOpen(false)}>
+            <div className={cx(styles.popupItem, styles.popupButton)}>
+              <Link
+                to={`/sonar/feed/details/${signalId}/edit`}
+                className={styles.link}
+              >
+                Edit signal
+              </Link>
+            </div>
+
+            <div className={cx(styles.popupItem, styles.popupButton)}>
+              <Link
+                to={`/sonar/feed/details/${signalId}/about`}
+                className={styles.link}
+              >
+                Edit signal & description
+              </Link>
+            </div>
+
+            <div className={cx(styles.popupItem, styles.popupButton)}>
+              <RemoveSignalButton
+                id={signalId}
+                removeSignal={removeSignal}
+                trigger={<div>Delete</div>}
+              />
+            </div>
+          </div>
+        )}
+        <div className={styles.verticalDivider} />
+      </div>
+
       {isPublished ? (
         <h4 className={styles.author}>
           {isAwaiting && (
@@ -98,7 +142,7 @@ const SignalCardBottom = ({
       ) : (
         <UnpublishedMsg />
       )}
-      <div className={styles.bottom__right}>
+      <div className={styles.right}>
         <Toggle onClick={toggleSignal} isActive={isActive} />
       </div>
     </div>
