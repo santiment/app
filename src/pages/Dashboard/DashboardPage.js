@@ -11,7 +11,7 @@ import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTa
 import AnonBannerStaticExperiment from '../../components/Banner/AnonBanner/AnonBannerStaticExperiment'
 import styles from './DashboardPage.module.scss'
 
-const DashboardPage = ({ isLoggedIn, hasMetamask }) => (
+const DashboardPage = ({ isLoggedIn, hasMetamask, history }) => (
   <div className={styles.wrapper + ' page'}>
     {isLoggedIn ? (
       <DashboardPageOnboard hasMetamask={hasMetamask} />
@@ -45,7 +45,13 @@ const DashboardPage = ({ isLoggedIn, hasMetamask }) => (
         />
       </div>
       <div className={styles.column__GLTable}>
-        <GainersLosersTabs timeWindow='2d' size={8} />
+        <GainersLosersTabs
+          timeWindow='2d'
+          size={8}
+          onProjectClick={({ coinmarketcapId }) => {
+            history.push(`/projects/${coinmarketcapId}`)
+          }}
+        />
       </div>
     </div>
     <div className={styles.section}>
