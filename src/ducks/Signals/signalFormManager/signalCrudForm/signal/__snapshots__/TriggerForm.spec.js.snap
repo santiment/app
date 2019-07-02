@@ -65,7 +65,7 @@ exports[`TriggerForm smoke 1`] = `
     Object {
       "absoluteBorderLeft": 50,
       "absoluteBorderRight": 75,
-      "absoluteThreshold": 5,
+      "absoluteThreshold": 25,
       "channels": Array [
         "Telegram",
       ],
@@ -90,7 +90,7 @@ exports[`TriggerForm smoke 1`] = `
         "label": "Price",
         "value": "price",
       },
-      "percentThreshold": 5,
+      "percentThreshold": 25,
       "signalType": Object {
         "label": "Assets",
         "value": "assets",

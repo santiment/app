@@ -5,6 +5,7 @@ exports[`SignalMaster smoke 1`] = `
   canRedirect={true}
   onClose={[Function]}
   setTitle={[Function]}
+  step={0}
   triggerId={247}
 />
 `;
