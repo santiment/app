@@ -8,7 +8,8 @@ import styles from './HelpPopup.module.scss'
 const HelpPopup = () => (
   <Tooltip
     className={styles.tooltip}
-    position='center'
+    align='center'
+    on='click'
     trigger={
       <div className={styles.trigger}>
         <Icon type='question-round-small' className={styles.description} />

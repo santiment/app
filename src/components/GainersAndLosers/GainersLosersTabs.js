@@ -1,19 +1,27 @@
 import React, { useState } from 'react'
 import { graphql } from 'react-apollo'
-import { Label, Panel, Tabs } from '@santiment-network/ui'
+import Tabs from '@santiment-network/ui/Tabs'
+import Label from '@santiment-network/ui/Label'
+import Panel from '@santiment-network/ui/Panel/Panel'
 import { TOP_SOCIAL_GAINERS_LOSERS_QUERY } from '../../ducks/GainersAndLosers/gainersLosersQuery'
 import ProjectIcon from '../ProjectIcon'
 import PercentChanges from '../PercentChanges'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
+import allProjects from '../../allProjects.json'
 import styles from './GainersLosersTabs.module.scss'
 
-const Item = ({ slug, change }) => (
-  <div className={styles.project}>
-    <ProjectIcon name={slug} size={20} />
-    <Label className={styles.name}>{slug}</Label>
-    <PercentChanges changes={change} className={styles.changes} />
-  </div>
-)
+const Item = ({ onProjectClick, showChange, ...project }) => {
+  const { change, name, ticker } = project
+  return (
+    <div className={styles.project} onClick={() => onProjectClick(project)}>
+      <ProjectIcon name={name} size={20} ticker={ticker} />
+      <Label className={styles.name}>{ticker}</Label>
+      {showChange && (
+        <PercentChanges changes={change * 100} className={styles.changes} />
+      )}
+    </div>
+  )
+}
 
 const TYPES = {
   gainers: 'Top gainers',
@@ -31,7 +39,7 @@ const tabs = [
   }
 ]
 
-const GainersLosersTabs = ({ gainers, losers }) => {
+const GainersLosersTabs = ({ gainers, losers, onProjectClick }) => {
   let [selectedTab, setSelectedTab] = useState(tabs[0].index)
 
   function handleSelectTab (tab) {
@@ -39,6 +47,8 @@ const GainersLosersTabs = ({ gainers, losers }) => {
       setSelectedTab(tab)
     }
   }
+
+  const tabItems = selectedTab === TYPES.gainers ? gainers : losers
 
   return (
     <Panel>
@@ -49,10 +59,14 @@ const GainersLosersTabs = ({ gainers, losers }) => {
         onSelect={handleSelectTab}
       />
       <div className={styles.wrapper}>
-        {selectedTab === TYPES.gainers &&
-          gainers.map((project, idx) => <Item key={idx} {...project} />)}
-        {selectedTab === TYPES.losers &&
-          losers.map((project, idx) => <Item key={idx} {...project} />)}
+        {tabItems.map((project, idx) => (
+          <Item
+            key={idx}
+            {...project}
+            onProjectClick={onProjectClick}
+            showChange={tabItems === gainers}
+          />
+        ))}
       </div>
     </Panel>
   )
@@ -77,8 +91,13 @@ const withGainersLosers = graphql(TOP_SOCIAL_GAINERS_LOSERS_QUERY, {
     const losers = []
     if (length > 0) {
       topSocialGainersLosers[length - 1].projects.forEach(project => {
-        if (project.status === 'GAINER') gainers.push(project)
-        if (project.status === 'LOSER') losers.push(project)
+        const { slug: projectSlug } = project
+        const proj = {
+          ...allProjects.find(({ slug }) => slug === projectSlug),
+          ...project
+        }
+        if (project.status === 'GAINER') gainers.push(proj)
+        if (project.status === 'LOSER') losers.push(proj)
       })
     }
 

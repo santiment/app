@@ -1,10 +1,11 @@
-@import "~@santiment-network/ui/mixins.scss";
+@import '~@santiment-network/ui/mixins.scss';
 
 .trigger {
   display: flex;
   align-items: center;
   color: var(--casper);
   margin-left: 10px;
+  cursor: pointer;
 }
 
 .description {

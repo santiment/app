@@ -1,5 +1,5 @@
 .wrapper {
-  padding: 20px 20px 0;
+  padding: 12px;
 }
 
 .tabs {
@@ -8,14 +8,19 @@
 }
 
 .project {
-  margin-bottom: 22px;
   display: flex;
   align-items: center;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 8px;
+
+  &:hover {
+    background: var(--athens);
+  }
 }
 
 .name {
   margin-left: 8px;
-  width: 85px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

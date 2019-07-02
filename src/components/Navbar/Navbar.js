@@ -91,9 +91,8 @@ const Navbar = ({ activeLink = '/' }) => {
               }
 
               return (
-                <ShowIf {...showIf}>
+                <ShowIf {...showIf} key={link}>
                   <Button
-                    key={link}
                     variant='flat'
                     as={props => <Link {...props} to={{ pathname: link }} />}
                     isActive={activeLink.includes(link)}
