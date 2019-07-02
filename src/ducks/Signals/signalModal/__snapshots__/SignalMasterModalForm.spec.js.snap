@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SignalMasterModalForm smoke 1`] = `
+<Connect(SignalMasterModalForm)
+  canRedirect={false}
+  metaFormSettings={
+    Object {
+      "ethAddress": "some_custom_address",
+      "metric": Object {
+        "value": Object {
+          "hidden": true,
+          "label": "Historical balance",
+          "value": "eth_wallet",
+        },
+      },
+      "target": Object {
+        "value": Object {
+          "label": "nuga",
+          "value": "nuga",
+        },
+      },
+      "type": Object {
+        "value": Object {
+          "hidden": true,
+          "label": "Historical balance",
+          "value": "eth_wallet",
+        },
+      },
+    }
+  }
+/>
+`;

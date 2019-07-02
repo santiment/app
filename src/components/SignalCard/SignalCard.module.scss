@@ -25,36 +25,31 @@
 .wrapper__top {
   display: flex;
   height: 100%;
-}
-
-.icon {
-  display: inline-flex;
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  background: var(--blue-light);
-  fill: var(--blue);
-  justify-content: center;
-  align-items: center;
+  padding: 12px 20px;
 }
 
 .title {
-  @include text-normal;
+  margin: 0 0 4px 0;
 
-  font-size: 18px;
-  margin: 0;
-  margin-bottom: 4px;
+  @include text('h4','m');
 }
 
 .description {
-  @include text-normal;
+  @include text('body-3');
 
-  margin: 0;
-  color: var(--grey-dark-2);
+  color: var(--waterloo);
+  margin-top: 10px;
 }
 
 .upper {
   cursor: pointer;
+}
+
+.modalCentered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 .bottom {
@@ -67,9 +62,15 @@
   }
 }
 
-.author {
-  @include text-normal;
+.awaitingBlock {
+  display: flex;
+  fill: var(--waterloo);
+}
 
+.author {
+  @include text('body-3');
+
+  color: var(--waterloo);
   margin: 0;
 
   &__link {
@@ -83,7 +84,7 @@
 }
 
 .subscriptions {
-  @include text-normal;
+  @include text('body-3');
 
   margin-right: 24px;
   display: flex;
@@ -96,7 +97,7 @@
 }
 
 .awaiting {
-  @include text-normal;
+  @include text('body-3');
 
   display: inline-flex;
   align-items: center;

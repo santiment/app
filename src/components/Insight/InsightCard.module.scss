@@ -1,12 +1,11 @@
-@import "../../mixins.scss";
 @import "~@santiment-network/ui/variables.scss";
 @import "~@santiment-network/ui/mixins.scss";
 
 .wrapper {
-  padding: 20px;
+  padding: 15px 20px;
   min-width: 320px;
   height: 200px;
-  border: 1px solid var(--grey-light-2);
+  border: 1px solid var(--porcelain);
   display: inline-flex;
   flex-direction: column;
 
@@ -40,8 +39,8 @@
 
   line-height: 26px;
   font-size: 18px;
-  color: var(--black);
-  margin-top: 18px;
+  color: var(--mirage);
+  margin-top: 12px;
   display: inline-block;
   text-decoration: none;
   word-break: break-word;
@@ -81,8 +80,8 @@
   @include text-normal;
 
   line-height: 20px;
-  color: var(--black);
-  fill: var(--grey-dark);
+  color: var(--waterloo);
+  fill: var(--mystic);
   margin-left: 22px;
   cursor: pointer;
 
@@ -97,11 +96,6 @@
   &_comments {
     display: none;
   }
-}
-
-.liked {
-  color: var(--green);
-  fill: var(--green);
 }
 
 .awaiting {

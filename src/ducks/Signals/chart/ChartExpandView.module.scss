@@ -1,0 +1,29 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.expander {
+  position: relative;
+}
+
+.expanderButton {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}
+
+.expanded {
+  padding: 20px 20px 10px 20px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100% !important;
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
+.explanation {
+  z-index: 10000;
+}

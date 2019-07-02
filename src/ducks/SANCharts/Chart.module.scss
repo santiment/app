@@ -1,0 +1,29 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  :global {
+    .recharts-default-tooltip {
+      border: 1px solid var(--porcelain) !important;
+      border-radius: 4px;
+    }
+
+    .recharts-tooltip-label {
+      color: var(--mirage);
+    }
+
+    .recharts-cartesian-axis-tick-line {
+      display: none;
+    }
+
+    .recharts-cartesian-axis-line {
+      stroke: var(--porcelain);
+      stroke-dasharray: 7;
+    }
+
+    .recharts-text {
+      fill: var(--casper);
+
+      @include text('caption');
+    }
+  }
+}

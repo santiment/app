@@ -42,6 +42,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  width: 100%;
 
   &::first-letter {
     text-transform: uppercase;

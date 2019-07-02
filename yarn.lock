@@ -1466,10 +1466,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@santiment-network/ui@^0.5.4":
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.4.tgz#3f9ab2b288d75e636cda82d40633caff3cff13b3"
-  integrity sha512-J1QUkInaplxNZvy7LOmquLmSgXfjQ9YiFlkWs3pkvcmIwcEUL2iNBZIWjgVHRywLgFskwEQD1vYCoXaUeS/UKw==
+"@santiment-network/ui@^0.5.36":
+  version "0.5.36"
+  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.36.tgz#e19921be9db10dcf29a9712eec600653ffda6857"
+  integrity sha512-ixS615OX6iSwqax0jNcju0I0jyaGxXCi7OOTtQFSow2pqF3PVwm0DUdi96VGAjWX2Jh6Xse4qJuTQQRxOUW6Xg==
 
 "@semantic-ui-react/event-stack@^2.0.0":
   version "2.0.0"
@@ -2938,14 +2938,6 @@ aws4@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.8.0.tgz#f0e003d9ca9e7f59c7a508945d7b2ef9a04a542f"
   integrity sha512-ReZxvNHIOv88FlT7rxcXIIC0fPt4KZqZbOlivyWtXLt8ESx84zd3kMC6iK5jVeS2qt+g7ftS7ye4fi06X5rtRQ==
-
-axios@^0.17.1:
-  version "0.17.1"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.17.1.tgz#2d8e3e5d0bdbd7327f91bc814f5c57660f81824d"
-  integrity sha1-LY4+XQvb1zJ/kbyBT1xXZg+Bgk0=
-  dependencies:
-    follow-redirects "^1.2.5"
-    is-buffer "^1.1.5"
 
 axobject-query@^2.0.1:
   version "2.0.2"
@@ -6866,7 +6858,7 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
 
-follow-redirects@^1.0.0, follow-redirects@^1.2.5:
+follow-redirects@^1.0.0:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.6.1.tgz#514973c44b5757368bad8bddfe52f81f015c94cb"
   integrity sha512-t2JCjbzxQpWvbhts3l6SH1DKzSrx8a+SsaVf4h6bG4kOXUuPYS/kg2Lr4gQSb7eemaHqJkOThF1BGyjlUkO1GQ==
@@ -10022,10 +10014,10 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
-medium-draft@^0.5.10:
-  version "0.5.10"
-  resolved "https://registry.yarnpkg.com/medium-draft/-/medium-draft-0.5.10.tgz#e367c8f40f3beb09a6c1f870f35f1355c1bec3c5"
-  integrity sha512-FeRYk9O9b9OgOa5WKJbRkLtUXma9697ptPAocnroJV5zp5w0114EHljWPBUmp1kkEf7/hT2wNShcL9uwfIZMtA==
+medium-draft@^0.5.15:
+  version "0.5.15"
+  resolved "https://registry.yarnpkg.com/medium-draft/-/medium-draft-0.5.15.tgz#699dac1b3831d9e4c7a84d57b32c7843d6b09d37"
+  integrity sha512-gcp2z8WuzrQ3BhnmTjPIbWHHs9HOWn2SGiTi0p72hBoopGribwAws30BHr5Ob8PJoA0KPy29Ed9Kr81LGp3BQA==
   dependencies:
     draft-js "^0.10.0"
     immutable "^3.7.6"
@@ -13871,11 +13863,6 @@ reduce-function-call@^1.0.1, reduce-function-call@^1.0.2:
   integrity sha1-WiAL+S4ON3UXUv5FsKszD9S2vpk=
   dependencies:
     balanced-match "^0.4.2"
-
-redux-axios-middleware@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/redux-axios-middleware/-/redux-axios-middleware-4.0.0.tgz#81951c3d9adce6f83ef892fd1568571cebe4a336"
-  integrity sha1-gZUcPZrc5vg++JL9FWhXHOvkozY=
 
 redux-devtools-extension@^2.13.2:
   version "2.13.7"

@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SignalMaster smoke 1`] = `
+<SignalMaster
+  canRedirect={true}
+  onClose={[Function]}
+  setTitle={[Function]}
+  triggerId={247}
+/>
+`;

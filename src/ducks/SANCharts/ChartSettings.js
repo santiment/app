@@ -1,12 +1,8 @@
 import React from 'react'
-import Calendar from 'react-calendar'
-import Checkboxes from '@santiment-network/ui/Checkboxes'
 import Selector from '@santiment-network/ui/Selector/Selector'
-import Icon from '@santiment-network/ui/Icon'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
-import Button from '@santiment-network/ui/Button'
+import ChartSettingsContextMenu from './ChartSettingsContextMenu'
+import CalendarBtn from '../../components/Calendar/CalendarBtn'
 import SearchProjects from '../../components/Search/SearchProjects'
-import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import styles from './ChartPage.module.scss'
 
 const ChartSettings = ({
@@ -17,7 +13,9 @@ const ChartSettings = ({
   generateShareLink,
   onNightModeSelect,
   hasNightMode,
-  disabledMetrics
+  disabledMetrics,
+  from,
+  to
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
   return (
@@ -27,36 +25,19 @@ const ChartSettings = ({
         className={styles.search}
         suggestionsProps={{ style: { zIndex: 5 } }}
       />
-      <ContextMenu
-        passOpenStateAs='isActive'
-        position='bottom'
-        trigger={
-          <Button variant='flat'>
-            <Icon type='calendar' />
-          </Button>
-        }
-      >
-        <Calendar onChange={onCalendarChange} selectRange />
-      </ContextMenu>
       <Selector
         options={['1w', '1m', '3m', '6m']}
         onSelectOption={onTimerangeChange}
         defaultSelected={defaultTimerange}
       />
-
-      <Checkboxes
-        options={['Night mode']}
-        defaultSelectedIndexes={hasNightMode && ['Night mode']}
-        onSelect={onNightModeSelect}
+      <CalendarBtn
+        onChange={onCalendarChange}
+        value={[new Date(from), new Date(to)]}
       />
-      <ShareModalTrigger
+      <ChartSettingsContextMenu
+        hasNightMode={hasNightMode}
+        onNightModeSelect={onNightModeSelect}
         shareLink={shareLink}
-        extraShare={[
-          {
-            value: `<iframe frameborder="0" height="340" src="${shareLink}"></iframe>`,
-            label: 'Copy iframe'
-          }
-        ]}
       />
     </div>
   )

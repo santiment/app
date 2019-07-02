@@ -4,6 +4,7 @@ import Markdown from 'react-markdown'
 import gql from 'graphql-tag'
 import SonarFeedRecommendations from './SonarFeedRecommendations'
 import styles from './SonarFeedActivityPage.module.scss'
+import { dateDifferenceInWords } from '../../utils/dates'
 
 export const TRIGGER_ACTIVITIES_QUERY = gql`
   query signalsHistoricalActivity($datetime: DateTime!) {
@@ -29,24 +30,28 @@ export const TRIGGER_ACTIVITIES_QUERY = gql`
   }
 `
 
-const SonarFeedActivityPage = ({ activities, isLoading, isError, isEmpty }) => {
+const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
   if (isLoading) {
-    return <div className={styles.wrapper}>Loading...</div>
-  }
-  if (isEmpty) {
     return ''
   }
-  return activities ? (
+
+  const formatDate = dateString => {
+    return dateDifferenceInWords({
+      from: new Date(dateString)
+    })
+  }
+
+  return activities && activities.length ? (
     <div className={styles.wrapper}>
       {activities.map(activity => (
         <Fragment key={activity.triggeredAt}>
-          <h4 className={styles.date}>{activity.triggeredAt}</h4>
+          <h4 className={styles.date}>{formatDate(activity.triggeredAt)}</h4>
           <Markdown source={Object.values(activity.payload)[0]} />
         </Fragment>
       ))}
     </div>
   ) : (
-    <SonarFeedRecommendations />
+    <SonarFeedRecommendations showButton />
   )
 }
 
@@ -61,8 +66,7 @@ const enhance = graphql(TRIGGER_ACTIVITIES_QUERY, {
     return {
       activities: (data.activities || {}).activity,
       isLoading: data.loading,
-      isError: !!data.error,
-      isEmpty: ((data.activities || {}).activity || []).length === 0
+      isError: !!data.error
     }
   }
 })

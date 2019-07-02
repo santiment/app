@@ -21,15 +21,9 @@ export const PUBLIC_WATCHLISTS = [
     id: '86'
   },
   {
-    name: 'US-Based Projects',
-    assetType: 'usa',
-    to: '/assets/list?name=usa@138#shared',
-    id: '138'
-  },
-  {
     name: 'Decentralized Exchanges',
-    assetType: 'dex',
-    to: '/assets/list?name=dex@127#shared',
+    assetType: 'decentralized exchanges',
+    to: '/assets/list?name=decentralized%20exchanges@127#shared',
     id: '127'
   },
   {
@@ -45,7 +39,8 @@ export const WATCHLISTS_BY_FUNCTION = [
     name: 'Top 50 ERC20',
     assetType: 'top 50 erc20',
     to: '/assets/list?name=top%2050%20erc20#shared',
-    byFunction: '{"args":{"size":50},"name":"top_erc20_projects"}'
+    byFunction:
+      '{"args":{"ignored_projects":["aergo","dadi","data","dragonchain","effect-ai","enigma","fusion","holo","iostoken","iotex","kin","next-exchange","origintrail","pundi-x","quarkchain","rchain","seele","waltonchain","wax","zilliqa","tether","usd-coin","trueusd","paxos-standard-token","dai","stasis-eurs","gemini-dollar","bitcny","steem-dollars","stableusd","digix-gold-token","bitusd","susd","1sg","x8x-token","nubits","stronghold-usd","constant","ckusd","usdcoin","sdusd","qusd","okb","verasity","gifto","pchain"],"size":50},"name":"top_erc20_projects"}'
   }
 ]
 

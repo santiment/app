@@ -13,7 +13,6 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import nprogress from 'nprogress'
 import NotificationStack from './components/NotificationStack'
-import LoginPage from './pages/Login/LoginPage'
 import Roadmap from './pages/Roadmap'
 import Signals from './pages/Signals'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
@@ -27,17 +26,21 @@ import ErrorBoundary from './ErrorBoundary'
 import PageLoader from './components/Loader/PageLoader'
 import Status from './pages/Status'
 import Footer from './components/Footer'
-import FeedbackModal from './components/FeedbackModal'
 import GDPRPage from './pages/GDPRPage/GDPRPage'
 import AssetsPage from './pages/assets/AssetsPage'
 import SignalFormPage from './ducks/Signals/SignalFormPage'
-import HistoricalBalancePage from './ducks/HistoricalBalance/HistoricalBalancePage'
+import HistoricalBalancePage from './ducks/HistoricalBalance/page/HistoricalBalancePage'
 import WordCloudPage from './components/WordCloud/WordCloudPage'
 import { getConsentUrl } from './utils/utils'
 import NewsBanner from './components/Banner/NewsBanner'
-import LogoutPage from './pages/Logout'
+import LogoutPage from './pages/Logout/Logout'
 import LabsPage from './pages/Labs'
 import './App.scss'
+
+const LoadableLoginPage = Loadable({
+  loader: () => import('./pages/Login'),
+  loading: () => <PageLoader />
+})
 
 const LoadableAccountPage = Loadable({
   loader: () => import('./pages/Account/AccountPage'),
@@ -126,9 +129,11 @@ class ExternalRedirect extends React.Component {
 export const App = ({
   isDesktop,
   isLoggedIn,
+  token,
   isFullscreenMobile,
   isOffline,
   hasUsername,
+  hasMetamask,
   isBetaModeEnabled,
   location
 }) => (
@@ -198,7 +203,13 @@ export const App = ({
         />
         <Route exact path='/roadmap' component={Roadmap} />
         <Route exact path='/signals' component={Signals} />
-        <Route exact path='/labs/balance' component={HistoricalBalancePage} />
+        <Route
+          exact
+          path='/labs/balance'
+          render={props => (
+            <HistoricalBalancePage {...props} isDesktop={isDesktop} />
+          )}
+        />
         <Route exact path='/labs/wordcloud' component={WordCloudPage} />
         <Route
           exact
@@ -254,6 +265,7 @@ export const App = ({
             <LoadableDashboardPage
               isDesktop={isDesktop}
               isLoggedIn={isLoggedIn}
+              hasMetamask={hasMetamask}
               {...props}
             />
           )}
@@ -315,9 +327,15 @@ export const App = ({
           )}
         />
         <Route
-          exact
           path='/login'
-          render={props => <LoginPage isDesktop={isDesktop} {...props} />}
+          render={props => (
+            <LoadableLoginPage
+              isLoggedIn={isLoggedIn}
+              token={token}
+              isDesktop={isDesktop}
+              {...props}
+            />
+          )}
         />
         {isDesktop ? (
           <Redirect from='/' to='/dashboard' />
@@ -327,18 +345,20 @@ export const App = ({
       </Switch>
     </ErrorBoundary>
     <NotificationStack />
-    <FeedbackModal />
     {isDesktop && <Footer />}
   </div>
 )
 
 const mapStateToProps = state => {
+  const { ethAccounts = [] } = state.user.data
   return {
-    isLoggedIn: !!state.user.token,
+    isLoggedIn: state.user.data && !!state.user.data.id,
+    token: state.user.token,
     isFullscreenMobile: state.detailedPageUi.isFullscreenMobile,
     isOffline: !state.rootUi.isOnline,
     isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
-    hasUsername: !!state.user.data.username
+    hasUsername: !!state.user.data.username,
+    hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address
   }
 }
 

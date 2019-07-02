@@ -1,10 +1,12 @@
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
-import * as actions from './actions'
+import GoogleAnalytics from 'react-ga'
+import * as actions from './common/actions'
 import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
-import { TRIGGERS_QUERY } from './SignalsGQL'
+import { TRIGGERS_QUERY } from './common/queries'
 import { completeOnboardingTask } from '../../pages/Dashboard/utils'
+import { GA_FIRST_SIGNAL } from '../../enums/GaEvents'
 
 export const CREATE_TRIGGER_QUERY = gql`
   mutation createTrigger(
@@ -46,7 +48,9 @@ export const createSignalEpic = (action$, store, { client }) =>
     .ofType(actions.SIGNAL_CREATE)
     .debounceTime(200)
     .switchMap(
-      ({ payload: { tags = [], __typename, isActive, ...trigger } }) => {
+      ({
+        payload: { tags = [], __typename, isActive, shouldReload, ...trigger }
+      }) => {
         const create = client.mutate({
           mutation: CREATE_TRIGGER_QUERY,
           variables: {
@@ -68,33 +72,47 @@ export const createSignalEpic = (action$, store, { client }) =>
             }
           },
           update: (proxy, newData) => {
-            let data = proxy.readQuery({ query: TRIGGERS_QUERY })
-            try {
-              const newTrigger = {
-                ...newData.data.createTrigger.trigger,
-                cooldown: '1h',
-                isActive: true
+            if (shouldReload) {
+              let data = proxy.readQuery({ query: TRIGGERS_QUERY })
+              try {
+                const newTrigger = {
+                  ...newData.data.createTrigger.trigger,
+                  cooldown: '1h',
+                  isActive: true
+                }
+
+                if (
+                  newTrigger.id > 0 &&
+                  data.currentUser.triggers.length === 0
+                ) {
+                  GoogleAnalytics.event(GA_FIRST_SIGNAL)
+                }
+
+                data.currentUser.triggers = [
+                  ...data.currentUser.triggers,
+                  newTrigger
+                ]
+              } catch {
+                /* handle error */
               }
-              data.currentUser.triggers = [
-                ...data.currentUser.triggers,
-                newTrigger
-              ]
-            } catch {
-              /* handle error */
+              proxy.writeQuery({ query: TRIGGERS_QUERY, data })
             }
-            proxy.writeQuery({ query: TRIGGERS_QUERY, data })
           }
         })
 
         return Observable.fromPromise(create)
           .mergeMap(({ data: { id } }) => {
             completeOnboardingTask('signal')
-            return Observable.of({
-              type: actions.SIGNAL_CREATE_SUCCESS,
-              payload: {
-                id
-              }
-            })
+
+            return Observable.merge(
+              Observable.of({
+                type: actions.SIGNAL_CREATE_SUCCESS,
+                payload: {
+                  id
+                }
+              }),
+              Observable.of(showNotification('Signal was succesfully created'))
+            )
           })
           .catch(handleErrorAndTriggerAction(actions.SIGNAL_CREATE_FAILED))
       }
@@ -239,12 +257,15 @@ export const updateSignalEpic = (action$, store, { client }) =>
 
       return Observable.fromPromise(toggle)
         .mergeMap(({ data: { updateTrigger } }) => {
-          return Observable.of({
-            type: actions.SIGNAL_UPDATE_SUCCESS,
-            payload: {
-              id: updateTrigger.trigger.id
-            }
-          })
+          return Observable.merge(
+            Observable.of({
+              type: actions.SIGNAL_UPDATE_SUCCESS,
+              payload: {
+                id: updateTrigger.trigger.id
+              }
+            }),
+            Observable.of(showNotification('Signal was succesfully updated'))
+          )
         })
         .catch(handleErrorAndTriggerAction(actions.SIGNAL_UPDATE_FAILED))
     })
@@ -297,7 +318,7 @@ export const removeSignalEpic = (action$, store, { client }) =>
               type: actions.SIGNAL_REMOVE_BY_ID_SUCCESS,
               payload: { id: removeTrigger.trigger.id }
             }),
-            Observable.of(showNotification('Trigger is removed'))
+            Observable.of(showNotification('Trigger was removed'))
           )
         })
         .catch(action => {

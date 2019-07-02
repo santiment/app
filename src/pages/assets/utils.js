@@ -1,4 +1,15 @@
 import qs from 'query-string'
+import {
+  PUBLIC_WATCHLISTS,
+  WATCHLISTS_BY_FUNCTION
+} from './assets-overview-constants'
+
+const getListName = name => {
+  const isPublic =
+    PUBLIC_WATCHLISTS.find(({ assetType }) => assetType === name) ||
+    WATCHLISTS_BY_FUNCTION.find(({ assetType }) => assetType === name)
+  return isPublic ? isPublic.name : name
+}
 
 export const getTableTitle = ({ type, location: { search } }) => {
   switch (type) {
@@ -9,7 +20,8 @@ export const getTableTitle = ({ type, location: { search } }) => {
     case 'erc20':
       return 'ERC20 Assets'
     case 'list':
-      return (qs.parse(search).name || '').split('@')[0]
+      const name = (qs.parse(search).name || '').split('@')[0]
+      return getListName(name)
     default:
       return 'Assets'
   }
@@ -46,7 +58,7 @@ export const isNotSafari = () =>
 export const getHelmetTags = (isList, listName) => {
   return {
     title: isList
-      ? `Crypto Watchlist: ${listName.split('@')[0]} - SANbase`
+      ? `Crypto Watchlist: ${getListName(listName.split('@')[0])} - SANbase`
       : 'All Crypto Assets - SANbase',
     description: isList
       ? 'Santiment Watchlists let you keep track of different crypto projects, and compare their performance, on-chain behavior and development activity.'

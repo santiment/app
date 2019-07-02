@@ -19,7 +19,7 @@ import emitter from 'react-ab-test/lib/emitter'
 import App from './App'
 import reducers from './reducers/rootReducers.js'
 import epics from './epics/rootEpics.js'
-import { loadState, saveState } from './utils/localStorage'
+import { saveState } from './utils/localStorage'
 import { getAPIUrl } from './utils/utils'
 import detectNetwork from './utils/detectNetwork'
 import getRaven from './utils/getRaven'
@@ -76,7 +76,7 @@ const main = () => {
 
   store = createStore(
     reducers,
-    { user: loadState() } || {},
+    {},
     composeWithDevTools(applyMiddleware(...middleware))
   )
 

@@ -2,7 +2,7 @@ import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { checkIsLoggedIn } from './../../pages/UserSelectors'
-import { TRIGGERS_QUERY } from './SignalsGQL'
+import { TRIGGERS_QUERY } from './common/queries'
 
 const POLLING_INTERVAL = 25000
 

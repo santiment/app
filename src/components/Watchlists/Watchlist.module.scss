@@ -1,15 +1,19 @@
 @import '~@santiment-network/ui/variables.scss';
-@import "~@santiment-network/ui/mixins.scss";
-@import "../../mixins.scss";
+@import '~@santiment-network/ui/mixins.scss';
 
 .wrapper {
   width: 100%;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 32px;
+  }
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 26px;
 }
 
 .heading {
@@ -19,6 +23,10 @@
   line-height: 30px;
   font-weight: normal;
   margin: 0;
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
 }
 
 .createBtn {
@@ -27,10 +35,6 @@
 
 .img {
   height: 240px;
-}
-
-.anonBanner {
-  margin-top: 26px;
 }
 
 .emptyWrapper {
@@ -45,10 +49,17 @@
   margin-bottom: 29px;
   font-size: 16px;
   line-height: 24px;
+  color: var(--mirage);
 }
 
 .emptyBtn {
   justify-content: center;
   align-items: center;
   width: 200px;
+}
+
+.subtitle {
+  @include text('body-1', 'm');
+
+  margin: 32px 16px 12px;
 }

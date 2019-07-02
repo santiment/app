@@ -1,3 +1,5 @@
+@import '~@santiment-network/ui/mixins';
+
 .settings {
   display: flex;
   padding: 10px;
@@ -28,7 +30,6 @@
 }
 
 .btn {
-  border: none;
   background: var(--white);
   outline: none;
   color: var(--waterloo);
@@ -37,11 +38,13 @@
   cursor: pointer;
   margin-right: 8px;
   padding: 6px 12px;
+  border: 1px solid transparent;
 }
 
 .active {
   color: var(--mirage);
   background: var(--athens);
+  border: 1px solid var(--porcelain);
 }
 
 .btn[disabled] {
@@ -57,4 +60,20 @@
 
 :global(.recharts-default-tooltip) {
   background-color: var(--white) !important;
+}
+
+.context {
+  padding: 8px;
+
+  &__toggle {
+    margin-left: 16px;
+  }
+
+  &__btn {
+    justify-content: space-between;
+  }
+}
+
+.selector {
+  margin: 10px 20px;
 }

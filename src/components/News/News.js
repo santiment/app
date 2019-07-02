@@ -6,7 +6,7 @@ const News = ({ data = [] }) => {
   return (
     <div className={styles.items}>
       {data.map((item, idx) => (
-        <NewsCard key={idx} className={styles.item} {...item} />
+        <NewsCard key={idx} {...item} />
       ))}
     </div>
   )

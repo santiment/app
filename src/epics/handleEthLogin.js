@@ -5,7 +5,6 @@ import * as actions from './../actions/types'
 import { handleErrorAndTriggerAction } from './utils'
 import { getUserWallet } from '../pages/UserSelectors'
 import { savePrevAuthProvider } from './../utils/localStorage'
-import { completeOnboardingTask } from '../pages/Dashboard/utils'
 
 const ETH_LOGIN_QUERY = gql`
   mutation ethLogin(
@@ -20,6 +19,7 @@ const ETH_LOGIN_QUERY = gql`
     ) {
       token
       user {
+        firstLogin
         id
         email
         username
@@ -91,21 +91,24 @@ const loginWithEthereum = client => {
 }
 
 const handleEthLogin = (action$, store, { client }) =>
-  action$.ofType(actions.USER_ETH_LOGIN).exhaustMap(action => {
-    const { consent } = action.payload
-    return Observable.from(loginWithEthereum(client))
-      .mergeMap(({ data }) => {
-        const { token, user } = data.ethLogin
-        savePrevAuthProvider('metamask')
-        return Observable.of({
-          type: actions.USER_LOGIN_SUCCESS,
-          token,
-          user,
-          consent: user.consent_id || consent
+  action$
+    .ofType(actions.USER_ETH_LOGIN)
+    .takeUntil(action$.ofType(actions.USER_LOGIN_SUCCESS))
+    .switchMap(action => {
+      const { consent } = action.payload
+      return Observable.from(loginWithEthereum(client))
+        .mergeMap(({ data }) => {
+          const { token, user } = data.ethLogin
+          savePrevAuthProvider('metamask')
+          return Observable.of({
+            type: actions.USER_LOGIN_SUCCESS,
+            token,
+            user,
+            consent: user.consent_id || consent
+          })
         })
-      })
-      .catch(handleErrorAndTriggerAction(actions.USER_LOGIN_FAILED))
-  })
+        .catch(handleErrorAndTriggerAction(actions.USER_LOGIN_FAILED))
+    })
 
 const connectingNewWallet = client => {
   return new Promise(async (resolve, reject) => {
@@ -133,7 +136,6 @@ export const connectNewWallet = (action$, store, { client }) =>
   action$.ofType(actions.SETTINGS_CONNECT_NEW_WALLET).mergeMap(action => {
     return Observable.from(connectingNewWallet(client))
       .mergeMap(accounts => {
-        completeOnboardingTask('metamask')
         return Observable.of({
           type: actions.SETTINGS_CONNECT_NEW_WALLET_SUCCESS,
           payload: {

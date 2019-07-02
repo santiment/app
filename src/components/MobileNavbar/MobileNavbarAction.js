@@ -1,11 +1,12 @@
 import React from 'react'
 import cx from 'classnames'
-import { Button, Icon } from '@santiment-network/ui'
+import Button from '@santiment-network/ui/Button'
+import ShowIf from '../ShowIf/ShowIf'
 import styles from './MobileNavbarAction.module.scss'
 
 const MobileNavbarAction = ({
   onClick,
-  iconType,
+  Icon,
   label,
   linkTo,
   classes = {
@@ -16,25 +17,22 @@ const MobileNavbarAction = ({
     button: styles.button
   },
   isActive = false,
+  showIf = { condition: true },
   className = ''
 }) => {
   const handleOnClick = () => onClick(linkTo)
 
   return (
-    <Button
-      className={cx(isActive && classes.isActive, classes.button, className)}
-      isActive={isActive}
-      onClick={handleOnClick}
-    >
-      <Icon
-        type={iconType}
-        className={classes.icon}
-        fill={isActive ? 'var(--jungle-green)' : 'var(--mirage)'}
-      />
-      <div className={cx(classes.label, isActive && classes.isActive)}>
+    <ShowIf {...showIf}>
+      <Button
+        className={cx(isActive && classes.isActive, classes.button, className)}
+        isActive={isActive}
+        onClick={handleOnClick}
+      >
+        <Icon className={classes.icon} />
         {label}
-      </div>
-    </Button>
+      </Button>
+    </ShowIf>
   )
 }
 

@@ -1,31 +1,32 @@
 import React, { Fragment } from 'react'
-import { Panel, Icon, Toggle, Modal } from '@santiment-network/ui'
+import { Panel, Icon, Toggle } from '@santiment-network/ui'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import MultilineText from '../../components/MultilineText/MultilineText'
 import StatusLabel from './../../components/StatusLabel'
-import SignalDetails from '../../pages/SonarFeed/SignalDetails'
+import { SignalTypeIcon } from './controls/SignalControls'
+import { SignalCardDetailsModal } from './SignalCardDetailsModal'
 import styles from './SignalCard.module.scss'
 
 const SignalCard = ({
   id,
   title,
   description = '',
+  settings: { type } = {},
   className = '',
   author = 'Myself',
   gotoSignalByID,
   ...signalCardBottom
 }) => {
-  const isAwaiting = id === -1
+  const isAwaiting = +id <= 0
+
   const SignalTopDetails = isAwaiting ? 'div' : SignalCardDetailsModal
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
       <div
         className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
       >
-        <div className={styles.icon}>
-          <Icon type='wallet' />
-        </div>
+        <SignalTypeIcon type={type} />
       </div>
       <div className={styles.wrapper__right}>
         <SignalTopDetails id={id}>
@@ -60,44 +61,6 @@ const UnpublishedMsg = () => (
   </h4>
 )
 
-export const SignalCardWrapper = ({
-  isLink = false,
-  isAwaiting = false,
-  id,
-  description,
-  title,
-  children
-}) => {
-  const SignalTopDetails =
-    isAwaiting && !isLink ? 'div' : SignalCardDetailsModal
-  return (
-    <div className={styles.wrapper__top}>
-      <div
-        className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
-      >
-        <div className={styles.icon}>
-          <Icon type='wallet' />
-        </div>
-      </div>
-      <div className={styles.wrapper__right}>
-        <SignalTopDetails id={id}>
-          <div className={styles.upper}>
-            <h2 className={styles.title}>{title}</h2>
-            <h3 className={styles.description}>
-              <MultilineText
-                id='SignalCard__description'
-                maxLines={2}
-                text={description && description}
-              />
-            </h3>
-          </div>
-        </SignalTopDetails>
-        {children}
-      </div>
-    </div>
-  )
-}
-
 const SignalCardBottom = ({
   author,
   username,
@@ -114,7 +77,12 @@ const SignalCardBottom = ({
     <div className={styles.bottom}>
       {isPublished ? (
         <h4 className={styles.author}>
-          {isAwaiting && 'Awaiting confirmation'}
+          {isAwaiting && (
+            <div className={styles.awaitingBlock}>
+              <Icon type='awaiting' />
+              <span>&nbsp;&nbsp;Awaiting confirmation</span>
+            </div>
+          )}
           {isUserTheAuthor && !isAwaiting && (
             <StatusLabel isPublic={isPublic} />
           )}
@@ -131,22 +99,10 @@ const SignalCardBottom = ({
         <UnpublishedMsg />
       )}
       <div className={styles.bottom__right}>
-        {isPublic && (
-          <div className={styles.subscriptions}>
-            <Icon type='profile' className={styles.subscriptions__icon} />
-            {subscriptionsNumber}
-          </div>
-        )}
         <Toggle onClick={toggleSignal} isActive={isActive} />
       </div>
     </div>
   )
 }
-
-const SignalCardDetailsModal = ({ children, id }) => (
-  <Modal trigger={children} title='Signal details' showDefaultActions={false}>
-    {({ closeModal }) => <SignalDetails id={id} closeModal={closeModal} />}
-  </Modal>
-)
 
 export default SignalCard

@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TriggerForm EthWallet smoke 1`] = `
+<Formik
+  enableReinitialize={true}
+  initialValues={
+    Object {
+      "channels": Array [
+        "Telegram",
+      ],
+      "ethAddress": "some_custom_address",
+      "frequencyTimeType": Object {
+        "label": "Hours",
+        "value": "h",
+      },
+      "frequencyTimeValue": Object {
+        "label": 1,
+        "value": 1,
+      },
+      "frequencyType": Object {
+        "disabledMetrics": Array [
+          "daily_active_addresses",
+        ],
+        "label": "No more than once per",
+        "value": "onceper",
+      },
+      "isRepeating": true,
+      "metric": Object {
+        "hidden": true,
+        "label": "Historical balance",
+        "value": "eth_wallet",
+      },
+      "percentThreshold": 200,
+      "signalType": Object {
+        "label": "Assets",
+        "value": "assets",
+      },
+      "target": Object {
+        "label": "nuga",
+        "value": "nuga",
+      },
+      "threshold": 100,
+      "timeWindow": 24,
+      "type": Object {
+        "hidden": true,
+        "label": "Historical balance",
+        "value": "eth_wallet",
+      },
+    }
+  }
+  isInitialValid={true}
+  onSubmit={[Function]}
+  validate={[Function]}
+  validateOnBlur={true}
+  validateOnChange={true}
+>
+  <Component />
+</Formik>
+`;
+
+exports[`TriggerForm smoke 1`] = `
+<Formik
+  enableReinitialize={true}
+  initialValues={
+    Object {
+      "absoluteBorderLeft": 50,
+      "absoluteBorderRight": 75,
+      "absoluteThreshold": 5,
+      "channels": Array [
+        "Telegram",
+      ],
+      "ethAddress": undefined,
+      "frequencyTimeType": Object {
+        "label": "Hours",
+        "value": "h",
+      },
+      "frequencyTimeValue": Object {
+        "label": 1,
+        "value": 1,
+      },
+      "frequencyType": Object {
+        "disabledMetrics": Array [
+          "daily_active_addresses",
+        ],
+        "label": "No more than once per",
+        "value": "onceper",
+      },
+      "isRepeating": true,
+      "metric": Object {
+        "label": "Price",
+        "value": "price",
+      },
+      "percentThreshold": 5,
+      "signalType": Object {
+        "label": "Assets",
+        "value": "assets",
+      },
+      "target": Object {
+        "label": "santiment",
+        "value": "santiment",
+      },
+      "threshold": 0.002,
+      "timeWindow": 24,
+      "timeWindowUnit": Object {
+        "label": "Hours",
+        "value": "h",
+      },
+      "type": Object {
+        "label": "Moving up %",
+        "metric": "price_percent_change",
+        "value": "percent_up",
+      },
+    }
+  }
+  isInitialValid={true}
+  onSubmit={[Function]}
+  validate={[Function]}
+  validateOnBlur={true}
+  validateOnChange={true}
+>
+  <Component />
+</Formik>
+`;

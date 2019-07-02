@@ -1,22 +1,23 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { graphql } from 'react-apollo'
-import {
-  PanelWithHeader as Panel,
-  Toggle,
-  Button,
-  Icon,
-  Message
-} from '@santiment-network/ui'
+import Message from '@santiment-network/ui/Message'
 import StatusLabel from './../../components/StatusLabel'
-import { TRIGGER_BY_ID_QUERY } from './../../ducks/Signals/SignalsGQL'
-import { toggleTrigger, removeTrigger } from './../../ducks/Signals/actions'
-import { mapTriggerToProps } from './../../ducks/Signals/utils'
-import { SignalCardWrapper } from './../../components/SignalCard/SignalCard'
+import { TRIGGER_BY_ID_QUERY } from '../../ducks/Signals/common/queries'
+import {
+  toggleTrigger,
+  removeTrigger
+} from '../../ducks/Signals/common/actions'
+import { mapGQLTriggerToProps } from '../../ducks/Signals/utils/utils'
+import { SignalCardWrapper } from './../../components/SignalCard/SignalCardWrapper'
+import { ToggleSignal } from './ToggleSignal'
+import {
+  RemoveSignalButton,
+  SettingsSignalButton
+} from '../../components/SignalCard/controls/SignalControls'
 import styles from './SignalDetails.module.scss'
 
 const SignalDetails = ({
@@ -26,17 +27,16 @@ const SignalDetails = ({
   redirect,
   closeModal,
   id,
-  match = {}
+  match = {},
+  author
 }) => {
-  const WrapperEl = isModal(match) ? 'div' : Panel
   const signalId = id || (match.params || {}).id
   if (isLoading) {
-    return (
-      <WrapperEl header='Signals details'>
-        <div className={styles.wrapper}>Loading...</div>
-      </WrapperEl>
-    )
+    return <div className={styles.wrapperLoading}>Loading...</div>
   }
+
+  const close = closeModal || redirect
+
   if (isError) {
     return (
       <div>
@@ -46,7 +46,7 @@ const SignalDetails = ({
         <RemoveSignalButton
           id={signalId}
           removeSignal={removeSignal}
-          redirect={closeModal || redirect}
+          redirect={close}
         />
       </div>
     )
@@ -54,21 +54,41 @@ const SignalDetails = ({
   if (!isLoading && !trigger) {
     return <Redirect exact to={'/sonar/feed/my-signals'} />
   }
-  const { isActive, isPublic, title, description } = trigger
+
+  const {
+    isActive,
+    isPublic,
+    title,
+    description,
+    settings: { type }
+  } = trigger
+
   return (
-    <WrapperEl header='Signals details'>
+    <div className={styles.container}>
       <div className={styles.wrapper}>
-        <SignalCardWrapper title={title} description={description} id={id}>
-          <div className={styles.status}>
+        <SignalCardWrapper
+          title={title}
+          description={description}
+          type={type}
+          id={id}
+          isModal={false}
+        >
+          <div className={styles.row}>
+            {author && (
+              <div className={styles.authorName}>
+                by &nbsp;<span className={styles.teamLink}>{author}</span>
+              </div>
+            )}
             <StatusLabel isPublic={isPublic} />
           </div>
+
           <div className={styles.bottom}>
             <div className={styles.leftActions}>
               <SettingsSignalButton id={signalId} />
               <RemoveSignalButton
                 id={signalId}
                 removeSignal={removeSignal}
-                redirect={closeModal || redirect}
+                redirect={close}
               />
             </div>
             <ToggleSignal
@@ -79,41 +99,9 @@ const SignalDetails = ({
           </div>
         </SignalCardWrapper>
       </div>
-    </WrapperEl>
+    </div>
   )
 }
-
-const ToggleSignal = ({ isActive, toggleSignal, id }) => (
-  <div className={styles.toggleSignal}>
-    {!isActive && <span>Signal disabled</span>}
-    <Toggle
-      onClick={() => toggleSignal({ id, isActive })}
-      isActive={isActive}
-    />
-  </div>
-)
-
-const RemoveSignalButton = ({ id, removeSignal, redirect }) => (
-  <Button
-    variant='ghost'
-    onClick={() => {
-      removeSignal(id)
-      redirect()
-    }}
-  >
-    <Icon type='remove' />
-  </Button>
-)
-
-const SettingsSignalButton = ({ id }) => (
-  <Button variant='ghost'>
-    <Link to={`/sonar/feed/details/${id}/edit`}>
-      <Icon type='settings' />
-    </Link>
-  </Button>
-)
-
-const isModal = (match = {}) => !match.params
 
 const mapDispatchToProps = dispatch => ({
   toggleSignal: ({ id, isActive }) => {
@@ -139,7 +127,7 @@ const enhance = compose(
       },
       fetchPolicy: 'network-only'
     }),
-    props: mapTriggerToProps
+    props: mapGQLTriggerToProps
   })
 )
 

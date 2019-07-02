@@ -4,16 +4,24 @@ import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
+import { getIntervalByTimeRange } from '../../utils/dates'
+import styles from './ChartPage.module.scss'
+
+const MAX_METRICS_PER_CHART = 5
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./ChartSettings'),
   loading: () => <div />
 })
 
-const LoadableChartMetrics = Loadable({
-  loader: () => import('./ChartMetrics'),
+const LoadableChartMetricsTool = Loadable({
+  loader: () => import('./ChartMetricsTool'),
   loading: () => <div />
 })
+
+const DEFAULT_TIME_RANGE = '6m'
+
+const { from, to } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 
 class ChartPage extends Component {
   mapQSToState = ({ location: { search } }) => {
@@ -25,9 +33,11 @@ class ChartPage extends Component {
   }
 
   state = {
-    timeRange: '6m',
+    timeRange: DEFAULT_TIME_RANGE,
+    from: from.toISOString(),
+    to: to.toISOString(),
     slug: 'santiment',
-    metrics: ['price'],
+    metrics: ['historyPrice'],
     title: 'Santiment (SAN)',
     interval: '1d',
     ...this.mapQSToState(this.props)
@@ -47,8 +57,9 @@ class ChartPage extends Component {
   }
 
   onTimerangeChange = timeRange => {
+    const { from, to } = getIntervalByTimeRange(timeRange)
     this.setState(
-      { timeRange, from: undefined, to: undefined },
+      { timeRange, from: from.toISOString(), to: to.toISOString() },
       this.updateSearchQuery
     )
   }
@@ -56,7 +67,6 @@ class ChartPage extends Component {
   onCalendarChange = ([from, to]) => {
     this.setState(
       {
-        timeRange: undefined,
         from: from.toISOString(),
         to: to.toISOString()
       },
@@ -73,6 +83,24 @@ class ChartPage extends Component {
 
   onMetricsChange = metrics => {
     this.setState({ metrics }, this.updateSearchQuery)
+  }
+
+  toggleMetric = metric => {
+    this.setState(state => {
+      const newMetrics = new Set(state.metrics)
+      if (newMetrics.has(metric)) {
+        newMetrics.delete(metric)
+      } else {
+        if (newMetrics.size >= MAX_METRICS_PER_CHART) {
+          return state
+        }
+        newMetrics.add(metric)
+      }
+      return {
+        ...state,
+        metrics: [...newMetrics]
+      }
+    }, this.updateSearchQuery)
   }
 
   onNightModeSelect = () => {
@@ -97,7 +125,6 @@ class ChartPage extends Component {
     const {
       slug,
       title,
-      timeRange,
       metrics,
       interval,
       nightMode,
@@ -122,8 +149,6 @@ class ChartPage extends Component {
     } else if (from && to) {
       settings.from = from
       settings.to = to
-    } else {
-      settings.timeRange = timeRange
     }
 
     return `${origin}${pathname}?${qs.stringify(settings, {
@@ -150,7 +175,6 @@ class ChartPage extends Component {
         ...acc,
         [metric]: {
           slug,
-          timeRange: from ? undefined : timeRange,
           from,
           to,
           interval
@@ -204,6 +228,8 @@ class ChartPage extends Component {
                   onNightModeSelect={this.onNightModeSelect}
                   hasNightMode={nightMode}
                   disabledMetrics={errors}
+                  from={from}
+                  to={to}
                 />
               )}
               <Charts
@@ -219,10 +245,12 @@ class ChartPage extends Component {
                 metrics={finalMetrics}
               />
               {!viewOnly && (
-                <LoadableChartMetrics
-                  onMetricsChange={this.onMetricsChange}
-                  defaultActiveMetrics={finalMetrics}
+                <LoadableChartMetricsTool
+                  classes={styles}
+                  slug={slug}
+                  toggleMetric={this.toggleMetric}
                   disabledMetrics={errors}
+                  activeMetrics={finalMetrics}
                 />
               )}
             </Fragment>

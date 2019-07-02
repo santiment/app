@@ -1,3 +1,5 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   position: sticky;
   top: 0;
@@ -17,14 +19,35 @@
 
 .left {
   padding: 16px;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 85%;
+  }
 }
 
-.title {
-  font-family: Rubik, sans-serif !important;
-  font-size: 18px !important;
-  line-height: 26px !important;
+.icon {
+  fill: var(--mirage);
+}
+
+:global(.App .page) .title {
+  @include text('h4', 'm');
+
   color: var(--mirage);
-  margin: 0 !important;
+  width: 100%;
+
+  @include responsive('desktop', 'laptop', 'tablet') {
+    margin: 0 !important;
+  }
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+  }
 }
 
 .searchBtn {

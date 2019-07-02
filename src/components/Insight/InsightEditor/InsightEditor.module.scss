@@ -1,14 +1,24 @@
-@import 'variables.scss';
-@import '../../../mixins.scss';
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
   padding: 0 16px;
   margin-bottom: 24px;
+
+  @include responsive('laptop', 'desktop') {
+    position: relative;
+    padding: 0 0 80px;
+    margin-bottom: 0;
+  }
+}
+
+.insightWrapper {
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 .title {
   font-weight: 800;
-  line-height: 50px;
+  line-height: 44px;
   font-size: 38px;
   color: var(--mirage);
   background: var(--white) !important;
@@ -60,6 +70,10 @@
     display: flex;
     align-items: center;
   }
+
+  @include responsive('laptop', 'desktop') {
+    bottom: 0;
+  }
 }
 
 .save {
@@ -96,17 +110,4 @@
 .tags {
   min-width: 200px;
   margin-right: 13px;
-}
-
-@media (min-width: $breakpoint-desktop) {
-  .wrapper {
-    position: relative;
-    padding: 0;
-    padding-bottom: 80px;
-    margin-bottom: 0;
-  }
-
-  .bottom {
-    bottom: 0;
-  }
 }

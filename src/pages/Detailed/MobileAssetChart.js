@@ -11,6 +11,7 @@ import {
 } from 'recharts'
 import { formatNumber } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
+import { generateMetricsMarkup, Metrics } from '../../ducks/SANCharts/utils.js'
 import styles from './MobileAssetChart.module.scss'
 
 const labelFormatter = date => {
@@ -23,7 +24,7 @@ const tickFormatter = date => {
   return `${DD} ${MMM} ${YY}`
 }
 
-const MobileAssetChart = ({ data, slug: asset, icoPrice }) => {
+const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
   return (
     <div>
       <ResponsiveContainer width='100%' height={300}>
@@ -61,8 +62,19 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice }) => {
             dot={false}
             strokeWidth={1.5}
             dataKey='priceUsd'
-            stroke={'var(--jungle-green)'}
+            stroke='var(--jungle-green)'
           />
+          {extraMetric && generateMetricsMarkup([extraMetric.name])}
+          {extraMetric &&
+            extraMetric.anomalies.map(({ datetime }) => (
+              <ReferenceLine
+                key={datetime}
+                yAxisId={`axis-${Metrics[extraMetric.name].dataKey ||
+                  extraMetric.name}`}
+                x={datetime}
+                stroke='red'
+              />
+            ))}
           {icoPrice && (
             <ReferenceLine
               yAxisId='axis-price'

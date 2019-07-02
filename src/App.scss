@@ -1,26 +1,25 @@
-@import '~@santiment-network/ui/variables.scss';
-@import '~@santiment-network/ui/mixins.scss';
-@import '~nprogress/nprogress';
+@import "~@santiment-network/ui/variables.scss";
+@import "~@santiment-network/ui/mixins.scss";
+@import "~nprogress/nprogress";
 
 .App {
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   & .page {
     flex: 1;
     padding: 0;
     max-width: 1170px;
-    height: calc(100vh - 50px);
 
-    @include responsive('tablet') {
-      height: 100%;
+    @include responsive("phone", "phone-xs") {
+      padding: 0 0 50px;
     }
 
-    @include responsive('tablet', 'laptop', 'desktop') {
+    @include responsive("tablet", "laptop", "desktop") {
       padding: 0 15px;
       margin: 0 auto;
       width: 100%;
-      min-height: calc(100vh - 200px);
     }
 
     & h1 {
@@ -41,7 +40,7 @@
   padding-left: 15px;
   width: 100%;
 
-  @include responsive('desktop') {
+  @include responsive("desktop") {
     max-width: 1170px;
   }
 }
@@ -50,7 +49,7 @@
   color: #794b02;
   background: #fffaf3;
   text-align: center;
-  font: 15px/1.6 'Nunito Sans', sans-serif;
+  font: 15px/1.6 "Nunito Sans", sans-serif;
   font-weight: bold;
 }
 

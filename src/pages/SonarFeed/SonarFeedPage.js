@@ -1,13 +1,17 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
+import { matchPath } from 'react-router'
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
-import { Tabs, Icon } from '@santiment-network/ui'
+import Icon from '@santiment-network/ui/Icon'
+import Tabs from '@santiment-network/ui/Tabs'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
-import SignalMasterModalForm from '../../ducks/Signals/SignalMasterModalForm'
+import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import InsightUnAuthPage from './../../pages/Insights/InsightUnAuthPage'
 import styles from './SonarFeedPage.module.scss'
+import MobileHeader from '../../components/MobileHeader/MobileHeader'
 
 const baseLocation = '/sonar/feed'
+const detailsModalLocation = `${baseLocation}/details/:id/edit`
 
 const tabs = [
   {
@@ -36,26 +40,55 @@ const tabs = [
   }
 ]
 
-const SonarFeed = ({ location: { pathname }, isLoggedIn }) => {
+const LoadableSignalDetailsPage = Loadable({
+  loader: () => import('./SignalDetails'),
+  loading: () => <PageLoader />
+})
+
+const LoadableEditSignalPage = Loadable({
+  loader: () => import('./SonarFeedMySignalsPage'),
+  loading: () => <PageLoader />
+})
+
+const SonarFeed = ({ location: { pathname }, isLoggedIn, isDesktop }) => {
   if (pathname === baseLocation) {
     return <Redirect exact from={baseLocation} to={tabs[0].index} />
   }
 
+  const [triggerId, setTriggerId] = useState(undefined)
+
+  const setLoadingSignalId = id => {
+    setTriggerId(id)
+  }
+
+  useEffect(() => {
+    if (triggerId && !matchPath(pathname, detailsModalLocation)) {
+      triggerId && setTriggerId(undefined)
+    }
+  })
+
   return (
     <div style={{ width: '100%' }} className='page'>
-      <div className={styles.header}>
-        <h1>Sonar</h1>
-        <div>
-          {// TODO: Disable search and filter buttons
-            false && pathname !== '/sonar/feed/activity' && (
-              <Fragment>
-                <Icon type='search' className={styles.search} />
-                <Icon type='filter' className={styles.filter} />
-              </Fragment>
-            )}
-          <SignalMasterModalForm />
+      {isDesktop ? (
+        <div className={styles.header}>
+          <h1>Sonar</h1>
+          <div>
+            {// TODO: Disable search and filter buttons
+              false && pathname !== '/sonar/feed/activity' && (
+                <Fragment>
+                  <Icon type='search' className={styles.search} />
+                  <Icon type='filter' className={styles.filter} />
+                </Fragment>
+              )}
+            <SignalMasterModalForm triggerId={triggerId} />
+          </div>
         </div>
-      </div>
+      ) : (
+        <MobileHeader
+          title='Sonar'
+          rightActions={<SignalMasterModalForm triggerId={triggerId} />}
+        />
+      )}
       <Tabs
         options={tabs}
         defaultSelectedIndex={pathname}
@@ -65,28 +98,31 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn }) => {
           <Link {...props} to={selectionIndex} />
         )}
       />
-      <Switch>
-        {!isLoggedIn ? <InsightUnAuthPage /> : ''}
-        {tabs.map(({ index, component }) => (
-          <Route key={index} path={index} component={component} />
-        ))}
-        <Route
-          path={`${baseLocation}/details/:id`}
-          exact
-          component={Loadable({
-            loader: () => import('./SignalDetails'),
-            loading: () => <PageLoader />
-          })}
-        />
-        <Route
-          path={`${baseLocation}/details/:id/edit`}
-          component={Loadable({
-            loader: () => import('./../../ducks/Signals/SignalMaster'),
-            render: (loaded, props) => <loaded.default isEdit {...props} />,
-            loading: () => <PageLoader />
-          })}
-        />
-      </Switch>
+      <div className={styles.content}>
+        <Switch>
+          {!isLoggedIn ? <InsightUnAuthPage /> : ''}
+          {tabs.map(({ index, component }) => (
+            <Route key={index} path={index} component={component} />
+          ))}
+          <Route
+            path={`${baseLocation}/details/:id`}
+            exact
+            render={props => <LoadableSignalDetailsPage {...props} />}
+          />
+          ,
+          <Route
+            path={detailsModalLocation}
+            exact
+            render={props => (
+              <LoadableEditSignalPage
+                setLoadingSignalId={setLoadingSignalId}
+                {...props}
+              />
+            )}
+          />
+          }
+        </Switch>
+      </div>
     </div>
   )
 }

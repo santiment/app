@@ -1,10 +1,15 @@
 import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
+import GoogleAnalytics from 'react-ga'
 import { showNotification } from './../actions/rootActions'
-import { WatchlistGQL } from './../components/WatchlistPopup/WatchlistGQL'
+import { ALL_WATCHLISTS_QUERY } from '../queries/WatchlistGQL'
+import {
+  completeOnboardingTask,
+  getOnboardingCompletedTasks
+} from '../pages/Dashboard/utils'
+import { GA_FIRST_WATCHLIST } from '../enums/GaEvents'
 import * as actions from './../actions/types'
-import { completeOnboardingTask } from '../pages/Dashboard/utils'
 
 const createUserListGQL = gql`
   mutation createUserList(
@@ -67,14 +72,18 @@ const createWatchlistEpic = (action$, store, { client }) =>
           }
         },
         update: (store, { data: { createUserList } }) => {
-          const data = store.readQuery({ query: WatchlistGQL })
+          const data = store.readQuery({ query: ALL_WATCHLISTS_QUERY })
           data.fetchUserLists.push(createUserList)
-          store.writeQuery({ query: WatchlistGQL, data })
+          store.writeQuery({ query: ALL_WATCHLISTS_QUERY, data })
         }
       })
       return Observable.from(mutationPromise)
-        .mergeMap(({ data }) => {
-          completeOnboardingTask('watchlist')
+        .mergeMap(() => {
+          const completedTasks = getOnboardingCompletedTasks()
+          if (!completedTasks.includes('watchlist')) {
+            completeOnboardingTask('watchlist')
+            GoogleAnalytics.event(GA_FIRST_WATCHLIST)
+          }
           return Observable.merge(
             Observable.of({
               type: actions.USER_ADD_NEW_ASSET_LIST_SUCCESS
@@ -102,7 +111,7 @@ const createWatchlistEpic = (action$, store, { client }) =>
         })
     })
 
-export const createWatchlistSuccessEpic = (action$, store, { client }) =>
+export const createWatchlistSuccessEpic = action$ =>
   action$
     .ofType(actions.USER_ADD_NEW_ASSET_LIST_SUCCESS)
     .delay(2000)

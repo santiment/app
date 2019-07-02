@@ -2,7 +2,7 @@ import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
-import { WatchlistGQL } from './../components/WatchlistPopup/WatchlistGQL'
+import { ALL_WATCHLISTS_QUERY } from '../queries/WatchlistGQL'
 import * as actions from './../actions/types'
 
 const removeUserListGQL = gql`
@@ -38,19 +38,19 @@ const removeWatchlistEpic = (action$, store, { client }) =>
           }
         },
         update: proxy => {
-          let data = proxy.readQuery({ query: WatchlistGQL })
+          let data = proxy.readQuery({ query: ALL_WATCHLISTS_QUERY })
           const _userLists = data.fetchUserLists ? [...data.fetchUserLists] : []
           data.fetchUserLists = _userLists.filter(obj => +obj.id !== id)
-          proxy.writeQuery({ query: WatchlistGQL, data })
+          proxy.writeQuery({ query: ALL_WATCHLISTS_QUERY, data })
         }
       })
       return Observable.from(mutationPromise)
-        .mergeMap(({ data }) => {
+        .mergeMap(() => {
           return Observable.merge(
             Observable.of({
               type: actions.USER_REMOVE_ASSET_LIST_SUCCESS
             }),
-            Observable.of(showNotification('Removed assets list'))
+            Observable.of(showNotification('Removed watchlist'))
           )
         })
         .catch(error => {

@@ -3,12 +3,12 @@ import cx from 'classnames'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import SignalCard from './SignalCard'
-import { toggleTrigger } from './../../ducks/Signals/actions'
+import { toggleTrigger } from '../../ducks/Signals/common/actions'
 import styles from './SignalCardsGrid.module.scss'
 
 export const defaultSignals = [
   {
-    id: 0,
+    index: 0,
     title: 'Daily trending words',
     description:
       'Subscribe to this signal to get daily list of trending words connected with crypto',
@@ -18,7 +18,7 @@ export const defaultSignals = [
     isPublished: true
   },
   {
-    id: 1,
+    index: 1,
     title: 'Ethereum price tracking',
     description:
       'Subscribe to this signal to track the activity of selected address based on the Ethereum',
@@ -32,16 +32,15 @@ export const defaultSignals = [
 const SignalCardsGrid = ({
   signals = defaultSignals,
   className = '',
-  toggleSignal,
-  gotoSignalByID
+  toggleSignal
 }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
       {signals
-        .sort((a, b) => a.id - b.id)
-        .map(({ id, ...signal }) => (
+        .sort((a, b) => b.id - a.id)
+        .map(({ id, index, ...signal }) => (
           <SignalCard
-            key={id}
+            key={id || index}
             id={id}
             toggleSignal={() =>
               toggleSignal({
@@ -49,7 +48,6 @@ const SignalCardsGrid = ({
                 isActive: signal.isActive
               })
             }
-            gotoSignalByID={() => gotoSignalByID(id)}
             className={styles.card}
             {...signal}
           />
@@ -60,10 +58,10 @@ const SignalCardsGrid = ({
 
 const mapDispatchToProps = dispatch => ({
   toggleSignal: ({ id, isActive }) => {
-    dispatch(toggleTrigger({ id, isActive }))
+    id && dispatch(toggleTrigger({ id, isActive }))
   },
   gotoSignalByID: id => {
-    dispatch(push(`/sonar/feed/details/${id}`))
+    id && dispatch(push(`/sonar/feed/details/${id}`))
   }
 })
 

@@ -1,18 +1,20 @@
 import React from 'react'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
+import HelpPopup from '../../components/Trends/HelpPopup/HelpPopup'
 import FeaturedWatchlists from '../../components/Watchlists/FeaturedWatchlist'
 import DashboardPageSubscription from './DashboardPageSubscription'
 import DashboardPageOnboard from './DashboardPageOnboard'
+import FeaturedInsightsGrid from '../../components/FeaturedInsights/FeaturedInsightsGrid'
 import InsightsScrollable from '../../components/Insight/InsightsScrollable'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import AnonBannerStaticExperiment from '../../components/Banner/AnonBanner/AnonBannerStaticExperiment'
 import styles from './DashboardPage.module.scss'
 
-const DashboardPage = ({ isLoggedIn }) => (
+const DashboardPage = ({ isLoggedIn, hasMetamask }) => (
   <div className={styles.wrapper + ' page'}>
     {isLoggedIn ? (
-      <DashboardPageOnboard />
+      <DashboardPageOnboard hasMetamask={hasMetamask} />
     ) : (
       <AnonBannerStaticExperiment className={styles.anonBanner} />
     )}
@@ -28,8 +30,9 @@ const DashboardPage = ({ isLoggedIn }) => (
         />
       </div>
       <div className={styles.column__trends}>
-        <div className={styles.subtitle}>
+        <div className={styles.subtitleWrapper}>
           <h2 className={styles.subtitle__text}>Trending words</h2>
+          <HelpPopup />
         </div>
         <GetHypedTrends
           render={({ isLoading, items = [] }) => (
@@ -46,6 +49,11 @@ const DashboardPage = ({ isLoggedIn }) => (
       </div>
     </div>
     <div className={styles.section}>
+      <h2 className={styles.subtitle}>Featured insights</h2>
+      <FeaturedInsightsGrid />
+    </div>
+    <div className={styles.section}>
+      <h2 className={styles.subtitle}>Featured watchlists</h2>
       <FeaturedWatchlists />
     </div>
     {!isLoggedIn && <DashboardPageSubscription />}

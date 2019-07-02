@@ -11,6 +11,7 @@ import handleEthLogin, {
   connectNewWallet,
   removeConnectedWallet
 } from './handleEthLogin'
+import logoutEpic from './../pages/Logout/LogoutEpic'
 import handleGDPR from './handleGDPR'
 import handleRouter from './handleRouter'
 import apikeyGenerateEpic from './apikeyGenerateEpic'
@@ -28,8 +29,6 @@ import {
 import {
   fetchAssetsEpic,
   fetchAssetsFromListEpic,
-  fetchAssetsFromListWithFuncEpic,
-  fetchAssetsFromSharedListEpic,
   fetchAssetsFromListWithEditEpic,
   fetchRestAllAssetsEpic
 } from './fetchAssetsEpic'
@@ -67,11 +66,13 @@ import {
   connectedWordsEpic,
   connectedWordsOptimizationEpic
 } from '../pages/Trends/connectedWordsEpic.js'
+import { fetchRecentAssets, fetchRecentWatchlists } from './fetchRecentsEpic'
 
 export default combineEpics(
   handleOffline,
   handleLauched,
   handleLogout,
+  logoutEpic,
   handleEmailLogin,
   handleLoginSuccess,
   digestSubscriptionEpic,
@@ -91,8 +92,6 @@ export default combineEpics(
   fetchAssetsEpic,
   fetchRestAllAssetsEpic,
   fetchAssetsFromListEpic,
-  fetchAssetsFromSharedListEpic,
-  fetchAssetsFromListWithFuncEpic,
   fetchAssetsFromListWithEditEpic,
   // timeseries
   fetchTimeseriesEpic,
@@ -129,5 +128,8 @@ export default combineEpics(
   wordTrendSocialVolumeEpic,
   // connected trends
   connectedWordsOptimizationEpic,
-  connectedWordsEpic
+  connectedWordsEpic,
+  // Recents
+  fetchRecentAssets,
+  fetchRecentWatchlists
 )

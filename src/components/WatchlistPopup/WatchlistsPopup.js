@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { Button, Dialog } from '@santiment-network/ui'
-import { WatchlistGQL } from './WatchlistGQL'
+import { ALL_WATCHLISTS_QUERY } from '../../queries/WatchlistGQL'
 import {
   USER_ADD_ASSET_TO_LIST,
   USER_REMOVE_ASSET_FROM_LIST
@@ -142,7 +142,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default compose(
-  graphql(WatchlistGQL, {
+  graphql(ALL_WATCHLISTS_QUERY, {
     name: 'Watchlists',
     skip: ({ isLoggedIn }) => !isLoggedIn,
     options: () => ({ context: { isRetriable: true } }),
