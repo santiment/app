@@ -22,9 +22,6 @@ const AssetsOverview = ({
   isPublicWatchlistsLoading,
   history
 }) => {
-  const onProjectClick = ({ coinmarketcapId }) => {
-    history.push(`/projects/${coinmarketcapId}`)
-  }
   return (
     <div className={cx(styles.overviewPage, 'page')}>
       <DesktopOnly>
@@ -59,7 +56,9 @@ const AssetsOverview = ({
               <GainersLosersTabs
                 timeWindow='2d'
                 size={8}
-                onProjectClick={onProjectClick}
+                onProjectClick={({ coinmarketcapId }) => {
+                  history.push(`/projects/${coinmarketcapId}`)
+                }}
               />
             </section>
           </>
