@@ -11,7 +11,8 @@ import styles from './SonarFeedPage.module.scss'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 
 const baseLocation = '/sonar/feed'
-const detailsModalLocation = `${baseLocation}/details/:id/edit`
+const editTriggerSettingsModalLocation = `${baseLocation}/details/:id/edit`
+const aboutTriggerModalLocation = `${baseLocation}/details/:id/about`
 
 const tabs = [
   {
@@ -56,14 +57,25 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn, isDesktop }) => {
   }
 
   const [triggerId, setTriggerId] = useState(undefined)
+  const [step, setTriggerStep] = useState(undefined)
 
-  const setLoadingSignalId = id => {
+  const setLoadingSignalId = (id, step) => {
     setTriggerId(id)
+    setTriggerStep(step)
   }
 
   useEffect(() => {
-    if (triggerId && !matchPath(pathname, detailsModalLocation)) {
-      triggerId && setTriggerId(undefined)
+    const isAboutPath = matchPath(pathname, aboutTriggerModalLocation)
+    if (
+      triggerId &&
+      !matchPath(pathname, editTriggerSettingsModalLocation) &&
+      !isAboutPath
+    ) {
+      setTriggerId(undefined)
+    }
+
+    if (triggerId && !isAboutPath) {
+      setTriggerStep(undefined)
     }
   })
 
@@ -80,7 +92,7 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn, isDesktop }) => {
                   <Icon type='filter' className={styles.filter} />
                 </Fragment>
               )}
-            <SignalMasterModalForm triggerId={triggerId} />
+            <SignalMasterModalForm triggerId={triggerId} step={step} />
           </div>
         </div>
       ) : (
@@ -111,11 +123,24 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn, isDesktop }) => {
           />
           ,
           <Route
-            path={detailsModalLocation}
+            path={editTriggerSettingsModalLocation}
             exact
             render={props => (
               <LoadableEditSignalPage
                 setLoadingSignalId={setLoadingSignalId}
+                step={0}
+                {...props}
+              />
+            )}
+          />
+          ,
+          <Route
+            path={aboutTriggerModalLocation}
+            exact
+            render={props => (
+              <LoadableEditSignalPage
+                setLoadingSignalId={setLoadingSignalId}
+                step={1}
                 {...props}
               />
             )}
