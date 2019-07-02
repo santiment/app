@@ -1,5 +1,11 @@
 @import "~@santiment-network/ui/mixins.scss";
 
+.description {
+  fill: var(--casper);
+  position: relative;
+  margin: 0 6px;
+}
+
 .trigger {
   display: flex;
   align-items: center;
@@ -14,12 +20,6 @@
       fill: var(--jungle-green);
     }
   }
-}
-
-.description {
-  fill: var(--casper);
-  position: relative;
-  margin: 0 6px;
 }
 
 .tooltip {
