@@ -4,6 +4,7 @@ import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
+import ChartMetricSelector from './ChartMetricSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
 
 const LoadableChartSettings = Loadable({
@@ -231,6 +232,8 @@ class ChartPage extends Component {
                   disabledMetrics={errors}
                 />
               )}
+
+              <ChartMetricSelector slug={slug} />
             </Fragment>
           )
         }}

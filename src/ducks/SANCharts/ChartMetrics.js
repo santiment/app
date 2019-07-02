@@ -6,7 +6,6 @@ import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
 import { Metrics } from './utils'
 import styles from './ChartPage.module.scss'
 import isEqual from 'lodash.isequal'
-import ChartMetricSelector from './ChartMetricSelector'
 
 class ChartMetrics extends Component {
   state = {
@@ -81,7 +80,6 @@ class ChartMetrics extends Component {
             </button>
           )
         })}
-        <ChartMetricSelector />
       </div>
     )
   }
