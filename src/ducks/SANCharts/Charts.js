@@ -2,7 +2,6 @@ import React from 'react'
 import {
   ResponsiveContainer,
   ComposedChart,
-  CartesianGrid,
   XAxis,
   YAxis,
   Tooltip,

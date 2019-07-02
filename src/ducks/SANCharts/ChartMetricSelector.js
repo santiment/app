@@ -29,14 +29,6 @@ const getCategoryGraph = availableMetrics => {
   return categories
 }
 
-const initState = categories => {
-  const keys = Object.keys(categories)
-  if (!keys.length) {
-    return
-  }
-  return keys[0]
-}
-
 const DEFAULT_CATEGORIES = {
   Financial: [
     {

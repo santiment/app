@@ -12,11 +12,6 @@ const LoadableChartSettings = Loadable({
   loading: () => <div />
 })
 
-const LoadableChartMetrics = Loadable({
-  loader: () => import('./ChartMetrics'),
-  loading: () => <div />
-})
-
 const LoadableChartMetricsTool = Loadable({
   loader: () => import('./ChartMetricsTool'),
   loading: () => <div />
