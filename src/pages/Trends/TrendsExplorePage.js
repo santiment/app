@@ -17,6 +17,7 @@ import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import TrendsExploreAdditionalInfo from '../../components/Trends/Explore/TrendsExploreAdditionalInfo'
 import { checkHasPremium } from './../UserSelectors'
 import { mapQSToState, mapStateToQS, capitalizeStr } from './../../utils/utils'
+import { addRecentTrends } from '../../utils/recent'
 import styles from './TrendsExplorePage.module.scss'
 
 const getCustomInterval = timeframe => {
@@ -82,6 +83,8 @@ export class TrendsExplorePage extends Component {
 
   render () {
     const { word, hasPremium, detectedAsset } = this.props
+    addRecentTrends(word)
+
     const { timeRange, asset = '' } = this.state
     const [priceOptions, priceLabels] = getPriceOptions(detectedAsset)
     const topic = window.decodeURIComponent(word)
