@@ -4,10 +4,12 @@ import SecondQuestion from './Questions/SecondQuestion'
 import ThirdQuestion from './Questions/ThirdQuestion'
 import styles from './HelpPopup.module.scss'
 
+const QUESTIONS = [1, 2, 3]
+
 const HelpPopupContent = () => {
-  const [openedQuestion, changeOpenedQuestion] = useState(0)
+  const [openedQuestion, changeOpenedQuestion] = useState(null)
   const toggleQuestions = questionNumber => {
-    if (questionNumber === openedQuestion) changeOpenedQuestion(0)
+    if (questionNumber === openedQuestion) changeOpenedQuestion(null)
     else changeOpenedQuestion(questionNumber)
   }
   return (
@@ -32,16 +34,16 @@ const HelpPopupContent = () => {
       </ol>
       <p>Find out more about how it works and how to use it below:</p>
       <FirstQuestion
-        isOpen={openedQuestion === 1}
-        onClick={() => toggleQuestions(1)}
+        isOpen={openedQuestion === QUESTIONS[0]}
+        onClick={() => toggleQuestions(QUESTIONS[0])}
       />
       <SecondQuestion
-        isOpen={openedQuestion === 2}
-        onClick={() => toggleQuestions(2)}
+        isOpen={openedQuestion === QUESTIONS[1]}
+        onClick={() => toggleQuestions(QUESTIONS[1])}
       />
       <ThirdQuestion
-        isOpen={openedQuestion === 3}
-        onClick={() => toggleQuestions(3)}
+        isOpen={openedQuestion === QUESTIONS[2]}
+        onClick={() => toggleQuestions(QUESTIONS[2])}
       />
     </div>
   )
