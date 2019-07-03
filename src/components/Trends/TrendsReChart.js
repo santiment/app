@@ -180,7 +180,7 @@ const TrendsReChart = ({
                 styles.toggle,
                 !disabledToggles.includes(index) && styles.toggle_active
               )}
-              border
+              border={!disabledToggles.includes(index)}
             >
               <Label className={styles.label} accent={color} variant='circle' />{' '}
               {name}

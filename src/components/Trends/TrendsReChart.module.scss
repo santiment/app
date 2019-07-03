@@ -1,14 +1,14 @@
 .toggles {
-  margin-top: 1rem;
+  margin-top: 8px;
   text-align: right;
 }
 
 .toggle {
-  margin-left: 1rem;
+  margin: 0 0 8px 8px;
   color: var(--waterloo);
 
   &_active {
-    color: var(--mirage);
+    color: var(--jungle-green);
   }
 }
 
