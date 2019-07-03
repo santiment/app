@@ -20,7 +20,7 @@ const CUSTOM_METRICS = {
   },
   volume: {
     ...Metrics.volume,
-    color: 'waterloo'
+    color: 'casper'
   }
 }
 

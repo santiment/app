@@ -17,6 +17,14 @@
   height: 100%;
 }
 
+.wrapper {
+  :global {
+    .recharts-cartesian-axis-line {
+      stroke: var(--casper);
+    }
+  }
+}
+
 .chartBlock {
   margin-top: 10px;
   width: 100%;
