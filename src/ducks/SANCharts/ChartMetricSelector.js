@@ -51,10 +51,6 @@ const ChartMetricSelector = ({
     DEFAULT_CATEGORIES.Financial[0]
   )
 
-  if (loading) {
-    return 'Loading...'
-  }
-
   return (
     <>
       <h4 className={styles.constraint}>Select up to 5 metrics</h4>
