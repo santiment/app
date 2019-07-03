@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Tabs from '@santiment-network/ui/Tabs'
@@ -24,11 +24,25 @@ export const TABS = [
   }
 ]
 
+const focusInput = () => {
+  setTimeout(() => {
+    const input = document.querySelector('input')
+    if (input) input.focus()
+  }, 50)
+}
+
 const SearchMobilePage = ({ history }) => {
   const [selectedTab, selectTab] = useState(TABS[0].index)
   const onSelectTab = selected => selectTab(selected)
   const [assets, setAssets] = useState(getRecentAssets())
   const [trends, setTrends] = useState(getRecentTrends())
+
+  useEffect(
+    () => {
+      focusInput()
+    },
+    [selectedTab]
+  )
 
   return (
     <>
