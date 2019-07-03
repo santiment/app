@@ -1,5 +1,9 @@
 @import '~@santiment-network/ui/mixins';
 
+:global(#intercom-container) {
+  display: none !important;
+}
+
 .wrapper {
   position: fixed;
   top: 0;
@@ -61,11 +65,16 @@
 }
 
 .content {
-  position: relative;
   height: 100%;
   width: 100%;
   overflow-y: auto;
   padding: 20px 16px;
+
+  &__container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
 
   &_assets {
     display: flex;
@@ -81,6 +90,7 @@
 
 .visible {
   position: absolute;
+  width: 100%;
 }
 
 .subtitle {
