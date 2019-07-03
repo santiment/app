@@ -83,15 +83,17 @@ const AssetsMobilePage = props => {
 
 const ROW_HEIGHT = 71
 
-const AssetsList = ({ items }) => {
-  const rowRenderer = ({ key, index, style }) => {
-    const asset = items[index]
-    return (
-      <div key={key} style={style}>
-        <AssetCard {...asset} />
-      </div>
-    )
-  }
+export const AssetsList = ({ items, renderer, rowHeight = ROW_HEIGHT }) => {
+  const rowRenderer =
+    renderer ||
+    function ({ key, index, style }) {
+      const asset = items[index]
+      return (
+        <div key={key} style={style}>
+          <AssetCard {...asset} />
+        </div>
+      )
+    }
 
   return (
     <div className={styles.wrapperList}>
@@ -100,7 +102,7 @@ const AssetsList = ({ items }) => {
           <List
             width={width}
             height={height}
-            rowHeight={ROW_HEIGHT}
+            rowHeight={rowHeight}
             rowCount={items.length}
             overscanRowCount={5}
             rowRenderer={rowRenderer}

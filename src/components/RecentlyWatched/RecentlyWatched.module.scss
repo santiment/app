@@ -19,6 +19,11 @@
   display: flex;
   justify-content: space-between;
   color: var(--mirage);
+  cursor: pointer;
+
+  &:hover .name {
+    color: var(--jungle-green);
+  }
 }
 
 .price,
