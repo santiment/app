@@ -511,7 +511,7 @@ export const validateTriggerForm = values => {
     }
   }
 
-  if (values.type.metric === PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER) {
+  if (values.type.subMetric === PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER) {
     if (!values.absoluteBorderLeft) {
       errors.absoluteBorderLeft = REQUIRED_MESSAGE
     }

@@ -80,7 +80,7 @@ const VisualBacktestChart = ({ data, price, metrics, showXY = false }) => {
 }
 
 const formatTooltipValue = (isPrice, value) =>
-  isPrice ? formatNumber(value, { currency: 'USD' }) : value
+  isPrice ? formatNumber(value, { currency: 'USD' }) : value.toFixed(2)
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload[0]) {

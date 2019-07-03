@@ -63,8 +63,6 @@ exports[`TriggerForm smoke 1`] = `
   enableReinitialize={true}
   initialValues={
     Object {
-      "absoluteBorderLeft": 50,
-      "absoluteBorderRight": 75,
       "absoluteThreshold": 25,
       "channels": Array [
         "Telegram",
