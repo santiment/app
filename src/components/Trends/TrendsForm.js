@@ -14,6 +14,12 @@ export class TrendsForm extends Component {
     topic: this.props.defaultTopic || ''
   }
 
+  componentDidUpdate (prevProps) {
+    if (this.props.defaultTopic !== prevProps.defaultTopic) {
+      this.setState({ topic: this.props.defaultTopic })
+    }
+  }
+
   handleSubmit = evt => {
     evt.preventDefault()
     trackTopicSearch(this.state.topic)
