@@ -30,7 +30,7 @@ const DashboardPage = ({ isLoggedIn, hasMetamask, history }) => (
         />
       </div>
       <div className={styles.column__trends}>
-        <div className={styles.subtitleWrapper}>
+        <div className={styles.subtitle}>
           <h2 className={styles.subtitle__text}>Trending words</h2>
           <HelpPopup />
         </div>
@@ -45,6 +45,9 @@ const DashboardPage = ({ isLoggedIn, hasMetamask, history }) => (
         />
       </div>
       <div className={styles.column__GLTable}>
+        <div className={styles.subtitle}>
+          <h2 className={styles.subtitle__text}>By Social Data</h2>
+        </div>
         <GainersLosersTabs
           timeWindow='2d'
           size={8}
@@ -55,11 +58,15 @@ const DashboardPage = ({ isLoggedIn, hasMetamask, history }) => (
       </div>
     </div>
     <div className={styles.section}>
-      <h2 className={styles.subtitle}>Featured insights</h2>
+      <div className={styles.subtitle}>
+        <h2 className={styles.subtitle__text}>Featured insights</h2>
+      </div>
       <FeaturedInsightsGrid />
     </div>
     <div className={styles.section}>
-      <h2 className={styles.subtitle}>Featured watchlists</h2>
+      <div className={styles.subtitle}>
+        <h2 className={styles.subtitle__text}>Featured watchlists</h2>
+      </div>
       <FeaturedWatchlists />
     </div>
     {!isLoggedIn && <DashboardPageSubscription />}
