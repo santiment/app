@@ -10,8 +10,8 @@ exports[`TriggerForm EthWallet smoke 1`] = `
       ],
       "ethAddress": "some_custom_address",
       "frequencyTimeType": Object {
-        "label": "Hours",
-        "value": "h",
+        "label": "Days",
+        "value": "d",
       },
       "frequencyTimeValue": Object {
         "label": 1,
@@ -63,16 +63,14 @@ exports[`TriggerForm smoke 1`] = `
   enableReinitialize={true}
   initialValues={
     Object {
-      "absoluteBorderLeft": 50,
-      "absoluteBorderRight": 75,
-      "absoluteThreshold": 5,
+      "absoluteThreshold": 25,
       "channels": Array [
         "Telegram",
       ],
       "ethAddress": undefined,
       "frequencyTimeType": Object {
-        "label": "Hours",
-        "value": "h",
+        "label": "Days",
+        "value": "d",
       },
       "frequencyTimeValue": Object {
         "label": 1,
@@ -90,7 +88,7 @@ exports[`TriggerForm smoke 1`] = `
         "label": "Price",
         "value": "price",
       },
-      "percentThreshold": 5,
+      "percentThreshold": 25,
       "signalType": Object {
         "label": "Assets",
         "value": "assets",
@@ -100,10 +98,10 @@ exports[`TriggerForm smoke 1`] = `
         "value": "santiment",
       },
       "threshold": 0.002,
-      "timeWindow": 24,
+      "timeWindow": 1,
       "timeWindowUnit": Object {
-        "label": "Hours",
-        "value": "h",
+        "label": "Days",
+        "value": "d",
       },
       "type": Object {
         "label": "Moving up %",

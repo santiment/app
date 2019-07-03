@@ -12,6 +12,19 @@
   margin-left: 10px;
 }
 
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.wrapper {
+  :global {
+    .recharts-cartesian-axis-line {
+      stroke: var(--casper);
+    }
+  }
+}
+
 .chartBlock {
   margin-top: 10px;
   width: 100%;
@@ -36,4 +49,16 @@
 
 .metrics {
   padding: 0;
+}
+
+.metricButton {
+  padding: 0;
+  height: 20px;
+  border: none;
+  background: no-repeat;
+  margin-right: 25px;
+}
+
+.metricLabel {
+  margin-bottom: 0;
 }

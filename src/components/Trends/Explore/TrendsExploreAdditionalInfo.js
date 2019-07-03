@@ -82,7 +82,7 @@ const enhance = compose(
   ...getPast3DaysInsightsByTrendTag(),
   graphql(NEWS_QUERY, {
     options: ({ word: tag }) => {
-      const { from, to } = getTimeIntervalFromToday(-3, DAY)
+      const { from, to } = getTimeIntervalFromToday(-14, DAY)
       return {
         variables: { from, to, tag, size: 6 }
       }

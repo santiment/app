@@ -56,14 +56,14 @@ export const PRICE_PERCENT_CHANGE_DOWN_MODEL = {
 export const PRICE_ABS_CHANGE_ABOVE = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
-  label: 'Above',
+  label: 'More than',
   value: PRICE_CHANGE_TYPES.ABOVE
 }
 
 export const PRICE_ABS_CHANGE_BELOW = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
-  label: 'Below',
+  label: 'Less than',
   value: PRICE_CHANGE_TYPES.BELOW
 }
 
@@ -196,7 +196,7 @@ export const FREQUENCY_TYPE_DAILY_MODEL = {
   availableTypes: [FREQUENCY_VALUES_TYPES.days]
 }
 
-export const DEFAULT_FREQUENCY_TIME_TYPE_MODEL = {
+export const FREQUENCY_TIME_TYPE_HOURS_MODEL = {
   label: 'Hours',
   value: FREQUENCY_VALUES_TYPES.hours
 }
@@ -234,32 +234,28 @@ export const BASE_PERCENT_THRESHOLD = 5
 export const METRIC_DEFAULT_VALUES = {
   price_absolute_change: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
-    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
-    absoluteThreshold: 5,
-    absoluteBorderLeft: 50,
-    absoluteBorderRight: 75,
+    absoluteThreshold: 25,
     threshold: BASE_THRESHOLD,
-    timeWindow: 24,
-    timeWindowUnit: { label: 'Hours', value: 'h' },
+    timeWindow: 1,
+    timeWindowUnit: { label: 'Days', value: 'd' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
     channels: ['Telegram']
   },
   price_percent_change: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
-    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
-    percentThreshold: 5,
+    percentThreshold: 25,
     threshold: BASE_THRESHOLD,
-    timeWindow: 24,
-    timeWindowUnit: { label: 'Hours', value: 'h' },
+    timeWindow: 1,
+    timeWindowUnit: { label: 'Days', value: 'd' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
     channels: ['Telegram'],
-    absoluteThreshold: 5,
-    absoluteBorderLeft: 50,
-    absoluteBorderRight: 75
+    absoluteThreshold: 25
   },
   daily_active_addresses: {
     frequencyType: { ...FREQUENCY_TYPE_DAILY_MODEL },
@@ -275,7 +271,7 @@ export const METRIC_DEFAULT_VALUES = {
   },
   price_volume_difference: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
-    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
     threshold: BASE_THRESHOLD,
     type: { ...PRICE_VOLUME_DIFFERENCE_METRIC },
@@ -284,7 +280,7 @@ export const METRIC_DEFAULT_VALUES = {
   },
   eth_wallet: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
-    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
     threshold: 100,
     type: { ...ETH_WALLET_AMOUNT_UP },
@@ -352,7 +348,7 @@ export const FREQUENCY_VALUES = [
     label: 'Minutes',
     value: FREQUENCY_VALUES_TYPES.minutes
   },
-  { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+  { ...FREQUENCY_TIME_TYPE_HOURS_MODEL },
   {
     ...FREQUENCY_TIME_TYPE_DAILY_MODEL
   },

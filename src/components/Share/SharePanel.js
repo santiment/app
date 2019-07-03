@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Icon, Input, Panel } from '@santiment-network/ui'
+import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
+import Input from '@santiment-network/ui/Input'
+import Dialog from '@santiment-network/ui/Dialog'
 import ShareComposition from './ShareComposition'
 import ShareCopyBtn from './ShareCopyBtn.js'
 import styles from './SharePanel.module.scss'
@@ -37,23 +40,13 @@ const mediasToShare = [
   }
 ]
 
-const SharePanel = ({
-  shareTitle,
-  shareText,
-  shareLink,
-  onCloseBtnClick,
-  extraShare
-}) => {
+const SharePanel = ({ shareTitle, shareText, shareLink, extraShare }) => {
   const encodedTitle = encodeURIComponent(shareTitle)
   const encodedText = encodeURIComponent(shareText)
   const encodedLink = encodeURIComponent(shareLink)
 
   return (
-    <Panel className={styles.wrapper}>
-      <div className={styles.upper}>
-        <h3 className={styles.title}>Share the data</h3>
-        <Icon type='close' className={styles.close} onClick={onCloseBtnClick} />
-      </div>
+    <Dialog.ScrollContent className={styles.wrapper}>
       <div className={styles.composition}>
         <ShareComposition />
       </div>
@@ -96,15 +89,14 @@ const SharePanel = ({
           )
         })}
       </div>
-    </Panel>
+    </Dialog.ScrollContent>
   )
 }
 
 SharePanel.propTypes = {
   shareLink: PropTypes.string.isRequired,
   shareTitle: PropTypes.string,
-  shareText: PropTypes.string,
-  onCloseBtnClick: PropTypes.func.isRequired
+  shareText: PropTypes.string
 }
 
 SharePanel.defaultProps = {

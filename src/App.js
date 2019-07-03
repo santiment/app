@@ -33,6 +33,7 @@ import HistoricalBalancePage from './ducks/HistoricalBalance/page/HistoricalBala
 import WordCloudPage from './components/WordCloud/WordCloudPage'
 import { getConsentUrl } from './utils/utils'
 import NewsBanner from './components/Banner/NewsBanner'
+import CookiePopup from './components/CookiePopup/CookiePopup'
 import LogoutPage from './pages/Logout/Logout'
 import LabsPage from './pages/Labs'
 import './App.scss'
@@ -345,6 +346,7 @@ export const App = ({
       </Switch>
     </ErrorBoundary>
     <NotificationStack />
+    <CookiePopup />
     {isDesktop && <Footer />}
   </div>
 )

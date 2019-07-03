@@ -1,3 +1,5 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   background: var(--white);
   display: flex;
@@ -12,4 +14,61 @@
 
 .search {
   width: 100%;
+  margin-right: 15px;
+}
+
+.tabs {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 10px 0;
+
+  & div {
+    padding: 0 15px 15px;
+  }
+}
+
+.caption {
+  color: var(--waterloo);
+  margin: 16px 0;
+
+  @include text('caption', 'm');
+}
+
+.recentWrapper {
+  padding: 16px;
+}
+
+.recent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+
+  @include text('body-3');
+}
+
+.icon {
+  fill: var(--casper);
+}
+
+.name {
+  color: var(--mirage);
+  margin-left: 12px;
+}
+
+.ticker {
+  color: var(--casper);
+  margin-left: 5px;
+}
+
+.delete {
+  fill: var(--waterloo);
+  padding: 4px;
+  box-sizing: content-box;
 }

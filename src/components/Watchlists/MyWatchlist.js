@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { Button } from '@santiment-network/ui'
 import WatchlistCard from './WatchlistCard'
@@ -31,10 +32,10 @@ const WatchlistEmptySection = ({ watchlists }) => (
   </EmptySection>
 )
 
-const MyWatchlist = ({ isLoggedIn }) => (
+const MyWatchlist = ({ isLoggedIn, className }) => (
   <GetWatchlists
     render={({ isWatchlistsLoading, watchlists }) => (
-      <div className={styles.wrapper}>
+      <div className={cx(styles.wrapper, className)}>
         <DesktopOnly>
           <div className={styles.header}>
             <h4 className={styles.heading}>My watchlists</h4>

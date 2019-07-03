@@ -22,7 +22,7 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
         } else if (values.title.length > 120) {
           errors.title = 'Title has to be less than 120 characters'
         }
-        if (values.description.length > 240) {
+        if (!values.description || values.description.length > 240) {
           errors.description = 'Description has to be less than 240 characters'
         }
         return errors
@@ -33,42 +33,44 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
     >
       {({ values: { description = '' }, isSubmitting, isValid }) => (
         <Form className={styles.AboutForm}>
-          <div className={styles.row}>
-            <div className={styles.Field}>
-              <Label accent='waterloo' className={styles.label}>
-                Name of the signal
-              </Label>
-              <FormikInput
-                name='title'
-                type='text'
-                placeholder='Name of the signal'
-                onChange={value =>
-                  setTrigger({
-                    ...trigger,
-                    title: value
-                  })
-                }
-              />
+          <div className={styles.triggerFormItem}>
+            <div className={styles.row}>
+              <div className={styles.Field}>
+                <Label accent='waterloo' className={styles.label}>
+                  Name of the signal
+                </Label>
+                <FormikInput
+                  name='title'
+                  type='text'
+                  placeholder='Name of the signal'
+                  onChange={value =>
+                    setTrigger({
+                      ...trigger,
+                      title: value
+                    })
+                  }
+                />
+              </div>
             </div>
-          </div>
 
-          <div className={styles.row}>
-            <div className={styles.Field}>
-              <Label accent='waterloo' className={styles.label}>
-                Description ({description.length}/140)
-              </Label>
-              <FormikInput
-                name='description'
-                type='text'
-                maxLength={140}
-                placeholder='Description of the signal'
-                onChange={value => {
-                  setTrigger({
-                    ...trigger,
-                    description: value
-                  })
-                }}
-              />
+            <div className={styles.row}>
+              <div className={styles.Field}>
+                <Label accent='waterloo' className={styles.label}>
+                  Description ({(description || '').length}/140)
+                </Label>
+                <FormikInput
+                  name='description'
+                  type='text'
+                  maxLength={140}
+                  placeholder='Description of the signal'
+                  onChange={value => {
+                    setTrigger({
+                      ...trigger,
+                      description: value
+                    })
+                  }}
+                />
+              </div>
             </div>
           </div>
 

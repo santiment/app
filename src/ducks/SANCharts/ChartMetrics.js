@@ -71,11 +71,19 @@ class ChartMetrics extends Component {
               key={label}
               type='button'
               data-metric={metric}
-              className={cx(styles.btn, metrics.has(metric) && styles.active)}
+              className={cx(
+                styles.btn,
+                classes.metricButton,
+                metrics.has(metric) && styles.active
+              )}
               onClick={this.onClick}
               disabled={disabledMetrics.includes(metric)}
             >
-              <Label variant='circle' accent={color} className={styles.label} />
+              <Label
+                variant='circle'
+                accent={color}
+                className={cx(styles.label, classes.metricLabel)}
+              />
               {label}
             </button>
           )

@@ -3,6 +3,10 @@
   fill: var(--waterloo);
 }
 
+.btn {
+  min-width: 160px;
+}
+
 .active {
   border-color: var(--jungle-green);
 

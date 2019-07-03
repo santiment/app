@@ -2,7 +2,7 @@
 
 import {
   PRICE_PERCENT_CHANGE_UP_MODEL,
-  DEFAULT_FREQUENCY_TIME_TYPE_MODEL,
+  FREQUENCY_TIME_TYPE_HOURS_MODEL,
   FREQUENCY_TYPE_HOUR_MODEL,
   PRICE_VOLUME_DIFFERENCE_METRIC
 } from './constants'
@@ -95,7 +95,7 @@ const FORM_PROPS = [
   {
     cooldown: '22h',
     frequencyType: { ...FREQUENCY_TYPE_HOUR_MODEL },
-    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeType: { ...FREQUENCY_TIME_TYPE_HOURS_MODEL },
     frequencyTimeValue: { ...frequencyTimeValue },
     percentThreshold: 5,
     isRepeating: true,
@@ -109,7 +109,7 @@ const FORM_PROPS = [
   {
     cooldown: '22h',
     frequencyType: { ...FREQUENCY_TYPE_HOUR_MODEL },
-    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeType: { ...FREQUENCY_TIME_TYPE_HOURS_MODEL },
     frequencyTimeValue: { ...frequencyTimeValue },
     percentThreshold: 6,
     isRepeating: true,
@@ -128,7 +128,7 @@ const FORM_PROPS = [
   {
     cooldown: '22h',
     frequencyType: { ...FREQUENCY_TYPE_HOUR_MODEL },
-    frequencyTimeType: { ...DEFAULT_FREQUENCY_TIME_TYPE_MODEL },
+    frequencyTimeType: { ...FREQUENCY_TIME_TYPE_HOURS_MODEL },
     frequencyTimeValue: { ...frequencyTimeValue },
     threshold: 0.002,
     isRepeating: true,

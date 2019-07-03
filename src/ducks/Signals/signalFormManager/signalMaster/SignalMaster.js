@@ -15,36 +15,35 @@ import {
   mapFormPropsToTrigger,
   mapGQLTriggerToProps
 } from '../../utils/utils'
-import { SIGNAL_ROUTES } from '../../common/constants'
+import { SIGNAL_ROUTES, TRIGGER_STEPS } from '../../common/constants'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
-
-const STEPS = {
-  SETTINGS: 0,
-  CONFIRM: 1
-}
 
 export class SignalMaster extends React.PureComponent {
   static defaultProps = {
-    canRedirect: true
+    canRedirect: true,
+    step: TRIGGER_STEPS.SETTINGS
   }
 
   state = {
-    step: STEPS.SETTINGS,
+    step: TRIGGER_STEPS.SETTINGS,
     trigger: {
       title: `Signal_[${new Date().toLocaleDateString('en-US')}]`,
-      description: 'Any',
+      description: '',
       isActive: true,
       isPublic: false
     }
   }
 
-  componentWillReceiveProps (newProps) {
+  componentDidUpdate (prevProps) {
     const { trigger } = this.state
+
+    const newProps = this.props
     if (newProps.trigger && newProps.trigger.trigger && !trigger.id) {
       this.setState({
         trigger: {
           ...newProps.trigger.trigger
-        }
+        },
+        step: newProps.step
       })
     }
   }
@@ -87,13 +86,19 @@ export class SignalMaster extends React.PureComponent {
 
     const getTitle = ({ id }) => {
       switch (step) {
-        case STEPS.SETTINGS: {
+        case TRIGGER_STEPS.SETTINGS: {
           return id > 0 ? 'Update signal' : 'Create signal'
         }
-        case STEPS.CONFIRM: {
-          return triggerSettingsFormData.isPublic
-            ? 'Create public signal'
-            : 'Create private signal'
+        case TRIGGER_STEPS.CONFIRM: {
+          if (id > 0) {
+            return triggerSettingsFormData.isPublic
+              ? 'Update public signal'
+              : 'Update private signal'
+          } else {
+            return triggerSettingsFormData.isPublic
+              ? 'Create public signal'
+              : 'Create private signal'
+          }
         }
         default: {
           return ''
@@ -107,7 +112,7 @@ export class SignalMaster extends React.PureComponent {
 
     return (
       <div className={styles.wrapper}>
-        {step === STEPS.SETTINGS && (
+        {step === TRIGGER_STEPS.SETTINGS && (
           <TriggersForm
             onClose={close}
             triggers={[trigger]}
@@ -117,7 +122,7 @@ export class SignalMaster extends React.PureComponent {
             onSettingsChange={this.handleSettingsChange}
           />
         )}
-        {step === STEPS.CONFIRM && (
+        {step === TRIGGER_STEPS.CONFIRM && (
           <AboutForm
             triggerMeta={triggerAboutFormData}
             isEdit={+triggerId > 0}
@@ -139,7 +144,7 @@ export class SignalMaster extends React.PureComponent {
   backToSettings = prefilledData => {
     const { trigger } = this.state
     this.setState({
-      step: STEPS.SETTINGS,
+      step: TRIGGER_STEPS.SETTINGS,
       trigger: { ...trigger, ...prefilledData }
     })
   }
@@ -149,7 +154,7 @@ export class SignalMaster extends React.PureComponent {
 
     this.setState({
       trigger: mapFormPropsToTrigger(formProps, trigger),
-      step: STEPS.CONFIRM
+      step: TRIGGER_STEPS.CONFIRM
     })
   }
 
