@@ -24,25 +24,11 @@ export const TABS = [
   }
 ]
 
-const focusInput = () => {
-  setTimeout(() => {
-    const input = document.querySelector('input')
-    if (input) input.focus()
-  }, 50)
-}
-
 const SearchMobilePage = ({ history }) => {
   const [selectedTab, selectTab] = useState(TABS[0].index)
   const onSelectTab = selected => selectTab(selected)
   const [assets, setAssets] = useState(getRecentAssets())
   const [trends, setTrends] = useState(getRecentTrends())
-
-  useEffect(
-    () => {
-      focusInput()
-    },
-    [selectedTab]
-  )
 
   return (
     <>
@@ -57,7 +43,11 @@ const SearchMobilePage = ({ history }) => {
           }}
           title='Search'
         >
-          <Search className={styles.search} selectedTab={selectedTab} />
+          <Search
+            className={styles.search}
+            selectedTab={selectedTab}
+            inputProps={{ autoFocus: true }}
+          />
         </MobileHeader>
       </div>
       <Tabs
