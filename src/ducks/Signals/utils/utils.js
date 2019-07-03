@@ -485,7 +485,6 @@ export const validateTriggerForm = values => {
   let errors = {}
 
   if (values.type.metric === ETH_WALLET) {
-    if (!values.ethAddress) errors.ethAddress = REQUIRED_MESSAGE
     if (!values.threshold) errors.threshold = REQUIRED_MESSAGE
   }
 
