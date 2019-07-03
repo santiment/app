@@ -11,7 +11,6 @@ import {
   removeRecentTrends,
   removeRecentAssets
 } from '../../utils/recent'
-import allProjects from '../../allProjects.json'
 import styles from './SearchMobilePage.module.scss'
 
 export const TABS = [
@@ -28,14 +27,8 @@ export const TABS = [
 const SearchMobilePage = ({ history }) => {
   const [selectedTab, selectTab] = useState(TABS[0].index)
   const onSelectTab = selected => selectTab(selected)
-  const assetsRecent = getRecentAssets()
-  const assetsWithInfo = assetsRecent.map(asset => ({
-    ...allProjects.find(({ slug }) => slug === asset)
-  }))
-  const [assets, setAssets] = useState(assetsWithInfo)
+  const [assets, setAssets] = useState(getRecentAssets())
   const [trends, setTrends] = useState(getRecentTrends())
-
-  console.log(trends, assets, selectedTab)
 
   return (
     <>
@@ -62,21 +55,18 @@ const SearchMobilePage = ({ history }) => {
       <div className={styles.recentWrapper}>
         <h3 className={styles.caption}>Recently searched</h3>
         {selectedTab === TABS[0].index &&
-          assets.map(({ name, ticker, coinmarketcapId }) => (
-            <div key={name} className={styles.recent}>
-              <Link to={`/projects/${coinmarketcapId}`} className={styles.link}>
+          assets.map(slug => (
+            <div key={slug} className={styles.recent}>
+              <Link to={`/projects/${slug}`} className={styles.link}>
                 <Icon type='clock' className={styles.icon} />
-                <span className={styles.name}>{name}</span>
-                <span className={styles.ticker}>({ticker})</span>
+                <span className={styles.name}>{slug}</span>
               </Link>
               <Icon
                 type='close-medium'
                 className={cx(styles.icon, styles.delete)}
                 onClick={() => {
-                  removeRecentAssets(coinmarketcapId)
-                  const filteredAssets = assets.filter(
-                    asset => asset.coinmarketcapId !== coinmarketcapId
-                  )
+                  removeRecentAssets(slug)
+                  const filteredAssets = assets.filter(asset => asset !== slug)
                   setAssets(filteredAssets)
                 }}
               />
