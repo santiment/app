@@ -4,11 +4,15 @@
   display: flex;
 
   &__right {
-    padding: 4px 0;
+    padding: 4px 0 0 0;
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    @include responsive('phone', 'phone-xs') {
+      padding: 0;
+    }
   }
 
   &__left {
@@ -18,7 +22,17 @@
 
     &_subscription {
       display: block;
+
+      @include responsive('phone', 'phone-xs') {
+        margin-bottom: 15px;
+        margin-right: 0;
+        display: flex;
+      }
     }
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
   }
 }
 
@@ -56,12 +70,10 @@
   display: flex;
   position: relative;
   cursor: pointer;
-}
 
-.verticalDivider {
-  border-right: 1px solid var(--waterloo);
-  margin: 0 16px;
-  height: 20px;
+  @include responsive('phone', 'phone-xs') {
+    margin-left: auto;
+  }
 }
 
 .popup {
@@ -80,6 +92,12 @@
   width: 200px;
   height: 110px;
   padding: 8px 8px;
+
+  @include responsive('phone', 'phone-xs') {
+    right: 0;
+    left: inherit;
+    z-index: 10;
+  }
 }
 
 .popupItem {
@@ -91,6 +109,7 @@
 .bottom {
   margin-top: 19px;
   display: flex;
+  align-items: center;
 
   &__right {
     display: flex;
@@ -98,8 +117,13 @@
 }
 
 .expandButton {
-  color: var(--waterloo);
-  fill: var(--waterloo);
+  margin-right: 20px;
+  padding-left: 0;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0;
+    padding: 6px 6px;
+  }
 }
 
 .link {
@@ -145,6 +169,8 @@
 
 .right {
   margin-left: auto;
+  align-items: center;
+  display: flex;
 }
 
 .subscriptions {

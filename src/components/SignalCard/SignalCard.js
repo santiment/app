@@ -4,6 +4,8 @@ import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import Toggle from '@santiment-network/ui/Toggle'
+import Button from '@santiment-network/ui/Button'
+import { DesktopOnly, MobileOnly } from './../../components/Responsive'
 import MultilineText from '../../components/MultilineText/MultilineText'
 import StatusLabel from './../../components/StatusLabel'
 import { RemoveSignalButton, SignalTypeIcon } from './controls/SignalControls'
@@ -28,6 +30,10 @@ const SignalCard = ({
         className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
       >
         <SignalTypeIcon type={type} />
+
+        <MobileOnly>
+          <MoreSignalActions removeSignal={removeSignal} signalId={id} />
+        </MobileOnly>
       </div>
       <div className={styles.wrapper__right}>
         <div onClick={goToSignalSettings}>
@@ -75,49 +81,12 @@ const SignalCardBottom = ({
   toggleSignal
 }) => {
   const isUserTheAuthor = true
-  const [isOpen, setOpen] = useState(false)
 
   return (
     <div className={styles.bottom}>
-      <div className={styles.more}>
-        <div
-          onClick={() => setOpen(!isOpen)}
-          className={cx(styles.expandButton, styles.popupButton)}
-        >
-          <Icon type='dots' className={styles.moreIcon} />
-          <span>More</span>
-        </div>
-        {isOpen && (
-          <div className={styles.popup} onMouseLeave={() => setOpen(false)}>
-            <div className={cx(styles.popupItem, styles.popupButton)}>
-              <Link
-                to={`/sonar/feed/details/${signalId}/edit`}
-                className={styles.link}
-              >
-                Edit signal
-              </Link>
-            </div>
-
-            <div className={cx(styles.popupItem, styles.popupButton)}>
-              <Link
-                to={`/sonar/feed/details/${signalId}/about`}
-                className={styles.link}
-              >
-                Edit name & description
-              </Link>
-            </div>
-
-            <div className={cx(styles.popupItem, styles.popupButton)}>
-              <RemoveSignalButton
-                id={signalId}
-                removeSignal={removeSignal}
-                trigger={<div>Delete</div>}
-              />
-            </div>
-          </div>
-        )}
-        <div className={styles.verticalDivider} />
-      </div>
+      <DesktopOnly>
+        <MoreSignalActions removeSignal={removeSignal} signalId={signalId} />
+      </DesktopOnly>
 
       {isPublished ? (
         <h4 className={styles.author}>
@@ -145,6 +114,50 @@ const SignalCardBottom = ({
       <div className={styles.right}>
         <Toggle onClick={toggleSignal} isActive={isActive} />
       </div>
+    </div>
+  )
+}
+
+const MoreSignalActions = ({ signalId, removeSignal }) => {
+  const [isOpen, setOpen] = useState(false)
+
+  return (
+    <div className={styles.more} onMouseLeave={() => setOpen(false)}>
+      <Button
+        onClick={() => setOpen(!isOpen)}
+        className={cx(styles.expandButton)}
+      >
+        <Icon type='dots' className={styles.moreIcon} />
+      </Button>
+      {isOpen && (
+        <div className={styles.popup}>
+          <div className={cx(styles.popupItem, styles.popupButton)}>
+            <Link
+              to={`/sonar/feed/details/${signalId}/edit`}
+              className={styles.link}
+            >
+              Edit signal
+            </Link>
+          </div>
+
+          <div className={cx(styles.popupItem, styles.popupButton)}>
+            <Link
+              to={`/sonar/feed/details/${signalId}/about`}
+              className={styles.link}
+            >
+              Edit name & description
+            </Link>
+          </div>
+
+          <div className={cx(styles.popupItem, styles.popupButton)}>
+            <RemoveSignalButton
+              id={signalId}
+              removeSignal={removeSignal}
+              trigger={<div>Delete</div>}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
