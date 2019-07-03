@@ -50,7 +50,7 @@ const getFormTriggerTarget = target => {
 }
 
 const getFormTriggerType = (type, operation) => {
-  if (!operation) {
+  if (!operation || Object.keys(operation).length === 0) {
     switch (type) {
       case DAILY_ACTIVE_ADDRESSES: {
         return DAILY_ACTIVE_ADDRESSES_METRIC
@@ -141,7 +141,7 @@ const getTriggerOperation = ({
       break
     }
     default: {
-      break
+      return undefined
     }
   }
 
