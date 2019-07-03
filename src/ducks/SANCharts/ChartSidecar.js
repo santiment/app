@@ -42,22 +42,24 @@ const ChartSidecar = ({ onSlugSelect }) => {
         </div>
       ) : (
         <div className={styles.content}>
-          <div className={styles.visible}>
-            <RecentlyWatched
-              className={styles.section}
-              onProjectClick={onSlugSelect}
-              onWatchlistClick={setOpenedList}
-              classes={styles}
-            />
-            <section className={styles.section}>
-              <h2 className={styles.subtitle}>Social gainers and losers</h2>
-              <GainersLosersTabs
-                timeWindow='2d'
-                size={8}
+          <div className={styles.content__container}>
+            <div className={styles.visible}>
+              <RecentlyWatched
+                className={styles.section}
                 onProjectClick={onSlugSelect}
+                onWatchlistClick={setOpenedList}
                 classes={styles}
               />
-            </section>
+              <section className={styles.section}>
+                <h2 className={styles.subtitle}>Social gainers and losers</h2>
+                <GainersLosersTabs
+                  timeWindow='2d'
+                  size={8}
+                  onProjectClick={onSlugSelect}
+                  classes={styles}
+                />
+              </section>
+            </div>
           </div>
         </div>
       )}
