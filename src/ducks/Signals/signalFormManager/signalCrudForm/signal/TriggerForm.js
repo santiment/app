@@ -304,10 +304,14 @@ export const TriggerForm = ({
 
 TriggerForm.propTypes = propTypes
 
-const mapStateToProps = state => ({
-  isTelegramConnected: selectIsTelegramConnected(state),
-  lastPriceItem: state.signals.points ? state.signals.points[0] : undefined
-})
+const mapStateToProps = state => {
+  return {
+    isTelegramConnected: selectIsTelegramConnected(state),
+    lastPriceItem: state.signals.points
+      ? state.signals.points[state.signals.points.length - 1]
+      : undefined
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   getSignalBacktestingPoints: payload => {
