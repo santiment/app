@@ -28,7 +28,7 @@ export class SignalMaster extends React.PureComponent {
     step: TRIGGER_STEPS.SETTINGS,
     trigger: {
       title: `Signal_[${new Date().toLocaleDateString('en-US')}]`,
-      description: 'Any',
+      description: '',
       isActive: true,
       isPublic: false
     }

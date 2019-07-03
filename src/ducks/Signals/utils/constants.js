@@ -237,8 +237,6 @@ export const METRIC_DEFAULT_VALUES = {
     frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
     absoluteThreshold: 25,
-    absoluteBorderLeft: 50,
-    absoluteBorderRight: 75,
     threshold: BASE_THRESHOLD,
     timeWindow: 1,
     timeWindowUnit: { label: 'Days', value: 'd' },
@@ -257,9 +255,7 @@ export const METRIC_DEFAULT_VALUES = {
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
     channels: ['Telegram'],
-    absoluteThreshold: 25,
-    absoluteBorderLeft: 50,
-    absoluteBorderRight: 75
+    absoluteThreshold: 25
   },
   daily_active_addresses: {
     frequencyType: { ...FREQUENCY_TYPE_DAILY_MODEL },

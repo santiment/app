@@ -17,13 +17,6 @@ const CUSTOM_METRICS = {
     dataKey: 'active_addresses',
     orientation: 'right',
     yAxisVisible: true
-  },
-  volume: {
-    node: Bar,
-    color: 'waterloo',
-    label: 'Volume',
-    fill: true,
-    dataKey: 'price_volume_diff'
   }
 }
 
