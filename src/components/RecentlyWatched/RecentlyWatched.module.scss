@@ -7,17 +7,23 @@
 .title {
   @include text('body-1', 'm');
 
+  margin-top: 0;
   margin-bottom: 13px;
 }
 
 .item {
-  margin-bottom: 4px;
+  margin-top: 4px;
   padding: 12px;
   border-radius: 4px;
   border: 1px solid var(--porcelain);
   display: flex;
   justify-content: space-between;
   color: var(--mirage);
+  cursor: pointer;
+
+  &:hover .name {
+    color: var(--jungle-green);
+  }
 }
 
 .price,
@@ -55,4 +61,8 @@
       max-width: 55%;
     }
   }
+}
+
+.recentAssets {
+  margin-bottom: 32px;
 }

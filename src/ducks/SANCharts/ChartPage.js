@@ -9,6 +9,11 @@ import styles from './ChartPage.module.scss'
 
 const MAX_METRICS_PER_CHART = 5
 
+const LoadableChartSidecar = Loadable({
+  loader: () => import('./ChartSidecar'),
+  loading: () => <div />
+})
+
 const LoadableChartSettings = Loadable({
   loader: () => import('./ChartSettings'),
   loading: () => <div />
@@ -245,13 +250,16 @@ class ChartPage extends Component {
                 metrics={finalMetrics}
               />
               {!viewOnly && (
-                <LoadableChartMetricsTool
-                  classes={styles}
-                  slug={slug}
-                  toggleMetric={this.toggleMetric}
-                  disabledMetrics={errors}
-                  activeMetrics={finalMetrics}
-                />
+                <>
+                  <LoadableChartSidecar onSlugSelect={this.onSlugSelect} />
+                  <LoadableChartMetricsTool
+                    classes={styles}
+                    slug={slug}
+                    toggleMetric={this.toggleMetric}
+                    disabledMetrics={errors}
+                    activeMetrics={finalMetrics}
+                  />
+                </>
               )}
             </Fragment>
           )

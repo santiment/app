@@ -22,10 +22,16 @@
 }
 
 .subtitle {
-  margin: 0 0 26px;
-  color: var(--mirage);
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 26px;
 
-  @include text(h4, null);
+  &__text {
+    margin: 0;
+    color: var(--mirage);
+
+    @include text(h4);
+  }
 }
 
 .column {
@@ -37,15 +43,6 @@
   &__insights {
     display: flex;
     flex-direction: column;
-  }
-
-  &__trends {
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__GLTable {
-    margin-top: 55px;
   }
 }
 
@@ -77,9 +74,4 @@
     width: 350px;
     margin: 0 auto 24px;
   }
-}
-
-.subtitleWrapper {
-  display: flex;
-  align-items: baseline;
 }

@@ -22,7 +22,16 @@ import styles from './WatchlistCard.module.scss'
 
 const INTERVAL = '6h'
 
-const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
+const WatchlistCard = ({
+  name,
+  isPublic,
+  stats,
+  to,
+  isError,
+  isLoading,
+  watchlist,
+  onClick
+}) => {
   const { marketcap: latestMarketcap } = stats.slice(-1)[0] || {}
   const { marketcap } = stats.slice(0, 1)[0] || {}
   const change = marketcap
@@ -34,8 +43,17 @@ const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
     marketcap: stat.marketcap - minMarketcap
   }))
 
+  const res = onClick
+    ? {
+      Component: 'div',
+      props: {
+        onClick: () => onClick(watchlist)
+      }
+    }
+    : { Component: Link, props: { to } }
+
   return (
-    <Link to={to} className={styles.wrapper}>
+    <res.Component className={styles.wrapper} {...res.props}>
       <div className={cx(styles.flexRow, styles.content)}>
         <span className={styles.name}>{name}</span>
         {isPublic !== undefined && (
@@ -79,7 +97,7 @@ const WatchlistCard = ({ name, isPublic, stats, to, isError, isLoading }) => {
           </div>
         </>
       ) : null}
-    </Link>
+    </res.Component>
   )
 }
 

@@ -14,6 +14,12 @@ export class TrendsForm extends Component {
     topic: this.props.defaultTopic || ''
   }
 
+  componentDidUpdate (prevProps) {
+    if (this.props.defaultTopic !== prevProps.defaultTopic) {
+      this.setState({ topic: this.props.defaultTopic })
+    }
+  }
+
   handleSubmit = evt => {
     evt.preventDefault()
     trackTopicSearch(this.state.topic)
@@ -26,11 +32,13 @@ export class TrendsForm extends Component {
 
   render () {
     const {
-      classes: { wrapper: className, input: inputClassName }
+      classes: { wrapper: className, input: inputClassName },
+      ...props
     } = this.props
     return (
       <form onSubmit={this.handleSubmit} className={className}>
         <Search
+          {...props}
           className={inputClassName}
           iconPosition='left'
           placeholder='Enter a search word or phrase'

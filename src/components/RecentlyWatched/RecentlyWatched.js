@@ -14,7 +14,38 @@ import { formatNumber } from '../../utils/formatting'
 import { getWatchlistLink } from '../../ducks/Watchlists/watchlistUtils'
 import styles from './RecentlyWatched.module.scss'
 
-const RecentlyWatched = ({ className = '', assets, watchlists }) => {
+export const Asset = ({ project, classes = {}, onClick }) => {
+  const { name, ticker, priceUsd, percentChange24h, coinmarketcapId } = project
+  const res = onClick
+    ? { Component: 'div', props: { onClick: () => onClick(project) } }
+    : { Component: Link, props: { to: `/projects/${coinmarketcapId}` } }
+  return (
+    <res.Component className={cx(styles.item, classes.asset)} {...res.props}>
+      <div className={styles.group}>
+        <ProjectIcon size={20} name={name} ticker={ticker} />
+        <h3 className={cx(styles.name, classes.asset__name)}>
+          {name} <span className={styles.ticker}>{ticker}</span>
+        </h3>
+      </div>
+      <div className={styles.group}>
+        <h4 className={styles.price}>
+          {priceUsd ? formatNumber(priceUsd, { currency: 'USD' }) : 'No data'}
+        </h4>
+        <PercentChanges changes={percentChange24h} className={styles.change} />
+      </div>
+    </res.Component>
+  )
+}
+
+const RecentlyWatched = ({
+  className = '',
+  assets,
+  watchlists,
+  onProjectClick,
+
+  onWatchlistClick,
+  classes = {}
+}) => {
   useEffect(() => {
     store.dispatch({ type: RECENT_ASSETS_FETCH })
     store.dispatch({ type: RECENT_WATCHLISTS_FETCH })
@@ -26,42 +57,17 @@ const RecentlyWatched = ({ className = '', assets, watchlists }) => {
     (hasAssets || hasWatchlists) && (
       <section className={cx(className, styles.wrapper)}>
         {hasAssets && (
-          <>
+          <div className={styles.recentAssets}>
             <h2 className={styles.title}>Recently watched assets</h2>
-            {assets.map(
-              ({
-                name,
-                ticker,
-                priceUsd,
-                percentChange24h,
-                coinmarketcapId
-              }) => (
-                <Link
-                  className={styles.item}
-                  key={coinmarketcapId}
-                  to={`/projects/${coinmarketcapId}`}
-                >
-                  <div className={styles.group}>
-                    <ProjectIcon size={20} name={name} ticker={ticker} />
-                    <h3 className={styles.name}>
-                      {name} <span className={styles.ticker}>{ticker}</span>
-                    </h3>
-                  </div>
-                  <div className={styles.group}>
-                    <h4 className={styles.price}>
-                      {priceUsd
-                        ? formatNumber(priceUsd, { currency: 'USD' })
-                        : 'No data'}
-                    </h4>
-                    <PercentChanges
-                      changes={percentChange24h}
-                      className={styles.change}
-                    />
-                  </div>
-                </Link>
-              )
-            )}
-          </>
+            {assets.map(project => (
+              <Asset
+                key={project.slug}
+                project={project}
+                onClick={onProjectClick}
+                classes={classes}
+              />
+            ))}
+          </div>
         )}
         {hasWatchlists && (
           <>
@@ -69,9 +75,11 @@ const RecentlyWatched = ({ className = '', assets, watchlists }) => {
             {watchlists.map(watchlist => (
               <WatchlistCard
                 key={watchlist.name}
+                watchlist={watchlist}
                 name={watchlist.name}
                 to={getWatchlistLink(watchlist)}
                 slugs={watchlist.listItems.map(({ project }) => project.slug)}
+                onClick={onWatchlistClick}
               />
             ))}
           </>
