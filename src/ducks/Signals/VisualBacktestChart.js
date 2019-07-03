@@ -47,8 +47,7 @@ const VisualBacktestChart = ({ data, price, metrics, showXY = false }) => {
         <YAxis hide />
 
         {generateMetricsMarkup(metrics, {
-          active_addresses: formattedData,
-          price_volume_diff: formattedData
+          active_addresses: formattedData
         })}
 
         {formattedData
@@ -68,7 +67,7 @@ const VisualBacktestChart = ({ data, price, metrics, showXY = false }) => {
   return (
     <div
       className={cx(
-        chartStyles.wrapper + ' ' + sharedStyles.chart,
+        chartStyles.wrapper + ' ' + sharedStyles.chart + ' ' + styles.wrapper,
         styles.container
       )}
     >
