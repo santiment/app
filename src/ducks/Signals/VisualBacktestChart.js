@@ -27,7 +27,7 @@ const VisualBacktestChart = ({ data, price, metrics, showXY = false }) => {
       <ComposedChart
         data={formattedPrice}
         margin={{
-          left: -40,
+          left: -20,
           bottom: 0
         }}
       >
