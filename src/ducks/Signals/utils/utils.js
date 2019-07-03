@@ -141,7 +141,7 @@ const getTriggerOperation = ({
       break
     }
     default: {
-      break
+      return undefined
     }
   }
 

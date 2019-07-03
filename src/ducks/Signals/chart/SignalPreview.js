@@ -17,6 +17,10 @@ const CUSTOM_METRICS = {
     dataKey: 'active_addresses',
     orientation: 'right',
     yAxisVisible: true
+  },
+  volume: {
+    ...Metrics.volume,
+    color: 'waterloo'
   }
 }
 

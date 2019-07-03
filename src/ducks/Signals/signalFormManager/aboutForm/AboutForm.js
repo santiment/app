@@ -22,7 +22,7 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
         } else if (values.title.length > 120) {
           errors.title = 'Title has to be less than 120 characters'
         }
-        if (values.description.length > 240) {
+        if (!values.description || values.description.length > 240) {
           errors.description = 'Description has to be less than 240 characters'
         }
         return errors
@@ -56,7 +56,7 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
             <div className={styles.row}>
               <div className={styles.Field}>
                 <Label accent='waterloo' className={styles.label}>
-                  Description ({description.length}/140)
+                  Description ({(description || '').length}/140)
                 </Label>
                 <FormikInput
                   name='description'
