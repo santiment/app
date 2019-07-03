@@ -9,10 +9,14 @@ import styles from './SearchContainer.module.scss'
 export const SearchContainer = ({
   history,
   className,
-  selectedTab = TABS[0].index
+  selectedTab = TABS[0].index,
+  inputProps,
+  ...props
 }) => {
   return selectedTab === TABS[0].index ? (
     <SearchProjects
+      {...props}
+      inputProps={inputProps}
       className={cx(styles.wrapper, className)}
       iconPosition='left'
       onSuggestionSelect={({ coinmarketcapId }) =>
@@ -20,7 +24,11 @@ export const SearchContainer = ({
       }
     />
   ) : (
-    <TrendsForm classes={{ wrapper: className, input: styles.search }} />
+    <TrendsForm
+      {...props}
+      {...inputProps}
+      classes={{ wrapper: className, input: styles.search }}
+    />
   )
 }
 
