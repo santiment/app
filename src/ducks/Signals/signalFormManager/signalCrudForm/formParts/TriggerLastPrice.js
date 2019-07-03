@@ -7,9 +7,7 @@ export const LastPriceComponent = ({ lastPrice }) => {
 
   return (
     <div className={styles.lastPrice}>
-      <span>
-        Current price is {formatNumber(lastPrice, { currency: 'USD' })}
-      </span>
+      Current price is {formatNumber(lastPrice, { currency: 'USD' })}
     </div>
   )
 }

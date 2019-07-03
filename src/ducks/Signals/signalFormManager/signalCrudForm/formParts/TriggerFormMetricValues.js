@@ -15,8 +15,8 @@ import { LastPriceComponent } from './TriggerLastPrice'
 
 const propTypes = {
   type: PropTypes.any,
-  absoluteBorderRight: PropTypes.number,
-  absoluteBorderLeft: PropTypes.number
+  absoluteBorderRight: PropTypes.any,
+  absoluteBorderLeft: PropTypes.any
 }
 
 export const TriggerFormMetricValues = ({
@@ -37,6 +37,8 @@ export const TriggerFormMetricValues = ({
           <FormikInput
             name='absoluteBorderRight'
             type='number'
+            min={+absoluteBorderLeft}
+            step='any'
             placeholder='Upper border'
           />
           <LastPriceComponent lastPrice={lastPrice} />
@@ -50,6 +52,8 @@ export const TriggerFormMetricValues = ({
           <FormikInput
             name='absoluteBorderLeft'
             type='number'
+            step='any'
+            max={+absoluteBorderRight}
             placeholder='Lower border'
           />
         </div>

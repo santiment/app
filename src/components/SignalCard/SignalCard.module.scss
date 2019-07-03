@@ -52,14 +52,74 @@
   height: 100%;
 }
 
+.more {
+  display: flex;
+  position: relative;
+  cursor: pointer;
+}
+
+.verticalDivider {
+  border-right: 1px solid var(--waterloo);
+  margin: 0 16px;
+  height: 20px;
+}
+
+.popup {
+  position: absolute;
+  left: 0;
+  top: 25px;
+  background: var(--white);
+
+  /* N200 - Porcelain */
+  border: 1px solid var(--porcelain);
+
+  @include border-box();
+
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.04), 0 8px 16px rgba(24, 27, 43, 0.05), 0 12px 32px rgba(24, 27, 43, 0.05);
+  border-radius: $border-radius;
+  width: 200px;
+  height: 110px;
+  padding: 8px 8px;
+}
+
+.popupItem {
+  padding: 6px 8px;
+
+  @include text('body-3');
+}
+
 .bottom {
   margin-top: 19px;
   display: flex;
-  justify-content: space-between;
 
   &__right {
     display: flex;
   }
+}
+
+.expandButton {
+  color: var(--waterloo);
+  fill: var(--waterloo);
+}
+
+.link {
+  color: var(--mirage);
+}
+
+.popupButton {
+  @include text('body-3');
+
+  align-items: center;
+
+  &:hover {
+    fill: var(--jungle-green);
+    color: var(--jungle-green);
+  }
+}
+
+.moreIcon {
+  margin-right: 5px;
+  margin-bottom: 3px;
 }
 
 .awaitingBlock {
@@ -81,6 +141,10 @@
       color: var(--green-hover);
     }
   }
+}
+
+.right {
+  margin-left: auto;
 }
 
 .subscriptions {

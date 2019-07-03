@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { compose, withProps } from 'recompose'
+import cx from 'classnames'
 import { Panel, Selector } from '@santiment-network/ui'
 import GetTimeSeries from './../../ducks/GetTimeSeries/GetTimeSeries'
 import GetTrends from './../../components/Trends/GetTrends'
@@ -16,7 +17,9 @@ import SocialVolumeWidget from './../../components/SocialVolumeWidget/SocialVolu
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import TrendsExploreAdditionalInfo from '../../components/Trends/Explore/TrendsExploreAdditionalInfo'
 import { checkHasPremium } from './../UserSelectors'
+import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { mapQSToState, mapStateToQS, capitalizeStr } from './../../utils/utils'
+import { addRecentTrends } from '../../utils/recent'
 import styles from './TrendsExplorePage.module.scss'
 
 const getCustomInterval = timeframe => {
@@ -73,20 +76,21 @@ export class TrendsExplorePage extends Component {
     fetchTrendSocialData(word)
   }
 
-  componentDidUpdate ({ word: prevWord }) {
-    const { word, fetchTrendSocialData } = this.props
-    if (prevWord !== word) {
-      fetchTrendSocialData(word)
-    }
+  componentDidUpdate ({ word: prevWord }, { timeRange: timeRangePrev }) {
+    const { word, fetchTrendSocialData, ...props } = this.props
+    const { timeRange } = { ...mapQSToState(props) }
+    if (timeRange && timeRange !== timeRangePrev) this.setState({ timeRange })
+    if (prevWord !== word) fetchTrendSocialData(word)
   }
 
   render () {
-    const { word, hasPremium, detectedAsset } = this.props
+    const { word, hasPremium, detectedAsset, isDesktop, history } = this.props
+    addRecentTrends(word)
     const { timeRange, asset = '' } = this.state
     const [priceOptions, priceLabels] = getPriceOptions(detectedAsset)
     const topic = window.decodeURIComponent(word)
     return (
-      <div className={styles.TrendsExplorePage}>
+      <div className={cx('page', styles.wrapper)}>
         <Helmet>
           <title>Crypto Social Trends for {topic} - SANbase</title>
           <meta
@@ -100,7 +104,32 @@ export class TrendsExplorePage extends Component {
         </Helmet>
         <div className={styles.settings}>
           <div className={styles.settingsLeft}>
-            <TrendsExploreSearch className={styles.search} topic={topic} />
+            {isDesktop && (
+              <TrendsExploreSearch
+                className={styles.search}
+                topic={topic}
+                isDesktop={isDesktop}
+              />
+            )}
+            {!isDesktop && (
+              <MobileHeader
+                goBack={history.goBack}
+                backRoute={'/'}
+                classes={{
+                  wrapper: styles.wrapperHeader,
+                  right: styles.hidden,
+                  title: styles.hidden,
+                  searchBtn: styles.fullSearchBtn
+                }}
+                title=''
+              >
+                <TrendsExploreSearch
+                  className={styles.search}
+                  topic={topic}
+                  isDesktop={isDesktop}
+                />
+              </MobileHeader>
+            )}
           </div>
           <div className={styles.settingsRight}>
             <Selector
@@ -108,14 +137,16 @@ export class TrendsExplorePage extends Component {
               onSelectOption={this.handleSelectTimeRange}
               defaultSelected={timeRange}
             />
-            <Panel className={styles.pricePair}>
-              <Selector
-                options={priceOptions}
-                nameOptions={priceLabels}
-                onSelectOption={this.handleSelectAsset}
-                defaultSelected={asset}
-              />
-            </Panel>
+            {isDesktop && (
+              <Panel className={styles.pricePair}>
+                <Selector
+                  options={priceOptions}
+                  nameOptions={priceLabels}
+                  onSelectOption={this.handleSelectAsset}
+                  defaultSelected={asset}
+                />
+              </Panel>
+            )}
             <ShareModalTrigger
               shareTitle='Santiment'
               shareText={`Crypto Social Trends for "${topic}"`}

@@ -27,6 +27,10 @@ $top: 22px;
   color: var(--black);
 }
 
+.heading {
+  margin-right: 8px;
+}
+
 /* stylelint-disable */
 @include responsive('desktop') {
   .wrapper {
