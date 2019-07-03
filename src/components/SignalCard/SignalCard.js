@@ -103,7 +103,7 @@ const SignalCardBottom = ({
                 to={`/sonar/feed/details/${signalId}/about`}
                 className={styles.link}
               >
-                Edit signal & description
+                Edit name & description
               </Link>
             </div>
 

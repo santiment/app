@@ -101,7 +101,7 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn, isDesktop }) => {
             title='Sonar'
             rightActions={
               <div className={styles.addSignal}>
-                <SignalMasterModalForm triggerId={triggerId} />
+                <SignalMasterModalForm triggerId={triggerId} step={step} />
               </div>
             }
           />
