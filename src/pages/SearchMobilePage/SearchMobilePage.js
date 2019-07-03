@@ -27,8 +27,8 @@ export const TABS = [
 const SearchMobilePage = ({ history }) => {
   const [selectedTab, selectTab] = useState(TABS[0].index)
   const onSelectTab = selected => selectTab(selected)
-  const [assets, setAssets] = useState(getRecentAssets())
-  const [trends, setTrends] = useState(getRecentTrends())
+  const [assets, setAssets] = useState(getRecentAssets().filter(Boolean))
+  const [trends, setTrends] = useState(getRecentTrends().filter(Boolean))
 
   return (
     <>
