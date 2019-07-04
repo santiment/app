@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
@@ -23,48 +23,46 @@ const InsightEditorBottom = ({
   return (
     <div className={styles.bottom}>
       <div className={styles.container}>
-        <div className={styles.bottom__right}>
-          {updatedAt && (
-            <span className={styles.save}>
-              {hasRequirements && isLoading ? (
-                'Saving...'
-              ) : (
-                <Fragment>
-                  Draft saved{' '}
-                  <Timer interval={1000 * 60}>
-                    {() => dateDifferenceInWords(options)}
-                  </Timer>
-                </Fragment>
-              )}
-            </span>
-          )}
-          {!hasRequirements && (
-            <Tooltip
-              on='hover'
-              trigger={
-                <div>
-                  <Button border disabled>
-                    Publish insight
-                    <Icon type='arrow-down' className={styles.icon} />
-                  </Button>
-                </div>
-              }
-            >
-              <Panel padding>
-                <InsightEditorPublishHelp
-                  requiredOptions={hasMetTextRequirements}
-                />
-              </Panel>
-            </Tooltip>
-          )}
-          {hasRequirements && (
-            <PrePublishButton
-              onTagsChange={onTagsChange}
-              defaultTags={defaultTags}
-              onPublishClick={onPublishClick}
-            />
-          )}
-        </div>
+        {updatedAt && (
+          <span className={styles.save}>
+            {hasRequirements && isLoading ? (
+              'Saving...'
+            ) : (
+              <>
+                Draft saved{' '}
+                <Timer interval={1000 * 60}>
+                  {() => dateDifferenceInWords(options)}
+                </Timer>
+              </>
+            )}
+          </span>
+        )}
+        {!hasRequirements && (
+          <Tooltip
+            on='hover'
+            trigger={
+              <div>
+                <Button border disabled>
+                  Publish insight
+                  <Icon type='arrow-down' className={styles.icon} />
+                </Button>
+              </div>
+            }
+          >
+            <Panel padding>
+              <InsightEditorPublishHelp
+                requiredOptions={hasMetTextRequirements}
+              />
+            </Panel>
+          </Tooltip>
+        )}
+        {hasRequirements && (
+          <PrePublishButton
+            onTagsChange={onTagsChange}
+            defaultTags={defaultTags}
+            onPublishClick={onPublishClick}
+          />
+        )}
       </div>
     </div>
   )

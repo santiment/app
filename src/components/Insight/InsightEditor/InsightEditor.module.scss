@@ -43,7 +43,7 @@
 .container {
   max-width: 1024px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin: 0 auto;
   padding: 15px;
@@ -56,19 +56,7 @@
   left: 0;
   right: 0;
   bottom: 50px;
-  border-top: 1px solid var(--porcelain);
   background: var(--white);
-
-  &__left {
-    color: var(--waterloo);
-    display: flex;
-    align-items: center;
-  }
-
-  &__right {
-    display: flex;
-    align-items: center;
-  }
 
   @include responsive('laptop', 'desktop', 'tablet') {
     bottom: 0;
@@ -77,41 +65,10 @@
 
 .save {
   color: var(--casper);
+  margin-right: 10px;
 
   @include responsive('phone-xs') {
     display: none;
-  }
-
-  + svg {
-    margin-left: 10px;
-  }
-}
-
-.publishBtn {
-  margin-left: 18px;
-  border-color: var(--jungle-green);
-  color: var(--jungle-green);
-
-  &[disabled] {
-    border-color: var(--mystic);
-    color: var(--mystic);
-  }
-}
-
-.tagsLabel {
-  margin-right: 18px;
-
-  @include responsive('phone-xs') {
-    display: none;
-  }
-}
-
-.tags {
-  min-width: 200px;
-  margin-right: 13px;
-
-  @include responsive('tablet') {
-    max-width: 480px;
   }
 }
 
