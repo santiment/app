@@ -4,9 +4,7 @@ import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import Timer from '../../Timer'
-import TagSelector from '../../TagSelector'
 import InsightEditorPublishHelp from './InsightEditorBottomPublishHelp'
-import InsightEditorBottomHelp from './InsightEditorBottomHelp'
 import PrePublishButton from './PrePublishPopup'
 import { dateDifferenceInWords } from '../../../utils/dates'
 import styles from './InsightEditor.module.scss'
@@ -23,15 +21,6 @@ const InsightEditorBottom = ({
   return (
     <div className={styles.bottom}>
       <div className={styles.container}>
-        <div className={styles.bottom__left}>
-          <span className={styles.tagsLabel}>Add Tags</span>
-          <TagSelector
-            onChange={onTagsChange}
-            defaultTags={defaultTags}
-            className={styles.tags}
-          />
-          <InsightEditorBottomHelp />
-        </div>
         <div className={styles.bottom__right}>
           {updatedAt && (
             <span className={styles.save}>
@@ -62,7 +51,13 @@ const InsightEditorBottom = ({
               </Panel>
             </Tooltip>
           )}
-          {hasMetTextRequirements && <PrePublishButton />}
+          {hasMetTextRequirements && (
+            <PrePublishButton
+              onTagsChange={onTagsChange}
+              defaultTags={defaultTags}
+              onPublishClick={onPublishClick}
+            />
+          )}
         </div>
       </div>
     </div>
