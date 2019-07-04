@@ -4,7 +4,7 @@ import HelpPopup from '../../HelpPopup/HelpPopup'
 const InsightEditorBottomHelp = () => (
   <HelpPopup>
     <div style={{ marginBottom: 9 }}>
-      Add tags to catch more attention from other people.
+      Add up to 5 tags to catch more attention from other people.
     </div>
     <div>
       The first tag will influence on the graph preview when the insight will be
