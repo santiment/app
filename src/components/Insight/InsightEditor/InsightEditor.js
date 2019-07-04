@@ -31,6 +31,10 @@ class InsightEditor extends Component {
     isEditing: false
   }
 
+  componentDidUpdate ({ tags }, { tags: stateTags }) {
+    if (tags.length > 0 && this.props.tags !== tags) this.setState({ tags })
+  }
+
   trendTag = this.props.tags.find(({ name }) =>
     name.endsWith('-trending-words')
   )
@@ -105,8 +109,9 @@ class InsightEditor extends Component {
   )
 
   render () {
-    const { id, title, tags, updatedAt, isUpdating, publishDraft } = this.props
+    const { id, title, updatedAt, isUpdating, publishDraft } = this.props
     const { isEditing } = this.state
+    const tags = [...new Set([...this.props.tags, ...this.state.tags])]
 
     const isLoading = isEditing || isUpdating
 

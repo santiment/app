@@ -49,40 +49,6 @@
   text-align: center;
 }
 
-.tags {
-  border: 1px solid var(--porcelain);
-  border-radius: $border-radius;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 0 4px 4px;
-}
-
-.tag {
-  margin: 4px 4px 0 0;
-  height: 24px;
-  padding: 3px 23px 3px 8px;
-  background: var(--athens);
-  border: 1px solid var(--porcelain);
-  border-radius: $border-radius;
-  display: flex;
-  align-items: center;
-
-  &:first-child {
-    padding-left: 28px;
-    position: relative;
-
-    &::before {
-      content: '';
-      width: 8px;
-      height: 8px;
-      position: absolute;
-      left: 12px;
-      border: 1.5px solid var(--dodger-blue);
-      border-radius: 50%;
-    }
-  }
-}
-
 .button {
   width: 100%;
   justify-content: center;
