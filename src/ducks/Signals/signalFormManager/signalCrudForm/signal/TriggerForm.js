@@ -27,7 +27,7 @@ import {
   mapFormPropsToTrigger,
   validateTriggerForm
 } from '../../../utils/utils'
-import { TriggerFormAssetWallet } from '../formParts/TriggerFormAssetWallet'
+import TriggerFormAssetWallet from '../formParts/TriggerFormAssetWallet'
 import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/TriggerFormMetricTypes'
 import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'

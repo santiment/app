@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel/Panel'
