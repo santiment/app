@@ -10,8 +10,9 @@ import {
   TIME_WINDOW_UNITS
 } from '../../../utils/constants'
 import { getFormMetricValue } from '../../../utils/utils'
-import styles from '../signal/TriggerForm.module.scss'
 import { LastPriceComponent } from './TriggerLastPrice'
+import { TriggerTimeWindowExplanation } from './TriggerTimeWindowExplanation'
+import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
   type: PropTypes.any,
@@ -20,15 +21,23 @@ const propTypes = {
 }
 
 export const TriggerFormMetricValues = ({
-  type,
-  absoluteBorderRight,
-  absoluteBorderLeft,
+  values: {
+    type,
+    absoluteBorderRight = 0,
+    absoluteBorderLeft = 0,
+    percentThreshold,
+    timeWindowUnit,
+    timeWindow
+  },
   lastPrice
 }) => {
-  let metricValue = getFormMetricValue(type)
+  const metricValue = getFormMetricValue(type)
+  const isTimeWindow = METRIC_TYPES_DEPENDENCIES[metricValue].includes(
+    'timeWindow'
+  )
 
   return (
-    <div className={styles.row}>
+    <div className={cx(styles.row, isTimeWindow ? styles.rowTimeWindow : '')}>
       {type &&
         METRIC_TYPES_DEPENDENCIES[metricValue].includes(
           'absoluteBorderRight'
@@ -120,8 +129,8 @@ export const TriggerFormMetricValues = ({
           />
         </div>
       )}
-      {type && METRIC_TYPES_DEPENDENCIES[metricValue].includes('timeWindow') && (
-        <div className={styles.Field}>
+      {type && isTimeWindow && (
+        <div className={cx(styles.Field, styles.fieldTimeWindow)}>
           <Label accent='waterloo' className={styles.label}>
             Time window
           </Label>
@@ -142,6 +151,12 @@ export const TriggerFormMetricValues = ({
               options={TIME_WINDOW_UNITS}
             />
           </div>
+          <TriggerTimeWindowExplanation
+            type={type}
+            percent={percentThreshold}
+            timeType={timeWindowUnit}
+            timeValue={timeWindow}
+          />
         </div>
       )}
     </div>
