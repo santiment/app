@@ -18,6 +18,7 @@ import ValueChange from '../../../components/ValueChange/ValueChange'
 import WordCloud from '../../../components/WordCloud/WordCloud'
 import InsightCardSmall from '../../../components/Insight/InsightCardSmall'
 import ExplanationTooltip from '../../../components/ExplanationTooltip/ExplanationTooltip'
+import ConditionalWrapper from './ConditionalWrapper'
 import styles from './TrendsTable.module.scss'
 
 const columns = [
@@ -215,10 +216,11 @@ class TrendsTable extends PureComponent {
     const tableData = trendWords.map(({ word, score }, index) => {
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
       const isWordSelected = selectedTrends.has(word)
+      const isLimitReached = selectedTrends.size > 4 && !isWordSelected
       return {
         index: (
           <>
-            {selectable && !!username && isLoggedIn && (
+            {selectable && !!username && isLoggedIn && !isLimitReached && (
               <Checkbox
                 isActive={isWordSelected}
                 className={cx(
@@ -228,9 +230,11 @@ class TrendsTable extends PureComponent {
                 onClick={() => selectTrend(word)}
               />
             )}
-            <Label accent='waterloo' className={styles.index}>
-              {index + 1}
-            </Label>
+            <ConditionalWrapper isLimitReached={isLimitReached}>
+              <Label accent='waterloo' className={styles.index}>
+                {index + 1}
+              </Label>
+            </ConditionalWrapper>
           </>
         ),
         word: (
