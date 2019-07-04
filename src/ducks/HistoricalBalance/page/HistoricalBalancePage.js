@@ -66,7 +66,7 @@ export default class HistoricalBalancePage extends Component {
 
 const BalancePageExplanation = () => (
   <div>
-    <span>Historycal balance</span>
+    <span>Historical balance</span>
     <span className={styles.questionIcon}>
       <HelpPopup>
         Enter any ERC-20 wallet's address and choose up to 5 assets for a
