@@ -23,6 +23,8 @@ export const TriggerFormAssetWallet = ({
   const defaultSignalType = metaFormSettings.signalType
   const isEthWallet = metric.value === ETH_WALLET_METRIC.value
 
+  const ProjectsViewComponent = isEthWallet ? ProjectsByErc20 : ProjectsAll
+
   return (
     <div className={styles.row}>
       {!isEthWallet && (
@@ -50,20 +52,11 @@ export const TriggerFormAssetWallet = ({
 
       <div className={styles.Field}>
         <Label className={styles.label}>&nbsp;</Label>
-        {isEthWallet && (
-          <ProjectsByErc20
-            metaFormSettings={metaFormSettings}
-            setFieldValue={setFieldValue}
-            target={target}
-          />
-        )}
-        {!isEthWallet && (
-          <ProjectsAll
-            metaFormSettings={metaFormSettings}
-            setFieldValue={setFieldValue}
-            target={target}
-          />
-        )}
+        <ProjectsViewComponent
+          metaFormSettings={metaFormSettings}
+          setFieldValue={setFieldValue}
+          target={target}
+        />
       </div>
     </div>
   )

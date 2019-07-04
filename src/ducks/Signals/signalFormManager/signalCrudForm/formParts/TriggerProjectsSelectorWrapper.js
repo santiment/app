@@ -1,6 +1,6 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
-import { compose } from 'recompose'
+import { compose } from 'redux'
 import {
   ALL_ERC20_PROJECTS_QUERY,
   allProjectsForSearchGQL

@@ -79,10 +79,9 @@ const SignalCardBottom = ({
   isPublished = true,
   isActive,
   isAwaiting = false,
-  toggleSignal
+  toggleSignal,
+  isUserTheAuthor = true
 }) => {
-  const isUserTheAuthor = true
-
   return (
     <div className={styles.bottom}>
       <DesktopOnly>
