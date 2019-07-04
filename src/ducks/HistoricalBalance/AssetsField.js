@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import { Select } from '@santiment-network/ui'
-import { allAssetsGQL } from './common/queries'
+import { ALL_ERC20_PROJECTS_QUERY } from '../../pages/Projects/allProjectsGQL'
 
 class AssetsField extends Component {
   state = {
@@ -60,7 +60,7 @@ const mapDataToProps = ({ allErc20Projects }) => ({
   isLoading: allErc20Projects.isLoading
 })
 
-const enhance = graphql(allAssetsGQL, {
+const enhance = graphql(ALL_ERC20_PROJECTS_QUERY, {
   name: 'allErc20Projects',
   props: mapDataToProps,
   options: () => {

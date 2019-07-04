@@ -542,6 +542,10 @@ export const validateTriggerForm = values => {
     errors.frequencyTimeType = REQUIRED_MESSAGE
   }
 
+  if (!values.target || !values.target.value) {
+    errors.target = REQUIRED_MESSAGE
+  }
+
   return errors
 }
 

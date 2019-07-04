@@ -20,12 +20,3 @@ export const historicalBalanceGQL = gql`
     }
   }
 `
-
-export const allAssetsGQL = gql`
-  {
-    allErc20Projects {
-      slug
-      mainContractAddress
-    }
-  }
-`

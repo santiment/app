@@ -2,28 +2,25 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
-import { ASSETS_FILTERS, ETH_WALLET_METRIC } from '../../../utils/constants'
 import Label from '@santiment-network/ui/Label'
+import { ASSETS_FILTERS, ETH_WALLET_METRIC } from '../../../utils/constants'
+import { ProjectsByErc20, ProjectsAll } from './TriggerProjectsSelector'
 import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
   metaFormSettings: PropTypes.any,
   metric: PropTypes.any.isRequired,
-  allProjects: PropTypes.any,
+  target: PropTypes.any,
   setFieldValue: PropTypes.func.isRequired
 }
 
 export const TriggerFormAssetWallet = ({
+  target,
   metaFormSettings,
   metric,
-  allProjects,
   setFieldValue
 }) => {
   const defaultSignalType = metaFormSettings.signalType
-  const defaultAsset = metaFormSettings.target
-
-  const { ethAddress } = metaFormSettings
-
   const isEthWallet = metric.value === ETH_WALLET_METRIC.value
 
   return (
@@ -53,25 +50,20 @@ export const TriggerFormAssetWallet = ({
 
       <div className={styles.Field}>
         <Label className={styles.label}>&nbsp;</Label>
-        <FormikSelect
-          name='target'
-          isDisabled={defaultAsset.isDisabled}
-          defaultValue={defaultAsset.value.value}
-          placeholder='Pick an asset'
-          options={allProjects.map(asset => ({
-            label: asset.slug,
-            value: asset.slug
-          }))}
-          onChange={newAsset => {
-            if (ethAddress) {
-              if (metaFormSettings.target.value.value === newAsset.value) {
-                setFieldValue('ethAddress', ethAddress)
-              } else {
-                setFieldValue('ethAddress', '')
-              }
-            }
-          }}
-        />
+        {isEthWallet && (
+          <ProjectsByErc20
+            metaFormSettings={metaFormSettings}
+            setFieldValue={setFieldValue}
+            target={target}
+          />
+        )}
+        {!isEthWallet && (
+          <ProjectsAll
+            metaFormSettings={metaFormSettings}
+            setFieldValue={setFieldValue}
+            target={target}
+          />
+        )}
       </div>
     </div>
   )

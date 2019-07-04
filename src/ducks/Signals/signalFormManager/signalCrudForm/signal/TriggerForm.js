@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { compose } from 'recompose'
-import { graphql } from 'react-apollo'
 import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
 import isEqual from 'lodash.isequal'
 import { selectIsTelegramConnected } from '../../../../../pages/UserSelectors'
-import { allProjectsForSearchGQL } from '../../../../../pages/Projects/allProjectsGQL'
 import {
   fetchHistorySignalPoints,
   removeTrigger
@@ -51,7 +49,6 @@ const propTypes = {
 export const TriggerForm = ({
   onSettingsChange,
   getSignalBacktestingPoints,
-  data: { allProjects = [] },
   isTelegramConnected = false,
   lastPriceItem,
   settings,
@@ -184,8 +181,8 @@ export const TriggerForm = ({
 
                 <TriggerFormAssetWallet
                   metric={metric}
+                  target={target}
                   metaFormSettings={metaFormSettings}
-                  allProjects={allProjects}
                   setFieldValue={setFieldValue}
                 />
                 {!metric.hidden && typeSelectors && typeSelectors.length > 1 && (
@@ -315,9 +312,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   getSignalBacktestingPoints: payload => {
-    const trigger = mapFormPropsToTrigger(payload)
-
-    dispatch(fetchHistorySignalPoints(trigger))
+    dispatch(fetchHistorySignalPoints(mapFormPropsToTrigger(payload)))
   },
   removeSignal: id => {
     dispatch(removeTrigger(id))
@@ -328,8 +323,7 @@ const enhance = compose(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  ),
-  graphql(allProjectsForSearchGQL)
+  )
 )
 
 export default enhance(TriggerForm)
