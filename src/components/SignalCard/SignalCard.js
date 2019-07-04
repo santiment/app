@@ -9,6 +9,7 @@ import { DesktopOnly, MobileOnly } from './../../components/Responsive'
 import MultilineText from '../../components/MultilineText/MultilineText'
 import StatusLabel from './../../components/StatusLabel'
 import { RemoveSignalButton, SignalTypeIcon } from './controls/SignalControls'
+import { ContextMenu } from '@santiment-network/ui'
 import styles from './SignalCard.module.scss'
 
 const SignalCard = ({
@@ -119,17 +120,18 @@ const SignalCardBottom = ({
 }
 
 const MoreSignalActions = ({ signalId, removeSignal }) => {
-  const [isOpen, setOpen] = useState(false)
-
   return (
-    <div className={styles.more} onMouseLeave={() => setOpen(false)}>
-      <Button
-        onClick={() => setOpen(!isOpen)}
-        className={cx(styles.expandButton)}
-      >
-        <Icon type='dots' className={styles.moreIcon} />
-      </Button>
-      {isOpen && (
+    <ContextMenu
+      trigger={
+        <Button className={cx(styles.expandButton)}>
+          <Icon type='dots' />
+        </Button>
+      }
+      position='bottom'
+      align='start'
+      classes={styles}
+    >
+      <Panel>
         <div className={styles.popup}>
           <div className={cx(styles.popupItem, styles.popupButton)}>
             <Link
@@ -153,12 +155,12 @@ const MoreSignalActions = ({ signalId, removeSignal }) => {
             <RemoveSignalButton
               id={signalId}
               removeSignal={removeSignal}
-              trigger={<div>Delete</div>}
+              trigger={<div className={styles.removeSignal}>Delete</div>}
             />
           </div>
         </div>
-      )}
-    </div>
+      </Panel>
+    </ContextMenu>
   )
 }
 
