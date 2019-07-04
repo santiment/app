@@ -4,7 +4,7 @@ import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import Timer from '../../Timer'
-import InsightEditorPublishHelp from './InsightEditorBottomPublishHelp'
+import InsightEditorPublishHelp from './PrePublishHelp'
 import PrePublishButton from './PrePublishPopup'
 import { dateDifferenceInWords } from '../../../utils/dates'
 import styles from './InsightEditor.module.scss'
@@ -18,13 +18,15 @@ const InsightEditorBottom = ({
   hasMetTextRequirements
 }) => {
   const options = { from: new Date(updatedAt) }
+  const hasRequirements =
+    hasMetTextRequirements.title && hasMetTextRequirements.text
   return (
     <div className={styles.bottom}>
       <div className={styles.container}>
         <div className={styles.bottom__right}>
           {updatedAt && (
             <span className={styles.save}>
-              {hasMetTextRequirements && isLoading ? (
+              {hasRequirements && isLoading ? (
                 'Saving...'
               ) : (
                 <Fragment>
@@ -36,22 +38,26 @@ const InsightEditorBottom = ({
               )}
             </span>
           )}
-          {!hasMetTextRequirements && (
+          {!hasRequirements && (
             <Tooltip
               on='hover'
               trigger={
-                <Button border accent='grey'>
-                  Publish insight
-                  <Icon type='arrow-down' className={styles.icon} />
-                </Button>
+                <div>
+                  <Button border disabled>
+                    Publish insight
+                    <Icon type='arrow-down' className={styles.icon} />
+                  </Button>
+                </div>
               }
             >
               <Panel padding>
-                <InsightEditorPublishHelp />
+                <InsightEditorPublishHelp
+                  requiredOptions={hasMetTextRequirements}
+                />
               </Panel>
             </Tooltip>
           )}
-          {hasMetTextRequirements && (
+          {hasRequirements && (
             <PrePublishButton
               onTagsChange={onTagsChange}
               defaultTags={defaultTags}

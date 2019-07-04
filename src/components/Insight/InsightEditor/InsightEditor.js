@@ -80,7 +80,7 @@ class InsightEditor extends Component {
       .getPlainText()
       .trim()
 
-    return trimmedTitle.length > 5 && trimmedText.length > 5
+    return { title: trimmedTitle.length > 5, text: trimmedText.length > 5 }
   }
 
   // NOTE(vanguard): Maybe should be placed in the InsightsEditorPage?
