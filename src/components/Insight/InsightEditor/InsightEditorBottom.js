@@ -1,9 +1,13 @@
 import React, { Fragment } from 'react'
+import Tooltip from '@santiment-network/ui/Tooltip'
+import Button from '@santiment-network/ui/Button'
+import Panel from '@santiment-network/ui/Panel/Panel'
+import Icon from '@santiment-network/ui/Icon'
 import Timer from '../../Timer'
 import TagSelector from '../../TagSelector'
+import InsightEditorPublishHelp from './InsightEditorBottomPublishHelp'
 import InsightEditorBottomHelp from './InsightEditorBottomHelp'
-import InsightEditorBottomPublishHelp from './InsightEditorBottomPublishHelp'
-import InsightEditorBottomPublishBtn from './InsightEditorBottomPublishBtn'
+import PrePublishButton from './PrePublishPopup'
 import { dateDifferenceInWords } from '../../../utils/dates'
 import styles from './InsightEditor.module.scss'
 
@@ -43,11 +47,22 @@ const InsightEditorBottom = ({
               )}
             </span>
           )}
-          {!hasMetTextRequirements && <InsightEditorBottomPublishHelp />}
-          <InsightEditorBottomPublishBtn
-            isPublishDisabled={isLoading || !hasMetTextRequirements}
-            onPublishClick={onPublishClick}
-          />
+          {!hasMetTextRequirements && (
+            <Tooltip
+              on='hover'
+              trigger={
+                <Button border accent='grey'>
+                  Publish insight
+                  <Icon type='arrow-down' className={styles.icon} />
+                </Button>
+              }
+            >
+              <Panel padding>
+                <InsightEditorPublishHelp />
+              </Panel>
+            </Tooltip>
+          )}
+          {hasMetTextRequirements && <PrePublishButton />}
         </div>
       </div>
     </div>
