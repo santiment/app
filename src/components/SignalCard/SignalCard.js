@@ -9,7 +9,7 @@ import { DesktopOnly, MobileOnly } from './../../components/Responsive'
 import MultilineText from '../../components/MultilineText/MultilineText'
 import StatusLabel from './../../components/StatusLabel'
 import { RemoveSignalButton, SignalTypeIcon } from './controls/SignalControls'
-import { ContextMenu } from '@santiment-network/ui'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
 import styles from './SignalCard.module.scss'
 
 const SignalCard = ({
