@@ -32,7 +32,13 @@ const getCategoryGraph = availableMetrics => {
       category.push(metric)
       continue
     }
-    categories[metricCategory] = [metric]
+
+    const metrics = [metric]
+    if (metric.key === 'historyPrice') {
+      metrics.push({ ...Metrics.volume, key: 'volume' })
+    }
+
+    categories[metricCategory] = metrics
   }
 
   return categories
