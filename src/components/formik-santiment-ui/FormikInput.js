@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Input } from '@santiment-network/ui'
+import Input from '@santiment-network/ui/Input'
 import { Field, ErrorMessage } from 'formik'
 
 const FormikInput = ({

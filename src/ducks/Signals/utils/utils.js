@@ -485,7 +485,6 @@ export const validateTriggerForm = values => {
   let errors = {}
 
   if (values.type.metric === ETH_WALLET) {
-    if (!values.ethAddress) errors.ethAddress = REQUIRED_MESSAGE
     if (!values.threshold) errors.threshold = REQUIRED_MESSAGE
   }
 
@@ -541,6 +540,10 @@ export const validateTriggerForm = values => {
 
   if (!values.frequencyTimeType || !values.frequencyTimeType.value) {
     errors.frequencyTimeType = REQUIRED_MESSAGE
+  }
+
+  if (!values.target || !values.target.value) {
+    errors.target = REQUIRED_MESSAGE
   }
 
   return errors
