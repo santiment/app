@@ -29,7 +29,7 @@ import errorLink from './apollo/error-link'
 import authLink from './apollo/auth-link'
 import retryLink from './apollo/retry-link'
 import ChartPage from './ducks/SANCharts/ChartPage'
-import { unregister } from './serviceWorker'
+import { register } from './serviceWorker'
 import './index.scss'
 
 // window.mixpanel has been set by Mixpanel's embed snippet.
@@ -92,7 +92,7 @@ const main = () => {
     store.dispatch(changeNetworkStatus(online))
   })
 
-  unregister()
+  register()
 
   ReactDOM.render(
     <ApolloProvider client={client}>
