@@ -117,16 +117,7 @@ export const TriggerForm = ({
       }}
     >
       {({
-        values: {
-          metric,
-          type,
-          target,
-          absoluteBorderRight,
-          absoluteBorderLeft,
-          frequencyType,
-          frequencyTimeType,
-          isRepeating
-        },
+        values,
         errors,
         isSubmitting,
         handleChange,
@@ -135,6 +126,14 @@ export const TriggerForm = ({
         isValid,
         validateForm
       }) => {
+        const {
+          metric,
+          type,
+          target,
+          frequencyType,
+          frequencyTimeType,
+          isRepeating
+        } = values
         const typeSelectors = PRICE_TYPES[(metric || {}).value]
 
         const { price } = lastPriceItem || {}
@@ -208,12 +207,7 @@ export const TriggerForm = ({
                   </div>
                 )}
 
-                <TriggerFormMetricValues
-                  type={type}
-                  lastPrice={price}
-                  absoluteBorderLeft={absoluteBorderLeft}
-                  absoluteBorderRight={absoluteBorderRight}
-                />
+                <TriggerFormMetricValues lastPrice={price} values={values} />
 
                 <TriggerFormFrequency
                   metaFormSettings={metaFormSettings}
