@@ -1,73 +1,109 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
+import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import { Select } from '@santiment-network/ui'
+import isEqual from 'lodash.isequal'
 import { ALL_ERC20_PROJECTS_QUERY } from '../../pages/Projects/allProjectsGQL'
+import { ASSETS_BY_WALLET_QUERY } from './common/queries'
 
-class AssetsField extends Component {
-  state = {
-    selected: this.props.defaultSelected
-  }
+const AssetsField = ({
+  byAddress,
+  defaultSelected = [],
+  isLoading,
+  assets = [],
+  className = 'assets-select',
+  onChange
+}) => {
+  const [showingAssets, setShowingAssets] = useState(defaultSelected)
 
-  static propTypes = {
-    defaultSelected: PropTypes.array,
-    onChange: PropTypes.func.isRequired,
-    className: PropTypes.string
-  }
-
-  static defaultProps = {
-    defaultSelected: [],
-    className: 'assets-select'
-  }
-
-  handleOnChange = selected => {
+  const handleOnChange = selected => {
     if (selected.length <= 5) {
-      this.setState({ selected }, () => {
-        this.props.onChange(selected)
-      })
+      setShowingAssets(selected)
+      onChange(selected)
     }
   }
 
-  render () {
-    return (
-      <Select
-        multi
-        placeholder='For example, Ethereum...'
-        options={this.props.assets}
-        isLoading={this.props.isLoading}
-        onChange={this.handleOnChange}
-        value={this.state.selected}
-        className={this.props.className}
-        valueKey='value'
-      />
-    )
-  }
+  return (
+    <Select
+      multi
+      placeholder='For example, Ethereum...'
+      options={assets}
+      isLoading={isLoading}
+      onChange={handleOnChange}
+      value={showingAssets}
+      className={className}
+      valueKey='value'
+    />
+  )
 }
 
-const getERC20Assets = assets => {
-  return (assets.allErc20Projects || [])
-    .filter(asset => !!asset.mainContractAddress)
+const mapToAssets = (data, filter = true) => {
+  return data
+    .filter(asset => !filter || !!asset.mainContractAddress)
     .map((asset, index) => {
       return { value: asset.slug, label: asset.slug }
     })
 }
 
-const mapDataToProps = ({ allErc20Projects }) => ({
-  assets: [
-    { value: 'ethereum', label: 'ethereum' },
-    ...getERC20Assets(allErc20Projects)
-  ],
-  isLoading: allErc20Projects.isLoading
-})
-
-const enhance = graphql(ALL_ERC20_PROJECTS_QUERY, {
-  name: 'allErc20Projects',
-  props: mapDataToProps,
-  options: () => {
-    return {
-      errorPolicy: 'all'
-    }
+const mapErc20AssetsToProps = ({
+  allErc20Projects: { allErc20Projects, isLoading }
+}) => {
+  return {
+    assets: [
+      { value: 'ethereum', label: 'ethereum' },
+      ...mapToAssets(allErc20Projects)
+    ],
+    isLoading: isLoading
   }
-})
+}
+
+const mapAssetsHeldByAddressToProps = ({
+  assetsByWallet: { assetsHeldByAddress = [], loading }
+}) => {
+  const assets = mapToAssets(assetsHeldByAddress, false)
+  return {
+    assets: assets,
+    isLoading: loading
+  }
+}
+
+const enhance = compose(
+  graphql(ALL_ERC20_PROJECTS_QUERY, {
+    name: 'allErc20Projects',
+    skip: ({ byAddress }) => {
+      return !!byAddress
+    },
+    props: mapErc20AssetsToProps,
+    options: () => {
+      return {
+        errorPolicy: 'all'
+      }
+    }
+  }),
+  graphql(ASSETS_BY_WALLET_QUERY, {
+    name: 'assetsByWallet',
+    props: mapAssetsHeldByAddressToProps,
+    skip: ({ byAddress }) => {
+      return !byAddress
+    },
+    options: ({ byAddress }) => {
+      return {
+        variables: {
+          address: byAddress
+        },
+        fetchPolicy: 'cache-first'
+      }
+    }
+  })
+)
+
+AssetsField.propTypes = {
+  defaultSelected: PropTypes.array,
+  onChange: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  byAddress: PropTypes.string,
+  assets: PropTypes.array
+}
 
 export default enhance(AssetsField)

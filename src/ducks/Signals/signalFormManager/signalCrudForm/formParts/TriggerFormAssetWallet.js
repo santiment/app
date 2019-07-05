@@ -133,7 +133,8 @@ const enhance = compose(
     props: mapDataToProps,
     options: () => {
       return {
-        errorPolicy: 'all'
+        errorPolicy: 'all',
+        fetchPolicy: 'cache-first'
       }
     }
   })

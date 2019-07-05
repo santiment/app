@@ -12,32 +12,30 @@ import {
 } from '../../Signals/utils/constants'
 import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
 import ShowIf from '../../../components/ShowIf'
-import { graphql } from 'react-apollo'
 import styles from './BalanceView.module.scss'
 
 const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
-  console.log(assets)
   const [state, setState] = useState({
     address: address,
     assets: assets
   })
 
-  useEffect(() => {
-    onChangeQuery(state)
-  }, state)
-
-  console.log(state.assets)
-
   if (!isEqual(state.assets, assets)) {
     setState({ ...state, assets: assets })
   }
+
+  useEffect(() => {
+    onChangeQuery(state)
+  }, state)
 
   const handleChange = event => {
     setState({ ...state, [event.target.name]: event.target.value })
   }
 
   const handleAssetsChange = assets => {
-    setState({ ...state, assets: assets.map(asset => asset.value) })
+    const newState = { ...state, assets: assets.map(asset => asset.value) }
+    setState(newState)
+    onChangeQuery(newState)
   }
 
   const { address: stateAddress, assets: stateAssets } = state
@@ -65,6 +63,7 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
             Asset (maximum 5)
           </label>
           <AssetsField
+            byAddress={stateAddress}
             defaultSelected={stateAssets}
             onChange={handleAssetsChange}
           />
@@ -129,30 +128,4 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
   )
 }
 
-const mapDataToProps = ({
-  data: { assetsHeldByAddress, loading, error } = {}
-} = {}) => {
-  if (loading || error || !assetsHeldByAddress) {
-    return {}
-  }
-
-  return {
-    assets: assetsHeldByAddress.map(asset => asset.slug)
-  }
-}
-
-const enhance = graphql(ASSETS_BY_WALLET_QUERY, {
-  props: mapDataToProps,
-  skip: ({ address }) => {
-    return !address
-  },
-  options: ({ address }) => {
-    return {
-      variables: {
-        address: address
-      },
-      fetchPolicy: 'cache-first'
-    }
-  }
-})
-export default enhance(BalanceView)
+export default BalanceView
