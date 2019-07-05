@@ -32,9 +32,7 @@ class LikeBtn extends Component {
       props: { onClick }
     } = this
 
-    this.setState({ liked: !liked }, () => {
-      onClick(!liked)
-    })
+    this.setState({ liked: !liked }, () => onClick(!liked))
   }
 
   render () {
@@ -44,24 +42,22 @@ class LikeBtn extends Component {
       disabled,
       likesNumber,
       className,
-      small,
-      grey,
+      info,
       useProps
     } = this.props
 
     return (
       <div
-        className={cx(styles.wrapper, className, grey && styles.grey)}
-        onClick={disabled || small ? undefined : this.onClick}
+        className={cx(
+          styles.wrapper,
+          className,
+          info && styles.info,
+          !info && styles.active,
+          (useProps ? savedLike : liked) && styles.liked
+        )}
+        onClick={disabled || info ? undefined : this.onClick}
       >
-        <Icon
-          className={cx(
-            styles.icon,
-            small && styles.small,
-            (useProps ? savedLike : liked) && styles.liked
-          )}
-          type='like'
-        />{' '}
+        <Icon className={styles.icon} type='like' />{' '}
         {useProps ? likesNumber : likesNumber + liked - savedLike}
       </div>
     )

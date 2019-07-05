@@ -17,16 +17,19 @@
   margin-right: 6px;
 }
 
-.grey {
+.info {
   color: var(--waterloo);
-}
-
-.small {
   fill: var(--mystic);
   cursor: default;
 }
 
+.active {
+  &:hover {
+    color: var(--jungle-green);
+    fill: var(--jungle-green);
+  }
+}
+
 .liked {
-  stroke: var(--red);
-  fill: var(--red);
+  fill: var(--persimmon);
 }
