@@ -107,14 +107,11 @@ const mapDataToProps = ({
 }
 
 const pickGQL = type => {
-  const defaultQuery = allProjectsForSearchGQL
   switch (type) {
-    case 'all':
-      return defaultQuery
     case 'erc20':
       return ALL_ERC20_PROJECTS_QUERY
     default:
-      return defaultQuery
+      return allProjectsForSearchGQL
   }
 }
 

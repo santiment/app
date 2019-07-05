@@ -122,7 +122,7 @@ const MoreSignalActions = ({ signalId, removeSignal }) => {
   return (
     <ContextMenu
       trigger={
-        <Button className={cx(styles.expandButton)}>
+        <Button className={styles.expandButton}>
           <Icon type='dots' />
         </Button>
       }
