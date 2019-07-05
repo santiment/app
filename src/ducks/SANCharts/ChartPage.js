@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import * as qs from 'query-string'
 import Loadable from 'react-loadable'
+import { getNewInterval } from './IntervalSelector'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
@@ -63,17 +64,21 @@ class ChartPage extends Component {
 
   onTimerangeChange = timeRange => {
     const { from, to } = getIntervalByTimeRange(timeRange)
+    const interval = getNewInterval(from, to, this.state.interval)
     this.setState(
-      { timeRange, from: from.toISOString(), to: to.toISOString() },
+      { timeRange, from: from.toISOString(), to: to.toISOString(), interval },
       this.updateSearchQuery
     )
   }
 
   onCalendarChange = ([from, to]) => {
+    const interval = getNewInterval(from, to, this.state.interval)
+
     this.setState(
       {
         from: from.toISOString(),
-        to: to.toISOString()
+        to: to.toISOString(),
+        interval
       },
       this.updateSearchQuery
     )
@@ -88,6 +93,10 @@ class ChartPage extends Component {
 
   onMetricsChange = metrics => {
     this.setState({ metrics }, this.updateSearchQuery)
+  }
+
+  onIntervalChange = interval => {
+    this.setState({ interval }, this.updateSearchQuery)
   }
 
   toggleMetric = metric => {
@@ -231,10 +240,12 @@ class ChartPage extends Component {
                   onSlugSelect={this.onSlugSelect}
                   generateShareLink={this.generateShareLink}
                   onNightModeSelect={this.onNightModeSelect}
+                  onIntervalChange={this.onIntervalChange}
                   hasNightMode={nightMode}
                   disabledMetrics={errors}
                   from={from}
                   to={to}
+                  interval={interval}
                 />
               )}
               <Charts

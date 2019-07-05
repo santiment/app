@@ -4,10 +4,20 @@
   display: flex;
   padding: 10px;
   justify-content: space-between;
+
+  &__right {
+    display: flex;
+  }
+}
+
+.ranges,
+.calendar {
+  margin-right: 16px;
 }
 
 .search {
-  width: 50%;
+  width: 20%;
+  min-width: 220px;
 }
 
 .title {

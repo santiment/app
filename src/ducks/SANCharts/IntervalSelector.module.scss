@@ -1,0 +1,20 @@
+.dd {
+  padding: 8px;
+}
+
+.icon {
+  margin-left: 10px;
+  fill: var(--waterloo);
+}
+
+.btn {
+  margin-right: 16px;
+}
+
+.active {
+  border-color: var(--jungle-green);
+
+  .icon {
+    transform: rotate(180deg);
+  }
+}

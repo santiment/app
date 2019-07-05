@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
@@ -11,7 +12,11 @@ const getDateLabel = date => {
   return `${DD}.${MM}.${YY}`
 }
 
-const CalendarBtn = ({ onChange, value = [new Date(), new Date()] }) => {
+const CalendarBtn = ({
+  onChange,
+  className,
+  value = [new Date(), new Date()]
+}) => {
   const fromDate = getDateLabel(value[0])
   const toDate = getDateLabel(value[1])
 
@@ -21,7 +26,7 @@ const CalendarBtn = ({ onChange, value = [new Date(), new Date()] }) => {
       position='bottom'
       align='end'
       trigger={
-        <Button border classes={styles} className={styles.btn}>
+        <Button border classes={styles} className={cx(styles.btn, className)}>
           {fromDate} - {toDate}{' '}
           <Icon type='arrow-down' className={styles.icon} />
         </Button>
