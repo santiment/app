@@ -17,12 +17,13 @@ const FormikSelect = ({
       render={({ field, form }) => {
         const isValid = !form.errors[name]
         const customStyles = {
-          control: (base, state) => {
+          control: base => {
+            const color = isValid ? '#ddd' : 'var(--persimmon) !important'
             return {
               ...base,
-              borderColor: isValid ? '#ddd' : 'var(--persimmon) !important',
+              borderColor: color,
               '&:hover': {
-                borderColor: isValid ? '#ddd' : 'var(--persimmon) !important'
+                borderColor: color
               }
             }
           }
