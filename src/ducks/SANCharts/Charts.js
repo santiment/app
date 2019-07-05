@@ -62,14 +62,17 @@ class Charts extends React.Component {
   }
 
   render () {
-    const { metrics, chartData = [], onZoomOut, title } = this.props
+    const { metrics, chartData = [], onZoomOut, title, isZoomed } = this.props
     const { refAreaLeft, refAreaRight } = this.state
+
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart}>
         <div className={sharedStyles.header}>
-          <Button border onClick={onZoomOut} className={sharedStyles.zoom}>
-            Zoom out
-          </Button>
+          {isZoomed && (
+            <Button border onClick={onZoomOut} className={sharedStyles.zoom}>
+              Zoom out
+            </Button>
+          )}
           <div className={sharedStyles.title}>{title}</div>
         </div>
         <ResponsiveContainer width='100%' height={300}>

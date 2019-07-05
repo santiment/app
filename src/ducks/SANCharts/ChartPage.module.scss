@@ -18,11 +18,15 @@
 }
 
 .zoom {
-  float: left;
+  position: absolute;
+  top: 31px;
+  left: 58px;
+  z-index: 1;
 }
 
 .chart {
   user-select: none !important;
+  position: relative;
 }
 
 .metrics {

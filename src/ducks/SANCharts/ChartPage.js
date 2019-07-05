@@ -240,6 +240,7 @@ class ChartPage extends Component {
               <Charts
                 onZoom={this.onZoom}
                 onZoomOut={this.onZoomOut}
+                isZoomed={zoom}
                 chartData={
                   timeseries && zoom
                     ? timeseries.slice(zoom[0], zoom[1])
