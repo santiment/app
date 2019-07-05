@@ -51,15 +51,17 @@ class LikeBtn extends Component {
 
     return (
       <div
-        className={cx(
-          styles.wrapper,
-          className,
-          (useProps ? savedLike : liked) && styles.liked,
-          grey && styles.grey
-        )}
+        className={cx(styles.wrapper, className, grey && styles.grey)}
         onClick={disabled || small ? undefined : this.onClick}
       >
-        <Icon className={cx(styles.icon, small && styles.small)} type='like' />{' '}
+        <Icon
+          className={cx(
+            styles.icon,
+            small && styles.small,
+            (useProps ? savedLike : liked) && styles.liked
+          )}
+          type='like'
+        />{' '}
         {useProps ? likesNumber : likesNumber + liked - savedLike}
       </div>
     )

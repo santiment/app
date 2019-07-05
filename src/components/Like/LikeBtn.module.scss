@@ -7,27 +7,23 @@
   align-items: center;
   cursor: pointer;
   line-height: 20px;
-  color: var(--black);
-  stroke: var(--grey-dark);
-  fill: transparent;
-  stroke-width: 1.5;
+  color: var(--mirage);
+  fill: var(--casper);
 }
 
 .icon {
+  height: 10.15px;
+  width: 12px;
   margin-right: 6px;
 }
 
 .grey {
   color: var(--waterloo);
-  stroke: var(--casper);
 }
 
 .small {
-  height: 12px;
-  stroke-width: 0;
-  margin-top: -2px;
   fill: var(--mystic);
-  margin-right: 4px;
+  cursor: default;
 }
 
 .liked {
