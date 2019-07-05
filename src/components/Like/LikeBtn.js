@@ -46,16 +46,18 @@ class LikeBtn extends Component {
       useProps
     } = this.props
 
+    const isActive = !info && !disabled
+
     return (
       <div
         className={cx(
           styles.wrapper,
           className,
-          info && styles.info,
-          !info && styles.active,
+          isActive && styles.active,
+          !isActive && styles.info,
           (useProps ? savedLike : liked) && styles.liked
         )}
-        onClick={disabled || info ? undefined : this.onClick}
+        onClick={!isActive ? undefined : this.onClick}
       >
         <Icon className={styles.icon} type='like' />{' '}
         {useProps ? likesNumber : likesNumber + liked - savedLike}

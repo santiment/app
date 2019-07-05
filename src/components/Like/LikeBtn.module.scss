@@ -15,6 +15,7 @@
   height: 10.15px;
   width: 12px;
   margin-right: 6px;
+  transition: all 0.2s ease-in-out;
 }
 
 .info {
@@ -25,8 +26,9 @@
 
 .active {
   &:hover {
-    color: var(--jungle-green);
-    fill: var(--jungle-green);
+    .icon {
+      transform: scale(1.3);
+    }
   }
 }
 
