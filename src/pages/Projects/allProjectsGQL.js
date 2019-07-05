@@ -133,4 +133,13 @@ export const currenciesMarketSegmentsGQL = gql`
   }
 `
 
+export const ALL_ERC20_PROJECTS_QUERY = gql`
+  {
+    allErc20Projects {
+      slug
+      mainContractAddress
+    }
+  }
+`
+
 export default allProjectsGQL
