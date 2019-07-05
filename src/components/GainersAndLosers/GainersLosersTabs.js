@@ -99,6 +99,9 @@ const withGainersLosers = graphql(TOP_SOCIAL_GAINERS_LOSERS_QUERY, {
       topSocialGainersLosers[length - 1].projects.forEach(project => {
         const { slug: projectSlug } = project
         const proj = {
+          // NOTE(haritonasty): temporal solution - hardcode slug to other fields
+          coinmarketcapId: projectSlug,
+          ticker: projectSlug.toUpperCase(),
           ...allProjects.find(({ slug }) => slug === projectSlug),
           ...project
         }

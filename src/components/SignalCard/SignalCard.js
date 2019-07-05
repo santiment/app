@@ -5,11 +5,11 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
 import MultilineText from '../../components/MultilineText/MultilineText'
 import StatusLabel from './../../components/StatusLabel'
 import { RemoveSignalButton, SignalTypeIcon } from './controls/SignalControls'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
 import styles from './SignalCard.module.scss'
 
 const SignalCard = ({
@@ -122,7 +122,7 @@ const MoreSignalActions = ({ signalId, removeSignal }) => {
   return (
     <ContextMenu
       trigger={
-        <Button className={cx(styles.expandButton)}>
+        <Button className={styles.expandButton}>
           <Icon type='dots' />
         </Button>
       }
