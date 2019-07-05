@@ -20,6 +20,9 @@ const InsightEditorBottom = ({
   const options = { from: new Date(updatedAt) }
   const hasRequirements =
     hasMetTextRequirements.title && hasMetTextRequirements.text
+  const tags = defaultTags.filter(
+    ({ name }) => !name.endsWith('-trending-words')
+  )
   return (
     <div className={styles.bottom}>
       <div className={styles.container}>
@@ -40,11 +43,12 @@ const InsightEditorBottom = ({
         {!hasRequirements && (
           <Tooltip
             on='hover'
+            align='end'
             trigger={
               <div>
                 <Button border disabled>
                   Publish insight
-                  <Icon type='arrow-down' className={styles.icon} />
+                  <Icon type='arrow-up' className={styles.icon} />
                 </Button>
               </div>
             }
@@ -58,8 +62,9 @@ const InsightEditorBottom = ({
         )}
         {hasRequirements && (
           <PrePublishButton
+            isLoading={isLoading}
             onTagsChange={onTagsChange}
-            defaultTags={defaultTags}
+            defaultTags={tags}
             onPublishClick={onPublishClick}
           />
         )}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Icon from '@santiment-network/ui/Icon'
@@ -9,15 +9,16 @@ import styles from './PrePublishPopup.module.scss'
 const PrePublishPopup = ({
   onPublishClick,
   defaultTags = [],
-  onTagsChange
+  onTagsChange,
+  isLoading
 }) => {
-  const [loading, setLoading] = useState(false)
   return (
     <ContextMenu
+      align='end'
       trigger={
         <Button accent='positive' border>
           Publish insight
-          <Icon type='arrow-down' className={styles.icon} />
+          <Icon type='arrow-up' className={styles.icon} />
         </Button>
       }
     >
@@ -39,11 +40,8 @@ const PrePublishPopup = ({
           variant='fill'
           accent='positive'
           className={styles.button}
-          onClick={() => {
-            onPublishClick()
-            setLoading(true)
-          }}
-          isLoading={loading}
+          onClick={onPublishClick}
+          isLoading={isLoading}
         >
           Publish insight
         </Button>
