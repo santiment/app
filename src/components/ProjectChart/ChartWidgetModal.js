@@ -9,7 +9,11 @@ const ChartWidgetModal = ({ from, to, slug, timeRange }) => {
     <Dialog
       title='Smart Chart'
       classes={styles}
-      trigger={<Button border>Smart chart</Button>}
+      trigger={
+        <Button border className={styles.btn}>
+          <span className={styles.icon}>😻 </span>Smart chart
+        </Button>
+      }
     >
       <Dialog.ScrollContent>
         <ChartWidget from={from} to={to} slug={slug} timeRange={timeRange} />
