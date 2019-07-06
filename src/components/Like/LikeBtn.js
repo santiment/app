@@ -7,7 +7,9 @@ import styles from './LikeBtn.module.scss'
 
 class LikeBtn extends Component {
   state = {
-    liked: this.props.liked
+    liked: this.props.liked,
+    isAnimation: false,
+    initialLikesNumber: this.props.likesNumber
   }
 
   static propTypes = {
@@ -21,6 +23,7 @@ class LikeBtn extends Component {
   static defaultProps = {
     liked: false,
     likesNumber: 0,
+    initialLikesNumber: 0,
     disabled: false,
     onClick: () => {},
     useProps: false
@@ -32,21 +35,23 @@ class LikeBtn extends Component {
       props: { onClick }
     } = this
 
-    this.setState({ liked: !liked }, () => onClick(!liked))
+    this.setState({ liked: !liked, isAnimation: true }, () => onClick(!liked))
   }
 
+  onAnimationEnd = () => this.setState({ isAnimation: false })
+
   render () {
-    const { liked } = this.state
+    const { liked, isAnimation, initialLikesNumber } = this.state
     const {
       liked: savedLike,
       disabled,
       likesNumber,
       className,
-      info,
+      infoOnly,
       useProps
     } = this.props
-
-    const isActive = !info && !disabled
+    const isActive = !infoOnly && !disabled
+    const amount = useProps ? likesNumber : likesNumber + liked - savedLike
 
     return (
       <div
@@ -58,9 +63,20 @@ class LikeBtn extends Component {
           (useProps ? savedLike : liked) && styles.liked
         )}
         onClick={!isActive ? undefined : this.onClick}
+        onAnimationEnd={this.onAnimationEnd}
       >
-        <Icon className={styles.icon} type='like' />{' '}
-        {useProps ? likesNumber : likesNumber + liked - savedLike}
+        <Icon
+          className={cx(styles.icon, isAnimation && styles.animated)}
+          type='like'
+        />
+        <span
+          className={styles.text}
+          style={{
+            '--digits-number': `${initialLikesNumber.toString().length}`
+          }}
+        >
+          {amount}
+        </span>
       </div>
     )
   }

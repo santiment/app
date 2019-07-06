@@ -27,7 +27,7 @@ const InsightCard = ({
         <Link to={`/insights/users/${user.id}`} className={styles.username}>
           {user.username}
         </Link>
-        <LikeBtn info liked={!!votedAt} likesNumber={totalVotes} />
+        <LikeBtn infoOnly liked={!!votedAt} likesNumber={totalVotes} />
       </div>
     </div>
   )
