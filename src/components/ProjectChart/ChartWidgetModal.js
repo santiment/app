@@ -11,7 +11,10 @@ const ChartWidgetModal = ({ from, to, slug, timeRange, title }) => {
       classes={styles}
       trigger={
         <Button border className={styles.btn} isLoading={!slug}>
-          <span className={styles.icon}>😻 </span>Smart chart
+          <span className={styles.icon} role='img' aria-label='cool'>
+            😻
+          </span>{' '}
+          Smart chart
         </Button>
       }
     >
