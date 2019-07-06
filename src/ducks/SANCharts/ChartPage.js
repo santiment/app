@@ -51,10 +51,10 @@ class ChartPage extends Component {
       }
       passedState = data
     } else {
-      const { slug, ticker, from, to } = props
+      const { slug, from, to, title } = props
       passedState = {
         slug,
-        ticker,
+        title,
         from,
         to
       }

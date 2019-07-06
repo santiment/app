@@ -4,7 +4,7 @@ import Button from '@santiment-network/ui/Button'
 import ChartWidget from '../../ducks/SANCharts/ChartPage'
 import styles from './ChartWidgetModal.module.scss'
 
-const ChartWidgetModal = ({ from, to, slug, timeRange }) => {
+const ChartWidgetModal = ({ from, to, slug, timeRange, title }) => {
   return (
     <Dialog
       title='Smart Chart'
@@ -16,7 +16,13 @@ const ChartWidgetModal = ({ from, to, slug, timeRange }) => {
       }
     >
       <Dialog.ScrollContent>
-        <ChartWidget from={from} to={to} slug={slug} timeRange={timeRange} />
+        <ChartWidget
+          from={from}
+          to={to}
+          slug={slug}
+          timeRange={timeRange}
+          title={title}
+        />
       </Dialog.ScrollContent>
     </Dialog>
   )
