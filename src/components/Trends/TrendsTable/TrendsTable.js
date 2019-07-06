@@ -216,11 +216,11 @@ class TrendsTable extends PureComponent {
     const tableData = trendWords.map(({ word, score }, index) => {
       const [oldVolume = 0, newVolume = 0] = volumeChange[word] || []
       const isWordSelected = selectedTrends.has(word)
-      const isLimitReached = selectedTrends.size > 4 && !isWordSelected
+      const hasMaxWordsSelected = selectedTrends.size > 4 && !isWordSelected
       return {
         index: (
           <>
-            {selectable && !!username && isLoggedIn && !isLimitReached && (
+            {selectable && !!username && isLoggedIn && !hasMaxWordsSelected && (
               <Checkbox
                 isActive={isWordSelected}
                 className={cx(
@@ -230,7 +230,7 @@ class TrendsTable extends PureComponent {
                 onClick={() => selectTrend(word)}
               />
             )}
-            <ConditionalWrapper isLimitReached={isLimitReached}>
+            <ConditionalWrapper isLimitReached={hasMaxWordsSelected}>
               <Label accent='waterloo' className={styles.index}>
                 {index + 1}
               </Label>

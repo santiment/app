@@ -31,8 +31,10 @@ class InsightEditor extends Component {
     isEditing: false
   }
 
-  componentDidUpdate ({ tags }, { tags: stateTags }) {
-    if (tags.length > 0 && this.props.tags !== tags) this.setState({ tags })
+  componentDidUpdate ({ tags }) {
+    if (tags.length > 0 && this.props.tags !== tags) {
+      this.setState({ tags })
+    }
   }
 
   trendTag = this.props.tags.find(({ name }) =>

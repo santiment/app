@@ -7,6 +7,7 @@ import Timer from '../../Timer'
 import InsightEditorPublishHelp from './PrePublishHelp'
 import PrePublishButton from './PrePublishPopup'
 import { dateDifferenceInWords } from '../../../utils/dates'
+import { noTrendTagsFilter } from '../utils'
 import styles from './InsightEditor.module.scss'
 
 const InsightEditorBottom = ({
@@ -18,17 +19,15 @@ const InsightEditorBottom = ({
   hasMetTextRequirements
 }) => {
   const options = { from: new Date(updatedAt) }
-  const hasRequirements =
+  const hasMetRequirements =
     hasMetTextRequirements.title && hasMetTextRequirements.text
-  const tags = defaultTags.filter(
-    ({ name }) => !name.endsWith('-trending-words')
-  )
+  const tags = defaultTags.filter(noTrendTagsFilter)
   return (
     <div className={styles.bottom}>
       <div className={styles.container}>
         {updatedAt && (
           <span className={styles.save}>
-            {hasRequirements && isLoading ? (
+            {hasMetRequirements && isLoading ? (
               'Saving...'
             ) : (
               <>
@@ -40,7 +39,7 @@ const InsightEditorBottom = ({
             )}
           </span>
         )}
-        {!hasRequirements && (
+        {!hasMetRequirements && (
           <Tooltip
             on='hover'
             align='end'
@@ -60,7 +59,7 @@ const InsightEditorBottom = ({
             </Panel>
           </Tooltip>
         )}
-        {hasRequirements && (
+        {hasMetRequirements && (
           <PrePublishButton
             isLoading={isLoading}
             onTagsChange={onTagsChange}
