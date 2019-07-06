@@ -7,7 +7,11 @@ import { DailyActiveAddressesGQL } from './DetailedGQL'
 import { TRANSACTION_VOLUME_QUERY } from '../../ducks/GetTimeSeries/queries/transaction_volume_query'
 import { NEWS_QUERY } from '../../components/News/NewsGQL'
 import { calcPercentageChange, capitalizeStr } from './../../utils/utils'
-import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
+import {
+  DAY,
+  getTimeIntervalFromToday,
+  getIntervalByTimeRange
+} from '../../utils/dates'
 import { formatNumber } from './../../utils/formatting'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import PercentChanges from './../../components/PercentChanges'
@@ -89,6 +93,8 @@ const MobileDetailedPage = props => {
       changes: DAADiff
     }
   }
+
+  const { from, to } = getIntervalByTimeRange(timeRange)
 
   const timeseriesOptions = {
     slug,
@@ -203,6 +209,8 @@ const MobileDetailedPage = props => {
                               slug={slug}
                               activeMetric={extraMetric}
                               onClick={toggleExtraMetric}
+                              from={from}
+                              to={to}
                             />
                           )}
                           {devActivityInfo && (

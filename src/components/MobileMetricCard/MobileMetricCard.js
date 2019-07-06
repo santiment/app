@@ -4,11 +4,8 @@ import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import { formatNumber } from '../../utils/formatting'
 import PercentChanges from '../PercentChanges'
-import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
 import { METRIC_ANOMALIE_QUERY } from '../../pages/Detailed/DetailedGQL'
 import styles from './MobileMetricCard.module.scss'
-
-const { from: FROM, to: TO } = getTimeIntervalFromToday(-7, DAY)
 
 const ANOMALIES_METRICS_ENUM = {
   dailyActiveAddresses: 'DAILY_ACTIVE_ADDRESSES',
@@ -30,6 +27,8 @@ const MobileMetricCard = ({
     onClick({ name: metric, anomalies })
   }
 
+  const { length: anomaliesNumber } = anomalies
+
   return (
     <button
       className={cx(
@@ -46,7 +45,9 @@ const MobileMetricCard = ({
       </div>
       <div className={styles.row}>
         <h4 className={styles.anomalies}>
-          {anomalies && anomalies.length ? `${anomalies.length} anomalies` : ''}
+          {anomaliesNumber
+            ? `${anomaliesNumber} anomal${anomaliesNumber > 1 ? 'ies' : 'y'}`
+            : ''}
         </h4>
         <div>
           <PercentChanges changes={changes} />
@@ -58,14 +59,14 @@ const MobileMetricCard = ({
 }
 
 export default graphql(METRIC_ANOMALIE_QUERY, {
-  skip: ({ metric }) => !metric,
-  options: ({ metric, slug }) => {
+  skip: ({ metric, from }) => !metric || !from,
+  options: ({ metric, slug, from, to }) => {
     return {
       variables: {
         metric: ANOMALIES_METRICS_ENUM[metric],
         slug,
-        from: FROM.toISOString(),
-        to: TO.toISOString()
+        from: from.toISOString(),
+        to: to.toISOString()
       }
     }
   }
