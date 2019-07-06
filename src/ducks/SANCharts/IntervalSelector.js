@@ -22,7 +22,6 @@ const getAvailableIntervals = (from, to) => {
     to: new Date(to),
     format: DAY
   })
-  console.log(diff)
 
   if (diff < 30) {
     // NOTE(vanguard): if interval is smaller then "1h" server responds with error
