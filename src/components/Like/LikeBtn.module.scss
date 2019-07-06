@@ -13,8 +13,12 @@
 
 .icon {
   transform: scale(0.7);
-  margin: -1px 4px 0 0;
+  margin-right: 4px;
   transition: all 0.2s ease-in-out;
+
+  @include responsive('desktop', 'laptop', 'tablet') {
+    margin-top: -1.1px;
+  }
 }
 
 .info {
@@ -33,8 +37,11 @@
 
 .animated {
   animation: pulse 0.4s;
-  transform: scale(1);
   stroke: var(--porcelain);
+
+  @include responsive('desktop', 'laptop') {
+    transform: scale(1);
+  }
 }
 
 .liked {
@@ -52,7 +59,9 @@
 
   &:hover {
     .icon {
-      transform: scale(0.9);
+      @include responsive('desktop', 'laptop') {
+        transform: scale(0.9);
+      }
     }
   }
 }
@@ -63,10 +72,14 @@
   }
 
   25% {
-    transform: scale(0.4);
+    transform: scale(0.2);
     stroke-width: 4px;
     width: 22px;
     height: 19.5px;
+
+    @include responsive('desktop', 'laptop') {
+      transform: scale(0.4);
+    }
   }
 
   100% {
