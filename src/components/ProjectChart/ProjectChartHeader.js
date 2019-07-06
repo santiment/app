@@ -2,6 +2,7 @@ import React from 'react'
 import { withState, compose, lifecycle } from 'recompose'
 import PaywallMessage from './../PaywallMessage/PaywallMessage'
 import ShareableBtn from './ShareableBtn'
+import ChartWidgetModal from './ChartWidgetModal'
 import './ProjectChartHeader.css'
 
 export const TimeFilterItem = ({
@@ -54,6 +55,8 @@ export const CurrencyFilter = ({ ticker, isToggledBTC, toggleBTC }) => (
 const ProjectChartHeader = ({
   from,
   to,
+  slug,
+  name,
   focusedInput,
   onFocusChange,
   setFromTo,
@@ -87,6 +90,12 @@ const ProjectChartHeader = ({
           ticker={ticker}
           sanbaseChart={sanbaseChart}
           shareableURL={shareableURL}
+        />
+        <ChartWidgetModal
+          slug={slug}
+          title={`${name} (${ticker})`}
+          from={from}
+          to={to}
         />
       </div>
     </div>

@@ -275,6 +275,8 @@ class ProjectChartContainer extends Component {
               interval={this.props.timeFilter.timeframe}
               shareableURL={shareableURL}
               ticker={this.props.ticker}
+              slug={this.props.project.slug}
+              name={this.props.project.name}
               isERC20={this.props.isERC20}
               isDesktop={this.props.isDesktop}
               isPremium={this.props.isPremium}

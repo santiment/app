@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import * as qs from 'query-string'
 import Loadable from 'react-loadable'
-import { getNewInterval } from './IntervalSelector'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
+import { getNewInterval } from './IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import styles from './ChartPage.module.scss'
 
@@ -29,24 +29,41 @@ const DEFAULT_TIME_RANGE = '6m'
 
 const { from, to } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 
-class ChartPage extends Component {
-  mapQSToState = ({ location: { search } }) => {
-    const data = qs.parse(search, { arrayFormat: 'comma' })
-    if (typeof data.metrics === 'string') {
-      data.metrics = [data.metrics]
-    }
-    return data
-  }
+const DEFAULT_STATE = {
+  timeRange: DEFAULT_TIME_RANGE,
+  from: from.toISOString(),
+  to: to.toISOString(),
+  slug: 'santiment',
+  metrics: ['historyPrice'],
+  title: 'Santiment (SAN)',
+  interval: '1w'
+}
 
-  state = {
-    timeRange: DEFAULT_TIME_RANGE,
-    from: from.toISOString(),
-    to: to.toISOString(),
-    slug: 'santiment',
-    metrics: ['historyPrice'],
-    title: 'Santiment (SAN)',
-    interval: '1d',
-    ...this.mapQSToState(this.props)
+class ChartPage extends Component {
+  constructor (props) {
+    super(props)
+
+    let passedState
+    if (props.location) {
+      const data = qs.parse(props.location.search, { arrayFormat: 'comma' })
+      if (typeof data.metrics === 'string') {
+        data.metrics = [data.metrics]
+      }
+      passedState = data
+    } else {
+      const { slug, ticker, from, to } = props
+      passedState = {
+        slug,
+        ticker,
+        from,
+        to
+      }
+    }
+
+    this.state = {
+      ...DEFAULT_STATE,
+      ...passedState
+    }
   }
 
   onZoom = (leftZoomIndex, rightZoomIndex, leftZoomDate, rightZoomDate) => {
@@ -129,6 +146,10 @@ class ChartPage extends Component {
   mapStateToQS = props => '?' + qs.stringify(props, { arrayFormat: 'comma' })
 
   updateSearchQuery () {
+    if (!this.props.location) {
+      return
+    }
+
     this.props.history.replace({
       search: this.mapStateToQS(this.state)
     })
