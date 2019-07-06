@@ -5,7 +5,6 @@ import isEqual from 'lodash.isequal'
 import GetHistoricalBalance from '../GetHistoricalBalance'
 import HistoricalBalanceChart from '../chart/HistoricalBalanceChart'
 import AssetsField from '../AssetsField'
-import { ASSETS_BY_WALLET_QUERY } from '../common/queries'
 import {
   ETH_WALLET_AMOUNT_UP,
   ETH_WALLET_METRIC

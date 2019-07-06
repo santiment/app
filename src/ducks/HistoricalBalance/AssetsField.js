@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import { Select } from '@santiment-network/ui'
-import isEqual from 'lodash.isequal'
 import { ALL_ERC20_PROJECTS_QUERY } from '../../pages/Projects/allProjectsGQL'
 import { ASSETS_BY_WALLET_QUERY } from './common/queries'
+import {
+  mapAssetsHeldByAddressToProps,
+  mapErc20AssetsToProps
+} from '../Signals/utils/utils'
 
 const AssetsField = ({
   byAddress,
@@ -36,36 +39,6 @@ const AssetsField = ({
       valueKey='value'
     />
   )
-}
-
-const mapToAssets = (data, filter = true) => {
-  return data
-    .filter(asset => !filter || !!asset.mainContractAddress)
-    .map((asset, index) => {
-      return { value: asset.slug, label: asset.slug }
-    })
-}
-
-const mapErc20AssetsToProps = ({
-  allErc20Projects: { allErc20Projects, isLoading }
-}) => {
-  return {
-    assets: [
-      { value: 'ethereum', label: 'ethereum' },
-      ...mapToAssets(allErc20Projects)
-    ],
-    isLoading: isLoading
-  }
-}
-
-const mapAssetsHeldByAddressToProps = ({
-  assetsByWallet: { assetsHeldByAddress = [], loading }
-}) => {
-  const assets = mapToAssets(assetsHeldByAddress, false)
-  return {
-    assets: assets,
-    isLoading: loading
-  }
 }
 
 const enhance = compose(

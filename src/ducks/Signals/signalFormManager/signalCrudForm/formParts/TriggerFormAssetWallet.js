@@ -12,12 +12,25 @@ import {
   allProjectsForSearchGQL
 } from '../../../../../pages/Projects/allProjectsGQL'
 import styles from '../signal/TriggerForm.module.scss'
+import { ASSETS_BY_WALLET_QUERY } from '../../../../HistoricalBalance/common/queries'
+import {
+  mapAssetsHeldByAddressToProps,
+  mapToAssets
+} from '../../../utils/utils'
 
-const isDisabledWalletAddressField = (target, allErc20Projects) => {
+const isDisabledWalletAddressField = (
+  canUseMappedErc20,
+  target,
+  allErc20Projects
+) => {
+  if (canUseMappedErc20) {
+    return false
+  }
+
   return (
     !target ||
     !target.value ||
-    !allErc20Projects.find(x => x.slug === target.value)
+    !allErc20Projects.find(x => x.value === target.value)
   )
 }
 
@@ -25,7 +38,9 @@ const propTypes = {
   metaFormSettings: PropTypes.any,
   metric: PropTypes.any.isRequired,
   target: PropTypes.any,
-  setFieldValue: PropTypes.func.isRequired
+  setFieldValue: PropTypes.func.isRequired,
+  byAddress: PropTypes.string,
+  assets: PropTypes.array
 }
 
 const TriggerFormAssetWallet = ({
@@ -33,15 +48,26 @@ const TriggerFormAssetWallet = ({
   target,
   metaFormSettings,
   metric,
-  setFieldValue
+  assets = [],
+  setFieldValue,
+  byAddress = ''
 }) => {
+  console.log('--->')
+  console.log('allErc20Projects', allErc20Projects)
+  console.log('allProjects', allProjects)
+  console.log('<-->')
   const defaultSignalType = metaFormSettings.signalType
   const isEthWallet = metric.value === ETH_WALLET_METRIC.value
 
+  const canUseMappedErc20 = !!byAddress && assets.length > 0
+
   const disabledWalletField = isDisabledWalletAddressField(
+    canUseMappedErc20,
     target,
     allErc20Projects
   )
+
+  const selectableProjects = canUseMappedErc20 ? assets : allProjects
 
   return (
     <div className={styles.row}>
@@ -78,11 +104,18 @@ const TriggerFormAssetWallet = ({
         <Label className={styles.label}>&nbsp;</Label>
         <TriggerProjectsSelector
           metaFormSettings={metaFormSettings}
+          heldByWallet={assets}
           setFieldValue={setFieldValue}
           target={target}
-          projects={allProjects}
+          projects={selectableProjects}
           onChange={newAsset => {
-            if (isDisabledWalletAddressField(newAsset, allErc20Projects)) {
+            if (
+              isDisabledWalletAddressField(
+                canUseMappedErc20,
+                newAsset,
+                allErc20Projects
+              )
+            ) {
               setFieldValue('ethAddress', '')
             }
           }}
@@ -100,8 +133,8 @@ const mapDataToProps = ({
   return {
     ...ownProps,
     data: {
-      allErc20Projects: allErc20Projects || data.allErc20Projects || [],
-      allProjects: allProjects || data.allProjects || []
+      allErc20Projects: mapToAssets(allErc20Projects) || data.allErc20Projects,
+      allProjects: mapToAssets(allProjects, false) || data.allProjects
     }
   }
 }
@@ -119,17 +152,40 @@ const enhance = compose(
   graphql(pickGQL('all'), {
     name: 'Projects',
     props: mapDataToProps,
+    skip: ({ byAddress }) => {
+      return !!byAddress
+    },
     options: () => {
       return {
-        errorPolicy: 'all'
+        errorPolicy: 'all',
+        fetchPolicy: 'cache-first'
       }
     }
   }),
   graphql(pickGQL('erc20'), {
     name: 'Projects',
     props: mapDataToProps,
+    skip: ({ byAddress }) => {
+      return !!byAddress
+    },
     options: () => {
       return {
+        errorPolicy: 'all',
+        fetchPolicy: 'cache-first'
+      }
+    }
+  }),
+  graphql(ASSETS_BY_WALLET_QUERY, {
+    name: 'assetsByWallet',
+    props: mapAssetsHeldByAddressToProps,
+    skip: ({ byAddress }) => {
+      return !byAddress
+    },
+    options: ({ byAddress }) => {
+      return {
+        variables: {
+          address: byAddress
+        },
         errorPolicy: 'all',
         fetchPolicy: 'cache-first'
       }
