@@ -52,10 +52,6 @@ const TriggerFormAssetWallet = ({
   setFieldValue,
   byAddress = ''
 }) => {
-  console.log('--->')
-  console.log('allErc20Projects', allErc20Projects)
-  console.log('allProjects', allProjects)
-  console.log('<-->')
   const defaultSignalType = metaFormSettings.signalType
   const isEthWallet = metric.value === ETH_WALLET_METRIC.value
 
