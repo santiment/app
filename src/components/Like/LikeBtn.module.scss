@@ -9,7 +9,6 @@
   line-height: 20px;
   color: var(--mirage);
   fill: var(--casper);
-  transform: translateX(7px);
 }
 
 .icon {
@@ -26,7 +25,10 @@
 
 .text {
   width: calc((var(--digits-number) + 1) * 7px);
-  transition: transform 0.1s ease-in-out;
+}
+
+.right {
+  transform: translateX(7px);
 }
 
 .animated {

@@ -17,7 +17,8 @@ class LikeBtn extends Component {
     disabled: PropTypes.bool,
     likesNumber: PropTypes.number,
     onClick: PropTypes.func,
-    useProps: PropTypes.bool
+    useProps: PropTypes.bool,
+    align: PropTypes.oneOf(['right', 'left'])
   }
 
   static defaultProps = {
@@ -26,7 +27,8 @@ class LikeBtn extends Component {
     initialLikesNumber: 0,
     disabled: false,
     onClick: () => {},
-    useProps: false
+    useProps: false,
+    align: 'right'
   }
 
   onClick = () => {
@@ -48,7 +50,8 @@ class LikeBtn extends Component {
       likesNumber,
       className,
       infoOnly,
-      useProps
+      useProps,
+      align
     } = this.props
     const isActive = !infoOnly && !disabled
     const amount = useProps ? likesNumber : likesNumber + liked - savedLike
@@ -56,11 +59,14 @@ class LikeBtn extends Component {
     return (
       <div
         className={cx(
-          styles.wrapper,
-          className,
-          isActive && styles.active,
-          !isActive && styles.info,
-          (useProps ? savedLike : liked) && styles.liked
+          {
+            [styles.wrapper]: true,
+            [`${styles[align]}`]: true,
+            [styles.active]: isActive,
+            [styles.info]: !isActive,
+            [styles.liked]: useProps ? savedLike : liked
+          },
+          className
         )}
         onClick={!isActive ? undefined : this.onClick}
         onAnimationEnd={this.onAnimationEnd}
