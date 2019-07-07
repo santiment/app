@@ -122,7 +122,7 @@ class InsightEditor extends Component {
 
   render () {
     const { id, title, updatedAt, isUpdating, publishDraft } = this.props
-    const { isEditing, defaultTags, tagsModified: isTagsModified } = this.state
+    const { isEditing, defaultTags, isTagsModified } = this.state
     const tags = isTagsModified ? this.state.tags : defaultTags
 
     const isLoading = isEditing || isUpdating
