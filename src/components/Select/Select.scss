@@ -73,6 +73,10 @@
       color: var(--mirage);
       padding: 3px 8px;
     }
+
+    .Select-clear-zone {
+      display: none;
+    }
   }
 
   .Select--single > .Select-control .Select-value {
