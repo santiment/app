@@ -1,0 +1,55 @@
+@import "~@santiment-network/ui/mixins.scss";
+@import "~@santiment-network/ui/variables.scss";
+
+.wrapper {
+  padding: 16px 20px;
+  width: 317px;
+
+  @include responsive('phone') {
+    max-width: 550px;
+    min-width: 450px;
+    margin: 0 auto;
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
+}
+
+.icon {
+  margin-left: 10px;
+}
+
+.paragraph {
+  margin: 0 0 8px 0;
+  color: var(--mirage);
+
+  @include text('body-3');
+}
+
+.label {
+  color: var(--waterloo);
+  margin: 14px 0 3px;
+
+  @include text('caption');
+}
+
+.bold {
+  @include text('caption', 'm');
+
+  margin-right: 5px;
+}
+
+.warning {
+  margin: 35px 0 4px 0;
+  color: var(--casper);
+
+  @include text('caption');
+
+  text-align: center;
+}
+
+.button {
+  width: 100%;
+  justify-content: center;
+}

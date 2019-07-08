@@ -28,7 +28,16 @@ class InsightEditor extends Component {
     title: this.props.title,
     textEditorState: createEditorState(this.defaultEditorContent),
     tags: this.props.tags,
+    defaultTags: this.props.tags,
     isEditing: false
+  }
+
+  componentDidUpdate ({ tags }) {
+    const { defaultTags } = this.state
+    const { tags: currentTags } = this.props
+    if (!tags.length && !defaultTags.length && currentTags.length > 0) {
+      this.setState({ defaultTags: this.props.tags })
+    }
   }
 
   trendTag = this.props.tags.find(({ name }) =>
@@ -64,7 +73,14 @@ class InsightEditor extends Component {
   }
 
   onTagsChange = tags => {
-    this.setState({ tags, isEditing: true }, this.updateDraft)
+    this.setState(
+      {
+        tags,
+        isEditing: true,
+        isTagsModified: true
+      },
+      this.updateDraft
+    )
   }
 
   isTitleAndTextOk () {
@@ -76,7 +92,7 @@ class InsightEditor extends Component {
       .getPlainText()
       .trim()
 
-    return trimmedTitle.length > 5 && trimmedText.length > 5
+    return { title: trimmedTitle.length > 5, text: trimmedText.length > 5 }
   }
 
   // NOTE(vanguard): Maybe should be placed in the InsightsEditorPage?
@@ -105,8 +121,9 @@ class InsightEditor extends Component {
   )
 
   render () {
-    const { id, title, tags, updatedAt, isUpdating, publishDraft } = this.props
-    const { isEditing } = this.state
+    const { id, title, updatedAt, isUpdating, publishDraft } = this.props
+    const { isEditing, defaultTags, isTagsModified } = this.state
+    const tags = isTagsModified ? this.state.tags : defaultTags
 
     const isLoading = isEditing || isUpdating
 

@@ -70,6 +70,7 @@ const InsightViewPage = ({
           id={id}
           isVoted={isVoted}
           classes={stylesButtonsAside}
+          alignLike={'left'}
           onLikesClick={changeLikes}
         />
         <div className={styles.insightWrapper}>

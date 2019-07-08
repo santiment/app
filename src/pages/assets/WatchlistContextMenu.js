@@ -4,7 +4,8 @@ import { CSVLink } from 'react-csv'
 import WatchlistPublicityToggle from '../../components/WatchlistShare/WatchlistShare'
 import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
 import WatchlistDeleteDialog from './WatchlistDeleteDialog'
-import { getTableTitle, normalizeCSV, isNotSafari } from './utils'
+import { getTableTitle, normalizeCSV } from './utils'
+import { isNotSafari } from './../../utils/utils'
 import styles from './WatchlistContextMenu.module.scss'
 
 const WatchlistContextMenu = props => {
