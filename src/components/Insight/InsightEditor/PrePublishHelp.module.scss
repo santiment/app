@@ -1,0 +1,20 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.icon {
+  fill: var(--jungle-green);
+  margin-right: 5px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.disabled {
+  color: var(--casper);
+
+  & .icon {
+    fill: var(--casper);
+  }
+}
