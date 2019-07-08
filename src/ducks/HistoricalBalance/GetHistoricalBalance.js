@@ -22,10 +22,7 @@ class GetHistoricalBalance extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (
-      !isEqual(prevProps.assets, this.props.assets) ||
-      prevProps.wallet !== this.props.wallet
-    ) {
+    if (!isEqual(prevProps, this.props)) {
       this.cleanupHistory().then(() => {
         this.fetchHistoricalBalance()
       })
@@ -48,7 +45,16 @@ class GetHistoricalBalance extends Component {
   }
 
   fetchHistoricalBalance () {
-    this.props.assets.forEach(slug => {
+    const {
+      assets,
+      wallet,
+      client,
+      interval = '1d',
+      to = new Date().toISOString(),
+      from = '2017-12-01T16:28:22.486Z'
+    } = this.props
+
+    assets.forEach(slug => {
       this.setState(({ assets }) => ({
         assets: {
           [slug]: {
@@ -59,7 +65,7 @@ class GetHistoricalBalance extends Component {
         }
       }))
 
-      this.props.client
+      client
         .query({
           query: historicalBalanceGQL,
           skip: ({ wallet }) => {
@@ -67,14 +73,14 @@ class GetHistoricalBalance extends Component {
           },
           variables: {
             slug,
-            address: this.props.wallet,
-            interval: '1d',
-            to: new Date().toISOString(),
-            from: '2017-12-01T16:28:22.486Z'
+            address: wallet,
+            interval: interval,
+            to: to,
+            from: from
           }
         })
         .then(({ data, loading }) => {
-          if (this.props.assets.includes(slug)) {
+          if (assets.includes(slug)) {
             this.setState(({ assets }) => ({
               assets: {
                 ...assets,

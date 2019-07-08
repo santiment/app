@@ -7,68 +7,100 @@ import HistoricalBalanceChart from '../chart/HistoricalBalanceChart'
 import AssetsField from '../AssetsField'
 import BalanceChartHeader from './BalanceChartHeader'
 import styles from './BalanceView.module.scss'
+import { ChartExpandView } from '../../Signals/chart/ChartExpandView'
+import Loadable from 'react-loadable'
+import { getIntervalByTimeRange } from '../../../utils/dates'
+
+const LoadableChartSettings = Loadable({
+  loader: () => import('./BalanceViewChartSettings'),
+  loading: () => <div />
+})
+
+const DEFAULT_TIME_RANGE = '6m'
 
 const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
-  const [state, setState] = useState({
+  const [walletAndAssets, setWalletAndAssets] = useState({
     address: address,
     assets: assets
   })
 
-  if (!isEqual(state.assets, assets)) {
-    setState({ ...state, assets: assets })
+  const [chartSettings, setChartSettings] = useState({
+    timeRange: DEFAULT_TIME_RANGE,
+    ...getIntervalByTimeRange(DEFAULT_TIME_RANGE)
+  })
+
+  if (!isEqual(walletAndAssets.assets, assets)) {
+    setWalletAndAssets({ ...walletAndAssets, assets: assets })
   }
 
   useEffect(() => {
-    onChangeQuery(state)
-  }, state)
+    onChangeQuery(walletAndAssets)
+  }, walletAndAssets)
 
   const handleChange = event => {
-    setState({ ...state, [event.target.name]: event.target.value })
+    setWalletAndAssets({
+      ...walletAndAssets,
+      [event.target.name]: event.target.value
+    })
   }
 
   const handleAssetsChange = assets => {
-    const newState = { ...state, assets: assets.map(asset => asset.value) }
-    setState(newState)
+    const newState = {
+      ...walletAndAssets,
+      assets: assets.map(asset => asset.value)
+    }
+    setWalletAndAssets(newState)
     onChangeQuery(newState)
   }
 
-  const { address: stateAddress, assets: stateAssets } = state
+  const { address: stateAddress, assets: stateAssets } = walletAndAssets
+
+  const onTimerangeChange = timeRange => {
+    const { from, to } = getIntervalByTimeRange(timeRange)
+
+    setChartSettings({
+      ...chartSettings,
+      ...{ timeRange, from: from.toISOString(), to: to.toISOString() }
+    })
+  }
+
+  const onCalendarChange = ([from, to]) => {
+    setChartSettings({
+      ...chartSettings,
+      ...{
+        from: from.toISOString(),
+        to: to.toISOString()
+      }
+    })
+  }
+
+  const { timeRange, from, to } = chartSettings
 
   return (
     <div className={styles.container}>
-      <div className={styles.filters}>
-        <div className={cx(styles.InputWrapper, styles.wallet)}>
-          <label className={styles.label} htmlFor='address'>
-            Wallet address
-          </label>
-          <Input
-            className={styles.walletInput}
-            value={stateAddress}
-            id='address'
-            autoComplete='nope'
-            type='text'
-            name='address'
-            placeholder='Paste the address'
-            onChange={handleChange}
-          />
-        </div>
-        <div className={cx(styles.InputWrapper, styles.address)}>
-          <label className={styles.label} htmlFor='slug'>
-            Asset (maximum 5)
-          </label>
-          <AssetsField
-            byAddress={stateAddress}
-            defaultSelected={stateAssets}
-            onChange={handleAssetsChange}
-          />
-        </div>
-      </div>
+      <BalanceViewWalletAssets
+        address={stateAddress}
+        assets={stateAssets}
+        handleAssetsChange={handleAssetsChange}
+        handleChange={handleChange}
+      />
       <div className={styles.chart}>
-        <BalanceChartHeader assets={stateAssets} address={stateAddress} />
+        <BalanceChartHeader assets={stateAssets} address={stateAddress}>
+          <LoadableChartSettings
+            defaultTimerange={timeRange}
+            onTimerangeChange={onTimerangeChange}
+            onCalendarChange={onCalendarChange}
+            from={from}
+            to={to}
+            classes={styles}
+          />
+        </BalanceChartHeader>
 
         <GetHistoricalBalance
           assets={assets}
           wallet={address}
+          from={from}
+          to={to}
           render={({ data, error }) => {
             if (error) return `Error!: ${error}`
             if (!data || Object.keys(data).length === 0) {
@@ -92,7 +124,11 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
                 {loading && (
                   <StatusDescription label={'Calculating balance...'} />
                 )}
-                {<HistoricalBalanceChart data={data} />}
+                {
+                  <ChartExpandView classes={styles}>
+                    <HistoricalBalanceChart data={data} />
+                  </ChartExpandView>
+                }
               </div>
             )
           }}
@@ -106,6 +142,43 @@ export const StatusDescription = ({ label }) => {
   return (
     <div className={styles.descriptionContainer}>
       <div className={styles.description}>{label}</div>
+    </div>
+  )
+}
+
+const BalanceViewWalletAssets = ({
+  address,
+  assets,
+  handleAssetsChange,
+  handleChange
+}) => {
+  return (
+    <div className={styles.filters}>
+      <div className={cx(styles.InputWrapper, styles.wallet)}>
+        <label className={styles.label} htmlFor='address'>
+          Wallet address
+        </label>
+        <Input
+          className={styles.walletInput}
+          value={address}
+          id='address'
+          autoComplete='nope'
+          type='text'
+          name='address'
+          placeholder='Paste the address'
+          onChange={handleChange}
+        />
+      </div>
+      <div className={cx(styles.InputWrapper, styles.address)}>
+        <label className={styles.label} htmlFor='slug'>
+          Asset (maximum 5)
+        </label>
+        <AssetsField
+          byAddress={address}
+          defaultSelected={assets}
+          onChange={handleAssetsChange}
+        />
+      </div>
     </div>
   )
 }

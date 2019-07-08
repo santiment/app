@@ -8,7 +8,7 @@ import {
 } from '../../Signals/utils/constants'
 import styles from './BalanceView.module.scss'
 
-const BalanceChartHeader = ({ address, assets }) => {
+const BalanceChartHeader = ({ address, assets, children }) => {
   return (
     <div className={styles.chartHeader}>
       <div className={styles.addTrigger}>
@@ -40,7 +40,7 @@ const BalanceChartHeader = ({ address, assets }) => {
         </ShowIf>
       </div>
 
-      <div className={styles.chartParams} />
+      <div className={styles.chartParams}>{children}</div>
     </div>
   )
 }
