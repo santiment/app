@@ -20,7 +20,7 @@ import App from './App'
 import reducers from './reducers/rootReducers.js'
 import epics from './epics/rootEpics.js'
 import { saveState } from './utils/localStorage'
-import { getAPIUrl } from './utils/utils'
+import { getAPIUrl, isNotSafari } from './utils/utils'
 import detectNetwork from './utils/detectNetwork'
 import getRaven from './utils/getRaven'
 import { changeNetworkStatus, launchApp } from './actions/rootActions'
@@ -29,7 +29,7 @@ import errorLink from './apollo/error-link'
 import authLink from './apollo/auth-link'
 import retryLink from './apollo/retry-link'
 import ChartPage from './ducks/SANCharts/ChartPage'
-import { register } from './serviceWorker'
+import { register, unregister } from './serviceWorker'
 import './index.scss'
 
 // window.mixpanel has been set by Mixpanel's embed snippet.
@@ -92,7 +92,11 @@ const main = () => {
     store.dispatch(changeNetworkStatus(online))
   })
 
-  register()
+  if (isNotSafari) {
+    register()
+  } else {
+    unregister()
+  }
 
   ReactDOM.render(
     <ApolloProvider client={client}>

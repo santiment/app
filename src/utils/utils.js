@@ -321,6 +321,9 @@ const calcPercentageChange = (originalValue, newValue) => {
   return (((newValue - originalValue) / originalValue) * 100).toFixed(2)
 }
 
+const isNotSafari = () =>
+  !/^((?!chrome|android).)*safari/i.test(window.navigator.userAgent)
+
 export {
   calculateBTCVolume,
   calculateBTCMarketcap,
@@ -342,5 +345,6 @@ export {
   fork,
   pickFork,
   isEthStrictAddress,
-  mapItemsToKeys
+  mapItemsToKeys,
+  isNotSafari
 }
