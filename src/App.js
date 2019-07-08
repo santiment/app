@@ -32,7 +32,6 @@ import SignalFormPage from './ducks/Signals/SignalFormPage'
 import HistoricalBalancePage from './ducks/HistoricalBalance/page/HistoricalBalancePage'
 import WordCloudPage from './components/WordCloud/WordCloudPage'
 import { getConsentUrl } from './utils/utils'
-import NewsBanner from './components/Banner/NewsBanner'
 import CookiePopup from './components/CookiePopup/CookiePopup'
 import LogoutPage from './pages/Logout/Logout'
 import LabsPage from './pages/Labs'
@@ -159,7 +158,6 @@ export const App = ({
         </Link>
       </div>
     )}
-    {isDesktop && <NewsBanner />}
     {isFullscreenMobile ? (
       undefined
     ) : isDesktop ? (
