@@ -5,12 +5,7 @@ import isEqual from 'lodash.isequal'
 import GetHistoricalBalance from '../GetHistoricalBalance'
 import HistoricalBalanceChart from '../chart/HistoricalBalanceChart'
 import AssetsField from '../AssetsField'
-import {
-  ETH_WALLET_AMOUNT_UP,
-  ETH_WALLET_METRIC
-} from '../../Signals/utils/constants'
-import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
-import ShowIf from '../../../components/ShowIf'
+import BalanceChartHeader from './BalanceChartHeader'
 import styles from './BalanceView.module.scss'
 
 const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
@@ -69,34 +64,7 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
         </div>
       </div>
       <div className={styles.chart}>
-        <div className={styles.addTrigger}>
-          <ShowIf beta>
-            <SignalMasterModalForm
-              label='Generate signal'
-              enabled={address && assets && assets.length === 1}
-              canRedirect={false}
-              metaFormSettings={{
-                target: {
-                  value: {
-                    value: assets[0],
-                    label: assets[0]
-                  }
-                },
-                metric: {
-                  value: { ...ETH_WALLET_METRIC }
-                },
-                type: {
-                  value: { ...ETH_WALLET_AMOUNT_UP }
-                },
-                ethAddress: address
-              }}
-              buttonParams={{
-                variant: 'ghost',
-                border: true
-              }}
-            />
-          </ShowIf>
-        </div>
+        <BalanceChartHeader assets={stateAssets} address={stateAddress} />
 
         <GetHistoricalBalance
           assets={assets}
@@ -104,7 +72,16 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
           render={({ data, error }) => {
             if (error) return `Error!: ${error}`
             if (!data || Object.keys(data).length === 0) {
-              return <HistoricalBalanceChart data={{}} />
+              return (
+                <div>
+                  <StatusDescription
+                    label={
+                      'Please paste the wallet address and choose supported assets in the forms above to see the historical data'
+                    }
+                  />
+                  <HistoricalBalanceChart data={{}} />
+                </div>
+              )
             }
             const loading =
               Object.keys(data).filter(name => {
@@ -113,9 +90,7 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
             return (
               <div>
                 {loading && (
-                  <span className={styles.centered}>
-                    Calculating balance...
-                  </span>
+                  <StatusDescription label={'Calculating balance...'} />
                 )}
                 {<HistoricalBalanceChart data={data} />}
               </div>
@@ -123,6 +98,14 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
           }}
         />
       </div>
+    </div>
+  )
+}
+
+export const StatusDescription = ({ label }) => {
+  return (
+    <div className={styles.descriptionContainer}>
+      <div className={styles.description}>{label}</div>
     </div>
   )
 }
