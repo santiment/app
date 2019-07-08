@@ -49,11 +49,9 @@ class LikeBtn extends Component {
       disabled,
       likesNumber,
       className,
-      infoOnly,
       useProps,
       align
     } = this.props
-    const isActive = !infoOnly && !disabled
     const amount = useProps ? likesNumber : likesNumber + liked - savedLike
 
     return (
@@ -62,13 +60,13 @@ class LikeBtn extends Component {
           {
             [styles.wrapper]: true,
             [`${styles[align]}`]: true,
-            [styles.active]: isActive,
-            [styles.info]: !isActive,
+            [styles.active]: !disabled,
+            [styles.disabled]: disabled,
             [styles.liked]: useProps ? savedLike : liked
           },
           className
         )}
-        onClick={!isActive ? undefined : this.onClick}
+        onClick={disabled ? undefined : this.onClick}
         onAnimationEnd={this.onAnimationEnd}
       >
         <Icon

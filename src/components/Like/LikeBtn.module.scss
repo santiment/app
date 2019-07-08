@@ -21,7 +21,7 @@
   }
 }
 
-.info {
+.disabled {
   color: var(--waterloo);
   fill: var(--mystic);
   cursor: default;
@@ -53,7 +53,6 @@
 }
 
 .active {
-  position: relative;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 
@@ -72,13 +71,12 @@
   }
 
   25% {
-    transform: scale(0.2);
+    transform: scale(0.4);
     stroke-width: 4px;
-    width: 22px;
-    height: 19.5px;
+    overflow: visible;
 
     @include responsive('desktop', 'laptop') {
-      transform: scale(0.4);
+      transform: scale(0.6);
     }
   }
 

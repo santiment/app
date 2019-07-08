@@ -10,7 +10,7 @@ const InsightsWrap = ({ insights, isDesktop }) => {
       {insights.slice(0, 9).map(insight => (
         <InsightCard
           isDesktop={isDesktop}
-          infoOnly
+          disabled
           withAuthorPic={false}
           {...insight}
           key={insight.id}
