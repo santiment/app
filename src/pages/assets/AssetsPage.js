@@ -4,12 +4,8 @@ import qs from 'query-string'
 import { CSVLink } from 'react-csv'
 import Button from '@santiment-network/ui/Button'
 import { getOrigin } from '../../utils/utils'
-import {
-  getHelmetTags,
-  getTableTitle,
-  isNotSafari,
-  normalizeCSV
-} from './utils'
+import { getHelmetTags, getTableTitle, normalizeCSV } from './utils'
+import { isNotSafari } from '../../utils/utils'
 import { RANGES } from '../../components/WatchlistHistory/constants'
 import GetAssets from './GetAssets'
 import AssetsTable from './AssetsTable'
