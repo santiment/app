@@ -10,11 +10,13 @@ const InsightReactionButtons = ({
   totalVotes,
   classes,
   onLikesClick,
+  alignLike = 'right',
   insightLikeMutation
 }) => (
   <div className={classes.wrapper}>
     <LikeBtn
       likesNumber={totalVotes}
+      align={alignLike}
       liked={isVoted}
       onClick={() => {
         insightLikeMutation({ id, shouldLike: !isVoted })

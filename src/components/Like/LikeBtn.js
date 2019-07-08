@@ -7,7 +7,9 @@ import styles from './LikeBtn.module.scss'
 
 class LikeBtn extends Component {
   state = {
-    liked: this.props.liked
+    liked: this.props.liked,
+    isAnimation: false,
+    initialLikesNumber: this.props.likesNumber
   }
 
   static propTypes = {
@@ -15,15 +17,18 @@ class LikeBtn extends Component {
     disabled: PropTypes.bool,
     likesNumber: PropTypes.number,
     onClick: PropTypes.func,
-    useProps: PropTypes.bool
+    useProps: PropTypes.bool,
+    align: PropTypes.oneOf(['right', 'left'])
   }
 
   static defaultProps = {
     liked: false,
     likesNumber: 0,
+    initialLikesNumber: 0,
     disabled: false,
     onClick: () => {},
-    useProps: false
+    useProps: false,
+    align: 'right'
   }
 
   onClick = () => {
@@ -32,36 +37,51 @@ class LikeBtn extends Component {
       props: { onClick }
     } = this
 
-    this.setState({ liked: !liked }, () => {
-      onClick(!liked)
-    })
+    this.setState({ liked: !liked, isAnimation: true }, () => onClick(!liked))
   }
 
+  onAnimationEnd = () => this.setState({ isAnimation: false })
+
   render () {
-    const { liked } = this.state
+    const { liked, isAnimation, initialLikesNumber } = this.state
     const {
       liked: savedLike,
       disabled,
       likesNumber,
       className,
-      small,
-      grey,
-      useProps
+      useProps,
+      align
     } = this.props
+    const amount = useProps ? likesNumber : likesNumber + liked - savedLike
 
     return (
-      <div
+      <button
         className={cx(
-          styles.wrapper,
-          className,
-          (useProps ? savedLike : liked) && styles.liked,
-          grey && styles.grey
+          {
+            [styles.wrapper]: true,
+            [`${styles[align]}`]: true,
+            [styles.active]: !disabled,
+            [styles.disabled]: disabled,
+            [styles.liked]: useProps ? savedLike : liked
+          },
+          className
         )}
-        onClick={disabled || small ? undefined : this.onClick}
+        onClick={disabled ? undefined : this.onClick}
+        onAnimationEnd={this.onAnimationEnd}
       >
-        <Icon className={cx(styles.icon, small && styles.small)} type='like' />{' '}
-        {useProps ? likesNumber : likesNumber + liked - savedLike}
-      </div>
+        <Icon
+          className={cx(styles.icon, isAnimation && styles.animated)}
+          type='like'
+        />
+        <span
+          className={styles.text}
+          style={{
+            '--digits-number': `${initialLikesNumber.toString().length}`
+          }}
+        >
+          {amount}
+        </span>
+      </button>
     )
   }
 }

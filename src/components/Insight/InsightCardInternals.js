@@ -30,8 +30,7 @@ const InsightCardInternals = ({
   votedAt,
   onLike,
   withAuthorPic,
-  small,
-  grey,
+  disabled,
   className,
   isDesktop
 }) => {
@@ -73,8 +72,7 @@ const InsightCardInternals = ({
             likesNumber={totalVotes}
             liked={!!votedAt}
             onClick={onLike}
-            small={small}
-            grey={grey}
+            disabled={disabled}
           />
           <div className={cx(styles.stat, styles.stat_comments)}>
             <Icon type='comment' /> {comments}
