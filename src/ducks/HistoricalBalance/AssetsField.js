@@ -2,13 +2,15 @@ import React, { useState } from 'react'
 import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
-import { Select } from '@santiment-network/ui'
+import Select from '@santiment-network/ui/Search/Select/Select'
 import { ALL_ERC20_PROJECTS_QUERY } from '../../pages/Projects/allProjectsGQL'
 import { ASSETS_BY_WALLET_QUERY } from './common/queries'
 import {
   mapAssetsHeldByAddressToProps,
   mapErc20AssetsToProps
 } from '../Signals/utils/utils'
+
+const MAX_ASSETS_COUNT = 5
 
 const AssetsField = ({
   byAddress,
@@ -21,7 +23,7 @@ const AssetsField = ({
   const [showingAssets, setShowingAssets] = useState(defaultSelected)
 
   const handleOnChange = selected => {
-    if (selected.length <= 5) {
+    if (selected.length <= MAX_ASSETS_COUNT) {
       setShowingAssets(selected)
       onChange(selected)
     }

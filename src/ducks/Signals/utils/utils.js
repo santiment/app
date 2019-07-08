@@ -585,7 +585,7 @@ export const mapToAssets = (data, withFilter = true) => {
 }
 
 export const mapErc20AssetsToProps = ({
-  allErc20Projects: { allErc20Projects, isLoading }
+  allErc20Projects: { allErc20Projects = [], isLoading }
 }) => {
   return {
     assets: [
