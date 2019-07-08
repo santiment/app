@@ -55,7 +55,7 @@ class LikeBtn extends Component {
     const amount = useProps ? likesNumber : likesNumber + liked - savedLike
 
     return (
-      <div
+      <button
         className={cx(
           {
             [styles.wrapper]: true,
@@ -81,7 +81,7 @@ class LikeBtn extends Component {
         >
           {amount}
         </span>
-      </div>
+      </button>
     )
   }
 }
