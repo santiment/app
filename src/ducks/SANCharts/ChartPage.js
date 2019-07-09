@@ -95,7 +95,8 @@ class ChartPage extends Component {
     this.setState({ metrics }, this.updateSearchQuery)
   }
 
-  onIntervalChange = interval => {
+  onIntervalChange = option => {
+    const { index: interval = option } = option
     this.setState({ interval }, this.updateSearchQuery)
   }
 

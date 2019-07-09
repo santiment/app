@@ -1,8 +1,5 @@
 import React from 'react'
-import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
-import Panel from '@santiment-network/ui/Panel/Panel'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
+import Dropdown from '@santiment-network/ui/Dropdown'
 import { dateDifference, DAY } from '../../utils/dates'
 import styles from './IntervalSelector.module.scss'
 
@@ -23,48 +20,44 @@ const getAvailableIntervals = (from, to) => {
     format: DAY
   })
 
-  if (diff < 30) {
-    // NOTE(vanguard): if interval is smaller then "1h" server responds with error
-    return ['1h', '6h', '12h']
-  } else if (diff < 60) {
+  if (diff < 6) {
+    return [
+      { index: '10m', content: '10min' },
+      { index: '30m', content: '30min' },
+      '1h'
+    ]
+  }
+  if (diff < 33) {
+    return ['1h', '2h', '3h']
+  }
+  if (diff < 63) {
+    return ['6h', '8h', '12h']
+  }
+  if (diff < 183) {
     return ['12h', '1d', '2d']
-  } else if (diff < 180) {
-    return ['1d', '2d', '1w']
-  } else if (diff < 360) {
-    return ['2d', '1w', '2w']
+  }
+  if (diff < 363) {
+    return ['2d', '4d', '7d']
   }
 
-  return ['1w', '2w']
+  return ['7d', '10d', '14d']
 }
 
 const IntervalSelector = ({ from, to, interval, onIntervalChange }) => {
   const options = getAvailableIntervals(from, to)
 
+  const selected = options.find(option => {
+    const { index = option } = option
+    return index === interval
+  })
+
   return (
-    <ContextMenu
-      passOpenStateAs='isActive'
-      position='bottom'
-      trigger={
-        <Button border className={styles.btn} classes={styles}>
-          {interval}
-          <Icon type='arrow-down' className={styles.icon} />
-        </Button>
-      }
-    >
-      <Panel className={styles.dd}>
-        {options.map(option => (
-          <Button
-            key={option}
-            variant='ghost'
-            fluid
-            isActive={interval === option}
-            onClick={() => onIntervalChange(option)}
-          >
-            {option}
-          </Button>
-        ))}
-      </Panel>
-    </ContextMenu>
+    <Dropdown
+      options={options}
+      selected={selected}
+      onSelect={onIntervalChange}
+      classes={styles}
+    />
   )
 }
 
