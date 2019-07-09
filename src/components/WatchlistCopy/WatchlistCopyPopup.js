@@ -11,7 +11,7 @@ import { sortByAsDates } from '../../utils/sortMethods'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import { showNotification } from '../../actions/rootActions'
 import Watchlists from '../WatchlistPopup/Watchlists'
-// import SearchProjects from '../Search/SearchProjects'
+import SearchProjects from '../Search/SearchProjects'
 import styles from './WatchlistCopyPopup.module.scss'
 
 const WatchlistCopyPopup = ({
@@ -139,13 +139,13 @@ const WatchlistCopyPopup = ({
       showCloseBtn={false}
     >
       <Dialog.ScrollContent className={styles.wrapper}>
-        {/* <SearchProjects */}
-        {/*  projectsList={assets} */}
-        {/*  className={styles.search} */}
-        {/*  onSuggestionSelect={project => */}
-        {/*    console.log("project", project) */}
-        {/*  } */}
-        {/* /> */}
+        <SearchProjects
+          projectsList={assets}
+          checkedAssets={assetsToCopy}
+          isCopyingAssets={true}
+          className={styles.search}
+          onSuggestionSelect={({ id }) => onAssetClick(id)}
+        />
         <ul className={styles.list}>
           {assets.map(({ id, name, ticker }) => (
             <li

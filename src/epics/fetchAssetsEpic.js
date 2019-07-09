@@ -139,13 +139,14 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
 export const fetchAssetsFromListWithEditEpic = action$ =>
   action$
     .ofType(actions.ASSETS_FETCH_SUCCESS)
-    .filter(
-      ({ payload: { isCurrentUserTheAuthor, assetsListId, currentId } }) =>
-        isCurrentUserTheAuthor && assetsListId === currentId
-    )
+    .filter(({ payload: { isCurrentUserTheAuthor } }) => isCurrentUserTheAuthor)
     .switchMap(() =>
       action$
         .ofType(actions.USER_EDIT_ASSETS_IN_LIST_SUCCESS)
+        .filter(
+          ({ payload: { assetsListId, currentId } }) =>
+            assetsListId === currentId
+        )
         .mergeMap(({ payload: { assetsListId } }) =>
           Observable.of({
             type: actions.ASSETS_FETCH,
