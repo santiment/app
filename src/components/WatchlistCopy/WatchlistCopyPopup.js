@@ -4,13 +4,13 @@ import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import Dialog from '@santiment-network/ui/Dialog'
 import Label from '@santiment-network/ui/Label'
-import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import { ALL_WATCHLISTS_QUERY } from '../../queries/WatchlistGQL'
 import { USER_EDIT_ASSETS_IN_LIST } from '../../actions/types'
 import { sortByAsDates } from '../../utils/sortMethods'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import { showNotification } from '../../actions/rootActions'
 import Watchlists from '../WatchlistPopup/Watchlists'
+import AssetsList from './AssetsList'
 import SearchProjects from '../Search/SearchProjects'
 import styles from './WatchlistCopyPopup.module.scss'
 
@@ -146,19 +146,11 @@ const WatchlistCopyPopup = ({
           className={styles.search}
           onSuggestionSelect={({ id }) => onAssetClick(id)}
         />
-        <ul className={styles.list}>
-          {assets.map(({ id, name, ticker }) => (
-            <li
-              key={id}
-              onClick={() => onAssetClick(id)}
-              className={styles.item}
-            >
-              <Checkbox isActive={assetsToCopy.has(id)} />
-              <span className={styles.name}>{name}</span>
-              <span className={styles.ticker}>({ticker})</span>
-            </li>
-          ))}
-        </ul>
+        <AssetsList
+          items={assets}
+          selectedItems={assetsToCopy}
+          onToggleAsset={onAssetClick}
+        />
         <div className={styles.contentWrapper}>
           <Label accent='waterloo' className={styles.heading}>
             Watchlists
