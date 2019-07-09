@@ -4,10 +4,25 @@ import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
+import { getNewInterval } from './IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import styles from './ChartPage.module.scss'
 
+const DEFAULT_TIME_RANGE = '6m'
+
+const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
+
 const MAX_METRICS_PER_CHART = 5
+
+const DEFAULT_STATE = {
+  timeRange: DEFAULT_TIME_RANGE,
+  from: FROM.toISOString(),
+  to: TO.toISOString(),
+  slug: 'santiment',
+  metrics: ['historyPrice'],
+  title: 'Santiment (SAN)',
+  interval: '1w'
+}
 
 const LoadableChartSidecar = Loadable({
   loader: () => import('./ChartSidecar'),
@@ -24,29 +39,32 @@ const LoadableChartMetricsTool = Loadable({
   loading: () => <div />
 })
 
-const DEFAULT_TIME_RANGE = '6m'
-
-const { from, to } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
-
-class ChartPage extends Component {
-  mapQSToState = ({ location: { search } }) => {
-    const data = qs.parse(search, { arrayFormat: 'comma' })
+const getChartInitialState = props => {
+  let passedState
+  if (props.location) {
+    const data = qs.parse(props.location.search, { arrayFormat: 'comma' })
     if (typeof data.metrics === 'string') {
       data.metrics = [data.metrics]
     }
-    return data
+    passedState = data
+  } else {
+    const { slug, from, to, title } = props
+    passedState = {
+      slug,
+      title,
+      from,
+      to
+    }
   }
 
-  state = {
-    timeRange: DEFAULT_TIME_RANGE,
-    from: from.toISOString(),
-    to: to.toISOString(),
-    slug: 'santiment',
-    metrics: ['historyPrice'],
-    title: 'Santiment (SAN)',
-    interval: '1d',
-    ...this.mapQSToState(this.props)
+  return {
+    ...DEFAULT_STATE,
+    ...passedState
   }
+}
+
+class ChartPage extends Component {
+  state = getChartInitialState(this.props)
 
   onZoom = (leftZoomIndex, rightZoomIndex, leftZoomDate, rightZoomDate) => {
     this.setState(
@@ -63,17 +81,21 @@ class ChartPage extends Component {
 
   onTimerangeChange = timeRange => {
     const { from, to } = getIntervalByTimeRange(timeRange)
+    const interval = getNewInterval(from, to, this.state.interval)
     this.setState(
-      { timeRange, from: from.toISOString(), to: to.toISOString() },
+      { timeRange, from: from.toISOString(), to: to.toISOString(), interval },
       this.updateSearchQuery
     )
   }
 
   onCalendarChange = ([from, to]) => {
+    const interval = getNewInterval(from, to, this.state.interval)
+
     this.setState(
       {
         from: from.toISOString(),
-        to: to.toISOString()
+        to: to.toISOString(),
+        interval
       },
       this.updateSearchQuery
     )
@@ -88,6 +110,11 @@ class ChartPage extends Component {
 
   onMetricsChange = metrics => {
     this.setState({ metrics }, this.updateSearchQuery)
+  }
+
+  onIntervalChange = option => {
+    const { index: interval = option } = option
+    this.setState({ interval }, this.updateSearchQuery)
   }
 
   toggleMetric = metric => {
@@ -120,6 +147,10 @@ class ChartPage extends Component {
   mapStateToQS = props => '?' + qs.stringify(props, { arrayFormat: 'comma' })
 
   updateSearchQuery () {
+    if (!this.props.location) {
+      return
+    }
+
     this.props.history.replace({
       search: this.mapStateToQS(this.state)
     })
@@ -231,15 +262,18 @@ class ChartPage extends Component {
                   onSlugSelect={this.onSlugSelect}
                   generateShareLink={this.generateShareLink}
                   onNightModeSelect={this.onNightModeSelect}
+                  onIntervalChange={this.onIntervalChange}
                   hasNightMode={nightMode}
                   disabledMetrics={errors}
                   from={from}
                   to={to}
+                  interval={interval}
                 />
               )}
               <Charts
                 onZoom={this.onZoom}
                 onZoomOut={this.onZoomOut}
+                isZoomed={zoom}
                 chartData={
                   timeseries && zoom
                     ? timeseries.slice(zoom[0], zoom[1])
