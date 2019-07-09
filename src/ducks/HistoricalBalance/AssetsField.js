@@ -6,6 +6,7 @@ import Select from '@santiment-network/ui/Search/Select/Select'
 import { ALL_ERC20_PROJECTS_QUERY } from '../../pages/Projects/allProjectsGQL'
 import { ASSETS_BY_WALLET_QUERY } from './common/queries'
 import {
+  isPossibleEthAddress,
   mapAssetsHeldByAddressToProps,
   mapErc20AssetsToProps
 } from '../Signals/utils/utils'
@@ -58,7 +59,7 @@ const enhance = compose(
     name: 'assetsByWallet',
     props: mapAssetsHeldByAddressToProps,
     skip: ({ byAddress }) => {
-      return !byAddress
+      return !byAddress || !isPossibleEthAddress(byAddress)
     },
     options: ({ byAddress }) => {
       return {
