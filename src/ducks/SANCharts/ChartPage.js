@@ -8,7 +8,21 @@ import { getNewInterval } from './IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import styles from './ChartPage.module.scss'
 
+const DEFAULT_TIME_RANGE = '6m'
+
+const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
+
 const MAX_METRICS_PER_CHART = 5
+
+const DEFAULT_STATE = {
+  timeRange: DEFAULT_TIME_RANGE,
+  from: FROM.toISOString(),
+  to: TO.toISOString(),
+  slug: 'santiment',
+  metrics: ['historyPrice'],
+  title: 'Santiment (SAN)',
+  interval: '1w'
+}
 
 const LoadableChartSidecar = Loadable({
   loader: () => import('./ChartSidecar'),
@@ -25,46 +39,32 @@ const LoadableChartMetricsTool = Loadable({
   loading: () => <div />
 })
 
-const DEFAULT_TIME_RANGE = '6m'
+const getChartInitialState = props => {
+  let passedState
+  if (props.location) {
+    const data = qs.parse(props.location.search, { arrayFormat: 'comma' })
+    if (typeof data.metrics === 'string') {
+      data.metrics = [data.metrics]
+    }
+    passedState = data
+  } else {
+    const { slug, from, to, title } = props
+    passedState = {
+      slug,
+      title,
+      from,
+      to
+    }
+  }
 
-const { from, to } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
-
-const DEFAULT_STATE = {
-  timeRange: DEFAULT_TIME_RANGE,
-  from: from.toISOString(),
-  to: to.toISOString(),
-  slug: 'santiment',
-  metrics: ['historyPrice'],
-  title: 'Santiment (SAN)',
-  interval: '1w'
+  return {
+    ...DEFAULT_STATE,
+    ...passedState
+  }
 }
 
 class ChartPage extends Component {
-  constructor (props) {
-    super(props)
-
-    let passedState
-    if (props.location) {
-      const data = qs.parse(props.location.search, { arrayFormat: 'comma' })
-      if (typeof data.metrics === 'string') {
-        data.metrics = [data.metrics]
-      }
-      passedState = data
-    } else {
-      const { slug, from, to, title } = props
-      passedState = {
-        slug,
-        title,
-        from,
-        to
-      }
-    }
-
-    this.state = {
-      ...DEFAULT_STATE,
-      ...passedState
-    }
-  }
+  state = getChartInitialState(this.props)
 
   onZoom = (leftZoomIndex, rightZoomIndex, leftZoomDate, rightZoomDate) => {
     this.setState(
