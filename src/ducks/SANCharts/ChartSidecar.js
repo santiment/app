@@ -15,7 +15,6 @@ function toggleSidecard ({ currentTarget }) {
 
 const ChartSidecar = ({ onSlugSelect }) => {
   const [openedList, setOpenedList] = useState()
-  console.log(openedList)
 
   const assetsRenderer = ({ key, index, style }) => {
     const { project } = openedList.listItems[index]
