@@ -52,9 +52,6 @@ export const normalizeCSV = items => {
   })
 }
 
-export const isNotSafari = () =>
-  !/^((?!chrome|android).)*safari/i.test(window.navigator.userAgent)
-
 export const getHelmetTags = (isList, listName) => {
   return {
     title: isList

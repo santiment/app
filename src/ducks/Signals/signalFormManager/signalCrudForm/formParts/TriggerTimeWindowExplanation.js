@@ -27,6 +27,7 @@ export const TriggerTimeWindowExplanation = ({
   return (
     <div className={styles.timeWindowExplanation}>
       {movingType &&
+        timeType &&
         `${percent}% price ${movingType} compared to ${timeValue}${
           timeType.value
         } ago`}

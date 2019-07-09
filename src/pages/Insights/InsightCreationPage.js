@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { showNotification } from '../../actions/rootActions'
 import InsightEditor from '../../components/Insight/InsightEditor/InsightEditor'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import * as actions from './actions'
@@ -17,11 +18,12 @@ class InsightCreationPage extends Component {
       location: { search },
       selectedTrends,
       username,
+      setNotification,
       ...rest
     } = this.props
 
     if (isPublished) {
-      // NOTE(vanguard): in future show thank you message
+      setNotification('Thank you for insight')
       return <Redirect to='/insights/my' />
     }
 
@@ -71,10 +73,12 @@ const mapStateToProps = (
 const mapDispatchToProps = dispatch => ({
   updateDraft: payload =>
     dispatch({ type: actions.INSIGHT_DRAFT_UPDATE, payload }),
-  publishDraft: payload =>
-    dispatch({ type: actions.INSIGHT_DRAFT_PUBLISH, payload }),
+  publishDraft: payload => {
+    dispatch({ type: actions.INSIGHT_DRAFT_PUBLISH, payload })
+  },
   wipeDraftUpdateData: () =>
-    dispatch({ type: actions.INSIGHT_DRAFT_UPDATE_DATA_WIPE })
+    dispatch({ type: actions.INSIGHT_DRAFT_UPDATE_DATA_WIPE }),
+  setNotification: message => dispatch(showNotification(message))
 })
 
 export default connect(

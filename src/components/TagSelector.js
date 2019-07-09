@@ -48,14 +48,16 @@ class TagSelect extends Component {
       className = ''
     } = this.props
     const { tags } = this.state
+    const isLimitReached = tags.length === 5
     return (
       <Select
         multi
         topDropdown
         placeholder='Add a tag...'
-        options={options.filter(option => !!option)}
+        options={isLimitReached ? [] : options.filter(option => !!option)}
         isLoading={loading}
         value={tags}
+        searchable={!isLimitReached}
         className={className}
         onChange={this.onChange}
         valueKey='name'
