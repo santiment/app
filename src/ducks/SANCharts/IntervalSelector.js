@@ -54,7 +54,7 @@ const IntervalSelector = ({ from, to, interval, onIntervalChange }) => {
   return (
     <Dropdown
       options={options}
-      selected={selected}
+      selected={selected || interval}
       onSelect={onIntervalChange}
       classes={styles}
     />
