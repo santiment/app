@@ -32,7 +32,9 @@ import {
   BASE_PERCENT_THRESHOLD,
   PREVIEWS_TIMERANGE_BY_TYPE,
   TIME_WINDOW_UNITS,
-  getDefaultTimeRangeValue
+  getDefaultTimeRangeValue,
+  TRENDING_WORDS_METRIC,
+  TRENDING_WORDS_PROJECT_MENTIONED
 } from './constants'
 import { capitalizeStr } from '../../../utils/utils'
 
@@ -411,6 +413,9 @@ export const getNearestTypeByMetric = metric => {
     }
     case PRICE_VOLUME_DIFFERENCE_METRIC.value: {
       return PRICE_VOLUME_DIFFERENCE_METRIC
+    }
+    case TRENDING_WORDS_METRIC.value: {
+      return TRENDING_WORDS_PROJECT_MENTIONED
     }
     default: {
       return undefined

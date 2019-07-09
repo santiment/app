@@ -1,15 +1,41 @@
 export const REQUIRED_MESSAGE = 'Required'
 export const MUST_BE_MORE_ZERO_MESSAGE = 'Must be more 0'
 
+export const PRICE = 'price'
 export const ETH_WALLET = 'eth_wallet'
 export const DAILY_ACTIVE_ADDRESSES = 'daily_active_addresses'
 export const PRICE_PERCENT_CHANGE = 'price_percent_change'
 export const PRICE_ABSOLUTE_CHANGE = 'price_absolute_change'
+export const TRENDING_WORDS = 'trending_words'
 export const PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER =
   'price_absolute_change_single_border'
 export const PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER =
   'price_absolute_change_double_border'
 export const PRICE_VOLUME_DIFFERENCE = 'price_volume_difference'
+
+export const TRENDING_WORDS_PROJECT_MENTIONED = {
+  label: 'Project mentioned',
+  value: 'trending_project',
+  metric: 'trending_words'
+}
+
+export const TRENDING_WORDS_WORD_MENTIONED = {
+  label: 'Word mentioned',
+  value: 'trending_word',
+  metric: 'trending_words'
+}
+
+export const TRENDING_WORDS_WATCHLIST = {
+  label: 'Watchlist',
+  value: 'watchlist',
+  metric: 'trending_words'
+}
+
+export const TRENDING_WORDS_TYPE_OPTIONS = [
+  TRENDING_WORDS_PROJECT_MENTIONED,
+  TRENDING_WORDS_WORD_MENTIONED,
+  TRENDING_WORDS_WATCHLIST
+]
 
 export const ETH_WALLETS_OPERATIONS = {
   AMOUNT_DOWN: 'amount_down',
@@ -87,7 +113,16 @@ export const ETH_WALLET_METRIC = {
   hidden: true
 }
 
-export const PRICE_METRIC = { label: 'Price', value: 'price' }
+export const TRENDING_WORDS_METRIC = {
+  label: 'Trending words',
+  value: TRENDING_WORDS,
+  metric: TRENDING_WORDS
+}
+
+export const PRICE_METRIC = {
+  label: 'Price',
+  value: PRICE
+}
 export const DAILY_ACTIVE_ADDRESSES_METRIC = {
   label: 'Daily Active Addresses',
   value: DAILY_ACTIVE_ADDRESSES,
@@ -104,13 +139,13 @@ export const COOLDOWN_REGEXP = /([0-9]+)*([smhdw])/i
 export const METRICS_OPTIONS = [
   { ...PRICE_METRIC },
   { ...ETH_WALLET_METRIC },
-  // { label: 'Trending Words', value: 'trendingWords' },
+  { ...TRENDING_WORDS_METRIC },
   // { ...DAILY_ACTIVE_ADDRESSES_METRIC }, GarageInc: temporary disabled
   { ...PRICE_VOLUME_DIFFERENCE_METRIC }
 ]
 
-export const PRICE_TYPES = {
-  price: [
+export const METRIC_TO_TYPES = {
+  [PRICE]: [
     {
       label: 'Price changing',
       options: [
@@ -127,7 +162,8 @@ export const PRICE_TYPES = {
   ],
   daily_active_addresses: [DAILY_ACTIVE_ADDRESSES_METRIC],
   price_volume_difference: [PRICE_VOLUME_DIFFERENCE_METRIC],
-  eth_wallet: ETH_WALLETS_OPTIONS
+  eth_wallet: ETH_WALLETS_OPTIONS,
+  trending_words: TRENDING_WORDS_TYPE_OPTIONS
 }
 
 export const METRIC_TYPES_DEPENDENCIES = {
@@ -139,7 +175,8 @@ export const METRIC_TYPES_DEPENDENCIES = {
     'absoluteBorderLeft',
     'absoluteBorderRight'
   ],
-  eth_wallet: ['threshold', 'walletBalanceChangeType']
+  eth_wallet: ['threshold', 'walletBalanceChangeType'],
+  trending_words: []
 }
 
 export const frequencyTymeValueBuilder = value => {
@@ -288,6 +325,10 @@ export const METRIC_DEFAULT_VALUES = {
     channels: ['Telegram'],
     percentThreshold: 200,
     timeWindow: 24
+  },
+  trending_words: {
+    type: { ...TRENDING_WORDS_PROJECT_MENTIONED },
+    channels: ['Telegram']
   }
 }
 

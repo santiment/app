@@ -32,6 +32,7 @@ export const TriggerFormMetricValues = ({
   lastPrice
 }) => {
   const metricValue = getFormMetricValue(type)
+
   const isTimeWindow = METRIC_TYPES_DEPENDENCIES[metricValue].includes(
     'timeWindow'
   )
