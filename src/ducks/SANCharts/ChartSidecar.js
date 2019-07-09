@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import Categories from './Categories'
 import { AssetsList } from '../../pages/assets/AssetsMobilePage'
 import RecentlyWatched, {
   Asset
@@ -14,6 +15,7 @@ function toggleSidecard ({ currentTarget }) {
 
 const ChartSidecar = ({ onSlugSelect }) => {
   const [openedList, setOpenedList] = useState()
+  console.log(openedList)
 
   const assetsRenderer = ({ key, index, style }) => {
     const { project } = openedList.listItems[index]
@@ -50,6 +52,11 @@ const ChartSidecar = ({ onSlugSelect }) => {
                 onWatchlistClick={setOpenedList}
                 classes={styles}
               />
+
+              <section className={styles.section}>
+                <h2 className={styles.subtitle}>Categories</h2>
+                <Categories onClick={setOpenedList} />
+              </section>
               <section className={styles.section}>
                 <h2 className={styles.subtitle}>Social gainers and losers</h2>
                 <GainersLosersTabs
