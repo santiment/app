@@ -11,6 +11,7 @@ const FormikInput = ({
   onChange,
   min,
   max,
+  validator,
   ...rest
 }) => (
   <Field
@@ -27,7 +28,7 @@ const FormikInput = ({
           placeholder={placeholder}
           disabled={disabled}
           noValidate
-          isError={form.errors[name]}
+          isError={validator ? !validator(field.value) : form.errors[name]}
           onChange={value => {
             const oldValue = value.target.value
 

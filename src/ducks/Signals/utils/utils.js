@@ -34,7 +34,7 @@ import {
   TIME_WINDOW_UNITS,
   getDefaultTimeRangeValue
 } from './constants'
-import { capitalizeStr } from '../../../utils/utils'
+import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 
 const getTimeWindowUnit = timeWindow => {
   if (!timeWindow) return undefined
@@ -486,6 +486,10 @@ export const validateTriggerForm = values => {
 
   if (values.type.metric === ETH_WALLET) {
     if (!values.threshold) errors.threshold = REQUIRED_MESSAGE
+
+    if (values.ethAddress && !isPossibleEthAddress(values.ethAddress)) {
+      errors.ethAddress = 'Not valid ETH address'
+    }
   }
 
   if (
@@ -604,4 +608,8 @@ export const mapAssetsHeldByAddressToProps = ({
     assets: assets,
     isLoading: loading
   }
+}
+
+export const isPossibleEthAddress = function (address) {
+  return !address || isEthStrictAddress(address)
 }
