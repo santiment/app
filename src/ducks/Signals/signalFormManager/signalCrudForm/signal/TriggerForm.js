@@ -117,7 +117,8 @@ export const TriggerForm = ({
           target,
           frequencyType,
           frequencyTimeType,
-          isRepeating
+          isRepeating,
+          ethAddress
         } = values
         const typeSelectors = METRIC_TO_TYPES[(metric || {}).value]
 
@@ -172,6 +173,7 @@ export const TriggerForm = ({
 
               <TriggerMetricTypesResolver
                 isTrendingWords={isTrendingWords}
+                address={ethAddress}
                 metric={metric}
                 target={target}
                 metaFormSettings={metaFormSettings}

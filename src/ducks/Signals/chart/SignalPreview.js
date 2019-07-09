@@ -27,7 +27,7 @@ const CUSTOM_METRICS = {
 const SignalPreview = ({ type, points = [], target, height }) => {
   return (
     <Fragment>
-      <ChartExpandView>
+      <ChartExpandView classes={styles}>
         <SignalPreviewChart
           type={type}
           points={points}
@@ -43,7 +43,7 @@ const SignalPreviewChart = ({
   type,
   points,
   target,
-  showXY = false,
+  showAxes = false,
   height = 150
 }) => {
   const initialMetrics = getMetricsByType(type) || ['historyPrice']
@@ -101,7 +101,7 @@ const SignalPreviewChart = ({
                 historyPrice && (
                   <VisualBacktestChart
                     data={points}
-                    showXY={showXY}
+                    showXY={showAxes}
                     price={historyPrice.items}
                     metrics={customMetrics}
                   />

@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
 import full_screen from '../../../assets/full_screen.svg'
@@ -7,14 +8,14 @@ import styles from './ChartExpandView.module.scss'
 
 const TITLE_HEIGHT = 75
 
-export const ChartExpandView = ({ children }) => {
+export const ChartExpandView = ({ children, classes = {} }) => {
   const width = window.innerWidth * 0.8
   const height = window.innerHeight * 0.6
 
   const renderChildWithHeight = () => {
     return React.cloneElement(children, {
       height: height - TITLE_HEIGHT,
-      showXY: true
+      showAxes: true
     })
   }
 
@@ -26,7 +27,7 @@ export const ChartExpandView = ({ children }) => {
         title='&nbsp;'
         trigger={
           <Button
-            className={styles.expanderButton}
+            className={cx(styles.expanderButton, classes.expanderButton)}
             type='button'
             variant='ghost'
           >

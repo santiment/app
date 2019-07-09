@@ -4,10 +4,20 @@
   display: flex;
   padding: 10px;
   justify-content: space-between;
+
+  &__right {
+    display: flex;
+  }
+}
+
+.ranges,
+.calendar {
+  margin-right: 16px;
 }
 
 .search {
-  width: 50%;
+  width: 20%;
+  min-width: 220px;
 }
 
 .title {
@@ -18,11 +28,15 @@
 }
 
 .zoom {
-  float: left;
+  position: absolute;
+  top: 31px;
+  left: 58px;
+  z-index: 1;
 }
 
 .chart {
   user-select: none !important;
+  position: relative;
 }
 
 .metrics {
