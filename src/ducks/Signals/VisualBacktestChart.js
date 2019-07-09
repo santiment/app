@@ -18,7 +18,7 @@ import styles from './chart/SignalPreview.module.scss'
 const mapWithTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
-const VisualBacktestChart = ({ data, price, metrics, showXY = false }) => {
+const VisualBacktestChart = ({ data, price, metrics, showAxes = false }) => {
   const formattedPrice = mapWithTimeseries(price)
   const formattedData = mapWithTimeseries(data)
 

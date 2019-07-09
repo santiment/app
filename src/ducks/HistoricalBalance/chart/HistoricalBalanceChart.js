@@ -36,7 +36,7 @@ const HistoricalBalanceChart = ({ data }) => {
 
   return (
     <div className={styles.chartContainer}>
-      <ResponsiveContainer width='100%'>
+      <ResponsiveContainer width='100%' height='100%'>
         <LineChart
           data={normalizedData}
           margin={{ top: 5, right: 20, left: 10, bottom: 5 }}

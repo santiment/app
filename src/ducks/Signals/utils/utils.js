@@ -571,3 +571,37 @@ export const getFormMetricValue = type => {
     }
   }
 }
+
+export const mapToAssets = (data, withFilter = true) => {
+  if (!data) {
+    return undefined
+  }
+
+  return data
+    .filter(asset => !withFilter || !!asset.mainContractAddress)
+    .map((asset, index) => {
+      return { value: asset.slug, label: asset.slug }
+    })
+}
+
+export const mapErc20AssetsToProps = ({
+  allErc20Projects: { allErc20Projects = [], isLoading }
+}) => {
+  return {
+    assets: [
+      { value: 'ethereum', label: 'ethereum' },
+      ...mapToAssets(allErc20Projects)
+    ],
+    isLoading: isLoading
+  }
+}
+
+export const mapAssetsHeldByAddressToProps = ({
+  assetsByWallet: { assetsHeldByAddress = [], loading }
+}) => {
+  const assets = mapToAssets(assetsHeldByAddress, false)
+  return {
+    assets: assets,
+    isLoading: loading
+  }
+}

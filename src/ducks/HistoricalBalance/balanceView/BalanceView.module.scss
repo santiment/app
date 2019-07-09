@@ -1,4 +1,3 @@
-@import 'variables.scss';
 @import "~@santiment-network/ui/mixins.scss";
 
 .container {
@@ -34,11 +33,21 @@
   position: relative;
 }
 
-.addTrigger {
-  position: absolute;
-  left: 24px;
-  top: 15px;
-  z-index: 1000;
+.chartHeader {
+  padding: 20px 24px;
+  display: flex;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
+}
+
+.chartParams {
+  margin-left: auto;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 10px;
+  }
 }
 
 .InputWrapper {
@@ -91,5 +100,48 @@
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
     padding: 10px;
+  }
+}
+
+.descriptionContainer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.description {
+  position: relative;
+  left: -50%;
+  transform: translateY(-50%);
+  width: 260px;
+  text-align: center;
+}
+
+.settings {
+  margin-right: 50px;
+  padding: 0;
+
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.calendarButton {
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 10px;
+  }
+}
+
+.datesSelector {
+  margin-right: 24px;
+}
+
+.expanderButton {
+  top: -50px;
+  right: 20px;
+
+  @include responsive('phone', 'phone-xs') {
+    top: -52px;
   }
 }
