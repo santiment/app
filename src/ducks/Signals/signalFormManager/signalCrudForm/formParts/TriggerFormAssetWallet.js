@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { compose } from 'redux'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
@@ -15,7 +15,8 @@ import styles from '../signal/TriggerForm.module.scss'
 import { ASSETS_BY_WALLET_QUERY } from '../../../../HistoricalBalance/common/queries'
 import {
   mapAssetsHeldByAddressToProps,
-  mapToAssets
+  mapToAssets,
+  isPossibleEthAddress
 } from '../../../utils/utils'
 
 const isDisabledWalletAddressField = (
@@ -30,7 +31,10 @@ const isDisabledWalletAddressField = (
   return (
     !target ||
     !target.value ||
-    !allErc20Projects.find(x => x.value === target.value)
+    !(
+      target.value === 'ethereum' ||
+      allErc20Projects.find(x => x.value === target.value)
+    )
   )
 }
 
@@ -55,15 +59,26 @@ const TriggerFormAssetWallet = ({
   const defaultSignalType = metaFormSettings.signalType
   const isEthWallet = metric.value === ETH_WALLET_METRIC.value
 
-  const canUseMappedErc20 = !!byAddress && assets.length > 0
+  const [erc20List, setErc20] = useState(allErc20Projects)
+  const [allList, setAll] = useState(allProjects)
+  const [heldAssets, setHeldAssets] = useState(assets)
 
+  useEffect(() => {
+    allErc20Projects.length && setErc20(allErc20Projects)
+    allProjects.length && setAll(allProjects)
+    assets.length && setHeldAssets(assets)
+  })
+
+  const canUseMappedErc20 = !!byAddress && assets.length > 0
   const disabledWalletField = isDisabledWalletAddressField(
     canUseMappedErc20,
     target,
-    allErc20Projects
+    erc20List
   )
+  const selectableProjects = canUseMappedErc20 ? assets : allList
 
-  const selectableProjects = canUseMappedErc20 ? assets : allProjects
+  console.log(byAddress)
+  console.log(isPossibleEthAddress(byAddress))
 
   return (
     <div className={styles.row}>
@@ -88,6 +103,7 @@ const TriggerFormAssetWallet = ({
           </Label>
           <FormikInput
             disabled={disabledWalletField}
+            validator={isPossibleEthAddress}
             name='ethAddress'
             placeholder={
               disabledWalletField ? 'Only for ETH and ERC20' : 'Wallet address'
@@ -100,7 +116,7 @@ const TriggerFormAssetWallet = ({
         <Label className={styles.label}>&nbsp;</Label>
         <TriggerProjectsSelector
           metaFormSettings={metaFormSettings}
-          heldByWallet={assets}
+          heldByWallet={heldAssets}
           setFieldValue={setFieldValue}
           target={target}
           projects={selectableProjects}
@@ -109,7 +125,7 @@ const TriggerFormAssetWallet = ({
               isDisabledWalletAddressField(
                 canUseMappedErc20,
                 newAsset,
-                allErc20Projects
+                erc20List
               )
             ) {
               setFieldValue('ethAddress', '')
@@ -126,13 +142,26 @@ const mapDataToProps = ({
   ownProps
 }) => {
   const { data = {} } = ownProps
-  return {
-    ...ownProps,
-    data: {
-      allErc20Projects: mapToAssets(allErc20Projects) || data.allErc20Projects,
-      allProjects: mapToAssets(allProjects, false) || data.allProjects
+
+  if (allProjects) {
+    return {
+      ...ownProps,
+      data: {
+        allProjects: mapToAssets(allProjects, false) || data.allProjects
+      }
     }
   }
+
+  if (allErc20Projects) {
+    return {
+      ...ownProps,
+      data: {
+        allErc20Projects: mapToAssets(allErc20Projects) || data.allErc20Projects
+      }
+    }
+  }
+
+  return ownProps
 }
 
 const pickGQL = type => {
@@ -158,7 +187,7 @@ const enhance = compose(
   graphql(pickGQL('erc20'), {
     name: 'Projects',
     props: mapDataToProps,
-    skip: ({ byAddress }) => !!byAddress,
+    skip: ({ byAddress }) => !byAddress,
     options: () => {
       return {
         errorPolicy: 'all'
