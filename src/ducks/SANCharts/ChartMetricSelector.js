@@ -11,8 +11,7 @@ import styles from './ChartMetricSelector.module.scss'
 const DEFAULT_CATEGORIES = {
   Financial: [
     {
-      label: 'Price',
-      description: 'Description of the Price metric'
+      label: 'Price'
     }
   ]
 }

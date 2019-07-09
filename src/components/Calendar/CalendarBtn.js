@@ -14,8 +14,8 @@ const getDateLabel = date => {
 
 const CalendarBtn = ({
   onChange,
-  value = [new Date(), new Date()],
-  className
+  className,
+  value = [new Date(), new Date()]
 }) => {
   const fromDate = getDateLabel(value[0])
   const toDate = getDateLabel(value[1])
