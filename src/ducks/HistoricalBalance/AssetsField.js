@@ -46,9 +46,7 @@ const AssetsField = ({
 const enhance = compose(
   graphql(ALL_ERC20_PROJECTS_QUERY, {
     name: 'allErc20Projects',
-    skip: ({ byAddress }) => {
-      return !!byAddress
-    },
+    skip: ({ byAddress }) => !!byAddress,
     props: mapErc20AssetsToProps,
     options: () => {
       return {
@@ -66,8 +64,7 @@ const enhance = compose(
       return {
         variables: {
           address: byAddress
-        },
-        fetchPolicy: 'cache-first'
+        }
       }
     }
   })

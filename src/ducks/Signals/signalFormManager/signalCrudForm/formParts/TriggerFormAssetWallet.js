@@ -148,42 +148,33 @@ const enhance = compose(
   graphql(pickGQL('all'), {
     name: 'Projects',
     props: mapDataToProps,
-    skip: ({ byAddress }) => {
-      return !!byAddress
-    },
+    skip: ({ byAddress }) => !!byAddress,
     options: () => {
       return {
-        errorPolicy: 'all',
-        fetchPolicy: 'cache-first'
+        errorPolicy: 'all'
       }
     }
   }),
   graphql(pickGQL('erc20'), {
     name: 'Projects',
     props: mapDataToProps,
-    skip: ({ byAddress }) => {
-      return !!byAddress
-    },
+    skip: ({ byAddress }) => !!byAddress,
     options: () => {
       return {
-        errorPolicy: 'all',
-        fetchPolicy: 'cache-first'
+        errorPolicy: 'all'
       }
     }
   }),
   graphql(ASSETS_BY_WALLET_QUERY, {
     name: 'assetsByWallet',
     props: mapAssetsHeldByAddressToProps,
-    skip: ({ byAddress }) => {
-      return !byAddress
-    },
+    skip: ({ byAddress }) => !byAddress,
     options: ({ byAddress }) => {
       return {
         variables: {
           address: byAddress
         },
-        errorPolicy: 'all',
-        fetchPolicy: 'cache-first'
+        errorPolicy: 'all'
       }
     }
   })

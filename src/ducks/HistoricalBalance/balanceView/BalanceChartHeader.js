@@ -1,5 +1,4 @@
 import React from 'react'
-
 import ShowIf from '../../../components/ShowIf'
 import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
 import {

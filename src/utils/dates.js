@@ -296,3 +296,8 @@ export const getIntervalByTimeRange = timeRange => {
 
   return getTimeIntervalFromToday(result.amount, result.format)
 }
+
+export const toEndOfDay = target => {
+  target.setHours(24, 0, 0, 0)
+  return target
+}

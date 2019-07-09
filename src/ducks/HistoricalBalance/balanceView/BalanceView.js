@@ -60,17 +60,17 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
 
     setChartSettings({
       ...chartSettings,
-      ...{ timeRange, from: from.toISOString(), to: to.toISOString() }
+      timeRange,
+      from: from.toISOString(),
+      to: to.toISOString()
     })
   }
 
   const onCalendarChange = ([from, to]) => {
     setChartSettings({
       ...chartSettings,
-      ...{
-        from: from.toISOString(),
-        to: to.toISOString()
-      }
+      from: from.toISOString(),
+      to: to.toISOString()
     })
   }
 

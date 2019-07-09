@@ -4,6 +4,10 @@ import isEqual from 'lodash.isequal'
 import pick from 'lodash.pick'
 import { withApollo } from 'react-apollo'
 import { historicalBalanceGQL } from './common/queries'
+import { toEndOfDay } from '../../utils/dates'
+
+const DEFAULT_FROM_DATE = '2017-12-01T16:28:22.486Z'
+const DEFAULT_TO_DATE = toEndOfDay(new Date()).toISOString()
 
 class GetHistoricalBalance extends Component {
   state = {
@@ -50,8 +54,8 @@ class GetHistoricalBalance extends Component {
       wallet,
       client,
       interval = '1d',
-      to = new Date().toISOString(),
-      from = '2017-12-01T16:28:22.486Z'
+      to = DEFAULT_TO_DATE,
+      from = DEFAULT_FROM_DATE
     } = this.props
 
     assets.forEach(slug => {
@@ -74,9 +78,9 @@ class GetHistoricalBalance extends Component {
           variables: {
             slug,
             address: wallet,
-            interval: interval,
-            to: to,
-            from: from
+            interval,
+            to,
+            from
           }
         })
         .then(({ data, loading }) => {
