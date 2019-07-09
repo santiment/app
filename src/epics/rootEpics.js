@@ -19,7 +19,6 @@ import apikeyRevokeEpic from './apikeyRevokeEpic'
 import createWatchlistEpic, {
   createWatchlistSuccessEpic
 } from './createWatchlistEpic'
-import copyWatchlistEpic from './copyWatchlistEpic'
 import removeWatchlistEpic from './removeWatchlistEpic'
 import {
   removeAssetFromWatchlistEpic,

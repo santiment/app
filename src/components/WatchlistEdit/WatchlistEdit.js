@@ -15,7 +15,7 @@ const WatchlistEdit = ({
   assets,
   trigger,
   name,
-  watchlistUi: { isEditWatchlist },
+  watchlistUi: { editableWatchlists },
   data: { allProjects },
   id,
   sendChanges,
@@ -24,7 +24,9 @@ const WatchlistEdit = ({
   const [isShown, setIsShown] = useState(false)
   const [isEditing, setEditing] = useState(false)
   const [listItems, setListItems] = useState(assets)
-  const [editWatchlistState, setEditWatchlistState] = useState(isEditWatchlist)
+  const [editWatchlistState, setEditWatchlistState] = useState(
+    editableWatchlists
+  )
 
   const close = () => {
     setEditing(false)
@@ -33,7 +35,9 @@ const WatchlistEdit = ({
 
   const open = () => setIsShown(true)
 
-  const applyChanges = () => sendChanges({ listItems, assetsListId: id })
+  const applyChanges = () => {
+    sendChanges({ listItems, assetsListId: id })
+  }
 
   const toggleAsset = ({ project, listItems, isAssetInList }) => {
     if (!isEditing) setEditing(true)
@@ -44,9 +48,9 @@ const WatchlistEdit = ({
     )
   }
 
-  if (isEditWatchlist !== editWatchlistState) {
-    setEditWatchlistState(isEditWatchlist)
-    if (!isEditWatchlist) {
+  if (editableWatchlists.length !== editWatchlistState.length) {
+    setEditWatchlistState(editableWatchlists)
+    if (editableWatchlists.length === 0 && isShown) {
       setNotification('Watchlist was modified')
       close()
     }
@@ -103,11 +107,12 @@ const WatchlistEdit = ({
           Cancel
         </Dialog.Cancel>
         <Dialog.Approve
-          disabled={editWatchlistState || !isEditing}
+          disabled={editWatchlistState.length > 0 || !isEditing}
           variant='flat'
           onClick={applyChanges}
+          isLoading={editWatchlistState.length > 0}
         >
-          {editWatchlistState ? 'Applying...' : 'Apply'}
+          Apply
         </Dialog.Approve>
       </Dialog.Actions>
     </Dialog>
@@ -120,7 +125,7 @@ const mapDispatchToProps = dispatch => ({
   sendChanges: ({ assetsListId, listItems }) =>
     dispatch({
       type: USER_EDIT_ASSETS_IN_LIST,
-      payload: { assetsListId, listItems }
+      payload: { assetsListId, listItems, currentId: assetsListId }
     }),
   setNotification: message => dispatch(showNotification(message))
 })

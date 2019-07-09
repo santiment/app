@@ -1,42 +1,43 @@
-.list {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  max-height: 180px;
-  overflow-y: auto;
-}
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
+@import "../../mixins.scss";
 
-.item {
-  cursor: pointer;
-  padding: 8px 15px;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #eee;
+.wrapper {
+  padding: 12px 0 0 20px;
+  width: 318px;
+  overflow-y: hidden;
 
-  &:hover {
-    background-color: #d4d9dd5e;
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
   }
 }
 
-.bottom {
-  padding: 5px;
+.contentWrapper {
   display: flex;
+  flex-direction: column;
 }
 
-.input input {
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
+.search {
+  z-index: 5;
+  margin-right: 20px;
 }
 
-.button {
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
+.heading {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: bold;
+  margin: 16px 0 8px;
 }
 
-.title {
-  font-size: 14px;
-  text-align: center;
-  margin: 0;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
+.actions {
+  padding: 10px 15px;
+}
+
+.name {
+  color: var(--mirage);
+  margin: 0 3px 0 5px;
+}
+
+.ticker {
+  color: var(--waterloo);
 }

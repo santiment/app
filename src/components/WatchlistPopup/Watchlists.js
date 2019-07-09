@@ -6,7 +6,7 @@ import NewWatchlistDialog from '../Watchlists/NewWatchlistDialog'
 import WatchlistNewBtn from './WatchlistNewBtn'
 import styles from './Watchlists.module.scss'
 
-const Watchlists = ({ lists = [], projectId, slug, toggleAssetInList }) => (
+const Watchlists = ({ lists = [], projectId, slug, onWatchlistClick }) => (
   <>
     <div className={styles.listWrapper}>
       <div className={styles.list}>
@@ -23,9 +23,8 @@ const Watchlists = ({ lists = [], projectId, slug, toggleAssetInList }) => (
                 labelOnRight
                 labelClassName={styles.label}
                 onSelect={() =>
-                  toggleAssetInList({
-                    projectId,
-                    assetsListId: id,
+                  onWatchlistClick({
+                    id,
                     slug,
                     listItems
                   })
