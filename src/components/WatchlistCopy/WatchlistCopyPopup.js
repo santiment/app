@@ -51,7 +51,7 @@ const WatchlistCopyPopup = ({
     const listItems = list ? list.listItems : []
 
     const remainingAssets = [...assets].filter(id => {
-      const assetInList = listItems.find(itemId => itemId === id)
+      const assetInList = listItems.some(itemId => itemId === id)
       return !assetInList
     })
 
@@ -120,10 +120,11 @@ const WatchlistCopyPopup = ({
     watchlistsToCopy.forEach(assetsListId => {
       const remainingAssets = checkRemainingAssets(assetsListId, assetsToCopy)
       if (remainingAssets.length > 0) {
+        const list = lists.find(({ id }) => assetsListId === id)
         sendChanges({
           assetsListId,
           currentId,
-          listItems: remainingAssets.map(id => ({ id }))
+          listItems: [...list.listItems, ...remainingAssets].map(id => ({ id }))
         })
       }
     })

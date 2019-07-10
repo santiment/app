@@ -51,7 +51,7 @@ const WatchlistEdit = ({
   if (editableWatchlists.length !== editWatchlistState.length) {
     setEditWatchlistState(editableWatchlists)
     if (editableWatchlists.length === 0 && isShown) {
-      setNotification(`${name} watchlist was modified`)
+      setNotification(`"${name}" was modified`)
       close()
     }
   }
