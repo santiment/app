@@ -10,15 +10,13 @@ import ALL_PROJECTS from './../../allProjects.json'
 
 const SearchProjects = ({
   projectsList,
-  data: { allProjects = [] },
   isEditingWatchlist,
   isCopyingAssets,
   checkedAssets,
   watchlistItems,
   ...props
 }) => {
-  const projects =
-    projectsList || (allProjects.length > 0 ? allProjects : ALL_PROJECTS)
+  const projects = projectsList.length > 0 ? projectsList : ALL_PROJECTS
   return (
     <SearchWithSuggestions
       {...props}
@@ -68,7 +66,9 @@ const SearchProjects = ({
 }
 
 export default graphql(allProjectsForSearchGQL, {
+  skip: ({ projectsList }) => projectsList && projectsList.length > 0,
   options: () => ({
     context: { isRetriable: true }
-  })
+  }),
+  props: ({ data: { allProjects = [] } }) => ({ projectsList: allProjects })
 })(SearchProjects)
