@@ -3,7 +3,6 @@
 @import "../../mixins.scss";
 
 .wrapperList {
-  margin-top: 20px;
   user-select: none;
   position: relative;
 
@@ -35,4 +34,8 @@
 
 .checkbox {
   margin-right: 10px;
+}
+
+.list {
+  outline: none;
 }

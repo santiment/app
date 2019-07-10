@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { AutoSizer, List } from 'react-virtualized'
 import Label from '@santiment-network/ui/Label'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
@@ -6,7 +7,7 @@ import styles from './AssetsList.module.scss'
 
 const ROW_HEIGHT = 32
 
-const AssetsList = ({ items, selectedItems, onToggleAsset }) => {
+const AssetsList = ({ items, selectedItems, onToggleAsset, className }) => {
   const rowRenderer = ({ key, index, style }) => {
     const { name, ticker, id } = items[index]
     const isSelectedAsset = selectedItems.has(id)
@@ -30,7 +31,7 @@ const AssetsList = ({ items, selectedItems, onToggleAsset }) => {
   }
 
   return (
-    <div style={wrapperStyles} className={styles.wrapperList}>
+    <div style={wrapperStyles} className={cx(styles.wrapperList, className)}>
       <AutoSizer>
         {({ height, width }) => (
           <List
@@ -40,6 +41,7 @@ const AssetsList = ({ items, selectedItems, onToggleAsset }) => {
             rowCount={items.length}
             overscanRowCount={5}
             rowRenderer={rowRenderer}
+            className={styles.list}
           />
         )}
       </AutoSizer>

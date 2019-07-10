@@ -3,23 +3,48 @@
 @import "../../mixins.scss";
 
 .wrapper {
-  padding: 12px 0 0 20px;
-  width: 318px;
   overflow-y: hidden;
 
   @include responsive('phone-xs', 'phone') {
+    padding: 12px 0 0 20px;
     width: 100%;
+  }
+
+  @include responsive('laptop', 'tablet', 'desktop') {
+    padding: 0 16px;
+    display: flex;
+    width: auto;
+    border-bottom: 1px solid var(--porcelain);
   }
 }
 
-.contentWrapper {
+.assetsWrapper {
+  @include responsive('laptop', 'tablet', 'desktop') {
+    padding-top: 16px;
+    padding-right: 16px;
+    border-right: 1px solid var(--porcelain);
+  }
+}
+
+.watchlistsWrapper {
   display: flex;
   flex-direction: column;
+
+  @include responsive('phone-xs', 'phone') {
+    margin-right: 20px;
+  }
+
+  @include responsive('laptop', 'tablet', 'desktop') {
+    padding: 8px 4px 16px 16px;
+  }
 }
 
 .search {
   z-index: 5;
-  margin-right: 20px;
+
+  @include responsive('phone-xs', 'phone') {
+    margin-right: 20px;
+  }
 }
 
 .heading {
@@ -27,6 +52,10 @@
   line-height: 18px;
   font-weight: bold;
   margin: 16px 0 8px;
+
+  @include responsive('laptop', 'tablet', 'desktop') {
+    display: none;
+  }
 }
 
 .actions {
@@ -40,4 +69,22 @@
 
 .ticker {
   color: var(--waterloo);
+}
+
+.wrapperList {
+  margin-top: 20px;
+
+  @include responsive('phone-xs', 'phone') {
+    margin: 16px 20px 0 0;
+  }
+}
+
+.watchlists {
+  @include responsive('phone-xs') {
+    max-height: 15vh;
+  }
+
+  @include responsive('phone') {
+    max-height: 22vh;
+  }
 }

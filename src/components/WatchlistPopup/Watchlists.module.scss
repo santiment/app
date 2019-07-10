@@ -1,4 +1,5 @@
 @import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins';
 
 .listWrapper {
   position: relative;
@@ -58,8 +59,10 @@
   width: 94%;
 
   &:hover {
-    & .label {
-      color: var(--jungle-green-hover);
+    @include responsive('tablet', 'laptop', 'desktop') {
+      & .label {
+        color: var(--jungle-green-hover);
+      }
     }
   }
 }

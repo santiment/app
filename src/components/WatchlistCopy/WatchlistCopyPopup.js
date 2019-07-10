@@ -69,7 +69,7 @@ const WatchlistCopyPopup = ({
 
   if (editableWatchlists.length !== editWatchlistState.length) {
     setEditWatchlistState(editableWatchlists)
-    if (editableWatchlists.length === 0) {
+    if (editableWatchlists.length === 0 && isShown) {
       setNotification(
         `${watchlistsToCopy.size} watchlist${
           watchlistsToCopy.size > 1 ? 's were' : ' was'
@@ -139,23 +139,31 @@ const WatchlistCopyPopup = ({
       showCloseBtn={false}
     >
       <Dialog.ScrollContent className={styles.wrapper}>
-        <SearchProjects
-          projectsList={assets}
-          checkedAssets={assetsToCopy}
-          isCopyingAssets={true}
-          className={styles.search}
-          onSuggestionSelect={({ id }) => onAssetClick(id)}
-        />
-        <AssetsList
-          items={assets}
-          selectedItems={assetsToCopy}
-          onToggleAsset={onAssetClick}
-        />
-        <div className={styles.contentWrapper}>
+        <div className={styles.assetsWrapper}>
+          <SearchProjects
+            projectsList={assets}
+            checkedAssets={assetsToCopy}
+            isCopyingAssets={true}
+            className={styles.search}
+            onSuggestionSelect={({ id }) => onAssetClick(id)}
+          />
+          <AssetsList
+            items={assets}
+            selectedItems={assetsToCopy}
+            onToggleAsset={onAssetClick}
+            className={styles.wrapperList}
+          />
+        </div>
+        <div className={styles.watchlistsWrapper}>
           <Label accent='waterloo' className={styles.heading}>
             Watchlists
           </Label>
-          <Watchlists onWatchlistClick={onWatchlistClick} lists={lists} />
+          <Watchlists
+            onWatchlistClick={onWatchlistClick}
+            className={styles.wrapperList}
+            classes={{ list: styles.watchlists }}
+            lists={lists}
+          />
         </div>
       </Dialog.ScrollContent>
       <Dialog.Actions className={styles.actions}>
