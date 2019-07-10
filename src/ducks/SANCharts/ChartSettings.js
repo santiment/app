@@ -1,5 +1,6 @@
 import React from 'react'
 import Selector from '@santiment-network/ui/Selector/Selector'
+import IntervalSelector from './IntervalSelector'
 import ChartSettingsContextMenu from './ChartSettingsContextMenu'
 import CalendarBtn from '../../components/Calendar/CalendarBtn'
 import SearchProjects from '../../components/Search/SearchProjects'
@@ -13,7 +14,9 @@ const ChartSettings = ({
   generateShareLink,
   onNightModeSelect,
   hasNightMode,
+  onIntervalChange,
   disabledMetrics,
+  interval,
   from,
   to
 }) => {
@@ -24,21 +27,32 @@ const ChartSettings = ({
         onSuggestionSelect={onSlugSelect}
         className={styles.search}
         suggestionsProps={{ style: { zIndex: 5 } }}
+        iconPosition='left'
       />
-      <Selector
-        options={['1w', '1m', '3m', '6m']}
-        onSelectOption={onTimerangeChange}
-        defaultSelected={defaultTimerange}
-      />
-      <CalendarBtn
-        onChange={onCalendarChange}
-        value={[new Date(from), new Date(to)]}
-      />
-      <ChartSettingsContextMenu
-        hasNightMode={hasNightMode}
-        onNightModeSelect={onNightModeSelect}
-        shareLink={shareLink}
-      />
+      <div className={styles.settings__right}>
+        <Selector
+          options={['1d', '5d', '1w', '1m', '3m', '6m', '1y', 'all']}
+          onSelectOption={onTimerangeChange}
+          defaultSelected={defaultTimerange}
+          className={styles.ranges}
+        />
+        <IntervalSelector
+          from={from}
+          to={to}
+          interval={interval}
+          onIntervalChange={onIntervalChange}
+        />
+        <CalendarBtn
+          onChange={onCalendarChange}
+          value={[new Date(from), new Date(to)]}
+          className={styles.calendar}
+        />
+        <ChartSettingsContextMenu
+          hasNightMode={hasNightMode}
+          onNightModeSelect={onNightModeSelect}
+          shareLink={shareLink}
+        />
+      </div>
     </div>
   )
 }

@@ -15,11 +15,13 @@ export const Metrics = {
     label: 'Volume',
     fill: true,
     dataKey: 'volume',
-    category: 'Financial'
+    category: 'Financial',
+    color: 'mystic'
   },
   socialVolume: {
     node: Line,
     label: 'Social Volume',
+    color: 'malibu',
     category: 'Social'
   },
   tokenAgeConsumed: {
@@ -86,6 +88,7 @@ export const Metrics = {
   },
   devActivity: {
     node: Line,
+    color: 'heliotrope',
     label: 'Development Activity',
     dataKey: 'activity',
     category: 'Development',
@@ -137,11 +140,11 @@ export const Metrics = {
 export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
 
 export const METRIC_COLORS = [
-  'persimmon',
-  'heliotrope',
   'texas-rose',
   'dodger-blue',
-  'malibu'
+  'lima',
+  'heliotrope',
+  'waterloo'
 ]
 
 export const generateMetricsMarkup = (metrics, data = {}) => {

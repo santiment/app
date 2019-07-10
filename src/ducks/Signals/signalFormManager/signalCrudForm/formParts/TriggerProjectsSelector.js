@@ -6,20 +6,16 @@ export const TriggerProjectsSelector = ({
   onChange,
   metaFormSettings,
   target,
-  setFieldValue
+  setFieldValue,
+  heldByWallet = []
 }) => {
   const { ethAddress, target: defaultAsset } = metaFormSettings
-
-  const options = projects.map(asset => ({
-    label: asset.slug,
-    value: asset.slug
-  }))
 
   if (
     target &&
     target.value &&
-    options.length > 0 &&
-    !options.find(p => p.value === target.value)
+    projects.length > 0 &&
+    !projects.find(p => p.value === target.value)
   ) {
     setFieldValue('target', '')
   }
@@ -31,10 +27,13 @@ export const TriggerProjectsSelector = ({
       defaultValue={defaultAsset.value.value}
       placeholder='Pick an asset'
       required
-      options={options}
+      options={projects}
       onChange={newAsset => {
         if (ethAddress) {
-          if (metaFormSettings.target.value.value === newAsset.value) {
+          if (
+            metaFormSettings.target.value.value === newAsset.value ||
+            heldByWallet.find(a => a.value === newAsset.value)
+          ) {
             setFieldValue('ethAddress', ethAddress)
           } else {
             setFieldValue('ethAddress', '')

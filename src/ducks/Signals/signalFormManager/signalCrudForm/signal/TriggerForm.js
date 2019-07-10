@@ -129,7 +129,8 @@ export const TriggerForm = ({
           target,
           frequencyType,
           frequencyTimeType,
-          isRepeating
+          isRepeating,
+          ethAddress
         } = values
         const typeSelectors = PRICE_TYPES[(metric || {}).value]
 
@@ -179,6 +180,7 @@ export const TriggerForm = ({
                 />
 
                 <TriggerFormAssetWallet
+                  byAddress={ethAddress}
                   metric={metric}
                   target={target}
                   metaFormSettings={metaFormSettings}

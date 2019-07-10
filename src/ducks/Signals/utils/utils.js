@@ -34,7 +34,7 @@ import {
   TIME_WINDOW_UNITS,
   getDefaultTimeRangeValue
 } from './constants'
-import { capitalizeStr } from '../../../utils/utils'
+import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 
 const getTimeWindowUnit = timeWindow => {
   if (!timeWindow) return undefined
@@ -486,6 +486,10 @@ export const validateTriggerForm = values => {
 
   if (values.type.metric === ETH_WALLET) {
     if (!values.threshold) errors.threshold = REQUIRED_MESSAGE
+
+    if (values.ethAddress && !isPossibleEthAddress(values.ethAddress)) {
+      errors.ethAddress = 'Not valid ETH address'
+    }
   }
 
   if (
@@ -570,4 +574,42 @@ export const getFormMetricValue = type => {
       }
     }
   }
+}
+
+export const mapToAssets = (data, withFilter = true) => {
+  if (!data) {
+    return undefined
+  }
+
+  return data
+    .filter(asset => !withFilter || !!asset.mainContractAddress)
+    .map((asset, index) => {
+      return { value: asset.slug, label: asset.slug }
+    })
+}
+
+export const mapErc20AssetsToProps = ({
+  allErc20Projects: { allErc20Projects = [], isLoading }
+}) => {
+  return {
+    assets: [
+      { value: 'ethereum', label: 'ethereum' },
+      ...mapToAssets(allErc20Projects)
+    ],
+    isLoading: isLoading
+  }
+}
+
+export const mapAssetsHeldByAddressToProps = ({
+  assetsByWallet: { assetsHeldByAddress = [], loading }
+}) => {
+  const assets = mapToAssets(assetsHeldByAddress, false)
+  return {
+    assets: assets,
+    isLoading: loading
+  }
+}
+
+export const isPossibleEthAddress = function (address) {
+  return !address || isEthStrictAddress(address)
 }
