@@ -34,7 +34,8 @@ import {
   TIME_WINDOW_UNITS,
   getDefaultTimeRangeValue,
   TRENDING_WORDS_METRIC,
-  TRENDING_WORDS_PROJECT_MENTIONED
+  TRENDING_WORDS_PROJECT_MENTIONED,
+  TRENDING_WORDS
 } from './constants'
 import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 
@@ -339,7 +340,7 @@ export const mapAssetTarget = (target, isEthWalletTrigger) => {
   }
 }
 
-export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
+export const mapFormToCommonTriggerSettings = formProps => {
   const {
     channels,
     percentThreshold,
@@ -348,7 +349,6 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     ethAddress,
     timeWindow,
     timeWindowUnit,
-    isRepeating,
     type
   } = formProps
 
@@ -357,31 +357,56 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   const newAsset = mapAssetTarget(target, isEthWalletTrigger)
   const newTarget = mapTriggerTarget(target, ethAddress, isEthWalletTrigger)
 
-  const cooldownParams = getCooldownParams(formProps)
-
   const channel = channels.length ? channels[0].toLowerCase() : undefined
 
   return {
+    channel: channel,
+    percent_threshold: percentThreshold || undefined,
+    threshold: threshold || undefined,
+
+    ...newTarget,
+    ...newAsset,
+
+    time_window:
+      timeWindow && timeWindowUnit
+        ? timeWindow + '' + timeWindowUnit.value
+        : undefined,
+    type: type ? type.metric : undefined,
+    operation: getTriggerOperation(formProps)
+  }
+}
+
+export const mapFormToTrendingWordsTriggerSettings = formProps => {
+  return {
+    type: 'trending_words',
+    channel: 'telegram',
+    target: { slug: 'santiment' },
+    operation: { trending_project: true }
+  }
+}
+
+export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
+  const { type, isRepeating } = formProps
+
+  let settings = {}
+  switch (type.metric) {
+    case TRENDING_WORDS: {
+      debugger
+      settings = mapFormToTrendingWordsTriggerSettings(formProps)
+      break
+    }
+    default: {
+      settings = mapFormToCommonTriggerSettings(formProps)
+    }
+  }
+
+  const cooldownParams = getCooldownParams(formProps)
+
+  return {
     ...prevTrigger,
-    settings: {
-      channel: channel,
-      percent_threshold: percentThreshold || undefined,
-      threshold: threshold || undefined,
-
-      ...newTarget,
-      ...newAsset,
-
-      time_window:
-        timeWindow && timeWindowUnit
-          ? timeWindow + '' + timeWindowUnit.value
-          : undefined,
-      type: type ? type.metric : undefined,
-      operation: getTriggerOperation(formProps)
-    },
+    settings: settings,
     isRepeating: !!isRepeating,
     ...cooldownParams
-    // isPublic: !!formProps.isPublic,
-    // isActive: !!formProps.isActive
   }
 }
 
@@ -474,7 +499,9 @@ export function getFrequencyTimeType (frequencyType) {
 }
 
 export function getFrequencyTimeValues (frequencyTimeType) {
-  return FREQUENCY_MAPPINGS[frequencyTimeType.value]
+  return frequencyTimeType
+    ? FREQUENCY_MAPPINGS[frequencyTimeType.value]
+    : undefined
 }
 
 export function getNearestFrequencyTimeValue (frequencyTimeType) {

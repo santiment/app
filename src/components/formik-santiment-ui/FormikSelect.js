@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
-import Select from 'react-select'
+import Select from '@santiment-network/ui/Search/Select/Select'
 import { Field } from 'formik'
+import './FormikSelect.scss'
 import './FormikSelect.scss'
 
 const FormikSelect = ({
@@ -9,6 +10,7 @@ const FormikSelect = ({
   disabled = false,
   placeholder,
   onChange,
+  isLoading = false,
   ...rest
 }) => {
   return (
@@ -31,22 +33,27 @@ const FormikSelect = ({
 
         return (
           <Fragment>
-            <Select
-              styles={customStyles}
-              placeholder={placeholder}
-              classNamePrefix='react-select'
-              options={options}
-              onChange={value => {
-                form.setFieldValue(name, value)
-                form.setFieldTouched(name, true)
-                onChange && onChange(value)
-              }}
-              value={field.value}
-              {...rest}
-            />
-            {form.errors[name] && (
-              <div className='error error-message'>{form.errors[name]}</div>
-            )}
+            <div className='react-select__container'>
+              <Select
+                disabled={disabled}
+                styles={customStyles}
+                placeholder={placeholder}
+                classNamePrefix='react-select'
+                options={options}
+                isLoading={isLoading}
+                valueKey='value'
+                onChange={value => {
+                  form.setFieldValue(name, value)
+                  form.setFieldTouched(name, true)
+                  onChange && onChange(value)
+                }}
+                value={field.value}
+                {...rest}
+              />
+              {form.errors[name] && (
+                <div className='error error-message'>{form.errors[name]}</div>
+              )}
+            </div>
           </Fragment>
         )
       }}

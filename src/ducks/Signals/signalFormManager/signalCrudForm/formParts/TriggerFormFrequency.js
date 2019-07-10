@@ -43,7 +43,7 @@ export const TriggerFormFrequency = ({
         <FormikSelect
           name='frequencyType'
           isClearable={false}
-          isDisabled={defaultFrequencyType.isDisabled}
+          disabled={defaultFrequencyType.isDisabled}
           defaultValue={defaultFrequencyType.value.value}
           isSearchable
           placeholder='Choose a frequency'
@@ -69,14 +69,14 @@ export const TriggerFormFrequency = ({
             name='frequencyTimeValue'
             className={styles.frequencyTimeValue}
             isClearable={false}
-            isDisabled={!frequencyType || !frequencyTimeType}
+            disabled={!frequencyType || !frequencyTimeType}
             isSearchable
             options={getFrequencyTimeValues(frequencyTimeType)}
           />
           <FormikSelect
             className={styles.frequencyTimeType}
             name='frequencyTimeType'
-            isDisabled={!frequencyType}
+            disabled={!frequencyType}
             isClearable={false}
             onChange={frequencyTimeType => {
               setFieldValue('frequencyTimeValue', frequencyTymeValueBuilder(1))

@@ -89,7 +89,7 @@ const TriggerFormAssetWallet = ({
           </Label>
           <FormikSelect
             name='signalType'
-            isDisabled={defaultSignalType.isDisabled}
+            disabled={defaultSignalType.isDisabled}
             defaultValue={defaultSignalType.value.value}
             placeholder={'Pick signal type'}
             options={ASSETS_FILTERS}

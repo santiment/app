@@ -35,10 +35,10 @@ const AssetsField = ({
       placeholder='For example, Ethereum...'
       options={assets}
       isLoading={isLoading}
+      valueKey='value'
       onChange={handleOnChange}
       value={showingAssets}
       className={className}
-      valueKey='value'
     />
   )
 }

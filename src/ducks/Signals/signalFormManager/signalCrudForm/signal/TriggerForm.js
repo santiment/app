@@ -124,7 +124,7 @@ export const TriggerForm = ({
 
         const { price } = lastPriceItem || {}
 
-        const showChart = couldShowChart(metric)
+        const showChart = target && couldShowChart(metric)
         const isTrendingWords = metric.value === TRENDING_WORDS
 
         return (
@@ -190,7 +190,7 @@ export const TriggerForm = ({
                       name='type'
                       isClearable={false}
                       isSearchable
-                      isDisabled={defaultType.isDisabled}
+                      disabled={defaultType.isDisabled}
                       defaultValue={defaultType.value}
                       placeholder='Choose a type'
                       options={typeSelectors}
