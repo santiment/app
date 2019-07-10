@@ -5,6 +5,8 @@
 .wrapperList {
   user-select: none;
   position: relative;
+  height: var(--height);
+  padding-right: var(--padding-right);
 
   &::after {
     content: '';

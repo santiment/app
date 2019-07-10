@@ -26,8 +26,8 @@ const AssetsList = ({ items, selectedItems, onToggleAsset, className }) => {
   }
 
   const wrapperStyles = {
-    height: items.length > 4 ? '145px' : `${32 * items.length}px`,
-    paddingRight: items.length > 4 ? '0' : `5px`
+    '--height': items.length > 4 ? '145px' : `${32 * items.length}px`,
+    '--padding-right': items.length > 4 ? '0' : `5px`
   }
 
   return (
