@@ -47,6 +47,7 @@ const ChartMetricSelector = ({
   className = '',
   toggleMetric,
   activeMetrics,
+  disabledMetrics,
   data: { project: { availableMetrics = [] } = {}, loading }
 }) => {
   const categories = getCategoryGraph(availableMetrics)
@@ -92,6 +93,7 @@ const ChartMetricSelector = ({
                       onMouseEnter={() => setMetric(metric)}
                       onClick={() => toggleMetric(metric.key)}
                       isActive={isActive}
+                      disabled={disabledMetrics.includes(metric.key)}
                     >
                       {metric.label}{' '}
                       <Icon type={isActive ? 'subtract-round' : 'plus-round'} />
