@@ -7,14 +7,14 @@ import styles from './AssetsList.module.scss'
 
 const ROW_HEIGHT = 32
 
-const AssetsList = ({ items, selectedItems, onToggleAsset, className }) => {
+const AssetsList = ({ items, selectedItems, onToggleAsset, classes }) => {
   const rowRenderer = ({ key, index, style }) => {
     const { name, ticker, id } = items[index]
     const isSelectedAsset = selectedItems.has(id)
     return (
       <div
         key={key}
-        className={styles.project}
+        className={cx(styles.project, classes.asset)}
         style={style}
         onClick={() => onToggleAsset(id)}
       >
@@ -31,7 +31,7 @@ const AssetsList = ({ items, selectedItems, onToggleAsset, className }) => {
   }
 
   return (
-    <div style={wrapperStyles} className={cx(styles.wrapperList, className)}>
+    <div style={wrapperStyles} className={cx(styles.wrapperList, classes.list)}>
       <AutoSizer>
         {({ height, width }) => (
           <List

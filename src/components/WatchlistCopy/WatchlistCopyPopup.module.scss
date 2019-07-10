@@ -85,6 +85,14 @@
   }
 }
 
+.asset {
+  &:hover {
+    @include responsive('laptop', 'tablet', 'desktop') {
+      cursor: pointer;
+    }
+  }
+}
+
 .watchlists {
   @include responsive('phone-xs') {
     max-height: 15vh;
@@ -92,5 +100,17 @@
 
   @include responsive('phone') {
     max-height: 22vh;
+  }
+}
+
+.warning {
+  color: var(--persimmon);
+  text-align: center;
+  padding: 5px 16px;
+
+  @include text('caption');
+
+  @include responsive('laptop', 'tablet', 'desktop') {
+    padding: 16px 16px 0 16px;
   }
 }

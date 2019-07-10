@@ -28,6 +28,7 @@ const WatchlistCopyPopup = ({
 
   const [isShown, setIsShown] = useState(false)
   const [isEditing, setEditing] = useState(false)
+  const [warning, setWarning] = useState(false)
   const [assetsToCopy, setAssetsToCopy] = useState(new Set())
   const [watchlistsToCopy, setWatchlistsToCopy] = useState(new Set())
   const [editWatchlistState, setEditWatchlistState] = useState(
@@ -70,19 +71,16 @@ const WatchlistCopyPopup = ({
   if (editableWatchlists.length !== editWatchlistState.length) {
     setEditWatchlistState(editableWatchlists)
     if (editableWatchlists.length === 0 && isShown) {
-      setNotification(
-        `${watchlistsToCopy.size} watchlist${
-          watchlistsToCopy.size > 1 ? 's were' : ' was'
-        } modified`
-      )
+      setNotification(`Copying completed successfully`)
       close()
     }
   }
 
   const checkEditingState = (assets, watchlists) => {
-    if ((assets.size === 0 || watchlists.size === 0) && isEditing) {
-      setEditing(false)
-    } else if (assets.size && watchlists.size > 0) {
+    if (assets.size === 0 || watchlists.size === 0) {
+      if (isEditing) setEditing(false)
+      if (warning) setWarning(false)
+    } else if (assets.size > 0 && watchlists.size > 0) {
       const hasWatchlistWithoutSelectedAssets = [...watchlists].some(
         assetsListId => {
           const remainingAssets = checkRemainingAssets(assetsListId, assets)
@@ -92,6 +90,8 @@ const WatchlistCopyPopup = ({
       if (hasWatchlistWithoutSelectedAssets !== isEditing) {
         setEditing(hasWatchlistWithoutSelectedAssets)
       }
+      if (!hasWatchlistWithoutSelectedAssets && !warning) setWarning(true)
+      if (hasWatchlistWithoutSelectedAssets && warning) setWarning(false)
     }
   }
 
@@ -151,7 +151,7 @@ const WatchlistCopyPopup = ({
             items={assets}
             selectedItems={assetsToCopy}
             onToggleAsset={onAssetClick}
-            className={styles.wrapperList}
+            classes={{ list: styles.wrapperList, asset: styles.asset }}
           />
         </div>
         <div className={styles.watchlistsWrapper}>
@@ -166,6 +166,11 @@ const WatchlistCopyPopup = ({
           />
         </div>
       </Dialog.ScrollContent>
+      {warning && (
+        <div className={styles.warning}>
+          All selected watchlists already contained all selected assets
+        </div>
+      )}
       <Dialog.Actions className={styles.actions}>
         <Dialog.Cancel border={false} accent='grey' onClick={close}>
           Cancel
