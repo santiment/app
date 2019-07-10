@@ -77,9 +77,6 @@ const TriggerFormAssetWallet = ({
   )
   const selectableProjects = canUseMappedErc20 ? assets : allList
 
-  console.log(byAddress)
-  console.log(isPossibleEthAddress(byAddress))
-
   return (
     <div className={styles.row}>
       {!isEthWallet && (

@@ -20,8 +20,7 @@ import {
   PRICE_PERCENT_CHANGE,
   METRIC_DEFAULT_VALUES,
   DEFAULT_FORM_META_SETTINGS,
-  METRIC_TO_TYPES,
-  TRENDING_WORDS
+  METRIC_TO_TYPES
 } from '../../../utils/constants'
 import {
   couldShowChart,
@@ -125,7 +124,6 @@ export const TriggerForm = ({
         const { price } = lastPriceItem || {}
 
         const showChart = target && couldShowChart(metric)
-        const isTrendingWords = metric.value === TRENDING_WORDS
 
         return (
           <Form className={styles.TriggerForm}>
@@ -172,10 +170,8 @@ export const TriggerForm = ({
               />
 
               <TriggerMetricTypesResolver
-                isTrendingWords={isTrendingWords}
                 address={ethAddress}
-                metric={metric}
-                target={target}
+                values={values}
                 metaFormSettings={metaFormSettings}
                 setFieldValue={setFieldValue}
               />
@@ -202,15 +198,13 @@ export const TriggerForm = ({
 
               <TriggerFormMetricValues lastPrice={price} values={values} />
 
-              {!isTrendingWords && (
-                <TriggerFormFrequency
-                  metaFormSettings={metaFormSettings}
-                  setFieldValue={setFieldValue}
-                  frequencyType={frequencyType}
-                  metric={type.metric}
-                  frequencyTimeType={frequencyTimeType}
-                />
-              )}
+              <TriggerFormFrequency
+                metaFormSettings={metaFormSettings}
+                setFieldValue={setFieldValue}
+                frequencyType={frequencyType}
+                metric={type.metric}
+                frequencyTimeType={frequencyTimeType}
+              />
 
               {showChart && (
                 <div className={cx(styles.row, styles.signalPreview)}>

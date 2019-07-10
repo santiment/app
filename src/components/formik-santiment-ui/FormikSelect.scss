@@ -45,18 +45,22 @@
   }
 }
 
-.react-select__container {
+.select__container-single {
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  .Select-control {
+    height: 32px;
+    line-height: 32px;
+  }
+
+  .Select-multi-value-wrapper {
+    height: 32px;
+    line-height: 32px;
+  }
 }
 
-.Select-control {
-  height: 32px;
-  line-height: 32px;
-}
-
-.Select-multi-value-wrapper {
-  height: 32px;
-  line-height: 32px;
+.select__container-multi {
+  position: relative;
 }

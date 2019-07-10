@@ -162,8 +162,7 @@ export const METRIC_TO_TYPES = {
   ],
   daily_active_addresses: [DAILY_ACTIVE_ADDRESSES_METRIC],
   price_volume_difference: [PRICE_VOLUME_DIFFERENCE_METRIC],
-  eth_wallet: ETH_WALLETS_OPTIONS,
-  trending_words: TRENDING_WORDS_TYPE_OPTIONS
+  eth_wallet: ETH_WALLETS_OPTIONS
 }
 
 export const METRIC_TYPES_DEPENDENCIES = {
