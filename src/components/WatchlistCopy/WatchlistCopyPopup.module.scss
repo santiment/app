@@ -20,8 +20,7 @@
 
 .assetsWrapper {
   @include responsive('laptop', 'tablet', 'desktop') {
-    padding-top: 16px;
-    padding-right: 16px;
+    padding: 16px 16px 16px 0;
     border-right: 1px solid var(--porcelain);
   }
 }
@@ -36,6 +35,7 @@
 
   @include responsive('laptop', 'tablet', 'desktop') {
     padding: 8px 4px 16px 16px;
+    justify-content: flex-end;
   }
 }
 
@@ -72,14 +72,15 @@
 }
 
 .wrapperList {
-  margin-top: 20px;
+  margin-top: 16px;
 
   @include responsive('phone-xs', 'phone') {
-    margin: 16px 20px 0 0;
+    margin-right: 20px;
   }
 
   @include responsive('laptop', 'tablet', 'desktop') {
     height: 85%;
+    min-height: 250px;
     width: 250px;
   }
 }
