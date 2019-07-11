@@ -10,7 +10,7 @@ export const getNewInterval = (from, to, lastInterval) => {
     return lastInterval
   }
 
-  return intervals[intervals.length - 1]
+  return intervals[0]
 }
 
 const getAvailableIntervals = (from, to) => {

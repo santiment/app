@@ -21,7 +21,7 @@ const DEFAULT_STATE = {
   slug: 'santiment',
   metrics: ['historyPrice'],
   title: 'Santiment (SAN)',
-  interval: '1w'
+  interval: '12h'
 }
 
 const LoadableChartSidecar = Loadable({
