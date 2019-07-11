@@ -34,6 +34,8 @@ export const PUBLIC_WATCHLISTS = [
   }
 ]
 
+export const TRENDING_WATCHLIST_NAME = 'Emerging trending assets'
+
 export const WATCHLISTS_BY_FUNCTION = [
   {
     name: 'Top 50 ERC20',
@@ -43,7 +45,7 @@ export const WATCHLISTS_BY_FUNCTION = [
       '{"args":{"ignored_projects":["dadi","data","enigma","fusion","holo","iostoken","iotex","kin","next-exchange","pundi-x","quarkchain","rchain","seele","waltonchain","wax","tether","usd-coin","trueusd","paxos-standard-token","dai","stasis-eurs","gemini-dollar","bitcny","steem-dollars","stableusd","digix-gold-token","bitusd","susd","1sg","x8x-token","nubits","stronghold-usd","constant","ckusd","usdcoin","sdusd","qusd","okb","verasity","gifto","pchain","mvl","dock"],"size":50},"name":"top_erc20_projects"}'
   },
   {
-    name: 'Emerging trending assets',
+    name: TRENDING_WATCHLIST_NAME,
     assetType: 'trending assets',
     to: '/assets/list?name=trending%20assets#shared',
     byFunction: '{"name":"trending_projects"}'
