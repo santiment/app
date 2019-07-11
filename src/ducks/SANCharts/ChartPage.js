@@ -102,6 +102,7 @@ class ChartPage extends Component {
         from: from.toISOString(),
         to: to.toISOString(),
         zoom: undefined,
+        timeRange: undefined,
         interval
       },
       this.updateSearchQuery
