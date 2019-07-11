@@ -8,7 +8,7 @@ import {
   ReferenceArea
 } from 'recharts'
 import Button from '@santiment-network/ui/Button'
-import { formatNumber, labelFormatter } from './../../utils/formatting'
+import { formatNumber, millify, labelFormatter } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
 import { Metrics, generateMetricsMarkup } from './utils'
@@ -120,17 +120,12 @@ class Charts extends React.Component {
                 if (name === Metrics.historyPrice.label) {
                   return formatNumber(value, { currency: 'USD' })
                 }
-                if (
-                  name === Metrics.dailyActiveAddresses.label ||
-                  name === Metrics.socialVolume.label ||
-                  name === Metrics.networkGrowth.label ||
-                  name === Metrics.dailyActiveDeposits.label ||
-                  name === Metrics.devActivity.label
-                ) {
-                  return value
+
+                if (value > 900000) {
+                  return millify(value, 2)
                 }
 
-                return value.toFixed(2)
+                return value.toFixed ? value.toFixed(2) : value
               }}
             />
             {mixWithPaywallArea({
