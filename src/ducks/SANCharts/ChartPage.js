@@ -83,7 +83,13 @@ class ChartPage extends Component {
     const { from, to } = getIntervalByTimeRange(timeRange)
     const interval = getNewInterval(from, to, this.state.interval)
     this.setState(
-      { timeRange, from: from.toISOString(), to: to.toISOString(), interval },
+      {
+        timeRange,
+        from: from.toISOString(),
+        to: to.toISOString(),
+        interval,
+        zoom: undefined
+      },
       this.updateSearchQuery
     )
   }
@@ -95,6 +101,7 @@ class ChartPage extends Component {
       {
         from: from.toISOString(),
         to: to.toISOString(),
+        zoom: undefined,
         interval
       },
       this.updateSearchQuery
@@ -114,7 +121,7 @@ class ChartPage extends Component {
 
   onIntervalChange = option => {
     const { index: interval = option } = option
-    this.setState({ interval }, this.updateSearchQuery)
+    this.setState({ interval, zoom: undefined }, this.updateSearchQuery)
   }
 
   toggleMetric = metric => {

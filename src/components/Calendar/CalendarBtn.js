@@ -15,7 +15,8 @@ const getDateLabel = date => {
 const CalendarBtn = ({
   onChange,
   className,
-  value = [new Date(), new Date()]
+  value = [new Date(), new Date()],
+  ...props
 }) => {
   const fromDate = getDateLabel(value[0])
   const toDate = getDateLabel(value[1])
@@ -32,7 +33,7 @@ const CalendarBtn = ({
         </Button>
       }
     >
-      <Calendar onChange={onChange} value={value} selectRange />
+      <Calendar onChange={onChange} value={value} selectRange {...props} />
     </ContextMenu>
   )
 }
