@@ -16,7 +16,8 @@ export const Metrics = {
     fill: true,
     dataKey: 'volume',
     category: 'Financial',
-    color: 'mystic'
+    color: 'waterloo',
+    opacity: 0.4
   },
   socialVolume: {
     node: Line,
@@ -48,13 +49,13 @@ export const Metrics = {
   },
   percentOfTokenSupplyOnExchanges: {
     node: Line,
-    label: 'Percent of token supply on exchanges',
+    label: 'Percent of Token Supply on Exchanges',
     dataKey: 'percentOnExchanges',
     category: 'On-chain'
   },
   topHoldersPercentOfTotalSupply: {
     node: Line,
-    label: 'In top holders total',
+    label: 'In Top Holders Total',
     // TODO: Add support for 3 datakeys of single metric:
     // inExchanges outsideExchanges inTopHoldersTotal
     dataKey: 'inTopHoldersTotal',
@@ -160,7 +161,8 @@ export const generateMetricsMarkup = (metrics, data = {}) => {
       color,
       yAxisVisible = false,
       orientation = 'left',
-      dataKey = metric
+      dataKey = metric,
+      opacity = 1
     } = typeof metric === 'object' ? metric : Metrics[metric]
 
     const rest = {
@@ -187,6 +189,7 @@ export const generateMetricsMarkup = (metrics, data = {}) => {
         dataKey={dataKey}
         dot={false}
         isAnimationActive={false}
+        opacity={opacity}
         {...rest}
       />
     )
