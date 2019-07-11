@@ -7,7 +7,6 @@
 }
 
 .assetsTable:global(.ReactTable) {
-  border-top: 1px solid var(--porcelain);
   margin-bottom: 20px;
 
   :global {
@@ -99,6 +98,12 @@
       }
     }
 
+    .rt-tbody .rt-tr-group,
+    .rt-thead.-header {
+      border-radius: 4px;
+      border-bottom: none;
+    }
+
     .rt-td {
       height: 60px;
       padding: 10px;
@@ -117,6 +122,10 @@
 
     .rt-table {
       flex: 0 0;
+    }
+
+    .-pagination {
+      border-top: none;
     }
   }
 }

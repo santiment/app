@@ -57,21 +57,6 @@ const columns = preload => [
     }
   },
   {
-    Header: () => (
-      <div className={cx('heading', 'overview-marketcap')}>Market Cap</div>
-    ),
-    id: 'marketcapUsd',
-    maxWidth: 130,
-    accessor: 'marketcapUsd',
-    Cell: ({ value }) => (
-      <div className='overview-marketcap'>
-        {value !== null ? `$${millify(value, 2)}` : 'No data'}
-      </div>
-    ),
-    sortable: true,
-    sortMethod: (a, b) => simpleSort(+a, +b)
-  },
-  {
     Header: () => <div className={cx('heading', 'overview-price')}>Price</div>,
     id: 'price',
     maxWidth: 100,
@@ -140,6 +125,21 @@ const columns = preload => [
     sortable: true,
     sortMethod: (a, b) =>
       simpleSort(parseFloat(a.change24h || 0), parseFloat(b.change24h || 0))
+  },
+  {
+    Header: () => (
+      <div className={cx('heading', 'overview-marketcap')}>Market Cap</div>
+    ),
+    id: 'marketcapUsd',
+    maxWidth: 130,
+    accessor: 'marketcapUsd',
+    Cell: ({ value }) => (
+      <div className='overview-marketcap'>
+        {value !== null ? `$${millify(value, 2)}` : 'No data'}
+      </div>
+    ),
+    sortable: true,
+    sortMethod: (a, b) => simpleSort(+a, +b)
   },
   {
     Header: () => <div className={cx('heading', 'overview-rank')}>Rank</div>,
