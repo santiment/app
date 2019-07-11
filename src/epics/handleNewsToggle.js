@@ -2,7 +2,7 @@ import { Observable } from 'rxjs'
 import { USER_TOGGLE_NEWS, APP_USER_NEWS_SAVE } from './../actions/types'
 import { saveKeyState } from '../utils/localStorage'
 
-const handleBetaModeToggle = (action$, store) =>
+const handleNewsToggle = (action$, store) =>
   action$
     .ofType(USER_TOGGLE_NEWS)
     .debounceTime(200)
@@ -18,4 +18,4 @@ const handleBetaModeToggle = (action$, store) =>
       })
     )
 
-export default handleBetaModeToggle
+export default handleNewsToggle

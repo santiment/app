@@ -27,6 +27,7 @@ const handleBetaModeToggle = (action$, store) =>
             type: APP_USER_BETA_MODE_SAVE,
             payload: value
           },
+          // NOTE(haritonasty): News are connected with beta mode. We should turn news off - if beta turned off
           {
             type: APP_USER_NEWS_SAVE,
             payload: false
