@@ -35,7 +35,7 @@
 
   @include responsive('laptop', 'tablet', 'desktop') {
     padding: 8px 4px 16px 16px;
-    justify-content: flex-end;
+    justify-content: space-between;
   }
 }
 
@@ -48,10 +48,9 @@
 }
 
 .heading {
-  font-size: 12px;
-  line-height: 18px;
-  font-weight: bold;
   margin: 16px 0 8px;
+
+  @include text('caption', 'm');
 
   @include responsive('laptop', 'tablet', 'desktop') {
     display: none;
@@ -111,6 +110,6 @@
   @include text('caption');
 
   @include responsive('laptop', 'tablet', 'desktop') {
-    padding: 16px 16px 0 16px;
+    padding: 16px 16px 0;
   }
 }

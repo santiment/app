@@ -20,14 +20,12 @@
 }
 
 .project {
-  @include text-normal;
-
-  font-size: 14px;
-  line-height: 20px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   color: var(--mirage);
+
+  @include text('body-3');
 }
 
 .name {

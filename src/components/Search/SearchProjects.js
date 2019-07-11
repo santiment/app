@@ -35,13 +35,12 @@ const SearchProjects = ({
         return (
           <div className={styles.projectWrapper}>
             <div className={styles.projectInfo}>
-              {isCopyingAssets && (
+              {isCopyingAssets ? (
                 <Checkbox
                   isActive={checkedAssets.has(id)}
                   className={styles.checkbox}
                 />
-              )}
-              {!isCopyingAssets && (
+              ) : (
                 <ProjectIcon
                   className={styles.icon}
                   size={16}
