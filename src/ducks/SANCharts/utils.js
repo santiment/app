@@ -93,7 +93,11 @@ export const Metrics = {
     dataKey: 'activity',
     category: 'Development',
     description:
-      "Based on number of Github 'events' including issue interactions, PRs, comments, and wiki edits, plus the number of public repositories a project is maintaining"
+      "Based on number of Github 'events' including issue interactions, PRs, comments, and wiki edits, plus the number of public repositories a project is maintaining",
+    reqMeta: {
+      transform: 'movingAverage',
+      movingAverageIntervalBase: 7
+    }
   },
   tokenVelocity: {
     node: Line,
