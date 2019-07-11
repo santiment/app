@@ -71,7 +71,8 @@ export const Metrics = {
   mvrvRatio: {
     node: Line,
     label: 'Market Value To Realized Value',
-    category: 'On-chain'
+    category: 'On-chain',
+    dataKey: 'mvrv'
   },
   transactionVolume: {
     node: Line,
@@ -190,6 +191,7 @@ export const generateMetricsMarkup = (metrics, data = {}) => {
         dot={false}
         isAnimationActive={false}
         opacity={opacity}
+        connectNulls
         {...rest}
       />
     )
