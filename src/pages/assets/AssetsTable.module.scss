@@ -8,6 +8,7 @@
 
 .assetsTable:global(.ReactTable) {
   border-top: 1px solid var(--porcelain);
+  margin-bottom: 20px;
 
   :global {
     .overview-name {
