@@ -1,0 +1,7 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.telegramAlert {
+  color: var(--persimmon);
+
+  @include text('caption');
+}

@@ -7,8 +7,10 @@ import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import InsightUnAuthPage from './../../pages/Insights/InsightUnAuthPage'
-import styles from './SonarFeedPage.module.scss'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
+import { TelegramAlert } from '../../components/Telegram/TelegramAlert'
+import { MobileOnly } from './../../components/Responsive'
+import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar/feed'
 const editTriggerSettingsModalLocation = `${baseLocation}/details/:id/edit`
@@ -83,7 +85,9 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn, isDesktop }) => {
     <div style={{ width: '100%' }} className='page'>
       {isDesktop ? (
         <div className={styles.header}>
-          <h1>Sonar</h1>
+          <h1>
+            Sonar <TelegramAlert />
+          </h1>
           <div>
             {// TODO: Disable search and filter buttons
               false && pathname !== '/sonar/feed/activity' && (
@@ -107,6 +111,7 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn, isDesktop }) => {
           />
         </div>
       )}
+
       <Tabs
         options={tabs}
         defaultSelectedIndex={pathname}
@@ -117,6 +122,11 @@ const SonarFeed = ({ location: { pathname }, isLoggedIn, isDesktop }) => {
         )}
       />
       <div className={styles.content}>
+        <MobileOnly>
+          <div className={styles.telegramAlert}>
+            <TelegramAlert />
+          </div>
+        </MobileOnly>
         <Switch>
           {!isLoggedIn ? <InsightUnAuthPage /> : ''}
           {tabs.map(({ index, component }) => (
