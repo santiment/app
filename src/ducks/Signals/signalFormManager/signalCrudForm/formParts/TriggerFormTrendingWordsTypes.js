@@ -47,7 +47,7 @@ const TriggerFormTrendingWordsTypes = ({
               multi={true}
               name='trendingWordsWithAssets'
               backspaceRemoves={true}
-              placeholder='Pick a project(s)'
+              placeholder='Pick a asset(s)'
               options={allProjects}
             />
           )}
