@@ -35,7 +35,8 @@ import {
   getDefaultTimeRangeValue,
   TRENDING_WORDS_METRIC,
   TRENDING_WORDS_PROJECT_MENTIONED,
-  TRENDING_WORDS
+  TRENDING_WORDS,
+  TRENDING_WORDS_WORD_MENTIONED
 } from './constants'
 import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 
@@ -72,33 +73,40 @@ const getFormTriggerType = (type, operation) => {
   const operationType = getOperationType(operation)
 
   switch (operationType) {
-    case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
+    case ETH_WALLET_AMOUNT_UP.value: {
       return ETH_WALLET_AMOUNT_UP
     }
 
-    case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN: {
+    case ETH_WALLET_AMOUNT_DOWN.value: {
       return ETH_WALLET_AMOUNT_DOWN
     }
 
-    case PRICE_CHANGE_TYPES.MOVING_UP: {
+    case PRICE_PERCENT_CHANGE_UP_MODEL.value: {
       return PRICE_PERCENT_CHANGE_UP_MODEL
     }
 
-    case PRICE_CHANGE_TYPES.MOVING_DOWN: {
+    case PRICE_PERCENT_CHANGE_DOWN_MODEL.value: {
       return PRICE_PERCENT_CHANGE_DOWN_MODEL
     }
 
-    case PRICE_CHANGE_TYPES.ABOVE: {
+    case PRICE_ABS_CHANGE_ABOVE.value: {
       return PRICE_ABS_CHANGE_ABOVE
     }
-    case PRICE_CHANGE_TYPES.BELOW: {
+    case PRICE_ABS_CHANGE_BELOW.value: {
       return PRICE_ABS_CHANGE_BELOW
     }
-    case PRICE_CHANGE_TYPES.INSIDE_CHANNEL: {
+    case PRICE_ABS_CHANGE_INSIDE.value: {
       return PRICE_ABS_CHANGE_INSIDE
     }
-    case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
+    case PRICE_ABS_CHANGE_OUTSIDE.value: {
       return PRICE_ABS_CHANGE_OUTSIDE
+    }
+
+    case TRENDING_WORDS_WORD_MENTIONED.value: {
+      return TRENDING_WORDS_WORD_MENTIONED
+    }
+    case TRENDING_WORDS_PROJECT_MENTIONED.value: {
+      return TRENDING_WORDS_PROJECT_MENTIONED
     }
 
     default: {
@@ -151,7 +159,7 @@ const getTriggerOperation = ({
   return mapped
 }
 
-const getMetric = type => {
+const getFormMetric = type => {
   switch (type) {
     case ETH_WALLET: {
       return ETH_WALLET_METRIC
@@ -165,6 +173,9 @@ const getMetric = type => {
     }
     case PRICE_VOLUME_DIFFERENCE: {
       return PRICE_VOLUME_DIFFERENCE_METRIC
+    }
+    case TRENDING_WORDS: {
+      return TRENDING_WORDS_METRIC
     }
     default: {
       console.log("Can't find possible metric")
@@ -220,6 +231,35 @@ const mapTriggerToFormThreshold = ({ threshold, operation }) => {
   return newThreshold
 }
 
+const mapToOptions = items => {
+  return items
+    ? items.map(item => ({
+      label: item,
+      value: item
+    }))
+    : []
+}
+
+const getFormTrendingWords = ({ settings: { operation, target } }) => {
+  const operationType = getOperationType(operation)
+
+  switch (operationType) {
+    case TRENDING_WORDS_PROJECT_MENTIONED.value: {
+      return {
+        trendingWordsWithAssets: mapToOptions(target.slug)
+      }
+    }
+    case TRENDING_WORDS_WORD_MENTIONED.value: {
+      return {
+        trendingWordsWithWords: mapToOptions(target.word)
+      }
+    }
+    default: {
+      return undefined
+    }
+  }
+}
+
 export const mapTriggerToFormProps = currentTrigger => {
   if (!currentTrigger || !currentTrigger.settings) {
     return undefined
@@ -243,13 +283,15 @@ export const mapTriggerToFormProps = currentTrigger => {
   const newTarget = getFormTriggerTarget(targetForParser)
   const newType = getFormTriggerType(type, operation)
 
+  const trendingWordsParams = getFormTrendingWords(currentTrigger)
+
   return {
     ethAddress: address,
     cooldown: cooldown,
     isRepeating: isRepeating,
     isActive: isActive,
     isPublic: isPublic,
-    metric: getMetric(type, operation),
+    metric: getFormMetric(type, operation),
     type: newType,
     timeWindow: time_window ? +time_window.match(/\d+/)[0] : '24',
     timeWindowUnit: time_window
@@ -260,7 +302,8 @@ export const mapTriggerToFormProps = currentTrigger => {
     threshold: mapTriggerToFormThreshold(settings) || BASE_THRESHOLD,
     channels: [capitalizeStr(channel)],
     ...frequencyModels,
-    ...absolutePriceValues
+    ...absolutePriceValues,
+    ...trendingWordsParams
   }
 }
 
@@ -340,9 +383,11 @@ export const mapAssetTarget = (target, isEthWalletTrigger) => {
   }
 }
 
+export const getChannels = ({ channels }) =>
+  channels.length ? channels[0].toLowerCase() : undefined
+
 export const mapFormToCommonTriggerSettings = formProps => {
   const {
-    channels,
     percentThreshold,
     threshold,
     target,
@@ -357,10 +402,8 @@ export const mapFormToCommonTriggerSettings = formProps => {
   const newAsset = mapAssetTarget(target, isEthWalletTrigger)
   const newTarget = mapTriggerTarget(target, ethAddress, isEthWalletTrigger)
 
-  const channel = channels.length ? channels[0].toLowerCase() : undefined
-
   return {
-    channel: channel,
+    channel: getChannels(formProps),
     percent_threshold: percentThreshold || undefined,
     threshold: threshold || undefined,
 
@@ -376,12 +419,49 @@ export const mapFormToCommonTriggerSettings = formProps => {
   }
 }
 
+export const getTrendingWordsTriggerOperation = ({ type }) => {
+  const result = {}
+  result[type.value] = true
+  return result
+}
+
+export const mapTrendingWordsTargets = items => {
+  if (items.length === 1) {
+    return items[0].value
+  } else {
+    return items.map(item => item.value)
+  }
+}
+
+export const getTrendingWordsTarget = ({
+  type,
+  trendingWordsWithAssets,
+  trendingWordsWithWords
+}) => {
+  switch (type.value) {
+    case TRENDING_WORDS_WORD_MENTIONED.value: {
+      return {
+        word: mapTrendingWordsTargets(trendingWordsWithWords)
+      }
+    }
+    case TRENDING_WORDS_PROJECT_MENTIONED.value: {
+      return {
+        slug: mapTrendingWordsTargets(trendingWordsWithAssets)
+      }
+    }
+    default: {
+      console.log("Can't map trending words target")
+      return undefined
+    }
+  }
+}
+
 export const mapFormToTrendingWordsTriggerSettings = formProps => {
   return {
-    type: 'trending_words',
-    channel: 'telegram',
-    target: { slug: 'santiment' },
-    operation: { trending_project: true }
+    type: TRENDING_WORDS,
+    channel: getChannels(formProps),
+    target: getTrendingWordsTarget(formProps),
+    operation: getTrendingWordsTriggerOperation(formProps)
   }
 }
 
@@ -391,7 +471,6 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   let settings = {}
   switch (type.metric) {
     case TRENDING_WORDS: {
-      debugger
       settings = mapFormToTrendingWordsTriggerSettings(formProps)
       break
     }
@@ -440,7 +519,7 @@ export const getNearestTypeByMetric = metric => {
       return PRICE_VOLUME_DIFFERENCE_METRIC
     }
     case TRENDING_WORDS_METRIC.value: {
-      return TRENDING_WORDS_PROJECT_MENTIONED
+      return TRENDING_WORDS_WORD_MENTIONED
     }
     default: {
       return undefined
@@ -462,23 +541,6 @@ export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
 
   const checkingTrigger = trigger ? trigger.trigger : undefined
 
-  let triggerAsset = {}
-
-  if (checkingTrigger && checkingTrigger.settings) {
-    const { target, asset } = checkingTrigger.settings
-    triggerAsset = asset || target
-  }
-
-  if (!loading && !triggerAsset.hasOwnProperty('slug')) {
-    return {
-      trigger: {
-        isError: true,
-        isLoading: false,
-        trigger: null,
-        errorMessage: 'This is the unsupported signal format'
-      }
-    }
-  }
   return {
     trigger: {
       trigger: checkingTrigger,
@@ -513,73 +575,106 @@ export function getNearestFrequencyTypeValue (frequencyType) {
   return getFrequencyTimeType(frequencyType)[0]
 }
 
-export const validateTriggerForm = values => {
+export const validateTriggerForm = ({
+  type,
+  threshold,
+  percentThreshold,
+  timeWindow,
+  ethAddress,
+  absoluteThreshold,
+  absoluteBorderLeft,
+  absoluteBorderRight,
+  channels,
+  frequencyType,
+  frequencyTimeValue,
+  frequencyTimeType,
+  metric,
+  target,
+  trendingWordsWithAssets,
+  trendingWordsWithWords
+}) => {
   let errors = {}
 
-  if (values.type.metric === ETH_WALLET) {
-    if (!values.threshold) errors.threshold = REQUIRED_MESSAGE
+  if (type.metric === ETH_WALLET) {
+    if (!threshold) errors.threshold = REQUIRED_MESSAGE
 
-    if (values.ethAddress && !isPossibleEthAddress(values.ethAddress)) {
+    if (ethAddress && !isPossibleEthAddress(ethAddress)) {
       errors.ethAddress = 'Not valid ETH address'
     }
   }
 
   if (
-    values.type.metric === DAILY_ACTIVE_ADDRESSES ||
-    values.type.metric === PRICE_PERCENT_CHANGE
+    type.metric === DAILY_ACTIVE_ADDRESSES ||
+    type.metric === PRICE_PERCENT_CHANGE
   ) {
-    if (!values.percentThreshold) {
+    if (!percentThreshold) {
       errors.percentThreshold = REQUIRED_MESSAGE
-    } else if (values.percentThreshold <= 0) {
+    } else if (percentThreshold <= 0) {
       errors.percentThreshold = MUST_BE_MORE_ZERO_MESSAGE
     }
-    if (!values.timeWindow) {
+    if (!timeWindow) {
       errors.timeWindow = REQUIRED_MESSAGE
-    } else if (values.timeWindow <= 0) {
+    } else if (timeWindow <= 0) {
       errors.timeWindow = MUST_BE_MORE_ZERO_MESSAGE
     }
   }
 
-  if (values.type.metric === PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER) {
-    if (!values.absoluteThreshold) {
+  if (type.metric === PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER) {
+    if (!absoluteThreshold) {
       errors.absoluteThreshold = REQUIRED_MESSAGE
     }
   }
 
-  if (values.type.subMetric === PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER) {
-    if (!values.absoluteBorderLeft) {
+  if (type.subMetric === PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER) {
+    if (!absoluteBorderLeft) {
       errors.absoluteBorderLeft = REQUIRED_MESSAGE
     }
-    if (!values.absoluteBorderRight) {
+    if (!absoluteBorderRight) {
       errors.absoluteBorderRight = REQUIRED_MESSAGE
     }
   }
 
-  if (values.type.metric === PRICE_VOLUME_DIFFERENCE) {
-    if (!values.threshold) {
+  if (type.metric === PRICE_VOLUME_DIFFERENCE) {
+    if (!threshold) {
       errors.threshold = REQUIRED_MESSAGE
-    } else if (values.threshold < 0) {
+    } else if (threshold < 0) {
       errors.threshold = MUST_BE_MORE_ZERO_MESSAGE
     }
   }
-  if (values.channels && values.channels.length === 0) {
+  if (channels && channels.length === 0) {
     errors.channels = 'You must setup notification channel'
   }
 
-  if (!values.frequencyType || !values.frequencyType.value) {
+  if (!frequencyType || !frequencyType.value) {
     errors.frequencyType = REQUIRED_MESSAGE
   }
 
-  if (!values.frequencyTimeValue || !values.frequencyTimeValue.value) {
+  if (!frequencyTimeValue || !frequencyTimeValue.value) {
     errors.frequencyTimeValue = REQUIRED_MESSAGE
   }
 
-  if (!values.frequencyTimeType || !values.frequencyTimeType.value) {
+  if (!frequencyTimeType || !frequencyTimeType.value) {
     errors.frequencyTimeType = REQUIRED_MESSAGE
   }
 
-  if (!values.target || !values.target.value) {
-    errors.target = REQUIRED_MESSAGE
+  if (metric && metric.value === TRENDING_WORDS) {
+    if (
+      type.value === TRENDING_WORDS_PROJECT_MENTIONED.value &&
+      (!trendingWordsWithAssets || trendingWordsWithAssets.length === 0)
+    ) {
+      errors.trendingWordsWithAssets = REQUIRED_MESSAGE
+    }
+
+    if (
+      type.value === TRENDING_WORDS_WORD_MENTIONED.value &&
+      (!trendingWordsWithWords || trendingWordsWithWords.length === 0)
+    ) {
+      errors.trendingWordsWithWords = REQUIRED_MESSAGE
+    }
+  } else {
+    if (!target || !target.value) {
+      errors.target = REQUIRED_MESSAGE
+    }
   }
 
   return errors

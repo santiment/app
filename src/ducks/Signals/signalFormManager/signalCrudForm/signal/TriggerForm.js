@@ -53,7 +53,7 @@ export const TriggerForm = ({
   lastPriceItem,
   settings,
   metaFormSettings,
-  trigger,
+  trigger: { id } = {},
   removeSignal,
   onRemovedSignal
 }) => {
@@ -170,6 +170,7 @@ export const TriggerForm = ({
               />
 
               <TriggerMetricTypesResolver
+                isNew={id > 0}
                 address={ethAddress}
                 values={values}
                 metaFormSettings={metaFormSettings}

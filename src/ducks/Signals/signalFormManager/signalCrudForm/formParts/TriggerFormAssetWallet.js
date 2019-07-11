@@ -40,7 +40,7 @@ const isDisabledWalletAddressField = (
 
 const propTypes = {
   metaFormSettings: PropTypes.any,
-  metric: PropTypes.any.isRequired,
+  values: PropTypes.any.isRequired,
   target: PropTypes.any,
   setFieldValue: PropTypes.func.isRequired,
   byAddress: PropTypes.string,
@@ -49,12 +49,12 @@ const propTypes = {
 
 const TriggerFormAssetWallet = ({
   data: { allErc20Projects = [], allProjects = [] } = {},
-  target,
+  isNew = false,
   metaFormSettings,
-  metric,
   assets = [],
   setFieldValue,
-  byAddress = ''
+  byAddress = '',
+  values: { metric, target }
 }) => {
   const defaultSignalType = metaFormSettings.signalType
   const isEthWallet = metric.value === ETH_WALLET_METRIC.value
@@ -184,7 +184,7 @@ const enhance = compose(
   graphql(pickGQL('erc20'), {
     name: 'Projects',
     props: mapDataToProps,
-    skip: ({ byAddress }) => !byAddress,
+    skip: ({ byAddress, isNew }) => !byAddress && !isNew,
     options: () => {
       return {
         errorPolicy: 'all'

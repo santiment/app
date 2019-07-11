@@ -4,12 +4,13 @@ import TriggerFormTrendingWordsTypes from './TriggerFormTrendingWordsTypes'
 import { TRENDING_WORDS } from '../../../utils/constants'
 
 const TriggerMetricTypesResolver = ({
+  isNew,
   address,
   values,
   metaFormSettings,
   setFieldValue
 }) => {
-  const { metric, target, type } = values
+  const { metric } = values
 
   const isTrendingWords = metric.value === TRENDING_WORDS
 
@@ -19,10 +20,9 @@ const TriggerMetricTypesResolver = ({
 
   return (
     <TypeComponent
-      type={type}
-      metric={metric}
+      isNew={isNew}
+      values={values}
       byAddress={address}
-      target={target}
       metaFormSettings={metaFormSettings}
       setFieldValue={setFieldValue}
     />

@@ -1,14 +1,16 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import Select from '@santiment-network/ui/Search/Select/Select'
 import { Field } from 'formik'
 import './FormikSelect.scss'
 
 const FormikSelect = ({
   className,
+  isClearable = true,
   options = [],
   name,
   multi = false,
   simpleValue = false,
+  backspaceRemoves = false,
   componentType,
   disabled = false,
   placeholder,
@@ -16,19 +18,6 @@ const FormikSelect = ({
   isLoading = false,
   ...rest
 }) => {
-  /*
-* {multi &&
-              <Select
-                labelKey='label'
-                multi
-                optionHeight={40}
-                options={options}
-                selectComponent={Creatable}
-                simpleValue
-                value={selectedCreatable}
-                onChange={(selectedCreatable) => setSelected( selectedCreatable )}
-                valueKey='value'
-              />} */
   return (
     <Field
       name={name}
@@ -41,6 +30,7 @@ const FormikSelect = ({
               }
             >
               <Select
+                clearable={isClearable}
                 className={className}
                 selectComponent={componentType}
                 multi={multi}
@@ -51,7 +41,7 @@ const FormikSelect = ({
                 isLoading={isLoading}
                 valueKey='value'
                 labelKey='label'
-                backspaceRemoves={false}
+                backspaceRemoves={backspaceRemoves}
                 minimumInput={1}
                 onChange={value => {
                   form.setFieldValue(name, value)

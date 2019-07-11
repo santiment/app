@@ -14,27 +14,20 @@ export const PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER =
 export const PRICE_VOLUME_DIFFERENCE = 'price_volume_difference'
 
 export const TRENDING_WORDS_PROJECT_MENTIONED = {
-  label: 'Project mentioned',
+  label: 'Trending asset(s)',
   value: 'trending_project',
   metric: 'trending_words'
 }
 
 export const TRENDING_WORDS_WORD_MENTIONED = {
-  label: 'Word mentioned',
+  label: 'Trending word(s)',
   value: 'trending_word',
-  metric: 'trending_words'
-}
-
-export const TRENDING_WORDS_WATCHLIST = {
-  label: 'Watchlist',
-  value: 'watchlist',
   metric: 'trending_words'
 }
 
 export const TRENDING_WORDS_TYPE_OPTIONS = [
   TRENDING_WORDS_PROJECT_MENTIONED,
-  TRENDING_WORDS_WORD_MENTIONED,
-  TRENDING_WORDS_WATCHLIST
+  TRENDING_WORDS_WORD_MENTIONED
 ]
 
 export const ETH_WALLETS_OPERATIONS = {
@@ -255,10 +248,6 @@ export const DEFAULT_ASSETS_FILTER_MODEL = {
 export const ASSETS_FILTERS = [
   DEFAULT_ASSETS_FILTER_MODEL,
   {
-    label: 'Asset group',
-    value: ASSET_FILTER_TYPES.assetGroup
-  },
-  {
     label: 'Watchlist',
     value: ASSET_FILTER_TYPES.watchlist
   }
@@ -326,7 +315,7 @@ export const METRIC_DEFAULT_VALUES = {
     timeWindow: 24
   },
   trending_words: {
-    type: { ...TRENDING_WORDS_PROJECT_MENTIONED },
+    type: { ...TRENDING_WORDS_WORD_MENTIONED },
     channels: ['Telegram']
   }
 }
