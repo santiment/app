@@ -60,3 +60,6 @@ export const sortTxOut = (a, b) => {
 }
 
 export const sortBy = sortBy => (a, b) => simpleSort(a[sortBy], b[sortBy])
+
+export const sortByAsDates = (sortBy, isDesc) => (a, b) =>
+  sortDate(a[sortBy], b[sortBy], isDesc)

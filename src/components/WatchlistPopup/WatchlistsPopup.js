@@ -19,14 +19,17 @@ const AddToListBtn = (
   </Button>
 )
 
-export const hasAssetById = ({ id, listItems }) =>
-  listItems.some(({ id: projectId }) => projectId === id)
+export const hasAssetById = ({ id, listItems }) => {
+  if (!id) return
+  return listItems.some(({ id: projectId }) => projectId === id)
+}
 
 const WatchlistPopup = ({
   isLoggedIn,
   trigger = AddToListBtn,
   applyChanges,
   setNotification,
+  projectId,
   lists = [],
   watchlistUi: { editableAssetsInList },
   ...props
@@ -53,7 +56,7 @@ const WatchlistPopup = ({
   }
   const open = () => setIsShown(true)
 
-  const toggleAssetInList = ({ projectId, assetsListId, listItems, slug }) => {
+  const toggleAssetInList = ({ id: assetsListId, listItems, slug }) => {
     if (!projectId) return
     const isAssetInList = hasAssetById({
       listItems: lists.find(({ id }) => id === assetsListId).listItems,
@@ -89,8 +92,9 @@ const WatchlistPopup = ({
         <>
           <Dialog.ScrollContent withPadding>
             <Watchlists
-              toggleAssetInList={toggleAssetInList}
+              onWatchlistClick={watchlist => toggleAssetInList(watchlist)}
               lists={lists}
+              projectId={projectId}
               {...props}
             />
           </Dialog.ScrollContent>

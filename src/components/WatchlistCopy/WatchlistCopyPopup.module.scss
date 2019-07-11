@@ -1,42 +1,115 @@
-.list {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  max-height: 180px;
-  overflow-y: auto;
-}
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
+@import "../../mixins.scss";
 
-.item {
-  cursor: pointer;
-  padding: 8px 15px;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #eee;
+.wrapper {
+  overflow-y: hidden;
 
-  &:hover {
-    background-color: #d4d9dd5e;
+  @include responsive('phone-xs', 'phone') {
+    padding: 12px 0 0 20px;
+    width: 100%;
+  }
+
+  @include responsive('laptop', 'tablet', 'desktop') {
+    padding: 0 16px;
+    display: flex;
+    width: auto;
+    border-bottom: 1px solid var(--porcelain);
   }
 }
 
-.bottom {
-  padding: 5px;
+.assetsWrapper {
+  @include responsive('laptop', 'tablet', 'desktop') {
+    padding: 16px 16px 16px 0;
+    border-right: 1px solid var(--porcelain);
+  }
+}
+
+.watchlistsWrapper {
   display: flex;
+  flex-direction: column;
+
+  @include responsive('phone-xs', 'phone') {
+    margin-right: 20px;
+  }
+
+  @include responsive('laptop', 'tablet', 'desktop') {
+    padding: 8px 4px 16px 16px;
+    justify-content: space-between;
+  }
 }
 
-.input input {
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
+.search {
+  z-index: 5;
+
+  @include responsive('phone-xs', 'phone') {
+    margin-right: 20px;
+  }
 }
 
-.button {
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
+.heading {
+  margin: 16px 0 8px;
+
+  @include text('caption', 'm');
+
+  @include responsive('laptop', 'tablet', 'desktop') {
+    display: none;
+  }
 }
 
-.title {
-  font-size: 14px;
+.actions {
+  padding: 10px 15px;
+}
+
+.name {
+  color: var(--mirage);
+  margin: 0 3px 0 5px;
+}
+
+.ticker {
+  color: var(--waterloo);
+}
+
+.wrapperList {
+  margin-top: 16px;
+
+  @include responsive('phone-xs', 'phone') {
+    margin-right: 20px;
+  }
+
+  @include responsive('laptop', 'tablet', 'desktop') {
+    height: 85%;
+    min-height: 250px;
+    width: 250px;
+  }
+}
+
+.asset {
+  &:hover {
+    @include responsive('laptop', 'tablet', 'desktop') {
+      cursor: pointer;
+    }
+  }
+}
+
+.watchlists {
+  @include responsive('phone-xs') {
+    max-height: 15vh;
+  }
+
+  @include responsive('phone') {
+    max-height: 22vh;
+  }
+}
+
+.warning {
+  color: var(--persimmon);
   text-align: center;
-  margin: 0;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
+  padding: 5px 16px;
+
+  @include text('caption');
+
+  @include responsive('laptop', 'tablet', 'desktop') {
+    padding: 16px 16px 0;
+  }
 }
