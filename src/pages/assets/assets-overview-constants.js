@@ -40,7 +40,13 @@ export const WATCHLISTS_BY_FUNCTION = [
     assetType: 'top 50 erc20',
     to: '/assets/list?name=top%2050%20erc20#shared',
     byFunction:
-      '{"args":{"ignored_projects":["aergo","dadi","data","dragonchain","effect-ai","enigma","fusion","holo","iostoken","iotex","kin","next-exchange","origintrail","pundi-x","quarkchain","rchain","seele","waltonchain","wax","zilliqa","tether","usd-coin","trueusd","paxos-standard-token","dai","stasis-eurs","gemini-dollar","bitcny","steem-dollars","stableusd","digix-gold-token","bitusd","susd","1sg","x8x-token","nubits","stronghold-usd","constant","ckusd","usdcoin","sdusd","qusd","okb","verasity","gifto","pchain"],"size":50},"name":"top_erc20_projects"}'
+      '{"args":{"ignored_projects":["dadi","data","enigma","fusion","holo","iostoken","iotex","kin","next-exchange","pundi-x","quarkchain","rchain","seele","waltonchain","wax","tether","usd-coin","trueusd","paxos-standard-token","dai","stasis-eurs","gemini-dollar","bitcny","steem-dollars","stableusd","digix-gold-token","bitusd","susd","1sg","x8x-token","nubits","stronghold-usd","constant","ckusd","usdcoin","sdusd","qusd","okb","verasity","gifto","pchain","mvl","dock"],"size":50},"name":"top_erc20_projects"}'
+  },
+  {
+    name: 'Emerging trending assets',
+    assetType: 'trending assets',
+    to: '/assets/list?name=trending%20assets#shared',
+    byFunction: '{"name":"trending_projects"}'
   }
 ]
 
