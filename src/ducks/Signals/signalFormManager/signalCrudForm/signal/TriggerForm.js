@@ -20,7 +20,7 @@ import {
   PRICE_PERCENT_CHANGE,
   METRIC_DEFAULT_VALUES,
   DEFAULT_FORM_META_SETTINGS,
-  PRICE_TYPES
+  METRIC_TO_TYPES
 } from '../../../utils/constants'
 import {
   couldShowChart,
@@ -132,7 +132,7 @@ export const TriggerForm = ({
           isRepeating,
           ethAddress
         } = values
-        const typeSelectors = PRICE_TYPES[(metric || {}).value]
+        const typeSelectors = METRIC_TO_TYPES[(metric || {}).value]
 
         const { price } = lastPriceItem || {}
 
