@@ -3,6 +3,7 @@ import { loadKeyState } from '../utils/localStorage'
 
 const isNightModeEnabled = loadKeyState('isNightModeEnabled') || false
 const isBetaModeEnabled = loadKeyState('isBetaModeEnabled') || false
+const isNewsEnabled = loadKeyState('isNewsEnabled') || false
 
 if (isNightModeEnabled) {
   document.body.classList.add('night-mode')
@@ -16,6 +17,7 @@ export const initialState = {
   loginErrorMessage: '',
   isNightModeEnabled: isNightModeEnabled,
   isBetaModeEnabled: isBetaModeEnabled,
+  isNewsEnabled: isNewsEnabled,
   isSearchInputFocused: false
 }
 
@@ -56,6 +58,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isBetaModeEnabled: action.payload
+      }
+    case actions.APP_USER_NEWS_SAVE:
+      return {
+        ...state,
+        isNewsEnabled: action.payload
       }
     case actions.APP_TOGGLE_SEARCH_FOCUS:
       return {
