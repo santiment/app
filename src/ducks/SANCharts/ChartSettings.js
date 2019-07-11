@@ -4,7 +4,10 @@ import IntervalSelector from './IntervalSelector'
 import ChartSettingsContextMenu from './ChartSettingsContextMenu'
 import CalendarBtn from '../../components/Calendar/CalendarBtn'
 import SearchProjects from '../../components/Search/SearchProjects'
+import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
 import styles from './ChartPage.module.scss'
+
+const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 
 const ChartSettings = ({
   onTimerangeChange,
@@ -46,6 +49,7 @@ const ChartSettings = ({
           onChange={onCalendarChange}
           value={[new Date(from), new Date(to)]}
           className={styles.calendar}
+          maxDate={MAX_DATE}
         />
         <ChartSettingsContextMenu
           hasNightMode={hasNightMode}
