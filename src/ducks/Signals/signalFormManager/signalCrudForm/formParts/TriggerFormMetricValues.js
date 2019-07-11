@@ -144,13 +144,15 @@ export const TriggerFormMetricValues = ({
                 placeholder='Time window'
               />
             </div>
-            <FormikSelect
-              name='timeWindowUnit'
-              className={styles.timeWindowUnit}
-              clearable={false}
-              placeholder='Unit'
-              options={TIME_WINDOW_UNITS}
-            />
+            <div className={styles.timeWindowUnit}>
+              <FormikSelect
+                name='timeWindowUnit'
+                className={styles.timeWindowUnit}
+                clearable={false}
+                placeholder='Unit'
+                options={TIME_WINDOW_UNITS}
+              />
+            </div>
           </div>
           <TriggerTimeWindowExplanation
             type={type}

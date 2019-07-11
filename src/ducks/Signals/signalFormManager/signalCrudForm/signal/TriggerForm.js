@@ -126,8 +126,6 @@ export const TriggerForm = ({
 
         const showChart = target && couldShowChart(metric)
 
-        console.log('typeSelectors->', typeSelectors)
-
         return (
           <Form className={styles.TriggerForm}>
             <FormikEffect
