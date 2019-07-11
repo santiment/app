@@ -138,20 +138,21 @@ export const METRICS_OPTIONS = [
 ]
 
 export const METRIC_TO_TYPES = {
-  [PRICE]: [
+  price: [
     {
       label: 'Price changing',
-      options: [
-        PRICE_ABS_CHANGE_ABOVE,
-        PRICE_ABS_CHANGE_BELOW,
-        PRICE_ABS_CHANGE_INSIDE,
-        PRICE_ABS_CHANGE_OUTSIDE
-      ]
+      type: 'header'
     },
+    PRICE_ABS_CHANGE_ABOVE,
+    PRICE_ABS_CHANGE_BELOW,
+    PRICE_ABS_CHANGE_INSIDE,
+    PRICE_ABS_CHANGE_OUTSIDE,
     {
       label: 'Percent change',
-      options: [PRICE_PERCENT_CHANGE_UP_MODEL, PRICE_PERCENT_CHANGE_DOWN_MODEL]
-    }
+      type: 'header'
+    },
+    PRICE_PERCENT_CHANGE_UP_MODEL,
+    PRICE_PERCENT_CHANGE_DOWN_MODEL
   ],
   daily_active_addresses: [DAILY_ACTIVE_ADDRESSES_METRIC],
   price_volume_difference: [PRICE_VOLUME_DIFFERENCE_METRIC],
@@ -256,6 +257,11 @@ export const ASSETS_FILTERS = [
 export const BASE_THRESHOLD = 0.002
 export const BASE_PERCENT_THRESHOLD = 5
 
+const DEFAULT_TARGET = {
+  value: 'santiment',
+  label: 'santiment'
+}
+
 export const METRIC_DEFAULT_VALUES = {
   price_absolute_change: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
@@ -267,7 +273,8 @@ export const METRIC_DEFAULT_VALUES = {
     timeWindowUnit: { label: 'Days', value: 'd' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
-    channels: ['Telegram']
+    channels: ['Telegram'],
+    target: DEFAULT_TARGET
   },
   price_percent_change: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
@@ -280,7 +287,8 @@ export const METRIC_DEFAULT_VALUES = {
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
     channels: ['Telegram'],
-    absoluteThreshold: 25
+    absoluteThreshold: 25,
+    target: DEFAULT_TARGET
   },
   daily_active_addresses: {
     frequencyType: { ...FREQUENCY_TYPE_DAILY_MODEL },
@@ -292,7 +300,8 @@ export const METRIC_DEFAULT_VALUES = {
     timeWindowUnit: { label: 'Days', value: 'd' },
     type: { ...DAILY_ACTIVE_ADDRESSES_METRIC },
     isRepeating: true,
-    channels: ['Telegram']
+    channels: ['Telegram'],
+    target: DEFAULT_TARGET
   },
   price_volume_difference: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
@@ -301,7 +310,8 @@ export const METRIC_DEFAULT_VALUES = {
     threshold: BASE_THRESHOLD,
     type: { ...PRICE_VOLUME_DIFFERENCE_METRIC },
     isRepeating: true,
-    channels: ['Telegram']
+    channels: ['Telegram'],
+    target: DEFAULT_TARGET
   },
   eth_wallet: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
@@ -312,21 +322,20 @@ export const METRIC_DEFAULT_VALUES = {
     isRepeating: true,
     channels: ['Telegram'],
     percentThreshold: 200,
-    timeWindow: 24
+    timeWindow: 24,
+    target: DEFAULT_TARGET
   },
   trending_words: {
     type: { ...TRENDING_WORDS_WORD_MENTIONED },
-    channels: ['Telegram']
+    channels: ['Telegram'],
+    target: DEFAULT_TARGET
   }
 }
 
 export const DEFAULT_FORM_META_SETTINGS = {
   target: {
     isDisabled: false,
-    value: {
-      value: 'santiment',
-      label: 'santiment'
-    }
+    value: DEFAULT_TARGET
   },
   metric: {
     isDisabled: false,

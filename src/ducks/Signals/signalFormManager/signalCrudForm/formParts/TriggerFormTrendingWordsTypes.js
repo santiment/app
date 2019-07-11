@@ -11,7 +11,6 @@ import {
 } from '../../../utils/constants'
 import { allProjectsForSearchGQL } from '../../../../../pages/Projects/allProjectsGQL'
 import { mapToAssets } from '../../../utils/utils'
-import { Creatable } from 'react-select'
 import styles from '../signal/TriggerForm.module.scss'
 
 const TriggerFormTrendingWordsTypes = ({
@@ -55,7 +54,7 @@ const TriggerFormTrendingWordsTypes = ({
           {isWords && (
             <FormikSelect
               multi={true}
-              componentType={Creatable}
+              isCreatable={true}
               name='trendingWordsWithWords'
               placeholder='Pick a word(s)'
               backspaceRemoves={true}

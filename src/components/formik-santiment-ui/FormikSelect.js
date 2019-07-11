@@ -1,17 +1,19 @@
 import React, { Fragment } from 'react'
 import Select from '@santiment-network/ui/Search/Select/Select'
 import { Field } from 'formik'
+import { Creatable } from 'react-select'
 import './FormikSelect.scss'
 
 const FormikSelect = ({
   className,
   isClearable = true,
   options = [],
+  optionRenderer = undefined,
   name,
   multi = false,
   simpleValue = false,
   backspaceRemoves = false,
-  componentType,
+  isCreatable = false,
   disabled = false,
   placeholder,
   onChange,
@@ -30,9 +32,10 @@ const FormikSelect = ({
               }
             >
               <Select
+                optionRenderer={optionRenderer}
                 clearable={isClearable}
                 className={className}
-                selectComponent={componentType}
+                selectComponent={isCreatable ? Creatable : undefined}
                 multi={multi}
                 simpleValue={simpleValue}
                 placeholder={placeholder}

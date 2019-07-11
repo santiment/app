@@ -241,6 +241,10 @@ const mapToOptions = items => {
 }
 
 const getFormTrendingWords = ({ settings: { operation, target } }) => {
+  if (!operation) {
+    return undefined
+  }
+
   const operationType = getOperationType(operation)
 
   switch (operationType) {

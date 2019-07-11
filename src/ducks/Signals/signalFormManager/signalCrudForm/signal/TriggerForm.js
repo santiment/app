@@ -35,6 +35,7 @@ import Label from '@santiment-network/ui/Label'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import TriggerMetricTypesResolver from '../formParts/TriggerMetricTypesResolver'
 import styles from './TriggerForm.module.scss'
+import { MetricOptionsRenderer } from '../formParts/MetricOptionsRenderer'
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
@@ -125,6 +126,8 @@ export const TriggerForm = ({
 
         const showChart = target && couldShowChart(metric)
 
+        console.log('typeSelectors->', typeSelectors)
+
         return (
           <Form className={styles.TriggerForm}>
             <FormikEffect
@@ -191,6 +194,7 @@ export const TriggerForm = ({
                       defaultValue={defaultType.value}
                       placeholder='Choose a type'
                       options={typeSelectors}
+                      optionRenderer={MetricOptionsRenderer}
                       isOptionDisabled={option => !option.value}
                     />
                   </div>

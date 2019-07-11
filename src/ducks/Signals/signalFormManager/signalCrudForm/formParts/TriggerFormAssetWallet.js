@@ -75,7 +75,7 @@ const TriggerFormAssetWallet = ({
     target,
     erc20List
   )
-  const selectableProjects = canUseMappedErc20 ? assets : allList
+  const selectableProjects = canUseMappedErc20 && assets ? assets : allList
 
   return (
     <div className={styles.row}>
