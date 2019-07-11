@@ -19,7 +19,7 @@ const TrendsExploreAdditionalInfo = ({
   word,
   isLoadingInsights,
   isLoadingNews,
-  isBetaModeEnabled
+  isNewsEnabled
 }) => {
   if (isLoadingInsights || isLoadingNews) return null
   const modifiedWord = word.toUpperCase()
@@ -27,7 +27,7 @@ const TrendsExploreAdditionalInfo = ({
     tags.some(({ name }) => name === modifiedWord)
   )
 
-  const news = isBetaModeEnabled ? newsRaw : []
+  const news = isNewsEnabled ? newsRaw : []
 
   let [selectedTab, setSelectedTab] = useState(null)
 
@@ -73,9 +73,7 @@ const TrendsExploreAdditionalInfo = ({
   )
 }
 
-const mapStateToProps = ({ rootUi: { isBetaModeEnabled } }) => ({
-  isBetaModeEnabled
-})
+const mapStateToProps = ({ rootUi: { isNewsEnabled } }) => ({ isNewsEnabled })
 
 const enhance = compose(
   connect(mapStateToProps),

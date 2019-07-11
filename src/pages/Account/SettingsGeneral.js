@@ -14,8 +14,10 @@ const SettingsGeneral = ({
   dispatchNewEmail,
   toggleNightMode,
   toggleBetaMode,
+  toggleNews,
   isNightModeEnabled,
-  isBetaModeEnabled
+  isBetaModeEnabled,
+  isNewsEnabled
 }) => (
   <Settings id='general' header='General'>
     <UsernameSetting
@@ -35,17 +37,26 @@ const SettingsGeneral = ({
       </div>
       <Toggle isActive={isBetaModeEnabled} onClick={toggleBetaMode} />
     </Settings.Row>
+    {isBetaModeEnabled && (
+      <Settings.Row>
+        <div className={styles.setting__left}>
+          <Label>News</Label>
+        </div>
+        <Toggle isActive={isNewsEnabled} onClick={toggleNews} />
+      </Settings.Row>
+    )}
   </Settings>
 )
 
 const mapStateToProps = ({
   user: { data: { email, username } = {} },
-  rootUi: { isNightModeEnabled, isBetaModeEnabled }
+  rootUi: { isNightModeEnabled, isBetaModeEnabled, isNewsEnabled }
 }) => ({
   email,
   username,
   isNightModeEnabled,
-  isBetaModeEnabled
+  isBetaModeEnabled,
+  isNewsEnabled
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -66,6 +77,10 @@ const mapDispatchToProps = dispatch => ({
   toggleBetaMode: () =>
     dispatch({
       type: actions.USER_TOGGLE_BETA_MODE
+    }),
+  toggleNews: () =>
+    dispatch({
+      type: actions.USER_TOGGLE_NEWS
     })
 })
 
