@@ -31,6 +31,7 @@
 .details {
   @include text('caption');
 
+  pointer-events: none;
   position: absolute;
   left: 60px;
   top: 10px;
@@ -42,6 +43,8 @@
 }
 
 .line {
+  pointer-events: none;
+
   &::before,
   &::after {
     content: '';

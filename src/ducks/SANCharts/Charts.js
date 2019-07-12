@@ -43,7 +43,7 @@ function valueFormatter (value, name) {
     return millify(value, 2)
   }
 
-  return value.toFixed ? value.toFixed(2) : value
+  return value && value.toFixed ? value.toFixed(2) : value
 }
 
 class Charts extends React.Component {
@@ -84,8 +84,12 @@ class Charts extends React.Component {
     })
   }
 
-  onMouseEnter = () => {
+  getXToYCoordinates = () => {
     // HACK(vanguard): Because 'recharts' lib does not expose correct point "Y" coordinate
+    if (!this.priceRef.current || !this.priceRef.current.mainCurve) {
+      return
+    }
+
     this.xToYCoordinates = this.priceRef.current.mainCurve
       .getAttribute('d')
       .slice(1)
@@ -95,10 +99,21 @@ class Charts extends React.Component {
         acc[x] = y
         return acc
       }, {})
+
+    return true
+  }
+
+  onMouseLeave = () => {
+    this.setState({ hovered: false })
   }
 
   onMouseMove = throttle(e => {
     if (!e) return
+
+    if (!this.xToYCoordinates && !this.getXToYCoordinates()) {
+      return
+    }
+
     const {
       activeTooltipIndex,
       activeLabel,
@@ -106,13 +121,21 @@ class Charts extends React.Component {
       activePayload
     } = e
 
+    const tooltipMetric = this.props.metrics.includes('historyPrice')
+      ? 'historyPrice'
+      : this.props.metrics[0]
+
     this.setState({
+      activePayload,
       refAreaRight: activeLabel,
       rightZoomIndex: activeTooltipIndex,
       x: activeCoordinate.x,
       y: this.xToYCoordinates[activeCoordinate.x],
       xValue: activeLabel,
-      activePayload
+      yValue: this.props.chartData[activeTooltipIndex][
+        Metrics[tooltipMetric].dataKey || tooltipMetric
+      ],
+      hovered: true
     })
   }, 16)
 
@@ -125,8 +148,14 @@ class Charts extends React.Component {
       x,
       y,
       xValue,
-      activePayload
+      yValue,
+      activePayload,
+      hovered
     } = this.state
+
+    const tooltipMetric = metrics.includes('historyPrice')
+      ? 'historyPrice'
+      : metrics[0]
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart}>
@@ -137,7 +166,7 @@ class Charts extends React.Component {
             </Button>
           )}
           <div className={sharedStyles.title}>{title}</div>
-          {activePayload && (
+          {hovered && activePayload && (
             <>
               <div className={styles.details}>
                 <div>{tooltipLabelFormatter(xValue)}</div>
@@ -160,8 +189,7 @@ class Charts extends React.Component {
                   className={styles.values}
                   style={{
                     '--xValue': `"${tickFormatter(xValue)}"`,
-                    '--yValue': `"${rightZoomIndex &&
-                      chartData[rightZoomIndex].priceUsd.toFixed(2)}"`
+                    '--yValue': `"${millify(yValue, 1)}"`
                   }}
                 />
               </div>
@@ -171,7 +199,8 @@ class Charts extends React.Component {
         <ResponsiveContainer width='100%' height={300}>
           <ComposedChart
             margin={CHART_MARGINS}
-            onMouseEnter={this.onMouseEnter}
+            onMouseLeave={this.onMouseLeave}
+            onMouseEnter={this.getXToYCoordinates}
             onMouseDown={e => {
               if (!e) return
               const { activeTooltipIndex, activeLabel } = e
@@ -191,7 +220,7 @@ class Charts extends React.Component {
               tickFormatter={tickFormatter}
             />
             <YAxis hide />
-            {generateMetricsMarkup(metrics, { historyPrice: this.priceRef })}
+            {generateMetricsMarkup(metrics, { [tooltipMetric]: this.priceRef })}
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
                 x1={refAreaLeft}
