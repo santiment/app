@@ -10,7 +10,7 @@ import {
 import throttle from 'lodash.throttle'
 import Button from '@santiment-network/ui/Button'
 import { formatNumber, millify, labelFormatter } from './../../utils/formatting'
-import { getDateFormats } from '../../utils/dates'
+import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
 import { Metrics, generateMetricsMarkup } from './utils'
 import sharedStyles from './ChartPage.module.scss'
@@ -24,6 +24,14 @@ const tickFormatter = date => {
 const CHART_MARGINS = {
   left: -10,
   right: 18
+}
+
+function tooltipLabelFormatter (value) {
+  const date = new Date(value)
+  const { MMMM, DD, YYYY } = getDateFormats(date)
+  const { HH, mm } = getTimeFormats(date)
+
+  return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
 }
 
 function valueFormatter (value, name) {
@@ -43,9 +51,10 @@ class Charts extends React.Component {
     leftZoomIndex: undefined,
     rightZoomIndex: undefined,
     refAreaLeft: undefined,
-    refAreaRight: undefined,
-    activeCoordinate: {}
+    refAreaRight: undefined
   }
+
+  priceRef = React.createRef()
 
   onZoom = () => {
     let {
@@ -90,21 +99,34 @@ class Charts extends React.Component {
 
   onMouseMove = throttle(e => {
     if (!e) return
-    const { activeTooltipIndex, activeLabel, activeCoordinate } = e
+    const {
+      activeTooltipIndex,
+      activeLabel,
+      activeCoordinate,
+      activePayload
+    } = e
 
     this.setState({
       refAreaRight: activeLabel,
       rightZoomIndex: activeTooltipIndex,
       x: activeCoordinate.x,
-      y: this.xToYCoordinates[activeCoordinate.x]
+      y: this.xToYCoordinates[activeCoordinate.x],
+      xValue: activeLabel,
+      activePayload
     })
   }, 16)
 
-  priceRef = React.createRef()
-
   render () {
     const { metrics, chartData = [], onZoomOut, title, isZoomed } = this.props
-    const { refAreaLeft, refAreaRight, activeCoordinate, x, y } = this.state
+    const {
+      refAreaLeft,
+      refAreaRight,
+      rightZoomIndex,
+      x,
+      y,
+      xValue,
+      activePayload
+    } = this.state
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart}>
@@ -115,13 +137,36 @@ class Charts extends React.Component {
             </Button>
           )}
           <div className={sharedStyles.title}>{title}</div>
-          <div
-            className={styles.line}
-            style={{
-              '--x': `${x}px`,
-              '--y': `${y}px`
-            }}
-          />
+          {activePayload && (
+            <>
+              <div className={styles.details}>
+                <div>{tooltipLabelFormatter(xValue)}</div>
+                {activePayload.map(({ name, value, color }) => {
+                  return (
+                    <div key={name} style={{ color }}>
+                      {name}: {valueFormatter(value, name)}
+                    </div>
+                  )
+                })}
+              </div>
+              <div
+                className={styles.line}
+                style={{
+                  '--x': `${x}px`,
+                  '--y': `${y}px`
+                }}
+              >
+                <div
+                  className={styles.values}
+                  style={{
+                    '--xValue': `"${tickFormatter(xValue)}"`,
+                    '--yValue': `"${rightZoomIndex &&
+                      chartData[rightZoomIndex].priceUsd.toFixed(2)}"`
+                  }}
+                />
+              </div>
+            </>
+          )}
         </div>
         <ResponsiveContainer width='100%' height={300}>
           <ComposedChart

@@ -47,6 +47,7 @@ const VisualBacktestChart = ({ data, price, metrics, showAxes = false }) => {
         <YAxis hide />
 
         {generateMetricsMarkup(metrics, {
+          // NOTE(vanguard): Why?
           active_addresses: formattedData
         })}
 
