@@ -47,6 +47,7 @@ const ChartMetricSelector = ({
   className = '',
   toggleMetric,
   activeMetrics,
+  disabledMetrics,
   data: { project: { availableMetrics = [] } = {}, loading }
 }) => {
   const categories = getCategoryGraph(availableMetrics)
@@ -80,20 +81,25 @@ const ChartMetricSelector = ({
           <div className={styles.visible}>
             <div className={styles.visible__scroll}>
               {categories[activeCategory] &&
-                categories[activeCategory].map(metric => (
-                  <Button
-                    key={metric.label}
-                    variant='ghost'
-                    fluid
-                    className={styles.btn}
-                    classes={styles}
-                    onMouseEnter={() => setMetric(metric)}
-                    onClick={() => toggleMetric(metric.key)}
-                    disabled={activeMetrics.includes(metric.key)}
-                  >
-                    {metric.label} <Icon type='plus-round' />
-                  </Button>
-                ))}
+                categories[activeCategory].map(metric => {
+                  const isActive = activeMetrics.includes(metric.key)
+                  return (
+                    <Button
+                      key={metric.label}
+                      variant='ghost'
+                      fluid
+                      className={styles.btn}
+                      classes={styles}
+                      onMouseEnter={() => setMetric(metric)}
+                      onClick={() => toggleMetric(metric.key)}
+                      isActive={isActive}
+                      disabled={disabledMetrics.includes(metric.key)}
+                    >
+                      {metric.label}{' '}
+                      <Icon type={isActive ? 'subtract-round' : 'plus-round'} />
+                    </Button>
+                  )
+                })}
             </div>
           </div>
         </div>

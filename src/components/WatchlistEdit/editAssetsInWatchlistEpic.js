@@ -10,7 +10,7 @@ import {
 export const editAssetsInWatchlistEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.USER_EDIT_ASSETS_IN_LIST)
-    .mergeMap(({ payload: { assetsListId, listItems = [] } }) => {
+    .mergeMap(({ payload: { assetsListId, currentId, listItems = [] } }) => {
       const normalizedListItems = listItems.map(val => ({
         project_id: +val.id
       }))
@@ -22,7 +22,7 @@ export const editAssetsInWatchlistEpic = (action$, store, { client }) =>
         .mergeMap(() =>
           Observable.of({
             type: actions.USER_EDIT_ASSETS_IN_LIST_SUCCESS,
-            payload: { listItems, assetsListId }
+            payload: { listItems, assetsListId, currentId }
           })
         )
         .catch(

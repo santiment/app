@@ -228,7 +228,7 @@ const MobileDetailedPage = props => {
                             />
                           )}
                         </div>
-                        <ShowIf beta>
+                        <ShowIf news>
                           {props.news && props.news.length > 0 && (
                             <>
                               <h3 className={styles.news__heading}>News</h3>

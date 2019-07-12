@@ -7,7 +7,7 @@ export const initialState = {
   newItemSuccess: false,
   statusDeleteAssetList: null,
   editableAssetsInList: [],
-  isEditWatchlist: false,
+  editableWatchlists: [],
   firstWatchlistCreated: false
 }
 
@@ -95,12 +95,17 @@ export default (state = initialState, action) => {
     case actions.USER_EDIT_ASSETS_IN_LIST:
       return {
         ...state,
-        isEditWatchlist: true
+        editableWatchlists: [
+          ...state.editableWatchlists,
+          action.payload.assetsListId
+        ]
       }
     case actions.USER_EDIT_ASSETS_IN_LIST_SUCCESS:
       return {
         ...state,
-        isEditWatchlist: false
+        editableWatchlists: state.editableWatchlists.filter(
+          id => id !== action.payload.assetsListId
+        )
       }
     default:
       return state

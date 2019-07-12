@@ -10,6 +10,7 @@ import styles from './BalanceView.module.scss'
 import { ChartExpandView } from '../../Signals/chart/ChartExpandView'
 import Loadable from 'react-loadable'
 import { getIntervalByTimeRange } from '../../../utils/dates'
+import { isPossibleEthAddress } from '../../Signals/utils/utils'
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./BalanceViewChartSettings'),
@@ -164,6 +165,7 @@ const BalanceViewWalletAssets = ({
           id='address'
           autoComplete='nope'
           type='text'
+          isError={!isPossibleEthAddress(address)}
           name='address'
           placeholder='Paste the address'
           onChange={handleChange}

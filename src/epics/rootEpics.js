@@ -19,7 +19,6 @@ import apikeyRevokeEpic from './apikeyRevokeEpic'
 import createWatchlistEpic, {
   createWatchlistSuccessEpic
 } from './createWatchlistEpic'
-import copyWatchlistEpic from './copyWatchlistEpic'
 import removeWatchlistEpic from './removeWatchlistEpic'
 import {
   removeAssetFromWatchlistEpic,
@@ -43,6 +42,7 @@ import {
 } from '../ducks/Signals/epics'
 import handleNightModeToggle from './handleNightModeToggle'
 import handleBetaModeToggle from './handleBetaModeToggle'
+import handleNewsToggle from './handleNewsToggle'
 import {
   fetchHypedTrends,
   selectHypedTrend
@@ -87,7 +87,6 @@ export default combineEpics(
   addAssetToWatchlistEpic,
   removeAssetFromWatchlistEpic,
   editAssetsInWatchlistEpic,
-  copyWatchlistEpic,
   // assets
   fetchAssetsEpic,
   fetchRestAllAssetsEpic,
@@ -112,6 +111,7 @@ export default combineEpics(
   apikeyRevokeEpic,
   handleNightModeToggle,
   handleBetaModeToggle,
+  handleNewsToggle,
   // Signals
   createSignalEpic,
   updateSignalEpic,

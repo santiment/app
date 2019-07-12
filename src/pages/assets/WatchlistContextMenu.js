@@ -2,7 +2,7 @@ import React from 'react'
 import { Panel, Button, Icon, ContextMenu } from '@santiment-network/ui'
 import { CSVLink } from 'react-csv'
 import WatchlistPublicityToggle from '../../components/WatchlistShare/WatchlistShare'
-import WatchlistCopy from '../../components/WatchlistCopy/WatchlistCopy'
+import WatchlistCopyPopup from '../../components/WatchlistCopy/WatchlistCopyPopup'
 import WatchlistDeleteDialog from './WatchlistDeleteDialog'
 import { getTableTitle, normalizeCSV } from './utils'
 import { isNotSafari } from './../../utils/utils'
@@ -33,7 +33,8 @@ const WatchlistContextMenu = props => {
           </div>
         )}
         <div className={styles.block}>
-          <WatchlistCopy
+          <WatchlistCopyPopup
+            id={id}
             trigger={
               <Button variant='ghost' fluid>
                 Copy

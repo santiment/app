@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { Checkboxes, Icon } from '@santiment-network/ui'
 import { hasAssetById } from './WatchlistsPopup'
 import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
@@ -6,10 +7,16 @@ import NewWatchlistDialog from '../Watchlists/NewWatchlistDialog'
 import WatchlistNewBtn from './WatchlistNewBtn'
 import styles from './Watchlists.module.scss'
 
-const Watchlists = ({ lists = [], projectId, slug, toggleAssetInList }) => (
+const Watchlists = ({
+  lists = [],
+  projectId,
+  slug,
+  onWatchlistClick,
+  classes
+}) => (
   <>
     <div className={styles.listWrapper}>
-      <div className={styles.list}>
+      <div className={cx(styles.list, classes.list)}>
         {lists.length > 0 ? (
           lists.map(({ id, name, isPublic, listItems = [] }) => (
             <div className={styles.watchlist} key={id}>
@@ -23,9 +30,8 @@ const Watchlists = ({ lists = [], projectId, slug, toggleAssetInList }) => (
                 labelOnRight
                 labelClassName={styles.label}
                 onSelect={() =>
-                  toggleAssetInList({
-                    projectId,
-                    assetsListId: id,
+                  onWatchlistClick({
+                    id,
                     slug,
                     listItems
                   })

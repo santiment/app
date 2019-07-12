@@ -76,7 +76,7 @@ const TriggerFormAssetWallet = ({
     erc20List
   )
   const selectableProjects =
-    canUseMappedErc20 && assets.length ? assets : allList
+    canUseMappedErc20 && assets.length > 0 ? assets : allList
 
   return (
     <div className={styles.row}>
@@ -175,7 +175,6 @@ const enhance = compose(
   graphql(pickGQL('all'), {
     name: 'Projects',
     props: mapDataToProps,
-    skip: ({ byAddress }) => !!byAddress,
     options: () => {
       return {
         errorPolicy: 'all'
@@ -185,7 +184,6 @@ const enhance = compose(
   graphql(pickGQL('erc20'), {
     name: 'Projects',
     props: mapDataToProps,
-    skip: ({ byAddress, isNew }) => !byAddress && !isNew,
     options: () => {
       return {
         errorPolicy: 'all'

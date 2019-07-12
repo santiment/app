@@ -178,7 +178,6 @@ const getFormMetric = type => {
       return TRENDING_WORDS_METRIC
     }
     default: {
-      console.log("Can't find possible metric")
       return undefined
     }
   }
@@ -390,44 +389,9 @@ export const mapAssetTarget = (target, isEthWalletTrigger) => {
 export const getChannels = ({ channels }) =>
   channels.length ? channels[0].toLowerCase() : undefined
 
-export const mapFormToCommonTriggerSettings = formProps => {
-  const {
-    percentThreshold,
-    threshold,
-    target,
-    ethAddress,
-    timeWindow,
-    timeWindowUnit,
-    type
-  } = formProps
-
-  const isEthWalletTrigger = type.metric === ETH_WALLET
-
-  const newAsset = mapAssetTarget(target, isEthWalletTrigger)
-  const newTarget = mapTriggerTarget(target, ethAddress, isEthWalletTrigger)
-
-  return {
-    channel: getChannels(formProps),
-    percent_threshold: percentThreshold || undefined,
-    threshold: threshold || undefined,
-
-    ...newTarget,
-    ...newAsset,
-
-    time_window:
-      timeWindow && timeWindowUnit
-        ? timeWindow + '' + timeWindowUnit.value
-        : undefined,
-    type: type ? type.metric : undefined,
-    operation: getTriggerOperation(formProps)
-  }
-}
-
-export const getTrendingWordsTriggerOperation = ({ type }) => {
-  const result = {}
-  result[type.value] = true
-  return result
-}
+export const getTrendingWordsTriggerOperation = ({ type: { value } }) => ({
+  [value]: true
+})
 
 export const mapTrendingWordsTargets = items => {
   if (items.length === 1) {
@@ -454,13 +418,12 @@ export const getTrendingWordsTarget = ({
       }
     }
     default: {
-      console.log("Can't map trending words target")
       return undefined
     }
   }
 }
 
-export const mapFormToTrendingWordsTriggerSettings = formProps => {
+export const mapFormToTWTriggerSettings = formProps => {
   return {
     type: TRENDING_WORDS,
     channel: getChannels(formProps),
@@ -469,17 +432,105 @@ export const mapFormToTrendingWordsTriggerSettings = formProps => {
   }
 }
 
+const getTimeWindow = ({ timeWindow, timeWindowUnit }) => {
+  return timeWindow && timeWindowUnit
+    ? timeWindow + '' + timeWindowUnit.value
+    : undefined
+}
+
+export const mapFormToPPCTriggerSettings = formProps => {
+  const { target, ethAddress } = formProps
+
+  const newTarget = mapTriggerTarget(target, ethAddress, false)
+  return {
+    type: PRICE_PERCENT_CHANGE,
+    ...newTarget,
+    channel: getChannels(formProps),
+    time_window: getTimeWindow(formProps),
+    operation: getTriggerOperation(formProps)
+  }
+}
+
+export const mapFormToPACTriggerSettings = formProps => {
+  const { target, ethAddress } = formProps
+  const newTarget = mapTriggerTarget(target, ethAddress, false)
+  return {
+    type: PRICE_ABSOLUTE_CHANGE,
+    ...newTarget,
+    channel: getChannels(formProps),
+    operation: getTriggerOperation(formProps)
+  }
+}
+
+export const mapFormToDAATriggerSettings = formProps => {
+  const { target, ethAddress, percentThreshold } = formProps
+  const newTarget = mapTriggerTarget(target, ethAddress, false)
+
+  return {
+    type: DAILY_ACTIVE_ADDRESSES,
+    ...newTarget,
+    channel: getChannels(formProps),
+    time_window: getTimeWindow(formProps),
+    percent_threshold: percentThreshold
+  }
+}
+
+export const mapFormToPVDTriggerSettings = formProps => {
+  const { target, ethAddress, threshold } = formProps
+  const newTarget = mapTriggerTarget(target, ethAddress, false)
+  return {
+    type: PRICE_VOLUME_DIFFERENCE,
+    ...newTarget,
+    channel: getChannels(formProps),
+    threshold: threshold
+  }
+}
+
+export const mapFormToHBTriggerSettings = formProps => {
+  const { target, ethAddress } = formProps
+  const newAsset = mapAssetTarget(target, true)
+  const newTarget = mapTriggerTarget(target, ethAddress, true)
+  return {
+    type: ETH_WALLET,
+    ...newTarget,
+    ...newAsset,
+    channel: getChannels(formProps),
+    time_window: getTimeWindow(formProps),
+    operation: getTriggerOperation(formProps)
+  }
+}
+
 export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   const { type, isRepeating } = formProps
 
   let settings = {}
   switch (type.metric) {
+    case PRICE_PERCENT_CHANGE: {
+      settings = mapFormToPPCTriggerSettings(formProps)
+      break
+    }
+    case PRICE_ABSOLUTE_CHANGE: {
+      settings = mapFormToPACTriggerSettings(formProps)
+      break
+    }
+    case DAILY_ACTIVE_ADDRESSES: {
+      settings = mapFormToDAATriggerSettings(formProps)
+      break
+    }
     case TRENDING_WORDS: {
-      settings = mapFormToTrendingWordsTriggerSettings(formProps)
+      settings = mapFormToTWTriggerSettings(formProps)
+      break
+    }
+    case PRICE_VOLUME_DIFFERENCE: {
+      settings = mapFormToPVDTriggerSettings(formProps)
+      break
+    }
+    case ETH_WALLET: {
+      settings = mapFormToHBTriggerSettings(formProps)
       break
     }
     default: {
-      settings = mapFormToCommonTriggerSettings(formProps)
+      throw new Error('Can not find a correct mapper for trigger')
     }
   }
 

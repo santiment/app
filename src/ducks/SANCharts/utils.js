@@ -15,11 +15,14 @@ export const Metrics = {
     label: 'Volume',
     fill: true,
     dataKey: 'volume',
-    category: 'Financial'
+    category: 'Financial',
+    color: 'waterloo',
+    opacity: 0.4
   },
   socialVolume: {
     node: Line,
     label: 'Social Volume',
+    color: 'malibu',
     category: 'Social'
   },
   tokenAgeConsumed: {
@@ -46,13 +49,13 @@ export const Metrics = {
   },
   percentOfTokenSupplyOnExchanges: {
     node: Line,
-    label: 'Percent of token supply on exchanges',
+    label: 'Percent of Token Supply on Exchanges',
     dataKey: 'percentOnExchanges',
     category: 'On-chain'
   },
   topHoldersPercentOfTotalSupply: {
     node: Line,
-    label: 'In top holders total',
+    label: 'In Top Holders Total',
     // TODO: Add support for 3 datakeys of single metric:
     // inExchanges outsideExchanges inTopHoldersTotal
     dataKey: 'inTopHoldersTotal',
@@ -68,7 +71,8 @@ export const Metrics = {
   mvrvRatio: {
     node: Line,
     label: 'Market Value To Realized Value',
-    category: 'On-chain'
+    category: 'On-chain',
+    dataKey: 'mvrv'
   },
   transactionVolume: {
     node: Line,
@@ -86,11 +90,16 @@ export const Metrics = {
   },
   devActivity: {
     node: Line,
+    color: 'heliotrope',
     label: 'Development Activity',
     dataKey: 'activity',
     category: 'Development',
     description:
-      "Based on number of Github 'events' including issue interactions, PRs, comments, and wiki edits, plus the number of public repositories a project is maintaining"
+      "Based on number of Github 'events' including issue interactions, PRs, comments, and wiki edits, plus the number of public repositories a project is maintaining",
+    reqMeta: {
+      transform: 'movingAverage',
+      movingAverageIntervalBase: 7
+    }
   },
   tokenVelocity: {
     node: Line,
@@ -137,11 +146,11 @@ export const Metrics = {
 export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
 
 export const METRIC_COLORS = [
-  'persimmon',
-  'heliotrope',
   'texas-rose',
   'dodger-blue',
-  'malibu'
+  'lima',
+  'heliotrope',
+  'waterloo'
 ]
 
 export const generateMetricsMarkup = (metrics, data = {}) => {
@@ -153,7 +162,8 @@ export const generateMetricsMarkup = (metrics, data = {}) => {
       color,
       yAxisVisible = false,
       orientation = 'left',
-      dataKey = metric
+      dataKey = metric,
+      opacity = 1
     } = typeof metric === 'object' ? metric : Metrics[metric]
 
     const rest = {
@@ -180,6 +190,8 @@ export const generateMetricsMarkup = (metrics, data = {}) => {
         dataKey={dataKey}
         dot={false}
         isAnimationActive={false}
+        opacity={opacity}
+        connectNulls
         {...rest}
       />
     )
