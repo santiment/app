@@ -4,6 +4,7 @@ import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
+import { Metrics } from './utils'
 import { getNewInterval } from './IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import styles from './ChartPage.module.scss'
@@ -221,7 +222,8 @@ class ChartPage extends Component {
           slug,
           from,
           to,
-          interval
+          interval,
+          ...Metrics[metric].reqMeta
         }
       }
       return acc

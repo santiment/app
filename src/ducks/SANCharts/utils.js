@@ -16,7 +16,8 @@ export const Metrics = {
     fill: true,
     dataKey: 'volume',
     category: 'Financial',
-    color: 'mystic'
+    color: 'waterloo',
+    opacity: 0.4
   },
   socialVolume: {
     node: Line,
@@ -48,13 +49,13 @@ export const Metrics = {
   },
   percentOfTokenSupplyOnExchanges: {
     node: Line,
-    label: 'Percent of token supply on exchanges',
+    label: 'Percent of Token Supply on Exchanges',
     dataKey: 'percentOnExchanges',
     category: 'On-chain'
   },
   topHoldersPercentOfTotalSupply: {
     node: Line,
-    label: 'In top holders total',
+    label: 'In Top Holders Total',
     // TODO: Add support for 3 datakeys of single metric:
     // inExchanges outsideExchanges inTopHoldersTotal
     dataKey: 'inTopHoldersTotal',
@@ -70,7 +71,8 @@ export const Metrics = {
   mvrvRatio: {
     node: Line,
     label: 'Market Value To Realized Value',
-    category: 'On-chain'
+    category: 'On-chain',
+    dataKey: 'mvrv'
   },
   transactionVolume: {
     node: Line,
@@ -93,7 +95,11 @@ export const Metrics = {
     dataKey: 'activity',
     category: 'Development',
     description:
-      "Based on number of Github 'events' including issue interactions, PRs, comments, and wiki edits, plus the number of public repositories a project is maintaining"
+      "Based on number of Github 'events' including issue interactions, PRs, comments, and wiki edits, plus the number of public repositories a project is maintaining",
+    reqMeta: {
+      transform: 'movingAverage',
+      movingAverageIntervalBase: 7
+    }
   },
   tokenVelocity: {
     node: Line,
@@ -156,7 +162,8 @@ export const generateMetricsMarkup = (metrics, data = {}) => {
       color,
       yAxisVisible = false,
       orientation = 'left',
-      dataKey = metric
+      dataKey = metric,
+      opacity = 1
     } = typeof metric === 'object' ? metric : Metrics[metric]
 
     const rest = {
@@ -183,6 +190,8 @@ export const generateMetricsMarkup = (metrics, data = {}) => {
         dataKey={dataKey}
         dot={false}
         isAnimationActive={false}
+        opacity={opacity}
+        connectNulls
         {...rest}
       />
     )
