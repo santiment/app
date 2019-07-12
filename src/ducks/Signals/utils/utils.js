@@ -178,7 +178,6 @@ const getFormMetric = type => {
       return TRENDING_WORDS_METRIC
     }
     default: {
-      console.log("Can't find possible metric")
       return undefined
     }
   }
@@ -390,11 +389,9 @@ export const mapAssetTarget = (target, isEthWalletTrigger) => {
 export const getChannels = ({ channels }) =>
   channels.length ? channels[0].toLowerCase() : undefined
 
-export const getTrendingWordsTriggerOperation = ({ type }) => {
-  const result = {}
-  result[type.value] = true
-  return result
-}
+export const getTrendingWordsTriggerOperation = ({ type: { value } }) => ({
+  [value]: true
+})
 
 export const mapTrendingWordsTargets = items => {
   if (items.length === 1) {
@@ -421,7 +418,6 @@ export const getTrendingWordsTarget = ({
       }
     }
     default: {
-      console.log("Can't map trending words target")
       return undefined
     }
   }

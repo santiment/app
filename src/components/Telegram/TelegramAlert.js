@@ -17,7 +17,9 @@ export const TelegramAlert = ({ isTelegramConnected }) => {
     !isTelegramConnected && (
       <span className={styles.telegramAlert}>
         *Telegram is not connect. Enable in{' '}
-        <Link to='/account'>My Account</Link>
+        <Link className={styles.link} to='/account'>
+          My Account
+        </Link>
       </span>
     )
   )
