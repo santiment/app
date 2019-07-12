@@ -210,7 +210,7 @@ class Charts extends React.Component {
                   className={styles.values}
                   style={{
                     '--xValue': `"${tickFormatter(xValue)}"`,
-                    '--yValue': `"${millify(yValue, 1)}"`
+                    '--yValue': `"${yValue ? millify(yValue, 1) : '-'}"`
                   }}
                 />
               </div>
