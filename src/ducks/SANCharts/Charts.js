@@ -142,7 +142,8 @@ class Charts extends React.Component {
       activePayload
     } = e
 
-    const { tooltipMetric } = this.state
+    const { tooltipMetric = 'historyPrice' } = this.state
+
     this.setState({
       activePayload,
       refAreaRight: activeLabel,
