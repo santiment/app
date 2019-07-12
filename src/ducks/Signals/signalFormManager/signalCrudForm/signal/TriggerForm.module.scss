@@ -54,6 +54,10 @@ $trigger-form-width: 496px;
   }
 }
 
+.rowInner {
+  margin-top: 0 !important;
+}
+
 .messages {
   margin: 1rem 0;
 }
@@ -169,28 +173,23 @@ a.connectLink {
 
 .timeWindowInput {
   flex: 1;
-  width: 50%;
   margin-right: 8px;
 }
 
 .timeWindowUnit {
-  width: 50%;
   flex: 1;
 }
 
 .frequency {
   display: flex;
-  align-items: center;
 }
 
 .frequencyTimeValue {
   flex: 1;
-  width: 50%;
   margin-right: 8px;
 }
 
 .frequencyTimeType {
-  width: 50%;
   flex: 1;
 }
 

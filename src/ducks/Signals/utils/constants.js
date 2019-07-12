@@ -132,7 +132,7 @@ export const COOLDOWN_REGEXP = /([0-9]+)*([smhdw])/i
 export const METRICS_OPTIONS = [
   { ...PRICE_METRIC },
   { ...ETH_WALLET_METRIC },
-  // { ...TRENDING_WORDS_METRIC }, GarageInc: temporary disabled
+  { ...TRENDING_WORDS_METRIC },
   // { ...DAILY_ACTIVE_ADDRESSES_METRIC }, GarageInc: temporary disabled
   { ...PRICE_VOLUME_DIFFERENCE_METRIC }
 ]

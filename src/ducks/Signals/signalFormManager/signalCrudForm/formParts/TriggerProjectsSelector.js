@@ -23,7 +23,7 @@ export const TriggerProjectsSelector = ({
   return (
     <FormikSelect
       name='target'
-      isDisabled={defaultAsset.isDisabled}
+      disabled={defaultAsset.isDisabled}
       defaultValue={defaultAsset.value.value}
       placeholder='Pick an asset'
       required

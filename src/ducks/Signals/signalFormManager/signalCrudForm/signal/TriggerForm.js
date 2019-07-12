@@ -27,14 +27,15 @@ import {
   mapFormPropsToTrigger,
   validateTriggerForm
 } from '../../../utils/utils'
-import TriggerFormAssetWallet from '../formParts/TriggerFormAssetWallet'
 import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/TriggerFormMetricTypes'
 import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'
 import SignalPreview from '../../../chart/SignalPreview'
 import Label from '@santiment-network/ui/Label'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
+import TriggerMetricTypesResolver from '../formParts/TriggerMetricTypesResolver'
 import styles from './TriggerForm.module.scss'
+import { MetricOptionsRenderer } from '../formParts/MetricOptionsRenderer'
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
@@ -53,7 +54,7 @@ export const TriggerForm = ({
   lastPriceItem,
   settings,
   metaFormSettings,
-  trigger,
+  trigger: { id } = {},
   removeSignal,
   onRemovedSignal
 }) => {
@@ -82,24 +83,11 @@ export const TriggerForm = ({
   }
 
   const [initialValues, setInitialValues] = useState(settings)
-  const [showTrigger /*, setShowTrigger */] = useState(true)
-
-  const showChart = couldShowChart(initialValues.metric)
 
   useEffect(() => {
     couldShowChart(initialValues.metric) &&
       getSignalBacktestingPoints(initialValues)
   }, [])
-
-  /* GarageInc: temporary removed
-  const showTriggerFunc = () => {
-    setShowTrigger(!showTrigger)
-  }
-
-  const deleteTrigger = () => {
-    trigger && trigger.id && removeSignal(trigger.id)
-    onRemovedSignal && onRemovedSignal()
-  } */
 
   const defaultType = metaFormSettings.type
 
@@ -136,6 +124,8 @@ export const TriggerForm = ({
 
         const { price } = lastPriceItem || {}
 
+        const showChart = target && couldShowChart(metric)
+
         return (
           <Form className={styles.TriggerForm}>
             <FormikEffect
@@ -146,8 +136,10 @@ export const TriggerForm = ({
                   newValues.metric.value !== prev.values.metric.value ||
                   newValues.type.value !== prev.values.type.value
                 ) {
+                  const defaultValues =
+                    METRIC_DEFAULT_VALUES[newValues.type.metric] || {}
                   newValues = {
-                    ...METRIC_DEFAULT_VALUES[newValues.type.metric],
+                    ...defaultValues,
                     ...newValues
                   }
                   setInitialValues(newValues)
@@ -171,111 +163,111 @@ export const TriggerForm = ({
               }}
             />
 
-            {showTrigger && (
-              <div className={styles.triggerFormItem}>
-                <TriggerFormMetricTypes
-                  metaFormSettings={metaFormSettings}
-                  setFieldValue={setFieldValue}
-                  metric={metric}
-                />
+            <div className={styles.triggerFormItem}>
+              <TriggerFormMetricTypes
+                metaFormSettings={metaFormSettings}
+                setFieldValue={setFieldValue}
+                metric={metric}
+              />
 
-                <TriggerFormAssetWallet
-                  byAddress={ethAddress}
-                  metric={metric}
-                  target={target}
-                  metaFormSettings={metaFormSettings}
-                  setFieldValue={setFieldValue}
-                />
-                {!metric.hidden && typeSelectors && typeSelectors.length > 1 && (
-                  <div className={cx(styles.row)}>
-                    <div className={cx(styles.Field, styles.fieldFilled)}>
-                      <Label accent='waterloo' className={styles.label}>
-                        Condition
-                      </Label>
-                      <FormikSelect
-                        name='type'
-                        isClearable={false}
-                        isSearchable
-                        isDisabled={defaultType.isDisabled}
-                        defaultValue={defaultType.value}
-                        placeholder='Choose a type'
-                        options={typeSelectors}
-                        isOptionDisabled={option => !option.value}
-                      />
-                    </div>
-                  </div>
-                )}
+              <TriggerMetricTypesResolver
+                isNew={id > 0}
+                address={ethAddress}
+                values={values}
+                metaFormSettings={metaFormSettings}
+                setFieldValue={setFieldValue}
+              />
 
-                <TriggerFormMetricValues lastPrice={price} values={values} />
-
-                <TriggerFormFrequency
-                  metaFormSettings={metaFormSettings}
-                  setFieldValue={setFieldValue}
-                  frequencyType={frequencyType}
-                  metric={type.metric}
-                  frequencyTimeType={frequencyTimeType}
-                />
-
-                {showChart && (
-                  <div className={cx(styles.row, styles.signalPreview)}>
-                    <SignalPreview target={target.value} type={type.metric} />
-                  </div>
-                )}
-
-                <div className={cx(styles.row, styles.isRepeatingRow)}>
-                  <div className={styles.isRepeating}>
-                    <Checkbox
-                      isActive={isRepeating}
-                      name='isRepeating'
-                      className={styles.repeatingItem}
-                      onClick={() => {
-                        setFieldValue('isRepeating', !isRepeating)
-                      }}
-                    />
-                    <span
-                      className={styles.repeatingItem}
-                      onClick={() => {
-                        setFieldValue('isRepeating', !isRepeating)
-                      }}
-                    >
-                      {isRepeating ? 'Task never ends' : 'Task fires only once'}
-                    </span>
-                  </div>
-                </div>
-
-                <div className={styles.row}>
-                  <div className={styles.Field}>
+              {!metric.hidden && typeSelectors && typeSelectors.length > 1 && (
+                <div className={cx(styles.row)}>
+                  <div className={cx(styles.Field, styles.fieldFilled)}>
                     <Label accent='waterloo' className={styles.label}>
-                      Notify me via
+                      Condition
                     </Label>
-                    <div className={styles.notifyBlock}>
-                      <FormikCheckboxes
-                        name='channels'
-                        labelOnRight
-                        disabledIndexes={['Email']}
-                        options={['Email', 'Telegram']}
-                      />
-                      {!isTelegramConnected && (
-                        <Button
-                          className={styles.connectLink}
-                          variant='ghost'
-                          as={Link}
-                          to='/account'
-                        >
-                          <span className={styles.connectLink}>Connect</span>
-                        </Button>
-                      )}
-                    </div>
+                    <FormikSelect
+                      name='type'
+                      isClearable={false}
+                      isSearchable
+                      disabled={defaultType.isDisabled}
+                      defaultValue={defaultType.value}
+                      placeholder='Choose a type'
+                      options={typeSelectors}
+                      optionRenderer={MetricOptionsRenderer}
+                      isOptionDisabled={option => !option.value}
+                    />
                   </div>
                 </div>
+              )}
 
-                {errors.channels && (
-                  <div className={cx(styles.row, styles.messages)}>
-                    <Message variant='warn'>{errors.channels}</Message>
-                  </div>
-                )}
+              <TriggerFormMetricValues lastPrice={price} values={values} />
+
+              <TriggerFormFrequency
+                metaFormSettings={metaFormSettings}
+                setFieldValue={setFieldValue}
+                frequencyType={frequencyType}
+                metric={type.metric}
+                frequencyTimeType={frequencyTimeType}
+              />
+
+              {showChart && (
+                <div className={cx(styles.row, styles.signalPreview)}>
+                  <SignalPreview target={target.value} type={type.metric} />
+                </div>
+              )}
+
+              <div className={cx(styles.row, styles.isRepeatingRow)}>
+                <div className={styles.isRepeating}>
+                  <Checkbox
+                    isActive={isRepeating}
+                    name='isRepeating'
+                    className={styles.repeatingItem}
+                    onClick={() => {
+                      setFieldValue('isRepeating', !isRepeating)
+                    }}
+                  />
+                  <span
+                    className={styles.repeatingItem}
+                    onClick={() => {
+                      setFieldValue('isRepeating', !isRepeating)
+                    }}
+                  >
+                    {isRepeating ? 'Task never ends' : 'Task fires only once'}
+                  </span>
+                </div>
               </div>
-            )}
+
+              <div className={styles.row}>
+                <div className={styles.Field}>
+                  <Label accent='waterloo' className={styles.label}>
+                    Notify me via
+                  </Label>
+                  <div className={styles.notifyBlock}>
+                    <FormikCheckboxes
+                      name='channels'
+                      labelOnRight
+                      disabledIndexes={['Email']}
+                      options={['Email', 'Telegram']}
+                    />
+                    {!isTelegramConnected && (
+                      <Button
+                        className={styles.connectLink}
+                        variant='ghost'
+                        as={Link}
+                        to='/account'
+                      >
+                        <span className={styles.connectLink}>Connect</span>
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {errors.channels && (
+                <div className={cx(styles.row, styles.messages)}>
+                  <Message variant='warn'>{errors.channels}</Message>
+                </div>
+              )}
+            </div>
 
             <div className={styles.controls}>
               <Button

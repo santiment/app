@@ -1,52 +1,64 @@
 import React, { Fragment } from 'react'
-import Select from 'react-select'
+import Select from '@santiment-network/ui/Search/Select/Select'
 import { Field } from 'formik'
+import { Creatable } from 'react-select'
 import './FormikSelect.scss'
 
 const FormikSelect = ({
-  options,
+  className,
+  isClearable = true,
+  options = [],
+  optionRenderer = undefined,
   name,
+  multi = false,
+  simpleValue = false,
+  backspaceRemoves = false,
+  isCreatable = false,
   disabled = false,
   placeholder,
   onChange,
+  isLoading = false,
   ...rest
 }) => {
   return (
     <Field
       name={name}
       render={({ field, form }) => {
-        const isValid = !form.errors[name]
-        const customStyles = {
-          control: base => {
-            const color = isValid ? '#ddd' : 'var(--persimmon) !important'
-            return {
-              ...base,
-              borderColor: color,
-              '&:hover': {
-                borderColor: color
-              }
-            }
-          }
-        }
-
         return (
           <Fragment>
-            <Select
-              styles={customStyles}
-              placeholder={placeholder}
-              classNamePrefix='react-select'
-              options={options}
-              onChange={value => {
-                form.setFieldValue(name, value)
-                form.setFieldTouched(name, true)
-                onChange && onChange(value)
-              }}
-              value={field.value}
-              {...rest}
-            />
-            {form.errors[name] && (
-              <div className='error error-message'>{form.errors[name]}</div>
-            )}
+            <div
+              className={
+                multi ? 'select__container-multi' : 'select__container-single'
+              }
+            >
+              <Select
+                optionRenderer={optionRenderer}
+                clearable={isClearable}
+                className={className}
+                selectComponent={isCreatable ? Creatable : undefined}
+                multi={multi}
+                simpleValue={simpleValue}
+                placeholder={placeholder}
+                classNamePrefix='react-select'
+                options={options}
+                isLoading={isLoading}
+                valueKey='value'
+                labelKey='label'
+                backspaceRemoves={backspaceRemoves}
+                minimumInput={1}
+                onChange={value => {
+                  form.setFieldValue(name, value)
+                  form.setFieldTouched(name, true)
+                  onChange && onChange(value)
+                }}
+                disabled={disabled}
+                value={field.value}
+                {...rest}
+              />
+              {form.errors[name] && (
+                <div className='error error-message'>{form.errors[name]}</div>
+              )}
+            </div>
           </Fragment>
         )
       }}

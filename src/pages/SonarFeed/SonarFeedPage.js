@@ -18,13 +18,21 @@ const aboutTriggerModalLocation = `${baseLocation}/details/:id/about`
 
 const tabs = [
   {
+    index: `${baseLocation}/my-signals`,
+    content: 'My signals',
+    component: Loadable({
+      loader: () => import('./SonarFeedMySignalsPage'),
+      loading: () => <PageLoader />
+    })
+  },
+  {
     index: `${baseLocation}/activity`,
     content: 'Activity',
     component: Loadable({
       loader: () => import('./SonarFeedActivityPage'),
       loading: () => <PageLoader />
     })
-  },
+  }
   // {
   // index: `${baseLocation}/explore`,
   // content: 'Explore',
@@ -33,14 +41,6 @@ const tabs = [
   // loading: () => <PageLoader />
   // })
   // },
-  {
-    index: `${baseLocation}/my-signals`,
-    content: 'My signals',
-    component: Loadable({
-      loader: () => import('./SonarFeedMySignalsPage'),
-      loading: () => <PageLoader />
-    })
-  }
 ]
 
 const LoadableSignalDetailsPage = Loadable({

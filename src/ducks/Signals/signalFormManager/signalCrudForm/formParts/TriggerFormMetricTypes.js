@@ -30,7 +30,7 @@ export const TriggerFormMetricTypes = ({
           <FormikSelect
             name='metric'
             isClearable={false}
-            isDisabled={defaultMetric.isDisabled}
+            disabled={defaultMetric.isDisabled}
             defaultValue={defaultMetric.value}
             isSearchable
             placeholder='Choose a metric'
