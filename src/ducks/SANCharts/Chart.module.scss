@@ -40,6 +40,14 @@
   border-radius: 4px;
   padding: 4px 8px;
   z-index: 3;
+
+  &__title {
+    margin-bottom: 7px;
+  }
+}
+
+.zoom + .details {
+  left: 155px;
 }
 
 .line {

@@ -123,7 +123,7 @@ class ChartPage extends Component {
 
   onIntervalChange = option => {
     const { index: interval = option } = option
-    this.setState({ interval, zoom: undefined }, this.updateSearchQuery)
+    this.setState({ zoom: undefined, interval }, this.updateSearchQuery)
   }
 
   toggleMetric = metric => {

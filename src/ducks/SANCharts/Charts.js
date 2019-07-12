@@ -1,15 +1,15 @@
 import React from 'react'
+import cx from 'classnames'
 import {
   ResponsiveContainer,
   ComposedChart,
   XAxis,
   YAxis,
-  Tooltip,
   ReferenceArea
 } from 'recharts'
 import throttle from 'lodash.throttle'
 import Button from '@santiment-network/ui/Button'
-import { formatNumber, millify, labelFormatter } from './../../utils/formatting'
+import { formatNumber, millify } from './../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
 import { Metrics, generateMetricsMarkup } from './utils'
@@ -35,6 +35,8 @@ function tooltipLabelFormatter (value) {
 }
 
 function valueFormatter (value, name) {
+  if (!Number.isFinite(+value)) return
+
   if (name === Metrics.historyPrice.label) {
     return formatNumber(value, { currency: 'USD' })
   }
@@ -58,6 +60,10 @@ class Charts extends React.Component {
 
   componentDidUpdate (prevProps) {
     const { metrics } = this.props
+    if (this.props.chartData !== prevProps.chartData) {
+      this.getXToYCoordinates()
+    }
+
     if (metrics !== prevProps.metrics) {
       this.setState({
         tooltipMetric: metrics.includes(PRICE_METRIC)
@@ -154,7 +160,6 @@ class Charts extends React.Component {
     const {
       refAreaLeft,
       refAreaRight,
-      rightZoomIndex,
       x,
       y,
       xValue,
@@ -167,16 +172,22 @@ class Charts extends React.Component {
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart}>
         <div className={sharedStyles.header}>
+          <div className={sharedStyles.title}>{title}</div>
           {isZoomed && (
-            <Button border onClick={onZoomOut} className={sharedStyles.zoom}>
+            <Button
+              border
+              onClick={onZoomOut}
+              className={cx(sharedStyles.zoom, styles.zoom)}
+            >
               Zoom out
             </Button>
           )}
-          <div className={sharedStyles.title}>{title}</div>
           {hovered && activePayload && (
             <>
               <div className={styles.details}>
-                <div>{tooltipLabelFormatter(xValue)}</div>
+                <div className={styles.details__title}>
+                  {tooltipLabelFormatter(xValue)}
+                </div>
                 {activePayload.map(({ name, value, color }) => {
                   return (
                     <div key={name} style={{ color }}>
@@ -217,7 +228,7 @@ class Charts extends React.Component {
               })
             }}
             onMouseMove={this.onMouseMove}
-            onMouseUp={this.onZoom}
+            onMouseUp={refAreaLeft && refAreaRight && this.onZoom}
             data={chartData}
           >
             <XAxis
