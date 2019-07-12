@@ -153,7 +153,10 @@ export const METRIC_COLORS = [
   'waterloo'
 ]
 
-export const generateMetricsMarkup = (metrics, { ref, data } = {}) => {
+export const generateMetricsMarkup = (
+  metrics,
+  { ref = {}, data = {} } = {}
+) => {
   let colorIndex = 0
   return metrics.reduce((acc, metric) => {
     const {

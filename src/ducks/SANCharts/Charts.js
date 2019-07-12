@@ -16,17 +16,19 @@ import { Metrics, generateMetricsMarkup } from './utils'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
 
-const tickFormatter = date => {
-  const { DD, MMM, YY } = getDateFormats(new Date(date))
-  return `${DD} ${MMM} ${YY}`
-}
+const PRICE_METRIC = 'historyPrice'
 
 const CHART_MARGINS = {
   left: -10,
   right: 18
 }
 
-function tooltipLabelFormatter (value) {
+const tickFormatter = date => {
+  const { DD, MMM, YY } = getDateFormats(new Date(date))
+  return `${DD} ${MMM} ${YY}`
+}
+
+const tooltipLabelFormatter = value => {
   const date = new Date(value)
   const { MMMM, DD, YYYY } = getDateFormats(date)
   const { HH, mm } = getTimeFormats(date)
@@ -34,21 +36,21 @@ function tooltipLabelFormatter (value) {
   return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
 }
 
-function valueFormatter (value, name) {
-  if (!Number.isFinite(+value)) return
+const valueFormatter = (value, name) => {
+  const numValue = +value
+  // NOTE(vanguard): Some values may not be present in a hovered data point, i.e. value === undefined/null;
+  if (!Number.isFinite(numValue)) return
 
   if (name === Metrics.historyPrice.label) {
-    return formatNumber(value, { currency: 'USD' })
+    return formatNumber(numValue, { currency: 'USD' })
   }
 
-  if (value > 900000) {
-    return millify(value, 2)
+  if (numValue > 900000) {
+    return millify(numValue, 2)
   }
 
-  return value && value.toFixed ? value.toFixed(2) : value
+  return numValue.toFixed(2)
 }
-
-const PRICE_METRIC = 'historyPrice'
 
 class Charts extends React.Component {
   state = {
