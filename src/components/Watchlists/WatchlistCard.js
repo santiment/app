@@ -14,6 +14,7 @@ import {
 import { WATCHLIST_HISTORY_QUERY } from '../WatchlistHistory/WatchlistHistoryGQL'
 import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
 import Gradients from '../WatchlistHistory/Gradients'
+import { TRENDING_WATCHLIST_NAME } from '../../pages/assets/assets-overview-constants'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
