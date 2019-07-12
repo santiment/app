@@ -59,7 +59,7 @@ const WatchlistContextMenu = ({
               </Button>
             }
           />
-          {hasCSV && (
+          {hasCSV && isDesktop && (
             <CSVLink
               data={normalizeCSV(assets)}
               filename={`${name}.csv`}

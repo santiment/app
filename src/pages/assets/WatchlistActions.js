@@ -62,16 +62,18 @@ const WatchlistActions = ({
               )}
             </>
           )}
-          <WatchlistContextMenu
-            isAuthor={isAuthor}
-            id={id}
-            name={title}
-            assets={items}
-            type={type}
-            location={location}
-            hasCSV={hasCSV}
-            isDesktop={isDesktop}
-          />
+          {isLoggedIn && (
+            <WatchlistContextMenu
+              isAuthor={isAuthor}
+              id={id}
+              name={title}
+              assets={items}
+              type={type}
+              location={location}
+              hasCSV={hasCSV}
+              isDesktop={isDesktop}
+            />
+          )}
         </>
         )}
     </>
