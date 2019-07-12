@@ -49,19 +49,21 @@ const AssetsMobilePage = props => {
                 title={title}
                 backRoute='/assets'
                 rightActions={
-                  <WatchlistActions
-                    isLoggedIn={isLoggedIn}
-                    isDesktop={false}
-                    isList={isList}
-                    listType={props.location.hash}
-                    shareLink={window.location.href + '#shared'}
-                    isAuthor={isCurrentUserTheAuthor}
-                    id={listId}
-                    title={title}
-                    items={items}
-                    type={props.type}
-                    location={props.location}
-                  />
+                  isLoggedIn ? (
+                    <WatchlistActions
+                      isLoggedIn={isLoggedIn}
+                      isDesktop={false}
+                      isList={isList}
+                      listType={props.location.hash}
+                      shareLink={window.location.href + '#shared'}
+                      isAuthor={isCurrentUserTheAuthor}
+                      id={listId}
+                      title={title}
+                      items={items}
+                      type={props.type}
+                      location={props.location}
+                    />
+                  ) : null
                 }
               />
               {items.length > 0 && (

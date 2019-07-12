@@ -10,6 +10,7 @@ const defaultClasses = {
   icon: styles.icon,
   title: styles.title,
   left: styles.left,
+  shortLeft: styles.shortLeft,
   right: styles.right,
   searchBtn: styles.searchBtn,
   isTitleLink: styles.isTitleLink
@@ -30,7 +31,11 @@ const MobileHeader = ({
   const Title = backRoute && !goBack ? Link : 'div'
   return (
     <div className={classes.wrapper}>
-      <Title onClick={goBack && goBack} to={backRoute} className={classes.left}>
+      <Title
+        onClick={goBack && goBack}
+        to={backRoute}
+        className={cx(classes.left, rightActions && classes.shortLeft)}
+      >
         {(backRoute || showBack) && (
           <Icon className={classes.icon} type='arrow-left-big' />
         )}

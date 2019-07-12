@@ -22,6 +22,13 @@
 
   @include responsive('phone', 'phone-xs') {
     max-width: 85%;
+    padding-right: 0;
+  }
+}
+
+.shortLeft {
+  @include responsive('phone', 'phone-xs') {
+    max-width: 77%;
   }
 }
 
@@ -35,7 +42,7 @@
   color: var(--mirage);
   width: 100%;
 
-  @include responsive('desktop', 'laptop', 'tablet') {
+  @include responsive('desktop', 'laptop') {
     margin: 0 !important;
   }
 
