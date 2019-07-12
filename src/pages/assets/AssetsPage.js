@@ -1,22 +1,16 @@
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import qs from 'query-string'
-import { CSVLink } from 'react-csv'
-import Button from '@santiment-network/ui/Button'
 import { getOrigin } from '../../utils/utils'
-import { getHelmetTags, getTableTitle, normalizeCSV } from './utils'
-import { isNotSafari } from '../../utils/utils'
+import { getHelmetTags, getTableTitle } from './utils'
 import { RANGES } from '../../components/WatchlistHistory/constants'
 import GetAssets from './GetAssets'
 import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
-import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import GetWatchlistHistory from '../../components/WatchlistHistory/GetWatchlistHistory'
-import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
-import WatchlistContextMenu from './WatchlistContextMenu'
 import AssetsTemplates from './AssetsTemplates'
 import PageLoader from '../../components/Loader/PageLoader'
-
+import WatchlistActions from './WatchlistActions'
 import styles from '../../components/Watchlists/Watchlist.module.scss'
 import './Assets.css'
 
@@ -26,6 +20,7 @@ const AssetsPage = props => {
   const { name } = qs.parse(props.location.search)
   const isList = props.type === 'list'
   const { title, description } = getHelmetTags(isList, name)
+  const { isLoggedIn } = props
 
   const changeRange = () => {
     const newPointer = pointer === RANGES.length - 1 ? 0 : pointer + 1
@@ -62,41 +57,19 @@ const AssetsPage = props => {
                   <HelpPopupAssets />
                 </div>
                 <div className='page-head-projects__right'>
-                  {isList && props.location.hash !== '#shared' && (
-                    <>
-                      <ShareModalTrigger
-                        shareLink={window.location.href + '#shared'}
-                      />
-                      {isCurrentUserTheAuthor && (
-                        <WatchlistEditTrigger
-                          name={title}
-                          id={listId}
-                          assets={items}
-                        />
-                      )}
-                    </>
-                  )}
-
-                  {!isList && isNotSafari && items && items.length > 0 && (
-                    <CSVLink
-                      data={normalizeCSV(items)}
-                      filename={`${title}.csv`}
-                      target='_blank'
-                    >
-                      <Button variant='flat' isActive>
-                        Download CSV
-                      </Button>
-                    </CSVLink>
-                  )}
-                  {isList && (
-                    <WatchlistContextMenu
-                      isAuthor={isCurrentUserTheAuthor}
-                      id={listId}
-                      assets={items}
-                      type={props.type}
-                      location={props.location}
-                    />
-                  )}
+                  <WatchlistActions
+                    isLoggedIn={isLoggedIn}
+                    isDesktop={true}
+                    isList={isList}
+                    listType={props.location.hash}
+                    shareLink={window.location.href + '#shared'}
+                    isAuthor={isCurrentUserTheAuthor}
+                    id={listId}
+                    title={title}
+                    items={items}
+                    type={props.type}
+                    location={props.location}
+                  />
                 </div>
               </div>
               {isLoading && <PageLoader />}
