@@ -30,8 +30,10 @@ const WatchlistCard = ({
   isError,
   isLoading,
   watchlist,
-  onClick
+  onClick,
+  slugs
 }) => {
+  if (name === TRENDING_WATCHLIST_NAME && slugs.length === 0) return null
   const { marketcap: latestMarketcap } = stats.slice(-1)[0] || {}
   const { marketcap } = stats.slice(0, 1)[0] || {}
   const change = marketcap
