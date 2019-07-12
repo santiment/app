@@ -3,14 +3,18 @@ import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import GoogleAnalytics from 'react-ga'
 import Raven from 'raven-js'
-import { Panel, Label, Button, Input, Checkboxes } from '@santiment-network/ui'
+import Panel from '@santiment-network/ui/Panel/Panel'
+import Label from '@santiment-network/ui/Label'
+import Button from '@santiment-network/ui/Button'
+import Input from '@santiment-network/ui/Input'
+import Checkboxes from '@santiment-network/ui/Checkboxes'
 import { EMAIL_LOGIN_MUTATION } from './loginGQL'
 import { store } from '../../index'
 import { showNotification } from '../../actions/rootActions'
 import { SUBSCRIPTION_FLAG } from '../../epics/handleEmailLogin'
 import styles from './SubscriptionForm.module.scss'
 
-const SUBSCRIPTION_LABEL = 'Receive product updated and weekly newsletter'
+const SUBSCRIPTION_LABEL = 'Receive product updates and weekly newsletter'
 
 class SubscriptionForm extends PureComponent {
   state = {
@@ -110,7 +114,7 @@ class SubscriptionForm extends PureComponent {
         >
           <Input
             className={styles.subscription__input}
-            placeholder='Write your email'
+            placeholder='Enter your email'
             disabled={waiting}
             onChange={this.onEmailChangeDebounced}
             isError={error}
