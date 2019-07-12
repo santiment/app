@@ -27,3 +27,28 @@
     }
   }
 }
+
+.line {
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    background: red;
+    z-index: 2;
+  }
+
+  &::before {
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(var(--x));
+  }
+
+  &::after {
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform: translateY(var(--y));
+  }
+}

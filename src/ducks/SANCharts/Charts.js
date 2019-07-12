@@ -7,6 +7,7 @@ import {
   Tooltip,
   ReferenceArea
 } from 'recharts'
+import throttle from 'lodash.throttle'
 import Button from '@santiment-network/ui/Button'
 import { formatNumber, millify, labelFormatter } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
@@ -25,12 +26,25 @@ const CHART_MARGINS = {
   right: 18
 }
 
+function valueFormatter (value, name) {
+  if (name === Metrics.historyPrice.label) {
+    return formatNumber(value, { currency: 'USD' })
+  }
+
+  if (value > 900000) {
+    return millify(value, 2)
+  }
+
+  return value.toFixed ? value.toFixed(2) : value
+}
+
 class Charts extends React.Component {
   state = {
     leftZoomIndex: undefined,
     rightZoomIndex: undefined,
     refAreaLeft: undefined,
-    refAreaRight: undefined
+    refAreaRight: undefined,
+    activeCoordinate: {}
   }
 
   onZoom = () => {
@@ -61,9 +75,36 @@ class Charts extends React.Component {
     })
   }
 
+  onMouseEnter = () => {
+    // HACK(vanguard): Because 'recharts' lib does not expose correct point "Y" coordinate
+    this.xToYCoordinates = this.priceRef.current.mainCurve
+      .getAttribute('d')
+      .slice(1)
+      .split('L')
+      .reduce((acc, value) => {
+        const [x, y] = value.split(',')
+        acc[x] = y
+        return acc
+      }, {})
+  }
+
+  onMouseMove = throttle(e => {
+    if (!e) return
+    const { activeTooltipIndex, activeLabel, activeCoordinate } = e
+
+    this.setState({
+      refAreaRight: activeLabel,
+      rightZoomIndex: activeTooltipIndex,
+      x: activeCoordinate.x,
+      y: this.xToYCoordinates[activeCoordinate.x]
+    })
+  }, 16)
+
+  priceRef = React.createRef()
+
   render () {
     const { metrics, chartData = [], onZoomOut, title, isZoomed } = this.props
-    const { refAreaLeft, refAreaRight } = this.state
+    const { refAreaLeft, refAreaRight, activeCoordinate, x, y } = this.state
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart}>
@@ -74,10 +115,18 @@ class Charts extends React.Component {
             </Button>
           )}
           <div className={sharedStyles.title}>{title}</div>
+          <div
+            className={styles.line}
+            style={{
+              '--x': `${x}px`,
+              '--y': `${y}px`
+            }}
+          />
         </div>
         <ResponsiveContainer width='100%' height={300}>
           <ComposedChart
             margin={CHART_MARGINS}
+            onMouseEnter={this.onMouseEnter}
             onMouseDown={e => {
               if (!e) return
               const { activeTooltipIndex, activeLabel } = e
@@ -86,16 +135,7 @@ class Charts extends React.Component {
                 leftZoomIndex: activeTooltipIndex
               })
             }}
-            onMouseMove={e => {
-              if (!e) return
-              const { activeTooltipIndex, activeLabel } = e
-
-              this.state.refAreaLeft &&
-                this.setState({
-                  refAreaRight: activeLabel,
-                  rightZoomIndex: activeTooltipIndex
-                })
-            }}
+            onMouseMove={this.onMouseMove}
             onMouseUp={this.onZoom}
             data={chartData}
           >
@@ -106,7 +146,7 @@ class Charts extends React.Component {
               tickFormatter={tickFormatter}
             />
             <YAxis hide />
-            {generateMetricsMarkup(metrics)}
+            {generateMetricsMarkup(metrics, { historyPrice: this.priceRef })}
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
                 x1={refAreaLeft}
@@ -114,20 +154,6 @@ class Charts extends React.Component {
                 strokeOpacity={0.3}
               />
             )}
-            <Tooltip
-              labelFormatter={labelFormatter}
-              formatter={(value, name) => {
-                if (name === Metrics.historyPrice.label) {
-                  return formatNumber(value, { currency: 'USD' })
-                }
-
-                if (value > 900000) {
-                  return millify(value, 2)
-                }
-
-                return value.toFixed ? value.toFixed(2) : value
-              }}
-            />
             {mixWithPaywallArea({
               dataKey: 'priceUsd',
               domain: [0],
