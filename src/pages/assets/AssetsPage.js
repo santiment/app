@@ -7,6 +7,7 @@ import { getOrigin } from '../../utils/utils'
 import { getHelmetTags, getTableTitle, normalizeCSV } from './utils'
 import { isNotSafari } from '../../utils/utils'
 import { RANGES } from '../../components/WatchlistHistory/constants'
+import { TRENDING_WATCHLIST_NAME } from './assets-overview-constants'
 import GetAssets from './GetAssets'
 import AssetsTable from './AssetsTable'
 import HelpPopupAssets from './HelpPopupAssets'
@@ -59,7 +60,9 @@ const AssetsPage = props => {
               <div className='page-head page-head-projects'>
                 <div className='page-head-projects__left'>
                   <h1 className={styles.heading}>{title}</h1>
-                  <HelpPopupAssets />
+                  <HelpPopupAssets
+                    isTrendingWatchlist={title === TRENDING_WATCHLIST_NAME}
+                  />
                 </div>
                 <div className='page-head-projects__right'>
                   {isList && props.location.hash !== '#shared' && (
