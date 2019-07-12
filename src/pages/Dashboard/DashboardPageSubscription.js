@@ -5,10 +5,10 @@ import styles from './DashboardPage.module.scss'
 const DashboardPageSubscription = () => {
   return (
     <div className={styles.subscription}>
-      <div className={styles.subscription__title}>Advanced market research</div>
+      <div className={styles.subscription__title}>Market briefs done right</div>
       <div className={styles.subscription__text}>
-        Optimal way to be informed about fresh news and summaries from the world
-        of crypto
+        Receive curated news and exclusive Santiment analysis about the crypto
+        market
       </div>
       <SubscriptionForm />
     </div>
