@@ -54,7 +54,7 @@ class Charts extends React.Component {
     refAreaRight: undefined
   }
 
-  priceRef = React.createRef()
+  metricRef = React.createRef()
 
   onZoom = () => {
     let {
@@ -86,11 +86,11 @@ class Charts extends React.Component {
 
   getXToYCoordinates = () => {
     // HACK(vanguard): Because 'recharts' lib does not expose correct point "Y" coordinate
-    if (!this.priceRef.current || !this.priceRef.current.mainCurve) {
+    if (!this.metricRef.current || !this.metricRef.current.mainCurve) {
       return
     }
 
-    this.xToYCoordinates = this.priceRef.current.mainCurve
+    this.xToYCoordinates = this.metricRef.current.mainCurve
       .getAttribute('d')
       .slice(1)
       .split('L')
@@ -220,7 +220,9 @@ class Charts extends React.Component {
               tickFormatter={tickFormatter}
             />
             <YAxis hide />
-            {generateMetricsMarkup(metrics, { [tooltipMetric]: this.priceRef })}
+            {generateMetricsMarkup(metrics, {
+              ref: { [tooltipMetric]: this.metricRef }
+            })}
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
                 x1={refAreaLeft}
