@@ -184,7 +184,13 @@ export const App = ({
                   />
                 )
               }
-              return <LoadableAssetsMobilePage type={name} {...props} />
+              return (
+                <LoadableAssetsMobilePage
+                  type={name}
+                  isLoggedIn={isLoggedIn}
+                  {...props}
+                />
+              )
             }}
           />
         ))}

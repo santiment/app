@@ -25,6 +25,12 @@
   }
 }
 
+.shortLeft {
+  @include responsive('phone', 'phone-xs') {
+    max-width: 77%;
+  }
+}
+
 .icon {
   fill: var(--mirage);
 }
@@ -35,7 +41,7 @@
   color: var(--mirage);
   width: 100%;
 
-  @include responsive('desktop', 'laptop', 'tablet') {
+  @include responsive('desktop', 'laptop') {
     margin: 0 !important;
   }
 

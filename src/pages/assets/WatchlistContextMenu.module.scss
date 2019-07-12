@@ -1,5 +1,11 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   width: 180px;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
 }
 
 .block {
