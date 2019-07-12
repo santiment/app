@@ -23,12 +23,12 @@ const WatchlistActions = ({
   isDesktop,
   isLoggedIn
 }) => {
-  const isCategory = !isList || listType === '#shared'
   const hasCSV = isNotSafari && items && items.length > 0
 
   return (
     <>
-      {isCategory || !isLoggedIn ? (
+      {(!isList || (listType === '#shared' && !isAuthor) || !isLoggedIn) &&
+      isDesktop ? (
         <>
           <WatchlistCopyPopup
             id={id}
@@ -52,11 +52,15 @@ const WatchlistActions = ({
             </CSVLink>
           )}
         </>
-      ) : (
+        ) : (
         <>
-          <ShareModalTrigger shareLink={shareLink} />
-          {isAuthor && (
-            <WatchlistEditTrigger name={title} id={id} assets={items} />
+          {isDesktop && (
+            <>
+              <ShareModalTrigger shareLink={shareLink} />
+              {isAuthor && (
+                <WatchlistEditTrigger name={title} id={id} assets={items} />
+              )}
+            </>
           )}
           <WatchlistContextMenu
             isAuthor={isAuthor}
@@ -69,7 +73,7 @@ const WatchlistActions = ({
             isDesktop={isDesktop}
           />
         </>
-      )}
+        )}
     </>
   )
 }

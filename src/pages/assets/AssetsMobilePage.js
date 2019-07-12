@@ -2,17 +2,19 @@ import React from 'react'
 import cx from 'classnames'
 import { AutoSizer, List } from 'react-virtualized'
 import Label from '@santiment-network/ui/Label'
+import GetAssets, { SORT_TYPES } from './GetAssets'
+import { getTableTitle } from './utils'
+import { addRecentWatchlists, removeRecentWatchlists } from '../../utils/recent'
+import AssetCard from './AssetCard'
+import AssetsTemplates from './AssetsTemplates'
+import WatchlistActions from './WatchlistActions'
 import PageLoader from '../../components/Loader/PageLoader'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
-import GetAssets, { SORT_TYPES } from './GetAssets'
-import AssetCard from './AssetCard'
-import { getTableTitle } from './utils'
-import AssetsTemplates from './AssetsTemplates'
-import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
-import { addRecentWatchlists, removeRecentWatchlists } from '../../utils/recent'
 import styles from './AssetsMobilePage.module.scss'
 
 const AssetsMobilePage = props => {
+  const { isLoggedIn } = props
+  const isList = props.type === 'list'
   return (
     <div className={cx('page', styles.wrapper)}>
       <GetAssets
@@ -47,13 +49,19 @@ const AssetsMobilePage = props => {
                 title={title}
                 backRoute='/assets'
                 rightActions={
-                  isCurrentUserTheAuthor && (
-                    <WatchlistEditTrigger
-                      name={title}
-                      id={listId}
-                      assets={items}
-                    />
-                  )
+                  <WatchlistActions
+                    isLoggedIn={isLoggedIn}
+                    isDesktop={false}
+                    isList={isList}
+                    listType={props.location.hash}
+                    shareLink={window.location.href + '#shared'}
+                    isAuthor={isCurrentUserTheAuthor}
+                    id={listId}
+                    title={title}
+                    items={items}
+                    type={props.type}
+                    location={props.location}
+                  />
                 }
               />
               {items.length > 0 && (

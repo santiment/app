@@ -38,19 +38,19 @@ const WatchlistContextMenu = ({
             <WatchlistPublicityToggle />
           </div>
         )}
-        {!isDesktop && (
-          <WatchlistEdit
-            id={id}
-            assets={assets}
-            name={name}
-            trigger={
-              <Button variant='ghost' fluid>
-                Edit
-              </Button>
-            }
-          />
-        )}
         <div className={styles.block}>
+          {!isDesktop && isAuthor && (
+            <WatchlistEdit
+              id={id}
+              assets={assets}
+              name={name}
+              trigger={
+                <Button variant='ghost' fluid>
+                  Edit
+                </Button>
+              }
+            />
+          )}
           <WatchlistCopyPopup
             id={id}
             trigger={
