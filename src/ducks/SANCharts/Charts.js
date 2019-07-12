@@ -46,12 +46,25 @@ function valueFormatter (value, name) {
   return value && value.toFixed ? value.toFixed(2) : value
 }
 
+const PRICE_METRIC = 'historyPrice'
+
 class Charts extends React.Component {
   state = {
     leftZoomIndex: undefined,
     rightZoomIndex: undefined,
     refAreaLeft: undefined,
     refAreaRight: undefined
+  }
+
+  componentDidUpdate (prevProps) {
+    const { metrics } = this.props
+    if (metrics !== prevProps.metrics) {
+      this.setState({
+        tooltipMetric: metrics.includes(PRICE_METRIC)
+          ? PRICE_METRIC
+          : metrics[0]
+      })
+    }
   }
 
   metricRef = React.createRef()
@@ -121,10 +134,7 @@ class Charts extends React.Component {
       activePayload
     } = e
 
-    const tooltipMetric = this.props.metrics.includes('historyPrice')
-      ? 'historyPrice'
-      : this.props.metrics[0]
-
+    const { tooltipMetric } = this.state
     this.setState({
       activePayload,
       refAreaRight: activeLabel,
@@ -150,12 +160,9 @@ class Charts extends React.Component {
       xValue,
       yValue,
       activePayload,
-      hovered
+      hovered,
+      tooltipMetric
     } = this.state
-
-    const tooltipMetric = metrics.includes('historyPrice')
-      ? 'historyPrice'
-      : metrics[0]
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart}>
