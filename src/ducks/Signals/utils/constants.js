@@ -1,15 +1,34 @@
 export const REQUIRED_MESSAGE = 'Required'
 export const MUST_BE_MORE_ZERO_MESSAGE = 'Must be more 0'
 
+export const PRICE = 'price'
 export const ETH_WALLET = 'eth_wallet'
 export const DAILY_ACTIVE_ADDRESSES = 'daily_active_addresses'
 export const PRICE_PERCENT_CHANGE = 'price_percent_change'
 export const PRICE_ABSOLUTE_CHANGE = 'price_absolute_change'
+export const TRENDING_WORDS = 'trending_words'
 export const PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER =
   'price_absolute_change_single_border'
 export const PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER =
   'price_absolute_change_double_border'
 export const PRICE_VOLUME_DIFFERENCE = 'price_volume_difference'
+
+export const TRENDING_WORDS_PROJECT_MENTIONED = {
+  label: 'Trending asset(s)',
+  value: 'trending_project',
+  metric: 'trending_words'
+}
+
+export const TRENDING_WORDS_WORD_MENTIONED = {
+  label: 'Trending word(s)',
+  value: 'trending_word',
+  metric: 'trending_words'
+}
+
+export const TRENDING_WORDS_TYPE_OPTIONS = [
+  TRENDING_WORDS_PROJECT_MENTIONED,
+  TRENDING_WORDS_WORD_MENTIONED
+]
 
 export const ETH_WALLETS_OPERATIONS = {
   AMOUNT_DOWN: 'amount_down',
@@ -87,7 +106,16 @@ export const ETH_WALLET_METRIC = {
   hidden: true
 }
 
-export const PRICE_METRIC = { label: 'Price', value: 'price' }
+export const TRENDING_WORDS_METRIC = {
+  label: 'Trending words',
+  value: TRENDING_WORDS,
+  metric: TRENDING_WORDS
+}
+
+export const PRICE_METRIC = {
+  label: 'Price',
+  value: PRICE
+}
 export const DAILY_ACTIVE_ADDRESSES_METRIC = {
   label: 'Daily Active Addresses',
   value: DAILY_ACTIVE_ADDRESSES,
@@ -104,26 +132,27 @@ export const COOLDOWN_REGEXP = /([0-9]+)*([smhdw])/i
 export const METRICS_OPTIONS = [
   { ...PRICE_METRIC },
   { ...ETH_WALLET_METRIC },
-  // { label: 'Trending Words', value: 'trendingWords' },
+  // { ...TRENDING_WORDS_METRIC }, GarageInc: temporary disabled
   // { ...DAILY_ACTIVE_ADDRESSES_METRIC }, GarageInc: temporary disabled
   { ...PRICE_VOLUME_DIFFERENCE_METRIC }
 ]
 
-export const PRICE_TYPES = {
+export const METRIC_TO_TYPES = {
   price: [
     {
       label: 'Price changing',
-      options: [
-        PRICE_ABS_CHANGE_ABOVE,
-        PRICE_ABS_CHANGE_BELOW,
-        PRICE_ABS_CHANGE_INSIDE,
-        PRICE_ABS_CHANGE_OUTSIDE
-      ]
+      type: 'header'
     },
+    PRICE_ABS_CHANGE_ABOVE,
+    PRICE_ABS_CHANGE_BELOW,
+    PRICE_ABS_CHANGE_INSIDE,
+    PRICE_ABS_CHANGE_OUTSIDE,
     {
       label: 'Percent change',
-      options: [PRICE_PERCENT_CHANGE_UP_MODEL, PRICE_PERCENT_CHANGE_DOWN_MODEL]
-    }
+      type: 'header'
+    },
+    PRICE_PERCENT_CHANGE_UP_MODEL,
+    PRICE_PERCENT_CHANGE_DOWN_MODEL
   ],
   daily_active_addresses: [DAILY_ACTIVE_ADDRESSES_METRIC],
   price_volume_difference: [PRICE_VOLUME_DIFFERENCE_METRIC],
@@ -139,7 +168,8 @@ export const METRIC_TYPES_DEPENDENCIES = {
     'absoluteBorderLeft',
     'absoluteBorderRight'
   ],
-  eth_wallet: ['threshold', 'walletBalanceChangeType']
+  eth_wallet: ['threshold', 'walletBalanceChangeType'],
+  trending_words: []
 }
 
 export const frequencyTymeValueBuilder = value => {
@@ -219,10 +249,6 @@ export const DEFAULT_ASSETS_FILTER_MODEL = {
 export const ASSETS_FILTERS = [
   DEFAULT_ASSETS_FILTER_MODEL,
   {
-    label: 'Asset group',
-    value: ASSET_FILTER_TYPES.assetGroup
-  },
-  {
     label: 'Watchlist',
     value: ASSET_FILTER_TYPES.watchlist
   }
@@ -230,6 +256,11 @@ export const ASSETS_FILTERS = [
 
 export const BASE_THRESHOLD = 0.002
 export const BASE_PERCENT_THRESHOLD = 5
+
+const DEFAULT_TARGET = {
+  value: 'santiment',
+  label: 'santiment'
+}
 
 export const METRIC_DEFAULT_VALUES = {
   price_absolute_change: {
@@ -242,7 +273,8 @@ export const METRIC_DEFAULT_VALUES = {
     timeWindowUnit: { label: 'Days', value: 'd' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
-    channels: ['Telegram']
+    channels: ['Telegram'],
+    target: DEFAULT_TARGET
   },
   price_percent_change: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
@@ -255,7 +287,8 @@ export const METRIC_DEFAULT_VALUES = {
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
     channels: ['Telegram'],
-    absoluteThreshold: 25
+    absoluteThreshold: 25,
+    target: DEFAULT_TARGET
   },
   daily_active_addresses: {
     frequencyType: { ...FREQUENCY_TYPE_DAILY_MODEL },
@@ -267,7 +300,8 @@ export const METRIC_DEFAULT_VALUES = {
     timeWindowUnit: { label: 'Days', value: 'd' },
     type: { ...DAILY_ACTIVE_ADDRESSES_METRIC },
     isRepeating: true,
-    channels: ['Telegram']
+    channels: ['Telegram'],
+    target: DEFAULT_TARGET
   },
   price_volume_difference: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
@@ -276,7 +310,8 @@ export const METRIC_DEFAULT_VALUES = {
     threshold: BASE_THRESHOLD,
     type: { ...PRICE_VOLUME_DIFFERENCE_METRIC },
     isRepeating: true,
-    channels: ['Telegram']
+    channels: ['Telegram'],
+    target: DEFAULT_TARGET
   },
   eth_wallet: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
@@ -287,17 +322,20 @@ export const METRIC_DEFAULT_VALUES = {
     isRepeating: true,
     channels: ['Telegram'],
     percentThreshold: 200,
-    timeWindow: 24
+    timeWindow: 24,
+    target: DEFAULT_TARGET
+  },
+  trending_words: {
+    type: { ...TRENDING_WORDS_WORD_MENTIONED },
+    channels: ['Telegram'],
+    target: DEFAULT_TARGET
   }
 }
 
 export const DEFAULT_FORM_META_SETTINGS = {
   target: {
     isDisabled: false,
-    value: {
-      value: 'santiment',
-      label: 'santiment'
-    }
+    value: DEFAULT_TARGET
   },
   metric: {
     isDisabled: false,
