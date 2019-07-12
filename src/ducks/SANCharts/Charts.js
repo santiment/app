@@ -107,7 +107,7 @@ class Charts extends React.Component {
 
   getXToYCoordinates = () => {
     // HACK(vanguard): Because 'recharts' lib does not expose correct point "Y" coordinate
-    if (!this.metricRef.current || !this.metricRef.current.mainCurve) {
+    if (!(this.metricRef.current && this.metricRef.current.mainCurve)) {
       return
     }
 
