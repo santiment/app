@@ -8,7 +8,7 @@ import PageLoader from '../../components/Loader/PageLoader'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import InsightUnAuthPage from './../../pages/Insights/InsightUnAuthPage'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import { TelegramAlert } from '../../components/Telegram/TelegramAlert'
+import TelegramAlert from '../../components/Telegram/TelegramAlert'
 import { MobileOnly } from './../../components/Responsive'
 import styles from './SonarFeedPage.module.scss'
 
