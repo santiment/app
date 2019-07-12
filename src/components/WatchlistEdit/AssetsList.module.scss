@@ -4,6 +4,7 @@
 
 .wrapperList {
   position: relative;
+  outline: none;
 
   &::after {
     content: '';
@@ -33,4 +34,8 @@
 
 .actionBtn {
   margin-right: 10px;
+}
+
+.list {
+  outline: none;
 }

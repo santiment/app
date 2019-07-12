@@ -48,9 +48,18 @@ const getTimeWindowUnit = timeWindow => {
 }
 
 const getFormTriggerTarget = target => {
-  // TODO: only for one asset as target
   const { slug } = target
-  return { value: slug, label: slug }
+
+  if (!slug) {
+    return undefined
+  }
+
+  return Array.isArray(slug)
+    ? mapToOptions(slug)
+    : {
+      value: slug,
+      label: slug
+    }
 }
 
 const getFormTriggerType = (type, operation) => {
@@ -247,14 +256,9 @@ const getFormTrendingWords = ({ settings: { operation, target } }) => {
   const operationType = getOperationType(operation)
 
   switch (operationType) {
-    case TRENDING_WORDS_PROJECT_MENTIONED.value: {
-      return {
-        trendingWordsWithAssets: mapToOptions(target.slug)
-      }
-    }
     case TRENDING_WORDS_WORD_MENTIONED.value: {
       return {
-        trendingWordsWithWords: mapToOptions(target.word)
+        trendingWordsWithWords: target.word
       }
     }
     default: {
@@ -395,9 +399,9 @@ export const getTrendingWordsTriggerOperation = ({ type: { value } }) => ({
 
 export const mapTrendingWordsTargets = items => {
   if (items.length === 1) {
-    return items[0].value
+    return items[0].value || items[0].slug
   } else {
-    return items.map(item => item.value)
+    return items.map(item => item.value || item.slug)
   }
 }
 

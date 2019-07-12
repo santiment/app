@@ -6,7 +6,6 @@ import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSe
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import Label from '@santiment-network/ui/Label'
 import { ASSETS_FILTERS, ETH_WALLET_METRIC } from '../../../utils/constants'
-import { TriggerProjectsSelector } from './TriggerProjectsSelector'
 import {
   ALL_ERC20_PROJECTS_QUERY,
   allProjectsForSearchGQL
@@ -78,6 +77,17 @@ const TriggerFormAssetWallet = ({
   const selectableProjects =
     canUseMappedErc20 && assets.length > 0 ? assets : allList
 
+  const { ethAddress, target: defaultAsset } = metaFormSettings
+
+  if (
+    target &&
+    target.value &&
+    selectableProjects.length > 0 &&
+    !selectableProjects.find(p => p.value === target.value)
+  ) {
+    setFieldValue('target', '')
+  }
+
   return (
     <div className={styles.row}>
       {!isEthWallet && (
@@ -112,13 +122,24 @@ const TriggerFormAssetWallet = ({
 
       <div className={styles.Field}>
         <Label className={styles.label}>&nbsp;</Label>
-        <TriggerProjectsSelector
-          metaFormSettings={metaFormSettings}
-          heldByWallet={heldAssets}
-          setFieldValue={setFieldValue}
-          target={target}
-          projects={selectableProjects}
+        <FormikSelect
+          name='target'
+          disabled={defaultAsset.isDisabled}
+          defaultValue={defaultAsset.value.value}
+          placeholder='Pick an asset'
+          required
+          options={selectableProjects}
           onChange={newAsset => {
+            if (ethAddress) {
+              if (
+                metaFormSettings.target.value.value === newAsset.value ||
+                heldAssets.find(a => a.value === newAsset.value)
+              ) {
+                setFieldValue('ethAddress', ethAddress)
+              } else {
+                setFieldValue('ethAddress', '')
+              }
+            }
             if (
               isDisabledWalletAddressField(
                 canUseMappedErc20,

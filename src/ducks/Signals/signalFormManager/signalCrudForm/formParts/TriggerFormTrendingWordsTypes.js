@@ -10,15 +10,20 @@ import {
   TRENDING_WORDS_WORD_MENTIONED
 } from '../../../utils/constants'
 import { allProjectsForSearchGQL } from '../../../../../pages/Projects/allProjectsGQL'
-import { mapToAssets } from '../../../utils/utils'
 import styles from '../signal/TriggerForm.module.scss'
+import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelector'
+import { mapToAssets } from '../../../utils/utils'
 
 const TriggerFormTrendingWordsTypes = ({
   data: { allProjects = [] } = {},
-  values: { type }
+  values: { type, trendingWordsWithAssets },
+  values,
+  setFieldValue
 }) => {
   const isProjects = type.value === TRENDING_WORDS_PROJECT_MENTIONED.value
   const isWords = type.value === TRENDING_WORDS_WORD_MENTIONED.value
+
+  console.log(trendingWordsWithAssets)
 
   return (
     <div>
@@ -43,12 +48,11 @@ const TriggerFormTrendingWordsTypes = ({
           </Label>
 
           {isProjects && (
-            <FormikSelect
-              multi={true}
+            <TriggerProjectsSelector
               name='trendingWordsWithAssets'
-              backspaceRemoves={true}
-              placeholder='Pick a asset(s)'
-              options={allProjects}
+              values={values}
+              projects={allProjects}
+              setFieldValue={setFieldValue}
             />
           )}
           {isWords && (
@@ -58,7 +62,7 @@ const TriggerFormTrendingWordsTypes = ({
               name='trendingWordsWithWords'
               placeholder='Pick a word(s)'
               backspaceRemoves={true}
-              options={allProjects}
+              options={mapToAssets(allProjects, false)}
             />
           )}
         </div>
@@ -72,7 +76,7 @@ const mapDataToProps = ({ Projects: { allProjects }, ownProps }) => {
   return {
     ...ownProps,
     data: {
-      allProjects: mapToAssets(allProjects, false) || data.allProjects
+      allProjects: allProjects || data.allProjects
     }
   }
 }

@@ -35,7 +35,7 @@ import Label from '@santiment-network/ui/Label'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import TriggerMetricTypesResolver from '../formParts/TriggerMetricTypesResolver'
 import styles from './TriggerForm.module.scss'
-import { MetricOptionsRenderer } from '../formParts/MetricOptionsRenderer'
+import { MetricOptionsRenderer } from '../formParts/MetricOptions/MetricOptionsRenderer'
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
