@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { compose } from 'redux'
-import { graphql } from 'react-apollo'
+import React from 'react'
 import PropTypes from 'prop-types'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import Label from '@santiment-network/ui/Label'
-import { ASSETS_FILTERS } from '../../../utils/constants'
-import { allProjectsForSearchGQL } from '../../../../../pages/Projects/allProjectsGQL'
+import {
+  METRIC_TARGET_OPTIONS,
+  METRIC_TARGET_ASSETS,
+  METRIC_TARGET_WATCHLIST
+} from '../../../utils/constants'
+import GetWatchlists from '../../../../Watchlists/GetWatchlists'
+import GetProjects from '../../../common/projects/getProjects'
 import { mapToAssets } from '../../../utils/utils'
 import styles from '../signal/TriggerForm.module.scss'
 
@@ -14,18 +17,15 @@ const propTypes = {
 }
 
 const TriggerFormAssetWallet = ({
-  data: { allProjects = [] } = {},
-  metaFormSettings
+  metaFormSettings,
+  values: { signalType }
 }) => {
   const defaultSignalType = metaFormSettings.signalType
 
-  const [allList, setAll] = useState(allProjects)
-
-  useEffect(() => {
-    allProjects.length && setAll(allProjects)
-  })
-
   const { target: defaultAsset } = metaFormSettings
+
+  const isAsset = signalType.value === METRIC_TARGET_ASSETS.value
+  const isWatchlist = signalType.value === METRIC_TARGET_WATCHLIST.value
 
   return (
     <div className={styles.row}>
@@ -38,47 +38,55 @@ const TriggerFormAssetWallet = ({
           disabled={defaultSignalType.isDisabled}
           defaultValue={defaultSignalType.value.value}
           placeholder={'Pick signal type'}
-          options={ASSETS_FILTERS}
+          options={METRIC_TARGET_OPTIONS}
         />
       </div>
 
-      <div className={styles.Field}>
-        <Label className={styles.label}>&nbsp;</Label>
-        <FormikSelect
-          name='target'
-          disabled={defaultAsset.isDisabled}
-          defaultValue={defaultAsset.value.value}
-          placeholder='Pick an asset'
-          required
-          options={allList}
-        />
-      </div>
+      {isAsset && (
+        <div className={styles.Field}>
+          <Label className={styles.label}>&nbsp;</Label>
+          <GetProjects
+            render={({ isLoading, allProjects }) => {
+              return (
+                <FormikSelect
+                  isLoading={isLoading}
+                  name='target'
+                  disabled={defaultAsset.isDisabled}
+                  defaultValue={defaultAsset.value.value}
+                  placeholder='Pick an asset'
+                  required
+                  options={mapToAssets(allProjects, false)}
+                />
+              )
+            }}
+          />
+        </div>
+      )}
+
+      {isWatchlist && (
+        <div className={styles.Field}>
+          <Label className={styles.label}>&nbsp;</Label>
+          <GetWatchlists
+            render={({ isWatchlistsLoading, watchlists }) => {
+              return (
+                <FormikSelect
+                  isLoading={isWatchlistsLoading}
+                  name='target'
+                  placeholder='Pick an watchlist'
+                  required
+                  valueKey='id'
+                  labelKey='name'
+                  options={watchlists}
+                />
+              )
+            }}
+          />
+        </div>
+      )}
     </div>
   )
 }
 
-const mapDataToProps = ({ Projects: { allProjects }, ownProps }) => {
-  const { data = {} } = ownProps
-  return {
-    ...ownProps,
-    data: {
-      allProjects: mapToAssets(allProjects, false) || data.allProjects
-    }
-  }
-}
-
-const enhance = compose(
-  graphql(allProjectsForSearchGQL, {
-    name: 'Projects',
-    props: mapDataToProps,
-    options: () => {
-      return {
-        errorPolicy: 'all'
-      }
-    }
-  })
-)
-
 TriggerFormAssetWallet.propTypes = propTypes
 
-export default enhance(TriggerFormAssetWallet)
+export default TriggerFormAssetWallet

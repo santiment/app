@@ -235,23 +235,18 @@ export const FREQUENCY_TIME_TYPE_DAILY_MODEL = {
   value: FREQUENCY_VALUES_TYPES.days
 }
 
-const ASSET_FILTER_TYPES = {
-  asset: 'assets',
-  assetGroup: 'assetGroup',
-  watchlist: 'watchlist'
-}
-
-export const DEFAULT_ASSETS_FILTER_MODEL = {
+export const METRIC_TARGET_ASSETS = {
   label: 'Assets',
-  value: ASSET_FILTER_TYPES.asset
+  value: 'assets'
+}
+export const METRIC_TARGET_WATCHLIST = {
+  label: 'Watchlist',
+  value: 'watchlist'
 }
 
-export const ASSETS_FILTERS = [
-  DEFAULT_ASSETS_FILTER_MODEL,
-  {
-    label: 'Watchlist',
-    value: ASSET_FILTER_TYPES.watchlist
-  }
+export const METRIC_TARGET_OPTIONS = [
+  METRIC_TARGET_ASSETS,
+  METRIC_TARGET_WATCHLIST
 ]
 
 export const BASE_THRESHOLD = 0.002
@@ -351,7 +346,7 @@ export const DEFAULT_FORM_META_SETTINGS = {
   },
   signalType: {
     isDisabled: true,
-    value: { ...DEFAULT_ASSETS_FILTER_MODEL }
+    value: { ...METRIC_TARGET_ASSETS }
   }
 }
 

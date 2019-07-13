@@ -17,6 +17,8 @@ const FormikSelect = ({
   disabled = false,
   placeholder,
   onChange,
+  labelKey = 'label',
+  valueKey = 'value',
   isLoading = false,
   ...rest
 }) => {
@@ -42,8 +44,8 @@ const FormikSelect = ({
                 classNamePrefix='react-select'
                 options={options}
                 isLoading={isLoading}
-                valueKey='value'
-                labelKey='label'
+                valueKey={valueKey}
+                labelKey={labelKey}
                 backspaceRemoves={backspaceRemoves}
                 minimumInput={1}
                 onChange={value => {
