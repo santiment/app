@@ -34,16 +34,16 @@ export const TriggerProjectsSelector = ({
 
   useEffect(
     () => {
-      if (
-        (!fieldValueList || fieldValueList.length === 0) &&
-        target.length > 0 &&
-        projects.length > 0
-      ) {
-        const preSelected = projects.filter(item => {
-          return target.some(t => t.value === item.slug)
-        })
+      if (!fieldValueList || fieldValueList.length === 0) {
+        const targetAssets = Array.isArray(target) ? target : [target]
 
-        selected(preSelected)
+        if (targetAssets.length > 0 && projects.length > 0) {
+          const preSelected = projects.filter(item => {
+            return targetAssets.some(t => t.value === item.slug)
+          })
+
+          selected(preSelected)
+        }
       }
     },
     [target]

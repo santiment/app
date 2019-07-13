@@ -25,7 +25,10 @@ const TriggerFormTrendingWordsTypes = ({
 
   const getWords = () => {
     const defaultOptions = mapToAssets(allProjects, false)
-    return [...mapToOptions(trendingWordsWithWords), ...defaultOptions]
+    const preselectedWords = Array.isArray(trendingWordsWithWords)
+      ? trendingWordsWithWords
+      : [trendingWordsWithWords]
+    return [...mapToOptions(preselectedWords), ...defaultOptions]
   }
 
   const [words] = useState(getWords())
