@@ -10,13 +10,13 @@ import {
   ALL_ERC20_PROJECTS_QUERY,
   allProjectsForSearchGQL
 } from '../../../../../pages/Projects/allProjectsGQL'
-import styles from '../signal/TriggerForm.module.scss'
 import { ASSETS_BY_WALLET_QUERY } from '../../../../HistoricalBalance/common/queries'
 import {
   mapAssetsHeldByAddressToProps,
   mapToAssets,
   isPossibleEthAddress
 } from '../../../utils/utils'
+import styles from '../signal/TriggerForm.module.scss'
 
 const isDisabledWalletAddressField = (
   canUseMappedErc20,
@@ -26,14 +26,13 @@ const isDisabledWalletAddressField = (
   if (canUseMappedErc20) {
     return false
   }
+  if (!target || !target.value) {
+    return false
+  }
 
-  return (
-    !target ||
-    !target.value ||
-    !(
-      target.value === 'ethereum' ||
-      allErc20Projects.find(x => x.value === target.value)
-    )
+  return !(
+    target.value === 'ethereum' ||
+    allErc20Projects.find(x => x.value === target.value)
   )
 }
 
@@ -53,7 +52,8 @@ const TriggerFormAssetWallet = ({
   assets = [],
   setFieldValue,
   byAddress = '',
-  values: { metric, target }
+  values: { metric, target },
+  values
 }) => {
   const defaultSignalType = metaFormSettings.signalType
   const isEthWallet = metric.value === ETH_WALLET_METRIC.value
@@ -68,7 +68,7 @@ const TriggerFormAssetWallet = ({
     assets.length && setHeldAssets(assets)
   })
 
-  const canUseMappedErc20 = !!byAddress && assets.length > 0
+  const canUseMappedErc20 = isEthWallet && !!byAddress && assets.length > 0
   const disabledWalletField = isDisabledWalletAddressField(
     canUseMappedErc20,
     target,
@@ -130,24 +130,26 @@ const TriggerFormAssetWallet = ({
           required
           options={selectableProjects}
           onChange={newAsset => {
-            if (ethAddress) {
+            if (isEthWallet) {
+              if (ethAddress) {
+                if (
+                  metaFormSettings.target.value.value === newAsset.value ||
+                  heldAssets.find(a => a.value === newAsset.value)
+                ) {
+                  setFieldValue('ethAddress', ethAddress)
+                } else {
+                  setFieldValue('ethAddress', '')
+                }
+              }
               if (
-                metaFormSettings.target.value.value === newAsset.value ||
-                heldAssets.find(a => a.value === newAsset.value)
+                isDisabledWalletAddressField(
+                  canUseMappedErc20,
+                  newAsset,
+                  erc20List
+                )
               ) {
-                setFieldValue('ethAddress', ethAddress)
-              } else {
                 setFieldValue('ethAddress', '')
               }
-            }
-            if (
-              isDisabledWalletAddressField(
-                canUseMappedErc20,
-                newAsset,
-                erc20List
-              )
-            ) {
-              setFieldValue('ethAddress', '')
             }
           }}
         />
@@ -161,39 +163,17 @@ const mapDataToProps = ({
   ownProps
 }) => {
   const { data = {} } = ownProps
-
-  if (allProjects) {
-    return {
-      ...ownProps,
-      data: {
-        allProjects: mapToAssets(allProjects, false) || data.allProjects
-      }
+  return {
+    ...ownProps,
+    data: {
+      allErc20Projects: mapToAssets(allErc20Projects) || data.allErc20Projects,
+      allProjects: mapToAssets(allProjects, false) || data.allProjects
     }
-  }
-
-  if (allErc20Projects) {
-    return {
-      ...ownProps,
-      data: {
-        allErc20Projects: mapToAssets(allErc20Projects) || data.allErc20Projects
-      }
-    }
-  }
-
-  return ownProps
-}
-
-const pickGQL = type => {
-  switch (type) {
-    case 'erc20':
-      return ALL_ERC20_PROJECTS_QUERY
-    default:
-      return allProjectsForSearchGQL
   }
 }
 
 const enhance = compose(
-  graphql(pickGQL('all'), {
+  graphql(allProjectsForSearchGQL, {
     name: 'Projects',
     props: mapDataToProps,
     options: () => {
@@ -202,7 +182,7 @@ const enhance = compose(
       }
     }
   }),
-  graphql(pickGQL('erc20'), {
+  graphql(ALL_ERC20_PROJECTS_QUERY, {
     name: 'Projects',
     props: mapDataToProps,
     options: () => {

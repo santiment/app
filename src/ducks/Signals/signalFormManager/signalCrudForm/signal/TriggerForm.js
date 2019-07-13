@@ -237,7 +237,7 @@ export const TriggerForm = ({
               </div>
 
               <div className={styles.row}>
-                <div className={styles.Field}>
+                <div className={cx(styles.Field, styles.fieldFilled)}>
                   <Label accent='waterloo' className={styles.label}>
                     Notify me via
                   </Label>
@@ -259,14 +259,13 @@ export const TriggerForm = ({
                       </Button>
                     )}
                   </div>
+                  {errors.channels && (
+                    <div className={cx(styles.row, styles.messages)}>
+                      <Message variant='warn'>{errors.channels}</Message>
+                    </div>
+                  )}
                 </div>
               </div>
-
-              {errors.channels && (
-                <div className={cx(styles.row, styles.messages)}>
-                  <Message variant='warn'>{errors.channels}</Message>
-                </div>
-              )}
             </div>
 
             <div className={styles.controls}>

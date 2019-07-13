@@ -23,6 +23,7 @@ const AssetsList = ({
           <Label accent='waterloo'>({ticker})</Label>
         </div>
         <Button
+          type='button'
           className={styles.actionBtn}
           accent={isContained ? 'grey' : 'positive'}
           disabled={isContained ? false : isAssetInList}

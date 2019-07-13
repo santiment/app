@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
+import Icon from '@santiment-network/ui/Icon'
 import SearchProjects from '../../../../../../components/Search/SearchProjects'
 import AssetsList from '../../../../../../components/WatchlistEdit/AssetsList'
 import { hasAssetById } from '../../../../../../components/WatchlistPopup/WatchlistsPopup'
@@ -8,8 +9,9 @@ import styles from './TriggerProjectsSelector.module.scss'
 export const TriggerProjectsSelector = ({
   projects = [],
   setFieldValue,
-  metaFormSettings,
-  values: { trendingWordsWithAssets, target },
+  onChange,
+  fieldValueList,
+  values: { target = [] },
   name
 }) => {
   const [isOpen, setOpen] = useState(false)
@@ -17,38 +19,50 @@ export const TriggerProjectsSelector = ({
   const [listItems, setListItems] = useState([])
 
   const toggleAsset = ({ project, listItems, isAssetInList }) => {
-    setListItems(
+    selected(
       isAssetInList
         ? listItems.filter(({ id }) => id !== project.id)
         : [...listItems, project]
     )
-
-    setFieldValue(name, listItems)
   }
 
-  useEffect(() => {
-    if (
-      (!trendingWordsWithAssets || trendingWordsWithAssets.length === 0) &&
-      target.length > 0 &&
-      projects.length > 0
-    ) {
-      const preSelected = projects.filter(item => {
-        return target.some(t => t.value === item.slug)
-      })
+  const selected = selectedAssets => {
+    listItems.length !== selectedAssets.length && setListItems(selectedAssets)
+    setFieldValue(name, selectedAssets)
+    onChange && onChange(selectedAssets)
+  }
 
-      setListItems(preSelected)
-      setFieldValue(name, preSelected)
-    }
-  })
+  useEffect(
+    () => {
+      if (
+        (!fieldValueList || fieldValueList.length === 0) &&
+        target.length > 0 &&
+        projects.length > 0
+      ) {
+        const preSelected = projects.filter(item => {
+          return target.some(t => t.value === item.slug)
+        })
+
+        selected(preSelected)
+      }
+    },
+    [target]
+  )
 
   const close = () => {
     setOpen(false)
   }
   const open = () => setOpen(true)
   const applyChanges = () => {
-    setFieldValue(name, listItems)
+    selected(listItems)
     close()
   }
+  const onSuggestionSelect = project =>
+    toggleAsset({
+      project,
+      listItems,
+      isAssetInList: hasAssetById({ listItems, id: project.id })
+    })
 
   const checkedAssetsAsSet = new Set(listItems)
 
@@ -56,8 +70,18 @@ export const TriggerProjectsSelector = ({
     <Dialog
       title='Select assets'
       trigger={
-        <div className={styles.assetsSelect}>
-          {<AssetsListDescription assets={listItems} />}
+        <div>
+          <div className={styles.assetsSelect}>
+            {
+              <AssetsListDescription
+                assets={listItems}
+                onRemove={onSuggestionSelect}
+              />
+            }
+          </div>
+          {listItems.length === 0 && (
+            <div className='error error-message'>Please, pick an asset(s)</div>
+          )}
         </div>
       }
       onOpen={open}
@@ -67,17 +91,12 @@ export const TriggerProjectsSelector = ({
     >
       <Dialog.ScrollContent className={styles.wrapper}>
         <SearchProjects
+          searchIconPosition='left'
           className={styles.search}
           projectsList={projects}
           suggestionsProps={{ style: { zIndex: 50 } }}
           checkedAssets={checkedAssetsAsSet}
-          onSuggestionSelect={project =>
-            toggleAsset({
-              project,
-              listItems,
-              isAssetInList: hasAssetById({ listItems, id: project.id })
-            })
-          }
+          onSuggestionSelect={onSuggestionSelect}
         />
         <div className={styles.contentWrapper}>
           <AssetsList
@@ -102,11 +121,7 @@ export const TriggerProjectsSelector = ({
         <Dialog.Cancel border={false} accent='grey' onClick={close}>
           Cancel
         </Dialog.Cancel>
-        <Dialog.Approve
-          disabled={listItems.length === 0}
-          variant='flat'
-          onClick={applyChanges}
-        >
+        <Dialog.Approve variant='flat' onClick={applyChanges}>
           Apply
         </Dialog.Approve>
       </Dialog.Actions>
@@ -114,7 +129,11 @@ export const TriggerProjectsSelector = ({
   )
 }
 
-const AssetsListDescription = ({ assets, label = 'Pick an asset(s)' }) => {
+const AssetsListDescription = ({
+  assets,
+  label = 'Pick an asset(s)',
+  onRemove
+}) => {
   if (!assets || !assets.length) {
     return label
   }
@@ -126,6 +145,15 @@ const AssetsListDescription = ({ assets, label = 'Pick an asset(s)' }) => {
           <span className={styles.asset} key={asset.id}>
             <span className={styles.name}>{asset.name}</span>
             <span className={styles.ticker}>{asset.ticker}</span>
+            <Icon
+              onClick={e => {
+                e.preventDefault()
+                e.stopPropagation()
+                onRemove(asset)
+              }}
+              type='close'
+              className={styles.closeIcon}
+            />
           </span>
         )
       })}

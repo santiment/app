@@ -239,7 +239,7 @@ const mapTriggerToFormThreshold = ({ threshold, operation }) => {
   return newThreshold
 }
 
-const mapToOptions = items => {
+export const mapToOptions = items => {
   return items
     ? items.map(item => ({
       label: item,
@@ -369,10 +369,13 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
 }
 
 export const mapTriggerTarget = (target, address, isEthWalletTrigger) => {
-  let newTarget = { slug: target.value }
-
+  let newTarget = {}
   if (isEthWalletTrigger && address) {
     newTarget = { eth_address: address }
+  } else {
+    newTarget = Array.isArray(target)
+      ? target.map(t => t.slug)
+      : { slug: target.value }
   }
 
   return {
@@ -731,7 +734,10 @@ export const validateTriggerForm = ({
       errors.trendingWordsWithWords = REQUIRED_MESSAGE
     }
   } else {
-    if (!target || !target.value) {
+    if (
+      !target ||
+      (Array.isArray(target) ? target.length === 0 : !target.value)
+    ) {
       errors.target = REQUIRED_MESSAGE
     }
   }

@@ -17,6 +17,10 @@
   }
 }
 
+.alert {
+  color: var(--persimmon);
+}
+
 .wrapper {
   padding: 12px 0 0 20px;
   width: 318px;
@@ -67,6 +71,17 @@
 }
 
 .asset {
-  margin-right: 10px;
+  margin-right: 20px;
   display: inline-block;
+}
+
+.closeIcon {
+  width: 7px;
+  position: relative;
+  left: 5px;
+  top: 1px;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
 }

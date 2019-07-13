@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { compose } from 'redux'
 import { graphql } from 'react-apollo'
 import cx from 'classnames'
@@ -12,18 +12,23 @@ import {
 import { allProjectsForSearchGQL } from '../../../../../pages/Projects/allProjectsGQL'
 import styles from '../signal/TriggerForm.module.scss'
 import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelector'
-import { mapToAssets } from '../../../utils/utils'
+import { mapToAssets, mapToOptions } from '../../../utils/utils'
 
 const TriggerFormTrendingWordsTypes = ({
   data: { allProjects = [] } = {},
-  values: { type, trendingWordsWithAssets },
+  values: { type, trendingWordsWithAssets, trendingWordsWithWords },
   values,
   setFieldValue
 }) => {
   const isProjects = type.value === TRENDING_WORDS_PROJECT_MENTIONED.value
   const isWords = type.value === TRENDING_WORDS_WORD_MENTIONED.value
 
-  console.log(trendingWordsWithAssets)
+  const getWords = () => {
+    const defaultOptions = mapToAssets(allProjects, false)
+    return [...mapToOptions(trendingWordsWithWords), ...defaultOptions]
+  }
+
+  const [words] = useState(getWords())
 
   return (
     <div>
@@ -50,6 +55,7 @@ const TriggerFormTrendingWordsTypes = ({
           {isProjects && (
             <TriggerProjectsSelector
               name='trendingWordsWithAssets'
+              fieldValueList={trendingWordsWithAssets}
               values={values}
               projects={allProjects}
               setFieldValue={setFieldValue}
@@ -62,7 +68,7 @@ const TriggerFormTrendingWordsTypes = ({
               name='trendingWordsWithWords'
               placeholder='Pick a word(s)'
               backspaceRemoves={true}
-              options={mapToAssets(allProjects, false)}
+              options={words}
             />
           )}
         </div>
