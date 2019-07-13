@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Icon from '@santiment-network/ui/Icon'
 import SearchProjects from '../../../../../../components/Search/SearchProjects'
-import AssetsList from '../../../../../../components/WatchlistEdit/AssetsList'
 import { hasAssetById } from '../../../../../../components/WatchlistPopup/WatchlistsPopup'
+import ProjectsList from './ProjectsList'
 import styles from './TriggerProjectsSelector.module.scss'
 
 export const TriggerProjectsSelector = ({
@@ -53,10 +53,7 @@ export const TriggerProjectsSelector = ({
     setOpen(false)
   }
   const open = () => setOpen(true)
-  const applyChanges = () => {
-    selected(listItems)
-    close()
-  }
+
   const onSuggestionSelect = project =>
     toggleAsset({
       project,
@@ -68,6 +65,7 @@ export const TriggerProjectsSelector = ({
 
   return (
     <Dialog
+      showCloseBtn={false}
       title='Select assets'
       trigger={
         <div>
@@ -87,7 +85,6 @@ export const TriggerProjectsSelector = ({
       onOpen={open}
       onClose={close}
       open={isOpen}
-      showCloseBtn={true}
     >
       <Dialog.ScrollContent className={styles.wrapper}>
         <SearchProjects
@@ -99,30 +96,32 @@ export const TriggerProjectsSelector = ({
           onSuggestionSelect={onSuggestionSelect}
         />
         <div className={styles.contentWrapper}>
-          <AssetsList
+          <ProjectsList
             classes={styles}
             isContained={true}
             items={listItems}
-            listItems={listItems}
-            onToggleProject={toggleAsset}
+            onToggleProject={project => {
+              toggleAsset({
+                project,
+                listItems,
+                isAssetInList: true
+              })
+            }}
           />
           <div className={styles.divider} />
-          <AssetsList
+          <ProjectsList
             classes={styles}
             items={projects}
-            listItems={listItems}
-            onToggleProject={toggleAsset}
+            onToggleProject={project => {
+              toggleAsset({
+                project,
+                listItems,
+                isAssetInList: false
+              })
+            }}
           />
         </div>
       </Dialog.ScrollContent>
-      <Dialog.Actions className={styles.actions}>
-        <Dialog.Cancel border={false} accent='grey' onClick={close}>
-          Cancel
-        </Dialog.Cancel>
-        <Dialog.Approve variant='flat' onClick={applyChanges}>
-          Apply
-        </Dialog.Approve>
-      </Dialog.Actions>
     </Dialog>
   )
 }
