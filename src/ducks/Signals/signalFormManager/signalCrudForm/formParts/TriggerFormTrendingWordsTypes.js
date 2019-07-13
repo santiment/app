@@ -7,10 +7,10 @@ import {
   TRENDING_WORDS_TYPE_OPTIONS,
   TRENDING_WORDS_WORD_MENTIONED
 } from '../../../utils/constants'
-import styles from '../signal/TriggerForm.module.scss'
 import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelector'
 import { mapToAssets, mapToOptions } from '../../../utils/utils'
 import GetProjects from '../../../common/projects/getProjects'
+import styles from '../signal/TriggerForm.module.scss'
 
 const getWords = (allProjects, trendingWordsWithWords) => {
   const defaultOptions = mapToAssets(allProjects, false)
@@ -55,10 +55,6 @@ const TriggerFormTrendingWordsTypes = ({
 
             <div className={styles.row}>
               <div className={cx(styles.Field, styles.fieldFilled)}>
-                <Label accent='waterloo' className={styles.label}>
-                  Condition
-                </Label>
-
                 {isProjects && (
                   <TriggerProjectsSelector
                     name='trendingWordsWithAssets'

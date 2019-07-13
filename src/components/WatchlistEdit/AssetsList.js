@@ -6,13 +6,7 @@ import styles from './AssetsList.module.scss'
 
 const ROW_HEIGHT = 32
 
-const AssetsList = ({
-  items,
-  listItems,
-  isContained,
-  onToggleProject,
-  height
-}) => {
+const AssetsList = ({ items, listItems, isContained, onToggleProject }) => {
   const rowRenderer = ({ key, index, style }) => {
     const { name, ticker, id } = items[index]
     const isAssetInList = hasAssetById({ listItems, id })
@@ -42,7 +36,7 @@ const AssetsList = ({
   }
 
   const wrapperStyles = {
-    height: items.length > 4 ? `${height || 145}px` : `${32 * items.length}px`,
+    height: items.length > 4 ? `145px` : `${32 * items.length}px`,
     paddingRight: items.length > 4 ? '0' : `5px`
   }
 

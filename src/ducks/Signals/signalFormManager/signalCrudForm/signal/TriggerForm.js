@@ -14,6 +14,7 @@ import {
 import FormikCheckboxes from '../../../../../components/formik-santiment-ui/FormikCheckboxes'
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
 import Button from '@santiment-network/ui/Button'
+import Label from '@santiment-network/ui/Label'
 import { Checkbox } from '@santiment-network/ui'
 import Message from '@santiment-network/ui/Message'
 import {
@@ -31,11 +32,10 @@ import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/TriggerFormMetricTypes'
 import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'
 import SignalPreview from '../../../chart/SignalPreview'
-import Label from '@santiment-network/ui/Label'
+import { MetricOptionsRenderer } from '../formParts/MetricOptions/MetricOptionsRenderer'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import TriggerMetricTypesResolver from '../formParts/TriggerMetricTypesResolver'
 import styles from './TriggerForm.module.scss'
-import { MetricOptionsRenderer } from '../formParts/MetricOptions/MetricOptionsRenderer'
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,

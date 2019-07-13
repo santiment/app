@@ -100,7 +100,6 @@ export const TriggerProjectsSelector = ({
         />
         <div className={styles.contentWrapper}>
           <AssetsList
-            height={200}
             classes={styles}
             isContained={true}
             items={listItems}
@@ -109,7 +108,6 @@ export const TriggerProjectsSelector = ({
           />
           <div className={styles.divider} />
           <AssetsList
-            height={200}
             classes={styles}
             items={projects}
             listItems={listItems}
