@@ -1,7 +1,8 @@
 import React from 'react'
-import { Button, Icon } from '@santiment-network/ui'
+import Icon from '@santiment-network/ui/Icon'
+import Button from '@santiment-network/ui/Button'
 import WatchlistEdit from './WatchlistEdit'
-import styles from './WatchlistEditButton.module.scss'
+import styles from '../../pages/assets/WatchlistActionButton.module.scss'
 
 const WatchlistEditTrigger = ({ name, ...props }) => {
   return (

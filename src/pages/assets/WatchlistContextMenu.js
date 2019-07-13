@@ -1,19 +1,25 @@
 import React from 'react'
-import { Panel, Button, Icon, ContextMenu } from '@santiment-network/ui'
 import { CSVLink } from 'react-csv'
-import WatchlistPublicityToggle from '../../components/WatchlistShare/WatchlistShare'
-import WatchlistCopyPopup from '../../components/WatchlistCopy/WatchlistCopyPopup'
+import ContextMenu from '@santiment-network/ui/ContextMenu'
+import Icon from '@santiment-network/ui/Icon'
+import Button from '@santiment-network/ui/Button'
+import Panel from '@santiment-network/ui/Panel/Panel'
+import { normalizeCSV } from './utils'
 import WatchlistDeleteDialog from './WatchlistDeleteDialog'
-import { getTableTitle, normalizeCSV } from './utils'
-import { isNotSafari } from './../../utils/utils'
+import WatchlistEdit from '../../components/WatchlistEdit/WatchlistEdit'
+import WatchlistCopyPopup from '../../components/WatchlistCopy/WatchlistCopyPopup'
+import WatchlistPublicityToggle from '../../components/WatchlistShare/WatchlistShare'
 import styles from './WatchlistContextMenu.module.scss'
 
-const WatchlistContextMenu = props => {
-  const { isAuthor, assets, id } = props
-  const hasCSV = isNotSafari && assets && assets.length > 0
-  if (!(isAuthor || hasCSV)) {
-    return null
-  }
+const WatchlistContextMenu = ({
+  isAuthor,
+  assets,
+  id,
+  hasCSV,
+  isDesktop,
+  name
+}) => {
+  if (!(isAuthor || hasCSV)) return null
 
   return (
     <ContextMenu
@@ -33,6 +39,18 @@ const WatchlistContextMenu = props => {
           </div>
         )}
         <div className={styles.block}>
+          {!isDesktop && isAuthor && (
+            <WatchlistEdit
+              id={id}
+              assets={assets}
+              name={name}
+              trigger={
+                <Button variant='ghost' fluid>
+                  Edit
+                </Button>
+              }
+            />
+          )}
           <WatchlistCopyPopup
             id={id}
             trigger={
@@ -41,10 +59,10 @@ const WatchlistContextMenu = props => {
               </Button>
             }
           />
-          {hasCSV && (
+          {hasCSV && isDesktop && (
             <CSVLink
               data={normalizeCSV(assets)}
-              filename={`${getTableTitle(props)}.csv`}
+              filename={`${name}.csv`}
               target='_blank'
             >
               <Button variant='ghost' fluid>

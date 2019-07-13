@@ -2,9 +2,17 @@ import React from 'react'
 import HelpPopup from '../../components/HelpPopup/HelpPopup'
 import '../../components/HelpPopup/HelpPopupProjectsContent.css'
 
-const HelpPopupAssets = () => (
+const HelpPopupAssets = ({ isTrendingWatchlist }) => (
   <HelpPopup>
     <div className='HelpPopupProjectsContent'>
+      {isTrendingWatchlist && (
+        <>
+          <h3>
+            Includes assets, which appeared in emerging trends by social data
+          </h3>
+          <br />
+        </>
+      )}
       <p>The "Assets" section includes lists of tokens you can use to:</p>
       <ol className='HelpPopupProjectsContent__list'>
         <li className='HelpPopupProjectsContent__item'>
