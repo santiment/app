@@ -230,10 +230,12 @@ const getAbsolutePriceValues = ({ settings: { operation, type } }) => {
 
 const mapTriggerToFormThreshold = ({ threshold, operation }) => {
   let newThreshold = threshold || undefined
-
   if (operation && !newThreshold) {
     const operationType = getOperationType(operation)
-    newThreshold = operation[operationType]
+
+    if (Number.isFinite(operation[operationType])) {
+      newThreshold = operation[operationType]
+    }
   }
 
   return newThreshold
@@ -502,7 +504,6 @@ export const mapFormToHBTriggerSettings = formProps => {
     ...newTarget,
     ...newAsset,
     channel: getChannels(formProps),
-    time_window: getTimeWindow(formProps),
     operation: getTriggerOperation(formProps)
   }
 }

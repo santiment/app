@@ -138,6 +138,7 @@ export const TriggerForm = ({
                 ) {
                   const defaultValues =
                     METRIC_DEFAULT_VALUES[newValues.type.metric] || {}
+
                   newValues = {
                     ...defaultValues,
                     ...newValues
@@ -171,7 +172,6 @@ export const TriggerForm = ({
               />
 
               <TriggerMetricTypesResolver
-                isNew={id > 0}
                 address={ethAddress}
                 values={values}
                 metaFormSettings={metaFormSettings}
