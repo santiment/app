@@ -17,7 +17,6 @@ const AssetsList = ({ items, listItems, isContained, onToggleProject }) => {
           <Label accent='waterloo'>({ticker})</Label>
         </div>
         <Button
-          type='button'
           className={styles.actionBtn}
           accent={isContained ? 'grey' : 'positive'}
           disabled={isContained ? false : isAssetInList}
@@ -36,7 +35,7 @@ const AssetsList = ({ items, listItems, isContained, onToggleProject }) => {
   }
 
   const wrapperStyles = {
-    height: items.length > 4 ? `145px` : `${32 * items.length}px`,
+    height: items.length > 4 ? '145px' : `${32 * items.length}px`,
     paddingRight: items.length > 4 ? '0' : `5px`
   }
 
@@ -45,7 +44,6 @@ const AssetsList = ({ items, listItems, isContained, onToggleProject }) => {
       <AutoSizer>
         {({ height, width }) => (
           <List
-            className={styles.list}
             width={width}
             height={height}
             rowHeight={ROW_HEIGHT}
