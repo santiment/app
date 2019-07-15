@@ -16,7 +16,7 @@ export const RANGES = [
 ]
 
 export const filteringTypes = {
-  TRENDS: 'Trending assets',
-  SOCIAL: 'Social anomalies',
-  DEVACT: 'Development activity'
+  TRENDS: 'trending assets',
+  SOCIAL: 'social',
+  DEVACT: 'dev. activity'
 }

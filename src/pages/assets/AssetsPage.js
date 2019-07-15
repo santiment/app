@@ -122,6 +122,7 @@ const AssetsPage = props => {
                   </Panel>
                   <AssetsTable
                     Assets={Assets}
+                    filterType={filterType}
                     items={filteredItems || items}
                     goto={props.history.push}
                     preload={props.preload}

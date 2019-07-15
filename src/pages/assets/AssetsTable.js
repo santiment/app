@@ -39,6 +39,7 @@ const AssetsTable = ({
     type: 'all'
   },
   items,
+  filterType,
   showAll = false,
   preload,
   refetchAssets,
@@ -70,12 +71,16 @@ const AssetsTable = ({
   return (
     <>
       <div className={styles.top}>
-        <Refresh
-          timestamp={Assets.timestamp}
-          onRefreshClick={() =>
-            refetchAssets({ ...Assets.typeInfo, minVolume })
-          }
-        />
+        {filterType ? (
+          <span>Showed based on {filterType} anomalies</span>
+        ) : (
+          <Refresh
+            timestamp={Assets.timestamp}
+            onRefreshClick={() =>
+              refetchAssets({ ...Assets.typeInfo, minVolume })
+            }
+          />
+        )}
         {
           // <Button
           // variant='fill'
