@@ -2,8 +2,6 @@ import React from 'react'
 import {
   ResponsiveContainer,
   ComposedChart,
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   Tooltip,
@@ -68,6 +66,8 @@ class Charts extends React.Component {
     const { metrics, chartData = [], onZoomOut, title, isZoomed } = this.props
     const { refAreaLeft, refAreaRight } = this.state
 
+    const lines = generateMetricsMarkup(metrics)
+
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart}>
         <div className={sharedStyles.header}>
@@ -110,7 +110,7 @@ class Charts extends React.Component {
             />
 
             <YAxis hide />
-            {generateMetricsMarkup(metrics)}
+            {lines}
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
                 x1={refAreaLeft}
@@ -144,16 +144,11 @@ class Charts extends React.Component {
               <Brush
                 x={20}
                 width={window.innerWidth - 40}
-                dataKey='priceUsd'
                 tickFormatter={() => {}}
               >
-                <LineChart>
-                  <Line
-                    dataKey='priceUsd'
-                    dot={false}
-                    stroke='var(--jungle-green)'
-                  />
-                </LineChart>
+                <ComposedChart>
+                  {lines.filter(({ type }) => type !== YAxis)}
+                </ComposedChart>
               </Brush>
             )}
           </ComposedChart>
