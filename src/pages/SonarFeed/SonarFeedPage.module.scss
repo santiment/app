@@ -50,5 +50,11 @@
 }
 
 .telegramAlert {
-  margin-bottom: 10px;
+  color: var(--persimmon);
+
+  @include text('caption');
+}
+
+.link {
+  color: var(--jungle-green);
 }
