@@ -6,7 +6,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Brush
+  Brush,
   ReferenceArea
 } from 'recharts'
 import throttle from 'lodash.throttle'
