@@ -16,6 +16,7 @@ const WatchlistAnomalies = ({
   onFilterAssets,
   type
 }) => {
+  const isTrendsFilter = type === filteringTypes.TRENDS
   return trends.length > 0 ? (
     <div className={styles.wrapper}>
       <Icon type='flash' className={styles.icon} />
@@ -23,16 +24,13 @@ const WatchlistAnomalies = ({
       <Button
         variant='flat'
         border
-        className={cx(
-          styles.button,
-          type === filteringTypes.TRENDS && styles.active
-        )}
+        className={cx(styles.button, isTrendsFilter && styles.active)}
         onClick={() => onFilterAssets(trends, filteringTypes.TRENDS)}
       >
         <Stat
           name='Trending assets:'
           values={[trends.length]}
-          className={type === filteringTypes.TRENDS && styles.stat}
+          className={isTrendsFilter && styles.stat}
         />
       </Button>
       <Tooltip
