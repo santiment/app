@@ -47,7 +47,9 @@ const VisualBacktestChart = ({ data, price, metrics, showAxes = false }) => {
         <YAxis hide />
 
         {generateMetricsMarkup(metrics, {
-          active_addresses: formattedData
+          data: {
+            active_addresses: formattedData
+          }
         })}
 
         {formattedData

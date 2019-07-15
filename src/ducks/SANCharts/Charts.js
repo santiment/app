@@ -1,28 +1,59 @@
 import React from 'react'
+import cx from 'classnames'
 import {
   ResponsiveContainer,
   ComposedChart,
   XAxis,
   YAxis,
-  Tooltip,
+  Brush,
   ReferenceArea
 } from 'recharts'
+import throttle from 'lodash.throttle'
+import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
-import { formatNumber, millify, labelFormatter } from './../../utils/formatting'
-import { getDateFormats } from '../../utils/dates'
+import { formatNumber, millify } from './../../utils/formatting'
+import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
 import { Metrics, generateMetricsMarkup } from './utils'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
+
+const BRUSH_SIDE_MARGINS_IN_PX = 40
+const BRUSH_SIDE_MARGIN_IN_PX = BRUSH_SIDE_MARGINS_IN_PX / 2
+const EMPTY_FORMATTER = () => {}
+const PRICE_METRIC = 'historyPrice'
+const CHART_MARGINS = {
+  left: -10,
+  right: 18
+}
 
 const tickFormatter = date => {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
   return `${DD} ${MMM} ${YY}`
 }
 
-const CHART_MARGINS = {
-  left: -10,
-  right: 18
+const tooltipLabelFormatter = value => {
+  const date = new Date(value)
+  const { MMMM, DD, YYYY } = getDateFormats(date)
+  const { HH, mm } = getTimeFormats(date)
+
+  return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
+}
+
+const valueFormatter = (value, name) => {
+  const numValue = +value
+  // NOTE(vanguard): Some values may not be present in a hovered data point, i.e. value === undefined/null;
+  if (!Number.isFinite(numValue)) return
+
+  if (name === Metrics.historyPrice.label) {
+    return formatNumber(numValue, { currency: 'USD' })
+  }
+
+  if (numValue > 900000) {
+    return millify(numValue, 2)
+  }
+
+  return numValue.toFixed(2)
 }
 
 class Charts extends React.Component {
@@ -31,6 +62,24 @@ class Charts extends React.Component {
     rightZoomIndex: undefined,
     refAreaLeft: undefined,
     refAreaRight: undefined
+  }
+
+  containerRef = React.createRef()
+  metricRef = React.createRef()
+
+  componentDidUpdate (prevProps) {
+    const { metrics } = this.props
+    if (this.props.chartData !== prevProps.chartData) {
+      this.getXToYCoordinates()
+    }
+
+    if (metrics !== prevProps.metrics) {
+      this.setState({
+        tooltipMetric: metrics.includes(PRICE_METRIC)
+          ? PRICE_METRIC
+          : metrics[0]
+      })
+    }
   }
 
   onZoom = () => {
@@ -61,42 +110,142 @@ class Charts extends React.Component {
     })
   }
 
+  getXToYCoordinates = () => {
+    // HACK(vanguard): Because 'recharts' lib does not expose correct point "Y" coordinate
+    if (!(this.metricRef.current && this.metricRef.current.mainCurve)) {
+      return
+    }
+
+    this.xToYCoordinates = this.metricRef.current.mainCurve
+      .getAttribute('d')
+      .slice(1)
+      .split('L')
+      .reduce((acc, value) => {
+        const [x, y] = value.split(',')
+        acc[x] = y
+        return acc
+      }, {})
+
+    return true
+  }
+  getXToYCoordinatesDebounced = debounce(this.getXToYCoordinates, 100)
+
+  onMouseLeave = () => {
+    this.setState({ hovered: false })
+  }
+
+  onMouseMove = throttle(event => {
+    if (!event) return
+
+    if (!this.xToYCoordinates && !this.getXToYCoordinates()) {
+      return
+    }
+
+    const {
+      activeTooltipIndex,
+      activeLabel,
+      activeCoordinate,
+      activePayload
+    } = event
+
+    const { tooltipMetric = 'historyPrice' } = this.state
+
+    this.setState({
+      activePayload,
+      refAreaRight: activeLabel,
+      rightZoomIndex: activeTooltipIndex,
+      x: activeCoordinate.x,
+      y: this.xToYCoordinates[activeCoordinate.x],
+      xValue: activeLabel,
+      yValue: this.props.chartData[activeTooltipIndex][
+        Metrics[tooltipMetric].dataKey || tooltipMetric
+      ],
+      hovered: true
+    })
+  }, 16)
+
   render () {
     const { metrics, chartData = [], onZoomOut, title, isZoomed } = this.props
-    const { refAreaLeft, refAreaRight } = this.state
+    const {
+      refAreaLeft,
+      refAreaRight,
+      x,
+      y,
+      xValue,
+      yValue,
+      activePayload,
+      hovered,
+      tooltipMetric
+    } = this.state
+
+    const lines = generateMetricsMarkup(metrics, {
+      ref: { [tooltipMetric]: this.metricRef }
+    })
+
+    const { current: container } = this.containerRef
+    const brushWidth =
+      container && container.state.containerWidth - BRUSH_SIDE_MARGINS_IN_PX
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart}>
         <div className={sharedStyles.header}>
+          <div className={sharedStyles.title}>{title}</div>
           {isZoomed && (
-            <Button border onClick={onZoomOut} className={sharedStyles.zoom}>
+            <Button
+              border
+              onClick={onZoomOut}
+              className={cx(sharedStyles.zoom, styles.zoom)}
+            >
               Zoom out
             </Button>
           )}
-          <div className={sharedStyles.title}>{title}</div>
+          {hovered && activePayload && (
+            <>
+              <div className={styles.details}>
+                <div className={styles.details__title}>
+                  {tooltipLabelFormatter(xValue)}
+                </div>
+                {activePayload.map(({ name, value, color }) => {
+                  return (
+                    <div key={name} style={{ color }}>
+                      {name}: {valueFormatter(value, name)}
+                    </div>
+                  )
+                })}
+              </div>
+              <div
+                className={styles.line}
+                style={{
+                  '--x': `${x}px`,
+                  '--y': `${y}px`
+                }}
+              >
+                <div
+                  className={styles.values}
+                  style={{
+                    '--xValue': `"${tickFormatter(xValue)}"`,
+                    '--yValue': `"${yValue ? millify(yValue, 1) : '-'}"`
+                  }}
+                />
+              </div>
+            </>
+          )}
         </div>
-        <ResponsiveContainer width='100%' height={300}>
+        <ResponsiveContainer width='100%' height={300} ref={this.containerRef}>
           <ComposedChart
             margin={CHART_MARGINS}
-            onMouseDown={e => {
-              if (!e) return
-              const { activeTooltipIndex, activeLabel } = e
+            onMouseLeave={this.onMouseLeave}
+            onMouseEnter={this.getXToYCoordinates}
+            onMouseDown={event => {
+              if (!event) return
+              const { activeTooltipIndex, activeLabel } = event
               this.setState({
                 refAreaLeft: activeLabel,
                 leftZoomIndex: activeTooltipIndex
               })
             }}
-            onMouseMove={e => {
-              if (!e) return
-              const { activeTooltipIndex, activeLabel } = e
-
-              this.state.refAreaLeft &&
-                this.setState({
-                  refAreaRight: activeLabel,
-                  rightZoomIndex: activeTooltipIndex
-                })
-            }}
-            onMouseUp={this.onZoom}
+            onMouseMove={this.onMouseMove}
+            onMouseUp={refAreaLeft && refAreaRight && this.onZoom}
             data={chartData}
           >
             <XAxis
@@ -106,7 +255,7 @@ class Charts extends React.Component {
               tickFormatter={tickFormatter}
             />
             <YAxis hide />
-            {generateMetricsMarkup(metrics)}
+            {lines}
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
                 x1={refAreaLeft}
@@ -114,20 +263,6 @@ class Charts extends React.Component {
                 strokeOpacity={0.3}
               />
             )}
-            <Tooltip
-              labelFormatter={labelFormatter}
-              formatter={(value, name) => {
-                if (name === Metrics.historyPrice.label) {
-                  return formatNumber(value, { currency: 'USD' })
-                }
-
-                if (value > 900000) {
-                  return millify(value, 2)
-                }
-
-                return value.toFixed ? value.toFixed(2) : value
-              }}
-            />
             {mixWithPaywallArea({
               dataKey: 'priceUsd',
               domain: [0],
@@ -135,6 +270,22 @@ class Charts extends React.Component {
               strokeOpacity: 0.9,
               data: chartData
             })}
+
+            {chartData.length > 0 && (
+              <Brush
+                x={BRUSH_SIDE_MARGIN_IN_PX}
+                width={brushWidth}
+                tickFormatter={EMPTY_FORMATTER}
+                travellerWidth={4}
+                onChange={this.getXToYCoordinatesDebounced}
+              >
+                <ComposedChart>
+                  {lines
+                    .filter(({ type }) => type !== YAxis)
+                    .map(el => React.cloneElement(el, { ref: null }))}
+                </ComposedChart>
+              </Brush>
+            )}
           </ComposedChart>
         </ResponsiveContainer>
       </div>

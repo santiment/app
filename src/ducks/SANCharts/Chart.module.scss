@@ -25,5 +25,107 @@
 
       @include text('caption');
     }
+
+    .recharts-brush-slide {
+      fill: var(--casper);
+      transform: translateX(2px);
+    }
+
+    .recharts-brush-traveller {
+      rect {
+        rx: 2px;
+        transform: translateY(12px);
+        height: 16px;
+      }
+
+      line {
+        display: none;
+      }
+    }
+
+    .recharts-brush {
+      & > rect:first-child {
+        stroke: var(--porcelain);
+        rx: 4px;
+      }
+    }
+  }
+}
+
+.details {
+  @include text('caption');
+
+  pointer-events: none;
+  position: absolute;
+  left: 60px;
+  top: 10px;
+  border: 1px solid var(--porcelain);
+  background: var(--white);
+  border-radius: 4px;
+  padding: 4px 8px;
+  z-index: 3;
+
+  &__title {
+    margin-bottom: 7px;
+  }
+}
+
+.zoom + .details {
+  left: 155px;
+}
+
+.line {
+  pointer-events: none;
+
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    background: var(--mirage);
+    z-index: 2;
+  }
+
+  &::before {
+    top: 32px;
+    bottom: 50px;
+    width: 1px;
+    transform: translateX(var(--x));
+  }
+
+  &::after {
+    left: 20px;
+    right: 0;
+    height: 1px;
+    transform: translateY(var(--y));
+  }
+}
+
+.values {
+  &::before,
+  &::after {
+    @include text('caption', 'm');
+
+    display: block;
+    position: absolute;
+    background: var(--white);
+    z-index: 3;
+    border: 1px solid var(--porcelain);
+    border-radius: 4px;
+    padding: 0 5px;
+  }
+
+  &::before {
+    content: var(--xValue);
+    transform: translateX(calc(var(--x) - 50%));
+    bottom: 48px;
+  }
+
+  &::after {
+    content: var(--yValue);
+    transform: translateY(calc(var(--y) - 50%));
+    left: 8px;
+    width: 40px;
+    text-align: center;
   }
 }
