@@ -153,7 +153,10 @@ export const METRIC_COLORS = [
   'waterloo'
 ]
 
-export const generateMetricsMarkup = (metrics, data = {}) => {
+export const generateMetricsMarkup = (
+  metrics,
+  { ref = {}, data = {} } = {}
+) => {
   let colorIndex = 0
   return metrics.reduce((acc, metric) => {
     const {
@@ -185,8 +188,8 @@ export const generateMetricsMarkup = (metrics, data = {}) => {
         type='linear'
         yAxisId={`axis-${dataKey}`}
         name={label}
-        data={data[dataKey]}
         strokeWidth={1.5}
+        ref={ref[metric]}
         dataKey={dataKey}
         dot={false}
         isAnimationActive={false}
