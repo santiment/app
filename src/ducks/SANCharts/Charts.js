@@ -115,7 +115,6 @@ class Charts extends React.Component {
     if (!(this.metricRef.current && this.metricRef.current.mainCurve)) {
       return
     }
-    console.log('calculating pos')
 
     this.xToYCoordinates = this.metricRef.current.mainCurve
       .getAttribute('d')
