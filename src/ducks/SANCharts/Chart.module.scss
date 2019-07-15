@@ -88,7 +88,7 @@
 
   &::before {
     top: 32px;
-    bottom: 10px;
+    bottom: 50px;
     width: 1px;
     transform: translateX(var(--x));
   }
@@ -118,7 +118,7 @@
   &::before {
     content: var(--xValue);
     transform: translateX(calc(var(--x) - 50%));
-    bottom: 8px;
+    bottom: 48px;
   }
 
   &::after {

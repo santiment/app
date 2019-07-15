@@ -5,11 +5,11 @@ import {
   ComposedChart,
   XAxis,
   YAxis,
-  Tooltip,
   Brush,
   ReferenceArea
 } from 'recharts'
 import throttle from 'lodash.throttle'
+import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
 import { formatNumber, millify } from './../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
@@ -115,6 +115,7 @@ class Charts extends React.Component {
     if (!(this.metricRef.current && this.metricRef.current.mainCurve)) {
       return
     }
+    console.log('calculating pos')
 
     this.xToYCoordinates = this.metricRef.current.mainCurve
       .getAttribute('d')
@@ -128,6 +129,7 @@ class Charts extends React.Component {
 
     return true
   }
+  getXToYCoordinatesDebounced = debounce(this.getXToYCoordinates, 100)
 
   onMouseLeave = () => {
     this.setState({ hovered: false })
@@ -178,8 +180,8 @@ class Charts extends React.Component {
     } = this.state
 
     const lines = generateMetricsMarkup(metrics, {
-              ref: { [tooltipMetric]: this.metricRef }
-            })
+      ref: { [tooltipMetric]: this.metricRef }
+    })
 
     const { current: container } = this.containerRef
     const brushWidth =
@@ -253,7 +255,6 @@ class Charts extends React.Component {
               minTickGap={100}
               tickFormatter={tickFormatter}
             />
-
             <YAxis hide />
             {lines}
             {refAreaLeft && refAreaRight && (
@@ -277,9 +278,12 @@ class Charts extends React.Component {
                 width={brushWidth}
                 tickFormatter={EMPTY_FORMATTER}
                 travellerWidth={4}
+                onChange={this.getXToYCoordinatesDebounced}
               >
                 <ComposedChart>
-                  {lines.filter(({ type }) => type !== YAxis)}
+                  {lines
+                    .filter(({ type }) => type !== YAxis)
+                    .map(el => React.cloneElement(el, { ref: null }))}
                 </ComposedChart>
               </Brush>
             )}
