@@ -1,7 +1,9 @@
 import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
+import Tooltip from '@santiment-network/ui/Tooltip'
 import Icon from '@santiment-network/ui/Icon'
+import Panel from '@santiment-network/ui/Panel/Panel'
 import { filteringTypes } from '../constants'
 import Range from '../Range'
 import Stat from '../Stat'
@@ -33,6 +35,22 @@ const WatchlistAnomalies = ({
           className={type === filteringTypes.TRENDS && styles.stat}
         />
       </Button>
+      <Tooltip
+        className={styles.tooltip}
+        position='top'
+        trigger={
+          <div className={styles.description}>
+            <Icon type='question-round-small' className={styles.question} />
+            How it works
+          </div>
+        }
+      >
+        <Panel padding>
+          Anomalies in metrics are detected using combination of statistical
+          methods. Currently combination of this methodes defines boundary
+          between normal and abnormal values.
+        </Panel>
+      </Tooltip>
     </div>
   ) : null
 }

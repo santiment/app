@@ -1,4 +1,4 @@
-@import "../../../../node_modules/@santiment-network/ui/mixins";
+@import "~@santiment-network/ui/mixins";
 
 .wrapper {
   padding: 24px;
@@ -33,4 +33,26 @@
 .icon {
   margin-right: 10.5px;
   fill: var(--persimmon);
+}
+
+.tooltip {
+  width: 530px;
+  text-align: center;
+}
+
+.question {
+  margin-right: 7.5px;
+}
+
+.description {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  color: var(--waterloo);
+  fill: var(--waterloo);
+
+  &:hover {
+    color: var(--jungle-green);
+    fill: var(--jungle-green);
+  }
 }
