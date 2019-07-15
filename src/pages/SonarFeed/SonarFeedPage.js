@@ -188,7 +188,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(
       showNotification({
         variant: 'error',
-        title: `Telegram is not connect`,
+        title: `Telegram bot is not connected`,
         description: (
           <div>
             Connect in{' '}
