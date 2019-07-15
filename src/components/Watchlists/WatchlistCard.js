@@ -10,15 +10,15 @@ import PercentChanges from '../PercentChanges'
 import {
   PROJECTS_HISTORY_QUERY,
   CATEGORY_HISTORY_QUERY
-} from '../WatchlistHistory/WatchlistHistoryGQL'
-import { WATCHLIST_HISTORY_QUERY } from '../WatchlistHistory/WatchlistHistoryGQL'
+} from '../WatchlistOverview/WatchlistHistory/WatchlistHistoryGQL'
+import { WATCHLIST_HISTORY_QUERY } from '../WatchlistOverview/WatchlistHistory/WatchlistHistoryGQL'
 import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
-import Gradients from '../WatchlistHistory/Gradients'
+import Gradients from '../WatchlistOverview/Gradients'
 import { TRENDING_WATCHLIST_NAME } from '../../pages/assets/assets-overview-constants'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
-import { filterEmptyStats } from '../WatchlistHistory/utils'
+import { filterEmptyStats } from '../WatchlistOverview/WatchlistHistory/utils'
 import styles from './WatchlistCard.module.scss'
 
 const INTERVAL = '6h'

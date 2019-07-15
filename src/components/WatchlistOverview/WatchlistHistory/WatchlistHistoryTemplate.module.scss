@@ -34,22 +34,6 @@
   margin-right: 10px;
 }
 
-.label {
-  color: var(--casper);
-  margin: 0;
-
-  @include text('body-3');
-}
-
-.button {
-  width: auto;
-  padding: 0 4px;
-  margin-left: 4px;
-  height: 18px;
-
-  @include text('caption');
-}
-
 .value {
   color: var(--mirage);
 

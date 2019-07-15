@@ -103,3 +103,30 @@ export const WATCHLIST_QUERY = gql`
   ${generalData}
   ${project}
 `
+
+export const WATCHLIST_WITH_TRENDING_ASSETS_QUERY = gql`
+  query watchlist($id: Int!) {
+    watchlist(id: $id) {
+      id
+      name
+      user {
+        id
+      }
+      isPublic
+      stats {
+        trendingProjects {
+          ...generalData
+          ...project
+        }
+      }
+      listItems {
+        project {
+          ...generalData
+          ...project
+        }
+      }
+    }
+  }
+  ${generalData}
+  ${project}
+`

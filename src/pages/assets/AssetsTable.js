@@ -34,11 +34,11 @@ export const filterColumnsByTableSection = (tableSection, columns) => {
 
 const AssetsTable = ({
   Assets = {
-    items: [],
     isLoading: true,
     error: undefined,
     type: 'all'
   },
+  items,
   showAll = false,
   preload,
   refetchAssets,
@@ -46,7 +46,7 @@ const AssetsTable = ({
   minVolume = 10000,
   listName
 }) => {
-  const { isLoading, items, error } = Assets
+  const { isLoading, error } = Assets
   if (error && error.message !== 'Network error: Failed to fetch') {
     return <ServerErrorMessage />
   }
