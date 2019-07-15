@@ -1,5 +1,10 @@
 @import '~@santiment-network/ui/mixins';
 
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .label {
   color: var(--casper);
   margin: 0;

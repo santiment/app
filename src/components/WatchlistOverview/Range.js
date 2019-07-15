@@ -3,7 +3,7 @@ import Button from '@santiment-network/ui/Button'
 import styles from './Range.module.scss'
 
 const Range = ({ label, range, changeRange }) => (
-  <>
+  <div className={styles.wrapper}>
     <h3 className={styles.label}>{label}</h3>
     <Button
       fluid
@@ -14,7 +14,7 @@ const Range = ({ label, range, changeRange }) => (
     >
       {range}
     </Button>
-  </>
+  </div>
 )
 
 export default Range
