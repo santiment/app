@@ -3,7 +3,7 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 
-const GetProjects = ({ render, ...props }) => render({ ...props })
+const GetProjects = ({ render, ...props }) => render(props)
 
 GetProjects.defaultProps = {
   allProjects: [],

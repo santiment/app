@@ -14,12 +14,10 @@ const TriggerMetricTypesResolver = ({
 
   let TypeComponent
 
-  let checkPossibleTarget = () => {
+  const checkPossibleTarget = () => {
     if (Array.isArray(target)) {
-      setFieldValue(
-        'target',
-        target.length > 0 ? target[0] : metaFormSettings.target.value
-      )
+      const { target: value } = metaFormSettings
+      setFieldValue('target', target.length > 0 ? target[0] : value)
     }
   }
 

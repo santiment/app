@@ -2,14 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import Label from '@santiment-network/ui/Label'
-import {
-  METRIC_TARGET_OPTIONS,
-  METRIC_TARGET_ASSETS,
-  METRIC_TARGET_WATCHLIST
-} from '../../../utils/constants'
+import { METRIC_TARGET_OPTIONS } from '../../../utils/constants'
 import GetWatchlists from '../../../../Watchlists/GetWatchlists'
 import GetProjects from '../../../common/projects/getProjects'
-import { mapToAssets } from '../../../utils/utils'
+import { isAsset, isWatchlist, mapToAssets } from '../../../utils/utils'
 import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
@@ -18,14 +14,13 @@ const propTypes = {
 
 const TriggerFormAssetWallet = ({
   metaFormSettings,
+  setFieldValue,
   values: { signalType }
 }) => {
-  const defaultSignalType = metaFormSettings.signalType
-
-  const { target: defaultAsset } = metaFormSettings
-
-  const isAsset = signalType.value === METRIC_TARGET_ASSETS.value
-  const isWatchlist = signalType.value === METRIC_TARGET_WATCHLIST.value
+  const {
+    target: defaultAsset,
+    signalType: defaultSignalType
+  } = metaFormSettings
 
   return (
     <div className={styles.row}>
@@ -39,10 +34,17 @@ const TriggerFormAssetWallet = ({
           defaultValue={defaultSignalType.value.value}
           placeholder={'Pick signal type'}
           options={METRIC_TARGET_OPTIONS}
+          onChange={type => {
+            if (isAsset(type)) {
+              setFieldValue('target', defaultAsset.value)
+            } else if (isWatchlist(type)) {
+              setFieldValue('target', '')
+            }
+          }}
         />
       </div>
 
-      {isAsset && (
+      {isAsset(signalType) && (
         <div className={styles.Field}>
           <Label className={styles.label}>&nbsp;</Label>
           <GetProjects
@@ -63,7 +65,7 @@ const TriggerFormAssetWallet = ({
         </div>
       )}
 
-      {isWatchlist && (
+      {isWatchlist(signalType) && (
         <div className={styles.Field}>
           <Label className={styles.label}>&nbsp;</Label>
           <GetWatchlists

@@ -1,23 +1,23 @@
 @import "~@santiment-network/ui/mixins";
 
-.nameOption {
+.option {
   color: var(--mirage);
   padding: 12px 8px;
 
   @include text('body-3');
+
+  &_focused {
+    color: var(--jungle-green);
+    cursor: pointer;
+  }
+
+  &_selected {
+    color: var(--jungle-green);
+  }
 }
 
-.nameHeader {
+.header {
   color: var(--waterloo);
 
   @include text('body-3');
-}
-
-.nameOptionFocused {
-  color: var(--jungle-green);
-  cursor: pointer;
-}
-
-.nameOptionSelected {
-  color: var(--jungle-green);
 }

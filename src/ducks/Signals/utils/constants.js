@@ -14,13 +14,13 @@ export const PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER =
 export const PRICE_VOLUME_DIFFERENCE = 'price_volume_difference'
 
 export const TRENDING_WORDS_PROJECT_MENTIONED = {
-  label: 'Trending asset(s)',
+  label: 'Trending assets',
   value: 'trending_project',
   metric: 'trending_words'
 }
 
 export const TRENDING_WORDS_WORD_MENTIONED = {
-  label: 'Trending word(s)',
+  label: 'Trending words',
   value: 'trending_word',
   metric: 'trending_words'
 }
@@ -107,7 +107,7 @@ export const ETH_WALLET_METRIC = {
 }
 
 export const TRENDING_WORDS_METRIC = {
-  label: 'Trending words',
+  label: 'Emerging social trends',
   value: TRENDING_WORDS,
   metric: TRENDING_WORDS
 }
@@ -345,7 +345,7 @@ export const DEFAULT_FORM_META_SETTINGS = {
     value: { ...FREQUENCY_TYPE_ONCEPER_MODEL }
   },
   signalType: {
-    isDisabled: true,
+    isDisabled: false,
     value: { ...METRIC_TARGET_ASSETS }
   }
 }

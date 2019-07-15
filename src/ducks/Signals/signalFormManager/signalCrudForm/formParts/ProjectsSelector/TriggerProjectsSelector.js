@@ -14,23 +14,8 @@ export const TriggerProjectsSelector = ({
   values: { target = [] },
   name
 }) => {
-  const [isOpen, setOpen] = useState(false)
-
   const [listItems, setListItems] = useState([])
-
-  const toggleAsset = ({ project, listItems, isAssetInList }) => {
-    selected(
-      isAssetInList
-        ? listItems.filter(({ id }) => id !== project.id)
-        : [...listItems, project]
-    )
-  }
-
-  const selected = selectedAssets => {
-    listItems.length !== selectedAssets.length && setListItems(selectedAssets)
-    setFieldValue(name, selectedAssets)
-    onChange && onChange(selectedAssets)
-  }
+  const checkedAssetsAsSet = new Set(listItems)
 
   useEffect(
     () => {
@@ -38,21 +23,29 @@ export const TriggerProjectsSelector = ({
         const targetAssets = Array.isArray(target) ? target : [target]
 
         if (targetAssets.length > 0 && projects.length > 0) {
-          const preSelected = projects.filter(item => {
-            return targetAssets.some(t => t.value === item.slug)
-          })
-
-          selected(preSelected)
+          const preSelected = projects.filter(({ slug }) =>
+            targetAssets.some(({ value }) => value === slug)
+          )
+          setSelectedAssets(preSelected)
         }
       }
     },
     [target]
   )
 
-  const close = () => {
-    setOpen(false)
+  const setSelectedAssets = selectedAssets => {
+    listItems.length !== selectedAssets.length && setListItems(selectedAssets)
+    setFieldValue(name, selectedAssets)
+    onChange && onChange(selectedAssets)
   }
-  const open = () => setOpen(true)
+
+  const toggleAsset = ({ project, listItems: items, isAssetInList }) => {
+    setSelectedAssets(
+      isAssetInList
+        ? items.filter(({ id }) => id !== project.id)
+        : [...items, project]
+    )
+  }
 
   const onSuggestionSelect = project =>
     toggleAsset({
@@ -60,8 +53,6 @@ export const TriggerProjectsSelector = ({
       listItems,
       isAssetInList: hasAssetById({ listItems, id: project.id })
     })
-
-  const checkedAssetsAsSet = new Set(listItems)
 
   return (
     <Dialog
@@ -82,9 +73,6 @@ export const TriggerProjectsSelector = ({
           )}
         </div>
       }
-      onOpen={open}
-      onClose={close}
-      open={isOpen}
     >
       <Dialog.ScrollContent className={styles.wrapper}>
         <SearchProjects
@@ -99,6 +87,7 @@ export const TriggerProjectsSelector = ({
           <ProjectsList
             classes={styles}
             isContained={true}
+            selectedItems={listItems}
             items={listItems}
             onToggleProject={project => {
               toggleAsset({
@@ -111,6 +100,7 @@ export const TriggerProjectsSelector = ({
           <div className={styles.divider} />
           <ProjectsList
             classes={styles}
+            selectedItems={listItems}
             items={projects}
             onToggleProject={project => {
               toggleAsset({
@@ -138,10 +128,11 @@ const AssetsListDescription = ({
   return (
     <div className={styles.assetGroup}>
       {assets.map(asset => {
+        const { id, name, ticker } = asset
         return (
-          <span className={styles.asset} key={asset.id}>
-            <span className={styles.name}>{asset.name}</span>
-            <span className={styles.ticker}>{asset.ticker}</span>
+          <span className={styles.asset} key={id}>
+            <span className={styles.name}>{name}</span>
+            <span className={styles.ticker}>{ticker}</span>
             <Icon
               onClick={e => {
                 e.preventDefault()

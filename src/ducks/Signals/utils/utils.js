@@ -36,7 +36,9 @@ import {
   TRENDING_WORDS_METRIC,
   TRENDING_WORDS_PROJECT_MENTIONED,
   TRENDING_WORDS,
-  TRENDING_WORDS_WORD_MENTIONED
+  TRENDING_WORDS_WORD_MENTIONED,
+  METRIC_TARGET_ASSETS,
+  METRIC_TARGET_WATCHLIST
 } from './constants'
 import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 
@@ -48,18 +50,26 @@ const getTimeWindowUnit = timeWindow => {
 }
 
 const getFormTriggerTarget = target => {
-  const { slug } = target
+  const { slug, watchlist } = target
 
   if (!slug) {
-    return undefined
+    if (watchlist) {
+      return {
+        target: {
+          watchlist: watchlist
+        }
+      }
+    }
+  } else {
+    return Array.isArray(slug)
+      ? mapToOptions(slug)
+      : {
+        value: slug,
+        label: slug
+      }
   }
 
-  return Array.isArray(slug)
-    ? mapToOptions(slug)
-    : {
-      value: slug,
-      label: slug
-    }
+  return undefined
 }
 
 const getFormTriggerType = (type, operation) => {
@@ -370,14 +380,30 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
   }
 }
 
-export const mapTriggerTarget = (target, address, isEthWalletTrigger) => {
-  let newTarget = {}
-  if (isEthWalletTrigger && address) {
-    newTarget = { eth_address: address }
-  } else {
-    newTarget = Array.isArray(target)
-      ? target.map(t => t.slug)
-      : { slug: target.value }
+export const mapTriggerTarget = (
+  target,
+  { value } = {},
+  address = '',
+  isEthWalletTrigger = false
+) => {
+  let newTarget
+
+  switch (value) {
+    case METRIC_TARGET_WATCHLIST.value: {
+      newTarget = {
+        watchlist: target.id
+      }
+      break
+    }
+    default: {
+      if (isEthWalletTrigger && address) {
+        newTarget = { eth_address: address }
+      } else {
+        newTarget = Array.isArray(target)
+          ? target.map(t => t.slug)
+          : { slug: target.value }
+      }
+    }
   }
 
   return {
@@ -404,9 +430,10 @@ export const getTrendingWordsTriggerOperation = ({ type: { value } }) => ({
 
 export const mapTrendingWordsTargets = items => {
   if (items.length === 1) {
-    return items[0].value || items[0].slug
+    const { value, slug } = items[0]
+    return value || slug
   } else {
-    return items.map(item => item.value || item.slug)
+    return items.map(({ value, slug }) => value || slug)
   }
 }
 
@@ -448,9 +475,8 @@ const getTimeWindow = ({ timeWindow, timeWindowUnit }) => {
 }
 
 export const mapFormToPPCTriggerSettings = formProps => {
-  const { target, ethAddress } = formProps
-
-  const newTarget = mapTriggerTarget(target, ethAddress, false)
+  const { target, signalType } = formProps
+  const newTarget = mapTriggerTarget(target, signalType)
   return {
     type: PRICE_PERCENT_CHANGE,
     ...newTarget,
@@ -461,8 +487,8 @@ export const mapFormToPPCTriggerSettings = formProps => {
 }
 
 export const mapFormToPACTriggerSettings = formProps => {
-  const { target, ethAddress } = formProps
-  const newTarget = mapTriggerTarget(target, ethAddress, false)
+  const { target, signalType } = formProps
+  const newTarget = mapTriggerTarget(target, signalType)
   return {
     type: PRICE_ABSOLUTE_CHANGE,
     ...newTarget,
@@ -472,8 +498,8 @@ export const mapFormToPACTriggerSettings = formProps => {
 }
 
 export const mapFormToDAATriggerSettings = formProps => {
-  const { target, ethAddress, percentThreshold } = formProps
-  const newTarget = mapTriggerTarget(target, ethAddress, false)
+  const { percentThreshold, target, signalType } = formProps
+  const newTarget = mapTriggerTarget(target, signalType)
 
   return {
     type: DAILY_ACTIVE_ADDRESSES,
@@ -485,8 +511,8 @@ export const mapFormToDAATriggerSettings = formProps => {
 }
 
 export const mapFormToPVDTriggerSettings = formProps => {
-  const { target, ethAddress, threshold } = formProps
-  const newTarget = mapTriggerTarget(target, ethAddress, false)
+  const { target, threshold, signalType } = formProps
+  const newTarget = mapTriggerTarget(target, signalType)
   return {
     type: PRICE_VOLUME_DIFFERENCE,
     ...newTarget,
@@ -496,9 +522,12 @@ export const mapFormToPVDTriggerSettings = formProps => {
 }
 
 export const mapFormToHBTriggerSettings = formProps => {
-  const { target, ethAddress } = formProps
-  const newAsset = mapAssetTarget(target, true)
-  const newTarget = mapTriggerTarget(target, ethAddress, true)
+  const { target, ethAddress, signalType } = formProps
+  const newAsset =
+    signalType.value === METRIC_TARGET_ASSETS.value
+      ? mapAssetTarget(target, true)
+      : undefined
+  const newTarget = mapTriggerTarget(target, signalType, ethAddress, true)
   return {
     type: ETH_WALLET,
     ...newTarget,
@@ -638,6 +667,11 @@ export function getNearestFrequencyTypeValue (frequencyType) {
   return getFrequencyTimeType(frequencyType)[0]
 }
 
+export const isAsset = signalType =>
+  signalType.value === METRIC_TARGET_ASSETS.value
+export const isWatchlist = signalType =>
+  signalType.value === METRIC_TARGET_WATCHLIST.value
+
 export const validateTriggerForm = ({
   type,
   threshold,
@@ -654,7 +688,8 @@ export const validateTriggerForm = ({
   metric,
   target,
   trendingWordsWithAssets,
-  trendingWordsWithWords
+  trendingWordsWithWords,
+  signalType
 }) => {
   let errors = {}
 
@@ -735,11 +770,17 @@ export const validateTriggerForm = ({
       errors.trendingWordsWithWords = REQUIRED_MESSAGE
     }
   } else {
-    if (
-      !target ||
-      (Array.isArray(target) ? target.length === 0 : !target.value)
-    ) {
-      errors.target = REQUIRED_MESSAGE
+    if (isWatchlist(signalType)) {
+      if (!target || !target.id) {
+        errors.target = REQUIRED_MESSAGE
+      }
+    } else {
+      if (
+        !target ||
+        (Array.isArray(target) ? target.length === 0 : !target.value)
+      ) {
+        errors.target = REQUIRED_MESSAGE
+      }
     }
   }
 
@@ -752,7 +793,11 @@ const POSSIBLE_METRICS_FOR_CHART = [
   PRICE_VOLUME_DIFFERENCE_METRIC.value
 ]
 
-export const couldShowChart = metric => {
+export const couldShowChart = (signalType, metric) => {
+  if (isWatchlist(signalType)) {
+    return false
+  }
+
   return metric ? POSSIBLE_METRICS_FOR_CHART.indexOf(metric.value) >= 0 : false
 }
 

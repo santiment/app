@@ -6,9 +6,10 @@ import styles from './ProjectsList.module.scss'
 
 const ROW_HEIGHT = 32
 
-const ProjectsList = ({ items, isContained, onToggleProject }) => {
+const ProjectsList = ({ items, selectedItems, onToggleProject }) => {
   const rowRenderer = ({ key, index, style }) => {
     const { name, ticker, id } = items[index]
+    const isSelectedAsset = selectedItems.has(id)
     return (
       <div
         key={key}
@@ -18,7 +19,7 @@ const ProjectsList = ({ items, isContained, onToggleProject }) => {
           onToggleProject(items[index])
         }}
       >
-        <Checkbox isActive={isContained} />
+        <Checkbox isActive={isSelectedAsset} />
         <div className={styles.asset}>
           <span className={styles.name}>{name}</span>
           <Label accent='waterloo'>({ticker})</Label>

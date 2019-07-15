@@ -32,7 +32,7 @@ import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/TriggerFormMetricTypes'
 import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'
 import SignalPreview from '../../../chart/SignalPreview'
-import { MetricOptionsRenderer } from '../formParts/MetricOptions/MetricOptionsRenderer'
+import MetricOptionsRenderer from '../formParts/MetricOptions/MetricOptionsRenderer'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import TriggerMetricTypesResolver from '../formParts/TriggerMetricTypesResolver'
 import styles from './TriggerForm.module.scss'
@@ -85,7 +85,8 @@ export const TriggerForm = ({
   const [initialValues, setInitialValues] = useState(settings)
 
   useEffect(() => {
-    couldShowChart(initialValues.metric) &&
+    const { signalType, metric } = initialValues
+    couldShowChart(signalType, metric) &&
       getSignalBacktestingPoints(initialValues)
   }, [])
 
@@ -118,13 +119,14 @@ export const TriggerForm = ({
           frequencyType,
           frequencyTimeType,
           isRepeating,
-          ethAddress
+          ethAddress,
+          signalType
         } = values
         const typeSelectors = METRIC_TO_TYPES[(metric || {}).value]
 
         const { price } = lastPriceItem || {}
 
-        const showChart = target && couldShowChart(metric)
+        const showChart = target && couldShowChart(signalType, metric)
 
         return (
           <Form className={styles.TriggerForm}>
@@ -154,7 +156,8 @@ export const TriggerForm = ({
                   )
 
                   const canLoadChart =
-                    newValues && couldShowChart(newValues.metric)
+                    newValues &&
+                    couldShowChart(newValues.signalType, newValues.metric)
 
                   newValues.target &&
                     !isError &&

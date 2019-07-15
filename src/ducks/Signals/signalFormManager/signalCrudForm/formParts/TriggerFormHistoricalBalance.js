@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { compose } from 'redux'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
+import Label from '@santiment-network/ui/Label'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
-import Label from '@santiment-network/ui/Label'
 import {
   ALL_ERC20_PROJECTS_QUERY,
   allProjectsForSearchGQL
@@ -22,16 +22,13 @@ const isDisabledWalletAddressField = (
   target,
   allErc20Projects
 ) => {
-  if (canUseMappedErc20) {
-    return false
-  }
-  if (!target || !target.value) {
+  if (canUseMappedErc20 || !target || !target.value) {
     return false
   }
 
   return !(
     target.value === 'ethereum' ||
-    allErc20Projects.find(x => x.value === target.value)
+    allErc20Projects.some(x => x.value === target.value)
   )
 }
 
@@ -56,11 +53,14 @@ const TriggerFormHistoricalBalance = ({
   const [allList, setAll] = useState(allProjects)
   const [heldAssets, setHeldAssets] = useState(assets)
 
-  useEffect(() => {
-    allErc20Projects.length && setErc20(allErc20Projects)
-    allProjects.length && setAll(allProjects)
-    assets.length && setHeldAssets(assets)
-  })
+  useEffect(
+    () => {
+      allErc20Projects.length && setErc20(allErc20Projects)
+      allProjects.length && setAll(allProjects)
+      assets.length && setHeldAssets(assets)
+    },
+    [allErc20Projects, allProjects, assets]
+  )
 
   const canUseMappedErc20 = !!byAddress && assets.length > 0
   const disabledWalletField = isDisabledWalletAddressField(
