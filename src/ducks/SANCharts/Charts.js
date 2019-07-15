@@ -16,6 +16,9 @@ import { Metrics, generateMetricsMarkup } from './utils'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
 
+const BRUSH_SIDE_MARGINS_IN_PX = 40
+const BRUSH_SIDE_MARGIN_IN_PX = BRUSH_SIDE_MARGINS_IN_PX / 2
+
 const tickFormatter = date => {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
   return `${DD} ${MMM} ${YY}`
@@ -33,6 +36,8 @@ class Charts extends React.Component {
     refAreaLeft: undefined,
     refAreaRight: undefined
   }
+
+  containerRef = React.createRef()
 
   onZoom = () => {
     let {
@@ -68,6 +73,10 @@ class Charts extends React.Component {
 
     const lines = generateMetricsMarkup(metrics)
 
+    const { current: container } = this.containerRef
+    const brushWidth =
+      container && container.state.containerWidth - BRUSH_SIDE_MARGINS_IN_PX
+
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart}>
         <div className={sharedStyles.header}>
@@ -78,7 +87,7 @@ class Charts extends React.Component {
           )}
           <div className={sharedStyles.title}>{title}</div>
         </div>
-        <ResponsiveContainer width='100%' height={300}>
+        <ResponsiveContainer width='100%' height={300} ref={this.containerRef}>
           <ComposedChart
             margin={CHART_MARGINS}
             onMouseDown={e => {
@@ -142,8 +151,8 @@ class Charts extends React.Component {
 
             {chartData.length > 0 && (
               <Brush
-                x={20}
-                width={window.innerWidth - 40}
+                x={BRUSH_SIDE_MARGIN_IN_PX}
+                width={brushWidth}
                 tickFormatter={() => {}}
               >
                 <ComposedChart>

@@ -35,12 +35,13 @@
 
     .recharts-brush-slide {
       fill: var(--casper);
+      transform: translateX(2px);
     }
 
     .recharts-brush-traveller {
       rect {
         rx: 2px;
-        transform: translate3d(-2px, 12px, 0);
+        transform: translateY(12px);
         width: 4px;
         height: 16px;
       }
