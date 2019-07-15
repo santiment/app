@@ -128,8 +128,8 @@ class Charts extends React.Component {
     this.setState({ hovered: false })
   }
 
-  onMouseMove = throttle(e => {
-    if (!e) return
+  onMouseMove = throttle(event => {
+    if (!event) return
 
     if (!this.xToYCoordinates && !this.getXToYCoordinates()) {
       return
@@ -140,7 +140,7 @@ class Charts extends React.Component {
       activeLabel,
       activeCoordinate,
       activePayload
-    } = e
+    } = event
 
     const { tooltipMetric = 'historyPrice' } = this.state
 
@@ -222,9 +222,9 @@ class Charts extends React.Component {
             margin={CHART_MARGINS}
             onMouseLeave={this.onMouseLeave}
             onMouseEnter={this.getXToYCoordinates}
-            onMouseDown={e => {
-              if (!e) return
-              const { activeTooltipIndex, activeLabel } = e
+            onMouseDown={event => {
+              if (!event) return
+              const { activeTooltipIndex, activeLabel } = event
               this.setState({
                 refAreaLeft: activeLabel,
                 leftZoomIndex: activeTooltipIndex
