@@ -3,6 +3,11 @@ import Dropdown from '@santiment-network/ui/Dropdown'
 import { dateDifference, DAY } from '../../utils/dates'
 import styles from './IntervalSelector.module.scss'
 
+export const INTERVAL_ALIAS = {
+  '10min': '10m',
+  '30min': '30m'
+}
+
 export const getNewInterval = (from, to, lastInterval) => {
   const intervals = getAvailableIntervals(from, to)
 
@@ -21,11 +26,7 @@ const getAvailableIntervals = (from, to) => {
   })
 
   if (diff < 6) {
-    return [
-      { index: '10m', content: '10min' },
-      { index: '30m', content: '30min' },
-      '1h'
-    ]
+    return ['10min', '30min', '1h']
   }
   if (diff < 20) {
     return ['1h', '2h', '3h']
@@ -49,15 +50,10 @@ const getAvailableIntervals = (from, to) => {
 const IntervalSelector = ({ from, to, interval, onIntervalChange }) => {
   const options = getAvailableIntervals(from, to)
 
-  const selected = options.find(option => {
-    const { index = option } = option
-    return index === interval
-  })
-
   return (
     <Dropdown
       options={options}
-      selected={selected || interval}
+      selected={interval}
       onSelect={onIntervalChange}
       classes={styles}
     />
