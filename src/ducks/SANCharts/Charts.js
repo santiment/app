@@ -2,9 +2,12 @@ import React from 'react'
 import {
   ResponsiveContainer,
   ComposedChart,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   Tooltip,
+  Brush,
   ReferenceArea
 } from 'recharts'
 import Button from '@santiment-network/ui/Button'
@@ -105,6 +108,7 @@ class Charts extends React.Component {
               minTickGap={100}
               tickFormatter={tickFormatter}
             />
+
             <YAxis hide />
             {generateMetricsMarkup(metrics)}
             {refAreaLeft && refAreaRight && (
@@ -135,6 +139,23 @@ class Charts extends React.Component {
               strokeOpacity: 0.9,
               data: chartData
             })}
+
+            {chartData.length > 0 && (
+              <Brush
+                x={20}
+                width={window.innerWidth - 40}
+                dataKey='priceUsd'
+                tickFormatter={() => {}}
+              >
+                <LineChart>
+                  <Line
+                    dataKey='priceUsd'
+                    dot={false}
+                    stroke='var(--jungle-green)'
+                  />
+                </LineChart>
+              </Brush>
+            )}
           </ComposedChart>
         </ResponsiveContainer>
       </div>

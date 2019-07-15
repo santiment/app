@@ -25,5 +25,29 @@
 
       @include text('caption');
     }
+
+    .recharts-brush {
+      & > rect:first-child {
+        stroke: var(--porcelain);
+        rx: 4px;
+      }
+    }
+
+    .recharts-brush-slide {
+      fill: var(--casper);
+    }
+
+    .recharts-brush-traveller {
+      rect {
+        rx: 2px;
+        transform: translate3d(-2px, 12px, 0);
+        width: 4px;
+        height: 16px;
+      }
+
+      line {
+        display: none;
+      }
+    }
   }
 }
