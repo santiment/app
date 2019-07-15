@@ -34,11 +34,12 @@ export const filterColumnsByTableSection = (tableSection, columns) => {
 
 const AssetsTable = ({
   Assets = {
-    items: [],
     isLoading: true,
     error: undefined,
     type: 'all'
   },
+  items,
+  filterType,
   showAll = false,
   preload,
   refetchAssets,
@@ -46,7 +47,7 @@ const AssetsTable = ({
   minVolume = 10000,
   listName
 }) => {
-  const { isLoading, items, error } = Assets
+  const { isLoading, error } = Assets
   if (error && error.message !== 'Network error: Failed to fetch') {
     return <ServerErrorMessage />
   }
@@ -70,12 +71,16 @@ const AssetsTable = ({
   return (
     <>
       <div className={styles.top}>
-        <Refresh
-          timestamp={Assets.timestamp}
-          onRefreshClick={() =>
-            refetchAssets({ ...Assets.typeInfo, minVolume })
-          }
-        />
+        {filterType ? (
+          <span>Showed based on {filterType} anomalies</span>
+        ) : (
+          <Refresh
+            timestamp={Assets.timestamp}
+            onRefreshClick={() =>
+              refetchAssets({ ...Assets.typeInfo, minVolume })
+            }
+          />
+        )}
         {
           // <Button
           // variant='fill'

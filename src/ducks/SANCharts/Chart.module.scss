@@ -26,13 +26,6 @@
       @include text('caption');
     }
 
-    .recharts-brush {
-      & > rect:first-child {
-        stroke: var(--porcelain);
-        rx: 4px;
-      }
-    }
-
     .recharts-brush-slide {
       fill: var(--casper);
       transform: translateX(2px);
@@ -47,6 +40,13 @@
 
       line {
         display: none;
+      }
+    }
+
+    .recharts-brush {
+      & > rect:first-child {
+        stroke: var(--porcelain);
+        rx: 4px;
       }
     }
   }

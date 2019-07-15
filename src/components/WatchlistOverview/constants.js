@@ -14,3 +14,9 @@ export const RANGES = [
   { value: '3m', interval: '3d', method: RANGES_METHOD.get('3m') },
   { value: '6m', interval: '3d', method: RANGES_METHOD.get('6m') }
 ]
+
+export const filteringTypes = {
+  TRENDS: 'trending assets',
+  SOCIAL: 'social',
+  DEVACT: 'dev. activity'
+}
