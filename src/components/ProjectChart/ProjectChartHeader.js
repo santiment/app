@@ -94,6 +94,7 @@ const ProjectChartHeader = ({
         <ChartWidgetModal
           slug={slug}
           title={`${name} (${ticker})`}
+          timeRange={interval}
           from={from}
           to={to}
         />

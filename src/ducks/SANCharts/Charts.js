@@ -5,9 +5,11 @@ import {
   ComposedChart,
   XAxis,
   YAxis,
+  Brush,
   ReferenceArea
 } from 'recharts'
 import throttle from 'lodash.throttle'
+import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
 import { formatNumber, millify } from './../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
@@ -16,8 +18,10 @@ import { Metrics, generateMetricsMarkup } from './utils'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
 
+const BRUSH_SIDE_MARGINS_IN_PX = 40
+const BRUSH_SIDE_MARGIN_IN_PX = BRUSH_SIDE_MARGINS_IN_PX / 2
+const EMPTY_FORMATTER = () => {}
 const PRICE_METRIC = 'historyPrice'
-
 const CHART_MARGINS = {
   left: -10,
   right: 18
@@ -60,6 +64,9 @@ class Charts extends React.Component {
     refAreaRight: undefined
   }
 
+  containerRef = React.createRef()
+  metricRef = React.createRef()
+
   componentDidUpdate (prevProps) {
     const { metrics } = this.props
     if (this.props.chartData !== prevProps.chartData) {
@@ -74,8 +81,6 @@ class Charts extends React.Component {
       })
     }
   }
-
-  metricRef = React.createRef()
 
   onZoom = () => {
     let {
@@ -123,6 +128,7 @@ class Charts extends React.Component {
 
     return true
   }
+  getXToYCoordinatesDebounced = debounce(this.getXToYCoordinates, 100)
 
   onMouseLeave = () => {
     this.setState({ hovered: false })
@@ -172,6 +178,14 @@ class Charts extends React.Component {
       tooltipMetric
     } = this.state
 
+    const lines = generateMetricsMarkup(metrics, {
+      ref: { [tooltipMetric]: this.metricRef }
+    })
+
+    const { current: container } = this.containerRef
+    const brushWidth =
+      container && container.state.containerWidth - BRUSH_SIDE_MARGINS_IN_PX
+
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart}>
         <div className={sharedStyles.header}>
@@ -217,7 +231,7 @@ class Charts extends React.Component {
             </>
           )}
         </div>
-        <ResponsiveContainer width='100%' height={300}>
+        <ResponsiveContainer width='100%' height={300} ref={this.containerRef}>
           <ComposedChart
             margin={CHART_MARGINS}
             onMouseLeave={this.onMouseLeave}
@@ -241,9 +255,7 @@ class Charts extends React.Component {
               tickFormatter={tickFormatter}
             />
             <YAxis hide />
-            {generateMetricsMarkup(metrics, {
-              ref: { [tooltipMetric]: this.metricRef }
-            })}
+            {lines}
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
                 x1={refAreaLeft}
@@ -258,6 +270,22 @@ class Charts extends React.Component {
               strokeOpacity: 0.9,
               data: chartData
             })}
+
+            {chartData.length > 0 && (
+              <Brush
+                x={BRUSH_SIDE_MARGIN_IN_PX}
+                width={brushWidth}
+                tickFormatter={EMPTY_FORMATTER}
+                travellerWidth={4}
+                onChange={this.getXToYCoordinatesDebounced}
+              >
+                <ComposedChart>
+                  {lines
+                    .filter(({ type }) => type !== YAxis)
+                    .map(el => React.cloneElement(el, { ref: null }))}
+                </ComposedChart>
+              </Brush>
+            )}
           </ComposedChart>
         </ResponsiveContainer>
       </div>

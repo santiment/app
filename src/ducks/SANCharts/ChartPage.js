@@ -5,7 +5,7 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import { Metrics } from './utils'
-import { getNewInterval } from './IntervalSelector'
+import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import styles from './ChartPage.module.scss'
 
@@ -49,12 +49,15 @@ const getChartInitialState = props => {
     }
     passedState = data
   } else {
-    const { slug, from, to, title } = props
+    const { slug, from, to, title, timeRange } = props
+
     passedState = {
       slug,
       title,
       from,
-      to
+      to,
+      timeRange,
+      interval: getNewInterval(from, to)
     }
   }
 
@@ -121,8 +124,7 @@ class ChartPage extends Component {
     this.setState({ metrics }, this.updateSearchQuery)
   }
 
-  onIntervalChange = option => {
-    const { index: interval = option } = option
+  onIntervalChange = interval => {
     this.setState({ interval, zoom: undefined }, this.updateSearchQuery)
   }
 
@@ -222,7 +224,7 @@ class ChartPage extends Component {
           slug,
           from,
           to,
-          interval,
+          interval: INTERVAL_ALIAS[interval] || interval,
           ...Metrics[metric].reqMeta
         }
       }
