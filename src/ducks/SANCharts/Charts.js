@@ -18,6 +18,7 @@ import styles from './Chart.module.scss'
 
 const BRUSH_SIDE_MARGINS_IN_PX = 40
 const BRUSH_SIDE_MARGIN_IN_PX = BRUSH_SIDE_MARGINS_IN_PX / 2
+const EMPTY_FORMATTER = () => {}
 
 const tickFormatter = date => {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
@@ -153,7 +154,8 @@ class Charts extends React.Component {
               <Brush
                 x={BRUSH_SIDE_MARGIN_IN_PX}
                 width={brushWidth}
-                tickFormatter={() => {}}
+                tickFormatter={EMPTY_FORMATTER}
+                travellerWidth={4}
               >
                 <ComposedChart>
                   {lines.filter(({ type }) => type !== YAxis)}
