@@ -190,12 +190,12 @@ const mapDispatchToProps = dispatch => ({
         variant: 'error',
         title: `Telegram bot is not connected`,
         description: (
-          <div>
+          <Fragment>
             Connect it in{' '}
             <Link className={styles.link} to='/account'>
               my account
             </Link>
-          </div>
+          </Fragment>
         ),
         dismissAfter: 8000
       })
