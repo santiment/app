@@ -37,6 +37,15 @@
 
 .btn {
   justify-content: space-between;
+
+  &_disabled {
+    @include text('caption');
+
+    background: var(--athens);
+    color: var(--casper);
+    padding: 0 4px;
+    border-radius: 4px;
+  }
 }
 
 .title {

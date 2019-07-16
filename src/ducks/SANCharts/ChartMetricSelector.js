@@ -83,6 +83,7 @@ const ChartMetricSelector = ({
               {categories[activeCategory] &&
                 categories[activeCategory].map(metric => {
                   const isActive = activeMetrics.includes(metric.key)
+                  const isDisabled = disabledMetrics.includes(metric.key)
                   return (
                     <Button
                       key={metric.label}
@@ -93,10 +94,16 @@ const ChartMetricSelector = ({
                       onMouseEnter={() => setMetric(metric)}
                       onClick={() => toggleMetric(metric.key)}
                       isActive={isActive}
-                      disabled={disabledMetrics.includes(metric.key)}
+                      disabled={isDisabled}
                     >
                       {metric.label}{' '}
-                      <Icon type={isActive ? 'subtract-round' : 'plus-round'} />
+                      {isDisabled ? (
+                        <span className={styles.btn_disabled}>no data</span>
+                      ) : (
+                        <Icon
+                          type={isActive ? 'subtract-round' : 'plus-round'}
+                        />
+                      )}
                     </Button>
                   )
                 })}
