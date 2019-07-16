@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { compose } from 'redux'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import Label from '@santiment-network/ui/Label'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
+import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import {
   ALL_ERC20_PROJECTS_QUERY,
   allProjectsForSearchGQL
@@ -85,9 +85,7 @@ const TriggerFormHistoricalBalance = ({
   return (
     <div className={styles.row}>
       <div className={styles.Field}>
-        <Label accent='waterloo' className={styles.label}>
-          Wallet
-        </Label>
+        <FormikLabel text='Wallet' />
         <FormikInput
           disabled={disabledWalletField}
           validator={isPossibleEthAddress}
@@ -99,7 +97,7 @@ const TriggerFormHistoricalBalance = ({
       </div>
 
       <div className={styles.Field}>
-        <Label className={styles.label}>&nbsp;</Label>
+        <FormikLabel />
         <FormikSelect
           name='target'
           disabled={defaultAsset.isDisabled}

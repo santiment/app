@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
-import Label from '@santiment-network/ui/Label'
+import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import {
   ETH_WALLETS_OPTIONS,
   METRIC_TYPES_DEPENDENCIES,
@@ -86,9 +86,7 @@ export const TriggerFormMetricValues = ({
       {type &&
         METRIC_TYPES_DEPENDENCIES[metricValue].includes('percentThreshold') && (
         <div className={styles.Field}>
-          <Label accent='waterloo' className={styles.label}>
-              Percentage amount
-          </Label>
+          <FormikLabel text='Percentage amount' />
           <FormikInput
             name='percentThreshold'
             type='number'
@@ -103,9 +101,7 @@ export const TriggerFormMetricValues = ({
           'walletBalanceChangeType'
         ) && (
         <div className={styles.Field}>
-          <Label accent='waterloo' className={styles.label}>
-              Absolute change
-          </Label>
+          <FormikLabel text='Absolute change' />
           <div>
             <FormikSelect
               name='type'
@@ -119,9 +115,7 @@ export const TriggerFormMetricValues = ({
 
       {type && METRIC_TYPES_DEPENDENCIES[metricValue].includes('threshold') && (
         <div className={styles.Field}>
-          <Label accent='waterloo' className={styles.label}>
-            Threshold
-          </Label>
+          <FormikLabel text='Threshold' />
           <FormikInput
             name='threshold'
             step={0.001}
@@ -132,9 +126,7 @@ export const TriggerFormMetricValues = ({
       )}
       {type && isTimeWindow && (
         <div className={cx(styles.Field, styles.fieldTimeWindow)}>
-          <Label accent='waterloo' className={styles.label}>
-            Time window
-          </Label>
+          <FormikLabel text='Time window' />
           <div className={styles.timeWindow}>
             <div className={styles.timeWindowInput}>
               <FormikInput

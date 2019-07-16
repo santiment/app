@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
-import Label from '@santiment-network/ui/Label'
+import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import { TRENDING_WORDS_TYPE_OPTIONS } from '../../../utils/constants'
 import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelector'
 import {
@@ -52,9 +52,7 @@ const TriggerFormTrendingWordsTypes = ({
                   !isWatchlist ? styles.fieldFilled : ''
                 )}
               >
-                <Label accent='waterloo' className={styles.label}>
-                  Type
-                </Label>
+                <FormikLabel text='Type' />
                 <FormikSelect
                   isClearable={false}
                   name='type'

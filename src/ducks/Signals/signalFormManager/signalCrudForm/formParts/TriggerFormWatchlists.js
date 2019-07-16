@@ -1,16 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
+import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import GetWatchlists from '../../../../Watchlists/GetWatchlists'
 import styles from '../signal/TriggerForm.module.scss'
-import Label from '@santiment-network/ui/Label'
 
 const TriggerFormWatchlists = () => {
   return (
     <div className={styles.Field}>
-      <Label accent='waterloo' className={styles.label}>
-        &nbsp;
-      </Label>
+      <FormikLabel />
       <GetWatchlists
         render={({ isWatchlistsLoading, watchlists = [] }) => {
           if (isWatchlistsLoading || watchlists.length > 0) {

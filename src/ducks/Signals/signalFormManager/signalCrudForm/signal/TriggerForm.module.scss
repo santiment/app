@@ -116,15 +116,6 @@ a.connectLink {
   padding: 0 !important;
 }
 
-.label {
-  margin-bottom: 2px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-
-  @include text('caption');
-}
-
 .isRepeating {
   display: flex;
   align-items: center;

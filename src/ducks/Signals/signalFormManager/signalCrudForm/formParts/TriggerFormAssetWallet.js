@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
-import Label from '@santiment-network/ui/Label'
+import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import { METRIC_TARGET_OPTIONS } from '../../../utils/constants'
 import GetProjects from '../../../common/projects/getProjects'
 import { isAsset, isWatchlist, mapToAssets } from '../../../utils/utils'
@@ -20,9 +20,7 @@ const TriggerFormAssetWallet = ({
   return (
     <div className={styles.row}>
       <div className={styles.Field}>
-        <Label accent='waterloo' className={styles.label}>
-          Type
-        </Label>
+        <FormikLabel text='Type' />
         <FormikSelect
           name='signalType'
           isClearable={false}
@@ -42,7 +40,7 @@ const TriggerFormAssetWallet = ({
 
       {isAsset(signalType) && !Array.isArray(target) && (
         <div className={styles.Field}>
-          <Label className={styles.label}>&nbsp;</Label>
+          <FormikLabel />
           <GetProjects
             render={({ isLoading, allProjects }) => {
               return (

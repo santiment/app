@@ -13,8 +13,8 @@ import {
 } from '../../../common/actions'
 import FormikCheckboxes from '../../../../../components/formik-santiment-ui/FormikCheckboxes'
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
+import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import Button from '@santiment-network/ui/Button'
-import Label from '@santiment-network/ui/Label'
 import { Checkbox } from '@santiment-network/ui'
 import Message from '@santiment-network/ui/Message'
 import {
@@ -177,9 +177,7 @@ export const TriggerForm = ({
               {!metric.hidden && typeSelectors && typeSelectors.length > 1 && (
                 <div className={cx(styles.row)}>
                   <div className={cx(styles.Field, styles.fieldFilled)}>
-                    <Label accent='waterloo' className={styles.label}>
-                      Condition
-                    </Label>
+                    <FormikLabel text='Condition' />
                     <FormikSelect
                       name='type'
                       isClearable={false}
@@ -234,9 +232,7 @@ export const TriggerForm = ({
 
               <div className={styles.row}>
                 <div className={cx(styles.Field, styles.fieldFilled)}>
-                  <Label accent='waterloo' className={styles.label}>
-                    Notify me via
-                  </Label>
+                  <FormikLabel text='Notify me via' />
                   <div className={styles.notifyBlock}>
                     <FormikCheckboxes
                       name='channels'
