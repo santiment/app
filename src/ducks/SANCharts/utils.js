@@ -114,33 +114,35 @@ export const Metrics = {
     dataKey: 'activeDeposits',
     category: 'On-chain'
   },
-  ohlc: {},
-  priceVolumeDiff: {},
-  githubActivity: {},
-  aveargeDevActivity: {},
-  averageGithubActivity: {},
-  historyTwitterData: {},
-  twitterData: {}, // NOTE(vanguard): NOT A TIMESERIE
-  socialGainersLosersStatus: {},
-  socialDominance: {},
-  historicalBalance: {},
-  shareOfDeposits: {},
-  tokenTopTransactions: {},
-  realizedValue: {},
-  burnRate: {},
-  averageTokenAgeConsumedInDays: {},
-  nvtRatio: {},
-  ethSpent: {},
-  ethSpentOverTime: {},
-  ethTopTransactions: {},
-  ethBalance: {},
-  usdBalance: {},
-  icos: {},
-  icoPrice: {},
-  initialIco: {},
-  fundsRaisedUsdIcoEndPrice: {},
-  fundsRaisedEthIcoEndPrice: {},
-  fundsRaisedBtcIcoEndPrice: {}
+  historyTwitterData: {
+    node: Line,
+    label: 'Twitter',
+    category: 'Social',
+    dataKey: 'followersCount'
+  },
+  socialDominance: {
+    node: Line,
+    label: 'Social Dominance',
+    category: 'Social',
+    dataKey: 'dominance'
+  },
+  realizedValue: {
+    node: Line,
+    label: 'Realized Value',
+    category: 'On-chain',
+    dataKey: 'realizedValue'
+  },
+  burnRate: {
+    node: Line,
+    label: 'Burn Rate',
+    category: 'On-chain'
+  },
+  ethSpentOverTime: {
+    node: Line,
+    label: 'Eth Spent Over Time',
+    category: 'On-chain',
+    dataKey: 'ethSpent'
+  }
 }
 
 export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`

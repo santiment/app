@@ -1,5 +1,9 @@
 import { DEV_ACTIVITY_QUERY } from './queries/dev_activity_query'
 import { HISTORY_PRICE_QUERY } from './queries/history_price_query'
+import { ETH_SPENT_OVER_TIME_QUERY } from './queries/eth_spent_over_time_query'
+import { BURN_RATE_QUERY } from './queries/burn_rate_query'
+import { REALIZED_VALUE_QUERY } from './queries/realized_value_query'
+import { HISTORY_TWITTER_DATA_QUERY } from './queries/history_twitter_data_query'
 import { SOCIAL_VOLUME_QUERY } from './queries/social_volume_query'
 import { DAILY_ACTIVE_ADDRESSES_QUERY } from './queries/daily_active_addresses_query'
 import { EXCHANGE_FUNDS_FLOW_QUERY } from './queries/exchange_funds_flow_query'
@@ -17,6 +21,24 @@ import { mergeTimeseriesByKey } from './../../utils/utils'
 import { formatNumber } from './../../utils/formatting'
 
 const TIMESERIES = {
+  ethSpentOverTime: {
+    query: ETH_SPENT_OVER_TIME_QUERY,
+    preTransform: {
+      predicate: metric => metric === 'ethSpentOverTime',
+      preTransform: ({ ethSpentOverTime: { ethSpentOverTime } }) => ({
+        ethSpentOverTime
+      })
+    }
+  },
+  burnRate: {
+    query: BURN_RATE_QUERY
+  },
+  realizedValue: {
+    query: REALIZED_VALUE_QUERY
+  },
+  historyTwitterData: {
+    query: HISTORY_TWITTER_DATA_QUERY
+  },
   historyPrice: {
     query: HISTORY_PRICE_QUERY
   },
@@ -26,7 +48,6 @@ const TIMESERIES = {
   devActivity: {
     query: DEV_ACTIVITY_QUERY
   },
-  // TODO: Fix working with this metric for visualization
   socialDominance: {
     query: SOCIAL_DOMINANCE_QUERY
   },
