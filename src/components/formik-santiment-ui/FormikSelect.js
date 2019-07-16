@@ -5,21 +5,11 @@ import { Creatable } from 'react-select'
 import './FormikSelect.scss'
 
 const FormikSelect = ({
-  className,
   isClearable = true,
-  options = [],
-  optionRenderer = undefined,
   name,
   multi = false,
-  simpleValue = false,
-  backspaceRemoves = false,
   isCreatable = false,
-  disabled = false,
-  placeholder,
   onChange,
-  labelKey = 'label',
-  valueKey = 'value',
-  isLoading = false,
   ...rest
 }) => {
   return (
@@ -34,26 +24,16 @@ const FormikSelect = ({
               }
             >
               <Select
-                optionRenderer={optionRenderer}
                 clearable={isClearable}
-                className={className}
                 selectComponent={isCreatable ? Creatable : undefined}
                 multi={multi}
-                simpleValue={simpleValue}
-                placeholder={placeholder}
                 classNamePrefix='react-select'
-                options={options}
-                isLoading={isLoading}
-                valueKey={valueKey}
-                labelKey={labelKey}
-                backspaceRemoves={backspaceRemoves}
                 minimumInput={1}
                 onChange={value => {
                   form.setFieldValue(name, value)
                   form.setFieldTouched(name, true)
                   onChange && onChange(value)
                 }}
-                disabled={disabled}
                 value={field.value}
                 {...rest}
               />

@@ -77,7 +77,7 @@ const TriggerFormHistoricalBalance = ({
     target &&
     target.value &&
     selectableProjects.length > 0 &&
-    !selectableProjects.find(p => p.value === target.value)
+    !selectableProjects.some(({ value }) => value === target.value)
   ) {
     setFieldValue('target', '')
   }
@@ -108,24 +108,17 @@ const TriggerFormHistoricalBalance = ({
           required
           options={selectableProjects}
           onChange={newAsset => {
-            if (ethAddress) {
+            if (disabledWalletField) {
+              setFieldValue('ethAddress', '')
+            } else if (ethAddress) {
               if (
                 metaFormSettings.target.value.value === newAsset.value ||
-                heldAssets.find(a => a.value === newAsset.value)
+                heldAssets.some(a => a.value === newAsset.value)
               ) {
                 setFieldValue('ethAddress', ethAddress)
               } else {
                 setFieldValue('ethAddress', '')
               }
-            }
-            if (
-              isDisabledWalletAddressField(
-                canUseMappedErc20,
-                newAsset,
-                erc20List
-              )
-            ) {
-              setFieldValue('ethAddress', '')
             }
           }}
         />

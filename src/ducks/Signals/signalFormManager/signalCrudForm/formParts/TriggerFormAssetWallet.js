@@ -15,7 +15,7 @@ const propTypes = {
 const TriggerFormAssetWallet = ({
   metaFormSettings: { target: defaultAsset, signalType: defaultSignalType },
   setFieldValue,
-  values: { signalType }
+  values: { signalType, target }
 }) => {
   return (
     <div className={styles.row}>
@@ -40,7 +40,7 @@ const TriggerFormAssetWallet = ({
         />
       </div>
 
-      {isAsset(signalType) && (
+      {isAsset(signalType) && !Array.isArray(target) && (
         <div className={styles.Field}>
           <Label className={styles.label}>&nbsp;</Label>
           <GetProjects
@@ -49,8 +49,6 @@ const TriggerFormAssetWallet = ({
                 <FormikSelect
                   isLoading={isLoading}
                   name='target'
-                  disabled={defaultAsset.isDisabled}
-                  defaultValue={defaultAsset.value.value}
                   placeholder='Pick an asset'
                   required
                   options={mapToAssets(allProjects, false)}
@@ -61,12 +59,7 @@ const TriggerFormAssetWallet = ({
         </div>
       )}
 
-      {isWatchlist(signalType) && (
-        <div className={styles.Field}>
-          <Label className={styles.label}>&nbsp;</Label>
-          <TriggerFormWatchlists />
-        </div>
-      )}
+      {isWatchlist(signalType) && <TriggerFormWatchlists />}
     </div>
   )
 }

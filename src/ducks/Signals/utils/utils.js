@@ -50,31 +50,29 @@ const getTimeWindowUnit = timeWindow => {
   return TIME_WINDOW_UNITS.find(item => item.value === value)
 }
 
-const getFormTriggerTarget = target => {
-  const { slug, watchlist_id } = target
+const getFormTriggerTarget = ({ target, target: { eth_address }, asset }) => {
+  const parsingTarget = eth_address ? asset : target
+  const { slug, watchlist_id } = parsingTarget
 
-  if (!slug) {
-    if (watchlist_id) {
-      return {
-        signalType: METRIC_TARGET_WATCHLIST,
-        target: watchlist_id
-      }
-    }
-  } else {
-    const target = Array.isArray(slug)
-      ? mapToOptions(slug)
-      : {
-        value: slug,
-        label: slug
-      }
-
+  if (watchlist_id) {
     return {
-      target: target,
-      signalType: METRIC_TARGET_ASSETS
+      signalType: METRIC_TARGET_WATCHLIST,
+      target: watchlist_id
     }
   }
 
-  return undefined
+  const newTarget = Array.isArray(slug)
+    ? mapToOptions(slug)
+    : {
+      value: slug,
+      label: slug
+    }
+
+  return {
+    target: newTarget,
+    signalType: METRIC_TARGET_ASSETS,
+    ethAddress: eth_address
+  }
 }
 
 const getFormTriggerType = (target, type, operation) => {
@@ -300,24 +298,21 @@ export const mapTriggerToFormProps = currentTrigger => {
     isPublic,
     isRepeating,
     settings,
-    settings: { type, operation, time_window, target, asset, channel }
+    settings: { type, operation, time_window, target, channel }
   } = currentTrigger
 
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
 
-  const address = target.eth_address
-
-  const targetForParser = address ? asset : target
-
-  const { target: newTarget, signalType } = getFormTriggerTarget(
-    targetForParser
+  const { target: newTarget, signalType, ethAddress } = getFormTriggerTarget(
+    settings
   )
   const newType = getFormTriggerType(target, type, operation)
 
   const trendingWordsParams = getFormTrendingWords(currentTrigger)
+
   return {
-    ethAddress: address,
+    ethAddress: ethAddress,
     cooldown: cooldown,
     isRepeating: isRepeating,
     isActive: isActive,
@@ -437,11 +432,17 @@ export const mapAssetTarget = (target, isEthWalletTrigger) => {
 export const getChannels = ({ channels }) =>
   channels.length ? channels[0].toLowerCase() : undefined
 
-export const isTrendingWordsWatchlist = type =>
+export const isTrendingWordsByProjects = type =>
+  type.value === TRENDING_WORDS_PROJECT_MENTIONED.value
+
+export const isTrendingWordsByWords = type =>
+  type.value === TRENDING_WORDS_WORD_MENTIONED.value
+
+export const isTrendingWordsByWatchlist = type =>
   type.value === TRENDING_WORDS_WATCHLIST_MENTIONED.value
 
 export const getTrendingWordsTriggerOperation = ({ type: { value }, type }) => {
-  if (isTrendingWordsWatchlist(type)) {
+  if (isTrendingWordsByWatchlist(type)) {
     return {
       [TRENDING_WORDS_PROJECT_MENTIONED.value]: true
     }
@@ -786,14 +787,14 @@ export const validateTriggerForm = ({
 
   if (metric && metric.value === TRENDING_WORDS) {
     if (
-      type.value === TRENDING_WORDS_PROJECT_MENTIONED.value &&
+      isTrendingWordsByProjects(type) &&
       (!trendingWordsWithAssets || trendingWordsWithAssets.length === 0)
     ) {
       errors.trendingWordsWithAssets = REQUIRED_MESSAGE
     }
 
     if (
-      type.value === TRENDING_WORDS_WORD_MENTIONED.value &&
+      isTrendingWordsByWords(type) &&
       (!trendingWordsWithWords || trendingWordsWithWords.length === 0)
     ) {
       errors.trendingWordsWithWords = REQUIRED_MESSAGE
@@ -822,8 +823,8 @@ const POSSIBLE_METRICS_FOR_CHART = [
   PRICE_VOLUME_DIFFERENCE_METRIC.value
 ]
 
-export const couldShowChart = (signalType, metric) => {
-  if (isWatchlist(signalType)) {
+export const couldShowChart = ({ signalType, metric, target }) => {
+  if (isWatchlist(signalType) || Array.isArray(target)) {
     return false
   }
 

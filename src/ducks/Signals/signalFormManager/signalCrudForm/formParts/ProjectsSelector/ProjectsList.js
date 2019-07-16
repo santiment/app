@@ -5,6 +5,7 @@ import { Checkbox } from '@santiment-network/ui'
 import styles from './ProjectsList.module.scss'
 
 const ROW_HEIGHT = 32
+const MAX_SHOWING_ITEMS = 4
 
 const ProjectsList = ({ items, listItems, onToggleProject, isContained }) => {
   const rowRenderer = ({ key, index, style }) => {
@@ -36,8 +37,9 @@ const ProjectsList = ({ items, listItems, onToggleProject, isContained }) => {
   }
 
   const wrapperStyles = {
-    height: items.length > 4 ? `160px` : `${32 * items.length}px`,
-    paddingRight: items.length > 4 ? '0' : `5px`
+    height:
+      items.length > MAX_SHOWING_ITEMS ? `160px` : `${32 * items.length}px`,
+    paddingRight: items.length > MAX_SHOWING_ITEMS ? '0px' : `5px`
   }
 
   return (

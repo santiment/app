@@ -4,6 +4,18 @@ import TriggerFormTrendingWordsTypes from './TriggerFormTrendingWordsTypes'
 import { ETH_WALLET, TRENDING_WORDS } from '../../../utils/constants'
 import TriggerFormHistoricalBalance from './TriggerFormHistoricalBalance'
 
+const checkPossibleTarget = ({ metaFormSettings, setFieldValue, target }) => {
+  if (Array.isArray(target)) {
+    const { target: value } = metaFormSettings
+    setFieldValue('target', target.length > 0 ? target[0] : value)
+  }
+}
+
+const mapToComponents = {
+  [TRENDING_WORDS]: TriggerFormTrendingWordsTypes,
+  [ETH_WALLET]: TriggerFormHistoricalBalance
+}
+
 const TriggerMetricTypesResolver = ({
   address,
   values,
@@ -11,30 +23,10 @@ const TriggerMetricTypesResolver = ({
   metaFormSettings,
   setFieldValue
 }) => {
-  let TypeComponent
+  const TypeComponent = mapToComponents[metric.value] || TriggerFormAssetWallet
 
-  const checkPossibleTarget = () => {
-    if (Array.isArray(target)) {
-      const { target: value } = metaFormSettings
-      setFieldValue('target', target.length > 0 ? target[0] : value)
-    }
-  }
-
-  switch (metric.value) {
-    case TRENDING_WORDS: {
-      TypeComponent = TriggerFormTrendingWordsTypes
-      break
-    }
-    case ETH_WALLET: {
-      checkPossibleTarget()
-      TypeComponent = TriggerFormHistoricalBalance
-      break
-    }
-    default: {
-      checkPossibleTarget()
-      TypeComponent = TriggerFormAssetWallet
-      break
-    }
+  if (metric.value !== TRENDING_WORDS) {
+    checkPossibleTarget({ metaFormSettings, setFieldValue, target })
   }
 
   return (

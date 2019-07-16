@@ -2,14 +2,12 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import Label from '@santiment-network/ui/Label'
-import {
-  TRENDING_WORDS_PROJECT_MENTIONED,
-  TRENDING_WORDS_TYPE_OPTIONS,
-  TRENDING_WORDS_WORD_MENTIONED
-} from '../../../utils/constants'
+import { TRENDING_WORDS_TYPE_OPTIONS } from '../../../utils/constants'
 import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelector'
 import {
-  isTrendingWordsWatchlist,
+  isTrendingWordsByProjects,
+  isTrendingWordsByWatchlist,
+  isTrendingWordsByWords,
   mapToAssets,
   mapToOptions
 } from '../../../utils/utils'
@@ -32,9 +30,9 @@ const TriggerFormTrendingWordsTypes = ({
   values,
   setFieldValue
 }) => {
-  const isProjects = type.value === TRENDING_WORDS_PROJECT_MENTIONED.value
-  const isWords = type.value === TRENDING_WORDS_WORD_MENTIONED.value
-  const isWatchlist = isTrendingWordsWatchlist(type)
+  const isProjects = isTrendingWordsByProjects(type)
+  const isWords = isTrendingWordsByWords(type)
+  const isWatchlist = isTrendingWordsByWatchlist(type)
 
   return (
     <GetProjects
@@ -64,7 +62,7 @@ const TriggerFormTrendingWordsTypes = ({
                   options={TRENDING_WORDS_TYPE_OPTIONS}
                   onChange={type => {
                     if (
-                      isTrendingWordsWatchlist(type) &&
+                      isTrendingWordsByWatchlist(type) &&
                       typeof target === 'object'
                     ) {
                       setFieldValue('target', '')

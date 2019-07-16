@@ -28,7 +28,7 @@ const MetricOptionsRenderer = ({
   }
 
   if (option === focusedOption) {
-    classNames.push(styles.ocused)
+    classNames.push(styles.focused)
   }
   if (valueArray.indexOf(option) >= 0) {
     classNames.push(styles.selected)

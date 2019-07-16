@@ -82,9 +82,7 @@ export const TriggerForm = ({
   const [initialValues, setInitialValues] = useState(settings)
 
   useEffect(() => {
-    const { signalType, metric } = initialValues
-    couldShowChart(signalType, metric) &&
-      getSignalBacktestingPoints(initialValues)
+    couldShowChart(initialValues) && getSignalBacktestingPoints(initialValues)
   }, [])
 
   const defaultType = metaFormSettings.type
@@ -123,7 +121,7 @@ export const TriggerForm = ({
 
         const { price } = lastPriceItem || {}
 
-        const showChart = target && couldShowChart(signalType, metric)
+        const showChart = target && couldShowChart(values)
 
         return (
           <Form className={styles.TriggerForm}>
@@ -152,9 +150,7 @@ export const TriggerForm = ({
                     key => lastErrors[key]
                   )
 
-                  const canLoadChart =
-                    newValues &&
-                    couldShowChart(newValues.signalType, newValues.metric)
+                  const canLoadChart = newValues && couldShowChart(newValues)
 
                   newValues.target &&
                     !isError &&
