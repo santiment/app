@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import { AutoSizer, List } from 'react-virtualized'
 import Label from '@santiment-network/ui/Label'
 import GetAssets, { SORT_TYPES } from './GetAssets'
+import { RANGES } from '../../components/WatchlistOverview/constants'
 import { getTableTitle } from './utils'
 import { addRecentWatchlists, removeRecentWatchlists } from '../../utils/recent'
 import AssetCard from './AssetCard'
 import AssetsTemplates from './AssetsTemplates'
 import WatchlistActions from './WatchlistActions'
+import WatchlistAnomalies from '../../components/WatchlistOverview/WatchlistAnomalies/WatchlistAnomalies'
 import PageLoader from '../../components/Loader/PageLoader'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import styles from './AssetsMobilePage.module.scss'
@@ -15,6 +17,29 @@ import styles from './AssetsMobilePage.module.scss'
 const AssetsMobilePage = props => {
   const { isLoggedIn } = props
   const isList = props.type === 'list'
+
+  const [pointer, setPointer] = useState(1)
+  const [range, setRange] = useState(RANGES[pointer])
+  const [filteredItems, setFilteredItems] = useState(null)
+  const [filterType, setFilterType] = useState(null)
+  const [currentItems, setCurrentItems] = useState(null)
+
+  const changeRange = () => {
+    const newPointer = pointer === RANGES.length - 1 ? 0 : pointer + 1
+    setPointer(newPointer)
+    setRange(RANGES[newPointer])
+  }
+
+  const toggleAssetsFiltering = (assets, type, items) => {
+    if (type === filterType) {
+      setFilterType(null)
+      setFilteredItems(null)
+    } else {
+      setFilterType(type)
+      setFilteredItems(assets)
+    }
+  }
+
   return (
     <div className={cx('page', styles.wrapper)}>
       <GetAssets
@@ -26,8 +51,15 @@ const AssetsMobilePage = props => {
           isLoading,
           isCurrentUserTheAuthor,
           isPublicWatchlist,
-          items
+          items,
+          trendingAssets = []
         }) => {
+          if (items !== currentItems) {
+            setCurrentItems(items)
+            setFilteredItems(null)
+            setFilterType(null)
+          }
+
           const title = getTableTitle(props)
 
           if (items.length && (isCurrentUserTheAuthor || isPublicWatchlist)) {
@@ -68,11 +100,21 @@ const AssetsMobilePage = props => {
               />
               {items.length > 0 && (
                 <>
+                  <WatchlistAnomalies
+                    trends={trendingAssets}
+                    isDesktop={false}
+                    range={range}
+                    type={filterType}
+                    changeRange={changeRange}
+                    onFilterAssets={(assets, type) =>
+                      toggleAssetsFiltering(assets, type, items)
+                    }
+                  />
                   <div className={styles.headings}>
                     <Label accent='casper'>Coin</Label>
                     <Label accent='casper'>Price, 24h</Label>
                   </div>
-                  <AssetsList items={items} />
+                  <AssetsList items={filteredItems || items} />
                 </>
               )}
 

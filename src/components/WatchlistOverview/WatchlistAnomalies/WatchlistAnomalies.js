@@ -14,9 +14,11 @@ const WatchlistAnomalies = ({
   changeRange,
   trends = [],
   onFilterAssets,
-  type
+  type,
+  isDesktop = false
 }) => {
   const isTrendsFilter = type === filteringTypes.TRENDS
+  const totalAnomalies = trends.length
   return trends.length > 0 ? (
     <div className={styles.wrapper}>
       <Icon type='flash' className={styles.icon} />
@@ -33,22 +35,24 @@ const WatchlistAnomalies = ({
           className={isTrendsFilter && styles.stat}
         />
       </Button>
-      <Tooltip
-        className={styles.tooltip}
-        position='top'
-        trigger={
-          <div className={styles.description}>
-            <Icon type='question-round-small' className={styles.question} />
-            How it works
-          </div>
-        }
-      >
-        <Panel padding>
-          Anomalies in metrics are detected using combination of statistical
-          methods. Currently combination of this methodes defines boundary
-          between normal and abnormal values.
-        </Panel>
-      </Tooltip>
+      {isDesktop && (
+        <Tooltip
+          className={styles.tooltip}
+          position='top'
+          trigger={
+            <div className={styles.description}>
+              <Icon type='question-round-small' className={styles.question} />
+              How it works
+            </div>
+          }
+        >
+          <Panel padding>
+            Anomalies in metrics are detected using combination of statistical
+            methods. Currently combination of this methodes defines boundary
+            between normal and abnormal values.
+          </Panel>
+        </Tooltip>
+      )}
     </div>
   ) : null
 }

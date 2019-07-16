@@ -1,17 +1,34 @@
 @import "~@santiment-network/ui/mixins";
 
 .wrapper {
-  padding: 24px;
+  padding: 18px 24px;
   display: flex;
   align-items: center;
   border: 1px solid var(--porcelain);
-  border-bottom: none;
-  border-left: none;
+  position: relative;
+
+  @include responsive('tablet', 'laptop', 'desktop') {
+    border-bottom: none;
+    border-left: none;
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    margin: 0 16px 20px;
+    padding: 18px 24px;
+    flex-wrap: wrap;
+    align-items: baseline;
+    border-radius: $border-radius;
+  }
 }
 
 .button {
   margin-left: 24px;
   padding: 4px 16px 6px;
+
+  @include responsive('phone-xs', 'phone') {
+    margin-left: 0;
+    margin-top: 19px;
+  }
 }
 
 .button + .button {
