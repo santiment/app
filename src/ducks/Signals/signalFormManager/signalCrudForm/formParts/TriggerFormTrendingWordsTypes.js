@@ -16,7 +16,9 @@ const getWords = (allProjects, trendingWordsWithWords) => {
   const defaultOptions = mapToAssets(allProjects, false)
   const preselectedWords = Array.isArray(trendingWordsWithWords)
     ? trendingWordsWithWords
-    : [trendingWordsWithWords]
+    : trendingWordsWithWords
+      ? [trendingWordsWithWords]
+      : []
   return [...mapToOptions(preselectedWords), ...defaultOptions]
 }
 

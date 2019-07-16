@@ -53,10 +53,7 @@ export const TriggerForm = ({
   isTelegramConnected = false,
   lastPriceItem,
   settings,
-  metaFormSettings,
-  trigger: { id } = {},
-  removeSignal,
-  onRemovedSignal
+  metaFormSettings
 }) => {
   const formMetric =
     metaFormSettings && metaFormSettings.metric

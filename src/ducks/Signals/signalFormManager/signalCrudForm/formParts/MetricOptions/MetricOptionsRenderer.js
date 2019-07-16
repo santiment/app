@@ -28,10 +28,10 @@ const MetricOptionsRenderer = ({
   }
 
   if (option === focusedOption) {
-    classNames.push(styles.option_focused)
+    classNames.push(styles.ocused)
   }
   if (valueArray.indexOf(option) >= 0) {
-    classNames.push(styles.option_selected)
+    classNames.push(styles.selected)
   }
 
   return (

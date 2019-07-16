@@ -5,15 +5,15 @@
   padding: 12px 8px;
 
   @include text('body-3');
+}
 
-  &_focused {
-    color: var(--jungle-green);
-    cursor: pointer;
-  }
+.focused {
+  color: var(--jungle-green);
+  cursor: pointer;
+}
 
-  &_selected {
-    color: var(--jungle-green);
-  }
+.selected {
+  color: var(--jungle-green);
 }
 
 .header {

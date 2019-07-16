@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import Icon from '@santiment-network/ui/Icon'
+import Button from '@santiment-network/ui/Button'
 import SearchProjects from '../../../../../../components/Search/SearchProjects'
 import { hasAssetById } from '../../../../../../components/WatchlistPopup/WatchlistsPopup'
 import ProjectsList from './ProjectsList'
@@ -58,6 +59,7 @@ export const TriggerProjectsSelector = ({
     <Dialog
       showCloseBtn={false}
       title='Select assets'
+      classes={styles}
       trigger={
         <div>
           <div className={styles.assetsSelect}>
@@ -87,28 +89,16 @@ export const TriggerProjectsSelector = ({
           <ProjectsList
             classes={styles}
             isContained={true}
-            selectedItems={listItems}
+            listItems={listItems}
             items={listItems}
-            onToggleProject={project => {
-              toggleAsset({
-                project,
-                listItems,
-                isAssetInList: true
-              })
-            }}
+            onToggleProject={toggleAsset}
           />
           <div className={styles.divider} />
           <ProjectsList
             classes={styles}
-            selectedItems={listItems}
+            listItems={listItems}
             items={projects}
-            onToggleProject={project => {
-              toggleAsset({
-                project,
-                listItems,
-                isAssetInList: false
-              })
-            }}
+            onToggleProject={toggleAsset}
           />
         </div>
       </Dialog.ScrollContent>
@@ -133,15 +123,16 @@ const AssetsListDescription = ({
           <span className={styles.asset} key={id}>
             <span className={styles.name}>{name}</span>
             <span className={styles.ticker}>{ticker}</span>
-            <Icon
+            <Button
+              type='button'
+              className={styles.close}
               onClick={e => {
-                e.preventDefault()
                 e.stopPropagation()
                 onRemove(asset)
               }}
-              type='close'
-              className={styles.closeIcon}
-            />
+            >
+              <Icon type='close' className={styles.closeIcon} />
+            </Button>
           </span>
         )
       })}

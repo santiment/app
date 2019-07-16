@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import Label from '@santiment-network/ui/Label'
 import { METRIC_TARGET_OPTIONS } from '../../../utils/constants'
-import GetWatchlists from '../../../../Watchlists/GetWatchlists'
 import GetProjects from '../../../common/projects/getProjects'
 import { isAsset, isWatchlist, mapToAssets } from '../../../utils/utils'
+import TriggerFormWatchlists from './TriggerFormWatchlists'
 import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
@@ -68,21 +68,7 @@ const TriggerFormAssetWallet = ({
       {isWatchlist(signalType) && (
         <div className={styles.Field}>
           <Label className={styles.label}>&nbsp;</Label>
-          <GetWatchlists
-            render={({ isWatchlistsLoading, watchlists }) => {
-              return (
-                <FormikSelect
-                  isLoading={isWatchlistsLoading}
-                  name='target'
-                  placeholder='Pick an watchlist'
-                  required
-                  valueKey='id'
-                  labelKey='name'
-                  options={watchlists}
-                />
-              )
-            }}
-          />
+          <TriggerFormWatchlists />
         </div>
       )}
     </div>

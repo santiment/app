@@ -50,23 +50,27 @@ const getTimeWindowUnit = timeWindow => {
 }
 
 const getFormTriggerTarget = target => {
-  const { slug, watchlist } = target
+  const { slug, watchlist_id } = target
 
   if (!slug) {
-    if (watchlist) {
+    if (watchlist_id) {
       return {
-        target: {
-          watchlist: watchlist
-        }
+        signalType: METRIC_TARGET_WATCHLIST,
+        target: watchlist_id
       }
     }
   } else {
-    return Array.isArray(slug)
+    const target = Array.isArray(slug)
       ? mapToOptions(slug)
       : {
         value: slug,
         label: slug
       }
+
+    return {
+      target: target,
+      signalType: METRIC_TARGET_ASSETS
+    }
   }
 
   return undefined
@@ -299,7 +303,9 @@ export const mapTriggerToFormProps = currentTrigger => {
 
   const targetForParser = address ? asset : target
 
-  const newTarget = getFormTriggerTarget(targetForParser)
+  const { target: newTarget, signalType } = getFormTriggerTarget(
+    targetForParser
+  )
   const newType = getFormTriggerType(type, operation)
 
   const trendingWordsParams = getFormTrendingWords(currentTrigger)
@@ -317,6 +323,7 @@ export const mapTriggerToFormProps = currentTrigger => {
       ? getTimeWindowUnit(time_window)
       : TIME_WINDOW_UNITS[0],
     target: newTarget,
+    signalType: signalType,
     percentThreshold: getPercentTreshold(settings) || BASE_PERCENT_THRESHOLD,
     threshold: mapTriggerToFormThreshold(settings) || BASE_THRESHOLD,
     channels: [capitalizeStr(channel)],
@@ -390,8 +397,9 @@ export const mapTriggerTarget = (
 
   switch (value) {
     case METRIC_TARGET_WATCHLIST.value: {
+      debugger
       newTarget = {
-        watchlist: target.id
+        watchlist_id: +target
       }
       break
     }
@@ -771,7 +779,7 @@ export const validateTriggerForm = ({
     }
   } else {
     if (isWatchlist(signalType)) {
-      if (!target || !target.id) {
+      if (!target) {
         errors.target = REQUIRED_MESSAGE
       }
     } else {
