@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Tooltip from '@santiment-network/ui/Tooltip'
@@ -15,30 +15,53 @@ const WatchlistAnomalies = ({
   trends = [],
   onFilterAssets,
   type,
-  isDesktop = false
+  isDesktop = true
 }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const toggleVisibility = () => {
+    if (type) onFilterAssets(null, null)
+    setIsOpen(!isOpen)
+  }
   const isTrendsFilter = type === filteringTypes.TRENDS
   const totalAnomalies = trends.length
   return trends.length > 0 ? (
     <div className={styles.wrapper}>
-      <Icon type='flash' className={styles.icon} />
-      <Range label='Anomalies' range={value} changeRange={changeRange} />
-      <Button
-        variant='flat'
-        border
-        className={cx(styles.button, isTrendsFilter && styles.active)}
-        onClick={() => onFilterAssets(trends, filteringTypes.TRENDS)}
-      >
-        <Stat
-          name='Trending assets:'
-          values={[trends.length]}
-          className={isTrendsFilter && styles.stat}
-        />
-      </Button>
+      <div className={styles.top} onClick={isDesktop ? null : toggleVisibility}>
+        <Icon type='flash' className={styles.icon} />
+        {isDesktop ? (
+          <Range label='Anomalies' range={value} changeRange={changeRange} />
+        ) : isOpen ? (
+          <Range label='Anomalies' range={value} changeRange={changeRange} />
+        ) : (
+          <Stat name={`Anomalies, ${value}:`} values={[totalAnomalies]} />
+        )}
+        {!isDesktop && (
+          <Icon
+            type={`arrow-${isOpen ? 'up' : 'down'}`}
+            className={styles.arrow}
+          />
+        )}
+      </div>
+      {(isDesktop || isOpen) && (
+        <Button
+          variant='flat'
+          border
+          className={cx(styles.button, isTrendsFilter && styles.active)}
+          onClick={() => onFilterAssets(trends, filteringTypes.TRENDS)}
+        >
+          <Stat
+            name='Trending assets:'
+            values={[trends.length]}
+            className={isTrendsFilter && styles.stat}
+          />
+        </Button>
+      )}
       {isDesktop && (
         <Tooltip
           className={styles.tooltip}
           position='top'
+          align='end'
           trigger={
             <div className={styles.description}>
               <Icon type='question-round-small' className={styles.question} />
