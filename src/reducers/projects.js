@@ -8,6 +8,7 @@ export const initialState = {
     minVolume: 10000
   },
   items: [],
+  trendingAssets: [],
   tableInfo: {
     visibleItems: 0,
     pageSize: 0,
@@ -25,7 +26,8 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: true,
         error: false,
-        items: []
+        items: [],
+        trendingAssets: []
       }
     case actions.ASSETS_FETCH_SUCCESS:
       return {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Tooltip from '@santiment-network/ui/Tooltip'
@@ -15,24 +15,28 @@ const WatchlistAnomalies = ({
   trends = [],
   onFilterAssets,
   type,
+  toggleOpenAnomalies,
+  isOpen,
   isDesktop = true
 }) => {
-  const [isOpen, setIsOpen] = useState(false)
-
-  const toggleVisibility = () => {
-    if (type) onFilterAssets(null, null)
-    setIsOpen(!isOpen)
-  }
   const isTrendsFilter = type === filteringTypes.TRENDS
   const totalAnomalies = trends.length
   return trends.length > 0 ? (
     <div className={styles.wrapper}>
-      <div className={styles.top} onClick={isDesktop ? null : toggleVisibility}>
+      <div
+        className={styles.top}
+        onClick={isDesktop ? null : toggleOpenAnomalies}
+      >
         <Icon type='flash' className={styles.icon} />
-        {isDesktop ? (
-          <Range label='Anomalies' range={value} changeRange={changeRange} />
-        ) : isOpen ? (
-          <Range label='Anomalies' range={value} changeRange={changeRange} />
+        {isDesktop || isOpen ? (
+          <Range
+            label='Anomalies'
+            range={value}
+            changeRange={event => {
+              event.stopPropagation()
+              changeRange()
+            }}
+          />
         ) : (
           <Stat name={`Anomalies, ${value}:`} values={[totalAnomalies]} />
         )}
@@ -44,18 +48,20 @@ const WatchlistAnomalies = ({
         )}
       </div>
       {(isDesktop || isOpen) && (
-        <Button
-          variant='flat'
-          border
-          className={cx(styles.button, isTrendsFilter && styles.active)}
-          onClick={() => onFilterAssets(trends, filteringTypes.TRENDS)}
-        >
-          <Stat
-            name='Trending assets:'
-            values={[trends.length]}
-            className={isTrendsFilter && styles.stat}
-          />
-        </Button>
+        <div className={styles.bottom}>
+          <Button
+            variant='flat'
+            border
+            className={cx(styles.button, isTrendsFilter && styles.active)}
+            onClick={() => onFilterAssets(trends, filteringTypes.TRENDS)}
+          >
+            <Stat
+              name='Trending assets:'
+              values={[trends.length]}
+              className={isTrendsFilter && styles.stat}
+            />
+          </Button>
+        </div>
       )}
       {isDesktop && (
         <Tooltip

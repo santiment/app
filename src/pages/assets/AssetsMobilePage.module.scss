@@ -3,7 +3,12 @@
 }
 
 .wrapperList {
-  height: calc(100vh - 130px);
+  height: inherit;
+}
+
+.assetsList {
+  height: calc(100vh - var(--remaining-height));
+  position: relative;
 }
 
 .headings {

@@ -31,6 +31,12 @@
   }
 }
 
+.bottom {
+  @include responsive('phone-xs', 'phone') {
+    margin-bottom: 8px;
+  }
+}
+
 .arrow {
   fill: var(--waterloo);
   margin-left: auto;
