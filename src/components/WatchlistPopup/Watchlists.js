@@ -12,7 +12,7 @@ const Watchlists = ({
   projectId,
   slug,
   onWatchlistClick,
-  classes
+  classes = {}
 }) => (
   <>
     <div className={styles.listWrapper}>
