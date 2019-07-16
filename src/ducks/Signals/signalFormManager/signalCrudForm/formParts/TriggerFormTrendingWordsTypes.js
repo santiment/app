@@ -8,8 +8,13 @@ import {
   TRENDING_WORDS_WORD_MENTIONED
 } from '../../../utils/constants'
 import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelector'
-import { mapToAssets, mapToOptions } from '../../../utils/utils'
+import {
+  isTrendingWordsWatchlist,
+  mapToAssets,
+  mapToOptions
+} from '../../../utils/utils'
 import GetProjects from '../../../common/projects/getProjects'
+import TriggerFormWatchlists from './TriggerFormWatchlists'
 import styles from '../signal/TriggerForm.module.scss'
 
 const getWords = (allProjects, trendingWordsWithWords) => {
@@ -23,12 +28,13 @@ const getWords = (allProjects, trendingWordsWithWords) => {
 }
 
 const TriggerFormTrendingWordsTypes = ({
-  values: { type, trendingWordsWithAssets, trendingWordsWithWords },
+  values: { type, trendingWordsWithAssets, trendingWordsWithWords, target },
   values,
   setFieldValue
 }) => {
   const isProjects = type.value === TRENDING_WORDS_PROJECT_MENTIONED.value
   const isWords = type.value === TRENDING_WORDS_WORD_MENTIONED.value
+  const isWatchlist = isTrendingWordsWatchlist(type)
 
   return (
     <GetProjects
@@ -42,7 +48,12 @@ const TriggerFormTrendingWordsTypes = ({
         return (
           <div>
             <div className={cx(styles.row, styles.rowInner)}>
-              <div className={cx(styles.Field, styles.fieldFilled)}>
+              <div
+                className={cx(
+                  styles.Field,
+                  !isWatchlist ? styles.fieldFilled : ''
+                )}
+              >
                 <Label accent='waterloo' className={styles.label}>
                   Type
                 </Label>
@@ -51,34 +62,45 @@ const TriggerFormTrendingWordsTypes = ({
                   name='type'
                   placeholder={'Pick type'}
                   options={TRENDING_WORDS_TYPE_OPTIONS}
+                  onChange={type => {
+                    if (
+                      isTrendingWordsWatchlist(type) &&
+                      typeof target === 'object'
+                    ) {
+                      setFieldValue('target', '')
+                    }
+                  }}
                 />
               </div>
+              {isWatchlist && <TriggerFormWatchlists />}
             </div>
 
-            <div className={styles.row}>
-              <div className={cx(styles.Field, styles.fieldFilled)}>
-                {isProjects && (
-                  <TriggerProjectsSelector
-                    name='trendingWordsWithAssets'
-                    fieldValueList={trendingWordsWithAssets}
-                    values={values}
-                    projects={allProjects}
-                    setFieldValue={setFieldValue}
-                  />
-                )}
+            {!isWatchlist && (
+              <div className={styles.row}>
+                <div className={cx(styles.Field, styles.fieldFilled)}>
+                  {isProjects && (
+                    <TriggerProjectsSelector
+                      name='trendingWordsWithAssets'
+                      fieldValueList={trendingWordsWithAssets}
+                      values={values}
+                      projects={allProjects}
+                      setFieldValue={setFieldValue}
+                    />
+                  )}
 
-                {isWords && (
-                  <FormikSelect
-                    multi={true}
-                    isCreatable={true}
-                    name='trendingWordsWithWords'
-                    placeholder='Pick a word(s)'
-                    backspaceRemoves={true}
-                    options={words}
-                  />
-                )}
+                  {isWords && (
+                    <FormikSelect
+                      multi={true}
+                      isCreatable={true}
+                      name='trendingWordsWithWords'
+                      placeholder='Pick a word(s)'
+                      backspaceRemoves={true}
+                      options={words}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )
       }}

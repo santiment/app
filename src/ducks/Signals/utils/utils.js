@@ -38,7 +38,8 @@ import {
   TRENDING_WORDS,
   TRENDING_WORDS_WORD_MENTIONED,
   METRIC_TARGET_ASSETS,
-  METRIC_TARGET_WATCHLIST
+  METRIC_TARGET_WATCHLIST,
+  TRENDING_WORDS_WATCHLIST_MENTIONED
 } from './constants'
 import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 
@@ -76,7 +77,7 @@ const getFormTriggerTarget = target => {
   return undefined
 }
 
-const getFormTriggerType = (type, operation) => {
+const getFormTriggerType = (target, type, operation) => {
   if (!operation) {
     switch (type) {
       case DAILY_ACTIVE_ADDRESSES: {
@@ -129,7 +130,13 @@ const getFormTriggerType = (type, operation) => {
       return TRENDING_WORDS_WORD_MENTIONED
     }
     case TRENDING_WORDS_PROJECT_MENTIONED.value: {
-      return TRENDING_WORDS_PROJECT_MENTIONED
+      const { watchlist_id } = target
+
+      if (!watchlist_id) {
+        return TRENDING_WORDS_PROJECT_MENTIONED
+      } else {
+        return TRENDING_WORDS_WATCHLIST_MENTIONED
+      }
     }
 
     default: {
@@ -306,10 +313,9 @@ export const mapTriggerToFormProps = currentTrigger => {
   const { target: newTarget, signalType } = getFormTriggerTarget(
     targetForParser
   )
-  const newType = getFormTriggerType(type, operation)
+  const newType = getFormTriggerType(target, type, operation)
 
   const trendingWordsParams = getFormTrendingWords(currentTrigger)
-
   return {
     ethAddress: address,
     cooldown: cooldown,
@@ -397,7 +403,6 @@ export const mapTriggerTarget = (
 
   switch (value) {
     case METRIC_TARGET_WATCHLIST.value: {
-      debugger
       newTarget = {
         watchlist_id: +target
       }
@@ -432,9 +437,20 @@ export const mapAssetTarget = (target, isEthWalletTrigger) => {
 export const getChannels = ({ channels }) =>
   channels.length ? channels[0].toLowerCase() : undefined
 
-export const getTrendingWordsTriggerOperation = ({ type: { value } }) => ({
-  [value]: true
-})
+export const isTrendingWordsWatchlist = type =>
+  type.value === TRENDING_WORDS_WATCHLIST_MENTIONED.value
+
+export const getTrendingWordsTriggerOperation = ({ type: { value }, type }) => {
+  if (isTrendingWordsWatchlist(type)) {
+    return {
+      [TRENDING_WORDS_PROJECT_MENTIONED.value]: true
+    }
+  }
+
+  return {
+    [value]: true
+  }
+}
 
 export const mapTrendingWordsTargets = items => {
   if (items.length === 1) {
@@ -447,6 +463,7 @@ export const mapTrendingWordsTargets = items => {
 
 export const getTrendingWordsTarget = ({
   type,
+  target,
   trendingWordsWithAssets,
   trendingWordsWithWords
 }) => {
@@ -459,6 +476,11 @@ export const getTrendingWordsTarget = ({
     case TRENDING_WORDS_PROJECT_MENTIONED.value: {
       return {
         slug: mapTrendingWordsTargets(trendingWordsWithAssets)
+      }
+    }
+    case TRENDING_WORDS_WATCHLIST_MENTIONED.value: {
+      return {
+        watchlist_id: +target
       }
     }
     default: {
@@ -578,7 +600,6 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       throw new Error('Can not find a correct mapper for trigger')
     }
   }
-
   const cooldownParams = getCooldownParams(formProps)
 
   return {

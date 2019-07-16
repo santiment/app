@@ -25,9 +25,16 @@ export const TRENDING_WORDS_WORD_MENTIONED = {
   metric: 'trending_words'
 }
 
+export const TRENDING_WORDS_WATCHLIST_MENTIONED = {
+  label: 'Watchlist',
+  value: 'trending_watchlist',
+  metric: 'trending_words'
+}
+
 export const TRENDING_WORDS_TYPE_OPTIONS = [
   TRENDING_WORDS_PROJECT_MENTIONED,
-  TRENDING_WORDS_WORD_MENTIONED
+  TRENDING_WORDS_WORD_MENTIONED,
+  TRENDING_WORDS_WATCHLIST_MENTIONED
 ]
 
 export const ETH_WALLETS_OPERATIONS = {

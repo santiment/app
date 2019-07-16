@@ -7,11 +7,10 @@ import TriggerFormHistoricalBalance from './TriggerFormHistoricalBalance'
 const TriggerMetricTypesResolver = ({
   address,
   values,
+  values: { metric, target },
   metaFormSettings,
   setFieldValue
 }) => {
-  const { metric, target } = values
-
   let TypeComponent
 
   const checkPossibleTarget = () => {

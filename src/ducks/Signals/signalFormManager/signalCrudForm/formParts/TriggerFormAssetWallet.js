@@ -13,15 +13,10 @@ const propTypes = {
 }
 
 const TriggerFormAssetWallet = ({
-  metaFormSettings,
+  metaFormSettings: { target: defaultAsset, signalType: defaultSignalType },
   setFieldValue,
   values: { signalType }
 }) => {
-  const {
-    target: defaultAsset,
-    signalType: defaultSignalType
-  } = metaFormSettings
-
   return (
     <div className={styles.row}>
       <div className={styles.Field}>
@@ -30,6 +25,7 @@ const TriggerFormAssetWallet = ({
         </Label>
         <FormikSelect
           name='signalType'
+          isClearable={false}
           disabled={defaultSignalType.isDisabled}
           defaultValue={defaultSignalType.value.value}
           placeholder={'Pick signal type'}
