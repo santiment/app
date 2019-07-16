@@ -21,33 +21,11 @@
   }
 }
 
-.top {
-  display: flex;
-  align-items: center;
-  margin-bottom: 2px;
-}
-
 .bottom {
   display: flex;
   align-items: center;
   white-space: nowrap;
-  margin-right: 10px;
-}
-
-.label {
-  color: var(--casper);
-  margin: 0;
-
-  @include text('body-3');
-}
-
-.button {
-  width: auto;
-  padding: 0 4px;
-  margin-left: 4px;
-  height: 18px;
-
-  @include text('caption');
+  margin: 2px 10px 0 0;
 }
 
 .value {

@@ -5,7 +5,7 @@ import {
   CATEGORY_HISTORY_QUERY,
   PROJECTS_HISTORY_QUERY
 } from './WatchlistHistoryGQL'
-import { BASIC_CATEGORIES } from '../../pages/assets/assets-overview-constants'
+import { BASIC_CATEGORIES } from '../../../pages/assets/assets-overview-constants'
 import WatchlistHistoryWidget from './WatchlistHistoryWidget'
 import { filterEmptyStats } from './utils'
 

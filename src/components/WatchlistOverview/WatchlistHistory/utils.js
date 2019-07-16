@@ -1,5 +1,5 @@
-import { formatNumber } from '../../utils/formatting'
-import { calcPercentageChange } from '../../utils/utils'
+import { formatNumber } from '../../../utils/formatting'
+import { calcPercentageChange } from '../../../utils/utils'
 
 const currencyFormatOptions = {
   currency: 'USD',

@@ -8,7 +8,7 @@ import {
 } from './../pages/Projects/allProjectsGQL'
 import {
   PROJECTS_BY_FUNCTION_BIG_QUERY,
-  WATCHLIST_QUERY
+  WATCHLIST_WITH_TRENDING_ASSETS_QUERY
 } from '../queries/WatchlistGQL.js'
 import * as actions from './../actions/types'
 
@@ -93,7 +93,7 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
         client.watchQuery({
           query: list.function
             ? PROJECTS_BY_FUNCTION_BIG_QUERY
-            : WATCHLIST_QUERY,
+            : WATCHLIST_WITH_TRENDING_ASSETS_QUERY,
           variables: list.function
             ? { function: list.function }
             : { id: list.id },
@@ -123,10 +123,15 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
         const isCurrentUserTheAuthor =
           !list.function && store.getState().user.data.id === watchlist.user.id
 
+        const trendingAssets = list.function
+          ? []
+          : watchlist.stats.trendingProjects
+
         return Observable.of({
           type: actions.ASSETS_FETCH_SUCCESS,
           payload: {
             items,
+            trendingAssets,
             isCurrentUserTheAuthor,
             isLoading: false,
             error: false,
