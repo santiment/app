@@ -265,10 +265,9 @@ class Charts extends React.Component {
             )}
             {mixWithPaywallArea({
               dataKey: 'priceUsd',
-              domain: [0],
               stroke: 'red',
-              strokeOpacity: 0.9,
-              data: chartData
+              data: chartData,
+              yAxisId: 'axis-priceUsd'
             })}
 
             {chartData.length > 0 && (
