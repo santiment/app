@@ -1,3 +1,7 @@
 .wrapper ~ :global(.sanbase-footer) {
-    display: none;
+  display: none;
+}
+
+.usernameLink {
+  color: var(--white);
 }
