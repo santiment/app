@@ -53,31 +53,6 @@
   font-weight: bold;
 }
 
-.no-username-status-message {
-  text-align: center;
-  background-color: #ffbe00;
-
-  & a {
-    display: inline-block;
-    padding: 5px;
-    border-bottom: 0;
-    width: 100%;
-    color: #000;
-
-    &:hover {
-      color: #000;
-    }
-  }
-}
-
-.night-mode .no-username-status-message {
-  background-color: #cb8e25;
-
-  & i {
-    color: #000;
-  }
-}
-
 .page-head {
   margin-bottom: 30px;
 }
@@ -104,4 +79,8 @@
 
 .error-message {
   color: var(--persimmon);
+}
+
+.no-username-status-message {
+  color: var(--white);
 }
