@@ -263,13 +263,13 @@ class Charts extends React.Component {
                 strokeOpacity={0.3}
               />
             )}
-            {mixWithPaywallArea({
-              dataKey: 'priceUsd',
-              stroke: 'red',
-              data: chartData,
-              yAxisId: 'axis-priceUsd'
-            })}
-
+            {metrics.includes('historyPrice') &&
+              mixWithPaywallArea({
+                dataKey: 'priceUsd',
+                data: chartData,
+                yAxisId: 'axis-priceUsd',
+                domain: false
+              })}
             {chartData.length > 0 && (
               <Brush
                 x={BRUSH_SIDE_MARGIN_IN_PX}
