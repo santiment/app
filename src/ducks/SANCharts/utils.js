@@ -137,18 +137,35 @@ export const Metrics = {
     label: 'Eth Spent Over Time',
     category: 'On-chain',
     dataKey: 'ethSpent'
-  },
-  nvtRatioCirculation: {
+  }
+}
+
+const DerivedMetrics = [
+  {
+    parent: 'nvtRatio',
+    key: 'nvtRatioCirculation',
     node: Line,
     label: 'NVT Ratio Circulation',
     category: 'On-chain'
   },
-  nvtRatioTxVolume: {
+  {
+    parent: 'nvtRatio',
+    key: 'nvtRatioTxVolume',
     node: Bar,
     label: 'NVT Ratio Transaction Volume',
     category: 'On-chain'
   }
-}
+]
+
+DerivedMetrics.forEach(obj => {
+  Metrics[obj.key] = obj
+  const parentMetric = Metrics[obj.parent]
+  if (parentMetric) {
+    parentMetric.push(obj)
+  } else {
+    Metrics[obj.parent] = [obj]
+  }
+})
 
 export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
 
