@@ -132,7 +132,7 @@ const WatchlistCopyPopup = ({
 
   return (
     <Dialog
-      title={`Copy assets to watchlist(-s)`}
+      title={`Copy assets to watchlist${watchlistsToCopy.size > 1 ? 's' : ''}`}
       trigger={trigger}
       onOpen={open}
       onClose={close}
