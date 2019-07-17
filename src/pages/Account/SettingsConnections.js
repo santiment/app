@@ -20,7 +20,7 @@ const getMetamaskBtnText = (address, connecting) => {
 
 const getTelegramBtnText = (connected, connecting) => {
   if (connected) {
-    return 'Connected'
+    return 'Reconnect'
   }
 
   return connecting ? 'Connecting' : 'Connect'
