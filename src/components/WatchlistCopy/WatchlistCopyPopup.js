@@ -71,7 +71,11 @@ const WatchlistCopyPopup = ({
   if (editableWatchlists.length !== editWatchlistState.length) {
     setEditWatchlistState(editableWatchlists)
     if (editableWatchlists.length === 0 && isShown) {
-      setNotification(`Copying completed successfully`)
+      setNotification({
+        description: 'Copying completed successfully',
+        title: 'Success',
+        variant: 'success'
+      })
       close()
     }
   }
