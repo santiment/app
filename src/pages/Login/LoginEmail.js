@@ -55,7 +55,12 @@ export default () => {
                   })
                 }}
               >
-                <Input placeholder='your@email.com' name='email' type='email' />
+                <Input
+                  placeholder='your@email.com'
+                  name='email'
+                  type='email'
+                  required
+                />
                 <Button
                   variant='fill'
                   accent='positive'

@@ -56,7 +56,7 @@ const TriggerFormTrendingWordsTypes = ({
                 <FormikSelect
                   isClearable={false}
                   name='type'
-                  placeholder={'Pick type'}
+                  placeholder='Pick type'
                   options={TRENDING_WORDS_TYPE_OPTIONS}
                   onChange={type => {
                     if (

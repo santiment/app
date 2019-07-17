@@ -57,9 +57,7 @@ export const TriggerProjectsSelector = ({
 
   return (
     <Dialog
-      showCloseBtn={false}
       title='Select assets'
-      classes={styles}
       trigger={
         <div>
           <div className={styles.assetsSelect}>
