@@ -16,28 +16,42 @@ const DEFAULT_CATEGORIES = {
   ]
 }
 
+const addMetricToCategory = (categories, metricCategory, metrics) => {
+  const category = categories[metricCategory]
+  if (category) {
+    category.push(...metrics)
+  } else {
+    categories[metricCategory] = metrics
+  }
+}
+
 const getCategoryGraph = availableMetrics => {
   const categories = {}
   const { length } = availableMetrics
 
   for (let i = 0; i < length; i++) {
-    const metric = { ...Metrics[availableMetrics[i]], key: availableMetrics[i] }
-    const metricCategory = metric.category
-    if (!metricCategory) {
-      continue
-    }
-    const category = categories[metricCategory]
-    if (category) {
-      category.push(metric)
+    const availableMetric = availableMetrics[i]
+    const targetMetric = Metrics[availableMetric]
+
+    if (!targetMetric) {
       continue
     }
 
+    if (Array.isArray(targetMetric)) {
+      const metricCategory = targetMetric[0].category
+      addMetricToCategory(categories, metricCategory, targetMetric)
+      continue
+    }
+
+    const metricCategory = targetMetric.category
+    const metric = { ...targetMetric, key: availableMetric }
     const metrics = [metric]
+
     if (metric.key === 'historyPrice') {
       metrics.push({ ...Metrics.volume, key: 'volume' })
     }
 
-    categories[metricCategory] = metrics
+    addMetricToCategory(categories, metricCategory, metrics)
   }
 
   return categories

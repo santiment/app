@@ -6,9 +6,17 @@ export const SOCIAL_DOMINANCE_QUERY = gql`
     $from: DateTime!
     $to: DateTime!
     $interval: String!
-    $source: SocialDominanceSources!
+    $source: SocialDominanceSources! = ALL
   ) {
-    datetime
-    dominance
+    socialDominance(
+      slug: $slug
+      from: $from
+      to: $to
+      interval: $interval
+      source: $source
+    ) {
+      datetime
+      dominance
+    }
   }
 `
