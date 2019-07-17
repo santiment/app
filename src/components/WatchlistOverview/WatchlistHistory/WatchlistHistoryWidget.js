@@ -50,22 +50,28 @@ const WatchlistHistoryWidget = ({
           {...rest}
         />
       </div>
-      <div className={styles.bottom}>
-        <Stat name='Assets:' values={[assetsAmount]} className={styles.stat} />
-        {exchangesAmount && (
+      {false && (
+        <div className={styles.bottom}>
           <Stat
-            name='Exchanges:'
-            values={[exchangesAmount]}
+            name='Assets:'
+            values={[assetsAmount]}
             className={styles.stat}
           />
-        )}
-        <Stat
-          name='Dominance:'
-          values={top3Formatted}
-          isLoading={!latestMarketcap}
-          className={styles.stat}
-        />
-      </div>
+          {exchangesAmount && (
+            <Stat
+              name='Exchanges:'
+              values={[exchangesAmount]}
+              className={styles.stat}
+            />
+          )}
+          <Stat
+            name='Dominance:'
+            values={top3Formatted}
+            isLoading={!latestMarketcap}
+            className={styles.stat}
+          />
+        </div>
+      )}
     </>
   )
 }
