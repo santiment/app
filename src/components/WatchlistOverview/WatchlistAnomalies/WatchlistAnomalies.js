@@ -43,7 +43,11 @@ const WatchlistAnomalies = ({
           ) : (
             <Stat
               name={`Anomalies, ${value}:`}
-              values={[`${totalAnomalies.size}/${assetsAmount} assets`]}
+              values={[
+                `${totalAnomalies.size} asset${
+                  totalAnomalies.size > 1 ? 's' : ''
+                } / ${assetsAmount}`
+              ]}
             />
           )}
           {!isDesktop && (
