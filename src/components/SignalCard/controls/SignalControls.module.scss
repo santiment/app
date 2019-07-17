@@ -22,3 +22,7 @@
 .iconConnection {
   @include icon(--blue, --blue-light);
 }
+
+.title {
+  @include text('body-3', 'm');
+}

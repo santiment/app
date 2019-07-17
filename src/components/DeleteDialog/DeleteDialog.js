@@ -6,7 +6,8 @@ class DeleteDialog extends PureComponent {
   state = { open: false }
 
   static defaultProps = {
-    title: 'Do you want to delete this watchlist?'
+    title: 'Do you want to delete this watchlist?',
+    description: 'This action cannot be undone'
   }
 
   openDialog = () => {
@@ -24,7 +25,7 @@ class DeleteDialog extends PureComponent {
   }
 
   render () {
-    const { title, trigger } = this.props
+    const { title, description, trigger } = this.props
 
     return (
       <Dialog
@@ -35,9 +36,7 @@ class DeleteDialog extends PureComponent {
         title={title}
         classes={styles}
       >
-        <Dialog.ScrollContent withPadding>
-          This action cannot be undone
-        </Dialog.ScrollContent>
+        <Dialog.ScrollContent withPadding>{description}</Dialog.ScrollContent>
         <Dialog.Actions>
           <Dialog.Cancel onClick={this.closeDialog}>Cancel</Dialog.Cancel>
           <Dialog.Approve

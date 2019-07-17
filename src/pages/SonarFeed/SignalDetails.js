@@ -21,7 +21,7 @@ import {
 import styles from './SignalDetails.module.scss'
 
 const SignalDetails = ({
-  trigger: { trigger, isLoading, isError, errorMessage = '' },
+  trigger: { trigger = {}, isLoading, isError, errorMessage = '' },
   toggleSignal,
   removeSignal,
   redirect,
@@ -38,12 +38,14 @@ const SignalDetails = ({
   const close = closeModal || redirect
 
   if (isError) {
+    const { title } = trigger
     return (
       <div>
         <Message variant='error'>{errorMessage}</Message>
         <hr />
         <p>You can try to delete this</p>
         <RemoveSignalButton
+          signalTitle={title}
           id={signalId}
           removeSignal={removeSignal}
           redirect={close}
@@ -88,6 +90,7 @@ const SignalDetails = ({
               <SettingsSignalButton id={signalId} />
               <RemoveSignalButton
                 id={signalId}
+                signalTitle={title}
                 removeSignal={removeSignal}
                 redirect={close}
               />

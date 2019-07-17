@@ -53,7 +53,7 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
             <div className={styles.row}>
               <div className={styles.Field}>
                 <FormikLabel
-                  text={'Description (' + (description || '').length + '/140'}
+                  text={'Description (' + (description || '').length + '/140)'}
                 />
                 <FormikInput
                   name='description'
