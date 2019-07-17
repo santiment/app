@@ -132,11 +132,6 @@ export const Metrics = {
     category: 'On-chain',
     dataKey: 'realizedValue'
   },
-  burnRate: {
-    node: Line,
-    label: 'Burn Rate',
-    category: 'On-chain'
-  },
   ethSpentOverTime: {
     node: Line,
     label: 'Eth Spent Over Time',

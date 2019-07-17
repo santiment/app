@@ -71,7 +71,6 @@ const ChartMetricSelector = ({
   data: { project: { availableMetrics = [] } = {}, loading }
 }) => {
   const categories = getCategoryGraph(availableMetrics)
-  console.log(availableMetrics)
 
   const [activeCategory, setCategory] = React.useState('Financial')
   const [activeMetric, setMetric] = React.useState(
