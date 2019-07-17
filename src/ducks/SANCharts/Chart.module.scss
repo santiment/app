@@ -99,6 +99,13 @@
     height: 1px;
     transform: translateY(var(--y));
   }
+
+  &_noY {
+    &::after,
+    .values::after {
+      display: none;
+    }
+  }
 }
 
 .values {
