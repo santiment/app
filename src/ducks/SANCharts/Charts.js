@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -15,6 +16,7 @@ import { formatNumber, millify } from './../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
 import { Metrics, generateMetricsMarkup } from './utils'
+import { checkHasPremium } from '../../pages/UserSelectors'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
 
@@ -165,7 +167,14 @@ class Charts extends React.Component {
   }, 16)
 
   render () {
-    const { metrics, chartData = [], onZoomOut, title, isZoomed } = this.props
+    const {
+      metrics,
+      chartData = [],
+      onZoomOut,
+      title,
+      isZoomed,
+      hasPremium
+    } = this.props
     const {
       refAreaLeft,
       refAreaRight,
@@ -263,7 +272,8 @@ class Charts extends React.Component {
                 strokeOpacity={0.3}
               />
             )}
-            {metrics.includes('historyPrice') &&
+            {!hasPremium &&
+              metrics.includes('historyPrice') &&
               mixWithPaywallArea({
                 dataKey: 'priceUsd',
                 data: chartData,
@@ -297,4 +307,8 @@ Charts.defaultProps = {
   isLoading: true
 }
 
-export default Charts
+const mapStateToProps = state => ({
+  hasPremium: checkHasPremium(state)
+})
+
+export default connect(mapStateToProps)(Charts)
