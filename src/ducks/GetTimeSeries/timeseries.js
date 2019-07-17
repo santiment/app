@@ -2,6 +2,7 @@ import { DEV_ACTIVITY_QUERY } from './queries/dev_activity_query'
 import { HISTORY_PRICE_QUERY } from './queries/history_price_query'
 import { ETH_SPENT_OVER_TIME_QUERY } from './queries/eth_spent_over_time_query'
 import { BURN_RATE_QUERY } from './queries/burn_rate_query'
+import { NVT_RATIO_QUERY } from './queries/nvt_ratio_query'
 import { REALIZED_VALUE_QUERY } from './queries/realized_value_query'
 import { HISTORY_TWITTER_DATA_QUERY } from './queries/history_twitter_data_query'
 import { SOCIAL_VOLUME_QUERY } from './queries/social_volume_query'
@@ -29,6 +30,12 @@ const TIMESERIES = {
         ethSpentOverTime
       })
     }
+  },
+  nvtRatioCirculation: {
+    query: NVT_RATIO_QUERY
+  },
+  nvtRatioTxVolume: {
+    query: NVT_RATIO_QUERY
   },
   burnRate: {
     query: BURN_RATE_QUERY

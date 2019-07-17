@@ -21,7 +21,27 @@ const getCategoryGraph = availableMetrics => {
   const { length } = availableMetrics
 
   for (let i = 0; i < length; i++) {
-    const metric = { ...Metrics[availableMetrics[i]], key: availableMetrics[i] }
+    const availableMetric = availableMetrics[i]
+
+    if (availableMetric === 'nvtRatio') {
+      const data = [
+        {
+          ...Metrics.nvtRatioCirculation,
+          key: 'nvtRatioCirculation'
+        },
+        {
+          ...Metrics.nvtRatioTxVolume,
+          key: 'nvtRatioTxVolume'
+        }
+      ]
+      if (categories['On-chain']) {
+        categories['On-chain'].push(...data)
+      } else {
+        categories['On-chain'] = data
+      }
+    }
+
+    const metric = { ...Metrics[availableMetric], key: availableMetric }
     const metricCategory = metric.category
     if (!metricCategory) {
       continue
@@ -51,6 +71,7 @@ const ChartMetricSelector = ({
   data: { project: { availableMetrics = [] } = {}, loading }
 }) => {
   const categories = getCategoryGraph(availableMetrics)
+  console.log(availableMetrics)
 
   const [activeCategory, setCategory] = React.useState('Financial')
   const [activeMetric, setMetric] = React.useState(

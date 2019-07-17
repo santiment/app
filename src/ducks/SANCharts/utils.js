@@ -142,6 +142,16 @@ export const Metrics = {
     label: 'Eth Spent Over Time',
     category: 'On-chain',
     dataKey: 'ethSpent'
+  },
+  nvtRatioCirculation: {
+    node: Line,
+    label: 'NVT Ratio Circulation',
+    category: 'On-chain'
+  },
+  nvtRatioTxVolume: {
+    node: Bar,
+    label: 'NVT Ratio Transaction Volume',
+    category: 'On-chain'
   }
 }
 
