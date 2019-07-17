@@ -33,7 +33,11 @@ const SignalCard = ({
         <SignalTypeIcon type={type} />
 
         <MobileOnly>
-          <MoreSignalActions removeSignal={removeSignal} signalId={id} />
+          <MoreSignalActions
+            removeSignal={removeSignal}
+            signalTitle={title}
+            signalId={id}
+          />
         </MobileOnly>
       </div>
       <div className={styles.wrapper__right}>
@@ -54,6 +58,7 @@ const SignalCard = ({
         {author && (
           <SignalCardBottom
             signalId={id}
+            signalTitle={title}
             removeSignal={removeSignal}
             isAwaiting={isAwaiting}
             author={author}
@@ -73,6 +78,7 @@ const UnpublishedMsg = () => (
 
 const SignalCardBottom = ({
   signalId,
+  signalTitle,
   removeSignal,
   author,
   isPublic,
@@ -85,7 +91,11 @@ const SignalCardBottom = ({
   return (
     <div className={styles.bottom}>
       <DesktopOnly>
-        <MoreSignalActions removeSignal={removeSignal} signalId={signalId} />
+        <MoreSignalActions
+          removeSignal={removeSignal}
+          signalTitle={signalTitle}
+          signalId={signalId}
+        />
       </DesktopOnly>
 
       {isPublished ? (
@@ -118,7 +128,7 @@ const SignalCardBottom = ({
   )
 }
 
-const MoreSignalActions = ({ signalId, removeSignal }) => {
+const MoreSignalActions = ({ signalId, signalTitle, removeSignal }) => {
   return (
     <ContextMenu
       trigger={
@@ -153,6 +163,7 @@ const MoreSignalActions = ({ signalId, removeSignal }) => {
           <div className={cx(styles.popupItem, styles.popupButton)}>
             <RemoveSignalButton
               id={signalId}
+              signalTitle={signalTitle}
               removeSignal={removeSignal}
               trigger={<div className={styles.removeSignal}>Delete</div>}
             />

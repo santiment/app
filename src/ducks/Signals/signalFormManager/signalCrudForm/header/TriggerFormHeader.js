@@ -15,13 +15,14 @@ export const TriggerFormHeader = ({
   showTriggerFunc,
   showTrigger,
   actionsEnabled,
-  name = 'Name the Trigger'
+  name = 'trigger'
 }) => {
   return (
     <div className={styles.triggerHeader}>
       <div className={styles.triggerHeaderName}>{name}</div>
       <div className={styles.triggerHeaderActions}>
         <RemoveSignalButton
+          signalTitle={name}
           className={styles.triggerHeaderButton}
           removeSignal={deleteTriggerFunc}
         />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Button, Icon } from '@santiment-network/ui'
 import { Link } from 'react-router-dom'
 import {
@@ -38,8 +38,18 @@ export const SignalTypeIcon = ({ type }) => {
   )
 }
 
+const RemoveDescription = title => {
+  return (
+    <Fragment>
+      Are you sure you want to delete{' '}
+      <span className={styles.title}>{title}</span> ?
+    </Fragment>
+  )
+}
+
 export const RemoveSignalButton = ({
   id,
+  signalTitle = 'trigger',
   removeSignal,
   redirect,
   className,
@@ -47,7 +57,8 @@ export const RemoveSignalButton = ({
 }) => (
   <DeleteDialog
     id={id}
-    title='Do you want to delete this trigger?'
+    title='Delete trigger'
+    description={RemoveDescription(signalTitle)}
     deleteItem={removeSignal}
     redirect={redirect}
     trigger={
