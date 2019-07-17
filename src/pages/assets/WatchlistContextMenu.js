@@ -55,7 +55,7 @@ const WatchlistContextMenu = ({
             id={id}
             trigger={
               <Button variant='ghost' fluid>
-                Copy
+                Copy assets to ...
               </Button>
             }
           />
