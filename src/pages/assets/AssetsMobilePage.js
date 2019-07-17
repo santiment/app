@@ -21,6 +21,7 @@ const HEADER_HEIGHT = 62
 const TABLE_LABELS_HEIGHT = 27
 const CLOSED_ANOMALIES_HEIGHT = 48 + 20
 const OPENED_ANOMALIES_HEIGHT = 105 + 20
+const CHOOSED_ANOMALIES_HEIGHT = 137 + 20
 
 const INITIAL_REMAINING_HEIGHT =
   BOTTOM_HEIGHT + HEADER_HEIGHT + TABLE_LABELS_HEIGHT
@@ -49,9 +50,11 @@ const AssetsMobilePage = props => {
     if (type === filterType) {
       setFilterType(null)
       setFilteredItems(null)
+      setRemainingHeight(INITIAL_REMAINING_HEIGHT + OPENED_ANOMALIES_HEIGHT)
     } else {
       setFilterType(type)
       setFilteredItems(assets)
+      setRemainingHeight(INITIAL_REMAINING_HEIGHT + CHOOSED_ANOMALIES_HEIGHT)
     }
   }
 
@@ -134,12 +137,11 @@ const AssetsMobilePage = props => {
                     isDesktop={false}
                     range={range}
                     type={filterType}
+                    assetsAmount={items.length}
                     changeRange={changeRange}
                     toggleOpenAnomalies={handleAnomaliesState}
                     isOpen={isOpenAnomalies}
-                    onFilterAssets={(assets, type) =>
-                      toggleAssetsFiltering(assets, type, items)
-                    }
+                    onFilterAssets={toggleAssetsFiltering}
                   />
                   <div className={styles.headings}>
                     <Label accent='casper'>Coin</Label>

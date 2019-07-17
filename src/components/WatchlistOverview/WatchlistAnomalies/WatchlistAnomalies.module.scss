@@ -1,6 +1,12 @@
 @import "~@santiment-network/ui/mixins";
 
 .wrapper {
+  @include responsive('phone-xs', 'phone') {
+    margin-bottom: 20px;
+  }
+}
+
+.layout {
   padding: 18px 24px;
   display: flex;
   align-items: center;
@@ -14,7 +20,7 @@
 
   @include responsive('phone-xs', 'phone') {
     flex-direction: column;
-    margin: 0 16px 20px;
+    margin: 0 16px;
     padding: 12px 24px;
     flex-wrap: wrap;
     align-items: baseline;
@@ -93,4 +99,9 @@
     color: var(--jungle-green);
     fill: var(--jungle-green);
   }
+}
+
+.filterDescription {
+  margin: 10px 0;
+  text-align: center;
 }
