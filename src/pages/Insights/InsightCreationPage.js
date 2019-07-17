@@ -23,7 +23,10 @@ class InsightCreationPage extends Component {
     } = this.props
 
     if (isPublished) {
-      setNotification('Thank you for insight')
+      setNotification({
+        title: 'Thanks for your thoughts',
+        description: 'We will check your insight and publish it very soon.'
+      })
       return <Redirect to='/insights/my' />
     }
 
