@@ -1,13 +1,14 @@
 import React, { Fragment } from 'react'
-import Select from 'react-select'
+import Select from '@santiment-network/ui/Search/Select/Select'
 import { Field } from 'formik'
+import { Creatable } from 'react-select'
 import './FormikSelect.scss'
 
 const FormikSelect = ({
-  options,
+  isClearable = true,
   name,
-  disabled = false,
-  placeholder,
+  multi = false,
+  isCreatable = false,
   onChange,
   ...rest
 }) => {
@@ -15,38 +16,31 @@ const FormikSelect = ({
     <Field
       name={name}
       render={({ field, form }) => {
-        const isValid = !form.errors[name]
-        const customStyles = {
-          control: base => {
-            const color = isValid ? '#ddd' : 'var(--persimmon) !important'
-            return {
-              ...base,
-              borderColor: color,
-              '&:hover': {
-                borderColor: color
-              }
-            }
-          }
-        }
-
         return (
           <Fragment>
-            <Select
-              styles={customStyles}
-              placeholder={placeholder}
-              classNamePrefix='react-select'
-              options={options}
-              onChange={value => {
-                form.setFieldValue(name, value)
-                form.setFieldTouched(name, true)
-                onChange && onChange(value)
-              }}
-              value={field.value}
-              {...rest}
-            />
-            {form.errors[name] && (
-              <div className='error error-message'>{form.errors[name]}</div>
-            )}
+            <div
+              className={
+                multi ? 'select__container-multi' : 'select__container-single'
+              }
+            >
+              <Select
+                clearable={isClearable}
+                selectComponent={isCreatable ? Creatable : undefined}
+                multi={multi}
+                classNamePrefix='react-select'
+                minimumInput={1}
+                onChange={value => {
+                  form.setFieldValue(name, value)
+                  form.setFieldTouched(name, true)
+                  onChange && onChange(value)
+                }}
+                value={field.value}
+                {...rest}
+              />
+              {form.errors[name] && (
+                <div className='error error-message'>{form.errors[name]}</div>
+              )}
+            </div>
           </Fragment>
         )
       }}

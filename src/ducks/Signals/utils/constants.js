@@ -14,20 +14,27 @@ export const PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER =
 export const PRICE_VOLUME_DIFFERENCE = 'price_volume_difference'
 
 export const TRENDING_WORDS_PROJECT_MENTIONED = {
-  label: 'Trending asset(s)',
+  label: 'Trending assets',
   value: 'trending_project',
   metric: 'trending_words'
 }
 
 export const TRENDING_WORDS_WORD_MENTIONED = {
-  label: 'Trending word(s)',
+  label: 'Trending words',
   value: 'trending_word',
+  metric: 'trending_words'
+}
+
+export const TRENDING_WORDS_WATCHLIST_MENTIONED = {
+  label: 'Watchlist',
+  value: 'trending_watchlist',
   metric: 'trending_words'
 }
 
 export const TRENDING_WORDS_TYPE_OPTIONS = [
   TRENDING_WORDS_PROJECT_MENTIONED,
-  TRENDING_WORDS_WORD_MENTIONED
+  TRENDING_WORDS_WORD_MENTIONED,
+  TRENDING_WORDS_WATCHLIST_MENTIONED
 ]
 
 export const ETH_WALLETS_OPERATIONS = {
@@ -107,7 +114,7 @@ export const ETH_WALLET_METRIC = {
 }
 
 export const TRENDING_WORDS_METRIC = {
-  label: 'Trending words',
+  label: 'Emerging social trends',
   value: TRENDING_WORDS,
   metric: TRENDING_WORDS
 }
@@ -132,7 +139,7 @@ export const COOLDOWN_REGEXP = /([0-9]+)*([smhdw])/i
 export const METRICS_OPTIONS = [
   { ...PRICE_METRIC },
   { ...ETH_WALLET_METRIC },
-  // { ...TRENDING_WORDS_METRIC }, GarageInc: temporary disabled
+  { ...TRENDING_WORDS_METRIC },
   // { ...DAILY_ACTIVE_ADDRESSES_METRIC }, GarageInc: temporary disabled
   { ...PRICE_VOLUME_DIFFERENCE_METRIC }
 ]
@@ -235,23 +242,18 @@ export const FREQUENCY_TIME_TYPE_DAILY_MODEL = {
   value: FREQUENCY_VALUES_TYPES.days
 }
 
-const ASSET_FILTER_TYPES = {
-  asset: 'assets',
-  assetGroup: 'assetGroup',
-  watchlist: 'watchlist'
-}
-
-export const DEFAULT_ASSETS_FILTER_MODEL = {
+export const METRIC_TARGET_ASSETS = {
   label: 'Assets',
-  value: ASSET_FILTER_TYPES.asset
+  value: 'assets'
+}
+export const METRIC_TARGET_WATCHLIST = {
+  label: 'Watchlist',
+  value: 'watchlist'
 }
 
-export const ASSETS_FILTERS = [
-  DEFAULT_ASSETS_FILTER_MODEL,
-  {
-    label: 'Watchlist',
-    value: ASSET_FILTER_TYPES.watchlist
-  }
+export const METRIC_TARGET_OPTIONS = [
+  METRIC_TARGET_ASSETS,
+  METRIC_TARGET_WATCHLIST
 ]
 
 export const BASE_THRESHOLD = 0.002
@@ -350,8 +352,8 @@ export const DEFAULT_FORM_META_SETTINGS = {
     value: { ...FREQUENCY_TYPE_ONCEPER_MODEL }
   },
   signalType: {
-    isDisabled: true,
-    value: { ...DEFAULT_ASSETS_FILTER_MODEL }
+    isDisabled: false,
+    value: { ...METRIC_TARGET_ASSETS }
   }
 }
 

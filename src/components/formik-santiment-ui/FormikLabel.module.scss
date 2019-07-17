@@ -1,0 +1,10 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.label {
+  margin-bottom: 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+  @include text('caption');
+}

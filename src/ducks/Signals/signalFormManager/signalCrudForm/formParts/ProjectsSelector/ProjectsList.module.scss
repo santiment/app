@@ -1,0 +1,49 @@
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
+
+.wrapperList {
+  user-select: none;
+  position: relative;
+  height: var(--height);
+  padding-right: var(--padding-right);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0), var(--white));
+  }
+}
+
+.project {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: var(--mirage);
+  cursor: pointer;
+
+  @include text('body-3');
+}
+
+.name {
+  margin-right: 5px;
+}
+
+.checkbox {
+  margin-right: 10px;
+}
+
+.list {
+  outline: none;
+}
+
+.asset {
+  margin-left: 10px;
+
+  &:hover {
+    color: var(--jungle-green) !important;
+  }
+}

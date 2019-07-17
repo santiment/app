@@ -14,12 +14,14 @@ const SearchProjects = ({
   isCopyingAssets,
   checkedAssets,
   watchlistItems,
+  searchIconPosition,
   ...props
 }) => {
   const projects = projectsList.length > 0 ? projectsList : ALL_PROJECTS
   return (
     <SearchWithSuggestions
       {...props}
+      iconPosition={searchIconPosition}
       data={projects}
       sorter={({ name: { length: a } }, { name: { length: b } }) => a - b}
       predicate={searchTerm => {

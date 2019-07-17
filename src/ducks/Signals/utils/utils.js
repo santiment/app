@@ -36,7 +36,10 @@ import {
   TRENDING_WORDS_METRIC,
   TRENDING_WORDS_PROJECT_MENTIONED,
   TRENDING_WORDS,
-  TRENDING_WORDS_WORD_MENTIONED
+  TRENDING_WORDS_WORD_MENTIONED,
+  METRIC_TARGET_ASSETS,
+  METRIC_TARGET_WATCHLIST,
+  TRENDING_WORDS_WATCHLIST_MENTIONED
 } from './constants'
 import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 
@@ -47,13 +50,32 @@ const getTimeWindowUnit = timeWindow => {
   return TIME_WINDOW_UNITS.find(item => item.value === value)
 }
 
-const getFormTriggerTarget = target => {
-  // TODO: only for one asset as target
-  const { slug } = target
-  return { value: slug, label: slug }
+const getFormTriggerTarget = ({ target, target: { eth_address }, asset }) => {
+  const parsingTarget = eth_address ? asset : target
+  const { slug, watchlist_id } = parsingTarget
+
+  if (watchlist_id) {
+    return {
+      signalType: METRIC_TARGET_WATCHLIST,
+      target: watchlist_id
+    }
+  }
+
+  const newTarget = Array.isArray(slug)
+    ? mapToOptions(slug)
+    : {
+      value: slug,
+      label: slug
+    }
+
+  return {
+    target: newTarget,
+    signalType: METRIC_TARGET_ASSETS,
+    ethAddress: eth_address
+  }
 }
 
-const getFormTriggerType = (type, operation) => {
+const getFormTriggerType = (target, type, operation) => {
   if (!operation) {
     switch (type) {
       case DAILY_ACTIVE_ADDRESSES: {
@@ -106,7 +128,13 @@ const getFormTriggerType = (type, operation) => {
       return TRENDING_WORDS_WORD_MENTIONED
     }
     case TRENDING_WORDS_PROJECT_MENTIONED.value: {
-      return TRENDING_WORDS_PROJECT_MENTIONED
+      const { watchlist_id } = target
+
+      if (!watchlist_id) {
+        return TRENDING_WORDS_PROJECT_MENTIONED
+      } else {
+        return TRENDING_WORDS_WATCHLIST_MENTIONED
+      }
     }
 
     default: {
@@ -221,16 +249,18 @@ const getAbsolutePriceValues = ({ settings: { operation, type } }) => {
 
 const mapTriggerToFormThreshold = ({ threshold, operation }) => {
   let newThreshold = threshold || undefined
-
   if (operation && !newThreshold) {
     const operationType = getOperationType(operation)
-    newThreshold = operation[operationType]
+
+    if (Number.isFinite(operation[operationType])) {
+      newThreshold = operation[operationType]
+    }
   }
 
   return newThreshold
 }
 
-const mapToOptions = items => {
+export const mapToOptions = items => {
   return items
     ? items.map(item => ({
       label: item,
@@ -247,14 +277,9 @@ const getFormTrendingWords = ({ settings: { operation, target } }) => {
   const operationType = getOperationType(operation)
 
   switch (operationType) {
-    case TRENDING_WORDS_PROJECT_MENTIONED.value: {
-      return {
-        trendingWordsWithAssets: mapToOptions(target.slug)
-      }
-    }
     case TRENDING_WORDS_WORD_MENTIONED.value: {
       return {
-        trendingWordsWithWords: mapToOptions(target.word)
+        trendingWordsWithWords: target.word
       }
     }
     default: {
@@ -273,23 +298,21 @@ export const mapTriggerToFormProps = currentTrigger => {
     isPublic,
     isRepeating,
     settings,
-    settings: { type, operation, time_window, target, asset, channel }
+    settings: { type, operation, time_window, target, channel }
   } = currentTrigger
 
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
 
-  const address = target.eth_address
-
-  const targetForParser = address ? asset : target
-
-  const newTarget = getFormTriggerTarget(targetForParser)
-  const newType = getFormTriggerType(type, operation)
+  const { target: newTarget, signalType, ethAddress } = getFormTriggerTarget(
+    settings
+  )
+  const newType = getFormTriggerType(target, type, operation)
 
   const trendingWordsParams = getFormTrendingWords(currentTrigger)
 
   return {
-    ethAddress: address,
+    ethAddress: ethAddress,
     cooldown: cooldown,
     isRepeating: isRepeating,
     isActive: isActive,
@@ -301,6 +324,7 @@ export const mapTriggerToFormProps = currentTrigger => {
       ? getTimeWindowUnit(time_window)
       : TIME_WINDOW_UNITS[0],
     target: newTarget,
+    signalType: signalType,
     percentThreshold: getPercentTreshold(settings) || BASE_PERCENT_THRESHOLD,
     threshold: mapTriggerToFormThreshold(settings) || BASE_THRESHOLD,
     channels: [capitalizeStr(channel)],
@@ -364,11 +388,30 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
   }
 }
 
-export const mapTriggerTarget = (target, address, isEthWalletTrigger) => {
-  let newTarget = { slug: target.value }
+export const mapTriggerTarget = (
+  target,
+  { value } = {},
+  address = '',
+  isEthWalletTrigger = false
+) => {
+  let newTarget
 
-  if (isEthWalletTrigger && address) {
-    newTarget = { eth_address: address }
+  switch (value) {
+    case METRIC_TARGET_WATCHLIST.value: {
+      newTarget = {
+        watchlist_id: +target
+      }
+      break
+    }
+    default: {
+      if (isEthWalletTrigger && address) {
+        newTarget = { eth_address: address }
+      } else {
+        newTarget = Array.isArray(target)
+          ? target.map(t => t.slug)
+          : { slug: target.value }
+      }
+    }
   }
 
   return {
@@ -389,20 +432,39 @@ export const mapAssetTarget = (target, isEthWalletTrigger) => {
 export const getChannels = ({ channels }) =>
   channels.length ? channels[0].toLowerCase() : undefined
 
-export const getTrendingWordsTriggerOperation = ({ type: { value } }) => ({
-  [value]: true
-})
+export const isTrendingWordsByProjects = type =>
+  type.value === TRENDING_WORDS_PROJECT_MENTIONED.value
+
+export const isTrendingWordsByWords = type =>
+  type.value === TRENDING_WORDS_WORD_MENTIONED.value
+
+export const isTrendingWordsByWatchlist = type =>
+  type.value === TRENDING_WORDS_WATCHLIST_MENTIONED.value
+
+export const getTrendingWordsTriggerOperation = ({ type: { value }, type }) => {
+  if (isTrendingWordsByWatchlist(type)) {
+    return {
+      [TRENDING_WORDS_PROJECT_MENTIONED.value]: true
+    }
+  }
+
+  return {
+    [value]: true
+  }
+}
 
 export const mapTrendingWordsTargets = items => {
   if (items.length === 1) {
-    return items[0].value
+    const { value, slug } = items[0]
+    return value || slug
   } else {
-    return items.map(item => item.value)
+    return items.map(({ value, slug }) => value || slug)
   }
 }
 
 export const getTrendingWordsTarget = ({
   type,
+  target,
   trendingWordsWithAssets,
   trendingWordsWithWords
 }) => {
@@ -415,6 +477,11 @@ export const getTrendingWordsTarget = ({
     case TRENDING_WORDS_PROJECT_MENTIONED.value: {
       return {
         slug: mapTrendingWordsTargets(trendingWordsWithAssets)
+      }
+    }
+    case TRENDING_WORDS_WATCHLIST_MENTIONED.value: {
+      return {
+        watchlist_id: +target
       }
     }
     default: {
@@ -439,9 +506,8 @@ const getTimeWindow = ({ timeWindow, timeWindowUnit }) => {
 }
 
 export const mapFormToPPCTriggerSettings = formProps => {
-  const { target, ethAddress } = formProps
-
-  const newTarget = mapTriggerTarget(target, ethAddress, false)
+  const { target, signalType } = formProps
+  const newTarget = mapTriggerTarget(target, signalType)
   return {
     type: PRICE_PERCENT_CHANGE,
     ...newTarget,
@@ -452,8 +518,8 @@ export const mapFormToPPCTriggerSettings = formProps => {
 }
 
 export const mapFormToPACTriggerSettings = formProps => {
-  const { target, ethAddress } = formProps
-  const newTarget = mapTriggerTarget(target, ethAddress, false)
+  const { target, signalType } = formProps
+  const newTarget = mapTriggerTarget(target, signalType)
   return {
     type: PRICE_ABSOLUTE_CHANGE,
     ...newTarget,
@@ -463,8 +529,8 @@ export const mapFormToPACTriggerSettings = formProps => {
 }
 
 export const mapFormToDAATriggerSettings = formProps => {
-  const { target, ethAddress, percentThreshold } = formProps
-  const newTarget = mapTriggerTarget(target, ethAddress, false)
+  const { percentThreshold, target, signalType } = formProps
+  const newTarget = mapTriggerTarget(target, signalType)
 
   return {
     type: DAILY_ACTIVE_ADDRESSES,
@@ -476,8 +542,8 @@ export const mapFormToDAATriggerSettings = formProps => {
 }
 
 export const mapFormToPVDTriggerSettings = formProps => {
-  const { target, ethAddress, threshold } = formProps
-  const newTarget = mapTriggerTarget(target, ethAddress, false)
+  const { target, threshold, signalType } = formProps
+  const newTarget = mapTriggerTarget(target, signalType)
   return {
     type: PRICE_VOLUME_DIFFERENCE,
     ...newTarget,
@@ -487,15 +553,17 @@ export const mapFormToPVDTriggerSettings = formProps => {
 }
 
 export const mapFormToHBTriggerSettings = formProps => {
-  const { target, ethAddress } = formProps
-  const newAsset = mapAssetTarget(target, true)
-  const newTarget = mapTriggerTarget(target, ethAddress, true)
+  const { target, ethAddress, signalType } = formProps
+  const newAsset =
+    signalType.value === METRIC_TARGET_ASSETS.value
+      ? mapAssetTarget(target, true)
+      : undefined
+  const newTarget = mapTriggerTarget(target, signalType, ethAddress, true)
   return {
     type: ETH_WALLET,
     ...newTarget,
     ...newAsset,
     channel: getChannels(formProps),
-    time_window: getTimeWindow(formProps),
     operation: getTriggerOperation(formProps)
   }
 }
@@ -533,7 +601,6 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
       throw new Error('Can not find a correct mapper for trigger')
     }
   }
-
   const cooldownParams = getCooldownParams(formProps)
 
   return {
@@ -630,6 +697,11 @@ export function getNearestFrequencyTypeValue (frequencyType) {
   return getFrequencyTimeType(frequencyType)[0]
 }
 
+export const isAsset = signalType =>
+  signalType.value === METRIC_TARGET_ASSETS.value
+export const isWatchlist = signalType =>
+  signalType.value === METRIC_TARGET_WATCHLIST.value
+
 export const validateTriggerForm = ({
   type,
   threshold,
@@ -646,7 +718,8 @@ export const validateTriggerForm = ({
   metric,
   target,
   trendingWordsWithAssets,
-  trendingWordsWithWords
+  trendingWordsWithWords,
+  signalType
 }) => {
   let errors = {}
 
@@ -714,21 +787,30 @@ export const validateTriggerForm = ({
 
   if (metric && metric.value === TRENDING_WORDS) {
     if (
-      type.value === TRENDING_WORDS_PROJECT_MENTIONED.value &&
+      isTrendingWordsByProjects(type) &&
       (!trendingWordsWithAssets || trendingWordsWithAssets.length === 0)
     ) {
       errors.trendingWordsWithAssets = REQUIRED_MESSAGE
     }
 
     if (
-      type.value === TRENDING_WORDS_WORD_MENTIONED.value &&
+      isTrendingWordsByWords(type) &&
       (!trendingWordsWithWords || trendingWordsWithWords.length === 0)
     ) {
       errors.trendingWordsWithWords = REQUIRED_MESSAGE
     }
   } else {
-    if (!target || !target.value) {
-      errors.target = REQUIRED_MESSAGE
+    if (isWatchlist(signalType)) {
+      if (!target) {
+        errors.target = REQUIRED_MESSAGE
+      }
+    } else {
+      if (
+        !target ||
+        (Array.isArray(target) ? target.length === 0 : !target.value)
+      ) {
+        errors.target = REQUIRED_MESSAGE
+      }
     }
   }
 
@@ -741,7 +823,11 @@ const POSSIBLE_METRICS_FOR_CHART = [
   PRICE_VOLUME_DIFFERENCE_METRIC.value
 ]
 
-export const couldShowChart = metric => {
+export const couldShowChart = ({ signalType, metric, target }) => {
+  if (isWatchlist(signalType) || Array.isArray(target)) {
+    return false
+  }
+
   return metric ? POSSIBLE_METRICS_FOR_CHART.indexOf(metric.value) >= 0 : false
 }
 

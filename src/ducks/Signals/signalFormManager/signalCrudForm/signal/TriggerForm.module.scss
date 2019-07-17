@@ -54,8 +54,13 @@ $trigger-form-width: 496px;
   }
 }
 
+.rowInner {
+  margin-top: 0 !important;
+}
+
 .messages {
   margin: 1rem 0;
+  display: inline-block;
 }
 
 .TriggerChart {
@@ -111,15 +116,6 @@ a.connectLink {
   padding: 0 !important;
 }
 
-.label {
-  margin-bottom: 2px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-
-  @include text('caption');
-}
-
 .isRepeating {
   display: flex;
   align-items: center;
@@ -169,28 +165,23 @@ a.connectLink {
 
 .timeWindowInput {
   flex: 1;
-  width: 50%;
   margin-right: 8px;
 }
 
 .timeWindowUnit {
-  width: 50%;
   flex: 1;
 }
 
 .frequency {
   display: flex;
-  align-items: center;
 }
 
 .frequencyTimeValue {
   flex: 1;
-  width: 50%;
   margin-right: 8px;
 }
 
 .frequencyTimeType {
-  width: 50%;
   flex: 1;
 }
 
@@ -263,4 +254,11 @@ a {
   &:hover {
     fill: var(--jungle-green);
   }
+}
+
+.createWatchlist {
+  height: 32px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
