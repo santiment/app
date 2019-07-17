@@ -1,23 +1,41 @@
+@import "~@santiment-network/ui/mixins";
+
 $notify-duration: 300;
 
 /* stylelint-disable */
 :export {
   notifyduration: $notify-duration;
 }
+
 /* stylelint-enabled */
 
 .notificationStack {
   z-index: 10000;
   position: fixed;
-  bottom: 120px;
-  left: 20px;
+  bottom: 15px;
+  left: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  @include responsive('phone-xs') {
+    flex-direction: column-reverse;
+    right: 15px;
+    bottom: auto;
+    top: 5px;
+    justify-content: flex-start;
+  }
 }
 
 .notification {
-  position: absolute;
-  transform: translateY(var(--y-offset));
+  margin-top: 10px;
   transition: transform 200ms;
+  width: 320px;
   transition-delay: #{$notify-duration - 100}ms;
+
+  @include responsive('phone-xs') {
+    width: 100%;
+  }
 }
 
 .enter {
@@ -30,12 +48,12 @@ $notify-duration: 300;
 
 @keyframes notify {
   0% {
-    transform: translate3d(-120%, var(--y-offset), 0);
+    transform: translateX(-120%);
     opacity: 0;
   }
 
   100% {
-    transform: translate3d(0, var(--y-offset), 0);
+    transform: translateX(0);
     opacity: 1;
   }
 }

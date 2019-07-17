@@ -218,16 +218,14 @@ class ChartPage extends Component {
     } = this.state
 
     const requestedMetrics = metrics.reduce((acc, metric) => {
-      acc = {
-        ...acc,
-        [metric]: {
-          slug,
-          from,
-          to,
-          interval: INTERVAL_ALIAS[interval] || interval,
-          ...Metrics[metric].reqMeta
-        }
+      acc[metric] = {
+        slug,
+        from,
+        to,
+        interval: INTERVAL_ALIAS[interval] || interval,
+        ...Metrics[metric].reqMeta
       }
+
       return acc
     }, {})
 

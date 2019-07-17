@@ -24,7 +24,7 @@ const mixWithPaywallArea = ({
   data,
   dataKey,
   yAxisId,
-  domain,
+  domain = true,
   stroke = '#ffad4d',
   strokeOpacity = 0.9,
   ...rest
@@ -41,22 +41,19 @@ const mixWithPaywallArea = ({
 
   const startLastDayX = data[data.length - 2].datetime
   const endLastDayX = data[data.length - 1].datetime
-  const y1 =
-    domain && domain.length === 1
-      ? domain[0]
-      : Math.min(...data.map(item => item[dataKey]))
-  const y2 =
-    domain && domain.length === 2
-      ? domain[1]
-      : Math.max(...data.map(item => item[dataKey]))
+
   const props = {
     yAxisId,
-    y1,
-    y2,
     stroke,
     strokeOpacity,
     shape: PaywallAreaShape
   }
+
+  if (domain) {
+    props.y1 = domain[0] || Math.min(...data.map(item => item[dataKey]))
+    props.y2 = domain[1] || Math.max(...data.map(item => item[dataKey]))
+  }
+
   return [
     <pattern
       key={`${dataKey}-pattern`}

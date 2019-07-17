@@ -41,15 +41,12 @@ class NotificationStack extends Component {
 
     return (
       <TransitionGroup className={styles.notificationStack}>
-        {notifications.map(({ id, dismissAfter, ...notification }, i) => (
+        {notifications.map(({ id, dismissAfter, ...notification }) => (
           <CSSTransition key={id} timeout={notifyDuration} classNames={styles}>
             <NotificationItem
               {...notification}
               className={styles.notification}
               onClose={() => this.closeNotification(id)}
-              style={{
-                '--y-offset': `calc(-${i}00% - ${i}0px)`
-              }}
             />
           </CSSTransition>
         ))}
