@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import Select from '@santiment-network/ui/Search/Select/Select'
 import { Field } from 'formik'
+/* @GarageInc: pay attention, that creatable components works only with react-select 1.0.0 */
 import { Creatable } from 'react-select'
 import './FormikSelect.scss'
 
