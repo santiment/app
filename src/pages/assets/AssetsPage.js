@@ -34,7 +34,7 @@ const AssetsPage = props => {
     setRange(RANGES[newPointer])
   }
 
-  const toggleAssetsFiltering = (assets, type, items) => {
+  const toggleAssetsFiltering = (assets, type) => {
     if (type === filterType) {
       setFilterType(null)
       setFilteredItems(null)
@@ -114,10 +114,9 @@ const AssetsPage = props => {
                       trends={trendingAssets}
                       range={range}
                       type={filterType}
+                      assetsAmount={items.length}
                       changeRange={changeRange}
-                      onFilterAssets={(assets, type) =>
-                        toggleAssetsFiltering(assets, type, items)
-                      }
+                      onFilterAssets={toggleAssetsFiltering}
                     />
                   </Panel>
                   <AssetsTable
