@@ -22,7 +22,7 @@ const AssetsPage = props => {
   const [range, setRange] = useState(RANGES[pointer])
   const [filteredItems, setFilteredItems] = useState(null)
   const [filterType, setFilterType] = useState(null)
-  const [currentItems, setCurrentItems] = useState(null)
+  const [currentItems, setCurrentItems] = useState([])
   const { name } = qs.parse(props.location.search)
   const isList = props.type === 'list'
   const { title, description } = getHelmetTags(isList, name)

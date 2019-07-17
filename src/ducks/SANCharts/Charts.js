@@ -214,7 +214,7 @@ class Charts extends React.Component {
                 })}
               </div>
               <div
-                className={styles.line}
+                className={cx(styles.line, !y && styles.line_noY)}
                 style={{
                   '--x': `${x}px`,
                   '--y': `${y}px`
@@ -265,10 +265,9 @@ class Charts extends React.Component {
             )}
             {mixWithPaywallArea({
               dataKey: 'priceUsd',
-              domain: [0],
               stroke: 'red',
-              strokeOpacity: 0.9,
-              data: chartData
+              data: chartData,
+              yAxisId: 'axis-priceUsd'
             })}
 
             {chartData.length > 0 && (

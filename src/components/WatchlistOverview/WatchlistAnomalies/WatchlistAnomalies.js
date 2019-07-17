@@ -14,41 +14,74 @@ const WatchlistAnomalies = ({
   changeRange,
   trends = [],
   onFilterAssets,
-  type
+  type,
+  toggleOpenAnomalies,
+  isOpen,
+  isDesktop = true
 }) => {
   const isTrendsFilter = type === filteringTypes.TRENDS
+  const totalAnomalies = trends.length
   return trends.length > 0 ? (
     <div className={styles.wrapper}>
-      <Icon type='flash' className={styles.icon} />
-      <Range label='Anomalies' range={value} changeRange={changeRange} />
-      <Button
-        variant='flat'
-        border
-        className={cx(styles.button, isTrendsFilter && styles.active)}
-        onClick={() => onFilterAssets(trends, filteringTypes.TRENDS)}
+      <div
+        className={styles.top}
+        onClick={isDesktop ? null : toggleOpenAnomalies}
       >
-        <Stat
-          name='Trending assets:'
-          values={[trends.length]}
-          className={isTrendsFilter && styles.stat}
-        />
-      </Button>
-      <Tooltip
-        className={styles.tooltip}
-        position='top'
-        trigger={
-          <div className={styles.description}>
-            <Icon type='question-round-small' className={styles.question} />
-            How it works
-          </div>
-        }
-      >
-        <Panel padding>
-          Anomalies in metrics are detected using combination of statistical
-          methods. Currently combination of this methodes defines boundary
-          between normal and abnormal values.
-        </Panel>
-      </Tooltip>
+        <Icon type='flash' className={styles.icon} />
+        {isDesktop || isOpen ? (
+          <Range
+            label='Anomalies'
+            range={value}
+            changeRange={event => {
+              event.stopPropagation()
+              changeRange()
+            }}
+          />
+        ) : (
+          <Stat name={`Anomalies, ${value}:`} values={[totalAnomalies]} />
+        )}
+        {!isDesktop && (
+          <Icon
+            type={`arrow-${isOpen ? 'up' : 'down'}`}
+            className={styles.arrow}
+          />
+        )}
+      </div>
+      {(isDesktop || isOpen) && (
+        <div className={styles.bottom}>
+          <Button
+            variant='flat'
+            border
+            className={cx(styles.button, isTrendsFilter && styles.active)}
+            onClick={() => onFilterAssets(trends, filteringTypes.TRENDS)}
+          >
+            <Stat
+              name='Trending assets:'
+              values={[trends.length]}
+              className={isTrendsFilter && styles.stat}
+            />
+          </Button>
+        </div>
+      )}
+      {isDesktop && (
+        <Tooltip
+          className={styles.tooltip}
+          position='top'
+          align='end'
+          trigger={
+            <div className={styles.description}>
+              <Icon type='question-round-small' className={styles.question} />
+              How it works
+            </div>
+          }
+        >
+          <Panel padding>
+            Anomalies in metrics are detected using combination of statistical
+            methods. Currently combination of this methodes defines boundary
+            between normal and abnormal values.
+          </Panel>
+        </Tooltip>
+      )}
     </div>
   ) : null
 }

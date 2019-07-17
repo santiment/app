@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-
 import { Formik, Form } from 'formik'
-import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
 import FormikInput from '../../../../components/formik-santiment-ui/FormikInput'
+import FormikLabel from '../../../../components/formik-santiment-ui/FormikLabel'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
 const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
@@ -36,9 +35,7 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
           <div className={styles.triggerFormItem}>
             <div className={styles.row}>
               <div className={styles.Field}>
-                <Label accent='waterloo' className={styles.label}>
-                  Name of the signal
-                </Label>
+                <FormikLabel text='Name of the signal' />
                 <FormikInput
                   name='title'
                   type='text'
@@ -55,9 +52,9 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
 
             <div className={styles.row}>
               <div className={styles.Field}>
-                <Label accent='waterloo' className={styles.label}>
-                  Description ({(description || '').length}/140)
-                </Label>
+                <FormikLabel
+                  text={'Description (' + (description || '').length + '/140'}
+                />
                 <FormikInput
                   name='description'
                   type='text'
@@ -73,7 +70,6 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
               </div>
             </div>
           </div>
-
           <div className={styles.controls}>
             <Button
               type='button'

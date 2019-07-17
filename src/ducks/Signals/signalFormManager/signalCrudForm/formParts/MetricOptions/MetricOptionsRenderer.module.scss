@@ -1,0 +1,23 @@
+@import "~@santiment-network/ui/mixins";
+
+.option {
+  color: var(--mirage);
+  padding: 12px 8px;
+
+  @include text('body-3');
+}
+
+.focused {
+  color: var(--jungle-green);
+  cursor: pointer;
+}
+
+.selected {
+  color: var(--jungle-green);
+}
+
+.header {
+  color: var(--waterloo);
+
+  @include text('body-3');
+}

@@ -20,7 +20,7 @@ export const Metrics = {
     opacity: 0.4
   },
   socialVolume: {
-    node: Line,
+    node: Bar,
     label: 'Social Volume',
     color: 'malibu',
     category: 'Social'
@@ -75,7 +75,7 @@ export const Metrics = {
     dataKey: 'mvrv'
   },
   transactionVolume: {
-    node: Line,
+    node: Bar,
     label: 'Transaction Volume',
     category: 'On-chain',
     description:
@@ -114,34 +114,58 @@ export const Metrics = {
     dataKey: 'activeDeposits',
     category: 'On-chain'
   },
-  ohlc: {},
-  priceVolumeDiff: {},
-  githubActivity: {},
-  aveargeDevActivity: {},
-  averageGithubActivity: {},
-  historyTwitterData: {},
-  twitterData: {}, // NOTE(vanguard): NOT A TIMESERIE
-  socialGainersLosersStatus: {},
-  socialDominance: {},
-  historicalBalance: {},
-  shareOfDeposits: {},
-  tokenTopTransactions: {},
-  realizedValue: {},
-  burnRate: {},
-  averageTokenAgeConsumedInDays: {},
-  nvtRatio: {},
-  ethSpent: {},
-  ethSpentOverTime: {},
-  ethTopTransactions: {},
-  ethBalance: {},
-  usdBalance: {},
-  icos: {},
-  icoPrice: {},
-  initialIco: {},
-  fundsRaisedUsdIcoEndPrice: {},
-  fundsRaisedEthIcoEndPrice: {},
-  fundsRaisedBtcIcoEndPrice: {}
+  historyTwitterData: {
+    node: Line,
+    label: 'Twitter',
+    category: 'Social',
+    dataKey: 'followersCount'
+  },
+  socialDominance: {
+    node: Line,
+    label: 'Social Dominance',
+    category: 'Social',
+    dataKey: 'dominance'
+  },
+  realizedValue: {
+    node: Line,
+    label: 'Realized Value',
+    category: 'On-chain',
+    dataKey: 'realizedValue'
+  },
+  ethSpentOverTime: {
+    node: Line,
+    label: 'Eth Spent Over Time',
+    category: 'On-chain',
+    dataKey: 'ethSpent'
+  }
 }
+
+const DerivedMetrics = [
+  {
+    parent: 'nvtRatio',
+    key: 'nvtRatioCirculation',
+    node: Line,
+    label: 'NVT Ratio Circulation',
+    category: 'On-chain'
+  },
+  {
+    parent: 'nvtRatio',
+    key: 'nvtRatioTxVolume',
+    node: Bar,
+    label: 'NVT Ratio Transaction Volume',
+    category: 'On-chain'
+  }
+]
+
+DerivedMetrics.forEach(obj => {
+  Metrics[obj.key] = obj
+  const parentMetric = Metrics[obj.parent]
+  if (parentMetric) {
+    parentMetric.push(obj)
+  } else {
+    Metrics[obj.parent] = [obj]
+  }
+})
 
 export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
 

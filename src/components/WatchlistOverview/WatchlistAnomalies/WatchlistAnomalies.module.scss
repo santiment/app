@@ -1,17 +1,55 @@
 @import "~@santiment-network/ui/mixins";
 
 .wrapper {
-  padding: 24px;
+  padding: 18px 24px;
   display: flex;
   align-items: center;
   border: 1px solid var(--porcelain);
-  border-bottom: none;
-  border-left: none;
+  position: relative;
+
+  @include responsive('tablet', 'laptop', 'desktop') {
+    border-bottom: none;
+    border-left: none;
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    flex-direction: column;
+    margin: 0 16px 20px;
+    padding: 12px 24px;
+    flex-wrap: wrap;
+    align-items: baseline;
+    border-radius: $border-radius;
+  }
+}
+
+.top {
+  display: flex;
+  align-items: center;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+  }
+}
+
+.bottom {
+  @include responsive('phone-xs', 'phone') {
+    margin-bottom: 8px;
+  }
+}
+
+.arrow {
+  fill: var(--waterloo);
+  margin-left: auto;
 }
 
 .button {
   margin-left: 24px;
   padding: 4px 16px 6px;
+
+  @include responsive('phone-xs', 'phone') {
+    margin-left: 0;
+    margin-top: 19px;
+  }
 }
 
 .button + .button {
