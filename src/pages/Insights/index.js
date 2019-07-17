@@ -44,7 +44,6 @@ const PageHub = ({
   }
 
   if (isLoggedIn && !hasUsername) {
-    console.log('here')
     const lastShowDate = Date.parse(
       localStorage.getItem('withoutUsernameSince')
     )
