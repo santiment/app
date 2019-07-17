@@ -51,7 +51,7 @@ const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
       ))}
     </div>
   ) : (
-    <SonarFeedRecommendations showButton />
+    <SonarFeedRecommendations description='There are not any activities yet' />
   )
 }
 
