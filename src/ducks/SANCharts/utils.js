@@ -20,7 +20,7 @@ export const Metrics = {
     opacity: 0.4
   },
   socialVolume: {
-    node: Line,
+    node: Bar,
     label: 'Social Volume',
     color: 'malibu',
     category: 'Social'
@@ -75,7 +75,7 @@ export const Metrics = {
     dataKey: 'mvrv'
   },
   transactionVolume: {
-    node: Line,
+    node: Bar,
     label: 'Transaction Volume',
     category: 'On-chain',
     description:
