@@ -107,6 +107,7 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
             type: actions.ASSETS_FETCH_SUCCESS,
             payload: {
               items: [],
+              trendingAssets: [],
               isCurrentUserTheAuthor: false,
               isLoading: false,
               error: false,

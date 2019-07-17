@@ -1,20 +1,70 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import { AutoSizer, List } from 'react-virtualized'
 import Label from '@santiment-network/ui/Label'
 import GetAssets, { SORT_TYPES } from './GetAssets'
+import { RANGES } from '../../components/WatchlistOverview/constants'
 import { getTableTitle } from './utils'
 import { addRecentWatchlists, removeRecentWatchlists } from '../../utils/recent'
 import AssetCard from './AssetCard'
 import AssetsTemplates from './AssetsTemplates'
 import WatchlistActions from './WatchlistActions'
+import WatchlistAnomalies from '../../components/WatchlistOverview/WatchlistAnomalies/WatchlistAnomalies'
 import PageLoader from '../../components/Loader/PageLoader'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import styles from './AssetsMobilePage.module.scss'
 
+// NOTE(haritonasty): predefined heights needed for calculate react-virtualized height.
+// Pls, upd here, if you change height of any elements on this page
+const BOTTOM_HEIGHT = 53
+const HEADER_HEIGHT = 62
+const TABLE_LABELS_HEIGHT = 27
+const CLOSED_ANOMALIES_HEIGHT = 48 + 20
+const OPENED_ANOMALIES_HEIGHT = 105 + 20
+
+const INITIAL_REMAINING_HEIGHT =
+  BOTTOM_HEIGHT + HEADER_HEIGHT + TABLE_LABELS_HEIGHT
+
 const AssetsMobilePage = props => {
   const { isLoggedIn } = props
   const isList = props.type === 'list'
+
+  const [pointer, setPointer] = useState(1)
+  const [range, setRange] = useState(RANGES[pointer])
+  const [filteredItems, setFilteredItems] = useState(null)
+  const [filterType, setFilterType] = useState(null)
+  const [currentItems, setCurrentItems] = useState([])
+  const [isOpenAnomalies, setIsOpenAnomalies] = useState(false)
+  const [remainingHeight, setRemainingHeight] = useState(
+    INITIAL_REMAINING_HEIGHT
+  )
+
+  const changeRange = () => {
+    const newPointer = pointer === RANGES.length - 1 ? 0 : pointer + 1
+    setPointer(newPointer)
+    setRange(RANGES[newPointer])
+  }
+
+  const toggleAssetsFiltering = (assets, type) => {
+    if (type === filterType) {
+      setFilterType(null)
+      setFilteredItems(null)
+    } else {
+      setFilterType(type)
+      setFilteredItems(assets)
+    }
+  }
+
+  const handleAnomaliesState = () => {
+    if (filterType) toggleAssetsFiltering(null, null)
+    const isOpen = !isOpenAnomalies
+    setIsOpenAnomalies(isOpen)
+    setRemainingHeight(
+      INITIAL_REMAINING_HEIGHT +
+        (isOpen ? OPENED_ANOMALIES_HEIGHT : CLOSED_ANOMALIES_HEIGHT)
+    )
+  }
+
   return (
     <div className={cx('page', styles.wrapper)}>
       <GetAssets
@@ -26,8 +76,19 @@ const AssetsMobilePage = props => {
           isLoading,
           isCurrentUserTheAuthor,
           isPublicWatchlist,
-          items
+          items = [],
+          trendingAssets = []
         }) => {
+          if (items !== currentItems) {
+            setCurrentItems(items)
+            setFilteredItems(null)
+            setFilterType(null)
+            setRemainingHeight(
+              INITIAL_REMAINING_HEIGHT +
+                (trendingAssets.length > 0 && CLOSED_ANOMALIES_HEIGHT)
+            )
+          }
+
           const title = getTableTitle(props)
 
           if (items.length && (isCurrentUserTheAuthor || isPublicWatchlist)) {
@@ -68,11 +129,28 @@ const AssetsMobilePage = props => {
               />
               {items.length > 0 && (
                 <>
+                  <WatchlistAnomalies
+                    trends={trendingAssets}
+                    isDesktop={false}
+                    range={range}
+                    type={filterType}
+                    changeRange={changeRange}
+                    toggleOpenAnomalies={handleAnomaliesState}
+                    isOpen={isOpenAnomalies}
+                    onFilterAssets={(assets, type) =>
+                      toggleAssetsFiltering(assets, type, items)
+                    }
+                  />
                   <div className={styles.headings}>
                     <Label accent='casper'>Coin</Label>
                     <Label accent='casper'>Price, 24h</Label>
                   </div>
-                  <AssetsList items={items} />
+                  <div
+                    className={styles.assetsList}
+                    style={{ '--remaining-height': `${remainingHeight}px` }}
+                  >
+                    <AssetsList items={filteredItems || items} />
+                  </div>
                 </>
               )}
 
