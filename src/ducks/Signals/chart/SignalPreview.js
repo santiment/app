@@ -26,16 +26,14 @@ const CUSTOM_METRICS = {
 
 const SignalPreview = ({ type, points = [], target, height }) => {
   return (
-    <Fragment>
-      <ChartExpandView classes={styles}>
-        <SignalPreviewChart
-          type={type}
-          points={points}
-          target={target}
-          height={height}
-        />
-      </ChartExpandView>
-    </Fragment>
+    <ChartExpandView classes={styles}>
+      <SignalPreviewChart
+        type={type}
+        points={points}
+        target={target}
+        height={height}
+      />
+    </ChartExpandView>
   )
 }
 
@@ -59,10 +57,8 @@ const SignalPreviewChart = ({
 
   const _metrics = metrics.filter(metric => initialMetrics.includes(metric))
 
-  const amountOfTriggers = points.reduce(
-    (acc, val) => (acc += +val['triggered?']),
-    0
-  )
+  const triggeredSignals = points.filter(point => point['triggered?'])
+  console.log({ type, target, points, triggeredSignals })
 
   const { label, value } = getTimeRangeForChart(type)
 
@@ -71,7 +67,7 @@ const SignalPreviewChart = ({
       <div className={styles.description}>
         <span className={styles.fired}>Signal was fired:</span>{' '}
         <span className={styles.times}>
-          {amountOfTriggers} times in {label}
+          {triggeredSignals.length} times in {label}
         </span>
       </div>
       <div className={styles.chartBlock} style={{ height: height }}>
@@ -100,7 +96,7 @@ const SignalPreviewChart = ({
               return (
                 historyPrice && (
                   <VisualBacktestChart
-                    data={points}
+                    signals={triggeredSignals}
                     showXY={showAxes}
                     price={historyPrice.items}
                     metrics={customMetrics}
