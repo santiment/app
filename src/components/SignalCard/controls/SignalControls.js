@@ -57,7 +57,7 @@ export const RemoveSignalButton = ({
 }) => (
   <DeleteDialog
     id={id}
-    title='Delete trigger'
+    title='Delete signal'
     description={RemoveDescription(signalTitle)}
     deleteItem={removeSignal}
     redirect={redirect}
