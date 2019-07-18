@@ -1,0 +1,16 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.prefix {
+  color: var(--waterloo);
+  position: absolute;
+  left: 10px;
+  top: 6px;
+}
+
+.field {
+  position: relative;
+}
+
+.inputWithPrefix {
+  padding-left: 22px;
+}

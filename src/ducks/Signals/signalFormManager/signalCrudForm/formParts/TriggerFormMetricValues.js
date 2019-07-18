@@ -47,6 +47,7 @@ export const TriggerFormMetricValues = ({
           <FormikInput
             name='absoluteBorderRight'
             type='number'
+            prefix='$'
             min={+absoluteBorderLeft}
             step='any'
             placeholder='Upper border'
@@ -78,6 +79,7 @@ export const TriggerFormMetricValues = ({
             name='absoluteThreshold'
             type='number'
             placeholder='Absolute value'
+            prefix='$'
           />
           <LastPriceComponent lastPrice={lastPrice} />
         </div>
@@ -91,6 +93,7 @@ export const TriggerFormMetricValues = ({
             name='percentThreshold'
             type='number'
             placeholder='Percentage amount'
+            prefix='$'
           />
           <LastPriceComponent lastPrice={lastPrice} />
         </div>

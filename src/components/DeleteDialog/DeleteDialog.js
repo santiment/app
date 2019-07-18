@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
 import styles from './DeleteDialog.module.scss'
 
