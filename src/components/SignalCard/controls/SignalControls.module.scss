@@ -26,3 +26,19 @@
 .title {
   @include text('body-3', 'm');
 }
+
+.dialog {
+  width: 496px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: initial;
+  }
+}
+
+.description {
+  margin-bottom: 20px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 0;
+  }
+}

@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
 import styles from './DeleteDialog.module.scss'
 
@@ -7,7 +8,8 @@ class DeleteDialog extends PureComponent {
 
   static defaultProps = {
     title: 'Do you want to delete this watchlist?',
-    description: 'This action cannot be undone'
+    description: 'This action cannot be undone',
+    classes: {}
   }
 
   openDialog = () => {
@@ -25,7 +27,9 @@ class DeleteDialog extends PureComponent {
   }
 
   render () {
-    const { title, description, trigger } = this.props
+    const { title, description, trigger, classes } = this.props
+
+    const mergedClasses = { ...styles, ...classes }
 
     return (
       <Dialog
@@ -34,9 +38,11 @@ class DeleteDialog extends PureComponent {
         onOpen={this.openDialog}
         trigger={trigger}
         title={title}
-        classes={styles}
+        classes={mergedClasses}
       >
-        <Dialog.ScrollContent withPadding>{description}</Dialog.ScrollContent>
+        <Dialog.ScrollContent withPadding>
+          <div className={classes.description}>{description}</div>
+        </Dialog.ScrollContent>
         <Dialog.Actions>
           <Dialog.Cancel onClick={this.closeDialog}>Cancel</Dialog.Cancel>
           <Dialog.Approve

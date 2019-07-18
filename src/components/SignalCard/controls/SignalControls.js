@@ -61,6 +61,7 @@ export const RemoveSignalButton = ({
     description={RemoveDescription(signalTitle)}
     deleteItem={removeSignal}
     redirect={redirect}
+    classes={styles}
     trigger={
       trigger || (
         <Button variant='ghost' type='button' className={className}>

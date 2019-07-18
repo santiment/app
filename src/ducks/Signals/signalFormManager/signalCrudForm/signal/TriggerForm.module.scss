@@ -98,6 +98,8 @@ a.connectLink {
   margin-bottom: auto;
   padding-right: 0;
   padding-left: 8px;
+  display: flex;
+  flex-direction: column;
 
   @include text('body-3');
 
