@@ -40,7 +40,10 @@ import {
   toggleSignalEpic,
   updateSignalEpic
 } from '../ducks/Signals/epics'
-import handleNightModeToggle from './handleNightModeToggle'
+import handleNightModeToggle, {
+  saveNightModeAfterLaunch,
+  sendNightModeIfDiff
+} from './handleNightModeToggle'
 import handleBetaModeToggle from './handleBetaModeToggle'
 import handleNewsToggle from './handleNewsToggle'
 import {
@@ -110,6 +113,8 @@ export default combineEpics(
   apikeyGenerateEpic,
   apikeyRevokeEpic,
   handleNightModeToggle,
+  saveNightModeAfterLaunch,
+  sendNightModeIfDiff,
   handleBetaModeToggle,
   handleNewsToggle,
   // Signals

@@ -1,9 +1,15 @@
 import * as actions from './../actions/types'
 import { loadKeyState } from '../utils/localStorage'
 
-const isNightModeEnabled = loadKeyState('isNightModeEnabled') || false
+const isNightMode = loadKeyState('isNightMode')
+const isNightModeDeprecated = loadKeyState('isNightModeEnabled')
 const isBetaModeEnabled = loadKeyState('isBetaModeEnabled') || false
 const isNewsEnabled = loadKeyState('isNewsEnabled') || false
+
+let isNightModeEnabled = isNightMode || false
+if (isNightMode === undefined && isNightModeDeprecated !== undefined) {
+  isNightModeEnabled = isNightModeDeprecated
+}
 
 if (isNightModeEnabled) {
   document.body.classList.add('night-mode')

@@ -25,6 +25,8 @@ export const userGQL = gql`
         signalNotifyEmail
         signalNotifyTelegram
         newsletterSubscription
+        isBetaMode
+        theme
       }
       apikeys
     }
