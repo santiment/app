@@ -15,7 +15,8 @@ class AutoresizeTextarea extends Component {
     defaultValue: '',
     className: '',
     placeholder: '',
-    readOnly: false
+    readOnly: false,
+    rowsCount: 1
   }
 
   state = {
@@ -28,14 +29,23 @@ class AutoresizeTextarea extends Component {
     const textarea = this.inputRef.current
     const textareaOneLineHeight = textarea.clientHeight
 
-    textarea.rows = Math.ceil(textarea.scrollHeight / textareaOneLineHeight)
+    textarea.rows = this.getRowsCount(
+      textarea.scrollHeight,
+      textareaOneLineHeight
+    )
     this.textareaOneLineHeight = textareaOneLineHeight
   }
 
+  getRowsCount (scrollHeight, textareaOneLineHeight) {
+    const newRowsCount = Math.ceil(scrollHeight / textareaOneLineHeight)
+    const { rowsCount } = this.props
+    return newRowsCount > rowsCount ? newRowsCount : rowsCount
+  }
+
   onChange = ({ currentTarget }) => {
-    currentTarget.rows = 1
-    currentTarget.rows = Math.ceil(
-      currentTarget.scrollHeight / this.textareaOneLineHeight
+    currentTarget.rows = this.getRowsCount(
+      currentTarget.scrollHeight,
+      this.textareaOneLineHeight
     )
 
     const { value } = currentTarget
@@ -50,15 +60,22 @@ class AutoresizeTextarea extends Component {
 
   render () {
     const { value } = this.state
-    const { className, placeholder, readOnly } = this.props
+    const {
+      className,
+      placeholder,
+      readOnly,
+      rowsCount,
+      maxLength
+    } = this.props
 
     return (
       <textarea
         readOnly={readOnly}
         className={className}
         placeholder={placeholder}
-        rows='1'
+        rows={rowsCount}
         ref={this.inputRef}
+        maxLength={maxLength}
         value={value}
         onChange={this.onChange}
       />

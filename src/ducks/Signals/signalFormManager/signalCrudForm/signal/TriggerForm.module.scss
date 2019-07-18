@@ -6,6 +6,7 @@ $trigger-form-width: 496px;
   position: relative;
   width: $trigger-form-width;
   padding: 0;
+  margin-bottom: 20px;
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
@@ -187,6 +188,15 @@ a.connectLink {
   flex: 1;
 }
 
+.triggerFormItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px 20px;
+  margin-top: 0;
+  border-radius: 0;
+}
+
 .AboutForm {
   background-color: var(--white);
 
@@ -207,6 +217,10 @@ a.connectLink {
   .controls {
     margin-top: 1.1rem;
   }
+
+  .triggerFormItem {
+    padding-bottom: 0;
+  }
 }
 
 .lastPrice {
@@ -218,18 +232,9 @@ a.connectLink {
   margin-top: 1px;
 }
 
-.triggerFormItem {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 20px 20px;
-  margin-top: 0;
-  border-radius: 0;
-}
-
 .triggerToggleBlock {
   display: flex;
-  margin: 20px 230px 20px 20px;
+  margin: 20px 230px 0 20px;
   height: 25px;
 
   @include text('body-3');
