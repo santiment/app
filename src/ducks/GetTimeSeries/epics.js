@@ -60,6 +60,7 @@ const mapDataToMergedTimeserieByDatetime = (data = [], transforms = []) => {
     ...Object.keys(timeseriesAsSingleObject).reduce((acc, metric) => {
       const { items, ...rest } = timeseriesAsSingleObject[metric]
       acc[metric] = {
+        items,
         ...rest
       }
       return acc

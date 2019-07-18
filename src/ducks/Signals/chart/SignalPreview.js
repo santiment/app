@@ -5,6 +5,7 @@ import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
 import { Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartMetrics from '../../SANCharts/ChartMetrics'
+import ChartWidget from '../../SANCharts/ChartPage'
 import VisualBacktestChart from '../VisualBacktestChart'
 import { ChartExpandView } from './ChartExpandView'
 import styles from './SignalPreview.module.scss'
@@ -23,26 +24,13 @@ const CUSTOM_METRICS = {
     color: 'casper'
   }
 }
-
-const SignalPreview = ({ type, points = [], target, height }) => {
-  return (
-    <ChartExpandView classes={styles}>
-      <SignalPreviewChart
-        type={type}
-        points={points}
-        target={target}
-        height={height}
-      />
-    </ChartExpandView>
-  )
-}
-
 const SignalPreviewChart = ({
   type,
   points,
-  target,
+  slug,
   showAxes = false,
-  height = 150
+  timeRange,
+  label
 }) => {
   const initialMetrics = getMetricsByType(type) || ['historyPrice']
 
@@ -58,28 +46,27 @@ const SignalPreviewChart = ({
   const _metrics = metrics.filter(metric => initialMetrics.includes(metric))
 
   const triggeredSignals = points.filter(point => point['triggered?'])
-  console.log({ type, target, points, triggeredSignals })
-
-  const { label, value } = getTimeRangeForChart(type)
+  console.log({ type, slug, points, triggeredSignals })
 
   return (
-    <div className={styles.preview} style={{ minHeight: height }}>
+    <div className={styles.preview}>
       <div className={styles.description}>
         <span className={styles.fired}>Signal was fired:</span>{' '}
         <span className={styles.times}>
           {triggeredSignals.length} times in {label}
         </span>
       </div>
-      <div className={styles.chartBlock} style={{ height: height }}>
+      <div className={styles.chartBlock}>
         <div className={styles.chart}>
           <GetTimeSeries
             historyPrice={{
-              timeRange: value,
-              slug: target,
+              timeRange,
+              slug,
               interval: '1d'
             }}
             render={({
               historyPrice,
+              timeseries,
               errorMetrics = {},
               isError,
               errorType,
@@ -109,7 +96,7 @@ const SignalPreviewChart = ({
 
         <ChartMetrics
           classes={styles}
-          slug={target}
+          slug={slug}
           onMetricsChange={metrics => setMetrics(metrics)}
           defaultActiveMetrics={initialMetrics}
           showOnlyDefault={true}
@@ -120,6 +107,31 @@ const SignalPreviewChart = ({
         />
       </div>
     </div>
+  )
+}
+
+const SignalPreview = ({ type, points = [], target: slug, height }) => {
+  const { label, value: timeRange } = getTimeRangeForChart(type)
+
+  return (
+    <>
+      <SignalPreviewChart
+        type={type}
+        points={points}
+        slug={slug}
+        label={label}
+        timeRange={timeRange}
+        height={height}
+      />
+      <ChartExpandView>
+        <ChartWidget
+          timeRange={timeRange}
+          slug={slug}
+          interval='1d'
+          title={slug}
+        />
+      </ChartExpandView>
+    </>
   )
 }
 

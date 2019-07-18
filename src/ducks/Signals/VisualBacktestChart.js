@@ -18,7 +18,12 @@ import styles from './chart/SignalPreview.module.scss'
 const mapWithTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
-const VisualBacktestChart = ({ signals, price, metrics, showAxes = false }) => {
+const VisualBacktestChart = ({
+  signals,
+  price = [],
+  metrics,
+  showAxes = false
+}) => {
   const formattedPrice = mapWithTimeseries(price)
 
   const renderChart = () => {
@@ -70,7 +75,7 @@ const VisualBacktestChart = ({ signals, price, metrics, showAxes = false }) => {
         styles.container
       )}
     >
-      <ResponsiveContainer width='100%' height='100%'>
+      <ResponsiveContainer width='100%' height={120}>
         {renderChart()}
       </ResponsiveContainer>
     </div>
