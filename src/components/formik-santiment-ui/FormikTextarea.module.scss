@@ -1,0 +1,21 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.textarea {
+  @include border-box();
+  @include text('body-3');
+
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 32px;
+  outline: none;
+  background-color: var(--white);
+  border: 1px solid var(--porcelain);
+  padding: 6px 10px;
+  border-radius: $border-radius;
+  color: var(--mirage);
+}
+
+.error {
+  border-color: var(--persimmon);
+}

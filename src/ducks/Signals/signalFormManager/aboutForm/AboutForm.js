@@ -4,9 +4,14 @@ import { Formik, Form } from 'formik'
 import Button from '@santiment-network/ui/Button'
 import FormikInput from '../../../../components/formik-santiment-ui/FormikInput'
 import FormikLabel from '../../../../components/formik-santiment-ui/FormikLabel'
+import FormikTextarea from '../../../../components/formik-santiment-ui/FormikTextarea'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
-const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
+const MAX_DESCR_LENGTH = 140
+const MAX_TITLE_LENGTH = 120
+const MIN_TITLE_LENGTH = 2
+
+const AboutForm = ({ triggerMeta, onSubmit, onBack }) => {
   const [trigger, setTrigger] = useState(triggerMeta)
   return (
     <Formik
@@ -16,13 +21,16 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
         let errors = {}
         if (!values.title) {
           errors.title = 'Required'
-        } else if (values.title.length < 3) {
-          errors.title = 'Title has to be longer than 2 characters'
-        } else if (values.title.length > 120) {
-          errors.title = 'Title has to be less than 120 characters'
+        } else if (values.title.length <= MIN_TITLE_LENGTH) {
+          errors.title = `Title has to be longer than ${MIN_TITLE_LENGTH} characters`
+        } else if (values.title.length > MAX_TITLE_LENGTH) {
+          errors.title = `Title has to be less than ${MAX_TITLE_LENGTH} characters`
         }
-        if (!values.description || values.description.length > 240) {
-          errors.description = 'Description has to be less than 240 characters'
+        if (
+          !values.description ||
+          values.description.length > MAX_DESCR_LENGTH
+        ) {
+          errors.description = `Description has to be less than ${MAX_DESCR_LENGTH} characters`
         }
         return errors
       }}
@@ -39,6 +47,8 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
                 <FormikInput
                   name='title'
                   type='text'
+                  minLength={MIN_TITLE_LENGTH}
+                  maxLength={MAX_TITLE_LENGTH}
                   placeholder='Name of the signal'
                   onChange={value =>
                     setTrigger({
@@ -53,13 +63,15 @@ const AboutForm = ({ triggerMeta, isEdit = false, onSubmit, onBack }) => {
             <div className={styles.row}>
               <div className={styles.Field}>
                 <FormikLabel
-                  text={'Description (' + (description || '').length + '/140)'}
+                  text={`Description (${
+                    (description || '').length
+                  }/${MAX_DESCR_LENGTH})`}
                 />
-                <FormikInput
-                  name='description'
-                  type='text'
-                  maxLength={140}
+                <FormikTextarea
                   placeholder='Description of the signal'
+                  name='description'
+                  rowsCount={3}
+                  maxLength={MAX_DESCR_LENGTH}
                   onChange={value => {
                     setTrigger({
                       ...trigger,

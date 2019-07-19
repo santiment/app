@@ -47,6 +47,7 @@ export const TriggerFormMetricValues = ({
           <FormikInput
             name='absoluteBorderRight'
             type='number'
+            prefix='$'
             min={+absoluteBorderLeft}
             step='any'
             placeholder='Upper border'
@@ -78,6 +79,7 @@ export const TriggerFormMetricValues = ({
             name='absoluteThreshold'
             type='number'
             placeholder='Absolute value'
+            prefix='$'
           />
           <LastPriceComponent lastPrice={lastPrice} />
         </div>
@@ -86,11 +88,12 @@ export const TriggerFormMetricValues = ({
       {type &&
         METRIC_TYPES_DEPENDENCIES[metricValue].includes('percentThreshold') && (
         <div className={styles.Field}>
-          <FormikLabel text='Percentage amount' />
+          <FormikLabel text='Percentage amount' inner />
           <FormikInput
             name='percentThreshold'
             type='number'
             placeholder='Percentage amount'
+            prefix='$'
           />
           <LastPriceComponent lastPrice={lastPrice} />
         </div>
@@ -101,7 +104,7 @@ export const TriggerFormMetricValues = ({
           'walletBalanceChangeType'
         ) && (
         <div className={styles.Field}>
-          <FormikLabel text='Absolute change' />
+          <FormikLabel text='Absolute change' inner />
           <div>
             <FormikSelect
               name='type'
@@ -115,7 +118,7 @@ export const TriggerFormMetricValues = ({
 
       {type && METRIC_TYPES_DEPENDENCIES[metricValue].includes('threshold') && (
         <div className={styles.Field}>
-          <FormikLabel text='Threshold' />
+          <FormikLabel text='Threshold' inner />
           <FormikInput
             name='threshold'
             step={0.001}
@@ -126,7 +129,7 @@ export const TriggerFormMetricValues = ({
       )}
       {type && isTimeWindow && (
         <div className={cx(styles.Field, styles.fieldTimeWindow)}>
-          <FormikLabel text='Time window' />
+          <FormikLabel text='Time window' inner />
           <div className={styles.timeWindow}>
             <div className={styles.timeWindowInput}>
               <FormikInput
