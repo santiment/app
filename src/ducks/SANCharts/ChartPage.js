@@ -223,6 +223,8 @@ class ChartPage extends Component {
       nightMode
     } = this.state
 
+    const { settings: chartSettings = {}, children } = this.props
+
     const requestedMetrics = metrics.reduce((acc, metric) => {
       acc[metric] = {
         slug,
@@ -284,6 +286,7 @@ class ChartPage extends Component {
                   from={from}
                   to={to}
                   interval={interval}
+                  settings={chartSettings}
                 />
               )}
               <Charts
@@ -298,10 +301,13 @@ class ChartPage extends Component {
                 settings={settings}
                 title={title}
                 metrics={finalMetrics}
+                children={children}
               />
               {!viewOnly && (
                 <>
-                  <LoadableChartSidecar onSlugSelect={this.onSlugSelect} />
+                  {chartSettings.sidecar !== false && (
+                    <LoadableChartSidecar onSlugSelect={this.onSlugSelect} />
+                  )}
                   <LoadableChartMetricsTool
                     classes={styles}
                     slug={slug}

@@ -21,17 +21,20 @@ const ChartSettings = ({
   disabledMetrics,
   interval,
   from,
-  to
+  to,
+  settings
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
   return (
     <div className={styles.settings}>
-      <SearchProjects
-        onSuggestionSelect={onSlugSelect}
-        className={styles.search}
-        suggestionsProps={{ style: { zIndex: 5 } }}
-        iconPosition='left'
-      />
+      {settings.search !== false && (
+        <SearchProjects
+          onSuggestionSelect={onSlugSelect}
+          className={styles.search}
+          suggestionsProps={{ style: { zIndex: 5 } }}
+          iconPosition='left'
+        />
+      )}
       <div className={styles.settings__right}>
         <Selector
           options={['1d', '1w', '1m', '3m', '6m', '1y', 'all']}

@@ -27,7 +27,6 @@ export const ChartExpandView = ({ children, classes = {} }) => {
           </ExplanationTooltip>
         </Button>
       }
-      classes={styles}
     >
       <Dialog.ScrollContent>{children}</Dialog.ScrollContent>
     </Dialog>

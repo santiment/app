@@ -1,6 +1,6 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Bar } from 'recharts'
+import { Bar, ReferenceLine } from 'recharts'
 import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
 import { Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
@@ -26,11 +26,11 @@ const CUSTOM_METRICS = {
 }
 const SignalPreviewChart = ({
   type,
-  points,
   slug,
   showAxes = false,
   timeRange,
-  label
+  label,
+  triggeredSignals
 }) => {
   const initialMetrics = getMetricsByType(type) || ['historyPrice']
 
@@ -45,8 +45,7 @@ const SignalPreviewChart = ({
 
   const _metrics = metrics.filter(metric => initialMetrics.includes(metric))
 
-  const triggeredSignals = points.filter(point => point['triggered?'])
-  console.log({ type, slug, points, triggeredSignals })
+  console.log({ type, slug, triggeredSignals })
 
   return (
     <div className={styles.preview}>
@@ -112,16 +111,17 @@ const SignalPreviewChart = ({
 
 const SignalPreview = ({ type, points = [], target: slug, height }) => {
   const { label, value: timeRange } = getTimeRangeForChart(type)
+  const triggeredSignals = points.filter(point => point['triggered?'])
 
   return (
     <>
       <SignalPreviewChart
         type={type}
-        points={points}
         slug={slug}
         label={label}
         timeRange={timeRange}
         height={height}
+        triggeredSignals={triggeredSignals}
       />
       <ChartExpandView>
         <ChartWidget
@@ -129,7 +129,15 @@ const SignalPreview = ({ type, points = [], target: slug, height }) => {
           slug={slug}
           interval='1d'
           title={slug}
-        />
+          settings={{
+            search: false,
+            sidecar: false
+          }}
+        >
+          {triggeredSignals.map(({ datetime }) => (
+            <ReferenceLine key={datetime} stroke='green' x={datetime} />
+          ))}
+        </ChartWidget>
       </ChartExpandView>
     </>
   )

@@ -173,7 +173,8 @@ class Charts extends React.Component {
       onZoomOut,
       title,
       isZoomed,
-      hasPremium
+      hasPremium,
+      children
     } = this.props
     const {
       refAreaLeft,
@@ -295,6 +296,7 @@ class Charts extends React.Component {
                 </ComposedChart>
               </Brush>
             )}
+            {children}
           </ComposedChart>
         </ResponsiveContainer>
       </div>
