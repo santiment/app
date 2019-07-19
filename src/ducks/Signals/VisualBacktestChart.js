@@ -19,7 +19,7 @@ const mapWithTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
 const VisualBacktestChart = ({
-  signals,
+  triggeredSignals,
   price = [],
   metrics,
   showAxes = false
@@ -52,11 +52,11 @@ const VisualBacktestChart = ({
 
         {generateMetricsMarkup(metrics, {
           data: {
-            active_addresses: signals
+            active_addresses: triggeredSignals
           }
         })}
 
-        {signals.map(point => (
+        {triggeredSignals.map(point => (
           <ReferenceLine
             key={point.datetime}
             stroke='green'

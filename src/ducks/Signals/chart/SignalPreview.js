@@ -45,8 +45,6 @@ const SignalPreviewChart = ({
 
   const _metrics = metrics.filter(metric => initialMetrics.includes(metric))
 
-  console.log({ type, slug, triggeredSignals })
-
   return (
     <div className={styles.preview}>
       <div className={styles.description}>
@@ -82,7 +80,7 @@ const SignalPreviewChart = ({
               return (
                 historyPrice && (
                   <VisualBacktestChart
-                    signals={triggeredSignals}
+                    triggeredSignals={triggeredSignals}
                     showXY={showAxes}
                     price={historyPrice.items}
                     metrics={customMetrics}
