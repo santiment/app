@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
-import { formatNumber } from '../../utils/formatting'
+import { formatNumber, millify } from '../../utils/formatting'
 import PercentChanges from '../PercentChanges'
 import { METRIC_ANOMALIE_QUERY } from '../../pages/Detailed/DetailedGQL'
 import styles from './MobileMetricCard.module.scss'
@@ -11,6 +11,8 @@ const ANOMALIES_METRICS_ENUM = {
   dailyActiveAddresses: 'DAILY_ACTIVE_ADDRESSES',
   devActivity: 'DEV_ACTIVITY'
 }
+
+const LARGE_NUMBER_STEP = 1000
 
 const MobileMetricCard = ({
   metric,
@@ -40,7 +42,8 @@ const MobileMetricCard = ({
       <div className={cx(styles.row, styles.row_top)}>
         <h3 className={styles.metric}>{name}</h3>
         <h4 className={styles.value}>
-          {formatNumber(value)} {measure}
+          {value > LARGE_NUMBER_STEP ? millify(value) : formatNumber(value)}{' '}
+          {measure}
         </h4>
       </div>
       <div className={styles.row}>
