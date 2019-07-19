@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
-import { formatNumber } from '../../utils/formatting'
+import { millify } from '../../utils/formatting'
 import PercentChanges from '../PercentChanges'
 import { METRIC_ANOMALIE_QUERY } from '../../pages/Detailed/DetailedGQL'
 import styles from './MobileMetricCard.module.scss'
@@ -40,7 +40,7 @@ const MobileMetricCard = ({
       <div className={cx(styles.row, styles.row_top)}>
         <h3 className={styles.metric}>{name}</h3>
         <h4 className={styles.value}>
-          {formatNumber(value)} {measure}
+          {millify(value)} {measure}
         </h4>
       </div>
       <div className={styles.row}>
