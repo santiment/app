@@ -3,12 +3,18 @@ import { loadKeyState } from '../utils/localStorage'
 
 const isNightMode = loadKeyState('isNightMode')
 const isNightModeDeprecated = loadKeyState('isNightModeEnabled')
-const isBetaModeEnabled = loadKeyState('isBetaModeEnabled') || false
+const isBetaMode = loadKeyState('isBetaMode')
+const isBetaModeDeprecated = loadKeyState('isBetaModeEnabled')
 const isNewsEnabled = loadKeyState('isNewsEnabled') || false
 
 let isNightModeEnabled = isNightMode || false
 if (isNightMode === undefined && isNightModeDeprecated !== undefined) {
   isNightModeEnabled = isNightModeDeprecated
+}
+
+let isBetaModeEnabled = isBetaMode || false
+if (isBetaMode === undefined && isBetaModeDeprecated !== undefined) {
+  isBetaModeEnabled = isBetaModeDeprecated
 }
 
 if (isNightModeEnabled) {

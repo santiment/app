@@ -44,7 +44,10 @@ import handleNightModeToggle, {
   saveNightModeAfterLaunch,
   sendNightModeIfDiff
 } from './handleNightModeToggle'
-import handleBetaModeToggle from './handleBetaModeToggle'
+import handleBetaModeToggle, {
+  sendBetaModeIfDiff,
+  saveBetaModeAfterLaunch
+} from './handleBetaModeToggle'
 import handleNewsToggle from './handleNewsToggle'
 import {
   fetchHypedTrends,
@@ -116,6 +119,8 @@ export default combineEpics(
   saveNightModeAfterLaunch,
   sendNightModeIfDiff,
   handleBetaModeToggle,
+  saveBetaModeAfterLaunch,
+  sendBetaModeIfDiff,
   handleNewsToggle,
   // Signals
   createSignalEpic,
