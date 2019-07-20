@@ -24,7 +24,6 @@ export const TriggerProjectsSelector = ({
         (!fieldValueList || fieldValueList.length === 0) &&
         listItems.length === 0
       ) {
-        debugger
         const targetAssets = Array.isArray(target) ? target : [target]
 
         if (targetAssets.length > 0 && projects.length > 0) {
@@ -58,6 +57,8 @@ export const TriggerProjectsSelector = ({
       listItems,
       isAssetInList: hasAssetById({ listItems, id: project.id })
     })
+
+  console.log('projects', projects)
 
   return (
     <Dialog

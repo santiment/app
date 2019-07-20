@@ -116,7 +116,6 @@ const TriggerFormHistoricalBalance = ({
             projects={selectableProjects}
             setFieldValue={setFieldValue}
             onChange={assets => {
-              debugger
               if (disabledWalletField) {
                 setFieldValue('ethAddress', '')
               } else if (ethAddress) {

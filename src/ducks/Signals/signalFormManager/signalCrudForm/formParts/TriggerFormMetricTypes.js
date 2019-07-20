@@ -15,7 +15,6 @@ const propTypes = {
 
 const checkPossibleTarget = ({ metaFormSettings, setFieldValue, target }) => {
   if (!target) {
-    debugger
     setFieldValue('target', metaFormSettings.target.value)
   }
 }

@@ -393,7 +393,7 @@ export const getTargetFromArray = target =>
 
 export const mapTriggerTarget = (
   target,
-  signalType,
+  signalType = {},
   address = '',
   isEthWalletTrigger = false
 ) => {
