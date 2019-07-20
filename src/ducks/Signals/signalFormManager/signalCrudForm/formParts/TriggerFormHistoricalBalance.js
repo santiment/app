@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { compose } from 'redux'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
+import cx from 'classnames'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import {
@@ -12,10 +12,10 @@ import {
 import { ASSETS_BY_WALLET_QUERY } from '../../../../HistoricalBalance/common/queries'
 import {
   mapAssetsHeldByAddressToProps,
-  mapToAssets,
   isPossibleEthAddress
 } from '../../../utils/utils'
 import styles from '../signal/TriggerForm.module.scss'
+import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelector'
 
 const isDisabledWalletAddressField = (
   canUseMappedErc20,
@@ -47,8 +47,12 @@ const TriggerFormHistoricalBalance = ({
   assets = [],
   setFieldValue,
   byAddress = '',
-  values: { target }
+  values
 }) => {
+  const { target } = values
+
+  console.log('target TriggerFormHistoricalBalance ', target)
+
   const [erc20List, setErc20] = useState(allErc20Projects)
   const [allList, setAll] = useState(allProjects)
   const [heldAssets, setHeldAssets] = useState(assets)
@@ -71,57 +75,62 @@ const TriggerFormHistoricalBalance = ({
   const selectableProjects =
     canUseMappedErc20 && assets.length > 0 ? assets : allList
 
-  const { ethAddress, target: defaultAsset } = metaFormSettings
+  const { ethAddress } = metaFormSettings
 
-  if (
-    target &&
-    target.value &&
-    selectableProjects.length > 0 &&
-    !selectableProjects.some(({ value }) => value === target.value)
-  ) {
-    setFieldValue('target', '')
+  const isInHeldAssets = assets => {
+    for (let i = 0; i < heldAssets.length; i++) {
+      const heldAsset = heldAssets[i]
+
+      if (!assets.some(({ slug }) => slug === heldAsset.slug)) {
+        return false
+      }
+    }
+    return true
   }
 
-  return (
-    <div className={styles.row}>
-      <div className={styles.Field}>
-        <FormikLabel text='Wallet' />
-        <FormikInput
-          disabled={disabledWalletField}
-          validator={isPossibleEthAddress}
-          name='ethAddress'
-          placeholder={
-            disabledWalletField ? 'Only for ETH and ERC20' : 'Wallet address'
-          }
-        />
-      </div>
+  const isDefaultAssets = assets =>
+    assets &&
+    assets.length > 0 &&
+    assets.some(a => metaFormSettings.target.value.value === a.slug)
 
-      <div className={styles.Field}>
-        <FormikLabel />
-        <FormikSelect
-          name='target'
-          disabled={defaultAsset.isDisabled}
-          defaultValue={defaultAsset.value.value}
-          placeholder='Pick an asset'
-          required
-          options={selectableProjects}
-          onChange={newAsset => {
-            if (disabledWalletField) {
-              setFieldValue('ethAddress', '')
-            } else if (ethAddress) {
-              if (
-                metaFormSettings.target.value.value === newAsset.value ||
-                heldAssets.some(a => a.value === newAsset.value)
-              ) {
-                setFieldValue('ethAddress', ethAddress)
-              } else {
-                setFieldValue('ethAddress', '')
-              }
+  return (
+    <Fragment>
+      <div className={cx(styles.row)}>
+        <div className={cx(styles.Field, styles.fieldFilled)}>
+          <FormikLabel text='Wallet' />
+          <FormikInput
+            disabled={disabledWalletField}
+            validator={isPossibleEthAddress}
+            name='ethAddress'
+            placeholder={
+              disabledWalletField ? 'Only for ETH and ERC20' : 'Wallet address'
             }
-          }}
-        />
+          />
+        </div>
       </div>
-    </div>
+      <div className={styles.row}>
+        <div className={cx(styles.Field, styles.fieldFilled)}>
+          <TriggerProjectsSelector
+            name='target'
+            values={values}
+            projects={selectableProjects}
+            setFieldValue={setFieldValue}
+            onChange={assets => {
+              debugger
+              if (disabledWalletField) {
+                setFieldValue('ethAddress', '')
+              } else if (ethAddress) {
+                if (isDefaultAssets(assets) || isInHeldAssets(assets)) {
+                  setFieldValue('ethAddress', ethAddress)
+                } else {
+                  setFieldValue('ethAddress', '')
+                }
+              }
+            }}
+          />
+        </div>
+      </div>
+    </Fragment>
   )
 }
 
@@ -133,8 +142,8 @@ const mapDataToProps = ({
   return {
     ...ownProps,
     data: {
-      allErc20Projects: mapToAssets(allErc20Projects) || data.allErc20Projects,
-      allProjects: mapToAssets(allProjects, false) || data.allProjects
+      allErc20Projects: allErc20Projects || data.allErc20Projects,
+      allProjects: allProjects || data.allProjects
     }
   }
 }

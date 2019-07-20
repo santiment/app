@@ -140,7 +140,7 @@ export const METRICS_OPTIONS = [
   { ...PRICE_METRIC },
   { ...ETH_WALLET_METRIC },
   { ...TRENDING_WORDS_METRIC },
-  // { ...DAILY_ACTIVE_ADDRESSES_METRIC }, GarageInc: temporary disabled
+  { ...DAILY_ACTIVE_ADDRESSES_METRIC },
   { ...PRICE_VOLUME_DIFFERENCE_METRIC }
 ]
 

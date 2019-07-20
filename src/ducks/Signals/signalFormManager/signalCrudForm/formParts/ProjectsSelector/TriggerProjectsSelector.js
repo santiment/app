@@ -20,7 +20,11 @@ export const TriggerProjectsSelector = ({
 
   useEffect(
     () => {
-      if (!fieldValueList || fieldValueList.length === 0) {
+      if (
+        (!fieldValueList || fieldValueList.length === 0) &&
+        listItems.length === 0
+      ) {
+        debugger
         const targetAssets = Array.isArray(target) ? target : [target]
 
         if (targetAssets.length > 0 && projects.length > 0) {

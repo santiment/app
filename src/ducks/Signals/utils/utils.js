@@ -388,12 +388,16 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
   }
 }
 
+export const getTargetFromArray = target =>
+  target.length === 1 ? target[0].slug : target.map(({ slug }) => slug)
+
 export const mapTriggerTarget = (
   target,
-  { value } = {},
+  signalType,
   address = '',
   isEthWalletTrigger = false
 ) => {
+  const { value } = signalType
   let newTarget
 
   switch (value) {
@@ -408,7 +412,7 @@ export const mapTriggerTarget = (
         newTarget = { eth_address: address }
       } else {
         newTarget = Array.isArray(target)
-          ? target.map(t => t.slug)
+          ? { slug: getTargetFromArray(target) }
           : { slug: target.value }
       }
     }
@@ -860,10 +864,7 @@ export const mapErc20AssetsToProps = ({
   allErc20Projects: { allErc20Projects = [], isLoading }
 }) => {
   return {
-    assets: [
-      { value: 'ethereum', label: 'ethereum' },
-      ...mapToAssets(allErc20Projects)
-    ],
+    assets: [{ slug: 'ethereum', label: 'ethereum' }, ...allErc20Projects],
     isLoading: isLoading
   }
 }
@@ -871,9 +872,8 @@ export const mapErc20AssetsToProps = ({
 export const mapAssetsHeldByAddressToProps = ({
   assetsByWallet: { assetsHeldByAddress = [], loading }
 }) => {
-  const assets = mapToAssets(assetsHeldByAddress, false)
   return {
-    assets: assets,
+    assets: assetsHeldByAddress,
     isLoading: loading
   }
 }

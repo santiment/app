@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import cx from 'classnames'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
@@ -44,8 +44,8 @@ const TriggerFormTrendingWordsTypes = ({
         const [words] = useState(getWords(allProjects, trendingWordsWithWords))
 
         return (
-          <div>
-            <div className={cx(styles.row, styles.rowInner)}>
+          <Fragment>
+            <div className={cx(styles.row, styles.rowTop)}>
               <div
                 className={cx(
                   styles.Field,
@@ -72,7 +72,7 @@ const TriggerFormTrendingWordsTypes = ({
             </div>
 
             {!isWatchlist && (
-              <div className={styles.row}>
+              <div className={cx(styles.row, styles.rowBottom)}>
                 <div className={cx(styles.Field, styles.fieldFilled)}>
                   {isProjects && (
                     <TriggerProjectsSelector
@@ -97,7 +97,7 @@ const TriggerFormTrendingWordsTypes = ({
                 </div>
               </div>
             )}
-          </div>
+          </Fragment>
         )
       }}
     />

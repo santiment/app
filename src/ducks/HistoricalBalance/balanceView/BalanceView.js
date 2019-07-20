@@ -11,6 +11,7 @@ import { ChartExpandView } from '../../Signals/chart/ChartExpandView'
 import Loadable from 'react-loadable'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import { isPossibleEthAddress } from '../../Signals/utils/utils'
+import { mapAssetsToFlatArray } from '../page/HistoricalBalancePage'
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./BalanceViewChartSettings'),
@@ -48,7 +49,7 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
   const handleAssetsChange = assets => {
     const newState = {
       ...walletAndAssets,
-      assets: assets.map(asset => asset.value)
+      assets: assets
     }
     setWalletAndAssets(newState)
     onChangeQuery(newState)
@@ -77,6 +78,8 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
 
   const { timeRange, from, to } = chartSettings
 
+  console.log('stateAssets', stateAssets)
+
   return (
     <div className={styles.container}>
       <BalanceViewWalletAssets
@@ -98,7 +101,7 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
         </BalanceChartHeader>
 
         <GetHistoricalBalance
-          assets={assets}
+          assets={mapAssetsToFlatArray(assets)}
           wallet={address}
           from={from}
           to={to}

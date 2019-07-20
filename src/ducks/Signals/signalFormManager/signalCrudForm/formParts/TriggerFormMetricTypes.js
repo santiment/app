@@ -14,10 +14,8 @@ const propTypes = {
 }
 
 const checkPossibleTarget = ({ metaFormSettings, setFieldValue, target }) => {
-  if (Array.isArray(target)) {
-    const { target: value } = metaFormSettings
-    setFieldValue('target', target.length > 0 ? target[0] : value)
-  } else if (!target) {
+  if (!target) {
+    debugger
     setFieldValue('target', metaFormSettings.target.value)
   }
 }
