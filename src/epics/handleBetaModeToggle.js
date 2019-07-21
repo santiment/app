@@ -64,6 +64,7 @@ export const saveBetaModeAfterLaunch = action$ =>
       return Observable.of({ type: APP_USER_BETA_MODE_SAVE, payload: true })
     })
 
+// NOTE(haritonasty): for preventing diff between "isBetaModeEnabled" in LS = true (deprecated) and false on server
 export const sendBetaModeIfDiff = (action$, store, { client }) =>
   action$
     .ofType(CHANGE_USER_DATA)

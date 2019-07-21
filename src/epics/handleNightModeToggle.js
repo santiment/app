@@ -72,6 +72,7 @@ export const saveNightModeAfterLaunch = action$ =>
       })
     })
 
+// NOTE(haritonasty): for preventing diff between "isNightModeEnabled" in LS = true (deprecated) and false on server
 export const sendNightModeIfDiff = (action$, store, { client }) =>
   action$
     .ofType(CHANGE_USER_DATA)
