@@ -44,15 +44,14 @@ const handleBetaModeToggle = (action$, store, { client }) =>
               ])
           })
           .catch(handleErrorAndTriggerAction(APP_USER_BETA_MODE_SAVE_FAILED))
-      } else {
-        return value
-          ? Observable.of({ type: APP_USER_BETA_MODE_SAVE, payload: true })
-          : Observable.from([
-            { type: APP_USER_BETA_MODE_SAVE, payload: false },
-            // NOTE(haritonasty): News are connected with beta mode. We should turn news off - if beta turned off
-            { type: APP_USER_NEWS_SAVE, payload: false }
-          ])
       }
+      return value
+        ? Observable.of({ type: APP_USER_BETA_MODE_SAVE, payload: true })
+        : Observable.from([
+          { type: APP_USER_BETA_MODE_SAVE, payload: false },
+          // NOTE(haritonasty): News are connected with beta mode. We should turn news off - if beta turned off
+          { type: APP_USER_NEWS_SAVE, payload: false }
+        ])
     })
 
 export const saveBetaModeAfterLaunch = action$ =>
@@ -70,7 +69,7 @@ export const sendBetaModeIfDiff = (action$, store, { client }) =>
     .ofType(CHANGE_USER_DATA)
     .filter(
       () =>
-        loadKeyState('isBetaMode') === undefined ||
+        loadKeyState('isBetaMode') === undefined &&
         loadKeyState('isBetaModeEnabled') === true
     )
     .mergeMap(({ user: { settings: { isBetaMode } } }) => {

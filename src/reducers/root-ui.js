@@ -7,15 +7,10 @@ const isBetaMode = loadKeyState('isBetaMode')
 const isBetaModeDeprecated = loadKeyState('isBetaModeEnabled')
 const isNewsEnabled = loadKeyState('isNewsEnabled') || false
 
-let isNightModeEnabled = isNightMode || false
-if (isNightMode === undefined && isNightModeDeprecated !== undefined) {
-  isNightModeEnabled = isNightModeDeprecated
-}
-
-let isBetaModeEnabled = isBetaMode || false
-if (isBetaMode === undefined && isBetaModeDeprecated !== undefined) {
-  isBetaModeEnabled = isBetaModeDeprecated
-}
+const isNightModeEnabled =
+  isNightMode !== undefined ? isNightMode : isNightModeDeprecated || false
+const isBetaModeEnabled =
+  isBetaMode === undefined ? isBetaMode : isBetaModeDeprecated || false
 
 if (isNightModeEnabled) {
   document.body.classList.add('night-mode')

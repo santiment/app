@@ -48,12 +48,11 @@ const handleNightModeToggle = (action$, store, { client }) =>
             })
           })
           .catch(handleErrorAndTriggerAction(APP_USER_NIGHT_MODE_SAVE_FAILED))
-      } else {
-        return Observable.of({
-          type: APP_USER_NIGHT_MODE_SAVE,
-          payload: isNightModeEnabled
-        })
       }
+      return Observable.of({
+        type: APP_USER_NIGHT_MODE_SAVE,
+        payload: isNightModeEnabled
+      })
     })
 
 export const saveNightModeAfterLaunch = action$ =>
@@ -78,7 +77,7 @@ export const sendNightModeIfDiff = (action$, store, { client }) =>
     .ofType(CHANGE_USER_DATA)
     .filter(
       () =>
-        loadKeyState('isNightMode') === undefined ||
+        loadKeyState('isNightMode') === undefined &&
         loadKeyState('isNightModeEnabled') === true
     )
     .mergeMap(({ user: { settings: { theme } } }) => {
