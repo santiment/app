@@ -4,7 +4,7 @@ import {
   USER_TOGGLE_BETA_MODE,
   APP_USER_BETA_MODE_SAVE,
   APP_USER_NEWS_SAVE,
-  APP_USER_BETA_MODE_SAVE_ERROR,
+  APP_USER_BETA_MODE_SAVE_FAILED,
   CHANGE_USER_DATA
 } from './../actions/types'
 import { saveKeyState, loadKeyState } from '../utils/localStorage'
@@ -43,7 +43,7 @@ const handleBetaModeToggle = (action$, store, { client }) =>
                 { type: APP_USER_NEWS_SAVE, payload: false }
               ])
           })
-          .catch(handleErrorAndTriggerAction(APP_USER_BETA_MODE_SAVE_ERROR))
+          .catch(handleErrorAndTriggerAction(APP_USER_BETA_MODE_SAVE_FAILED))
       } else {
         return value
           ? Observable.of({ type: APP_USER_BETA_MODE_SAVE, payload: true })
@@ -86,7 +86,7 @@ export const sendBetaModeIfDiff = (action$, store, { client }) =>
             payload: isBetaMode
           })
         })
-        .catch(handleErrorAndTriggerAction(APP_USER_BETA_MODE_SAVE_ERROR))
+        .catch(handleErrorAndTriggerAction(APP_USER_BETA_MODE_SAVE_FAILED))
     })
 
 export default handleBetaModeToggle

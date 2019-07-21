@@ -3,7 +3,7 @@ import { Observable } from 'rxjs'
 import {
   USER_TOGGLE_NIGHT_MODE,
   APP_USER_NIGHT_MODE_SAVE,
-  APP_USER_NIGHT_MODE_SAVE_ERROR,
+  APP_USER_NIGHT_MODE_SAVE_FAILED,
   CHANGE_USER_DATA
 } from './../actions/types'
 import { saveKeyState, loadKeyState } from '../utils/localStorage'
@@ -47,7 +47,7 @@ const handleNightModeToggle = (action$, store, { client }) =>
               payload: updateUserSettings.theme === THEME_TYPES.nightmode
             })
           })
-          .catch(handleErrorAndTriggerAction(APP_USER_NIGHT_MODE_SAVE_ERROR))
+          .catch(handleErrorAndTriggerAction(APP_USER_NIGHT_MODE_SAVE_FAILED))
       } else {
         return Observable.of({
           type: APP_USER_NIGHT_MODE_SAVE,
@@ -94,7 +94,7 @@ export const sendNightModeIfDiff = (action$, store, { client }) =>
             payload: updateUserSettings.theme === THEME_TYPES.nightmode
           })
         })
-        .catch(handleErrorAndTriggerAction(APP_USER_NIGHT_MODE_SAVE_ERROR))
+        .catch(handleErrorAndTriggerAction(APP_USER_NIGHT_MODE_SAVE_FAILED))
     })
 
 export default handleNightModeToggle
