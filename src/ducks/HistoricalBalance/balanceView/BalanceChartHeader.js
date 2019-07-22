@@ -27,7 +27,7 @@ const BalanceChartHeader = ({ address, assets, children }) => {
               type: {
                 value: { ...ETH_WALLET_AMOUNT_UP }
               },
-              ethAddress: address
+              ethAddress: assets && assets.length === 1 ? address : ''
             }}
             buttonParams={{
               variant: 'ghost',

@@ -423,13 +423,15 @@ export const mapTriggerTarget = (
   }
 }
 
-export const mapAssetTarget = (target, isEthWalletTrigger) => {
-  if (!isEthWalletTrigger) {
-    return undefined
+export const mapAssetTarget = (target, ethAddress) => {
+  if (!ethAddress) {
+    return {
+      asset: { slug: 'ethereum' }
+    }
   }
 
   return {
-    asset: { slug: target.value }
+    asset: { slug: getTargetFromArray(target) }
   }
 }
 
@@ -558,9 +560,10 @@ export const mapFormToPVDTriggerSettings = formProps => {
 
 export const mapFormToHBTriggerSettings = formProps => {
   const { target, ethAddress, signalType } = formProps
+  debugger
   const newAsset =
     signalType.value === METRIC_TARGET_ASSETS.value
-      ? mapAssetTarget(target, true)
+      ? mapAssetTarget(target, ethAddress)
       : undefined
   const newTarget = mapTriggerTarget(target, signalType, ethAddress, true)
   return {

@@ -17,19 +17,38 @@ import {
 import styles from '../signal/TriggerForm.module.scss'
 import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelector'
 
-const isDisabledWalletAddressField = (
-  canUseMappedErc20,
-  target,
-  allErc20Projects
-) => {
-  if (canUseMappedErc20 || !target || !target.value) {
-    return false
+const isInHeldAssets = (heldAssets, checking) => {
+  debugger
+  for (let i = 0; i < heldAssets.length; i++) {
+    const heldAsset = heldAssets[i]
+
+    if (!checking.some(({ slug }) => slug === heldAsset.slug)) {
+      return false
+    }
+  }
+  return true
+}
+
+const isNotErc20Assets = (target, allErc20Projects) => {
+  const isEthOrErc20 =
+    target.value === 'ethereum' ||
+    (Array.isArray(target) && isInHeldAssets(allErc20Projects, target)) ||
+    allErc20Projects.some(x => x.value === target.value)
+
+  return !isEthOrErc20
+}
+
+const mapAssetsToAllProjects = (all, heldAssets) => {
+  let items = []
+  for (let i = 0; i < heldAssets.length; i++) {
+    const item = heldAssets[i]
+    const foundInAll = all.find(({ slug }) => slug === item.slug)
+    if (foundInAll) {
+      items.push(foundInAll)
+    }
   }
 
-  return !(
-    target.value === 'ethereum' ||
-    allErc20Projects.some(x => x.value === target.value)
-  )
+  return items
 }
 
 const propTypes = {
@@ -51,7 +70,7 @@ const TriggerFormHistoricalBalance = ({
 }) => {
   const { target } = values
 
-  console.log('target TriggerFormHistoricalBalance ', target)
+  console.log(byAddress)
 
   const [erc20List, setErc20] = useState(allErc20Projects)
   const [allList, setAll] = useState(allProjects)
@@ -59,39 +78,31 @@ const TriggerFormHistoricalBalance = ({
 
   useEffect(
     () => {
-      allErc20Projects.length && setErc20(allErc20Projects)
-      allProjects.length && setAll(allProjects)
-      assets.length && setHeldAssets(assets)
+      allErc20Projects && allErc20Projects.length && setErc20(allErc20Projects)
+      allProjects && allProjects.length && setAll(allProjects)
+      assets && assets.length && setHeldAssets(assets)
     },
     [allErc20Projects, allProjects, assets]
   )
 
-  const canUseMappedErc20 = !!byAddress && assets.length > 0
-  const disabledWalletField = isDisabledWalletAddressField(
-    canUseMappedErc20,
-    target,
-    erc20List
-  )
-  const selectableProjects =
-    canUseMappedErc20 && assets.length > 0 ? assets : allList
+  const disabledWalletField =
+    !target ||
+    (target && target.length > 1) ||
+    // || (!!byAddress && heldAssets.length > 0)
+    isNotErc20Assets(target, erc20List)
 
-  const { ethAddress } = metaFormSettings
+  const selectableProjects = !disabledWalletField
+    ? mapAssetsToAllProjects(allList, heldAssets)
+    : allList
 
-  const isInHeldAssets = assets => {
-    for (let i = 0; i < heldAssets.length; i++) {
-      const heldAsset = heldAssets[i]
-
-      if (!assets.some(({ slug }) => slug === heldAsset.slug)) {
-        return false
-      }
-    }
-    return true
-  }
+  const { ethAddress, target: metaTarget } = metaFormSettings
 
   const isDefaultAssets = assets =>
-    assets &&
-    assets.length > 0 &&
-    assets.some(a => metaFormSettings.target.value.value === a.slug)
+    assets && assets.some(({ slug }) => metaTarget.value.value === slug)
+
+  const setAddress = address => setFieldValue('ethAddress', address)
+
+  const isMulti = target && !ethAddress
 
   return (
     <Fragment>
@@ -103,30 +114,39 @@ const TriggerFormHistoricalBalance = ({
             validator={isPossibleEthAddress}
             name='ethAddress'
             placeholder={
-              disabledWalletField ? 'Only for ETH and ERC20' : 'Wallet address'
+              disabledWalletField
+                ? 'Only for single ETH and ERC20 asset'
+                : 'Wallet address'
             }
           />
         </div>
       </div>
       <div className={styles.row}>
         <div className={cx(styles.Field, styles.fieldFilled)}>
-          <TriggerProjectsSelector
-            name='target'
-            values={values}
-            projects={selectableProjects}
-            setFieldValue={setFieldValue}
-            onChange={assets => {
-              if (disabledWalletField) {
-                setFieldValue('ethAddress', '')
-              } else if (ethAddress) {
-                if (isDefaultAssets(assets) || isInHeldAssets(assets)) {
-                  setFieldValue('ethAddress', ethAddress)
-                } else {
-                  setFieldValue('ethAddress', '')
+          {isMulti && (
+            <TriggerProjectsSelector
+              name='target'
+              values={values}
+              projects={selectableProjects}
+              setFieldValue={setFieldValue}
+              onChange={assets => {
+                if (disabledWalletField) {
+                  debugger
+                  setAddress('')
+                } else if (ethAddress) {
+                  debugger
+                  if (
+                    isDefaultAssets(assets) ||
+                    isInHeldAssets(heldAssets, assets)
+                  ) {
+                    setAddress(ethAddress)
+                  } else {
+                    setAddress('')
+                  }
                 }
-              }
-            }}
-          />
+              }}
+            />
+          )}
         </div>
       </div>
     </Fragment>

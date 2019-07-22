@@ -118,8 +118,6 @@ export const TriggerForm = ({
         } = values
         const typeSelectors = METRIC_TO_TYPES[(metric || {}).value]
 
-        console.log('target TriggerForm ', target)
-
         const { price } = lastPriceItem || {}
 
         const showChart = target && couldShowChart(values)

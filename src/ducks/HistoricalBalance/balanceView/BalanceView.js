@@ -78,8 +78,6 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
 
   const { timeRange, from, to } = chartSettings
 
-  console.log('stateAssets', stateAssets)
-
   return (
     <div className={styles.container}>
       <BalanceViewWalletAssets

@@ -58,8 +58,6 @@ export const TriggerProjectsSelector = ({
       isAssetInList: hasAssetById({ listItems, id: project.id })
     })
 
-  console.log('projects', projects)
-
   return (
     <Dialog
       title='Select assets'
