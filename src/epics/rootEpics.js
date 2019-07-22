@@ -25,6 +25,7 @@ import {
   addAssetToWatchlistEpic,
   editAssetsInWatchlistEpic
 } from './../components/WatchlistEdit/editAssetsInWatchlistEpic'
+import { changeColumnsSettingsEpic } from './changeWatchlistSettings'
 import {
   fetchAssetsEpic,
   fetchAssetsFromListEpic,
@@ -98,6 +99,8 @@ export default combineEpics(
   fetchRestAllAssetsEpic,
   fetchAssetsFromListEpic,
   fetchAssetsFromListWithEditEpic,
+  // assets settings
+  changeColumnsSettingsEpic,
   // timeseries
   fetchTimeseriesEpic,
   // trends

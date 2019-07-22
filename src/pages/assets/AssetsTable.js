@@ -54,7 +54,8 @@ const AssetsTable = ({
   setHiddenColumns
 }) => {
   const { isLoading, error, timestamp, typeInfo } = Assets
-  const { sorting, pageSize, hiddenColumns } = settings[listName] || {}
+  const key = typeInfo.listId || listName
+  const { sorting, pageSize, hiddenColumns } = settings[key] || {}
   if (error && error.message !== 'Network error: Failed to fetch') {
     return <ServerErrorMessage />
   }
@@ -92,7 +93,7 @@ const AssetsTable = ({
       const columns = show
         ? [...savedHidden, name]
         : savedHidden.filter(item => item !== name)
-      setHiddenColumns({ hiddenColumns: columns, listName })
+      setHiddenColumns({ hiddenColumns: columns, key })
     }
     return changeColumns(toggledColumns)
   }
