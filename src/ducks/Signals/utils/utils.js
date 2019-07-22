@@ -599,6 +599,9 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
           settings = mapFormToPACTriggerSettings(formProps)
           break
         }
+        default: {
+          throw new Error('Can not find a correct mapper for PRICE trigger')
+        }
       }
       break
     }

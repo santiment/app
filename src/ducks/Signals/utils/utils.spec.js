@@ -33,7 +33,6 @@ const TRIGGERS = [
     id: 1,
     settings: {
       channel: 'telegram',
-      percent_threshold: 6,
       target: { slug: 'santiment' },
       time_window: '30m',
       type: 'daily_active_addresses'
@@ -111,7 +110,7 @@ const FORM_PROPS = [
     frequencyType: { ...FREQUENCY_TYPE_HOUR_MODEL },
     frequencyTimeType: { ...FREQUENCY_TIME_TYPE_HOURS_MODEL },
     frequencyTimeValue: { ...frequencyTimeValue },
-    percentThreshold: 6,
+    percentThreshold: 5,
     isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
     timeWindow: 30,

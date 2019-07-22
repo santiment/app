@@ -5,7 +5,6 @@ import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSe
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import {
-  DAILY_ACTIVE_ADDRESSES,
   ETH_WALLETS_OPTIONS,
   METRIC_TYPES_DEPENDENCIES,
   PRICE,
