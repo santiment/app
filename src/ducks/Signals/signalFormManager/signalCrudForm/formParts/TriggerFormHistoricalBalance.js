@@ -14,15 +14,15 @@ import {
   mapAssetsHeldByAddressToProps,
   isPossibleEthAddress
 } from '../../../utils/utils'
-import styles from '../signal/TriggerForm.module.scss'
 import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelector'
+import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
+import styles from '../signal/TriggerForm.module.scss'
 
 const isInHeldAssets = (heldAssets, checking) => {
-  debugger
-  for (let i = 0; i < heldAssets.length; i++) {
-    const heldAsset = heldAssets[i]
+  for (let i = 0; i < checking.length; i++) {
+    const checkingAsset = checking[i]
 
-    if (!checking.some(({ slug }) => slug === heldAsset.slug)) {
+    if (!heldAssets.some(({ slug }) => slug === checkingAsset.slug)) {
       return false
     }
   }
@@ -33,7 +33,7 @@ const isNotErc20Assets = (target, allErc20Projects) => {
   const isEthOrErc20 =
     target.value === 'ethereum' ||
     (Array.isArray(target) && isInHeldAssets(allErc20Projects, target)) ||
-    allErc20Projects.some(x => x.value === target.value)
+    allErc20Projects.some(({ slug }) => slug === target.slug)
 
   return !isEthOrErc20
 }
@@ -51,6 +51,9 @@ const mapAssetsToAllProjects = (all, heldAssets) => {
   return items
 }
 
+const isDefaultAssets = (metaTarget, assets) =>
+  assets && assets.some(({ slug }) => metaTarget.value.value === slug)
+
 const propTypes = {
   metaFormSettings: PropTypes.any,
   values: PropTypes.any.isRequired,
@@ -62,15 +65,16 @@ const propTypes = {
 
 const TriggerFormHistoricalBalance = ({
   data: { allErc20Projects = [], allProjects = [] } = {},
-  metaFormSettings,
+  metaFormSettings: { ethAddress: metaEthAddress, target: metaTarget },
   assets = [],
   setFieldValue,
   byAddress = '',
-  values
+  values,
+  isLoading = false
 }) => {
-  const { target } = values
+  const { target, ethAddress } = values
 
-  console.log(byAddress)
+  const isMulti = target && !ethAddress
 
   const [erc20List, setErc20] = useState(allErc20Projects)
   const [allList, setAll] = useState(allProjects)
@@ -85,24 +89,49 @@ const TriggerFormHistoricalBalance = ({
     [allErc20Projects, allProjects, assets]
   )
 
-  const disabledWalletField =
-    !target ||
-    (target && target.length > 1) ||
-    // || (!!byAddress && heldAssets.length > 0)
-    isNotErc20Assets(target, erc20List)
+  useEffect(
+    () => {
+      let foundBaseAsset
+      if (!isMulti && target.length > 0) {
+        const [first] = target
+        foundBaseAsset = allList.find(
+          ({ slug }) => slug === first.slug || slug === first.value
+        )
+      } else if (target && target.value) {
+        foundBaseAsset = allList.find(({ slug }) => slug === target.value)
+      }
 
-  const selectableProjects = !disabledWalletField
-    ? mapAssetsToAllProjects(allList, heldAssets)
-    : allList
+      if (foundBaseAsset) {
+        setFieldValue('target', foundBaseAsset)
+      }
+    },
+    [ethAddress]
+  )
 
-  const { ethAddress, target: metaTarget } = metaFormSettings
+  const disabledWalletField = !target || (target && target.length > 1)
+  isNotErc20Assets(target, erc20List)
 
-  const isDefaultAssets = assets =>
-    assets && assets.some(({ slug }) => metaTarget.value.value === slug)
+  const selectableProjects =
+    ethAddress && !disabledWalletField
+      ? mapAssetsToAllProjects(allList, heldAssets)
+      : allList
 
   const setAddress = address => setFieldValue('ethAddress', address)
 
-  const isMulti = target && !ethAddress
+  const validateAddressField = assets => {
+    if (disabledWalletField) {
+      setAddress('')
+    } else if (ethAddress && metaEthAddress) {
+      if (
+        isDefaultAssets(metaTarget, assets) ||
+        isInHeldAssets(heldAssets, assets)
+      ) {
+        setAddress(metaEthAddress)
+      } else {
+        setAddress('')
+      }
+    }
+  }
 
   return (
     <Fragment>
@@ -130,20 +159,22 @@ const TriggerFormHistoricalBalance = ({
               projects={selectableProjects}
               setFieldValue={setFieldValue}
               onChange={assets => {
-                if (disabledWalletField) {
-                  debugger
-                  setAddress('')
-                } else if (ethAddress) {
-                  debugger
-                  if (
-                    isDefaultAssets(assets) ||
-                    isInHeldAssets(heldAssets, assets)
-                  ) {
-                    setAddress(ethAddress)
-                  } else {
-                    setAddress('')
-                  }
-                }
+                validateAddressField(assets)
+              }}
+            />
+          )}
+          {!isMulti && (
+            <FormikSelect
+              name='target'
+              disalbed={isLoading}
+              isLoading={isLoading}
+              isClearable={false}
+              placeholder='Pick an asset'
+              options={selectableProjects}
+              valueKey='slug'
+              labelKey='slug'
+              onChange={newAsset => {
+                validateAddressField([newAsset])
               }}
             />
           )}
@@ -154,7 +185,7 @@ const TriggerFormHistoricalBalance = ({
 }
 
 const mapDataToProps = ({
-  Projects: { allErc20Projects, allProjects },
+  Projects: { allErc20Projects, allProjects, loading },
   ownProps
 }) => {
   const { data = {} } = ownProps
@@ -163,7 +194,8 @@ const mapDataToProps = ({
     data: {
       allErc20Projects: allErc20Projects || data.allErc20Projects,
       allProjects: allProjects || data.allProjects
-    }
+    },
+    isLoading: loading
   }
 }
 

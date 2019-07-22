@@ -22,7 +22,6 @@ const TriggerFormAssetWallet = ({
   const { signalType, target } = values
   const isAssets = isAsset(signalType)
 
-  console.log(target)
   return (
     <Fragment>
       <div className={styles.row}>

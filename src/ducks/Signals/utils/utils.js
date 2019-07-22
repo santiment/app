@@ -391,15 +391,9 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
 export const getTargetFromArray = target =>
   target.length === 1 ? target[0].slug : target.map(({ slug }) => slug)
 
-export const mapTriggerTarget = (
-  target,
-  signalType = {},
-  address = '',
-  isEthWalletTrigger = false
-) => {
+export const mapTriggerTarget = (target, signalType = {}, address) => {
   const { value } = signalType
   let newTarget
-
   switch (value) {
     case METRIC_TARGET_WATCHLIST.value: {
       newTarget = {
@@ -408,12 +402,10 @@ export const mapTriggerTarget = (
       break
     }
     default: {
-      if (isEthWalletTrigger && address) {
+      if (address) {
         newTarget = { eth_address: address }
       } else {
-        newTarget = Array.isArray(target)
-          ? { slug: getTargetFromArray(target) }
-          : { slug: target.value }
+        newTarget = { slug: mapTargetObject(target) }
       }
     }
   }
@@ -423,15 +415,20 @@ export const mapTriggerTarget = (
   }
 }
 
+const mapTargetObject = target => {
+  return Array.isArray(target)
+    ? getTargetFromArray(target)
+    : target.value || target.slug
+}
+
 export const mapAssetTarget = (target, ethAddress) => {
   if (!ethAddress) {
     return {
       asset: { slug: 'ethereum' }
     }
   }
-
   return {
-    asset: { slug: getTargetFromArray(target) }
+    asset: { slug: mapTargetObject(target) }
   }
 }
 
@@ -560,12 +557,11 @@ export const mapFormToPVDTriggerSettings = formProps => {
 
 export const mapFormToHBTriggerSettings = formProps => {
   const { target, ethAddress, signalType } = formProps
-  debugger
   const newAsset =
     signalType.value === METRIC_TARGET_ASSETS.value
       ? mapAssetTarget(target, ethAddress)
       : undefined
-  const newTarget = mapTriggerTarget(target, signalType, ethAddress, true)
+  const newTarget = mapTriggerTarget(target, signalType, ethAddress)
   return {
     type: ETH_WALLET,
     ...newTarget,
@@ -730,11 +726,38 @@ export const validateTriggerForm = ({
 }) => {
   let errors = {}
 
-  if (type.metric === ETH_WALLET) {
+  if (metric && metric.value === ETH_WALLET) {
     if (!threshold) errors.threshold = REQUIRED_MESSAGE
 
     if (ethAddress && !isPossibleEthAddress(ethAddress)) {
       errors.ethAddress = 'Not valid ETH address'
+    }
+  } else if (metric && metric.value === TRENDING_WORDS) {
+    if (
+      isTrendingWordsByProjects(type) &&
+      (!trendingWordsWithAssets || trendingWordsWithAssets.length === 0)
+    ) {
+      errors.trendingWordsWithAssets = REQUIRED_MESSAGE
+    }
+
+    if (
+      isTrendingWordsByWords(type) &&
+      (!trendingWordsWithWords || trendingWordsWithWords.length === 0)
+    ) {
+      errors.trendingWordsWithWords = REQUIRED_MESSAGE
+    }
+  } else {
+    if (isWatchlist(signalType)) {
+      if (!target) {
+        errors.target = REQUIRED_MESSAGE
+      }
+    } else {
+      if (
+        !target ||
+        (Array.isArray(target) ? target.length === 0 : !target.value)
+      ) {
+        errors.target = REQUIRED_MESSAGE
+      }
     }
   }
 
@@ -790,35 +813,6 @@ export const validateTriggerForm = ({
 
   if (!frequencyTimeType || !frequencyTimeType.value) {
     errors.frequencyTimeType = REQUIRED_MESSAGE
-  }
-
-  if (metric && metric.value === TRENDING_WORDS) {
-    if (
-      isTrendingWordsByProjects(type) &&
-      (!trendingWordsWithAssets || trendingWordsWithAssets.length === 0)
-    ) {
-      errors.trendingWordsWithAssets = REQUIRED_MESSAGE
-    }
-
-    if (
-      isTrendingWordsByWords(type) &&
-      (!trendingWordsWithWords || trendingWordsWithWords.length === 0)
-    ) {
-      errors.trendingWordsWithWords = REQUIRED_MESSAGE
-    }
-  } else {
-    if (isWatchlist(signalType)) {
-      if (!target) {
-        errors.target = REQUIRED_MESSAGE
-      }
-    } else {
-      if (
-        !target ||
-        (Array.isArray(target) ? target.length === 0 : !target.value)
-      ) {
-        errors.target = REQUIRED_MESSAGE
-      }
-    }
   }
 
   return errors
