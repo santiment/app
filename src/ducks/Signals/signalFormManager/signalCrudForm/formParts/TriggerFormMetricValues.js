@@ -5,8 +5,10 @@ import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSe
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import {
+  DAILY_ACTIVE_ADDRESSES,
   ETH_WALLETS_OPTIONS,
   METRIC_TYPES_DEPENDENCIES,
+  PRICE,
   TIME_WINDOW_UNITS
 } from '../../../utils/constants'
 import { getFormMetricValue } from '../../../utils/utils'
@@ -23,6 +25,7 @@ const propTypes = {
 export const TriggerFormMetricValues = ({
   values: {
     type,
+    metric,
     absoluteBorderRight = 0,
     absoluteBorderLeft = 0,
     percentThreshold,
@@ -32,6 +35,8 @@ export const TriggerFormMetricValues = ({
   lastPrice
 }) => {
   const metricValue = getFormMetricValue(type)
+
+  const isPriceMetric = metric.value === PRICE
 
   const isTimeWindow = METRIC_TYPES_DEPENDENCIES[metricValue].includes(
     'timeWindow'
@@ -47,12 +52,12 @@ export const TriggerFormMetricValues = ({
           <FormikInput
             name='absoluteBorderRight'
             type='number'
-            prefix='$'
+            prefix={isPriceMetric ? '$' : ''}
             min={+absoluteBorderLeft}
             step='any'
             placeholder='Upper border'
           />
-          <LastPriceComponent lastPrice={lastPrice} />
+          {isPriceMetric && <LastPriceComponent lastPrice={lastPrice} />}
         </div>
       )}
       {type &&
@@ -64,6 +69,7 @@ export const TriggerFormMetricValues = ({
             name='absoluteBorderLeft'
             type='number'
             step='any'
+            prefix={isPriceMetric ? '$' : ''}
             max={+absoluteBorderRight}
             placeholder='Lower border'
           />
@@ -79,9 +85,9 @@ export const TriggerFormMetricValues = ({
             name='absoluteThreshold'
             type='number'
             placeholder='Absolute value'
-            prefix='$'
+            prefix={isPriceMetric ? '$' : ''}
           />
-          <LastPriceComponent lastPrice={lastPrice} />
+          {isPriceMetric && <LastPriceComponent lastPrice={lastPrice} />}
         </div>
       )}
 
@@ -93,9 +99,8 @@ export const TriggerFormMetricValues = ({
             name='percentThreshold'
             type='number'
             placeholder='Percentage amount'
-            prefix='$'
           />
-          <LastPriceComponent lastPrice={lastPrice} />
+          {isPriceMetric && <LastPriceComponent lastPrice={lastPrice} />}
         </div>
       )}
 
@@ -149,12 +154,14 @@ export const TriggerFormMetricValues = ({
               />
             </div>
           </div>
-          <TriggerTimeWindowExplanation
-            type={type}
-            percent={percentThreshold}
-            timeType={timeWindowUnit}
-            timeValue={timeWindow}
-          />
+          {isPriceMetric && (
+            <TriggerTimeWindowExplanation
+              type={type}
+              percent={percentThreshold}
+              timeType={timeWindowUnit}
+              timeValue={timeWindow}
+            />
+          )}
         </div>
       )}
     </div>

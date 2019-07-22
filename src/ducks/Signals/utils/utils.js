@@ -39,7 +39,8 @@ import {
   TRENDING_WORDS_WORD_MENTIONED,
   METRIC_TARGET_ASSETS,
   METRIC_TARGET_WATCHLIST,
-  TRENDING_WORDS_WATCHLIST_MENTIONED
+  TRENDING_WORDS_WATCHLIST_MENTIONED,
+  PRICE
 } from './constants'
 import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 
@@ -219,27 +220,25 @@ const getAbsolutePriceValues = ({ settings: { operation, type } }) => {
   const values = {}
 
   if (operation) {
-    if (type === PRICE_ABSOLUTE_CHANGE) {
-      const operationType = getOperationType(operation)
+    const operationType = getOperationType(operation)
 
-      switch (operationType) {
-        case PRICE_CHANGE_TYPES.ABOVE:
-        case PRICE_CHANGE_TYPES.BELOW: {
-          values['absoluteThreshold'] = operation[operationType]
-          break
-        }
-        case PRICE_CHANGE_TYPES.INSIDE_CHANNEL:
-        case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
-          const [left, right] = operation[operationType]
+    switch (operationType) {
+      case PRICE_CHANGE_TYPES.ABOVE:
+      case PRICE_CHANGE_TYPES.BELOW: {
+        values['absoluteThreshold'] = operation[operationType]
+        break
+      }
+      case PRICE_CHANGE_TYPES.INSIDE_CHANNEL:
+      case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
+        const [left, right] = operation[operationType]
 
-          values['absoluteBorderLeft'] = left
-          values['absoluteBorderRight'] = right
+        values['absoluteBorderLeft'] = left
+        values['absoluteBorderRight'] = right
 
-          break
-        }
-        default: {
-          break
-        }
+        break
+      }
+      default: {
+        break
       }
     }
   }
@@ -415,7 +414,7 @@ export const mapTriggerTarget = (target, signalType = {}, address) => {
   }
 }
 
-const mapTargetObject = target => {
+export const mapTargetObject = target => {
   return Array.isArray(target)
     ? getTargetFromArray(target)
     : target.value || target.slug
@@ -532,15 +531,14 @@ export const mapFormToPACTriggerSettings = formProps => {
 }
 
 export const mapFormToDAATriggerSettings = formProps => {
-  const { percentThreshold, target, signalType } = formProps
+  const { target, signalType } = formProps
   const newTarget = mapTriggerTarget(target, signalType)
-
   return {
     type: DAILY_ACTIVE_ADDRESSES,
     ...newTarget,
     channel: getChannels(formProps),
     time_window: getTimeWindow(formProps),
-    percent_threshold: percentThreshold
+    operation: getTriggerOperation(formProps)
   }
 }
 
@@ -572,18 +570,9 @@ export const mapFormToHBTriggerSettings = formProps => {
 }
 
 export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
-  const { type, isRepeating } = formProps
-
+  const { type, metric, isRepeating } = formProps
   let settings = {}
-  switch (type.metric) {
-    case PRICE_PERCENT_CHANGE: {
-      settings = mapFormToPPCTriggerSettings(formProps)
-      break
-    }
-    case PRICE_ABSOLUTE_CHANGE: {
-      settings = mapFormToPACTriggerSettings(formProps)
-      break
-    }
+  switch (metric.value) {
     case DAILY_ACTIVE_ADDRESSES: {
       settings = mapFormToDAATriggerSettings(formProps)
       break
@@ -598,6 +587,19 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     }
     case ETH_WALLET: {
       settings = mapFormToHBTriggerSettings(formProps)
+      break
+    }
+    case PRICE: {
+      switch (type.metric) {
+        case PRICE_PERCENT_CHANGE: {
+          settings = mapFormToPPCTriggerSettings(formProps)
+          break
+        }
+        case PRICE_ABSOLUTE_CHANGE: {
+          settings = mapFormToPACTriggerSettings(formProps)
+          break
+        }
+      }
       break
     }
     default: {
@@ -638,7 +640,7 @@ export const getNearestTypeByMetric = metric => {
       return PRICE_PERCENT_CHANGE_UP_MODEL
     }
     case DAILY_ACTIVE_ADDRESSES_METRIC.value: {
-      return DAILY_ACTIVE_ADDRESSES_METRIC
+      return PRICE_PERCENT_CHANGE_UP_MODEL
     }
     case PRICE_VOLUME_DIFFERENCE_METRIC.value: {
       return PRICE_VOLUME_DIFFERENCE_METRIC
@@ -825,7 +827,7 @@ const POSSIBLE_METRICS_FOR_CHART = [
 ]
 
 export const couldShowChart = ({ signalType, metric, target }) => {
-  if (isWatchlist(signalType) || Array.isArray(target)) {
+  if (isWatchlist(signalType) || (Array.isArray(target) && target.length > 1)) {
     return false
   }
 
