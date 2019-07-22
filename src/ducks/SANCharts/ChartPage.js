@@ -49,7 +49,13 @@ const getChartInitialState = props => {
     }
     passedState = data
   } else {
-    const { slug, from, to, title, timeRange } = props
+    let { slug, from, to, title, interval, timeRange } = props
+
+    if (!from) {
+      const { from: f, to: t } = getIntervalByTimeRange(timeRange)
+      from = f.toISOString()
+      to = t.toISOString()
+    }
 
     passedState = {
       slug,
@@ -57,7 +63,7 @@ const getChartInitialState = props => {
       from,
       to,
       timeRange,
-      interval: getNewInterval(from, to)
+      interval: interval || getNewInterval(from, to)
     }
   }
 
@@ -217,6 +223,8 @@ class ChartPage extends Component {
       nightMode
     } = this.state
 
+    const { hideSettings = {}, children } = this.props
+
     const requestedMetrics = metrics.reduce((acc, metric) => {
       acc[metric] = {
         slug,
@@ -278,6 +286,7 @@ class ChartPage extends Component {
                   from={from}
                   to={to}
                   interval={interval}
+                  hideSettings={hideSettings}
                 />
               )}
               <Charts
@@ -292,10 +301,13 @@ class ChartPage extends Component {
                 settings={settings}
                 title={title}
                 metrics={finalMetrics}
+                children={children}
               />
               {!viewOnly && (
                 <>
-                  <LoadableChartSidecar onSlugSelect={this.onSlugSelect} />
+                  {hideSettings.sidecar || (
+                    <LoadableChartSidecar onSlugSelect={this.onSlugSelect} />
+                  )}
                   <LoadableChartMetricsTool
                     classes={styles}
                     slug={slug}

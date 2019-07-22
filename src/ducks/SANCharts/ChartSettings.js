@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import IntervalSelector from './IntervalSelector'
 import ChartSettingsContextMenu from './ChartSettingsContextMenu'
@@ -21,17 +22,21 @@ const ChartSettings = ({
   disabledMetrics,
   interval,
   from,
-  to
+  to,
+  hideSettings = {}
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
+  const noSearch = hideSettings.search
   return (
-    <div className={styles.settings}>
-      <SearchProjects
-        onSuggestionSelect={onSlugSelect}
-        className={styles.search}
-        suggestionsProps={{ style: { zIndex: 5 } }}
-        iconPosition='left'
-      />
+    <div className={cx(styles.settings, noSearch && styles.settings_noSearch)}>
+      {noSearch || (
+        <SearchProjects
+          onSuggestionSelect={onSlugSelect}
+          className={styles.search}
+          suggestionsProps={{ style: { zIndex: 5 } }}
+          iconPosition='left'
+        />
+      )}
       <div className={styles.settings__right}>
         <Selector
           options={['1d', '1w', '1m', '3m', '6m', '1y', 'all']}

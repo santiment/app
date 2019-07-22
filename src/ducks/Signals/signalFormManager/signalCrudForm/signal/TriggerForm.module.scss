@@ -1,4 +1,4 @@
-@import "~@santiment-network/ui/mixins.scss";
+@import '~@santiment-network/ui/mixins.scss';
 
 $trigger-form-width: 496px;
 
@@ -29,7 +29,8 @@ $trigger-form-width: 496px;
 
 .signalPreview {
   display: block !important;
-  padding: 15px 15px 0 15px;
+  position: relative;
+  padding: 15px;
   background: var(--white);
   border: 1px solid var(--porcelain);
 

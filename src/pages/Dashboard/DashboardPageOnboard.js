@@ -34,12 +34,18 @@ const ConditionalWrapper = ({ linkTo, children }) => (
   </>
 )
 
-const DashboardPageOnboard = ({ hasMetamask, hasWatchlist }) => {
+const DashboardPageOnboard = ({
+  hasMetamask,
+  hasWatchlist,
+  isNightModeEnabled
+}) => {
   const [isShown, setShown] = useShown()
   const completedTasks = getOnboardingCompletedTasks()
   return (
     isShown && (
-      <Panel className={styles.wrapper}>
+      <Panel
+        className={cx(styles.wrapper, isNightModeEnabled && styles.nightTheme)}
+      >
         <Label onClick={setShown} className={styles.skip} accent='waterloo'>
           Skip for now
         </Label>
@@ -92,8 +98,12 @@ const DashboardPageOnboard = ({ hasMetamask, hasWatchlist }) => {
   )
 }
 
-const mapStateToProps = ({ watchlistUi: { firstWatchlistCreated } }) => ({
-  hasWatchlist: firstWatchlistCreated
+const mapStateToProps = ({
+  watchlistUi: { firstWatchlistCreated },
+  rootUi: { isNightModeEnabled }
+}) => ({
+  hasWatchlist: firstWatchlistCreated,
+  isNightModeEnabled
 })
 
 export default connect(mapStateToProps)(DashboardPageOnboard)

@@ -1,10 +1,11 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Bar } from 'recharts'
+import { Bar, ReferenceLine } from 'recharts'
 import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
 import { Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartMetrics from '../../SANCharts/ChartMetrics'
+import ChartWidget from '../../SANCharts/ChartPage'
 import VisualBacktestChart from '../VisualBacktestChart'
 import { ChartExpandView } from './ChartExpandView'
 import styles from './SignalPreview.module.scss'
@@ -23,28 +24,13 @@ const CUSTOM_METRICS = {
     color: 'casper'
   }
 }
-
-const SignalPreview = ({ type, points = [], target, height }) => {
-  return (
-    <Fragment>
-      <ChartExpandView classes={styles}>
-        <SignalPreviewChart
-          type={type}
-          points={points}
-          target={target}
-          height={height}
-        />
-      </ChartExpandView>
-    </Fragment>
-  )
-}
-
 const SignalPreviewChart = ({
   type,
-  points,
-  target,
+  slug,
   showAxes = false,
-  height = 150
+  timeRange,
+  label,
+  triggeredSignals
 }) => {
   const initialMetrics = getMetricsByType(type) || ['historyPrice']
 
@@ -59,31 +45,25 @@ const SignalPreviewChart = ({
 
   const _metrics = metrics.filter(metric => initialMetrics.includes(metric))
 
-  const amountOfTriggers = points.reduce(
-    (acc, val) => (acc += +val['triggered?']),
-    0
-  )
-
-  const { label, value } = getTimeRangeForChart(type)
-
   return (
-    <div className={styles.preview} style={{ minHeight: height }}>
+    <div className={styles.preview}>
       <div className={styles.description}>
         <span className={styles.fired}>Signal was fired:</span>{' '}
         <span className={styles.times}>
-          {amountOfTriggers} times in {label}
+          {triggeredSignals.length} times in {label}
         </span>
       </div>
-      <div className={styles.chartBlock} style={{ height: height }}>
+      <div className={styles.chartBlock}>
         <div className={styles.chart}>
           <GetTimeSeries
             historyPrice={{
-              timeRange: value,
-              slug: target,
+              timeRange,
+              slug,
               interval: '1d'
             }}
             render={({
               historyPrice,
+              timeseries,
               errorMetrics = {},
               isError,
               errorType,
@@ -100,7 +80,7 @@ const SignalPreviewChart = ({
               return (
                 historyPrice && (
                   <VisualBacktestChart
-                    data={points}
+                    triggeredSignals={triggeredSignals}
                     showXY={showAxes}
                     price={historyPrice.items}
                     metrics={customMetrics}
@@ -113,7 +93,7 @@ const SignalPreviewChart = ({
 
         <ChartMetrics
           classes={styles}
-          slug={target}
+          slug={slug}
           onMetricsChange={metrics => setMetrics(metrics)}
           defaultActiveMetrics={initialMetrics}
           showOnlyDefault={true}
@@ -124,6 +104,44 @@ const SignalPreviewChart = ({
         />
       </div>
     </div>
+  )
+}
+
+const SignalPreview = ({ type, points = [], target: slug, height }) => {
+  const { label, value: timeRange } = getTimeRangeForChart(type)
+  const triggeredSignals = points.filter(point => point['triggered?'])
+
+  return (
+    <>
+      <SignalPreviewChart
+        type={type}
+        slug={slug}
+        label={label}
+        timeRange={timeRange}
+        height={height}
+        triggeredSignals={triggeredSignals}
+      />
+      <ChartExpandView>
+        <ChartWidget
+          timeRange={timeRange}
+          slug={slug}
+          interval='1d'
+          title={slug}
+          hideSettings={{
+            search: true,
+            sidecar: true
+          }}
+        >
+          {triggeredSignals.map(({ datetime }) => (
+            <ReferenceLine
+              key={datetime}
+              stroke='green'
+              x={+new Date(datetime)}
+            />
+          ))}
+        </ChartWidget>
+      </ChartExpandView>
+    </>
   )
 }
 

@@ -6,6 +6,10 @@
   padding-left: 20px;
   justify-content: space-between;
 
+  &_noSearch {
+    justify-content: flex-end;
+  }
+
   &__right {
     display: flex;
   }
