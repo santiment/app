@@ -127,9 +127,9 @@ const SignalPreview = ({ type, points = [], target: slug, height }) => {
           slug={slug}
           interval='1d'
           title={slug}
-          settings={{
-            search: false,
-            sidecar: false
+          hideSettings={{
+            search: true,
+            sidecar: true
           }}
         >
           {triggeredSignals.map(({ datetime }) => (

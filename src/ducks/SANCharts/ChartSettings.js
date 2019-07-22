@@ -23,15 +23,13 @@ const ChartSettings = ({
   interval,
   from,
   to,
-  settings
+  hideSettings = {}
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
-  const hasSearch = settings.search !== false
+  const noSearch = hideSettings.search
   return (
-    <div
-      className={cx(styles.settings, !hasSearch && styles.settings_noSearch)}
-    >
-      {hasSearch && (
+    <div className={cx(styles.settings, noSearch && styles.settings_noSearch)}>
+      {noSearch || (
         <SearchProjects
           onSuggestionSelect={onSlugSelect}
           className={styles.search}

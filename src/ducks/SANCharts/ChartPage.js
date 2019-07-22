@@ -223,7 +223,7 @@ class ChartPage extends Component {
       nightMode
     } = this.state
 
-    const { settings: chartSettings = {}, children } = this.props
+    const { hideSettings = {}, children } = this.props
 
     const requestedMetrics = metrics.reduce((acc, metric) => {
       acc[metric] = {
@@ -286,7 +286,7 @@ class ChartPage extends Component {
                   from={from}
                   to={to}
                   interval={interval}
-                  settings={chartSettings}
+                  hideSettings={hideSettings}
                 />
               )}
               <Charts
@@ -305,7 +305,7 @@ class ChartPage extends Component {
               />
               {!viewOnly && (
                 <>
-                  {chartSettings.sidecar !== false && (
+                  {hideSettings.sidecar || (
                     <LoadableChartSidecar onSlugSelect={this.onSlugSelect} />
                   )}
                   <LoadableChartMetricsTool
