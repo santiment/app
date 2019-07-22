@@ -256,10 +256,14 @@ class Charts extends React.Component {
             }}
             onMouseMove={this.onMouseMove}
             onMouseUp={refAreaLeft && refAreaRight && this.onZoom}
-            data={chartData}
+            data={chartData.map(({ datetime, ...rest }) => ({
+              ...rest,
+              datetime: +new Date(datetime)
+            }))}
           >
             <XAxis
               dataKey='datetime'
+              scale='time'
               tickLine={false}
               minTickGap={100}
               tickFormatter={tickFormatter}
