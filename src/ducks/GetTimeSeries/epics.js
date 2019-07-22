@@ -58,10 +58,7 @@ const mapDataToMergedTimeserieByDatetime = (data = [], transforms = []) => {
       key: 'datetime'
     }),
     ...Object.keys(timeseriesAsSingleObject).reduce((acc, metric) => {
-      const { items, ...rest } = timeseriesAsSingleObject[metric]
-      acc[metric] = {
-        ...rest
-      }
+      acc[metric] = timeseriesAsSingleObject[metric]
       return acc
     }, {})
   }
