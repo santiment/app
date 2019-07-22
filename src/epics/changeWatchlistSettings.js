@@ -2,6 +2,7 @@ import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { saveKeyState } from '../utils/localStorage'
 import * as actions from './../actions/types'
+import { WATCHLISTS_SETTINGS_QUERY } from '../queries/WatchlistGQL'
 import { handleErrorAndTriggerAction } from './utils'
 
 const WATCHLIST_SETTINGS_MUTATION = gql`
@@ -67,3 +68,19 @@ export const changeColumnsSettingsEpic = (action$, store, { client }) =>
         payload: { hiddenColumns, key }
       })
     })
+
+export const saveWatchlistsSettingsAfterLaunch = (action$, store, { client }) =>
+  action$.ofType(actions.CHANGE_USER_DATA).mergeMap(() => {
+    return Observable.from(
+      client.watchQuery({ query: WATCHLISTS_SETTINGS_QUERY })
+    )
+      .concatMap(({ data: { fetchUserLists } }) => {
+        return Observable.of({
+          type: actions.ASSETS_SETTINGS_INITIALIZED_SUCCESS,
+          payload: fetchUserLists
+        })
+      })
+      .catch(
+        handleErrorAndTriggerAction(actions.ASSETS_SETTINGS_INITIALIZED_FAILED)
+      )
+  })

@@ -124,6 +124,8 @@ export default (state = initialState, action) => {
           [key]: list
         }
       }
+    case actions.ASSETS_SETTINGS_INITIALIZED_SUCCESS:
+      return { ...state }
     default:
       return state
   }

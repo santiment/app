@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { generalData, project } from '../pages/Projects/allProjectsGQL'
 
 export const ALL_WATCHLISTS_QUERY = gql`
-  query fetchUserLists {
+  query fetchWatchlists {
     fetchUserLists {
       id
       color
@@ -24,7 +24,7 @@ export const ALL_WATCHLISTS_QUERY = gql`
 `
 
 export const PUBLIC_WATCHLIST_QUERY = gql`
-  query fetchAllPublicUserLists {
+  query fetchAllWatchlists {
     fetchAllPublicUserLists {
       id
       color
@@ -129,4 +129,16 @@ export const WATCHLIST_WITH_TRENDING_ASSETS_QUERY = gql`
   }
   ${generalData}
   ${project}
+`
+
+export const WATCHLISTS_SETTINGS_QUERY = gql`
+  query fetchWatchlists {
+    fetchUserLists {
+      id
+      settings {
+        pageSize
+        tableColumns
+      }
+    }
+  }
 `
