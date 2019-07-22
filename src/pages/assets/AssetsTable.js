@@ -4,16 +4,15 @@ import cx from 'classnames'
 import Sticky from 'react-stickynode'
 import { connect } from 'react-redux'
 import 'react-table/react-table.css'
-import { ASSETS_FETCH, ASSETS_SET_MIN_VOLUME_FILTER } from '../../actions/types'
+import {
+  ASSETS_FETCH,
+  ASSETS_SET_MIN_VOLUME_FILTER,
+  ASSETS_TOGGLE_COLUMNS
+} from '../../actions/types'
 import Refresh from '../../components/Refresh/Refresh'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import AssetsToggleColumns from './AssetsToggleColumns'
-import columns, {
-  columnSettingsDefault,
-  commonSettingsDefault,
-  COLUMNS_NAMES,
-  CATEGORIES_TITLES
-} from './asset-columns'
+import { COLUMNS, COMMON_SETTINGS, COLUMNS_SETTINGS } from './asset-columns'
 import './../Projects/ProjectsTable.css'
 import styles from './AssetsTable.module.scss'
 
@@ -51,50 +50,54 @@ const AssetsTable = ({
   setMinVolumeFilter,
   minVolume = 10000,
   listName,
-  settings
+  settings,
+  setHiddenColumns
 }) => {
-  console.log('type: ', listName)
-  console.log('settings: ', settings)
-  const { isLoading, error } = Assets
+  const { isLoading, error, timestamp, typeInfo } = Assets
+  const { sorting, pageSize, hiddenColumns } = settings[listName] || {}
   if (error && error.message !== 'Network error: Failed to fetch') {
     return <ServerErrorMessage />
   }
 
-  const [columnsSettings, changeColumnsSettings] = useState(
-    columnSettingsDefault
+  const changeShowing = (columns, hiddenColumns) => {
+    const modifiedColumns = JSON.parse(JSON.stringify(columns))
+    hiddenColumns.forEach(name => (modifiedColumns[name].show = false))
+
+    return modifiedColumns
+  }
+
+  const savedHidden = hiddenColumns || COMMON_SETTINGS.hiddenColumns
+  const sortingColumn = sorting || COMMON_SETTINGS.sorting
+  const columnsAmount = pageSize || COMMON_SETTINGS.pageSize
+
+  const [hidden, changeHidden] = useState(savedHidden)
+  const [columns, changeColumns] = useState(
+    changeShowing(COLUMNS_SETTINGS, savedHidden)
   )
 
+  if (savedHidden !== hidden) {
+    changeHidden(savedHidden)
+    changeColumns(changeShowing(COLUMNS_SETTINGS, savedHidden))
+  }
+
   const toggleColumn = ({ name, show, selectable }) => {
-    const toggledColumns = Object.assign({}, columnsSettings)
+    const toggledColumns = Object.assign({}, columns)
     // NOTE(haritonasty): such access to the fields is necessary for Safari bug (shuffle properties)
     toggledColumns[name] = {
       ...toggledColumns[name],
       show: selectable ? !show : show
     }
 
-    return changeColumnsSettings(toggledColumns)
+    if (selectable) {
+      const columns = show
+        ? [...savedHidden, name]
+        : savedHidden.filter(item => item !== name)
+      setHiddenColumns({ hiddenColumns: columns, listName })
+    }
+    return changeColumns(toggledColumns)
   }
 
-  const pageSize =
-    settings[listName] && settings[listName].pageSize
-      ? settings[listName].pageSize
-      : commonSettingsDefault.pageSize
-
-  const hiddenColumns =
-    settings[listName] && settings[listName].tableColumns
-      ? settings[listName].tableColumns.hidden
-      : commonSettingsDefault.tableColumns.hidden
-
-  const shownColumns = columns(preload)
-    .filter(({ id }) => !hiddenColumns.some(name => name === id))
-    .filter(({ id }) => columnsSettings[id].show)
-
-  const sortingColumn =
-    settings[listName] &&
-    settings[listName].tableColumns &&
-    settings[listName].tableColumns.sorting
-      ? settings[listName].tableColumns.sorting
-      : commonSettingsDefault.tableColumns.sorting
+  const shownColumns = COLUMNS(preload).filter(({ id }) => columns[id].show)
 
   return (
     <>
@@ -103,31 +106,18 @@ const AssetsTable = ({
           <span>Showed based on {filterType} anomalies</span>
         ) : (
           <Refresh
-            timestamp={Assets.timestamp}
-            onRefreshClick={() =>
-              refetchAssets({ ...Assets.typeInfo, minVolume })
-            }
+            timestamp={timestamp}
+            onRefreshClick={() => refetchAssets({ ...typeInfo, minVolume })}
           />
         )}
-        {
-          // <Button
-          // variant='fill'
-          // accent={minVolume > 0 ? 'positive': ''}
-          // onClick={setMinVolumeFilter}>
-          // {minVolume > 0 ? `remove filter min volume > ${millify(minVolume, 2)}` : 'add filter min volume > 10k'}
-          // </Button>
-        }
-        <AssetsToggleColumns
-          columns={columnsSettings}
-          onChange={toggleColumn}
-        />
+        <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
       </div>
       <ReactTable
         loading={isLoading}
         showPagination={!showAll}
         showPaginationTop={false}
         showPaginationBottom
-        defaultPageSize={pageSize}
+        defaultPageSize={columnsAmount}
         pageSizeOptions={[5, 10, 20, 25, 50, 100]}
         pageSize={showAll ? items && items.length : undefined}
         minRows={0}
@@ -163,19 +153,13 @@ const mapDispatchToProps = dispatch => ({
       type: ASSETS_FETCH,
       payload: {
         type,
-        list: {
-          name: listName,
-          id: listId
-        },
-        filters: {
-          minVolume
-        }
+        list: { name: listName, id: listId },
+        filters: { minVolume }
       }
     }),
-  setMinVolumeFilter: () =>
-    dispatch({
-      type: ASSETS_SET_MIN_VOLUME_FILTER
-    })
+  setMinVolumeFilter: () => dispatch({ type: ASSETS_SET_MIN_VOLUME_FILTER }),
+  setHiddenColumns: payload =>
+    dispatch({ type: ASSETS_TOGGLE_COLUMNS, payload })
 })
 export default connect(
   mapStateToProps,

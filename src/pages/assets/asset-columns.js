@@ -15,7 +15,7 @@ const HeaderWithDesc = ({ description, heading }) => (
   </Tooltip>
 )
 
-const columns = preload => [
+export const COLUMNS = preload => [
   {
     Header: () => <div className={cx('heading', 'overview-index')}>#</div>,
     id: COLUMNS_NAMES.index,
@@ -238,14 +238,14 @@ export const COLUMNS_NAMES = {
   token_circulation: 'Token Circulation'
 }
 
-export const columnSettingsDefault = {
+export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.index]: { show: true, selectable: false },
   [COLUMNS_NAMES.project]: { show: true, selectable: false },
-  [COLUMNS_NAMES.marketcapUsd]: { show: true, selectable: true },
   [COLUMNS_NAMES.price]: { show: true, selectable: true },
   [COLUMNS_NAMES.price_change]: { show: true, selectable: true },
   [COLUMNS_NAMES.volume]: { show: true, selectable: true },
   [COLUMNS_NAMES.volume_change]: { show: true, selectable: true },
+  [COLUMNS_NAMES.marketcapUsd]: { show: true, selectable: true },
   [COLUMNS_NAMES.rank]: { show: true, selectable: true },
   [COLUMNS_NAMES.eth_spent]: {
     show: true,
@@ -270,29 +270,17 @@ export const columnSettingsDefault = {
   }
 }
 
-export const CATEGORIES_TITLES = {
-  'All Assets': 'All Assets',
-  'ERC20 Assets': 'ERC20 Assets',
-  'Top 50 ERC20': 'Top 50 ERC20'
-}
-
-export const commonSettingsDefault = {
+export const COMMON_SETTINGS = {
   pageSize: 20,
-  tableColumns: {
-    hidden: [COLUMNS_NAMES.eth_spent],
-    sorting: { id: COLUMNS_NAMES.index, desc: false }
-  }
+  hiddenColumns: [COLUMNS_NAMES.eth_spent],
+  sorting: { id: COLUMNS_NAMES.index, desc: false }
 }
 
-export const categoriesSettingsDefault = {
-  'All Assets': { tableColumns: { hidden: [COLUMNS_NAMES.eth_spent] } },
+export const CATEGORIES_SETTINGS = {
+  'All Assets': { hiddenColumns: [COLUMNS_NAMES.eth_spent] },
   'ERC20 Assets': {
-    tableColumns: {
-      hidden: [],
-      sorting: { id: COLUMNS_NAMES.eth_spent, desc: true }
-    }
+    hiddenColumns: [],
+    sorting: { id: COLUMNS_NAMES.eth_spent, desc: true }
   },
-  'Top 50 ERC20': { tableColumns: { hidden: [] }, pageSize: 50 }
+  'Top 50 ERC20': { hiddenColumns: [], pageSize: 50 }
 }
-
-export default columns

@@ -1,6 +1,6 @@
 import * as actions from './../actions/types'
 import { loadKeyState } from '../utils/localStorage'
-import { categoriesSettingsDefault } from '../pages/assets/asset-columns.js'
+import { CATEGORIES_SETTINGS } from '../pages/assets/asset-columns.js'
 
 const settings = loadKeyState('watchlistsSettings') || {}
 
@@ -13,7 +13,7 @@ export const initialState = {
   editableAssetsInList: [],
   editableWatchlists: [],
   firstWatchlistCreated: false,
-  watchlistsSettings: { ...categoriesSettingsDefault, ...settings }
+  watchlistsSettings: { ...CATEGORIES_SETTINGS, ...settings }
 }
 
 export default (state = initialState, action) => {
@@ -111,6 +111,18 @@ export default (state = initialState, action) => {
         editableWatchlists: state.editableWatchlists.filter(
           id => id !== action.payload.assetsListId
         )
+      }
+    case actions.ASSETS_TOGGLE_COLUMNS:
+      const { listName, hiddenColumns } = action.payload
+      const list = state.watchlistsSettings[listName]
+        ? { ...state.watchlistsSettings[listName], hiddenColumns }
+        : { hiddenColumns }
+      return {
+        ...state,
+        watchlistsSettings: {
+          ...state.watchlistsSettings,
+          [listName]: list
+        }
       }
     default:
       return state
