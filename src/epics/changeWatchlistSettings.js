@@ -52,7 +52,7 @@ export const changeColumnsSettingsEpic = (action$, store, { client }) =>
             }) => {
               return Observable.of({
                 type: actions.ASSETS_TOGGLE_COLUMNS_SAVE,
-                payload: { hiddenColumns, sorting, pageSize, listId }
+                payload: { hiddenColumns, sorting, pageSize, key }
               })
             }
           )
