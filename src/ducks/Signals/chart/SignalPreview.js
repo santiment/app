@@ -133,7 +133,11 @@ const SignalPreview = ({ type, points = [], target: slug, height }) => {
           }}
         >
           {triggeredSignals.map(({ datetime }) => (
-            <ReferenceLine key={datetime} stroke='green' x={datetime} />
+            <ReferenceLine
+              key={datetime}
+              stroke='green'
+              x={+new Date(datetime)}
+            />
           ))}
         </ChartWidget>
       </ChartExpandView>
