@@ -8,7 +8,12 @@ import { ASSETS_FETCH, ASSETS_SET_MIN_VOLUME_FILTER } from '../../actions/types'
 import Refresh from '../../components/Refresh/Refresh'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import AssetsToggleColumns from './AssetsToggleColumns'
-import columns, { columnSettingsDefault } from './asset-columns'
+import columns, {
+  columnSettingsDefault,
+  commonSettingsDefault,
+  COLUMNS_NAMES,
+  CATEGORIES_TITLES
+} from './asset-columns'
 import './../Projects/ProjectsTable.css'
 import styles from './AssetsTable.module.scss'
 
@@ -45,8 +50,11 @@ const AssetsTable = ({
   refetchAssets,
   setMinVolumeFilter,
   minVolume = 10000,
-  listName
+  listName,
+  settings
 }) => {
+  console.log('type: ', listName)
+  console.log('settings: ', settings)
   const { isLoading, error } = Assets
   if (error && error.message !== 'Network error: Failed to fetch') {
     return <ServerErrorMessage />
@@ -56,17 +64,37 @@ const AssetsTable = ({
     columnSettingsDefault
   )
 
-  const toggleColumn = ({ id, show, selectable }) => {
+  const toggleColumn = ({ name, show, selectable }) => {
     const toggledColumns = Object.assign({}, columnsSettings)
-    toggledColumns[id] = {
-      ...toggledColumns[id],
+    // NOTE(haritonasty): such access to the fields is necessary for Safari bug (shuffle properties)
+    toggledColumns[name] = {
+      ...toggledColumns[name],
       show: selectable ? !show : show
     }
 
     return changeColumnsSettings(toggledColumns)
   }
 
-  const pageSize = items.length <= 5 ? 5 : items.length <= 10 ? 10 : 20
+  const pageSize =
+    settings[listName] && settings[listName].pageSize
+      ? settings[listName].pageSize
+      : commonSettingsDefault.pageSize
+
+  const hiddenColumns =
+    settings[listName] && settings[listName].tableColumns
+      ? settings[listName].tableColumns.hidden
+      : commonSettingsDefault.tableColumns.hidden
+
+  const shownColumns = columns(preload)
+    .filter(({ id }) => !hiddenColumns.some(name => name === id))
+    .filter(({ id }) => columnsSettings[id].show)
+
+  const sortingColumn =
+    settings[listName] &&
+    settings[listName].tableColumns &&
+    settings[listName].tableColumns.sorting
+      ? settings[listName].tableColumns.sorting
+      : commonSettingsDefault.tableColumns.sorting
 
   return (
     <>
@@ -99,21 +127,16 @@ const AssetsTable = ({
         showPagination={!showAll}
         showPaginationTop={false}
         showPaginationBottom
-        defaultPageSize={listName === 'Top 50 ERC20' ? 50 : pageSize}
+        defaultPageSize={pageSize}
         pageSizeOptions={[5, 10, 20, 25, 50, 100]}
         pageSize={showAll ? items && items.length : undefined}
         minRows={0}
         sortable={false}
         resizable={false}
-        defaultSorted={[
-          {
-            id: 'index',
-            desc: false
-          }
-        ]}
+        defaultSorted={[sortingColumn]}
         className={cx('-highlight', styles.assetsTable)}
         data={items}
-        columns={columns(preload).filter(({ id }) => columnsSettings[id].show)}
+        columns={shownColumns}
         loadingText='Loading...'
         TheadComponent={CustomHeadComponent}
         getTdProps={() => ({
@@ -127,11 +150,12 @@ const AssetsTable = ({
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    minVolume: state.projects.filters.minVolume
-  }
-}
+const mapStateToProps = ({
+  projects: {
+    filters: { minVolume }
+  },
+  watchlistUi: { watchlistsSettings }
+}) => ({ minVolume, settings: watchlistsSettings })
 
 const mapDispatchToProps = dispatch => ({
   refetchAssets: ({ type, listName, listId, minVolume = 10000 }) =>

@@ -7,6 +7,7 @@ import {
   Panel,
   Tooltip
 } from '@santiment-network/ui'
+import { COLUMNS_NAMES } from './asset-columns.js'
 import styles from './AssetsToggleColumns.module.scss'
 
 const AssetsToggleColumns = ({ columns = [], onChange }) => (
@@ -24,12 +25,12 @@ const AssetsToggleColumns = ({ columns = [], onChange }) => (
       <div className={styles.heading}>Displayed asset attributes</div>
       <div className={styles.columns}>
         {Object.entries(columns).map(
-          ([id, { name, selectable, show, description }]) => (
-            <Fragment key={id}>
-              {name !== 'Index' && name !== 'Project' && (
+          ([name, { selectable, show, description }]) => (
+            <Fragment key={name}>
+              {name !== COLUMNS_NAMES.index && name !== COLUMNS_NAMES.project && (
                 <div
                   className={styles.column}
-                  onClick={() => onChange({ id, show, selectable })}
+                  onClick={() => onChange({ name, show, selectable })}
                 >
                   <Checkbox
                     className={styles.checkbox}

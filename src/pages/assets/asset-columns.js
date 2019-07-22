@@ -18,7 +18,7 @@ const HeaderWithDesc = ({ description, heading }) => (
 const columns = preload => [
   {
     Header: () => <div className={cx('heading', 'overview-index')}>#</div>,
-    id: 'index',
+    id: COLUMNS_NAMES.index,
     maxWidth: 45,
     sortable: true,
     accessor: d => ({ index: d.index }),
@@ -27,7 +27,7 @@ const columns = preload => [
   },
   {
     Header: () => <div className={cx('heading', 'overview-name')}>Project</div>,
-    id: 'project',
+    id: COLUMNS_NAMES.project,
     minWidth: 200,
     maxWidth: 280,
     filterable: true,
@@ -58,7 +58,7 @@ const columns = preload => [
   },
   {
     Header: () => <div className={cx('heading', 'overview-price')}>Price</div>,
-    id: 'price',
+    id: COLUMNS_NAMES.price,
     maxWidth: 100,
     accessor: d => ({
       priceUsd: d.priceUsd
@@ -76,7 +76,7 @@ const columns = preload => [
     Header: () => (
       <div className={cx('heading', 'overview-price-percent')}>Price +/-</div>
     ),
-    id: 'price_change',
+    id: COLUMNS_NAMES.price_change,
     maxWidth: 100,
     accessor: d => ({
       change24h: d.percentChange24h
@@ -94,7 +94,7 @@ const columns = preload => [
     Header: () => (
       <div className={cx('heading', 'overview-volume')}>Volume</div>
     ),
-    id: 'volume',
+    id: COLUMNS_NAMES.volume,
     maxWidth: 100,
     accessor: d => ({
       volumeUsd: d.volumeUsd
@@ -112,7 +112,7 @@ const columns = preload => [
     Header: () => (
       <div className={cx('heading', 'overview-volume-percent')}>Volume +/-</div>
     ),
-    id: 'volume_change_24h',
+    id: COLUMNS_NAMES.volume_change,
     maxWidth: 100,
     accessor: d => ({
       change24h: d.volumeChange24h
@@ -130,7 +130,7 @@ const columns = preload => [
     Header: () => (
       <div className={cx('heading', 'overview-marketcap')}>Market Cap</div>
     ),
-    id: 'marketcapUsd',
+    id: COLUMNS_NAMES.marketcapUsd,
     maxWidth: 130,
     accessor: 'marketcapUsd',
     Cell: ({ value }) => (
@@ -143,7 +143,7 @@ const columns = preload => [
   },
   {
     Header: () => <div className={cx('heading', 'overview-rank')}>Rank</div>,
-    id: 'rank',
+    id: COLUMNS_NAMES.rank,
     maxWidth: 60,
     sortable: true,
     accessor: d => ({ rank: d.rank }),
@@ -172,7 +172,7 @@ const columns = preload => [
     ),
     maxWidth: 120,
     minWidth: 110,
-    id: 'eth_spent',
+    id: COLUMNS_NAMES.eth_spent,
     accessor: d => d.ethSpent,
     Cell: ({ value }) => (
       <div className='overview-ethspent'>{`Ξ${millify(value, 2)}`}</div>
@@ -189,7 +189,7 @@ const columns = preload => [
         />
       </div>
     ),
-    id: 'dev_activity',
+    id: COLUMNS_NAMES.devact,
     maxWidth: 100,
     accessor: d => d.averageDevActivity,
     Cell: ({ value }) => (
@@ -209,7 +209,7 @@ const columns = preload => [
         />
       </div>
     ),
-    id: 'daily_active_addresses',
+    id: COLUMNS_NAMES.daily_active_addresses,
     maxWidth: 110,
     accessor: d => d.averageDailyActiveAddresses,
     Cell: ({ value }) => (
@@ -222,44 +222,77 @@ const columns = preload => [
   }
 ]
 
+export const COLUMNS_NAMES = {
+  index: 'Index',
+  project: 'Project',
+  marketcapUsd: 'Market capitalization',
+  price: 'Price',
+  price_change: 'Price (last 24h)',
+  volume: 'Volume',
+  volume_change: 'Volume (last 24h)',
+  rank: 'Rank',
+  eth_spent: 'ETH spent',
+  devact: 'Development activity',
+  daily_active_addresses: 'Daily active addresses',
+  graph: 'Graph',
+  token_circulation: 'Token Circulation'
+}
+
 export const columnSettingsDefault = {
-  index: { show: true, selectable: false, name: 'Index' },
-  project: { show: true, selectable: false, name: 'Project' },
-  marketcapUsd: { show: true, selectable: true, name: 'Market capitalization' },
-  price: { show: true, selectable: true, name: 'Price' },
-  price_change: { show: true, selectable: true, name: 'Price (last 24h)' },
-  volume: { show: true, selectable: true, name: 'Volume' },
-  volume_change_24h: {
+  [COLUMNS_NAMES.index]: { show: true, selectable: false },
+  [COLUMNS_NAMES.project]: { show: true, selectable: false },
+  [COLUMNS_NAMES.marketcapUsd]: { show: true, selectable: true },
+  [COLUMNS_NAMES.price]: { show: true, selectable: true },
+  [COLUMNS_NAMES.price_change]: { show: true, selectable: true },
+  [COLUMNS_NAMES.volume]: { show: true, selectable: true },
+  [COLUMNS_NAMES.volume_change]: { show: true, selectable: true },
+  [COLUMNS_NAMES.rank]: { show: true, selectable: true },
+  [COLUMNS_NAMES.eth_spent]: {
     show: true,
     selectable: true,
-    name: 'Volume (last 24h)'
-  },
-  rank: { show: true, selectable: true, name: 'Rank' },
-  eth_spent: {
-    show: true,
-    selectable: true,
-    name: 'ETH spent',
     description: help['ETH Spent Over Time'].description
   },
-  dev_activity: {
+  [COLUMNS_NAMES.devact]: {
     show: true,
     selectable: true,
-    name: 'Development activity',
     description: help['Development Activity'].description
   },
-  daily_active_addresses: {
+  [COLUMNS_NAMES.daily_active_addresses]: {
     show: true,
     selectable: true,
-    name: 'Daily active addresses',
     description: help['Daily Active Addresses'].description
   },
-  graph: { show: false, selectable: false, name: 'Graph' },
-  token_circulation: {
+  [COLUMNS_NAMES.graph]: { show: false, selectable: false },
+  [COLUMNS_NAMES.token_circulation]: {
     show: false,
     selectable: false,
-    name: 'Token Circulation',
     description: help['Token Circulation'].description
   }
+}
+
+export const CATEGORIES_TITLES = {
+  'All Assets': 'All Assets',
+  'ERC20 Assets': 'ERC20 Assets',
+  'Top 50 ERC20': 'Top 50 ERC20'
+}
+
+export const commonSettingsDefault = {
+  pageSize: 20,
+  tableColumns: {
+    hidden: [COLUMNS_NAMES.eth_spent],
+    sorting: { id: COLUMNS_NAMES.index, desc: false }
+  }
+}
+
+export const categoriesSettingsDefault = {
+  'All Assets': { tableColumns: { hidden: [COLUMNS_NAMES.eth_spent] } },
+  'ERC20 Assets': {
+    tableColumns: {
+      hidden: [],
+      sorting: { id: COLUMNS_NAMES.eth_spent, desc: true }
+    }
+  },
+  'Top 50 ERC20': { tableColumns: { hidden: [] }, pageSize: 50 }
 }
 
 export default columns

@@ -1,4 +1,8 @@
 import * as actions from './../actions/types'
+import { loadKeyState } from '../utils/localStorage'
+import { categoriesSettingsDefault } from '../pages/assets/asset-columns.js'
+
+const settings = loadKeyState('watchlistsSettings') || {}
 
 export const initialState = {
   selectedId: null,
@@ -8,7 +12,8 @@ export const initialState = {
   statusDeleteAssetList: null,
   editableAssetsInList: [],
   editableWatchlists: [],
-  firstWatchlistCreated: false
+  firstWatchlistCreated: false,
+  watchlistsSettings: { ...categoriesSettingsDefault, ...settings }
 }
 
 export default (state = initialState, action) => {
