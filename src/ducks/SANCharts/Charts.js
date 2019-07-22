@@ -123,10 +123,9 @@ class Charts extends React.Component {
       .slice(1)
       .split('L')
       .reduce((acc, value) => {
-        const [x, y] = value.split(',')
-        acc[x] = y
+        acc.push(value.split(','))
         return acc
-      }, {})
+      }, [])
 
     return true
   }
@@ -143,21 +142,17 @@ class Charts extends React.Component {
       return
     }
 
-    const {
-      activeTooltipIndex,
-      activeLabel,
-      activeCoordinate,
-      activePayload
-    } = event
+    const { activeTooltipIndex, activeLabel, activePayload } = event
 
     const { tooltipMetric = 'historyPrice' } = this.state
+    const [x, y] = this.xToYCoordinates[activeTooltipIndex]
 
     this.setState({
       activePayload,
+      x,
+      y,
       refAreaRight: activeLabel,
       rightZoomIndex: activeTooltipIndex,
-      x: activeCoordinate.x,
-      y: this.xToYCoordinates[activeCoordinate.x],
       xValue: activeLabel,
       yValue: this.props.chartData[activeTooltipIndex][
         Metrics[tooltipMetric].dataKey || tooltipMetric
