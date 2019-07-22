@@ -18,9 +18,13 @@ import styles from './chart/SignalPreview.module.scss'
 const mapWithTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
-const VisualBacktestChart = ({ data, price, metrics, showAxes = false }) => {
+const VisualBacktestChart = ({
+  triggeredSignals,
+  price = [],
+  metrics,
+  showAxes = false
+}) => {
   const formattedPrice = mapWithTimeseries(price)
-  const formattedData = mapWithTimeseries(data)
 
   const renderChart = () => {
     return (
@@ -48,19 +52,17 @@ const VisualBacktestChart = ({ data, price, metrics, showAxes = false }) => {
 
         {generateMetricsMarkup(metrics, {
           data: {
-            active_addresses: formattedData
+            active_addresses: triggeredSignals
           }
         })}
 
-        {formattedData
-          .filter(point => point['triggered?'])
-          .map(point => (
-            <ReferenceLine
-              key={point.datetime}
-              stroke='green'
-              x={point.datetime}
-            />
-          ))}
+        {triggeredSignals.map(point => (
+          <ReferenceLine
+            key={point.datetime}
+            stroke='green'
+            x={+new Date(point.datetime)}
+          />
+        ))}
         <Tooltip labelFormatter={labelFormatter} content={<CustomTooltip />} />
       </ComposedChart>
     )
@@ -73,7 +75,7 @@ const VisualBacktestChart = ({ data, price, metrics, showAxes = false }) => {
         styles.container
       )}
     >
-      <ResponsiveContainer width='100%' height='100%'>
+      <ResponsiveContainer width='100%' height={120}>
         {renderChart()}
       </ResponsiveContainer>
     </div>
