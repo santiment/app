@@ -91,6 +91,6 @@ export const saveWatchlistsSettingsAfterLaunch = (action$, store, { client }) =>
         })
       })
       .catch(
-        handleErrorAndTriggerAction(actions.WATCHLISTS_SETTINGS_FETCH_SUCCESS)
+        handleErrorAndTriggerAction(actions.WATCHLISTS_SETTINGS_FETCH_FAILED)
       )
   })
