@@ -19,7 +19,7 @@ const FormikSelect = ({
       name={name}
       render={({ field, form }) => {
         return (
-          <Fragment>
+          <>
             <div
               className={
                 multi ? 'select__container-multi' : 'select__container-single'
@@ -43,7 +43,7 @@ const FormikSelect = ({
                 <div className='error error-message'>{form.errors[name]}</div>
               )}
             </div>
-          </Fragment>
+          </>
         )
       }}
     />
