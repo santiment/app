@@ -3,10 +3,7 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
-import {
-  DAILY_ACTIVE_ADDRESSES,
-  METRIC_TARGET_OPTIONS
-} from '../../../utils/constants'
+import { METRIC_TARGET_OPTIONS } from '../../../utils/constants'
 import GetProjects from '../../../common/projects/getProjects'
 import { isAsset, isWatchlist } from '../../../utils/utils'
 import TriggerFormWatchlists from './TriggerFormWatchlists'
