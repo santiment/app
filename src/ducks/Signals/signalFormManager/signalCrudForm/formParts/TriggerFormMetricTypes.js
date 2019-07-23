@@ -4,12 +4,7 @@ import PropTypes from 'prop-types'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import { getNearestTypeByMetric } from '../../../utils/utils'
-import {
-  DAILY_ACTIVE_ADDRESSES,
-  METRIC_TARGET_ASSETS,
-  METRICS_OPTIONS,
-  TRENDING_WORDS
-} from '../../../utils/constants'
+import { METRICS_OPTIONS, TRENDING_WORDS } from '../../../utils/constants'
 import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
@@ -49,10 +44,6 @@ export const TriggerFormMetricTypes = ({
               metric &&
                 newMetric.value !== metric.value &&
                 setFieldValue('type', getNearestTypeByMetric(newMetric))
-
-              if (newMetric.value === DAILY_ACTIVE_ADDRESSES) {
-                setFieldValue('signalType', METRIC_TARGET_ASSETS)
-              }
 
               if (newMetric.value !== TRENDING_WORDS) {
                 checkPossibleTarget({ metaFormSettings, setFieldValue, target })

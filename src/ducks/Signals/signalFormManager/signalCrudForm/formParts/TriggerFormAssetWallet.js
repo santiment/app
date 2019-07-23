@@ -22,9 +22,8 @@ const TriggerFormAssetWallet = ({
   setFieldValue,
   values
 }) => {
-  const { signalType, metric } = values
+  const { signalType } = values
   const isAssets = isAsset(signalType)
-  const isDAA = metric.value === DAILY_ACTIVE_ADDRESSES
 
   return (
     <>
@@ -34,7 +33,7 @@ const TriggerFormAssetWallet = ({
           <FormikSelect
             name='signalType'
             isClearable={false}
-            disabled={isDAA || defaultSignalType.isDisabled}
+            disabled={defaultSignalType.isDisabled}
             defaultValue={defaultSignalType.value.value}
             placeholder={'Pick signal type'}
             options={METRIC_TARGET_OPTIONS}
@@ -49,22 +48,24 @@ const TriggerFormAssetWallet = ({
         </div>
         {isWatchlist(signalType) && <TriggerFormWatchlists />}
       </div>
-      <div className={cx(styles.row, styles.rowTop)}>
-        <div className={cx(styles.Field, styles.fieldFilled)}>
-          <GetProjects
-            render={({ isLoading, allProjects }) => {
-              return (
-                <TriggerProjectsSelector
-                  name='target'
-                  values={values}
-                  projects={allProjects}
-                  setFieldValue={setFieldValue}
-                />
-              )
-            }}
-          />
+      {isAssets && (
+        <div className={cx(styles.row, styles.rowTop)}>
+          <div className={cx(styles.Field, styles.fieldFilled)}>
+            <GetProjects
+              render={({ isLoading, allProjects }) => {
+                return (
+                  <TriggerProjectsSelector
+                    name='target'
+                    values={values}
+                    projects={allProjects}
+                    setFieldValue={setFieldValue}
+                  />
+                )
+              }}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </>
   )
 }
