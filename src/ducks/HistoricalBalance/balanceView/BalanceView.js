@@ -126,11 +126,7 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
                 {loading && (
                   <StatusDescription label={'Calculating balance...'} />
                 )}
-                {
-                  <ChartExpandView classes={styles}>
-                    <HistoricalBalanceChart data={data} />
-                  </ChartExpandView>
-                }
+                {<HistoricalBalanceChart data={data} />}
               </div>
             )
           }}
