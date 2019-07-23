@@ -97,7 +97,7 @@ export const TriggerFormMetricValues = ({
           <FormikInput
             name='percentThreshold'
             type='number'
-            prefix={'%'}
+            prefix='%'
             placeholder='Percentage amount'
           />
           {isPriceMetric && <LastPriceComponent lastPrice={lastPrice} />}

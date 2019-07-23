@@ -529,14 +529,25 @@ export const mapFormToPACTriggerSettings = formProps => {
 }
 
 export const mapFormToDAATriggerSettings = formProps => {
-  const { target, signalType } = formProps
+  const { target, signalType, type } = formProps
   const newTarget = mapTriggerTarget(target, signalType)
-  return {
-    type: DAILY_ACTIVE_ADDRESSES,
-    ...newTarget,
-    channel: getChannels(formProps),
-    time_window: getTimeWindow(formProps),
-    operation: getTriggerOperation(formProps)
+
+  debugger
+  if (type.metric === PRICE_ABSOLUTE_CHANGE) {
+    return {
+      type: DAILY_ACTIVE_ADDRESSES,
+      ...newTarget,
+      channel: getChannels(formProps),
+      operation: getTriggerOperation(formProps)
+    }
+  } else {
+    return {
+      type: DAILY_ACTIVE_ADDRESSES,
+      ...newTarget,
+      channel: getChannels(formProps),
+      time_window: getTimeWindow(formProps),
+      operation: getTriggerOperation(formProps)
+    }
   }
 }
 

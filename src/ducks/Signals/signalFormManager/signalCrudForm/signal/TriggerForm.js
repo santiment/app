@@ -140,10 +140,12 @@ export const TriggerForm = ({
                       ? newValues.type.metric
                       : newValues.metric.value
                   const defaultValues = METRIC_DEFAULT_VALUES[metricValue] || {}
+
                   newValues = {
-                    ...defaultValues,
-                    ...newValues
+                    ...newValues,
+                    ...defaultValues
                   }
+
                   setInitialValues(newValues)
                   validateForm()
                 }
