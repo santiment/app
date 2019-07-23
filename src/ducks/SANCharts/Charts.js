@@ -17,6 +17,7 @@ import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
 import { Metrics, generateMetricsMarkup } from './utils'
 import { checkHasPremium } from '../../pages/UserSelectors'
+import displayPaywall from './Paywall'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
 
@@ -269,6 +270,8 @@ class Charts extends React.Component {
               tickLine={false}
               minTickGap={100}
               tickFormatter={tickFormatter}
+              domain={['dataMin', 'dataMax']}
+              type='number'
             />
             <YAxis hide />
             {lines}
@@ -279,14 +282,19 @@ class Charts extends React.Component {
                 strokeOpacity={0.3}
               />
             )}
-            {!hasPremium &&
+            {false &&
+              !hasPremium &&
               metrics.includes('historyPrice') &&
               mixWithPaywallArea({
                 dataKey: 'priceUsd',
                 data: chartData,
-                yAxisId: 'axis-priceUsd',
-                domain: false
+                yAxisId: 'axis-priceUsd'
               })}
+            {displayPaywall({
+              x1: new Date('2019-01-22T12:00:00Z'),
+              x2: new Date('2019-05-03T00:00:00Z'),
+              data: chartData
+            })}
             {chartData.length > 0 && (
               <Brush
                 x={BRUSH_SIDE_MARGIN_IN_PX}
