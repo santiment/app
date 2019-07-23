@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { compose } from 'redux'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
-import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
+import cx from 'classnames'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import {
@@ -12,25 +12,37 @@ import {
 import { ASSETS_BY_WALLET_QUERY } from '../../../../HistoricalBalance/common/queries'
 import {
   mapAssetsHeldByAddressToProps,
-  mapToAssets,
   isPossibleEthAddress
 } from '../../../utils/utils'
+import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelector'
+import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import styles from '../signal/TriggerForm.module.scss'
 
-const isDisabledWalletAddressField = (
-  canUseMappedErc20,
-  target,
-  allErc20Projects
-) => {
-  if (canUseMappedErc20 || !target || !target.value) {
-    return false
-  }
-
-  return !(
-    target.value === 'ethereum' ||
-    allErc20Projects.some(x => x.value === target.value)
+const isInHeldAssets = (heldAssets, checking) =>
+  checking.every(checkingAsset =>
+    heldAssets.some(({ slug }) => slug === checkingAsset.slug)
   )
+
+const isNotErc20Assets = (target, allErc20Projects) => {
+  const isEthOrErc20 =
+    target.value === 'ethereum' ||
+    (Array.isArray(target) && isInHeldAssets(allErc20Projects, target)) ||
+    allErc20Projects.some(({ slug }) => slug === target.slug)
+
+  return !isEthOrErc20
 }
+
+const mapAssetsToAllProjects = (all, heldAssets) =>
+  heldAssets.reduce((acc, item) => {
+    const foundInAll = all.find(({ slug }) => slug === item.slug)
+    if (foundInAll) {
+      acc.push(foundInAll)
+    }
+    return acc
+  }, [])
+
+const isDefaultAssets = (metaTarget, assets) =>
+  assets && assets.some(({ slug }) => metaTarget.value.value === slug)
 
 const propTypes = {
   metaFormSettings: PropTypes.any,
@@ -43,99 +55,137 @@ const propTypes = {
 
 const TriggerFormHistoricalBalance = ({
   data: { allErc20Projects = [], allProjects = [] } = {},
-  metaFormSettings,
+  metaFormSettings: { ethAddress: metaEthAddress, target: metaTarget },
   assets = [],
   setFieldValue,
   byAddress = '',
-  values: { target }
+  values,
+  isLoading = false
 }) => {
+  const { target, ethAddress } = values
+
+  const isMulti = target && !ethAddress
+
   const [erc20List, setErc20] = useState(allErc20Projects)
   const [allList, setAll] = useState(allProjects)
   const [heldAssets, setHeldAssets] = useState(assets)
 
   useEffect(
     () => {
-      allErc20Projects.length && setErc20(allErc20Projects)
-      allProjects.length && setAll(allProjects)
-      assets.length && setHeldAssets(assets)
+      allErc20Projects && allErc20Projects.length && setErc20(allErc20Projects)
+      allProjects && allProjects.length && setAll(allProjects)
+      assets && assets.length && setHeldAssets(assets)
     },
     [allErc20Projects, allProjects, assets]
   )
 
-  const canUseMappedErc20 = !!byAddress && assets.length > 0
-  const disabledWalletField = isDisabledWalletAddressField(
-    canUseMappedErc20,
-    target,
-    erc20List
+  useEffect(
+    () => {
+      let foundBaseAsset
+      if (!isMulti && target.length > 0) {
+        const [first] = target
+        foundBaseAsset = allList.find(
+          ({ slug }) => slug === first.slug || slug === first.value
+        )
+      } else if (target && target.value) {
+        foundBaseAsset = allList.find(({ slug }) => slug === target.value)
+      }
+
+      if (foundBaseAsset) {
+        setFieldValue('target', foundBaseAsset)
+      }
+    },
+    [ethAddress]
   )
+
+  const disabledWalletField = !target || (target && target.length > 1)
+  isNotErc20Assets(target, erc20List)
+
   const selectableProjects =
-    canUseMappedErc20 && assets.length > 0 ? assets : allList
+    ethAddress && !disabledWalletField
+      ? mapAssetsToAllProjects(allList, heldAssets)
+      : allList
 
-  const { ethAddress, target: defaultAsset } = metaFormSettings
+  const setAddress = address => setFieldValue('ethAddress', address)
 
-  if (
-    target &&
-    target.value &&
-    selectableProjects.length > 0 &&
-    !selectableProjects.some(({ value }) => value === target.value)
-  ) {
-    setFieldValue('target', '')
+  const validateAddressField = assets => {
+    if (disabledWalletField) {
+      setAddress('')
+    } else if (ethAddress && metaEthAddress) {
+      if (
+        isDefaultAssets(metaTarget, assets) ||
+        isInHeldAssets(heldAssets, assets)
+      ) {
+        setAddress(metaEthAddress)
+      } else {
+        setAddress('')
+      }
+    }
   }
 
   return (
-    <div className={styles.row}>
-      <div className={styles.Field}>
-        <FormikLabel text='Wallet' />
-        <FormikInput
-          disabled={disabledWalletField}
-          validator={isPossibleEthAddress}
-          name='ethAddress'
-          placeholder={
-            disabledWalletField ? 'Only for ETH and ERC20' : 'Wallet address'
-          }
-        />
-      </div>
-
-      <div className={styles.Field}>
-        <FormikLabel />
-        <FormikSelect
-          name='target'
-          disabled={defaultAsset.isDisabled}
-          defaultValue={defaultAsset.value.value}
-          placeholder='Pick an asset'
-          required
-          options={selectableProjects}
-          onChange={newAsset => {
-            if (disabledWalletField) {
-              setFieldValue('ethAddress', '')
-            } else if (ethAddress) {
-              if (
-                metaFormSettings.target.value.value === newAsset.value ||
-                heldAssets.some(a => a.value === newAsset.value)
-              ) {
-                setFieldValue('ethAddress', ethAddress)
-              } else {
-                setFieldValue('ethAddress', '')
-              }
+    <Fragment>
+      <div className={cx(styles.row)}>
+        <div className={cx(styles.Field, styles.fieldFilled)}>
+          <FormikLabel text='Wallet' />
+          <FormikInput
+            disabled={disabledWalletField}
+            validator={isPossibleEthAddress}
+            name='ethAddress'
+            placeholder={
+              disabledWalletField
+                ? 'Only for single ETH and ERC20 asset'
+                : 'Wallet address'
             }
-          }}
-        />
+          />
+        </div>
       </div>
-    </div>
+      <div className={styles.row}>
+        <div className={cx(styles.Field, styles.fieldFilled)}>
+          {isMulti && (
+            <TriggerProjectsSelector
+              name='target'
+              values={values}
+              projects={selectableProjects}
+              setFieldValue={setFieldValue}
+              onChange={assets => {
+                validateAddressField(assets)
+              }}
+            />
+          )}
+          {!isMulti && (
+            <FormikSelect
+              name='target'
+              disalbed={isLoading}
+              isLoading={isLoading}
+              isClearable={false}
+              placeholder='Pick an asset'
+              options={selectableProjects}
+              valueKey='slug'
+              labelKey='slug'
+              onChange={newAsset => {
+                validateAddressField([newAsset])
+              }}
+            />
+          )}
+        </div>
+      </div>
+    </Fragment>
   )
 }
 
 const mapDataToProps = ({
-  Projects: { allErc20Projects, allProjects },
+  Projects: { allErc20Projects, allProjects, loading },
   ownProps
 }) => {
   const { data = {} } = ownProps
   return {
     ...ownProps,
     data: {
-      allErc20Projects: mapToAssets(allErc20Projects) || data.allErc20Projects,
-      allProjects: mapToAssets(allProjects, false) || data.allProjects
-    }
+      allErc20Projects: allErc20Projects || data.allErc20Projects,
+      allProjects: allProjects || data.allProjects
+    },
+    isLoading: loading
   }
 }
 

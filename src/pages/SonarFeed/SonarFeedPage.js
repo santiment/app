@@ -2,15 +2,15 @@ import React, { Fragment, useState, useEffect } from 'react'
 import { matchPath } from 'react-router'
 import { connect } from 'react-redux'
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
-import Icon from '@santiment-network/ui/Icon'
 import Tabs from '@santiment-network/ui/Tabs'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
-import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import InsightUnAuthPage from './../../pages/Insights/InsightUnAuthPage'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { selectIsTelegramConnected } from '../../pages/UserSelectors'
+import SonarFeedHeader from './SonarFeedActions/SonarFeedHeader'
 import { showNotification } from '../../actions/rootActions'
+import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar/feed'
@@ -65,6 +65,9 @@ const SonarFeed = ({
     return <Redirect exact from={baseLocation} to={tabs[0].index} />
   }
 
+  const [triggerId, setTriggerId] = useState(undefined)
+  const [step, setTriggerStep] = useState(undefined)
+
   useEffect(
     () => {
       if (!isTelegramConnected && isLoggedIn) {
@@ -74,49 +77,40 @@ const SonarFeed = ({
     [isTelegramConnected, isLoggedIn]
   )
 
-  const [triggerId, setTriggerId] = useState(undefined)
-  const [step, setTriggerStep] = useState(undefined)
+  useEffect(
+    () => {
+      const isAboutPath = matchPath(pathname, aboutTriggerModalLocation)
+      if (
+        triggerId &&
+        !matchPath(pathname, editTriggerSettingsModalLocation) &&
+        !isAboutPath
+      ) {
+        setTriggerId(undefined)
+      }
+
+      if (triggerId && !isAboutPath) {
+        setTriggerStep(undefined)
+      }
+    },
+    [pathname]
+  )
 
   const setLoadingSignalId = (id, step) => {
     setTriggerId(id)
     setTriggerStep(step)
   }
 
-  useEffect(() => {
-    const isAboutPath = matchPath(pathname, aboutTriggerModalLocation)
-    if (
-      triggerId &&
-      !matchPath(pathname, editTriggerSettingsModalLocation) &&
-      !isAboutPath
-    ) {
-      setTriggerId(undefined)
-    }
-
-    if (triggerId && !isAboutPath) {
-      setTriggerStep(undefined)
-    }
-  })
-
   return (
     <div style={{ width: '100%' }} className='page'>
       {isDesktop ? (
         <div className={styles.header}>
-          <h1>Sonar</h1>
-          <div>
-            {// TODO: Disable search and filter buttons
-              false && pathname !== '/sonar/feed/activity' && (
-                <Fragment>
-                  <Icon type='search' className={styles.search} />
-                  <Icon type='filter' className={styles.filter} />
-                </Fragment>
-              )}
-            <SignalMasterModalForm triggerId={triggerId} step={step} />
-          </div>
+          <SonarFeedHeader />
+          <SignalMasterModalForm triggerId={triggerId} step={step} />
         </div>
       ) : (
         <div className={styles.header}>
           <MobileHeader
-            title='Sonar'
+            title={<SonarFeedHeader />}
             rightActions={
               <div className={styles.addSignal}>
                 <SignalMasterModalForm triggerId={triggerId} step={step} />

@@ -5,6 +5,7 @@ import {
   ETH_WALLET_AMOUNT_UP,
   ETH_WALLET_METRIC
 } from '../../Signals/utils/constants'
+import { mapToOptions } from '../../Signals/utils/utils'
 import styles from './BalanceView.module.scss'
 
 const BalanceChartHeader = ({ address, assets, children }) => {
@@ -14,14 +15,11 @@ const BalanceChartHeader = ({ address, assets, children }) => {
         <ShowIf beta>
           <SignalMasterModalForm
             label='Generate signal'
-            enabled={address && assets && assets.length === 1}
+            enabled={address && assets && assets.length > 0}
             canRedirect={false}
             metaFormSettings={{
               target: {
-                value: {
-                  value: assets[0],
-                  label: assets[0]
-                }
+                value: mapToOptions(assets)
               },
               metric: {
                 value: { ...ETH_WALLET_METRIC }
@@ -29,7 +27,7 @@ const BalanceChartHeader = ({ address, assets, children }) => {
               type: {
                 value: { ...ETH_WALLET_AMOUNT_UP }
               },
-              ethAddress: address
+              ethAddress: assets && assets.length === 1 ? address : ''
             }}
             buttonParams={{
               variant: 'ghost',

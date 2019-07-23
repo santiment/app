@@ -7,10 +7,10 @@ import HistoricalBalanceChart from '../chart/HistoricalBalanceChart'
 import AssetsField from '../AssetsField'
 import BalanceChartHeader from './BalanceChartHeader'
 import styles from './BalanceView.module.scss'
-import { ChartExpandView } from '../../Signals/chart/ChartExpandView'
 import Loadable from 'react-loadable'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import { isPossibleEthAddress } from '../../Signals/utils/utils'
+import { mapAssetsToFlatArray } from '../page/HistoricalBalancePage'
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./BalanceViewChartSettings'),
@@ -21,8 +21,8 @@ const DEFAULT_TIME_RANGE = '6m'
 
 const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
   const [walletAndAssets, setWalletAndAssets] = useState({
-    address: address,
-    assets: assets
+    address,
+    assets
   })
 
   const [chartSettings, setChartSettings] = useState({
@@ -31,7 +31,7 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
   })
 
   if (!isEqual(walletAndAssets.assets, assets)) {
-    setWalletAndAssets({ ...walletAndAssets, assets: assets })
+    setWalletAndAssets({ ...walletAndAssets, assets })
   }
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
   const handleAssetsChange = assets => {
     const newState = {
       ...walletAndAssets,
-      assets: assets.map(asset => asset.value)
+      assets
     }
     setWalletAndAssets(newState)
     onChangeQuery(newState)
@@ -98,7 +98,7 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
         </BalanceChartHeader>
 
         <GetHistoricalBalance
-          assets={assets}
+          assets={mapAssetsToFlatArray(assets)}
           wallet={address}
           from={from}
           to={to}
@@ -125,11 +125,7 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
                 {loading && (
                   <StatusDescription label={'Calculating balance...'} />
                 )}
-                {
-                  <ChartExpandView classes={styles}>
-                    <HistoricalBalanceChart data={data} />
-                  </ChartExpandView>
-                }
+                {<HistoricalBalanceChart data={data} />}
               </div>
             )
           }}

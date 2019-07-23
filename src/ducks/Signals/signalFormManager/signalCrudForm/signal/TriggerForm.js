@@ -26,6 +26,7 @@ import {
 import {
   couldShowChart,
   mapFormPropsToTrigger,
+  mapTargetObject,
   validateTriggerForm
 } from '../../../utils/utils'
 import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
@@ -120,6 +121,7 @@ export const TriggerForm = ({
 
         const { price } = lastPriceItem || {}
 
+        const chartTarget = mapTargetObject(target)
         const showChart = target && couldShowChart(values)
 
         return (
@@ -205,7 +207,7 @@ export const TriggerForm = ({
 
               {showChart && (
                 <div className={cx(styles.row, styles.signalPreview)}>
-                  <SignalPreview target={target.value} type={type.metric} />
+                  <SignalPreview target={chartTarget} type={type.metric} />
                 </div>
               )}
 

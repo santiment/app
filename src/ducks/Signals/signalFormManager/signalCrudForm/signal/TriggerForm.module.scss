@@ -56,8 +56,12 @@ $trigger-form-width: 496px;
   }
 }
 
-.rowInner {
+.rowTop {
   margin-top: 0 !important;
+}
+
+.rowBottom {
+  margin-bottom: 0 !important;
 }
 
 .messages {

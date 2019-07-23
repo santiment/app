@@ -39,7 +39,8 @@ import {
   TRENDING_WORDS_WORD_MENTIONED,
   METRIC_TARGET_ASSETS,
   METRIC_TARGET_WATCHLIST,
-  TRENDING_WORDS_WATCHLIST_MENTIONED
+  TRENDING_WORDS_WATCHLIST_MENTIONED,
+  PRICE
 } from './constants'
 import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 
@@ -216,35 +217,31 @@ const getOperationType = operation => {
 }
 
 const getAbsolutePriceValues = ({ settings: { operation, type } }) => {
-  const values = {}
-
   if (operation) {
-    if (type === PRICE_ABSOLUTE_CHANGE) {
-      const operationType = getOperationType(operation)
+    const operationType = getOperationType(operation)
 
-      switch (operationType) {
-        case PRICE_CHANGE_TYPES.ABOVE:
-        case PRICE_CHANGE_TYPES.BELOW: {
-          values['absoluteThreshold'] = operation[operationType]
-          break
+    switch (operationType) {
+      case PRICE_CHANGE_TYPES.ABOVE:
+      case PRICE_CHANGE_TYPES.BELOW: {
+        return {
+          absoluteThreshold: operation[operationType]
         }
-        case PRICE_CHANGE_TYPES.INSIDE_CHANNEL:
-        case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
-          const [left, right] = operation[operationType]
-
-          values['absoluteBorderLeft'] = left
-          values['absoluteBorderRight'] = right
-
-          break
+      }
+      case PRICE_CHANGE_TYPES.INSIDE_CHANNEL:
+      case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
+        const [left, right] = operation[operationType]
+        return {
+          absoluteBorderLeft: left,
+          absoluteBorderRight: right
         }
-        default: {
-          break
-        }
+      }
+      default: {
+        break
       }
     }
   }
 
-  return values
+  return {}
 }
 
 const mapTriggerToFormThreshold = ({ threshold, operation }) => {
@@ -300,7 +297,6 @@ export const mapTriggerToFormProps = currentTrigger => {
     settings,
     settings: { type, operation, time_window, target, channel }
   } = currentTrigger
-
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
 
@@ -388,44 +384,48 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
   }
 }
 
-export const mapTriggerTarget = (
-  target,
-  { value } = {},
-  address = '',
-  isEthWalletTrigger = false
-) => {
-  let newTarget
+export const getTargetFromArray = target =>
+  target.length === 1 ? target[0].slug : target.map(({ slug }) => slug)
+
+export const mapTriggerTarget = (target, signalType = {}, address) => {
+  const { value } = signalType
 
   switch (value) {
     case METRIC_TARGET_WATCHLIST.value: {
-      newTarget = {
-        watchlist_id: +target
+      return {
+        target: {
+          watchlist_id: +target
+        }
       }
-      break
     }
     default: {
-      if (isEthWalletTrigger && address) {
-        newTarget = { eth_address: address }
+      if (address) {
+        return {
+          target: { eth_address: address }
+        }
       } else {
-        newTarget = Array.isArray(target)
-          ? target.map(t => t.slug)
-          : { slug: target.value }
+        return {
+          target: { slug: mapTargetObject(target) }
+        }
       }
     }
-  }
-
-  return {
-    target: newTarget
   }
 }
 
-export const mapAssetTarget = (target, isEthWalletTrigger) => {
-  if (!isEthWalletTrigger) {
-    return undefined
-  }
+export const mapTargetObject = target => {
+  return Array.isArray(target)
+    ? getTargetFromArray(target)
+    : target.value || target.slug
+}
 
+export const mapAssetTarget = (target, ethAddress) => {
+  if (!ethAddress) {
+    return {
+      asset: { slug: 'ethereum' }
+    }
+  }
   return {
-    asset: { slug: target.value }
+    asset: { slug: mapTargetObject(target) }
   }
 }
 
@@ -529,15 +529,14 @@ export const mapFormToPACTriggerSettings = formProps => {
 }
 
 export const mapFormToDAATriggerSettings = formProps => {
-  const { percentThreshold, target, signalType } = formProps
+  const { target, signalType } = formProps
   const newTarget = mapTriggerTarget(target, signalType)
-
   return {
     type: DAILY_ACTIVE_ADDRESSES,
     ...newTarget,
     channel: getChannels(formProps),
     time_window: getTimeWindow(formProps),
-    percent_threshold: percentThreshold
+    operation: getTriggerOperation(formProps)
   }
 }
 
@@ -556,9 +555,9 @@ export const mapFormToHBTriggerSettings = formProps => {
   const { target, ethAddress, signalType } = formProps
   const newAsset =
     signalType.value === METRIC_TARGET_ASSETS.value
-      ? mapAssetTarget(target, true)
+      ? mapAssetTarget(target, ethAddress)
       : undefined
-  const newTarget = mapTriggerTarget(target, signalType, ethAddress, true)
+  const newTarget = mapTriggerTarget(target, signalType, ethAddress)
   return {
     type: ETH_WALLET,
     ...newTarget,
@@ -569,18 +568,9 @@ export const mapFormToHBTriggerSettings = formProps => {
 }
 
 export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
-  const { type, isRepeating } = formProps
-
+  const { type, metric, isRepeating } = formProps
   let settings = {}
-  switch (type.metric) {
-    case PRICE_PERCENT_CHANGE: {
-      settings = mapFormToPPCTriggerSettings(formProps)
-      break
-    }
-    case PRICE_ABSOLUTE_CHANGE: {
-      settings = mapFormToPACTriggerSettings(formProps)
-      break
-    }
+  switch (metric.value) {
     case DAILY_ACTIVE_ADDRESSES: {
       settings = mapFormToDAATriggerSettings(formProps)
       break
@@ -595,6 +585,22 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     }
     case ETH_WALLET: {
       settings = mapFormToHBTriggerSettings(formProps)
+      break
+    }
+    case PRICE: {
+      switch (type.metric) {
+        case PRICE_PERCENT_CHANGE: {
+          settings = mapFormToPPCTriggerSettings(formProps)
+          break
+        }
+        case PRICE_ABSOLUTE_CHANGE: {
+          settings = mapFormToPACTriggerSettings(formProps)
+          break
+        }
+        default: {
+          throw new Error('Can not find a correct mapper for PRICE trigger')
+        }
+      }
       break
     }
     default: {
@@ -635,7 +641,7 @@ export const getNearestTypeByMetric = metric => {
       return PRICE_PERCENT_CHANGE_UP_MODEL
     }
     case DAILY_ACTIVE_ADDRESSES_METRIC.value: {
-      return DAILY_ACTIVE_ADDRESSES_METRIC
+      return PRICE_PERCENT_CHANGE_UP_MODEL
     }
     case PRICE_VOLUME_DIFFERENCE_METRIC.value: {
       return PRICE_VOLUME_DIFFERENCE_METRIC
@@ -723,11 +729,38 @@ export const validateTriggerForm = ({
 }) => {
   let errors = {}
 
-  if (type.metric === ETH_WALLET) {
+  if (metric && metric.value === ETH_WALLET) {
     if (!threshold) errors.threshold = REQUIRED_MESSAGE
 
     if (ethAddress && !isPossibleEthAddress(ethAddress)) {
       errors.ethAddress = 'Not valid ETH address'
+    }
+  } else if (metric && metric.value === TRENDING_WORDS) {
+    if (
+      isTrendingWordsByProjects(type) &&
+      (!trendingWordsWithAssets || trendingWordsWithAssets.length === 0)
+    ) {
+      errors.trendingWordsWithAssets = REQUIRED_MESSAGE
+    }
+
+    if (
+      isTrendingWordsByWords(type) &&
+      (!trendingWordsWithWords || trendingWordsWithWords.length === 0)
+    ) {
+      errors.trendingWordsWithWords = REQUIRED_MESSAGE
+    }
+  } else {
+    if (isWatchlist(signalType)) {
+      if (!target) {
+        errors.target = REQUIRED_MESSAGE
+      }
+    } else {
+      if (
+        !target ||
+        (Array.isArray(target) ? target.length === 0 : !target.value)
+      ) {
+        errors.target = REQUIRED_MESSAGE
+      }
     }
   }
 
@@ -785,35 +818,6 @@ export const validateTriggerForm = ({
     errors.frequencyTimeType = REQUIRED_MESSAGE
   }
 
-  if (metric && metric.value === TRENDING_WORDS) {
-    if (
-      isTrendingWordsByProjects(type) &&
-      (!trendingWordsWithAssets || trendingWordsWithAssets.length === 0)
-    ) {
-      errors.trendingWordsWithAssets = REQUIRED_MESSAGE
-    }
-
-    if (
-      isTrendingWordsByWords(type) &&
-      (!trendingWordsWithWords || trendingWordsWithWords.length === 0)
-    ) {
-      errors.trendingWordsWithWords = REQUIRED_MESSAGE
-    }
-  } else {
-    if (isWatchlist(signalType)) {
-      if (!target) {
-        errors.target = REQUIRED_MESSAGE
-      }
-    } else {
-      if (
-        !target ||
-        (Array.isArray(target) ? target.length === 0 : !target.value)
-      ) {
-        errors.target = REQUIRED_MESSAGE
-      }
-    }
-  }
-
   return errors
 }
 
@@ -824,7 +828,7 @@ const POSSIBLE_METRICS_FOR_CHART = [
 ]
 
 export const couldShowChart = ({ signalType, metric, target }) => {
-  if (isWatchlist(signalType) || Array.isArray(target)) {
+  if (isWatchlist(signalType) || (Array.isArray(target) && target.length > 1)) {
     return false
   }
 
@@ -860,10 +864,7 @@ export const mapErc20AssetsToProps = ({
   allErc20Projects: { allErc20Projects = [], isLoading }
 }) => {
   return {
-    assets: [
-      { value: 'ethereum', label: 'ethereum' },
-      ...mapToAssets(allErc20Projects)
-    ],
+    assets: [{ slug: 'ethereum', label: 'ethereum' }, ...allErc20Projects],
     isLoading: isLoading
   }
 }
@@ -871,9 +872,8 @@ export const mapErc20AssetsToProps = ({
 export const mapAssetsHeldByAddressToProps = ({
   assetsByWallet: { assetsHeldByAddress = [], loading }
 }) => {
-  const assets = mapToAssets(assetsHeldByAddress, false)
   return {
-    assets: assets,
+    assets: assetsHeldByAddress,
     isLoading: loading
   }
 }

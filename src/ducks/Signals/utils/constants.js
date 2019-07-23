@@ -140,43 +140,45 @@ export const METRICS_OPTIONS = [
   { ...PRICE_METRIC },
   { ...ETH_WALLET_METRIC },
   { ...TRENDING_WORDS_METRIC },
-  // { ...DAILY_ACTIVE_ADDRESSES_METRIC }, GarageInc: temporary disabled
+  { ...DAILY_ACTIVE_ADDRESSES_METRIC },
   { ...PRICE_VOLUME_DIFFERENCE_METRIC }
 ]
 
+const PRICE_OPTIONS = [
+  {
+    label: 'Price changing',
+    type: 'header'
+  },
+  PRICE_ABS_CHANGE_ABOVE,
+  PRICE_ABS_CHANGE_BELOW,
+  PRICE_ABS_CHANGE_INSIDE,
+  PRICE_ABS_CHANGE_OUTSIDE,
+  {
+    label: 'Percent change',
+    type: 'header'
+  },
+  PRICE_PERCENT_CHANGE_UP_MODEL,
+  PRICE_PERCENT_CHANGE_DOWN_MODEL
+]
+
 export const METRIC_TO_TYPES = {
-  price: [
-    {
-      label: 'Price changing',
-      type: 'header'
-    },
-    PRICE_ABS_CHANGE_ABOVE,
-    PRICE_ABS_CHANGE_BELOW,
-    PRICE_ABS_CHANGE_INSIDE,
-    PRICE_ABS_CHANGE_OUTSIDE,
-    {
-      label: 'Percent change',
-      type: 'header'
-    },
-    PRICE_PERCENT_CHANGE_UP_MODEL,
-    PRICE_PERCENT_CHANGE_DOWN_MODEL
-  ],
-  daily_active_addresses: [DAILY_ACTIVE_ADDRESSES_METRIC],
-  price_volume_difference: [PRICE_VOLUME_DIFFERENCE_METRIC],
-  eth_wallet: ETH_WALLETS_OPTIONS
+  [PRICE]: PRICE_OPTIONS,
+  [DAILY_ACTIVE_ADDRESSES]: PRICE_OPTIONS,
+  [PRICE_VOLUME_DIFFERENCE]: [PRICE_VOLUME_DIFFERENCE_METRIC],
+  [ETH_WALLET]: ETH_WALLETS_OPTIONS
 }
 
 export const METRIC_TYPES_DEPENDENCIES = {
-  price_volume_difference: ['threshold'],
-  daily_active_addresses: ['percentThreshold', 'timeWindow'],
-  price_percent_change: ['percentThreshold', 'timeWindow'],
-  price_absolute_change_single_border: ['absoluteThreshold'],
-  price_absolute_change_double_border: [
+  [PRICE_VOLUME_DIFFERENCE]: ['threshold'],
+  [DAILY_ACTIVE_ADDRESSES]: ['percentThreshold', 'timeWindow'],
+  [PRICE_PERCENT_CHANGE]: ['percentThreshold', 'timeWindow'],
+  [PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER]: ['absoluteThreshold'],
+  [PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER]: [
     'absoluteBorderLeft',
     'absoluteBorderRight'
   ],
-  eth_wallet: ['threshold', 'walletBalanceChangeType'],
-  trending_words: []
+  [ETH_WALLET]: ['threshold', 'walletBalanceChangeType'],
+  [TRENDING_WORDS]: []
 }
 
 export const frequencyTymeValueBuilder = value => {
@@ -293,16 +295,17 @@ export const METRIC_DEFAULT_VALUES = {
     target: DEFAULT_TARGET
   },
   daily_active_addresses: {
-    frequencyType: { ...FREQUENCY_TYPE_DAILY_MODEL },
+    frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
     frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
-    percentThreshold: 200,
+    percentThreshold: 25,
     threshold: BASE_THRESHOLD,
-    timeWindow: 2,
+    timeWindow: 1,
     timeWindowUnit: { label: 'Days', value: 'd' },
-    type: { ...DAILY_ACTIVE_ADDRESSES_METRIC },
+    type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
     channels: ['Telegram'],
+    absoluteThreshold: 25,
     target: DEFAULT_TARGET
   },
   price_volume_difference: {
@@ -406,10 +409,10 @@ export const getDefaultTimeRangeValue = days => {
 }
 
 export const PREVIEWS_TIMERANGE_BY_TYPE = {
-  daily_active_addresses: getDefaultTimeRangeValue(90),
-  price_absolute_change: getDefaultTimeRangeValue(90),
-  price_percent_change: getDefaultTimeRangeValue(90),
-  price_volume_difference: getDefaultTimeRangeValue(180)
+  [DAILY_ACTIVE_ADDRESSES]: getDefaultTimeRangeValue(90),
+  [PRICE_ABSOLUTE_CHANGE]: getDefaultTimeRangeValue(90),
+  [PRICE_PERCENT_CHANGE]: getDefaultTimeRangeValue(90),
+  [PRICE_VOLUME_DIFFERENCE]: getDefaultTimeRangeValue(180)
 }
 
 export const TIME_WINDOW_UNITS = [

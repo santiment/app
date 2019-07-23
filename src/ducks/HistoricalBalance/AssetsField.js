@@ -14,7 +14,6 @@ import {
 const MAX_ASSETS_COUNT = 5
 
 const AssetsField = ({
-  byAddress,
   defaultSelected = [],
   isLoading,
   assets = [],
@@ -36,7 +35,8 @@ const AssetsField = ({
       placeholder='For example, Ethereum...'
       options={assets}
       isLoading={isLoading}
-      valueKey='value'
+      valueKey='slug'
+      labelKey='slug'
       onChange={handleOnChange}
       value={showingAssets}
       className={className}
