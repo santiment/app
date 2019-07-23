@@ -64,7 +64,7 @@ const TriggerFormHistoricalBalance = ({
 }) => {
   const { target, ethAddress } = values
 
-  const isMulti = target && !ethAddress
+  const isMulti = target && Array.isArray(target)
 
   const [erc20List, setErc20] = useState(allErc20Projects)
   const [allList, setAll] = useState(allProjects)
@@ -77,6 +77,15 @@ const TriggerFormHistoricalBalance = ({
       assets && assets.length && setHeldAssets(assets)
     },
     [allErc20Projects, allProjects, assets]
+  )
+
+  useEffect(
+    () => {
+      if (!isMulti && target.length === 1) {
+        setFieldValue('target', target[0])
+      }
+    },
+    [target]
   )
 
   useEffect(
@@ -109,17 +118,18 @@ const TriggerFormHistoricalBalance = ({
   const setAddress = address => setFieldValue('ethAddress', address)
 
   const validateAddressField = assets => {
-    if (disabledWalletField) {
-      setAddress('')
-    } else if (ethAddress && metaEthAddress) {
+    if (metaEthAddress) {
       if (
-        isDefaultAssets(metaTarget, assets) ||
-        isInHeldAssets(heldAssets, assets)
+        assets.length === 1 &&
+        (isDefaultAssets(metaTarget, assets) ||
+          isInHeldAssets(heldAssets, assets))
       ) {
         setAddress(metaEthAddress)
       } else {
         setAddress('')
       }
+    } else if (disabledWalletField) {
+      setAddress('')
     }
   }
 
