@@ -23,7 +23,7 @@ const WATCHLIST_SETTINGS_MUTATION = gql`
 
 export const changeColumnsSettingsEpic = (action$, store, { client }) =>
   action$
-    .ofType(actions.ASSETS_TOGGLE_COLUMNS)
+    .ofType(actions.WATCHLIST_TOGGLE_COLUMNS)
     .switchMap(({ payload: { hiddenColumns, listId, listName } }) => {
       const key = listId || listName
       const allSettings = store.getState().watchlistUi.watchlistsSettings || {}
@@ -52,19 +52,17 @@ export const changeColumnsSettingsEpic = (action$, store, { client }) =>
               }
             }) => {
               return Observable.of({
-                type: actions.ASSETS_TOGGLE_COLUMNS_SAVE,
+                type: actions.WATCHLIST_SETTINGS_SAVE_SUCCESS,
                 payload: { hiddenColumns, sorting, pageSize, key }
               })
             }
           )
           .catch(
-            handleErrorAndTriggerAction(
-              actions.ASSETS_TOGGLE_COLUMNS_SAVE_FAILED
-            )
+            handleErrorAndTriggerAction(actions.WATCHLIST_SETTINGS_SAVE_FAILED)
           )
       }
       return Observable.of({
-        type: actions.ASSETS_TOGGLE_COLUMNS_SAVE,
+        type: actions.WATCHLIST_SETTINGS_SAVE_SUCCESS,
         payload: { hiddenColumns, key }
       })
     })
@@ -75,12 +73,24 @@ export const saveWatchlistsSettingsAfterLaunch = (action$, store, { client }) =>
       client.watchQuery({ query: WATCHLISTS_SETTINGS_QUERY })
     )
       .concatMap(({ data: { fetchUserLists } }) => {
+        const normalizedSettings = {}
+        fetchUserLists.forEach(
+          ({
+            id,
+            settings: {
+              tableColumns: { hiddenColumns, sorting },
+              pageSize
+            }
+          }) => {
+            normalizedSettings[id] = { pageSize, hiddenColumns, sorting }
+          }
+        )
         return Observable.of({
-          type: actions.ASSETS_SETTINGS_INITIALIZED_SUCCESS,
-          payload: fetchUserLists
+          type: actions.WATCHLISTS_SETTINGS_FETCH_SUCCESS,
+          payload: normalizedSettings
         })
       })
       .catch(
-        handleErrorAndTriggerAction(actions.ASSETS_SETTINGS_INITIALIZED_FAILED)
+        handleErrorAndTriggerAction(actions.WATCHLISTS_SETTINGS_FETCH_SUCCESS)
       )
   })

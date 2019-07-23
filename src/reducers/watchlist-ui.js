@@ -112,11 +112,19 @@ export default (state = initialState, action) => {
           id => id !== action.payload.assetsListId
         )
       }
-    case actions.ASSETS_TOGGLE_COLUMNS_SAVE:
-      const { key, hiddenColumns } = action.payload
+    case actions.WATCHLISTS_SETTINGS_FETCH_SUCCESS:
+      return {
+        ...state,
+        watchlistsSettings: {
+          ...state.watchlistsSettings,
+          ...action.payload
+        }
+      }
+    case actions.WATCHLIST_SETTINGS_SAVE_SUCCESS:
+      const { key, ...rest } = action.payload
       const list = state.watchlistsSettings[key]
-        ? { ...state.watchlistsSettings[key], hiddenColumns }
-        : { hiddenColumns }
+        ? { ...state.watchlistsSettings[key], ...rest }
+        : { ...rest }
       return {
         ...state,
         watchlistsSettings: {
@@ -124,8 +132,6 @@ export default (state = initialState, action) => {
           [key]: list
         }
       }
-    case actions.ASSETS_SETTINGS_INITIALIZED_SUCCESS:
-      return { ...state }
     default:
       return state
   }

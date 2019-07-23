@@ -129,3 +129,30 @@ export const WATCHLISTS_SETTINGS_QUERY = gql`
     }
   }
 `
+
+export const WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY = gql`
+  query watchlist($id: Int!) {
+    watchlist(id: $id) {
+      ...generalListData
+      stats {
+        trendingProjects {
+          ...generalData
+          ...project
+        }
+      }
+      settings {
+        pageSize
+        tableColumns
+      }
+      listItems {
+        project {
+          ...generalData
+          ...project
+        }
+      }
+    }
+  }
+  ${generalListData}
+  ${generalData}
+  ${project}
+`

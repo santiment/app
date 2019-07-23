@@ -7,7 +7,7 @@ import 'react-table/react-table.css'
 import {
   ASSETS_FETCH,
   ASSETS_SET_MIN_VOLUME_FILTER,
-  ASSETS_TOGGLE_COLUMNS
+  WATCHLIST_TOGGLE_COLUMNS
 } from '../../actions/types'
 import Refresh from '../../components/Refresh/Refresh'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
@@ -164,7 +164,7 @@ const mapDispatchToProps = dispatch => ({
     }),
   setMinVolumeFilter: () => dispatch({ type: ASSETS_SET_MIN_VOLUME_FILTER }),
   setHiddenColumns: payload =>
-    dispatch({ type: ASSETS_TOGGLE_COLUMNS, payload })
+    dispatch({ type: WATCHLIST_TOGGLE_COLUMNS, payload })
 })
 export default connect(
   mapStateToProps,
