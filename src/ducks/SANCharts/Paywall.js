@@ -79,10 +79,10 @@ const displayPaywall = ({ data }) => {
 
   const hasLeftPaywall =
     isInsideLeftPaywall ||
-    (!isInsideRightPaywall && leftHistoricalDate - firstItemDate >= 0)
+    (!isInsideRightPaywall && leftHistoricalDate >= firstItemDate)
   const hasRightPaywall =
     isInsideRightPaywall ||
-    (!isInsideLeftPaywall && lastItemDate - rightHistoricalDate >= 0)
+    (!isInsideLeftPaywall && rightHistoricalDate <= lastItemDate)
 
   return [
     hasLeftPaywall && (
