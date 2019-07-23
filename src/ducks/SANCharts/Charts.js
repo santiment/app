@@ -145,7 +145,12 @@ class Charts extends React.Component {
     const { activeTooltipIndex, activeLabel, activePayload } = event
 
     const { tooltipMetric = 'historyPrice' } = this.state
-    const [x, y] = this.xToYCoordinates[activeTooltipIndex]
+    const coordinates = this.xToYCoordinates[activeTooltipIndex]
+
+    if (!coordinates) {
+      return
+    }
+    const [x, y] = coordinates
 
     this.setState({
       activePayload,

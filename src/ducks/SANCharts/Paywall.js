@@ -11,22 +11,38 @@ import {
 const MOVE_CLB = (target, { datetime }) => {
   const value = new Date(datetime)
 
+  const targetFullYear = target.getFullYear()
+  const valueFullYear = value.getFullYear()
+
+  if (targetFullYear !== valueFullYear) {
+    return targetFullYear < valueFullYear
+  }
+
   const targetMonth = target.getMonth()
   const valueMonth = value.getMonth()
 
-  if (targetMonth === valueMonth) {
-    return target.getDate() < value.getDate()
+  if (targetMonth !== valueMonth) {
+    return targetMonth < valueMonth
   }
 
-  return targetMonth < valueMonth
+  const targetDate = target.getDate()
+  const valueDate = value.getDate()
+
+  if (targetDate !== valueDate) {
+    return targetDate < valueDate
+  }
+
+  return target.getHours() < value.getHours()
 }
 
 const CHECK_CLB = (target, { datetime }) => {
   const value = new Date(datetime)
 
   return (
+    target.getFullYear() === value.getFullYear() &&
     target.getDate() === value.getDate() &&
-    target.getMonth() === value.getMonth()
+    target.getMonth() === value.getMonth() &&
+    target.getHours() === value.getHours()
   )
 }
 
@@ -37,15 +53,16 @@ const AREA_STYLES = {
   strokeDasharray: '7'
 }
 
-const getPaywallX = (array, { from: target }) => {
-  const { value } = binarySearch({
+const getPaywallX = (array, target, rawEstimate) => {
+  const { index } = binarySearch({
     moveClb: MOVE_CLB,
     checkClb: CHECK_CLB,
     target,
     array
   })
 
-  return value && +new Date(value.datetime)
+  const res = array[index]
+  return res && +new Date(res.datetime)
 }
 
 const displayPaywall = ({ data }) => {
@@ -55,19 +72,31 @@ const displayPaywall = ({ data }) => {
   const lastItemDate = new Date(data[data.length - 1].datetime)
   const firstItemDate = new Date(data[0].datetime)
 
-  const leftDiff = calculateUnitByFormat(currentDate - firstItemDate, DAY)
-  const rightDiff = calculateUnitByFormat(currentDate - lastItemDate, DAY)
+  const { from: leftHistoricalDate } = getTimeIntervalFromToday(-3, MONTH)
+  const { from: rightHistoricalDate } = getTimeIntervalFromToday(-1, DAY)
 
-  const hasLeftPaywall = leftDiff > 90
-  const hasRightPaywall = rightDiff < 2
+  const isInsideLeftPaywall = lastItemDate <= leftHistoricalDate
+  const isInsideRightPaywall = firstItemDate >= rightHistoricalDate
+
+  let hasLeftPaywall = isInsideLeftPaywall
+  let hasRightPaywall = isInsideRightPaywall
+
+  if (!isInsideLeftPaywall && !isInsideRightPaywall) {
+    const leftDiff = calculateUnitByFormat(currentDate - firstItemDate, DAY)
+    const rightDiff = calculateUnitByFormat(currentDate - lastItemDate, DAY)
+
+    hasLeftPaywall = leftDiff > 90
+    hasRightPaywall = rightDiff < 2
+  }
 
   return [
     hasLeftPaywall && (
       <ReferenceArea
         key='leftPaywall'
         x2={
-          getPaywallX(data, getTimeIntervalFromToday(-3, MONTH)) ||
-          +lastItemDate
+          isInsideLeftPaywall
+            ? +lastItemDate
+            : getPaywallX(data, leftHistoricalDate)
         }
         {...AREA_STYLES}
       />
@@ -76,7 +105,9 @@ const displayPaywall = ({ data }) => {
       <ReferenceArea
         key='rightPaywall'
         x1={
-          getPaywallX(data, getTimeIntervalFromToday(-1, DAY)) || +firstItemDate
+          isInsideRightPaywall
+            ? +firstItemDate
+            : getPaywallX(data, rightHistoricalDate)
         }
         {...AREA_STYLES}
       />
