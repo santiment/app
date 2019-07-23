@@ -532,7 +532,6 @@ export const mapFormToDAATriggerSettings = formProps => {
   const { target, signalType, type } = formProps
   const newTarget = mapTriggerTarget(target, signalType)
 
-  debugger
   if (type.metric === PRICE_ABSOLUTE_CHANGE) {
     return {
       type: DAILY_ACTIVE_ADDRESSES,

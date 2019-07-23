@@ -142,8 +142,8 @@ export const TriggerForm = ({
                   const defaultValues = METRIC_DEFAULT_VALUES[metricValue] || {}
 
                   newValues = {
-                    ...newValues,
-                    ...defaultValues
+                    ...defaultValues,
+                    ...newValues
                   }
 
                   setInitialValues(newValues)
