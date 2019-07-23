@@ -19,8 +19,8 @@ import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSe
 import styles from '../signal/TriggerForm.module.scss'
 
 const isInHeldAssets = (heldAssets, checking) =>
-  checking.every(
-    checkingAsset => !heldAssets.some(({ slug }) => slug === checkingAsset.slug)
+  checking.every(checkingAsset =>
+    heldAssets.some(({ slug }) => slug === checkingAsset.slug)
   )
 
 const isNotErc20Assets = (target, allErc20Projects) => {
