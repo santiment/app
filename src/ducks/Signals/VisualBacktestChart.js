@@ -18,15 +18,19 @@ import styles from './chart/SignalPreview.module.scss'
 const mapWithTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
-const VisualBacktestChart = ({ triggeredSignals, price = [], metrics }) => {
-  const formattedPrice = mapWithTimeseries(price)
-
+const VisualBacktestChart = ({
+  triggeredSignals,
+  timeseries = [],
+  anotherPoints = [],
+  metrics
+}) => {
+  const data = mapWithTimeseries(timeseries)
   const markup = generateMetricsMarkup(metrics)
 
   const renderChart = () => {
     return (
       <ComposedChart
-        data={formattedPrice}
+        data={data}
         margin={{
           left: -20,
           bottom: 0

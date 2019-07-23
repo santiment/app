@@ -70,7 +70,10 @@ const TriggerFormHistoricalBalance = ({
   const [allList, setAll] = useState(allProjects)
   const [heldAssets, setHeldAssets] = useState(assets)
 
-  const metaMappedToAll = mapAssetsToAllProjects(allList, metaTarget.value)
+  const metaMappedToAll = mapAssetsToAllProjects(
+    allList,
+    Array.isArray(metaTarget.value) ? metaTarget.value : [metaTarget.value]
+  )
 
   const validateTarget = () => {
     let asset

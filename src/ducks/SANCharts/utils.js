@@ -45,7 +45,8 @@ export const Metrics = {
     label: 'Daily Active Addresses',
     category: 'On-chain',
     description:
-      'The number of unique addresses that participated in transactions for a given day.'
+      'The number of unique addresses that participated in transactions for a given day.',
+    color: 'texas-rose'
   },
   percentOfTokenSupplyOnExchanges: {
     node: Line,
