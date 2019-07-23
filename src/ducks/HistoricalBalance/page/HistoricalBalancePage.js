@@ -53,7 +53,7 @@ export default class HistoricalBalancePage extends Component {
 
   mapStateToUrlQuery = ({ address, assets: assetsSlugs }) => {
     const assets = mapAssetsToFlatArray(assetsSlugs)
-    return '?' + mapStateToQS({ address, assets })
+    return mapStateToQS({ address, assets })
   }
 
   updateSearchQuery = newState => {
