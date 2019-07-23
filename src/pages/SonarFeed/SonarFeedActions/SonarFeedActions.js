@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Select from '@santiment-network/ui/Search/Select/Select'
-import styles from './SonarFeedActions.module.scss'
-import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import './../../../components/formik-santiment-ui/FormikSelect.scss'
+import styles from './SonarFeedActions.module.scss'
 
 export const NEWEST_FILTER = {
   value: '0',
@@ -33,17 +32,6 @@ const SonarFeedActions = ({ onChangeFilter, className }) => {
             setFilterValue(value)
           }}
         />
-      </div>
-    </div>
-  )
-}
-
-export const SonarFeedHeader = () => {
-  return (
-    <div className={styles.header}>
-      <h1>Sonar</h1>
-      <div className={styles.explanation}>
-        <HelpPopup>Create your own signal or subscribe to existing</HelpPopup>
       </div>
     </div>
   )

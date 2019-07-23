@@ -217,25 +217,23 @@ const getOperationType = operation => {
 }
 
 const getAbsolutePriceValues = ({ settings: { operation, type } }) => {
-  const values = {}
-
   if (operation) {
     const operationType = getOperationType(operation)
 
     switch (operationType) {
       case PRICE_CHANGE_TYPES.ABOVE:
       case PRICE_CHANGE_TYPES.BELOW: {
-        values['absoluteThreshold'] = operation[operationType]
-        break
+        return {
+          absoluteThreshold: operation[operationType]
+        }
       }
       case PRICE_CHANGE_TYPES.INSIDE_CHANNEL:
       case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
         const [left, right] = operation[operationType]
-
-        values['absoluteBorderLeft'] = left
-        values['absoluteBorderRight'] = right
-
-        break
+        return {
+          absoluteBorderLeft: left,
+          absoluteBorderRight: right
+        }
       }
       default: {
         break
@@ -243,7 +241,7 @@ const getAbsolutePriceValues = ({ settings: { operation, type } }) => {
     }
   }
 
-  return values
+  return {}
 }
 
 const mapTriggerToFormThreshold = ({ threshold, operation }) => {
@@ -299,7 +297,6 @@ export const mapTriggerToFormProps = currentTrigger => {
     settings,
     settings: { type, operation, time_window, target, channel }
   } = currentTrigger
-
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
 
@@ -392,25 +389,26 @@ export const getTargetFromArray = target =>
 
 export const mapTriggerTarget = (target, signalType = {}, address) => {
   const { value } = signalType
-  let newTarget
+
   switch (value) {
     case METRIC_TARGET_WATCHLIST.value: {
-      newTarget = {
-        watchlist_id: +target
+      return {
+        target: {
+          watchlist_id: +target
+        }
       }
-      break
     }
     default: {
       if (address) {
-        newTarget = { eth_address: address }
+        return {
+          target: { eth_address: address }
+        }
       } else {
-        newTarget = { slug: mapTargetObject(target) }
+        return {
+          target: { slug: mapTargetObject(target) }
+        }
       }
     }
-  }
-
-  return {
-    target: newTarget
   }
 }
 

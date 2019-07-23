@@ -22,8 +22,8 @@ const DEFAULT_TIME_RANGE = '6m'
 
 const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
   const [walletAndAssets, setWalletAndAssets] = useState({
-    address: address,
-    assets: assets
+    address,
+    assets
   })
 
   const [chartSettings, setChartSettings] = useState({
@@ -32,7 +32,7 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
   })
 
   if (!isEqual(walletAndAssets.assets, assets)) {
-    setWalletAndAssets({ ...walletAndAssets, assets: assets })
+    setWalletAndAssets({ ...walletAndAssets, assets })
   }
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
   const handleAssetsChange = assets => {
     const newState = {
       ...walletAndAssets,
-      assets: assets
+      assets
     }
     setWalletAndAssets(newState)
     onChangeQuery(newState)

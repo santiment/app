@@ -1,0 +1,11 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.explanation {
+  margin-left: 12px;
+  display: flex;
+}

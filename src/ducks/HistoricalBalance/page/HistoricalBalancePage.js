@@ -3,6 +3,7 @@ import * as qs from 'query-string'
 import BalanceView from '../balanceView/BalanceView'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
+import { mapStateToQS } from '../../../utils/utils'
 import styles from './HistoricalBalancePage.module.scss'
 
 export const mapQSToState = ({ location }) => {
@@ -52,7 +53,7 @@ export default class HistoricalBalancePage extends Component {
 
   mapStateToUrlQuery = ({ address, assets: assetsSlugs }) => {
     const assets = mapAssetsToFlatArray(assetsSlugs)
-    return '?' + qs.stringify({ address, assets }, { arrayFormat: 'bracket' })
+    return '?' + mapStateToQS({ address, assets })
   }
 
   updateSearchQuery = newState => {
@@ -67,9 +68,7 @@ export default class HistoricalBalancePage extends Component {
 }
 
 export const mapAssetsToFlatArray = assetsSlugs =>
-  assetsSlugs.map(a => {
-    return a.slug ? a.slug : a
-  })
+  assetsSlugs.map(a => (a.slug ? a.slug : a))
 
 const BalancePageExplanation = () => (
   <div>

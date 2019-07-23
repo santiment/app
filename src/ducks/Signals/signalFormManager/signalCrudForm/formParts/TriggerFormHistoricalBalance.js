@@ -18,16 +18,10 @@ import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelec
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import styles from '../signal/TriggerForm.module.scss'
 
-const isInHeldAssets = (heldAssets, checking) => {
-  for (let i = 0; i < checking.length; i++) {
-    const checkingAsset = checking[i]
-
-    if (!heldAssets.some(({ slug }) => slug === checkingAsset.slug)) {
-      return false
-    }
-  }
-  return true
-}
+const isInHeldAssets = (heldAssets, checking) =>
+  checking.every(
+    checkingAsset => !heldAssets.some(({ slug }) => slug === checkingAsset.slug)
+  )
 
 const isNotErc20Assets = (target, allErc20Projects) => {
   const isEthOrErc20 =
@@ -38,18 +32,14 @@ const isNotErc20Assets = (target, allErc20Projects) => {
   return !isEthOrErc20
 }
 
-const mapAssetsToAllProjects = (all, heldAssets) => {
-  let items = []
-  for (let i = 0; i < heldAssets.length; i++) {
-    const item = heldAssets[i]
+const mapAssetsToAllProjects = (all, heldAssets) =>
+  heldAssets.reduce((acc, item) => {
     const foundInAll = all.find(({ slug }) => slug === item.slug)
     if (foundInAll) {
-      items.push(foundInAll)
+      acc.push(foundInAll)
     }
-  }
-
-  return items
-}
+    return acc
+  }, [])
 
 const isDefaultAssets = (metaTarget, assets) =>
   assets && assets.some(({ slug }) => metaTarget.value.value === slug)
