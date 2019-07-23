@@ -1,16 +1,22 @@
+$select-line-height: 30px;
+
 .select__container-single {
   display: flex;
   flex-direction: column;
   width: 100%;
 
   .Select-control {
-    height: 32px;
-    line-height: 32px;
+    height: 30px;
+    line-height: $select-line-height;
   }
 
   .Select-multi-value-wrapper {
-    height: 32px;
-    line-height: 32px;
+    height: 30px;
+    line-height: $select-line-height;
+  }
+
+  .Select-value {
+    line-height: $select-line-height !important;
   }
 }
 

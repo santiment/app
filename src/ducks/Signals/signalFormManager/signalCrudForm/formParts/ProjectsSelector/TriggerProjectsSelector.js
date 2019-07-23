@@ -33,6 +33,10 @@ export const TriggerProjectsSelector = ({
           setSelectedAssets(preSelected)
         }
       }
+
+      if (target && target.length === 0 && listItems.length > 0) {
+        setSelectedAssets([])
+      }
     },
     [target]
   )
