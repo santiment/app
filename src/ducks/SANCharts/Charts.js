@@ -210,13 +210,20 @@ class Charts extends React.Component {
                 <div className={styles.details__title}>
                   {tooltipLabelFormatter(xValue)}
                 </div>
-                {activePayload.map(({ name, value, color }) => {
-                  return (
-                    <div key={name} style={{ color }}>
-                      {name}: {valueFormatter(value, name)}
-                    </div>
-                  )
-                })}
+                <div className={styles.details__content}>
+                  {activePayload.map(({ name, value, color }) => {
+                    return (
+                      <div
+                        key={name}
+                        style={{ '--color': color }}
+                        className={styles.details__metric}
+                      >
+                        {valueFormatter(value, name)}
+                        <span className={styles.details__name}>{name}</span>
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
               <div
                 className={cx(styles.line, !y && styles.line_noY)}
