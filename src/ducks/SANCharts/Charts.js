@@ -282,19 +282,11 @@ class Charts extends React.Component {
                 strokeOpacity={0.3}
               />
             )}
-            {false &&
-              !hasPremium &&
+            {!hasPremium &&
               metrics.includes('historyPrice') &&
-              mixWithPaywallArea({
-                dataKey: 'priceUsd',
-                data: chartData,
-                yAxisId: 'axis-priceUsd'
+              displayPaywall({
+                data: chartData
               })}
-            {displayPaywall({
-              x1: new Date('2019-01-22T12:00:00Z'),
-              x2: new Date('2019-05-03T00:00:00Z'),
-              data: chartData
-            })}
             {chartData.length > 0 && (
               <Brush
                 x={BRUSH_SIDE_MARGIN_IN_PX}

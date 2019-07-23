@@ -11,9 +11,14 @@ import {
 const MOVE_CLB = (target, { datetime }) => {
   const value = new Date(datetime)
 
-  return (
-    target.getDate() < value.getDate() && target.getMonth() <= value.getMonth()
-  )
+  const targetMonth = target.getMonth()
+  const valueMonth = value.getMonth()
+
+  if (targetMonth === valueMonth) {
+    return target.getDate() < value.getDate()
+  }
+
+  return targetMonth < valueMonth
 }
 
 const CHECK_CLB = (target, { datetime }) => {
@@ -25,6 +30,13 @@ const CHECK_CLB = (target, { datetime }) => {
   )
 }
 
+const AREA_STYLES = {
+  fill: 'none',
+  stroke: '#FFAD4D',
+  strokeOpacity: '0.5',
+  strokeDasharray: '7'
+}
+
 const getPaywallX = (array, { from: target }) => {
   const { value } = binarySearch({
     moveClb: MOVE_CLB,
@@ -33,25 +45,14 @@ const getPaywallX = (array, { from: target }) => {
     array
   })
 
-  if (value) {
-    return +new Date(value.datetime)
-  }
-}
-
-const AREA_STYLES = {
-  fill: 'none',
-  stroke: '#FFAD4D',
-  strokeOpacity: '0.5',
-  strokeDasharray: '7'
+  return value && +new Date(value.datetime)
 }
 
 const displayPaywall = ({ data }) => {
   if (!data || !data.length) return
 
   const currentDate = new Date()
-  const { length } = data
-
-  const lastItemDate = new Date(data[length - 1].datetime)
+  const lastItemDate = new Date(data[data.length - 1].datetime)
   const firstItemDate = new Date(data[0].datetime)
 
   const leftDiff = calculateUnitByFormat(currentDate - firstItemDate, DAY)
