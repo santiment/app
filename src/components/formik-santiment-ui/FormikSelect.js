@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import Select from '@santiment-network/ui/Search/Select/Select'
 import { Field } from 'formik'
 import './FormikSelect.scss'

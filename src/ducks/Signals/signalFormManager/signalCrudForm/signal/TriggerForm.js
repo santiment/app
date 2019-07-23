@@ -21,7 +21,8 @@ import {
   PRICE_PERCENT_CHANGE,
   METRIC_DEFAULT_VALUES,
   DEFAULT_FORM_META_SETTINGS,
-  METRIC_TO_TYPES
+  METRIC_TO_TYPES,
+  DAILY_ACTIVE_ADDRESSES
 } from '../../../utils/constants'
 import {
   couldShowChart,
@@ -134,9 +135,11 @@ export const TriggerForm = ({
                   newValues.metric.value !== prev.values.metric.value ||
                   newValues.type.value !== prev.values.type.value
                 ) {
-                  const defaultValues =
-                    METRIC_DEFAULT_VALUES[newValues.type.metric] || {}
-
+                  const metricValue =
+                    newValues.type.metric === DAILY_ACTIVE_ADDRESSES
+                      ? newValues.type.metric
+                      : newValues.metric.value
+                  const defaultValues = METRIC_DEFAULT_VALUES[metricValue] || {}
                   newValues = {
                     ...defaultValues,
                     ...newValues

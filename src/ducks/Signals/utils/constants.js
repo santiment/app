@@ -306,7 +306,7 @@ export const METRIC_DEFAULT_VALUES = {
     isRepeating: true,
     channels: ['Telegram'],
     absoluteThreshold: 25,
-    target: DEFAULT_TARGET
+    target: []
   },
   price_volume_difference: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },

@@ -19,7 +19,7 @@ const TriggerFormAssetWallet = ({
   setFieldValue,
   values
 }) => {
-  const { signalType } = values
+  const { signalType, target } = values
   const isAssets = isAsset(signalType)
 
   return (
