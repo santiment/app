@@ -1,48 +1,51 @@
 import gql from 'graphql-tag'
 import { generalData, project } from '../pages/Projects/allProjectsGQL'
 
-export const ALL_WATCHLISTS_QUERY = gql`
-  query fetchWatchlists {
-    fetchUserLists {
+export const generalListData = gql`
+  fragment generalListData on UserList {
+    id
+    color
+    isPublic
+    name
+    insertedAt
+    updatedAt
+    user {
       id
-      color
-      isPublic
-      name
-      listItems {
-        project {
-          id
-          slug
-        }
-      }
-      insertedAt
-      updatedAt
-      user {
+    }
+  }
+`
+
+export const listShortItems = gql`
+  fragment listShortItems on UserList {
+    listItems {
+      project {
         id
+        slug
       }
     }
   }
 `
 
+export const ALL_WATCHLISTS_QUERY = gql`
+  query fetchWatchlists {
+    fetchUserLists {
+      ...generalListData
+      ...listShortItems
+    }
+  }
+  ${generalListData}
+  ${listShortItems}
+`
+
 export const PUBLIC_WATCHLIST_QUERY = gql`
   query fetchAllWatchlists {
     fetchAllPublicUserLists {
-      id
-      color
-      isPublic
-      name
-      listItems {
-        project {
-          id
-          slug
-        }
-      }
-      insertedAt
-      updatedAt
-      user {
-        id
-      }
+      ...generalListData
+      ...listShortItems
     }
   }
+  ${generalListData}
+  ${listShortItems}
 `
 
 export const PROJECTS_BY_FUNCTION_SHORT_QUERY = gql`
@@ -67,31 +70,18 @@ export const PROJECTS_BY_FUNCTION_BIG_QUERY = gql`
 export const FEATURED_WATCHLIST_QUERY = gql`
   query featuredWatchlists {
     featuredWatchlists {
-      id
-      color
-      isPublic
-      name
-      listItems {
-        project {
-          id
-          slug
-        }
-      }
-      insertedAt
-      updatedAt
+      ...generalListData
+      ...listShortItems
     }
   }
+  ${generalListData}
+  ${listShortItems}
 `
 
 export const WATCHLIST_QUERY = gql`
   query watchlist($id: Int!) {
     watchlist(id: $id) {
-      id
-      name
-      user {
-        id
-      }
-      isPublic
+      ...generalListData
       listItems {
         project {
           ...generalData
@@ -100,6 +90,7 @@ export const WATCHLIST_QUERY = gql`
       }
     }
   }
+  ${generalListData}
   ${generalData}
   ${project}
 `
@@ -107,12 +98,7 @@ export const WATCHLIST_QUERY = gql`
 export const WATCHLIST_WITH_TRENDING_ASSETS_QUERY = gql`
   query watchlist($id: Int!) {
     watchlist(id: $id) {
-      id
-      name
-      user {
-        id
-      }
-      isPublic
+      ...generalListData
       stats {
         trendingProjects {
           ...generalData
@@ -127,6 +113,7 @@ export const WATCHLIST_WITH_TRENDING_ASSETS_QUERY = gql`
       }
     }
   }
+  ${generalListData}
   ${generalData}
   ${project}
 `
