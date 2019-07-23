@@ -78,7 +78,6 @@ const displayPaywall = ({ data }) => {
         x1={
           getPaywallX(data, getTimeIntervalFromToday(-1, DAY)) || +firstItemDate
         }
-        x2={+lastItemDate}
         {...AREA_STYLES}
       />
     )

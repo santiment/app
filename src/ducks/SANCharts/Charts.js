@@ -14,7 +14,6 @@ import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
 import { formatNumber, millify } from './../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
-import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
 import { Metrics, generateMetricsMarkup } from './utils'
 import { checkHasPremium } from '../../pages/UserSelectors'
 import displayPaywall from './Paywall'
@@ -259,10 +258,7 @@ class Charts extends React.Component {
             }}
             onMouseMove={this.onMouseMove}
             onMouseUp={refAreaLeft && refAreaRight && this.onZoom}
-            data={chartData.map(({ datetime, ...rest }) => ({
-              ...rest,
-              datetime: +new Date(datetime)
-            }))}
+            data={chartData}
           >
             <XAxis
               dataKey='datetime'
