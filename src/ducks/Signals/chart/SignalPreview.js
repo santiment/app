@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Bar, ReferenceLine } from 'recharts'
+import { ReferenceLine } from 'recharts'
 import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
 import { Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
@@ -11,10 +11,9 @@ import { ChartExpandView } from './ChartExpandView'
 import styles from './SignalPreview.module.scss'
 
 const CUSTOM_METRICS = {
-  triggerDailyActiveAdresses: {
-    node: Bar,
+  dailyActiveAddresses: {
+    ...Metrics.dailyActiveAddresses,
     color: 'malibu',
-    label: 'Daily Active Addresses',
     dataKey: 'active_addresses',
     orientation: 'right',
     yAxisVisible: true
@@ -24,6 +23,7 @@ const CUSTOM_METRICS = {
     color: 'casper'
   }
 }
+
 const SignalPreviewChart = ({
   type,
   slug,

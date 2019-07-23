@@ -1,9 +1,8 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect } from 'react'
 import { compose } from 'redux'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import isEqual from 'lodash.isequal'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import {

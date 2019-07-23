@@ -18,13 +18,10 @@ import styles from './chart/SignalPreview.module.scss'
 const mapWithTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
-const VisualBacktestChart = ({
-  triggeredSignals,
-  price = [],
-  metrics,
-  showAxes = false
-}) => {
+const VisualBacktestChart = ({ triggeredSignals, price = [], metrics }) => {
   const formattedPrice = mapWithTimeseries(price)
+
+  const markup = generateMetricsMarkup(metrics)
 
   const renderChart = () => {
     return (
@@ -50,11 +47,7 @@ const VisualBacktestChart = ({
 
         <YAxis hide />
 
-        {generateMetricsMarkup(metrics, {
-          data: {
-            active_addresses: triggeredSignals
-          }
-        })}
+        {markup}
 
         {triggeredSignals.map(point => (
           <ReferenceLine
