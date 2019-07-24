@@ -552,13 +552,13 @@ export const mapFormToDAATriggerSettings = formProps => {
 }
 
 export const mapFormToPVDTriggerSettings = formProps => {
-  const { target, threshold, signalType } = formProps
+  const { target, signalType } = formProps
   const newTarget = mapTriggerTarget(target, signalType)
   return {
     type: PRICE_VOLUME_DIFFERENCE,
     ...newTarget,
     channel: getChannels(formProps),
-    threshold: threshold
+    threshold: BASE_THRESHOLD
   }
 }
 

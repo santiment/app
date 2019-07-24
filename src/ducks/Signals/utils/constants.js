@@ -169,7 +169,7 @@ export const METRIC_TO_TYPES = {
 }
 
 export const METRIC_TYPES_DEPENDENCIES = {
-  [PRICE_VOLUME_DIFFERENCE]: ['threshold'],
+  [PRICE_VOLUME_DIFFERENCE]: [],
   [DAILY_ACTIVE_ADDRESSES]: ['percentThreshold', 'timeWindow'],
   [PRICE_PERCENT_CHANGE]: ['percentThreshold', 'timeWindow'],
   [PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER]: ['absoluteThreshold'],
@@ -258,7 +258,7 @@ export const METRIC_TARGET_OPTIONS = [
   METRIC_TARGET_WATCHLIST
 ]
 
-export const BASE_THRESHOLD = 0.002
+export const BASE_THRESHOLD = 0.002 // # DEFAULT FOR PV-signals. Do't change!
 export const BASE_PERCENT_THRESHOLD = 5
 
 const DEFAULT_TARGET = {
