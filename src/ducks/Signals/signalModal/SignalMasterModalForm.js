@@ -5,6 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dialog from '@santiment-network/ui/Dialog'
 import SignalMaster from '../signalFormManager/signalMaster/SignalMaster'
+import SignalAnon from './SignalAnon'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import { push } from 'react-router-redux'
 import { SIGNAL_ROUTES } from '../common/constants'
@@ -66,14 +67,18 @@ const SignalMasterModalForm = ({
       {...dialogProps}
     >
       <Dialog.ScrollContent className={styles.TriggerPanel}>
-        <SignalMaster
-          step={step}
-          triggerId={triggerId}
-          setTitle={onSetDialogTitle}
-          onClose={() => setDialogOpenState(false)}
-          canRedirect={canRedirect}
-          metaFormSettings={metaFormSettings}
-        />
+        {isLoggedIn ? (
+          <SignalMaster
+            step={step}
+            triggerId={triggerId}
+            setTitle={onSetDialogTitle}
+            onClose={() => setDialogOpenState(false)}
+            canRedirect={canRedirect}
+            metaFormSettings={metaFormSettings}
+          />
+        ) : (
+          <SignalAnon />
+        )}
       </Dialog.ScrollContent>
     </Dialog>
   )

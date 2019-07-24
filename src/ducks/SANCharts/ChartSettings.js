@@ -40,7 +40,7 @@ const ChartSettings = ({
             iconPosition='left'
           />
         )}
-        <ChartSignalCreationDialog slug={slug} />
+        {hideSettings.signals || <ChartSignalCreationDialog slug={slug} />}
       </div>
       <div className={styles.settings__group}>
         <Selector
