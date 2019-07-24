@@ -900,14 +900,15 @@ export const isPossibleEthAddress = function (address) {
   return !address || isEthStrictAddress(address)
 }
 
-export const getDefaultFormValues = newValues => {
-  const isDAA = newValues.metric.value === DAILY_ACTIVE_ADDRESSES
+export const getDefaultFormValues = (newValues, { value: oldMetric }) => {
+  const { metric, type } = newValues
 
-  if (isDAA) {
+  const isDAA = metric.value === DAILY_ACTIVE_ADDRESSES
+  if (isDAA && oldMetric !== metric.value) {
     newValues.type = PRICE_ABS_CHANGE_ABOVE
   }
 
-  const metricValue = isDAA ? newValues.metric.value : newValues.type.metric
+  const metricValue = isDAA ? metric.value : type.metric
   const defaultValues = METRIC_DEFAULT_VALUES[metricValue] || {}
 
   return {
