@@ -29,13 +29,17 @@ export const TriggerFormMetricValues = ({
     absoluteBorderLeft = 0,
     percentThreshold,
     timeWindowUnit,
-    timeWindow
+    timeWindow,
+    target
   },
   lastPrice
 }) => {
   const metricValue = getFormMetricValue(type)
 
   const isPriceMetric = metric.value === PRICE
+
+  const isSingleTarget =
+    target && ((Array.isArray(target) && target.length === 1) || !!target.value)
 
   const isTimeWindow = METRIC_TYPES_DEPENDENCIES[metricValue].includes(
     'timeWindow'
@@ -56,7 +60,9 @@ export const TriggerFormMetricValues = ({
             step='any'
             placeholder='Upper border'
           />
-          {isPriceMetric && <LastPriceComponent lastPrice={lastPrice} />}
+          {isPriceMetric && isSingleTarget && (
+            <LastPriceComponent lastPrice={lastPrice} />
+          )}
         </div>
       )}
       {type &&
@@ -86,7 +92,9 @@ export const TriggerFormMetricValues = ({
             placeholder='Absolute value'
             prefix={isPriceMetric ? '$' : ''}
           />
-          {isPriceMetric && <LastPriceComponent lastPrice={lastPrice} />}
+          {isPriceMetric && isSingleTarget && (
+            <LastPriceComponent lastPrice={lastPrice} />
+          )}
         </div>
       )}
 
@@ -100,7 +108,9 @@ export const TriggerFormMetricValues = ({
             prefix='%'
             placeholder='Percentage amount'
           />
-          {isPriceMetric && <LastPriceComponent lastPrice={lastPrice} />}
+          {isPriceMetric && isSingleTarget && (
+            <LastPriceComponent lastPrice={lastPrice} />
+          )}
         </div>
       )}
 
