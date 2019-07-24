@@ -48,6 +48,9 @@ const AREA_STYLES = {
   strokeDasharray: '7'
 }
 
+const { from: LEFT_HISTORICAL_DATE } = getTimeIntervalFromToday(-3, MONTH)
+const { from: RIGHT_HISTORICAL_DATE } = getTimeIntervalFromToday(-1, DAY)
+
 const getPaywallX = (array, target, rawEstimate) => {
   const { index } = binarySearch({
     moveClb: MOVE_CLB,
@@ -60,14 +63,15 @@ const getPaywallX = (array, target, rawEstimate) => {
   return res && +new Date(res.datetime)
 }
 
-const displayPaywall = ({ data }) => {
+const displayPaywall = ({
+  data,
+  leftHistoricalDate = LEFT_HISTORICAL_DATE,
+  rightHistoricalDate = RIGHT_HISTORICAL_DATE
+}) => {
   if (!data || !data.length) return
 
   const lastItemDate = new Date(data[data.length - 1].datetime)
   const firstItemDate = new Date(data[0].datetime)
-
-  const { from: leftHistoricalDate } = getTimeIntervalFromToday(-3, MONTH)
-  const { from: rightHistoricalDate } = getTimeIntervalFromToday(-1, DAY)
 
   const isInsideLeftPaywall = lastItemDate <= leftHistoricalDate
   const isInsideRightPaywall = firstItemDate >= rightHistoricalDate
