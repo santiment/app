@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import IntervalSelector from './IntervalSelector'
+import ChartWatchlistContextMenu from './ChartWatchlistContextMenu'
 import ChartSettingsContextMenu from './ChartSettingsContextMenu'
 import CalendarBtn from '../../components/Calendar/CalendarBtn'
 import SearchProjects from '../../components/Search/SearchProjects'
@@ -44,18 +45,19 @@ const ChartSettings = ({
           defaultSelected={defaultTimerange}
           className={styles.ranges}
         />
-        <IntervalSelector
-          from={from}
-          to={to}
-          interval={interval}
-          onIntervalChange={onIntervalChange}
-        />
         <CalendarBtn
           onChange={onCalendarChange}
           value={[new Date(from), new Date(to)]}
           className={styles.calendar}
           maxDate={MAX_DATE}
         />
+        <IntervalSelector
+          from={from}
+          to={to}
+          interval={interval}
+          onIntervalChange={onIntervalChange}
+        />
+        <ChartWatchlistContextMenu />
         <ChartSettingsContextMenu
           hasNightMode={hasNightMode}
           onNightModeSelect={onNightModeSelect}
