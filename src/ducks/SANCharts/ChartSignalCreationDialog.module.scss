@@ -1,0 +1,13 @@
+@import '~@santiment-network/ui/mixins';
+
+.btn {
+  margin-left: 20px;
+
+  @include explanation('Create a signal for an asset') {
+    width: 110px;
+  }
+}
+
+.icon {
+  margin: -2px 8px 0 0;
+}

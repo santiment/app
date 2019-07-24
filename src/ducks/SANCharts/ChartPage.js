@@ -287,6 +287,7 @@ class ChartPage extends Component {
                   to={to}
                   interval={interval}
                   hideSettings={hideSettings}
+                  slug={slug}
                 />
               )}
               <Charts
