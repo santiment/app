@@ -111,7 +111,7 @@ export const getTimeIntervalFromToday = (amount, dateFormat, defaults = {}) => {
   }
 }
 
-export const calculateUnitByFormat = (diff, format) =>
+const calculateUnitByFormat = (diff, format) =>
   parseInt(diff / FormatToTimestamp[format], 10)
 
 const getUnitFormattedString = (amount, format) => {
