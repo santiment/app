@@ -278,9 +278,6 @@ export const COMMON_SETTINGS = {
 
 export const CATEGORIES_SETTINGS = {
   'All Assets': { hiddenColumns: [COLUMNS_NAMES.eth_spent] },
-  'ERC20 Assets': {
-    hiddenColumns: [],
-    sorting: { id: COLUMNS_NAMES.eth_spent, desc: true }
-  },
+  'ERC20 Assets': { hiddenColumns: [] },
   'Top 50 ERC20': { hiddenColumns: [], pageSize: 50 }
 }
