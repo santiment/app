@@ -1,12 +1,7 @@
 import React from 'react'
 import { ReferenceArea } from 'recharts'
 import { binarySearch } from '../../pages/Trends/utils'
-import {
-  calculateUnitByFormat,
-  getTimeIntervalFromToday,
-  DAY,
-  MONTH
-} from '../../utils/dates'
+import { getTimeIntervalFromToday, DAY, MONTH } from '../../utils/dates'
 
 const MOVE_CLB = (target, { datetime }) => {
   const value = new Date(datetime)
