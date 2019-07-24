@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import IntervalSelector from './IntervalSelector'
-import ChartWatchlistContextMenu from './ChartWatchlistContextMenu'
+import ChartAssetToWatchlistDialog from './ChartAssetToWatchlistDialog'
 import ChartSettingsContextMenu from './ChartSettingsContextMenu'
 import CalendarBtn from '../../components/Calendar/CalendarBtn'
 import SearchProjects from '../../components/Search/SearchProjects'
@@ -58,7 +58,7 @@ const ChartSettings = ({
           interval={interval}
           onIntervalChange={onIntervalChange}
         />
-        <ChartWatchlistContextMenu project={project} />
+        <ChartAssetToWatchlistDialog project={project} />
         <ChartSettingsContextMenu
           hasNightMode={hasNightMode}
           onNightModeSelect={onNightModeSelect}
