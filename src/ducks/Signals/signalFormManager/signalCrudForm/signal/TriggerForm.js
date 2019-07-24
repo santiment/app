@@ -135,7 +135,9 @@ export const TriggerForm = ({
                   newValues.metric.value !== prev.values.metric.value ||
                   newValues.type.value !== prev.values.type.value
                 ) {
-                  setInitialValues(getDefaultFormValues(newValues))
+                  setInitialValues(
+                    getDefaultFormValues(newValues, prev.values.metric)
+                  )
                   validateForm()
                 }
 
