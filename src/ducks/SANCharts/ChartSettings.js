@@ -24,6 +24,7 @@ const ChartSettings = ({
   interval,
   from,
   to,
+  project,
   hideSettings = {}
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
@@ -57,7 +58,7 @@ const ChartSettings = ({
           interval={interval}
           onIntervalChange={onIntervalChange}
         />
-        <ChartWatchlistContextMenu />
+        <ChartWatchlistContextMenu project={project} />
         <ChartSettingsContextMenu
           hasNightMode={hasNightMode}
           onNightModeSelect={onNightModeSelect}

@@ -40,8 +40,6 @@ const WatchlistPopup = ({
   const [isShown, setIsShown] = useState(false)
   const [editableAssets, setEditableAssets] = useState(editableAssetsInList)
 
-  console.log(lists)
-
   const addChange = change => {
     const prevLength = changes.length
     const changesWithoutProjectAndList = changes.filter(

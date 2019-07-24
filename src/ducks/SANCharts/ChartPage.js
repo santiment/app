@@ -21,7 +21,8 @@ const DEFAULT_STATE = {
   to: TO.toISOString(),
   slug: 'santiment',
   metrics: ['historyPrice'],
-  title: 'Santiment (SAN)',
+  title: 'Santiment Network Token (SAN)',
+  projectId: '16912',
   interval: '12h'
 }
 
@@ -119,9 +120,9 @@ class ChartPage extends Component {
     )
   }
 
-  onSlugSelect = ({ slug, name, ticker }) => {
+  onSlugSelect = ({ slug, name, ticker, id: projectId }) => {
     this.setState(
-      { slug, title: `${name} (${ticker})` },
+      { projectId, slug, title: `${name} (${ticker})` },
       this.updateSearchQuery
     )
   }
@@ -212,6 +213,7 @@ class ChartPage extends Component {
   render () {
     const {
       timeRange,
+      projectId,
       slug,
       metrics,
       from,
@@ -287,6 +289,7 @@ class ChartPage extends Component {
                   to={to}
                   interval={interval}
                   hideSettings={hideSettings}
+                  project={{ projectId, slug }}
                 />
               )}
               <Charts

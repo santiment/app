@@ -3,9 +3,10 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import WatchlistsPopup from '../../components/WatchlistPopup/WatchlistsPopup'
 
-const ChartWatchlistContextMenu = () => {
+const ChartWatchlistContextMenu = ({ project }) => {
   return (
     <WatchlistsPopup
+      {...project}
       dialogProps={{
         passOpenStateAs: 'isActive'
       }}
