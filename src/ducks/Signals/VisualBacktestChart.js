@@ -21,7 +21,6 @@ const mapWithTimeseries = items =>
 const VisualBacktestChart = ({
   triggeredSignals,
   timeseries = [],
-  anotherPoints = [],
   metrics
 }) => {
   const data = mapWithTimeseries(timeseries)
@@ -82,15 +81,13 @@ const VisualBacktestChart = ({
 const formatTooltipValue = (isPrice, value) =>
   isPrice ? formatNumber(value, { currency: 'USD' }) : value.toFixed(2)
 
+const getTooltipDate = time => {
+  const { dddd, DD, MMM, YYYY } = getDateFormats(new Date(time))
+  return `${dddd}, ${MMM} ${DD} ${YYYY}`
+}
+
 const CustomTooltip = ({ active, payload }) => {
-  if (active && payload && payload[0]) {
-    const priceValue = payload[0].payload.price
-      ? formatTooltipValue(true, payload[0].payload.price)
-      : undefined
-
-    const { name, value } = payload[0]
-    const formattedValue = formatTooltipValue(name === 'Price', value)
-
+  if (active && payload) {
     return (
       <div
         className='custom-tooltip'
@@ -102,8 +99,20 @@ const CustomTooltip = ({ active, payload }) => {
           whiteSpace: 'nowrap'
         }}
       >
-        <p className='label'>{`${name} : ${formattedValue}`}</p>
-        {priceValue && <p className='price'>{`Price : ${priceValue}`}</p>}
+        {payload[0] && (
+          <p className={styles.tooltipLabel}>
+            {getTooltipDate(payload[0].payload.datetime)}
+          </p>
+        )}
+        {payload.map(({ name, value, stroke, fill }) => {
+          return (
+            <div
+              key={name}
+              className={cx('label', styles.tooltipLabel)}
+              style={{ color: stroke || fill }}
+            >{`${name} : ${formatTooltipValue(name === 'Price', value)}`}</div>
+          )
+        })}
       </div>
     )
   }
