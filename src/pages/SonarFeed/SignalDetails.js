@@ -61,7 +61,6 @@ const SignalDetails = ({
     isActive,
     isPublic,
     title,
-    description,
     settings: { type }
   } = trigger
 
@@ -69,10 +68,8 @@ const SignalDetails = ({
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <SignalCardWrapper
-          title={title}
-          description={description}
+          trigger={trigger}
           type={type}
-          id={id}
           isModal={false}
           removeSignal={removeSignal}
         >
