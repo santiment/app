@@ -81,6 +81,11 @@ const VisualBacktestChart = ({
 const formatTooltipValue = (isPrice, value) =>
   isPrice ? formatNumber(value, { currency: 'USD' }) : value.toFixed(2)
 
+const getTooltipDate = time => {
+  const { dddd, DD, MMM, YYYY } = getDateFormats(new Date(time))
+  return `${dddd}, ${MMM} ${DD} ${YYYY}`
+}
+
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload) {
     return (
@@ -94,12 +99,18 @@ const CustomTooltip = ({ active, payload }) => {
           whiteSpace: 'nowrap'
         }}
       >
-        {payload.map(({ name, value }) => {
+        {payload[0] && (
+          <p className={styles.tooltipLabel}>
+            {getTooltipDate(payload[0].payload.datetime)}
+          </p>
+        )}
+        {payload.map(({ name, value, stroke, fill }) => {
           return (
-            <p key={name} className='label'>{`${name} : ${formatTooltipValue(
-              name === 'Price',
-              value
-            )}`}</p>
+            <div
+              key={name}
+              className={cx('label', styles.tooltipLabel)}
+              style={{ color: stroke || fill }}
+            >{`${name} : ${formatTooltipValue(name === 'Price', value)}`}</div>
           )
         })}
       </div>

@@ -67,3 +67,7 @@
   top: -5px !important;
   right: -10px !important;
 }
+
+.tooltipLabel {
+  @include text('body-3');
+}
