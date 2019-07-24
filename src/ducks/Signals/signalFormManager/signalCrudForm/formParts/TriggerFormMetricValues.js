@@ -41,140 +41,129 @@ export const TriggerFormMetricValues = ({
   const isSingleTarget =
     target && ((Array.isArray(target) && target.length === 1) || !!target.value)
 
-  const isTimeWindow = METRIC_TYPES_DEPENDENCIES[metricValue].includes(
-    'timeWindow'
-  )
+  const blocks = METRIC_TYPES_DEPENDENCIES[metricValue]
+  const isTimeWindow = blocks.includes('timeWindow')
 
   return (
-    <div className={cx(styles.row, isTimeWindow ? styles.rowTimeWindow : '')}>
-      {type &&
-        METRIC_TYPES_DEPENDENCIES[metricValue].includes(
-          'absoluteBorderRight'
-        ) && (
-        <div className={styles.Field}>
-          <FormikInput
-            name='absoluteBorderRight'
-            type='number'
-            prefix={isPriceMetric ? '$' : ''}
-            min={+absoluteBorderLeft}
-            step='any'
-            placeholder='Upper border'
-          />
-          {isPriceMetric && isSingleTarget && (
-            <LastPriceComponent lastPrice={lastPrice} />
-          )}
-        </div>
-      )}
-      {type &&
-        METRIC_TYPES_DEPENDENCIES[metricValue].includes(
-          'absoluteBorderLeft'
-        ) && (
-        <div className={styles.Field}>
-          <FormikInput
-            name='absoluteBorderLeft'
-            type='number'
-            step='any'
-            prefix={isPriceMetric ? '$' : ''}
-            max={+absoluteBorderRight}
-            placeholder='Lower border'
-          />
-        </div>
-      )}
-
-      {type &&
-        METRIC_TYPES_DEPENDENCIES[metricValue].includes(
-          'absoluteThreshold'
-        ) && (
-        <div className={cx(styles.Field, styles.fieldFilled)}>
-          <FormikInput
-            name='absoluteThreshold'
-            type='number'
-            placeholder='Absolute value'
-            prefix={isPriceMetric ? '$' : ''}
-          />
-          {isPriceMetric && isSingleTarget && (
-            <LastPriceComponent lastPrice={lastPrice} />
-          )}
-        </div>
-      )}
-
-      {type &&
-        METRIC_TYPES_DEPENDENCIES[metricValue].includes('percentThreshold') && (
-        <div className={styles.Field}>
-          <FormikLabel text='Percentage amount' inner />
-          <FormikInput
-            name='percentThreshold'
-            type='number'
-            prefix='%'
-            placeholder='Percentage amount'
-          />
-          {isPriceMetric && isSingleTarget && (
-            <LastPriceComponent lastPrice={lastPrice} />
-          )}
-        </div>
-      )}
-
-      {type &&
-        METRIC_TYPES_DEPENDENCIES[metricValue].includes(
-          'walletBalanceChangeType'
-        ) && (
-        <div className={styles.Field}>
-          <FormikLabel text='Absolute change' inner />
-          <div>
-            <FormikSelect
-              name='type'
-              clearable={false}
-              placeholder='Choose a type'
-              options={ETH_WALLETS_OPTIONS}
+    blocks &&
+    blocks.length > 0 && (
+      <div className={cx(styles.row, isTimeWindow ? styles.rowTimeWindow : '')}>
+        {type && blocks.includes('absoluteBorderRight') && (
+          <div className={styles.Field}>
+            <FormikInput
+              name='absoluteBorderRight'
+              type='number'
+              prefix={isPriceMetric ? '$' : ''}
+              min={+absoluteBorderLeft}
+              step='any'
+              placeholder='Upper border'
+            />
+            {isPriceMetric && isSingleTarget && (
+              <LastPriceComponent lastPrice={lastPrice} />
+            )}
+          </div>
+        )}
+        {type && blocks.includes('absoluteBorderLeft') && (
+          <div className={styles.Field}>
+            <FormikInput
+              name='absoluteBorderLeft'
+              type='number'
+              step='any'
+              prefix={isPriceMetric ? '$' : ''}
+              max={+absoluteBorderRight}
+              placeholder='Lower border'
             />
           </div>
-        </div>
-      )}
+        )}
 
-      {type && METRIC_TYPES_DEPENDENCIES[metricValue].includes('threshold') && (
-        <div className={styles.Field}>
-          <FormikLabel text='Threshold' inner />
-          <FormikInput
-            name='threshold'
-            step={0.001}
-            type='number'
-            placeholder='Threshold'
-          />
-        </div>
-      )}
-      {type && isTimeWindow && (
-        <div className={cx(styles.Field, styles.fieldTimeWindow)}>
-          <FormikLabel text='Time window' inner />
-          <div className={styles.timeWindow}>
-            <div className={styles.timeWindowInput}>
-              <FormikInput
-                name='timeWindow'
-                type='number'
-                min={0}
-                placeholder='Time window'
-              />
-            </div>
-            <div className={styles.timeWindowUnit}>
+        {type && blocks.includes('absoluteThreshold') && (
+          <div className={cx(styles.Field, styles.fieldFilled)}>
+            <FormikInput
+              name='absoluteThreshold'
+              type='number'
+              placeholder='Absolute value'
+              prefix={isPriceMetric ? '$' : ''}
+            />
+            {isPriceMetric && isSingleTarget && (
+              <LastPriceComponent lastPrice={lastPrice} />
+            )}
+          </div>
+        )}
+
+        {type && blocks.includes('percentThreshold') && (
+          <div className={styles.Field}>
+            <FormikLabel text='Percentage amount' inner />
+            <FormikInput
+              name='percentThreshold'
+              type='number'
+              prefix='%'
+              placeholder='Percentage amount'
+            />
+            {isPriceMetric && isSingleTarget && (
+              <LastPriceComponent lastPrice={lastPrice} />
+            )}
+          </div>
+        )}
+
+        {type && blocks.includes('walletBalanceChangeType') && (
+          <div className={styles.Field}>
+            <FormikLabel text='Absolute change' inner />
+            <div>
               <FormikSelect
-                name='timeWindowUnit'
-                className={styles.timeWindowUnit}
+                name='type'
                 clearable={false}
-                placeholder='Unit'
-                options={TIME_WINDOW_UNITS}
+                placeholder='Choose a type'
+                options={ETH_WALLETS_OPTIONS}
               />
             </div>
           </div>
-          {isPriceMetric && (
-            <TriggerTimeWindowExplanation
-              type={type}
-              percent={percentThreshold}
-              timeType={timeWindowUnit}
-              timeValue={timeWindow}
+        )}
+
+        {type && blocks.includes('threshold') && (
+          <div className={styles.Field}>
+            <FormikLabel text='Threshold' inner />
+            <FormikInput
+              name='threshold'
+              step={0.001}
+              type='number'
+              placeholder='Threshold'
             />
-          )}
-        </div>
-      )}
-    </div>
+          </div>
+        )}
+        {type && isTimeWindow && (
+          <div className={cx(styles.Field, styles.fieldTimeWindow)}>
+            <FormikLabel text='Time window' inner />
+            <div className={styles.timeWindow}>
+              <div className={styles.timeWindowInput}>
+                <FormikInput
+                  name='timeWindow'
+                  type='number'
+                  min={0}
+                  placeholder='Time window'
+                />
+              </div>
+              <div className={styles.timeWindowUnit}>
+                <FormikSelect
+                  name='timeWindowUnit'
+                  className={styles.timeWindowUnit}
+                  clearable={false}
+                  placeholder='Unit'
+                  options={TIME_WINDOW_UNITS}
+                />
+              </div>
+            </div>
+            {isPriceMetric && (
+              <TriggerTimeWindowExplanation
+                type={type}
+                percent={percentThreshold}
+                timeType={timeWindowUnit}
+                timeValue={timeWindow}
+              />
+            )}
+          </div>
+        )}
+      </div>
+    )
   )
 }
 
