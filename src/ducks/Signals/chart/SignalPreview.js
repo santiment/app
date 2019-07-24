@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Bar, ReferenceLine } from 'recharts'
+import { ReferenceLine } from 'recharts'
 import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
 import { Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
@@ -10,20 +10,6 @@ import VisualBacktestChart from '../VisualBacktestChart'
 import { ChartExpandView } from './ChartExpandView'
 import styles from './SignalPreview.module.scss'
 
-const CUSTOM_METRICS = {
-  triggerDailyActiveAdresses: {
-    node: Bar,
-    color: 'malibu',
-    label: 'Daily Active Addresses',
-    dataKey: 'active_addresses',
-    orientation: 'right',
-    yAxisVisible: true
-  },
-  volume: {
-    ...Metrics.volume,
-    color: 'casper'
-  }
-}
 const SignalPreviewChart = ({
   type,
   slug,
@@ -45,6 +31,17 @@ const SignalPreviewChart = ({
 
   const _metrics = metrics.filter(metric => initialMetrics.includes(metric))
 
+  const requestedMetrics = metrics.reduce((acc, metric) => {
+    acc[metric] = {
+      timeRange,
+      slug,
+      interval: '1d',
+      ...Metrics[metric].reqMeta
+    }
+
+    return acc
+  }, {})
+
   return (
     <div className={styles.preview}>
       <div className={styles.description}>
@@ -56,36 +53,27 @@ const SignalPreviewChart = ({
       <div className={styles.chartBlock}>
         <div className={styles.chart}>
           <GetTimeSeries
-            historyPrice={{
-              timeRange,
-              slug,
-              interval: '1d'
+            {...requestedMetrics}
+            meta={{
+              mergedByDatetime: true
             }}
             render={({
-              historyPrice,
               timeseries,
               errorMetrics = {},
               isError,
               errorType,
               ...rest
             }) => {
-              if (!historyPrice) {
+              if (!timeseries) {
                 return 'Loading...'
               }
 
-              const customMetrics = _metrics.map(metric => {
-                return CUSTOM_METRICS[metric] || metric
-              })
-
               return (
-                historyPrice && (
-                  <VisualBacktestChart
-                    triggeredSignals={triggeredSignals}
-                    showXY={showAxes}
-                    price={historyPrice.items}
-                    metrics={customMetrics}
-                  />
-                )
+                <VisualBacktestChart
+                  triggeredSignals={triggeredSignals}
+                  timeseries={timeseries}
+                  metrics={_metrics}
+                />
               )
             }}
           />
@@ -98,7 +86,7 @@ const SignalPreviewChart = ({
           defaultActiveMetrics={initialMetrics}
           showOnlyDefault={true}
           listOfMetrics={initialMetrics.reduce((acc, metric) => {
-            acc[metric] = CUSTOM_METRICS[metric] || Metrics[metric]
+            acc[metric] = Metrics[metric]
             return acc
           }, {})}
         />

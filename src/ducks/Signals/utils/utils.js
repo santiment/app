@@ -40,7 +40,8 @@ import {
   METRIC_TARGET_ASSETS,
   METRIC_TARGET_WATCHLIST,
   TRENDING_WORDS_WATCHLIST_MENTIONED,
-  PRICE
+  PRICE,
+  METRIC_DEFAULT_VALUES
 } from './constants'
 import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 
@@ -529,14 +530,24 @@ export const mapFormToPACTriggerSettings = formProps => {
 }
 
 export const mapFormToDAATriggerSettings = formProps => {
-  const { target, signalType } = formProps
+  const { target, signalType, type } = formProps
   const newTarget = mapTriggerTarget(target, signalType)
-  return {
-    type: DAILY_ACTIVE_ADDRESSES,
-    ...newTarget,
-    channel: getChannels(formProps),
-    time_window: getTimeWindow(formProps),
-    operation: getTriggerOperation(formProps)
+
+  if (type.metric === PRICE_ABSOLUTE_CHANGE) {
+    return {
+      type: DAILY_ACTIVE_ADDRESSES,
+      ...newTarget,
+      channel: getChannels(formProps),
+      operation: getTriggerOperation(formProps)
+    }
+  } else {
+    return {
+      type: DAILY_ACTIVE_ADDRESSES,
+      ...newTarget,
+      channel: getChannels(formProps),
+      time_window: getTimeWindow(formProps),
+      operation: getTriggerOperation(formProps)
+    }
   }
 }
 
@@ -620,7 +631,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
 export const getMetricsByType = type => {
   switch (type) {
     case DAILY_ACTIVE_ADDRESSES:
-      return ['triggerDailyActiveAdresses', 'historyPrice']
+      return ['historyPrice', 'dailyActiveAddresses']
     case PRICE_VOLUME_DIFFERENCE:
       return ['historyPrice', 'volume']
     default:
@@ -887,4 +898,20 @@ export const mapAssetsHeldByAddressToProps = ({
 
 export const isPossibleEthAddress = function (address) {
   return !address || isEthStrictAddress(address)
+}
+
+export const getDefaultFormValues = newValues => {
+  const isDAA = newValues.metric.value === DAILY_ACTIVE_ADDRESSES
+
+  if (isDAA) {
+    newValues.type = PRICE_ABS_CHANGE_ABOVE
+  }
+
+  const metricValue = isDAA ? newValues.metric.value : newValues.type.metric
+  const defaultValues = METRIC_DEFAULT_VALUES[metricValue] || {}
+
+  return {
+    ...defaultValues,
+    ...newValues
+  }
 }

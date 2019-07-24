@@ -32,9 +32,11 @@ const getMetrics = props => {
         metric !== 'timeseries'
     )
     .reduce((acc, metric) => {
-      acc = {
-        ...acc,
-        [metric]: props[metric]
+      if (props[metric]) {
+        acc = {
+          ...acc,
+          [metric]: props[metric]
+        }
       }
       return acc
     }, {})

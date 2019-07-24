@@ -21,14 +21,14 @@ import {
   PRICE_PERCENT_CHANGE,
   METRIC_DEFAULT_VALUES,
   DEFAULT_FORM_META_SETTINGS,
-  METRIC_TO_TYPES,
-  DAILY_ACTIVE_ADDRESSES
+  METRIC_TO_TYPES
 } from '../../../utils/constants'
 import {
   couldShowChart,
   mapFormPropsToTrigger,
   mapTargetObject,
-  validateTriggerForm
+  validateTriggerForm,
+  getDefaultFormValues
 } from '../../../utils/utils'
 import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/TriggerFormMetricTypes'
@@ -135,16 +135,7 @@ export const TriggerForm = ({
                   newValues.metric.value !== prev.values.metric.value ||
                   newValues.type.value !== prev.values.type.value
                 ) {
-                  const metricValue =
-                    newValues.type.metric === DAILY_ACTIVE_ADDRESSES
-                      ? newValues.type.metric
-                      : newValues.metric.value
-                  const defaultValues = METRIC_DEFAULT_VALUES[metricValue] || {}
-                  newValues = {
-                    ...defaultValues,
-                    ...newValues
-                  }
-                  setInitialValues(newValues)
+                  setInitialValues(getDefaultFormValues(newValues))
                   validateForm()
                 }
 
@@ -156,8 +147,7 @@ export const TriggerForm = ({
 
                   const canLoadChart = newValues && couldShowChart(newValues)
 
-                  newValues.target &&
-                    !isError &&
+                  !isError &&
                     canLoadChart &&
                     getSignalBacktestingPoints(newValues)
                 }
@@ -210,7 +200,7 @@ export const TriggerForm = ({
 
               {showChart && (
                 <div className={cx(styles.row, styles.signalPreview)}>
-                  <SignalPreview target={chartTarget} type={type.metric} />
+                  <SignalPreview target={chartTarget} type={metric.value} />
                 </div>
               )}
 

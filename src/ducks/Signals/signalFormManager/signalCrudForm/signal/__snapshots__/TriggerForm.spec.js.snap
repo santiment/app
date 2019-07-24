@@ -39,7 +39,7 @@ exports[`TriggerForm EthWallet smoke 1`] = `
         "label": "nuga",
         "value": "nuga",
       },
-      "threshold": 100,
+      "threshold": "",
       "timeWindow": 24,
       "type": Object {
         "hidden": true,

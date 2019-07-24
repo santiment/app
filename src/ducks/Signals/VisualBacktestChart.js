@@ -20,16 +20,17 @@ const mapWithTimeseries = items =>
 
 const VisualBacktestChart = ({
   triggeredSignals,
-  price = [],
-  metrics,
-  showAxes = false
+  timeseries = [],
+  anotherPoints = [],
+  metrics
 }) => {
-  const formattedPrice = mapWithTimeseries(price)
+  const data = mapWithTimeseries(timeseries)
+  const markup = generateMetricsMarkup(metrics)
 
   const renderChart = () => {
     return (
       <ComposedChart
-        data={formattedPrice}
+        data={data}
         margin={{
           left: -20,
           bottom: 0
@@ -50,11 +51,7 @@ const VisualBacktestChart = ({
 
         <YAxis hide />
 
-        {generateMetricsMarkup(metrics, {
-          data: {
-            active_addresses: triggeredSignals
-          }
-        })}
+        {markup}
 
         {triggeredSignals.map(point => (
           <ReferenceLine
