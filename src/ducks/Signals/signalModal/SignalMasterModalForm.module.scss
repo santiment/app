@@ -19,3 +19,20 @@
     border-radius: 0;
   }
 }
+
+.title {
+  position: relative;
+}
+
+.shared {
+  @include text('body-3');
+
+  display: inline-block;
+  padding: 5px 10px;
+  color: var(--white);
+  background-color: var(--jungle-green);
+  border-radius: 4px;
+  margin-left: auto;
+  width: 70px;
+  margin-right: 10px;
+}

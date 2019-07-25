@@ -68,8 +68,6 @@ const SignalMasterModalForm = ({
           trigger.trigger = { ...trigger.trigger, ...shareParams }
         }
 
-        console.log(trigger)
-
         return (
           <Dialog
             open={dialogOpenState}
@@ -83,7 +81,12 @@ const SignalMasterModalForm = ({
               variant,
               border
             )}
-            title={dialogTitle}
+            title={
+              <>
+                {dialogTitle}
+                {isShared && <div className={styles.shared}>Shared</div>}
+              </>
+            }
             classes={styles}
           >
             <Dialog.ScrollContent className={styles.TriggerPanel}>

@@ -11,7 +11,7 @@ const MAX_DESCR_LENGTH = 140
 const MAX_TITLE_LENGTH = 120
 const MIN_TITLE_LENGTH = 2
 
-const AboutForm = ({ triggerMeta, onSubmit, onBack }) => {
+const AboutForm = ({ triggerMeta, onSubmit, onBack, isShared }) => {
   const [trigger, setTrigger] = useState(triggerMeta)
 
   useEffect(
@@ -20,8 +20,6 @@ const AboutForm = ({ triggerMeta, onSubmit, onBack }) => {
     },
     [triggerMeta]
   )
-
-  console.log('trigger', trigger)
 
   return (
     <Formik
@@ -113,7 +111,7 @@ const AboutForm = ({ triggerMeta, onSubmit, onBack }) => {
                 variant={'fill'}
                 accent='positive'
               >
-                Confirm
+                {isShared ? 'Save' : 'Confirm'}
               </Button>
             </div>
           </Form>

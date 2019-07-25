@@ -130,9 +130,10 @@ const SignalMaster = ({
       trigger: { id }
     } = state
 
-    if (id > 0) {
+    if (id > 0 && !isShared) {
       updateTrigger(data)
     } else {
+      delete data.id
       createTrigger(data)
     }
 
@@ -146,6 +147,7 @@ const SignalMaster = ({
     <div className={styles.wrapper}>
       {step === TRIGGER_STEPS.SETTINGS && (
         <TriggersForm
+          isShared={isShared}
           onClose={close}
           triggers={[trigger]}
           settings={triggerSettingsFormData}
@@ -156,6 +158,7 @@ const SignalMaster = ({
       )}
       {step === TRIGGER_STEPS.CONFIRM && (
         <AboutForm
+          isShared={isShared}
           triggerMeta={trigger}
           onBack={backToSettings}
           onSubmit={handleAboutFormSubmit}
