@@ -60,30 +60,23 @@ const SignalMaster = ({
     }
   }
 
-  const [state, setState] = useState({
-    step: propsStep,
-    trigger: {
-      title: `Signal_[${new Date().toLocaleDateString('en-US')}]`,
-      description: '',
-      isActive: true,
-      isPublic: false
-    }
+  const [stateTrigger, setStateTrigger] = useState({
+    title: '',
+    description: '',
+    isActive: true,
+    isPublic: false
   })
+  const [stateStep, setStateStep] = useState(propsStep)
 
-  const { step, trigger } = state
-  const triggerSettingsFormData = mapTriggerToFormProps(trigger)
+  const triggerSettingsFormData = mapTriggerToFormProps(stateTrigger)
 
   useEffect(
     () => {
-      const { trigger } = state
-
-      if (propsTrigger && propsTrigger.trigger && !trigger.id) {
-        setState({
-          trigger: {
-            ...propsTrigger.trigger
-          },
-          step: propsStep
+      if (propsTrigger && propsTrigger.trigger && !stateTrigger.id) {
+        setStateTrigger({
+          ...propsTrigger.trigger
         })
+        setStateStep(propsStep)
       }
     },
     [propsTrigger]
@@ -91,43 +84,34 @@ const SignalMaster = ({
 
   useEffect(() => {
     setTitle &&
-      setTitle(getTitle(step, triggerSettingsFormData, trigger, isShared))
+      setTitle(
+        getTitle(stateStep, triggerSettingsFormData, stateTrigger, isShared)
+      )
   })
 
   const toggleSignalPublic = () => {
-    const { trigger } = state
-    const newValue = !trigger.isPublic
-    const newTrigger = { ...trigger, isPublic: newValue }
-
-    setState({ trigger: newTrigger })
+    const newValue = !stateTrigger.isPublic
+    setStateTrigger({ ...stateTrigger, isPublic: newValue })
   }
 
   const backToSettings = data => {
-    const { trigger } = state
-    setState({
-      step: TRIGGER_STEPS.SETTINGS,
-      trigger: { ...trigger, ...data }
-    })
+    setStateTrigger({ ...stateTrigger, ...data })
+    setStateStep(TRIGGER_STEPS.SETTINGS)
   }
 
   const handleSettingsChange = formProps => {
-    const { trigger } = state
-    setState({
-      trigger: mapFormPropsToTrigger(formProps, trigger),
-      step: TRIGGER_STEPS.CONFIRM
-    })
+    setStateTrigger(mapFormPropsToTrigger(formProps, stateTrigger))
+    setStateStep(TRIGGER_STEPS.CONFIRM)
   }
 
   const handleAboutFormSubmit = about => {
     const data = {
-      ...state.trigger,
+      ...stateTrigger,
       ...about,
       shouldReload: canRedirect
     }
 
-    const {
-      trigger: { id }
-    } = state
+    const { id } = stateTrigger
 
     if (id > 0 && !isShared) {
       updateTrigger(data)
@@ -144,30 +128,30 @@ const SignalMaster = ({
 
   return (
     <div className={styles.wrapper}>
-      {step === TRIGGER_STEPS.SETTINGS && (
+      {stateStep === TRIGGER_STEPS.SETTINGS && (
         <TriggersForm
           isShared={isShared}
           onClose={close}
-          triggers={[trigger]}
+          triggers={[stateTrigger]}
           settings={triggerSettingsFormData}
           canRedirect={canRedirect}
           metaFormSettings={metaFormSettings}
           onSettingsChange={handleSettingsChange}
         />
       )}
-      {step === TRIGGER_STEPS.CONFIRM && (
+      {stateStep === TRIGGER_STEPS.CONFIRM && (
         <AboutForm
           isShared={isShared}
-          triggerMeta={trigger}
+          triggerMeta={stateTrigger}
           onBack={backToSettings}
           onSubmit={handleAboutFormSubmit}
         />
       )}
 
       <div className={styles.triggerToggleBlock}>
-        <Toggle onClick={toggleSignalPublic} isActive={trigger.isPublic} />
+        <Toggle onClick={toggleSignalPublic} isActive={stateTrigger.isPublic} />
         <div className={styles.triggerToggleLabel}>
-          {trigger.isPublic ? 'Public' : 'Private'}
+          {stateTrigger.isPublic ? 'Public' : 'Private'}
         </div>
       </div>
     </div>
