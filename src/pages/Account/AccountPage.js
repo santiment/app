@@ -9,6 +9,7 @@ import SettingsConnections from './SettingsConnections'
 import SettingsNotifications from './SettingsNotifications'
 import SettingsGetTokens from './SettingsGetTokens'
 import SettingsAPIKeys from './SettingsAPIKeys'
+import SettingsPlans from './SettingsPlans'
 import styles from './AccountPage.module.scss'
 
 const tabs = [
@@ -72,6 +73,7 @@ const AccountPage = ({ isLoggedIn }) => {
       <SettingsNotifications />
       <SettingsGetTokens />
       <SettingsAPIKeys />
+      <SettingsPlans />
     </div>
   )
 }

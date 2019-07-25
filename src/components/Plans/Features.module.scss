@@ -1,0 +1,13 @@
+.feature {
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  position: relative;
+
+  &__icon {
+    position: absolute;
+    left: 0;
+    top: 6px;
+    fill: var(--dodger-blue);
+  }
+}
