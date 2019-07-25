@@ -5,9 +5,14 @@ import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import ShareSignalPopup from './ShareSignalPopup'
 import { RemoveSignalButton } from './SignalControls'
+import ShareModalTrigger from '../../Share/ShareModalTrigger'
 import styles from '../SignalCard.module.scss'
+
+const generateShareLink = (id, title) => {
+  const { origin, pathname } = window.location
+  return `${origin}${pathname}?name=${title}@${id}#shared`
+}
 
 const MoreSignalActions = ({
   signalId,
@@ -15,6 +20,8 @@ const MoreSignalActions = ({
   removeSignal,
   isPublic
 }) => {
+  const link = generateShareLink(signalId, signalTitle)
+
   return (
     <ContextMenu
       trigger={
@@ -48,7 +55,12 @@ const MoreSignalActions = ({
 
           {isPublic && (
             <div className={cx(styles.popupItem, styles.popupButton)}>
-              <ShareSignalPopup id={signalId} title={signalTitle} />
+              <ShareModalTrigger
+                trigger={SignalShareTrigger}
+                shareTitle='Santiment'
+                shareText={`Crypto Signal '${signalTitle}'`}
+                shareLink={link}
+              />
             </div>
           )}
 
@@ -65,5 +77,11 @@ const MoreSignalActions = ({
     </ContextMenu>
   )
 }
+
+const SignalShareTrigger = ({ ...props }) => (
+  <div {...props} className={styles.share}>
+    Share
+  </div>
+)
 
 export default MoreSignalActions

@@ -9,6 +9,7 @@ import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import { push } from 'react-router-redux'
 import { SIGNAL_ROUTES } from '../common/constants'
 import styles from './SignalMasterModalForm.module.scss'
+import GetSignal from '../common/getSignal'
 
 const SignalMasterModalForm = ({
   label = 'New signal',
@@ -20,10 +21,15 @@ const SignalMasterModalForm = ({
   isLoggedIn,
   redirect,
   match,
-  buttonParams = {}
+  buttonParams = {},
+  shareParams = {}
 }) => {
+  const { id: shareId, isShared } = shareParams
+
   if (!triggerId && match) {
     triggerId = match.params.id
+  } else if (isShared) {
+    triggerId = shareId
   }
 
   const hasTrigger = +triggerId > 0
@@ -49,32 +55,52 @@ const SignalMasterModalForm = ({
   const { variant, border } = buttonParams
 
   return (
-    <Dialog
-      open={dialogOpenState}
-      onOpen={() => {
-        setDialogOpenState(true)
+    <GetSignal
+      triggerId={triggerId}
+      render={({ trigger = {} }) => {
+        const { isLoading } = trigger
+
+        if (isLoading) {
+          return ''
+        }
+
+        if (isShared && trigger.trigger) {
+          trigger.trigger = { ...trigger.trigger, ...shareParams }
+        }
+
+        console.log(trigger)
+
+        return (
+          <Dialog
+            open={dialogOpenState}
+            onOpen={() => {
+              setDialogOpenState(true)
+            }}
+            onClose={onClose}
+            trigger={signalModalTrigger(
+              isLoggedIn && enabled,
+              label,
+              variant,
+              border
+            )}
+            title={dialogTitle}
+            classes={styles}
+          >
+            <Dialog.ScrollContent className={styles.TriggerPanel}>
+              <SignalMaster
+                isShared={isShared}
+                step={step}
+                trigger={trigger}
+                setTitle={onSetDialogTitle}
+                onClose={() => setDialogOpenState(false)}
+                canRedirect={canRedirect}
+                metaFormSettings={metaFormSettings}
+              />
+            </Dialog.ScrollContent>
+          </Dialog>
+        )
       }}
-      onClose={onClose}
-      trigger={signalModalTrigger(
-        isLoggedIn && enabled,
-        label,
-        variant,
-        border
-      )}
-      title={dialogTitle}
-      classes={styles}
-    >
-      <Dialog.ScrollContent className={styles.TriggerPanel}>
-        <SignalMaster
-          step={step}
-          triggerId={triggerId}
-          setTitle={onSetDialogTitle}
-          onClose={() => setDialogOpenState(false)}
-          canRedirect={canRedirect}
-          metaFormSettings={metaFormSettings}
-        />
-      </Dialog.ScrollContent>
-    </Dialog>
+    />
   )
 }
 

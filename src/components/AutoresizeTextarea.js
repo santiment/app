@@ -36,6 +36,16 @@ class AutoresizeTextarea extends Component {
     this.textareaOneLineHeight = textareaOneLineHeight
   }
 
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    const { defaultValue: prevDefault } = prevProps
+    const { defaultValue } = this.props
+    if (defaultValue && defaultValue !== prevDefault) {
+      this.setState({
+        value: defaultValue.trim()
+      })
+    }
+  }
+
   getRowsCount (scrollHeight, textareaOneLineHeight) {
     const newRowsCount = Math.ceil(scrollHeight / textareaOneLineHeight)
     const { rowsCount } = this.props

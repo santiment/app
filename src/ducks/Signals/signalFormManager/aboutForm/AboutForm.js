@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Formik, Form } from 'formik'
 import Button from '@santiment-network/ui/Button'
@@ -13,10 +13,21 @@ const MIN_TITLE_LENGTH = 2
 
 const AboutForm = ({ triggerMeta, onSubmit, onBack }) => {
   const [trigger, setTrigger] = useState(triggerMeta)
+
+  useEffect(
+    () => {
+      setTrigger(triggerMeta)
+    },
+    [triggerMeta]
+  )
+
+  console.log('trigger', trigger)
+
   return (
     <Formik
       initialValues={trigger}
       isInitialValid
+      enableReinitialize
       validate={values => {
         let errors = {}
         if (!values.title) {
@@ -38,74 +49,76 @@ const AboutForm = ({ triggerMeta, onSubmit, onBack }) => {
         onSubmit(values)
       }}
     >
-      {({ values: { description = '' }, isSubmitting, isValid }) => (
-        <Form className={styles.AboutForm}>
-          <div className={styles.triggerFormItem}>
-            <div className={styles.row}>
-              <div className={styles.Field}>
-                <FormikLabel text='Name of the signal' />
-                <FormikInput
-                  name='title'
-                  type='text'
-                  minLength={MIN_TITLE_LENGTH}
-                  maxLength={MAX_TITLE_LENGTH}
-                  placeholder='Name of the signal'
-                  onChange={value =>
-                    setTrigger({
-                      ...trigger,
-                      title: value
-                    })
-                  }
-                />
+      {({ values: { description = '' }, isSubmitting, isValid }) => {
+        return (
+          <Form className={styles.AboutForm}>
+            <div className={styles.triggerFormItem}>
+              <div className={styles.row}>
+                <div className={styles.Field}>
+                  <FormikLabel text='Name of the signal' />
+                  <FormikInput
+                    name='title'
+                    type='text'
+                    minLength={MIN_TITLE_LENGTH}
+                    maxLength={MAX_TITLE_LENGTH}
+                    placeholder='Name of the signal'
+                    onChange={value =>
+                      setTrigger({
+                        ...trigger,
+                        title: value
+                      })
+                    }
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className={styles.row}>
-              <div className={styles.Field}>
-                <FormikLabel
-                  text={`Description (${
-                    (description || '').length
-                  }/${MAX_DESCR_LENGTH})`}
-                />
-                <FormikTextarea
-                  placeholder='Description of the signal'
-                  name='description'
-                  rowsCount={3}
-                  maxLength={MAX_DESCR_LENGTH}
-                  onChange={value => {
-                    setTrigger({
-                      ...trigger,
-                      description: value
-                    })
-                  }}
-                />
+              <div className={styles.row}>
+                <div className={styles.Field}>
+                  <FormikLabel
+                    text={`Description (${
+                      (description || '').length
+                    }/${MAX_DESCR_LENGTH})`}
+                  />
+                  <FormikTextarea
+                    placeholder='Description of the signal'
+                    name='description'
+                    rowsCount={3}
+                    maxLength={MAX_DESCR_LENGTH}
+                    onChange={value => {
+                      setTrigger({
+                        ...trigger,
+                        description: value
+                      })
+                    }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div className={styles.controls}>
-            <Button
-              type='button'
-              variant={'flat'}
-              accent='grey'
-              border
-              onClick={() => {
-                onBack(trigger)
-              }}
-            >
-              Back
-            </Button>
-            <Button
-              type='submit'
-              disabled={!isValid || isSubmitting}
-              isActive={isValid && !isSubmitting}
-              variant={'fill'}
-              accent='positive'
-            >
-              Confirm
-            </Button>
-          </div>
-        </Form>
-      )}
+            <div className={styles.controls}>
+              <Button
+                type='button'
+                variant={'flat'}
+                accent='grey'
+                border
+                onClick={() => {
+                  onBack(trigger)
+                }}
+              >
+                Back
+              </Button>
+              <Button
+                type='submit'
+                disabled={!isValid || isSubmitting}
+                isActive={isValid && !isSubmitting}
+                variant={'fill'}
+                accent='positive'
+              >
+                Confirm
+              </Button>
+            </div>
+          </Form>
+        )
+      }}
     </Formik>
   )
 }

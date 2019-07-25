@@ -44,6 +44,8 @@ const AssetsPage = props => {
     }
   }
 
+  console.log(props)
+
   return (
     <div className='page projects-table'>
       <Helmet>
