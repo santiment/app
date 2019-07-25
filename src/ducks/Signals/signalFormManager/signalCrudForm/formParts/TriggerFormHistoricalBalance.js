@@ -18,10 +18,11 @@ import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelec
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import styles from '../signal/TriggerForm.module.scss'
 
-const isInHeldAssets = (heldAssets, checking) =>
-  checking.every(checkingAsset =>
-    heldAssets.some(({ slug }) => slug === checkingAsset.slug)
+const isInHeldAssets = (heldAssets, checking) => {
+  return checking.every(({ value: chValue, slug: chSlug }) =>
+    heldAssets.some(({ slug }) => slug === chSlug || slug === chValue)
   )
+}
 
 const isErc20Assets = (target, allErc20Projects) =>
   target.value === 'ethereum' ||
@@ -64,11 +65,11 @@ const TriggerFormHistoricalBalance = ({
 }) => {
   const { target, ethAddress } = values
 
-  const isMulti = target && Array.isArray(target)
-
   const [erc20List, setErc20] = useState(allErc20Projects)
   const [allList, setAll] = useState(allProjects)
   const [heldAssets, setHeldAssets] = useState(assets)
+
+  const isMulti = target && Array.isArray(target)
 
   const metaMappedToAll = mapAssetsToAllProjects(
     allList,
@@ -89,7 +90,12 @@ const TriggerFormHistoricalBalance = ({
   const setAddress = address => setFieldValue('ethAddress', address)
 
   const validateAddressField = assets => {
-    if (!isErc20Assets(assets, erc20List)) {
+    if (erc20List.length && !isErc20Assets(assets, erc20List)) {
+      setAddress('')
+      return
+    }
+
+    if (assets.length > 1) {
       setAddress('')
       return
     }
@@ -133,9 +139,20 @@ const TriggerFormHistoricalBalance = ({
     [target]
   )
 
+  useEffect(
+    () => {
+      if (!ethAddress) {
+        if (!Array.isArray(target)) {
+          setFieldValue('target', [target])
+        }
+      }
+    },
+    [ethAddress]
+  )
+
   const disabledWalletField =
     (!ethAddress && (isMulti && target.length > 1)) ||
-    !isErc20Assets(target, erc20List)
+    (erc20List.length && !isErc20Assets(target, erc20List))
 
   const selectableProjects =
     ethAddress && !disabledWalletField
