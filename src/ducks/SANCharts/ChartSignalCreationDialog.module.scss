@@ -3,8 +3,8 @@
 .btn {
   margin-left: 20px;
 
-  @include explanation('Create a signal for an asset') {
-    width: 110px;
+  @include explanation('Create signal') {
+    white-space: nowrap;
   }
 }
 
