@@ -41,7 +41,7 @@ class AutoresizeTextarea extends Component {
     const { defaultValue } = this.props
     if (defaultValue && defaultValue !== prevDefault) {
       this.setState({
-        value: defaultValue.trim()
+        value: defaultValue
       })
     }
   }

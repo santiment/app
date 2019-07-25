@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
@@ -6,10 +7,9 @@ import Icon from '@santiment-network/ui/Icon'
 import Dialog from '@santiment-network/ui/Dialog'
 import SignalMaster from '../signalFormManager/signalMaster/SignalMaster'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
-import { push } from 'react-router-redux'
+import GetSignal from '../common/getSignal'
 import { SIGNAL_ROUTES } from '../common/constants'
 import styles from './SignalMasterModalForm.module.scss'
-import GetSignal from '../common/getSignal'
 
 const SignalMasterModalForm = ({
   label = 'New signal',
@@ -58,14 +58,14 @@ const SignalMasterModalForm = ({
     <GetSignal
       triggerId={triggerId}
       render={({ trigger = {} }) => {
-        const { isLoading } = trigger
-
-        if (isLoading) {
-          return ''
-        }
+        const { isLoading, isError } = trigger
 
         if (isShared && trigger.trigger) {
           trigger.trigger = { ...trigger.trigger, ...shareParams }
+        }
+
+        if (isError) {
+          throw new Error(`Can't find such public trigger with id ${triggerId}`)
         }
 
         return (
@@ -82,23 +82,28 @@ const SignalMasterModalForm = ({
               border
             )}
             title={
-              <>
-                {dialogTitle}
-                {isShared && <div className={styles.shared}>Shared</div>}
-              </>
+              !isError && (
+                <>
+                  {dialogTitle}
+                  {isShared && <div className={styles.shared}>Shared</div>}
+                </>
+              )
             }
             classes={styles}
           >
             <Dialog.ScrollContent className={styles.TriggerPanel}>
-              <SignalMaster
-                isShared={isShared}
-                step={step}
-                trigger={trigger}
-                setTitle={onSetDialogTitle}
-                onClose={() => setDialogOpenState(false)}
-                canRedirect={canRedirect}
-                metaFormSettings={metaFormSettings}
-              />
+              {isLoading && <div className={styles.loading}>Loading...</div>}
+              {!isLoading && (
+                <SignalMaster
+                  isShared={isShared}
+                  step={step}
+                  trigger={trigger}
+                  setTitle={onSetDialogTitle}
+                  onClose={() => setDialogOpenState(false)}
+                  canRedirect={canRedirect}
+                  metaFormSettings={metaFormSettings}
+                />
+              )}
             </Dialog.ScrollContent>
           </Dialog>
         )

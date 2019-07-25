@@ -71,7 +71,7 @@ const SignalMaster = ({
   })
 
   const { step, trigger } = state
-  const triggerSettingsFormData = trigger ? mapTriggerToFormProps(trigger) : {}
+  const triggerSettingsFormData = mapTriggerToFormProps(trigger)
 
   useEffect(
     () => {
@@ -90,8 +90,7 @@ const SignalMaster = ({
   )
 
   useEffect(() => {
-    triggerSettingsFormData &&
-      setTitle &&
+    setTitle &&
       setTitle(getTitle(step, triggerSettingsFormData, trigger, isShared))
   })
 
