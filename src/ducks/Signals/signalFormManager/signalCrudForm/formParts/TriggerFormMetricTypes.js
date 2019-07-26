@@ -63,7 +63,6 @@ export const TriggerFormMetricTypes = ({
                   }
                 }
               } else {
-                debugger
                 if (target) {
                   setFieldValue('target', '')
                 }

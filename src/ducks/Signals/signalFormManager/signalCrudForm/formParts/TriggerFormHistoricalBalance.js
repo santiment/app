@@ -87,13 +87,11 @@ const TriggerFormHistoricalBalance = ({
 
   const validateAddressField = assets => {
     if (erc20List.length && !isErc20Assets(assets, erc20List)) {
-      debugger
       setAddress('')
       return
     }
 
     if (assets.length > 1) {
-      debugger
       setAddress('')
       return
     }
@@ -110,7 +108,6 @@ const TriggerFormHistoricalBalance = ({
         }
       }
     } else if (disabledWalletField) {
-      debugger
       setAddress('')
     }
   }
