@@ -46,20 +46,24 @@ export const TriggerFormMetricTypes = ({
             options={METRICS_OPTIONS}
             onChange={newMetric => {
               metric &&
+                newMetric &&
                 newMetric.value !== metric.value &&
                 setFieldValue('type', getNearestTypeByMetric(newMetric))
 
-              if (newMetric.value !== TRENDING_WORDS) {
-                if (newMetric.value === DAILY_ACTIVE_ADDRESSES) {
-                  setFieldValue('target', [])
-                } else {
-                  checkPossibleTarget({
-                    metaFormSettings,
-                    setFieldValue,
-                    target
-                  })
+              if (newMetric) {
+                if (newMetric.value !== TRENDING_WORDS) {
+                  if (newMetric.value === DAILY_ACTIVE_ADDRESSES) {
+                    setFieldValue('target', [])
+                  } else {
+                    checkPossibleTarget({
+                      metaFormSettings,
+                      setFieldValue,
+                      target
+                    })
+                  }
                 }
               } else {
+                debugger
                 if (target) {
                   setFieldValue('target', '')
                 }
