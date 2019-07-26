@@ -22,8 +22,6 @@ export const ProjectIcon = ({ name, size, ticker, className }) => {
     }
   }
 
-  console.log('className', className)
-
   return (
     <img
       width={size}
