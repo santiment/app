@@ -11,6 +11,7 @@ import {
 import { showNotification } from '../../actions/rootActions'
 import WatchlistsAnon from './WatchlistsAnon'
 import Watchlists from './Watchlists'
+import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import styles from './WatchlistsPopup.module.scss'
 
 const AddToListBtn = (
@@ -32,6 +33,7 @@ const WatchlistPopup = ({
   projectId,
   lists = [],
   watchlistUi: { editableAssetsInList },
+  dialogProps,
   ...props
 }) => {
   const [changes, setChanges] = useState([])
@@ -87,6 +89,7 @@ const WatchlistPopup = ({
       onOpen={open}
       onClose={close}
       open={isShown}
+      {...dialogProps}
     >
       {isLoggedIn ? (
         <>
@@ -129,7 +132,10 @@ const sortWatchlists = (
   { insertedAt: insertedList2 }
 ) => new Date(insertedList1) - new Date(insertedList2)
 
-const mapStateToProps = ({ watchlistUi }) => ({ watchlistUi })
+const mapStateToProps = state => ({
+  watchlistUi: state.watchlistUi,
+  isLoggedIn: checkIsLoggedIn(state)
+})
 
 const mapDispatchToProps = dispatch => ({
   applyChanges: changes => {
@@ -146,6 +152,10 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   graphql(ALL_WATCHLISTS_QUERY, {
     name: 'Watchlists',
     skip: ({ isLoggedIn }) => !isLoggedIn,
@@ -157,9 +167,5 @@ export default compose(
       })),
       isLoading: loading
     })
-  }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  })
 )(WatchlistPopup)

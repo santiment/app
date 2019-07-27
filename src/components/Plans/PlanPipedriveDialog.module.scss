@@ -1,0 +1,48 @@
+@import '~@santiment-network/ui/mixins';
+
+.link {
+  height: 40px;
+  margin-bottom: 40px;
+  justify-content: center;
+}
+
+.dialog {
+  width: 100%;
+  height: 100%;
+
+  &__content {
+    position: relative;
+    flex: 1;
+  }
+
+  &__loading {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &_end {
+      animation: loading-end 400ms forwards;
+    }
+  }
+}
+
+@keyframes loading-end {
+  0% {
+    opacity: 1;
+  }
+
+  99% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+    z-index: -1;
+  }
+}

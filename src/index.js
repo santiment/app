@@ -6,6 +6,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import createRavenMiddleware from 'raven-for-redux'
+import { StripeProvider } from 'react-stripe-elements'
 import throttle from 'lodash.throttle'
 import ApolloClient from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
@@ -50,6 +51,12 @@ emitter.addWinListener((experiment, variant) => {
 
 export let client
 export let store
+
+const stripeKey =
+  process.env.NODE_ENV === 'development' ||
+  window.location.host.includes('-stage')
+    ? 'pk_test_gy9lndGDPXEFslDp8mJ24C3p'
+    : 'pk_live_t7lOPOW79IIVcxjPPK5QfESD'
 
 const main = () => {
   const httpLink = createHttpLink({
@@ -99,16 +106,18 @@ const main = () => {
   }
 
   ReactDOM.render(
-    <ApolloProvider client={client}>
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <Switch>
-            <Route exact path='/chart' component={ChartPage} />
-            <Route path='/' component={App} />
-          </Switch>
-        </ConnectedRouter>
-      </Provider>
-    </ApolloProvider>,
+    <StripeProvider apiKey={stripeKey}>
+      <ApolloProvider client={client}>
+        <Provider store={store}>
+          <ConnectedRouter history={history}>
+            <Switch>
+              <Route exact path='/chart' component={ChartPage} />
+              <Route path='/' component={App} />
+            </Switch>
+          </ConnectedRouter>
+        </Provider>
+      </ApolloProvider>
+    </StripeProvider>,
     document.getElementById('root')
   )
 }
