@@ -246,7 +246,7 @@ class ChartPage extends Component {
           mergedByDatetime: true
         }}
         render={({
-          timeseries,
+          timeseries = [],
           errorMetrics = {},
           settings = {},
           isError,
@@ -293,11 +293,13 @@ class ChartPage extends Component {
                 onZoom={this.onZoom}
                 onZoomOut={this.onZoomOut}
                 isZoomed={zoom}
-                chartData={
-                  timeseries && zoom
-                    ? timeseries.slice(zoom[0], zoom[1])
-                    : timeseries
-                }
+                chartData={(timeseries && zoom
+                  ? timeseries.slice(zoom[0], zoom[1])
+                  : timeseries
+                ).map(({ datetime, ...rest }) => ({
+                  ...rest,
+                  datetime: +new Date(datetime)
+                }))}
                 settings={settings}
                 title={title}
                 metrics={finalMetrics}
