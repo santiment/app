@@ -1,0 +1,18 @@
+.features {
+  padding: 0;
+  margin: 0;
+}
+
+.feature {
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  position: relative;
+
+  &__icon {
+    position: absolute;
+    left: 0;
+    top: 6px;
+    fill: var(--jungle-green);
+  }
+}
