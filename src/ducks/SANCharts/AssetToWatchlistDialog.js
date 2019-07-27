@@ -2,9 +2,9 @@ import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import WatchlistsPopup from '../../components/WatchlistPopup/WatchlistsPopup'
-import styles from './ChartAssetToWatchlistDialog.module.scss'
+import styles from './AssetToWatchlistDialog.module.scss'
 
-const ChartAssetToWatchlistDialog = ({ project }) => (
+const AssetToWatchlistDialog = ({ project }) => (
   <WatchlistsPopup
     {...project}
     dialogProps={{
@@ -18,4 +18,4 @@ const ChartAssetToWatchlistDialog = ({ project }) => (
   />
 )
 
-export default ChartAssetToWatchlistDialog
+export default AssetToWatchlistDialog
