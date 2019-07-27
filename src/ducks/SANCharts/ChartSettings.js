@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import IntervalSelector from './IntervalSelector'
 import ChartSignalCreationDialog from './ChartSignalCreationDialog'
+import AssetToWatchlistDialog from './AssetToWatchlistDialog'
 import ChartSettingsContextMenu from './ChartSettingsContextMenu'
 import CalendarBtn from '../../components/Calendar/CalendarBtn'
 import SearchProjects from '../../components/Search/SearchProjects'
@@ -24,7 +25,7 @@ const ChartSettings = ({
   interval,
   from,
   to,
-  slug,
+  project,
   hideSettings = {}
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
@@ -40,7 +41,7 @@ const ChartSettings = ({
             iconPosition='left'
           />
         )}
-        {hideSettings.signals || <ChartSignalCreationDialog slug={slug} />}
+        {hideSettings.signals || <ChartSignalCreationDialog slug={project.slug} />}
       </div>
       <div className={styles.settings__group}>
         <Selector
@@ -49,18 +50,19 @@ const ChartSettings = ({
           defaultSelected={defaultTimerange}
           className={styles.ranges}
         />
-        <IntervalSelector
-          from={from}
-          to={to}
-          interval={interval}
-          onIntervalChange={onIntervalChange}
-        />
         <CalendarBtn
           onChange={onCalendarChange}
           value={[new Date(from), new Date(to)]}
           className={styles.calendar}
           maxDate={MAX_DATE}
         />
+        <IntervalSelector
+          from={from}
+          to={to}
+          interval={interval}
+          onIntervalChange={onIntervalChange}
+        />
+        <AssetToWatchlistDialog project={project} />
         <ChartSettingsContextMenu
           hasNightMode={hasNightMode}
           onNightModeSelect={onNightModeSelect}
