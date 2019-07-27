@@ -14,9 +14,9 @@ import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
 import { formatNumber, millify } from './../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
-import mixWithPaywallArea from './../../components/PaywallArea/PaywallArea'
 import { Metrics, generateMetricsMarkup } from './utils'
 import { checkHasPremium } from '../../pages/UserSelectors'
+import displayPaywall from './Paywall'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
 
@@ -145,7 +145,12 @@ class Charts extends React.Component {
     const { activeTooltipIndex, activeLabel, activePayload } = event
 
     const { tooltipMetric = 'historyPrice' } = this.state
-    const [x, y] = this.xToYCoordinates[activeTooltipIndex]
+    const coordinates = this.xToYCoordinates[activeTooltipIndex]
+
+    if (!coordinates) {
+      return
+    }
+    const [x, y] = coordinates
 
     this.setState({
       activePayload,
@@ -258,10 +263,7 @@ class Charts extends React.Component {
             }}
             onMouseMove={this.onMouseMove}
             onMouseUp={refAreaLeft && refAreaRight && this.onZoom}
-            data={chartData.map(({ datetime, ...rest }) => ({
-              ...rest,
-              datetime: +new Date(datetime)
-            }))}
+            data={chartData}
           >
             <XAxis
               dataKey='datetime'
@@ -269,6 +271,8 @@ class Charts extends React.Component {
               tickLine={false}
               minTickGap={100}
               tickFormatter={tickFormatter}
+              domain={['dataMin', 'dataMax']}
+              type='number'
             />
             <YAxis hide />
             {lines}
@@ -281,11 +285,8 @@ class Charts extends React.Component {
             )}
             {!hasPremium &&
               metrics.includes('historyPrice') &&
-              mixWithPaywallArea({
-                dataKey: 'priceUsd',
-                data: chartData,
-                yAxisId: 'axis-priceUsd',
-                domain: false
+              displayPaywall({
+                data: chartData
               })}
             {chartData.length > 0 && (
               <Brush
