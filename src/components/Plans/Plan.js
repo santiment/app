@@ -4,8 +4,8 @@ import RestrictBtn from './RestrictBtn'
 import Features from './Features'
 import PLANS from './list'
 import {
-  findNeuroPlan,
-  getCurrentNeuroSubscription,
+  findSanbasePlan,
+  getCurrentSanbaseSubscription,
   formatPrice,
   getAlternativeBillingPlan
 } from '../../utils/plans'
@@ -17,7 +17,7 @@ const Plan = ({
   amount,
   userPlan,
   billing,
-  neuro,
+  product,
   isSubscriptionCanceled,
   isLoggedIn,
   subscription,
@@ -30,7 +30,7 @@ const Plan = ({
   const [realPrice] = formatPrice(amount, name)
 
   const { amount: altAmount, interval: altInterval } =
-    getAlternativeBillingPlan(neuro.plans, name, billing) || {}
+    getAlternativeBillingPlan(product.plans, name, billing) || {}
 
   const [altPrice] = formatPrice(altAmount, null, altInterval)
 

@@ -1,6 +1,26 @@
 import gql from 'graphql-tag'
 
-export const CURRENT_USER_QUERY = gql``
+export const CURRENT_USER_QUERY = gql`
+  query {
+    currentUser {
+      id
+      subscriptions {
+        id
+        cancelAtPeriodEnd
+        currentPeriodEnd
+        plan {
+          id
+          name
+          amount
+          interval
+          product {
+            name
+          }
+        }
+      }
+    }
+  }
+`
 
 export const PLANS_QUERY = gql`
   query productsWithPlans {

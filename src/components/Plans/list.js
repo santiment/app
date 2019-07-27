@@ -30,7 +30,7 @@ export default {
       'Samples data'
     ]
   },
-  ESSENTIAL: {
+  BASIC: {
     title: 'Basic',
     desc: 'Great for short-term analysis and prototyping',
     link: 'Upgrade now',
@@ -57,7 +57,7 @@ export default {
       'Bundles with all data providers'
     ]
   },
-  Enterprise: {
+  ENTERPRISE: {
     title: 'Enterprise',
     desc: 'For organizations that need advanced data and support',
     discount: 'Based on your needs',

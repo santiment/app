@@ -5,8 +5,8 @@ import RadioBtns from '@santiment-network/ui/RadioBtns'
 import Label from '@santiment-network/ui/Label'
 import Plan from './Plan'
 import {
-  findNeuroPlan,
-  getCurrentNeuroSubscription,
+  findSanbasePlan,
+  getCurrentSanbaseSubscription,
   formatPrice,
   getAlternativeBillingPlan
 } from '../../utils/plans'
@@ -40,28 +40,35 @@ export default ({ classes = {}, onDialogClose }) => {
       </div>
       <Query query={CURRENT_USER_QUERY}>
         {({ data: { currentUser } }) => {
-          const subscription = getCurrentNeuroSubscription(currentUser)
+          const subscription = getCurrentSanbaseSubscription(currentUser)
           const userPlan = subscription && subscription.plan.id
           const isSubscriptionCanceled =
             subscription && subscription.cancelAtPeriodEnd
           return (
             <Query query={PLANS_QUERY}>
               {({ data: { productsWithPlans = [] } }) => {
-                const neuro = productsWithPlans.find(findNeuroPlan)
-                if (!neuro) {
+                const product = productsWithPlans.find(findSanbasePlan)
+                if (!product) {
                   return null
                 }
 
                 return (
                   <>
                     <div className={styles.cards}>
-                      {neuro.plans
+                      {product.plans
                         .filter(
                           ({ name, interval }) =>
                             interval === billing || name === 'FREE'
                         )
                         .map(plan => (
-                          <Plan {...plan} />
+                          <Plan
+                            {...plan}
+                            billing={billing}
+                            product={product}
+                            userPlan={userPlan}
+                            subscription={subscription}
+                            isSubscriptionCanceled={isSubscriptionCanceled}
+                          />
                         ))}
                     </div>
                   </>

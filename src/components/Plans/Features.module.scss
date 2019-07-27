@@ -1,3 +1,8 @@
+.features {
+  padding: 0;
+  margin: 0;
+}
+
 .feature {
   font-size: 14px;
   line-height: 20px;
@@ -8,6 +13,6 @@
     position: absolute;
     left: 0;
     top: 6px;
-    fill: var(--dodger-blue);
+    fill: var(--jungle-green);
   }
 }

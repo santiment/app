@@ -4,9 +4,9 @@ import { Mutation } from 'react-apollo'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import Panel from '@santiment-network/ui/Panel/Panel'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { Elements, injectStripe } from 'react-stripe-elements'
 import CheckoutForm from '../CheckoutForm/CheckoutForm'
-import Loader from '../Loader/Loader'
 import { CURRENT_USER_QUERY, SUBSCRIBE_MUTATION } from '../../queries/plans'
 import { formatError, contactAction } from '../../utils/notifications'
 import sharedStyles from './Plans.module.scss'
@@ -75,7 +75,7 @@ const PaymentDialog = ({
         className={sharedStyles.link}
         fluid
         border
-        accent='blue'
+        accent='positive'
         disabled={disabled}
         onClick={showPayment}
       >

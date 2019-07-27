@@ -52,6 +52,14 @@ const tabs = [
         API keys
       </Link>
     )
+  },
+  {
+    index: 6,
+    content: (
+      <Link className={styles.tab} to='#plans'>
+        Plans
+      </Link>
+    )
   }
 ]
 
