@@ -151,7 +151,7 @@ const PaymentDialog = ({
                 </Dialog.Cancel>
                 <Dialog.Approve
                   variant='fill'
-                  accent='blue'
+                  accent='positive'
                   disabled={loading}
                   className={sharedStyles.action}
                   type='submit'

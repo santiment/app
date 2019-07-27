@@ -10,7 +10,7 @@
 
   &:hover,
   &:focus {
-    border-color: var(--dodger-blue);
+    border-color: var(--jungle-green);
   }
 
   &_right {
@@ -35,7 +35,7 @@
       margin-bottom: 5px;
 
       &--focus {
-        border-color: var(--dodger-blue);
+        border-color: var(--jungle-green);
       }
 
       &--invalid {
@@ -87,7 +87,7 @@
   cursor: pointer;
 
   &_active {
-    fill: var(--dodger-blue);
+    fill: var(--jungle-green);
   }
 }
 

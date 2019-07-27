@@ -11,6 +11,7 @@ import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import nprogress from 'nprogress'
+import { StripeProvider } from 'react-stripe-elements'
 import NotificationStack from './components/NotificationStack'
 import Roadmap from './pages/Roadmap'
 import Signals from './pages/Signals'
@@ -136,212 +137,215 @@ export const App = ({
   isBetaModeEnabled,
   location
 }) => (
-  <div className='App'>
-    {isOffline && (
-      <FadeInDown
-        className='offline-status-message'
-        duration='1.0s'
-        timingFunction='ease-out'
-        as='div'
-      >
-        OFFLINE
-      </FadeInDown>
-    )}
-    {isFullscreenMobile ? (
-      undefined
-    ) : isDesktop ? (
-      <Navbar activeLink={location.pathname} />
-    ) : (
-      <MobileNavbar activeLink={location.pathname} />
-    )}
-    <ErrorBoundary>
-      <Switch>
-        {['currencies', 'erc20', 'all', 'list'].map(name => (
-          <Route
-            exact
-            key={name}
-            path={`/assets/${name}`}
-            render={props => {
-              if (isDesktop) {
+  // TODO(vanguard) change to live key dynamically
+  <StripeProvider apiKey='pk_test_TYooMQauvdEDq54NiTphI7jx'>
+    <div className='App'>
+      {isOffline && (
+        <FadeInDown
+          className='offline-status-message'
+          duration='1.0s'
+          timingFunction='ease-out'
+          as='div'
+        >
+          OFFLINE
+        </FadeInDown>
+      )}
+      {isFullscreenMobile ? (
+        undefined
+      ) : isDesktop ? (
+        <Navbar activeLink={location.pathname} />
+      ) : (
+        <MobileNavbar activeLink={location.pathname} />
+      )}
+      <ErrorBoundary>
+        <Switch>
+          {['currencies', 'erc20', 'all', 'list'].map(name => (
+            <Route
+              exact
+              key={name}
+              path={`/assets/${name}`}
+              render={props => {
+                if (isDesktop) {
+                  return (
+                    <AssetsPage
+                      type={name}
+                      isLoggedIn={isLoggedIn}
+                      isBetaModeEnabled={isBetaModeEnabled}
+                      preload={() => LoadableDetailedPage.preload()}
+                      {...props}
+                    />
+                  )
+                }
                 return (
-                  <AssetsPage
+                  <LoadableAssetsMobilePage
                     type={name}
                     isLoggedIn={isLoggedIn}
-                    isBetaModeEnabled={isBetaModeEnabled}
-                    preload={() => LoadableDetailedPage.preload()}
                     {...props}
                   />
                 )
+              }}
+            />
+          ))}
+          <Route exact path='/gdpr' component={GDPRPage} />
+          <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
+          <Route
+            exact
+            path='/search'
+            render={props => {
+              if (isDesktop) {
+                return <Redirect to='/dashboard' />
               }
-              return (
-                <LoadableAssetsMobilePage
-                  type={name}
-                  isLoggedIn={isLoggedIn}
-                  {...props}
-                />
-              )
+              return <LoadableSearchMobilePage {...props} />
             }}
           />
-        ))}
-        <Route exact path='/gdpr' component={GDPRPage} />
-        <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
-        <Route
-          exact
-          path='/search'
-          render={props => {
-            if (isDesktop) {
-              return <Redirect to='/dashboard' />
+          <Route exact path='/roadmap' component={Roadmap} />
+          <Route exact path='/signals' component={Signals} />
+          <Route
+            exact
+            path='/labs/balance'
+            render={props => (
+              <HistoricalBalancePage {...props} isDesktop={isDesktop} />
+            )}
+          />
+          <Route exact path='/labs/wordcloud' component={WordCloudPage} />
+          <Route
+            exact
+            path='/labs/social-movers'
+            component={LoadableGainersAndLosersPage}
+          />
+          <Route
+            path='/insights'
+            render={props => (
+              <LoadableInsights
+                isDesktop={isDesktop}
+                isLoggedIn={isLoggedIn}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            exact
+            path='/projects/:slug'
+            render={props =>
+              isDesktop ? (
+                <LoadableDetailedPage isDesktop={isDesktop} {...props} />
+              ) : (
+                <LoadableMobileDetailedPage isDesktop={isDesktop} {...props} />
+              )
             }
-            return <LoadableSearchMobilePage {...props} />
-          }}
-        />
-        <Route exact path='/roadmap' component={Roadmap} />
-        <Route exact path='/signals' component={Signals} />
-        <Route
-          exact
-          path='/labs/balance'
-          render={props => (
-            <HistoricalBalancePage {...props} isDesktop={isDesktop} />
-          )}
-        />
-        <Route exact path='/labs/wordcloud' component={WordCloudPage} />
-        <Route
-          exact
-          path='/labs/social-movers'
-          component={LoadableGainersAndLosersPage}
-        />
-        <Route
-          path='/insights'
-          render={props => (
-            <LoadableInsights
-              isDesktop={isDesktop}
-              isLoggedIn={isLoggedIn}
-              {...props}
-            />
-          )}
-        />
-        <Route
-          exact
-          path='/projects/:slug'
-          render={props =>
-            isDesktop ? (
-              <LoadableDetailedPage isDesktop={isDesktop} {...props} />
-            ) : (
-              <LoadableMobileDetailedPage isDesktop={isDesktop} {...props} />
-            )
-          }
-        />
-        <Route exact path='/labs/trends' component={LoadableTrendsLabsPage} />
-        <Route exact path='/labs' component={LabsPage} />
-        <Redirect from='/trends' to='/labs/trends' />
-        <Route
-          exact
-          path='/labs/trends/explore/:word'
-          render={props => (
-            <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
-          )}
-        />
-        <Route
-          path='/sonar/feed'
-          render={props => (
-            <LoadableSonarFeedPage
-              isDesktop={isDesktop}
-              isLoggedIn={isLoggedIn}
-              {...props}
-            />
-          )}
-        />
-        <Route exact path='/sonar/master' component={SignalFormPage} />
-        <Route
-          exact
-          path='/dashboard'
-          render={props => (
-            <LoadableDashboardPage
-              isDesktop={isDesktop}
-              isLoggedIn={isLoggedIn}
-              hasMetamask={hasMetamask}
-              {...props}
-            />
-          )}
-        />
-        <Route path='/logout' component={LogoutPage} />
-        <Route
-          exact
-          path='/account'
-          render={props => (
-            <LoadableAccountPage {...props} isLoggedIn={isLoggedIn} />
-          )}
-        />
-        <Route exact path='/status' component={Status} />
-        <Redirect from='/ethereum-spent' to='/projects/ethereum' />
-        <Route exact path='/build' component={BuildChallenge} />
-        <Route exact path='/privacy-policy' component={PrivacyPolicyPage} />
-        <Route path='/email_login' component={EmailLoginVerification} />
-        <Route path='/verify_email' component={EmailLoginVerification} />
-        {['data', 'dashboards'].map(name => (
+          />
+          <Route exact path='/labs/trends' component={LoadableTrendsLabsPage} />
+          <Route exact path='/labs' component={LabsPage} />
+          <Redirect from='/trends' to='/labs/trends' />
           <Route
-            key={name}
-            path={`/${name}`}
-            render={() => (
-              <ExternalRedirect to={'https://data.santiment.net'} />
+            exact
+            path='/labs/trends/explore/:word'
+            render={props => (
+              <LoadableTrendsExplorePage isDesktop={isDesktop} {...props} />
             )}
           />
-        ))}
-        {['apidocs', 'apiexamples'].map(name => (
           <Route
-            key={name}
-            path={`/${name}`}
-            render={() => (
-              <ExternalRedirect to={'https://docs.santiment.net'} />
+            path='/sonar/feed'
+            render={props => (
+              <LoadableSonarFeedPage
+                isDesktop={isDesktop}
+                isLoggedIn={isLoggedIn}
+                {...props}
+              />
             )}
           />
-        ))}
-        {['docs', 'help'].map(name => (
+          <Route exact path='/sonar/master' component={SignalFormPage} />
           <Route
-            key={name}
-            path={`/${name}`}
-            render={() => (
-              <ExternalRedirect to={'https://help.santiment.net'} />
+            exact
+            path='/dashboard'
+            render={props => (
+              <LoadableDashboardPage
+                isDesktop={isDesktop}
+                isLoggedIn={isLoggedIn}
+                hasMetamask={hasMetamask}
+                {...props}
+              />
             )}
           />
-        ))}
-        <Route
-          exact
-          path='/support'
-          render={props => (
-            <ExternalRedirect to={'mailto:info@santiment.net'} />
-          )}
-        />
-        <Route
-          path='/consent'
-          render={props => (
-            <ExternalRedirect
-              to={`${getConsentUrl()}/consent${props.location.search}`}
+          <Route path='/logout' component={LogoutPage} />
+          <Route
+            exact
+            path='/account'
+            render={props => (
+              <LoadableAccountPage {...props} isLoggedIn={isLoggedIn} />
+            )}
+          />
+          <Route exact path='/status' component={Status} />
+          <Redirect from='/ethereum-spent' to='/projects/ethereum' />
+          <Route exact path='/build' component={BuildChallenge} />
+          <Route exact path='/privacy-policy' component={PrivacyPolicyPage} />
+          <Route path='/email_login' component={EmailLoginVerification} />
+          <Route path='/verify_email' component={EmailLoginVerification} />
+          {['data', 'dashboards'].map(name => (
+            <Route
+              key={name}
+              path={`/${name}`}
+              render={() => (
+                <ExternalRedirect to={'https://data.santiment.net'} />
+              )}
             />
-          )}
-        />
-        <Route
-          path='/login'
-          render={props => (
-            <LoadableLoginPage
-              isLoggedIn={isLoggedIn}
-              token={token}
-              isDesktop={isDesktop}
-              {...props}
+          ))}
+          {['apidocs', 'apiexamples'].map(name => (
+            <Route
+              key={name}
+              path={`/${name}`}
+              render={() => (
+                <ExternalRedirect to={'https://docs.santiment.net'} />
+              )}
             />
+          ))}
+          {['docs', 'help'].map(name => (
+            <Route
+              key={name}
+              path={`/${name}`}
+              render={() => (
+                <ExternalRedirect to={'https://help.santiment.net'} />
+              )}
+            />
+          ))}
+          <Route
+            exact
+            path='/support'
+            render={props => (
+              <ExternalRedirect to={'mailto:info@santiment.net'} />
+            )}
+          />
+          <Route
+            path='/consent'
+            render={props => (
+              <ExternalRedirect
+                to={`${getConsentUrl()}/consent${props.location.search}`}
+              />
+            )}
+          />
+          <Route
+            path='/login'
+            render={props => (
+              <LoadableLoginPage
+                isLoggedIn={isLoggedIn}
+                token={token}
+                isDesktop={isDesktop}
+                {...props}
+              />
+            )}
+          />
+          {isDesktop ? (
+            <Redirect from='/' to='/dashboard' />
+          ) : (
+            <Redirect from='/' to='/assets' />
           )}
-        />
-        {isDesktop ? (
-          <Redirect from='/' to='/dashboard' />
-        ) : (
-          <Redirect from='/' to='/assets' />
-        )}
-      </Switch>
-    </ErrorBoundary>
-    <NotificationStack />
-    <CookiePopup />
-    {isDesktop && <Footer />}
-  </div>
+        </Switch>
+      </ErrorBoundary>
+      <NotificationStack />
+      <CookiePopup />
+      {isDesktop && <Footer />}
+    </div>
+  </StripeProvider>
 )
 
 const mapStateToProps = state => {

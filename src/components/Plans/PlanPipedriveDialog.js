@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import cx from 'classnames'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import styles from './PlanPipedriveDialog.module.scss'
 
 function useFormLoading () {
@@ -23,7 +24,7 @@ const PipedriveBtn = ({ title, label, src }) => {
       title='Contact Information'
       classes={{ dialog: styles.dialog }}
       trigger={
-        <Button className={styles.link} fluid border accent='blue'>
+        <Button className={styles.link} fluid border accent='positive'>
           {label}
         </Button>
       }
@@ -36,7 +37,7 @@ const PipedriveBtn = ({ title, label, src }) => {
             !loading && styles.dialog__loading_end
           )}
         >
-          <div loader />
+          {loading && <Loader />}
         </div>
         <iframe
           title={title}

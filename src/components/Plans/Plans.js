@@ -62,7 +62,9 @@ export default ({ classes = {}, onDialogClose }) => {
                         )
                         .map(plan => (
                           <Plan
+                            key={plan.id}
                             {...plan}
+                            isLoggedIn={currentUser}
                             billing={billing}
                             product={product}
                             userPlan={userPlan}
