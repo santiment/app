@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import { Mutation } from 'react-apollo'
@@ -7,7 +7,7 @@ import { UPDATE_SUBSCRIPTION_MUTATION } from '../../queries/plans'
 import { formatPrice } from '../../utils/plans'
 import { getDateFormats } from '../../utils/dates'
 import { formatError, contactAction } from '../../utils/notifications'
-import planStyles from './Plan.module.scss'
+import planStyles from './Plans.module.scss'
 import dialogStyles from './Dialog.module.scss'
 
 const addNot = () => {}
@@ -24,16 +24,34 @@ const ChangePlanDialog = ({
   planId,
   onDialogClose = () => {}
 }) => {
+  const [dialogVisible, setDialogVisiblity] = useState(false)
+
   const [oldPrice] = formatPrice(amount, null, interval)
   const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
   const date = `${MMMM} ${DD}, ${YYYY}`
+
+  function hideDialog () {
+    setDialogVisiblity(false)
+  }
+
+  function showDialog () {
+    setDialogVisiblity(true)
+  }
 
   return (
     <Mutation mutation={UPDATE_SUBSCRIPTION_MUTATION}>
       {(updateSubscription, { loading }) => (
         <Dialog
+          open={dialogVisible}
+          onClose={hideDialog}
           trigger={
-            <Button fluid className={planStyles.link} border accent='blue'>
+            <Button
+              onClick={showDialog}
+              fluid
+              className={planStyles.link}
+              border
+              accent='positive'
+            >
               Change to this plan
             </Button>
           }
@@ -43,15 +61,15 @@ const ChangePlanDialog = ({
             Your current plan ({PLANS[name].title} {oldPrice}/month) is active
             until {date}.
             <br />
-            Are you sure you want to change to the {title} plan ({price}
-            /month) on {date}?
+            Are you sure you want to change to the {title} plan ({price}/
+            {billing}) on {date}?
           </Dialog.ScrollContent>
           <Dialog.Actions>
-            <Dialog.Cancel className={dialogStyles.cancel}>
+            <Dialog.Cancel className={dialogStyles.cancel} onClick={hideDialog}>
               Cancel
             </Dialog.Cancel>
             <Dialog.Approve
-              accent='blue'
+              accent='positive'
               isLoading={loading}
               onClick={() =>
                 updateSubscription({
@@ -65,6 +83,7 @@ const ChangePlanDialog = ({
                     })
                   )
                   .then(onDialogClose)
+                  .then(hideDialog)
                   .catch(e =>
                     addNot({
                       variant: 'error',

@@ -106,7 +106,6 @@ const main = () => {
   }
 
   ReactDOM.render(
-    // TODO(vanguard) change to live key dynamically
     <StripeProvider apiKey={stripeKey}>
       <ApolloProvider client={client}>
         <Provider store={store}>
