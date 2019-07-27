@@ -138,7 +138,7 @@ export const App = ({
   location
 }) => (
   // TODO(vanguard) change to live key dynamically
-  <StripeProvider apiKey='pk_test_TYooMQauvdEDq54NiTphI7jx'>
+  <StripeProvider apiKey='pk_test_gy9lndGDPXEFslDp8mJ24C3p'>
     <div className='App'>
       {isOffline && (
         <FadeInDown
