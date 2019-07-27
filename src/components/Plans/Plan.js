@@ -3,12 +3,7 @@ import cx from 'classnames'
 import RestrictBtn from './RestrictBtn'
 import Features from './Features'
 import PLANS from './list'
-import {
-  findSanbasePlan,
-  getCurrentSanbaseSubscription,
-  formatPrice,
-  getAlternativeBillingPlan
-} from '../../utils/plans'
+import { formatPrice, getAlternativeBillingPlan } from '../../utils/plans'
 import styles from './Plan.module.scss'
 
 const Plan = ({

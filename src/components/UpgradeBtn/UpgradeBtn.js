@@ -1,27 +1,54 @@
 import React from 'react'
 import cx from 'classnames'
+import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
+import { Query } from 'react-apollo'
 import Plans from '../Plans/Plans'
+import {
+  findSanbasePlan,
+  getCurrentSanbaseSubscription
+} from '../../utils/plans'
+import { CURRENT_USER_QUERY } from '../../queries/plans'
 import styles from './UpgradeBtn.module.scss'
 
-const UpgradeBtn = ({ className, children = 'Upgrade' }) => {
+const Trigger = ({ className, children = 'Upgrade', ...props }) => (
+  <Button className={cx(styles.btn, className)} accent='orange' {...props}>
+    <Icon type='crown' className={styles.icon} />
+    {children}
+  </Button>
+)
+
+const UpgradeBtn = props => {
   return (
-    <Dialog
-      classes={styles}
-      title='Plan upgrade'
-      trigger={
-        <Button className={cx(styles.btn, className)} accent='orange'>
-          <Icon type='crown' className={styles.icon} />
-          {children}
-        </Button>
-      }
-    >
-      <Dialog.ScrollContent>
-        <Plans />
-      </Dialog.ScrollContent>
-    </Dialog>
+    <Query query={CURRENT_USER_QUERY}>
+      {({ data: { currentUser }, loading }) => {
+        let subscription
+
+        if (currentUser) {
+          subscription = getCurrentSanbaseSubscription(currentUser)
+        } else {
+          return <Trigger as={Link} to='/login' {...props} />
+        }
+
+        if (subscription) {
+          return null
+        }
+
+        return (
+          <Dialog
+            classes={styles}
+            title='Plan upgrade'
+            trigger={<Trigger {...props} />}
+          >
+            <Dialog.ScrollContent>
+              <Plans />
+            </Dialog.ScrollContent>
+          </Dialog>
+        )
+      }}
+    </Query>
   )
 }
 

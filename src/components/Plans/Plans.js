@@ -6,9 +6,7 @@ import Label from '@santiment-network/ui/Label'
 import Plan from './Plan'
 import {
   findSanbasePlan,
-  getCurrentSanbaseSubscription,
-  formatPrice,
-  getAlternativeBillingPlan
+  getCurrentSanbaseSubscription
 } from '../../utils/plans'
 import { CURRENT_USER_QUERY, PLANS_QUERY } from '../../queries/plans'
 import styles from './Plans.module.scss'
