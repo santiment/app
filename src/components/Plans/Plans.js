@@ -8,7 +8,7 @@ import {
   findSanbasePlan,
   getCurrentSanbaseSubscription
 } from '../../utils/plans'
-import { CURRENT_USER_QUERY, PLANS_QUERY } from '../../queries/plans'
+import { USER_SUBSCRIPTIONS_QUERY, PLANS_QUERY } from '../../queries/plans'
 import styles from './Plans.module.scss'
 
 const billingOptions = [
@@ -36,7 +36,7 @@ export default ({ classes = {}, onDialogClose }) => {
           className={styles.bill}
         />
       </div>
-      <Query query={CURRENT_USER_QUERY}>
+      <Query query={USER_SUBSCRIPTIONS_QUERY}>
         {({ data: { currentUser } }) => {
           const subscription = getCurrentSanbaseSubscription(currentUser)
           const userPlan = subscription && subscription.plan.id

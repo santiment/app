@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
@@ -7,7 +8,8 @@ import Dialog from '@santiment-network/ui/Dialog'
 import { Query } from 'react-apollo'
 import Plans from '../Plans/Plans'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
-import { CURRENT_USER_QUERY } from '../../queries/plans'
+import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
+import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import styles from './UpgradeBtn.module.scss'
 
 const Trigger = ({ className, children = 'Upgrade', ...props }) => (
@@ -17,17 +19,15 @@ const Trigger = ({ className, children = 'Upgrade', ...props }) => (
   </Button>
 )
 
-const UpgradeBtn = props => {
-  return (
-    <Query query={CURRENT_USER_QUERY}>
-      {({ data: { currentUser }, loading }) => {
-        let subscription
+const UpgradeBtn = ({ isLoggedIn, ...props }) => {
+  if (!isLoggedIn) {
+    return <Trigger as={Link} to='/login' {...props} />
+  }
 
-        if (currentUser) {
-          subscription = getCurrentSanbaseSubscription(currentUser)
-        } else {
-          return <Trigger as={Link} to='/login' {...props} />
-        }
+  return (
+    <Query query={USER_SUBSCRIPTIONS_QUERY}>
+      {({ data: { currentUser }, loading }) => {
+        const subscription = getCurrentSanbaseSubscription(currentUser)
 
         if (subscription) {
           return null
@@ -49,4 +49,10 @@ const UpgradeBtn = props => {
   )
 }
 
-export default UpgradeBtn
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: checkIsLoggedIn(state)
+  }
+}
+
+export default connect(mapStateToProps)(UpgradeBtn)

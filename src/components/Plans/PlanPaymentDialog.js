@@ -8,7 +8,10 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import { Elements, injectStripe } from 'react-stripe-elements'
 import CheckoutForm from '../CheckoutForm/CheckoutForm'
 import { showNotification } from '../../actions/rootActions'
-import { CURRENT_USER_QUERY, SUBSCRIBE_MUTATION } from '../../queries/plans'
+import {
+  USER_SUBSCRIPTIONS_QUERY,
+  SUBSCRIBE_MUTATION
+} from '../../queries/plans'
 import { formatError, contactAction } from '../../utils/notifications'
 import sharedStyles from './Plans.module.scss'
 
@@ -21,14 +24,14 @@ function useFormLoading () {
 }
 
 function updateCache (cache, { data: { subscribe } }) {
-  const { currentUser } = cache.readQuery({ query: CURRENT_USER_QUERY })
+  const { currentUser } = cache.readQuery({ query: USER_SUBSCRIPTIONS_QUERY })
 
   let subscriptions = currentUser.subscriptions
     ? [subscribe, ...currentUser.subscriptions]
     : [subscribe]
 
   cache.writeQuery({
-    query: CURRENT_USER_QUERY,
+    query: USER_SUBSCRIPTIONS_QUERY,
     data: { currentUser: { ...currentUser, subscriptions } }
   })
 }
