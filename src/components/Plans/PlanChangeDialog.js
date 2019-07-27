@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
+import { connect } from 'react-redux'
 import { Mutation } from 'react-apollo'
 import PLANS from './list'
+import { showNotification } from '../../actions/rootActions'
 import { UPDATE_SUBSCRIPTION_MUTATION } from '../../queries/plans'
 import { formatPrice } from '../../utils/plans'
 import { getDateFormats } from '../../utils/dates'
 import { formatError, contactAction } from '../../utils/notifications'
 import planStyles from './Plans.module.scss'
 import dialogStyles from './Dialog.module.scss'
-
-const addNot = () => {}
 
 const ChangePlanDialog = ({
   subscription: {
@@ -22,7 +22,7 @@ const ChangePlanDialog = ({
   price,
   billing,
   planId,
-  onDialogClose = () => {}
+  addNot
 }) => {
   const [dialogVisible, setDialogVisiblity] = useState(false)
 
@@ -78,18 +78,15 @@ const ChangePlanDialog = ({
                   .then(() =>
                     addNot({
                       variant: 'success',
-                      title: `You have successfully upgraded to the "${title}" plan!`,
-                      dismissAfter: 5000
+                      title: `You have successfully upgraded to the "${title}" plan!`
                     })
                   )
-                  .then(onDialogClose)
                   .then(hideDialog)
                   .catch(e =>
                     addNot({
                       variant: 'error',
                       title: `Error during the plan change`,
                       description: formatError(e.message),
-                      dismissAfter: 5000,
                       actions: contactAction
                     })
                   )
@@ -104,4 +101,11 @@ const ChangePlanDialog = ({
   )
 }
 
-export default ChangePlanDialog
+const mapDispatchToProps = dispatch => ({
+  addNot: message => dispatch(showNotification(message))
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(ChangePlanDialog)

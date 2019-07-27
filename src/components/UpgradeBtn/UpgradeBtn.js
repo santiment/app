@@ -6,10 +6,7 @@ import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import { Query } from 'react-apollo'
 import Plans from '../Plans/Plans'
-import {
-  findSanbasePlan,
-  getCurrentSanbaseSubscription
-} from '../../utils/plans'
+import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import { CURRENT_USER_QUERY } from '../../queries/plans'
 import styles from './UpgradeBtn.module.scss'
 

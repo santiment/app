@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
 import GA from 'react-ga'
 import { Mutation } from 'react-apollo'
+import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import Loader from '@santiment-network/ui/Loader/Loader'
 import { Elements, injectStripe } from 'react-stripe-elements'
 import CheckoutForm from '../CheckoutForm/CheckoutForm'
+import { showNotification } from '../../actions/rootActions'
 import { CURRENT_USER_QUERY, SUBSCRIBE_MUTATION } from '../../queries/plans'
 import { formatError, contactAction } from '../../utils/notifications'
 import sharedStyles from './Plans.module.scss'
-
-const addNot = () => {}
 
 function useFormLoading () {
   const [loading, setLoading] = useState(false)
@@ -56,7 +55,7 @@ const PaymentDialog = ({
   planId,
   stripe,
   disabled,
-  onDialogClose = () => {}
+  addNot
 }) => {
   const [loading, toggleLoading] = useFormLoading()
   const [paymentVisible, setPaymentVisiblity] = useState(false)
@@ -120,17 +119,14 @@ const PaymentDialog = ({
                     .then(() => {
                       addNot({
                         variant: 'success',
-                        title: `You have successfully upgraded to the "${title}" plan!`,
-                        dismissAfter: 5000
+                        title: `You have successfully upgraded to the "${title}" plan!`
                       })
-                      onDialogClose()
                     })
                     .catch(e => {
                       addNot({
                         variant: 'error',
                         title: `Error during the payment`,
                         description: formatError(e.message),
-                        dismissAfter: 5000,
                         actions: contactAction
                       })
                       toggleLoading()
@@ -138,7 +134,6 @@ const PaymentDialog = ({
                 }
               }}
             >
-              {loading && <div>loading</div>}
               <Dialog.ScrollContent withPadding>
                 <CheckoutForm plan={title} />
               </Dialog.ScrollContent>
@@ -152,9 +147,9 @@ const PaymentDialog = ({
                 <Dialog.Approve
                   variant='fill'
                   accent='positive'
-                  disabled={loading}
                   className={sharedStyles.action}
                   type='submit'
+                  isLoading={loading}
                 >
                   Confirm payment
                 </Dialog.Approve>
@@ -167,7 +162,14 @@ const PaymentDialog = ({
   )
 }
 
-const InjectedForm = injectStripe(PaymentDialog)
+const mapDispatchToProps = dispatch => ({
+  addNot: message => dispatch(showNotification(message))
+})
+
+const InjectedForm = connect(
+  null,
+  mapDispatchToProps
+)(injectStripe(PaymentDialog))
 
 export default props => (
   <Elements>
