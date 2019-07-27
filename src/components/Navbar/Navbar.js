@@ -106,7 +106,7 @@ const Navbar = ({ activeLink = '/' }) => {
               )
             }
           )}
-          <UpgradeBtn />
+          <UpgradeBtn className={styles.upgrade} />
         </div>
 
         <div className={styles.right}>
