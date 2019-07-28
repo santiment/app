@@ -1,8 +1,17 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
+  display: flex;
+}
+
+.tool {
   border: 1px solid var(--porcelain);
   border-radius: 4px;
+  flex: 1;
+
+  &_short {
+    width: 65%;
+  }
 }
 
 .container {
@@ -35,7 +44,7 @@
 
 .search {
   width: 20%;
-  min-width: 220px;
+  min-width: 150px;
 }
 
 .title {

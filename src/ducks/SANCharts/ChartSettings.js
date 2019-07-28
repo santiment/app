@@ -26,10 +26,12 @@ const ChartSettings = ({
   from,
   to,
   project,
-  hideSettings = {}
+  hideSettings = {},
+  isAdvancedView
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
   const noSearch = hideSettings.search
+  const notAdvancedView = !isAdvancedView
   return (
     <div className={cx(styles.settings, noSearch && styles.settings_noSearch)}>
       <div className={styles.settings__group}>
@@ -41,9 +43,10 @@ const ChartSettings = ({
             iconPosition='left'
           />
         )}
-        {hideSettings.signals || (
-          <ChartSignalCreationDialog slug={project.slug} />
-        )}
+        {hideSettings.signals ||
+          (notAdvancedView && (
+            <ChartSignalCreationDialog slug={project.slug} />
+          ))}
       </div>
       <div className={styles.settings__group}>
         <Selector
@@ -52,19 +55,21 @@ const ChartSettings = ({
           defaultSelected={defaultTimerange}
           className={styles.ranges}
         />
-        <CalendarBtn
-          onChange={onCalendarChange}
-          value={[new Date(from), new Date(to)]}
-          className={styles.calendar}
-          maxDate={MAX_DATE}
-        />
+        {notAdvancedView && (
+          <CalendarBtn
+            onChange={onCalendarChange}
+            value={[new Date(from), new Date(to)]}
+            className={styles.calendar}
+            maxDate={MAX_DATE}
+          />
+        )}
         <IntervalSelector
           from={from}
           to={to}
           interval={interval}
           onIntervalChange={onIntervalChange}
         />
-        <AssetToWatchlistDialog project={project} />
+        {notAdvancedView && <AssetToWatchlistDialog project={project} />}
         <ChartSettingsContextMenu
           hasNightMode={hasNightMode}
           onNightModeSelect={onNightModeSelect}
