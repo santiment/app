@@ -19,7 +19,9 @@ const Trigger = ({ className, children = 'Upgrade', ...props }) => (
   </Button>
 )
 
-const UpgradeBtn = ({ isLoggedIn, ...props }) => {
+// NOTE(vanguard): redux passes "dispatch" prop to the component.
+// We should capture it in order to not assign it as a invalid dom attribute
+const UpgradeBtn = ({ isLoggedIn, dispatch, ...props }) => {
   if (!isLoggedIn) {
     return <Trigger as={Link} to='/login' {...props} />
   }
