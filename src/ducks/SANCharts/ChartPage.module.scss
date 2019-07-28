@@ -1,10 +1,23 @@
 @import '~@santiment-network/ui/mixins';
 
+.wrapper {
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+}
+
+.container {
+  padding: 20px 24px;
+
+  &_bottom {
+    padding: 24px;
+    border-top: 1px solid var(--porcelain);
+  }
+}
+
 .settings {
   display: flex;
-  padding: 10px;
-  padding-left: 20px;
   justify-content: space-between;
+  margin-bottom: 24px;
 
   &_noSearch {
     justify-content: flex-end;
@@ -91,8 +104,4 @@
   &__btn {
     justify-content: space-between;
   }
-}
-
-.selector {
-  margin: 10px 20px;
 }

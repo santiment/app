@@ -20,13 +20,13 @@ import displayPaywall from './Paywall'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
 
-const BRUSH_SIDE_MARGINS_IN_PX = 40
+const BRUSH_SIDE_MARGINS_IN_PX = 4
 const BRUSH_SIDE_MARGIN_IN_PX = BRUSH_SIDE_MARGINS_IN_PX / 2
 const EMPTY_FORMATTER = () => {}
 const PRICE_METRIC = 'historyPrice'
 const CHART_MARGINS = {
-  left: -10,
-  right: 18
+  left: -20,
+  right: 0
 }
 
 const tickFormatter = date => {

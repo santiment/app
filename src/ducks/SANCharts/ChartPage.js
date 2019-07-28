@@ -1,5 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import * as qs from 'query-string'
+import cx from 'classnames'
 import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
@@ -273,43 +274,45 @@ class ChartPage extends Component {
           )
 
           return (
-            <Fragment>
-              {!viewOnly && (
-                <LoadableChartSettings
-                  defaultTimerange={timeRange}
-                  onTimerangeChange={this.onTimerangeChange}
-                  onCalendarChange={this.onCalendarChange}
-                  onSlugSelect={this.onSlugSelect}
-                  generateShareLink={this.generateShareLink}
-                  onNightModeSelect={this.onNightModeSelect}
-                  onIntervalChange={this.onIntervalChange}
-                  hasNightMode={nightMode}
-                  disabledMetrics={errors}
-                  from={from}
-                  to={to}
-                  interval={interval}
-                  hideSettings={hideSettings}
-                  project={{ projectId, slug }}
+            <div className={styles.wrapper}>
+              <div className={styles.container}>
+                {!viewOnly && (
+                  <LoadableChartSettings
+                    defaultTimerange={timeRange}
+                    onTimerangeChange={this.onTimerangeChange}
+                    onCalendarChange={this.onCalendarChange}
+                    onSlugSelect={this.onSlugSelect}
+                    generateShareLink={this.generateShareLink}
+                    onNightModeSelect={this.onNightModeSelect}
+                    onIntervalChange={this.onIntervalChange}
+                    hasNightMode={nightMode}
+                    disabledMetrics={errors}
+                    from={from}
+                    to={to}
+                    interval={interval}
+                    hideSettings={hideSettings}
+                    project={{ projectId, slug }}
+                  />
+                )}
+                <Charts
+                  onZoom={this.onZoom}
+                  onZoomOut={this.onZoomOut}
+                  isZoomed={zoom}
+                  chartData={(timeseries && zoom
+                    ? timeseries.slice(zoom[0], zoom[1])
+                    : timeseries
+                  ).map(({ datetime, ...rest }) => ({
+                    ...rest,
+                    datetime: +new Date(datetime)
+                  }))}
+                  settings={settings}
+                  title={title}
+                  metrics={finalMetrics}
+                  children={children}
                 />
-              )}
-              <Charts
-                onZoom={this.onZoom}
-                onZoomOut={this.onZoomOut}
-                isZoomed={zoom}
-                chartData={(timeseries && zoom
-                  ? timeseries.slice(zoom[0], zoom[1])
-                  : timeseries
-                ).map(({ datetime, ...rest }) => ({
-                  ...rest,
-                  datetime: +new Date(datetime)
-                }))}
-                settings={settings}
-                title={title}
-                metrics={finalMetrics}
-                children={children}
-              />
+              </div>
               {!viewOnly && (
-                <>
+                <div className={cx(styles.container, styles.container_bottom)}>
                   {hideSettings.sidecar || (
                     <LoadableChartSidecar onSlugSelect={this.onSlugSelect} />
                   )}
@@ -320,9 +323,9 @@ class ChartPage extends Component {
                     disabledMetrics={errors}
                     activeMetrics={finalMetrics}
                   />
-                </>
+                </div>
               )}
-            </Fragment>
+            </div>
           )
         }}
       />
