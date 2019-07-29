@@ -171,7 +171,10 @@ export const TriggerForm = ({
                 setFieldValue={setFieldValue}
               />
 
-              {!metric.hidden && typeSelectors && typeSelectors.length > 1 && (
+              {metric &&
+                !metric.hidden &&
+                typeSelectors &&
+                typeSelectors.length > 1 && (
                 <div className={cx(styles.row)}>
                   <div className={cx(styles.Field, styles.fieldFilled)}>
                     <FormikLabel text='Condition' />

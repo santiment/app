@@ -3,17 +3,13 @@ import { compose } from 'redux'
 import { graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import {
   ALL_ERC20_PROJECTS_QUERY,
   allProjectsForSearchGQL
 } from '../../../../../pages/Projects/allProjectsGQL'
 import { ASSETS_BY_WALLET_QUERY } from '../../../../HistoricalBalance/common/queries'
-import {
-  mapAssetsHeldByAddressToProps,
-  isPossibleEthAddress
-} from '../../../utils/utils'
+import { mapAssetsHeldByAddressToProps } from '../../../utils/utils'
 import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelector'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import styles from '../signal/TriggerForm.module.scss'
@@ -46,7 +42,7 @@ const propTypes = {
   values: PropTypes.any.isRequired,
   target: PropTypes.any,
   setFieldValue: PropTypes.func.isRequired,
-  byAddress: PropTypes.string,
+  byAddress: PropTypes.any,
   assets: PropTypes.array
 }
 
@@ -164,9 +160,10 @@ const TriggerFormHistoricalBalance = ({
       <div className={cx(styles.row)}>
         <div className={cx(styles.Field, styles.fieldFilled)}>
           <FormikLabel text='Wallet' />
-          <FormikInput
-            disabled={disabledWalletField}
-            validator={isPossibleEthAddress}
+          <FormikSelect
+            disabled={!!disabledWalletField}
+            isCreatable
+            multi
             name='ethAddress'
             placeholder={
               disabledWalletField
@@ -241,11 +238,12 @@ const enhance = compose(
   graphql(ASSETS_BY_WALLET_QUERY, {
     name: 'assetsByWallet',
     props: mapAssetsHeldByAddressToProps,
-    skip: ({ byAddress }) => !byAddress,
+    skip: ({ byAddress }) =>
+      !byAddress || (Array.isArray(byAddress) && byAddress.length > 1),
     options: ({ byAddress }) => {
       return {
         variables: {
-          address: byAddress
+          address: Array.isArray(byAddress) ? byAddress[0].value : byAddress
         },
         errorPolicy: 'all'
       }
