@@ -1,3 +1,7 @@
+export const MAX_DESCR_LENGTH = 140
+export const MAX_TITLE_LENGTH = 120
+export const MIN_TITLE_LENGTH = 2
+
 export const REQUIRED_MESSAGE = 'Required'
 export const MUST_BE_MORE_ZERO_MESSAGE = 'Must be more 0'
 export const NOT_VALID_ETH_ADDRESS = 'Not valid ETH address'

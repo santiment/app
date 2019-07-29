@@ -8,7 +8,6 @@ import { createTrigger, updateTrigger } from '../../common/actions'
 import Message from '@santiment-network/ui/Message'
 import Toggle from '@santiment-network/ui/Toggle'
 import TriggersForm from '../signalCrudForm/signalsList/TriggersForm'
-import AboutForm from '../aboutForm/AboutForm'
 import { TRIGGER_BY_ID_QUERY } from '../../common/queries'
 import {
   mapTriggerToFormProps,
@@ -120,14 +119,6 @@ export class SignalMaster extends React.PureComponent {
             canRedirect={this.props.canRedirect}
             metaFormSettings={metaFormSettings}
             onSettingsChange={this.handleSettingsChange}
-          />
-        )}
-        {step === TRIGGER_STEPS.CONFIRM && (
-          <AboutForm
-            triggerMeta={triggerAboutFormData}
-            isEdit={+triggerId > 0}
-            onBack={this.backToSettings}
-            onSubmit={this.handleAboutFormSubmit}
           />
         )}
 

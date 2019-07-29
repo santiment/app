@@ -187,6 +187,7 @@ a.connectLink {
 .frequencyTimeValue {
   flex: 1;
   margin-right: 8px;
+  width: 100px;
 }
 
 .frequencyTimeType {
@@ -202,32 +203,6 @@ a.connectLink {
   border-radius: 0;
 }
 
-.AboutForm {
-  background-color: var(--white);
-
-  @include border-box();
-
-  border-radius: $border-radius;
-  padding-top: 16px;
-
-  .Field {
-    width: 100%;
-    padding: 0;
-  }
-
-  .row {
-    margin: 0 0 15px 0;
-  }
-
-  .controls {
-    margin-top: 1.1rem;
-  }
-
-  .triggerFormItem {
-    padding-bottom: 0;
-  }
-}
-
 .lastPrice {
   @include text('body-3');
 
@@ -239,14 +214,8 @@ a.connectLink {
 
 .triggerToggleBlock {
   display: flex;
-  margin: 20px 230px 0 20px;
-  height: 25px;
 
   @include text('body-3');
-
-  @include responsive('phone', 'phone-xs') {
-    margin: 20px 230px 10px 20px;
-  }
 }
 
 .triggerToggleLabel {

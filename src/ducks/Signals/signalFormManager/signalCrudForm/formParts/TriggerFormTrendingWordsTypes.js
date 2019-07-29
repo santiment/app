@@ -3,7 +3,7 @@ import cx from 'classnames'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import { TRENDING_WORDS_TYPE_OPTIONS } from '../../../utils/constants'
-import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelector'
+import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
 import {
   isTrendingWordsByProjects,
   isTrendingWordsByWatchlist,

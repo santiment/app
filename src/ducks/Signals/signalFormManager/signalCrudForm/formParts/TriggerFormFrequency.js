@@ -13,6 +13,7 @@ import {
   frequencyTymeValueBuilder
 } from '../../../utils/constants'
 import styles from '../signal/TriggerForm.module.scss'
+import cx from 'classnames'
 
 const propTypes = {
   metaFormSettings: PropTypes.any.isRequired,
@@ -26,7 +27,8 @@ export const TriggerFormFrequency = ({
   setFieldValue,
   metric,
   frequencyType,
-  frequencyTimeType
+  frequencyTimeType,
+  disabled = false
 }) => {
   const defaultFrequencyType = metaFormSettings.frequencyType
 
@@ -35,13 +37,13 @@ export const TriggerFormFrequency = ({
   })
 
   return (
-    <div className={styles.row}>
+    <div className={cx(styles.row, styles.rowTop)}>
       <div className={styles.Field}>
         <FormikLabel text='Frequency of notifications' />
         <FormikSelect
           name='frequencyType'
           isClearable={false}
-          disabled={defaultFrequencyType.isDisabled}
+          disabled={disabled || defaultFrequencyType.isDisabled}
           defaultValue={defaultFrequencyType.value.value}
           isSearchable
           placeholder='Choose a frequency'
@@ -65,14 +67,14 @@ export const TriggerFormFrequency = ({
             name='frequencyTimeValue'
             className={styles.frequencyTimeValue}
             isClearable={false}
-            disabled={!frequencyType || !frequencyTimeType}
+            disabled={disabled || !frequencyType || !frequencyTimeType}
             isSearchable
             options={getFrequencyTimeValues(frequencyTimeType)}
           />
           <FormikSelect
+            disabled={disabled || !!frequencyType}
             className={styles.frequencyTimeType}
             name='frequencyTimeType'
-            disabled={!frequencyType}
             isClearable={false}
             onChange={frequencyTimeType => {
               setFieldValue('frequencyTimeValue', frequencyTymeValueBuilder(1))

@@ -1,17 +1,42 @@
 @import "~@santiment-network/ui/mixins.scss";
 
-.triggerHeader {
+.block {
   width: 100%;
-  background: var(--athens);
   border: 1px solid var(--porcelain);
 
   @include border-box();
 
   border-radius: $border-radius;
-  display: flex;
-  padding: 3px 10px 3px 20px;
-  color: var(--casper);
 
+  @include text('body-3');
+}
+
+.firstBlock {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.certainBlock {
+  border-radius: 0;
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.lastBlock {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.header {
+  width: 100%;
+  background: var(--athens);
+  border: 1px solid var(--porcelain);
+  display: flex;
+  padding: 10px 20px;
+  color: var(--casper);
+  font-weight: 500;
+
+  @include border-box();
   @include text('body-3');
 
   @include responsive('phone', 'phone-xs') {
@@ -23,24 +48,11 @@
   }
 }
 
-.triggerHeaderName {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  @include text('body-3');
-}
-
-.triggerHeaderActions {
-  display: flex;
-  margin-left: auto;
-}
-
 .close {
   display: none;
 }
 
-.triggerHeaderButton {
+.action {
   background-color: var(--athens) !important;
   fill: var(--waterloo);
 
@@ -51,4 +63,17 @@
   @include responsive('phone', 'phone-xs') {
     background-color: var(--white) !important;
   }
+}
+
+.title {
+  color: var(--waterloo);
+}
+
+.description {
+  color: var(--mirage);
+  margin-left: 5px;
+}
+
+.content {
+  padding: 20px;
 }

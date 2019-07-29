@@ -10,7 +10,7 @@ import {
 } from '../../../../../pages/Projects/allProjectsGQL'
 import { ASSETS_BY_WALLET_QUERY } from '../../../../HistoricalBalance/common/queries'
 import { mapAssetsHeldByAddressToProps } from '../../../utils/utils'
-import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelector'
+import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import styles from '../signal/TriggerForm.module.scss'
 

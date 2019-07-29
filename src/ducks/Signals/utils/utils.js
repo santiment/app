@@ -42,9 +42,19 @@ import {
   TRENDING_WORDS_WATCHLIST_MENTIONED,
   PRICE,
   METRIC_DEFAULT_VALUES,
-  NOT_VALID_ETH_ADDRESS
+  NOT_VALID_ETH_ADDRESS,
+  MIN_TITLE_LENGTH,
+  MAX_TITLE_LENGTH,
+  MAX_DESCR_LENGTH
 } from './constants'
 import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
+
+const targetMapper = ({ value, slug }) => value || slug
+
+export const getTargets = ({ target }) => {
+  const targets = mapTargetObject(target)
+  return Array.isArray(targets) ? targets.join(', ') : targets
+}
 
 const getTimeWindowUnit = timeWindow => {
   if (!timeWindow) return undefined
@@ -393,9 +403,7 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
 }
 
 export const getTargetFromArray = target =>
-  target.length === 1
-    ? target[0].slug || target[0].value
-    : target.map(({ slug, value }) => slug || value)
+  target.length === 1 ? targetMapper(target[0]) : target.map(targetMapper())
 
 export const mapTriggerTarget = (target, signalType = {}, address) => {
   const { value } = signalType
@@ -425,7 +433,7 @@ export const mapTriggerTarget = (target, signalType = {}, address) => {
 export const mapTargetObject = target => {
   return Array.isArray(target)
     ? getTargetFromArray(target)
-    : target.value || target.slug
+    : targetMapper(target)
 }
 
 export const mapAssetTarget = (target, ethAddress) => {
@@ -465,10 +473,9 @@ export const getTrendingWordsTriggerOperation = ({ type: { value }, type }) => {
 
 export const mapTrendingWordsTargets = items => {
   if (items.length === 1) {
-    const { value, slug } = items[0]
-    return value || slug
+    return targetMapper(items[0])
   } else {
-    return items.map(({ value, slug }) => value || slug)
+    return items.map(targetMapper)
   }
 }
 
@@ -588,7 +595,7 @@ export const mapFormToHBTriggerSettings = formProps => {
 }
 
 export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
-  const { type, metric, isRepeating } = formProps
+  const { type, metric, isRepeating, isPublic } = formProps
   let settings = {}
   switch (metric.value) {
     case DAILY_ACTIVE_ADDRESSES: {
@@ -633,7 +640,8 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     ...prevTrigger,
     settings: settings,
     isRepeating: !!isRepeating,
-    ...cooldownParams
+    ...cooldownParams,
+    isPublic: isPublic
   }
 }
 
@@ -745,7 +753,9 @@ export const validateTriggerForm = ({
   target,
   trendingWordsWithAssets,
   trendingWordsWithWords,
-  signalType
+  signalType,
+  title,
+  description
 }) => {
   let errors = {}
 
@@ -846,6 +856,17 @@ export const validateTriggerForm = ({
 
   if (!frequencyTimeType || !frequencyTimeType.value) {
     errors.frequencyTimeType = REQUIRED_MESSAGE
+  }
+
+  if (!title) {
+    errors.title = REQUIRED_MESSAGE
+  } else if (title.length <= MIN_TITLE_LENGTH) {
+    errors.title = `Title has to be longer than ${MIN_TITLE_LENGTH} characters`
+  } else if (title.length > MAX_TITLE_LENGTH) {
+    errors.title = `Title has to be less than ${MAX_TITLE_LENGTH} characters`
+  }
+  if (!description || description.length > MAX_DESCR_LENGTH) {
+    errors.description = `Description has to be less than ${MAX_DESCR_LENGTH} characters`
   }
 
   return errors
