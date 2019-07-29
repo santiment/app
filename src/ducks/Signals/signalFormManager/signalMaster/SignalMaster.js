@@ -20,14 +20,11 @@ const getTitle = (step, formData, { id }, isShared) => {
       return isUpdate ? 'Update signal' : 'Create signal'
     }
     case TRIGGER_STEPS.CONFIRM: {
+      const publicWord = formData.isPublic ? 'public' : 'private'
       if (isUpdate) {
-        return formData.isPublic
-          ? 'Update public signal'
-          : 'Update private signal'
+        return `Update ${publicWord} signal`
       } else {
-        return formData.isPublic
-          ? 'Create public signal'
-          : 'Create private signal'
+        return `Create ${publicWord} signal`
       }
     }
     default: {

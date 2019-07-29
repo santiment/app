@@ -47,76 +47,72 @@ const AboutForm = ({ triggerMeta, onSubmit, onBack, isShared }) => {
         onSubmit(values)
       }}
     >
-      {({ values: { description = '' }, isSubmitting, isValid }) => {
-        return (
-          <Form className={styles.AboutForm}>
-            <div className={styles.triggerFormItem}>
-              <div className={styles.row}>
-                <div className={styles.Field}>
-                  <FormikLabel text='Name of the signal' />
-                  <FormikInput
-                    name='title'
-                    type='text'
-                    minLength={MIN_TITLE_LENGTH}
-                    maxLength={MAX_TITLE_LENGTH}
-                    placeholder='Name of the signal'
-                    onChange={value =>
-                      setTrigger({
-                        ...trigger,
-                        title: value
-                      })
-                    }
-                  />
-                </div>
+      {({ values: { description = '' }, isSubmitting, isValid }) => (
+        <Form className={styles.AboutForm}>
+          <div className={styles.triggerFormItem}>
+            <div className={styles.row}>
+              <div className={styles.Field}>
+                <FormikLabel text='Name of the signal' />
+                <FormikInput
+                  name='title'
+                  type='text'
+                  minLength={MIN_TITLE_LENGTH}
+                  maxLength={MAX_TITLE_LENGTH}
+                  placeholder='Name of the signal'
+                  onChange={value =>
+                    setTrigger({
+                      ...trigger,
+                      title: value
+                    })
+                  }
+                />
               </div>
+            </div>
 
-              <div className={styles.row}>
-                <div className={styles.Field}>
-                  <FormikLabel
-                    text={`Description (${
-                      (description || '').length
-                    }/${MAX_DESCR_LENGTH})`}
-                  />
-                  <FormikTextarea
-                    placeholder='Description of the signal'
-                    name='description'
-                    rowsCount={3}
-                    maxLength={MAX_DESCR_LENGTH}
-                    onChange={value => {
-                      setTrigger({
-                        ...trigger,
-                        description: value
-                      })
-                    }}
-                  />
-                </div>
+            <div className={styles.row}>
+              <div className={styles.Field}>
+                <FormikLabel
+                  text={`Description (${
+                    (description || '').length
+                  }/${MAX_DESCR_LENGTH})`}
+                />
+                <FormikTextarea
+                  placeholder='Description of the signal'
+                  name='description'
+                  rowsCount={3}
+                  maxLength={MAX_DESCR_LENGTH}
+                  onChange={value => {
+                    setTrigger({
+                      ...trigger,
+                      description: value
+                    })
+                  }}
+                />
               </div>
             </div>
-            <div className={styles.controls}>
-              <Button
-                type='button'
-                variant={'flat'}
-                accent='grey'
-                border
-                onClick={() => {
-                  onBack(trigger)
-                }}
-              >
-                Back
-              </Button>
-              <Button
-                type='submit'
-                disabled={!isValid || isSubmitting}
-                isActive={isValid && !isSubmitting}
-                variant={'fill'}
-                accent='positive'
-              >
-                {isShared ? 'Save' : 'Confirm'}
-              </Button>
-            </div>
-          </Form>
-        )
-      }}
+          </div>
+          <div className={styles.controls}>
+            <Button
+              type='button'
+              variant={'flat'}
+              accent='grey'
+              border
+              onClick={() => onBack(trigger)}
+            >
+              Back
+            </Button>
+            <Button
+              type='submit'
+              disabled={!isValid || isSubmitting}
+              isActive={isValid && !isSubmitting}
+              variant='fill'
+              accent='positive'
+            >
+              {isShared ? 'Save' : 'Confirm'}
+            </Button>
+          </div>
+        </Form>
+      )}
     </Formik>
   )
 }

@@ -1,16 +1,12 @@
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
+import * as qs from 'query-string'
 import { TRIGGER_BY_ID_QUERY } from './queries'
 import { mapGQLTriggerToProps } from '../utils/utils'
-import * as qs from 'query-string'
 
 const getInfoFromQuery = (listname = '') => {
   const [title, id] = listname.split('@')
-  return id
-    ? { title, id }
-    : {
-      id
-    }
+  return { title, id }
 }
 
 export const getShareSignalParams = () => {

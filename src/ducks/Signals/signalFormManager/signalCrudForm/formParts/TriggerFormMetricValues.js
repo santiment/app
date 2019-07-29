@@ -47,7 +47,7 @@ export const TriggerFormMetricValues = ({
   return (
     blocks &&
     blocks.length > 0 && (
-      <div className={cx(styles.row, isTimeWindow ? styles.rowTimeWindow : '')}>
+      <div className={cx(styles.row, isTimeWindow && styles.rowTimeWindow)}>
         {type && blocks.includes('absoluteBorderRight') && (
           <div className={styles.Field}>
             <FormikInput

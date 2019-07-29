@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import cx from 'classnames'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dialog from '@santiment-network/ui/Dialog'
@@ -9,8 +10,8 @@ import SignalMaster from '../signalFormManager/signalMaster/SignalMaster'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import GetSignal from '../common/getSignal'
 import { SIGNAL_ROUTES } from '../common/constants'
-import styles from './SignalMasterModalForm.module.scss'
 import SignalAnon from './SignalAnon'
+import styles from './SignalMasterModalForm.module.scss'
 
 const SignalMasterModalForm = ({
   label = 'New signal',
@@ -74,9 +75,7 @@ const SignalMasterModalForm = ({
         return (
           <Dialog
             open={dialogOpenState}
-            onOpen={() => {
-              setDialogOpenState(true)
-            }}
+            onOpen={() => setDialogOpenState(true)}
             onClose={onClose}
             trigger={
               dialogTrigger ||
@@ -86,7 +85,15 @@ const SignalMasterModalForm = ({
               !isError && (
                 <>
                   {dialogTitle}
-                  {isShared && <div className={styles.shared}>Shared</div>}
+                  {isShared && (
+                    <Button
+                      accent='positive'
+                      variant='fill'
+                      className={styles.shared}
+                    >
+                      Shared
+                    </Button>
+                  )}
                 </>
               )
             }
@@ -94,7 +101,9 @@ const SignalMasterModalForm = ({
             {...dialogProps}
           >
             <Dialog.ScrollContent className={styles.TriggerPanel}>
-              {isLoading && <div className={styles.loading}>Loading...</div>}
+              {isLoading && (
+                <Loader className={styles.loading}>Loading...</Loader>
+              )}
               {!isLoading &&
                 (isLoggedIn ? (
                   <SignalMaster

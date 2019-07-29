@@ -19,17 +19,15 @@ export const SignalCardWrapper = ({
         <SignalTypeIcon type={type} />
       </div>
       <div className={styles.wrapper__right}>
-        <div id={id}>
-          <div className={isModal ? styles.upper : ''}>
-            <h2 className={styles.title}>{title}</h2>
-            <h3 className={styles.description}>
-              <MultilineText
-                id='SignalCard__description'
-                maxLines={2}
-                text={description && description}
-              />
-            </h3>
-          </div>
+        <div id={id} className={isModal ? styles.upper : ''}>
+          <h2 className={styles.title}>{title}</h2>
+          <h3 className={styles.description}>
+            <MultilineText
+              id='SignalCard__description'
+              maxLines={2}
+              text={description && description}
+            />
+          </h3>
         </div>
 
         {children}

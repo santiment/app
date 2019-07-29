@@ -27,21 +27,23 @@
 .shared {
   @include text('body-3');
 
-  display: inline-block;
-  padding: 5px 10px;
-  color: var(--white);
-  background-color: var(--jungle-green);
-  border-radius: 4px;
   margin-left: auto;
   width: 70px;
-  margin-right: 10px;
+  margin-right: 20px;
+  cursor: initial;
+
+  &:hover {
+    background: var(--jungle-green);
+  }
 }
 
 .loading {
   padding: 10px;
   width: 496px;
+  height: 400px;
   display: flex;
   justify-content: center;
+  align-items: center;
 
   @include responsive('phone', 'phone-xs') {
     width: initial;
