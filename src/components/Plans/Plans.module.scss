@@ -1,0 +1,79 @@
+@import '~@santiment-network/ui/mixins';
+
+.cards {
+  display: flex;
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    flex-direction: column;
+  }
+}
+
+.title {
+  margin-bottom: 32px;
+}
+
+.br {
+  @include responsive('phone-xs') {
+    display: none;
+  }
+}
+
+.link {
+  height: 40px;
+  margin-bottom: 40px;
+  justify-content: center;
+}
+
+.more {
+  user-select: none;
+  cursor: pointer;
+  color: var(--jungle-green);
+  fill: var(--jungle-green);
+  display: block;
+  text-align: center;
+  margin-top: 22px;
+
+  @include text('body-3');
+
+  &_bottom {
+    margin-top: 45px;
+  }
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    display: none;
+  }
+
+  svg {
+    margin-bottom: -2px;
+    margin-right: 10px;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.dialog {
+  width: 440px;
+  position: relative;
+}
+
+.action {
+  margin-left: 16px;
+
+  &_cancel:hover {
+    color: var(--jungle-green);
+  }
+}
+
+.billing {
+  display: flex;
+  justify-content: center;
+  padding: 25px 0 40px;
+}
+
+.bill {
+  margin-right: 30px;
+
+  &:last-child {
+    margin: 0;
+  }
+}

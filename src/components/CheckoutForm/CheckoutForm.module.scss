@@ -1,0 +1,169 @@
+@import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
+
+.row {
+  display: flex;
+}
+
+.input {
+  margin-bottom: 10px;
+
+  &:hover,
+  &:focus {
+    border-color: var(--jungle-green);
+  }
+
+  &_right {
+    margin-left: 10px;
+  }
+
+  &_address {
+    margin: 0 10px;
+  }
+}
+
+.label_card {
+  :global {
+    .StripeElement {
+      border: 1px solid var(--porcelain);
+      box-sizing: border-box;
+      border-radius: 4px;
+      display: block;
+      padding: 7px 10px;
+      outline: 0;
+      background: var(--white);
+      margin-bottom: 5px;
+
+      &--focus {
+        border-color: var(--jungle-green);
+      }
+
+      &--invalid {
+        border-color: var(--persimmon);
+      }
+    }
+  }
+}
+
+.label {
+  @include text('caption', 'm');
+
+  color: var(--waterloo);
+  flex: 1;
+  margin-bottom: 3px;
+
+  &_cvc {
+    margin-left: 16px;
+  }
+}
+
+.bottom {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tooltip {
+  z-index: 1000;
+
+  &__content {
+    width: 340px;
+    padding: 12px 20px 20px;
+  }
+
+  &__text {
+    @include text('caption');
+
+    color: var(--waterloo);
+  }
+}
+
+.icon {
+  width: 13px;
+  height: 13px;
+  fill: var(--casper);
+  vertical-align: text-top;
+  margin-left: 5px;
+  cursor: pointer;
+
+  &_active {
+    fill: var(--jungle-green);
+  }
+}
+
+.cards {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card {
+  border-radius: 9px;
+  width: 140px;
+  height: 92px;
+  background: var(--porcelain);
+  padding: 11px 0 33px;
+
+  &_american {
+    padding: 13px 0 14px;
+  }
+
+  &__bank {
+    font-weight: 500;
+    font-size: 9px;
+    background: $athens;
+    color: $casper;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.title {
+  @include text('caption', 'm');
+
+  margin: 12px 0 4px;
+}
+
+.magnet {
+  height: 22px;
+  background: $mirage;
+}
+
+.block {
+  width: 90%;
+  height: 20px;
+  background: $white;
+  border-radius: 2px;
+  margin: 6px auto;
+  text-align: right;
+}
+
+.number {
+  position: relative;
+
+  @include text('caption', 'm');
+
+  color: var(--casper);
+  margin-top: 30px;
+  text-align: center;
+}
+
+.cvc {
+  border: 2px solid var(--persimmon);
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 9px;
+  line-height: 18px;
+  color: var(--waterloo);
+  padding: 7px 5px;
+  position: relative;
+  top: -4px;
+
+  &_american {
+    position: absolute;
+    top: -20px;
+    right: 11px;
+    padding: 4px 3px;
+  }
+}

@@ -10,6 +10,7 @@ import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import GetSignal from '../common/getSignal'
 import { SIGNAL_ROUTES } from '../common/constants'
 import styles from './SignalMasterModalForm.module.scss'
+import SignalAnon from './SignalAnon'
 
 const SignalMasterModalForm = ({
   label = 'New signal',
@@ -21,7 +22,9 @@ const SignalMasterModalForm = ({
   isLoggedIn,
   redirect,
   match,
+  trigger: dialogTrigger,
   buttonParams = {},
+  dialogProps,
   shareParams = {}
 }) => {
   const { id: shareId, isShared } = shareParams
@@ -75,12 +78,10 @@ const SignalMasterModalForm = ({
               setDialogOpenState(true)
             }}
             onClose={onClose}
-            trigger={signalModalTrigger(
-              isLoggedIn && enabled,
-              label,
-              variant,
-              border
-            )}
+            trigger={
+              dialogTrigger ||
+              signalModalTrigger(isLoggedIn && enabled, label, variant, border)
+            }
             title={
               !isError && (
                 <>
@@ -90,20 +91,24 @@ const SignalMasterModalForm = ({
               )
             }
             classes={styles}
+            {...dialogProps}
           >
             <Dialog.ScrollContent className={styles.TriggerPanel}>
               {isLoading && <div className={styles.loading}>Loading...</div>}
-              {!isLoading && (
-                <SignalMaster
-                  isShared={isShared}
-                  step={step}
-                  trigger={trigger}
-                  setTitle={onSetDialogTitle}
-                  onClose={() => setDialogOpenState(false)}
-                  canRedirect={canRedirect}
-                  metaFormSettings={metaFormSettings}
-                />
-              )}
+              {!isLoading &&
+                (isLoggedIn ? (
+                  <SignalMaster
+                    isShared={isShared}
+                    step={step}
+                    trigger={trigger}
+                    setTitle={onSetDialogTitle}
+                    onClose={() => setDialogOpenState(false)}
+                    canRedirect={canRedirect}
+                    metaFormSettings={metaFormSettings}
+                  />
+                ) : (
+                  <SignalAnon />
+                ))}
             </Dialog.ScrollContent>
           </Dialog>
         )

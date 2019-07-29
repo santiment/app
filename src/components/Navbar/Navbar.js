@@ -1,14 +1,16 @@
 import React from 'react'
 import { NavLink as Link } from 'react-router-dom'
 import cx from 'classnames'
+import Icon from '@santiment-network/ui/Icon'
+import Button from '@santiment-network/ui/Button'
 import Search from './../Search/SearchContainer'
-import { Icon, Button } from '@santiment-network/ui'
 import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
 import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 import NavbarHelpDropdown from './NavbarHelpDropdown'
 import NavbarLabsDropdown from './NavbarLabsDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
 import NavbarAssetsDropdown from './NavbarAssetsDropdown'
+import UpgradeBtn from '../UpgradeBtn/UpgradeBtn'
 import ShowIf from '../ShowIf/ShowIf'
 import styles from './Navbar.module.scss'
 
@@ -23,6 +25,7 @@ const leftLinks = [
   { link: '/insights', label: 'Insights' },
   { link: '/labs', label: 'Labs', linkTo: '/labs' }
 ]
+
 const rightBtns = [
   {
     icon: <Icon type='help-round' />,
@@ -62,7 +65,6 @@ const Navbar = ({ activeLink = '/' }) => {
               <path d='M71.8751 9.7998C71.8751 9.05314 71.9884 8.35314 72.2151 7.69981C72.4418 7.03314 72.7684 6.45981 73.1951 5.9798C73.6218 5.48647 74.1351 5.0998 74.7351 4.81981C75.3484 4.5398 76.0285 4.39981 76.7751 4.39981C77.5218 4.39981 78.1951 4.5398 78.7951 4.81981C79.4084 5.08647 79.9284 5.45314 80.3551 5.91981C80.7818 6.37314 81.1084 6.91314 81.3351 7.5398C81.5751 8.15314 81.6951 8.7998 81.6951 9.4798V10.3798C81.6951 10.5265 81.6418 10.6531 81.5351 10.7598C81.4285 10.8665 81.3018 10.9198 81.1551 10.9198H74.4751C74.4751 11.2265 74.5351 11.4998 74.6551 11.7398C74.7884 11.9665 74.9618 12.1598 75.1751 12.3198C75.3885 12.4798 75.6351 12.5998 75.9151 12.6798C76.1951 12.7598 76.4818 12.7998 76.7751 12.7998C77.2018 12.7998 77.5484 12.7598 77.8151 12.6798C78.0818 12.5865 78.3018 12.4731 78.4751 12.3398C78.6218 12.2331 78.7418 12.1598 78.8351 12.1198C78.9284 12.0798 79.0551 12.0598 79.2151 12.0598H80.8151C80.9618 12.0598 81.0884 12.1131 81.1951 12.2198C81.3151 12.3265 81.3685 12.4531 81.3551 12.5998C81.3418 12.7865 81.2351 13.0265 81.0351 13.3198C80.8484 13.6131 80.5618 13.8998 80.1751 14.1798C79.7885 14.4598 79.3084 14.6998 78.7351 14.8998C78.1751 15.0998 77.5218 15.1998 76.7751 15.1998C76.0285 15.1998 75.3484 15.0731 74.7351 14.8198C74.1351 14.5531 73.6218 14.1798 73.1951 13.6998C72.7684 13.2198 72.4418 12.6531 72.2151 11.9998C71.9884 11.3331 71.8751 10.5998 71.8751 9.7998ZM76.7751 6.7998C76.3885 6.7998 76.0551 6.85981 75.7751 6.9798C75.5084 7.08647 75.2818 7.23314 75.0951 7.41981C74.9084 7.59314 74.7618 7.79314 74.6551 8.0198C74.5618 8.23314 74.5018 8.43981 74.4751 8.6398H78.9951C78.9685 8.43981 78.9151 8.23314 78.8351 8.0198C78.7684 7.79314 78.6484 7.59314 78.4751 7.41981C78.3151 7.23314 78.0951 7.08647 77.8151 6.9798C77.5484 6.85981 77.2018 6.7998 76.7751 6.7998Z' />
             </svg>
           </Link>
-
           {leftLinks.map(
             ({ link, label, linkTo, showIf = { condition: true } }) => {
               if (linkTo) {
@@ -104,6 +106,7 @@ const Navbar = ({ activeLink = '/' }) => {
               )
             }
           )}
+          <UpgradeBtn className={styles.upgrade} />
         </div>
 
         <div className={styles.right}>
