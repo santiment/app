@@ -17,5 +17,6 @@
 }
 
 .error {
-  border-color: var(--persimmon);
+  border: 1px solid var(--persimmon) !important;
+  padding: 5px 10px !important;
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
@@ -31,7 +31,9 @@ import {
   mapFormPropsToTrigger,
   mapTargetObject,
   validateTriggerForm,
-  getDefaultFormValues
+  getDefaultFormValues,
+  titleMetricValues,
+  descriptionMetricValues
 } from '../../../utils/utils'
 import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/TriggerFormMetricTypes'
@@ -100,7 +102,7 @@ export const TriggerForm = ({
   const defaultType = metaFormSettings.type
 
   const toggleSignalPublic = () => {
-    setInitialValues({ ...initialValues, isPublic: initialValues.isPublic })
+    setInitialValues({ ...initialValues, isPublic: !initialValues.isPublic })
   }
 
   return (
@@ -187,37 +189,50 @@ export const TriggerForm = ({
                 setFieldValue={setFieldValue}
               />
 
-              {metric &&
-                !metric.hidden &&
-                typeSelectors &&
-                typeSelectors.length > 1 && (
-                <div className={cx(styles.row)}>
-                  <div className={cx(styles.Field, styles.fieldFilled)}>
-                    <FormikLabel text='Condition' />
-                    <FormikSelect
-                      name='type'
-                      isClearable={false}
-                      isSearchable
-                      disabled={defaultType.isDisabled}
-                      defaultValue={defaultType.value}
-                      placeholder='Choose a type'
-                      options={typeSelectors}
-                      optionRenderer={MetricOptionsRenderer}
-                      isOptionDisabled={option => !option.value}
-                    />
+              <TriggerFormBlock
+                titleLabel={titleMetricValues(values)}
+                titleDescription={descriptionMetricValues(values)}
+                className={styles.chainBlock}
+              >
+                {metric &&
+                  !metric.hidden &&
+                  typeSelectors &&
+                  typeSelectors.length > 1 && (
+                  <div className={cx(styles.row)}>
+                    <div className={cx(styles.Field, styles.fieldFilled)}>
+                      <FormikLabel text='Condition' />
+                      <FormikSelect
+                        name='type'
+                        isClearable={false}
+                        isSearchable
+                        disabled={defaultType.isDisabled}
+                        defaultValue={defaultType.value}
+                        placeholder='Choose a type'
+                        options={typeSelectors}
+                        optionRenderer={MetricOptionsRenderer}
+                        isOptionDisabled={option => !option.value}
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              <TriggerFormMetricValues lastPrice={price} values={values} />
+                <TriggerFormMetricValues lastPrice={price} values={values} />
 
-              {showChart && (
-                <div className={cx(styles.row, styles.signalPreview)}>
-                  <SignalPreview target={chartTarget} type={metric.value} />
-                </div>
-              )}
+                {showChart && (
+                  <Fragment>
+                    <TriggerFormBlockDivider />
+                    <div className={styles.preview}>
+                      <SignalPreview target={chartTarget} type={metric.value} />
+                    </div>
+                  </Fragment>
+                )}
+              </TriggerFormBlock>
 
-              <TriggerFormBlock titleLabel='More options' enabledHide>
+              <TriggerFormBlock
+                titleLabel='More options'
+                enabledHide
+                className={styles.chainBlock}
+              >
                 <div className={cx(styles.row, styles.rowTop)}>
                   <div className={cx(styles.Field, styles.fieldFilled)}>
                     <FormikLabel text='Notify me via' />
@@ -326,6 +341,7 @@ export const TriggerForm = ({
                   <FormikTextarea
                     placeholder='Description of the signal'
                     name='description'
+                    className={styles.descriptionTextarea}
                     rowsCount={2}
                     maxLength={MAX_DESCR_LENGTH}
                   />

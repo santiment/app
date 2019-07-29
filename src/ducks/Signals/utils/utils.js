@@ -49,11 +49,18 @@ import {
 } from './constants'
 import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 
-const targetMapper = ({ value, slug }) => value || slug
+const targetMapper = ({ value, slug } = {}) => value || slug
 
-export const getTargets = ({ target }) => {
-  const targets = mapTargetObject(target)
-  return Array.isArray(targets) ? targets.join(', ') : targets
+export const getTargets = ({ target, signalType }) => {
+  switch (signalType.value) {
+    case METRIC_TARGET_WATCHLIST.value: {
+      return target ? target.name : ''
+    }
+    default: {
+      const targets = mapTargetObject(target)
+      return Array.isArray(targets) ? targets.join(', ') : targets
+    }
+  }
 }
 
 const getTimeWindowUnit = timeWindow => {
@@ -70,7 +77,9 @@ const getFormTriggerTarget = ({ target, target: { eth_address }, asset }) => {
   if (watchlist_id) {
     return {
       signalType: METRIC_TARGET_WATCHLIST,
-      target: watchlist_id
+      target: {
+        value: watchlist_id
+      }
     }
   }
 
@@ -313,6 +322,8 @@ export const mapTriggerToFormProps = currentTrigger => {
     isPublic,
     isRepeating,
     settings,
+    title,
+    description,
     settings: { type, operation, time_window, target, channel }
   } = currentTrigger
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
@@ -344,7 +355,9 @@ export const mapTriggerToFormProps = currentTrigger => {
     channels: [capitalizeStr(channel)],
     ...frequencyModels,
     ...absolutePriceValues,
-    ...trendingWordsParams
+    ...trendingWordsParams,
+    title,
+    description
   }
 }
 
@@ -405,7 +418,11 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
 export const getTargetFromArray = target =>
   target.length === 1 ? targetMapper(target[0]) : target.map(targetMapper())
 
-export const mapTriggerTarget = (target, signalType = {}, address) => {
+export const mapFomTargetToTriggerTarget = (
+  target,
+  signalType = {},
+  address
+) => {
   const { value } = signalType
 
   switch (value) {
@@ -524,7 +541,7 @@ const getTimeWindow = ({ timeWindow, timeWindowUnit }) => {
 
 export const mapFormToPPCTriggerSettings = formProps => {
   const { target, signalType } = formProps
-  const newTarget = mapTriggerTarget(target, signalType)
+  const newTarget = mapFomTargetToTriggerTarget(target, signalType)
   return {
     type: PRICE_PERCENT_CHANGE,
     ...newTarget,
@@ -536,7 +553,7 @@ export const mapFormToPPCTriggerSettings = formProps => {
 
 export const mapFormToPACTriggerSettings = formProps => {
   const { target, signalType } = formProps
-  const newTarget = mapTriggerTarget(target, signalType)
+  const newTarget = mapFomTargetToTriggerTarget(target, signalType)
   return {
     type: PRICE_ABSOLUTE_CHANGE,
     ...newTarget,
@@ -547,7 +564,7 @@ export const mapFormToPACTriggerSettings = formProps => {
 
 export const mapFormToDAATriggerSettings = formProps => {
   const { target, signalType, type } = formProps
-  const newTarget = mapTriggerTarget(target, signalType)
+  const newTarget = mapFomTargetToTriggerTarget(target, signalType)
 
   if (type.metric === PRICE_ABSOLUTE_CHANGE) {
     return {
@@ -569,7 +586,7 @@ export const mapFormToDAATriggerSettings = formProps => {
 
 export const mapFormToPVDTriggerSettings = formProps => {
   const { target, signalType } = formProps
-  const newTarget = mapTriggerTarget(target, signalType)
+  const newTarget = mapFomTargetToTriggerTarget(target, signalType)
   return {
     type: PRICE_VOLUME_DIFFERENCE,
     ...newTarget,
@@ -584,7 +601,7 @@ export const mapFormToHBTriggerSettings = formProps => {
     signalType.value === METRIC_TARGET_ASSETS.value
       ? mapAssetTarget(target, ethAddress)
       : undefined
-  const newTarget = mapTriggerTarget(target, signalType, ethAddress)
+  const newTarget = mapFomTargetToTriggerTarget(target, signalType, ethAddress)
   return {
     type: ETH_WALLET,
     ...newTarget,
@@ -955,4 +972,12 @@ export const getDefaultFormValues = (newValues, { value: oldMetric }) => {
     ...defaultValues,
     ...newValues
   }
+}
+
+export const titleMetricValues = ({}) => {
+  return 'qwewqewqeew'
+}
+
+export const descriptionMetricValues = ({}) => {
+  return 'asdasdsdddas'
 }

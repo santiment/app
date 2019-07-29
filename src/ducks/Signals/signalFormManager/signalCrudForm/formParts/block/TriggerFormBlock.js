@@ -9,12 +9,13 @@ const TriggerFormBlock = ({
   show = true,
   titleLabel = '',
   titleDescription = '',
-  enabledHide = false
+  enabledHide = false,
+  className
 }) => {
   const [isShow, setShowing] = useState(show)
 
   return (
-    <div className={cx(styles.block)}>
+    <div className={cx(styles.block, className)}>
       {titleLabel && (
         <div
           className={cx(styles.header, enabledHide && styles.clickable)}

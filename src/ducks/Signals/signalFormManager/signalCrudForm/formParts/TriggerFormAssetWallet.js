@@ -1,15 +1,14 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import { METRIC_TARGET_OPTIONS } from '../../../utils/constants'
 import GetProjects from '../../../common/projects/getProjects'
-import { getTargets, isAsset, isWatchlist } from '../../../utils/utils'
+import { isAsset, isWatchlist } from '../../../utils/utils'
 import TriggerFormWatchlists from './TriggerFormWatchlists'
 import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
 import styles from '../signal/TriggerForm.module.scss'
-import TriggerFormBlock from './block/TriggerFormBlock'
 
 const propTypes = {
   metaFormSettings: PropTypes.any
@@ -23,13 +22,8 @@ const TriggerFormAssetWallet = ({
   const { signalType } = values
   const isAssets = isAsset(signalType)
 
-  const description = getTargets(values)
-
   return (
-    <TriggerFormBlock
-      titleLabel='Notify me when'
-      titleDescription={description}
-    >
+    <Fragment>
       <div className={cx(styles.row, styles.rowTop)}>
         <div className={cx(styles.Field, isAssets && styles.fieldFilled)}>
           <FormikLabel text='Type' />
@@ -69,7 +63,7 @@ const TriggerFormAssetWallet = ({
           </div>
         </div>
       )}
-    </TriggerFormBlock>
+    </Fragment>
   )
 }
 

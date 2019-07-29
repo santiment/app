@@ -18,7 +18,6 @@ const TriggerFormWatchlists = () => {
                 name='target'
                 placeholder='Pick an watchlist'
                 required
-                simpleValue
                 valueKey='id'
                 labelKey='name'
                 options={watchlists}

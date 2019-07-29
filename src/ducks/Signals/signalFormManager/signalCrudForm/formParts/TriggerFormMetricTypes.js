@@ -35,41 +35,39 @@ export const TriggerFormMetricTypes = ({
     <div className={styles.row}>
       <div className={cx(styles.Field, styles.fieldFilled)}>
         <FormikLabel text='Metrics' />
-        <>
-          <FormikSelect
-            name='metric'
-            isClearable={false}
-            disabled={defaultMetric.isDisabled}
-            defaultValue={defaultMetric.value}
-            isSearchable
-            placeholder='Choose a metric'
-            options={METRICS_OPTIONS}
-            onChange={newMetric => {
-              metric &&
-                newMetric &&
-                newMetric.value !== metric.value &&
-                setFieldValue('type', getNearestTypeByMetric(newMetric))
+        <FormikSelect
+          name='metric'
+          isClearable={false}
+          disabled={defaultMetric.isDisabled}
+          defaultValue={defaultMetric.value}
+          isSearchable
+          placeholder='Choose a metric'
+          options={METRICS_OPTIONS}
+          onChange={newMetric => {
+            metric &&
+              newMetric &&
+              newMetric.value !== metric.value &&
+              setFieldValue('type', getNearestTypeByMetric(newMetric))
 
-              if (newMetric) {
-                if (newMetric.value !== TRENDING_WORDS) {
-                  if (newMetric.value === DAILY_ACTIVE_ADDRESSES) {
-                    setFieldValue('target', [])
-                  } else {
-                    checkPossibleTarget({
-                      metaFormSettings,
-                      setFieldValue,
-                      target
-                    })
-                  }
-                }
-              } else {
-                if (target) {
-                  setFieldValue('target', '')
+            if (newMetric) {
+              if (newMetric.value !== TRENDING_WORDS) {
+                if (newMetric.value === DAILY_ACTIVE_ADDRESSES) {
+                  setFieldValue('target', [])
+                } else {
+                  checkPossibleTarget({
+                    metaFormSettings,
+                    setFieldValue,
+                    target
+                  })
                 }
               }
-            }}
-          />
-        </>
+            } else {
+              if (target) {
+                setFieldValue('target', '')
+              }
+            }
+          }}
+        />
       </div>
     </div>
   )
