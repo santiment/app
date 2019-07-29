@@ -41,7 +41,9 @@ import MetricOptionsRenderer from '../formParts/metricOptions/MetricOptionsRende
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import TriggerMetricTypesResolver from '../formParts/TriggerMetricTypesResolver'
 import styles from './TriggerForm.module.scss'
-import TriggerFormBlock from '../formParts/block/TriggerFormBlock'
+import TriggerFormBlock, {
+  TriggerFormBlockDivider
+} from '../formParts/block/TriggerFormBlock'
 import Toggle from '@santiment-network/ui/Toggle'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikTextarea from '../../../../../components/formik-santiment-ui/FormikTextarea'
@@ -62,7 +64,8 @@ export const TriggerForm = ({
   isTelegramConnected = false,
   lastPriceItem,
   settings,
-  metaFormSettings
+  metaFormSettings,
+  id
 }) => {
   const formMetric =
     metaFormSettings && metaFormSettings.metric
@@ -214,7 +217,7 @@ export const TriggerForm = ({
                 </div>
               )}
 
-              <TriggerFormBlock titleLabel='More options' isFirstBlock>
+              <TriggerFormBlock titleLabel='More options' enabledHide>
                 <div className={cx(styles.row, styles.rowTop)}>
                   <div className={cx(styles.Field, styles.fieldFilled)}>
                     <FormikLabel text='Notify me via' />
@@ -243,9 +246,9 @@ export const TriggerForm = ({
                     )}
                   </div>
                 </div>
-              </TriggerFormBlock>
 
-              <TriggerFormBlock isCertainBlock>
+                <TriggerFormBlockDivider />
+
                 <TriggerFormFrequency
                   disabled={!isRepeating}
                   metaFormSettings={metaFormSettings}
@@ -254,6 +257,7 @@ export const TriggerForm = ({
                   metric={type.metric}
                   frequencyTimeType={frequencyTimeType}
                 />
+
                 <div
                   className={cx(
                     styles.row,
@@ -280,56 +284,63 @@ export const TriggerForm = ({
                     </span>
                   </div>
                 </div>
-              </TriggerFormBlock>
 
-              <TriggerFormBlock isLastBlock>
-                <div className={styles.triggerToggleBlock}>
-                  <Toggle onClick={toggleSignalPublic} isActive={isPublic} />
-                  <div className={styles.triggerToggleLabel}>
-                    {isPublic ? 'Public' : 'Private'}
+                <TriggerFormBlockDivider />
+
+                <div className={styles.row}>
+                  <div className={styles.Field}>
+                    <FormikLabel text='Signal visibility' />
+                    <div className={styles.triggerToggleBlock}>
+                      <Toggle
+                        onClick={toggleSignalPublic}
+                        isActive={isPublic}
+                      />
+                      <div className={styles.triggerToggleLabel}>
+                        {isPublic ? 'Public' : 'Private'}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </TriggerFormBlock>
-            </div>
 
-            <div className={styles.row}>
-              <div className={styles.Field}>
-                <FormikLabel text='Name of the signal' />
-                <FormikInput
-                  name='title'
-                  type='text'
-                  minLength={MIN_TITLE_LENGTH}
-                  maxLength={MAX_TITLE_LENGTH}
-                  placeholder='Name of the signal'
-                />
+              <div className={cx(styles.row, styles.descriptionBlock)}>
+                <div className={cx(styles.Field, styles.fieldFilled)}>
+                  <FormikLabel text='Name of the signal' />
+                  <FormikInput
+                    name='title'
+                    type='text'
+                    minLength={MIN_TITLE_LENGTH}
+                    maxLength={MAX_TITLE_LENGTH}
+                    placeholder='Name of the signal'
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className={styles.row}>
-              <div className={styles.Field}>
-                <FormikLabel
-                  text={`Description (${
-                    (description || '').length
-                  }/${MAX_DESCR_LENGTH})`}
-                />
-                <FormikTextarea
-                  placeholder='Description of the signal'
-                  name='description'
-                  rowsCount={2}
-                  maxLength={MAX_DESCR_LENGTH}
-                />
+              <div className={styles.row}>
+                <div className={cx(styles.Field, styles.fieldFilled)}>
+                  <FormikLabel
+                    text={`Description (${
+                      (description || '').length
+                    }/${MAX_DESCR_LENGTH})`}
+                  />
+                  <FormikTextarea
+                    placeholder='Description of the signal'
+                    name='description'
+                    rowsCount={2}
+                    maxLength={MAX_DESCR_LENGTH}
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className={styles.controls}>
               <Button
                 type='submit'
                 disabled={!isValid || isSubmitting}
                 isActive={isValid && !isSubmitting}
                 variant={'fill'}
                 accent='positive'
+                className={styles.submitButton}
               >
-                Continue
+                {id ? 'Update signal' : 'Create signal'}
               </Button>
             </div>
           </Form>

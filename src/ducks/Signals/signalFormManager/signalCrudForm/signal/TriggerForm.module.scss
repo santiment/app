@@ -6,7 +6,6 @@ $trigger-form-width: 496px;
   position: relative;
   width: $trigger-form-width;
   padding: 0;
-  margin-bottom: 20px;
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
@@ -145,28 +144,6 @@ a.connectLink {
   padding-right: 1rem;
 }
 
-.controls {
-  display: flex;
-  justify-content: flex-end;
-  position: absolute;
-  right: 20px;
-  bottom: 0;
-
-  button {
-    width: 92px;
-    justify-content: center;
-    margin-right: 1rem;
-  }
-
-  button:last-child {
-    margin-right: 0;
-  }
-
-  @include responsive('phone', 'phone-xs') {
-    bottom: 0;
-  }
-}
-
 .timeWindow {
   display: flex;
 }
@@ -242,4 +219,13 @@ a {
   align-items: center;
   display: flex;
   justify-content: center;
+}
+
+.descriptionBlock {
+  margin-top: 20px;
+}
+
+.submitButton {
+  width: 120px;
+  margin-left: auto;
 }

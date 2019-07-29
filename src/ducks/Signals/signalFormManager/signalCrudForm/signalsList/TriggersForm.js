@@ -24,6 +24,7 @@ export const TriggersForm = ({
       {triggers.map((trigger, index) => (
         <TriggerForm
           key={trigger.id || index}
+          id={trigger.id}
           metaFormSettings={metaFormSettings}
           canRedirect={canRedirect}
           settings={settings}

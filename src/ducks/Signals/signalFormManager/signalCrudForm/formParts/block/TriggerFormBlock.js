@@ -9,33 +9,22 @@ const TriggerFormBlock = ({
   show = true,
   titleLabel = '',
   titleDescription = '',
-  enabledHide = false,
-  isFirstBlock = false,
-  isLastBlock = false,
-  isCertainBlock = false
+  enabledHide = false
 }) => {
   const [isShow, setShowing] = useState(show)
 
   return (
-    <div
-      className={cx(
-        styles.block,
-        isFirstBlock && styles.firstBlock,
-        isLastBlock && styles.lastBlock,
-        isCertainBlock && styles.certainBlock
-      )}
-    >
+    <div className={cx(styles.block)}>
       {titleLabel && (
-        <div className={styles.header}>
+        <div
+          className={cx(styles.header, enabledHide && styles.clickable)}
+          onClick={() => enabledHide && setShowing(!isShow)}
+        >
           <span className={styles.title}>{titleLabel}</span>
           <span className={styles.description}>{titleDescription}</span>
 
           {enabledHide && (
-            <Button
-              type='button'
-              className={cx(styles.action, styles.close)}
-              onClick={setShowing(!isShow)}
-            >
+            <Button type='button' className={styles.action}>
               {isShow && <Icon type='arrow-up' />}
               {!isShow && <Icon type='arrow-down' />}
             </Button>
@@ -46,5 +35,11 @@ const TriggerFormBlock = ({
     </div>
   )
 }
+
+export const TriggerFormBlockDivider = () => (
+  <div className={styles.dividerContainer}>
+    <div className={styles.divider} />
+  </div>
+)
 
 export default TriggerFormBlock

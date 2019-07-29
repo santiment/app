@@ -5,41 +5,23 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { createTrigger, updateTrigger } from '../../common/actions'
 import Message from '@santiment-network/ui/Message'
-import Toggle from '@santiment-network/ui/Toggle'
 import TriggersForm from '../signalCrudForm/signalsList/TriggersForm'
-import { TRIGGER_BY_ID_QUERY } from '../../common/queries'
-import {
-  mapTriggerToFormProps,
-  mapFormPropsToTrigger,
-  mapGQLTriggerToProps
-} from '../../utils/utils'
-import { SIGNAL_ROUTES, TRIGGER_STEPS } from '../../common/constants'
+import { mapTriggerToFormProps, mapFormPropsToTrigger } from '../../utils/utils'
+import { SIGNAL_ROUTES } from '../../common/constants'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
-const getTitle = (step, formData, { id }, isShared) => {
+const getTitle = (formData, { id }, isShared) => {
   const isUpdate = id > 0 && !isShared
-
-  switch (step) {
-    case TRIGGER_STEPS.SETTINGS: {
-      return isUpdate ? 'Update signal' : 'Create signal'
-    }
-    case TRIGGER_STEPS.CONFIRM: {
-      const publicWord = formData.isPublic ? 'public' : 'private'
-      if (isUpdate) {
-        return `Update ${publicWord} signal`
-      } else {
-        return `Create ${publicWord} signal`
-      }
-    }
-    default: {
-      return ''
-    }
+  const publicWord = formData.isPublic ? 'public' : 'private'
+  if (isUpdate) {
+    return `Update ${publicWord} signal`
+  } else {
+    return `Create ${publicWord} signal`
   }
 }
 
 const SignalMaster = ({
   canRedirect = true,
-  step: propsStep = TRIGGER_STEPS.SETTINGS,
   trigger: propsTrigger = {},
   metaFormSettings,
   setTitle,
@@ -67,7 +49,6 @@ const SignalMaster = ({
     isActive: true,
     isPublic: false
   })
-  const [stateStep, setStateStep] = useState(propsStep)
 
   const triggerSettingsFormData = mapTriggerToFormProps(stateTrigger)
 
@@ -77,7 +58,6 @@ const SignalMaster = ({
         setStateTrigger({
           ...propsTrigger.trigger
         })
-        setStateStep(propsStep)
       }
     },
     [propsTrigger]
@@ -85,30 +65,15 @@ const SignalMaster = ({
 
   useEffect(() => {
     setTitle &&
-      setTitle(
-        getTitle(stateStep, triggerSettingsFormData, stateTrigger, isShared)
-      )
+      setTitle(getTitle(triggerSettingsFormData, stateTrigger, isShared))
   })
 
-  const toggleSignalPublic = () => {
-    const newValue = !stateTrigger.isPublic
-    setStateTrigger({ ...stateTrigger, isPublic: newValue })
-  }
-
-  const backToSettings = data => {
-    setStateTrigger({ ...stateTrigger, ...data })
-    setStateStep(TRIGGER_STEPS.SETTINGS)
-  }
-
   const handleSettingsChange = formProps => {
-    setStateTrigger(mapFormPropsToTrigger(formProps, stateTrigger))
-    setStateStep(TRIGGER_STEPS.CONFIRM)
-  }
+    const newTrigger = mapFormPropsToTrigger(formProps, stateTrigger)
+    setStateTrigger(newTrigger)
 
-  const handleAboutFormSubmit = about => {
     const data = {
       ...stateTrigger,
-      ...about,
       shouldReload: canRedirect
     }
 
@@ -129,32 +94,15 @@ const SignalMaster = ({
 
   return (
     <div className={styles.wrapper}>
-      {stateStep === TRIGGER_STEPS.SETTINGS && (
-        <TriggersForm
-          isShared={isShared}
-          onClose={close}
-          triggers={[stateTrigger]}
-          settings={triggerSettingsFormData}
-          canRedirect={canRedirect}
-          metaFormSettings={metaFormSettings}
-          onSettingsChange={handleSettingsChange}
-        />
-      )}
-      {stateStep === TRIGGER_STEPS.CONFIRM && (
-        <AboutForm
-          isShared={isShared}
-          triggerMeta={stateTrigger}
-          onBack={backToSettings}
-          onSubmit={handleAboutFormSubmit}
-        />
-      )}
-
-      <div className={styles.triggerToggleBlock}>
-        <Toggle onClick={toggleSignalPublic} isActive={stateTrigger.isPublic} />
-        <div className={styles.triggerToggleLabel}>
-          {stateTrigger.isPublic ? 'Public' : 'Private'}
-        </div>
-      </div>
+      <TriggersForm
+        isShared={isShared}
+        onClose={close}
+        triggers={[stateTrigger]}
+        settings={triggerSettingsFormData}
+        canRedirect={canRedirect}
+        metaFormSettings={metaFormSettings}
+        onSettingsChange={handleSettingsChange}
+      />
     </div>
   )
 }
