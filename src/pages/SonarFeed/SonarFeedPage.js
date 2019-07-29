@@ -11,6 +11,8 @@ import { selectIsTelegramConnected } from '../../pages/UserSelectors'
 import SonarFeedHeader from './SonarFeedActions/SonarFeedHeader'
 import { showNotification } from '../../actions/rootActions'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
+import { SIGNAL_ROUTES } from '../../ducks/Signals/common/constants'
+import { getShareSignalParams } from '../../ducks/Signals/common/getSignal'
 import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar/feed'
@@ -19,7 +21,7 @@ const aboutTriggerModalLocation = `${baseLocation}/details/:id/about`
 
 const tabs = [
   {
-    index: `${baseLocation}/my-signals`,
+    index: SIGNAL_ROUTES.MY_SIGNALS,
     content: 'My signals',
     component: Loadable({
       loader: () => import('./SonarFeedMySignalsPage'),
@@ -100,12 +102,18 @@ const SonarFeed = ({
     setTriggerStep(step)
   }
 
+  const shareSignalParams = getShareSignalParams()
+
   return (
     <div style={{ width: '100%' }} className='page'>
       {isDesktop ? (
         <div className={styles.header}>
           <SonarFeedHeader />
-          <SignalMasterModalForm triggerId={triggerId} step={step} />
+          <SignalMasterModalForm
+            triggerId={triggerId}
+            step={step}
+            shareParams={shareSignalParams}
+          />
         </div>
       ) : (
         <div className={styles.header}>
@@ -113,7 +121,11 @@ const SonarFeed = ({
             title={<SonarFeedHeader />}
             rightActions={
               <div className={styles.addSignal}>
-                <SignalMasterModalForm triggerId={triggerId} step={step} />
+                <SignalMasterModalForm
+                  triggerId={triggerId}
+                  step={step}
+                  shareParams={shareSignalParams}
+                />
               </div>
             }
           />

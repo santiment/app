@@ -2,6 +2,7 @@ import React from 'react'
 import { AutoSizer, List } from 'react-virtualized'
 import Label from '@santiment-network/ui/Label'
 import { Checkbox } from '@santiment-network/ui'
+import ProjectIcon from '../../../../../../components/ProjectIcon'
 import styles from './ProjectsList.module.scss'
 
 const ROW_HEIGHT = 32
@@ -29,6 +30,12 @@ const ProjectsList = ({ items, listItems, onToggleProject, isContained }) => {
           disabled={isContained ? false : isAssetInList}
         />
         <div className={styles.asset}>
+          <ProjectIcon
+            className={styles.icon}
+            size={16}
+            ticker={ticker}
+            name={name}
+          />
           <span className={styles.name}>{name}</span>
           <Label accent='waterloo'>({ticker})</Label>
         </div>

@@ -4,26 +4,23 @@ import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import Toggle from '@santiment-network/ui/Toggle'
-import Button from '@santiment-network/ui/Button'
-import ContextMenu from '@santiment-network/ui/ContextMenu'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
 import MultilineText from '../../components/MultilineText/MultilineText'
 import StatusLabel from './../../components/StatusLabel'
-import { RemoveSignalButton, SignalTypeIcon } from './controls/SignalControls'
+import { SignalTypeIcon } from './controls/SignalControls'
+import MoreSignalActions from './controls/MoreSignalActions'
 import styles from './SignalCard.module.scss'
 
 const SignalCard = ({
   id,
-  title,
-  description = '',
-  settings: { type } = {},
-  className = '',
+  signal,
+  className,
   removeSignal,
   goToSignalSettings,
-  author = 'Myself',
-  ...signalCardBottom
+  toggleSignal
 }) => {
   const isAwaiting = +id <= 0
+  const { title, description = '', isPublic, settings: { type } = {} } = signal
 
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
@@ -34,6 +31,7 @@ const SignalCard = ({
 
         <MobileOnly>
           <MoreSignalActions
+            isPublic={isPublic}
             removeSignal={removeSignal}
             signalTitle={title}
             signalId={id}
@@ -55,16 +53,13 @@ const SignalCard = ({
             )}
           </div>
         </div>
-        {author && (
-          <SignalCardBottom
-            signalId={id}
-            signalTitle={title}
-            removeSignal={removeSignal}
-            isAwaiting={isAwaiting}
-            author={author}
-            {...signalCardBottom}
-          />
-        )}
+        <SignalCardBottom
+          signalId={id}
+          signal={signal}
+          removeSignal={removeSignal}
+          toggleSignal={toggleSignal}
+          isAwaiting={isAwaiting}
+        />
       </div>
     </Panel>
   )
@@ -78,23 +73,23 @@ const UnpublishedMsg = () => (
 
 const SignalCardBottom = ({
   signalId,
-  signalTitle,
+  signal,
   removeSignal,
   author,
-  isPublic,
   isPublished = true,
-  isActive,
   isAwaiting = false,
   toggleSignal,
   isUserTheAuthor = true
 }) => {
+  const { isActive, isPublic, title } = signal
   return (
     <div className={styles.bottom}>
       <DesktopOnly>
         <MoreSignalActions
           removeSignal={removeSignal}
-          signalTitle={signalTitle}
+          signalTitle={title}
           signalId={signalId}
+          isPublic={isPublic}
         />
       </DesktopOnly>
 
@@ -125,52 +120,6 @@ const SignalCardBottom = ({
         <Toggle onClick={toggleSignal} isActive={isActive} />
       </div>
     </div>
-  )
-}
-
-const MoreSignalActions = ({ signalId, signalTitle, removeSignal }) => {
-  return (
-    <ContextMenu
-      trigger={
-        <Button className={styles.expandButton}>
-          <Icon type='dots' />
-        </Button>
-      }
-      position='bottom'
-      align='start'
-      classes={styles}
-    >
-      <Panel>
-        <div className={styles.popup}>
-          <div className={cx(styles.popupItem, styles.popupButton)}>
-            <Link
-              to={`/sonar/feed/details/${signalId}/edit`}
-              className={styles.link}
-            >
-              Edit signal
-            </Link>
-          </div>
-
-          <div className={cx(styles.popupItem, styles.popupButton)}>
-            <Link
-              to={`/sonar/feed/details/${signalId}/about`}
-              className={styles.link}
-            >
-              Edit name & description
-            </Link>
-          </div>
-
-          <div className={cx(styles.popupItem, styles.popupButton)}>
-            <RemoveSignalButton
-              id={signalId}
-              signalTitle={signalTitle}
-              removeSignal={removeSignal}
-              trigger={<div className={styles.removeSignal}>Delete</div>}
-            />
-          </div>
-        </div>
-      </Panel>
-    </ContextMenu>
   )
 }
 

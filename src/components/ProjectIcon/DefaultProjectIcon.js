@@ -1,7 +1,8 @@
 import React from 'react'
 
-const DefaultProjectIcon = ({ size = 16 }) => (
+const DefaultProjectIcon = ({ size = 16, className }) => (
   <svg
+    className={className}
     width={size}
     height={size}
     viewBox='0 0 22 22'
