@@ -77,6 +77,8 @@ const getChartInitialState = props => {
 }
 
 class ChartPage extends Component {
+  static defaultProps = DEFAULT_STATE
+
   state = getChartInitialState(this.props)
 
   onZoom = (leftZoomIndex, rightZoomIndex, leftZoomDate, rightZoomDate) => {
