@@ -1,0 +1,15 @@
+@import '~@santiment-network/ui/mixins.scss';
+
+.title {
+  @include text('h4');
+
+  margin: 70px 0 25px;
+}
+
+.banner {
+  margin-top: 40px;
+}
+
+.sidecar__toggle {
+  top: 112px !important;
+}
