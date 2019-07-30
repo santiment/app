@@ -94,9 +94,9 @@ const AssetsTable = ({
         ? [...savedHidden, name]
         : savedHidden.filter(item => item !== name)
       setHiddenColumns({
+        listName,
         hiddenColumns: columns,
-        listId: typeInfo.listId,
-        listName
+        listId: typeInfo.listId
       })
     }
     return changeColumns(toggledColumns)
