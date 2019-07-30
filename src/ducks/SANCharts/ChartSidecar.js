@@ -7,13 +7,14 @@ import RecentlyWatched, {
   Asset
 } from '../../components/RecentlyWatched/RecentlyWatched'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
+import SidecarExplanationTooltip from './SidecarExplanationTooltip'
 import styles from './ChartSidecar.module.scss'
 
-function toggleSidecard ({ currentTarget }) {
-  currentTarget.parentNode.classList.toggle(styles.opened)
-}
-
-const ChartSidecar = ({ onSlugSelect }) => {
+const ChartSidecar = ({
+  onSlugSelect,
+  onSidebarToggleClick,
+  isAdvancedView
+}) => {
   const [openedList, setOpenedList] = useState()
 
   const assetsRenderer = ({ key, index, style }) => {
@@ -26,11 +27,13 @@ const ChartSidecar = ({ onSlugSelect }) => {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.toggle} onClick={toggleSidecard}>
-        <Icon type='arrow-left-big' className={styles.toggle__arrow} />
-      </div>
-      {openedList ? (
+    <div className={cx(styles.wrapper, isAdvancedView && styles.opened)}>
+      <SidecarExplanationTooltip>
+        <div className={styles.toggle} onClick={onSidebarToggleClick}>
+          <Icon type='arrow-left' className={styles.toggle__arrow} />
+        </div>
+      </SidecarExplanationTooltip>
+      {!isAdvancedView ? null : openedList ? (
         <div className={cx(styles.content, styles.content_assets)}>
           <h2 className={styles.back} onClick={() => setOpenedList()}>
             <Icon type='arrow-left' /> Back
