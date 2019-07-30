@@ -424,3 +424,10 @@ export const TIME_WINDOW_UNITS = [
   { value: 'h', label: 'Hours' },
   { value: 'm', label: 'Minutes' }
 ]
+
+export const STEPS = {
+  METRICS: 0,
+  TYPES: 1,
+  VALUES: 2,
+  DESCRIPTION: 4
+}

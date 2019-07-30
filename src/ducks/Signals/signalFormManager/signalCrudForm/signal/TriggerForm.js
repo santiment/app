@@ -25,7 +25,8 @@ import {
   MAX_DESCR_LENGTH,
   MIN_TITLE_LENGTH,
   MAX_TITLE_LENGTH,
-  METRIC_TYPES_DEPENDENCIES
+  METRIC_TYPES_DEPENDENCIES,
+  STEPS
 } from '../../../utils/constants'
 import {
   couldShowChart,
@@ -106,6 +107,14 @@ export const TriggerForm = ({
     setInitialValues({ ...initialValues, isPublic: !initialValues.isPublic })
   }
 
+  const [step, setStep] = useState(id ? STEPS.METRICS : STEPS.DESCRIPTION)
+
+  const validateAndSetStep = newStep => {
+    if (!id) {
+      newStep > step && setStep(newStep)
+    }
+  }
+
   return (
     <Formik
       initialValues={initialValues}
@@ -150,6 +159,12 @@ export const TriggerForm = ({
         const metricValueBlocks =
           METRIC_TYPES_DEPENDENCIES[getFormMetricValue(type)]
 
+        const showValues = showTypes || showChart || metricValueBlocks
+
+        if (!showValues && step === STEPS.VALUES) {
+          validateAndSetStep(STEPS.DESCRIPTION)
+        }
+
         return (
           <Form>
             <FormikEffect
@@ -182,21 +197,25 @@ export const TriggerForm = ({
             />
 
             <div className={styles.triggerFormItem}>
-              <TriggerFormMetricTypes
-                metaFormSettings={metaFormSettings}
-                setFieldValue={setFieldValue}
-                metric={metric}
-                target={target}
-              />
+              {step >= STEPS.METRICS && (
+                <TriggerFormMetricTypes
+                  metaFormSettings={metaFormSettings}
+                  setFieldValue={setFieldValue}
+                  metric={metric}
+                  target={target}
+                />
+              )}
 
-              <TriggerMetricTypesResolver
-                address={ethAddress}
-                values={values}
-                metaFormSettings={metaFormSettings}
-                setFieldValue={setFieldValue}
-              />
+              {step >= STEPS.TYPES && (
+                <TriggerMetricTypesResolver
+                  address={ethAddress}
+                  values={values}
+                  metaFormSettings={metaFormSettings}
+                  setFieldValue={setFieldValue}
+                />
+              )}
 
-              {(showTypes || showChart || metricValueBlocks) && (
+              {step >= STEPS.VALUES && showValues && (
                 <TriggerFormBlock
                   {...titleMetricValues(!!metricValueBlocks, values)}
                   className={styles.chainBlock}
@@ -244,126 +263,132 @@ export const TriggerForm = ({
                 </TriggerFormBlock>
               )}
 
-              <TriggerFormBlock
-                titleLabel='More options'
-                enabledHide
-                show={!isTelegramConnected}
-                className={styles.chainBlock}
-              >
-                <div className={cx(styles.row, styles.rowTop)}>
-                  <div className={cx(styles.Field, styles.fieldFilled)}>
-                    <FormikLabel text='Notify me via' />
-                    <div className={styles.notifyBlock}>
-                      <FormikCheckboxes
-                        name='channels'
-                        labelOnRight
-                        disabledIndexes={['Email']}
-                        options={['Email', 'Telegram']}
-                      />
-                      {!isTelegramConnected && (
-                        <Button
-                          className={styles.connectLink}
-                          variant='ghost'
-                          as={Link}
-                          to='/account'
-                        >
-                          <span className={styles.connectLink}>Connect</span>
-                        </Button>
-                      )}
-                    </div>
-                    {errors.channels && (
-                      <div className={cx(styles.row, styles.messages)}>
-                        <Message variant='warn'>{errors.channels}</Message>
+              {step >= STEPS.DESCRIPTION && (
+                <Fragment>
+                  <TriggerFormBlock
+                    titleLabel='More options'
+                    enabledHide
+                    show={!isTelegramConnected}
+                    className={styles.chainBlock}
+                  >
+                    <div className={cx(styles.row, styles.rowTop)}>
+                      <div className={cx(styles.Field, styles.fieldFilled)}>
+                        <FormikLabel text='Notify me via' />
+                        <div className={styles.notifyBlock}>
+                          <FormikCheckboxes
+                            name='channels'
+                            labelOnRight
+                            disabledIndexes={['Email']}
+                            options={['Email', 'Telegram']}
+                          />
+                          {!isTelegramConnected && (
+                            <Button
+                              className={styles.connectLink}
+                              variant='ghost'
+                              as={Link}
+                              to='/account'
+                            >
+                              <span className={styles.connectLink}>
+                                Connect
+                              </span>
+                            </Button>
+                          )}
+                        </div>
+                        {errors.channels && (
+                          <div className={cx(styles.row, styles.messages)}>
+                            <Message variant='warn'>{errors.channels}</Message>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                </div>
+                    </div>
 
-                <TriggerFormBlockDivider />
+                    <TriggerFormBlockDivider />
 
-                <TriggerFormFrequency
-                  disabled={!isRepeating}
-                  metaFormSettings={metaFormSettings}
-                  setFieldValue={setFieldValue}
-                  frequencyType={frequencyType}
-                  metric={type.metric}
-                  frequencyTimeType={frequencyTimeType}
-                />
-
-                <div
-                  className={cx(
-                    styles.row,
-                    styles.rowTop,
-                    styles.isRepeatingRow
-                  )}
-                >
-                  <div className={styles.isRepeating}>
-                    <Checkbox
-                      isActive={isRepeating}
-                      name='isRepeating'
-                      className={styles.repeatingItem}
-                      onClick={() => {
-                        setFieldValue('isRepeating', !isRepeating)
-                      }}
+                    <TriggerFormFrequency
+                      disabled={!isRepeating}
+                      metaFormSettings={metaFormSettings}
+                      setFieldValue={setFieldValue}
+                      frequencyType={frequencyType}
+                      metric={type.metric}
+                      frequencyTimeType={frequencyTimeType}
                     />
-                    <span
-                      className={styles.repeatingItem}
-                      onClick={() => {
-                        setFieldValue('isRepeating', !isRepeating)
-                      }}
+
+                    <div
+                      className={cx(
+                        styles.row,
+                        styles.rowTop,
+                        styles.isRepeatingRow
+                      )}
                     >
-                      Disable after it triggers
-                    </span>
-                  </div>
-                </div>
-
-                <TriggerFormBlockDivider />
-
-                <div className={styles.row}>
-                  <div className={styles.Field}>
-                    <FormikLabel text='Signal visibility' />
-                    <div className={styles.triggerToggleBlock}>
-                      <Toggle
-                        onClick={toggleSignalPublic}
-                        isActive={isPublic}
-                      />
-                      <div className={styles.triggerToggleLabel}>
-                        {isPublic ? 'Public' : 'Private'}
+                      <div className={styles.isRepeating}>
+                        <Checkbox
+                          isActive={isRepeating}
+                          name='isRepeating'
+                          className={styles.repeatingItem}
+                          onClick={() => {
+                            setFieldValue('isRepeating', !isRepeating)
+                          }}
+                        />
+                        <span
+                          className={styles.repeatingItem}
+                          onClick={() => {
+                            setFieldValue('isRepeating', !isRepeating)
+                          }}
+                        >
+                          Disable after it triggers
+                        </span>
                       </div>
                     </div>
+
+                    <TriggerFormBlockDivider />
+
+                    <div className={styles.row}>
+                      <div className={styles.Field}>
+                        <FormikLabel text='Signal visibility' />
+                        <div className={styles.triggerToggleBlock}>
+                          <Toggle
+                            onClick={toggleSignalPublic}
+                            isActive={isPublic}
+                          />
+                          <div className={styles.triggerToggleLabel}>
+                            {isPublic ? 'Public' : 'Private'}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </TriggerFormBlock>
+
+                  <div className={cx(styles.row, styles.descriptionBlock)}>
+                    <div className={cx(styles.Field, styles.fieldFilled)}>
+                      <FormikLabel text='Name of the signal' />
+                      <FormikInput
+                        name='title'
+                        type='text'
+                        minLength={MIN_TITLE_LENGTH}
+                        maxLength={MAX_TITLE_LENGTH}
+                        placeholder='Name of the signal'
+                      />
+                    </div>
                   </div>
-                </div>
-              </TriggerFormBlock>
 
-              <div className={cx(styles.row, styles.descriptionBlock)}>
-                <div className={cx(styles.Field, styles.fieldFilled)}>
-                  <FormikLabel text='Name of the signal' />
-                  <FormikInput
-                    name='title'
-                    type='text'
-                    minLength={MIN_TITLE_LENGTH}
-                    maxLength={MAX_TITLE_LENGTH}
-                    placeholder='Name of the signal'
-                  />
-                </div>
-              </div>
-
-              <div className={styles.row}>
-                <div className={cx(styles.Field, styles.fieldFilled)}>
-                  <FormikLabel
-                    text={`Description (${
-                      (description || '').length
-                    }/${MAX_DESCR_LENGTH})`}
-                  />
-                  <FormikTextarea
-                    placeholder='Description of the signal'
-                    name='description'
-                    className={styles.descriptionTextarea}
-                    rowsCount={2}
-                    maxLength={MAX_DESCR_LENGTH}
-                  />
-                </div>
-              </div>
+                  <div className={styles.row}>
+                    <div className={cx(styles.Field, styles.fieldFilled)}>
+                      <FormikLabel
+                        text={`Description (${
+                          (description || '').length
+                        }/${MAX_DESCR_LENGTH})`}
+                      />
+                      <FormikTextarea
+                        placeholder='Description of the signal'
+                        name='description'
+                        className={styles.descriptionTextarea}
+                        rowsCount={2}
+                        maxLength={MAX_DESCR_LENGTH}
+                      />
+                    </div>
+                  </div>
+                </Fragment>
+              )}
 
               <Button
                 type='submit'
