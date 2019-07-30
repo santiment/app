@@ -159,8 +159,9 @@ const PRICE_OPTIONS = [
   PRICE_ABS_CHANGE_INSIDE,
   PRICE_ABS_CHANGE_OUTSIDE,
   {
-    label: 'Percent change',
-    type: 'header'
+    label: 'Percentage change',
+    type: 'header',
+    divider: true
   },
   PRICE_PERCENT_CHANGE_UP_MODEL,
   PRICE_PERCENT_CHANGE_DOWN_MODEL

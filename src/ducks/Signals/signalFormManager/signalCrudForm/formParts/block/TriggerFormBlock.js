@@ -9,7 +9,7 @@ const TriggerFormBlock = ({
   show = true,
   titleLabel = '',
   titleDescription = '',
-  enabledHide = false,
+  enabledHide = true,
   className
 }) => {
   const [isShow, setShowing] = useState(show)

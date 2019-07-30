@@ -2,12 +2,17 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Dialog from '@santiment-network/ui/Dialog'
 import priceSvg from '../../../../../../assets/signals/price.svg'
-import unionSvg from '../../../../../../assets/signals/union.svg'
+import trendingWordsSvg from '../../../../../../assets/signals/trending_words.svg'
+import daaSvg from '../../../../../../assets/signals/daa.svg'
+import historicalBalanceSvg from '../../../../../../assets/signals/historical_balance.svg'
+import priceVolumeDiffSvg from '../../../../../../assets/signals/pvd.svg'
 import { getNearestTypeByMetric } from '../../../../utils/utils'
 import {
   DAILY_ACTIVE_ADDRESSES,
+  ETH_WALLET,
   METRICS_OPTIONS,
   PRICE,
+  PRICE_VOLUME_DIFFERENCE,
   TRENDING_WORDS
 } from '../../../../utils/constants'
 import styles from '../../signal/TriggerForm.module.scss'
@@ -99,18 +104,12 @@ export const TriggerFormMetricTypes = ({
   )
 }
 
-const getIconByMetric = metric => {
-  switch (metric) {
-    case PRICE: {
-      return priceSvg
-    }
-    case TRENDING_WORDS: {
-      return unionSvg
-    }
-    default: {
-      return priceSvg
-    }
-  }
+const iconMaps = {
+  [PRICE]: priceSvg,
+  [TRENDING_WORDS]: trendingWordsSvg,
+  [DAILY_ACTIVE_ADDRESSES]: daaSvg,
+  [PRICE_VOLUME_DIFFERENCE]: priceVolumeDiffSvg,
+  [ETH_WALLET]: historicalBalanceSvg
 }
 
 const MetricTypeRenderer = ({
@@ -123,7 +122,7 @@ const MetricTypeRenderer = ({
   return (
     <div onClick={() => onClick(metric)} className={metricStyles.metric}>
       <div className={metricStyles.icon}>
-        <img src={getIconByMetric(value)} alt='Metric' />
+        <img src={iconMaps[value] || priceSvg} alt='Metric' />
       </div>
       <div className={metricStyles.value}>{label}</div>
       {showLabel && (
