@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { Tooltip } from '@santiment-network/ui'
+import Tooltip from '@santiment-network/ui/Tooltip'
 import styles from './ExplanationTooltip.module.scss'
 
 const ExplanationTooltip = ({ text, children, className, ...props }) => (

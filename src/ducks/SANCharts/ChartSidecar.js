@@ -7,6 +7,7 @@ import RecentlyWatched, {
   Asset
 } from '../../components/RecentlyWatched/RecentlyWatched'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
+import SidecarExplanationTooltip from './SidecarExplanationTooltip'
 import styles from './ChartSidecar.module.scss'
 
 const ChartSidecar = ({
@@ -27,9 +28,11 @@ const ChartSidecar = ({
 
   return (
     <div className={cx(styles.wrapper, isAdvancedView && styles.opened)}>
-      <div className={styles.toggle} onClick={onSidebarToggleClick}>
-        <Icon type='arrow-left' className={styles.toggle__arrow} />
-      </div>
+      <SidecarExplanationTooltip>
+        <div className={styles.toggle} onClick={onSidebarToggleClick}>
+          <Icon type='arrow-left' className={styles.toggle__arrow} />
+        </div>
+      </SidecarExplanationTooltip>
       {!isAdvancedView ? null : openedList ? (
         <div className={cx(styles.content, styles.content_assets)}>
           <h2 className={styles.back} onClick={() => setOpenedList()}>

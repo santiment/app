@@ -1,0 +1,25 @@
+@import '~@santiment-network/ui/variables';
+
+.wrapper {
+  padding: 10px 12px;
+  width: 150px;
+  z-index: 10;
+}
+
+.text {
+  color: $bali-hai;
+  margin: 2px 0 6px;
+}
+
+.btn {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: $white;
+
+  &:hover {
+    color: $jungle-green;
+  }
+}
