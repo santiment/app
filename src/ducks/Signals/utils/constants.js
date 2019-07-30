@@ -1,5 +1,6 @@
 export const REQUIRED_MESSAGE = 'Required'
 export const MUST_BE_MORE_ZERO_MESSAGE = 'Must be more 0'
+export const NOT_VALID_ETH_ADDRESS = 'Not valid ETH address'
 
 export const PRICE = 'price'
 export const ETH_WALLET = 'eth_wallet'
@@ -138,7 +139,7 @@ export const COOLDOWN_REGEXP = /([0-9]+)*([smhdw])/i
 
 export const METRICS_OPTIONS = [
   { ...PRICE_METRIC },
-  { ...ETH_WALLET_METRIC },
+  // { ...ETH_WALLET_METRIC }, # GarageInc: Temporary hidded before fix bug on backend by ivan
   { ...TRENDING_WORDS_METRIC },
   { ...DAILY_ACTIVE_ADDRESSES_METRIC },
   { ...PRICE_VOLUME_DIFFERENCE_METRIC }

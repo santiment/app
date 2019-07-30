@@ -119,6 +119,10 @@
   @include text('body-3');
 }
 
+.share {
+  cursor: pointer;
+}
+
 .removeSignal {
   cursor: pointer;
 

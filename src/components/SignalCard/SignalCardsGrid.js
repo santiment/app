@@ -60,7 +60,7 @@ const SignalCardsGrid = ({
               removeSignal(id)
             }}
             className={styles.card}
-            {...signal}
+            signal={signal}
           />
         ))}
     </div>

@@ -41,7 +41,8 @@ import {
   METRIC_TARGET_WATCHLIST,
   TRENDING_WORDS_WATCHLIST_MENTIONED,
   PRICE,
-  METRIC_DEFAULT_VALUES
+  METRIC_DEFAULT_VALUES,
+  NOT_VALID_ETH_ADDRESS
 } from './constants'
 import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 
@@ -70,10 +71,16 @@ const getFormTriggerTarget = ({ target, target: { eth_address }, asset }) => {
       label: slug
     }
 
+  const newEthAddress = eth_address
+    ? Array.isArray(eth_address)
+      ? mapToOptions(eth_address)
+      : mapToOptions([eth_address])
+    : undefined
+
   return {
     target: newTarget,
     signalType: METRIC_TARGET_ASSETS,
-    ethAddress: eth_address
+    ethAddress: newEthAddress
   }
 }
 
@@ -288,7 +295,7 @@ const getFormTrendingWords = ({ settings: { operation, target } }) => {
 
 export const mapTriggerToFormProps = currentTrigger => {
   if (!currentTrigger || !currentTrigger.settings) {
-    return undefined
+    return {}
   }
   const {
     cooldown,
@@ -386,7 +393,9 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
 }
 
 export const getTargetFromArray = target =>
-  target.length === 1 ? target[0].slug : target.map(({ slug }) => slug)
+  target.length === 1
+    ? target[0].slug || target[0].value
+    : target.map(({ slug, value }) => slug || value)
 
 export const mapTriggerTarget = (target, signalType = {}, address) => {
   const { value } = signalType
@@ -402,7 +411,7 @@ export const mapTriggerTarget = (target, signalType = {}, address) => {
     default: {
       if (address) {
         return {
-          target: { eth_address: address }
+          target: { eth_address: mapTargetObject(address) }
         }
       } else {
         return {
@@ -670,10 +679,10 @@ export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
   if (!loading && !trigger) {
     return {
       trigger: {
-        isError: false,
+        isError: !!error,
         isEmpty: true,
         trigger: null,
-        isLoading: false
+        isLoading: loading
       }
     }
   }
@@ -743,8 +752,18 @@ export const validateTriggerForm = ({
   if (metric && metric.value === ETH_WALLET) {
     if (!threshold) errors.threshold = REQUIRED_MESSAGE
 
-    if (ethAddress && !isPossibleEthAddress(ethAddress)) {
-      errors.ethAddress = 'Not valid ETH address'
+    if (ethAddress) {
+      if (Array.isArray(ethAddress)) {
+        ethAddress.forEach(({ value }) => {
+          if (!isPossibleEthAddress(value)) {
+            errors.ethAddress = NOT_VALID_ETH_ADDRESS
+          }
+        })
+      } else {
+        if (!isPossibleEthAddress(ethAddress)) {
+          errors.ethAddress = NOT_VALID_ETH_ADDRESS
+        }
+      }
     }
   } else if (metric && metric.value === TRENDING_WORDS) {
     if (

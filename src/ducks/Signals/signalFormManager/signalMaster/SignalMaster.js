@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { push } from 'react-router-redux'
 import cx from 'classnames'
-import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { createTrigger, updateTrigger } from '../../common/actions'
@@ -9,175 +8,151 @@ import Message from '@santiment-network/ui/Message'
 import Toggle from '@santiment-network/ui/Toggle'
 import TriggersForm from '../signalCrudForm/signalsList/TriggersForm'
 import AboutForm from '../aboutForm/AboutForm'
-import { TRIGGER_BY_ID_QUERY } from '../../common/queries'
-import {
-  mapTriggerToFormProps,
-  mapFormPropsToTrigger,
-  mapGQLTriggerToProps
-} from '../../utils/utils'
+import { mapTriggerToFormProps, mapFormPropsToTrigger } from '../../utils/utils'
 import { SIGNAL_ROUTES, TRIGGER_STEPS } from '../../common/constants'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
-export class SignalMaster extends React.PureComponent {
-  static defaultProps = {
-    canRedirect: true,
-    step: TRIGGER_STEPS.SETTINGS
-  }
+const getTitle = (step, formData, { id }, isShared) => {
+  const isUpdate = id > 0 && !isShared
 
-  state = {
-    step: TRIGGER_STEPS.SETTINGS,
-    trigger: {
-      title: `Signal_[${new Date().toLocaleDateString('en-US')}]`,
-      description: '',
-      isActive: true,
-      isPublic: false
+  switch (step) {
+    case TRIGGER_STEPS.SETTINGS: {
+      return isUpdate ? 'Update signal' : 'Create signal'
+    }
+    case TRIGGER_STEPS.CONFIRM: {
+      const publicWord = formData.isPublic ? 'public' : 'private'
+      if (isUpdate) {
+        return `Update ${publicWord} signal`
+      } else {
+        return `Create ${publicWord} signal`
+      }
+    }
+    default: {
+      return ''
     }
   }
+}
 
-  componentDidUpdate (prevProps) {
-    const { trigger } = this.state
+const SignalMaster = ({
+  canRedirect = true,
+  step: propsStep = TRIGGER_STEPS.SETTINGS,
+  trigger: propsTrigger = {},
+  metaFormSettings,
+  setTitle,
+  onClose,
+  redirect,
+  updateTrigger,
+  createTrigger,
+  isShared = false
+}) => {
+  const { triggerId, isLoading, isError } = propsTrigger
 
-    const newProps = this.props
-    if (newProps.trigger && newProps.trigger.trigger && !trigger.id) {
-      this.setState({
-        trigger: {
-          ...newProps.trigger.trigger
-        },
-        step: newProps.step
-      })
-    }
-  }
-
-  render () {
-    const {
-      triggerId,
-      trigger: triggerObj = {},
-      metaFormSettings,
-      setTitle
-    } = this.props
-
-    if (triggerId && triggerObj.isLoading) {
+  if (triggerId) {
+    if (isLoading) {
       return (
         <div className={cx(styles.wrapper, styles.loading)}>{'Loading...'}</div>
       )
+    } else if (isError) {
+      return <Message variant='error'>{propsTrigger.errorMessage}</Message>
     }
-    if (triggerId && triggerObj.isError) {
-      return <Message variant='error'>{triggerObj.errorMessage}</Message>
-    }
+  }
 
-    const { step, trigger } = this.state
+  const [stateTrigger, setStateTrigger] = useState({
+    title: '',
+    description: '',
+    isActive: true,
+    isPublic: false
+  })
+  const [stateStep, setStateStep] = useState(propsStep)
 
-    const triggerSettingsFormData = trigger
-      ? mapTriggerToFormProps(trigger)
-      : {}
+  const triggerSettingsFormData = mapTriggerToFormProps(stateTrigger)
 
-    const triggerAboutFormData = {
-      title: trigger.title,
-      description: trigger.description
-    }
-
-    const toggleSignalPublic = () => {
-      const { trigger } = this.state
-      const newValue = !trigger.isPublic
-      const newTrigger = { ...trigger, isPublic: newValue }
-
-      this.setState({ trigger: newTrigger })
-    }
-
-    const getTitle = ({ id }) => {
-      switch (step) {
-        case TRIGGER_STEPS.SETTINGS: {
-          return id > 0 ? 'Update signal' : 'Create signal'
-        }
-        case TRIGGER_STEPS.CONFIRM: {
-          if (id > 0) {
-            return triggerSettingsFormData.isPublic
-              ? 'Update public signal'
-              : 'Update private signal'
-          } else {
-            return triggerSettingsFormData.isPublic
-              ? 'Create public signal'
-              : 'Create private signal'
-          }
-        }
-        default: {
-          return ''
-        }
+  useEffect(
+    () => {
+      if (propsTrigger && propsTrigger.trigger && !stateTrigger.id) {
+        setStateTrigger({
+          ...propsTrigger.trigger
+        })
+        setStateStep(propsStep)
       }
+    },
+    [propsTrigger]
+  )
+
+  useEffect(() => {
+    setTitle &&
+      setTitle(
+        getTitle(stateStep, triggerSettingsFormData, stateTrigger, isShared)
+      )
+  })
+
+  const toggleSignalPublic = () => {
+    const newValue = !stateTrigger.isPublic
+    setStateTrigger({ ...stateTrigger, isPublic: newValue })
+  }
+
+  const backToSettings = data => {
+    setStateTrigger({ ...stateTrigger, ...data })
+    setStateStep(TRIGGER_STEPS.SETTINGS)
+  }
+
+  const handleSettingsChange = formProps => {
+    setStateTrigger(mapFormPropsToTrigger(formProps, stateTrigger))
+    setStateStep(TRIGGER_STEPS.CONFIRM)
+  }
+
+  const handleAboutFormSubmit = about => {
+    const data = {
+      ...stateTrigger,
+      ...about,
+      shouldReload: canRedirect
     }
 
-    setTitle && setTitle(getTitle(trigger))
+    const { id } = stateTrigger
 
-    const close = this.props.onClose || this.props.redirect
+    if (id > 0 && !isShared) {
+      updateTrigger(data)
+    } else {
+      delete data.id
+      createTrigger(data)
+    }
 
-    return (
-      <div className={styles.wrapper}>
-        {step === TRIGGER_STEPS.SETTINGS && (
-          <TriggersForm
-            onClose={close}
-            triggers={[trigger]}
-            settings={triggerSettingsFormData}
-            canRedirect={this.props.canRedirect}
-            metaFormSettings={metaFormSettings}
-            onSettingsChange={this.handleSettingsChange}
-          />
-        )}
-        {step === TRIGGER_STEPS.CONFIRM && (
-          <AboutForm
-            triggerMeta={triggerAboutFormData}
-            isEdit={+triggerId > 0}
-            onBack={this.backToSettings}
-            onSubmit={this.handleAboutFormSubmit}
-          />
-        )}
+    onClose && onClose()
+    canRedirect && redirect && redirect()
+  }
 
-        <div className={styles.triggerToggleBlock}>
-          <Toggle onClick={toggleSignalPublic} isActive={trigger.isPublic} />
-          <div className={styles.triggerToggleLabel}>
-            {trigger.isPublic ? 'Public' : 'Private'}
-          </div>
+  const close = onClose || redirect
+
+  return (
+    <div className={styles.wrapper}>
+      {stateStep === TRIGGER_STEPS.SETTINGS && (
+        <TriggersForm
+          isShared={isShared}
+          onClose={close}
+          triggers={[stateTrigger]}
+          settings={triggerSettingsFormData}
+          canRedirect={canRedirect}
+          metaFormSettings={metaFormSettings}
+          onSettingsChange={handleSettingsChange}
+        />
+      )}
+      {stateStep === TRIGGER_STEPS.CONFIRM && (
+        <AboutForm
+          isShared={isShared}
+          triggerMeta={stateTrigger}
+          onBack={backToSettings}
+          onSubmit={handleAboutFormSubmit}
+        />
+      )}
+
+      <div className={styles.triggerToggleBlock}>
+        <Toggle onClick={toggleSignalPublic} isActive={stateTrigger.isPublic} />
+        <div className={styles.triggerToggleLabel}>
+          {stateTrigger.isPublic ? 'Public' : 'Private'}
         </div>
       </div>
-    )
-  }
-
-  backToSettings = prefilledData => {
-    const { trigger } = this.state
-    this.setState({
-      step: TRIGGER_STEPS.SETTINGS,
-      trigger: { ...trigger, ...prefilledData }
-    })
-  }
-
-  handleSettingsChange = formProps => {
-    const { trigger } = this.state
-
-    this.setState({
-      trigger: mapFormPropsToTrigger(formProps, trigger),
-      step: TRIGGER_STEPS.CONFIRM
-    })
-  }
-
-  handleAboutFormSubmit = about => {
-    const data = {
-      ...this.state.trigger,
-      ...about,
-      shouldReload: this.props.canRedirect
-    }
-
-    const {
-      trigger: { id }
-    } = this.state
-
-    if (id > 0) {
-      this.props.updateTrigger(data)
-    } else {
-      this.props.createTrigger(data)
-    }
-
-    this.props.onClose && this.props.onClose()
-    this.props.canRedirect && this.props.redirect && this.props.redirect()
-  }
+    </div>
+  )
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -196,20 +171,7 @@ const enhance = compose(
   connect(
     null,
     mapDispatchToProps
-  ),
-  graphql(TRIGGER_BY_ID_QUERY, {
-    skip: data => {
-      const { triggerId } = data
-      return !triggerId
-    },
-    options: ({ triggerId: id }) => {
-      return {
-        fetchPolicy: 'network-only',
-        variables: { id: +id }
-      }
-    },
-    props: mapGQLTriggerToProps
-  })
+  )
 )
 
 export default enhance(SignalMaster)

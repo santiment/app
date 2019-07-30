@@ -9,10 +9,11 @@ import { mapToOptions } from '../../Signals/utils/utils'
 import styles from './BalanceView.module.scss'
 
 const BalanceChartHeader = ({ address, assets, children }) => {
+  // # GarageInc: Temporary hidded before fix bug on backend by ivan
   return (
     <div className={styles.chartHeader}>
       <div className={styles.addTrigger}>
-        <ShowIf beta>
+        <ShowIf condition={false}>
           <SignalMasterModalForm
             label='Generate signal'
             enabled={address && assets && assets.length > 0}
