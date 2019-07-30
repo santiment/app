@@ -72,7 +72,7 @@ const TriggerFormTrendingWordsTypes = ({
             </div>
 
             {!isWatchlist && (
-              <div className={cx(styles.row, styles.rowBottom)}>
+              <div className={styles.row}>
                 <div className={cx(styles.Field, styles.fieldFilled)}>
                   {isProjects && (
                     <TriggerProjectsSelector
