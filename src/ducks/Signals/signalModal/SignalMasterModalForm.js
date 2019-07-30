@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import cx from 'classnames'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dialog from '@santiment-network/ui/Dialog'
 import SignalMaster from '../signalFormManager/signalMaster/SignalMaster'
-import SignalAnon from './SignalAnon'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
-import { push } from 'react-router-redux'
+import GetSignal from '../common/getSignal'
 import { SIGNAL_ROUTES } from '../common/constants'
+import SignalAnon from './SignalAnon'
 import styles from './SignalMasterModalForm.module.scss'
 
 const SignalMasterModalForm = ({
@@ -21,12 +23,17 @@ const SignalMasterModalForm = ({
   isLoggedIn,
   redirect,
   match,
-  trigger,
+  trigger: dialogTrigger,
   buttonParams = {},
-  dialogProps
+  dialogProps,
+  shareParams = {}
 }) => {
+  const { id: shareId, isShared } = shareParams
+
   if (!triggerId && match) {
     triggerId = match.params.id
+  } else if (isShared) {
+    triggerId = shareId
   }
 
   const hasTrigger = +triggerId > 0
@@ -52,35 +59,70 @@ const SignalMasterModalForm = ({
   const { variant, border } = buttonParams
 
   return (
-    <Dialog
-      open={dialogOpenState}
-      onOpen={() => {
-        setDialogOpenState(true)
+    <GetSignal
+      triggerId={triggerId}
+      render={({ trigger = {} }) => {
+        const { isLoading, isError } = trigger
+
+        if (isShared && trigger.trigger) {
+          trigger.trigger = { ...trigger.trigger, ...shareParams }
+        }
+
+        if (isError) {
+          throw new Error(`Can't find such public trigger with id ${triggerId}`)
+        }
+
+        return (
+          <Dialog
+            open={dialogOpenState}
+            onOpen={() => setDialogOpenState(true)}
+            onClose={onClose}
+            trigger={
+              dialogTrigger ||
+              signalModalTrigger(isLoggedIn && enabled, label, variant, border)
+            }
+            title={
+              !isError && (
+                <>
+                  {dialogTitle}
+                  {isShared && (
+                    <Button
+                      accent='positive'
+                      variant='fill'
+                      className={styles.shared}
+                    >
+                      Shared
+                    </Button>
+                  )}
+                </>
+              )
+            }
+            classes={styles}
+            {...dialogProps}
+          >
+            <Dialog.ScrollContent className={styles.TriggerPanel}>
+              {isLoading && (
+                <Loader className={styles.loading}>Loading...</Loader>
+              )}
+              {!isLoading &&
+                (isLoggedIn ? (
+                  <SignalMaster
+                    isShared={isShared}
+                    step={step}
+                    trigger={trigger}
+                    setTitle={onSetDialogTitle}
+                    onClose={() => setDialogOpenState(false)}
+                    canRedirect={canRedirect}
+                    metaFormSettings={metaFormSettings}
+                  />
+                ) : (
+                  <SignalAnon />
+                ))}
+            </Dialog.ScrollContent>
+          </Dialog>
+        )
       }}
-      onClose={onClose}
-      trigger={
-        trigger ||
-        signalModalTrigger(isLoggedIn && enabled, label, variant, border)
-      }
-      title={dialogTitle}
-      classes={styles}
-      {...dialogProps}
-    >
-      <Dialog.ScrollContent className={styles.TriggerPanel}>
-        {isLoggedIn ? (
-          <SignalMaster
-            step={step}
-            triggerId={triggerId}
-            setTitle={onSetDialogTitle}
-            onClose={() => setDialogOpenState(false)}
-            canRedirect={canRedirect}
-            metaFormSettings={metaFormSettings}
-          />
-        ) : (
-          <SignalAnon />
-        )}
-      </Dialog.ScrollContent>
-    </Dialog>
+    />
   )
 }
 

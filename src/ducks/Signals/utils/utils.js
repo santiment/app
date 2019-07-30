@@ -295,7 +295,7 @@ const getFormTrendingWords = ({ settings: { operation, target } }) => {
 
 export const mapTriggerToFormProps = currentTrigger => {
   if (!currentTrigger || !currentTrigger.settings) {
-    return undefined
+    return {}
   }
   const {
     cooldown,
@@ -679,10 +679,10 @@ export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
   if (!loading && !trigger) {
     return {
       trigger: {
-        isError: false,
+        isError: !!error,
         isEmpty: true,
         trigger: null,
-        isLoading: false
+        isLoading: loading
       }
     }
   }

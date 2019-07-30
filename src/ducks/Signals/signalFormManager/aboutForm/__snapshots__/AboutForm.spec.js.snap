@@ -2,7 +2,7 @@
 
 exports[`AboutForm render correctly text component 1`] = `
 <Formik
-  enableReinitialize={false}
+  enableReinitialize={true}
   initialValues={
     Object {
       "description": "Custom Description",

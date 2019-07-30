@@ -19,3 +19,33 @@
     border-radius: 0;
   }
 }
+
+.title {
+  position: relative;
+}
+
+.shared {
+  @include text('body-3');
+
+  margin-left: auto;
+  width: 70px;
+  margin-right: 20px;
+  cursor: initial;
+
+  &:hover {
+    background: var(--jungle-green);
+  }
+}
+
+.loading {
+  padding: 10px;
+  width: 496px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include responsive('phone', 'phone-xs') {
+    width: initial;
+  }
+}

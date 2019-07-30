@@ -19,6 +19,7 @@ import {
   SettingsSignalButton
 } from '../../components/SignalCard/controls/SignalControls'
 import styles from './SignalDetails.module.scss'
+import { SIGNAL_ROUTES } from '../../ducks/Signals/common/constants'
 
 const SignalDetails = ({
   trigger: { trigger = {}, isLoading, isError, errorMessage = '' },
@@ -54,14 +55,13 @@ const SignalDetails = ({
     )
   }
   if (!isLoading && !trigger) {
-    return <Redirect exact to={'/sonar/feed/my-signals'} />
+    return <Redirect exact to={SIGNAL_ROUTES.MY_SIGNALS} />
   }
 
   const {
     isActive,
     isPublic,
     title,
-    description,
     settings: { type }
   } = trigger
 
@@ -69,10 +69,8 @@ const SignalDetails = ({
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <SignalCardWrapper
-          title={title}
-          description={description}
+          trigger={trigger}
           type={type}
-          id={id}
           isModal={false}
           removeSignal={removeSignal}
         >
@@ -114,7 +112,7 @@ const mapDispatchToProps = dispatch => ({
   removeSignal: id => {
     dispatch(removeTrigger(id))
   },
-  redirect: (path = '/sonar/feed/my-signals') => {
+  redirect: (path = SIGNAL_ROUTES.MY_SIGNALS) => {
     dispatch(push(path))
   }
 })

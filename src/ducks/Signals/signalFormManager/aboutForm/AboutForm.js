@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Formik, Form } from 'formik'
 import Button from '@santiment-network/ui/Button'
@@ -11,12 +11,21 @@ const MAX_DESCR_LENGTH = 140
 const MAX_TITLE_LENGTH = 120
 const MIN_TITLE_LENGTH = 2
 
-const AboutForm = ({ triggerMeta, onSubmit, onBack }) => {
+const AboutForm = ({ triggerMeta, onSubmit, onBack, isShared }) => {
   const [trigger, setTrigger] = useState(triggerMeta)
+
+  useEffect(
+    () => {
+      setTrigger(triggerMeta)
+    },
+    [triggerMeta]
+  )
+
   return (
     <Formik
       initialValues={trigger}
       isInitialValid
+      enableReinitialize
       validate={values => {
         let errors = {}
         if (!values.title) {
@@ -88,9 +97,7 @@ const AboutForm = ({ triggerMeta, onSubmit, onBack }) => {
               variant={'flat'}
               accent='grey'
               border
-              onClick={() => {
-                onBack(trigger)
-              }}
+              onClick={() => onBack(trigger)}
             >
               Back
             </Button>
@@ -98,10 +105,10 @@ const AboutForm = ({ triggerMeta, onSubmit, onBack }) => {
               type='submit'
               disabled={!isValid || isSubmitting}
               isActive={isValid && !isSubmitting}
-              variant={'fill'}
+              variant='fill'
               accent='positive'
             >
-              Confirm
+              {isShared ? 'Save' : 'Confirm'}
             </Button>
           </div>
         </Form>
