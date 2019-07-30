@@ -117,7 +117,7 @@ const AssetsListDescription = ({
   onRemove
 }) => {
   if (!assets || !assets.length) {
-    return label
+    return <div className={styles.label}>{label}</div>
   }
 
   return (
@@ -127,7 +127,6 @@ const AssetsListDescription = ({
         return (
           <span className={styles.asset} key={id}>
             <span className={styles.name}>{name}</span>
-            <span className={styles.ticker}>{ticker}</span>
             <Button
               type='button'
               className={styles.close}

@@ -142,9 +142,9 @@ export const PRICE_VOLUME_DIFFERENCE_METRIC = {
 export const COOLDOWN_REGEXP = /([0-9]+)*([smhdw])/i
 
 export const METRICS_OPTIONS = [
+  { ...TRENDING_WORDS_METRIC },
   { ...PRICE_METRIC },
   // { ...ETH_WALLET_METRIC }, # GarageInc: Temporary hidded before fix bug on backend by ivan
-  { ...TRENDING_WORDS_METRIC },
   { ...DAILY_ACTIVE_ADDRESSES_METRIC },
   { ...PRICE_VOLUME_DIFFERENCE_METRIC }
 ]

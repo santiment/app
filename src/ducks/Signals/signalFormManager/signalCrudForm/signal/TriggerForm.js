@@ -37,7 +37,7 @@ import {
   getFormMetricValue
 } from '../../../utils/utils'
 import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
-import { TriggerFormMetricTypes } from '../formParts/TriggerFormMetricTypes'
+import { TriggerFormMetricTypes } from '../formParts/metricTypes/TriggerFormMetricTypes'
 import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'
 import SignalPreview from '../../../chart/SignalPreview'
 import MetricOptionsRenderer from '../formParts/metricOptions/MetricOptionsRenderer'
