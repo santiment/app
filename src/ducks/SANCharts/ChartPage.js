@@ -24,7 +24,8 @@ const DEFAULT_STATE = {
   metrics: ['historyPrice'],
   title: 'Santiment Network Token (SAN)',
   projectId: '16912',
-  interval: '12h'
+  interval: '12h',
+  isAdvancedView: false
 }
 
 const LoadableChartSidecar = Loadable({
@@ -211,6 +212,10 @@ class ChartPage extends Component {
     })}`
   }
 
+  onSidebarToggleClick = () => {
+    this.setState(prev => ({ isAdvancedView: !prev.isAdvancedView }))
+  }
+
   render () {
     const {
       timeRange,
@@ -223,7 +228,8 @@ class ChartPage extends Component {
       viewOnly,
       title,
       zoom,
-      nightMode
+      nightMode,
+      isAdvancedView
     } = this.state
 
     const { hideSettings = {}, children } = this.props
@@ -275,55 +281,66 @@ class ChartPage extends Component {
 
           return (
             <div className={styles.wrapper}>
-              <div className={styles.container}>
-                {!viewOnly && (
-                  <LoadableChartSettings
-                    defaultTimerange={timeRange}
-                    onTimerangeChange={this.onTimerangeChange}
-                    onCalendarChange={this.onCalendarChange}
-                    onSlugSelect={this.onSlugSelect}
-                    generateShareLink={this.generateShareLink}
-                    onNightModeSelect={this.onNightModeSelect}
-                    onIntervalChange={this.onIntervalChange}
-                    hasNightMode={nightMode}
-                    disabledMetrics={errors}
-                    from={from}
-                    to={to}
-                    interval={interval}
-                    hideSettings={hideSettings}
-                    project={{ projectId, slug }}
-                  />
-                )}
-                <Charts
-                  onZoom={this.onZoom}
-                  onZoomOut={this.onZoomOut}
-                  isZoomed={zoom}
-                  chartData={(timeseries && zoom
-                    ? timeseries.slice(zoom[0], zoom[1])
-                    : timeseries
-                  ).map(({ datetime, ...rest }) => ({
-                    ...rest,
-                    datetime: +new Date(datetime)
-                  }))}
-                  settings={settings}
-                  title={title}
-                  metrics={finalMetrics}
-                  children={children}
-                />
-              </div>
-              {!viewOnly && (
-                <div className={cx(styles.container, styles.container_bottom)}>
-                  {hideSettings.sidecar || (
-                    <LoadableChartSidecar onSlugSelect={this.onSlugSelect} />
+              <div
+                className={cx(styles.tool, isAdvancedView && styles.tool_short)}
+              >
+                <div className={styles.container}>
+                  {!viewOnly && (
+                    <LoadableChartSettings
+                      defaultTimerange={timeRange}
+                      onTimerangeChange={this.onTimerangeChange}
+                      onCalendarChange={this.onCalendarChange}
+                      onSlugSelect={this.onSlugSelect}
+                      generateShareLink={this.generateShareLink}
+                      onNightModeSelect={this.onNightModeSelect}
+                      onIntervalChange={this.onIntervalChange}
+                      hasNightMode={nightMode}
+                      disabledMetrics={errors}
+                      from={from}
+                      to={to}
+                      interval={interval}
+                      hideSettings={hideSettings}
+                      project={{ projectId, slug }}
+                      isAdvancedView={isAdvancedView}
+                    />
                   )}
-                  <LoadableChartMetricsTool
-                    classes={styles}
-                    slug={slug}
-                    toggleMetric={this.toggleMetric}
-                    disabledMetrics={errors}
-                    activeMetrics={finalMetrics}
+                  <Charts
+                    onZoom={this.onZoom}
+                    onZoomOut={this.onZoomOut}
+                    isZoomed={zoom}
+                    chartData={(timeseries && zoom
+                      ? timeseries.slice(zoom[0], zoom[1])
+                      : timeseries
+                    ).map(({ datetime, ...rest }) => ({
+                      ...rest,
+                      datetime: +new Date(datetime)
+                    }))}
+                    settings={settings}
+                    title={title}
+                    metrics={finalMetrics}
+                    children={children}
                   />
                 </div>
+                {!viewOnly && (
+                  <div
+                    className={cx(styles.container, styles.container_bottom)}
+                  >
+                    <LoadableChartMetricsTool
+                      classes={styles}
+                      slug={slug}
+                      toggleMetric={this.toggleMetric}
+                      disabledMetrics={errors}
+                      activeMetrics={finalMetrics}
+                    />
+                  </div>
+                )}
+              </div>
+              {(!viewOnly && hideSettings.sidecar) || (
+                <LoadableChartSidecar
+                  onSlugSelect={this.onSlugSelect}
+                  onSidebarToggleClick={this.onSidebarToggleClick}
+                  isAdvancedView={isAdvancedView}
+                />
               )}
             </div>
           )
