@@ -5,16 +5,22 @@ import Button from '@santiment-network/ui/Button'
 import styles from './AnonBanner.module.scss'
 import stylesB from './AnonBannerB.module.scss'
 
-const AnonBannerCardB = ({ onClick, className }) => (
+const AnonBannerCardB = ({
+  title = 'Get noise control for the crypto market',
+  description = 'Smart overview supported by data-driven data',
+  button = 'Get started',
+  onClick,
+  className
+}) => (
   <div className={cx(styles.banner__top, stylesB.banner__top, className)}>
     <div className={stylesB.banner__left}>
       <div className={cx(styles.banner__title, stylesB.banner__title)}>
-        Get noise control for the crypto market
+        {title}
       </div>
       <div
         className={cx(styles.banner__description, stylesB.banner__description)}
       >
-        Smart overview supported by data-driven data
+        {description}
       </div>
     </div>
     <Button
@@ -25,7 +31,7 @@ const AnonBannerCardB = ({ onClick, className }) => (
       onClick={onClick}
       className={stylesB.banner__btn}
     >
-      Get started
+      {button}
     </Button>
   </div>
 )

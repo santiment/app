@@ -35,6 +35,9 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
         <AnonBannerCardB
           onClick={onGetStartedClick}
           className={styles.banner}
+          title='Why Santiment?'
+          description='Track selected assets in one place and check it’s status'
+          button='Sign up for free'
         />
       )}
       <h2 className={styles.title}>Latest Insights</h2>
