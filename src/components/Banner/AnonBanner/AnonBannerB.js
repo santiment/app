@@ -1,10 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
-import { Link } from 'react-router-dom'
-import { Button, Icon } from '@santiment-network/ui'
+import Icon from '@santiment-network/ui/Button'
 import AnonBannerCardB from './AnonBannerCardB'
 import styles from './AnonBanner.module.scss'
-import stylesB from './AnonBannerB.module.scss'
 
 const AnonBanner = ({ className, onClick, bannerRef }) => {
   return (

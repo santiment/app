@@ -336,7 +336,12 @@ export const App = ({
             />
           )}
         />
-        <Route path='/' component={LoadableChartPage} />
+        <Route
+          path='/'
+          render={props => (
+            <LoadableChartPage isLoggedIn={isLoggedIn} {...props} />
+          )}
+        />
         {!isDesktop && <Redirect from='/' to='/assets' />}
       </Switch>
     </ErrorBoundary>

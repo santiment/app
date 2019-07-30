@@ -2,7 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
 import styles from './AnonBanner.module.scss'
 import stylesB from './AnonBannerB.module.scss'
 
