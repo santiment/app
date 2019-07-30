@@ -20,12 +20,8 @@ const TriggerMetricTypesResolver = ({
 }) => {
   const TypeComponent = mapToComponents[metric.value] || TriggerFormAssetWallet
 
-  const description = getTargets(values)
   return (
-    <TriggerFormBlock
-      titleLabel='Notify me when'
-      titleDescription={description}
-    >
+    <TriggerFormBlock {...getTargets(values)}>
       <TypeComponent
         values={values}
         byAddress={address}

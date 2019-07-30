@@ -174,7 +174,6 @@ export const METRIC_TO_TYPES = {
 }
 
 export const METRIC_TYPES_DEPENDENCIES = {
-  [PRICE_VOLUME_DIFFERENCE]: [],
   [DAILY_ACTIVE_ADDRESSES]: ['percentThreshold', 'timeWindow'],
   [PRICE_PERCENT_CHANGE]: ['percentThreshold', 'timeWindow'],
   [PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER]: ['absoluteThreshold'],
@@ -182,8 +181,7 @@ export const METRIC_TYPES_DEPENDENCIES = {
     'absoluteBorderLeft',
     'absoluteBorderRight'
   ],
-  [ETH_WALLET]: ['threshold', 'walletBalanceChangeType'],
-  [TRENDING_WORDS]: []
+  [ETH_WALLET]: ['threshold', 'walletBalanceChangeType']
 }
 
 export const frequencyTymeValueBuilder = value => {

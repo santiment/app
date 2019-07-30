@@ -48,17 +48,60 @@ import {
   MAX_DESCR_LENGTH
 } from './constants'
 import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
+import { formatNumber } from '../../../utils/formatting'
 
-const targetMapper = ({ value, slug } = {}) => value || slug
+const targetMapper = ({ value, slug } = {}) => slug || value
+const targetMapperWithName = ({ value, slug, name } = {}) =>
+  name || slug || value
 
-export const getTargets = ({ target, signalType }) => {
+const buildFormBlock = (title, description) => ({
+  titleLabel: title,
+  titleDescription: description || '...'
+})
+
+const NOTIFY_ME_WHEN = 'Notify me when'
+
+const targetsJoin = targets =>
+  Array.isArray(targets) ? targets.join(', ') : targets
+
+export const getTargets = values => {
+  const {
+    target,
+    signalType,
+    type,
+    metric,
+    trendingWordsWithWords,
+    trendingWordsWithAssets
+  } = values
+
+  if (metric.value === TRENDING_WORDS) {
+    switch (type.value) {
+      case TRENDING_WORDS_PROJECT_MENTIONED.value: {
+        const targets = mapTargetObject(
+          trendingWordsWithAssets,
+          targetMapperWithName
+        )
+        return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+      }
+      case TRENDING_WORDS_WORD_MENTIONED.value: {
+        const targets = mapTargetObject(
+          trendingWordsWithWords,
+          targetMapperWithName
+        )
+        return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+      }
+      default: {
+      }
+    }
+  }
+
   switch (signalType.value) {
     case METRIC_TARGET_WATCHLIST.value: {
-      return target ? target.name : ''
+      return buildFormBlock(NOTIFY_ME_WHEN, targetMapperWithName(target))
     }
     default: {
-      const targets = mapTargetObject(target)
-      return Array.isArray(targets) ? targets.join(', ') : targets
+      const targets = mapTargetObject(target, targetMapperWithName)
+      return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
     }
   }
 }
@@ -415,8 +458,8 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
   }
 }
 
-export const getTargetFromArray = target =>
-  target.length === 1 ? targetMapper(target[0]) : target.map(targetMapper())
+export const getTargetFromArray = (target, mapper = targetMapper()) =>
+  target.length === 1 ? mapper(target[0]) : target.map(mapper)
 
 export const mapFomTargetToTriggerTarget = (
   target,
@@ -429,7 +472,7 @@ export const mapFomTargetToTriggerTarget = (
     case METRIC_TARGET_WATCHLIST.value: {
       return {
         target: {
-          watchlist_id: +target
+          watchlist_id: +target.id
         }
       }
     }
@@ -447,10 +490,10 @@ export const mapFomTargetToTriggerTarget = (
   }
 }
 
-export const mapTargetObject = target => {
+export const mapTargetObject = (target, mapper = targetMapper) => {
   return Array.isArray(target)
-    ? getTargetFromArray(target)
-    : targetMapper(target)
+    ? getTargetFromArray(target, mapper)
+    : mapper(target)
 }
 
 export const mapAssetTarget = (target, ethAddress) => {
@@ -974,10 +1017,67 @@ export const getDefaultFormValues = (newValues, { value: oldMetric }) => {
   }
 }
 
-export const titleMetricValues = ({}) => {
-  return 'qwewqewqeew'
-}
+const getUsd = (value = 0) => formatNumber(value, { currency: 'USD' })
 
-export const descriptionMetricValues = ({}) => {
-  return 'asdasdsdddas'
+export const titleMetricValues = (
+  hasMetricValues,
+  {
+    type,
+    threshold,
+    percentThreshold,
+    absoluteThreshold,
+    absoluteBorderRight,
+    absoluteBorderLeft
+  }
+) => {
+  if (hasMetricValues && type) {
+    const { value } = type
+    switch (value) {
+      case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN: {
+        return buildFormBlock('Historical balance', 'below ' + threshold)
+      }
+      case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
+        return buildFormBlock('Historical balance', 'above ' + threshold)
+      }
+      case PRICE_CHANGE_TYPES.MOVING_DOWN: {
+        return buildFormBlock('Price moving', 'down ' + percentThreshold + '%')
+      }
+      case PRICE_CHANGE_TYPES.MOVING_UP: {
+        return buildFormBlock('Price moving', 'up ' + percentThreshold + '%')
+      }
+      case PRICE_CHANGE_TYPES.ABOVE: {
+        return buildFormBlock(
+          'Price goes',
+          'above ' + getUsd(absoluteThreshold)
+        )
+      }
+      case PRICE_CHANGE_TYPES.BELOW: {
+        return buildFormBlock(
+          'Price goes',
+          'below ' + getUsd(absoluteThreshold)
+        )
+      }
+      case PRICE_CHANGE_TYPES.INSIDE_CHANNEL: {
+        return buildFormBlock(
+          'Price goes',
+          'between ' +
+            getUsd(absoluteBorderRight) +
+            ' and ' +
+            getUsd(absoluteBorderLeft)
+        )
+      }
+      case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
+        return buildFormBlock(
+          'Price goes',
+          'outside ' +
+            getUsd(absoluteBorderRight) +
+            ' and ' +
+            getUsd(absoluteBorderLeft)
+        )
+      }
+      default: {
+        return undefined
+      }
+    }
+  }
 }

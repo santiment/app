@@ -1,10 +1,6 @@
 $select-line-height: 30px;
 
 .select__container-single {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-
   .Select-control {
     height: 30px;
     line-height: $select-line-height;
@@ -31,4 +27,8 @@ $select-line-height: 30px;
 .VirtualizedSelectOption {
   margin: 0 !important;
   border-radius: 0 !important;
+}
+
+.Select.is-disabled .Select-value {
+  color: var(--mystic) !important;
 }

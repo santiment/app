@@ -24,7 +24,8 @@ import {
   METRIC_TO_TYPES,
   MAX_DESCR_LENGTH,
   MIN_TITLE_LENGTH,
-  MAX_TITLE_LENGTH
+  MAX_TITLE_LENGTH,
+  METRIC_TYPES_DEPENDENCIES
 } from '../../../utils/constants'
 import {
   couldShowChart,
@@ -33,7 +34,7 @@ import {
   validateTriggerForm,
   getDefaultFormValues,
   titleMetricValues,
-  descriptionMetricValues
+  getFormMetricValue
 } from '../../../utils/utils'
 import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/TriggerFormMetricTypes'
@@ -143,8 +144,14 @@ export const TriggerForm = ({
         const chartTarget = mapTargetObject(target)
         const showChart = target && couldShowChart(values)
 
+        const showTypes =
+          metric && !metric.hidden && typeSelectors && typeSelectors.length > 1
+
+        const metricValueBlocks =
+          METRIC_TYPES_DEPENDENCIES[getFormMetricValue(type)]
+
         return (
-          <Form className={styles.TriggerForm}>
+          <Form>
             <FormikEffect
               onChange={(current, prev) => {
                 let { values: newValues } = current
@@ -189,48 +196,58 @@ export const TriggerForm = ({
                 setFieldValue={setFieldValue}
               />
 
-              <TriggerFormBlock
-                titleLabel={titleMetricValues(values)}
-                titleDescription={descriptionMetricValues(values)}
-                className={styles.chainBlock}
-              >
-                {metric &&
-                  !metric.hidden &&
-                  typeSelectors &&
-                  typeSelectors.length > 1 && (
-                  <div className={cx(styles.row)}>
-                    <div className={cx(styles.Field, styles.fieldFilled)}>
-                      <FormikLabel text='Condition' />
-                      <FormikSelect
-                        name='type'
-                        isClearable={false}
-                        isSearchable
-                        disabled={defaultType.isDisabled}
-                        defaultValue={defaultType.value}
-                        placeholder='Choose a type'
-                        options={typeSelectors}
-                        optionRenderer={MetricOptionsRenderer}
-                        isOptionDisabled={option => !option.value}
-                      />
+              {(showTypes || showChart || metricValueBlocks) && (
+                <TriggerFormBlock
+                  {...titleMetricValues(!!metricValueBlocks, values)}
+                  className={styles.chainBlock}
+                >
+                  {showTypes && (
+                    <div className={cx(styles.row, styles.rowTop)}>
+                      <div className={cx(styles.Field, styles.fieldFilled)}>
+                        <FormikLabel text='Choose condition' />
+                        <FormikSelect
+                          name='type'
+                          isClearable={false}
+                          isSearchable
+                          disabled={defaultType.isDisabled}
+                          defaultValue={defaultType.value}
+                          placeholder='Choose a type'
+                          options={typeSelectors}
+                          optionRenderer={MetricOptionsRenderer}
+                          isOptionDisabled={option => !option.value}
+                        />
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                <TriggerFormMetricValues lastPrice={price} values={values} />
+                  {metricValueBlocks && (
+                    <TriggerFormMetricValues
+                      blocks={metricValueBlocks}
+                      lastPrice={price}
+                      values={values}
+                    />
+                  )}
 
-                {showChart && (
-                  <Fragment>
-                    <TriggerFormBlockDivider />
-                    <div className={styles.preview}>
-                      <SignalPreview target={chartTarget} type={metric.value} />
-                    </div>
-                  </Fragment>
-                )}
-              </TriggerFormBlock>
+                  {showChart && (
+                    <Fragment>
+                      {(showTypes || metricValueBlocks) && (
+                        <TriggerFormBlockDivider />
+                      )}
+                      <div className={styles.preview}>
+                        <SignalPreview
+                          target={chartTarget}
+                          type={metric.value}
+                        />
+                      </div>
+                    </Fragment>
+                  )}
+                </TriggerFormBlock>
+              )}
 
               <TriggerFormBlock
                 titleLabel='More options'
                 enabledHide
+                show={!isTelegramConnected}
                 className={styles.chainBlock}
               >
                 <div className={cx(styles.row, styles.rowTop)}>
