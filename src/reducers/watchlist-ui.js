@@ -1,4 +1,8 @@
 import * as actions from './../actions/types'
+import { loadKeyState } from '../utils/localStorage'
+import { CATEGORIES_SETTINGS } from '../pages/assets/asset-columns.js'
+
+const settings = loadKeyState('watchlistsSettings') || {}
 
 export const initialState = {
   selectedId: null,
@@ -8,7 +12,8 @@ export const initialState = {
   statusDeleteAssetList: null,
   editableAssetsInList: [],
   editableWatchlists: [],
-  firstWatchlistCreated: false
+  firstWatchlistCreated: false,
+  watchlistsSettings: { ...CATEGORIES_SETTINGS, ...settings }
 }
 
 export default (state = initialState, action) => {
@@ -106,6 +111,26 @@ export default (state = initialState, action) => {
         editableWatchlists: state.editableWatchlists.filter(
           id => id !== action.payload.assetsListId
         )
+      }
+    case actions.WATCHLISTS_SETTINGS_FETCH_SUCCESS:
+      return {
+        ...state,
+        watchlistsSettings: {
+          ...state.watchlistsSettings,
+          ...action.payload
+        }
+      }
+    case actions.WATCHLIST_SETTINGS_SAVE_SUCCESS:
+      const { key, ...rest } = action.payload
+      const list = state.watchlistsSettings[key]
+        ? { ...state.watchlistsSettings[key], ...rest }
+        : { ...rest }
+      return {
+        ...state,
+        watchlistsSettings: {
+          ...state.watchlistsSettings,
+          [key]: list
+        }
       }
     default:
       return state
