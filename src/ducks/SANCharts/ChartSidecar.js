@@ -13,7 +13,8 @@ import styles from './ChartSidecar.module.scss'
 const ChartSidecar = ({
   onSlugSelect,
   onSidebarToggleClick,
-  isAdvancedView
+  isAdvancedView,
+  classes
 }) => {
   const [openedList, setOpenedList] = useState()
 
@@ -29,7 +30,10 @@ const ChartSidecar = ({
   return (
     <div className={cx(styles.wrapper, isAdvancedView && styles.opened)}>
       <SidecarExplanationTooltip>
-        <div className={styles.toggle} onClick={onSidebarToggleClick}>
+        <div
+          className={cx(styles.toggle, classes.sidecar__toggle)}
+          onClick={onSidebarToggleClick}
+        >
           <Icon type='arrow-left' className={styles.toggle__arrow} />
         </div>
       </SidecarExplanationTooltip>

@@ -52,7 +52,7 @@ const getChartInitialState = props => {
     }
     passedState = data
   } else {
-    let { slug, from, to, title, interval, timeRange } = props
+    let { slug, from, to, title, interval, timeRange, metrics } = props
 
     if (!from) {
       const { from: f, to: t } = getIntervalByTimeRange(timeRange)
@@ -63,6 +63,7 @@ const getChartInitialState = props => {
     passedState = {
       slug,
       title,
+      metrics,
       from,
       to,
       timeRange,
@@ -234,7 +235,7 @@ class ChartPage extends Component {
       isAdvancedView
     } = this.state
 
-    const { hideSettings = {}, children } = this.props
+    const { hideSettings = {}, classes = {}, children } = this.props
 
     const requestedMetrics = metrics.reduce((acc, metric) => {
       acc[metric] = {
@@ -304,6 +305,7 @@ class ChartPage extends Component {
                       hideSettings={hideSettings}
                       project={{ projectId, slug }}
                       isAdvancedView={isAdvancedView}
+                      classes={classes}
                     />
                   )}
                   <Charts
@@ -342,6 +344,7 @@ class ChartPage extends Component {
                   onSlugSelect={this.onSlugSelect}
                   onSidebarToggleClick={this.onSidebarToggleClick}
                   isAdvancedView={isAdvancedView}
+                  classes={classes}
                 />
               )}
             </div>

@@ -27,7 +27,8 @@ const ChartSettings = ({
   to,
   project,
   hideSettings = {},
-  isAdvancedView
+  isAdvancedView,
+  classes
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
   const noSearch = hideSettings.search
