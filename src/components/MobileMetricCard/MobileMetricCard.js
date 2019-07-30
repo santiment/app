@@ -9,7 +9,8 @@ import styles from './MobileMetricCard.module.scss'
 
 const ANOMALIES_METRICS_ENUM = {
   dailyActiveAddresses: 'DAILY_ACTIVE_ADDRESSES',
-  devActivity: 'DEV_ACTIVITY'
+  devActivity: 'DEV_ACTIVITY',
+  socialVolume: 'SOCIAL_VOLUME'
 }
 
 const LARGE_NUMBER_STEP = 1000
