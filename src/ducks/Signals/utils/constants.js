@@ -429,9 +429,9 @@ export const TIME_WINDOW_UNITS = [
   { value: 'm', label: 'Minutes' }
 ]
 
-export const STEPS = {
+export const TRIGGER_FORM_STEPS = {
   METRICS: 0,
   TYPES: 1,
   VALUES: 2,
-  DESCRIPTION: 4
+  DESCRIPTION: 3
 }

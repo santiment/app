@@ -66,6 +66,17 @@ $select-line-height: 30px;
   }
 }
 
+.Select.is-disabled {
+  .Select-control {
+    background-color: var(--athens);
+    color: var(--mystic);
+
+    .Select-value-label {
+      color: var(--mystic) !important;
+    }
+  }
+}
+
 .VirtualSelectGrid {
   padding: 0 !important;
 }

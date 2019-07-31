@@ -1028,7 +1028,9 @@ export const titleMetricValues = (
     percentThreshold,
     absoluteThreshold,
     absoluteBorderRight,
-    absoluteBorderLeft
+    absoluteBorderLeft,
+    timeWindowUnit,
+    timeWindow
   }
 ) => {
   if (hasMetricValues && type) {
@@ -1041,10 +1043,20 @@ export const titleMetricValues = (
         return buildFormBlock('Historical balance', 'above ' + threshold)
       }
       case PRICE_CHANGE_TYPES.MOVING_DOWN: {
-        return buildFormBlock('Price moving', 'down ' + percentThreshold + '%')
+        return buildFormBlock(
+          'Price moving',
+          `down ${percentThreshold}% compared to ${timeWindow}${
+            timeWindowUnit.value
+          } ago`
+        )
       }
       case PRICE_CHANGE_TYPES.MOVING_UP: {
-        return buildFormBlock('Price moving', 'up ' + percentThreshold + '%')
+        return buildFormBlock(
+          'Price moving',
+          `up ${percentThreshold}% compared to ${timeWindow}${
+            timeWindowUnit.value
+          } ago`
+        )
       }
       case PRICE_CHANGE_TYPES.ABOVE: {
         return buildFormBlock(

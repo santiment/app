@@ -27,7 +27,7 @@ import {
   MIN_TITLE_LENGTH,
   MAX_TITLE_LENGTH,
   METRIC_TYPES_DEPENDENCIES,
-  STEPS
+  TRIGGER_FORM_STEPS
 } from '../../../utils/constants'
 import {
   couldShowChart,
@@ -103,7 +103,9 @@ export const TriggerForm = ({
     setInitialValues({ ...initialValues, isPublic: !initialValues.isPublic })
   }
 
-  const [step, setStep] = useState(id ? STEPS.METRICS : STEPS.DESCRIPTION)
+  const [step, setStep] = useState(
+    id ? TRIGGER_FORM_STEPS.DESCRIPTION : TRIGGER_FORM_STEPS.DESCRIPTION
+  )
 
   const validateAndSetStep = newStep => {
     if (!id) {
@@ -157,8 +159,8 @@ export const TriggerForm = ({
 
         const showValues = showTypes || showChart || metricValueBlocks
 
-        if (!showValues && step === STEPS.VALUES) {
-          validateAndSetStep(STEPS.DESCRIPTION)
+        if (!showValues && step === TRIGGER_FORM_STEPS.VALUES) {
+          validateAndSetStep(TRIGGER_FORM_STEPS.DESCRIPTION)
         }
 
         return (
@@ -193,7 +195,7 @@ export const TriggerForm = ({
             />
 
             <div className={styles.triggerFormItem}>
-              {step >= STEPS.METRICS && (
+              {step >= TRIGGER_FORM_STEPS.METRICS && (
                 <TriggerFormMetricTypes
                   metaFormSettings={metaFormSettings}
                   setFieldValue={setFieldValue}
@@ -202,7 +204,7 @@ export const TriggerForm = ({
                 />
               )}
 
-              {step >= STEPS.TYPES && (
+              {step >= TRIGGER_FORM_STEPS.TYPES && (
                 <TriggerMetricTypesResolver
                   address={ethAddress}
                   values={values}
@@ -211,7 +213,7 @@ export const TriggerForm = ({
                 />
               )}
 
-              {step >= STEPS.VALUES && showValues && (
+              {step >= TRIGGER_FORM_STEPS.VALUES && showValues && (
                 <TriggerFormBlock
                   {...titleMetricValues(!!metricValueBlocks, values)}
                   className={styles.chainBlock}
@@ -243,7 +245,7 @@ export const TriggerForm = ({
                 </TriggerFormBlock>
               )}
 
-              {step >= STEPS.DESCRIPTION && (
+              {step >= TRIGGER_FORM_STEPS.DESCRIPTION && (
                 <Fragment>
                   <TriggerFormBlock
                     titleLabel='More options'

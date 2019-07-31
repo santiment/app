@@ -72,7 +72,7 @@ export const TriggerFormFrequency = ({
             options={getFrequencyTimeValues(frequencyTimeType)}
           />
           <FormikSelect
-            disabled={disabled || !!frequencyType}
+            disabled={disabled || !frequencyType}
             className={styles.frequencyTimeType}
             name='frequencyTimeType'
             isClearable={false}

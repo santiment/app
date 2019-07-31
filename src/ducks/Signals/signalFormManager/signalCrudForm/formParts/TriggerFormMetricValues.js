@@ -11,7 +11,6 @@ import {
 } from '../../../utils/constants'
 import { LastPriceComponent } from './TriggerLastPrice'
 import MetricOptionsRenderer from './metricOptions/MetricOptionsRenderer'
-import { TriggerTimeWindowExplanation } from './TriggerTimeWindowExplanation'
 import { mapTargetObject, targetMapperWithTicker } from '../../../utils/utils'
 import styles from '../signal/TriggerForm.module.scss'
 
@@ -184,14 +183,6 @@ export const TriggerFormMetricValues = ({
                 />
               </div>
             </div>
-            {isPriceMetric && (
-              <TriggerTimeWindowExplanation
-                type={type}
-                percent={percentThreshold}
-                timeType={timeWindowUnit}
-                timeValue={timeWindow}
-              />
-            )}
           </div>
         )}
       </div>
