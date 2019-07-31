@@ -16,7 +16,7 @@ const SignalPreviewChart = ({
   showAxes = false,
   timeRange,
   label,
-  interval = '1d',
+  interval,
   triggeredSignals
 }) => {
   const initialMetrics = getMetricsByType(type) || ['historyPrice']
@@ -36,7 +36,7 @@ const SignalPreviewChart = ({
     acc[metric] = {
       timeRange,
       slug,
-      interval,
+      interval: '1d',
       ...Metrics[metric].reqMeta
     }
 
