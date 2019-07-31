@@ -14,7 +14,7 @@ import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
 import { formatNumber, millify } from './../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
-import { Metrics, generateMetricsMarkup } from './utils'
+import { Metrics, generateMetricsMarkup, findYAxisMetric } from './utils'
 import { checkHasPremium } from '../../pages/UserSelectors'
 import displayPaywall from './Paywall'
 import sharedStyles from './ChartPage.module.scss'
@@ -23,7 +23,6 @@ import styles from './Chart.module.scss'
 const BRUSH_SIDE_MARGINS_IN_PX = 4
 const BRUSH_SIDE_MARGIN_IN_PX = BRUSH_SIDE_MARGINS_IN_PX / 2
 const EMPTY_FORMATTER = () => {}
-const PRICE_METRIC = 'historyPrice'
 const CHART_MARGINS = {
   left: -20,
   right: 0
@@ -77,9 +76,7 @@ class Charts extends React.Component {
 
     if (metrics !== prevProps.metrics) {
       this.setState({
-        tooltipMetric: metrics.includes(PRICE_METRIC)
-          ? PRICE_METRIC
-          : metrics[0]
+        tooltipMetric: findYAxisMetric(metrics)
       })
     }
   }
@@ -118,8 +115,11 @@ class Charts extends React.Component {
       return
     }
 
-    this.xToYCoordinates = this.metricRef.current.mainCurve
-      .getAttribute('d')
+    const dAttr = this.metricRef.current.mainCurve.getAttribute('d')
+
+    if (!dAttr) return
+
+    this.xToYCoordinates = dAttr
       .slice(1)
       .split('L')
       .reduce((acc, value) => {
