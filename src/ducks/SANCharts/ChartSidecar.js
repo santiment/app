@@ -29,11 +29,12 @@ const ChartSidecar = ({
 
   return (
     <div className={cx(styles.wrapper, isAdvancedView && styles.opened)}>
-      <SidecarExplanationTooltip>
-        <div
-          className={cx(styles.toggle, classes.sidecar__toggle)}
-          onClick={onSidebarToggleClick}
-        >
+      <SidecarExplanationTooltip
+        classes={{
+          wrapper: cx(styles.toggle, isAdvancedView || classes.sidecar__toggle)
+        }}
+      >
+        <div className={styles.toggle__btn} onClick={onSidebarToggleClick}>
           <Icon type='arrow-left' className={styles.toggle__arrow} />
         </div>
       </SidecarExplanationTooltip>

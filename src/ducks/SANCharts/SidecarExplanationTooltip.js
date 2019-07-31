@@ -7,6 +7,7 @@ const SidecarExplanationTooltip = props => {
 
   function hideTooltip () {
     setShown(false)
+    setTimeout(() => setShown(undefined))
   }
 
   return (
@@ -16,15 +17,18 @@ const SidecarExplanationTooltip = props => {
       shown={shown}
       position='left'
       align='start'
+      as='div'
       text={
         <>
           Explore assets
           <div className={styles.text}>
             Quick navigation through your assets
           </div>
-          <button className={styles.btn} onClick={hideTooltip}>
-            Dismiss
-          </button>
+          {shown && (
+            <button className={styles.btn} onClick={hideTooltip}>
+              Dismiss
+            </button>
+          )}
         </>
       }
     />
