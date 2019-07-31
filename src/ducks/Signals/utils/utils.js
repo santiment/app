@@ -498,7 +498,6 @@ export const mapTrendingWordsTargets = items => {
 export const getTrendingWordsTarget = ({
   type,
   target,
-  trendingWordsWithAssets,
   trendingWordsWithWords
 }) => {
   switch (type.value) {
@@ -509,7 +508,7 @@ export const getTrendingWordsTarget = ({
     }
     case TRENDING_WORDS_PROJECT_MENTIONED.value: {
       return {
-        slug: mapTrendingWordsTargets(trendingWordsWithAssets)
+        slug: mapTrendingWordsTargets(target)
       }
     }
     case TRENDING_WORDS_WATCHLIST_MENTIONED.value: {
@@ -788,7 +787,6 @@ export const validateTriggerForm = ({
   frequencyTimeType,
   metric,
   target,
-  trendingWordsWithAssets,
   trendingWordsWithWords,
   signalType,
   title,
@@ -813,11 +811,8 @@ export const validateTriggerForm = ({
       }
     }
   } else if (metric && metric.value === TRENDING_WORDS) {
-    if (
-      isTrendingWordsByProjects(type) &&
-      (!trendingWordsWithAssets || trendingWordsWithAssets.length === 0)
-    ) {
-      errors.trendingWordsWithAssets = REQUIRED_MESSAGE
+    if (isTrendingWordsByProjects(type) && (!target || target.length === 0)) {
+      errors.target = REQUIRED_MESSAGE
     }
 
     if (
@@ -1011,17 +1006,14 @@ export const getTargetsHeader = values => {
     signalType,
     type,
     metric,
-    trendingWordsWithWords,
-    trendingWordsWithAssets
+    trendingWordsWithWords
   } = values
 
   if (metric.value === TRENDING_WORDS) {
     switch (type.value) {
       case TRENDING_WORDS_PROJECT_MENTIONED.value: {
-        const targets = mapTargetObject(
-          trendingWordsWithAssets,
-          targetMapperWithName
-        )
+        const targets = mapTargetObject(target, targetMapperWithName)
+
         return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
       }
       case TRENDING_WORDS_WORD_MENTIONED.value: {

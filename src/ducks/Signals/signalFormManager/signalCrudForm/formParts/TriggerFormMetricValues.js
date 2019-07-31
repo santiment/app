@@ -92,7 +92,13 @@ export const TriggerFormMetricValues = ({
           )}
         </div>
       )}
-      <div className={cx(styles.row, isTimeWindow && styles.rowTimeWindow)}>
+      <div
+        className={cx(
+          styles.row,
+          isTimeWindow && styles.rowTimeWindow,
+          !showTypes && styles.rowTop
+        )}
+      >
         {type && blocks.includes('absoluteBorderRight') && (
           <div className={styles.Field}>
             <FormikInput

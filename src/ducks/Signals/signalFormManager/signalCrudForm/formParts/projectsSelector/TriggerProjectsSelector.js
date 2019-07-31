@@ -11,19 +11,17 @@ export const TriggerProjectsSelector = ({
   projects = [],
   setFieldValue,
   onChange,
-  fieldValueList,
   values: { target = [] },
   name
 }) => {
   const [listItems, setListItems] = useState([])
   const checkedAssetsAsSet = new Set(listItems)
 
+  console.log('target', target)
+
   useEffect(
     () => {
-      if (
-        (!fieldValueList || fieldValueList.length === 0) &&
-        listItems.length === 0
-      ) {
+      if (listItems.length === 0) {
         const targetAssets = Array.isArray(target) ? target : [target]
 
         if (targetAssets.length > 0 && projects.length > 0) {

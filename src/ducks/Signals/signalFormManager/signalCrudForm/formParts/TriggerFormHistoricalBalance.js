@@ -157,7 +157,7 @@ const TriggerFormHistoricalBalance = ({
 
   return (
     <>
-      <div className={cx(styles.row)}>
+      <div className={cx(styles.row, styles.rowTop)}>
         <div className={cx(styles.Field, styles.fieldFilled)}>
           <FormikLabel text='Wallet' />
           <FormikSelect

@@ -26,7 +26,7 @@ const getWords = (allProjects, trendingWordsWithWords) => {
 }
 
 const TriggerFormTrendingWordsTypes = ({
-  values: { type, trendingWordsWithAssets, trendingWordsWithWords, target },
+  values: { type, trendingWordsWithWords, target },
   values,
   setFieldValue
 }) => {
@@ -82,8 +82,7 @@ const TriggerFormTrendingWordsTypes = ({
                   <>
                     {isProjects && (
                       <TriggerProjectsSelector
-                        name='trendingWordsWithAssets'
-                        fieldValueList={trendingWordsWithAssets}
+                        name='target'
                         values={values}
                         projects={allProjects}
                         setFieldValue={setFieldValue}
