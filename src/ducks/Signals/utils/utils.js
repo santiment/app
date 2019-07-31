@@ -1076,17 +1076,13 @@ export const titleMetricValuesHeader = (
       case PRICE_CHANGE_TYPES.MOVING_DOWN: {
         return buildFormBlock(
           isPriceMetric ? 'Price moving' : 'Addresses count',
-          `down ${percentThreshold}% compared to ${timeWindow}${
-            timeWindowUnit.value
-          } ago`
+          `down ${percentThreshold}% compared to ${timeWindow}$ ${timeWindowUnit.label.toLowerCase()} ago`
         )
       }
       case PRICE_CHANGE_TYPES.MOVING_UP: {
         return buildFormBlock(
           isPriceMetric ? 'Price moving' : 'Addresses count',
-          `up ${percentThreshold}% compared to ${timeWindow}${
-            timeWindowUnit.value
-          } ago`
+          `up ${percentThreshold}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} ago`
         )
       }
       case PRICE_CHANGE_TYPES.ABOVE: {

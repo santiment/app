@@ -244,11 +244,11 @@ export const FREQUENCY_TYPE_DAILY_MODEL = {
 }
 
 export const FREQUENCY_TIME_TYPE_HOURS_MODEL = {
-  label: 'Hours',
+  label: 'Hour(s)',
   value: FREQUENCY_VALUES_TYPES.hours
 }
 export const FREQUENCY_TIME_TYPE_DAILY_MODEL = {
-  label: 'Days',
+  label: 'Day(s)',
   value: FREQUENCY_VALUES_TYPES.days
 }
 
@@ -396,7 +396,7 @@ export const FREQUENCY_MAPPINGS = (() => {
 
 export const FREQUENCY_VALUES = [
   {
-    label: 'Minutes',
+    label: 'Minute(s)',
     value: FREQUENCY_VALUES_TYPES.minutes
   },
   { ...FREQUENCY_TIME_TYPE_HOURS_MODEL },
@@ -404,7 +404,7 @@ export const FREQUENCY_VALUES = [
     ...FREQUENCY_TIME_TYPE_DAILY_MODEL
   },
   {
-    label: 'Weeks',
+    label: 'Week(s)',
     value: FREQUENCY_VALUES_TYPES.weeks
   }
 ]

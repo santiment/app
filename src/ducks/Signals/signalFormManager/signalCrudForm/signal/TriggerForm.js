@@ -169,11 +169,11 @@ export const TriggerForm = ({
             <FormikEffect
               onChange={(current, prev) => {
                 let { values: newValues } = current
-                if (
+                const changedMetric =
                   !prev.values.metric ||
                   newValues.metric.value !== prev.values.metric.value ||
                   newValues.type.value !== prev.values.type.value
-                ) {
+                if (changedMetric) {
                   setInitialValues(
                     getDefaultFormValues(newValues, prev.values.metric)
                   )
@@ -193,7 +193,7 @@ export const TriggerForm = ({
                     canLoadChart &&
                     getSignalBacktestingPoints(newValues)
 
-                  if (!id) {
+                  if (!id || changedMetric) {
                     !newValues.titleChangedByUser &&
                       setFieldValue('title', getNewTitle(newValues))
                     !newValues.descriptionChangedByUser &&

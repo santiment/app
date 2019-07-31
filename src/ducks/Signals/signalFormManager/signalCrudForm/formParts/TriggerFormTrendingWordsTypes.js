@@ -48,12 +48,6 @@ const TriggerFormTrendingWordsTypes = ({
             )
 
             setFieldValue('type', type)
-            if (
-              isTrendingWordsByWatchlist(type) &&
-              typeof target === 'object'
-            ) {
-              setFieldValue('target', '')
-            }
           }}
           variant='border'
         />
