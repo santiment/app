@@ -16,7 +16,6 @@ const SignalPreviewChart = ({
   showAxes = false,
   timeRange,
   label,
-  interval,
   triggeredSignals
 }) => {
   const initialMetrics = getMetricsByType(type) || ['historyPrice']
