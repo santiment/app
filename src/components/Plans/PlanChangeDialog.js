@@ -16,8 +16,8 @@ const ChangePlanDialog = ({
   subscription: {
     id,
     currentPeriodEnd,
-    plan: { amount, name, interval }
-  },
+    plan: { amount, name, interval } = {}
+  } = {},
   title,
   price,
   billing,
@@ -26,7 +26,7 @@ const ChangePlanDialog = ({
 }) => {
   const [dialogVisible, setDialogVisiblity] = useState(false)
 
-  const [oldPrice] = formatPrice(amount, null, interval)
+  const [oldPrice] = formatPrice(amount)
   const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
   const date = `${MMMM} ${DD}, ${YYYY}`
 
@@ -58,8 +58,8 @@ const ChangePlanDialog = ({
           title='Plan change'
         >
           <Dialog.ScrollContent withPadding>
-            Your current plan ({PLANS[name].title} {oldPrice}/month) is active
-            until {date}.
+            Your current plan ({PLANS[name].title} {oldPrice}/{interval}) is
+            active until {date}.
             <br />
             Are you sure you want to change to the {title} plan ({price}/
             {billing}) on {date}?
