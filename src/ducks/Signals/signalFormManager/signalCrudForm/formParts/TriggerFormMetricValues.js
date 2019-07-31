@@ -75,7 +75,7 @@ export const TriggerFormMetricValues = ({
 
           {type && blocks.includes('absoluteThreshold') && (
             <div className={styles.Field}>
-              <FormikLabel text='Price limit' />
+              <FormikLabel text={isPriceMetric ? 'Price limit' : 'Limit'} />
               <FormikInput
                 name='absoluteThreshold'
                 type='number'

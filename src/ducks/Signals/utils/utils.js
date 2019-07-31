@@ -988,8 +988,6 @@ export const getDefaultFormValues = (newValues, { value: oldMetric }) => {
   const metricValue = isDAA ? metric.value : type.metric
   const defaultValues = METRIC_DEFAULT_VALUES[metricValue] || {}
 
-  debugger
-
   return {
     ...defaultValues,
     ...newValues
@@ -1009,6 +1007,7 @@ const targetsJoin = targets =>
 export const getTargetsHeader = values => {
   const {
     target,
+    targetWatchlist,
     signalType,
     type,
     metric,
@@ -1039,7 +1038,10 @@ export const getTargetsHeader = values => {
 
   switch (signalType.value) {
     case METRIC_TARGET_WATCHLIST.value: {
-      return buildFormBlock(NOTIFY_ME_WHEN, targetMapperWithName(target))
+      return buildFormBlock(
+        NOTIFY_ME_WHEN,
+        targetMapperWithName(targetWatchlist)
+      )
     }
     default: {
       const targets = mapTargetObject(target, targetMapperWithName)
@@ -1048,7 +1050,8 @@ export const getTargetsHeader = values => {
   }
 }
 
-const getUsd = (value = 0) => formatNumber(value, { currency: 'USD' })
+const getUsd = (value = 0, isPriceMetric) =>
+  isPriceMetric ? formatNumber(value, { currency: 'USD' }) : value
 
 export const titleMetricValuesHeader = (
   hasMetricValues,
@@ -1064,7 +1067,13 @@ export const titleMetricValuesHeader = (
   }
 ) => {
   if (hasMetricValues && type) {
-    const { value } = type
+    const { value, metric } = type
+    const isPriceMetric = metric.value === PRICE
+
+    const priceOrDaaTitle = isPriceMetric
+      ? 'Price goes'
+      : 'Addresses count goes'
+
     switch (value) {
       case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN: {
         return buildFormBlock('Historical balance', 'below ' + threshold)
@@ -1074,7 +1083,7 @@ export const titleMetricValuesHeader = (
       }
       case PRICE_CHANGE_TYPES.MOVING_DOWN: {
         return buildFormBlock(
-          'Price moving',
+          isPriceMetric ? 'Price moving' : 'Addresses count',
           `down ${percentThreshold}% compared to ${timeWindow}${
             timeWindowUnit.value
           } ago`
@@ -1082,7 +1091,7 @@ export const titleMetricValuesHeader = (
       }
       case PRICE_CHANGE_TYPES.MOVING_UP: {
         return buildFormBlock(
-          'Price moving',
+          isPriceMetric ? 'Price moving' : 'Addresses count',
           `up ${percentThreshold}% compared to ${timeWindow}${
             timeWindowUnit.value
           } ago`
@@ -1090,32 +1099,32 @@ export const titleMetricValuesHeader = (
       }
       case PRICE_CHANGE_TYPES.ABOVE: {
         return buildFormBlock(
-          'Price goes',
-          'above ' + getUsd(absoluteThreshold)
+          priceOrDaaTitle,
+          'above ' + getUsd(absoluteThreshold, isPriceMetric)
         )
       }
       case PRICE_CHANGE_TYPES.BELOW: {
         return buildFormBlock(
-          'Price goes',
-          'below ' + getUsd(absoluteThreshold)
+          priceOrDaaTitle,
+          'below ' + getUsd(absoluteThreshold, isPriceMetric)
         )
       }
       case PRICE_CHANGE_TYPES.INSIDE_CHANNEL: {
         return buildFormBlock(
-          'Price goes',
+          priceOrDaaTitle,
           'between ' +
-            getUsd(absoluteBorderRight) +
+            getUsd(absoluteBorderRight, isPriceMetric) +
             ' and ' +
-            getUsd(absoluteBorderLeft)
+            getUsd(absoluteBorderLeft, isPriceMetric)
         )
       }
       case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
         return buildFormBlock(
-          'Price goes',
+          priceOrDaaTitle,
           'outside ' +
-            getUsd(absoluteBorderRight) +
+            getUsd(absoluteBorderRight, isPriceMetric) +
             ' and ' +
-            getUsd(absoluteBorderLeft)
+            getUsd(absoluteBorderLeft, isPriceMetric)
         )
       }
       default: {
@@ -1126,37 +1135,39 @@ export const titleMetricValuesHeader = (
 }
 
 export const getNewTitle = newValues => {
-  const { metric } = newValues
+  const { metric, type } = newValues
   const { titleDescription: target } = getTargetsHeader(newValues)
   const { titleDescription } = titleMetricValuesHeader(true, newValues)
 
   let description = ''
   switch (metric.value) {
     case PRICE: {
-      description = target + ' price tracking (' + titleDescription + ')'
+      description = `${target} price goes ${titleDescription}`
       break
     }
     case PRICE_VOLUME_DIFFERENCE: {
-      description = target + 'price/volume difference'
+      description = `${target} price/volume difference`
       break
     }
     case DAILY_ACTIVE_ADDRESSES: {
-      description = target + 'daily active addresses'
+      description = `${target} daily active addresses ${titleDescription}`
       break
     }
     case ETH_WALLET: {
-      description = target + 'historical balance'
+      description = `${target} historical balance ${titleDescription}`
       break
     }
     case TRENDING_WORDS: {
-      description = ''
+      description = `${type.label}: ${target}`
       break
     }
     default: {
     }
   }
 
-  return description.trim()
+  description = description.trim()
+
+  return capitalizeStr(description)
 }
 
 export const getNewDescription = newValues => {
@@ -1180,5 +1191,6 @@ export const getNewDescription = newValues => {
 
   const channelsBlock = channels.length ? `through ${channels.join(', ')}` : ''
 
-  return `When ${targetsHeader} ${metricsHeaderStr} notify me ${repeatingBlock}  ${channelsBlock}`
+  return `When '${targetsHeader}' ${metricsHeaderStr ||
+    'will trigger'} notify me ${repeatingBlock.toLowerCase()}  ${channelsBlock.toLowerCase()}`
 }

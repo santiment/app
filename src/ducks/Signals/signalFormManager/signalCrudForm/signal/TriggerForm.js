@@ -178,15 +178,7 @@ export const TriggerForm = ({
                     getDefaultFormValues(newValues, prev.values.metric)
                   )
                   validateForm()
-                } /* else {
-                  if(!id){
-                    const withNewTitleAndDescription = updateFormTitleAndDescription(newValues)
-                    if(!isEqual(withNewTitleAndDescription, newValues)){
-                      setInitialValues(withNewTitleAndDescription)
-                      validateForm()
-                    }
-                  }
-                } */
+                }
 
                 if (!isEqual(newValues, prev.values)) {
                   validateForm()
@@ -201,8 +193,12 @@ export const TriggerForm = ({
                     canLoadChart &&
                     getSignalBacktestingPoints(newValues)
 
-                  setFieldValue('title', getNewTitle(newValues))
-                  setFieldValue('description', getNewDescription(newValues))
+                  if (!id) {
+                    !newValues.titleChangedByUser &&
+                      setFieldValue('title', getNewTitle(newValues))
+                    !newValues.descriptionChangedByUser &&
+                      setFieldValue('description', getNewDescription(newValues))
+                  }
                 }
               }}
             />
@@ -365,6 +361,9 @@ export const TriggerForm = ({
                         minLength={MIN_TITLE_LENGTH}
                         maxLength={MAX_TITLE_LENGTH}
                         placeholder='Name of the signal'
+                        onChange={() =>
+                          setFieldValue('titleChangedByUser', true)
+                        }
                       />
                     </div>
                   </div>
@@ -382,6 +381,9 @@ export const TriggerForm = ({
                         className={styles.descriptionTextarea}
                         rowsCount={2}
                         maxLength={MAX_DESCR_LENGTH}
+                        onChange={() =>
+                          setFieldValue('descriptionChangedByUser', true)
+                        }
                       />
                     </div>
                   </div>
