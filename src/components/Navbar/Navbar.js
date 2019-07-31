@@ -15,7 +15,7 @@ import ShowIf from '../ShowIf/ShowIf'
 import styles from './Navbar.module.scss'
 
 const leftLinks = [
-  { link: '/dashboard', label: 'Dashboard' },
+  { link: '/', label: 'Charts' },
   { link: '/assets', label: 'Assets', linkTo: '/assets' },
   {
     link: '/sonar/feed',
@@ -97,7 +97,11 @@ const Navbar = ({ activeLink = '/' }) => {
                   <Button
                     variant='flat'
                     as={props => <Link {...props} to={{ pathname: link }} />}
-                    isActive={activeLink.includes(link)}
+                    isActive={
+                      link.length > 1
+                        ? activeLink.includes(link)
+                        : link === activeLink
+                    }
                     className={styles.leftLink}
                   >
                     {label}

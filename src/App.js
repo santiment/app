@@ -101,6 +101,11 @@ const LoadableInsights = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableChartPage = Loadable({
+  loader: () => import('./pages/Chart'),
+  loading: () => <PageLoader />
+})
+
 class Route extends React.Component {
   componentWillMount () {
     nprogress.start()
@@ -331,11 +336,13 @@ export const App = ({
             />
           )}
         />
-        {isDesktop ? (
-          <Redirect from='/' to='/dashboard' />
-        ) : (
-          <Redirect from='/' to='/assets' />
-        )}
+        <Route
+          path='/'
+          render={props => (
+            <LoadableChartPage isLoggedIn={isLoggedIn} {...props} />
+          )}
+        />
+        {!isDesktop && <Redirect from='/' to='/assets' />}
       </Switch>
     </ErrorBoundary>
     <NotificationStack />

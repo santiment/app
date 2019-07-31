@@ -1,10 +1,32 @@
 @import '~@santiment-network/ui/mixins';
 
+.wrapper {
+  display: flex;
+}
+
+.tool {
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  flex: 1;
+
+  &_short {
+    width: 65%;
+  }
+}
+
+.container {
+  padding: 20px 24px;
+
+  &_bottom {
+    padding: 24px;
+    border-top: 1px solid var(--porcelain);
+  }
+}
+
 .settings {
   display: flex;
-  padding: 10px;
-  padding-left: 20px;
   justify-content: space-between;
+  margin-bottom: 24px;
 
   &_noSearch {
     justify-content: flex-end;
@@ -22,7 +44,7 @@
 
 .search {
   width: 20%;
-  min-width: 220px;
+  min-width: 150px;
 }
 
 .title {
@@ -34,7 +56,7 @@
 
 .zoom {
   position: absolute;
-  top: 31px;
+  top: 39px;
   left: 58px;
   z-index: 1;
 }
@@ -91,8 +113,4 @@
   &__btn {
     justify-content: space-between;
   }
-}
-
-.selector {
-  margin: 10px 20px;
 }

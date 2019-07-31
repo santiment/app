@@ -5,6 +5,7 @@ import { graphql } from 'react-apollo'
 import { Label, Selector } from '@santiment-network/ui'
 import { DailyActiveAddressesGQL } from './DetailedGQL'
 import { TRANSACTION_VOLUME_QUERY } from '../../ducks/GetTimeSeries/queries/transaction_volume_query'
+import { SOCIAL_VOLUME_QUERY } from '../../ducks/GetTimeSeries/queries/social_volume_query'
 import { NEWS_QUERY } from '../../components/News/NewsGQL'
 import { calcPercentageChange, capitalizeStr } from './../../utils/utils'
 import {
@@ -71,6 +72,24 @@ const MobileDetailedPage = props => {
       value: todayTransactionVolume,
       period: '24h',
       changes: TVDiff
+    }
+  }
+
+  let socialVolumeInfo
+  const { socialVolume } = props
+  if (socialVolume[0] && socialVolume[1]) {
+    const yesterdaySocialVolume = socialVolume[0]
+    const todaySocialVolume = socialVolume[1]
+    const SVDiff = calcPercentageChange(
+      yesterdaySocialVolume,
+      todaySocialVolume
+    )
+    socialVolumeInfo = {
+      name: 'Social Volume',
+      metric: 'socialVolume',
+      value: todaySocialVolume,
+      period: '24h',
+      changes: SVDiff
     }
   }
 
@@ -227,6 +246,16 @@ const MobileDetailedPage = props => {
                               measure={ticker}
                             />
                           )}
+                          {socialVolumeInfo && (
+                            <MobileMetricCard
+                              {...socialVolumeInfo}
+                              slug={slug}
+                              from={from}
+                              to={to}
+                              activeMetric={extraMetric}
+                              onClick={toggleExtraMetric}
+                            />
+                          )}
                         </div>
                         <ShowIf news>
                           {props.news && props.news.length > 0 && (
@@ -300,6 +329,39 @@ const enhance = compose(
       }
     },
     props: ({ data: { transactionVolume = [] } }) => ({ transactionVolume })
+  }),
+  graphql(SOCIAL_VOLUME_QUERY, {
+    options: ({ match }) => {
+      const { from, to } = getTimeIntervalFromToday(-2, DAY)
+      const { slug } = match.params
+      return {
+        variables: {
+          slug,
+          from,
+          to,
+          interval: '1d'
+        }
+      }
+    },
+    props: ({
+      data: {
+        discordDiscussionSocialVolume: discord = [],
+        proffesionalSocialVolume: prof = [],
+        telegramChatsSocialVolume: telChats = [],
+        telegramDiscussionSocialVolume: telDisscuss = []
+      }
+    }) => {
+      const defaultVolume = { socialVolume: 0 }
+      const socialVolume = [0, 0].map(
+        (item, i) =>
+          item +
+          (discord[i] || defaultVolume).socialVolume +
+          (prof[i] || defaultVolume).socialVolume +
+          (telChats[i] || defaultVolume).socialVolume +
+          (telDisscuss[i] || defaultVolume).socialVolume
+      )
+      return { socialVolume }
+    }
   }),
   graphql(DailyActiveAddressesGQL, {
     options: ({ match }) => {

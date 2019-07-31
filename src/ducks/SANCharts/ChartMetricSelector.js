@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import Panel from '@santiment-network/ui/Panel/Panel'
@@ -9,6 +9,8 @@ import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
 import { Metrics } from './utils'
 import styles from './ChartMetricSelector.module.scss'
 
+const NO_GROUP = '_'
+
 const DEFAULT_CATEGORIES = {
   Financial: [
     {
@@ -17,7 +19,7 @@ const DEFAULT_CATEGORIES = {
   ]
 }
 
-const addMetricToCategory = (categories, metricCategory, metrics) => {
+const addItemToGraph = (categories, metricCategory, metrics) => {
   const category = categories[metricCategory]
   if (category) {
     category.push(...metrics)
@@ -26,7 +28,17 @@ const addMetricToCategory = (categories, metricCategory, metrics) => {
   }
 }
 
+let memo = {}
+
 const getCategoryGraph = availableMetrics => {
+  if (availableMetrics.length === 0) {
+    return {}
+  }
+
+  if (memo.lastInput === availableMetrics) {
+    return memo.result
+  }
+
   const categories = {}
   const { length } = availableMetrics
 
@@ -40,7 +52,7 @@ const getCategoryGraph = availableMetrics => {
 
     if (Array.isArray(targetMetric)) {
       const metricCategory = targetMetric[0].category
-      addMetricToCategory(categories, metricCategory, targetMetric)
+      addItemToGraph(categories, metricCategory, targetMetric)
       continue
     }
 
@@ -52,10 +64,42 @@ const getCategoryGraph = availableMetrics => {
       metrics.push({ ...Metrics.volume, key: 'volume' })
     }
 
-    addMetricToCategory(categories, metricCategory, metrics)
+    addItemToGraph(categories, metricCategory, metrics)
   }
 
+  Object.keys(categories).forEach(key => {
+    categories[key] = categories[key].reduce((acc, metric) => {
+      const { group = NO_GROUP } = metric
+      addItemToGraph(acc, group, [metric])
+      return acc
+    }, {})
+  })
+
+  memo.lastInput = availableMetrics
+  memo.result = categories
+
   return categories
+}
+
+const ActionBtn = ({ children, isActive, isDisabled, ...props }) => {
+  return (
+    <Button
+      variant='ghost'
+      fluid
+      className={styles.btn}
+      classes={styles}
+      isActive={isActive}
+      disabled={isDisabled}
+      {...props}
+    >
+      {children}{' '}
+      {isDisabled ? (
+        <span className={styles.btn_disabled}>no data</span>
+      ) : (
+        <Icon type={isActive ? 'subtract-round' : 'plus-round'} />
+      )}
+    </Button>
+  )
 }
 
 const ChartMetricSelector = ({
@@ -70,6 +114,13 @@ const ChartMetricSelector = ({
   const [activeCategory, setCategory] = React.useState('Financial')
   const [activeMetric, setMetric] = React.useState(
     DEFAULT_CATEGORIES.Financial[0]
+  )
+
+  useEffect(
+    () => () => {
+      memo = {}
+    },
+    []
   )
 
   return (
@@ -99,32 +150,29 @@ const ChartMetricSelector = ({
           <div className={styles.visible}>
             <div className={styles.visible__scroll}>
               {categories[activeCategory] &&
-                categories[activeCategory].map(metric => {
-                  const isActive = activeMetrics.includes(metric.key)
-                  const isDisabled = disabledMetrics.includes(metric.key)
-                  return (
-                    <Button
-                      key={metric.label}
-                      variant='ghost'
-                      fluid
-                      className={styles.btn}
-                      classes={styles}
-                      onMouseEnter={() => setMetric(metric)}
-                      onClick={() => toggleMetric(metric.key)}
-                      isActive={isActive}
-                      disabled={isDisabled}
-                    >
-                      {metric.label}{' '}
-                      {isDisabled ? (
-                        <span className={styles.btn_disabled}>no data</span>
-                      ) : (
-                        <Icon
-                          type={isActive ? 'subtract-round' : 'plus-round'}
-                        />
-                      )}
-                    </Button>
-                  )
-                })}
+                Object.keys(categories[activeCategory]).map(group => (
+                  <div key={group} className={styles.group}>
+                    {group !== NO_GROUP && (
+                      <h3 className={styles.group__title}>{group}</h3>
+                    )}
+                    {categories[activeCategory][group].map(metric => {
+                      const isActive = activeMetrics.includes(metric.key)
+                      const isDisabled = disabledMetrics.includes(metric.key)
+
+                      return (
+                        <ActionBtn
+                          key={metric.label}
+                          onMouseEnter={() => setMetric(metric)}
+                          onClick={() => toggleMetric(metric.key)}
+                          isActive={isActive}
+                          isDisabled={isDisabled}
+                        >
+                          {metric.label}
+                        </ActionBtn>
+                      )
+                    })}
+                  </div>
+                ))}
             </div>
           </div>
         </div>
@@ -132,7 +180,7 @@ const ChartMetricSelector = ({
           <div className={styles.visible}>
             {activeMetric && (
               <div className={styles.visible__scroll}>
-                <h3 className={styles.title}>{activeMetric.label}</h3>
+                <h4 className={styles.title}>{activeMetric.label}</h4>
                 <p className={styles.text}>{activeMetric.description}</p>
               </div>
             )}
