@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Icon, Label, Button } from '@santiment-network/ui'
+import Icon from '@santiment-network/ui/Icon'
+import Label from '@santiment-network/ui/Label'
+import Button from '@santiment-network/ui/Button'
 import copy from 'copy-to-clipboard'
 import Settings from './Settings'
 import * as actions from '../../actions/types'
@@ -10,7 +12,7 @@ const SettingsAPIKeys = ({ apikey, generateAPIKey, revokeAPIKey }) => (
   <Settings id='api-keys' header='API keys'>
     <Settings.Row>
       <div className={styles.setting__left}>
-        <Label>API Keys</Label>
+        <Label>Neuro API</Label>
         <Label className={styles.setting__description} accent='waterloo'>
           The api key will give you access to the data that requires SAN token
           staking.
@@ -40,8 +42,15 @@ const SettingsAPIKeys = ({ apikey, generateAPIKey, revokeAPIKey }) => (
               </Button>
             </>
           ) : (
-            <Button onClick={generateAPIKey} variant='fill' accent='positive'>
-              Generate
+            <Button
+              as='a'
+              href='https://neuro.santiment.net/account/'
+              rel='noopener noreferrer'
+              target='_blank'
+              variant='fill'
+              accent='positive'
+            >
+              Explore Neuro
             </Button>
           )}
         </div>
