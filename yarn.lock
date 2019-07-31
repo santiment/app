@@ -1410,10 +1410,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@santiment-network/ui@^0.5.70":
-  version "0.5.70"
-  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.70.tgz#008e83298931a12280dfcf47f4d87d8b8e9c6a2f"
-  integrity sha512-aMyMxj/IP88IbA6mJgGsoBv6VCF2QQWVo9126g3tBikVKu3lU9hrnMrwDLm7fzdQKoc/rnYje3cMtJxxGDUEuw==
+"@santiment-network/ui@^0.5.72":
+  version "0.5.72"
+  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.72.tgz#da9ab1f65d64dd2037bd4ab180c674e3106900bd"
+  integrity sha512-6vPO4PU8REih7pUPH+UNHHy9ju+f3sEFic+oTDLuepd+nL8qkit3wDZUnjoUu9B8db8RBJhm4HLLDaZ4YuMbOg==
 
 "@semantic-ui-react/event-stack@^2.0.0":
   version "2.0.0"
