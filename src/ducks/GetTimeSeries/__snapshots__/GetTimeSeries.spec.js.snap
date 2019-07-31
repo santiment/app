@@ -17,6 +17,7 @@ Array [
         "slug": "santiment",
         "timeRange": "6m",
       },
+      "id": 0,
     },
     "type": "[timeseries] FETCH",
   },
