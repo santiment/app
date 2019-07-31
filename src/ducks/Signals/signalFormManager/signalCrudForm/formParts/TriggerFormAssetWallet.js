@@ -25,7 +25,6 @@ const TriggerFormAssetWallet = ({
     ? signalType.value
     : defaultSignalType.value.value
 
-  console.log('target', target)
   return (
     <Fragment>
       <div className={cx(styles.row, styles.rowTop)}>

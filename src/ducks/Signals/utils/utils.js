@@ -1040,7 +1040,7 @@ export const getTargetsHeader = values => {
     case METRIC_TARGET_WATCHLIST.value: {
       return buildFormBlock(
         NOTIFY_ME_WHEN,
-        targetMapperWithName(targetWatchlist)
+        'Watchlist "' + targetMapperWithName(targetWatchlist) + '"'
       )
     }
     default: {
@@ -1137,7 +1137,12 @@ export const titleMetricValuesHeader = (
 export const getNewTitle = newValues => {
   const { metric, type } = newValues
   const { titleDescription: target } = getTargetsHeader(newValues)
-  const { titleDescription } = titleMetricValuesHeader(true, newValues)
+
+  if (!target) {
+    return ''
+  }
+
+  const { titleDescription = '' } = titleMetricValuesHeader(true, newValues)
 
   let description = ''
   switch (metric.value) {
@@ -1158,7 +1163,7 @@ export const getNewTitle = newValues => {
       break
     }
     case TRENDING_WORDS: {
-      description = `${type.label}: ${target}`
+      description = `Social trends by ${type.label.toLowerCase()}: ${target}`
       break
     }
     default: {
@@ -1172,11 +1177,18 @@ export const getNewTitle = newValues => {
 
 export const getNewDescription = newValues => {
   const targetsHeader = getTargetsHeader(newValues).titleDescription
-  const metricsHeaderStr = Object.values(
-    titleMetricValuesHeader(true, newValues)
-  )
-    .join(' ')
-    .toLowerCase()
+
+  if (
+    !targetsHeader ||
+    (Array.isArray(targetsHeader) && targetsHeader.length === 0)
+  ) {
+    return ''
+  }
+
+  const metricsHeaderStr =
+    Object.values(titleMetricValuesHeader(true, newValues))
+      .join(' ')
+      .toLowerCase() || 'will trigger'
 
   const {
     channels,
@@ -1191,6 +1203,5 @@ export const getNewDescription = newValues => {
 
   const channelsBlock = channels.length ? `through ${channels.join(', ')}` : ''
 
-  return `When '${targetsHeader}' ${metricsHeaderStr ||
-    'will trigger'} notify me ${repeatingBlock.toLowerCase()}  ${channelsBlock.toLowerCase()}`
+  return `When '${targetsHeader}' ${metricsHeaderStr} notify me ${repeatingBlock.toLowerCase()}  ${channelsBlock.toLowerCase()}`
 }

@@ -26,6 +26,7 @@ const FormikTextarea = ({
               )}
               name={name}
               defaultValue={field.value}
+              value={field.value}
               disabled={disabled}
               noValidate
               onChange={value => {
