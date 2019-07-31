@@ -44,7 +44,7 @@ const SettingsAPIKeys = ({ apikey, generateAPIKey, revokeAPIKey }) => (
           ) : (
             <Button
               as='a'
-              href='https://neuro.santiment.net/account/'
+              href='https://neuro.santiment.net/account#api-keys'
               rel='noopener noreferrer'
               target='_blank'
               variant='fill'
