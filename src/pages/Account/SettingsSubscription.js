@@ -12,13 +12,13 @@ import { getCurrentSanbaseSubscription, formatPrice } from '../../utils/plans'
 import { getDateFormats } from '../../utils/dates'
 import {
   USER_SUBSCRIPTIONS_QUERY,
-  RENEW_SUBSCRIPTION_MUTATION,
+  RENEW_SUBSCRIPTION_MUTATION
 } from '../../queries/plans'
 import styles from './SettingsSubscription.module.scss'
 
 const PERIOD_END_ACTION = {
   false: 'renew',
-  true: 'cancel',
+  true: 'cancel'
 }
 
 const PlanText = ({ subscription }) => {
@@ -26,7 +26,7 @@ const PlanText = ({ subscription }) => {
     const {
       currentPeriodEnd,
       cancelAtPeriodEnd,
-      plan: { amount, name, interval },
+      plan: { amount, name, interval }
     } = subscription
 
     const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
