@@ -57,58 +57,6 @@ export const targetMapperWithName = ({ value, slug, name } = {}) =>
 export const targetMapperWithTicker = ({ value, slug, ticker } = {}) =>
   ticker || slug || value
 
-const buildFormBlock = (title, description) => ({
-  titleLabel: title,
-  titleDescription: description || '...'
-})
-
-const NOTIFY_ME_WHEN = 'Notify me when'
-
-const targetsJoin = targets =>
-  Array.isArray(targets) ? targets.join(', ') : targets
-
-export const getTargets = values => {
-  const {
-    target,
-    signalType,
-    type,
-    metric,
-    trendingWordsWithWords,
-    trendingWordsWithAssets
-  } = values
-
-  if (metric.value === TRENDING_WORDS) {
-    switch (type.value) {
-      case TRENDING_WORDS_PROJECT_MENTIONED.value: {
-        const targets = mapTargetObject(
-          trendingWordsWithAssets,
-          targetMapperWithName
-        )
-        return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
-      }
-      case TRENDING_WORDS_WORD_MENTIONED.value: {
-        const targets = mapTargetObject(
-          trendingWordsWithWords,
-          targetMapperWithName
-        )
-        return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
-      }
-      default: {
-      }
-    }
-  }
-
-  switch (signalType.value) {
-    case METRIC_TARGET_WATCHLIST.value: {
-      return buildFormBlock(NOTIFY_ME_WHEN, targetMapperWithName(target))
-    }
-    default: {
-      const targets = mapTargetObject(target, targetMapperWithName)
-      return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
-    }
-  }
-}
-
 const getTimeWindowUnit = timeWindow => {
   if (!timeWindow) return undefined
 
@@ -123,7 +71,7 @@ const getFormTriggerTarget = ({ target, target: { eth_address }, asset }) => {
   if (watchlist_id) {
     return {
       signalType: METRIC_TARGET_WATCHLIST,
-      target: {
+      targetWatchlist: {
         value: watchlist_id
       }
     }
@@ -375,14 +323,18 @@ export const mapTriggerToFormProps = currentTrigger => {
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
 
-  const { target: newTarget, signalType, ethAddress } = getFormTriggerTarget(
-    settings
-  )
+  const {
+    target: newTarget,
+    signalType,
+    ethAddress,
+    targetWatchlist
+  } = getFormTriggerTarget(settings)
   const newType = getFormTriggerType(target, type, operation)
 
   const trendingWordsParams = getFormTrendingWords(currentTrigger)
 
   return {
+    targetWatchlist,
     ethAddress: ethAddress,
     cooldown: cooldown,
     isRepeating: isRepeating,
@@ -466,6 +418,7 @@ export const getTargetFromArray = (target, mapper = targetMapper()) =>
 
 export const mapFomTargetToTriggerTarget = (
   target,
+  targetWatchlist,
   signalType = {},
   address
 ) => {
@@ -475,7 +428,7 @@ export const mapFomTargetToTriggerTarget = (
     case METRIC_TARGET_WATCHLIST.value: {
       return {
         target: {
-          watchlist_id: +target.id
+          watchlist_id: +targetWatchlist.id
         }
       }
     }
@@ -586,8 +539,12 @@ const getTimeWindow = ({ timeWindow, timeWindowUnit }) => {
 }
 
 export const mapFormToPPCTriggerSettings = formProps => {
-  const { target, signalType } = formProps
-  const newTarget = mapFomTargetToTriggerTarget(target, signalType)
+  const { target, targetWatchlist, signalType } = formProps
+  const newTarget = mapFomTargetToTriggerTarget(
+    target,
+    targetWatchlist,
+    signalType
+  )
   return {
     type: PRICE_PERCENT_CHANGE,
     ...newTarget,
@@ -598,8 +555,12 @@ export const mapFormToPPCTriggerSettings = formProps => {
 }
 
 export const mapFormToPACTriggerSettings = formProps => {
-  const { target, signalType } = formProps
-  const newTarget = mapFomTargetToTriggerTarget(target, signalType)
+  const { target, targetWatchlist, signalType } = formProps
+  const newTarget = mapFomTargetToTriggerTarget(
+    target,
+    targetWatchlist,
+    signalType
+  )
   return {
     type: PRICE_ABSOLUTE_CHANGE,
     ...newTarget,
@@ -609,8 +570,12 @@ export const mapFormToPACTriggerSettings = formProps => {
 }
 
 export const mapFormToDAATriggerSettings = formProps => {
-  const { target, signalType, type } = formProps
-  const newTarget = mapFomTargetToTriggerTarget(target, signalType)
+  const { target, signalType, targetWatchlist, type } = formProps
+  const newTarget = mapFomTargetToTriggerTarget(
+    target,
+    targetWatchlist,
+    signalType
+  )
 
   if (type.metric === PRICE_ABSOLUTE_CHANGE) {
     return {
@@ -631,8 +596,12 @@ export const mapFormToDAATriggerSettings = formProps => {
 }
 
 export const mapFormToPVDTriggerSettings = formProps => {
-  const { target, signalType } = formProps
-  const newTarget = mapFomTargetToTriggerTarget(target, signalType)
+  const { target, targetWatchlist, signalType } = formProps
+  const newTarget = mapFomTargetToTriggerTarget(
+    target,
+    targetWatchlist,
+    signalType
+  )
   return {
     type: PRICE_VOLUME_DIFFERENCE,
     ...newTarget,
@@ -642,12 +611,17 @@ export const mapFormToPVDTriggerSettings = formProps => {
 }
 
 export const mapFormToHBTriggerSettings = formProps => {
-  const { target, ethAddress, signalType } = formProps
+  const { target, targetWatchlist, ethAddress, signalType } = formProps
   const newAsset =
     signalType.value === METRIC_TARGET_ASSETS.value
       ? mapAssetTarget(target, ethAddress)
       : undefined
-  const newTarget = mapFomTargetToTriggerTarget(target, signalType, ethAddress)
+  const newTarget = mapFomTargetToTriggerTarget(
+    target,
+    targetWatchlist,
+    signalType,
+    ethAddress
+  )
   return {
     type: ETH_WALLET,
     ...newTarget,
@@ -658,7 +632,7 @@ export const mapFormToHBTriggerSettings = formProps => {
 }
 
 export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
-  const { type, metric, isRepeating, isPublic } = formProps
+  const { type, metric, isRepeating, isPublic, title, description } = formProps
   let settings = {}
   switch (metric.value) {
     case DAILY_ACTIVE_ADDRESSES: {
@@ -699,10 +673,12 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
 
   return {
     ...prevTrigger,
-    settings: settings,
+    settings,
     isRepeating: !!isRepeating,
     ...cooldownParams,
-    isPublic: isPublic
+    isPublic,
+    title,
+    description
   }
 }
 
@@ -1012,15 +988,69 @@ export const getDefaultFormValues = (newValues, { value: oldMetric }) => {
   const metricValue = isDAA ? metric.value : type.metric
   const defaultValues = METRIC_DEFAULT_VALUES[metricValue] || {}
 
+  debugger
+
   return {
     ...defaultValues,
     ...newValues
   }
 }
 
+const buildFormBlock = (title, description) => ({
+  titleLabel: title,
+  titleDescription: description
+})
+
+const NOTIFY_ME_WHEN = 'Notify me when'
+
+const targetsJoin = targets =>
+  Array.isArray(targets) ? targets.join(', ') : targets
+
+export const getTargetsHeader = values => {
+  const {
+    target,
+    signalType,
+    type,
+    metric,
+    trendingWordsWithWords,
+    trendingWordsWithAssets
+  } = values
+
+  if (metric.value === TRENDING_WORDS) {
+    switch (type.value) {
+      case TRENDING_WORDS_PROJECT_MENTIONED.value: {
+        const targets = mapTargetObject(
+          trendingWordsWithAssets,
+          targetMapperWithName
+        )
+        return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+      }
+      case TRENDING_WORDS_WORD_MENTIONED.value: {
+        const targets = mapTargetObject(
+          trendingWordsWithWords,
+          targetMapperWithName
+        )
+        return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+      }
+      default: {
+      }
+    }
+  }
+
+  switch (signalType.value) {
+    case METRIC_TARGET_WATCHLIST.value: {
+      return buildFormBlock(NOTIFY_ME_WHEN, targetMapperWithName(target))
+    }
+    default: {
+      const targets = mapTargetObject(target, targetMapperWithName)
+      return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+    }
+  }
+}
+
 const getUsd = (value = 0) => formatNumber(value, { currency: 'USD' })
 
-export const titleMetricValues = (
+export const titleMetricValuesHeader = (
   hasMetricValues,
   {
     type,
@@ -1089,8 +1119,66 @@ export const titleMetricValues = (
         )
       }
       default: {
-        return undefined
       }
     }
+    return {}
   }
+}
+
+export const getNewTitle = newValues => {
+  const { metric } = newValues
+  const { titleDescription: target } = getTargetsHeader(newValues)
+  const { titleDescription } = titleMetricValuesHeader(true, newValues)
+
+  let description = ''
+  switch (metric.value) {
+    case PRICE: {
+      description = target + ' price tracking (' + titleDescription + ')'
+      break
+    }
+    case PRICE_VOLUME_DIFFERENCE: {
+      description = target + 'price/volume difference'
+      break
+    }
+    case DAILY_ACTIVE_ADDRESSES: {
+      description = target + 'daily active addresses'
+      break
+    }
+    case ETH_WALLET: {
+      description = target + 'historical balance'
+      break
+    }
+    case TRENDING_WORDS: {
+      description = ''
+      break
+    }
+    default: {
+    }
+  }
+
+  return description.trim()
+}
+
+export const getNewDescription = newValues => {
+  const targetsHeader = getTargetsHeader(newValues).titleDescription
+  const metricsHeaderStr = Object.values(
+    titleMetricValuesHeader(true, newValues)
+  )
+    .join(' ')
+    .toLowerCase()
+
+  const {
+    channels,
+    isRepeating,
+    frequencyTimeValue,
+    frequencyTimeType
+  } = newValues
+
+  const repeatingBlock = isRepeating
+    ? `every ${frequencyTimeValue.label} ${frequencyTimeType.label}`
+    : 'only once'
+
+  const channelsBlock = channels.length ? `through ${channels.join(', ')}` : ''
+
+  return `When ${targetsHeader} ${metricsHeaderStr} notify me ${repeatingBlock}  ${channelsBlock}`
 }

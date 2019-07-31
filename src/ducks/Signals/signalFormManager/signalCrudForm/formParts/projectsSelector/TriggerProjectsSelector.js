@@ -27,8 +27,10 @@ export const TriggerProjectsSelector = ({
         const targetAssets = Array.isArray(target) ? target : [target]
 
         if (targetAssets.length > 0 && projects.length > 0) {
-          const preSelected = projects.filter(({ slug }) =>
-            targetAssets.some(({ value }) => value === slug)
+          const preSelected = projects.filter(({ slug: projectSlug }) =>
+            targetAssets.some(
+              ({ value, slug }) => value === projectSlug || slug === projectSlug
+            )
           )
           setSelectedAssets(preSelected)
         }

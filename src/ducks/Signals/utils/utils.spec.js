@@ -25,8 +25,8 @@ const TRIGGERS = [
     isRepeating: true,
     cooldown: '22h',
     tags: [],
-    title: 'Example',
-    description: 'any',
+    title: undefined,
+    description: undefined,
     __typename: 'Trigger'
   },
   {
@@ -42,8 +42,8 @@ const TRIGGERS = [
     isRepeating: true,
     cooldown: '22h',
     tags: [],
-    title: 'Example',
-    description: 'any',
+    title: undefined,
+    description: undefined,
     __typename: 'Trigger'
   },
   {
@@ -59,8 +59,8 @@ const TRIGGERS = [
     isRepeating: true,
     cooldown: '22h',
     tags: [],
-    title: 'Example',
-    description: 'any',
+    title: undefined,
+    description: undefined,
     __typename: 'Trigger'
   },
   {

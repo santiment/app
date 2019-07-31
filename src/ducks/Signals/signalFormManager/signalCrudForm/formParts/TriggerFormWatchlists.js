@@ -4,15 +4,28 @@ import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSe
 import GetWatchlists from '../../../../Watchlists/GetWatchlists'
 import styles from '../signal/TriggerForm.module.scss'
 
-const TriggerFormWatchlists = () => {
+const TriggerFormWatchlists = ({ values, setFieldValue }) => {
+  const { targetWatchlist } = values
   return (
     <GetWatchlists
       render={({ isWatchlistsLoading, watchlists = [] }) => {
         if (isWatchlistsLoading || watchlists.length > 0) {
+          if (
+            watchlists &&
+            watchlists.length &&
+            targetWatchlist &&
+            !targetWatchlist.id
+          ) {
+            const selectedWatchlist = watchlists.find(
+              ({ id }) => +id === targetWatchlist.value
+            )
+            setFieldValue('targetWatchlist', selectedWatchlist)
+          }
+
           return (
             <FormikSelect
               isLoading={isWatchlistsLoading}
-              name='target'
+              name='targetWatchlist'
               placeholder='Pick an watchlist'
               required
               valueKey='id'

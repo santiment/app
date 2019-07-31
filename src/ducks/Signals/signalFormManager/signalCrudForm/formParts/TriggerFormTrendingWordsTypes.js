@@ -61,7 +61,12 @@ const TriggerFormTrendingWordsTypes = ({
 
       <div className={cx(styles.row, styles.rowBottom)}>
         <div className={cx(styles.Field, styles.fieldFilled)}>
-          {isWatchlist && <TriggerFormWatchlists />}
+          {isWatchlist && (
+            <TriggerFormWatchlists
+              values={values}
+              setFieldValue={setFieldValue}
+            />
+          )}
           {!isWatchlist && (
             <GetProjects
               render={({ isLoading, allProjects = [] }) => {

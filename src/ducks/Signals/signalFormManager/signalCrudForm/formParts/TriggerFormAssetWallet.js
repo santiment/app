@@ -18,13 +18,14 @@ const TriggerFormAssetWallet = ({
   setFieldValue,
   values
 }) => {
-  const { signalType } = values
+  const { signalType, target } = values
   const isAssets = isAsset(signalType)
 
   const defaultSelected = signalType
     ? signalType.value
     : defaultSignalType.value.value
 
+  console.log('target', target)
   return (
     <Fragment>
       <div className={cx(styles.row, styles.rowTop)}>
@@ -40,9 +41,7 @@ const TriggerFormAssetWallet = ({
 
             setFieldValue('signalType', type)
             if (isAsset(type)) {
-              setFieldValue('target', defaultAsset.value)
-            } else if (isWatchlist(type)) {
-              setFieldValue('target', '')
+              setFieldValue('target', target || defaultAsset.value)
             }
           }}
           variant='border'
@@ -64,7 +63,12 @@ const TriggerFormAssetWallet = ({
               }}
             />
           )}
-          {isWatchlist(signalType) && <TriggerFormWatchlists />}
+          {isWatchlist(signalType) && (
+            <TriggerFormWatchlists
+              values={values}
+              setFieldValue={setFieldValue}
+            />
+          )}
         </div>
       </div>
     </Fragment>

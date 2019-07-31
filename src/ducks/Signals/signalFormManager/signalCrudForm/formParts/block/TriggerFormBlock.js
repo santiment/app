@@ -10,6 +10,7 @@ const TriggerFormBlock = ({
   titleLabel = '',
   titleDescription = '',
   enabledHide = true,
+  showDescription = true,
   className
 }) => {
   const [isShow, setShowing] = useState(show)
@@ -22,7 +23,11 @@ const TriggerFormBlock = ({
           onClick={() => enabledHide && setShowing(!isShow)}
         >
           <span className={styles.title}>{titleLabel}</span>
-          <span className={styles.description}>{titleDescription}</span>
+          {showDescription && (
+            <span className={styles.description}>
+              {titleDescription || '...'}
+            </span>
+          )}
 
           {enabledHide && (
             <Button type='button' className={styles.action}>

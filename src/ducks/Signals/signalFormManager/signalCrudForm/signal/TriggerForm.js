@@ -35,8 +35,10 @@ import {
   mapTargetObject,
   validateTriggerForm,
   getDefaultFormValues,
-  titleMetricValues,
-  getFormMetricValue
+  titleMetricValuesHeader,
+  getFormMetricValue,
+  getNewTitle,
+  getNewDescription
 } from '../../../utils/utils'
 import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/metricTypes/TriggerFormMetricTypes'
@@ -116,7 +118,6 @@ export const TriggerForm = ({
   return (
     <Formik
       initialValues={initialValues}
-      isInitialValid
       enableReinitialize
       validate={validateTriggerForm}
       onSubmit={values => {
@@ -177,9 +178,18 @@ export const TriggerForm = ({
                     getDefaultFormValues(newValues, prev.values.metric)
                   )
                   validateForm()
-                }
+                } /* else {
+                  if(!id){
+                    const withNewTitleAndDescription = updateFormTitleAndDescription(newValues)
+                    if(!isEqual(withNewTitleAndDescription, newValues)){
+                      setInitialValues(withNewTitleAndDescription)
+                      validateForm()
+                    }
+                  }
+                } */
 
                 if (!isEqual(newValues, prev.values)) {
+                  validateForm()
                   const lastErrors = validateTriggerForm(newValues)
                   const isError = Object.keys(newValues).some(
                     key => lastErrors[key]
@@ -190,6 +200,9 @@ export const TriggerForm = ({
                   !isError &&
                     canLoadChart &&
                     getSignalBacktestingPoints(newValues)
+
+                  setFieldValue('title', getNewTitle(newValues))
+                  setFieldValue('description', getNewDescription(newValues))
                 }
               }}
             />
@@ -215,7 +228,7 @@ export const TriggerForm = ({
 
               {step >= TRIGGER_FORM_STEPS.VALUES && showValues && (
                 <TriggerFormBlock
-                  {...titleMetricValues(!!metricValueBlocks, values)}
+                  {...titleMetricValuesHeader(!!metricValueBlocks, values)}
                   className={styles.chainBlock}
                 >
                   {(showTypes || metricValueBlocks) && (
@@ -249,6 +262,7 @@ export const TriggerForm = ({
                 <Fragment>
                   <TriggerFormBlock
                     titleLabel='More options'
+                    showDescription={false}
                     enabledHide
                     show={!isTelegramConnected}
                     className={styles.chainBlock}
@@ -304,7 +318,7 @@ export const TriggerForm = ({
                     >
                       <div className={styles.isRepeating}>
                         <Checkbox
-                          isActive={isRepeating}
+                          isActive={!isRepeating}
                           name='isRepeating'
                           className={styles.repeatingItem}
                           onClick={() => {
