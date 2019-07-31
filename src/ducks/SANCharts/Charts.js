@@ -45,7 +45,7 @@ const tooltipLabelFormatter = value => {
 const valueFormatter = (value, name) => {
   const numValue = +value
   // NOTE(vanguard): Some values may not be present in a hovered data point, i.e. value === undefined/null;
-  if (!Number.isFinite(numValue)) return
+  if (!Number.isFinite(numValue)) return 'No data'
 
   if (name === Metrics.historyPrice.label) {
     return formatNumber(numValue, { currency: 'USD' })

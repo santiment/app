@@ -21,7 +21,6 @@ export const Metrics = {
   },
   socialVolume: {
     category: 'Social',
-    group: 'Group 2',
     node: Bar,
     label: 'Social Volume',
     color: 'malibu'
@@ -118,14 +117,12 @@ export const Metrics = {
   },
   historyTwitterData: {
     category: 'Social',
-    group: 'Group 1',
     node: Line,
     label: 'Twitter',
     dataKey: 'followersCount'
   },
   socialDominance: {
     category: 'Social',
-    group: 'Group 2',
     node: Line,
     label: 'Social Dominance',
     dataKey: 'dominance'

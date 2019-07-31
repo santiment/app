@@ -78,7 +78,7 @@ const getChartInitialState = props => {
 }
 
 class ChartPage extends Component {
-  static defaultProps = DEFAULT_STATE
+  static defaultProps = { ...DEFAULT_STATE, adjustNightMode: true }
 
   state = getChartInitialState(this.props)
 
@@ -235,7 +235,12 @@ class ChartPage extends Component {
       isAdvancedView
     } = this.state
 
-    const { hideSettings = {}, classes = {}, children } = this.props
+    const {
+      hideSettings = {},
+      classes = {},
+      adjustNightMode,
+      children
+    } = this.props
 
     const requestedMetrics = metrics.reduce((acc, metric) => {
       acc[metric] = {
@@ -249,7 +254,9 @@ class ChartPage extends Component {
       return acc
     }, {})
 
-    document.body.classList.toggle('night-mode', !!nightMode)
+    if (adjustNightMode) {
+      document.body.classList.toggle('night-mode', !!nightMode)
+    }
 
     return (
       <GetTimeSeries
