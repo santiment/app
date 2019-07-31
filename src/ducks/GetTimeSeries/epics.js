@@ -119,7 +119,7 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
           ? mapDataToMergedTimeserieByDatetime(filteredData, transforms)
           : mapDataToTimeseries(filteredData, transforms)
         const settings = getSettings(metrics)
-        console.log(result)
+
         return Observable.of({
           type: actions.TIMESERIES_FETCH_SUCCESS,
           payload: {

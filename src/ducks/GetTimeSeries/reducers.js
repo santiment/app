@@ -20,7 +20,6 @@ const getErrorType = payload => {
 }
 
 export default (state = initialState, action) => {
-  console.log(state)
   switch (action.type) {
     case actions.TIMESERIES_FETCH:
       return {
