@@ -51,8 +51,11 @@ import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
 
 const targetMapper = ({ value, slug } = {}) => slug || value
-const targetMapperWithName = ({ value, slug, name } = {}) =>
+export const targetMapperWithName = ({ value, slug, name } = {}) =>
   name || slug || value
+
+export const targetMapperWithTicker = ({ value, slug, ticker } = {}) =>
+  ticker || slug || value
 
 const buildFormBlock = (title, description) => ({
   titleLabel: title,

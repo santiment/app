@@ -42,8 +42,6 @@ import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/metricTypes/TriggerFormMetricTypes'
 import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'
 import SignalPreview from '../../../chart/SignalPreview'
-import MetricOptionsRenderer from '../formParts/metricOptions/MetricOptionsRenderer'
-import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import TriggerMetricTypesResolver from '../formParts/TriggerMetricTypesResolver'
 import TriggerFormBlock, {
   TriggerFormBlockDivider
@@ -101,8 +99,6 @@ export const TriggerForm = ({
     couldShowChart(initialValues) && getSignalBacktestingPoints(initialValues)
   }, [])
 
-  const defaultType = metaFormSettings.type
-
   const toggleSignalPublic = () => {
     setInitialValues({ ...initialValues, isPublic: !initialValues.isPublic })
   }
@@ -146,13 +142,13 @@ export const TriggerForm = ({
           isPublic,
           description
         } = values
-        const typeSelectors = METRIC_TO_TYPES[(metric || {}).value]
 
         const { price } = lastPriceItem || {}
 
         const chartTarget = mapTargetObject(target)
         const showChart = target && couldShowChart(values)
 
+        const typeSelectors = METRIC_TO_TYPES[(metric || {}).value]
         const showTypes =
           metric && !metric.hidden && typeSelectors && typeSelectors.length > 1
 
@@ -220,30 +216,14 @@ export const TriggerForm = ({
                   {...titleMetricValues(!!metricValueBlocks, values)}
                   className={styles.chainBlock}
                 >
-                  {showTypes && (
-                    <div className={cx(styles.row, styles.rowTop)}>
-                      <div className={cx(styles.Field, styles.fieldFilled)}>
-                        <FormikLabel text='Choose condition' />
-                        <FormikSelect
-                          name='type'
-                          isClearable={false}
-                          isSearchable
-                          disabled={defaultType.isDisabled}
-                          defaultValue={defaultType.value}
-                          placeholder='Choose a type'
-                          options={typeSelectors}
-                          optionRenderer={MetricOptionsRenderer}
-                          isOptionDisabled={option => !option.value}
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {metricValueBlocks && (
+                  {(showTypes || metricValueBlocks) && (
                     <TriggerFormMetricValues
+                      typeSelectors={typeSelectors}
+                      metaFormSettings={metaFormSettings}
                       blocks={metricValueBlocks}
                       lastPrice={price}
                       values={values}
+                      showTypes={showTypes}
                     />
                   )}
 

@@ -53,6 +53,10 @@ $trigger-form-width: 534px;
   &:last-child {
     margin-bottom: 0;
   }
+
+  &:empty {
+    margin: 0;
+  }
 }
 
 .rowTop {

@@ -75,13 +75,15 @@ export const PRICE_CHANGE_TYPES = {
 export const PRICE_PERCENT_CHANGE_UP_MODEL = {
   metric: PRICE_PERCENT_CHANGE,
   label: 'Moving up %',
-  value: PRICE_CHANGE_TYPES.MOVING_UP
+  value: PRICE_CHANGE_TYPES.MOVING_UP,
+  filledField: true
 }
 
 export const PRICE_PERCENT_CHANGE_DOWN_MODEL = {
   metric: PRICE_PERCENT_CHANGE,
   label: 'Moving down %',
-  value: PRICE_CHANGE_TYPES.MOVING_DOWN
+  value: PRICE_CHANGE_TYPES.MOVING_DOWN,
+  filledField: true
 }
 
 export const PRICE_ABS_CHANGE_ABOVE = {
@@ -102,14 +104,16 @@ export const PRICE_ABS_CHANGE_INSIDE = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
   label: 'Entering channel',
-  value: PRICE_CHANGE_TYPES.INSIDE_CHANNEL
+  value: PRICE_CHANGE_TYPES.INSIDE_CHANNEL,
+  filledField: true
 }
 
 export const PRICE_ABS_CHANGE_OUTSIDE = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
   label: 'Outside channel',
-  value: PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL
+  value: PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL,
+  filledField: true
 }
 
 export const ETH_WALLET_METRIC = {
