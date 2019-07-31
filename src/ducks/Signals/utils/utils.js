@@ -297,7 +297,7 @@ const getFormTrendingWords = ({ settings: { operation, target } }) => {
   switch (operationType) {
     case TRENDING_WORDS_WORD_MENTIONED.value: {
       return {
-        trendingWordsWithWords: target.word
+        trendingWordsWithWords: mapToOptions(target.word)
       }
     }
     default: {

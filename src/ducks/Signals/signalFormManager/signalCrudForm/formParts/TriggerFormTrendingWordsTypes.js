@@ -22,7 +22,8 @@ const getWords = (allProjects, trendingWordsWithWords) => {
     : trendingWordsWithWords
       ? [trendingWordsWithWords]
       : []
-  return [...mapToOptions(preselectedWords), ...defaultOptions]
+
+  return [...preselectedWords, ...defaultOptions]
 }
 
 const TriggerFormTrendingWordsTypes = ({

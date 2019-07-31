@@ -10,7 +10,7 @@ exports[`TriggerForm EthWallet smoke 1`] = `
       ],
       "ethAddress": "some_custom_address",
       "frequencyTimeType": Object {
-        "label": "Days",
+        "label": "Day(s)",
         "value": "d",
       },
       "frequencyTimeValue": Object {
@@ -69,7 +69,7 @@ exports[`TriggerForm smoke 1`] = `
       ],
       "ethAddress": undefined,
       "frequencyTimeType": Object {
-        "label": "Days",
+        "label": "Day(s)",
         "value": "d",
       },
       "frequencyTimeValue": Object {
