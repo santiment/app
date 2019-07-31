@@ -36,7 +36,6 @@
   background: var(--white);
   border: 1px solid var(--porcelain);
   box-sizing: content-box;
-  padding: 11px 10px;
   position: absolute;
   top: 20px;
   transform: translateX(-100%);
@@ -44,6 +43,10 @@
   border-top-left-radius: 4px;
   cursor: pointer;
   fill: var(--mirage);
+
+  &__btn {
+    padding: 5px 10px;
+  }
 
   &:hover {
     fill: var(--jungle-green);
