@@ -14,9 +14,9 @@ const NO_GROUP = '_'
 const DEFAULT_CATEGORIES = {
   Financial: [
     {
-      label: 'Price',
-    },
-  ],
+      label: 'Price'
+    }
+  ]
 }
 
 const addItemToGraph = (categories, metricCategory, metrics) => {
@@ -75,8 +75,6 @@ const getCategoryGraph = availableMetrics => {
     }, {})
   })
 
-  console.log(categories)
-
   memo.lastInput = availableMetrics
   memo.result = categories
 
@@ -109,20 +107,20 @@ const ChartMetricSelector = ({
   toggleMetric,
   activeMetrics,
   disabledMetrics,
-  data: { project: { availableMetrics = [] } = {}, loading },
+  data: { project: { availableMetrics = [] } = {}, loading }
 }) => {
   const categories = getCategoryGraph(availableMetrics)
 
   const [activeCategory, setCategory] = React.useState('Financial')
   const [activeMetric, setMetric] = React.useState(
-    DEFAULT_CATEGORIES.Financial[0],
+    DEFAULT_CATEGORIES.Financial[0]
   )
 
   useEffect(
     () => () => {
       memo = {}
     },
-    [],
+    []
   )
 
   return (
@@ -196,5 +194,5 @@ const ChartMetricSelector = ({
 export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
   options: ({ slug }) => {
     return { variables: { slug } }
-  },
+  }
 })(ChartMetricSelector)
