@@ -3,7 +3,7 @@ import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationT
 import styles from './SidecarExplanationTooltip.module.scss'
 
 const LS_SIDECAR_TOOLTIP_SHOWN = 'LS_SIDECAR_TOOLTIP_SHOWN'
-const TOOLTIP_DELAY_IN_MS = 5000
+const TOOLTIP_DELAY_IN_MS = 10000
 
 const SidecarExplanationTooltip = props => {
   const wasShown = localStorage.getItem(LS_SIDECAR_TOOLTIP_SHOWN)
