@@ -17,7 +17,6 @@ import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar/feed'
 const editTriggerSettingsModalLocation = `${baseLocation}/details/:id/edit`
-const aboutTriggerModalLocation = `${baseLocation}/details/:id/about`
 
 const tabs = [
   {
@@ -68,7 +67,6 @@ const SonarFeed = ({
   }
 
   const [triggerId, setTriggerId] = useState(undefined)
-  const [step, setTriggerStep] = useState(undefined)
 
   useEffect(
     () => {
@@ -81,25 +79,15 @@ const SonarFeed = ({
 
   useEffect(
     () => {
-      const isAboutPath = matchPath(pathname, aboutTriggerModalLocation)
-      if (
-        triggerId &&
-        !matchPath(pathname, editTriggerSettingsModalLocation) &&
-        !isAboutPath
-      ) {
+      if (triggerId && !matchPath(pathname, editTriggerSettingsModalLocation)) {
         setTriggerId(undefined)
-      }
-
-      if (triggerId && !isAboutPath) {
-        setTriggerStep(undefined)
       }
     },
     [pathname]
   )
 
-  const setLoadingSignalId = (id, step) => {
+  const setLoadingSignalId = id => {
     setTriggerId(id)
-    setTriggerStep(step)
   }
 
   const shareSignalParams = getShareSignalParams()
@@ -111,7 +99,6 @@ const SonarFeed = ({
           <SonarFeedHeader />
           <SignalMasterModalForm
             triggerId={triggerId}
-            step={step}
             shareParams={shareSignalParams}
           />
         </div>
@@ -123,7 +110,6 @@ const SonarFeed = ({
               <div className={styles.addSignal}>
                 <SignalMasterModalForm
                   triggerId={triggerId}
-                  step={step}
                   shareParams={shareSignalParams}
                 />
               </div>
@@ -159,19 +145,6 @@ const SonarFeed = ({
             render={props => (
               <LoadableEditSignalPage
                 setLoadingSignalId={setLoadingSignalId}
-                step={0}
-                {...props}
-              />
-            )}
-          />
-          ,
-          <Route
-            path={aboutTriggerModalLocation}
-            exact
-            render={props => (
-              <LoadableEditSignalPage
-                setLoadingSignalId={setLoadingSignalId}
-                step={1}
                 {...props}
               />
             )}

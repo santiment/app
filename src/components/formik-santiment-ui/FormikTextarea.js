@@ -21,7 +21,7 @@ const FormikTextarea = ({
             <AutoresizeTextarea
               className={cx(
                 styles.textarea,
-                isError ? styles.error : '',
+                isError && styles.error,
                 className
               )}
               name={name}
