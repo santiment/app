@@ -284,7 +284,6 @@ class Charts extends React.Component {
               />
             )}
             {!hasPremium &&
-              metrics.includes('historyPrice') &&
               displayPaywall({
                 data: chartData
               })}
