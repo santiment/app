@@ -9,7 +9,7 @@ const CancellationScreen = ({
   cancelSubscription,
   addNot,
   id,
-  loading,
+  loading
 }) => {
   return (
     <>
@@ -39,7 +39,7 @@ const CancellationScreen = ({
           isLoading={loading}
           onClick={() =>
             cancelSubscription({
-              variables: { subscriptionId: +id },
+              variables: { subscriptionId: +id }
             })
               .then(() => {
                 closeDialog()
@@ -47,7 +47,7 @@ const CancellationScreen = ({
                   variant: 'success',
                   title: `You have successfully canceled your subscription.`,
                   description: 'We will miss you!',
-                  dismissAfter: 5000,
+                  dismissAfter: 5000
                 })
               })
               .catch(e =>
@@ -56,8 +56,8 @@ const CancellationScreen = ({
                   title: `Error during the cancellation`,
                   description: formatError(e.message),
                   dismissAfter: 5000,
-                  actions: contactAction,
-                }),
+                  actions: contactAction
+                })
               )
           }
         >
