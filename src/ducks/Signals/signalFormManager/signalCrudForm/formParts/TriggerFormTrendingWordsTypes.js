@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
-import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import { TRENDING_WORDS_TYPE_OPTIONS } from '../../../utils/constants'
 import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
 import {
@@ -14,6 +13,7 @@ import {
 import GetProjects from '../../../common/projects/getProjects'
 import TriggerFormWatchlists from './TriggerFormWatchlists'
 import styles from '../signal/TriggerForm.module.scss'
+import Selector from '@santiment-network/ui/Selector/Selector'
 
 const getWords = (allProjects, trendingWordsWithWords) => {
   const defaultOptions = mapToAssets(allProjects, false)
@@ -35,72 +35,74 @@ const TriggerFormTrendingWordsTypes = ({
   const isWatchlist = isTrendingWordsByWatchlist(type)
 
   return (
-    <GetProjects
-      render={({ isLoading, allProjects = [] }) => {
-        if (isLoading) {
-          return ''
-        }
+    <>
+      <div className={cx(styles.row, styles.rowTop)}>
+        <Selector
+          className={styles.selector}
+          options={TRENDING_WORDS_TYPE_OPTIONS.map(({ value }) => value)}
+          nameOptions={TRENDING_WORDS_TYPE_OPTIONS.map(({ label }) => label)}
+          defaultSelected={type.value}
+          onSelectOption={selectedValue => {
+            const type = TRENDING_WORDS_TYPE_OPTIONS.find(
+              ({ value }) => value === selectedValue
+            )
 
-        const [words] = useState(getWords(allProjects, trendingWordsWithWords))
+            setFieldValue('type', type)
+            if (
+              isTrendingWordsByWatchlist(type) &&
+              typeof target === 'object'
+            ) {
+              setFieldValue('target', '')
+            }
+          }}
+          variant='border'
+        />
+      </div>
 
-        return (
-          <>
-            <div className={cx(styles.row, styles.rowTop)}>
-              <div
-                className={cx(
-                  styles.Field,
-                  !isWatchlist ? styles.fieldFilled : ''
-                )}
-              >
-                <FormikLabel text='Type' />
-                <FormikSelect
-                  isClearable={false}
-                  name='type'
-                  placeholder='Pick type'
-                  options={TRENDING_WORDS_TYPE_OPTIONS}
-                  onChange={type => {
-                    if (
-                      isTrendingWordsByWatchlist(type) &&
-                      typeof target === 'object'
-                    ) {
-                      setFieldValue('target', '')
-                    }
-                  }}
-                />
-              </div>
-              {isWatchlist && <TriggerFormWatchlists />}
-            </div>
+      <div className={cx(styles.row, styles.rowBottom)}>
+        <div className={cx(styles.Field, styles.fieldFilled)}>
+          {isWatchlist && <TriggerFormWatchlists />}
+          {!isWatchlist && (
+            <GetProjects
+              render={({ isLoading, allProjects = [] }) => {
+                if (isLoading) {
+                  return ''
+                }
 
-            {!isWatchlist && (
-              <div className={cx(styles.row, styles.rowBottom)}>
-                <div className={cx(styles.Field, styles.fieldFilled)}>
-                  {isProjects && (
-                    <TriggerProjectsSelector
-                      name='trendingWordsWithAssets'
-                      fieldValueList={trendingWordsWithAssets}
-                      values={values}
-                      projects={allProjects}
-                      setFieldValue={setFieldValue}
-                    />
-                  )}
+                const [words] = useState(
+                  getWords(allProjects, trendingWordsWithWords)
+                )
 
-                  {isWords && (
-                    <FormikSelect
-                      multi={true}
-                      isCreatable={true}
-                      name='trendingWordsWithWords'
-                      placeholder='Pick a word(s)'
-                      backspaceRemoves={true}
-                      options={words}
-                    />
-                  )}
-                </div>
-              </div>
-            )}
-          </>
-        )
-      }}
-    />
+                return (
+                  <>
+                    {isProjects && (
+                      <TriggerProjectsSelector
+                        name='trendingWordsWithAssets'
+                        fieldValueList={trendingWordsWithAssets}
+                        values={values}
+                        projects={allProjects}
+                        setFieldValue={setFieldValue}
+                      />
+                    )}
+
+                    {isWords && (
+                      <FormikSelect
+                        multi={true}
+                        isCreatable={true}
+                        name='trendingWordsWithWords'
+                        placeholder='Pick a word(s)'
+                        backspaceRemoves={true}
+                        options={words}
+                      />
+                    )}
+                  </>
+                )
+              }}
+            />
+          )}
+        </div>
+      </div>
+    </>
   )
 }
 

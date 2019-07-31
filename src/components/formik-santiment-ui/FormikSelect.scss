@@ -1,12 +1,9 @@
+@import "~@santiment-network/ui/mixins";
+
 $select-line-height: 30px;
 
-.select__container-single {
+.Select--single {
   .Select-control {
-    height: 30px;
-    line-height: $select-line-height;
-  }
-
-  .Select-multi-value-wrapper {
     height: 30px;
     line-height: $select-line-height;
   }
@@ -14,10 +11,59 @@ $select-line-height: 30px;
   .Select-value {
     line-height: $select-line-height !important;
   }
+
+  .Select-multi-value-wrapper {
+    height: 30px;
+    line-height: $select-line-height;
+  }
 }
 
-.select__container-multi {
+.Select--multi {
   position: relative;
+
+  .Select-control {
+    display: flex;
+    height: auto;
+  }
+
+  .Select-arrow-zone {
+    height: 30px;
+  }
+
+  .Select-clear-zone {
+    height: 30px;
+  }
+
+  .Select-multi-value-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .Select-value {
+    display: inline-block;
+    box-sizing: border-box;
+    background: var(--athens);
+    border: 1px solid var(--porcelain);
+    border-radius: $border-radius;
+    padding: 1px 10px;
+    margin: 3px 4px 3px 4px;
+    height: 24px;
+  }
+
+  .Select-value-label {
+    @include text('body-3');
+
+    padding: 0;
+  }
+
+  .Select-value-icon {
+    padding: 0;
+    margin-left: 8px;
+  }
+
+  .Select-input {
+    height: 24px;
+  }
 }
 
 .VirtualSelectGrid {

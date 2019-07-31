@@ -15,6 +15,7 @@ import FormikCheckboxes from '../../../../../components/formik-santiment-ui/Form
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import Button from '@santiment-network/ui/Button'
+import RadioBtns from '@santiment-network/ui/RadioBtns'
 import { Checkbox } from '@santiment-network/ui'
 import Message from '@santiment-network/ui/Message'
 import {
@@ -44,13 +45,12 @@ import SignalPreview from '../../../chart/SignalPreview'
 import MetricOptionsRenderer from '../formParts/metricOptions/MetricOptionsRenderer'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import TriggerMetricTypesResolver from '../formParts/TriggerMetricTypesResolver'
-import styles from './TriggerForm.module.scss'
 import TriggerFormBlock, {
   TriggerFormBlockDivider
 } from '../formParts/block/TriggerFormBlock'
-import Toggle from '@santiment-network/ui/Toggle'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikTextarea from '../../../../../components/formik-santiment-ui/FormikTextarea'
+import styles from './TriggerForm.module.scss'
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
@@ -346,13 +346,15 @@ export const TriggerForm = ({
                       <div className={styles.Field}>
                         <FormikLabel text='Signal visibility' />
                         <div className={styles.triggerToggleBlock}>
-                          <Toggle
-                            onClick={toggleSignalPublic}
-                            isActive={isPublic}
+                          <RadioBtns
+                            options={['Public', 'Private']}
+                            labelOnRight
+                            defaultSelectedIndex={
+                              isPublic ? 'Public' : 'Private'
+                            }
+                            onSelect={toggleSignalPublic}
+                            style={{ marginRight: '20px' }}
                           />
-                          <div className={styles.triggerToggleLabel}>
-                            {isPublic ? 'Public' : 'Private'}
-                          </div>
                         </div>
                       </div>
                     </div>

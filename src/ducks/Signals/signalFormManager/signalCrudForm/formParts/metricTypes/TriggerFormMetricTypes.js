@@ -89,9 +89,8 @@ export const TriggerFormMetricTypes = ({
               </div>
             </div>
             {METRICS_OPTIONS.map(item => (
-              <div className={metricStyles.listItem}>
+              <div className={metricStyles.listItem} key={item.value}>
                 <MetricTypeRenderer
-                  key={item.value}
                   metric={item}
                   onClick={onSelectMetric}
                   showLabel={false}

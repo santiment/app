@@ -10,6 +10,7 @@
 
 .label {
   margin-left: auto;
+  color: var(--jungle-green);
 }
 
 .metric {
@@ -26,12 +27,6 @@
   border-radius: $border-radius;
   padding: 20px;
   cursor: pointer;
-
-  &:hover {
-    .label {
-      color: var(--jungle-green);
-    }
-  }
 }
 
 .icon {
