@@ -180,7 +180,7 @@ const ChartMetricSelector = ({
           <div className={styles.visible}>
             {activeMetric && (
               <div className={styles.visible__scroll}>
-                <h3 className={styles.title}>{activeMetric.label}</h3>
+                <h4 className={styles.title}>{activeMetric.label}</h4>
                 <p className={styles.text}>{activeMetric.description}</p>
               </div>
             )}
