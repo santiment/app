@@ -9,6 +9,7 @@
   top: 0;
   bottom: 0;
   right: 0;
+  color: var(--mirage);
   background: var(--white);
   border: 1px solid var(--porcelain);
   border-radius: 4px;
@@ -62,6 +63,7 @@
   @include text('body-1');
 
   cursor: pointer;
+  fill: var(--mirage);
 
   &:hover {
     color: var(--jungle-green-hover);
@@ -102,10 +104,6 @@
   @include text('body-1', 'm');
 
   margin-top: 26px !important;
-}
-
-.asset__name {
-  max-width: 75%;
 }
 
 .tabs {

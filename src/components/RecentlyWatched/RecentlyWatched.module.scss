@@ -55,7 +55,7 @@
   display: flex;
 
   &:first-child {
-    max-width: 58%;
+    max-width: 50%;
 
     @include responsive('phone-xs') {
       max-width: 55%;
