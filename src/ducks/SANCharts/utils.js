@@ -10,6 +10,13 @@ export const Metrics = {
     yAxisVisible: true,
     category: 'Financial'
   },
+  historyPricePreview: {
+    node: Line,
+    color: 'jungle-green',
+    label: 'Price',
+    dataKey: 'priceUsd',
+    category: 'Financial'
+  },
   volume: {
     node: Bar,
     label: 'Volume',

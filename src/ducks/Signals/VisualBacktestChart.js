@@ -5,6 +5,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  ReferenceDot,
   ReferenceLine
 } from 'recharts'
 import cx from 'classnames'
@@ -15,8 +16,22 @@ import chartStyles from './../SANCharts/Chart.module.scss'
 import sharedStyles from './../SANCharts/ChartPage.module.scss'
 import styles from './chart/SignalPreview.module.scss'
 
+export const getDataKeys = (signal = {}) => {
+  if (signal.active_addresses) {
+    return { metric: 'dailyActiveAddresses', signal: 'active_addresses' }
+  }
+  if (signal.price) return { metric: 'priceUsd', signal: 'price' }
+  return { metric: 'priceUsd  ' }
+}
+
 const mapWithTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
+
+const mapWithMidnightTime = date => {
+  const datetime = new Date(date)
+  datetime.setUTCHours(0, 0, 0, 0)
+  return +new Date(datetime)
+}
 
 const VisualBacktestChart = ({
   triggeredSignals,
@@ -24,14 +39,19 @@ const VisualBacktestChart = ({
   metrics
 }) => {
   const data = mapWithTimeseries(timeseries)
-  const markup = generateMetricsMarkup(metrics)
+  const dataKeys = getDataKeys(triggeredSignals[0])
+
+  const metricsModified = metrics.map(metric =>
+    metric === 'historyPrice' ? 'historyPricePreview' : metric
+  )
+  const markup = generateMetricsMarkup(metricsModified)
 
   const renderChart = () => {
     return (
       <ComposedChart
         data={data}
         margin={{
-          left: -20,
+          left: 0,
           bottom: 0
         }}
       >
@@ -39,26 +59,44 @@ const VisualBacktestChart = ({
           dataKey='datetime'
           type='number'
           scale='time'
-          tickLine={false}
+          tick={false}
           allowDataOverflow
-          tickFormatter={timeStr => {
-            const { MMM, YY } = getDateFormats(new Date(timeStr))
-            return `${MMM} ${YY}`
-          }}
           domain={['dataMin', 'dataMax']}
+          hide
         />
 
-        <YAxis hide />
+        <YAxis hide domain={['auto', 'dataMax']} dataKey={dataKeys.metric} />
 
         {markup}
 
-        {triggeredSignals.map(point => (
-          <ReferenceLine
-            key={point.datetime}
-            stroke='green'
-            x={+new Date(point.datetime)}
-          />
-        ))}
+        {triggeredSignals.map((point, i) => {
+          let price
+          const isPrice = dataKeys.signal === 'price'
+          const date = isPrice
+            ? mapWithMidnightTime(point.datetime)
+            : +new Date(point.datetime)
+
+          if (isPrice) {
+            const item = data.find(({ datetime }) => datetime === date)
+            price = item ? item.priceUsd : point.price
+          }
+
+          return dataKeys.signal ? (
+            <ReferenceDot
+              x={date}
+              y={price || point[dataKeys.signal]}
+              key={i}
+              ifOverflow='extendDomain'
+              r={3}
+              isFront
+              stroke='var(--white)'
+              strokeWidth='2px'
+              fill='var(--persimmon)'
+            />
+          ) : (
+            <ReferenceLine stroke='#FF5B5B' x={date} key={i} />
+          )
+        })}
         <Tooltip labelFormatter={labelFormatter} content={<CustomTooltip />} />
       </ComposedChart>
     )

@@ -45,7 +45,7 @@ const SignalPreviewChart = ({
   return (
     <div className={styles.preview}>
       <div className={styles.description}>
-        <span className={styles.fired}>Signal was fired:</span>{' '}
+        <span className={styles.fired}>Signal was fired:</span>
         <span className={styles.times}>
           {triggeredSignals.length} times in {label}
         </span>
@@ -64,9 +64,7 @@ const SignalPreviewChart = ({
               errorType,
               ...rest
             }) => {
-              if (!timeseries) {
-                return 'Loading...'
-              }
+              if (!timeseries) return 'Loading...'
 
               return (
                 <VisualBacktestChart
@@ -78,18 +76,6 @@ const SignalPreviewChart = ({
             }}
           />
         </div>
-
-        <ChartMetrics
-          classes={styles}
-          slug={slug}
-          onMetricsChange={metrics => setMetrics(metrics)}
-          defaultActiveMetrics={initialMetrics}
-          showOnlyDefault={true}
-          listOfMetrics={initialMetrics.reduce((acc, metric) => {
-            acc[metric] = Metrics[metric]
-            return acc
-          }, {})}
-        />
       </div>
     </div>
   )
