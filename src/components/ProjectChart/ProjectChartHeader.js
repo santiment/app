@@ -1,6 +1,6 @@
 import React from 'react'
 import { withState, compose, lifecycle } from 'recompose'
-import PaywallMessage from './../PaywallMessage/PaywallMessage'
+import UpgradeBtn from './../UpgradeBtn/UpgradeBtn'
 import ShareableBtn from './ShareableBtn'
 import ChartWidgetModal from './ChartWidgetModal'
 import './ProjectChartHeader.css'
@@ -78,7 +78,7 @@ const ProjectChartHeader = ({
     <div className='chart-header'>
       <div className='chart-datetime-settings'>
         <TimeFilter interval={interval} setFilter={setFilter} />
-        {!isPremium && <PaywallMessage />}
+        {!isPremium && <UpgradeBtn>Limited data</UpgradeBtn>}
       </div>
       <div className='chart-header-actions'>
         <CurrencyFilter
