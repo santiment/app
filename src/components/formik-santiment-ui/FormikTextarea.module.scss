@@ -14,6 +14,10 @@
   padding: 6px 10px;
   border-radius: $border-radius;
   color: var(--mirage);
+
+  &::placeholder {
+    color: var(--casper);
+  }
 }
 
 .error {

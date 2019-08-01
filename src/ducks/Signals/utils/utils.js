@@ -1032,7 +1032,7 @@ export const getTargetsHeader = values => {
     case METRIC_TARGET_WATCHLIST.value: {
       return buildFormBlock(
         NOTIFY_ME_WHEN,
-        'Watchlist "' + targetMapperWithName(targetWatchlist) + '"'
+        targetMapperWithName(targetWatchlist)
       )
     }
     default: {
@@ -1055,11 +1055,12 @@ export const titleMetricValuesHeader = (
     absoluteBorderRight,
     absoluteBorderLeft,
     timeWindowUnit,
-    timeWindow
+    timeWindow,
+    metric
   }
 ) => {
   if (hasMetricValues && type) {
-    const { value, metric } = type
+    const { value } = type
     const isPriceMetric = metric.value === PRICE
 
     const priceOrDaaTitle = isPriceMetric

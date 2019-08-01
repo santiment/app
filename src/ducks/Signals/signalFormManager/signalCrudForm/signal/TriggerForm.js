@@ -6,7 +6,10 @@ import { compose } from 'recompose'
 import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
 import isEqual from 'lodash.isequal'
-import { selectIsTelegramConnected } from '../../../../../pages/UserSelectors'
+import {
+  selectIsTelegramConnected,
+  selectIsEmailConnected
+} from '../../../../../pages/UserSelectors'
 import {
   fetchHistorySignalPoints,
   removeTrigger
@@ -66,6 +69,7 @@ export const TriggerForm = ({
   onSettingsChange,
   getSignalBacktestingPoints,
   isTelegramConnected = false,
+  isEmailConnected = false,
   lastPriceItem,
   settings,
   metaFormSettings,
@@ -143,7 +147,8 @@ export const TriggerForm = ({
           isRepeating,
           ethAddress,
           isPublic,
-          description
+          description,
+          channels
         } = values
 
         const { price } = lastPriceItem || {}
@@ -163,6 +168,11 @@ export const TriggerForm = ({
         if (!showValues && step === TRIGGER_FORM_STEPS.VALUES) {
           validateAndSetStep(TRIGGER_FORM_STEPS.DESCRIPTION)
         }
+
+        const notConnectedTelegram =
+          channels.find(c => c === 'Telegram') && !isTelegramConnected
+        const notConnectedEmail =
+          channels.find(c => c === 'Email') && !isEmailConnected
 
         return (
           <Form>
@@ -260,7 +270,7 @@ export const TriggerForm = ({
                     titleLabel='More options'
                     showDescription={false}
                     enabledHide
-                    show={!isTelegramConnected}
+                    show={!isTelegramConnected || !isEmailConnected}
                     className={styles.chainBlock}
                   >
                     <div className={cx(styles.row, styles.rowTop)}>
@@ -270,10 +280,9 @@ export const TriggerForm = ({
                           <FormikCheckboxes
                             name='channels'
                             labelOnRight
-                            disabledIndexes={['Email']}
                             options={['Email', 'Telegram']}
                           />
-                          {!isTelegramConnected && (
+                          {(notConnectedTelegram || notConnectedEmail) && (
                             <Button
                               className={styles.connectLink}
                               variant='ghost'
@@ -413,6 +422,7 @@ TriggerForm.propTypes = propTypes
 const mapStateToProps = state => {
   return {
     isTelegramConnected: selectIsTelegramConnected(state),
+    isEmailConnected: selectIsEmailConnected(state),
     lastPriceItem: state.signals.points
       ? state.signals.points[state.signals.points.length - 1]
       : undefined

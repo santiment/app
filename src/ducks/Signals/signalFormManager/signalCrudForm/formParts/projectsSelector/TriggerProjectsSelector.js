@@ -17,8 +17,6 @@ export const TriggerProjectsSelector = ({
   const [listItems, setListItems] = useState([])
   const checkedAssetsAsSet = new Set(listItems)
 
-  console.log('target', target)
-
   useEffect(
     () => {
       if (listItems.length === 0) {
