@@ -785,8 +785,6 @@ export const validateTriggerForm = values => {
     ...descriptionBlockErrors(values)
   }
 
-  console.log(errors)
-
   return errors
 }
 
