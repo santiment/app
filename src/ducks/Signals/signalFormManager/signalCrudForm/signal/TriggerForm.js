@@ -204,7 +204,7 @@ export const TriggerForm = ({
                     canLoadChart &&
                     getSignalBacktestingPoints(newValues)
 
-                  if (!id || changedMetric) {
+                  if (!id) {
                     !newValues.titleChangedByUser &&
                       setFieldValue('title', getNewTitle(newValues))
                     !newValues.descriptionChangedByUser &&

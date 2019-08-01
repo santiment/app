@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
+import Selector from '@santiment-network/ui/Selector/Selector'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import { TRENDING_WORDS_TYPE_OPTIONS } from '../../../utils/constants'
 import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
@@ -12,7 +13,6 @@ import {
 import GetProjects from '../../../common/projects/getProjects'
 import TriggerFormWatchlists from './TriggerFormWatchlists'
 import styles from '../signal/TriggerForm.module.scss'
-import Selector from '@santiment-network/ui/Selector/Selector'
 
 const getWords = (allProjects, trendingWordsWithWords) => {
   const defaultOptions = mapToAssets(allProjects, false)
