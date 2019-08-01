@@ -27,6 +27,6 @@ export default {
   },
   ENTERPRISE: {
     leftBoundaryDate: ENTERPRISE_LEFT_BOUNDARY_DATE,
-    rightBoundaryDate: ENTERPRISEPRO_RIGHT_BOUNDARY_DATE
+    rightBoundaryDate: ENTERPRISE_RIGHT_BOUNDARY_DATE
   }
 }
