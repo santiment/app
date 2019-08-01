@@ -11,7 +11,6 @@ export const TriggerProjectsSelector = ({
   projects = [],
   setFieldValue,
   onChange,
-  fieldValueList,
   values: { target = [] },
   name
 }) => {
@@ -20,15 +19,14 @@ export const TriggerProjectsSelector = ({
 
   useEffect(
     () => {
-      if (
-        (!fieldValueList || fieldValueList.length === 0) &&
-        listItems.length === 0
-      ) {
+      if (listItems.length === 0) {
         const targetAssets = Array.isArray(target) ? target : [target]
 
         if (targetAssets.length > 0 && projects.length > 0) {
-          const preSelected = projects.filter(({ slug }) =>
-            targetAssets.some(({ value }) => value === slug)
+          const preSelected = projects.filter(({ slug: projectSlug }) =>
+            targetAssets.some(
+              ({ value, slug }) => value === projectSlug || slug === projectSlug
+            )
           )
           setSelectedAssets(preSelected)
         }
@@ -117,17 +115,16 @@ const AssetsListDescription = ({
   onRemove
 }) => {
   if (!assets || !assets.length) {
-    return label
+    return <div className={styles.label}>{label}</div>
   }
 
   return (
     <div className={styles.assetGroup}>
       {assets.map(asset => {
-        const { id, name, ticker } = asset
+        const { id, name } = asset
         return (
           <span className={styles.asset} key={id}>
             <span className={styles.name}>{name}</span>
-            <span className={styles.ticker}>{ticker}</span>
             <Button
               type='button'
               className={styles.close}

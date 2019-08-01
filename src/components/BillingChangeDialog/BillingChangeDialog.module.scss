@@ -1,0 +1,47 @@
+@import '~@santiment-network/ui/mixins';
+
+.content {
+  padding: 20px;
+}
+
+.card {
+  padding: 20px 20px 18px;
+  margin-bottom: 20px;
+  min-width: 520px;
+}
+
+.billing {
+  @include text('body-2');
+
+  text-transform: capitalize;
+}
+
+.price {
+  @include text('body-2', 'm');
+
+  color: var(--jungle-green);
+
+  &__type {
+    @include text('body-3');
+
+    color: var(--waterloo);
+  }
+}
+
+.desc {
+  margin-top: 6px;
+
+  @include text('body-3');
+
+  color: var(--waterloo);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.save {
+  color: var(--persimmon);
+}

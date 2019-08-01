@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Categories from './Categories'
@@ -17,6 +17,9 @@ const ChartSidecar = ({
   classes
 }) => {
   const [openedList, setOpenedList] = useState()
+  const [shouldPreload, setShouldPreload] = useState()
+
+  const wasPreloaded = shouldPreload !== undefined
 
   const assetsRenderer = ({ key, index, style }) => {
     const { project } = openedList.listItems[index]
@@ -27,17 +30,39 @@ const ChartSidecar = ({
     )
   }
 
+  function preloadData () {
+    setShouldPreload(true)
+  }
+
+  useEffect(
+    () => {
+      if (!wasPreloaded) return
+
+      const timer = setTimeout(() => {
+        setShouldPreload(false)
+      }, 2000)
+
+      return () => clearTimeout(timer)
+    },
+    [wasPreloaded]
+  )
+
   return (
     <div className={cx(styles.wrapper, isAdvancedView && styles.opened)}>
-      <SidecarExplanationTooltip>
+      <SidecarExplanationTooltip
+        classes={{
+          wrapper: cx(styles.toggle, isAdvancedView || classes.sidecar__toggle)
+        }}
+      >
         <div
-          className={cx(styles.toggle, classes.sidecar__toggle)}
+          className={styles.toggle__btn}
           onClick={onSidebarToggleClick}
+          onMouseOver={wasPreloaded ? undefined : preloadData}
         >
           <Icon type='arrow-left' className={styles.toggle__arrow} />
         </div>
       </SidecarExplanationTooltip>
-      {!isAdvancedView ? null : openedList ? (
+      {!shouldPreload && !isAdvancedView ? null : openedList ? (
         <div className={cx(styles.content, styles.content_assets)}>
           <h2 className={styles.back} onClick={() => setOpenedList()}>
             <Icon type='arrow-left' /> Back

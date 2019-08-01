@@ -1,13 +1,12 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
-import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import { METRIC_TARGET_OPTIONS } from '../../../utils/constants'
 import GetProjects from '../../../common/projects/getProjects'
 import { isAsset, isWatchlist } from '../../../utils/utils'
 import TriggerFormWatchlists from './TriggerFormWatchlists'
-import { TriggerProjectsSelector } from './ProjectsSelector/TriggerProjectsSelector'
+import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
+import Selector from '@santiment-network/ui/Selector/Selector'
 import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
@@ -19,35 +18,37 @@ const TriggerFormAssetWallet = ({
   setFieldValue,
   values
 }) => {
-  const { signalType } = values
+  const { signalType, target } = values
   const isAssets = isAsset(signalType)
 
+  const defaultSelected = signalType
+    ? signalType.value
+    : defaultSignalType.value.value
+
   return (
-    <>
-      <div className={styles.row}>
-        <div className={cx(styles.Field, isAssets && styles.fieldFilled)}>
-          <FormikLabel text='Type' />
-          <FormikSelect
-            name='signalType'
-            isClearable={false}
-            disabled={defaultSignalType.isDisabled}
-            defaultValue={defaultSignalType.value.value}
-            placeholder={'Pick signal type'}
-            options={METRIC_TARGET_OPTIONS}
-            onChange={type => {
-              if (isAsset(type)) {
-                setFieldValue('target', defaultAsset.value)
-              } else if (isWatchlist(type)) {
-                setFieldValue('target', '')
-              }
-            }}
-          />
-        </div>
-        {isWatchlist(signalType) && <TriggerFormWatchlists />}
+    <Fragment>
+      <div className={cx(styles.row, styles.rowTop)}>
+        <Selector
+          className={styles.selector}
+          options={METRIC_TARGET_OPTIONS.map(({ value }) => value)}
+          nameOptions={METRIC_TARGET_OPTIONS.map(({ label }) => label)}
+          defaultSelected={defaultSelected}
+          onSelectOption={selectedValue => {
+            const type = METRIC_TARGET_OPTIONS.find(
+              ({ value }) => value === selectedValue
+            )
+
+            setFieldValue('signalType', type)
+            if (isAsset(type)) {
+              setFieldValue('target', target || defaultAsset.value)
+            }
+          }}
+          variant='border'
+        />
       </div>
-      {isAssets && (
-        <div className={cx(styles.row, styles.rowTop)}>
-          <div className={cx(styles.Field, styles.fieldFilled)}>
+      <div className={cx(styles.row, styles.rowTop)}>
+        <div className={cx(styles.Field, styles.fieldFilled)}>
+          {isAssets && (
             <GetProjects
               render={({ isLoading, allProjects }) => {
                 return (
@@ -60,10 +61,16 @@ const TriggerFormAssetWallet = ({
                 )
               }}
             />
-          </div>
+          )}
+          {isWatchlist(signalType) && (
+            <TriggerFormWatchlists
+              values={values}
+              setFieldValue={setFieldValue}
+            />
+          )}
         </div>
-      )}
-    </>
+      </div>
+    </Fragment>
   )
 }
 

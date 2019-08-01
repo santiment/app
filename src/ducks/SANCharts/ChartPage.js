@@ -52,7 +52,7 @@ const getChartInitialState = props => {
     }
     passedState = data
   } else {
-    let { slug, from, to, title, interval, timeRange, metrics } = props
+    let { slug, from, to, title, timeRange, metrics } = props
 
     if (!from) {
       const { from: f, to: t } = getIntervalByTimeRange(timeRange)
@@ -67,7 +67,7 @@ const getChartInitialState = props => {
       from,
       to,
       timeRange,
-      interval: interval || getNewInterval(from, to)
+      interval: getNewInterval(from, to)
     }
   }
 
@@ -78,7 +78,7 @@ const getChartInitialState = props => {
 }
 
 class ChartPage extends Component {
-  static defaultProps = DEFAULT_STATE
+  static defaultProps = { ...DEFAULT_STATE, adjustNightMode: true }
 
   state = getChartInitialState(this.props)
 
@@ -235,7 +235,14 @@ class ChartPage extends Component {
       isAdvancedView
     } = this.state
 
-    const { hideSettings = {}, classes = {}, children } = this.props
+    const {
+      hideSettings = {},
+      classes = {},
+      adjustNightMode,
+      children,
+      leftBoundaryDate,
+      rightBoundaryDate
+    } = this.props
 
     const requestedMetrics = metrics.reduce((acc, metric) => {
       acc[metric] = {
@@ -249,7 +256,9 @@ class ChartPage extends Component {
       return acc
     }, {})
 
-    document.body.classList.toggle('night-mode', !!nightMode)
+    if (adjustNightMode) {
+      document.body.classList.toggle('night-mode', !!nightMode)
+    }
 
     return (
       <GetTimeSeries
@@ -322,6 +331,8 @@ class ChartPage extends Component {
                     settings={settings}
                     title={title}
                     metrics={finalMetrics}
+                    leftBoundaryDate={leftBoundaryDate}
+                    rightBoundaryDate={rightBoundaryDate}
                     children={children}
                   />
                 </div>

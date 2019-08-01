@@ -9,6 +9,7 @@ import SettingsConnections from './SettingsConnections'
 import SettingsNotifications from './SettingsNotifications'
 import SettingsGetTokens from './SettingsGetTokens'
 import SettingsAPIKeys from './SettingsAPIKeys'
+import SettingsSubscription from './SettingsSubscription'
 import SettingsPlans from './SettingsPlans'
 import styles from './AccountPage.module.scss'
 
@@ -56,6 +57,14 @@ const tabs = [
   {
     index: 6,
     content: (
+      <Link className={styles.tab} to='#subscription'>
+        Subscription
+      </Link>
+    )
+  },
+  {
+    index: 7,
+    content: (
       <Link className={styles.tab} to='#plans'>
         Plans
       </Link>
@@ -81,6 +90,7 @@ const AccountPage = ({ isLoggedIn }) => {
       <SettingsNotifications />
       <SettingsGetTokens />
       <SettingsAPIKeys />
+      <SettingsSubscription />
       <SettingsPlans />
     </div>
   )

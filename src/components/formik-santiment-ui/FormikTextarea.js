@@ -4,7 +4,13 @@ import { Field, ErrorMessage } from 'formik'
 import AutoresizeTextarea from '../AutoresizeTextarea'
 import styles from './FormikTextarea.module.scss'
 
-const FormikTextarea = ({ name, disabled = false, onChange, ...rest }) => {
+const FormikTextarea = ({
+  name,
+  disabled = false,
+  onChange,
+  className,
+  ...rest
+}) => {
   return (
     <Field
       name={name}
@@ -13,9 +19,14 @@ const FormikTextarea = ({ name, disabled = false, onChange, ...rest }) => {
         return (
           <Fragment>
             <AutoresizeTextarea
-              className={cx(styles.textarea, isError ? styles.error : '')}
+              className={cx(
+                styles.textarea,
+                isError && styles.error,
+                className
+              )}
               name={name}
               defaultValue={field.value}
+              value={field.value}
               disabled={disabled}
               noValidate
               onChange={value => {

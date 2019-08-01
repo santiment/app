@@ -20,9 +20,11 @@ const FormikCheckboxes = ({
             disabledIndexes={disabledIndexes}
             defaultSelectedIndexes={field.value}
             onSelect={value => {
-              const newData = field.value.find(el => el === value)
-                ? field.value.filter(el => el === name)
+              const hasValue = field.value.some(el => el === value)
+              const newData = hasValue
+                ? field.value.filter(el => el !== value)
                 : [...field.value, value]
+
               form.setFieldValue(name, newData)
               form.setFieldTouched(name, true)
             }}

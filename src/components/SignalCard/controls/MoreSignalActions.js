@@ -44,15 +44,6 @@ const MoreSignalActions = ({
             </Link>
           </div>
 
-          <div className={cx(styles.popupItem, styles.popupButton)}>
-            <Link
-              to={`/sonar/feed/details/${signalId}/about`}
-              className={styles.link}
-            >
-              Edit name & description
-            </Link>
-          </div>
-
           {isPublic && (
             <div className={cx(styles.popupItem, styles.popupButton)}>
               <ShareModalTrigger

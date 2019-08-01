@@ -25,8 +25,8 @@ const TRIGGERS = [
     isRepeating: true,
     cooldown: '22h',
     tags: [],
-    title: 'Example',
-    description: 'any',
+    title: undefined,
+    description: undefined,
     __typename: 'Trigger'
   },
   {
@@ -42,8 +42,8 @@ const TRIGGERS = [
     isRepeating: true,
     cooldown: '22h',
     tags: [],
-    title: 'Example',
-    description: 'any',
+    title: undefined,
+    description: undefined,
     __typename: 'Trigger'
   },
   {
@@ -59,8 +59,8 @@ const TRIGGERS = [
     isRepeating: true,
     cooldown: '22h',
     tags: [],
-    title: 'Example',
-    description: 'any',
+    title: undefined,
+    description: undefined,
     __typename: 'Trigger'
   },
   {
@@ -103,7 +103,8 @@ const FORM_PROPS = [
     timeWindowUnit: { label: 'Days', value: 'd' },
     type: { ...PRICE_PERCENT_CHANGE_UP_MODEL },
     metric: { label: 'Price', value: 'price' },
-    channels: ['Telegram']
+    channels: ['Telegram'],
+    isPublic: false
   },
   {
     cooldown: '22h',
@@ -122,7 +123,8 @@ const FORM_PROPS = [
     type: {
       metric: 'daily_active_addresses'
     },
-    channels: ['Telegram']
+    channels: ['Telegram'],
+    isPublic: false
   },
   {
     cooldown: '22h',
@@ -136,7 +138,8 @@ const FORM_PROPS = [
     type: {
       metric: 'price_volume_difference'
     },
-    channels: ['Telegram']
+    channels: ['Telegram'],
+    isPublic: false
   }
 ]
 

@@ -4,7 +4,7 @@
 .card {
   position: relative;
   z-index: 1;
-  background: #fff;
+  background: var(--white);
   display: inline-block;
   border: 1px solid var(--porcelain);
   padding: 32px 24px 28px;

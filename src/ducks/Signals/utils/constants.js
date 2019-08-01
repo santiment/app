@@ -1,3 +1,7 @@
+export const MAX_DESCR_LENGTH = 140
+export const MAX_TITLE_LENGTH = 120
+export const MIN_TITLE_LENGTH = 2
+
 export const REQUIRED_MESSAGE = 'Required'
 export const MUST_BE_MORE_ZERO_MESSAGE = 'Must be more 0'
 export const NOT_VALID_ETH_ADDRESS = 'Not valid ETH address'
@@ -71,13 +75,15 @@ export const PRICE_CHANGE_TYPES = {
 export const PRICE_PERCENT_CHANGE_UP_MODEL = {
   metric: PRICE_PERCENT_CHANGE,
   label: 'Moving up %',
-  value: PRICE_CHANGE_TYPES.MOVING_UP
+  value: PRICE_CHANGE_TYPES.MOVING_UP,
+  filledField: true
 }
 
 export const PRICE_PERCENT_CHANGE_DOWN_MODEL = {
   metric: PRICE_PERCENT_CHANGE,
   label: 'Moving down %',
-  value: PRICE_CHANGE_TYPES.MOVING_DOWN
+  value: PRICE_CHANGE_TYPES.MOVING_DOWN,
+  filledField: true
 }
 
 export const PRICE_ABS_CHANGE_ABOVE = {
@@ -98,14 +104,16 @@ export const PRICE_ABS_CHANGE_INSIDE = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
   label: 'Entering channel',
-  value: PRICE_CHANGE_TYPES.INSIDE_CHANNEL
+  value: PRICE_CHANGE_TYPES.INSIDE_CHANNEL,
+  filledField: true
 }
 
 export const PRICE_ABS_CHANGE_OUTSIDE = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
   label: 'Outside channel',
-  value: PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL
+  value: PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL,
+  filledField: true
 }
 
 export const ETH_WALLET_METRIC = {
@@ -138,9 +146,9 @@ export const PRICE_VOLUME_DIFFERENCE_METRIC = {
 export const COOLDOWN_REGEXP = /([0-9]+)*([smhdw])/i
 
 export const METRICS_OPTIONS = [
+  { ...TRENDING_WORDS_METRIC },
   { ...PRICE_METRIC },
   // { ...ETH_WALLET_METRIC }, # GarageInc: Temporary hidded before fix bug on backend by ivan
-  { ...TRENDING_WORDS_METRIC },
   { ...DAILY_ACTIVE_ADDRESSES_METRIC },
   { ...PRICE_VOLUME_DIFFERENCE_METRIC }
 ]
@@ -155,8 +163,9 @@ const PRICE_OPTIONS = [
   PRICE_ABS_CHANGE_INSIDE,
   PRICE_ABS_CHANGE_OUTSIDE,
   {
-    label: 'Percent change',
-    type: 'header'
+    label: 'Percentage change',
+    type: 'header',
+    divider: true
   },
   PRICE_PERCENT_CHANGE_UP_MODEL,
   PRICE_PERCENT_CHANGE_DOWN_MODEL
@@ -170,7 +179,6 @@ export const METRIC_TO_TYPES = {
 }
 
 export const METRIC_TYPES_DEPENDENCIES = {
-  [PRICE_VOLUME_DIFFERENCE]: [],
   [DAILY_ACTIVE_ADDRESSES]: ['percentThreshold', 'timeWindow'],
   [PRICE_PERCENT_CHANGE]: ['percentThreshold', 'timeWindow'],
   [PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER]: ['absoluteThreshold'],
@@ -178,8 +186,7 @@ export const METRIC_TYPES_DEPENDENCIES = {
     'absoluteBorderLeft',
     'absoluteBorderRight'
   ],
-  [ETH_WALLET]: ['threshold', 'walletBalanceChangeType'],
-  [TRENDING_WORDS]: []
+  [ETH_WALLET]: ['threshold', 'walletBalanceChangeType']
 }
 
 export const frequencyTymeValueBuilder = value => {
@@ -237,11 +244,11 @@ export const FREQUENCY_TYPE_DAILY_MODEL = {
 }
 
 export const FREQUENCY_TIME_TYPE_HOURS_MODEL = {
-  label: 'Hours',
+  label: 'Hour(s)',
   value: FREQUENCY_VALUES_TYPES.hours
 }
 export const FREQUENCY_TIME_TYPE_DAILY_MODEL = {
-  label: 'Days',
+  label: 'Day(s)',
   value: FREQUENCY_VALUES_TYPES.days
 }
 
@@ -389,7 +396,7 @@ export const FREQUENCY_MAPPINGS = (() => {
 
 export const FREQUENCY_VALUES = [
   {
-    label: 'Minutes',
+    label: 'Minute(s)',
     value: FREQUENCY_VALUES_TYPES.minutes
   },
   { ...FREQUENCY_TIME_TYPE_HOURS_MODEL },
@@ -397,7 +404,7 @@ export const FREQUENCY_VALUES = [
     ...FREQUENCY_TIME_TYPE_DAILY_MODEL
   },
   {
-    label: 'Weeks',
+    label: 'Week(s)',
     value: FREQUENCY_VALUES_TYPES.weeks
   }
 ]
@@ -421,3 +428,10 @@ export const TIME_WINDOW_UNITS = [
   { value: 'h', label: 'Hours' },
   { value: 'm', label: 'Minutes' }
 ]
+
+export const TRIGGER_FORM_STEPS = {
+  METRICS: 0,
+  TYPES: 1,
+  VALUES: 2,
+  DESCRIPTION: 3
+}

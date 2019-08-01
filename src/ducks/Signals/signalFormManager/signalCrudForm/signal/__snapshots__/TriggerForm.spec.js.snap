@@ -10,7 +10,7 @@ exports[`TriggerForm EthWallet smoke 1`] = `
       ],
       "ethAddress": "some_custom_address",
       "frequencyTimeType": Object {
-        "label": "Days",
+        "label": "Day(s)",
         "value": "d",
       },
       "frequencyTimeValue": Object {
@@ -48,7 +48,7 @@ exports[`TriggerForm EthWallet smoke 1`] = `
       },
     }
   }
-  isInitialValid={true}
+  isInitialValid={false}
   onSubmit={[Function]}
   validate={[Function]}
   validateOnBlur={true}
@@ -69,7 +69,7 @@ exports[`TriggerForm smoke 1`] = `
       ],
       "ethAddress": undefined,
       "frequencyTimeType": Object {
-        "label": "Days",
+        "label": "Day(s)",
         "value": "d",
       },
       "frequencyTimeValue": Object {
@@ -104,13 +104,14 @@ exports[`TriggerForm smoke 1`] = `
         "value": "d",
       },
       "type": Object {
+        "filledField": true,
         "label": "Moving up %",
         "metric": "price_percent_change",
         "value": "percent_up",
       },
     }
   }
-  isInitialValid={true}
+  isInitialValid={false}
   onSubmit={[Function]}
   validate={[Function]}
   validateOnBlur={true}

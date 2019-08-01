@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import {
+  Line,
   ResponsiveContainer,
   ComposedChart,
   XAxis,
@@ -14,7 +15,7 @@ import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
 import { formatNumber, millify } from './../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
-import { Metrics, generateMetricsMarkup } from './utils'
+import { Metrics, generateMetricsMarkup, findYAxisMetric } from './utils'
 import { checkHasPremium } from '../../pages/UserSelectors'
 import displayPaywall from './Paywall'
 import sharedStyles from './ChartPage.module.scss'
@@ -23,7 +24,6 @@ import styles from './Chart.module.scss'
 const BRUSH_SIDE_MARGINS_IN_PX = 4
 const BRUSH_SIDE_MARGIN_IN_PX = BRUSH_SIDE_MARGINS_IN_PX / 2
 const EMPTY_FORMATTER = () => {}
-const PRICE_METRIC = 'historyPrice'
 const CHART_MARGINS = {
   left: -20,
   right: 0
@@ -45,7 +45,7 @@ const tooltipLabelFormatter = value => {
 const valueFormatter = (value, name) => {
   const numValue = +value
   // NOTE(vanguard): Some values may not be present in a hovered data point, i.e. value === undefined/null;
-  if (!Number.isFinite(numValue)) return
+  if (!Number.isFinite(numValue)) return 'No data'
 
   if (name === Metrics.historyPrice.label) {
     return formatNumber(numValue, { currency: 'USD' })
@@ -77,9 +77,7 @@ class Charts extends React.Component {
 
     if (metrics !== prevProps.metrics) {
       this.setState({
-        tooltipMetric: metrics.includes(PRICE_METRIC)
-          ? PRICE_METRIC
-          : metrics[0]
+        tooltipMetric: findYAxisMetric(metrics)
       })
     }
   }
@@ -113,19 +111,15 @@ class Charts extends React.Component {
   }
 
   getXToYCoordinates = () => {
-    // HACK(vanguard): Because 'recharts' lib does not expose correct point "Y" coordinate
-    if (!(this.metricRef.current && this.metricRef.current.mainCurve)) {
+    const { current } = this.metricRef
+    if (!current) {
       return
     }
 
-    this.xToYCoordinates = this.metricRef.current.mainCurve
-      .getAttribute('d')
-      .slice(1)
-      .split('L')
-      .reduce((acc, value) => {
-        acc.push(value.split(','))
-        return acc
-      }, [])
+    const key = current instanceof Line ? 'points' : 'data'
+
+    // HACK(vanguard): Because 'recharts' lib does not expose the "good" way to get coordinates
+    this.xToYCoordinates = current.props[key] || []
 
     return true
   }
@@ -150,7 +144,7 @@ class Charts extends React.Component {
     if (!coordinates) {
       return
     }
-    const [x, y] = coordinates
+    const { x, y } = coordinates
 
     this.setState({
       activePayload,
@@ -174,6 +168,8 @@ class Charts extends React.Component {
       title,
       isZoomed,
       hasPremium,
+      leftBoundaryDate,
+      rightBoundaryDate,
       children
     } = this.props
     const {
@@ -284,8 +280,9 @@ class Charts extends React.Component {
               />
             )}
             {!hasPremium &&
-              metrics.includes('historyPrice') &&
               displayPaywall({
+                leftBoundaryDate,
+                rightBoundaryDate,
                 data: chartData
               })}
             {chartData.length > 0 && (

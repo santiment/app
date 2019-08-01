@@ -20,29 +20,23 @@ const FormikSelect = ({
       render={({ field, form }) => {
         return (
           <>
-            <div
-              className={
-                multi ? 'select__container-multi' : 'select__container-single'
-              }
-            >
-              <Select
-                clearable={isClearable}
-                selectComponent={isCreatable ? Creatable : undefined}
-                multi={multi}
-                classNamePrefix='react-select'
-                minimumInput={1}
-                onChange={value => {
-                  form.setFieldValue(name, value)
-                  form.setFieldTouched(name, true)
-                  onChange && onChange(value)
-                }}
-                value={field.value}
-                {...rest}
-              />
-              {form.errors[name] && (
-                <div className='error error-message'>{form.errors[name]}</div>
-              )}
-            </div>
+            <Select
+              clearable={isClearable}
+              selectComponent={isCreatable ? Creatable : undefined}
+              multi={multi}
+              classNamePrefix='react-select'
+              minimumInput={1}
+              onChange={value => {
+                form.setFieldValue(name, value)
+                form.setFieldTouched(name, true)
+                onChange && onChange(value)
+              }}
+              value={field.value}
+              {...rest}
+            />
+            {form.errors[name] && (
+              <div className='error error-message'>{form.errors[name]}</div>
+            )}
           </>
         )
       }}

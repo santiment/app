@@ -6,13 +6,12 @@ import FormikInput from '../../../../../components/formik-santiment-ui/FormikInp
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import {
   ETH_WALLETS_OPTIONS,
-  METRIC_TYPES_DEPENDENCIES,
   PRICE,
   TIME_WINDOW_UNITS
 } from '../../../utils/constants'
-import { getFormMetricValue } from '../../../utils/utils'
 import { LastPriceComponent } from './TriggerLastPrice'
-import { TriggerTimeWindowExplanation } from './TriggerTimeWindowExplanation'
+import MetricOptionsRenderer from './metricOptions/MetricOptionsRenderer'
+import { mapTargetObject, targetMapperWithTicker } from '../../../utils/utils'
 import styles from '../signal/TriggerForm.module.scss'
 
 const propTypes = {
@@ -32,22 +31,74 @@ export const TriggerFormMetricValues = ({
     timeWindow,
     target
   },
-  lastPrice
+  lastPrice,
+  blocks,
+  showTypes,
+  metaFormSettings,
+  typeSelectors
 }) => {
-  const metricValue = getFormMetricValue(type)
-
   const isPriceMetric = metric.value === PRICE
 
-  const isSingleTarget =
-    target && ((Array.isArray(target) && target.length === 1) || !!target.value)
+  const mappedTargets = mapTargetObject(target, targetMapperWithTicker)
+  const slugName = !Array.isArray(mappedTargets) ? mappedTargets : undefined
 
-  const blocks = METRIC_TYPES_DEPENDENCIES[metricValue]
   const isTimeWindow = blocks.includes('timeWindow')
 
+  const defaultType = metaFormSettings.type
+
   return (
-    blocks &&
-    blocks.length > 0 && (
-      <div className={cx(styles.row, isTimeWindow && styles.rowTimeWindow)}>
+    <>
+      {showTypes && (
+        <div
+          className={cx(
+            styles.row,
+            styles.rowTop,
+            type && blocks.includes('absoluteThreshold') && styles.rowBottom
+          )}
+        >
+          <div
+            className={cx(styles.Field, type.filledField && styles.fieldFilled)}
+          >
+            <FormikLabel text='Choose condition' />
+            <FormikSelect
+              name='type'
+              isClearable={false}
+              isSearchable
+              disabled={defaultType.isDisabled}
+              defaultValue={defaultType.value}
+              placeholder='Choose a type'
+              options={typeSelectors}
+              optionRenderer={MetricOptionsRenderer}
+              isOptionDisabled={option => !option.value}
+            />
+          </div>
+
+          {type && blocks.includes('absoluteThreshold') && (
+            <div className={styles.Field}>
+              <FormikLabel text={isPriceMetric ? 'Price limit' : 'Limit'} />
+              <FormikInput
+                name='absoluteThreshold'
+                type='number'
+                placeholder='Absolute value'
+                prefix={isPriceMetric ? '$' : ''}
+              />
+              {isPriceMetric && (
+                <LastPriceComponent
+                  lastPrice={lastPrice}
+                  slugTitle={slugName}
+                />
+              )}
+            </div>
+          )}
+        </div>
+      )}
+      <div
+        className={cx(
+          styles.row,
+          isTimeWindow && styles.rowTimeWindow,
+          !showTypes && styles.rowTop
+        )}
+      >
         {type && blocks.includes('absoluteBorderRight') && (
           <div className={styles.Field}>
             <FormikInput
@@ -58,8 +109,8 @@ export const TriggerFormMetricValues = ({
               step='any'
               placeholder='Upper border'
             />
-            {isPriceMetric && isSingleTarget && (
-              <LastPriceComponent lastPrice={lastPrice} />
+            {isPriceMetric && (
+              <LastPriceComponent lastPrice={lastPrice} slugTitle={slugName} />
             )}
           </div>
         )}
@@ -76,20 +127,6 @@ export const TriggerFormMetricValues = ({
           </div>
         )}
 
-        {type && blocks.includes('absoluteThreshold') && (
-          <div className={cx(styles.Field, styles.fieldFilled)}>
-            <FormikInput
-              name='absoluteThreshold'
-              type='number'
-              placeholder='Absolute value'
-              prefix={isPriceMetric ? '$' : ''}
-            />
-            {isPriceMetric && isSingleTarget && (
-              <LastPriceComponent lastPrice={lastPrice} />
-            )}
-          </div>
-        )}
-
         {type && blocks.includes('percentThreshold') && (
           <div className={styles.Field}>
             <FormikLabel text='Percentage amount' inner />
@@ -99,8 +136,8 @@ export const TriggerFormMetricValues = ({
               prefix='%'
               placeholder='Percentage amount'
             />
-            {isPriceMetric && isSingleTarget && (
-              <LastPriceComponent lastPrice={lastPrice} />
+            {isPriceMetric && (
+              <LastPriceComponent lastPrice={lastPrice} slugTitle={slugName} />
             )}
           </div>
         )}
@@ -152,18 +189,10 @@ export const TriggerFormMetricValues = ({
                 />
               </div>
             </div>
-            {isPriceMetric && (
-              <TriggerTimeWindowExplanation
-                type={type}
-                percent={percentThreshold}
-                timeType={timeWindowUnit}
-                timeValue={timeWindow}
-              />
-            )}
           </div>
         )}
       </div>
-    )
+    </>
   )
 }
 

@@ -42,9 +42,20 @@ import {
   TRENDING_WORDS_WATCHLIST_MENTIONED,
   PRICE,
   METRIC_DEFAULT_VALUES,
-  NOT_VALID_ETH_ADDRESS
+  NOT_VALID_ETH_ADDRESS,
+  MIN_TITLE_LENGTH,
+  MAX_TITLE_LENGTH,
+  MAX_DESCR_LENGTH
 } from './constants'
 import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
+import { formatNumber } from '../../../utils/formatting'
+
+const targetMapper = ({ value, slug } = {}) => slug || value
+export const targetMapperWithName = ({ value, slug, name } = {}) =>
+  name || slug || value
+
+export const targetMapperWithTicker = ({ value, slug, ticker } = {}) =>
+  ticker || slug || value
 
 const getTimeWindowUnit = timeWindow => {
   if (!timeWindow) return undefined
@@ -60,7 +71,9 @@ const getFormTriggerTarget = ({ target, target: { eth_address }, asset }) => {
   if (watchlist_id) {
     return {
       signalType: METRIC_TARGET_WATCHLIST,
-      target: watchlist_id
+      targetWatchlist: {
+        value: watchlist_id
+      }
     }
   }
 
@@ -266,12 +279,18 @@ const mapTriggerToFormThreshold = ({ threshold, operation }) => {
 }
 
 export const mapToOptions = items => {
-  return items
-    ? items.map(item => ({
+  if (!items) {
+    return []
+  }
+
+  if (Array.isArray(items)) {
+    return items.map(item => ({
       label: item,
       value: item
     }))
-    : []
+  } else {
+    return [items]
+  }
 }
 
 const getFormTrendingWords = ({ settings: { operation, target } }) => {
@@ -284,7 +303,7 @@ const getFormTrendingWords = ({ settings: { operation, target } }) => {
   switch (operationType) {
     case TRENDING_WORDS_WORD_MENTIONED.value: {
       return {
-        trendingWordsWithWords: target.word
+        trendingWordsWithWords: mapToOptions(target.word)
       }
     }
     default: {
@@ -303,19 +322,25 @@ export const mapTriggerToFormProps = currentTrigger => {
     isPublic,
     isRepeating,
     settings,
+    title,
+    description,
     settings: { type, operation, time_window, target, channel }
   } = currentTrigger
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
 
-  const { target: newTarget, signalType, ethAddress } = getFormTriggerTarget(
-    settings
-  )
+  const {
+    target: newTarget,
+    signalType,
+    ethAddress,
+    targetWatchlist
+  } = getFormTriggerTarget(settings)
   const newType = getFormTriggerType(target, type, operation)
 
   const trendingWordsParams = getFormTrendingWords(currentTrigger)
 
   return {
+    targetWatchlist,
     ethAddress: ethAddress,
     cooldown: cooldown,
     isRepeating: isRepeating,
@@ -334,7 +359,9 @@ export const mapTriggerToFormProps = currentTrigger => {
     channels: [capitalizeStr(channel)],
     ...frequencyModels,
     ...absolutePriceValues,
-    ...trendingWordsParams
+    ...trendingWordsParams,
+    title,
+    description
   }
 }
 
@@ -392,19 +419,22 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
   }
 }
 
-export const getTargetFromArray = target =>
-  target.length === 1
-    ? target[0].slug || target[0].value
-    : target.map(({ slug, value }) => slug || value)
+export const getTargetFromArray = (target, mapper = targetMapper()) =>
+  target.length === 1 ? mapper(target[0]) : target.map(mapper)
 
-export const mapTriggerTarget = (target, signalType = {}, address) => {
+export const mapFomTargetToTriggerTarget = (
+  target,
+  targetWatchlist,
+  signalType = {},
+  address
+) => {
   const { value } = signalType
 
   switch (value) {
     case METRIC_TARGET_WATCHLIST.value: {
       return {
         target: {
-          watchlist_id: +target
+          watchlist_id: +targetWatchlist.id
         }
       }
     }
@@ -422,10 +452,10 @@ export const mapTriggerTarget = (target, signalType = {}, address) => {
   }
 }
 
-export const mapTargetObject = target => {
+export const mapTargetObject = (target, mapper = targetMapper) => {
   return Array.isArray(target)
-    ? getTargetFromArray(target)
-    : target.value || target.slug
+    ? getTargetFromArray(target, mapper)
+    : mapper(target)
 }
 
 export const mapAssetTarget = (target, ethAddress) => {
@@ -465,17 +495,15 @@ export const getTrendingWordsTriggerOperation = ({ type: { value }, type }) => {
 
 export const mapTrendingWordsTargets = items => {
   if (items.length === 1) {
-    const { value, slug } = items[0]
-    return value || slug
+    return targetMapper(items[0])
   } else {
-    return items.map(({ value, slug }) => value || slug)
+    return items.map(targetMapper)
   }
 }
 
 export const getTrendingWordsTarget = ({
   type,
   target,
-  trendingWordsWithAssets,
   trendingWordsWithWords
 }) => {
   switch (type.value) {
@@ -486,7 +514,7 @@ export const getTrendingWordsTarget = ({
     }
     case TRENDING_WORDS_PROJECT_MENTIONED.value: {
       return {
-        slug: mapTrendingWordsTargets(trendingWordsWithAssets)
+        slug: mapTrendingWordsTargets(target)
       }
     }
     case TRENDING_WORDS_WATCHLIST_MENTIONED.value: {
@@ -516,8 +544,12 @@ const getTimeWindow = ({ timeWindow, timeWindowUnit }) => {
 }
 
 export const mapFormToPPCTriggerSettings = formProps => {
-  const { target, signalType } = formProps
-  const newTarget = mapTriggerTarget(target, signalType)
+  const { target, targetWatchlist, signalType } = formProps
+  const newTarget = mapFomTargetToTriggerTarget(
+    target,
+    targetWatchlist,
+    signalType
+  )
   return {
     type: PRICE_PERCENT_CHANGE,
     ...newTarget,
@@ -528,8 +560,12 @@ export const mapFormToPPCTriggerSettings = formProps => {
 }
 
 export const mapFormToPACTriggerSettings = formProps => {
-  const { target, signalType } = formProps
-  const newTarget = mapTriggerTarget(target, signalType)
+  const { target, targetWatchlist, signalType } = formProps
+  const newTarget = mapFomTargetToTriggerTarget(
+    target,
+    targetWatchlist,
+    signalType
+  )
   return {
     type: PRICE_ABSOLUTE_CHANGE,
     ...newTarget,
@@ -539,8 +575,12 @@ export const mapFormToPACTriggerSettings = formProps => {
 }
 
 export const mapFormToDAATriggerSettings = formProps => {
-  const { target, signalType, type } = formProps
-  const newTarget = mapTriggerTarget(target, signalType)
+  const { target, signalType, targetWatchlist, type } = formProps
+  const newTarget = mapFomTargetToTriggerTarget(
+    target,
+    targetWatchlist,
+    signalType
+  )
 
   if (type.metric === PRICE_ABSOLUTE_CHANGE) {
     return {
@@ -561,8 +601,12 @@ export const mapFormToDAATriggerSettings = formProps => {
 }
 
 export const mapFormToPVDTriggerSettings = formProps => {
-  const { target, signalType } = formProps
-  const newTarget = mapTriggerTarget(target, signalType)
+  const { target, targetWatchlist, signalType } = formProps
+  const newTarget = mapFomTargetToTriggerTarget(
+    target,
+    targetWatchlist,
+    signalType
+  )
   return {
     type: PRICE_VOLUME_DIFFERENCE,
     ...newTarget,
@@ -572,12 +616,17 @@ export const mapFormToPVDTriggerSettings = formProps => {
 }
 
 export const mapFormToHBTriggerSettings = formProps => {
-  const { target, ethAddress, signalType } = formProps
+  const { target, targetWatchlist, ethAddress, signalType } = formProps
   const newAsset =
     signalType.value === METRIC_TARGET_ASSETS.value
       ? mapAssetTarget(target, ethAddress)
       : undefined
-  const newTarget = mapTriggerTarget(target, signalType, ethAddress)
+  const newTarget = mapFomTargetToTriggerTarget(
+    target,
+    targetWatchlist,
+    signalType,
+    ethAddress
+  )
   return {
     type: ETH_WALLET,
     ...newTarget,
@@ -588,7 +637,7 @@ export const mapFormToHBTriggerSettings = formProps => {
 }
 
 export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
-  const { type, metric, isRepeating } = formProps
+  const { type, metric, isRepeating, isPublic, title, description } = formProps
   let settings = {}
   switch (metric.value) {
     case DAILY_ACTIVE_ADDRESSES: {
@@ -618,22 +667,23 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
           break
         }
         default: {
-          throw new Error('Can not find a correct mapper for PRICE trigger')
         }
       }
       break
     }
     default: {
-      throw new Error('Can not find a correct mapper for trigger')
     }
   }
   const cooldownParams = getCooldownParams(formProps)
 
   return {
     ...prevTrigger,
-    settings: settings,
+    settings,
     isRepeating: !!isRepeating,
-    ...cooldownParams
+    ...cooldownParams,
+    isPublic: !!isPublic,
+    title,
+    description
   }
 }
 
@@ -728,30 +778,30 @@ export const isAsset = signalType =>
 export const isWatchlist = signalType =>
   signalType.value === METRIC_TARGET_WATCHLIST.value
 
-export const validateTriggerForm = ({
-  type,
-  threshold,
-  percentThreshold,
-  timeWindow,
-  ethAddress,
-  absoluteThreshold,
-  absoluteBorderLeft,
-  absoluteBorderRight,
-  channels,
-  frequencyType,
-  frequencyTimeValue,
-  frequencyTimeType,
-  metric,
-  target,
-  trendingWordsWithAssets,
-  trendingWordsWithWords,
-  signalType
-}) => {
+export const validateTriggerForm = values => {
+  const errors = {
+    ...metricTypesBlockErrors(values),
+    ...metricValuesBlockErrors(values),
+    ...descriptionBlockErrors(values)
+  }
+
+  return errors
+}
+
+export const metricTypesBlockErrors = values => {
+  const {
+    type,
+    ethAddress,
+    metric,
+    target,
+    targetWatchlist,
+    trendingWordsWithWords,
+    signalType
+  } = values
+
   let errors = {}
 
   if (metric && metric.value === ETH_WALLET) {
-    if (!threshold) errors.threshold = REQUIRED_MESSAGE
-
     if (ethAddress) {
       if (Array.isArray(ethAddress)) {
         ethAddress.forEach(({ value }) => {
@@ -766,11 +816,8 @@ export const validateTriggerForm = ({
       }
     }
   } else if (metric && metric.value === TRENDING_WORDS) {
-    if (
-      isTrendingWordsByProjects(type) &&
-      (!trendingWordsWithAssets || trendingWordsWithAssets.length === 0)
-    ) {
-      errors.trendingWordsWithAssets = REQUIRED_MESSAGE
+    if (isTrendingWordsByProjects(type) && (!target || target.length === 0)) {
+      errors.target = REQUIRED_MESSAGE
     }
 
     if (
@@ -781,8 +828,8 @@ export const validateTriggerForm = ({
     }
   } else {
     if (isWatchlist(signalType)) {
-      if (!target) {
-        errors.target = REQUIRED_MESSAGE
+      if (!targetWatchlist) {
+        errors.targetWatchlist = REQUIRED_MESSAGE
       }
     } else {
       if (
@@ -792,6 +839,27 @@ export const validateTriggerForm = ({
         errors.target = REQUIRED_MESSAGE
       }
     }
+  }
+
+  return errors
+}
+
+export const metricValuesBlockErrors = values => {
+  let errors = {}
+
+  const {
+    type,
+    threshold,
+    percentThreshold,
+    timeWindow,
+    absoluteThreshold,
+    absoluteBorderLeft,
+    absoluteBorderRight,
+    metric
+  } = values
+
+  if (metric && metric.value === ETH_WALLET) {
+    if (!threshold) errors.threshold = REQUIRED_MESSAGE
   }
 
   if (
@@ -832,6 +900,21 @@ export const validateTriggerForm = ({
       errors.threshold = MUST_BE_MORE_ZERO_MESSAGE
     }
   }
+
+  return errors
+}
+
+export const descriptionBlockErrors = values => {
+  let errors = {}
+  const {
+    channels,
+    frequencyType,
+    frequencyTimeValue,
+    frequencyTimeType,
+    title,
+    description
+  } = values
+
   if (channels && channels.length === 0) {
     errors.channels = 'You must setup notification channel'
   }
@@ -846,6 +929,17 @@ export const validateTriggerForm = ({
 
   if (!frequencyTimeType || !frequencyTimeType.value) {
     errors.frequencyTimeType = REQUIRED_MESSAGE
+  }
+
+  if (!title) {
+    errors.title = REQUIRED_MESSAGE
+  } else if (title.length <= MIN_TITLE_LENGTH) {
+    errors.title = `Title has to be longer than ${MIN_TITLE_LENGTH} characters`
+  } else if (title.length > MAX_TITLE_LENGTH) {
+    errors.title = `Title has to be less than ${MAX_TITLE_LENGTH} characters`
+  }
+  if (!description || description.length > MAX_DESCR_LENGTH) {
+    errors.description = `Description has to be less than ${MAX_DESCR_LENGTH} characters`
   }
 
   return errors
@@ -934,4 +1028,210 @@ export const getDefaultFormValues = (newValues, { value: oldMetric }) => {
     ...defaultValues,
     ...newValues
   }
+}
+
+const buildFormBlock = (title, description) => ({
+  titleLabel: title,
+  titleDescription: description
+})
+
+const NOTIFY_ME_WHEN = 'Notify me when'
+
+const targetsJoin = targets =>
+  Array.isArray(targets) ? targets.join(', ') : targets
+
+export const getTargetsHeader = values => {
+  const {
+    target,
+    targetWatchlist,
+    signalType,
+    type,
+    metric,
+    trendingWordsWithWords
+  } = values
+
+  if (metric.value === TRENDING_WORDS) {
+    switch (type.value) {
+      case TRENDING_WORDS_PROJECT_MENTIONED.value: {
+        const targets = mapTargetObject(target, targetMapperWithName)
+
+        return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+      }
+      case TRENDING_WORDS_WORD_MENTIONED.value: {
+        const targets = mapTargetObject(
+          trendingWordsWithWords,
+          targetMapperWithName
+        )
+        return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+      }
+      default: {
+      }
+    }
+  }
+
+  switch (signalType.value) {
+    case METRIC_TARGET_WATCHLIST.value: {
+      return buildFormBlock(
+        NOTIFY_ME_WHEN,
+        targetMapperWithName(targetWatchlist)
+      )
+    }
+    default: {
+      const targets = mapTargetObject(target, targetMapperWithName)
+      return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
+    }
+  }
+}
+
+const getUsd = (value = 0, isPriceMetric) =>
+  isPriceMetric ? formatNumber(value, { currency: 'USD' }) : value
+
+export const titleMetricValuesHeader = (
+  hasMetricValues,
+  {
+    type,
+    threshold,
+    percentThreshold,
+    absoluteThreshold,
+    absoluteBorderRight,
+    absoluteBorderLeft,
+    timeWindowUnit,
+    timeWindow,
+    metric
+  }
+) => {
+  if (hasMetricValues && type) {
+    const { value } = type
+    const isPriceMetric = metric.value === PRICE
+
+    const priceOrDaaTitle = isPriceMetric
+      ? 'Price goes'
+      : 'Addresses count goes'
+
+    switch (value) {
+      case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN: {
+        return buildFormBlock('Historical balance', 'below ' + threshold)
+      }
+      case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
+        return buildFormBlock('Historical balance', 'above ' + threshold)
+      }
+      case PRICE_CHANGE_TYPES.MOVING_DOWN: {
+        return buildFormBlock(
+          isPriceMetric ? 'Price moving' : 'Addresses count',
+          `down ${percentThreshold}% compared to ${timeWindow}$ ${timeWindowUnit.label.toLowerCase()} ago`
+        )
+      }
+      case PRICE_CHANGE_TYPES.MOVING_UP: {
+        return buildFormBlock(
+          isPriceMetric ? 'Price moving' : 'Addresses count',
+          `up ${percentThreshold}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} ago`
+        )
+      }
+      case PRICE_CHANGE_TYPES.ABOVE: {
+        return buildFormBlock(
+          priceOrDaaTitle,
+          'above ' + getUsd(absoluteThreshold, isPriceMetric)
+        )
+      }
+      case PRICE_CHANGE_TYPES.BELOW: {
+        return buildFormBlock(
+          priceOrDaaTitle,
+          'below ' + getUsd(absoluteThreshold, isPriceMetric)
+        )
+      }
+      case PRICE_CHANGE_TYPES.INSIDE_CHANNEL: {
+        return buildFormBlock(
+          priceOrDaaTitle,
+          'between ' +
+            getUsd(absoluteBorderRight, isPriceMetric) +
+            ' and ' +
+            getUsd(absoluteBorderLeft, isPriceMetric)
+        )
+      }
+      case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
+        return buildFormBlock(
+          priceOrDaaTitle,
+          'outside ' +
+            getUsd(absoluteBorderRight, isPriceMetric) +
+            ' and ' +
+            getUsd(absoluteBorderLeft, isPriceMetric)
+        )
+      }
+      default: {
+      }
+    }
+    return {}
+  }
+}
+
+export const getNewTitle = newValues => {
+  const { metric, type } = newValues
+  const { titleDescription: target } = getTargetsHeader(newValues)
+
+  if (!target) {
+    return ''
+  }
+
+  const { titleDescription = '' } = titleMetricValuesHeader(true, newValues)
+
+  let description = ''
+  switch (metric.value) {
+    case PRICE: {
+      description = `${target} price goes ${titleDescription}`
+      break
+    }
+    case PRICE_VOLUME_DIFFERENCE: {
+      description = `${target} price/volume difference`
+      break
+    }
+    case DAILY_ACTIVE_ADDRESSES: {
+      description = `${target} daily active addresses ${titleDescription}`
+      break
+    }
+    case ETH_WALLET: {
+      description = `${target} historical balance ${titleDescription}`
+      break
+    }
+    case TRENDING_WORDS: {
+      description = `Social trends by ${type.label.toLowerCase()}: ${target}`
+      break
+    }
+    default: {
+    }
+  }
+
+  description = description.trim()
+
+  return capitalizeStr(description)
+}
+
+export const getNewDescription = newValues => {
+  const targetsHeader = getTargetsHeader(newValues).titleDescription
+
+  if (
+    !targetsHeader ||
+    (Array.isArray(targetsHeader) && targetsHeader.length === 0)
+  ) {
+    return ''
+  }
+
+  const metricsHeaderStr =
+    Object.values(titleMetricValuesHeader(true, newValues))
+      .join(' ')
+      .toLowerCase() || 'will trigger'
+
+  const {
+    channels,
+    isRepeating,
+    frequencyTimeValue,
+    frequencyTimeType
+  } = newValues
+
+  const repeatingBlock = isRepeating
+    ? `every ${frequencyTimeValue.label} ${frequencyTimeType.label}`
+    : 'only once'
+
+  const channelsBlock = channels.length ? `through ${channels.join(', ')}` : ''
+
+  return `When '${targetsHeader}' ${metricsHeaderStr} notify me ${repeatingBlock.toLowerCase()}  ${channelsBlock.toLowerCase()}`
 }

@@ -30,6 +30,15 @@ export default (state = initialState, action) => {
         ...state,
         ...action.payload
       }
+
+    case actions.TIMESERIES_DELETE:
+      return Object.keys(state)
+        .filter(key => key !== action.payload.toString())
+        .reduce((acc, val) => {
+          acc[val] = state[val]
+          return acc
+        }, {})
+
     case actions.TIMESERIES_FETCH_FAILED:
       return {
         ...initialState,

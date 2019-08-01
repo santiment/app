@@ -20,21 +20,17 @@
   border-right: 1px solid var(--porcelain);
 }
 
-.category,
-.metrics {
-  padding: 8px;
-}
-
-.categories {
-  min-height: 195px;
-}
-
 .category {
+  padding: 8px;
   border-bottom: 1px solid var(--porcelain);
 
   &:last-child {
     border: none;
   }
+}
+
+.categories {
+  min-height: 195px;
 }
 
 .explanation {
@@ -81,8 +77,12 @@
   }
 }
 
-.active {
+.categories .active {
   background: var(--athens);
+}
+
+.metrics .active {
+  fill: var(--casper);
 }
 
 .constraint {
@@ -90,4 +90,20 @@
 
   color: var(--waterloo);
   margin: 0;
+}
+
+.group {
+  padding: 12px 8px 8px;
+  border-bottom: 1px solid var(--porcelain);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &__title {
+    @include text('caption', 'm');
+
+    color: var(--waterloo);
+    margin: 12px 12px 8px;
+  }
 }

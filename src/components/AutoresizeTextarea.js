@@ -20,7 +20,7 @@ class AutoresizeTextarea extends Component {
   }
 
   state = {
-    value: this.props.defaultValue.trim()
+    value: (this.props.value || this.props.defaultValue).trim()
   }
 
   inputRef = React.createRef()
@@ -38,11 +38,18 @@ class AutoresizeTextarea extends Component {
 
   componentDidUpdate (prevProps, prevState, snapshot) {
     const { defaultValue: prevDefault } = prevProps
-    const { defaultValue } = this.props
+    const { defaultValue, value: propsValue = '' } = this.props
     if (defaultValue && defaultValue !== prevDefault) {
       this.setState({
-        value: defaultValue
+        value: propsValue || defaultValue
       })
+    } else {
+      const { value: currentValue = '' } = this.state
+      if (currentValue !== propsValue && !propsValue) {
+        this.setState({
+          value: propsValue
+        })
+      }
     }
   }
 
@@ -69,7 +76,7 @@ class AutoresizeTextarea extends Component {
   }
 
   render () {
-    const { value } = this.state
+    const { value = '' } = this.state
     const {
       className,
       placeholder,

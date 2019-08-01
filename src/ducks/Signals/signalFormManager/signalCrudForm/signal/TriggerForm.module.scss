@@ -1,12 +1,11 @@
 @import '~@santiment-network/ui/mixins.scss';
 
-$trigger-form-width: 496px;
+$trigger-form-width: 534px;
 
 .wrapper {
   position: relative;
   width: $trigger-form-width;
   padding: 0;
-  margin-bottom: 20px;
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
@@ -53,6 +52,10 @@ $trigger-form-width: 496px;
 
   &:last-child {
     margin-bottom: 0;
+  }
+
+  &:empty {
+    margin: 0;
   }
 }
 
@@ -145,28 +148,6 @@ a.connectLink {
   padding-right: 1rem;
 }
 
-.controls {
-  display: flex;
-  justify-content: flex-end;
-  position: absolute;
-  right: 20px;
-  bottom: 0;
-
-  button {
-    width: 92px;
-    justify-content: center;
-    margin-right: 1rem;
-  }
-
-  button:last-child {
-    margin-right: 0;
-  }
-
-  @include responsive('phone', 'phone-xs') {
-    bottom: 0;
-  }
-}
-
 .timeWindow {
   display: flex;
 }
@@ -187,10 +168,16 @@ a.connectLink {
 .frequencyTimeValue {
   flex: 1;
   margin-right: 8px;
+  width: 100px;
 }
 
 .frequencyTimeType {
   flex: 1;
+  width: 100px;
+}
+
+.selector {
+  width: 100%;
 }
 
 .triggerFormItem {
@@ -200,32 +187,6 @@ a.connectLink {
   padding: 0 20px 20px;
   margin-top: 0;
   border-radius: 0;
-}
-
-.AboutForm {
-  background-color: var(--white);
-
-  @include border-box();
-
-  border-radius: $border-radius;
-  padding-top: 16px;
-
-  .Field {
-    width: 100%;
-    padding: 0;
-  }
-
-  .row {
-    margin: 0 0 15px 0;
-  }
-
-  .controls {
-    margin-top: 1.1rem;
-  }
-
-  .triggerFormItem {
-    padding-bottom: 0;
-  }
 }
 
 .lastPrice {
@@ -239,14 +200,8 @@ a.connectLink {
 
 .triggerToggleBlock {
   display: flex;
-  margin: 20px 230px 0 20px;
-  height: 25px;
 
   @include text('body-3');
-
-  @include responsive('phone', 'phone-xs') {
-    margin: 20px 230px 10px 20px;
-  }
 }
 
 .triggerToggleLabel {
@@ -273,4 +228,30 @@ a {
   align-items: center;
   display: flex;
   justify-content: center;
+}
+
+.descriptionBlock {
+  margin-top: 20px;
+}
+
+.submitButton {
+  width: 120px;
+  margin-left: auto;
+}
+
+.descriptionTextarea {
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+.chainBlock {
+  margin-top: 20px;
+}
+
+.preview {
+  position: relative;
+}
+
+.explanation {
+  z-index: 1000 !important;
 }
