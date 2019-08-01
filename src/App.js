@@ -336,13 +336,13 @@ export const App = ({
             />
           )}
         />
+        {!isDesktop && <Redirect from='/' to='/assets' />}
         <Route
           path='/'
           render={props => (
             <LoadableChartPage isLoggedIn={isLoggedIn} {...props} />
           )}
         />
-        {!isDesktop && <Redirect from='/' to='/assets' />}
       </Switch>
     </ErrorBoundary>
     <NotificationStack />
