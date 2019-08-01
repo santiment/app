@@ -18,8 +18,11 @@
 }
 
 .textBlocks {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+
   @include responsive('phone', 'phone-xs') {
-    display: flex;
     flex-direction: column;
   }
 }

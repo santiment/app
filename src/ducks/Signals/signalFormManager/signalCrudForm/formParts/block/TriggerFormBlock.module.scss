@@ -54,7 +54,7 @@
   margin-left: 5px;
 
   @include responsive('phone', 'phone-xs') {
-    margin: 0;
+    margin-left: 0;
   }
 }
 
@@ -68,5 +68,10 @@
 
 .headerContent {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex: 1;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
 }
