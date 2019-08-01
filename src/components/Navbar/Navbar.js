@@ -19,8 +19,7 @@ const leftLinks = [
   { link: '/assets', label: 'Assets', linkTo: '/assets' },
   {
     link: '/sonar/feed',
-    label: 'Sonar',
-    showIf: { beta: true }
+    label: 'Sonar'
   },
   { link: '/insights', label: 'Insights' },
   { link: '/labs', label: 'Labs', linkTo: '/labs' }
