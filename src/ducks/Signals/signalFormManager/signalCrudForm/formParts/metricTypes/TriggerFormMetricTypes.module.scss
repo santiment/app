@@ -1,0 +1,76 @@
+@import '~@santiment-network/ui/mixins.scss';
+
+.listItem {
+  margin-top: 5px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.label {
+  margin-left: auto;
+  color: var(--jungle-green);
+}
+
+.metric {
+  height: 70px;
+  width: 100%;
+
+  @include text('body-3');
+  @include border-box();
+
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: $border-radius;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.dialog {
+  width: 534px;
+
+  @include responsive('phone', 'phone-xs') {
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
+.metricsTitle {
+  color: var(--mirage);
+
+  @include text('body-1');
+}
+
+.metricsExplanation {
+  color: var(--waterloo);
+
+  @include text('body-2');
+}
+
+.metricsHeader {
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  padding: 0 20px 20px 20px;
+}
+
+.title {
+  justify-content: flex-end;
+  border: 0;
+}

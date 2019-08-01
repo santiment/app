@@ -3,8 +3,14 @@
 .option {
   color: var(--mirage);
   padding: 12px 8px;
+  display: flex;
+  align-items: center;
 
   @include text('body-3');
+}
+
+.icon {
+  margin-right: 10px;
 }
 
 .focused {
@@ -19,5 +25,9 @@
 .header {
   color: var(--waterloo);
 
-  @include text('body-3');
+  @include text('caption');
+}
+
+.divider {
+  border-top: 1px solid var(--porcelain);
 }

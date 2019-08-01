@@ -9,8 +9,9 @@
   border: 1px solid var(--porcelain);
   height: auto;
   display: flex;
-  padding: 5px 10px;
+  padding: 2px 2px;
   cursor: pointer;
+  min-height: 32px;
 
   @include border-box;
 
@@ -63,28 +64,46 @@
   @include text('body-3');
 }
 
-.ticker {
-  color: var(--waterloo);
-  margin-left: 5px;
-
-  @include text('body-3');
-}
-
 .assetGroup {
   display: inline-block;
 }
 
 .asset {
-  margin-right: 20px;
   display: inline-block;
+
+  @include border-box();
+
+  background: var(--athens);
+  border: 1px solid var(--porcelain);
+  border-radius: $border-radius;
+  padding: 3px 10px;
+  margin: 1px 4px 1px 4px;
+
+  @include text('body-3');
+
+  height: 24px;
 }
 
 .closeIcon {
-  width: 7px;
-  margin-left: 5px;
+  width: 6px;
+  margin-left: 8px;
+  background: var(--athens);
+  fill: var(--waterloo);
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
 }
 
 .close {
   padding: 0;
   height: auto;
+  background: var(--athens);
+}
+
+.label {
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  color: var(--casper);
 }

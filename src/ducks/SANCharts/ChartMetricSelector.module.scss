@@ -22,18 +22,15 @@
 
 .category {
   padding: 8px;
-}
-
-.categories {
-  min-height: 195px;
-}
-
-.category {
   border-bottom: 1px solid var(--porcelain);
 
   &:last-child {
     border: none;
   }
+}
+
+.categories {
+  min-height: 195px;
 }
 
 .explanation {

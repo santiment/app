@@ -23,6 +23,16 @@ export const selectIsTelegramConnected = state => {
   )
 }
 
+export const selectIsEmailConnected = state => {
+  if (!state.user.data) {
+    return false
+  }
+  if (!state.user.data.settings) {
+    return false
+  }
+  return state.user.data.email && state.user.data.settings.signalNotifyEmail
+}
+
 export const getUserWallet = state => {
   const { ethAccounts = {} } = state.user.data
   const doesUserHaveEthAccounts = ethAccounts && ethAccounts.length > 0
