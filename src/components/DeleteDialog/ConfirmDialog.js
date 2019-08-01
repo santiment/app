@@ -2,17 +2,37 @@ import React, { PureComponent } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
 import styles from './DeleteDialog.module.scss'
 
-class DeleteDialog extends PureComponent {
+class ConfirmDialog extends PureComponent {
   state = { open: false }
 
   static defaultProps = {
     title: 'Do you want to delete this watchlist?',
     description: 'This action cannot be undone',
+    confirmLabel: 'Delete',
     classes: {}
+  }
+
+  static getDerivedStateFromProps (nextProps, prevState) {
+    const { isOpen } = nextProps
+
+    if (typeof isOpen === 'undefined') {
+      return null
+    }
+
+    return {
+      open: isOpen
+    }
   }
 
   openDialog = () => {
     this.setState({ open: true })
+  }
+
+  onClose = () => {
+    const { onCancel } = this.props
+
+    this.closeDialog()
+    onCancel && onCancel()
   }
 
   closeDialog = () => {
@@ -20,20 +40,20 @@ class DeleteDialog extends PureComponent {
   }
 
   onDeleteClick = () => {
-    const { id, deleteItem, redirect } = this.props
-    deleteItem(id)
+    const { id, onApprove, redirect } = this.props
+    onApprove(id)
     redirect && redirect()
   }
 
   render () {
-    const { title, description, trigger, classes } = this.props
+    const { title, description, trigger, classes, confirmLabel } = this.props
 
     const mergedClasses = { ...styles, ...classes }
 
     return (
       <Dialog
         open={this.state.open}
-        onClose={this.closeDialog}
+        onClose={this.onClose}
         onOpen={this.openDialog}
         trigger={trigger}
         title={title}
@@ -43,12 +63,12 @@ class DeleteDialog extends PureComponent {
           <div className={classes.description}>{description}</div>
         </Dialog.ScrollContent>
         <Dialog.Actions>
-          <Dialog.Cancel onClick={this.closeDialog}>Cancel</Dialog.Cancel>
+          <Dialog.Cancel onClick={this.onClose}>Cancel</Dialog.Cancel>
           <Dialog.Approve
             onClick={this.onDeleteClick}
             className={styles.approve}
           >
-            Delete
+            {confirmLabel}
           </Dialog.Approve>
         </Dialog.Actions>
       </Dialog>
@@ -56,4 +76,4 @@ class DeleteDialog extends PureComponent {
   }
 }
 
-export default DeleteDialog
+export default ConfirmDialog

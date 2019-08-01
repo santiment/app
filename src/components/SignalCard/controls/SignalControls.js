@@ -8,7 +8,7 @@ import {
   PRICE_PERCENT_CHANGE,
   PRICE_VOLUME_DIFFERENCE
 } from '../../../ducks/Signals/utils/constants'
-import DeleteDialog from '../../DeleteDialog/DeleteDialog'
+import ConfirmDialog from '../../DeleteDialog/ConfirmDialog'
 import styles from './SignalControls.module.scss'
 
 const getIconStyles = type => {
@@ -55,11 +55,11 @@ export const RemoveSignalButton = ({
   className,
   trigger
 }) => (
-  <DeleteDialog
+  <ConfirmDialog
     id={id}
     title='Delete signal'
     description={RemoveDescription(signalTitle)}
-    deleteItem={removeSignal}
+    onApprove={removeSignal}
     redirect={redirect}
     classes={styles}
     trigger={

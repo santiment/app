@@ -28,7 +28,7 @@
 }
 
 .dialog {
-  width: 534px;
+  width: 440px;
 
   @include responsive('phone', 'phone-xs') {
     width: initial;

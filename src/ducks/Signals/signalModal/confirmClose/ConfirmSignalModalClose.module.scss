@@ -1,0 +1,9 @@
+@import '~@santiment-network/ui/mixins.scss';
+
+.dialog {
+  width: 440px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: initial;
+  }
+}
