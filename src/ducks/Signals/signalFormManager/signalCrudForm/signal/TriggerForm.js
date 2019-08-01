@@ -19,7 +19,7 @@ import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEf
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import Button from '@santiment-network/ui/Button'
 import RadioBtns from '@santiment-network/ui/RadioBtns'
-import { Checkbox, Tooltip } from '@santiment-network/ui'
+import { Checkbox } from '@santiment-network/ui'
 import Message from '@santiment-network/ui/Message'
 import {
   PRICE_PERCENT_CHANGE,
@@ -290,9 +290,6 @@ export const TriggerForm = ({
                               name='channels'
                               labelOnRight
                               options={['Email', 'Telegram']}
-                              onChange={data => {
-                                debugger
-                              }}
                             />
                             {(notConnectedTelegram || notConnectedEmail) && (
                               <Button

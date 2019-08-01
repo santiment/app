@@ -279,12 +279,18 @@ const mapTriggerToFormThreshold = ({ threshold, operation }) => {
 }
 
 export const mapToOptions = items => {
-  return items
-    ? items.map(item => ({
+  if (!items) {
+    return []
+  }
+
+  if (Array.isArray(items)) {
+    return items.map(item => ({
       label: item,
       value: item
     }))
-    : []
+  } else {
+    return [items]
+  }
 }
 
 const getFormTrendingWords = ({ settings: { operation, target } }) => {
@@ -772,31 +778,30 @@ export const isAsset = signalType =>
 export const isWatchlist = signalType =>
   signalType.value === METRIC_TARGET_WATCHLIST.value
 
-export const validateTriggerForm = ({
-  type,
-  threshold,
-  percentThreshold,
-  timeWindow,
-  ethAddress,
-  absoluteThreshold,
-  absoluteBorderLeft,
-  absoluteBorderRight,
-  channels,
-  frequencyType,
-  frequencyTimeValue,
-  frequencyTimeType,
-  metric,
-  target,
-  trendingWordsWithWords,
-  signalType,
-  title,
-  description
-}) => {
+export const validateTriggerForm = values => {
+  const errors = {
+    ...metricTypesBlockErrors(values),
+    ...metricValuesBlockErrors(values),
+    ...descriptionBlockErrors(values)
+  }
+  console.log(errors)
+  return errors
+}
+
+export const metricTypesBlockErrors = values => {
+  const {
+    type,
+    ethAddress,
+    metric,
+    target,
+    targetWatchlist,
+    trendingWordsWithWords,
+    signalType
+  } = values
+
   let errors = {}
 
   if (metric && metric.value === ETH_WALLET) {
-    if (!threshold) errors.threshold = REQUIRED_MESSAGE
-
     if (ethAddress) {
       if (Array.isArray(ethAddress)) {
         ethAddress.forEach(({ value }) => {
@@ -823,8 +828,8 @@ export const validateTriggerForm = ({
     }
   } else {
     if (isWatchlist(signalType)) {
-      if (!target) {
-        errors.target = REQUIRED_MESSAGE
+      if (!targetWatchlist) {
+        errors.targetWatchlist = REQUIRED_MESSAGE
       }
     } else {
       if (
@@ -834,6 +839,27 @@ export const validateTriggerForm = ({
         errors.target = REQUIRED_MESSAGE
       }
     }
+  }
+
+  return errors
+}
+
+export const metricValuesBlockErrors = values => {
+  let errors = {}
+
+  const {
+    type,
+    threshold,
+    percentThreshold,
+    timeWindow,
+    absoluteThreshold,
+    absoluteBorderLeft,
+    absoluteBorderRight,
+    metric
+  } = values
+
+  if (metric && metric.value === ETH_WALLET) {
+    if (!threshold) errors.threshold = REQUIRED_MESSAGE
   }
 
   if (
@@ -874,6 +900,21 @@ export const validateTriggerForm = ({
       errors.threshold = MUST_BE_MORE_ZERO_MESSAGE
     }
   }
+
+  return errors
+}
+
+export const descriptionBlockErrors = values => {
+  let errors = {}
+  const {
+    channels,
+    frequencyType,
+    frequencyTimeValue,
+    frequencyTimeType,
+    title,
+    description
+  } = values
+
   if (channels && channels.length === 0) {
     errors.channels = 'You must setup notification channel'
   }
