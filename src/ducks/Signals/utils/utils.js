@@ -1066,6 +1066,12 @@ export const getTargetsHeader = values => {
         )
         return buildFormBlock(NOTIFY_ME_WHEN, targetsJoin(targets))
       }
+      case TRENDING_WORDS_WATCHLIST_MENTIONED.value: {
+        return buildFormBlock(
+          NOTIFY_ME_WHEN,
+          targetMapperWithName(targetWatchlist)
+        )
+      }
       default: {
       }
     }
