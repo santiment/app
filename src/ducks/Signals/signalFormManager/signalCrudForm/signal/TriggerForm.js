@@ -123,6 +123,7 @@ export const TriggerForm = ({
   return (
     <Formik
       initialValues={initialValues}
+      isInitialValid={!!id}
       enableReinitialize
       validate={validateTriggerForm}
       onSubmit={values => {
