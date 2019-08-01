@@ -681,7 +681,7 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
     settings,
     isRepeating: !!isRepeating,
     ...cooldownParams,
-    isPublic,
+    isPublic: !!isPublic,
     title,
     description
   }
