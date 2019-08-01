@@ -119,7 +119,7 @@ class Charts extends React.Component {
     const key = current instanceof Line ? 'points' : 'data'
 
     // HACK(vanguard): Because 'recharts' lib does not expose the "good" way to get coordinates
-    this.xToYCoordinates = current.props[key]
+    this.xToYCoordinates = current.props[key] || []
 
     return true
   }
