@@ -124,10 +124,12 @@ const MetricTypeRenderer = ({
       <div className={metricStyles.icon}>
         <img src={iconMaps[value] || priceSvg} alt='Metric' />
       </div>
-      <div className={metricStyles.value}>{label}</div>
-      {showLabel && (
-        <div className={metricStyles.label}>Change signal type</div>
-      )}
+      <div className={metricStyles.textBlocks}>
+        <div className={metricStyles.value}>{label}</div>
+        {showLabel && (
+          <div className={metricStyles.label}>Change signal type</div>
+        )}
+      </div>
     </div>
   )
 }
