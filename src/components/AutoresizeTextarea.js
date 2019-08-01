@@ -45,7 +45,7 @@ class AutoresizeTextarea extends Component {
       })
     } else {
       const { value: currentValue = '' } = this.state
-      if (currentValue !== propsValue && !propsValue) {
+      if (currentValue !== propsValue && propsValue) {
         this.setState({
           value: propsValue
         })
