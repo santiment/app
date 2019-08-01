@@ -3,7 +3,7 @@ import Select from '@santiment-network/ui/Search/Select/Select'
 import cx from 'classnames'
 import styles from './Select.module.scss'
 
-const NewSelect = ({ className, topDropdown, ...props }) => {
+const SanUiSelect = ({ className, topDropdown, ...props }) => {
   return (
     <Select
       className={cx(className, topDropdown && styles.topDropdown)}
@@ -13,4 +13,4 @@ const NewSelect = ({ className, topDropdown, ...props }) => {
   )
 }
 
-export default NewSelect
+export default SanUiSelect
