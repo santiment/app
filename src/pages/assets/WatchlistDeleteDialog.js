@@ -1,13 +1,13 @@
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { USER_REMOVE_ASSET_LIST } from '../../actions/types'
-import DeleteDialog from '../../components/DeleteDialog/DeleteDialog'
+import ConfirmDialog from '../../components/ConfirmDialog/ConfirmDialog'
 
-class WatchlistDeleteDialog extends DeleteDialog {}
+class WatchlistDeleteDialog extends ConfirmDialog {}
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteItem: id => {
+    onApprove: id => {
       dispatch({
         type: USER_REMOVE_ASSET_LIST,
         payload: { id }

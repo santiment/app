@@ -28,11 +28,7 @@
 }
 
 .dialog {
-  width: 534px;
-
-  @include responsive('phone', 'phone-xs') {
-    width: initial;
-  }
+  width: 440px;
 }
 
 .description {

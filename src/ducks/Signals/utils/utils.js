@@ -952,14 +952,16 @@ const POSSIBLE_METRICS_FOR_CHART = [
 ]
 
 export const couldShowChart = ({ signalType, metric, target }) => {
-  if (
-    isWatchlist(signalType) ||
-    (Array.isArray(target) && target.length !== 1)
-  ) {
+  if (isWatchlist(signalType)) {
     return false
   }
 
-  if (!Array.isArray(target) && !target.value) {
+  const isArray = Array.isArray(target)
+  if (isArray && target.length !== 1) {
+    return false
+  }
+
+  if (!isArray && !targetMapper(target)) {
     return false
   }
 

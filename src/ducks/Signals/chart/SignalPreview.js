@@ -13,7 +13,6 @@ import styles from './SignalPreview.module.scss'
 const SignalPreviewChart = ({
   type,
   slug,
-  showAxes = false,
   timeRange,
   label,
   triggeredSignals
