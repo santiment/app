@@ -784,6 +784,7 @@ export const validateTriggerForm = values => {
     ...metricValuesBlockErrors(values),
     ...descriptionBlockErrors(values)
   }
+
   return errors
 }
 
