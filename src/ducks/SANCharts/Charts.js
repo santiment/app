@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import {
+  Line,
   ResponsiveContainer,
   ComposedChart,
   XAxis,
@@ -110,22 +111,15 @@ class Charts extends React.Component {
   }
 
   getXToYCoordinates = () => {
-    // HACK(vanguard): Because 'recharts' lib does not expose correct point "Y" coordinate
-    if (!(this.metricRef.current && this.metricRef.current.mainCurve)) {
+    const { current } = this.metricRef
+    if (!current) {
       return
     }
 
-    const dAttr = this.metricRef.current.mainCurve.getAttribute('d')
+    const key = current instanceof Line ? 'points' : 'data'
 
-    if (!dAttr) return
-
-    this.xToYCoordinates = dAttr
-      .slice(1)
-      .split('L')
-      .reduce((acc, value) => {
-        acc.push(value.split(','))
-        return acc
-      }, [])
+    // HACK(vanguard): Because 'recharts' lib does not expose the "good" way to get coordinates
+    this.xToYCoordinates = current.props[key] || []
 
     return true
   }
@@ -150,7 +144,7 @@ class Charts extends React.Component {
     if (!coordinates) {
       return
     }
-    const [x, y] = coordinates
+    const { x, y } = coordinates
 
     this.setState({
       activePayload,
