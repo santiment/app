@@ -7,8 +7,7 @@ import {
   isTrendingWordsByProjects,
   isTrendingWordsByWatchlist,
   isTrendingWordsByWords,
-  mapToAssets,
-  mapToOptions
+  mapToAssets
 } from '../../../utils/utils'
 import GetProjects from '../../../common/projects/getProjects'
 import TriggerFormWatchlists from './TriggerFormWatchlists'

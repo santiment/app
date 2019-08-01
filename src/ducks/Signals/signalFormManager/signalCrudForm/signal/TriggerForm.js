@@ -19,7 +19,7 @@ import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEf
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import Button from '@santiment-network/ui/Button'
 import RadioBtns from '@santiment-network/ui/RadioBtns'
-import { Checkbox } from '@santiment-network/ui'
+import { Checkbox, Tooltip } from '@santiment-network/ui'
 import Message from '@santiment-network/ui/Message'
 import {
   PRICE_PERCENT_CHANGE,
@@ -53,6 +53,7 @@ import TriggerFormBlock, {
 } from '../formParts/block/TriggerFormBlock'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikTextarea from '../../../../../components/formik-santiment-ui/FormikTextarea'
+import SidecarExplanationTooltip from '../../../../SANCharts/SidecarExplanationTooltip'
 import styles from './TriggerForm.module.scss'
 
 const propTypes = {
@@ -273,35 +274,49 @@ export const TriggerForm = ({
                     show={!isTelegramConnected || !isEmailConnected}
                     className={styles.chainBlock}
                   >
-                    <div className={cx(styles.row, styles.rowTop)}>
-                      <div className={cx(styles.Field, styles.fieldFilled)}>
-                        <FormikLabel text='Notify me via' />
-                        <div className={styles.notifyBlock}>
-                          <FormikCheckboxes
-                            name='channels'
-                            labelOnRight
-                            options={['Email', 'Telegram']}
-                          />
-                          {(notConnectedTelegram || notConnectedEmail) && (
-                            <Button
-                              className={styles.connectLink}
-                              variant='ghost'
-                              as={Link}
-                              to='/account'
-                            >
-                              <span className={styles.connectLink}>
-                                Connect
-                              </span>
-                            </Button>
+                    <SidecarExplanationTooltip
+                      closeTimeout={500}
+                      localStorageSuffix='_TRIGGER_FORM_EXPLANATION'
+                      position='top'
+                      title='Connect channels'
+                      description='Get fast notifications through Email or Telegram'
+                      className={styles.explanation}
+                    >
+                      <div className={cx(styles.row, styles.rowTop)}>
+                        <div className={cx(styles.Field, styles.fieldFilled)}>
+                          <FormikLabel text='Notify me via' />
+                          <div className={styles.notifyBlock}>
+                            <FormikCheckboxes
+                              name='channels'
+                              labelOnRight
+                              options={['Email', 'Telegram']}
+                              onChange={data => {
+                                debugger
+                              }}
+                            />
+                            {(notConnectedTelegram || notConnectedEmail) && (
+                              <Button
+                                className={styles.connectLink}
+                                variant='ghost'
+                                as={Link}
+                                to='/account'
+                              >
+                                <span className={styles.connectLink}>
+                                  Connect
+                                </span>
+                              </Button>
+                            )}
+                          </div>
+                          {errors.channels && (
+                            <div className={cx(styles.row, styles.messages)}>
+                              <Message variant='warn'>
+                                {errors.channels}
+                              </Message>
+                            </div>
                           )}
                         </div>
-                        {errors.channels && (
-                          <div className={cx(styles.row, styles.messages)}>
-                            <Message variant='warn'>{errors.channels}</Message>
-                          </div>
-                        )}
                       </div>
-                    </div>
+                    </SidecarExplanationTooltip>
 
                     <TriggerFormBlockDivider />
 

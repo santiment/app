@@ -3,11 +3,17 @@ import cx from 'classnames'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import styles from './ExplanationTooltip.module.scss'
 
-const ExplanationTooltip = ({ text, children, className, ...props }) => (
+const ExplanationTooltip = ({
+  text,
+  children,
+  className,
+  closeTimeout = 0,
+  ...props
+}) => (
   <Tooltip
     {...props}
     className={cx(styles.wrapper, className)}
-    closeTimeout={0}
+    closeTimeout={closeTimeout}
     trigger={children}
   >
     {text}

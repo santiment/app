@@ -251,3 +251,7 @@ a {
 .preview {
   position: relative;
 }
+
+.explanation {
+  z-index: 1000 !important;
+}
