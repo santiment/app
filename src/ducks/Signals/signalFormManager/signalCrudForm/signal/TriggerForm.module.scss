@@ -178,6 +178,17 @@ a.connectLink {
 
 .selector {
   width: 100%;
+
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    padding: 5px;
+
+    div {
+      width: 100%;
+    }
+  }
 }
 
 .triggerFormItem {

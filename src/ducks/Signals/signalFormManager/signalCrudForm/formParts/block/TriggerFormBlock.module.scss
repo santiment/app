@@ -22,14 +22,6 @@
 
   @include border-box();
   @include text('body-3');
-
-  @include responsive('phone', 'phone-xs') {
-    border-radius: 0;
-    border: none;
-    background: none;
-    padding: 3px 2px 3px 20px;
-    color: var(--mirage);
-  }
 }
 
 .dividerContainer {
@@ -51,10 +43,6 @@
   &:hover {
     fill: var(---btn-accent-color-hover);
   }
-
-  @include responsive('phone', 'phone-xs') {
-    background-color: var(--white) !important;
-  }
 }
 
 .title {
@@ -64,6 +52,10 @@
 .description {
   color: var(--mirage);
   margin-left: 5px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0;
+  }
 }
 
 .content {
@@ -72,4 +64,9 @@
 
 .clickable {
   cursor: pointer;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
 }

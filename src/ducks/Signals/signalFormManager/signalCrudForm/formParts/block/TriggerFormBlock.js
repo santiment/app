@@ -22,12 +22,14 @@ const TriggerFormBlock = ({
           className={cx(styles.header, enabledHide && styles.clickable)}
           onClick={() => enabledHide && setShowing(!isShow)}
         >
-          <span className={styles.title}>{titleLabel}</span>
-          {showDescription && (
-            <span className={styles.description}>
-              {titleDescription || '...'}
-            </span>
-          )}
+          <div className={styles.headerContent}>
+            <span className={styles.title}>{titleLabel}</span>
+            {showDescription && (
+              <span className={styles.description}>
+                {titleDescription || '...'}
+              </span>
+            )}
+          </div>
 
           {enabledHide && (
             <Button type='button' className={styles.action}>
