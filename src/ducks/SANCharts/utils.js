@@ -29,6 +29,7 @@ export const Metrics = {
   tokenAgeConsumed: {
     category: 'On-chain',
     node: Bar,
+    group: 'Token Flows/Movement/Activity',
     label: 'Token Age Consumed',
     fill: true,
     description:
@@ -44,6 +45,7 @@ export const Metrics = {
   dailyActiveAddresses: {
     category: 'On-chain',
     node: Bar,
+    group: 'Network Activity',
     label: 'Daily Active Addresses',
     description:
       'The number of unique addresses that participated in transactions for a given day.',
@@ -52,12 +54,14 @@ export const Metrics = {
   percentOfTokenSupplyOnExchanges: {
     category: 'On-chain',
     node: Line,
+    group: 'Exchange Flow',
     label: 'Percent of Token Supply on Exchanges',
     dataKey: 'percentOnExchanges'
   },
   topHoldersPercentOfTotalSupply: {
     category: 'On-chain',
     node: Line,
+    group: 'Exchange Flow',
     label: 'In Top Holders Total',
     // TODO: Add support for 3 datakeys of single metric:
     // inExchanges outsideExchanges inTopHoldersTotal
@@ -66,6 +70,7 @@ export const Metrics = {
   tokenCirculation: {
     category: 'On-chain',
     node: Line,
+    group: 'Token Flows/Movement/Activity',
     label: 'Token Circulation',
     description:
       "The distribution of non-transacted tokens over time (in other words, how many tokens are being hodled, and for how long). The green line shows the token price. Each of the other coloured bands represents the number of tokens that haven't moved (have stayed in the same wallet) for the specified amount of time."
@@ -73,12 +78,14 @@ export const Metrics = {
   mvrvRatio: {
     category: 'On-chain',
     node: Line,
+    group: 'Realized value',
     label: 'Market Value To Realized Value',
     dataKey: 'mvrv'
   },
   transactionVolume: {
     category: 'On-chain',
     node: Bar,
+    group: 'Token Flows/Movement/Activity',
     label: 'Transaction Volume',
     description:
       'The total number of tokens within all transfers that have occurred on the network. This metric can show a large amount of tokens moving at once, and/or a large number of transactions in a short amount of time'
@@ -86,6 +93,7 @@ export const Metrics = {
   networkGrowth: {
     category: 'On-chain',
     node: Line,
+    group: 'Network Activity',
     label: 'Network Growth',
     description:
       'The number of new addresses being created on the network each day.'
@@ -106,6 +114,7 @@ export const Metrics = {
   tokenVelocity: {
     category: 'On-chain',
     node: Line,
+    group: 'Token Flows/Movement/Activity',
     label: 'Token Velocity',
     description:
       'Similar to velocity of money, Token Velocity is the frequency at which tokens change wallets in a given interval of time. This metric is derived by dividing transaction volume by the number of tokens in circulation, to get the average number of times a token changes hands each day.'
@@ -131,6 +140,7 @@ export const Metrics = {
   realizedValue: {
     category: 'On-chain',
     node: Line,
+    group: 'Realized value',
     label: 'Realized Value',
     dataKey: 'realizedValue'
   },
@@ -148,12 +158,14 @@ const DerivedMetrics = [
     parent: 'nvtRatio',
     key: 'nvtRatioCirculation',
     node: Line,
+    group: 'Realized value',
     label: 'NVT Ratio Circulation'
   },
   {
     parent: 'nvtRatio',
     key: 'nvtRatioTxVolume',
     node: Bar,
+    group: 'Realized value',
     label: 'NVT Ratio Transaction Volume',
     category: 'On-chain'
   }
