@@ -5,7 +5,7 @@ import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
 import { Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartWidget from '../../SANCharts/ChartPage'
-import VisualBacktestChart from '../VisualBacktestChart'
+import VisualBacktestChart from './VisualBacktestChart'
 import { ChartExpandView } from './ChartExpandView'
 
 const SignalPreviewChart = ({
