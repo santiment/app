@@ -101,7 +101,7 @@ const TrendsReChart = ({
           <Panel key={key} style={{ marginTop: '1rem' }}>
             {!hasPremium && (
               <div style={{ margin: '5px 20px' }}>
-                <UpgradeBtn>Limited data</UpgradeBtn>
+                <UpgradeBtn>Unlock data</UpgradeBtn>
               </div>
             )}
             <ResponsiveContainer width='100%' height={isDesktop ? 300 : 250}>

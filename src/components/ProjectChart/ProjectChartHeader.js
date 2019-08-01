@@ -78,7 +78,7 @@ const ProjectChartHeader = ({
     <div className='chart-header'>
       <div className='chart-datetime-settings'>
         <TimeFilter interval={interval} setFilter={setFilter} />
-        {!isPremium && <UpgradeBtn>Limited data</UpgradeBtn>}
+        {!isPremium && <UpgradeBtn>Unlock data</UpgradeBtn>}
       </div>
       <div className='chart-header-actions'>
         <CurrencyFilter
