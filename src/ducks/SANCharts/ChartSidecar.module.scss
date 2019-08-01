@@ -9,6 +9,7 @@
   top: 0;
   bottom: 0;
   right: 0;
+  color: var(--mirage);
   background: var(--white);
   border: 1px solid var(--porcelain);
   border-radius: 4px;
@@ -36,7 +37,6 @@
   background: var(--white);
   border: 1px solid var(--porcelain);
   box-sizing: content-box;
-  padding: 11px 10px;
   position: absolute;
   top: 20px;
   transform: translateX(-100%);
@@ -44,6 +44,10 @@
   border-top-left-radius: 4px;
   cursor: pointer;
   fill: var(--mirage);
+
+  &__btn {
+    padding: 5px 10px;
+  }
 
   &:hover {
     fill: var(--jungle-green);
@@ -59,6 +63,7 @@
   @include text('body-1');
 
   cursor: pointer;
+  fill: var(--mirage);
 
   &:hover {
     color: var(--jungle-green-hover);
@@ -99,10 +104,6 @@
   @include text('body-1', 'm');
 
   margin-top: 26px !important;
-}
-
-.asset__name {
-  max-width: 75%;
 }
 
 .tabs {

@@ -1,13 +1,14 @@
 import React from 'react'
 import { YAxis, Bar, Line } from 'recharts'
 
+const PRICE_METRIC = 'historyPrice'
+
 export const Metrics = {
   historyPrice: {
     node: Line,
     color: 'jungle-green',
     label: 'Price',
     dataKey: 'priceUsd',
-    yAxisVisible: true,
     category: 'Financial'
   },
   volume: {
@@ -21,7 +22,6 @@ export const Metrics = {
   },
   socialVolume: {
     category: 'Social',
-    group: 'Group 2',
     node: Bar,
     label: 'Social Volume',
     color: 'malibu'
@@ -118,14 +118,12 @@ export const Metrics = {
   },
   historyTwitterData: {
     category: 'Social',
-    group: 'Group 1',
     node: Line,
     label: 'Twitter',
     dataKey: 'followersCount'
   },
   socialDominance: {
     category: 'Social',
-    group: 'Group 2',
     node: Line,
     label: 'Social Dominance',
     dataKey: 'dominance'
@@ -181,17 +179,23 @@ export const METRIC_COLORS = [
   'waterloo'
 ]
 
+export const findYAxisMetric = metrics =>
+  (metrics.includes(PRICE_METRIC) && PRICE_METRIC) ||
+  metrics.find(metric => Metrics[metric].node !== Bar) ||
+  metrics[0]
+
 export const generateMetricsMarkup = (
   metrics,
   { ref = {}, data = {} } = {}
 ) => {
+  const metricWithYAxis = findYAxisMetric(metrics)
   let colorIndex = 0
+
   return metrics.reduce((acc, metric) => {
     const {
       node: El,
       label,
       color,
-      yAxisVisible = false,
       orientation = 'left',
       dataKey = metric,
       opacity = 1
@@ -209,7 +213,7 @@ export const generateMetricsMarkup = (
         type='number'
         orientation={orientation}
         domain={['auto', 'dataMax']}
-        hide={!yAxisVisible}
+        hide={metric !== metricWithYAxis}
       />,
       <El
         key={`line-${dataKey}`}
@@ -226,6 +230,7 @@ export const generateMetricsMarkup = (
         {...rest}
       />
     )
+
     return acc
   }, [])
 }

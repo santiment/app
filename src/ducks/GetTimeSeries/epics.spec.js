@@ -109,6 +109,7 @@ describe('Fetch timeseries', () => {
     const action$ = ActionsObservable.of({
       type: actions.TIMESERIES_FETCH,
       payload: {
+        id: 0,
         historyPrice: {
           from: '2018-12-01',
           to: '2018-12-10',
@@ -128,6 +129,7 @@ describe('Fetch timeseries', () => {
     const action$ = ActionsObservable.of({
       type: actions.TIMESERIES_FETCH,
       payload: {
+        id: 0,
         historyPrice: {
           from: '2018-12-01',
           to: '2018-12-10',
@@ -156,6 +158,7 @@ describe('Fetch timeseries', () => {
     const action$ = ActionsObservable.of({
       type: actions.TIMESERIES_FETCH,
       payload: {
+        id: 0,
         historyPrice: {
           from: '2018-12-01',
           to: '2018-12-10',
@@ -187,6 +190,7 @@ describe('Fetch timeseries', () => {
     const action$ = ActionsObservable.of({
       type: actions.TIMESERIES_FETCH,
       payload: {
+        id: 0,
         anyStrangeMetric: {
           from: '2018-12-01',
           to: '2018-12-10',

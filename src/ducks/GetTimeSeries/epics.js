@@ -58,7 +58,8 @@ const mapDataToMergedTimeserieByDatetime = (data = [], transforms = []) => {
       key: 'datetime'
     }),
     ...Object.keys(timeseriesAsSingleObject).reduce((acc, metric) => {
-      acc[metric] = timeseriesAsSingleObject[metric]
+      const { items, ...rest } = timeseriesAsSingleObject[metric]
+      acc[metric] = rest
       return acc
     }, {})
   }
@@ -66,18 +67,17 @@ const mapDataToMergedTimeserieByDatetime = (data = [], transforms = []) => {
 
 const fetchTimeseriesEpic = (action$, store, { client }) =>
   action$.ofType(actions.TIMESERIES_FETCH).mergeMap(action => {
-    const { meta = initialMeta } = action.payload
-    const metrics = Object.keys(action.payload)
-      .filter(metric => metric !== 'meta')
-      .map(metric => {
-        if (!hasMetric(metric)) {
-          throw new Error(`
+    const { id, meta = initialMeta, ...rest } = action.payload
+
+    const metrics = Object.keys(rest).map(metric => {
+      if (!hasMetric(metric)) {
+        throw new Error(`
             Unsupported metric yet: "${metric}".
             Add a query for this metric and description.
           `)
-        }
-        return metric
-      })
+      }
+      return metric
+    })
 
     const transforms = getTransforms(metrics)
     const errorMetrics = {}
@@ -119,12 +119,15 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
           ? mapDataToMergedTimeserieByDatetime(filteredData, transforms)
           : mapDataToTimeseries(filteredData, transforms)
         const settings = getSettings(metrics)
+
         return Observable.of({
           type: actions.TIMESERIES_FETCH_SUCCESS,
           payload: {
-            settings,
-            errorMetrics,
-            ...result
+            [id]: {
+              settings,
+              errorMetrics,
+              ...result
+            }
           }
         })
       })

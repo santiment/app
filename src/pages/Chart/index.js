@@ -25,6 +25,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
   return (
     <div className={styles.wrapper + ' page'}>
       <ChartWidget
+        adjustNightMode={false}
         slug='bitcoin'
         title='Bitcoin (BTC)'
         projectId='1505'

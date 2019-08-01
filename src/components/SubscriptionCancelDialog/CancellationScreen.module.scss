@@ -1,0 +1,15 @@
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 9px 0 0;
+}
+
+.item {
+  &::before {
+    content: '●';
+    display: inline-block;
+    font-size: 10px;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+}
