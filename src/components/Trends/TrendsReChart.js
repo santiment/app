@@ -16,7 +16,7 @@ import { Panel, Button, Label } from '@santiment-network/ui'
 import { formatNumber } from './../../utils/formatting'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import mixWithPaywallArea from './../PaywallArea/PaywallArea'
-import PaywallMessage from './../PaywallMessage/PaywallMessage'
+import UpgradeBtn from './../UpgradeBtn/UpgradeBtn'
 import { sourcesMeta as chartsMeta } from './trendsUtils'
 import { mapSizesToProps } from '../../App'
 import { getDateFormats } from '../../utils/dates'
@@ -100,8 +100,8 @@ const TrendsReChart = ({
         .map((entity, key) => (
           <Panel key={key} style={{ marginTop: '1rem' }}>
             {!hasPremium && (
-              <div style={{ padding: '0.5rem' }}>
-                <PaywallMessage />
+              <div style={{ margin: '5px 20px' }}>
+                <UpgradeBtn>Unlock data</UpgradeBtn>
               </div>
             )}
             <ResponsiveContainer width='100%' height={isDesktop ? 300 : 250}>

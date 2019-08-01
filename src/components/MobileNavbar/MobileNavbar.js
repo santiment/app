@@ -32,8 +32,7 @@ const NAVBAR_LINKS = [
     link: '/sonar/feed',
     label: 'Sonar',
     linkTo: '/sonar/feed',
-    Icon: SonarIcon,
-    showIf: { beta: true }
+    Icon: SonarIcon
   },
   {
     link: '/insights',
