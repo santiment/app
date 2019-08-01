@@ -9,6 +9,9 @@ const { from: BASIC_RIGHT_BOUNDARY_DATE } = getTimeIntervalFromToday(-7, DAY)
 const { from: PRO_LEFT_BOUNDARY_DATE } = getTimeIntervalFromToday(-36, MONTH)
 const PRO_RIGHT_BOUNDARY_DATE = false
 
+const ENTERPRISE_LEFT_BOUNDARY_DATE = false
+const ENTERPRISE_RIGHT_BOUNDARY_DATE = false
+
 export default {
   FREE: {
     leftBoundaryDate: FREE_LEFT_BOUNDARY_DATE,
@@ -21,5 +24,9 @@ export default {
   PRO: {
     leftBoundaryDate: PRO_LEFT_BOUNDARY_DATE,
     rightBoundaryDate: PRO_RIGHT_BOUNDARY_DATE
+  },
+  ENTERPRISE: {
+    leftBoundaryDate: ENTERPRISE_LEFT_BOUNDARY_DATE,
+    rightBoundaryDate: ENTERPRISEPRO_RIGHT_BOUNDARY_DATE
   }
 }
