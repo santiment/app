@@ -168,6 +168,8 @@ class Charts extends React.Component {
       title,
       isZoomed,
       hasPremium,
+      leftBoundaryDate,
+      rightBoundaryDate,
       children
     } = this.props
     const {
@@ -279,6 +281,8 @@ class Charts extends React.Component {
             )}
             {!hasPremium &&
               displayPaywall({
+                leftBoundaryDate,
+                rightBoundaryDate,
                 data: chartData
               })}
             {chartData.length > 0 && (

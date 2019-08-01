@@ -239,7 +239,9 @@ class ChartPage extends Component {
       hideSettings = {},
       classes = {},
       adjustNightMode,
-      children
+      children,
+      leftBoundaryDate,
+      rightBoundaryDate
     } = this.props
 
     const requestedMetrics = metrics.reduce((acc, metric) => {
@@ -329,6 +331,8 @@ class ChartPage extends Component {
                     settings={settings}
                     title={title}
                     metrics={finalMetrics}
+                    leftBoundaryDate={leftBoundaryDate}
+                    rightBoundaryDate={rightBoundaryDate}
                     children={children}
                   />
                 </div>

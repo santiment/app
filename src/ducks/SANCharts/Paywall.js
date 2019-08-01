@@ -65,23 +65,25 @@ const getPaywallX = (array, target, rawEstimate) => {
 
 const displayPaywall = ({
   data,
-  leftHistoricalDate = LEFT_HISTORICAL_DATE,
-  rightHistoricalDate = RIGHT_HISTORICAL_DATE
+  leftBoundaryDate = LEFT_HISTORICAL_DATE,
+  rightBoundaryDate = RIGHT_HISTORICAL_DATE
 }) => {
   if (!data || !data.length) return
 
   const lastItemDate = new Date(data[data.length - 1].datetime)
   const firstItemDate = new Date(data[0].datetime)
 
-  const isInsideLeftPaywall = lastItemDate <= leftHistoricalDate
-  const isInsideRightPaywall = firstItemDate >= rightHistoricalDate
+  const isInsideLeftPaywall = lastItemDate <= leftBoundaryDate
+  const isInsideRightPaywall = firstItemDate >= rightBoundaryDate
 
   const hasLeftPaywall =
-    isInsideLeftPaywall ||
-    (!isInsideRightPaywall && leftHistoricalDate >= firstItemDate)
+    leftBoundaryDate &&
+    (isInsideLeftPaywall ||
+      (!isInsideRightPaywall && leftBoundaryDate >= firstItemDate))
   const hasRightPaywall =
-    isInsideRightPaywall ||
-    (!isInsideLeftPaywall && rightHistoricalDate <= lastItemDate)
+    rightBoundaryDate &&
+    (isInsideRightPaywall ||
+      (!isInsideLeftPaywall && rightBoundaryDate <= lastItemDate))
 
   return [
     hasLeftPaywall && (
@@ -90,7 +92,7 @@ const displayPaywall = ({
         x2={
           isInsideLeftPaywall
             ? +lastItemDate
-            : getPaywallX(data, leftHistoricalDate)
+            : getPaywallX(data, leftBoundaryDate)
         }
         {...AREA_STYLES}
       />
@@ -101,7 +103,7 @@ const displayPaywall = ({
         x1={
           isInsideRightPaywall
             ? +firstItemDate
-            : getPaywallX(data, rightHistoricalDate)
+            : getPaywallX(data, rightBoundaryDate)
         }
         {...AREA_STYLES}
       />
