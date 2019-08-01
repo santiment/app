@@ -38,17 +38,20 @@ class AutoresizeTextarea extends Component {
 
   componentDidUpdate (prevProps, prevState, snapshot) {
     const { defaultValue: prevDefault } = prevProps
-    const { defaultValue, value: propsValue = '' } = this.props
-    if (defaultValue && defaultValue !== prevDefault) {
-      this.setState({
-        value: propsValue || defaultValue
-      })
-    } else {
-      const { value: currentValue = '' } = this.state
-      if (currentValue !== propsValue && propsValue) {
+    const { defaultValue, value: propsValue = '', isFormik } = this.props
+
+    if (isFormik) {
+      if (defaultValue && defaultValue !== prevDefault) {
         this.setState({
-          value: propsValue
+          value: propsValue || defaultValue
         })
+      } else {
+        const { value: currentValue = '' } = this.state
+        if (currentValue !== propsValue && !propsValue) {
+          this.setState({
+            value: propsValue
+          })
+        }
       }
     }
   }
