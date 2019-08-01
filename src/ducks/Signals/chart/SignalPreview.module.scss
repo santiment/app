@@ -68,6 +68,12 @@
   right: -10px !important;
 }
 
+.tooltip {
+  background: var(--white);
+}
+
 .tooltipLabel {
   @include text('body-3');
+
+  margin-right: 6px;
 }

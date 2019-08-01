@@ -4,11 +4,9 @@ import { ReferenceLine } from 'recharts'
 import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
 import { Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
-import ChartMetrics from '../../SANCharts/ChartMetrics'
 import ChartWidget from '../../SANCharts/ChartPage'
 import VisualBacktestChart from '../VisualBacktestChart'
 import { ChartExpandView } from './ChartExpandView'
-import styles from './SignalPreview.module.scss'
 
 const SignalPreviewChart = ({
   type,
@@ -18,18 +16,10 @@ const SignalPreviewChart = ({
   label,
   triggeredSignals
 }) => {
-  const initialMetrics = getMetricsByType(type) || ['historyPrice']
-
-  const [metrics, setMetrics] = useState(initialMetrics)
+  const metrics = getMetricsByType(type)
   const [baseType, setType] = useState(type)
 
-  if (baseType !== type) {
-    setType(type)
-    setMetrics(initialMetrics)
-    return
-  }
-
-  const _metrics = metrics.filter(metric => initialMetrics.includes(metric))
+  if (baseType !== type) setType(type)
 
   const requestedMetrics = metrics.reduce((acc, metric) => {
     acc[metric] = {
@@ -42,42 +32,35 @@ const SignalPreviewChart = ({
     return acc
   }, {})
 
-  return (
-    <div className={styles.preview}>
-      <div className={styles.description}>
-        <span className={styles.fired}>Signal was fired:</span>
-        <span className={styles.times}>
-          {triggeredSignals.length} times in {label}
-        </span>
-      </div>
-      <div className={styles.chartBlock}>
-        <div className={styles.chart}>
-          <GetTimeSeries
-            {...requestedMetrics}
-            meta={{
-              mergedByDatetime: true
-            }}
-            render={({
-              timeseries,
-              errorMetrics = {},
-              isError,
-              errorType,
-              ...rest
-            }) => {
-              if (!timeseries) return 'Loading...'
+  const metricsModified = metrics.map(name =>
+    name === 'historyPrice' ? 'historyPricePreview' : name
+  )
 
-              return (
-                <VisualBacktestChart
-                  triggeredSignals={triggeredSignals}
-                  timeseries={timeseries}
-                  metrics={_metrics}
-                />
-              )
-            }}
+  return (
+    <GetTimeSeries
+      {...requestedMetrics}
+      meta={{
+        mergedByDatetime: true
+      }}
+      render={({
+        timeseries,
+        errorMetrics = {},
+        isError,
+        errorType,
+        ...rest
+      }) => {
+        if (!timeseries) return 'Loading...'
+
+        return (
+          <VisualBacktestChart
+            label={label}
+            triggeredSignals={triggeredSignals}
+            timeseries={timeseries}
+            metrics={metricsModified}
           />
-        </div>
-      </div>
-    </div>
+        )
+      }}
+    />
   )
 }
 
@@ -110,7 +93,7 @@ const SignalPreview = ({ type, points = [], target: slug, height }) => {
           {triggeredSignals.map(({ datetime }) => (
             <ReferenceLine
               key={datetime}
-              stroke='green'
+              stroke='var(--persimmon)'
               x={+new Date(datetime)}
             />
           ))}

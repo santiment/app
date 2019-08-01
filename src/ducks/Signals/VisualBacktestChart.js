@@ -10,8 +10,8 @@ import {
 } from 'recharts'
 import cx from 'classnames'
 import { generateMetricsMarkup } from './../SANCharts/utils'
-import { formatNumber, labelFormatter } from './../../utils/formatting'
-import { getDateFormats } from '../../utils/dates'
+import { formatNumber } from './../../utils/formatting'
+import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import chartStyles from './../SANCharts/Chart.module.scss'
 import sharedStyles from './../SANCharts/ChartPage.module.scss'
 import styles from './chart/SignalPreview.module.scss'
@@ -21,7 +21,7 @@ export const getDataKeys = (signal = {}) => {
     return { metric: 'dailyActiveAddresses', signal: 'active_addresses' }
   }
   if (signal.price) return { metric: 'priceUsd', signal: 'price' }
-  return { metric: 'priceUsd  ' }
+  return { metric: 'priceUsd' }
 }
 
 const mapWithTimeseries = items =>
@@ -36,15 +36,12 @@ const mapWithMidnightTime = date => {
 const VisualBacktestChart = ({
   triggeredSignals,
   timeseries = [],
-  metrics
+  metrics,
+  label
 }) => {
   const data = mapWithTimeseries(timeseries)
   const dataKeys = getDataKeys(triggeredSignals[0])
-
-  const metricsModified = metrics.map(metric =>
-    metric === 'historyPrice' ? 'historyPricePreview' : metric
-  )
-  const markup = generateMetricsMarkup(metricsModified)
+  const markup = generateMetricsMarkup(metrics)
 
   const renderChart = () => {
     return (
@@ -97,21 +94,41 @@ const VisualBacktestChart = ({
             <ReferenceLine stroke='#FF5B5B' x={date} key={i} />
           )
         })}
-        <Tooltip labelFormatter={labelFormatter} content={<CustomTooltip />} />
+        <Tooltip
+          content={<CustomTooltip />}
+          position={{ x: 0, y: -30 }}
+          isAnimationActive={false}
+        />
       </ComposedChart>
     )
   }
 
   return (
-    <div
-      className={cx(
-        chartStyles.wrapper + ' ' + sharedStyles.chart + ' ' + styles.wrapper,
-        styles.container
-      )}
-    >
-      <ResponsiveContainer width='100%' height={120}>
-        {renderChart()}
-      </ResponsiveContainer>
+    <div className={styles.preview}>
+      <div className={styles.description}>
+        <span className={styles.fired}>Signal was fired:</span>
+        <span className={styles.times}>
+          {triggeredSignals.length} times in {label}
+        </span>
+      </div>
+      <div className={styles.chartBlock}>
+        <div className={styles.chart}>
+          <div
+            className={cx(
+              chartStyles.wrapper +
+                ' ' +
+                sharedStyles.chart +
+                ' ' +
+                styles.wrapper,
+              styles.container
+            )}
+          >
+            <ResponsiveContainer width='100%' height={120}>
+              {renderChart()}
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -120,35 +137,33 @@ const formatTooltipValue = (isPrice, value) =>
   isPrice ? formatNumber(value, { currency: 'USD' }) : value.toFixed(2)
 
 const getTooltipDate = time => {
-  const { dddd, DD, MMM, YYYY } = getDateFormats(new Date(time))
-  return `${dddd}, ${MMM} ${DD} ${YYYY}`
+  const date = new Date(time)
+  const { MMMM, DD } = getDateFormats(date)
+  const { HH, mm } = getTimeFormats(date)
+
+  return `${HH}:${mm}, ${MMMM} ${DD}.`
 }
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload) {
     return (
-      <div
-        className='custom-tooltip'
-        style={{
-          margin: 0,
-          padding: 10,
-          backgroundColor: 'rgb(255, 255, 255)',
-          border: '1px solid rgb(204, 204, 204)',
-          whiteSpace: 'nowrap'
-        }}
-      >
+      <div className={cx('custom-tooltip', styles.tooltip)}>
         {payload[0] && (
-          <p className={styles.tooltipLabel}>
+          <span className={styles.tooltipLabel}>
             {getTooltipDate(payload[0].payload.datetime)}
-          </p>
+          </span>
         )}
         {payload.map(({ name, value, stroke, fill }) => {
           return (
-            <div
+            <span
               key={name}
               className={cx('label', styles.tooltipLabel)}
               style={{ color: stroke || fill }}
-            >{`${name} : ${formatTooltipValue(name === 'Price', value)}`}</div>
+            >
+              {`${
+                name === 'Daily Active Addresses' ? 'DAA' : name
+              } ${formatTooltipValue(name === 'Price', value)}`}
+            </span>
           )
         })}
       </div>
