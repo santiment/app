@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import Dialog from '@santiment-network/ui/Dialog'
-import styles from './DeleteDialog.module.scss'
+import styles from './ConfirmDialog.module.scss'
 
 class ConfirmDialog extends PureComponent {
   state = { open: false }

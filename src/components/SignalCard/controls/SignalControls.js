@@ -8,7 +8,7 @@ import {
   PRICE_PERCENT_CHANGE,
   PRICE_VOLUME_DIFFERENCE
 } from '../../../ducks/Signals/utils/constants'
-import ConfirmDialog from '../../DeleteDialog/ConfirmDialog'
+import ConfirmDialog from '../../ConfirmDialog/ConfirmDialog'
 import styles from './SignalControls.module.scss'
 
 const getIconStyles = type => {
