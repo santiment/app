@@ -11,6 +11,20 @@
 .label {
   margin-left: auto;
   color: var(--jungle-green);
+
+  @include responsive('phone', 'phone-xs') {
+    margin-left: 0;
+  }
+}
+
+.textBlocks {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
 }
 
 .metric {

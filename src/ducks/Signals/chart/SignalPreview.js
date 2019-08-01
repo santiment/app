@@ -11,7 +11,6 @@ import { ChartExpandView } from './ChartExpandView'
 const SignalPreviewChart = ({
   type,
   slug,
-  showAxes = false,
   timeRange,
   label,
   triggeredSignals

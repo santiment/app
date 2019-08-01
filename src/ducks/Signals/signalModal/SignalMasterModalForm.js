@@ -11,6 +11,7 @@ import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import GetSignal from '../common/getSignal'
 import { SIGNAL_ROUTES } from '../common/constants'
 import SignalAnon from './SignalAnon'
+import ConfirmSignalModalClose from './confirmClose/ConfirmSignalModalClose'
 import styles from './SignalMasterModalForm.module.scss'
 
 const SignalMasterModalForm = ({
@@ -40,6 +41,7 @@ const SignalMasterModalForm = ({
 
   const [dialogOpenState, setDialogOpenState] = useState(hasTrigger)
   const [dialogTitle, onSetDialogTitle] = useState('')
+  const [isApproving, setIsAppoving] = useState(false)
 
   useEffect(
     data => {
@@ -48,15 +50,20 @@ const SignalMasterModalForm = ({
     [triggerId]
   )
 
-  const onClose = () => {
+  const { variant, border } = buttonParams
+
+  const onCancelClose = () => {
+    setIsAppoving(false)
+  }
+
+  const onApprove = () => {
+    setIsAppoving(false)
     setDialogOpenState(false)
 
     if (hasTrigger) {
       redirect()
     }
   }
-
-  const { variant, border } = buttonParams
 
   return (
     <GetSignal
@@ -73,53 +80,65 @@ const SignalMasterModalForm = ({
         }
 
         return (
-          <Dialog
-            open={dialogOpenState}
-            onOpen={() => setDialogOpenState(true)}
-            onClose={onClose}
-            trigger={
-              dialogTrigger ||
-              signalModalTrigger(isLoggedIn && enabled, label, variant, border)
-            }
-            title={
-              !isError && (
-                <>
-                  {dialogTitle}
-                  {isShared && (
-                    <Button
-                      accent='positive'
-                      variant='fill'
-                      className={styles.shared}
-                    >
-                      Shared
-                    </Button>
-                  )}
-                </>
-              )
-            }
-            classes={styles}
-            {...dialogProps}
-          >
-            <Dialog.ScrollContent className={styles.TriggerPanel}>
-              {isLoading && (
-                <Loader className={styles.loading}>Loading...</Loader>
-              )}
-              {!isLoading &&
-                (isLoggedIn ? (
-                  <SignalMaster
-                    isShared={isShared}
-                    step={step}
-                    trigger={trigger}
-                    setTitle={onSetDialogTitle}
-                    onClose={() => setDialogOpenState(false)}
-                    canRedirect={canRedirect}
-                    metaFormSettings={metaFormSettings}
-                  />
-                ) : (
-                  <SignalAnon />
-                ))}
-            </Dialog.ScrollContent>
-          </Dialog>
+          <>
+            <ConfirmSignalModalClose
+              isOpen={isApproving}
+              onCancel={onCancelClose}
+              onApprove={onApprove}
+            />
+            <Dialog
+              open={dialogOpenState}
+              onOpen={() => setDialogOpenState(true)}
+              onClose={() => setIsAppoving(true)}
+              trigger={
+                dialogTrigger ||
+                signalModalTrigger(
+                  isLoggedIn && enabled,
+                  label,
+                  variant,
+                  border
+                )
+              }
+              title={
+                !isError && (
+                  <>
+                    {dialogTitle}
+                    {isShared && (
+                      <Button
+                        accent='positive'
+                        variant='fill'
+                        className={styles.shared}
+                      >
+                        Shared
+                      </Button>
+                    )}
+                  </>
+                )
+              }
+              classes={styles}
+              {...dialogProps}
+            >
+              <Dialog.ScrollContent className={styles.TriggerPanel}>
+                {isLoading && (
+                  <Loader className={styles.loading}>Loading...</Loader>
+                )}
+                {!isLoading &&
+                  (isLoggedIn ? (
+                    <SignalMaster
+                      isShared={isShared}
+                      step={step}
+                      trigger={trigger}
+                      setTitle={onSetDialogTitle}
+                      onClose={() => setDialogOpenState(false)}
+                      canRedirect={canRedirect}
+                      metaFormSettings={metaFormSettings}
+                    />
+                  ) : (
+                    <SignalAnon />
+                  ))}
+              </Dialog.ScrollContent>
+            </Dialog>
+          </>
         )
       }}
     />
