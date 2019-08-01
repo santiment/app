@@ -78,7 +78,7 @@ export const Metrics = {
   mvrvRatio: {
     category: 'On-chain',
     node: Line,
-    group: 'Realized value',
+    group: 'Network value',
     label: 'Market Value To Realized Value',
     dataKey: 'mvrv'
   },
@@ -140,7 +140,7 @@ export const Metrics = {
   realizedValue: {
     category: 'On-chain',
     node: Line,
-    group: 'Realized value',
+    group: 'Network value',
     label: 'Realized Value',
     dataKey: 'realizedValue'
   },
@@ -158,14 +158,14 @@ const DerivedMetrics = [
     parent: 'nvtRatio',
     key: 'nvtRatioCirculation',
     node: Line,
-    group: 'Realized value',
+    group: 'Network value',
     label: 'NVT Ratio Circulation'
   },
   {
     parent: 'nvtRatio',
     key: 'nvtRatioTxVolume',
     node: Bar,
-    group: 'Realized value',
+    group: 'Network value',
     label: 'NVT Ratio Transaction Volume',
     category: 'On-chain'
   }
