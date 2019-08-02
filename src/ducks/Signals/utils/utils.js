@@ -278,18 +278,27 @@ const mapTriggerToFormThreshold = ({ threshold, operation }) => {
   return newThreshold
 }
 
-export const mapToOptions = items => {
-  if (!items) {
+export const mapToOptions = input => {
+  if (!input) {
     return []
   }
 
-  if (Array.isArray(items)) {
-    return items.map(item => ({
+  if (Array.isArray(input)) {
+    return input.map(item => ({
       label: item,
       value: item
     }))
   } else {
-    return [items]
+    if (typeof input === 'object') {
+      return [input]
+    } else {
+      return [
+        {
+          value: input,
+          label: input
+        }
+      ]
+    }
   }
 }
 
