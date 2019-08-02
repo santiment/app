@@ -17,7 +17,8 @@ export const TriggersForm = ({
   canRedirect,
   metaFormSettings,
   onSettingsChange,
-  onClose
+  onClose,
+  formChangedCallback
 }) => {
   return (
     <div>
@@ -30,6 +31,7 @@ export const TriggersForm = ({
           settings={settings}
           onSettingsChange={onSettingsChange}
           onRemovedSignal={onClose}
+          formChangedCallback={formChangedCallback}
         />
       ))}
     </div>
