@@ -65,6 +65,7 @@ class EditableInputSetting extends PureComponent {
         <div
           className={cx(
             styles.setting__left,
+            styles.emailBlock,
             editing && styles.setting__left_form
           )}
         >

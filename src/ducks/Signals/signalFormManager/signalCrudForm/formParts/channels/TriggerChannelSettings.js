@@ -1,63 +1,37 @@
-import Dialog from '@santiment-network/ui/Dialog'
-import Button from '@santiment-network/ui/Button'
-import styles from '../../signal/TriggerForm.module.scss'
-import { Link } from 'react-router-dom'
-import Label from '@santiment-network/ui/Label'
-import Toggle from '@santiment-network/ui/Toggle'
-import * as actions from '../../../../../../actions/types'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import Dialog from '@santiment-network/ui/Dialog'
 import EmailSetting from '../../../../../../pages/Account/EmailSetting'
 import ConnectTelegramBlock from '../../../../../../pages/Account/ConnectTelegramBlock'
 import SettingsTelegramNotifications from '../../../../../../pages/Account/SettingsTelegramNotifications'
+import SettingsEmailNotifications from '../../../../../../pages/Account/SettingsEmailNotifications'
+import styles from './TriggerChannelSettings.module.scss'
 
-const TriggerChannelSettings = ({
-  channels,
-  isTelegramConnected,
-  isEmailConnected,
-  isEmailNotificationEnabled,
-  isTelegramNotificationEnabled,
-  toggleEmailNotification,
-  toggleTelegramNotification
-}) => {
-  const notConnectedTelegram =
-    channels.find(c => c === 'Telegram') && !isTelegramConnected
-  const notConnectedEmail =
-    channels.find(c => c === 'Email') && !isEmailConnected
+const TriggerChannelSettings = ({ isTelegramSettings, isEmailSettings }) => {
+  if (!isTelegramSettings && !isEmailSettings) {
+    return ''
+  }
 
   return (
     <>
       <Dialog
-        trigger={
-          <Button
-            className={styles.connectLink}
-            variant='ghost'
-            as={Link}
-            to='/account'
-          >
-            <span className={styles.connectLink}>Connect</span>
-          </Button>
-        }
-        title='Notification channels'
+        trigger={<span className={styles.connect}>Open settings</span>}
+        title='Notification settings'
       >
         <Dialog.ScrollContent>
-          <EmailSetting />
-          <ConnectTelegramBlock classes={styles} />
+          {!isTelegramSettings && (
+            <>
+              <EmailSetting hideIfEmail />
+              <SettingsEmailNotifications classes={styles} />
+            </>
+          )}
 
-          <SettingsTelegramNotifications />
-
-          <div>
-            <Label>Telegram notifications</Label>
-
-            <div>
-              <Toggle
-                isActive={isTelegramNotificationEnabled}
-                onClick={() =>
-                  toggleTelegramNotification(!isTelegramNotificationEnabled)
-                }
-              />
-            </div>
-          </div>
+          {!isEmailSettings && (
+            <>
+              <ConnectTelegramBlock classes={styles} />
+              <SettingsTelegramNotifications classes={styles} />
+            </>
+          )}
         </Dialog.ScrollContent>
       </Dialog>
     </>
@@ -66,29 +40,15 @@ const TriggerChannelSettings = ({
 
 const mapStateToProps = ({
   user: {
-    data: { settings: { signalNotifyEmail, signalNotifyTelegram } = {} }
+    data: { email = '' }
   }
 }) => ({
-  isEmailNotificationEnabled: signalNotifyEmail,
-  isTelegramNotificationEnabled: signalNotifyTelegram
-})
-
-const mapDispatchToProps = dispatch => ({
-  toggleEmailNotification: signalNotifyEmail =>
-    dispatch({
-      type: actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL,
-      payload: { signalNotifyEmail }
-    }),
-  toggleTelegramNotification: signalNotifyTelegram =>
-    dispatch({
-      type: actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL,
-      payload: { signalNotifyTelegram }
-    })
+  email: email
 })
 
 const enhance = connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )
 
 export default enhance(TriggerChannelSettings)

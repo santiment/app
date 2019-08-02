@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import * as actions from '../../actions/types'
@@ -27,7 +27,7 @@ const ConnectTelegramBlock = ({
   })
 
   return (
-    <Fragment>
+    <div className={cx(styles.telegram, classes.container)}>
       <div className={cx(styles.setting__left, classes.left)}>
         <Label>Telegram</Label>
         <Label className={styles.setting__description} accent='waterloo'>
@@ -50,7 +50,7 @@ const ConnectTelegramBlock = ({
       >
         {getTelegramBtnText(hasTelegramConnected, isTelegramConnecting)}
       </Button>
-    </Fragment>
+    </div>
   )
 }
 

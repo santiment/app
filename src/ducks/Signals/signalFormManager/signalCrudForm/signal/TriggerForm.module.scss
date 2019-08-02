@@ -76,17 +76,6 @@ $trigger-form-width: 534px;
   margin-bottom: 1rem;
 }
 
-span.connectLink {
-  color: var(--dodger-blue) !important;
-  margin-left: 0.3rem;
-}
-
-a.connectLink {
-  margin-left: 0;
-  padding-left: 0;
-  color: var(--mirage) !important;
-}
-
 .notifyBlock {
   display: flex;
   margin-top: 5px;
@@ -94,10 +83,6 @@ a.connectLink {
   div:first-child {
     margin-right: 20px;
   }
-}
-
-.connectLink {
-  @include text('body-3');
 }
 
 .Field {

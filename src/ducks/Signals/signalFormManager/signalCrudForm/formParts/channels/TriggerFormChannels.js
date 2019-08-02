@@ -13,6 +13,13 @@ const TriggerFormChannels = ({
   isTelegramConnected,
   isEmailConnected
 }) => {
+  const settingsForTelegramEnabled =
+    !isTelegramConnected && channels.some(x => x === 'Telegram')
+  const settingsForEmailEnabled =
+    !isEmailConnected && channels.some(x => x === 'Email')
+
+  console.log(channels)
+
   return (
     <SidecarExplanationTooltip
       closeTimeout={500}
@@ -32,9 +39,8 @@ const TriggerFormChannels = ({
               options={['Email', 'Telegram']}
             />
             <TriggerChannelSettings
-              channels={channels}
-              isTelegramConnected={isTelegramConnected}
-              isEmailConnected={isEmailConnected}
+              isTelegramSettings={settingsForTelegramEnabled}
+              isEmailSettings={settingsForEmailEnabled}
             />
           </div>
           {errors.channels && (

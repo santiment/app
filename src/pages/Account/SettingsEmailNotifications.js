@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
+import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
 import * as actions from '../../actions/types'
@@ -8,18 +9,19 @@ import styles from './AccountPage.module.scss'
 
 const SettingsEmailNotifications = ({
   isEmailNotificationEnabled,
-  toggleEmailNotification
+  toggleEmailNotification,
+  classes = {}
 }) => {
   return (
-    <>
-      <Label>Email notifications</Label>
-      <div className={styles.setting__right_notifications}>
+    <div className={cx(classes.container, styles.settingBlock)}>
+      <Label className={classes.left}>Email notifications</Label>
+      <div className={cx(styles.setting__right_notifications, classes.right)}>
         <Toggle
           isActive={isEmailNotificationEnabled}
           onClick={() => toggleEmailNotification(!isEmailNotificationEnabled)}
         />
       </div>
-    </>
+    </div>
   )
 }
 

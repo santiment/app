@@ -28,33 +28,41 @@ const validateEmail = email => {
   }
 }
 
-const EmailSetting = ({ email, dispatchNewEmail, changeEmail }) => {
-  console.log(email)
+const EmailSetting = ({
+  email,
+  dispatchNewEmail,
+  changeEmail,
+  hideIfEmail = false
+}) => {
+  const show = !hideIfEmail || (hideIfEmail && email)
+
   return (
-    <EditableInputSetting
-      label='Email'
-      defaultValue={email}
-      validate={validateEmail}
-      onSubmit={value =>
-        changeEmail({ variables: { value } })
-          .then(() => {
-            store.dispatch(
-              showNotification(`Verification email was sent to "${value}"`)
-            )
-            dispatchNewEmail(value)
-          })
-          .catch(error => {
-            if (error.graphQLErrors[0].details.email.includes(TAKEN_MSG)) {
+    show && (
+      <EditableInputSetting
+        label='Email'
+        defaultValue={email}
+        validate={validateEmail}
+        onSubmit={value =>
+          changeEmail({ variables: { value } })
+            .then(() => {
               store.dispatch(
-                showNotification({
-                  variant: 'error',
-                  title: `Email "${value}" is already taken`
-                })
+                showNotification(`Verification email was sent to "${value}"`)
               )
-            }
-          })
-      }
-    />
+              dispatchNewEmail(value)
+            })
+            .catch(error => {
+              if (error.graphQLErrors[0].details.email.includes(TAKEN_MSG)) {
+                store.dispatch(
+                  showNotification({
+                    variant: 'error',
+                    title: `Email "${value}" is already taken`
+                  })
+                )
+              }
+            })
+        }
+      />
+    )
   )
 }
 

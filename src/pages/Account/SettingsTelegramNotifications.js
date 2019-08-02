@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { connect } from 'react-redux'
 import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
@@ -7,13 +8,14 @@ import styles from './AccountPage.module.scss'
 
 const SettingsTelegramNotifications = ({
   isTelegramNotificationEnabled,
-  toggleTelegramNotification
+  toggleTelegramNotification,
+  classes = {}
 }) => {
   return (
-    <>
-      <Label>Telegram notifications</Label>
+    <div className={cx(classes.container, styles.settingBlock)}>
+      <Label className={classes.left}>Telegram notifications</Label>
 
-      <div className={styles.setting__right_notifications}>
+      <div className={cx(styles.setting__right_notifications, classes.right)}>
         <Toggle
           isActive={isTelegramNotificationEnabled}
           onClick={() =>
@@ -21,7 +23,7 @@ const SettingsTelegramNotifications = ({
           }
         />
       </div>
-    </>
+    </div>
   )
 }
 

@@ -106,7 +106,7 @@ const SignalMasterModalForm = ({
                 !isError && (
                   <>
                     {dialogTitle}
-                    {isShared && (
+                    {isShared && isLoggedIn && (
                       <Button
                         accent='positive'
                         variant='fill'

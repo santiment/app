@@ -1,0 +1,30 @@
+@import '~@santiment-network/ui/mixins.scss';
+
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--porcelain);
+  min-height: 60px;
+  padding: 17px 20px;
+
+  @include responsive('phone', 'phone-xs') {
+    align-items: flex-end;
+  }
+}
+
+.connect {
+  @include text('body-3');
+
+  color: var(--jungle-green);
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.left {
+  margin-right: 5px;
+}
+
+.right {
+  margin-left: auto;
+}
