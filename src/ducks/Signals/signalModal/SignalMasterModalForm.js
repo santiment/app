@@ -65,6 +65,9 @@ const SignalMasterModalForm = ({
     }
   }
 
+  const onCloseModal = () =>
+    isLoggedIn ? setIsAppoving(true) : setDialogOpenState(false)
+
   return (
     <GetSignal
       triggerId={triggerId}
@@ -89,7 +92,7 @@ const SignalMasterModalForm = ({
             <Dialog
               open={dialogOpenState}
               onOpen={() => setDialogOpenState(true)}
-              onClose={() => setIsAppoving(true)}
+              onClose={onCloseModal}
               trigger={
                 dialogTrigger ||
                 signalModalTrigger(
