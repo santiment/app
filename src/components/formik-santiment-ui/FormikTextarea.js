@@ -19,6 +19,7 @@ const FormikTextarea = ({
         return (
           <Fragment>
             <AutoresizeTextarea
+              isFormik
               className={cx(
                 styles.textarea,
                 isError && styles.error,
