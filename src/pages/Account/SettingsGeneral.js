@@ -8,10 +8,8 @@ import * as actions from '../../actions/types'
 import styles from './AccountPage.module.scss'
 
 const SettingsGeneral = ({
-  email,
   username,
   dispatchNewUsername,
-  dispatchNewEmail,
   toggleNightMode,
   toggleBetaMode,
   toggleNews,
@@ -24,7 +22,7 @@ const SettingsGeneral = ({
       dispatchNewUsername={dispatchNewUsername}
       username={username}
     />
-    <EmailSetting dispatchNewEmail={dispatchNewEmail} email={email} />
+    <EmailSetting />
     <Settings.Row>
       <div className={styles.setting__left}>
         <Label>Night mode</Label>
@@ -49,10 +47,9 @@ const SettingsGeneral = ({
 )
 
 const mapStateToProps = ({
-  user: { data: { email, username } = {} },
+  user: { data: { username } = {} },
   rootUi: { isNightModeEnabled, isBetaModeEnabled, isNewsEnabled }
 }) => ({
-  email,
   username,
   isNightModeEnabled,
   isBetaModeEnabled,
@@ -60,11 +57,6 @@ const mapStateToProps = ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  dispatchNewEmail: email =>
-    dispatch({
-      type: actions.USER_EMAIL_CHANGE,
-      email
-    }),
   dispatchNewUsername: username =>
     dispatch({
       type: actions.USER_USERNAME_CHANGE,

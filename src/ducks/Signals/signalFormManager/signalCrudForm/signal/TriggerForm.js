@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { compose } from 'recompose'
@@ -14,13 +13,11 @@ import {
   fetchHistorySignalPoints,
   removeTrigger
 } from '../../../common/actions'
-import FormikCheckboxes from '../../../../../components/formik-santiment-ui/FormikCheckboxes'
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import Button from '@santiment-network/ui/Button'
 import RadioBtns from '@santiment-network/ui/RadioBtns'
 import { Checkbox } from '@santiment-network/ui'
-import Message from '@santiment-network/ui/Message'
 import {
   PRICE_PERCENT_CHANGE,
   METRIC_DEFAULT_VALUES,
@@ -53,7 +50,7 @@ import TriggerFormBlock, {
 } from '../formParts/block/TriggerFormBlock'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikTextarea from '../../../../../components/formik-santiment-ui/FormikTextarea'
-import SidecarExplanationTooltip from '../../../../SANCharts/SidecarExplanationTooltip'
+import TriggerFormChannels from '../formParts/channels/TriggerFormChannels'
 import styles from './TriggerForm.module.scss'
 
 const propTypes = {
@@ -171,11 +168,6 @@ export const TriggerForm = ({
           validateAndSetStep(TRIGGER_FORM_STEPS.DESCRIPTION)
         }
 
-        const notConnectedTelegram =
-          channels.find(c => c === 'Telegram') && !isTelegramConnected
-        const notConnectedEmail =
-          channels.find(c => c === 'Email') && !isEmailConnected
-
         return (
           <Form>
             <FormikEffect
@@ -275,46 +267,12 @@ export const TriggerForm = ({
                     show={!isTelegramConnected || !isEmailConnected}
                     className={styles.chainBlock}
                   >
-                    <SidecarExplanationTooltip
-                      closeTimeout={500}
-                      localStorageSuffix='_TRIGGER_FORM_EXPLANATION'
-                      position='top'
-                      title='Connect channels'
-                      description='Get fast notifications through Email or Telegram'
-                      className={styles.explanation}
-                    >
-                      <div className={cx(styles.row, styles.rowTop)}>
-                        <div className={cx(styles.Field, styles.fieldFilled)}>
-                          <FormikLabel text='Notify me via' />
-                          <div className={styles.notifyBlock}>
-                            <FormikCheckboxes
-                              name='channels'
-                              labelOnRight
-                              options={['Email', 'Telegram']}
-                            />
-                            {(notConnectedTelegram || notConnectedEmail) && (
-                              <Button
-                                className={styles.connectLink}
-                                variant='ghost'
-                                as={Link}
-                                to='/account'
-                              >
-                                <span className={styles.connectLink}>
-                                  Connect
-                                </span>
-                              </Button>
-                            )}
-                          </div>
-                          {errors.channels && (
-                            <div className={cx(styles.row, styles.messages)}>
-                              <Message variant='warn'>
-                                {errors.channels}
-                              </Message>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </SidecarExplanationTooltip>
+                    <TriggerFormChannels
+                      channels={channels}
+                      errors={errors}
+                      isTelegramConnected={isTelegramConnected}
+                      isEmailConnected={isEmailConnected}
+                    />
 
                     <TriggerFormBlockDivider />
 

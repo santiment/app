@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Label, Button } from '@santiment-network/ui'
+import Button from '@santiment-network/ui/Button'
+import Label from '@santiment-network/ui/Label'
 import Settings from './Settings'
 import * as actions from '../../actions/types'
 import { hasMetamask } from '../../web3Helpers'
+import ConnectTelegramBlock from './ConnectTelegramBlock'
 import styles from './AccountPage.module.scss'
 
 const getMetamaskBtnText = (address, connecting) => {
@@ -18,29 +20,13 @@ const getMetamaskBtnText = (address, connecting) => {
   return connecting ? 'Connecting' : 'Connect'
 }
 
-const getTelegramBtnText = (connected, connecting) => {
-  if (connected) {
-    return 'Reconnect'
-  }
-
-  return connecting ? 'Connecting' : 'Connect'
-}
-
 class SettingsConnections extends PureComponent {
-  componentDidMount () {
-    this.props.generateTelegramDeepLink()
-  }
-
   render () {
     const {
       address,
-      connectTelegram,
-      isTelegramConnecting,
       connectNewWallet,
       removeConnectedWallet,
-      telegramDeepLink,
-      isConnectWalletPending,
-      hasTelegramConnected
+      isConnectWalletPending
     } = this.props
 
     return (
@@ -66,28 +52,7 @@ class SettingsConnections extends PureComponent {
         </Settings.Row>
 
         <Settings.Row>
-          <div className={styles.setting__left}>
-            <Label>Telegram</Label>
-            <Label className={styles.setting__description} accent='waterloo'>
-              You will get the ability to connect the bot and log in through
-              Telegram.
-              <br />
-              Please do not use Telegram Web as it might not be able to link
-              account correctly.
-            </Label>
-          </div>
-          <Button
-            variant='fill'
-            accent='positive'
-            as='a'
-            className={styles.connect_telegram}
-            href={telegramDeepLink}
-            rel='noopener noreferrer'
-            target='_blank'
-            onClick={connectTelegram}
-          >
-            {getTelegramBtnText(hasTelegramConnected, isTelegramConnecting)}
-          </Button>
+          <ConnectTelegramBlock />
         </Settings.Row>
       </Settings>
     )
@@ -96,23 +61,11 @@ class SettingsConnections extends PureComponent {
 
 const mapStateToProps = ({
   user: {
-    data: {
-      email,
-      ethAccounts = [],
-      settings: {
-        telegramDeepLink,
-        isTelegramConnecting,
-        hasTelegramConnected
-      } = {}
-    }
+    data: { ethAccounts = [] }
   },
   accountUi: { isConnectWalletPending, isConnectWalletFailed }
 }) => ({
-  hasEmail: !!email,
   address: ethAccounts.length > 0 && ethAccounts[0].address,
-  telegramDeepLink,
-  isTelegramConnecting,
-  hasTelegramConnected,
   isConnectWalletPending,
   isConnectWalletFailed
 })
@@ -121,9 +74,7 @@ const mapDispatchToProps = dispatch => ({
   removeConnectedWallet: () =>
     dispatch({ type: actions.SETTINGS_REMOVE_CONNECTED_WALLET }),
   connectNewWallet: () =>
-    dispatch({ type: actions.SETTINGS_CONNECT_NEW_WALLET }),
-  generateTelegramDeepLink: () =>
-    dispatch({ type: actions.SETTINGS_GENERATE_TELEGRAM_DEEP_LINK })
+    dispatch({ type: actions.SETTINGS_CONNECT_NEW_WALLET })
 })
 
 export default connect(
