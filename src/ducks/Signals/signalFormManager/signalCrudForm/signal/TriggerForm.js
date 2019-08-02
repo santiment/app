@@ -114,7 +114,7 @@ export const TriggerForm = ({
       setCanCallFormChanged(false)
       formChangedCallback(false)
     }
-  })
+  }, [])
 
   const toggleSignalPublic = () => {
     setInitialValues({ ...initialValues, isPublic: !initialValues.isPublic })
