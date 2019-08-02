@@ -42,6 +42,7 @@ const SignalMasterModalForm = ({
   const [dialogOpenState, setDialogOpenState] = useState(hasTrigger)
   const [dialogTitle, onSetDialogTitle] = useState('')
   const [isApproving, setIsAppoving] = useState(false)
+  const [isChanged, setIsChanged] = useState(false)
 
   useEffect(
     data => {
@@ -65,8 +66,13 @@ const SignalMasterModalForm = ({
     }
   }
 
-  const onCloseModal = () =>
-    isLoggedIn ? setIsAppoving(true) : setDialogOpenState(false)
+  const onCloseMainModal = () => {
+    isChanged && isLoggedIn ? setIsAppoving(true) : setDialogOpenState(false)
+  }
+
+  const formChangedCallback = isChanged => {
+    setIsChanged(isChanged)
+  }
 
   return (
     <GetSignal
@@ -92,7 +98,7 @@ const SignalMasterModalForm = ({
             <Dialog
               open={dialogOpenState}
               onOpen={() => setDialogOpenState(true)}
-              onClose={onCloseModal}
+              onClose={onCloseMainModal}
               trigger={
                 dialogTrigger ||
                 signalModalTrigger(
@@ -135,6 +141,7 @@ const SignalMasterModalForm = ({
                       onClose={() => setDialogOpenState(false)}
                       canRedirect={canRedirect}
                       metaFormSettings={metaFormSettings}
+                      formChangedCallback={formChangedCallback}
                     />
                   ) : (
                     <SignalAnon />

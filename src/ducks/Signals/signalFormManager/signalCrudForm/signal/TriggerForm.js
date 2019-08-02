@@ -71,7 +71,8 @@ export const TriggerForm = ({
   lastPriceItem,
   settings,
   metaFormSettings,
-  id
+  id,
+  formChangedCallback
 }) => {
   const formMetric =
     metaFormSettings && metaFormSettings.metric
@@ -98,10 +99,22 @@ export const TriggerForm = ({
   }
 
   const [initialValues, setInitialValues] = useState(settings)
+  const [canCallFormChangCallback, setCanCallFormChanged] = useState(false)
 
   useEffect(() => {
     couldShowChart(initialValues) && getSignalBacktestingPoints(initialValues)
   }, [])
+
+  useEffect(() => {
+    setTimeout(() => {
+      !canCallFormChangCallback && setCanCallFormChanged(true)
+    })
+
+    return () => {
+      setCanCallFormChanged(false)
+      formChangedCallback(false)
+    }
+  })
 
   const toggleSignalPublic = () => {
     setInitialValues({ ...initialValues, isPublic: !initialValues.isPublic })
@@ -203,6 +216,10 @@ export const TriggerForm = ({
                     !newValues.descriptionChangedByUser &&
                       setFieldValue('description', getNewDescription(newValues))
                   }
+
+                  canCallFormChangCallback &&
+                    formChangedCallback &&
+                    formChangedCallback(true)
                 }
               }}
             />
