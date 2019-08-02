@@ -6,32 +6,16 @@ import {
   YAxis,
   Tooltip,
   ReferenceDot,
-  ReferenceLine
+  CartesianGrid
 } from 'recharts'
 import cx from 'classnames'
+import Gradients from '../../../components/WatchlistOverview/Gradients'
 import { generateMetricsMarkup } from './../../SANCharts/utils'
 import { formatNumber } from './../../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../../utils/dates'
 import chartStyles from './../../SANCharts/Chart.module.scss'
 import sharedStyles from './../../SANCharts/ChartPage.module.scss'
 import styles from './SignalPreview.module.scss'
-
-export const getDataKeys = (signal = {}) => {
-  if (signal.active_addresses) {
-    return { metric: 'dailyActiveAddresses', signal: 'active_addresses' }
-  }
-  if (signal.price) return { metric: 'priceUsd', signal: 'price' }
-  return { metric: 'priceUsd' }
-}
-
-const mapWithTimeseries = items =>
-  items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
-
-const mapWithMidnightTime = date => {
-  const datetime = new Date(date)
-  datetime.setUTCHours(0, 0, 0, 0)
-  return +new Date(datetime)
-}
 
 const VisualBacktestChart = ({
   triggeredSignals,
@@ -41,11 +25,15 @@ const VisualBacktestChart = ({
 }) => {
   const data = mapWithTimeseries(timeseries)
   const dataKeys = getDataKeys(triggeredSignals[0])
+  const signals = mapWithTimeseriesAndYCoord(triggeredSignals, dataKeys, data)
   const markup = generateMetricsMarkup(metrics)
 
   const renderChart = () => {
     return (
       <ComposedChart data={data}>
+        <defs>
+          <Gradients />
+        </defs>
         <XAxis
           dataKey='datetime'
           type='number'
@@ -55,39 +43,33 @@ const VisualBacktestChart = ({
           domain={['dataMin', 'dataMax']}
           hide
         />
-
-        <YAxis hide domain={['auto', 'dataMax']} dataKey={dataKeys.metric} />
+        <CartesianGrid
+          strokeDasharray='3 5'
+          vertical={false}
+          strike='var(--porcelain)'
+        />
+        <YAxis
+          hide
+          domain={['auto', 'dataMax']}
+          dataKey={dataKeys.metric}
+          interval='preserveStartEnd'
+        />
 
         {markup}
 
-        {triggeredSignals.map((point, i) => {
-          let price
-          const isPrice = dataKeys.signal === 'price'
-          const date = isPrice
-            ? mapWithMidnightTime(point.datetime)
-            : +new Date(point.datetime)
-
-          if (isPrice) {
-            const item = data.find(({ datetime }) => datetime === date)
-            price = item ? item.priceUsd : point.price
-          }
-
-          return dataKeys.signal ? (
-            <ReferenceDot
-              x={date}
-              y={price || point[dataKeys.signal]}
-              key={i}
-              ifOverflow='extendDomain'
-              r={3}
-              isFront
-              stroke='var(--white)'
-              strokeWidth='2px'
-              fill='var(--persimmon)'
-            />
-          ) : (
-            <ReferenceLine stroke='#FF5B5B' x={date} key={i} />
-          )
-        })}
+        {signals.map(({ date, yCoord }, idx) => (
+          <ReferenceDot
+            x={date}
+            y={yCoord}
+            key={idx}
+            ifOverflow='extendDomain'
+            r={3}
+            isFront
+            stroke='var(--white)'
+            strokeWidth='2px'
+            fill='var(--persimmon)'
+          />
+        ))}
         <Tooltip
           content={<CustomTooltip />}
           position={{ x: 0, y: -30 }}
@@ -109,12 +91,9 @@ const VisualBacktestChart = ({
         <div className={styles.chart}>
           <div
             className={cx(
-              chartStyles.wrapper +
-                ' ' +
-                sharedStyles.chart +
-                ' ' +
-                styles.wrapper,
-              styles.container
+              chartStyles.wrapper,
+              sharedStyles.chart,
+              styles.wrapper
             )}
           >
             <ResponsiveContainer width='100%' height={120}>
@@ -125,6 +104,38 @@ const VisualBacktestChart = ({
       </div>
     </div>
   )
+}
+
+const getDataKeys = (signal = {}) => {
+  if (signal.active_addresses) {
+    return { metric: 'dailyActiveAddresses', signal: 'active_addresses' }
+  }
+
+  return { metric: 'priceUsd', signal: 'price' }
+}
+
+const mapWithTimeseries = items =>
+  items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
+
+const mapWithMidnightTime = date => {
+  const datetime = new Date(date)
+  datetime.setUTCHours(0, 0, 0, 0)
+  return +new Date(datetime)
+}
+
+const mapWithTimeseriesAndYCoord = (items, dataKeys, data) => {
+  return dataKeys.signal === 'price'
+    ? items.map(point => {
+      const date = mapWithMidnightTime(point.datetime)
+      const item = data.find(({ datetime }) => datetime === date)
+      const yCoord = item ? item.priceUsd : point.price
+
+      return { date, yCoord, ...point }
+    })
+    : items.map(point => {
+      const date = +new Date(point.datetime)
+      return { date, yCoord: point[dataKeys.signal], ...point }
+    })
 }
 
 const formatTooltipValue = (isPrice, value) =>

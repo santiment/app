@@ -31,7 +31,7 @@ const SignalPreviewChart = ({
     return acc
   }, {})
 
-  const metricsModified = metrics.map(name =>
+  const metricsForSignalsChart = metrics.map(name =>
     name === 'historyPrice' ? 'historyPricePreview' : name
   )
 
@@ -55,7 +55,7 @@ const SignalPreviewChart = ({
             label={label}
             triggeredSignals={triggeredSignals}
             timeseries={timeseries}
-            metrics={metricsModified}
+            metrics={metricsForSignalsChart}
           />
         )
       }}
