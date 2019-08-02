@@ -9,12 +9,7 @@
 .times {
   @include text('body-3');
 
-  margin-left: 10px;
-}
-
-.container {
-  width: 100%;
-  height: 100%;
+  margin-left: 5px;
 }
 
 .wrapper {
@@ -23,6 +18,9 @@
       stroke: var(--casper);
     }
   }
+
+  width: 100%;
+  height: 100%;
 }
 
 .chartBlock {
@@ -68,6 +66,13 @@
   right: -10px !important;
 }
 
+.tooltip {
+  min-width: 320px;
+  background: var(--white);
+}
+
 .tooltipLabel {
   @include text('body-3');
+
+  margin-right: 6px;
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { YAxis, Bar, Line } from 'recharts'
+import { YAxis, Bar, Line, Area } from 'recharts'
 
 const PRICE_METRIC = 'historyPrice'
 
@@ -10,6 +10,15 @@ export const Metrics = {
     label: 'Price',
     dataKey: 'priceUsd',
     category: 'Financial'
+  },
+  historyPricePreview: {
+    node: Area,
+    color: 'jungle-green',
+    label: 'Price',
+    dataKey: 'priceUsd',
+    category: 'Financial',
+    gradientUrl: 'url(#totalUp)',
+    hideYAxis: true
   },
   volume: {
     category: 'Financial',
@@ -210,12 +219,16 @@ export const generateMetricsMarkup = (
       color,
       orientation = 'left',
       dataKey = metric,
+      hideYAxis,
+      gradientUrl,
       opacity = 1
     } = typeof metric === 'object' ? metric : Metrics[metric]
 
     const rest = {
       [El === Bar ? 'fill' : 'stroke']: `var(--${color ||
-        METRIC_COLORS[colorIndex++]})`
+        METRIC_COLORS[colorIndex++]})`,
+      [El === Area && gradientUrl && 'fill']: gradientUrl,
+      [El === Area && gradientUrl && 'fillOpacity']: 1
     }
 
     acc.push(
@@ -225,7 +238,7 @@ export const generateMetricsMarkup = (
         type='number'
         orientation={orientation}
         domain={['auto', 'dataMax']}
-        hide={metric !== metricWithYAxis}
+        hide={metric !== metricWithYAxis || hideYAxis}
       />,
       <El
         key={`line-${dataKey}`}
