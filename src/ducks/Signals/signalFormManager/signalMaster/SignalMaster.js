@@ -29,7 +29,8 @@ const SignalMaster = ({
   redirect,
   updateTrigger,
   createTrigger,
-  isShared = false
+  isShared = false,
+  formChangedCallback
 }) => {
   const { triggerId, isLoading, isError } = propsTrigger
 
@@ -101,6 +102,7 @@ const SignalMaster = ({
         canRedirect={canRedirect}
         metaFormSettings={metaFormSettings}
         onSettingsChange={handleSettingsChange}
+        formChangedCallback={formChangedCallback}
       />
     </div>
   )
