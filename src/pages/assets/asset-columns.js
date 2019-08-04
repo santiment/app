@@ -21,7 +21,11 @@ export const COLUMNS = preload => [
     id: COLUMNS_NAMES.index,
     maxWidth: 45,
     sortable: false,
-    Cell: row => <div className='overview-index'>{row.viewIndex + 1}</div>
+    Cell: row => (
+      <div className='overview-index'>
+        {row.page * row.pageSize + row.viewIndex + 1}
+      </div>
+    )
   },
   {
     Header: () => <div className={cx('heading', 'overview-name')}>Project</div>,
