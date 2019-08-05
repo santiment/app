@@ -16,6 +16,7 @@
   width: 380px;
   z-index: 100;
   transform: translateX(100%);
+  transition: transform 0.5s ease-in-out;
 
   * {
     outline: none;
@@ -74,8 +75,13 @@
 .content {
   height: 100%;
   width: 100%;
-  overflow-y: auto;
+  overflow-y: hidden;
   padding: 20px 16px;
+
+  &:hover {
+    overflow-y: auto;
+    overflow-y: overlay;
+  }
 
   &__container {
     position: relative;
