@@ -3,6 +3,7 @@ import { matchPath } from 'react-router'
 import { connect } from 'react-redux'
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
 import Tabs from '@santiment-network/ui/Tabs'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
 import InsightUnAuthPage from './../../pages/Insights/InsightUnAuthPage'
@@ -60,6 +61,7 @@ const SonarFeed = ({
   isLoggedIn,
   isDesktop,
   isTelegramConnected,
+  isUserLoading,
   showTelegramAlert
 }) => {
   if (pathname === baseLocation) {
@@ -129,7 +131,8 @@ const SonarFeed = ({
       />
       <div className={styles.content}>
         <Switch>
-          {!isLoggedIn ? <InsightUnAuthPage /> : ''}
+          {isUserLoading && <Loader className={styles.loader} />}
+          {!isUserLoading && !isLoggedIn ? <InsightUnAuthPage /> : ''}
           {tabs.map(({ index, component }) => (
             <Route key={index} path={index} component={component} />
           ))}
@@ -158,6 +161,7 @@ const SonarFeed = ({
 
 const mapStateToProps = state => {
   return {
+    isUserLoading: state.user && !!state.user.isLoading,
     isTelegramConnected: selectIsTelegramConnected(state)
   }
 }

@@ -18,6 +18,8 @@ class EditableInputSetting extends PureComponent {
 
   onSubmit = e => {
     e.preventDefault()
+    e.stopPropagation()
+
     const { editing, error, value } = this.state
     if (!editing || error) {
       return
@@ -55,22 +57,35 @@ class EditableInputSetting extends PureComponent {
 
   render () {
     const { editing, error } = this.state
-    const { label, defaultValue } = this.props
+    const { label, defaultValue, classes = {} } = this.props
     return (
       <form
         style={{ height: 70 }}
-        className={cx(styles.setting, styles.form, error && styles.form_error)}
+        className={cx(
+          styles.setting,
+          styles.form,
+          classes.emailContainer,
+          error && styles.form_error
+        )}
         onSubmit={this.onSubmit}
       >
         <div
           className={cx(
             styles.setting__left,
+            styles.emailBlock,
+            classes.emailContainerLeft,
             editing && styles.setting__left_form
           )}
         >
           <Label>{label}</Label>
           {!editing && (
-            <Label className={styles.setting__description} accent='waterloo'>
+            <Label
+              className={cx(
+                styles.setting__description,
+                classes.emailContainerLabel
+              )}
+              accent='waterloo'
+            >
               {defaultValue || `Please add your ${label.toLowerCase()}`}
             </Label>
           )}
@@ -89,33 +104,35 @@ class EditableInputSetting extends PureComponent {
           </Panel>
         </div>
 
-        {editing ? (
-          <div className={styles.btns}>
-            <Button
-              variant='fill'
-              accent='positive'
-              className={styles.btn}
-              type='submit'
+        <div className={classes.emailContainerRight}>
+          {editing ? (
+            <div className={styles.btns}>
+              <Button
+                variant='fill'
+                accent='positive'
+                className={styles.btn}
+                type='submit'
+              >
+                Save
+              </Button>
+              <Button
+                border
+                className={cx(styles.btn, styles.btn_cancel)}
+                onClick={this.disableEditing}
+              >
+                Cancel
+              </Button>
+            </div>
+          ) : (
+            <Label
+              className={styles.form__action}
+              accent='jungle-green'
+              onClick={this.onEditClick}
             >
-              Save
-            </Button>
-            <Button
-              border
-              className={cx(styles.btn, styles.btn_cancel)}
-              onClick={this.disableEditing}
-            >
-              Cancel
-            </Button>
-          </div>
-        ) : (
-          <Label
-            className={styles.form__action}
-            accent='jungle-green'
-            onClick={this.onEditClick}
-          >
-            {defaultValue ? 'Change' : 'Add'} your {label.toLowerCase()}
-          </Label>
-        )}
+              {defaultValue ? 'Change' : 'Add'} your {label.toLowerCase()}
+            </Label>
+          )}
+        </div>
       </form>
     )
   }

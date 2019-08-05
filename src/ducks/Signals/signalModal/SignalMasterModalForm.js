@@ -62,12 +62,16 @@ const SignalMasterModalForm = ({
     setDialogOpenState(false)
 
     if (hasTrigger) {
-      redirect()
+      redirect && redirect()
     }
   }
 
   const onCloseMainModal = () => {
     isChanged && isLoggedIn ? setIsAppoving(true) : setDialogOpenState(false)
+
+    if (hasTrigger) {
+      redirect && redirect()
+    }
   }
 
   const formChangedCallback = isChanged => {
@@ -112,7 +116,7 @@ const SignalMasterModalForm = ({
                 !isError && (
                   <>
                     {dialogTitle}
-                    {isShared && (
+                    {isShared && isLoggedIn && (
                       <Button
                         accent='positive'
                         variant='fill'

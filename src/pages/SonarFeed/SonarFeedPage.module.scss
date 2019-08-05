@@ -1,5 +1,9 @@
-@import 'variables.scss';
 @import "~@santiment-network/ui/mixins.scss";
+@import 'variables.scss';
+
+.loader {
+  @include loader();
+}
 
 .header {
   display: flex;

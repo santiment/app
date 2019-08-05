@@ -3,11 +3,14 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { Toggle, Label, Selector } from '@santiment-network/ui'
+import Label from '@santiment-network/ui/Label'
+import Selector from '@santiment-network/ui/Selector/Selector'
 import Settings from './Settings'
 import * as actions from '../../actions/types'
 import { store } from '../../index'
 import { showNotification } from '../../actions/rootActions'
+import SettingsTelegramNotifications from './SettingsTelegramNotifications'
+import SettingsEmailNotifications from './SettingsEmailNotifications'
 import styles from './AccountPage.module.scss'
 
 const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
@@ -28,10 +31,6 @@ const onDigestChangeError = () =>
   )
 
 const SettingsNotifications = ({
-  isEmailNotificationEnabled,
-  isTelegramNotificationEnabled,
-  toggleEmailNotification,
-  toggleTelegramNotification,
   digestType,
   changeDigestType,
   mutateDigestType
@@ -39,26 +38,11 @@ const SettingsNotifications = ({
   return (
     <Settings id='notifications' header='Notifications'>
       <Settings.Row>
-        <Label>Email notifications</Label>
-        <div className={styles.setting__right_notifications}>
-          <Toggle
-            isActive={isEmailNotificationEnabled}
-            onClick={() => toggleEmailNotification(!isEmailNotificationEnabled)}
-          />
-        </div>
+        <SettingsEmailNotifications />
       </Settings.Row>
 
       <Settings.Row>
-        <Label>Telegram notifications</Label>
-
-        <div className={styles.setting__right_notifications}>
-          <Toggle
-            isActive={isTelegramNotificationEnabled}
-            onClick={() =>
-              toggleTelegramNotification(!isTelegramNotificationEnabled)
-            }
-          />
-        </div>
+        <SettingsTelegramNotifications />
       </Settings.Row>
 
       <Settings.Row>
@@ -90,33 +74,13 @@ const SettingsNotifications = ({
 
 const mapStateToProps = ({
   user: {
-    data: {
-      email,
-      settings: {
-        signalNotifyEmail,
-        signalNotifyTelegram,
-        newsletterSubscription
-      } = {}
-    }
+    data: { settings: { newsletterSubscription } = {} }
   }
 }) => ({
-  hasEmail: !!email,
-  isEmailNotificationEnabled: signalNotifyEmail,
-  isTelegramNotificationEnabled: signalNotifyTelegram,
   digestType: newsletterSubscription
 })
 
 const mapDispatchToProps = dispatch => ({
-  toggleEmailNotification: signalNotifyEmail =>
-    dispatch({
-      type: actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL,
-      payload: { signalNotifyEmail }
-    }),
-  toggleTelegramNotification: signalNotifyTelegram =>
-    dispatch({
-      type: actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL,
-      payload: { signalNotifyTelegram }
-    }),
   changeDigestType: type =>
     dispatch({
       type: actions.USER_DIGEST_CHANGE,
