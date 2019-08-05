@@ -20,10 +20,12 @@ export const COLUMNS = preload => [
     Header: () => <div className={cx('heading', 'overview-index')}>#</div>,
     id: COLUMNS_NAMES.index,
     maxWidth: 45,
-    sortable: true,
-    accessor: d => ({ index: d.index }),
-    Cell: ({ index }) => <div className='overview-index'>{index + 1}</div>,
-    sortMethod: (a, b) => simpleSort(b.index, a.index)
+    sortable: false,
+    Cell: row => (
+      <div className='overview-index'>
+        {row.page * row.pageSize + row.viewIndex + 1}
+      </div>
+    )
   },
   {
     Header: () => <div className={cx('heading', 'overview-name')}>Project</div>,
@@ -273,7 +275,7 @@ export const COLUMNS_SETTINGS = {
 export const COMMON_SETTINGS = {
   pageSize: 20,
   hiddenColumns: [COLUMNS_NAMES.eth_spent],
-  sorting: { id: COLUMNS_NAMES.index, desc: false }
+  sorting: { id: COLUMNS_NAMES.marketcapUsd, desc: false }
 }
 
 export const CATEGORIES_SETTINGS = {
