@@ -256,6 +256,7 @@ class ChartPage extends Component {
       return acc
     }, {})
 
+    console.log('adjustNightMode', adjustNightMode)
     if (adjustNightMode) {
       document.body.classList.toggle('night-mode', !!nightMode)
     }
@@ -306,7 +307,8 @@ class ChartPage extends Component {
                       generateShareLink={this.generateShareLink}
                       onNightModeSelect={this.onNightModeSelect}
                       onIntervalChange={this.onIntervalChange}
-                      hasNightMode={nightMode}
+                      isNightModeActive={nightMode}
+                      showNightModeToggle={adjustNightMode}
                       disabledMetrics={errors}
                       from={from}
                       to={to}
