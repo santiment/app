@@ -350,7 +350,7 @@ class ChartPage extends Component {
                   </div>
                 )}
               </div>
-              {(!viewOnly && hideSettings.sidecar) || (
+              {!viewOnly && !hideSettings.sidecar && (
                 <LoadableChartSidecar
                   onSlugSelect={this.onSlugSelect}
                   onSidebarToggleClick={this.onSidebarToggleClick}
