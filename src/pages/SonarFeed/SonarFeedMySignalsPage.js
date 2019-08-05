@@ -1,7 +1,9 @@
 import React from 'react'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import SonarFeedRecommendations from './SonarFeedRecommendations'
 import SignalCardsGrid from '../../components/SignalCard/SignalCardsGrid'
 import GetSignals from './../../ducks/Signals/GetSignals'
+import styles from './SonarFeedPage.module.scss'
 
 const SonarFeedMySignalsPage = ({ match, setLoadingSignalId }) => {
   let triggerId
@@ -14,14 +16,16 @@ const SonarFeedMySignalsPage = ({ match, setLoadingSignalId }) => {
     <GetSignals
       render={({ signals, isError, isLoading }) => {
         const hasSignals = signals && signals.length > 0
+
+        if (isLoading) {
+          return <Loader className={styles.loader} />
+        }
+
         return (
-          <div>
-            {isError && 'Error'}
-            {!isLoading && !hasSignals && (
-              <SonarFeedRecommendations showButton />
-            )}
-            {!isLoading && hasSignals && <SignalCardsGrid signals={signals} />}
-          </div>
+          <>
+            {!hasSignals && <SonarFeedRecommendations showButton />}
+            {hasSignals && <SignalCardsGrid signals={signals} />}
+          </>
         )
       }}
     />

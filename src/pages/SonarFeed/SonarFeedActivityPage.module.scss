@@ -1,5 +1,12 @@
 @import "~@santiment-network/ui/mixins.scss";
 
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .wrapper {
   margin: 0 auto;
   max-width: 720px;

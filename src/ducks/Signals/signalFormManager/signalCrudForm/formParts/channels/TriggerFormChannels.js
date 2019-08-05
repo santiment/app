@@ -18,8 +18,6 @@ const TriggerFormChannels = ({
   const settingsForEmailEnabled =
     !isEmailConnected && channels.some(x => x === 'Email')
 
-  console.log(channels)
-
   return (
     <SidecarExplanationTooltip
       closeTimeout={500}

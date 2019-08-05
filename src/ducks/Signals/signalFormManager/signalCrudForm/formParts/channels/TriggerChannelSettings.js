@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Dialog from '@santiment-network/ui/Dialog'
 import EmailSetting from '../../../../../../pages/Account/EmailSetting'
@@ -8,25 +8,37 @@ import SettingsEmailNotifications from '../../../../../../pages/Account/Settings
 import styles from './TriggerChannelSettings.module.scss'
 
 const TriggerChannelSettings = ({ isTelegramSettings, isEmailSettings }) => {
-  if (!isTelegramSettings && !isEmailSettings) {
-    return ''
-  }
+  const [open, setOpen] = useState(false)
+
+  useEffect(
+    () => {
+      !isTelegramSettings && !isEmailSettings && setOpen(false)
+    },
+    [isEmailSettings, isTelegramSettings]
+  )
 
   return (
     <>
       <Dialog
-        trigger={<span className={styles.connect}>Open settings</span>}
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        trigger={
+          (isTelegramSettings || isEmailSettings) && (
+            <span className={styles.connect}>Open settings</span>
+          )
+        }
         title='Notification settings'
       >
         <Dialog.ScrollContent>
-          {isTelegramSettings && (
+          {isEmailSettings && (
             <>
               <EmailSetting hideIfEmail />
               <SettingsEmailNotifications classes={styles} />
             </>
           )}
 
-          {isEmailSettings && (
+          {isTelegramSettings && (
             <>
               <ConnectTelegramBlock classes={styles} />
               <SettingsTelegramNotifications classes={styles} />

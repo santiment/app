@@ -34,7 +34,7 @@ const EmailSetting = ({
   showNotification,
   hideIfEmail = false
 }) => {
-  const show = !hideIfEmail || (hideIfEmail && email)
+  const show = !hideIfEmail || (hideIfEmail && !email)
 
   return (
     show && (
