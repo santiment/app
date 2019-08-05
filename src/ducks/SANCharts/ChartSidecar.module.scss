@@ -11,12 +11,11 @@
   right: 0;
   color: var(--mirage);
   background: var(--white);
-  border: 1px solid var(--porcelain);
   border-radius: 4px;
   width: 380px;
   z-index: 100;
   transform: translateX(100%);
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 
   * {
     outline: none;
@@ -26,6 +25,7 @@
 .opened {
   position: static;
   transform: translateX(0);
+  border: 1px solid var(--porcelain);
   margin-left: 40px;
 
   .toggle__arrow {
