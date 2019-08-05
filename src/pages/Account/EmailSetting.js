@@ -32,7 +32,8 @@ const EmailSetting = ({
   dispatchNewEmail,
   changeEmail,
   showNotification,
-  hideIfEmail = false
+  hideIfEmail = false,
+  classes = {}
 }) => {
   const show = !hideIfEmail || (hideIfEmail && !email)
 
@@ -42,6 +43,7 @@ const EmailSetting = ({
         label='Email'
         defaultValue={email}
         validate={validateEmail}
+        classes={classes}
         onSubmit={value =>
           changeEmail({ variables: { value } })
             .then(() => {

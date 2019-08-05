@@ -14,9 +14,9 @@ const TriggerFormChannels = ({
   isEmailConnected
 }) => {
   const settingsForTelegramEnabled =
-    !isTelegramConnected && channels.some(x => x === 'Telegram')
+    !isTelegramConnected && channels.some(type => type === 'Telegram')
   const settingsForEmailEnabled =
-    !isEmailConnected && channels.some(x => x === 'Email')
+    !isEmailConnected && channels.some(type => type === 'Email')
 
   return (
     <SidecarExplanationTooltip
@@ -27,7 +27,7 @@ const TriggerFormChannels = ({
       description='Get fast notifications through Email or Telegram'
       className={styles.explanation}
     >
-      <div className={cx(styles.row, styles.rowTop)}>
+      <div className={cx(styles.row, styles.rowSingle)}>
         <div className={cx(styles.Field, styles.fieldFilled)}>
           <FormikLabel text='Notify me via' />
           <div className={styles.notifyBlock}>

@@ -1,10 +1,8 @@
 @import "~@santiment-network/ui/mixins.scss";
+@import 'variables.scss';
 
 .loader {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%);
+  @include loader();
 }
 
 .wrapper {

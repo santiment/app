@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import * as actions from '../../actions/types'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import Button from '@santiment-network/ui/Button'
 import Label from '@santiment-network/ui/Label'
 import styles from './AccountPage.module.scss'
@@ -38,10 +39,14 @@ const ConnectTelegramBlock = ({
           correctly.
         </Label>
       </div>
+      {isTelegramConnecting && (
+        <Loader className={styles.connecting_telegram} />
+      )}
       <Button
         variant='fill'
         accent='positive'
         as='a'
+        disabled={isTelegramConnecting}
         className={cx(styles.connect_telegram, classes.right)}
         href={telegramDeepLink}
         rel='noopener noreferrer'

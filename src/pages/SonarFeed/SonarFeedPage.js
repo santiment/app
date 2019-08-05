@@ -131,8 +131,8 @@ const SonarFeed = ({
       />
       <div className={styles.content}>
         <Switch>
-          {!isLoggedIn && !isUserLoading ? <InsightUnAuthPage /> : ''}
           {isUserLoading && <Loader className={styles.loader} />}
+          {!isUserLoading && !isLoggedIn ? <InsightUnAuthPage /> : ''}
           {tabs.map(({ index, component }) => (
             <Route key={index} path={index} component={component} />
           ))}

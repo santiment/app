@@ -23,8 +23,11 @@ const SonarFeedMySignalsPage = ({ match, setLoadingSignalId }) => {
 
         return (
           <>
-            {!hasSignals && <SonarFeedRecommendations showButton />}
-            {hasSignals && <SignalCardsGrid signals={signals} />}
+            {hasSignals ? (
+              <SignalCardsGrid signals={signals} />
+            ) : (
+              <SonarFeedRecommendations showButton />
+            )}
           </>
         )
       }}

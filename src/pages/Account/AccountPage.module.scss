@@ -219,9 +219,36 @@
   }
 }
 
+.metamask {
+  display: flex;
+  width: 100%;
+  align-items: center;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
+}
+
+.metamask_connect {
+  @include responsive('phone', 'phone-xs') {
+    margin: auto;
+    margin-top: 10px;
+  }
+}
+
 .connect_telegram {
   color: var(--white) !important;
   margin-left: auto;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: auto;
+    margin-top: 10px;
+  }
+}
+
+.connecting_telegram {
+  font-size: 5px;
+  margin-left: 5px;
 }
 
 .telegram {

@@ -7,6 +7,7 @@ import * as actions from '../../actions/types'
 import { hasMetamask } from '../../web3Helpers'
 import ConnectTelegramBlock from './ConnectTelegramBlock'
 import styles from './AccountPage.module.scss'
+import cx from 'classnames'
 
 const getMetamaskBtnText = (address, connecting) => {
   if (!hasMetamask()) {
@@ -32,23 +33,26 @@ class SettingsConnections extends PureComponent {
     return (
       <Settings id='connections' header='Connections'>
         <Settings.Row>
-          <div className={styles.setting__left}>
-            <Label>Metamask</Label>
-            <Label className={styles.setting__description} accent='waterloo'>
-              You will get the ability to deposit tokens to your Sanbase
-              account.
-              <br />
-              Please follow futher instructions.
-            </Label>
+          <div className={cx(styles.metamask)}>
+            <div className={styles.setting__left}>
+              <Label>Metamask</Label>
+              <Label className={styles.setting__description} accent='waterloo'>
+                You will get the ability to deposit tokens to your Sanbase
+                account.
+                <br />
+                Please follow futher instructions.
+              </Label>
+            </div>
+            <Button
+              variant='fill'
+              accent='positive'
+              disabled={!hasMetamask()}
+              className={styles.metamask_connect}
+              onClick={address ? removeConnectedWallet : connectNewWallet}
+            >
+              {getMetamaskBtnText(address, isConnectWalletPending)}
+            </Button>
           </div>
-          <Button
-            variant='fill'
-            accent='positive'
-            disabled={!hasMetamask()}
-            onClick={address ? removeConnectedWallet : connectNewWallet}
-          >
-            {getMetamaskBtnText(address, isConnectWalletPending)}
-          </Button>
         </Settings.Row>
 
         <Settings.Row>

@@ -33,7 +33,7 @@ const TriggerChannelSettings = ({ isTelegramSettings, isEmailSettings }) => {
         <Dialog.ScrollContent>
           {isEmailSettings && (
             <>
-              <EmailSetting hideIfEmail />
+              <EmailSetting classes={styles} hideIfEmail />
               <SettingsEmailNotifications classes={styles} />
             </>
           )}
@@ -55,12 +55,9 @@ const mapStateToProps = ({
     data: { email = '' }
   }
 }) => ({
-  email: email
+  email
 })
 
-const enhance = connect(
-  mapStateToProps,
-  null
-)
+const enhance = connect(mapStateToProps)
 
 export default enhance(TriggerChannelSettings)

@@ -17,14 +17,46 @@
   @include text('body-3');
 
   color: var(--jungle-green);
-  margin-left: 10px;
+  margin-left: 20px;
   cursor: pointer;
 }
 
 .left {
-  margin-right: 5px;
+  margin-right: 15px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0;
+  }
 }
 
 .right {
   margin-left: auto;
+}
+
+.emailContainer {
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    flex-direction: column;
+    height: auto !important;
+  }
+}
+
+.emailContainerRight {
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    margin-top: 10px;
+  }
+}
+
+.emailContainerLeft {
+  @include responsive('phone', 'phone-xs') {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.emailContainerLabel {
+  margin: 0 0 0 auto;
 }
