@@ -19,14 +19,14 @@ const TriggerChannelSettings = ({ isTelegramSettings, isEmailSettings }) => {
         title='Notification settings'
       >
         <Dialog.ScrollContent>
-          {!isTelegramSettings && (
+          {isTelegramSettings && (
             <>
               <EmailSetting hideIfEmail />
               <SettingsEmailNotifications classes={styles} />
             </>
           )}
 
-          {!isEmailSettings && (
+          {isEmailSettings && (
             <>
               <ConnectTelegramBlock classes={styles} />
               <SettingsTelegramNotifications classes={styles} />

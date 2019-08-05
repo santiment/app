@@ -2,10 +2,9 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
-import { store } from '../../index'
 import { showNotification } from '../../actions/rootActions'
 import EditableInputSetting from './EditableInputSetting'
-import * as actions from '../../actions/types'
+import { USER_EMAIL_CHANGE } from '../../actions/types'
 import { connect } from 'react-redux'
 
 const TAKEN_MSG = 'Email has already been taken'
@@ -32,6 +31,7 @@ const EmailSetting = ({
   email,
   dispatchNewEmail,
   changeEmail,
+  showNotification,
   hideIfEmail = false
 }) => {
   const show = !hideIfEmail || (hideIfEmail && email)
@@ -45,19 +45,15 @@ const EmailSetting = ({
         onSubmit={value =>
           changeEmail({ variables: { value } })
             .then(() => {
-              store.dispatch(
-                showNotification(`Verification email was sent to "${value}"`)
-              )
+              showNotification(`Verification email was sent to "${value}"`)
               dispatchNewEmail(value)
             })
             .catch(error => {
               if (error.graphQLErrors[0].details.email.includes(TAKEN_MSG)) {
-                store.dispatch(
-                  showNotification({
-                    variant: 'error',
-                    title: `Email "${value}" is already taken`
-                  })
-                )
+                showNotification({
+                  variant: 'error',
+                  title: `Email "${value}" is already taken`
+                })
               }
             })
         }
@@ -73,9 +69,10 @@ const mapStateToProps = ({ user: { data: { email } = {} } }) => ({
 const mapDispatchToProps = dispatch => ({
   dispatchNewEmail: email =>
     dispatch({
-      type: actions.USER_EMAIL_CHANGE,
+      type: USER_EMAIL_CHANGE,
       email
-    })
+    }),
+  showNotification: data => dispatch(showNotification(data))
 })
 
 const enhance = compose(
