@@ -8,7 +8,8 @@ import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import styles from './ChartPage.module.scss'
 
 const ChartSettingsContextMenu = ({
-  hasNightMode,
+  showNightModeToggle = true,
+  isNightModeActive,
   onNightModeSelect,
   shareLink
 }) => {
@@ -24,15 +25,20 @@ const ChartSettingsContextMenu = ({
       align='end'
     >
       <Panel variant='modal' className={styles.context}>
-        <Button
-          fluid
-          variant='ghost'
-          onClick={onNightModeSelect}
-          className={styles.context__btn}
-        >
-          Night Mode
-          <Toggle isActive={hasNightMode} className={styles.context__toggle} />
-        </Button>
+        {showNightModeToggle && (
+          <Button
+            fluid
+            variant='ghost'
+            onClick={onNightModeSelect}
+            className={styles.context__btn}
+          >
+            Night Mode
+            <Toggle
+              isActive={isNightModeActive}
+              className={styles.context__toggle}
+            />
+          </Button>
+        )}
         <ShareModalTrigger
           classes={styles}
           trigger={props => (

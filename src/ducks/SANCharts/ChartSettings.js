@@ -19,7 +19,8 @@ const ChartSettings = ({
   onCalendarChange,
   generateShareLink,
   onNightModeSelect,
-  hasNightMode,
+  isNightModeActive,
+  showNightModeToggle = true,
   onIntervalChange,
   disabledMetrics,
   interval,
@@ -72,7 +73,8 @@ const ChartSettings = ({
         />
         {notAdvancedView && <AssetToWatchlistDialog project={project} />}
         <ChartSettingsContextMenu
-          hasNightMode={hasNightMode}
+          isNightModeActive={isNightModeActive}
+          showNightModeToggle={showNightModeToggle}
           onNightModeSelect={onNightModeSelect}
           shareLink={shareLink}
         />
