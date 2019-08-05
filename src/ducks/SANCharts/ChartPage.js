@@ -256,7 +256,6 @@ class ChartPage extends Component {
       return acc
     }, {})
 
-    console.log('adjustNightMode', adjustNightMode)
     if (adjustNightMode) {
       document.body.classList.toggle('night-mode', !!nightMode)
     }
