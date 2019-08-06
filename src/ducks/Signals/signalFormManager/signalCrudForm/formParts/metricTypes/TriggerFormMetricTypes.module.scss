@@ -46,7 +46,10 @@
 .icon {
   width: 30px;
   height: 30px;
-  margin-right: 10px;
+}
+
+.iconBlock {
+  margin-right: 15px;
 }
 
 .dialog {
@@ -87,4 +90,18 @@
 .title {
   justify-content: flex-end;
   border: 0;
+}
+
+.texts {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+
+  @include text('body-3');
+}
+
+.metricDescription {
+  @include text('caption');
+
+  color: var(--waterloo);
 }
