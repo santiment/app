@@ -1148,7 +1148,7 @@ export const titleMetricValuesHeader = (
           isPriceMetric
             ? `Price ${ofTarget} moving`
             : `Addresses count ${ofTarget}`,
-          `down ${percentThreshold}% compared to ${timeWindow}$ ${timeWindowUnit.label.toLowerCase()} earlier`
+          `down ${percentThreshold}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} earlier`
         )
       }
       case PRICE_CHANGE_TYPES.MOVING_UP: {
