@@ -1,0 +1,12 @@
+@import "~@santiment-network/ui/mixins.scss";
+
+.tooltip {
+  min-width: 320px;
+  background: var(--white);
+}
+
+.tooltipLabel {
+  @include text('body-3');
+
+  margin-right: 6px;
+}
