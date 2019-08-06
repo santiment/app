@@ -1045,7 +1045,7 @@ export const getDefaultFormValues = (newValues, { value: oldMetric }) => {
   }
 }
 
-const buildFormBlock = (title, description) => ({
+const buildFormBlock = (title, description = '') => ({
   titleLabel: title.trim(),
   titleDescription: description.trim()
 })
@@ -1133,13 +1133,13 @@ export const titleMetricValuesHeader = (
     switch (value) {
       case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN: {
         return buildFormBlock(
-          `Historical wallet balance ${ofTarget}`,
+          `Historical balance ${ofTarget}`,
           'below ' + threshold
         )
       }
       case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
         return buildFormBlock(
-          `Historical wallet balance ${ofTarget}`,
+          `Historical balance ${ofTarget}`,
           'above ' + threshold
         )
       }
@@ -1213,7 +1213,7 @@ export const getNewTitle = newValues => {
       break
     }
     case PRICE_VOLUME_DIFFERENCE: {
-      title = `${target} price/volume difference`
+      title = `Price/volume difference between an ${target} price and trading volume`
       break
     }
     case DAILY_ACTIVE_ADDRESSES: {
@@ -1221,11 +1221,28 @@ export const getNewTitle = newValues => {
       break
     }
     case ETH_WALLET: {
-      title = `${target} historical wallet balance ${titleDescription}`
+      title = `${target} historical balance ${titleDescription}`
       break
     }
     case TRENDING_WORDS: {
-      title = `Social trends by ${type.label.toLowerCase()}: ${target}`
+      switch (type.value) {
+        case TRENDING_WORDS_PROJECT_MENTIONED.value: {
+          title = `${target} in trending assets/projects`
+          break
+        }
+        case TRENDING_WORDS_WATCHLIST_MENTIONED.value: {
+          title = `Watchlist '${target}' in social trends`
+          break
+        }
+        case TRENDING_WORDS_WORD_MENTIONED.value: {
+          title = `${target} in trending words`
+          break
+        }
+        default: {
+          title = `${target} in social trends`
+          break
+        }
+      }
       break
     }
     default: {
@@ -1245,11 +1262,38 @@ export const getNewDescription = newValues => {
     return ''
   }
 
-  const metricsHeaderStr = uncapitalizeStr(
+  let metricsHeaderStr = uncapitalizeStr(
     Object.values(
       titleMetricValuesHeader(true, newValues, `of ${targetsHeader}`)
     ).join(' ')
   )
+
+  if (!metricsHeaderStr) {
+    const {
+      metric: { value } = {},
+      type: { value: typeValue }
+    } = newValues
+    switch (value) {
+      case PRICE_VOLUME_DIFFERENCE: {
+        metricsHeaderStr = `price/volume major divergences between an ${targetsHeader} price and trading volume`
+        break
+      }
+      case TRENDING_WORDS: {
+        switch (typeValue) {
+          case TRENDING_WORDS_WATCHLIST_MENTIONED.value: {
+            metricsHeaderStr = `watchlist '${targetsHeader}' appears in social trends`
+            break
+          }
+          default: {
+            metricsHeaderStr = `${targetsHeader} appears in social trends`
+            break
+          }
+        }
+      }
+      default: {
+      }
+    }
+  }
 
   const {
     channels,
@@ -1264,5 +1308,5 @@ export const getNewDescription = newValues => {
 
   const channelsBlock = channels.length ? `via ${channels.join(', ')}` : ''
 
-  return `Notify me when ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock.toLowerCase()}`
+  return `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock.toLowerCase()}.`
 }

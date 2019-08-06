@@ -26,6 +26,7 @@ exports[`TriggerForm EthWallet smoke 1`] = `
       },
       "isRepeating": true,
       "metric": Object {
+        "description": "Notify me when a wallet’s balance changes a certain way",
         "hidden": true,
         "label": "Historical balance",
         "value": "eth_wallet",
@@ -42,6 +43,7 @@ exports[`TriggerForm EthWallet smoke 1`] = `
       "threshold": "",
       "timeWindow": 24,
       "type": Object {
+        "description": "Notify me when a wallet’s balance changes a certain way",
         "hidden": true,
         "label": "Historical balance",
         "value": "eth_wallet",
@@ -85,6 +87,7 @@ exports[`TriggerForm smoke 1`] = `
       },
       "isRepeating": true,
       "metric": Object {
+        "description": "Notify me when an asset’s price moves a certain way",
         "label": "Price",
         "value": "price",
       },
