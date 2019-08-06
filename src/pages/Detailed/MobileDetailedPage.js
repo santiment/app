@@ -191,7 +191,6 @@ const MobileDetailedPage = props => {
                   changes7d={percentChange7d}
                   priceUsd={priceUsd}
                 />
-                {timeRangeBlock}
                 <GetTimeSeries
                   historyPrice={timeseriesOptions}
                   {...extraTimeserie}
@@ -221,6 +220,7 @@ const MobileDetailedPage = props => {
                           icoPrice={icoPrice}
                           extraMetric={extraMetric}
                         />
+                        {timeRangeBlock}
                         <div className={styles.metrics}>
                           {activeAddressesInfo && (
                             <MobileMetricCard

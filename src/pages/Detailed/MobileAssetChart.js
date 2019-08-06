@@ -9,6 +9,7 @@ import {
   Tooltip,
   ReferenceLine
 } from 'recharts'
+import Gradients from '../../components/WatchlistOverview/Gradients'
 import { formatNumber } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
 import { generateMetricsMarkup, Metrics } from '../../ducks/SANCharts/utils.js'
@@ -25,27 +26,26 @@ const tickFormatter = date => {
 }
 
 const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
+  const metrics = ['historyPricePreview']
+  if (extraMetric) metrics.push(extraMetric.name)
+  const markup = generateMetricsMarkup(metrics)
   return (
     <div>
-      <ResponsiveContainer width='100%' height={300}>
+      <ResponsiveContainer width='100%' height={250}>
         <ComposedChart data={data}>
+          <defs>
+            <Gradients />
+          </defs>
           <XAxis
             dataKey='datetime'
             tickLine={false}
             tickMargin={5}
             minTickGap={100}
             tickFormatter={tickFormatter}
+            tick={false}
+            hide
           />
-          <YAxis
-            yAxisId='axis-price'
-            mirror
-            axisLine={false}
-            domain={['dataMin', 'auto']}
-            tickFormatter={priceUsd =>
-              formatNumber(priceUsd, { currency: 'USD' })
-            }
-          />
-          <CartesianGrid vertical={false} stroke='#ebeef5' />
+          <YAxis hide domain={['auto', 'dataMax']} />
           <Tooltip
             labelFormatter={labelFormatter}
             formatter={(value, name) => {
@@ -55,16 +55,7 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
               return value
             }}
           />
-          <Line
-            type='linear'
-            yAxisId='axis-price'
-            name={asset + '/USD'}
-            dot={false}
-            strokeWidth={1.5}
-            dataKey='priceUsd'
-            stroke='var(--jungle-green)'
-          />
-          {extraMetric && generateMetricsMarkup([extraMetric.name])}
+          {markup}
           {extraMetric &&
             extraMetric.anomalies.map(({ datetime }) => (
               <ReferenceLine
@@ -77,9 +68,9 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
             ))}
           {icoPrice && (
             <ReferenceLine
-              yAxisId='axis-price'
               strokeDasharray='3 3'
-              stroke='black'
+              stroke='var(--mirage)'
+              yAxisId='axis-priceUsd'
               y={icoPrice}
             />
           )}

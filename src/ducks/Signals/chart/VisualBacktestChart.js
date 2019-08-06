@@ -43,11 +43,6 @@ const VisualBacktestChart = ({
           domain={['dataMin', 'dataMax']}
           hide
         />
-        <CartesianGrid
-          strokeDasharray='3 5'
-          vertical={false}
-          strike='var(--porcelain)'
-        />
         <YAxis
           hide
           domain={['auto', 'dataMax']}
