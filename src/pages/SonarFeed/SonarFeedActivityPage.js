@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { graphql } from 'react-apollo'
 import Markdown from 'react-markdown'
 import gql from 'graphql-tag'
-import Loader from '@santiment-network/ui/Loader/Loader'
+import PageLoader from '../../components/Loader/PageLoader'
 import SonarFeedRecommendations from './SonarFeedRecommendations'
 import styles from './SonarFeedActivityPage.module.scss'
 import { dateDifferenceInWords } from '../../utils/dates'
@@ -33,7 +33,7 @@ export const TRIGGER_ACTIVITIES_QUERY = gql`
 
 const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
   if (isLoading) {
-    return <Loader className={styles.loader} />
+    return <PageLoader className={styles.loader} />
   }
 
   const formatDate = dateString => {

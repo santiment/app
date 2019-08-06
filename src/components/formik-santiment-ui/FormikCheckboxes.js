@@ -1,5 +1,5 @@
 import React from 'react'
-import { Checkboxes } from '@santiment-network/ui'
+import Checkboxes from '@santiment-network/ui/Checkboxes/Checkboxes'
 import { Field } from 'formik'
 
 const FormikCheckboxes = ({
@@ -7,7 +7,7 @@ const FormikCheckboxes = ({
   disabledIndexes,
   name,
   labelOnRight,
-  styles
+  classes = {}
 }) => {
   return (
     <Field
@@ -28,7 +28,7 @@ const FormikCheckboxes = ({
               form.setFieldValue(name, newData)
               form.setFieldTouched(name, true)
             }}
-            style={styles}
+            labelClassName={classes.checkboxLabel}
           />
         )
       }}

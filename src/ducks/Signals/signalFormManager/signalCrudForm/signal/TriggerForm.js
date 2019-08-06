@@ -17,7 +17,7 @@ import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEf
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import Button from '@santiment-network/ui/Button'
 import RadioBtns from '@santiment-network/ui/RadioBtns'
-import { Checkbox } from '@santiment-network/ui'
+import { Checkbox } from '@santiment-network/ui/Checkboxes/Checkboxes'
 import {
   PRICE_PERCENT_CHANGE,
   METRIC_DEFAULT_VALUES,
@@ -106,11 +106,12 @@ export const TriggerForm = ({
   }, [])
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeOutId = setTimeout(() => {
       !canCallFormChangCallback && setCanCallFormChanged(true)
     })
 
     return () => {
+      clearTimeout(timeOutId)
       setCanCallFormChanged(false)
       formChangedCallback(false)
     }
@@ -313,19 +314,17 @@ export const TriggerForm = ({
                         <Checkbox
                           isActive={!isRepeating}
                           name='isRepeating'
-                          className={styles.repeatingItem}
                           onClick={() => {
                             setFieldValue('isRepeating', !isRepeating)
                           }}
                         />
-                        <span
-                          className={styles.repeatingItem}
+                        <FormikLabel
+                          text='Disable after it triggers'
+                          className={styles.checkboxLabel}
                           onClick={() => {
                             setFieldValue('isRepeating', !isRepeating)
                           }}
-                        >
-                          Disable after it triggers
-                        </span>
+                        />
                       </div>
                     </div>
 

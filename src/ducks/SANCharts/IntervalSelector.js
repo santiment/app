@@ -21,8 +21,6 @@ export const getNewInterval = (from, to, lastInterval) => {
     return lastInterval
   }
 
-  console.log(diff)
-
   return diff >= 63 && diff < 183 ? '1d' : intervals[0]
 }
 

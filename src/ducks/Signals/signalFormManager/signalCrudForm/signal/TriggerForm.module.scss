@@ -119,14 +119,14 @@ $trigger-form-width: 534px;
 .isRepeating {
   display: flex;
   align-items: center;
-
-  div:first-child {
-    margin-right: 0.2rem;
-  }
 }
 
-.repeatingItem {
+.checkboxLabel {
   cursor: pointer;
+  margin: 2px 0 0 10px !important;
+  color: var(--mirage);
+
+  @include text('body-3');
 }
 
 .Field:last-child {

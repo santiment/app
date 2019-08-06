@@ -35,6 +35,7 @@ const TriggerFormChannels = ({
               name='channels'
               labelOnRight
               options={['Email', 'Telegram']}
+              classes={styles}
             />
             <TriggerChannelSettings
               isTelegramSettings={settingsForTelegramEnabled}
