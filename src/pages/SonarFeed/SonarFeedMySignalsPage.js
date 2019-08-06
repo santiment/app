@@ -1,5 +1,5 @@
 import React from 'react'
-import Loader from '@santiment-network/ui/Loader/Loader'
+import PageLoader from '../../components/Loader/PageLoader'
 import SonarFeedRecommendations from './SonarFeedRecommendations'
 import SignalCardsGrid from '../../components/SignalCard/SignalCardsGrid'
 import GetSignals from './../../ducks/Signals/GetSignals'
@@ -18,7 +18,7 @@ const SonarFeedMySignalsPage = ({ match, setLoadingSignalId }) => {
         const hasSignals = signals && signals.length > 0
 
         if (isLoading) {
-          return <Loader className={styles.loader} />
+          return <PageLoader className={styles.loader} />
         }
 
         return (

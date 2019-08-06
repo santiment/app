@@ -100,7 +100,7 @@ const FORM_PROPS = [
     isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
     timeWindow: 1,
-    timeWindowUnit: { label: 'Days', value: 'd' },
+    timeWindowUnit: { label: 'Day(s)', value: 'd' },
     type: { ...PRICE_PERCENT_CHANGE_UP_MODEL },
     metric: { label: 'Price', value: 'price' },
     channels: ['Telegram'],
@@ -115,7 +115,7 @@ const FORM_PROPS = [
     isRepeating: true,
     target: { value: 'santiment', label: 'santiment' },
     timeWindow: 30,
-    timeWindowUnit: { label: 'Minutes', value: 'm' },
+    timeWindowUnit: { label: 'Minute(s)', value: 'm' },
     metric: {
       label: 'Daily Active Addresses',
       value: 'daily_active_addresses'

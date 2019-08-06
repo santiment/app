@@ -36,6 +36,8 @@ export const TriggerFormFrequency = ({
     return !item.disabledMetrics || item.disabledMetrics.indexOf(metric) === -1
   })
 
+  const frequencyTimeTypeOptions = getFrequencyTimeType(frequencyType)
+
   return (
     <div className={cx(styles.row, styles.rowTop)}>
       <div className={styles.Field}>
@@ -72,14 +74,18 @@ export const TriggerFormFrequency = ({
             options={getFrequencyTimeValues(frequencyTimeType)}
           />
           <FormikSelect
-            disabled={disabled || !frequencyType}
+            disabled={
+              disabled ||
+              !frequencyType ||
+              frequencyTimeTypeOptions.length === 1
+            }
             className={styles.frequencyTimeType}
             name='frequencyTimeType'
             isClearable={false}
-            onChange={frequencyTimeType => {
+            onChange={frequencyTimeType =>
               setFieldValue('frequencyTimeValue', frequencyTymeValueBuilder(1))
-            }}
-            options={getFrequencyTimeType(frequencyType)}
+            }
+            options={frequencyTimeTypeOptions}
           />
         </div>
       </div>

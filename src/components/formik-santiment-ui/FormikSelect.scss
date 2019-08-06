@@ -88,3 +88,11 @@ $select-line-height: 30px;
 .Select.is-disabled .Select-value {
   color: var(--mystic) !important;
 }
+
+.Select-menu-outer {
+  max-height: 300px;
+}
+
+.Select-menu {
+  max-height: 300px;
+}

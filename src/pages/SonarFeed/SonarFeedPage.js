@@ -3,7 +3,6 @@ import { matchPath } from 'react-router'
 import { connect } from 'react-redux'
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
 import Tabs from '@santiment-network/ui/Tabs'
-import Loader from '@santiment-network/ui/Loader/Loader'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
 import InsightUnAuthPage from './../../pages/Insights/InsightUnAuthPage'
@@ -131,7 +130,7 @@ const SonarFeed = ({
       />
       <div className={styles.content}>
         <Switch>
-          {isUserLoading && <Loader className={styles.loader} />}
+          {isUserLoading && <PageLoader className={styles.loader} />}
           {!isUserLoading && !isLoggedIn ? <InsightUnAuthPage /> : ''}
           {tabs.map(({ index, component }) => (
             <Route key={index} path={index} component={component} />

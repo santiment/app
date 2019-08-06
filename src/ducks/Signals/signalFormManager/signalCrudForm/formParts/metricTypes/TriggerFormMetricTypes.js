@@ -118,14 +118,23 @@ const MetricTypeRenderer = ({
   onClick,
   showLabel = true
 }) => {
-  const { label, value } = metric
+  const { label, value, description } = metric
   return (
     <div onClick={() => onClick(metric)} className={metricStyles.metric}>
-      <div className={metricStyles.icon}>
-        <img src={iconMaps[value] || priceSvg} alt='Metric' />
+      <div className={metricStyles.iconBlock}>
+        <img
+          className={metricStyles.icon}
+          src={iconMaps[value] || priceSvg}
+          alt='Metric'
+        />
       </div>
       <div className={metricStyles.textBlocks}>
-        <div className={metricStyles.value}>{label}</div>
+        <div className={metricStyles.texts}>
+          <div className={metricStyles.metricType}>{label}</div>
+          {!showLabel && (
+            <div className={metricStyles.metricDescription}>{description}</div>
+          )}
+        </div>
         {showLabel && (
           <div className={metricStyles.label}>Change signal type</div>
         )}

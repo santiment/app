@@ -1,4 +1,4 @@
-export const MAX_DESCR_LENGTH = 140
+export const MAX_DESCR_LENGTH = 200
 export const MAX_TITLE_LENGTH = 120
 export const MIN_TITLE_LENGTH = 2
 
@@ -119,38 +119,45 @@ export const PRICE_ABS_CHANGE_OUTSIDE = {
 export const ETH_WALLET_METRIC = {
   label: 'Historical balance',
   value: ETH_WALLET,
-  hidden: true
+  hidden: true,
+  description: 'Notify me when a wallet’s balance changes a certain way'
 }
 
 export const TRENDING_WORDS_METRIC = {
   label: 'Emerging social trends',
   value: TRENDING_WORDS,
-  metric: TRENDING_WORDS
+  metric: TRENDING_WORDS,
+  description: 'Notify me when an asset starts trending on crypto social media'
 }
 
 export const PRICE_METRIC = {
   label: 'Price',
-  value: PRICE
+  value: PRICE,
+  description: 'Notify me when an asset’s price moves a certain way'
 }
 export const DAILY_ACTIVE_ADDRESSES_METRIC = {
   label: 'Daily Active Addresses',
   value: DAILY_ACTIVE_ADDRESSES,
-  metric: DAILY_ACTIVE_ADDRESSES
+  metric: DAILY_ACTIVE_ADDRESSES,
+  description:
+    'Notify me of changes in the # of addresses transacting an asset on-chain'
 }
 export const PRICE_VOLUME_DIFFERENCE_METRIC = {
   label: 'Price/volume difference',
   value: PRICE_VOLUME_DIFFERENCE,
-  metric: PRICE_VOLUME_DIFFERENCE
+  metric: PRICE_VOLUME_DIFFERENCE,
+  description:
+    'Notify me of major divergences between an asset’s price and trading volume'
 }
 
 export const COOLDOWN_REGEXP = /([0-9]+)*([smhdw])/i
 
 export const METRICS_OPTIONS = [
-  { ...TRENDING_WORDS_METRIC },
   { ...PRICE_METRIC },
+  { ...PRICE_VOLUME_DIFFERENCE_METRIC },
   // { ...ETH_WALLET_METRIC }, # GarageInc: Temporary hidded before fix bug on backend by ivan
-  { ...DAILY_ACTIVE_ADDRESSES_METRIC },
-  { ...PRICE_VOLUME_DIFFERENCE_METRIC }
+  { ...TRENDING_WORDS_METRIC },
+  { ...DAILY_ACTIVE_ADDRESSES_METRIC }
 ]
 
 const PRICE_OPTIONS = [
@@ -424,9 +431,9 @@ export const PREVIEWS_TIMERANGE_BY_TYPE = {
 }
 
 export const TIME_WINDOW_UNITS = [
-  { value: 'd', label: 'Days' },
-  { value: 'h', label: 'Hours' },
-  { value: 'm', label: 'Minutes' }
+  { value: 'd', label: 'Day(s)' },
+  { value: 'h', label: 'Hour(s)' },
+  { value: 'm', label: 'Minute(s)' }
 ]
 
 export const TRIGGER_FORM_STEPS = {

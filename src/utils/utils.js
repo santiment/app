@@ -234,6 +234,8 @@ const getTimeFromFromString = (time = '1y') => {
 }
 
 const capitalizeStr = string => string.charAt(0).toUpperCase() + string.slice(1)
+const uncapitalizeStr = string =>
+  string.charAt(0).toLowerCase() + string.slice(1)
 
 /* UTILS METHOD  */
 // Escaping for corrent alias syntax
@@ -339,6 +341,7 @@ export {
   mergeTimeseriesByKey,
   getTimeFromFromString,
   capitalizeStr,
+  uncapitalizeStr,
   getEscapedGQLFieldAlias,
   mapQSToState,
   mapStateToQS,

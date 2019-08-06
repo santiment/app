@@ -27,7 +27,6 @@ import Status from './pages/Status'
 import Footer from './components/Footer'
 import GDPRPage from './pages/GDPRPage/GDPRPage'
 import AssetsPage from './pages/assets/AssetsPage'
-import SignalFormPage from './ducks/Signals/SignalFormPage'
 import HistoricalBalancePage from './ducks/HistoricalBalance/page/HistoricalBalancePage'
 import WordCloudPage from './components/WordCloud/WordCloudPage'
 import { getConsentUrl } from './utils/utils'
@@ -256,7 +255,6 @@ export const App = ({
             />
           )}
         />
-        <Route exact path='/sonar/master' component={SignalFormPage} />
         <Route
           exact
           path='/dashboard'
