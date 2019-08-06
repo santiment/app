@@ -286,7 +286,7 @@ const Title = ({ slug, ticker }) => (
 )
 
 const PriceBlock = ({ changes24h, changes7d, priceUsd }) => (
-  <div>
+  <div className={styles.PriceBlock}>
     <div className={styles.priceUsd}>
       {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
     </div>

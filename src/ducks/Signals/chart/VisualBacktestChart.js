@@ -5,14 +5,12 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ReferenceDot,
-  CartesianGrid
+  ReferenceDot
 } from 'recharts'
 import cx from 'classnames'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
 import { generateMetricsMarkup } from './../../SANCharts/utils'
-import { formatNumber } from './../../../utils/formatting'
-import { getDateFormats, getTimeFormats } from '../../../utils/dates'
+import CustomTooltip from './../../SANCharts/CustomTooltip'
 import chartStyles from './../../SANCharts/Chart.module.scss'
 import sharedStyles from './../../SANCharts/ChartPage.module.scss'
 import styles from './SignalPreview.module.scss'
@@ -131,46 +129,6 @@ const mapWithTimeseriesAndYCoord = (items, dataKeys, data) => {
       const date = +new Date(point.datetime)
       return { date, yCoord: point[dataKeys.signal], ...point }
     })
-}
-
-const formatTooltipValue = (isPrice, value) =>
-  isPrice ? formatNumber(value, { currency: 'USD' }) : value.toFixed(2)
-
-const getTooltipDate = time => {
-  const date = new Date(time)
-  const { MMMM, DD } = getDateFormats(date)
-  const { HH, mm } = getTimeFormats(date)
-
-  return `${HH}:${mm}, ${MMMM} ${DD}.`
-}
-
-const CustomTooltip = ({ active, payload }) => {
-  if (active && payload) {
-    return (
-      <div className={cx('custom-tooltip', styles.tooltip)}>
-        {payload[0] && (
-          <span className={styles.tooltipLabel}>
-            {getTooltipDate(payload[0].payload.datetime)}
-          </span>
-        )}
-        {payload.map(({ name, value, stroke, fill }) => {
-          return (
-            <span
-              key={name}
-              className={cx('label', styles.tooltipLabel)}
-              style={{ color: stroke || fill }}
-            >
-              {`${
-                name === 'Daily Active Addresses' ? 'DAA' : name
-              } ${formatTooltipValue(name === 'Price', value)}`}
-            </span>
-          )
-        })}
-      </div>
-    )
-  }
-
-  return ''
 }
 
 export default VisualBacktestChart

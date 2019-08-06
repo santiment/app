@@ -65,14 +65,3 @@
   top: -5px !important;
   right: -10px !important;
 }
-
-.tooltip {
-  min-width: 320px;
-  background: var(--white);
-}
-
-.tooltipLabel {
-  @include text('body-3');
-
-  margin-right: 6px;
-}

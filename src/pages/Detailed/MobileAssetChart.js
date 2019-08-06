@@ -2,33 +2,37 @@ import React from 'react'
 import {
   ResponsiveContainer,
   ComposedChart,
-  Line,
-  CartesianGrid,
   XAxis,
   YAxis,
   Tooltip,
-  ReferenceLine
+  ReferenceLine,
+  ReferenceDot
 } from 'recharts'
 import Gradients from '../../components/WatchlistOverview/Gradients'
 import { formatNumber } from './../../utils/formatting'
 import { getDateFormats } from '../../utils/dates'
 import { generateMetricsMarkup, Metrics } from '../../ducks/SANCharts/utils.js'
+import CustomTooltip from '../../ducks/SANCharts/CustomTooltip'
 import styles from './MobileAssetChart.module.scss'
-
-const labelFormatter = date => {
-  const { dddd, MMM, DD, YYYY } = getDateFormats(new Date(date))
-  return `${dddd}, ${MMM} ${DD} ${YYYY}`
-}
-
-const tickFormatter = date => {
-  const { DD, MMM, YY } = getDateFormats(new Date(date))
-  return `${DD} ${MMM} ${YY}`
-}
 
 const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
   const metrics = ['historyPricePreview']
   if (extraMetric) metrics.push(extraMetric.name)
   const markup = generateMetricsMarkup(metrics)
+
+  let anomalyDataKey, anomalies
+  if (extraMetric) {
+    anomalyDataKey = extraMetric.name
+    anomalies = extraMetric.anomalies.map(anomaly => {
+      const el = data.find(item => item.datetime === anomaly.datetime)
+      if (el) {
+        return {
+          ...anomaly,
+          yCoord: el[anomalyDataKey]
+        }
+      }
+    })
+  }
   return (
     <div>
       <ResponsiveContainer width='100%' height={250}>
@@ -36,34 +40,30 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
           <defs>
             <Gradients />
           </defs>
-          <XAxis
-            dataKey='datetime'
-            tickLine={false}
-            tickMargin={5}
-            minTickGap={100}
-            tickFormatter={tickFormatter}
-            tick={false}
+          <XAxis dataKey='datetime' tickLine={false} tick={false} hide />
+          <YAxis
             hide
+            domain={['auto', 'dataMax']}
+            dataKey={extraMetric ? extraMetric.name : 'priceUsd'}
           />
-          <YAxis hide domain={['auto', 'dataMax']} />
           <Tooltip
-            labelFormatter={labelFormatter}
-            formatter={(value, name) => {
-              if (name === `${asset}/USD`) {
-                return formatNumber(value, { currency: 'USD' })
-              }
-              return value
-            }}
+            content={<CustomTooltip />}
+            position={{ x: 0, y: -20 }}
+            isAnimationActive={false}
           />
           {markup}
           {extraMetric &&
-            extraMetric.anomalies.map(({ datetime }) => (
-              <ReferenceLine
+            anomalies.map(({ datetime, yCoord }) => (
+              <ReferenceDot
                 key={datetime}
-                yAxisId={`axis-${Metrics[extraMetric.name].dataKey ||
-                  extraMetric.name}`}
+                y={yCoord}
                 x={datetime}
-                stroke='red'
+                ifOverflow='extendDomain'
+                r={3}
+                isFront
+                stroke='var(--white)'
+                strokeWidth='2px'
+                fill='var(--persimmon)'
               />
             ))}
           {icoPrice && (
