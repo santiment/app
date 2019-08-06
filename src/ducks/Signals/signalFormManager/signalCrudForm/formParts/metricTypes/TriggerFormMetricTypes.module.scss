@@ -28,7 +28,7 @@
 }
 
 .metric {
-  height: 70px;
+  min-height: 70px;
   width: 100%;
 
   @include text('body-3');
@@ -41,6 +41,10 @@
   border-radius: $border-radius;
   padding: 20px;
   cursor: pointer;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 10px 20px;
+  }
 }
 
 .icon {

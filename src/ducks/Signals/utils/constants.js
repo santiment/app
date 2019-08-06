@@ -431,9 +431,9 @@ export const PREVIEWS_TIMERANGE_BY_TYPE = {
 }
 
 export const TIME_WINDOW_UNITS = [
-  { value: 'd', label: 'Days' },
-  { value: 'h', label: 'Hours' },
-  { value: 'm', label: 'Minutes' }
+  { value: 'd', label: 'Day(s)' },
+  { value: 'h', label: 'Hour(s)' },
+  { value: 'm', label: 'Minute(s)' }
 ]
 
 export const TRIGGER_FORM_STEPS = {

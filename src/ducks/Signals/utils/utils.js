@@ -47,7 +47,11 @@ import {
   MAX_TITLE_LENGTH,
   MAX_DESCR_LENGTH
 } from './constants'
-import { capitalizeStr, isEthStrictAddress } from '../../../utils/utils'
+import {
+  capitalizeStr,
+  isEthStrictAddress,
+  uncapitalizeStr
+} from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
 
 const targetMapper = ({ value, slug } = {}) => slug || value
@@ -1042,8 +1046,8 @@ export const getDefaultFormValues = (newValues, { value: oldMetric }) => {
 }
 
 const buildFormBlock = (title, description) => ({
-  titleLabel: title,
-  titleDescription: description
+  titleLabel: title.trim(),
+  titleDescription: description.trim()
 })
 
 const NOTIFY_ME_WHEN = 'Notify me when'
@@ -1115,33 +1119,44 @@ export const titleMetricValuesHeader = (
     timeWindowUnit,
     timeWindow,
     metric
-  }
+  },
+  ofTarget = ' '
 ) => {
   if (hasMetricValues && type) {
     const { value } = type
     const isPriceMetric = metric.value === PRICE
 
     const priceOrDaaTitle = isPriceMetric
-      ? 'Price goes'
-      : 'Addresses count goes'
+      ? `Price ${ofTarget} goes`
+      : `Addresses count ${ofTarget} goes`
 
     switch (value) {
       case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN: {
-        return buildFormBlock('Historical balance', 'below ' + threshold)
+        return buildFormBlock(
+          `Historical wallet balance ${ofTarget}`,
+          'below ' + threshold
+        )
       }
       case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
-        return buildFormBlock('Historical balance', 'above ' + threshold)
+        return buildFormBlock(
+          `Historical wallet balance ${ofTarget}`,
+          'above ' + threshold
+        )
       }
       case PRICE_CHANGE_TYPES.MOVING_DOWN: {
         return buildFormBlock(
-          isPriceMetric ? 'Price moving' : 'Addresses count',
-          `down ${percentThreshold}% compared to ${timeWindow}$ ${timeWindowUnit.label.toLowerCase()} ago`
+          isPriceMetric
+            ? `Price ${ofTarget} moving`
+            : `Addresses count ${ofTarget}`,
+          `down ${percentThreshold}% compared to ${timeWindow}$ ${timeWindowUnit.label.toLowerCase()} earlier`
         )
       }
       case PRICE_CHANGE_TYPES.MOVING_UP: {
         return buildFormBlock(
-          isPriceMetric ? 'Price moving' : 'Addresses count',
-          `up ${percentThreshold}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} ago`
+          isPriceMetric
+            ? `Price ${ofTarget} moving`
+            : `Addresses count ${ofTarget}`,
+          `up ${percentThreshold}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} earlier`
         )
       }
       case PRICE_CHANGE_TYPES.ABOVE: {
@@ -1191,35 +1206,33 @@ export const getNewTitle = newValues => {
 
   const { titleDescription = '' } = titleMetricValuesHeader(true, newValues)
 
-  let description = ''
+  let title = ''
   switch (metric.value) {
     case PRICE: {
-      description = `${target} price goes ${titleDescription}`
+      title = `${target} price goes ${titleDescription}`
       break
     }
     case PRICE_VOLUME_DIFFERENCE: {
-      description = `${target} price/volume difference`
+      title = `${target} price/volume difference`
       break
     }
     case DAILY_ACTIVE_ADDRESSES: {
-      description = `${target} daily active addresses ${titleDescription}`
+      title = `${target} daily active addresses ${titleDescription}`
       break
     }
     case ETH_WALLET: {
-      description = `${target} historical balance ${titleDescription}`
+      title = `${target} historical wallet balance ${titleDescription}`
       break
     }
     case TRENDING_WORDS: {
-      description = `Social trends by ${type.label.toLowerCase()}: ${target}`
+      title = `Social trends by ${type.label.toLowerCase()}: ${target}`
       break
     }
     default: {
     }
   }
 
-  description = description.trim()
-
-  return capitalizeStr(description)
+  return capitalizeStr(title.trim())
 }
 
 export const getNewDescription = newValues => {
@@ -1232,10 +1245,11 @@ export const getNewDescription = newValues => {
     return ''
   }
 
-  const metricsHeaderStr =
-    Object.values(titleMetricValuesHeader(true, newValues))
-      .join(' ')
-      .toLowerCase() || 'will trigger'
+  const metricsHeaderStr = uncapitalizeStr(
+    Object.values(
+      titleMetricValuesHeader(true, newValues, `of ${targetsHeader}`)
+    ).join(' ')
+  )
 
   const {
     channels,
@@ -1248,7 +1262,7 @@ export const getNewDescription = newValues => {
     ? `every ${frequencyTimeValue.label} ${frequencyTimeType.label}`
     : 'only once'
 
-  const channelsBlock = channels.length ? `through ${channels.join(', ')}` : ''
+  const channelsBlock = channels.length ? `via ${channels.join(', ')}` : ''
 
-  return `When '${targetsHeader}' ${metricsHeaderStr} notify me ${repeatingBlock.toLowerCase()}  ${channelsBlock.toLowerCase()}`
+  return `Notify me when ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock.toLowerCase()}`
 }

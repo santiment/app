@@ -342,6 +342,7 @@ export const TriggerForm = ({
                             }
                             onSelect={toggleSignalPublic}
                             style={{ marginRight: '20px' }}
+                            labelClassName={styles.checkboxLabel}
                           />
                         </div>
                       </div>
@@ -375,7 +376,7 @@ export const TriggerForm = ({
                         placeholder='Description of the signal'
                         name='description'
                         className={styles.descriptionTextarea}
-                        rowsCount={2}
+                        rowsCount={3}
                         maxLength={MAX_DESCR_LENGTH}
                         onChange={() =>
                           setFieldValue('descriptionChangedByUser', true)
