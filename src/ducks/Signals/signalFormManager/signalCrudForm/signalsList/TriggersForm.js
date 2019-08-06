@@ -18,7 +18,8 @@ export const TriggersForm = ({
   metaFormSettings,
   onSettingsChange,
   onClose,
-  formChangedCallback
+  formChangedCallback,
+  isShared
 }) => {
   return (
     <div>
@@ -26,6 +27,7 @@ export const TriggersForm = ({
         <TriggerForm
           key={trigger.id || index}
           id={trigger.id}
+          isShared={isShared}
           metaFormSettings={metaFormSettings}
           canRedirect={canRedirect}
           settings={settings}

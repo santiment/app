@@ -72,7 +72,8 @@ export const TriggerForm = ({
   settings,
   metaFormSettings,
   id,
-  formChangedCallback
+  formChangedCallback,
+  isShared
 }) => {
   const formMetric =
     metaFormSettings && metaFormSettings.metric
@@ -395,7 +396,7 @@ export const TriggerForm = ({
                 accent='positive'
                 className={styles.submitButton}
               >
-                {id ? 'Update signal' : 'Create signal'}
+                {id && !isShared ? 'Update signal' : 'Create signal'}
               </Button>
             </div>
           </Form>
