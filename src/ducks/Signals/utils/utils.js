@@ -517,6 +517,7 @@ export const mapTrendingWordsTargets = items => {
 export const getTrendingWordsTarget = ({
   type,
   target,
+  targetWatchlist,
   trendingWordsWithWords
 }) => {
   switch (type.value) {
@@ -532,7 +533,7 @@ export const getTrendingWordsTarget = ({
     }
     case TRENDING_WORDS_WATCHLIST_MENTIONED.value: {
       return {
-        watchlist_id: +target
+        watchlist_id: +targetWatchlist.id
       }
     }
     default: {
@@ -1046,8 +1047,8 @@ export const getDefaultFormValues = (newValues, { value: oldMetric }) => {
 }
 
 const buildFormBlock = (title, description = '') => ({
-  titleLabel: title.trim(),
-  titleDescription: description.trim()
+  titleLabel: title,
+  titleDescription: description
 })
 
 const NOTIFY_ME_WHEN = 'Notify me when'
@@ -1291,6 +1292,7 @@ export const getNewDescription = newValues => {
         }
       }
       default: {
+        break
       }
     }
   }
