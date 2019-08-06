@@ -21,8 +21,6 @@ import displayPaywall from './Paywall'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
 
-const BRUSH_SIDE_MARGINS_IN_PX = 4
-const BRUSH_SIDE_MARGIN_IN_PX = BRUSH_SIDE_MARGINS_IN_PX / 2
 const EMPTY_FORMATTER = () => {}
 const CHART_MARGINS = {
   left: -20,
@@ -66,7 +64,6 @@ class Charts extends React.Component {
     refAreaRight: undefined
   }
 
-  containerRef = React.createRef()
   metricRef = React.createRef()
 
   componentDidUpdate (prevProps) {
@@ -188,10 +185,6 @@ class Charts extends React.Component {
       ref: { [tooltipMetric]: this.metricRef }
     })
 
-    const { current: container } = this.containerRef
-    const brushWidth =
-      container && container.state.containerWidth - BRUSH_SIDE_MARGINS_IN_PX
-
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart}>
         <div className={sharedStyles.header}>
@@ -244,7 +237,7 @@ class Charts extends React.Component {
             </>
           )}
         </div>
-        <ResponsiveContainer width='100%' height={300} ref={this.containerRef}>
+        <ResponsiveContainer height={300}>
           <ComposedChart
             margin={CHART_MARGINS}
             onMouseLeave={this.onMouseLeave}
@@ -285,10 +278,8 @@ class Charts extends React.Component {
                 rightBoundaryDate,
                 data: chartData
               })}
-            {chartData.length > 0 && (
+            {chartData.length > 0 && metrics.length > 0 && (
               <Brush
-                x={BRUSH_SIDE_MARGIN_IN_PX}
-                width={brushWidth}
                 tickFormatter={EMPTY_FORMATTER}
                 travellerWidth={4}
                 onChange={this.getXToYCoordinatesDebounced}
