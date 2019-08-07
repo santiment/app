@@ -35,6 +35,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
 
           return (
             <ChartWidget
+              sharePath='/chart'
               adjustNightMode={false}
               slug='bitcoin'
               title='Bitcoin (BTC)'

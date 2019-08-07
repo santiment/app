@@ -1290,6 +1290,7 @@ export const getNewDescription = newValues => {
             break
           }
         }
+        break
       }
       default: {
         break

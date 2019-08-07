@@ -52,14 +52,14 @@ const getChartInitialState = props => {
     }
     passedState = data
   } else {
-    let { slug, from, to, title, timeRange, metrics } = props
+    let { slug, from, to, title, timeRange, metrics, interval } = props
 
     if (!from) {
       const { from: f, to: t } = getIntervalByTimeRange(timeRange)
       from = f.toISOString()
       to = t.toISOString()
+      interval = getNewInterval(from, to)
     }
-
     passedState = {
       slug,
       title,
@@ -67,7 +67,7 @@ const getChartInitialState = props => {
       from,
       to,
       timeRange,
-      interval: getNewInterval(from, to)
+      interval
     }
   }
 
@@ -180,7 +180,6 @@ class ChartPage extends Component {
   }
 
   generateShareLink = disabledMetrics => {
-    const { origin, pathname } = window.location
     const {
       slug,
       title,
@@ -210,7 +209,10 @@ class ChartPage extends Component {
       settings.to = to
     }
 
-    return `${origin}${pathname}?${qs.stringify(settings, {
+    const { sharePath } = this.props
+    const { origin, pathname } = window.location
+
+    return `${origin}${sharePath || pathname}?${qs.stringify(settings, {
       arrayFormat: 'comma'
     })}`
   }
