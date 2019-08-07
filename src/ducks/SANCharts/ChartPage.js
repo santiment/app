@@ -174,9 +174,10 @@ class ChartPage extends Component {
       return
     }
 
-    this.props.history.replace({
-      search: this.mapStateToQS(this.state)
-    })
+    this.props.history &&
+      this.props.history.replace({
+        search: this.mapStateToQS(this.state)
+      })
   }
 
   generateShareLink = disabledMetrics => {

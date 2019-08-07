@@ -23,7 +23,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
   options: () => ({
     variables: { page: 1 }
   })
-})(({ isLoggedIn, data: { insights = [] } }) => {
+})(({ isLoggedIn, location, history, data: { insights = [] } }) => {
   const sortedInsights = insights.sort(creationDateSort).slice(0, 6)
   return (
     <div className={styles.wrapper + ' page'}>
@@ -35,7 +35,8 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
 
           return (
             <ChartWidget
-              sharePath='/chart'
+              history={history}
+              location={location}
               adjustNightMode={false}
               slug='bitcoin'
               title='Bitcoin (BTC)'
