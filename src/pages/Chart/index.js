@@ -35,6 +35,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
 
           return (
             <ChartWidget
+              enabledViewOnlySharing={false}
               history={history}
               location={location}
               adjustNightMode={false}

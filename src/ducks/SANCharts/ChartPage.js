@@ -25,7 +25,8 @@ const DEFAULT_STATE = {
   title: 'Santiment Network Token (SAN)',
   projectId: '16912',
   interval: getNewInterval(FROM, TO, '12h'),
-  isAdvancedView: false
+  isAdvancedView: false,
+  enabledViewOnlySharing: true
 }
 
 const LoadableChartSidecar = Loadable({
@@ -192,13 +193,18 @@ class ChartPage extends Component {
       to
     } = this.state
 
+    const { enabledViewOnlySharing } = this.props
+
     const settings = {
       slug,
       metrics: metrics.filter(metric => !disabledMetrics.includes(metric)),
       interval,
       nightMode,
-      title,
-      viewOnly: true
+      title
+    }
+
+    if (enabledViewOnlySharing) {
+      settings.viewOnly = true
     }
 
     if (zoom) {
