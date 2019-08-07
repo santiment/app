@@ -24,7 +24,7 @@ const DEFAULT_STATE = {
   metrics: ['historyPrice'],
   title: 'Santiment Network Token (SAN)',
   projectId: '16912',
-  interval: '12h',
+  interval: getNewInterval(FROM, TO, '12h'),
   isAdvancedView: false
 }
 
