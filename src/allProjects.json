@@ -49,6 +49,13 @@
     "ticker": "1WO"
   },
   {
+    "coinmarketcapId": "ethlend",
+    "id": "101896",
+    "name": "Aave",
+    "slug": "ethlend",
+    "ticker": "LEND"
+  },
+  {
     "coinmarketcapId": "abbc-coin",
     "id": "235242",
     "name": "ABBC Coin",
@@ -210,6 +217,13 @@
     "ticker": "AE"
   },
   {
+    "coinmarketcapId": "agavecoin",
+    "id": "235683",
+    "name": "AgaveCoin",
+    "slug": "agavecoin",
+    "ticker": "AGVC"
+  },
+  {
     "coinmarketcapId": "agrello-delta",
     "id": "372",
     "name": "Agrello",
@@ -273,6 +287,20 @@
     "ticker": "AST"
   },
   {
+    "coinmarketcapId": "akropolis",
+    "id": "235709",
+    "name": "Akropolis",
+    "slug": "akropolis",
+    "ticker": "AKRO"
+  },
+  {
+    "coinmarketcapId": "aladdin",
+    "id": "235681",
+    "name": "Aladdin",
+    "slug": "aladdin",
+    "ticker": "ADN"
+  },
+  {
     "coinmarketcapId": "alax",
     "id": "234890",
     "name": "ALAX",
@@ -292,6 +320,13 @@
     "name": "Alchemint Standards",
     "slug": "alchemint-standards",
     "ticker": "SDS"
+  },
+  {
+    "coinmarketcapId": "algorand",
+    "id": "235530",
+    "name": "Algorand",
+    "slug": "algorand",
+    "ticker": "ALGO"
   },
   {
     "coinmarketcapId": "all-sports",
@@ -371,6 +406,13 @@
     "ticker": "VEO"
   },
   {
+    "coinmarketcapId": "ampleforth",
+    "id": "235656",
+    "name": "Ampleforth",
+    "slug": "ampleforth",
+    "ticker": "AMPL"
+  },
+  {
     "coinmarketcapId": "animation-vision-cash",
     "id": "231479",
     "name": "Animation Vision Cash",
@@ -378,10 +420,10 @@
     "ticker": "AVH"
   },
   {
-    "coinmarketcapId": "ankr-network",
+    "coinmarketcapId": "ankr",
     "id": "235189",
-    "name": "Ankr Network",
-    "slug": "ankr-network",
+    "name": "Ankr",
+    "slug": "ankr",
     "ticker": "ANKR"
   },
   {
@@ -488,6 +530,13 @@
     "name": "Ark",
     "slug": "ark",
     "ticker": "ARK"
+  },
+  {
+    "coinmarketcapId": "arpa-chain",
+    "id": "235568",
+    "name": "ARPA Chain",
+    "slug": "arpa-chain",
+    "ticker": "ARPA"
   },
   {
     "coinmarketcapId": "artfinity",
@@ -679,6 +728,13 @@
     "ticker": "B2B"
   },
   {
+    "coinmarketcapId": "b91",
+    "id": "235663",
+    "name": "B91",
+    "slug": "b91",
+    "ticker": "B91"
+  },
+  {
     "coinmarketcapId": "baasid",
     "id": "235112",
     "name": "BaaSid",
@@ -847,6 +903,13 @@
     "ticker": "BNB"
   },
   {
+    "coinmarketcapId": "binance-gbp-stable-coin",
+    "id": "235734",
+    "name": "Binance GBP Stable Coin",
+    "slug": "binance-gbp-stable-coin",
+    "ticker": "BGBP"
+  },
+  {
     "coinmarketcapId": "bingocoin",
     "id": "235091",
     "name": "BingoCoin",
@@ -875,6 +938,13 @@
     "ticker": "BIR"
   },
   {
+    "coinmarketcapId": "birdchain",
+    "id": "235745",
+    "name": "Birdchain",
+    "slug": "birdchain",
+    "ticker": "BIRD"
+  },
+  {
     "coinmarketcapId": "bitbay",
     "id": "94",
     "name": "BitBay",
@@ -887,6 +957,13 @@
     "name": "Bitblocks",
     "slug": "bitblocks",
     "ticker": "BBK"
+  },
+  {
+    "coinmarketcapId": "bitbook-gambling",
+    "id": "235678",
+    "name": "Bitbook Gambling",
+    "slug": "bitbook-gambling",
+    "ticker": "BXK"
   },
   {
     "coinmarketcapId": "bitcapitalvendor",
@@ -950,6 +1027,13 @@
     "name": "Bitcoin Atom",
     "slug": "bitcoin-atom",
     "ticker": "BCA"
+  },
+  {
+    "coinmarketcapId": "bitcoin-bep2",
+    "id": "235672",
+    "name": "Bitcoin BEP2",
+    "slug": "bitcoin-bep2",
+    "ticker": "BTCB"
   },
   {
     "coinmarketcapId": "bitcoin-cash",
@@ -1127,6 +1211,20 @@
     "ticker": "BIT"
   },
   {
+    "coinmarketcapId": "bitrue-coin",
+    "id": "235730",
+    "name": "Bitrue Coin",
+    "slug": "bitrue-coin",
+    "ticker": "BTR"
+  },
+  {
+    "coinmarketcapId": "bitsdaq",
+    "id": "235544",
+    "name": "Bitsdaq",
+    "slug": "bitsdaq",
+    "ticker": "BQQQ"
+  },
+  {
     "coinmarketcapId": "bitshares",
     "id": "1553",
     "name": "BitShares",
@@ -1202,6 +1300,13 @@
     "name": "Block Array",
     "slug": "block-array",
     "ticker": "ARY"
+  },
+  {
+    "coinmarketcapId": "blockburn",
+    "id": "235735",
+    "name": "Blockburn",
+    "slug": "blockburn",
+    "ticker": "BURN"
   },
   {
     "coinmarketcapId": "blockchain-certified-data-token",
@@ -1393,6 +1498,13 @@
     "ticker": "BBR"
   },
   {
+    "coinmarketcapId": "boom",
+    "id": "235726",
+    "name": "BOOM",
+    "slug": "boom",
+    "ticker": "BOOM"
+  },
+  {
     "coinmarketcapId": "bora",
     "id": "235486",
     "name": "BORA",
@@ -1454,6 +1566,13 @@
     "name": "BrahmaOS",
     "slug": "brahmaos",
     "ticker": "BRM"
+  },
+  {
+    "coinmarketcapId": "brz",
+    "id": "235725",
+    "name": "Brazilian Digital Token",
+    "slug": "brz",
+    "ticker": "BRZ"
   },
   {
     "coinmarketcapId": "bread",
@@ -1764,6 +1883,13 @@
     "ticker": "LINK"
   },
   {
+    "coinmarketcapId": "chainx",
+    "id": "235742",
+    "name": "ChainX",
+    "slug": "chainx",
+    "ticker": "PCX"
+  },
+  {
     "coinmarketcapId": "change",
     "id": "879",
     "name": "Change Bank",
@@ -1790,6 +1916,13 @@
     "name": "CHEX",
     "slug": "chex",
     "ticker": "CHEX"
+  },
+  {
+    "coinmarketcapId": "chiliz",
+    "id": "235694",
+    "name": "Chiliz",
+    "slug": "chiliz",
+    "ticker": "CHZ"
   },
   {
     "coinmarketcapId": "chromia",
@@ -1925,6 +2058,13 @@
     "ticker": "LION"
   },
   {
+    "coinmarketcapId": "coinmetro-token",
+    "id": "101797",
+    "name": "CoinMetro",
+    "slug": "coinmetro-token",
+    "ticker": "XCM"
+  },
+  {
     "coinmarketcapId": "coinpoker",
     "id": "177954",
     "name": "CoinPoker",
@@ -2058,6 +2198,13 @@
     "ticker": "CNN"
   },
   {
+    "coinmarketcapId": "contentos",
+    "id": "235675",
+    "name": "Contentos",
+    "slug": "contentos",
+    "ticker": "COS"
+  },
+  {
     "coinmarketcapId": "contents-protocol",
     "id": "235344",
     "name": "Contents Protocol",
@@ -2093,6 +2240,13 @@
     "ticker": "CTXC"
   },
   {
+    "coinmarketcapId": "cos",
+    "id": "463",
+    "name": "COS",
+    "slug": "cos",
+    "ticker": "COS"
+  },
+  {
     "coinmarketcapId": "cosmo-coin",
     "id": "234954",
     "name": "Cosmo Coin",
@@ -2105,13 +2259,6 @@
     "name": "Cosmos",
     "slug": "cosmos",
     "ticker": "ATOM"
-  },
-  {
-    "coinmarketcapId": "coss",
-    "id": "463",
-    "name": "COSS",
-    "slug": "coss",
-    "ticker": "COSS"
   },
   {
     "coinmarketcapId": "coti",
@@ -2156,13 +2303,6 @@
     "ticker": "COV"
   },
   {
-    "coinmarketcapId": "coz",
-    "id": "235409",
-    "name": "COZ",
-    "slug": "coz",
-    "ticker": "COZ"
-  },
-  {
     "coinmarketcapId": "cpchain",
     "id": "177738",
     "name": "CPChain",
@@ -2175,6 +2315,13 @@
     "name": "Cred",
     "slug": "libra-credit",
     "ticker": "LBA"
+  },
+  {
+    "coinmarketcapId": "credit",
+    "id": "235729",
+    "name": "CREDIT",
+    "slug": "credit",
+    "ticker": "CREDIT"
   },
   {
     "coinmarketcapId": "credits",
@@ -2254,10 +2401,10 @@
     "ticker": "CPT"
   },
   {
-    "coinmarketcapId": "crypterium",
+    "coinmarketcapId": "crpt",
     "id": "1236",
     "name": "Crypterium",
-    "slug": "crypterium",
+    "slug": "crpt",
     "ticker": "CRPT"
   },
   {
@@ -2289,11 +2436,25 @@
     "ticker": "CRO"
   },
   {
+    "coinmarketcapId": "cryptofranc",
+    "id": "235587",
+    "name": "CryptoFranc",
+    "slug": "cryptofranc",
+    "ticker": "XCHF"
+  },
+  {
     "coinmarketcapId": "crypto-improvement-fund",
     "id": "1120",
     "name": "Crypto improvement fund",
     "slug": "crypto-improvement-fund",
     "ticker": "CIF"
+  },
+  {
+    "coinmarketcapId": "cryptoindex-com-100",
+    "id": "235698",
+    "name": "Cryptoindex.com 100",
+    "slug": "cryptoindex-com-100",
+    "ticker": "CIX100"
   },
   {
     "coinmarketcapId": "cryptoinvest",
@@ -2317,6 +2478,13 @@
     "ticker": "CPAY"
   },
   {
+    "coinmarketcapId": "cryptoverificationcoin",
+    "id": "235727",
+    "name": "CryptoVerificationCoin",
+    "slug": "cryptoverificationcoin",
+    "ticker": "CVCC"
+  },
+  {
     "coinmarketcapId": "cryptrust",
     "id": "235187",
     "name": "Cryptrust",
@@ -2329,6 +2497,13 @@
     "name": "Cube",
     "slug": "cube",
     "ticker": "AUTO"
+  },
+  {
+    "coinmarketcapId": "cubiex",
+    "id": "235710",
+    "name": "Cubiex",
+    "slug": "cubiex",
+    "ticker": "CBIX"
   },
   {
     "coinmarketcapId": "cvcoin",
@@ -2443,6 +2618,13 @@
     "ticker": "GEN"
   },
   {
+    "coinmarketcapId": "dapp-token",
+    "id": "235732",
+    "name": "Dapp Token",
+    "slug": "dapp-token",
+    "ticker": "DAPPT"
+  },
+  {
     "coinmarketcapId": "daps-token",
     "id": "235200",
     "name": "DAPS Token",
@@ -2455,13 +2637,6 @@
     "name": "Darico Ecosystem Coin",
     "slug": "darcio-ecosystem-coin",
     "ticker": "DEC"
-  },
-  {
-    "coinmarketcapId": "darkpaycoin",
-    "id": "235283",
-    "name": "DarkPayCoin",
-    "slug": "darkpaycoin",
-    "ticker": "DKPC"
   },
   {
     "coinmarketcapId": "dascoin",
@@ -2532,6 +2707,13 @@
     "name": "DAV Token",
     "slug": "dav-coin",
     "ticker": "DAV"
+  },
+  {
+    "coinmarketcapId": "ddkoin",
+    "id": "235733",
+    "name": "DDKoin",
+    "slug": "ddkoin",
+    "ticker": "DDK"
   },
   {
     "coinmarketcapId": "debitum-network",
@@ -2884,6 +3066,13 @@
     "ticker": "DUO"
   },
   {
+    "coinmarketcapId": "dusk-network",
+    "id": "235701",
+    "name": "Dusk Network",
+    "slug": "dusk-network",
+    "ticker": "DUSK"
+  },
+  {
     "coinmarketcapId": "dws",
     "id": "234931",
     "name": "DWS",
@@ -3080,6 +3269,13 @@
     "ticker": "1337"
   },
   {
+    "coinmarketcapId": "elrond",
+    "id": "235684",
+    "name": "Elrond",
+    "slug": "elrond",
+    "ticker": "ERD"
+  },
+  {
     "coinmarketcapId": "elysian",
     "id": "234887",
     "name": "Elysian",
@@ -3190,6 +3386,13 @@
     "name": "eosDAC",
     "slug": "eosdac",
     "ticker": "EOSDAC"
+  },
+  {
+    "coinmarketcapId": "eosdt",
+    "id": "235670",
+    "name": "EOSDT",
+    "slug": "eosdt",
+    "ticker": "EOSDT"
   },
   {
     "coinmarketcapId": "blakestar",
@@ -3309,13 +3512,6 @@
     "name": "Ether Zero",
     "slug": "ether-zero",
     "ticker": "ETZ"
-  },
-  {
-    "coinmarketcapId": "ethlend",
-    "id": "101896",
-    "name": "ETHLend",
-    "slug": "ethlend",
-    "ticker": "LEND"
   },
   {
     "coinmarketcapId": "ethos",
@@ -3605,6 +3801,13 @@
     "ticker": "FLASH"
   },
   {
+    "coinmarketcapId": "fleta",
+    "id": "235716",
+    "name": "FLETA",
+    "slug": "fleta",
+    "ticker": "FLETA"
+  },
+  {
     "coinmarketcapId": "flexacoin",
     "id": "235497",
     "name": "Flexacoin",
@@ -3668,6 +3871,13 @@
     "ticker": "XFC"
   },
   {
+    "coinmarketcapId": "force-protocol",
+    "id": "235719",
+    "name": "Force Protocol",
+    "slug": "force-protocol",
+    "ticker": "FOR"
+  },
+  {
     "coinmarketcapId": "formosa-financial",
     "id": "235021",
     "name": "Formosa Financial",
@@ -3722,6 +3932,20 @@
     "name": "Friendz",
     "slug": "friends",
     "ticker": "FDZ"
+  },
+  {
+    "coinmarketcapId": "ftx-token",
+    "id": "235741",
+    "name": "FTX Token",
+    "slug": "ftx-token",
+    "ticker": "FTT"
+  },
+  {
+    "coinmarketcapId": "function-x",
+    "id": "235685",
+    "name": "Function X",
+    "slug": "function-x",
+    "ticker": "FX"
   },
   {
     "coinmarketcapId": "fundrequest",
@@ -3848,6 +4072,13 @@
     "name": "Genesis Vision",
     "slug": "genesis-vision",
     "ticker": "GVT"
+  },
+  {
+    "coinmarketcapId": "gexan",
+    "id": "235695",
+    "name": "Gexan",
+    "slug": "gexan",
+    "ticker": "GEX"
   },
   {
     "coinmarketcapId": "giant-coin",
@@ -3988,6 +4219,13 @@
     "name": "GoPower",
     "slug": "gopower",
     "ticker": "GPT"
+  },
+  {
+    "coinmarketcapId": "gowithmi",
+    "id": "235614",
+    "name": "GoWithMi",
+    "slug": "gowithmi",
+    "ticker": "GMAT"
   },
   {
     "coinmarketcapId": "graft",
@@ -4228,6 +4466,13 @@
     "ticker": "HOT"
   },
   {
+    "coinmarketcapId": "honest",
+    "id": "235674",
+    "name": "Honest",
+    "slug": "honest",
+    "ticker": "HNST"
+  },
+  {
     "coinmarketcapId": "hoqu",
     "id": "101710",
     "name": "HOQU",
@@ -4438,6 +4683,13 @@
     "ticker": "ILC"
   },
   {
+    "coinmarketcapId": "imagecoin",
+    "id": "235728",
+    "name": "ImageCoin",
+    "slug": "imagecoin",
+    "ticker": "IMG"
+  },
+  {
     "coinmarketcapId": "incodium",
     "id": "235237",
     "name": "Incodium",
@@ -4499,6 +4751,13 @@
     "name": "INMAX",
     "slug": "inmax",
     "ticker": "INX"
+  },
+  {
+    "coinmarketcapId": "innovaminex",
+    "id": "235665",
+    "name": "InnovaMinex",
+    "slug": "innovaminex",
+    "ticker": "MINX"
   },
   {
     "coinmarketcapId": "innovative-bioresearch-classic",
@@ -4732,11 +4991,25 @@
     "ticker": "IXT"
   },
   {
+    "coinmarketcapId": "izichain",
+    "id": "235664",
+    "name": "IZIChain",
+    "slug": "izichain",
+    "ticker": "IZI"
+  },
+  {
     "coinmarketcapId": "japan-content-token",
     "id": "235510",
     "name": "Japan Content Token",
     "slug": "japan-content-token",
     "ticker": "JCT"
+  },
+  {
+    "coinmarketcapId": "jarvis",
+    "id": "235673",
+    "name": "Jarvis+",
+    "slug": "jarvis",
+    "ticker": "JAR"
   },
   {
     "coinmarketcapId": "jesus-coin",
@@ -5005,6 +5278,13 @@
     "ticker": "LUC"
   },
   {
+    "coinmarketcapId": "levolution",
+    "id": "235731",
+    "name": "Levolution",
+    "slug": "levolution",
+    "ticker": "LEVL"
+  },
+  {
     "coinmarketcapId": "legolas-exchange",
     "id": "234232",
     "name": "LGO Exchange",
@@ -5061,6 +5341,13 @@
     "ticker": "LET"
   },
   {
+    "coinmarketcapId": "linktoken",
+    "id": "235746",
+    "name": "LinkToken",
+    "slug": "linktoken",
+    "ticker": "LTK"
+  },
+  {
     "coinmarketcapId": "liquidity-network",
     "id": "234949",
     "name": "Liquidity Network",
@@ -5115,6 +5402,13 @@
     "name": "Livepeer",
     "slug": "livepeer",
     "ticker": "LPT"
+  },
+  {
+    "coinmarketcapId": "lnx-protocol",
+    "id": "235740",
+    "name": "LNX Protocol",
+    "slug": "lnx-protocol",
+    "ticker": "LNX"
   },
   {
     "coinmarketcapId": "local-coin-swap",
@@ -5250,6 +5544,13 @@
     "ticker": "ART"
   },
   {
+    "coinmarketcapId": "magic-cube-coin",
+    "id": "235723",
+    "name": "Magic Cube Coin",
+    "slug": "magic-cube-coin",
+    "ticker": "MCC"
+  },
+  {
     "coinmarketcapId": "maidsafecoin",
     "id": "234336",
     "name": "MaidSafeCoin",
@@ -5313,13 +5614,6 @@
     "ticker": "MGD"
   },
   {
-    "coinmarketcapId": "mvl",
-    "id": "234977",
-    "name": "Mass Vehicle Ledger",
-    "slug": "mvl",
-    "ticker": "MVL"
-  },
-  {
     "coinmarketcapId": "omni",
     "id": "108",
     "name": "Mastercoin (Omni)",
@@ -5381,6 +5675,13 @@
     "name": "Max Property Group",
     "slug": "max-property-group",
     "ticker": "MPG"
+  },
+  {
+    "coinmarketcapId": "maya-preferred-223",
+    "id": "235696",
+    "name": "Maya Preferred 223",
+    "slug": "maya-preferred-223",
+    "ticker": "MAPR"
   },
   {
     "coinmarketcapId": "medibit",
@@ -5523,6 +5824,13 @@
     "ticker": "MFIT"
   },
   {
+    "coinmarketcapId": "mgc-token",
+    "id": "235677",
+    "name": "MGC Token",
+    "slug": "mgc-token",
+    "ticker": "MGC"
+  },
+  {
     "coinmarketcapId": "microbitcoin",
     "id": "235280",
     "name": "MicroBitcoin",
@@ -5535,6 +5843,13 @@
     "name": "MidasProtocol",
     "slug": "midasprotocol",
     "ticker": "MAS"
+  },
+  {
+    "coinmarketcapId": "mindexcoin",
+    "id": "235692",
+    "name": "Mindexcoin",
+    "slug": "mindexcoin",
+    "ticker": "MIC"
   },
   {
     "coinmarketcapId": "mindol",
@@ -5677,6 +5992,13 @@
     "ticker": "IMT"
   },
   {
+    "coinmarketcapId": "mooncoin",
+    "id": "235686",
+    "name": "Mooncoin",
+    "slug": "mooncoin",
+    "ticker": "MOON"
+  },
+  {
     "coinmarketcapId": "more-coin",
     "id": "198",
     "name": "More Coin",
@@ -5705,6 +6027,20 @@
     "ticker": "MOC"
   },
   {
+    "coinmarketcapId": "mothership",
+    "id": "428",
+    "name": "Mothership",
+    "slug": "mothership",
+    "ticker": "MSP"
+  },
+  {
+    "coinmarketcapId": "moviebloc",
+    "id": "235579",
+    "name": "Moviebloc",
+    "slug": "moviebloc",
+    "ticker": "MBL"
+  },
+  {
     "coinmarketcapId": "multivac",
     "id": "235529",
     "name": "MultiVAC",
@@ -5717,6 +6053,13 @@
     "name": "Muzika",
     "slug": "muzika",
     "ticker": "MZK"
+  },
+  {
+    "coinmarketcapId": "mvl",
+    "id": "234977",
+    "name": "MVL",
+    "slug": "mvl",
+    "ticker": "MVL"
   },
   {
     "coinmarketcapId": "mybit",
@@ -5745,6 +6088,13 @@
     "name": "NAGA",
     "slug": "naga",
     "ticker": "NGC"
+  },
+  {
+    "coinmarketcapId": "naka-bodhi-token",
+    "id": "235676",
+    "name": "Naka Bodhi Token",
+    "slug": "naka-bodhi-token",
+    "ticker": "NBOT"
   },
   {
     "coinmarketcapId": "nam-coin",
@@ -6020,6 +6370,13 @@
     "ticker": "NOBS"
   },
   {
+    "coinmarketcapId": "noia-network",
+    "id": "235690",
+    "name": "NOIA Network",
+    "slug": "noia-network",
+    "ticker": "NOIA"
+  },
+  {
     "coinmarketcapId": "nos",
     "id": "235298",
     "name": "nOS",
@@ -6081,6 +6438,13 @@
     "name": "Nxt",
     "slug": "nxt",
     "ticker": "NXT"
+  },
+  {
+    "coinmarketcapId": "oasis-city",
+    "id": "235744",
+    "name": "Oasis City",
+    "slug": "oasis-city",
+    "ticker": "OSC"
   },
   {
     "coinmarketcapId": "oax",
@@ -6244,6 +6608,13 @@
     "ticker": "OPCX"
   },
   {
+    "coinmarketcapId": "opennity",
+    "id": "235743",
+    "name": "Opennity",
+    "slug": "opennity",
+    "ticker": "OPNN"
+  },
+  {
     "coinmarketcapId": "open-platform",
     "id": "234248",
     "name": "Open Platform",
@@ -6391,6 +6762,13 @@
     "ticker": "PAL"
   },
   {
+    "coinmarketcapId": "parachute",
+    "id": "235679",
+    "name": "Parachute",
+    "slug": "parachute",
+    "ticker": "PAR"
+  },
+  {
     "coinmarketcapId": "paragon",
     "id": "605",
     "name": "Paragon",
@@ -6487,6 +6865,13 @@
     "name": "PCHAIN",
     "slug": "pchain",
     "ticker": "PI"
+  },
+  {
+    "coinmarketcapId": "pdata",
+    "id": "235206",
+    "name": "PDATA",
+    "slug": "pdata",
+    "ticker": "PDATA"
   },
   {
     "coinmarketcapId": "peculium",
@@ -6601,11 +6986,25 @@
     "ticker": "PTS"
   },
   {
+    "coinmarketcapId": "pivot-token",
+    "id": "235717",
+    "name": "Pivot Token",
+    "slug": "pivot-token",
+    "ticker": "PVT"
+  },
+  {
     "coinmarketcapId": "pivx",
     "id": "234319",
     "name": "PIVX",
     "slug": "pivx",
     "ticker": "PIVX"
+  },
+  {
+    "coinmarketcapId": "pixel",
+    "id": "235700",
+    "name": "PIXEL",
+    "slug": "pixel",
+    "ticker": "PXL"
   },
   {
     "coinmarketcapId": "pixie-coin",
@@ -6811,6 +7210,13 @@
     "ticker": "PAI"
   },
   {
+    "coinmarketcapId": "prometeus",
+    "id": "235630",
+    "name": "Prometeus",
+    "slug": "prometeus",
+    "ticker": "PMS"
+  },
+  {
     "coinmarketcapId": "promotion-coin",
     "id": "235018",
     "name": "Promotion Coin",
@@ -6921,6 +7327,20 @@
     "name": "QASH",
     "slug": "qash",
     "ticker": "QASH"
+  },
+  {
+    "coinmarketcapId": "q-dao-governance-token",
+    "id": "235680",
+    "name": "Q DAO Governance token v1.0",
+    "slug": "q-dao-governance-token",
+    "ticker": "QDAO"
+  },
+  {
+    "coinmarketcapId": "qiibee",
+    "id": "235714",
+    "name": "qiibee",
+    "slug": "qiibee",
+    "ticker": "QBX"
   },
   {
     "coinmarketcapId": "qlink",
@@ -7061,6 +7481,13 @@
     "name": "Ravencoin",
     "slug": "ravencoin",
     "ticker": "RVN"
+  },
+  {
+    "coinmarketcapId": "raven-protocol",
+    "id": "235668",
+    "name": "Raven Protocol",
+    "slug": "raven-protocol",
+    "ticker": "RAVEN"
   },
   {
     "coinmarketcapId": "rchain",
@@ -7455,6 +7882,13 @@
     "ticker": "SNTVT"
   },
   {
+    "coinmarketcapId": "super-zero",
+    "id": "235682",
+    "name": "Sero",
+    "slug": "super-zero",
+    "ticker": "SERO"
+  },
+  {
     "coinmarketcapId": "serve",
     "id": "235445",
     "name": "Serve",
@@ -7586,6 +8020,13 @@
     "name": "Silent Notary",
     "slug": "silent-notary",
     "ticker": "SNTR"
+  },
+  {
+    "coinmarketcapId": "silverway",
+    "id": "235697",
+    "name": "Silverway",
+    "slug": "silverway",
+    "ticker": "SLV"
   },
   {
     "coinmarketcapId": "simdaq",
@@ -7721,6 +8162,13 @@
     "ticker": "SMT"
   },
   {
+    "coinmarketcapId": "smartofgiving",
+    "id": "235747",
+    "name": "smARTOFGIVING",
+    "slug": "smartofgiving",
+    "ticker": "AOG"
+  },
+  {
     "coinmarketcapId": "smartshare",
     "id": "234876",
     "name": "Smartshare",
@@ -7791,13 +8239,6 @@
     "ticker": "SLR"
   },
   {
-    "coinmarketcapId": "solareum",
-    "id": "235500",
-    "name": "Solareum",
-    "slug": "solareum",
-    "ticker": "SLRM"
-  },
-  {
     "coinmarketcapId": "sola-token",
     "id": "101930",
     "name": "Sola Token",
@@ -7861,6 +8302,13 @@
     "ticker": "SPRKL"
   },
   {
+    "coinmarketcapId": "sparkster",
+    "id": "234913",
+    "name": "Sparkster",
+    "slug": "sparkster",
+    "ticker": "SPRK"
+  },
+  {
     "coinmarketcapId": "signal-token",
     "id": "499",
     "name": "Spectiv",
@@ -7894,6 +8342,13 @@
     "name": "SPIDER VPS",
     "slug": "spider-vps",
     "ticker": "SPDR"
+  },
+  {
+    "coinmarketcapId": "spiking",
+    "id": "235713",
+    "name": "Spiking",
+    "slug": "spiking",
+    "ticker": "SPIKE"
   },
   {
     "coinmarketcapId": "spindle",
@@ -8069,6 +8524,13 @@
     "name": "Stox",
     "slug": "stox",
     "ticker": "STX"
+  },
+  {
+    "coinmarketcapId": "stpt",
+    "id": "235655",
+    "name": "STPT",
+    "slug": "stpt",
+    "ticker": "STPT"
   },
   {
     "coinmarketcapId": "stratis",
@@ -8281,6 +8743,13 @@
     "ticker": "TERN"
   },
   {
+    "coinmarketcapId": "terra",
+    "id": "235471",
+    "name": "Terra",
+    "slug": "terra",
+    "ticker": "TERRA"
+  },
+  {
     "coinmarketcapId": "tether",
     "id": "1552",
     "name": "Tether",
@@ -8370,6 +8839,13 @@
     "name": "ThingsOperatingSystem",
     "slug": "thingsoperatingsystem",
     "ticker": "TOS"
+  },
+  {
+    "coinmarketcapId": "thorchain",
+    "id": "235712",
+    "name": "THORChain",
+    "slug": "thorchain",
+    "ticker": "RUNE"
   },
   {
     "coinmarketcapId": "thore-cash",
@@ -8491,6 +8967,13 @@
     "ticker": "TEAM"
   },
   {
+    "coinmarketcapId": "tokia",
+    "id": "101984",
+    "name": "Tokia",
+    "slug": "tokia",
+    "ticker": "TKA"
+  },
+  {
     "coinmarketcapId": "tokok",
     "id": "235374",
     "name": "TOKOK",
@@ -8566,6 +9049,13 @@
     "name": "Transcodium",
     "slug": "transcodium",
     "ticker": "TNS"
+  },
+  {
+    "coinmarketcapId": "translateme-network-token",
+    "id": "235715",
+    "name": "TranslateMe Network Token",
+    "slug": "translateme-network-token",
+    "ticker": "TMN"
   },
   {
     "coinmarketcapId": "tratok",
@@ -8652,6 +9142,13 @@
     "ticker": "TTT"
   },
   {
+    "coinmarketcapId": "ttc",
+    "id": "235667",
+    "name": "TTC",
+    "slug": "ttc",
+    "ticker": "TTC"
+  },
+  {
     "coinmarketcapId": "ttc-protocol",
     "id": "234806",
     "name": "TTC Protocol",
@@ -8722,6 +9219,13 @@
     "ticker": "ULT"
   },
   {
+    "coinmarketcapId": "ultra",
+    "id": "235708",
+    "name": "Ultra",
+    "slug": "ultra",
+    "ticker": "UOS"
+  },
+  {
     "coinmarketcapId": "ugas",
     "id": "235316",
     "name": "Ultrain",
@@ -8778,6 +9282,13 @@
     "ticker": "UTNP"
   },
   {
+    "coinmarketcapId": "unlimitedip",
+    "id": "235705",
+    "name": "UnlimitedIP",
+    "slug": "unlimitedip",
+    "ticker": "UIP"
+  },
+  {
     "coinmarketcapId": "unobtanium",
     "id": "234895",
     "name": "Unobtanium",
@@ -8806,6 +9317,13 @@
     "ticker": "UP"
   },
   {
+    "coinmarketcapId": "uranus",
+    "id": "235702",
+    "name": "Uranus",
+    "slug": "uranus",
+    "ticker": "URAC"
+  },
+  {
     "coinmarketcapId": "usdcoin",
     "id": "235361",
     "name": "USDCoin",
@@ -8818,6 +9336,20 @@
     "name": "USD//Coin",
     "slug": "usd-coin",
     "ticker": "USDC"
+  },
+  {
+    "coinmarketcapId": "usdk",
+    "id": "235666",
+    "name": "USDK",
+    "slug": "usdk",
+    "ticker": "USDK"
+  },
+  {
+    "coinmarketcapId": "usdq",
+    "id": "235671",
+    "name": "USDQ",
+    "slug": "usdq",
+    "ticker": "USDQ"
   },
   {
     "coinmarketcapId": "usechain-token",
@@ -9016,6 +9548,13 @@
     "ticker": "VIN"
   },
   {
+    "coinmarketcapId": "vindax-coin",
+    "id": "235720",
+    "name": "VinDax Coin",
+    "slug": "vindax-coin",
+    "ticker": "VD"
+  },
+  {
     "coinmarketcapId": "vipstar-coin",
     "id": "234668",
     "name": "Vipstar Coin",
@@ -9070,6 +9609,13 @@
     "name": "Volt",
     "slug": "volt",
     "ticker": "ACDC"
+  },
+  {
+    "coinmarketcapId": "volume-network",
+    "id": "235616",
+    "name": "Volume Network",
+    "slug": "volume-network",
+    "ticker": "VOL"
   },
   {
     "coinmarketcapId": "vslice",
@@ -9268,6 +9814,20 @@
     "ticker": "WINGS"
   },
   {
+    "coinmarketcapId": "wink-tronbet",
+    "id": "235738",
+    "name": "Wink",
+    "slug": "wink-tronbet",
+    "ticker": "WIN"
+  },
+  {
+    "coinmarketcapId": "winstars-live",
+    "id": "235724",
+    "name": "WinStars.live",
+    "slug": "winstars-live",
+    "ticker": "WNL"
+  },
+  {
     "coinmarketcapId": "wintoken",
     "id": "235142",
     "name": "WinToken",
@@ -9280,6 +9840,13 @@
     "name": "win.win",
     "slug": "win-win",
     "ticker": "TWINS"
+  },
+  {
+    "coinmarketcapId": "wirex-token",
+    "id": "235689",
+    "name": "Wirex",
+    "slug": "wirex-token",
+    "ticker": "WXT"
   },
   {
     "coinmarketcapId": "witchain",
@@ -9357,6 +9924,13 @@
     "name": "XDNA",
     "slug": "xdna",
     "ticker": "XDNA"
+  },
+  {
+    "coinmarketcapId": "xenoverse",
+    "id": "235707",
+    "name": "Xenoverse",
+    "slug": "xenoverse",
+    "ticker": "XENO"
   },
   {
     "coinmarketcapId": "xinfin-network",
