@@ -14,6 +14,7 @@ export const USER_SUBSCRIPTIONS_QUERY = gql`
           amount
           interval
           product {
+            id
             name
           }
         }
@@ -25,6 +26,7 @@ export const USER_SUBSCRIPTIONS_QUERY = gql`
 export const PLANS_QUERY = gql`
   query productsWithPlans {
     productsWithPlans {
+      id
       name
       plans {
         id
@@ -48,6 +50,7 @@ export const SUBSCRIBE_MUTATION = gql`
         amount
         interval
         product {
+          id
           name
         }
       }
@@ -67,6 +70,7 @@ export const UPDATE_SUBSCRIPTION_MUTATION = gql`
         amount
         interval
         product {
+          id
           name
         }
       }
