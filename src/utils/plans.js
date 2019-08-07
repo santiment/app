@@ -7,7 +7,8 @@ export const formatPrice = (price, name, billing) => {
   return [`$${parseInt(price / devider, 10)}`, '/mo']
 }
 
-export const findSanbasePlan = ({ name }) => name === 'SANBase'
+const sanbaseProductId = '3'
+export const findSanbasePlan = ({ id }) => id === sanbaseProductId
 
 export const getCurrentSanbaseSubscription = user => {
   if (!user) return
@@ -16,9 +17,9 @@ export const getCurrentSanbaseSubscription = user => {
   return subs.find(
     ({
       plan: {
-        product: { name }
+        product: { id }
       }
-    }) => name === 'SANBase'
+    }) => id === sanbaseProductId
   )
 }
 
