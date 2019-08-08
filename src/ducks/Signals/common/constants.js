@@ -1,5 +1,5 @@
 export const SIGNAL_ROUTES = {
-  MY_SIGNALS: '/sonar/feed/my-signals'
+  MY_SIGNALS: '/sonar/my-signals'
 }
 
 export const TRIGGER_STEPS = {
