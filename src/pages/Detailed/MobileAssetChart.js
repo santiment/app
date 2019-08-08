@@ -10,8 +10,7 @@ import {
 } from 'recharts'
 import Gradients from '../../components/WatchlistOverview/Gradients'
 import { formatNumber } from './../../utils/formatting'
-import { getDateFormats } from '../../utils/dates'
-import { generateMetricsMarkup, Metrics } from '../../ducks/SANCharts/utils.js'
+import { generateMetricsMarkup } from '../../ducks/SANCharts/utils.js'
 import CustomTooltip from '../../ducks/SANCharts/CustomTooltip'
 import styles from './MobileAssetChart.module.scss'
 
@@ -31,6 +30,7 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
           yCoord: el[anomalyDataKey]
         }
       }
+      return anomaly
     })
   }
   return (

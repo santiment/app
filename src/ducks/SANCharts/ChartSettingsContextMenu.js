@@ -13,7 +13,7 @@ const ChartSettingsContextMenu = ({
   onNightModeSelect,
   shareLink
 }) => {
-  return (
+  return showNightModeToggle ? (
     <ContextMenu
       trigger={
         <Button variant='flat'>
@@ -39,24 +39,33 @@ const ChartSettingsContextMenu = ({
             />
           </Button>
         )}
-        <ShareModalTrigger
-          classes={styles}
+        <ShareChart
+          shareLink={shareLink}
           trigger={props => (
             <Button fluid variant='ghost' {...props}>
               Share
             </Button>
           )}
-          shareLink={shareLink}
-          extraShare={[
-            {
-              value: `<iframe frameborder="0" height="340" src="${shareLink}"></iframe>`,
-              label: 'Copy iframe'
-            }
-          ]}
         />
       </Panel>
     </ContextMenu>
+  ) : (
+    <ShareChart shareLink={shareLink} />
   )
 }
+
+const ShareChart = ({ trigger, shareLink }) => (
+  <ShareModalTrigger
+    trigger={trigger}
+    classes={styles}
+    shareLink={shareLink}
+    extraShare={[
+      {
+        value: `<iframe frameborder="0" height="340" src="${shareLink}"></iframe>`,
+        label: 'Copy iframe'
+      }
+    ]}
+  />
+)
 
 export default ChartSettingsContextMenu

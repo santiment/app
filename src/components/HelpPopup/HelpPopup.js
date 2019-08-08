@@ -11,6 +11,7 @@ const HelpPopup = ({
   children,
   content,
   className,
+  position = 'bottom center',
   trigger = (
     <Icon style={{ cursor: 'pointer' }} type='help-round' fill='#ada6bc' />
   )
@@ -20,7 +21,7 @@ const HelpPopup = ({
     <Popup
       content={render}
       trigger={trigger}
-      position='bottom center'
+      position={position}
       on='hover'
       style={style}
     />

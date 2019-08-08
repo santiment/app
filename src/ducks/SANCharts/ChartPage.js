@@ -24,8 +24,9 @@ const DEFAULT_STATE = {
   metrics: ['historyPrice'],
   title: 'Santiment Network Token (SAN)',
   projectId: '16912',
-  interval: '12h',
-  isAdvancedView: false
+  interval: getNewInterval(FROM, TO, '12h'),
+  isAdvancedView: false,
+  enabledViewOnlySharing: true
 }
 
 const LoadableChartSidecar = Loadable({
@@ -52,14 +53,14 @@ const getChartInitialState = props => {
     }
     passedState = data
   } else {
-    let { slug, from, to, title, timeRange, metrics } = props
+    let { slug, from, to, title, timeRange, metrics, interval } = props
 
     if (!from) {
       const { from: f, to: t } = getIntervalByTimeRange(timeRange)
       from = f.toISOString()
       to = t.toISOString()
+      interval = getNewInterval(from, to)
     }
-
     passedState = {
       slug,
       title,
@@ -67,7 +68,7 @@ const getChartInitialState = props => {
       from,
       to,
       timeRange,
-      interval: getNewInterval(from, to)
+      interval
     }
   }
 
@@ -174,13 +175,13 @@ class ChartPage extends Component {
       return
     }
 
-    this.props.history.replace({
-      search: this.mapStateToQS(this.state)
-    })
+    this.props.history &&
+      this.props.history.replace({
+        search: this.mapStateToQS(this.state)
+      })
   }
 
   generateShareLink = disabledMetrics => {
-    const { origin, pathname } = window.location
     const {
       slug,
       title,
@@ -192,13 +193,18 @@ class ChartPage extends Component {
       to
     } = this.state
 
+    const { enabledViewOnlySharing } = this.props
+
     const settings = {
       slug,
       metrics: metrics.filter(metric => !disabledMetrics.includes(metric)),
       interval,
       nightMode,
-      title,
-      viewOnly: true
+      title
+    }
+
+    if (enabledViewOnlySharing) {
+      settings.viewOnly = true
     }
 
     if (zoom) {
@@ -210,7 +216,10 @@ class ChartPage extends Component {
       settings.to = to
     }
 
-    return `${origin}${pathname}?${qs.stringify(settings, {
+    const { sharePath } = this.props
+    const { origin, pathname } = window.location
+
+    return `${origin}${sharePath || pathname}?${qs.stringify(settings, {
       arrayFormat: 'comma'
     })}`
   }
