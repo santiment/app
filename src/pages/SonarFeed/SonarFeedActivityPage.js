@@ -42,6 +42,18 @@ const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
     })
   }
 
+  if (activities.length > 0) {
+    navigator &&
+      navigator.serviceWorker &&
+      navigator.serviceWorker.controller &&
+      navigator.serviceWorker.controller.postMessage({
+        type: 'SONAR_FEED_ACTIVITY',
+        data: {
+          lastTriggeredAt: activities[0].triggeredAt
+        }
+      })
+  }
+
   return activities && activities.length ? (
     <div className={styles.wrapper}>
       {activities.map(activity => (
