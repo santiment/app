@@ -55,6 +55,10 @@ function readDb(storeName, checkCallback) {
 }
 
 function removeFromDb(storeName, checkCallback) {
+  if(!db){
+    return
+  }
+
   var request = db.transaction([storeName], 'readwrite')
     .objectStore(storeName)
     .delete(1);
@@ -65,8 +69,11 @@ function removeFromDb(storeName, checkCallback) {
   };
 }
 
-
 function addToDb(storeName, data, checkCallback) {
+  if(!db){
+    return
+  }
+
   var request = db.transaction([storeName], 'readwrite')
     .objectStore(storeName)
     .add(data);
@@ -81,7 +88,6 @@ function addToDb(storeName, data, checkCallback) {
     checkCallback();
   }
 }
-
 
 self.addEventListener('activate', function(event) {
   event.waitUntil(
@@ -104,7 +110,6 @@ const checkNewActivities = (activities) => {
       readDb(ACTIVITY_CHECKS_STORE_NAME, (data) => {
 
         if(data){
-
           const showNotification = () => {
             self.registration.showNotification('New ' + activities.length +' sonar feed activities!', {
               body: 'Open to check ' + PUBLIC_ROUTE + '/sonar/feed/activity',
@@ -117,7 +122,7 @@ const checkNewActivities = (activities) => {
             restart()
           }
 
-          const isSame = data.triggeredAt.getTime() === triggeredData.getTime();
+          const isSame = new Date(data.triggeredAt).getTime() === triggeredData.getTime();
           if(isSame) {
             restart()
           } else {
@@ -165,8 +170,13 @@ const loadAndCheckActivities = () => {
 }
 
 self.addEventListener('message', function(event){
-  console.log("SW Received Message: " + event.data);
+  const {type, data} = event.data
 
+  if(type && type === 'SONAR_FEED_ACTIVITY'){
+    addToDb(ACTIVITY_CHECKS_STORE_NAME, {
+      triggeredAt: data.lastTriggeredAt
+    }, restart)
+  }
 });
 
 createDB()
