@@ -1,7 +1,7 @@
 const ACTIVITIES_LOAD_TIMEOUT = 10000;
 const PUBLIC_API_ROUTE = 'https://api-stage.santiment.net'
 const PUBLIC_ROUTE = 'https://app-stage.santiment.net'
-const WS_DB_NAME = 'WSdb'
+const WS_DB_NAME = 'serviceWorkerDb'
 const ACTIVITY_CHECKS_STORE_NAME = 'activityChecks'
 
 let db;
@@ -35,22 +35,25 @@ const createDB = () => {
   }
 }
 
-function readDb(storeName, checkCallback) {
+function getFirstValueFromTable(storeName, checkCallback) {
   if(!db){
     return;
   }
 
   var transaction = db.transaction([storeName]);
   var objectStore = transaction.objectStore(storeName);
-  var request = objectStore.get(1);
 
-  request.onerror = function(event) {
-    console.log('Transaction failed', event);
+  var cursorRequest = objectStore.openCursor()
+
+  cursorRequest.onsuccess = function(event) {
+    var cursor = event.target.result;
+    if(cursor) {
+      checkCallback(cursor.value)
+    }
   };
 
-  request.onsuccess = function( event) {
-    console.log("---->event", request.result)
-    checkCallback(request.result)
+  cursorRequest.onerror = function(event) {
+    console.log('IndexDB cursor failed', event);
   };
 }
 
@@ -61,12 +64,14 @@ function removeFromDb(storeName, checkCallback) {
 
   var request = db.transaction([storeName], 'readwrite')
     .objectStore(storeName)
-    .delete(1);
+    .clear()
 
   request.onsuccess = function (event) {
-    console.log('The data has been deleted successfully');
     checkCallback()
   };
+  request.onerror = function () {
+    console.log('Error during clear IndexDb store')
+  }
 }
 
 function addToDb(storeName, data, checkCallback) {
@@ -79,66 +84,76 @@ function addToDb(storeName, data, checkCallback) {
     .add(data);
 
   request.onsuccess = function (event) {
-    console.log('The data has been written successfully');
-    checkCallback();
+    checkCallback && checkCallback();
   };
 
   request.onerror = function (event) {
     console.log('The data has been written failed', event);
-    checkCallback();
+    checkCallback && checkCallback();
   }
 }
-
-self.addEventListener('activate', function(event) {
-  event.waitUntil(
-    createDB()
-  );
-});
 
 const restart = () => {
   setTimeout(loadAndCheckActivities, ACTIVITIES_LOAD_TIMEOUT)
 }
 
+
+const addActivityDateAndRestart = (triggeredAt, enabled) => {
+  addToDb(ACTIVITY_CHECKS_STORE_NAME, {
+    triggeredAt: triggeredAt
+  }, enabled ? restart : undefined)
+}
+
+
+const showActivitiesNotification = (triggeredAt, newCount) => {
+  self.registration.showNotification('New ' + newCount +' activities in Sonar!', {
+    body: 'Open to check ' + PUBLIC_ROUTE + '/sonar/activity',
+    badge: '/favicon-96x96.png',
+    icon: '/favicon-96x96.png',
+    vibrate: [200, 100, 200, 100],
+    tag: 'vibration-sample',
+    timestamp:  new Date()
+  })
+
+  addActivityDateAndRestart(triggeredAt, true)
+}
+
 const checkNewActivities = (activities) => {
 
   if(activities && activities.length > 0){
-    const lastTriggeredAt = activities[0].triggeredAt;
+    const loadedTriggeredAt = new Date(activities[0].triggeredAt);
 
-    if(lastTriggeredAt){
-      const triggeredData = new Date(lastTriggeredAt);
+    if(loadedTriggeredAt){
 
-      readDb(ACTIVITY_CHECKS_STORE_NAME, (data) => {
-
+      getFirstValueFromTable(ACTIVITY_CHECKS_STORE_NAME, (data) => {
         if(data){
-          const showNotification = () => {
-            self.registration.showNotification('New ' + activities.length +' sonar feed activities!', {
-              body: 'Open to check ' + PUBLIC_ROUTE + '/sonar/feed/activity',
-              badge: '/favicon-96x96.png',
-              icon: '/favicon-96x96.png',
-              vibrate: [200, 100, 200, 100],
-              tag: 'vibration-sample',
-              timestamp:  new Date()
-            })
-            restart()
-          }
+          const lastSavedTriggeredTime = new Date(data.triggeredAt).getTime()
 
-          const isSame = new Date(data.triggeredAt).getTime() === triggeredData.getTime();
+          const isSame = loadedTriggeredAt.getTime() === lastSavedTriggeredTime;
           if(isSame) {
             restart()
           } else {
-            removeFromDb(ACTIVITY_CHECKS_STORE_NAME, showNotification)
+            removeFromDb(ACTIVITY_CHECKS_STORE_NAME, () => {
+              const count = activities.reduce((acc, item)=>{
+                  if(new Date(item.triggeredAt).getTime() > lastSavedTriggeredTime){
+                    acc++
+                  }
+                  return acc;
+                }, 0)
+              showActivitiesNotification(loadedTriggeredAt, count)
+            })
           }
 
         } else {
-          addToDb(ACTIVITY_CHECKS_STORE_NAME, {
-            triggeredAt: triggeredData
-          }, restart)
+
+          addActivityDateAndRestart(loadedTriggeredAt, true)
         }
       })
 
     }
   }
 }
+
 
 const loadAndCheckActivities = () => {
   const from = new Date();
@@ -169,15 +184,18 @@ const loadAndCheckActivities = () => {
     })
 }
 
+self.addEventListener('activate', function(event) {
+  createDB()
+  loadAndCheckActivities()
+});
+
 self.addEventListener('message', function(event){
   const {type, data} = event.data
 
-  if(type && type === 'SONAR_FEED_ACTIVITY'){
-    addToDb(ACTIVITY_CHECKS_STORE_NAME, {
-      triggeredAt: data.lastTriggeredAt
-    }, restart)
+  if(type){
+    if(type === 'SONAR_FEED_ACTIVITY'){
+      addActivityDateAndRestart(data.lastTriggeredAt, false)
+    }
   }
 });
 
-createDB()
-loadAndCheckActivities();
