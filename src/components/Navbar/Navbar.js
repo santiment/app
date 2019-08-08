@@ -18,7 +18,7 @@ const leftLinks = [
   { link: '/', label: 'Charts' },
   { link: '/assets', label: 'Assets', linkTo: '/assets' },
   {
-    link: '/sonar/feed',
+    link: '/sonar',
     label: 'Sonar'
   },
   { link: '/insights', label: 'Insights' },

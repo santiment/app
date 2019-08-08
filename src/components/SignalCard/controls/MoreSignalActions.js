@@ -36,10 +36,7 @@ const MoreSignalActions = ({
       <Panel>
         <div className={styles.popup}>
           <div className={cx(styles.popupItem, styles.popupButton)}>
-            <Link
-              to={`/sonar/feed/details/${signalId}/edit`}
-              className={styles.link}
-            >
+            <Link to={`/sonar/signal/${signalId}/edit`} className={styles.link}>
               Edit signal
             </Link>
           </div>

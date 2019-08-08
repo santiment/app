@@ -15,8 +15,8 @@ import { SIGNAL_ROUTES } from '../../ducks/Signals/common/constants'
 import { getShareSignalParams } from '../../ducks/Signals/common/getSignal'
 import styles from './SonarFeedPage.module.scss'
 
-const baseLocation = '/sonar/feed'
-const editTriggerSettingsModalLocation = `${baseLocation}/details/:id/edit`
+const baseLocation = '/sonar'
+const editTriggerSettingsModalLocation = `${baseLocation}/signal/:id/edit`
 
 const tabs = [
   {
