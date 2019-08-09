@@ -1,8 +1,14 @@
 const path = require('path')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const webpack = require('webpack')
+const dotenv = require('dotenv')
+
+const envConfig = {...dotenv.config().parsed, ...dotenv.config({path: './.env.local'}).parsed}
+const apiUrl = envConfig.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL
+const uiUrl = envConfig.REACT_APP_WEBSITE_URL || process.env.REACT_APP_WEBSITE_URL
 
 module.exports = {
-  mode: 'production',
+  mode: process.env.NODE_ENV,
 
   entry: ['whatwg-fetch', path.resolve(__dirname, 'src/san-service-worker.js')],
 
@@ -25,6 +31,14 @@ module.exports = {
       }
     ]
   },
+
+  plugins: [
+    new webpack.DefinePlugin({
+      __API_URL__: JSON.stringify(apiUrl),
+      __UI_URL__: JSON.stringify(uiUrl)
+    })
+  ],
+
   optimization: {
     minimizer: [
       new UglifyJsPlugin({

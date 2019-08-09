@@ -50,7 +50,7 @@ const requestNotificationPermission = () => {
 
   permission.then(permission => {
     if (permission !== 'granted') {
-      throw new Error('Permission not granted for Notification')
+      console.warn('Permission not granted for Notification')
     }
   })
 }

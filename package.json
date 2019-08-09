@@ -95,7 +95,8 @@
     "sanitize-html": "^1.18.2",
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.82.1",
-    "validate.js": "^0.12.0"
+    "validate.js": "^0.12.0",
+    "uglifyjs-webpack-plugin": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",

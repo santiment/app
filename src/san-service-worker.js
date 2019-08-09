@@ -1,12 +1,8 @@
-const CUSTOM_BLA_BLA = process.env.REACT_APP_BACKEND_URL
-const ACTIVITIES_LOAD_TIMEOUT = 10000
-const PUBLIC_API_ROUTE = 'https://api-stage.santiment.net'
-const PUBLIC_ROUTE = 'https://app-stage.santiment.net'
+const ACTIVITIES_LOAD_TIMEOUT = 60 * 15 * 1000
+const PUBLIC_API_ROUTE = __API_URL__
+const PUBLIC_FRONTEND_ROUTE = __UI_URL__
 const WS_DB_NAME = 'serviceWorkerDb'
 const ACTIVITY_CHECKS_STORE_NAME = 'activityChecks'
-
-console.log(CUSTOM_BLA_BLA)
-console.log('SAN service worker started')
 
 let db
 
@@ -24,16 +20,16 @@ const createDB = () => {
     return
   }
 
-  var request = indexedDB.open(WS_DB_NAME)
-  request.onerror = function (event) {
+  const request = indexedDB.open(WS_DB_NAME)
+  request.onerror = event => {
     console.log('The database is opened failed')
   }
-  request.onsuccess = function (event) {
+  request.onsuccess = event => {
     db = request.result
     createActivityChecksTable()
     console.log('The database is opened successfully')
   }
-  request.onupgradeneeded = function (event) {
+  request.onupgradeneeded = event => {
     db = event.target.result
     createActivityChecksTable()
   }
@@ -44,19 +40,21 @@ function getFirstValueFromTable (storeName, checkCallback) {
     return
   }
 
-  var transaction = db.transaction([storeName])
-  var objectStore = transaction.objectStore(storeName)
+  const transaction = db.transaction([storeName])
+  const objectStore = transaction.objectStore(storeName)
 
-  var cursorRequest = objectStore.openCursor()
+  const cursorRequest = objectStore.openCursor()
 
-  cursorRequest.onsuccess = function (event) {
+  cursorRequest.onsuccess = event => {
     var cursor = event.target.result
     if (cursor) {
       checkCallback(cursor.value)
+    } else {
+      checkCallback()
     }
   }
 
-  cursorRequest.onerror = function (event) {
+  cursorRequest.onerror = event => {
     console.log('IndexDB cursor failed', event)
   }
 }
@@ -66,15 +64,15 @@ function removeFromDb (storeName, checkCallback) {
     return
   }
 
-  var request = db
+  const request = db
     .transaction([storeName], 'readwrite')
     .objectStore(storeName)
     .clear()
 
-  request.onsuccess = function (event) {
+  request.onsuccess = event => {
     checkCallback()
   }
-  request.onerror = function () {
+  request.onerror = () => {
     console.log('Error during clear IndexDb store')
   }
 }
@@ -84,16 +82,18 @@ function addToDb (storeName, data, checkCallback) {
     return
   }
 
-  var request = db
+  const request = db
     .transaction([storeName], 'readwrite')
     .objectStore(storeName)
     .add(data)
 
-  request.onsuccess = function (event) {
+  console.log('---> add to db', data)
+
+  request.onsuccess = event => {
     checkCallback && checkCallback()
   }
 
-  request.onerror = function (event) {
+  request.onerror = event => {
     console.log('The data has been written failed', event)
     checkCallback && checkCallback()
   }
@@ -114,20 +114,19 @@ const addActivityDateAndRestart = (triggeredAt, newCount, enabled) => {
   )
 }
 
-const showActivitiesNotification = (triggeredAt, newCount) => {
+const showActivitiesNotification = newCount => {
   self.registration.showNotification(newCount + ' new activities in Sonar!', {
-    body: 'Open to check ' + PUBLIC_ROUTE + '/sonar/activity',
+    body: 'Open to check ' + PUBLIC_FRONTEND_ROUTE + '/sonar/activity',
     badge: '/favicon-96x96.png',
     icon: '/favicon-96x96.png',
     vibrate: [200, 100, 200, 100],
     tag: 'vibration-sample',
     timestamp: new Date()
   })
-
-  addActivityDateAndRestart(triggeredAt, newCount, true)
 }
 
 const checkNewActivities = activities => {
+  console.log('--> checkNewActivities', activities)
   if (activities && activities.length > 0) {
     const loadedTriggeredAt = new Date(activities[0].triggeredAt)
 
@@ -142,20 +141,22 @@ const checkNewActivities = activities => {
             return acc
           }, 0)
 
-          console.log('new count: ' + count)
+          console.log('new count: ' + count, data)
 
-          const isSame =
+          const isSameActivities =
             loadedTriggeredAt.getTime() === lastSavedTriggeredTime &&
             data.count === count
-          if (isSame) {
-            console.log('the same date in DB: ' + loadedTriggeredAt)
-            self.registration.showNotification('The same activities :(')
+          if (isSameActivities) {
+            console.log('the same date in DB:', data)
             restart()
-          } else {
-            console.log('show notification')
+          } else if (count > data.count) {
+            console.log('show notification with count: ', count, data)
             removeFromDb(ACTIVITY_CHECKS_STORE_NAME, () => {
-              showActivitiesNotification(loadedTriggeredAt, count)
+              showActivitiesNotification(count)
+              addActivityDateAndRestart(data.triggeredAt, count, true)
             })
+          } else {
+            restart()
           }
         } else {
           console.log('no data in db')
@@ -167,12 +168,16 @@ const checkNewActivities = activities => {
 }
 
 const loadAndCheckActivities = () => {
-  const from = new Date()
+  console.log('loadAndCheckActivities')
+  if (!PUBLIC_API_ROUTE || !PUBLIC_FRONTEND_ROUTE) {
+    return
+  }
 
+  const from = new Date()
   const query = {
     operationName: 'signalsHistoricalActivity',
     query:
-      'query signalsHistoricalActivity($datetime: DateTime!) {  activities: signalsHistoricalActivity(limit: 5, cursor: {type: BEFORE, datetime: $datetime}) {    cursor {      before      after      __typename    }    activity {      payload      triggeredAt      userTrigger {        trigger {          title          description          __typename        }        __typename      }      __typename    }    __typename  }}',
+      'query signalsHistoricalActivity($datetime: DateTime!) {  activities: signalsHistoricalActivity(limit: 100, cursor: {type: BEFORE, datetime: $datetime}) {    cursor {      before      after      __typename    }    activity {      payload      triggeredAt      userTrigger {        trigger {          title          description          __typename        }        __typename      }      __typename    }    __typename  }}',
     variables: { datetime: from.toISOString() }
   }
 
@@ -190,15 +195,17 @@ const loadAndCheckActivities = () => {
 
       if (activity) {
         checkNewActivities(activity)
+      } else {
+        restart()
       }
     })
     .catch(error => {
       console.log(error)
+      restart()
     })
 }
 
 self.addEventListener('activate', function (event) {
-  console.log('Activate sw')
   createDB()
   loadAndCheckActivities()
 })
@@ -208,7 +215,9 @@ self.addEventListener('message', function (event) {
 
   if (type) {
     if (type === 'SONAR_FEED_ACTIVITY') {
-      addActivityDateAndRestart(data.lastTriggeredAt, 0, false)
+      removeFromDb(ACTIVITY_CHECKS_STORE_NAME, () => {
+        addActivityDateAndRestart(data.lastTriggeredAt, 0, false)
+      })
     }
   }
 })
