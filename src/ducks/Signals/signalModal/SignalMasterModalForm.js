@@ -201,8 +201,8 @@ const signalModalTrigger = (
 const NoSignal = ({ triggerId }) => (
   <div className={styles.notSignalInfo}>
     <img className={styles.noSignalImage} alt='Artboard' src={Image} />
-    Trigger with id {triggerId} does not exist.
+    Signal with id {triggerId} does not exist.
     <br />
-    Or it is a private trigger owned by another user.
+    Or it is a private signal owned by another user.
   </div>
 )
