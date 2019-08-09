@@ -12,6 +12,7 @@ import GetSignal from '../common/getSignal'
 import { SIGNAL_ROUTES } from '../common/constants'
 import SignalAnon from './SignalAnon'
 import ConfirmSignalModalClose from './confirmClose/ConfirmSignalModalClose'
+import Image from '../../../pages/SonarFeed/sonar_activity_artboard.png'
 import styles from './SignalMasterModalForm.module.scss'
 
 const SignalMasterModalForm = ({
@@ -132,12 +133,7 @@ const SignalMasterModalForm = ({
               {...dialogProps}
             >
               <Dialog.ScrollContent className={styles.TriggerPanel}>
-                {isError && (
-                  <div className={styles.notSignalInfo}>
-                    Trigger with id {triggerId} does not exist or it is a
-                    private trigger owned by another user :(
-                  </div>
-                )}
+                {isError && <NoSignal triggerId={triggerId} />}
                 {!isError && isLoading && (
                   <Loader className={styles.loading}>Loading...</Loader>
                 )}
@@ -200,4 +196,13 @@ const signalModalTrigger = (
     <Icon type='plus-round' className={styles.newSignal__icon} />
     {label}
   </Button>
+)
+
+const NoSignal = ({ triggerId }) => (
+  <div className={styles.notSignalInfo}>
+    <img className={styles.noSignalImage} alt='Artboard' src={Image} />
+    Trigger with id {triggerId} does not exist.
+    <br />
+    Or it is a private trigger owned by another user.
+  </div>
 )
