@@ -19,38 +19,40 @@ const TriggerFormChannels = ({
     !isEmailConnected && channels.some(type => type === 'Email')
 
   return (
-    <SidecarExplanationTooltip
-      closeTimeout={500}
-      localStorageSuffix='_TRIGGER_FORM_EXPLANATION'
-      position='top'
-      title='Connect channels'
-      description='Get fast notifications through Email or Telegram'
-      className={styles.explanation}
-    >
-      <div className={cx(styles.row, styles.rowSingle)}>
-        <div className={cx(styles.Field, styles.fieldFilled)}>
-          <FormikLabel text='Notify me via' />
-          <div className={styles.notifyBlock}>
-            <FormikCheckboxes
-              name='channels'
-              labelOnRight
-              options={['Email', 'Telegram']}
-              disabledIndexes={['Email']}
-              classes={styles}
-            />
-            <TriggerChannelSettings
-              isTelegramSettings={settingsForTelegramEnabled}
-              isEmailSettings={settingsForEmailEnabled}
-            />
+    <div className={cx(styles.row, styles.rowSingle)}>
+      <div className={cx(styles.Field, styles.fieldFilled)}>
+        <SidecarExplanationTooltip
+          closeTimeout={500}
+          localStorageSuffix='_TRIGGER_FORM_EXPLANATION'
+          position='top'
+          title='Connect channels'
+          description='Get fast notifications through Email or Telegram'
+          className={styles.explanation}
+        >
+          <div>
+            <FormikLabel text='Notify me via' />
           </div>
-          {errors.channels && (
-            <div className={cx(styles.row, styles.messages)}>
-              <Message variant='warn'>{errors.channels}</Message>
-            </div>
-          )}
+        </SidecarExplanationTooltip>
+        <div className={styles.notifyBlock}>
+          <FormikCheckboxes
+            name='channels'
+            labelOnRight
+            options={['Email', 'Telegram']}
+            disabledIndexes={['Email']}
+            classes={styles}
+          />
+          <TriggerChannelSettings
+            isTelegramSettings={settingsForTelegramEnabled}
+            isEmailSettings={settingsForEmailEnabled}
+          />
         </div>
+        {errors.channels && (
+          <div className={cx(styles.row, styles.messages)}>
+            <Message variant='warn'>{errors.channels}</Message>
+          </div>
+        )}
       </div>
-    </SidecarExplanationTooltip>
+    </div>
   )
 }
 

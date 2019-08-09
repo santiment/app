@@ -10,6 +10,7 @@ const SonarFeedMySignalsPage = ({ match, setLoadingSignalId }) => {
   if (match && match.params && match.params.id) {
     triggerId = match.params.id
   }
+
   setLoadingSignalId && setLoadingSignalId(triggerId)
 
   return (

@@ -746,19 +746,21 @@ export const mapGQLTriggerToProps = ({ data: { trigger, loading, error } }) => {
         isError: !!error,
         isEmpty: true,
         trigger: null,
-        isLoading: loading
+        isLoading: !!loading
       }
     }
   }
 
   const checkingTrigger = trigger ? trigger.trigger : undefined
+  const { userId } = trigger || {}
 
   return {
     trigger: {
       trigger: checkingTrigger,
-      isLoading: loading,
+      isLoading: !!loading,
       isError: !!error
-    }
+    },
+    userId: +userId
   }
 }
 

@@ -212,7 +212,7 @@ export const TriggerForm = ({
                     canLoadChart &&
                     getSignalBacktestingPoints(newValues)
 
-                  if (!id) {
+                  if (!id && !isShared) {
                     !newValues.titleChangedByUser &&
                       setFieldValue('title', getNewTitle(newValues))
                     !newValues.descriptionChangedByUser &&

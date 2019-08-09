@@ -12,6 +12,7 @@ import GetSignal from '../common/getSignal'
 import { SIGNAL_ROUTES } from '../common/constants'
 import SignalAnon from './SignalAnon'
 import ConfirmSignalModalClose from './confirmClose/ConfirmSignalModalClose'
+import Image from '../../../pages/SonarFeed/sonar_activity_artboard.png'
 import styles from './SignalMasterModalForm.module.scss'
 
 const SignalMasterModalForm = ({
@@ -27,13 +28,14 @@ const SignalMasterModalForm = ({
   trigger: dialogTrigger,
   buttonParams = {},
   dialogProps,
-  shareParams = {}
+  shareParams = {},
+  userId
 }) => {
-  const { id: shareId, isShared } = shareParams
+  const { id: shareId, isShared: isOldShared } = shareParams
 
   if (!triggerId && match) {
     triggerId = match.params.id
-  } else if (isShared) {
+  } else if (isOldShared && shareId) {
     triggerId = shareId
   }
 
@@ -81,15 +83,14 @@ const SignalMasterModalForm = ({
   return (
     <GetSignal
       triggerId={triggerId}
-      render={({ trigger = {} }) => {
+      render={({ trigger = {}, userId: triggerUserId }) => {
         const { isLoading, isError } = trigger
 
-        if (isShared && trigger.trigger) {
-          trigger.trigger = { ...trigger.trigger, ...shareParams }
-        }
+        let isShared =
+          isOldShared || (!!triggerUserId && +userId !== triggerUserId)
 
-        if (isError) {
-          throw new Error(`Can't find such public trigger with id ${triggerId}`)
+        if (isShared && trigger && trigger.trigger) {
+          trigger.trigger = { ...trigger.trigger, ...shareParams }
         }
 
         return (
@@ -132,10 +133,12 @@ const SignalMasterModalForm = ({
               {...dialogProps}
             >
               <Dialog.ScrollContent className={styles.TriggerPanel}>
-                {isLoading && (
+                {isError && <NoSignal triggerId={triggerId} />}
+                {!isError && isLoading && (
                   <Loader className={styles.loading}>Loading...</Loader>
                 )}
-                {!isLoading &&
+                {!isError &&
+                  !isLoading &&
                   (isLoggedIn ? (
                     <SignalMaster
                       isShared={isShared}
@@ -161,7 +164,8 @@ const SignalMasterModalForm = ({
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: checkIsLoggedIn(state)
+    isLoggedIn: checkIsLoggedIn(state),
+    userId: +state.user.data.id
   }
 }
 
@@ -192,4 +196,13 @@ const signalModalTrigger = (
     <Icon type='plus-round' className={styles.newSignal__icon} />
     {label}
   </Button>
+)
+
+const NoSignal = ({ triggerId }) => (
+  <div className={styles.notSignalInfo}>
+    <img className={styles.noSignalImage} alt='Artboard' src={Image} />
+    Trigger with id {triggerId} does not exist.
+    <br />
+    Or it is a private trigger owned by another user.
+  </div>
 )
