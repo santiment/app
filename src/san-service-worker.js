@@ -87,8 +87,6 @@ function addToDb (storeName, data, checkCallback) {
     .objectStore(storeName)
     .add(data)
 
-  console.log('---> add to db', data)
-
   request.onsuccess = event => {
     checkCallback && checkCallback()
   }
@@ -126,7 +124,6 @@ const showActivitiesNotification = newCount => {
 }
 
 const checkNewActivities = activities => {
-  console.log('--> checkNewActivities', activities)
   if (activities && activities.length > 0) {
     const loadedTriggeredAt = new Date(activities[0].triggeredAt)
 
@@ -141,16 +138,12 @@ const checkNewActivities = activities => {
             return acc
           }, 0)
 
-          console.log('new count: ' + count, data)
-
           const isSameActivities =
             loadedTriggeredAt.getTime() === lastSavedTriggeredTime &&
             data.count === count
           if (isSameActivities) {
-            console.log('the same date in DB:', data)
             restart()
           } else if (count > data.count) {
-            console.log('show notification with count: ', count, data)
             removeFromDb(ACTIVITY_CHECKS_STORE_NAME, () => {
               showActivitiesNotification(count)
               addActivityDateAndRestart(data.triggeredAt, count, true)
@@ -159,7 +152,6 @@ const checkNewActivities = activities => {
             restart()
           }
         } else {
-          console.log('no data in db')
           addActivityDateAndRestart(loadedTriggeredAt, 0, true)
         }
       })
@@ -168,7 +160,6 @@ const checkNewActivities = activities => {
 }
 
 const loadAndCheckActivities = () => {
-  console.log('loadAndCheckActivities')
   if (!PUBLIC_API_ROUTE || !PUBLIC_FRONTEND_ROUTE) {
     return
   }
