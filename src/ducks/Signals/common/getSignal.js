@@ -18,7 +18,13 @@ export const getShareSignalParams = () => {
   )(search)
 
   const isShared = hash === '#shared'
-  return { isShared, title, id }
+
+  // GarageInc: code above is for support old sharing of signals, remove in future(September/October)
+  const parsedSignalParams = qs.parse(window.location.search, {
+    arrayFormat: 'comma'
+  })
+
+  return { isShared, title, id, ...parsedSignalParams }
 }
 
 const GetSignal = ({ render, ...props }) => render(props)

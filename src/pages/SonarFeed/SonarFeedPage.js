@@ -17,6 +17,7 @@ import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar'
 const editTriggerSettingsModalLocation = `${baseLocation}/signal/:id/edit`
+const openTriggerSettingsModalLocation = `${baseLocation}/signal/:id`
 
 const tabs = [
   {
@@ -80,7 +81,10 @@ const SonarFeed = ({
 
   useEffect(
     () => {
-      if (triggerId && !matchPath(pathname, editTriggerSettingsModalLocation)) {
+      const isTrigger =
+        matchPath(pathname, editTriggerSettingsModalLocation) ||
+        matchPath(pathname, openTriggerSettingsModalLocation)
+      if (triggerId && !isTrigger) {
         setTriggerId(undefined)
       }
     },
@@ -143,6 +147,16 @@ const SonarFeed = ({
           ,
           <Route
             path={editTriggerSettingsModalLocation}
+            exact
+            render={props => (
+              <LoadableEditSignalPage
+                setLoadingSignalId={setLoadingSignalId}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path={openTriggerSettingsModalLocation}
             exact
             render={props => (
               <LoadableEditSignalPage

@@ -27,13 +27,14 @@ const SignalMasterModalForm = ({
   trigger: dialogTrigger,
   buttonParams = {},
   dialogProps,
-  shareParams = {}
+  shareParams = {},
+  userId
 }) => {
-  const { id: shareId, isShared } = shareParams
+  const { id: shareId, isShared: isOldShared } = shareParams
 
   if (!triggerId && match) {
     triggerId = match.params.id
-  } else if (isShared) {
+  } else if (isOldShared && shareId) {
     triggerId = shareId
   }
 
@@ -81,15 +82,18 @@ const SignalMasterModalForm = ({
   return (
     <GetSignal
       triggerId={triggerId}
-      render={({ trigger = {} }) => {
+      render={({ trigger = {}, userId: triggerUserId }) => {
         const { isLoading, isError } = trigger
-
-        if (isShared && trigger.trigger) {
-          trigger.trigger = { ...trigger.trigger, ...shareParams }
-        }
 
         if (isError) {
           throw new Error(`Can't find such public trigger with id ${triggerId}`)
+        }
+
+        let isShared =
+          isOldShared || (triggerUserId && +userId !== triggerUserId)
+
+        if (isShared && trigger && trigger.trigger) {
+          trigger.trigger = { ...trigger.trigger, ...shareParams }
         }
 
         return (
@@ -161,7 +165,8 @@ const SignalMasterModalForm = ({
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: checkIsLoggedIn(state)
+    isLoggedIn: checkIsLoggedIn(state),
+    userId: +state.user.data.id
   }
 }
 
