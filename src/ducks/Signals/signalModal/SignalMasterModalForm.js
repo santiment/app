@@ -85,10 +85,6 @@ const SignalMasterModalForm = ({
       render={({ trigger = {}, userId: triggerUserId }) => {
         const { isLoading, isError } = trigger
 
-        if (isError) {
-          throw new Error(`Can't find such public trigger with id ${triggerId}`)
-        }
-
         let isShared =
           isOldShared || (triggerUserId && +userId !== triggerUserId)
 
@@ -136,10 +132,16 @@ const SignalMasterModalForm = ({
               {...dialogProps}
             >
               <Dialog.ScrollContent className={styles.TriggerPanel}>
-                {isLoading && (
+                {isError && (
+                  <div className={styles.notSignalInfo}>
+                    Signal is not available for loading :(
+                  </div>
+                )}
+                {!isError && isLoading && (
                   <Loader className={styles.loading}>Loading...</Loader>
                 )}
-                {!isLoading &&
+                {!isError &&
+                  !isLoading &&
                   (isLoggedIn ? (
                     <SignalMaster
                       isShared={isShared}

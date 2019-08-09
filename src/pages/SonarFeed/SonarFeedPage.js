@@ -36,14 +36,6 @@ const tabs = [
       loading: () => <PageLoader />
     })
   }
-  // {
-  // index: `${baseLocation}/explore`,
-  // content: 'Explore',
-  // component: Loadable({
-  // loader: () => import('../../components/SignalCard/SignalCardsGrid'),
-  // loading: () => <PageLoader />
-  // })
-  // },
 ]
 
 const LoadableSignalDetailsPage = Loadable({
@@ -81,11 +73,13 @@ const SonarFeed = ({
 
   useEffect(
     () => {
-      const isTrigger =
+      const pathParams =
         matchPath(pathname, editTriggerSettingsModalLocation) ||
         matchPath(pathname, openTriggerSettingsModalLocation)
-      if (triggerId && !isTrigger) {
+      if (triggerId && !pathParams) {
         setTriggerId(undefined)
+      } else if (pathParams) {
+        setTriggerId(pathParams.params.id)
       }
     },
     [pathname]
