@@ -10,7 +10,7 @@ const isLocalhost = Boolean(
 
 export function register (config) {
   // TODO: process.env.NODE_ENV === 'production' &&
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href)
     if (publicUrl.origin !== window.location.origin) {
@@ -20,9 +20,7 @@ export function register (config) {
       return
     }
 
-    window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/san-service-worker.js`
-
+    const addSw = swUrl => {
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, config)
@@ -36,6 +34,11 @@ export function register (config) {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config)
       }
+    }
+
+    window.addEventListener('load', () => {
+      addSw(`${process.env.PUBLIC_URL}/service-worker.js`)
+      addSw(`${process.env.PUBLIC_URL}/san-service-worker.js`)
     })
   }
   requestNotificationPermission()
