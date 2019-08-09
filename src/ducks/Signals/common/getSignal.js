@@ -11,20 +11,26 @@ const getInfoFromQuery = (listname = '') => {
 
 export const getShareSignalParams = () => {
   const { search, hash } = window.location || {}
-  const { title, id } = compose(
+  const oldParsed = compose(
     getInfoFromQuery,
     parsed => parsed.name,
     qs.parse
   )(search)
-
-  const isShared = hash === '#shared'
 
   // GarageInc: code above is for support old sharing of signals, remove in future(September/October)
   const parsedSignalParams = qs.parse(window.location.search, {
     arrayFormat: 'comma'
   })
 
-  return { isShared, title, id, ...parsedSignalParams }
+  const isShared =
+    hash === '#shared' || Object.keys(parsedSignalParams).length > 0
+
+  const triggerParams = { isShared, ...oldParsed, ...parsedSignalParams }
+  Object.keys(triggerParams).forEach(key =>
+    triggerParams[key] === undefined ? delete triggerParams[key] : ''
+  )
+
+  return triggerParams
 }
 
 const GetSignal = ({ render, ...props }) => render(props)

@@ -25,11 +25,16 @@
 }
 
 .notSignalInfo {
-  width: 300px;
+  width: 534px;
   height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: initial;
+  }
 }
 
 .shared {

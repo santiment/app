@@ -86,7 +86,7 @@ const SignalMasterModalForm = ({
         const { isLoading, isError } = trigger
 
         let isShared =
-          isOldShared || (triggerUserId && +userId !== triggerUserId)
+          isOldShared || (!!triggerUserId && +userId !== triggerUserId)
 
         if (isShared && trigger && trigger.trigger) {
           trigger.trigger = { ...trigger.trigger, ...shareParams }
@@ -134,7 +134,8 @@ const SignalMasterModalForm = ({
               <Dialog.ScrollContent className={styles.TriggerPanel}>
                 {isError && (
                   <div className={styles.notSignalInfo}>
-                    Signal is not available for loading :(
+                    Trigger with id {triggerId} does not exist or it is a
+                    private trigger owned by another user :(
                   </div>
                 )}
                 {!isError && isLoading && (
