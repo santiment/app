@@ -27,7 +27,9 @@ export const getShareSignalParams = () => {
 
   const triggerParams = { isShared, ...oldParsed, ...parsedSignalParams }
   Object.keys(triggerParams).forEach(key =>
-    triggerParams[key] === undefined ? delete triggerParams[key] : ''
+    triggerParams[key] === undefined || triggerParams[key] === ''
+      ? delete triggerParams[key]
+      : ''
   )
 
   return triggerParams
