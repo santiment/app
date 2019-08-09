@@ -12,6 +12,7 @@ export const TriggerProjectsSelector = ({
   setFieldValue,
   onChange,
   values: { target = [] },
+  values,
   name
 }) => {
   const [listItems, setListItems] = useState([])
@@ -32,11 +33,15 @@ export const TriggerProjectsSelector = ({
         }
       }
 
-      if (target && target.length === 0 && listItems.length > 0) {
+      if (
+        Array.isArray(target) &&
+        target.length === 0 &&
+        listItems.length > 0
+      ) {
         setSelectedAssets([])
       }
     },
-    [target]
+    [target, projects]
   )
 
   const setSelectedAssets = selectedAssets => {

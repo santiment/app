@@ -239,7 +239,7 @@ const enhance = compose(
     name: 'assetsByWallet',
     props: mapAssetsHeldByAddressToProps,
     skip: ({ byAddress }) =>
-      !byAddress || (Array.isArray(byAddress) && byAddress.length > 1),
+      !byAddress || (Array.isArray(byAddress) && byAddress.length !== 1),
     options: ({ byAddress }) => {
       return {
         variables: {

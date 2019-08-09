@@ -15,8 +15,9 @@ import { SIGNAL_ROUTES } from '../../ducks/Signals/common/constants'
 import { getShareSignalParams } from '../../ducks/Signals/common/getSignal'
 import styles from './SonarFeedPage.module.scss'
 
-const baseLocation = '/sonar/feed'
-const editTriggerSettingsModalLocation = `${baseLocation}/details/:id/edit`
+const baseLocation = '/sonar'
+const editTriggerSettingsModalLocation = `${baseLocation}/signal/:id/edit`
+const openTriggerSettingsModalLocation = `${baseLocation}/signal/:id`
 
 const tabs = [
   {
@@ -35,14 +36,6 @@ const tabs = [
       loading: () => <PageLoader />
     })
   }
-  // {
-  // index: `${baseLocation}/explore`,
-  // content: 'Explore',
-  // component: Loadable({
-  // loader: () => import('../../components/SignalCard/SignalCardsGrid'),
-  // loading: () => <PageLoader />
-  // })
-  // },
 ]
 
 const LoadableSignalDetailsPage = Loadable({
@@ -80,8 +73,13 @@ const SonarFeed = ({
 
   useEffect(
     () => {
-      if (triggerId && !matchPath(pathname, editTriggerSettingsModalLocation)) {
+      const pathParams =
+        matchPath(pathname, editTriggerSettingsModalLocation) ||
+        matchPath(pathname, openTriggerSettingsModalLocation)
+      if (triggerId && !pathParams) {
         setTriggerId(undefined)
+      } else if (pathParams) {
+        setTriggerId(pathParams.params.id)
       }
     },
     [pathname]
@@ -98,10 +96,12 @@ const SonarFeed = ({
       {isDesktop ? (
         <div className={styles.header}>
           <SonarFeedHeader />
-          <SignalMasterModalForm
-            triggerId={triggerId}
-            shareParams={shareSignalParams}
-          />
+          {!isUserLoading && (
+            <SignalMasterModalForm
+              triggerId={triggerId}
+              shareParams={shareSignalParams}
+            />
+          )}
         </div>
       ) : (
         <div className={styles.header}>
@@ -109,10 +109,12 @@ const SonarFeed = ({
             title={<SonarFeedHeader />}
             rightActions={
               <div className={styles.addSignal}>
-                <SignalMasterModalForm
-                  triggerId={triggerId}
-                  shareParams={shareSignalParams}
-                />
+                {!isUserLoading && (
+                  <SignalMasterModalForm
+                    triggerId={triggerId}
+                    shareParams={shareSignalParams}
+                  />
+                )}
               </div>
             }
           />
@@ -143,6 +145,16 @@ const SonarFeed = ({
           ,
           <Route
             path={editTriggerSettingsModalLocation}
+            exact
+            render={props => (
+              <LoadableEditSignalPage
+                setLoadingSignalId={setLoadingSignalId}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path={openTriggerSettingsModalLocation}
             exact
             render={props => (
               <LoadableEditSignalPage

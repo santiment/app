@@ -7,11 +7,14 @@ import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import { RemoveSignalButton } from './SignalControls'
 import ShareModalTrigger from '../../Share/ShareModalTrigger'
+import { mapStateToQS } from '../../../utils/utils'
 import styles from '../SignalCard.module.scss'
 
 const generateShareLink = (id, title) => {
-  const { origin, pathname } = window.location
-  return `${origin}${pathname}?name=${title}@${id}#shared`
+  const { origin } = window.location
+  return `${origin}/sonar/signal/${id}${mapStateToQS({
+    title
+  })}`
 }
 
 const MoreSignalActions = ({
@@ -36,10 +39,7 @@ const MoreSignalActions = ({
       <Panel>
         <div className={styles.popup}>
           <div className={cx(styles.popupItem, styles.popupButton)}>
-            <Link
-              to={`/sonar/feed/details/${signalId}/edit`}
-              className={styles.link}
-            >
+            <Link to={`/sonar/signal/${signalId}/edit`} className={styles.link}>
               Edit signal
             </Link>
           </div>
@@ -70,9 +70,9 @@ const MoreSignalActions = ({
 }
 
 const SignalShareTrigger = ({ ...props }) => (
-  <div {...props} className={styles.share}>
+  <Button as='a' {...props} className={styles.share}>
     Share
-  </div>
+  </Button>
 )
 
 export default MoreSignalActions

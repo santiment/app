@@ -237,6 +237,8 @@ a {
 .submitButton {
   width: 120px;
   margin-left: auto;
+  display: flex;
+  justify-content: center;
 }
 
 .descriptionTextarea {

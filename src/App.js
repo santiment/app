@@ -246,7 +246,7 @@ export const App = ({
           )}
         />
         <Route
-          path='/sonar/feed'
+          path='/sonar'
           render={props => (
             <LoadableSonarFeedPage
               isDesktop={isDesktop}

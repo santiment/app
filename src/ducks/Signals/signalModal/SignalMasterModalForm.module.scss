@@ -24,6 +24,24 @@
   position: relative;
 }
 
+.notSignalInfo {
+  width: 534px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  flex-direction: column;
+  text-align: center;
+
+  @include responsive('phone', 'phone-xs') {
+    width: initial;
+  }
+}
+
+.noSignalImage {
+  margin-bottom: 20px;
+}
+
 .shared {
   @include text('body-3');
 

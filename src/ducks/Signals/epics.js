@@ -318,7 +318,7 @@ export const removeSignalEpic = (action$, store, { client }) =>
               type: actions.SIGNAL_REMOVE_BY_ID_SUCCESS,
               payload: { id: removeTrigger.trigger.id }
             }),
-            Observable.of(showNotification('Trigger was removed'))
+            Observable.of(showNotification('Signal was removed'))
           )
         })
         .catch(action => {
@@ -328,7 +328,7 @@ export const removeSignalEpic = (action$, store, { client }) =>
             ),
             Observable.of(
               showNotification({
-                title: "Trigger doesn't removed",
+                title: "Signal doesn't removed",
                 variant: 'error'
               })
             )

@@ -29,9 +29,9 @@ const NAVBAR_LINKS = [
     Icon: AssetsIcon
   },
   {
-    link: '/sonar/feed',
+    link: '/sonar',
     label: 'Sonar',
-    linkTo: '/sonar/feed',
+    linkTo: '/sonar',
     Icon: SonarIcon
   },
   {

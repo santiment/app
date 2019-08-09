@@ -74,7 +74,7 @@ export const RemoveSignalButton = ({
 
 export const SettingsSignalButton = ({ id }) => (
   <Button variant='ghost'>
-    <Link to={`/sonar/feed/details/${id}/edit`}>
+    <Link to={`/sonar/signal/${id}/edit`}>
       <Icon type='settings' />
     </Link>
   </Button>

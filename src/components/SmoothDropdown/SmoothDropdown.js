@@ -134,7 +134,9 @@ class SmoothDropdown extends Component {
   }
 
   openDropdown = (ddItem, trigger) => {
-    const dropdownItem = this.ddItemsRef.get(ddItem).current
+    const dropdownItem = this.ddItemsRef
+      ? this.ddItemsRef.get(ddItem).current
+      : undefined
     if (!dropdownItem) return
     const { verticalOffset, verticalMotion } = this.props
     const ddContent = dropdownItem.querySelector('.dd__content')

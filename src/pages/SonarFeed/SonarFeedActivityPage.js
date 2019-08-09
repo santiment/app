@@ -10,7 +10,7 @@ import { dateDifferenceInWords } from '../../utils/dates'
 export const TRIGGER_ACTIVITIES_QUERY = gql`
   query signalsHistoricalActivity($datetime: DateTime!) {
     activities: signalsHistoricalActivity(
-      limit: 5
+      limit: 10
       cursor: { type: BEFORE, datetime: $datetime }
     ) {
       cursor {
