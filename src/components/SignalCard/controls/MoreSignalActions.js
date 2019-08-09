@@ -70,9 +70,9 @@ const MoreSignalActions = ({
 }
 
 const SignalShareTrigger = ({ ...props }) => (
-  <div {...props} className={styles.share}>
+  <Button as='a' {...props} className={styles.share}>
     Share
-  </div>
+  </Button>
 )
 
 export default MoreSignalActions
