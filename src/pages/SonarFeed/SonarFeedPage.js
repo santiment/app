@@ -96,10 +96,12 @@ const SonarFeed = ({
       {isDesktop ? (
         <div className={styles.header}>
           <SonarFeedHeader />
-          <SignalMasterModalForm
-            triggerId={triggerId}
-            shareParams={shareSignalParams}
-          />
+          {!isUserLoading && (
+            <SignalMasterModalForm
+              triggerId={triggerId}
+              shareParams={shareSignalParams}
+            />
+          )}
         </div>
       ) : (
         <div className={styles.header}>
@@ -107,10 +109,12 @@ const SonarFeed = ({
             title={<SonarFeedHeader />}
             rightActions={
               <div className={styles.addSignal}>
-                <SignalMasterModalForm
-                  triggerId={triggerId}
-                  shareParams={shareSignalParams}
-                />
+                {!isUserLoading && (
+                  <SignalMasterModalForm
+                    triggerId={triggerId}
+                    shareParams={shareSignalParams}
+                  />
+                )}
               </div>
             }
           />
