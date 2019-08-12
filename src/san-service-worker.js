@@ -1,4 +1,4 @@
-const ACTIVITIES_LOAD_TIMEOUT = 60 * 15 * 1000
+const ACTIVITIES_LOAD_TIMEOUT = 1000 * 60 * 15
 const PUBLIC_API_ROUTE = __API_URL__
 const PUBLIC_FRONTEND_ROUTE = __UI_URL__
 const WS_DB_NAME = 'serviceWorkerDb'
@@ -156,6 +156,8 @@ const checkNewActivities = activities => {
         }
       })
     }
+  } else {
+    restart()
   }
 }
 
@@ -168,7 +170,7 @@ const loadAndCheckActivities = () => {
   const query = {
     operationName: 'signalsHistoricalActivity',
     query:
-      'query signalsHistoricalActivity($datetime: DateTime!) {  activities: signalsHistoricalActivity(limit: 100, cursor: {type: BEFORE, datetime: $datetime}) {    cursor {      before      after      __typename    }    activity {      payload      triggeredAt      userTrigger {        trigger {          title          description          __typename        }        __typename      }      __typename    }    __typename  }}',
+      'query signalsHistoricalActivity($datetime: DateTime!) {  activities: signalsHistoricalActivity(limit: 100, cursor: {type: BEFORE, datetime: $datetime}) {    cursor {      before      after      __typename    }    activity {      triggeredAt      __typename    }    __typename  }}',
     variables: { datetime: from.toISOString() }
   }
 
