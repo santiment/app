@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import * as qs from 'query-string'
 import cx from 'classnames'
-import isEqual from 'lodash.isequal'
 import Loadable from 'react-loadable'
+import AlertMessage from '../../components/AlertMessage'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
@@ -10,6 +11,7 @@ import { Metrics } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import styles from './ChartPage.module.scss'
+import { mapParsedTrueFalseFields } from '../../utils/utils'
 
 const DEFAULT_TIME_RANGE = '6m'
 
@@ -27,7 +29,10 @@ const DEFAULT_STATE = {
   projectId: '16912',
   interval: getNewInterval(FROM, TO, '1d'),
   isAdvancedView: false,
-  enabledViewOnlySharing: true
+  enabledViewOnlySharing: true,
+  hideSettings: {
+    linkToDashboard: true
+  }
 }
 
 const LoadableChartSidecar = Loadable({
@@ -65,12 +70,16 @@ const getChartInitialState = props => {
   }
 
   if (props.location) {
-    const parsedQuery = qs.parse(props.location.search, {
-      arrayFormat: 'comma'
-    })
+    const parsedQuery = mapParsedTrueFalseFields(
+      qs.parse(props.location.search, {
+        arrayFormat: 'comma'
+      })
+    )
     if (typeof parsedQuery.metrics === 'string') {
       parsedQuery.metrics = [parsedQuery.metrics]
     }
+
+    console.log(parsedQuery)
     passedState = { ...passedState, ...parsedQuery }
   }
 
@@ -84,12 +93,6 @@ class ChartPage extends Component {
   static defaultProps = { ...DEFAULT_STATE, adjustNightMode: true }
 
   state = getChartInitialState(this.props)
-
-  componentDidUpdate (prevProps, prevState, snapshot) {
-    if (!isEqual(prevProps, this.props)) {
-      this.setState(getChartInitialState(this.props))
-    }
-  }
 
   onZoom = (leftZoomIndex, rightZoomIndex, leftZoomDate, rightZoomDate) => {
     this.setState(
@@ -366,6 +369,13 @@ class ChartPage extends Component {
                       activeMetrics={finalMetrics}
                     />
                   </div>
+                )}
+
+                {!hideSettings.linkToDashboard && (
+                  <AlertMessage className={styles.moreData}>
+                    See much more data in our{' '}
+                    <Link to='/dashboards'>SANbase Dashboards</Link>
+                  </AlertMessage>
                 )}
               </div>
               {!viewOnly && !hideSettings.sidecar && (

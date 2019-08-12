@@ -243,6 +243,21 @@ const uncapitalizeStr = string =>
 // bitcoin-cash | ab-chain-rtb = Syntax Error GraphQL request (4:15) Invalid number, expected digit but got: "c"
 const getEscapedGQLFieldAlias = fieldName => '_' + fieldName.replace(/-/g, '')
 
+const mapParsedTrueFalseFields = object => {
+  if (typeof object === 'object') {
+    for (const key in object) {
+      const val = object[key]
+      if (val === 'true') {
+        object[key] = true
+      } else if (val === 'false') {
+        object[key] = false
+      }
+    }
+  }
+
+  return object
+}
+
 const mapQSToState = ({ location }) =>
   qs.parse(location.search, {
     arrayFormat: 'bracket'
@@ -344,6 +359,7 @@ export {
   uncapitalizeStr,
   getEscapedGQLFieldAlias,
   mapQSToState,
+  mapParsedTrueFalseFields,
   mapStateToQS,
   fork,
   pickFork,

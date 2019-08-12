@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { graphql, Query, withApollo } from 'react-apollo'
 import { connect } from 'react-redux'
@@ -22,7 +22,6 @@ import paywallBoundaries from '../Chart/paywallBoundaries'
 import ChartWidget from '../../ducks/SANCharts/ChartPage'
 import './Detailed.css'
 import styles from './Detailed.module.scss'
-import AlertMessage from '../../components/AlertMessage'
 
 const propTypes = {
   match: PropTypes.object.isRequired
@@ -54,7 +53,7 @@ export const DetailedV2 = ({
     return <ServerErrorMessage />
   }
 
-  const projectContainerChart = project && (
+  const projectContainerChart = project && project.id && (
     <>
       <Query query={USER_SUBSCRIPTIONS_QUERY}>
         {({ data: { currentUser } }) => {
@@ -75,17 +74,14 @@ export const DetailedV2 = ({
               metrics={['historyPrice', 'volume']}
               classes={styles}
               hideSettings={{
-                search: true
+                search: true,
+                linkToDashboard: false
               }}
               {...boundaries}
             />
           )
         }}
       </Query>
-      <AlertMessage className={styles.moreData}>
-        See much more data in our{' '}
-        <Link to='/dashboards'>SANbase Dashboards</Link>
-      </AlertMessage>
     </>
   )
 
