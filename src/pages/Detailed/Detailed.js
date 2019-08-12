@@ -224,9 +224,6 @@ export const Detailed = ({
       price={price}
       development={development}
       burnRate={burnRate}
-      tokenDecimals={
-        Project.project ? Project.project.tokenDecimals : undefined
-      }
       transactionVolume={transactionVolume}
       ethSpentOverTime={_ethSpentOverTime}
       dailyActiveAddresses={dailyActiveAddresses}
@@ -238,7 +235,6 @@ export const Detailed = ({
       isERC20={project.isERC20}
       isPremium={hasPremium}
       project={project}
-      ticker={project.ticker}
     />
   )
 

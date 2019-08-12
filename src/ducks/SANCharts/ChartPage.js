@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import * as qs from 'query-string'
 import cx from 'classnames'
+import isEqual from 'lodash.isequal'
 import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
@@ -45,31 +46,32 @@ const LoadableChartMetricsTool = Loadable({
 })
 
 const getChartInitialState = props => {
-  let passedState
-  if (props.location) {
-    const data = qs.parse(props.location.search, { arrayFormat: 'comma' })
-    if (typeof data.metrics === 'string') {
-      data.metrics = [data.metrics]
-    }
-    passedState = data
-  } else {
-    let { slug, from, to, title, timeRange, metrics, interval } = props
+  let { slug, from, to, title, timeRange, metrics, interval } = props
 
-    if (!from) {
-      const { from: f, to: t } = getIntervalByTimeRange(timeRange)
-      from = f.toISOString()
-      to = t.toISOString()
-      interval = getNewInterval(from, to)
+  if (!from) {
+    const { from: f, to: t } = getIntervalByTimeRange(timeRange)
+    from = f.toISOString()
+    to = t.toISOString()
+    interval = getNewInterval(from, to)
+  }
+  let passedState = {
+    slug,
+    title,
+    metrics,
+    from,
+    to,
+    timeRange,
+    interval
+  }
+
+  if (props.location) {
+    const parsedQuery = qs.parse(props.location.search, {
+      arrayFormat: 'comma'
+    })
+    if (typeof parsedQuery.metrics === 'string') {
+      parsedQuery.metrics = [parsedQuery.metrics]
     }
-    passedState = {
-      slug,
-      title,
-      metrics,
-      from,
-      to,
-      timeRange,
-      interval
-    }
+    passedState = { ...passedState, ...parsedQuery }
   }
 
   return {
@@ -82,6 +84,12 @@ class ChartPage extends Component {
   static defaultProps = { ...DEFAULT_STATE, adjustNightMode: true }
 
   state = getChartInitialState(this.props)
+
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    if (!isEqual(prevProps, this.props)) {
+      this.setState(getChartInitialState(this.props))
+    }
+  }
 
   onZoom = (leftZoomIndex, rightZoomIndex, leftZoomDate, rightZoomDate) => {
     this.setState(

@@ -181,8 +181,8 @@ class ProjectChartContainer extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (
-      nextProps.ticker !== this.props.ticker &&
-      typeof this.props.ticker !== 'undefined'
+      nextProps.project.ticker !== this.props.project.ticker &&
+      typeof this.props.project.ticker !== 'undefined'
     ) {
       this.setFilter('all')
       this.props.toggleVolume(true)
@@ -274,7 +274,7 @@ class ProjectChartContainer extends Component {
               isToggledBTC={this.state.isToggledBTC}
               interval={this.props.timeFilter.timeframe}
               shareableURL={shareableURL}
-              ticker={this.props.ticker}
+              ticker={this.props.project.ticker}
               slug={this.props.project.slug}
               name={this.props.project.name}
               isERC20={this.props.isERC20}

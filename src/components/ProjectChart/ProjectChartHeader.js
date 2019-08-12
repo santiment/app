@@ -57,12 +57,6 @@ const ProjectChartHeader = ({
   to,
   slug,
   name,
-  focusedInput,
-  onFocusChange,
-  setFromTo,
-  isDesktop = true,
-  selected,
-  history,
   toggleBTC,
   isToggledBTC,
   interval,
@@ -70,8 +64,6 @@ const ProjectChartHeader = ({
   shareableURL,
   sanbaseChart,
   ticker,
-  changeFromTo,
-  dates,
   isPremium
 }) => {
   return (
