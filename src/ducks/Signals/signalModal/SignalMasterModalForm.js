@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import cx from 'classnames'
-import Loader from '@santiment-network/ui/Loader/Loader'
+import PageLoader from '../../../components/Loader/PageLoader'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dialog from '@santiment-network/ui/Dialog'
@@ -135,7 +135,7 @@ const SignalMasterModalForm = ({
               <Dialog.ScrollContent className={styles.TriggerPanel}>
                 {isError && <NoSignal triggerId={triggerId} />}
                 {!isError && isLoading && (
-                  <Loader className={styles.loading}>Loading...</Loader>
+                  <PageLoader className={styles.loading} />
                 )}
                 {!isError &&
                   !isLoading &&

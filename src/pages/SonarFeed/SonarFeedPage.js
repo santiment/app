@@ -163,7 +163,7 @@ const SonarFeed = ({
               />
             )}
           />
-          }
+          <Route component={tabs[0].component} />}
         </Switch>
       </div>
     </div>
