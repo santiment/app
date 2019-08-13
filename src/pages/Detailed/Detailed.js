@@ -1,41 +1,29 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import cx from 'classnames'
 import { compose } from 'recompose'
 import { Redirect } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import { graphql, withApollo } from 'react-apollo'
+import { graphql, Query, withApollo } from 'react-apollo'
 import { connect } from 'react-redux'
-import GeneralInfoBlock from './GeneralInfoBlock'
-import FinancialsBlock from './FinancialsBlock'
-import DetailedHeader from './DetailedHeader'
-import ProjectChartContainer from './../../components/ProjectChart/ProjectChartContainer'
+import GeneralInfoBlock from './generalInfo/GeneralInfoBlock'
+import FinancialsBlock from './financialInfo/FinancialsBlock'
+import DetailedHeader from './header/DetailedHeader'
 import { Panel, PanelWithHeader } from '@santiment-network/ui'
 import Search from './../../components/Search/SearchContainer'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import EthSpent from './../../pages/EthSpent'
-import { calculateBTCVolume, calculateBTCMarketcap } from './../../utils/utils'
 import { checkHasPremium, checkIsLoggedIn } from './../UserSelectors'
-import DetailedTransactionsTable from './DetailedTransactionsTable'
+import DetailedTransactionsTable from './transactionsInfo/DetailedTransactionsTable'
 import {
   projectBySlugGQL,
-  TwitterDataGQL,
-  TwitterHistoryGQL,
-  HistoryPriceGQL,
-  BurnRateGQL,
-  DevActivityGQL,
-  TransactionVolumeGQL,
-  ExchangeFundFlowGQL,
-  EthSpentOverTimeByErc20ProjectsGQL,
-  EmojisSentimentGQL,
-  DailyActiveAddressesGQL,
   AllInsightsByTagGQL
-} from './DetailedGQL'
-import {
-  dateDifference,
-  DAY,
-  getTimeIntervalFromToday,
-  MONTH
-} from '../../utils/dates'
+} from './gqlWrappers/DetailedGQL'
+import { getTimeIntervalFromToday, MONTH } from '../../utils/dates'
+import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
+import { getCurrentSanbaseSubscription } from '../../utils/plans'
+import paywallBoundaries from '../Chart/paywallBoundaries'
+import ChartWidget from '../../ducks/SANCharts/ChartPage'
 import './Detailed.css'
 import styles from './Detailed.module.scss'
 
@@ -47,66 +35,11 @@ export const Detailed = ({
   match,
   history,
   location,
-  TwitterData = {
-    loading: true,
-    error: false,
-    twitterData: []
-  },
-  HistoryPrice = {
-    loading: true,
-    error: false,
-    historyPrice: []
-  },
-  DevActivity = {
-    loading: true,
-    error: false,
-    devActivity: []
-  },
-  BurnRate = {
-    loading: true,
-    error: false,
-    burnRate: []
-  },
-  TransactionVolume = {
-    loading: true,
-    error: false,
-    transactionVolume: []
-  },
   Project = {
     project: undefined,
     loading: true,
     error: false,
     errorMessage: ''
-  },
-  ExchangeFundFlow = {
-    exchangeFundsFlow: [],
-    error: false,
-    loading: true
-  },
-  EthSpentOverTimeByErc20Projects = {
-    ethSpentOverTimeByErc20Projects: [],
-    loading: true,
-    error: false
-  },
-  EthPrice = {
-    loading: true,
-    error: false,
-    historyPrice: []
-  },
-  DailyActiveAddresses = {
-    loading: true,
-    error: false,
-    dailyActiveAddresses: []
-  },
-  EmojisSentiment = {
-    loading: false,
-    error: false,
-    emojisSentiment: []
-  },
-  TwitterHistory = {
-    loading: false,
-    error: false,
-    followersCount: []
   },
   isDesktop,
   isLoggedIn,
@@ -120,122 +53,40 @@ export const Detailed = ({
     return <Redirect to='/' />
   }
 
-  const price = {
-    history: {
-      loading: HistoryPrice.loading,
-      items: HistoryPrice.historyPrice
-        ? HistoryPrice.historyPrice
-          .filter(item => item.priceUsd > 0)
-          .map(item => {
-            const priceUsd = +item.priceUsd
-            const volume = parseFloat(item.volume)
-            const volumeBTC = calculateBTCVolume(item)
-            const marketcapBTC = calculateBTCMarketcap(item)
-            return { ...item, volumeBTC, marketcapBTC, volume, priceUsd }
-          })
-        : []
-    }
-  }
-
-  const ethPrice = {
-    history: {
-      loading: EthPrice.loading,
-      items: EthPrice.historyPrice ? EthPrice.historyPrice : []
-    }
-  }
-
-  const development = {
-    history: {
-      loading: DevActivity.loading,
-      items: DevActivity.devActivity || []
-    }
-  }
-
-  const burnRate = {
-    ...BurnRate,
-    loading: BurnRate.loading,
-    error: BurnRate.error || false,
-    items: BurnRate.burnRate || []
-  }
-
-  const transactionVolume = {
-    loading: TransactionVolume.loading,
-    error: TransactionVolume.error || false,
-    items: TransactionVolume.transactionVolume || []
-  }
-
-  const exchangeFundFlow = {
-    loading: ExchangeFundFlow.loading,
-    error: ExchangeFundFlow.error,
-    items: ExchangeFundFlow.exchangeFundsFlow || []
-  }
-
-  const dailyActiveAddresses = {
-    loading: DailyActiveAddresses.loading,
-    error: DailyActiveAddresses.error,
-    items: DailyActiveAddresses.dailyActiveAddresses || []
-  }
-
-  const twitterHistory = {
-    loading: TwitterHistory.loading,
-    error: TwitterHistory.error || false,
-    items: TwitterHistory.historyTwitterData || []
-  }
-
-  const emojisSentiment = {
-    loading: EmojisSentiment.loading,
-    error: EmojisSentiment.error,
-    items: EmojisSentiment.emojisSentiment || []
-  }
-
-  const ethSpentOverTimeByErc20Projects = {
-    loading: EthSpentOverTimeByErc20Projects.loading,
-    error: EthSpentOverTimeByErc20Projects.error,
-    items: EthSpentOverTimeByErc20Projects.ethSpentOverTimeByErc20Projects || []
-  }
-
-  const ethSpentOverTime = {
-    loading: Project.loading,
-    error: project.errorMessage || false,
-    items: project.ethSpentOverTime || []
-  }
-
-  const twitterData = {
-    loading: TwitterData.loading,
-    error: TwitterData.error || false,
-    followersCount: (TwitterData.twitterData || {}).followersCount || 0
-  }
-
-  const _ethSpentOverTime =
-    project.ticker === 'ETH'
-      ? ethSpentOverTimeByErc20Projects
-      : ethSpentOverTime
-
   if (Project.error) {
     return <ServerErrorMessage />
   }
 
-  const projectContainerChart = project && (
-    <ProjectChartContainer
-      routerHistory={history}
-      location={location}
-      isDesktop={isDesktop}
-      {...props}
-      price={price}
-      development={development}
-      burnRate={burnRate}
-      transactionVolume={transactionVolume}
-      ethSpentOverTime={_ethSpentOverTime}
-      dailyActiveAddresses={dailyActiveAddresses}
-      exchangeFundFlow={exchangeFundFlow}
-      emojisSentiment={emojisSentiment}
-      twitterHistory={twitterHistory}
-      twitterData={twitterData}
-      ethPrice={ethPrice}
-      isERC20={project.isERC20}
-      isPremium={hasPremium}
-      project={project}
-    />
+  const projectContainerChart = project && project.id && (
+    <>
+      <Query query={USER_SUBSCRIPTIONS_QUERY}>
+        {({ data: { currentUser } }) => {
+          const subscription = getCurrentSanbaseSubscription(currentUser)
+          const userPlan = subscription ? subscription.plan.name : 'FREE'
+          const boundaries = paywallBoundaries[userPlan]
+
+          const { slug, id, name } = project
+          return (
+            <ChartWidget
+              {...props}
+              history={history}
+              location={location}
+              adjustNightMode={false}
+              slug={slug}
+              title={name}
+              projectId={id}
+              metrics={['historyPrice', 'volume']}
+              classes={styles}
+              hideSettings={{
+                search: true,
+                linkToDashboard: false
+              }}
+              {...boundaries}
+            />
+          )
+        }}
+      </Query>
+    </>
   )
 
   return (
@@ -267,8 +118,10 @@ export const Detailed = ({
         isLoggedIn={isLoggedIn}
       />
       {isDesktop ? (
-        <div className='information'>
-          <Panel className={styles.panel}>{projectContainerChart}</Panel>
+        <div className={cx('information', styles.desktopCharts)}>
+          {projectContainerChart && (
+            <Panel className={styles.panel}>{projectContainerChart}</Panel>
+          )}
         </div>
       ) : (
         <div>{projectContainerChart}</div>
@@ -327,15 +180,6 @@ const mapStateToProps = state => {
   }
 }
 
-const getCustomInterval = (from, to) => {
-  const { diff } = dateDifference({
-    from: new Date(from),
-    to: new Date(to),
-    format: DAY
-  })
-  return diff > 300 ? '7d' : '1d'
-}
-
 const enhance = compose(
   connect(mapStateToProps),
   withApollo,
@@ -374,239 +218,6 @@ const enhance = compose(
       }
     }
   }),
-  graphql(TwitterHistoryGQL, {
-    name: 'TwitterHistory',
-    skip: ({
-      timeFilter: { from },
-      Project: {
-        project: { slug }
-      }
-    }) => {
-      return !from || !slug
-    },
-    options: ({
-      timeFilter: { from, to },
-      Project: {
-        project: { slug }
-      }
-    }) => {
-      return {
-        variables: {
-          slug,
-          from,
-          to,
-          interval: ''
-        }
-      }
-    }
-  }),
-  graphql(HistoryPriceGQL, {
-    name: 'EthPrice',
-    skip: ({ timeFilter }) => {
-      const { from } = timeFilter
-      return !from
-    },
-    options: ({ timeFilter }) => {
-      const { from, to } = timeFilter
-      return {
-        variables: {
-          slug: 'ethereum',
-          from,
-          to
-        }
-      }
-    }
-  }),
-  graphql(TwitterDataGQL, {
-    name: 'TwitterData',
-    skip: ({
-      Project: {
-        project: { slug }
-      }
-    }) => {
-      return !slug
-    },
-    options: ({
-      Project: {
-        project: { slug }
-      }
-    }) => {
-      return {
-        errorPolicy: 'all',
-        variables: {
-          slug
-        }
-      }
-    }
-  }),
-  graphql(HistoryPriceGQL, {
-    name: 'HistoryPrice',
-    skip: ({ timeFilter, match }) => {
-      const { from } = timeFilter
-      const slug = match.params.slug
-      return !from || !slug
-    },
-    options: ({ timeFilter, match }) => {
-      const { from, to } = timeFilter
-      const slug = match.params.slug
-      return {
-        errorPolicy: 'all',
-        variables: {
-          from,
-          to,
-          slug
-        }
-      }
-    }
-  }),
-  graphql(BurnRateGQL, {
-    name: 'BurnRate',
-    skip: ({ timeFilter, match }) => {
-      const { from } = timeFilter
-      const slug = match.params.slug
-      return !from || !slug
-    },
-    options: ({ timeFilter, match }) => {
-      const { from, to } = timeFilter
-      const slug = match.params.slug
-      return {
-        errorPolicy: 'all',
-        variables: {
-          from,
-          to,
-          slug,
-          interval: ''
-        }
-      }
-    }
-  }),
-  graphql(DevActivityGQL, {
-    name: 'DevActivity',
-    skip: ({ timeFilter, match }) => {
-      const { from } = timeFilter
-      const slug = match.params.slug
-      return !from || !slug
-    },
-    options: ({ timeFilter, match }) => {
-      const { from, to } = timeFilter
-      const { from: newFrom } = getTimeIntervalFromToday(-7, DAY, {
-        from: new Date(from)
-      })
-
-      const slug = match.params.slug
-      return {
-        variables: {
-          from: from ? newFrom.toISOString() : undefined,
-          to,
-          slug,
-          interval: '1d',
-          transform: 'movingAverage',
-          movingAverageIntervalBase: 7
-        }
-      }
-    }
-  }),
-  graphql(TransactionVolumeGQL, {
-    name: 'TransactionVolume',
-    skip: ({ timeFilter, match }) => {
-      const { from } = timeFilter
-      const slug = match.params.slug
-      return !from || !slug
-    },
-    options: ({ timeFilter, match }) => {
-      const { from, to } = timeFilter
-      const slug = match.params.slug
-      return {
-        errorPolicy: 'all',
-        variables: {
-          from,
-          to,
-          slug,
-          interval: ''
-        }
-      }
-    }
-  }),
-  graphql(ExchangeFundFlowGQL, {
-    name: 'ExchangeFundFlow',
-    skip: ({ timeFilter, match, Project }) => {
-      const { from } = timeFilter
-      const slug = match.params.slug
-      return !from || !slug || (Project && Project.isERC20)
-    },
-    options: ({ timeFilter, match }) => {
-      const { from, to } = timeFilter
-      const slug = match.params.slug
-      return {
-        errorPolicy: 'all',
-        variables: {
-          from,
-          to,
-          slug,
-          interval: ''
-        }
-      }
-    }
-  }),
-  graphql(EthSpentOverTimeByErc20ProjectsGQL, {
-    name: 'EthSpentOverTimeByErc20Projects',
-    skip: ({ timeFilter, match }) => {
-      const { from } = timeFilter
-      const slug = match.params.slug
-      return !from || slug !== 'ethereum'
-    },
-    options: ({ timeFilter }) => {
-      const { from, to } = timeFilter
-      return {
-        errorPolicy: 'all',
-        variables: {
-          from,
-          to,
-          interval: getCustomInterval(from, to)
-        }
-      }
-    }
-  }),
-  graphql(EmojisSentimentGQL, {
-    name: 'EmojisSentiment',
-    skip: ({ timeFilter, hasPremium, match }) => {
-      const { from } = timeFilter
-      const slug = match.params.slug
-      return !from || !hasPremium || (slug !== 'bitcoin' && slug !== 'ethereum')
-    },
-    options: ({ timeFilter }) => {
-      const { from, to } = timeFilter
-      return {
-        errorPolicy: 'all',
-        variables: {
-          from,
-          to,
-          interval: getCustomInterval(from, to)
-        }
-      }
-    }
-  }),
-  graphql(DailyActiveAddressesGQL, {
-    name: 'DailyActiveAddresses',
-    skip: ({ timeFilter, match }) => {
-      const { from } = timeFilter
-      const slug = match.params.slug
-      return !from || !slug
-    },
-    options: ({ timeFilter, match }) => {
-      const { from, to } = timeFilter
-      const slug = match.params.slug
-      return {
-        errorPolicy: 'all',
-        variables: {
-          from,
-          to,
-          slug,
-          interval: ''
-        }
-      }
-    }
-  }),
   graphql(AllInsightsByTagGQL, {
     name: 'AllInsights',
     props: ({ AllInsights }) => ({
@@ -622,7 +233,7 @@ const enhance = compose(
       const { ticker } = project
       return !ticker || !isLoggedIn
     },
-    options: ({ isLoggedIn, match, Project: { project = {} } }) => {
+    options: ({ Project: { project = {} } }) => {
       const { ticker } = project
       return {
         errorPolicy: 'all',

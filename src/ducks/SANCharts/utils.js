@@ -57,7 +57,7 @@ export const Metrics = {
     group: 'Network Activity',
     label: 'Daily Active Addresses',
     description:
-      'The number of unique addresses that participated in transactions for a given day.',
+      'The number of unique addresses that participated in transactionsInfo for a given day.',
     color: 'texas-rose'
   },
   percentOfTokenSupplyOnExchanges: {
@@ -97,7 +97,7 @@ export const Metrics = {
     group: 'Token Flows/Movement/Activity',
     label: 'Transaction Volume',
     description:
-      'The total number of tokens within all transfers that have occurred on the network. This metric can show a large amount of tokens moving at once, and/or a large number of transactions in a short amount of time'
+      'The total number of tokens within all transfers that have occurred on the network. This metric can show a large amount of tokens moving at once, and/or a large number of transactionsInfo in a short amount of time'
   },
   networkGrowth: {
     category: 'On-chain',

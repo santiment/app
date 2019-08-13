@@ -45,13 +45,13 @@ const LoadableAccountPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableDetailedPageV2 = Loadable({
-  loader: () => import('./pages/Detailed/DetailedV2'),
+const LoadableDetailedPage = Loadable({
+  loader: () => import('./pages/Detailed/Detailed'),
   loading: () => <PageLoader />
 })
 
 const LoadableMobileDetailedPage = Loadable({
-  loader: () => import('./pages/Detailed/MobileDetailedPage'),
+  loader: () => import('./pages/Detailed/mobile/MobileDetailedPage'),
   loading: () => <PageLoader />
 })
 
@@ -172,7 +172,7 @@ export const App = ({
                     type={name}
                     isLoggedIn={isLoggedIn}
                     isBetaModeEnabled={isBetaModeEnabled}
-                    preload={() => LoadableDetailedPageV2.preload()}
+                    preload={() => LoadableDetailedPage.preload()}
                     {...props}
                   />
                 )
@@ -229,7 +229,7 @@ export const App = ({
           path='/projects/:slug'
           render={props =>
             isDesktop ? (
-              <LoadableDetailedPageV2 isDesktop={isDesktop} {...props} />
+              <LoadableDetailedPage isDesktop={isDesktop} {...props} />
             ) : (
               <LoadableMobileDetailedPage isDesktop={isDesktop} {...props} />
             )

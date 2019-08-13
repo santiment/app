@@ -1,6 +1,6 @@
 import { graphql } from 'react-apollo'
 import { projectBySlugGQL } from './DetailedGQL'
-import { getTimeIntervalFromToday } from '../../utils/dates'
+import { getTimeIntervalFromToday } from '../../../utils/dates'
 
 const GetAsset = ({ render, ...props }) => render({ ...props })
 

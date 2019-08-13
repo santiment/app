@@ -5,10 +5,10 @@ import {
 } from '@trainline/react-skeletor'
 import { compose } from 'recompose'
 import { Label } from '@santiment-network/ui'
-import ProjectIcon from './../../components/ProjectIcon'
-import PercentChanges from './../../components/PercentChanges'
-import WatchlistsPopup from './../../components/WatchlistPopup/WatchlistsPopup'
-import { formatNumber } from './../../utils/formatting'
+import ProjectIcon from '../../../components/ProjectIcon'
+import PercentChanges from '../../../components/PercentChanges'
+import WatchlistsPopup from '../../../components/WatchlistPopup/WatchlistsPopup'
+import { formatNumber } from '../../../utils/formatting'
 import styles from './DetailedHeader.module.scss'
 
 const DIV = createSkeletonElement('div', 'pending-header pending-div')
@@ -21,7 +21,6 @@ const DetailedHeader = ({
     slug: ''
   },
   loading,
-  empty,
   isLoggedIn,
   isDesktop
 }) => (

@@ -79,7 +79,6 @@ const getChartInitialState = props => {
       parsedQuery.metrics = [parsedQuery.metrics]
     }
 
-    console.log(parsedQuery)
     passedState = { ...passedState, ...parsedQuery }
   }
 
