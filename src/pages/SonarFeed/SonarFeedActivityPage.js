@@ -4,8 +4,9 @@ import Markdown from 'react-markdown'
 import gql from 'graphql-tag'
 import PageLoader from '../../components/Loader/PageLoader'
 import SonarFeedRecommendations from './SonarFeedRecommendations'
-import styles from './SonarFeedActivityPage.module.scss'
 import { dateDifferenceInWords } from '../../utils/dates'
+import { register, requestNotificationPermission } from './../../serviceWorker'
+import styles from './SonarFeedActivityPage.module.scss'
 
 export const TRIGGER_ACTIVITIES_QUERY = gql`
   query signalsHistoricalActivity($datetime: DateTime!) {
@@ -41,6 +42,16 @@ const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
       from: new Date(dateString)
     })
   }
+
+  register({
+    file: 'san-sonar-service-worker.js',
+    checkPermissions: true,
+    hideUpdateChecker: true,
+    force: true,
+    callback: () => {
+      requestNotificationPermission()
+    }
+  })
 
   if (activities.length > 0) {
     navigator &&

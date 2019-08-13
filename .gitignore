@@ -23,7 +23,7 @@ yarn-error.log*
 
 .idea
 
-public/san-service-worker.js
+public/san-sonar-service-worker.js
 
 app.sublime-project
 app.sublime-workspace

@@ -30,7 +30,11 @@ import errorLink from './apollo/error-link'
 import authLink from './apollo/auth-link'
 import retryLink from './apollo/retry-link'
 import ChartPage from './ducks/SANCharts/ChartPage'
-import { register, unregister } from './serviceWorker'
+import {
+  register,
+  unregister,
+  registerSonarActivitiesSw
+} from './serviceWorker'
 import './index.scss'
 
 // window.mixpanel has been set by Mixpanel's embed snippet.
@@ -104,6 +108,10 @@ const main = () => {
   } else {
     unregister()
   }
+
+  registerSonarActivitiesSw({
+    hideRegistrationChecking: true
+  })
 
   ReactDOM.render(
     <StripeProvider apiKey={stripeKey}>

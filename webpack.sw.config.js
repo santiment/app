@@ -10,11 +10,11 @@ const uiUrl = envConfig.REACT_APP_WEBSITE_URL || process.env.REACT_APP_WEBSITE_U
 module.exports = {
   mode: process.env.NODE_ENV,
 
-  entry: ['whatwg-fetch', path.resolve(__dirname, 'src/san-service-worker.js')],
+  entry: ['whatwg-fetch', path.resolve(__dirname, 'src/san-sonar-service-worker.js')],
 
   output: {
     path: path.resolve(__dirname, 'public/'),
-    filename: 'san-service-worker.js',
+    filename: 'san-sonar-service-worker.js',
     library: '',
   },
 

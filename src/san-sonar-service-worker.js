@@ -4,6 +4,8 @@ const PUBLIC_FRONTEND_ROUTE = __UI_URL__
 const WS_DB_NAME = 'serviceWorkerDb'
 const ACTIVITY_CHECKS_STORE_NAME = 'activityChecks'
 
+console.log('Started sonar service-worker!')
+
 let db
 
 const createActivityChecksTable = () => {
