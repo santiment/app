@@ -21,18 +21,7 @@ const TriggerFormChannels = ({
   return (
     <div className={cx(styles.row, styles.rowSingle)}>
       <div className={cx(styles.Field, styles.fieldFilled)}>
-        <SidecarExplanationTooltip
-          closeTimeout={500}
-          localStorageSuffix='_TRIGGER_FORM_EXPLANATION'
-          position='top'
-          title='Connect channels'
-          description='Get fast notifications through Email or Telegram'
-          className={styles.explanation}
-        >
-          <div>
-            <FormikLabel text='Notify me via' />
-          </div>
-        </SidecarExplanationTooltip>
+        <FormikLabel text='Notify me via' />
         <div className={styles.notifyBlock}>
           <FormikCheckboxes
             name='channels'
@@ -47,9 +36,18 @@ const TriggerFormChannels = ({
           />
         </div>
         {errors.channels && (
-          <div className={cx(styles.row, styles.messages)}>
-            <Message variant='warn'>{errors.channels}</Message>
-          </div>
+          <SidecarExplanationTooltip
+            closeTimeout={500}
+            localStorageSuffix='_TRIGGER_FORM_EXPLANATION'
+            position='top'
+            title='Connect channels'
+            description='Get fast notifications through Email or Telegram'
+            className={styles.explanation}
+          >
+            <div className={cx(styles.row, styles.messages)}>
+              <Message variant='warn'>{errors.channels}</Message>
+            </div>
+          </SidecarExplanationTooltip>
         )}
       </div>
     </div>
