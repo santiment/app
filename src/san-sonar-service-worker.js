@@ -119,8 +119,6 @@ const showActivitiesNotification = newCount => {
     body: 'Open to check ' + PUBLIC_FRONTEND_ROUTE + '/sonar/activity',
     badge: '/favicon-96x96.png',
     icon: '/favicon-96x96.png',
-    vibrate: [200, 100, 200, 100],
-    tag: 'vibration-sample',
     timestamp: new Date()
   })
 }

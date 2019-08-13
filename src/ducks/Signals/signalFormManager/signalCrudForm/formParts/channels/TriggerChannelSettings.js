@@ -5,17 +5,30 @@ import EmailSetting from '../../../../../../pages/Account/EmailSetting'
 import ConnectTelegramBlock from '../../../../../../pages/Account/ConnectTelegramBlock'
 import SettingsTelegramNotifications from '../../../../../../pages/Account/SettingsTelegramNotifications'
 import SettingsEmailNotifications from '../../../../../../pages/Account/SettingsEmailNotifications'
+import SettingsSonarWebPushNotifications, {
+  getSanSonarSW
+} from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
 import styles from './TriggerChannelSettings.module.scss'
 
 const TriggerChannelSettings = ({ isTelegramSettings, isEmailSettings }) => {
   const [open, setOpen] = useState(false)
+  const [isWebPushEnabled, setWebPushEnabled] = useState(true)
 
   useEffect(
     () => {
       !isTelegramSettings && !isEmailSettings && setOpen(false)
+
+      navigator.serviceWorker &&
+        navigator.serviceWorker.getRegistrations &&
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          const sw = getSanSonarSW(registrations)
+          setWebPushEnabled(!!sw)
+        })
     },
     [isEmailSettings, isTelegramSettings]
   )
+
+  const showTrigger = isTelegramSettings || isEmailSettings || !isWebPushEnabled
 
   return (
     <>
@@ -24,9 +37,7 @@ const TriggerChannelSettings = ({ isTelegramSettings, isEmailSettings }) => {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         trigger={
-          (isTelegramSettings || isEmailSettings) && (
-            <span className={styles.connect}>Open settings</span>
-          )
+          showTrigger && <span className={styles.connect}>Open settings</span>
         }
         title='Notification settings'
       >
@@ -43,6 +54,10 @@ const TriggerChannelSettings = ({ isTelegramSettings, isEmailSettings }) => {
               <ConnectTelegramBlock classes={styles} />
               <SettingsTelegramNotifications classes={styles} />
             </>
+          )}
+
+          {!isWebPushEnabled && (
+            <SettingsSonarWebPushNotifications classes={styles} />
           )}
         </Dialog.ScrollContent>
       </Dialog>

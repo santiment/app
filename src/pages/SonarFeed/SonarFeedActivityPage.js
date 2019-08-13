@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import PageLoader from '../../components/Loader/PageLoader'
 import SonarFeedRecommendations from './SonarFeedRecommendations'
 import { dateDifferenceInWords } from '../../utils/dates'
-import { register, requestNotificationPermission } from './../../serviceWorker'
+import { getSanSonarSW } from '../Account/SettingsSonarWebPushNotifications'
 import styles from './SonarFeedActivityPage.module.scss'
 
 export const TRIGGER_ACTIVITIES_QUERY = gql`
@@ -43,27 +43,25 @@ const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
     })
   }
 
-  register({
-    file: 'san-sonar-service-worker.js',
-    checkPermissions: true,
-    hideUpdateChecker: true,
-    force: true,
-    callback: () => {
-      requestNotificationPermission()
-    }
-  })
+  navigator.serviceWorker &&
+    navigator.serviceWorker.getRegistrations &&
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+      const sanServiceRegistration = getSanSonarSW(registrations)
 
-  if (activities.length > 0) {
-    navigator &&
-      navigator.serviceWorker &&
-      navigator.serviceWorker.controller &&
-      navigator.serviceWorker.controller.postMessage({
-        type: 'SONAR_FEED_ACTIVITY',
-        data: {
-          lastTriggeredAt: activities[0].triggeredAt
+      if (sanServiceRegistration) {
+        if (activities.length > 0) {
+          navigator &&
+            navigator.serviceWorker &&
+            navigator.serviceWorker.controller &&
+            navigator.serviceWorker.controller.postMessage({
+              type: 'SONAR_FEED_ACTIVITY',
+              data: {
+                lastTriggeredAt: activities[0].triggeredAt
+              }
+            })
         }
-      })
-  }
+      }
+    })
 
   return activities && activities.length ? (
     <div className={styles.wrapper}>
