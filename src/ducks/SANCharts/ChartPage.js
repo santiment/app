@@ -46,7 +46,7 @@ const LoadableChartMetricsTool = Loadable({
 
 const getChartInitialState = props => {
   let passedState
-  if (props.location) {
+  if (props.location && props.location.search) {
     const data = qs.parse(props.location.search, { arrayFormat: 'comma' })
     if (typeof data.metrics === 'string') {
       data.metrics = [data.metrics]
