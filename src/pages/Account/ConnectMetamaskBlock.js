@@ -36,17 +36,15 @@ const ConnectMetamaskBlock = ({
           Please follow futher instructions.
         </Label>
       </div>
-      <div className={classes.right}>
-        <Button
-          variant='fill'
-          accent='positive'
-          disabled={!hasMetamask()}
-          className={styles.metamask_connect}
-          onClick={address ? removeConnectedWallet : connectNewWallet}
-        >
-          {getMetamaskBtnText(address, isConnectWalletPending)}
-        </Button>
-      </div>
+      <Button
+        variant='fill'
+        accent='positive'
+        disabled={!hasMetamask()}
+        className={cx(styles.metamask_connect, classes.right)}
+        onClick={address ? removeConnectedWallet : connectNewWallet}
+      >
+        {getMetamaskBtnText(address, isConnectWalletPending)}
+      </Button>
     </div>
   )
 }

@@ -15,6 +15,10 @@
 .tabs {
   width: 100%;
   margin-bottom: 25px;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 0 20px;
+  }
 }
 
 .tab {
@@ -125,20 +129,54 @@
     &:last-child {
       margin: 0;
     }
+
+    @include responsive('phone', 'phone-xs') {
+      padding: 15px;
+    }
+  }
+}
+
+.inputLabels {
+  display: flex;
+  flex-direction: column;
+  word-break: break-word;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
+}
+
+.inputBlock {
+  margin-right: 5px;
+  display: flex;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+    align-items: flex-start;
+    flex-direction: column !important;
   }
 }
 
 .form {
   position: relative;
+  display: flex;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
 
   &__input {
-    position: absolute;
-    left: -9999px;
     margin-left: 16px;
-    width: 320px;
+    display: none;
 
     &_edit {
-      position: static;
+      display: block;
+      width: 320px;
+
+      @include responsive('phone', 'phone-xs') {
+        margin: 0;
+        width: 100%;
+      }
     }
   }
 
@@ -242,6 +280,10 @@
 }
 
 .digest {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
   @include responsive('phone', 'phone-xs') {
     display: flex;
     flex-direction: column;
@@ -260,8 +302,10 @@
 }
 
 .digestSelector {
+  margin-left: auto;
+
   @include responsive('phone', 'phone-xs') {
-    margin-top: 10px;
+    margin: 10px 0 0 0;
   }
 }
 
@@ -288,10 +332,6 @@
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
   }
-}
-
-.emailBlock {
-  margin-right: 5px;
 }
 
 .settingBlock {
