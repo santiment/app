@@ -17,8 +17,9 @@ const createActivityChecksTable = () => {
   }
 }
 
-const createDB = () => {
+const createActivitiesDB = () => {
   if (db) {
+    loadAndCheckActivities()
     return
   }
 
@@ -30,10 +31,12 @@ const createDB = () => {
     db = request.result
     createActivityChecksTable()
     console.log('The database is opened successfully')
+    loadAndCheckActivities()
   }
   request.onupgradeneeded = event => {
     db = event.target.result
     createActivityChecksTable()
+    loadAndCheckActivities()
   }
 }
 
@@ -145,8 +148,10 @@ const checkNewActivities = activities => {
             restart()
           } else if (count > data.count) {
             removeFromDb(ACTIVITY_CHECKS_STORE_NAME, () => {
-              showActivitiesNotification(count)
-              addActivityDateAndRestart(data.triggeredAt, count, true)
+              if (self.registration) {
+                showActivitiesNotification(count)
+                addActivityDateAndRestart(data.triggeredAt, count, true)
+              }
             })
           } else {
             restart()
@@ -162,6 +167,7 @@ const checkNewActivities = activities => {
 }
 
 const loadAndCheckActivities = () => {
+  console.log('Sonar is loading new activities')
   if (!PUBLIC_API_ROUTE || !PUBLIC_FRONTEND_ROUTE) {
     return
   }
@@ -199,8 +205,7 @@ const loadAndCheckActivities = () => {
 }
 
 self.addEventListener('activate', function (event) {
-  createDB()
-  loadAndCheckActivities()
+  createActivitiesDB()
 })
 
 self.addEventListener('message', function (event) {

@@ -65,6 +65,13 @@
 
   &_apikey {
     display: flex;
+    margin-left: auto;
+
+    @include responsive('phone', 'phone-xs') {
+      margin: 10px 0 0 0;
+      display: flex;
+      justify-content: center;
+    }
   }
 
   &__description {
@@ -87,10 +94,6 @@
     border: 1px solid var(--porcelain);
     display: flex;
     align-items: center;
-  }
-
-  :global(.container) {
-    margin-top: -16px !important;
   }
 
   a[href="https://www.bancor.network"] {
@@ -230,8 +233,34 @@
 }
 
 .metamask_connect {
+  margin-left: auto;
+
   @include responsive('phone', 'phone-xs') {
     margin: auto;
+    margin-top: 10px;
+  }
+}
+
+.digest {
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.neuro {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.digestSelector {
+  @include responsive('phone', 'phone-xs') {
     margin-top: 10px;
   }
 }
@@ -269,4 +298,8 @@
   width: 100%;
   display: flex;
   flex-direction: row;
+}
+
+.pushLoader {
+  font-size: 5px;
 }

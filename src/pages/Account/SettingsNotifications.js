@@ -51,27 +51,30 @@ const SettingsNotifications = ({
       </Settings.Row>
 
       <Settings.Row>
-        <div className={styles.setting__left}>
-          <Label>Digest</Label>
-          <Label className={styles.setting__description} accent='waterloo'>
-            Receive the best insights and signals on Sanbase
-            <br />
-            peersonalized based on your interests.
-          </Label>
+        <div className={styles.digest}>
+          <div className={styles.setting__left}>
+            <Label>Digest</Label>
+            <Label className={styles.setting__description} accent='waterloo'>
+              Receive the best insights and signals on Sanbase
+              <br />
+              peersonalized based on your interests.
+            </Label>
+          </div>
+          <Selector
+            className={styles.digestSelector}
+            options={['DAILY', 'WEEKLY', 'OFF']}
+            nameOptions={['Daily', 'Weekly', 'Off']}
+            onSelectOption={subscription =>
+              mutateDigestType({ variables: { subscription } })
+                .then(() => {
+                  changeDigestType(subscription)
+                  onDigestChangeSuccess()
+                })
+                .catch(onDigestChangeError)
+            }
+            defaultSelected={digestType}
+          />
         </div>
-        <Selector
-          options={['DAILY', 'WEEKLY', 'OFF']}
-          nameOptions={['Daily', 'Weekly', 'Off']}
-          onSelectOption={subscription =>
-            mutateDigestType({ variables: { subscription } })
-              .then(() => {
-                changeDigestType(subscription)
-                onDigestChangeSuccess()
-              })
-              .catch(onDigestChangeError)
-          }
-          defaultSelected={digestType}
-        />
       </Settings.Row>
     </Settings>
   )
