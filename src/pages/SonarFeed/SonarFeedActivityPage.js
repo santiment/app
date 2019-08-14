@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { graphql } from 'react-apollo'
 import Markdown from 'react-markdown'
 import gql from 'graphql-tag'
@@ -43,25 +43,34 @@ const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
     })
   }
 
-  navigator.serviceWorker &&
-    navigator.serviceWorker.getRegistrations &&
-    navigator.serviceWorker.getRegistrations().then(registrations => {
-      const sanServiceRegistration = getSanSonarSW(registrations)
+  const sendUpdate = () => {
+    navigator.serviceWorker &&
+      navigator.serviceWorker.getRegistrations &&
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        const sanServiceRegistration = getSanSonarSW(registrations)
 
-      if (sanServiceRegistration) {
-        if (activities.length > 0) {
-          navigator &&
-            navigator.serviceWorker &&
-            navigator.serviceWorker.controller &&
-            navigator.serviceWorker.controller.postMessage({
-              type: 'SONAR_FEED_ACTIVITY',
-              data: {
-                lastTriggeredAt: activities[0].triggeredAt
-              }
-            })
+        if (sanServiceRegistration) {
+          if (activities.length > 0) {
+            navigator &&
+              navigator.serviceWorker &&
+              navigator.serviceWorker.controller &&
+              navigator.serviceWorker.controller.postMessage({
+                type: 'SONAR_FEED_ACTIVITY',
+                data: {
+                  lastTriggeredAt: activities[0].triggeredAt
+                }
+              })
+          }
         }
-      }
-    })
+      })
+  }
+
+  useEffect(() => {
+    sendUpdate()
+    return () => {
+      sendUpdate()
+    }
+  })
 
   return activities && activities.length ? (
     <div className={styles.wrapper}>

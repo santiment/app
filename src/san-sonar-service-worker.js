@@ -1,4 +1,4 @@
-const ACTIVITIES_LOAD_TIMEOUT = 1000 * 60 * 15
+const ACTIVITIES_LOAD_TIMEOUT = 2 * 1000 // 1000 * 60 * 15
 const PUBLIC_API_ROUTE = __API_URL__
 const PUBLIC_FRONTEND_ROUTE = __UI_URL__
 const WS_DB_NAME = 'serviceWorkerDb'
@@ -7,6 +7,8 @@ const ACTIVITY_CHECKS_STORE_NAME = 'activityChecks'
 console.log('Started sonar service-worker!')
 
 let db
+let timeoutId
+let isStopped = false
 
 const createActivityChecksTable = () => {
   if (db && !db.objectStoreNames.contains(ACTIVITY_CHECKS_STORE_NAME)) {
@@ -103,7 +105,17 @@ function addToDb (storeName, data, checkCallback) {
 }
 
 const restart = () => {
-  setTimeout(loadAndCheckActivities, ACTIVITIES_LOAD_TIMEOUT)
+  if (!isStopped) {
+    timeoutId = setTimeout(loadAndCheckActivities, ACTIVITIES_LOAD_TIMEOUT)
+  } else {
+    console.log("Stopped, can't start")
+  }
+}
+
+const stop = () => {
+  console.log('Stopped sonar service worker')
+  clearTimeout(timeoutId)
+  isStopped = true
 }
 
 const addActivityDateAndRestart = (triggeredAt, newCount, enabled) => {
@@ -118,6 +130,7 @@ const addActivityDateAndRestart = (triggeredAt, newCount, enabled) => {
 }
 
 const showActivitiesNotification = newCount => {
+  console.log('Show ' + newCount)
   self.registration.showNotification(newCount + ' new activities in Sonar!', {
     body: 'Open to check ' + PUBLIC_FRONTEND_ROUTE + '/sonar/activity',
     badge: '/favicon-96x96.png',
@@ -167,10 +180,10 @@ const checkNewActivities = activities => {
 }
 
 const loadAndCheckActivities = () => {
-  console.log('Sonar is loading new activities')
-  if (!PUBLIC_API_ROUTE || !PUBLIC_FRONTEND_ROUTE) {
+  if (isStopped || !PUBLIC_API_ROUTE || !PUBLIC_FRONTEND_ROUTE) {
     return
   }
+  console.log('Sonar is loading new activities')
 
   const from = new Date()
   const query = {
@@ -216,6 +229,8 @@ self.addEventListener('message', function (event) {
       removeFromDb(ACTIVITY_CHECKS_STORE_NAME, () => {
         addActivityDateAndRestart(data.lastTriggeredAt, 0, false)
       })
+    } else if (type === 'SONAR_FEED_ACTIVITY_STOP') {
+      stop()
     }
   }
 })

@@ -42,18 +42,27 @@ const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
   })
 
   const unRegisterSw = () => {
-    navigator.serviceWorker &&
-      navigator.serviceWorker.getRegistrations &&
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        const sw = getSanSonarSW(registrations)
-        if (sw) {
-          sw.unregister().then(() => {
-            toggle(false)
-          })
-        } else {
-          toggle(false)
-        }
+    navigator &&
+      navigator.serviceWorker &&
+      navigator.serviceWorker.controller &&
+      navigator.serviceWorker.controller.postMessage({
+        type: 'SONAR_FEED_ACTIVITY_STOP'
       })
+
+    setTimeout(() => {
+      navigator.serviceWorker &&
+        navigator.serviceWorker.getRegistrations &&
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          const sw = getSanSonarSW(registrations)
+          if (sw) {
+            sw.unregister().then(data => {
+              toggle(false)
+            })
+          } else {
+            toggle(false)
+          }
+        }, 1000)
+    })
   }
 
   const preToggle = enable => {

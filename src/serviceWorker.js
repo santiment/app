@@ -45,6 +45,7 @@ export function register (config) {
 
 export function registerSonarActivitiesSw (config) {
   if ('serviceWorker' in navigator && canExecuteSw()) {
+    console.log('Register sonar service worker')
     addSw(`${process.env.PUBLIC_URL}/san-sonar-service-worker.js`, config)
   }
 }
