@@ -4,8 +4,8 @@ const webpack = require('webpack')
 const dotenv = require('dotenv')
 
 const envConfig = {...dotenv.config().parsed, ...dotenv.config({path: './.env.local'}).parsed}
-const apiUrl = envConfig.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL
-const uiUrl = envConfig.REACT_APP_WEBSITE_URL || process.env.REACT_APP_WEBSITE_URL
+const apiUrl = envConfig.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || process.env.BACKEND_URL
+const uiUrl = envConfig.REACT_APP_WEBSITE_URL || process.env.REACT_APP_WEBSITE_URL || process.env.FRONTEND_URL
 
 module.exports = {
   mode: process.env.NODE_ENV,
