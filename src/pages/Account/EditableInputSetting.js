@@ -41,8 +41,8 @@ class EditableInputSetting extends PureComponent {
   }
 
   onEditClick = () => {
+    this.inputRef.current.focus()
     this.setState({ editing: true, value: this.props.defaultValue })
-    this.inputRef && this.inputRef.current.focus()
   }
 
   onChange (value) {
@@ -60,10 +60,11 @@ class EditableInputSetting extends PureComponent {
     const { label, defaultValue, classes = {} } = this.props
     return (
       <form
+        style={{ height: 70 }}
         className={cx(
           styles.setting,
           styles.form,
-          classes.inputContainer,
+          classes.emailContainer,
           error && styles.form_error
         )}
         onSubmit={this.onSubmit}
@@ -71,25 +72,23 @@ class EditableInputSetting extends PureComponent {
         <div
           className={cx(
             styles.setting__left,
-            styles.inputBlock,
-            classes.inputContainerLeft,
+            styles.emailBlock,
+            classes.emailContainerLeft,
             editing && styles.setting__left_form
           )}
         >
-          <div className={cx(classes.inputLabels, styles.inputLabels)}>
-            <Label>{label}</Label>
-            {!editing && (
-              <Label
-                className={cx(
-                  styles.setting__description,
-                  classes.inputContainerLabel
-                )}
-                accent='waterloo'
-              >
-                {defaultValue || `Please add your ${label.toLowerCase()}`}
-              </Label>
-            )}
-          </div>
+          <Label>{label}</Label>
+          {!editing && (
+            <Label
+              className={cx(
+                styles.setting__description,
+                classes.emailContainerLabel
+              )}
+              accent='waterloo'
+            >
+              {defaultValue || `Please add your ${label.toLowerCase()}`}
+            </Label>
+          )}
           <Input
             forwardedRef={this.inputRef}
             className={cx(
@@ -105,7 +104,7 @@ class EditableInputSetting extends PureComponent {
           </Panel>
         </div>
 
-        <div className={classes.inputContainerRight}>
+        <div className={classes.emailContainerRight}>
           {editing ? (
             <div className={styles.btns}>
               <Button

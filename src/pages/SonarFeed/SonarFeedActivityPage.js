@@ -1,12 +1,11 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment } from 'react'
 import { graphql } from 'react-apollo'
 import Markdown from 'react-markdown'
 import gql from 'graphql-tag'
 import PageLoader from '../../components/Loader/PageLoader'
 import SonarFeedRecommendations from './SonarFeedRecommendations'
-import { dateDifferenceInWords } from '../../utils/dates'
-import { getSanSonarSW } from '../Account/SettingsSonarWebPushNotifications'
 import styles from './SonarFeedActivityPage.module.scss'
+import { dateDifferenceInWords } from '../../utils/dates'
 
 export const TRIGGER_ACTIVITIES_QUERY = gql`
   query signalsHistoricalActivity($datetime: DateTime!) {
@@ -42,35 +41,6 @@ const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
       from: new Date(dateString)
     })
   }
-
-  const sendUpdate = () => {
-    navigator.serviceWorker &&
-      navigator.serviceWorker.getRegistrations &&
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        const sanServiceRegistration = getSanSonarSW(registrations)
-
-        if (sanServiceRegistration) {
-          if (activities.length > 0) {
-            navigator &&
-              navigator.serviceWorker &&
-              navigator.serviceWorker.controller &&
-              navigator.serviceWorker.controller.postMessage({
-                type: 'SONAR_FEED_ACTIVITY',
-                data: {
-                  lastTriggeredAt: activities[0].triggeredAt
-                }
-              })
-          }
-        }
-      })
-  }
-
-  useEffect(() => {
-    sendUpdate()
-    return () => {
-      sendUpdate()
-    }
-  })
 
   return activities && activities.length ? (
     <div className={styles.wrapper}>
