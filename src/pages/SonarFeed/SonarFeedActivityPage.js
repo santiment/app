@@ -44,6 +44,10 @@ const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
   }
 
   const sendUpdate = () => {
+    if (!activities) {
+      return
+    }
+
     navigator.serviceWorker &&
       navigator.serviceWorker.getRegistrations &&
       navigator.serviceWorker.getRegistrations().then(registrations => {

@@ -1,6 +1,7 @@
 const ACTIVITIES_LOAD_TIMEOUT = 1000 * 60 * 15
 const WS_DB_NAME = 'serviceWorkerDb'
 const ACTIVITY_CHECKS_STORE_NAME = 'activityChecks'
+const WEB_PUSH_CHANNEL = 'web_push'
 
 let PUBLIC_API_ROUTE
 let PUBLIC_FRONTEND_ROUTE
@@ -184,6 +185,7 @@ const loadAndCheckActivities = () => {
       PUBLIC_API_ROUTE,
       PUBLIC_FRONTEND_ROUTE
     )
+    restart()
     return
   }
   console.log('Sonar is loading new activities')
@@ -192,7 +194,7 @@ const loadAndCheckActivities = () => {
   const query = {
     operationName: 'signalsHistoricalActivity',
     query:
-      'query signalsHistoricalActivity($datetime: DateTime!) {  activities: signalsHistoricalActivity(limit: 100, cursor: {type: BEFORE, datetime: $datetime}) {    cursor {      before      after      __typename    }    activity {      triggeredAt      __typename    }    __typename  }}',
+      'query signalsHistoricalActivity($datetime: DateTime!) {  activities: signalsHistoricalActivity(limit: 100, cursor: {type: BEFORE, datetime: $datetime}) {    cursor {      before      after      __typename    }    activity {      triggeredAt      userTrigger {     trigger {    settings }      }    __typename    }    __typename  }}',
     variables: { datetime: from.toISOString() }
   }
 
@@ -209,7 +211,20 @@ const loadAndCheckActivities = () => {
       } = res
 
       if (activity) {
-        checkNewActivities(activity)
+        const filtered = activity.filter(
+          ({
+            userTrigger: {
+              trigger: {
+                settings: { channel }
+              }
+            }
+          }) =>
+            Array.isArray(channel)
+              ? channel.indexOf(WEB_PUSH_CHANNEL) !== -1
+              : channel === WEB_PUSH_CHANNEL
+        )
+
+        checkNewActivities(filtered)
       } else {
         restart()
       }
@@ -219,10 +234,6 @@ const loadAndCheckActivities = () => {
       restart()
     })
 }
-
-self.addEventListener('activate', function (event) {
-  createActivitiesDB()
-})
 
 self.addEventListener('message', function (event) {
   const { type, data } = event.data
@@ -238,6 +249,8 @@ self.addEventListener('message', function (event) {
       PUBLIC_API_ROUTE = data.PUBLIC_API_ROUTE
       PUBLIC_FRONTEND_ROUTE = data.PUBLIC_FRONTEND_ROUTE
 
+      isStopped = false
+
       console.log(
         `Started sonar service-worker: ${PUBLIC_API_ROUTE} and ${PUBLIC_FRONTEND_ROUTE}`
       )
@@ -245,4 +258,13 @@ self.addEventListener('message', function (event) {
       createActivitiesDB()
     }
   }
+})
+
+self.addEventListener('install', function (event) {
+  event.waitUntil(self.skipWaiting()) // Activate worker immediately
+})
+
+self.addEventListener('activate', function (event) {
+  event.waitUntil(self.clients.claim()) // Become available to all pages
+  createActivitiesDB()
 })

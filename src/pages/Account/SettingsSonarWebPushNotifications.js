@@ -22,6 +22,28 @@ export const getSanSonarSW = registrations => {
     : undefined
 }
 
+const postMessage = data => {
+  navigator &&
+    navigator.serviceWorker &&
+    navigator.serviceWorker.controller &&
+    navigator.serviceWorker.controller.postMessage(data)
+}
+
+const sendParams = () => {
+  setTimeout(() => {
+    postMessage(
+      {
+        type: 'SONAR_FEED_PARAMS_START',
+        data: {
+          PUBLIC_API_ROUTE: getAPIUrl(),
+          PUBLIC_FRONTEND_ROUTE: getOrigin()
+        }
+      },
+      1000
+    )
+  })
+}
+
 const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
   const [isActive, setIsActive] = useState(false)
 
@@ -41,13 +63,6 @@ const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
       })
     }
   })
-
-  const postMessage = data => {
-    navigator &&
-      navigator.serviceWorker &&
-      navigator.serviceWorker.controller &&
-      navigator.serviceWorker.controller.postMessage(data)
-  }
 
   const unRegisterSw = () => {
     postMessage({
@@ -83,18 +98,13 @@ const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
             registerSonarActivitiesSw({
               hideRegistrationChecking: true,
               callback: () => {
-                postMessage({
-                  type: 'SONAR_FEED_PARAMS_START',
-                  data: {
-                    PUBLIC_API_ROUTE: getAPIUrl(),
-                    PUBLIC_FRONTEND_ROUTE: getOrigin()
-                  }
-                })
                 requestNotificationPermission(unRegisterSw)
+                sendParams()
                 toggle(true)
               }
             })
           } else {
+            sendParams()
             toggle(true)
           }
         })
