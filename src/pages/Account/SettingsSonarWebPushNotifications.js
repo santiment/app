@@ -7,6 +7,7 @@ import {
   requestNotificationPermission
 } from '../../serviceWorker'
 import SidecarExplanationTooltip from '../../ducks/SANCharts/SidecarExplanationTooltip'
+import { getAPIUrl, getOrigin } from '../../utils/utils'
 import styles from './AccountPage.module.scss'
 
 export const getSanSonarSW = registrations => {
@@ -41,13 +42,17 @@ const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
     }
   })
 
-  const unRegisterSw = () => {
+  const postMessage = data => {
     navigator &&
       navigator.serviceWorker &&
       navigator.serviceWorker.controller &&
-      navigator.serviceWorker.controller.postMessage({
-        type: 'SONAR_FEED_ACTIVITY_STOP'
-      })
+      navigator.serviceWorker.controller.postMessage(data)
+  }
+
+  const unRegisterSw = () => {
+    postMessage({
+      type: 'SONAR_FEED_ACTIVITY_STOP'
+    })
 
     setTimeout(() => {
       navigator.serviceWorker &&
@@ -78,6 +83,13 @@ const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
             registerSonarActivitiesSw({
               hideRegistrationChecking: true,
               callback: () => {
+                postMessage({
+                  type: 'SONAR_FEED_PARAMS_START',
+                  data: {
+                    PUBLIC_API_ROUTE: getAPIUrl(),
+                    PUBLIC_FRONTEND_ROUTE: getOrigin()
+                  }
+                })
                 requestNotificationPermission(unRegisterSw)
                 toggle(true)
               }

@@ -1,13 +1,9 @@
 const ACTIVITIES_LOAD_TIMEOUT = 1000 * 60 * 15
-const PUBLIC_API_ROUTE = __API_URL__
-const PUBLIC_FRONTEND_ROUTE = __UI_URL__
 const WS_DB_NAME = 'serviceWorkerDb'
 const ACTIVITY_CHECKS_STORE_NAME = 'activityChecks'
 
-console.log(
-  `Started sonar service-worker: ${PUBLIC_API_ROUTE} and ${PUBLIC_FRONTEND_ROUTE}`
-)
-
+let PUBLIC_API_ROUTE
+let PUBLIC_FRONTEND_ROUTE
 let db
 let timeoutId
 let isStopped = false
@@ -182,6 +178,12 @@ const checkNewActivities = activities => {
 
 const loadAndCheckActivities = () => {
   if (isStopped || !PUBLIC_API_ROUTE || !PUBLIC_FRONTEND_ROUTE) {
+    console.log(
+      "Can't load sonar activities: ",
+      isStopped,
+      PUBLIC_API_ROUTE,
+      PUBLIC_FRONTEND_ROUTE
+    )
     return
   }
   console.log('Sonar is loading new activities')
@@ -232,6 +234,15 @@ self.addEventListener('message', function (event) {
       })
     } else if (type === 'SONAR_FEED_ACTIVITY_STOP') {
       stop()
+    } else if (type === 'SONAR_FEED_PARAMS_START') {
+      PUBLIC_API_ROUTE = data.PUBLIC_API_ROUTE
+      PUBLIC_FRONTEND_ROUTE = data.PUBLIC_FRONTEND_ROUTE
+
+      console.log(
+        `Started sonar service-worker: ${PUBLIC_API_ROUTE} and ${PUBLIC_FRONTEND_ROUTE}`
+      )
+
+      createActivitiesDB()
     }
   }
 })
