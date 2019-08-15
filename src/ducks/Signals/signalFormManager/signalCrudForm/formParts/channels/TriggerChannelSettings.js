@@ -8,9 +8,14 @@ import SettingsEmailNotifications from '../../../../../../pages/Account/Settings
 import SettingsSonarWebPushNotifications, {
   getSanSonarSW
 } from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
+import ShowIf from '../../../../../../components/ShowIf/ShowIf'
 import styles from './TriggerChannelSettings.module.scss'
 
-const TriggerChannelSettings = ({ isTelegramSettings, isEmailSettings }) => {
+const TriggerChannelSettings = ({
+  isTelegramSettings,
+  isEmailSettings,
+  isBeta
+}) => {
   const [open, setOpen] = useState(false)
   const [isWebPushEnabled, setWebPushEnabled] = useState(true)
 
@@ -18,12 +23,14 @@ const TriggerChannelSettings = ({ isTelegramSettings, isEmailSettings }) => {
     () => {
       !isTelegramSettings && !isEmailSettings && setOpen(false)
 
-      navigator.serviceWorker &&
-        navigator.serviceWorker.getRegistrations &&
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          const sw = getSanSonarSW(registrations)
-          setWebPushEnabled(!!sw)
-        })
+      if (!isBeta) {
+        navigator.serviceWorker &&
+          navigator.serviceWorker.getRegistrations &&
+          navigator.serviceWorker.getRegistrations().then(registrations => {
+            const sw = getSanSonarSW(registrations)
+            setWebPushEnabled(!!sw)
+          })
+      }
     },
     [isEmailSettings, isTelegramSettings]
   )
@@ -57,7 +64,9 @@ const TriggerChannelSettings = ({ isTelegramSettings, isEmailSettings }) => {
           )}
 
           {!isWebPushEnabled && (
-            <SettingsSonarWebPushNotifications classes={styles} />
+            <ShowIf beta>
+              <SettingsSonarWebPushNotifications classes={styles} />
+            </ShowIf>
           )}
         </Dialog.ScrollContent>
       </Dialog>
@@ -68,9 +77,11 @@ const TriggerChannelSettings = ({ isTelegramSettings, isEmailSettings }) => {
 const mapStateToProps = ({
   user: {
     data: { email = '' }
-  }
+  },
+  rootUi: { isBetaModeEnabled }
 }) => ({
-  email
+  email,
+  isBeta: isBetaModeEnabled
 })
 
 const enhance = connect(mapStateToProps)

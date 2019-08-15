@@ -1,10 +1,12 @@
-const ACTIVITIES_LOAD_TIMEOUT = 2 * 1000 // 1000 * 60 * 15
+const ACTIVITIES_LOAD_TIMEOUT = 1000 * 60 * 15
 const PUBLIC_API_ROUTE = __API_URL__
 const PUBLIC_FRONTEND_ROUTE = __UI_URL__
 const WS_DB_NAME = 'serviceWorkerDb'
 const ACTIVITY_CHECKS_STORE_NAME = 'activityChecks'
 
-console.log('Started sonar service-worker!')
+console.log(
+  `Started sonar service-worker: ${PUBLIC_API_ROUTE} and ${PUBLIC_FRONTEND_ROUTE}`
+)
 
 let db
 let timeoutId
@@ -108,7 +110,7 @@ const restart = () => {
   if (!isStopped) {
     timeoutId = setTimeout(loadAndCheckActivities, ACTIVITIES_LOAD_TIMEOUT)
   } else {
-    console.log("Stopped, can't start")
+    console.log("Stopped sonar service worker, can't start")
   }
 }
 
@@ -130,7 +132,6 @@ const addActivityDateAndRestart = (triggeredAt, newCount, enabled) => {
 }
 
 const showActivitiesNotification = newCount => {
-  console.log('Show ' + newCount)
   self.registration.showNotification(newCount + ' new activities in Sonar!', {
     body: 'Open to check ' + PUBLIC_FRONTEND_ROUTE + '/sonar/activity',
     badge: '/favicon-96x96.png',

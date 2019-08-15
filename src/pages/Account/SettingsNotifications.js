@@ -13,6 +13,7 @@ import SettingsTelegramNotifications from './SettingsTelegramNotifications'
 import SettingsEmailNotifications from './SettingsEmailNotifications'
 import styles from './AccountPage.module.scss'
 import SettingsSonarWebPushNotifications from './SettingsSonarWebPushNotifications'
+import ShowIf from '../../components/ShowIf/ShowIf'
 
 const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
   mutation changeNewsletterSubscription(
@@ -46,9 +47,11 @@ const SettingsNotifications = ({
         <SettingsTelegramNotifications />
       </Settings.Row>
 
-      <Settings.Row>
-        <SettingsSonarWebPushNotifications />
-      </Settings.Row>
+      <ShowIf beta>
+        <Settings.Row>
+          <SettingsSonarWebPushNotifications />
+        </Settings.Row>
+      </ShowIf>
 
       <Settings.Row>
         <div className={styles.digest}>
