@@ -6,7 +6,6 @@ import { showNotification } from '../../actions/rootActions'
 import EditableInputSetting from './EditableInputSetting'
 import { USER_EMAIL_CHANGE } from '../../actions/types'
 import { connect } from 'react-redux'
-import styles from './userName/UsernameSettings.module.scss'
 
 const TAKEN_MSG = 'Email has already been taken'
 
@@ -34,7 +33,7 @@ const EmailSetting = ({
   changeEmail,
   showNotification,
   hideIfEmail = false,
-  classes
+  classes = {}
 }) => {
   const show = !hideIfEmail || (hideIfEmail && !email)
 
@@ -44,7 +43,7 @@ const EmailSetting = ({
         label='Email'
         defaultValue={email}
         validate={validateEmail}
-        classes={classes || styles}
+        classes={classes}
         onSubmit={value =>
           changeEmail({ variables: { value } })
             .then(() => {

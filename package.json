@@ -7,13 +7,12 @@
     "format": "prettier-standard 'src/**/*.js'",
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "build": "yarn build:sw && REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(echo $GIT_HEAD) react-scripts build",
+    "build": "REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(echo $GIT_HEAD) react-scripts build",
     "test:lint:css": "yarn stylelint src/*{sass,scss} --syntax scss --fix",
     "test:js": "react-scripts test --testPathIgnorePatterns='e2e.*'",
     "test:e2e": "react-scripts test --testPathPattern='e2e.*'",
     "test": "npm run test:lint:css && CI=true npm run test:js",
-    "eject": "react-scripts eject",
-    "build:sw": "rm -f ./public/san-sonar-service-worker.js && NODE_ENV=production webpack --config webpack.sw.config.js"
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
@@ -95,8 +94,7 @@
     "sanitize-html": "^1.18.2",
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.82.1",
-    "validate.js": "^0.12.0",
-    "uglifyjs-webpack-plugin": "^2.0.1"
+    "validate.js": "^0.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
@@ -134,8 +132,7 @@
     "stylefmt": "^6.0.3",
     "stylelint": "^9.5.0",
     "stylelint-config-standard": "^18.2.0",
-    "why-did-you-update": "^0.1.1",
-    "webpack-cli": "^3.1.2"
+    "why-did-you-update": "^0.1.1"
   },
   "standard": {
     "parser": "babel-eslint",

@@ -1,10 +1,9 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-import { store } from '../../../index'
-import { showNotification } from '../../../actions/rootActions'
-import EditableInputSetting from './../EditableInputSetting'
-import styles from './UsernameSettings.module.scss'
+import { store } from '../../index'
+import { showNotification } from '../../actions/rootActions'
+import EditableInputSetting from './EditableInputSetting'
 
 const TAKEN_MSG = 'has already been taken'
 
@@ -28,7 +27,6 @@ const UsernameSetting = ({ dispatchNewUsername, username, changeUsername }) => {
       label='Username'
       defaultValue={username}
       validate={validateUsername}
-      classes={styles}
       onSubmit={(value, revertValue) =>
         changeUsername({ variables: { value } })
           .then(() => {

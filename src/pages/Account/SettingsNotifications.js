@@ -12,8 +12,6 @@ import { showNotification } from '../../actions/rootActions'
 import SettingsTelegramNotifications from './SettingsTelegramNotifications'
 import SettingsEmailNotifications from './SettingsEmailNotifications'
 import styles from './AccountPage.module.scss'
-import SettingsSonarWebPushNotifications from './SettingsSonarWebPushNotifications'
-import ShowIf from '../../components/ShowIf/ShowIf'
 
 const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
   mutation changeNewsletterSubscription(
@@ -47,37 +45,28 @@ const SettingsNotifications = ({
         <SettingsTelegramNotifications />
       </Settings.Row>
 
-      <ShowIf beta>
-        <Settings.Row>
-          <SettingsSonarWebPushNotifications />
-        </Settings.Row>
-      </ShowIf>
-
       <Settings.Row>
-        <div className={styles.digest}>
-          <div className={styles.setting__left}>
-            <Label>Digest</Label>
-            <Label className={styles.setting__description} accent='waterloo'>
-              Receive the best insights and signals on Sanbase
-              <br />
-              peersonalized based on your interests.
-            </Label>
-          </div>
-          <Selector
-            className={styles.digestSelector}
-            options={['DAILY', 'WEEKLY', 'OFF']}
-            nameOptions={['Daily', 'Weekly', 'Off']}
-            onSelectOption={subscription =>
-              mutateDigestType({ variables: { subscription } })
-                .then(() => {
-                  changeDigestType(subscription)
-                  onDigestChangeSuccess()
-                })
-                .catch(onDigestChangeError)
-            }
-            defaultSelected={digestType}
-          />
+        <div className={styles.setting__left}>
+          <Label>Digest</Label>
+          <Label className={styles.setting__description} accent='waterloo'>
+            Receive the best insights and signals on Sanbase
+            <br />
+            peersonalized based on your interests.
+          </Label>
         </div>
+        <Selector
+          options={['DAILY', 'WEEKLY', 'OFF']}
+          nameOptions={['Daily', 'Weekly', 'Off']}
+          onSelectOption={subscription =>
+            mutateDigestType({ variables: { subscription } })
+              .then(() => {
+                changeDigestType(subscription)
+                onDigestChangeSuccess()
+              })
+              .catch(onDigestChangeError)
+          }
+          defaultSelected={digestType}
+        />
       </Settings.Row>
     </Settings>
   )
