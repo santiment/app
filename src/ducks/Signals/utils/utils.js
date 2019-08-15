@@ -45,7 +45,8 @@ import {
   NOT_VALID_ETH_ADDRESS,
   MIN_TITLE_LENGTH,
   MAX_TITLE_LENGTH,
-  MAX_DESCR_LENGTH
+  MAX_DESCR_LENGTH,
+  CHANNELS_MAP
 } from './constants'
 import {
   capitalizeStr,
@@ -369,7 +370,9 @@ export const mapTriggerToFormProps = currentTrigger => {
     signalType: signalType,
     percentThreshold: getPercentTreshold(settings) || BASE_PERCENT_THRESHOLD,
     threshold: mapTriggerToFormThreshold(settings) || BASE_THRESHOLD,
-    channels: [capitalizeStr(channel)],
+    channels: Array.isArray(channel)
+      ? channel.map(mapToFormChannel)
+      : [mapToFormChannel(channel)],
     ...frequencyModels,
     ...absolutePriceValues,
     ...trendingWordsParams,
@@ -482,8 +485,24 @@ export const mapAssetTarget = (target, ethAddress) => {
   }
 }
 
-export const getChannels = ({ channels }) =>
-  channels.length ? channels[0].toLowerCase() : undefined
+const mapToTriggerChannel = formLabel => {
+  return CHANNELS_MAP.find(({ label }) => label === formLabel).value
+}
+const mapToFormChannel = channelValue => {
+  return CHANNELS_MAP.find(({ value }) => value === channelValue).label
+}
+
+export const getChannels = ({ channels }) => {
+  if (!Array.isArray(channels)) {
+    return mapToTriggerChannel[channels]
+  } else {
+    if (channels.length === 1) {
+      return mapToTriggerChannel(channels[0])
+    } else {
+      return channels.map(mapToTriggerChannel)
+    }
+  }
+}
 
 export const isTrendingWordsByProjects = type =>
   type.value === TRENDING_WORDS_PROJECT_MENTIONED.value

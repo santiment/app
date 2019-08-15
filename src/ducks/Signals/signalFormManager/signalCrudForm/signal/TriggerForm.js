@@ -342,7 +342,6 @@ export const TriggerForm = ({
                               isPublic ? 'Public' : 'Private'
                             }
                             onSelect={toggleSignalPublic}
-                            style={{ marginRight: '20px' }}
                             labelClassName={styles.checkboxLabel}
                           />
                         </div>
