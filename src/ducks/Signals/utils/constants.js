@@ -72,7 +72,7 @@ export const PRICE_CHANGE_TYPES = {
   OUTSIDE_CHANNEL: 'outside_channel',
   ABOVE: 'above',
   BELOW: 'below',
-  PERCENT_ONE_OF: 'oneOf'
+  PERCENT_SOME_OF: 'some_of'
 }
 
 export const PRICE_PERCENT_CHANGE_UP_MODEL = {
@@ -91,10 +91,10 @@ export const PRICE_PERCENT_CHANGE_DOWN_MODEL = {
   dependencies: ['percentThreshold', 'timeWindow']
 }
 
-export const PRICE_PERCENT_CHANGE_ONE_OF = {
+export const PRICE_PERCENT_CHANGE_ONE_OF_MODEL = {
   metric: PRICE_PERCENT_CHANGE,
-  label: 'One of (%)',
-  value: PRICE_CHANGE_TYPES.PERCENT_ONE_OF,
+  label: 'Some of %',
+  value: PRICE_CHANGE_TYPES.PERCENT_SOME_OF,
   filledField: true,
   dependencies: ['percentThresholdLeft', 'percentThresholdRight', 'timeWindow']
 }
@@ -196,7 +196,7 @@ const PRICE_OPTIONS = [
 ]
 
 export const METRIC_TO_TYPES = {
-  [PRICE]: [...PRICE_OPTIONS, PRICE_PERCENT_CHANGE_ONE_OF],
+  [PRICE]: [...PRICE_OPTIONS, PRICE_PERCENT_CHANGE_ONE_OF_MODEL],
   [DAILY_ACTIVE_ADDRESSES]: PRICE_OPTIONS,
   [PRICE_VOLUME_DIFFERENCE]: [PRICE_VOLUME_DIFFERENCE_METRIC],
   [ETH_WALLET]: ETH_WALLETS_OPTIONS

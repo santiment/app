@@ -154,7 +154,7 @@ export const TriggerForm = ({
       }) => {
         const {
           metric,
-          type,
+          type = {},
           target,
           frequencyType,
           frequencyTimeType,

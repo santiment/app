@@ -45,7 +45,8 @@ import {
   NOT_VALID_ETH_ADDRESS,
   MIN_TITLE_LENGTH,
   MAX_TITLE_LENGTH,
-  MAX_DESCR_LENGTH
+  MAX_DESCR_LENGTH,
+  PRICE_PERCENT_CHANGE_ONE_OF_MODEL
 } from './constants'
 import {
   capitalizeStr,
@@ -137,6 +138,10 @@ const getFormTriggerType = (target, type, operation) => {
       return PRICE_PERCENT_CHANGE_DOWN_MODEL
     }
 
+    case PRICE_PERCENT_CHANGE_ONE_OF_MODEL.value: {
+      return PRICE_PERCENT_CHANGE_ONE_OF_MODEL
+    }
+
     case PRICE_ABS_CHANGE_ABOVE.value: {
       return PRICE_ABS_CHANGE_ABOVE
     }
@@ -175,7 +180,9 @@ const getTriggerOperation = ({
   percentThreshold,
   absoluteThreshold,
   absoluteBorderRight,
-  absoluteBorderLeft
+  absoluteBorderLeft,
+  percentThresholdLeft,
+  percentThresholdRight
 }) => {
   if (!type) {
     return undefined
@@ -203,6 +210,13 @@ const getTriggerOperation = ({
     case PRICE_CHANGE_TYPES.INSIDE_CHANNEL:
     case PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL: {
       mapped[value] = [absoluteBorderLeft, absoluteBorderRight]
+      break
+    }
+    case PRICE_CHANGE_TYPES.PERCENT_SOME_OF: {
+      mapped[value] = [
+        { [PRICE_CHANGE_TYPES.MOVING_UP]: percentThresholdLeft },
+        { [PRICE_CHANGE_TYPES.MOVING_DOWN]: percentThresholdRight }
+      ]
       break
     }
     default: {
@@ -367,7 +381,8 @@ export const mapTriggerToFormProps = currentTrigger => {
       : TIME_WINDOW_UNITS[0],
     target: newTarget,
     signalType: signalType,
-    percentThreshold: getPercentTreshold(settings) || BASE_PERCENT_THRESHOLD,
+
+    ...getPercentTreshold(settings, newType),
     threshold: mapTriggerToFormThreshold(settings) || BASE_THRESHOLD,
     channels: [capitalizeStr(channel)],
     ...frequencyModels,
@@ -378,17 +393,40 @@ export const mapTriggerToFormProps = currentTrigger => {
   }
 }
 
-const getPercentTreshold = ({ type, operation, percent_threshold }) => {
+const getPercentTreshold = (
+  { type, operation, percent_threshold: percentThreshold },
+  newType
+) => {
   switch (type) {
     case PRICE_PERCENT_CHANGE: {
-      return operation ? operation[Object.keys(operation)[0]] : undefined
+      if (newType && newType.value === PRICE_CHANGE_TYPES.PERCENT_SOME_OF) {
+        return {
+          percentThresholdLeft:
+            operation[PRICE_CHANGE_TYPES.PERCENT_SOME_OF][0][
+              PRICE_CHANGE_TYPES.MOVING_UP
+            ],
+          percentThresholdRight:
+            operation[PRICE_CHANGE_TYPES.PERCENT_SOME_OF][1][
+              PRICE_CHANGE_TYPES.MOVING_DOWN
+            ]
+        }
+      } else {
+        return {
+          percentThreshold: operation
+            ? operation[Object.keys(operation)[0]]
+            : undefined
+        }
+      }
     }
     case DAILY_ACTIVE_ADDRESSES: {
-      return percent_threshold
+      return { percentThreshold }
     }
     default: {
-      return percent_threshold
     }
+  }
+
+  return {
+    percentThreshold: BASE_PERCENT_THRESHOLD
   }
 }
 
@@ -867,6 +905,8 @@ export const metricValuesBlockErrors = values => {
     type,
     threshold,
     percentThreshold,
+    percentThresholdLeft,
+    percentThresholdRight,
     timeWindow,
     absoluteThreshold,
     absoluteBorderLeft,
@@ -882,15 +922,38 @@ export const metricValuesBlockErrors = values => {
     type.metric === DAILY_ACTIVE_ADDRESSES ||
     type.metric === PRICE_PERCENT_CHANGE
   ) {
-    if (!percentThreshold) {
-      errors.percentThreshold = REQUIRED_MESSAGE
-    } else if (percentThreshold <= 0) {
-      errors.percentThreshold = MUST_BE_MORE_ZERO_MESSAGE
-    }
-    if (!timeWindow) {
-      errors.timeWindow = REQUIRED_MESSAGE
-    } else if (timeWindow <= 0) {
-      errors.timeWindow = MUST_BE_MORE_ZERO_MESSAGE
+    if (type.dependencies) {
+      if (type.dependencies.indexOf('percentThreshold') !== -1) {
+        if (!percentThreshold) {
+          errors.percentThreshold = REQUIRED_MESSAGE
+        } else if (percentThreshold <= 0) {
+          errors.percentThreshold = MUST_BE_MORE_ZERO_MESSAGE
+        }
+      }
+
+      if (type.dependencies.indexOf('percentThresholdLeft') !== -1) {
+        if (!percentThresholdLeft) {
+          errors.percentThresholdLeft = REQUIRED_MESSAGE
+        } else if (percentThresholdLeft <= 0) {
+          errors.percentThresholdLeft = MUST_BE_MORE_ZERO_MESSAGE
+        }
+      }
+
+      if (type.dependencies.indexOf('percentThresholdRight') !== -1) {
+        if (!percentThresholdRight) {
+          errors.percentThresholdRight = REQUIRED_MESSAGE
+        } else if (percentThresholdRight <= 0) {
+          errors.percentThresholdRight = MUST_BE_MORE_ZERO_MESSAGE
+        }
+      }
+
+      if (type.dependencies.indexOf('timeWindow') !== -1) {
+        if (!timeWindow) {
+          errors.timeWindow = REQUIRED_MESSAGE
+        } else if (timeWindow <= 0) {
+          errors.timeWindow = MUST_BE_MORE_ZERO_MESSAGE
+        }
+      }
     }
   }
 

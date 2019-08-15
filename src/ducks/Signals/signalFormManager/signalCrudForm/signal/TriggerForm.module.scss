@@ -1,6 +1,7 @@
 @import '~@santiment-network/ui/mixins.scss';
 
 $trigger-form-width: 534px;
+$trigger-form-field-margin: 24px;
 
 .wrapper {
   position: relative;
@@ -42,7 +43,7 @@ $trigger-form-width: 534px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 24px;
+  margin-bottom: $trigger-form-field-margin;
 
   @include text('body-3');
 
@@ -266,6 +267,7 @@ a {
 
 .fieldTimeWindow {
   @include responsive('phone', 'phone-xs') {
+    margin-top: $trigger-form-field-margin;
     padding: 0;
   }
 }
