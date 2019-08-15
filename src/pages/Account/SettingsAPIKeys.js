@@ -11,17 +11,17 @@ import styles from './AccountPage.module.scss'
 const SettingsAPIKeys = ({ apikey, generateAPIKey, revokeAPIKey }) => (
   <Settings id='api-keys' header='API keys'>
     <Settings.Row>
-      <div className={styles.setting__left}>
-        <Label>Neuro API</Label>
-        <Label className={styles.setting__description} accent='waterloo'>
-          The api key will give you access to the data that requires SAN token
-          staking.
-          <br />
-          The api key can only be used to fetch data and not to execute graphql
-          mutations.
-        </Label>
-      </div>
-      <div>
+      <div className={styles.neuro}>
+        <div className={styles.setting__left}>
+          <Label>Neuro API</Label>
+          <Label className={styles.setting__description} accent='waterloo'>
+            The api key will give you access to the data that requires SAN token
+            staking.
+            <br />
+            The api key can only be used to fetch data and not to execute
+            graphql mutations.
+          </Label>
+        </div>
         <div className={styles.setting_apikey}>
           {apikey ? (
             <>
