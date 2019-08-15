@@ -107,6 +107,10 @@ exports[`TriggerForm smoke 1`] = `
         "value": "d",
       },
       "type": Object {
+        "dependencies": Array [
+          "percentThreshold",
+          "timeWindow",
+        ],
         "filledField": true,
         "label": "Moving up %",
         "metric": "price_percent_change",

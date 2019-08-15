@@ -984,19 +984,6 @@ export const couldShowChart = ({ signalType, metric, target }) => {
   return metric ? POSSIBLE_METRICS_FOR_CHART.indexOf(metric.value) >= 0 : false
 }
 
-export const getFormMetricValue = type => {
-  if (type) {
-    switch (type.metric) {
-      case PRICE_ABSOLUTE_CHANGE: {
-        return type.subMetric
-      }
-      default: {
-        return type.metric
-      }
-    }
-  }
-}
-
 export const mapToAssets = (data, withFilter = true) => {
   if (!data) {
     return undefined

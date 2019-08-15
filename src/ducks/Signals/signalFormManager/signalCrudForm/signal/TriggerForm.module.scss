@@ -76,10 +76,6 @@ $trigger-form-width: 534px;
   display: inline-block;
 }
 
-.TriggerChart {
-  margin-bottom: 1rem;
-}
-
 .notifyBlock {
   display: flex;
   margin-top: 5px;
@@ -131,10 +127,6 @@ $trigger-form-width: 534px;
 
 .Field:last-child {
   padding-right: 0;
-}
-
-.Field:only-child {
-  padding-right: 1rem;
 }
 
 .timeWindow {
@@ -256,4 +248,24 @@ a {
 
 .explanation {
   z-index: 1000 !important;
+}
+
+.percentagesBlock {
+  display: flex;
+  flex-direction: row;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
+}
+
+.percentages {
+  display: flex;
+  align-items: center;
+}
+
+.fieldTimeWindow {
+  @include responsive('phone', 'phone-xs') {
+    padding: 0;
+  }
 }

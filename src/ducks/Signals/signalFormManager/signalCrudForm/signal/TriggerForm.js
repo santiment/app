@@ -26,7 +26,6 @@ import {
   MAX_DESCR_LENGTH,
   MIN_TITLE_LENGTH,
   MAX_TITLE_LENGTH,
-  METRIC_TYPES_DEPENDENCIES,
   TRIGGER_FORM_STEPS
 } from '../../../utils/constants'
 import {
@@ -36,7 +35,6 @@ import {
   validateTriggerForm,
   getDefaultFormValues,
   titleMetricValuesHeader,
-  getFormMetricValue,
   getNewTitle,
   getNewDescription
 } from '../../../utils/utils'
@@ -132,6 +130,8 @@ export const TriggerForm = ({
     }
   }
 
+  console.log('check 1')
+
   return (
     <Formik
       initialValues={initialValues}
@@ -174,8 +174,7 @@ export const TriggerForm = ({
         const showTypes =
           metric && !metric.hidden && typeSelectors && typeSelectors.length > 1
 
-        const metricValueBlocks =
-          METRIC_TYPES_DEPENDENCIES[getFormMetricValue(type)]
+        const { dependencies: metricValueBlocks } = type
 
         const showValues = showTypes || showChart || metricValueBlocks
 
@@ -183,6 +182,7 @@ export const TriggerForm = ({
           validateAndSetStep(TRIGGER_FORM_STEPS.DESCRIPTION)
         }
 
+        console.log('check 2')
         return (
           <Form>
             <FormikEffect
@@ -199,6 +199,7 @@ export const TriggerForm = ({
                   validateForm()
                 }
 
+                console.log('check 3')
                 if (!isEqual(newValues, prev.values)) {
                   validateForm()
                   const lastErrors = validateTriggerForm(newValues)

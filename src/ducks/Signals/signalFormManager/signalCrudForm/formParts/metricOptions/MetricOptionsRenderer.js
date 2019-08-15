@@ -6,6 +6,7 @@ import insideSvg from '../../../../../../assets/signals/priceTypes/inside.svg'
 import outsideSvg from '../../../../../../assets/signals/priceTypes/outside.svg'
 import movingUpSvg from '../../../../../../assets/signals/priceTypes/moving_up.svg'
 import movingDownSvg from '../../../../../../assets/signals/priceTypes/moving_down.svg'
+import oneOfSvg from '../../../../../../assets/signals/priceTypes/oneOf.svg'
 import { PRICE_CHANGE_TYPES } from '../../../../utils/constants'
 
 const METRIC_TO_SVG = {
@@ -14,7 +15,8 @@ const METRIC_TO_SVG = {
   [PRICE_CHANGE_TYPES.INSIDE_CHANNEL]: insideSvg,
   [PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL]: outsideSvg,
   [PRICE_CHANGE_TYPES.MOVING_UP]: movingUpSvg,
-  [PRICE_CHANGE_TYPES.MOVING_DOWN]: movingDownSvg
+  [PRICE_CHANGE_TYPES.MOVING_DOWN]: movingDownSvg,
+  [PRICE_CHANGE_TYPES.PERCENT_ONE_OF]: oneOfSvg
 }
 
 const MetricOptionsRenderer = ({
