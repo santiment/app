@@ -1,7 +1,10 @@
 const ACTIVITIES_LOAD_TIMEOUT = 1000 * 60 * 15
 const WS_DB_NAME = 'serviceWorkerDb'
 const ACTIVITY_CHECKS_STORE_NAME = 'activityChecks'
+const PARAMS_CHECKS_STORE_NAME = 'appParams'
 const WEB_PUSH_CHANNEL = 'web_push'
+
+console.log('Loading sonar service worker')
 
 let PUBLIC_API_ROUTE
 let PUBLIC_FRONTEND_ROUTE
@@ -16,10 +19,17 @@ const createActivityChecksTable = () => {
       autoIncrement: true
     })
   }
+  if (db && !db.objectStoreNames.contains(PARAMS_CHECKS_STORE_NAME)) {
+    db.createObjectStore(PARAMS_CHECKS_STORE_NAME, {
+      keyPath: 'id',
+      autoIncrement: true
+    })
+  }
 }
 
 const createActivitiesDB = () => {
   if (db) {
+    createActivityChecksTable()
     loadAndCheckActivities()
     return
   }
@@ -29,9 +39,9 @@ const createActivitiesDB = () => {
     console.log('The database is opened failed')
   }
   request.onsuccess = event => {
+    console.log('The database is opened successfully')
     db = request.result
     createActivityChecksTable()
-    console.log('The database is opened successfully')
     loadAndCheckActivities()
   }
   request.onupgradeneeded = event => {
@@ -105,6 +115,7 @@ function addToDb (storeName, data, checkCallback) {
 
 const restart = () => {
   if (!isStopped) {
+    clearTimeout(timeoutId)
     timeoutId = setTimeout(loadAndCheckActivities, ACTIVITIES_LOAD_TIMEOUT)
   } else {
     console.log("Stopped sonar service worker, can't start")
@@ -178,7 +189,11 @@ const checkNewActivities = activities => {
 }
 
 const loadAndCheckActivities = () => {
-  if (isStopped || !PUBLIC_API_ROUTE || !PUBLIC_FRONTEND_ROUTE) {
+  const noUrls = !PUBLIC_API_ROUTE || !PUBLIC_FRONTEND_ROUTE
+  if (isStopped || noUrls) {
+    if (noUrls) {
+      loadUrlParams()
+    }
     console.log(
       "Can't load sonar activities: ",
       isStopped,
@@ -188,6 +203,7 @@ const loadAndCheckActivities = () => {
     restart()
     return
   }
+
   console.log('Sonar is loading new activities')
 
   const from = new Date()
@@ -246,19 +262,39 @@ self.addEventListener('message', function (event) {
     } else if (type === 'SONAR_FEED_ACTIVITY_STOP') {
       stop()
     } else if (type === 'SONAR_FEED_PARAMS_START') {
-      PUBLIC_API_ROUTE = data.PUBLIC_API_ROUTE
-      PUBLIC_FRONTEND_ROUTE = data.PUBLIC_FRONTEND_ROUTE
-
-      isStopped = false
-
       console.log(
         `Started sonar service-worker: ${PUBLIC_API_ROUTE} and ${PUBLIC_FRONTEND_ROUTE}`
       )
 
-      createActivitiesDB()
+      PUBLIC_API_ROUTE = data.PUBLIC_API_ROUTE
+      PUBLIC_FRONTEND_ROUTE = data.PUBLIC_FRONTEND_ROUTE
+      isStopped = false
+
+      removeFromDb(PARAMS_CHECKS_STORE_NAME, () => {
+        addToDb(PARAMS_CHECKS_STORE_NAME, data, restart)
+      })
     }
   }
 })
+
+const loadUrlParams = () => {
+  getFirstValueFromTable(PARAMS_CHECKS_STORE_NAME, data => {
+    console.log('Loaded sonar service worker params from DB')
+    if (data) {
+      const {
+        PUBLIC_API_ROUTE: apiRoute,
+        PUBLIC_FRONTEND_ROUTE: webRoute
+      } = data
+
+      if (apiRoute && webRoute) {
+        PUBLIC_API_ROUTE = apiRoute
+        PUBLIC_FRONTEND_ROUTE = apiRoute
+
+        restart()
+      }
+    }
+  })
+}
 
 self.addEventListener('install', function (event) {
   event.waitUntil(self.skipWaiting()) // Activate worker immediately
