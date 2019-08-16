@@ -4,13 +4,15 @@ import Icon from '@santiment-network/ui/Icon'
 import SignalMasterModalForm from '../Signals/signalModal/SignalMasterModalForm'
 import styles from './ChartSignalCreationDialog.module.scss'
 
-const ChartSignalCreationDialog = ({ slug }) => (
+const ChartSignalCreationDialog = ({ slug, trigger }) => (
   <SignalMasterModalForm
     dialogProps={{ passOpenStateAs: 'isActive' }}
     trigger={
-      <Button variant='flat' className={styles.btn}>
-        <Icon type='plus-round' className={styles.icon} /> Signals
-      </Button>
+      trigger || (
+        <Button variant='flat' className={styles.btn}>
+          <Icon type='plus-round' className={styles.icon} /> Signals
+        </Button>
+      )
     }
     canRedirect={false}
     metaFormSettings={{

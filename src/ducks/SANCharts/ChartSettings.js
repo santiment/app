@@ -31,7 +31,8 @@ const ChartSettings = ({
   isAdvancedView
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
-  const noSearch = hideSettings.search
+  const { search: noSearch, signals: noSignalCreation } = hideSettings
+
   const notAdvancedView = !isAdvancedView
   return (
     <div className={cx(styles.settings, noSearch && styles.settings_noSearch)}>
@@ -44,7 +45,7 @@ const ChartSettings = ({
             iconPosition='left'
           />
         )}
-        {hideSettings.signals ||
+        {noSignalCreation ||
           (notAdvancedView && (
             <ChartSignalCreationDialog slug={project.slug} />
           ))}

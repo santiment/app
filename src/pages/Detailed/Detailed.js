@@ -79,7 +79,8 @@ export const Detailed = ({
               classes={styles}
               hideSettings={{
                 search: true,
-                linkToDashboard: false
+                linkToDashboard: false,
+                signals: true
               }}
               {...boundaries}
             />
