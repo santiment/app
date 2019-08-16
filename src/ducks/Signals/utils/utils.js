@@ -404,22 +404,22 @@ const getPercentTreshold = (
           percentThresholdLeft:
             operation[PRICE_CHANGE_TYPES.PERCENT_SOME_OF][0][
               PRICE_CHANGE_TYPES.MOVING_UP
-            ],
+            ] || BASE_PERCENT_THRESHOLD,
           percentThresholdRight:
             operation[PRICE_CHANGE_TYPES.PERCENT_SOME_OF][1][
               PRICE_CHANGE_TYPES.MOVING_DOWN
-            ]
+            ] || BASE_PERCENT_THRESHOLD
         }
       } else {
         return {
           percentThreshold: operation
             ? operation[Object.keys(operation)[0]]
-            : undefined
+            : BASE_PERCENT_THRESHOLD
         }
       }
     }
     case DAILY_ACTIVE_ADDRESSES: {
-      return { percentThreshold }
+      return { percentThreshold: percentThreshold || BASE_PERCENT_THRESHOLD }
     }
     default: {
     }
