@@ -130,8 +130,6 @@ export const TriggerForm = ({
     }
   }
 
-  console.log('check 1')
-
   return (
     <Formik
       initialValues={initialValues}
@@ -182,7 +180,6 @@ export const TriggerForm = ({
           validateAndSetStep(TRIGGER_FORM_STEPS.DESCRIPTION)
         }
 
-        console.log('check 2')
         return (
           <Form>
             <FormikEffect
@@ -199,7 +196,6 @@ export const TriggerForm = ({
                   validateForm()
                 }
 
-                console.log('check 3')
                 if (!isEqual(newValues, prev.values)) {
                   validateForm()
                   const lastErrors = validateTriggerForm(newValues)

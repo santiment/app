@@ -11,7 +11,6 @@ import SettingsGetTokens from './SettingsGetTokens'
 import SettingsAPIKeys from './SettingsAPIKeys'
 import SettingsSubscription from './SettingsSubscription'
 import SettingsPlans from './SettingsPlans'
-import { mapQSToState } from '../../utils/utils'
 import styles from './AccountPage.module.scss'
 
 export const ACCOUNT_PAGE_HASHES = {

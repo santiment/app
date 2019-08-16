@@ -1158,7 +1158,7 @@ export const getTargetsHeader = values => {
 }
 
 const getUsd = (value = 0, isPriceMetric) =>
-  isPriceMetric ? formatNumber(value, { currency: 'USD' }) : value
+  isPriceMetric ? formatNumber(value || 0, { currency: 'USD' }) : value
 
 export const titleMetricValuesHeader = (
   hasMetricValues,
@@ -1166,6 +1166,8 @@ export const titleMetricValuesHeader = (
     type,
     threshold,
     percentThreshold,
+    percentThresholdLeft,
+    percentThresholdRight,
     absoluteThreshold,
     absoluteBorderRight,
     absoluteBorderLeft,
@@ -1201,7 +1203,8 @@ export const titleMetricValuesHeader = (
           isPriceMetric
             ? `Price ${ofTarget} moving`
             : `Addresses count ${ofTarget}`,
-          `down ${percentThreshold}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} earlier`
+          `down ${percentThreshold ||
+            0}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} earlier`
         )
       }
       case PRICE_CHANGE_TYPES.MOVING_UP: {
@@ -1209,7 +1212,16 @@ export const titleMetricValuesHeader = (
           isPriceMetric
             ? `Price ${ofTarget} moving`
             : `Addresses count ${ofTarget}`,
-          `up ${percentThreshold}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} earlier`
+          `up ${percentThreshold ||
+            0}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} earlier`
+        )
+      }
+      case PRICE_CHANGE_TYPES.PERCENT_SOME_OF: {
+        return buildFormBlock(
+          isPriceMetric ? `Price ${ofTarget}` : `Addresses count ${ofTarget}`,
+          `moving up ${percentThresholdLeft ||
+            0}% or moving down ${percentThresholdRight ||
+            0}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} earlier`
         )
       }
       case PRICE_CHANGE_TYPES.ABOVE: {
