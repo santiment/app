@@ -41,10 +41,21 @@ const pickProjectsType = type => {
   }
 }
 
-const mapDataToAssets = ({ type, data: { loading, error, data } }) => {
+const mapDataToAssets = ({
+  type,
+  filters = {},
+  data: { loading, error, data }
+}) => {
   const items = !error ? data[pickProjectsType(type).projects] : []
   const isEmpty = items.length === 0
-  return { isLoading: loading, isEmpty, items, error, isPublicWatchlist: true }
+  return {
+    isLoading: loading,
+    isEmpty,
+    filters,
+    items,
+    error,
+    isPublicWatchlist: true
+  }
 }
 
 export const fetchAssetsEpic = (action$, store, { client }) =>
@@ -59,7 +70,7 @@ export const fetchAssetsEpic = (action$, store, { client }) =>
           Observable.of({
             type: actions.ASSETS_FETCH_SUCCESS,
             payload: {
-              ...mapDataToAssets({ type, data }),
+              ...mapDataToAssets({ type, data, filters }),
               first50: type === 'all'
             }
           })
@@ -76,7 +87,7 @@ export const fetchRestAllAssetsEpic = (action$, store, { client }) =>
         .exhaustMap(data =>
           Observable.of({
             type: actions.ASSETS_FETCH_SUCCESS,
-            payload: mapDataToAssets({ type, data })
+            payload: mapDataToAssets({ type, data, filters })
           })
         )
         .catch(handleError)
@@ -88,7 +99,7 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
     .filter(
       ({ payload: { type } }) => type === 'list' || type === 'list#shared'
     )
-    .mergeMap(({ payload: { list } }) => {
+    .mergeMap(({ payload: { list, filters } }) => {
       return Observable.from(
         client.watchQuery({
           query: list.function
@@ -96,7 +107,7 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
             : WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY,
           variables: list.function
             ? { function: list.function }
-            : { id: list.id },
+            : { id: list.id, filters },
           context: { isRetriable: true },
           fetchPolicy: 'network-only'
         })

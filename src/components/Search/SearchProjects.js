@@ -69,7 +69,8 @@ const SearchProjects = ({
 export default graphql(allProjectsForSearchGQL, {
   skip: ({ projectsList }) => projectsList && projectsList.length > 0,
   options: () => ({
-    context: { isRetriable: true }
+    context: { isRetriable: true },
+    variables: { minVolume: 0 }
   }),
   props: ({ data: { allProjects = [] } }) => ({ projectsList: allProjects })
 })(SearchProjects)
