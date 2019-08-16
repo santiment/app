@@ -3,6 +3,7 @@ import Raven from 'raven-js'
 import { Observable } from 'rxjs'
 import { showNotification } from '../actions/rootActions'
 import { Link } from 'react-router-dom'
+import styles from './epic-items.module.scss'
 
 export const handleErrorAndTriggerAction = action => error => {
   Raven.captureException(error)
@@ -14,19 +15,19 @@ export const handleErrorAndTriggerAction = action => error => {
       Observable.of({ type: action, payload: error }),
       Observable.of(
         showNotification({
-          variant: 'error',
-          title: `Error`,
+          variant: 'warning',
+          title: "You've reached your signals limit (10)",
           description: (
             <div>
-              <div>
-                You have reached the maximum number of allowed signals for your
-                current subscription plan. Please upgrade to PRO subscription
-                plan for unlimited signals
+              <div className={styles.description}>
+                Please upgrade your account for unlimited signals
               </div>
-              <Link to='/account'>Upgrade plan</Link>
+              <Link className={styles.link} to='/account#subscription'>
+                Upgrade plan
+              </Link>
             </div>
           ),
-          dismissAfter: 3000
+          dismissAfter: 8000
         })
       )
     )
