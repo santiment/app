@@ -67,7 +67,9 @@ export const COLUMNS = preload => [
     }),
     Cell: ({ value: { priceUsd } }) => (
       <div className='overview-price'>
-        {priceUsd ? formatNumber(priceUsd, { currency: 'USD' }) : 'No data'}
+        {parseFloat(priceUsd) !== NaN
+          ? formatNumber(priceUsd, { currency: 'USD' })
+          : 'No data'}
       </div>
     ),
     sortable: true,
@@ -85,7 +87,11 @@ export const COLUMNS = preload => [
     }),
     Cell: ({ value: { change24h } }) => (
       <div className='overview-price-percent'>
-        {change24h ? <PercentChanges changes={change24h} /> : 'No data'}
+        {parseFloat(change24h) !== NaN ? (
+          <PercentChanges changes={change24h} />
+        ) : (
+          'No data'
+        )}
       </div>
     ),
     sortable: true,
@@ -103,7 +109,9 @@ export const COLUMNS = preload => [
     }),
     Cell: ({ value: { volumeUsd } }) => (
       <div className='overview-volume'>
-        {volumeUsd ? `$${millify(volumeUsd, 2)}` : 'No data'}
+        {parseFloat(volumeUsd) !== NaN
+          ? `$${millify(volumeUsd, 2)}`
+          : 'No data'}
       </div>
     ),
     sortable: true,
@@ -121,7 +129,11 @@ export const COLUMNS = preload => [
     }),
     Cell: ({ value: { change24h } }) => (
       <div className='overview-volume-percent'>
-        {change24h ? <PercentChanges changes={change24h} /> : 'No data'}
+        {parseFloat(change24h) !== NaN ? (
+          <PercentChanges changes={change24h} />
+        ) : (
+          'No data'
+        )}
       </div>
     ),
     sortable: true,
@@ -137,7 +149,7 @@ export const COLUMNS = preload => [
     accessor: 'marketcapUsd',
     Cell: ({ value }) => (
       <div className='overview-marketcap'>
-        {value !== null ? `$${millify(value, 2)}` : 'No data'}
+        {parseFloat(value) !== NaN ? `$${millify(value, 2)}` : 'No data'}
       </div>
     ),
     sortable: true,
@@ -196,7 +208,7 @@ export const COLUMNS = preload => [
     accessor: d => d.averageDevActivity,
     Cell: ({ value }) => (
       <div className='overview-devactivity'>
-        {value ? parseFloat(value).toFixed(2) : 'No data'}
+        {parseFloat(value) !== NaN ? parseFloat(value).toFixed(2) : 'No data'}
       </div>
     ),
     sortable: true,
@@ -216,7 +228,7 @@ export const COLUMNS = preload => [
     accessor: d => d.averageDailyActiveAddresses,
     Cell: ({ value }) => (
       <div className='overview-activeaddresses'>
-        {value ? formatNumber(value) : 'No data'}
+        {parseFloat(value) !== NaN ? formatNumber(value) : 'No data'}
       </div>
     ),
     sortable: true,
