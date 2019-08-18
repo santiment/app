@@ -1,3 +1,18 @@
+export const CHANNELS_MAP = [
+  {
+    value: 'email',
+    label: 'Email'
+  },
+  {
+    value: 'telegram',
+    label: 'Telegram'
+  },
+  {
+    value: 'web_push',
+    label: 'Web Push'
+  }
+]
+
 export const MAX_DESCR_LENGTH = 200
 export const MAX_TITLE_LENGTH = 120
 export const MIN_TITLE_LENGTH = 2

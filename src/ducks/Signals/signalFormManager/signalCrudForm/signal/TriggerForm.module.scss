@@ -80,10 +80,10 @@ $trigger-form-field-margin: 24px;
 .notifyBlock {
   display: flex;
   margin-top: 5px;
+}
 
-  div:first-child {
-    margin-right: 20px;
-  }
+.labelClassName {
+  margin-right: 20px;
 }
 
 .Field {
@@ -120,7 +120,7 @@ $trigger-form-field-margin: 24px;
 
 .checkboxLabel {
   cursor: pointer;
-  margin: 2px 0 0 10px !important;
+  margin: 2px 20px 0 10px !important;
   color: var(--mirage);
 
   @include text('body-3');
