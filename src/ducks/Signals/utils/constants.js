@@ -1,3 +1,18 @@
+export const CHANNELS_MAP = [
+  {
+    value: 'email',
+    label: 'Email'
+  },
+  {
+    value: 'telegram',
+    label: 'Telegram'
+  },
+  {
+    value: 'web_push',
+    label: 'Web Push'
+  }
+]
+
 export const MAX_DESCR_LENGTH = 200
 export const MAX_TITLE_LENGTH = 120
 export const MIN_TITLE_LENGTH = 2
@@ -50,12 +65,14 @@ export const ETH_WALLETS_OPERATIONS = {
 export const ETH_WALLET_AMOUNT_UP = {
   label: 'Amount up',
   metric: ETH_WALLET,
-  value: ETH_WALLETS_OPERATIONS.AMOUNT_UP
+  value: ETH_WALLETS_OPERATIONS.AMOUNT_UP,
+  dependencies: ['threshold', 'walletBalanceChangeType']
 }
 export const ETH_WALLET_AMOUNT_DOWN = {
   label: 'Amount down',
   metric: ETH_WALLET,
-  value: ETH_WALLETS_OPERATIONS.AMOUNT_DOWN
+  value: ETH_WALLETS_OPERATIONS.AMOUNT_DOWN,
+  dependencies: ['threshold', 'walletBalanceChangeType']
 }
 
 export const ETH_WALLETS_OPTIONS = [
@@ -69,35 +86,48 @@ export const PRICE_CHANGE_TYPES = {
   INSIDE_CHANNEL: 'inside_channel',
   OUTSIDE_CHANNEL: 'outside_channel',
   ABOVE: 'above',
-  BELOW: 'below'
+  BELOW: 'below',
+  PERCENT_SOME_OF: 'some_of'
 }
 
 export const PRICE_PERCENT_CHANGE_UP_MODEL = {
   metric: PRICE_PERCENT_CHANGE,
   label: 'Moving up %',
   value: PRICE_CHANGE_TYPES.MOVING_UP,
-  filledField: true
+  filledField: true,
+  dependencies: ['percentThreshold', 'timeWindow']
 }
 
 export const PRICE_PERCENT_CHANGE_DOWN_MODEL = {
   metric: PRICE_PERCENT_CHANGE,
   label: 'Moving down %',
   value: PRICE_CHANGE_TYPES.MOVING_DOWN,
-  filledField: true
+  filledField: true,
+  dependencies: ['percentThreshold', 'timeWindow']
+}
+
+export const PRICE_PERCENT_CHANGE_ONE_OF_MODEL = {
+  metric: PRICE_PERCENT_CHANGE,
+  label: 'Some of %',
+  value: PRICE_CHANGE_TYPES.PERCENT_SOME_OF,
+  filledField: true,
+  dependencies: ['percentThresholdLeft', 'percentThresholdRight', 'timeWindow']
 }
 
 export const PRICE_ABS_CHANGE_ABOVE = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
   label: 'More than',
-  value: PRICE_CHANGE_TYPES.ABOVE
+  value: PRICE_CHANGE_TYPES.ABOVE,
+  dependencies: ['absoluteThreshold']
 }
 
 export const PRICE_ABS_CHANGE_BELOW = {
   metric: PRICE_ABSOLUTE_CHANGE,
   subMetric: PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER,
   label: 'Less than',
-  value: PRICE_CHANGE_TYPES.BELOW
+  value: PRICE_CHANGE_TYPES.BELOW,
+  dependencies: ['absoluteThreshold']
 }
 
 export const PRICE_ABS_CHANGE_INSIDE = {
@@ -105,7 +135,8 @@ export const PRICE_ABS_CHANGE_INSIDE = {
   subMetric: PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
   label: 'Entering channel',
   value: PRICE_CHANGE_TYPES.INSIDE_CHANNEL,
-  filledField: true
+  filledField: true,
+  dependencies: ['absoluteBorderLeft', 'absoluteBorderRight']
 }
 
 export const PRICE_ABS_CHANGE_OUTSIDE = {
@@ -113,7 +144,8 @@ export const PRICE_ABS_CHANGE_OUTSIDE = {
   subMetric: PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER,
   label: 'Outside channel',
   value: PRICE_CHANGE_TYPES.OUTSIDE_CHANNEL,
-  filledField: true
+  filledField: true,
+  dependencies: ['absoluteBorderLeft', 'absoluteBorderRight']
 }
 
 export const ETH_WALLET_METRIC = {
@@ -179,21 +211,10 @@ const PRICE_OPTIONS = [
 ]
 
 export const METRIC_TO_TYPES = {
-  [PRICE]: PRICE_OPTIONS,
+  [PRICE]: [...PRICE_OPTIONS, PRICE_PERCENT_CHANGE_ONE_OF_MODEL],
   [DAILY_ACTIVE_ADDRESSES]: PRICE_OPTIONS,
   [PRICE_VOLUME_DIFFERENCE]: [PRICE_VOLUME_DIFFERENCE_METRIC],
   [ETH_WALLET]: ETH_WALLETS_OPTIONS
-}
-
-export const METRIC_TYPES_DEPENDENCIES = {
-  [DAILY_ACTIVE_ADDRESSES]: ['percentThreshold', 'timeWindow'],
-  [PRICE_PERCENT_CHANGE]: ['percentThreshold', 'timeWindow'],
-  [PRICE_ABSOLUTE_CHANGE_SINGLE_BORDER]: ['absoluteThreshold'],
-  [PRICE_ABSOLUTE_CHANGE_DOUBLE_BORDER]: [
-    'absoluteBorderLeft',
-    'absoluteBorderRight'
-  ],
-  [ETH_WALLET]: ['threshold', 'walletBalanceChangeType']
 }
 
 export const frequencyTymeValueBuilder = value => {
@@ -289,7 +310,7 @@ export const METRIC_DEFAULT_VALUES = {
     absoluteThreshold: 25,
     threshold: BASE_THRESHOLD,
     timeWindow: 1,
-    timeWindowUnit: { label: 'Days', value: 'd' },
+    timeWindowUnit: { label: 'Day(s)', value: 'd' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
     channels: ['Telegram'],
@@ -302,7 +323,7 @@ export const METRIC_DEFAULT_VALUES = {
     percentThreshold: 25,
     threshold: BASE_THRESHOLD,
     timeWindow: 1,
-    timeWindowUnit: { label: 'Days', value: 'd' },
+    timeWindowUnit: { label: 'Day(s)', value: 'd' },
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
     channels: ['Telegram'],
@@ -316,7 +337,7 @@ export const METRIC_DEFAULT_VALUES = {
     percentThreshold: 25,
     threshold: BASE_THRESHOLD,
     timeWindow: 1,
-    timeWindowUnit: { label: 'Days', value: 'd' },
+    timeWindowUnit: { label: 'Day(s)', value: 'd' },
     type: PRICE_ABS_CHANGE_ABOVE,
     isRepeating: true,
     channels: ['Telegram'],

@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import cx from 'classnames'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
@@ -14,21 +13,12 @@ import MetricOptionsRenderer from './metricOptions/MetricOptionsRenderer'
 import { mapTargetObject, targetMapperWithTicker } from '../../../utils/utils'
 import styles from '../signal/TriggerForm.module.scss'
 
-const propTypes = {
-  type: PropTypes.any,
-  absoluteBorderRight: PropTypes.any,
-  absoluteBorderLeft: PropTypes.any
-}
-
 export const TriggerFormMetricValues = ({
   values: {
     type,
     metric,
     absoluteBorderRight = 0,
     absoluteBorderLeft = 0,
-    percentThreshold,
-    timeWindowUnit,
-    timeWindow,
     target
   },
   lastPrice,
@@ -92,6 +82,7 @@ export const TriggerFormMetricValues = ({
           )}
         </div>
       )}
+
       <div
         className={cx(
           styles.row,
@@ -126,22 +117,30 @@ export const TriggerFormMetricValues = ({
             />
           </div>
         )}
-
         {type && blocks.includes('percentThreshold') && (
-          <div className={styles.Field}>
-            <FormikLabel text='Percentage amount' inner />
-            <FormikInput
-              name='percentThreshold'
-              type='number'
-              prefix='%'
-              placeholder='Percentage amount'
+          <>
+            <PercentThreshold
+              isPriceMetric={isPriceMetric}
+              slugName={slugName}
+              lastPrice={lastPrice}
             />
-            {isPriceMetric && (
-              <LastPriceComponent lastPrice={lastPrice} slugTitle={slugName} />
-            )}
+            <TimeWindow type={type} isTimeWindow={isTimeWindow} />
+          </>
+        )}
+        {type &&
+          blocks.includes('percentThresholdLeft') &&
+          blocks.includes('percentThresholdRight') && (
+          <div className={styles.percentagesBlock}>
+            <div className={styles.percentages}>
+              <PercentThresholdByBorders
+                isPriceMetric={isPriceMetric}
+                slugName={slugName}
+                lastPrice={lastPrice}
+              />
+            </div>
+            <TimeWindow type={type} isTimeWindow={isTimeWindow} />
           </div>
         )}
-
         {type && blocks.includes('walletBalanceChangeType') && (
           <div className={styles.Field}>
             <FormikLabel text='Absolute change' inner />
@@ -155,7 +154,6 @@ export const TriggerFormMetricValues = ({
             </div>
           </div>
         )}
-
         {type && blocks.includes('threshold') && (
           <div className={styles.Field}>
             <FormikLabel text='Threshold' inner />
@@ -167,33 +165,83 @@ export const TriggerFormMetricValues = ({
             />
           </div>
         )}
-        {type && isTimeWindow && (
-          <div className={cx(styles.Field, styles.fieldTimeWindow)}>
-            <FormikLabel text='Time window' inner />
-            <div className={styles.timeWindow}>
-              <div className={styles.timeWindowInput}>
-                <FormikInput
-                  name='timeWindow'
-                  type='number'
-                  min={0}
-                  placeholder='Time window'
-                />
-              </div>
-              <div className={styles.timeWindowUnit}>
-                <FormikSelect
-                  name='timeWindowUnit'
-                  className={styles.timeWindowUnit}
-                  clearable={false}
-                  placeholder='Unit'
-                  options={TIME_WINDOW_UNITS}
-                />
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </>
   )
 }
 
-TriggerFormMetricValues.propTypes = propTypes
+const TimeWindow = ({ type, isTimeWindow }) => {
+  return (
+    type &&
+    isTimeWindow && (
+      <div className={cx(styles.Field, styles.fieldTimeWindow)}>
+        <FormikLabel text='Time window' inner />
+        <div className={styles.timeWindow}>
+          <div className={styles.timeWindowInput}>
+            <FormikInput
+              name='timeWindow'
+              type='number'
+              min={0}
+              placeholder='Time window'
+            />
+          </div>
+          <div className={styles.timeWindowUnit}>
+            <FormikSelect
+              name='timeWindowUnit'
+              className={styles.timeWindowUnit}
+              clearable={false}
+              placeholder='Unit'
+              options={TIME_WINDOW_UNITS}
+            />
+          </div>
+        </div>
+      </div>
+    )
+  )
+}
+
+const PercentThreshold = ({ isPriceMetric, lastPrice, slugName }) => {
+  return (
+    <div className={styles.Field}>
+      <FormikLabel text='Percentage amount' inner />
+      <FormikInput
+        name='percentThreshold'
+        type='number'
+        prefix='%'
+        placeholder='Percentage amount'
+      />
+      {isPriceMetric && (
+        <LastPriceComponent lastPrice={lastPrice} slugTitle={slugName} />
+      )}
+    </div>
+  )
+}
+
+const PercentThresholdByBorders = ({ isPriceMetric, lastPrice, slugName }) => {
+  return (
+    <>
+      <div className={styles.Field}>
+        <FormikLabel text='Moving up %' inner />
+        <FormikInput
+          name='percentThresholdLeft'
+          type='number'
+          prefix='%'
+          placeholder='Percentage'
+        />
+        {isPriceMetric && (
+          <LastPriceComponent lastPrice={lastPrice} slugTitle={slugName} />
+        )}
+      </div>
+      or
+      <div className={styles.Field}>
+        <FormikLabel text='Moving down %' inner />
+        <FormikInput
+          name='percentThresholdRight'
+          type='number'
+          prefix='%'
+          placeholder='Percentage'
+        />
+      </div>
+    </>
+  )
+}

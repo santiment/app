@@ -26,9 +26,10 @@ const SearchProjects = ({
       sorter={({ name: { length: a } }, { name: { length: b } }) => a - b}
       predicate={searchTerm => {
         const upperCaseSearchTerm = searchTerm.toUpperCase()
-        return ({ ticker, name }) =>
+        return ({ ticker, name, slug }) =>
           name.toUpperCase().includes(upperCaseSearchTerm) ||
-          ticker.toUpperCase().includes(upperCaseSearchTerm)
+          ticker.toUpperCase().includes(upperCaseSearchTerm) ||
+          slug.toUpperCase().includes(upperCaseSearchTerm)
       }}
       suggestionContent={({ name, ticker, id }) => {
         const isAssetInList = isEditingWatchlist

@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import Message from '@santiment-network/ui/Message'
 import SidecarExplanationTooltip from '../../../../../SANCharts/SidecarExplanationTooltip'
 import FormikLabel from '../../../../../../components/formik-santiment-ui/FormikLabel'
 import FormikCheckboxes from '../../../../../../components/formik-santiment-ui/FormikCheckboxes'
 import TriggerChannelSettings from './TriggerChannelSettings'
+import { CHANNELS_MAP } from '../../../../utils/constants'
 import styles from '../../signal/TriggerForm.module.scss'
 
 const TriggerFormChannels = ({
@@ -18,6 +19,8 @@ const TriggerFormChannels = ({
   const settingsForEmailEnabled =
     !isEmailConnected && channels.some(type => type === 'Email')
 
+  const [channelsList] = useState(CHANNELS_MAP.map(({ label }) => label))
+
   return (
     <div className={cx(styles.row, styles.rowSingle)}>
       <div className={cx(styles.Field, styles.fieldFilled)}>
@@ -26,7 +29,7 @@ const TriggerFormChannels = ({
           <FormikCheckboxes
             name='channels'
             labelOnRight
-            options={['Email', 'Telegram']}
+            options={channelsList}
             disabledIndexes={['Email']}
             classes={styles}
           />

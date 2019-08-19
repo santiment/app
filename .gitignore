@@ -25,3 +25,5 @@ yarn-error.log*
 
 app.sublime-project
 app.sublime-workspace
+
+public/san-sonar-service-worker.js
