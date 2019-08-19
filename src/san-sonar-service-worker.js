@@ -1,4 +1,4 @@
-const ACTIVITIES_LOAD_TIMEOUT = 1000 * 60 * 15
+const ACTIVITIES_LOAD_TIMEOUT = 1000 * 2 // * 60 * 15
 const WS_DB_NAME = 'serviceWorkerDb'
 const ACTIVITY_CHECKS_STORE_NAME = 'activityChecks'
 const PARAMS_CHECKS_STORE_NAME = 'appParams'
@@ -34,7 +34,7 @@ const createActivitiesDB = () => {
     return
   }
 
-  const request = indexedDB.open(WS_DB_NAME)
+  const request = indexedDB.open(WS_DB_NAME, 1)
   request.onerror = event => {
     console.log('The database is opened failed')
   }
@@ -140,6 +140,7 @@ const addActivityDateAndRestart = (triggeredAt, newCount, enabled) => {
 }
 
 const showActivitiesNotification = newCount => {
+  console.log('show: ', newCount)
   self.registration.showNotification(newCount + ' new activities in Sonar!', {
     body: 'Open to check ' + PUBLIC_FRONTEND_ROUTE + '/sonar/activity',
     badge: '/favicon-96x96.png',
