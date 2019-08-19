@@ -8,6 +8,10 @@
       border-radius: 4px;
     }
 
+    .recharts-surface {
+      overflow: visible;
+    }
+
     .recharts-tooltip-label {
       color: var(--mirage);
     }
@@ -60,7 +64,7 @@
   pointer-events: none;
   position: absolute;
   left: 47px;
-  top: 39px;
+  top: 5px;
   border: 1px solid var(--porcelain);
   background: rgba($white, 0.85);
   border-radius: 4px;
@@ -119,7 +123,7 @@
   }
 
   &::before {
-    top: 32px;
+    top: 0;
     bottom: 50px;
     width: 1px;
     transform: translateX(var(--x));

@@ -95,11 +95,13 @@ const FormatToTimestamp = {
  *  getTimeIntervalFromToday(-9, 'd')
  */
 export const getTimeIntervalFromToday = (amount, dateFormat, defaults = {}) => {
-  const { from = new Date(), to = new Date() } = defaults
+  const { from = new Date(), to = new Date(), isUTC } = defaults
   const [get, set] = DateFormat[dateFormat]
 
-  to.setHours(24, 0, 0, 0)
-  from.setHours(0, 0, 0, 0)
+  const method = isUTC ? 'setUTCHours' : 'setHours'
+
+  to[method](24, 0, 0, 0)
+  from[method](0, 0, 0, 0)
 
   const target = amount <= 0 ? from : to
 

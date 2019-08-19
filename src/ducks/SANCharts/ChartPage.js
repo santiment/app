@@ -22,7 +22,7 @@ const DEFAULT_STATE = {
   to: TO.toISOString(),
   slug: 'santiment',
   metrics: ['historyPrice'],
-  title: 'Santiment Network Token (SAN)',
+  title: 'Santiment (SAN)',
   projectId: '16912',
   interval: getNewInterval(FROM, TO, '1d'),
   isAdvancedView: false,
@@ -323,6 +323,7 @@ class ChartPage extends Component {
                       interval={interval}
                       hideSettings={hideSettings}
                       project={{ projectId, slug }}
+                      title={title}
                       isAdvancedView={isAdvancedView}
                       classes={classes}
                     />
