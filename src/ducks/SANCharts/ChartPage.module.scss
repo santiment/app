@@ -9,10 +9,10 @@
   border-radius: 4px;
   flex: 1;
   width: 100%;
-  transition: width 0.3s ease-in-out;
 
   &_short {
     width: 65%;
+    flex: auto;
   }
 }
 
