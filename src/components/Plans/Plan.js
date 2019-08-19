@@ -6,6 +6,9 @@ import PLANS from './list'
 import { formatPrice, getAlternativeBillingPlan } from '../../utils/plans'
 import styles from './Plan.module.scss'
 
+const toggleCardDetails = ({ currentTarget }) =>
+  currentTarget.classList.toggle(styles.card_opened)
+
 const Plan = ({
   id,
   name,
@@ -31,6 +34,7 @@ const Plan = ({
 
   return (
     <div
+      onClick={toggleCardDetails}
       className={cx(
         styles.card,
         className,
