@@ -13,6 +13,10 @@ import SettingsSubscription from './SettingsSubscription'
 import SettingsPlans from './SettingsPlans'
 import styles from './AccountPage.module.scss'
 
+export const ACCOUNT_PAGE_HASHES = {
+  subscription: '#subscription'
+}
+
 const tabs = [
   {
     index: 1,
@@ -56,8 +60,9 @@ const tabs = [
   },
   {
     index: 6,
+    hash: ACCOUNT_PAGE_HASHES.subscription,
     content: (
-      <Link className={styles.tab} to='#subscription'>
+      <Link className={styles.tab} to={ACCOUNT_PAGE_HASHES.subscription}>
         Subscription
       </Link>
     )
@@ -72,10 +77,16 @@ const tabs = [
   }
 ]
 
-const AccountPage = ({ isLoggedIn }) => {
+const AccountPage = ({ isLoggedIn, location }) => {
   if (!isLoggedIn) {
     return <Redirect to='/' />
   }
+
+  const { hash } = location
+
+  const selectedTab = tabs.find(({ hash: tabHash }) => tabHash === hash)
+  const selectedIndex = selectedTab ? selectedTab.index : 1
+
   return (
     <div className={styles.wrapper + ' page'}>
       <DesktopOnly>
@@ -84,7 +95,11 @@ const AccountPage = ({ isLoggedIn }) => {
       <MobileOnly>
         <MobileHeader title='Account settings' />
       </MobileOnly>
-      <Tabs className={styles.tabs} options={tabs} defaultSelectedIndex={1} />
+      <Tabs
+        className={styles.tabs}
+        options={tabs}
+        defaultSelectedIndex={selectedIndex}
+      />
       <SettingsGeneral />
       <SettingsConnections />
       <SettingsNotifications />

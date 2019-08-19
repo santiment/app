@@ -1,6 +1,7 @@
 @import '~@santiment-network/ui/mixins.scss';
 
-$trigger-form-width: 534px;
+$trigger-form-width: 550px;
+$trigger-form-field-margin: 24px;
 
 .wrapper {
   position: relative;
@@ -42,7 +43,7 @@ $trigger-form-width: 534px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 24px;
+  margin-bottom: $trigger-form-field-margin;
 
   @include text('body-3');
 
@@ -74,10 +75,6 @@ $trigger-form-width: 534px;
 .messages {
   margin: 0;
   display: inline-block;
-}
-
-.TriggerChart {
-  margin-bottom: 1rem;
 }
 
 .notifyBlock {
@@ -131,10 +128,6 @@ $trigger-form-width: 534px;
 
 .Field:last-child {
   padding-right: 0;
-}
-
-.Field:only-child {
-  padding-right: 1rem;
 }
 
 .timeWindow {
@@ -256,4 +249,25 @@ a {
 
 .explanation {
   z-index: 1000 !important;
+}
+
+.percentagesBlock {
+  display: flex;
+  flex-direction: row;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
+}
+
+.percentages {
+  display: flex;
+  align-items: center;
+}
+
+.fieldTimeWindow {
+  @include responsive('phone', 'phone-xs') {
+    margin-top: $trigger-form-field-margin;
+    padding: 0;
+  }
 }

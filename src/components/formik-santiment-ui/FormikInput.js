@@ -21,7 +21,7 @@ const FormikInput = ({
     <Field
       name={name}
       render={({ field, form }) => {
-        const showPrefix = prefix && field.value
+        const showPrefix = prefix && !!field.value
 
         return (
           <div className={styles.field}>
