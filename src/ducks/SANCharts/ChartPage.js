@@ -3,15 +3,16 @@ import { Link } from 'react-router-dom'
 import * as qs from 'query-string'
 import cx from 'classnames'
 import Loadable from 'react-loadable'
-import AlertMessage from '../../components/AlertMessage'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import { Metrics } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
-import styles from './ChartPage.module.scss'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
+import HelpPopup from '../../components/HelpPopup/HelpPopup'
+import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
+import styles from './ChartPage.module.scss'
 
 const DEFAULT_TIME_RANGE = '6m'
 
@@ -371,10 +372,19 @@ class ChartPage extends Component {
                 )}
 
                 {!hideSettings.linkToDashboard && (
-                  <AlertMessage className={styles.moreData}>
-                    See much more data in our{' '}
-                    <Link to='/dashboards'>SANbase Dashboards</Link>
-                  </AlertMessage>
+                  <div className={styles.moreData}>
+                    <UpgradeBtn className={styles.upgradeBtn}>
+                      Get more data
+                    </UpgradeBtn>
+
+                    <div className={styles.limited}>
+                      <span className={styles.limitedLabel}>Limited data</span>
+                      <HelpPopup position='bottom left'>
+                        See much more data in our{' '}
+                        <Link to='/dashboards'>SANbase Dashboards</Link>
+                      </HelpPopup>
+                    </div>
+                  </div>
                 )}
               </div>
               {!viewOnly && !hideSettings.sidecar && (

@@ -17,114 +17,124 @@ import addSignalSvg from './../../../assets/signals/buttons/addSignal.svg'
 import addWatchlistSvg from './../../../assets/watchlist/buttons/watchlist.svg'
 import styles from './DetailedHeader.module.scss'
 
-const DIV = createSkeletonElement('div', 'pending-header pending-div')
+const DIV = createSkeletonElement('div', 'pending-header')
 
 const DetailedHeader = ({
   project = {
     ticker: '',
     name: '',
     description: '',
-    slug: ''
+    slug: '',
+    priceUsd: 0,
+    percentChange7d: 0,
+    percentChange24h: 0,
+    totalSupply: 0
   },
   loading,
   isLoggedIn,
   isDesktop
-}) => (
-  <>
-    <div className={styles.breadcrambs}>
-      <Link to='/projects' className={styles.breadcrambLink}>
-        Assets
-      </Link>{' '}
-      <span className={styles.breadcrambLink}>{'>'}</span>{' '}
-      <Link
-        className={styles.breadcrambCurrent}
-        to={`/projects/${project.slug}`}
-      >
-        {project.name}
-      </Link>
-    </div>
-    <div className={styles.wrapper}>
-      <div className={styles.left}>
-        <DIV className={styles.logo}>
-          <ProjectIcon
-            name={project.name || ''}
-            ticker={project.ticker}
-            size={40}
-          />
-          <div className={styles.name}>
-            <h1>{project.name}</h1>
-            <DIV className={styles.description}>{project.description}</DIV>
-          </div>
-        </DIV>
+}) => {
+  const {
+    id,
+    name,
+    description,
+    slug,
+    ticker,
+    priceUsd,
+    percentChange24h,
+    totalSupply,
+    percentChange7d
+  } = project
 
-        <div className={styles.price}>
-          <div className={styles.priceUsd}>
-            {project.priceUsd &&
-              formatNumber(project.priceUsd, { currency: 'USD' })}
-            <PercentChanges
-              className={styles.percentChanges}
-              changes={project.percentChange24h}
-            />
-            <Label className={styles.label} accent='waterloo'>
-              24h
-            </Label>
-          </div>
-          {!loading && project && (
-            <div className={styles.percentsBottom}>
-              <Label className={styles.supply}>
-                {project.totalSupply} {project.ticker}
-              </Label>
+  return (
+    <>
+      <div className={styles.breadcrambs}>
+        <Link to='/projects' className={styles.breadcrambLink}>
+          Assets
+        </Link>{' '}
+        <span className={styles.breadcrambLink}>{'>'}</span>{' '}
+        <Link className={styles.breadcrambCurrent} to={`/projects/${slug}`}>
+          {name}
+        </Link>
+      </div>
+      <div className={styles.wrapper}>
+        <div className={styles.left}>
+          <DIV className={styles.logo}>
+            <ProjectIcon name={name || ''} ticker={ticker} size={40} />
+            <div className={styles.name}>
+              <h1>{name}</h1>
+              <DIV className={styles.description}>{description}</DIV>
+            </div>
+          </DIV>
+
+          <div className={styles.price}>
+            <div className={styles.priceUsd}>
+              {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
               <PercentChanges
-                className={styles.percentChangesSmall}
-                changes={project.percentChange7d}
+                className={styles.percentChanges}
+                changes={percentChange24h}
               />
               <Label className={styles.label} accent='waterloo'>
-                7d
+                24h
               </Label>
             </div>
-          )}
-        </div>
-      </div>
-      {isLoggedIn && isDesktop && !loading && (
-        <div className={styles.right}>
-          <ChartSignalCreationDialog
-            slug={project.slug}
-            trigger={
-              <Button border accent='ghost' className={styles.signalButton}>
-                <img
-                  className={styles.icon}
-                  src={addSignalSvg}
-                  alt='Add signal'
+            {!loading && project && (
+              <div className={styles.percentsBottom}>
+                <Label className={styles.supply}>
+                  {formatNumber(totalSupply)} {ticker}
+                </Label>
+                <PercentChanges
+                  className={styles.percentChangesSmall}
+                  changes={percentChange7d}
                 />
-                Add signal
-              </Button>
-            }
-          />
+                <Label className={styles.label} accent='waterloo'>
+                  7d
+                </Label>
+              </div>
+            )}
+          </div>
+        </div>
+        {isLoggedIn && isDesktop && !loading && (
+          <div className={styles.right}>
+            <ChartSignalCreationDialog
+              slug={slug}
+              trigger={
+                <Button border accent='ghost' className={styles.signalButton}>
+                  <img
+                    className={styles.icon}
+                    src={addSignalSvg}
+                    alt='Add signal'
+                  />
+                  Add signal
+                </Button>
+              }
+            />
 
-          <WatchlistsPopup
-            trigger={
-              <Button
-                accent='positive'
-                variant='fill'
-                className={styles.watchlistButton}
-              >
-                <img
-                  className={cx(styles.icon, styles.watchlistIcon)}
-                  src={addWatchlistSvg}
-                  alt='Watch slug'
-                />
-                Watch {project.name}
-              </Button>
-            }
-            projectId={project.id}
-            slug={project.slug}
-            isLoggedIn={isLoggedIn}
-          />
-        </div>
-      )}
-    </div>
-  </>
-)
+            <WatchlistsPopup
+              trigger={
+                <Button
+                  accent='positive'
+                  variant='fill'
+                  className={styles.watchlistButton}
+                >
+                  <img
+                    className={cx(styles.icon, styles.watchlistIcon)}
+                    src={addWatchlistSvg}
+                    alt='Watch slug'
+                  />
+                  Watch {name}
+                </Button>
+              }
+              projectId={id}
+              slug={slug}
+              isLoggedIn={isLoggedIn}
+            />
+          </div>
+        )}
+      </div>
+    </>
+  )
+}
 
 export default compose(
   createSkeletonProvider(

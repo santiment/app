@@ -58,7 +58,7 @@
   flex-direction: column;
   justify-content: left;
   margin-left: 16px;
-  width: 390px;
+  width: 350px;
 }
 
 .name h1 {
@@ -134,12 +134,12 @@
 }
 
 .breadcrambLink {
-  color: var(--waterloo);
+  color: $bali-hai;
   margin-right: 14px;
 }
 
 .breadcrambCurrent {
-  color: var(--mirage);
+  color: $fiord;
 }
 
 @media (min-width: 768px) {
