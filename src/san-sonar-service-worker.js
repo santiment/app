@@ -1,4 +1,4 @@
-const ACTIVITIES_LOAD_TIMEOUT = 1000 * 60 * 15
+const ACTIVITIES_LOAD_TIMEOUT = 1000 * 3 // 60 * 15
 const WS_DB_NAME = 'serviceWorkerDb'
 const ACTIVITY_CHECKS_STORE_NAME = 'activityChecks'
 const PARAMS_CHECKS_STORE_NAME = 'appParams'
@@ -43,15 +43,18 @@ const createActivitiesDB = () => {
     loadAndCheckActivities()
   }
   request.onupgradeneeded = event => {
+    console.log('The database is onupgradeneeded successfully')
     db = event.target.result
-    loadAndCheckActivities()
+    createActivityChecksTable()
   }
 }
 
 function getFirstValueFromTable (storeName, checkCallback) {
-  if (!db) {
+  if (noDbOrStore(storeName)) {
     return
   }
+
+  createActivityChecksTable()
 
   const transaction = db.transaction([storeName])
   const objectStore = transaction.objectStore(storeName)
@@ -72,10 +75,19 @@ function getFirstValueFromTable (storeName, checkCallback) {
   }
 }
 
+function noDbOrStore (storeName) {
+  return !db || !db.objectStoreNames.contains(storeName)
+}
+
 function removeFromDb (storeName, checkCallback) {
-  if (!db) {
+  if (noDbOrStore(storeName)) {
+    setTimeout(() => {
+      removeFromDb(storeName, checkCallback)
+    }, ACTIVITIES_LOAD_TIMEOUT)
     return
   }
+
+  createActivityChecksTable()
 
   const request = db
     .transaction([storeName], 'readwrite')
@@ -91,9 +103,11 @@ function removeFromDb (storeName, checkCallback) {
 }
 
 function addToDb (storeName, data, checkCallback) {
-  if (!db) {
+  if (noDbOrStore(storeName)) {
     return
   }
+
+  createActivityChecksTable()
 
   const request = db
     .transaction([storeName], 'readwrite')
@@ -201,7 +215,6 @@ const loadAndCheckActivities = () => {
     return
   }
 
-  createActivityChecksTable()
   console.log('Sonar is loading new activities')
 
   const from = new Date()
@@ -277,8 +290,8 @@ self.addEventListener('message', function (event) {
 
 const loadUrlParams = () => {
   getFirstValueFromTable(PARAMS_CHECKS_STORE_NAME, data => {
-    console.log('Loaded sonar service worker params from DB', data)
     if (data) {
+      console.log('Loaded sonar service worker params from DB', data)
       const {
         PUBLIC_API_ROUTE: apiRoute,
         PUBLIC_FRONTEND_ROUTE: webRoute
@@ -290,6 +303,8 @@ const loadUrlParams = () => {
 
         restart()
       }
+    } else {
+      console.log('No presaved sonar service worker params')
     }
   })
 }
