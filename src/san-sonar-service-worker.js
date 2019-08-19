@@ -29,24 +29,21 @@ const createActivityChecksTable = () => {
 
 const createActivitiesDB = () => {
   if (db) {
-    createActivityChecksTable()
     loadAndCheckActivities()
     return
   }
 
-  const request = indexedDB.open(WS_DB_NAME, 1)
+  const request = indexedDB.open(WS_DB_NAME)
   request.onerror = event => {
     console.log('The database is opened failed')
   }
   request.onsuccess = event => {
     console.log('The database is opened successfully')
     db = request.result
-    createActivityChecksTable()
     loadAndCheckActivities()
   }
   request.onupgradeneeded = event => {
     db = event.target.result
-    createActivityChecksTable()
     loadAndCheckActivities()
   }
 }
@@ -79,6 +76,8 @@ function removeFromDb (storeName, checkCallback) {
   if (!db) {
     return
   }
+
+  console.log('---> removeFromDb')
 
   const request = db
     .transaction([storeName], 'readwrite')
@@ -205,6 +204,7 @@ const loadAndCheckActivities = () => {
     return
   }
 
+  createActivityChecksTable()
   console.log('Sonar is loading new activities')
 
   const from = new Date()
@@ -272,6 +272,7 @@ self.addEventListener('message', function (event) {
       isStopped = false
 
       removeFromDb(PARAMS_CHECKS_STORE_NAME, () => {
+        console.log('---> addToDb')
         addToDb(PARAMS_CHECKS_STORE_NAME, data, restart)
       })
     }
@@ -280,7 +281,7 @@ self.addEventListener('message', function (event) {
 
 const loadUrlParams = () => {
   getFirstValueFromTable(PARAMS_CHECKS_STORE_NAME, data => {
-    console.log('Loaded sonar service worker params from DB')
+    console.log('Loaded sonar service worker params from DB', data)
     if (data) {
       const {
         PUBLIC_API_ROUTE: apiRoute,
