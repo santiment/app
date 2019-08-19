@@ -6,8 +6,8 @@ import { SOCIALVOLUME_DATA_FETCH } from '../SocialVolumeWidget/actions'
 import { getTimeIntervalFromToday } from '../../utils/dates'
 
 const TRENDING_WORDS_QUERY = gql`
-  query trendingWords($from: DateTime!, $to: DateTime!, $hour: Int!) {
-    trendingWords(source: ALL, size: 10, hour: $hour, from: $from, to: $to) {
+  query getTrendingWords($from: DateTime!, $to: DateTime!) {
+    getTrendingWords(size: 10, from: $from, to: $to) {
       datetime
       topWords {
         score
