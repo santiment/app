@@ -29,7 +29,6 @@ const createActivityChecksTable = () => {
 
 const createActivitiesDB = () => {
   if (db) {
-    createActivityChecksTable()
     loadAndCheckActivities()
     return
   }
@@ -41,12 +40,10 @@ const createActivitiesDB = () => {
   request.onsuccess = event => {
     console.log('The database is opened successfully')
     db = request.result
-    createActivityChecksTable()
     loadAndCheckActivities()
   }
   request.onupgradeneeded = event => {
     db = event.target.result
-    createActivityChecksTable()
     loadAndCheckActivities()
   }
 }
@@ -204,6 +201,7 @@ const loadAndCheckActivities = () => {
     return
   }
 
+  createActivityChecksTable()
   console.log('Sonar is loading new activities')
 
   const from = new Date()
@@ -279,7 +277,7 @@ self.addEventListener('message', function (event) {
 
 const loadUrlParams = () => {
   getFirstValueFromTable(PARAMS_CHECKS_STORE_NAME, data => {
-    console.log('Loaded sonar service worker params from DB')
+    console.log('Loaded sonar service worker params from DB', data)
     if (data) {
       const {
         PUBLIC_API_ROUTE: apiRoute,
