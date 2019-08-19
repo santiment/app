@@ -23,10 +23,17 @@ export const getSanSonarSW = registrations => {
 }
 
 const postMessage = data => {
-  navigator &&
+  if (
+    navigator &&
     navigator.serviceWorker &&
-    navigator.serviceWorker.controller &&
+    navigator.serviceWorker.controller
+  ) {
     navigator.serviceWorker.controller.postMessage(data)
+  } else {
+    setTimeout(() => {
+      postMessage(data)
+    }, 1000)
+  }
 }
 
 const sendParams = () => {
