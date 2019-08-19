@@ -45,10 +45,10 @@ const fetchTrends$ = ({ client, data = {} }) => {
   const { from, to } = getTimeIntervalFromToday(-2, 'd')
 
   const queries = secretDataTeamHours.map(hour => {
+    from.setHours(hour, 0, 0)
     return client.query({
       query: TRENDING_WORDS_QUERY,
       variables: {
-        hour,
         to: to.toISOString(),
         from: from.toISOString()
       },
