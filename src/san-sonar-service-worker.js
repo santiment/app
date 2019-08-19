@@ -77,8 +77,6 @@ function removeFromDb (storeName, checkCallback) {
     return
   }
 
-  console.log('---> removeFromDb')
-
   const request = db
     .transaction([storeName], 'readwrite')
     .objectStore(storeName)
@@ -139,7 +137,6 @@ const addActivityDateAndRestart = (triggeredAt, newCount, enabled) => {
 }
 
 const showActivitiesNotification = newCount => {
-  console.log('show: ', newCount)
   self.registration.showNotification(newCount + ' new activities in Sonar!', {
     body: 'Open to check ' + PUBLIC_FRONTEND_ROUTE + '/sonar/activity',
     badge: '/favicon-96x96.png',
@@ -272,7 +269,6 @@ self.addEventListener('message', function (event) {
       isStopped = false
 
       removeFromDb(PARAMS_CHECKS_STORE_NAME, () => {
-        console.log('---> addToDb')
         addToDb(PARAMS_CHECKS_STORE_NAME, data, restart)
       })
     }
