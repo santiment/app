@@ -20,7 +20,8 @@ export default compose(
   graphql(allProjectsForSearchGQL, {
     skip: ({ isLoggedIn }) => !isLoggedIn,
     options: () => ({
-      context: { isRetriable: true }
+      context: { isRetriable: true },
+      variables: { minVolume: 0 }
     }),
     props: ({ data }) => {
       const projects = data['allProjects'] || []
