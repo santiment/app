@@ -6,7 +6,7 @@ import { simpleSort } from '../../utils/sortMethods'
 import { formatNumber, millify } from '../../utils/formatting'
 import ProjectLabel from '../../components/ProjectLabel'
 import PercentChanges from '../../components/PercentChanges'
-import help from './../../assets/help.json'
+import { Metrics } from '../../ducks/SANCharts/utils'
 import styles from './AssetsToggleColumns.module.scss'
 
 const HeaderWithDesc = ({ description, heading }) => (
@@ -167,7 +167,13 @@ export const COLUMNS = preload => [
     Header: () => (
       <div className={cx('heading', 'overview-ethspent')}>
         <HeaderWithDesc
-          description={help['ETH Spent Over Time'].description}
+          description={
+            <>
+              <b>Average value for 30d</b>
+              <br />
+              {Metrics['ethSpentOverTime'].description}
+            </>
+          }
           heading={'ETH spent, 30d'}
         />
       </div>
@@ -186,7 +192,13 @@ export const COLUMNS = preload => [
     Header: () => (
       <div className={cx('heading', 'overview-devactivity')}>
         <HeaderWithDesc
-          description={help['Development Activity'].description}
+          description={
+            <>
+              <b>Average value for 30d</b>
+              <br />
+              {Metrics['devActivity'].description}
+            </>
+          }
           heading={'Dev act., 30d'}
         />
       </div>
@@ -206,7 +218,13 @@ export const COLUMNS = preload => [
     Header: () => (
       <div className={cx('heading', 'overview-activeaddresses')}>
         <HeaderWithDesc
-          description={help['Daily Active Addresses'].description}
+          description={
+            <>
+              <b>Average value for 30d</b>
+              <br />
+              {Metrics['dailyActiveAddresses'].description}
+            </>
+          }
           heading={'DAA, 30d'}
         />
       </div>
@@ -252,23 +270,23 @@ export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.eth_spent]: {
     show: true,
     selectable: true,
-    description: help['ETH Spent Over Time'].description
+    description: Metrics['ethSpentOverTime'].description
   },
   [COLUMNS_NAMES.devact]: {
     show: true,
     selectable: true,
-    description: help['Development Activity'].description
+    description: Metrics['devActivity'].description
   },
   [COLUMNS_NAMES.daily_active_addresses]: {
     show: true,
     selectable: true,
-    description: help['Daily Active Addresses'].description
+    description: Metrics['dailyActiveAddresses'].description
   },
   [COLUMNS_NAMES.graph]: { show: false, selectable: false },
   [COLUMNS_NAMES.token_circulation]: {
     show: false,
     selectable: false,
-    description: help['Token Circulation'].description
+    description: Metrics['tokenCirculation'].description
   }
 }
 
