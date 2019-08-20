@@ -50,7 +50,7 @@ export function registerSonarActivitiesSw (config) {
   }
 }
 
-export const requestNotificationPermission = unRegisterCallback => {
+export const requestNotificationPermission = (success, reject) => {
   const permission = window.Notification.requestPermission()
   // value of permission can be 'granted', 'default', 'denied'
   // granted: user has accepted the request
@@ -60,7 +60,9 @@ export const requestNotificationPermission = unRegisterCallback => {
   permission.then(p => {
     if (p !== 'granted') {
       console.warn('Permission not granted for Notification')
-      unRegisterCallback && unRegisterCallback()
+      reject && reject()
+    } else {
+      success && success()
     }
   })
 }

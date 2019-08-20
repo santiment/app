@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { matchPath } from 'react-router'
 import { connect } from 'react-redux'
-import { Link, Route, Redirect, Switch } from 'react-router-dom'
+import { Link, Route, Switch } from 'react-router-dom'
 import Tabs from '@santiment-network/ui/Tabs'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
@@ -13,6 +13,7 @@ import { showNotification } from '../../actions/rootActions'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import { SIGNAL_ROUTES } from '../../ducks/Signals/common/constants'
 import { getShareSignalParams } from '../../ducks/Signals/common/getSignal'
+import { sendParams } from '../Account/SettingsSonarWebPushNotifications'
 import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar'
@@ -56,10 +57,6 @@ const SonarFeed = ({
   isUserLoading,
   showTelegramAlert
 }) => {
-  if (pathname === baseLocation) {
-    return <Redirect exact from={baseLocation} to={tabs[0].index} />
-  }
-
   const [triggerId, setTriggerId] = useState(undefined)
 
   useEffect(
@@ -70,6 +67,10 @@ const SonarFeed = ({
     },
     [isTelegramConnected, isLoggedIn]
   )
+
+  useEffect(() => {
+    sendParams()
+  })
 
   useEffect(
     () => {
