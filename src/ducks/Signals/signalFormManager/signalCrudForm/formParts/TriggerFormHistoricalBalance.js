@@ -9,9 +9,13 @@ import {
   allProjectsForSearchGQL
 } from '../../../../../pages/Projects/allProjectsGQL'
 import { ASSETS_BY_WALLET_QUERY } from '../../../../HistoricalBalance/common/queries'
-import { mapAssetsHeldByAddressToProps } from '../../../utils/utils'
+import {
+  isPossibleEthAddress,
+  mapAssetsHeldByAddressToProps
+} from '../../../utils/utils'
 import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
+import { NOT_VALID_ETH_ADDRESS } from '../../../utils/constants'
 import styles from '../signal/TriggerForm.module.scss'
 
 const isInHeldAssets = (heldAssets, checking) => {
@@ -50,6 +54,14 @@ const getFromAll = (allList, { value, slug }) =>
   allList.find(
     ({ slug: currentSlug }) => currentSlug === value || currentSlug === slug
   )
+
+const isEthAddress = data => {
+  if (Array.isArray(data)) {
+    return data.every(({ value }) => isPossibleEthAddress(value))
+  } else {
+    return isPossibleEthAddress(data)
+  }
+}
 
 const TriggerFormHistoricalBalance = ({
   data: { allErc20Projects = [], allProjects = [] } = {},
@@ -165,6 +177,8 @@ const TriggerFormHistoricalBalance = ({
             isCreatable
             multi
             name='ethAddress'
+            validator={isEthAddress}
+            notificationText={NOT_VALID_ETH_ADDRESS}
             placeholder={
               disabledWalletField
                 ? 'Only for single ETH and ERC20 asset'
