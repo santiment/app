@@ -168,7 +168,8 @@ class ChartPage extends Component {
     )
   }
 
-  mapStateToQS = props => '?' + qs.stringify(props, { arrayFormat: 'comma' })
+  mapStateToQS = ({ isAdvancedView, ...props }) =>
+    '?' + qs.stringify(props, { arrayFormat: 'comma' })
 
   updateSearchQuery () {
     if (!this.props.location) {
