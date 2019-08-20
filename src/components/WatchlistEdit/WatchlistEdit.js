@@ -132,7 +132,10 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   graphql(allProjectsForSearchGQL, {
-    options: () => ({ context: { isRetriable: true } })
+    options: () => ({
+      context: { isRetriable: true },
+      variables: { minVolume: 0 }
+    })
   }),
   connect(
     mapStateToProps,
