@@ -90,6 +90,10 @@
   @include text('h4');
 }
 
+.priceUsdLabel {
+  @include text('h4');
+}
+
 .percentChanges {
   font-weight: 300;
   text-align: right;

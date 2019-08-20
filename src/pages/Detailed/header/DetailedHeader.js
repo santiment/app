@@ -1,11 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
-import {
-  createSkeletonElement,
-  createSkeletonProvider
-} from '@trainline/react-skeletor'
-import { compose } from 'recompose'
 import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
 import ProjectIcon from '../../../components/ProjectIcon'
@@ -13,11 +8,11 @@ import PercentChanges from '../../../components/PercentChanges'
 import WatchlistsPopup from '../../../components/WatchlistPopup/WatchlistsPopup'
 import { formatNumber } from '../../../utils/formatting'
 import ChartSignalCreationDialog from '../../../ducks/SANCharts/ChartSignalCreationDialog'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import addSignalSvg from './../../../assets/signals/buttons/addSignal.svg'
 import addWatchlistSvg from './../../../assets/watchlist/buttons/watchlist.svg'
 import styles from './DetailedHeader.module.scss'
-
-const DIV = createSkeletonElement('div', 'pending-header')
+import PageLoader from '../../../components/Loader/PageLoader'
 
 const DetailedHeader = ({
   project = {
@@ -46,6 +41,14 @@ const DetailedHeader = ({
     percentChange7d
   } = project
 
+  if (loading) {
+    return (
+      <div className={styles.wrapper}>
+        <PageLoader />
+      </div>
+    )
+  }
+
   return (
     <>
       <div className={styles.breadcrambs}>
@@ -59,17 +62,19 @@ const DetailedHeader = ({
       </div>
       <div className={styles.wrapper}>
         <div className={styles.left}>
-          <DIV className={styles.logo}>
+          <div className={styles.logo}>
             <ProjectIcon name={name || ''} ticker={ticker} size={40} />
             <div className={styles.name}>
               <h1>{name}</h1>
-              <DIV className={styles.description}>{description}</DIV>
+              <div className={styles.description}>{description}</div>
             </div>
-          </DIV>
+          </div>
 
           <div className={styles.price}>
             <div className={styles.priceUsd}>
-              {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
+              <Label className={styles.priceUsdLabel}>
+                {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
+              </Label>
               <PercentChanges
                 className={styles.percentChanges}
                 changes={percentChange24h}
@@ -78,7 +83,7 @@ const DetailedHeader = ({
                 24h
               </Label>
             </div>
-            {!loading && project && (
+            {project && (
               <div className={styles.percentsBottom}>
                 <Label className={styles.supply}>
                   {formatNumber(totalSupply)} {ticker}
@@ -94,7 +99,7 @@ const DetailedHeader = ({
             )}
           </div>
         </div>
-        {isLoggedIn && isDesktop && !loading && (
+        {isLoggedIn && isDesktop && (
           <div className={styles.right}>
             <ChartSignalCreationDialog
               slug={slug}
@@ -136,23 +141,4 @@ const DetailedHeader = ({
   )
 }
 
-export default compose(
-  createSkeletonProvider(
-    {
-      project: {
-        name: '',
-        description: '______ ___ ______ __ _____ __ ______',
-        ticker: '',
-        percentChange24h: 0,
-        percentChange7d: 0,
-        priceBtc: 0,
-        priceUsd: 0
-      }
-    },
-    ({ loading }) => loading,
-    () => ({
-      backgroundColor: '#bdc3c7',
-      color: '#bdc3c7'
-    })
-  )
-)(DetailedHeader)
+export default DetailedHeader

@@ -22,7 +22,7 @@ exports[`Project detail page container it should render correctly 1`] = `
     />
   </HelmetWrapper>
   <withRouter(SearchContainer) />
-  <ExportedComponent
+  <DetailedHeader
     project={
       Object {
         "id": 12,
