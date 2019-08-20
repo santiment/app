@@ -21,7 +21,7 @@ const FormikSelect = ({
         return (
           <>
             <Select
-              maxHeight={300}
+              maxHeight={330}
               clearable={isClearable}
               selectComponent={isCreatable ? Creatable : undefined}
               multi={multi}

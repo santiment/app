@@ -108,7 +108,7 @@ export const PRICE_PERCENT_CHANGE_DOWN_MODEL = {
 
 export const PRICE_PERCENT_CHANGE_ONE_OF_MODEL = {
   metric: PRICE_PERCENT_CHANGE,
-  label: 'Some of %',
+  label: 'Moving up or down %',
   value: PRICE_CHANGE_TYPES.PERCENT_SOME_OF,
   filledField: true,
   dependencies: ['percentThresholdLeft', 'percentThresholdRight', 'timeWindow']
