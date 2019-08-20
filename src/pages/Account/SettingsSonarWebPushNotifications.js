@@ -36,7 +36,7 @@ const postMessage = data => {
   }
 }
 
-const sendParams = () => {
+export const sendParams = () => {
   setTimeout(() => {
     postMessage(
       {
