@@ -108,6 +108,7 @@ const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
                 requestNotificationPermission(unRegisterSw)
                 sendParams()
                 toggle(true)
+                window.location.reload()
               }
             })
           } else {
