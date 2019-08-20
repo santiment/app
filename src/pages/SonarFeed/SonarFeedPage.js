@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { matchPath } from 'react-router'
 import { connect } from 'react-redux'
-import { Link, Route, Redirect, Switch } from 'react-router-dom'
+import { Link, Route, Switch } from 'react-router-dom'
 import Tabs from '@santiment-network/ui/Tabs'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'

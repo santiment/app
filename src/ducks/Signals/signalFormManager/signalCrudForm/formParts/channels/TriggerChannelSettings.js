@@ -23,7 +23,7 @@ const TriggerChannelSettings = ({
     () => {
       !isTelegramSettings && !isEmailSettings && setOpen(false)
 
-      if (!isBeta) {
+      if (isBeta) {
         navigator.serviceWorker &&
           navigator.serviceWorker.getRegistrations &&
           navigator.serviceWorker.getRegistrations().then(registrations => {

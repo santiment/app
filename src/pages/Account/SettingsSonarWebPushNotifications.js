@@ -58,18 +58,22 @@ const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
     setIsActive(value)
   }
 
-  useEffect(() => {
-    if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        const sanServiceRegistration = getSanSonarSW(registrations)
-        if (sanServiceRegistration) {
-          toggle(true)
-        } else {
-          toggle(false)
-        }
-      })
-    }
-  })
+  useEffect(
+    () => {
+      if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          const sanServiceRegistration = getSanSonarSW(registrations)
+          if (sanServiceRegistration) {
+            toggle(true)
+          } else {
+            toggle(false)
+          }
+        })
+      }
+      requestNotificationPermission(null, unRegisterSw)
+    },
+    [isActive]
+  )
 
   const unRegisterSw = () => {
     postMessage({
@@ -105,10 +109,9 @@ const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
             registerSonarActivitiesSw({
               hideRegistrationChecking: true,
               callback: () => {
-                requestNotificationPermission(unRegisterSw)
+                requestNotificationPermission(null, unRegisterSw)
                 sendParams()
                 toggle(true)
-                window.location.reload()
               }
             })
           } else {
@@ -126,7 +129,6 @@ const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
         <SidecarExplanationTooltip
           closeTimeout={500}
           localStorageSuffix='_TRIGGER_PUSH_NOTIFICATION_EXPLANATION'
-          position='top'
           title='Sonar Web Pushes'
           description='Get fast notifications through Push Notifications'
         >
