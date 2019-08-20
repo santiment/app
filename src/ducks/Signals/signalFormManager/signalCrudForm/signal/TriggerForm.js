@@ -55,7 +55,6 @@ const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
   isTelegramConnected: PropTypes.bool.isRequired,
   lastPriceItem: PropTypes.any,
-  canRedirect: PropTypes.bool,
   settings: PropTypes.any,
   metaFormSettings: PropTypes.any,
   triggerMeta: PropTypes.any

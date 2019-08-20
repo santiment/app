@@ -10,11 +10,21 @@
   }
 }
 
+.description {
+  margin: 40px 0 16px;
+  display: flex;
+  color: var(--waterloo);
+}
+
 .date {
   @include text('body-3');
 
+  margin: 0;
   color: var(--waterloo);
-  margin: 40px 0 16px;
+}
+
+.link {
+  margin-left: 5px;
 }
 
 .signal {

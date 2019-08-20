@@ -1134,7 +1134,8 @@ export const getTargetsHeader = values => {
     signalType,
     type,
     metric,
-    trendingWordsWithWords
+    trendingWordsWithWords,
+    ethAddress = ''
   } = values
 
   if (metric.value === TRENDING_WORDS) {
@@ -1159,6 +1160,20 @@ export const getTargetsHeader = values => {
       }
       default: {
       }
+    }
+  } else if (metric.value === ETH_WALLET) {
+    const targets = mapTargetObject(target, targetMapperWithTicker)
+    const addresses = mapTargetObject(ethAddress) || '...'
+    if (Array.isArray(ethAddress) && ethAddress.length > 1) {
+      return buildFormBlock(
+        NOTIFY_ME_WHEN,
+        `${targetsJoin(targets)} wallets [${addresses.join(', ')}]`
+      )
+    } else {
+      return buildFormBlock(
+        NOTIFY_ME_WHEN,
+        `${targetsJoin(targets)} wallet ${addresses}`
+      )
     }
   }
 
@@ -1206,16 +1221,10 @@ export const titleMetricValuesHeader = (
 
     switch (value) {
       case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN: {
-        return buildFormBlock(
-          `Historical balance ${ofTarget}`,
-          'below ' + threshold
-        )
+        return buildFormBlock(`Balance ${ofTarget}`, 'below ' + threshold)
       }
       case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
-        return buildFormBlock(
-          `Historical balance ${ofTarget}`,
-          'above ' + threshold
-        )
+        return buildFormBlock(`Balance ${ofTarget}`, 'above ' + threshold)
       }
       case PRICE_CHANGE_TYPES.MOVING_DOWN: {
         return buildFormBlock(
