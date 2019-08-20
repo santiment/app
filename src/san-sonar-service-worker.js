@@ -1,4 +1,4 @@
-const ACTIVITIES_LOAD_TIMEOUT = 1000 * 3 // 60 * 15
+const ACTIVITIES_LOAD_TIMEOUT = 1000 * 60 * 15
 const WS_DB_NAME = 'serviceWorkerDb'
 const ACTIVITY_CHECKS_STORE_NAME = 'activityChecks'
 const PARAMS_CHECKS_STORE_NAME = 'appParams'
