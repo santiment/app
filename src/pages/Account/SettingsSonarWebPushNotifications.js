@@ -51,7 +51,7 @@ export const sendParams = () => {
   })
 }
 
-const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
+const SettingsSonarWebPushNotifications = ({ classes = {}, className }) => {
   const [isActive, setIsActive] = useState(false)
 
   const toggle = value => {
@@ -123,12 +123,13 @@ const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
   }
 
   return (
-    <div className={cx(classes.container, styles.settingBlock)}>
-      <Label className={classes.left}>Sonar Web Push notifications</Label>
+    <div className={cx(classes.container, styles.settingBlock, className)}>
+      <Label className={classes.left}>Browser notifications</Label>
       <div className={cx(styles.setting__right_notifications, classes.right)}>
         <SidecarExplanationTooltip
           closeTimeout={500}
           localStorageSuffix='_TRIGGER_PUSH_NOTIFICATION_EXPLANATION'
+          align='end'
           title='Sonar Web Pushes'
           description='Get fast notifications through Push Notifications'
         >
