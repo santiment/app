@@ -14,7 +14,7 @@ const mockedData = {
 }
 
 const mocks = [
-  { request: { allProjectsForSearchGQL, variables: {} }, result: { data: mockedData } }
+  { request: { allProjectsForSearchGQL, variables: {minVolume: 0} }, result: { data: mockedData } }
 ]
 
 storiesOf('Sonar', module)

@@ -51,7 +51,8 @@ const enhance = compose(
     name: 'allProjects',
     props: mapDataToProps,
     options: () => ({
-      context: { isRetriable: true }
+      context: { isRetriable: true },
+      variables: { minVolume: 0 }
     })
   })
 )

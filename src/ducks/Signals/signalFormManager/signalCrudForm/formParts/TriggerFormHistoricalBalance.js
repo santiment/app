@@ -236,7 +236,8 @@ const enhance = compose(
     props: mapDataToProps,
     options: () => {
       return {
-        errorPolicy: 'all'
+        errorPolicy: 'all',
+        variables: { minVolume: 0 }
       }
     }
   }),
@@ -245,7 +246,8 @@ const enhance = compose(
     props: mapDataToProps,
     options: () => {
       return {
-        errorPolicy: 'all'
+        errorPolicy: 'all',
+        variables: { minVolume: 0 }
       }
     }
   }),
