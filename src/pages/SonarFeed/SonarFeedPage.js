@@ -54,7 +54,8 @@ const SonarFeed = ({
   isDesktop,
   isTelegramConnected,
   isUserLoading,
-  showTelegramAlert
+  showTelegramAlert,
+  history
 }) => {
   if (pathname === baseLocation) {
     return <Redirect exact from={baseLocation} to={tabs[0].index} />
@@ -98,6 +99,7 @@ const SonarFeed = ({
           <SonarFeedHeader />
           {!isUserLoading && (
             <SignalMasterModalForm
+              history={history}
               triggerId={triggerId}
               shareParams={shareSignalParams}
             />
@@ -111,6 +113,7 @@ const SonarFeed = ({
               <div className={styles.addSignal}>
                 {!isUserLoading && (
                   <SignalMasterModalForm
+                    history={history}
                     triggerId={triggerId}
                     shareParams={shareSignalParams}
                   />

@@ -4,7 +4,6 @@ import TriggerForm from '../signal/TriggerForm'
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
-  canRedirect: PropTypes.bool,
   settings: PropTypes.any,
   metaFormSettings: PropTypes.any,
   triggerMeta: PropTypes.any,
@@ -14,7 +13,6 @@ const propTypes = {
 export const TriggersForm = ({
   settings,
   triggers,
-  canRedirect,
   metaFormSettings,
   onSettingsChange,
   onClose,
@@ -29,7 +27,6 @@ export const TriggersForm = ({
           id={trigger.id}
           isShared={isShared}
           metaFormSettings={metaFormSettings}
-          canRedirect={canRedirect}
           settings={settings}
           onSettingsChange={onSettingsChange}
           onRemovedSignal={onClose}

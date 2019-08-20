@@ -21,7 +21,6 @@ const SignalMasterModalForm = ({
   canRedirect = true,
   enabled = true,
   triggerId,
-  step,
   isLoggedIn,
   redirect,
   match,
@@ -29,7 +28,8 @@ const SignalMasterModalForm = ({
   buttonParams = {},
   dialogProps,
   shareParams = {},
-  userId
+  userId,
+  history
 }) => {
   const { id: shareId, isShared: isOldShared } = shareParams
 
@@ -59,20 +59,25 @@ const SignalMasterModalForm = ({
     setIsAppoving(false)
   }
 
+  const goBack = () => {
+    if (hasTrigger) {
+      canRedirect && history && history.goBack()
+    }
+  }
+
   const onApprove = () => {
     setIsAppoving(false)
     setDialogOpenState(false)
 
-    if (hasTrigger) {
-      redirect && redirect()
-    }
+    goBack()
   }
 
   const onCloseMainModal = () => {
-    isChanged && isLoggedIn ? setIsAppoving(true) : setDialogOpenState(false)
-
-    if (hasTrigger) {
-      redirect && redirect()
+    if (isChanged && isLoggedIn) {
+      setIsAppoving(true)
+    } else {
+      setDialogOpenState(false)
+      goBack()
     }
   }
 
@@ -142,7 +147,6 @@ const SignalMasterModalForm = ({
                   (isLoggedIn ? (
                     <SignalMaster
                       isShared={isShared}
-                      step={step}
                       trigger={trigger}
                       setTitle={onSetDialogTitle}
                       onClose={() => setDialogOpenState(false)}
