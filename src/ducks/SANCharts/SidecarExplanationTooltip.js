@@ -12,7 +12,8 @@ const SidecarExplanationTooltip = props => {
     description = 'Quick navigation through your assets',
     localStorageSuffix = '',
     className,
-    position = 'left'
+    position = 'left',
+    align = 'start'
   } = props
 
   const localStorageLabel = LS_SIDECAR_TOOLTIP_SHOWN + localStorageSuffix
@@ -47,7 +48,7 @@ const SidecarExplanationTooltip = props => {
       className={cx(styles.wrapper, className)}
       shown={shown}
       position={position}
-      align='start'
+      align={align}
       as='div'
       onOpen={shown ? undefined : disableHelp}
       text={

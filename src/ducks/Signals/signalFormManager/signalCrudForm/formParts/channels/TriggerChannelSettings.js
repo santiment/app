@@ -49,23 +49,18 @@ const TriggerChannelSettings = ({
         title='Notification settings'
       >
         <Dialog.ScrollContent>
-          {isEmailSettings && (
-            <>
-              <EmailSetting classes={styles} hideIfEmail />
-              <SettingsEmailNotifications classes={styles} />
-            </>
-          )}
+          <EmailSetting classes={styles} hideIfEmail />
+          <SettingsEmailNotifications classes={styles} />
 
-          {isTelegramSettings && (
-            <>
-              <ConnectTelegramBlock classes={styles} />
-              <SettingsTelegramNotifications classes={styles} />
-            </>
-          )}
+          <ConnectTelegramBlock classes={styles} />
+          <SettingsTelegramNotifications classes={styles} />
 
           {!isWebPushEnabled && (
             <ShowIf beta>
-              <SettingsSonarWebPushNotifications classes={styles} />
+              <SettingsSonarWebPushNotifications
+                classes={styles}
+                className={styles.notifications}
+              />
             </ShowIf>
           )}
         </Dialog.ScrollContent>
