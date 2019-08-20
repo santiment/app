@@ -233,9 +233,7 @@ const loadAndCheckActivities = () => {
   })
     .then(res => res.json())
     .then(res => {
-      const {
-        data: { activities: { activity } = {} }
-      } = res
+      const { data: { activities: { activity } = {} } = {} } = res
 
       if (activity) {
         const filtered = activity.filter(
