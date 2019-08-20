@@ -17,6 +17,8 @@ const HeaderWithDesc = ({ description, heading }) => (
 
 const isValidValue = value => !isNaN(parseFloat(value))
 
+const NO_DATA = 'No data'
+
 export const COLUMNS = preload => [
   {
     Header: () => <div className={cx('heading', 'overview-index')}>#</div>,
@@ -71,7 +73,7 @@ export const COLUMNS = preload => [
       <div className='overview-price'>
         {isValidValue(priceUsd)
           ? formatNumber(priceUsd, { currency: 'USD' })
-          : 'No data'}
+          : NO_DATA}
       </div>
     ),
     sortable: true,
@@ -92,7 +94,7 @@ export const COLUMNS = preload => [
         {isValidValue(change24h) ? (
           <PercentChanges changes={change24h} />
         ) : (
-          'No data'
+          NO_DATA
         )}
       </div>
     ),
@@ -111,7 +113,7 @@ export const COLUMNS = preload => [
     }),
     Cell: ({ value: { volumeUsd } }) => (
       <div className='overview-volume'>
-        {isValidValue(volumeUsd) ? `$${millify(volumeUsd, 2)}` : 'No data'}
+        {isValidValue(volumeUsd) ? `$${millify(volumeUsd, 2)}` : NO_DATA}
       </div>
     ),
     sortable: true,
@@ -132,7 +134,7 @@ export const COLUMNS = preload => [
         {isValidValue(change24h) ? (
           <PercentChanges changes={change24h} />
         ) : (
-          'No data'
+          NO_DATA
         )}
       </div>
     ),
@@ -149,7 +151,7 @@ export const COLUMNS = preload => [
     accessor: 'marketcapUsd',
     Cell: ({ value }) => (
       <div className='overview-marketcap'>
-        {isValidValue(value) ? `$${millify(value, 2)}` : 'No data'}
+        {isValidValue(value) ? `$${millify(value, 2)}` : NO_DATA}
       </div>
     ),
     sortable: true,
@@ -208,7 +210,7 @@ export const COLUMNS = preload => [
     accessor: d => d.averageDevActivity,
     Cell: ({ value }) => (
       <div className='overview-devactivity'>
-        {!isNaN(parseFloat(value)) ? parseFloat(value).toFixed(2) : 'No data'}
+        {!isNaN(parseFloat(value)) ? parseFloat(value).toFixed(2) : NO_DATA}
       </div>
     ),
     sortable: true,
@@ -228,7 +230,7 @@ export const COLUMNS = preload => [
     accessor: d => d.averageDailyActiveAddresses,
     Cell: ({ value }) => (
       <div className='overview-activeaddresses'>
-        {isValidValue(value) ? formatNumber(value) : 'No data'}
+        {isValidValue(value) ? formatNumber(value) : NO_DATA}
       </div>
     ),
     sortable: true,
