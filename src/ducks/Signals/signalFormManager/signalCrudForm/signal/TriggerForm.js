@@ -26,7 +26,6 @@ import {
   MAX_DESCR_LENGTH,
   MIN_TITLE_LENGTH,
   MAX_TITLE_LENGTH,
-  METRIC_TYPES_DEPENDENCIES,
   TRIGGER_FORM_STEPS
 } from '../../../utils/constants'
 import {
@@ -36,7 +35,6 @@ import {
   validateTriggerForm,
   getDefaultFormValues,
   titleMetricValuesHeader,
-  getFormMetricValue,
   getNewTitle,
   getNewDescription
 } from '../../../utils/utils'
@@ -57,7 +55,6 @@ const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
   isTelegramConnected: PropTypes.bool.isRequired,
   lastPriceItem: PropTypes.any,
-  canRedirect: PropTypes.bool,
   settings: PropTypes.any,
   metaFormSettings: PropTypes.any,
   triggerMeta: PropTypes.any
@@ -154,7 +151,7 @@ export const TriggerForm = ({
       }) => {
         const {
           metric,
-          type,
+          type = {},
           target,
           frequencyType,
           frequencyTimeType,
@@ -174,8 +171,7 @@ export const TriggerForm = ({
         const showTypes =
           metric && !metric.hidden && typeSelectors && typeSelectors.length > 1
 
-        const metricValueBlocks =
-          METRIC_TYPES_DEPENDENCIES[getFormMetricValue(type)]
+        const { dependencies: metricValueBlocks } = type
 
         const showValues = showTypes || showChart || metricValueBlocks
 

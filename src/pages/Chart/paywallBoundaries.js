@@ -1,12 +1,34 @@
 import { getTimeIntervalFromToday, DAY, MONTH } from '../../utils/dates'
 
-const { from: FREE_LEFT_BOUNDARY_DATE } = getTimeIntervalFromToday(-24, MONTH)
-const { from: FREE_RIGHT_BOUNDARY_DATE } = getTimeIntervalFromToday(-1, MONTH)
+const options = { isUTC: true }
 
-const { from: BASIC_LEFT_BOUNDARY_DATE } = getTimeIntervalFromToday(-24, MONTH)
-const { from: BASIC_RIGHT_BOUNDARY_DATE } = getTimeIntervalFromToday(-7, DAY)
+const { from: FREE_LEFT_BOUNDARY_DATE } = getTimeIntervalFromToday(
+  -24,
+  MONTH,
+  options
+)
+const { from: FREE_RIGHT_BOUNDARY_DATE } = getTimeIntervalFromToday(
+  -1,
+  MONTH,
+  options
+)
 
-const { from: PRO_LEFT_BOUNDARY_DATE } = getTimeIntervalFromToday(-36, MONTH)
+const { from: BASIC_LEFT_BOUNDARY_DATE } = getTimeIntervalFromToday(
+  -24,
+  MONTH,
+  options
+)
+const { from: BASIC_RIGHT_BOUNDARY_DATE } = getTimeIntervalFromToday(
+  -7,
+  DAY,
+  options
+)
+
+const { from: PRO_LEFT_BOUNDARY_DATE } = getTimeIntervalFromToday(
+  -36,
+  MONTH,
+  options
+)
 const PRO_RIGHT_BOUNDARY_DATE = false
 
 const ENTERPRISE_LEFT_BOUNDARY_DATE = false

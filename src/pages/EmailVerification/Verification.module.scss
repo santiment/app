@@ -1,0 +1,29 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 360px;
+  width: 85%;
+  text-align: center;
+  height: 80vh;
+}
+
+.link {
+  color: var(--jungle-green);
+}
+
+.loader {
+  height: 80vh;
+
+  @include responsive('phone', 'phone-xs') {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin-top: 0;
+  }
+}
