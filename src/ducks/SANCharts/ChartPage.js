@@ -387,10 +387,11 @@ class ChartPage extends Component {
                     </UpgradeBtn>
 
                     <div className={styles.limited}>
-                      <span className={styles.limitedLabel}>Limited data</span>
+                      <span className={styles.limitedLabel}>
+                        <Link to='/dashboards'>Limited data</Link>
+                      </span>
                       <HelpPopup position='bottom left'>
-                        See much more data in our{' '}
-                        <Link to='/dashboards'>SANbase Dashboards</Link>
+                        See much more data in our SANbase Dashboards
                       </HelpPopup>
                     </div>
                   </div>
