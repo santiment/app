@@ -351,8 +351,9 @@ export const App = ({
 
 const mapStateToProps = state => {
   const { ethAccounts = [] } = state.user.data
+  console.log(state)
   return {
-    isLoggedIn: state.user.data && !!state.user.data.id,
+    isLoggedIn: state.user.isLoading || !!state.user.data.id,
     token: state.user.token,
     isFullscreenMobile: state.detailedPageUi.isFullscreenMobile,
     isOffline: !state.rootUi.isOnline,
