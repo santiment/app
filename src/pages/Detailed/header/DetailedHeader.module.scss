@@ -61,6 +61,11 @@
   width: 350px;
 }
 
+.projectSelector {
+  display: flex;
+  flex-direction: row;
+}
+
 .name h1 {
   margin: 0 !important;
   margin-right: 5px;

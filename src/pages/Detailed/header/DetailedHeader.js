@@ -8,11 +8,11 @@ import PercentChanges from '../../../components/PercentChanges'
 import WatchlistsPopup from '../../../components/WatchlistPopup/WatchlistsPopup'
 import { formatNumber } from '../../../utils/formatting'
 import ChartSignalCreationDialog from '../../../ducks/SANCharts/ChartSignalCreationDialog'
-import Loader from '@santiment-network/ui/Loader/Loader'
+import PageLoader from '../../../components/Loader/PageLoader'
+import HeaderProjectsSelector from './HeaderProjectsSelector'
 import addSignalSvg from './../../../assets/signals/buttons/addSignal.svg'
 import addWatchlistSvg from './../../../assets/watchlist/buttons/watchlist.svg'
 import styles from './DetailedHeader.module.scss'
-import PageLoader from '../../../components/Loader/PageLoader'
 
 const DetailedHeader = ({
   project = {
@@ -27,7 +27,8 @@ const DetailedHeader = ({
   },
   loading,
   isLoggedIn,
-  isDesktop
+  isDesktop,
+  history
 }) => {
   const {
     id,
@@ -49,6 +50,13 @@ const DetailedHeader = ({
     )
   }
 
+  const onChangeProject = data => {
+    const newProject = data && data.length ? data[0] : undefined
+    if (newProject && newProject.slug && +newProject.id !== +id) {
+      newProject && history.push(`/projects/${newProject.slug}`)
+    }
+  }
+
   return (
     <>
       <div className={styles.breadcrambs}>
@@ -65,7 +73,15 @@ const DetailedHeader = ({
           <div className={styles.logo}>
             <ProjectIcon name={name || ''} ticker={ticker} size={40} />
             <div className={styles.name}>
-              <h1>{name}</h1>
+              <div className={styles.projectSelector}>
+                <h1>
+                  {name} ({ticker})
+                </h1>
+                <HeaderProjectsSelector
+                  project={project}
+                  onChange={onChangeProject}
+                />
+              </div>
               <div className={styles.description}>{description}</div>
             </div>
           </div>
@@ -104,7 +120,7 @@ const DetailedHeader = ({
             <ChartSignalCreationDialog
               slug={slug}
               trigger={
-                <Button border accent='ghost' className={styles.signalButton}>
+                <Button border className={styles.signalButton}>
                   <img
                     className={styles.icon}
                     src={addSignalSvg}

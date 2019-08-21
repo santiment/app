@@ -11,9 +11,11 @@ export const TriggerProjectsSelector = ({
   projects = [],
   setFieldValue,
   onChange,
-  values: { target = [] },
-  values,
-  name
+  target,
+  name,
+  trigger: Trigger = ProjectsSelectorTrigger,
+  title = 'Select assets',
+  isSingle = false
 }) => {
   const [listItems, setListItems] = useState([])
   const checkedAssetsAsSet = new Set(listItems)
@@ -45,9 +47,19 @@ export const TriggerProjectsSelector = ({
   )
 
   const setSelectedAssets = selectedAssets => {
-    listItems.length !== selectedAssets.length && setListItems(selectedAssets)
-    setFieldValue(name, selectedAssets)
-    onChange && onChange(selectedAssets)
+    const newItems =
+      isSingle && selectedAssets.length > 0
+        ? [selectedAssets[selectedAssets.length - 1]]
+        : selectedAssets
+
+    if (isSingle) {
+      setListItems(newItems)
+    } else if (listItems.length !== newItems.length) {
+      setListItems(newItems)
+    }
+
+    setFieldValue && setFieldValue(name, newItems)
+    onChange && onChange(newItems)
   }
 
   const toggleAsset = ({ project, listItems: items, isAssetInList }) => {
@@ -67,21 +79,12 @@ export const TriggerProjectsSelector = ({
 
   return (
     <Dialog
-      title='Select assets'
+      title={title}
       trigger={
-        <div>
-          <div className={styles.assetsSelect}>
-            {
-              <AssetsListDescription
-                assets={listItems}
-                onRemove={onSuggestionSelect}
-              />
-            }
-          </div>
-          {listItems.length === 0 && (
-            <div className='error error-message'>Please, pick an asset(s)</div>
-          )}
-        </div>
+        <Trigger
+          listItems={listItems}
+          onSuggestionSelect={onSuggestionSelect}
+        />
       }
     >
       <Dialog.ScrollContent className={styles.wrapper}>
@@ -113,6 +116,22 @@ export const TriggerProjectsSelector = ({
     </Dialog>
   )
 }
+
+const ProjectsSelectorTrigger = ({ listItems, onSuggestionSelect }) => (
+  <div>
+    <div className={styles.assetsSelect}>
+      {
+        <AssetsListDescription
+          assets={listItems}
+          onRemove={onSuggestionSelect}
+        />
+      }
+    </div>
+    {listItems.length === 0 && (
+      <div className='error error-message'>Please, pick an asset(s)</div>
+    )}
+  </div>
+)
 
 const AssetsListDescription = ({
   assets,

@@ -1,0 +1,11 @@
+@import "~@santiment-network/ui/variables.scss";
+@import "~@santiment-network/ui/mixins.scss";
+
+.icons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: 10px;
+  padding: 0;
+  height: initial;
+}

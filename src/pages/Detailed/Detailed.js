@@ -117,6 +117,7 @@ export const Detailed = ({
         isDesktop={isDesktop}
         {...Project}
         isLoggedIn={isLoggedIn}
+        history={history}
       />
       {isDesktop ? (
         <div className={cx('information', styles.desktopCharts)}>
