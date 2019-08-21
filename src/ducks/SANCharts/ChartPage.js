@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import * as qs from 'query-string'
 import cx from 'classnames'
+import isEqual from 'lodash.isequal'
 import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
@@ -238,6 +239,12 @@ class ChartPage extends Component {
 
   onSidebarToggleClick = () => {
     this.setState(prev => ({ isAdvancedView: !prev.isAdvancedView }))
+  }
+
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    if (!isEqual(prevProps, this.props)) {
+      this.setState(getChartInitialState(this.props))
+    }
   }
 
   render () {

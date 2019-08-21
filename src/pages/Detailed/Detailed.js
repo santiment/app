@@ -65,6 +65,7 @@ export const Detailed = ({
           const boundaries = paywallBoundaries[userPlan]
 
           const { slug, id, name } = project
+
           return (
             <ChartWidget
               {...props}
