@@ -81,10 +81,12 @@ export const TriggerProjectsSelector = ({
     <Dialog
       title={title}
       trigger={
-        <Trigger
-          listItems={listItems}
-          onSuggestionSelect={onSuggestionSelect}
-        />
+        <div>
+          <Trigger
+            listItems={listItems}
+            onSuggestionSelect={onSuggestionSelect}
+          />
+        </div>
       }
     >
       <Dialog.ScrollContent className={styles.wrapper}>

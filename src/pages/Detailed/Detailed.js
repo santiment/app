@@ -120,7 +120,7 @@ export const Detailed = ({
         history={history}
       />
       {isDesktop ? (
-        <div className={cx('information', styles.desktopCharts)}>
+        <div className={'information'}>
           {projectContainerChart && (
             <Panel className={styles.panel}>{projectContainerChart}</Panel>
           )}

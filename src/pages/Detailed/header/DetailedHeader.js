@@ -44,9 +44,11 @@ const DetailedHeader = ({
 
   if (loading) {
     return (
-      <div className={styles.wrapper}>
-        <PageLoader />
-      </div>
+      <PageLoader
+        isPage={false}
+        containerClass={styles.headerLoaderContainer}
+        loaderClassName={styles.headerLoader}
+      />
     )
   }
 

@@ -28,7 +28,7 @@ export const EmailLoginVerification = ({ isSuccess, isError }) => {
   }
   return (
     <div className={styles.wrapper}>
-      <PageLoader text='Verification' className={styles.loader} />
+      <PageLoader text='Verification' loaderClassName={styles.loader} />
     </div>
   )
 }
