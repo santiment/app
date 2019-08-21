@@ -108,7 +108,7 @@ export const PRICE_PERCENT_CHANGE_DOWN_MODEL = {
 
 export const PRICE_PERCENT_CHANGE_ONE_OF_MODEL = {
   metric: PRICE_PERCENT_CHANGE,
-  label: 'Some of %',
+  label: 'Moving up or down %',
   value: PRICE_CHANGE_TYPES.PERCENT_SOME_OF,
   filledField: true,
   dependencies: ['percentThresholdLeft', 'percentThresholdRight', 'timeWindow']
@@ -187,7 +187,7 @@ export const COOLDOWN_REGEXP = /([0-9]+)*([smhdw])/i
 export const METRICS_OPTIONS = [
   { ...PRICE_METRIC },
   { ...PRICE_VOLUME_DIFFERENCE_METRIC },
-  // { ...ETH_WALLET_METRIC }, # GarageInc: Temporary hidded before fix bug on backend by ivan
+  { ...ETH_WALLET_METRIC },
   { ...TRENDING_WORDS_METRIC },
   { ...DAILY_ACTIVE_ADDRESSES_METRIC }
 ]

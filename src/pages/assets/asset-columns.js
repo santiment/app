@@ -6,7 +6,7 @@ import { simpleSort } from '../../utils/sortMethods'
 import { formatNumber, millify } from '../../utils/formatting'
 import ProjectLabel from '../../components/ProjectLabel'
 import PercentChanges from '../../components/PercentChanges'
-import help from './../../assets/help.json'
+import { Metrics } from '../../ducks/SANCharts/utils'
 import styles from './AssetsToggleColumns.module.scss'
 
 const HeaderWithDesc = ({ description, heading }) => (
@@ -14,6 +14,10 @@ const HeaderWithDesc = ({ description, heading }) => (
     <Panel padding>{description}</Panel>
   </Tooltip>
 )
+
+const isValidValue = value => !isNaN(parseFloat(value))
+
+const NO_DATA = 'No data'
 
 export const COLUMNS = preload => [
   {
@@ -67,7 +71,9 @@ export const COLUMNS = preload => [
     }),
     Cell: ({ value: { priceUsd } }) => (
       <div className='overview-price'>
-        {priceUsd ? formatNumber(priceUsd, { currency: 'USD' }) : 'No data'}
+        {isValidValue(priceUsd)
+          ? formatNumber(priceUsd, { currency: 'USD' })
+          : NO_DATA}
       </div>
     ),
     sortable: true,
@@ -85,7 +91,11 @@ export const COLUMNS = preload => [
     }),
     Cell: ({ value: { change24h } }) => (
       <div className='overview-price-percent'>
-        {change24h ? <PercentChanges changes={change24h} /> : 'No data'}
+        {isValidValue(change24h) ? (
+          <PercentChanges changes={change24h} />
+        ) : (
+          NO_DATA
+        )}
       </div>
     ),
     sortable: true,
@@ -103,7 +113,7 @@ export const COLUMNS = preload => [
     }),
     Cell: ({ value: { volumeUsd } }) => (
       <div className='overview-volume'>
-        {volumeUsd ? `$${millify(volumeUsd, 2)}` : 'No data'}
+        {isValidValue(volumeUsd) ? `$${millify(volumeUsd, 2)}` : NO_DATA}
       </div>
     ),
     sortable: true,
@@ -121,7 +131,11 @@ export const COLUMNS = preload => [
     }),
     Cell: ({ value: { change24h } }) => (
       <div className='overview-volume-percent'>
-        {change24h ? <PercentChanges changes={change24h} /> : 'No data'}
+        {isValidValue(change24h) ? (
+          <PercentChanges changes={change24h} />
+        ) : (
+          NO_DATA
+        )}
       </div>
     ),
     sortable: true,
@@ -137,7 +151,7 @@ export const COLUMNS = preload => [
     accessor: 'marketcapUsd',
     Cell: ({ value }) => (
       <div className='overview-marketcap'>
-        {value !== null ? `$${millify(value, 2)}` : 'No data'}
+        {isValidValue(value) ? `$${millify(value, 2)}` : NO_DATA}
       </div>
     ),
     sortable: true,
@@ -167,7 +181,13 @@ export const COLUMNS = preload => [
     Header: () => (
       <div className={cx('heading', 'overview-ethspent')}>
         <HeaderWithDesc
-          description={help['ETH Spent Over Time'].description}
+          description={
+            <>
+              <b>Average value for 30d</b>
+              <br />
+              {Metrics['ethSpentOverTime'].description}
+            </>
+          }
           heading={'ETH spent, 30d'}
         />
       </div>
@@ -186,7 +206,13 @@ export const COLUMNS = preload => [
     Header: () => (
       <div className={cx('heading', 'overview-devactivity')}>
         <HeaderWithDesc
-          description={help['Development Activity'].description}
+          description={
+            <>
+              <b>Average value for 30d</b>
+              <br />
+              {Metrics['devActivity'].description}
+            </>
+          }
           heading={'Dev act., 30d'}
         />
       </div>
@@ -196,7 +222,7 @@ export const COLUMNS = preload => [
     accessor: d => d.averageDevActivity,
     Cell: ({ value }) => (
       <div className='overview-devactivity'>
-        {value ? parseFloat(value).toFixed(2) : 'No data'}
+        {!isNaN(parseFloat(value)) ? parseFloat(value).toFixed(2) : NO_DATA}
       </div>
     ),
     sortable: true,
@@ -206,7 +232,13 @@ export const COLUMNS = preload => [
     Header: () => (
       <div className={cx('heading', 'overview-activeaddresses')}>
         <HeaderWithDesc
-          description={help['Daily Active Addresses'].description}
+          description={
+            <>
+              <b>Average value for 30d</b>
+              <br />
+              {Metrics['dailyActiveAddresses'].description}
+            </>
+          }
           heading={'DAA, 30d'}
         />
       </div>
@@ -216,7 +248,7 @@ export const COLUMNS = preload => [
     accessor: d => d.averageDailyActiveAddresses,
     Cell: ({ value }) => (
       <div className='overview-activeaddresses'>
-        {value ? formatNumber(value) : 'No data'}
+        {isValidValue(value) ? formatNumber(value) : NO_DATA}
       </div>
     ),
     sortable: true,
@@ -252,23 +284,23 @@ export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.eth_spent]: {
     show: true,
     selectable: true,
-    description: help['ETH Spent Over Time'].description
+    description: Metrics['ethSpentOverTime'].description
   },
   [COLUMNS_NAMES.devact]: {
     show: true,
     selectable: true,
-    description: help['Development Activity'].description
+    description: Metrics['devActivity'].description
   },
   [COLUMNS_NAMES.daily_active_addresses]: {
     show: true,
     selectable: true,
-    description: help['Daily Active Addresses'].description
+    description: Metrics['dailyActiveAddresses'].description
   },
   [COLUMNS_NAMES.graph]: { show: false, selectable: false },
   [COLUMNS_NAMES.token_circulation]: {
     show: false,
     selectable: false,
-    description: help['Token Circulation'].description
+    description: Metrics['tokenCirculation'].description
   }
 }
 

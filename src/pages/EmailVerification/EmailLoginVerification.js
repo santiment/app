@@ -4,15 +4,22 @@ import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
 import * as qs from 'query-string'
 import { Link } from 'react-router-dom'
-import * as actions from './../actions/types'
+import * as actions from './../../actions/types'
+import PageLoader from '../../components/Loader/PageLoader'
+import styles from './Verification.module.scss'
 
 export const EmailLoginVerification = ({ isSuccess, isError }) => {
   if (isError) {
     return (
-      <div style={{ margin: '1em' }}>
-        <h2>You do not have access.</h2>
-        <p>Try again later. Maybe, your mail link is old.</p>
-        <Link to='/login'>Login</Link>
+      <div className={styles.wrapper}>
+        <h2>Login failed</h2>
+        <p>
+          Maybe you are trying to login with an old email link. Please, make
+          sure, that you are using the latest link
+        </p>
+        <Link to='/login' className={styles.link}>
+          Login
+        </Link>
       </div>
     )
   }
@@ -20,8 +27,8 @@ export const EmailLoginVerification = ({ isSuccess, isError }) => {
     return <Redirect to='/' />
   }
   return (
-    <div style={{ margin: '1em' }}>
-      <h2>Verification...</h2>
+    <div className={styles.wrapper}>
+      <PageLoader text='Verification' className={styles.loader} />
     </div>
   )
 }

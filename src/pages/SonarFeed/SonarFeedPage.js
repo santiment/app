@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { matchPath } from 'react-router'
 import { connect } from 'react-redux'
-import { Link, Route, Redirect, Switch } from 'react-router-dom'
+import { Link, Route, Switch } from 'react-router-dom'
 import Tabs from '@santiment-network/ui/Tabs'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
@@ -13,6 +13,7 @@ import { showNotification } from '../../actions/rootActions'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import { SIGNAL_ROUTES } from '../../ducks/Signals/common/constants'
 import { getShareSignalParams } from '../../ducks/Signals/common/getSignal'
+import { sendParams } from '../Account/SettingsSonarWebPushNotifications'
 import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar'
@@ -38,28 +39,16 @@ const tabs = [
   }
 ]
 
-const LoadableSignalDetailsPage = Loadable({
-  loader: () => import('./SignalDetails'),
-  loading: () => <PageLoader />
-})
-
-const LoadableEditSignalPage = Loadable({
-  loader: () => import('./SonarFeedMySignalsPage'),
-  loading: () => <PageLoader />
-})
-
 const SonarFeed = ({
   location: { pathname },
   isLoggedIn,
   isDesktop,
   isTelegramConnected,
   isUserLoading,
-  showTelegramAlert
+  showTelegramAlert,
+  history,
+  location: { hash } = {}
 }) => {
-  if (pathname === baseLocation) {
-    return <Redirect exact from={baseLocation} to={tabs[0].index} />
-  }
-
   const [triggerId, setTriggerId] = useState(undefined)
 
   useEffect(
@@ -71,6 +60,10 @@ const SonarFeed = ({
     [isTelegramConnected, isLoggedIn]
   )
 
+  useEffect(() => {
+    sendParams()
+  })
+
   useEffect(
     () => {
       const pathParams =
@@ -78,16 +71,12 @@ const SonarFeed = ({
         matchPath(pathname, openTriggerSettingsModalLocation)
       if (triggerId && !pathParams) {
         setTriggerId(undefined)
-      } else if (pathParams) {
+      } else if (pathParams && pathParams.params) {
         setTriggerId(pathParams.params.id)
       }
     },
     [pathname]
   )
-
-  const setLoadingSignalId = id => {
-    setTriggerId(id)
-  }
 
   const shareSignalParams = getShareSignalParams()
 
@@ -98,6 +87,7 @@ const SonarFeed = ({
           <SonarFeedHeader />
           {!isUserLoading && (
             <SignalMasterModalForm
+              history={history}
               triggerId={triggerId}
               shareParams={shareSignalParams}
             />
@@ -111,6 +101,7 @@ const SonarFeed = ({
               <div className={styles.addSignal}>
                 {!isUserLoading && (
                   <SignalMasterModalForm
+                    history={history}
                     triggerId={triggerId}
                     shareParams={shareSignalParams}
                   />
@@ -138,32 +129,6 @@ const SonarFeed = ({
           {tabs.map(({ index, component }) => (
             <Route key={index} path={index} component={component} />
           ))}
-          <Route
-            path={`${baseLocation}/details/:id`}
-            exact
-            render={props => <LoadableSignalDetailsPage {...props} />}
-          />
-          ,
-          <Route
-            path={editTriggerSettingsModalLocation}
-            exact
-            render={props => (
-              <LoadableEditSignalPage
-                setLoadingSignalId={setLoadingSignalId}
-                {...props}
-              />
-            )}
-          />
-          <Route
-            path={openTriggerSettingsModalLocation}
-            exact
-            render={props => (
-              <LoadableEditSignalPage
-                setLoadingSignalId={setLoadingSignalId}
-                {...props}
-              />
-            )}
-          />
           <Route component={tabs[0].component} />}
         </Switch>
       </div>

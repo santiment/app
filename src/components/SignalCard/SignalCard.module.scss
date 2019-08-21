@@ -44,6 +44,7 @@
 
 .title {
   margin: 0 0 4px 0;
+  word-break: break-word;
 
   @include text('h4','m');
 }
@@ -51,6 +52,7 @@
 .description {
   @include text('body-3');
 
+  word-break: break-word;
   color: var(--waterloo);
   margin-top: 10px;
 }

@@ -41,23 +41,30 @@ export const Metrics = {
     group: 'Token Flows/Movement/Activity',
     label: 'Token Age Consumed',
     fill: true,
-    description:
-      'The amount of movement of tokens between addresses. One use for this metric is to spot large amounts of tokens moving after sitting for a long period of time.'
+    description: `
+          Shows the amount of tokens changing addresses on a certain date,
+          multiplied by the number of days since they last moved
+`
   },
   exchangeFundsFlow: {
     category: 'On-chain',
     node: Line,
     label: 'Exchange Flow Balance',
-    description:
-      'The flows of tokens going in to and out of exchange wallets combined on one graph. If the value is positive, more tokens entered the exchange than left. If the value is negative, more flowed out of exchanges than flowed in.'
+    description: `The flows of tokens going in to and out of exchange wallets combined on one graph.
+          If the value is positive, more tokens entered the exchange than left.
+          If the value is negative, more flowed out of exchanges than flowed in.
+`
   },
   dailyActiveAddresses: {
     category: 'On-chain',
     node: Bar,
     group: 'Network Activity',
     label: 'Daily Active Addresses',
-    description:
-      'The number of unique addresses that participated in transactionsInfo for a given day.',
+    description: `
+          Shows the number of unique network addresses involved in transactions
+          on a certain date.
+          Simply put, DAA indicates the daily level of crowd interaction (or
+          speculation) with a certain token.`,
     color: 'texas-rose'
   },
   percentOfTokenSupplyOnExchanges: {
@@ -65,7 +72,8 @@ export const Metrics = {
     node: Line,
     group: 'Exchange Flow',
     label: 'Percent of Token Supply on Exchanges',
-    dataKey: 'percentOnExchanges'
+    dataKey: 'percentOnExchanges',
+    description: 'The percent of the total token supply which is on exchanges.'
   },
   topHoldersPercentOfTotalSupply: {
     category: 'On-chain',
@@ -81,8 +89,11 @@ export const Metrics = {
     node: Line,
     group: 'Token Flows/Movement/Activity',
     label: 'Token Circulation',
-    description:
-      "The distribution of non-transacted tokens over time (in other words, how many tokens are being hodled, and for how long). The green line shows the token price. Each of the other coloured bands represents the number of tokens that haven't moved (have stayed in the same wallet) for the specified amount of time."
+    description: `
+          Shows the number of unique tokens being used during each day.
+          If one token changes hands 5 times on a given day,
+          it will be counted once by the token circulation,
+          but 5 times by the transaction volume.`
   },
   mvrvRatio: {
     category: 'On-chain',
@@ -96,16 +107,22 @@ export const Metrics = {
     node: Bar,
     group: 'Token Flows/Movement/Activity',
     label: 'Transaction Volume',
-    description:
-      'The total number of tokens within all transfers that have occurred on the network. This metric can show a large amount of tokens moving at once, and/or a large number of transactionsInfo in a short amount of time'
+    description: `
+          Shows the aggregate amount of tokens across all transactions that
+          happened on the network on a certain date.
+`
   },
   networkGrowth: {
     category: 'On-chain',
     node: Line,
     group: 'Network Activity',
     label: 'Network Growth',
-    description:
-      'The number of new addresses being created on the network each day.'
+    description: `Shows the number of new addresses being created on the network each
+          day.
+          Essentially, this chart illustrates user adoption over time, and can
+          be used to identify when the project is gaining - or losing -
+          traction.
+`
   },
   devActivity: {
     category: 'Development',
@@ -114,7 +131,7 @@ export const Metrics = {
     label: 'Development Activity',
     dataKey: 'activity',
     description:
-      "Based on number of Github 'events' including issue interactions, PRs, comments, and wiki edits, plus the number of public repositories a project is maintaining",
+      "Based on number of Github 'events' including PRs, comments, and wiki edits, plus the number of public repositories a project is maintaining",
     reqMeta: {
       transform: 'movingAverage',
       movingAverageIntervalBase: 7
@@ -125,14 +142,23 @@ export const Metrics = {
     node: Line,
     group: 'Token Flows/Movement/Activity',
     label: 'Token Velocity',
-    description:
-      'Similar to velocity of money, Token Velocity is the frequency at which tokens change wallets in a given interval of time. This metric is derived by dividing transaction volume by the number of tokens in circulation, to get the average number of times a token changes hands each day.'
+    description: `
+          Shows the average number of times that a token changes wallets each
+          day.
+
+          Simply put, a higher token velocity means that a token is used in
+          transactions more often within a set time frame.
+`
   },
   dailyActiveDeposits: {
     category: 'On-chain',
     node: Bar,
     label: 'Daily Active Deposits',
-    dataKey: 'activeDeposits'
+    dataKey: 'activeDeposits',
+    description: `
+          Shows the number of unique deposit addresses that participated in
+          transactions for a given day. A <b>deposit address</b> is an address
+          belonging to an exchange that users use to deposit assets`
   },
   historyTwitterData: {
     category: 'Social',
@@ -157,7 +183,9 @@ export const Metrics = {
     category: 'On-chain',
     node: Line,
     label: 'Eth Spent Over Time',
-    dataKey: 'ethSpent'
+    dataKey: 'ethSpent',
+    description:
+      'How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity'
   }
 }
 

@@ -28,7 +28,8 @@ const ChartSettings = ({
   to,
   project,
   hideSettings = {},
-  isAdvancedView
+  isAdvancedView,
+  title
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
   const { search: noSearch, signals: noSignalCreation } = hideSettings
@@ -43,6 +44,11 @@ const ChartSettings = ({
             className={styles.search}
             suggestionsProps={{ style: { zIndex: 5 } }}
             iconPosition='left'
+            defaultValue={title}
+            dontResetStateAfterSelection
+            transformValueAfterSelection={({ name, ticker }) =>
+              `${name} (${ticker})`
+            }
           />
         )}
         {noSignalCreation ||

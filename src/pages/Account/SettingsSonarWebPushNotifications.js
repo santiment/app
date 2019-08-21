@@ -36,7 +36,7 @@ const postMessage = data => {
   }
 }
 
-const sendParams = () => {
+export const sendParams = () => {
   setTimeout(() => {
     postMessage(
       {
@@ -51,25 +51,29 @@ const sendParams = () => {
   })
 }
 
-const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
+const SettingsSonarWebPushNotifications = ({ classes = {}, className }) => {
   const [isActive, setIsActive] = useState(false)
 
   const toggle = value => {
     setIsActive(value)
   }
 
-  useEffect(() => {
-    if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        const sanServiceRegistration = getSanSonarSW(registrations)
-        if (sanServiceRegistration) {
-          toggle(true)
-        } else {
-          toggle(false)
-        }
-      })
-    }
-  })
+  useEffect(
+    () => {
+      if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          const sanServiceRegistration = getSanSonarSW(registrations)
+          if (sanServiceRegistration) {
+            toggle(true)
+          } else {
+            toggle(false)
+          }
+        })
+      }
+      requestNotificationPermission(null, unRegisterSw)
+    },
+    [isActive]
+  )
 
   const unRegisterSw = () => {
     postMessage({
@@ -105,7 +109,7 @@ const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
             registerSonarActivitiesSw({
               hideRegistrationChecking: true,
               callback: () => {
-                requestNotificationPermission(unRegisterSw)
+                requestNotificationPermission(null, unRegisterSw)
                 sendParams()
                 toggle(true)
               }
@@ -119,13 +123,13 @@ const SettingsSonarWebPushNotifications = ({ classes = {} }) => {
   }
 
   return (
-    <div className={cx(classes.container, styles.settingBlock)}>
-      <Label className={classes.left}>Sonar Web Push notifications</Label>
+    <div className={cx(classes.container, styles.settingBlock, className)}>
+      <Label className={classes.left}>Browser notifications</Label>
       <div className={cx(styles.setting__right_notifications, classes.right)}>
         <SidecarExplanationTooltip
           closeTimeout={500}
           localStorageSuffix='_TRIGGER_PUSH_NOTIFICATION_EXPLANATION'
-          position='top'
+          align='end'
           title='Sonar Web Pushes'
           description='Get fast notifications through Push Notifications'
         >

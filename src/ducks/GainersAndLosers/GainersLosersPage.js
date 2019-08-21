@@ -70,6 +70,10 @@ const enhance = graphql(allProjectsForSearchGQL, {
       ? mapItemsToKeys(allProjects, { keyPath: 'slug' })
       : undefined,
     error
+  }),
+  options: () => ({
+    context: { isRetriable: true },
+    variables: { minVolume: 0 }
   })
 })
 

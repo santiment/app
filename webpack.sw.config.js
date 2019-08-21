@@ -3,7 +3,8 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const minimizers = []
 
-if(process.env.NODE_ENV === 'production'){
+// GarageInc: special
+if(false && process.env.NODE_ENV === 'production'){
   minimizers.push(
     new UglifyJsPlugin({
       uglifyOptions: {

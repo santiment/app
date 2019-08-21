@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { graphql } from 'react-apollo'
 import Markdown from 'react-markdown'
 import gql from 'graphql-tag'
@@ -21,11 +22,9 @@ export const TRIGGER_ACTIVITIES_QUERY = gql`
       activity {
         payload
         triggeredAt
-        userTrigger {
-          trigger {
-            title
-            description
-          }
+        trigger {
+          id
+          title
         }
       }
     }
@@ -78,12 +77,20 @@ const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
 
   return activities && activities.length ? (
     <div className={styles.wrapper}>
-      {activities.map(activity => (
-        <Fragment key={activity.triggeredAt}>
-          <h4 className={styles.date}>{formatDate(activity.triggeredAt)}</h4>
-          <Markdown source={Object.values(activity.payload)[0]} />
-        </Fragment>
-      ))}
+      {activities.map(
+        ({ triggeredAt, payload, trigger: { id: signalId, title } = {} }) => (
+          <Fragment key={triggeredAt}>
+            <div className={styles.description}>
+              <h4 className={styles.date}>{formatDate(triggeredAt)} by</h4>
+
+              <Link to={`/sonar/signal/${signalId}`} className={styles.link}>
+                '{title}'
+              </Link>
+            </div>
+            <Markdown source={Object.values(payload)[0]} />
+          </Fragment>
+        )
+      )}
     </div>
   ) : (
     <SonarFeedRecommendations description='There are not any activities yet' />

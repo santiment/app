@@ -40,8 +40,8 @@ export const project = gql`
 `
 
 export const allProjectsGQL = gql`
-  query allProjects {
-    allProjects {
+  query allProjects($minVolume: Int!) {
+    allProjects(minVolume: $minVolume) {
       ...generalData
       ...project
     }
@@ -51,8 +51,8 @@ export const allProjectsGQL = gql`
 `
 
 export const allProjects50GQL = gql`
-  query allProjects {
-    allProjects(page: 1, pageSize: 50) {
+  query allProjects($minVolume: Int!) {
+    allProjects(page: 1, pageSize: 50, minVolume: $minVolume) {
       ...generalData
       ...project
     }
@@ -73,8 +73,8 @@ export const projectBySlugGQL = gql`
 `
 
 export const allProjectsForSearchGQL = gql`
-  query allProjects {
-    allProjects {
+  query allProjects($minVolume: Int!) {
+    allProjects(minVolume: $minVolume) {
       ...generalData
     }
   }
@@ -82,8 +82,8 @@ export const allProjectsForSearchGQL = gql`
 `
 
 export const allErc20ProjectsGQL = gql`
-  query allErc20Projects {
-    allErc20Projects {
+  query allErc20Projects($minVolume: Int!) {
+    allErc20Projects(minVolume: $minVolume) {
       ethBalance
       ...generalData
       ...project
@@ -96,8 +96,8 @@ export const allErc20ProjectsGQL = gql`
 `
 
 export const currenciesGQL = gql`
-  query allCurrencyProjects {
-    allCurrencyProjects {
+  query allCurrencyProjects($minVolume: Int!) {
+    allCurrencyProjects(minVolume: $minVolume) {
       ...generalData
       ...project
     }

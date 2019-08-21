@@ -94,12 +94,14 @@ const FormatToTimestamp = {
  * // Target: 9 days prior to current date
  *  getTimeIntervalFromToday(-9, 'd')
  */
-export const getTimeIntervalFromToday = (amount, dateFormat, defaults = {}) => {
-  const { from = new Date(), to = new Date() } = defaults
+export const getTimeIntervalFromToday = (amount, dateFormat, options = {}) => {
+  const { from = new Date(), to = new Date(), isUTC } = options
   const [get, set] = DateFormat[dateFormat]
 
-  to.setHours(24, 0, 0, 0)
-  from.setHours(0, 0, 0, 0)
+  const setHours = isUTC ? 'setUTCHours' : 'setHours'
+
+  to[setHours](24, 0, 0, 0)
+  from[setHours](0, 0, 0, 0)
 
   const target = amount <= 0 ? from : to
 

@@ -4,8 +4,8 @@ import gql from 'graphql-tag'
 import * as actions from './actions'
 
 const allTickersSlugsGQL = gql`
-  query allProjects {
-    allProjects {
+  query allProjects($minVolume: Int!) {
+    allProjects(minVolume: $minVolume) {
       ticker
       slug
       name
@@ -28,6 +28,7 @@ export default (action$, store, { client }) =>
       return Observable.from(
         client.query({
           query: allTickersSlugsGQL,
+          variables: { minVolume: 0 },
           context: { isRetriable: true }
         })
       )

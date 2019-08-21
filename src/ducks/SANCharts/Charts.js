@@ -162,7 +162,6 @@ class Charts extends React.Component {
       metrics,
       chartData = [],
       onZoomOut,
-      title,
       isZoomed,
       hasPremium,
       leftBoundaryDate,
@@ -188,7 +187,6 @@ class Charts extends React.Component {
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart}>
         <div className={sharedStyles.header}>
-          <div className={sharedStyles.title}>{title}</div>
           {isZoomed && (
             <Button
               border

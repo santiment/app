@@ -99,7 +99,6 @@ const SignalMaster = ({
         onClose={close}
         triggers={[stateTrigger]}
         settings={triggerSettingsFormData}
-        canRedirect={canRedirect}
         metaFormSettings={metaFormSettings}
         onSettingsChange={handleSettingsChange}
         formChangedCallback={formChangedCallback}

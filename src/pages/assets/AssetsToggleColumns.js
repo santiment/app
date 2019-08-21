@@ -25,7 +25,7 @@ const AssetsToggleColumns = ({ columns = [], onChange }) => (
       <div className={styles.heading}>Displayed asset attributes</div>
       <div className={styles.columns}>
         {Object.entries(columns).map(
-          ([name, { selectable, show, description }]) => (
+          ([name, { selectable, show, description = null }]) => (
             <Fragment key={name}>
               {name !== COLUMNS_NAMES.index && name !== COLUMNS_NAMES.project && (
                 <div

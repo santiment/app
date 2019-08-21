@@ -3,7 +3,7 @@ import cx from 'classnames'
 import logo from '../../assets/logo.svg'
 import styles from './PageLoader.module.scss'
 
-const PageLoader = ({ className }) => (
+const PageLoader = ({ className, text = 'Loading' }) => (
   <div className='page'>
     <div className={cx(styles.loader, className)}>
       <img
@@ -13,7 +13,7 @@ const PageLoader = ({ className }) => (
         height='44'
         alt='SANbase'
       />
-      Loading ...
+      {text}...
     </div>
   </div>
 )
