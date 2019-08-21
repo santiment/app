@@ -77,7 +77,11 @@ const tabs = [
   }
 ]
 
-const AccountPage = ({ isLoggedIn, location }) => {
+const AccountPage = ({ isUserLoading, isLoggedIn, location }) => {
+  if (isUserLoading) {
+    return null
+  }
+
   if (!isLoggedIn) {
     return <Redirect to='/' />
   }

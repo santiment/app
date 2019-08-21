@@ -132,6 +132,7 @@ class ExternalRedirect extends React.Component {
 export const App = ({
   isDesktop,
   isLoggedIn,
+  isUserLoading,
   token,
   isFullscreenMobile,
   isOffline,
@@ -272,7 +273,11 @@ export const App = ({
           exact
           path='/account'
           render={props => (
-            <LoadableAccountPage {...props} isLoggedIn={isLoggedIn} />
+            <LoadableAccountPage
+              {...props}
+              isUserLoading={isUserLoading}
+              isLoggedIn={isLoggedIn}
+            />
           )}
         />
         <Route exact path='/status' component={Status} />
@@ -353,6 +358,7 @@ const mapStateToProps = state => {
   const { ethAccounts = [] } = state.user.data
   return {
     isLoggedIn: state.user.data && !!state.user.data.id,
+    isUserLoading: state.user.isLoading,
     token: state.user.token,
     isFullscreenMobile: state.detailedPageUi.isFullscreenMobile,
     isOffline: !state.rootUi.isOnline,
