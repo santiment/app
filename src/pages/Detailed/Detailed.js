@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
 import { compose } from 'recompose'
 import { Redirect } from 'react-router-dom'
 import { Helmet } from 'react-helmet'

@@ -99,14 +99,18 @@ export const TriggerProjectsSelector = ({
           onSuggestionSelect={onSuggestionSelect}
         />
         <div className={styles.contentWrapper}>
-          <ProjectsList
-            classes={styles}
-            isContained={true}
-            listItems={listItems}
-            items={listItems}
-            onToggleProject={toggleAsset}
-          />
-          <div className={styles.divider} />
+          {!isSingle && (
+            <>
+              <ProjectsList
+                classes={styles}
+                isContained={true}
+                listItems={listItems}
+                items={listItems}
+                onToggleProject={toggleAsset}
+              />
+              <div className={styles.divider} />
+            </>
+          )}
           <ProjectsList
             classes={styles}
             listItems={listItems}
