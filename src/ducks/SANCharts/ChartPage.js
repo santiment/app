@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import * as qs from 'query-string'
 import cx from 'classnames'
-import isEqual from 'lodash.isequal'
 import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
@@ -11,8 +10,6 @@ import { Metrics } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
-import HelpPopup from '../../components/HelpPopup/HelpPopup'
-import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import styles from './ChartPage.module.scss'
 
 const DEFAULT_TIME_RANGE = '6m'
@@ -53,25 +50,9 @@ const LoadableChartMetricsTool = Loadable({
 })
 
 const getChartInitialState = props => {
-  let { slug, from, to, title, timeRange, metrics, interval } = props
+  let passedState
 
-  if (!from) {
-    const { from: f, to: t } = getIntervalByTimeRange(timeRange)
-    from = f.toISOString()
-    to = t.toISOString()
-    interval = getNewInterval(from, to)
-  }
-  let passedState = {
-    slug,
-    title,
-    metrics,
-    from,
-    to,
-    timeRange,
-    interval
-  }
-
-  if (props.location) {
+  if (props.location && props.location.search) {
     const parsedQuery = mapParsedTrueFalseFields(
       qs.parse(props.location.search, {
         arrayFormat: 'comma'
@@ -81,7 +62,26 @@ const getChartInitialState = props => {
       parsedQuery.metrics = [parsedQuery.metrics]
     }
 
-    passedState = { ...passedState, ...parsedQuery }
+    passedState = parsedQuery
+  } else {
+    let { slug, from, to, title, timeRange, metrics, interval } = props
+
+    if (!from) {
+      const { from: f, to: t } = getIntervalByTimeRange(timeRange)
+      from = f.toISOString()
+      to = t.toISOString()
+      interval = getNewInterval(from, to)
+    }
+
+    passedState = {
+      slug,
+      title,
+      metrics,
+      from,
+      to,
+      timeRange,
+      interval
+    }
   }
 
   return {
@@ -241,12 +241,6 @@ class ChartPage extends Component {
     this.setState(prev => ({ isAdvancedView: !prev.isAdvancedView }))
   }
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
-    if (!isEqual(prevProps, this.props)) {
-      this.setState(getChartInitialState(this.props))
-    }
-  }
-
   render () {
     const {
       timeRange,
@@ -269,7 +263,8 @@ class ChartPage extends Component {
       adjustNightMode,
       children,
       leftBoundaryDate,
-      rightBoundaryDate
+      rightBoundaryDate,
+      headerComponent: Header = null
     } = this.props
 
     const requestedMetrics = metrics.reduce((acc, metric) => {
@@ -320,92 +315,88 @@ class ChartPage extends Component {
           )
 
           return (
-            <div className={styles.wrapper}>
-              <div
-                className={cx(styles.tool, isAdvancedView && styles.tool_short)}
-              >
-                <div className={styles.container}>
-                  {!viewOnly && (
-                    <LoadableChartSettings
-                      defaultTimerange={timeRange}
-                      onTimerangeChange={this.onTimerangeChange}
-                      onCalendarChange={this.onCalendarChange}
-                      onSlugSelect={this.onSlugSelect}
-                      generateShareLink={this.generateShareLink}
-                      onNightModeSelect={this.onNightModeSelect}
-                      onIntervalChange={this.onIntervalChange}
-                      isNightModeActive={nightMode}
-                      showNightModeToggle={adjustNightMode}
-                      disabledMetrics={errors}
-                      from={from}
-                      to={to}
-                      interval={interval}
-                      hideSettings={hideSettings}
-                      project={{ projectId, slug }}
-                      title={title}
-                      isAdvancedView={isAdvancedView}
-                      classes={classes}
-                    />
+            <>
+              <Header onSlugSelect={this.onSlugSelect} />
+              <div className={styles.wrapper}>
+                <div
+                  className={cx(
+                    styles.tool,
+                    isAdvancedView && styles.tool_short
                   )}
-                  <Charts
-                    onZoom={this.onZoom}
-                    onZoomOut={this.onZoomOut}
-                    isZoomed={zoom}
-                    chartData={(timeseries && zoom
-                      ? timeseries.slice(zoom[0], zoom[1])
-                      : timeseries
-                    ).map(({ datetime, ...rest }) => ({
-                      ...rest,
-                      datetime: +new Date(datetime)
-                    }))}
-                    settings={settings}
-                    title={title}
-                    metrics={finalMetrics}
-                    leftBoundaryDate={leftBoundaryDate}
-                    rightBoundaryDate={rightBoundaryDate}
-                    children={children}
-                  />
-                </div>
-                {!viewOnly && (
-                  <div
-                    className={cx(styles.container, styles.container_bottom)}
-                  >
-                    <LoadableChartMetricsTool
-                      classes={styles}
-                      slug={slug}
-                      toggleMetric={this.toggleMetric}
-                      disabledMetrics={errors}
-                      activeMetrics={finalMetrics}
+                >
+                  <div className={styles.container}>
+                    {!viewOnly && (
+                      <LoadableChartSettings
+                        defaultTimerange={timeRange}
+                        onTimerangeChange={this.onTimerangeChange}
+                        onCalendarChange={this.onCalendarChange}
+                        onSlugSelect={this.onSlugSelect}
+                        generateShareLink={this.generateShareLink}
+                        onNightModeSelect={this.onNightModeSelect}
+                        onIntervalChange={this.onIntervalChange}
+                        isNightModeActive={nightMode}
+                        showNightModeToggle={adjustNightMode}
+                        disabledMetrics={errors}
+                        from={from}
+                        to={to}
+                        interval={interval}
+                        hideSettings={hideSettings}
+                        project={{ projectId, slug }}
+                        title={title}
+                        isAdvancedView={isAdvancedView}
+                        classes={classes}
+                      />
+                    )}
+                    <Charts
+                      onZoom={this.onZoom}
+                      onZoomOut={this.onZoomOut}
+                      isZoomed={zoom}
+                      chartData={(timeseries && zoom
+                        ? timeseries.slice(zoom[0], zoom[1])
+                        : timeseries
+                      ).map(({ datetime, ...rest }) => ({
+                        ...rest,
+                        datetime: +new Date(datetime)
+                      }))}
+                      settings={settings}
+                      title={title}
+                      metrics={finalMetrics}
+                      leftBoundaryDate={leftBoundaryDate}
+                      rightBoundaryDate={rightBoundaryDate}
+                      children={children}
                     />
                   </div>
-                )}
-
-                {!hideSettings.linkToDashboard && (
-                  <div className={styles.moreData}>
-                    <UpgradeBtn className={styles.upgradeBtn}>
-                      Get more data
-                    </UpgradeBtn>
-
-                    <div className={styles.limited}>
-                      <span className={styles.limitedLabel}>
-                        <Link to='/dashboards'>Limited data</Link>
-                      </span>
-                      <HelpPopup position='bottom left'>
-                        See much more data in our SANbase Dashboards
-                      </HelpPopup>
+                  {!viewOnly && (
+                    <div
+                      className={cx(styles.container, styles.container_bottom)}
+                    >
+                      <LoadableChartMetricsTool
+                        classes={styles}
+                        slug={slug}
+                        toggleMetric={this.toggleMetric}
+                        disabledMetrics={errors}
+                        activeMetrics={finalMetrics}
+                      />
                     </div>
+                  )}
+
+                  <div className={styles.moreData}>
+                    <span className={styles.limitedLabel}>
+                      See much more data in our
+                    </span>
+                    <Link to='/dashboards'>SANbase Dashboards</Link>
                   </div>
+                </div>
+                {!viewOnly && !hideSettings.sidecar && (
+                  <LoadableChartSidecar
+                    onSlugSelect={this.onSlugSelect}
+                    onSidebarToggleClick={this.onSidebarToggleClick}
+                    isAdvancedView={isAdvancedView}
+                    classes={classes}
+                  />
                 )}
               </div>
-              {!viewOnly && !hideSettings.sidecar && (
-                <LoadableChartSidecar
-                  onSlugSelect={this.onSlugSelect}
-                  onSidebarToggleClick={this.onSidebarToggleClick}
-                  isAdvancedView={isAdvancedView}
-                  classes={classes}
-                />
-              )}
-            </div>
+            </>
           )
         }}
       />

@@ -202,7 +202,7 @@
 
   .detailed .information {
     flex-direction: row;
-    margin: 10px 32px 32px 32px;
+    margin: 10px 32px 32px;
   }
 
   .detailed .information .panel {

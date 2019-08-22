@@ -4,12 +4,12 @@ import logo from '../../assets/logo.svg'
 import styles from './PageLoader.module.scss'
 
 const PageLoader = ({
-  loaderClassName,
+  className,
   text = 'Loading',
   containerClass = 'page'
 }) => (
   <div className={containerClass}>
-    <div className={cx(styles.loader, loaderClassName)}>
+    <div className={cx(styles.loader, className)}>
       <img
         src={logo}
         className={styles.loader__img}

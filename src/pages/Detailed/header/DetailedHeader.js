@@ -28,11 +28,12 @@ const DetailedHeader = ({
   loading,
   isLoggedIn,
   isDesktop,
-  history
+  history,
+  onSlugSelect
 }) => {
   const {
     id,
-    name,
+    name = '',
     description,
     slug,
     ticker,
@@ -47,15 +48,16 @@ const DetailedHeader = ({
       <PageLoader
         isPage={false}
         containerClass={styles.headerLoaderContainer}
-        loaderClassName={styles.headerLoader}
+        className={styles.headerLoader}
       />
     )
   }
 
   const onChangeProject = data => {
-    const newProject = data && data.length ? data[0] : undefined
+    const newProject = Array.isArray(data) ? data[0] : data
     if (newProject && newProject.slug && +newProject.id !== +id) {
-      newProject && history.push(`/projects/${newProject.slug}`)
+      history.push(`/projects/${newProject.slug}`)
+      onSlugSelect(newProject)
     }
   }
 
@@ -73,7 +75,7 @@ const DetailedHeader = ({
       <div className={styles.wrapper}>
         <div className={styles.left}>
           <div className={styles.logo}>
-            <ProjectIcon name={name || ''} ticker={ticker} size={40} />
+            <ProjectIcon name={name} ticker={ticker} size={40} />
             <div className={styles.name}>
               <div className={styles.projectSelector}>
                 <h1>

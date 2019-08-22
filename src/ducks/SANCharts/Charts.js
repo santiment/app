@@ -1,7 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
-import isEqual from 'lodash.isequal'
 import {
   Line,
   ResponsiveContainer,
@@ -69,11 +68,11 @@ class Charts extends React.Component {
 
   componentDidUpdate (prevProps) {
     const { metrics } = this.props
-    if (!isEqual(this.props.chartData, prevProps.chartData)) {
+    if (this.props.chartData !== prevProps.chartData) {
       this.getXToYCoordinates()
     }
 
-    if (!isEqual(metrics, prevProps.metrics)) {
+    if (metrics !== prevProps.metrics) {
       this.setState({
         tooltipMetric: findYAxisMetric(metrics)
       })

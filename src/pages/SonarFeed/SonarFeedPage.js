@@ -123,7 +123,7 @@ const SonarFeed = ({
       />
       <div className={styles.content}>
         <Switch>
-          {isUserLoading && <PageLoader loaderClassName={styles.loader} />}
+          {isUserLoading && <PageLoader className={styles.loader} />}
           {!isUserLoading && !isLoggedIn ? <InsightUnAuthPage /> : ''}
           <Route path={tabs[0].index} component={tabs[0].component} />
           {tabs.map(({ index, component }) => (

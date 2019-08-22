@@ -12,7 +12,7 @@ const SonarFeedMySignalsPage = () => {
         const hasSignals = signals && signals.length > 0
 
         if (isLoading) {
-          return <PageLoader loaderClassName={styles.loader} />
+          return <PageLoader className={styles.loader} />
         }
 
         return (

@@ -140,7 +140,7 @@ const SignalMasterModalForm = ({
               <Dialog.ScrollContent className={styles.TriggerPanel}>
                 {isError && <NoSignal triggerId={triggerId} />}
                 {!isError && isLoading && (
-                  <PageLoader loaderClassName={styles.loading} />
+                  <PageLoader className={styles.loading} />
                 )}
                 {!isError &&
                   !isLoading &&

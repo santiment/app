@@ -56,6 +56,16 @@ export const Detailed = ({
     return <ServerErrorMessage />
   }
 
+  const header = ({ onSlugSelect }) => (
+    <DetailedHeader
+      isDesktop={isDesktop}
+      {...Project}
+      isLoggedIn={isLoggedIn}
+      history={history}
+      onSlugSelect={onSlugSelect}
+    />
+  )
+
   const projectContainerChart = project && project.id && (
     <>
       <Query query={USER_SUBSCRIPTIONS_QUERY}>
@@ -79,9 +89,9 @@ export const Detailed = ({
               classes={styles}
               hideSettings={{
                 search: true,
-                linkToDashboard: false,
                 signals: true
               }}
+              headerComponent={header}
               {...boundaries}
             />
           )
@@ -113,12 +123,6 @@ export const Detailed = ({
         />
       </Helmet>
       {!isDesktop && <Search />}
-      <DetailedHeader
-        isDesktop={isDesktop}
-        {...Project}
-        isLoggedIn={isLoggedIn}
-        history={history}
-      />
       {isDesktop ? (
         <div className={'information'}>
           {projectContainerChart && (

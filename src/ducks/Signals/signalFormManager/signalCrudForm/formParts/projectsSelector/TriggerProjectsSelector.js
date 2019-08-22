@@ -99,7 +99,7 @@ export const TriggerProjectsSelector = ({
           onSuggestionSelect={onSuggestionSelect}
         />
         <div className={styles.contentWrapper}>
-          {!isSingle && (
+          {isSingle || (
             <>
               <ProjectsList
                 classes={styles}
@@ -126,12 +126,7 @@ export const TriggerProjectsSelector = ({
 const ProjectsSelectorTrigger = ({ listItems, onSuggestionSelect }) => (
   <div>
     <div className={styles.assetsSelect}>
-      {
-        <AssetsListDescription
-          assets={listItems}
-          onRemove={onSuggestionSelect}
-        />
-      }
+      <AssetsListDescription assets={listItems} onRemove={onSuggestionSelect} />
     </div>
     {listItems.length === 0 && (
       <div className='error error-message'>Please, pick an asset(s)</div>

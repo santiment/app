@@ -21,12 +21,7 @@ const Trigger = ({ className, children = 'Upgrade', ...props }) => (
 
 // NOTE(vanguard): redux passes "dispatch" prop to the component.
 // We should capture it in order to not assign it as a invalid dom attribute
-const UpgradeBtn = ({
-  isLoggedIn,
-  title = 'Plan upgrade',
-  dispatch,
-  ...props
-}) => {
+const UpgradeBtn = ({ isLoggedIn, dispatch, ...props }) => {
   if (!isLoggedIn) {
     return <Trigger as={Link} to='/login' {...props} />
   }
@@ -43,7 +38,7 @@ const UpgradeBtn = ({
         return (
           <Dialog
             classes={styles}
-            title={title}
+            title='Plan upgrade'
             trigger={<Trigger {...props} />}
           >
             <Dialog.ScrollContent>

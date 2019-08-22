@@ -22,16 +22,6 @@ exports[`Project detail page container it should render correctly 1`] = `
     />
   </HelmetWrapper>
   <withRouter(SearchContainer) />
-  <DetailedHeader
-    project={
-      Object {
-        "id": 12,
-        "name": "Aragorn",
-        "priceUsd": 10,
-        "ticker": "AE",
-      }
-    }
-  />
   <div>
     <Query
       query={

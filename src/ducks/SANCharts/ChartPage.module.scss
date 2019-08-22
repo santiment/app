@@ -124,20 +124,10 @@
   align-items: center;
 }
 
-.limited {
+.limitedLabel {
   display: flex;
+  margin-right: 5px;
   color: var(--waterloo);
 
   @include text('body-3');
-}
-
-.limitedLabel {
-  margin-right: 5px;
-}
-
-.upgradeBtn {
-  background-color: var(--texas-rose-light);
-  margin-right: 16px;
-  padding: 12px 20px;
-  border-radius: $border-radius;
 }
