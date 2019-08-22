@@ -28,10 +28,7 @@ const DEFAULT_STATE = {
   projectId: '16912',
   interval: getNewInterval(FROM, TO, '1d'),
   isAdvancedView: false,
-  enabledViewOnlySharing: true,
-  hideSettings: {
-    linkToDashboard: true
-  }
+  enabledViewOnlySharing: true
 }
 
 const LoadableChartSidecar = Loadable({
