@@ -41,6 +41,7 @@ const link = mockSingleLink(
     request: {
       query: getMetricQUERY('historyPrice'),
       variables: {
+        metric: 'historyPrice',
         slug: 'santiment',
         interval: '1d',
         from: '2018-12-01',
@@ -53,6 +54,7 @@ const link = mockSingleLink(
     request: {
       query: getMetricQUERY('historyPrice'),
       variables: {
+        metric: 'historyPrice',
         slug: 'santiment',
         interval: '1d',
         from: '2018-12-01',
@@ -64,6 +66,7 @@ const link = mockSingleLink(
   {
     request: {
       query: getMetricQUERY('devActivity'),
+      metric: 'devActivity',
       variables: {
         slug: 'santiment',
         interval: '1d',
@@ -79,6 +82,7 @@ const link = mockSingleLink(
     request: {
       query: getMetricQUERY('historyPrice'),
       variables: {
+        metric: 'historyPrice',
         slug: 'santiment',
         interval: '1d',
         from: '2018-12-01',
@@ -91,6 +95,22 @@ const link = mockSingleLink(
     request: {
       query: getMetricQUERY('devActivity'),
       variables: {
+        metric: 'devActivity',
+        slug: 'santiment',
+        interval: '1d',
+        from: '2018-12-01',
+        to: '2018-12-10',
+        transform: 'movingAverage',
+        movingAverageIntervalBase: 7
+      }
+    },
+    result: { data: mockedDevActivity }
+  },
+  {
+    request: {
+      query: getMetricQUERY('devActivity'),
+      variables: {
+        metric: 'devActivity',
         slug: 'santiment',
         interval: '1d',
         from: '2018-12-01',
@@ -110,12 +130,15 @@ describe('Fetch timeseries', () => {
       type: actions.TIMESERIES_FETCH,
       payload: {
         id: 0,
-        historyPrice: {
-          from: '2018-12-01',
-          to: '2018-12-10',
-          slug: 'santiment',
-          interval: '1d'
-        }
+        metrics: [
+          {
+            name: 'historyPrice',
+            from: '2018-12-01',
+            to: '2018-12-10',
+            slug: 'santiment',
+            interval: '1d'
+          }
+        ]
       }
     })
     const epic$ = fetchTimeseriesEpic(action$, mockStore({}), { client })
@@ -130,20 +153,24 @@ describe('Fetch timeseries', () => {
       type: actions.TIMESERIES_FETCH,
       payload: {
         id: 0,
-        historyPrice: {
-          from: '2018-12-01',
-          to: '2018-12-10',
-          slug: 'santiment',
-          interval: '1d'
-        },
-        devActivity: {
-          from: '2018-12-01',
-          to: '2018-12-10',
-          slug: 'santiment',
-          interval: '1d',
-          transform: 'movingAverage',
-          movingAverageIntervalBase: 7
-        }
+        metrics: [
+          {
+            name: 'historyPrice',
+            from: '2018-12-01',
+            to: '2018-12-10',
+            slug: 'santiment',
+            interval: '1d'
+          },
+          {
+            name: 'devActivity',
+            from: '2018-12-01',
+            to: '2018-12-10',
+            slug: 'santiment',
+            interval: '1d',
+            transform: 'movingAverage',
+            movingAverageIntervalBase: 7
+          }
+        ]
       }
     })
     const epic$ = fetchTimeseriesEpic(action$, mockStore({}), { client })
@@ -159,23 +186,24 @@ describe('Fetch timeseries', () => {
       type: actions.TIMESERIES_FETCH,
       payload: {
         id: 0,
-        historyPrice: {
-          from: '2018-12-01',
-          to: '2018-12-10',
-          slug: 'santiment',
-          interval: '1d'
-        },
-        devActivity: {
-          from: '2018-12-01',
-          to: '2018-12-10',
-          slug: 'santiment',
-          interval: '1d',
-          transform: 'movingAverage',
-          movingAverageIntervalBase: 7
-        },
-        meta: {
-          mergedByDatetime: true
-        }
+        metrics: [
+          {
+            name: 'historyPrice',
+            from: '2018-12-01',
+            to: '2018-12-10',
+            slug: 'santiment',
+            interval: '1d'
+          },
+          {
+            name: 'devActivity',
+            from: '2018-12-01',
+            to: '2018-12-10',
+            slug: 'santiment',
+            interval: '1d',
+            transform: 'movingAverage',
+            movingAverageIntervalBase: 7
+          }
+        ]
       }
     })
     const epic$ = fetchTimeseriesEpic(action$, mockStore({}), { client })
@@ -191,12 +219,15 @@ describe('Fetch timeseries', () => {
       type: actions.TIMESERIES_FETCH,
       payload: {
         id: 0,
-        anyStrangeMetric: {
-          from: '2018-12-01',
-          to: '2018-12-10',
-          slug: 'santiment',
-          interval: '1d'
-        }
+        metrics: [
+          {
+            name: 'anyStrangeMetric',
+            from: '2018-12-01',
+            to: '2018-12-10',
+            slug: 'santiment',
+            interval: '1d'
+          }
+        ]
       }
     })
     try {

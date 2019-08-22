@@ -5,11 +5,15 @@ import { mergeTimeseriesByKey } from './../../utils/utils'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import { hasMetric, getMetricQUERY, getPreTransform } from './timeseries'
 
-const mapDataToMergedTimeserieByDatetime = (items = []) => {
+const mapDataToMergedTimeserieByDatetime = (items = [], errors) => {
   const metricsInfo = {}
   const timeseries = mergeTimeseriesByKey({
-    timeseries: items.reduce((acc, { data, __metric, ...rest }) => {
-      metricsInfo[__metric] = rest
+    timeseries: items.reduce((acc, { data, __metric, loading }) => {
+      metricsInfo[__metric] = {
+        isLoading: loading,
+        isEmpty: data.length === 0,
+        isError: !!errors[__metric]
+      }
       acc.push(data[__metric])
       return acc
     }, [])
@@ -23,7 +27,10 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
     console.time('Request initialization')
     const { id, metrics } = action.payload
 
-    if (process.env.NODE_ENV === 'development') {
+    if (
+      process.env.NODE_ENV === 'development' ||
+      process.env.NODE_ENV === 'test'
+    ) {
       metrics.forEach(({ name }) => {
         if (hasMetric(name)) return
 
@@ -69,7 +76,10 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
     return Observable.forkJoin(queries)
       .mergeMap(res => {
         console.time('Forming response')
-        const result = mapDataToMergedTimeserieByDatetime(res)
+        const result = mapDataToMergedTimeserieByDatetime(
+          res.filter(Boolean),
+          errorMetrics
+        )
         console.timeEnd('Forming response')
         return Observable.of({
           type: actions.TIMESERIES_FETCH_SUCCESS,
