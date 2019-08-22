@@ -1,13 +1,13 @@
 import qs from 'query-string'
 import {
   PUBLIC_WATCHLISTS,
-  WATCHLISTS_BY_FUNCTION
+  WATCHLISTS_BY_SLUG
 } from './assets-overview-constants'
 
 const getListName = name => {
   const isPublic =
     PUBLIC_WATCHLISTS.find(({ assetType }) => assetType === name) ||
-    WATCHLISTS_BY_FUNCTION.find(({ assetType }) => assetType === name)
+    WATCHLISTS_BY_SLUG.find(({ assetType }) => assetType === name)
   return isPublic ? isPublic.name : name
 }
 

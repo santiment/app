@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import * as actions from './../../actions/types.js'
 import { sortBy } from './../../utils/sortMethods'
-import { WATCHLISTS_BY_FUNCTION } from '../assets/assets-overview-constants'
+import { WATCHLISTS_BY_SLUG } from '../assets/assets-overview-constants'
 
 export const SORT_TYPES = {
   marketcap: 'marketcapUsd',
@@ -20,45 +20,36 @@ class GetAssets extends Component {
 
   static defaultProps = {
     sortBy: SORT_TYPES.marketcap,
-    Assets: {
-      items: []
-    }
+    Assets: { items: [] }
   }
 
   getInfoFromListname = (listname = '') => {
     const [listName, listId] = listname.split('@')
-    const listByFunction = WATCHLISTS_BY_FUNCTION.find(
+    const listBySlug = WATCHLISTS_BY_SLUG.find(
       ({ assetType }) => assetType === listName
     )
     return listId
       ? { listName, listId }
-      : {
-        listName,
-        listFunction: listByFunction ? listByFunction.byFunction : null
-      }
+      : { listName, listSlug: listBySlug && listBySlug.bySlug }
   }
 
   getType = () => {
     const { search, hash } = this.props.location || {}
-    const { listName, listId, listFunction } = compose(
+    const { listName, listId, listSlug } = compose(
       this.getInfoFromListname,
       parsed => parsed.name,
       qs.parse
     )(search)
     const type =
       hash === '#shared' ? 'list#shared' : this.props.type || qs.parse(search)
-    return { type, listName, listId, listFunction }
+    return { type, listName, listId, listSlug }
   }
 
   componentDidMount () {
-    const { type, listName, listId, listFunction } = this.getType()
+    const { type, listName, listId, listSlug } = this.getType()
     this.props.fetchAssets({
       type,
-      list: {
-        name: listName,
-        id: listId,
-        function: listFunction
-      },
+      list: { name: listName, id: listId, slug: listSlug },
       minVolume: this.props.minVolume
     })
   }
@@ -69,14 +60,10 @@ class GetAssets extends Component {
       pathname !== (prevProps.location || {}).pathname ||
       search !== (prevProps.location || {}).search
     ) {
-      const { type, listName, listId, listFunction } = this.getType()
+      const { type, listName, listId, listSlug } = this.getType()
       this.props.fetchAssets({
         type,
-        list: {
-          name: listName,
-          id: listId,
-          function: listFunction
-        },
+        list: { name: listName, id: listId, slug: listSlug },
         minVolume: this.props.minVolume
       })
     }
@@ -111,9 +98,7 @@ const mapDispatchToProps = dispatch => ({
       payload: {
         type,
         list,
-        filters: {
-          minVolume
-        }
+        filters: { minVolume }
       }
     })
   }

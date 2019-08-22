@@ -8,10 +8,11 @@ import PropTypes from 'prop-types'
 import { Area, AreaChart, ResponsiveContainer } from 'recharts'
 import PercentChanges from '../PercentChanges'
 import {
+  CATEGORY_HISTORY_QUERY,
   PROJECTS_HISTORY_QUERY,
-  CATEGORY_HISTORY_QUERY
+  WATCHLIST_HISTORY_QUERY,
+  WATCHLIST_BY_SLUG_HISTORY_QUERY
 } from '../WatchlistOverview/WatchlistHistory/WatchlistHistoryGQL'
-import { WATCHLIST_HISTORY_QUERY } from '../WatchlistOverview/WatchlistHistory/WatchlistHistoryGQL'
 import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip'
 import Gradients from '../WatchlistOverview/Gradients'
 import { TRENDING_WATCHLIST_NAME } from '../../pages/assets/assets-overview-constants'
@@ -34,7 +35,7 @@ const WatchlistCard = ({
   onClick,
   slugs
 }) => {
-  if (name === TRENDING_WATCHLIST_NAME && slugs.length === 0) return null
+  if (name === TRENDING_WATCHLIST_NAME && stats.length === 0) return null
   const { marketcap: latestMarketcap } = stats.slice(-1)[0] || {}
   const { marketcap } = stats.slice(0, 1)[0] || {}
   const change = marketcap
@@ -126,7 +127,7 @@ const enhance = compose(
         interval: INTERVAL
       }
     }),
-    skip: ({ slugs }) => !slugs.length,
+    skip: ({ slugs }) => !slugs || !slugs.length,
     props: ({ data: { projectsListHistoryStats = [], loading, error } }) => ({
       stats: filterEmptyStats(projectsListHistoryStats),
       isLoading: loading,
@@ -144,6 +145,24 @@ const enhance = compose(
     skip: ({ slug }) => !slug,
     props: ({ data: { historyPrice = [], loading, error } }) => ({
       stats: filterEmptyStats(historyPrice),
+      isLoading: loading,
+      isError: error
+    })
+  }),
+  graphql(WATCHLIST_BY_SLUG_HISTORY_QUERY, {
+    options: ({ bySlug }) => ({
+      variables: {
+        slug: bySlug,
+        ...getTimeIntervalFromToday(-6, DAY),
+        interval: INTERVAL
+      }
+    }),
+    skip: ({ bySlug }) => !bySlug,
+    props: ({ data: { watchlistBySlug = {}, loading, error } }) => ({
+      stats:
+        watchlistBySlug && watchlistBySlug.historicalStats
+          ? filterEmptyStats(watchlistBySlug.historicalStats)
+          : [],
       isLoading: loading,
       isError: error
     })
