@@ -8,10 +8,10 @@ import {
   ReferenceLine,
   ReferenceDot
 } from 'recharts'
-import Gradients from '../../components/WatchlistOverview/Gradients'
-import { formatNumber } from './../../utils/formatting'
-import { generateMetricsMarkup } from '../../ducks/SANCharts/utils.js'
-import CustomTooltip from '../../ducks/SANCharts/CustomTooltip'
+import Gradients from '../../../components/WatchlistOverview/Gradients'
+import { formatNumber } from '../../../utils/formatting'
+import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils.js'
+import CustomTooltip from '../../../ducks/SANCharts/CustomTooltip'
 import styles from './MobileAssetChart.module.scss'
 
 const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {

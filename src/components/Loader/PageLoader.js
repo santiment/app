@@ -3,8 +3,12 @@ import cx from 'classnames'
 import logo from '../../assets/logo.svg'
 import styles from './PageLoader.module.scss'
 
-const PageLoader = ({ className, text = 'Loading' }) => (
-  <div className='page'>
+const PageLoader = ({
+  className,
+  text = 'Loading',
+  containerClass = 'page'
+}) => (
+  <div className={containerClass}>
     <div className={cx(styles.loader, className)}>
       <img
         src={logo}

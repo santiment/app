@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon } from '@santiment-network/ui'
+import Icon from '@santiment-network/ui/Icon'
 import { Popup } from 'semantic-ui-react'
 
 export const style = {

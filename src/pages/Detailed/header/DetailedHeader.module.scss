@@ -1,3 +1,6 @@
+@import "~@santiment-network/ui/variables";
+@import "~@santiment-network/ui/mixins";
+
 @keyframes skeletonAnimation {
   0% {
     opacity: 0.8;
@@ -13,9 +16,24 @@
 }
 
 .wrapper {
-  min-height: 84px;
+  min-height: 106px;
   background-color: var(--white);
-  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.headerLoader {
+  height: 100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerLoaderContainer {
+  display: flex;
+  width: 100%;
+  height: 106px;
 }
 
 .left {
@@ -26,22 +44,50 @@
 
 .logo {
   display: flex;
-  flex-direction: column;
-  margin-right: 20px;
+  flex-direction: row;
+}
+
+.signalButton {
+  border: 1px solid var(--jungle-green) !important;
+}
+
+.watchlistButton {
+  margin-left: 16px;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+.watchlistIcon {
+  fill: var(--white);
+}
+
+.right {
+  margin-right: 15px;
+  margin-top: 15px;
 }
 
 .name {
   display: flex;
   flex-direction: column;
   justify-content: left;
-  padding-right: 150px;
+  margin-left: 16px;
+  width: 350px;
+}
+
+.projectSelector {
+  display: flex;
+  flex-direction: row;
 }
 
 .name h1 {
   margin: 0 !important;
   margin-right: 5px;
-  font-size: 24px !important;
+  font-size: 22px !important;
   line-height: 1em !important;
+
+  @include text('h4');
 }
 
 .description {
@@ -51,30 +97,39 @@
 .price {
   display: flex;
   flex-direction: row;
-  font-size: 1.6em;
-  line-height: 1.1em;
   width: 100%;
-  margin-top: 1em;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start;
 }
 
 .priceUsd {
   display: flex;
   align-items: baseline;
   justify-content: left;
-  font-size: 24px;
-  font-weight: 600;
+
+  @include text('h4');
+}
+
+.priceUsdLabel {
+  @include text('h4');
 }
 
 .percentChanges {
-  font-size: 14px;
   font-weight: 300;
   text-align: right;
+  margin-left: 11px;
 
-  &:first-of-type {
-    margin-left: 0;
-  }
+  @include text('h4');
+}
+
+.percentChangesSmall {
+  @include text('body-3');
+}
+
+.supply {
+  @include text('body-3');
+
+  color: var(--waterloo);
 }
 
 .pending-header {
@@ -96,6 +151,19 @@
 .pending-h1 {
   height: 1em;
   font-size: 28px !important;
+}
+
+.breadcrambs {
+  margin-left: 30px;
+}
+
+.breadcrambLink {
+  color: $bali-hai;
+  margin-right: 14px;
+}
+
+.breadcrambCurrent {
+  color: $fiord;
 }
 
 @media (min-width: 768px) {
@@ -133,20 +201,12 @@
     display: flex;
     flex-direction: column;
     justify-content: left;
-    padding-right: 150px;
-    margin-right: 40px;
-    border-right: 1px solid var(--grey-dark);
   }
 
   .price {
     display: flex;
     flex-direction: column;
-    font-size: 1.6em;
-    line-height: 1.1em;
-    margin-top: 1rem;
     justify-content: left;
-    margin-right: 20px;
-    width: 200px;
   }
 }
 

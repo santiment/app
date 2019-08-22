@@ -1,8 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
 import { Icon } from '@santiment-network/ui'
-import { formatCryptoCurrency, formatNumber } from './../../utils/formatting'
-import HelpPopup from './../../components/HelpPopup/HelpPopup'
+import { formatCryptoCurrency, formatNumber } from '../../../utils/formatting'
+import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import styles from './GeneralInfoBlock.module.scss'
 
 const GeneralInfoBlock = ({

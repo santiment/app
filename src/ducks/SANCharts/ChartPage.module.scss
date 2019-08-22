@@ -116,3 +116,18 @@
     justify-content: space-between;
   }
 }
+
+.moreData {
+  padding: 0 20px 20px;
+  border-radius: $border-radius;
+  display: flex;
+  align-items: center;
+}
+
+.limitedLabel {
+  display: flex;
+  margin-right: 5px;
+  color: var(--waterloo);
+
+  @include text('body-3');
+}

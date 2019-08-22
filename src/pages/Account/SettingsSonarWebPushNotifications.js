@@ -92,7 +92,7 @@ const SettingsSonarWebPushNotifications = ({ classes = {}, className }) => {
           } else {
             toggle(false)
           }
-        }, 1000)
+        })
     })
   }
 

@@ -77,7 +77,7 @@ const TriggerFormTrendingWordsTypes = ({
                     {isProjects && (
                       <TriggerProjectsSelector
                         name='target'
-                        values={values}
+                        target={target}
                         projects={allProjects}
                         setFieldValue={setFieldValue}
                       />
