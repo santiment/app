@@ -109,6 +109,7 @@ const SettingsSonarWebPushNotifications = ({ classes = {}, className }) => {
             registerSonarActivitiesSw({
               hideRegistrationChecking: true,
               callback: () => {
+                console.log('Registered sonar service worker')
                 requestNotificationPermission(null, unRegisterSw)
                 sendParams()
                 toggle(true)
