@@ -64,7 +64,6 @@
 }
 
 .right {
-  margin-right: 15px;
   margin-top: 15px;
 }
 
@@ -154,7 +153,7 @@
 }
 
 .breadcrambs {
-  margin-left: 30px;
+  display: flex;
 }
 
 .breadcrambLink {
@@ -191,9 +190,15 @@
     flex-direction: row;
   }
 
+  .header {
+    padding: 16px 0;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
   .left {
     flex-direction: row;
-    margin-left: 20px;
     align-items: center;
   }
 
