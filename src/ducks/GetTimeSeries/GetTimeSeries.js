@@ -10,12 +10,13 @@ class GetTimeSeries extends React.Component {
   id = id++
 
   componentDidMount () {
-    this.props.fetchTimeseries({ id: this.id, ...getMetrics(this.props) })
+    this.props.fetchTimeseries({ id: this.id, metrics: this.props.metrics })
   }
 
-  componentDidUpdate (prevProps, prevState) {
-    if (!isEqual(getMetrics(this.props), getMetrics(prevProps))) {
-      this.props.fetchTimeseries({ id: this.id, ...getMetrics(this.props) })
+  componentDidUpdate (prevProps) {
+    const { metrics, fetchTimeseries } = this.props
+    if (!isEqual(metrics, prevProps.metrics)) {
+      fetchTimeseries({ id: this.id, metrics })
     }
   }
 
@@ -27,28 +28,6 @@ class GetTimeSeries extends React.Component {
     const { render, timeseries = {} } = this.props
     return render(timeseries[this.id] || {})
   }
-}
-
-const getMetrics = props => {
-  return Object.keys(props)
-    .filter(
-      metric =>
-        metric !== 'store' &&
-        metric !== 'render' &&
-        metric !== 'fetchTimeseries' &&
-        metric !== 'deleteTimeseries' &&
-        metric !== 'storeSubscription' &&
-        metric !== 'timeseries'
-    )
-    .reduce((acc, metric) => {
-      if (props[metric]) {
-        acc = {
-          ...acc,
-          [metric]: props[metric]
-        }
-      }
-      return acc
-    }, {})
 }
 
 const mapStateToProps = ({ timeseries }) => ({ timeseries })
