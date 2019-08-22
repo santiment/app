@@ -72,7 +72,7 @@ const DetailedHeader = ({
           {name}
         </Link>
       </div>
-      <div className={styles.wrapper}>
+      <div className={styles.header}>
         <div className={styles.left}>
           <div className={styles.logo}>
             <ProjectIcon name={name} ticker={ticker} size={40} />
