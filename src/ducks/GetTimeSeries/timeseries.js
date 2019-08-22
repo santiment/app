@@ -23,18 +23,16 @@ import { mergeTimeseriesByKey } from './../../utils/utils'
 const TIMESERIES = {
   ethSpentOverTime: {
     query: ETH_SPENT_OVER_TIME_QUERY,
-    preTransform: {
-      predicate: metric => metric === 'ethSpentOverTime',
-      preTransform: ({ ethSpentOverTime: { ethSpentOverTime } }) => ({
-        ethSpentOverTime
-      })
-    }
+    preTransform: ({ ethSpentOverTime: { ethSpentOverTime } }) =>
+      ethSpentOverTime
   },
   nvtRatioCirculation: {
-    query: NVT_RATIO_QUERY
+    query: NVT_RATIO_QUERY,
+    preTransform: ({ nvtRatio }) => nvtRatio
   },
   nvtRatioTxVolume: {
-    query: NVT_RATIO_QUERY
+    query: NVT_RATIO_QUERY,
+    preTransform: ({ nvtRatio }) => nvtRatio
   },
   burnRate: {
     query: BURN_RATE_QUERY
@@ -49,7 +47,8 @@ const TIMESERIES = {
     query: HISTORY_PRICE_QUERY
   },
   volume: {
-    query: HISTORY_PRICE_QUERY
+    query: HISTORY_PRICE_QUERY,
+    preTransform: ({ historyPrice }) => historyPrice
   },
   devActivity: {
     query: DEV_ACTIVITY_QUERY
@@ -58,7 +57,8 @@ const TIMESERIES = {
     query: SOCIAL_DOMINANCE_QUERY
   },
   percentOfTokenSupplyOnExchanges: {
-    query: PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES
+    query: PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES,
+    preTransform: ({ percentOnExchanges }) => percentOnExchanges
   },
   topHoldersPercentOfTotalSupply: {
     query: TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY
@@ -86,12 +86,8 @@ const TIMESERIES = {
   },
   transaction_volume: {
     query: GET_METRIC,
-    preTransform: {
-      predicate: metric => metric === 'transaction_volume',
-      preTransform: a => {
-        console.log(a)
-        return a
-      }
+    preTransform: ({ getMetric: { timeseriesData } }) => {
+      return timeseriesData
     }
   },
   networkGrowth: {
@@ -116,7 +112,13 @@ const TIMESERIES = {
 }
 
 export const hasMetric = metric => !!TIMESERIES[metric]
-export const getMetricQUERY = metric => TIMESERIES[metric].query
+export const getMetricQUERY = metric => {
+  const { query } = TIMESERIES[metric]
+  if (typeof query === 'function') {
+    return query(metric)
+  }
+  return query
+}
 export const getPreTransform = metric => {
   const transform = TIMESERIES[metric].preTransform
 

@@ -23,7 +23,7 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
     console.time('Request initialization')
     const { id, metrics } = action.payload
 
-    if (false && process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development') {
       metrics.forEach(({ name }) => {
         if (hasMetric(name)) return
 
@@ -51,7 +51,7 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
           .query({
             query: getMetricQUERY(name),
             variables: {
-              name,
+              metric: name,
               interval: interval || '1d',
               to: to || timePeriod.to,
               from: from || timePeriod.from,

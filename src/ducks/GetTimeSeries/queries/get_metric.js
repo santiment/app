@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const GET_METRIC = gql`
+export const GET_METRIC = metric => gql`
   query getMetric(
     $metric: String!
     $slug: String!
@@ -11,7 +11,7 @@ export const GET_METRIC = gql`
     getMetric(metric: $metric) {
       timeseriesData(slug: $slug, from: $from, to: $to, interval: $interval) {
         datetime
-        value
+        ${metric}: value
       }
     }
   }
