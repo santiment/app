@@ -115,8 +115,8 @@ export const TriggerForm = ({
     }
   }, [])
 
-  const toggleSignalPublic = values => {
-    setInitialValues({ ...values, isPublic: !values.isPublic })
+  const toggleSignalPublic = () => {
+    setInitialValues({ ...initialValues, isPublic: !initialValues.isPublic })
   }
 
   const [step, setStep] = useState(
@@ -337,7 +337,7 @@ export const TriggerForm = ({
                             defaultSelectedIndex={
                               isPublic ? 'Public' : 'Private'
                             }
-                            onSelect={() => toggleSignalPublic(values)}
+                            onSelect={toggleSignalPublic}
                             labelClassName={styles.checkboxLabel}
                           />
                         </div>
