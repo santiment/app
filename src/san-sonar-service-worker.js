@@ -221,7 +221,7 @@ const loadAndCheckActivities = () => {
   const query = {
     operationName: 'signalsHistoricalActivity',
     query:
-      'query signalsHistoricalActivity($datetime: DateTime!) {  activities: signalsHistoricalActivity(limit: 100, cursor: {type: BEFORE, datetime: $datetime}) {    cursor {      before      after      __typename    }    activity {      triggeredAt      userTrigger {     trigger {    settings }      }    __typename    }    __typename  }}',
+      'query signalsHistoricalActivity($datetime: DateTime!) {  activities: signalsHistoricalActivity(limit: 100, cursor: {type: BEFORE, datetime: $datetime}) {    cursor {      before      after      __typename    }    activity {      triggeredAt      trigger {    settings }    __typename    }    __typename  }}',
     variables: { datetime: from.toISOString() }
   }
 
@@ -238,10 +238,8 @@ const loadAndCheckActivities = () => {
       if (activity) {
         const filtered = activity.filter(
           ({
-            userTrigger: {
-              trigger: {
-                settings: { channel }
-              }
+            trigger: {
+              settings: { channel }
             }
           }) =>
             Array.isArray(channel)
