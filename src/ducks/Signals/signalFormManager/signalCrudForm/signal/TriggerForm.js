@@ -179,6 +179,9 @@ export const TriggerForm = ({
           validateAndSetStep(TRIGGER_FORM_STEPS.DESCRIPTION)
         }
 
+        const isValidForm =
+          isValid || !errors || Object.keys(errors).length === 0
+
         return (
           <Form>
             <FormikEffect
@@ -385,8 +388,8 @@ export const TriggerForm = ({
 
               <Button
                 type='submit'
-                disabled={!isValid || isSubmitting}
-                isActive={isValid && !isSubmitting}
+                disabled={!isValidForm || isSubmitting}
+                isActive={isValidForm && !isSubmitting}
                 variant={'fill'}
                 accent='positive'
                 className={styles.submitButton}
