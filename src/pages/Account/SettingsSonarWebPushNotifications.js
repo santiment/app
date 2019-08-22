@@ -53,9 +53,16 @@ export const sendParams = () => {
 
 const SettingsSonarWebPushNotifications = ({ classes = {}, className }) => {
   const [isActive, setIsActive] = useState(false)
+  const [isPermissionsGranted, setPermissionsGranted] = useState(true)
 
   const toggle = value => {
     setIsActive(value)
+    value && setPermissionsGranted(true)
+  }
+
+  const noPermissionsCallback = () => {
+    unRegisterSw()
+    setPermissionsGranted(false)
   }
 
   useEffect(
@@ -70,7 +77,7 @@ const SettingsSonarWebPushNotifications = ({ classes = {}, className }) => {
           }
         })
       }
-      requestNotificationPermission(null, unRegisterSw)
+      requestNotificationPermission(null, noPermissionsCallback)
     },
     [isActive]
   )
@@ -110,7 +117,7 @@ const SettingsSonarWebPushNotifications = ({ classes = {}, className }) => {
               hideRegistrationChecking: true,
               callback: () => {
                 console.log('Registered sonar service worker')
-                requestNotificationPermission(null, unRegisterSw)
+                requestNotificationPermission(null, noPermissionsCallback)
                 sendParams()
                 toggle(true)
               }
@@ -125,7 +132,18 @@ const SettingsSonarWebPushNotifications = ({ classes = {}, className }) => {
 
   return (
     <div className={cx(classes.container, styles.settingBlock, className)}>
-      <Label className={classes.left}>Browser notifications</Label>
+      <div className={classes.left}>
+        <div>Browser notifications</div>
+        {!isPermissionsGranted && (
+          <Label
+            className={cx(styles.description, styles.warning)}
+            accent='waterloo'
+          >
+            Notification permissions denied in browser settings. Please, check
+            your browser notification settings.
+          </Label>
+        )}
+      </div>
       <div className={cx(styles.setting__right_notifications, classes.right)}>
         <SidecarExplanationTooltip
           closeTimeout={500}
