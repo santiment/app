@@ -194,28 +194,15 @@ const MobileDetailedPage = props => {
                 <GetTimeSeries
                   historyPrice={timeseriesOptions}
                   {...extraTimeserie}
-                  render={({
-                    historyPrice = { items: [] },
-                    ...otherTimeseries
-                  }) => {
+                  render={({ historyPrice, timeseries }) => {
                     if (historyPrice.isLoading) {
                       return 'Loading...'
                     }
 
-                    const timeseries = [historyPrice.items]
-                    if (
-                      extraMetric &&
-                      otherTimeseries[extraMetric.name] &&
-                      otherTimeseries[extraMetric.name].items
-                    ) {
-                      timeseries.push(otherTimeseries[extraMetric.name].items)
-                    }
                     return (
                       <>
                         <MobileAssetChart
-                          data={mergeTimeseriesByKey({
-                            timeseries
-                          })}
+                          data={timeseries}
                           slug={slug}
                           icoPrice={icoPrice}
                           extraMetric={extraMetric}

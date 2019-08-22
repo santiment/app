@@ -103,6 +103,7 @@ export const Metrics = {
     dataKey: 'mvrv'
   },
   transactionVolume: {
+    alias: 'transaction_volume',
     category: 'On-chain',
     node: Bar,
     group: 'Token Flows/Movement/Activity',

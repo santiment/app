@@ -8,13 +8,8 @@ export const GET_METRIC = gql`
     $to: DateTime!
     $interval: String
   ) {
-    metric: getMetric(metric: $metric) {
-      data: timeseriesData(
-        slug: $slug
-        from: $from
-        to: $to
-        interval: $interval
-      ) {
+    getMetric(metric: $metric) {
+      timeseriesData(slug: $slug, from: $from, to: $to, interval: $interval) {
         datetime
         value
       }

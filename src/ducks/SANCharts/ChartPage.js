@@ -254,17 +254,17 @@ class ChartPage extends Component {
       rightBoundaryDate
     } = this.props
 
-    const requestedMetrics = metrics.reduce((acc, metric) => {
-      acc[metric] = {
+    const requestedMetrics = metrics.map(metric => {
+      const name = Metrics[metric].alias || metric
+      return {
+        name,
         slug,
         from,
         to,
         interval: INTERVAL_ALIAS[interval] || interval,
         ...Metrics[metric].reqMeta
       }
-
-      return acc
-    }, {})
+    })
 
     if (adjustNightMode) {
       document.body.classList.toggle('night-mode', !!nightMode)
@@ -272,14 +272,13 @@ class ChartPage extends Component {
 
     return (
       <GetTimeSeries
-        {...requestedMetrics}
+        metrics={requestedMetrics}
         meta={{
           mergedByDatetime: true
         }}
         render={({
           timeseries = [],
           errorMetrics = {},
-          settings = {},
           isError,
           errorType
         }) => {
@@ -340,7 +339,6 @@ class ChartPage extends Component {
                       ...rest,
                       datetime: +new Date(datetime)
                     }))}
-                    settings={settings}
                     title={title}
                     metrics={finalMetrics}
                     leftBoundaryDate={leftBoundaryDate}
