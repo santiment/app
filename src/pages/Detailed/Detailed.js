@@ -56,7 +56,7 @@ export const Detailed = ({
     return <ServerErrorMessage />
   }
 
-  const header = ({ onSlugSelect }) => (
+  const chartHeader = ({ onSlugSelect }) => (
     <DetailedHeader
       isDesktop={isDesktop}
       {...Project}
@@ -91,7 +91,7 @@ export const Detailed = ({
                 search: true,
                 signals: true
               }}
-              headerComponent={header}
+              headerComponent={chartHeader}
               {...boundaries}
             />
           )

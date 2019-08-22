@@ -64,7 +64,7 @@ const DetailedHeader = ({
   return (
     <>
       <div className={styles.breadcrambs}>
-        <Link to='/projects' className={styles.breadcrambLink}>
+        <Link to='#' onClick={history.goBack} className={styles.breadcrambLink}>
           Assets
         </Link>{' '}
         <span className={styles.breadcrambLink}>{'>'}</span>{' '}

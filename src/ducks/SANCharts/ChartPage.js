@@ -264,7 +264,7 @@ class ChartPage extends Component {
       children,
       leftBoundaryDate,
       rightBoundaryDate,
-      headerComponent: Header = null
+      headerComponent: Header
     } = this.props
 
     const requestedMetrics = metrics.reduce((acc, metric) => {
@@ -316,7 +316,7 @@ class ChartPage extends Component {
 
           return (
             <>
-              <Header onSlugSelect={this.onSlugSelect} />
+              {Header && <Header onSlugSelect={this.onSlugSelect} />}
               <div className={styles.wrapper}>
                 <div
                   className={cx(
