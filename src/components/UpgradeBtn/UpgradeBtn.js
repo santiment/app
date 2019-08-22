@@ -21,7 +21,11 @@ const Trigger = ({ className, children = 'Upgrade', ...props }) => (
 
 // NOTE(vanguard): redux passes "dispatch" prop to the component.
 // We should capture it in order to not assign it as a invalid dom attribute
-const UpgradeBtn = ({ isLoggedIn, dispatch, ...props }) => {
+const UpgradeBtn = ({ isLoggedIn, isUserLoading, dispatch, ...props }) => {
+  if (isUserLoading) {
+    return null
+  }
+
   if (!isLoggedIn) {
     return <Trigger as={Link} to='/login' {...props} />
   }
@@ -31,7 +35,7 @@ const UpgradeBtn = ({ isLoggedIn, dispatch, ...props }) => {
       {({ data: { currentUser }, loading }) => {
         const subscription = getCurrentSanbaseSubscription(currentUser)
 
-        if (subscription) {
+        if (loading || subscription) {
           return null
         }
 
@@ -53,6 +57,7 @@ const UpgradeBtn = ({ isLoggedIn, dispatch, ...props }) => {
 
 const mapStateToProps = state => {
   return {
+    isUserLoading: state.user.isLoading,
     isLoggedIn: checkIsLoggedIn(state)
   }
 }
