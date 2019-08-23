@@ -36,6 +36,18 @@
 
   &__group {
     display: flex;
+
+    @include responsive('tablet') {
+      margin: 0;
+
+      &:first-child {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  @include responsive('tablet') {
+    flex-direction: column-reverse;
   }
 }
 

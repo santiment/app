@@ -57,7 +57,10 @@ const SettingsSonarWebPushNotifications = ({ classes = {}, className }) => {
 
   const toggle = value => {
     setIsActive(value)
-    value && setPermissionsGranted(true)
+    value &&
+      requestNotificationPermission(() => {
+        setPermissionsGranted(true)
+      }, noPermissionsCallback)
   }
 
   const noPermissionsCallback = () => {
@@ -77,7 +80,6 @@ const SettingsSonarWebPushNotifications = ({ classes = {}, className }) => {
           }
         })
       }
-      requestNotificationPermission(null, noPermissionsCallback)
     },
     [isActive]
   )
