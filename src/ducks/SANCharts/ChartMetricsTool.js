@@ -12,13 +12,9 @@ const ChartMetricsTool = ({
   activeMetrics,
   disabledMetrics,
   slug,
-  toggleMetric,
+  toggleMetric
 }) => (
   <div className={styles.wrapper}>
-    <ChartActiveMetrics
-      activeMetrics={activeMetrics}
-      toggleMetric={toggleMetric}
-    />
     <ContextMenu
       trigger={
         <Button variant='flat' className={styles.trigger} border>
@@ -37,6 +33,11 @@ const ChartMetricsTool = ({
         activeMetrics={activeMetrics}
       />
     </ContextMenu>
+
+    <ChartActiveMetrics
+      activeMetrics={activeMetrics}
+      toggleMetric={toggleMetric}
+    />
   </div>
 )
 

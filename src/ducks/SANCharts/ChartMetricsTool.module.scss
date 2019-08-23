@@ -1,7 +1,17 @@
 @import '~@santiment-network/ui/mixins';
 
+.wrapper {
+  display: flex;
+}
+
 .trigger {
   padding: 0 7px;
+  background: var(--athens);
+  margin: 0 8px 0 0;
+
+  &:hover {
+    border-color: var(--jungle-green);
+  }
 }
 
 .selector {
