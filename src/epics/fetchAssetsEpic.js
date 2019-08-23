@@ -7,7 +7,7 @@ import {
   currenciesGQL
 } from './../pages/Projects/allProjectsGQL'
 import {
-  PROJECTS_BY_FUNCTION_BIG_QUERY,
+  WATCHLIST_BY_SLUG_BIG_QUERY,
   WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY
 } from '../queries/WatchlistGQL.js'
 import * as actions from './../actions/types'
@@ -102,65 +102,43 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
     .mergeMap(({ payload: { list, filters } }) => {
       return Observable.from(
         client.watchQuery({
-          query: list.function
-            ? PROJECTS_BY_FUNCTION_BIG_QUERY
+          query: list.slug
+            ? WATCHLIST_BY_SLUG_BIG_QUERY
             : WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY,
-          variables: list.function
-            ? { function: list.function }
+          variables: list.slug
+            ? { slug: list.slug, filters }
             : { id: list.id, filters },
           context: { isRetriable: true },
           fetchPolicy: 'network-only'
         })
       )
         .concatMap(({ data }) => {
-          const { watchlist } = data
-          if (!watchlist && !list.function) {
+          const watchlist = data.watchlist || data.watchlistBySlug
+
+          if (!watchlist) {
             return Observable.of({
               type: actions.ASSETS_FETCH_SUCCESS,
-              payload: {
-                items: [],
-                trendingAssets: [],
-                isCurrentUserTheAuthor: false,
-                isLoading: false,
-                error: false,
-                isPublicWatchlist: false
-              }
+              payload: {}
             })
           }
 
-          const { allProjectsByFunction } = data
-
-          const items = list.function
-            ? allProjectsByFunction
-            : watchlist.listItems.map(asset => asset.project)
-          const isCurrentUserTheAuthor =
-            !list.function &&
-            store.getState().user.data.id === watchlist.user.id
-
-          const trendingAssets = list.function
-            ? []
-            : watchlist.stats.trendingProjects
-
+          const { isPublic, user, settings, listItems, stats, id } = watchlist
           const { watchlistsSettings } = store.getState().watchlistUi
+          const payload = {
+            items: listItems.map(asset => asset.project),
+            trendingAssets: stats.trendingProjects,
+            isCurrentUserTheAuthor: store.getState().user.data.id === user.id,
+            isPublicWatchlist: isPublic
+          }
 
-          if (watchlist && watchlist.settings && !watchlistsSettings[list.id]) {
-            const { tableColumns = {}, pageSize } = watchlist.settings
+          if (settings && !watchlistsSettings[id]) {
+            const { tableColumns = {}, pageSize } = settings
             return Observable.from([
-              {
-                type: actions.ASSETS_FETCH_SUCCESS,
-                payload: {
-                  items,
-                  trendingAssets,
-                  isCurrentUserTheAuthor,
-                  isLoading: false,
-                  error: false,
-                  isPublicWatchlist: list.function || watchlist.isPublic
-                }
-              },
+              { type: actions.ASSETS_FETCH_SUCCESS, payload },
               {
                 type: actions.WATCHLIST_SETTINGS_SAVE_SUCCESS,
                 payload: {
-                  key: list.id,
+                  key: id,
                   hiddenColumns: tableColumns.hiddenColumns,
                   sorting: tableColumns.sorting,
                   pageSize
@@ -168,18 +146,7 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
               }
             ])
           }
-
-          return Observable.of({
-            type: actions.ASSETS_FETCH_SUCCESS,
-            payload: {
-              items,
-              trendingAssets,
-              isCurrentUserTheAuthor,
-              isLoading: false,
-              error: false,
-              isPublicWatchlist: list.function || watchlist.isPublic
-            }
-          })
+          return Observable.of({ type: actions.ASSETS_FETCH_SUCCESS, payload })
         })
         .catch(handleError)
     })
