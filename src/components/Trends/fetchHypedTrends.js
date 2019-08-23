@@ -42,7 +42,7 @@ const fetchTrends$ = ({ client, data = {} }) => {
   const from = new Date()
   const to = new Date()
   to.setHours(to.getHours(), 0, 0, 0)
-  from.setHours(from.getHours() - 14, 0, 0, 0)
+  from.setHours(from.getHours() - 15, 0, 0, 0)
 
   const query = client.query({
     query: TRENDING_WORDS_QUERY,
