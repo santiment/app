@@ -3,7 +3,8 @@
 .header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  align-items: center;
+  padding: 12px 24px;
 }
 
 .wrapper {
@@ -12,6 +13,10 @@
 
 .column {
   flex: 1;
+
+  &:last-child {
+    flex: 2;
+  }
 }
 
 .category {
@@ -104,13 +109,6 @@
 
 .metrics .active {
   fill: var(--casper);
-}
-
-.constraint {
-  @include text('caption', 'm');
-
-  color: var(--waterloo);
-  margin: 0;
 }
 
 .group {

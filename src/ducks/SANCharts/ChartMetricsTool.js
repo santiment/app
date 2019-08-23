@@ -24,6 +24,7 @@ const ChartMetricsTool = ({
       passOpenStateAs='isActive'
       position='bottom'
       align='start'
+      offsetY={8}
     >
       <ChartMetricSelector
         className={cx(styles.selector, classes.selector)}
@@ -31,6 +32,7 @@ const ChartMetricsTool = ({
         toggleMetric={toggleMetric}
         disabledMetrics={disabledMetrics}
         activeMetrics={activeMetrics}
+        variant='modal'
       />
     </ContextMenu>
 

@@ -122,14 +122,12 @@ const ChartMetricSelector = ({
   toggleMetric,
   activeMetrics,
   disabledMetrics,
-  data: { project: { availableMetrics = [] } = {}, loading }
+  data: { project: { availableMetrics = [] } = {}, loading },
+  ...props
 }) => {
   const categories = getCategoryGraph(availableMetrics)
 
   const [activeCategory, setCategory] = React.useState('Financial')
-  const [activeMetric, setMetric] = React.useState(
-    DEFAULT_CATEGORIES.Financial[0]
-  )
 
   useEffect(
     () => () => {
@@ -139,68 +137,62 @@ const ChartMetricSelector = ({
   )
 
   return (
-    <>
-      <div className={styles.header}>
-        <h4 className={styles.constraint} />
-      </div>
-      <Panel>
-        <Panel.Title>Select up to 5 metrics</Panel.Title>
-        <Panel.Content className={cx(styles.wrapper, className)}>
-          <div className={cx(styles.column, styles.categories)}>
-            {Object.keys(categories).map(category => (
-              <div key={category} className={styles.category}>
-                <Button
-                  onClick={() => setCategory(category)}
-                  variant='ghost'
-                  fluid
-                  className={styles.btn}
-                  isActive={category === activeCategory}
-                  classes={styles}
-                >
-                  {category} <Icon type='arrow-right' />
-                </Button>
-              </div>
-            ))}
-          </div>
-          <div className={cx(styles.column, styles.metrics)}>
-            <div className={styles.visible}>
-              <div className={styles.visible__scroll}>
-                {categories[activeCategory] &&
-                  Object.keys(categories[activeCategory]).map(group => (
-                    <div key={group} className={styles.group}>
-                      {group !== NO_GROUP && (
-                        <h3 className={styles.group__title}>{group}</h3>
-                      )}
-                      {categories[activeCategory][group].map(metric => {
-                        const isActive = activeMetrics.includes(metric.key)
-                        const isDisabled = disabledMetrics.includes(metric.key)
+    <Panel {...props}>
+      <Panel.Title className={styles.header}>
+        <span>Select up to 5 metrics</span>
+        <Button border>Suggest metrics</Button>
+      </Panel.Title>
+      <Panel.Content className={cx(styles.wrapper, className)}>
+        <div className={cx(styles.column, styles.categories)}>
+          {Object.keys(categories).map(category => (
+            <div key={category} className={styles.category}>
+              <Button
+                onClick={() => setCategory(category)}
+                variant='ghost'
+                fluid
+                className={styles.btn}
+                isActive={category === activeCategory}
+                classes={styles}
+              >
+                {category} <Icon type='arrow-right' />
+              </Button>
+            </div>
+          ))}
+        </div>
+        <div className={cx(styles.column, styles.metrics)}>
+          <div className={styles.visible}>
+            <div className={styles.visible__scroll}>
+              {categories[activeCategory] &&
+                Object.keys(categories[activeCategory]).map(group => (
+                  <div key={group} className={styles.group}>
+                    {group !== NO_GROUP && (
+                      <h3 className={styles.group__title}>{group}</h3>
+                    )}
+                    {categories[activeCategory][group].map(metric => {
+                      const isActive = activeMetrics.includes(metric.key)
+                      const isDisabled = disabledMetrics.includes(metric.key)
 
-                        return (
-                          <ActionBtn
-                            key={metric.label}
-                            metric={metric}
-                            onMouseEnter={() => setMetric(metric)}
-                            onClick={() => toggleMetric(metric.key)}
-                            isActive={isActive}
-                            isDisabled={isDisabled}
-                          >
-                            {metric.label}
-                          </ActionBtn>
-                        )
-                      })}
-                    </div>
-                  ))}
-              </div>
+                      return (
+                        <ActionBtn
+                          key={metric.label}
+                          metric={metric}
+                          onClick={() => toggleMetric(metric.key)}
+                          isActive={isActive}
+                          isDisabled={isDisabled}
+                        >
+                          {metric.label}
+                        </ActionBtn>
+                      )
+                    })}
+                  </div>
+                ))}
             </div>
           </div>
-        </Panel.Content>
-      </Panel>
-    </>
+        </div>
+      </Panel.Content>
+    </Panel>
   )
 }
-
-/*
- */
 
 export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
   options: ({ slug }) => {

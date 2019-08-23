@@ -334,6 +334,15 @@ class ChartPage extends Component {
                         classes={classes}
                       />
                     )}
+                    {!viewOnly && (
+                      <LoadableChartMetricsTool
+                        classes={styles}
+                        slug={slug}
+                        toggleMetric={this.toggleMetric}
+                        disabledMetrics={errors}
+                        activeMetrics={finalMetrics}
+                      />
+                    )}
                     <Charts
                       onZoom={this.onZoom}
                       onZoomOut={this.onZoomOut}
@@ -352,19 +361,6 @@ class ChartPage extends Component {
                       children={children}
                     />
                   </div>
-                  {!viewOnly && (
-                    <div
-                      className={cx(styles.container, styles.container_bottom)}
-                    >
-                      <LoadableChartMetricsTool
-                        classes={styles}
-                        slug={slug}
-                        toggleMetric={this.toggleMetric}
-                        disabledMetrics={errors}
-                        activeMetrics={finalMetrics}
-                      />
-                    </div>
-                  )}
                 </div>
                 {!viewOnly && !hideSettings.sidecar && (
                   <LoadableChartSidecar
