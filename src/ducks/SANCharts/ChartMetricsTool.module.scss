@@ -1,0 +1,11 @@
+@import '~@santiment-network/ui/mixins';
+
+.trigger {
+  padding: 0 7px;
+}
+
+.selector {
+  @include responsive('desktop', 'laptop', 'tablet') {
+    width: 515px;
+  }
+}
