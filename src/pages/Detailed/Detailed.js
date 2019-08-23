@@ -9,7 +9,7 @@ import GeneralInfoBlock from './generalInfo/GeneralInfoBlock'
 import FinancialsBlock from './financialInfo/FinancialsBlock'
 import DetailedHeader from './header/DetailedHeader'
 import Panel from '@santiment-network/ui/Panel'
-import PanelWithHeader from '@santiment-network/ui/Panel'
+import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import Search from './../../components/Search/SearchContainer'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import EthSpent from './../../pages/EthSpent'
@@ -90,7 +90,8 @@ export const Detailed = ({
               classes={styles}
               hideSettings={{
                 search: true,
-                signals: true
+                signals: true,
+                watchlist: true
               }}
               headerComponent={chartHeader}
               {...boundaries}

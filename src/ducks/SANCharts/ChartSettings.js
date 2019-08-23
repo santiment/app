@@ -32,7 +32,11 @@ const ChartSettings = ({
   title
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
-  const { search: noSearch, signals: noSignalCreation } = hideSettings
+  const {
+    search: noSearch,
+    signals: noSignalCreation,
+    watchlist: noWatchlist
+  } = hideSettings
 
   const notAdvancedView = !isAdvancedView
   return (
@@ -75,7 +79,9 @@ const ChartSettings = ({
           interval={interval}
           onIntervalChange={onIntervalChange}
         />
-        {notAdvancedView && <AssetToWatchlistDialog project={project} />}
+        {notAdvancedView && !noWatchlist && (
+          <AssetToWatchlistDialog project={project} />
+        )}
         <ChartSettingsContextMenu
           isNightModeActive={isNightModeActive}
           showNightModeToggle={showNightModeToggle}
