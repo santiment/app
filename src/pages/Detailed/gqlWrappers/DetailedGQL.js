@@ -84,7 +84,6 @@ export const projectBySlugGQL = gql`
       }
       ethSpent
       marketcapUsd
-      tokenDecimals
       rank
       totalSupply
       percentChange24h

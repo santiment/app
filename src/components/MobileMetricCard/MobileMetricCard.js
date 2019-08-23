@@ -4,7 +4,7 @@ import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import { formatNumber, millify } from '../../utils/formatting'
 import PercentChanges from '../PercentChanges'
-import { METRIC_ANOMALIE_QUERY } from '../../pages/Detailed/DetailedGQL'
+import { METRIC_ANOMALIE_QUERY } from '../../pages/Detailed/gqlWrappers/DetailedGQL'
 import styles from './MobileMetricCard.module.scss'
 
 const ANOMALIES_METRICS_ENUM = {

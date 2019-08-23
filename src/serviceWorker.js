@@ -110,6 +110,7 @@ function registerValidSW (
           }
         }
       } else {
+        registration.update()
         callback && callback()
       }
     })

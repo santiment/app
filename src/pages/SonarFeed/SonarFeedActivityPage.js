@@ -7,6 +7,7 @@ import PageLoader from '../../components/Loader/PageLoader'
 import SonarFeedRecommendations from './SonarFeedRecommendations'
 import { dateDifferenceInWords } from '../../utils/dates'
 import { getSanSonarSW } from '../Account/SettingsSonarWebPushNotifications'
+import { SIGNAL_ANCHORS } from '../../ducks/Signals/common/constants'
 import styles from './SonarFeedActivityPage.module.scss'
 
 export const TRIGGER_ACTIVITIES_QUERY = gql`
@@ -83,8 +84,11 @@ const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
             <div className={styles.description}>
               <h4 className={styles.date}>{formatDate(triggeredAt)} by</h4>
 
-              <Link to={`/sonar/signal/${signalId}`} className={styles.link}>
-                '{title}'
+              <Link
+                to={`/sonar/signal/${signalId}${SIGNAL_ANCHORS.ACTIVITIES}`}
+                className={styles.link}
+              >
+                {title}
               </Link>
             </div>
             <Markdown source={Object.values(payload)[0]} />

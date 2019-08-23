@@ -192,7 +192,7 @@ const TriggerFormHistoricalBalance = ({
           {isMulti && (
             <TriggerProjectsSelector
               name='target'
-              values={values}
+              target={target}
               projects={selectableProjects}
               setFieldValue={setFieldValue}
             />

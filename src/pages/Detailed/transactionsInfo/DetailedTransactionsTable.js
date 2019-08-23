@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactTable from 'react-table'
 import { PanelWithHeader as Panel } from '@santiment-network/ui'
-import { formatNumber } from './../../utils/formatting'
-import { getDateFormats, getTimeFormats } from '../../utils/dates'
-import SmoothDropdown from '../../components/SmoothDropdown/SmoothDropdown'
-import WalletLink from '../../components/WalletLink/WalletLink'
+import { formatNumber } from '../../../utils/formatting'
+import { getDateFormats, getTimeFormats } from '../../../utils/dates'
+import SmoothDropdown from '../../../components/SmoothDropdown/SmoothDropdown'
+import WalletLink from '../../../components/WalletLink/WalletLink'
 import './DetailedTransactionsTable.css'
 
 const TrxAddressCell = ({ value }) => <WalletLink {...value} />

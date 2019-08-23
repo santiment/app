@@ -6,9 +6,9 @@ import {
   formatCryptoCurrency,
   formatNumber,
   millify
-} from './../../utils/formatting'
-import WalletLink from './../../components/WalletLink/WalletLink'
-import SmoothDropdown from './../../components/SmoothDropdown/SmoothDropdown'
+} from '../../../utils/formatting'
+import WalletLink from '../../../components/WalletLink/WalletLink'
+import SmoothDropdown from '../../../components/SmoothDropdown/SmoothDropdown'
 import './FinancialsBlock.css'
 
 const propTypes = {

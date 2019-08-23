@@ -51,7 +51,7 @@ const LoadableDetailedPage = Loadable({
 })
 
 const LoadableMobileDetailedPage = Loadable({
-  loader: () => import('./pages/Detailed/MobileDetailedPage'),
+  loader: () => import('./pages/Detailed/mobile/MobileDetailedPage'),
   loading: () => <PageLoader />
 })
 

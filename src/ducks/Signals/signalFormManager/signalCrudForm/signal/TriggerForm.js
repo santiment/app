@@ -115,8 +115,8 @@ export const TriggerForm = ({
     }
   }, [])
 
-  const toggleSignalPublic = () => {
-    setInitialValues({ ...initialValues, isPublic: !initialValues.isPublic })
+  const toggleSignalPublic = values => {
+    setInitialValues({ ...values, isPublic: !values.isPublic })
   }
 
   const [step, setStep] = useState(
@@ -178,6 +178,9 @@ export const TriggerForm = ({
         if (!showValues && step === TRIGGER_FORM_STEPS.VALUES) {
           validateAndSetStep(TRIGGER_FORM_STEPS.DESCRIPTION)
         }
+
+        const isValidForm =
+          isValid || !errors || Object.keys(errors).length === 0
 
         return (
           <Form>
@@ -337,7 +340,7 @@ export const TriggerForm = ({
                             defaultSelectedIndex={
                               isPublic ? 'Public' : 'Private'
                             }
-                            onSelect={toggleSignalPublic}
+                            onSelect={() => toggleSignalPublic(values)}
                             labelClassName={styles.checkboxLabel}
                           />
                         </div>
@@ -385,8 +388,8 @@ export const TriggerForm = ({
 
               <Button
                 type='submit'
-                disabled={!isValid || isSubmitting}
-                isActive={isValid && !isSubmitting}
+                disabled={!isValidForm || isSubmitting}
+                isActive={isValidForm && !isSubmitting}
                 variant={'fill'}
                 accent='positive'
                 className={styles.submitButton}

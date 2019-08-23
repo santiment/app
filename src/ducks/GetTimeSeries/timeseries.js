@@ -85,10 +85,8 @@ const TIMESERIES = {
     query: TOKEN_VELOCITY_QUERY
   },
   transaction_volume: {
-    query: GET_METRIC,
-    preTransform: ({ getMetric: { timeseriesData } }) => {
-      return timeseriesData
-    }
+    query: GET_METRIC('transaction_volume'),
+    preTransform: ({ getMetric: { timeseriesData } }) => timeseriesData
   },
   networkGrowth: {
     query: NETWORK_GROWTH_QUERY
@@ -100,25 +98,16 @@ const TIMESERIES = {
       mergeTimeseriesByKey({
         key: 'datetime',
         timeseries: Object.values(data),
-        mergeData: (longestTSData, timeserieData) => {
-          return {
-            socialVolume:
-              longestTSData.socialVolume + timeserieData.socialVolume,
-            datetime: longestTSData.datetime
-          }
-        }
+        mergeData: (longestTSData, timeserieData) => ({
+          socialVolume: longestTSData.socialVolume + timeserieData.socialVolume,
+          datetime: longestTSData.datetime
+        })
       })
   }
 }
 
 export const hasMetric = metric => !!TIMESERIES[metric]
-export const getMetricQUERY = metric => {
-  const { query } = TIMESERIES[metric]
-  if (typeof query === 'function') {
-    return query(metric)
-  }
-  return query
-}
+export const getMetricQUERY = metric => TIMESERIES[metric].query
 export const getPreTransform = metric => {
   const transform = TIMESERIES[metric].preTransform
 
