@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import { compose } from 'redux'
 import { WATCHLISTS_BY_SLUG } from '../../pages/assets/assets-overview-constants'
-import {WATCHLIST_BY_SLUG_SHORT_QUERY} from '../../queries/WatchlistGQL'
+import { WATCHLIST_BY_SLUG_SHORT_QUERY } from '../../queries/WatchlistGQL'
 import WatchlistCard from '../../components/Watchlists/WatchlistCard'
 
 const Categories = ({ slugs, onClick, watchlists }) => {

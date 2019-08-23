@@ -39,8 +39,8 @@ const ChartSettings = ({
   return (
     <div className={cx(styles.settings, noSearch && styles.settings_noSearch)}>
       <div className={styles.settings__group}>
-        <h3>Metrics</h3>
-        <UpgradeBtn>Get more data</UpgradeBtn>
+        <h3 className={styles.settings__title}>Metrics</h3>
+        <UpgradeBtn variant='fill'>Get more data</UpgradeBtn>
       </div>
       <div className={styles.settings__group}>
         <Selector
@@ -63,7 +63,6 @@ const ChartSettings = ({
           interval={interval}
           onIntervalChange={onIntervalChange}
         />
-        {notAdvancedView && <AssetToWatchlistDialog project={project} />}
         <ChartSettingsContextMenu
           isNightModeActive={isNightModeActive}
           showNightModeToggle={showNightModeToggle}

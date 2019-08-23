@@ -34,8 +34,15 @@
     justify-content: flex-end;
   }
 
+  &__title {
+    @include text('body-1');
+
+    margin: 0 16px 0 0;
+  }
+
   &__group {
     display: flex;
+    align-items: center;
 
     @include responsive('tablet') {
       margin: 0;
