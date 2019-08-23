@@ -45,22 +45,29 @@ const getConsentUrl = () => {
   )
 }
 
+// NOTE(haritonasty): added additional function after sanitize due to bug with double encoding some symbols in links.
+// regexp finds links (<a>) and removes inside tag and in href repetitions
+const removeAmpersandRepetitions = str =>
+  str.replace(/(?!<a(.*)>(.*))(&amp;)(?=(.*)<\/a>)/gi, '&')
+
 const sanitizeMediumDraftHtml = html =>
-  sanitizeHtml(html, {
-    allowedTags: [
-      ...sanitizeHtml.defaults.allowedTags,
-      'figure',
-      'figcaption',
-      'img',
-      'h1',
-      'h2',
-      'u'
-    ],
-    allowedAttributes: {
-      ...sanitizeHtml.defaults.allowedAttributes,
-      '*': ['class', 'id']
-    }
-  })
+  removeAmpersandRepetitions(
+    sanitizeHtml(html, {
+      allowedTags: [
+        ...sanitizeHtml.defaults.allowedTags,
+        'figure',
+        'figcaption',
+        'img',
+        'h1',
+        'h2',
+        'u'
+      ],
+      allowedAttributes: {
+        ...sanitizeHtml.defaults.allowedAttributes,
+        '*': ['class', 'id']
+      }
+    })
+  )
 
 const filterProjectsByMarketSegment = (projects, categories) => {
   if (projects === undefined || Object.keys(categories).length === 0) {
