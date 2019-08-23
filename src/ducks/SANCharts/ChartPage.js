@@ -251,7 +251,8 @@ class ChartPage extends Component {
       adjustNightMode,
       children,
       leftBoundaryDate,
-      rightBoundaryDate
+      rightBoundaryDate,
+      headerComponent: Header
     } = this.props
 
     const requestedMetrics = metrics.map(metric => {
@@ -301,74 +302,80 @@ class ChartPage extends Component {
           )
 
           return (
-            <div className={styles.wrapper}>
-              <div
-                className={cx(styles.tool, isAdvancedView && styles.tool_short)}
-              >
-                <div className={styles.container}>
-                  {!viewOnly && (
-                    <LoadableChartSettings
-                      defaultTimerange={timeRange}
-                      onTimerangeChange={this.onTimerangeChange}
-                      onCalendarChange={this.onCalendarChange}
-                      onSlugSelect={this.onSlugSelect}
-                      generateShareLink={this.generateShareLink}
-                      onNightModeSelect={this.onNightModeSelect}
-                      onIntervalChange={this.onIntervalChange}
-                      isNightModeActive={nightMode}
-                      showNightModeToggle={adjustNightMode}
-                      disabledMetrics={errors}
-                      from={from}
-                      to={to}
-                      interval={interval}
-                      hideSettings={hideSettings}
-                      project={{ projectId, slug }}
-                      title={title}
-                      isAdvancedView={isAdvancedView}
-                      classes={classes}
-                    />
+            <>
+              {Header && <Header onSlugSelect={this.onSlugSelect} />}
+              <div className={styles.wrapper}>
+                <div
+                  className={cx(
+                    styles.tool,
+                    isAdvancedView && styles.tool_short
                   )}
-                  <Charts
-                    onZoom={this.onZoom}
-                    onZoomOut={this.onZoomOut}
-                    isZoomed={zoom}
-                    chartData={(timeseries && zoom
-                      ? timeseries.slice(zoom[0], zoom[1])
-                      : timeseries
-                    ).map(({ datetime, ...rest }) => ({
-                      ...rest,
-                      datetime: +new Date(datetime)
-                    }))}
-                    title={title}
-                    metrics={finalMetrics}
-                    leftBoundaryDate={leftBoundaryDate}
-                    rightBoundaryDate={rightBoundaryDate}
-                    children={children}
-                  />
-                </div>
-                {!viewOnly && (
-                  <div
-                    className={cx(styles.container, styles.container_bottom)}
-                  >
-                    <LoadableChartMetricsTool
-                      classes={styles}
-                      slug={slug}
-                      toggleMetric={this.toggleMetric}
-                      disabledMetrics={errors}
-                      activeMetrics={finalMetrics}
+                >
+                  <div className={styles.container}>
+                    {!viewOnly && (
+                      <LoadableChartSettings
+                        defaultTimerange={timeRange}
+                        onTimerangeChange={this.onTimerangeChange}
+                        onCalendarChange={this.onCalendarChange}
+                        onSlugSelect={this.onSlugSelect}
+                        generateShareLink={this.generateShareLink}
+                        onNightModeSelect={this.onNightModeSelect}
+                        onIntervalChange={this.onIntervalChange}
+                        isNightModeActive={nightMode}
+                        showNightModeToggle={adjustNightMode}
+                        disabledMetrics={errors}
+                        from={from}
+                        to={to}
+                        interval={interval}
+                        hideSettings={hideSettings}
+                        project={{ projectId, slug }}
+                        title={title}
+                        isAdvancedView={isAdvancedView}
+                        classes={classes}
+                      />
+                    )}
+                    <Charts
+                      onZoom={this.onZoom}
+                      onZoomOut={this.onZoomOut}
+                      isZoomed={zoom}
+                      chartData={(timeseries && zoom
+                        ? timeseries.slice(zoom[0], zoom[1])
+                        : timeseries
+                      ).map(({ datetime, ...rest }) => ({
+                        ...rest,
+                        datetime: +new Date(datetime)
+                      }))}
+                      title={title}
+                      metrics={finalMetrics}
+                      leftBoundaryDate={leftBoundaryDate}
+                      rightBoundaryDate={rightBoundaryDate}
+                      children={children}
                     />
                   </div>
+                  {!viewOnly && (
+                    <div
+                      className={cx(styles.container, styles.container_bottom)}
+                    >
+                      <LoadableChartMetricsTool
+                        classes={styles}
+                        slug={slug}
+                        toggleMetric={this.toggleMetric}
+                        disabledMetrics={errors}
+                        activeMetrics={finalMetrics}
+                      />
+                    </div>
+                  )}
+                </div>
+                {!viewOnly && !hideSettings.sidecar && (
+                  <LoadableChartSidecar
+                    onSlugSelect={this.onSlugSelect}
+                    onSidebarToggleClick={this.onSidebarToggleClick}
+                    isAdvancedView={isAdvancedView}
+                    classes={classes}
+                  />
                 )}
               </div>
-              {!viewOnly && !hideSettings.sidecar && (
-                <LoadableChartSidecar
-                  onSlugSelect={this.onSlugSelect}
-                  onSidebarToggleClick={this.onSidebarToggleClick}
-                  isAdvancedView={isAdvancedView}
-                  classes={classes}
-                />
-              )}
-            </div>
+            </>
           )
         }}
       />
