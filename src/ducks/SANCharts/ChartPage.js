@@ -135,11 +135,15 @@ class ChartPage extends Component {
     )
   }
 
-  onSlugSelect = ({ slug, name, ticker, id: projectId }) => {
+  onSlugSelect = project => {
+    const { slug, name, ticker, id: projectId } = project
     this.setState(
       { projectId, slug, title: `${name} (${ticker})` },
       this.updateSearchQuery
     )
+
+    const { onSlugSelect } = this.props
+    onSlugSelect && onSlugSelect(project)
   }
 
   onMetricsChange = metrics => {

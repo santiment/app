@@ -27,7 +27,7 @@ const DetailedHeader = ({
   isLoggedIn,
   isDesktop,
   history,
-  onSlugSelect
+  onChangeProject
 }) => {
   const {
     id,
@@ -48,14 +48,6 @@ const DetailedHeader = ({
         className={styles.headerLoader}
       />
     )
-  }
-
-  const onChangeProject = data => {
-    const newProject = Array.isArray(data) ? data[0] : data
-    if (newProject && newProject.slug && +newProject.id !== +id) {
-      history.push(`/projects/${newProject.slug}`)
-      onSlugSelect(newProject)
-    }
   }
 
   return (

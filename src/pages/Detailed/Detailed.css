@@ -120,7 +120,6 @@
 
 .detailed .information {
   display: flex;
-  margin: 16px 0;
   justify-content: space-between;
   flex-direction: column;
 }
@@ -202,12 +201,13 @@
 
   .detailed .information {
     flex-direction: row;
-    margin: 10px 32px 32px;
+    margin-bottom: 15px;
   }
 
   .detailed .information .panel {
     margin-top: 0;
     margin-right: 0;
     margin-left: 16px;
+    box-shadow: none;
   }
 }
