@@ -1,8 +1,15 @@
+@import '~@santiment-network/ui/mixins';
+
 .panel {
   width: 100%;
   border: none;
+  box-shadow: none;
 }
 
 .sidecar__toggle {
-  top: 177px !important;
+  top: 228px !important;
+
+  @include responsive('tablet') {
+    top: 258px !important;
+  }
 }

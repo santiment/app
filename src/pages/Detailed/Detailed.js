@@ -47,7 +47,9 @@ export const Detailed = ({
   hasPremium,
   ...props
 }) => {
-  const project = Project.project
+  const project = Project.project || {}
+
+  const { id } = project
 
   if (/not found/.test(Project.errorMessage)) {
     return <Redirect to='/' />
@@ -57,15 +59,24 @@ export const Detailed = ({
     return <ServerErrorMessage />
   }
 
-  const chartHeader = ({ onSlugSelect }) => (
-    <DetailedHeader
-      isDesktop={isDesktop}
-      {...Project}
-      isLoggedIn={isLoggedIn}
-      history={history}
-      onSlugSelect={onSlugSelect}
-    />
-  )
+  const onChangeProject = data => {
+    const newProject = Array.isArray(data) ? data[0] : data
+    if (newProject && newProject.slug && +newProject.id !== +id) {
+      history.push(`/projects/${newProject.slug}`)
+    }
+  }
+
+  const chartHeader = () => {
+    return (
+      <DetailedHeader
+        onChangeProject={onChangeProject}
+        isDesktop={isDesktop}
+        {...Project}
+        isLoggedIn={isLoggedIn}
+        history={history}
+      />
+    )
+  }
 
   const projectContainerChart = project && project.id && (
     <>
@@ -93,6 +104,7 @@ export const Detailed = ({
                 signals: true,
                 watchlist: true
               }}
+              onSlugSelect={onChangeProject}
               headerComponent={chartHeader}
               {...boundaries}
             />
