@@ -274,9 +274,6 @@ class ChartPage extends Component {
     return (
       <GetTimeSeries
         metrics={requestedMetrics}
-        meta={{
-          mergedByDatetime: true
-        }}
         render={({
           timeseries = [],
           errorMetrics = {},
