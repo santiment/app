@@ -48,21 +48,46 @@ export const PUBLIC_WATCHLIST_QUERY = gql`
   ${listShortItems}
 `
 
-export const PROJECTS_BY_FUNCTION_SHORT_QUERY = gql`
-  query allProjectsByFunction($function: json!) {
-    allProjectsByFunction(function: $function) {
-      slug
+export const WATCHLIST_BY_SLUG_SHORT_QUERY = gql`
+  query watchlistBySlug($slug: String!) {
+    watchlistBySlug(slug: $slug) {
+      ...generalListData
+      listItems {
+        project {
+          ...generalData
+          ...project
+        }
+      }
     }
   }
+  ${generalListData}
+  ${generalData}
+  ${project}
 `
 
-export const PROJECTS_BY_FUNCTION_BIG_QUERY = gql`
-  query allProjectsByFunction($function: json!) {
-    allProjectsByFunction(function: $function) {
-      ...generalData
-      ...project
+export const WATCHLIST_BY_SLUG_BIG_QUERY = gql`
+  query watchlistBySlug($slug: String!) {
+    watchlistBySlug(slug: $slug) {
+      ...generalListData
+      stats {
+        trendingProjects {
+          ...generalData
+          ...project
+        }
+      }
+      settings {
+        pageSize
+        tableColumns
+      }
+      listItems {
+        project {
+          ...generalData
+          ...project
+        }
+      }
     }
   }
+  ${generalListData}
   ${generalData}
   ${project}
 `

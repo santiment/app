@@ -1,11 +1,8 @@
 import React from 'react'
-import { graphql } from 'react-apollo'
-import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import cx from 'classnames'
-import { CATEGORIES, WATCHLISTS_BY_FUNCTION } from './assets-overview-constants'
-import { PROJECTS_BY_FUNCTION_SHORT_QUERY } from '../../queries/WatchlistGQL'
+import { CATEGORIES } from './assets-overview-constants'
 import WatchlistCards from '../../components/Watchlists/WatchlistCards'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
@@ -46,7 +43,7 @@ const AssetsOverview = ({
           <>
             <RecentlyWatched className={styles.recents} />
             <h2 className={styles.subtitle}>Categories</h2>
-            <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
+            <WatchlistCards watchlists={CATEGORIES} />
             <MyWatchlist
               isLoggedIn={isLoggedIn}
               className={styles.watchlists}
@@ -70,28 +67,4 @@ const AssetsOverview = ({
 
 const mapStateToProps = state => ({ isLoggedIn: checkIsLoggedIn(state) })
 
-const getProjectsByFunction = () =>
-  WATCHLISTS_BY_FUNCTION.map(({ assetType, byFunction }) =>
-    graphql(PROJECTS_BY_FUNCTION_SHORT_QUERY, {
-      options: () => ({ variables: { function: byFunction } }),
-      props: ({
-        data: { loading = true, allProjectsByFunction = [] },
-        ownProps: { slugs = {}, isLoading }
-      }) => ({
-        isLoading: loading || isLoading,
-        slugs: {
-          ...slugs,
-          [assetType]: loading
-            ? []
-            : allProjectsByFunction.map(({ slug }) => slug)
-        }
-      })
-    })
-  )
-
-const enhance = compose(
-  ...getProjectsByFunction(),
-  connect(mapStateToProps)
-)
-
-export default withRouter(enhance(AssetsOverview))
+export default withRouter(connect(mapStateToProps)(AssetsOverview))

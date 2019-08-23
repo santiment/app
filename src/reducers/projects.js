@@ -33,6 +33,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isCurrentUserTheAuthor: false,
+        isLoading: false,
+        error: false,
+        items: [],
+        trendingAssets: [],
+        isPublicWatchlist: false,
         ...action.payload,
         timestamp: Date.now()
       }

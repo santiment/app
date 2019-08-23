@@ -52,3 +52,22 @@ export const WATCHLIST_HISTORY_QUERY = gql`
     }
   }
 `
+
+export const WATCHLIST_BY_SLUG_HISTORY_QUERY = gql`
+  query watchlistBySlug(
+    $slug: String!
+    $from: DateTime!
+    $to: DateTime!
+    $interval: String = "1d"
+  ) {
+    watchlistBySlug(slug: $slug) {
+      name
+      id
+      historicalStats(from: $from, to: $to, interval: $interval) {
+        datetime
+        marketcap
+        volume
+      }
+    }
+  }
+`
