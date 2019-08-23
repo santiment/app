@@ -264,8 +264,7 @@ const objToArr = data => {
 }
 
 export default compose(
-  withProps(({ data = {}, trends, hasPremium = false }) => {
-    const { items = [], isLoading = true } = data
+  withProps(({ data: items, isLoading = true, trends, hasPremium = false }) => {
     const telegram = getTimeseries('telegram', trends)
     const reddit = getTimeseries('reddit', trends)
     const professional_traders_chat = getTimeseries(
