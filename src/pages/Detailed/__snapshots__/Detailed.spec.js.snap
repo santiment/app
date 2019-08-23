@@ -224,11 +224,11 @@ exports[`Project detail page container it should render correctly 1`] = `
   <div
     className="information"
   >
-    <PanelWithHeader
+    <Panel
+      as="div"
       className="panel panel-full-width"
-      contentClassName=""
       header="General Info"
-      headerClassName=""
+      padding={false}
     >
       <GeneralInfoBlock
         id={12}
@@ -236,12 +236,12 @@ exports[`Project detail page container it should render correctly 1`] = `
         priceUsd={10}
         ticker="AE"
       />
-    </PanelWithHeader>
-    <PanelWithHeader
+    </Panel>
+    <Panel
+      as="div"
       className="panel panel-full-width"
-      contentClassName=""
       header="Financials"
-      headerClassName=""
+      padding={false}
     >
       <FinancialsBlock
         id={12}
@@ -249,7 +249,7 @@ exports[`Project detail page container it should render correctly 1`] = `
         priceUsd={10}
         ticker="AE"
       />
-    </PanelWithHeader>
+    </Panel>
   </div>
 </div>
 `;
