@@ -77,6 +77,7 @@ const SettingsSonarWebPushNotifications = ({ classes = {}, className }) => {
           }
         })
       }
+      requestNotificationPermission(null, noPermissionsCallback)
     },
     [isActive]
   )
