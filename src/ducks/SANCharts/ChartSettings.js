@@ -7,6 +7,7 @@ import AssetToWatchlistDialog from './AssetToWatchlistDialog'
 import ChartSettingsContextMenu from './ChartSettingsContextMenu'
 import CalendarBtn from '../../components/Calendar/CalendarBtn'
 import SearchProjects from '../../components/Search/SearchProjects'
+import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
 import styles from './ChartPage.module.scss'
 
@@ -38,21 +39,8 @@ const ChartSettings = ({
   return (
     <div className={cx(styles.settings, noSearch && styles.settings_noSearch)}>
       <div className={styles.settings__group}>
-        {noSearch || (
-          <SearchProjects
-            onSuggestionSelect={onSlugSelect}
-            className={styles.search}
-            suggestionsProps={{ style: { zIndex: 5 } }}
-            iconPosition='left'
-            defaultValue={title}
-            dontResetStateAfterSelection
-            value={title}
-          />
-        )}
-        {noSignalCreation ||
-          (notAdvancedView && (
-            <ChartSignalCreationDialog slug={project.slug} />
-          ))}
+        <h3>Metrics</h3>
+        <UpgradeBtn>Get more data</UpgradeBtn>
       </div>
       <div className={styles.settings__group}>
         <Selector

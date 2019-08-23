@@ -4,7 +4,6 @@ import { graphql } from 'react-apollo'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
 import { Metrics } from './utils'
 import styles from './ChartMetricSelector.module.scss'
@@ -127,7 +126,6 @@ const ChartMetricSelector = ({
     <>
       <div className={styles.header}>
         <h4 className={styles.constraint}>Select up to 5 metrics</h4>
-        <UpgradeBtn>Unlock data</UpgradeBtn>
       </div>
       <Panel className={cx(styles.wrapper, className)}>
         <div className={cx(styles.column, styles.categories)}>
