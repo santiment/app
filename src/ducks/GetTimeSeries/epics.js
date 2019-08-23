@@ -24,7 +24,6 @@ const mapDataToMergedTimeserieByDatetime = (items = [], errors) => {
 
 const fetchTimeseriesEpic = (action$, store, { client }) =>
   action$.ofType(actions.TIMESERIES_FETCH).mergeMap(action => {
-    console.time('Preparing request')
     const { id, metrics } = action.payload
 
     if (
@@ -72,15 +71,12 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
       )
     })
 
-    console.timeEnd('Preparing request')
     return Observable.forkJoin(queries)
       .mergeMap(res => {
-        console.time('Forming response')
         const result = mapDataToMergedTimeserieByDatetime(
           res.filter(Boolean),
           errorMetrics
         )
-        console.timeEnd('Forming response')
         return Observable.of({
           type: actions.TIMESERIES_FETCH_SUCCESS,
           payload: {
