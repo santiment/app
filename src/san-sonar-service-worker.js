@@ -1,8 +1,9 @@
-const ACTIVITIES_LOAD_TIMEOUT = 1000 * 60 * 15
+const ACTIVITIES_LOAD_TIMEOUT = 1000 * 60 * 10
 const WS_DB_NAME = 'serviceWorkerDb'
 const ACTIVITY_CHECKS_STORE_NAME = 'activityChecks'
 const PARAMS_CHECKS_STORE_NAME = 'appParams'
 const WEB_PUSH_CHANNEL = 'web_push'
+const MAX_CHECKING_COUNT = 100
 
 console.log('Loading sonar service worker')
 
@@ -151,12 +152,17 @@ const addActivityDateAndRestart = (triggeredAt, newCount, enabled) => {
 }
 
 const showActivitiesNotification = newCount => {
-  self.registration.showNotification(newCount + ' new activities in Sonar!', {
-    body: 'Open to check ' + PUBLIC_FRONTEND_ROUTE + '/sonar/activity',
-    badge: '/favicon-96x96.png',
-    icon: '/favicon-96x96.png',
-    timestamp: new Date()
-  })
+  const displayCount =
+    newCount >= MAX_CHECKING_COUNT ? MAX_CHECKING_COUNT + '+' : newCount
+  self.registration.showNotification(
+    displayCount + ' new activities in Sonar!',
+    {
+      body: 'Open to check ' + PUBLIC_FRONTEND_ROUTE + '/sonar/activity',
+      badge: '/favicon-96x96.png',
+      icon: '/favicon-96x96.png',
+      timestamp: new Date()
+    }
+  )
 }
 
 const checkNewActivities = activities => {
@@ -221,7 +227,9 @@ const loadAndCheckActivities = () => {
   const query = {
     operationName: 'signalsHistoricalActivity',
     query:
-      'query signalsHistoricalActivity($datetime: DateTime!) {  activities: signalsHistoricalActivity(limit: 100, cursor: {type: BEFORE, datetime: $datetime}) {    cursor {      before      after      __typename    }    activity {      triggeredAt      trigger {    settings }    __typename    }    __typename  }}',
+      'query signalsHistoricalActivity($datetime: DateTime!) {  activities: signalsHistoricalActivity(limit: ' +
+      MAX_CHECKING_COUNT +
+      ', cursor: {type: BEFORE, datetime: $datetime}) {    cursor {      before      after      __typename    }    activity {      triggeredAt      trigger {    settings }    __typename    }    __typename  }}',
     variables: { datetime: from.toISOString() }
   }
 

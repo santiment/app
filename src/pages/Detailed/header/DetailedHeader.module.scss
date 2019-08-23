@@ -48,11 +48,16 @@
 }
 
 .signalButton {
+  min-width: 120px;
   border: 1px solid var(--jungle-green) !important;
 }
 
 .watchlistButton {
   margin-left: 16px;
+
+  @include responsive('tablet') {
+    margin: 10px 0 0 0;
+  }
 }
 
 .icon {
@@ -63,16 +68,11 @@
   fill: var(--white);
 }
 
-.right {
-  margin-top: 15px;
-}
-
 .name {
   display: flex;
   flex-direction: column;
   justify-content: left;
   margin-left: 16px;
-  width: 350px;
 }
 
 .projectSelector {
@@ -93,12 +93,20 @@
   color: gray;
 }
 
+.right {
+  @include responsive('tablet') {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .price {
   display: flex;
   flex-direction: row;
-  width: 100%;
   justify-content: space-between;
   align-items: flex-start;
+  min-width: 220px;
+  margin: 0 10px;
 }
 
 .priceUsd {

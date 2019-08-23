@@ -89,35 +89,34 @@ const DetailedHeader = ({
               <div className={styles.description}>{description}</div>
             </div>
           </div>
-
-          <div className={styles.price}>
-            <div className={styles.priceUsd}>
-              <Label className={styles.priceUsdLabel}>
-                {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
+        </div>
+        <div className={styles.price}>
+          <div className={styles.priceUsd}>
+            <Label className={styles.priceUsdLabel}>
+              {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
+            </Label>
+            <PercentChanges
+              className={styles.percentChanges}
+              changes={percentChange24h}
+            />
+            <Label className={styles.label} accent='waterloo'>
+              24h
+            </Label>
+          </div>
+          {project && (
+            <div className={styles.percentsBottom}>
+              <Label className={styles.supply}>
+                {formatNumber(totalSupply)} {ticker}
               </Label>
               <PercentChanges
-                className={styles.percentChanges}
-                changes={percentChange24h}
+                className={styles.percentChangesSmall}
+                changes={percentChange7d}
               />
               <Label className={styles.label} accent='waterloo'>
-                24h
+                7d
               </Label>
             </div>
-            {project && (
-              <div className={styles.percentsBottom}>
-                <Label className={styles.supply}>
-                  {formatNumber(totalSupply)} {ticker}
-                </Label>
-                <PercentChanges
-                  className={styles.percentChangesSmall}
-                  changes={percentChange7d}
-                />
-                <Label className={styles.label} accent='waterloo'>
-                  7d
-                </Label>
-              </div>
-            )}
-          </div>
+          )}
         </div>
         {isLoggedIn && isDesktop && (
           <div className={styles.right}>
@@ -147,7 +146,7 @@ const DetailedHeader = ({
                     src={addWatchlistSvg}
                     alt='Watch slug'
                   />
-                  Watch {name}
+                  Watch {ticker}
                 </Button>
               }
               projectId={id}
