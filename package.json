@@ -19,7 +19,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
     "@fortawesome/free-solid-svg-icons": "^5.5.0",
     "@fortawesome/react-fontawesome": "^0.1.3",
-    "@santiment-network/ui": "^0.5.74",
+    "@santiment-network/ui": "^0.5.76",
     "@trainline/react-skeletor": "^1.0.2",
     "animate-components": "^1.4.8",
     "apollo-cache-inmemory": "^1.1.2",
@@ -95,8 +95,8 @@
     "sanitize-html": "^1.18.2",
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.82.1",
-    "validate.js": "^0.12.0",
-    "uglifyjs-webpack-plugin": "^2.0.1"
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "validate.js": "^0.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
@@ -134,8 +134,8 @@
     "stylefmt": "^6.0.3",
     "stylelint": "^9.5.0",
     "stylelint-config-standard": "^18.2.0",
-    "why-did-you-update": "^0.1.1",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.1.2",
+    "why-did-you-update": "^0.1.1"
   },
   "standard": {
     "parser": "babel-eslint",

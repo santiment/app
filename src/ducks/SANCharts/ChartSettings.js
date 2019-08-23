@@ -46,9 +46,7 @@ const ChartSettings = ({
             iconPosition='left'
             defaultValue={title}
             dontResetStateAfterSelection
-            transformValueAfterSelection={({ name, ticker }) =>
-              `${name} (${ticker})`
-            }
+            value={title}
           />
         )}
         {noSignalCreation ||
