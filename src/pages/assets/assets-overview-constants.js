@@ -13,27 +13,6 @@ export const BASIC_CATEGORIES = [
   }
 ]
 
-export const PUBLIC_WATCHLISTS = [
-  {
-    name: 'Stablecoins',
-    assetType: 'stablecoins',
-    to: '/assets/list?name=stablecoins@86#shared',
-    id: '86'
-  },
-  {
-    name: 'Decentralized Exchanges',
-    assetType: 'decentralized exchanges',
-    to: '/assets/list?name=decentralized%20exchanges@127#shared',
-    id: '127'
-  },
-  {
-    name: 'Centralized Exchanges',
-    assetType: 'centralized exchanges',
-    to: '/assets/list?name=centralized%20exchanges@272#shared',
-    id: '272'
-  }
-]
-
 export const TRENDING_WATCHLIST_NAME = 'Emerging trending assets'
 
 export const WATCHLISTS_BY_SLUG = [
@@ -44,6 +23,24 @@ export const WATCHLISTS_BY_SLUG = [
     bySlug: 'Top_50_ERC20'
   },
   {
+    name: 'Stablecoins',
+    assetType: 'stablecoins',
+    to: '/assets/list?name=stablecoins#shared',
+    bySlug: 'stablecoins'
+  },
+  {
+    name: 'Centralized Exchanges',
+    assetType: 'centralized exchanges',
+    to: '/assets/list?name=centralized%20exchanges#shared',
+    bySlug: 'centalized_exchanges'
+  },
+  {
+    name: 'Decentralized Exchanges',
+    assetType: 'decentralized exchanges',
+    to: '/assets/list?name=decentralized%20exchanges#shared',
+    bySlug: 'decentalized_exchanges'
+  },
+  {
     name: TRENDING_WATCHLIST_NAME,
     assetType: 'trending assets',
     to: '/assets/list?name=trending%20assets#shared',
@@ -51,8 +48,4 @@ export const WATCHLISTS_BY_SLUG = [
   }
 ]
 
-export const CATEGORIES = [
-  ...BASIC_CATEGORIES,
-  ...WATCHLISTS_BY_SLUG,
-  ...PUBLIC_WATCHLISTS
-]
+export const CATEGORIES = [...BASIC_CATEGORIES, ...WATCHLISTS_BY_SLUG]
