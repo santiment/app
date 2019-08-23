@@ -115,6 +115,7 @@ export const TriggerProjectsSelector = ({
             classes={styles}
             listItems={listItems}
             items={projects}
+            hideCheckboxes={isSingle}
             onToggleProject={toggleAsset}
           />
         </div>
