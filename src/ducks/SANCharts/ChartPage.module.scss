@@ -42,7 +42,6 @@
 
   &__group {
     display: flex;
-    align-items: center;
 
     @include responsive('tablet') {
       margin: 0;
