@@ -15,7 +15,6 @@ import ShowIf from '../ShowIf/ShowIf'
 import styles from './Navbar.module.scss'
 
 const leftLinks = [
-  { link: '/', label: 'Charts' },
   { link: '/assets', label: 'Assets', linkTo: '/assets' },
   {
     link: '/sonar',
