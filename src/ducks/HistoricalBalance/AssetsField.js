@@ -10,6 +10,7 @@ import {
   mapAssetsHeldByAddressToProps,
   mapErc20AssetsToProps
 } from '../Signals/utils/utils'
+import { WalletBalanceOptionRenderer } from '../Signals/signalFormManager/signalCrudForm/formParts/metricOptions/MetricOptionsRenderer'
 
 const MAX_ASSETS_COUNT = 5
 
@@ -40,6 +41,7 @@ const AssetsField = ({
       onChange={handleOnChange}
       value={showingAssets}
       className={className}
+      optionRenderer={WalletBalanceOptionRenderer}
     />
   )
 }
