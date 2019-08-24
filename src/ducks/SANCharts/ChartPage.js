@@ -8,6 +8,7 @@ import Charts from './Charts'
 import { Metrics } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
+import { mapParsedTrueFalseFields } from '../../utils/utils'
 import styles from './ChartPage.module.scss'
 
 const DEFAULT_TIME_RANGE = '6m'
@@ -47,7 +48,9 @@ const LoadableChartMetricsTool = Loadable({
 const getChartInitialState = props => {
   let passedState
   if (props.location && props.location.search) {
-    const data = qs.parse(props.location.search, { arrayFormat: 'comma' })
+    const data = mapParsedTrueFalseFields(
+      qs.parse(props.location.search, { arrayFormat: 'comma' })
+    )
     if (typeof data.metrics === 'string') {
       data.metrics = [data.metrics]
     }
