@@ -11,3 +11,12 @@
 .disabled {
   color: var(--mystic);
 }
+
+.loader {
+  font-size: 5px;
+}
+
+.value {
+  display: flex;
+  align-items: center;
+}

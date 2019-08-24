@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
-import { Icon } from '@santiment-network/ui'
+import Loader from '@santiment-network/ui/Loader/Loader'
+import Icon from '@santiment-network/ui/Icon'
 import { formatCryptoCurrency, formatNumber } from '../../../utils/formatting'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import styles from './GeneralInfoBlock.module.scss'
@@ -73,18 +74,28 @@ const SocialLink = ({ link, text = '' }) => (
   </a>
 )
 
-const DATA_IS_EMPTY = 'No data'
+const Row = ({ title, value, format }) => {
+  const noData = value === null
 
-const Row = ({ title, value, format }) => (
-  <div
-    className={cx(
-      'row-info',
-      value === undefined || (!value && styles.disabled)
-    )}
-  >
-    <div>{title}</div>
-    <div>{!!value && value !== undefined ? format(value) : DATA_IS_EMPTY}</div>
-  </div>
-)
+  return (
+    <div
+      className={cx(
+        'row-info',
+        value === undefined || (!value && styles.disabled)
+      )}
+    >
+      <div>{title}</div>
+      <div className={styles.value}>
+        {!!value && value !== undefined ? (
+          format(value)
+        ) : !noData ? (
+          <Loader className={styles.loader} />
+        ) : (
+          'No data'
+        )}
+      </div>
+    </div>
+  )
+}
 
 export default GeneralInfoBlock
