@@ -68,33 +68,11 @@
   fill: var(--white);
 }
 
-.name {
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  margin-left: 16px;
-}
-
-.projectSelector {
-  display: flex;
-  flex-direction: row;
-}
-
-.name h1 {
-  margin: 0 !important;
-  margin-right: 5px;
-  font-size: 22px !important;
-  line-height: 1em !important;
-
-  @include text('h4');
-}
-
-.description {
-  color: gray;
-}
-
 .right {
+  margin-top: 4px;
+
   @include responsive('tablet') {
+    margin: 0;
     display: flex;
     flex-direction: column;
   }

@@ -9,7 +9,7 @@ import GeneralInfoBlock from './generalInfo/GeneralInfoBlock'
 import FinancialsBlock from './financialInfo/FinancialsBlock'
 import DetailedHeader from './header/DetailedHeader'
 import Panel from '@santiment-network/ui/Panel'
-import PanelWithHeader from '@santiment-network/ui/Panel'
+import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import Search from './../../components/Search/SearchContainer'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import EthSpent from './../../pages/EthSpent'
@@ -47,7 +47,9 @@ export const Detailed = ({
   hasPremium,
   ...props
 }) => {
-  const project = Project.project
+  const project = Project.project || {}
+
+  const { id } = project
 
   if (/not found/.test(Project.errorMessage)) {
     return <Redirect to='/' />
@@ -57,15 +59,27 @@ export const Detailed = ({
     return <ServerErrorMessage />
   }
 
-  const chartHeader = ({ onSlugSelect }) => (
-    <DetailedHeader
-      isDesktop={isDesktop}
-      {...Project}
-      isLoggedIn={isLoggedIn}
-      history={history}
-      onSlugSelect={onSlugSelect}
-    />
-  )
+  const onChangeProject = (data, callback) => {
+    const newProject = Array.isArray(data) ? data[0] : data
+    if (newProject && newProject.slug && +newProject.id !== +id) {
+      history.push(`/projects/${newProject.slug}`)
+      callback && callback(newProject)
+    }
+  }
+
+  const chartHeader = ({ onSlugSelect }) => {
+    return (
+      <DetailedHeader
+        onChangeProject={data => {
+          onChangeProject(data, onSlugSelect)
+        }}
+        isDesktop={isDesktop}
+        {...Project}
+        isLoggedIn={isLoggedIn}
+        history={history}
+      />
+    )
+  }
 
   const projectContainerChart = project && project.id && (
     <>
@@ -90,8 +104,10 @@ export const Detailed = ({
               classes={styles}
               hideSettings={{
                 search: true,
-                signals: true
+                signals: true,
+                watchlist: true
               }}
+              onSlugSelect={onChangeProject}
               headerComponent={chartHeader}
               {...boundaries}
             />

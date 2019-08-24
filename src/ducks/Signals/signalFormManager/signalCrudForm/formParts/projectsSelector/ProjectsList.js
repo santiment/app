@@ -8,7 +8,13 @@ import styles from './ProjectsList.module.scss'
 const ROW_HEIGHT = 32
 const MAX_SHOWING_ITEMS = 4
 
-const ProjectsList = ({ items, listItems, onToggleProject, isContained }) => {
+const ProjectsList = ({
+  items,
+  listItems,
+  onToggleProject,
+  isContained,
+  hideCheckboxes = false
+}) => {
   const rowRenderer = ({ key, index, style }) => {
     const { name, ticker, id } = items[index]
     const isAssetInList = listItems.some(({ id: itemId }) => itemId === id)
@@ -25,10 +31,12 @@ const ProjectsList = ({ items, listItems, onToggleProject, isContained }) => {
           })
         }}
       >
-        <Checkbox
-          isActive={isAssetInList}
-          disabled={isContained ? false : isAssetInList}
-        />
+        {!hideCheckboxes && (
+          <Checkbox
+            isActive={isAssetInList}
+            disabled={isContained ? false : isAssetInList}
+          />
+        )}
         <div className={styles.asset}>
           <ProjectIcon
             className={styles.icon}

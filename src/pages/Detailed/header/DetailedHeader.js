@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
-import ProjectIcon from '../../../components/ProjectIcon'
 import PercentChanges from '../../../components/PercentChanges'
 import WatchlistsPopup from '../../../components/WatchlistPopup/WatchlistsPopup'
 import { formatNumber } from '../../../utils/formatting'
@@ -18,7 +17,6 @@ const DetailedHeader = ({
   project = {
     ticker: '',
     name: '',
-    description: '',
     slug: '',
     priceUsd: 0,
     percentChange7d: 0,
@@ -29,12 +27,11 @@ const DetailedHeader = ({
   isLoggedIn,
   isDesktop,
   history,
-  onSlugSelect
+  onChangeProject
 }) => {
   const {
     id,
     name = '',
-    description,
     slug,
     ticker,
     priceUsd,
@@ -53,14 +50,6 @@ const DetailedHeader = ({
     )
   }
 
-  const onChangeProject = data => {
-    const newProject = Array.isArray(data) ? data[0] : data
-    if (newProject && newProject.slug && +newProject.id !== +id) {
-      history.push(`/projects/${newProject.slug}`)
-      onSlugSelect(newProject)
-    }
-  }
-
   return (
     <>
       <div className={styles.breadcrambs}>
@@ -75,19 +64,10 @@ const DetailedHeader = ({
       <div className={styles.header}>
         <div className={styles.left}>
           <div className={styles.logo}>
-            <ProjectIcon name={name} ticker={ticker} size={40} />
-            <div className={styles.name}>
-              <div className={styles.projectSelector}>
-                <h1>
-                  {name} ({ticker})
-                </h1>
-                <HeaderProjectsSelector
-                  project={project}
-                  onChange={onChangeProject}
-                />
-              </div>
-              <div className={styles.description}>{description}</div>
-            </div>
+            <HeaderProjectsSelector
+              project={project}
+              onChange={onChangeProject}
+            />
           </div>
         </div>
         <div className={styles.price}>
