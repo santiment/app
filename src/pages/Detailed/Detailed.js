@@ -59,17 +59,20 @@ export const Detailed = ({
     return <ServerErrorMessage />
   }
 
-  const onChangeProject = data => {
+  const onChangeProject = (data, callback) => {
     const newProject = Array.isArray(data) ? data[0] : data
     if (newProject && newProject.slug && +newProject.id !== +id) {
       history.push(`/projects/${newProject.slug}`)
+      callback && callback(newProject)
     }
   }
 
-  const chartHeader = () => {
+  const chartHeader = ({ onSlugSelect }) => {
     return (
       <DetailedHeader
-        onChangeProject={onChangeProject}
+        onChangeProject={data => {
+          onChangeProject(data, onSlugSelect)
+        }}
         isDesktop={isDesktop}
         {...Project}
         isLoggedIn={isLoggedIn}
