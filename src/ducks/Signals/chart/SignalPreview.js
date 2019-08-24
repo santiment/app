@@ -37,10 +37,7 @@ const SignalPreviewChart = ({
 
   return (
     <GetTimeSeries
-      {...requestedMetrics}
-      meta={{
-        mergedByDatetime: true
-      }}
+      metrics={requestedMetrics}
       render={({
         timeseries,
         errorMetrics = {},

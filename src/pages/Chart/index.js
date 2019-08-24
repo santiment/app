@@ -28,9 +28,8 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
   return (
     <div className={styles.wrapper + ' page'}>
       <Query query={USER_SUBSCRIPTIONS_QUERY}>
-        {({ data }) => {
-          const subscription =
-            data && getCurrentSanbaseSubscription(data.currentUser)
+        {({ data: { currentUser } = {} }) => {
+          const subscription = getCurrentSanbaseSubscription(currentUser)
           const userPlan = subscription ? subscription.plan.name : 'FREE'
           const boundaries = paywallBoundaries[userPlan]
 
