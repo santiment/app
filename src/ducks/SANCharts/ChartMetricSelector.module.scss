@@ -34,6 +34,7 @@
 }
 
 .explanation {
+  z-index: 1000;
   padding: 16px;
   width: 275px;
   height: 170px;
@@ -49,6 +50,18 @@
 .btn {
   justify-content: space-between;
 
+  &__expl {
+    z-index: 1000;
+  }
+
+  &__action {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    background: var(--porcelain);
+    margin: 0 6px 0 0;
+  }
+
   &__left {
     display: flex;
     align-items: center;
@@ -62,6 +75,16 @@
     padding: 0 4px;
     border-radius: 4px;
   }
+
+  &:hover &__action_add {
+    background: var(--jungle-green-light);
+    fill: var(--jungle);
+  }
+
+  &:hover &__action_remove {
+    background: var(--persimmon-light);
+    fill: var(--persimmon);
+  }
 }
 
 .info {
@@ -70,10 +93,6 @@
   &:hover {
     fill: var(--jungle-green);
   }
-}
-
-.explanation {
-  z-index: 1000;
 }
 
 .title {

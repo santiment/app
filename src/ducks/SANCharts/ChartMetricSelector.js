@@ -5,6 +5,7 @@ import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
+import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
 import { Metrics } from './utils'
 import styles from './ChartMetricSelector.module.scss'
@@ -96,7 +97,20 @@ const ActionBtn = ({ metric, children, isActive, isDisabled, ...props }) => {
         {isDisabled ? (
           <span className={styles.btn_disabled}>no data</span>
         ) : (
-          <Icon type={isActive ? 'subtract-round' : 'plus-round'} />
+          <ExplanationTooltip
+            className={styles.btn__expl}
+            text={isActive ? 'Remove metric' : 'Add metric'}
+            offsetY={8}
+          >
+            <div
+              className={cx(
+                styles.btn__action,
+                isActive ? styles.btn__action_remove : styles.btn__action_add
+              )}
+            >
+              <Icon type={isActive ? 'close-small' : 'close-small'} />
+            </div>
+          </ExplanationTooltip>
         )}{' '}
         {children}
       </div>
