@@ -20,7 +20,7 @@ const ChartActiveMetrics = ({ activeMetrics, toggleMetric }) => {
         >
           <MetricIcon
             isBar={Metrics[metric].node === Bar}
-            fill={`var(--${Metrics[metric].color ||
+            color={`var(--${Metrics[metric].color ||
               METRIC_COLORS[newColorId++]})`}
             className={styles.label}
           />

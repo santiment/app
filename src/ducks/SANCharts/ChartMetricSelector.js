@@ -108,7 +108,7 @@ const ActionBtn = ({ metric, children, isActive, isDisabled, ...props }) => {
                 isActive ? styles.btn__action_remove : styles.btn__action_add
               )}
             >
-              <Icon type={isActive ? 'close-small' : 'close-small'} />
+              <Icon type={isActive ? 'close-small' : 'plus'} />
             </div>
           </ExplanationTooltip>
         )}{' '}
@@ -164,7 +164,9 @@ const ChartMetricSelector = ({
     <Panel {...props}>
       <Panel.Title className={styles.header}>
         <span>Select up to 5 metrics</span>
-        <Button border>Suggest metrics</Button>
+        <Button border>
+          <Icon type='chart' fill='var(--casper)' /> Suggest metrics
+        </Button>
       </Panel.Title>
       <Panel.Content className={cx(styles.wrapper, className)}>
         <div className={cx(styles.column, styles.categories)}>
