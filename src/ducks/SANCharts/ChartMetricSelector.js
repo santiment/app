@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import Panel from '@santiment-network/ui/Panel'
@@ -117,6 +117,15 @@ const ActionBtn = ({ metric, children, isActive, isDisabled, ...props }) => {
   )
 }
 
+const countCategoryActiveMetrics = (activeMetrics = []) => {
+  const counter = {}
+  for (let i = 0; i < activeMetrics.length; i++) {
+    const { category } = Metrics[activeMetrics[i]]
+    counter[category] = (counter[category] || 0) + 1
+  }
+  return counter
+}
+
 const ChartMetricSelector = ({
   className = '',
   toggleMetric,
@@ -125,9 +134,10 @@ const ChartMetricSelector = ({
   data: { project: { availableMetrics = [] } = {}, loading },
   ...props
 }) => {
-  const categories = getCategoryGraph(availableMetrics)
+  const [activeCategory, setCategory] = useState('Financial')
 
-  const [activeCategory, setCategory] = React.useState('Financial')
+  const categories = getCategoryGraph(availableMetrics)
+  const categoryActiveMetricsCounter = countCategoryActiveMetrics(activeMetrics)
 
   useEffect(
     () => () => {
@@ -144,20 +154,25 @@ const ChartMetricSelector = ({
       </Panel.Title>
       <Panel.Content className={cx(styles.wrapper, className)}>
         <div className={cx(styles.column, styles.categories)}>
-          {Object.keys(categories).map(category => (
-            <div key={category} className={styles.category}>
-              <Button
-                onClick={() => setCategory(category)}
-                variant='ghost'
-                fluid
-                className={styles.btn}
-                isActive={category === activeCategory}
-                classes={styles}
-              >
-                {category} <Icon type='arrow-right' />
-              </Button>
-            </div>
-          ))}
+          {Object.keys(categories).map(category => {
+            const counter = categoryActiveMetricsCounter[category]
+            return (
+              <div key={category} className={styles.category}>
+                <Button
+                  onClick={() => setCategory(category)}
+                  variant='ghost'
+                  fluid
+                  className={styles.btn}
+                  isActive={category === activeCategory}
+                  classes={styles}
+                >
+                  {category}
+                  {counter > 0 ? ` (${counter})` : ''}
+                  <Icon type='arrow-right' />
+                </Button>
+              </div>
+            )
+          })}
         </div>
         <div className={cx(styles.column, styles.metrics)}>
           <div className={styles.visible}>
