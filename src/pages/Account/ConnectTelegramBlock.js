@@ -23,9 +23,12 @@ const ConnectTelegramBlock = ({
   hasTelegramConnected,
   classes = {}
 }) => {
-  useEffect(() => {
-    generateTelegramDeepLink()
-  })
+  useEffect(
+    () => {
+      !telegramDeepLink && generateTelegramDeepLink()
+    },
+    [telegramDeepLink]
+  )
 
   return (
     <div className={cx(styles.telegram, classes.container)}>
@@ -42,19 +45,21 @@ const ConnectTelegramBlock = ({
       {isTelegramConnecting && (
         <Loader className={styles.connecting_telegram} />
       )}
-      <Button
-        variant='fill'
-        accent='positive'
-        as='a'
-        disabled={isTelegramConnecting}
-        className={cx(styles.connect_telegram, classes.right)}
-        href={telegramDeepLink}
-        rel='noopener noreferrer'
-        target='_blank'
-        onClick={connectTelegram}
-      >
-        {getTelegramBtnText(hasTelegramConnected, isTelegramConnecting)}
-      </Button>
+      {telegramDeepLink && (
+        <Button
+          variant='fill'
+          accent='positive'
+          as='a'
+          disabled={isTelegramConnecting}
+          className={cx(styles.connect_telegram, classes.right)}
+          href={telegramDeepLink}
+          rel='noopener noreferrer'
+          target='_blank'
+          onClick={connectTelegram}
+        >
+          {getTelegramBtnText(hasTelegramConnected, isTelegramConnecting)}
+        </Button>
+      )}
     </div>
   )
 }
