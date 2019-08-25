@@ -24,7 +24,9 @@ const HeaderProjectsSelector = ({
               <Icon type='arrow-down' />
             </Button>
           </div>
-          <div className={styles.description}>{description}</div>
+          {description && (
+            <div className={styles.description}>{description}</div>
+          )}
         </div>
       </div>
     )
