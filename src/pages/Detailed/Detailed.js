@@ -109,6 +109,7 @@ export const Detailed = ({
               }}
               onSlugSelect={onChangeProject}
               headerComponent={chartHeader}
+              enabledViewOnlySharing={false}
               {...boundaries}
             />
           )

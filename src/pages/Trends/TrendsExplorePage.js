@@ -171,19 +171,23 @@ export class TrendsExplorePage extends Component {
             interval={getCustomInterval(timeRange)}
             render={trends => (
               <GetTimeSeries
-                historyPrice={{
-                  timeRange,
-                  slug: asset.toLowerCase(),
-                  interval: getCustomInterval(timeRange)
-                }}
-                render={({ historyPrice = {} }) => (
+                metrics={[
+                  {
+                    name: 'historyPrice',
+                    timeRange,
+                    slug: asset.toLowerCase(),
+                    interval: getCustomInterval(timeRange)
+                  }
+                ]}
+                render={({ timeseries = [], historyPrice = {} }) => (
                   <Fragment>
                     <div style={{ minHeight: 300 }}>
                       <TrendsReChart
                         asset={asset && capitalizeStr(asset)}
-                        data={historyPrice}
+                        data={timeseries}
                         trends={trends}
                         hasPremium={hasPremium}
+                        isLoading={historyPrice.isLoading}
                       />
                     </div>
                     {trends.length > 0 && <TrendsStats timeRange={timeRange} />}

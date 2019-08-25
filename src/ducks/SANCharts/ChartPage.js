@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import * as qs from 'query-string'
 import cx from 'classnames'
 import Loadable from 'react-loadable'
@@ -48,18 +47,14 @@ const LoadableChartMetricsTool = Loadable({
 
 const getChartInitialState = props => {
   let passedState
-
   if (props.location && props.location.search) {
-    const parsedQuery = mapParsedTrueFalseFields(
-      qs.parse(props.location.search, {
-        arrayFormat: 'comma'
-      })
+    const data = mapParsedTrueFalseFields(
+      qs.parse(props.location.search, { arrayFormat: 'comma' })
     )
-    if (typeof parsedQuery.metrics === 'string') {
-      parsedQuery.metrics = [parsedQuery.metrics]
+    if (typeof data.metrics === 'string') {
+      data.metrics = [data.metrics]
     }
-
-    passedState = parsedQuery
+    passedState = data
   } else {
     let { slug, from, to, title, timeRange, metrics, interval } = props
 
@@ -69,7 +64,6 @@ const getChartInitialState = props => {
       to = t.toISOString()
       interval = getNewInterval(from, to)
     }
-
     passedState = {
       slug,
       title,
@@ -268,17 +262,17 @@ class ChartPage extends Component {
       headerComponent: Header
     } = this.props
 
-    const requestedMetrics = metrics.reduce((acc, metric) => {
-      acc[metric] = {
+    const requestedMetrics = metrics.map(metric => {
+      const name = Metrics[metric].alias || metric
+      return {
+        name,
         slug,
         from,
         to,
         interval: INTERVAL_ALIAS[interval] || interval,
         ...Metrics[metric].reqMeta
       }
-
-      return acc
-    }, {})
+    })
 
     if (adjustNightMode) {
       document.body.classList.toggle('night-mode', !!nightMode)
@@ -286,14 +280,10 @@ class ChartPage extends Component {
 
     return (
       <GetTimeSeries
-        {...requestedMetrics}
-        meta={{
-          mergedByDatetime: true
-        }}
+        metrics={requestedMetrics}
         render={({
           timeseries = [],
           errorMetrics = {},
-          settings = {},
           isError,
           errorType
         }) => {
@@ -359,7 +349,6 @@ class ChartPage extends Component {
                         ...rest,
                         datetime: +new Date(datetime)
                       }))}
-                      settings={settings}
                       title={title}
                       metrics={finalMetrics}
                       leftBoundaryDate={leftBoundaryDate}
@@ -380,13 +369,6 @@ class ChartPage extends Component {
                       />
                     </div>
                   )}
-
-                  <div className={styles.moreData}>
-                    <span className={styles.limitedLabel}>
-                      See much more data in our
-                    </span>
-                    <Link to='/dashboards'>SANbase Dashboards</Link>
-                  </div>
                 </div>
                 {!viewOnly && !hideSettings.sidecar && (
                   <LoadableChartSidecar
