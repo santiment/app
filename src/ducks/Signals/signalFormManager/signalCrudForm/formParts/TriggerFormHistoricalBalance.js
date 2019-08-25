@@ -17,7 +17,6 @@ import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelec
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
 import { NOT_VALID_ETH_ADDRESS } from '../../../utils/constants'
 import styles from '../signal/TriggerForm.module.scss'
-import { WalletBalanceOptionRenderer } from './metricOptions/MetricOptionsRenderer'
 
 const isInHeldAssets = (heldAssets, checking) => {
   return checking.every(({ value: chValue, slug: chSlug }) =>
