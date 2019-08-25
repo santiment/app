@@ -25,8 +25,6 @@ const DetailedHeader = ({
   },
   loading,
   isLoggedIn,
-  isDesktop,
-  history,
   onChangeProject
 }) => {
   const {
@@ -98,43 +96,43 @@ const DetailedHeader = ({
             </div>
           )}
         </div>
-        {isLoggedIn && isDesktop && (
-          <div className={styles.right}>
-            <ChartSignalCreationDialog
-              slug={slug}
-              trigger={
-                <Button border className={styles.signalButton}>
-                  <img
-                    className={styles.icon}
-                    src={addSignalSvg}
-                    alt='Add signal'
-                  />
-                  Add signal
-                </Button>
-              }
-            />
+        <div className={styles.right}>
+          <ChartSignalCreationDialog
+            slug={slug}
+            trigger={
+              <Button border className={styles.signalButton}>
+                <img
+                  disabled={!isLoggedIn}
+                  className={styles.icon}
+                  src={addSignalSvg}
+                  alt='Add signal'
+                />
+                Add signal
+              </Button>
+            }
+          />
 
-            <WatchlistsPopup
-              trigger={
-                <Button
-                  accent='positive'
-                  variant='fill'
-                  className={styles.watchlistButton}
-                >
-                  <img
-                    className={cx(styles.icon, styles.watchlistIcon)}
-                    src={addWatchlistSvg}
-                    alt='Watch slug'
-                  />
-                  Watch {ticker}
-                </Button>
-              }
-              projectId={id}
-              slug={slug}
-              isLoggedIn={isLoggedIn}
-            />
-          </div>
-        )}
+          <WatchlistsPopup
+            trigger={
+              <Button
+                disabled={!isLoggedIn}
+                accent='positive'
+                variant='fill'
+                className={styles.watchlistButton}
+              >
+                <img
+                  className={cx(styles.icon, styles.watchlistIcon)}
+                  src={addWatchlistSvg}
+                  alt='Watch slug'
+                />
+                Watch {ticker}
+              </Button>
+            }
+            projectId={id}
+            slug={slug}
+            isLoggedIn={isLoggedIn}
+          />
+        </div>
       </div>
     </>
   )

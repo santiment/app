@@ -22,7 +22,6 @@ const SignalMasterModalForm = ({
   enabled = true,
   triggerId,
   isLoggedIn,
-  redirect,
   match,
   trigger: dialogTrigger,
   buttonParams = {},

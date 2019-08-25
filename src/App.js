@@ -232,7 +232,7 @@ export const App = ({
             isDesktop ? (
               <LoadableDetailedPage isDesktop={isDesktop} {...props} />
             ) : (
-              <LoadableMobileDetailedPage isDesktop={isDesktop} {...props} />
+              <LoadableMobileDetailedPage {...props} />
             )
           }
         />
