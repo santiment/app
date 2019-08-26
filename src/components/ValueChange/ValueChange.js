@@ -1,6 +1,5 @@
 import React from 'react'
 import { Icon } from '@santiment-network/ui'
-import cx from 'classnames'
 import styles from './ValueChange.module.scss'
 
 const Change = {
@@ -16,7 +15,7 @@ const ValueChange = ({ className, change, render }) => {
 
   return (
     <span
-      className={cx(styles.change, className)}
+      className={className}
       style={{ color: `var(--${accent})`, fill: `var(--${accent})` }}
     >
       {changed && <Icon type={triangle} className={styles.triangle} />}
