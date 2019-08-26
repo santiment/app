@@ -151,7 +151,7 @@ const ChartMetricSelector = ({
       <Panel.Content className={cx(styles.wrapper, className)}>
         {loading && (
           <div className={styles.loader}>
-            <Loader className={styles.loader__dots} />
+            <Loader />
           </div>
         )}
 
