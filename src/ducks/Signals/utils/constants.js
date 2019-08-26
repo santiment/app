@@ -320,11 +320,11 @@ export const METRIC_DEFAULT_VALUES = {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },
     frequencyTimeType: { ...FREQUENCY_TIME_TYPE_DAILY_MODEL },
     frequencyTimeValue: { ...frequencyTymeValueBuilder(1) },
-    percentThreshold: 25,
+    percentThreshold: 10,
     threshold: BASE_THRESHOLD,
     timeWindow: 1,
     timeWindowUnit: { label: 'Day(s)', value: 'd' },
-    type: PRICE_PERCENT_CHANGE_UP_MODEL,
+    type: PRICE_PERCENT_CHANGE_DOWN_MODEL,
     isRepeating: true,
     channels: ['Telegram'],
     absoluteThreshold: 25,
@@ -384,7 +384,7 @@ export const DEFAULT_FORM_META_SETTINGS = {
   },
   type: {
     isDisabled: false,
-    value: { ...PRICE_PERCENT_CHANGE_UP_MODEL }
+    value: { ...PRICE_PERCENT_CHANGE_DOWN_MODEL }
   },
   frequencyType: {
     isDisabled: false,

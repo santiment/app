@@ -756,7 +756,7 @@ export const getNearestTypeByMetric = metric => {
       return ETH_WALLET_AMOUNT_UP
     }
     case PRICE_METRIC.value: {
-      return PRICE_PERCENT_CHANGE_UP_MODEL
+      return PRICE_PERCENT_CHANGE_DOWN_MODEL
     }
     case DAILY_ACTIVE_ADDRESSES_METRIC.value: {
       return PRICE_PERCENT_CHANGE_UP_MODEL

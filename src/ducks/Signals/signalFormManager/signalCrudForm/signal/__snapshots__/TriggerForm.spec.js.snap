@@ -91,7 +91,7 @@ exports[`TriggerForm smoke 1`] = `
         "label": "Price",
         "value": "price",
       },
-      "percentThreshold": 25,
+      "percentThreshold": 10,
       "signalType": Object {
         "label": "Assets",
         "value": "assets",
@@ -112,9 +112,9 @@ exports[`TriggerForm smoke 1`] = `
           "timeWindow",
         ],
         "filledField": true,
-        "label": "Moving up %",
+        "label": "Moving down %",
         "metric": "price_percent_change",
-        "value": "percent_up",
+        "value": "percent_down",
       },
     }
   }
