@@ -23,6 +23,7 @@ Array [
           "isError": false,
           "isLoading": false,
         },
+        "isLoading": false,
         "timeseries": Array [
           Object {
             "activity": 100,
@@ -120,6 +121,7 @@ Array [
           "isError": false,
           "isLoading": false,
         },
+        "isLoading": false,
         "timeseries": Array [
           Object {
             "activity": 100,
