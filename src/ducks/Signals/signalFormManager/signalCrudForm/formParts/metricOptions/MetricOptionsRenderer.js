@@ -8,6 +8,7 @@ import movingUpSvg from '../../../../../../assets/signals/priceTypes/moving_up.s
 import movingDownSvg from '../../../../../../assets/signals/priceTypes/moving_down.svg'
 import someOfSvg from '../../../../../../assets/signals/priceTypes/someOf.svg'
 import { PRICE_CHANGE_TYPES } from '../../../../utils/constants'
+import { formatNumber } from '../../../../../../utils/formatting'
 
 const METRIC_TO_SVG = {
   [PRICE_CHANGE_TYPES.ABOVE]: aboveSvg,
@@ -70,6 +71,49 @@ const MetricOptionsRenderer = ({
     >
       {svg && <img className={styles.icon} src={svg} alt={value} />}
       {label}
+    </div>
+  )
+}
+
+export const WalletBalanceOptionRenderer = ({
+  focusedOption,
+  focusedOptionIndex,
+  focusOption,
+  key,
+  labelKey,
+  option,
+  optionIndex,
+  options,
+  selectValue,
+  style,
+  valueArray,
+  valueKey
+}) => {
+  const classNames = [styles.option]
+
+  const { slug, balance } = option
+
+  if (option === focusedOption) {
+    classNames.push(styles.focused)
+  }
+  if (valueArray.indexOf(option) >= 0) {
+    classNames.push(styles.selected)
+  }
+
+  const hasBalance = balance
+
+  return (
+    <div
+      className={classNames.join(' ')}
+      key={key}
+      onClick={() => selectValue(option)}
+      onMouseEnter={() => focusOption(option)}
+      style={style}
+    >
+      <span>{slug}</span>
+      {hasBalance && (
+        <span className={styles.balance}>({formatNumber(balance)})</span>
+      )}
     </div>
   )
 }

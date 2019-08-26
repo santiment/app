@@ -3,94 +3,51 @@ import * as actions from './actions'
 import { handleErrorAndTriggerAction } from './../../epics/utils'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import { getIntervalByTimeRange } from '../../utils/dates'
-import {
-  hasMetric,
-  getMetricQUERY,
-  getTransforms,
-  getSettings
-} from './timeseries'
+import { hasMetric, getMetricQUERY, getPreTransform } from './timeseries'
 
-const initialMeta = {
-  mergedByDatetime: false
-}
-
-const mapDataToTimeserie = ({ data, loading, error }, transforms) => {
-  const dataAfterPreTransform =
-    transforms && transforms.length > 0
-      ? transforms.reduce((acc, val) => {
-        const metric = Object.keys(data)[0]
-        if (val.predicate(metric)) {
-          return val.preTransform(data)
-        }
-        return data
-      }, {})
-      : data
-  const metric = Object.keys(dataAfterPreTransform)[0]
-  const items = !error ? dataAfterPreTransform[metric] : []
-  const isEmpty = items && items.length === 0
-  return {
-    [metric]: {
-      items,
-      isError: error,
-      isEmpty,
-      isLoading: loading
-    }
-  }
-}
-
-const mapDataToTimeseries = (data = [], transforms = []) => {
-  return data.reduce((acc, val) => {
-    return {
-      ...acc,
-      ...mapDataToTimeserie(val, transforms)
-    }
-  }, {})
-}
-
-const mapDataToMergedTimeserieByDatetime = (data = [], transforms = []) => {
-  const timeseriesAsSingleObject = mapDataToTimeseries(data, transforms)
-  const timeseries = Object.keys(timeseriesAsSingleObject).map(metric => {
-    return timeseriesAsSingleObject[metric].items
-  })
-  return {
-    timeseries: mergeTimeseriesByKey({
-      timeseries,
-      key: 'datetime'
-    }),
-    ...Object.keys(timeseriesAsSingleObject).reduce((acc, metric) => {
-      const { items, ...rest } = timeseriesAsSingleObject[metric]
-      acc[metric] = rest
+const mapDataToMergedTimeserieByDatetime = (items = [], errors) => {
+  const metricsInfo = {}
+  const timeseries = mergeTimeseriesByKey({
+    timeseries: items.reduce((acc, { data, __metric, loading }) => {
+      metricsInfo[__metric] = {
+        isLoading: loading,
+        isEmpty: data.length === 0,
+        isError: !!errors[__metric]
+      }
+      acc.push(data[__metric])
       return acc
-    }, {})
-  }
+    }, [])
+  })
+
+  return Object.assign(metricsInfo, { timeseries })
 }
 
 const fetchTimeseriesEpic = (action$, store, { client }) =>
   action$.ofType(actions.TIMESERIES_FETCH).mergeMap(action => {
-    const { id, meta = initialMeta, ...rest } = action.payload
+    const { id, metrics } = action.payload
 
-    const metrics = Object.keys(rest).map(metric => {
-      if (!hasMetric(metric)) {
+    if (
+      process.env.NODE_ENV === 'development' ||
+      process.env.NODE_ENV === 'test'
+    ) {
+      metrics.forEach(({ name }) => {
+        if (hasMetric(name)) return
+
         throw new Error(`
-            Unsupported metric yet: "${metric}".
+            Unsupported metric yet: "${name}".
             Add a query for this metric and description.
           `)
-      }
-      return metric
-    })
+      })
+    }
 
-    const transforms = getTransforms(metrics)
     const errorMetrics = {}
+
     const queries = metrics.map(metric => {
-      const { interval, from = null, to = null, ...rest } = action.payload[
-        metric
-      ]
+      const { name, interval, from, to, timeRange, ...rest } = metric
 
       const timePeriod = {}
       if (!from || !to) {
-        const { from: fromDate, to: toDate } = getIntervalByTimeRange(
-          rest.timeRange
-        )
+        const { from: fromDate, to: toDate } = getIntervalByTimeRange(timeRange)
         timePeriod.from = fromDate.toISOString()
         timePeriod.to = toDate.toISOString()
       }
@@ -98,33 +55,32 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
       return Observable.fromPromise(
         client
           .query({
-            query: getMetricQUERY(metric),
+            query: getMetricQUERY(name),
             variables: {
+              metric: name,
               interval: interval || '1d',
               to: to || timePeriod.to,
               from: from || timePeriod.from,
               ...rest
             }
           })
+          .then(getPreTransform(name))
           .catch(({ message }) => {
-            errorMetrics[metric] = message
+            errorMetrics[name] = message
           })
       )
     })
 
     return Observable.forkJoin(queries)
-      .mergeMap(data => {
-        const filteredData = data.filter(value => !!value)
-        const result = meta.mergedByDatetime
-          ? mapDataToMergedTimeserieByDatetime(filteredData, transforms)
-          : mapDataToTimeseries(filteredData, transforms)
-        const settings = getSettings(metrics)
-
+      .mergeMap(res => {
+        const result = mapDataToMergedTimeserieByDatetime(
+          res.filter(Boolean),
+          errorMetrics
+        )
         return Observable.of({
           type: actions.TIMESERIES_FETCH_SUCCESS,
           payload: {
             [id]: {
-              settings,
               errorMetrics,
               ...result
             }

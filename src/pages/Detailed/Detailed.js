@@ -13,7 +13,7 @@ import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import Search from './../../components/Search/SearchContainer'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import EthSpent from './../../pages/EthSpent'
-import { checkHasPremium, checkIsLoggedIn } from './../UserSelectors'
+import { checkIsLoggedIn } from './../UserSelectors'
 import DetailedTransactionsTable from './transactionsInfo/DetailedTransactionsTable'
 import {
   projectBySlugGQL,
@@ -43,8 +43,6 @@ export const Detailed = ({
   },
   isDesktop,
   isLoggedIn,
-  user,
-  hasPremium,
   ...props
 }) => {
   const project = Project.project || {}
@@ -59,21 +57,22 @@ export const Detailed = ({
     return <ServerErrorMessage />
   }
 
-  const onChangeProject = data => {
+  const onChangeProject = (data, callback) => {
     const newProject = Array.isArray(data) ? data[0] : data
     if (newProject && newProject.slug && +newProject.id !== +id) {
       history.push(`/projects/${newProject.slug}`)
+      callback && callback(newProject)
     }
   }
 
-  const chartHeader = () => {
+  const chartHeader = ({ onSlugSelect }) => {
     return (
       <DetailedHeader
-        onChangeProject={onChangeProject}
-        isDesktop={isDesktop}
+        onChangeProject={data => {
+          onChangeProject(data, onSlugSelect)
+        }}
         {...Project}
         isLoggedIn={isLoggedIn}
-        history={history}
       />
     )
   }
@@ -106,6 +105,7 @@ export const Detailed = ({
               }}
               onSlugSelect={onChangeProject}
               headerComponent={chartHeader}
+              enabledViewOnlySharing={false}
               {...boundaries}
             />
           )
@@ -193,8 +193,6 @@ Detailed.propTypes = propTypes
 
 const mapStateToProps = state => {
   return {
-    user: state.user,
-    hasPremium: checkHasPremium(state),
     isLoggedIn: checkIsLoggedIn(state),
     timeFilter: state.detailedPageUi.timeFilter
   }

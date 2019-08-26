@@ -28,19 +28,23 @@ describe('GetTimeSeries', () => {
   const getWrapper = store =>
     mount(
       <GetTimeSeries
-        historyPrice={{
-          timeRange: '6m',
-          slug: 'santiment',
-          interval: '1d'
-        }}
-        devActivity={{
-          from: '2018-12-01',
-          to: '2018-12-10',
-          slug: 'santiment',
-          interval: '1d',
-          transform: 'movingAverage',
-          movingAverageIntervalBase: 7
-        }}
+        metrics={[
+          {
+            name: 'historyPrice',
+            timeRange: '6m',
+            slug: 'santiment',
+            interval: '1d'
+          },
+          {
+            name: 'devActivity',
+            from: '2018-12-01',
+            to: '2018-12-10',
+            slug: 'santiment',
+            interval: '1d',
+            transform: 'movingAverage',
+            movingAverageIntervalBase: 7
+          }
+        ]}
         store={store}
         render={renderMock}
       />

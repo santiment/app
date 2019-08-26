@@ -25,7 +25,6 @@ import MobileAssetChart from './MobileAssetChart'
 import ShowIf from '../../../components/ShowIf'
 import GetWatchlists from '../../../ducks/Watchlists/GetWatchlists'
 import WatchlistsPopup from '../../../components/WatchlistPopup/WatchlistsPopup'
-import { mergeTimeseriesByKey } from '../../../utils/utils'
 import { addRecentAssets } from '../../../utils/recent'
 import styles from './MobileDetailedPage.module.scss'
 
@@ -115,17 +114,18 @@ const MobileDetailedPage = props => {
 
   const { from, to } = getIntervalByTimeRange(timeRange)
 
-  const timeseriesOptions = {
-    slug,
-    timeRange,
-    interval: timeRange === '1w' ? '2h' : timeRange === '1m' ? '8h' : '1d'
-  }
-
-  const extraTimeserie = extraMetric
-    ? {
-      [extraMetric.name]: timeseriesOptions
+  const metrics = [
+    {
+      name: 'historyPrice',
+      slug,
+      timeRange,
+      interval: timeRange === '1w' ? '2h' : timeRange === '1m' ? '8h' : '1d'
     }
-    : {}
+  ]
+
+  if (extraMetric) {
+    metrics.push(Object.assign({}, metrics[0], { name: extraMetric.name }))
+  }
 
   return (
     <div className={cx('page', styles.wrapper)}>
@@ -192,30 +192,16 @@ const MobileDetailedPage = props => {
                   priceUsd={priceUsd}
                 />
                 <GetTimeSeries
-                  historyPrice={timeseriesOptions}
-                  {...extraTimeserie}
-                  render={({
-                    historyPrice = { items: [] },
-                    ...otherTimeseries
-                  }) => {
+                  metrics={metrics}
+                  render={({ historyPrice = {}, timeseries }) => {
                     if (historyPrice.isLoading) {
                       return 'Loading...'
                     }
 
-                    const timeseries = [historyPrice.items]
-                    if (
-                      extraMetric &&
-                      otherTimeseries[extraMetric.name] &&
-                      otherTimeseries[extraMetric.name].items
-                    ) {
-                      timeseries.push(otherTimeseries[extraMetric.name].items)
-                    }
                     return (
                       <>
                         <MobileAssetChart
-                          data={mergeTimeseriesByKey({
-                            timeseries
-                          })}
+                          data={timeseries}
                           slug={slug}
                           icoPrice={icoPrice}
                           extraMetric={extraMetric}

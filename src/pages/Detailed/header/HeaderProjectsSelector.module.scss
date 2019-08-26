@@ -30,8 +30,8 @@
 .name {
   display: flex;
   flex-direction: column;
-  justify-content: left;
   margin-left: 16px;
+  justify-content: center;
 }
 
 .trigger {
@@ -42,13 +42,5 @@
     .icons {
       fill: var(--jungle-green);
     }
-  }
-}
-
-@media (min-width: 768px) {
-  .name {
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
   }
 }
