@@ -24,7 +24,16 @@ export const TriggerProjectsSelector = ({
   }
 
   const [listItems, setListItems] = useState([])
+  const [opened, setOpened] = useState(false)
   const checkedAssetsAsSet = new Set(listItems)
+
+  function closeDialog () {
+    setOpened(false)
+  }
+
+  function openDialog () {
+    setOpened(true)
+  }
 
   useEffect(
     () => {
@@ -65,7 +74,7 @@ export const TriggerProjectsSelector = ({
     }
 
     setFieldValue && setFieldValue(name, newItems)
-    onChange && onChange(newItems)
+    onChange && onChange(newItems, closeDialog)
   }
 
   const toggleAsset = ({ project, listItems: items, isAssetInList }) => {
@@ -86,8 +95,10 @@ export const TriggerProjectsSelector = ({
   return (
     <Dialog
       title={title}
+      open={opened}
+      onClose={closeDialog}
       trigger={
-        <div>
+        <div onClick={openDialog}>
           <Trigger
             listItems={listItems}
             onSuggestionSelect={onSuggestionSelect}

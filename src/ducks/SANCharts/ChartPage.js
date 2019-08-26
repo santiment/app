@@ -289,6 +289,7 @@ class ChartPage extends Component {
           timeseries = [],
           errorMetrics = {},
           isError,
+          isLoading,
           errorType
         }) => {
           if (isError) {
@@ -355,6 +356,7 @@ class ChartPage extends Component {
                       />
                     )}
                     <Charts
+                      isLoading={isLoading}
                       onZoom={this.onZoom}
                       onZoomOut={this.onZoomOut}
                       isZoomed={zoom}

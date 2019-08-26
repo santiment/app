@@ -84,7 +84,10 @@ const Header = ({ data: { project = {} }, slug, isLoggedIn, onSlugSelect }) => {
       <ProjectSelector
         slug={slug}
         project={project}
-        onChange={([project]) => onSlugSelect(project)}
+        onChange={([project], closeDialog) => {
+          onSlugSelect(project)
+          closeDialog()
+        }}
       />
 
       <div>
