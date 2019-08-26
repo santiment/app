@@ -108,12 +108,6 @@ hr {
   color: #a0a0a0;
 }
 
-.night-mode .panel {
-  background-color: #1c1e21;
-  box-shadow: none;
-  border: 1px solid #2d3239;
-}
-
 /* REACT TABLE */
 
 .night-mode .ReactTable .-loading {
@@ -131,18 +125,6 @@ hr {
 
 .night-mode .percent-changes--negative {
   color: #e25a5a;
-}
-
-.night-mode .ReactTable .rt-tbody .rt-td {
-  border-color: #22252b;
-}
-
-.night-mode .ReactTable .rt-tbody .rt-tr-group {
-  border-color: #22252b;
-}
-
-.night-mode .ReactTable {
-  border-color: #22252b;
 }
 
 .night-mode .ReactTable .rt-thead .rt-th.-sort-desc {

@@ -142,14 +142,6 @@
   justify-content: space-between;
 }
 
-.detailed .top-eth-transaction__hash {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 70%;
-  height: 2em;
-  white-space: nowrap;
-}
-
 @media (max-width: 768px) {
   .App {
     background-color: white;
