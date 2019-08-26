@@ -158,7 +158,7 @@ const SettingsSonarWebPushNotifications = ({
           closeTimeout={500}
           localStorageSuffix='_TRIGGER_PUSH_NOTIFICATION_EXPLANATION'
           align='end'
-          title='Sonar Web Pushes'
+          title='Browser Notifications'
           description='Get fast notifications through Push Notifications'
         >
           <>

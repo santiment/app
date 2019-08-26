@@ -80,6 +80,14 @@ $trigger-form-field-margin: 24px;
   @include text('caption');
 }
 
+.openSettings {
+  cursor: pointer;
+}
+
+.link {
+  color: var(--jungle-green);
+}
+
 .notifyBlock {
   display: flex;
   margin-top: 5px;

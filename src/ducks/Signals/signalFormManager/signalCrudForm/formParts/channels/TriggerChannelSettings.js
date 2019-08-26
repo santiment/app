@@ -11,14 +11,8 @@ import SettingsSonarWebPushNotifications, {
 import ShowIf from '../../../../../../components/ShowIf/ShowIf'
 import styles from './TriggerChannelSettings.module.scss'
 
-const TriggerChannelSettings = ({
-  isTelegramSettings,
-  isEmailSettings,
-  isWebPushSettings,
-  recheckBrowserNotifications
-}) => {
+const TriggerChannelSettings = ({ recheckBrowserNotifications, trigger }) => {
   const [open, setOpen] = useState(false)
-  const showTrigger = isTelegramSettings || isEmailSettings || isWebPushSettings
 
   return (
     <>
@@ -27,7 +21,7 @@ const TriggerChannelSettings = ({
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         trigger={
-          showTrigger && <span className={styles.connect}>Open settings</span>
+          trigger || <span className={styles.connect}>Open settings</span>
         }
         title='Notification settings'
       >

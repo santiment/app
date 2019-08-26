@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import Message from '@santiment-network/ui/Message'
@@ -24,12 +25,25 @@ const TriggerFormChannels = ({
 
   const [isWebPushEnabled, setWebPushEnabled] = useState(true)
 
+  let requiredChannels = []
+  if (settingsForTelegramEnabled) {
+    requiredChannels.push('Telegram')
+  }
+
+  if (settingsForEmailEnabled) {
+    requiredChannels.push('Email')
+  }
+
+  if (isWebPushEnabled) {
+    requiredChannels.push('Browser')
+  }
+
   const recheckBrowserNotifications = () => {
     navigator.serviceWorker &&
       navigator.serviceWorker.getRegistrations &&
       navigator.serviceWorker.getRegistrations().then(registrations => {
         const sw = getSanSonarSW(registrations)
-        setWebPushEnabled(!sw && channels.some(type => type === 'Web Push'))
+        setWebPushEnabled(!sw && channels.some(type => type === 'Browser'))
       })
   }
 
@@ -53,16 +67,13 @@ const TriggerFormChannels = ({
             disabledIndexes={['Email']}
             classes={styles}
           />
-          <TriggerChannelSettings
-            isTelegramSettings={settingsForTelegramEnabled}
-            isEmailSettings={settingsForEmailEnabled}
-            isWebPushSettings={isWebPushEnabled}
+        </div>
+        {requiredChannels.length > 0 && (
+          <ErrorMessage
+            channel={requiredChannels.join(', ')}
             recheckBrowserNotifications={recheckBrowserNotifications}
           />
-        </div>
-        {settingsForTelegramEnabled && <ErrorMessage channel='Telegram' />}
-        {settingsForEmailEnabled && <ErrorMessage channel='Email' />}
-        {isWebPushEnabled && <ErrorMessage channel='Browser' />}
+        )}
         {errors.channels && (
           <SidecarExplanationTooltip
             closeTimeout={500}
@@ -80,11 +91,27 @@ const TriggerFormChannels = ({
   )
 }
 
-const ErrorMessage = ({ message, channel }) => (
+const ErrorMessage = ({ message, recheckBrowserNotifications, channel }) => (
   <div className={styles.messages}>
     <Message variant='warn' className={styles.messagesText}>
-      {message ||
-        `Please, open your account settings and enable ${channel} notifications`}
+      {message || (
+        <TriggerChannelSettings
+          trigger={
+            <div className={styles.openSettings}>
+              Please, open your{' '}
+              <Link to='#' className={styles.link}>
+                account settings
+              </Link>{' '}
+              and enable{' '}
+              <Link className={styles.link} to='#'>
+                {channel}
+              </Link>{' '}
+              notifications
+            </div>
+          }
+          recheckBrowserNotifications={recheckBrowserNotifications}
+        />
+      )}
     </Message>
   </div>
 )
