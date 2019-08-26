@@ -106,6 +106,7 @@ const SettingsSonarWebPushNotifications = ({
           } else {
             toggle(false)
           }
+          recheckBrowserNotifications && recheckBrowserNotifications()
         })
     })
   }
