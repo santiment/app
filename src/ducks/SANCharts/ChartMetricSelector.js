@@ -5,6 +5,7 @@ import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
+import MetricExplanation from './MetricExplanation'
 import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
 import { Metrics } from './utils'
@@ -114,19 +115,9 @@ const ActionBtn = ({ metric, children, isActive, isDisabled, ...props }) => {
         )}{' '}
         {children}
       </div>
-      {metric.description && (
-        <Tooltip
-          className={styles.explanation}
-          trigger={<Icon type='info-round' className={styles.info} />}
-        >
-          <div className={styles.explanation__content}>
-            <div className={styles.visible__scroll}>
-              <h4 className={styles.title}>{metric.label}</h4>
-              <p className={styles.text}>{metric.description}</p>
-            </div>
-          </div>
-        </Tooltip>
-      )}
+      <MetricExplanation {...metric}>
+        <Icon type='info-round' className={styles.info} />
+      </MetricExplanation>
     </Button>
   )
 }
