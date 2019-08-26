@@ -131,6 +131,8 @@ class ChartPage extends Component {
   }
 
   onSlugSelect = project => {
+    if (!project) return
+
     const { slug, name, ticker, id: projectId } = project
     this.setState(
       { projectId, slug, title: `${name} (${ticker})` },
@@ -305,7 +307,11 @@ class ChartPage extends Component {
 
           return (
             <>
-              <Header slug={slug} isLoggedIn={isLoggedIn} />
+              <Header
+                slug={slug}
+                isLoggedIn={isLoggedIn}
+                onSlugSelect={this.onSlugSelect}
+              />
               <div className={styles.wrapper}>
                 <div
                   className={cx(

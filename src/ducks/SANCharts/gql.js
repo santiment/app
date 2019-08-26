@@ -14,6 +14,8 @@ export const PROJECT_BY_SLUG_QUERY = gql`
     project: projectBySlug(slug: $slug) {
       id
       ticker
+      name
+      description
       priceUsd
       percentChange24h
       percentChange7d

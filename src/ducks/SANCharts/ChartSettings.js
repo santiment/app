@@ -32,15 +32,10 @@ const ChartSettings = ({
   title
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
-  const {
-    search: noSearch,
-    signals: noSignalCreation,
-    watchlist: noWatchlist
-  } = hideSettings
 
   const notAdvancedView = !isAdvancedView
   return (
-    <div className={cx(styles.settings, noSearch && styles.settings_noSearch)}>
+    <div className={styles.settings}>
       <div className={styles.settings__group}>
         <h3 className={styles.settings__title}>Metrics</h3>
         <UpgradeBtn variant='fill'>Get more data</UpgradeBtn>
