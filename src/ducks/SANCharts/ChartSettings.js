@@ -1,7 +1,9 @@
 import React from 'react'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import IntervalSelector from './IntervalSelector'
-import ChartSettingsContextMenu from './ChartSettingsContextMenu'
+import ChartSettingsContextMenu, {
+  ShareChart
+} from './ChartSettingsContextMenu'
 import CalendarBtn from '../../components/Calendar/CalendarBtn'
 import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
@@ -57,12 +59,7 @@ const ChartSettings = ({
           interval={interval}
           onIntervalChange={onIntervalChange}
         />
-        <ChartSettingsContextMenu
-          isNightModeActive={isNightModeActive}
-          showNightModeToggle={showNightModeToggle}
-          onNightModeSelect={onNightModeSelect}
-          shareLink={shareLink}
-        />
+        <ShareChart asIcon shareLink={shareLink} />
       </div>
     </div>
   )
