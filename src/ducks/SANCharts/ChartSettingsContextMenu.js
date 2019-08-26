@@ -13,7 +13,7 @@ const ChartSettingsContextMenu = ({
   onNightModeSelect,
   shareLink
 }) => {
-  return showNightModeToggle ? (
+  return (
     <ContextMenu
       trigger={
         <Button variant='flat'>
@@ -49,16 +49,15 @@ const ChartSettingsContextMenu = ({
         />
       </Panel>
     </ContextMenu>
-  ) : (
-    <ShareChart shareLink={shareLink} />
   )
 }
 
-const ShareChart = ({ trigger, shareLink }) => (
+export const ShareChart = ({ trigger, shareLink, asIcon }) => (
   <ShareModalTrigger
     trigger={trigger}
     classes={styles}
     shareLink={shareLink}
+    asIcon={asIcon}
     extraShare={[
       {
         value: `<iframe frameborder="0" height="340" src="${shareLink}"></iframe>`,

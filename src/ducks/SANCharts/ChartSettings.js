@@ -1,12 +1,9 @@
 import React from 'react'
-import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import IntervalSelector from './IntervalSelector'
-import ChartSignalCreationDialog from './ChartSignalCreationDialog'
-import AssetToWatchlistDialog from './AssetToWatchlistDialog'
-import ChartSettingsContextMenu from './ChartSettingsContextMenu'
+import { ShareChart } from './ChartSettingsContextMenu'
 import CalendarBtn from '../../components/Calendar/CalendarBtn'
-import SearchProjects from '../../components/Search/SearchProjects'
+import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
 import styles from './ChartPage.module.scss'
 
@@ -26,37 +23,18 @@ const ChartSettings = ({
   interval,
   from,
   to,
-  project,
   hideSettings = {},
   isAdvancedView,
   title
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
-  const {
-    search: noSearch,
-    signals: noSignalCreation,
-    watchlist: noWatchlist
-  } = hideSettings
 
   const notAdvancedView = !isAdvancedView
   return (
-    <div className={cx(styles.settings, noSearch && styles.settings_noSearch)}>
+    <div className={styles.settings}>
       <div className={styles.settings__group}>
-        {noSearch || (
-          <SearchProjects
-            onSuggestionSelect={onSlugSelect}
-            className={styles.search}
-            suggestionsProps={{ style: { zIndex: 5 } }}
-            iconPosition='left'
-            defaultValue={title}
-            dontResetStateAfterSelection
-            value={title}
-          />
-        )}
-        {noSignalCreation ||
-          (notAdvancedView && (
-            <ChartSignalCreationDialog slug={project.slug} />
-          ))}
+        <h3 className={styles.settings__title}>Metrics</h3>
+        <UpgradeBtn variant='fill'>Get more data</UpgradeBtn>
       </div>
       <div className={styles.settings__group}>
         <Selector
@@ -79,15 +57,7 @@ const ChartSettings = ({
           interval={interval}
           onIntervalChange={onIntervalChange}
         />
-        {notAdvancedView && !noWatchlist && (
-          <AssetToWatchlistDialog project={project} />
-        )}
-        <ChartSettingsContextMenu
-          isNightModeActive={isNightModeActive}
-          showNightModeToggle={showNightModeToggle}
-          onNightModeSelect={onNightModeSelect}
-          shareLink={shareLink}
-        />
+        <ShareChart asIcon shareLink={shareLink} />
       </div>
     </div>
   )

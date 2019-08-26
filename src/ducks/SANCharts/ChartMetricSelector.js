@@ -1,23 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
-import Panel from '@santiment-network/ui/Panel/Panel'
+import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
+import MetricExplanation from './MetricExplanation'
+import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
 import { Metrics } from './utils'
 import styles from './ChartMetricSelector.module.scss'
 
 const NO_GROUP = '_'
-
-const DEFAULT_CATEGORIES = {
-  Financial: [
-    {
-      label: 'Price'
-    }
-  ]
-}
 
 const addItemToGraph = (categories, metricCategory, metrics) => {
   const category = categories[metricCategory]
@@ -81,7 +74,7 @@ const getCategoryGraph = availableMetrics => {
   return categories
 }
 
-const ActionBtn = ({ children, isActive, isDisabled, ...props }) => {
+const ActionBtn = ({ metric, children, isActive, isDisabled, ...props }) => {
   return (
     <Button
       variant='ghost'
@@ -92,14 +85,41 @@ const ActionBtn = ({ children, isActive, isDisabled, ...props }) => {
       disabled={isDisabled}
       {...props}
     >
-      {children}{' '}
-      {isDisabled ? (
-        <span className={styles.btn_disabled}>no data</span>
-      ) : (
-        <Icon type={isActive ? 'subtract-round' : 'plus-round'} />
-      )}
+      <div className={styles.btn__left}>
+        {isDisabled ? (
+          <span className={styles.btn_disabled}>no data</span>
+        ) : (
+          <ExplanationTooltip
+            className={styles.btn__expl}
+            text={isActive ? 'Remove metric' : 'Add metric'}
+            offsetY={8}
+          >
+            <div
+              className={cx(
+                styles.btn__action,
+                isActive ? styles.btn__action_remove : styles.btn__action_add
+              )}
+            >
+              <Icon type={isActive ? 'close-small' : 'plus'} />
+            </div>
+          </ExplanationTooltip>
+        )}{' '}
+        {children}
+      </div>
+      <MetricExplanation {...metric}>
+        <Icon type='info-round' className={styles.info} />
+      </MetricExplanation>
     </Button>
   )
+}
+
+const countCategoryActiveMetrics = (activeMetrics = []) => {
+  const counter = {}
+  for (let i = 0; i < activeMetrics.length; i++) {
+    const { category } = Metrics[activeMetrics[i]]
+    counter[category] = (counter[category] || 0) + 1
+  }
+  return counter
 }
 
 const ChartMetricSelector = ({
@@ -107,14 +127,13 @@ const ChartMetricSelector = ({
   toggleMetric,
   activeMetrics,
   disabledMetrics,
-  data: { project: { availableMetrics = [] } = {}, loading }
+  data: { project: { availableMetrics = [] } = {}, loading },
+  ...props
 }) => {
-  const categories = getCategoryGraph(availableMetrics)
+  const [activeCategory, setCategory] = useState('Financial')
 
-  const [activeCategory, setCategory] = React.useState('Financial')
-  const [activeMetric, setMetric] = React.useState(
-    DEFAULT_CATEGORIES.Financial[0]
-  )
+  const categories = getCategoryGraph(availableMetrics)
+  const categoryActiveMetricsCounter = countCategoryActiveMetrics(activeMetrics)
 
   useEffect(
     () => () => {
@@ -124,27 +143,31 @@ const ChartMetricSelector = ({
   )
 
   return (
-    <>
-      <div className={styles.header}>
-        <h4 className={styles.constraint}>Select up to 5 metrics</h4>
-        <UpgradeBtn>Unlock data</UpgradeBtn>
-      </div>
-      <Panel className={cx(styles.wrapper, className)}>
+    <Panel {...props}>
+      <Panel.Title className={styles.header}>
+        Select up to 5 metrics
+      </Panel.Title>
+      <Panel.Content className={cx(styles.wrapper, className)}>
         <div className={cx(styles.column, styles.categories)}>
-          {Object.keys(categories).map(category => (
-            <div key={category} className={styles.category}>
-              <Button
-                onClick={() => setCategory(category)}
-                variant='ghost'
-                fluid
-                className={styles.btn}
-                isActive={category === activeCategory}
-                classes={styles}
-              >
-                {category} <Icon type='arrow-right' />
-              </Button>
-            </div>
-          ))}
+          {Object.keys(categories).map(category => {
+            const counter = categoryActiveMetricsCounter[category]
+            return (
+              <div key={category} className={styles.category}>
+                <Button
+                  onClick={() => setCategory(category)}
+                  variant='ghost'
+                  fluid
+                  className={styles.btn}
+                  isActive={category === activeCategory}
+                  classes={styles}
+                >
+                  {category}
+                  {counter > 0 ? ` (${counter})` : ''}
+                  <Icon type='arrow-right' />
+                </Button>
+              </div>
+            )
+          })}
         </div>
         <div className={cx(styles.column, styles.metrics)}>
           <div className={styles.visible}>
@@ -162,7 +185,7 @@ const ChartMetricSelector = ({
                       return (
                         <ActionBtn
                           key={metric.label}
-                          onMouseEnter={() => setMetric(metric)}
+                          metric={metric}
                           onClick={() => toggleMetric(metric.key)}
                           isActive={isActive}
                           isDisabled={isDisabled}
@@ -176,18 +199,8 @@ const ChartMetricSelector = ({
             </div>
           </div>
         </div>
-        <div className={cx(styles.column, styles.explanation)}>
-          <div className={styles.visible}>
-            {activeMetric && (
-              <div className={styles.visible__scroll}>
-                <h4 className={styles.title}>{activeMetric.label}</h4>
-                <p className={styles.text}>{activeMetric.description}</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </Panel>
-    </>
+      </Panel.Content>
+    </Panel>
   )
 }
 

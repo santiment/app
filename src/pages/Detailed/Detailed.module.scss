@@ -1,4 +1,5 @@
 @import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
 
 .panel {
   width: 100%;
@@ -11,5 +12,25 @@
 
   @include responsive('tablet') {
     top: 258px !important;
+  }
+}
+
+.breadcrumbs {
+  margin-bottom: 23px;
+
+  @include text('body-3');
+
+  &__root {
+    color: $bali-hai;
+  }
+
+  &__arrow {
+    margin: 0 14px;
+    fill: $bali-hai;
+  }
+
+  &__project {
+    color: $fiord;
+    text-transform: capitalize;
   }
 }

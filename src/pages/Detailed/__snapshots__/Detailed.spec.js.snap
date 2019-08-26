@@ -23,6 +23,9 @@ exports[`Project detail page container it should render correctly 1`] = `
   </HelmetWrapper>
   <withRouter(SearchContainer) />
   <div>
+    <Breadcrumbs
+      name="Aragorn"
+    />
     <Query
       query={
         Object {

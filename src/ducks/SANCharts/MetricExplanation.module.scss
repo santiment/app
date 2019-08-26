@@ -1,0 +1,34 @@
+@import '~@santiment-network/ui/mixins';
+
+.explanation {
+  z-index: 1000;
+  padding: 16px;
+  width: 275px;
+  height: 170px;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  overflow-y: auto;
+  color: var(--mirage);
+
+  &__content {
+    position: relative;
+  }
+}
+
+.title {
+  color: var(--waterloo);
+  margin-bottom: 8px;
+}
+
+.title,
+.text {
+  @include text('body-3');
+}
+
+.visible__scroll {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
