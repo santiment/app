@@ -27,7 +27,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
   })
 })(({ isLoggedIn, location, history, data: { insights = [] } }) => {
   const sortedInsights = insights.sort(creationDateSort).slice(0, 6)
-  const { slug } = parse(location.search)
+  const { slug = 'Bitcoin' } = parse(location.search)
   return (
     <div className={styles.wrapper + ' page'}>
       <Breadcrumbs slug={slug} name={slug} />

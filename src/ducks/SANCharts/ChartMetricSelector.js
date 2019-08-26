@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import Panel from '@santiment-network/ui/Panel'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import MetricExplanation from './MetricExplanation'
@@ -148,6 +149,12 @@ const ChartMetricSelector = ({
         Select up to 5 metrics
       </Panel.Title>
       <Panel.Content className={cx(styles.wrapper, className)}>
+        {loading && (
+          <div className={styles.loader}>
+            <Loader className={styles.loader__dots} />
+          </div>
+        )}
+
         <div className={cx(styles.column, styles.categories)}>
           {Object.keys(categories).map(category => {
             const counter = categoryActiveMetricsCounter[category]
