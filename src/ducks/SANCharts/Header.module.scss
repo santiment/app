@@ -38,6 +38,8 @@
 .changes {
   @include text('h4');
 
+  color: var(--mirage);
+
   &_small {
     color: var(--waterloo);
 

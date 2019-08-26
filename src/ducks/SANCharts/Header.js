@@ -1,4 +1,8 @@
 import React from 'react'
+import {
+  createSkeletonElement,
+  createSkeletonProvider
+} from '@trainline/react-skeletor'
 import { graphql } from 'react-apollo'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
@@ -20,14 +24,25 @@ const Changes = ({ small = false, className, children, diff, label }) => (
   </div>
 )
 
-const ProjectInfo = ({ name, ticker, description }) => (
+const H1 = createSkeletonElement('h1')
+
+const ProjectInfo = createSkeletonProvider(
+  {
+    name: '_______'
+  },
+  ({ name }) => name === undefined,
+  () => ({
+    color: 'var(--mystic)',
+    backgroundColor: 'var(--mystic)'
+  })
+)(({ name, ticker, description }) => (
   <div className={styles.selector}>
     <ProjectIcon name={name} ticker={ticker} size={40} />
     <div className={styles.project}>
       <div className={styles.project__top}>
-        <h1 className={styles.project__name}>
+        <H1 className={styles.project__name}>
           {name} ({ticker})
-        </h1>
+        </H1>
         <div className={styles.project__arrows}>
           <Icon type='arrow-up' />
           <Icon type='arrow-down' />
@@ -36,7 +51,7 @@ const ProjectInfo = ({ name, ticker, description }) => (
       <div className={styles.project__description}>{description}</div>
     </div>
   </div>
-)
+))
 
 const ProjectSelector = ({ slug, project, onChange }) => (
   <GetProjects
