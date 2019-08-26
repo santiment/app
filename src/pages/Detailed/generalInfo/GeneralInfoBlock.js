@@ -31,7 +31,6 @@ const GeneralInfoBlock = ({
       <SocialLink link={githubLink} text='Github' />
       <SocialLink link={whitepaperLink} text='Whitepaper' />
     </p>
-    <hr />
     <Row
       value={marketcapUsd}
       format={value => formatNumber(value, { currency: 'USD' })}
@@ -58,7 +57,7 @@ const GeneralInfoBlock = ({
       format={value => parseFloat(value).toFixed(2)}
       title={
         <span>
-          ROI since ICO
+          ROI since ICO{' '}
           <HelpPopup content='This ROI takes into account pre-sales, the token price during all sales and the amount of tokens distributed in each sale. Example: SAN had a pre-sale when around ~15m (12k ETH) tokens were distributed at a much lower price, and an ICO where the equivalent of 33k ETH were distributed. Both these sales are taken into account for this ROI, while most aggregators calculate ROI based only on the ICO’s price.' />
         </span>
       }

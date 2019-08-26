@@ -46,7 +46,6 @@ const FinancialsBlock = ({
   <div className='panel-container'>
     <span className='row-header'>Project Transparency:&nbsp;</span>
     {isERC20 ? showStatus(projectTransparencyStatus) : 'Not applicable'}
-    <hr />
     {fundsRaisedIcos && fundsRaisedIcos.length !== 0 && (
       <div className='row-info'>
         <div>Collected</div>
