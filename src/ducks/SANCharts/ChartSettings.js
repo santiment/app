@@ -27,7 +27,6 @@ const ChartSettings = ({
   interval,
   from,
   to,
-  project,
   hideSettings = {},
   isAdvancedView,
   title

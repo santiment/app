@@ -44,6 +44,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
               projectId='1505'
               metrics={['historyPrice', 'mvrvRatio', 'socialVolume']}
               classes={styles}
+              isLoggedIn={isLoggedIn}
               {...boundaries}
             />
           )

@@ -5,6 +5,7 @@ import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
+import Header from './Header'
 import { Metrics } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
@@ -135,9 +136,6 @@ class ChartPage extends Component {
       { projectId, slug, title: `${name} (${ticker})` },
       this.updateSearchQuery
     )
-
-    const { onSlugSelect } = this.props
-    onSlugSelect && onSlugSelect(project)
   }
 
   onMetricsChange = metrics => {
@@ -259,7 +257,7 @@ class ChartPage extends Component {
       children,
       leftBoundaryDate,
       rightBoundaryDate,
-      headerComponent: Header
+      isLoggedIn
     } = this.props
 
     const requestedMetrics = metrics.map(metric => {
@@ -307,7 +305,7 @@ class ChartPage extends Component {
 
           return (
             <>
-              {Header && <Header onSlugSelect={this.onSlugSelect} />}
+              <Header slug={slug} isLoggedIn={isLoggedIn} />
               <div className={styles.wrapper}>
                 <div
                   className={cx(
@@ -332,7 +330,6 @@ class ChartPage extends Component {
                         to={to}
                         interval={interval}
                         hideSettings={hideSettings}
-                        project={{ projectId, slug }}
                         title={title}
                         isAdvancedView={isAdvancedView}
                         classes={classes}
