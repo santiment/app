@@ -3,6 +3,7 @@ import { AutoSizer, List } from 'react-virtualized'
 import Label from '@santiment-network/ui/Label'
 import { Checkbox } from '@santiment-network/ui'
 import ProjectIcon from '../../../../../../components/ProjectIcon'
+import { formatNumber } from '../../../../../../utils/formatting'
 import styles from './ProjectsList.module.scss'
 
 const ROW_HEIGHT = 32
@@ -16,7 +17,7 @@ const ProjectsList = ({
   hideCheckboxes = false
 }) => {
   const rowRenderer = ({ key, index, style }) => {
-    const { name, ticker, id } = items[index]
+    const { name, ticker, id, balance } = items[index]
     const isAssetInList = listItems.some(({ id: itemId }) => itemId === id)
     return (
       <div
@@ -45,7 +46,13 @@ const ProjectsList = ({
             name={name}
           />
           <span className={styles.name}>{name}</span>
-          <Label accent='waterloo'>({ticker})</Label>
+          <Label accent='waterloo'>
+            (
+            {balance && (
+              <Label className={styles.balance}>{formatNumber(balance)}</Label>
+            )}
+            {ticker})
+          </Label>
         </div>
       </div>
     )

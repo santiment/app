@@ -37,11 +37,12 @@ const isErc20Assets = (target, allErc20Projects) => {
 }
 
 const mapAssetsToAllProjects = (all, heldAssets) =>
-  heldAssets.reduce((acc, { slug: itemSlug, value: itemValue }) => {
+  heldAssets.reduce((acc, { slug: itemSlug, value: itemValue, balance }) => {
     const foundInAll = all.find(
       ({ slug }) => slug === itemSlug || slug === itemValue
     )
     if (foundInAll) {
+      foundInAll.balance = balance
       acc.push(foundInAll)
     }
     return acc
@@ -133,12 +134,7 @@ const TriggerFormHistoricalBalance = ({
       allErc20Projects &&
         allErc20Projects.length &&
         !erc20List.length &&
-        setErc20([
-          ...allErc20Projects,
-          {
-            slug: ETHEREUM
-          }
-        ])
+        setErc20(allErc20Projects)
       allProjects && allProjects.length && setAll(allProjects)
       assets && assets.length && setHeldAssets(assets)
     },
@@ -202,6 +198,7 @@ const TriggerFormHistoricalBalance = ({
       <div className={styles.row}>
         <div className={cx(styles.Field, styles.fieldFilled)}>
           <TriggerProjectsSelector
+            isLoading={isLoading}
             name='target'
             target={target}
             projects={selectableProjects}
@@ -218,6 +215,13 @@ const mapDataToProps = ({
   ownProps
 }) => {
   const { data = {} } = ownProps
+
+  if (allErc20Projects && allErc20Projects.length > 0) {
+    allErc20Projects.push({
+      slug: ETHEREUM
+    })
+  }
+
   return {
     ...ownProps,
     data: {
