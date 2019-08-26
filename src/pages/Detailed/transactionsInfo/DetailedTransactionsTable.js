@@ -1,53 +1,11 @@
 import React from 'react'
 import ReactTable from 'react-table'
-import { PanelWithHeader as Panel } from '@santiment-network/ui'
+import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import { formatNumber } from '../../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../../utils/dates'
 import SmoothDropdown from '../../../components/SmoothDropdown/SmoothDropdown'
-import WalletLink from '../../../components/WalletLink/WalletLink'
+import { columns } from './columns'
 import styles from './DetailedTransactionsTable.module.scss'
-
-const TrxAddressCell = ({ value }) => <WalletLink {...value} />
-
-const TrxHashAddressCell = ({ value }) => (
-  <TrxAddressCell value={{ address: value, isTx: true }} />
-)
-
-const COLUMNS = [
-  {
-    id: 'time',
-    Header: 'Time',
-    accessor: 'datetime',
-    minWidth: 100,
-    maxWidth: 200,
-    sortMethod: (a, b) => (new Date(a) > new Date(b) ? 1 : -1)
-  },
-  {
-    Header: 'Value',
-    accessor: 'trxValue',
-    minWidth: 100,
-    maxWidth: 150,
-    sortable: true
-  },
-  {
-    Header: 'From',
-    accessor: 'fromAddress',
-    Cell: TrxAddressCell,
-    sortable: false
-  },
-  {
-    Header: 'To',
-    accessor: 'toAddress',
-    Cell: TrxAddressCell,
-    sortable: false
-  },
-  {
-    Header: 'TxHash',
-    accessor: 'trxHash',
-    Cell: TrxHashAddressCell,
-    sortable: false
-  }
-]
 
 const DetailedTopTransactions = ({
   Project,
@@ -79,7 +37,7 @@ const DetailedTopTransactions = ({
       })
     : []
   return (
-    <Panel
+    <PanelWithHeader
       header={title}
       className={styles.wrapper}
       contentClassName={styles.panel}
@@ -88,7 +46,7 @@ const DetailedTopTransactions = ({
       <SmoothDropdown verticalMotion>
         <ReactTable
           data={data}
-          columns={COLUMNS}
+          columns={columns}
           showPagination={false}
           resizable={false}
           minRows={1}
@@ -101,7 +59,7 @@ const DetailedTopTransactions = ({
           ]}
         />
       </SmoothDropdown>
-    </Panel>
+    </PanelWithHeader>
   )
 }
 

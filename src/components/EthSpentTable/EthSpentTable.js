@@ -1,16 +1,10 @@
 import React from 'react'
 import ReactTable from 'react-table'
-import classnames from 'classnames'
-import { withRouter } from 'react-router-dom'
-import { compose } from 'recompose'
+import cx from 'classnames'
 import { Loader } from 'semantic-ui-react'
-import { PanelWithHeader as Panel } from '@santiment-network/ui'
-import { simpleSort } from '../../utils/sortMethods'
-import { millify } from '../../utils/formatting'
+import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import { columns } from './columns'
-import ProjectIcon from '../ProjectIcon'
 import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
-import WalletLink from '../WalletLink/WalletLink'
 import '../../pages/Projects/ProjectsTable.css'
 import styles from './EthSpentTable.module.scss'
 
@@ -24,7 +18,7 @@ const EthSpentTable = ({
 }) => {
   const loading = isLoading
   return (
-    <Panel
+    <PanelWithHeader
       header='Ethereum spent overview'
       className={styles.wrapper}
       contentClassName={styles.panel}
@@ -52,11 +46,7 @@ const EthSpentTable = ({
           columns={columns}
           LoadingComponent={({ className, loading, loadingText, ...rest }) => (
             <div
-              className={classnames(
-                '-loading',
-                { '-active': loading },
-                className
-              )}
+              className={cx('-loading', { '-active': loading }, className)}
               {...rest}
             >
               <div className='-loading-inner'>
@@ -66,10 +56,8 @@ const EthSpentTable = ({
           )}
         />
       </SmoothDropdown>
-    </Panel>
+    </PanelWithHeader>
   )
 }
 
-const enhance = compose(withRouter)
-
-export default enhance(EthSpentTable)
+export default EthSpentTable

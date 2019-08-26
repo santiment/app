@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { simpleSort } from '../../utils/sortMethods'
 import { millify } from '../../utils/formatting'
 import ProjectIcon from '../ProjectIcon'
-import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
 import WalletLink from '../WalletLink/WalletLink'
 import styles from './EthSpentTable.module.scss'
 
