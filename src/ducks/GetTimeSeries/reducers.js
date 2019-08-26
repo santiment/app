@@ -22,8 +22,11 @@ const getErrorType = payload => {
 export default (state = initialState, action) => {
   switch (action.type) {
     case actions.TIMESERIES_FETCH:
+      const target = state[action.payload.id] || {}
+      target.isLoading = true
       return {
-        ...state
+        ...state,
+        [action.payload.id]: target
       }
     case actions.TIMESERIES_FETCH_SUCCESS:
       return {

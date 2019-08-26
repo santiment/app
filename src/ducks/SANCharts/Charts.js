@@ -13,6 +13,7 @@ import {
 import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { formatNumber, millify } from './../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { Metrics, generateMetricsMarkup, findYAxisMetric } from './utils'
@@ -167,7 +168,8 @@ class Charts extends React.Component {
       hasPremium,
       leftBoundaryDate,
       rightBoundaryDate,
-      children
+      children,
+      isLoading
     } = this.props
     const {
       refAreaLeft,
@@ -190,6 +192,11 @@ class Charts extends React.Component {
         className={styles.wrapper + ' ' + sharedStyles.chart}
         ref={this.chartRef}
       >
+        {isLoading && (
+          <div className={styles.loader}>
+            <Loader />
+          </div>
+        )}
         <div className={sharedStyles.header}>
           {isZoomed && (
             <Button

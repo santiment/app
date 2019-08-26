@@ -81,6 +81,7 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
           type: actions.TIMESERIES_FETCH_SUCCESS,
           payload: {
             [id]: {
+              isLoading: false,
               errorMetrics,
               ...result
             }
