@@ -1,7 +1,6 @@
 import React from 'react'
 import { Bar } from 'recharts'
 import Icon from '@santiment-network/ui/Icon'
-import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
 import MetricIcon from './MetricIcon'
 import { Metrics, METRIC_COLORS } from './utils'
@@ -12,12 +11,7 @@ const ChartActiveMetrics = ({ activeMetrics, toggleMetric }) => {
   return (
     <section className={styles.wrapper}>
       {activeMetrics.map(metric => (
-        <Button
-          border
-          key={metric}
-          onClick={() => toggleMetric(metric)}
-          className={styles.btn}
-        >
+        <Button border key={metric} className={styles.btn}>
           <MetricIcon
             isBar={Metrics[metric].node === Bar}
             color={`var(--${Metrics[metric].color ||
@@ -25,7 +19,11 @@ const ChartActiveMetrics = ({ activeMetrics, toggleMetric }) => {
             className={styles.label}
           />
           {Metrics[metric].label}
-          <Icon type='close-small' className={styles.icon} />
+          <Icon
+            type='close-small'
+            className={styles.icon}
+            onClick={() => toggleMetric(metric)}
+          />
         </Button>
       ))}
     </section>

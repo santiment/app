@@ -42,6 +42,7 @@
   border: 1px solid var(--porcelain);
   border-radius: 4px;
   overflow-y: auto;
+  color: var(--mirage);
 
   &__content {
     position: relative;
@@ -61,6 +62,9 @@
     border-radius: 2px;
     background: var(--porcelain);
     margin: 0 6px 0 0;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
   }
 
   &__left {
@@ -128,7 +132,7 @@
 }
 
 .metrics .active {
-  fill: var(--casper);
+  fill: var(--mirage);
 }
 
 .group {
@@ -145,4 +149,9 @@
     color: var(--waterloo);
     margin: 12px 12px 8px;
   }
+}
+
+.suggestIcon {
+  fill: var(--casper);
+  margin-right: 8px;
 }

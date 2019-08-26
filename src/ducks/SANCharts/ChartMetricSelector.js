@@ -165,7 +165,7 @@ const ChartMetricSelector = ({
       <Panel.Title className={styles.header}>
         <span>Select up to 5 metrics</span>
         <Button border>
-          <Icon type='chart' fill='var(--casper)' /> Suggest metrics
+          <Icon className={styles.suggestIcon} type='chart' /> Suggest metrics
         </Button>
       </Panel.Title>
       <Panel.Content className={cx(styles.wrapper, className)}>
