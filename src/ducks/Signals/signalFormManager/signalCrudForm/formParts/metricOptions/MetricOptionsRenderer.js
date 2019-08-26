@@ -100,6 +100,8 @@ export const WalletBalanceOptionRenderer = ({
     classNames.push(styles.selected)
   }
 
+  const hasBalance = balance
+
   return (
     <div
       className={classNames.join(' ')}
@@ -108,7 +110,10 @@ export const WalletBalanceOptionRenderer = ({
       onMouseEnter={() => focusOption(option)}
       style={style}
     >
-      {slug} ({formatNumber(balance)})
+      <span>{slug}</span>
+      {hasBalance && (
+        <span className={styles.balance}>({formatNumber(balance)})</span>
+      )}
     </div>
   )
 }

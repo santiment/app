@@ -154,7 +154,7 @@
 }
 
 .ReactTable .-pagination .-next {
-  margin-left: 8px;
+  margin: 0 10px 0 8px;
 }
 
 .ReactTable .-pagination .-center {

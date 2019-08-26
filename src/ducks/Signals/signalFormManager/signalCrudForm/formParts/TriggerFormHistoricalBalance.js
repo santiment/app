@@ -24,11 +24,17 @@ const isInHeldAssets = (heldAssets, checking) => {
   )
 }
 
-const isErc20Assets = (target, allErc20Projects) =>
-  target.value === 'ethereum' ||
-  (Array.isArray(target)
-    ? isInHeldAssets(allErc20Projects, target)
-    : isInHeldAssets(allErc20Projects, [target]))
+const ETHEREUM = 'ethereum'
+
+const isErc20Assets = (target, allErc20Projects) => {
+  return (
+    target.value === ETHEREUM ||
+    target.slug === ETHEREUM ||
+    (Array.isArray(target)
+      ? isInHeldAssets(allErc20Projects, target)
+      : isInHeldAssets(allErc20Projects, [target]))
+  )
+}
 
 const mapAssetsToAllProjects = (all, heldAssets) =>
   heldAssets.reduce((acc, { slug: itemSlug, value: itemValue }) => {
@@ -77,8 +83,6 @@ const TriggerFormHistoricalBalance = ({
   const [allList, setAll] = useState(allProjects)
   const [heldAssets, setHeldAssets] = useState(assets)
 
-  const isMulti = target && Array.isArray(target)
-
   const metaMappedToAll = mapAssetsToAllProjects(
     allList,
     Array.isArray(metaTarget.value) ? metaTarget.value : [metaTarget.value]
@@ -86,9 +90,9 @@ const TriggerFormHistoricalBalance = ({
 
   const validateTarget = () => {
     let asset
-    if (isMulti && target.length === 1 && !target[0].slug) {
+    if (target.length === 1 && !target[0].slug) {
       asset = getFromAll(allList, target[0])
-    } else if (!isMulti && target && !target.slug) {
+    } else if (target && !target.slug) {
       asset = getFromAll(allList, target)
     }
 
@@ -126,7 +130,15 @@ const TriggerFormHistoricalBalance = ({
 
   useEffect(
     () => {
-      allErc20Projects && allErc20Projects.length && setErc20(allErc20Projects)
+      allErc20Projects &&
+        allErc20Projects.length &&
+        !erc20List.length &&
+        setErc20([
+          ...allErc20Projects,
+          {
+            slug: ETHEREUM
+          }
+        ])
       allProjects && allProjects.length && setAll(allProjects)
       assets && assets.length && setHeldAssets(assets)
     },
@@ -159,7 +171,7 @@ const TriggerFormHistoricalBalance = ({
   )
 
   const disabledWalletField =
-    (!ethAddress && (isMulti && target.length > 1)) ||
+    (!ethAddress && target.length > 1) ||
     (erc20List.length && !isErc20Assets(target, erc20List))
 
   const selectableProjects =
@@ -189,26 +201,12 @@ const TriggerFormHistoricalBalance = ({
       </div>
       <div className={styles.row}>
         <div className={cx(styles.Field, styles.fieldFilled)}>
-          {isMulti && (
-            <TriggerProjectsSelector
-              name='target'
-              target={target}
-              projects={selectableProjects}
-              setFieldValue={setFieldValue}
-            />
-          )}
-          {!isMulti && (
-            <FormikSelect
-              name='target'
-              disalbed={isLoading}
-              isLoading={isLoading}
-              isClearable={false}
-              placeholder='Pick an asset'
-              options={selectableProjects}
-              valueKey='slug'
-              labelKey='slug'
-            />
-          )}
+          <TriggerProjectsSelector
+            name='target'
+            target={target}
+            projects={selectableProjects}
+            setFieldValue={setFieldValue}
+          />
         </div>
       </div>
     </>

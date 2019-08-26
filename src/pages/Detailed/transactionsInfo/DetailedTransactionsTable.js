@@ -1,58 +1,16 @@
 import React from 'react'
 import ReactTable from 'react-table'
-import { PanelWithHeader as Panel } from '@santiment-network/ui'
+import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import { formatNumber } from '../../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../../utils/dates'
 import SmoothDropdown from '../../../components/SmoothDropdown/SmoothDropdown'
-import WalletLink from '../../../components/WalletLink/WalletLink'
-import './DetailedTransactionsTable.css'
-
-const TrxAddressCell = ({ value }) => <WalletLink {...value} />
-
-const TrxHashAddressCell = ({ value }) => (
-  <TrxAddressCell value={{ address: value, isTx: true }} />
-)
-
-const COLUMNS = [
-  {
-    id: 'time',
-    Header: 'Time',
-    accessor: 'datetime',
-    minWidth: 100,
-    maxWidth: 200,
-    sortMethod: (a, b) => (new Date(a) > new Date(b) ? 1 : -1)
-  },
-  {
-    Header: 'Value',
-    accessor: 'trxValue',
-    minWidth: 100,
-    maxWidth: 150,
-    sortable: false
-  },
-  {
-    Header: 'From',
-    accessor: 'fromAddress',
-    Cell: TrxAddressCell,
-    sortable: false
-  },
-  {
-    Header: 'To',
-    accessor: 'toAddress',
-    Cell: TrxAddressCell,
-    sortable: false
-  },
-  {
-    Header: 'TxHash',
-    accessor: 'trxHash',
-    Cell: TrxHashAddressCell,
-    sortable: false
-  }
-]
+import { columns } from './columns'
+import styles from './DetailedTransactionsTable.module.scss'
 
 const DetailedTopTransactions = ({
   Project,
   show = 'ethTopTransactions',
-  title = 'Top ETH Transactions'
+  title = 'Top ETH transactions'
 }) => {
   const slug = (Project.project || {}).slug || ''
   const data = Project.project[show]
@@ -79,14 +37,20 @@ const DetailedTopTransactions = ({
       })
     : []
   return (
-    <Panel header={title} className={'panel-full-width'}>
+    <PanelWithHeader
+      header={title}
+      className={styles.wrapper}
+      contentClassName={styles.panel}
+      headerClassName={styles.header}
+    >
       <SmoothDropdown verticalMotion>
         <ReactTable
           data={data}
-          columns={COLUMNS}
+          columns={columns}
           showPagination={false}
-          minRows={2}
-          className='DetailedEthTopTransactions'
+          resizable={false}
+          minRows={1}
+          className={styles.transactionsTable}
           defaultSorted={[
             {
               id: 'time',
@@ -95,7 +59,7 @@ const DetailedTopTransactions = ({
           ]}
         />
       </SmoothDropdown>
-    </Panel>
+    </PanelWithHeader>
   )
 }
 

@@ -13,7 +13,7 @@ import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import Search from './../../components/Search/SearchContainer'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import EthSpent from './../../pages/EthSpent'
-import { checkHasPremium, checkIsLoggedIn } from './../UserSelectors'
+import { checkIsLoggedIn } from './../UserSelectors'
 import DetailedTransactionsTable from './transactionsInfo/DetailedTransactionsTable'
 import {
   projectBySlugGQL,
@@ -55,8 +55,6 @@ export const Detailed = ({
   },
   isDesktop,
   isLoggedIn,
-  user,
-  hasPremium,
   ...props
 }) => {
   const project = Project.project || {}
@@ -103,6 +101,7 @@ export const Detailed = ({
               classes={styles}
               onSlugSelect={onChangeProject}
               isLoggedIn={isLoggedIn}
+              enabledViewOnlySharing={false}
               {...boundaries}
             />
           )
@@ -166,7 +165,7 @@ export const Detailed = ({
         <div className='information'>
           <DetailedTransactionsTable
             Project={Project}
-            title={'Top Token Transactions 30D'}
+            title={'Top token transactions, 30d'}
             show={'tokenTopTransactions'}
           />
         </div>
@@ -190,8 +189,6 @@ Detailed.propTypes = propTypes
 
 const mapStateToProps = state => {
   return {
-    user: state.user,
-    hasPremium: checkHasPremium(state),
     isLoggedIn: checkIsLoggedIn(state),
     timeFilter: state.detailedPageUi.timeFilter
   }
