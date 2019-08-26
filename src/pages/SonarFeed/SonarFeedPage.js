@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { matchPath } from 'react-router'
 import { connect } from 'react-redux'
-import { Link, Route, Switch } from 'react-router-dom'
+import { Link, Route, Switch, Redirect } from 'react-router-dom'
 import Tabs from '@santiment-network/ui/Tabs'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
@@ -52,6 +52,10 @@ const SonarFeed = ({
   history,
   location: { hash } = {}
 }) => {
+  if (pathname === baseLocation) {
+    return <Redirect to={tabs[0].index} />
+  }
+
   const [triggerId, setTriggerId] = useState(undefined)
 
   useEffect(
