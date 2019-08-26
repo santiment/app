@@ -1,9 +1,11 @@
 import React from 'react'
 import GA from 'react-ga'
+import { parse } from 'query-string'
 import { graphql, Query } from 'react-apollo'
 import ChartWidget from '../../ducks/SANCharts/ChartPage'
 import InsightsWrap from '../../components/Insight/InsightsWrap'
 import AnonBannerCardB from '../../components/Banner/AnonBanner/AnonBannerCardB'
+import { Breadcrumbs } from '../Detailed/Detailed'
 import { ALL_INSIGHTS_BY_PAGE_QUERY } from '../../queries/InsightsGQL'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import { creationDateSort } from '../Insights/utils'
@@ -25,8 +27,10 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
   })
 })(({ isLoggedIn, location, history, data: { insights = [] } }) => {
   const sortedInsights = insights.sort(creationDateSort).slice(0, 6)
+  const { slug } = parse(location.search)
   return (
     <div className={styles.wrapper + ' page'}>
+      <Breadcrumbs slug={slug} name={slug} />
       <Query query={USER_SUBSCRIPTIONS_QUERY}>
         {({ data: { currentUser } = {} }) => {
           const subscription = getCurrentSanbaseSubscription(currentUser)

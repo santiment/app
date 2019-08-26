@@ -31,7 +31,7 @@ const propTypes = {
   match: PropTypes.object.isRequired
 }
 
-const Breadcrumbs = ({ slug, name }) => (
+export const Breadcrumbs = ({ slug, name }) => (
   <div className={styles.breadcrumbs}>
     <Link to='/assets' className={styles.breadcrumbs__root}>
       Assets

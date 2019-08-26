@@ -67,8 +67,6 @@ class Charts extends React.Component {
   chartRef = React.createRef()
   metricRef = React.createRef()
 
-  componentDidMount () {}
-
   componentDidUpdate (prevProps) {
     const { metrics } = this.props
     if (this.props.chartData !== prevProps.chartData) {
