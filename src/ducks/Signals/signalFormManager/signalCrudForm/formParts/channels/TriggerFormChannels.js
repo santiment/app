@@ -11,6 +11,14 @@ import { CHANNELS_MAP } from '../../../../utils/constants'
 import { getSanSonarSW } from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
 import styles from '../../signal/TriggerForm.module.scss'
 
+const CHANNEL_NAMES = {
+  Telegram: 'Telegram',
+  Email: 'Email',
+  Browser: 'Browser'
+}
+
+const permanentDisabledChannels = [CHANNEL_NAMES.Email]
+
 const TriggerFormChannels = ({
   channels,
   errors,
@@ -18,24 +26,24 @@ const TriggerFormChannels = ({
   isEmailConnected,
   isBeta
 }) => {
-  const settingsForTelegramEnabled =
-    !isTelegramConnected && channels.some(type => type === 'Telegram')
-  const settingsForEmailEnabled =
-    !isEmailConnected && channels.some(type => type === 'Email')
-
   const [isWebPushEnabled, setWebPushEnabled] = useState(true)
+  const [disabledChannels, setDisabledChannels] = useState([
+    CHANNEL_NAMES.Email
+  ])
 
-  let requiredChannels = []
-  if (settingsForTelegramEnabled) {
-    requiredChannels.push('Telegram')
-  }
+  const [requiredChannels, setRequiredChannels] = useState([])
 
-  if (settingsForEmailEnabled) {
-    requiredChannels.push('Email')
-  }
+  const calculateDisabledChannels = () => {
+    const disabled = [...permanentDisabledChannels]
 
-  if (isWebPushEnabled) {
-    requiredChannels.push('Browser')
+    if (!isTelegramConnected) {
+      disabled.push(CHANNEL_NAMES.Telegram)
+    }
+    if (!isWebPushEnabled) {
+      disabled.push(CHANNEL_NAMES.Browser)
+    }
+
+    setDisabledChannels(disabled)
   }
 
   const recheckBrowserNotifications = () => {
@@ -43,17 +51,63 @@ const TriggerFormChannels = ({
       navigator.serviceWorker.getRegistrations &&
       navigator.serviceWorker.getRegistrations().then(registrations => {
         const sw = getSanSonarSW(registrations)
-        setWebPushEnabled(!sw && channels.some(type => type === 'Browser'))
+        const hasServiceWorker = !!sw
+
+        setWebPushEnabled(hasServiceWorker)
+        calculateDisabledChannels()
       })
   }
 
-  useEffect(() => {
-    if (isBeta) {
-      recheckBrowserNotifications()
-    }
-  })
+  useEffect(
+    () => {
+      if (isBeta) {
+        recheckBrowserNotifications()
+      }
+    },
+    [isWebPushEnabled, channels]
+  )
+
+  useEffect(
+    () => {
+      calculateDisabledChannels()
+    },
+    [isTelegramConnected, isEmailConnected, isWebPushEnabled]
+  )
+
+  useEffect(
+    () => {
+      let required = []
+      if (
+        !isTelegramConnected &&
+        channels.some(type => type === CHANNEL_NAMES.Telegram)
+      ) {
+        required.push(CHANNEL_NAMES.Telegram)
+      }
+
+      if (
+        !isEmailConnected &&
+        channels.some(type => type === CHANNEL_NAMES.Email)
+      ) {
+        required.push(CHANNEL_NAMES.Email)
+      }
+
+      if (
+        !isWebPushEnabled &&
+        channels.some(type => type === CHANNEL_NAMES.Browser)
+      ) {
+        required.push(CHANNEL_NAMES.Browser)
+      }
+
+      setRequiredChannels(required)
+    },
+    [isTelegramConnected, isEmailConnected, isWebPushEnabled]
+  )
 
   const [channelsList] = useState(CHANNELS_MAP.map(({ label }) => label))
+
+  const hasNotEnabledChannels = disabledChannels.some(disabled => {
+    return permanentDisabledChannels.indexOf(disabled) === -1
+  })
 
   return (
     <div className={cx(styles.row, styles.rowSingle)}>
@@ -64,8 +118,12 @@ const TriggerFormChannels = ({
             name='channels'
             labelOnRight
             options={channelsList}
-            disabledIndexes={['Email']}
+            disabledIndexes={disabledChannels}
             classes={styles}
+          />
+          <TriggerChannelSettings
+            showTrigger={hasNotEnabledChannels}
+            recheckBrowserNotifications={recheckBrowserNotifications}
           />
         </div>
         {requiredChannels.length > 0 && (
@@ -80,7 +138,7 @@ const TriggerFormChannels = ({
             localStorageSuffix='_TRIGGER_FORM_EXPLANATION'
             position='top'
             title='Connect channels'
-            description='Get fast notifications through Email or Telegram'
+            description='Get fast notifications through Email or Telegram or Browser'
             className={styles.explanation}
           >
             <ErrorMessage message={errors.channels} />

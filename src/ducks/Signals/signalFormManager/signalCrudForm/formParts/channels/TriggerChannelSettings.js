@@ -8,7 +8,13 @@ import SettingsSonarWebPushNotifications from '../../../../../../pages/Account/S
 import ShowIf from '../../../../../../components/ShowIf/ShowIf'
 import styles from './TriggerChannelSettings.module.scss'
 
-const TriggerChannelSettings = ({ recheckBrowserNotifications, trigger }) => {
+const DefaultTrigger = <span className={styles.connect}>Open settings</span>
+
+const TriggerChannelSettings = ({
+  recheckBrowserNotifications,
+  trigger = DefaultTrigger,
+  showTrigger = true
+}) => {
   const [open, setOpen] = useState(false)
 
   return (
@@ -17,9 +23,7 @@ const TriggerChannelSettings = ({ recheckBrowserNotifications, trigger }) => {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        trigger={
-          trigger || <span className={styles.connect}>Open settings</span>
-        }
+        trigger={showTrigger && trigger}
         title='Notification settings'
       >
         <Dialog.ScrollContent>
