@@ -5,6 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import SearchProjects from '../../../../../../components/Search/SearchProjects'
 import { hasAssetById } from '../../../../../../components/WatchlistPopup/WatchlistsPopup'
 import ProjectsList from './ProjectsList'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import styles from './TriggerProjectsSelector.module.scss'
 
 export const TriggerProjectsSelector = ({
@@ -15,8 +16,13 @@ export const TriggerProjectsSelector = ({
   name,
   trigger: Trigger = ProjectsSelectorTrigger,
   title = 'Select assets',
-  isSingle = false
+  isSingle = false,
+  isLoading = false
 }) => {
+  if (isLoading) {
+    return <Loader className={styles.loader} />
+  }
+
   const [listItems, setListItems] = useState([])
   const checkedAssetsAsSet = new Set(listItems)
 

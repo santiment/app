@@ -1163,16 +1163,19 @@ export const getTargetsHeader = values => {
     }
   } else if (metric.value === ETH_WALLET) {
     const targets = mapTargetObject(target, targetMapperWithTicker)
-    const addresses = mapTargetObject(ethAddress) || '...'
+    const addresses = mapTargetObject(ethAddress) || ''
+    console.log(addresses)
+
     if (Array.isArray(ethAddress) && ethAddress.length > 1) {
       return buildFormBlock(
         NOTIFY_ME_WHEN,
         `${targetsJoin(targets)} wallets [${addresses.join(', ')}]`
       )
     } else {
+      const walletDescription = addresses ? 'wallet ' + addresses : ''
       return buildFormBlock(
         NOTIFY_ME_WHEN,
-        `${targetsJoin(targets)} wallet ${addresses}`
+        `${targetsJoin(targets)} ${walletDescription}`
       )
     }
   }
