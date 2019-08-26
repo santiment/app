@@ -14,6 +14,7 @@ import GetProjects from '../Signals/common/projects/getProjects'
 import { TriggerProjectsSelector } from '../Signals/signalFormManager/signalCrudForm/formParts/projectsSelector/TriggerProjectsSelector'
 import { formatNumber } from '../../utils/formatting'
 import { PROJECT_BY_SLUG_QUERY } from './gql'
+import ALL_PROJECTS from '../../allProjects.json'
 import styles from './Header.module.scss'
 
 const Changes = ({ small = false, className, children, diff, label }) => (
@@ -56,9 +57,12 @@ const ProjectInfo = createSkeletonProvider(
 const ProjectSelector = ({ slug, project, onChange }) => (
   <GetProjects
     render={({ allProjects }) => {
+      const array =
+        allProjects && allProjects.length === 0 ? ALL_PROJECTS : allProjects
+
       return (
         <TriggerProjectsSelector
-          projects={allProjects}
+          projects={array}
           target={{ slug }}
           isSingle={true}
           onChange={onChange}
