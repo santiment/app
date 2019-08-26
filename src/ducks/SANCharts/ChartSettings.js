@@ -1,9 +1,7 @@
 import React from 'react'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import IntervalSelector from './IntervalSelector'
-import ChartSettingsContextMenu, {
-  ShareChart
-} from './ChartSettingsContextMenu'
+import { ShareChart } from './ChartSettingsContextMenu'
 import CalendarBtn from '../../components/Calendar/CalendarBtn'
 import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
