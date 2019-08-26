@@ -9,7 +9,7 @@ export const CHANNELS_MAP = [
   },
   {
     value: 'web_push',
-    label: 'Web Push'
+    label: 'Browser'
   }
 ]
 

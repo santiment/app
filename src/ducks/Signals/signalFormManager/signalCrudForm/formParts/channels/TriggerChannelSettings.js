@@ -11,31 +11,8 @@ import SettingsSonarWebPushNotifications, {
 import ShowIf from '../../../../../../components/ShowIf/ShowIf'
 import styles from './TriggerChannelSettings.module.scss'
 
-const TriggerChannelSettings = ({
-  isTelegramSettings,
-  isEmailSettings,
-  isBeta
-}) => {
+const TriggerChannelSettings = ({ recheckBrowserNotifications, trigger }) => {
   const [open, setOpen] = useState(false)
-  const [isWebPushEnabled, setWebPushEnabled] = useState(true)
-
-  useEffect(
-    () => {
-      !isTelegramSettings && !isEmailSettings && setOpen(false)
-
-      if (isBeta) {
-        navigator.serviceWorker &&
-          navigator.serviceWorker.getRegistrations &&
-          navigator.serviceWorker.getRegistrations().then(registrations => {
-            const sw = getSanSonarSW(registrations)
-            setWebPushEnabled(!!sw)
-          })
-      }
-    },
-    [isEmailSettings, isTelegramSettings]
-  )
-
-  const showTrigger = isTelegramSettings || isEmailSettings || !isWebPushEnabled
 
   return (
     <>
@@ -44,7 +21,7 @@ const TriggerChannelSettings = ({
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         trigger={
-          showTrigger && <span className={styles.connect}>Open settings</span>
+          trigger || <span className={styles.connect}>Open settings</span>
         }
         title='Notification settings'
       >
@@ -55,30 +32,17 @@ const TriggerChannelSettings = ({
           <ConnectTelegramBlock classes={styles} />
           <SettingsTelegramNotifications classes={styles} />
 
-          {!isWebPushEnabled && (
-            <ShowIf beta>
-              <SettingsSonarWebPushNotifications
-                classes={styles}
-                className={styles.notifications}
-              />
-            </ShowIf>
-          )}
+          <ShowIf beta>
+            <SettingsSonarWebPushNotifications
+              classes={styles}
+              className={styles.notifications}
+              recheckBrowserNotifications={recheckBrowserNotifications}
+            />
+          </ShowIf>
         </Dialog.ScrollContent>
       </Dialog>
     </>
   )
 }
 
-const mapStateToProps = ({
-  user: {
-    data: { email = '' }
-  },
-  rootUi: { isBetaModeEnabled }
-}) => ({
-  email,
-  isBeta: isBetaModeEnabled
-})
-
-const enhance = connect(mapStateToProps)
-
-export default enhance(TriggerChannelSettings)
+export default TriggerChannelSettings

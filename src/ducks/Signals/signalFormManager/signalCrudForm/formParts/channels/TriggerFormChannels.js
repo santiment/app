@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import cx from 'classnames'
 import Message from '@santiment-network/ui/Message'
 import SidecarExplanationTooltip from '../../../../../SANCharts/SidecarExplanationTooltip'
@@ -6,18 +8,50 @@ import FormikLabel from '../../../../../../components/formik-santiment-ui/Formik
 import FormikCheckboxes from '../../../../../../components/formik-santiment-ui/FormikCheckboxes'
 import TriggerChannelSettings from './TriggerChannelSettings'
 import { CHANNELS_MAP } from '../../../../utils/constants'
+import { getSanSonarSW } from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
 import styles from '../../signal/TriggerForm.module.scss'
 
 const TriggerFormChannels = ({
   channels,
   errors,
   isTelegramConnected,
-  isEmailConnected
+  isEmailConnected,
+  isBeta
 }) => {
   const settingsForTelegramEnabled =
     !isTelegramConnected && channels.some(type => type === 'Telegram')
   const settingsForEmailEnabled =
     !isEmailConnected && channels.some(type => type === 'Email')
+
+  const [isWebPushEnabled, setWebPushEnabled] = useState(true)
+
+  let requiredChannels = []
+  if (settingsForTelegramEnabled) {
+    requiredChannels.push('Telegram')
+  }
+
+  if (settingsForEmailEnabled) {
+    requiredChannels.push('Email')
+  }
+
+  if (isWebPushEnabled) {
+    requiredChannels.push('Browser')
+  }
+
+  const recheckBrowserNotifications = () => {
+    navigator.serviceWorker &&
+      navigator.serviceWorker.getRegistrations &&
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        const sw = getSanSonarSW(registrations)
+        setWebPushEnabled(!sw && channels.some(type => type === 'Browser'))
+      })
+  }
+
+  useEffect(() => {
+    if (isBeta) {
+      recheckBrowserNotifications()
+    }
+  })
 
   const [channelsList] = useState(CHANNELS_MAP.map(({ label }) => label))
 
@@ -33,11 +67,13 @@ const TriggerFormChannels = ({
             disabledIndexes={['Email']}
             classes={styles}
           />
-          <TriggerChannelSettings
-            isTelegramSettings={settingsForTelegramEnabled}
-            isEmailSettings={settingsForEmailEnabled}
-          />
         </div>
+        {requiredChannels.length > 0 && (
+          <ErrorMessage
+            channel={requiredChannels.join(', ')}
+            recheckBrowserNotifications={recheckBrowserNotifications}
+          />
+        )}
         {errors.channels && (
           <SidecarExplanationTooltip
             closeTimeout={500}
@@ -47,9 +83,7 @@ const TriggerFormChannels = ({
             description='Get fast notifications through Email or Telegram'
             className={styles.explanation}
           >
-            <div className={cx(styles.row, styles.messages)}>
-              <Message variant='warn'>{errors.channels}</Message>
-            </div>
+            <ErrorMessage message={errors.channels} />
           </SidecarExplanationTooltip>
         )}
       </div>
@@ -57,4 +91,41 @@ const TriggerFormChannels = ({
   )
 }
 
-export default TriggerFormChannels
+const ErrorMessage = ({ message, recheckBrowserNotifications, channel }) => (
+  <div className={styles.messages}>
+    <Message variant='warn' className={styles.messagesText}>
+      {message || (
+        <TriggerChannelSettings
+          trigger={
+            <div className={styles.openSettings}>
+              Please, open your{' '}
+              <Link to='#' className={styles.link}>
+                account settings
+              </Link>{' '}
+              and enable{' '}
+              <Link className={styles.link} to='#'>
+                {channel}
+              </Link>{' '}
+              notifications
+            </div>
+          }
+          recheckBrowserNotifications={recheckBrowserNotifications}
+        />
+      )}
+    </Message>
+  </div>
+)
+
+const mapStateToProps = ({
+  user: {
+    data: { email = '' }
+  },
+  rootUi: { isBetaModeEnabled }
+}) => ({
+  email,
+  isBeta: isBetaModeEnabled
+})
+
+const enhance = connect(mapStateToProps)
+
+export default enhance(TriggerFormChannels)
