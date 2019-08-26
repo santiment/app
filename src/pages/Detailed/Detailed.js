@@ -169,7 +169,7 @@ export const Detailed = ({
         <div className='information'>
           <DetailedTransactionsTable
             Project={Project}
-            title={'Top Token Transactions 30D'}
+            title={'Top token transactions, 30d'}
             show={'tokenTopTransactions'}
           />
         </div>

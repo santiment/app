@@ -5,7 +5,7 @@ import { formatNumber } from '../../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../../utils/dates'
 import SmoothDropdown from '../../../components/SmoothDropdown/SmoothDropdown'
 import WalletLink from '../../../components/WalletLink/WalletLink'
-import './DetailedTransactionsTable.css'
+import styles from './DetailedTransactionsTable.module.scss'
 
 const TrxAddressCell = ({ value }) => <WalletLink {...value} />
 
@@ -27,7 +27,7 @@ const COLUMNS = [
     accessor: 'trxValue',
     minWidth: 100,
     maxWidth: 150,
-    sortable: false
+    sortable: true
   },
   {
     Header: 'From',
@@ -52,7 +52,7 @@ const COLUMNS = [
 const DetailedTopTransactions = ({
   Project,
   show = 'ethTopTransactions',
-  title = 'Top ETH Transactions'
+  title = 'Top ETH transactions'
 }) => {
   const slug = (Project.project || {}).slug || ''
   const data = Project.project[show]
@@ -79,14 +79,20 @@ const DetailedTopTransactions = ({
       })
     : []
   return (
-    <Panel header={title} className={'panel-full-width'}>
+    <Panel
+      header={title}
+      className={styles.wrapper}
+      contentClassName={styles.panel}
+      headerClassName={styles.header}
+    >
       <SmoothDropdown verticalMotion>
         <ReactTable
           data={data}
           columns={COLUMNS}
           showPagination={false}
-          minRows={2}
-          className='DetailedEthTopTransactions'
+          resizable={false}
+          minRows={1}
+          className={styles.transactionsTable}
           defaultSorted={[
             {
               id: 'time',
