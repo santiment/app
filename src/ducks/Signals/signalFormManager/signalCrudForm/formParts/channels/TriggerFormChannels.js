@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 import cx from 'classnames'
 import Message from '@santiment-network/ui/Message'
 import SidecarExplanationTooltip from '../../../../../SANCharts/SidecarExplanationTooltip'
@@ -6,9 +7,8 @@ import FormikLabel from '../../../../../../components/formik-santiment-ui/Formik
 import FormikCheckboxes from '../../../../../../components/formik-santiment-ui/FormikCheckboxes'
 import TriggerChannelSettings from './TriggerChannelSettings'
 import { CHANNELS_MAP } from '../../../../utils/constants'
-import styles from '../../signal/TriggerForm.module.scss'
 import { getSanSonarSW } from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
-import { connect } from 'react-redux'
+import styles from '../../signal/TriggerForm.module.scss'
 
 const TriggerFormChannels = ({
   channels,
