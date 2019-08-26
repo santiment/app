@@ -55,6 +55,7 @@ import {
   uncapitalizeStr
 } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
+import { mapToOptions } from '../../../utils/select/utils'
 
 const targetMapper = ({ value, slug } = {}) => slug || value
 export const targetMapperWithName = ({ value, slug, name } = {}) =>
@@ -295,30 +296,6 @@ const mapTriggerToFormThreshold = ({ threshold, operation }) => {
   }
 
   return newThreshold
-}
-
-export const mapToOptions = input => {
-  if (!input) {
-    return []
-  }
-
-  if (Array.isArray(input)) {
-    return input.map(item => ({
-      label: item,
-      value: item
-    }))
-  } else {
-    if (typeof input === 'object') {
-      return [input]
-    } else {
-      return [
-        {
-          value: input,
-          label: input
-        }
-      ]
-    }
-  }
 }
 
 const getFormTrendingWords = ({ settings: { operation, target } }) => {
@@ -1164,7 +1141,6 @@ export const getTargetsHeader = values => {
   } else if (metric.value === ETH_WALLET) {
     const targets = mapTargetObject(target, targetMapperWithTicker)
     const addresses = mapTargetObject(ethAddress) || ''
-    console.log(addresses)
 
     if (Array.isArray(ethAddress) && ethAddress.length > 1) {
       return buildFormBlock(

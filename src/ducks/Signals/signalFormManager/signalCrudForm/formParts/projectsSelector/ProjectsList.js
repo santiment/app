@@ -16,7 +16,6 @@ const ProjectsList = ({
   isContained,
   hideCheckboxes = false
 }) => {
-  console.log(items)
   const rowRenderer = ({ key, index, style }) => {
     const { name, ticker, id, balance } = items[index]
     const isAssetInList = listItems.some(({ id: itemId }) => itemId === id)
@@ -47,10 +46,13 @@ const ProjectsList = ({
             name={name}
           />
           <span className={styles.name}>{name}</span>
-          <Label accent='waterloo'>({ticker})</Label>
-          {balance && (
-            <Label className={styles.balance}>({formatNumber(balance)})</Label>
-          )}
+          <Label accent='waterloo'>
+            (
+            {balance && (
+              <Label className={styles.balance}>{formatNumber(balance)}</Label>
+            )}
+            {ticker})
+          </Label>
         </div>
       </div>
     )

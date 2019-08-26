@@ -50,6 +50,7 @@ const enhance = compose(
   graphql(ALL_ERC20_PROJECTS_QUERY, {
     name: 'allErc20Projects',
     props: mapErc20AssetsToProps,
+    skip: ({ byAddress }) => !!byAddress,
     options: () => {
       return {
         errorPolicy: 'all'
