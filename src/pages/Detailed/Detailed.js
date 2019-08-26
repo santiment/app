@@ -101,12 +101,8 @@ export const Detailed = ({
               projectId={id}
               metrics={['historyPrice', 'volume']}
               classes={styles}
-              hideSettings={{
-                search: true,
-                signals: true,
-                watchlist: true
-              }}
               onSlugSelect={onChangeProject}
+              isLoggedIn={isLoggedIn}
               {...boundaries}
             />
           )

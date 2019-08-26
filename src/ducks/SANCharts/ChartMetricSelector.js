@@ -3,7 +3,6 @@ import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
-import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
 import MetricExplanation from './MetricExplanation'
 import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
@@ -12,14 +11,6 @@ import { Metrics } from './utils'
 import styles from './ChartMetricSelector.module.scss'
 
 const NO_GROUP = '_'
-
-const DEFAULT_CATEGORIES = {
-  Financial: [
-    {
-      label: 'Price'
-    }
-  ]
-}
 
 const addItemToGraph = (categories, metricCategory, metrics) => {
   const category = categories[metricCategory]

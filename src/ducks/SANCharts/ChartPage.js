@@ -244,7 +244,6 @@ class ChartPage extends Component {
   render () {
     const {
       timeRange,
-      projectId,
       slug,
       metrics,
       from,
