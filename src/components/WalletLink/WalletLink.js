@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import * as qs from 'query-string'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Button } from '@santiment-network/ui'
-import { Label } from 'semantic-ui-react'
+import Label from '@santiment-network/ui/Label'
 import SmoothDropdownItem from './../SmoothDropdown/SmoothDropdownItem'
 import styles from './WalletLink.module.scss'
 
@@ -26,21 +26,19 @@ const WalletLink = ({
     <ul className={styles.wrapper}>
       {!isTx && (
         <li>
-          <Button
-            variant='fill'
-            accent='positive'
-            as={Link}
+          <Link
             to={{
               pathname: '/labs/balance',
               search: getSearch({ address, assets })
             }}
+            className={styles.link}
           >
             Show historical balance
-          </Button>
+          </Link>
         </li>
       )}
       <li>
-        <EtherscanLink address={address} isTx={isTx}>
+        <EtherscanLink address={address} isTx={isTx} className={styles.link}>
           Open Etherscan
         </EtherscanLink>
       </li>
@@ -48,17 +46,24 @@ const WalletLink = ({
   </SmoothDropdownItem>
 )
 
-const EtherscanLink = ({ address, isTx, children }) => (
-  <a href={`https://etherscan.io/${isTx ? 'tx' : 'address'}/${address}`}>
-    {children || address}
-  </a>
-)
+const EtherscanLink = ({ address = '', isTx, isExchange, children }) => {
+  const addressShort =
+    (children || address).slice(0, isExchange ? 7 : 16) + '...'
+  return (
+    <a
+      href={`https://etherscan.io/${isTx ? 'tx' : 'address'}/${address}`}
+      className={cx(styles.etherscanLink, styles.link)}
+    >
+      {children || addressShort}
+    </a>
+  )
+}
 
 const Address = ({ isExchange, ...rest }) => (
-  <Fragment>
-    {isExchange && <Label color='yellow'>exchange</Label>}
-    <EtherscanLink {...rest} />
-  </Fragment>
+  <>
+    <EtherscanLink {...rest} isExchange={isExchange} />
+    {isExchange && <Label className={styles.exchange}>exchange</Label>}
+  </>
 )
 
 const getSearch = ({ address, assets }) =>
