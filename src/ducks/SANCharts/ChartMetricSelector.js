@@ -145,10 +145,7 @@ const ChartMetricSelector = ({
   return (
     <Panel {...props}>
       <Panel.Title className={styles.header}>
-        <span>Select up to 5 metrics</span>
-        <Button border>
-          <Icon className={styles.suggestIcon} type='chart' /> Suggest metrics
-        </Button>
+        Select up to 5 metrics
       </Panel.Title>
       <Panel.Content className={cx(styles.wrapper, className)}>
         <div className={cx(styles.column, styles.categories)}>
