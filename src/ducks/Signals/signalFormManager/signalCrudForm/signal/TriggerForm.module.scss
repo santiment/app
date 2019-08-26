@@ -73,8 +73,11 @@ $trigger-form-field-margin: 24px;
 }
 
 .messages {
-  margin: 0;
-  display: inline-block;
+  margin-top: 10px;
+}
+
+.messagesText {
+  @include text('caption');
 }
 
 .notifyBlock {

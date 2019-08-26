@@ -51,7 +51,12 @@ export const sendParams = () => {
   })
 }
 
-const SettingsSonarWebPushNotifications = ({ classes = {}, className }) => {
+const SettingsSonarWebPushNotifications = ({
+  classes = {},
+  className,
+  canReload,
+  recheckBrowserNotifications
+}) => {
   const [isActive, setIsActive] = useState(false)
   const [isPermissionsGranted, setPermissionsGranted] = useState(true)
 
@@ -122,7 +127,8 @@ const SettingsSonarWebPushNotifications = ({ classes = {}, className }) => {
                 requestNotificationPermission(null, noPermissionsCallback)
                 sendParams()
                 toggle(true)
-                window.location.reload()
+                canReload && window.location.reload()
+                recheckBrowserNotifications && recheckBrowserNotifications()
               }
             })
           } else {

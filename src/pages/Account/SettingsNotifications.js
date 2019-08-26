@@ -49,7 +49,7 @@ const SettingsNotifications = ({
 
       <ShowIf beta>
         <Settings.Row>
-          <SettingsSonarWebPushNotifications />
+          <SettingsSonarWebPushNotifications canReload={true} />
         </Settings.Row>
       </ShowIf>
 

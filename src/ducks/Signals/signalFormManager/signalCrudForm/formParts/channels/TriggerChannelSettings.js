@@ -14,28 +14,11 @@ import styles from './TriggerChannelSettings.module.scss'
 const TriggerChannelSettings = ({
   isTelegramSettings,
   isEmailSettings,
-  isBeta
+  isWebPushSettings,
+  recheckBrowserNotifications
 }) => {
   const [open, setOpen] = useState(false)
-  const [isWebPushEnabled, setWebPushEnabled] = useState(true)
-
-  useEffect(
-    () => {
-      !isTelegramSettings && !isEmailSettings && setOpen(false)
-
-      if (isBeta) {
-        navigator.serviceWorker &&
-          navigator.serviceWorker.getRegistrations &&
-          navigator.serviceWorker.getRegistrations().then(registrations => {
-            const sw = getSanSonarSW(registrations)
-            setWebPushEnabled(!!sw)
-          })
-      }
-    },
-    [isEmailSettings, isTelegramSettings]
-  )
-
-  const showTrigger = isTelegramSettings || isEmailSettings || !isWebPushEnabled
+  const showTrigger = isTelegramSettings || isEmailSettings || isWebPushSettings
 
   return (
     <>
@@ -55,30 +38,17 @@ const TriggerChannelSettings = ({
           <ConnectTelegramBlock classes={styles} />
           <SettingsTelegramNotifications classes={styles} />
 
-          {!isWebPushEnabled && (
-            <ShowIf beta>
-              <SettingsSonarWebPushNotifications
-                classes={styles}
-                className={styles.notifications}
-              />
-            </ShowIf>
-          )}
+          <ShowIf beta>
+            <SettingsSonarWebPushNotifications
+              classes={styles}
+              className={styles.notifications}
+              recheckBrowserNotifications={recheckBrowserNotifications}
+            />
+          </ShowIf>
         </Dialog.ScrollContent>
       </Dialog>
     </>
   )
 }
 
-const mapStateToProps = ({
-  user: {
-    data: { email = '' }
-  },
-  rootUi: { isBetaModeEnabled }
-}) => ({
-  email,
-  isBeta: isBetaModeEnabled
-})
-
-const enhance = connect(mapStateToProps)
-
-export default enhance(TriggerChannelSettings)
+export default TriggerChannelSettings
