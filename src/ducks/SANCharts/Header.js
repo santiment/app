@@ -20,7 +20,7 @@ const Changes = ({ small = false, className, children, diff, label }) => (
   </div>
 )
 
-const SelectorBtn = ({ name, ticker, description }) => (
+const ProjectInfo = ({ name, ticker, description }) => (
   <div className={styles.selector}>
     <ProjectIcon name={name} ticker={ticker} size={40} />
     <div className={styles.project}>
@@ -47,7 +47,7 @@ const ProjectSelector = ({ slug, project, onChange }) => (
           target={{ slug }}
           isSingle={true}
           onChange={onChange}
-          trigger={() => <SelectorBtn {...project} />}
+          trigger={() => <ProjectInfo {...project} />}
         />
       )
     }}

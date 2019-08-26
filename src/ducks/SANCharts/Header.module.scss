@@ -6,17 +6,13 @@
   margin: 0 0 32px;
 }
 
-.selector {
-  display: flex;
-  align-items: center;
-}
-
 .project {
   margin-left: 16px;
 
   &__top {
     display: flex;
     align-items: center;
+    fill: var(--mirage);
   }
 
   &__name {
@@ -62,5 +58,15 @@
 
   &__icon {
     margin-right: 8px;
+  }
+}
+
+.selector {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover .project__top {
+    fill: var(--jungle-green);
   }
 }

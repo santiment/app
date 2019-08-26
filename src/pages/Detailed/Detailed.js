@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { graphql, Query, withApollo } from 'react-apollo'
 import { connect } from 'react-redux'
 import GeneralInfoBlock from './generalInfo/GeneralInfoBlock'
 import FinancialsBlock from './financialInfo/FinancialsBlock'
-import DetailedHeader from './header/DetailedHeader'
 import Panel from '@santiment-network/ui/Panel'
+import Icon from '@santiment-network/ui/Icon'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import Search from './../../components/Search/SearchContainer'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
@@ -30,6 +30,18 @@ import styles from './Detailed.module.scss'
 const propTypes = {
   match: PropTypes.object.isRequired
 }
+
+const Breadcrumbs = ({ slug, name }) => (
+  <div className={styles.breadcrumbs}>
+    <Link to='/assets' className={styles.breadcrumbs__root}>
+      Assets
+    </Link>
+    <Icon type='arrow-right' className={styles.breadcrumbs__arrow} />
+    <Link className={styles.breadcrumbs__project} to={`/projects/${slug}`}>
+      {name}
+    </Link>
+  </div>
+)
 
 export const Detailed = ({
   match,
@@ -62,27 +74,14 @@ export const Detailed = ({
   const onChangeProject = (data, callback) => {
     const newProject = Array.isArray(data) ? data[0] : data
     if (newProject && newProject.slug && +newProject.id !== +id) {
-      history.push(`/projects/${newProject.slug}`)
+      history.replace(`/projects/${newProject.slug}`)
       callback && callback(newProject)
     }
   }
 
-  const chartHeader = ({ onSlugSelect }) => {
-    return (
-      <DetailedHeader
-        onChangeProject={data => {
-          onChangeProject(data, onSlugSelect)
-        }}
-        isDesktop={isDesktop}
-        {...Project}
-        isLoggedIn={isLoggedIn}
-        history={history}
-      />
-    )
-  }
-
   const projectContainerChart = project && project.id && (
     <>
+      <Breadcrumbs slug={project.slug} name={project.name} />
       <Query query={USER_SUBSCRIPTIONS_QUERY}>
         {({ data: { currentUser } }) => {
           const subscription = getCurrentSanbaseSubscription(currentUser)
@@ -108,7 +107,6 @@ export const Detailed = ({
                 watchlist: true
               }}
               onSlugSelect={onChangeProject}
-              headerComponent={chartHeader}
               {...boundaries}
             />
           )
