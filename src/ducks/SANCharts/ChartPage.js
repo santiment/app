@@ -85,6 +85,8 @@ const getChartInitialState = props => {
 class ChartPage extends Component {
   static defaultProps = { ...DEFAULT_STATE, adjustNightMode: true }
 
+  chartRef = React.createRef()
+
   state = getChartInitialState(this.props)
 
   onZoom = (leftZoomIndex, rightZoomIndex, leftZoomDate, rightZoomDate) => {
@@ -312,7 +314,7 @@ class ChartPage extends Component {
 
           return (
             <>
-              {!viewOnly && (
+              {!viewOnly && !hideSettings.header && (
                 <Header
                   slug={slug}
                   isLoggedIn={isLoggedIn}
@@ -347,6 +349,7 @@ class ChartPage extends Component {
                         classes={classes}
                         activeMetrics={finalMetrics}
                         title={title}
+                        chartRef={this.chartRef}
                       />
                     )}
                     {!viewOnly && (
@@ -359,6 +362,7 @@ class ChartPage extends Component {
                       />
                     )}
                     <Charts
+                      chartRef={this.chartRef}
                       isLoading={isLoading}
                       onZoom={this.onZoom}
                       onZoomOut={this.onZoomOut}

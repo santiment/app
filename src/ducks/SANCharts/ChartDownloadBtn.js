@@ -51,10 +51,10 @@ function drawAndMeasureText (ctx, text, x, y) {
   return ctx.measureText(text).width
 }
 
-function downloadChart (metrics, title) {
+function downloadChart ({ current: chart }, metrics, title) {
   const div = document.createElement('div')
   setStyle(div, HIDDEN_STYLES)
-  const svg = document.querySelector('.recharts-surface').cloneNode(true)
+  const svg = chart.querySelector('.recharts-surface').cloneNode(true)
 
   div.appendChild(svg)
   document.body.appendChild(div)
@@ -140,8 +140,19 @@ function downloadChart (metrics, title) {
   )
 }
 
-const ChartDownloadBtn = ({ metrics, title, ...props }) => {
-  return <Button {...props} onClick={() => downloadChart(metrics, title)} />
+const ChartDownloadBtn = ({ chartRef, metrics, title, ...props }) => {
+  return (
+    <Button
+      {...props}
+      onClick={() => {
+        try {
+          downloadChart(chartRef, metrics, title)
+        } catch (e) {
+          alert("Can't download this chart")
+        }
+      }}
+    />
+  )
 }
 
 export default ChartDownloadBtn

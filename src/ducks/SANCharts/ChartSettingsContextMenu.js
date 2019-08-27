@@ -23,6 +23,7 @@ const ShareChart = ({ trigger, shareLink }) => (
 )
 
 const ChartSettingsContextMenu = ({
+  chartRef,
   showNightModeToggle = true,
   isNightModeActive,
   onNightModeSelect,
@@ -69,6 +70,7 @@ const ChartSettingsContextMenu = ({
           variant='ghost'
           metrics={activeMetrics}
           title={title}
+          chartRef={chartRef}
         >
           Download as PNG
         </ChartDownloadBtn>

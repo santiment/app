@@ -10,6 +10,7 @@ import styles from './ChartPage.module.scss'
 const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 
 const ChartSettings = ({
+  chartRef,
   onTimerangeChange,
   defaultTimerange,
   onSlugSelect,
@@ -65,6 +66,7 @@ const ChartSettings = ({
           shareLink={shareLink}
           activeMetrics={activeMetrics}
           title={title}
+          chartRef={chartRef}
         />
       </div>
     </div>
