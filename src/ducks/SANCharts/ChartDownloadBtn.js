@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
-import { CHART_ACTIVE_METRICS_ID } from './ChartActiveMetrics'
+import colors from '@santiment-network/ui/variables.scss'
+import { Metrics, setupColorGenerator } from './utils'
 
 function setStyle (target, styles) {
   target.setAttribute('style', styles)
@@ -35,11 +36,10 @@ stroke-dasharray: 7;
 
 const TICK_STYLES = 'display: none'
 
-function downloadChart () {
+function downloadChart (metrics = ['historyPrice', 'mvrvRatio']) {
   const div = document.createElement('div')
-  setStyle(div, HIDDEN_STYLES)
+  /* setStyle(div, HIDDEN_STYLES) */
   const svg = document.querySelector('.recharts-surface').cloneNode(true)
-  console.log(document.querySelector(`[data-id="${CHART_ACTIVE_METRICS_ID}"]`))
 
   div.appendChild(svg)
   document.body.appendChild(div)
@@ -57,12 +57,8 @@ function downloadChart () {
   const brush = svg.querySelector('.recharts-brush')
   brush.style.display = 'none'
 
-  const svgData = new XMLSerializer().serializeToString(svg)
-
   const canvas = document.createElement('canvas')
   div.appendChild(canvas)
-
-  const img = document.createElement('img')
 
   const svgSize = svg.getBoundingClientRect()
   canvas.width = svgSize.width * 2
@@ -73,18 +69,42 @@ function downloadChart () {
   const ctx = canvas.getContext('2d')
   ctx.scale(2, 2)
 
-  img.setAttribute(
-    'src',
-    'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)))
-  )
+  const svgData = new XMLSerializer().serializeToString(svg)
+  const img = document.createElement('img')
+
+  function drawText (ctx, text, x) {
+    ctx.fillText(text, x, svgSize.height - 20)
+    return ctx.measureText(text).width
+  }
 
   img.onload = function () {
+    const data = metrics.map(metric => Metrics[metric])
     ctx.drawImage(img, 0, 0)
-    const canvasdata = canvas.toDataURL('image/png', 1)
 
-    const pngimg = document.createElement('img')
-    pngimg.src = canvasdata
-    div.appendChild(pngimg)
+    const COLOR_SIZE = 5
+    const cor = COLOR_SIZE / 5
+    ctx.font = '12px Rubik'
+
+    const y = svgSize.height - 20
+
+    const textWidth =
+      data.reduce((acc, { label }) => {
+        return COLOR_SIZE + 5 + ctx.measureText(label).width
+      }, 0) +
+      20 * (data.length - 1)
+
+    let startX = (svgSize.width - textWidth) / 2
+
+    const generateColor = setupColorGenerator()
+    data.forEach(({ color, label }) => {
+      ctx.fillStyle = colors[generateColor(color)]
+      ctx.fillRect(startX, y - COLOR_SIZE - cor, COLOR_SIZE, COLOR_SIZE)
+      ctx.fillStyle = colors.mirage
+      startX += COLOR_SIZE + 5
+      startX += drawText(ctx, label, startX) + 20
+    })
+
+    const canvasdata = canvas.toDataURL('image/png', 1)
 
     const a = document.createElement('a')
     a.download = 'chart.png'
@@ -94,10 +114,15 @@ function downloadChart () {
 
     div.remove()
   }
+
+  img.setAttribute(
+    'src',
+    'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)))
+  )
 }
 
 const ChartDownloadBtn = props => {
-  return <Button {...props} onClick={downloadChart} />
+  return <Button {...props} onClick={() => downloadChart()} />
 }
 
 export default ChartDownloadBtn
