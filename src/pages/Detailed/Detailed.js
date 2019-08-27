@@ -90,6 +90,7 @@ export const Detailed = ({
 
           return (
             <ChartWidget
+              isControlled
               {...props}
               history={history}
               location={location}

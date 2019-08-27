@@ -85,6 +85,17 @@ const getChartInitialState = props => {
 class ChartPage extends Component {
   static defaultProps = { ...DEFAULT_STATE, adjustNightMode: true }
 
+  // HACK(vanguard):  fixing navbar-search project selection
+  static getDerivedStateFromProps ({ slug, isControlled }, state) {
+    if (isControlled && slug !== state.slug) {
+      return {
+        slug
+      }
+    }
+
+    return null
+  }
+
   chartRef = React.createRef()
 
   state = getChartInitialState(this.props)
