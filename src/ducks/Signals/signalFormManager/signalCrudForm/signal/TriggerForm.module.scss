@@ -270,7 +270,9 @@ a {
 }
 
 .requiredChannelExplanation {
-  margin-top: 5px;
+  margin-top: 2px;
+  cursor: pointer;
+  color: var(--jungle-green);
 }
 
 .percentagesBlock {

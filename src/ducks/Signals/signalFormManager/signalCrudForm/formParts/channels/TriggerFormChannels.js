@@ -3,13 +3,11 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import Message from '@santiment-network/ui/Message'
-import SidecarExplanationTooltip from '../../../../../SANCharts/SidecarExplanationTooltip'
 import FormikLabel from '../../../../../../components/formik-santiment-ui/FormikLabel'
 import TriggerChannelSettings from './TriggerChannelSettings'
 import { getSanSonarSW } from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
 import FormikCheckbox from '../../../../../../components/formik-santiment-ui/FormikCheckbox'
 import styles from '../../signal/TriggerForm.module.scss'
-import { HelpPopupTrigger } from '../../../../../../components/HelpPopup/HelpPopup'
 
 const CHANNEL_NAMES = {
   Telegram: 'Telegram',
@@ -48,6 +46,7 @@ const TriggerFormChannels = ({
   }
 
   const recheckBrowserNotifications = () => {
+    console.log('recheckBrowserNotifications')
     navigator.serviceWorker &&
       navigator.serviceWorker.getRegistrations &&
       navigator.serviceWorker.getRegistrations().then(registrations => {
@@ -163,12 +162,6 @@ const TriggerFormChannels = ({
             recheckBrowserNotifications={recheckBrowserNotifications}
           />
         </div>
-        {requiredChannels.length > 0 && (
-          <ErrorMessage
-            channel={requiredChannels.join(', ')}
-            recheckBrowserNotifications={recheckBrowserNotifications}
-          />
-        )}
         {errors.channels && <ErrorMessage message={errors.channels} />}
       </div>
     </div>
@@ -183,39 +176,24 @@ const ChannelCheckbox = ({
   isRequired,
   recheckBrowserNotifications
 }) => {
-  const required = isRequired(channel)
   return (
     <div className={styles.checkboxBlock}>
       <FormikCheckbox
         name={'checkBox' + channel}
         disabled={isDisabled(channel)}
         isActive={isActive(channel)}
-        required={required}
         label={channel}
         onClick={() => {
           toggleChannel(channel)
         }}
       />
-
-      {required && (
-        <SidecarExplanationTooltip
-          closeTimeout={50000}
-          localStorageSuffix={'_TRIGGER_FORM_EXPLANATION_' + channel}
-          position='top'
-          title={`Get fast notifications through ${channel}`}
-          description={
-            <>
-              <TriggerChannelSettings
-                recheckBrowserNotifications={recheckBrowserNotifications}
-              />
-            </>
-          }
-        >
-          <div className={styles.requiredChannelExplanation}>
-            {HelpPopupTrigger}
-          </div>
-        </SidecarExplanationTooltip>
-      )}
+      <TriggerChannelSettings
+        showTrigger={isRequired(channel)}
+        recheckBrowserNotifications={recheckBrowserNotifications}
+        trigger={
+          <div className={styles.requiredChannelExplanation}>Connect</div>
+        }
+      />
     </div>
   )
 }
