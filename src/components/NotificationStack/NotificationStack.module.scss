@@ -39,7 +39,11 @@ $notify-duration: 300;
 }
 
 .wideNotification {
-  width: 360px;
+  max-width: 360px;
+
+  @include responsive('phone-xs') {
+    width: 100%;
+  }
 }
 
 .enter {
