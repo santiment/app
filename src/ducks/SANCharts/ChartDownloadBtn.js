@@ -13,12 +13,15 @@ position: absolute;
 left: 200vw;`
 
 const SVG_STYLES = `
-    --porcelain: #e7eaf3;
-    --malibu: #68dbf4;
-    --heliotrope: #8358ff;
-    --persimmon: #ff5b5b;
-    --texas-rose: #ffad4d;
-    --jungle-green: #14c393;
+    --porcelain: ${colors.porcelain};
+    --malibu: ${colors.malibu};
+    --heliotrope: ${colors.heliotrope};
+    --persimmon: ${colors.persimmon};
+    --texas-rose: ${colors['texas-rose']};
+    --jungle-green: ${colors['jungle-green']};
+    --lima: ${colors.lima};
+    --dodger-blue: ${colors['dodger-blue']};
+    --waterloo: ${colors.waterloo};
     background: white;
   `
 
