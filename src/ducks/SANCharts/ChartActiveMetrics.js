@@ -7,12 +7,10 @@ import MetricIcon from './MetricIcon'
 import { Metrics, METRIC_COLORS } from './utils'
 import styles from './ChartActiveMetrics.module.scss'
 
-export const CHART_ACTIVE_METRICS_ID = 'SAN-chart-active-metrics'
-
 const ChartActiveMetrics = ({ activeMetrics, toggleMetric }) => {
   let newColorId = 0
   return (
-    <section className={styles.wrapper} data-id={CHART_ACTIVE_METRICS_ID}>
+    <section className={styles.wrapper}>
       {activeMetrics.map(metric => {
         const { node, color, label, description } = Metrics[metric]
         return (
