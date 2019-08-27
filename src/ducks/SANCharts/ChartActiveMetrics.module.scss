@@ -8,16 +8,23 @@
   margin-right: 8px;
 
   &:hover {
-    background: var(--athens);
     border-color: var(--jungle-green);
+    color: var(--mirage);
   }
 }
 
 .label {
-  margin-right: 6px;
+  margin-right: 8px;
 }
 
 .icon {
-  margin-left: 8px;
-  fill: var(--mirage) !important;
+  box-sizing: content-box;
+  margin: -8px;
+  margin-left: 0;
+  padding: 8px;
+  fill: var(--mirage);
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
 }

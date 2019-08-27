@@ -5,6 +5,7 @@ import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
+import Header from './Header'
 import { Metrics } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import { getIntervalByTimeRange } from '../../utils/dates'
@@ -130,6 +131,8 @@ class ChartPage extends Component {
   }
 
   onSlugSelect = project => {
+    if (!project) return
+
     const { slug, name, ticker, id: projectId } = project
     this.setState(
       { projectId, slug, title: `${name} (${ticker})` },
@@ -137,7 +140,9 @@ class ChartPage extends Component {
     )
 
     const { onSlugSelect } = this.props
-    onSlugSelect && onSlugSelect(project)
+    if (onSlugSelect) {
+      onSlugSelect(project)
+    }
   }
 
   onMetricsChange = metrics => {
@@ -239,7 +244,6 @@ class ChartPage extends Component {
   render () {
     const {
       timeRange,
-      projectId,
       slug,
       metrics,
       from,
@@ -259,7 +263,7 @@ class ChartPage extends Component {
       children,
       leftBoundaryDate,
       rightBoundaryDate,
-      headerComponent: Header
+      isLoggedIn
     } = this.props
 
     const requestedMetrics = metrics.map(metric => {
@@ -285,6 +289,7 @@ class ChartPage extends Component {
           timeseries = [],
           errorMetrics = {},
           isError,
+          isLoading,
           errorType
         }) => {
           if (isError) {
@@ -307,7 +312,11 @@ class ChartPage extends Component {
 
           return (
             <>
-              {Header && <Header onSlugSelect={this.onSlugSelect} />}
+              <Header
+                slug={slug}
+                isLoggedIn={isLoggedIn}
+                onSlugSelect={this.onSlugSelect}
+              />
               <div className={styles.wrapper}>
                 <div
                   className={cx(
@@ -332,13 +341,22 @@ class ChartPage extends Component {
                         to={to}
                         interval={interval}
                         hideSettings={hideSettings}
-                        project={{ projectId, slug }}
                         title={title}
                         isAdvancedView={isAdvancedView}
                         classes={classes}
                       />
                     )}
+                    {!viewOnly && (
+                      <LoadableChartMetricsTool
+                        classes={styles}
+                        slug={slug}
+                        toggleMetric={this.toggleMetric}
+                        disabledMetrics={errors}
+                        activeMetrics={finalMetrics}
+                      />
+                    )}
                     <Charts
+                      isLoading={isLoading}
                       onZoom={this.onZoom}
                       onZoomOut={this.onZoomOut}
                       isZoomed={zoom}
@@ -356,19 +374,6 @@ class ChartPage extends Component {
                       children={children}
                     />
                   </div>
-                  {!viewOnly && (
-                    <div
-                      className={cx(styles.container, styles.container_bottom)}
-                    >
-                      <LoadableChartMetricsTool
-                        classes={styles}
-                        slug={slug}
-                        toggleMetric={this.toggleMetric}
-                        disabledMetrics={errors}
-                        activeMetrics={finalMetrics}
-                      />
-                    </div>
-                  )}
                 </div>
                 {!viewOnly && !hideSettings.sidecar && (
                   <LoadableChartSidecar

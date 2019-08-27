@@ -12,8 +12,12 @@ import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import styles from './UpgradeBtn.module.scss'
 
-const Trigger = ({ className, children = 'Upgrade', ...props }) => (
-  <Button className={cx(styles.btn, className)} accent='orange' {...props}>
+const Trigger = ({ variant, className, children = 'Upgrade', ...props }) => (
+  <Button
+    className={cx(styles.btn, styles[variant], className)}
+    accent='orange'
+    {...props}
+  >
     <Icon type='crown' className={styles.icon} />
     {children}
   </Button>

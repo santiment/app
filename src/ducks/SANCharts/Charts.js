@@ -13,6 +13,7 @@ import {
 import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { formatNumber, millify } from './../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { Metrics, generateMetricsMarkup, findYAxisMetric } from './utils'
@@ -64,6 +65,7 @@ class Charts extends React.Component {
     refAreaRight: undefined
   }
 
+  chartRef = React.createRef()
   metricRef = React.createRef()
 
   componentDidUpdate (prevProps) {
@@ -166,7 +168,8 @@ class Charts extends React.Component {
       hasPremium,
       leftBoundaryDate,
       rightBoundaryDate,
-      children
+      children,
+      isLoading
     } = this.props
     const {
       refAreaLeft,
@@ -185,7 +188,15 @@ class Charts extends React.Component {
     })
 
     return (
-      <div className={styles.wrapper + ' ' + sharedStyles.chart}>
+      <div
+        className={styles.wrapper + ' ' + sharedStyles.chart}
+        ref={this.chartRef}
+      >
+        {isLoading && (
+          <div className={styles.loader}>
+            <Loader />
+          </div>
+        )}
         <div className={sharedStyles.header}>
           {isZoomed && (
             <Button
@@ -276,11 +287,15 @@ class Charts extends React.Component {
                 rightBoundaryDate,
                 data: chartData
               })}
-            {chartData.length > 0 && metrics.length > 0 && (
+            {chartData.length > 0 &&
+              metrics.length > 0 &&
+              this.chartRef.current && (
               <Brush
                 tickFormatter={EMPTY_FORMATTER}
                 travellerWidth={4}
                 onChange={this.getXToYCoordinatesDebounced}
+                width={this.chartRef.current.clientWidth}
+                x={0}
               >
                 <ComposedChart>
                   {lines
