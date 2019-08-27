@@ -189,7 +189,7 @@ const checkNewActivities = activities => {
             removeFromDb(ACTIVITY_CHECKS_STORE_NAME, () => {
               if (self.registration) {
                 showActivitiesNotification(count)
-                addActivityDateAndRestart(loadedTriggeredAt, count, true)
+                addActivityDateAndRestart(data.triggeredAt, count, true)
               }
             })
           } else {
