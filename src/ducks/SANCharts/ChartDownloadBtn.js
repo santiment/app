@@ -1,9 +1,14 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
+import { CHART_ACTIVE_METRICS_ID } from './ChartActiveMetrics'
 
 function setStyle (target, styles) {
   target.setAttribute('style', styles)
 }
+
+const HIDDEN_STYLES = `
+position: absolute;
+left: 200vw;`
 
 const SVG_STYLES = `
     --porcelain: #e7eaf3;
@@ -31,8 +36,13 @@ stroke-dasharray: 7;
 const TICK_STYLES = 'display: none'
 
 function downloadChart () {
-  const svg = document.querySelector('.recharts-surface')
+  const div = document.createElement('div')
+  setStyle(div, HIDDEN_STYLES)
+  const svg = document.querySelector('.recharts-surface').cloneNode(true)
+  console.log(document.querySelector(`[data-id="${CHART_ACTIVE_METRICS_ID}"]`))
 
+  div.appendChild(svg)
+  document.body.appendChild(div)
   setStyle(svg, SVG_STYLES)
 
   const texts = svg.querySelectorAll('text')
@@ -48,8 +58,10 @@ function downloadChart () {
   brush.style.display = 'none'
 
   const svgData = new XMLSerializer().serializeToString(svg)
+
   const canvas = document.createElement('canvas')
-  document.body.appendChild(canvas)
+  div.appendChild(canvas)
+
   const img = document.createElement('img')
 
   const svgSize = svg.getBoundingClientRect()
@@ -72,24 +84,19 @@ function downloadChart () {
 
     const pngimg = document.createElement('img')
     pngimg.src = canvasdata
-    document.body.appendChild(pngimg)
+    div.appendChild(pngimg)
 
     const a = document.createElement('a')
-    a.download = 'chart' + '.png'
+    a.download = 'chart.png'
     a.href = canvasdata
-    document.body.appendChild(a)
+    div.appendChild(a)
     a.click()
 
-    brush.style.display = ''
-
-    canvas.remove()
-    pngimg.remove()
-    img.remove()
-    a.remove()
+    div.remove()
   }
 }
 
-const ChartDownloadBtn = ({ ...props }) => {
+const ChartDownloadBtn = props => {
   return <Button {...props} onClick={downloadChart} />
 }
 
