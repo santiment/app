@@ -8,6 +8,7 @@ import TriggerChannelSettings from './TriggerChannelSettings'
 import { getSanSonarSW } from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
 import FormikCheckbox from '../../../../../../components/formik-santiment-ui/FormikCheckbox'
 import styles from '../../signal/TriggerForm.module.scss'
+import SidecarExplanationTooltip from '../../../../../SANCharts/SidecarExplanationTooltip'
 
 const CHANNEL_NAMES = {
   Telegram: 'Telegram',
@@ -133,7 +134,16 @@ const TriggerFormChannels = ({
   return (
     <div className={cx(styles.row, styles.rowSingle)}>
       <div className={cx(styles.Field, styles.fieldFilled)}>
-        <FormikLabel text='Notify me via' />
+        <SidecarExplanationTooltip
+          closeTimeout={500}
+          localStorageSuffix='_TRIGGER_FORM_EXPLANATION'
+          position='top'
+          title='Connect channels'
+          description='Get fast notifications through Email, Telegram or Browser'
+          className={styles.explanation}
+        >
+          <FormikLabel text='Notify me via' />
+        </SidecarExplanationTooltip>
         <div className={styles.notifyBlock}>
           <ChannelCheckbox
             channel={CHANNEL_NAMES.Email}

@@ -15,6 +15,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider } from 'react-apollo'
 import createHistory from 'history/createBrowserHistory'
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux'
+import Button from '@santiment-network/ui/Button'
 import mixpanelHelper from 'react-ab-test/lib/helpers/mixpanel'
 import emitter from 'react-ab-test/lib/emitter'
 import App from './App'
@@ -30,8 +31,10 @@ import errorLink from './apollo/error-link'
 import authLink from './apollo/auth-link'
 import retryLink from './apollo/retry-link'
 import ChartPage from './ducks/SANCharts/ChartPage'
+import { showNotification } from './actions/rootActions'
 import { register, unregister } from './serviceWorker'
 import './index.scss'
+import styles from './index.module.scss'
 
 // window.mixpanel has been set by Mixpanel's embed snippet.
 mixpanelHelper.enable()
@@ -100,7 +103,25 @@ const main = () => {
   })
 
   if (isNotSafari) {
-    register()
+    register({
+      onUpdate: () => {
+        store.dispatch(
+          showNotification({
+            variant: 'info',
+            title: 'New version of Sanbase is available!',
+            description: (
+              <div className={styles.refresh}>
+                <div>Please refresh the browser to have the latest version</div>
+                <Button className={styles.refreshButton} accent='positive'>
+                  Refresh now
+                </Button>
+              </div>
+            ),
+            dismissAfter: 800000
+          })
+        )
+      }
+    })
   } else {
     unregister()
   }
