@@ -2,6 +2,7 @@ import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import colors from '@santiment-network/ui/variables.scss'
 import { Metrics, setupColorGenerator } from './utils'
+import { getDateFormats, getTimeFormats } from '../../utils/dates'
 
 function setStyle (target, styles) {
   target.setAttribute('style', styles)
@@ -47,7 +48,7 @@ function drawAndMeasureText (ctx, text, x, y) {
   return ctx.measureText(text).width
 }
 
-function downloadChart (metrics) {
+function downloadChart (metrics, title) {
   const div = document.createElement('div')
   setStyle(div, HIDDEN_STYLES)
   const svg = document.querySelector('.recharts-surface').cloneNode(true)
@@ -117,8 +118,11 @@ function downloadChart (metrics) {
       textX += drawAndMeasureText(ctx, label, textX, textY) + TEXT_RIGHT_MARGIN
     })
 
+    const date = new Date()
+    const { DD, MMM, YYYY } = getDateFormats(date)
+    const { HH, mm } = getTimeFormats(date)
     const a = document.createElement('a')
-    a.download = 'chart.png'
+    a.download = `${title} [${HH}-${mm}, ${DD} ${MMM}, ${YYYY}].png`
     a.href = canvas.toDataURL('image/png', 1)
 
     div.appendChild(a)
@@ -133,8 +137,8 @@ function downloadChart (metrics) {
   )
 }
 
-const ChartDownloadBtn = ({ metrics, ...props }) => {
-  return <Button {...props} onClick={() => downloadChart(metrics)} />
+const ChartDownloadBtn = ({ metrics, title, ...props }) => {
+  return <Button {...props} onClick={() => downloadChart(metrics, title)} />
 }
 
 export default ChartDownloadBtn

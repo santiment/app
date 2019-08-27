@@ -312,11 +312,13 @@ class ChartPage extends Component {
 
           return (
             <>
-              <Header
-                slug={slug}
-                isLoggedIn={isLoggedIn}
-                onSlugSelect={this.onSlugSelect}
-              />
+              {!viewOnly && (
+                <Header
+                  slug={slug}
+                  isLoggedIn={isLoggedIn}
+                  onSlugSelect={this.onSlugSelect}
+                />
+              )}
               <div className={styles.wrapper}>
                 <div
                   className={cx(
@@ -344,6 +346,7 @@ class ChartPage extends Component {
                         isAdvancedView={isAdvancedView}
                         classes={classes}
                         activeMetrics={finalMetrics}
+                        title={title}
                       />
                     )}
                     {!viewOnly && (
