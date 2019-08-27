@@ -144,7 +144,13 @@ const ChartDownloadBtn = ({ chartRef, metrics, title, ...props }) => {
   return (
     <Button
       {...props}
-      onClick={() => downloadChart(chartRef, metrics, title)}
+      onClick={() => {
+        try {
+          downloadChart(chartRef, metrics, title)
+        } catch (e) {
+          alert("Can't download this chart")
+        }
+      }}
     />
   )
 }
