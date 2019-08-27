@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import Message from '@santiment-network/ui/Message'
-import SidecarExplanationTooltip from '../../../../../SANCharts/SidecarExplanationTooltip'
 import FormikLabel from '../../../../../../components/formik-santiment-ui/FormikLabel'
-import FormikCheckboxes from '../../../../../../components/formik-santiment-ui/FormikCheckboxes'
 import TriggerChannelSettings from './TriggerChannelSettings'
-import { CHANNELS_MAP } from '../../../../utils/constants'
 import { getSanSonarSW } from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
+import FormikCheckbox from '../../../../../../components/formik-santiment-ui/FormikCheckbox'
 import styles from '../../signal/TriggerForm.module.scss'
 
 const CHANNEL_NAMES = {
@@ -24,7 +22,8 @@ const TriggerFormChannels = ({
   errors,
   isTelegramConnected,
   isEmailConnected,
-  isBeta
+  isBeta,
+  setFieldValue
 }) => {
   const [isWebPushEnabled, setWebPushEnabled] = useState(true)
   const [disabledChannels, setDisabledChannels] = useState([
@@ -47,6 +46,7 @@ const TriggerFormChannels = ({
   }
 
   const recheckBrowserNotifications = () => {
+    console.log('recheckBrowserNotifications')
     navigator.serviceWorker &&
       navigator.serviceWorker.getRegistrations &&
       navigator.serviceWorker.getRegistrations().then(registrations => {
@@ -103,48 +103,97 @@ const TriggerFormChannels = ({
     [isTelegramConnected, isEmailConnected, isWebPushEnabled]
   )
 
-  const [channelsList] = useState(CHANNELS_MAP.map(({ label }) => label))
+  const toggleChannel = channel => {
+    if (channels.indexOf(channel) !== -1) {
+      setFieldValue('channels', channels.filter(item => item !== channel))
+    } else {
+      setFieldValue('channels', [...channels, channel])
+    }
+  }
 
-  const hasNotEnabledChannels = disabledChannels.some(disabled => {
-    return permanentDisabledChannels.indexOf(disabled) === -1
-  })
+  const isDisabled = channel => {
+    return disabledChannels.some(disabled => disabled === channel)
+  }
+
+  const isActive = channel => {
+    return channels.some(active => active === channel)
+  }
+
+  const isRequired = channel => {
+    return (
+      requiredChannels.some(required => required === channel) ||
+      disabledChannels.some(
+        disabled =>
+          disabled === channel &&
+          permanentDisabledChannels.indexOf(disabled) === -1
+      )
+    )
+  }
 
   return (
     <div className={cx(styles.row, styles.rowSingle)}>
       <div className={cx(styles.Field, styles.fieldFilled)}>
         <FormikLabel text='Notify me via' />
         <div className={styles.notifyBlock}>
-          <FormikCheckboxes
-            name='channels'
-            labelOnRight
-            options={channelsList}
-            disabledIndexes={disabledChannels}
-            classes={styles}
+          <ChannelCheckbox
+            channel={CHANNEL_NAMES.Email}
+            isActive={isActive}
+            isDisabled={isDisabled}
+            toggleChannel={toggleChannel}
+            isRequired={isRequired}
+            recheckBrowserNotifications={recheckBrowserNotifications}
           />
-          <TriggerChannelSettings
-            showTrigger={hasNotEnabledChannels}
+
+          <ChannelCheckbox
+            channel={CHANNEL_NAMES.Telegram}
+            isActive={isActive}
+            isDisabled={isDisabled}
+            toggleChannel={toggleChannel}
+            isRequired={isRequired}
+            recheckBrowserNotifications={recheckBrowserNotifications}
+          />
+
+          <ChannelCheckbox
+            channel={CHANNEL_NAMES.Browser}
+            isActive={isActive}
+            isDisabled={isDisabled}
+            toggleChannel={toggleChannel}
+            isRequired={isRequired}
             recheckBrowserNotifications={recheckBrowserNotifications}
           />
         </div>
-        {requiredChannels.length > 0 && (
-          <ErrorMessage
-            channel={requiredChannels.join(', ')}
-            recheckBrowserNotifications={recheckBrowserNotifications}
-          />
-        )}
-        {errors.channels && (
-          <SidecarExplanationTooltip
-            closeTimeout={500}
-            localStorageSuffix='_TRIGGER_FORM_EXPLANATION'
-            position='top'
-            title='Connect channels'
-            description='Get fast notifications through Email or Telegram or Browser'
-            className={styles.explanation}
-          >
-            <ErrorMessage message={errors.channels} />
-          </SidecarExplanationTooltip>
-        )}
+        {errors.channels && <ErrorMessage message={errors.channels} />}
       </div>
+    </div>
+  )
+}
+
+const ChannelCheckbox = ({
+  channel,
+  toggleChannel,
+  isActive,
+  isDisabled,
+  isRequired,
+  recheckBrowserNotifications
+}) => {
+  return (
+    <div className={styles.checkboxBlock}>
+      <FormikCheckbox
+        name={'checkBox' + channel}
+        disabled={isDisabled(channel)}
+        isActive={isActive(channel)}
+        label={channel}
+        onClick={() => {
+          toggleChannel(channel)
+        }}
+      />
+      <TriggerChannelSettings
+        showTrigger={isRequired(channel)}
+        recheckBrowserNotifications={recheckBrowserNotifications}
+        trigger={
+          <div className={styles.requiredChannelExplanation}>Connect</div>
+        }
+      />
     </div>
   )
 }
