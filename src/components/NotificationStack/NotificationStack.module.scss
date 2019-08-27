@@ -38,6 +38,10 @@ $notify-duration: 300;
   }
 }
 
+.wideNotification {
+  width: 360px;
+}
+
 .enter {
   animation: notify #{$notify-duration}ms forwards;
 }

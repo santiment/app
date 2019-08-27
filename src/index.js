@@ -102,25 +102,30 @@ const main = () => {
     store.dispatch(changeNetworkStatus(online))
   })
 
+  const onServiceWorkerUpdate = () => {
+    store.dispatch(
+      showNotification({
+        variant: 'info',
+        title: 'New version of Sanbase is available!',
+        description: 'Please refresh the browser to have the latest version',
+        actions: [
+          {
+            label: 'Refresh now',
+            onClick: () => {
+              window.location.reload(true)
+            }
+          }
+        ],
+        dismissAfter: 8000,
+        isWide: true
+      })
+    )
+  }
+
+  window.reloadNotification = onServiceWorkerUpdate
   if (isNotSafari) {
     register({
-      onUpdate: () => {
-        store.dispatch(
-          showNotification({
-            variant: 'info',
-            title: 'New version of Sanbase is available!',
-            description: (
-              <div className={styles.refresh}>
-                <div>Please refresh the browser to have the latest version</div>
-                <Button className={styles.refreshButton} accent='positive'>
-                  Refresh now
-                </Button>
-              </div>
-            ),
-            dismissAfter: 800000
-          })
-        )
-      }
+      onUpdate: onServiceWorkerUpdate
     })
   } else {
     unregister()
