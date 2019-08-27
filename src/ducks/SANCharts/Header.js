@@ -9,7 +9,7 @@ import Icon from '@santiment-network/ui/Icon'
 import ChartSignalCreationDialog from './ChartSignalCreationDialog'
 import PercentChanges from '../../components/PercentChanges'
 import WatchlistsPopup from '../../components/WatchlistPopup/WatchlistsPopup'
-import ProjectIcon from '../../components/ProjectIcon'
+import DefaultProjectIcon from '../../components/ProjectIcon'
 import GetProjects from '../Signals/common/projects/getProjects'
 import { TriggerProjectsSelector } from '../Signals/signalFormManager/signalCrudForm/formParts/projectsSelector/TriggerProjectsSelector'
 import { formatNumber } from '../../utils/formatting'
@@ -35,9 +35,13 @@ const ProjectInfo = createSkeletonProvider(
     color: 'var(--mystic)',
     backgroundColor: 'var(--mystic)'
   })
-)(({ name, ticker, description }) => (
+)(({ name, ticker, description, logo64Url }) => (
   <div className={styles.selector}>
-    <ProjectIcon name={name} ticker={ticker} size={40} />
+    {logo64Url ? (
+      <img src={logo64Url} width={40} height={40} alt='' />
+    ) : (
+      <DefaultProjectIcon size={40} />
+    )}
     <div className={styles.project}>
       <div className={styles.project__top}>
         <H1 className={styles.project__name}>
@@ -76,7 +80,8 @@ const Header = ({ data: { project = {} }, slug, isLoggedIn, onSlugSelect }) => {
     totalSupply = 0,
     priceUsd = 0,
     percentChange24h = 0,
-    percentChange7d = 0
+    percentChange7d = 0,
+    logo64Url
   } = project
 
   return (
