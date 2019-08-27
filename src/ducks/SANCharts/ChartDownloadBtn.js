@@ -36,9 +36,20 @@ stroke-dasharray: 7;
 
 const TICK_STYLES = 'display: none'
 
+const LEGEND_RECT_SIZE = 5
+const LEGEND_RECT_RIGHT_MARGIN = 5
+const LEGEND_RECT_ALIGN_CORRECTION = LEGEND_RECT_SIZE / 5
+const TEXT_RIGHT_MARGIN = 20
+const TEXT_FONT = '12px Rubik'
+
+function drawAndMeasureText (ctx, text, x, y) {
+  ctx.fillText(text, x, y)
+  return ctx.measureText(text).width
+}
+
 function downloadChart (metrics = ['historyPrice', 'mvrvRatio']) {
   const div = document.createElement('div')
-  /* setStyle(div, HIDDEN_STYLES) */
+  setStyle(div, HIDDEN_STYLES)
   const svg = document.querySelector('.recharts-surface').cloneNode(true)
 
   div.appendChild(svg)
@@ -72,43 +83,43 @@ function downloadChart (metrics = ['historyPrice', 'mvrvRatio']) {
   const svgData = new XMLSerializer().serializeToString(svg)
   const img = document.createElement('img')
 
-  function drawText (ctx, text, x) {
-    ctx.fillText(text, x, svgSize.height - 20)
-    return ctx.measureText(text).width
-  }
-
   img.onload = function () {
     const data = metrics.map(metric => Metrics[metric])
+    const generateColor = setupColorGenerator()
     ctx.drawImage(img, 0, 0)
 
-    const COLOR_SIZE = 5
-    const cor = COLOR_SIZE / 5
-    ctx.font = '12px Rubik'
-
-    const y = svgSize.height - 20
+    ctx.font = TEXT_FONT
 
     const textWidth =
       data.reduce((acc, { label }) => {
-        return COLOR_SIZE + 5 + ctx.measureText(label).width
+        return (
+          LEGEND_RECT_SIZE +
+          LEGEND_RECT_RIGHT_MARGIN +
+          ctx.measureText(label).width
+        )
       }, 0) +
-      20 * (data.length - 1)
+      TEXT_RIGHT_MARGIN * (data.length - 1)
 
-    let startX = (svgSize.width - textWidth) / 2
+    const textY = svgSize.height - 20
+    let textX = (svgSize.width - textWidth) / 2
 
-    const generateColor = setupColorGenerator()
     data.forEach(({ color, label }) => {
       ctx.fillStyle = colors[generateColor(color)]
-      ctx.fillRect(startX, y - COLOR_SIZE - cor, COLOR_SIZE, COLOR_SIZE)
+      ctx.fillRect(
+        textX,
+        textY - LEGEND_RECT_SIZE - LEGEND_RECT_ALIGN_CORRECTION,
+        LEGEND_RECT_SIZE,
+        LEGEND_RECT_SIZE
+      )
       ctx.fillStyle = colors.mirage
-      startX += COLOR_SIZE + 5
-      startX += drawText(ctx, label, startX) + 20
+      textX += LEGEND_RECT_SIZE + LEGEND_RECT_RIGHT_MARGIN
+      textX += drawAndMeasureText(ctx, label, textX, textY) + TEXT_RIGHT_MARGIN
     })
-
-    const canvasdata = canvas.toDataURL('image/png', 1)
 
     const a = document.createElement('a')
     a.download = 'chart.png'
-    a.href = canvasdata
+    a.href = canvas.toDataURL('image/png', 1)
+
     div.appendChild(a)
     a.click()
 
