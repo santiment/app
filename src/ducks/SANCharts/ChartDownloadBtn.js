@@ -120,7 +120,7 @@ function downloadChart (metrics, title) {
 
     const date = new Date()
     const { DD, MMM, YYYY } = getDateFormats(date)
-    const { HH, mm } = getTimeFormats(date)
+    const { HH, mm, ss } = getTimeFormats(date)
     const a = document.createElement('a')
     a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].png`
     a.href = canvas.toDataURL('image/png', 1)
