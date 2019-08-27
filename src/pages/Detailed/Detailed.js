@@ -86,7 +86,7 @@ export const Detailed = ({
           const userPlan = subscription ? subscription.plan.name : 'FREE'
           const boundaries = paywallBoundaries[userPlan]
 
-          const { slug, id, name } = project
+          const { slug, id, name, ticker } = project
 
           return (
             <ChartWidget
@@ -96,7 +96,7 @@ export const Detailed = ({
               location={location}
               adjustNightMode={false}
               slug={slug}
-              title={name}
+              title={`${name} (${ticker})`}
               projectId={id}
               metrics={['historyPrice', 'volume']}
               classes={styles}
