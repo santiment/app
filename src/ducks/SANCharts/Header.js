@@ -108,31 +108,29 @@ const Header = ({ data: { project = {} }, slug, isLoggedIn, onSlugSelect }) => {
         </Changes>
       </div>
 
-      {isLoggedIn && (
-        <div>
-          <ChartSignalCreationDialog
-            slug={slug}
-            trigger={
-              <Button border className={styles.btn}>
-                <Icon type='signal' className={styles.btn__icon} />
-                Add signal
-              </Button>
-            }
-          />
+      <div>
+        <ChartSignalCreationDialog
+          slug={slug}
+          trigger={
+            <Button border className={styles.btn}>
+              <Icon type='signal' className={styles.btn__icon} />
+              Add signal
+            </Button>
+          }
+        />
 
-          <WatchlistsPopup
-            trigger={
-              <Button accent='positive' variant='fill'>
-                <Icon type='add-watchlist' className={styles.btn__icon} />
-                Watch {ticker}
-              </Button>
-            }
-            projectId={id}
-            slug={slug}
-            isLoggedIn={isLoggedIn}
-          />
-        </div>
-      )}
+        <WatchlistsPopup
+          trigger={
+            <Button accent='positive' variant='fill'>
+              <Icon type='add-watchlist' className={styles.btn__icon} />
+              Watch {ticker}
+            </Button>
+          }
+          projectId={id}
+          slug={slug}
+          isLoggedIn={isLoggedIn}
+        />
+      </div>
     </div>
   )
 }

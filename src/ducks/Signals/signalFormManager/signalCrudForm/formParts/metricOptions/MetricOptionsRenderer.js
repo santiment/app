@@ -8,7 +8,7 @@ import movingUpSvg from '../../../../../../assets/signals/priceTypes/moving_up.s
 import movingDownSvg from '../../../../../../assets/signals/priceTypes/moving_down.svg'
 import someOfSvg from '../../../../../../assets/signals/priceTypes/someOf.svg'
 import { PRICE_CHANGE_TYPES } from '../../../../utils/constants'
-import { formatNumber } from '../../../../../../utils/formatting'
+import { formatTokensCount } from '../../../../../../utils/formatting'
 
 const METRIC_TO_SVG = {
   [PRICE_CHANGE_TYPES.ABOVE]: aboveSvg,
@@ -100,7 +100,7 @@ export const WalletBalanceOptionRenderer = ({
     classNames.push(styles.selected)
   }
 
-  const hasBalance = balance
+  const hasBalance = balance >= 0
 
   return (
     <div
@@ -112,7 +112,7 @@ export const WalletBalanceOptionRenderer = ({
     >
       <span>{slug}</span>
       {hasBalance && (
-        <span className={styles.balance}>({formatNumber(balance)})</span>
+        <span className={styles.balance}>({formatTokensCount(balance)})</span>
       )}
     </div>
   )

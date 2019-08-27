@@ -2,15 +2,6 @@ import { getDateFormats } from './dates'
 
 const formatCryptoCurrency = (currency, amount) => `${currency} ${amount}`
 
-const getSymbolByCurrency = currency => {
-  if (currency === 'ETH') {
-    return 'Ξ'
-  } else if (currency === 'BTC') {
-    return 'BTC'
-  }
-  return '$'
-}
-
 const formatBTC = price => {
   price = parseFloat(price)
   const precision = price >= 1 ? 2 : 8
@@ -61,16 +52,22 @@ const millify = (value, precision = 1) => {
   return `${Number(prettifiedValue.toFixed(precision))}${suffixes[exponent]}`
 }
 
+const MILLIFY_BORDER = 1000
+
+const formatTokensCount = balance =>
+  balance > MILLIFY_BORDER ? millify(balance) : formatNumber(balance)
+
 const labelFormatter = date => {
   const { dddd, DD, MMM, YYYY } = getDateFormats(new Date(date))
   return `${dddd}, ${MMM} ${DD} ${YYYY}`
 }
+
 export {
   formatCryptoCurrency,
   formatBTC,
   formatSAN,
   formatNumber,
   millify,
-  getSymbolByCurrency,
-  labelFormatter
+  labelFormatter,
+  formatTokensCount
 }

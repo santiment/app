@@ -1,11 +1,17 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import PageLoader from '../../components/Loader/PageLoader'
 import SonarFeedRecommendations from './SonarFeedRecommendations'
 import SignalCardsGrid from '../../components/SignalCard/SignalCardsGrid'
 import GetSignals from './../../ducks/Signals/GetSignals'
+import { checkIsLoggedIn } from '../UserSelectors'
 import styles from './SonarFeedPage.module.scss'
 
-const SonarFeedMySignalsPage = () => {
+const SonarFeedMySignalsPage = ({ isLoggedIn }) => {
+  if (!isLoggedIn) {
+    return <SonarFeedRecommendations showButton />
+  }
+
   return (
     <GetSignals
       render={({ signals, isError, isLoading }) => {
@@ -29,4 +35,10 @@ const SonarFeedMySignalsPage = () => {
   )
 }
 
-export default SonarFeedMySignalsPage
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: checkIsLoggedIn(state)
+  }
+}
+
+export default connect(mapStateToProps)(SonarFeedMySignalsPage)
