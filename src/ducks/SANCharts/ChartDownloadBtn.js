@@ -47,7 +47,7 @@ function drawAndMeasureText (ctx, text, x, y) {
   return ctx.measureText(text).width
 }
 
-function downloadChart (metrics = ['historyPrice', 'mvrvRatio']) {
+function downloadChart (metrics) {
   const div = document.createElement('div')
   setStyle(div, HIDDEN_STYLES)
   const svg = document.querySelector('.recharts-surface').cloneNode(true)
@@ -93,6 +93,7 @@ function downloadChart (metrics = ['historyPrice', 'mvrvRatio']) {
     const textWidth =
       data.reduce((acc, { label }) => {
         return (
+          acc +
           LEGEND_RECT_SIZE +
           LEGEND_RECT_RIGHT_MARGIN +
           ctx.measureText(label).width
@@ -132,8 +133,8 @@ function downloadChart (metrics = ['historyPrice', 'mvrvRatio']) {
   )
 }
 
-const ChartDownloadBtn = props => {
-  return <Button {...props} onClick={() => downloadChart()} />
+const ChartDownloadBtn = ({ metrics, ...props }) => {
+  return <Button {...props} onClick={() => downloadChart(metrics)} />
 }
 
 export default ChartDownloadBtn

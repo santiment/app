@@ -25,7 +25,7 @@ const ChartSettings = ({
   to,
   hideSettings = {},
   isAdvancedView,
-  title
+  activeMetrics
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
 
@@ -62,6 +62,7 @@ const ChartSettings = ({
           showNightModeToggle={showNightModeToggle}
           onNightModeSelect={onNightModeSelect}
           shareLink={shareLink}
+          activeMetrics={activeMetrics}
         />
       </div>
     </div>

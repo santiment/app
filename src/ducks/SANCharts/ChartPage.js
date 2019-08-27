@@ -341,9 +341,9 @@ class ChartPage extends Component {
                         to={to}
                         interval={interval}
                         hideSettings={hideSettings}
-                        title={title}
                         isAdvancedView={isAdvancedView}
                         classes={classes}
+                        activeMetrics={finalMetrics}
                       />
                     )}
                     {!viewOnly && (
