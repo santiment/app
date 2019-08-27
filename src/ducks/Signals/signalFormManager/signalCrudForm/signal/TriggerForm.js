@@ -17,7 +17,6 @@ import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEf
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import Button from '@santiment-network/ui/Button'
 import RadioBtns from '@santiment-network/ui/RadioBtns'
-import { Checkbox } from '@santiment-network/ui/Checkboxes/Checkboxes'
 import {
   PRICE_PERCENT_CHANGE,
   METRIC_DEFAULT_VALUES,
@@ -50,6 +49,7 @@ import FormikInput from '../../../../../components/formik-santiment-ui/FormikInp
 import FormikTextarea from '../../../../../components/formik-santiment-ui/FormikTextarea'
 import TriggerFormChannels from '../formParts/channels/TriggerFormChannels'
 import styles from './TriggerForm.module.scss'
+import FormikCheckbox from '../../../../../components/formik-santiment-ui/FormikCheckbox'
 
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
@@ -290,6 +290,7 @@ export const TriggerForm = ({
                       errors={errors}
                       isTelegramConnected={isTelegramConnected}
                       isEmailConnected={isEmailConnected}
+                      setFieldValue={setFieldValue}
                     />
 
                     <TriggerFormBlockDivider />
@@ -311,16 +312,10 @@ export const TriggerForm = ({
                       )}
                     >
                       <div className={styles.isRepeating}>
-                        <Checkbox
-                          isActive={!isRepeating}
+                        <FormikCheckbox
                           name='isRepeating'
-                          onClick={() => {
-                            setFieldValue('isRepeating', !isRepeating)
-                          }}
-                        />
-                        <FormikLabel
-                          text='Disable after it triggers'
-                          className={styles.checkboxLabel}
+                          isActive={!isRepeating}
+                          label='Disable after it triggers'
                           onClick={() => {
                             setFieldValue('isRepeating', !isRepeating)
                           }}

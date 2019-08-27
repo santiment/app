@@ -85,12 +85,13 @@ $trigger-form-field-margin: 24px;
 }
 
 .link {
-  color: var(--jungle-green);
+  color: var(--persimmon);
 }
 
 .notifyBlock {
   display: flex;
   margin-top: 5px;
+  align-items: center;
 }
 
 .labelClassName {
@@ -258,8 +259,18 @@ a {
   position: relative;
 }
 
+.checkboxBlock {
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+}
+
 .explanation {
   z-index: 1000 !important;
+}
+
+.requiredChannelExplanation {
+  margin-top: 5px;
 }
 
 .percentagesBlock {

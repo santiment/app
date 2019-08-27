@@ -7,14 +7,16 @@ export const style = {
   padding: '2rem 1.8rem'
 }
 
+export const HelpPopupTrigger = (
+  <Icon style={{ cursor: 'pointer' }} type='help-round' fill='#ada6bc' />
+)
+
 const HelpPopup = ({
   children,
   content,
   className,
   position = 'bottom center',
-  trigger = (
-    <Icon style={{ cursor: 'pointer' }} type='help-round' fill='#ada6bc' />
-  )
+  trigger = HelpPopupTrigger
 }) => {
   const render = content || children
   return (

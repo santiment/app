@@ -1,0 +1,17 @@
+@import "~@santiment-network/ui/mixins";
+
+.checkboxLabel {
+  cursor: pointer;
+  margin: 2px 5px 0 5px !important;
+  color: var(--mirage);
+
+  @include text('body-3');
+}
+
+.checkbox {
+  margin-right: 5px;
+}
+
+.required {
+  color: var(--persimmon);
+}

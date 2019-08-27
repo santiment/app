@@ -8,7 +8,7 @@ import SettingsSonarWebPushNotifications from '../../../../../../pages/Account/S
 import ShowIf from '../../../../../../components/ShowIf/ShowIf'
 import styles from './TriggerChannelSettings.module.scss'
 
-const DefaultTrigger = <span className={styles.connect}>Open settings</span>
+const DefaultTrigger = <div className={styles.connect}>Enable in settings</div>
 
 const TriggerChannelSettings = ({
   recheckBrowserNotifications,
