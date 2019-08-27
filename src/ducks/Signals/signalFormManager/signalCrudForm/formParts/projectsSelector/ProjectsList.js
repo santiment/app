@@ -3,7 +3,7 @@ import { AutoSizer, List } from 'react-virtualized'
 import Label from '@santiment-network/ui/Label'
 import { Checkbox } from '@santiment-network/ui'
 import ProjectIcon from '../../../../../../components/ProjectIcon'
-import { formatNumber } from '../../../../../../utils/formatting'
+import { formatTokensCount } from '../../../../../../utils/formatting'
 import styles from './ProjectsList.module.scss'
 
 const ROW_HEIGHT = 32
@@ -48,8 +48,10 @@ const ProjectsList = ({
           <span className={styles.name}>{name}</span>
           <Label accent='waterloo'>
             (
-            {balance && (
-              <Label className={styles.balance}>{formatNumber(balance)}</Label>
+            {balance >= 0 && (
+              <Label className={styles.balance}>
+                {formatTokensCount(balance)}
+              </Label>
             )}
             {ticker})
           </Label>
