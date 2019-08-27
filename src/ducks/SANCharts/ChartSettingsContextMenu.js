@@ -70,7 +70,7 @@ const ChartSettingsContextMenu = ({
           metrics={activeMetrics}
           title={title}
         >
-          Save as .png
+          Download as PNG
         </ChartDownloadBtn>
       </Panel>
     </ContextMenu>
