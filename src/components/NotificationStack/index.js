@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import cx from 'classnames'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Notification as NotificationItem } from '@santiment-network/ui'
@@ -41,11 +42,14 @@ class NotificationStack extends Component {
 
     return (
       <TransitionGroup className={styles.notificationStack}>
-        {notifications.map(({ id, dismissAfter, ...notification }) => (
+        {notifications.map(({ id, dismissAfter, isWide, ...notification }) => (
           <CSSTransition key={id} timeout={notifyDuration} classNames={styles}>
             <NotificationItem
               {...notification}
-              className={styles.notification}
+              className={cx(
+                styles.notification,
+                isWide && styles.wideNotification
+              )}
               onClose={() => this.closeNotification(id)}
             />
           </CSSTransition>

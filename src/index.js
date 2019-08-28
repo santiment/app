@@ -30,6 +30,7 @@ import errorLink from './apollo/error-link'
 import authLink from './apollo/auth-link'
 import retryLink from './apollo/retry-link'
 import ChartPage from './ducks/SANCharts/ChartPage'
+import { showNotification } from './actions/rootActions'
 import { register, unregister } from './serviceWorker'
 import './index.scss'
 
@@ -99,8 +100,30 @@ const main = () => {
     store.dispatch(changeNetworkStatus(online))
   })
 
+  const onServiceWorkerUpdate = () => {
+    store.dispatch(
+      showNotification({
+        variant: 'info',
+        title: 'New version of Sanbase is available!',
+        description: 'Please refresh the browser to have the latest version',
+        actions: [
+          {
+            label: 'Refresh now',
+            onClick: () => {
+              window.location.reload(true)
+            }
+          }
+        ],
+        dismissAfter: 8000,
+        isWide: true
+      })
+    )
+  }
+
   if (isNotSafari) {
-    register()
+    register({
+      onUpdate: onServiceWorkerUpdate
+    })
   } else {
     unregister()
   }

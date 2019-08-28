@@ -38,6 +38,14 @@ $notify-duration: 300;
   }
 }
 
+.wideNotification {
+  max-width: 360px;
+
+  @include responsive('phone-xs') {
+    width: 100%;
+  }
+}
+
 .enter {
   animation: notify #{$notify-duration}ms forwards;
 }

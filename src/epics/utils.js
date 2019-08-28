@@ -15,7 +15,7 @@ export const handleErrorAndTriggerAction = action => error => {
       Observable.of({ type: action, payload: error }),
       Observable.of(
         showNotification({
-          variant: 'warning',
+          variant: 'info',
           title: "You've reached your signals limit (10)",
           description: (
             <div>
@@ -27,7 +27,8 @@ export const handleErrorAndTriggerAction = action => error => {
               </Link>
             </div>
           ),
-          dismissAfter: 8000
+          dismissAfter: 8000,
+          isWide: true
         })
       )
     )
