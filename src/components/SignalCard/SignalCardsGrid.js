@@ -9,36 +9,14 @@ import {
 } from '../../ducks/Signals/common/actions'
 import styles from './SignalCardsGrid.module.scss'
 
-export const defaultSignals = [
-  {
-    index: 0,
-    title: 'Daily trending words',
-    description:
-      'Subscribe to this signal to get daily list of trending words connected with crypto',
-    author: 'Santiment team',
-    subscriptionsNumber: 0,
-    isSubscribed: false,
-    isPublished: true
-  },
-  {
-    index: 1,
-    title: 'Ethereum price tracking',
-    description:
-      'Subscribe to this signal to track the activity of selected address based on the Ethereum',
-    author: 'Santiment team',
-    subscriptionsNumber: 0,
-    isSubscribed: false,
-    isPublished: true
-  }
-]
-
 const SignalCardsGrid = ({
-  signals = defaultSignals,
+  signals,
   className = '',
   toggleSignal,
   removeSignal,
   goToSignalSettings
 }) => {
+  console.log(signals)
   return (
     <div className={cx(styles.wrapper, className)}>
       {signals

@@ -1,44 +1,37 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import PageLoader from '../../components/Loader/PageLoader'
-import SonarFeedRecommendations from './SonarFeedRecommendations'
+import SonarFeedRecommendations, {
+  RecommendedSignals
+} from './SonarFeedRecommendations'
 import SignalCardsGrid from '../../components/SignalCard/SignalCardsGrid'
-import GetSignals from './../../ducks/Signals/GetSignals'
-import { checkIsLoggedIn } from '../UserSelectors'
+import GetSignals from '../../ducks/Signals/common/getSignals'
 import styles from './SonarFeedPage.module.scss'
 
-const SonarFeedMySignalsPage = ({ isLoggedIn }) => {
-  if (!isLoggedIn) {
-    return <SonarFeedRecommendations showButton />
-  }
-
+const SonarFeedMySignalsPage = () => {
   return (
-    <GetSignals
-      render={({ signals, isError, isLoading }) => {
-        const hasSignals = signals && signals.length > 0
+    <>
+      <GetSignals
+        render={({ signals, isLoading }) => {
+          const hasSignals = signals && signals.length > 0
 
-        if (isLoading) {
-          return <PageLoader className={styles.loader} />
-        }
+          if (isLoading) {
+            return <PageLoader className={styles.loader} />
+          }
 
-        return (
-          <>
-            {hasSignals ? (
-              <SignalCardsGrid signals={signals} />
-            ) : (
-              <SonarFeedRecommendations showButton />
-            )}
-          </>
-        )
-      }}
-    />
+          return (
+            <>
+              {hasSignals ? (
+                <SignalCardsGrid signals={signals} />
+              ) : (
+                <SonarFeedRecommendations showButton />
+              )}
+            </>
+          )
+        }}
+      />
+      <RecommendedSignals />
+    </>
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    isLoggedIn: checkIsLoggedIn(state)
-  }
-}
-
-export default connect(mapStateToProps)(SonarFeedMySignalsPage)
+export default SonarFeedMySignalsPage

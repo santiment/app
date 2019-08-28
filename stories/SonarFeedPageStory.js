@@ -2,11 +2,31 @@ import React from 'react'
 import StoryRouter from 'storybook-react-router'
 import { storiesOf } from '@storybook/react'
 import SonarFeedActivityPage from '../src/pages/SonarFeed/SonarFeedActivityPage'
-import SignalCardsGrid, {
-  defaultSignals
-} from '../src/components/SignalCard/SignalCardsGrid'
+import SignalCardsGrid from '../src/components/SignalCard/SignalCardsGrid'
 import SonarFeedMySignalsPage from '../src/pages/SonarFeed/SonarFeedMySignalsPage'
 
+const defaultSignals = [
+  {
+    index: 0,
+    title: 'Daily trending words',
+    description:
+      'Subscribe to this signal to get daily list of trending words connected with crypto',
+    author: 'Santiment team',
+    subscriptionsNumber: 0,
+    isSubscribed: false,
+    isPublished: true
+  },
+  {
+    index: 1,
+    title: 'Ethereum price tracking',
+    description:
+      'Subscribe to this signal to track the activity of selected address based on the Ethereum',
+    author: 'Santiment team',
+    subscriptionsNumber: 0,
+    isSubscribed: false,
+    isPublished: true
+  }
+]
 const defaultActivities = {
   'Today, Dec 21': [
     {
