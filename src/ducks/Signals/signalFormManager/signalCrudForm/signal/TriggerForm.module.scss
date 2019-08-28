@@ -291,7 +291,6 @@ a {
 
 .fieldTimeWindow {
   @include responsive('phone', 'phone-xs') {
-    margin-top: $trigger-form-field-margin;
     padding: 0;
   }
 }

@@ -1,6 +1,8 @@
 @import "~@santiment-network/ui/mixins";
 
 $select-line-height: 30px;
+$select-width: 200px;
+$select-height: 330px;
 
 .Select--single {
   .Select-control {
@@ -90,9 +92,11 @@ $select-line-height: 30px;
 }
 
 .Select-menu-outer {
-  max-height: 330px;
+  max-height: $select-height;
+  min-width: $select-width;
 }
 
 .Select-menu {
-  max-height: 330px;
+  max-height: $select-height;
+  min-width: $select-width;
 }
