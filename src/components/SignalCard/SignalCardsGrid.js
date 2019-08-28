@@ -14,15 +14,16 @@ const SignalCardsGrid = ({
   className = '',
   toggleSignal,
   removeSignal,
-  goToSignalSettings
+  goToSignalSettings,
+  isUserTheAuthor = true
 }) => {
-  console.log(signals)
   return (
     <div className={cx(styles.wrapper, className)}>
       {signals
         .sort((a, b) => b.id - a.id)
         .map(({ id, index, ...signal }) => (
           <SignalCard
+            isUserTheAuthor={isUserTheAuthor}
             key={id || index}
             id={id}
             toggleSignal={() =>
@@ -53,7 +54,7 @@ const mapDispatchToProps = dispatch => ({
     id && dispatch(removeTrigger(id))
   },
   goToSignalSettings: id => {
-    id && dispatch(push(`/sonar/signal/${id}/edit`))
+    id && dispatch(push(`/sonar/signal/${id}`))
   }
 })
 

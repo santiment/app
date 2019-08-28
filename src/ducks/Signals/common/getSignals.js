@@ -18,7 +18,7 @@ const mapStateToProps = state => {
 
 export const signalsGqlMapper = {
   name: 'Signals',
-  skip: ({ isLoggedIn }) => !isLoggedIn,
+  skip: ({ isLoggedIn, always = false }) => !always && !isLoggedIn,
   props: ({ Signals }) => {
     const { currentUser, featuredUserTriggers, loading, error } = Signals
     const signals = (currentUser || {}).triggers || featuredUserTriggers || []
