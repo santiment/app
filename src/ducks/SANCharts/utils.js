@@ -27,6 +27,7 @@ export const getEventsTooltipInfo = events =>
   Object.keys(events).map(event => {
     const { label, formatter } = Events[event]
     return {
+      isEvent: true,
       color: 'var(--persimmon)',
       value: events[event],
       name: label,
