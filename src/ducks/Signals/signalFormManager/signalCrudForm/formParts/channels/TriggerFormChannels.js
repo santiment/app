@@ -46,7 +46,6 @@ const TriggerFormChannels = ({
   }
 
   const recheckBrowserNotifications = () => {
-    console.log('recheckBrowserNotifications')
     navigator.serviceWorker &&
       navigator.serviceWorker.getRegistrations &&
       navigator.serviceWorker.getRegistrations().then(registrations => {
