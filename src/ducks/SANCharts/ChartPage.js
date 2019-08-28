@@ -310,6 +310,7 @@ class ChartPage extends Component {
         metrics={requestedMetrics}
         render={({
           timeseries = [],
+          events = [],
           errorMetrics = {},
           isError,
           isLoading,
@@ -388,6 +389,7 @@ class ChartPage extends Component {
                       onZoom={this.onZoom}
                       onZoomOut={this.onZoomOut}
                       isZoomed={zoom}
+                      events={events}
                       chartData={(timeseries && zoom
                         ? timeseries.slice(zoom[0], zoom[1])
                         : timeseries

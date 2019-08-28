@@ -8,7 +8,8 @@ import {
   XAxis,
   YAxis,
   Brush,
-  ReferenceArea
+  ReferenceArea,
+  ReferenceDot
 } from 'recharts'
 import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
@@ -169,7 +170,8 @@ class Charts extends React.Component {
       leftBoundaryDate,
       rightBoundaryDate,
       children,
-      isLoading
+      isLoading,
+      events
     } = this.props
     const {
       refAreaLeft,
@@ -278,6 +280,20 @@ class Charts extends React.Component {
                 strokeOpacity={0.3}
               />
             )}
+
+            {events.map(({ datetime }) => (
+              <ReferenceDot
+                r={3}
+                isFront
+                fill='var(--white)'
+                strokeWidth='2px'
+                stroke='var(--persimmon)'
+                key={datetime}
+                x={+new Date(datetime)}
+                y={8719.96}
+                yAxisId='axis-priceUsd'
+              />
+            ))}
             {!hasPremium &&
               displayPaywall({
                 leftBoundaryDate,
