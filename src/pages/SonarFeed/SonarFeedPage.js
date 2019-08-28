@@ -182,7 +182,7 @@ export default connect(
 
 const AnonymouseInSonar = () => (
   <>
-    <InsightUnAuthPage />
+    <InsightUnAuthPage target='signals' />
     <div className={styles.recommendedSignals}>
       <RecommendedSignals />
     </div>

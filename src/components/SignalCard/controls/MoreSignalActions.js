@@ -26,8 +26,8 @@ const MoreSignalActions = ({
 }) => {
   const link = generateShareLink(signalId, signalTitle)
 
-  const ShareSignal = ({ trigger }) => (
-    <div className={cx(styles.popupItem, styles.popupButton)}>
+  const ShareSignal = ({ trigger, className }) => (
+    <div className={cx(styles.popupItem, styles.popupButton, className)}>
       <ShareModalTrigger
         trigger={trigger}
         shareTitle='Santiment'
@@ -38,7 +38,7 @@ const MoreSignalActions = ({
   )
 
   if (!isUserTheAuthor) {
-    return <ShareSignal />
+    return <ShareSignal className={styles.shareBtn} />
   }
 
   return (

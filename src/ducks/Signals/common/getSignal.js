@@ -3,6 +3,8 @@ import { compose } from 'recompose'
 import * as qs from 'query-string'
 import { TRIGGER_BY_ID_QUERY } from './queries'
 import { mapGQLTriggerToProps } from '../utils/utils'
+import { checkIsLoggedIn } from '../../../pages/UserSelectors'
+import { connect } from 'react-redux'
 
 const getInfoFromQuery = (listname = '') => {
   const [title, id] = listname.split('@')
@@ -41,16 +43,24 @@ GetSignal.defaultProps = {
   isLoading: false
 }
 
-export default graphql(TRIGGER_BY_ID_QUERY, {
-  skip: data => {
-    const { triggerId } = data
-    return !triggerId
-  },
-  options: ({ triggerId: id }) => {
-    return {
-      fetchPolicy: 'network-only',
-      variables: { id: +id }
-    }
-  },
-  props: mapGQLTriggerToProps
-})(GetSignal)
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: checkIsLoggedIn(state)
+  }
+}
+
+export default compose(
+  connect(mapStateToProps),
+  graphql(TRIGGER_BY_ID_QUERY, {
+    skip: ({ triggerId, isLoggedIn }) => {
+      return !isLoggedIn || !triggerId
+    },
+    options: ({ triggerId: id }) => {
+      return {
+        fetchPolicy: 'network-only',
+        variables: { id: +id }
+      }
+    },
+    props: mapGQLTriggerToProps
+  })
+)(GetSignal)

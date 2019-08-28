@@ -132,6 +132,10 @@
   @include text('body-3');
 }
 
+.shareBtn {
+  padding-left: 0;
+}
+
 .popupButton {
   @include text('body-3');
 
