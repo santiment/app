@@ -4,6 +4,7 @@ exports[`GetTimeSeries should return history price list 1`] = `
 Array [
   Object {
     "payload": Object {
+      "events": undefined,
       "id": 0,
       "metrics": Array [
         Object {

@@ -28,7 +28,7 @@ const mapDataToMergedTimeserieByDatetime = (
 
 const fetchTimeseriesEpic = (action$, store, { client }) =>
   action$.ofType(actions.TIMESERIES_FETCH).mergeMap(action => {
-    const { id, metrics, events } = action.payload
+    const { id, metrics, events = [] } = action.payload
 
     if (
       process.env.NODE_ENV === 'development' ||
