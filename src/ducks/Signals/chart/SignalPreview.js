@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { ReferenceLine } from 'recharts'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
 import { Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartWidget from '../../SANCharts/ChartPage'
 import VisualBacktestChart from './VisualBacktestChart'
 import { ChartExpandView } from './ChartExpandView'
+import { DesktopOnly } from './../../../components/Responsive'
+import styles from './SignalPreview.module.scss'
 
 const SignalPreviewChart = ({
   type,
@@ -35,14 +38,14 @@ const SignalPreviewChart = ({
   return (
     <GetTimeSeries
       metrics={requestedMetrics}
-      render={({
-        timeseries,
-        errorMetrics = {},
-        isError,
-        errorType,
-        ...rest
-      }) => {
-        if (!timeseries) return 'Loading...'
+      render={({ timeseries }) => {
+        if (!timeseries) {
+          return (
+            <div className={styles.loaderWrapper}>
+              <Loader className={styles.loader} />
+            </div>
+          )
+        }
 
         return (
           <VisualBacktestChart
@@ -71,26 +74,29 @@ const SignalPreview = ({ type, points = [], target: slug, height }) => {
         height={height}
         triggeredSignals={triggeredSignals}
       />
-      <ChartExpandView>
-        <ChartWidget
-          timeRange={timeRange}
-          slug={slug}
-          interval='1d'
-          title={slug}
-          hideSettings={{
-            header: true,
-            sidecar: true
-          }}
-        >
-          {triggeredSignals.map(({ datetime }) => (
-            <ReferenceLine
-              key={datetime}
-              stroke='var(--persimmon)'
-              x={+new Date(datetime)}
-            />
-          ))}
-        </ChartWidget>
-      </ChartExpandView>
+
+      <DesktopOnly>
+        <ChartExpandView>
+          <ChartWidget
+            timeRange={timeRange}
+            slug={slug}
+            interval='1d'
+            title={slug}
+            hideSettings={{
+              header: true,
+              sidecar: true
+            }}
+          >
+            {triggeredSignals.map(({ datetime }) => (
+              <ReferenceLine
+                key={datetime}
+                stroke='var(--persimmon)'
+                x={+new Date(datetime)}
+              />
+            ))}
+          </ChartWidget>
+        </ChartExpandView>
+      </DesktopOnly>
     </>
   )
 }

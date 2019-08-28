@@ -261,7 +261,7 @@ export const TriggerForm = ({
                   )}
 
                   {showChart && (
-                    <Fragment>
+                    <>
                       {(showTypes || metricValueBlocks) && (
                         <TriggerFormBlockDivider />
                       )}
@@ -271,7 +271,7 @@ export const TriggerForm = ({
                           type={metric.value}
                         />
                       </div>
-                    </Fragment>
+                    </>
                   )}
                 </TriggerFormBlock>
               )}

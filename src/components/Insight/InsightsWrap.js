@@ -1,7 +1,7 @@
 import React from 'react'
 import withSizes from 'react-sizes'
-import { mapSizesToProps } from '../../App'
 import InsightCard from './InsightCard'
+import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './InsightsWrap.module.scss'
 
 const InsightsWrap = ({ insights, isDesktop }) => {
