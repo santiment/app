@@ -15,7 +15,27 @@ export const TRIGGERS_QUERY = gql`
         description
         tags {
           name
-          __typename
+        }
+      }
+    }
+  }
+`
+
+export const FEATURED_USER_TRIGGERS_QUERY = gql`
+  query featuredUserTriggers {
+    featuredUserTriggers {
+      userId
+      trigger {
+        id
+        isPublic
+        cooldown
+        settings
+        title
+        isActive
+        isRepeating
+        description
+        tags {
+          name
         }
       }
     }

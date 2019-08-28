@@ -1,5 +1,4 @@
-import React, { Fragment } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react'
 import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Icon from '@santiment-network/ui/Icon'
@@ -17,7 +16,8 @@ const SignalCard = ({
   className,
   removeSignal,
   goToSignalSettings,
-  toggleSignal
+  toggleSignal,
+  isUserTheAuthor
 }) => {
   const isAwaiting = +id <= 0
   const { title, description = '', isPublic, settings: { type } = {} } = signal
@@ -59,6 +59,7 @@ const SignalCard = ({
           removeSignal={removeSignal}
           toggleSignal={toggleSignal}
           isAwaiting={isAwaiting}
+          isUserTheAuthor={isUserTheAuthor}
         />
       </div>
     </Panel>
@@ -75,7 +76,6 @@ const SignalCardBottom = ({
   signalId,
   signal,
   removeSignal,
-  author,
   isPublished = true,
   isAwaiting = false,
   toggleSignal,
@@ -86,6 +86,7 @@ const SignalCardBottom = ({
     <div className={styles.bottom}>
       <DesktopOnly>
         <MoreSignalActions
+          isUserTheAuthor={isUserTheAuthor}
           removeSignal={removeSignal}
           signalTitle={title}
           signalId={signalId}
@@ -104,21 +105,15 @@ const SignalCardBottom = ({
           {isUserTheAuthor && !isAwaiting && (
             <StatusLabel isPublic={isPublic} />
           )}
-          {!isUserTheAuthor && (
-            <Fragment>
-              by{' '}
-              <Link className={styles.author__link} to='/'>
-                {author}
-              </Link>
-            </Fragment>
-          )}
         </h4>
       ) : (
         <UnpublishedMsg />
       )}
-      <div className={styles.right}>
-        <Toggle onClick={toggleSignal} isActive={isActive} />
-      </div>
+      {isUserTheAuthor && (
+        <div className={styles.right}>
+          <Toggle onClick={toggleSignal} isActive={isActive} />
+        </div>
+      )}
     </div>
   )
 }

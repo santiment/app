@@ -18,9 +18,10 @@ import {
 import { getShareSignalParams } from '../../ducks/Signals/common/getSignal'
 import { sendParams } from '../Account/SettingsSonarWebPushNotifications'
 import styles from './SonarFeedPage.module.scss'
+import { RecommendedSignals } from './SonarFeedRecommendations'
 
 const baseLocation = '/sonar'
-const editTriggerSettingsModalLocation = `${baseLocation}/signal/:id/edit`
+const editTriggerSettingsModalLocation = `${baseLocation}/signal/:id`
 const openTriggerSettingsModalLocation = `${baseLocation}/signal/:id`
 
 const tabs = [
@@ -137,7 +138,7 @@ const SonarFeed = ({
       <div className={styles.content}>
         <Switch>
           {isUserLoading && <PageLoader className={styles.loader} />}
-          {!isUserLoading && !isLoggedIn ? <InsightUnAuthPage /> : ''}
+          {!isUserLoading && !isLoggedIn ? <AnonymouseInSonar /> : ''}
           {tabs.map(({ index, component }) => (
             <Route key={index} path={index} component={component} />
           ))}
@@ -178,3 +179,12 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(SonarFeed)
+
+const AnonymouseInSonar = () => (
+  <>
+    <InsightUnAuthPage target='signals' />
+    <div className={styles.recommendedSignals}>
+      <RecommendedSignals />
+    </div>
+  </>
+)
