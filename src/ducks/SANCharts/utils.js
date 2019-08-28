@@ -1,7 +1,38 @@
 import React from 'react'
 import { YAxis, Bar, Line, Area } from 'recharts'
+import { formatNumber } from './../../utils/formatting'
 
 const PRICE_METRIC = 'historyPrice'
+
+export const Events = {
+  position: {
+    label: 'Trending Position',
+    formatter: val => {
+      switch (val) {
+        case 1:
+          return `1st`
+        case 2:
+          return '2nd'
+        case 3:
+          return '3rd'
+
+        default:
+          return `${val}th`
+      }
+    }
+  }
+}
+
+export const getEventsTooltipInfo = events =>
+  Object.keys(events).map(event => {
+    const { label, formatter } = Events[event]
+    return {
+      color: 'var(--persimmon)',
+      value: events[event],
+      name: label,
+      formatter
+    }
+  })
 
 export const Metrics = {
   historyPrice: {
@@ -9,7 +40,8 @@ export const Metrics = {
     color: 'jungle-green',
     label: 'Price',
     dataKey: 'priceUsd',
-    category: 'Financial'
+    category: 'Financial',
+    formatter: val => formatNumber(val, { currency: 'USD' })
   },
   historyPricePreview: {
     node: Area,
@@ -259,7 +291,8 @@ export const generateMetricsMarkup = (
       dataKey = metric,
       hideYAxis,
       gradientUrl,
-      opacity = 1
+      opacity = 1,
+      formatter
     } = typeof metric === 'object' ? metric : Metrics[metric]
 
     const rest = {
@@ -289,6 +322,7 @@ export const generateMetricsMarkup = (
         isAnimationActive={false}
         opacity={opacity}
         connectNulls
+        formatter={formatter}
         {...rest}
       />
     )
