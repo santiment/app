@@ -19,7 +19,8 @@ import { formatNumber, millify } from './../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { Metrics, generateMetricsMarkup, findYAxisMetric } from './utils'
 import { checkHasPremium } from '../../pages/UserSelectors'
-import displayPaywall from './Paywall'
+import displayPaywall, { MOVE_CLB, CHECK_CLB } from './Paywall'
+import { binarySearch } from '../../pages/Trends/utils'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
 
@@ -75,6 +76,7 @@ class Charts extends React.Component {
     }
 
     if (metrics !== prevProps.metrics) {
+      console.log('updating')
       this.setState({
         tooltipMetric: findYAxisMetric(metrics)
       })
@@ -185,6 +187,10 @@ class Charts extends React.Component {
       tooltipMetric
     } = this.state
 
+    const { dataKey: tooltipMetricKey = tooltipMetric } = tooltipMetric
+      ? Metrics[tooltipMetric]
+      : {}
+
     const lines = generateMetricsMarkup(metrics, {
       ref: { [tooltipMetric]: this.metricRef }
     })
@@ -281,19 +287,32 @@ class Charts extends React.Component {
               />
             )}
 
-            {events.map(({ datetime }) => (
-              <ReferenceDot
-                r={3}
-                isFront
-                fill='var(--white)'
-                strokeWidth='2px'
-                stroke='var(--persimmon)'
-                key={datetime}
-                x={+new Date(datetime)}
-                y={8719.96}
-                yAxisId='axis-priceUsd'
-              />
-            ))}
+            {metrics.includes(tooltipMetric) &&
+              events.map(({ datetime }) => {
+                const { index, value } = binarySearch({
+                  moveClb: MOVE_CLB,
+                  checkClb: CHECK_CLB,
+                  target: new Date(datetime),
+                  array: chartData
+                })
+                console.log(tooltipMetricKey)
+
+                const y = (value || chartData[index])[tooltipMetricKey]
+
+                return (
+                  <ReferenceDot
+                    yAxisId={`axis-${tooltipMetricKey}`}
+                    r={3}
+                    isFront
+                    fill='var(--white)'
+                    strokeWidth='2px'
+                    stroke='var(--persimmon)'
+                    key={datetime}
+                    x={+new Date(datetime)}
+                    y={y}
+                  />
+                )
+              })}
             {!hasPremium &&
               displayPaywall({
                 leftBoundaryDate,
