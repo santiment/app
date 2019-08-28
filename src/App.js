@@ -33,6 +33,7 @@ import { getConsentUrl } from './utils/utils'
 import CookiePopup from './components/CookiePopup/CookiePopup'
 import LogoutPage from './pages/Logout/Logout'
 import LabsPage from './pages/Labs'
+import { mapSizesToProps } from './utils/withSizes'
 import './App.scss'
 
 const LoadableLoginPage = Loadable({
@@ -367,12 +368,6 @@ const mapStateToProps = state => {
     hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address
   }
 }
-
-export const mapSizesToProps = ({ width }) => ({
-  isDesktop: width > 768,
-  isTablet: width <= 992 && width > 768,
-  isPhone: width <= 768
-})
 
 const enchance = compose(
   connect(mapStateToProps),

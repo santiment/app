@@ -1,11 +1,11 @@
 import React from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 import withSizes from 'react-sizes'
-import { mapSizesToProps } from '../../App'
 import { client } from '../../index'
 import { ALL_INSIGHTS_BY_PAGE_QUERY } from './../../queries/InsightsGQL'
 import InsightsFeed from '../../components/Insight/InsightsFeed'
 import InsightsScrollable from '../../components/Insight/InsightsScrollable'
+import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './InsightsAllFeedPage.module.scss'
 
 class InsightsAllFeedPage extends React.PureComponent {

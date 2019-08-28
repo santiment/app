@@ -18,8 +18,8 @@ import { mergeTimeseriesByKey } from './../../utils/utils'
 import mixWithPaywallArea from './../PaywallArea/PaywallArea'
 import UpgradeBtn from './../UpgradeBtn/UpgradeBtn'
 import { sourcesMeta as chartsMeta } from './trendsUtils'
-import { mapSizesToProps } from '../../App'
 import { getDateFormats } from '../../utils/dates'
+import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './TrendsReChart.module.scss'
 
 const toggleCharts = Object.keys(chartsMeta).filter(key => key !== 'total')

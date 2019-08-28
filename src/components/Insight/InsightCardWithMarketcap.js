@@ -2,10 +2,10 @@ import React from 'react'
 import { Panel } from '@santiment-network/ui'
 import cx from 'classnames'
 import withSizes from 'react-sizes'
-import { mapSizesToProps } from '../../App'
 import InsightCardInternals from './InsightCardInternals'
 import MarketcapChangeWidget from '../PostVisualBacktest'
 import { noTrendTagsFilter } from './utils'
+import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './InsightCard.module.scss'
 
 const InsightCard = ({ className, tags, isDesktop, ...insight }) => {

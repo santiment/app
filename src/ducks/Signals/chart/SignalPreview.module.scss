@@ -65,3 +65,14 @@
   top: -5px !important;
   right: -10px !important;
 }
+
+.loaderWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+}
+
+.loader {
+  font-size: 5px;
+}

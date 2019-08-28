@@ -1,6 +1,6 @@
 import withSizes from 'react-sizes'
 import PropTypes from 'prop-types'
-import { mapSizesToProps } from '../../App'
+import { mapSizesToProps } from '../../utils/withSizes'
 
 const enhance = withSizes(mapSizesToProps)
 
