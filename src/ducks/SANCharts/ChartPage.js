@@ -298,6 +298,15 @@ class ChartPage extends Component {
 
     return (
       <GetTimeSeries
+        events={[
+          {
+            name: 'trendPositionHistory',
+            from,
+            to,
+            slug,
+            interval
+          }
+        ]}
         metrics={requestedMetrics}
         render={({
           timeseries = [],

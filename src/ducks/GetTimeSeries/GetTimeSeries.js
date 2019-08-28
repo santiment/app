@@ -10,13 +10,17 @@ class GetTimeSeries extends React.Component {
   id = id++
 
   componentDidMount () {
-    this.props.fetchTimeseries({ id: this.id, metrics: this.props.metrics })
+    this.props.fetchTimeseries({
+      id: this.id,
+      metrics: this.props.metrics,
+      events: this.props.events
+    })
   }
 
   componentDidUpdate (prevProps) {
-    const { metrics, fetchTimeseries } = this.props
+    const { metrics, fetchTimeseries, events } = this.props
     if (!isEqual(metrics, prevProps.metrics)) {
-      fetchTimeseries({ id: this.id, metrics })
+      fetchTimeseries({ id: this.id, metrics, events })
     }
   }
 
@@ -33,8 +37,8 @@ class GetTimeSeries extends React.Component {
 const mapStateToProps = ({ timeseries }) => ({ timeseries })
 
 const mapDispatchToProps = dispatch => ({
-  fetchTimeseries: metrics => {
-    return dispatch(fetchTimeseries(metrics))
+  fetchTimeseries: payload => {
+    return dispatch(fetchTimeseries(payload))
   },
   deleteTimeseries: id => {
     return dispatch(deleteTimeseries(id))
