@@ -20,7 +20,7 @@ import emitter from 'react-ab-test/lib/emitter'
 import App from './App'
 import reducers from './reducers/rootReducers.js'
 import epics from './epics/rootEpics.js'
-import { saveState } from './utils/localStorage'
+import { hardReloadTabs, saveState } from './utils/localStorage'
 import { getAPIUrl, isNotSafari } from './utils/utils'
 import detectNetwork from './utils/detectNetwork'
 import getRaven from './utils/getRaven'
@@ -110,7 +110,7 @@ const main = () => {
           {
             label: 'Refresh now',
             onClick: () => {
-              window.location.reload(true)
+              hardReloadTabs()
             }
           }
         ],

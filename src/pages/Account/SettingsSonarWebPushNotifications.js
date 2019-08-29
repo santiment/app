@@ -8,6 +8,7 @@ import {
 } from '../../serviceWorker'
 import SidecarExplanationTooltip from '../../ducks/SANCharts/SidecarExplanationTooltip'
 import { getAPIUrl, getOrigin } from '../../utils/utils'
+import { hardReloadTabs } from '../../utils/localStorage'
 import styles from './AccountPage.module.scss'
 
 export const getSanSonarSW = registrations => {
@@ -128,7 +129,7 @@ const SettingsSonarWebPushNotifications = ({
                 requestNotificationPermission(null, noPermissionsCallback)
                 sendParams()
                 toggle(true)
-                canReload && window.location.reload()
+                canReload && hardReloadTabs()
                 recheckBrowserNotifications && recheckBrowserNotifications()
               }
             })

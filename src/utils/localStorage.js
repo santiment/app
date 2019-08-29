@@ -60,6 +60,11 @@ export const savePrevAuthProvider = (authProviderType = 'email') => {
   }
 }
 
+export const hardReloadTabs = () => {
+  localStorage.setItem('reload', new Date().getTime())
+  window.location.reload(true)
+}
+
 window.addEventListener('storage', evt => {
   if (
     evt.key === 'user' &&
@@ -67,5 +72,7 @@ window.addEventListener('storage', evt => {
     evt.newValue.includes('"token":"')
   ) {
     window.location.reload()
+  } else if (evt.key === 'reload' && evt.oldValue !== evt.newValue) {
+    window.location.reload(true)
   }
 })
