@@ -12,7 +12,7 @@ import {
 import { mergeTimeseriesByKey } from '../../../utils/utils'
 import { getDateFormats } from '../../../utils/dates'
 import styles from './HistoricalBalanceChart.module.scss'
-import { labelFormatter } from '../../../utils/formatting'
+import { formatTokensCount, labelFormatter } from '../../../utils/formatting'
 
 const formatDatetime = datetime => {
   const { MMM } = getDateFormats(new Date(datetime))
@@ -34,6 +34,29 @@ const HistoricalBalanceChart = ({ data }) => {
     key: 'datetime'
   })
 
+  const yAxes = Object.keys(data).map((name, index) => (
+    <YAxis
+      yAxisId={name}
+      tickFormatter={formatTokensCount}
+      stroke={COLORS[index]}
+      key={name}
+    />
+  ))
+
+  const lines = Object.keys(data).map((name, index) => {
+    return (
+      <Line
+        type='linear'
+        dot={false}
+        stroke={COLORS[index]}
+        dataKey={name}
+        yAxisId={name}
+        name={name}
+        key={index}
+      />
+    )
+  })
+
   return (
     <div className={styles.chartContainer}>
       <ResponsiveContainer width='100%' height='100%'>
@@ -52,26 +75,12 @@ const HistoricalBalanceChart = ({ data }) => {
             stroke='#ebeef5'
           />
           <Legend verticalAlign='bottom' height={36} />
-          {Object.keys(data).map(name => (
-            <YAxis yAxisId={name} hide key={name} />
-          ))}
+          {yAxes}
           <Tooltip
             labelFormatter={labelFormatter}
-            formatter={value => new Intl.NumberFormat().format(value)}
+            formatter={formatTokensCount}
           />
-          {Object.keys(data).map((name, index) => {
-            return (
-              <Line
-                type='linear'
-                dot={false}
-                stroke={COLORS[index]}
-                dataKey={name}
-                yAxisId={name}
-                name={name}
-                key={index}
-              />
-            )
-          })}
+          {lines}
         </LineChart>
       </ResponsiveContainer>
     </div>
