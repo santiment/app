@@ -59,51 +59,9 @@
 }
 
 .details {
-  @include text('caption');
-
-  pointer-events: none;
   position: absolute;
   left: 47px;
   top: 5px;
-  border: 1px solid var(--porcelain);
-  background: rgba($white, 0.85);
-  border-radius: 4px;
-  z-index: 3;
-  color: var(--mirage);
-
-  :global(.night-mode) & {
-    background: rgba($mirage, 0.85);
-  }
-
-  &__title {
-    color: var(--waterloo);
-    background: var(--athens);
-    padding: 6px 11px;
-  }
-
-  &__content {
-    padding: 10px 12px;
-  }
-
-  &__metric {
-    display: flex;
-    align-items: center;
-
-    &::before {
-      content: '';
-      display: inline-block;
-      height: 1.5px;
-      width: 8px;
-      background: var(--color);
-      margin-right: 8px;
-      border-radius: 1px;
-    }
-  }
-
-  &__name {
-    color: var(--casper);
-    margin-left: 4px;
-  }
 }
 
 .zoom + .details {

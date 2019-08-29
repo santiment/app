@@ -12,11 +12,17 @@ import {
 import { mergeTimeseriesByKey } from '../../../utils/utils'
 import { getDateFormats } from '../../../utils/dates'
 import styles from './HistoricalBalanceChart.module.scss'
-import { formatTokensCount, labelFormatter } from '../../../utils/formatting'
+import { formatTokensCount } from '../../../utils/formatting'
+import ChartTooltip from '../../SANCharts/tooltip/CommonChartTooltip'
 
 const formatDatetime = datetime => {
-  const { MMM } = getDateFormats(new Date(datetime))
-  return MMM
+  const { DD, MMM, YY } = getDateFormats(new Date(datetime))
+  return `${DD} ${MMM} ${YY}`
+}
+
+const formatTooltipDatetime = datetime => {
+  const { DD, MMM, YY } = getDateFormats(new Date(datetime))
+  return `${MMM} ${DD}, ${YY}`
 }
 
 const COLORS = ['#14C393', '#8358FF', '#5275FF', '#FF5B5B', '#68DBF4']
@@ -65,8 +71,8 @@ const HistoricalBalanceChart = ({ data }) => {
           margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
         >
           <XAxis
-            minTickGap={30}
             dataKey='datetime'
+            minTickGap={100}
             tickFormatter={formatDatetime}
           />
           <CartesianGrid
@@ -76,11 +82,16 @@ const HistoricalBalanceChart = ({ data }) => {
           />
           <Legend verticalAlign='bottom' height={36} />
           {yAxes}
-          <Tooltip
-            labelFormatter={labelFormatter}
-            formatter={formatTokensCount}
-          />
           {lines}
+          <Tooltip
+            content={
+              <ChartTooltip
+                labelFormatter={formatTooltipDatetime()}
+                formatter={formatTokensCount}
+                className={styles.tooltip}
+              />
+            }
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>

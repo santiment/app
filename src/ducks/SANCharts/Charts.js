@@ -19,6 +19,7 @@ import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { Metrics, generateMetricsMarkup, findYAxisMetric } from './utils'
 import { checkHasPremium } from '../../pages/UserSelectors'
 import displayPaywall from './Paywall'
+import ChartTooltip from './tooltip/CommonChartTooltip'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
 
@@ -28,12 +29,12 @@ const CHART_MARGINS = {
   right: 0
 }
 
-const tickFormatter = date => {
+export const tickFormatter = date => {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
   return `${DD} ${MMM} ${YY}`
 }
 
-const tooltipLabelFormatter = value => {
+export const tooltipLabelFormatter = value => {
   const date = new Date(value)
   const { MMMM, DD, YYYY } = getDateFormats(date)
   const { HH, mm } = getTimeFormats(date)
@@ -206,25 +207,14 @@ class Charts extends React.Component {
           )}
           {hovered && activePayload && (
             <>
-              <div className={styles.details}>
-                <div className={styles.details__title}>
-                  {tooltipLabelFormatter(xValue)}
-                </div>
-                <div className={styles.details__content}>
-                  {activePayload.map(({ name, value, color }) => {
-                    return (
-                      <div
-                        key={name}
-                        style={{ '--color': color }}
-                        className={styles.details__metric}
-                      >
-                        {valueFormatter(value, name)}
-                        <span className={styles.details__name}>{name}</span>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
+              <ChartTooltip
+                valueFormatter={valueFormatter}
+                payload={activePayload}
+                active={true}
+                label={xValue}
+                className={styles.details}
+              />
+
               <div
                 className={cx(styles.line, !y && styles.line_noY)}
                 style={{
