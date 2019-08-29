@@ -167,6 +167,15 @@ const MainDialog = ({
   const [dialogTitle, onSetDialogTitle] = useState('')
   const { variant, border } = buttonParams
 
+  useEffect(
+    () => {
+      if (!isLoggedIn) {
+        onSetDialogTitle('Create signal')
+      }
+    },
+    [isLoggedIn]
+  )
+
   return (
     <Dialog
       open={dialogOpenState}
