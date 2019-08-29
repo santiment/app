@@ -85,6 +85,20 @@ const getChartInitialState = props => {
 class ChartPage extends Component {
   static defaultProps = { ...DEFAULT_STATE, adjustNightMode: true }
 
+  // HACK(vanguard):  fixing navbar-search project selection
+  static getDerivedStateFromProps ({ slug, title, isControlled }, state) {
+    if (isControlled && slug !== state.slug) {
+      return {
+        slug,
+        title
+      }
+    }
+
+    return null
+  }
+
+  chartRef = React.createRef()
+
   state = getChartInitialState(this.props)
 
   onZoom = (leftZoomIndex, rightZoomIndex, leftZoomDate, rightZoomDate) => {
@@ -312,11 +326,13 @@ class ChartPage extends Component {
 
           return (
             <>
-              <Header
-                slug={slug}
-                isLoggedIn={isLoggedIn}
-                onSlugSelect={this.onSlugSelect}
-              />
+              {!viewOnly && !hideSettings.header && (
+                <Header
+                  slug={slug}
+                  isLoggedIn={isLoggedIn}
+                  onSlugSelect={this.onSlugSelect}
+                />
+              )}
               <div className={styles.wrapper}>
                 <div
                   className={cx(
@@ -341,9 +357,11 @@ class ChartPage extends Component {
                         to={to}
                         interval={interval}
                         hideSettings={hideSettings}
-                        title={title}
                         isAdvancedView={isAdvancedView}
                         classes={classes}
+                        activeMetrics={finalMetrics}
+                        title={title}
+                        chartRef={this.chartRef}
                       />
                     )}
                     {!viewOnly && (
@@ -356,6 +374,7 @@ class ChartPage extends Component {
                       />
                     )}
                     <Charts
+                      chartRef={this.chartRef}
                       isLoading={isLoading}
                       onZoom={this.onZoom}
                       onZoomOut={this.onZoomOut}

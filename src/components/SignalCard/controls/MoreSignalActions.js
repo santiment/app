@@ -21,9 +21,25 @@ const MoreSignalActions = ({
   signalId,
   signalTitle,
   removeSignal,
-  isPublic
+  isPublic,
+  isUserTheAuthor
 }) => {
   const link = generateShareLink(signalId, signalTitle)
+
+  const ShareSignal = ({ trigger, className }) => (
+    <div className={cx(styles.popupItem, styles.popupButton, className)}>
+      <ShareModalTrigger
+        trigger={trigger}
+        shareTitle='Santiment'
+        shareText={`Crypto Signal '${signalTitle}'`}
+        shareLink={link}
+      />
+    </div>
+  )
+
+  if (!isUserTheAuthor) {
+    return <ShareSignal className={styles.shareBtn} />
+  }
 
   return (
     <ContextMenu
@@ -38,31 +54,29 @@ const MoreSignalActions = ({
     >
       <Panel>
         <div className={styles.popup}>
-          <div className={cx(styles.popupItem, styles.popupButton)}>
-            <Link to={`/sonar/signal/${signalId}/edit`} className={styles.link}>
-              Edit signal
-            </Link>
-          </div>
-
-          {isPublic && (
+          {isUserTheAuthor && (
             <div className={cx(styles.popupItem, styles.popupButton)}>
-              <ShareModalTrigger
-                trigger={SignalShareTrigger}
-                shareTitle='Santiment'
-                shareText={`Crypto Signal '${signalTitle}'`}
-                shareLink={link}
-              />
+              <Link
+                to={`/sonar/signal/${signalId}/edit`}
+                className={styles.link}
+              >
+                Edit signal
+              </Link>
             </div>
           )}
 
-          <div className={cx(styles.popupItem, styles.popupButton)}>
-            <RemoveSignalButton
-              id={signalId}
-              signalTitle={signalTitle}
-              removeSignal={removeSignal}
-              trigger={<div className={styles.removeSignal}>Delete</div>}
-            />
-          </div>
+          {isPublic && <ShareSignal trigger={SignalShareTrigger} />}
+
+          {isUserTheAuthor && (
+            <div className={cx(styles.popupItem, styles.popupButton)}>
+              <RemoveSignalButton
+                id={signalId}
+                signalTitle={signalTitle}
+                removeSignal={removeSignal}
+                trigger={<div className={styles.removeSignal}>Delete</div>}
+              />
+            </div>
+          )}
         </div>
       </Panel>
     </ContextMenu>

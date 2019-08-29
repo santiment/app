@@ -65,7 +65,6 @@ class Charts extends React.Component {
     refAreaRight: undefined
   }
 
-  chartRef = React.createRef()
   metricRef = React.createRef()
 
   componentDidUpdate (prevProps) {
@@ -161,6 +160,7 @@ class Charts extends React.Component {
 
   render () {
     const {
+      chartRef,
       metrics,
       chartData = [],
       onZoomOut,
@@ -188,10 +188,7 @@ class Charts extends React.Component {
     })
 
     return (
-      <div
-        className={styles.wrapper + ' ' + sharedStyles.chart}
-        ref={this.chartRef}
-      >
+      <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>
         {isLoading && (
           <div className={styles.loader}>
             <Loader />
@@ -287,14 +284,12 @@ class Charts extends React.Component {
                 rightBoundaryDate,
                 data: chartData
               })}
-            {chartData.length > 0 &&
-              metrics.length > 0 &&
-              this.chartRef.current && (
+            {chartData.length > 0 && metrics.length > 0 && chartRef.current && (
               <Brush
                 tickFormatter={EMPTY_FORMATTER}
                 travellerWidth={4}
                 onChange={this.getXToYCoordinatesDebounced}
-                width={this.chartRef.current.clientWidth}
+                width={chartRef.current.clientWidth}
                 x={0}
               >
                 <ComposedChart>

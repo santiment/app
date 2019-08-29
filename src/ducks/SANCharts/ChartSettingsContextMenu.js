@@ -4,14 +4,32 @@ import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
+import ChartDownloadBtn from './ChartDownloadBtn'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import styles from './ChartPage.module.scss'
 
+const ShareChart = ({ trigger, shareLink }) => (
+  <ShareModalTrigger
+    trigger={trigger}
+    classes={styles}
+    shareLink={shareLink}
+    extraShare={[
+      {
+        value: `<iframe frameborder="0" height="340" src="${shareLink}"></iframe>`,
+        label: 'Copy iframe'
+      }
+    ]}
+  />
+)
+
 const ChartSettingsContextMenu = ({
+  chartRef,
   showNightModeToggle = true,
   isNightModeActive,
   onNightModeSelect,
-  shareLink
+  shareLink,
+  activeMetrics,
+  title
 }) => {
   return (
     <ContextMenu
@@ -47,24 +65,18 @@ const ChartSettingsContextMenu = ({
             </Button>
           )}
         />
+        <ChartDownloadBtn
+          fluid
+          variant='ghost'
+          metrics={activeMetrics}
+          title={title}
+          chartRef={chartRef}
+        >
+          Download as PNG
+        </ChartDownloadBtn>
       </Panel>
     </ContextMenu>
   )
 }
-
-export const ShareChart = ({ trigger, shareLink, asIcon }) => (
-  <ShareModalTrigger
-    trigger={trigger}
-    classes={styles}
-    shareLink={shareLink}
-    asIcon={asIcon}
-    extraShare={[
-      {
-        value: `<iframe frameborder="0" height="340" src="${shareLink}"></iframe>`,
-        label: 'Copy iframe'
-      }
-    ]}
-  />
-)
 
 export default ChartSettingsContextMenu

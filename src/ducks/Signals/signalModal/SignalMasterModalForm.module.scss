@@ -22,6 +22,7 @@
 
 .title {
   position: relative;
+  justify-content: flex-end;
 }
 
 .notSignalInfo {
@@ -58,7 +59,7 @@
 .loading {
   padding: 10px;
   width: 550px;
-  height: 400px;
+  height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;

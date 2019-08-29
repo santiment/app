@@ -235,12 +235,20 @@ export const findYAxisMetric = metrics =>
   metrics.find(metric => Metrics[metric].node !== Bar) ||
   metrics[0]
 
+export const setupColorGenerator = () => {
+  let colorIndex = 0
+
+  return function (color) {
+    return color || METRIC_COLORS[colorIndex++]
+  }
+}
+
 export const generateMetricsMarkup = (
   metrics,
   { ref = {}, data = {} } = {}
 ) => {
   const metricWithYAxis = findYAxisMetric(metrics)
-  let colorIndex = 0
+  const generateColor = setupColorGenerator()
 
   return metrics.reduce((acc, metric) => {
     const {
@@ -255,8 +263,7 @@ export const generateMetricsMarkup = (
     } = typeof metric === 'object' ? metric : Metrics[metric]
 
     const rest = {
-      [El === Bar ? 'fill' : 'stroke']: `var(--${color ||
-        METRIC_COLORS[colorIndex++]})`,
+      [El === Bar ? 'fill' : 'stroke']: `var(--${generateColor(color)})`,
       [El === Area && gradientUrl && 'fill']: gradientUrl,
       [El === Area && gradientUrl && 'fillOpacity']: 1
     }

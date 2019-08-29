@@ -41,7 +41,6 @@ const SignalMasterModalForm = ({
   const hasTrigger = +triggerId > 0
 
   const [dialogOpenState, setDialogOpenState] = useState(hasTrigger)
-  const [dialogTitle, onSetDialogTitle] = useState('')
   const [isApproving, setIsAppoving] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
 
@@ -51,8 +50,6 @@ const SignalMasterModalForm = ({
     },
     [triggerId]
   )
-
-  const { variant, border } = buttonParams
 
   const onCancelClose = () => {
     setIsAppoving(false)
@@ -104,60 +101,25 @@ const SignalMasterModalForm = ({
               onCancel={onCancelClose}
               onApprove={onApprove}
             />
-            <Dialog
-              open={dialogOpenState}
-              onOpen={() => setDialogOpenState(true)}
-              onClose={onCloseMainModal}
-              trigger={
-                dialogTrigger ||
-                signalModalTrigger(
-                  isLoggedIn && enabled,
-                  label,
-                  variant,
-                  border
-                )
-              }
-              title={
-                !isError && (
-                  <>
-                    {dialogTitle}
-                    {isShared && isLoggedIn && (
-                      <Button
-                        accent='positive'
-                        variant='fill'
-                        className={styles.shared}
-                      >
-                        Shared
-                      </Button>
-                    )}
-                  </>
-                )
-              }
-              classes={styles}
-              {...dialogProps}
-            >
-              <Dialog.ScrollContent className={styles.TriggerPanel}>
-                {isError && <NoSignal triggerId={triggerId} />}
-                {!isError && isLoading && (
-                  <PageLoader className={styles.loading} />
-                )}
-                {!isError &&
-                  !isLoading &&
-                  (isLoggedIn ? (
-                    <SignalMaster
-                      isShared={isShared}
-                      trigger={trigger}
-                      setTitle={onSetDialogTitle}
-                      onClose={() => setDialogOpenState(false)}
-                      canRedirect={canRedirect}
-                      metaFormSettings={metaFormSettings}
-                      formChangedCallback={formChangedCallback}
-                    />
-                  ) : (
-                    <SignalAnon />
-                  ))}
-              </Dialog.ScrollContent>
-            </Dialog>
+            <MainDialog
+              dialogOpenState={dialogOpenState}
+              setDialogOpenState={setDialogOpenState}
+              onCloseMainModal={onCloseMainModal}
+              dialogTrigger={dialogTrigger}
+              enabled={enabled}
+              label={label}
+              isError={isError}
+              isShared={isShared}
+              isLoggedIn={isLoggedIn}
+              dialogProps={dialogProps}
+              isLoading={isLoading}
+              trigger={trigger}
+              formChangedCallback={formChangedCallback}
+              canRedirect={canRedirect}
+              metaFormSettings={metaFormSettings}
+              buttonParams={buttonParams}
+              triggerId={triggerId}
+            />
           </>
         )
       }}
@@ -183,8 +145,80 @@ export default connect(
   mapDispatchToProps
 )(SignalMasterModalForm)
 
-const signalModalTrigger = (
+const MainDialog = ({
+  dialogOpenState,
+  setDialogOpenState,
+  onCloseMainModal,
+  dialogTrigger,
+  enabled,
+  label,
+  isError,
+  isShared,
   isLoggedIn,
+  dialogProps,
+  isLoading,
+  trigger,
+  formChangedCallback,
+  canRedirect,
+  metaFormSettings,
+  buttonParams,
+  triggerId
+}) => {
+  const [dialogTitle, onSetDialogTitle] = useState('')
+  const { variant, border } = buttonParams
+
+  return (
+    <Dialog
+      open={dialogOpenState}
+      onOpen={() => setDialogOpenState(true)}
+      onClose={onCloseMainModal}
+      trigger={
+        dialogTrigger || signalModalTrigger(enabled, label, variant, border)
+      }
+      title={
+        !isError && (
+          <>
+            {dialogTitle}
+            {isShared && isLoggedIn && (
+              <Button
+                accent='positive'
+                variant='fill'
+                className={styles.shared}
+              >
+                Shared
+              </Button>
+            )}
+          </>
+        )
+      }
+      classes={styles}
+      {...dialogProps}
+    >
+      <Dialog.ScrollContent className={styles.TriggerPanel}>
+        {isError && <NoSignal triggerId={triggerId} />}
+        {!isError && isLoading && <PageLoader className={styles.loading} />}
+        {!isError &&
+          !isLoading &&
+          (isLoggedIn ? (
+            <SignalMaster
+              isShared={isShared}
+              trigger={trigger}
+              setTitle={onSetDialogTitle}
+              onClose={() => setDialogOpenState(false)}
+              canRedirect={canRedirect}
+              metaFormSettings={metaFormSettings}
+              formChangedCallback={formChangedCallback}
+            />
+          ) : (
+            <SignalAnon className={styles.anon} />
+          ))}
+      </Dialog.ScrollContent>
+    </Dialog>
+  )
+}
+
+const signalModalTrigger = (
+  enabled,
   label,
   variant = 'fill',
   border = false
@@ -192,8 +226,8 @@ const signalModalTrigger = (
   <Button
     variant={variant}
     border={border}
+    disabled={!enabled}
     accent='positive'
-    disabled={!isLoggedIn}
     className={cx(styles.newSignal)}
   >
     <Icon type='plus-round' className={styles.newSignal__icon} />
