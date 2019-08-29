@@ -266,12 +266,12 @@ const mapParsedTrueFalseFields = object => {
 }
 
 const mapQSToState = ({ location }) =>
-  qs.parse(location.search, {
+  qs.parse(location.search.replace(/\?/g, '&'), {
     arrayFormat: 'bracket'
   })
 
 const mapStateToQS = state =>
-  '?' +
+  (window.location.search && '&') +
   qs.stringify(state, {
     arrayFormat: 'bracket'
   })
