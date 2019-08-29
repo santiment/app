@@ -271,7 +271,7 @@ const mapQSToState = ({ location }) =>
   })
 
 const mapStateToQS = state =>
-  (window.location.search && '&') +
+  '?' +
   qs.stringify(state, {
     arrayFormat: 'bracket'
   })
