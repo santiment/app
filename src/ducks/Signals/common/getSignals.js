@@ -11,6 +11,7 @@ GetSignals.defaultProps = {
 }
 
 const mapStateToProps = state => {
+  console.log('checkIsLoggedIn(state)', checkIsLoggedIn(state))
   return {
     isLoggedIn: checkIsLoggedIn(state)
   }
@@ -18,7 +19,13 @@ const mapStateToProps = state => {
 
 export const signalsGqlMapper = {
   name: 'Signals',
-  skip: ({ isLoggedIn, always = false }) => !always && !isLoggedIn,
+  skip: ({ isLoggedIn, always = false }) => {
+    console.log('can skip with ' + always, !always && !isLoggedIn)
+    return !always && !isLoggedIn
+  },
+  options: {
+    fetchPolicy: 'network-only'
+  },
   props: ({ Signals }) => {
     const { currentUser, featuredUserTriggers, loading, error } = Signals
     const signals = (currentUser || {}).triggers || featuredUserTriggers || []
