@@ -41,15 +41,16 @@ export const Metrics = {
     group: 'Token Flows/Movement/Activity',
     label: 'Token Age Consumed',
     fill: true,
+    video: 'https://www.youtube.com/watch?v=NZFtYT5QzS4',
     description: `
           Shows the amount of tokens changing addresses on a certain date,
-          multiplied by the number of days since they last moved
-`
+          multiplied by the number of days since they last moved`
   },
   exchangeFundsFlow: {
     category: 'On-chain',
     node: Line,
     label: 'Exchange Flow Balance',
+    video: 'https://www.youtube.com/watch?v=0R6GDF2bg6A',
     description: `The flows of tokens going in to and out of exchange wallets combined on one graph.
           If the value is positive, more tokens entered the exchange than left.
           If the value is negative, more flowed out of exchanges than flowed in.
@@ -60,11 +61,11 @@ export const Metrics = {
     node: Bar,
     group: 'Network Activity',
     label: 'Daily Active Addresses',
-    description: `
-          Shows the number of unique network addresses involved in transactions
-          on a certain date.
-          Simply put, DAA indicates the daily level of crowd interaction (or
-          speculation) with a certain token.`,
+    video: 'https://www.youtube.com/watch?v=n3dUvWvQEpQ',
+    description: `Shows the number of unique network addresses involved in transactions
+    on a certain date.
+    Simply put, DAA indicates the daily level of crowd interaction (or
+    speculation) with a certain token.`,
     color: 'texas-rose'
   },
   percentOfTokenSupplyOnExchanges: {
@@ -100,7 +101,8 @@ export const Metrics = {
     node: Line,
     group: 'Network value',
     label: 'Market Value To Realized Value',
-    dataKey: 'mvrv'
+    dataKey: 'mvrv',
+    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE'
   },
   transactionVolume: {
     alias: 'transaction_volume',
@@ -110,21 +112,18 @@ export const Metrics = {
     group: 'Token Flows/Movement/Activity',
     label: 'Transaction Volume',
     description: `
-          Shows the aggregate amount of tokens across all transactions that
-          happened on the network on a certain date.
-`
+    Shows the aggregate amount of tokens across all transactions that
+    happened on the network on a certain date.`
   },
   networkGrowth: {
     category: 'On-chain',
     node: Line,
     group: 'Network Activity',
     label: 'Network Growth',
-    description: `Shows the number of new addresses being created on the network each
-          day.
-          Essentially, this chart illustrates user adoption over time, and can
-          be used to identify when the project is gaining - or losing -
-          traction.
-`
+    video: 'https://www.youtube.com/watch?v=YaccxEEz8pg',
+    description: `Shows the number of new addresses being created on the network each day.
+    Essentially, this chart illustrates user adoption over time, and can
+    be used to identify when the project is gaining - or losing - traction.`
   },
   devActivity: {
     category: 'Development',

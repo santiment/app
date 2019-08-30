@@ -4,7 +4,7 @@
   z-index: 1000;
   padding: 16px;
   width: 275px;
-  height: 170px;
+  height: 160px;
   background: var(--white);
   border: 1px solid var(--porcelain);
   border-radius: 4px;
@@ -17,13 +17,16 @@
 }
 
 .title {
-  color: var(--waterloo);
+  color: var(--mirage);
   margin-bottom: 8px;
+
+  @include text('caption', 'm');
 }
 
-.title,
 .text {
-  @include text('body-3');
+  @include text('caption');
+
+  color: var(--fiord);
 }
 
 .visible__scroll {
@@ -31,4 +34,18 @@
   left: 0;
   top: 0;
   width: 100%;
+}
+
+.button {
+  width: 100%;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__text {
+    margin-left: 8px;
+
+    @include text('body-3');
+  }
 }
