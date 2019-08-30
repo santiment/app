@@ -5,7 +5,11 @@ import { mergeTimeseriesByKey } from './../../utils/utils'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import { hasMetric, getMetricQUERY, getPreTransform } from './timeseries'
 
-const mapDataToMergedTimeserieByDatetime = (items = [], errors) => {
+const mapDataToMergedTimeserieByDatetime = (
+  items = [],
+  errors,
+  key = 'timeseries'
+) => {
   const metricsInfo = {}
   const timeseries = mergeTimeseriesByKey({
     timeseries: items.reduce((acc, { data, __metric, loading }) => {
@@ -19,12 +23,12 @@ const mapDataToMergedTimeserieByDatetime = (items = [], errors) => {
     }, [])
   })
 
-  return Object.assign(metricsInfo, { timeseries })
+  return Object.assign(metricsInfo, { [key]: timeseries })
 }
 
 const fetchTimeseriesEpic = (action$, store, { client }) =>
   action$.ofType(actions.TIMESERIES_FETCH).mergeMap(action => {
-    const { id, metrics } = action.payload
+    const { id, metrics, events = [] } = action.payload
 
     if (
       process.env.NODE_ENV === 'development' ||
@@ -42,18 +46,20 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
 
     const errorMetrics = {}
 
-    const queries = metrics.map(metric => {
-      const { name, interval, from, to, timeRange, ...rest } = metric
+    const queries = Observable.from(
+      metrics.map(metric => {
+        const { name, interval, from, to, timeRange, ...rest } = metric
 
-      const timePeriod = {}
-      if (!from || !to) {
-        const { from: fromDate, to: toDate } = getIntervalByTimeRange(timeRange)
-        timePeriod.from = fromDate.toISOString()
-        timePeriod.to = toDate.toISOString()
-      }
+        const timePeriod = {}
+        if (!from || !to) {
+          const { from: fromDate, to: toDate } = getIntervalByTimeRange(
+            timeRange
+          )
+          timePeriod.from = fromDate.toISOString()
+          timePeriod.to = toDate.toISOString()
+        }
 
-      return Observable.fromPromise(
-        client
+        return client
           .query({
             query: getMetricQUERY(name),
             variables: {
@@ -68,22 +74,46 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
           .catch(({ message }) => {
             errorMetrics[name] = message
           })
-      )
-    })
+      })
+    )
 
-    return Observable.forkJoin(queries)
-      .mergeMap(res => {
-        const result = mapDataToMergedTimeserieByDatetime(
-          res.filter(Boolean),
+    const eventQueries = Observable.from(
+      events.map(({ name, ...variables }) =>
+        client
+          .query({
+            query: getMetricQUERY(name),
+            variables
+          })
+          .then(getPreTransform(name))
+          .catch(({ message }) => {
+            errorMetrics[name] = message
+          })
+      )
+    )
+
+    return Observable.forkJoin(
+      queries.concatAll().toArray(),
+      eventQueries.concatAll().toArray()
+    )
+      .mergeMap(([metricsRes, eventsRes]) => {
+        const metricsResult = mapDataToMergedTimeserieByDatetime(
+          metricsRes.filter(Boolean),
           errorMetrics
         )
+        const eventsResult = mapDataToMergedTimeserieByDatetime(
+          eventsRes.filter(Boolean),
+          errorMetrics,
+          'events'
+        )
+
         return Observable.of({
           type: actions.TIMESERIES_FETCH_SUCCESS,
           payload: {
             [id]: {
               isLoading: false,
               errorMetrics,
-              ...result
+              ...metricsResult,
+              ...eventsResult
             }
           }
         })

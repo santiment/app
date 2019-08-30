@@ -8,17 +8,24 @@ import {
   XAxis,
   YAxis,
   Brush,
-  ReferenceArea
+  ReferenceArea,
+  ReferenceDot
 } from 'recharts'
 import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { formatNumber, millify } from './../../utils/formatting'
+import { millify } from './../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
-import { Metrics, generateMetricsMarkup, findYAxisMetric } from './utils'
+import {
+  getEventsTooltipInfo,
+  Metrics,
+  generateMetricsMarkup,
+  findYAxisMetric
+} from './utils'
 import { checkHasPremium } from '../../pages/UserSelectors'
-import displayPaywall from './Paywall'
+import displayPaywall, { MOVE_CLB, CHECK_CLB } from './Paywall'
+import { binarySearch } from '../../pages/Trends/utils'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
 
@@ -41,20 +48,25 @@ const tooltipLabelFormatter = value => {
   return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
 }
 
-const valueFormatter = (value, name) => {
-  const numValue = +value
-  // NOTE(vanguard): Some values may not be present in a hovered data point, i.e. value === undefined/null;
-  if (!Number.isFinite(numValue)) return 'No data'
+const valueFormatter = (value, name, formatter) => {
+  try {
+    if (formatter) {
+      return formatter(value)
+    }
 
-  if (name === Metrics.historyPrice.label) {
-    return formatNumber(numValue, { currency: 'USD' })
+    const numValue = +value
+    // NOTE(vanguard): Some values may not be present in a hovered data point, i.e. value === undefined/null;
+    if (!Number.isFinite(numValue)) throw new Error()
+
+    if (numValue > 90000) {
+      return millify(numValue, 2)
+    }
+
+    return numValue.toFixed(2)
+  } catch (e) {
+    console.warn(e)
+    return 'No data'
   }
-
-  if (numValue > 900000) {
-    return millify(numValue, 2)
-  }
-
-  return numValue.toFixed(2)
 }
 
 class Charts extends React.Component {
@@ -62,20 +74,56 @@ class Charts extends React.Component {
     leftZoomIndex: undefined,
     rightZoomIndex: undefined,
     refAreaLeft: undefined,
-    refAreaRight: undefined
+    refAreaRight: undefined,
+    events: []
   }
 
+  eventsMap = new Map()
   metricRef = React.createRef()
 
   componentDidUpdate (prevProps) {
-    const { metrics } = this.props
+    const { metrics, events, chartData } = this.props
     if (this.props.chartData !== prevProps.chartData) {
       this.getXToYCoordinates()
     }
 
     if (metrics !== prevProps.metrics) {
+      const tooltipMetric = findYAxisMetric(metrics)
+      if (!tooltipMetric || chartData.length === 0) return
+
+      const { dataKey: tooltipMetricKey = tooltipMetric } = Metrics[
+        tooltipMetric
+      ]
+      this.eventsMap.clear()
+
       this.setState({
-        tooltipMetric: findYAxisMetric(metrics)
+        tooltipMetric,
+        events: events.map(({ datetime, __typename, ...rest }) => {
+          const { index, value } = binarySearch({
+            moveClb: MOVE_CLB,
+            checkClb: CHECK_CLB,
+            target: new Date(datetime),
+            array: chartData
+          })
+
+          const result = value || chartData[index]
+          const y = result[tooltipMetricKey]
+          this.eventsMap.set(result.datetime, getEventsTooltipInfo(rest))
+
+          return (
+            <ReferenceDot
+              yAxisId={`axis-${tooltipMetricKey}`}
+              r={3}
+              isFront
+              fill='var(--white)'
+              strokeWidth='2px'
+              stroke='var(--persimmon)'
+              key={datetime}
+              x={+new Date(datetime)}
+              y={y}
+            />
+          )
+        })
       })
     }
   }
@@ -136,6 +184,10 @@ class Charts extends React.Component {
 
     const { activeTooltipIndex, activeLabel, activePayload } = event
 
+    if (!activePayload) {
+      return
+    }
+
     const { tooltipMetric = 'historyPrice' } = this.state
     const coordinates = this.xToYCoordinates[activeTooltipIndex]
 
@@ -145,7 +197,9 @@ class Charts extends React.Component {
     const { x, y } = coordinates
 
     this.setState({
-      activePayload,
+      activePayload: activePayload.concat(
+        this.eventsMap.get(activeLabel) || []
+      ),
       x,
       y,
       refAreaRight: activeLabel,
@@ -180,7 +234,8 @@ class Charts extends React.Component {
       yValue,
       activePayload,
       hovered,
-      tooltipMetric
+      tooltipMetric,
+      events
     } = this.state
 
     const lines = generateMetricsMarkup(metrics, {
@@ -211,18 +266,23 @@ class Charts extends React.Component {
                   {tooltipLabelFormatter(xValue)}
                 </div>
                 <div className={styles.details__content}>
-                  {activePayload.map(({ name, value, color }) => {
-                    return (
-                      <div
-                        key={name}
-                        style={{ '--color': color }}
-                        className={styles.details__metric}
-                      >
-                        {valueFormatter(value, name)}
-                        <span className={styles.details__name}>{name}</span>
-                      </div>
-                    )
-                  })}
+                  {activePayload.map(
+                    ({ isEvent, name, value, color, formatter }) => {
+                      return (
+                        <div
+                          key={name}
+                          style={{ '--color': color }}
+                          className={cx(
+                            styles.details__metric,
+                            isEvent && styles.details__metric_dot
+                          )}
+                        >
+                          {valueFormatter(value, name, formatter)}
+                          <span className={styles.details__name}>{name}</span>
+                        </div>
+                      )
+                    }
+                  )}
                 </div>
               </div>
               <div
@@ -278,6 +338,8 @@ class Charts extends React.Component {
                 strokeOpacity={0.3}
               />
             )}
+
+            {metrics.includes(tooltipMetric) && events}
             {!hasPremium &&
               displayPaywall({
                 leftBoundaryDate,

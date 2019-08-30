@@ -36,7 +36,7 @@ const UpgradeBtn = ({ isLoggedIn, isUserLoading, dispatch, ...props }) => {
 
   return (
     <Query query={USER_SUBSCRIPTIONS_QUERY}>
-      {({ data: { currentUser }, loading }) => {
+      {({ data: { currentUser } = {}, loading }) => {
         const subscription = getCurrentSanbaseSubscription(currentUser)
 
         if (loading || subscription) {
