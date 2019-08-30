@@ -81,7 +81,7 @@ export const Detailed = ({
     <>
       <Breadcrumbs slug={project.slug} name={project.name} />
       <Query query={USER_SUBSCRIPTIONS_QUERY}>
-        {({ data: { currentUser } }) => {
+        {({ data: { currentUser } = {} }) => {
           const subscription = getCurrentSanbaseSubscription(currentUser)
           const userPlan = subscription ? subscription.plan.name : 'FREE'
           const boundaries = paywallBoundaries[userPlan]
