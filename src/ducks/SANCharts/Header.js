@@ -35,12 +35,12 @@ const ProjectInfo = createSkeletonProvider(
     color: 'var(--mystic)',
     backgroundColor: 'var(--mystic)'
   })
-)(({ name, ticker, description, logo64Url }) => (
+)(({ name, ticker, description, logoUrl }) => (
   <div className={styles.selector}>
-    {logo64Url ? (
-      <img src={logo64Url} width={40} height={40} alt='' />
+    {logoUrl ? (
+      <img src={logoUrl} width={40} height={40} alt='' />
     ) : (
-      <DefaultProjectIcon size={40} />
+      <DefaultProjectIcon size={40} name='' />
     )}
     <div className={styles.project}>
       <div className={styles.project__top}>
@@ -80,8 +80,7 @@ const Header = ({ data: { project = {} }, slug, isLoggedIn, onSlugSelect }) => {
     totalSupply = 0,
     priceUsd = 0,
     percentChange24h = 0,
-    percentChange7d = 0,
-    logo64Url
+    percentChange7d = 0
   } = project
 
   return (
