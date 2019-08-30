@@ -59,6 +59,9 @@
 }
 
 .details {
+  @include text('caption');
+
+  pointer-events: none;
   position: absolute;
   left: 47px;
   top: 5px;

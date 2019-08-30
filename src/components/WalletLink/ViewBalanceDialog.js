@@ -39,9 +39,4 @@ const BalancePageLink = ({ link }) => {
   )
 }
 
-/*
-*
->
-* */
-
 export default ViewBalanceDialog

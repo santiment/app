@@ -16,7 +16,7 @@ const ChartTooltip = ({
     active &&
     payload &&
     payload.length > 0 && (
-      <div>
+      <>
         <div className={cx(styles.details, className)}>
           <div className={styles.detailsTitle}>{labelFormatter(label)}</div>
           <div className={styles.detailsContent}>
@@ -34,7 +34,7 @@ const ChartTooltip = ({
             })}
           </div>
         </div>
-      </div>
+      </>
     )
   )
 }
