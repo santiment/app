@@ -78,6 +78,7 @@ class Charts extends React.Component {
     events: []
   }
 
+  eventsMap = new Map()
   metricRef = React.createRef()
 
   componentDidUpdate (prevProps) {
@@ -88,6 +89,8 @@ class Charts extends React.Component {
 
     if (metrics !== prevProps.metrics) {
       const tooltipMetric = findYAxisMetric(metrics)
+      if (!tooltipMetric || chartData.length === 0) return
+
       const { dataKey: tooltipMetricKey = tooltipMetric } = Metrics[
         tooltipMetric
       ]
@@ -181,6 +184,10 @@ class Charts extends React.Component {
 
     const { activeTooltipIndex, activeLabel, activePayload } = event
 
+    if (!activePayload) {
+      return
+    }
+
     const { tooltipMetric = 'historyPrice' } = this.state
     const coordinates = this.xToYCoordinates[activeTooltipIndex]
 
@@ -204,8 +211,6 @@ class Charts extends React.Component {
       hovered: true
     })
   }, 16)
-
-  eventsMap = new Map()
 
   render () {
     const {
