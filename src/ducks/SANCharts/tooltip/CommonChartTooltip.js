@@ -9,11 +9,12 @@ const ChartTooltip = ({
   labelFormatter = tooltipLabelFormatter,
   className,
   active,
-  payload = [],
+  payload,
   label
 }) => {
   return (
     active &&
+    payload &&
     payload.length > 0 && (
       <div>
         <div className={cx(styles.details, className)}>

@@ -12,8 +12,6 @@
 }
 
 .title {
-  margin-bottom: 1rem;
-
   @include text('h3');
 
   color: var(--mirage);
@@ -33,7 +31,6 @@
 
 .historicalBalancePage {
   @include responsive('desktop') {
-    margin-bottom: 2em !important;
     width: $breakpoint-desktop;
   }
 }

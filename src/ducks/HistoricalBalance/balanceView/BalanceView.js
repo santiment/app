@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Input from '@santiment-network/ui/Input'
 import cx from 'classnames'
 import isEqual from 'lodash.isequal'
@@ -19,11 +19,23 @@ const LoadableChartSettings = Loadable({
 
 const DEFAULT_TIME_RANGE = '6m'
 
-const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
+const BalanceView = ({
+  address = '',
+  assets = [],
+  onChangeQuery,
+  classes = {}
+}) => {
   const [walletAndAssets, setWalletAndAssets] = useState({
     address,
     assets
   })
+
+  const setWalletsAndAssetsWrapper = data => {
+    setWalletAndAssets(data)
+    onChangeQuery(data)
+  }
+
+  console.log('walletAndAssets', walletAndAssets)
 
   const [chartSettings, setChartSettings] = useState({
     timeRange: DEFAULT_TIME_RANGE,
@@ -31,15 +43,11 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
   })
 
   if (!isEqual(walletAndAssets.assets, assets)) {
-    setWalletAndAssets({ ...walletAndAssets, assets })
+    setWalletsAndAssetsWrapper({ ...walletAndAssets, assets })
   }
 
-  useEffect(() => {
-    onChangeQuery(walletAndAssets)
-  }, walletAndAssets)
-
-  const handleChange = event => {
-    setWalletAndAssets({
+  const handleWalletChange = event => {
+    setWalletsAndAssetsWrapper({
       ...walletAndAssets,
       [event.target.name]: event.target.value
     })
@@ -50,7 +58,7 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
       ...walletAndAssets,
       assets
     }
-    setWalletAndAssets(newState)
+    setWalletsAndAssetsWrapper(newState)
     onChangeQuery(newState)
   }
 
@@ -78,14 +86,15 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
   const { timeRange, from, to } = chartSettings
 
   return (
-    <div className={styles.container}>
+    <div className={cx(styles.container, classes.balanceViewContainer)}>
       <BalanceViewWalletAssets
         address={stateAddress}
         assets={stateAssets}
         handleAssetsChange={handleAssetsChange}
-        handleChange={handleChange}
+        handleWalletChange={handleWalletChange}
+        classes={classes}
       />
-      <div className={styles.chart}>
+      <div className={cx(styles.chart, classes.balanceViewChart)}>
         <BalanceChartHeader assets={stateAssets} address={stateAddress}>
           <LoadableChartSettings
             defaultTimerange={timeRange}
@@ -121,12 +130,12 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
                 return (data[name] || {}).loading
               }).length > 0
             return (
-              <div>
+              <>
                 {loading && (
                   <StatusDescription label={'Calculating balance...'} />
                 )}
                 {<HistoricalBalanceChart data={data} />}
-              </div>
+              </>
             )
           }}
         />
@@ -147,7 +156,8 @@ const BalanceViewWalletAssets = ({
   address,
   assets,
   handleAssetsChange,
-  handleChange
+  handleWalletChange,
+  classes = {}
 }) => {
   return (
     <div className={styles.filters}>
@@ -164,7 +174,7 @@ const BalanceViewWalletAssets = ({
           isError={!isPossibleEthAddress(address)}
           name='address'
           placeholder='Paste the address'
-          onChange={handleChange}
+          onChange={handleWalletChange}
         />
       </div>
       <div className={cx(styles.InputWrapper, styles.address)}>
