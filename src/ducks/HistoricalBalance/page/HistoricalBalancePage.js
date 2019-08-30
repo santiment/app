@@ -1,38 +1,46 @@
 import React, { Component } from 'react'
 import cx from 'classnames'
-import * as qs from 'query-string'
 import BalanceView from '../balanceView/BalanceView'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
-import { mapStateToQS } from '../../../utils/utils'
+import { mapQSToState, mapStateToQS } from '../../../utils/utils'
 import styles from './HistoricalBalancePage.module.scss'
 
-export const mapQSToState = ({ location, address, assets } = {}) => {
-  if (!location) {
+export const mapToState = props => {
+  if (props.location) {
+    const { address: newAddress, assets: newAssets } = mapQSToState(props)
+
+    return {
+      address: newAddress || '',
+      assets: newAssets || []
+    }
+  } else {
+    const { address, assets } = props
     return {
       address,
       assets
     }
   }
-
-  const { newAddress = '', newAssets = [] } = qs.parse(location.search, {
-    arrayFormat: 'bracket'
-  })
-
-  return {
-    address: newAddress,
-    assets: newAssets
-  }
 }
 
 export default class HistoricalBalancePage extends Component {
   state = {
-    ...mapQSToState(this.props)
+    ...mapToState(this.props)
   }
 
   static defaultProps = {
     showTitle: true,
     classes: {}
+  }
+
+  static getDerivedStateFromProps (nextProps, prevState) {
+    const { assets, address } = nextProps
+
+    if (!assets || !address) {
+      return { ...mapToState(nextProps) }
+    } else {
+      return prevState
+    }
   }
 
   render () {

@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
 import Input from '@santiment-network/ui/Input'
 import cx from 'classnames'
-import isEqual from 'lodash.isequal'
 import GetHistoricalBalance from '../GetHistoricalBalance'
 import HistoricalBalanceChart from '../chart/HistoricalBalanceChart'
 import AssetsField from '../AssetsField'
 import BalanceChartHeader from './BalanceChartHeader'
-import styles from './BalanceView.module.scss'
 import Loadable from 'react-loadable'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import { isPossibleEthAddress } from '../../Signals/utils/utils'
 import { mapAssetsToFlatArray } from '../page/HistoricalBalancePage'
+import styles from './BalanceView.module.scss'
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./BalanceViewChartSettings'),
@@ -35,16 +34,10 @@ const BalanceView = ({
     onChangeQuery(data)
   }
 
-  console.log('walletAndAssets', walletAndAssets)
-
   const [chartSettings, setChartSettings] = useState({
     timeRange: DEFAULT_TIME_RANGE,
     ...getIntervalByTimeRange(DEFAULT_TIME_RANGE)
   })
-
-  if (!isEqual(walletAndAssets.assets, assets)) {
-    setWalletsAndAssetsWrapper({ ...walletAndAssets, assets })
-  }
 
   const handleWalletChange = event => {
     setWalletsAndAssetsWrapper({
@@ -59,7 +52,6 @@ const BalanceView = ({
       assets
     }
     setWalletsAndAssetsWrapper(newState)
-    onChangeQuery(newState)
   }
 
   const { address: stateAddress, assets: stateAssets } = walletAndAssets
