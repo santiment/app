@@ -9,7 +9,7 @@ import Icon from '@santiment-network/ui/Icon'
 import ChartSignalCreationDialog from './ChartSignalCreationDialog'
 import PercentChanges from '../../components/PercentChanges'
 import WatchlistsPopup from '../../components/WatchlistPopup/WatchlistsPopup'
-import DefaultProjectIcon from '../../components/ProjectIcon'
+import ProjectIcon from '../../components/ProjectIcon'
 import GetProjects from '../Signals/common/projects/getProjects'
 import { TriggerProjectsSelector } from '../Signals/signalFormManager/signalCrudForm/formParts/projectsSelector/TriggerProjectsSelector'
 import { formatNumber } from '../../utils/formatting'
@@ -37,10 +37,10 @@ const ProjectInfo = createSkeletonProvider(
   })
 )(({ name, ticker, description, logoUrl }) => (
   <div className={styles.selector}>
-    {logoUrl ? (
+    {logoUrl && logoUrl.includes('https') ? (
       <img src={logoUrl} width={40} height={40} alt='' />
     ) : (
-      <DefaultProjectIcon size={40} name='' />
+      <ProjectIcon size={40} name={name} ticker={ticker} />
     )}
     <div className={styles.project}>
       <div className={styles.project__top}>
