@@ -229,6 +229,8 @@ const MobileDetailedPage = props => {
                               slug={slug}
                               activeMetric={extraMetric}
                               onClick={toggleExtraMetric}
+                              from={from}
+                              to={to}
                             />
                           )}
                           {transactionVolumeInfo && (
