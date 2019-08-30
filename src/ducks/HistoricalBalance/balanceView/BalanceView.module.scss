@@ -118,7 +118,6 @@
 }
 
 .settings {
-  margin-right: 50px;
   padding: 0;
 
   @include responsive('phone', 'phone-xs') {
@@ -134,7 +133,7 @@
 }
 
 .datesSelector {
-  margin-right: 24px;
+  margin-right: 16px;
 }
 
 .expanderButton {
@@ -144,4 +143,8 @@
   @include responsive('phone', 'phone-xs') {
     top: -52px;
   }
+}
+
+.shareBtn {
+  margin-left: 16px;
 }

@@ -10,6 +10,7 @@ import { getIntervalByTimeRange } from '../../../utils/dates'
 import { isPossibleEthAddress } from '../../Signals/utils/utils'
 import { mapAssetsToFlatArray } from '../page/HistoricalBalancePage'
 import styles from './BalanceView.module.scss'
+import { mapStateToQS } from '../../../utils/utils'
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./BalanceViewChartSettings'),
@@ -95,6 +96,7 @@ const BalanceView = ({
             from={from}
             to={to}
             classes={styles}
+            queryString={mapStateToQS({ address, assets })}
           />
         </BalanceChartHeader>
 

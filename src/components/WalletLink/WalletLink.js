@@ -1,11 +1,10 @@
 import React from 'react'
-import * as qs from 'query-string'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import Label from '@santiment-network/ui/Label'
 import SmoothDropdownItem from './../SmoothDropdown/SmoothDropdownItem'
-import styles from './WalletLink.module.scss'
 import ViewBalanceDialog from './ViewBalanceDialog'
+import styles from './WalletLink.module.scss'
 
 const propTypes = {
   address: PropTypes.string.isRequired,
@@ -62,9 +61,6 @@ const Address = ({ isExchange, ...rest }) => (
     {isExchange && <Label className={styles.exchange}>exchange</Label>}
   </>
 )
-
-export const getSearch = ({ address, assets }) =>
-  '?' + qs.stringify({ address, assets }, { arrayFormat: 'bracket' })
 
 WalletLink.propTypes = propTypes
 
