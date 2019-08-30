@@ -277,7 +277,8 @@ class ChartPage extends Component {
       children,
       leftBoundaryDate,
       rightBoundaryDate,
-      isLoggedIn
+      isLoggedIn,
+      events = []
     } = this.props
 
     const requestedMetrics = metrics.map(metric => {
@@ -292,15 +293,25 @@ class ChartPage extends Component {
       }
     })
 
+    const requestedEvents = events.map(event => ({
+      name: event,
+      from,
+      to,
+      slug,
+      interval
+    }))
+
     if (adjustNightMode) {
       document.body.classList.toggle('night-mode', !!nightMode)
     }
 
     return (
       <GetTimeSeries
+        events={requestedEvents}
         metrics={requestedMetrics}
         render={({
           timeseries = [],
+          events = [],
           errorMetrics = {},
           isError,
           isLoading,
@@ -379,6 +390,7 @@ class ChartPage extends Component {
                       onZoom={this.onZoom}
                       onZoomOut={this.onZoomOut}
                       isZoomed={zoom}
+                      events={events}
                       chartData={(timeseries && zoom
                         ? timeseries.slice(zoom[0], zoom[1])
                         : timeseries
