@@ -311,16 +311,15 @@ export const TriggerForm = ({
                         styles.isRepeatingRow
                       )}
                     >
-                      <div className={styles.isRepeating}>
-                        <FormikCheckbox
-                          name='isRepeating'
-                          isActive={!isRepeating}
-                          label='Disable after it triggers'
-                          onClick={() => {
-                            setFieldValue('isRepeating', !isRepeating)
-                          }}
-                        />
-                      </div>
+                      <FormikCheckbox
+                        className={styles.isRepeating}
+                        name='isRepeating'
+                        isActive={!isRepeating}
+                        label='Disable after it triggers'
+                        onClick={() => {
+                          setFieldValue('isRepeating', !isRepeating)
+                        }}
+                      />
                     </div>
 
                     <TriggerFormBlockDivider />
