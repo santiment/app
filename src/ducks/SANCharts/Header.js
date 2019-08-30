@@ -4,6 +4,7 @@ import {
   createSkeletonProvider
 } from '@trainline/react-skeletor'
 import { graphql } from 'react-apollo'
+import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import ChartSignalCreationDialog from './ChartSignalCreationDialog'
@@ -16,14 +17,6 @@ import { formatNumber } from '../../utils/formatting'
 import { PROJECT_BY_SLUG_QUERY } from './gql'
 import ALL_PROJECTS from '../../allProjects.json'
 import styles from './Header.module.scss'
-
-const Changes = ({ small = false, className, children, diff, label }) => (
-  <div className={styles[small ? 'changes_small' : 'changes']}>
-    {children}
-    <PercentChanges className={className} changes={diff} />
-    {label}
-  </div>
-)
 
 const H1 = createSkeletonElement('h1')
 
@@ -94,21 +87,32 @@ const Header = ({ data: { project = {} }, slug, isLoggedIn, onSlugSelect }) => {
         }}
       />
 
-      <div>
-        <Changes diff={percentChange24h} label='24h' className={styles.change}>
-          {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
-        </Changes>
-        <Changes
-          small
-          diff={percentChange7d}
-          label='7d'
-          className={styles.change_small}
-        >
-          {formatNumber(totalSupply)} {ticker}
-        </Changes>
+      <div className={styles.projectInfo}>
+        <div className={cx(styles.column, styles.column__first)}>
+          <div className={styles.usdWrapper}>
+            <span className={styles.price}>
+              {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
+            </span>
+            <span className={styles.currency}>USD</span>
+          </div>
+          <div>
+            <span>{formatNumber(totalSupply)}</span>
+            <span className={styles.currency}>{ticker}</span>
+          </div>
+        </div>
+        <div className={styles.column}>
+          <span className={cx(styles.changesLabel, styles.changesLabel__first)}>
+            24h change
+          </span>
+          <PercentChanges changes={percentChange24h} label='24h' />
+        </div>
+        <div className={styles.column}>
+          <span className={styles.changesLabel}>7d change</span>
+          <PercentChanges changes={percentChange7d} label='7d' />
+        </div>
       </div>
 
-      <div>
+      <div className={styles.actions}>
         <ChartSignalCreationDialog
           slug={slug}
           trigger={

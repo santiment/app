@@ -3,6 +3,7 @@
 .wrapper {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 0 0 32px;
 }
 
@@ -35,34 +36,6 @@
   }
 }
 
-.changes {
-  @include text('h4');
-
-  color: var(--mirage);
-
-  &_small {
-    color: var(--waterloo);
-
-    @include text('body-3');
-  }
-}
-
-.change {
-  margin: 0 5px 0 11px;
-
-  &_small {
-    margin: 0 5px 0 7px;
-  }
-}
-
-.btn {
-  margin-right: 16px;
-
-  &__icon {
-    margin-right: 8px;
-  }
-}
-
 .selector {
   display: flex;
   align-items: center;
@@ -70,5 +43,68 @@
 
   &:hover .project__top {
     fill: var(--jungle-green);
+  }
+}
+
+.projectInfo {
+  display: flex;
+  align-items: center;
+
+  & .column {
+    display: flex;
+    flex-direction: column;
+
+    &__first {
+      margin-right: 40px;
+    }
+  }
+}
+
+.currency {
+  margin-left: 5px;
+
+  @include text('body-3');
+}
+
+.usdWrapper {
+  @include text('h4');
+
+  color: var(--mirage);
+
+  & .currency {
+    color: var(--waterloo);
+  }
+}
+
+.changesLabel {
+  color: var(--waterloo);
+
+  @include text('body-3');
+
+  padding-top: 6px;
+  margin: 0 0 4px;
+
+  &__first {
+    margin-right: 25px;
+  }
+}
+
+.actions {
+  display: flex;
+
+  @include responsive('tablet') {
+    flex-direction: column;
+  }
+}
+
+.btn {
+  margin: 0 16px 0 0;
+
+  &__icon {
+    margin-right: 8px;
+  }
+
+  @include responsive('tablet') {
+    margin: 0 0 6px;
   }
 }
