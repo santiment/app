@@ -15,7 +15,7 @@ import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { formatNumber, millify } from './../../utils/formatting'
+import { millify } from './../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import {
   getEventsTooltipInfo,
@@ -56,7 +56,7 @@ const valueFormatter = (value, name, formatter) => {
 
     const numValue = +value
     // NOTE(vanguard): Some values may not be present in a hovered data point, i.e. value === undefined/null;
-    if (!Number.isFinite(numValue)) new Error()
+    if (!Number.isFinite(numValue)) throw new Error()
 
     if (numValue > 90000) {
       return millify(numValue, 2)
@@ -232,10 +232,6 @@ class Charts extends React.Component {
       tooltipMetric,
       events
     } = this.state
-
-    const { dataKey: tooltipMetricKey = tooltipMetric } = tooltipMetric
-      ? Metrics[tooltipMetric]
-      : {}
 
     const lines = generateMetricsMarkup(metrics, {
       ref: { [tooltipMetric]: this.metricRef }

@@ -85,6 +85,9 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
             variables
           })
           .then(getPreTransform(name))
+          .catch(({ message }) => {
+            errorMetrics[name] = message
+          })
       )
     )
 
@@ -102,7 +105,6 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
           errorMetrics,
           'events'
         )
-        console.log(metricsResult, eventsResult)
 
         return Observable.of({
           type: actions.TIMESERIES_FETCH_SUCCESS,
