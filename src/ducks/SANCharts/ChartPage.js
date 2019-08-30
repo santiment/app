@@ -277,7 +277,8 @@ class ChartPage extends Component {
       children,
       leftBoundaryDate,
       rightBoundaryDate,
-      isLoggedIn
+      isLoggedIn,
+      events = []
     } = this.props
 
     const requestedMetrics = metrics.map(metric => {
@@ -292,21 +293,21 @@ class ChartPage extends Component {
       }
     })
 
+    const requestedEvents = events.map(event => ({
+      name: event,
+      from,
+      to,
+      slug,
+      interval
+    }))
+
     if (adjustNightMode) {
       document.body.classList.toggle('night-mode', !!nightMode)
     }
 
     return (
       <GetTimeSeries
-        events={[
-          {
-            name: 'trendPositionHistory',
-            from,
-            to,
-            slug,
-            interval
-          }
-        ]}
+        events={requestedEvents}
         metrics={requestedMetrics}
         render={({
           timeseries = [],

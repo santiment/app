@@ -49,6 +49,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
               metrics={['historyPrice', 'mvrvRatio', 'socialVolume']}
               classes={styles}
               isLoggedIn={isLoggedIn}
+              events={['trendPositionHistory']}
               {...boundaries}
             />
           )
