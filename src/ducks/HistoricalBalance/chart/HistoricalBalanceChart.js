@@ -27,7 +27,7 @@ const formatTooltipDatetime = datetime => {
 
 const COLORS = ['#14C393', '#8358FF', '#5275FF', '#FF5B5B', '#68DBF4']
 
-const HistoricalBalanceChart = ({ data }) => {
+const HistoricalBalanceChart = ({ data, showYAxes = true }) => {
   const timeseries = Object.keys(data).map(name => {
     if (!data[name]) return []
     return data[name].items.map(({ datetime, balance }) => ({
@@ -43,6 +43,7 @@ const HistoricalBalanceChart = ({ data }) => {
   const yAxes = Object.keys(data).map((name, index) => (
     <YAxis
       yAxisId={name}
+      hide={!showYAxes}
       tickFormatter={formatTokensCount}
       stroke={COLORS[index]}
       key={name}

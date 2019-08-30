@@ -76,6 +76,8 @@ const BalanceView = ({
     })
   }
 
+  const [showYAxes, toggleYAxes] = useState(true)
+
   const { timeRange, from, to } = chartSettings
 
   return (
@@ -97,6 +99,8 @@ const BalanceView = ({
             to={to}
             classes={styles}
             queryString={mapStateToQS({ address, assets })}
+            showYAxes={showYAxes}
+            toggleYAxes={toggleYAxes}
           />
         </BalanceChartHeader>
 
@@ -128,7 +132,7 @@ const BalanceView = ({
                 {loading && (
                   <StatusDescription label={'Calculating balance...'} />
                 )}
-                {<HistoricalBalanceChart data={data} />}
+                {<HistoricalBalanceChart showYAxes={showYAxes} data={data} />}
               </>
             )
           }}
