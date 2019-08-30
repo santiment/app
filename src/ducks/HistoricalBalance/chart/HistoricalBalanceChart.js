@@ -86,7 +86,7 @@ const HistoricalBalanceChart = ({ data }) => {
           <Tooltip
             content={
               <ChartTooltip
-                labelFormatter={formatTooltipDatetime()}
+                labelFormatter={formatTooltipDatetime}
                 formatter={formatTokensCount}
                 className={styles.tooltip}
               />
