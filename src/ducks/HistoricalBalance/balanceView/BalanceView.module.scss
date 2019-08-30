@@ -45,6 +45,14 @@
 .toggleY {
   display: flex;
   align-items: center;
+  height: 32px;
+  padding: 6px 12px;
+}
+
+.toggleLabel {
+  &:hover {
+    color: var(--jungle-green);
+  }
 }
 
 .chartParams {
@@ -132,6 +140,8 @@
 }
 
 .calendarButton {
+  margin-right: 16px;
+
   @include responsive('phone', 'phone-xs') {
     margin-top: 10px;
   }
@@ -148,8 +158,4 @@
   @include responsive('phone', 'phone-xs') {
     top: -52px;
   }
-}
-
-.shareBtn {
-  margin-left: 16px;
 }

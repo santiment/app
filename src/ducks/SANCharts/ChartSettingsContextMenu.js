@@ -29,7 +29,9 @@ const ChartSettingsContextMenu = ({
   onNightModeSelect,
   shareLink,
   activeMetrics,
-  title
+  title,
+  showDownload = true,
+  children
 }) => {
   return (
     <ContextMenu
@@ -65,15 +67,18 @@ const ChartSettingsContextMenu = ({
             </Button>
           )}
         />
-        <ChartDownloadBtn
-          fluid
-          variant='ghost'
-          metrics={activeMetrics}
-          title={title}
-          chartRef={chartRef}
-        >
-          Download as PNG
-        </ChartDownloadBtn>
+        {showDownload && (
+          <ChartDownloadBtn
+            fluid
+            variant='ghost'
+            metrics={activeMetrics}
+            title={title}
+            chartRef={chartRef}
+          >
+            Download as PNG
+          </ChartDownloadBtn>
+        )}
+        {children}
       </Panel>
     </ContextMenu>
   )

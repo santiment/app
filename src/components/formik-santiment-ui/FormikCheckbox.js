@@ -24,7 +24,8 @@ export const CheckboxWrapper = ({
   disabled,
   required,
   label,
-  className
+  className,
+  classes = {}
 }) => {
   const clickHandler = !disabled ? onClick : null
   return (
@@ -38,7 +39,11 @@ export const CheckboxWrapper = ({
       />
       <FormikLabel
         text={label}
-        className={cx(styles.checkboxLabel, required && styles.required)}
+        className={cx(
+          styles.checkboxLabel,
+          required && styles.required,
+          classes.toggleLabel
+        )}
         onClick={clickHandler}
       />
     </div>
