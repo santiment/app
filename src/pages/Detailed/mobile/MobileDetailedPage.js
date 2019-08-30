@@ -124,7 +124,12 @@ const MobileDetailedPage = props => {
   ]
 
   if (extraMetric) {
-    metrics.push(Object.assign({}, metrics[0], { name: extraMetric.name }))
+    const metric = { name: extraMetric.name }
+    if (extraMetric.name === 'devActivity') {
+      metric.transform = 'movingAverage'
+      metric.movingAverageIntervalBase = 7
+    }
+    metrics.push(Object.assign({}, metrics[0], metric))
   }
 
   return (
