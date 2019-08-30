@@ -16,6 +16,10 @@
 .name {
   color: var(--mirage);
 
+  & span {
+    @include text('body-3');
+  }
+
   &:hover {
     color: var(--jungle-green);
 
