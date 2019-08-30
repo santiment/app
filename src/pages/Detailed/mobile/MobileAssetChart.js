@@ -14,6 +14,10 @@ import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils.js'
 import CustomTooltip from '../../../ducks/SANCharts/CustomTooltip'
 import styles from './MobileAssetChart.module.scss'
 
+const NAMES_ENUM = {
+  devActivity: 'activity'
+}
+
 const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
   const metrics = ['historyPricePreview']
   if (extraMetric) metrics.push(extraMetric.name)
@@ -22,6 +26,7 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
   let anomalyDataKey, anomalies
   if (extraMetric) {
     anomalyDataKey = extraMetric.name
+    if (NAMES_ENUM[anomalyDataKey]) anomalyDataKey = NAMES_ENUM[anomalyDataKey]
     anomalies = extraMetric.anomalies.map(anomaly => {
       const el = data.find(item => item.datetime === anomaly.datetime)
       if (el) {
@@ -44,7 +49,7 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
           <YAxis
             hide
             domain={['auto', 'dataMax']}
-            dataKey={extraMetric ? extraMetric.name : 'priceUsd'}
+            dataKey={extraMetric ? anomalyDataKey : 'priceUsd'}
           />
           <Tooltip
             content={<CustomTooltip />}

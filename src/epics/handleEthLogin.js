@@ -5,6 +5,7 @@ import * as actions from './../actions/types'
 import { handleErrorAndTriggerAction } from './utils'
 import { getUserWallet } from '../pages/UserSelectors'
 import { savePrevAuthProvider } from './../utils/localStorage'
+import { USER_GQL_FRAGMENT } from './handleLaunch'
 
 const ETH_LOGIN_QUERY = gql`
   mutation ethLogin(
@@ -18,19 +19,8 @@ const ETH_LOGIN_QUERY = gql`
       messageHash: $messageHash
     ) {
       token
-      user {
-        firstLogin
-        id
-        email
-        username
-        sanBalance
-        privacyPolicyAccepted
-        marketingAccepted
-        ethAccounts {
-          address
-          sanBalance
-        }
-      }
+      user 
+        ${USER_GQL_FRAGMENT}
     }
   }
 `
