@@ -2,7 +2,10 @@ import React from 'react'
 import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import CalendarBtn from '../../../components/Calendar/CalendarBtn'
+import { CheckboxWrapper } from '../../../components/formik-santiment-ui/FormikCheckbox'
+import ChartSettingsContextMenu from '../../SANCharts/ChartSettingsContextMenu'
 import styles from './../../SANCharts/ChartPage.module.scss'
+import balanceViewStyles from './BalanceView.module.scss'
 
 const BalanceViewChartSettings = ({
   defaultTimerange,
@@ -12,10 +15,13 @@ const BalanceViewChartSettings = ({
   to,
   classes = {
     chartSettings: ''
-  }
+  },
+  queryString = '',
+  toggleYAxes,
+  showYAxes
 }) => {
   return (
-    <div className={cx(styles.settings, classes.settings)}>
+    <div className={cx(styles.settings, classes.chartSettings)}>
       <Selector
         className={classes.datesSelector}
         options={['1d', '1w', '1m', '3m', '6m', 'all']}
@@ -23,11 +29,28 @@ const BalanceViewChartSettings = ({
         onSelectOption={onTimerangeChange}
         defaultSelected={defaultTimerange}
       />
+
       <CalendarBtn
         className={classes.calendarButton}
         onChange={onCalendarChange}
         value={[new Date(from), new Date(to)]}
       />
+
+      <ChartSettingsContextMenu
+        showNightModeToggle={false}
+        shareLink={window.location.origin + '/labs/balance' + queryString}
+        showDownload={false}
+      >
+        <CheckboxWrapper
+          className={balanceViewStyles.toggleY}
+          classes={balanceViewStyles}
+          label='Show Y axes'
+          onClick={() => {
+            toggleYAxes(!showYAxes)
+          }}
+          isActive={showYAxes}
+        />
+      </ChartSettingsContextMenu>
     </div>
   )
 }

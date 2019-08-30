@@ -186,8 +186,9 @@ const ChannelCheckbox = ({
   recheckBrowserNotifications
 }) => {
   return (
-    <div className={styles.checkboxBlock}>
+    <div className={styles.checkbox}>
       <FormikCheckbox
+        className={styles.checkboxBlock}
         name={'checkBox' + channel}
         disabled={isDisabled(channel)}
         isActive={isActive(channel)}

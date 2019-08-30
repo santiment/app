@@ -35,12 +35,12 @@ const CHART_MARGINS = {
   right: 0
 }
 
-const tickFormatter = date => {
+export const tickFormatter = date => {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
   return `${DD} ${MMM} ${YY}`
 }
 
-const tooltipLabelFormatter = value => {
+export const tooltipLabelFormatter = value => {
   const date = new Date(value)
   const { MMMM, DD, YYYY } = getDateFormats(date)
   const { HH, mm } = getTimeFormats(date)

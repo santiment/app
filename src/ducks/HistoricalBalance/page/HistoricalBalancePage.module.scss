@@ -33,7 +33,6 @@
 
 .historicalBalancePage {
   @include responsive('desktop') {
-    margin-bottom: 2em !important;
     width: $breakpoint-desktop;
   }
 }

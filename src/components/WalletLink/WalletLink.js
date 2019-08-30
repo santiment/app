@@ -1,10 +1,9 @@
 import React from 'react'
-import * as qs from 'query-string'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import Label from '@santiment-network/ui/Label'
 import SmoothDropdownItem from './../SmoothDropdown/SmoothDropdownItem'
+import ViewBalanceDialog from './ViewBalanceDialog'
 import styles from './WalletLink.module.scss'
 
 const propTypes = {
@@ -18,7 +17,8 @@ const WalletLink = ({
   address,
   assets = [],
   isTx = false,
-  isExchange = false
+  isExchange = false,
+  isDesktop
 }) => (
   <SmoothDropdownItem
     trigger={<Address address={address} isTx={isTx} isExchange={isExchange} />}
@@ -26,15 +26,11 @@ const WalletLink = ({
     <ul className={styles.wrapper}>
       {!isTx && (
         <li>
-          <Link
-            to={{
-              pathname: '/labs/balance',
-              search: getSearch({ address, assets })
-            }}
-            className={styles.link}
-          >
-            Show historical balance
-          </Link>
+          <ViewBalanceDialog
+            assets={assets}
+            address={address}
+            isDesktop={isDesktop}
+          />
         </li>
       )}
       <li>
@@ -65,9 +61,6 @@ const Address = ({ isExchange, ...rest }) => (
     {isExchange && <Label className={styles.exchange}>exchange</Label>}
   </>
 )
-
-const getSearch = ({ address, assets }) =>
-  '?' + qs.stringify({ address, assets }, { arrayFormat: 'bracket' })
 
 WalletLink.propTypes = propTypes
 

@@ -1,0 +1,47 @@
+@import '../../../../node_modules/@santiment-network/ui/mixins';
+@import '../../../../node_modules/@santiment-network/ui/variables';
+
+.details {
+  @include text('caption');
+
+  pointer-events: none;
+  border: 1px solid var(--porcelain);
+  background: rgba($white, 0.85);
+  border-radius: 4px;
+  z-index: 3;
+  color: var(--mirage);
+
+  :global(.night-mode) & {
+    background: rgba($mirage, 0.85);
+  }
+}
+
+.detailsTitle {
+  color: var(--waterloo);
+  background: var(--athens);
+  padding: 6px 11px;
+}
+
+.detailsContent {
+  padding: 10px 12px;
+}
+
+.detailsMetric {
+  display: flex;
+  align-items: center;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    height: 1.5px;
+    width: 8px;
+    background: var(--color);
+    margin-right: 8px;
+    border-radius: 1px;
+  }
+}
+
+.detailsName {
+  color: var(--casper);
+  margin-left: 4px;
+}
