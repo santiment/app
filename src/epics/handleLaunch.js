@@ -6,30 +6,34 @@ import gql from 'graphql-tag'
 import { hasMetamask } from './../web3Helpers'
 import * as actions from './../actions/types'
 
+export const USER_GQL_FRAGMENT = gql`
+  {
+    firstLogin
+    id
+    email
+    username
+    sanBalance
+    privacyPolicyAccepted
+    marketingAccepted
+    ethAccounts {
+      address
+      sanBalance
+    }
+    settings {
+      hasTelegramConnected
+      signalNotifyEmail
+      signalNotifyTelegram
+      newsletterSubscription
+      isBetaMode
+      theme
+    }
+    apikeys
+  }
+`
 export const userGQL = gql`
   query {
-    currentUser {
-      firstLogin
-      id
-      email
-      username
-      sanBalance
-      privacyPolicyAccepted
-      marketingAccepted
-      ethAccounts {
-        address
-        sanBalance
-      }
-      settings {
-        hasTelegramConnected
-        signalNotifyEmail
-        signalNotifyTelegram
-        newsletterSubscription
-        isBetaMode
-        theme
-      }
-      apikeys
-    }
+    currentUser 
+      ${USER_GQL_FRAGMENT}
   }
 `
 
