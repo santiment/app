@@ -2,8 +2,9 @@ import React from 'react'
 import cx from 'classnames'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import CalendarBtn from '../../../components/Calendar/CalendarBtn'
-import { CheckboxWrapper } from '../../../components/formik-santiment-ui/FormikCheckbox'
 import ChartSettingsContextMenu from '../../SANCharts/ChartSettingsContextMenu'
+import Toggle from '@santiment-network/ui/Toggle'
+import Button from '@santiment-network/ui/Button'
 import styles from './../../SANCharts/ChartPage.module.scss'
 import balanceViewStyles from './BalanceView.module.scss'
 
@@ -41,15 +42,15 @@ const BalanceViewChartSettings = ({
         shareLink={window.location.origin + '/labs/balance' + queryString}
         showDownload={false}
       >
-        <CheckboxWrapper
+        <Button
+          fluid
+          variant='ghost'
+          onClick={() => toggleYAxes(!showYAxes)}
           className={balanceViewStyles.toggleY}
-          classes={balanceViewStyles}
-          label='Show Y axes'
-          onClick={() => {
-            toggleYAxes(!showYAxes)
-          }}
-          isActive={showYAxes}
-        />
+        >
+          Show Y axes
+          <Toggle isActive={showYAxes} className={balanceViewStyles.toggler} />
+        </Button>
       </ChartSettingsContextMenu>
     </div>
   )

@@ -20,7 +20,7 @@ export const signalsGqlMapper = {
   name: 'Signals',
   skip: ({ isLoggedIn, always = false }) => !always && !isLoggedIn,
   options: {
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'cache-and-network'
   },
   props: ({ Signals }) => {
     const { currentUser, featuredUserTriggers, loading, error } = Signals
