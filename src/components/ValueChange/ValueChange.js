@@ -18,7 +18,14 @@ const ValueChange = ({ className, change, render }) => {
       className={className}
       style={{ color: `var(--${accent})`, fill: `var(--${accent})` }}
     >
-      {changed && <Icon type={triangle} className={styles.triangle} />}
+      {changed && (
+        <div
+          className={styles.triangle}
+          style={{ background: `var(--${accent}-light)` }}
+        >
+          <Icon type={triangle} />
+        </div>
+      )}
       {render(Math.abs(change))}
     </span>
   )
