@@ -42,6 +42,19 @@
   }
 }
 
+.toggleY {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 6px 12px;
+}
+
+.toggleLabel {
+  &:hover {
+    color: var(--jungle-green);
+  }
+}
+
 .chartParams {
   margin-left: auto;
 
@@ -118,7 +131,6 @@
 }
 
 .settings {
-  margin-right: 50px;
   padding: 0;
 
   @include responsive('phone', 'phone-xs') {
@@ -128,13 +140,15 @@
 }
 
 .calendarButton {
+  margin-right: 16px;
+
   @include responsive('phone', 'phone-xs') {
     margin-top: 10px;
   }
 }
 
 .datesSelector {
-  margin-right: 24px;
+  margin-right: 16px;
 }
 
 .expanderButton {

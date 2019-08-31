@@ -98,6 +98,14 @@
       margin-right: 8px;
       border-radius: 1px;
     }
+
+    &_dot::before {
+      border-radius: 50%;
+      width: 8px;
+      height: 8px;
+      background: var(--white);
+      border: 2px solid var(--color);
+    }
   }
 
   &__name {

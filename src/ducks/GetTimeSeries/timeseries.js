@@ -19,6 +19,27 @@ import { PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES } from './queries/percent_of_token
 import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from './queries/top_holders_percent_of_total_supply'
 import { GET_METRIC } from './queries/get_metric'
 import { mergeTimeseriesByKey } from './../../utils/utils'
+import gql from 'graphql-tag'
+
+const PROJECT_TREND_HISTORY_QUERY = gql`
+  query getProjectTrendingHistory(
+    $from: DateTime!
+    $to: DateTime!
+    $interval: String
+    $slug: String!
+  ) {
+    getProjectTrendingHistory(
+      size: 10
+      from: $from
+      to: $to
+      slug: $slug
+      interval: $interval
+    ) {
+      datetime
+      position
+    }
+  }
+`
 
 const TIMESERIES = {
   ethSpentOverTime: {
@@ -103,6 +124,11 @@ const TIMESERIES = {
           datetime: longestTSData.datetime
         })
       })
+  },
+  trendPositionHistory: {
+    query: PROJECT_TREND_HISTORY_QUERY,
+    preTransform: ({ getProjectTrendingHistory: data }) =>
+      data.filter(({ position }) => position)
   }
 }
 

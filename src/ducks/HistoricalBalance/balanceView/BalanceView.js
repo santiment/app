@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Input from '@santiment-network/ui/Input'
 import cx from 'classnames'
-import isEqual from 'lodash.isequal'
 import GetHistoricalBalance from '../GetHistoricalBalance'
 import HistoricalBalanceChart from '../chart/HistoricalBalanceChart'
 import AssetsField from '../AssetsField'
 import BalanceChartHeader from './BalanceChartHeader'
-import styles from './BalanceView.module.scss'
 import Loadable from 'react-loadable'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import { isPossibleEthAddress } from '../../Signals/utils/utils'
 import { mapAssetsToFlatArray } from '../page/HistoricalBalancePage'
+import styles from './BalanceView.module.scss'
+import { mapStateToQS } from '../../../utils/utils'
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./BalanceViewChartSettings'),
@@ -19,27 +19,29 @@ const LoadableChartSettings = Loadable({
 
 const DEFAULT_TIME_RANGE = '6m'
 
-const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
+const BalanceView = ({
+  address = '',
+  assets = [],
+  onChangeQuery,
+  classes = {}
+}) => {
   const [walletAndAssets, setWalletAndAssets] = useState({
     address,
     assets
   })
+
+  const setWalletsAndAssetsWrapper = data => {
+    setWalletAndAssets(data)
+    onChangeQuery(data)
+  }
 
   const [chartSettings, setChartSettings] = useState({
     timeRange: DEFAULT_TIME_RANGE,
     ...getIntervalByTimeRange(DEFAULT_TIME_RANGE)
   })
 
-  if (!isEqual(walletAndAssets.assets, assets)) {
-    setWalletAndAssets({ ...walletAndAssets, assets })
-  }
-
-  useEffect(() => {
-    onChangeQuery(walletAndAssets)
-  }, walletAndAssets)
-
-  const handleChange = event => {
-    setWalletAndAssets({
+  const handleWalletChange = event => {
+    setWalletsAndAssetsWrapper({
       ...walletAndAssets,
       [event.target.name]: event.target.value
     })
@@ -50,8 +52,7 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
       ...walletAndAssets,
       assets
     }
-    setWalletAndAssets(newState)
-    onChangeQuery(newState)
+    setWalletsAndAssetsWrapper(newState)
   }
 
   const { address: stateAddress, assets: stateAssets } = walletAndAssets
@@ -75,17 +76,20 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
     })
   }
 
+  const [showYAxes, toggleYAxes] = useState(true)
+
   const { timeRange, from, to } = chartSettings
 
   return (
-    <div className={styles.container}>
+    <div className={cx(styles.container, classes.balanceViewContainer)}>
       <BalanceViewWalletAssets
         address={stateAddress}
         assets={stateAssets}
         handleAssetsChange={handleAssetsChange}
-        handleChange={handleChange}
+        handleWalletChange={handleWalletChange}
+        classes={classes}
       />
-      <div className={styles.chart}>
+      <div className={cx(styles.chart, classes.balanceViewChart)}>
         <BalanceChartHeader assets={stateAssets} address={stateAddress}>
           <LoadableChartSettings
             defaultTimerange={timeRange}
@@ -94,6 +98,9 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
             from={from}
             to={to}
             classes={styles}
+            queryString={mapStateToQS({ address, assets })}
+            showYAxes={showYAxes}
+            toggleYAxes={toggleYAxes}
           />
         </BalanceChartHeader>
 
@@ -121,12 +128,12 @@ const BalanceView = ({ address = '', assets = [], onChangeQuery }) => {
                 return (data[name] || {}).loading
               }).length > 0
             return (
-              <div>
+              <>
                 {loading && (
                   <StatusDescription label={'Calculating balance...'} />
                 )}
-                {<HistoricalBalanceChart data={data} />}
-              </div>
+                {<HistoricalBalanceChart showYAxes={showYAxes} data={data} />}
+              </>
             )
           }}
         />
@@ -147,7 +154,8 @@ const BalanceViewWalletAssets = ({
   address,
   assets,
   handleAssetsChange,
-  handleChange
+  handleWalletChange,
+  classes = {}
 }) => {
   return (
     <div className={styles.filters}>
@@ -164,7 +172,7 @@ const BalanceViewWalletAssets = ({
           isError={!isPossibleEthAddress(address)}
           name='address'
           placeholder='Paste the address'
-          onChange={handleChange}
+          onChange={handleWalletChange}
         />
       </div>
       <div className={cx(styles.InputWrapper, styles.address)}>

@@ -114,7 +114,7 @@ const main = () => {
             }
           }
         ],
-        dismissAfter: 8000,
+        dismissAfter: 1000 * 60 * 5,
         isWide: true
       })
     )

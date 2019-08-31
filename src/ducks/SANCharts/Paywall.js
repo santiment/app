@@ -3,7 +3,7 @@ import { ReferenceArea } from 'recharts'
 import { binarySearch } from '../../pages/Trends/utils'
 import { getTimeIntervalFromToday, DAY, MONTH } from '../../utils/dates'
 
-const MOVE_CLB = (target, { datetime }) => {
+export const MOVE_CLB = (target, { datetime }) => {
   const value = new Date(datetime)
 
   const targetFullYear = target.getFullYear()
@@ -30,7 +30,7 @@ const MOVE_CLB = (target, { datetime }) => {
   return target.getHours() < value.getHours()
 }
 
-const CHECK_CLB = (target, { datetime }) => {
+export const CHECK_CLB = (target, { datetime }) => {
   const value = new Date(datetime)
 
   return (
