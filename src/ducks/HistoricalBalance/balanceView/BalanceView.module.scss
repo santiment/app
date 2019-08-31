@@ -49,10 +49,8 @@
   padding: 6px 12px;
 }
 
-.toggleLabel {
-  &:hover {
-    color: var(--jungle-green);
-  }
+.toggler {
+  margin-left: 10px;
 }
 
 .chartParams {
