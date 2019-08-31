@@ -21,20 +21,25 @@ import styles from './SonarFeedPage.module.scss'
 import { RecommendedSignals } from './SonarFeedRecommendations'
 
 const baseLocation = '/sonar'
-const editTriggerSettingsModalLocation = `${baseLocation}/signal/:id`
 const openTriggerSettingsModalLocation = `${baseLocation}/signal/:id`
 
+const LoadableMySignals = Loadable({
+  loader: () => import('./SonarFeedMySignalsPage'),
+  loading: () => <PageLoader />
+})
+
+const MY_SIGNALS = {
+  index: SIGNAL_ROUTES.MY_SIGNALS,
+  path: [SIGNAL_ROUTES.MY_SIGNALS, openTriggerSettingsModalLocation],
+  content: 'My signals',
+  component: LoadableMySignals
+}
+
 const tabs = [
-  {
-    index: SIGNAL_ROUTES.MY_SIGNALS,
-    content: 'My signals',
-    component: Loadable({
-      loader: () => import('./SonarFeedMySignalsPage'),
-      loading: () => <PageLoader />
-    })
-  },
+  MY_SIGNALS,
   {
     index: `${baseLocation}/activity`,
+    path: `${baseLocation}/activity`,
     content: 'Activity',
     component: Loadable({
       loader: () => import('./SonarFeedActivityPage'),
@@ -74,9 +79,8 @@ const SonarFeed = ({
 
   useEffect(
     () => {
-      const pathParams =
-        matchPath(pathname, editTriggerSettingsModalLocation) ||
-        matchPath(pathname, openTriggerSettingsModalLocation)
+      const pathParams = matchPath(pathname, openTriggerSettingsModalLocation)
+
       if (triggerId && !pathParams) {
         setTriggerId(undefined)
       } else if (pathParams && pathParams.params) {
@@ -139,8 +143,8 @@ const SonarFeed = ({
         <Switch>
           {isUserLoading && <PageLoader className={styles.loader} />}
           {!isUserLoading && !isLoggedIn ? <AnonymouseInSonar /> : ''}
-          {tabs.map(({ index, component }) => (
-            <Route key={index} path={index} component={component} />
+          {tabs.map(({ index, path, component }) => (
+            <Route key={index} path={path} component={component} />
           ))}
           {defaultRoute}
         </Switch>
