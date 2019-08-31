@@ -4,9 +4,13 @@ import {
   createSkeletonProvider
 } from '@trainline/react-skeletor'
 import { graphql } from 'react-apollo'
+import withSizes from 'react-sizes'
+import { compose } from 'recompose'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
+import { mapSizesToProps } from '../../utils/withSizes'
+import Range from '../../components/WatchlistOverview/Range'
 import ChartSignalCreationDialog from './ChartSignalCreationDialog'
 import PercentChanges from '../../components/PercentChanges'
 import WatchlistsPopup from '../../components/WatchlistPopup/WatchlistsPopup'
@@ -70,7 +74,13 @@ const ProjectSelector = ({ slug, project, onChange }) => (
   />
 )
 
-const Header = ({ data: { project = {} }, slug, isLoggedIn, onSlugSelect }) => {
+const Header = ({
+  data: { project = {} },
+  slug,
+  isLoggedIn,
+  onSlugSelect,
+  isTablet
+}) => {
   const {
     id,
     ticker,
@@ -98,22 +108,33 @@ const Header = ({ data: { project = {} }, slug, isLoggedIn, onSlugSelect }) => {
               {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
             </span>
             <span className={styles.currency}>USD</span>
+            {isTablet && (
+              <Range range='24h' className={styles.range}>
+                <PercentChanges changes={percentChange24h} />
+              </Range>
+            )}
           </div>
           <div>
             <span>{formatNumber(totalSupply)}</span>
             <span className={styles.currency}>{ticker}</span>
           </div>
         </div>
-        <div className={styles.column}>
-          <span className={cx(styles.changesLabel, styles.changesLabel__first)}>
-            24h change
-          </span>
-          <PercentChanges changes={percentChange24h} label='24h' />
-        </div>
-        <div className={styles.column}>
-          <span className={styles.changesLabel}>7d change</span>
-          <PercentChanges changes={percentChange7d} label='7d' />
-        </div>
+        {!isTablet && (
+          <>
+            <div className={styles.column}>
+              <span
+                className={cx(styles.changesLabel, styles.changesLabel__first)}
+              >
+                24h change
+              </span>
+              <PercentChanges changes={percentChange24h} label='24h' />
+            </div>
+            <div className={styles.column}>
+              <span className={styles.changesLabel}>7d change</span>
+              <PercentChanges changes={percentChange7d} label='7d' />
+            </div>
+          </>
+        )}
       </div>
 
       <div className={styles.actions}>
@@ -143,6 +164,9 @@ const Header = ({ data: { project = {} }, slug, isLoggedIn, onSlugSelect }) => {
   )
 }
 
-export default graphql(PROJECT_BY_SLUG_QUERY, {
-  options: ({ slug }) => ({ variables: { slug } })
-})(Header)
+export default compose(
+  graphql(PROJECT_BY_SLUG_QUERY, {
+    options: ({ slug }) => ({ variables: { slug } })
+  }),
+  withSizes(mapSizesToProps)
+)(Header)

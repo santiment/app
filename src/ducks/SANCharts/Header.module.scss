@@ -47,21 +47,24 @@
 }
 
 .projectInfo {
+  padding: 0 5px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+
+  @include responsive('laptop', 'desktop') {
+    min-width: 315px;
+  }
 
   & .column {
     display: flex;
     flex-direction: column;
-
-    &__first {
-      margin-right: 40px;
-    }
+    padding: 5px;
   }
 }
 
 .currency {
-  margin-left: 5px;
+  margin: 0 5px;
 
   @include text('body-3');
 }
@@ -70,6 +73,9 @@
   @include text('h4');
 
   color: var(--mirage);
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
 
   & .currency {
     color: var(--waterloo);
@@ -83,16 +89,12 @@
 
   padding-top: 6px;
   margin: 0 0 4px;
-
-  &__first {
-    margin-right: 25px;
-  }
 }
 
 .actions {
   display: flex;
 
-  @include responsive('tablet') {
+  @include responsive('tablet', 'laptop') {
     flex-direction: column;
   }
 }
@@ -104,7 +106,13 @@
     margin-right: 8px;
   }
 
-  @include responsive('tablet') {
+  @include responsive('tablet', 'laptop') {
     margin: 0 0 6px;
   }
+}
+
+.range {
+  display: inline-flex;
+
+  @include text('body-3');
 }
