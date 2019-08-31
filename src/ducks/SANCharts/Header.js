@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   createSkeletonElement,
   createSkeletonProvider
@@ -74,6 +74,69 @@ const ProjectSelector = ({ slug, project, onChange }) => (
   />
 )
 
+const PriceWithChanges = ({
+  isTablet,
+  percentChange24h,
+  percentChange7d,
+  priceUsd,
+  ticker,
+  totalSupply
+}) => {
+  const RANGES = [
+    { range: '24h', value: percentChange24h },
+    { range: '7d', value: percentChange7d }
+  ]
+
+  let [activeRange, setActiveRange] = useState(0)
+
+  return (
+    <div className={styles.projectInfo}>
+      <div className={cx(styles.column, styles.column__first)}>
+        <div className={styles.usdWrapper}>
+          <span className={styles.price}>
+            {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
+          </span>
+          <span className={styles.currency}>USD</span>
+          {isTablet && (
+            <Range
+              range={RANGES[activeRange].range}
+              className={styles.range}
+              changeRange={() => {
+                const nextRangeIndex = ++activeRange
+                setActiveRange(
+                  nextRangeIndex >= RANGES.length ? 0 : nextRangeIndex
+                )
+              }}
+            >
+              <PercentChanges changes={RANGES[activeRange].value} />
+            </Range>
+          )}
+        </div>
+        <div>
+          <span>{formatNumber(totalSupply)}</span>
+          <span className={styles.currency}>{ticker}</span>
+        </div>
+      </div>
+      {!isTablet && (
+        <>
+          <div className={styles.column}>
+            <span
+              className={cx(styles.changesLabel, styles.changesLabel__first)}
+            >
+              24h change
+            </span>
+            <PercentChanges changes={percentChange24h} label='24h' />
+          </div>
+          <div className={styles.column}>
+            <span className={styles.changesLabel}>7d change</span>
+            <PercentChanges changes={percentChange7d} label='7d' />
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
 const Header = ({
   data: { project = {} },
   slug,
@@ -101,41 +164,14 @@ const Header = ({
         }}
       />
 
-      <div className={styles.projectInfo}>
-        <div className={cx(styles.column, styles.column__first)}>
-          <div className={styles.usdWrapper}>
-            <span className={styles.price}>
-              {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
-            </span>
-            <span className={styles.currency}>USD</span>
-            {isTablet && (
-              <Range range='24h' className={styles.range}>
-                <PercentChanges changes={percentChange24h} />
-              </Range>
-            )}
-          </div>
-          <div>
-            <span>{formatNumber(totalSupply)}</span>
-            <span className={styles.currency}>{ticker}</span>
-          </div>
-        </div>
-        {!isTablet && (
-          <>
-            <div className={styles.column}>
-              <span
-                className={cx(styles.changesLabel, styles.changesLabel__first)}
-              >
-                24h change
-              </span>
-              <PercentChanges changes={percentChange24h} label='24h' />
-            </div>
-            <div className={styles.column}>
-              <span className={styles.changesLabel}>7d change</span>
-              <PercentChanges changes={percentChange7d} label='7d' />
-            </div>
-          </>
-        )}
-      </div>
+      <PriceWithChanges
+        isTablet={isTablet}
+        totalSupply={totalSupply}
+        percentChange7d={percentChange7d}
+        percentChange24h={percentChange24h}
+        ticker={ticker}
+        priceUsd={priceUsd}
+      />
 
       <div className={styles.actions}>
         <ChartSignalCreationDialog

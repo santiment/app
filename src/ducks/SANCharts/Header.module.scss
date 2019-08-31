@@ -9,7 +9,10 @@
 
 .project {
   margin-left: 16px;
-  max-width: 285px;
+
+  @include responsive('tablet') {
+    max-width: 285px;
+  }
 
   &__top {
     display: flex;
