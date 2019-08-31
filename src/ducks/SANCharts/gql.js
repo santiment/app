@@ -20,6 +20,7 @@ export const PROJECT_BY_SLUG_QUERY = gql`
       percentChange24h
       percentChange7d
       totalSupply
+      logoUrl
     }
   }
 `

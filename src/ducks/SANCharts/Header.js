@@ -36,9 +36,13 @@ const ProjectInfo = createSkeletonProvider(
     color: 'var(--mystic)',
     backgroundColor: 'var(--mystic)'
   })
-)(({ name, ticker, description }) => (
+)(({ name, ticker, description, logoUrl }) => (
   <div className={styles.selector}>
-    <ProjectIcon name={name} ticker={ticker} size={40} />
+    {logoUrl && logoUrl.includes('https') ? (
+      <img src={logoUrl} width={40} height={40} alt='' />
+    ) : (
+      <ProjectIcon size={40} name={name} ticker={ticker} />
+    )}
     <div className={styles.project}>
       <div className={styles.project__top}>
         <H1 className={styles.project__name}>
