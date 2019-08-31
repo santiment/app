@@ -177,7 +177,11 @@ const Header = ({
         <ChartSignalCreationDialog
           slug={slug}
           trigger={
-            <Button border className={styles.btn}>
+            <Button
+              accent='positive'
+              border
+              className={cx(styles.btn, styles.signal)}
+            >
               <Icon type='signal' className={styles.btn__icon} />
               Add signal
             </Button>
@@ -186,7 +190,7 @@ const Header = ({
 
         <WatchlistsPopup
           trigger={
-            <Button accent='positive' variant='fill'>
+            <Button accent='positive' border className={styles.btn}>
               <Icon type='add-watchlist' className={styles.btn__icon} />
               Watch {ticker}
             </Button>

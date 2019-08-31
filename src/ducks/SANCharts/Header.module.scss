@@ -5,13 +5,17 @@
   justify-content: space-between;
   align-items: center;
   margin: 0 0 32px;
+
+  @include responsive('tablet') {
+    justify-content: flex-start;
+  }
 }
 
 .project {
   margin-left: 16px;
 
   @include responsive('tablet') {
-    max-width: 285px;
+    max-width: 278px;
   }
 
   &__top {
@@ -60,6 +64,10 @@
     min-width: 315px;
   }
 
+  @include responsive('tablet') {
+    margin-left: 16px;
+  }
+
   & .column {
     display: flex;
     flex-direction: column;
@@ -101,17 +109,25 @@
   @include responsive('tablet', 'laptop') {
     flex-direction: column;
   }
+
+  @include responsive('tablet') {
+    margin-left: auto;
+  }
 }
 
 .btn {
-  margin: 0 16px 0 0;
+  color: var(--mirage);
+
+  &.signal {
+    margin: 0 16px 0 0;
+
+    @include responsive('tablet', 'laptop') {
+      margin: 0 0 6px;
+    }
+  }
 
   &__icon {
     margin-right: 8px;
-  }
-
-  @include responsive('tablet', 'laptop') {
-    margin: 0 0 6px;
   }
 }
 
