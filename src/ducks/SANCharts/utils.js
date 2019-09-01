@@ -275,23 +275,23 @@ export const setupColorGenerator = () => {
   }
 }
 const TriangleBar = props => {
-  const { fill, x, y, width, height, index, map } = props
+  const { fill, x, y, width, height, index, map, value } = props
 
   const obj = map.get(index)
-  if (index === 1) {
-    /* console.log(props) */
+  if (index - 1 <= 0) {
+    console.log(props)
   }
 
-  if (Number.isNaN(y)) return null
+  if (value === undefined) return null
 
   if (!obj) {
     map.set(index, {
       x,
       width,
-      metrics: new Map([[fill, [height, y]]])
+      metrics: new Map([[fill, [height, y, x]]])
     })
   } else {
-    obj.metrics.set(fill, [height, y])
+    obj.metrics.set(fill, [height, y, x])
   }
 
   return null
@@ -326,10 +326,6 @@ export const generateMetricsMarkup = (
       opacity = 1,
       formatter
     } = typeof metric === 'object' ? metric : Metrics[metric]
-
-    if (El === Bar && hadBar) {
-      return acc
-    }
 
     const rest = {
       [El === Bar ? 'fill' : 'stroke']: `var(--${generateColor(color)})`,
@@ -371,21 +367,44 @@ export const generateMetricsMarkup = (
     return acc
   }, [])
 
+  const barMetricsSorter = ({ height: a }, { height: b }) => b - a
+  const mapToData = ([fill, [height, y, x]]) => ({
+    fill,
+    height,
+    y,
+    x
+  })
+
+  console.log(map)
   res.unshift(
-    <g>
-      {[...map.values()].map(({ x, width, metrics }) => {
-        const [fill, [height, y]] = [...metrics.entries()][0]
-        return (
-          <rect
-            opacity='1'
-            fill={fill}
-            width={width}
-            height={height}
-            x={x}
-            y={y}
-            radius='0'
-          />
-        )
+    <g key='barMetrics'>
+      {[...map.values()].map(({ x: initX, width, metrics }) => {
+        const mapped = [...metrics.entries()].map(mapToData)
+        let resX = initX
+
+        if (metrics.size > 1) {
+          const xSum = mapped.reduce((acc, { x }) => {
+            return acc + x
+          }, 0)
+          resX = xSum / metrics.size
+        } else {
+          resX = resX - 3
+        }
+
+        return mapped
+          .sort(barMetricsSorter)
+          .map(({ fill, height, y }) => (
+            <rect
+              key={fill + initX}
+              opacity='1'
+              fill={fill}
+              width='4'
+              height={height}
+              x={resX}
+              y={y}
+              radius='0'
+            />
+          ))
       })}
     </g>
   )
