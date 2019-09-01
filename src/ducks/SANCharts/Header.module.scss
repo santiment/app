@@ -3,11 +3,20 @@
 .wrapper {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 0 0 32px;
+
+  @include responsive('tablet') {
+    justify-content: flex-start;
+  }
 }
 
 .project {
   margin-left: 16px;
+
+  @include responsive('tablet') {
+    max-width: 278px;
+  }
 
   &__top {
     display: flex;
@@ -35,34 +44,6 @@
   }
 }
 
-.changes {
-  @include text('h4');
-
-  color: var(--mirage);
-
-  &_small {
-    color: var(--waterloo);
-
-    @include text('body-3');
-  }
-}
-
-.change {
-  margin: 0 5px 0 11px;
-
-  &_small {
-    margin: 0 5px 0 7px;
-  }
-}
-
-.btn {
-  margin-right: 16px;
-
-  &__icon {
-    margin-right: 8px;
-  }
-}
-
 .selector {
   display: flex;
   align-items: center;
@@ -71,4 +52,87 @@
   &:hover .project__top {
     fill: var(--jungle-green);
   }
+}
+
+.projectInfo {
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @include responsive('laptop', 'desktop') {
+    min-width: 315px;
+  }
+
+  @include responsive('tablet') {
+    margin-left: 16px;
+  }
+
+  & .column {
+    display: flex;
+    flex-direction: column;
+    padding: 0 7px;
+  }
+}
+
+.currency {
+  margin: 0 5px;
+
+  @include text('body-3');
+}
+
+.usdWrapper {
+  @include text('h4');
+
+  color: var(--mirage);
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+
+  & .currency {
+    color: var(--waterloo);
+  }
+}
+
+.changesLabel {
+  color: var(--waterloo);
+
+  @include text('body-3');
+
+  padding-top: 6px;
+  margin: 0 0 4px;
+}
+
+.actions {
+  display: flex;
+
+  @include responsive('tablet', 'laptop') {
+    flex-direction: column;
+  }
+
+  @include responsive('tablet') {
+    margin-left: auto;
+  }
+}
+
+.btn {
+  color: var(--mirage);
+
+  &.signal {
+    margin: 0 16px 0 0;
+
+    @include responsive('tablet', 'laptop') {
+      margin: 0 0 6px;
+    }
+  }
+
+  &__icon {
+    margin-right: 8px;
+  }
+}
+
+.range {
+  display: inline-flex;
+
+  @include text('body-3');
 }

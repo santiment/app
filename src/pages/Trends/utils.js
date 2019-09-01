@@ -28,7 +28,7 @@ export const binarySearch = ({
   }
 
   return {
-    value: checkClb(target, value) ? value : undefined,
+    value: value && checkClb(target, value) ? value : undefined,
     index: middle
   }
 }

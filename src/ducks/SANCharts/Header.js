@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   createSkeletonElement,
   createSkeletonProvider
 } from '@trainline/react-skeletor'
 import { graphql } from 'react-apollo'
+import withSizes from 'react-sizes'
+import { compose } from 'recompose'
+import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
+import { mapSizesToProps } from '../../utils/withSizes'
+import Range from '../../components/WatchlistOverview/Range'
 import ChartSignalCreationDialog from './ChartSignalCreationDialog'
 import PercentChanges from '../../components/PercentChanges'
 import WatchlistsPopup from '../../components/WatchlistPopup/WatchlistsPopup'
@@ -16,14 +21,6 @@ import { formatNumber } from '../../utils/formatting'
 import { PROJECT_BY_SLUG_QUERY } from './gql'
 import ALL_PROJECTS from '../../allProjects.json'
 import styles from './Header.module.scss'
-
-const Changes = ({ small = false, className, children, diff, label }) => (
-  <div className={styles[small ? 'changes_small' : 'changes']}>
-    {children}
-    <PercentChanges className={className} changes={diff} />
-    {label}
-  </div>
-)
 
 const H1 = createSkeletonElement('h1')
 
@@ -77,7 +74,76 @@ const ProjectSelector = ({ slug, project, onChange }) => (
   />
 )
 
-const Header = ({ data: { project = {} }, slug, isLoggedIn, onSlugSelect }) => {
+const PriceWithChanges = ({
+  isTablet,
+  percentChange24h,
+  percentChange7d,
+  priceUsd,
+  ticker,
+  totalSupply
+}) => {
+  const RANGES = [
+    { range: '24h', value: percentChange24h },
+    { range: '7d', value: percentChange7d }
+  ]
+
+  let [activeRange, setActiveRange] = useState(0)
+
+  return (
+    <div className={styles.projectInfo}>
+      <div className={cx(styles.column, styles.column__first)}>
+        <div className={styles.usdWrapper}>
+          <span className={styles.price}>
+            {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
+          </span>
+          <span className={styles.currency}>USD</span>
+          {isTablet && (
+            <Range
+              range={RANGES[activeRange].range}
+              className={styles.range}
+              changeRange={() => {
+                const nextRangeIndex = ++activeRange
+                setActiveRange(
+                  nextRangeIndex >= RANGES.length ? 0 : nextRangeIndex
+                )
+              }}
+            >
+              <PercentChanges changes={RANGES[activeRange].value} />
+            </Range>
+          )}
+        </div>
+        <div>
+          <span>{formatNumber(totalSupply)}</span>
+          <span className={styles.currency}>{ticker}</span>
+        </div>
+      </div>
+      {!isTablet && (
+        <>
+          <div className={styles.column}>
+            <span
+              className={cx(styles.changesLabel, styles.changesLabel__first)}
+            >
+              24h change
+            </span>
+            <PercentChanges changes={percentChange24h} label='24h' />
+          </div>
+          <div className={styles.column}>
+            <span className={styles.changesLabel}>7d change</span>
+            <PercentChanges changes={percentChange7d} label='7d' />
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+const Header = ({
+  data: { project = {} },
+  slug,
+  isLoggedIn,
+  onSlugSelect,
+  isTablet
+}) => {
   const {
     id,
     ticker,
@@ -98,25 +164,24 @@ const Header = ({ data: { project = {} }, slug, isLoggedIn, onSlugSelect }) => {
         }}
       />
 
-      <div>
-        <Changes diff={percentChange24h} label='24h' className={styles.change}>
-          {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
-        </Changes>
-        <Changes
-          small
-          diff={percentChange7d}
-          label='7d'
-          className={styles.change_small}
-        >
-          {formatNumber(totalSupply)} {ticker}
-        </Changes>
-      </div>
+      <PriceWithChanges
+        isTablet={isTablet}
+        totalSupply={totalSupply}
+        percentChange7d={percentChange7d}
+        percentChange24h={percentChange24h}
+        ticker={ticker}
+        priceUsd={priceUsd}
+      />
 
-      <div>
+      <div className={styles.actions}>
         <ChartSignalCreationDialog
           slug={slug}
           trigger={
-            <Button border className={styles.btn}>
+            <Button
+              accent='positive'
+              border
+              className={cx(styles.btn, styles.signal)}
+            >
               <Icon type='signal' className={styles.btn__icon} />
               Add signal
             </Button>
@@ -125,7 +190,7 @@ const Header = ({ data: { project = {} }, slug, isLoggedIn, onSlugSelect }) => {
 
         <WatchlistsPopup
           trigger={
-            <Button accent='positive' variant='fill'>
+            <Button accent='positive' border className={styles.btn}>
               <Icon type='add-watchlist' className={styles.btn__icon} />
               Watch {ticker}
             </Button>
@@ -139,6 +204,9 @@ const Header = ({ data: { project = {} }, slug, isLoggedIn, onSlugSelect }) => {
   )
 }
 
-export default graphql(PROJECT_BY_SLUG_QUERY, {
-  options: ({ slug }) => ({ variables: { slug } })
-})(Header)
+export default compose(
+  graphql(PROJECT_BY_SLUG_QUERY, {
+    options: ({ slug }) => ({ variables: { slug } })
+  }),
+  withSizes(mapSizesToProps)
+)(Header)
