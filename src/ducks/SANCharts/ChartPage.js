@@ -278,7 +278,8 @@ class ChartPage extends Component {
       leftBoundaryDate,
       rightBoundaryDate,
       isLoggedIn,
-      events = []
+      events = [],
+      AfterHeader
     } = this.props
 
     const requestedMetrics = metrics.map(metric => {
@@ -344,6 +345,7 @@ class ChartPage extends Component {
                   onSlugSelect={this.onSlugSelect}
                 />
               )}
+              {AfterHeader}
               <div className={styles.wrapper}>
                 <div
                   className={cx(
