@@ -134,6 +134,10 @@
 
 .shareBtn {
   padding-left: 0;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-left: auto;
+  }
 }
 
 .popupButton {
