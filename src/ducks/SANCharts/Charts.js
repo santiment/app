@@ -106,7 +106,7 @@ class Charts extends React.Component {
             array: chartData
           })
 
-          if (!value && index === -1) {
+          if (index === -1 || index >= chartData.length) {
             return null
           }
 
