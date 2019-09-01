@@ -305,7 +305,7 @@ const mapToData = ([fill, { height, y, x }]) => ({
   x
 })
 
-function getHalfWidth (diff) {
+function getBarMargin (diff) {
   if (diff < 1.3) {
     return 0.3
   }
@@ -322,9 +322,12 @@ function getHalfWidth (diff) {
 
 export const generateMetricsMarkup = (
   metrics,
-  { current: chartRef },
-  coordinates,
-  { ref = {}, data = {} } = {}
+  {
+    ref = {},
+    data = {},
+    chartRef: { current: chartRef } = {},
+    coordinates
+  } = {}
 ) => {
   const metricWithYAxis = findYAxisMetric(metrics)
   const generateColor = setupColorGenerator()
@@ -348,7 +351,6 @@ export const generateMetricsMarkup = (
       dataKey = metric,
       hideYAxis,
       gradientUrl,
-      opacity = 1,
       formatter
     } = typeof metric === 'object' ? metric : Metrics[metric]
 
@@ -358,7 +360,7 @@ export const generateMetricsMarkup = (
       [El === Area && gradientUrl && 'fillOpacity']: 1
     }
 
-    if (El === Bar) {
+    if (chartRef !== undefined && El === Bar) {
       rest.shape = <StackedLogic barsMap={barsMap} />
     }
 
@@ -381,7 +383,6 @@ export const generateMetricsMarkup = (
         dataKey={dataKey}
         dot={false}
         isAnimationActive={false}
-        opacity={opacity}
         connectNulls
         formatter={formatter}
         {...rest}
@@ -403,7 +404,7 @@ export const generateMetricsMarkup = (
     }
 
     const halfDif = (secondX - firstX) / 2
-    const halfWidth = halfDif - getHalfWidth(halfDif)
+    const halfWidth = halfDif - getBarMargin(halfDif)
 
     res.unshift(
       <g key='barMetrics'>

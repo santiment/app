@@ -260,14 +260,11 @@ class Charts extends React.Component {
       events
     } = this.state
 
-    const [bars, ...lines] = generateMetricsMarkup(
-      metrics,
+    const [bars, ...lines] = generateMetricsMarkup(metrics, {
       chartRef,
-      this.xToYCoordinates,
-      {
-        ref: { [tooltipMetric]: this.metricRef }
-      }
-    )
+      coordinates: this.xToYCoordinates,
+      ref: { [tooltipMetric]: this.metricRef }
+    })
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>
