@@ -242,7 +242,7 @@ class Charts extends React.Component {
       events
     } = this.state
 
-    const lines = generateMetricsMarkup(metrics, {
+    const lines = generateMetricsMarkup(metrics, chartRef, {
       ref: { [tooltipMetric]: this.metricRef }
     })
 
@@ -360,8 +360,11 @@ class Charts extends React.Component {
               >
                 <ComposedChart>
                   {lines
+                    .slice(1) // TODO(vangaurd): to fix
                     .filter(({ type }) => type !== YAxis)
-                    .map(el => React.cloneElement(el, { ref: null }))}
+                    .map(el =>
+                      React.cloneElement(el, { ref: null, shape: undefined })
+                    )}
                 </ComposedChart>
               </Brush>
             )}

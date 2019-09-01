@@ -274,15 +274,47 @@ export const setupColorGenerator = () => {
     return color || METRIC_COLORS[colorIndex++]
   }
 }
+const TriangleBar = props => {
+  const { fill, x, y, width, height, index, map } = props
+
+  const obj = map.get(index)
+  if (index === 1) {
+    /* console.log(props) */
+  }
+
+  if (Number.isNaN(y)) return null
+
+  if (!obj) {
+    map.set(index, {
+      x,
+      width,
+      metrics: new Map([[fill, [height, y]]])
+    })
+  } else {
+    obj.metrics.set(fill, [height, y])
+  }
+
+  return null
+}
+
+const chartBars = new WeakMap()
 
 export const generateMetricsMarkup = (
   metrics,
+  chartRef,
   { ref = {}, data = {} } = {}
 ) => {
   const metricWithYAxis = findYAxisMetric(metrics)
   const generateColor = setupColorGenerator()
+  let hadBar = false
 
-  return metrics.reduce((acc, metric) => {
+  let map = chartBars.get(chartRef, map)
+  if (!map) {
+    map = new Map()
+    chartBars.set(chartRef, map)
+  }
+
+  const res = metrics.reduce((acc, metric) => {
     const {
       node: El,
       label,
@@ -295,10 +327,19 @@ export const generateMetricsMarkup = (
       formatter
     } = typeof metric === 'object' ? metric : Metrics[metric]
 
+    if (El === Bar && hadBar) {
+      return acc
+    }
+
     const rest = {
       [El === Bar ? 'fill' : 'stroke']: `var(--${generateColor(color)})`,
       [El === Area && gradientUrl && 'fill']: gradientUrl,
       [El === Area && gradientUrl && 'fillOpacity']: 1
+    }
+
+    if (El === Bar) {
+      hadBar = true
+      rest.shape = <TriangleBar map={map} />
     }
 
     acc.push(
@@ -329,4 +370,25 @@ export const generateMetricsMarkup = (
 
     return acc
   }, [])
+
+  res.unshift(
+    <g>
+      {[...map.values()].map(({ x, width, metrics }) => {
+        const [fill, [height, y]] = [...metrics.entries()][0]
+        return (
+          <rect
+            opacity='1'
+            fill={fill}
+            width={width}
+            height={height}
+            x={x}
+            y={y}
+            radius='0'
+          />
+        )
+      })}
+    </g>
+  )
+
+  return res
 }
