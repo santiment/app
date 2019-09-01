@@ -19,8 +19,8 @@ export const Events = {
         default:
           return `${val}th`
       }
-    },
-  },
+    }
+  }
 }
 
 export const getEventsTooltipInfo = events =>
@@ -31,7 +31,7 @@ export const getEventsTooltipInfo = events =>
       color: 'var(--persimmon)',
       value: events[event],
       name: label,
-      formatter,
+      formatter
     }
   })
 
@@ -42,7 +42,7 @@ export const Metrics = {
     label: 'Price',
     dataKey: 'priceUsd',
     category: 'Financial',
-    formatter: val => formatNumber(val, { currency: 'USD' }),
+    formatter: val => formatNumber(val, { currency: 'USD' })
   },
   historyPricePreview: {
     node: Area,
@@ -51,7 +51,7 @@ export const Metrics = {
     dataKey: 'priceUsd',
     category: 'Financial',
     gradientUrl: 'url(#totalUp)',
-    hideYAxis: true,
+    hideYAxis: true
   },
   volume: {
     category: 'Financial',
@@ -60,13 +60,13 @@ export const Metrics = {
     fill: true,
     dataKey: 'volume',
     color: 'waterloo',
-    opacity: 0.4,
+    opacity: 0.4
   },
   socialVolume: {
     category: 'Social',
     node: Bar,
     label: 'Social Volume',
-    color: 'malibu',
+    color: 'malibu'
   },
   tokenAgeConsumed: {
     category: 'On-chain',
@@ -77,7 +77,7 @@ export const Metrics = {
     video: 'https://www.youtube.com/watch?v=NZFtYT5QzS4',
     description: `
           Shows the amount of tokens changing addresses on a certain date,
-          multiplied by the number of days since they last moved`,
+          multiplied by the number of days since they last moved`
   },
   exchangeFundsFlow: {
     category: 'On-chain',
@@ -87,7 +87,7 @@ export const Metrics = {
     description: `The flows of tokens going in to and out of exchange wallets combined on one graph.
           If the value is positive, more tokens entered the exchange than left.
           If the value is negative, more flowed out of exchanges than flowed in.
-`,
+`
   },
   dailyActiveAddresses: {
     category: 'On-chain',
@@ -99,7 +99,7 @@ export const Metrics = {
     on a certain date.
     Simply put, DAA indicates the daily level of crowd interaction (or
     speculation) with a certain token.`,
-    color: 'texas-rose',
+    color: 'texas-rose'
   },
   percentOfTokenSupplyOnExchanges: {
     category: 'On-chain',
@@ -107,7 +107,7 @@ export const Metrics = {
     group: 'Exchange Flow',
     label: 'Percent of Token Supply on Exchanges',
     dataKey: 'percentOnExchanges',
-    description: 'The percent of the total token supply which is on exchanges.',
+    description: 'The percent of the total token supply which is on exchanges.'
   },
   topHoldersPercentOfTotalSupply: {
     category: 'On-chain',
@@ -116,7 +116,7 @@ export const Metrics = {
     label: 'In Top Holders Total',
     // TODO: Add support for 3 datakeys of single metric:
     // inExchanges outsideExchanges inTopHoldersTotal
-    dataKey: 'inTopHoldersTotal',
+    dataKey: 'inTopHoldersTotal'
   },
   tokenCirculation: {
     category: 'On-chain',
@@ -127,7 +127,7 @@ export const Metrics = {
           Shows the number of unique tokens being used during each day.
           If one token changes hands 5 times on a given day,
           it will be counted once by the token circulation,
-          but 5 times by the transaction volume.`,
+          but 5 times by the transaction volume.`
   },
   mvrvRatio: {
     category: 'On-chain',
@@ -135,7 +135,7 @@ export const Metrics = {
     group: 'Network value',
     label: 'Market Value To Realized Value',
     dataKey: 'mvrv',
-    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
+    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE'
   },
   transactionVolume: {
     alias: 'transaction_volume',
@@ -146,7 +146,7 @@ export const Metrics = {
     label: 'Transaction Volume',
     description: `
     Shows the aggregate amount of tokens across all transactions that
-    happened on the network on a certain date.`,
+    happened on the network on a certain date.`
   },
   networkGrowth: {
     category: 'On-chain',
@@ -156,7 +156,7 @@ export const Metrics = {
     video: 'https://www.youtube.com/watch?v=YaccxEEz8pg',
     description: `Shows the number of new addresses being created on the network each day.
     Essentially, this chart illustrates user adoption over time, and can
-    be used to identify when the project is gaining - or losing - traction.`,
+    be used to identify when the project is gaining - or losing - traction.`
   },
   devActivity: {
     category: 'Development',
@@ -168,8 +168,8 @@ export const Metrics = {
       "Based on number of Github 'events' including PRs, comments, and wiki edits, plus the number of public repositories a project is maintaining",
     reqMeta: {
       transform: 'movingAverage',
-      movingAverageIntervalBase: 7,
-    },
+      movingAverageIntervalBase: 7
+    }
   },
   tokenVelocity: {
     category: 'On-chain',
@@ -182,7 +182,7 @@ export const Metrics = {
 
           Simply put, a higher token velocity means that a token is used in
           transactions more often within a set time frame.
-`,
+`
   },
   dailyActiveDeposits: {
     category: 'On-chain',
@@ -192,26 +192,26 @@ export const Metrics = {
     description: `
           Shows the number of unique deposit addresses that participated in
           transactions for a given day. A <b>deposit address</b> is an address
-          belonging to an exchange that users use to deposit assets`,
+          belonging to an exchange that users use to deposit assets`
   },
   historyTwitterData: {
     category: 'Social',
     node: Line,
     label: 'Twitter',
-    dataKey: 'followersCount',
+    dataKey: 'followersCount'
   },
   socialDominance: {
     category: 'Social',
     node: Line,
     label: 'Social Dominance',
-    dataKey: 'dominance',
+    dataKey: 'dominance'
   },
   realizedValue: {
     category: 'On-chain',
     node: Line,
     group: 'Network value',
     label: 'Realized Value',
-    dataKey: 'realizedValue',
+    dataKey: 'realizedValue'
   },
   ethSpentOverTime: {
     category: 'On-chain',
@@ -219,8 +219,8 @@ export const Metrics = {
     label: 'Eth Spent Over Time',
     dataKey: 'ethSpent',
     description:
-      'How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity',
-  },
+      'How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity'
+  }
 }
 
 const DerivedMetrics = [
@@ -230,7 +230,7 @@ const DerivedMetrics = [
     key: 'nvtRatioCirculation',
     node: Line,
     group: 'Network value',
-    label: 'NVT Ratio Circulation',
+    label: 'NVT Ratio Circulation'
   },
   {
     parent: 'nvtRatio',
@@ -238,8 +238,8 @@ const DerivedMetrics = [
     node: Bar,
     group: 'Network value',
     label: 'NVT Ratio Transaction Volume',
-    category: 'On-chain',
-  },
+    category: 'On-chain'
+  }
 ]
 
 DerivedMetrics.forEach(obj => {
@@ -259,7 +259,7 @@ export const METRIC_COLORS = [
   'dodger-blue',
   'lima',
   'heliotrope',
-  'waterloo',
+  'waterloo'
 ]
 
 export const findYAxisMetric = metrics =>
@@ -270,12 +270,12 @@ export const findYAxisMetric = metrics =>
 export const setupColorGenerator = () => {
   let colorIndex = 0
 
-  return function(color) {
+  return function (color) {
     return color || METRIC_COLORS[colorIndex++]
   }
 }
 
-const TriangleBar = props => {
+const StackedLogic = props => {
   const { fill, x, y, width, height, index, barsMap, value } = props
 
   const indexes = barsMap.get('indexes')
@@ -289,7 +289,7 @@ const TriangleBar = props => {
   if (!obj) {
     obj = {
       x,
-      metrics: new Map([[fill, { height, y, x }]]),
+      metrics: new Map([[fill, { height, y, x }]])
     }
     indexes.set(index, obj)
   } else {
@@ -311,14 +311,24 @@ const TriangleBar = props => {
 
 export const chartBars = new WeakMap()
 
+const barMetricsSorter = ({ height: a }, { height: b }) => b - a
+const sortByX = ({ x: a }, { x: b }) => a - b
+const mapToData = ([fill, { height, y, x }]) => ({
+  fill,
+  height,
+  y,
+  x
+})
+
 export const generateMetricsMarkup = (
   metrics,
   { current: chartRef },
-  { ref = {}, data = {} } = {},
+  { ref = {}, data = {} } = {}
 ) => {
   const metricWithYAxis = findYAxisMetric(metrics)
   const generateColor = setupColorGenerator()
 
+  // HACK(vanguard): Thanks recharts
   let barsMap = chartBars.get(chartRef)
   if (!barsMap && chartRef) {
     console.log('creating')
@@ -336,18 +346,17 @@ export const generateMetricsMarkup = (
       hideYAxis,
       gradientUrl,
       opacity = 1,
-      formatter,
+      formatter
     } = typeof metric === 'object' ? metric : Metrics[metric]
 
     const rest = {
       [El === Bar ? 'fill' : 'stroke']: `var(--${generateColor(color)})`,
       [El === Area && gradientUrl && 'fill']: gradientUrl,
-      [El === Area && gradientUrl && 'fillOpacity']: 1,
+      [El === Area && gradientUrl && 'fillOpacity']: 1
     }
 
     if (El === Bar) {
-      hadBar = true
-      rest.shape = <TriangleBar barsMap={barsMap} />
+      rest.shape = <StackedLogic barsMap={barsMap} />
     }
 
     acc.push(
@@ -373,20 +382,11 @@ export const generateMetricsMarkup = (
         connectNulls
         formatter={formatter}
         {...rest}
-      />,
+      />
     )
 
     return acc
   }, [])
-
-  const barMetricsSorter = ({ height: a }, { height: b }) => b - a
-  const sortByX = ({ x: a }, { x: b }) => a - b
-  const mapToData = ([fill, { height, y, x }]) => ({
-    fill,
-    height,
-    y,
-    x,
-  })
 
   if (barsMap) {
     res.unshift(
@@ -434,9 +434,9 @@ export const generateMetricsMarkup = (
                   radius='0'
                 />
               ))
-          },
+          }
         )}
-      </g>,
+      </g>
     )
   }
 
