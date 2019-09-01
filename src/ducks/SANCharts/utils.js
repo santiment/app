@@ -309,13 +309,27 @@ const StackedLogic = props => {
 export const chartBars = new WeakMap()
 
 const barMetricsSorter = ({ height: a }, { height: b }) => b - a
-const sortByX = ({ x: a }, { x: b }) => a - b
 const mapToData = ([fill, { height, y, x }]) => ({
   fill,
   height,
   y,
   x
 })
+
+function getHalfWidth (diff) {
+  if (diff < 1.3) {
+    return 0.3
+  }
+
+  if (diff < 4) {
+    return 1
+  }
+
+  if (diff < 10) {
+    return 3
+  }
+  return 6
+}
 
 export const generateMetricsMarkup = (
   metrics,
@@ -387,13 +401,32 @@ export const generateMetricsMarkup = (
   }, [])
 
   if (coordinates && barsMap) {
+    const [first, second, third] = coordinates
+    let firstX, secondX
+    if (!third) {
+      firstX = first.x
+      secondX = second.x
+    } else {
+      firstX = second.x
+      secondX = third.x
+    }
+
+    const halfDif = (secondX - firstX) / 2
+    const halfWidth = halfDif - getHalfWidth(halfDif)
+
     res.unshift(
       <g key='barMetrics'>
         {[...barsMap.get('indexes').values()].map(({ metrics, index }) => {
           const mapped = [...metrics.entries()].map(mapToData)
-          let resX = coordinates[index].x
-          const resWidth = barsMap.get('width')
-          resX = resX - resWidth / 2
+          let resX = coordinates[index].x - halfWidth
+          let secondWidth = halfWidth
+
+          if (resX < 40) {
+            resX = 40
+            secondWidth = 0
+          } else if (resX + halfWidth * 2 > chartRef.offsetWidth) {
+            secondWidth = 0
+          }
 
           return mapped
             .sort(barMetricsSorter)
@@ -402,7 +435,7 @@ export const generateMetricsMarkup = (
                 key={fill + resX}
                 opacity='1'
                 fill={fill}
-                width={resWidth}
+                width={halfWidth + secondWidth}
                 height={height}
                 x={resX}
                 y={y}
