@@ -125,7 +125,16 @@ class Charts extends React.Component {
           }
 
           const result = value || chartData[index]
-          const y = result[tooltipMetricKey]
+
+          let y = result[tooltipMetricKey]
+
+          /* for (let i = 0; !y && i < metrics.length; i++) { */
+          /* const newMetric = metrics[i] */
+          /* const { dataKey: key = newMetric } = Metrics[newMetric] */
+          /* y = result[key] */
+          /* console.log(key, y, result) */
+          /* } */
+
           this.eventsMap.set(result.datetime, getEventsTooltipInfo(rest))
 
           return (

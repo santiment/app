@@ -10,6 +10,7 @@ import styles from './ChartMetricsTool.module.scss'
 const ChartMetricsTool = ({
   classes = {},
   activeMetrics,
+  activeEvents,
   disabledMetrics,
   slug,
   toggleMetric
@@ -39,6 +40,7 @@ const ChartMetricsTool = ({
     <ChartActiveMetrics
       activeMetrics={activeMetrics}
       toggleMetric={toggleMetric}
+      activeEvents={activeEvents}
     />
   </div>
 )

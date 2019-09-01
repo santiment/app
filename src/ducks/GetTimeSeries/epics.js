@@ -103,7 +103,7 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
         const eventsResult = mapDataToMergedTimeserieByDatetime(
           eventsRes.filter(Boolean),
           errorMetrics,
-          'events'
+          'eventsData'
         )
 
         return Observable.of({

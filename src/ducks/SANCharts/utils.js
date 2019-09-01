@@ -5,6 +5,9 @@ import { formatNumber } from './../../utils/formatting'
 const PRICE_METRIC = 'historyPrice'
 
 export const Events = {
+  trendPositionHistory: {
+    label: 'Trending Position'
+  },
   position: {
     label: 'Trending Position',
     formatter: val => {

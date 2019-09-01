@@ -24,6 +24,16 @@ const addItemToGraph = (categories, metricCategory, metrics) => {
 
 let memo = {}
 
+const DEFAULT_CATEGORIES = {
+  Social: [
+    {
+      isEvent: true,
+      label: 'Trending Position',
+      key: 'trendPositionHistory'
+    }
+  ]
+}
+
 const getCategoryGraph = availableMetrics => {
   if (availableMetrics.length === 0) {
     return {}
@@ -33,7 +43,7 @@ const getCategoryGraph = availableMetrics => {
     return memo.result
   }
 
-  const categories = {}
+  const categories = Object.assign({}, DEFAULT_CATEGORIES)
   const { length } = availableMetrics
 
   for (let i = 0; i < length; i++) {
@@ -61,6 +71,7 @@ const getCategoryGraph = availableMetrics => {
     addItemToGraph(categories, metricCategory, metrics)
   }
 
+  console.log(categories)
   Object.keys(categories).forEach(key => {
     categories[key] = categories[key].reduce((acc, metric) => {
       const { group = NO_GROUP } = metric
@@ -193,7 +204,9 @@ const ChartMetricSelector = ({
                         <ActionBtn
                           key={metric.label}
                           metric={metric}
-                          onClick={() => toggleMetric(metric.key)}
+                          onClick={() =>
+                            toggleMetric(metric.key, metric.isEvent)
+                          }
                           isActive={isActive}
                           isDisabled={isDisabled}
                         >
