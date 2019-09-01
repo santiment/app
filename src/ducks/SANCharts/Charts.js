@@ -84,12 +84,19 @@ class Charts extends React.Component {
 
   componentWillUpdate ({ chartData, chartRef }) {
     if (this.props.chartData !== chartData) {
+      this.getXToYCoordinates()
       chartBars.delete(chartRef.current)
     }
   }
 
   componentDidUpdate (prevProps) {
     const { metrics, events, chartData } = this.props
+
+    if (!this.xToYCoordinates && this.metricRef.current) {
+      this.getXToYCoordinates()
+      this.forceUpdate()
+    }
+
     if (this.props.chartData !== prevProps.chartData) {
       this.getXToYCoordinates()
     }
@@ -249,9 +256,14 @@ class Charts extends React.Component {
       events
     } = this.state
 
-    const lines = generateMetricsMarkup(metrics, chartRef, {
-      ref: { [tooltipMetric]: this.metricRef }
-    })
+    const lines = generateMetricsMarkup(
+      metrics,
+      chartRef,
+      this.xToYCoordinates,
+      {
+        ref: { [tooltipMetric]: this.metricRef }
+      }
+    )
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>

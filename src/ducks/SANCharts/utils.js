@@ -281,14 +281,11 @@ const StackedLogic = props => {
   const indexes = barsMap.get('indexes')
   let obj = indexes.get(index)
 
-  if (index - 1 <= 0) {
-  }
-
   if (value === undefined) return null
 
   if (!obj) {
     obj = {
-      x,
+      index,
       metrics: new Map([[fill, { height, y, x }]])
     }
     indexes.set(index, obj)
@@ -300,7 +297,7 @@ const StackedLogic = props => {
   let newWidth = width
   if (size > 1) {
     const { x: lastX } = [...obj.metrics.values()][0]
-    newWidth = Math.abs(x - lastX) / size
+    newWidth = Math.abs(x - lastX)
   }
   if (newWidth > (barsMap.get('width') || 0)) {
     barsMap.set('width', newWidth)
@@ -323,6 +320,7 @@ const mapToData = ([fill, { height, y, x }]) => ({
 export const generateMetricsMarkup = (
   metrics,
   { current: chartRef },
+  coordinates,
   { ref = {}, data = {} } = {}
 ) => {
   const metricWithYAxis = findYAxisMetric(metrics)
@@ -388,54 +386,30 @@ export const generateMetricsMarkup = (
     return acc
   }, [])
 
-  if (barsMap) {
+  if (coordinates && barsMap) {
     res.unshift(
       <g key='barMetrics'>
-        {[...barsMap.get('indexes').values()].map(
-          ({ x: initX, metrics, width }) => {
-            const mapped = [...metrics.entries()].map(mapToData).sort(sortByX)
-            let resX = initX
-            const { size } = metrics
+        {[...barsMap.get('indexes').values()].map(({ metrics, index }) => {
+          const mapped = [...metrics.entries()].map(mapToData)
+          let resX = coordinates[index].x
+          const resWidth = barsMap.get('width')
+          resX = resX - resWidth / 2
 
-            if (size % 2 === 0) {
-              const xSum = mapped.reduce((acc, { x }) => {
-                return acc + x
-              }, 0)
-              resX = xSum / size
-            } else {
-              resX = mapped[(size - 1) / 2].x
-            }
-
-            let resWidth = Math.ceil(barsMap.get('width'))
-
-            if (resX < 40) {
-              resWidth = resWidth - (40 - resX)
-              resX = 40
-            } else if (resX + resWidth > chartRef.offsetWidth) {
-              resWidth = resWidth - (resX + resWidth - chartRef.offsetWidth)
-              if (resWidth < 0) {
-                resWidth += resWidth
-                resX += resWidth
-                resWidth = Math.abs(resWidth)
-              }
-            }
-
-            return mapped
-              .sort(barMetricsSorter)
-              .map(({ fill, height, y }) => (
-                <rect
-                  key={fill + initX}
-                  opacity='1'
-                  fill={fill}
-                  width={resWidth}
-                  height={height}
-                  x={resX}
-                  y={y}
-                  radius='0'
-                />
-              ))
-          }
-        )}
+          return mapped
+            .sort(barMetricsSorter)
+            .map(({ fill, height, y }) => (
+              <rect
+                key={fill + resX}
+                opacity='1'
+                fill={fill}
+                width={resWidth}
+                height={height}
+                x={resX}
+                y={y}
+                radius='0'
+              />
+            ))
+        })}
       </g>
     )
   }
