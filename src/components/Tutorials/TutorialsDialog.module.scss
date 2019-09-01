@@ -1,9 +1,9 @@
 @import '~@santiment-network/ui/mixins';
 
 .dialog {
-  max-width: 90%;
+  max-width: 95%;
   max-height: 90%;
-  width: 90%;
+  width: 95%;
   height: 90%;
 }
 
@@ -25,7 +25,7 @@
   overflow-x: hidden;
 
   &_tutorial {
-    flex: 1;
+    flex: 5;
   }
 
   &__scroll {
@@ -46,14 +46,16 @@
   border: 1px solid var(--porcelain);
   border-radius: 4px 4px 0 0;
   margin-right: 24px;
-  min-width: 361px;
+  min-width: 316px;
   border-bottom: none;
+  flex: 2;
 }
 
 .card {
   margin: 24px 24px 16px;
   border: 1px solid var(--white);
   box-shadow: 0 6px 50px rgba(24, 27, 43, 0.03);
+  width: auto;
 
   &:hover {
     border-color: var(--jungle-green);
