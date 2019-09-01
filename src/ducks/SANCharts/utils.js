@@ -342,8 +342,12 @@ export const generateMetricsMarkup = (
 
   // HACK(vanguard): Thanks recharts
   let barsMap = chartBars.get(chartRef)
-  if (!barsMap && chartRef) {
-    console.log('creating')
+  if (
+    (!barsMap && chartRef) ||
+    (coordinates &&
+      barsMap &&
+      coordinates.length !== barsMap.get('indexes').size)
+  ) {
     barsMap = new Map([['indexes', new Map()], ['width', 0]])
     chartBars.set(chartRef, barsMap)
   }

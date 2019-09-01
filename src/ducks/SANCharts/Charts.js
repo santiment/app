@@ -65,7 +65,6 @@ const valueFormatter = (value, name, formatter) => {
 
     return numValue.toFixed(2)
   } catch (e) {
-    console.warn(e)
     return 'No data'
   }
 }
@@ -93,6 +92,7 @@ class Charts extends React.Component {
     const { metrics, events, chartData } = this.props
 
     if (!this.xToYCoordinates && this.metricRef.current) {
+      // HACK(vanguard): Thanks recharts
       this.getXToYCoordinates()
       this.forceUpdate()
     }
@@ -256,7 +256,7 @@ class Charts extends React.Component {
       events
     } = this.state
 
-    const lines = generateMetricsMarkup(
+    const [bars, ...lines] = generateMetricsMarkup(
       metrics,
       chartRef,
       this.xToYCoordinates,
@@ -353,6 +353,7 @@ class Charts extends React.Component {
               type='number'
             />
             <YAxis hide />
+            {bars}
             {lines}
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
@@ -379,7 +380,6 @@ class Charts extends React.Component {
               >
                 <ComposedChart>
                   {lines
-                    .slice(1) // TODO(vangaurd): to fix
                     .filter(({ type }) => type !== YAxis)
                     .map(el =>
                       React.cloneElement(el, { ref: null, shape: undefined })
