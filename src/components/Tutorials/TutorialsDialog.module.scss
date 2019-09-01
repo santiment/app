@@ -1,5 +1,12 @@
 @import '~@santiment-network/ui/mixins';
 
+.dialog {
+  max-width: 90%;
+  max-height: 90%;
+  width: 90%;
+  height: 90%;
+}
+
 .title {
   border: none;
 
@@ -8,19 +15,43 @@
 
 .content {
   display: flex;
-  padding: 20px;
+  padding: 20px 0 0 20px;
+  flex: 1;
+}
+
+.block {
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  &_tutorial {
+    flex: 1;
+  }
+
+  &__scroll {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    &_tutorial {
+      right: 24px;
+    }
+  }
 }
 
 .tutorials {
-  padding: 24px;
   background: var(--athens);
   border: 1px solid var(--porcelain);
   border-radius: 4px 4px 0 0;
   margin-right: 24px;
+  min-width: 361px;
+  border-bottom: none;
 }
 
 .card {
-  margin-bottom: 16px;
+  margin: 24px 24px 16px;
   border: none;
   box-shadow: 0 6px 50px rgba(24, 27, 43, 0.03);
 
@@ -34,6 +65,8 @@
 }
 
 .tutorial {
+  padding-bottom: 24px;
+
   &__title {
     @include text('h4', 'm');
 
