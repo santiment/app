@@ -2,9 +2,9 @@ import React from 'react'
 import cx from 'classnames'
 import styles from './TutorialCard.module.scss'
 
-const TutorialCard = ({ className = '', title, duration }) => {
+const TutorialCard = ({ onClick, className = '', title, duration }) => {
   return (
-    <div className={cx(styles.wrapper, className)}>
+    <div className={cx(styles.wrapper, className)} onClick={onClick}>
       <div className={styles.img}>
         <svg
           width='64'
@@ -16,9 +16,9 @@ const TutorialCard = ({ className = '', title, duration }) => {
           <path
             d='M0 19C8.192 13.5001 9.28457 0.999984 16.896 1C23.04 1.00001 24.5533 14.7272 30.208 13.5001C34.816 12.5001 34.304 5 39.424 6C43.9425 6.88252 45.0232 19.8917 49.664 14.0001C54.784 7.50007 59.392 13.5001 64 7.50007'
             stroke='#FFAD4D'
-            stroke-width='1.5'
-            stroke-linecap='round'
-            stroke-linejoin='round'
+            strokeWidth='1.5'
+            strokeLinecap='round'
+            strokeLinejoin='round'
           />
         </svg>
       </div>
