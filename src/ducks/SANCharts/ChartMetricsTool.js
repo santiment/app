@@ -33,6 +33,7 @@ const ChartMetricsTool = ({
         toggleMetric={toggleMetric}
         disabledMetrics={disabledMetrics}
         activeMetrics={activeMetrics}
+        activeEvents={activeEvents}
         variant='modal'
       />
     </ContextMenu>

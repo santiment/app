@@ -8,7 +8,7 @@ import Button from '@santiment-network/ui/Button'
 import MetricExplanation from './MetricExplanation'
 import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
-import { Metrics } from './utils'
+import { Metrics, Events } from './utils'
 import styles from './ChartMetricSelector.module.scss'
 
 const NO_GROUP = '_'
@@ -24,17 +24,6 @@ const addItemToGraph = (categories, metricCategory, metrics) => {
 
 let memo = {}
 
-const DEFAULT_CATEGORIES = {
-  Financial: undefined,
-  Social: [
-    {
-      isEvent: true,
-      label: 'Trending Position',
-      key: 'trendPositionHistory'
-    }
-  ]
-}
-
 const getCategoryGraph = availableMetrics => {
   if (availableMetrics.length === 0) {
     return {}
@@ -44,7 +33,16 @@ const getCategoryGraph = availableMetrics => {
     return memo.result
   }
 
-  const categories = Object.assign({}, DEFAULT_CATEGORIES)
+  const categories = {
+    Financial: undefined,
+    Social: [
+      {
+        isEvent: true,
+        label: 'Trending Position',
+        key: 'trendPositionHistory'
+      }
+    ]
+  }
   const { length } = availableMetrics
 
   for (let i = 0; i < length; i++) {
@@ -72,7 +70,6 @@ const getCategoryGraph = availableMetrics => {
     addItemToGraph(categories, metricCategory, metrics)
   }
 
-  console.log(categories)
   Object.keys(categories).forEach(key => {
     categories[key] = categories[key].reduce((acc, metric) => {
       const { group = NO_GROUP } = metric
@@ -129,7 +126,7 @@ const ActionBtn = ({ metric, children, isActive, isDisabled, ...props }) => {
 const countCategoryActiveMetrics = (activeMetrics = []) => {
   const counter = {}
   for (let i = 0; i < activeMetrics.length; i++) {
-    const { category } = Metrics[activeMetrics[i]]
+    const { category } = Metrics[activeMetrics[i]] || Events[activeMetrics[i]]
     counter[category] = (counter[category] || 0) + 1
   }
   return counter
@@ -139,6 +136,7 @@ const ChartMetricSelector = ({
   className = '',
   toggleMetric,
   activeMetrics,
+  activeEvents,
   disabledMetrics,
   data: { project: { availableMetrics = [] } = {}, loading },
   ...props
@@ -146,7 +144,8 @@ const ChartMetricSelector = ({
   const [activeCategory, setCategory] = useState('Financial')
 
   const categories = getCategoryGraph(availableMetrics)
-  const categoryActiveMetricsCounter = countCategoryActiveMetrics(activeMetrics)
+  const actives = [...activeEvents, ...activeMetrics]
+  const categoryActiveMetricsCounter = countCategoryActiveMetrics(actives)
 
   useEffect(
     () => () => {
@@ -198,7 +197,7 @@ const ChartMetricSelector = ({
                       <h3 className={styles.group__title}>{group}</h3>
                     )}
                     {categories[activeCategory][group].map(metric => {
-                      const isActive = activeMetrics.includes(metric.key)
+                      const isActive = actives.includes(metric.key)
                       const isDisabled = disabledMetrics.includes(metric.key)
 
                       return (
