@@ -3,7 +3,6 @@ import cx from 'classnames'
 import { tooltipLabelFormatter } from '../Charts'
 import { formatTokensCount } from '../../../utils/formatting'
 import styles from './CommonChartTooltip.module.scss'
-import { capitalizeStr } from '../../../utils/utils'
 
 const ChartTooltip = ({
   valueFormatter = formatTokensCount,
@@ -48,9 +47,9 @@ const ChartTooltip = ({
 export const renderLegend = ({ payload: items, labelFormatter }) => {
   return (
     <div className={styles.legend}>
-      {items.map((item, index) => {
+      {items.map(item => {
         const {
-          payload: { name, color, fill, opacity, dataKey }
+          payload: { color, fill, opacity, dataKey }
         } = item
 
         return (

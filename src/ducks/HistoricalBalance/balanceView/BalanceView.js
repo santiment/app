@@ -5,7 +5,10 @@ import HistoricalBalanceChart from '../chart/HistoricalBalanceChart'
 import BalanceChartHeader from './BalanceChartHeader'
 import Loadable from 'react-loadable'
 import { getIntervalByTimeRange } from '../../../utils/dates'
-import { mapAssetsToFlatArray } from '../page/HistoricalBalancePage'
+import {
+  initPriceMetrics,
+  mapAssetsToFlatArray
+} from '../page/HistoricalBalancePage'
 import { mapStateToQS } from '../../../utils/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import { Metrics } from '../../SANCharts/utils'
@@ -13,6 +16,7 @@ import PageLoader from '../../../components/Loader/PageLoader'
 import BalanceViewWalletAssets from './BalanceViewWalletAssets'
 import styles from './BalanceView.module.scss'
 import { Area } from 'recharts'
+import { simpleSortStrings } from '../../../utils/sortMethods'
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./BalanceViewChartSettings'),
@@ -34,23 +38,48 @@ export const getPriceMetricWithSlug = slug => {
 }
 
 const BalanceView = ({
-  address = '',
-  assets = [],
+  queryData,
+  queryData: { priceMetrics: queryPriceMetrics, assets: queryAssets },
   onChangeQuery,
   classes = {}
 }) => {
-  const priceSlugs = [...assets]
-
   const [showYAxes, toggleYAxes] = useState(true)
   const [priceMetricTimeseries, setPriceMetricTimeseries] = useState({})
 
-  const [walletAndAssets, setWalletAndAssets] = useState({
-    address,
-    assets
-  })
+  const [queryState, setQueryState] = useState(queryData)
+
+  const [priceMetrics, setPriceMetrics] = useState([])
+
+  useEffect(
+    () => {
+      const currentAndNewPriceMetrics = initPriceMetrics(
+        queryPriceMetrics,
+        true
+      )
+
+      queryAssets.forEach(asset => {
+        if (
+          !currentAndNewPriceMetrics.some(
+            ({ asset: savedAsset }) => savedAsset === asset
+          )
+        ) {
+          currentAndNewPriceMetrics.push({ asset: asset, enabled: false })
+        }
+      })
+
+      currentAndNewPriceMetrics.sort(
+        ({ asset: assetFirst }, { asset: assetSecond }) => {
+          return simpleSortStrings(assetFirst, assetSecond)
+        }
+      )
+
+      setPriceMetrics(currentAndNewPriceMetrics)
+    },
+    [queryAssets]
+  )
 
   const setWalletsAndAssetsWrapper = data => {
-    setWalletAndAssets(data)
+    setQueryState(data)
     onChangeQuery(data)
   }
 
@@ -63,25 +92,25 @@ const BalanceView = ({
     () => {
       setPriceMetricTimeseries({})
     },
-    [chartSettings, walletAndAssets]
+    [chartSettings, queryState]
   )
 
   const handleWalletChange = event => {
     setWalletsAndAssetsWrapper({
-      ...walletAndAssets,
+      ...queryState,
       [event.target.name]: event.target.value
     })
   }
 
   const handleAssetsChange = assets => {
     const newState = {
-      ...walletAndAssets,
+      ...queryState,
       assets
     }
     setWalletsAndAssetsWrapper(newState)
   }
 
-  const { address: stateAddress, assets: stateAssets } = walletAndAssets
+  const { address: stateAddress, assets: stateAssets } = queryState
 
   const onTimerangeChange = timeRange => {
     const { from, to } = getIntervalByTimeRange(timeRange)
@@ -99,6 +128,16 @@ const BalanceView = ({
       ...chartSettings,
       from: from.toISOString(),
       to: to.toISOString()
+    })
+  }
+
+  const togglePriceMetric = ({ asset: toggleAsset }) => {
+    const selected = priceMetrics.find(({ asset }) => toggleAsset === asset)
+    selected.enabled = !selected.enabled
+
+    setWalletsAndAssetsWrapper({
+      ...queryState,
+      priceMetrics: priceMetrics.filter(({ enabled }) => enabled)
     })
   }
 
@@ -122,17 +161,25 @@ const BalanceView = ({
             from={from}
             to={to}
             classes={styles}
-            queryString={mapStateToQS({ address, assets })}
+            queryString={mapStateToQS({ stateAddress, stateAssets })}
             showYAxes={showYAxes}
             toggleYAxes={toggleYAxes}
+            priceMetrics={priceMetrics}
+            toggleAsset={togglePriceMetric}
           />
         </BalanceChartHeader>
 
-        {priceSlugs.map(slug => {
+        {priceMetrics.map(({ asset: slug, enabled }) => {
+          if (!enabled) {
+            return null
+          }
+
           const requestedMetrics = [
             {
               name: CHART_PRICE_METRIC.type,
               timeRange,
+              from: from,
+              to: to,
               slug,
               interval: INTERVAL,
               ...CHART_PRICE_METRIC.reqMeta
@@ -143,23 +190,21 @@ const BalanceView = ({
             <GetTimeSeries
               key={slug}
               metrics={requestedMetrics}
-              render={timeseriesData => {
-                const { timeseries } = timeseriesData
-
-                if (!timeseries) {
+              render={({ timeseries, isLoading }) => {
+                if (!timeseries || isLoading) {
                   return null
                 } else {
                   const metricSlug = getPriceMetricWithSlug(slug)
-
-                  const mapped = timeseries.map(({ priceUsd, datetime }) => ({
-                    datetime,
-                    [metricSlug]: priceUsd
-                  }))
 
                   if (
                     !priceMetricTimeseries ||
                     !priceMetricTimeseries[metricSlug]
                   ) {
+                    const mapped = timeseries.map(({ priceUsd, datetime }) => ({
+                      datetime,
+                      [metricSlug]: priceUsd
+                    }))
+
                     setPriceMetricTimeseries({
                       ...priceMetricTimeseries,
                       [metricSlug]: mapped
@@ -174,8 +219,8 @@ const BalanceView = ({
         })}
 
         <GetHistoricalBalance
-          assets={mapAssetsToFlatArray(assets)}
-          wallet={address}
+          assets={mapAssetsToFlatArray(stateAssets)}
+          wallet={stateAddress}
           from={from}
           to={to}
           interval={INTERVAL}
