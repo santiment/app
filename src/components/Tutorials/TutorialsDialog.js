@@ -58,12 +58,17 @@ const TutorialsDialog = ({
                   allowFullScreen
                 />
               </div>
-
-              <h2 className={styles.tutorial__title}>{selected.title}</h2>
-              <p className={styles.tutorial__text}>
-                This metric shows the whole market value divided by the realized
-                value of the network, available to ETH, all ERC-20s and BTC
-              </p>
+              {/* TODO(vanguard): Hiding until text arrives */}
+              {false && (
+                <>
+                  <h2 className={styles.tutorial__title}>{selected.title}</h2>
+                  <p className={styles.tutorial__text}>
+                    This metric shows the whole market value divided by the
+                    realized value of the network, available to ETH, all ERC-20s
+                    and BTC
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>
