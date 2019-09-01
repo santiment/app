@@ -275,12 +275,14 @@ export const setupColorGenerator = () => {
   }
 }
 
+export const chartBars = new WeakMap()
+
 const StackedLogic = props => {
   const { fill, x, y, height, index, barsMap, value } = props
 
-  let obj = barsMap.get(index)
-
   if (value === undefined) return null
+
+  let obj = barsMap.get(index)
 
   if (!obj) {
     obj = {
@@ -295,9 +297,8 @@ const StackedLogic = props => {
   return null
 }
 
-export const chartBars = new WeakMap()
-
 const barMetricsSorter = ({ height: a }, { height: b }) => b - a
+
 const mapToData = ([fill, { height, y, x }]) => ({
   fill,
   height,
@@ -305,7 +306,7 @@ const mapToData = ([fill, { height, y, x }]) => ({
   x
 })
 
-function getBarMargin (diff) {
+const getBarMargin = diff => {
   if (diff < 1.3) {
     return 0.3
   }
