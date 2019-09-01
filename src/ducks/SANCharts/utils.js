@@ -60,7 +60,7 @@ export const Metrics = {
     fill: true,
     dataKey: 'volume',
     color: 'mystic',
-    opacity: 0.4
+    formatter: val => formatNumber(val, { currency: 'USD' })
   },
   socialVolume: {
     category: 'Social',

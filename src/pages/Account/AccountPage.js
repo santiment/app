@@ -83,7 +83,7 @@ const AccountPage = ({ isUserLoading, isLoggedIn, location }) => {
   }
 
   if (!isLoggedIn) {
-    return <Redirect to='/' />
+    return <Redirect to='/login' />
   }
 
   const { hash } = location

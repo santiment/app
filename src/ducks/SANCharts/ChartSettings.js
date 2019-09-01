@@ -36,7 +36,9 @@ const ChartSettings = ({
     <div className={styles.settings}>
       <div className={styles.settings__group}>
         <h3 className={styles.settings__title}>Metrics</h3>
-        <UpgradeBtn variant='fill'>Get more data</UpgradeBtn>
+        <UpgradeBtn loginRequired={false} variant='fill'>
+          Get more data
+        </UpgradeBtn>
       </div>
       <div className={styles.settings__group}>
         <Selector

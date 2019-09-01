@@ -25,13 +25,23 @@ const Trigger = ({ variant, className, children = 'Upgrade', ...props }) => (
 
 // NOTE(vanguard): redux passes "dispatch" prop to the component.
 // We should capture it in order to not assign it as a invalid dom attribute
-const UpgradeBtn = ({ isLoggedIn, isUserLoading, dispatch, ...props }) => {
+const UpgradeBtn = ({
+  isLoggedIn,
+  isUserLoading,
+  loginRequired = true,
+  dispatch,
+  ...props
+}) => {
   if (isUserLoading) {
     return null
   }
 
   if (!isLoggedIn) {
-    return <Trigger as={Link} to='/login' {...props} />
+    if (loginRequired) {
+      return <Trigger as={Link} to='/login' {...props} />
+    } else {
+      return <PlansDialog {...props} />
+    }
   }
 
   return (
@@ -43,17 +53,7 @@ const UpgradeBtn = ({ isLoggedIn, isUserLoading, dispatch, ...props }) => {
           return null
         }
 
-        return (
-          <Dialog
-            classes={styles}
-            title='Plan upgrade'
-            trigger={<Trigger {...props} />}
-          >
-            <Dialog.ScrollContent>
-              <Plans />
-            </Dialog.ScrollContent>
-          </Dialog>
-        )
+        return <PlansDialog {...props} />
       }}
     </Query>
   )
@@ -67,3 +67,15 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(UpgradeBtn)
+
+const PlansDialog = props => (
+  <Dialog
+    classes={styles}
+    title='Plan upgrade'
+    trigger={<Trigger {...props} />}
+  >
+    <Dialog.ScrollContent>
+      <Plans />
+    </Dialog.ScrollContent>
+  </Dialog>
+)

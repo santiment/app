@@ -27,7 +27,10 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
   })
 })(({ isLoggedIn, location, history, data: { insights = [] } }) => {
   const sortedInsights = insights.sort(creationDateSort).slice(0, 6)
-  const { slug = 'Bitcoin' } = parse(location.search)
+  const { slug = 'bitcoin' } = parse(location.search)
+  const onChangeSlug = ({ slug: newSlug } = {}) => {
+    slug && slug !== newSlug && history.replace(`/projects/${newSlug}`)
+  }
   return (
     <div className={styles.wrapper + ' page'}>
       <Breadcrumbs slug={slug} name={slug} />
@@ -50,6 +53,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
               classes={styles}
               isLoggedIn={isLoggedIn}
               events={['trendPositionHistory']}
+              onSlugSelect={onChangeSlug}
               {...boundaries}
             />
           )
