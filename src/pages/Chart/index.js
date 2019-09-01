@@ -21,6 +21,8 @@ function onGetStartedClick () {
   })
 }
 
+const AfterHeader = <TutorialList classes={styles} />
+
 export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
   fetchPolicy: 'cache-and-network',
   options: () => ({
@@ -43,7 +45,6 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
 
           return (
             <>
-              <TutorialList />
               <ChartWidget
                 enabledViewOnlySharing={false}
                 history={history}
@@ -57,6 +58,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
                 isLoggedIn={isLoggedIn}
                 events={['trendPositionHistory']}
                 onSlugSelect={onChangeSlug}
+                AfterHeader={AfterHeader}
                 {...boundaries}
               />
             </>

@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
+import cx from 'classnames'
 import TutorialCard from './TutorialCard'
 import TutorialsDialog from './TutorialsDialog'
 import { tutorials } from './tutorials'
+import styles from './TutorialList.module.scss'
 
-const TutorialList = () => {
+const TutorialList = ({ classes = {} }) => {
   const [selected, setSelected] = useState()
 
   return (
-    <>
+    <div className={cx(styles.wrapper, classes.wrapper)}>
       {tutorials.map(tutorial => (
         <TutorialCard
+          className={cx(styles.card, classes.card)}
           key={tutorial.title}
           onClick={() => setSelected(tutorial)}
           {...tutorial}
@@ -20,7 +23,7 @@ const TutorialList = () => {
         selectedTutorial={selected}
         onClose={setSelected}
       />
-    </>
+    </div>
   )
 }
 
