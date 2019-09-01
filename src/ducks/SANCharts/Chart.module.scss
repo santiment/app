@@ -134,14 +134,14 @@
     top: 0;
     bottom: 50px;
     width: 1px;
-    transform: translateX(var(--x));
+    transform: translateX(calc(var(--x) - 0.5px));
   }
 
   &::after {
     left: 20px;
     right: 0;
     height: 1px;
-    transform: translateY(var(--y));
+    transform: translateY(calc(var(--y) - 0.5px));
   }
 
   &_noY {

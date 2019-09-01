@@ -59,8 +59,7 @@ export const Metrics = {
     label: 'Volume',
     fill: true,
     dataKey: 'volume',
-    color: 'waterloo',
-    opacity: 0.4,
+    color: 'mystic',
     formatter: val => formatNumber(val, { currency: 'USD' })
   },
   socialVolume: {
@@ -276,14 +275,72 @@ export const setupColorGenerator = () => {
   }
 }
 
+export const chartBars = new WeakMap()
+
+const StackedLogic = props => {
+  const { fill, x, y, height, index, barsMap, value } = props
+
+  if (value === undefined) return null
+
+  let obj = barsMap.get(index)
+
+  if (!obj) {
+    obj = {
+      index,
+      metrics: new Map([[fill, { height, y, x }]])
+    }
+    barsMap.set(index, obj)
+  } else {
+    obj.metrics.set(fill, { height, y, x })
+  }
+
+  return null
+}
+
+const barMetricsSorter = ({ height: a }, { height: b }) => b - a
+
+const mapToData = ([fill, { height, y, x }]) => ({
+  fill,
+  height,
+  y,
+  x
+})
+
+const getBarMargin = diff => {
+  if (diff < 1.3) {
+    return 0.3
+  }
+
+  if (diff < 4) {
+    return 1
+  }
+
+  if (diff < 10) {
+    return 3
+  }
+  return 6
+}
+
 export const generateMetricsMarkup = (
   metrics,
-  { ref = {}, data = {} } = {}
+  {
+    ref = {},
+    data = {},
+    chartRef: { current: chartRef } = {},
+    coordinates
+  } = {}
 ) => {
   const metricWithYAxis = findYAxisMetric(metrics)
   const generateColor = setupColorGenerator()
 
-  return metrics.reduce((acc, metric) => {
+  // HACK(vanguard): Thanks recharts
+  let barsMap = chartBars.get(chartRef)
+  if (!barsMap && chartRef) {
+    barsMap = new Map()
+    chartBars.set(chartRef, barsMap)
+  }
+
+  const res = metrics.reduce((acc, metric) => {
     const {
       node: El,
       label,
@@ -292,7 +349,6 @@ export const generateMetricsMarkup = (
       dataKey = metric,
       hideYAxis,
       gradientUrl,
-      opacity = 1,
       formatter
     } = typeof metric === 'object' ? metric : Metrics[metric]
 
@@ -300,6 +356,10 @@ export const generateMetricsMarkup = (
       [El === Bar ? 'fill' : 'stroke']: `var(--${generateColor(color)})`,
       [El === Area && gradientUrl && 'fill']: gradientUrl,
       [El === Area && gradientUrl && 'fillOpacity']: 1
+    }
+
+    if (chartRef !== undefined && El === Bar) {
+      rest.shape = <StackedLogic barsMap={barsMap} />
     }
 
     acc.push(
@@ -321,7 +381,6 @@ export const generateMetricsMarkup = (
         dataKey={dataKey}
         dot={false}
         isAnimationActive={false}
-        opacity={opacity}
         connectNulls
         formatter={formatter}
         {...rest}
@@ -330,4 +389,56 @@ export const generateMetricsMarkup = (
 
     return acc
   }, [])
+
+  if (coordinates && barsMap) {
+    const [first, second, third] = coordinates
+    let firstX, secondX
+    if (!third) {
+      firstX = first.x
+      secondX = second.x
+    } else {
+      firstX = second.x
+      secondX = third.x
+    }
+
+    const halfDif = (secondX - firstX) / 2
+    const halfWidth = halfDif - getBarMargin(halfDif)
+
+    res.unshift(
+      <g key='barMetrics'>
+        {[...barsMap.values()].map(({ metrics, index }) => {
+          const coor = coordinates[index]
+          if (!coor) return null
+
+          const mapped = [...metrics.entries()].map(mapToData)
+          let resX = coor.x - halfWidth
+          let secondWidth = halfWidth
+
+          if (resX < 40) {
+            resX = 40
+            secondWidth = 0
+          } else if (resX + halfWidth * 2 > chartRef.offsetWidth) {
+            secondWidth = 0
+          }
+
+          return mapped
+            .sort(barMetricsSorter)
+            .map(({ fill, height, y }) => (
+              <rect
+                key={fill + resX}
+                opacity='1'
+                fill={fill}
+                width={halfWidth + secondWidth}
+                height={height}
+                x={resX}
+                y={y}
+                radius='0'
+              />
+            ))
+        })}
+      </g>
+    )
+  }
+
+  return res
 }
