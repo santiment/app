@@ -242,6 +242,8 @@ class Charts extends React.Component {
       events
     } = this.state
 
+    console.log(metrics)
+
     const lines = generateMetricsMarkup(metrics, {
       ref: { [tooltipMetric]: this.metricRef }
     })

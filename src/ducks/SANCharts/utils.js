@@ -35,6 +35,8 @@ export const getEventsTooltipInfo = events =>
     }
   })
 
+export const usdFormatter = val => formatNumber(val, { currency: 'USD' })
+
 export const Metrics = {
   historyPrice: {
     node: Line,
@@ -42,7 +44,7 @@ export const Metrics = {
     label: 'Price',
     dataKey: 'priceUsd',
     category: 'Financial',
-    formatter: val => formatNumber(val, { currency: 'USD' })
+    formatter: usdFormatter
   },
   historyPricePreview: {
     node: Area,
@@ -61,7 +63,7 @@ export const Metrics = {
     dataKey: 'volume',
     color: 'waterloo',
     opacity: 0.4,
-    formatter: val => formatNumber(val, { currency: 'USD' })
+    formatter: usdFormatter
   },
   socialVolume: {
     category: 'Social',
@@ -278,7 +280,8 @@ export const setupColorGenerator = () => {
 
 export const generateMetricsMarkup = (
   metrics,
-  { ref = {}, data = {} } = {}
+  { ref = {}, data = {} } = {},
+  customParams = {}
 ) => {
   const metricWithYAxis = findYAxisMetric(metrics)
   const generateColor = setupColorGenerator()
@@ -309,7 +312,7 @@ export const generateMetricsMarkup = (
         type='number'
         orientation={orientation}
         domain={['auto', 'dataMax']}
-        hide={metric !== metricWithYAxis || hideYAxis}
+        hide={metric !== metricWithYAxis || hideYAxis || customParams.hideYAxis}
       />,
       <El
         key={`line-${dataKey}`}

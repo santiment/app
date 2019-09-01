@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { tooltipLabelFormatter } from '../Charts'
 import { formatTokensCount } from '../../../utils/formatting'
 import styles from './CommonChartTooltip.module.scss'
+import { capitalizeStr } from '../../../utils/utils'
 
 const ChartTooltip = ({
   valueFormatter = formatTokensCount,
@@ -10,7 +11,8 @@ const ChartTooltip = ({
   className,
   active,
   payload,
-  label
+  label,
+  hideItem
 }) => {
   return (
     active &&
@@ -21,13 +23,17 @@ const ChartTooltip = ({
           <div className={styles.detailsTitle}>{labelFormatter(label)}</div>
           <div className={styles.detailsContent}>
             {payload.map(({ dataKey, value, color }) => {
+              if (hideItem && hideItem(dataKey)) {
+                return null
+              }
+
               return (
                 <div
                   key={dataKey}
                   style={{ '--color': color }}
                   className={styles.detailsMetric}
                 >
-                  {valueFormatter(value, dataKey)}
+                  {valueFormatter(value, dataKey, payload)}
                   <span className={styles.detailsName}>{dataKey}</span>
                 </div>
               )
@@ -36,6 +42,29 @@ const ChartTooltip = ({
         </div>
       </>
     )
+  )
+}
+
+export const renderLegend = ({ payload: items, labelFormatter }) => {
+  return (
+    <div className={styles.legend}>
+      {items.map((item, index) => {
+        const {
+          payload: { name, color, fill, opacity, dataKey }
+        } = item
+
+        return (
+          <div
+            key={dataKey}
+            style={{ '--color': color || fill }}
+            opacity={opacity}
+            className={cx(styles.detailsMetric, styles.legendLabel)}
+          >
+            {labelFormatter(dataKey)}
+          </div>
+        )
+      })}
+    </div>
   )
 }
 
