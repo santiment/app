@@ -21,7 +21,8 @@ import {
   getEventsTooltipInfo,
   Metrics,
   generateMetricsMarkup,
-  findYAxisMetric
+  findYAxisMetric,
+  chartBars
 } from './utils'
 import { checkHasPremium } from '../../pages/UserSelectors'
 import displayPaywall, { MOVE_CLB, CHECK_CLB } from './Paywall'
@@ -80,6 +81,12 @@ class Charts extends React.Component {
 
   eventsMap = new Map()
   metricRef = React.createRef()
+
+  componentWillUpdate ({ chartData, chartRef }) {
+    if (this.props.chartData !== chartData) {
+      chartBars.delete(chartRef.current)
+    }
+  }
 
   componentDidUpdate (prevProps) {
     const { metrics, events, chartData } = this.props
