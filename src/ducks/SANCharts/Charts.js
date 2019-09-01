@@ -188,6 +188,7 @@ class Charts extends React.Component {
     return true
   }
   getXToYCoordinatesDebounced = debounce(() => {
+    chartBars.delete(this.props.chartRef.current)
     this.getXToYCoordinates()
     // HACK(vanguard): Thanks recharts
     this.forceUpdate(this.forceUpdate)

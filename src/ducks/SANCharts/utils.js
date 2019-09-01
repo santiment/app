@@ -335,10 +335,7 @@ export const generateMetricsMarkup = (
 
   // HACK(vanguard): Thanks recharts
   let barsMap = chartBars.get(chartRef)
-  if (
-    (!barsMap && chartRef) ||
-    (coordinates && barsMap && coordinates.length !== barsMap.size)
-  ) {
+  if (!barsMap && chartRef) {
     barsMap = new Map()
     chartBars.set(chartRef, barsMap)
   }
@@ -410,8 +407,11 @@ export const generateMetricsMarkup = (
     res.unshift(
       <g key='barMetrics'>
         {[...barsMap.values()].map(({ metrics, index }) => {
+          const coor = coordinates[index]
+          if (!coor) return null
+
           const mapped = [...metrics.entries()].map(mapToData)
-          let resX = coordinates[index].x - halfWidth
+          let resX = coor.x - halfWidth
           let secondWidth = halfWidth
 
           if (resX < 40) {
