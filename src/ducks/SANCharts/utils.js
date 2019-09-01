@@ -59,7 +59,7 @@ export const Metrics = {
     label: 'Volume',
     fill: true,
     dataKey: 'volume',
-    color: 'waterloo',
+    color: 'mystic',
     opacity: 0.4
   },
   socialVolume: {
