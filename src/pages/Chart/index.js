@@ -10,8 +10,7 @@ import { ALL_INSIGHTS_BY_PAGE_QUERY } from '../../queries/InsightsGQL'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import { creationDateSort } from '../Insights/utils'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
-import TutorialCard from '../../components/Tutorials/TutorialCard'
-import TutorialsDialog from '../../components/Tutorials/TutorialsDialog'
+import TutorialList from '../../components/Tutorials/TutorialList'
 import paywallBoundaries from './paywallBoundaries'
 import styles from './index.module.scss'
 
@@ -44,8 +43,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
 
           return (
             <>
-              <TutorialsDialog />
-              <TutorialCard title='How to use Price metric?' duration='0:53' />
+              <TutorialList />
               <ChartWidget
                 enabledViewOnlySharing={false}
                 history={history}

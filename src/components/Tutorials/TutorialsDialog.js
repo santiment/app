@@ -1,15 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
 import TutorialCard from './TutorialCard'
 import { tutorials } from './tutorials'
 import styles from './TutorialsDialog.module.scss'
 
-const TutorialsDialog = () => {
-  const [selected, setSelected] = useState(tutorials[0])
+const TutorialsDialog = ({
+  selectedTutorial = tutorials[0],
+  open,
+  onClose
+}) => {
+  const [selected, setSelected] = useState(selectedTutorial)
+
+  useEffect(
+    () => {
+      setSelected(selectedTutorial)
+    },
+    [selectedTutorial]
+  )
 
   return (
-    <Dialog title='🎓  Santiment Academy' open={true} classes={styles}>
+    <Dialog
+      title='🎓  Santiment Academy'
+      open={open}
+      classes={styles}
+      onClose={onClose}
+    >
       <div className={styles.content}>
         <div className={cx(styles.block, styles.tutorials)}>
           <div className={styles.block__scroll}>
