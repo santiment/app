@@ -17,6 +17,7 @@ import { NETWORK_GROWTH_QUERY } from './queries/network_growth_query'
 import { SOCIAL_DOMINANCE_QUERY } from './queries/social_dominance_query'
 import { PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES } from './queries/percent_of_token_supply_on_exchanges_query'
 import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from './queries/top_holders_percent_of_total_supply'
+import { METRIC_ANOMALIE_QUERY } from '../../pages/Detailed/gqlWrappers/DetailedGQL'
 import { GET_METRIC } from './queries/get_metric'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import gql from 'graphql-tag'
@@ -129,6 +130,10 @@ const TIMESERIES = {
     query: PROJECT_TREND_HISTORY_QUERY,
     preTransform: ({ getProjectTrendingHistory: data }) =>
       data.filter(({ position }) => position)
+  },
+  anomalies: {
+    query: METRIC_ANOMALIE_QUERY,
+    preTransform: ({ metricAnomaly: anomalies = [] }) => anomalies
   }
 }
 

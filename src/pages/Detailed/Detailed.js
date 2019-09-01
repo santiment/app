@@ -95,6 +95,7 @@ export const Detailed = ({
               history={history}
               location={location}
               adjustNightMode={false}
+              showToggleAnomalies={true}
               slug={slug}
               title={`${name} (${ticker})`}
               projectId={id}

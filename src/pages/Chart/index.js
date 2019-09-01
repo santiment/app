@@ -46,6 +46,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
               history={history}
               location={location}
               adjustNightMode={false}
+              showToggleAnomalies={true}
               slug='bitcoin'
               title='Bitcoin (BTC)'
               projectId='1505'

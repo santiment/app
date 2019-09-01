@@ -25,6 +25,9 @@ const ShareChart = ({ trigger, shareLink }) => (
 const ChartSettingsContextMenu = ({
   chartRef,
   showNightModeToggle = true,
+  showToggleAnomalies = false,
+  isShowAnomalies,
+  onToggleAnomalies,
   isNightModeActive,
   onNightModeSelect,
   shareLink,
@@ -67,6 +70,20 @@ const ChartSettingsContextMenu = ({
             </Button>
           )}
         />
+        {showToggleAnomalies && (
+          <Button
+            fluid
+            variant='ghost'
+            onClick={onToggleAnomalies}
+            className={styles.context__btn}
+          >
+            Show anomalies
+            <Toggle
+              isActive={isShowAnomalies}
+              className={styles.context__toggle}
+            />
+          </Button>
+        )}
         {showDownload && (
           <ChartDownloadBtn
             fluid

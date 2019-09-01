@@ -274,6 +274,7 @@ class ChartPage extends Component {
       hideSettings = {},
       classes = {},
       adjustNightMode,
+      showToggleAnomalies,
       children,
       leftBoundaryDate,
       rightBoundaryDate,
@@ -363,6 +364,7 @@ class ChartPage extends Component {
                         onIntervalChange={this.onIntervalChange}
                         isNightModeActive={nightMode}
                         showNightModeToggle={adjustNightMode}
+                        showToggleAnomalies={showToggleAnomalies}
                         disabledMetrics={errors}
                         from={from}
                         to={to}
