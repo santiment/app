@@ -5,6 +5,10 @@ import { formatNumber } from './../../utils/formatting'
 const PRICE_METRIC = 'historyPrice'
 
 export const Events = {
+  trendPositionHistory: {
+    label: 'Trending Position',
+    category: 'Social'
+  },
   position: {
     label: 'Trending Position',
     formatter: val => {
@@ -264,7 +268,9 @@ export const METRIC_COLORS = [
 
 export const findYAxisMetric = metrics =>
   (metrics.includes(PRICE_METRIC) && PRICE_METRIC) ||
-  metrics.find(metric => Metrics[metric].node !== Bar) ||
+  metrics.find(
+    metric => metric !== 'mvrvRatio' && Metrics[metric].node !== Bar
+  ) ||
   metrics[0]
 
 export const setupColorGenerator = () => {

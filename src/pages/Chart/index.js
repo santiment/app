@@ -53,10 +53,9 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
                 slug='bitcoin'
                 title='Bitcoin (BTC)'
                 projectId='1505'
-                metrics={['historyPrice', 'mvrvRatio', 'socialVolume']}
+                metrics={['historyPrice', 'socialVolume', 'mvrvRatio']}
                 classes={styles}
                 isLoggedIn={isLoggedIn}
-                events={['trendPositionHistory']}
                 onSlugSelect={onChangeSlug}
                 AfterHeader={AfterHeader}
                 {...boundaries}
