@@ -106,6 +106,10 @@ class Charts extends React.Component {
             array: chartData
           })
 
+          if (index === -1 || index >= chartData.length) {
+            return null
+          }
+
           const result = value || chartData[index]
           const y = result[tooltipMetricKey]
           this.eventsMap.set(result.datetime, getEventsTooltipInfo(rest))
