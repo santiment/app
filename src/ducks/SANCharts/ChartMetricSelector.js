@@ -25,6 +25,7 @@ const addItemToGraph = (categories, metricCategory, metrics) => {
 let memo = {}
 
 const DEFAULT_CATEGORIES = {
+  Financial: undefined,
   Social: [
     {
       isEvent: true,
