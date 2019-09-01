@@ -276,10 +276,9 @@ export const setupColorGenerator = () => {
 }
 
 const StackedLogic = props => {
-  const { fill, x, y, width, height, index, barsMap, value } = props
+  const { fill, x, y, height, index, barsMap, value } = props
 
-  const indexes = barsMap.get('indexes')
-  let obj = indexes.get(index)
+  let obj = barsMap.get(index)
 
   if (value === undefined) return null
 
@@ -288,19 +287,9 @@ const StackedLogic = props => {
       index,
       metrics: new Map([[fill, { height, y, x }]])
     }
-    indexes.set(index, obj)
+    barsMap.set(index, obj)
   } else {
     obj.metrics.set(fill, { height, y, x })
-  }
-
-  const { size } = obj.metrics
-  let newWidth = width
-  if (size > 1) {
-    const { x: lastX } = [...obj.metrics.values()][0]
-    newWidth = Math.abs(x - lastX)
-  }
-  if (newWidth > (barsMap.get('width') || 0)) {
-    barsMap.set('width', newWidth)
   }
 
   return null
@@ -344,11 +333,9 @@ export const generateMetricsMarkup = (
   let barsMap = chartBars.get(chartRef)
   if (
     (!barsMap && chartRef) ||
-    (coordinates &&
-      barsMap &&
-      coordinates.length !== barsMap.get('indexes').size)
+    (coordinates && barsMap && coordinates.length !== barsMap.size)
   ) {
-    barsMap = new Map([['indexes', new Map()], ['width', 0]])
+    barsMap = new Map()
     chartBars.set(chartRef, barsMap)
   }
 
@@ -420,7 +407,7 @@ export const generateMetricsMarkup = (
 
     res.unshift(
       <g key='barMetrics'>
-        {[...barsMap.get('indexes').values()].map(({ metrics, index }) => {
+        {[...barsMap.values()].map(({ metrics, index }) => {
           const mapped = [...metrics.entries()].map(mapToData)
           let resX = coordinates[index].x - halfWidth
           let secondWidth = halfWidth

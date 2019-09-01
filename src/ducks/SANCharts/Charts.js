@@ -187,7 +187,11 @@ class Charts extends React.Component {
 
     return true
   }
-  getXToYCoordinatesDebounced = debounce(this.getXToYCoordinates, 100)
+  getXToYCoordinatesDebounced = debounce(() => {
+    this.getXToYCoordinates()
+    // HACK(vanguard): Thanks recharts
+    this.forceUpdate(this.forceUpdate)
+  }, 100)
 
   onMouseLeave = () => {
     this.setState({ hovered: false })
