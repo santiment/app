@@ -10,6 +10,8 @@ import { ALL_INSIGHTS_BY_PAGE_QUERY } from '../../queries/InsightsGQL'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import { creationDateSort } from '../Insights/utils'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
+import TutorialCard from '../../components/Tutorials/TutorialCard'
+import TutorialsDialog from '../../components/Tutorials/TutorialsDialog'
 import paywallBoundaries from './paywallBoundaries'
 import styles from './index.module.scss'
 
@@ -41,21 +43,25 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
           const boundaries = paywallBoundaries[userPlan]
 
           return (
-            <ChartWidget
-              enabledViewOnlySharing={false}
-              history={history}
-              location={location}
-              adjustNightMode={false}
-              slug='bitcoin'
-              title='Bitcoin (BTC)'
-              projectId='1505'
-              metrics={['historyPrice', 'mvrvRatio', 'socialVolume']}
-              classes={styles}
-              isLoggedIn={isLoggedIn}
-              events={['trendPositionHistory']}
-              onSlugSelect={onChangeSlug}
-              {...boundaries}
-            />
+            <>
+              <TutorialsDialog />
+              <TutorialCard title='How to use Price metric?' duration='0:53' />
+              <ChartWidget
+                enabledViewOnlySharing={false}
+                history={history}
+                location={location}
+                adjustNightMode={false}
+                slug='bitcoin'
+                title='Bitcoin (BTC)'
+                projectId='1505'
+                metrics={['historyPrice', 'mvrvRatio', 'socialVolume']}
+                classes={styles}
+                isLoggedIn={isLoggedIn}
+                events={['trendPositionHistory']}
+                onSlugSelect={onChangeSlug}
+                {...boundaries}
+              />
+            </>
           )
         }}
       </Query>
