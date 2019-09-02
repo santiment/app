@@ -2,6 +2,7 @@
 
 .wrapper {
   position: relative;
+
   &::before {
     content: '';
     display: block;
@@ -10,8 +11,7 @@
     top: -180px;
     height: 500px;
     z-index: -1;
-
-    background: url('./bg.svg') no-repeat 100% 0px;
+    background: url('./bg.svg') no-repeat 100% 0;
     background-size: 30%;
   }
 }
@@ -31,7 +31,7 @@
   user-select: none;
 
   &:global(.opened) {
-    box-shadow: 0px 20px 50px rgba(24, 27, 43, 0.08);
+    box-shadow: 0 20px 50px rgba(24, 27, 43, 0.08);
   }
 
   &__top {
@@ -71,6 +71,7 @@
     }
   }
 }
+
 .heading {
   margin: 30px 0 20px;
   font-size: 18px;
@@ -90,6 +91,7 @@
 
   a {
     color: var(--dodger-blue);
+
     &:hover {
       color: var(--dodger-blue-hover);
       text-decoration: underline;
