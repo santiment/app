@@ -19,7 +19,9 @@ const BalanceViewChartSettings = ({
   },
   queryString = '',
   toggleYAxes,
-  showYAxes
+  showYAxes,
+  priceMetrics = [],
+  toggleAsset
 }) => {
   return (
     <div className={cx(styles.settings, classes.chartSettings)}>
@@ -41,6 +43,7 @@ const BalanceViewChartSettings = ({
         showNightModeToggle={false}
         shareLink={window.location.origin + '/labs/balance' + queryString}
         showDownload={false}
+        classes={balanceViewStyles}
       >
         <Button
           fluid
@@ -48,9 +51,31 @@ const BalanceViewChartSettings = ({
           onClick={() => toggleYAxes(!showYAxes)}
           className={balanceViewStyles.toggleY}
         >
-          Show Y axes
+          <span className={balanceViewStyles.toggleLabel}>Show Y axes</span>
           <Toggle isActive={showYAxes} className={balanceViewStyles.toggler} />
         </Button>
+        <div className={balanceViewStyles.divider} />
+        <div className={balanceViewStyles.prices}>
+          {priceMetrics.map((metric, index) => {
+            return (
+              <Button
+                key={index}
+                fluid
+                variant='ghost'
+                onClick={() => toggleAsset(metric)}
+                className={balanceViewStyles.toggleY}
+              >
+                <span className={balanceViewStyles.toggleLabel}>
+                  Price of {metric.asset}
+                </span>
+                <Toggle
+                  isActive={metric.enabled}
+                  className={balanceViewStyles.toggler}
+                />
+              </Button>
+            )
+          })}
+        </div>
       </ChartSettingsContextMenu>
     </div>
   )

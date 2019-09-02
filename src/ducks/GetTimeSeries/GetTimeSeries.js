@@ -1,32 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
+import isEqual from 'lodash.isequal'
 import { fetchTimeseries, deleteTimeseries } from './actions'
 
 let id = 0
 
-function shouldFetch (a, b) {
-  if (a.length !== b.length) {
-    return true
-  }
-
-  const map = new Map()
-
-  for (let i = 0; i < a.length; i++) {
-    map.set(a[i].name, true)
-  }
-
-  for (let i = 0; i < b.length; i++) {
-    if (!map.has(b[i].name)) {
-      return true
-    }
-  }
-
-  return false
-}
-
 class GetTimeSeries extends React.Component {
   id = id++
+
+  static defaultProps = {
+    metrics: [],
+    events: []
+  }
 
   componentDidMount () {
     this.props.fetchTimeseries({
@@ -39,8 +25,8 @@ class GetTimeSeries extends React.Component {
   componentDidUpdate (prevProps) {
     const { metrics, fetchTimeseries, events } = this.props
     if (
-      shouldFetch(metrics, prevProps.metrics) ||
-      shouldFetch(events, prevProps.events)
+      !isEqual(metrics, prevProps.metrics) ||
+      !isEqual(events, prevProps.events)
     ) {
       fetchTimeseries({ id: this.id, metrics, events })
     }

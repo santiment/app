@@ -5,7 +5,6 @@ import { graphql, Query } from 'react-apollo'
 import ChartWidget from '../../ducks/SANCharts/ChartPage'
 import InsightsWrap from '../../components/Insight/InsightsWrap'
 import AnonBannerCardB from '../../components/Banner/AnonBanner/AnonBannerCardB'
-import { Breadcrumbs } from '../Detailed/Detailed'
 import { ALL_INSIGHTS_BY_PAGE_QUERY } from '../../queries/InsightsGQL'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import { creationDateSort } from '../Insights/utils'
@@ -36,7 +35,12 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
   }
   return (
     <div className={styles.wrapper + ' page'}>
-      <Breadcrumbs slug={slug} name={slug} />
+      <h2 className={styles.week}>
+        <span role='img' aria-label='cup'>
+          🏆
+        </span>
+        Chart of the week
+      </h2>
       <Query query={USER_SUBSCRIPTIONS_QUERY}>
         {({ data: { currentUser } = {} }) => {
           const subscription = getCurrentSanbaseSubscription(currentUser)
@@ -54,7 +58,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
                 slug='bitcoin'
                 title='Bitcoin (BTC)'
                 projectId='1505'
-                metrics={['historyPrice', 'socialVolume', 'mvrvRatio']}
+                metrics={['historyPrice', 'socialVolume', 'tokenAgeConsumed']}
                 classes={styles}
                 isLoggedIn={isLoggedIn}
                 onSlugSelect={onChangeSlug}
