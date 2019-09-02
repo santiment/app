@@ -161,7 +161,13 @@ const BalanceView = ({
             from={from}
             to={to}
             classes={styles}
-            queryString={mapStateToQS({ stateAddress, stateAssets })}
+            queryString={mapStateToQS({
+              address: stateAddress,
+              assets: stateAssets,
+              priceMetrics: priceMetrics
+                .filter(({ enabled }) => enabled)
+                .map(({ asset }) => asset)
+            })}
             showYAxes={showYAxes}
             toggleYAxes={toggleYAxes}
             priceMetrics={priceMetrics}
