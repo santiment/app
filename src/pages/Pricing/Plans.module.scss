@@ -1,7 +1,74 @@
 @import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
+
+.card {
+  text-align: center;
+  flex: initial;
+  width: 31%;
+  border-radius: 4px;
+  padding: 28px 48px;
+
+  &:nth-of-type(1) {
+    border-color: var(--athens);
+    background: var(--athens);
+  }
+
+  &:nth-of-type(2) {
+    --accent: var(--jungle-green);
+    --second-accent: #ccf2e7;
+
+    border-color: var(--jungle-green-light);
+    background: #ecfaf6;
+  }
+
+  &:nth-of-type(3) {
+    --accent: var(--dodger-blue);
+    --second-accent: #d9e2ff;
+    --jungle-green: var(--dodger-blue);
+    --jungle-green-hover: var(--dodger-blue-hover);
+
+    border-color: var(--dodger-blue-light);
+    background: #f1f4ff;
+  }
+
+  &:last-child {
+    flex: 1;
+  }
+
+  &_active {
+    border-color: var(--accent) !important;
+  }
+
+  &__top {
+    justify-content: center;
+  }
+
+  &__price {
+    color: var(--accent, var(--mirage));
+  }
+}
+
+.feature {
+  padding-left: 30px;
+  margin-bottom: 16px;
+  font-size: 14px;
+
+  &__icon {
+    position: absolute;
+    padding: 9px 8px;
+    box-sizing: content-box;
+    top: -3px;
+    left: -4px;
+    border-radius: 50%;
+    fill: var(--accent);
+    background: var(--second-accent);
+  }
+}
 
 .cards {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
   @include responsive('tablet', 'phone', 'phone-xs') {
     flex-direction: column;

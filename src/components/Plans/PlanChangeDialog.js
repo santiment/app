@@ -22,6 +22,7 @@ const ChangePlanDialog = ({
   price,
   billing,
   planId,
+  btnProps,
   addNot
 }) => {
   const [dialogVisible, setDialogVisiblity] = useState(false)
@@ -51,6 +52,7 @@ const ChangePlanDialog = ({
               className={planStyles.link}
               border
               accent='positive'
+              {...btnProps}
             >
               Change to this plan
             </Button>

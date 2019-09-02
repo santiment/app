@@ -58,7 +58,8 @@ const PaymentDialog = ({
   planId,
   stripe,
   disabled,
-  addNot
+  addNot,
+  btnProps
 }) => {
   const [loading, toggleLoading] = useFormLoading()
   const [paymentVisible, setPaymentVisiblity] = useState(false)
@@ -78,6 +79,7 @@ const PaymentDialog = ({
         fluid
         border
         accent='positive'
+        {...btnProps}
         disabled={disabled}
         onClick={showPayment}
       >

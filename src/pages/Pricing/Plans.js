@@ -24,6 +24,16 @@ const billingOptions = [
   { index: 'month', content: 'Bill monthly' }
 ]
 
+const PLAN_CLASSES = {
+  wrapper: styles.card,
+  wrapper_active: styles.card_active,
+  top: styles.card__top,
+  price: styles.card__price,
+  price: styles.card__price,
+  feature: styles.feature,
+  feature__icon: styles.feature__icon
+}
+
 const Billing = ({ selected, onClick }) => {
   const isYearSelected = selected === 'year'
   return (
@@ -97,6 +107,8 @@ export default ({ id, classes = {}, onDialogClose }) => {
                             userPlan={userPlan}
                             subscription={subscription}
                             isSubscriptionCanceled={isSubscriptionCanceled}
+                            classes={PLAN_CLASSES}
+                            btnProps={{ border: undefined, variant: 'fill' }}
                           />
                         ))}
                     </div>
