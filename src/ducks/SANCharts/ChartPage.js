@@ -194,6 +194,11 @@ class ChartPage extends Component {
     )
   }
 
+  onToggleAnomalies = () => {
+    const { isShowAnomalies } = this.state
+    this.setState({ isShowAnomalies: !isShowAnomalies }, this.updateSearchQuery)
+  }
+
   mapStateToQS = ({ isAdvancedView, ...props }) =>
     '?' + qs.stringify(props, { arrayFormat: 'comma' })
 
@@ -267,6 +272,7 @@ class ChartPage extends Component {
       title,
       zoom,
       nightMode,
+      isShowAnomalies,
       isAdvancedView
     } = this.state
 
@@ -362,7 +368,9 @@ class ChartPage extends Component {
                         generateShareLink={this.generateShareLink}
                         onNightModeSelect={this.onNightModeSelect}
                         onIntervalChange={this.onIntervalChange}
+                        onToggleAnomalies={this.onToggleAnomalies}
                         isNightModeActive={nightMode}
+                        isShowAnomalies={isShowAnomalies}
                         showNightModeToggle={adjustNightMode}
                         showToggleAnomalies={showToggleAnomalies}
                         disabledMetrics={errors}
