@@ -27,29 +27,29 @@ export const TriggerProjectsSelector = ({
   const [opened, setOpened] = useState(false)
   const checkedAssetsAsSet = new Set(listItems)
 
-  function closeDialog () {
+  const closeDialog = () => {
     setOpened(false)
   }
 
-  function openDialog () {
+  const openDialog = () => {
     setOpened(true)
   }
 
-  useEffect(
-    () => {
-      if (listItems.length === 0) {
-        const targetAssets = Array.isArray(target) ? target : [target]
+  const validate = force => {
+    if (force || listItems.length === 0) {
+      const targetAssets = Array.isArray(target) ? target : [target]
 
-        if (targetAssets.length > 0 && projects.length > 0) {
-          const preSelected = projects.filter(({ slug: projectSlug }) =>
-            targetAssets.some(
-              ({ value, slug }) => value === projectSlug || slug === projectSlug
-            )
+      if (targetAssets.length > 0 && projects.length > 0) {
+        const preSelected = projects.filter(({ slug: projectSlug }) =>
+          targetAssets.some(
+            ({ value, slug }) => value === projectSlug || slug === projectSlug
           )
-          setSelectedAssets(preSelected)
-        }
+        )
+        setSelectedAssets(preSelected)
       }
+    }
 
+    if (!force) {
       if (
         Array.isArray(target) &&
         target.length === 0 &&
@@ -57,6 +57,12 @@ export const TriggerProjectsSelector = ({
       ) {
         setSelectedAssets([])
       }
+    }
+  }
+
+  useEffect(
+    () => {
+      validate()
     },
     [target, projects]
   )
@@ -72,9 +78,6 @@ export const TriggerProjectsSelector = ({
     } else if (listItems.length !== newItems.length) {
       setListItems(newItems)
     }
-
-    setFieldValue && setFieldValue(name, newItems)
-    onChange && onChange(newItems, closeDialog)
   }
 
   const toggleAsset = ({ project, listItems: items, isAssetInList }) => {
@@ -83,6 +86,17 @@ export const TriggerProjectsSelector = ({
         ? items.filter(({ id }) => id !== project.id)
         : [...items, project]
     )
+  }
+
+  const cancel = () => {
+    validate(true)
+    setOpened(false)
+  }
+
+  const approve = () => {
+    setFieldValue && setFieldValue(name, listItems)
+    onChange && onChange(listItems, closeDialog)
+    closeDialog()
   }
 
   const onSuggestionSelect = project =>
@@ -96,7 +110,7 @@ export const TriggerProjectsSelector = ({
     <Dialog
       title={title}
       open={opened}
-      onClose={closeDialog}
+      onClose={cancel}
       trigger={
         <div onClick={openDialog}>
           <Trigger
@@ -137,6 +151,21 @@ export const TriggerProjectsSelector = ({
           />
         </div>
       </Dialog.ScrollContent>
+      {!isSingle && (
+        <Dialog.Actions className={styles.actions}>
+          <Dialog.Cancel border={false} accent='grey' onClick={cancel}>
+            Cancel
+          </Dialog.Cancel>
+          <Dialog.Approve
+            disabled={!listItems || listItems.length === 0}
+            variant='flat'
+            onClick={approve}
+            isLoading={isLoading}
+          >
+            Apply
+          </Dialog.Approve>
+        </Dialog.Actions>
+      )}
     </Dialog>
   )
 }
