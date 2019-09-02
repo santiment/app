@@ -9,6 +9,10 @@ export const Events = {
     label: 'Trending Position',
     category: 'Social'
   },
+  anomalies: {
+    label: 'Trending Position',
+    category: 'Social'
+  },
   position: {
     label: 'Trending Position',
     formatter: val => {
@@ -24,6 +28,10 @@ export const Events = {
           return `${val}th`
       }
     }
+  },
+  metricAnomalyKey: {
+    label: 'Anomaly',
+    formatter: val => val
   }
 }
 

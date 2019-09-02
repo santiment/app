@@ -133,18 +133,20 @@ const TIMESERIES = {
   },
   anomalies: {
     query: METRIC_ANOMALIE_QUERY,
-    preTransform: ({ metricAnomaly: anomalies = [] }) => anomalies
+    preTransform: ({ metricAnomaly: anomalies = [] }, metricAnomalyKey) => {
+      return anomalies.map(anomaly => ({ ...anomaly, metricAnomalyKey })) || []
+    }
   }
 }
 
 export const hasMetric = metric => !!TIMESERIES[metric]
 export const getMetricQUERY = metric => TIMESERIES[metric].query
-export const getPreTransform = metric => {
-  const transform = TIMESERIES[metric].preTransform
+export const getPreTransform = (name, metricAnomalyKey) => {
+  const transform = TIMESERIES[name].preTransform
 
   return ({ data, ...rest }) => ({
     ...rest,
-    data: transform ? { [metric]: transform(data) } : data,
-    __metric: metric
+    data: transform ? { [name]: transform(data, metricAnomalyKey) } : data,
+    __metric: name
   })
 }
