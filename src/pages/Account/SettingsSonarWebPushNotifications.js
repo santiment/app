@@ -8,17 +8,14 @@ import {
 } from '../../serviceWorker'
 import SidecarExplanationTooltip from '../../ducks/SANCharts/SidecarExplanationTooltip'
 import { getAPIUrl, getOrigin } from '../../utils/utils'
-import { hardReloadTabs } from '../../utils/localStorage'
 import styles from './AccountPage.module.scss'
 
 export const getSanSonarSW = registrations => {
   return registrations
     ? registrations
       .filter(({ active }) => !!active)
-      .find(
-        ({ active: { scriptURL, state } = {} } = {}) =>
-          scriptURL.endsWith('san-sonar-service-worker.js') &&
-            state === 'activated'
+      .find(({ active: { scriptURL, state } = {} } = {}) =>
+        scriptURL.endsWith('san-sonar-service-worker.js')
       )
     : undefined
 }
@@ -55,7 +52,6 @@ export const sendParams = () => {
 const SettingsSonarWebPushNotifications = ({
   classes = {},
   className,
-  canReload,
   recheckBrowserNotifications
 }) => {
   const [isActive, setIsActive] = useState(false)
@@ -129,7 +125,6 @@ const SettingsSonarWebPushNotifications = ({
                 requestNotificationPermission(null, noPermissionsCallback)
                 sendParams()
                 toggle(true)
-                canReload && hardReloadTabs()
                 recheckBrowserNotifications && recheckBrowserNotifications()
               }
             })
