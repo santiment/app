@@ -124,23 +124,30 @@ class Charts extends React.Component {
             return null
           }
 
+          const { metricAnomalyKey } = rest
+          const key = metricAnomalyKey
+            ? Metrics[metricAnomalyKey].dataKey || metricAnomalyKey
+            : tooltipMetricKey
           const result = value || chartData[index]
-          const y = result[tooltipMetricKey]
+          const y = result[key]
           this.eventsMap.set(result.datetime, getEventsTooltipInfo(rest))
 
-          return (
-            <ReferenceDot
-              yAxisId={`axis-${tooltipMetricKey}`}
-              r={3}
-              isFront
-              fill='var(--white)'
-              strokeWidth='2px'
-              stroke='var(--persimmon)'
-              key={datetime}
-              x={+new Date(datetime)}
-              y={y}
-            />
-          )
+          return {
+            key: metricAnomalyKey,
+            el: (
+              <ReferenceDot
+                yAxisId={`axis-${key}`}
+                r={3}
+                isFront
+                fill='var(--white)'
+                strokeWidth='2px'
+                stroke='var(--persimmon)'
+                key={datetime + __typename}
+                x={+new Date(datetime)}
+                y={y}
+              />
+            )
+          }
         })
       })
     }
@@ -267,6 +274,14 @@ class Charts extends React.Component {
       ref: { [tooltipMetric]: this.metricRef }
     })
 
+    const isTrendsShowing = events.find(event => event.key === undefined)
+
+    const eventsElements = events
+      .filter(({ key, el }) =>
+        isTrendsShowing ? !key : !key || metrics.includes(key) || []
+      )
+      .map(({ el }) => el)
+
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>
         {isLoading && (
@@ -365,7 +380,7 @@ class Charts extends React.Component {
               />
             )}
 
-            {metrics.includes(tooltipMetric) && events}
+            {metrics.includes(tooltipMetric) && eventsElements}
             {!hasPremium &&
               displayPaywall({
                 leftBoundaryDate,

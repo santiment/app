@@ -118,6 +118,36 @@
   left: 155px;
 }
 
+.values {
+  &::before,
+  &::after {
+    @include text('caption', 'm');
+
+    display: block;
+    position: absolute;
+    background: var(--porcelain);
+    color: var(--waterloo);
+    z-index: 3;
+    border: 1px solid var(--porcelain);
+    border-radius: 4px;
+    padding: 0 5px;
+  }
+
+  &::before {
+    content: var(--xValue);
+    transform: translateX(calc(var(--x) - 50%));
+    bottom: 48px;
+  }
+
+  &::after {
+    content: var(--yValue);
+    transform: translateY(calc(var(--y) - 50%));
+    left: -3px;
+    width: 40px;
+    text-align: center;
+  }
+}
+
 .line {
   pointer-events: none;
 
@@ -149,36 +179,6 @@
     .values::after {
       display: none;
     }
-  }
-}
-
-.values {
-  &::before,
-  &::after {
-    @include text('caption', 'm');
-
-    display: block;
-    position: absolute;
-    background: var(--porcelain);
-    color: var(--waterloo);
-    z-index: 3;
-    border: 1px solid var(--porcelain);
-    border-radius: 4px;
-    padding: 0 5px;
-  }
-
-  &::before {
-    content: var(--xValue);
-    transform: translateX(calc(var(--x) - 50%));
-    bottom: 48px;
-  }
-
-  &::after {
-    content: var(--yValue);
-    transform: translateY(calc(var(--y) - 50%));
-    left: -3px;
-    width: 40px;
-    text-align: center;
   }
 }
 

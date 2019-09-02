@@ -78,13 +78,13 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
     )
 
     const eventQueries = Observable.from(
-      events.map(({ name, ...variables }) =>
+      events.map(({ name, metricKey, ...variables }) =>
         client
           .query({
             query: getMetricQUERY(name),
             variables
           })
-          .then(getPreTransform(name))
+          .then(getPreTransform(name, metricKey))
           .catch(({ message }) => {
             errorMetrics[name] = message
           })

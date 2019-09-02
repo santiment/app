@@ -8,6 +8,7 @@ import Charts from './Charts'
 import Header from './Header'
 import { Metrics } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
+import { ANOMALIES_METRICS_ENUM } from '../../components/MobileMetricCard/MobileMetricCard'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
 import styles from './ChartPage.module.scss'
@@ -29,6 +30,7 @@ const DEFAULT_STATE = {
   interval: getNewInterval(FROM, TO, '1d'),
   isAdvancedView: false,
   enabledViewOnlySharing: true,
+  isShowAnomalies: localStorage.getItem('isShowAnomalies'),
   events: []
 }
 
@@ -200,6 +202,15 @@ class ChartPage extends Component {
     )
   }
 
+  onToggleAnomalies = () => {
+    const { isShowAnomalies } = this.state
+    const toggledState = !isShowAnomalies
+    this.setState({ isShowAnomalies: toggledState }, () => {
+      localStorage.setItem('isShowAnomalies', toggledState)
+      this.updateSearchQuery()
+    })
+  }
+
   mapStateToQS = ({ isAdvancedView, ...props }) =>
     '?' + qs.stringify(props, { arrayFormat: 'comma' })
 
@@ -274,6 +285,7 @@ class ChartPage extends Component {
       title,
       zoom,
       nightMode,
+      isShowAnomalies,
       isAdvancedView
     } = this.state
 
@@ -281,6 +293,7 @@ class ChartPage extends Component {
       hideSettings = {},
       classes = {},
       adjustNightMode,
+      showToggleAnomalies,
       children,
       leftBoundaryDate,
       rightBoundaryDate,
@@ -300,16 +313,33 @@ class ChartPage extends Component {
       }
     })
 
-    const requestedEvents = events.map(event => ({
-      name: event,
-      from,
-      to,
-      slug,
-      interval
-    }))
+    const requestedEvents =
+      events.map(event => ({
+        name: event,
+        from,
+        to,
+        slug,
+        interval
+      })) || []
 
     if (adjustNightMode) {
       document.body.classList.toggle('night-mode', !!nightMode)
+    }
+
+    if (isShowAnomalies) {
+      metrics.forEach(metric => {
+        if (ANOMALIES_METRICS_ENUM[metric]) {
+          requestedEvents.push({
+            name: 'anomalies',
+            from,
+            to,
+            slug,
+            interval,
+            metric: ANOMALIES_METRICS_ENUM[metric],
+            metricKey: metric
+          })
+        }
+      })
     }
 
     return (
@@ -369,8 +399,11 @@ class ChartPage extends Component {
                         generateShareLink={this.generateShareLink}
                         onNightModeSelect={this.onNightModeSelect}
                         onIntervalChange={this.onIntervalChange}
+                        onToggleAnomalies={this.onToggleAnomalies}
                         isNightModeActive={nightMode}
+                        isShowAnomalies={isShowAnomalies}
                         showNightModeToggle={adjustNightMode}
+                        showToggleAnomalies={showToggleAnomalies}
                         disabledMetrics={errors}
                         from={from}
                         to={to}

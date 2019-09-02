@@ -18,7 +18,10 @@ const ChartSettings = ({
   generateShareLink,
   onNightModeSelect,
   isNightModeActive,
+  isShowAnomalies,
   showNightModeToggle = true,
+  showToggleAnomalies,
+  onToggleAnomalies,
   onIntervalChange,
   disabledMetrics,
   interval,
@@ -64,7 +67,10 @@ const ChartSettings = ({
         <ChartSettingsContextMenu
           isNightModeActive={isNightModeActive}
           showNightModeToggle={showNightModeToggle}
+          showToggleAnomalies={showToggleAnomalies}
           onNightModeSelect={onNightModeSelect}
+          onToggleAnomalies={onToggleAnomalies}
+          isShowAnomalies={isShowAnomalies}
           shareLink={shareLink}
           activeMetrics={activeMetrics}
           title={title}
