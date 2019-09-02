@@ -1,29 +1,16 @@
 @import '~@santiment-network/ui/mixins.scss';
 
 .wrapper {
-  background: url('./bg.svg') no-repeat 50%;
   position: relative;
-
-  &::before {
-    content: '';
-    display: block;
-    position: absolute;
-    width: 100vw;
-    top: -150px;
-    height: 500px;
-    left: calc((1140px - 100vw) / 2);
-    z-index: -1;
-    background: url('./blur.svg') no-repeat 0 -70px;
-    background-size: 30%;
-
-    @include responsive('phone', 'phone-xs') {
-      background: none;
-    }
-  }
+  background: url('./bg.svg') no-repeat 50%;
+  margin: 100px auto 0;
 }
 
 .title {
+  @include text('h3');
+
   margin-bottom: 60px;
+  text-align: center;
 }
 
 .slider {
@@ -48,11 +35,14 @@
 
 .author {
   @include text('body-2');
+
+  margin: 10px 0 0;
 }
 
 .position {
   @include text('body-3');
 
+  margin: 0;
   color: var(--waterloo);
 }
 
@@ -78,7 +68,7 @@
   stroke: var(--mirage);
 
   &:hover {
-    stroke: var(--dodger-blue) !important;
+    stroke: var(--jungle-green) !important;
   }
 
   &_left {
@@ -109,15 +99,15 @@
   background-size: cover;
 
   &_yan {
-    background-image: url('../../images/yan.jpg');
+    background-image: url('./yan.jpg');
   }
 
   &_pramesh {
-    background-image: url('../../images/pramesh_tyagi.jpg');
+    background-image: url('./pramesh-tyagi.jpg');
   }
 
   &_paolo {
-    background-image: url('../../images/paolo-ardoino.jpg');
+    background-image: url('./paolo-ardoino.jpg');
   }
 }
 

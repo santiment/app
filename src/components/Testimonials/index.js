@@ -46,11 +46,7 @@ const Testimonials = () => {
 
   return (
     <section className={styles.wrapper}>
-      <h2 className={styles.title}>
-        What people
-        <br />
-        are saying
-      </h2>
+      <h2 className={styles.title}>What people are saying</h2>
       <div className={styles.slider}>
         <div
           className={cx(styles.arrow, styles.arrow_left)}
