@@ -39,6 +39,8 @@ export const getEventsTooltipInfo = events =>
     }
   })
 
+export const usdFormatter = val => formatNumber(val, { currency: 'USD' })
+
 export const Metrics = {
   historyPrice: {
     node: Line,
@@ -46,7 +48,7 @@ export const Metrics = {
     label: 'Price',
     dataKey: 'priceUsd',
     category: 'Financial',
-    formatter: val => formatNumber(val, { currency: 'USD' })
+    formatter: usdFormatter
   },
   historyPricePreview: {
     node: Area,
@@ -64,7 +66,7 @@ export const Metrics = {
     fill: true,
     dataKey: 'volume',
     color: 'mystic',
-    formatter: val => formatNumber(val, { currency: 'USD' })
+    formatter: usdFormatter
   },
   socialVolume: {
     category: 'Social',

@@ -50,7 +50,11 @@
 }
 
 .toggler {
-  margin-left: 10px;
+  margin-left: auto;
+}
+
+.toggleLabel {
+  margin-right: 10px;
 }
 
 .chartParams {
@@ -156,4 +160,12 @@
   @include responsive('phone', 'phone-xs') {
     top: -52px;
   }
+}
+
+.divider {
+  background: var(--grey-light-2);
+  height: 1px;
+  width: 100%;
+  margin: 15px 0;
+  position: relative;
 }

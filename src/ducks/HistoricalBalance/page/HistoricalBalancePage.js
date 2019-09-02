@@ -8,19 +8,34 @@ import styles from './HistoricalBalancePage.module.scss'
 
 export const mapToState = props => {
   if (props.location) {
-    const { address: newAddress, assets: newAssets } = mapQSToState(props)
+    const {
+      address: newAddress,
+      assets: newAssets,
+      priceMetrics: newPriceMetrics
+    } = mapQSToState(props)
 
     return {
       address: newAddress || '',
-      assets: newAssets || []
+      assets: newAssets || [],
+      priceMetrics: newPriceMetrics
     }
   } else {
-    const { address, assets } = props
+    const { address, assets, priceMetrics } = props
     return {
       address,
-      assets
+      assets,
+      priceMetrics: priceMetrics
     }
   }
+}
+
+export const initPriceMetrics = (assets, isEnabled) =>
+  assets && assets.length > 0
+    ? assets.map(item => ({ asset: item, enabled: isEnabled }))
+    : []
+
+const isInAssets = (assets, asset) => {
+  return assets.some(item => item === asset || (item && item.slug === asset))
 }
 
 export default class HistoricalBalancePage extends Component {
@@ -34,9 +49,9 @@ export default class HistoricalBalancePage extends Component {
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
-    const { assets, address } = nextProps
+    const { assets, address, priceMetrics } = nextProps
 
-    if (!assets || !address) {
+    if (!assets || !address || !priceMetrics) {
       return { ...mapToState(nextProps) }
     } else {
       return prevState
@@ -45,7 +60,6 @@ export default class HistoricalBalancePage extends Component {
 
   render () {
     const { isDesktop, showTitle, classes } = this.props
-    const { address, assets } = this.state
 
     return (
       <div className={styles.historicalBalancePage + ' page'}>
@@ -53,20 +67,30 @@ export default class HistoricalBalancePage extends Component {
         <BalanceView
           classes={classes}
           onChangeQuery={this.handleChangeQuery}
-          address={address}
-          assets={assets}
+          queryData={this.state}
         />
       </div>
     )
   }
 
-  mapStateToUrlQuery = ({ address, assets: assetsSlugs }) => {
-    const assets = mapAssetsToFlatArray(assetsSlugs)
-    return mapStateToQS({ address, assets })
+  mapStateToUrlQuery = ({ address, assets, priceMetrics }) => {
+    return mapStateToQS({
+      address,
+      assets: mapAssetsToFlatArray(assets),
+      priceMetrics: mapAssetsToFlatArray(priceMetrics)
+    })
   }
 
-  updateSearchQuery = newState => {
+  updateSearchQuery = data => {
+    let { assets, address, priceMetrics = [] } = data
+    priceMetrics = priceMetrics.filter(
+      ({ asset, enabled }) => enabled && isInAssets(assets, asset)
+    )
+
+    const newState = { assets, address, priceMetrics }
+
     const { history } = this.props
+
     if (history) {
       history.push({
         search: this.mapStateToUrlQuery(newState)
@@ -82,7 +106,10 @@ export default class HistoricalBalancePage extends Component {
 }
 
 export const mapAssetsToFlatArray = assetsSlugs =>
-  assetsSlugs.map(a => (a.slug ? a.slug : a))
+  assetsSlugs.map(item => {
+    const { slug, asset } = item
+    return slug || asset || item
+  })
 
 const BalancePageExplanation = () => (
   <>

@@ -1,16 +1,22 @@
-import React, { useState } from 'react'
-import Input from '@santiment-network/ui/Input'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import GetHistoricalBalance from '../GetHistoricalBalance'
 import HistoricalBalanceChart from '../chart/HistoricalBalanceChart'
-import AssetsField from '../AssetsField'
 import BalanceChartHeader from './BalanceChartHeader'
 import Loadable from 'react-loadable'
 import { getIntervalByTimeRange } from '../../../utils/dates'
-import { isPossibleEthAddress } from '../../Signals/utils/utils'
-import { mapAssetsToFlatArray } from '../page/HistoricalBalancePage'
-import styles from './BalanceView.module.scss'
+import {
+  initPriceMetrics,
+  mapAssetsToFlatArray
+} from '../page/HistoricalBalancePage'
 import { mapStateToQS } from '../../../utils/utils'
+import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
+import { Metrics } from '../../SANCharts/utils'
+import PageLoader from '../../../components/Loader/PageLoader'
+import BalanceViewWalletAssets from './BalanceViewWalletAssets'
+import styles from './BalanceView.module.scss'
+import { Area } from 'recharts'
+import { simpleSortStrings } from '../../../utils/sortMethods'
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./BalanceViewChartSettings'),
@@ -18,20 +24,62 @@ const LoadableChartSettings = Loadable({
 })
 
 const DEFAULT_TIME_RANGE = '6m'
+const INTERVAL = '1d'
+const PRICE_METRIC = 'historyPrice'
+const CHART_PRICE_METRIC = {
+  ...Metrics[PRICE_METRIC],
+  type: PRICE_METRIC,
+  node: Area,
+  opacity: 0.3
+}
+
+export const getPriceMetricWithSlug = slug => {
+  return 'priceUsd@' + slug
+}
 
 const BalanceView = ({
-  address = '',
-  assets = [],
+  queryData,
+  queryData: { priceMetrics: queryPriceMetrics, assets: queryAssets },
   onChangeQuery,
   classes = {}
 }) => {
-  const [walletAndAssets, setWalletAndAssets] = useState({
-    address,
-    assets
-  })
+  const [showYAxes, toggleYAxes] = useState(true)
+  const [priceMetricTimeseries, setPriceMetricTimeseries] = useState({})
+
+  const [queryState, setQueryState] = useState(queryData)
+
+  const [priceMetrics, setPriceMetrics] = useState([])
+
+  useEffect(
+    () => {
+      const currentAndNewPriceMetrics = initPriceMetrics(
+        queryPriceMetrics,
+        true
+      )
+
+      queryAssets.forEach(asset => {
+        if (
+          !currentAndNewPriceMetrics.some(
+            ({ asset: savedAsset }) => savedAsset === asset
+          )
+        ) {
+          currentAndNewPriceMetrics.push({ asset: asset, enabled: false })
+        }
+      })
+
+      currentAndNewPriceMetrics.sort(
+        ({ asset: assetFirst }, { asset: assetSecond }) => {
+          return simpleSortStrings(assetFirst, assetSecond)
+        }
+      )
+
+      setPriceMetrics(currentAndNewPriceMetrics)
+    },
+    [queryAssets]
+  )
 
   const setWalletsAndAssetsWrapper = data => {
-    setWalletAndAssets(data)
+    setQueryState(data)
     onChangeQuery(data)
   }
 
@@ -40,22 +88,29 @@ const BalanceView = ({
     ...getIntervalByTimeRange(DEFAULT_TIME_RANGE)
   })
 
+  useEffect(
+    () => {
+      setPriceMetricTimeseries({})
+    },
+    [chartSettings, queryState]
+  )
+
   const handleWalletChange = event => {
     setWalletsAndAssetsWrapper({
-      ...walletAndAssets,
+      ...queryState,
       [event.target.name]: event.target.value
     })
   }
 
   const handleAssetsChange = assets => {
     const newState = {
-      ...walletAndAssets,
+      ...queryState,
       assets
     }
     setWalletsAndAssetsWrapper(newState)
   }
 
-  const { address: stateAddress, assets: stateAssets } = walletAndAssets
+  const { address: stateAddress, assets: stateAssets } = queryState
 
   const onTimerangeChange = timeRange => {
     const { from, to } = getIntervalByTimeRange(timeRange)
@@ -76,7 +131,15 @@ const BalanceView = ({
     })
   }
 
-  const [showYAxes, toggleYAxes] = useState(true)
+  const togglePriceMetric = ({ asset: toggleAsset }) => {
+    const selected = priceMetrics.find(({ asset }) => toggleAsset === asset)
+    selected.enabled = !selected.enabled
+
+    setWalletsAndAssetsWrapper({
+      ...queryState,
+      priceMetrics: priceMetrics.filter(({ enabled }) => enabled)
+    })
+  }
 
   const { timeRange, from, to } = chartSettings
 
@@ -98,42 +161,106 @@ const BalanceView = ({
             from={from}
             to={to}
             classes={styles}
-            queryString={mapStateToQS({ address, assets })}
+            queryString={mapStateToQS({
+              address: stateAddress,
+              assets: stateAssets,
+              priceMetrics: priceMetrics
+                .filter(({ enabled }) => enabled)
+                .map(({ asset }) => asset)
+            })}
             showYAxes={showYAxes}
             toggleYAxes={toggleYAxes}
+            priceMetrics={priceMetrics}
+            toggleAsset={togglePriceMetric}
           />
         </BalanceChartHeader>
 
+        {priceMetrics.map(({ asset: slug, enabled }) => {
+          if (!enabled) {
+            return null
+          }
+
+          const requestedMetrics = [
+            {
+              name: CHART_PRICE_METRIC.type,
+              timeRange,
+              from: from,
+              to: to,
+              slug,
+              interval: INTERVAL,
+              ...CHART_PRICE_METRIC.reqMeta
+            }
+          ]
+
+          return (
+            <GetTimeSeries
+              key={slug}
+              metrics={requestedMetrics}
+              render={({ timeseries, isLoading }) => {
+                if (!timeseries || isLoading) {
+                  return null
+                } else {
+                  const metricSlug = getPriceMetricWithSlug(slug)
+
+                  if (
+                    !priceMetricTimeseries ||
+                    !priceMetricTimeseries[metricSlug]
+                  ) {
+                    const mapped = timeseries.map(({ priceUsd, datetime }) => ({
+                      datetime,
+                      [metricSlug]: priceUsd
+                    }))
+
+                    setPriceMetricTimeseries({
+                      ...priceMetricTimeseries,
+                      [metricSlug]: mapped
+                    })
+                  }
+
+                  return null
+                }
+              }}
+            />
+          )
+        })}
+
         <GetHistoricalBalance
-          assets={mapAssetsToFlatArray(assets)}
-          wallet={address}
+          assets={mapAssetsToFlatArray(stateAssets)}
+          wallet={stateAddress}
           from={from}
           to={to}
+          interval={INTERVAL}
           render={({ data, error }) => {
             if (error) return `Error!: ${error}`
             if (!data || Object.keys(data).length === 0) {
               return (
-                <div>
+                <>
                   <StatusDescription
                     label={
                       'Please paste the wallet address and choose supported assets in the forms above to see the historical data'
                     }
                   />
-                  <HistoricalBalanceChart data={{}} />
-                </div>
+                  <HistoricalBalanceChart walletsData={{}} />
+                </>
               )
             }
+
             const loading =
               Object.keys(data).filter(name => {
                 return (data[name] || {}).loading
               }).length > 0
+
+            if (loading) {
+              return <PageLoader />
+            }
+
             return (
-              <>
-                {loading && (
-                  <StatusDescription label={'Calculating balance...'} />
-                )}
-                {<HistoricalBalanceChart showYAxes={showYAxes} data={data} />}
-              </>
+              <HistoricalBalanceChart
+                showYAxes={showYAxes}
+                walletsData={data}
+                priceMetricsData={priceMetricTimeseries}
+                priceMetric={CHART_PRICE_METRIC}
+              />
             )
           }}
         />
@@ -146,45 +273,6 @@ export const StatusDescription = ({ label }) => {
   return (
     <div className={styles.descriptionContainer}>
       <div className={styles.description}>{label}</div>
-    </div>
-  )
-}
-
-const BalanceViewWalletAssets = ({
-  address,
-  assets,
-  handleAssetsChange,
-  handleWalletChange,
-  classes = {}
-}) => {
-  return (
-    <div className={styles.filters}>
-      <div className={cx(styles.InputWrapper, styles.wallet)}>
-        <label className={styles.label} htmlFor='address'>
-          Wallet address
-        </label>
-        <Input
-          className={styles.walletInput}
-          value={address}
-          id='address'
-          autoComplete='nope'
-          type='text'
-          isError={!isPossibleEthAddress(address)}
-          name='address'
-          placeholder='Paste the address'
-          onChange={handleWalletChange}
-        />
-      </div>
-      <div className={cx(styles.InputWrapper, styles.address)}>
-        <label className={styles.label} htmlFor='slug'>
-          Asset (maximum 5)
-        </label>
-        <AssetsField
-          byAddress={address}
-          defaultSelected={assets}
-          onChange={handleAssetsChange}
-        />
-      </div>
     </div>
   )
 }
