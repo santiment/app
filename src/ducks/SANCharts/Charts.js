@@ -21,7 +21,8 @@ import {
   getEventsTooltipInfo,
   Metrics,
   generateMetricsMarkup,
-  findYAxisMetric
+  findYAxisMetric,
+  chartBars
 } from './utils'
 import { checkHasPremium } from '../../pages/UserSelectors'
 import displayPaywall, { MOVE_CLB, CHECK_CLB } from './Paywall'
@@ -64,7 +65,6 @@ const valueFormatter = (value, name, formatter) => {
 
     return numValue.toFixed(2)
   } catch (e) {
-    console.warn(e)
     return 'No data'
   }
 }
@@ -81,8 +81,22 @@ class Charts extends React.Component {
   eventsMap = new Map()
   metricRef = React.createRef()
 
+  componentWillUpdate ({ chartData, chartRef }) {
+    if (this.props.chartData !== chartData) {
+      this.getXToYCoordinates()
+      chartBars.delete(chartRef.current)
+    }
+  }
+
   componentDidUpdate (prevProps) {
     const { metrics, events, chartData } = this.props
+
+    if (!this.xToYCoordinates && this.metricRef.current) {
+      // HACK(vanguard): Thanks recharts
+      this.getXToYCoordinates()
+      this.forceUpdate()
+    }
+
     if (this.props.chartData !== prevProps.chartData) {
       this.getXToYCoordinates()
     }
@@ -173,7 +187,12 @@ class Charts extends React.Component {
 
     return true
   }
-  getXToYCoordinatesDebounced = debounce(this.getXToYCoordinates, 100)
+  getXToYCoordinatesDebounced = debounce(() => {
+    chartBars.delete(this.props.chartRef.current)
+    this.getXToYCoordinates()
+    // HACK(vanguard): Thanks recharts
+    this.forceUpdate(this.forceUpdate)
+  }, 100)
 
   onMouseLeave = () => {
     this.setState({ hovered: false })
@@ -242,7 +261,9 @@ class Charts extends React.Component {
       events
     } = this.state
 
-    const lines = generateMetricsMarkup(metrics, {
+    const [bars, ...lines] = generateMetricsMarkup(metrics, {
+      chartRef,
+      coordinates: this.xToYCoordinates,
       ref: { [tooltipMetric]: this.metricRef }
     })
 
@@ -334,6 +355,7 @@ class Charts extends React.Component {
               type='number'
             />
             <YAxis hide />
+            {bars}
             {lines}
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
@@ -361,7 +383,9 @@ class Charts extends React.Component {
                 <ComposedChart>
                   {lines
                     .filter(({ type }) => type !== YAxis)
-                    .map(el => React.cloneElement(el, { ref: null }))}
+                    .map(el =>
+                      React.cloneElement(el, { ref: null, shape: undefined })
+                    )}
                 </ComposedChart>
               </Brush>
             )}

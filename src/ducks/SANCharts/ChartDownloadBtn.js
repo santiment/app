@@ -14,6 +14,7 @@ left: 200vw;`
 
 const SVG_STYLES = `
     --porcelain: ${colors.porcelain};
+    --mystic: ${colors.mystic};
     --malibu: ${colors.malibu};
     --heliotrope: ${colors.heliotrope};
     --persimmon: ${colors.persimmon};

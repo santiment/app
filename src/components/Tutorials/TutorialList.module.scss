@@ -1,0 +1,11 @@
+.wrapper {
+  display: flex;
+}
+
+.card {
+  margin-right: 24px;
+
+  &:last-child {
+    margin: 0;
+  }
+}
