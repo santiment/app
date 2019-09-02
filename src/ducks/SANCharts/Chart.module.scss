@@ -118,40 +118,6 @@
   left: 155px;
 }
 
-.line {
-  pointer-events: none;
-
-  &::before,
-  &::after {
-    content: '';
-    display: block;
-    position: absolute;
-    background: var(--mystic);
-    z-index: 2;
-  }
-
-  &::before {
-    top: 0;
-    bottom: 50px;
-    width: 1px;
-    transform: translateX(var(--x));
-  }
-
-  &::after {
-    left: 20px;
-    right: 0;
-    height: 1px;
-    transform: translateY(var(--y));
-  }
-
-  &_noY {
-    &::after,
-    .values::after {
-      display: none;
-    }
-  }
-}
-
 .values {
   &::before,
   &::after {
@@ -179,6 +145,40 @@
     left: -3px;
     width: 40px;
     text-align: center;
+  }
+}
+
+.line {
+  pointer-events: none;
+
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    background: var(--mystic);
+    z-index: 2;
+  }
+
+  &::before {
+    top: 0;
+    bottom: 50px;
+    width: 1px;
+    transform: translateX(calc(var(--x) - 0.5px));
+  }
+
+  &::after {
+    left: 20px;
+    right: 0;
+    height: 1px;
+    transform: translateY(calc(var(--y) - 0.5px));
+  }
+
+  &_noY {
+    &::after,
+    .values::after {
+      display: none;
+    }
   }
 }
 

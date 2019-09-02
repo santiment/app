@@ -28,7 +28,8 @@ const DEFAULT_STATE = {
   projectId: '16912',
   interval: getNewInterval(FROM, TO, '1d'),
   isAdvancedView: false,
-  enabledViewOnlySharing: true
+  enabledViewOnlySharing: true,
+  events: []
 }
 
 const LoadableChartSidecar = Loadable({
@@ -55,9 +56,12 @@ const getChartInitialState = props => {
     if (typeof data.metrics === 'string') {
       data.metrics = [data.metrics]
     }
+    if (typeof data.events === 'string') {
+      data.events = [data.events]
+    }
     passedState = data
   } else {
-    let { slug, from, to, title, timeRange, metrics, interval } = props
+    let { slug, from, to, title, timeRange, metrics, interval, events } = props
 
     if (!from) {
       const { from: f, to: t } = getIntervalByTimeRange(timeRange)
@@ -72,7 +76,8 @@ const getChartInitialState = props => {
       from,
       to,
       timeRange,
-      interval
+      interval,
+      events
     }
   }
 
@@ -167,9 +172,10 @@ class ChartPage extends Component {
     this.setState({ interval, zoom: undefined }, this.updateSearchQuery)
   }
 
-  toggleMetric = metric => {
+  toggleMetric = (metric, isEvent) => {
     this.setState(state => {
-      const newMetrics = new Set(state.metrics)
+      const key = isEvent ? 'events' : 'metrics'
+      const newMetrics = new Set(state[key])
       if (newMetrics.has(metric)) {
         newMetrics.delete(metric)
       } else {
@@ -180,7 +186,7 @@ class ChartPage extends Component {
       }
       return {
         ...state,
-        metrics: [...newMetrics]
+        [key]: [...newMetrics]
       }
     }, this.updateSearchQuery)
   }
@@ -265,6 +271,7 @@ class ChartPage extends Component {
       timeRange,
       slug,
       metrics,
+      events,
       from,
       to,
       interval,
@@ -285,7 +292,7 @@ class ChartPage extends Component {
       leftBoundaryDate,
       rightBoundaryDate,
       isLoggedIn,
-      events = []
+      AfterHeader
     } = this.props
 
     const requestedMetrics = metrics.map(metric => {
@@ -318,7 +325,7 @@ class ChartPage extends Component {
         metrics={requestedMetrics}
         render={({
           timeseries = [],
-          events = [],
+          eventsData = [],
           errorMetrics = {},
           isError,
           isLoading,
@@ -351,6 +358,7 @@ class ChartPage extends Component {
                   onSlugSelect={this.onSlugSelect}
                 />
               )}
+              {AfterHeader}
               <div className={styles.wrapper}>
                 <div
                   className={cx(
@@ -392,6 +400,7 @@ class ChartPage extends Component {
                         toggleMetric={this.toggleMetric}
                         disabledMetrics={errors}
                         activeMetrics={finalMetrics}
+                        activeEvents={events}
                       />
                     )}
                     <Charts
@@ -400,7 +409,7 @@ class ChartPage extends Component {
                       onZoom={this.onZoom}
                       onZoomOut={this.onZoomOut}
                       isZoomed={zoom}
-                      events={events}
+                      events={eventsData}
                       chartData={(timeseries && zoom
                         ? timeseries.slice(zoom[0], zoom[1])
                         : timeseries
