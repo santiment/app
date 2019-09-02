@@ -30,7 +30,7 @@ const DEFAULT_STATE = {
   interval: getNewInterval(FROM, TO, '1d'),
   isAdvancedView: false,
   enabledViewOnlySharing: true,
-  isShowAnomalies: true,
+  isShowAnomalies: localStorage.getItem('isShowAnomalies'),
   events: []
 }
 
@@ -204,7 +204,11 @@ class ChartPage extends Component {
 
   onToggleAnomalies = () => {
     const { isShowAnomalies } = this.state
-    this.setState({ isShowAnomalies: !isShowAnomalies }, this.updateSearchQuery)
+    const toggledState = !isShowAnomalies
+    this.setState({ isShowAnomalies: toggledState }, () => {
+      localStorage.setItem('isShowAnomalies', toggledState)
+      this.updateSearchQuery()
+    })
   }
 
   mapStateToQS = ({ isAdvancedView, ...props }) =>
