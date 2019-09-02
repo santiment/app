@@ -274,9 +274,13 @@ class Charts extends React.Component {
       ref: { [tooltipMetric]: this.metricRef }
     })
 
-    const eventsElements = (
-      events.filter(({ key, el }) => !key || metrics.includes(key)) || []
-    ).map(({ el }) => el)
+    const isTrendsShowing = events.find(event => event.key === undefined)
+
+    const eventsElements = events
+      .filter(({ key, el }) =>
+        isTrendsShowing ? !key : !key || metrics.includes(key) || []
+      )
+      .map(({ el }) => el)
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>
