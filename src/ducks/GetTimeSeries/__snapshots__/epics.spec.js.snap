@@ -18,7 +18,7 @@ Array [
           "isLoading": false,
         },
         "errorMetrics": Object {},
-        "events": Array [],
+        "eventsData": Array [],
         "historyPrice": Object {
           "isEmpty": false,
           "isError": false,
@@ -117,7 +117,7 @@ Array [
           "isLoading": false,
         },
         "errorMetrics": Object {},
-        "events": Array [],
+        "eventsData": Array [],
         "historyPrice": Object {
           "isEmpty": false,
           "isError": false,
