@@ -280,8 +280,7 @@ export const setupColorGenerator = () => {
 
 export const generateMetricsMarkup = (
   metrics,
-  { ref = {}, data = {} } = {},
-  customParams = {}
+  { ref = {}, data = {} } = {}
 ) => {
   const metricWithYAxis = findYAxisMetric(metrics)
   const generateColor = setupColorGenerator()
@@ -312,7 +311,7 @@ export const generateMetricsMarkup = (
         type='number'
         orientation={orientation}
         domain={['auto', 'dataMax']}
-        hide={metric !== metricWithYAxis || hideYAxis || customParams.hideYAxis}
+        hide={metric !== metricWithYAxis || hideYAxis}
       />,
       <El
         key={`line-${dataKey}`}
