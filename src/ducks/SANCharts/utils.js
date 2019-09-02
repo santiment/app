@@ -398,7 +398,7 @@ export const generateMetricsMarkup = (
     return acc
   }, [])
 
-  if (coordinates && barsMap) {
+  if (coordinates && barsMap && coordinates.length > 1) {
     const [first, second, third] = coordinates
     let firstX, secondX
     if (!third) {
