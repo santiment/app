@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
-import Plans from '../../components/Plans/Plans'
+/* import Plans from '../../components/Plans/Plans' */
+import Plans from './Plans'
 import Testimonials from '../../components/Testimonials'
 import styles from './index.module.scss'
 
@@ -14,7 +15,7 @@ export default () => {
         </h3>
       </div>
 
-      <Plans id='plans' />
+      <Plans />
 
       <Testimonials />
       <section className={styles.ready}>
