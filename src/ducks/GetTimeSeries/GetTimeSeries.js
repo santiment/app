@@ -28,6 +28,11 @@ function shouldFetch (a, b) {
 class GetTimeSeries extends React.Component {
   id = id++
 
+  static defaultProps = {
+    metrics: [],
+    events: []
+  }
+
   componentDidMount () {
     this.props.fetchTimeseries({
       id: this.id,
