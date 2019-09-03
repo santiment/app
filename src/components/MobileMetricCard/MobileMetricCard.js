@@ -63,7 +63,7 @@ const MobileMetricCard = ({
 }
 
 export default graphql(METRIC_ANOMALIE_QUERY, {
-  skip: ({ metric, from }) => !metric || !from,
+  skip: ({ metric, from }) => !ANOMALIES_METRICS_ENUM[metric] || !from,
   options: ({ metric, slug, from, to }) => {
     return {
       variables: {
