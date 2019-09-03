@@ -30,7 +30,7 @@ const DEFAULT_STATE = {
   interval: getNewInterval(FROM, TO, '1d'),
   isAdvancedView: false,
   enabledViewOnlySharing: true,
-  isShowAnomalies: localStorage.getItem('isShowAnomalies'),
+  isShowAnomalies: !localStorage.getItem('hideAnomalies'),
   events: []
 }
 
@@ -206,7 +206,11 @@ class ChartPage extends Component {
     const { isShowAnomalies } = this.state
     const toggledState = !isShowAnomalies
     this.setState({ isShowAnomalies: toggledState }, () => {
-      localStorage.setItem('isShowAnomalies', toggledState)
+      if (toggledState) {
+        localStorage.removeItem('hideAnomalies')
+      } else {
+        localStorage.setItem('hideAnomalies', '+')
+      }
       this.updateSearchQuery()
     })
   }
