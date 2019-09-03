@@ -236,6 +236,7 @@ class ChartPage extends Component {
       metrics,
       interval,
       nightMode,
+      isShowAnomalies,
       zoom,
       from,
       to
@@ -248,6 +249,7 @@ class ChartPage extends Component {
       metrics: metrics.filter(metric => !disabledMetrics.includes(metric)),
       interval,
       nightMode,
+      isShowAnomalies,
       title
     }
 
