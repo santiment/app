@@ -4,7 +4,7 @@
 .card {
   text-align: center;
   flex: initial;
-  width: 31%;
+  width: calc(33.3% - 24px);
   border-radius: 4px;
   padding: 28px 48px;
 

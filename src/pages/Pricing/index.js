@@ -15,7 +15,7 @@ export default () => {
         </h3>
       </div>
 
-      <Plans />
+      <Plans id='plans' />
 
       <Testimonials />
       <section className={styles.ready}>
