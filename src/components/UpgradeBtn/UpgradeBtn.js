@@ -36,13 +36,7 @@ const UpgradeBtn = ({
     return null
   }
 
-  if (!isLoggedIn) {
-    if (loginRequired) {
-      return <Trigger as={Link} to='/login' {...props} />
-    } else {
-      return <PlansDialog {...props} />
-    }
-  }
+  return <Trigger as={Link} to='/pricing' {...props} />
 
   return (
     <Query query={USER_SUBSCRIPTIONS_QUERY}>
