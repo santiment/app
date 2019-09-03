@@ -2,11 +2,14 @@
 @import '~@santiment-network/ui/variables';
 
 .card {
-  text-align: center;
   flex: initial;
-  width: calc(33.3% - 24px);
   border-radius: 4px;
   padding: 28px 48px;
+
+  @include responsive('desktop', 'laptop') {
+    text-align: center;
+    width: calc(33.3% - 24px);
+  }
 
   &:nth-of-type(1) {
     border-color: var(--athens);
@@ -40,11 +43,18 @@
   }
 
   &__top {
-    justify-content: center;
+    @include responsive('desktop', 'laptop') {
+      justify-content: center;
+    }
   }
 
   &__price {
     color: var(--accent, var(--mirage));
+  }
+
+  &__popular {
+    background: #d9e2ff;
+    color: var(--dodger-blue);
   }
 }
 
@@ -136,6 +146,11 @@
   justify-content: center;
   margin-bottom: 80px;
 
+  @include responsive('phone-xs') {
+    flex-direction: column;
+    align-items: center;
+  }
+
   &__toggle path {
     display: none;
   }
@@ -146,6 +161,10 @@
     color: var(--waterloo);
     margin: 0 32px;
     cursor: pointer;
+
+    @include responsive('phone-xs') {
+      margin: 8px 0;
+    }
 
     &_active {
       color: var(--mirage);

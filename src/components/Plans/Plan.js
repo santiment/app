@@ -55,7 +55,9 @@ const Plan = ({
       >
         <h3 className={styles.card__title}>
           {card.title}
-          {card.isPopular && <span className={styles.popular}>Popular</span>}
+          {card.isPopular && (
+            <span className={cx(styles.popular, classes.popular)}>Popular</span>
+          )}
         </h3>
         <svg
           width='15'

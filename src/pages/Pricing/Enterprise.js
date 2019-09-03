@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
-import PlanPipedriveDialog from '../../components/Plans/PlanPipedriveDialog'
+import list from '../../components/Plans/list'
 import styles from './Enterprise.module.scss'
 
 const features = [
@@ -13,7 +13,9 @@ const features = [
   'Samples data'
 ]
 
-const Enterprise = ({}) => {
+const { Component: Btn } = list.ENTERPRISE
+
+const Enterprise = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.left}>
@@ -21,11 +23,11 @@ const Enterprise = ({}) => {
         <div className={styles.description}>
           For organizations that need advanced data and support
         </div>
-        <PlanPipedriveDialog label='Contact sales' />
+        <Btn label='Contact sales' />
       </div>
       <div className={styles.right}>
         {features.map(feature => (
-          <div className={styles.feature}>
+          <div key={feature} className={styles.feature}>
             <Icon type='checkmark' className={styles.check} />
             {feature}
           </div>

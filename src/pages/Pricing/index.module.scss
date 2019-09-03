@@ -4,6 +4,10 @@
   @include responsive('desktop', 'laptop') {
     margin-top: -32px !important;
   }
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 0 16px 50px !important;
+  }
 }
 
 .title {
@@ -27,6 +31,10 @@
 .top {
   background: url('./bg.svg') no-repeat 100%;
   padding: 80px 0 100px;
+
+  @include responsive('phone-xs') {
+    padding: 50px 0 60px;
+  }
 }
 
 .testimonials {
@@ -40,6 +48,14 @@
   padding: 80px 30%;
   width: 100%;
   margin: 80px 0 20px;
+
+  @include responsive('tablet', 'phone') {
+    padding: 80px 16%;
+  }
+
+  @include responsive('phone-xs') {
+    padding: 40px 30px;
+  }
 
   &__title {
     @include text('h3');

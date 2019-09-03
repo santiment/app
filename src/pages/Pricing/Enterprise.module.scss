@@ -6,7 +6,10 @@
   border-radius: 8px;
   padding: 44px 48px;
   flex: 1;
-  display: flex;
+
+  @include responsive('desktop', 'laptop') {
+    display: flex;
+  }
 
   button {
     width: 230px;
@@ -40,6 +43,15 @@
   width: 50%;
   display: flex;
   align-items: center;
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin: 0;
+  }
+
+  @include responsive('phone-xs') {
+    width: 100%;
+  }
 }
 
 .check {

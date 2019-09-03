@@ -1,38 +1,24 @@
 import React from 'react'
 import { Query } from 'react-apollo'
 import cx from 'classnames'
-import RadioBtns from '@santiment-network/ui/RadioBtns'
-import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
 import Plan from './Plan'
 import {
   findSanbasePlan,
-  getCurrentSanbaseSubscription,
+  getCurrentSanbaseSubscription
 } from '../../utils/plans'
 import { USER_SUBSCRIPTIONS_QUERY, PLANS_QUERY } from '../../queries/plans'
 import Enterprise from './Enterprise'
 import styles from './Plans.module.scss'
-
-const billingOptions = [
-  {
-    index: 'year',
-    content: (
-      <>
-        Bill yearly <Label accent='waterloo'>(save 10%)</Label>
-      </>
-    ),
-  },
-  { index: 'month', content: 'Bill monthly' },
-]
 
 const PLAN_CLASSES = {
   wrapper: styles.card,
   wrapper_active: styles.card_active,
   top: styles.card__top,
   price: styles.card__price,
-  price: styles.card__price,
   feature: styles.feature,
   feature__icon: styles.feature__icon,
+  popular: styles.card__popular
 }
 
 const Billing = ({ selected, onClick }) => {
@@ -43,7 +29,7 @@ const Billing = ({ selected, onClick }) => {
         onClick={() => onClick('month')}
         className={cx(
           styles.billing__option,
-          !isYearSelected && styles.billing__option_active,
+          !isYearSelected && styles.billing__option_active
         )}
       >
         Bill monthly
@@ -57,7 +43,7 @@ const Billing = ({ selected, onClick }) => {
         className={cx(
           styles.billing__option,
           styles.billing__option_year,
-          isYearSelected && styles.billing__option_active,
+          isYearSelected && styles.billing__option_active
         )}
         onClick={() => onClick('year')}
       >
@@ -95,19 +81,12 @@ export default ({ id, classes = {}, onDialogClose }) => {
                       {product.plans
                         .filter(
                           ({ name, interval }) =>
-                            interval === billing || name === 'FREE',
+                            interval === billing || name === 'FREE'
                         )
                         .sort(({ id: a }, { id: b }) => a - b)
                         .map(plan =>
                           plan.name === 'ENTERPRISE' ? (
-                            <Enterprise
-                              key={plan.id}
-                              {...plan}
-                              isLoggedIn={currentUser}
-                              billing={billing}
-                              product={product}
-                              userPlan={userPlan}
-                            />
+                            <Enterprise key={plan.id} />
                           ) : (
                             <Plan
                               key={plan.id}
@@ -121,7 +100,7 @@ export default ({ id, classes = {}, onDialogClose }) => {
                               classes={PLAN_CLASSES}
                               btnProps={{ border: undefined, variant: 'fill' }}
                             />
-                          ),
+                          )
                         )}
                     </div>
                   </>
