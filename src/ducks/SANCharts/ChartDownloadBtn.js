@@ -18,6 +18,7 @@ const SVG_STYLES = `
     --malibu: ${colors.malibu};
     --heliotrope: ${colors.heliotrope};
     --persimmon: ${colors.persimmon};
+    --white: white;
     --texas-rose: ${colors['texas-rose']};
     --jungle-green: ${colors['jungle-green']};
     --lima: ${colors.lima};
