@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
-import { formatNumber, millify } from '../../utils/formatting'
+import { formatTooltipValue } from '../../ducks/SANCharts/CustomTooltip'
 import PercentChanges from '../PercentChanges'
 import { METRIC_ANOMALIE_QUERY } from '../../pages/Detailed/gqlWrappers/DetailedGQL'
 import styles from './MobileMetricCard.module.scss'
@@ -12,8 +12,6 @@ export const ANOMALIES_METRICS_ENUM = {
   devActivity: 'DEV_ACTIVITY',
   socialVolume: 'SOCIAL_VOLUME'
 }
-
-const LARGE_NUMBER_STEP = 1000
 
 const MobileMetricCard = ({
   metric,
@@ -43,8 +41,7 @@ const MobileMetricCard = ({
       <div className={cx(styles.row, styles.row_top)}>
         <h3 className={styles.metric}>{name}</h3>
         <h4 className={styles.value}>
-          {value > LARGE_NUMBER_STEP ? millify(value) : formatNumber(value)}{' '}
-          {measure}
+          {formatTooltipValue(false, value)} {measure}
         </h4>
       </div>
       <div className={styles.row}>
