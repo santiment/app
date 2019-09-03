@@ -11,16 +11,6 @@ import { USER_SUBSCRIPTIONS_QUERY, PLANS_QUERY } from '../../queries/plans'
 import Enterprise from './Enterprise'
 import styles from './Plans.module.scss'
 
-const PLAN_CLASSES = {
-  wrapper: styles.card,
-  wrapper_active: styles.card_active,
-  top: styles.card__top,
-  price: styles.card__price,
-  feature: styles.feature,
-  feature__icon: styles.feature__icon,
-  popular: styles.card__popular
-}
-
 const Billing = ({ selected, onClick }) => {
   const isYearSelected = selected === 'year'
   return (
@@ -97,8 +87,6 @@ export default ({ id, classes = {}, onDialogClose }) => {
                               userPlan={userPlan}
                               subscription={subscription}
                               isSubscriptionCanceled={isSubscriptionCanceled}
-                              classes={PLAN_CLASSES}
-                              btnProps={{ border: undefined, variant: 'fill' }}
                             />
                           )
                         )}
