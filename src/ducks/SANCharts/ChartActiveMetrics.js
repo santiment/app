@@ -38,20 +38,28 @@ const ChartActiveMetrics = ({ activeEvents, activeMetrics, toggleMetric }) => {
         )
       })}
       {activeEvents.map(event => {
+        const { label, description } = Events[event]
         return (
-          <Button key={event} border className={styles.btn}>
-            <Label
-              className={styles.label}
-              variant='circle'
-              accent='persimmon'
-            />
-            {Events[event].label}
-            <Icon
-              type='close-small'
-              className={styles.icon}
-              onClick={() => toggleMetric(event, true)}
-            />
-          </Button>
+          <MetricExplanation
+            key={label}
+            label={label}
+            description={description}
+            withChildren
+          >
+            <Button key={event} border className={styles.btn}>
+              <Label
+                className={styles.label}
+                variant='circle'
+                accent='persimmon'
+              />
+              {label}
+              <Icon
+                type='close-small'
+                className={styles.icon}
+                onClick={() => toggleMetric(event, true)}
+              />
+            </Button>
+          </MetricExplanation>
         )
       })}
     </section>

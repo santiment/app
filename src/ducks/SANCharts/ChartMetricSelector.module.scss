@@ -143,3 +143,27 @@
   justify-content: center;
   font-size: 7px;
 }
+
+.note {
+  padding: 8px;
+  margin: 9px 0;
+  color: var(--fiord);
+  background-color: var(--athens);
+
+  @include text('caption');
+
+  & .warning {
+    color: var(--persimmon);
+    font-weight: bold;
+    margin-right: 5px;
+  }
+
+  & .text {
+    margin-right: 5px;
+  }
+
+  .icon {
+    fill: var(--fiord);
+    vertical-align: middle;
+  }
+}
