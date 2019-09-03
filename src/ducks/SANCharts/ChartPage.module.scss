@@ -134,6 +134,18 @@
   &__btn {
     justify-content: space-between;
   }
+
+  & .icon {
+    fill: var(--casper);
+    margin-right: 18px;
+    width: 15px;
+
+    &.flash {
+      fill: none;
+      stroke: var(--casper);
+      stroke-width: 1.5px;
+    }
+  }
 }
 
 .moreData {

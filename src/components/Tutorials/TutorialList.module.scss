@@ -1,11 +1,9 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
-  display: flex;
-}
+  @include grid-wrap(3);
 
-.card {
-  margin-right: 24px;
-
-  &:last-child {
-    margin: 0;
+  @include responsive('tablet') {
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }

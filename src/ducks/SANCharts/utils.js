@@ -7,11 +7,9 @@ const PRICE_METRIC = 'historyPrice'
 export const Events = {
   trendPositionHistory: {
     label: 'Trending Position',
-    category: 'Social'
-  },
-  anomalies: {
-    label: 'Trending Position',
-    category: 'Social'
+    category: 'Social',
+    description: `It’s the amount of the coin that has been traded in the last 24 hours.
+    Volume underscores how many people are buying and selling the coin.`
   },
   position: {
     label: 'Trending Position',
@@ -31,7 +29,19 @@ export const Events = {
   },
   metricAnomalyKey: {
     label: 'Anomaly',
-    formatter: val => val
+    formatter: val => {
+      switch (val) {
+        case 'devActivity':
+          return 'Development Activity'
+        case 'socialVolume':
+          return 'Social Volume'
+        case 'DailyActiveAddresses':
+          return 'Daily Active Addresses'
+
+        default:
+          return `${val}`
+      }
+    }
   }
 }
 

@@ -39,7 +39,18 @@ const getCategoryGraph = availableMetrics => {
       {
         isEvent: true,
         label: 'Trending Position',
-        key: 'trendPositionHistory'
+        key: 'trendPositionHistory',
+        note: (
+          <p className={styles.note}>
+            <span className={styles.warning}>Important!</span>
+            <span className={styles.text}>
+              It will disable Anomalies in chart settings
+            </span>
+            <Icon type='settings' className={styles.icon} />
+          </p>
+        ),
+        description:
+          'It’s the amount of the coin that has been traded in the last 24 hours. Volume underscores how many people are buying and selling the coin.'
       }
     ]
   }

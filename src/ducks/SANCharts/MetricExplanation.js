@@ -8,6 +8,7 @@ const MetricExplanation = ({
   label,
   description,
   video,
+  note,
   withChildren = false
 }) => {
   return description ? (
@@ -15,6 +16,7 @@ const MetricExplanation = ({
       <div className={styles.explanation__content}>
         <h4 className={styles.title}>{label}</h4>
         <p className={styles.text}>{description}</p>
+        {note && note}
         {video && (
           <Button
             border

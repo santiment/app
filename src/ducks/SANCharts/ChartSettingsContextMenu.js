@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
@@ -48,6 +49,21 @@ const ChartSettingsContextMenu = ({
       align='end'
     >
       <Panel variant='modal' className={styles.context}>
+        {showToggleAnomalies && (
+          <Button
+            fluid
+            variant='ghost'
+            onClick={onToggleAnomalies}
+            className={cx(styles.context__btn, styles.anomalies)}
+          >
+            <Icon type='flash' className={cx(styles.icon, styles.flash)} />
+            Show anomalies
+            <Toggle
+              isActive={isShowAnomalies}
+              className={styles.context__toggle}
+            />
+          </Button>
+        )}
         {showNightModeToggle && (
           <Button
             fluid
@@ -66,24 +82,11 @@ const ChartSettingsContextMenu = ({
           shareLink={shareLink}
           trigger={props => (
             <Button fluid variant='ghost' {...props}>
-              Share
+              <Icon type='share' className={styles.icon} />
+              Share chart
             </Button>
           )}
         />
-        {showToggleAnomalies && (
-          <Button
-            fluid
-            variant='ghost'
-            onClick={onToggleAnomalies}
-            className={styles.context__btn}
-          >
-            Show anomalies
-            <Toggle
-              isActive={isShowAnomalies}
-              className={styles.context__toggle}
-            />
-          </Button>
-        )}
         {showDownload && (
           <ChartDownloadBtn
             fluid
@@ -92,6 +95,7 @@ const ChartSettingsContextMenu = ({
             title={title}
             chartRef={chartRef}
           >
+            <Icon type='save' className={styles.icon} />
             Download as PNG
           </ChartDownloadBtn>
         )}
