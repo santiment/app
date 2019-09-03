@@ -72,6 +72,10 @@
     display: flex;
     flex-direction: column;
     padding: 0 7px;
+
+    &:first-child {
+      margin-right: 10px;
+    }
   }
 }
 
