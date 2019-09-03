@@ -78,6 +78,10 @@ export const TriggerProjectsSelector = ({
     } else if (listItems.length !== newItems.length) {
       setListItems(newItems)
     }
+
+    if (isSingle) {
+      approve(newItems)
+    }
   }
 
   const toggleAsset = ({ project, listItems: items, isAssetInList }) => {
@@ -93,9 +97,9 @@ export const TriggerProjectsSelector = ({
     setOpened(false)
   }
 
-  const approve = () => {
-    setFieldValue && setFieldValue(name, listItems)
-    onChange && onChange(listItems, closeDialog)
+  const approve = selected => {
+    setFieldValue && setFieldValue(name, selected)
+    onChange && onChange(selected, closeDialog)
     closeDialog()
   }
 
@@ -159,7 +163,9 @@ export const TriggerProjectsSelector = ({
           <Dialog.Approve
             disabled={!listItems || listItems.length === 0}
             variant='flat'
-            onClick={approve}
+            onClick={() => {
+              approve(listItems)
+            }}
             isLoading={isLoading}
           >
             Apply
