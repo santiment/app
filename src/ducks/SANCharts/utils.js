@@ -29,7 +29,19 @@ export const Events = {
   },
   metricAnomalyKey: {
     label: 'Anomaly',
-    formatter: val => val
+    formatter: val => {
+      switch (val) {
+        case 'devActivity':
+          return 'Development Activity'
+        case 'socialVolume':
+          return 'Social Volume'
+        case 'DailyActiveAddresses':
+          return 'Daily Active Addresses'
+
+        default:
+          return `${val}`
+      }
+    }
   }
 }
 
