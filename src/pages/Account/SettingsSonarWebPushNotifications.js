@@ -124,10 +124,10 @@ const SettingsSonarWebPushNotifications = ({
                 console.log('Registered sonar service worker')
                 requestNotificationPermission(null, noPermissionsCallback)
                 sendParams()
-                toggle(true)
                 recheckBrowserNotifications && recheckBrowserNotifications()
               }
             })
+            toggle(true)
           } else {
             sendParams()
             toggle(true)
