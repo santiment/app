@@ -14,6 +14,7 @@ import {
   getIntervalByTimeRange
 } from '../../../utils/dates'
 import { formatNumber } from '../../../utils/formatting'
+import { Metrics } from '../../../ducks/SANCharts/utils'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import PercentChanges from '../../../components/PercentChanges'
 import NewsSmall from '../../../components/News/NewsSmall'
@@ -67,6 +68,7 @@ const MobileDetailedPage = props => {
       todayTransactionVolume
     )
     transactionVolumeInfo = {
+      metric: 'transactionVolume',
       name: 'Transaction Volume',
       value: todayTransactionVolume,
       period: '24h',
@@ -124,7 +126,8 @@ const MobileDetailedPage = props => {
   ]
 
   if (extraMetric) {
-    const metric = { name: extraMetric.name }
+    const { alias } = Metrics[extraMetric.name]
+    const metric = { name: alias || extraMetric.name }
     if (extraMetric.name === 'devActivity') {
       metric.transform = 'movingAverage'
       metric.movingAverageIntervalBase = 7
@@ -237,6 +240,7 @@ const MobileDetailedPage = props => {
                             <MobileMetricCard
                               {...transactionVolumeInfo}
                               measure={ticker}
+                              onClick={toggleExtraMetric}
                             />
                           )}
                           {socialVolumeInfo && (
