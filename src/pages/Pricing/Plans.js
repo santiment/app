@@ -44,7 +44,7 @@ const Billing = ({ selected, onClick }) => {
   )
 }
 
-export default ({ id, classes = {}, onDialogClose }) => {
+export default ({ id, classes = {} }) => {
   const [billing, setBilling] = React.useState('year')
   return (
     <>
