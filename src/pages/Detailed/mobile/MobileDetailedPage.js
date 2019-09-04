@@ -4,7 +4,6 @@ import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { Label, Selector } from '@santiment-network/ui'
 import { DailyActiveAddressesGQL } from '../gqlWrappers/DetailedGQL'
-import { TRANSACTION_VOLUME_QUERY } from '../../../ducks/GetTimeSeries/queries/transaction_volume_query'
 import { SOCIAL_VOLUME_QUERY } from '../../../ducks/GetTimeSeries/queries/social_volume_query'
 import { NEWS_QUERY } from '../../../components/News/NewsGQL'
 import { calcPercentageChange, capitalizeStr } from '../../../utils/utils'
@@ -14,6 +13,7 @@ import {
   getIntervalByTimeRange
 } from '../../../utils/dates'
 import { formatNumber } from '../../../utils/formatting'
+import { Metrics } from '../../../ducks/SANCharts/utils'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import PercentChanges from '../../../components/PercentChanges'
 import NewsSmall from '../../../components/News/NewsSmall'
@@ -52,27 +52,6 @@ const MobileDetailedPage = props => {
       />
     </div>
   )
-
-  let transactionVolumeInfo
-  const { transactionVolume } = props
-  if (transactionVolume && transactionVolume.length === 48) {
-    const yesterdayTransactionVolume = transactionVolume
-      .slice(0, 24)
-      .reduce((acc, { transactionVolume }) => acc + transactionVolume, 0)
-    const todayTransactionVolume = transactionVolume
-      .slice(-24)
-      .reduce((acc, { transactionVolume }) => acc + transactionVolume, 0)
-    const TVDiff = calcPercentageChange(
-      yesterdayTransactionVolume,
-      todayTransactionVolume
-    )
-    transactionVolumeInfo = {
-      name: 'Transaction Volume',
-      value: todayTransactionVolume,
-      period: '24h',
-      changes: TVDiff
-    }
-  }
 
   let socialVolumeInfo
   const { socialVolume } = props
@@ -123,8 +102,18 @@ const MobileDetailedPage = props => {
     }
   ]
 
+  const lastTwoDaysMetrics = [
+    {
+      name: 'transaction_volume',
+      slug,
+      timeRange: '2d',
+      interval: '1d'
+    }
+  ]
+
   if (extraMetric) {
-    const metric = { name: extraMetric.name }
+    const { alias } = Metrics[extraMetric.name]
+    const metric = { name: alias || extraMetric.name }
     if (extraMetric.name === 'devActivity') {
       metric.transform = 'movingAverage'
       metric.movingAverageIntervalBase = 7
@@ -212,56 +201,76 @@ const MobileDetailedPage = props => {
                           extraMetric={extraMetric}
                         />
                         {timeRangeBlock}
-                        <div className={styles.metrics}>
-                          {activeAddressesInfo && (
-                            <MobileMetricCard
-                              {...activeAddressesInfo}
-                              slug={slug}
-                              activeMetric={extraMetric}
-                              onClick={toggleExtraMetric}
-                              from={from}
-                              to={to}
-                            />
-                          )}
-                          {devActivityInfo && (
-                            <MobileMetricCard
-                              {...devActivityInfo}
-                              slug={slug}
-                              activeMetric={extraMetric}
-                              onClick={toggleExtraMetric}
-                              from={from}
-                              to={to}
-                            />
-                          )}
-                          {transactionVolumeInfo && (
-                            <MobileMetricCard
-                              {...transactionVolumeInfo}
-                              measure={ticker}
-                            />
-                          )}
-                          {socialVolumeInfo && (
-                            <MobileMetricCard
-                              {...socialVolumeInfo}
-                              slug={slug}
-                              from={from}
-                              to={to}
-                              activeMetric={extraMetric}
-                              onClick={toggleExtraMetric}
-                            />
-                          )}
-                        </div>
-                        <ShowIf news>
-                          {props.news && props.news.length > 0 && (
-                            <>
-                              <h3 className={styles.news__heading}>News</h3>
-                              <NewsSmall data={props.news} />
-                            </>
-                          )}
-                        </ShowIf>
                       </>
                     )
                   }}
                 />
+                <GetTimeSeries
+                  metrics={lastTwoDaysMetrics}
+                  render={({ isLoading, timeseries = [] }) => {
+                    let transactionVolumeInfo
+                    if (timeseries.length > 1) {
+                      const { transaction_volume: yesterdayTV } = timeseries[
+                        timeseries.length - 2
+                      ]
+                      const { transaction_volume: todayTV } = timeseries[
+                        timeseries.length - 1
+                      ]
+                      if (yesterdayTV && todayTV) {
+                        const TVDiff = calcPercentageChange(
+                          yesterdayTV,
+                          todayTV
+                        )
+                        transactionVolumeInfo = {
+                          metric: 'transactionVolume',
+                          name: 'Transaction Volume',
+                          value: todayTV,
+                          period: '24h',
+                          changes: TVDiff
+                        }
+                      }
+                    }
+
+                    const rest = {
+                      slug,
+                      from,
+                      to,
+                      onClick: toggleExtraMetric,
+                      activeMetric: extraMetric
+                    }
+                    return (
+                      <div className={styles.metrics}>
+                        {activeAddressesInfo && (
+                          <MobileMetricCard
+                            {...activeAddressesInfo}
+                            {...rest}
+                          />
+                        )}
+                        {devActivityInfo && (
+                          <MobileMetricCard {...devActivityInfo} {...rest} />
+                        )}
+                        {transactionVolumeInfo && (
+                          <MobileMetricCard
+                            {...transactionVolumeInfo}
+                            measure={ticker}
+                            {...rest}
+                          />
+                        )}
+                        {socialVolumeInfo && (
+                          <MobileMetricCard {...socialVolumeInfo} {...rest} />
+                        )}
+                      </div>
+                    )
+                  }}
+                />
+                <ShowIf news>
+                  {props.news && props.news.length > 0 && (
+                    <>
+                      <h3 className={styles.news__heading}>News</h3>
+                      <NewsSmall data={props.news} />
+                    </>
+                  )}
+                </ShowIf>
               </div>
             </>
           )
@@ -304,24 +313,6 @@ const enhance = compose(
       }
     },
     props: ({ data: { news = [] } }) => ({ news: news.reverse() })
-  }),
-  graphql(TRANSACTION_VOLUME_QUERY, {
-    options: ({ match }) => {
-      const to = new Date()
-      const from = new Date()
-      to.setUTCHours(to.getUTCHours() - 1, 0, 0, 0)
-      from.setUTCHours(from.getUTCHours() - 48, 0, 0, 0)
-      const { slug } = match.params
-      return {
-        variables: {
-          slug,
-          from: from.toISOString(),
-          to: to.toISOString(),
-          interval: '1h'
-        }
-      }
-    },
-    props: ({ data: { transactionVolume = [] } }) => ({ transactionVolume })
   }),
   graphql(SOCIAL_VOLUME_QUERY, {
     options: ({ match }) => {

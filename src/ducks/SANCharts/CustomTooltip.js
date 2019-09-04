@@ -1,8 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
-import { formatNumber } from '../../utils/formatting'
+import { formatNumber, millify } from '../../utils/formatting'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import styles from './CustomTooltip.module.scss'
+
+const LARGE_NUMBER_STEP = 1000
 
 const getTooltipDate = time => {
   const date = new Date(time)
@@ -19,8 +21,12 @@ const getShortMetricName = name => {
   return name
 }
 
-const formatTooltipValue = (isPrice, value) =>
-  isPrice ? formatNumber(value, { currency: 'USD' }) : value.toFixed(2)
+export const formatTooltipValue = (isPrice, value) =>
+  isPrice
+    ? formatNumber(value, { currency: 'USD' })
+    : value > LARGE_NUMBER_STEP
+      ? millify(value)
+      : formatNumber(value)
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload) {
