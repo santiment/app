@@ -36,6 +36,11 @@ import LabsPage from './pages/Labs'
 import { mapSizesToProps } from './utils/withSizes'
 import './App.scss'
 
+const LoadablePricingPage = Loadable({
+  loader: () => import('./pages/Pricing'),
+  loading: () => <PageLoader />
+})
+
 const LoadableLoginPage = Loadable({
   loader: () => import('./pages/Login'),
   loading: () => <PageLoader />
@@ -189,6 +194,7 @@ export const App = ({
             }}
           />
         ))}
+        <Route exact path='/pricing' component={LoadablePricingPage} />
         <Route exact path='/gdpr' component={GDPRPage} />
         <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
         <Route

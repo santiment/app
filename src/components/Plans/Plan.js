@@ -20,7 +20,9 @@ const Plan = ({
   isLoggedIn,
   subscription,
   className,
-  onDialogClose
+  onDialogClose,
+  classes = {},
+  btnProps
 }) => {
   const card = PLANS[name]
   const sameAsUserPlan = id === userPlan
@@ -38,14 +40,24 @@ const Plan = ({
       className={cx(
         styles.card,
         className,
+        classes.wrapper,
         card.isPopular && styles.card_popular,
-        sameAsUserPlan && styles.card_active
+        sameAsUserPlan && styles.card_active,
+        sameAsUserPlan && classes.wrapper_active
       )}
     >
-      <div className={styles.card__top}>
+      <div
+        className={cx(
+          styles.card__top,
+
+          classes.top
+        )}
+      >
         <h3 className={styles.card__title}>
           {card.title}
-          {card.isPopular && <span className={styles.popular}>Popular</span>}
+          {card.isPopular && (
+            <span className={cx(styles.popular, classes.popular)}>Popular</span>
+          )}
         </h3>
         <svg
           width='15'
@@ -63,7 +75,7 @@ const Plan = ({
       </div>
       <div className={styles.desc}>{card.desc}</div>
       <div className={styles.details}>
-        <div className={styles.price}>
+        <div className={cx(styles.price, classes.price)}>
           {price}
           <span className={styles.price__type}>{priceType}</span>
         </div>
@@ -84,9 +96,10 @@ const Plan = ({
             planId={+id}
             subscription={subscription}
             onDialogClose={onDialogClose}
+            btnProps={btnProps}
           />
         )}
-        <Features data={card.features} classes={styles} />
+        <Features data={card.features} classes={{ ...styles, ...classes }} />
       </div>
     </div>
   )

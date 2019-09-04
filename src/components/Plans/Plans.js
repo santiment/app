@@ -23,11 +23,11 @@ const billingOptions = [
   { index: 'month', content: 'Bill monthly' }
 ]
 
-export default ({ classes = {}, onDialogClose }) => {
+export default ({ id, classes = {}, onDialogClose }) => {
   const [billing, setBilling] = React.useState('year')
   return (
     <>
-      <div className={cx(styles.billing, classes.billing)}>
+      <div id={id} className={cx(styles.billing, classes.billing)}>
         <RadioBtns
           options={billingOptions}
           defaultSelectedIndex='year'

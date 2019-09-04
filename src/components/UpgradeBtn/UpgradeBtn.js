@@ -4,11 +4,6 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
-import Dialog from '@santiment-network/ui/Dialog'
-import { Query } from 'react-apollo'
-import Plans from '../Plans/Plans'
-import { getCurrentSanbaseSubscription } from '../../utils/plans'
-import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import styles from './UpgradeBtn.module.scss'
 
@@ -36,27 +31,7 @@ const UpgradeBtn = ({
     return null
   }
 
-  if (!isLoggedIn) {
-    if (loginRequired) {
-      return <Trigger as={Link} to='/login' {...props} />
-    } else {
-      return <PlansDialog {...props} />
-    }
-  }
-
-  return (
-    <Query query={USER_SUBSCRIPTIONS_QUERY}>
-      {({ data: { currentUser } = {}, loading }) => {
-        const subscription = getCurrentSanbaseSubscription(currentUser)
-
-        if (loading || subscription) {
-          return null
-        }
-
-        return <PlansDialog {...props} />
-      }}
-    </Query>
-  )
+  return <Trigger as={Link} to='/pricing' {...props} />
 }
 
 const mapStateToProps = state => {
@@ -67,15 +42,3 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(UpgradeBtn)
-
-const PlansDialog = props => (
-  <Dialog
-    classes={styles}
-    title='Plan upgrade'
-    trigger={<Trigger {...props} />}
-  >
-    <Dialog.ScrollContent>
-      <Plans />
-    </Dialog.ScrollContent>
-  </Dialog>
-)

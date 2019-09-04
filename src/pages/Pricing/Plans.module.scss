@@ -1,0 +1,134 @@
+@import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    flex-direction: column;
+  }
+}
+
+.title {
+  margin-bottom: 32px;
+}
+
+.br {
+  @include responsive('phone-xs') {
+    display: none;
+  }
+}
+
+.link {
+  height: 40px;
+  margin-bottom: 40px;
+  justify-content: center;
+}
+
+.more {
+  user-select: none;
+  cursor: pointer;
+  color: var(--jungle-green);
+  fill: var(--jungle-green);
+  display: block;
+  text-align: center;
+  margin-top: 22px;
+
+  @include text('body-3');
+
+  &_bottom {
+    margin-top: 45px;
+  }
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    display: none;
+  }
+
+  svg {
+    margin-bottom: -2px;
+    margin-right: 10px;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.dialog {
+  width: 440px;
+  position: relative;
+}
+
+.action {
+  margin-left: 16px;
+
+  &_cancel:hover {
+    color: var(--jungle-green);
+  }
+}
+
+.billing {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 80px;
+
+  @include responsive('phone-xs') {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__toggle path {
+    display: none;
+  }
+
+  &__option {
+    @include text('body-2');
+
+    color: var(--waterloo);
+    margin: 0 32px;
+    cursor: pointer;
+
+    @include responsive('phone-xs') {
+      margin: 8px 0;
+    }
+
+    &_active {
+      color: var(--mirage);
+      font-weight: 900;
+    }
+
+    &_year {
+      position: relative;
+    }
+  }
+
+  &__save {
+    position: absolute;
+
+    @include text('body-3', 'm');
+
+    color: var(--jungle-green);
+    top: calc(100% + 13px);
+    left: calc(100% + 12px);
+    white-space: nowrap;
+
+    &::before {
+      content: '';
+      position: absolute;
+      background: url('./arrow.svg') no-repeat;
+      width: 27px;
+      height: 18px;
+      left: -27px;
+      top: -7px;
+    }
+  }
+}
+
+.bill {
+  margin-right: 30px;
+  cursor: pointer;
+
+  &:last-child {
+    margin: 0;
+  }
+}
