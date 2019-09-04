@@ -63,6 +63,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
                 isLoggedIn={isLoggedIn}
                 onSlugSelect={onChangeSlug}
                 AfterHeader={AfterHeader}
+                isControlled
                 {...boundaries}
               />
             </>
