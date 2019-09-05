@@ -4,6 +4,7 @@ import Input from '@santiment-network/ui/Input'
 import { isPossibleEthAddress } from '../../Signals/utils/utils'
 import AssetsField from '../AssetsField'
 import styles from './BalanceView.module.scss'
+import { Address } from '../../../components/WalletLink/WalletLink'
 
 const BalanceViewWalletAssets = ({
   address,
@@ -29,6 +30,16 @@ const BalanceViewWalletAssets = ({
           placeholder='Paste the address'
           onChange={handleWalletChange}
         />
+        {address && (
+          <div className={styles.etherscan}>
+            <Address
+              address={address}
+              isTx={false}
+              isFull
+              label='Open Etherscan'
+            />
+          </div>
+        )}
       </div>
       <div className={cx(styles.InputWrapper, styles.address)}>
         <label className={styles.label} htmlFor='slug'>

@@ -14,9 +14,10 @@ import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import { Metrics } from '../../SANCharts/utils'
 import PageLoader from '../../../components/Loader/PageLoader'
 import BalanceViewWalletAssets from './BalanceViewWalletAssets'
-import styles from './BalanceView.module.scss'
 import { Area } from 'recharts'
 import { simpleSortStrings } from '../../../utils/sortMethods'
+import { Address } from '../../../components/WalletLink/WalletLink'
+import styles from './BalanceView.module.scss'
 
 const LoadableChartSettings = Loadable({
   loader: () => import('./BalanceViewChartSettings'),
@@ -152,6 +153,7 @@ const BalanceView = ({
         handleWalletChange={handleWalletChange}
         classes={classes}
       />
+
       <div className={cx(styles.chart, classes.balanceViewChart)}>
         <BalanceChartHeader assets={stateAssets} address={stateAddress}>
           <LoadableChartSettings

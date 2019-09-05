@@ -7,15 +7,11 @@ import HistoricalBalancePage, {
 import styles from './WalletLink.module.scss'
 import dialogStyles from './ViewBalanceDialog.module.scss'
 
-const ViewBalanceDialog = ({ isDesktop, address, assets }) => {
+const ViewBalanceDialog = ({ isDesktop, address, assets, trigger }) => {
   return (
     <Dialog
       title={<BalancePageTitle classes={styles} />}
-      trigger={
-        <div>
-          <BalancePageLink link='#' />
-        </div>
-      }
+      trigger={<div>{trigger || <BalancePageLink link='#' />}</div>}
       classes={dialogStyles}
     >
       <Dialog.ScrollContent>
