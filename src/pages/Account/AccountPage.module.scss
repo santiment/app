@@ -30,11 +30,16 @@
 
   &__header {
     background: var(--athens);
+    color: var(--grey-dark-2);
+
+    @include text('caption');
   }
 
   &__content {
     padding: 0;
   }
+
+  box-shadow: none;
 }
 
 .setting {
