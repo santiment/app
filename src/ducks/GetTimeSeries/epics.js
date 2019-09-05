@@ -26,8 +26,11 @@ const mapDataToMergedTimeserieByDatetime = (
   return Object.assign(metricsInfo, { [key]: timeseries })
 }
 
-const getFlattenEvents = events =>
-  events.map(({ data, __metric }) => data[__metric]).flat()
+const getFlattenEvents = (events = []) => {
+  const res = []
+  events.map(({ data, __metric }) => res.push(...data[__metric]))
+  return res
+}
 
 const fetchTimeseriesEpic = (action$, store, { client }) =>
   action$.ofType(actions.TIMESERIES_FETCH).mergeMap(action => {
