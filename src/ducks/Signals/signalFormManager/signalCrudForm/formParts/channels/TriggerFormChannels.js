@@ -13,7 +13,7 @@ import SidecarExplanationTooltip from '../../../../../SANCharts/SidecarExplanati
 const CHANNEL_NAMES = {
   Telegram: 'Telegram',
   Email: 'Email',
-  Browser: 'Browser'
+  Browser: 'Push'
 }
 
 const permanentDisabledChannels = [CHANNEL_NAMES.Email]
@@ -138,7 +138,7 @@ const TriggerFormChannels = ({
           localStorageSuffix='_TRIGGER_FORM_EXPLANATION'
           position='top'
           title='Connect channels'
-          description='Get fast notifications through Email, Telegram or Browser'
+          description='Get fast notifications through Email, Telegram or Browser Push'
           className={styles.explanation}
         >
           <FormikLabel text='Notify me via' />

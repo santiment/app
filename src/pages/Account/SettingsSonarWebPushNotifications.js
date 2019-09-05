@@ -139,7 +139,7 @@ const SettingsSonarWebPushNotifications = ({
   return (
     <div className={cx(classes.container, styles.settingBlock, className)}>
       <div className={classes.left}>
-        <div>Browser notifications</div>
+        <div>Push notifications</div>
         {!isPermissionsGranted && (
           <Label
             className={cx(styles.description, styles.warning)}
@@ -155,7 +155,7 @@ const SettingsSonarWebPushNotifications = ({
           closeTimeout={500}
           localStorageSuffix='_TRIGGER_PUSH_NOTIFICATION_EXPLANATION'
           align='end'
-          title='Browser Notifications'
+          title='Push Notifications'
           description='Get fast notifications through Push Notifications'
         >
           <>

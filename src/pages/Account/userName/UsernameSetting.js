@@ -25,7 +25,7 @@ const validateUsername = username => {
 const UsernameSetting = ({ dispatchNewUsername, username, changeUsername }) => {
   return (
     <EditableInputSetting
-      label='Username'
+      label='Name'
       defaultValue={username}
       validate={validateUsername}
       classes={styles}

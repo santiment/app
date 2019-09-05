@@ -76,9 +76,9 @@ class EditableInputSetting extends PureComponent {
             editing && styles.setting__left_form
           )}
         >
-          <div className={cx(classes.inputLabels, styles.inputLabels)}>
-            <Label>{label}</Label>
-            {!editing && (
+          {!editing && (
+            <div className={cx(classes.inputLabels, styles.inputLabels)}>
+              <Label>{label}</Label>
               <Label
                 className={cx(
                   styles.setting__description,
@@ -88,8 +88,8 @@ class EditableInputSetting extends PureComponent {
               >
                 {defaultValue || `Please add your ${label.toLowerCase()}`}
               </Label>
-            )}
-          </div>
+            </div>
+          )}
           <Input
             forwardedRef={this.inputRef}
             className={cx(
@@ -130,7 +130,7 @@ class EditableInputSetting extends PureComponent {
               accent='jungle-green'
               onClick={this.onEditClick}
             >
-              {defaultValue ? 'Change' : 'Add'} your {label.toLowerCase()}
+              {defaultValue ? 'Edit' : 'Add'} {label.toLowerCase()}
             </Label>
           )}
         </div>
