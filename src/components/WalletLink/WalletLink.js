@@ -19,49 +19,77 @@ const WalletLink = ({
   isTx = false,
   isExchange = false,
   isDesktop
-}) => (
-  <SmoothDropdownItem
-    trigger={<Address address={address} isTx={isTx} isExchange={isExchange} />}
-  >
-    <ul className={styles.wrapper}>
-      {!isTx && (
-        <li>
-          <ViewBalanceDialog
-            assets={assets}
-            address={address}
-            isDesktop={isDesktop}
-          />
-        </li>
-      )}
-      <li>
-        <EtherscanLink address={address} isTx={isTx} className={styles.link}>
-          Open Etherscan
-        </EtherscanLink>
-      </li>
-    </ul>
-  </SmoothDropdownItem>
-)
+}) => {
+  const trigger = (
+    <Address
+      address={address}
+      isTx={isTx}
+      isExchange={isExchange}
+      asLink={isTx}
+    />
+  )
 
-const EtherscanLink = ({ address = '', isTx, isExchange, children }) => {
-  const addressShort =
-    (children || address).slice(0, isExchange ? 7 : 16) + '...'
+  if (isTx) {
+    return (
+      <SmoothDropdownItem trigger={trigger}>
+        <ul className={styles.wrapper}>
+          <li>
+            <EtherscanLink
+              address={address}
+              isTx={isTx}
+              className={styles.link}
+            >
+              Open Etherscan
+            </EtherscanLink>
+          </li>
+        </ul>
+      </SmoothDropdownItem>
+    )
+  } else {
+    return (
+      <ViewBalanceDialog
+        assets={assets}
+        address={address}
+        isDesktop={isDesktop}
+        trigger={trigger}
+      />
+    )
+  }
+}
+
+const EtherscanLink = ({
+  address = '',
+  isTx,
+  isExchange,
+  label,
+  isFull,
+  asLink = true,
+  children
+}) => {
+  const link = children || address
+  const addressShort = isFull
+    ? link
+    : link.slice(0, isExchange ? 7 : 16) + '...'
   return (
     <a
-      href={`https://etherscan.io/${isTx ? 'tx' : 'address'}/${address}`}
+      href={
+        asLink
+          ? `https://etherscan.io/${isTx ? 'tx' : 'address'}/${address}`
+          : '#'
+      }
       className={cx(styles.etherscanLink, styles.link)}
     >
-      {children || addressShort}
+      {label || children || addressShort}
     </a>
   )
 }
 
-const Address = ({ isExchange, ...rest }) => (
+export const Address = ({ isExchange, ...rest }) => (
   <>
     <EtherscanLink {...rest} isExchange={isExchange} />
     {isExchange && <Label className={styles.exchange}>exchange</Label>}
   </>
 )
-
 WalletLink.propTypes = propTypes
 
 export default WalletLink
