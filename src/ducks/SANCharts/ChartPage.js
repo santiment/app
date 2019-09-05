@@ -358,7 +358,8 @@ class ChartPage extends Component {
           errorMetrics = {},
           isError,
           isLoading,
-          errorType
+          errorType,
+          trendPositionHistory
         }) => {
           if (isError) {
             if (errorType === ERRORS.COMPLEXITY) {
@@ -377,6 +378,12 @@ class ChartPage extends Component {
           const finalMetrics = metrics.filter(
             metric => !errors.includes(metric)
           )
+
+          // NOTE(haritonasty): we don't show anomalies when trendPositionHistory is in activeMetrics
+          const isTrendsShowing = trendPositionHistory !== undefined
+          const eventsFiltered = isTrendsShowing
+            ? eventsData.filter(({ metricAnomalyKey }) => !metricAnomalyKey)
+            : eventsData
 
           return (
             <>
@@ -438,7 +445,8 @@ class ChartPage extends Component {
                       onZoom={this.onZoom}
                       onZoomOut={this.onZoomOut}
                       isZoomed={zoom}
-                      events={eventsData}
+                      events={eventsFiltered}
+                      isTrendsShowing={isTrendsShowing}
                       chartData={(timeseries && zoom
                         ? timeseries.slice(zoom[0], zoom[1])
                         : timeseries

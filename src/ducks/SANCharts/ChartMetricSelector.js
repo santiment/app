@@ -50,7 +50,7 @@ const getCategoryGraph = availableMetrics => {
           </p>
         ),
         description:
-          'It’s the amount of the coin that has been traded in the last 24 hours. Volume underscores how many people are buying and selling the coin.'
+          'Shows the appearance (and position) of the project on our list of top 10 emerging words on crypto social media on a given date'
       }
     ]
   }

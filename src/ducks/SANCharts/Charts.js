@@ -69,27 +69,72 @@ const valueFormatter = (value, name, formatter) => {
   }
 }
 
+const getTooltipMetricAndKey = (metrics, chartData) => {
+  const tooltipMetric = findYAxisMetric(metrics)
+  if (!tooltipMetric || chartData.length === 0) return
+
+  const { dataKey: tooltipMetricKey = tooltipMetric } = Metrics[tooltipMetric]
+
+  return { tooltipMetric, tooltipMetricKey }
+}
+
 class Charts extends React.Component {
   state = {
     leftZoomIndex: undefined,
     rightZoomIndex: undefined,
     refAreaLeft: undefined,
-    refAreaRight: undefined,
-    events: []
+    refAreaRight: undefined
   }
 
   eventsMap = new Map()
   metricRef = React.createRef()
 
-  componentWillUpdate ({ chartData, chartRef }) {
+  componentWillUpdate ({
+    chartData,
+    chartRef,
+    metrics,
+    events,
+    isTrendsShowing
+  }) {
     if (this.props.chartData !== chartData) {
       this.getXToYCoordinates()
       chartBars.delete(chartRef.current)
     }
+
+    if (metrics !== this.props.metrics || events !== this.props.events) {
+      this.eventsMap.clear()
+      const { tooltipMetricKey } =
+        getTooltipMetricAndKey(metrics, chartData) || {}
+      events.forEach(({ datetime, __typename, ...rest }) => {
+        const { index, value } = binarySearch({
+          moveClb: MOVE_CLB,
+          checkClb: CHECK_CLB,
+          target: new Date(datetime),
+          array: chartData
+        })
+
+        if (index === -1 || index >= chartData.length) {
+          return null
+        }
+
+        const { metricAnomalyKey: anomaly } = rest
+        const result = value || chartData[index]
+        let eventsData = getEventsTooltipInfo(rest)
+        eventsData.map(event => {
+          // NOTE(haritonasty): target metric for anomalies and tooltipMetricKey for other
+          const key = event.isAnomaly
+            ? Metrics[anomaly].dataKey || anomaly
+            : tooltipMetricKey
+          return Object.assign(event, { key, y: result[key] })
+        })
+
+        this.eventsMap.set(result.datetime, eventsData)
+      })
+    }
   }
 
   componentDidUpdate (prevProps) {
-    const { metrics, events, chartData } = this.props
+    const { metrics, chartData } = this.props
 
     if (!this.xToYCoordinates && this.metricRef.current) {
       // HACK(vanguard): Thanks recharts
@@ -102,54 +147,10 @@ class Charts extends React.Component {
     }
 
     if (metrics !== prevProps.metrics) {
-      const tooltipMetric = findYAxisMetric(metrics)
-      if (!tooltipMetric || chartData.length === 0) return
-
-      const { dataKey: tooltipMetricKey = tooltipMetric } = Metrics[
-        tooltipMetric
-      ]
-      this.eventsMap.clear()
-
-      this.setState({
-        tooltipMetric,
-        events: events.map(({ datetime, __typename, ...rest }) => {
-          const { index, value } = binarySearch({
-            moveClb: MOVE_CLB,
-            checkClb: CHECK_CLB,
-            target: new Date(datetime),
-            array: chartData
-          })
-
-          if (index === -1 || index >= chartData.length) {
-            return null
-          }
-
-          const { metricAnomalyKey } = rest
-          const key = metricAnomalyKey
-            ? Metrics[metricAnomalyKey].dataKey || metricAnomalyKey
-            : tooltipMetricKey
-          const result = value || chartData[index]
-          const y = result[key]
-          this.eventsMap.set(result.datetime, getEventsTooltipInfo(rest))
-
-          return {
-            key: metricAnomalyKey,
-            el: (
-              <ReferenceDot
-                yAxisId={`axis-${key}`}
-                r={3}
-                isFront
-                fill='var(--white)'
-                strokeWidth='2px'
-                stroke='var(--persimmon)'
-                key={datetime + __typename}
-                x={+new Date(datetime)}
-                y={y}
-              />
-            )
-          }
-        })
-      })
+      const { tooltipMetric } = getTooltipMetricAndKey(metrics, chartData) || {}
+      if (tooltipMetric) {
+        this.setState({ tooltipMetric })
+      }
     }
   }
 
@@ -264,8 +265,7 @@ class Charts extends React.Component {
       yValue,
       activePayload,
       hovered,
-      tooltipMetric,
-      events
+      tooltipMetric
     } = this.state
 
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
@@ -274,13 +274,15 @@ class Charts extends React.Component {
       ref: { [tooltipMetric]: this.metricRef }
     })
 
-    const isTrendsShowing = events.some(event => event.key === undefined)
-
-    const eventsElements = events
-      .filter(({ key, el }) =>
-        isTrendsShowing ? !key : !key || metrics.includes(key)
-      )
-      .map(({ el }) => el)
+    let events = []
+    this.eventsMap.forEach((values, datetime) => {
+      values.forEach(value => events.push({ ...value, datetime }))
+    })
+    // NOTE(haritonasty): need to filter anomalies immediately after removing any active metric
+    // (because axis for anomaly can be lost)
+    events = events.filter(
+      ({ value, isAnomaly }) => metrics.includes(value) || !isAnomaly
+    )
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>
@@ -380,7 +382,20 @@ class Charts extends React.Component {
               />
             )}
 
-            {metrics.includes(tooltipMetric) && eventsElements}
+            {metrics.includes(tooltipMetric) &&
+              events.map(({ key, y, datetime }) => (
+                <ReferenceDot
+                  yAxisId={`axis-${key}`}
+                  r={3}
+                  isFront
+                  fill='var(--white)'
+                  strokeWidth='2px'
+                  stroke='var(--persimmon)'
+                  key={datetime + key}
+                  x={+new Date(datetime)}
+                  y={y}
+                />
+              ))}
             {!hasPremium &&
               displayPaywall({
                 leftBoundaryDate,

@@ -8,8 +8,8 @@ export const Events = {
   trendPositionHistory: {
     label: 'Trending Position',
     category: 'Social',
-    description: `It’s the amount of the coin that has been traded in the last 24 hours.
-    Volume underscores how many people are buying and selling the coin.`
+    description:
+      'Shows the appearance (and position) of the project on our list of top 10 emerging words on crypto social media on a given date'
   },
   position: {
     label: 'Trending Position',
@@ -29,6 +29,7 @@ export const Events = {
   },
   metricAnomalyKey: {
     label: 'Anomaly',
+    isAnomaly: true,
     formatter: val => {
       switch (val) {
         case 'devActivity':
@@ -47,13 +48,13 @@ export const Events = {
 
 export const getEventsTooltipInfo = events =>
   Object.keys(events).map(event => {
-    const { label, formatter } = Events[event]
+    const { label, ...rest } = Events[event]
     return {
       isEvent: true,
       color: 'var(--persimmon)',
       value: events[event],
       name: label,
-      formatter
+      ...rest
     }
   })
 
