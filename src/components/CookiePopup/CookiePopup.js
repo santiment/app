@@ -31,9 +31,8 @@ const CookiePopup = () => {
         <div className={styles.bottom}>
           <p className={styles.text}>
             This website uses the following types of cookies; strictly
-            necessary, functional, performance
-            <br />
-            and marketing cookies. By using this website, you accept our{' '}
+            necessary, functional, performance and marketing cookies. By using
+            this website, you accept our{' '}
             <a
               href='https://santiment.net/terms-conditions/'
               target='_blank'
