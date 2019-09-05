@@ -26,6 +26,9 @@ const mapDataToMergedTimeserieByDatetime = (
   return Object.assign(metricsInfo, { [key]: timeseries })
 }
 
+const getFlattenEvents = events =>
+  events.map(({ data, __metric }) => data[__metric]).flat()
+
 const fetchTimeseriesEpic = (action$, store, { client }) =>
   action$.ofType(actions.TIMESERIES_FETCH).mergeMap(action => {
     const { id, metrics, events = [] } = action.payload
@@ -106,6 +109,8 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
           'eventsData'
         )
 
+        const flattenEvents = getFlattenEvents(eventsRes)
+
         return Observable.of({
           type: actions.TIMESERIES_FETCH_SUCCESS,
           payload: {
@@ -113,7 +118,8 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
               isLoading: false,
               errorMetrics,
               ...metricsResult,
-              ...eventsResult
+              ...eventsResult,
+              eventsData: flattenEvents
             }
           }
         })
