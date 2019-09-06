@@ -15,7 +15,9 @@ import EthSpent from './../../pages/EthSpent'
 import { checkIsLoggedIn } from './../UserSelectors'
 import DetailedTransactionsTable from './transactionsInfo/DetailedTransactionsTable'
 import { projectBySlugGQL } from './gqlWrappers/DetailedGQL'
-import { getTimeIntervalFromToday, MONTH } from '../../utils/dates'
+import { NEWS_QUERY } from '../../components/News/NewsGQL'
+import News from '../../components/News/News'
+import { getTimeIntervalFromToday, MONTH, DAY } from '../../utils/dates'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import paywallBoundaries from '../Chart/paywallBoundaries'
@@ -50,6 +52,9 @@ export const Detailed = ({
     errorMessage: ''
   },
   isLoggedIn,
+  isNewsEnabled,
+  isLoadingNews,
+  news,
   ...props
 }) => {
   const project = Project.project || {}
@@ -150,6 +155,12 @@ export const Detailed = ({
           <FinancialsBlock {...Project.project} />
         </PanelWithHeader>
       </div>
+      {isNewsEnabled && !isLoadingNews && !Project.loading && news.length > 0 && (
+        <div className={styles.newsWrapper}>
+          <h4 className={styles.newsTitle}>{project.slug} news</h4>
+          <News data={news} />
+        </div>
+      )}
       {project.isERC20 &&
         project.tokenTopTransactions &&
         project.tokenTopTransactions.length > 0 && (
@@ -180,7 +191,8 @@ Detailed.propTypes = propTypes
 const mapStateToProps = state => {
   return {
     isLoggedIn: checkIsLoggedIn(state),
-    timeFilter: state.detailedPageUi.timeFilter
+    timeFilter: state.detailedPageUi.timeFilter,
+    isNewsEnabled: state.rootUi.isNewsEnabled
   }
 }
 
@@ -221,6 +233,19 @@ const enhance = compose(
         }
       }
     }
+  }),
+  graphql(NEWS_QUERY, {
+    options: ({ Project: { project = {} } }) => {
+      const { slug } = project
+      const { from, to } = getTimeIntervalFromToday(-14, DAY)
+      return {
+        variables: { from, to, tag: slug, size: 6 }
+      }
+    },
+    props: ({ data: { news = [], loading } }) => ({
+      news: news.reverse(),
+      isLoadingNews: loading
+    })
   })
 )
 
