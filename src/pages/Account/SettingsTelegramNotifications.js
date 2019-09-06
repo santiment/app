@@ -9,13 +9,15 @@ import styles from './AccountPage.module.scss'
 const SettingsTelegramNotifications = ({
   isTelegramNotificationEnabled,
   toggleTelegramNotification,
-  classes = {}
+  classes = {},
+  description
 }) => {
   return (
     <div className={cx(classes.container, styles.settingBlock)}>
       <Label className={classes.left}>Telegram notifications</Label>
 
       <div className={cx(styles.setting__right_notifications, classes.right)}>
+        {description}
         <Toggle
           isActive={isTelegramNotificationEnabled}
           onClick={() =>
