@@ -44,6 +44,15 @@
   }
 }
 
+.emptyWrapper {
+  padding: 30px 16px 16px;
+  margin: 0 16px;
+
+  & .img {
+    margin-top: 0;
+  }
+}
+
 .emptyText {
   width: 274px;
   margin-bottom: 29px;

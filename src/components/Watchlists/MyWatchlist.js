@@ -1,7 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import { Button } from '@santiment-network/ui'
+import Button from '@santiment-network/ui/Button'
+import Panel from '@santiment-network/ui/Panel/Panel'
 import WatchlistCard from './WatchlistCard'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
@@ -57,7 +58,16 @@ const MyWatchlist = ({ isLoggedIn, className }) => (
           </Row>
         </MobileOnly>
         {isLoggedIn && !watchlists.length ? (
-          <WatchlistEmptySection watchlists={watchlists} />
+          <>
+            <DesktopOnly>
+              <WatchlistEmptySection watchlists={watchlists} />
+            </DesktopOnly>
+            <MobileOnly>
+              <Panel className={styles.emptyWrapper}>
+                <WatchlistEmptySection watchlists={watchlists} />
+              </Panel>
+            </MobileOnly>
+          </>
         ) : (
           <div className={stylesGrid.wrapper}>
             {watchlists.map(watchlist => (

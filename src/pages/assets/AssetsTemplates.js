@@ -1,5 +1,4 @@
 import React from 'react'
-import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
 import WatchlistEdit from '../../components/WatchlistEdit/WatchlistEdit'
