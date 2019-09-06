@@ -6,12 +6,12 @@ export const tutorials = [
   },
   {
     title: 'How to create a signal',
-    duration: '1:50',
-    src: 'https://www.youtube-nocookie.com/embed/7q6pjQVVdGI'
+    duration: '1:59',
+    src: 'https://www.youtube-nocookie.com/embed/mjImmjeYEVI'
   },
   {
     title: 'How to create a watchlist',
     duration: '2:30',
-    src: 'https://www.youtube-nocookie.com/embed/uUPmkzKUrIQ'
+    src: 'https://www.youtube-nocookie.com/embed/yzo1gxoTFsk'
   }
 ]
