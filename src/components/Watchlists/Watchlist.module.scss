@@ -33,15 +33,15 @@
   padding-right: 4px;
 }
 
-.img {
-  height: 240px;
-}
-
 .emptyWrapper {
   margin-top: 12vh;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 22vh;
+  }
 }
 
 .emptyText {
