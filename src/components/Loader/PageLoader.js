@@ -17,7 +17,7 @@ const PageLoader = ({
         height='44'
         alt='SANbase'
       />
-      {text}...
+      <span className={styles.text}>{text}...</span>
     </div>
   </div>
 )
