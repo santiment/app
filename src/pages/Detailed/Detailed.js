@@ -14,10 +14,7 @@ import ServerErrorMessage from './../../components/ServerErrorMessage'
 import EthSpent from './../../pages/EthSpent'
 import { checkIsLoggedIn } from './../UserSelectors'
 import DetailedTransactionsTable from './transactionsInfo/DetailedTransactionsTable'
-import {
-  projectBySlugGQL,
-  AllInsightsByTagGQL
-} from './gqlWrappers/DetailedGQL'
+import { projectBySlugGQL } from './gqlWrappers/DetailedGQL'
 import { getTimeIntervalFromToday, MONTH } from '../../utils/dates'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
@@ -221,31 +218,6 @@ const enhance = compose(
           to: to.toISOString(),
           fromOverTime: fromOverTime.toISOString(),
           interval: '7d'
-        }
-      }
-    }
-  }),
-  graphql(AllInsightsByTagGQL, {
-    name: 'AllInsights',
-    props: ({ AllInsights }) => ({
-      Insights: {
-        loading: AllInsights.loading,
-        error: AllInsights.error || false,
-        items: (AllInsights.allInsightsByTag || []).filter(
-          insight => insight.readyState === 'published'
-        )
-      }
-    }),
-    skip: ({ isLoggedIn, Project: { project = {} } }) => {
-      const { ticker } = project
-      return !ticker || !isLoggedIn
-    },
-    options: ({ Project: { project = {} } }) => {
-      const { ticker } = project
-      return {
-        errorPolicy: 'all',
-        variables: {
-          tag: ticker
         }
       }
     }
