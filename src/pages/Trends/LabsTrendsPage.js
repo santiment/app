@@ -11,10 +11,10 @@ import styles from './LabsTrendsPage.module.scss'
 const LabsTrendsPage = () => (
   <div className={styles.wrapper + ' page'}>
     <Helmet>
-      <title>Today’s Top Social Gainers in Crypto - SANbase</title>
+      <title>Today’s Top Social Gainers in Crypto - Sanbase</title>
       <meta
         property='og:title'
-        content='Today’s Top Social Gainers in Crypto - SANbase'
+        content='Today’s Top Social Gainers in Crypto - Sanbase'
       />
       <meta
         property='og:description'

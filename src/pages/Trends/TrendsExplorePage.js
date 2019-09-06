@@ -92,10 +92,10 @@ export class TrendsExplorePage extends Component {
     return (
       <div className={cx('page', styles.wrapper)}>
         <Helmet>
-          <title>Crypto Social Trends for {topic} - SANbase</title>
+          <title>Crypto Social Trends for {topic} - Sanbase</title>
           <meta
             property='og:title'
-            content={`Crypto Social Trends for ${topic} - SANbase`}
+            content={`Crypto Social Trends for ${topic} - Sanbase`}
           />
           <meta
             property='og:description'

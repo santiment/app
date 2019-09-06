@@ -8,5 +8,6 @@
 .tooltipLabel {
   @include text('body-3');
 
+  color: var(--mirage);
   margin-right: 6px;
 }

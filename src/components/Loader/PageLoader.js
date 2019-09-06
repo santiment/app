@@ -15,9 +15,9 @@ const PageLoader = ({
         className={styles.loader__img}
         width='44'
         height='44'
-        alt='SANbase'
+        alt='Sanbase'
       />
-      {text}...
+      <span className={styles.text}>{text}...</span>
     </div>
   </div>
 )

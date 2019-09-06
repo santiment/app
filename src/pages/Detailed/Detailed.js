@@ -117,12 +117,12 @@ export const Detailed = ({
       <Helmet>
         <title>
           {Project.loading
-            ? 'SANbase...'
+            ? 'Sanbase...'
             : `${Project.project.ticker} project page`}
         </title>
         <meta
           property='og:title'
-          content={`Project overview: ${Project.project.name} - SANbase`}
+          content={`Project overview: ${Project.project.name} - Sanbase`}
         />
         <meta
           property='og:description'
@@ -130,7 +130,7 @@ export const Detailed = ({
             Project.project.name
           }. Get access to full historical data & advanced metrics for ${
             Project.project.name
-          } by upgrading to SANbase Dashboards.
+          } by upgrading to Sanbase Dashboards.
 `}
         />
       </Helmet>

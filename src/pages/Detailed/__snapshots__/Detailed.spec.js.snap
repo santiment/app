@@ -12,11 +12,11 @@ exports[`Project detail page container it should render correctly 1`] = `
       AE project page
     </title>
     <meta
-      content="Project overview: Aragorn - SANbase"
+      content="Project overview: Aragorn - Sanbase"
       property="og:title"
     />
     <meta
-      content="Financial, development, on-chain and social data for Aragorn. Get access to full historical data & advanced metrics for Aragorn by upgrading to SANbase Dashboards.
+      content="Financial, development, on-chain and social data for Aragorn. Get access to full historical data & advanced metrics for Aragorn by upgrading to Sanbase Dashboards.
 "
       property="og:description"
     />

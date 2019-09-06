@@ -51,10 +51,10 @@ const InsightViewPage = ({
   return (
     <Fragment>
       <Helmet>
-        <title>Community Insight: {title} - SANbase</title>
+        <title>Community Insight: {title} - Sanbase</title>
         <meta
           property='og:title'
-          content={`Community Insight: ${title} - SANbase`}
+          content={`Community Insight: ${title} - Sanbase`}
         />
         <meta
           property='og:description'
