@@ -1,9 +1,9 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import Loader from '@santiment-network/ui/Loader/Loader'
 import SignalCardsGrid from '../../../components/SignalCard/SignalCardsGrid'
-import styles from './PublicSignals.module.scss'
+import { BlocksLoader } from './../ProfilePage'
+import styles from './../ProfilePage.module.scss'
 
 const PUBLIC_TRIGGERS_FOR_USER_QUERY = gql`
   query publicTriggersForUser($userId: ID!) {
@@ -22,24 +22,22 @@ const PUBLIC_TRIGGERS_FOR_USER_QUERY = gql`
   }
 `
 
-const PublicSignals = ({ data: { publicTriggersForUser, loading } }) => {
+const PublicSignals = ({
+  data: { publicTriggersForUser: signals, loading }
+}) => {
   if (loading) {
-    return (
-      <div className={styles.loader}>
-        <Loader />
-      </div>
-    )
+    return <BlocksLoader />
+  }
+
+  if (!signals || signals.length === 0) {
+    return null
   }
 
   return (
-    <div>
-      <div className={styles.title}>
-        Public signals ({publicTriggersForUser.length})
-      </div>
+    <div className={styles.block}>
+      <div className={styles.title}>Public signals ({signals.length})</div>
       <div>
-        <SignalCardsGrid
-          signals={publicTriggersForUser.map(({ trigger }) => trigger)}
-        />
+        <SignalCardsGrid signals={signals.map(({ trigger }) => trigger)} />
       </div>
     </div>
   )
@@ -53,7 +51,7 @@ export default graphql(PUBLIC_TRIGGERS_FOR_USER_QUERY, {
     const { userId } = props
     return {
       fetchPolicy: 'cache-and-network',
-      variabled: {
+      variables: {
         userId: userId
       }
     }
