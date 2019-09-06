@@ -9,21 +9,21 @@ import styles from '../../components/Watchlists/Watchlist.module.scss'
 const AssetsTemplates = ({ isAuthor, items, listId, isPublic, title }) => (
   <>
     {!isAuthor && !isPublic && (
-      <EmptySection imgClassName={cx(styles.img, styles.emptyWrapper)}>
+      <EmptySection imgClassName={styles.img}>
         <Label className={styles.emptyText}>
           Watchlist is private or doesn't exist
         </Label>
       </EmptySection>
     )}
     {!isAuthor && isPublic && items.length === 0 && (
-      <EmptySection imgClassName={cx(styles.img, styles.emptyWrapper)}>
+      <EmptySection imgClassName={styles.img}>
         <Label className={styles.emptyText}>
           This public watchlist is empty
         </Label>
       </EmptySection>
     )}
     {isAuthor && items.length === 0 && (
-      <EmptySection imgClassName={cx(styles.img, styles.emptyWrapper)}>
+      <EmptySection imgClassName={styles.img}>
         <Label className={styles.emptyText}>
           Start to add assets you want to track or just interested in
         </Label>

@@ -11,9 +11,9 @@
 .img {
   max-width: 423px;
   max-height: 183px;
+  margin: 20px 0;
 
   @include responsive('phone-xs', 'phone') {
-    margin-bottom: 20px;
     width: 90%;
   }
 }
