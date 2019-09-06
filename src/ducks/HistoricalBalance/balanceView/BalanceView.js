@@ -16,7 +16,6 @@ import PageLoader from '../../../components/Loader/PageLoader'
 import BalanceViewWalletAssets from './BalanceViewWalletAssets'
 import { Area } from 'recharts'
 import { simpleSortStrings } from '../../../utils/sortMethods'
-import { Address } from '../../../components/WalletLink/WalletLink'
 import styles from './BalanceView.module.scss'
 
 const LoadableChartSettings = Loadable({

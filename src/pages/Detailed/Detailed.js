@@ -10,7 +10,6 @@ import FinancialsBlock from './financialInfo/FinancialsBlock'
 import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
-import Search from './../../components/Search/SearchContainer'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import EthSpent from './../../pages/EthSpent'
 import { checkIsLoggedIn } from './../UserSelectors'
@@ -53,7 +52,6 @@ export const Detailed = ({
     error: false,
     errorMessage: ''
   },
-  isDesktop,
   isLoggedIn,
   ...props
 }) => {
@@ -134,16 +132,11 @@ export const Detailed = ({
 `}
         />
       </Helmet>
-      {!isDesktop && <Search />}
-      {isDesktop ? (
-        <div className={'information'}>
-          {projectContainerChart && (
-            <Panel className={styles.panel}>{projectContainerChart}</Panel>
-          )}
-        </div>
-      ) : (
-        <div>{projectContainerChart}</div>
-      )}
+      <div className={'information'}>
+        {projectContainerChart && (
+          <Panel className={styles.panel}>{projectContainerChart}</Panel>
+        )}
+      </div>
       {project.slug === 'ethereum' && (
         <div className='information'>
           <EthSpent />
@@ -160,8 +153,7 @@ export const Detailed = ({
           <FinancialsBlock {...Project.project} />
         </PanelWithHeader>
       </div>
-      {isDesktop &&
-        project.isERC20 &&
+      {project.isERC20 &&
         project.tokenTopTransactions &&
         project.tokenTopTransactions.length > 0 && (
         <div className='information'>
@@ -172,8 +164,7 @@ export const Detailed = ({
           />
         </div>
       )}
-      {isDesktop &&
-        project.isERC20 &&
+      {project.isERC20 &&
         project.ethTopTransactions &&
         project.ethTopTransactions.length > 0 && (
         <div className='information'>

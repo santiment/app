@@ -117,6 +117,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  margin-bottom: 15px;
 }
 
 .panel-full-width {
@@ -188,7 +189,6 @@
 
   .detailed .information {
     flex-direction: row;
-    margin-bottom: 15px;
   }
 
   .detailed .information .panel {
