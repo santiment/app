@@ -57,7 +57,7 @@ const MoreSignalActions = ({
           {isUserTheAuthor && (
             <div className={cx(styles.popupItem, styles.popupButton)}>
               <Link
-                to={`/sonar/signal/${signalId}/edit`}
+                to={`/sonar/signal/${signalId}/edit${window.location.search}`}
                 className={styles.link}
               >
                 Edit signal

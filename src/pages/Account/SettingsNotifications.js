@@ -13,9 +13,12 @@ import SettingsTelegramNotifications from './SettingsTelegramNotifications'
 import SettingsEmailNotifications from './SettingsEmailNotifications'
 import SettingsSonarWebPushNotifications from './SettingsSonarWebPushNotifications'
 import ShowIf from '../../components/ShowIf/ShowIf'
-import GetSignals from '../../ducks/Signals/common/getSignals'
+import GetSignals, {
+  filterByChannels
+} from '../../ducks/Signals/common/getSignals'
 import { CHANNEL_TYPES } from '../../ducks/Signals/utils/constants'
 import styles from './AccountPage.module.scss'
+import Link from 'react-router-dom/Link'
 
 const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
   mutation changeNewsletterSubscription(
@@ -35,16 +38,15 @@ const onDigestChangeError = () =>
   )
 
 const channelByTypeLength = (signals, type) => {
-  return signals.filter(({ settings: { channel } }) =>
-    Array.isArray(channel) ? channel.indexOf(type) !== -1 : channel === type
-  ).length
+  return filterByChannels(signals, type).length
 }
 
-const SignalsDescription = (mappedCount, allCount) => {
+const SignalsDescription = (mappedCount, allCount, channel) => {
   return (
-    <div
+    <Link
+      to={'/sonar/my-signals?channel=' + channel}
       className={styles.signalDescription}
-    >{`Manage followed signals (${mappedCount}/${allCount})`}</div>
+    >{`Manage followed signals (${mappedCount}/${allCount})`}</Link>
   )
 }
 
@@ -71,13 +73,21 @@ const SettingsNotifications = ({
           <Settings id='notifications' header='Notifications'>
             <Settings.Row>
               <SettingsEmailNotifications
-                description={SignalsDescription(countWithEmail, allCount)}
+                description={SignalsDescription(
+                  countWithEmail,
+                  allCount,
+                  CHANNEL_TYPES.Email
+                )}
               />
             </Settings.Row>
 
             <Settings.Row>
               <SettingsTelegramNotifications
-                description={SignalsDescription(countWithTelegram, allCount)}
+                description={SignalsDescription(
+                  countWithTelegram,
+                  allCount,
+                  CHANNEL_TYPES.Telegram
+                )}
               />
             </Settings.Row>
 
@@ -86,7 +96,8 @@ const SettingsNotifications = ({
                 <SettingsSonarWebPushNotifications
                   description={SignalsDescription(
                     countWithBrowserPush,
-                    allCount
+                    allCount,
+                    CHANNEL_TYPES.Browser
                   )}
                 />
               </Settings.Row>
