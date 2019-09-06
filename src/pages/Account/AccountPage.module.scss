@@ -356,3 +356,19 @@
 .warning {
   color: var(--persimmon);
 }
+
+.signalDescription {
+  @include text('body-3');
+
+  margin-right: 24px;
+  color: var(--jungle-green);
+  text-align: right;
+}
+
+.toggleWrapper {
+  display: flex;
+}
+
+.container {
+  margin: 0 16px;
+}

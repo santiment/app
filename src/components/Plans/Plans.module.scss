@@ -5,6 +5,7 @@
 
   @include responsive('tablet', 'phone', 'phone-xs') {
     flex-direction: column;
+    padding: 0 17px 0 17px;
   }
 }
 

@@ -52,7 +52,8 @@ export const sendParams = () => {
 const SettingsSonarWebPushNotifications = ({
   classes = {},
   className,
-  recheckBrowserNotifications
+  recheckBrowserNotifications,
+  description
 }) => {
   const [isActive, setIsActive] = useState(false)
   const [isPermissionsGranted, setPermissionsGranted] = useState(true)
@@ -158,9 +159,10 @@ const SettingsSonarWebPushNotifications = ({
           title='Push Notifications'
           description='Get fast notifications through Push Notifications'
         >
-          <>
+          <div className={styles.toggleWrapper}>
+            {description}
             <Toggle isActive={isActive} onClick={() => preToggle(!isActive)} />
-          </>
+          </div>
         </SidecarExplanationTooltip>
       </div>
     </div>

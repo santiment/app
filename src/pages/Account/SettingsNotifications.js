@@ -11,9 +11,11 @@ import { store } from '../../index'
 import { showNotification } from '../../actions/rootActions'
 import SettingsTelegramNotifications from './SettingsTelegramNotifications'
 import SettingsEmailNotifications from './SettingsEmailNotifications'
-import styles from './AccountPage.module.scss'
 import SettingsSonarWebPushNotifications from './SettingsSonarWebPushNotifications'
 import ShowIf from '../../components/ShowIf/ShowIf'
+import GetSignals from '../../ducks/Signals/common/getSignals'
+import { CHANNEL_TYPES } from '../../ducks/Signals/utils/constants'
+import styles from './AccountPage.module.scss'
 
 const NEWSLETTER_SUBSCRIPTION_MUTATION = gql`
   mutation changeNewsletterSubscription(
@@ -32,54 +34,97 @@ const onDigestChangeError = () =>
     showNotification({ title: 'Failed to change digest type', type: 'error' })
   )
 
+const channelByTypeLength = (signals, type) => {
+  return signals.filter(({ settings: { channel } }) =>
+    Array.isArray(channel) ? channel.indexOf(type) !== -1 : channel === type
+  ).length
+}
+
+const SignalsDescription = (mappedCount, allCount) => {
+  return (
+    <div
+      className={styles.signalDescription}
+    >{`Manage followed signals (${mappedCount}/${allCount})`}</div>
+  )
+}
+
 const SettingsNotifications = ({
   digestType,
   changeDigestType,
   mutateDigestType
 }) => {
   return (
-    <Settings id='notifications' header='Notifications'>
-      <Settings.Row>
-        <SettingsEmailNotifications />
-      </Settings.Row>
+    <GetSignals
+      render={({ signals, isLoading }) => {
+        const allCount = signals.length
+        const countWithEmail = channelByTypeLength(signals, CHANNEL_TYPES.Email)
+        const countWithTelegram = channelByTypeLength(
+          signals,
+          CHANNEL_TYPES.Telegram
+        )
+        const countWithBrowserPush = channelByTypeLength(
+          signals,
+          CHANNEL_TYPES.Browser
+        )
 
-      <Settings.Row>
-        <SettingsTelegramNotifications />
-      </Settings.Row>
+        return (
+          <Settings id='notifications' header='Notifications'>
+            <Settings.Row>
+              <SettingsEmailNotifications
+                description={SignalsDescription(countWithEmail, allCount)}
+              />
+            </Settings.Row>
 
-      <ShowIf beta>
-        <Settings.Row>
-          <SettingsSonarWebPushNotifications canReload={true} />
-        </Settings.Row>
-      </ShowIf>
+            <Settings.Row>
+              <SettingsTelegramNotifications
+                description={SignalsDescription(countWithTelegram, allCount)}
+              />
+            </Settings.Row>
 
-      <Settings.Row>
-        <div className={styles.digest}>
-          <div className={styles.setting__left}>
-            <Label>Digest</Label>
-            <Label className={styles.setting__description} accent='waterloo'>
-              Receive the best insights and signals on Sanbase
-              <br />
-              peersonalized based on your interests.
-            </Label>
-          </div>
-          <Selector
-            className={styles.digestSelector}
-            options={['DAILY', 'WEEKLY', 'OFF']}
-            nameOptions={['Daily', 'Weekly', 'Off']}
-            onSelectOption={subscription =>
-              mutateDigestType({ variables: { subscription } })
-                .then(() => {
-                  changeDigestType(subscription)
-                  onDigestChangeSuccess()
-                })
-                .catch(onDigestChangeError)
-            }
-            defaultSelected={digestType}
-          />
-        </div>
-      </Settings.Row>
-    </Settings>
+            <ShowIf beta>
+              <Settings.Row>
+                <SettingsSonarWebPushNotifications
+                  description={SignalsDescription(
+                    countWithBrowserPush,
+                    allCount
+                  )}
+                />
+              </Settings.Row>
+            </ShowIf>
+
+            <Settings.Row>
+              <div className={styles.digest}>
+                <div className={styles.setting__left}>
+                  <Label>Digest</Label>
+                  <Label
+                    className={styles.setting__description}
+                    accent='waterloo'
+                  >
+                    Receive the best insights and signals on Sanbase
+                    <br />
+                    peersonalized based on your interests.
+                  </Label>
+                </div>
+                <Selector
+                  className={styles.digestSelector}
+                  options={['DAILY', 'WEEKLY', 'OFF']}
+                  nameOptions={['Daily', 'Weekly', 'Off']}
+                  onSelectOption={subscription =>
+                    mutateDigestType({ variables: { subscription } })
+                      .then(() => {
+                        changeDigestType(subscription)
+                        onDigestChangeSuccess()
+                      })
+                      .catch(onDigestChangeError)
+                  }
+                  defaultSelected={digestType}
+                />
+              </div>
+            </Settings.Row>
+          </Settings>
+        )
+      }}
+    />
   )
 }
 

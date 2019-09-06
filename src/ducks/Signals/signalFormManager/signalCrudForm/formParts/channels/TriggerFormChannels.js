@@ -7,14 +7,9 @@ import FormikLabel from '../../../../../../components/formik-santiment-ui/Formik
 import TriggerChannelSettings from './TriggerChannelSettings'
 import { getSanSonarSW } from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
 import FormikCheckbox from '../../../../../../components/formik-santiment-ui/FormikCheckbox'
-import styles from '../../signal/TriggerForm.module.scss'
 import SidecarExplanationTooltip from '../../../../../SANCharts/SidecarExplanationTooltip'
-
-const CHANNEL_NAMES = {
-  Telegram: 'Telegram',
-  Email: 'Email',
-  Browser: 'Push'
-}
+import { CHANNEL_NAMES } from '../../../../utils/constants'
+import styles from '../../signal/TriggerForm.module.scss'
 
 const permanentDisabledChannels = [CHANNEL_NAMES.Email]
 
