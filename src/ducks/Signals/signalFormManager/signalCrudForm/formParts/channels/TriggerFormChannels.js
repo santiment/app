@@ -140,15 +140,6 @@ const TriggerFormChannels = ({
         </SidecarExplanationTooltip>
         <div className={styles.notifyBlock}>
           <ChannelCheckbox
-            channel={CHANNEL_NAMES.Email}
-            isActive={isActive}
-            isDisabled={isDisabled}
-            toggleChannel={toggleChannel}
-            isRequired={isRequired}
-            recheckBrowserNotifications={recheckBrowserNotifications}
-          />
-
-          <ChannelCheckbox
             channel={CHANNEL_NAMES.Telegram}
             isActive={isActive}
             isDisabled={isDisabled}

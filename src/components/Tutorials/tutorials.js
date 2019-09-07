@@ -1,8 +1,8 @@
 export const tutorials = [
   {
     title: 'Sonar Introduction',
-    duration: '4:30',
-    src: 'https://www.youtube-nocookie.com/embed/DQPrfUbcNrA'
+    duration: '4:24',
+    src: 'https://www.youtube-nocookie.com/embed/AsZRjm9x5HI'
   },
   {
     title: 'How to create a signal',
