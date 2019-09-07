@@ -34,3 +34,19 @@
     text-transform: capitalize;
   }
 }
+
+.newsWrapper {
+  margin-bottom: 20px;
+}
+
+.newsTitle {
+  color: var(--mirage);
+  padding-top: 20px;
+  margin: 0 0 20px;
+
+  @include text('h4');
+
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
