@@ -157,7 +157,7 @@ export const Detailed = ({
       </div>
       {isNewsEnabled && !isLoadingNews && !Project.loading && news.length > 0 && (
         <div className={styles.newsWrapper}>
-          <h4 className={styles.newsTitle}>{project.slug} news</h4>
+          <h4 className={styles.newsTitle}>News</h4>
           <News data={news} />
         </div>
       )}
