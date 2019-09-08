@@ -79,7 +79,8 @@ export const TriggerProjectsSelector = ({
       setListItems(newItems)
     }
 
-    if (isSingle) {
+    const isRemoving = newItems.length < listItems.length
+    if (isSingle || isRemoving) {
       approve(newItems)
     }
   }

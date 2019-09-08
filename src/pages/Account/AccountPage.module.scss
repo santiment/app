@@ -370,5 +370,7 @@
 }
 
 .container {
-  margin: 0 16px;
+  @include responsive('phone', 'phone-xs') {
+    margin: 0 16px;
+  }
 }
