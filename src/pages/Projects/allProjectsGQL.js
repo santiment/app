@@ -7,7 +7,6 @@ export const generalData = gql`
     slug
     description
     ticker
-    coinmarketcapId
   }
 `
 
