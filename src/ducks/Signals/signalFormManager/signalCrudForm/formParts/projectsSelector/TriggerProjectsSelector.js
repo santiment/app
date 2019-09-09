@@ -36,7 +36,8 @@ export const TriggerProjectsSelector = ({
   }
 
   const validate = force => {
-    if (force || listItems.length === 0) {
+    const hasSelectedItems = listItems.length > 0
+    if (force || !hasSelectedItems) {
       const targetAssets = Array.isArray(target) ? target : [target]
 
       if (targetAssets.length > 0 && projects.length > 0) {
@@ -46,15 +47,14 @@ export const TriggerProjectsSelector = ({
           )
         )
         setSelectedAssets(preSelected)
+      } else if (force) {
+        setSelectedAssets([])
       }
     }
 
     if (!force) {
-      if (
-        Array.isArray(target) &&
-        target.length === 0 &&
-        listItems.length > 0
-      ) {
+      const emptyTarget = Array.isArray(target) && target.length === 0
+      if (emptyTarget && hasSelectedItems) {
         setSelectedAssets([])
       }
     }
