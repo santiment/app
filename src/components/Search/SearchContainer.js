@@ -19,9 +19,7 @@ export const SearchContainer = ({
       inputProps={inputProps}
       className={cx(styles.wrapper, className)}
       iconPosition='left'
-      onSuggestionSelect={({ coinmarketcapId }) =>
-        history.push(`/projects/${coinmarketcapId}`)
-      }
+      onSuggestionSelect={({ slug }) => history.push(`/projects/${slug}`)}
     />
   ) : (
     <TrendsForm

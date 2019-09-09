@@ -35,11 +35,7 @@ export const columns = [
     minWidth: 260,
     filterable: true,
     sortable: true,
-    accessor: d => ({
-      name: d.name,
-      ticker: d.ticker,
-      cmcId: d.coinmarketcapId
-    }),
+    accessor: ({ name, ticker, slug }) => ({ name, ticker, cmcId: slug }),
     Cell: ({ value = {} }) => (
       <Link className={styles.name} to={`/projects/${value.cmcId}`}>
         <span>{value.name}</span>
