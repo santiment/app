@@ -1,4 +1,21 @@
+@import '~@santiment-network/ui/mixins';
+
 .balanceViewContainer {
   margin: 20px;
   width: initial;
+}
+
+.historicalBalancePage {
+  width: initial !important;
+}
+
+.dialog {
+  width: 85%;
+}
+
+.title {
+  @include text('body-3');
+
+  display: flex;
+  margin-bottom: 0 !important;
 }

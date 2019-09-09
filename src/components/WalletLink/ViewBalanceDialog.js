@@ -10,7 +10,7 @@ import dialogStyles from './ViewBalanceDialog.module.scss'
 const ViewBalanceDialog = ({ isDesktop, address, assets, trigger }) => {
   return (
     <Dialog
-      title={<BalancePageTitle classes={styles} />}
+      title={<BalancePageTitle classes={dialogStyles} />}
       trigger={<div>{trigger || <BalancePageLink link='#' />}</div>}
       classes={dialogStyles}
     >
