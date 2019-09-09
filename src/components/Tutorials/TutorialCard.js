@@ -1,31 +1,25 @@
 import React from 'react'
 import cx from 'classnames'
+import TutorialCardImage from './TutorialCardImage'
 import styles from './TutorialCard.module.scss'
 
-const TutorialCard = ({ onClick, className = '', title, duration }) => {
+const TutorialCard = ({
+  onClick,
+  className = '',
+  title,
+  duration,
+  isViewed,
+  type = 'video'
+}) => {
   return (
     <div className={cx(styles.wrapper, className)} onClick={onClick}>
       <div className={styles.img}>
-        <svg
-          width='64'
-          height='20'
-          viewBox='0 0 64 20'
-          fill='none'
-          xmlns='http://www.w3.org/2000/svg'
-        >
-          <path
-            d='M0 19C8.192 13.5001 9.28457 0.999984 16.896 1C23.04 1.00001 24.5533 14.7272 30.208 13.5001C34.816 12.5001 34.304 5 39.424 6C43.9425 6.88252 45.0232 19.8917 49.664 14.0001C54.784 7.50007 59.392 13.5001 64 7.50007'
-            stroke='#FFAD4D'
-            strokeWidth='1.5'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-          />
-        </svg>
+        <TutorialCardImage isViewed={isViewed} type={type} />
       </div>
       <div className={styles.right}>
         <h3 className={styles.title}>{title}</h3>
         <div className={styles.bottom}>
-          <div className={styles.icon}>
+          <div className={cx(styles.icon, isViewed && styles.viewed)}>
             <svg
               width='5'
               height='6'

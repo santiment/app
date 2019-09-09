@@ -16,13 +16,6 @@
 }
 
 .img {
-  background: var(--texas-rose-light);
-  border-radius: 50%;
-  width: 64px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
   margin-right: 14px;
 }
 
@@ -43,6 +36,7 @@
   color: var(--casper);
   display: flex;
   align-items: center;
+  margin-bottom: 6px;
 }
 
 .icon {
@@ -50,8 +44,12 @@
   border-radius: 50%;
   width: 16px;
   height: 16px;
-  background: var(--porcelain);
+  background: var(--jungle-green-accent);
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &.viewed {
+    background: var(--porcelain);
+  }
 }
