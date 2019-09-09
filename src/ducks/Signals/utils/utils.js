@@ -1104,6 +1104,9 @@ const NOTIFY_ME_WHEN = 'Notify me when'
 const targetsJoin = targets =>
   Array.isArray(targets) ? targets.join(', ') : targets
 
+export const hasEthAddress = ethAddress =>
+  Array.isArray(ethAddress) ? ethAddress.length > 0 : !!ethAddress
+
 export const getTargetsHeader = values => {
   const {
     target,
