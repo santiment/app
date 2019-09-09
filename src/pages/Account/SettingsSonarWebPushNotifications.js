@@ -10,13 +10,26 @@ import SidecarExplanationTooltip from '../../ducks/SANCharts/SidecarExplanationT
 import { getAPIUrl, getOrigin } from '../../utils/utils'
 import styles from './AccountPage.module.scss'
 
+const SERVICE_WORKER_NAME = 'san-sonar-service-worker.js'
+
 export const getSanSonarSW = registrations => {
   return registrations
     ? registrations
       .filter(({ active }) => !!active)
-      .find(({ active: { scriptURL, state } = {} } = {}) =>
-        scriptURL.endsWith('san-sonar-service-worker.js')
-      )
+      .find((props = {}) => {
+        const { waiting } = props
+
+        if (waiting) {
+          const { scriptURL } = waiting
+          if (scriptURL.endsWith(SERVICE_WORKER_NAME)) {
+            return true
+          }
+        }
+
+        const { active: { scriptURL } = {} } = props
+
+        return scriptURL.endsWith(SERVICE_WORKER_NAME)
+      })
     : undefined
 }
 
