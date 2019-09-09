@@ -34,14 +34,23 @@
 }
 
 .img {
-  height: 240px;
-}
-
-.emptyWrapper {
   margin-top: 12vh;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 22vh;
+  }
+}
+
+.emptyWrapper {
+  padding: 30px 16px 16px;
+  margin: 0 16px;
+
+  & .img {
+    margin-top: 0;
+  }
 }
 
 .emptyText {

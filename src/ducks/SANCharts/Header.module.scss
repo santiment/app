@@ -81,6 +81,7 @@
 
 .currency {
   margin: 0 5px;
+  color: var(--waterloo);
 
   @include text('body-3');
 }
@@ -92,10 +93,6 @@
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
-
-  & .currency {
-    color: var(--waterloo);
-  }
 }
 
 .changesLabel {
@@ -133,6 +130,10 @@
   &__icon {
     margin-right: 8px;
   }
+}
+
+.totalSupply {
+  color: var(--mirage);
 }
 
 .range {

@@ -8,23 +8,28 @@
   right: 0;
   max-width: 1140px;
   margin: 0 auto;
+  display: flex;
   padding: 23px 24px 21px;
   border-radius: 10px;
-  background-image: url('./cookie.svg');
-  background-repeat: no-repeat;
+  align-items: center;
+  justify-content: flex-start;
 
-  @include responsive('desktop', 'laptop', 'tablet') {
-    padding-left: 108px;
-    background-position: 20px 50%;
-  }
-
-  @include responsive('phone', 'phone-xs') {
-    padding-top: 104px;
-    background-position: 50% 24px;
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    flex-direction: column;
     text-align: center;
     bottom: 0;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+  }
+}
+
+.image {
+  margin-right: 15px;
+  width: 66px;
+  height: 67px;
+
+  @include responsive('phone', 'phone-xs',  'tablet') {
+    margin: 0 0 15px;
   }
 }
 
@@ -34,29 +39,23 @@
   margin: 0 0 4px;
 }
 
-.bottom {
-  display: flex;
-  justify-content: space-between;
-
-  @include responsive('phone', 'phone-xs') {
-    flex-direction: column;
-  }
-}
-
 .text {
   @include text('body-2');
 
   margin: 0;
   color: var(--waterloo);
+  max-width: 710px;
 }
 
 .btn {
   width: 100px;
+  margin-left: auto;
   justify-content: center;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('phone', 'phone-xs', 'tablet') {
     width: 100%;
-    margin-top: 20px;
+    max-width: 400px;
+    margin: 20px auto 0;
   }
 }
 

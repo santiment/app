@@ -101,6 +101,10 @@
   color: var(--waterloo);
 }
 
+.etherscan {
+  margin-top: 4px;
+}
+
 .InputWithAction input {
   margin-top: 0;
   border: none;
@@ -130,6 +134,7 @@
   transform: translateY(-50%);
   width: 260px;
   text-align: center;
+  color: var(--mirage);
 }
 
 .settings {

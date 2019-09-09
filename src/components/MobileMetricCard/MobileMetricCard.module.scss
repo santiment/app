@@ -29,6 +29,7 @@
 .metric,
 .value,
 .anomalies {
+  color: var(--mirage);
   margin: 0;
 
   @include text("body-3");

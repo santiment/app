@@ -343,7 +343,7 @@ const ProjectsTable = ({
   return (
     <div className='page projects-table'>
       <Helmet>
-        <title>SANbase</title>
+        <title>Sanbase</title>
         <link rel='canonical' href={`${getOrigin()}/projects`} />
       </Helmet>
       <FadeIn duration='0.3s' timingFunction='ease-in' as='div'>

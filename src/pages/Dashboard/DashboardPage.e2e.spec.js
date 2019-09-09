@@ -58,7 +58,7 @@ for (const capabilities of allCapabilities) {
         waitUntilTime
       )
       const title = await driver.getTitle()
-      expect(title).toEqual('SANbase')
+      expect(title).toEqual('Sanbase')
       const data = await driver.takeScreenshot()
       fs.writeFile(
         `./screenshots/${title}_${capabilities.resolution}_${

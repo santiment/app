@@ -28,9 +28,9 @@ const Roadmap = () => (
       <link rel='canonical' href={`${getOrigin()}/roadmap`} />
     </Helmet>
     <div className='page-head'>
-      <h1>SANbase Roadmap</h1>
+      <h1>Sanbase Roadmap</h1>
       <p>
-        Please see our SANbase roadmap below. It is a living document;
+        Please see our Sanbase roadmap below. It is a living document;
         milestones may adjust.
       </p>
     </div>
@@ -72,7 +72,7 @@ const Roadmap = () => (
             </div>
             <div className='body'>
               <ul>
-                <li>Develop SanBase backend architecture</li>
+                <li>Develop Sanbase backend architecture</li>
                 <li>UI/UX. Overview and detailed view</li>
                 <li>Bring first data-feeds</li>
                 <li>
@@ -83,7 +83,7 @@ const Roadmap = () => (
                 <li>First experiments with SAN rewards</li>
               </ul>
 
-              <p>Release: SanBase alpha release</p>
+              <p>Release: Sanbase alpha release</p>
             </div>
           </div>
           <div className='entry future'>
