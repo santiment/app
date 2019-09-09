@@ -139,6 +139,7 @@ const SettingsSonarWebPushNotifications = ({
                 requestNotificationPermission(null, noPermissionsCallback)
                 sendParams()
                 recheckBrowserNotifications && recheckBrowserNotifications()
+                toggle(true)
               }
             })
             toggle(true)
