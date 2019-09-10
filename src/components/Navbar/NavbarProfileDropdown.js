@@ -51,7 +51,7 @@ export const NavbarProfileDropdown = ({
 }) => {
   const sub = getCurrentSanbaseSubscription(user)
   const plan = sub ? sub.plan.name : 'Free'
-  const isLoggedIn = user
+  const isLoggedIn = user && user.id
 
   return (
     <div
