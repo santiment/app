@@ -235,6 +235,7 @@ const enhance = compose(
     }
   }),
   graphql(NEWS_QUERY, {
+    skip: ({ isNewsEnabled }) => !isNewsEnabled,
     options: ({ match }) => {
       const { from, to } = getTimeIntervalFromToday(-14, DAY)
       return {
