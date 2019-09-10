@@ -113,7 +113,8 @@ class ChartPage extends Component {
 
     const newFrom = new Date(leftZoomDate)
     const newTo = new Date(rightZoomDate)
-    const newInterval = getNewInterval(from, to, interval)
+    const newInterval = getNewInterval(leftZoomDate, rightZoomDate, interval)
+    console.log(newInterval)
 
     this.setState(
       {
@@ -185,7 +186,7 @@ class ChartPage extends Component {
   }
 
   onIntervalChange = interval => {
-    this.setState({ interval, zoom: undefined }, this.updateSearchQuery)
+    this.setState({ interval }, this.updateSearchQuery)
   }
 
   toggleMetric = (metric, isEvent) => {

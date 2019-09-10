@@ -9,13 +9,7 @@ export const INTERVAL_ALIAS = {
 }
 
 export const getNewInterval = (from, to, lastInterval) => {
-  const { diff } = dateDifference({
-    from: new Date(from),
-    to: new Date(to),
-    format: DAY
-  })
-
-  const intervals = getAvailableIntervals(from, to, diff)
+  const intervals = getAvailableIntervals(from, to)
 
   if (intervals.includes(lastInterval)) {
     return lastInterval
@@ -24,8 +18,14 @@ export const getNewInterval = (from, to, lastInterval) => {
   return intervals[0]
 }
 
-const getAvailableIntervals = (from, to, diff) => {
-  if (diff < 6) {
+const getAvailableIntervals = (from, to) => {
+  const { diff, format } = dateDifference({
+    from: new Date(from),
+    to: new Date(to),
+    format: DAY
+  })
+
+  if (diff < 10 || format !== DAY) {
     return ['10min', '30min', '1h']
   }
   if (diff < 20) {
@@ -45,12 +45,7 @@ const getAvailableIntervals = (from, to, diff) => {
 }
 
 const IntervalSelector = ({ from, to, interval, onIntervalChange }) => {
-  const { diff } = dateDifference({
-    from: new Date(from),
-    to: new Date(to),
-    format: DAY
-  })
-  const options = getAvailableIntervals(from, to, diff)
+  const options = getAvailableIntervals(from, to)
 
   return (
     <Dropdown
