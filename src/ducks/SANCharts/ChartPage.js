@@ -109,16 +109,30 @@ class ChartPage extends Component {
   state = getChartInitialState(this.props)
 
   onZoom = (leftZoomIndex, rightZoomIndex, leftZoomDate, rightZoomDate) => {
+    const { from, to, interval } = this.state
+
+    const newFrom = new Date(leftZoomDate)
+    const newTo = new Date(rightZoomDate)
+    const newInterval = getNewInterval(from, to, interval)
+
     this.setState(
       {
-        zoom: [leftZoomIndex, rightZoomIndex + 1, leftZoomDate, rightZoomDate]
+        zoom: [from, to, interval],
+        from: newFrom.toISOString(),
+        to: newTo.toISOString(),
+        interval: newInterval,
+        timeRange: undefined
       },
       this.updateSearchQuery
     )
   }
 
   onZoomOut = () => {
-    this.setState({ zoom: undefined }, this.updateSearchQuery)
+    const [from, to, interval] = this.state.zoom
+    this.setState(
+      { zoom: undefined, from, to, interval },
+      this.updateSearchQuery
+    )
   }
 
   onTimerangeChange = timeRange => {
@@ -449,10 +463,7 @@ class ChartPage extends Component {
                       isZoomed={zoom}
                       events={eventsFiltered}
                       isTrendsShowing={isTrendsShowing}
-                      chartData={(timeseries && zoom
-                        ? timeseries.slice(zoom[0], zoom[1])
-                        : timeseries
-                      ).map(({ datetime, ...rest }) => ({
+                      chartData={timeseries.map(({ datetime, ...rest }) => ({
                         ...rest,
                         datetime: +new Date(datetime)
                       }))}
