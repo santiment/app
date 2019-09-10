@@ -114,7 +114,6 @@ class ChartPage extends Component {
     const newFrom = new Date(leftZoomDate)
     const newTo = new Date(rightZoomDate)
     const newInterval = getNewInterval(leftZoomDate, rightZoomDate, interval)
-    console.log(newInterval)
 
     this.setState(
       {
