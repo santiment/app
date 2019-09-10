@@ -6,9 +6,16 @@ import { Button, Toggle } from '@santiment-network/ui'
 import DropdownDevider from './DropdownDevider'
 import ProfileInfo from '../Insight/ProfileInfo'
 import * as actions from '../../actions/types'
-import { checkIsLoggedIn } from './../../pages/UserSelectors'
+import { capitalizeStr } from '../../utils/utils'
+import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import styles from './NavbarProfileDropdown.module.scss'
 import dropdownStyles from './NavbarDropdown.module.scss'
+
+const mys = [
+  { link: '/sonar/my-signals', label: 'My signals' },
+  { link: '/assets', label: 'My watchlists' },
+  { link: '/insights/my', label: 'My insights' }
+]
 
 const links = [
   { link: '/account', label: 'Account settings' },
@@ -19,15 +26,17 @@ const links = [
 export const NavbarProfileDropdown = ({
   activeLink,
   picUrl,
-  balance,
-  name,
   status = 'offline',
-  isLoggedIn,
   isNightModeEnabled,
   toggleNightMode,
   toggleBetaMode,
-  isBetaModeEnabled
+  isBetaModeEnabled,
+  user
 }) => {
+  const sub = getCurrentSanbaseSubscription(user)
+  const plan = sub ? sub.plan.name : 'Free'
+  const isLoggedIn = user
+
   return (
     <div
       className={cx({
@@ -39,12 +48,9 @@ export const NavbarProfileDropdown = ({
         <Fragment>
           <ProfileInfo
             className={styles.profile}
-            name={name}
+            name={user.name}
             status={
-              <div className={styles.tokens}>
-                <span className={styles.tokens__amount}>{balance}</span> tokens
-                available
-              </div>
+              <div className={styles.tokens}>{capitalizeStr(plan)} plan</div>
             }
           />
 
@@ -59,27 +65,34 @@ export const NavbarProfileDropdown = ({
           className={styles.setting + ' ' + dropdownStyles.item}
           onClick={toggleNightMode}
         >
-          Nightmode <Toggle isActive={isNightModeEnabled} />
-        </Button>
-        <Button
-          fluid
-          variant='ghost'
-          className={
-            styles.setting +
-            ' ' +
-            dropdownStyles.item +
-            ' ' +
-            dropdownStyles.text
-          }
-          onClick={toggleBetaMode}
-        >
-          Beta Mode <Toggle isActive={isBetaModeEnabled} />
+          Night mode <Toggle isActive={isNightModeEnabled} />
         </Button>
       </div>
       <DropdownDevider />
-
+      {isLoggedIn && (
+        <>
+          <div className={dropdownStyles.list}>
+            {mys.map(({ link, label }) => {
+              return (
+                <Button
+                  variant='ghost'
+                  key={label}
+                  fluid
+                  as={Link}
+                  className={dropdownStyles.item}
+                  to={link}
+                  isActive={link === activeLink}
+                >
+                  {label}
+                </Button>
+              )
+            })}
+          </div>
+          <DropdownDevider />
+        </>
+      )}
       <div className={dropdownStyles.list}>
-        {isLoggedIn &&
+        {isLoggedIn ? (
           links.map(({ link, label }) => {
             return (
               <Button
@@ -94,8 +107,8 @@ export const NavbarProfileDropdown = ({
                 {label}
               </Button>
             )
-          })}
-        {!isLoggedIn && (
+          })
+        ) : (
           <Button
             variant='ghost'
             fluid
@@ -116,9 +129,7 @@ const mapStateToProps = state => ({
   isNightModeEnabled: state.rootUi.isNightModeEnabled,
   isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
   status: state.rootUi.isOnline ? 'online' : 'offline',
-  balance: state.user.data.sanBalance,
-  name: state.user.data.username,
-  isLoggedIn: checkIsLoggedIn(state)
+  user: state.user.data
 })
 
 const mapDispatchToProps = dispatch => ({
