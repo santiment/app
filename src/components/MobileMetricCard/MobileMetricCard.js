@@ -4,7 +4,7 @@ import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import { formatTooltipValue } from '../../ducks/SANCharts/CustomTooltip'
 import PercentChanges from '../PercentChanges'
-import { METRIC_ANOMALIE_QUERY } from '../../pages/Detailed/gqlWrappers/DetailedGQL'
+import { METRIC_ANOMALIE_QUERY } from '../../ducks/GetTimeSeries/queries/metric_anomaly_query'
 import styles from './MobileMetricCard.module.scss'
 
 export const ANOMALIES_METRICS_ENUM = {

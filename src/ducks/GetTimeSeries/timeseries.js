@@ -1,6 +1,7 @@
 import { DEV_ACTIVITY_QUERY } from './queries/dev_activity_query'
 import { HISTORY_PRICE_QUERY } from './queries/history_price_query'
 import { ETH_SPENT_OVER_TIME_QUERY } from './queries/eth_spent_over_time_query'
+import { ETH_SPENT_OVER_TIME_BY_ALL_PROJECTS_QUERY } from './queries/eth_spent_over_time_by_all_projects_query'
 import { BURN_RATE_QUERY } from './queries/burn_rate_query'
 import { NVT_RATIO_QUERY } from './queries/nvt_ratio_query'
 import { REALIZED_VALUE_QUERY } from './queries/realized_value_query'
@@ -17,35 +18,20 @@ import { NETWORK_GROWTH_QUERY } from './queries/network_growth_query'
 import { SOCIAL_DOMINANCE_QUERY } from './queries/social_dominance_query'
 import { PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES } from './queries/percent_of_token_supply_on_exchanges_query'
 import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from './queries/top_holders_percent_of_total_supply'
-import { METRIC_ANOMALIE_QUERY } from '../../pages/Detailed/gqlWrappers/DetailedGQL'
+import { PROJECT_TREND_HISTORY_QUERY } from './queries/project_trend_history_query'
+import { METRIC_ANOMALIE_QUERY } from './queries/metric_anomaly_query'
 import { GET_METRIC } from './queries/get_metric'
 import { mergeTimeseriesByKey } from './../../utils/utils'
-import gql from 'graphql-tag'
-
-const PROJECT_TREND_HISTORY_QUERY = gql`
-  query getProjectTrendingHistory(
-    $from: DateTime!
-    $to: DateTime!
-    $interval: String
-    $slug: String!
-  ) {
-    getProjectTrendingHistory(
-      size: 10
-      from: $from
-      to: $to
-      slug: $slug
-      interval: $interval
-    ) {
-      datetime
-      position
-    }
-  }
-`
 
 const TIMESERIES = {
   ethSpentOverTime: {
     query: ETH_SPENT_OVER_TIME_QUERY,
     preTransform: ({ ethSpentOverTime: { ethSpentOverTime } }) =>
+      ethSpentOverTime
+  },
+  EthSpentOverTimeByAllProjects: {
+    query: ETH_SPENT_OVER_TIME_BY_ALL_PROJECTS_QUERY,
+    preTransform: ({ ethSpentOverTimeByAllProjects: ethSpentOverTime }) =>
       ethSpentOverTime
   },
   nvtRatioCirculation: {
