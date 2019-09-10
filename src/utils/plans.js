@@ -13,6 +13,7 @@ export const findSanbasePlan = ({ id }) => id === sanbaseProductId
 export const getCurrentSanbaseSubscription = user => {
   if (!user) return
   const { subscriptions: subs } = user
+  if (!subs) return
 
   return subs.find(
     ({

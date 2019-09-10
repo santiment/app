@@ -6,28 +6,53 @@ import { Button, Toggle } from '@santiment-network/ui'
 import DropdownDevider from './DropdownDevider'
 import ProfileInfo from '../Insight/ProfileInfo'
 import * as actions from '../../actions/types'
-import { checkIsLoggedIn } from './../../pages/UserSelectors'
+import { capitalizeStr } from '../../utils/utils'
+import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import styles from './NavbarProfileDropdown.module.scss'
 import dropdownStyles from './NavbarDropdown.module.scss'
 
+const mys = [
+  { to: '/sonar/my-signals', children: 'My signals' },
+  { to: '/assets', children: 'My watchlists' },
+  { to: '/insights/my', children: 'My insights' }
+]
+
 const links = [
-  { link: '/account', label: 'Account settings' },
+  { to: '/account', children: 'Account settings' },
   // { link: '/upgrade', label: 'Upgrade plan' },
-  { link: '/logout', label: 'Log out' }
+  {
+    to: '/logout',
+    className: styles.logout,
+    children: (
+      <>
+        <svg
+          className={styles.logout__icon}
+          width='16'
+          height='16'
+          xmlns='http://www.w3.org/2000/svg'
+        >
+          <path d='M8 16a8 8 0 0 0 7.11-4.36.67.67 0 1 0-1.18-.61A6.65 6.65 0 0 1 1.33 8a6.65 6.65 0 0 1 12.6-3.03.67.67 0 0 0 1.11.15.67.67 0 0 0 .07-.76A8 8 0 1 0 8 16zm.67-4.66a.67.67 0 0 0 .46-1.14L7.6 8.67h7.72a.67.67 0 1 0 0-1.34H7.6L9.13 5.8a.67.67 0 1 0-.94-.94l-2.6 2.61a.67.67 0 0 0 0 1.06l2.6 2.6a.67.67 0 0 0 .48.21z' />
+        </svg>{' '}
+        Log out
+      </>
+    )
+  }
 ]
 
 export const NavbarProfileDropdown = ({
   activeLink,
   picUrl,
-  balance,
-  name,
   status = 'offline',
-  isLoggedIn,
   isNightModeEnabled,
   toggleNightMode,
   toggleBetaMode,
-  isBetaModeEnabled
+  isBetaModeEnabled,
+  user
 }) => {
+  const sub = getCurrentSanbaseSubscription(user)
+  const plan = sub ? sub.plan.name : 'Free'
+  const isLoggedIn = user && user.id
+
   return (
     <div
       className={cx({
@@ -39,12 +64,9 @@ export const NavbarProfileDropdown = ({
         <Fragment>
           <ProfileInfo
             className={styles.profile}
-            name={name}
+            name={user.username || user.email}
             status={
-              <div className={styles.tokens}>
-                <span className={styles.tokens__amount}>{balance}</span> tokens
-                available
-              </div>
+              <div className={styles.tokens}>{capitalizeStr(plan)} plan</div>
             }
           />
 
@@ -59,43 +81,46 @@ export const NavbarProfileDropdown = ({
           className={styles.setting + ' ' + dropdownStyles.item}
           onClick={toggleNightMode}
         >
-          Nightmode <Toggle isActive={isNightModeEnabled} />
-        </Button>
-        <Button
-          fluid
-          variant='ghost'
-          className={
-            styles.setting +
-            ' ' +
-            dropdownStyles.item +
-            ' ' +
-            dropdownStyles.text
-          }
-          onClick={toggleBetaMode}
-        >
-          Beta Mode <Toggle isActive={isBetaModeEnabled} />
+          Night mode <Toggle isActive={isNightModeEnabled} />
         </Button>
       </div>
       <DropdownDevider />
-
+      {isLoggedIn && (
+        <>
+          <div className={dropdownStyles.list}>
+            {mys.map((props, index) => {
+              return (
+                <Button
+                  variant='ghost'
+                  key={index}
+                  fluid
+                  as={Link}
+                  className={dropdownStyles.item}
+                  isActive={props.to === activeLink}
+                  {...props}
+                />
+              )
+            })}
+          </div>
+          <DropdownDevider />
+        </>
+      )}
       <div className={dropdownStyles.list}>
-        {isLoggedIn &&
-          links.map(({ link, label }) => {
+        {isLoggedIn ? (
+          links.map((props, index) => {
             return (
               <Button
                 variant='ghost'
-                key={label}
+                key={index}
                 fluid
                 as={Link}
                 className={dropdownStyles.item}
-                to={link}
-                isActive={link === activeLink}
-              >
-                {label}
-              </Button>
+                isActive={props.to === activeLink}
+                {...props}
+              />
             )
-          })}
-        {!isLoggedIn && (
+          })
+        ) : (
           <Button
             variant='ghost'
             fluid
@@ -116,9 +141,7 @@ const mapStateToProps = state => ({
   isNightModeEnabled: state.rootUi.isNightModeEnabled,
   isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
   status: state.rootUi.isOnline ? 'online' : 'offline',
-  balance: state.user.data.sanBalance,
-  name: state.user.data.username,
-  isLoggedIn: checkIsLoggedIn(state)
+  user: state.user.data
 })
 
 const mapDispatchToProps = dispatch => ({

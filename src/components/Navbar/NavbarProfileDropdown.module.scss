@@ -1,4 +1,4 @@
-@import "~@santiment-network/ui/mixins.scss";
+@import '~@santiment-network/ui/mixins.scss';
 
 .wrapper {
   width: 260px;
@@ -8,8 +8,22 @@
   width: 260px;
 }
 
+.logout {
+  color: var(--persimmon);
+  fill: var(--persimmon);
+
+  &:hover {
+    color: var(--persimmon-hover);
+    fill: var(--persimmon-hover);
+  }
+
+  &__icon {
+    margin: 0 8px 0 -4px;
+  }
+}
+
 .onlineIndicator {
-    display: none; // NOTE(vanguard): hidden until functionality comes in
+  display: none; // NOTE(vanguard): hidden until functionality comes in
   border-radius: 50%;
   width: 6px;
   height: 6px;
@@ -19,11 +33,11 @@
   bottom: 0;
 
   &.active {
-      background: var(--green);
+    background: var(--green);
   }
 
   &.offline {
-      background: var(--grey-light-2);
+    background: var(--grey-light-2);
   }
 }
 
@@ -32,11 +46,11 @@
 }
 
 .icon {
-    fill: var(--white);
+  fill: var(--white);
 
-    :global(.night-mode) & {
-        fill: var(--grey-dark);
-    }
+  :global(.night-mode) & {
+    fill: var(--grey-dark);
+  }
 }
 
 .tokens {
@@ -45,7 +59,7 @@
   color: var(--grey-dark-2);
 
   &__amount {
-      color: var(--black);
+    color: var(--black);
   }
 }
 

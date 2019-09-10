@@ -28,6 +28,16 @@ export const USER_GQL_FRAGMENT = gql`
       theme
     }
     apikeys
+    subscriptions {
+      id
+      plan {
+        id
+        name
+        product {
+          id
+        }
+      }
+    }
   }
 `
 export const userGQL = gql`
