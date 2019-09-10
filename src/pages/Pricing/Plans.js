@@ -51,7 +51,7 @@ export default ({ id, classes = {} }) => {
       <div id={id} className={cx(styles.billing, classes.billing)}>
         <Billing selected={billing} onClick={setBilling} />
       </div>
-      <Query query={USER_SUBSCRIPTIONS_QUERY}>
+      <Query query={USER_SUBSCRIPTIONS_QUERY} fetchPolicy='network-only'>
         {({ data: { currentUser } }) => {
           const subscription = getCurrentSanbaseSubscription(currentUser)
           const userPlan = subscription && subscription.plan.id
@@ -66,32 +66,30 @@ export default ({ id, classes = {} }) => {
                 }
 
                 return (
-                  <>
-                    <div className={styles.cards}>
-                      {product.plans
-                        .filter(
-                          ({ name, interval }) =>
-                            interval === billing || name === 'FREE'
+                  <div className={styles.cards}>
+                    {product.plans
+                      .filter(
+                        ({ name, interval }) =>
+                          interval === billing || name === 'FREE'
+                      )
+                      .sort(({ id: a }, { id: b }) => a - b)
+                      .map(plan =>
+                        plan.name === 'ENTERPRISE' ? (
+                          <Enterprise key={plan.id} />
+                        ) : (
+                          <Plan
+                            key={plan.id}
+                            {...plan}
+                            isLoggedIn={currentUser}
+                            billing={billing}
+                            product={product}
+                            userPlan={userPlan}
+                            subscription={subscription}
+                            isSubscriptionCanceled={isSubscriptionCanceled}
+                          />
                         )
-                        .sort(({ id: a }, { id: b }) => a - b)
-                        .map(plan =>
-                          plan.name === 'ENTERPRISE' ? (
-                            <Enterprise key={plan.id} />
-                          ) : (
-                            <Plan
-                              key={plan.id}
-                              {...plan}
-                              isLoggedIn={currentUser}
-                              billing={billing}
-                              product={product}
-                              userPlan={userPlan}
-                              subscription={subscription}
-                              isSubscriptionCanceled={isSubscriptionCanceled}
-                            />
-                          )
-                        )}
-                    </div>
-                  </>
+                      )}
+                  </div>
                 )
               }}
             </Query>

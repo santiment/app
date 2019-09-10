@@ -36,7 +36,7 @@ export default ({ id, classes = {}, onDialogClose }) => {
           className={styles.bill}
         />
       </div>
-      <Query query={USER_SUBSCRIPTIONS_QUERY}>
+      <Query query={USER_SUBSCRIPTIONS_QUERY} fetchPolicy='network-only'>
         {({ data: { currentUser } }) => {
           const subscription = getCurrentSanbaseSubscription(currentUser)
           const userPlan = subscription && subscription.plan.id
