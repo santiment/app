@@ -65,7 +65,7 @@ export default (state = initialState, action) => {
     case actions.TRENDS_HYPED_WORD_SELECTED:
       return {
         ...state,
-        selected: action.payload
+        selected: encodeURIComponent(action.payload)
       }
     case actions.TREND_WORD_VOLUME_CHANGE_FULFILLED:
       return {

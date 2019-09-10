@@ -6,6 +6,7 @@ import styles from './TrendsExploreSearch.module.scss'
 
 const TrendsExploreSearch = ({
   topic,
+  history,
   classes: { wrapper: className, input: inputClassName } = {},
   isDesktop
 }) => (
@@ -13,6 +14,7 @@ const TrendsExploreSearch = ({
     <TrendsForm
       classes={{ wrapper: className, input: styles.search }}
       defaultTopic={topic}
+      history={history}
     />
     {isDesktop && <HelpPopupTrends />}
   </div>

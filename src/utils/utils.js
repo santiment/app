@@ -348,6 +348,14 @@ const calcPercentageChange = (originalValue, newValue) => {
 const isNotSafari = () =>
   !/^((?!chrome|android).)*safari/i.test(window.navigator.userAgent)
 
+const safeDecode = pathname => {
+  try {
+    return decodeURIComponent(pathname)
+  } catch (err) {
+    return pathname
+  }
+}
+
 export {
   calculateBTCVolume,
   calculateBTCMarketcap,
@@ -372,5 +380,6 @@ export {
   pickFork,
   isEthStrictAddress,
   mapItemsToKeys,
-  isNotSafari
+  isNotSafari,
+  safeDecode
 }
