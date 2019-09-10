@@ -234,6 +234,7 @@ class ChartPage extends Component {
       slug,
       title,
       metrics,
+      events,
       interval,
       nightMode,
       isShowAnomalies,
@@ -247,6 +248,7 @@ class ChartPage extends Component {
     const settings = {
       slug,
       metrics: metrics.filter(metric => !disabledMetrics.includes(metric)),
+      events,
       interval,
       nightMode,
       isShowAnomalies,
