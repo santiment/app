@@ -239,7 +239,8 @@ class ChartPage extends Component {
       isShowAnomalies,
       zoom,
       from,
-      to
+      to,
+      events
     } = this.state
 
     const { enabledViewOnlySharing } = this.props
@@ -250,7 +251,8 @@ class ChartPage extends Component {
       interval,
       nightMode,
       isShowAnomalies,
-      title
+      title,
+      events
     }
 
     if (enabledViewOnlySharing) {
@@ -459,6 +461,7 @@ class ChartPage extends Component {
                       leftBoundaryDate={leftBoundaryDate}
                       rightBoundaryDate={rightBoundaryDate}
                       children={children}
+                      isAdvancedView={isAdvancedView}
                     />
                   </div>
                 </div>

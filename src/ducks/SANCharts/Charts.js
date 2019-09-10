@@ -94,14 +94,19 @@ class Charts extends React.Component {
     chartRef,
     metrics,
     events,
-    isTrendsShowing
+    isTrendsShowing,
+    isAdvancedView
   }) {
     if (this.props.chartData !== chartData) {
       this.getXToYCoordinates()
       chartBars.delete(chartRef.current)
     }
 
-    if (metrics !== this.props.metrics || events !== this.props.events) {
+    if (
+      metrics !== this.props.metrics ||
+      events !== this.props.events ||
+      isAdvancedView !== this.props.isAdvancedView
+    ) {
       this.eventsMap.clear()
       const { tooltipMetricKey } =
         getTooltipMetricAndKey(metrics, chartData) || {}
@@ -142,8 +147,11 @@ class Charts extends React.Component {
       this.forceUpdate()
     }
 
-    if (this.props.chartData !== prevProps.chartData) {
-      this.getXToYCoordinates()
+    if (
+      this.props.chartData !== prevProps.chartData ||
+      this.props.isAdvancedView !== prevProps.isAdvancedView
+    ) {
+      this.getXToYCoordinatesDebounced()
     }
 
     if (metrics !== prevProps.metrics) {
@@ -195,6 +203,7 @@ class Charts extends React.Component {
 
     return true
   }
+
   getXToYCoordinatesDebounced = debounce(() => {
     chartBars.delete(this.props.chartRef.current)
     this.getXToYCoordinates()
