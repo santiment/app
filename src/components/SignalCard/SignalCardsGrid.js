@@ -54,7 +54,7 @@ const mapDispatchToProps = dispatch => ({
     id && dispatch(removeTrigger(id))
   },
   goToSignalSettings: id => {
-    id && dispatch(push(`/sonar/signal/${id}`))
+    id && dispatch(push(`/sonar/signal/${id}${window.location.search}`))
   }
 })
 

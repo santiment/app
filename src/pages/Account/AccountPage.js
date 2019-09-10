@@ -104,13 +104,15 @@ const AccountPage = ({ isUserLoading, isLoggedIn, location }) => {
         options={tabs}
         defaultSelectedIndex={selectedIndex}
       />
-      <SettingsGeneral />
-      <SettingsConnections />
-      <SettingsNotifications />
-      <SettingsGetTokens />
-      <SettingsAPIKeys />
-      <SettingsSubscription />
-      <SettingsPlans />
+      <div className={styles.container}>
+        <SettingsGeneral />
+        <SettingsConnections />
+        <SettingsNotifications />
+        <SettingsGetTokens />
+        <SettingsAPIKeys />
+        <SettingsSubscription />
+        <SettingsPlans />
+      </div>
     </div>
   )
 }

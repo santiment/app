@@ -75,7 +75,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
           onClick={onGetStartedClick}
           className={styles.banner}
           title='Why Santiment?'
-          description='Track selected assets in one place and check it’s status'
+          description='Track selected assets in one place and check its status'
           button='Sign up for free'
         />
       )}

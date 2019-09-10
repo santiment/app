@@ -7,14 +7,9 @@ import FormikLabel from '../../../../../../components/formik-santiment-ui/Formik
 import TriggerChannelSettings from './TriggerChannelSettings'
 import { getSanSonarSW } from '../../../../../../pages/Account/SettingsSonarWebPushNotifications'
 import FormikCheckbox from '../../../../../../components/formik-santiment-ui/FormikCheckbox'
-import styles from '../../signal/TriggerForm.module.scss'
 import SidecarExplanationTooltip from '../../../../../SANCharts/SidecarExplanationTooltip'
-
-const CHANNEL_NAMES = {
-  Telegram: 'Telegram',
-  Email: 'Email',
-  Browser: 'Push'
-}
+import { CHANNEL_NAMES } from '../../../../utils/constants'
+import styles from '../../signal/TriggerForm.module.scss'
 
 const permanentDisabledChannels = [CHANNEL_NAMES.Email]
 
@@ -144,15 +139,6 @@ const TriggerFormChannels = ({
           <FormikLabel text='Notify me via' />
         </SidecarExplanationTooltip>
         <div className={styles.notifyBlock}>
-          <ChannelCheckbox
-            channel={CHANNEL_NAMES.Email}
-            isActive={isActive}
-            isDisabled={isDisabled}
-            toggleChannel={toggleChannel}
-            isRequired={isRequired}
-            recheckBrowserNotifications={recheckBrowserNotifications}
-          />
-
           <ChannelCheckbox
             channel={CHANNEL_NAMES.Telegram}
             isActive={isActive}

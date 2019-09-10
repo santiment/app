@@ -92,8 +92,19 @@
   margin-right: 24px;
 }
 
+.getTokens {
+  @include text('body-3');
+}
+
+.bancorLogo {
+  position: absolute;
+  right: 18px;
+  top: 12px;
+}
+
 .bancor {
   max-width: 100%;
+  width: 100%;
   margin-top: 14px;
 
   & > div > div > div > div {
@@ -136,7 +147,7 @@
     }
 
     @include responsive('phone', 'phone-xs') {
-      padding: 15px;
+      padding: 10px;
     }
   }
 }
@@ -355,4 +366,22 @@
 
 .warning {
   color: var(--persimmon);
+}
+
+.signalDescription {
+  @include text('body-3');
+
+  margin-right: 24px;
+  color: var(--jungle-green);
+  text-align: right;
+}
+
+.toggleWrapper {
+  display: flex;
+}
+
+.container {
+  @include responsive('phone', 'phone-xs') {
+    margin: 0 16px;
+  }
 }

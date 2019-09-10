@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import Image from '../../assets/watchlists.png'
+import Image from './Image'
 import styles from './EmptySection.module.scss'
 
 const EmptySection = ({
@@ -10,7 +10,7 @@ const EmptySection = ({
   children = null
 }) => (
   <div className={cx(styles.wrapper, className)}>
-    <img alt='empty-section' src={Image} className={imgClassName} />
+    <Image className={cx(styles.img, imgClassName)} />
     {children}
   </div>
 )

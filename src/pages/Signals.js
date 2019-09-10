@@ -12,7 +12,7 @@ const Signals = () => (
     <div className='page-head'>
       <h1>Signals</h1>
       <p>
-        SANbase will generate signals when actionable intelligence or events
+        Sanbase will generate signals when actionable intelligence or events
         occur in the crypto-markets.
       </p>
     </div>
@@ -21,7 +21,7 @@ const Signals = () => (
         <div className='signals-form'>
           <h2>
             <span>
-              Join our <strong>SANbase Signals</strong> email list
+              Join our <strong>Sanbase Signals</strong> email list
             </span>{' '}
             <span>to receive pre-release alpha and beta signals:</span>
           </h2>
@@ -74,7 +74,7 @@ const Signals = () => (
           </h3>
           <p>
             <strong>
-              Get a first glimpse into what SANbase email signals will look
+              Get a first glimpse into what Sanbase email signals will look
               like.
             </strong>{' '}
             A signal's main purpose is to send a notification when something

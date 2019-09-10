@@ -6,11 +6,14 @@ import SonarFeedRecommendations, {
 import SignalCardsGrid from '../../components/SignalCard/SignalCardsGrid'
 import GetSignals from '../../ducks/Signals/common/getSignals'
 import styles from './SonarFeedPage.module.scss'
+import { mapQSToState } from '../../utils/utils'
 
-const SonarFeedMySignalsPage = () => {
+const SonarFeedMySignalsPage = props => {
+  const filters = mapQSToState(props)
   return (
     <>
       <GetSignals
+        filters={filters}
         render={({ signals, isLoading }) => {
           const hasSignals = signals && signals.length > 0
 

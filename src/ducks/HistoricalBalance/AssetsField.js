@@ -3,6 +3,7 @@ import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import Select from '@santiment-network/ui/Search/Select/Select'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { ALL_ERC20_PROJECTS_QUERY } from '../../pages/Projects/allProjectsGQL'
 import { ASSETS_BY_WALLET_QUERY } from './common/queries'
 import {
@@ -11,6 +12,7 @@ import {
   mapErc20AssetsToProps
 } from '../Signals/utils/utils'
 import { WalletBalanceOptionRenderer } from '../Signals/signalFormManager/signalCrudForm/formParts/metricOptions/MetricOptionsRenderer'
+import styles from './AssetsField.module.scss'
 
 const MAX_ASSETS_COUNT = 5
 
@@ -21,7 +23,11 @@ const AssetsField = ({
   className = 'assets-select',
   onChange
 }) => {
-  const [showingAssets, setShowingAssets] = useState(defaultSelected)
+  const [showingAssets, setShowingAssets] = useState(
+    defaultSelected.map(item =>
+      typeof item === 'object' ? item : { slug: item }
+    )
+  )
 
   const handleOnChange = selected => {
     if (selected.length <= MAX_ASSETS_COUNT) {
@@ -31,18 +37,20 @@ const AssetsField = ({
   }
 
   return (
-    <Select
-      multi
-      placeholder='For example, Ethereum...'
-      options={assets}
-      isLoading={isLoading}
-      valueKey='slug'
-      labelKey='slug'
-      onChange={handleOnChange}
-      value={showingAssets}
-      className={className}
-      optionRenderer={WalletBalanceOptionRenderer}
-    />
+    <div className={styles.container}>
+      <Select
+        multi
+        placeholder='For example, Ethereum...'
+        options={assets}
+        valueKey='slug'
+        labelKey='slug'
+        onChange={handleOnChange}
+        value={showingAssets}
+        className={className}
+        optionRenderer={WalletBalanceOptionRenderer}
+      />
+      {isLoading && <Loader className={styles.loader} />}
+    </div>
   )
 }
 

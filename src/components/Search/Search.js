@@ -50,11 +50,11 @@ class SearchPanel extends Component {
           contains(name, searchText) || contains(ticker, searchText)
       )
       .filter((_, index) => index < 10)
-      .map((el, index) => ({
-        ticker: el.ticker,
-        name: el.name,
-        title: el.name,
-        cmcid: el.coinmarketcapId,
+      .map(({ ticker, name, slug }, index) => ({
+        ticker,
+        name,
+        title: name,
+        cmcid: slug,
         key: index
       }))
 

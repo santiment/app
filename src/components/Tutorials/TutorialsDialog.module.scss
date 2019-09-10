@@ -68,6 +68,7 @@
 
 .tutorial {
   padding-bottom: 24px;
+  height: 100%;
 
   &__title {
     @include text('h4', 'm');
@@ -86,8 +87,7 @@
   font-size: 0;
   border-radius: 8px;
   overflow: hidden;
-  height: 289px;
-  margin-bottom: 24px;
+  height: 100%;
 
   &__iframe {
     width: 100%;

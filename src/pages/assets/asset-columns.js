@@ -39,11 +39,7 @@ export const COLUMNS = preload => [
     filterable: true,
     sortable: true,
     resizable: true,
-    accessor: d => ({
-      name: d.name,
-      ticker: d.ticker,
-      cmcId: d.coinmarketcapId
-    }),
+    accessor: ({ name, ticker, slug }) => ({ name, ticker, cmcId: slug }),
     Cell: ({ value }) => (
       <Link
         onMouseOver={preload}

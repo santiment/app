@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import GoogleAnalytics from 'react-ga'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
+import Cookie from './Cookie'
 import styles from './CookiePopup.module.scss'
 
 const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED'
@@ -27,13 +28,13 @@ const CookiePopup = () => {
   return (
     shown && (
       <Panel className={styles.wrapper} variant='modal'>
-        <h2 className={styles.title}>We are using cookies</h2>
-        <div className={styles.bottom}>
+        <Cookie className={styles.image} />
+        <div>
+          <h2 className={styles.title}>We are using cookies</h2>
           <p className={styles.text}>
             This website uses the following types of cookies; strictly
-            necessary, functional, performance
-            <br />
-            and marketing cookies. By using this website, you accept our{' '}
+            necessary, functional, performance and marketing cookies. By using
+            this website, you accept our{' '}
             <a
               href='https://santiment.net/terms-conditions/'
               target='_blank'
@@ -44,15 +45,15 @@ const CookiePopup = () => {
             </a>
             .
           </p>
-          <Button
-            variant='fill'
-            accent='positive'
-            className={styles.btn}
-            onClick={accept}
-          >
-            Accept
-          </Button>
         </div>
+        <Button
+          variant='fill'
+          accent='positive'
+          className={styles.btn}
+          onClick={accept}
+        >
+          Accept
+        </Button>
       </Panel>
     )
   )

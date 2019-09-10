@@ -32,10 +32,10 @@ class WordCloudPage extends Component {
     return (
       <div className={ToolsPageStyles.ToolsPage + ' page'}>
         <Helmet>
-          <title>Crypto Word Cloud{word ? ` for ${word}` : ''} - SANbase</title>
+          <title>Crypto Word Cloud{word ? ` for ${word}` : ''} - Sanbase</title>
           <meta
             property='og:title'
-            content={`Crypto Word Cloud${word ? ` for ${word}` : ''} - SANbase`}
+            content={`Crypto Word Cloud${word ? ` for ${word}` : ''} - Sanbase`}
           />
           <meta
             property='og:description'

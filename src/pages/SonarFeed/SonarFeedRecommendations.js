@@ -1,8 +1,8 @@
 import React from 'react'
 import SignalCardsGrid from '../../components/SignalCard/SignalCardsGrid'
-import Image from './sonar_activity_artboard.png'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
 import GetFeaturedUserTriggers from '../../ducks/Signals/common/getFeaturedUserTriggers'
+import EmptySection from '../../components/EmptySection/EmptySection'
 import PageLoader from '../../components/Loader/PageLoader'
 import styles from './SonarFeedRecommendations.module.scss'
 
@@ -12,11 +12,10 @@ const SonarFeedRecommendations = ({
 }) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.container}>
-        <img className={styles.pic} alt='Artboard' src={Image} />
+      <EmptySection className={styles.empty}>
         <div className={styles.description}>{description}</div>
-        {showButton && <SignalMasterModalForm label='Add your first signal' />}
-      </div>
+        {showButton && <SignalMasterModalForm label='Add first signal' />}
+      </EmptySection>
     </div>
   )
 }

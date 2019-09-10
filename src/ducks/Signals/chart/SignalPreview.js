@@ -11,6 +11,12 @@ import { ChartExpandView } from './ChartExpandView'
 import { DesktopOnly } from './../../../components/Responsive'
 import styles from './SignalPreview.module.scss'
 
+const PreviewLoader = (
+  <div className={styles.loaderWrapper}>
+    <Loader className={styles.loader} />
+  </div>
+)
+
 const SignalPreviewChart = ({
   type,
   slug,
@@ -40,11 +46,7 @@ const SignalPreviewChart = ({
       metrics={requestedMetrics}
       render={({ timeseries }) => {
         if (!timeseries) {
-          return (
-            <div className={styles.loaderWrapper}>
-              <Loader className={styles.loader} />
-            </div>
-          )
+          return PreviewLoader
         }
 
         return (
@@ -60,7 +62,28 @@ const SignalPreviewChart = ({
   )
 }
 
-const SignalPreview = ({ type, points = [], target: slug, height }) => {
+const SignalPreview = ({
+  isError,
+  isLoading,
+  type,
+  points = [],
+  target: slug,
+  height
+}) => {
+  if (isLoading) {
+    return PreviewLoader
+  }
+
+  if (isError) {
+    return (
+      <div className={styles.loaderWrapper}>
+        Something's gone wrong.
+        <br />
+        Backtesting chart is unavailable.
+      </div>
+    )
+  }
+
   const { label, value: timeRange } = getTimeRangeForChart(type)
   const triggeredSignals = points.filter(point => point['triggered?'])
 

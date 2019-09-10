@@ -10,13 +10,26 @@ import SidecarExplanationTooltip from '../../ducks/SANCharts/SidecarExplanationT
 import { getAPIUrl, getOrigin } from '../../utils/utils'
 import styles from './AccountPage.module.scss'
 
+const SERVICE_WORKER_NAME = 'san-sonar-service-worker.js'
+
 export const getSanSonarSW = registrations => {
   return registrations
     ? registrations
       .filter(({ active }) => !!active)
-      .find(({ active: { scriptURL, state } = {} } = {}) =>
-        scriptURL.endsWith('san-sonar-service-worker.js')
-      )
+      .find((props = {}) => {
+        const { waiting } = props
+
+        if (waiting) {
+          const { scriptURL } = waiting
+          if (scriptURL.endsWith(SERVICE_WORKER_NAME)) {
+            return true
+          }
+        }
+
+        const { active: { scriptURL } = {} } = props
+
+        return scriptURL.endsWith(SERVICE_WORKER_NAME)
+      })
     : undefined
 }
 
@@ -52,7 +65,8 @@ export const sendParams = () => {
 const SettingsSonarWebPushNotifications = ({
   classes = {},
   className,
-  recheckBrowserNotifications
+  recheckBrowserNotifications,
+  description
 }) => {
   const [isActive, setIsActive] = useState(false)
   const [isPermissionsGranted, setPermissionsGranted] = useState(true)
@@ -125,6 +139,7 @@ const SettingsSonarWebPushNotifications = ({
                 requestNotificationPermission(null, noPermissionsCallback)
                 sendParams()
                 recheckBrowserNotifications && recheckBrowserNotifications()
+                toggle(true)
               }
             })
             toggle(true)
@@ -158,9 +173,10 @@ const SettingsSonarWebPushNotifications = ({
           title='Push Notifications'
           description='Get fast notifications through Push Notifications'
         >
-          <>
+          <div className={styles.toggleWrapper}>
+            {description}
             <Toggle isActive={isActive} onClick={() => preToggle(!isActive)} />
-          </>
+          </div>
         </SidecarExplanationTooltip>
       </div>
     </div>

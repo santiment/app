@@ -54,7 +54,12 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
 
     const queries = Observable.from(
       metrics.map(metric => {
-        const { name, interval, from, to, timeRange, ...rest } = metric
+        const { name, interval, from, to, timeRange, slug, ...rest } = metric
+        let specialName
+
+        if (slug === 'ethereum' && name === 'ethSpentOverTime') {
+          specialName = 'EthSpentOverTimeByAllProjects'
+        }
 
         const timePeriod = {}
         if (!from || !to) {
@@ -67,18 +72,19 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
 
         return client
           .query({
-            query: getMetricQUERY(name),
+            query: getMetricQUERY(specialName || name),
             variables: {
-              metric: name,
+              metric: specialName || name,
               interval: interval || '1d',
               to: to || timePeriod.to,
               from: from || timePeriod.from,
+              slug,
               ...rest
             }
           })
-          .then(getPreTransform(name))
+          .then(getPreTransform(specialName || name))
           .catch(({ message }) => {
-            errorMetrics[name] = message
+            errorMetrics[specialName || name] = message
           })
       })
     )

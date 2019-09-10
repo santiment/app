@@ -113,7 +113,9 @@ const PriceWithChanges = ({
           )}
         </div>
         <div>
-          <span>{formatNumber(totalSupply)}</span>
+          <span className={styles.totalSupply}>
+            {formatNumber(totalSupply)}
+          </span>
           <span className={styles.currency}>{ticker}</span>
         </div>
       </div>

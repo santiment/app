@@ -101,7 +101,7 @@ const SecondQuestion = ({ isOpen, onClick }) => (
           <i>
             “There were strong enough signals about LUN from my scanner to begin
             paying attention to Santiment dashboards on the 18th. On the 21st,
-            SANbase metrics offered a positive RR, so I entered there. Then,{' '}
+            Sanbase metrics offered a positive RR, so I entered there. Then,{' '}
             <bold>late on the 22nd, LUN showed up on the Top 10 list</bold>, so
             I started to seek an exit. It arrived late on the 23rd, as the crowd
             really started talking about LUN.”

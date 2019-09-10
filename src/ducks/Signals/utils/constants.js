@@ -1,15 +1,27 @@
+export const CHANNEL_NAMES = {
+  Telegram: 'Telegram',
+  Email: 'Email',
+  Browser: 'Push'
+}
+
+export const CHANNEL_TYPES = {
+  Telegram: 'telegram',
+  Email: 'email',
+  Browser: 'web_push'
+}
+
 export const CHANNELS_MAP = [
   {
-    value: 'email',
-    label: 'Email'
+    value: CHANNEL_TYPES.Email,
+    label: CHANNEL_NAMES.Email
   },
   {
-    value: 'telegram',
-    label: 'Telegram'
+    value: CHANNEL_TYPES.Telegram,
+    label: CHANNEL_NAMES.Telegram
   },
   {
-    value: 'web_push',
-    label: 'Push'
+    value: CHANNEL_TYPES.Browser,
+    label: CHANNEL_NAMES.Browser
   }
 ]
 

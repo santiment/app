@@ -62,8 +62,16 @@ export default class HistoricalBalancePage extends Component {
     const { isDesktop, showTitle, classes } = this.props
 
     return (
-      <div className={styles.historicalBalancePage + ' page'}>
-        {showTitle && <BalancePageTitle isDesktop={isDesktop} />}
+      <div
+        className={cx(
+          styles.historicalBalancePage,
+          'page',
+          classes.historicalBalancePage
+        )}
+      >
+        {showTitle && (
+          <BalancePageTitle isDesktop={isDesktop} classes={classes} />
+        )}
         <BalanceView
           classes={classes}
           onChangeQuery={this.handleChangeQuery}

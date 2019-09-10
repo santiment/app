@@ -12,7 +12,7 @@ import GetSignal from '../common/getSignal'
 import { SIGNAL_ROUTES } from '../common/constants'
 import SignalAnon from './SignalAnon'
 import ConfirmSignalModalClose from './confirmClose/ConfirmSignalModalClose'
-import Image from '../../../pages/SonarFeed/sonar_activity_artboard.png'
+import EmptySection from '../../../components/EmptySection/EmptySection'
 import styles from './SignalMasterModalForm.module.scss'
 
 const SignalMasterModalForm = ({
@@ -245,10 +245,9 @@ const signalModalTrigger = (
 )
 
 const NoSignal = ({ triggerId }) => (
-  <div className={styles.notSignalInfo}>
-    <img className={styles.noSignalImage} alt='Artboard' src={Image} />
-    Signal with id {triggerId} does not exist.
+  <EmptySection className={styles.notSignalInfo}>
+    Signal doesn't exist
     <br />
-    Or it is a private signal owned by another user.
-  </div>
+    or it's a private signal.
+  </EmptySection>
 )

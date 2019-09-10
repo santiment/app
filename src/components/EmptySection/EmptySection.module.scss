@@ -1,7 +1,19 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+}
+
+.img {
+  max-width: 423px;
+  max-height: 183px;
+  margin: 20px 0;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 90%;
+  }
 }

@@ -11,7 +11,8 @@ import {
 import { ASSETS_BY_WALLET_QUERY } from '../../../../HistoricalBalance/common/queries'
 import {
   isPossibleEthAddress,
-  mapAssetsHeldByAddressToProps
+  mapAssetsHeldByAddressToProps,
+  hasEthAddress
 } from '../../../utils/utils'
 import { TriggerProjectsSelector } from './projectsSelector/TriggerProjectsSelector'
 import FormikSelect from '../../../../../components/formik-santiment-ui/FormikSelect'
@@ -97,7 +98,8 @@ const TriggerFormHistoricalBalance = ({
       asset = getFromAll(allList, target)
     }
 
-    asset && setFieldValue('target', ethAddress ? asset : [asset])
+    asset &&
+      setFieldValue('target', hasEthAddress(ethAddress) ? asset : [asset])
   }
 
   const setAddress = address => setFieldValue('ethAddress', address)
@@ -113,7 +115,7 @@ const TriggerFormHistoricalBalance = ({
       return
     }
 
-    if (metaEthAddress && !ethAddress) {
+    if (metaEthAddress && !hasEthAddress(ethAddress)) {
       if (assets.length === 1) {
         if (
           isInHeldAssets(metaMappedToAll, assets) ||
@@ -157,7 +159,7 @@ const TriggerFormHistoricalBalance = ({
 
   useEffect(
     () => {
-      if (!ethAddress) {
+      if (!hasEthAddress(ethAddress)) {
         if (!Array.isArray(target)) {
           setFieldValue('target', [target])
         }
@@ -167,11 +169,11 @@ const TriggerFormHistoricalBalance = ({
   )
 
   const disabledWalletField =
-    (!ethAddress && target.length > 1) ||
+    (!hasEthAddress(ethAddress) && target.length > 1) ||
     (erc20List.length && !isErc20Assets(target, erc20List))
 
   const selectableProjects =
-    ethAddress && !disabledWalletField
+    hasEthAddress(ethAddress) && !disabledWalletField && heldAssets.length > 0
       ? mapAssetsToAllProjects(allList, heldAssets)
       : allList
 

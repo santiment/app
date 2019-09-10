@@ -10,16 +10,14 @@ import FinancialsBlock from './financialInfo/FinancialsBlock'
 import Panel from '@santiment-network/ui/Panel'
 import Icon from '@santiment-network/ui/Icon'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
-import Search from './../../components/Search/SearchContainer'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import EthSpent from './../../pages/EthSpent'
 import { checkIsLoggedIn } from './../UserSelectors'
 import DetailedTransactionsTable from './transactionsInfo/DetailedTransactionsTable'
-import {
-  projectBySlugGQL,
-  AllInsightsByTagGQL
-} from './gqlWrappers/DetailedGQL'
-import { getTimeIntervalFromToday, MONTH } from '../../utils/dates'
+import { projectBySlugGQL } from './gqlWrappers/DetailedGQL'
+import { NEWS_QUERY } from '../../components/News/NewsGQL'
+import News from '../../components/News/News'
+import { getTimeIntervalFromToday, MONTH, DAY } from '../../utils/dates'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import paywallBoundaries from '../Chart/paywallBoundaries'
@@ -53,8 +51,10 @@ export const Detailed = ({
     error: false,
     errorMessage: ''
   },
-  isDesktop,
   isLoggedIn,
+  isNewsEnabled,
+  isLoadingNews,
+  news,
   ...props
 }) => {
   const project = Project.project || {}
@@ -117,12 +117,12 @@ export const Detailed = ({
       <Helmet>
         <title>
           {Project.loading
-            ? 'SANbase...'
+            ? 'Sanbase...'
             : `${Project.project.ticker} project page`}
         </title>
         <meta
           property='og:title'
-          content={`Project overview: ${Project.project.name} - SANbase`}
+          content={`Project overview: ${Project.project.name} - Sanbase`}
         />
         <meta
           property='og:description'
@@ -130,20 +130,15 @@ export const Detailed = ({
             Project.project.name
           }. Get access to full historical data & advanced metrics for ${
             Project.project.name
-          } by upgrading to SANbase Dashboards.
+          } by upgrading to Sanbase Dashboards.
 `}
         />
       </Helmet>
-      {!isDesktop && <Search />}
-      {isDesktop ? (
-        <div className={'information'}>
-          {projectContainerChart && (
-            <Panel className={styles.panel}>{projectContainerChart}</Panel>
-          )}
-        </div>
-      ) : (
-        <div>{projectContainerChart}</div>
-      )}
+      <div className={'information'}>
+        {projectContainerChart && (
+          <Panel className={styles.panel}>{projectContainerChart}</Panel>
+        )}
+      </div>
       {project.slug === 'ethereum' && (
         <div className='information'>
           <EthSpent />
@@ -160,8 +155,13 @@ export const Detailed = ({
           <FinancialsBlock {...Project.project} />
         </PanelWithHeader>
       </div>
-      {isDesktop &&
-        project.isERC20 &&
+      {isNewsEnabled && !isLoadingNews && !Project.loading && news.length > 0 && (
+        <div className={styles.newsWrapper}>
+          <h4 className={styles.newsTitle}>News</h4>
+          <News data={news} />
+        </div>
+      )}
+      {project.isERC20 &&
         project.tokenTopTransactions &&
         project.tokenTopTransactions.length > 0 && (
         <div className='information'>
@@ -172,8 +172,7 @@ export const Detailed = ({
           />
         </div>
       )}
-      {isDesktop &&
-        project.isERC20 &&
+      {project.isERC20 &&
         project.ethTopTransactions &&
         project.ethTopTransactions.length > 0 && (
         <div className='information'>
@@ -192,7 +191,8 @@ Detailed.propTypes = propTypes
 const mapStateToProps = state => {
   return {
     isLoggedIn: checkIsLoggedIn(state),
-    timeFilter: state.detailedPageUi.timeFilter
+    timeFilter: state.detailedPageUi.timeFilter,
+    isNewsEnabled: state.rootUi.isNewsEnabled
   }
 }
 
@@ -234,30 +234,18 @@ const enhance = compose(
       }
     }
   }),
-  graphql(AllInsightsByTagGQL, {
-    name: 'AllInsights',
-    props: ({ AllInsights }) => ({
-      Insights: {
-        loading: AllInsights.loading,
-        error: AllInsights.error || false,
-        items: (AllInsights.allInsightsByTag || []).filter(
-          insight => insight.readyState === 'published'
-        )
-      }
-    }),
-    skip: ({ isLoggedIn, Project: { project = {} } }) => {
-      const { ticker } = project
-      return !ticker || !isLoggedIn
-    },
-    options: ({ Project: { project = {} } }) => {
-      const { ticker } = project
+  graphql(NEWS_QUERY, {
+    skip: ({ isNewsEnabled }) => !isNewsEnabled,
+    options: ({ match }) => {
+      const { from, to } = getTimeIntervalFromToday(-14, DAY)
       return {
-        errorPolicy: 'all',
-        variables: {
-          tag: ticker
-        }
+        variables: { from, to, tag: match.params.slug, size: 6 }
       }
-    }
+    },
+    props: ({ data: { news = [], loading } }) => ({
+      news: news.reverse(),
+      isLoadingNews: loading
+    })
   })
 )
 
