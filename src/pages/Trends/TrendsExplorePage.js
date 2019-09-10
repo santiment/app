@@ -18,7 +18,12 @@ import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import TrendsExploreAdditionalInfo from '../../components/Trends/Explore/TrendsExploreAdditionalInfo'
 import { checkHasPremium } from './../UserSelectors'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import { mapQSToState, mapStateToQS, capitalizeStr } from './../../utils/utils'
+import {
+  mapQSToState,
+  mapStateToQS,
+  capitalizeStr,
+  safeDecode
+} from './../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
 import styles from './TrendsExplorePage.module.scss'
 
@@ -88,7 +93,7 @@ export class TrendsExplorePage extends Component {
     addRecentTrends(word)
     const { timeRange, asset = '' } = this.state
     const [priceOptions, priceLabels] = getPriceOptions(detectedAsset)
-    const topic = window.decodeURIComponent(word)
+    const topic = safeDecode(word)
     return (
       <div className={cx('page', styles.wrapper)}>
         <Helmet>
@@ -109,6 +114,7 @@ export class TrendsExplorePage extends Component {
                 className={styles.search}
                 topic={topic}
                 isDesktop={isDesktop}
+                history={history}
               />
             )}
             {!isDesktop && (

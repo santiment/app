@@ -11,7 +11,9 @@ export const mergeDataSourcesForChart = sources =>
   }, new Map())
 
 export const gotoExplore = dispatch => ({
-  gotoExplore: topic => dispatch(push(`/labs/trends/explore/${topic}`))
+  gotoExplore: topic => {
+    dispatch(push(`/labs/trends/explore/${encodeURIComponent(topic)}`))
+  }
 })
 
 export const Source = {
