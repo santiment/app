@@ -26,14 +26,7 @@ export const getTableTitle = ({ type, location: { search } }) => {
 
 export const normalizeCSV = items => {
   return items.map(item => {
-    const {
-      coinmarketcapId,
-      __typename,
-      id,
-      signals,
-      ethAddresses,
-      ...rest
-    } = item
+    const { slug, __typename, id, signals, ethAddresses, ...rest } = item
     const _ethAddresses = ethAddresses
       ? ethAddresses.map(
         address =>

@@ -51,8 +51,8 @@ const DashboardPage = ({ isLoggedIn, hasMetamask, history }) => (
         <GainersLosersTabs
           timeWindow='2d'
           size={8}
-          onProjectClick={({ coinmarketcapId }) => {
-            history.push(`/projects/${coinmarketcapId}`)
+          onProjectClick={({ slug }) => {
+            history.push(`/projects/${slug}`)
           }}
         />
       </div>

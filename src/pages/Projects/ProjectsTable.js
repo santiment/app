@@ -172,7 +172,7 @@ const ProjectsTable = ({
       accessor: d => ({
         name: d.name,
         ticker: d.ticker,
-        cmcId: d.coinmarketcapId
+        cmcId: d.slug
       }),
       Cell: ({ value }) => (
         <Link
@@ -433,9 +433,7 @@ const ProjectsTable = ({
                     handleOriginal()
                   }
                   if (rowInfo && rowInfo.original && rowInfo.original.ticker) {
-                    history.push(
-                      `/projects/${rowInfo.original.coinmarketcapId}`
-                    )
+                    history.push(`/projects/${rowInfo.original.slug}`)
                   }
                 }
               }

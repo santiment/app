@@ -12,18 +12,11 @@ const getColumns = ({ timeWindow }) => [
     sortable: true,
     minWidth: 300,
     maxWidth: 450,
-    accessor: ({ ticker, name, coinmarketcapId }) => ({
-      ticker,
-      name,
-      coinmarketcapId
-    }),
+    accessor: ({ ticker, name, slug }) => ({ ticker, name, slug }),
     sortMethod: (previous, next) =>
       previous.name.toLowerCase() <= next.name.toLowerCase() ? 1 : -1,
     Cell: ({ value }) => (
-      <Link
-        className={styles.wrapper}
-        to={`/projects/${value.coinmarketcapId}`}
-      >
+      <Link className={styles.wrapper} to={`/projects/${value.slug}`}>
         <ProjectLabel {...value} />
       </Link>
     )
