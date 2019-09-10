@@ -235,11 +235,10 @@ const enhance = compose(
     }
   }),
   graphql(NEWS_QUERY, {
-    options: ({ Project: { project = {} } }) => {
-      const { slug } = project
+    options: ({ match }) => {
       const { from, to } = getTimeIntervalFromToday(-14, DAY)
       return {
-        variables: { from, to, tag: slug, size: 6 }
+        variables: { from, to, tag: match.params.slug, size: 6 }
       }
     },
     props: ({ data: { news = [], loading } }) => ({
