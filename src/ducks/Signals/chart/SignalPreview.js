@@ -10,7 +10,6 @@ import VisualBacktestChart from './VisualBacktestChart'
 import { ChartExpandView } from './ChartExpandView'
 import { DesktopOnly } from './../../../components/Responsive'
 import styles from './SignalPreview.module.scss'
-import { Message } from 'semantic-ui-react'
 
 const PreviewLoader = (
   <div className={styles.loaderWrapper}>
