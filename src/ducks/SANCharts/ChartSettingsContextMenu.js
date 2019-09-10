@@ -35,12 +35,13 @@ const ChartSettingsContextMenu = ({
   activeMetrics,
   title,
   showDownload = true,
+  classes = {},
   children
 }) => {
   return (
     <ContextMenu
       trigger={
-        <Button variant='flat'>
+        <Button variant='flat' className={classes.settingsBtn}>
           <Icon type='settings' />
         </Button>
       }

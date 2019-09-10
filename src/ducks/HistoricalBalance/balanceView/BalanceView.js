@@ -43,7 +43,7 @@ const BalanceView = ({
   onChangeQuery,
   classes = {}
 }) => {
-  const [showYAxes, toggleYAxes] = useState(true)
+  const [showYAxes, toggleYAxes] = useState(false)
   const [priceMetricTimeseries, setPriceMetricTimeseries] = useState({})
 
   const [queryState, setQueryState] = useState(queryData)
