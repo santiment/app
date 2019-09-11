@@ -8,6 +8,7 @@ import Charts from './Charts'
 import Header from './Header'
 import { Metrics } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
+import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { ANOMALIES_METRICS_ENUM } from '../../components/MobileMetricCard/MobileMetricCard'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
@@ -320,7 +321,8 @@ class ChartPage extends Component {
       leftBoundaryDate,
       rightBoundaryDate,
       isLoggedIn,
-      AfterHeader
+      AfterHeader,
+      isPRO
     } = this.props
 
     const requestedMetrics = metrics.map(metric => {
@@ -474,6 +476,7 @@ class ChartPage extends Component {
                       children={children}
                       isAdvancedView={isAdvancedView}
                     />
+                    {!isPRO && <UpgradePaywall />}
                   </div>
                 </div>
                 {!viewOnly && !hideSettings.sidecar && (

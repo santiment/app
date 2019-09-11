@@ -3,7 +3,6 @@ import Selector from '@santiment-network/ui/Selector/Selector'
 import IntervalSelector from './IntervalSelector'
 import ChartSettingsContextMenu from './ChartSettingsContextMenu'
 import CalendarBtn from '../../components/Calendar/CalendarBtn'
-import UpgradeBtn from '../../components/UpgradeBtn/UpgradeBtn'
 import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
 import styles from './ChartPage.module.scss'
 
@@ -39,9 +38,6 @@ const ChartSettings = ({
     <div className={styles.settings}>
       <div className={styles.settings__group}>
         <h3 className={styles.settings__title}>Metrics</h3>
-        <UpgradeBtn loginRequired={false} variant='fill'>
-          Get more data
-        </UpgradeBtn>
       </div>
       <div className={styles.settings__group}>
         <Selector
