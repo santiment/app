@@ -198,6 +198,12 @@
     "ticker": "DLT"
   },
   {
+    "id": "235750",
+    "name": "Agrocoin",
+    "slug": "agrocoin",
+    "ticker": "AGRO"
+  },
+  {
     "id": "124178",
     "name": "AidCoin",
     "slug": "aidcoin",
@@ -474,6 +480,12 @@
     "ticker": "XAS"
   },
   {
+    "id": "235753",
+    "name": "Asgard",
+    "slug": "asgard",
+    "ticker": "ASG"
+  },
+  {
     "id": "235619",
     "name": "Asian Fintech",
     "slug": "asian-fintech",
@@ -568,12 +580,6 @@
     "name": "Auroracoin",
     "slug": "auroracoin",
     "ticker": "AUR"
-  },
-  {
-    "id": "235286",
-    "name": "Aurora DAO",
-    "slug": "aurora-dao",
-    "ticker": "AURA"
   },
   {
     "id": "235146",
@@ -840,6 +846,12 @@
     "ticker": "BCEO"
   },
   {
+    "id": "235775",
+    "name": "Bitcloud Pro",
+    "slug": "bitcloud-pro",
+    "ticker": "BPRO"
+  },
+  {
     "id": "234880",
     "name": "bitCNY",
     "slug": "bitcny",
@@ -946,6 +958,12 @@
     "name": "Bitcoin Private",
     "slug": "bitcoin-private",
     "ticker": "BTCP"
+  },
+  {
+    "id": "235754",
+    "name": "Bitcoin Rhodium",
+    "slug": "bitcoin-rhodium",
+    "ticker": "XRC"
   },
   {
     "id": "235307",
@@ -1128,6 +1146,12 @@
     "ticker": "BCDT"
   },
   {
+    "id": "235756",
+    "name": "Block-Chain.com",
+    "slug": "block-chain-com",
+    "ticker": "BC"
+  },
+  {
     "id": "235143",
     "name": "Blockchain Quotations Index Token",
     "slug": "blockchain-quotations-index-token",
@@ -1294,6 +1318,12 @@
     "name": "BORA",
     "slug": "bora",
     "ticker": "BORA"
+  },
+  {
+    "id": "235751",
+    "name": "BOSAGORA",
+    "slug": "bosagora",
+    "ticker": "BOA"
   },
   {
     "id": "329",
@@ -1740,6 +1770,12 @@
     "ticker": "COBRA"
   },
   {
+    "id": "235770",
+    "name": "Cocos-BCX",
+    "slug": "cocos-bcx",
+    "ticker": "COCOS"
+  },
+  {
     "id": "235164",
     "name": "Coin2Play ",
     "slug": "coin2play",
@@ -2148,6 +2184,12 @@
     "ticker": "CBIX"
   },
   {
+    "id": "235776",
+    "name": "Custody Token",
+    "slug": "custody-token",
+    "ticker": "CUST"
+  },
+  {
     "id": "234828",
     "name": "CVCoin",
     "slug": "cvcoin",
@@ -2374,6 +2416,12 @@
     "name": "DeepBrain Chain",
     "slug": "deepbrain-chain",
     "ticker": "DBC"
+  },
+  {
+    "id": "235711",
+    "name": "DeepCloud AI",
+    "slug": "deepcloud-ai",
+    "ticker": "DEEP"
   },
   {
     "id": "101900",
@@ -2694,6 +2742,12 @@
     "ticker": "ECOREAL"
   },
   {
+    "id": "235762",
+    "name": "EDC Blockchain",
+    "slug": "edc-blockchain",
+    "ticker": "EDC"
+  },
+  {
     "id": "234830",
     "name": "EdenChain",
     "slug": "eden",
@@ -2842,6 +2896,12 @@
     "name": "Endorsit",
     "slug": "endorsit",
     "ticker": "EDS"
+  },
+  {
+    "id": "235778",
+    "name": "Enecuum",
+    "slug": "enecuum",
+    "ticker": "ENQ"
   },
   {
     "id": "235326",
@@ -3064,6 +3124,12 @@
     "name": "Everipedia",
     "slug": "everipedia",
     "ticker": "IQ"
+  },
+  {
+    "id": "235592",
+    "name": "everiToken",
+    "slug": "everitoken",
+    "ticker": "EVT"
   },
   {
     "id": "235377",
@@ -3462,6 +3528,12 @@
     "ticker": "GAT"
   },
   {
+    "id": "235785",
+    "name": "Gatechain Token",
+    "slug": "gatechain-token",
+    "ticker": "GT"
+  },
+  {
     "id": "1440",
     "name": "Gaze Coin",
     "slug": "gazecoin",
@@ -3774,6 +3846,12 @@
     "ticker": "HGT"
   },
   {
+    "id": "235752",
+    "name": "Helpico",
+    "slug": "helpico",
+    "ticker": "HELP"
+  },
+  {
     "id": "235523",
     "name": "HempCoin",
     "slug": "hempcoin",
@@ -3808,6 +3886,12 @@
     "name": "High Performance Blockchain",
     "slug": "high-performance-blockchain",
     "ticker": "HPB"
+  },
+  {
+    "id": "235782",
+    "name": "Hintchain",
+    "slug": "hintchain",
+    "ticker": "HINT"
   },
   {
     "id": "235125",
@@ -4018,6 +4102,12 @@
     "name": "ImageCoin",
     "slug": "imagecoin",
     "ticker": "IMG"
+  },
+  {
+    "id": "235758",
+    "name": "Incent",
+    "slug": "incent",
+    "ticker": "INCNT"
   },
   {
     "id": "235237",
@@ -4872,6 +4962,12 @@
     "ticker": "MAPR"
   },
   {
+    "id": "235786",
+    "name": "MB8 Coin",
+    "slug": "mb8-coin",
+    "ticker": "MB8"
+  },
+  {
     "id": "235292",
     "name": "MediBit",
     "slug": "medibit",
@@ -4912,6 +5008,12 @@
     "name": "Melon",
     "slug": "melon",
     "ticker": "MLN"
+  },
+  {
+    "id": "235688",
+    "name": "Membrana",
+    "slug": "membrana",
+    "ticker": "MBN"
   },
   {
     "id": "235658",
@@ -5106,6 +5208,12 @@
     "ticker": "MONA"
   },
   {
+    "id": "235783",
+    "name": "Monarch",
+    "slug": "monarch",
+    "ticker": "MT"
+  },
+  {
     "id": "1545",
     "name": "Monero",
     "slug": "monero",
@@ -5134,6 +5242,12 @@
     "name": "MoneyToken",
     "slug": "moneytoken",
     "ticker": "IMT"
+  },
+  {
+    "id": "48",
+    "name": "Monolith",
+    "slug": "monolith",
+    "ticker": "TKN"
   },
   {
     "id": "235686",
@@ -5386,6 +5500,12 @@
     "name": "Newton Coin Project",
     "slug": "newton-coin-project",
     "ticker": "NCP"
+  },
+  {
+    "id": "235784",
+    "name": "NewYork Exchange",
+    "slug": "newyork-exchange",
+    "ticker": "NYE"
   },
   {
     "id": "234306",
@@ -5932,6 +6052,12 @@
     "name": "Pepe Cash",
     "slug": "pepe-cash",
     "ticker": "PEPECASH"
+  },
+  {
+    "id": "234951",
+    "name": "Perlin",
+    "slug": "perlin",
+    "ticker": "PERL"
   },
   {
     "id": "234834",
@@ -6768,6 +6894,12 @@
     "ticker": "SERV"
   },
   {
+    "id": "235787",
+    "name": "Sessia",
+    "slug": "sessia",
+    "ticker": "KICKS"
+  },
+  {
     "id": "101761",
     "name": "Sether",
     "slug": "sether",
@@ -7092,6 +7224,12 @@
     "ticker": "SPHTX"
   },
   {
+    "id": "235757",
+    "name": "SounDAC",
+    "slug": "bitshares-music",
+    "ticker": "XSD"
+  },
+  {
     "id": "234153",
     "name": "Sp8de",
     "slug": "sp8de",
@@ -7220,7 +7358,7 @@
   {
     "id": "234992",
     "name": "STASIS EURS",
-    "slug": "stasis-eurs",
+    "slug": "stasis-euro",
     "ticker": "EURS"
   },
   {
@@ -7252,6 +7390,12 @@
     "name": "Stellar",
     "slug": "stellar",
     "ticker": "XLM"
+  },
+  {
+    "id": "235781",
+    "name": "Stellar Classic",
+    "slug": "stellar-classic",
+    "ticker": "XLMX"
   },
   {
     "id": "235519",
@@ -7650,12 +7794,6 @@
     "ticker": "TBX"
   },
   {
-    "id": "48",
-    "name": "TokenCard",
-    "slug": "tokencard",
-    "ticker": "TKN"
-  },
-  {
     "id": "235031",
     "name": "TokenClub",
     "slug": "tokenclub",
@@ -7806,6 +7944,12 @@
     "ticker": "TNC"
   },
   {
+    "id": "235760",
+    "name": "Tripio",
+    "slug": "tripio",
+    "ticker": "TRIO"
+  },
+  {
     "id": "735",
     "name": "TRON",
     "slug": "tron",
@@ -7852,6 +7996,12 @@
     "name": "Turtlecoin",
     "slug": "turtlecoin",
     "ticker": "TRTL"
+  },
+  {
+    "id": "235755",
+    "name": "Typerium",
+    "slug": "typerium",
+    "ticker": "TYPE"
   },
   {
     "id": "235117",
@@ -8032,6 +8182,12 @@
     "name": "UTRUST",
     "slug": "utrust",
     "ticker": "UTK"
+  },
+  {
+    "id": "235749",
+    "name": "Valor Token",
+    "slug": "valor-token",
+    "ticker": "VALOR"
   },
   {
     "id": "227274",
@@ -8514,6 +8670,12 @@
     "ticker": "XENO"
   },
   {
+    "id": "235777",
+    "name": "xEURO",
+    "slug": "xeuro",
+    "ticker": "xEUR"
+  },
+  {
     "id": "234200",
     "name": "XinFin Network",
     "slug": "xinfin-network",
@@ -8578,6 +8740,12 @@
     "name": "YGGDRASH",
     "slug": "yeed",
     "ticker": "YEED"
+  },
+  {
+    "id": "235774",
+    "name": "YottaChain",
+    "slug": "yottachain",
+    "ticker": "YTA"
   },
   {
     "id": "235016",
@@ -8674,6 +8842,12 @@
     "name": "Zeusshield",
     "slug": "zeusshield",
     "ticker": "ZSC"
+  },
+  {
+    "id": "235779",
+    "name": "ZeuxCoin",
+    "slug": "zeuxcoin",
+    "ticker": "ZUC"
   },
   {
     "id": "961",
