@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 0 32px;
+  margin: 0 0 40px;
 
   @include responsive('tablet') {
     justify-content: flex-start;

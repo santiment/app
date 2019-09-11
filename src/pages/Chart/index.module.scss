@@ -1,7 +1,9 @@
 @import '~@santiment-network/ui/mixins.scss';
 
 .wrapper {
-  margin-bottom: 24px;
+  background: var(--athens);
+  padding: 26px 0 32px;
+  margin-top: -32px;
 }
 
 .title {
