@@ -73,6 +73,15 @@ const getWalletsLines = (wallets, showYAxes) => {
 
 const COLORS = ['#14C393', '#8358FF', '#5275FF', '#FF5B5B', '#68DBF4']
 
+const labelFormatter = item => {
+  if (item.indexOf('@') !== -1) {
+    const parsed = item.split('@')
+    return 'Price of ' + parsed[1]
+  }
+
+  return capitalizeStr(item)
+}
+
 const HistoricalBalanceChart = ({
   walletsData,
   showYAxes = true,
@@ -94,12 +103,7 @@ const HistoricalBalanceChart = ({
     priceMetricTimeseries.forEach(item => timeseries.push(item))
   }
 
-  const normalizedData = mergeTimeseriesByKey({
-    timeseries
-  })
-
   const wallets = Object.keys(walletsData)
-
   const walletsLines = getWalletsLines(wallets, showYAxes)
 
   const metrics = priceMetricKeys.map((metricDataKey, index) => {
@@ -119,20 +123,13 @@ const HistoricalBalanceChart = ({
     return wallets.indexOf(key) === -1
   }
 
-  const labelFormatter = item => {
-    if (item.indexOf('@') !== -1) {
-      const parsed = item.split('@')
-      return 'Price of ' + parsed[1]
-    }
-
-    return capitalizeStr(item)
-  }
-
   return (
     <div className={styles.chartContainer}>
       <ResponsiveContainer width='100%' height='100%'>
         <ComposedChart
-          data={normalizedData}
+          data={mergeTimeseriesByKey({
+            timeseries
+          })}
           margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
         >
           <XAxis

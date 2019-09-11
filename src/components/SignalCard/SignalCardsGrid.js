@@ -10,20 +10,26 @@ import {
 import styles from './SignalCardsGrid.module.scss'
 
 const SignalCardsGrid = ({
+  userId,
+  ownerId,
   signals,
   className = '',
   toggleSignal,
   removeSignal,
   goToSignalSettings,
-  isUserTheAuthor = true
+  deleteEnabled = true
 }) => {
+  const isAuthor = +userId === +ownerId
   return (
     <div className={cx(styles.wrapper, className)}>
       {signals
         .sort((a, b) => b.id - a.id)
-        .map(({ id, index, ...signal }) => (
+        .map(({ id, index, userId: signalOwnerId, ...signal }) => (
           <SignalCard
-            isUserTheAuthor={isUserTheAuthor}
+            deleteEnabled={deleteEnabled}
+            isUserTheAuthor={
+              isAuthor || (signalOwnerId && +signalOwnerId === +userId)
+            }
             key={id || index}
             id={id}
             toggleSignal={() =>
@@ -58,7 +64,11 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
+const mapStateToProps = state => ({
+  userId: state.user && state.user.data ? state.user.data.id : undefined
+})
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SignalCardsGrid)

@@ -111,6 +111,11 @@ const LoadableChartPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableProfilePage = Loadable({
+  loader: () => import('./pages/profile/ProfilePage'),
+  loading: () => <PageLoader />
+})
+
 class Route extends React.Component {
   componentWillMount () {
     nprogress.start()
@@ -334,7 +339,20 @@ export const App = ({
               to={`${getConsentUrl()}/consent${props.location.search}`}
             />
           )}
-        />
+        />{' '}
+        {isBetaModeEnabled && (
+          <Route
+            path={['/profile/:id', '/profile']}
+            render={props => (
+              <LoadableProfilePage
+                isDesktop={isDesktop}
+                isLoggedIn={isLoggedIn}
+                isUserLoading={isUserLoading}
+                {...props}
+              />
+            )}
+          />
+        )}
         <Route
           path='/login'
           render={props => (
