@@ -22,7 +22,8 @@ const MoreSignalActions = ({
   signalTitle,
   removeSignal,
   isPublic,
-  isUserTheAuthor
+  isUserTheAuthor,
+  deleteEnabled = true
 }) => {
   const link = generateShareLink(signalId, signalTitle)
 
@@ -67,7 +68,7 @@ const MoreSignalActions = ({
 
           {isPublic && <ShareSignal trigger={SignalShareTrigger} />}
 
-          {isUserTheAuthor && (
+          {isUserTheAuthor && deleteEnabled && (
             <div className={cx(styles.popupItem, styles.popupButton)}>
               <RemoveSignalButton
                 id={signalId}

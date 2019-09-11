@@ -17,7 +17,8 @@ const SignalCard = ({
   removeSignal,
   goToSignalSettings,
   toggleSignal,
-  isUserTheAuthor
+  isUserTheAuthor,
+  deleteEnabled = true
 }) => {
   const isAwaiting = +id <= 0
   const { title, description = '', isPublic, settings: { type } = {} } = signal
@@ -31,6 +32,8 @@ const SignalCard = ({
 
         <MobileOnly>
           <MoreSignalActions
+            deleteEnabled={deleteEnabled}
+            isUserTheAuthor={isUserTheAuthor}
             isPublic={isPublic}
             removeSignal={removeSignal}
             signalTitle={title}
@@ -60,6 +63,7 @@ const SignalCard = ({
           toggleSignal={toggleSignal}
           isAwaiting={isAwaiting}
           isUserTheAuthor={isUserTheAuthor}
+          deleteEnabled={deleteEnabled}
         />
       </div>
     </Panel>
@@ -79,7 +83,8 @@ const SignalCardBottom = ({
   isPublished = true,
   isAwaiting = false,
   toggleSignal,
-  isUserTheAuthor = true
+  isUserTheAuthor = true,
+  deleteEnabled
 }) => {
   const { isActive, isPublic, title } = signal
   return (
@@ -91,6 +96,7 @@ const SignalCardBottom = ({
           signalTitle={title}
           signalId={signalId}
           isPublic={isPublic}
+          deleteEnabled={deleteEnabled}
         />
       </DesktopOnly>
 

@@ -15,7 +15,8 @@ const SignalCardsGrid = ({
   toggleSignal,
   removeSignal,
   goToSignalSettings,
-  isUserTheAuthor = true
+  isUserTheAuthor = true,
+  deleteEnabled = true
 }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
@@ -23,6 +24,7 @@ const SignalCardsGrid = ({
         .sort((a, b) => b.id - a.id)
         .map(({ id, index, ...signal }) => (
           <SignalCard
+            deleteEnabled={deleteEnabled}
             isUserTheAuthor={isUserTheAuthor}
             key={id || index}
             id={id}

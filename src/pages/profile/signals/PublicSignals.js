@@ -33,7 +33,10 @@ const PublicSignals = ({
     <div className={styles.block}>
       <div className={styles.title}>Public signals ({signals.length})</div>
       <div>
-        <SignalCardsGrid signals={signals.map(({ trigger }) => trigger)} />
+        <SignalCardsGrid
+          signals={signals.map(({ trigger }) => trigger)}
+          deleteEnabled={false}
+        />
       </div>
     </div>
   )
