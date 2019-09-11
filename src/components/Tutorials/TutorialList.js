@@ -9,7 +9,7 @@ const TutorialList = ({ classes = {} }) => {
   const [selected, setSelected] = useState()
 
   return (
-    <div className={cx(styles.wrapper, classes.wrapper)}>
+    <div className={cx(styles.wrapper, classes.list)}>
       {tutorials.map(tutorial => (
         <TutorialCard
           className={cx(styles.card, classes.card)}
