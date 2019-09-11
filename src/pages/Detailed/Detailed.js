@@ -104,6 +104,7 @@ export const Detailed = ({
               onSlugSelect={onChangeProject}
               isLoggedIn={isLoggedIn}
               enabledViewOnlySharing={false}
+              isPRO={userPlan === 'PRO'}
               {...boundaries}
             />
           )

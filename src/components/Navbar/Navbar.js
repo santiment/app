@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink as Link } from 'react-router-dom'
 import cx from 'classnames'
+import { Query } from 'react-apollo'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Search from './../Search/SearchContainer'
@@ -11,6 +12,8 @@ import NavbarLabsDropdown from './NavbarLabsDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
 import NavbarAssetsDropdown from './NavbarAssetsDropdown'
 import UpgradeBtn from '../UpgradeBtn/UpgradeBtn'
+import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
+import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import ShowIf from '../ShowIf/ShowIf'
 import styles from './Navbar.module.scss'
 
@@ -108,7 +111,14 @@ const Navbar = ({ activeLink = '/' }) => {
               )
             }
           )}
-          <UpgradeBtn className={styles.upgrade} />
+          <Query query={USER_SUBSCRIPTIONS_QUERY}>
+            {({ data: { currentUser } = {} }) => {
+              const subscription = getCurrentSanbaseSubscription(currentUser)
+              const userPlan = subscription ? subscription.plan.name : 'FREE'
+              if (userPlan === 'PRO') return null
+              else return <UpgradeBtn className={styles.upgrade} />
+            }}
+          </Query>
         </div>
 
         <div className={styles.right}>
