@@ -34,53 +34,63 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
     slug && slug !== newSlug && history.replace(`/projects/${newSlug}`)
   }
   return (
-    <div className={styles.wrapper + ' page'}>
-      <h2 className={styles.week}>
-        <span role='img' aria-label='cup'>
-          🏆
-        </span>
-        Chart of the week
-      </h2>
-      <Query query={USER_SUBSCRIPTIONS_QUERY}>
-        {({ data: { currentUser } = {} }) => {
-          const subscription = getCurrentSanbaseSubscription(currentUser)
-          const userPlan = subscription ? subscription.plan.name : 'FREE'
-          const boundaries = paywallBoundaries[userPlan]
+    <>
+      <div className={styles.wrapper}>
+        <div className={styles.content + ' page'}>
+          <h2 className={styles.week}>
+            <span role='img' aria-label='cup'>
+              🏆{' '}
+            </span>
+            Chart of the week
+          </h2>
+          <Query query={USER_SUBSCRIPTIONS_QUERY}>
+            {({ data: { currentUser } = {} }) => {
+              const subscription = getCurrentSanbaseSubscription(currentUser)
+              const userPlan = subscription ? subscription.plan.name : 'FREE'
+              const boundaries = paywallBoundaries[userPlan]
 
-          return (
-            <>
-              <ChartWidget
-                enabledViewOnlySharing={false}
-                history={history}
-                location={location}
-                adjustNightMode={false}
-                showToggleAnomalies={true}
-                slug='bitcoin'
-                title='Bitcoin (BTC)'
-                projectId='1505'
-                metrics={['historyPrice', 'socialVolume', 'tokenAgeConsumed']}
-                classes={styles}
-                isLoggedIn={isLoggedIn}
-                onSlugSelect={onChangeSlug}
-                AfterHeader={AfterHeader}
-                isControlled
-                {...boundaries}
-              />
-            </>
-          )
-        }}
-      </Query>
-      {isLoggedIn || (
-        <AnonBannerCardB
-          onClick={onGetStartedClick}
-          className={styles.banner}
-          title='Why Santiment?'
-          description='Track selected assets in one place and check its status'
-          button='Sign up for free'
-        />
-      )}
-      <h2 className={styles.title}>Latest Insights</h2>
-      <InsightsWrap insights={sortedInsights} />
-    </div>
+              return (
+                <>
+                  <ChartWidget
+                    enabledViewOnlySharing={false}
+                    history={history}
+                    location={location}
+                    adjustNightMode={false}
+                    showToggleAnomalies={true}
+                    slug='bitcoin'
+                    title='Bitcoin (BTC)'
+                    projectId='1505'
+                    metrics={[
+                      'historyPrice',
+                      'socialVolume',
+                      'tokenAgeConsumed'
+                    ]}
+                    classes={styles}
+                    isLoggedIn={isLoggedIn}
+                    onSlugSelect={onChangeSlug}
+                    AfterHeader={AfterHeader}
+                    isControlled
+                    {...boundaries}
+                  />
+                </>
+              )
+            }}
+          </Query>
+        </div>
+      </div>
+      <div className='page'>
+        {isLoggedIn || (
+          <AnonBannerCardB
+            onClick={onGetStartedClick}
+            className={styles.banner}
+            title='Why Santiment?'
+            description='Track selected assets in one place and check its status'
+            button='Sign up for free'
+          />
+        )}
+        <h2 className={styles.title}>Latest Insights</h2>
+        <InsightsWrap insights={sortedInsights} />
+      </div>
+    </>
   )
 })
