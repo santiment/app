@@ -476,7 +476,9 @@ class ChartPage extends Component {
                       children={children}
                       isAdvancedView={isAdvancedView}
                     />
-                    {!isPRO && <UpgradePaywall />}
+                    {!isPRO && (
+                      <UpgradePaywall isAdvancedView={isAdvancedView} />
+                    )}
                   </div>
                 </div>
                 {!viewOnly && !hideSettings.sidecar && (

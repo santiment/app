@@ -49,6 +49,25 @@
   }
 }
 
+.short {
+  @include responsive('tablet') {
+    flex-direction: column;
+    align-items: baseline;
+  }
+
+  & .item {
+    margin-right: 50px;
+
+    @include responsive('laptop') {
+      margin-right: 20px;
+    }
+
+    @include responsive('tablet') {
+      margin: 0 0 10px;
+    }
+  }
+}
+
 .icon {
   position: relative;
   fill: var(--texas-rose);

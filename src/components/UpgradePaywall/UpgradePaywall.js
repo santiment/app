@@ -1,9 +1,10 @@
 import React from 'react'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import UpgradeBtn from '../UpgradeBtn/UpgradeBtn'
 import styles from './UpgradePaywall.module.scss'
 
-const UpgradePaywall = () => (
+const UpgradePaywall = ({ isAdvancedView }) => (
   <div className={styles.wrapper}>
     <div className={styles.top}>
       <h4 className={styles.slogan}>Go PRO and get more data</h4>
@@ -11,7 +12,7 @@ const UpgradePaywall = () => (
         Upgrade
       </UpgradeBtn>
     </div>
-    <ul className={styles.list}>
+    <ul className={cx(styles.list, isAdvancedView && styles.short)}>
       <UpgradeItem
         iconType='finance'
         text='Unlimited metrics'
