@@ -10,6 +10,7 @@ import styles from './UpgradeBtn.module.scss'
 const Trigger = ({ variant, className, children = 'Upgrade', ...props }) => (
   <Button
     className={cx(styles.btn, styles[variant], className)}
+    variant={variant}
     accent='orange'
     {...props}
   >

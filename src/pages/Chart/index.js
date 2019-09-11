@@ -70,6 +70,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
                     onSlugSelect={onChangeSlug}
                     AfterHeader={AfterHeader}
                     isControlled
+                    isPRO={userPlan === 'PRO'}
                     {...boundaries}
                   />
                 </>

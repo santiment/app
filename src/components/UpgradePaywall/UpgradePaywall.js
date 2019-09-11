@@ -1,5 +1,4 @@
 import React from 'react'
-import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import UpgradeBtn from '../UpgradeBtn/UpgradeBtn'
 import styles from './UpgradePaywall.module.scss'

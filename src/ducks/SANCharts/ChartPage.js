@@ -321,7 +321,8 @@ class ChartPage extends Component {
       leftBoundaryDate,
       rightBoundaryDate,
       isLoggedIn,
-      AfterHeader
+      AfterHeader,
+      isPRO
     } = this.props
 
     const requestedMetrics = metrics.map(metric => {
@@ -475,7 +476,7 @@ class ChartPage extends Component {
                       children={children}
                       isAdvancedView={isAdvancedView}
                     />
-                    <UpgradePaywall />
+                    {!isPRO && <UpgradePaywall />}
                   </div>
                 </div>
                 {!viewOnly && !hideSettings.sidecar && (
