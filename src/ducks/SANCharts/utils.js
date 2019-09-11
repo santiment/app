@@ -91,7 +91,8 @@ export const Metrics = {
     category: 'Social',
     node: Bar,
     label: 'Social Volume',
-    color: 'malibu'
+    color: 'malibu',
+    description: `Shows the amount of mentions of the coin on 1000+ crypto social media channels, including Telegram groups, crypto subreddits, discord groups, private traders chats and more.`
   },
   tokenAgeConsumed: {
     category: 'On-chain',
@@ -160,7 +161,8 @@ export const Metrics = {
     group: 'Network value',
     label: 'Market Value To Realized Value',
     dataKey: 'mvrv',
-    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE'
+    video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
+    description: `MVRV measures how much every holder originally paid for their coins, and compares that investment to the coin’s current price to calculate the average profit or loss across all holders. Example: if MVRV = 2, then, on average, all coin holders have (currently) doubled their initial investment.`
   },
   transactionVolume: {
     alias: 'transaction_volume',
@@ -223,20 +225,23 @@ export const Metrics = {
     category: 'Social',
     node: Line,
     label: 'Twitter',
-    dataKey: 'followersCount'
+    dataKey: 'followersCount',
+    description: `Shows the number of followers on the project's official Twitter account over time`
   },
   socialDominance: {
     category: 'Social',
     node: Line,
     label: 'Social Dominance',
-    dataKey: 'dominance'
+    dataKey: 'dominance',
+    description: `Shows the share (or %) of the coin’s mentions on crypto-related social media, compared to a pool of 50+ of the most talked-about projects online.`
   },
   realizedValue: {
     category: 'On-chain',
     node: Line,
     group: 'Network value',
-    label: 'Realized Value',
-    dataKey: 'realizedValue'
+    label: 'Realized Cap',
+    dataKey: 'realizedValue',
+    description: `Realized Cap shows the total amount that all holders spent to purchase the coin (i.e. the total acquisition cost). While market cap = supply X current price of each coin, realized cap = supply X price of each coin when it last ‘moved’`
   },
   ethSpentOverTime: {
     category: 'On-chain',
@@ -255,7 +260,8 @@ const DerivedMetrics = [
     key: 'nvtRatioCirculation',
     node: Line,
     group: 'Network value',
-    label: 'NVT Ratio Circulation'
+    label: 'NVT Ratio Circulation',
+    description: `NVT tries to determine how much ‘value’ is being transmitted on a coin’s network. This version of NVT is calculated by dividing the coin’s Market Cap by its Token Circulation. The higher the NVT, the more expensive the network relative to the value it transmits, indicating an overvalued asset.`
   },
   {
     parent: 'nvtRatio',
@@ -263,7 +269,8 @@ const DerivedMetrics = [
     node: Bar,
     group: 'Network value',
     label: 'NVT Ratio Transaction Volume',
-    category: 'On-chain'
+    category: 'On-chain',
+    description: `NVT tries to determine how much ‘value’ is being transmitted on a coin’s network. This version of NVT is calculated by dividing the coin’s Market Cap by its on-chain Transaction Volume. The higher the NVT, the more expensive the network relative to the value it transmits, indicating an overvalued asset.`
   }
 ]
 
