@@ -17,7 +17,9 @@ const ProfilePage = ({
   defaultUser: { id: defaultUserId, username: defaultUserName },
   match: { params: { id = defaultUserId } = {} } = {}
 }) => {
-  const { username = defaultUserName } = profile
+  const { username = id } = profile
+
+  const isCurentUser = defaultUserId === id
 
   if (isUserLoading) {
     return <PageLoader />
@@ -39,7 +41,7 @@ const ProfilePage = ({
                 label: 'User'
               },
               {
-                label: username || id
+                label: isCurentUser ? defaultUserName : username
               }
             ]}
           />
