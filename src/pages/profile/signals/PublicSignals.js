@@ -29,10 +29,6 @@ const PublicSignals = ({
     return <BlocksLoader />
   }
 
-  if (!signals || signals.length === 0) {
-    return null
-  }
-
   return (
     <div className={styles.block}>
       <div className={styles.title}>Public signals ({signals.length})</div>

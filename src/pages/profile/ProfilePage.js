@@ -1,23 +1,27 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 import PublicWatchlists from './watchlists/PublicWatchlists'
 import PublicSignals from './signals/PublicSignals'
 import PublicInsights from './insights/PublicInsights'
 import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
+import PageLoader from '../../components/Loader/PageLoader'
 import styles from './ProfilePage.module.scss'
 
 const ProfilePage = ({
   profile = {},
   isDesktop,
-  match: { params: { id } = {} } = {}
+  isUserLoading,
+  defaultUser,
+  defaultUser: { id: defaultUserId, username: defaultUserName },
+  match: { params: { id = defaultUserId } = {} } = {}
 }) => {
-  if (!id) {
-    return <Redirect to='/' />
-  }
+  const { username = defaultUserName } = profile
 
-  const { username } = profile
+  if (isUserLoading) {
+    return <PageLoader />
+  }
 
   return (
     <div className='page'>
@@ -57,4 +61,8 @@ export const BlocksLoader = () => (
   </div>
 )
 
-export default ProfilePage
+const mapStateToProps = state => ({
+  defaultUser: state.user.data
+})
+
+export default connect(mapStateToProps)(ProfilePage)

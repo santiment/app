@@ -361,12 +361,21 @@ export const App = ({
             />
           )}
         />
-        {!isDesktop && <Redirect from='/' to='/assets' />}
+        {!isDesktop && !isBetaModeEnabled && <Redirect from='/' to='/assets' />}
         <Route
           path='/'
-          render={props => (
-            <LoadableChartPage isLoggedIn={isLoggedIn} {...props} />
-          )}
+          render={props =>
+            isBetaModeEnabled && (isUserLoading || isLoggedIn) ? (
+              <LoadableProfilePage
+                isDesktop={isDesktop}
+                isLoggedIn={isLoggedIn}
+                isUserLoading={isUserLoading}
+                {...props}
+              />
+            ) : (
+              <LoadableChartPage isLoggedIn={isLoggedIn} {...props} />
+            )
+          }
         />
       </Switch>
     </ErrorBoundary>

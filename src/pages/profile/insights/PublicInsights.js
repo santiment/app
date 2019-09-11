@@ -13,10 +13,6 @@ const PublicInsights = props => {
     return <BlocksLoader />
   }
 
-  if (!insights || insights.length === 0) {
-    return null
-  }
-
   return (
     <div className={styles.block}>
       <div className={styles.title}>Public insights ({insights.length})</div>
