@@ -36,7 +36,7 @@ const UpgradeItem = ({ iconType, text, className }) => (
     <div className={styles.iconWrapper}>
       <Icon type={iconType} className={styles.icon} />
     </div>
-    <span>{text}</span>
+    <span className={styles.text}>{text}</span>
   </li>
 )
 
