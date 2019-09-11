@@ -5,13 +5,7 @@ import styles from './Feed.module.scss'
 
 const SHOW_AFTER_EL_NUMBER = 2
 
-const Feed = ({
-  component: El,
-  data,
-  showDate = true,
-  dateKey,
-  isAllInsightsPage
-}) => {
+const Feed = ({ component: El, data, dateKey, isAllInsightsPage }) => {
   let lastDateKey
   return data.map((item, index) => {
     const id = item.id || index
@@ -25,9 +19,7 @@ const Feed = ({
 
     return (
       <Fragment key={id}>
-        {showDate && isNotSameAsLastDate && (
-          <h4 className={styles.date}>{date}</h4>
-        )}
+        {isNotSameAsLastDate && <h4 className={styles.date}>{date}</h4>}
         <El className={styles.signal} {...item} />
         {isAllInsightsPage && index === SHOW_AFTER_EL_NUMBER && (
           <FeaturedInsightsHorizontal

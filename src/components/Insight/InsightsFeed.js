@@ -4,17 +4,11 @@ import WithLikesMutation from '../Like/WithLikesMutation'
 import InsightCard from './InsightCardWithMarketcap'
 import Feed from '../Feed/Feed'
 
-const InsightsFeed = ({
-  insights,
-  isAllInsightsPage,
-  showDate = true,
-  classes = {}
-}) => {
+const InsightsFeed = ({ insights, isAllInsightsPage, classes = {} }) => {
   return (
     <WithLikesMutation>
       {mutateInsightById => (
         <Feed
-          showDate={showDate}
           isAllInsightsPage={isAllInsightsPage}
           data={insights}
           component={({ id, className, ...rest }) => (

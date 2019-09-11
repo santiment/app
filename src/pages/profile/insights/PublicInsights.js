@@ -17,11 +17,7 @@ const PublicInsights = props => {
     <div className={styles.block}>
       <div className={styles.title}>Public insights ({insights.length})</div>
       <div className={publicInsightStyles.insightsFeed}>
-        <InsightsFeed
-          showDate={false}
-          insights={insights}
-          classes={publicInsightStyles}
-        />
+        <InsightsFeed insights={insights} classes={publicInsightStyles} />
       </div>
     </div>
   )

@@ -19,21 +19,4 @@ const PublicWatchlists = ({ data: { watchlists = [], loading } = {} } = {}) => {
   )
 }
 
-/*
-* graphql(PUBLIC_TRIGGERS_FOR_USER_QUERY, {
-  skip: ({ userId }) => {
-    return !userId
-  },
-  options: props => {
-    const { userId } = props
-    return {
-      fetchPolicy: 'cache-and-network',
-      variabled: {
-        userId: userId
-      }
-    }
-  }
-})(
-*
-* */
 export default PublicWatchlists
