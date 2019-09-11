@@ -254,8 +254,7 @@ class ChartPage extends Component {
       isShowAnomalies,
       zoom,
       from,
-      to,
-      events
+      to
     } = this.state
 
     const { enabledViewOnlySharing } = this.props
@@ -267,8 +266,7 @@ class ChartPage extends Component {
       interval,
       nightMode,
       isShowAnomalies,
-      title,
-      events
+      title
     }
 
     if (enabledViewOnlySharing) {
