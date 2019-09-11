@@ -48,7 +48,7 @@ const AssetsTable = ({
   preload,
   refetchAssets,
   setMinVolumeFilter,
-  minVolume = 10000,
+  minVolume = 0,
   listName,
   settings,
   setHiddenColumns
@@ -153,7 +153,7 @@ const mapStateToProps = ({
 }) => ({ minVolume, settings: watchlistsSettings })
 
 const mapDispatchToProps = dispatch => ({
-  refetchAssets: ({ type, listName, listId, minVolume = 10000 }) =>
+  refetchAssets: ({ type, listName, listId, minVolume = 0 }) =>
     dispatch({
       type: ASSETS_FETCH,
       payload: {

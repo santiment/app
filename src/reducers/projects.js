@@ -5,7 +5,7 @@ export const initialState = {
   error: false,
   ethPrice: null,
   filters: {
-    minVolume: 10000
+    minVolume: 0
   },
   items: [],
   trendingAssets: [],
@@ -46,7 +46,7 @@ export default (state = initialState, action) => {
         ...state,
         filters: {
           ...state.filters,
-          minVolume: state.filters.minVolume === 0 ? 10000 : 0
+          minVolume: 0
         }
       }
     case 'LOADING_PROJECTS':
