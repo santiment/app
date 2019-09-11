@@ -23,23 +23,23 @@ const SonarFeedRecommendations = ({
 export const RecommendedSignals = () => (
   <GetFeaturedUserTriggers
     always
-    render={({ signals, isLoading }) => {
+    render={({ data: { signals }, data, isLoading }) => {
       const hasSignals = signals && signals.length > 0
 
       if (isLoading) {
         return <PageLoader className={styles.loader} />
       }
 
-      const mapToCardGridSignals = signals.map(({ trigger }) => trigger)
+      const mapToCardGridSignals = signals.map(({ trigger, userId }) => ({
+        ...trigger,
+        userId: userId
+      }))
 
       return (
         hasSignals && (
           <>
             <h4 className={styles.subtitle}>Recommended for you</h4>
-            <SignalCardsGrid
-              isUserTheAuthor={false}
-              signals={mapToCardGridSignals}
-            />
+            <SignalCardsGrid signals={mapToCardGridSignals} />
           </>
         )
       )

@@ -14,7 +14,7 @@ const SonarFeedMySignalsPage = props => {
     <>
       <GetSignals
         filters={filters}
-        render={({ signals, isLoading }) => {
+        render={({ data: { signals, userId }, isLoading }) => {
           const hasSignals = signals && signals.length > 0
 
           if (isLoading) {
@@ -24,7 +24,7 @@ const SonarFeedMySignalsPage = props => {
           return (
             <>
               {hasSignals ? (
-                <SignalCardsGrid signals={signals} />
+                <SignalCardsGrid signals={signals} ownerId={userId} />
               ) : (
                 <SonarFeedRecommendations showButton />
               )}
