@@ -57,7 +57,7 @@ const SettingsNotifications = ({
 }) => {
   return (
     <GetSignals
-      render={({ signals, isLoading }) => {
+      render={({ data: { signals }, isLoading }) => {
         const allCount = signals.length
         const countWithEmail = channelByTypeLength(signals, CHANNEL_TYPES.Email)
         const countWithTelegram = channelByTypeLength(

@@ -1,0 +1,23 @@
+@import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
+
+.breadcrumbs {
+  margin-bottom: 23px;
+  display: flex;
+
+  @include text('body-3');
+}
+
+.root {
+  color: $bali-hai;
+}
+
+.arrow {
+  margin: 0 14px;
+  fill: $bali-hai;
+}
+
+.active {
+  color: $fiord;
+  text-transform: capitalize;
+}

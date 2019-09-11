@@ -45,7 +45,10 @@ export const signalsGqlMapper = {
     }
 
     return {
-      signals,
+      data: {
+        userId: currentUser ? currentUser.id : undefined,
+        signals
+      },
       isLoading: loading,
       isError: !!error
     }

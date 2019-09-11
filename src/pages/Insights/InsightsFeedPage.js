@@ -8,7 +8,7 @@ import {
 import InsightsFeed from '../../components/Insight/InsightsFeed'
 import styles from './InsightsFeedPage.module.scss'
 
-const getQueryParams = (path, { tag, userId: authorId }, userId) => {
+const getQueryParams = ({ tag, userId: authorId }, userId) => {
   if (authorId) {
     return {
       query: INSIGHTS_BY_USERID_QUERY,
@@ -26,16 +26,14 @@ const getQueryParams = (path, { tag, userId: authorId }, userId) => {
   }
 }
 
-const InsightsFeedPage = ({ match: { path, params }, userId, sortReducer }) => {
+const InsightsFeedPage = ({ match: { params }, userId, sortReducer }) => {
   return (
     <div className={styles.wrapper}>
       <Query
-        {...getQueryParams(path, params, +userId)}
+        {...getQueryParams(params, +userId)}
         fetchPolicy='cache-and-network'
       >
-        {({ data = {} }) => {
-          const { insights = [] } = data
-
+        {({ data: { insights = [] } = {} }) => {
           return <InsightsFeed insights={sortReducer(insights)} />
         }}
       </Query>

@@ -149,13 +149,23 @@
 .calendarButton {
   margin-right: 16px;
 
-  @include responsive('phone', 'phone-xs') {
-    margin-top: 10px;
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    margin: 0 0 3px auto;
   }
 }
 
 .datesSelector {
   margin-right: 16px;
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    margin: 0 0 0 auto;
+  }
+}
+
+.settingsBtn {
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    margin: 0 0 3px auto;
+  }
 }
 
 .expanderButton {

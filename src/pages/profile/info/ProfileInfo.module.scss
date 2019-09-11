@@ -1,0 +1,13 @@
+@import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
+
+.container {
+  @include border-box();
+
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: $border-radius;
+  padding: 24px;
+  display: flex;
+  margin-bottom: 80px;
+}
