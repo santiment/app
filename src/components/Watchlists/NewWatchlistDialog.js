@@ -82,7 +82,10 @@ class NewWatchlistDialog extends PureComponent {
       >
         <form onSubmit={this.onSubmit}>
           <Dialog.ScrollContent withPadding className={styles.content}>
-            <Label accent='waterloo'>Name</Label> ({nameLength}/25)
+            <Label accent='waterloo' className={styles.name}>
+              Name
+            </Label>{' '}
+            ({nameLength}/25)
             <Input
               placeholder='For example, Favorites'
               maxLength='25'
@@ -99,9 +102,7 @@ class NewWatchlistDialog extends PureComponent {
             <Label accent='persimmon' className={styles.error}>
               {error}
             </Label>
-          </Dialog.ScrollContent>
-          <Dialog.Actions className={styles.actions}>
-            <div className={styles.left}>
+            <div className={styles.toggleWrapper}>
               <Toggle
                 isActive={!isPublic}
                 className={styles.toggle}
@@ -109,18 +110,18 @@ class NewWatchlistDialog extends PureComponent {
               />
               Secret
             </div>
-            <div className={styles.right}>
-              <Dialog.Cancel onClick={this.cancelDialog} type='cancel'>
-                Cancel
-              </Dialog.Cancel>
-              <Dialog.Approve
-                className={styles.approve}
-                disabled={!nameLength || isPending || error}
-                type='submit'
-              >
-                {isPending ? 'Creating...' : 'Create'}
-              </Dialog.Approve>
-            </div>
+          </Dialog.ScrollContent>
+          <Dialog.Actions className={styles.actions}>
+            <Dialog.Cancel onClick={this.cancelDialog} type='cancel'>
+              Cancel
+            </Dialog.Cancel>
+            <Dialog.Approve
+              className={styles.approve}
+              disabled={!nameLength || isPending || error}
+              type='submit'
+            >
+              {isPending ? 'Creating...' : 'Create'}
+            </Dialog.Approve>
           </Dialog.Actions>
         </form>
       </Dialog>
