@@ -35,6 +35,17 @@ export const TriggerProjectsSelector = ({
     setOpened(true)
   }
 
+  useEffect(() => {
+    function listenHotkey ({ target, ctrlKey, code }) {
+      if (target === document.body && ctrlKey && code === 'KeyK') {
+        openDialog()
+      }
+    }
+
+    window.addEventListener('keypress', listenHotkey)
+    return () => window.removeEventListener('keypress', listenHotkey)
+  }, [])
+
   const validate = force => {
     const hasSelectedItems = listItems.length > 0
     if (force || !hasSelectedItems) {
@@ -133,6 +144,8 @@ export const TriggerProjectsSelector = ({
           suggestionsProps={{ style: { zIndex: 50 } }}
           checkedAssets={checkedAssetsAsSet}
           onSuggestionSelect={onSuggestionSelect}
+          inputProps={{ autoFocus: true }}
+          sorter={({ marketcapUsd: a }, { marketcapUsd: b }) => b - a}
         />
         <div className={styles.contentWrapper}>
           {isSingle || (
