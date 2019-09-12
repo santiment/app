@@ -69,6 +69,7 @@ const Navbar = ({ activeLink = '/' }) => {
           {leftLinks.map((props, index) => {
             const isActive = activeLink.includes(props.to)
             if (props.linkTo) {
+              const { linkTo, ...rest } = props
               return (
                 <SmoothDropdownItem
                   key={index}
@@ -77,7 +78,7 @@ const Navbar = ({ activeLink = '/' }) => {
                       variant='flat'
                       className={styles.btn}
                       isActive={isActive}
-                      {...props}
+                      {...rest}
                     />
                   }
                 >
@@ -93,6 +94,7 @@ const Navbar = ({ activeLink = '/' }) => {
 
             return (
               <Button
+                key={index}
                 {...props}
                 variant='flat'
                 isActive={isActive}
