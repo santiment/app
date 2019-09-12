@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import GA from 'react-ga'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import Panel from '@santiment-network/ui/Panel'
@@ -183,7 +184,13 @@ const ChartMetricSelector = ({
             return (
               <div key={category} className={styles.category}>
                 <Button
-                  onClick={() => setCategory(category)}
+                  onClick={() => {
+                    GA.event({
+                      category: 'Chart',
+                      action: `Selecting category "${category}"`
+                    })
+                    setCategory(category)
+                  }}
                   variant='ghost'
                   fluid
                   className={styles.btn}

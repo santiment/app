@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import GA from 'react-ga'
 import * as qs from 'query-string'
 import cx from 'classnames'
 import Loadable from 'react-loadable'
@@ -195,11 +196,21 @@ class ChartPage extends Component {
       const newMetrics = new Set(state[key])
       if (newMetrics.has(metric)) {
         newMetrics.delete(metric)
+
+        GA.event({
+          category: 'Chart',
+          action: `Removing "${Metrics[metric].label}"`
+        })
       } else {
         if (newMetrics.size >= MAX_METRICS_PER_CHART) {
           return state
         }
         newMetrics.add(metric)
+
+        GA.event({
+          category: 'Chart',
+          action: `Showing "${Metrics[metric].label}"`
+        })
       }
       return {
         ...state,

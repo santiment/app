@@ -75,6 +75,7 @@ export const allProjectsForSearchGQL = gql`
   query allProjects($minVolume: Int!) {
     allProjects(minVolume: $minVolume) {
       ...generalData
+      marketcapUsd
     }
   }
   ${generalData}
