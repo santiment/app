@@ -14,6 +14,20 @@
   }
 }
 
+.wrapper {
+  @include responsive('laptop', 'desktop', 'tablet') {
+    min-width: 320px;
+  }
+}
+
 .actions {
-  padding: 8px;
+  @include responsive('laptop', 'desktop', 'tablet') {
+    padding-top: 18px;
+  }
+}
+
+.approve {
+  @include responsive('tablet', 'laptop', 'desktop') {
+    margin-left: 16px;
+  }
 }

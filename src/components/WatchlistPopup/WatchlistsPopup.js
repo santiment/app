@@ -93,7 +93,7 @@ const WatchlistPopup = ({
     >
       {isLoggedIn ? (
         <>
-          <Dialog.ScrollContent withPadding>
+          <Dialog.ScrollContent withPadding className={styles.wrapper}>
             <Watchlists
               onWatchlistClick={watchlist => toggleAssetInList(watchlist)}
               lists={lists}
@@ -102,21 +102,17 @@ const WatchlistPopup = ({
             />
           </Dialog.ScrollContent>
           <Dialog.Actions className={styles.actions}>
-            <Dialog.Cancel
-              border={false}
-              accent='grey'
-              onClick={close}
-              type='cancel'
-            >
+            <Dialog.Cancel onClick={close} type='cancel'>
               Cancel
             </Dialog.Cancel>
             <Dialog.Approve
               disabled={editableAssetsInList.length > 0 || changes.length === 0}
+              isLoading={editableAssetsInList.length > 0}
               type='submit'
-              variant='flat'
               onClick={add}
+              className={styles.approve}
             >
-              {editableAssetsInList.length > 0 ? 'Adding...' : 'Add'}
+              Apply
             </Dialog.Approve>
           </Dialog.Actions>
         </>
