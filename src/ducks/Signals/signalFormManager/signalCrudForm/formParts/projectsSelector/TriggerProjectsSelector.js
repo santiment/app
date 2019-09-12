@@ -133,6 +133,8 @@ export const TriggerProjectsSelector = ({
           suggestionsProps={{ style: { zIndex: 50 } }}
           checkedAssets={checkedAssetsAsSet}
           onSuggestionSelect={onSuggestionSelect}
+          inputProps={{ autoFocus: true }}
+          sorter={({ marketcapUsd: a }, { marketcapUsd: b }) => b - a}
         />
         <div className={styles.contentWrapper}>
           {isSingle || (
