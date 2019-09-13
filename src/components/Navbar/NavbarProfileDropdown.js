@@ -12,9 +12,13 @@ import styles from './NavbarProfileDropdown.module.scss'
 import dropdownStyles from './NavbarDropdown.module.scss'
 
 const mys = [
-  { to: '/sonar/my-signals', children: 'My signals' },
-  { to: '/assets', children: 'My watchlists' },
-  { to: '/insights/my', children: 'My insights' }
+  { as: Link, to: '/sonar/my-signals', children: 'My signals' },
+  { as: Link, to: '/assets', children: 'My watchlists' },
+  {
+    as: 'a',
+    href: 'https://insights.santiment.net/my',
+    children: 'My insights'
+  }
 ]
 
 const links = [
@@ -94,7 +98,6 @@ export const NavbarProfileDropdown = ({
                   variant='ghost'
                   key={index}
                   fluid
-                  as={Link}
                   className={dropdownStyles.item}
                   isActive={props.to === activeLink}
                   {...props}

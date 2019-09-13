@@ -18,7 +18,8 @@ const MobileNavbarAction = ({
   },
   isActive = false,
   showIf = { condition: true },
-  className = ''
+  className = '',
+  ...props
 }) => {
   const handleOnClick = () => onClick(linkTo)
 
@@ -28,6 +29,7 @@ const MobileNavbarAction = ({
         className={cx(isActive && classes.isActive, classes.button, className)}
         isActive={isActive}
         onClick={handleOnClick}
+        {...props}
       >
         <Icon className={classes.icon} />
         {label}

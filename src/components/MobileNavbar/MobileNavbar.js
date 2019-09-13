@@ -35,9 +35,9 @@ const NAVBAR_LINKS = [
     Icon: SonarIcon
   },
   {
-    link: '/insights',
+    as: 'a',
+    href: 'https://insights.santiment.net',
     label: 'Insights',
-    linkTo: '/insights',
     Icon: InsightsIcon
   }
 ]
@@ -64,16 +64,13 @@ const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
         />
       </Helmet>
       <div className={styles.wrapper}>
-        {NAVBAR_LINKS.map(({ link, Icon, label, linkTo, showIf }) => {
+        {NAVBAR_LINKS.map((props, index) => {
           return (
             <MobileNavbarAction
-              key={label}
-              isActive={!isOpened && activeLink.includes(link)}
-              linkTo={linkTo}
-              Icon={Icon}
+              key={index}
+              isActive={!isOpened && activeLink.includes(props.link)}
               onClick={handleNavigation}
-              label={label}
-              showIf={showIf}
+              {...props}
             />
           )
         })}

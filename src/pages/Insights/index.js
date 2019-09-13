@@ -11,11 +11,6 @@ import styles from './index.module.scss'
 
 export const baseLocation = '/insights'
 
-const LoadableInsightsPage = Loadable({
-  loader: () => import('./InsightsPage'),
-  loading: () => <PageLoader />
-})
-
 const LoadableInsightCreationPage = Loadable({
   loader: () => import('./InsightCreationPage'),
   loading: () => <PageLoader />
@@ -26,10 +21,13 @@ const LoadableInsightPage = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableUnAuthPage = Loadable({
-  loader: () => import('./InsightUnAuthPage'),
-  loading: () => <PageLoader />
-})
+function getInsightsLink (pathname) {
+  return `https://insights.santiment.net${pathname
+    .replace('/insights', '')
+    .split('/')
+    .map(item => encodeURIComponent(item))
+    .join('/')}`
+}
 
 const PageHub = ({
   location: { pathname },
@@ -75,21 +73,13 @@ const PageHub = ({
         <title>Insights</title>
       </Helmet>
       <Switch>
-        {!isLoggedIn &&
-          (normalizedPathname !== baseLocation &&
-            !normalizedPathname.startsWith('/insights/read/')) && (
-          <Route component={LoadableUnAuthPage} />
-        )}
         <Route
           exact
           path={`${baseLocation}/read/:id`}
-          render={props => (
-            <LoadableInsightPage
-              {...props}
-              isLoggedIn={isLoggedIn}
-              isDesktop={isDesktop}
-            />
-          )}
+          render={() => {
+            window.location.href = getInsightsLink(normalizedPathname)
+            return null
+          }}
         />
         <Route
           exact
@@ -107,9 +97,10 @@ const PageHub = ({
         />
         <Route
           path={`${baseLocation}`}
-          render={props => (
-            <LoadableInsightsPage {...props} isDesktop={isDesktop} />
-          )}
+          render={() => {
+            window.location.href = getInsightsLink(normalizedPathname)
+            return null
+          }}
         />
       </Switch>
     </div>

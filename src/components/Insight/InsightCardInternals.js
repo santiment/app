@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import { Link } from 'react-router-dom'
 import { Icon } from '@santiment-network/ui'
 import cx from 'classnames'
 import InsightTags from './InsightTags'
@@ -41,21 +40,27 @@ const InsightCardInternals = ({
         <div>
           <InsightTags tags={tags} isDesktop={isDesktop} />
         </div>
-        <Link
-          to={`/insights/read/${getSEOLinkFromIdAndTitle(id, title)}`}
+        <a
+          href={`https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
+            id,
+            title
+          )}`}
           className={styles.title}
         >
           <MultilineText maxLines={2} id='insightCardTitle' text={title} />
-        </Link>
+        </a>
       </div>
       <div className={styles.bottom}>
         <div className={styles.left}>
           <ProfileInfo
             withPic={withAuthorPic}
             name={
-              <Link className={styles.name} to={`/insights/users/${authorId}`}>
+              <a
+                className={styles.name}
+                href={`https://insights.santiment.net/user/${authorId}`}
+              >
                 {authorName}
-              </Link>
+              </a>
             }
             status={
               state === AWAITING_APPROVAL_STATE ? (

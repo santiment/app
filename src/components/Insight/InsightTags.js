@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import { ContextMenu, Panel, Button } from '@santiment-network/ui'
 import { noTrendTagsFilter } from './utils'
@@ -16,9 +15,13 @@ const InsightTags = ({ tags = [], isDesktop }) => {
   return (
     <>
       {filteredTags.slice(0, VISIBLE_TAGS_BY_DEFAULT).map(({ name }) => (
-        <Link to={`/insights/tags/${name}`} key={name} className={styles.tag}>
+        <a
+          href={`https://insights.santiment.net/tags/${name}`}
+          key={name}
+          className={styles.tag}
+        >
           {name}
-        </Link>
+        </a>
       ))}
       {tagsOverflow > 0 && (
         <ContextMenu
@@ -36,13 +39,13 @@ const InsightTags = ({ tags = [], isDesktop }) => {
               ? filteredTags.slice(VISIBLE_TAGS_BY_DEFAULT)
               : filteredTags
             ).map(({ name }) => (
-              <Link
-                to={`/insights/tags/${name}`}
+              <a
+                href={`https://insights.santiment.net/tags/${name}`}
                 key={name}
                 className={styles.tag}
               >
                 {name}
-              </Link>
+              </a>
             ))}
           </Panel>
         </ContextMenu>
