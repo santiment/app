@@ -78,6 +78,7 @@ class NewWatchlistDialog extends PureComponent {
         trigger={trigger}
         onOpen={this.openDialog}
         onClose={this.cancelDialog}
+        autoFocus
         open={open}
       >
         <form onSubmit={this.onSubmit}>
@@ -119,8 +120,9 @@ class NewWatchlistDialog extends PureComponent {
               className={styles.approve}
               disabled={!nameLength || isPending || error}
               type='submit'
+              isLoading={isPending}
             >
-              {isPending ? 'Creating...' : 'Create'}
+              Create
             </Dialog.Approve>
           </Dialog.Actions>
         </form>

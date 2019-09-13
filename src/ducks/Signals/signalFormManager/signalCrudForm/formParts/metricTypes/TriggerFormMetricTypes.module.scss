@@ -76,6 +76,10 @@
   color: var(--waterloo);
 
   @include text('body-2');
+
+  @include responsive('phone', 'phone-xs') {
+    text-align: center;
+  }
 }
 
 .metricsHeader {

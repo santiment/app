@@ -1,0 +1,60 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  padding: 6px 10px;
+  color: var(--mirage);
+
+  &:hover {
+    color: var(--mirage);
+    cursor: pointer;
+  }
+}
+
+.toggle {
+  margin-left: 8px;
+}
+
+.active {
+  color: var(--persimmon);
+
+  &:hover {
+    color: var(--persimmon-hover);
+  }
+
+  .toggle {
+    rect {
+      fill: var(--persimmon) !important;
+
+      &:hover {
+        fill: var(--persimmon-hover) !important;
+      }
+    }
+  }
+
+  .question {
+    fill: var(--persimmon);
+  }
+}
+
+.tooltip {
+  z-index: 100;
+}
+
+.note {
+  padding: 8px;
+  margin: 9px 0;
+  color: var(--fiord);
+  background-color: var(--athens);
+
+  @include text('caption');
+
+  & .warning {
+    color: var(--persimmon);
+    font-weight: bold;
+    margin-right: 5px;
+  }
+
+  & .text {
+    margin-right: 5px;
+  }
+}

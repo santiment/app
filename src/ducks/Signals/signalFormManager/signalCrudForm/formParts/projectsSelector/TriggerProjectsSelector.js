@@ -127,6 +127,7 @@ export const TriggerProjectsSelector = ({
       title={title}
       open={opened}
       onClose={cancel}
+      autoFocus
       trigger={
         <div onClick={openDialog}>
           <Trigger

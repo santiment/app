@@ -1,11 +1,11 @@
 .wrapper {
-  margin-bottom: 24px;
+  margin-bottom: 14px;
   width: 100%;
 }
 
 .btn {
   background: var(--athens);
-  margin-right: 8px;
+  margin: 0 8px 8px 0;
 
   &:hover {
     border-color: var(--jungle-green);

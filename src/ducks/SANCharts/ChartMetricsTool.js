@@ -13,7 +13,8 @@ const ChartMetricsTool = ({
   activeEvents,
   disabledMetrics,
   slug,
-  toggleMetric
+  toggleMetric,
+  ...rest
 }) => (
   <div className={styles.wrapper}>
     <ContextMenu
@@ -42,6 +43,7 @@ const ChartMetricsTool = ({
       activeMetrics={activeMetrics}
       toggleMetric={toggleMetric}
       activeEvents={activeEvents}
+      {...rest}
     />
   </div>
 )

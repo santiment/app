@@ -433,40 +433,40 @@ class ChartPage extends Component {
                 >
                   <div className={styles.container}>
                     {!viewOnly && (
-                      <LoadableChartSettings
-                        defaultTimerange={timeRange}
-                        onTimerangeChange={this.onTimerangeChange}
-                        onCalendarChange={this.onCalendarChange}
-                        onSlugSelect={this.onSlugSelect}
-                        generateShareLink={this.generateShareLink}
-                        onNightModeSelect={this.onNightModeSelect}
-                        onIntervalChange={this.onIntervalChange}
-                        onToggleAnomalies={this.onToggleAnomalies}
-                        isNightModeActive={nightMode}
-                        isShowAnomalies={isShowAnomalies}
-                        showNightModeToggle={adjustNightMode}
-                        showToggleAnomalies={showToggleAnomalies}
-                        disabledMetrics={errors}
-                        from={from}
-                        to={to}
-                        interval={interval}
-                        hideSettings={hideSettings}
-                        isAdvancedView={isAdvancedView}
-                        classes={classes}
-                        activeMetrics={finalMetrics}
-                        title={title}
-                        chartRef={this.chartRef}
-                      />
-                    )}
-                    {!viewOnly && (
-                      <LoadableChartMetricsTool
-                        classes={styles}
-                        slug={slug}
-                        toggleMetric={this.toggleMetric}
-                        disabledMetrics={errors}
-                        activeMetrics={finalMetrics}
-                        activeEvents={events}
-                      />
+                      <>
+                        <LoadableChartSettings
+                          defaultTimerange={timeRange}
+                          onTimerangeChange={this.onTimerangeChange}
+                          onCalendarChange={this.onCalendarChange}
+                          onSlugSelect={this.onSlugSelect}
+                          generateShareLink={this.generateShareLink}
+                          onNightModeSelect={this.onNightModeSelect}
+                          onIntervalChange={this.onIntervalChange}
+                          isNightModeActive={nightMode}
+                          showNightModeToggle={adjustNightMode}
+                          disabledMetrics={errors}
+                          from={from}
+                          to={to}
+                          interval={interval}
+                          hideSettings={hideSettings}
+                          isAdvancedView={isAdvancedView}
+                          classes={classes}
+                          activeMetrics={finalMetrics}
+                          title={title}
+                          chartRef={this.chartRef}
+                        />
+                        <LoadableChartMetricsTool
+                          classes={styles}
+                          slug={slug}
+                          toggleMetric={this.toggleMetric}
+                          disabledMetrics={errors}
+                          activeMetrics={finalMetrics}
+                          activeEvents={events}
+                          showToggleAnomalies={showToggleAnomalies}
+                          onToggleAnomalies={this.onToggleAnomalies}
+                          isShowAnomalies={isShowAnomalies}
+                        />
+                      </>
                     )}
                     <Charts
                       chartRef={this.chartRef}

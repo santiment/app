@@ -112,7 +112,7 @@ const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
               }
             }}
           >
-            {isLogined ? 'Logout' : 'Login'}
+            {isLogined ? 'Log out' : 'Log in'}
           </Button>
         </div>
       )}
