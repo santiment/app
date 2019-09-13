@@ -2,7 +2,7 @@
 
 .block {
   width: 100%;
-  border-bottom: 1px solid var(--porcelain);
+  border: 1px solid var(--porcelain);
 
   @include border-box();
 
@@ -14,7 +14,7 @@
 .header {
   width: 100%;
   background: var(--athens);
-  border: 1px solid var(--porcelain);
+  border-bottom: 1px solid var(--porcelain);
   display: flex;
   padding: 10px 20px;
   color: var(--casper);
