@@ -55,7 +55,6 @@ const PageHub = ({
   const normalizedPathname = pathname.endsWith('/')
     ? pathname.slice(0, -1)
     : pathname
-  console.log(pathname)
 
   const oldInsightId = normalizedPathname.slice(
     normalizedPathname.lastIndexOf('/') - normalizedPathname.length + 1
