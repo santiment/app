@@ -7,7 +7,7 @@ import styles from './WatchlistAnomalies.module.scss'
 
 const HelpTooltip = ({ withDesc = true, classes = {} }) => (
   <Tooltip
-    className={styles.tooltip}
+    className={cx(styles.tooltip, classes.tooltip)}
     position='top'
     align='end'
     trigger={

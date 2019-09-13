@@ -19,7 +19,10 @@ const AnomaliesToggle = ({
     >
       <HelpTooltip
         withDesc={false}
-        classes={{ question: isShowAnomalies && styles.question }}
+        classes={{
+          question: isShowAnomalies && styles.question,
+          tooltip: styles.tooltip
+        }}
       />
       Anomalies
       <Toggle

@@ -11,7 +11,6 @@ import { Metrics } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { ANOMALIES_METRICS_ENUM } from '../../components/MobileMetricCard/MobileMetricCard'
-import AnomaliesToggle from '../../components/AnomaliesToggle/AnomaliesToggle'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
 import styles from './ChartPage.module.scss'
@@ -463,8 +462,6 @@ class ChartPage extends Component {
                           disabledMetrics={errors}
                           activeMetrics={finalMetrics}
                           activeEvents={events}
-                        />
-                        <AnomaliesToggle
                           showToggleAnomalies={showToggleAnomalies}
                           onToggleAnomalies={this.onToggleAnomalies}
                           isShowAnomalies={isShowAnomalies}
