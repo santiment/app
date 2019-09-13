@@ -7,7 +7,7 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import Header from './Header'
-import { Metrics } from './utils'
+import { Metrics, Events } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { ANOMALIES_METRICS_ENUM } from '../../components/MobileMetricCard/MobileMetricCard'
@@ -199,7 +199,7 @@ class ChartPage extends Component {
 
         GA.event({
           category: 'Chart',
-          action: `Removing "${Metrics[metric].label}"`
+          action: `Removing "${(isEvent ? Events : Metrics)[metric].label}"`
         })
       } else {
         if (newMetrics.size >= MAX_METRICS_PER_CHART) {
@@ -209,7 +209,7 @@ class ChartPage extends Component {
 
         GA.event({
           category: 'Chart',
-          action: `Showing "${Metrics[metric].label}"`
+          action: `Showing "${(isEvent ? Events : Metrics)[metric].label}"`
         })
       }
       return {
