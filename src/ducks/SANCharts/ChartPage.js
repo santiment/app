@@ -11,6 +11,7 @@ import { Metrics } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { ANOMALIES_METRICS_ENUM } from '../../components/MobileMetricCard/MobileMetricCard'
+import AnomaliesToggle from '../../components/AnomaliesToggle/AnomaliesToggle'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
 import styles from './ChartPage.module.scss'
@@ -433,40 +434,42 @@ class ChartPage extends Component {
                 >
                   <div className={styles.container}>
                     {!viewOnly && (
-                      <LoadableChartSettings
-                        defaultTimerange={timeRange}
-                        onTimerangeChange={this.onTimerangeChange}
-                        onCalendarChange={this.onCalendarChange}
-                        onSlugSelect={this.onSlugSelect}
-                        generateShareLink={this.generateShareLink}
-                        onNightModeSelect={this.onNightModeSelect}
-                        onIntervalChange={this.onIntervalChange}
-                        onToggleAnomalies={this.onToggleAnomalies}
-                        isNightModeActive={nightMode}
-                        isShowAnomalies={isShowAnomalies}
-                        showNightModeToggle={adjustNightMode}
-                        showToggleAnomalies={showToggleAnomalies}
-                        disabledMetrics={errors}
-                        from={from}
-                        to={to}
-                        interval={interval}
-                        hideSettings={hideSettings}
-                        isAdvancedView={isAdvancedView}
-                        classes={classes}
-                        activeMetrics={finalMetrics}
-                        title={title}
-                        chartRef={this.chartRef}
-                      />
-                    )}
-                    {!viewOnly && (
-                      <LoadableChartMetricsTool
-                        classes={styles}
-                        slug={slug}
-                        toggleMetric={this.toggleMetric}
-                        disabledMetrics={errors}
-                        activeMetrics={finalMetrics}
-                        activeEvents={events}
-                      />
+                      <>
+                        <LoadableChartSettings
+                          defaultTimerange={timeRange}
+                          onTimerangeChange={this.onTimerangeChange}
+                          onCalendarChange={this.onCalendarChange}
+                          onSlugSelect={this.onSlugSelect}
+                          generateShareLink={this.generateShareLink}
+                          onNightModeSelect={this.onNightModeSelect}
+                          onIntervalChange={this.onIntervalChange}
+                          isNightModeActive={nightMode}
+                          showNightModeToggle={adjustNightMode}
+                          disabledMetrics={errors}
+                          from={from}
+                          to={to}
+                          interval={interval}
+                          hideSettings={hideSettings}
+                          isAdvancedView={isAdvancedView}
+                          classes={classes}
+                          activeMetrics={finalMetrics}
+                          title={title}
+                          chartRef={this.chartRef}
+                        />
+                        <LoadableChartMetricsTool
+                          classes={styles}
+                          slug={slug}
+                          toggleMetric={this.toggleMetric}
+                          disabledMetrics={errors}
+                          activeMetrics={finalMetrics}
+                          activeEvents={events}
+                        />
+                        <AnomaliesToggle
+                          showToggleAnomalies={showToggleAnomalies}
+                          onToggleAnomalies={this.onToggleAnomalies}
+                          isShowAnomalies={isShowAnomalies}
+                        />
+                      </>
                     )}
                     <Charts
                       chartRef={this.chartRef}

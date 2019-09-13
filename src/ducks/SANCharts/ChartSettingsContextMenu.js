@@ -1,5 +1,4 @@
 import React from 'react'
-import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
@@ -26,9 +25,6 @@ const ShareChart = ({ trigger, shareLink }) => (
 const ChartSettingsContextMenu = ({
   chartRef,
   showNightModeToggle = true,
-  showToggleAnomalies = false,
-  isShowAnomalies,
-  onToggleAnomalies,
   isNightModeActive,
   onNightModeSelect,
   shareLink,
@@ -50,21 +46,6 @@ const ChartSettingsContextMenu = ({
       align='end'
     >
       <Panel variant='modal' className={styles.context}>
-        {showToggleAnomalies && (
-          <Button
-            fluid
-            variant='ghost'
-            onClick={onToggleAnomalies}
-            className={cx(styles.context__btn, styles.anomalies)}
-          >
-            <Icon type='flash' className={cx(styles.icon, styles.flash)} />
-            Show anomalies
-            <Toggle
-              isActive={isShowAnomalies}
-              className={styles.context__toggle}
-            />
-          </Button>
-        )}
         {showNightModeToggle && (
           <Button
             fluid

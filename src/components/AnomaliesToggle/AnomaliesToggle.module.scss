@@ -1,0 +1,34 @@
+.wrapper {
+  color: var(--mirage);
+
+  &:hover {
+    color: var(--mirage);
+    cursor: pointer;
+  }
+}
+
+.toggle {
+  margin-left: 8px;
+}
+
+.active {
+  color: var(--persimmon);
+
+  &:hover {
+    color: var(--persimmon-hover);
+  }
+
+  .toggle {
+    rect {
+      fill: var(--persimmon) !important;
+
+      &:hover {
+        fill: var(--persimmon-hover) !important;
+      }
+    }
+  }
+
+  .question {
+    fill: var(--persimmon);
+  }
+}
