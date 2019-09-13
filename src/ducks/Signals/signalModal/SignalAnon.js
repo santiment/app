@@ -15,7 +15,7 @@ const SignalAnon = ({ className }) => (
       to='/login'
       className={styles.btn}
     >
-      Login
+      Log in
     </Button>
   </div>
 )

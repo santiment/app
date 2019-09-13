@@ -30,8 +30,8 @@ export default () => {
           </h2>
           {success ? (
             <h3 className={styles.email__subtitle}>
-              We sent an email to you. Please login in to email provider and
-              click the confirm link
+              We sent an email to you. Please log in to email provider and click
+              the confirm link
             </h3>
           ) : (
             <>

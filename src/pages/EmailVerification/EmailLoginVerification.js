@@ -14,11 +14,11 @@ export const EmailLoginVerification = ({ isSuccess, isError }) => {
       <div className={styles.wrapper}>
         <h2>Login failed</h2>
         <p>
-          Maybe you are trying to login with an old email link. Please, make
+          Maybe you are trying to log in with an old email link. Please, make
           sure, that you are using the latest link
         </p>
         <Link to='/login' className={styles.link}>
-          Login
+          Log in
         </Link>
       </div>
     )

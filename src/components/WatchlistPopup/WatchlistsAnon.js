@@ -29,7 +29,7 @@ const WatchlistsAnon = ({ isFullScreen }) => (
           as={Link}
           to={'/login'}
         >
-          Login
+          Log in
         </Button>
       </div>
     </EmptySection>
