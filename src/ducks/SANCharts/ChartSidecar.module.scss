@@ -22,15 +22,9 @@
   }
 }
 
-.opened {
-  position: static;
-  transform: translateX(0);
-  border: 1px solid var(--porcelain);
-  margin-left: 40px;
-
-  .toggle__arrow {
-    transform: rotate(180deg);
-  }
+.hamburger {
+  margin: 0 -2px;
+  transform: scaleX(0.4);
 }
 
 .toggle {
@@ -44,14 +38,37 @@
   border-bottom-left-radius: 4px;
   border-top-left-radius: 4px;
   cursor: pointer;
+  z-index: 10;
   fill: var(--mirage);
 
-  &__btn {
-    padding: 5px 10px;
+  &__icons {
+    display: flex;
+    align-items: center;
+    padding: 10px;
   }
 
   &:hover {
     fill: var(--jungle-green);
+  }
+}
+
+.opened {
+  position: static;
+  transform: translateX(0);
+  border: 1px solid var(--porcelain);
+  margin-left: 40px;
+
+  .toggle__icons {
+    flex-flow: row-reverse;
+  }
+
+  .toggle__arrow {
+    transform: rotate(180deg);
+  }
+
+  .hamburger {
+    margin: 0 -2px;
+    transform: scaleX(0.4);
   }
 }
 

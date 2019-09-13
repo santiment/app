@@ -59,7 +59,10 @@ const ChartSidecar = ({
           onClick={onSidebarToggleClick}
           onMouseOver={wasPreloaded ? undefined : preloadData}
         >
-          <Icon type='arrow-left' className={styles.toggle__arrow} />
+          <div className={styles.toggle__icons}>
+            <Icon type='arrow-left' className={styles.toggle__arrow} />
+            <Icon type='hamburger' className={styles.hamburger} />
+          </div>
         </div>
       </SidecarExplanationTooltip>
       {!shouldPreload && !isAdvancedView ? null : openedList ? (
