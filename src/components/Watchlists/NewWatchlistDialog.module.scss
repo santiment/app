@@ -1,13 +1,13 @@
 @import '~@santiment-network/ui/mixins.scss';
 
 .content {
-  width: 440px;
   max-width: 100%;
   position: relative;
   overflow: initial;
 
   @include responsive('tablet', 'laptop', 'desktop') {
     margin-bottom: 30px !important;
+    width: 440px;
   }
 }
 

@@ -12,7 +12,7 @@ const MissYouScreen = ({ closeDialog, nextScreen, name }) => {
       <p className={styles.text}>
         Are you sure you want to cancel your {plan} plan
         <br />
-        and downgrage to a free version of Neuro?
+        and downgrage to a free version of Sanbase?
       </p>
       <Button
         variant='fill'

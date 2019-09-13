@@ -17,7 +17,7 @@ const CancellationScreen = ({
         What happens if you downgrade to Free:
         <ul className={styles.list}>
           <li className={styles.item}>
-            You will be able to use all Neuro Free features further.
+            You will be able to use all Sanbase Free features further.
           </li>
           <li className={styles.item}>
             You will only have access to last 3 months of data

@@ -37,7 +37,7 @@ export default ({ id, classes = {}, onDialogClose }) => {
         />
       </div>
       <Query query={USER_SUBSCRIPTIONS_QUERY} fetchPolicy='network-only'>
-        {({ data: { currentUser } }) => {
+        {({ data: { currentUser } = {} }) => {
           const subscription = getCurrentSanbaseSubscription(currentUser)
           const userPlan = subscription && subscription.plan.id
           const isSubscriptionCanceled =
