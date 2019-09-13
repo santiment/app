@@ -141,7 +141,6 @@ const WatchlistCopyPopup = ({
       onOpen={open}
       onClose={close}
       open={isShown}
-      showCloseBtn={false}
     >
       <Dialog.ScrollContent className={styles.wrapper}>
         <div className={styles.assetsWrapper}>
@@ -177,14 +176,12 @@ const WatchlistCopyPopup = ({
         </div>
       )}
       <Dialog.Actions className={styles.actions}>
-        <Dialog.Cancel border={false} accent='grey' onClick={close}>
-          Cancel
-        </Dialog.Cancel>
+        <Dialog.Cancel onClick={close}>Cancel</Dialog.Cancel>
         <Dialog.Approve
           disabled={editWatchlistState.length > 0 || !isEditing}
-          variant='flat'
           isLoading={editWatchlistState.length > 0}
           onClick={applyChanges}
+          className={styles.approve}
         >
           Apply
         </Dialog.Approve>

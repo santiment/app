@@ -65,7 +65,6 @@ const WatchlistEdit = ({
       onOpen={open}
       onClose={close}
       open={isShown}
-      showCloseBtn={false}
     >
       <Dialog.ScrollContent className={styles.wrapper}>
         <SearchProjects
@@ -103,14 +102,12 @@ const WatchlistEdit = ({
         </div>
       </Dialog.ScrollContent>
       <Dialog.Actions className={styles.actions}>
-        <Dialog.Cancel border={false} accent='grey' onClick={close}>
-          Cancel
-        </Dialog.Cancel>
+        <Dialog.Cancel onClick={close}>Cancel</Dialog.Cancel>
         <Dialog.Approve
           disabled={editWatchlistState.length > 0 || !isEditing}
-          variant='flat'
           onClick={applyChanges}
           isLoading={editWatchlistState.length > 0}
+          className={styles.approve}
         >
           Apply
         </Dialog.Approve>

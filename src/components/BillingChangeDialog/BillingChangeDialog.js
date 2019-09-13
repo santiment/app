@@ -58,7 +58,7 @@ const ChangeBillingDialog = ({
 
             return (
               <Dialog
-                title='Change billing periond'
+                title='Change billing period'
                 trigger={
                   <Button className={classes.btn} accent='positive'>
                     Change billing period

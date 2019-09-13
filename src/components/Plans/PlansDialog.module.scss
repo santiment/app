@@ -1,8 +1,12 @@
+@import '~@santiment-network/ui/mixins.scss';
+
 .card {
   padding-left: 21px;
   padding-right: 21px;
 }
 
 .dialog {
-  max-width: 92%;
+  @include responsive('tablet', 'laptop', 'desktop') {
+    max-width: 92%;
+  }
 }

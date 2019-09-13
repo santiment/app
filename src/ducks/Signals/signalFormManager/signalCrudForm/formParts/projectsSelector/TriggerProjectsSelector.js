@@ -171,12 +171,10 @@ export const TriggerProjectsSelector = ({
       </Dialog.ScrollContent>
       {!isSingle && (
         <Dialog.Actions className={styles.actions}>
-          <Dialog.Cancel border={false} accent='grey' onClick={cancel}>
-            Cancel
-          </Dialog.Cancel>
+          <Dialog.Cancel onClick={cancel}>Cancel</Dialog.Cancel>
           <Dialog.Approve
             disabled={!listItems || listItems.length === 0}
-            variant='flat'
+            className={styles.approve}
             onClick={() => {
               approve(listItems)
             }}
