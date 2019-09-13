@@ -30,5 +30,13 @@
 }
 
 .actions {
-  padding: 10px 15px;
+  @include responsive('tablet', 'laptop', 'desktop') {
+    padding-top: 20px;
+  }
+}
+
+.approve {
+  @include responsive('tablet', 'laptop', 'desktop') {
+    margin-left: 16px;
+  }
 }
