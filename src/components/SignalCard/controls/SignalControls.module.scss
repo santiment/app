@@ -23,12 +23,12 @@
   @include icon(--blue, --blue-light);
 }
 
-.title {
-  @include text('body-3', 'm');
-}
-
 .dialog {
   width: 440px;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+  }
 }
 
 .description {
