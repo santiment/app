@@ -23,6 +23,7 @@ const AnomaliesToggle = ({
           question: isShowAnomalies && styles.question,
           tooltip: styles.tooltip
         }}
+        note='Important! It will be disabled if "Trending position" is turn on'
       />
       Anomalies
       <Toggle

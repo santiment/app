@@ -44,10 +44,7 @@ const getCategoryGraph = availableMetrics => {
         note: (
           <p className={styles.note}>
             <span className={styles.warning}>Important!</span>
-            <span className={styles.text}>
-              It will disable Anomalies in chart settings
-            </span>
-            <Icon type='settings' className={styles.icon} />
+            <span className={styles.text}>It will disable Anomalies</span>
           </p>
         ),
         description:

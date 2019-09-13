@@ -13,6 +13,7 @@ const ChartActiveMetrics = ({
   activeEvents,
   activeMetrics,
   toggleMetric,
+  isShowAnomalies,
   ...rest
 }) => {
   let newColorId = 0
@@ -70,7 +71,10 @@ const ChartActiveMetrics = ({
           )
         })}
       </section>
-      <AnomaliesToggle {...rest} />
+      <AnomaliesToggle
+        {...rest}
+        isShowAnomalies={isShowAnomalies && activeEvents.length === 0}
+      />
     </>
   )
 }
