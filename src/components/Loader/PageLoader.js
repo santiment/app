@@ -1,6 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-import logo from '../../assets/logo.svg'
 import styles from './PageLoader.module.scss'
 
 const PageLoader = ({
@@ -11,7 +10,7 @@ const PageLoader = ({
   <div className={containerClass}>
     <div className={cx(styles.loader, className)}>
       <img
-        src={logo}
+        src={process.env.PUBLIC_URL + '/logo.svg'}
         className={styles.loader__img}
         width='44'
         height='44'
