@@ -1,0 +1,2614 @@
+.project-icon {
+  background-image: url('https://production-sanbase-images.s3.amazonaws.com/sprite/sprite.png');
+  width: 64px;
+  height: 64px;
+  background-position: 100% 100%;
+}
+
+.project-icon-0x {
+  background-position: 0 0;
+}
+
+.project-icon-1irstcoin {
+  background-position: 64px 0;
+}
+
+.project-icon-abbc-coin {
+  background-position: 0 64px;
+}
+
+.project-icon-achain {
+  background-position: 64px 64px;
+}
+
+.project-icon-adx-net {
+  background-position: 128px 0;
+}
+
+.project-icon-adshares {
+  background-position: 128px 64px;
+}
+
+.project-icon-adtoken {
+  background-position: 0 128px;
+}
+
+.project-icon-aelf {
+  background-position: 64px 128px;
+}
+
+.project-icon-aencoin {
+  background-position: 128px 128px;
+}
+
+.project-icon-aeon {
+  background-position: 192px 0;
+}
+
+.project-icon-aergo {
+  background-position: 192px 64px;
+}
+
+.project-icon-aeternity {
+  background-position: 192px 128px;
+}
+
+.project-icon-agavecoin {
+  background-position: 0 192px;
+}
+
+.project-icon-agoras-tokens {
+  background-position: 64px 192px;
+}
+
+.project-icon-agrello-delta {
+  background-position: 128px 192px;
+}
+
+.project-icon-aion {
+  background-position: 192px 192px;
+}
+
+.project-icon-airswap {
+  background-position: 256px 0;
+}
+
+.project-icon-airtoken {
+  background-position: 256px 64px;
+}
+
+.project-icon-aladdin {
+  background-position: 256px 128px;
+}
+
+.project-icon-algorand {
+  background-position: 256px 192px;
+}
+
+.project-icon-all-sports {
+  background-position: 0 256px;
+}
+
+.project-icon-alpha-token {
+  background-position: 64px 256px;
+}
+
+.project-icon-amber {
+  background-position: 128px 256px;
+}
+
+.project-icon-amo-coin {
+  background-position: 192px 256px;
+}
+
+.project-icon-ankr {
+  background-position: 256px 256px;
+}
+
+.project-icon-apex {
+  background-position: 320px 0;
+}
+
+.project-icon-apis {
+  background-position: 320px 64px;
+}
+
+.project-icon-apollo-currency {
+  background-position: 320px 128px;
+}
+
+.project-icon-appcoins {
+  background-position: 320px 192px;
+}
+
+.project-icon-aragon {
+  background-position: 320px 256px;
+}
+
+.project-icon-arbitrage {
+  background-position: 0 320px;
+}
+
+.project-icon-arcade-token {
+  background-position: 64px 320px;
+}
+
+.project-icon-arcblock {
+  background-position: 128px 320px;
+}
+
+.project-icon-ardor {
+  background-position: 192px 320px;
+}
+
+.project-icon-ark {
+  background-position: 256px 320px;
+}
+
+.project-icon-asch {
+  background-position: 320px 320px;
+}
+
+.project-icon-aston {
+  background-position: 384px 0;
+}
+
+.project-icon-atc-coin {
+  background-position: 384px 64px;
+}
+
+.project-icon-atlant {
+  background-position: 384px 128px;
+}
+
+.project-icon-attention-token-of-media {
+  background-position: 384px 192px;
+}
+
+.project-icon-atn {
+  background-position: 384px 256px;
+}
+
+.project-icon-augur {
+  background-position: 384px 320px;
+}
+
+.project-icon-aurora {
+  background-position: 0 384px;
+}
+
+.project-icon-auroracoin {
+  background-position: 64px 384px;
+}
+
+.project-icon-aurora-dao {
+  background-position: 128px 384px;
+}
+
+.project-icon-aventus {
+  background-position: 192px 384px;
+}
+
+.project-icon-babb {
+  background-position: 256px 384px;
+}
+
+.project-icon-banca {
+  background-position: 320px 384px;
+}
+
+.project-icon-bancor {
+  background-position: 384px 384px;
+}
+
+.project-icon-bankex {
+  background-position: 448px 0;
+}
+
+.project-icon-basic-attention-token {
+  background-position: 448px 64px;
+}
+
+.project-icon-beam {
+  background-position: 448px 128px;
+}
+
+.project-icon-bean-cash {
+  background-position: 448px 192px;
+}
+
+.project-icon-bezant {
+  background-position: 448px 256px;
+}
+
+.project-icon-bhp-coin {
+  background-position: 448px 320px;
+}
+
+.project-icon-bibox-token {
+  background-position: 448px 384px;
+}
+
+.project-icon-binance-coin {
+  background-position: 0 448px;
+}
+
+.project-icon-bismuth {
+  background-position: 64px 448px;
+}
+
+.project-icon-bitbay {
+  background-position: 128px 448px;
+}
+
+.project-icon-bitcapitalvendor {
+  background-position: 192px 448px;
+}
+
+.project-icon-bitcny {
+  background-position: 256px 448px;
+}
+
+.project-icon-bitcoiin {
+  background-position: 320px 448px;
+}
+
+.project-icon-bitcoin {
+  background-position: 384px 448px;
+}
+
+.project-icon-bitcoin2 {
+  background-position: 448px 448px;
+}
+
+.project-icon-bitcoin-atom {
+  background-position: 512px 0;
+}
+
+.project-icon-bitcoin-cash {
+  background-position: 512px 64px;
+}
+
+.project-icon-bitcoin-confidential {
+  background-position: 512px 128px;
+}
+
+.project-icon-bitcoindark {
+  background-position: 512px 192px;
+}
+
+.project-icon-bitcoin-diamond {
+  background-position: 512px 256px;
+}
+
+.project-icon-bitcoin-gold {
+  background-position: 512px 320px;
+}
+
+.project-icon-bitcoin-interest {
+  background-position: 512px 384px;
+}
+
+.project-icon-bitcoin-private {
+  background-position: 512px 448px;
+}
+
+.project-icon-bitcoin-rhodium {
+  background-position: 0 512px;
+}
+
+.project-icon-bitcoin-sv {
+  background-position: 64px 512px;
+}
+
+.project-icon-bitconnect {
+  background-position: 128px 512px;
+}
+
+.project-icon-bitcore {
+  background-position: 192px 512px;
+}
+
+.project-icon-student-coin {
+  background-position: 256px 512px;
+}
+
+.project-icon-bitkan {
+  background-position: 320px 512px;
+}
+
+.project-icon-bitrue-coin {
+  background-position: 384px 512px;
+}
+
+.project-icon-bitshares {
+  background-position: 448px 512px;
+}
+
+.project-icon-bittorrent {
+  background-position: 512px 512px;
+}
+
+.project-icon-bitusd {
+  background-position: 576px 0;
+}
+
+.project-icon-bit-z-token {
+  background-position: 576px 64px;
+}
+
+.project-icon-blackmoon {
+  background-position: 576px 128px;
+}
+
+.project-icon-block-chain-com {
+  background-position: 576px 192px;
+}
+
+.project-icon-blockmason {
+  background-position: 576px 256px;
+}
+
+.project-icon-blocknet {
+  background-position: 576px 320px;
+}
+
+.project-icon-blockv {
+  background-position: 576px 384px;
+}
+
+.project-icon-bloomtoken {
+  background-position: 576px 448px;
+}
+
+.project-icon-blox {
+  background-position: 576px 512px;
+}
+
+.project-icon-bluzelle {
+  background-position: 0 576px;
+}
+
+.project-icon-bnktothefuture {
+  background-position: 64px 576px;
+}
+
+.project-icon-bodhi {
+  background-position: 128px 576px;
+}
+
+.project-icon-bomb {
+  background-position: 192px 576px;
+}
+
+.project-icon-boolberry {
+  background-position: 256px 576px;
+}
+
+.project-icon-boscoin {
+  background-position: 320px 576px;
+}
+
+.project-icon-bottos {
+  background-position: 384px 576px;
+}
+
+.project-icon-botxcoin {
+  background-position: 448px 576px;
+}
+
+.project-icon-box-token {
+  background-position: 512px 576px;
+}
+
+.project-icon-bread {
+  background-position: 576px 576px;
+}
+
+.project-icon-breezecoin {
+  background-position: 640px 0;
+}
+
+.project-icon-bridgecoin {
+  background-position: 640px 64px;
+}
+
+.project-icon-buggyra-coin-zero {
+  background-position: 640px 128px;
+}
+
+.project-icon-bulwark {
+  background-position: 640px 192px;
+}
+
+.project-icon-burst {
+  background-position: 640px 256px;
+}
+
+.project-icon-business-credit-alliance-chain {
+  background-position: 640px 320px;
+}
+
+.project-icon-bytecoin-bcn {
+  background-position: 640px 384px;
+}
+
+.project-icon-bytom {
+  background-position: 640px 448px;
+}
+
+.project-icon-cajutel {
+  background-position: 640px 512px;
+}
+
+.project-icon-cardano {
+  background-position: 640px 576px;
+}
+
+.project-icon-cargox {
+  background-position: 0 640px;
+}
+
+.project-icon-cashbet-coin {
+  background-position: 64px 640px;
+}
+
+.project-icon-casinocoin {
+  background-position: 128px 640px;
+}
+
+.project-icon-ceek-vr {
+  background-position: 192px 640px;
+}
+
+.project-icon-celer-network {
+  background-position: 256px 640px;
+}
+
+.project-icon-centra {
+  background-position: 320px 640px;
+}
+
+.project-icon-centrality {
+  background-position: 384px 640px;
+}
+
+.project-icon-chainlink {
+  background-position: 448px 640px;
+}
+
+.project-icon-chatcoin {
+  background-position: 512px 640px;
+}
+
+.project-icon-chiliz {
+  background-position: 576px 640px;
+}
+
+.project-icon-chronologic {
+  background-position: 640px 640px;
+}
+
+.project-icon-cindicator {
+  background-position: 704px 0;
+}
+
+.project-icon-civic {
+  background-position: 704px 64px;
+}
+
+.project-icon-clams {
+  background-position: 704px 128px;
+}
+
+.project-icon-clipper-coin {
+  background-position: 704px 192px;
+}
+
+.project-icon-cloakcoin {
+  background-position: 704px 256px;
+}
+
+.project-icon-cobinhood {
+  background-position: 704px 320px;
+}
+
+.project-icon-cocos-bcx {
+  background-position: 704px 384px;
+}
+
+.project-icon-cofound-it {
+  background-position: 704px 448px;
+}
+
+.project-icon-coinus {
+  background-position: 704px 512px;
+}
+
+.project-icon-commerceblock {
+  background-position: 704px 576px;
+}
+
+.project-icon-contentbox {
+  background-position: 704px 640px;
+}
+
+.project-icon-content-neutrality-network {
+  background-position: 0 704px;
+}
+
+.project-icon-contentos {
+  background-position: 64px 704px;
+}
+
+.project-icon-contents-protocol {
+  background-position: 128px 704px;
+}
+
+.project-icon-content-value-network {
+  background-position: 192px 704px;
+}
+
+.project-icon-cortex {
+  background-position: 256px 704px;
+}
+
+.project-icon-cosmo-coin {
+  background-position: 320px 704px;
+}
+
+.project-icon-cosmos {
+  background-position: 384px 704px;
+}
+
+.project-icon-counterparty {
+  background-position: 448px 704px;
+}
+
+.project-icon-covesting {
+  background-position: 512px 704px;
+}
+
+.project-icon-credits {
+  background-position: 576px 704px;
+}
+
+.project-icon-credo {
+  background-position: 640px 704px;
+}
+
+.project-icon-crpt {
+  background-position: 704px 704px;
+}
+
+.project-icon-cryptaur {
+  background-position: 768px 0;
+}
+
+.project-icon-c20 {
+  background-position: 768px 64px;
+}
+
+.project-icon-crypto-com {
+  background-position: 768px 128px;
+}
+
+.project-icon-crypto-com-chain {
+  background-position: 768px 192px;
+}
+
+.project-icon-crypto-com-coin {
+  background-position: 768px 256px;
+}
+
+.project-icon-cryptonex {
+  background-position: 768px 320px;
+}
+
+.project-icon-cube {
+  background-position: 768px 384px;
+}
+
+.project-icon-cvcoin {
+  background-position: 768px 448px;
+}
+
+.project-icon-cwv-chain {
+  background-position: 768px 512px;
+}
+
+.project-icon-cybermiles {
+  background-position: 768px 576px;
+}
+
+.project-icon-cybervein {
+  background-position: 768px 640px;
+}
+
+.project-icon-daex {
+  background-position: 768px 704px;
+}
+
+.project-icon-dai {
+  background-position: 0 768px;
+}
+
+.project-icon-dao-casino {
+  background-position: 64px 768px;
+}
+
+.project-icon-daps-token {
+  background-position: 128px 768px;
+}
+
+.project-icon-darcio-ecosystem-coin {
+  background-position: 192px 768px;
+}
+
+.project-icon-dash {
+  background-position: 256px 768px;
+}
+
+.project-icon-data {
+  background-position: 320px 768px;
+}
+
+.project-icon-datx {
+  background-position: 384px 768px;
+}
+
+.project-icon-davinci-coin {
+  background-position: 448px 768px;
+}
+
+.project-icon-decent {
+  background-position: 512px 768px;
+}
+
+.project-icon-decent-bet {
+  background-position: 576px 768px;
+}
+
+.project-icon-decentraland {
+  background-position: 640px 768px;
+}
+
+.project-icon-decred {
+  background-position: 704px 768px;
+}
+
+.project-icon-deepbrain-chain {
+  background-position: 768px 768px;
+}
+
+.project-icon-delphy {
+  background-position: 832px 0;
+}
+
+.project-icon-dent {
+  background-position: 832px 64px;
+}
+
+.project-icon-dentacoin {
+  background-position: 832px 128px;
+}
+
+.project-icon-dew {
+  background-position: 832px 192px;
+}
+
+.project-icon-dex {
+  background-position: 832px 256px;
+}
+
+.project-icon-digibyte {
+  background-position: 832px 320px;
+}
+
+.project-icon-digipulse {
+  background-position: 832px 384px;
+}
+
+.project-icon-digitalnote {
+  background-position: 832px 448px;
+}
+
+.project-icon-digitex-futures {
+  background-position: 832px 512px;
+}
+
+.project-icon-digixdao {
+  background-position: 832px 576px;
+}
+
+.project-icon-dignity {
+  background-position: 832px 640px;
+}
+
+.project-icon-dimecoin {
+  background-position: 832px 704px;
+}
+
+.project-icon-distributed-credit-chain {
+  background-position: 832px 768px;
+}
+
+.project-icon-district0x {
+  background-position: 0 832px;
+}
+
+.project-icon-divi {
+  background-position: 64px 832px;
+}
+
+.project-icon-dmarket {
+  background-position: 128px 832px;
+}
+
+.project-icon-dnotes {
+  background-position: 192px 832px;
+}
+
+.project-icon-dock {
+  background-position: 256px 832px;
+}
+
+.project-icon-dogecoin {
+  background-position: 320px 832px;
+}
+
+.project-icon-dragonchain {
+  background-position: 384px 832px;
+}
+
+.project-icon-dragon-coins {
+  background-position: 448px 832px;
+}
+
+.project-icon-dropil {
+  background-position: 512px 832px;
+}
+
+.project-icon-dusk-network {
+  background-position: 576px 832px;
+}
+
+.project-icon-dynamic-trading-rights {
+  background-position: 640px 832px;
+}
+
+.project-icon-eboostcoin {
+  background-position: 704px 832px;
+}
+
+.project-icon-eccoin {
+  background-position: 768px 832px;
+}
+
+.project-icon-e-coin {
+  background-position: 832px 832px;
+}
+
+.project-icon-ecoreal-estate {
+  background-position: 896px 0;
+}
+
+.project-icon-edgeless {
+  background-position: 896px 64px;
+}
+
+.project-icon-educare {
+  background-position: 896px 128px;
+}
+
+.project-icon-egretia {
+  background-position: 896px 192px;
+}
+
+.project-icon-eidoo {
+  background-position: 896px 256px;
+}
+
+.project-icon-einsteinium {
+  background-position: 896px 320px;
+}
+
+.project-icon-elastos {
+  background-position: 896px 384px;
+}
+
+.project-icon-electra {
+  background-position: 896px 448px;
+}
+
+.project-icon-electrifyasia {
+  background-position: 896px 512px;
+}
+
+.project-icon-electroneum {
+  background-position: 896px 576px;
+}
+
+.project-icon-1337coin {
+  background-position: 896px 640px;
+}
+
+.project-icon-elrond {
+  background-position: 896px 704px;
+}
+
+.project-icon-emercoin {
+  background-position: 896px 768px;
+}
+
+.project-icon-empowr-coin {
+  background-position: 896px 832px;
+}
+
+.project-icon-encrypgen {
+  background-position: 0 896px;
+}
+
+.project-icon-endor-protocol {
+  background-position: 64px 896px;
+}
+
+.project-icon-energi {
+  background-position: 128px 896px;
+}
+
+.project-icon-enigma {
+  background-position: 192px 896px;
+}
+
+.project-icon-enjin-coin {
+  background-position: 256px 896px;
+}
+
+.project-icon-envion {
+  background-position: 320px 896px;
+}
+
+.project-icon-eos {
+  background-position: 384px 896px;
+}
+
+.project-icon-eosblack {
+  background-position: 448px 896px;
+}
+
+.project-icon-eosdac {
+  background-position: 512px 896px;
+}
+
+.project-icon-blakestar {
+  background-position: 576px 896px;
+}
+
+.project-icon-erc20 {
+  background-position: 640px 896px;
+}
+
+.project-icon-eternal-token {
+  background-position: 704px 896px;
+}
+
+.project-icon-etheera {
+  background-position: 768px 896px;
+}
+
+.project-icon-ethereum {
+  background-position: 832px 896px;
+}
+
+.project-icon-ethereum-classic {
+  background-position: 896px 896px;
+}
+
+.project-icon-etheroll {
+  background-position: 960px 0;
+}
+
+.project-icon-etherparty {
+  background-position: 960px 64px;
+}
+
+.project-icon-ether-zero {
+  background-position: 960px 128px;
+}
+
+.project-icon-ethos {
+  background-position: 960px 192px;
+}
+
+.project-icon-evencoin {
+  background-position: 960px 256px;
+}
+
+.project-icon-everex {
+  background-position: 960px 320px;
+}
+
+.project-icon-everipedia {
+  background-position: 960px 384px;
+}
+
+.project-icon-everus {
+  background-position: 960px 448px;
+}
+
+.project-icon-eximchain {
+  background-position: 960px 512px;
+}
+
+.project-icon-expanse {
+  background-position: 960px 576px;
+}
+
+.project-icon-experience-points {
+  background-position: 960px 640px;
+}
+
+.project-icon-experty {
+  background-position: 960px 704px;
+}
+
+.project-icon-factom {
+  background-position: 960px 768px;
+}
+
+.project-icon-faircoin {
+  background-position: 960px 832px;
+}
+
+.project-icon-fantom {
+  background-position: 960px 896px;
+}
+
+.project-icon-feathercoin {
+  background-position: 0 960px;
+}
+
+.project-icon-fetch {
+  background-position: 64px 960px;
+}
+
+.project-icon-firstblood {
+  background-position: 128px 960px;
+}
+
+.project-icon-flash {
+  background-position: 192px 960px;
+}
+
+.project-icon-flo {
+  background-position: 256px 960px;
+}
+
+.project-icon-foam {
+  background-position: 320px 960px;
+}
+
+.project-icon-fortuna {
+  background-position: 384px 960px;
+}
+
+.project-icon-free-coin {
+  background-position: 448px 960px;
+}
+
+.project-icon-function-x {
+  background-position: 512px 960px;
+}
+
+.project-icon-funfair {
+  background-position: 576px 960px;
+}
+
+.project-icon-fusion {
+  background-position: 640px 960px;
+}
+
+.project-icon-fuzex {
+  background-position: 704px 960px;
+}
+
+.project-icon-game {
+  background-position: 768px 960px;
+}
+
+.project-icon-gamecredits {
+  background-position: 832px 960px;
+}
+
+.project-icon-gas {
+  background-position: 896px 960px;
+}
+
+.project-icon-gemini-dollar {
+  background-position: 960px 960px;
+}
+
+.project-icon-genaro-network {
+  background-position: 1024px 0;
+}
+
+.project-icon-genesis-vision {
+  background-position: 1024px 64px;
+}
+
+.project-icon-gifto {
+  background-position: 1024px 128px;
+}
+
+.project-icon-gimli {
+  background-position: 1024px 192px;
+}
+
+.project-icon-global-currency-reserve {
+  background-position: 1024px 256px;
+}
+
+.project-icon-global-jobcoin {
+  background-position: 1024px 320px;
+}
+
+.project-icon-gnosis-gno {
+  background-position: 1024px 384px;
+}
+
+.project-icon-gochain {
+  background-position: 1024px 448px;
+}
+
+.project-icon-gold-bits-coin {
+  background-position: 1024px 512px;
+}
+
+.project-icon-golem-network-tokens {
+  background-position: 1024px 576px;
+}
+
+.project-icon-gowithmi {
+  background-position: 1024px 640px;
+}
+
+.project-icon-greencoin {
+  background-position: 1024px 704px;
+}
+
+.project-icon-gridcoin {
+  background-position: 1024px 768px;
+}
+
+.project-icon-grin {
+  background-position: 1024px 832px;
+}
+
+.project-icon-groestlcoin {
+  background-position: 1024px 896px;
+}
+
+.project-icon-guaranteed-ethurance-token-extra {
+  background-position: 1024px 960px;
+}
+
+.project-icon-gulden {
+  background-position: 0 1024px;
+}
+
+.project-icon-gxchain {
+  background-position: 64px 1024px;
+}
+
+.project-icon-happycoin {
+  background-position: 128px 1024px;
+}
+
+.project-icon-harmony {
+  background-position: 192px 1024px;
+}
+
+.project-icon-hedge {
+  background-position: 256px 1024px;
+}
+
+.project-icon-hedgetrade {
+  background-position: 320px 1024px;
+}
+
+.project-icon-helium {
+  background-position: 384px 1024px;
+}
+
+.project-icon-hellogold {
+  background-position: 448px 1024px;
+}
+
+.project-icon-herocoin {
+  background-position: 512px 1024px;
+}
+
+.project-icon-high-performance-blockchain {
+  background-position: 576px 1024px;
+}
+
+.project-icon-holo {
+  background-position: 640px 1024px;
+}
+
+.project-icon-hoqu {
+  background-position: 704px 1024px;
+}
+
+.project-icon-horuspay {
+  background-position: 768px 1024px;
+}
+
+.project-icon-html-coin {
+  background-position: 832px 1024px;
+}
+
+.project-icon-humaniq {
+  background-position: 896px 1024px;
+}
+
+.project-icon-humanscape {
+  background-position: 960px 1024px;
+}
+
+.project-icon-huobi-token {
+  background-position: 1024px 1024px;
+}
+
+.project-icon-hycon {
+  background-position: 1088px 0;
+}
+
+.project-icon-hydro-protocol {
+  background-position: 1088px 64px;
+}
+
+.project-icon-hypercash {
+  background-position: 1088px 128px;
+}
+
+.project-icon-hyperion {
+  background-position: 1088px 192px;
+}
+
+.project-icon-ice-rock-mining {
+  background-position: 1088px 256px;
+}
+
+.project-icon-icon {
+  background-position: 1088px 320px;
+}
+
+.project-icon-rlc {
+  background-position: 1088px 384px;
+}
+
+.project-icon-ignis {
+  background-position: 1088px 448px;
+}
+
+.project-icon-iht-real-estate-protocol {
+  background-position: 1088px 512px;
+}
+
+.project-icon-ilcoin {
+  background-position: 1088px 576px;
+}
+
+.project-icon-incent {
+  background-position: 1088px 640px;
+}
+
+.project-icon-indahash {
+  background-position: 1088px 704px;
+}
+
+.project-icon-indorse-token {
+  background-position: 1088px 768px;
+}
+
+.project-icon-inflationcoin {
+  background-position: 1088px 832px;
+}
+
+.project-icon-ink {
+  background-position: 1088px 896px;
+}
+
+.project-icon-ino-coin {
+  background-position: 1088px 960px;
+}
+
+.project-icon-insight-chain {
+  background-position: 1088px 1024px;
+}
+
+.project-icon-insights-network {
+  background-position: 0 1088px;
+}
+
+.project-icon-internet-node-token {
+  background-position: 64px 1088px;
+}
+
+.project-icon-ion {
+  background-position: 128px 1088px;
+}
+
+.project-icon-iostoken {
+  background-position: 192px 1088px;
+}
+
+.project-icon-iota {
+  background-position: 256px 1088px;
+}
+
+.project-icon-iot-chain {
+  background-position: 320px 1088px;
+}
+
+.project-icon-iotex {
+  background-position: 384px 1088px;
+}
+
+.project-icon-ipchain {
+  background-position: 448px 1088px;
+}
+
+.project-icon-irisnet {
+  background-position: 512px 1088px;
+}
+
+.project-icon-ivy {
+  background-position: 576px 1088px;
+}
+
+.project-icon-japan-content-token {
+  background-position: 640px 1088px;
+}
+
+.project-icon-jibrel-network {
+  background-position: 704px 1088px;
+}
+
+.project-icon-jiyo {
+  background-position: 768px 1088px;
+}
+
+.project-icon-kambria {
+  background-position: 832px 1088px;
+}
+
+.project-icon-kcash {
+  background-position: 896px 1088px;
+}
+
+.project-icon-kickico {
+  background-position: 960px 1088px;
+}
+
+.project-icon-kin {
+  background-position: 1024px 1088px;
+}
+
+.project-icon-komodo {
+  background-position: 1088px 1088px;
+}
+
+.project-icon-kucoin-shares {
+  background-position: 1152px 0;
+}
+
+.project-icon-kyber-network {
+  background-position: 1152px 64px;
+}
+
+.project-icon-lambda {
+  background-position: 1152px 128px;
+}
+
+.project-icon-latoken {
+  background-position: 1152px 192px;
+}
+
+.project-icon-library-credit {
+  background-position: 1152px 256px;
+}
+
+.project-icon-legolas-exchange {
+  background-position: 1152px 320px;
+}
+
+.project-icon-leocoin {
+  background-position: 1152px 384px;
+}
+
+.project-icon-libra-credit {
+  background-position: 1152px 448px;
+}
+
+.project-icon-lightning-bitcoin {
+  background-position: 1152px 512px;
+}
+
+.project-icon-lina {
+  background-position: 1152px 576px;
+}
+
+.project-icon-linkey {
+  background-position: 1152px 640px;
+}
+
+.project-icon-linkeye {
+  background-position: 1152px 704px;
+}
+
+.project-icon-lisk {
+  background-position: 1152px 768px;
+}
+
+.project-icon-lisk-machine-learning {
+  background-position: 1152px 832px;
+}
+
+.project-icon-litecoin {
+  background-position: 1152px 896px;
+}
+
+.project-icon-litecoin-cash {
+  background-position: 1152px 960px;
+}
+
+.project-icon-litex {
+  background-position: 1152px 1024px;
+}
+
+.project-icon-lockchain {
+  background-position: 1152px 1088px;
+}
+
+.project-icon-loom-network {
+  background-position: 0 1152px;
+}
+
+.project-icon-loopring {
+  background-position: 64px 1152px;
+}
+
+.project-icon-loyalcoin {
+  background-position: 128px 1152px;
+}
+
+.project-icon-lto-network {
+  background-position: 192px 1152px;
+}
+
+.project-icon-lunyr {
+  background-position: 256px 1152px;
+}
+
+.project-icon-lykke {
+  background-position: 320px 1152px;
+}
+
+.project-icon-lympo {
+  background-position: 384px 1152px;
+}
+
+.project-icon-maecenas {
+  background-position: 448px 1152px;
+}
+
+.project-icon-magiccoin {
+  background-position: 512px 1152px;
+}
+
+.project-icon-maidsafecoin {
+  background-position: 576px 1152px;
+}
+
+.project-icon-mainframe {
+  background-position: 640px 1152px;
+}
+
+.project-icon-maker {
+  background-position: 704px 1152px;
+}
+
+.project-icon-mallcoin {
+  background-position: 768px 1152px;
+}
+
+.project-icon-mark-space {
+  background-position: 832px 1152px;
+}
+
+.project-icon-massgrid {
+  background-position: 896px 1152px;
+}
+
+.project-icon-guppy {
+  background-position: 960px 1152px;
+}
+
+.project-icon-matic-network {
+  background-position: 1024px 1152px;
+}
+
+.project-icon-matrix-ai-network {
+  background-position: 1088px 1152px;
+}
+
+.project-icon-matryx {
+  background-position: 1152px 1152px;
+}
+
+.project-icon-maximine-coin {
+  background-position: 1216px 0;
+}
+
+.project-icon-medibloc {
+  background-position: 1216px 64px;
+}
+
+.project-icon-medx {
+  background-position: 1216px 128px;
+}
+
+.project-icon-medical-chain {
+  background-position: 1216px 192px;
+}
+
+.project-icon-medishares {
+  background-position: 1216px 256px;
+}
+
+.project-icon-meetone {
+  background-position: 1216px 320px;
+}
+
+.project-icon-melon {
+  background-position: 1216px 384px;
+}
+
+.project-icon-merculet {
+  background-position: 1216px 448px;
+}
+
+.project-icon-mercury {
+  background-position: 1216px 512px;
+}
+
+.project-icon-metadium {
+  background-position: 1216px 576px;
+}
+
+.project-icon-metahash {
+  background-position: 1216px 640px;
+}
+
+.project-icon-metal {
+  background-position: 1216px 704px;
+}
+
+.project-icon-metaverse {
+  background-position: 1216px 768px;
+}
+
+.project-icon-metronome {
+  background-position: 1216px 832px;
+}
+
+.project-icon-mindexcoin {
+  background-position: 1216px 896px;
+}
+
+.project-icon-minexcoin {
+  background-position: 1216px 960px;
+}
+
+.project-icon-mithril {
+  background-position: 1216px 1024px;
+}
+
+.project-icon-mixin {
+  background-position: 1216px 1088px;
+}
+
+.project-icon-moac {
+  background-position: 1216px 1152px;
+}
+
+.project-icon-mobilego {
+  background-position: 0 1216px;
+}
+
+.project-icon-mobius {
+  background-position: 64px 1216px;
+}
+
+.project-icon-modum {
+  background-position: 128px 1216px;
+}
+
+.project-icon-moeda-loyalty-points {
+  background-position: 192px 1216px;
+}
+
+.project-icon-monacoin {
+  background-position: 256px 1216px;
+}
+
+.project-icon-monero {
+  background-position: 320px 1216px;
+}
+
+.project-icon-monetha {
+  background-position: 384px 1216px;
+}
+
+.project-icon-monolith {
+  background-position: 448px 1216px;
+}
+
+.project-icon-mooncoin {
+  background-position: 512px 1216px;
+}
+
+.project-icon-moss-coin {
+  background-position: 576px 1216px;
+}
+
+.project-icon-mothership {
+  background-position: 640px 1216px;
+}
+
+.project-icon-musiconomi {
+  background-position: 704px 1216px;
+}
+
+.project-icon-mysterium {
+  background-position: 768px 1216px;
+}
+
+.project-icon-naga {
+  background-position: 832px 1216px;
+}
+
+.project-icon-namecoin {
+  background-position: 896px 1216px;
+}
+
+.project-icon-nanjcoin {
+  background-position: 960px 1216px;
+}
+
+.project-icon-nano {
+  background-position: 1024px 1216px;
+}
+
+.project-icon-nasdacoin {
+  background-position: 1088px 1216px;
+}
+
+.project-icon-nash-exchange {
+  background-position: 1152px 1216px;
+}
+
+.project-icon-nav-coin {
+  background-position: 1216px 1216px;
+}
+
+.project-icon-neblio {
+  background-position: 1280px 0;
+}
+
+.project-icon-nebulas-token {
+  background-position: 1280px 64px;
+}
+
+.project-icon-nectar {
+  background-position: 1280px 128px;
+}
+
+.project-icon-nem {
+  background-position: 1280px 192px;
+}
+
+.project-icon-neo {
+  background-position: 1280px 256px;
+}
+
+.project-icon-neumark {
+  background-position: 1280px 320px;
+}
+
+.project-icon-new-power-coin {
+  background-position: 1280px 384px;
+}
+
+.project-icon-newton {
+  background-position: 1280px 448px;
+}
+
+.project-icon-nexo {
+  background-position: 1280px 512px;
+}
+
+.project-icon-next {
+  background-position: 1280px 576px;
+}
+
+.project-icon-nexty {
+  background-position: 1280px 640px;
+}
+
+.project-icon-nexus {
+  background-position: 1280px 704px;
+}
+
+.project-icon-niobium-coin {
+  background-position: 1280px 768px;
+}
+
+.project-icon-nix {
+  background-position: 1280px 832px;
+}
+
+.project-icon-nkn {
+  background-position: 1280px 896px;
+}
+
+.project-icon-noah-coin {
+  background-position: 1280px 960px;
+}
+
+.project-icon-novacoin {
+  background-position: 1280px 1024px;
+}
+
+.project-icon-nucleus-vision {
+  background-position: 1280px 1088px;
+}
+
+.project-icon-nuls {
+  background-position: 1280px 1152px;
+}
+
+.project-icon-nxt {
+  background-position: 1280px 1216px;
+}
+
+.project-icon-obyte {
+  background-position: 0 1280px;
+}
+
+.project-icon-odem {
+  background-position: 64px 1280px;
+}
+
+.project-icon-odyssey {
+  background-position: 128px 1280px;
+}
+
+.project-icon-omisego {
+  background-position: 192px 1280px;
+}
+
+.project-icon-oneroot-network {
+  background-position: 256px 1280px;
+}
+
+.project-icon-online {
+  background-position: 320px 1280px;
+}
+
+.project-icon-ontology {
+  background-position: 384px 1280px;
+}
+
+.project-icon-optimal-shelf-availability-token {
+  background-position: 448px 1280px;
+}
+
+.project-icon-orbs {
+  background-position: 512px 1280px;
+}
+
+.project-icon-origintrail {
+  background-position: 576px 1280px;
+}
+
+.project-icon-origo {
+  background-position: 640px 1280px;
+}
+
+.project-icon-ormeus-coin {
+  background-position: 704px 1280px;
+}
+
+.project-icon-ost {
+  background-position: 768px 1280px;
+}
+
+.project-icon-ovcode {
+  background-position: 832px 1280px;
+}
+
+.project-icon-own {
+  background-position: 896px 1280px;
+}
+
+.project-icon-oyster {
+  background-position: 960px 1280px;
+}
+
+.project-icon-paragon {
+  background-position: 1024px 1280px;
+}
+
+.project-icon-particl {
+  background-position: 1088px 1280px;
+}
+
+.project-icon-paxos-standard-token {
+  background-position: 1152px 1280px;
+}
+
+.project-icon-paypex {
+  background-position: 1216px 1280px;
+}
+
+.project-icon-paypie {
+  background-position: 1280px 1280px;
+}
+
+.project-icon-peercoin {
+  background-position: 1344px 0;
+}
+
+.project-icon-pepe-cash {
+  background-position: 1344px 64px;
+}
+
+.project-icon-perlin {
+  background-position: 1344px 128px;
+}
+
+.project-icon-pillar {
+  background-position: 1344px 192px;
+}
+
+.project-icon-pirate-chain {
+  background-position: 1344px 256px;
+}
+
+.project-icon-pivx {
+  background-position: 1344px 320px;
+}
+
+.project-icon-plair {
+  background-position: 1344px 384px;
+}
+
+.project-icon-platincoin {
+  background-position: 1344px 448px;
+}
+
+.project-icon-playchip {
+  background-position: 1344px 512px;
+}
+
+.project-icon-playkey {
+  background-position: 1344px 576px;
+}
+
+.project-icon-poa-network {
+  background-position: 1344px 640px;
+}
+
+.project-icon-poet {
+  background-position: 1344px 704px;
+}
+
+.project-icon-polybius {
+  background-position: 1344px 768px;
+}
+
+.project-icon-polymath-network {
+  background-position: 1344px 832px;
+}
+
+.project-icon-populous {
+  background-position: 1344px 896px;
+}
+
+.project-icon-power-ledger {
+  background-position: 1344px 960px;
+}
+
+.project-icon-presearch {
+  background-position: 1344px 1024px;
+}
+
+.project-icon-primas {
+  background-position: 1344px 1088px;
+}
+
+.project-icon-primecoin {
+  background-position: 1344px 1152px;
+}
+
+.project-icon-privatix {
+  background-position: 1344px 1216px;
+}
+
+.project-icon-prizm {
+  background-position: 1344px 1280px;
+}
+
+.project-icon-project-pai {
+  background-position: 0 1344px;
+}
+
+.project-icon-propy {
+  background-position: 64px 1344px;
+}
+
+.project-icon-prospectors-gold {
+  background-position: 128px 1344px;
+}
+
+.project-icon-proton-token {
+  background-position: 192px 1344px;
+}
+
+.project-icon-proximax {
+  background-position: 256px 1344px;
+}
+
+.project-icon-pumapay {
+  background-position: 320px 1344px;
+}
+
+.project-icon-pundi-x {
+  background-position: 384px 1344px;
+}
+
+.project-icon-pura {
+  background-position: 448px 1344px;
+}
+
+.project-icon-qash {
+  background-position: 512px 1344px;
+}
+
+.project-icon-qtum {
+  background-position: 576px 1344px;
+}
+
+.project-icon-quant {
+  background-position: 640px 1344px;
+}
+
+.project-icon-quanta-utility-token {
+  background-position: 704px 1344px;
+}
+
+.project-icon-quantstamp {
+  background-position: 768px 1344px;
+}
+
+.project-icon-quantum-resistant-ledger {
+  background-position: 832px 1344px;
+}
+
+.project-icon-quarkchain {
+  background-position: 896px 1344px;
+}
+
+.project-icon-qubitica {
+  background-position: 960px 1344px;
+}
+
+.project-icon-qunqun {
+  background-position: 1024px 1344px;
+}
+
+.project-icon-radium {
+  background-position: 1088px 1344px;
+}
+
+.project-icon-raiden-network-token {
+  background-position: 1152px 1344px;
+}
+
+.project-icon-rapids {
+  background-position: 1216px 1344px;
+}
+
+.project-icon-ravencoin {
+  background-position: 1280px 1344px;
+}
+
+.project-icon-rchain {
+  background-position: 1344px 1344px;
+}
+
+.project-icon-realtract {
+  background-position: 1408px 0;
+}
+
+.project-icon-reddcoin {
+  background-position: 1408px 64px;
+}
+
+.project-icon-red-pulse {
+  background-position: 1408px 128px;
+}
+
+.project-icon-refereum {
+  background-position: 1408px 192px;
+}
+
+.project-icon-relex {
+  background-position: 1408px 256px;
+}
+
+.project-icon-remme {
+  background-position: 1408px 320px;
+}
+
+.project-icon-ren {
+  background-position: 1408px 384px;
+}
+
+.project-icon-repo {
+  background-position: 1408px 448px;
+}
+
+.project-icon-request {
+  background-position: 1408px 512px;
+}
+
+.project-icon-restart-energy-mwat {
+  background-position: 1408px 576px;
+}
+
+.project-icon-revain {
+  background-position: 1408px 640px;
+}
+
+.project-icon-rif-token {
+  background-position: 1408px 704px;
+}
+
+.project-icon-ripio-credit-network {
+  background-position: 1408px 768px;
+}
+
+.project-icon-ripple {
+  background-position: 1408px 832px;
+}
+
+.project-icon-rise {
+  background-position: 1408px 896px;
+}
+
+.project-icon-rivetz {
+  background-position: 1408px 960px;
+}
+
+.project-icon-robotina {
+  background-position: 1408px 1024px;
+}
+
+.project-icon-rock {
+  background-position: 1408px 1088px;
+}
+
+.project-icon-rotharium {
+  background-position: 1408px 1152px;
+}
+
+.project-icon-rubycoin {
+  background-position: 1408px 1216px;
+}
+
+.project-icon-ruff {
+  background-position: 1408px 1280px;
+}
+
+.project-icon-s4fe {
+  background-position: 1408px 1344px;
+}
+
+.project-icon-sakura-bloom {
+  background-position: 0 1408px;
+}
+
+.project-icon-salt {
+  background-position: 64px 1408px;
+}
+
+.project-icon-salus {
+  background-position: 128px 1408px;
+}
+
+.project-icon-santiment {
+  background-position: 192px 1408px;
+}
+
+.project-icon-scryinfo {
+  background-position: 256px 1408px;
+}
+
+.project-icon-seele {
+  background-position: 320px 1408px;
+}
+
+.project-icon-selfkey {
+  background-position: 384px 1408px;
+}
+
+.project-icon-shield-xsh {
+  background-position: 448px 1408px;
+}
+
+.project-icon-siacoin {
+  background-position: 512px 1408px;
+}
+
+.project-icon-singulardtv {
+  background-position: 576px 1408px;
+}
+
+.project-icon-singularitynet {
+  background-position: 640px 1408px;
+}
+
+.project-icon-sirin-labs-token {
+  background-position: 704px 1408px;
+}
+
+.project-icon-skycoin {
+  background-position: 768px 1408px;
+}
+
+.project-icon-smartcash {
+  background-position: 832px 1408px;
+}
+
+.project-icon-smartlands {
+  background-position: 896px 1408px;
+}
+
+.project-icon-smartmesh {
+  background-position: 960px 1408px;
+}
+
+.project-icon-smartofgiving {
+  background-position: 1024px 1408px;
+}
+
+.project-icon-snapcoin {
+  background-position: 1088px 1408px;
+}
+
+.project-icon-soarcoin {
+  background-position: 1152px 1408px;
+}
+
+.project-icon-solarcoin {
+  background-position: 1216px 1408px;
+}
+
+.project-icon-solve {
+  background-position: 1280px 1408px;
+}
+
+.project-icon-sonm {
+  background-position: 1344px 1408px;
+}
+
+.project-icon-sophiatx {
+  background-position: 1408px 1408px;
+}
+
+.project-icon-bitshares-music {
+  background-position: 1472px 0;
+}
+
+.project-icon-spacechain {
+  background-position: 1472px 64px;
+}
+
+.project-icon-spankchain {
+  background-position: 1472px 128px;
+}
+
+.project-icon-spectre-dividend {
+  background-position: 1472px 192px;
+}
+
+.project-icon-spendcoin {
+  background-position: 1472px 256px;
+}
+
+.project-icon-srcoin {
+  background-position: 1472px 320px;
+}
+
+.project-icon-stacs {
+  background-position: 1472px 384px;
+}
+
+.project-icon-stakenet {
+  background-position: 1472px 448px;
+}
+
+.project-icon-starbase {
+  background-position: 1472px 512px;
+}
+
+.project-icon-stasis-euro {
+  background-position: 1472px 576px;
+}
+
+.project-icon-stasis-eurs {
+  background-position: 1472px 640px;
+}
+
+.project-icon-status {
+  background-position: 1472px 704px;
+}
+
+.project-icon-stealth {
+  background-position: 1472px 768px;
+}
+
+.project-icon-steem {
+  background-position: 1472px 832px;
+}
+
+.project-icon-steem-dollars {
+  background-position: 1472px 896px;
+}
+
+.project-icon-stellar {
+  background-position: 1472px 960px;
+}
+
+.project-icon-stem-cell-coin {
+  background-position: 1472px 1024px;
+}
+
+.project-icon-storiqa {
+  background-position: 1472px 1088px;
+}
+
+.project-icon-storj {
+  background-position: 1472px 1152px;
+}
+
+.project-icon-storm {
+  background-position: 1472px 1216px;
+}
+
+.project-icon-stox {
+  background-position: 1472px 1280px;
+}
+
+.project-icon-stratis {
+  background-position: 1472px 1344px;
+}
+
+.project-icon-streamr-datacoin {
+  background-position: 1472px 1408px;
+}
+
+.project-icon-substratum {
+  background-position: 0 1472px;
+}
+
+.project-icon-supernet-unity {
+  background-position: 64px 1472px;
+}
+
+.project-icon-swarm-fund {
+  background-position: 128px 1472px;
+}
+
+.project-icon-swftcoin {
+  background-position: 192px 1472px;
+}
+
+.project-icon-synthetix-network-token {
+  background-position: 256px 1472px;
+}
+
+.project-icon-syscoin {
+  background-position: 320px 1472px;
+}
+
+.project-icon-taas {
+  background-position: 384px 1472px;
+}
+
+.project-icon-tael {
+  background-position: 448px 1472px;
+}
+
+.project-icon-tao {
+  background-position: 512px 1472px;
+}
+
+.project-icon-tatatu {
+  background-position: 576px 1472px;
+}
+
+.project-icon-telcoin {
+  background-position: 640px 1472px;
+}
+
+.project-icon-tenx {
+  background-position: 704px 1472px;
+}
+
+.project-icon-ternio {
+  background-position: 768px 1472px;
+}
+
+.project-icon-tether {
+  background-position: 832px 1472px;
+}
+
+.project-icon-tezos {
+  background-position: 896px 1472px;
+}
+
+.project-icon-the-champcoin {
+  background-position: 960px 1472px;
+}
+
+.project-icon-thekey {
+  background-position: 1024px 1472px;
+}
+
+.project-icon-theta {
+  background-position: 1088px 1472px;
+}
+
+.project-icon-theta-fuel {
+  background-position: 1152px 1472px;
+}
+
+.project-icon-thorecoin {
+  background-position: 1216px 1472px;
+}
+
+.project-icon-thunder-token {
+  background-position: 1280px 1472px;
+}
+
+.project-icon-tierion {
+  background-position: 1344px 1472px;
+}
+
+.project-icon-time-new-bank {
+  background-position: 1408px 1472px;
+}
+
+.project-icon-timicoin {
+  background-position: 1472px 1472px;
+}
+
+.project-icon-tokenbox {
+  background-position: 1536px 0;
+}
+
+.project-icon-tokencard {
+  background-position: 1536px 64px;
+}
+
+.project-icon-tokenclub {
+  background-position: 1536px 128px;
+}
+
+.project-icon-tokenomy {
+  background-position: 1536px 192px;
+}
+
+.project-icon-tokenpay {
+  background-position: 1536px 256px;
+}
+
+.project-icon-tomochain {
+  background-position: 1536px 320px;
+}
+
+.project-icon-top {
+  background-position: 1536px 384px;
+}
+
+.project-icon-trade-token {
+  background-position: 1536px 448px;
+}
+
+.project-icon-triggers {
+  background-position: 1536px 512px;
+}
+
+.project-icon-trinity-network-credit {
+  background-position: 1536px 576px;
+}
+
+.project-icon-tripio {
+  background-position: 1536px 640px;
+}
+
+.project-icon-tron {
+  background-position: 1536px 704px;
+}
+
+.project-icon-tronclassic {
+  background-position: 1536px 768px;
+}
+
+.project-icon-truechain {
+  background-position: 1536px 832px;
+}
+
+.project-icon-trueusd {
+  background-position: 1536px 896px;
+}
+
+.project-icon-ttc {
+  background-position: 1536px 960px;
+}
+
+.project-icon-turtlecoin {
+  background-position: 1536px 1024px;
+}
+
+.project-icon-ubex {
+  background-position: 1536px 1088px;
+}
+
+.project-icon-ubiq {
+  background-position: 1536px 1152px;
+}
+
+.project-icon-ucash {
+  background-position: 1536px 1216px;
+}
+
+.project-icon-ugas {
+  background-position: 1536px 1280px;
+}
+
+.project-icon-ugchain {
+  background-position: 1536px 1344px;
+}
+
+.project-icon-ultiledger {
+  background-position: 1536px 1408px;
+}
+
+.project-icon-u-network {
+  background-position: 1536px 1472px;
+}
+
+.project-icon-uttoken {
+  background-position: 0 1536px;
+}
+
+.project-icon-universa {
+  background-position: 64px 1536px;
+}
+
+.project-icon-unlimitedip {
+  background-position: 128px 1536px;
+}
+
+.project-icon-unobtanium {
+  background-position: 192px 1536px;
+}
+
+.project-icon-unus-sed-leo {
+  background-position: 256px 1536px;
+}
+
+.project-icon-uptoken {
+  background-position: 320px 1536px;
+}
+
+.project-icon-usd-coin {
+  background-position: 384px 1536px;
+}
+
+.project-icon-utrust {
+  background-position: 448px 1536px;
+}
+
+.project-icon-valor-token {
+  background-position: 512px 1536px;
+}
+
+.project-icon-vechain {
+  background-position: 576px 1536px;
+}
+
+.project-icon-verge {
+  background-position: 640px 1536px;
+}
+
+.project-icon-veriblock {
+  background-position: 704px 1536px;
+}
+
+.project-icon-veritaseum {
+  background-position: 768px 1536px;
+}
+
+.project-icon-veros {
+  background-position: 832px 1536px;
+}
+
+.project-icon-vertcoin {
+  background-position: 896px 1536px;
+}
+
+.project-icon-vestchain {
+  background-position: 960px 1536px;
+}
+
+.project-icon-viacoin {
+  background-position: 1024px 1536px;
+}
+
+.project-icon-vibe {
+  background-position: 1088px 1536px;
+}
+
+.project-icon-vitae {
+  background-position: 1152px 1536px;
+}
+
+.project-icon-vslice {
+  background-position: 1216px 1536px;
+}
+
+.project-icon-v-systems {
+  background-position: 1280px 1536px;
+}
+
+.project-icon-vulcano {
+  background-position: 1344px 1536px;
+}
+
+.project-icon-wabnetwork {
+  background-position: 1408px 1536px;
+}
+
+.project-icon-wagerr {
+  background-position: 1472px 1536px;
+}
+
+.project-icon-waltonchain {
+  background-position: 1536px 1536px;
+}
+
+.project-icon-wanchain {
+  background-position: 1600px 0;
+}
+
+.project-icon-waves {
+  background-position: 1600px 64px;
+}
+
+.project-icon-wax {
+  background-position: 1600px 128px;
+}
+
+.project-icon-waykichain {
+  background-position: 1600px 192px;
+}
+
+.project-icon-wepower {
+  background-position: 1600px 256px;
+}
+
+.project-icon-whitecoin {
+  background-position: 1600px 320px;
+}
+
+.project-icon-wings {
+  background-position: 1600px 384px;
+}
+
+.project-icon-wink-tronbet {
+  background-position: 1600px 448px;
+}
+
+.project-icon-wixlar {
+  background-position: 1600px 512px;
+}
+
+.project-icon-wowbit {
+  background-position: 1600px 576px;
+}
+
+.project-icon-xinfin-network {
+  background-position: 1600px 640px;
+}
+
+.project-icon-xmax {
+  background-position: 1600px 704px;
+}
+
+.project-icon-xpa {
+  background-position: 1600px 768px;
+}
+
+.project-icon-xtrabytes {
+  background-position: 1600px 832px;
+}
+
+.project-icon-xyo {
+  background-position: 1600px 896px;
+}
+
+.project-icon-yee {
+  background-position: 1600px 960px;
+}
+
+.project-icon-zb {
+  background-position: 1600px 1024px;
+}
+
+.project-icon-zcash {
+  background-position: 1600px 1088px;
+}
+
+.project-icon-zclassic {
+  background-position: 1600px 1152px;
+}
+
+.project-icon-zcoin {
+  background-position: 1600px 1216px;
+}
+
+.project-icon-zebi {
+  background-position: 1600px 1280px;
+}
+
+.project-icon-zeepin {
+  background-position: 1600px 1344px;
+}
+
+.project-icon-zencash {
+  background-position: 1600px 1408px;
+}
+
+.project-icon-zeusshield {
+  background-position: 1600px 1472px;
+}
+
+.project-icon-zilliqa {
+  background-position: 1600px 1536px;
+}
+
+.project-icon-zip {
+  background-position: 0 1600px;
+}
+
+.project-icon-zrcoin {
+  background-position: 64px 1600px;
+}

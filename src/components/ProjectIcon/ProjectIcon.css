@@ -1,4 +1,9 @@
-.project-icon-default {
-  vertical-align: middle;
-  display: inline-block;
+@import url('./coordinates.css');
+
+.project-icon {
+  transform: scale(var(--scale));
+  background-image:
+    url(https://production-sanbase-images.s3.amazonaws.com/sprite/sprite.png),
+    url(defaultProjectIcon.png);
+  background-repeat: repeat, no-repeat;
 }

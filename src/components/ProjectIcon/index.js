@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import DefaultProjectIcon from './DefaultProjectIcon'
 import './ProjectIcon.css'
@@ -7,28 +8,17 @@ export const ProjectIcon = ({ name, size, ticker, className }) => {
   if (!name) {
     return <DefaultProjectIcon size={size} className={className} />
   }
-  let imgSource = ''
-  try {
-    imgSource = require(`../../assets/project-icons/${name
+  let imgSource =
+    name
       .toString()
       .toLowerCase()
       .split(/[ /.]+/)
-      .join('-')}.png`)
-  } catch (e) {
-    try {
-      imgSource = require(`../../assets/32x32/${ticker}-32.png`)
-    } catch (e) {
-      return <DefaultProjectIcon size={size} className={className} />
-    }
-  }
+      .join('-') || ticker
 
   return (
-    <img
-      width={size}
-      alt={name}
-      height={size}
-      src={imgSource}
-      className={className}
+    <div
+      className={cx(className, `project-icon project-icon-${imgSource}`)}
+      style={{ '--scale': size / 64 }}
     />
   )
 }
