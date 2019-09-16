@@ -34,7 +34,6 @@ ProjectIcon.propTypes = {
 
 ProjectIcon.defaultProps = {
   size: 20,
-  ticker: '',
   className: ''
 }
 

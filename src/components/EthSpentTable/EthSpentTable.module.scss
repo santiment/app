@@ -35,7 +35,7 @@
   :global {
     .rt-td {
       border: none !important;
-      padding: 8px 0;
+      padding: 0;
       align-self: baseline;
       text-overflow: clip;
       display: flex;
@@ -55,6 +55,10 @@
 
     .rt-tr-group {
       max-height: none;
+    }
+
+    .rt-tr {
+      padding: 8px 0;
     }
 
     .rt-th {
