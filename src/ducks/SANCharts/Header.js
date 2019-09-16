@@ -33,7 +33,7 @@ const ProjectInfo = createSkeletonProvider(
     color: 'var(--mystic)',
     backgroundColor: 'var(--mystic)'
   })
-)(({ name, ticker, description, logoUrl }) => (
+)(({ name, ticker, description }) => (
   <div className={styles.selector}>
     <ProjectIcon size={40} name={name} />
     <div className={styles.project}>
