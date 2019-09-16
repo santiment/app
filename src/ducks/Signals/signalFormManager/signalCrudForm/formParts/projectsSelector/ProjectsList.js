@@ -39,12 +39,7 @@ const ProjectsList = ({
           />
         )}
         <div className={styles.asset}>
-          <ProjectIcon
-            className={styles.icon}
-            size={16}
-            ticker={ticker}
-            name={name}
-          />
+          <ProjectIcon className={styles.icon} size={16} name={name} />
           <span className={styles.name}>{name}</span>
           <Label accent='waterloo'>
             (

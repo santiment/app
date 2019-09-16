@@ -47,6 +47,7 @@
 
 .asset {
   margin-left: 10px;
+  display: flex;
 
   &:hover {
     color: var(--jungle-green) !important;
@@ -56,5 +57,5 @@
 .icon {
   margin-right: 5px;
   position: relative;
-  top: 3px;
+  top: 2px;
 }

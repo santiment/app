@@ -150,7 +150,7 @@ const ProjectsTable = ({
       }),
       Cell: ({ value }) => (
         <div className='overview-ticker'>
-          <ProjectIcon name={value.name} ticker={value.ticker} />
+          <ProjectIcon name={value.name} />
           <br />
           <span className='ticker'>{value.ticker}</span>
         </div>

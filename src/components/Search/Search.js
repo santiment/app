@@ -7,7 +7,7 @@ import './Search.scss'
 
 const resultRenderer = ({ name, ticker }) => (
   <Fragment>
-    <ProjectIcon name={name} ticker={ticker} />
+    <ProjectIcon name={name} />
     <div>
       {name} ({ticker})
     </div>

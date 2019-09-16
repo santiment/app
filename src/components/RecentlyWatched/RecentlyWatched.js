@@ -22,7 +22,7 @@ export const Asset = ({ project, classes = {}, onClick }) => {
   return (
     <res.Component className={cx(styles.item, classes.asset)} {...res.props}>
       <div className={styles.group}>
-        <ProjectIcon size={20} name={name} ticker={ticker} />
+        <ProjectIcon size={20} name={name} />
         <h3 className={cx(styles.name, classes.asset__name)}>
           {name} <span className={styles.ticker}>{ticker}</span>
         </h3>

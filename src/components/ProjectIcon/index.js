@@ -1,22 +1,20 @@
 import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import DefaultProjectIcon from './DefaultProjectIcon'
 import './coordinates.css'
 
-export const ProjectIcon = ({ name, size, ticker, className }) => {
-  if (!name) {
-    return <DefaultProjectIcon size={size} className={className} />
-  }
-  let imgSource = name
-    .toString()
-    .toLowerCase()
-    .split(/[ /.]+/)
-    .join('-')
+export const ProjectIcon = ({ name, size, className }) => {
+  let imgName =
+    name &&
+    `project-icon-${name
+      .toString()
+      .toLowerCase()
+      .split(/[ /.]+/)
+      .join('-')}`
 
   return (
     <div
-      className={cx(className, `project-icon project-icon-${imgSource}`)}
+      className={cx(className, 'project-icon', imgName)}
       style={{ '--scale': size / 64, width: `${size}px`, height: `${size}px` }}
     />
   )
@@ -25,12 +23,11 @@ export const ProjectIcon = ({ name, size, ticker, className }) => {
 ProjectIcon.propTypes = {
   size: PropTypes.number,
   name: PropTypes.string.isRequired,
-  ticker: PropTypes.string,
   className: PropTypes.string
 }
 
 ProjectIcon.defaultProps = {
-  size: 16,
+  size: 20,
   ticker: '',
   className: ''
 }
