@@ -1,31 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ProjectIcon component (smoke) it should render correctly 1`] = `
-<img
-  alt="Cofound.it"
-  className=""
-  height={16}
-  src="cofound-it.png"
-  width={16}
+<div
+  className="project-icon project-icon-cofound-it"
+  style={
+    Object {
+      "--scale": 0.25,
+    }
+  }
 />
 `;
 
 exports[`ProjectIcon component DAO.Casino icon should render correctly 1`] = `
-<img
-  alt="DAO.Casino"
-  className=""
-  height={16}
-  src="dao-casino.png"
-  width={16}
+<div
+  className="project-icon project-icon-dao-casino"
+  style={
+    Object {
+      "--scale": 0.625,
+    }
+  }
 />
 `;
 
 exports[`ProjectIcon component SAN icon should render correctly 1`] = `
-<img
-  alt="Santiment"
-  className=""
-  height={16}
-  src="santiment.png"
-  width={16}
+<div
+  className="project-icon project-icon-santiment"
+  style={
+    Object {
+      "--scale": 0.3125,
+    }
+  }
 />
 `;

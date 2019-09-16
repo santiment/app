@@ -8,12 +8,11 @@ export const ProjectIcon = ({ name, size, ticker, className }) => {
   if (!name) {
     return <DefaultProjectIcon size={size} className={className} />
   }
-  let imgSource =
-    name
-      .toString()
-      .toLowerCase()
-      .split(/[ /.]+/)
-      .join('-') || ticker
+  let imgSource = name
+    .toString()
+    .toLowerCase()
+    .split(/[ /.]+/)
+    .join('-')
 
   return (
     <div
