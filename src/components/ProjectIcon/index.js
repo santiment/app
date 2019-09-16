@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import DefaultProjectIcon from './DefaultProjectIcon'
-import './ProjectIcon.css'
+import './coordinates.css'
 
 export const ProjectIcon = ({ name, size, ticker, className }) => {
   if (!name) {
@@ -17,7 +17,7 @@ export const ProjectIcon = ({ name, size, ticker, className }) => {
   return (
     <div
       className={cx(className, `project-icon project-icon-${imgSource}`)}
-      style={{ '--scale': size / 64 }}
+      style={{ '--scale': size / 64, width: `${size}px`, height: `${size}px` }}
     />
   )
 }
