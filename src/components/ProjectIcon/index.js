@@ -4,17 +4,23 @@ import PropTypes from 'prop-types'
 import './coordinates.css'
 
 export const ProjectIcon = ({ name, size, className }) => {
-  let imgName =
+  let formattedName =
     name &&
-    `project-icon-${name
+    name
       .toString()
       .toLowerCase()
       .split(/[ /.]+/)
-      .join('-')}`
+      .join('-')
+
+  if (formattedName === 'santiment-network-token') {
+    formattedName = 'santiment'
+  }
+
+  formattedName = `project-icon-${formattedName}`
 
   return (
     <div
-      className={cx(className, 'project-icon', imgName)}
+      className={cx(className, 'project-icon', formattedName)}
       style={{ '--scale': size / 64, width: `${size}px`, height: `${size}px` }}
     />
   )
