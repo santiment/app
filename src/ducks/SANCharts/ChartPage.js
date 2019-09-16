@@ -461,6 +461,9 @@ class ChartPage extends Component {
                       chartRef={this.chartRef}
                       isLoading={isLoading}
                       onZoom={this.onZoom}
+                      from={from}
+                      to={to}
+                      slug={slug}
                       onZoomOut={this.onZoomOut}
                       isZoomed={zoom}
                       events={eventsFiltered}

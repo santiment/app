@@ -409,8 +409,8 @@ class Charts extends React.Component {
               <ReferenceLine
                 y={priceRefLineData.priceUsd}
                 yAxisId='axis-priceUsd'
-                stroke='red'
-                strokeDasharray='3 3'
+                stroke='var(--jungle-green-hover)'
+                strokeDasharray='7'
               />
             )}
 
