@@ -11,7 +11,7 @@ describe('ProjectIcon component', () => {
   })
 
   it('SAN icon should render correctly', () => {
-    const icon = shallow(<ProjectIcon name='Santiment' size='20' />)
+    const icon = shallow(<ProjectIcon name='Santiment' size='16' />)
     expect(toJson(icon)).toMatchSnapshot()
   })
 
