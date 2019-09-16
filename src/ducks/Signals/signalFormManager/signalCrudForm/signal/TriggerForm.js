@@ -96,6 +96,14 @@ export const TriggerForm = ({
     ...settings
   }
 
+  if (!settings.title && !settings.description) {
+    settings = {
+      title: getNewTitle(settings),
+      description: getNewDescription(settings),
+      ...settings
+    }
+  }
+
   const [initialValues, setInitialValues] = useState(settings)
   const [canCallFormChangCallback, setCanCallFormChanged] = useState(false)
 
@@ -187,18 +195,19 @@ export const TriggerForm = ({
             <FormikEffect
               onChange={(current, prev) => {
                 let { values: newValues } = current
-                const changedMetric =
-                  !prev.values.metric ||
-                  newValues.metric.value !== prev.values.metric.value ||
-                  newValues.type.value !== prev.values.type.value
-                if (changedMetric) {
-                  setInitialValues(
-                    getDefaultFormValues(newValues, prev.values.metric)
-                  )
-                  validateForm()
-                }
 
                 if (!isEqual(newValues, prev.values)) {
+                  const changedMetric =
+                    !prev.values.metric ||
+                    newValues.metric.value !== prev.values.metric.value ||
+                    newValues.type.value !== prev.values.type.value
+                  if (changedMetric) {
+                    setInitialValues(
+                      getDefaultFormValues(newValues, prev.values.metric)
+                    )
+                    validateForm()
+                  }
+
                   validateForm()
                   const lastErrors = validateTriggerForm(newValues)
                   const isError = Object.keys(newValues).some(
