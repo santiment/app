@@ -171,7 +171,7 @@ const AssetsMobilePage = props => {
   )
 }
 
-const ROW_HEIGHT = 71
+const ROW_HEIGHT = 60
 
 export const AssetsList = ({ items, renderer, rowHeight = ROW_HEIGHT }) => {
   const rowRenderer =
