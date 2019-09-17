@@ -275,7 +275,8 @@ class Charts extends React.Component {
       rightBoundaryDate,
       children,
       isLoading,
-      priceRefLineData
+      priceRefLineData,
+      scale = 'time'
     } = this.props
     const {
       refAreaLeft,
@@ -391,7 +392,7 @@ class Charts extends React.Component {
           >
             <XAxis
               dataKey='datetime'
-              scale='time'
+              scale={scale}
               tickLine={false}
               minTickGap={100}
               tickFormatter={tickFormatter}

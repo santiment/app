@@ -26,7 +26,9 @@ const ChartSettings = ({
   hideSettings = {},
   isAdvancedView,
   activeMetrics,
-  title
+  title,
+  scale,
+  onScaleChange
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
 
@@ -65,6 +67,8 @@ const ChartSettings = ({
           activeMetrics={activeMetrics}
           title={title}
           chartRef={chartRef}
+          scale={scale}
+          onScaleChange={onScaleChange}
         />
       </div>
     </div>

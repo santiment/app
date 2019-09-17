@@ -22,6 +22,7 @@ const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 const MAX_METRICS_PER_CHART = 5
 
 const DEFAULT_STATE = {
+  scale: 'time',
   timeRange: DEFAULT_TIME_RANGE,
   from: FROM.toISOString(),
   to: TO.toISOString(),
@@ -228,6 +229,13 @@ class ChartPage extends Component {
     )
   }
 
+  onScaleChange = () => {
+    this.setState(
+      ({ scale }) => ({ scale: scale === 'time' ? 'log' : 'time' }),
+      this.updateSearchQuery
+    )
+  }
+
   onToggleAnomalies = () => {
     const { isShowAnomalies } = this.state
     const toggledState = !isShowAnomalies
@@ -266,7 +274,8 @@ class ChartPage extends Component {
       isShowAnomalies,
       zoom,
       from,
-      to
+      to,
+      scale
     } = this.state
 
     const { enabledViewOnlySharing } = this.props
@@ -278,7 +287,8 @@ class ChartPage extends Component {
       interval,
       nightMode,
       isShowAnomalies,
-      title
+      title,
+      scale
     }
 
     if (enabledViewOnlySharing) {
@@ -318,6 +328,7 @@ class ChartPage extends Component {
       viewOnly,
       title,
       zoom,
+      scale,
       nightMode,
       isShowAnomalies,
       isAdvancedView
@@ -447,6 +458,8 @@ class ChartPage extends Component {
                           disabledMetrics={errors}
                           from={from}
                           to={to}
+                          scale={scale}
+                          onScaleChange={this.onScaleChange}
                           interval={interval}
                           hideSettings={hideSettings}
                           isAdvancedView={isAdvancedView}
@@ -469,6 +482,7 @@ class ChartPage extends Component {
                       </>
                     )}
                     <Charts
+                      scale={scale}
                       chartRef={this.chartRef}
                       isLoading={isLoading}
                       onZoom={this.onZoom}
