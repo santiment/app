@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import './coordinates.css'
+import './ProjectIcon.css'
 
 export const ProjectIcon = ({ name, size, className }) => {
   let formattedName =
