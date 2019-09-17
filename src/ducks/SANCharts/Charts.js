@@ -8,6 +8,7 @@ import {
   Line,
   ResponsiveContainer,
   ComposedChart,
+  Label,
   XAxis,
   YAxis,
   Brush,
@@ -134,7 +135,7 @@ class Charts extends React.Component {
 
         const { metricAnomalyKey: anomaly } = rest
         const result = value || chartData[index]
-        let eventsData = getEventsTooltipInfo(rest)
+        const eventsData = getEventsTooltipInfo(rest)
         eventsData.map(event => {
           // NOTE(haritonasty): target metric for anomalies and tooltipMetricKey for other
           const key = event.isAnomaly
@@ -304,7 +305,11 @@ class Charts extends React.Component {
       ({ value, isAnomaly }) => metrics.includes(value) || !isAnomaly
     )
 
-    console.log(priceRefLineData)
+    const lastDayPrice =
+      priceRefLineData &&
+      `Last day price ${Metrics.historyPrice.formatter(
+        priceRefLineData.priceUsd
+      )}`
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>
@@ -405,13 +410,15 @@ class Charts extends React.Component {
               />
             )}
 
-            {priceRefLineData && (
+            {lastDayPrice && (
               <ReferenceLine
                 y={priceRefLineData.priceUsd}
                 yAxisId='axis-priceUsd'
                 stroke='var(--jungle-green-hover)'
                 strokeDasharray='7'
-              />
+              >
+                <Label position='insideBottomRight'>{lastDayPrice}</Label>
+              </ReferenceLine>
             )}
 
             {metrics.includes(tooltipMetric) &&
