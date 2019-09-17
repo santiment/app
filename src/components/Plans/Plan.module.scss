@@ -71,6 +71,10 @@
   &_opened {
     .details {
       display: block;
+
+      &_custom {
+        margin-top: 36px;
+      }
     }
 
     .card__arrow {
@@ -104,6 +108,10 @@
   }
 
   margin-top: 36px;
+
+  &_custom {
+    margin-top: 67px;
+  }
 }
 
 .price {
