@@ -5,7 +5,8 @@ import Toggle from '@santiment-network/ui/Toggle'
 import Plan from './Plan'
 import {
   findSanbasePlan,
-  getCurrentSanbaseSubscription
+  getCurrentSanbaseSubscription,
+  showOnlyProPlan
 } from '../../utils/plans'
 import { USER_SUBSCRIPTIONS_QUERY, PLANS_QUERY } from '../../queries/plans'
 import Enterprise from './Enterprise'
@@ -68,6 +69,7 @@ export default ({ id, classes = {} }) => {
                 return (
                   <div className={styles.cards}>
                     {product.plans
+                      .filter(showOnlyProPlan)
                       .filter(
                         ({ name, interval }) =>
                           interval === billing || name === 'FREE'

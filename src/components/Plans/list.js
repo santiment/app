@@ -45,7 +45,7 @@ export default {
   },
   PRO: {
     title: 'Pro',
-    isPopular: true,
+    // isPopular: true,
     desc: 'Advanced metrics & serious backtesting potential',
     Component: PlanActionDialog,
     link: 'Upgrade now',

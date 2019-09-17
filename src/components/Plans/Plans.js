@@ -6,7 +6,8 @@ import Label from '@santiment-network/ui/Label'
 import Plan from './Plan'
 import {
   findSanbasePlan,
-  getCurrentSanbaseSubscription
+  getCurrentSanbaseSubscription,
+  showOnlyProPlan
 } from '../../utils/plans'
 import { USER_SUBSCRIPTIONS_QUERY, PLANS_QUERY } from '../../queries/plans'
 import styles from './Plans.module.scss'
@@ -54,6 +55,7 @@ export default ({ id, classes = {}, onDialogClose }) => {
                   <>
                     <div className={styles.cards}>
                       {product.plans
+                        .filter(showOnlyProPlan)
                         .filter(
                           ({ name, interval }) =>
                             interval === billing || name === 'FREE'

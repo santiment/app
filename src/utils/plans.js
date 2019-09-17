@@ -10,6 +10,8 @@ export const formatPrice = (price, name, billing) => {
 const sanbaseProductId = '2'
 export const findSanbasePlan = ({ id }) => id === sanbaseProductId
 
+export const showOnlyProPlan = ({ name }) => name === 'PRO'
+
 export const getCurrentSanbaseSubscription = user => {
   if (!user) return
   const { subscriptions: subs } = user
