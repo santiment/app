@@ -1,22 +1,31 @@
 import React from 'react'
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
 import cx from 'classnames'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import {
   Line,
   ResponsiveContainer,
   ComposedChart,
+  Label,
   XAxis,
   YAxis,
   Brush,
   ReferenceArea,
-  ReferenceDot
+  ReferenceDot,
+  ReferenceLine
 } from 'recharts'
 import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { millify } from './../../utils/formatting'
-import { getDateFormats, getTimeFormats } from '../../utils/dates'
+import {
+  getDateFormats,
+  getTimeFormats,
+  ONE_DAY_IN_MS
+} from '../../utils/dates'
 import {
   getEventsTooltipInfo,
   Metrics,
@@ -29,6 +38,8 @@ import displayPaywall, { MOVE_CLB, CHECK_CLB } from './Paywall'
 import { binarySearch } from '../../pages/Trends/utils'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
+
+const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
 const EMPTY_FORMATTER = () => {}
 const CHART_MARGINS = {
@@ -124,7 +135,7 @@ class Charts extends React.Component {
 
         const { metricAnomalyKey: anomaly } = rest
         const result = value || chartData[index]
-        let eventsData = getEventsTooltipInfo(rest)
+        const eventsData = getEventsTooltipInfo(rest)
         eventsData.map(event => {
           // NOTE(haritonasty): target metric for anomalies and tooltipMetricKey for other
           const key = event.isAnomaly
@@ -263,7 +274,8 @@ class Charts extends React.Component {
       leftBoundaryDate,
       rightBoundaryDate,
       children,
-      isLoading
+      isLoading,
+      priceRefLineData
     } = this.props
     const {
       refAreaLeft,
@@ -292,6 +304,12 @@ class Charts extends React.Component {
     events = events.filter(
       ({ value, isAnomaly }) => metrics.includes(value) || !isAnomaly
     )
+
+    const lastDayPrice =
+      priceRefLineData &&
+      `Last day price ${Metrics.historyPrice.formatter(
+        priceRefLineData.priceUsd
+      )}`
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>
@@ -383,12 +401,24 @@ class Charts extends React.Component {
             <YAxis hide />
             {bars}
             {lines}
+
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
                 x1={refAreaLeft}
                 x2={refAreaRight}
                 strokeOpacity={0.3}
               />
+            )}
+
+            {lastDayPrice && (
+              <ReferenceLine
+                y={priceRefLineData.priceUsd}
+                yAxisId='axis-priceUsd'
+                stroke='var(--jungle-green-hover)'
+                strokeDasharray='7'
+              >
+                <Label position='insideBottomRight'>{lastDayPrice}</Label>
+              </ReferenceLine>
             )}
 
             {metrics.includes(tooltipMetric) &&
@@ -445,4 +475,42 @@ const mapStateToProps = state => ({
   hasPremium: checkHasPremium(state)
 })
 
-export default connect(mapStateToProps)(Charts)
+export const HISTORY_PRICE_QUERY = gql`
+  query historyPrice($slug: String, $from: DateTime, $to: DateTime) {
+    historyPrice(slug: $slug, from: $from, to: $to, interval: "1d") {
+      priceUsd
+      datetime
+    }
+  }
+`
+
+const enhance = compose(
+  connect(mapStateToProps),
+
+  graphql(HISTORY_PRICE_QUERY, {
+    skip: ({ metrics, from, to }) =>
+      !metrics.includes('historyPrice') ||
+      new Date(to) - new Date(from) > DAY_INTERVAL,
+    props: ({ data: { historyPrice = [] } }) => {
+      return { priceRefLineData: historyPrice[0] }
+    },
+    options: ({ slug, from }) => {
+      const newFrom = new Date(from)
+      newFrom.setHours(0, 0, 0, 0)
+
+      const to = new Date(newFrom)
+      to.setHours(1)
+
+      return {
+        variables: {
+          from: newFrom.toISOString(),
+          to: to.toISOString(),
+          slug,
+          interval: '1d'
+        }
+      }
+    }
+  })
+)
+
+export default enhance(Charts)
