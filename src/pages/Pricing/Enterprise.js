@@ -4,13 +4,11 @@ import list from '../../components/Plans/list'
 import styles from './Enterprise.module.scss'
 
 const features = [
-  'Unlimited signals',
-  'Handcrafted reports',
-  'All types of signals',
-  'Bundles with all data providers',
-  'Unlimited metrics data',
-  '24/7 prioritized support',
-  'Samples data'
+  'Access to all signal types',
+  'Unlimited active signals',
+  'Sanbase metrics - 3 years of historical data',
+  'Sanbase metrics - including present-day data',
+  'Exclusive market reports'
 ]
 
 const { Component: Btn } = list.ENTERPRISE

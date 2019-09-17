@@ -33,6 +33,7 @@ const Plan = ({
     getAlternativeBillingPlan(product.plans, name, billing) || {}
 
   const [altPrice] = formatPrice(altAmount, null, altInterval)
+  const isCustom = price === 'Custom'
 
   return (
     <div
@@ -74,11 +75,13 @@ const Plan = ({
         </svg>
       </div>
       <div className={styles.desc}>{card.desc}</div>
-      <div className={styles.details}>
-        <div className={cx(styles.price, classes.price)}>
-          {price}
-          <span className={styles.price__type}>{priceType}</span>
-        </div>
+      <div className={cx(styles.details, isCustom && styles.details_custom)}>
+        {!isCustom && (
+          <div className={cx(styles.price, classes.price)}>
+            {price}
+            <span className={styles.price__type}>{priceType}</span>
+          </div>
+        )}
         <div className={styles.discount}>
           {card.discount || `${altPrice} if billed ${altInterval}ly`}
         </div>

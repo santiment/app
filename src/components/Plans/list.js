@@ -24,10 +24,10 @@ export default {
       </Button>
     ),
     features: [
-      'Up to 10 signals',
-      'Limited type of signals',
-      'Limited metrics data',
-      'Samples data'
+      'Access to basic signals',
+      'Up to 10 active signals at a time',
+      'Sanbase metrics - 2 years of historical data',
+      'Sanbase metrics - up to last 30 days of data'
     ]
   },
   BASIC: {
@@ -36,11 +36,11 @@ export default {
     link: 'Upgrade now',
     Component: PlanActionDialog,
     features: [
-      'Up to 10 signals',
-      'All types of signals',
-      'Limited metrics data',
-      'Samples data',
-      'Handcrafted reports'
+      'Access to all signal types',
+      'Up to 10 active signals at a time',
+      'Sanbase metrics - 2 years of historical data',
+      'Sanbase metrics - up to last 7 days of data',
+      'Exclusive market reports'
     ]
   },
   PRO: {
@@ -50,11 +50,11 @@ export default {
     Component: PlanActionDialog,
     link: 'Upgrade now',
     features: [
-      'All types of signals',
-      'Limited metrics data',
-      'Samples data',
-      'Handcrafted reports',
-      'Bundles with all data providers'
+      'Access to all signal types',
+      'Unlimited active signals',
+      'Sanbase metrics - 3 years of historical data',
+      'Sanbase metrics - including present-day data',
+      'Exclusive market reports'
     ]
   },
   ENTERPRISE: {
@@ -70,12 +70,11 @@ export default {
       />
     ),
     features: [
-      'All types of signals',
-      'Limited metrics data',
-      'Samples data',
-      'Handcrafted reports',
-      'Bundles with all data providers',
-      '24/7 prioritised support'
+      'Access to all signal types',
+      'Unlimited active signals',
+      'Sanbase metrics - 3 years of historical data',
+      'Sanbase metrics - including present-day data',
+      'Exclusive market reports'
     ]
   }
 }
