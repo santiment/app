@@ -250,6 +250,13 @@ export const Metrics = {
     dataKey: 'ethSpent',
     description:
       'How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity'
+  },
+  gasUsed: {
+    category: 'On-chain',
+    node: Line,
+    label: 'Gas Used',
+    description:
+      'Used Gas by a blockchain. When you send tokens, interact with a contract or do anything else on the blockchain, you must pay for that computation. That payment is calculated in Gas.'
   }
 }
 
