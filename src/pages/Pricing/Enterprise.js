@@ -19,7 +19,7 @@ const Enterprise = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.left}>
-        <div className={styles.title}>Enterprise</div>
+        <div className={styles.title}>Custom</div>
         <div className={styles.description}>
           For organizations that need advanced data and support
         </div>
