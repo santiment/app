@@ -7,7 +7,7 @@ import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
 import InsightUnAuthPage from './../../pages/Insights/InsightUnAuthPage'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import { selectIsTelegramConnected } from '../../pages/UserSelectors'
+import { isTelegramConnected } from '../../pages/UserSelectors'
 import SonarFeedHeader from './SonarFeedActions/SonarFeedHeader'
 import { showNotification } from '../../actions/rootActions'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
@@ -156,7 +156,7 @@ const SonarFeed = ({
 const mapStateToProps = state => {
   return {
     isUserLoading: state.user && !!state.user.isLoading,
-    isTelegramConnected: selectIsTelegramConnected(state)
+    isTelegramConnected: isTelegramConnected(state)
   }
 }
 

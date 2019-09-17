@@ -10,7 +10,17 @@ export const checkIsLoggedIn = state => {
   return state.user.data && !!state.user.data.id
 }
 
-export const selectIsTelegramConnected = state => {
+export const isTelegramConnected = state => {
+  if (!state.user.data) {
+    return false
+  }
+  if (!state.user.data.settings) {
+    return false
+  }
+  return state.user.data.settings.hasTelegramConnected
+}
+
+export const isTelegramConnectedAndEnabled = state => {
   if (!state.user.data) {
     return false
   }
@@ -18,8 +28,7 @@ export const selectIsTelegramConnected = state => {
     return false
   }
   return (
-    state.user.data.settings.hasTelegramConnected &&
-    state.user.data.settings.signalNotifyTelegram
+    isTelegramConnected(state) && state.user.data.settings.signalNotifyTelegram
   )
 }
 

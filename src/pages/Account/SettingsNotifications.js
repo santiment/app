@@ -42,6 +42,10 @@ const channelByTypeLength = (signals, type) => {
 }
 
 const SignalsDescription = (mappedCount, allCount, channel) => {
+  if (mappedCount === 0) {
+    return null
+  }
+
   return (
     <Link
       to={'/sonar/my-signals?channel=' + channel}

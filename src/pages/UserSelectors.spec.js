@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import { selectIsTelegramConnected } from './UserSelectors'
+import { isTelegramConnectedAndEnabled } from './UserSelectors'
 
 describe('User Selectors', () => {
   it('selectIsTelegramConnected should be falsy', () => {
@@ -10,7 +10,7 @@ describe('User Selectors', () => {
         token: null
       }
     }
-    expect(selectIsTelegramConnected(state)).toBeFalsy()
+    expect(isTelegramConnectedAndEnabled(state)).toBeFalsy()
   })
 
   it('selectIsTelegramConnected should be true', () => {
@@ -24,6 +24,6 @@ describe('User Selectors', () => {
         }
       }
     }
-    expect(selectIsTelegramConnected(state)).toBeTruthy()
+    expect(isTelegramConnectedAndEnabled(state)).toBeTruthy()
   })
 })

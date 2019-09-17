@@ -6,7 +6,7 @@ import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
 import isEqual from 'lodash.isequal'
 import {
-  selectIsTelegramConnected,
+  isTelegramConnectedAndEnabled,
   selectIsEmailConnected
 } from '../../../../../pages/UserSelectors'
 import {
@@ -411,7 +411,7 @@ TriggerForm.propTypes = propTypes
 
 const mapStateToProps = state => {
   return {
-    isTelegramConnected: selectIsTelegramConnected(state),
+    isTelegramConnected: isTelegramConnectedAndEnabled(state),
     isEmailConnected: selectIsEmailConnected(state),
     lastPriceItem: state.signals.points
       ? state.signals.points[state.signals.points.length - 1]
