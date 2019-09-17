@@ -4,19 +4,13 @@ import PropTypes from 'prop-types'
 import './ProjectIcon.css'
 
 export const ProjectIcon = ({ name, size, className }) => {
-  let formattedName =
+  const formattedName =
     name &&
-    name
+    `project-icon-${name
       .toString()
       .toLowerCase()
       .split(/[ /.]+/)
-      .join('-')
-
-  if (formattedName === 'santiment-network-token') {
-    formattedName = 'santiment'
-  }
-
-  formattedName = `project-icon-${formattedName}`
+      .join('-')}`
 
   return (
     <div
