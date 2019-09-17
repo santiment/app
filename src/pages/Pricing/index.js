@@ -8,10 +8,9 @@ export default () => {
   return (
     <div className={styles.wrapper + ' page'}>
       <div className={styles.top}>
-        <h1 className={styles.title}>Choose the plan that works for you</h1>
-        <h3 className={styles.subtitle}>
-          No credit card required, cancel any time
-        </h3>
+        <h1 className={styles.title}>
+          Upgrade to Pro and get full possibilities
+        </h1>
       </div>
 
       <Plans id='plans' />

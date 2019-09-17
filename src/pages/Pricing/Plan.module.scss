@@ -13,13 +13,17 @@
   &:nth-of-type(1) {
     border-color: var(--athens);
     background: var(--athens);
+
+    @include responsive('desktop', 'laptop') {
+      margin-right: 24px;
+    }
   }
 
   &:nth-of-type(2) {
     --accent: var(--jungle-green);
     --second-accent: #ccf2e7;
 
-    border-color: var(--jungle-green-light);
+    border-color: #ecfaf6;
     background: #ecfaf6;
   }
 

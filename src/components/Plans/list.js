@@ -58,7 +58,7 @@ export default {
     ]
   },
   ENTERPRISE: {
-    title: 'Enterprise',
+    title: 'Custom',
     desc: 'For organizations that need advanced data and support',
     discount: 'Based on your needs',
     link: 'Contact us',
