@@ -2,12 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Icon from '@santiment-network/ui/Icon'
-import socialImage from './images/social.png'
-import trendsImage from './images/trends.png'
-import trendExploreImage from './images/trend-explore.png'
-import topImage from './images/top.png'
-import chartImage from './images/chart.png'
-import chartAndArrowsImage from './images/chart-and-arrows.png'
 import styles from '../HelpPopup.module.scss'
 
 const SecondQuestion = ({ isOpen, onClick }) => (
@@ -74,12 +68,12 @@ const SecondQuestion = ({ isOpen, onClick }) => (
           19th, 2018, at exactly the time its price hit a 6-month high:
         </p>
         <img
-          src={trendsImage}
+          src='https://api-stage.santiment.net/images/sanbase/TrendsHelpPopup/trends.png'
           alt='Waves in trends page'
           className={styles.img}
         />
         <img
-          src={topImage}
+          src='https://api-stage.santiment.net/images/sanbase/TrendsHelpPopup/top.png'
           alt='Waves in project page'
           className={styles.img}
         />
@@ -88,7 +82,7 @@ const SecondQuestion = ({ isOpen, onClick }) => (
           downwards, and has failed to recapture that local top since:
         </p>
         <img
-          src={chartImage}
+          src='https://api-stage.santiment.net/images/sanbase/TrendsHelpPopup/chart.png'
           alt='Waves in project page'
           className={styles.img}
         />
@@ -109,7 +103,7 @@ const SecondQuestion = ({ isOpen, onClick }) => (
         </p>
 
         <img
-          src={chartAndArrowsImage}
+          src='https://api-stage.santiment.net/images/sanbase/TrendsHelpPopup/chart-and-arrows.png'
           alt='Waves in project page'
           className={styles.img}
         />
@@ -120,12 +114,12 @@ const SecondQuestion = ({ isOpen, onClick }) => (
           to be) a first leg of a prolonged rally:
         </p>
         <img
-          src={socialImage}
+          src='https://api-stage.santiment.net/images/sanbase/TrendsHelpPopup/social.png'
           alt='Waves in project page'
           className={styles.img}
         />
         <img
-          src={trendExploreImage}
+          src='https://api-stage.santiment.net/images/sanbase/TrendsHelpPopup/trend-explore.png'
           alt='Waves in project page'
           className={styles.img}
         />

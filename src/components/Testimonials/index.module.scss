@@ -2,7 +2,7 @@
 
 .wrapper {
   position: relative;
-  background: url('./bg.svg') no-repeat 50%;
+  background: url('https://api-stage.santiment.net/images/sanbase/Testimonials/bg.svg') no-repeat 50%;
   margin: 100px auto 0;
 }
 
@@ -99,15 +99,15 @@
   background-size: cover;
 
   &_yan {
-    background-image: url('./yan.jpg');
+    background-image: url('https://api-stage.santiment.net/images/sanbase/Testimonials/yan.jpg');
   }
 
   &_pramesh {
-    background-image: url('./pramesh-tyagi.jpg');
+    background-image: url('https://api-stage.santiment.net/images/sanbase/Testimonials/pramesh-tyagi.jpg');
   }
 
   &_paolo {
-    background-image: url('./paolo-ardoino.jpg');
+    background-image: url('https://api-stage.santiment.net/images/sanbase/Testimonials/paolo-ardoino.jpg');
   }
 }
 
@@ -145,15 +145,6 @@
     cursor: hand;
   }
 
-  .slick-slider .slick-track,
-  .slick-slider .slick-list {
-    -webkit-transform: translate3d(0, 0, 0);
-    -moz-transform: translate3d(0, 0, 0);
-    -ms-transform: translate3d(0, 0, 0);
-    -o-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-
   .slick-track {
     position: relative;
     top: 0;
@@ -161,6 +152,15 @@
     display: flex;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .slick-slider .slick-track,
+  .slick-slider .slick-list {
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 
   .slick-track::before,

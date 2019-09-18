@@ -1,4 +1,3 @@
-
 .project-icon {
   position: relative;
   display: flex;
@@ -21,7 +20,7 @@
 }
 
 .project-icon-0x::before {
-  background-position: 0 0;
+  background-position: 0 0, -9999px -9999px;
 }
 
 .project-icon-1irstcoin::before {
