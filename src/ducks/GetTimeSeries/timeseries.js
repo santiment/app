@@ -18,6 +18,7 @@ import { NETWORK_GROWTH_QUERY } from './queries/network_growth_query'
 import { SOCIAL_DOMINANCE_QUERY } from './queries/social_dominance_query'
 import { PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES } from './queries/percent_of_token_supply_on_exchanges_query'
 import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from './queries/top_holders_percent_of_total_supply'
+import { GAS_USED_QUERY } from './queries/gas_used'
 import { PROJECT_TREND_HISTORY_QUERY } from './queries/project_trend_history_query'
 import { METRIC_ANOMALIE_QUERY } from './queries/metric_anomaly_query'
 import { GET_METRIC } from './queries/get_metric'
@@ -98,6 +99,9 @@ const TIMESERIES = {
   },
   networkGrowth: {
     query: NETWORK_GROWTH_QUERY
+  },
+  gasUsed: {
+    query: GAS_USED_QUERY
   },
   socialVolume: {
     query: SOCIAL_VOLUME_QUERY,
