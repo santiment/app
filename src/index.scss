@@ -23,8 +23,12 @@ body {
 }
 
 a:hover,
-a:focus {
-  color: var(--jungle-green); // NOTE(vanguard): remove after removing semantic css
+a:focus { // NOTE(vanguard): remove after removing semantic css
+  color: var(--jungle-green);
+
+  @include responsive('phone', 'phone-xs') {
+    color: var(--mirage);
+  }
 }
 
 h1 {

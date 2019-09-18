@@ -1,6 +1,5 @@
 import React from 'react'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import metamaskDownloadImg from './../../assets/download-metamask.png'
 import styles from './LoginMetamaskUndetected.module.scss'
 
 const LoginMetamaskUndetected = () => {
@@ -19,7 +18,11 @@ const LoginMetamaskUndetected = () => {
           How Metamask works?
         </a>
         <a href='https://metamask.io/'>
-          <img width={128} src={metamaskDownloadImg} alt='Metamask link' />
+          <img
+            width={128}
+            src='https://api-stage.santiment.net/images/sanbase/download-metamask.png'
+            alt='Metamask link'
+          />
         </a>
       </div>
     </Panel>

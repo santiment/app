@@ -8,18 +8,15 @@ describe('ProjectIcon component', () => {
   it('(smoke) it should render correctly', () => {
     const icon = shallow(<ProjectIcon name='Cofound.it' />)
     expect(toJson(icon)).toMatchSnapshot()
-    expect(icon.prop('src')).toEqual('cofound-it.png')
   })
 
   it('SAN icon should render correctly', () => {
-    const icon = shallow(<ProjectIcon name='Santiment' />)
+    const icon = shallow(<ProjectIcon name='Santiment' size='16' />)
     expect(toJson(icon)).toMatchSnapshot()
-    expect(icon.prop('src')).toEqual('santiment.png')
   })
 
   it('DAO.Casino icon should render correctly', () => {
-    const icon = shallow(<ProjectIcon name='DAO.Casino' />)
+    const icon = shallow(<ProjectIcon name='DAO.Casino' size='40' />)
     expect(toJson(icon)).toMatchSnapshot()
-    expect(icon.prop('src')).toEqual('dao-casino.png')
   })
 })

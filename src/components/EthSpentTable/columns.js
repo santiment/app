@@ -24,7 +24,7 @@ export const columns = [
     }),
     Cell: ({ value }) => (
       <div className='overview-ticker'>
-        <ProjectIcon name={value.name} ticker={value.ticker} />
+        <ProjectIcon name={value.name} />
       </div>
     )
   },

@@ -1,23 +1,20 @@
 @import "~@santiment-network/ui/mixins.scss";
 
 .wrapper {
-  @include text-normal;
-
-  border-bottom: 1px solid var(--porcelain);
-  height: 71px;
   text-decoration: none;
   color: var(--mirage);
   width: 100%;
-  padding: 14px 12px;
+  padding: 10px 16px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2px;
+
+  @include text('body-3');
 }
 
 .name {
   display: flex;
   flex-direction: column;
-  margin-left: 1rem;
+  margin-left: 12px;
 }
 
 .ticker {
@@ -30,16 +27,15 @@
 }
 
 .icon {
-  width: 30px;
   display: flex;
   align-items: center;
-  flex-direction: column;
-  padding-top: 5px;
+  justify-content: center;
 }
 
 .right {
   flex-direction: column;
   width: 80px;
+  align-items: flex-end;
 }
 
 .percentChanges {

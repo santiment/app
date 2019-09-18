@@ -1,34 +1,21 @@
 import React from 'react'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
-import DefaultProjectIcon from './DefaultProjectIcon'
 import './ProjectIcon.css'
 
-export const ProjectIcon = ({ name, size, ticker, className }) => {
-  if (!name) {
-    return <DefaultProjectIcon size={size} className={className} />
-  }
-  let imgSource = ''
-  try {
-    imgSource = require(`../../assets/project-icons/${name
+export const ProjectIcon = ({ name, size, className }) => {
+  const formattedName =
+    name &&
+    `project-icon-${name
       .toString()
       .toLowerCase()
       .split(/[ /.]+/)
-      .join('-')}.png`)
-  } catch (e) {
-    try {
-      imgSource = require(`../../assets/32x32/${ticker}-32.png`)
-    } catch (e) {
-      return <DefaultProjectIcon size={size} className={className} />
-    }
-  }
+      .join('-')}`
 
   return (
-    <img
-      width={size}
-      alt={name}
-      height={size}
-      src={imgSource}
-      className={className}
+    <div
+      className={cx(className, 'project-icon', formattedName)}
+      style={{ '--scale': size / 64, width: `${size}px`, height: `${size}px` }}
     />
   )
 }
@@ -36,13 +23,11 @@ export const ProjectIcon = ({ name, size, ticker, className }) => {
 ProjectIcon.propTypes = {
   size: PropTypes.number,
   name: PropTypes.string.isRequired,
-  ticker: PropTypes.string,
   className: PropTypes.string
 }
 
 ProjectIcon.defaultProps = {
-  size: 16,
-  ticker: '',
+  size: 20,
   className: ''
 }
 

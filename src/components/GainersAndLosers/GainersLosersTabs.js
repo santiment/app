@@ -15,7 +15,7 @@ const Item = ({ onProjectClick, showChange, ...project }) => {
   const { change, name, ticker } = project
   return (
     <div className={styles.project} onClick={() => onProjectClick(project)}>
-      <ProjectIcon name={name} size={20} ticker={ticker} />
+      <ProjectIcon name={name} size={20} />
       <Label className={styles.name}>{ticker}</Label>
       {showChange && (
         <PercentChanges changes={change * 100} className={styles.changes} />

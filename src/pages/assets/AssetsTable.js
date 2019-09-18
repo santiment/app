@@ -17,7 +17,7 @@ import './../Projects/ProjectsTable.css'
 import styles from './AssetsTable.module.scss'
 
 export const CustomHeadComponent = ({ children, className, ...rest }) => (
-  <Sticky enabled>
+  <Sticky enabled innerZ={1}>
     <div className={cx('rt-thead', className)} {...rest}>
       {children}
     </div>

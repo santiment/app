@@ -44,12 +44,7 @@ const SearchProjects = ({
                   className={styles.checkbox}
                 />
               ) : (
-                <ProjectIcon
-                  className={styles.icon}
-                  size={16}
-                  ticker={ticker}
-                  name={name}
-                />
+                <ProjectIcon className={styles.icon} size={16} name={name} />
               )}
               <span className={styles.name}>{name}</span>
               <span className={styles.ticker}>({ticker})</span>
