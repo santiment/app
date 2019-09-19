@@ -321,6 +321,7 @@ export const getMarketSegment = key => {
   }
   const newSegment = {
     key,
+    type: 'marketSegments',
     category: 'Development',
     node: Line,
     label: `Dev. Activity - ${key}`,
@@ -333,9 +334,6 @@ export const getMarketSegment = key => {
   MarketSegments.set(key, newSegment)
   return newSegment
 }
-
-export const transformMarketSegmentToMetricKey = segment =>
-  `devActivity${segment.replace(' ', '')}`
 
 export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
 

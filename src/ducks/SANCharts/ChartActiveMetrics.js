@@ -12,6 +12,7 @@ import styles from './ChartActiveMetrics.module.scss'
 const ChartActiveMetrics = ({
   activeEvents,
   activeMetrics,
+  activeMarketSegments = [],
   toggleMetric,
   isShowAnomalies,
   ...rest
@@ -20,7 +21,7 @@ const ChartActiveMetrics = ({
   return (
     <>
       <section className={styles.wrapper}>
-        {activeMetrics.map(metric => {
+        {activeMetrics.concat(activeMarketSegments).map(metric => {
           const { node, color, label, description } = metric
           return (
             <MetricExplanation
@@ -54,7 +55,7 @@ const ChartActiveMetrics = ({
               description={description}
               withChildren
             >
-              <Button key={event} border className={styles.btn}>
+              <Button border className={styles.btn}>
                 <Label
                   className={styles.label}
                   variant='circle'
@@ -64,7 +65,7 @@ const ChartActiveMetrics = ({
                 <Icon
                   type='close-small'
                   className={styles.icon}
-                  onClick={() => toggleMetric(event, true)}
+                  onClick={() => toggleMetric(event)}
                 />
               </Button>
             </MetricExplanation>

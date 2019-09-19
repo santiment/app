@@ -7,7 +7,7 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import Header from './Header'
-import { Metrics, Events } from './utils'
+import { Metrics, Events, getMarketSegment } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { ANOMALIES_METRICS_ENUM } from '../../components/MobileMetricCard/MobileMetricCard'
@@ -34,7 +34,8 @@ const DEFAULT_STATE = {
   isAdvancedView: false,
   enabledViewOnlySharing: true,
   isShowAnomalies: !localStorage.getItem('hideAnomalies'),
-  events: []
+  events: [],
+  marketSegments: []
 }
 
 const LoadableChartSidecar = Loadable({
@@ -55,9 +56,12 @@ const LoadableChartMetricsTool = Loadable({
 const metricObjToQSMapper = ({ key }) => key
 
 const mapPassedState = state => {
-  const { metrics, events } = state
+  const { metrics, events, marketSegments } = state
   if (metrics) state.metrics = metrics.map(metric => Metrics[metric])
   if (events) state.events = events.map(event => Events[event])
+  if (marketSegments) {
+    state.marketSegments = marketSegments.map(getMarketSegment)
+  }
 }
 
 const getChartInitialState = props => {
@@ -71,6 +75,9 @@ const getChartInitialState = props => {
     }
     if (typeof data.events === 'string') {
       data.events = [data.events]
+    }
+    if (typeof data.marketSegments === 'string') {
+      data.marketSegments = [data.marketSegments]
     }
     passedState = data
   } else {
@@ -269,12 +276,13 @@ class ChartPage extends Component {
       return
     }
 
-    const { metrics, events } = this.state
+    const { metrics, events, marketSegments } = this.state
     history.replace({
       search: this.mapStateToQS({
         ...this.state,
         metrics: metrics.map(metricObjToQSMapper),
-        events: events.map(metricObjToQSMapper)
+        events: events.map(metricObjToQSMapper),
+        marketSegments: marketSegments.map(metricObjToQSMapper)
       })
     })
   }
@@ -284,6 +292,7 @@ class ChartPage extends Component {
       slug,
       title,
       metrics,
+      marketSegments,
       events,
       interval,
       nightMode,
@@ -301,7 +310,8 @@ class ChartPage extends Component {
       metrics: metrics
         .filter(({ key }) => !disabledMetrics.includes(key))
         .map(metricObjToQSMapper),
-      events,
+      events: events.map(metricObjToQSMapper),
+      marketSegments: marketSegments.map(metricObjToQSMapper),
       interval,
       nightMode,
       isShowAnomalies,
@@ -340,6 +350,7 @@ class ChartPage extends Component {
       slug,
       metrics,
       events,
+      marketSegments,
       from,
       to,
       interval,
@@ -496,6 +507,7 @@ class ChartPage extends Component {
                           disabledMetrics={errors}
                           activeMetrics={finalMetrics}
                           activeEvents={events}
+                          activeMarketSegments={marketSegments}
                           showToggleAnomalies={showToggleAnomalies}
                           onToggleAnomalies={this.onToggleAnomalies}
                           isShowAnomalies={isShowAnomalies}

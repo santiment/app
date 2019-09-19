@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import GA from 'react-ga'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
@@ -9,12 +9,7 @@ import Button from '@santiment-network/ui/Button'
 import MetricExplanation from './MetricExplanation'
 import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
-import {
-  Metrics,
-  Events,
-  transformMarketSegmentToMetricKey,
-  getMarketSegment
-} from './utils'
+import { Metrics, Events, getMarketSegment } from './utils'
 import styles from './ChartMetricSelector.module.scss'
 
 const NO_GROUP = '_'
@@ -35,15 +30,9 @@ const addItemToGraph = (categories, metricCategory, metrics) => {
   }
 }
 
-let memo = {}
-
 const getCategoryGraph = availableMetrics => {
   if (availableMetrics.length === 0) {
     return {}
-  }
-
-  if (memo.lastInput === availableMetrics) {
-    return memo.result
   }
 
   const categories = {
@@ -84,9 +73,6 @@ const getCategoryGraph = availableMetrics => {
       return acc
     }, {})
   })
-
-  memo.lastInput = availableMetrics
-  memo.result = categories
 
   return categories
 }
@@ -143,7 +129,7 @@ const addDevMarketSegmentsToCategory = (segments, categories) => {
   const { Development } = categories
 
   if (Development) {
-    Development['_'].push(...segments)
+    Development._.push(...segments)
     return
   }
 
@@ -155,6 +141,7 @@ const ChartMetricSelector = ({
   toggleMetric,
   activeMetrics,
   activeEvents,
+  activeMarketSegments,
   disabledMetrics,
   categories,
   loading,
@@ -162,15 +149,8 @@ const ChartMetricSelector = ({
 }) => {
   const [activeCategory, setCategory] = useState('Financial')
 
-  const actives = [...activeEvents, ...activeMetrics]
+  const actives = [...activeEvents, ...activeMetrics, ...activeMarketSegments]
   const categoryActiveMetricsCounter = countCategoryActiveMetrics(actives)
-
-  useEffect(
-    () => () => {
-      memo = {}
-    },
-    []
-  )
 
   return (
     <Panel {...props}>
