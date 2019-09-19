@@ -2,10 +2,10 @@ import React from 'react'
 import { YAxis, Bar, Line, Area } from 'recharts'
 import { formatNumber } from './../../utils/formatting'
 
-const PRICE_METRIC = 'historyPrice'
-
 export const Events = {
   trendPositionHistory: {
+    key: 'trendPositionHistory',
+    type: 'events',
     label: 'Trending Position',
     category: 'Social',
     description:

@@ -14,6 +14,13 @@ import styles from './ChartMetricSelector.module.scss'
 
 const NO_GROUP = '_'
 
+Events.trendPositionHistory.note = (
+  <p className={styles.note}>
+    <span className={styles.warning}>Important!</span>
+    <span className={styles.text}>It will disable Anomalies</span>
+  </p>
+)
+
 const addItemToGraph = (categories, metricCategory, metrics) => {
   const category = categories[metricCategory]
   if (category) {
@@ -36,22 +43,7 @@ const getCategoryGraph = availableMetrics => {
 
   const categories = {
     Financial: undefined,
-    Social: [
-      {
-        isEvent: true,
-        type: 'events',
-        label: 'Trending Position',
-        key: 'trendPositionHistory',
-        note: (
-          <p className={styles.note}>
-            <span className={styles.warning}>Important!</span>
-            <span className={styles.text}>It will disable Anomalies</span>
-          </p>
-        ),
-        description:
-          'Shows the appearance (and position) of the project on our list of top 10 emerging words on crypto social media on a given date'
-      }
-    ]
+    Social: [Events.trendPositionHistory]
   }
   const { length } = availableMetrics
 
@@ -162,6 +154,7 @@ const ChartMetricSelector = ({
     )
   )
   const actives = [...activeEvents, ...activeMetrics]
+  console.log(actives)
 
   const categoryActiveMetricsCounter = countCategoryActiveMetrics(actives)
 

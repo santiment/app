@@ -6,7 +6,7 @@ import Button from '@santiment-network/ui/Button'
 import MetricExplanation from './MetricExplanation'
 import AnomaliesToggle from '../../components/AnomaliesToggle/AnomaliesToggle'
 import MetricIcon from './MetricIcon'
-import { Metrics, Events, METRIC_COLORS } from './utils'
+import { METRIC_COLORS } from './utils'
 import styles from './ChartActiveMetrics.module.scss'
 
 const ChartActiveMetrics = ({

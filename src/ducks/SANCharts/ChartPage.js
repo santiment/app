@@ -52,6 +52,14 @@ const LoadableChartMetricsTool = Loadable({
   loading: () => <div />
 })
 
+const metricObjToQSMapper = ({ key }) => key
+
+const mapPassedState = state => {
+  const { metrics, events } = state
+  if (metrics) state.metrics = metrics.map(metric => Metrics[metric])
+  if (events) state.events = events.map(event => Events[event])
+}
+
 const getChartInitialState = props => {
   let passedState
   if (props.location && props.location.search) {
@@ -86,7 +94,7 @@ const getChartInitialState = props => {
     }
   }
 
-  passedState.metrics = passedState.metrics.map(metric => Metrics[metric])
+  mapPassedState(passedState)
 
   return {
     ...DEFAULT_STATE,
@@ -261,11 +269,12 @@ class ChartPage extends Component {
       return
     }
 
-    const { metrics } = this.state
+    const { metrics, events } = this.state
     history.replace({
       search: this.mapStateToQS({
         ...this.state,
-        metrics: metrics.map(({ key }) => key)
+        metrics: metrics.map(metricObjToQSMapper),
+        events: events.map(metricObjToQSMapper)
       })
     })
   }
@@ -289,7 +298,9 @@ class ChartPage extends Component {
 
     const settings = {
       slug,
-      metrics: metrics.filter(metric => !disabledMetrics.includes(metric)),
+      metrics: metrics
+        .filter(({ key }) => !disabledMetrics.includes(key))
+        .map(metricObjToQSMapper),
       events,
       interval,
       nightMode,
@@ -426,7 +437,7 @@ class ChartPage extends Component {
 
           const errors = Object.keys(errorMetrics)
           const finalMetrics = metrics.filter(
-            metric => !errors.includes(metric)
+            ({ key }) => !errors.includes(key)
           )
 
           // NOTE(haritonasty): we don't show anomalies when trendPositionHistory is in activeMetrics
