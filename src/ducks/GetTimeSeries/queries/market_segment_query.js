@@ -1,24 +1,24 @@
 import gql from 'graphql-tag'
 
-export const DEV_ACTIVITY_QUERY = gql`
+export const MARKET_SEGMENT_QUERY = name => gql`
   query devActivity(
-    $slug: String
     $from: DateTime!
     $to: DateTime!
     $interval: String!
     $transform: String
     $movingAverageIntervalBase: Int
+    $selector: GithubOrganizationsSelector
   ) {
     devActivity(
-      slug: $slug
       from: $from
       to: $to
       interval: $interval
       transform: $transform
       movingAverageIntervalBase: $movingAverageIntervalBase
+      selector: $selector
     ) {
       datetime
-      activity
+      ${name}: activity
     }
   }
 `

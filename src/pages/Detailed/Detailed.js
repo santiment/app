@@ -22,6 +22,7 @@ import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import paywallBoundaries from '../Chart/paywallBoundaries'
 import ChartWidget from '../../ducks/SANCharts/ChartPage'
+import { Metrics } from '../../ducks/SANCharts/utils'
 import './Detailed.css'
 import styles from './Detailed.module.scss'
 
@@ -99,7 +100,7 @@ export const Detailed = ({
               slug={slug}
               title={`${name} (${ticker})`}
               projectId={id}
-              metrics={['historyPrice', 'volume']}
+              metrics={[Metrics.historyPrice, Metrics.volume]}
               classes={styles}
               onSlugSelect={onChangeProject}
               isLoggedIn={isLoggedIn}

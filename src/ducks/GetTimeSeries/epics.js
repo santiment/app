@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs'
 import * as actions from './actions'
+import { MARKET_SEGMENT_QUERY } from './queries/market_segment_query'
 import { handleErrorAndTriggerAction } from './../../epics/utils'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import { getIntervalByTimeRange } from '../../utils/dates'
@@ -34,7 +35,7 @@ const getFlattenEvents = (events = []) => {
 
 const fetchTimeseriesEpic = (action$, store, { client }) =>
   action$.ofType(actions.TIMESERIES_FETCH).mergeMap(action => {
-    const { id, metrics, events = [] } = action.payload
+    const { id, metrics, events = [], marketSegments = [] } = action.payload
 
     if (
       process.env.NODE_ENV === 'development' ||
@@ -103,13 +104,31 @@ const fetchTimeseriesEpic = (action$, store, { client }) =>
       )
     )
 
+    const marketSegmentsQueries = Observable.from(
+      marketSegments.map(({ name, slug, ...variables }) =>
+        client
+          .query({
+            query: MARKET_SEGMENT_QUERY(name),
+            variables: {
+              ...variables,
+              selector: { market_segments: [name] }
+            }
+          })
+          .then(getPreTransform('marketSegment', undefined, name))
+          .catch(({ message }) => {
+            errorMetrics[name] = message
+          })
+      )
+    )
+
     return Observable.forkJoin(
       queries.concatAll().toArray(),
-      eventQueries.concatAll().toArray()
+      eventQueries.concatAll().toArray(),
+      marketSegmentsQueries.concatAll().toArray()
     )
-      .mergeMap(([metricsRes, eventsRes]) => {
+      .mergeMap(([metricsRes, eventsRes, marketSegmentsRes]) => {
         const metricsResult = mapDataToMergedTimeserieByDatetime(
-          metricsRes.filter(Boolean),
+          metricsRes.concat(marketSegmentsRes).filter(Boolean),
           errorMetrics
         )
         const eventsResult = mapDataToMergedTimeserieByDatetime(

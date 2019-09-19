@@ -1,4 +1,5 @@
 import { DEV_ACTIVITY_QUERY } from './queries/dev_activity_query'
+import { MARKET_SEGMENT_QUERY } from './queries/market_segment_query'
 import { HISTORY_PRICE_QUERY } from './queries/history_price_query'
 import { ETH_SPENT_OVER_TIME_QUERY } from './queries/eth_spent_over_time_query'
 import { ETH_SPENT_OVER_TIME_BY_ALL_PROJECTS_QUERY } from './queries/eth_spent_over_time_by_all_projects_query'
@@ -126,17 +127,21 @@ const TIMESERIES = {
     preTransform: ({ metricAnomaly: anomalies = [] }, metricAnomalyKey) => {
       return anomalies.map(anomaly => ({ ...anomaly, metricAnomalyKey })) || []
     }
+  },
+  marketSegment: {
+    query: MARKET_SEGMENT_QUERY,
+    preTransform: ({ devActivity }) => devActivity
   }
 }
 
 export const hasMetric = metric => !!TIMESERIES[metric]
 export const getMetricQUERY = metric => TIMESERIES[metric].query
-export const getPreTransform = (name, metricAnomalyKey) => {
+export const getPreTransform = (name, metricAnomalyKey, alias = name) => {
   const transform = TIMESERIES[name].preTransform
 
   return ({ data, ...rest }) => ({
     ...rest,
-    data: transform ? { [name]: transform(data, metricAnomalyKey) } : data,
-    __metric: name
+    data: transform ? { [alias]: transform(data, metricAnomalyKey) } : data,
+    __metric: alias
   })
 }

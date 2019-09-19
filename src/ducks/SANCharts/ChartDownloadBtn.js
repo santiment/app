@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import colors from '@santiment-network/ui/variables.scss'
-import { Metrics, setupColorGenerator } from './utils'
+import { setupColorGenerator } from './utils'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 
 function setStyle (target, styles) {
@@ -90,14 +90,13 @@ function downloadChart ({ current: chart }, metrics, title) {
   const img = document.createElement('img')
 
   img.onload = function () {
-    const data = metrics.map(metric => Metrics[metric])
     const generateColor = setupColorGenerator()
     ctx.drawImage(img, 0, 0)
 
     ctx.font = TEXT_FONT
 
     const textWidth =
-      data.reduce((acc, { label }) => {
+      metrics.reduce((acc, { label }) => {
         return (
           acc +
           LEGEND_RECT_SIZE +
@@ -105,12 +104,12 @@ function downloadChart ({ current: chart }, metrics, title) {
           ctx.measureText(label).width
         )
       }, 0) +
-      TEXT_RIGHT_MARGIN * (data.length - 1)
+      TEXT_RIGHT_MARGIN * (metrics.length - 1)
 
     const textY = svgSize.height - 20
     let textX = (svgSize.width - textWidth) / 2
 
-    data.forEach(({ color, label }) => {
+    metrics.forEach(({ color, label }) => {
       ctx.fillStyle = colors[generateColor(color)]
       ctx.fillRect(
         textX,

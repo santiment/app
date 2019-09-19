@@ -84,7 +84,7 @@ const getTooltipMetricAndKey = (metrics, chartData) => {
   const tooltipMetric = findYAxisMetric(metrics)
   if (!tooltipMetric || chartData.length === 0) return
 
-  const { dataKey: tooltipMetricKey = tooltipMetric } = Metrics[tooltipMetric]
+  const { dataKey: tooltipMetricKey = tooltipMetric } = tooltipMetric
 
   return { tooltipMetric, tooltipMetricKey }
 }
@@ -257,7 +257,7 @@ class Charts extends React.Component {
       rightZoomIndex: activeTooltipIndex,
       xValue: activeLabel,
       yValue: this.props.chartData[activeTooltipIndex][
-        Metrics[tooltipMetric].dataKey || tooltipMetric
+        tooltipMetric.dataKey || tooltipMetric.key
       ],
       hovered: true
     })
@@ -293,7 +293,7 @@ class Charts extends React.Component {
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
       chartRef,
       coordinates: this.xToYCoordinates,
-      ref: { [tooltipMetric]: this.metricRef }
+      ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef }
     })
 
     let events = []
@@ -490,7 +490,7 @@ const enhance = compose(
 
   graphql(HISTORY_PRICE_QUERY, {
     skip: ({ metrics, from, to }) =>
-      !metrics.includes('historyPrice') ||
+      !metrics.includes(Metrics.historyPrice) ||
       new Date(to) - new Date(from) > DAY_INTERVAL,
     props: ({ data: { historyPrice = [] } }) => {
       return { priceRefLineData: historyPrice[0] }
