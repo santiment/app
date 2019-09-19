@@ -79,6 +79,7 @@ const getChartInitialState = props => {
     if (typeof data.marketSegments === 'string') {
       data.marketSegments = [data.marketSegments]
     }
+    mapPassedState(data)
     passedState = data
   } else {
     let {
@@ -111,8 +112,6 @@ const getChartInitialState = props => {
       marketSegments
     }
   }
-
-  mapPassedState(passedState)
 
   return {
     ...DEFAULT_STATE,

@@ -56,6 +56,7 @@ import {
 } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
 import { mapToOptions } from '../../../utils/select/utils'
+import { Metrics } from '../../SANCharts/utils'
 
 const targetMapper = ({ value, slug } = {}) => slug || value
 export const targetMapperWithName = ({ value, slug, name } = {}) =>
@@ -738,11 +739,11 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
 export const getMetricsByType = type => {
   switch (type) {
     case DAILY_ACTIVE_ADDRESSES:
-      return ['historyPrice', 'dailyActiveAddresses']
+      return [Metrics.historyPrice, Metrics.dailyActiveAddresses]
     case PRICE_VOLUME_DIFFERENCE:
-      return ['historyPrice', 'volume']
+      return [Metrics.historyPrice, Metrics.volume]
     default:
-      return ['historyPrice']
+      return [Metrics.historyPrice]
   }
 }
 
