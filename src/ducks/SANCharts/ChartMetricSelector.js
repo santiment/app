@@ -9,7 +9,12 @@ import Button from '@santiment-network/ui/Button'
 import MetricExplanation from './MetricExplanation'
 import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
-import { Metrics, Events, transformMarketSegmentToMetricKey } from './utils'
+import {
+  Metrics,
+  Events,
+  transformMarketSegmentToMetricKey,
+  getMarketSegment
+} from './utils'
 import styles from './ChartMetricSelector.module.scss'
 
 const NO_GROUP = '_'
@@ -134,28 +139,30 @@ const countCategoryActiveMetrics = (activeMetrics = []) => {
   return counter
 }
 
+const addDevMarketSegmentsToCategory = (segments, categories) => {
+  const { Development } = categories
+
+  if (Development) {
+    Development['_'].push(...segments)
+    return
+  }
+
+  categories.Development = { _: [...segments] }
+}
+
 const ChartMetricSelector = ({
   className = '',
   toggleMetric,
   activeMetrics,
   activeEvents,
   disabledMetrics,
-  data: {
-    project: { availableMetrics = [], marketSegments = [] } = {},
-    loading
-  },
+  categories,
+  loading,
   ...props
 }) => {
   const [activeCategory, setCategory] = useState('Financial')
 
-  const categories = getCategoryGraph(
-    availableMetrics.concat(
-      marketSegments.map(transformMarketSegmentToMetricKey)
-    )
-  )
   const actives = [...activeEvents, ...activeMetrics]
-  console.log(actives)
-
   const categoryActiveMetricsCounter = countCategoryActiveMetrics(actives)
 
   useEffect(
@@ -240,6 +247,23 @@ const ChartMetricSelector = ({
 }
 
 export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
+  props: ({
+    data: {
+      loading,
+      project: { availableMetrics = [], marketSegments = [] } = {}
+    }
+  }) => {
+    const categories = getCategoryGraph(availableMetrics)
+    addDevMarketSegmentsToCategory(
+      marketSegments.map(getMarketSegment),
+      categories
+    )
+
+    return {
+      loading,
+      categories
+    }
+  },
   options: ({ slug }) => {
     return { variables: { slug } }
   }

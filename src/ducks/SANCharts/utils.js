@@ -312,43 +312,30 @@ DerivedMetrics.forEach(obj => {
   }
 })
 
-export const transformMarketSegmentToMetricKey = segment =>
-  `devActivity${segment.replace(' ', '')}`
+const MarketSegments = new Map()
 
-const segments = [
-  'Cryptocurrency',
-  'Decentralized Exchange',
-  'Protocol',
-  'Stablecoin',
-  'Exchange',
-  'Lending',
-  'Other',
-  'Media',
-  'Platform',
-  'Achain',
-  'Real Estate',
-  'Blockchain Service',
-  'Advertising',
-  'Adult',
-  'Marketing',
-  'Bitcoin',
-  'DeFi',
-  'Blockchain Network',
-  'Financial',
-  'Ethereum'
-]
-segments.forEach(segment => {
-  Metrics[transformMarketSegmentToMetricKey(segment)] = {
+export const getMarketSegment = key => {
+  const target = MarketSegments.get(key)
+  if (target) {
+    return target
+  }
+  const newSegment = {
+    key,
     category: 'Development',
     node: Line,
-    label: `Dev. Activity - ${segment}`,
+    label: `Dev. Activity - ${key}`,
     dataKey: 'activity',
     reqMeta: {
       transform: 'movingAverage',
       movingAverageIntervalBase: 7
     }
   }
-})
+  MarketSegments.set(key, newSegment)
+  return newSegment
+}
+
+export const transformMarketSegmentToMetricKey = segment =>
+  `devActivity${segment.replace(' ', '')}`
 
 export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
 
