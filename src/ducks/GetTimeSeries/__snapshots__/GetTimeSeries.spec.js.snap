@@ -6,6 +6,7 @@ Array [
     "payload": Object {
       "events": Array [],
       "id": 0,
+      "marketSegments": Array [],
       "metrics": Array [
         Object {
           "interval": "1d",
