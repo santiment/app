@@ -400,6 +400,16 @@ class ChartPage extends Component {
         interval
       })) || []
 
+    const requestedMarketSegments =
+      marketSegments.map(({ key: name, reqMeta }) => ({
+        name,
+        from,
+        to,
+        slug,
+        interval: INTERVAL_ALIAS[interval] || interval,
+        ...reqMeta
+      })) || []
+
     if (adjustNightMode) {
       document.body.classList.toggle('night-mode', !!nightMode)
     }
@@ -424,6 +434,7 @@ class ChartPage extends Component {
       <GetTimeSeries
         events={requestedEvents}
         metrics={requestedMetrics}
+        marketSegments={requestedMarketSegments}
         render={({
           timeseries = [],
           eventsData = [],
@@ -447,9 +458,9 @@ class ChartPage extends Component {
           }
 
           const errors = Object.keys(errorMetrics)
-          const finalMetrics = metrics.filter(
-            ({ key }) => !errors.includes(key)
-          )
+          const finalMetrics = metrics
+            .concat(marketSegments)
+            .filter(({ key }) => !errors.includes(key))
 
           // NOTE(haritonasty): we don't show anomalies when trendPositionHistory is in activeMetrics
           const isTrendsShowing = trendPositionHistory !== undefined
@@ -507,7 +518,6 @@ class ChartPage extends Component {
                           disabledMetrics={errors}
                           activeMetrics={finalMetrics}
                           activeEvents={events}
-                          activeMarketSegments={marketSegments}
                           showToggleAnomalies={showToggleAnomalies}
                           onToggleAnomalies={this.onToggleAnomalies}
                           isShowAnomalies={isShowAnomalies}

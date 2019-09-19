@@ -325,7 +325,6 @@ export const getMarketSegment = key => {
     category: 'Development',
     node: Line,
     label: `Dev. Activity - ${key}`,
-    dataKey: 'activity',
     reqMeta: {
       transform: 'movingAverage',
       movingAverageIntervalBase: 7

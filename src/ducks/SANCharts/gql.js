@@ -5,6 +5,7 @@ export const PROJECT_METRICS_BY_SLUG_QUERY = gql`
     project: projectBySlug(slug: $slug) {
       id
       availableMetrics
+      marketSegments
     }
   }
 `

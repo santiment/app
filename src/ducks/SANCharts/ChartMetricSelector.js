@@ -141,7 +141,6 @@ const ChartMetricSelector = ({
   toggleMetric,
   activeMetrics,
   activeEvents,
-  activeMarketSegments,
   disabledMetrics,
   categories,
   loading,
@@ -149,7 +148,7 @@ const ChartMetricSelector = ({
 }) => {
   const [activeCategory, setCategory] = useState('Financial')
 
-  const actives = [...activeEvents, ...activeMetrics, ...activeMarketSegments]
+  const actives = [...activeEvents, ...activeMetrics]
   const categoryActiveMetricsCounter = countCategoryActiveMetrics(actives)
 
   return (

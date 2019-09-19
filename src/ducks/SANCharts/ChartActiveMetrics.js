@@ -12,7 +12,6 @@ import styles from './ChartActiveMetrics.module.scss'
 const ChartActiveMetrics = ({
   activeEvents,
   activeMetrics,
-  activeMarketSegments = [],
   toggleMetric,
   isShowAnomalies,
   ...rest
@@ -21,7 +20,7 @@ const ChartActiveMetrics = ({
   return (
     <>
       <section className={styles.wrapper}>
-        {activeMetrics.concat(activeMarketSegments).map(metric => {
+        {activeMetrics.map(metric => {
           const { node, color, label, description } = metric
           return (
             <MetricExplanation

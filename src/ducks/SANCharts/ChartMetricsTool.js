@@ -11,7 +11,6 @@ const ChartMetricsTool = ({
   classes = {},
   activeMetrics,
   activeEvents,
-  activeMarketSegments,
   disabledMetrics,
   slug,
   toggleMetric,
@@ -36,7 +35,6 @@ const ChartMetricsTool = ({
         disabledMetrics={disabledMetrics}
         activeMetrics={activeMetrics}
         activeEvents={activeEvents}
-        activeMarketSegments={activeMarketSegments}
         variant='modal'
       />
     </ContextMenu>
@@ -45,7 +43,6 @@ const ChartMetricsTool = ({
       activeMetrics={activeMetrics}
       toggleMetric={toggleMetric}
       activeEvents={activeEvents}
-      activeMarketSegments={activeMarketSegments}
       {...rest}
     />
   </div>
