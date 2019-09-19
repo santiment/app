@@ -43,20 +43,22 @@ const getCategoryGraph = availableMetrics => {
 
   for (let i = 0; i < length; i++) {
     const availableMetric = availableMetrics[i]
-    const targetMetric = Metrics[availableMetric]
+    const metric =
+      typeof availableMetric === 'object'
+        ? availableMetric
+        : Metrics[availableMetric]
 
-    if (!targetMetric) {
+    if (!metric) {
       continue
     }
 
-    if (Array.isArray(targetMetric)) {
-      const metricCategory = targetMetric[0].category
-      addItemToGraph(categories, metricCategory, targetMetric)
+    if (Array.isArray(metric)) {
+      const metricCategory = metric[0].category
+      addItemToGraph(categories, metricCategory, metric)
       continue
     }
 
-    const metricCategory = targetMetric.category
-    const metric = targetMetric
+    const metricCategory = metric.category
     const metrics = [metric]
 
     if (metric.key === 'historyPrice') {
@@ -123,17 +125,6 @@ const countCategoryActiveMetrics = (activeMetrics = []) => {
     counter[category] = (counter[category] || 0) + 1
   }
   return counter
-}
-
-const addDevMarketSegmentsToCategory = (segments, categories) => {
-  const { Development } = categories
-
-  if (Development) {
-    Development._.push(...segments)
-    return
-  }
-
-  categories.Development = { _: [...segments] }
 }
 
 const ChartMetricSelector = ({
@@ -232,10 +223,8 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
       project: { availableMetrics = [], marketSegments = [] } = {}
     }
   }) => {
-    const categories = getCategoryGraph(availableMetrics)
-    addDevMarketSegmentsToCategory(
-      marketSegments.map(getMarketSegment),
-      categories
+    const categories = getCategoryGraph(
+      availableMetrics.concat(marketSegments.map(getMarketSegment))
     )
 
     return {

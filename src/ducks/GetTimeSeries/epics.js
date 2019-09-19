@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs'
 import * as actions from './actions'
+import { MARKET_SEGMENT_QUERY } from './queries/market_segment_query'
 import { handleErrorAndTriggerAction } from './../../epics/utils'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import { hasMetric, getMetricQUERY, getPreTransform } from './timeseries'
-import { MARKET_SEGMENT_QUERY } from './queries/market_segment_query'
 
 const mapDataToMergedTimeserieByDatetime = (
   items = [],

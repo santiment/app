@@ -378,18 +378,14 @@ class ChartPage extends Component {
     } = this.props
 
     const requestedMetrics = metrics.map(
-      ({ key, alias: name = key, reqMeta }) => {
-        /* const name = Metrics[metric].alias || metric */
-        return {
-          name,
-          slug,
-          from,
-          to,
-          interval: INTERVAL_ALIAS[interval] || interval,
-          /* ...Metrics[metric].reqMeta, */
-          ...reqMeta
-        }
-      }
+      ({ key, alias: name = key, reqMeta }) => ({
+        name,
+        slug,
+        from,
+        to,
+        interval: INTERVAL_ALIAS[interval] || interval,
+        ...reqMeta
+      })
     )
 
     const requestedEvents =
