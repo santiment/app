@@ -221,7 +221,8 @@ class ChartPage extends Component {
           action: `Removing "${label}"`
         })
       } else {
-        if (newMetrics.size >= MAX_METRICS_PER_CHART) {
+        const metricsAmount = state.metrics.length + state.marketSegments.length
+        if (metricsAmount >= MAX_METRICS_PER_CHART) {
           return state
         }
         newMetrics.add(metric)
