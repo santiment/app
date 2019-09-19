@@ -81,7 +81,17 @@ const getChartInitialState = props => {
     }
     passedState = data
   } else {
-    let { slug, from, to, title, timeRange, metrics, interval, events } = props
+    let {
+      slug,
+      from,
+      to,
+      title,
+      timeRange,
+      metrics,
+      interval,
+      events,
+      marketSegments
+    } = props
 
     if (!from) {
       const { from: f, to: t } = getIntervalByTimeRange(timeRange)
@@ -97,7 +107,8 @@ const getChartInitialState = props => {
       from,
       to,
       timeRange,
-      interval
+      interval,
+      marketSegments
     }
   }
 
