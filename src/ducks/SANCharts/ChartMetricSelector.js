@@ -9,7 +9,7 @@ import Button from '@santiment-network/ui/Button'
 import MetricExplanation from './MetricExplanation'
 import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
-import { Metrics, Events } from './utils'
+import { Metrics, Events, transformMarketSegmentToMetricKey } from './utils'
 import styles from './ChartMetricSelector.module.scss'
 
 const NO_GROUP = '_'
@@ -39,6 +39,7 @@ const getCategoryGraph = availableMetrics => {
     Social: [
       {
         isEvent: true,
+        type: 'events',
         label: 'Trending Position',
         key: 'trendPositionHistory',
         note: (
@@ -69,11 +70,11 @@ const getCategoryGraph = availableMetrics => {
     }
 
     const metricCategory = targetMetric.category
-    const metric = { ...targetMetric, key: availableMetric }
+    const metric = targetMetric
     const metrics = [metric]
 
     if (metric.key === 'historyPrice') {
-      metrics.push({ ...Metrics.volume, key: 'volume' })
+      metrics.push(Metrics.volume)
     }
 
     addItemToGraph(categories, metricCategory, metrics)
@@ -135,7 +136,7 @@ const ActionBtn = ({ metric, children, isActive, isDisabled, ...props }) => {
 const countCategoryActiveMetrics = (activeMetrics = []) => {
   const counter = {}
   for (let i = 0; i < activeMetrics.length; i++) {
-    const { category } = Metrics[activeMetrics[i]] || Events[activeMetrics[i]]
+    const { category } = activeMetrics[i]
     counter[category] = (counter[category] || 0) + 1
   }
   return counter
@@ -147,13 +148,21 @@ const ChartMetricSelector = ({
   activeMetrics,
   activeEvents,
   disabledMetrics,
-  data: { project: { availableMetrics = [] } = {}, loading },
+  data: {
+    project: { availableMetrics = [], marketSegments = [] } = {},
+    loading
+  },
   ...props
 }) => {
   const [activeCategory, setCategory] = useState('Financial')
 
-  const categories = getCategoryGraph(availableMetrics)
+  const categories = getCategoryGraph(
+    availableMetrics.concat(
+      marketSegments.map(transformMarketSegmentToMetricKey)
+    )
+  )
   const actives = [...activeEvents, ...activeMetrics]
+
   const categoryActiveMetricsCounter = countCategoryActiveMetrics(actives)
 
   useEffect(
@@ -212,16 +221,14 @@ const ChartMetricSelector = ({
                       <h3 className={styles.group__title}>{group}</h3>
                     )}
                     {categories[activeCategory][group].map(metric => {
-                      const isActive = actives.includes(metric.key)
+                      const isActive = actives.includes(metric)
                       const isDisabled = disabledMetrics.includes(metric.key)
 
                       return (
                         <ActionBtn
                           key={metric.label}
                           metric={metric}
-                          onClick={() =>
-                            toggleMetric(metric.key, metric.isEvent)
-                          }
+                          onClick={() => toggleMetric(metric)}
                           isActive={isActive}
                           isDisabled={isDisabled}
                         >

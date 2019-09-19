@@ -27,7 +27,7 @@ const DEFAULT_STATE = {
   from: FROM.toISOString(),
   to: TO.toISOString(),
   slug: 'santiment',
-  metrics: ['historyPrice'],
+  metrics: [Metrics.historyPrice],
   title: 'Santiment (SAN)',
   projectId: '16912',
   interval: getNewInterval(FROM, TO, '1d'),
@@ -78,13 +78,15 @@ const getChartInitialState = props => {
       slug,
       title,
       metrics,
+      events,
       from,
       to,
       timeRange,
-      interval,
-      events
+      interval
     }
   }
+
+  passedState.metrics = passedState.metrics.map(metric => Metrics[metric])
 
   return {
     ...DEFAULT_STATE,
@@ -191,16 +193,17 @@ class ChartPage extends Component {
     this.setState({ interval }, this.updateSearchQuery)
   }
 
-  toggleMetric = (metric, isEvent) => {
+  toggleMetric = metric => {
+    const { type = 'metrics', label } = metric
+
     this.setState(state => {
-      const key = isEvent ? 'events' : 'metrics'
-      const newMetrics = new Set(state[key])
+      const newMetrics = new Set(state[type])
       if (newMetrics.has(metric)) {
         newMetrics.delete(metric)
 
         GA.event({
           category: 'Chart',
-          action: `Removing "${(isEvent ? Events : Metrics)[metric].label}"`
+          action: `Removing "${label}"`
         })
       } else {
         if (newMetrics.size >= MAX_METRICS_PER_CHART) {
@@ -210,12 +213,12 @@ class ChartPage extends Component {
 
         GA.event({
           category: 'Chart',
-          action: `Showing "${(isEvent ? Events : Metrics)[metric].label}"`
+          action: `Showing "${label}"`
         })
       }
       return {
         ...state,
-        [key]: [...newMetrics]
+        [type]: [...newMetrics]
       }
     }, this.updateSearchQuery)
   }
@@ -253,14 +256,18 @@ class ChartPage extends Component {
     '?' + qs.stringify(props, { arrayFormat: 'comma' })
 
   updateSearchQuery () {
-    if (!this.props.location) {
+    const { location, history } = this.props
+    if (!location && !history) {
       return
     }
 
-    this.props.history &&
-      this.props.history.replace({
-        search: this.mapStateToQS(this.state)
+    const { metrics } = this.state
+    history.replace({
+      search: this.mapStateToQS({
+        ...this.state,
+        metrics: metrics.map(({ key }) => key)
       })
+    })
   }
 
   generateShareLink = disabledMetrics => {
@@ -347,21 +354,24 @@ class ChartPage extends Component {
       isPRO
     } = this.props
 
-    const requestedMetrics = metrics.map(metric => {
-      const name = Metrics[metric].alias || metric
-      return {
-        name,
-        slug,
-        from,
-        to,
-        interval: INTERVAL_ALIAS[interval] || interval,
-        ...Metrics[metric].reqMeta
+    const requestedMetrics = metrics.map(
+      ({ key, alias: name = key, reqMeta }) => {
+        /* const name = Metrics[metric].alias || metric */
+        return {
+          name,
+          slug,
+          from,
+          to,
+          interval: INTERVAL_ALIAS[interval] || interval,
+          /* ...Metrics[metric].reqMeta, */
+          ...reqMeta
+        }
       }
-    })
+    )
 
     const requestedEvents =
-      events.map(event => ({
-        name: event,
+      events.map(({ key: name }) => ({
+        name,
         from,
         to,
         slug,

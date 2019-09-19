@@ -62,6 +62,7 @@ export const usdFormatter = val => formatNumber(val, { currency: 'USD' })
 
 export const Metrics = {
   historyPrice: {
+    key: 'historyPrice',
     node: Line,
     color: 'jungle-green',
     label: 'Price',
@@ -70,6 +71,7 @@ export const Metrics = {
     formatter: usdFormatter
   },
   historyPricePreview: {
+    key: 'historyPricePreview',
     node: Area,
     color: 'jungle-green',
     label: 'Price',
@@ -79,6 +81,7 @@ export const Metrics = {
     hideYAxis: true
   },
   volume: {
+    key: 'volume',
     category: 'Financial',
     node: Bar,
     label: 'Volume',
@@ -88,6 +91,7 @@ export const Metrics = {
     formatter: usdFormatter
   },
   socialVolume: {
+    key: 'socialVolume',
     category: 'Social',
     node: Bar,
     label: 'Social Volume',
@@ -95,6 +99,7 @@ export const Metrics = {
     description: `Shows the amount of mentions of the coin on 1000+ crypto social media channels, including Telegram groups, crypto subreddits, discord groups, private traders chats and more.`
   },
   tokenAgeConsumed: {
+    key: 'tokenAgeConsumed',
     category: 'On-chain',
     node: Bar,
     group: 'Token Flows/Movement/Activity',
@@ -106,6 +111,7 @@ export const Metrics = {
           multiplied by the number of days since they last moved`
   },
   exchangeFundsFlow: {
+    key: 'exchangeFundsFlow',
     category: 'On-chain',
     node: Line,
     label: 'Exchange Flow Balance',
@@ -116,6 +122,7 @@ export const Metrics = {
 `
   },
   dailyActiveAddresses: {
+    key: 'dailyActiveAddresses',
     category: 'On-chain',
     node: Bar,
     group: 'Network Activity',
@@ -128,6 +135,7 @@ export const Metrics = {
     color: 'texas-rose'
   },
   percentOfTokenSupplyOnExchanges: {
+    key: 'percentOfTokenSupplyOnExchanges',
     category: 'On-chain',
     node: Line,
     group: 'Exchange Flow',
@@ -136,6 +144,7 @@ export const Metrics = {
     description: 'The percent of the total token supply which is on exchanges.'
   },
   topHoldersPercentOfTotalSupply: {
+    key: 'topHoldersPercentOfTotalSupply',
     category: 'On-chain',
     node: Line,
     group: 'Exchange Flow',
@@ -145,6 +154,7 @@ export const Metrics = {
     dataKey: 'inTopHoldersTotal'
   },
   tokenCirculation: {
+    key: 'tokenCirculation',
     category: 'On-chain',
     node: Line,
     group: 'Token Flows/Movement/Activity',
@@ -156,6 +166,7 @@ export const Metrics = {
           but 5 times by the transaction volume.`
   },
   mvrvRatio: {
+    key: 'mvrvRatio',
     category: 'On-chain',
     node: Line,
     group: 'Network value',
@@ -165,6 +176,7 @@ export const Metrics = {
     description: `MVRV measures how much every holder originally paid for their coins, and compares that investment to the coin’s current price to calculate the average profit or loss across all holders. Example: if MVRV = 2, then, on average, all coin holders have (currently) doubled their initial investment.`
   },
   transactionVolume: {
+    key: 'transactionVolume',
     alias: 'transaction_volume',
     dataKey: 'transaction_volume',
     category: 'On-chain',
@@ -176,6 +188,7 @@ export const Metrics = {
     happened on the network on a certain date.`
   },
   networkGrowth: {
+    key: 'networkGrowth',
     category: 'On-chain',
     node: Line,
     group: 'Network Activity',
@@ -186,6 +199,7 @@ export const Metrics = {
     be used to identify when the project is gaining - or losing - traction.`
   },
   devActivity: {
+    key: 'devActivity',
     category: 'Development',
     node: Line,
     color: 'heliotrope',
@@ -199,6 +213,7 @@ export const Metrics = {
     }
   },
   tokenVelocity: {
+    key: 'tokenVelocity',
     category: 'On-chain',
     node: Line,
     group: 'Token Flows/Movement/Activity',
@@ -212,6 +227,7 @@ export const Metrics = {
 `
   },
   dailyActiveDeposits: {
+    key: 'dailyActiveDeposits',
     category: 'On-chain',
     node: Bar,
     label: 'Daily Active Deposits',
@@ -222,6 +238,7 @@ export const Metrics = {
           belonging to an exchange that users use to deposit assets`
   },
   historyTwitterData: {
+    key: 'historyTwitterData',
     category: 'Social',
     node: Line,
     label: 'Twitter',
@@ -229,6 +246,7 @@ export const Metrics = {
     description: `Shows the number of followers on the project's official Twitter account over time`
   },
   socialDominance: {
+    key: 'socialDominance',
     category: 'Social',
     node: Line,
     label: 'Social Dominance',
@@ -236,6 +254,7 @@ export const Metrics = {
     description: `Shows the share (or %) of the coin’s mentions on crypto-related social media, compared to a pool of 50+ of the most talked-about projects online.`
   },
   realizedValue: {
+    key: 'realizedValue',
     category: 'On-chain',
     node: Line,
     group: 'Network value',
@@ -244,6 +263,7 @@ export const Metrics = {
     description: `Realized Cap shows the total amount that all holders spent to purchase the coin (i.e. the total acquisition cost). While market cap = supply X current price of each coin, realized cap = supply X price of each coin when it last ‘moved’`
   },
   ethSpentOverTime: {
+    key: 'ethSpentOverTime',
     category: 'On-chain',
     node: Line,
     label: 'Eth Spent Over Time',
@@ -252,6 +272,7 @@ export const Metrics = {
       'How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity'
   },
   gasUsed: {
+    key: 'gasUsed',
     category: 'On-chain',
     node: Line,
     label: 'Gas Used',
@@ -291,6 +312,44 @@ DerivedMetrics.forEach(obj => {
   }
 })
 
+export const transformMarketSegmentToMetricKey = segment =>
+  `devActivity${segment.replace(' ', '')}`
+
+const segments = [
+  'Cryptocurrency',
+  'Decentralized Exchange',
+  'Protocol',
+  'Stablecoin',
+  'Exchange',
+  'Lending',
+  'Other',
+  'Media',
+  'Platform',
+  'Achain',
+  'Real Estate',
+  'Blockchain Service',
+  'Advertising',
+  'Adult',
+  'Marketing',
+  'Bitcoin',
+  'DeFi',
+  'Blockchain Network',
+  'Financial',
+  'Ethereum'
+]
+segments.forEach(segment => {
+  Metrics[transformMarketSegmentToMetricKey(segment)] = {
+    category: 'Development',
+    node: Line,
+    label: `Dev. Activity - ${segment}`,
+    dataKey: 'activity',
+    reqMeta: {
+      transform: 'movingAverage',
+      movingAverageIntervalBase: 7
+    }
+  }
+})
+
 export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
 
 export const METRIC_COLORS = [
@@ -302,10 +361,8 @@ export const METRIC_COLORS = [
 ]
 
 export const findYAxisMetric = metrics =>
-  (metrics.includes(PRICE_METRIC) && PRICE_METRIC) ||
-  metrics.find(
-    metric => metric !== 'mvrvRatio' && Metrics[metric].node !== Bar
-  ) ||
+  (metrics.includes(Metrics.historyPrice) && Metrics.historyPrice) ||
+  metrics.find(({ key, node }) => key !== 'mvrvRatio' && node !== Bar) ||
   metrics[0]
 
 export const setupColorGenerator = () => {
@@ -383,15 +440,16 @@ export const generateMetricsMarkup = (
 
   const res = metrics.reduce((acc, metric) => {
     const {
+      key,
       node: El,
       label,
       color,
       orientation = 'left',
-      dataKey = metric,
+      dataKey = key,
       hideYAxis,
       gradientUrl,
       formatter
-    } = typeof metric === 'object' ? metric : Metrics[metric]
+    } = metric
 
     const rest = {
       [El === Bar ? 'fill' : 'stroke']: `var(--${generateColor(color)})`,
@@ -418,7 +476,7 @@ export const generateMetricsMarkup = (
         yAxisId={`axis-${dataKey}`}
         name={label}
         strokeWidth={1.5}
-        ref={ref[metric]}
+        ref={ref[key]}
         dataKey={dataKey}
         dot={false}
         isAnimationActive={false}

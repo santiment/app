@@ -21,7 +21,7 @@ const ChartActiveMetrics = ({
     <>
       <section className={styles.wrapper}>
         {activeMetrics.map(metric => {
-          const { node, color, label, description } = Metrics[metric]
+          const { node, color, label, description } = metric
           return (
             <MetricExplanation
               key={label}
@@ -46,7 +46,7 @@ const ChartActiveMetrics = ({
           )
         })}
         {activeEvents.map(event => {
-          const { label, description } = Events[event]
+          const { label, description } = event
           return (
             <MetricExplanation
               key={label}
