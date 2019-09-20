@@ -10,16 +10,6 @@ import { mapTriggerToFormProps, mapFormPropsToTrigger } from '../../utils/utils'
 import { SIGNAL_ROUTES } from '../../common/constants'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
-const getTitle = (formData, { id }, isShared) => {
-  const isUpdate = id > 0 && !isShared
-  const publicWord = formData.isPublic ? 'public' : 'private'
-  if (isUpdate) {
-    return `Update ${publicWord} signal`
-  } else {
-    return `Create ${publicWord} signal`
-  }
-}
-
 const SignalMaster = ({
   canRedirect = true,
   trigger: propsTrigger = {},
@@ -64,11 +54,6 @@ const SignalMaster = ({
     [propsTrigger]
   )
 
-  useEffect(() => {
-    setTitle &&
-      setTitle(getTitle(triggerSettingsFormData, stateTrigger, isShared))
-  })
-
   const handleSettingsChange = formProps => {
     const newTrigger = mapFormPropsToTrigger(formProps, stateTrigger)
 
@@ -102,6 +87,7 @@ const SignalMaster = ({
         metaFormSettings={metaFormSettings}
         onSettingsChange={handleSettingsChange}
         formChangedCallback={formChangedCallback}
+        setTitle={setTitle}
       />
     </div>
   )
