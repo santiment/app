@@ -51,6 +51,16 @@ import TriggerFormChannels from '../formParts/channels/TriggerFormChannels'
 import styles from './TriggerForm.module.scss'
 import FormikCheckbox from '../../../../../components/formik-santiment-ui/FormikCheckbox'
 
+const getTitle = (formData, id, isShared) => {
+  const isUpdate = id > 0 && !isShared
+  const publicWord = formData.isPublic ? 'public' : 'private'
+  if (isUpdate) {
+    return `Update ${publicWord} signal`
+  } else {
+    return `Create ${publicWord} signal`
+  }
+}
+
 const propTypes = {
   onSettingsChange: PropTypes.func.isRequired,
   isTelegramConnected: PropTypes.bool.isRequired,
@@ -70,7 +80,8 @@ export const TriggerForm = ({
   metaFormSettings,
   id,
   formChangedCallback,
-  isShared
+  isShared,
+  setTitle
 }) => {
   const formMetric =
     metaFormSettings && metaFormSettings.metric
@@ -123,8 +134,16 @@ export const TriggerForm = ({
     }
   }, [])
 
+  useEffect(
+    () => {
+      setTitle && setTitle(getTitle(initialValues, id, isShared))
+    },
+    [initialValues.isPublic]
+  )
+
   const toggleSignalPublic = values => {
-    setInitialValues({ ...values, isPublic: !values.isPublic })
+    const newValues = { ...values, isPublic: !values.isPublic }
+    setInitialValues(newValues)
   }
 
   const [step, setStep] = useState(

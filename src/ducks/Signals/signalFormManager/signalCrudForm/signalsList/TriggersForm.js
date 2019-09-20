@@ -17,12 +17,14 @@ export const TriggersForm = ({
   onSettingsChange,
   onClose,
   formChangedCallback,
-  isShared
+  isShared,
+  setTitle
 }) => {
   return (
     <div>
       {triggers.map((trigger, index) => (
         <TriggerForm
+          setTitle={setTitle}
           key={trigger.id || index}
           id={trigger.id}
           isShared={isShared}
