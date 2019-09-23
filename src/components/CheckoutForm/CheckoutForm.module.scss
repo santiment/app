@@ -1,12 +1,60 @@
 @import '~@santiment-network/ui/mixins';
 @import '~@santiment-network/ui/variables';
 
+.top {
+  @include text('body-3');
+
+  color: var(--mirage);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 16px;
+
+  &__cards {
+    display: flex;
+    align-items: center;
+  }
+
+  &__visa {
+    margin-right: 16px;
+  }
+}
+
+.form {
+  border-radius: 4px;
+  background: var(--athens);
+  padding: 24px 32px;
+  margin-bottom: 24px;
+}
+
+.toggle {
+  @include text('body-3');
+
+  color: var(--waterloo);
+  fill: var(--waterloo);
+  margin: 0 0 15px;
+  cursor: pointer;
+  user-select: none;
+
+  svg {
+    height: 13px;
+    width: 13px;
+    margin: 0 5px -1px 0;
+  }
+
+  &:hover {
+    color: var(--jungle-green);
+    fill: var(--jungle-green);
+  }
+}
+
 .row {
   display: flex;
 }
 
 .input {
   margin-bottom: 10px;
+  height: 40px;
 
   &:hover,
   &:focus {
@@ -29,10 +77,11 @@
       box-sizing: border-box;
       border-radius: 4px;
       display: block;
-      padding: 7px 10px;
+      padding: 11px 10px;
       outline: 0;
       background: var(--white);
       margin-bottom: 5px;
+      height: 40px;
 
       &--focus {
         border-color: var(--jungle-green);
@@ -147,23 +196,4 @@
   color: var(--casper);
   margin-top: 30px;
   text-align: center;
-}
-
-.cvc {
-  border: 2px solid var(--persimmon);
-  border-radius: 50%;
-  font-weight: bold;
-  font-size: 9px;
-  line-height: 18px;
-  color: var(--waterloo);
-  padding: 7px 5px;
-  position: relative;
-  top: -4px;
-
-  &_american {
-    position: absolute;
-    top: -20px;
-    right: 11px;
-    padding: 4px 3px;
-  }
 }

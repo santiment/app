@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import Input from '@santiment-network/ui/Input'
+import Icon from '@santiment-network/ui/Icon'
 import { CardElement } from 'react-stripe-elements'
 import vars from '@santiment-network/ui/variables.scss'
+import visaSrc from './visa.png'
+import mastercardSrc from './mastercard.png'
 import styles from './CheckoutForm.module.scss'
 
 const style = {
@@ -19,50 +22,96 @@ const style = {
   }
 }
 
+const DiscountInput = () => {
+  return (
+    <label className={cx(styles.label, styles.label_card)}>
+      Discount code
+      <Input className={styles.input} placeholder='2H8vZG5P' name='coupon' />
+    </label>
+  )
+}
+
 const CheckoutForm = ({ stripe, plan }) => {
+  const [visible, setVisible] = useState()
+
+  function onToggleClick () {
+    setVisible(!visible)
+  }
+
   return (
     <>
-      <label className={cx(styles.label, styles.label_card)}>
-        Card details
-        <CardElement style={style} />
-      </label>
+      <div className={styles.top}>
+        Card information
+        <div className={styles.top__cards}>
+          <img
+            width='40'
+            alt='visa'
+            src={visaSrc}
+            className={styles.top__visa}
+          />
+          <img width='40' alt='mastercard' src={mastercardSrc} />
+        </div>
+      </div>
+      <div className={styles.form}>
+        <label className={cx(styles.label, styles.label_card)}>
+          Full name
+          <Input
+            className={styles.input}
+            placeholder='John Doe'
+            required
+            name='name'
+          />
+        </label>
 
-      <label className={styles.label}>Billing address</label>
-      <Input
-        className={styles.input}
-        placeholder='Full Name'
-        required
-        name='name'
-      />
-      <div className={styles.row}>
-        <Input className={styles.input} placeholder='Country' required />
-        <Input
-          className={cx(styles.input, styles.input_right)}
-          placeholder='City'
-          required
-          name='address_city'
-        />
+        <label className={cx(styles.label, styles.label_card)}>
+          Card number
+          <CardElement style={style} />
+        </label>
+
+        <label className={cx(styles.label, styles.label_card)}>
+          Country
+          <Input
+            className={styles.input}
+            name='address_country'
+            placeholder='US'
+            required
+          />
+        </label>
       </div>
-      <div className={styles.row}>
-        <Input
-          className={styles.input}
-          placeholder='State/Region'
-          required
-          name='address_state'
-        />
-        <Input
-          className={cx(styles.input, styles.input_right)}
-          placeholder='Street Address'
-          required
-          name='address_line1'
-        />
+
+      <div className={styles.toggle} onClick={onToggleClick}>
+        <Icon type={visible ? 'subtract-round' : 'plus-round-small'} />
+        {visible ? 'Hide' : 'Add'} billing address
       </div>
-      <Input
-        className={styles.input}
-        placeholder='Phone Number'
-        type='tel'
-        required
-      />
+      {visible && (
+        <div className={styles.form}>
+          <label className={cx(styles.label, styles.label_card)}>
+            Street Address
+            <Input
+              className={styles.input}
+              placeholder='670 Glen Creek St.'
+              name='address_line1'
+            />
+          </label>
+          <label className={cx(styles.label, styles.label_card)}>
+            City
+            <Input
+              className={styles.input}
+              placeholder='Seattle'
+              name='address_city'
+            />
+          </label>
+          <label className={cx(styles.label, styles.label_card)}>
+            State/Region
+            <Input
+              className={styles.input}
+              placeholder='Washington'
+              name='address_state'
+            />
+          </label>
+        </div>
+      )}
+      <DiscountInput />
     </>
   )
 }
