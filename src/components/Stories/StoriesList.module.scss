@@ -1,0 +1,11 @@
+.list {
+  display: flex;
+}
+
+.item + .item {
+  margin-left: 24px;
+}
+
+.dialog {
+  position: relative;
+}

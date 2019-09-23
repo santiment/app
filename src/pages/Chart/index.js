@@ -9,7 +9,7 @@ import { ALL_INSIGHTS_BY_PAGE_QUERY } from '../../queries/InsightsGQL'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import { creationDateSort } from '../Insights/utils'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
-import TutorialList from '../../components/Tutorials/TutorialList'
+import StoriesList from '../../components/Stories/StoriesList'
 import paywallBoundaries from './paywallBoundaries'
 import styles from './index.module.scss'
 
@@ -20,7 +20,7 @@ function onGetStartedClick () {
   })
 }
 
-const AfterHeader = <TutorialList classes={styles} />
+const AfterHeader = <StoriesList classes={styles} />
 
 export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
   fetchPolicy: 'cache-and-network',
