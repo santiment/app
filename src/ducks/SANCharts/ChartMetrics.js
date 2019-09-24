@@ -53,7 +53,9 @@ class ChartMetrics extends Component {
       disabledMetrics = [],
       defaultActiveMetrics,
       data: {
-        project: { availableMetrics = defaultActiveMetrics || [] } = {}
+        project: {
+          availableQueries: availableMetrics = defaultActiveMetrics || []
+        } = {}
       } = {},
       listOfMetrics = Metrics,
       classes = {}
