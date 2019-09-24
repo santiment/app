@@ -4,7 +4,7 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import styles from './StoryContent.module.scss'
 
-const StoryContent = ({ slides, active, onNext, onPrev, amount }) => {
+const StoryContent = ({ slides, active, onNext, onPrev }) => {
   const { title, description, buttonText, buttonLink, image, video } = slides[
     active
   ]
@@ -40,7 +40,7 @@ const StoryContent = ({ slides, active, onNext, onPrev, amount }) => {
           </Button>
         )}
       </div>
-      {active < amount - 1 && (
+      {active < slides.length - 1 && (
         <div className={styles.next} onClick={onNext}>
           <Icon type='arrow-right-big' />
         </div>

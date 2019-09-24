@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react'
 import StoryContent from './StoryContent'
 
-const DURATION_IN_SEC = 15
+const DURATION_IN_SEC = 10
 
 const Story = ({ story = {}, open, onEnd }) => {
   const { slides } = story
   let [active, setActive] = useState(0)
   let [resetFlag, setResetFlag] = useState(true)
-  const amount = slides.length
+  const last = slides.length - 1
 
   const onNext = () => {
     const next = active + 1
-    if (next === amount) onEnd()
-    else setActive(Math.min(amount - 1, active + 1))
+    if (next > last) onEnd()
+    else setActive(Math.min(last, next))
     setResetFlag(!resetFlag)
   }
 
@@ -25,7 +25,6 @@ const Story = ({ story = {}, open, onEnd }) => {
 
   return (
     <StoryContent
-      amount={amount}
       active={active}
       slides={slides}
       onNext={onNext}
@@ -46,11 +45,8 @@ function useInterval (callback, delay, resetFlag) {
 
   useEffect(
     () => {
-      function tick () {
-        savedCallback.current()
-      }
       if (delay !== null) {
-        let id = setInterval(tick, delay)
+        let id = setInterval(() => savedCallback.current(), delay)
         return () => clearInterval(id)
       }
     },
