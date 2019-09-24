@@ -36,8 +36,8 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
   return (
     <>
       <div className={styles.wrapper}>
-        <div className={styles.content + ' page'}>
-          <h2 className={styles.week}>
+        <div className={styles.content}>
+          <h2 className={styles.week + ' elem-container'}>
             <span role='img' aria-label='cup'>
               🏆{' '}
             </span>
@@ -57,6 +57,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
                     location={location}
                     adjustNightMode={false}
                     showToggleAnomalies={true}
+                    addBounding={true}
                     slug='bitcoin'
                     title='Bitcoin (BTC)'
                     projectId='1505'

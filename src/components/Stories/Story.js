@@ -34,6 +34,7 @@ const Story = ({ story = {}, open, onClose }) => {
             as='a'
             href={buttonLink}
             rel='noopener noreferrer'
+            target='_blank'
             variant='fill'
             accent='positive'
             className={styles.button}

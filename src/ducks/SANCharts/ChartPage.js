@@ -344,7 +344,8 @@ class ChartPage extends Component {
       rightBoundaryDate,
       isLoggedIn,
       AfterHeader,
-      isPRO
+      isPRO,
+      addBounding
     } = this.props
 
     const requestedMetrics = metrics.map(metric => {
@@ -432,10 +433,13 @@ class ChartPage extends Component {
                   slug={slug}
                   isLoggedIn={isLoggedIn}
                   onSlugSelect={this.onSlugSelect}
+                  className={cx(addBounding && ' elem-container')}
                 />
               )}
               {AfterHeader}
-              <div className={styles.wrapper}>
+              <div
+                className={cx(styles.wrapper, addBounding && ' elem-container')}
+              >
                 <div
                   className={cx(
                     styles.tool,

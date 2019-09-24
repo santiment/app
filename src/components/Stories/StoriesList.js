@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
+import Icon from '@santiment-network/ui/Icon'
 import StoryPreview from './StoryPreview'
 import Story from './Story'
 import { stories } from './content/content'
@@ -11,16 +12,20 @@ const StoriesList = ({ classes = {} }) => {
 
   return (
     <section className={cx(styles.list, classes.stories)}>
-      {stories.map(story => (
-        <StoryPreview
-          className={cx(styles.item, classes.story)}
-          key={story.previewTitle}
-          onClick={() => setSelected(story)}
-          {...story}
-        />
-      ))}
+      <div className={styles.scrollableWrapper}>
+        <div className={styles.scrollable}>
+          {stories.map(story => (
+            <StoryPreview
+              className={cx(styles.item, classes.story)}
+              key={story.previewTitle}
+              onClick={() => setSelected(story)}
+              {...story}
+            />
+          ))}
+        </div>
+      </div>
       <Dialog
-        title='🎓  Santiment Academy'
+        title={(selected || {}).storyHeaderName || ''}
         open={!!selected}
         onClose={setSelected}
         classes={styles}

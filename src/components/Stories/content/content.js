@@ -131,6 +131,20 @@ export const stories = [
         video: 'https://www.youtube-nocookie.com/embed/mjImmjeYEVI'
       }
     ]
+  },
+  {
+    type: TYPES.VIDEO,
+    previewTitle: 'Sonar Introduction',
+    previewImage: preview2,
+    storyHeaderName: 'Tips & Trics',
+    title: 'How to create a signal',
+    minutes: 4,
+    slides: [
+      {
+        title: 'How to create a signal',
+        video: 'https://www.youtube-nocookie.com/embed/mjImmjeYEVI'
+      }
+    ]
   }
 ]
 
