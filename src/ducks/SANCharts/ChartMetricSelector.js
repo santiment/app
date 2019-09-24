@@ -220,7 +220,10 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
   props: ({
     data: {
       loading,
-      project: { availableMetrics = [], marketSegments = [] } = {}
+      project: {
+        availableQueries: availableMetrics = [],
+        marketSegments = []
+      } = {}
     }
   }) => {
     const categories = getCategoryGraph(
