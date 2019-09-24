@@ -7,7 +7,7 @@ import styles from './Story.module.scss'
 const Story = ({ story = {}, open, onEnd }) => {
   const { slides } = story
   let [active, setActive] = useState(0)
-  let [stop, setStop] = useState(false)
+  let [resetFlag, setResetFlag] = useState(true)
   const amount = slides.length
   const { title, description, buttonText, buttonLink, image, video } = slides[
     active
@@ -23,7 +23,8 @@ const Story = ({ story = {}, open, onEnd }) => {
         setActive(Math.min(amount - 1, active + 1))
       }
     },
-    stop ? null : 15000
+    5000,
+    resetFlag
   )
 
   return (
@@ -62,8 +63,7 @@ const Story = ({ story = {}, open, onEnd }) => {
           className={styles.next}
           onClick={() => {
             setActive(Math.min(amount - 1, active + 1))
-            setStop(true)
-            setStop(false)
+            setResetFlag(!resetFlag)
           }}
         >
           <Icon type='arrow-right-big' />
@@ -72,7 +72,10 @@ const Story = ({ story = {}, open, onEnd }) => {
       {active >= 1 && (
         <div
           className={styles.prev}
-          onClick={() => setActive(Math.max(0, active - 1))}
+          onClick={() => {
+            setActive(Math.max(0, active - 1))
+            setResetFlag(!resetFlag)
+          }}
         >
           <Icon type='arrow-left-big' />
         </div>
@@ -93,10 +96,9 @@ const Story = ({ story = {}, open, onEnd }) => {
   )
 }
 
-function useInterval (callback, delay) {
+function useInterval (callback, delay, resetFlag) {
   const savedCallback = useRef()
 
-  // Remember the latest callback.
   useEffect(
     () => {
       savedCallback.current = callback
@@ -104,19 +106,17 @@ function useInterval (callback, delay) {
     [callback]
   )
 
-  // Set up the interval.
   useEffect(
     () => {
       function tick () {
         savedCallback.current()
       }
-
       if (delay !== null) {
         let id = setInterval(tick, delay)
         return () => clearInterval(id)
       }
     },
-    [delay]
+    [delay, resetFlag]
   )
 }
 
