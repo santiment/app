@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import GA from 'react-ga'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
@@ -9,10 +9,17 @@ import Button from '@santiment-network/ui/Button'
 import MetricExplanation from './MetricExplanation'
 import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
-import { Metrics, Events } from './utils'
+import { Metrics, Events, getMarketSegment } from './utils'
 import styles from './ChartMetricSelector.module.scss'
 
 const NO_GROUP = '_'
+
+Events.trendPositionHistory.note = (
+  <p className={styles.note}>
+    <span className={styles.warning}>Important!</span>
+    <span className={styles.text}>It will disable Anomalies</span>
+  </p>
+)
 
 const addItemToGraph = (categories, metricCategory, metrics) => {
   const category = categories[metricCategory]
@@ -23,57 +30,39 @@ const addItemToGraph = (categories, metricCategory, metrics) => {
   }
 }
 
-let memo = {}
-
 const getCategoryGraph = availableMetrics => {
   if (availableMetrics.length === 0) {
     return {}
   }
 
-  if (memo.lastInput === availableMetrics) {
-    return memo.result
-  }
-
   const categories = {
     Financial: undefined,
-    Social: [
-      {
-        isEvent: true,
-        label: 'Trending Position',
-        key: 'trendPositionHistory',
-        note: (
-          <p className={styles.note}>
-            <span className={styles.warning}>Important!</span>
-            <span className={styles.text}>It will disable Anomalies</span>
-          </p>
-        ),
-        description:
-          'Shows the appearance (and position) of the project on our list of top 10 emerging words on crypto social media on a given date'
-      }
-    ]
+    Social: [Events.trendPositionHistory]
   }
   const { length } = availableMetrics
 
   for (let i = 0; i < length; i++) {
     const availableMetric = availableMetrics[i]
-    const targetMetric = Metrics[availableMetric]
+    const metric =
+      typeof availableMetric === 'object'
+        ? availableMetric
+        : Metrics[availableMetric]
 
-    if (!targetMetric) {
+    if (!metric) {
       continue
     }
 
-    if (Array.isArray(targetMetric)) {
-      const metricCategory = targetMetric[0].category
-      addItemToGraph(categories, metricCategory, targetMetric)
+    if (Array.isArray(metric)) {
+      const metricCategory = metric[0].category
+      addItemToGraph(categories, metricCategory, metric)
       continue
     }
 
-    const metricCategory = targetMetric.category
-    const metric = { ...targetMetric, key: availableMetric }
+    const metricCategory = metric.category
     const metrics = [metric]
 
     if (metric.key === 'historyPrice') {
-      metrics.push({ ...Metrics.volume, key: 'volume' })
+      metrics.push(Metrics.volume)
     }
 
     addItemToGraph(categories, metricCategory, metrics)
@@ -86,9 +75,6 @@ const getCategoryGraph = availableMetrics => {
       return acc
     }, {})
   })
-
-  memo.lastInput = availableMetrics
-  memo.result = categories
 
   return categories
 }
@@ -135,7 +121,7 @@ const ActionBtn = ({ metric, children, isActive, isDisabled, ...props }) => {
 const countCategoryActiveMetrics = (activeMetrics = []) => {
   const counter = {}
   for (let i = 0; i < activeMetrics.length; i++) {
-    const { category } = Metrics[activeMetrics[i]] || Events[activeMetrics[i]]
+    const { category } = activeMetrics[i]
     counter[category] = (counter[category] || 0) + 1
   }
   return counter
@@ -147,21 +133,14 @@ const ChartMetricSelector = ({
   activeMetrics,
   activeEvents,
   disabledMetrics,
-  data: { project: { availableMetrics = [] } = {}, loading },
+  categories,
+  loading,
   ...props
 }) => {
   const [activeCategory, setCategory] = useState('Financial')
 
-  const categories = getCategoryGraph(availableMetrics)
   const actives = [...activeEvents, ...activeMetrics]
   const categoryActiveMetricsCounter = countCategoryActiveMetrics(actives)
-
-  useEffect(
-    () => () => {
-      memo = {}
-    },
-    []
-  )
 
   return (
     <Panel {...props}>
@@ -212,16 +191,14 @@ const ChartMetricSelector = ({
                       <h3 className={styles.group__title}>{group}</h3>
                     )}
                     {categories[activeCategory][group].map(metric => {
-                      const isActive = actives.includes(metric.key)
+                      const isActive = actives.includes(metric)
                       const isDisabled = disabledMetrics.includes(metric.key)
 
                       return (
                         <ActionBtn
                           key={metric.label}
                           metric={metric}
-                          onClick={() =>
-                            toggleMetric(metric.key, metric.isEvent)
-                          }
+                          onClick={() => toggleMetric(metric)}
                           isActive={isActive}
                           isDisabled={isDisabled}
                         >
@@ -240,6 +217,24 @@ const ChartMetricSelector = ({
 }
 
 export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
+  props: ({
+    data: {
+      loading,
+      project: {
+        availableQueries: availableMetrics = [],
+        marketSegments = []
+      } = {}
+    }
+  }) => {
+    const categories = getCategoryGraph(
+      availableMetrics.concat(marketSegments.map(getMarketSegment))
+    )
+
+    return {
+      loading,
+      categories
+    }
+  },
   options: ({ slug }) => {
     return { variables: { slug } }
   }

@@ -3,6 +3,7 @@ import GA from 'react-ga'
 import { parse } from 'query-string'
 import { graphql, Query } from 'react-apollo'
 import ChartWidget from '../../ducks/SANCharts/ChartPage'
+import { Metrics } from '../../ducks/SANCharts/utils'
 import InsightsWrap from '../../components/Insight/InsightsWrap'
 import AnonBannerCardB from '../../components/Banner/AnonBanner/AnonBannerCardB'
 import { ALL_INSIGHTS_BY_PAGE_QUERY } from '../../queries/InsightsGQL'
@@ -62,9 +63,9 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
                     title='Bitcoin (BTC)'
                     projectId='1505'
                     metrics={[
-                      'historyPrice',
-                      'socialVolume',
-                      'tokenAgeConsumed'
+                      Metrics.historyPrice,
+                      Metrics.socialVolume,
+                      Metrics.tokenAgeConsumed
                     ]}
                     classes={styles}
                     isLoggedIn={isLoggedIn}

@@ -148,14 +148,16 @@ const TriggerFormChannels = ({
             recheckBrowserNotifications={recheckBrowserNotifications}
           />
 
-          <ChannelCheckbox
-            channel={CHANNEL_NAMES.Browser}
-            isActive={isActive}
-            isDisabled={isDisabled}
-            toggleChannel={toggleChannel}
-            isRequired={isRequired}
-            recheckBrowserNotifications={recheckBrowserNotifications}
-          />
+          {isBeta && (
+            <ChannelCheckbox
+              channel={CHANNEL_NAMES.Browser}
+              isActive={isActive}
+              isDisabled={isDisabled}
+              toggleChannel={toggleChannel}
+              isRequired={isRequired}
+              recheckBrowserNotifications={recheckBrowserNotifications}
+            />
+          )}
         </div>
         {errors.channels && <ErrorMessage message={errors.channels} />}
       </div>

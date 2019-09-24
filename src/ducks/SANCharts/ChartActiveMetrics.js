@@ -6,7 +6,7 @@ import Button from '@santiment-network/ui/Button'
 import MetricExplanation from './MetricExplanation'
 import AnomaliesToggle from '../../components/AnomaliesToggle/AnomaliesToggle'
 import MetricIcon from './MetricIcon'
-import { Metrics, Events, METRIC_COLORS } from './utils'
+import { METRIC_COLORS } from './utils'
 import styles from './ChartActiveMetrics.module.scss'
 
 const ChartActiveMetrics = ({
@@ -21,7 +21,7 @@ const ChartActiveMetrics = ({
     <>
       <section className={styles.wrapper}>
         {activeMetrics.map(metric => {
-          const { node, color, label, description } = Metrics[metric]
+          const { node, color, label, description } = metric
           return (
             <MetricExplanation
               key={label}
@@ -46,7 +46,7 @@ const ChartActiveMetrics = ({
           )
         })}
         {activeEvents.map(event => {
-          const { label, description } = Events[event]
+          const { label, description } = event
           return (
             <MetricExplanation
               key={label}
@@ -54,7 +54,7 @@ const ChartActiveMetrics = ({
               description={description}
               withChildren
             >
-              <Button key={event} border className={styles.btn}>
+              <Button border className={styles.btn}>
                 <Label
                   className={styles.label}
                   variant='circle'
@@ -64,7 +64,7 @@ const ChartActiveMetrics = ({
                 <Icon
                   type='close-small'
                   className={styles.icon}
-                  onClick={() => toggleMetric(event, true)}
+                  onClick={() => toggleMetric(event)}
                 />
               </Button>
             </MetricExplanation>

@@ -7,7 +7,7 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import Header from './Header'
-import { Metrics, Events } from './utils'
+import { Metrics, Events, getMarketSegment } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { ANOMALIES_METRICS_ENUM } from '../../components/MobileMetricCard/MobileMetricCard'
@@ -27,14 +27,15 @@ const DEFAULT_STATE = {
   from: FROM.toISOString(),
   to: TO.toISOString(),
   slug: 'santiment',
-  metrics: ['historyPrice'],
+  metrics: [Metrics.historyPrice],
   title: 'Santiment (SAN)',
   projectId: '16912',
   interval: getNewInterval(FROM, TO, '1d'),
   isAdvancedView: false,
   enabledViewOnlySharing: true,
   isShowAnomalies: !localStorage.getItem('hideAnomalies'),
-  events: []
+  events: [],
+  marketSegments: []
 }
 
 const LoadableChartSidecar = Loadable({
@@ -52,6 +53,17 @@ const LoadableChartMetricsTool = Loadable({
   loading: () => <div />
 })
 
+const metricObjToQSMapper = ({ key }) => key
+
+const mapPassedState = state => {
+  const { metrics, events, marketSegments } = state
+  if (metrics) state.metrics = metrics.map(metric => Metrics[metric])
+  if (events) state.events = events.map(event => Events[event])
+  if (marketSegments) {
+    state.marketSegments = marketSegments.map(getMarketSegment)
+  }
+}
+
 const getChartInitialState = props => {
   let passedState
   if (props.location && props.location.search) {
@@ -64,9 +76,23 @@ const getChartInitialState = props => {
     if (typeof data.events === 'string') {
       data.events = [data.events]
     }
+    if (typeof data.marketSegments === 'string') {
+      data.marketSegments = [data.marketSegments]
+    }
+    mapPassedState(data)
     passedState = data
   } else {
-    let { slug, from, to, title, timeRange, metrics, interval, events } = props
+    let {
+      slug,
+      from,
+      to,
+      title,
+      timeRange,
+      metrics,
+      interval,
+      events,
+      marketSegments
+    } = props
 
     if (!from) {
       const { from: f, to: t } = getIntervalByTimeRange(timeRange)
@@ -78,11 +104,12 @@ const getChartInitialState = props => {
       slug,
       title,
       metrics,
+      events,
       from,
       to,
       timeRange,
       interval,
-      events
+      marketSegments
     }
   }
 
@@ -191,31 +218,33 @@ class ChartPage extends Component {
     this.setState({ interval }, this.updateSearchQuery)
   }
 
-  toggleMetric = (metric, isEvent) => {
+  toggleMetric = metric => {
+    const { type = 'metrics', label } = metric
+
     this.setState(state => {
-      const key = isEvent ? 'events' : 'metrics'
-      const newMetrics = new Set(state[key])
+      const newMetrics = new Set(state[type])
       if (newMetrics.has(metric)) {
         newMetrics.delete(metric)
 
         GA.event({
           category: 'Chart',
-          action: `Removing "${(isEvent ? Events : Metrics)[metric].label}"`
+          action: `Removing "${label}"`
         })
       } else {
-        if (newMetrics.size >= MAX_METRICS_PER_CHART) {
+        const metricsAmount = state.metrics.length + state.marketSegments.length
+        if (metricsAmount >= MAX_METRICS_PER_CHART) {
           return state
         }
         newMetrics.add(metric)
 
         GA.event({
           category: 'Chart',
-          action: `Showing "${(isEvent ? Events : Metrics)[metric].label}"`
+          action: `Showing "${label}"`
         })
       }
       return {
         ...state,
-        [key]: [...newMetrics]
+        [type]: [...newMetrics]
       }
     }, this.updateSearchQuery)
   }
@@ -253,14 +282,20 @@ class ChartPage extends Component {
     '?' + qs.stringify(props, { arrayFormat: 'comma' })
 
   updateSearchQuery () {
-    if (!this.props.location) {
+    const { location, history } = this.props
+    if (!location && !history) {
       return
     }
 
-    this.props.history &&
-      this.props.history.replace({
-        search: this.mapStateToQS(this.state)
+    const { metrics, events, marketSegments } = this.state
+    history.replace({
+      search: this.mapStateToQS({
+        ...this.state,
+        metrics: metrics.map(metricObjToQSMapper),
+        events: events.map(metricObjToQSMapper),
+        marketSegments: marketSegments.map(metricObjToQSMapper)
       })
+    })
   }
 
   generateShareLink = disabledMetrics => {
@@ -268,6 +303,7 @@ class ChartPage extends Component {
       slug,
       title,
       metrics,
+      marketSegments,
       events,
       interval,
       nightMode,
@@ -282,8 +318,11 @@ class ChartPage extends Component {
 
     const settings = {
       slug,
-      metrics: metrics.filter(metric => !disabledMetrics.includes(metric)),
-      events,
+      metrics: metrics
+        .filter(({ key }) => !disabledMetrics.includes(key))
+        .map(metricObjToQSMapper),
+      events: events.map(metricObjToQSMapper),
+      marketSegments: marketSegments.map(metricObjToQSMapper),
       interval,
       nightMode,
       isShowAnomalies,
@@ -322,6 +361,7 @@ class ChartPage extends Component {
       slug,
       metrics,
       events,
+      marketSegments,
       from,
       to,
       interval,
@@ -348,25 +388,34 @@ class ChartPage extends Component {
       addBounding
     } = this.props
 
-    const requestedMetrics = metrics.map(metric => {
-      const name = Metrics[metric].alias || metric
-      return {
+    const requestedMetrics = metrics.map(
+      ({ key, alias: name = key, reqMeta }) => ({
         name,
         slug,
         from,
         to,
         interval: INTERVAL_ALIAS[interval] || interval,
-        ...Metrics[metric].reqMeta
-      }
-    })
+        ...reqMeta
+      })
+    )
 
     const requestedEvents =
-      events.map(event => ({
-        name: event,
+      events.map(({ key: name }) => ({
+        name,
         from,
         to,
         slug,
         interval
+      })) || []
+
+    const requestedMarketSegments =
+      marketSegments.map(({ key: name, reqMeta }) => ({
+        name,
+        from,
+        to,
+        slug,
+        interval: INTERVAL_ALIAS[interval] || interval,
+        ...reqMeta
       })) || []
 
     if (adjustNightMode) {
@@ -393,6 +442,7 @@ class ChartPage extends Component {
       <GetTimeSeries
         events={requestedEvents}
         metrics={requestedMetrics}
+        marketSegments={requestedMarketSegments}
         render={({
           timeseries = [],
           eventsData = [],
@@ -416,9 +466,9 @@ class ChartPage extends Component {
           }
 
           const errors = Object.keys(errorMetrics)
-          const finalMetrics = metrics.filter(
-            metric => !errors.includes(metric)
-          )
+          const finalMetrics = metrics
+            .concat(marketSegments)
+            .filter(({ key }) => !errors.includes(key))
 
           // NOTE(haritonasty): we don't show anomalies when trendPositionHistory is in activeMetrics
           const isTrendsShowing = trendPositionHistory !== undefined

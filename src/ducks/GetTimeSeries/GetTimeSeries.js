@@ -11,24 +11,27 @@ class GetTimeSeries extends React.Component {
 
   static defaultProps = {
     metrics: [],
-    events: []
+    events: [],
+    marketSegments: []
   }
 
   componentDidMount () {
     this.props.fetchTimeseries({
       id: this.id,
       metrics: this.props.metrics,
-      events: this.props.events
+      events: this.props.events,
+      marketSegments: this.props.marketSegments
     })
   }
 
   componentDidUpdate (prevProps) {
-    const { metrics, fetchTimeseries, events } = this.props
+    const { metrics, fetchTimeseries, events, marketSegments } = this.props
     if (
       !isEqual(metrics, prevProps.metrics) ||
-      !isEqual(events, prevProps.events)
+      !isEqual(events, prevProps.events) ||
+      !isEqual(marketSegments, prevProps.marketSegments)
     ) {
-      fetchTimeseries({ id: this.id, metrics, events })
+      fetchTimeseries({ id: this.id, metrics, events, marketSegments })
     }
   }
 
