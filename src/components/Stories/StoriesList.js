@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
-import Icon from '@santiment-network/ui/Icon'
 import StoryPreview from './StoryPreview'
 import Story from './Story'
 import { stories } from './content/content'
@@ -9,8 +8,6 @@ import styles from './StoriesList.module.scss'
 
 const StoriesList = ({ classes = {} }) => {
   const [selected, setSelected] = useState()
-
-  const close = () => setSelected()
 
   return (
     <section className={cx(styles.list, classes.stories)}>

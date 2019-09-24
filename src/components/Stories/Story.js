@@ -1,98 +1,36 @@
 import React, { useState, useEffect, useRef } from 'react'
-import cx from 'classnames'
-import Icon from '@santiment-network/ui/Icon'
-import Button from '@santiment-network/ui/Button'
-import styles from './Story.module.scss'
+import StoryContent from './StoryContent'
+
+const DURATION_IN_SEC = 15
 
 const Story = ({ story = {}, open, onEnd }) => {
   const { slides } = story
   let [active, setActive] = useState(0)
   let [resetFlag, setResetFlag] = useState(true)
   const amount = slides.length
-  const { title, description, buttonText, buttonLink, image, video } = slides[
-    active
-  ]
 
-  useInterval(
-    () => {
-      const next = active + 1
-      console.log(next)
-      if (next === amount) {
-        onEnd()
-      } else {
-        setActive(Math.min(amount - 1, active + 1))
-      }
-    },
-    5000,
-    resetFlag
-  )
+  const onNext = () => {
+    const next = active + 1
+    if (next === amount) onEnd()
+    else setActive(Math.min(amount - 1, active + 1))
+    setResetFlag(!resetFlag)
+  }
+
+  const onPrev = () => {
+    setActive(Math.max(0, active - 1))
+    setResetFlag(!resetFlag)
+  }
+
+  useInterval(onNext, DURATION_IN_SEC * 1000, resetFlag)
 
   return (
-    <>
-      <div className={styles.content}>
-        <div className={styles.media}>
-          {video && (
-            <iframe
-              title={title}
-              src={video}
-              frameBorder='0'
-              allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
-              allowFullScreen
-            />
-          )}
-          {image && <img src={image} alt='' />}
-        </div>
-        {title && <h4 className={styles.title}>{title}</h4>}
-        {description && <p className={styles.description}>{description}</p>}
-        {buttonLink && (
-          <Button
-            as='a'
-            href={buttonLink}
-            rel='noopener noreferrer'
-            target='_blank'
-            variant='fill'
-            accent='positive'
-            className={styles.button}
-          >
-            {buttonText}
-          </Button>
-        )}
-      </div>
-      {active < amount - 1 && (
-        <div
-          className={styles.next}
-          onClick={() => {
-            setActive(Math.min(amount - 1, active + 1))
-            setResetFlag(!resetFlag)
-          }}
-        >
-          <Icon type='arrow-right-big' />
-        </div>
-      )}
-      {active >= 1 && (
-        <div
-          className={styles.prev}
-          onClick={() => {
-            setActive(Math.max(0, active - 1))
-            setResetFlag(!resetFlag)
-          }}
-        >
-          <Icon type='arrow-left-big' />
-        </div>
-      )}
-      <div className={styles.lines} style={{ '--amount': slides.length }}>
-        {slides.map((slide, idx) => (
-          <span
-            key={idx}
-            className={cx(
-              styles.line,
-              active > idx && styles.full,
-              active === idx && styles.activeLine
-            )}
-          />
-        ))}
-      </div>
-    </>
+    <StoryContent
+      amount={amount}
+      active={active}
+      slides={slides}
+      onNext={onNext}
+      onPrev={onPrev}
+    />
   )
 }
 
