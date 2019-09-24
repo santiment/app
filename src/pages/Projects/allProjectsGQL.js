@@ -31,10 +31,6 @@ export const project = gql`
     averageDevActivity
     averageDailyActiveAddresses
     marketcapUsd
-    signals {
-      name
-      description
-    }
   }
 `
 
