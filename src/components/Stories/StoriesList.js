@@ -10,6 +10,8 @@ import styles from './StoriesList.module.scss'
 const StoriesList = ({ classes = {} }) => {
   const [selected, setSelected] = useState()
 
+  const close = () => setSelected()
+
   return (
     <section className={cx(styles.list, classes.stories)}>
       <div className={styles.scrollableWrapper}>
@@ -30,7 +32,7 @@ const StoriesList = ({ classes = {} }) => {
         onClose={setSelected}
         classes={styles}
       >
-        <Story story={selected} />
+        <Story story={selected} onEnd={setSelected} />
       </Dialog>
     </section>
   )
