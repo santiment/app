@@ -1,6 +1,6 @@
-import Raven from 'raven-js'
 import { Observable } from 'rxjs'
 import { ERC20_QUERY, WATCHLISTS_QUERY } from './queries'
+import { handleErrorAndTriggerAction } from '../../epics/utils'
 import * as actions from './actions'
 
 const listItemToProjectMap = ({ project }) => project
@@ -34,12 +34,9 @@ export const fetchMarketSegments = (action$, store, { client }) =>
       )
     })
     .mergeMap(items => {
-      console.log(items)
-      const assets = items.reduce(itemsReducer, [])
-      console.log(assets)
-
       return Observable.of({
         type: actions.MARKET_SEGMENTS_FETCH_SUCCESS,
-        payload: assets
+        payload: items.reduce(itemsReducer, [])
       })
     })
+    .catch(handleErrorAndTriggerAction(actions.MARKET_SEGMENTS_FETCH_FAIL))

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Tabs from '@santiment-network/ui/Tabs'
-import { graphql, Query } from 'react-apollo'
 import ChartWidget from '../../ducks/SANCharts/ChartPage'
 import AssetsTable from '../assets/AssetsTable'
 import { CATEGORIES_SETTINGS } from '../assets/asset-columns'
-import { Metrics, getMarketSegment } from '../../ducks/SANCharts/utils'
+import { getMarketSegment } from '../../ducks/SANCharts/utils'
 import { MARKET_SEGMENTS_FETCH } from './actions'
 import styles from './index.module.scss'
 
@@ -69,6 +68,8 @@ const MarketSegmentsPage = ({
             hideSettings={hideSettings}
             hasPremium={true}
             isPRO={true}
+            leftBoundaryDate={false}
+            rightBoundaryDate={false}
           />
           <Tabs
             options={TABS}

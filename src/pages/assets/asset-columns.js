@@ -9,7 +9,6 @@ import { Metrics } from '../../ducks/SANCharts/utils'
 import styles from './AssetsToggleColumns.module.scss'
 
 const simpleSort = (a, b) => b - a
-const simpleSortBy = key => (a, b) => b[key] - a[key]
 
 const HeaderWithDesc = ({ description, heading }) => (
   <Tooltip className={styles.tooltip} trigger={<span>{heading}</span>}>
@@ -46,18 +45,6 @@ const constructColumn = ({
     filterable: Boolean(filterMethod),
     filterMethod,
     ...rest
-  }
-}
-
-const accessors = (...fields) => {
-  const { length } = fields
-  return obj => {
-    const res = {}
-    for (let i = 0; i < length; i++) {
-      const field = fields[i]
-      res[field] = obj[field]
-    }
-    return res
   }
 }
 
@@ -313,17 +300,17 @@ export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.devActivity30]: { show: true, selectable: false }
 }
 
-export const COMMON_SETTINGS = {
-  pageSize: 20,
-  hiddenColumns: [COLUMNS_NAMES.eth_spent, ...MARKET_SEGMENT_COLUMNS],
-  sorting: { id: COLUMNS_NAMES.marketcapUsd, desc: false }
-}
-
 const MARKET_SEGMENT_COLUMNS = [
   COLUMNS_NAMES.infrastructure,
   COLUMNS_NAMES.devActivity30,
   COLUMNS_NAMES.devActivity7
 ]
+
+export const COMMON_SETTINGS = {
+  pageSize: 20,
+  hiddenColumns: [COLUMNS_NAMES.eth_spent, ...MARKET_SEGMENT_COLUMNS],
+  sorting: { id: COLUMNS_NAMES.marketcapUsd, desc: false }
+}
 
 export const CATEGORIES_SETTINGS = {
   'All Assets': {
