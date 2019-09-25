@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import StoryContent from './StoryContent'
 
-const DURATION = 12 * 1000
+const DURATION = 15 * 1000
 
 const Story = ({ story = {}, open, onEnd }) => {
   const { slides } = story

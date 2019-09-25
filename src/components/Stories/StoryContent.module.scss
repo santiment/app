@@ -93,6 +93,10 @@
   @include text('body-2');
 
   color: var(--waterloo);
+
+  & a {
+    color: var(--jungle-green);
+  }
 }
 
 .button {
@@ -121,7 +125,7 @@
 }
 
 .activeLine {
-  animation: activeLine 12s linear;
+  animation: activeLine 15s linear;
 }
 
 .progress {
