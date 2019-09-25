@@ -7,32 +7,9 @@ import img6 from './images/6slide.png'
 import img7 from './images/7slide.png'
 import img8 from './images/8slide.png'
 
-export const TYPES = {
-  VIDEO: 'video',
-  INSIGHT: 'insight',
-  SLIDES: 'slides',
-  TWO_STEPS: 'slides',
-  SIGNAL: 'signal',
-  ANOMALY: 'signal'
-}
-
-export const COLORS = {
-  slides: 'jungle-green',
-  video: 'heliotrope',
-  signal: 'persimmon',
-  insight: 'dodger-blue'
-}
-
-export const ICONS = {
-  slides: 'slides',
-  video: 'triangle-right',
-  signal: 'ring',
-  insight: 'article'
-}
-
 export const stories = [
   {
-    type: TYPES.VIDEO,
+    type: 'VIDEO',
     previewTitle: 'Sonar Introduction',
     storyHeaderName: 'Tips & Trics',
     minutes: 5,
@@ -46,7 +23,7 @@ export const stories = [
     ]
   },
   {
-    type: TYPES.VIDEO,
+    type: 'VIDEO',
     previewTitle: 'How to create a signal',
     storyHeaderName: 'Tips & Trics',
     minutes: 2,
@@ -60,7 +37,7 @@ export const stories = [
     ]
   },
   {
-    type: TYPES.VIDEO,
+    type: 'VIDEO',
     previewTitle: 'How to create a watchlist',
     storyHeaderName: 'Tips & Trics',
     minutes: 3,
@@ -74,7 +51,7 @@ export const stories = [
     ]
   },
   {
-    type: TYPES.SLIDES,
+    type: 'SLIDES',
     previewTitle: 'Are we in the ETH accumulation stage? 🕵️',
     storyHeaderName: 'Are we in the ETH accumulation stage? 🕵️',
     slides: [
@@ -144,16 +121,3 @@ export const stories = [
     ]
   }
 ]
-
-export const getPreviewInfoByType = ({ type, slides, minutes }) => {
-  switch (type) {
-    case TYPES.INSIGHT:
-      return `${minutes} min read`
-    case TYPES.VIDEO:
-      return `${minutes} min video`
-    case TYPES.SIGNAL:
-      return `signal suggestion`
-    default:
-      return `${slides.length} slides`
-  }
-}

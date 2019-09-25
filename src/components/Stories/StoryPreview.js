@@ -3,7 +3,7 @@ import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import StoryType from './StoryType'
-import { COLORS } from './content'
+import { TYPES } from './utils'
 import styles from './StoryPreview.module.scss'
 
 const StoryPreview = ({
@@ -20,7 +20,11 @@ const StoryPreview = ({
       <div className={styles.info}>
         <h4 className={styles.heading}>
           {!isViewed && (
-            <Label className={styles.new} accent={COLORS[type]} variant='fill'>
+            <Label
+              className={styles.new}
+              accent={TYPES[type].color}
+              variant='fill'
+            >
               NEW
             </Label>
           )}
