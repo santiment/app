@@ -14,30 +14,33 @@ const ChartMetricsTool = ({
   disabledMetrics,
   slug,
   toggleMetric,
+  hideSettings,
   ...rest
 }) => (
   <div className={styles.wrapper}>
-    <ContextMenu
-      trigger={
-        <Button variant='flat' className={styles.trigger} border>
-          <Icon type='plus-round' />
-        </Button>
-      }
-      passOpenStateAs='isActive'
-      position='bottom'
-      align='start'
-      offsetY={8}
-    >
-      <ChartMetricSelector
-        className={cx(styles.selector, classes.selector)}
-        slug={slug}
-        toggleMetric={toggleMetric}
-        disabledMetrics={disabledMetrics}
-        activeMetrics={activeMetrics}
-        activeEvents={activeEvents}
-        variant='modal'
-      />
-    </ContextMenu>
+    {hideSettings.metricSelector || (
+      <ContextMenu
+        trigger={
+          <Button variant='flat' className={styles.trigger} border>
+            <Icon type='plus-round' />
+          </Button>
+        }
+        passOpenStateAs='isActive'
+        position='bottom'
+        align='start'
+        offsetY={8}
+      >
+        <ChartMetricSelector
+          className={cx(styles.selector, classes.selector)}
+          slug={slug}
+          toggleMetric={toggleMetric}
+          disabledMetrics={disabledMetrics}
+          activeMetrics={activeMetrics}
+          activeEvents={activeEvents}
+          variant='modal'
+        />
+      </ContextMenu>
+    )}
 
     <ChartActiveMetrics
       activeMetrics={activeMetrics}

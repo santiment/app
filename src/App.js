@@ -111,6 +111,11 @@ const LoadableChartPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableMarketSegmentsPage = Loadable({
+  loader: () => import('./pages/MarketSegments'),
+  loading: () => <PageLoader />
+})
+
 const LoadableProfilePage = Loadable({
   loader: () => import('./pages/profile/ProfilePage'),
   loading: () => <PageLoader />
@@ -214,6 +219,13 @@ export const App = ({
         />
         <Route exact path='/roadmap' component={Roadmap} />
         <Route exact path='/signals' component={Signals} />
+        <Route
+          exact
+          path='/labs/market-segments'
+          render={props => (
+            <LoadableMarketSegmentsPage isLoggedIn={isLoggedIn} {...props} />
+          )}
+        />
         <Route
           exact
           path='/labs/balance'
