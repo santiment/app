@@ -1,0 +1,174 @@
+@import '~@santiment-network/ui/mixins';
+
+.content {
+  padding: 20px 24px 32px;
+  max-width: 496px;
+}
+
+.dark {
+  background-color: #181b2b;
+}
+
+.media {
+  font-size: 0;
+  border-radius: 4px;
+  border: 1px solid var(--porcelain);
+  overflow: hidden;
+  height: 360px;
+  width: 448px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & iframe {
+    width: 100%;
+    height: 100%;
+  }
+
+  & img {
+    width: 100%;
+    object-fit: contain;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  & .preview {
+    &__img {
+      width: 100%;
+    }
+
+    &__button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      display: block;
+      padding: 0;
+      width: 68px;
+      height: 48px;
+      border: none;
+      background-color: transparent;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &__button_shape {
+      fill: #212121;
+      fill-opacity: 0.8;
+    }
+  }
+
+  &:hover .preview__button_shape,
+  .preview__button:focus .preview__button_shape {
+    fill: #f00;
+    fill-opacity: 1;
+  }
+}
+
+.enabledVideo {
+  & .preview {
+    display: none;
+  }
+}
+
+.title {
+  margin: 32px 0 0;
+
+  @include text('body-1', 'm');
+
+  color: var(--mirage);
+}
+
+.description {
+  margin: 16px 0 0;
+  min-height: 48px;
+
+  @include text('body-2');
+
+  color: var(--waterloo);
+}
+
+.button {
+  margin: 24px 0 0;
+}
+
+.lines {
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: 16px;
+  width: 100%;
+  display: grid;
+  grid-gap: 4px;
+  grid-template-columns: repeat(var(--amount), auto);
+}
+
+.line {
+  position: relative;
+  background: grey;
+  height: 4px;
+  border-radius: 20px;
+}
+
+.full {
+  background: #fff;
+}
+
+.activeLine {
+  animation: activeLine 12s linear;
+}
+
+.progress {
+  position: absolute;
+  border-radius: 20px;
+  height: 100%;
+  background: #fff;
+  width: var(--width);
+}
+
+.next {
+  left: 100%;
+  margin-left: 24px;
+}
+
+.prev {
+  right: 100%;
+  margin-right: 24px;
+}
+
+.next,
+.prev {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  margin-top: -32px;
+  border-radius: 50%;
+  border: 1.5px solid grey;
+  fill: #fff;
+  transition: border ease-in-out 0.2s;
+
+  &:hover {
+    border: 1.5px solid rgba(255, 255, 255, 1);
+    cursor: pointer;
+  }
+}
+
+@keyframes activeLine {
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 100%;
+  }
+}

@@ -140,7 +140,8 @@ const Header = ({
   slug,
   isLoggedIn,
   onSlugSelect,
-  isTablet
+  isTablet,
+  className
 }) => {
   const {
     id,
@@ -152,7 +153,7 @@ const Header = ({
   } = project
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, className)}>
       <ProjectSelector
         slug={slug}
         project={project}
