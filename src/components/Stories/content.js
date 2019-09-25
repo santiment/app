@@ -90,9 +90,9 @@ export const stories = [
           <div>
             Use{' '}
             <a
-              href='https://tinyurl.com/y66dn8pk'
               target='_blank'
               rel='noopener noreferrer'
+              href='https://tinyurl.com/y66dn8pk'
             >
               our template
             </a>{' '}
