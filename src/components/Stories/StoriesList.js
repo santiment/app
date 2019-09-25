@@ -3,7 +3,7 @@ import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
 import StoryPreview from './StoryPreview'
 import Story from './Story'
-import { stories } from './content/content'
+import { stories } from './content'
 import styles from './StoriesList.module.scss'
 
 const StoriesList = ({ classes = {} }) => {

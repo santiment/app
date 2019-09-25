@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
 import StoryContent from './StoryContent'
 
-const DURATION_IN_SEC = 10
+const DURATION = 15 * 1000
 
 const Story = ({ story = {}, open, onEnd }) => {
   const { slides } = story
   let [active, setActive] = useState(0)
+  let [duration, setDuration] = useState(DURATION)
   let [resetFlag, setResetFlag] = useState(true)
   const last = slides.length - 1
 
@@ -13,15 +14,17 @@ const Story = ({ story = {}, open, onEnd }) => {
     const next = active + 1
     if (next > last) onEnd()
     else setActive(Math.min(last, next))
+    setDuration(DURATION)
     setResetFlag(!resetFlag)
   }
 
   const onPrev = () => {
     setActive(Math.max(0, active - 1))
+    setDuration(DURATION)
     setResetFlag(!resetFlag)
   }
 
-  useInterval(onNext, DURATION_IN_SEC * 1000, resetFlag)
+  useInterval(onNext, duration, resetFlag)
 
   return (
     <StoryContent
@@ -29,6 +32,8 @@ const Story = ({ story = {}, open, onEnd }) => {
       slides={slides}
       onNext={onNext}
       onPrev={onPrev}
+      onMediaClicked={() => setDuration(null)}
+      isPaused={duration === null}
     />
   )
 }

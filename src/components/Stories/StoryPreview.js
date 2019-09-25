@@ -3,12 +3,12 @@ import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import StoryType from './StoryType'
-import { COLORS } from './content/content'
+import { COLORS } from './content'
 import styles from './StoryPreview.module.scss'
 
 const StoryPreview = ({
   className = '',
-  isViewed,
+  isViewed = true,
   previewTitle,
   onClick,
   previewImage,
@@ -29,7 +29,16 @@ const StoryPreview = ({
         <StoryType {...info} type={type} className={styles.type} />
       </div>
       <div className={styles.image}>
-        <img src={previewImage} alt='story preview' />
+        <img
+          src={
+            info.slides[0].videoId
+              ? `https://i.ytimg.com/vi/${
+                info.slides[0].videoId
+              }/maxresdefault.jpg`
+              : info.slides[0].image
+          }
+          alt={previewTitle}
+        />
       </div>
     </Panel>
   )

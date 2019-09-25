@@ -1,6 +1,6 @@
 import React from 'react'
 import Label from '@santiment-network/ui/Label'
-import { ICONS, COLORS, getPreviewInfoByType } from './content/content'
+import { ICONS, COLORS, getPreviewInfoByType } from './content'
 import styles from './StoryType.module.scss'
 
 const StoryType = ({ type, className, ...rest }) => {
