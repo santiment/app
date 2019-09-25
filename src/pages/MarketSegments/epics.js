@@ -20,23 +20,32 @@ const ALL_QUERIES = Object.keys(Query)
 export const fetchMarketSegments = (action$, store, { client }) =>
   action$
     .ofType(actions.MARKET_SEGMENTS_FETCH)
-    .switchMap(({ payload }) => {
-      const slug = payload.toLowerCase()
+    .switchMap(({ payload: { segment, forced = false } }) => {
+      const slug = segment.toLowerCase()
       const queries = slug === 'all' ? ALL_QUERIES : [slug]
+      const fetchPolicy = forced ? 'network-only' : 'cache-first'
 
-      return Observable.forkJoin(
-        queries.map(slug =>
+      return Observable.forkJoin([
+        Promise.resolve(forced),
+        ...queries.map(slug =>
           client.query({
             query: Query[slug],
-            variables: { slug }
+            variables: { slug },
+            fetchPolicy
           })
         )
-      )
+      ])
     })
-    .mergeMap(items => {
+    .mergeMap(([forced, ...items]) => {
+      const payload = {
+        assets: items.reduce(itemsReducer, [])
+      }
+      if (forced) {
+        payload.timestamp = Date.now()
+      }
       return Observable.of({
         type: actions.MARKET_SEGMENTS_FETCH_SUCCESS,
-        payload: items.reduce(itemsReducer, [])
+        payload
       })
     })
-    .catch(handleErrorAndTriggerAction(actions.MARKET_SEGMENTS_FETCH_FAIL))
+    .catch(console.warn)

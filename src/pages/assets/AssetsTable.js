@@ -51,7 +51,8 @@ const AssetsTable = ({
   minVolume = 0,
   listName,
   settings,
-  setHiddenColumns
+  setHiddenColumns,
+  showCollumnsToggle = true
 }) => {
   const { isLoading, error, timestamp, typeInfo } = Assets
   const key = typeInfo.listId || listName
@@ -115,7 +116,9 @@ const AssetsTable = ({
             onRefreshClick={() => refetchAssets({ ...typeInfo, minVolume })}
           />
         )}
-        <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
+        {showCollumnsToggle && (
+          <AssetsToggleColumns columns={columns} onChange={toggleColumn} />
+        )}
       </div>
       <ReactTable
         loading={isLoading}
@@ -152,16 +155,18 @@ const mapStateToProps = ({
   watchlistUi: { watchlistsSettings }
 }) => ({ minVolume, settings: watchlistsSettings })
 
-const mapDispatchToProps = dispatch => ({
-  refetchAssets: ({ type, listName, listId, minVolume = 0 }) =>
-    dispatch({
-      type: ASSETS_FETCH,
-      payload: {
-        type,
-        list: { name: listName, id: listId },
-        filters: { minVolume }
-      }
-    }),
+const mapDispatchToProps = (dispatch, { refetchAssets }) => ({
+  refetchAssets:
+    refetchAssets ||
+    (({ type, listName, listId, minVolume = 0 }) =>
+      dispatch({
+        type: ASSETS_FETCH,
+        payload: {
+          type,
+          list: { name: listName, id: listId },
+          filters: { minVolume }
+        }
+      })),
   setMinVolumeFilter: () => dispatch({ type: ASSETS_SET_MIN_VOLUME_FILTER }),
   setHiddenColumns: payload =>
     dispatch({ type: WATCHLIST_TOGGLE_COLUMNS, payload })

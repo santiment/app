@@ -15,7 +15,7 @@ export default (state = initialState, action) => {
       return {
         loading: false,
         error: false,
-        assets: action.payload
+        ...action.payload
       }
     default:
       return state

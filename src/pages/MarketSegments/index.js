@@ -36,7 +36,8 @@ const MarketSegmentsPage = ({
   isLoggedIn,
   location,
   history,
-  fetchAssets
+  fetchAssets,
+  timestamp = Date.now()
 }) => {
   const [segment, setSegment] = useState('DeFi')
 
@@ -44,9 +45,13 @@ const MarketSegmentsPage = ({
     setSegment(segment)
   }
 
+  function refetchAssets () {
+    fetchAssets({ segment, forced: true })
+  }
+
   useEffect(
     () => {
-      fetchAssets(segment)
+      fetchAssets({ segment })
     },
     [segment]
   )
@@ -79,9 +84,11 @@ const MarketSegmentsPage = ({
           />
           <AssetsTable
             items={assets}
-            Assets={{ typeInfo: '', isLoading: loading }}
+            Assets={{ typeInfo: '', isLoading: loading, timestamp }}
             listName='Market Segments'
             settings={CATEGORIES_SETTINGS}
+            showCollumnsToggle={false}
+            refetchAssets={refetchAssets}
           />
         </div>
       </div>
