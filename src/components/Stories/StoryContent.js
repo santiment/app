@@ -13,9 +13,15 @@ const StoryContent = ({
   onMediaClicked,
   isPaused
 }) => {
-  const { title, description, buttonText, buttonLink, image, videoId } = slides[
-    active
-  ]
+  const {
+    title,
+    description,
+    buttonText,
+    buttonLink,
+    image,
+    videoId,
+    isDarkImage
+  } = slides[active]
 
   let [width, setWidth] = useState(null)
   const activeStoryRef = useRef(null)
@@ -49,6 +55,7 @@ const StoryContent = ({
         <div
           className={cx(
             styles.media,
+            isDarkImage && styles.dark,
             isPaused && videoId && styles.enabledVideo
           )}
           onClick={onVideoClicked}
