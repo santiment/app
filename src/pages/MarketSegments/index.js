@@ -14,20 +14,13 @@ const hideSettings = {
   sidecar: true
 }
 
-const marketSegments = [
+const SEGMENTS = [
   getMarketSegment('Ethereum'),
   getMarketSegment('DeFi'),
   getMarketSegment('EOS')
 ]
 
-const Segment = {
-  All: marketSegments,
-  ERC20: [marketSegments[0]],
-  DeFi: [marketSegments[1]],
-  EOS: [marketSegments[2]]
-}
-
-const TABS = ['All', 'ERC20', 'DeFi', 'EOS']
+const TABS = ['Ethereum', 'DeFi', 'EOS']
 
 const MarketSegmentsPage = ({
   assets,
@@ -65,7 +58,8 @@ const MarketSegmentsPage = ({
             adjustNightMode={false}
             showToggleAnomalies={false}
             metrics={[]}
-            marketSegments={Segment[segment]}
+            marketSegments={SEGMENTS}
+            interval='1d'
             classes={styles}
             isLoggedIn={isLoggedIn}
             isControlled
@@ -88,6 +82,7 @@ const MarketSegmentsPage = ({
             settings={CATEGORIES_SETTINGS}
             showCollumnsToggle={false}
             refetchAssets={refetchAssets}
+            className={styles.table}
           />
         </div>
       </div>

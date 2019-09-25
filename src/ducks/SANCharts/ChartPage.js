@@ -30,7 +30,7 @@ const DEFAULT_STATE = {
   metrics: [Metrics.historyPrice],
   title: 'Santiment (SAN)',
   projectId: '16912',
-  interval: getNewInterval(FROM, TO, '1d'),
+  interval: getNewInterval(FROM, TO),
   isAdvancedView: false,
   enabledViewOnlySharing: true,
   isShowAnomalies: !localStorage.getItem('hideAnomalies'),
@@ -150,7 +150,7 @@ class ChartPage extends Component {
 
     const newFrom = new Date(leftZoomDate)
     const newTo = new Date(rightZoomDate)
-    const newInterval = getNewInterval(leftZoomDate, rightZoomDate, interval)
+    const newInterval = getNewInterval(leftZoomDate, rightZoomDate)
 
     this.setState(
       {
@@ -174,7 +174,7 @@ class ChartPage extends Component {
 
   onTimerangeChange = timeRange => {
     const { from, to } = getIntervalByTimeRange(timeRange)
-    const interval = getNewInterval(from, to, this.state.interval)
+    const interval = getNewInterval(from, to)
     this.setState(
       {
         timeRange,
@@ -188,7 +188,7 @@ class ChartPage extends Component {
   }
 
   onCalendarChange = ([from, to]) => {
-    const interval = getNewInterval(from, to, this.state.interval)
+    const interval = getNewInterval(from, to)
 
     this.setState(
       {

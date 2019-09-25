@@ -52,7 +52,8 @@ const AssetsTable = ({
   listName,
   settings,
   setHiddenColumns,
-  showCollumnsToggle = true
+  showCollumnsToggle = true,
+  className
 }) => {
   const { isLoading, error, timestamp, typeInfo } = Assets
   const key = typeInfo.listId || listName
@@ -132,7 +133,7 @@ const AssetsTable = ({
         sortable={false}
         resizable={false}
         defaultSorted={[sortingColumn]}
-        className={cx('-highlight', styles.assetsTable)}
+        className={cx('-highlight', styles.assetsTable, className)}
         data={items}
         columns={shownColumns}
         loadingText='Loading...'
