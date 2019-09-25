@@ -2,12 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import { Panel, Tooltip, Label } from '@santiment-network/ui'
-import { simpleSort } from '../../utils/sortMethods'
 import { formatNumber, millify } from '../../utils/formatting'
 import ProjectLabel from '../../components/ProjectLabel'
 import PercentChanges from '../../components/PercentChanges'
 import { Metrics } from '../../ducks/SANCharts/utils'
 import styles from './AssetsToggleColumns.module.scss'
+
+const simpleSort = (a, b) => b - a
 
 const HeaderWithDesc = ({ description, heading }) => (
   <Tooltip className={styles.tooltip} trigger={<span>{heading}</span>}>
@@ -19,34 +20,54 @@ const isValidValue = value => !isNaN(parseFloat(value))
 
 const NO_DATA = 'No data'
 
-export const COLUMNS = preload => [
-  {
-    Header: () => <div className={cx('heading', 'overview-index')}>#</div>,
-    id: COLUMNS_NAMES.index,
-    maxWidth: 45,
-    sortable: false,
-    Cell: row => (
-      <div className='overview-index'>
-        {row.page * row.pageSize + row.viewIndex + 1}
+const constructColumn = ({
+  heading,
+  id = heading,
+  description,
+  className,
+  sortMethod,
+  filterMethod,
+  ...rest
+}) => {
+  return {
+    id,
+    Header: () => (
+      <div className={cx('heading', className)}>
+        {description ? (
+          <HeaderWithDesc description={description} heading={heading} />
+        ) : (
+          heading
+        )}
       </div>
-    )
-  },
-  {
-    Header: () => <div className={cx('heading', 'overview-name')}>Project</div>,
+    ),
+    sortable: Boolean(sortMethod),
+    sortMethod,
+    filterable: Boolean(filterMethod),
+    filterMethod,
+    ...rest
+  }
+}
+
+export const COLUMNS = preload => [
+  constructColumn({
+    id: COLUMNS_NAMES.index,
+    heading: '#',
+    maxWidth: 45,
+    Cell: row => row.page * row.pageSize + row.viewIndex + 1
+  }),
+  constructColumn({
     id: COLUMNS_NAMES.project,
+    heading: 'Project',
     minWidth: 200,
     maxWidth: 280,
-    filterable: true,
-    sortable: true,
     resizable: true,
-    accessor: ({ name, ticker, slug }) => ({ name, ticker, cmcId: slug }),
-    Cell: ({ value }) => (
+    Cell: ({ original }) => (
       <Link
         onMouseOver={preload}
-        to={`/projects/${value.cmcId}`}
+        to={`/projects/${original.slug}`}
         className='overview-name'
       >
-        <ProjectLabel {...value} />
+        <ProjectLabel {...original} />
       </Link>
     ),
     filterMethod: (filter, row) => {
@@ -57,92 +78,60 @@ export const COLUMNS = preload => [
         ticker.toLowerCase().indexOf(filter.value) !== -1
       )
     }
-  },
-  {
-    Header: () => <div className={cx('heading', 'overview-price')}>Price</div>,
+  }),
+  constructColumn({
     id: COLUMNS_NAMES.price,
+    heading: 'Price',
     maxWidth: 100,
-    accessor: d => ({
-      priceUsd: d.priceUsd
-    }),
-    Cell: ({ value: { priceUsd } }) => (
+    accessor: 'priceUsd',
+    Cell: ({ value }) => (
       <div className='overview-price'>
-        {isValidValue(priceUsd)
-          ? formatNumber(priceUsd, { currency: 'USD' })
+        {isValidValue(value)
+          ? formatNumber(value, { currency: 'USD' })
           : NO_DATA}
       </div>
     ),
-    sortable: true,
-    sortMethod: (a, b) =>
-      simpleSort(parseFloat(a.priceUsd || 0), parseFloat(b.priceUsd || 0))
-  },
-  {
-    Header: () => (
-      <div className={cx('heading', 'overview-price-percent')}>Price +/-</div>
-    ),
+    sortMethod: simpleSort
+  }),
+  constructColumn({
     id: COLUMNS_NAMES.price_change,
+    heading: 'Price +/-',
     maxWidth: 100,
-    accessor: d => ({
-      change24h: d.percentChange24h
-    }),
-    Cell: ({ value: { change24h } }) => (
+    accessor: 'percentChange24h',
+    Cell: ({ value }) => (
       <div className='overview-price-percent'>
-        {isValidValue(change24h) ? (
-          <PercentChanges changes={change24h} />
-        ) : (
-          NO_DATA
-        )}
+        {isValidValue(value) ? <PercentChanges changes={value} /> : NO_DATA}
       </div>
     ),
-    sortable: true,
-    sortMethod: (a, b) =>
-      simpleSort(parseFloat(a.change24h || 0), parseFloat(b.change24h || 0))
-  },
-  {
-    Header: () => (
-      <div className={cx('heading', 'overview-volume')}>Volume</div>
-    ),
+    sortMethod: simpleSort
+  }),
+  constructColumn({
     id: COLUMNS_NAMES.volume,
+    heading: 'Volume',
     maxWidth: 100,
-    accessor: d => ({
-      volumeUsd: d.volumeUsd
-    }),
-    Cell: ({ value: { volumeUsd } }) => (
+    accessor: 'volumeUsd',
+    Cell: ({ value }) => (
       <div className='overview-volume'>
-        {isValidValue(volumeUsd) ? `$${millify(volumeUsd, 2)}` : NO_DATA}
+        {isValidValue(value) ? `$${millify(value, 2)}` : NO_DATA}
       </div>
     ),
-    sortable: true,
-    sortMethod: (a, b) =>
-      simpleSort(parseFloat(a.volumeUsd || 0), parseFloat(b.volumeUsd || 0))
-  },
-  {
-    Header: () => (
-      <div className={cx('heading', 'overview-volume-percent')}>Volume +/-</div>
-    ),
+    sortMethod: simpleSort
+  }),
+  constructColumn({
     id: COLUMNS_NAMES.volume_change,
+    heading: 'Volume +/-',
     maxWidth: 100,
-    accessor: d => ({
-      change24h: d.volumeChange24h
-    }),
-    Cell: ({ value: { change24h } }) => (
+    accessor: 'volumeChange24h',
+    Cell: ({ value }) => (
       <div className='overview-volume-percent'>
-        {isValidValue(change24h) ? (
-          <PercentChanges changes={change24h} />
-        ) : (
-          NO_DATA
-        )}
+        {isValidValue(value) ? <PercentChanges changes={value} /> : NO_DATA}
       </div>
     ),
-    sortable: true,
-    sortMethod: (a, b) =>
-      simpleSort(parseFloat(a.change24h || 0), parseFloat(b.change24h || 0))
-  },
-  {
-    Header: () => (
-      <div className={cx('heading', 'overview-marketcap')}>Market Cap</div>
-    ),
+    sortMethod: simpleSort
+  }),
+  constructColumn({
     id: COLUMNS_NAMES.marketcapUsd,
+    heading: 'Market Cap',
     maxWidth: 130,
     accessor: 'marketcapUsd',
     Cell: ({ value }) => (
@@ -150,106 +139,110 @@ export const COLUMNS = preload => [
         {isValidValue(value) ? `$${millify(value, 2)}` : NO_DATA}
       </div>
     ),
-    sortable: true,
-    sortMethod: (a, b) => simpleSort(+a, +b)
-  },
-  {
-    Header: () => <div className={cx('heading', 'overview-rank')}>Rank</div>,
+    sortMethod: simpleSort
+  }),
+  constructColumn({
     id: COLUMNS_NAMES.rank,
+    heading: 'Rank',
     maxWidth: 60,
-    sortable: true,
-    accessor: d => ({ rank: d.rank }),
-    Cell: prop => {
-      const {
-        value: { rank }
-      } = prop
+    accessor: 'rank',
+    Cell: ({ value }) => {
       return (
         <div className='overview-rank'>
           <Label variant='fill' className={styles.rank}>
-            {rank}
+            {value}
           </Label>
         </div>
       )
     },
-    sortMethod: (a, b) => simpleSort(b.rank, a.rank)
-  },
-  {
-    Header: () => (
-      <div className={cx('heading', 'overview-ethspent')}>
-        <HeaderWithDesc
-          description={
-            <>
-              <b>Average value for 30d</b>
-              <br />
-              {Metrics['ethSpentOverTime'].description}
-            </>
-          }
-          heading={'ETH spent, 30d'}
-        />
-      </div>
+    sortMethod: simpleSort
+  }),
+  constructColumn({
+    id: COLUMNS_NAMES.eth_spent,
+    heading: 'ETH spent, 30d',
+    description: (
+      <>
+        <b>Average value for 30d</b>
+        <br />
+        {Metrics['ethSpentOverTime'].description}
+      </>
     ),
     maxWidth: 120,
     minWidth: 110,
-    id: COLUMNS_NAMES.eth_spent,
-    accessor: d => d.ethSpent,
+    accessor: 'ethSpent',
     Cell: ({ value }) => (
       <div className='overview-ethspent'>{`Ξ${millify(value, 2)}`}</div>
     ),
-    sortable: true,
-    sortMethod: (a, b) => simpleSort(a, b)
-  },
-  {
-    Header: () => (
-      <div className={cx('heading', 'overview-devactivity')}>
-        <HeaderWithDesc
-          description={
-            <>
-              <b>Average value for 30d</b>
-              <br />
-              {Metrics['devActivity'].description}
-            </>
-          }
-          heading={'Dev act., 30d'}
-        />
-      </div>
-    ),
+    sortMethod: simpleSort
+  }),
+  constructColumn({
     id: COLUMNS_NAMES.devact,
+    heading: 'Dev act., 30d',
+    description: (
+      <>
+        <b>Average value for 30d</b>
+        <br />
+        {Metrics['devActivity'].description}
+      </>
+    ),
     maxWidth: 100,
-    accessor: d => d.averageDevActivity,
+    accessor: 'averageDevActivity',
     Cell: ({ value }) => (
       <div className='overview-devactivity'>
         {!isNaN(parseFloat(value)) ? parseFloat(value).toFixed(2) : NO_DATA}
       </div>
     ),
-    sortable: true,
-    sortMethod: (a, b) => simpleSort(a, b)
-  },
-  {
-    Header: () => (
-      <div className={cx('heading', 'overview-activeaddresses')}>
-        <HeaderWithDesc
-          description={
-            <>
-              <b>Average value for 30d</b>
-              <br />
-              {Metrics['dailyActiveAddresses'].description}
-            </>
-          }
-          heading={'DAA, 30d'}
-        />
-      </div>
-    ),
+    sortMethod: simpleSort
+  }),
+  constructColumn({
     id: COLUMNS_NAMES.daily_active_addresses,
+    heading: 'DAA, 30d',
+    descriprion: (
+      <>
+        <b>Average value for 30d</b>
+        <br />
+        {Metrics['dailyActiveAddresses'].description}
+      </>
+    ),
     maxWidth: 110,
-    accessor: d => d.averageDailyActiveAddresses,
+    accessor: 'averageDailyActiveAddresses',
     Cell: ({ value }) => (
       <div className='overview-activeaddresses'>
         {isValidValue(value) ? formatNumber(value) : NO_DATA}
       </div>
     ),
-    sortable: true,
-    sortMethod: (a, b) => simpleSort(a, b)
-  }
+    sortMethod: simpleSort
+  }),
+  constructColumn({
+    id: COLUMNS_NAMES.infrastructure,
+    heading: 'Infrastructure',
+    accessor: 'infrastructure',
+    Cell: ({ value }) => (
+      <div className='overview-activeaddresses'>{value || NO_DATA}</div>
+    )
+  }),
+  constructColumn({
+    id: COLUMNS_NAMES.devActivity7,
+    heading: 'Dev. activity (7d)',
+    accessor: 'devActivity7',
+    Cell: ({ value }) => (
+      <div className='overview-activeaddresses'>
+        {value ? +value.toFixed(2) : NO_DATA}
+      </div>
+    ),
+    sortMethod: simpleSort
+  }),
+  constructColumn({
+    id: COLUMNS_NAMES.devActivity30,
+    heading: 'Dev. activity (30d)',
+    accessor: 'devActivity30',
+    Cell: ({ value }) => (
+      <div className='overview-activeaddresses'>
+        {value ? +value.toFixed(2) : NO_DATA}
+      </div>
+    ),
+    sortMethod: simpleSort
+  })
 ]
 
 export const COLUMNS_NAMES = {
@@ -265,7 +258,11 @@ export const COLUMNS_NAMES = {
   devact: 'Development activity',
   daily_active_addresses: 'Daily active addresses',
   graph: 'Graph',
-  token_circulation: 'Token Circulation'
+  token_circulation: 'Token Circulation',
+  infrastructure: 'Infrastructure',
+  devActivity7: 'Dev. activity (7d)',
+  devActivity30: 'Dev. activity (30d)',
+  devActivity30Change: 'Dev. activity change (30d)'
 }
 
 export const COLUMNS_SETTINGS = {
@@ -297,17 +294,45 @@ export const COLUMNS_SETTINGS = {
     show: false,
     selectable: false,
     description: Metrics['tokenCirculation'].description
-  }
+  },
+  [COLUMNS_NAMES.infrastructure]: { show: true, selectable: false },
+  [COLUMNS_NAMES.devActivity7]: { show: true, selectable: false },
+  [COLUMNS_NAMES.devActivity30]: { show: true, selectable: false }
 }
+
+const MARKET_SEGMENT_COLUMNS = [
+  COLUMNS_NAMES.infrastructure,
+  COLUMNS_NAMES.devActivity30,
+  COLUMNS_NAMES.devActivity7
+]
 
 export const COMMON_SETTINGS = {
   pageSize: 20,
-  hiddenColumns: [COLUMNS_NAMES.eth_spent],
+  hiddenColumns: [COLUMNS_NAMES.eth_spent, ...MARKET_SEGMENT_COLUMNS],
   sorting: { id: COLUMNS_NAMES.marketcapUsd, desc: false }
 }
 
 export const CATEGORIES_SETTINGS = {
-  'All Assets': { hiddenColumns: [COLUMNS_NAMES.eth_spent] },
-  'ERC20 Assets': { hiddenColumns: [] },
-  'Top 50 ERC20': { hiddenColumns: [], pageSize: 50 }
+  'All Assets': {
+    hiddenColumns: [COLUMNS_NAMES.eth_spent, ...MARKET_SEGMENT_COLUMNS]
+  },
+  'ERC20 Assets': { hiddenColumns: [...MARKET_SEGMENT_COLUMNS] },
+  'Top 50 ERC20': {
+    hiddenColumns: [...MARKET_SEGMENT_COLUMNS],
+    pageSize: 50
+  },
+  'Market Segments': {
+    hiddenColumns: [
+      COLUMNS_NAMES.price,
+      COLUMNS_NAMES.price_change,
+      COLUMNS_NAMES.volume,
+      COLUMNS_NAMES.volume_change,
+      COLUMNS_NAMES.marketcapUsd,
+      COLUMNS_NAMES.rank,
+      COLUMNS_NAMES.eth_spent,
+      COLUMNS_NAMES.devact,
+      COLUMNS_NAMES.daily_active_addresses
+    ],
+    sorting: { id: COLUMNS_NAMES.devActivity30, desc: false }
+  }
 }

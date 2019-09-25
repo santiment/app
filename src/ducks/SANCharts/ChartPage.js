@@ -123,11 +123,18 @@ class ChartPage extends Component {
   static defaultProps = { ...DEFAULT_STATE, adjustNightMode: true }
 
   // HACK(vanguard):  fixing navbar-search project selection
-  static getDerivedStateFromProps ({ slug, title, isControlled }, state) {
-    if (isControlled && slug !== state.slug) {
+  static getDerivedStateFromProps (
+    { slug, title, marketSegments, isControlled },
+    state
+  ) {
+    if (
+      isControlled &&
+      (slug !== state.slug || marketSegments !== state.marketSegments)
+    ) {
       return {
         slug,
-        title
+        title,
+        marketSegments
       }
     }
 
@@ -477,7 +484,7 @@ class ChartPage extends Component {
 
           return (
             <>
-              {!viewOnly && !hideSettings.header && (
+              {viewOnly || hideSettings.header || (
                 <Header
                   slug={slug}
                   isLoggedIn={isLoggedIn}
@@ -528,6 +535,7 @@ class ChartPage extends Component {
                           showToggleAnomalies={showToggleAnomalies}
                           onToggleAnomalies={this.onToggleAnomalies}
                           isShowAnomalies={isShowAnomalies}
+                          hideSettings={hideSettings}
                         />
                       </>
                     )}

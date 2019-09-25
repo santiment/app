@@ -34,6 +34,9 @@ import insightDraft, {
   initialState as initialInsightDraft
 } from '../pages/Insights/reducers'
 import recents, { initialState as initialRecents } from './recents'
+import marketSegments, {
+  initialState as initialMarketSegments
+} from '../pages/MarketSegments/reducers'
 
 export const intitialState = {
   user: userState,
@@ -50,7 +53,8 @@ export const intitialState = {
   socialVolume: initialSocialVolume,
   accountUi: initialAccountUiState,
   insightDraft: initialInsightDraft,
-  recents: initialRecents
+  recents: initialRecents,
+  marketSegments: initialMarketSegments
 }
 
 export default combineReducers({
@@ -67,5 +71,6 @@ export default combineReducers({
   socialVolume,
   accountUi,
   insightDraft,
-  recents
+  recents,
+  marketSegments
 })

@@ -325,6 +325,7 @@ export const getMarketSegment = key => {
     category: 'Development',
     node: Line,
     label: `"${key}" Market Dev.Activity`,
+    yAxisId: 'axis-activity',
     reqMeta: {
       transform: 'movingAverage',
       movingAverageIntervalBase: 7
@@ -432,7 +433,8 @@ export const generateMetricsMarkup = (
       dataKey = key,
       hideYAxis,
       gradientUrl,
-      formatter
+      formatter,
+      yAxisId
     } = metric
 
     const rest = {
@@ -448,7 +450,7 @@ export const generateMetricsMarkup = (
     acc.push(
       <YAxis
         key={`axis-${dataKey}`}
-        yAxisId={`axis-${dataKey}`}
+        yAxisId={yAxisId || `axis-${dataKey}`}
         type='number'
         orientation={orientation}
         domain={['auto', 'dataMax']}
@@ -457,7 +459,7 @@ export const generateMetricsMarkup = (
       <El
         key={`line-${dataKey}`}
         type='linear'
-        yAxisId={`axis-${dataKey}`}
+        yAxisId={yAxisId || `axis-${dataKey}`}
         name={label}
         strokeWidth={1.5}
         ref={ref[key]}
