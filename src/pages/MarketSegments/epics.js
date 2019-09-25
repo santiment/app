@@ -1,49 +1,35 @@
 import { Observable } from 'rxjs'
-import { ERC20_QUERY, WATCHLISTS_QUERY } from './queries'
+import { PROJECTS_QUERY } from './queries'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import * as actions from './actions'
 
-const listItemToProjectMap = ({ project }) => project
+const getFunction = segment =>
+  `{"name": "market_segments", "args":{"market_segments": [ "${segment}" ]}}`
 
-const getAssets = data =>
-  data.assets ||
-  (data.watchlistBySlug &&
-    data.watchlistBySlug.listItems.map(listItemToProjectMap))
-
-const itemsReducer = (acc, { data }) => {
-  const items = getAssets(data)
-  return items ? acc.concat(items) : acc
+const Fn = {
+  Ethereum: getFunction('Ethereum'),
+  DeFi: getFunction('DeFi'),
+  EOS: getFunction('EOS')
 }
-
-const Query = {
-  erc20: ERC20_QUERY,
-  defi: WATCHLISTS_QUERY,
-  eos: WATCHLISTS_QUERY
-}
-const ALL_QUERIES = Object.keys(Query)
 
 export const fetchMarketSegments = (action$, store, { client }) =>
   action$
     .ofType(actions.MARKET_SEGMENTS_FETCH)
     .switchMap(({ payload: { segment, forced = false } }) => {
-      const slug = segment.toLowerCase()
-      const queries = slug === 'all' ? ALL_QUERIES : [slug]
       const fetchPolicy = forced ? 'network-only' : 'cache-first'
 
       return Observable.forkJoin([
         Promise.resolve(forced),
-        ...queries.map(slug =>
-          client.query({
-            query: Query[slug],
-            variables: { slug },
-            fetchPolicy
-          })
-        )
+        client.query({
+          query: PROJECTS_QUERY,
+          variables: { fn: Fn[segment] },
+          fetchPolicy
+        })
       ])
     })
-    .mergeMap(([forced, ...items]) => {
+    .mergeMap(([forced, { data: { assets } }]) => {
       const payload = {
-        assets: items.reduce(itemsReducer, [])
+        assets
       }
       if (forced) {
         payload.timestamp = Date.now()
