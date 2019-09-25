@@ -1,5 +1,5 @@
-import img1 from './images/tc.png'
-import img2 from './images/2slide.jpg'
+import img1 from './images/1slide.png'
+import img2 from './images/2slide.png'
 import img3 from './images/3slide.png'
 import img4 from './images/4slide.png'
 import img5 from './images/5slide.png'
