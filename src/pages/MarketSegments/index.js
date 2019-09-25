@@ -59,7 +59,7 @@ const MarketSegmentsPage = ({
     <>
       <div className={styles.wrapper}>
         <div className={styles.content + ' page'}>
-          <h2 className={styles.title}>Market segments</h2>
+          <h2 className={styles.title}>Buidl heroes</h2>
           <ChartWidget
             enabledViewOnlySharing={false}
             adjustNightMode={false}

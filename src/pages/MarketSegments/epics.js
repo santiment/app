@@ -6,9 +6,14 @@ import * as actions from './actions'
 const listItemToProjectMap = ({ project }) => project
 
 const getAssets = data =>
-  data.assets || data.watchlistBySlug.listItems.map(listItemToProjectMap)
+  data.assets ||
+  (data.watchlistBySlug &&
+    data.watchlistBySlug.listItems.map(listItemToProjectMap))
 
-const itemsReducer = (acc, { data }) => acc.concat(getAssets(data))
+const itemsReducer = (acc, { data }) => {
+  const items = getAssets(data)
+  return items ? acc.concat(items) : acc
+}
 
 const Query = {
   erc20: ERC20_QUERY,
