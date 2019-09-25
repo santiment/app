@@ -10,7 +10,10 @@ const getAssets = data =>
   (data.watchlistBySlug &&
     data.watchlistBySlug.listItems.map(listItemToProjectMap))
 
-const itemsReducer = (acc, { data }) => acc.concat(getAssets(data))
+const itemsReducer = (acc, { data }) => {
+  const items = getAssets(data)
+  return items ? acc.concat(items) : acc
+}
 
 const Query = {
   erc20: ERC20_QUERY,
@@ -40,7 +43,7 @@ export const fetchMarketSegments = (action$, store, { client }) =>
     })
     .mergeMap(([forced, ...items]) => {
       const payload = {
-        assets: items.reduce(itemsReducer, []).filter(Boolean)
+        assets: items.reduce(itemsReducer, [])
       }
       if (forced) {
         payload.timestamp = Date.now()
