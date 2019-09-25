@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
+import YoutubeButton from './YoutubeButton'
 import styles from './StoryContent.module.scss'
 
 const StoryContent = ({
@@ -18,6 +19,7 @@ const StoryContent = ({
 
   let [width, setWidth] = useState(null)
   const activeStoryRef = useRef(null)
+  const videoRef = useRef(null)
 
   if (isPaused && !width) {
     const elem = activeStoryRef.current.children[active].children[0]
@@ -26,25 +28,41 @@ const StoryContent = ({
 
   if (!isPaused && width) setWidth(null)
 
+  const onVideoClicked = () => {
+    if (videoId && videoRef.current && !isPaused) {
+      let iframe = document.createElement('iframe')
+
+      iframe.setAttribute('allowfullscreen', '')
+      iframe.setAttribute('allow', 'autoplay')
+      iframe.setAttribute(
+        'src',
+        `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&showinfo=0&autoplay=1`
+      )
+      videoRef.current.appendChild(iframe)
+      onMediaClicked()
+    }
+  }
+
   return (
     <>
       <div className={styles.content}>
-        <div className={styles.media}>
+        <div
+          className={cx(
+            styles.media,
+            isPaused && videoId && styles.enabledVideo
+          )}
+          onClick={onVideoClicked}
+          ref={videoRef}
+        >
           {videoId && (
-            <iframe
-              onClick={onMediaClicked}
-              title={title}
-              src={`https://www.youtube-nocookie.com/embed/${videoId}`}
-              frameBorder='0'
-              allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
-              allowFullScreen
-            />
-            // <a className={styles.video} href={`https://youtu.be/${videoId}`}>
-            //   <picture>
-            //     <source srcset={`https://i.ytimg.com/vi_webp/${videoId}/maxresdefault.webp`} type="image/webp" />
-            //     <img className={styles.videoMedia} src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`} alt={title} />
-            //   </picture>
-            // </a>
+            <div className={styles.preview}>
+              <img
+                className={styles.preview__img}
+                src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
+                alt={title}
+              />
+              <YoutubeButton />
+            </div>
           )}
           {image && <img src={image} alt='' />}
         </div>
@@ -90,7 +108,7 @@ const StoryContent = ({
                 active === idx && !isPaused && styles.activeLine
               )}
               style={{
-                '--width': isPaused && active === idx ? `${width}px` : 0
+                '--width': isPaused ? `${width}px` : active === idx ? '100%' : 0
               }}
             />
           </div>

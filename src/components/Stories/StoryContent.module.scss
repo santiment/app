@@ -12,7 +12,10 @@
   overflow: hidden;
   height: 360px;
   width: 448px;
+  position: relative;
   display: flex;
+  align-items: center;
+  justify-content: center;
 
   & iframe {
     width: 100%;
@@ -22,6 +25,52 @@
   & img {
     width: 100%;
     object-fit: contain;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  & .preview {
+    &__img {
+      width: 100%;
+    }
+
+    &__button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      display: block;
+      padding: 0;
+      width: 68px;
+      height: 48px;
+      border: none;
+      background-color: transparent;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &__button_shape {
+      fill: #212121;
+      fill-opacity: 0.8;
+    }
+  }
+
+  &:hover .preview__button_shape,
+  .preview__button:focus .preview__button_shape {
+    fill: #f00;
+    fill-opacity: 1;
+  }
+}
+
+.enabledVideo {
+  & .preview {
+    display: none;
   }
 }
 
@@ -68,8 +117,7 @@
 }
 
 .activeLine {
-  animation: activeLine 15s linear;
-  width: 0;
+  animation: activeLine 12s linear;
 }
 
 .progress {
