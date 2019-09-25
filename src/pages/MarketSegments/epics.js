@@ -6,7 +6,9 @@ import * as actions from './actions'
 const listItemToProjectMap = ({ project }) => project
 
 const getAssets = data =>
-  data.assets || data.watchlistBySlug.listItems.map(listItemToProjectMap)
+  data.assets ||
+  (data.watchlistBySlug &&
+    data.watchlistBySlug.listItems.map(listItemToProjectMap))
 
 const itemsReducer = (acc, { data }) => acc.concat(getAssets(data))
 
@@ -38,7 +40,7 @@ export const fetchMarketSegments = (action$, store, { client }) =>
     })
     .mergeMap(([forced, ...items]) => {
       const payload = {
-        assets: items.reduce(itemsReducer, [])
+        assets: items.reduce(itemsReducer, []).filter(Boolean)
       }
       if (forced) {
         payload.timestamp = Date.now()

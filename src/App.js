@@ -221,7 +221,7 @@ export const App = ({
         <Route exact path='/signals' component={Signals} />
         <Route
           exact
-          path='/labs/market-segments'
+          path='/labs/buidl-heroes'
           render={props => (
             <LoadableMarketSegmentsPage isLoggedIn={isLoggedIn} {...props} />
           )}

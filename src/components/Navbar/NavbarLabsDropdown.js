@@ -8,7 +8,7 @@ const links = [
   // { link: '/labs/social-movers', label: 'Social movers' },
   { link: '/ethereum-spent', label: 'ETH spent' },
   { link: '/labs/balance', label: 'Historical balance' },
-  { link: '/labs/market-segments', label: 'Market segments' },
+  { link: '/labs/buidl-heroes', label: 'Buidl heroes' },
   { link: '/dashboards', label: 'Dashboards' }
 ]
 
