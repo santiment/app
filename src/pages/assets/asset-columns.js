@@ -97,7 +97,7 @@ export const COLUMNS = preload => [
     id: COLUMNS_NAMES.price_change,
     heading: 'Price +/-',
     maxWidth: 100,
-    accessor: 'volumeChange24h',
+    accessor: 'percentChange24h',
     Cell: ({ value }) => (
       <div className='overview-price-percent'>
         {isValidValue(value) ? <PercentChanges changes={value} /> : NO_DATA}
