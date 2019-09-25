@@ -19,7 +19,6 @@ const marketSegments = [
   getMarketSegment('DeFi'),
   getMarketSegment('EOS')
 ]
-// "ERC20 Assets"
 
 const Segment = {
   All: marketSegments,

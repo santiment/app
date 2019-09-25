@@ -48,4 +48,4 @@ export const fetchMarketSegments = (action$, store, { client }) =>
         payload
       })
     })
-    .catch(console.warn)
+    .catch(handleErrorAndTriggerAction(actions.MARKET_SEGMENTS_FETCH_FAIL))
