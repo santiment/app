@@ -21,8 +21,6 @@ function onGetStartedClick () {
   })
 }
 
-const AfterHeader = <StoriesList classes={styles} />
-
 export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
   fetchPolicy: 'cache-and-network',
   options: () => ({
@@ -37,8 +35,9 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
   return (
     <>
       <div className={styles.wrapper}>
-        <div className={styles.content}>
-          <h2 className={styles.week + ' elem-container'}>
+        <StoriesList classes={styles} />
+        <div className={styles.content + ' elem-container'}>
+          <h2 className={styles.week}>
             <span role='img' aria-label='cup'>
               🏆{' '}
             </span>
@@ -58,7 +57,6 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
                     location={location}
                     adjustNightMode={false}
                     showToggleAnomalies={true}
-                    addBounding={true}
                     slug='bitcoin'
                     title='Bitcoin (BTC)'
                     projectId='1505'
@@ -70,7 +68,6 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
                     classes={styles}
                     isLoggedIn={isLoggedIn}
                     onSlugSelect={onChangeSlug}
-                    AfterHeader={AfterHeader}
                     isControlled
                     isPRO={userPlan === 'PRO'}
                     {...boundaries}

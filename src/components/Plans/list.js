@@ -54,7 +54,18 @@ export default {
       'Unlimited active signals',
       'Sanbase metrics - 3 years of historical data',
       'Sanbase metrics - including present-day data',
-      'Exclusive market reports'
+      'Exclusive market reports',
+      <span>
+        Bonus: Full access in{' '}
+        <a
+          className={styles.featureLink}
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://sheets.santiment.net/'
+        >
+          Google plugin for sheets
+        </a>
+      </span>
     ]
   },
   ENTERPRISE: {

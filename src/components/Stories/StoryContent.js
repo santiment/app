@@ -71,7 +71,7 @@ const StoryContent = ({
               <YoutubeButton />
             </div>
           )}
-          {image && <img src={image} alt='' />}
+          {image && <img src={image} alt='' onClick={onMediaClicked} />}
         </div>
         {title && <h4 className={styles.title}>{title}</h4>}
         {description && <p className={styles.description}>{description}</p>}
@@ -115,7 +115,8 @@ const StoryContent = ({
                 active === idx && !isPaused && styles.activeLine
               )}
               style={{
-                '--width': isPaused ? `${width}px` : active === idx ? '100%' : 0
+                '--width':
+                  active === idx ? (isPaused ? `${width}px` : '100%') : 0
               }}
             />
           </div>

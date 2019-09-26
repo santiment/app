@@ -41,7 +41,7 @@ const StoryPreview = ({
               }/maxresdefault.jpg`
               : info.slides[0].image
           }
-          alt={previewTitle}
+          alt=''
         />
       </div>
     </Panel>

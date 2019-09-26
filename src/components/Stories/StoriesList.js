@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import GA from 'react-ga'
 import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
 import StoryPreview from './StoryPreview'
@@ -17,7 +18,13 @@ const StoriesList = ({ classes = {} }) => {
             <StoryPreview
               className={cx(styles.item, classes.story)}
               key={story.previewTitle}
-              onClick={() => setSelected(story)}
+              onClick={() => {
+                GA.event({
+                  category: 'Stories',
+                  action: `Opened "${story.previewTitle}" story `
+                })
+                setSelected(story)
+              }}
               {...story}
             />
           ))}

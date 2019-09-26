@@ -1,4 +1,111 @@
+import React from 'react'
+
 export const stories = [
+  {
+    type: 'SLIDES',
+    previewTitle: 'How do you measure risk in crypto?',
+    storyHeaderName: 'How do you measure risk in crypto?',
+    slides: [
+      {
+        title:
+          'We made a template that calculates risk-adjusted returns of any coin. Here’s what we learned:',
+        description: `The template calculates a coin’s Sharpe ratio, which analyzes its past returns in the context of risk, or how bumpy the road to its current returns proved to be.`,
+        image:
+          'https://api-stage.santiment.net/images/sanbase/Stories/Shrape/1.png'
+      },
+      {
+        title: 'What does risk mean?',
+        image:
+          'https://api-stage.santiment.net/images/sanbase/Stories/Shrape/1.png',
+        description: (
+          <>
+            <div>Risk in Sharpe ratio means general volatility.</div>
+            <div>
+              In other words: the&nbsp;amount&nbsp;+&nbsp;frequency of the
+              coin’s up-&nbsp;and&nbsp;downswings.
+            </div>
+          </>
+        )
+      },
+      {
+        image:
+          'https://api-stage.santiment.net/images/sanbase/Stories/Shrape/1.png',
+        title: 'A high Sharpe ratio means one of 3 things:',
+        description: (
+          <>
+            <div>1. Risk is low, but returns have been high</div>
+            <div>2. Risk is moderate but returns have been even higher</div>
+            <div>3. Risk is high, but returns have been sky high</div>
+          </>
+        )
+      },
+      {
+        image:
+          'https://api-stage.santiment.net/images/sanbase/Stories/Shrape/3.png',
+        title:
+          'YTD, the highest Sharpe ratio of top 10 cryptocurrencies — Binance Coin (2.51). Next is:',
+        description: (
+          <>
+            <div>2. Bitcoin (2.37)</div>
+            <div>3. Litecoin (1.49)</div>
+            <div>4. Bitcoin Cash (1.26)</div>
+            <div>5. Monero (1.17)</div>
+          </>
+        )
+      },
+      {
+        title: 'Who is the worst?',
+        description: (
+          <>
+            <div>
+              The worst Sharpe ratio in the top 10 coins YTD goes
+              to&nbsp;XRP,&nbsp;at&nbsp;-0.04.
+            </div>
+            <div>
+              This indicates high volatility and poor returns relative to
+              Ripple’s price swings.
+            </div>
+          </>
+        ),
+        image:
+          'https://api-stage.santiment.net/images/sanbase/Stories/Shrape/4.png'
+      },
+      {
+        image:
+          'https://api-stage.santiment.net/images/sanbase/Stories/Shrape/2.png',
+        title: 'Top 100 cryptocurrencies by Sharpe Ratio YTD:',
+        description: (
+          <>
+            <div>BNB is still on top</div>
+            <div>BTC is at #3</div>
+            <div>LTC at #8</div>
+            <div>and ETH at #31</div>
+          </>
+        )
+      },
+      {
+        image:
+          'https://api-stage.santiment.net/images/sanbase/Stories/Shrape/5.png',
+        description: (
+          <div>
+            Use{' '}
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://tinyurl.com/y66dn8pk'
+            >
+              our template
+            </a>{' '}
+            to analyze any coin’s returns adjusted for risk. To change the time
+            frame, make a copy of it and download Sansheets — our plugin for
+            importing Santiment data into Spreadsheets.
+          </div>
+        ),
+        buttonLink: 'http://sheets.santiment.net',
+        buttonText: 'Explore Sansheets'
+      }
+    ]
+  },
   {
     type: 'VIDEO',
     previewTitle: 'Sonar Introduction',
