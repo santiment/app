@@ -242,6 +242,14 @@ export const COLUMNS = preload => [
       </div>
     ),
     sortMethod: simpleSort
+  }),
+  constructColumn({
+    id: COLUMNS_NAMES.devActivityChange30d,
+    heading: 'Dev. act. % change (30d)',
+    accessor: 'devActChange30d',
+    Cell: ({ value }) =>
+      isValidValue(value) ? <PercentChanges changes={value} /> : NO_DATA,
+    sortMethod: simpleSort
   })
 ]
 
@@ -262,7 +270,7 @@ export const COLUMNS_NAMES = {
   infrastructure: 'Infrastructure',
   devActivity7: 'Dev. activity (7d)',
   devActivity30: 'Dev. activity (30d)',
-  devActivity30Change: 'Dev. activity change (30d)'
+  devActivityChange30d: 'Dev. activity % change (30d)'
 }
 
 export const COLUMNS_SETTINGS = {
@@ -297,13 +305,15 @@ export const COLUMNS_SETTINGS = {
   },
   [COLUMNS_NAMES.infrastructure]: { show: true, selectable: false },
   [COLUMNS_NAMES.devActivity7]: { show: true, selectable: false },
-  [COLUMNS_NAMES.devActivity30]: { show: true, selectable: false }
+  [COLUMNS_NAMES.devActivity30]: { show: true, selectable: false },
+  [COLUMNS_NAMES.devActivityChange30d]: { show: true, selectable: false }
 }
 
 const MARKET_SEGMENT_COLUMNS = [
   COLUMNS_NAMES.infrastructure,
   COLUMNS_NAMES.devActivity30,
-  COLUMNS_NAMES.devActivity7
+  COLUMNS_NAMES.devActivity7,
+  COLUMNS_NAMES.devActivityChange30d
 ]
 
 export const COMMON_SETTINGS = {
