@@ -74,7 +74,7 @@ const StoryContent = ({
           {image && <img src={image} alt='' onClick={onMediaClicked} />}
         </div>
         {title && <h4 className={styles.title}>{title}</h4>}
-        {description && <p className={styles.description}>{description}</p>}
+        {description && <div className={styles.description}>{description}</div>}
         {buttonLink && (
           <Button
             as='a'
