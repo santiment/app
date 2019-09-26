@@ -5,6 +5,7 @@ import { SOCIALVOLUME_DATA_FETCH, TOTAL_SOCIALVOLUME_SECRET } from './actions'
 import { getDateFormats } from '../../utils/dates'
 import { millify } from '../../utils/formatting'
 import WidgetTrend from '../Widget/WidgetTrend'
+import { safeDecode } from '../../utils/utils'
 import styles from './SocialVolumeWidget.module.scss'
 
 const RoundBar = ({ x, y, height }) => (
@@ -27,7 +28,7 @@ export class SocialVolumeWidget extends React.Component {
     return (
       <WidgetTrend
         className={styles.wrapper}
-        trendWord={trendWord}
+        trendWord={safeDecode(trendWord)}
         description='social volume score'
         isLoading={isLoading}
         error={error}
