@@ -12,3 +12,26 @@ export const PROJECTS_QUERY = gql`
     }
   }
 `
+
+export const DEV_ACT_QUERY = (slugs, from, to) => gql`
+  query devActivity{
+    ${slugs.reduce(
+    (acc, slug) =>
+      acc +
+        `
+      _${slug.replace(/-/g, '_cs_')}: devActivity(
+      slug: "${slug}"
+      from: "${from}"
+      to: "${to}"
+      interval: "30d"
+      transform: "movingAverage"
+      movingAverageIntervalBase: 7
+    ) {
+      datetime
+      activity
+    }
+    `,
+    ''
+  )}
+  }
+`
