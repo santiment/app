@@ -310,10 +310,10 @@ export const COLUMNS_SETTINGS = {
 }
 
 const MARKET_SEGMENT_COLUMNS = [
+  COLUMNS_NAMES.devActivityChange30d,
   COLUMNS_NAMES.infrastructure,
   COLUMNS_NAMES.devActivity30,
-  COLUMNS_NAMES.devActivity7,
-  COLUMNS_NAMES.devActivityChange30d
+  COLUMNS_NAMES.devActivity7
 ]
 
 export const COMMON_SETTINGS = {
