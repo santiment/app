@@ -82,8 +82,10 @@ const TIMESERIES = {
   dailyActiveAddresses: {
     query: DAILY_ACTIVE_ADDRESSES_QUERY
   },
-  tokenCirculation: {
-    query: TOKEN_CIRCULATION_QUERY
+  circulation: {
+    /* query: TOKEN_CIRCULATION_QUERY */
+    query: GET_METRIC('circulation'),
+    preTransform: ({ getMetric: { timeseriesData } }) => timeseriesData
   },
   mvrvRatio: {
     query: MVRV_QUERY

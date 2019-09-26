@@ -155,6 +155,8 @@ export const Metrics = {
   },
   tokenCirculation: {
     key: 'tokenCirculation',
+    alias: 'circulation',
+    dataKey: 'circulation',
     category: 'On-chain',
     node: Line,
     group: 'Token Flows/Movement/Activity',
