@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import GA from 'react-ga'
 import * as qs from 'query-string'
+import { connect } from 'react-redux'
 import cx from 'classnames'
 import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
@@ -389,7 +390,8 @@ class ChartPage extends Component {
       leftBoundaryDate,
       rightBoundaryDate,
       isLoggedIn,
-      isPRO
+      isPRO,
+      isBeta
     } = this.props
 
     const requestedMetrics = metrics.map(
@@ -426,7 +428,7 @@ class ChartPage extends Component {
       document.body.classList.toggle('night-mode', !!nightMode)
     }
 
-    if (isShowAnomalies) {
+    if (isShowAnomalies && isBeta) {
       metrics.forEach(metric => {
         if (metric.anomalyKey) {
           requestedEvents.push({
@@ -581,4 +583,8 @@ class ChartPage extends Component {
   }
 }
 
-export default ChartPage
+const mapStateToProps = ({ rootUi: { isBetaModeEnabled } }) => ({
+  isBeta: isBetaModeEnabled
+})
+
+export default connect(mapStateToProps)(ChartPage)
