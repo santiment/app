@@ -11,12 +11,12 @@ export const stories = [
           'We made a template that calculates risk-adjusted returns of any coin. Here’s what we learned:',
         description: `The template calculates a coin’s Sharpe ratio, which analyzes its past returns in the context of risk, or how bumpy the road to its current returns proved to be.`,
         image:
-          'https://api-stage.santiment.net/images/sanbase/Stories/Sharpe/img1.png'
+          'https://api-stage.santiment.net/images/sanbase/Stories/Shrape/1.png'
       },
       {
         title: 'What does risk mean?',
         image:
-          'https://api-stage.santiment.net/images/sanbase/Stories/Sharpe/img1.png',
+          'https://api-stage.santiment.net/images/sanbase/Stories/Shrape/1.png',
         description: (
           <>
             <div>Risk in Sharpe ratio means general volatility.</div>
@@ -29,7 +29,7 @@ export const stories = [
       },
       {
         image:
-          'https://api-stage.santiment.net/images/sanbase/Stories/Sharpe/img1.png',
+          'https://api-stage.santiment.net/images/sanbase/Stories/Shrape/1.png',
         title: 'A high Sharpe ratio means one of 3 things:',
         description: (
           <>
@@ -41,7 +41,7 @@ export const stories = [
       },
       {
         image:
-          'https://api-stage.santiment.net/images/sanbase/Stories/Sharpe/img3.png',
+          'https://api-stage.santiment.net/images/sanbase/Stories/Shrape/3.png',
         title:
           'YTD, the highest Sharpe ratio of top 10 cryptocurrencies — Binance Coin (2.51). Next is:',
         description: (
@@ -68,11 +68,11 @@ export const stories = [
           </>
         ),
         image:
-          'https://api-stage.santiment.net/images/sanbase/Stories/Sharpe/img4.png'
+          'https://api-stage.santiment.net/images/sanbase/Stories/Shrape/4.png'
       },
       {
         image:
-          'https://api-stage.santiment.net/images/sanbase/Stories/Sharpe/img2.png',
+          'https://api-stage.santiment.net/images/sanbase/Stories/Shrape/2.png',
         title: 'Top 100 cryptocurrencies by Sharpe Ratio YTD:',
         description: (
           <>
@@ -85,7 +85,7 @@ export const stories = [
       },
       {
         image:
-          'https://api-stage.santiment.net/images/sanbase/Stories/Sharpe/img5.png',
+          'https://api-stage.santiment.net/images/sanbase/Stories/Shrape/5.png',
         description: (
           <div>
             Use{' '}
