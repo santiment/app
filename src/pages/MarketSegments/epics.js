@@ -2,6 +2,7 @@ import { Observable } from 'rxjs'
 import { PROJECTS_QUERY } from './queries'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import * as actions from './actions'
+import devActChange30d from './devActChange.json'
 
 const getFunction = segment =>
   `{"name": "market_segments", "args":{"market_segments": [ "${segment}" ]}}`
@@ -29,11 +30,15 @@ export const fetchMarketSegments = (action$, store, { client }) =>
     })
     .mergeMap(([forced, { data: { assets } }]) => {
       const payload = {
-        assets
+        assets: assets.map(asset => ({
+          ...asset,
+          devActChange30d: devActChange30d[asset.slug]
+        }))
       }
       if (forced) {
         payload.timestamp = Date.now()
       }
+
       return Observable.of({
         type: actions.MARKET_SEGMENTS_FETCH_SUCCESS,
         payload
