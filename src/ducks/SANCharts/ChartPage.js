@@ -10,7 +10,6 @@ import Header from './Header'
 import { Metrics, Events, getMarketSegment } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
-import { ANOMALIES_METRICS_ENUM } from '../../components/MobileMetricCard/MobileMetricCard'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
 import styles from './ChartPage.module.scss'
@@ -429,15 +428,15 @@ class ChartPage extends Component {
 
     if (isShowAnomalies) {
       metrics.forEach(metric => {
-        if (ANOMALIES_METRICS_ENUM[metric]) {
+        if (metric.anomalyKey) {
           requestedEvents.push({
             name: 'anomalies',
             from,
             to,
             slug,
             interval,
-            metric: ANOMALIES_METRICS_ENUM[metric],
-            metricKey: metric
+            metric: metric.anomalyKey,
+            metricKey: metric.key
           })
         }
       })

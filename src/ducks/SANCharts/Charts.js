@@ -303,7 +303,8 @@ class Charts extends React.Component {
     // NOTE(haritonasty): need to filter anomalies immediately after removing any active metric
     // (because axis for anomaly can be lost)
     events = events.filter(
-      ({ value, isAnomaly }) => metrics.includes(value) || !isAnomaly
+      ({ value, isAnomaly }) =>
+        metrics.some(({ key }) => key === value) || !isAnomaly
     )
 
     const lastDayPrice =

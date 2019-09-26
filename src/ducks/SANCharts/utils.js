@@ -95,6 +95,7 @@ export const Metrics = {
     category: 'Social',
     node: Bar,
     label: 'Social Volume',
+    anomalyKey: 'SOCIAL_VOLUME',
     color: 'malibu',
     description: `Shows the amount of mentions of the coin on 1000+ crypto social media channels, including Telegram groups, crypto subreddits, discord groups, private traders chats and more.`
   },
@@ -127,6 +128,7 @@ export const Metrics = {
     node: Bar,
     group: 'Network Activity',
     label: 'Daily Active Addresses',
+    anomalyKey: 'DAILY_ACTIVE_ADDRESSES',
     video: 'https://www.youtube.com/watch?v=n3dUvWvQEpQ',
     description: `Shows the number of unique network addresses involved in transactions
     on a certain date.
@@ -204,6 +206,7 @@ export const Metrics = {
     node: Line,
     color: 'heliotrope',
     label: 'Development Activity',
+    anomalyKey: 'DEV_ACTIVITY',
     dataKey: 'activity',
     description:
       "Based on number of Github 'events' including PRs, comments, and wiki edits, plus the number of public repositories a project is maintaining",
