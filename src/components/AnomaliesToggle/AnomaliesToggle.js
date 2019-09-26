@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
 import HelpTooltip from '../WatchlistOverview/WatchlistAnomalies/HelpTooltip'
@@ -9,9 +10,10 @@ import styles from './AnomaliesToggle.module.scss'
 const AnomaliesToggle = ({
   onToggleAnomalies,
   isShowAnomalies,
-  showToggleAnomalies
+  showToggleAnomalies,
+  isBeta
 }) => {
-  return showToggleAnomalies ? (
+  return showToggleAnomalies && isBeta ? (
     <Button
       variant='flat'
       onClick={onToggleAnomalies}
@@ -35,4 +37,8 @@ const AnomaliesToggle = ({
   ) : null
 }
 
-export default AnomaliesToggle
+const mapStateToProps = ({ rootUi: { isBetaModeEnabled } }) => ({
+  isBeta: isBetaModeEnabled
+})
+
+export default connect(mapStateToProps)(AnomaliesToggle)
