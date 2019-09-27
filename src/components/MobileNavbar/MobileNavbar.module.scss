@@ -44,8 +44,12 @@
 .logo {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
-  margin-bottom: 4rem;
+  margin-top: 13vh;
+  margin-bottom: 17vh;
+
+  & svg {
+    transform: scale(1.1);
+  }
 }
 
 .loginBtn {
