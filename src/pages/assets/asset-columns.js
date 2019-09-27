@@ -48,7 +48,7 @@ const constructColumn = ({
   }
 }
 
-export const COLUMNS = preload => [
+export const COLUMNS = (preload, props = {}) => [
   constructColumn({
     id: COLUMNS_NAMES.index,
     heading: '#',
@@ -61,15 +61,21 @@ export const COLUMNS = preload => [
     minWidth: 200,
     maxWidth: 280,
     resizable: true,
-    Cell: ({ original }) => (
-      <Link
-        onMouseOver={preload}
-        to={`/projects/${original.slug}`}
-        className='overview-name'
-      >
-        <ProjectLabel {...original} />
-      </Link>
-    ),
+    Cell: ({ original }) => {
+      const { state } = props.projectLink || {}
+      return (
+        <Link
+          onMouseOver={preload}
+          to={{
+            pathname: `/projects/${original.slug}`,
+            state
+          }}
+          className='overview-name'
+        >
+          <ProjectLabel {...original} />
+        </Link>
+      )
+    },
     filterMethod: (filter, row) => {
       const name = row[filter.id].name || ''
       const ticker = row[filter.id].ticker || ''

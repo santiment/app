@@ -30,17 +30,22 @@ const propTypes = {
   match: PropTypes.object.isRequired
 }
 
-export const Breadcrumbs = ({ slug, name }) => (
+export const Breadcrumbs = ({ from, slug, name }) => (
   <div className={styles.breadcrumbs}>
-    <Link to='/assets' className={styles.breadcrumbs__root}>
-      Assets
-    </Link>
+    <Link {...from} className={styles.breadcrumbs__root} />
     <Icon type='arrow-right' className={styles.breadcrumbs__arrow} />
     <Link className={styles.breadcrumbs__project} to={`/projects/${slug}`}>
       {name}
     </Link>
   </div>
 )
+
+Breadcrumbs.defaultProps = {
+  from: {
+    to: '/assets',
+    children: 'Assets'
+  }
+}
 
 export const Detailed = ({
   match,
@@ -60,6 +65,7 @@ export const Detailed = ({
 }) => {
   const project = Project.project || {}
 
+  const { from } = location.state || {}
   const { id } = project
 
   if (/not found/.test(Project.errorMessage)) {
@@ -80,7 +86,7 @@ export const Detailed = ({
 
   const projectContainerChart = project && project.id && (
     <>
-      <Breadcrumbs slug={project.slug} name={project.name} />
+      <Breadcrumbs from={from} slug={project.slug} name={project.name} />
       <Query query={USER_SUBSCRIPTIONS_QUERY}>
         {({ data: { currentUser } = {} }) => {
           const subscription = getCurrentSanbaseSubscription(currentUser)
