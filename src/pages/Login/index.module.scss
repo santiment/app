@@ -68,11 +68,17 @@
   }
 
   &__form {
-    margin-top: 20px;
+    margin: 20px auto;
+    max-width: 400px;
   }
 
   &__btn {
     margin: 15px 0 30px;
+
+    @include responsive('phone', 'phone-xs') {
+      width: 100%;
+      justify-content: center;
+    }
   }
 
   &__link {
