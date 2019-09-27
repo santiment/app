@@ -317,7 +317,7 @@ export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.devActivityChange30d]: { show: true, selectable: false }
 }
 
-const MARKET_SEGMENT_COLUMNS = [
+export const MARKET_SEGMENT_COLUMNS = [
   COLUMNS_NAMES.devActivityChange30d,
   COLUMNS_NAMES.infrastructure,
   COLUMNS_NAMES.devActivity30,
