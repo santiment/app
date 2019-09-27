@@ -327,7 +327,7 @@ export const getMarketSegment = key => {
     type: 'marketSegments',
     category: 'Development',
     node: Line,
-    label: `"${key}" Market Dev.Activity`,
+    label: `Dev. Activity (${key})`,
     yAxisId: 'axis-activity',
     reqMeta: {
       transform: 'movingAverage',
