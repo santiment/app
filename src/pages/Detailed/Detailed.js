@@ -50,7 +50,7 @@ Breadcrumbs.defaultProps = {
 export const Detailed = ({
   match,
   history,
-  location,
+  location = {},
   Project = {
     project: undefined,
     loading: true,
