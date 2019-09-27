@@ -85,7 +85,7 @@ const SearchMobilePage = ({ history }) => {
                 <span className={styles.name}>{safeDecode(word)}</span>
               </Link>
               <Icon
-                type='close-medium'
+                type='close'
                 className={cx(styles.icon, styles.delete)}
                 onClick={() => {
                   removeRecentTrends(word)

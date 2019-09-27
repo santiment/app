@@ -49,6 +49,7 @@
 .link {
   display: flex;
   align-items: center;
+  max-width: 84%;
 
   @include text('body-3');
 }
@@ -60,6 +61,7 @@
 .name {
   color: var(--mirage);
   margin-left: 12px;
+  max-width: 88%;
 }
 
 .ticker {
