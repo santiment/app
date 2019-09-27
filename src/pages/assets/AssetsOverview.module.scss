@@ -6,7 +6,6 @@
 
   @include responsive('phone-xs', 'phone') {
     height: 100vh;
-    // height: calc(var(--vh, 1vh) * 100 );
     overflow-y: auto;
     overflow-y: overlay;
     -webkit-overflow-scrolling: touch;
