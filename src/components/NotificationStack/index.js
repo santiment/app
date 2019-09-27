@@ -42,18 +42,29 @@ class NotificationStack extends Component {
 
     return (
       <TransitionGroup className={styles.notificationStack}>
-        {notifications.map(({ id, dismissAfter, isWide, ...notification }) => (
-          <CSSTransition key={id} timeout={notifyDuration} classNames={styles}>
-            <NotificationItem
-              {...notification}
-              className={cx(
-                styles.notification,
-                isWide && styles.wideNotification
-              )}
-              onClose={() => this.closeNotification(id)}
-            />
-          </CSSTransition>
-        ))}
+        {notifications.map(
+          ({ id, dismissAfter, isWide, onClose, ...notification }) => (
+            <CSSTransition
+              key={id}
+              timeout={notifyDuration}
+              classNames={styles}
+            >
+              <NotificationItem
+                {...notification}
+                className={cx(
+                  styles.notification,
+                  isWide && styles.wideNotification
+                )}
+                onClose={() => {
+                  this.closeNotification(id)
+                  if (onClose) {
+                    onClose()
+                  }
+                }}
+              />
+            </CSSTransition>
+          )
+        )}
       </TransitionGroup>
     )
   }
