@@ -25,6 +25,9 @@ import { METRIC_ANOMALIE_QUERY } from './queries/metric_anomaly_query'
 import { GET_METRIC } from './queries/get_metric'
 import { mergeTimeseriesByKey } from './../../utils/utils'
 
+const getMetricPreTransform = ({ getMetric: { timeseriesData } }) =>
+  timeseriesData
+
 const TIMESERIES = {
   ethSpentOverTime: {
     query: ETH_SPENT_OVER_TIME_QUERY,
@@ -47,8 +50,10 @@ const TIMESERIES = {
   burnRate: {
     query: BURN_RATE_QUERY
   },
-  realizedValue: {
-    query: REALIZED_VALUE_QUERY
+  realized_value_usd: {
+    query: GET_METRIC('realized_value_usd'),
+    preTransform: getMetricPreTransform
+    /* query: REALIZED_VALUE_QUERY, */
   },
   historyTwitterData: {
     query: HISTORY_TWITTER_DATA_QUERY
@@ -79,26 +84,31 @@ const TIMESERIES = {
   exchangeFundsFlow: {
     query: EXCHANGE_FUNDS_FLOW_QUERY
   },
-  dailyActiveAddresses: {
-    query: DAILY_ACTIVE_ADDRESSES_QUERY
+  daily_active_addresses: {
+    query: GET_METRIC('daily_active_addresses'),
+    preTransform: getMetricPreTransform
+    /* query: DAILY_ACTIVE_ADDRESSES_QUERY, */
   },
-  circulation: {
+  circulation_1d: {
     /* query: TOKEN_CIRCULATION_QUERY */
-    query: GET_METRIC('circulation'),
-    preTransform: ({ getMetric: { timeseriesData } }) => timeseriesData
+    query: GET_METRIC('circulation_1d'),
+    preTransform: getMetricPreTransform
   },
-  mvrvRatio: {
-    query: MVRV_QUERY
+  mvrv_usd: {
+    query: GET_METRIC('mvrv_usd'),
+    preTransform: getMetricPreTransform
+    /* query: MVRV_QUERY, */
   },
   dailyActiveDeposits: {
     query: DAILY_ACTIVE_DEPOSITS_QUERY
   },
-  tokenVelocity: {
-    query: TOKEN_VELOCITY_QUERY
+  velocity: {
+    query: GET_METRIC('velocity'),
+    preTransform: getMetricPreTransform
   },
   transaction_volume: {
     query: GET_METRIC('transaction_volume'),
-    preTransform: ({ getMetric: { timeseriesData } }) => timeseriesData
+    preTransform: getMetricPreTransform
   },
   networkGrowth: {
     query: NETWORK_GROWTH_QUERY

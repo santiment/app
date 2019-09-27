@@ -123,6 +123,8 @@ export const Metrics = {
   },
   dailyActiveAddresses: {
     key: 'dailyActiveAddresses',
+    alias: 'daily_active_addresses',
+    dataKey: 'daily_active_addresses',
     category: 'On-chain',
     node: Bar,
     group: 'Network Activity',
@@ -155,8 +157,8 @@ export const Metrics = {
   },
   tokenCirculation: {
     key: 'tokenCirculation',
-    alias: 'circulation',
-    dataKey: 'circulation',
+    alias: 'circulation_1d',
+    dataKey: 'circulation_1d',
     category: 'On-chain',
     node: Line,
     group: 'Token Flows/Movement/Activity',
@@ -169,11 +171,12 @@ export const Metrics = {
   },
   mvrvRatio: {
     key: 'mvrvRatio',
+    alias: 'mvrv_usd',
+    dataKey: 'mvrv_usd',
     category: 'On-chain',
     node: Line,
     group: 'Network value',
     label: 'Market Value To Realized Value',
-    dataKey: 'mvrv',
     video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
     description: `MVRV measures how much every holder originally paid for their coins, and compares that investment to the coin’s current price to calculate the average profit or loss across all holders. Example: if MVRV = 2, then, on average, all coin holders have (currently) doubled their initial investment.`
   },
@@ -216,6 +219,8 @@ export const Metrics = {
   },
   tokenVelocity: {
     key: 'tokenVelocity',
+    alias: 'velocity',
+    dataKey: 'velocity',
     category: 'On-chain',
     node: Line,
     group: 'Token Flows/Movement/Activity',
@@ -257,11 +262,12 @@ export const Metrics = {
   },
   realizedValue: {
     key: 'realizedValue',
+    alias: 'realized_value_usd',
+    dataKey: 'realized_value_usd',
     category: 'On-chain',
     node: Line,
     group: 'Network value',
     label: 'Realized Cap',
-    dataKey: 'realizedValue',
     description: `Realized Cap shows the total amount that all holders spent to purchase the coin (i.e. the total acquisition cost). While market cap = supply X current price of each coin, realized cap = supply X price of each coin when it last ‘moved’`
   },
   ethSpentOverTime: {
