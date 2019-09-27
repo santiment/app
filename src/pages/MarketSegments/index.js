@@ -21,6 +21,16 @@ const SEGMENTS = [
 ]
 
 const TABS = ['Ethereum', 'DeFi', 'EOS']
+const PROJECT_LINK_PROPS = {
+  projectLink: {
+    state: {
+      from: {
+        to: '/labs/buidl-heroes',
+        children: 'Buidl heroes'
+      }
+    }
+  }
+}
 
 const MarketSegmentsPage = ({
   assets,
@@ -83,6 +93,7 @@ const MarketSegmentsPage = ({
             showCollumnsToggle={false}
             refetchAssets={refetchAssets}
             className={styles.table}
+            columnProps={PROJECT_LINK_PROPS}
           />
         </div>
       </div>

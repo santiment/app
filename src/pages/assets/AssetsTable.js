@@ -53,7 +53,8 @@ const AssetsTable = ({
   settings,
   setHiddenColumns,
   showCollumnsToggle = true,
-  className
+  className,
+  columnProps
 }) => {
   const { isLoading, error, timestamp, typeInfo } = Assets
   const key = typeInfo.listId || listName
@@ -104,7 +105,9 @@ const AssetsTable = ({
     return changeColumns(toggledColumns)
   }
 
-  const shownColumns = COLUMNS(preload).filter(({ id }) => columns[id].show)
+  const shownColumns = COLUMNS(preload, columnProps).filter(
+    ({ id }) => columns[id].show
+  )
 
   return (
     <>

@@ -48,7 +48,7 @@ const constructColumn = ({
   }
 }
 
-export const COLUMNS = preload => [
+export const COLUMNS = (preload, props = {}) => [
   constructColumn({
     id: COLUMNS_NAMES.index,
     heading: '#',
@@ -61,15 +61,23 @@ export const COLUMNS = preload => [
     minWidth: 200,
     maxWidth: 280,
     resizable: true,
-    Cell: ({ original }) => (
-      <Link
-        onMouseOver={preload}
-        to={`/projects/${original.slug}`}
-        className='overview-name'
-      >
-        <ProjectLabel {...original} />
-      </Link>
-    ),
+    Cell: ({ original }) => {
+      const { slug, priceUsd } = original
+      const { state } = props.projectLink || {}
+      return (
+        <Link
+          onMouseOver={preload}
+          to={{
+            state,
+            pathname: `/projects/${slug}`,
+            search: priceUsd === null ? 'metrics=devActivity' : ''
+          }}
+          className='overview-name'
+        >
+          <ProjectLabel {...original} />
+        </Link>
+      )
+    },
     filterMethod: (filter, row) => {
       const name = row[filter.id].name || ''
       const ticker = row[filter.id].ticker || ''
@@ -223,7 +231,7 @@ export const COLUMNS = preload => [
   }),
   constructColumn({
     id: COLUMNS_NAMES.devActivity7,
-    heading: 'Dev. activity (7d)',
+    heading: 'Average Dev. Activity (7d)',
     accessor: 'devActivity7',
     Cell: ({ value }) => (
       <div className='overview-activeaddresses'>
@@ -234,7 +242,7 @@ export const COLUMNS = preload => [
   }),
   constructColumn({
     id: COLUMNS_NAMES.devActivity30,
-    heading: 'Dev. activity (30d)',
+    heading: 'Average Dev. Activity (30d)',
     accessor: 'devActivity30',
     Cell: ({ value }) => (
       <div className='overview-activeaddresses'>
@@ -245,7 +253,7 @@ export const COLUMNS = preload => [
   }),
   constructColumn({
     id: COLUMNS_NAMES.devActivityChange30d,
-    heading: 'Dev. act. % change (30d)',
+    heading: 'Dev. Act. % change (30d)',
     accessor: 'devActChange30d',
     Cell: ({ value }) =>
       isValidValue(value) ? <PercentChanges changes={value} /> : NO_DATA,

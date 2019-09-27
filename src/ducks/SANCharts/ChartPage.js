@@ -301,7 +301,8 @@ class ChartPage extends Component {
         metrics: metrics.map(metricObjToQSMapper),
         events: events.map(metricObjToQSMapper),
         marketSegments: marketSegments.map(metricObjToQSMapper)
-      })
+      }),
+      state: location.state
     })
   }
 

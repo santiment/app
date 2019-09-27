@@ -30,6 +30,12 @@ exports[`Project detail page container it should render correctly 1`] = `
       padding={false}
     >
       <Breadcrumbs
+        from={
+          Object {
+            "children": "Assets",
+            "to": "/assets",
+          }
+        }
         name="Aragorn"
       />
       <Query

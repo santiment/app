@@ -8,6 +8,7 @@
 
 .assetsTable:global(.ReactTable) {
   margin-bottom: 20px;
+  color: var(--mirage);
 
   :global {
     .overview-name {
@@ -70,7 +71,7 @@
         & .heading {
           &::before,
           &::after {
-            content: "";
+            content: '';
             position: absolute;
             right: 0;
             border: 4px solid transparent;

@@ -7,6 +7,7 @@ export const PROJECTS_QUERY = gql`
       ticker
       name
       infrastructure
+      priceUsd
       devActivity7: averageDevActivity(days: 7)
       devActivity30: averageDevActivity
     }
