@@ -11,6 +11,7 @@ import {
   removeRecentTrends,
   removeRecentAssets
 } from '../../utils/recent'
+import { safeDecode } from '../../utils/utils'
 import styles from './SearchMobilePage.module.scss'
 
 export const TABS = [
@@ -66,7 +67,7 @@ const SearchMobilePage = ({ history }) => {
                 <span className={styles.name}>{slug}</span>
               </Link>
               <Icon
-                type='close-medium'
+                type='close'
                 className={cx(styles.icon, styles.delete)}
                 onClick={() => {
                   removeRecentAssets(slug)
@@ -81,7 +82,7 @@ const SearchMobilePage = ({ history }) => {
             <div key={word} className={styles.recent}>
               <Link to={`/labs/trends/explore/${word}`} className={styles.link}>
                 <Icon type='clock' className={styles.icon} />
-                <span className={styles.name}>{word}</span>
+                <span className={styles.name}>{safeDecode(word)}</span>
               </Link>
               <Icon
                 type='close-medium'
