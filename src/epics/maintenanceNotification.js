@@ -11,7 +11,8 @@ const style = {
 
 const ACTION = 'MAINTENANCE_NOTIFICATION_SHOWN'
 
-const wasClosed = () => window.localStorage.getItem(ACTION)
+const wasClosed = () =>
+  window.localStorage.getItem(ACTION) || new Date().getDate() > 28
 const setClosed = () => window.localStorage.setItem(ACTION, '+')
 
 export const maintenanceNotification = (action$, store, { client }) =>
