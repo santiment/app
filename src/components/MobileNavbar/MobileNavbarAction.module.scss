@@ -1,15 +1,20 @@
 @import '~@santiment-network/ui/mixins';
 
 .button {
-  padding: 0;
   height: 100%;
   flex-direction: column;
   color: var(--casper);
   cursor: default;
   user-select: none;
+  padding: 12px 16px 7px;
   -webkit-tap-highlight-color: transparent;
 
-  @include text('caption');
+  @include text('body-3');
+
+  &:hover,
+  &:focus {
+    color: var(--casper);
+  }
 }
 
 .icon {
@@ -21,4 +26,9 @@
   --menu-active-shade: var(--jungle-green-light-2);
 
   color: var(--jungle-green);
+
+  &:hover,
+  &:focus {
+    color: var(--jungle-green);
+  }
 }
