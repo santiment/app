@@ -1,13 +1,10 @@
-.wrapper {
-  height: calc(100vh - 60px);
-}
-
 .wrapperList {
   height: inherit;
 }
 
 .assetsList {
   height: calc(100vh - var(--remaining-height));
+  height: calc(var(--vh, 1vh) * 100 - var(--remaining-height));
   position: relative;
 }
 

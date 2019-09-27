@@ -41,7 +41,7 @@ const CookiePopup = () => {
               rel='noopener noreferrer'
               className={styles.link}
             >
-              Terms & Conditions
+              Terms&nbsp;&&nbsp;Conditions
             </a>
             .
           </p>
