@@ -13,7 +13,7 @@
     max-width: 1170px;
 
     @include responsive("phone", "phone-xs") {
-      padding: 0 0 50px;
+      padding: 0 0 60px;
     }
 
     @include responsive("tablet", "laptop", "desktop") {
