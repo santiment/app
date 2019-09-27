@@ -14,6 +14,7 @@
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
+    max-width: 400px;
     padding: 15px 30px;
     box-shadow: none;
     border: none;
