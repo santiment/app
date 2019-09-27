@@ -7,8 +7,14 @@ import {
   Panel,
   Tooltip
 } from '@santiment-network/ui'
-import { COLUMNS_NAMES } from './asset-columns.js'
+import { COLUMNS_NAMES, MARKET_SEGMENT_COLUMNS } from './asset-columns.js'
 import styles from './AssetsToggleColumns.module.scss'
+
+const HIDDEN_COLUMNS = [
+  COLUMNS_NAMES.index,
+  COLUMNS_NAMES.project,
+  ...MARKET_SEGMENT_COLUMNS
+]
 
 const AssetsToggleColumns = ({ columns = [], onChange }) => (
   <ContextMenu
@@ -27,7 +33,7 @@ const AssetsToggleColumns = ({ columns = [], onChange }) => (
         {Object.entries(columns).map(
           ([name, { selectable, show, description = null }]) => (
             <Fragment key={name}>
-              {name !== COLUMNS_NAMES.index && name !== COLUMNS_NAMES.project && (
+              {!HIDDEN_COLUMNS.includes(name) && (
                 <div
                   className={styles.column}
                   onClick={() => onChange({ name, show, selectable })}
