@@ -62,13 +62,15 @@ export const COLUMNS = (preload, props = {}) => [
     maxWidth: 280,
     resizable: true,
     Cell: ({ original }) => {
+      const { slug, priceUsd } = original
       const { state } = props.projectLink || {}
       return (
         <Link
           onMouseOver={preload}
           to={{
-            pathname: `/projects/${original.slug}`,
-            state
+            state,
+            pathname: `/projects/${slug}`,
+            search: priceUsd === null ? 'metrics=devActivity' : ''
           }}
           className='overview-name'
         >
