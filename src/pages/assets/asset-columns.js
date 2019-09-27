@@ -231,7 +231,7 @@ export const COLUMNS = (preload, props = {}) => [
   }),
   constructColumn({
     id: COLUMNS_NAMES.devActivity7,
-    heading: 'Dev. activity (7d)',
+    heading: 'Average Dev. Activity (7d)',
     accessor: 'devActivity7',
     Cell: ({ value }) => (
       <div className='overview-activeaddresses'>
@@ -242,7 +242,7 @@ export const COLUMNS = (preload, props = {}) => [
   }),
   constructColumn({
     id: COLUMNS_NAMES.devActivity30,
-    heading: 'Dev. activity (30d)',
+    heading: 'Average Dev. Activity (30d)',
     accessor: 'devActivity30',
     Cell: ({ value }) => (
       <div className='overview-activeaddresses'>
@@ -253,7 +253,7 @@ export const COLUMNS = (preload, props = {}) => [
   }),
   constructColumn({
     id: COLUMNS_NAMES.devActivityChange30d,
-    heading: 'Dev. act. % change (30d)',
+    heading: 'Dev. Act. % change (30d)',
     accessor: 'devActChange30d',
     Cell: ({ value }) =>
       isValidValue(value) ? <PercentChanges changes={value} /> : NO_DATA,
