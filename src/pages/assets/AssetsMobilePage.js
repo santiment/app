@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
+import throttle from 'lodash.throttle'
 import { AutoSizer, List } from 'react-virtualized'
 import Label from '@santiment-network/ui/Label'
 import GetAssets, { SORT_TYPES } from './GetAssets'
@@ -26,6 +27,8 @@ const CHOOSED_ANOMALIES_HEIGHT = 137 + 20
 const INITIAL_REMAINING_HEIGHT =
   BOTTOM_HEIGHT + HEADER_HEIGHT + TABLE_LABELS_HEIGHT
 
+const ROW_HEIGHT = 60
+
 const AssetsMobilePage = props => {
   const { isLoggedIn } = props
   const isList = props.type === 'list'
@@ -39,6 +42,8 @@ const AssetsMobilePage = props => {
   const [remainingHeight, setRemainingHeight] = useState(
     INITIAL_REMAINING_HEIGHT
   )
+
+  const [topRow, setTopRow] = useState(0)
 
   const changeRange = () => {
     const newPointer = pointer === RANGES.length - 1 ? 0 : pointer + 1
@@ -102,6 +107,16 @@ const AssetsMobilePage = props => {
             removeRecentWatchlists(listId)
           }
 
+          const { scrollPosition } = window.history.state || {}
+          const scrollToIndex = scrollPosition || 0
+
+          const saveScrollPosition = () => {
+            window.history.replaceState(
+              { scrollPosition: topRow },
+              'scrollPosition'
+            )
+          }
+
           return isLoading ? (
             <>
               <MobileHeader title={title} backRoute='/assets' />
@@ -151,7 +166,14 @@ const AssetsMobilePage = props => {
                     className={styles.assetsList}
                     style={{ '--remaining-height': `${remainingHeight}px` }}
                   >
-                    <AssetsList items={filteredItems || items} />
+                    <AssetsList
+                      items={filteredItems || items}
+                      saveScrollPosition={saveScrollPosition}
+                      initialIndex={scrollToIndex}
+                      onAssetsListScroll={({ scrollTop }) =>
+                        setTopRow(Math.ceil(scrollTop / ROW_HEIGHT))
+                      }
+                    />
                   </div>
                 </>
               )}
@@ -171,16 +193,21 @@ const AssetsMobilePage = props => {
   )
 }
 
-const ROW_HEIGHT = 60
-
-export const AssetsList = ({ items, renderer, rowHeight = ROW_HEIGHT }) => {
+export const AssetsList = ({
+  items,
+  renderer,
+  rowHeight = ROW_HEIGHT,
+  initialIndex,
+  saveScrollPosition,
+  onAssetsListScroll
+}) => {
   const rowRenderer =
     renderer ||
     function ({ key, index, style }) {
       const asset = items[index]
       return (
         <div key={key} style={style}>
-          <AssetCard {...asset} />
+          <AssetCard {...asset} onAssetClick={saveScrollPosition} />
         </div>
       )
     }
@@ -195,6 +222,9 @@ export const AssetsList = ({ items, renderer, rowHeight = ROW_HEIGHT }) => {
             rowHeight={rowHeight}
             rowCount={items.length}
             overscanRowCount={5}
+            onScroll={throttle(onAssetsListScroll, 300)}
+            scrollToIndex={initialIndex}
+            scrollToAlignment={'start'}
             rowRenderer={rowRenderer}
           />
         )}
