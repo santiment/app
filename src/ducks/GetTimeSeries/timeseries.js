@@ -5,16 +5,11 @@ import { ETH_SPENT_OVER_TIME_QUERY } from './queries/eth_spent_over_time_query'
 import { ETH_SPENT_OVER_TIME_BY_ALL_PROJECTS_QUERY } from './queries/eth_spent_over_time_by_all_projects_query'
 import { BURN_RATE_QUERY } from './queries/burn_rate_query'
 import { NVT_RATIO_QUERY } from './queries/nvt_ratio_query'
-import { REALIZED_VALUE_QUERY } from './queries/realized_value_query'
 import { HISTORY_TWITTER_DATA_QUERY } from './queries/history_twitter_data_query'
 import { SOCIAL_VOLUME_QUERY } from './queries/social_volume_query'
-import { DAILY_ACTIVE_ADDRESSES_QUERY } from './queries/daily_active_addresses_query'
 import { EXCHANGE_FUNDS_FLOW_QUERY } from './queries/exchange_funds_flow_query'
 import { TOKEN_AGE_CONSUMED_QUERY } from './queries/token_age_consumed_query'
-import { MVRV_QUERY } from './queries/mvrv_query'
 import { DAILY_ACTIVE_DEPOSITS_QUERY } from './queries/daily_active_deposits_query'
-import { TOKEN_VELOCITY_QUERY } from './queries/token_velocity_query'
-import { TOKEN_CIRCULATION_QUERY } from './queries/token_circulation_query'
 import { NETWORK_GROWTH_QUERY } from './queries/network_growth_query'
 import { SOCIAL_DOMINANCE_QUERY } from './queries/social_dominance_query'
 import { PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES } from './queries/percent_of_token_supply_on_exchanges_query'
@@ -28,6 +23,9 @@ import { mergeTimeseriesByKey } from './../../utils/utils'
 const getMetricPreTransform = ({ getMetric: { timeseriesData } }) =>
   timeseriesData
 
+/*
+   getMetric API available metrics could be seen by querying data with "getAvailableMetrics"
+*/
 const TIMESERIES = {
   ethSpentOverTime: {
     query: ETH_SPENT_OVER_TIME_QUERY,
@@ -53,7 +51,6 @@ const TIMESERIES = {
   realized_value_usd: {
     query: GET_METRIC('realized_value_usd'),
     preTransform: getMetricPreTransform
-    /* query: REALIZED_VALUE_QUERY, */
   },
   historyTwitterData: {
     query: HISTORY_TWITTER_DATA_QUERY
@@ -87,17 +84,14 @@ const TIMESERIES = {
   daily_active_addresses: {
     query: GET_METRIC('daily_active_addresses'),
     preTransform: getMetricPreTransform
-    /* query: DAILY_ACTIVE_ADDRESSES_QUERY, */
   },
   circulation_1d: {
-    /* query: TOKEN_CIRCULATION_QUERY */
     query: GET_METRIC('circulation_1d'),
     preTransform: getMetricPreTransform
   },
   mvrv_usd: {
     query: GET_METRIC('mvrv_usd'),
     preTransform: getMetricPreTransform
-    /* query: MVRV_QUERY, */
   },
   dailyActiveDeposits: {
     query: DAILY_ACTIVE_DEPOSITS_QUERY
