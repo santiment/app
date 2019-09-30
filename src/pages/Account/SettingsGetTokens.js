@@ -27,14 +27,6 @@ const SettingsGetTokens = () => (
         </a>
         <a
           className={styles.tokens__market}
-          href='https://liqui.io/#/exchange/SAN_ETH'
-          rel='noopener noreferrer'
-          target='_blank'
-        >
-          Liqui
-        </a>
-        <a
-          className={styles.tokens__market}
           href='https://hitbtc.com/'
           rel='noopener noreferrer'
           target='_blank'
