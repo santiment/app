@@ -51,6 +51,7 @@ const AssetsTable = ({
   minVolume = 0,
   listName,
   settings,
+  allColumns,
   setHiddenColumns,
   showCollumnsToggle = true,
   className,
@@ -106,7 +107,7 @@ const AssetsTable = ({
   }
 
   const shownColumns = COLUMNS(preload, columnProps).filter(
-    ({ id }) => columns[id].show
+    ({ id }) => columns[id].show && allColumns.includes(id)
   )
 
   return (

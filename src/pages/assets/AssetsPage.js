@@ -8,6 +8,7 @@ import { RANGES } from '../../components/WatchlistOverview/constants'
 import { TRENDING_WATCHLIST_NAME } from './assets-overview-constants'
 import GetAssets from './GetAssets'
 import AssetsTable from './AssetsTable'
+import { ASSETS_TABLE_COLUMNS } from './asset-columns'
 import HelpPopupAssets from './HelpPopupAssets'
 import GetWatchlistHistory from '../../components/WatchlistOverview/WatchlistHistory/GetWatchlistHistory'
 import WatchlistAnomalies from '../../components/WatchlistOverview/WatchlistAnomalies/WatchlistAnomalies'
@@ -126,6 +127,7 @@ const AssetsPage = props => {
                     goto={props.history.push}
                     preload={props.preload}
                     listName={title}
+                    allColumns={ASSETS_TABLE_COLUMNS}
                   />
                 </>
               )}
