@@ -21,13 +21,18 @@ Events.trendPositionHistory.note = (
   </p>
 )
 
-const addItemToGraph = (categories, metricCategory, metrics) => {
-  const category = categories[metricCategory]
-  if (category) {
-    category.push(...metrics)
-  } else {
-    categories[metricCategory] = metrics
-  }
+const addItemToGraph = (categories, metricCategories, metrics) => {
+  ;(typeof metricCategories === 'string'
+    ? [metricCategories]
+    : metricCategories
+  ).forEach(metricCategory => {
+    const category = categories[metricCategory]
+    if (category) {
+      category.push(...metrics)
+    } else {
+      categories[metricCategory] = metrics
+    }
+  })
 }
 
 const getCategoryGraph = availableMetrics => {
@@ -221,13 +226,16 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
     data: {
       loading,
       project: {
-        availableQueries: availableMetrics = [],
+        availableMetrics = [],
+        availableQueries = [],
         marketSegments = []
       } = {}
     }
   }) => {
     const categories = getCategoryGraph(
-      availableMetrics.concat(marketSegments.map(getMarketSegment))
+      availableQueries
+        .concat(availableMetrics)
+        .concat(marketSegments.map(getMarketSegment))
     )
 
     return {

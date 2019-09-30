@@ -123,18 +123,11 @@ class ChartPage extends Component {
   static defaultProps = { ...DEFAULT_STATE, adjustNightMode: true }
 
   // HACK(vanguard):  fixing navbar-search project selection
-  static getDerivedStateFromProps (
-    { slug, title, marketSegments, isControlled },
-    state
-  ) {
-    if (
-      isControlled &&
-      (slug !== state.slug || marketSegments !== state.marketSegments)
-    ) {
+  static getDerivedStateFromProps ({ slug, title, isControlled }, state) {
+    if (isControlled && slug !== state.slug) {
       return {
         slug,
-        title,
-        marketSegments
+        title
       }
     }
 

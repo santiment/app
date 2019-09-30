@@ -289,6 +289,28 @@ export const Metrics = {
     label: 'Gas Used',
     description:
       'Used Gas by a blockchain. When you send tokens, interact with a contract or do anything else on the blockchain, you must pay for that computation. That payment is calculated in Gas.'
+  },
+  mean_dollar_invested_age: {
+    key: 'mean_dollar_invested_age',
+    category: ['Financial', 'On-chain'],
+    node: Line,
+    label: 'Mean Dollar Invested Age',
+    description: (
+      <>
+        For each coin we see how long it has stayed at its current address and
+        we compute the average of all those ages. The difference between "coin
+        age" and "dollar age" comes from the different way that we compute the
+        averages. More info{' '}
+        <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://insights.santiment.net/read/%F0%9F%93%A2-mean-age-653'
+        >
+          here
+        </a>
+        .
+      </>
+    )
   }
 }
 
