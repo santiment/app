@@ -24,12 +24,3 @@
 .stories {
   margin: 0 0 3px;
 }
-
-.week {
-  @include text('body-2');
-
-  padding-bottom: 11px;
-  border-bottom: 1px solid var(--porcelain);
-  margin: 0 0 24px;
-  color: var(--mirage);
-}
