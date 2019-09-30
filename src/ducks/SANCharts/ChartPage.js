@@ -220,7 +220,6 @@ class ChartPage extends Component {
 
   toggleMetric = metric => {
     const { type = 'metrics', label } = metric
-    console.log(metric)
 
     this.setState(state => {
       const newMetrics = new Set(state[type])

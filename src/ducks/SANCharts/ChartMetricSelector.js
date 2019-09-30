@@ -21,13 +21,18 @@ Events.trendPositionHistory.note = (
   </p>
 )
 
-const addItemToGraph = (categories, metricCategory, metrics) => {
-  const category = categories[metricCategory]
-  if (category) {
-    category.push(...metrics)
-  } else {
-    categories[metricCategory] = metrics
-  }
+const addItemToGraph = (categories, metricCategories, metrics) => {
+  ;(typeof metricCategories === 'string'
+    ? [metricCategories]
+    : metricCategories
+  ).forEach(metricCategory => {
+    const category = categories[metricCategory]
+    if (category) {
+      category.push(...metrics)
+    } else {
+      categories[metricCategory] = metrics
+    }
+  })
 }
 
 const getCategoryGraph = availableMetrics => {

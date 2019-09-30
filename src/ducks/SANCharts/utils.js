@@ -292,7 +292,7 @@ export const Metrics = {
   },
   mean_dollar_invested_age: {
     key: 'mean_dollar_invested_age',
-    category: 'Financial',
+    category: ['Financial', 'On-chain'],
     node: Line,
     label: 'Mean Dollar Invested Age',
     description:
