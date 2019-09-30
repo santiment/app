@@ -137,6 +137,10 @@ const TIMESERIES = {
   marketSegment: {
     query: MARKET_SEGMENT_QUERY,
     preTransform: ({ devActivity }) => devActivity
+  },
+  mean_dollar_invested_age: {
+    query: GET_METRIC('mean_dollar_invested_age'),
+    preTransform: getMetricPreTransform
   }
 }
 

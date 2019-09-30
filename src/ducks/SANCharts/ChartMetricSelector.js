@@ -221,13 +221,16 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
     data: {
       loading,
       project: {
-        availableQueries: availableMetrics = [],
+        availableMetrics = [],
+        availableQueries = [],
         marketSegments = []
       } = {}
     }
   }) => {
     const categories = getCategoryGraph(
-      availableMetrics.concat(marketSegments.map(getMarketSegment))
+      availableQueries
+        .concat(availableMetrics)
+        .concat(marketSegments.map(getMarketSegment))
     )
 
     return {
