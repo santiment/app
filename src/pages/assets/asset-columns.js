@@ -317,40 +317,46 @@ export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.devActivityChange30d]: { show: true, selectable: false }
 }
 
-export const MARKET_SEGMENT_COLUMNS = [
-  COLUMNS_NAMES.devActivityChange30d,
-  COLUMNS_NAMES.infrastructure,
-  COLUMNS_NAMES.devActivity30,
-  COLUMNS_NAMES.devActivity7
-]
-
 export const COMMON_SETTINGS = {
   pageSize: 20,
-  hiddenColumns: [COLUMNS_NAMES.eth_spent, ...MARKET_SEGMENT_COLUMNS],
+  hiddenColumns: [COLUMNS_NAMES.eth_spent],
   sorting: { id: COLUMNS_NAMES.marketcapUsd, desc: false }
 }
 
 export const CATEGORIES_SETTINGS = {
   'All Assets': {
-    hiddenColumns: [COLUMNS_NAMES.eth_spent, ...MARKET_SEGMENT_COLUMNS]
+    hiddenColumns: [COLUMNS_NAMES.eth_spent]
   },
-  'ERC20 Assets': { hiddenColumns: [...MARKET_SEGMENT_COLUMNS] },
+  'ERC20 Assets': { hiddenColumns: [] },
   'Top 50 ERC20': {
-    hiddenColumns: [...MARKET_SEGMENT_COLUMNS],
+    hiddenColumns: [],
     pageSize: 50
   },
   'Market Segments': {
-    hiddenColumns: [
-      COLUMNS_NAMES.price,
-      COLUMNS_NAMES.price_change,
-      COLUMNS_NAMES.volume,
-      COLUMNS_NAMES.volume_change,
-      COLUMNS_NAMES.marketcapUsd,
-      COLUMNS_NAMES.rank,
-      COLUMNS_NAMES.eth_spent,
-      COLUMNS_NAMES.devact,
-      COLUMNS_NAMES.daily_active_addresses
-    ],
+    hiddenColumns: [],
     sorting: { id: COLUMNS_NAMES.devActivity30, desc: false }
   }
 }
+
+export const ASSETS_TABLE_COLUMNS = [
+  COLUMNS_NAMES.index,
+  COLUMNS_NAMES.project,
+  COLUMNS_NAMES.price,
+  COLUMNS_NAMES.price_change,
+  COLUMNS_NAMES.volume,
+  COLUMNS_NAMES.volume_change,
+  COLUMNS_NAMES.marketcapUsd,
+  COLUMNS_NAMES.rank,
+  COLUMNS_NAMES.eth_spent,
+  COLUMNS_NAMES.devact,
+  COLUMNS_NAMES.daily_active_addresses
+]
+
+export const MARKET_SEGMENT_COLUMNS = [
+  COLUMNS_NAMES.index,
+  COLUMNS_NAMES.project,
+  COLUMNS_NAMES.devActivityChange30d,
+  COLUMNS_NAMES.infrastructure,
+  COLUMNS_NAMES.devActivity30,
+  COLUMNS_NAMES.devActivity7
+]
