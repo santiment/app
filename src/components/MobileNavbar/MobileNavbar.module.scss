@@ -11,7 +11,7 @@
   justify-content: space-evenly;
   align-items: center;
   color: rgba(255, 255, 255, 0.5);
-  padding: 9px 0 4px;
+  padding: 0;
   box-shadow: 0 0 20px rgba(24, 27, 43, 0.05);
   border-top: 1px solid var(--porcelain);
   border-top-left-radius: 10px;
@@ -44,8 +44,12 @@
 .logo {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
-  margin-bottom: 4rem;
+  margin-top: 13vh;
+  margin-bottom: 17vh;
+
+  & svg {
+    transform: scale(1.1);
+  }
 }
 
 .loginBtn {

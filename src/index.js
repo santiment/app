@@ -59,6 +59,11 @@ const stripeKey =
     ? 'pk_test_gy9lndGDPXEFslDp8mJ24C3p'
     : 'pk_live_t7lOPOW79IIVcxjPPK5QfESD'
 
+const calculateHeight = () => {
+  const vh = window.innerHeight * 0.01
+  document.documentElement.style.setProperty('--vh', `${vh}px`)
+}
+
 const main = () => {
   const httpLink = createHttpLink({
     uri: `${getAPIUrl()}/graphql`,
@@ -69,6 +74,10 @@ const main = () => {
     shouldBatch: true,
     cache: new InMemoryCache()
   })
+
+  calculateHeight()
+
+  window.addEventListener('resize', throttle(calculateHeight, 200))
 
   const history = createHistory()
 

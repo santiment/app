@@ -37,12 +37,6 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
       <div className={styles.wrapper}>
         <StoriesList classes={styles} />
         <div className={styles.content + ' elem-container'}>
-          <h2 className={styles.week}>
-            <span role='img' aria-label='cup'>
-              🏆{' '}
-            </span>
-            Chart of the week
-          </h2>
           <Query query={USER_SUBSCRIPTIONS_QUERY}>
             {({ data: { currentUser } = {} }) => {
               const subscription = getCurrentSanbaseSubscription(currentUser)

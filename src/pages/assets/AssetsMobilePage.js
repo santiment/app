@@ -16,7 +16,7 @@ import styles from './AssetsMobilePage.module.scss'
 
 // NOTE(haritonasty): predefined heights needed for calculate react-virtualized height.
 // Pls, upd here, if you change height of any elements on this page
-const BOTTOM_HEIGHT = 53
+const BOTTOM_HEIGHT = 60
 const HEADER_HEIGHT = 62
 const TABLE_LABELS_HEIGHT = 27
 const CLOSED_ANOMALIES_HEIGHT = 48 + 20

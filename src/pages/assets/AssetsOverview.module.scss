@@ -3,6 +3,15 @@
 
 .overviewPage {
   color: var(--mirage);
+
+  @include responsive('phone-xs', 'phone') {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-y: overlay;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0 !important;
+    margin-bottom: 60px;
+  }
 }
 
 .section {

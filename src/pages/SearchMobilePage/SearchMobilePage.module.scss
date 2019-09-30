@@ -36,7 +36,7 @@
 }
 
 .recentWrapper {
-  padding: 16px;
+  padding: 16px 0 16px 18px;
 }
 
 .recent {
@@ -49,6 +49,7 @@
 .link {
   display: flex;
   align-items: center;
+  max-width: 84%;
 
   @include text('body-3');
 }
@@ -60,6 +61,7 @@
 .name {
   color: var(--mirage);
   margin-left: 12px;
+  max-width: 88%;
 }
 
 .ticker {
@@ -69,6 +71,6 @@
 
 .delete {
   fill: var(--waterloo);
-  padding: 4px;
+  padding: 7px 18px;
   box-sizing: content-box;
 }

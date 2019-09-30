@@ -6,7 +6,6 @@
 :global(#root) {
   @include responsive('phone', 'phone-xs') {
     overflow: auto;
-    -webkit-overflow-scrolling: touch;
 
     &::-webkit-scrollbar {
       display: none;

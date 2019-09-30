@@ -412,7 +412,7 @@ class ChartPage extends Component {
         from,
         to,
         slug,
-        interval
+        interval: INTERVAL_ALIAS[interval] || interval
       })) || []
 
     const requestedMarketSegments =
