@@ -12,9 +12,14 @@ const AssetsCard = ({
   ticker,
   priceUsd = 0,
   percentChange24h = 0,
-  marketcapUsd = 0
+  marketcapUsd = 0,
+  onAssetClick
 }) => (
-  <Link className={styles.wrapper} to={`/projects/${slug}`}>
+  <Link
+    className={styles.wrapper}
+    to={`/projects/${slug}`}
+    onClick={onAssetClick}
+  >
     <div className={styles.left}>
       <div className={styles.icon}>
         <ProjectIcon size={20} name={name} />
