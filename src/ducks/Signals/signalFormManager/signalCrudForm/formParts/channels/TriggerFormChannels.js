@@ -147,6 +147,7 @@ const TriggerFormChannels = ({
 
             return (
               <ChannelCheckbox
+                key={channel}
                 channel={channel}
                 isActive={isActive}
                 isDisabled={isDisabled}

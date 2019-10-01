@@ -52,3 +52,18 @@
 .watchlists {
   margin-bottom: 32px;
 }
+
+.stories {
+  position: relative;
+}
+
+.story {
+  @include responsive('phone-xs', 'phone') {
+    width: 240px !important;
+    margin-left: 16px !important;
+
+    &:last-child {
+      margin-right: 16px;
+    }
+  }
+}
