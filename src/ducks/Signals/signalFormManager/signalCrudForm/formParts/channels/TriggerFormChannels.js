@@ -11,7 +11,11 @@ import SidecarExplanationTooltip from '../../../../../SANCharts/SidecarExplanati
 import { CHANNEL_NAMES } from '../../../../utils/constants'
 import styles from '../../signal/TriggerForm.module.scss'
 
-const permanentDisabledChannels = []
+const CHANNELS = [
+  CHANNEL_NAMES.Email,
+  CHANNEL_NAMES.Telegram,
+  CHANNEL_NAMES.Browser
+]
 
 const TriggerFormChannels = ({
   channels,
@@ -27,7 +31,7 @@ const TriggerFormChannels = ({
   const [requiredChannels, setRequiredChannels] = useState([])
 
   const calculateDisabledChannels = () => {
-    const disabled = [...permanentDisabledChannels]
+    const disabled = []
 
     if (!isEmailConnected) {
       disabled.push(CHANNEL_NAMES.Email)
@@ -118,11 +122,7 @@ const TriggerFormChannels = ({
   const isRequired = channel => {
     return (
       requiredChannels.some(required => required === channel) ||
-      disabledChannels.some(
-        disabled =>
-          disabled === channel &&
-          permanentDisabledChannels.indexOf(disabled) === -1
-      )
+      disabledChannels.some(disabled => disabled === channel)
     )
   }
 
@@ -140,34 +140,22 @@ const TriggerFormChannels = ({
           <FormikLabel text='Notify me via' />
         </SidecarExplanationTooltip>
         <div className={styles.notifyBlock}>
-          <ChannelCheckbox
-            channel={CHANNEL_NAMES.Email}
-            isActive={isActive}
-            isDisabled={isDisabled}
-            toggleChannel={toggleChannel}
-            isRequired={isRequired}
-            recheckBrowserNotifications={recheckBrowserNotifications}
-          />
+          {CHANNELS.map(channel => {
+            if (channel === CHANNEL_NAMES.Browser && !isBeta) {
+              return null
+            }
 
-          <ChannelCheckbox
-            channel={CHANNEL_NAMES.Telegram}
-            isActive={isActive}
-            isDisabled={isDisabled}
-            toggleChannel={toggleChannel}
-            isRequired={isRequired}
-            recheckBrowserNotifications={recheckBrowserNotifications}
-          />
-
-          {isBeta && (
-            <ChannelCheckbox
-              channel={CHANNEL_NAMES.Browser}
-              isActive={isActive}
-              isDisabled={isDisabled}
-              toggleChannel={toggleChannel}
-              isRequired={isRequired}
-              recheckBrowserNotifications={recheckBrowserNotifications}
-            />
-          )}
+            return (
+              <ChannelCheckbox
+                channel={channel}
+                isActive={isActive}
+                isDisabled={isDisabled}
+                toggleChannel={toggleChannel}
+                isRequired={isRequired}
+                recheckBrowserNotifications={recheckBrowserNotifications}
+              />
+            )
+          })}
         </div>
         {errors.channels && <ErrorMessage message={errors.channels} />}
       </div>
