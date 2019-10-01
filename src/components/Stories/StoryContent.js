@@ -12,6 +12,7 @@ const StoryContent = ({
   active,
   onNext,
   onPrev,
+  onToggleSlide,
   onMediaClicked,
   isPaused,
   isPhone
@@ -27,7 +28,6 @@ const StoryContent = ({
   } = slides[active]
 
   let [widthSlideProgress, setWidthSlideProgress] = useState(null)
-  let [widthWrapper, setWidthWrapper] = useState(null)
   const activeStoryRef = useRef(null)
   const videoRef = useRef(null)
 
@@ -53,26 +53,14 @@ const StoryContent = ({
     }
   }
 
-  const toggleSlide = evt => {
-    if (!widthWrapper) {
-      setWidthWrapper(evt.target.offsetWidth)
-    }
-
-    if (widthWrapper / 2 > evt.clientX) {
-      onPrev()
-    } else {
-      onNext()
-    }
-  }
-
-  const isLeft = active < slides.length - 1
-  const isRight = active >= 1
+  const isNotLastSlide = active < slides.length - 1
+  const isNotFirstSlide = active >= 1
 
   return (
     <>
       <div
         className={styles.content}
-        onClick={isPhone ? toggleSlide : () => {}}
+        onClick={isPhone ? onToggleSlide : () => {}}
       >
         <div
           className={cx(
@@ -111,12 +99,12 @@ const StoryContent = ({
           </Button>
         )}
       </div>
-      {isLeft && (
+      {isNotLastSlide && (
         <div className={styles.next} onClick={onNext}>
           <Icon type='arrow-right-big' />
         </div>
       )}
-      {isRight && (
+      {isNotFirstSlide && (
         <div className={styles.prev} onClick={onPrev}>
           <Icon type='arrow-left-big' />
         </div>

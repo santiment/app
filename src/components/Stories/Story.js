@@ -8,6 +8,7 @@ const Story = ({ story = {}, open, onEnd }) => {
   let [active, setActive] = useState(0)
   let [duration, setDuration] = useState(DURATION)
   let [resetFlag, setResetFlag] = useState(true)
+  let [dialogWidth, setDialogWidth] = useState(null)
   const last = slides.length - 1
 
   const onNext = () => {
@@ -29,6 +30,18 @@ const Story = ({ story = {}, open, onEnd }) => {
     setDuration(null)
   }
 
+  const onToggleSlide = evt => {
+    if (!dialogWidth) {
+      setDialogWidth(evt.target.offsetWidth)
+    }
+
+    if ((dialogWidth || evt.target.offsetWidth) / 2 > evt.clientX) {
+      onPrev()
+    } else {
+      onNext()
+    }
+  }
+
   useInterval(onNext, duration, resetFlag)
 
   return (
@@ -37,6 +50,7 @@ const Story = ({ story = {}, open, onEnd }) => {
       slides={slides}
       onNext={onNext}
       onPrev={onPrev}
+      onToggleSlide={onToggleSlide}
       onMediaClicked={onMedia}
       isPaused={duration === null}
     />
