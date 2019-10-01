@@ -49,9 +49,17 @@ const StoryContent = ({
     }
   }
 
+  const isLeft = active < slides.length - 1
+  const isRight = active >= 1
+
   return (
     <>
-      <div className={styles.content}>
+      <div
+        className={cx(
+          styles.content,
+          (isLeft || isRight) && styles.contentWithBtns
+        )}
+      >
         <div
           className={cx(
             styles.media,
@@ -89,12 +97,12 @@ const StoryContent = ({
           </Button>
         )}
       </div>
-      {active < slides.length - 1 && (
+      {isLeft && (
         <div className={styles.next} onClick={onNext}>
           <Icon type='arrow-right-big' />
         </div>
       )}
-      {active >= 1 && (
+      {isRight && (
         <div className={styles.prev} onClick={onPrev}>
           <Icon type='arrow-left-big' />
         </div>

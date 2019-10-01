@@ -12,6 +12,7 @@ import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTa
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
 import { checkIsLoggedIn } from './../UserSelectors'
 import styles from './AssetsOverview.module.scss'
+import StoriesList from '../../components/Stories/StoriesList'
 
 const AssetsOverview = ({
   slugs,
@@ -25,7 +26,7 @@ const AssetsOverview = ({
         <h1>Assets overview</h1>
       </DesktopOnly>
       <MobileOnly>
-        <MobileHeader title='Assets overview' />
+        <MobileHeader title='Explore assets' />
       </MobileOnly>
       <DesktopOnly>
         <h4 className={styles.heading}>Categories</h4>
@@ -42,6 +43,7 @@ const AssetsOverview = ({
         ) : (
           <>
             <RecentlyWatched className={styles.recents} />
+            <StoriesList classes={styles} />
             <h2 className={styles.subtitle}>Categories</h2>
             <WatchlistCards watchlists={CATEGORIES} />
             <MyWatchlist

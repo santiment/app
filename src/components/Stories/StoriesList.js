@@ -13,7 +13,7 @@ const StoriesList = ({ classes = {} }) => {
   return (
     <section className={cx(styles.list, classes.stories)}>
       <div className={styles.scrollableWrapper}>
-        <div className={styles.scrollable}>
+        <div className={cx(styles.scrollable, classes.storiesScrollable)}>
           {stories.map(story => (
             <StoryPreview
               className={cx(styles.item, classes.story)}
