@@ -123,7 +123,7 @@ export const Metrics = {
 `
   },
   dailyActiveAddresses: {
-    key: 'dailyActiveAddresses',
+    key: 'daily_active_addresses',
     alias: 'daily_active_addresses',
     dataKey: 'daily_active_addresses',
     category: 'On-chain',
