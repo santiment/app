@@ -4,16 +4,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 364px;
+  width: 240px;
   padding: 8px;
   box-shadow: none;
-  transition: all ease-in-out 0.1s;
 
-  &:hover {
-    border: 1px solid var(--mystic);
-    box-shadow: 0 14px 20px rgba(24, 27, 43, 0.06);
-    transform: translateY(1px);
-    cursor: pointer;
+  @include responsive('laptop', 'desktop') {
+    transition: all ease-in-out 0.1s;
+
+    &:hover {
+      border: 1px solid var(--mystic);
+      box-shadow: 0 14px 20px rgba(24, 27, 43, 0.06);
+      transform: translateY(1px);
+      cursor: pointer;
+    }
+  }
+
+  @include responsive('tablet', 'laptop', 'desktop') {
+    width: 364px;
   }
 }
 
@@ -53,17 +60,21 @@
 }
 
 .image {
-  width: 84px;
-  height: 84px;
-  border: 1px solid var(--porcelain);
-  border-radius: 4px;
-  overflow: hidden;
-  margin-left: 8px;
-  display: flex;
-  justify-content: center;
+  display: none;
 
-  & img {
-    height: 100%;
-    object-fit: cover;
+  @include responsive('tablet', 'laptop', 'desktop') {
+    width: 84px;
+    height: 84px;
+    border: 1px solid var(--porcelain);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-left: 8px;
+    display: flex;
+    justify-content: center;
+
+    & img {
+      height: 100%;
+      object-fit: cover;
+    }
   }
 }

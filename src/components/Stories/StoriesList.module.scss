@@ -34,20 +34,29 @@
 
 .item + .item {
   margin-left: 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-left: 16px;
+  }
 }
 
 .item:first-child {
-  @include responsive('laptop', 'tablet', 'phone') {
-    margin-left: 15px;
+  @include responsive('laptop', 'tablet', 'phone', 'phone-xs') {
+    margin-left: 16px;
   }
 }
 
 .item:last-child {
-  @include responsive('laptop', 'tablet', 'phone') {
-    margin-right: 15px;
+  @include responsive('laptop', 'tablet', 'phone', 'phone-xs') {
+    margin-right: 16px;
   }
 }
 
 .dialog {
+  border-radius: 4px !important;
+  max-width: 95%;
+  max-height: 94%;
+  margin-top: 20px;
   position: relative;
+  align-self: center;
 }
