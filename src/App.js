@@ -121,6 +121,11 @@ const LoadableProfilePage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableUnsubscribePage = Loadable({
+  loader: () => import('./pages/Unsubscribe/Unsubscribe'),
+  loading: () => <PageLoader />
+})
+
 class Route extends React.Component {
   componentWillMount () {
     nprogress.start()
@@ -207,6 +212,7 @@ export const App = ({
         <Route exact path='/pricing' component={LoadablePricingPage} />
         <Route exact path='/gdpr' component={GDPRPage} />
         <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
+        <Route exact path='/unsubscribe' component={LoadableUnsubscribePage} />
         <Route
           exact
           path='/search'
