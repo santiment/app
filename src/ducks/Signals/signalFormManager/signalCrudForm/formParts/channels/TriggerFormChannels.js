@@ -11,7 +11,7 @@ import SidecarExplanationTooltip from '../../../../../SANCharts/SidecarExplanati
 import { CHANNEL_NAMES } from '../../../../utils/constants'
 import styles from '../../signal/TriggerForm.module.scss'
 
-const permanentDisabledChannels = [CHANNEL_NAMES.Email]
+const permanentDisabledChannels = []
 
 const TriggerFormChannels = ({
   channels,
@@ -22,15 +22,16 @@ const TriggerFormChannels = ({
   setFieldValue
 }) => {
   const [isWebPushEnabled, setWebPushEnabled] = useState(true)
-  const [disabledChannels, setDisabledChannels] = useState([
-    CHANNEL_NAMES.Email
-  ])
+  const [disabledChannels, setDisabledChannels] = useState([])
 
   const [requiredChannels, setRequiredChannels] = useState([])
 
   const calculateDisabledChannels = () => {
     const disabled = [...permanentDisabledChannels]
 
+    if (!isEmailConnected) {
+      disabled.push(CHANNEL_NAMES.Email)
+    }
     if (!isTelegramConnected) {
       disabled.push(CHANNEL_NAMES.Telegram)
     }
@@ -139,6 +140,15 @@ const TriggerFormChannels = ({
           <FormikLabel text='Notify me via' />
         </SidecarExplanationTooltip>
         <div className={styles.notifyBlock}>
+          <ChannelCheckbox
+            channel={CHANNEL_NAMES.Email}
+            isActive={isActive}
+            isDisabled={isDisabled}
+            toggleChannel={toggleChannel}
+            isRequired={isRequired}
+            recheckBrowserNotifications={recheckBrowserNotifications}
+          />
+
           <ChannelCheckbox
             channel={CHANNEL_NAMES.Telegram}
             isActive={isActive}

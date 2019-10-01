@@ -3,10 +3,7 @@ import { connect } from 'react-redux'
 import Tabs from '@santiment-network/ui/Tabs'
 import ChartWidget from '../../ducks/SANCharts/ChartPage'
 import AssetsTable from '../assets/AssetsTable'
-import {
-  CATEGORIES_SETTINGS,
-  MARKET_SEGMENT_COLUMNS
-} from '../assets/asset-columns'
+import { MARKET_SEGMENT_COLUMNS } from '../assets/asset-columns'
 import { getMarketSegment } from '../../ducks/SANCharts/utils'
 import { MARKET_SEGMENTS_FETCH } from './actions'
 import styles from './index.module.scss'
