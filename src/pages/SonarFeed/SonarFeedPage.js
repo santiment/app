@@ -91,12 +91,17 @@ const SonarFeed = ({
   )
 
   const shareSignalParams = getShareSignalParams()
-  const defaultRoute =
-    hash === SIGNAL_ANCHORS.ACTIVITIES ? (
-      <Route component={tabs[1].component} />
-    ) : (
-      <Route component={tabs[0].component} />
-    )
+
+  const isActivities = hash === SIGNAL_ANCHORS.ACTIVITIES
+  const currentPage = isActivities
+    ? SIGNAL_ROUTES.ACTIVITIES
+    : SIGNAL_ROUTES.MY_SIGNALS
+
+  const defaultRoute = isActivities ? (
+    <Route component={tabs[1].component} />
+  ) : (
+    <Route component={tabs[0].component} />
+  )
 
   return (
     <div style={{ width: '100%' }} className='page'>
@@ -105,7 +110,7 @@ const SonarFeed = ({
           <SonarFeedHeader />
           {!isUserLoading && (
             <SignalMasterModalForm
-              history={history}
+              previousPage={currentPage}
               triggerId={triggerId}
               shareParams={shareSignalParams}
             />
@@ -119,7 +124,7 @@ const SonarFeed = ({
               <div className={styles.addSignal}>
                 {!isUserLoading && (
                   <SignalMasterModalForm
-                    history={history}
+                    previousPage={currentPage}
                     triggerId={triggerId}
                     shareParams={shareSignalParams}
                   />

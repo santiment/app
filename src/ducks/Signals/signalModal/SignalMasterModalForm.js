@@ -28,7 +28,8 @@ const SignalMasterModalForm = ({
   dialogProps,
   shareParams = {},
   userId,
-  history
+  redirect,
+  previousPage = SIGNAL_ROUTES.MY_SIGNALS
 }) => {
   const { id: shareId, isShared: isOldShared } = shareParams
 
@@ -57,7 +58,7 @@ const SignalMasterModalForm = ({
 
   const goBack = () => {
     if (hasTrigger) {
-      canRedirect && history && history.goBack()
+      canRedirect && redirect && redirect(previousPage)
     }
   }
 
@@ -135,8 +136,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  redirect: () => {
-    dispatch(push(SIGNAL_ROUTES.MY_SIGNALS))
+  redirect: url => {
+    dispatch(push(url || SIGNAL_ROUTES.MY_SIGNALS))
   }
 })
 
