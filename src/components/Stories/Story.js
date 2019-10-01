@@ -24,6 +24,11 @@ const Story = ({ story = {}, open, onEnd }) => {
     setResetFlag(!resetFlag)
   }
 
+  const onMedia = evt => {
+    evt.stopPropagation()
+    setDuration(null)
+  }
+
   useInterval(onNext, duration, resetFlag)
 
   return (
@@ -32,7 +37,7 @@ const Story = ({ story = {}, open, onEnd }) => {
       slides={slides}
       onNext={onNext}
       onPrev={onPrev}
-      onMediaClicked={() => setDuration(null)}
+      onMediaClicked={onMedia}
       isPaused={duration === null}
     />
   )

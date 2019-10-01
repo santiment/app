@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react'
 import cx from 'classnames'
+import withSizes from 'react-sizes'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
+import { mapSizesToProps } from '../../utils/withSizes'
 import YoutubeButton from './YoutubeButton'
 import styles from './StoryContent.module.scss'
 
@@ -11,7 +13,8 @@ const StoryContent = ({
   onNext,
   onPrev,
   onMediaClicked,
-  isPaused
+  isPaused,
+  isPhone
 }) => {
   const {
     title,
@@ -23,18 +26,19 @@ const StoryContent = ({
     isDarkImage
   } = slides[active]
 
-  let [width, setWidth] = useState(null)
+  let [widthSlideProgress, setWidthSlideProgress] = useState(null)
+  let [widthWrapper, setWidthWrapper] = useState(null)
   const activeStoryRef = useRef(null)
   const videoRef = useRef(null)
 
-  if (isPaused && !width) {
+  if (isPaused && !widthSlideProgress) {
     const elem = activeStoryRef.current.children[active].children[0]
-    setWidth(elem.offsetWidth)
+    setWidthSlideProgress(elem.offsetWidth)
   }
 
-  if (!isPaused && width) setWidth(null)
+  if (!isPaused && widthSlideProgress) setWidthSlideProgress(null)
 
-  const onVideoClicked = () => {
+  const onVideoClicked = evt => {
     if (videoId && videoRef.current && !isPaused) {
       let iframe = document.createElement('iframe')
 
@@ -45,7 +49,19 @@ const StoryContent = ({
         `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&showinfo=0&autoplay=1`
       )
       videoRef.current.appendChild(iframe)
-      onMediaClicked()
+      onMediaClicked(evt)
+    }
+  }
+
+  const toggleSlide = evt => {
+    if (!widthWrapper) {
+      setWidthWrapper(evt.target.offsetWidth)
+    }
+
+    if (widthWrapper / 2 > evt.clientX) {
+      onPrev()
+    } else {
+      onNext()
     }
   }
 
@@ -54,7 +70,10 @@ const StoryContent = ({
 
   return (
     <>
-      <div className={styles.content}>
+      <div
+        className={styles.content}
+        onClick={isPhone ? toggleSlide : () => {}}
+      >
         <div
           className={cx(
             styles.media,
@@ -119,7 +138,11 @@ const StoryContent = ({
               )}
               style={{
                 '--width':
-                  active === idx ? (isPaused ? `${width}px` : '100%') : 0
+                  active === idx
+                    ? isPaused
+                      ? `${widthSlideProgress}px`
+                      : '100%'
+                    : 0
               }}
             />
           </div>
@@ -129,4 +152,4 @@ const StoryContent = ({
   )
 }
 
-export default StoryContent
+export default withSizes(mapSizesToProps)(StoryContent)

@@ -5,6 +5,7 @@
   height: 129px;
   overflow: hidden;
   position: relative;
+  -webkit-tap-highlight-color: transparent;
 
   @include responsive('desktop') {
     margin-left: auto !important;
@@ -53,26 +54,23 @@
 }
 
 .dialog {
-  margin-top: 20px;
+  margin-top: 30px;
   position: relative;
-  align-self: center;
+  max-height: 88%;
+  -webkit-tap-highlight-color: transparent;
 
   @include responsive('phone-xs') {
-    width: 100%;
-    max-width: 100%;
-    height: calc(var(--vh, 1vh) * 91);
-    max-height: calc(var(--vh, 1vh) * 91);
-    margin: 30px 12px 12px;
+    height: 75vh;
+    max-height: 540px;
+    min-height: 480px;
   }
 
   @include responsive('phone') {
     width: auto;
     max-width: 85%;
     max-height: 85%;
-  }
-
-  @include responsive('phone-xs', 'phone') {
     border-radius: 4px;
+    align-self: center;
   }
 }
 
