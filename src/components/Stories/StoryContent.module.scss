@@ -3,6 +3,13 @@
 .content {
   padding: 20px 24px 32px;
   max-width: 496px;
+
+  @include responsive('phone-xs') {
+    padding: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .dark {
@@ -20,6 +27,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @include responsive('phone-xs', 'phone') {
+    width: 100%;
+    height: 30vh;
+  }
 
   & iframe {
     width: 100%;
@@ -80,27 +92,44 @@
 
 .title {
   margin: 32px 0 0;
+  color: var(--mirage);
 
   @include text('body-1', 'm');
 
-  color: var(--mirage);
+  @include responsive('phone-xs') {
+    margin-top: 16px;
+
+    @include text('body-2', 'm');
+  }
 }
 
 .description {
   margin: 16px 0 0;
   min-height: 48px;
+  color: var(--waterloo);
 
   @include text('body-2');
 
-  color: var(--waterloo);
-
   & a {
     color: var(--jungle-green);
+  }
+
+  @include responsive('phone-xs') {
+    margin-top: 8px;
+
+    @include text('body-3');
   }
 }
 
 .button {
   margin: 24px 0 0;
+  align-items: center;
+
+  @include responsive('phone-xs') {
+    width: 100%;
+    justify-content: center;
+    margin-top: auto;
+  }
 }
 
 .lines {
@@ -171,11 +200,14 @@
   border-radius: 50%;
   border: 1.5px solid grey;
   fill: #fff;
-  transition: border ease-in-out 0.2s;
 
-  &:hover {
-    border: 1.5px solid rgba(255, 255, 255, 1);
-    cursor: pointer;
+  @include responsive('laptop', 'desktop') {
+    transition: border ease-in-out 0.2s;
+
+    &:hover {
+      border: 1.5px solid rgba(255, 255, 255, 1);
+      cursor: pointer;
+    }
   }
 
   @include responsive('phone-xs', 'phone') {
@@ -185,12 +217,6 @@
     svg {
       fill: var(--mirage);
     }
-  }
-}
-
-.contentWithBtns {
-  @include responsive('phone-xs', 'phone') {
-    margin-bottom: 80px;
   }
 }
 

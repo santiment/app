@@ -53,10 +53,29 @@
 }
 
 .dialog {
-  border-radius: 4px !important;
-  max-width: 95%;
-  max-height: 94%;
   margin-top: 20px;
   position: relative;
   align-self: center;
+
+  @include responsive('phone-xs') {
+    width: 100%;
+    max-width: 100%;
+    height: calc(var(--vh, 1vh) * 91);
+    max-height: calc(var(--vh, 1vh) * 91);
+    margin: 30px 12px 12px;
+  }
+
+  @include responsive('phone') {
+    width: auto;
+    max-width: 85%;
+    max-height: 85%;
+  }
+
+  @include responsive('phone-xs', 'phone') {
+    border-radius: 4px;
+  }
+}
+
+.content {
+  height: 100%;
 }

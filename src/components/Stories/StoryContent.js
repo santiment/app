@@ -54,12 +54,7 @@ const StoryContent = ({
 
   return (
     <>
-      <div
-        className={cx(
-          styles.content,
-          (isLeft || isRight) && styles.contentWithBtns
-        )}
-      >
+      <div className={styles.content}>
         <div
           className={cx(
             styles.media,
