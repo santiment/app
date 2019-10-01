@@ -191,7 +191,9 @@
 }
 
 .contentWithBtns {
-  margin-bottom: 80px;
+  @include responsive('phone-xs', 'phone') {
+    margin-bottom: 80px;
+  }
 }
 
 @keyframes activeLine {
