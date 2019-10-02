@@ -22,6 +22,7 @@ import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import paywallBoundaries from '../Chart/paywallBoundaries'
 import ChartWidget from '../../ducks/SANCharts/ChartPage'
+import PageLoader from '../../components/Loader/PageLoader'
 import { Metrics } from '../../ducks/SANCharts/utils'
 import './Detailed.css'
 import styles from './Detailed.module.scss'
@@ -76,6 +77,14 @@ export const Detailed = ({
     return <ServerErrorMessage />
   }
 
+  if (!id) {
+    return (
+      <div className='page detailed'>
+        <PageLoader />
+      </div>
+    )
+  }
+
   const onChangeProject = (data, callback) => {
     const newProject = Array.isArray(data) ? data[0] : data
     if (newProject && newProject.slug && +newProject.id !== +id) {
@@ -84,7 +93,7 @@ export const Detailed = ({
     }
   }
 
-  const projectContainerChart = project && project.id && (
+  const projectContainerChart = id && (
     <>
       <Breadcrumbs from={from} slug={project.slug} name={project.name} />
       <Query query={USER_SUBSCRIPTIONS_QUERY}>
@@ -157,10 +166,10 @@ export const Detailed = ({
           header='General Info'
           className='panel panel-full-width'
         >
-          <GeneralInfoBlock {...Project.project} />
+          <GeneralInfoBlock {...project} />
         </PanelWithHeader>
         <PanelWithHeader header='Financials' className='panel panel-full-width'>
-          <FinancialsBlock {...Project.project} />
+          <FinancialsBlock {...project} />
         </PanelWithHeader>
       </div>
       {isNewsEnabled && !isLoadingNews && !Project.loading && news.length > 0 && (
