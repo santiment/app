@@ -35,7 +35,7 @@ const Story = ({ story = {}, open, onEnd }) => {
       setDialogWidth(evt.target.offsetWidth)
     }
 
-    if ((dialogWidth || evt.target.offsetWidth) / 2 > evt.clientX) {
+    if ((dialogWidth || evt.target.offsetWidth) / 4 > evt.clientX) {
       onPrev()
     } else {
       onNext()

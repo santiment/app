@@ -59,9 +59,10 @@
       left: 50%;
       z-index: 1;
       display: block;
-      padding: 0;
       width: 68px;
       height: 48px;
+      box-sizing: content-box;
+      padding: 20px;
       border: none;
       background-color: transparent;
       transform: translate(-50%, -50%);
