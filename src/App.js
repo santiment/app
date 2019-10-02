@@ -32,9 +32,13 @@ import WordCloudPage from './components/WordCloud/WordCloudPage'
 import { getConsentUrl } from './utils/utils'
 import CookiePopup from './components/CookiePopup/CookiePopup'
 import LogoutPage from './pages/Logout/Logout'
-import LabsPage from './pages/Labs'
 import { mapSizesToProps } from './utils/withSizes'
 import './App.scss'
+
+const LoadableLabsPage = Loadable({
+  loader: () => import('./pages/Labs'),
+  loading: () => <PageLoader />
+})
 
 const LoadablePricingPage = Loadable({
   loader: () => import('./pages/Pricing'),
@@ -139,6 +143,29 @@ class Route extends React.Component {
     return <BasicRoute {...this.props} />
   }
 }
+
+const ExternalRoutes = [
+  {
+    to: 'https://sheets.santiment.net',
+    routes: ['sheets']
+  },
+  {
+    to: 'https://data.santiment.net',
+    routes: ['data', 'dashboards']
+  },
+  {
+    to: 'https://docs.santiment.net',
+    routes: ['docs', 'apiexamples']
+  },
+  {
+    to: 'https://help.santiment.net',
+    routes: ['docs', 'help']
+  },
+  {
+    to: 'mailto:info@santiment.net',
+    routes: ['support']
+  }
+]
 
 class ExternalRedirect extends React.Component {
   componentWillMount () {
@@ -267,7 +294,7 @@ export const App = ({
           }
         />
         <Route exact path='/labs/trends' component={LoadableTrendsLabsPage} />
-        <Route exact path='/labs' component={LabsPage} />
+        <Route exact path='/labs' component={LoadableLabsPage} />
         <Redirect from='/trends' to='/labs/trends' />
         <Route
           exact
@@ -316,40 +343,15 @@ export const App = ({
         <Route exact path='/privacy-policy' component={PrivacyPolicyPage} />
         <Route path='/email_login' component={EmailLoginVerification} />
         <Route path='/verify_email' component={EmailLoginVerification} />
-        {['data', 'dashboards'].map(name => (
-          <Route
-            key={name}
-            path={`/${name}`}
-            render={() => (
-              <ExternalRedirect to={'https://data.santiment.net'} />
-            )}
-          />
-        ))}
-        {['apidocs', 'apiexamples'].map(name => (
-          <Route
-            key={name}
-            path={`/${name}`}
-            render={() => (
-              <ExternalRedirect to={'https://docs.santiment.net'} />
-            )}
-          />
-        ))}
-        {['docs', 'help'].map(name => (
-          <Route
-            key={name}
-            path={`/${name}`}
-            render={() => (
-              <ExternalRedirect to={'https://help.santiment.net'} />
-            )}
-          />
-        ))}
-        <Route
-          exact
-          path='/support'
-          render={props => (
-            <ExternalRedirect to={'mailto:info@santiment.net'} />
-          )}
-        />
+        {ExternalRoutes.map(links => {
+          return links.routes.map(name => (
+            <Route
+              key={name}
+              path={`/${name}`}
+              render={() => <ExternalRedirect to={links.to} />}
+            />
+          ))
+        })}
         <Route
           path='/consent'
           render={props => (
