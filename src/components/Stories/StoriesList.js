@@ -36,7 +36,7 @@ const StoriesList = ({ classes = {} }) => {
         onClose={setSelected}
         classes={styles}
       >
-        <Dialog.ScrollContent>
+        <Dialog.ScrollContent className={styles.content}>
           <Story story={selected} onEnd={setSelected} />
         </Dialog.ScrollContent>
       </Dialog>

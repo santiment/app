@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react'
 import cx from 'classnames'
+import withSizes from 'react-sizes'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
+import { mapSizesToProps } from '../../utils/withSizes'
 import YoutubeButton from './YoutubeButton'
 import styles from './StoryContent.module.scss'
 
@@ -10,8 +12,10 @@ const StoryContent = ({
   active,
   onNext,
   onPrev,
+  onToggleSlide,
   onMediaClicked,
-  isPaused
+  isPaused,
+  isPhone
 }) => {
   const {
     title,
@@ -23,18 +27,18 @@ const StoryContent = ({
     isDarkImage
   } = slides[active]
 
-  let [width, setWidth] = useState(null)
+  let [widthSlideProgress, setWidthSlideProgress] = useState(null)
   const activeStoryRef = useRef(null)
   const videoRef = useRef(null)
 
-  if (isPaused && !width) {
+  if (isPaused && !widthSlideProgress) {
     const elem = activeStoryRef.current.children[active].children[0]
-    setWidth(elem.offsetWidth)
+    setWidthSlideProgress(elem.offsetWidth)
   }
 
-  if (!isPaused && width) setWidth(null)
+  if (!isPaused && widthSlideProgress) setWidthSlideProgress(null)
 
-  const onVideoClicked = () => {
+  const onVideoClicked = evt => {
     if (videoId && videoRef.current && !isPaused) {
       let iframe = document.createElement('iframe')
 
@@ -45,20 +49,18 @@ const StoryContent = ({
         `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&showinfo=0&autoplay=1`
       )
       videoRef.current.appendChild(iframe)
-      onMediaClicked()
+      onMediaClicked(evt)
     }
   }
 
-  const isLeft = active < slides.length - 1
-  const isRight = active >= 1
+  const isNotLastSlide = active < slides.length - 1
+  const isNotFirstSlide = active >= 1
 
   return (
     <>
       <div
-        className={cx(
-          styles.content,
-          (isLeft || isRight) && styles.contentWithBtns
-        )}
+        className={styles.content}
+        onClick={isPhone ? onToggleSlide : () => {}}
       >
         <div
           className={cx(
@@ -97,12 +99,12 @@ const StoryContent = ({
           </Button>
         )}
       </div>
-      {isLeft && (
+      {isNotLastSlide && (
         <div className={styles.next} onClick={onNext}>
           <Icon type='arrow-right-big' />
         </div>
       )}
-      {isRight && (
+      {isNotFirstSlide && (
         <div className={styles.prev} onClick={onPrev}>
           <Icon type='arrow-left-big' />
         </div>
@@ -124,7 +126,11 @@ const StoryContent = ({
               )}
               style={{
                 '--width':
-                  active === idx ? (isPaused ? `${width}px` : '100%') : 0
+                  active === idx
+                    ? isPaused
+                      ? `${widthSlideProgress}px`
+                      : '100%'
+                    : 0
               }}
             />
           </div>
@@ -134,4 +140,4 @@ const StoryContent = ({
   )
 }
 
-export default StoryContent
+export default withSizes(mapSizesToProps)(StoryContent)

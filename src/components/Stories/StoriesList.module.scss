@@ -5,6 +5,7 @@
   height: 129px;
   overflow: hidden;
   position: relative;
+  -webkit-tap-highlight-color: transparent;
 
   @include responsive('desktop') {
     margin-left: auto !important;
@@ -34,20 +35,45 @@
 
 .item + .item {
   margin-left: 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-left: 16px;
+  }
 }
 
 .item:first-child {
-  @include responsive('laptop', 'tablet', 'phone') {
-    margin-left: 15px;
+  @include responsive('laptop', 'tablet', 'phone', 'phone-xs') {
+    margin-left: 16px;
   }
 }
 
 .item:last-child {
-  @include responsive('laptop', 'tablet', 'phone') {
-    margin-right: 15px;
+  @include responsive('laptop', 'tablet', 'phone', 'phone-xs') {
+    margin-right: 16px;
   }
 }
 
 .dialog {
+  margin-top: 30px;
   position: relative;
+  max-height: 88%;
+  -webkit-tap-highlight-color: transparent;
+
+  @include responsive('phone-xs') {
+    height: 75vh;
+    max-height: 540px;
+    min-height: 480px;
+  }
+
+  @include responsive('phone') {
+    width: auto;
+    max-width: 85%;
+    max-height: 85%;
+    border-radius: 4px;
+    align-self: center;
+  }
+}
+
+.content {
+  height: 100%;
 }
