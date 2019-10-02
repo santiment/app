@@ -60,8 +60,8 @@ const cards = [
       </div>
     ),
     link: '/sheets',
-    className: styles.sheets,
-    bgClassName: styles.sheetsBg
+    className: styles.dashboard,
+    bgClassName: styles.dashboardBg
   }
 ]
 
