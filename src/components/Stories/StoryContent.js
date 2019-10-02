@@ -69,6 +69,7 @@ const StoryContent = ({
             isDarkImage && styles.dark,
             isPaused && videoId && styles.enabledVideo
           )}
+          onClick={isPhone ? () => {} : onVideoClicked}
           ref={videoRef}
         >
           {videoId && (
@@ -78,7 +79,9 @@ const StoryContent = ({
                 src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
                 alt={title}
               />
-              <YoutubeButton onPlayClick={onVideoClicked} />
+              <YoutubeButton
+                onPlayClick={isPhone ? onVideoClicked : () => {}}
+              />
             </div>
           )}
           {image && <img src={image} alt='' />}
