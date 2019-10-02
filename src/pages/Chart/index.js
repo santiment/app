@@ -28,7 +28,9 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
   })
 })(({ isLoggedIn, location, history, data: { insights = [] } }) => {
   const sortedInsights = insights.sort(creationDateSort).slice(0, 6)
-  const { slug = 'bitcoin' } = parse(location.search)
+  const { slug = 'bitcoin', title = 'Bitcoin (BTC)', projectId = 1505 } = parse(
+    location.search
+  )
   const onChangeSlug = ({ slug: newSlug } = {}) => {
     slug && slug !== newSlug && history.replace(`/projects/${newSlug}`)
   }
@@ -36,7 +38,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
     <>
       <div className={styles.wrapper}>
         <StoriesList classes={styles} />
-        <div className={styles.content + ' elem-container'}>
+        <div className={'elem-container'}>
           <Query query={USER_SUBSCRIPTIONS_QUERY}>
             {({ data: { currentUser } = {} }) => {
               const subscription = getCurrentSanbaseSubscription(currentUser)
@@ -51,9 +53,9 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
                     location={location}
                     adjustNightMode={false}
                     showToggleAnomalies={true}
-                    slug='bitcoin'
-                    title='Bitcoin (BTC)'
-                    projectId='1505'
+                    slug={slug}
+                    title={title}
+                    projectId={projectId}
                     metrics={[
                       Metrics.historyPrice,
                       Metrics.socialVolume,
