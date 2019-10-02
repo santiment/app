@@ -39,6 +39,7 @@ const StoryContent = ({
   if (!isPaused && widthSlideProgress) setWidthSlideProgress(null)
 
   const onVideoClicked = evt => {
+    evt.stopPropagation()
     if (videoId && videoRef.current && !isPaused) {
       let iframe = document.createElement('iframe')
 
@@ -68,7 +69,6 @@ const StoryContent = ({
             isDarkImage && styles.dark,
             isPaused && videoId && styles.enabledVideo
           )}
-          onClick={onVideoClicked}
           ref={videoRef}
         >
           {videoId && (
@@ -78,10 +78,10 @@ const StoryContent = ({
                 src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
                 alt={title}
               />
-              <YoutubeButton />
+              <YoutubeButton onPlayClick={onVideoClicked} />
             </div>
           )}
-          {image && <img src={image} alt='' onClick={onMediaClicked} />}
+          {image && <img src={image} alt='' />}
         </div>
         {title && <h4 className={styles.title}>{title}</h4>}
         {description && <div className={styles.description}>{description}</div>}

@@ -1,8 +1,8 @@
 import React from 'react'
 import styles from './StoryContent.module.scss'
 
-const YoutubeButton = () => (
-  <button className={styles.preview__button}>
+const YoutubeButton = ({ onPlayClick }) => (
+  <button className={styles.preview__button} onClick={onPlayClick}>
     <svg width='68' height='48' viewBox='0 0 68 48'>
       <path
         className={styles.preview__button_shape}
