@@ -1,0 +1,26 @@
+FROM browserless/base:latest
+
+# Application parameters and variables
+ENV USE_CHROME_STABLE=true
+
+WORKDIR /app
+
+# Install Chrome Stable when specified
+RUN if [ "$USE_CHROME_STABLE" = "true" ]; then \
+    cd /tmp &&\
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&\
+    dpkg -i google-chrome-stable_current_amd64.deb;\
+  fi
+
+RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
+RUN apt-get install -y nodejs
+RUN node -v
+RUN npm -v
+COPY ./package.json /app/package.json
+COPY ./yarn.lock /app/yarn.lock
+RUN npm i -g yarn
+RUN yarn
+
+COPY ./ /app
+
+RUN yarn build

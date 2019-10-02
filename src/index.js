@@ -137,6 +137,7 @@ const main = () => {
     unregister()
   }
 
+  const rootElement = document.getElementById('root')
   ReactDOM.render(
     <StripeProvider apiKey={stripeKey}>
       <ApolloProvider client={client}>
@@ -150,7 +151,7 @@ const main = () => {
         </Provider>
       </ApolloProvider>
     </StripeProvider>,
-    document.getElementById('root')
+    rootElement
   )
 }
 

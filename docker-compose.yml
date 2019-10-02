@@ -4,13 +4,15 @@ services:
   test:
     build:
       context: .
-      dockerfile: Dockerfile-test
+      dockerfile: Dockerfile-dev
     environment:
       - CI=true
       - REACT_APP_WEBSITE_URL=https://app-stage.santiment.net
     command: yarn test --ci
   frontend:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
     expose:
       - 3000
     ports:
@@ -18,4 +20,4 @@ services:
     volumes:
       - ./src:/usr/src/app/src
       - ./public:/usr/src/app/public
-    command: /bin/bash -c "npm run start:light" # The command to run in when the container starts
+    command: /bin/bash -c "yarn start" # The command to run in when the container starts
