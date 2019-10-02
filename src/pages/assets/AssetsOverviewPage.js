@@ -42,8 +42,8 @@ const AssetsOverview = ({
           <PageLoader />
         ) : (
           <>
-            <RecentlyWatched className={styles.recents} />
             <StoriesList classes={styles} />
+            <RecentlyWatched className={styles.recents} />
             <h2 className={styles.subtitle}>Categories</h2>
             <WatchlistCards watchlists={CATEGORIES} />
             <MyWatchlist
