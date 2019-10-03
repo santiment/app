@@ -205,6 +205,9 @@ const Header = ({
 
 export default compose(
   graphql(PROJECT_BY_SLUG_QUERY, {
+    skip: ({ slug }) => {
+      return !slug
+    },
     options: ({ slug }) => ({ variables: { slug } })
   }),
   withSizes(mapSizesToProps)
