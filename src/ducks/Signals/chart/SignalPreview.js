@@ -61,8 +61,6 @@ const SignalPreviewChart = ({
 
         const referenceDots = GetReferenceDots(signals)
 
-        console.log(metricsForSignalsChart)
-
         return (
           <>
             <VisualBacktestChart
@@ -71,14 +69,14 @@ const SignalPreviewChart = ({
               label={label}
               triggeredSignals={triggeredSignals}
               metrics={metricsForSignalsChart}
-              referenceDots={referenceDots}
+              signals={signals}
             />
             <DesktopOnly>
               <ChartExpandView>
                 <ChartWidget
-                  metrics={metrics}
                   timeRange={timeRange}
                   slug={slug}
+                  metrics={metrics}
                   interval='1d'
                   title={slug}
                   hideSettings={{

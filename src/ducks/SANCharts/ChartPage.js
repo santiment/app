@@ -393,8 +393,10 @@ class ChartPage extends Component {
       isBeta
     } = this.props
 
+    const selectedInterval = INTERVAL_ALIAS[interval] || interval
+
     const requestedMetrics = mapToRequestedMetrics(metrics, {
-      interval,
+      interval: selectedInterval,
       slug,
       from,
       to
@@ -406,7 +408,7 @@ class ChartPage extends Component {
         from,
         to,
         slug,
-        interval: INTERVAL_ALIAS[interval] || interval
+        interval: selectedInterval
       })) || []
 
     const requestedMarketSegments =
@@ -415,7 +417,7 @@ class ChartPage extends Component {
         from,
         to,
         slug,
-        interval: INTERVAL_ALIAS[interval] || interval,
+        interval: selectedInterval,
         ...reqMeta
       })) || []
 

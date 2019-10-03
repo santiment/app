@@ -37,9 +37,13 @@ const VisualBacktestChart = ({
   label,
   data,
   dataKeys,
-  referenceDots
+  signals
 }) => {
   const markup = generateMetricsMarkup(metrics)
+
+  const referenceDots = GetReferenceDots(signals)
+
+  console.log(signals)
 
   const renderChart = () => {
     return (
