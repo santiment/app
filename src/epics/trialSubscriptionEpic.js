@@ -1,4 +1,5 @@
 import gql from 'graphql-tag'
+import Raven from 'raven-js'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
 import * as actions from './../actions/types'
@@ -41,5 +42,5 @@ export const trialSubscriptionEpic = (action$, store, { client }) =>
             showNotification('Your trial account will be valid for 14 days')
           )
         )
-        .catch(console.error)
+        .catch(Raven.captureException)
     })
