@@ -78,6 +78,7 @@ import {
 } from '../pages/Trends/connectedWordsEpic.js'
 import { fetchRecentAssets, fetchRecentWatchlists } from './fetchRecentsEpic'
 import { fetchMarketSegments } from '../pages/MarketSegments/epics'
+import { trialSubscriptionEpic } from './trialSubscriptionEpic'
 
 export default combineEpics(
   handleOffline,
@@ -151,5 +152,7 @@ export default combineEpics(
   fetchRecentAssets,
   fetchRecentWatchlists,
   // Market segments
-  fetchMarketSegments
+  fetchMarketSegments,
+  // trial subscription
+  trialSubscriptionEpic
 )
