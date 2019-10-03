@@ -49,6 +49,19 @@ const cards = [
     link: '/dashboards',
     className: styles.dashboard,
     bgClassName: styles.dashboardBg
+  },
+  {
+    title: 'Sheets',
+    description: (
+      <div>
+        Import our price, on-chain and other data points directly into Google
+        Sheets. Keep track of all your positions, manage your risk and monitor
+        your portfolio performance
+      </div>
+    ),
+    link: '/sheets',
+    className: styles.dashboard,
+    bgClassName: styles.dashboardBg
   }
 ]
 
