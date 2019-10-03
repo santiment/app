@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { ReferenceLine } from 'recharts'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
-import { Metrics } from '../../SANCharts/utils'
+import { mapToRequestedMetrics, Metrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartWidget from '../../SANCharts/ChartPage'
-import VisualBacktestChart from './VisualBacktestChart'
+import VisualBacktestChart, {
+  getDataKeys,
+  GetReferenceDots,
+  mapWithTimeseries,
+  mapWithTimeseriesAndYCoord
+} from './VisualBacktestChart'
 import { ChartExpandView } from './ChartExpandView'
 import { DesktopOnly } from './../../../components/Responsive'
 import styles from './SignalPreview.module.scss'
@@ -24,20 +28,16 @@ const SignalPreviewChart = ({
   label,
   triggeredSignals
 }) => {
-  const metrics = getMetricsByType(type)
   const [baseType, setType] = useState(type)
 
   if (baseType !== type) setType(type)
 
-  const requestedMetrics = metrics.map(
-    ({ key, alias: name = key, reqMeta }) => ({
-      name,
-      timeRange,
-      slug,
-      interval: '1d',
-      ...reqMeta
-    })
-  )
+  const metrics = getMetricsByType(type)
+  const requestedMetrics = mapToRequestedMetrics(metrics, {
+    timeRange,
+    interval: '1d',
+    slug
+  })
 
   const metricsForSignalsChart = metrics.map(metric =>
     metric === Metrics.historyPrice ? Metrics.historyPricePreview : metric
@@ -50,14 +50,47 @@ const SignalPreviewChart = ({
         if (!timeseries) {
           return PreviewLoader
         }
+        const data = mapWithTimeseries(timeseries)
+
+        const dataKeys = getDataKeys(triggeredSignals[0])
+        const signals = mapWithTimeseriesAndYCoord(
+          triggeredSignals,
+          dataKeys,
+          data
+        )
+
+        const referenceDots = GetReferenceDots(signals)
+
+        console.log(metricsForSignalsChart)
 
         return (
-          <VisualBacktestChart
-            label={label}
-            triggeredSignals={triggeredSignals}
-            timeseries={timeseries}
-            metrics={metricsForSignalsChart}
-          />
+          <>
+            <VisualBacktestChart
+              data={data}
+              dataKeys={dataKeys}
+              label={label}
+              triggeredSignals={triggeredSignals}
+              metrics={metricsForSignalsChart}
+              referenceDots={referenceDots}
+            />
+            <DesktopOnly>
+              <ChartExpandView>
+                <ChartWidget
+                  metrics={metrics}
+                  timeRange={timeRange}
+                  slug={slug}
+                  interval='1d'
+                  title={slug}
+                  hideSettings={{
+                    header: true,
+                    sidecar: true
+                  }}
+                >
+                  {referenceDots}
+                </ChartWidget>
+              </ChartExpandView>
+            </DesktopOnly>
+          </>
         )
       }}
     />
@@ -90,39 +123,14 @@ const SignalPreview = ({
   const triggeredSignals = points.filter(point => point['triggered?'])
 
   return (
-    <>
-      <SignalPreviewChart
-        type={type}
-        slug={slug}
-        label={label}
-        timeRange={timeRange}
-        height={height}
-        triggeredSignals={triggeredSignals}
-      />
-
-      <DesktopOnly>
-        <ChartExpandView>
-          <ChartWidget
-            timeRange={timeRange}
-            slug={slug}
-            interval='1d'
-            title={slug}
-            hideSettings={{
-              header: true,
-              sidecar: true
-            }}
-          >
-            {triggeredSignals.map(({ datetime }) => (
-              <ReferenceLine
-                key={datetime}
-                stroke='var(--persimmon)'
-                x={+new Date(datetime)}
-              />
-            ))}
-          </ChartWidget>
-        </ChartExpandView>
-      </DesktopOnly>
-    </>
+    <SignalPreviewChart
+      type={type}
+      slug={slug}
+      label={label}
+      timeRange={timeRange}
+      height={height}
+      triggeredSignals={triggeredSignals}
+    />
   )
 }
 

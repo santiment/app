@@ -8,7 +8,12 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import Header from './Header'
-import { Metrics, Events, getMarketSegment } from './utils'
+import {
+  Metrics,
+  Events,
+  getMarketSegment,
+  mapToRequestedMetrics
+} from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { getIntervalByTimeRange } from '../../utils/dates'
@@ -388,16 +393,12 @@ class ChartPage extends Component {
       isBeta
     } = this.props
 
-    const requestedMetrics = metrics.map(
-      ({ key, alias: name = key, reqMeta }) => ({
-        name,
-        slug,
-        from,
-        to,
-        interval: INTERVAL_ALIAS[interval] || interval,
-        ...reqMeta
-      })
-    )
+    const requestedMetrics = mapToRequestedMetrics(metrics, {
+      interval,
+      slug,
+      from,
+      to
+    })
 
     const requestedEvents =
       events.map(({ key: name }) => ({

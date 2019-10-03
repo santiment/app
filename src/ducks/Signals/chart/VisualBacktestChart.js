@@ -15,15 +15,30 @@ import chartStyles from './../../SANCharts/Chart.module.scss'
 import sharedStyles from './../../SANCharts/ChartPage.module.scss'
 import styles from './SignalPreview.module.scss'
 
+export function GetReferenceDots (signals) {
+  return signals.map(({ date, yCoord }, idx) => (
+    <ReferenceDot
+      x={date}
+      y={yCoord}
+      key={idx}
+      ifOverflow='extendDomain'
+      r={3}
+      isFront
+      stroke='var(--white)'
+      strokeWidth='2px'
+      fill='var(--persimmon)'
+    />
+  ))
+}
+
 const VisualBacktestChart = ({
   triggeredSignals,
-  timeseries = [],
   metrics,
-  label
+  label,
+  data,
+  dataKeys,
+  referenceDots
 }) => {
-  const data = mapWithTimeseries(timeseries)
-  const dataKeys = getDataKeys(triggeredSignals[0])
-  const signals = mapWithTimeseriesAndYCoord(triggeredSignals, dataKeys, data)
   const markup = generateMetricsMarkup(metrics)
 
   const renderChart = () => {
@@ -50,19 +65,7 @@ const VisualBacktestChart = ({
 
         {markup}
 
-        {signals.map(({ date, yCoord }, idx) => (
-          <ReferenceDot
-            x={date}
-            y={yCoord}
-            key={idx}
-            ifOverflow='extendDomain'
-            r={3}
-            isFront
-            stroke='var(--white)'
-            strokeWidth='2px'
-            fill='var(--persimmon)'
-          />
-        ))}
+        {referenceDots}
         <Tooltip
           content={<CustomTooltip />}
           position={{ x: 0, y: -30 }}
@@ -99,7 +102,7 @@ const VisualBacktestChart = ({
   )
 }
 
-const getDataKeys = (signal = {}) => {
+export const getDataKeys = (signal = {}) => {
   if (signal.active_addresses) {
     return { metric: 'dailyActiveAddresses', signal: 'active_addresses' }
   }
@@ -107,16 +110,16 @@ const getDataKeys = (signal = {}) => {
   return { metric: 'priceUsd', signal: 'price' }
 }
 
-const mapWithTimeseries = items =>
+export const mapWithTimeseries = items =>
   items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
 
-const mapWithMidnightTime = date => {
+export const mapWithMidnightTime = date => {
   const datetime = new Date(date)
   datetime.setUTCHours(0, 0, 0, 0)
   return +new Date(datetime)
 }
 
-const mapWithTimeseriesAndYCoord = (items, dataKeys, data) => {
+export const mapWithTimeseriesAndYCoord = (items, dataKeys, data) => {
   return dataKeys.signal === 'price'
     ? items.map(point => {
       const date = mapWithMidnightTime(point.datetime)

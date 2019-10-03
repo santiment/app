@@ -1,6 +1,7 @@
 import React from 'react'
 import { YAxis, Bar, Line, Area } from 'recharts'
 import { formatNumber } from './../../utils/formatting'
+import { INTERVAL_ALIAS } from './IntervalSelector'
 
 export const Events = {
   trendPositionHistory: {
@@ -560,3 +561,17 @@ export const generateMetricsMarkup = (
 
   return res
 }
+
+export const mapToRequestedMetrics = (
+  metrics,
+  { interval, slug, from, to, timeRange }
+) =>
+  metrics.map(({ key, alias: name = key, reqMeta }) => ({
+    name,
+    slug,
+    from,
+    to,
+    timeRange,
+    interval: INTERVAL_ALIAS[interval] || interval,
+    ...reqMeta
+  }))
