@@ -29,13 +29,15 @@ const SignalPreviewChart = ({
 
   if (baseType !== type) setType(type)
 
-  const requestedMetrics = metrics.map(({ key, reqMeta }) => ({
-    name: key,
-    timeRange,
-    slug,
-    interval: '1d',
-    ...reqMeta
-  }))
+  const requestedMetrics = metrics.map(
+    ({ key, alias: name = key, reqMeta }) => ({
+      name,
+      timeRange,
+      slug,
+      interval: '1d',
+      ...reqMeta
+    })
+  )
 
   const metricsForSignalsChart = metrics.map(metric =>
     metric === Metrics.historyPrice ? Metrics.historyPricePreview : metric
