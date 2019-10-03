@@ -155,7 +155,7 @@ const ExternalRoutes = [
   },
   {
     to: 'https://docs.santiment.net',
-    routes: ['apiexamples', 'apiexamples']
+    routes: ['apidocs', 'apiexamples']
   },
   {
     to: 'https://help.santiment.net',
