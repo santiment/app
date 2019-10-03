@@ -3,15 +3,10 @@ import { graphql } from 'react-apollo'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import { formatTooltipValue } from '../../ducks/SANCharts/CustomTooltip'
+import { Metrics } from '../../ducks/SANCharts/utils'
 import PercentChanges from '../PercentChanges'
 import { METRIC_ANOMALIE_QUERY } from '../../ducks/GetTimeSeries/queries/metric_anomaly_query'
 import styles from './MobileMetricCard.module.scss'
-
-export const ANOMALIES_METRICS_ENUM = {
-  dailyActiveAddresses: 'DAILY_ACTIVE_ADDRESSES',
-  devActivity: 'DEV_ACTIVITY',
-  socialVolume: 'SOCIAL_VOLUME'
-}
 
 const MobileMetricCard = ({
   metric,
@@ -60,11 +55,11 @@ const MobileMetricCard = ({
 }
 
 export default graphql(METRIC_ANOMALIE_QUERY, {
-  skip: ({ metric, from }) => !ANOMALIES_METRICS_ENUM[metric] || !from,
+  skip: ({ metric, from }) => !Metrics[metric].anomalyKey || !from,
   options: ({ metric, slug, from, to }) => {
     return {
       variables: {
-        metric: ANOMALIES_METRICS_ENUM[metric],
+        metric: Metrics[metric].anomalyKey,
         slug,
         from: from.toISOString(),
         to: to.toISOString()
