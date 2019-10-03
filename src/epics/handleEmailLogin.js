@@ -6,6 +6,7 @@ import { replace } from 'react-router-redux'
 import { showNotification } from './../actions/rootActions'
 import * as actions from './../actions/types'
 import { savePrevAuthProvider } from './../utils/localStorage'
+import { setCoupon } from '../utils/coupon'
 
 export const SUBSCRIPTION_FLAG = 'hasToggledSubscription'
 
@@ -130,6 +131,7 @@ export const digestSubscriptionEpic = (action$, store, { client }) =>
 
 const handleEmailLogin = (action$, store, { client }) =>
   action$.ofType(actions.USER_EMAIL_LOGIN).switchMap(action => {
+    setCoupon(action.payload.coupon)
     const mutationGQL = action.payload.email
       ? emailLoginVerifyGQL
       : emailChangeVerifyGQL
