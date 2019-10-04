@@ -83,12 +83,19 @@ export const NavbarProfileDropdown = ({
                       plan = subscription.plan.name
                       trial = subscription.trialEnd
                       if (trial) {
-                        const { diff } = dateDifference({
-                          from: new Date(),
-                          to: new Date(trial),
-                          format: DAY
-                        })
-                        trial = `(trial - ${diff + 1} days left)`
+                        const daysNumber =
+                          dateDifference({
+                            from: new Date(),
+                            to: new Date(trial),
+                            format: DAY
+                          }).diff + 1
+
+                        const daysLeft =
+                          daysNumber === 1
+                            ? 'last day'
+                            : `${daysNumber} days left`
+
+                        trial = `(trial - ${daysLeft})`
                       }
                     }
 
