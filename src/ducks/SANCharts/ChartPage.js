@@ -129,7 +129,7 @@ class ChartPage extends Component {
 
   // HACK(vanguard):  fixing navbar-search project selection
   static getDerivedStateFromProps ({ slug, title, isControlled }, state) {
-    if (isControlled && slug !== state.slug) {
+    if (isControlled && slug && slug !== state.slug) {
       return {
         slug,
         title
@@ -502,7 +502,6 @@ class ChartPage extends Component {
                           defaultTimerange={timeRange}
                           onTimerangeChange={this.onTimerangeChange}
                           onCalendarChange={this.onCalendarChange}
-                          onSlugSelect={this.onSlugSelect}
                           generateShareLink={this.generateShareLink}
                           onNightModeSelect={this.onNightModeSelect}
                           onIntervalChange={this.onIntervalChange}
@@ -514,7 +513,6 @@ class ChartPage extends Component {
                           scale={scale}
                           onScaleChange={this.onScaleChange}
                           interval={interval}
-                          hideSettings={hideSettings}
                           isAdvancedView={isAdvancedView}
                           classes={classes}
                           activeMetrics={finalMetrics}
