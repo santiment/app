@@ -390,7 +390,8 @@ class ChartPage extends Component {
       rightBoundaryDate,
       isLoggedIn,
       isPRO,
-      isBeta
+      isBeta,
+      alwaysShowingMetrics = []
     } = this.props
 
     const selectedInterval = INTERVAL_ALIAS[interval] || interval
@@ -529,6 +530,7 @@ class ChartPage extends Component {
                           showToggleAnomalies={showToggleAnomalies}
                           onToggleAnomalies={this.onToggleAnomalies}
                           isShowAnomalies={isShowAnomalies}
+                          alwaysShowingMetrics={alwaysShowingMetrics}
                           hideSettings={hideSettings}
                         />
                       </>

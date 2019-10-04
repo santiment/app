@@ -80,6 +80,9 @@ const SignalPreviewChart = ({
             <DesktopOnly>
               <ChartExpandView>
                 <ChartWidget
+                  alwaysShowingMetrics={
+                    referenceDotsMetric ? [referenceDotsMetric.key] : []
+                  }
                   timeRange={timeRange}
                   slug={slug}
                   metrics={metrics}

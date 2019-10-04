@@ -16,8 +16,6 @@ import sharedStyles from './../../SANCharts/ChartPage.module.scss'
 import styles from './SignalPreview.module.scss'
 
 export function GetReferenceDots (signals, yAxisId) {
-  console.log('reference: ', yAxisId)
-
   return signals.map(({ date, yCoord }, idx) => (
     <ReferenceDot
       x={date}
@@ -43,13 +41,7 @@ const VisualBacktestChart = ({
   signals,
   referenceDots
 }) => {
-  console.log('------')
-
   const markup = generateMetricsMarkup(metrics)
-
-  console.log(metrics)
-  console.log(signals)
-  console.log(data)
 
   const renderChart = () => {
     return (

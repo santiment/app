@@ -485,8 +485,6 @@ export const generateMetricsMarkup = (
 
     const currentYAxisId = getMetricYAxisId(metric)
 
-    console.log('currentYAxisId: ', currentYAxisId)
-
     acc.push(
       <YAxis
         key={`axis-${dataKey}`}
