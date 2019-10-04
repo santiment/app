@@ -1,13 +1,14 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
+import { Query } from 'react-apollo'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { Button, Toggle } from '@santiment-network/ui'
 import DropdownDevider from './DropdownDevider'
 import ProfileInfo from '../Insight/ProfileInfo'
 import * as actions from '../../actions/types'
-import { capitalizeStr } from '../../utils/utils'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
+import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import styles from './NavbarProfileDropdown.module.scss'
 import dropdownStyles from './NavbarDropdown.module.scss'
 
@@ -53,8 +54,6 @@ export const NavbarProfileDropdown = ({
   isBetaModeEnabled,
   user
 }) => {
-  const sub = getCurrentSanbaseSubscription(user)
-  const plan = sub ? sub.plan.name : 'Free'
   const isLoggedIn = user && user.id
 
   return (
@@ -70,7 +69,19 @@ export const NavbarProfileDropdown = ({
             className={styles.profile}
             name={user.username || user.email}
             status={
-              <div className={styles.tokens}>{capitalizeStr(plan)} plan</div>
+              <div className={styles.plan}>
+                <Query query={USER_SUBSCRIPTIONS_QUERY}>
+                  {({ data: { currentUser } = {} }) => {
+                    const subscription = getCurrentSanbaseSubscription(
+                      currentUser
+                    )
+                    const userPlan = subscription
+                      ? subscription.plan.name
+                      : 'FREE'
+                    return `${userPlan} plan`
+                  }}
+                </Query>
+              </div>
             }
           />
 

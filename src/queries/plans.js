@@ -6,6 +6,7 @@ export const USER_SUBSCRIPTIONS_QUERY = gql`
       id
       subscriptions {
         id
+        trialEnd
         cancelAtPeriodEnd
         currentPeriodEnd
         plan {
