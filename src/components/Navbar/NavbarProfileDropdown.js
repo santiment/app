@@ -7,7 +7,8 @@ import { Button, Toggle } from '@santiment-network/ui'
 import DropdownDevider from './DropdownDevider'
 import ProfileInfo from '../Insight/ProfileInfo'
 import * as actions from '../../actions/types'
-import { getCurrentSanbaseSubscription, getTrialLabel } from '../../utils/plans'
+import { dateDifference, DAY } from '../../utils/dates'
+import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import styles from './NavbarProfileDropdown.module.scss'
 import dropdownStyles from './NavbarDropdown.module.scss'
@@ -81,9 +82,24 @@ export const NavbarProfileDropdown = ({
                     if (subscription) {
                       plan = subscription.plan.name
                       trial = subscription.trialEnd
+                      if (trial) {
+                        const daysNumber =
+                          dateDifference({
+                            from: new Date(),
+                            to: new Date(trial),
+                            format: DAY
+                          }).diff + 1
+
+                        const daysLeft =
+                          daysNumber === 1
+                            ? 'last day'
+                            : `${daysNumber} days left`
+
+                        trial = `(trial - ${daysLeft})`
+                      }
                     }
 
-                    return `${plan} plan ${getTrialLabel(trial)}`
+                    return `${plan} plan ${trial}`
                   }}
                 </Query>
               </div>
