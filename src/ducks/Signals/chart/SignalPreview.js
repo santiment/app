@@ -32,7 +32,8 @@ const SignalPreviewChart = ({
   label,
   triggeredSignals
 }) => {
-  const metrics = getMetricsByType(type)
+  const metricsTypes = getMetricsByType(type)
+  const { metrics, triggersBy } = metricsTypes
   const requestedMetrics = mapToRequestedMetrics(metrics, {
     timeRange,
     interval: '1d',
@@ -59,11 +60,9 @@ const SignalPreviewChart = ({
           data
         )
 
-        const referenceDotsMetric = metrics.length > 1 ? metrics[1] : metrics[0]
-
         const referenceDots =
-          triggeredSignals.length > 0 && referenceDotsMetric
-            ? GetReferenceDots(signals, getMetricYAxisId(referenceDotsMetric))
+          triggeredSignals.length > 0 && triggersBy
+            ? GetReferenceDots(signals, getMetricYAxisId(triggersBy))
             : null
 
         return (
@@ -80,9 +79,7 @@ const SignalPreviewChart = ({
             <DesktopOnly>
               <ChartExpandView>
                 <ChartWidget
-                  alwaysShowingMetrics={
-                    referenceDotsMetric ? [referenceDotsMetric.key] : []
-                  }
+                  alwaysShowingMetrics={triggersBy ? [triggersBy.key] : []}
                   timeRange={timeRange}
                   slug={slug}
                   metrics={metrics}

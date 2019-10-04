@@ -739,11 +739,20 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
 export const getMetricsByType = type => {
   switch (type) {
     case DAILY_ACTIVE_ADDRESSES:
-      return [Metrics.historyPrice, Metrics.dailyActiveAddresses]
+      return {
+        metrics: [Metrics.historyPrice, Metrics.dailyActiveAddresses],
+        triggersBy: Metrics.dailyActiveAddresses
+      }
     case PRICE_VOLUME_DIFFERENCE:
-      return [Metrics.historyPrice, Metrics.volume]
+      return {
+        metrics: [Metrics.historyPrice, Metrics.volume],
+        triggersBy: Metrics.historyPrice
+      }
     default:
-      return [Metrics.historyPrice]
+      return {
+        metrics: [Metrics.historyPrice],
+        triggersBy: Metrics.historyPrice
+      }
   }
 }
 
