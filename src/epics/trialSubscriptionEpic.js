@@ -31,7 +31,9 @@ const updateCache = (
   cache,
   { data: { createPromoSubscription: subscriptions } }
 ) => {
-  const { currentUser } = cache.readQuery({ query: USER_SUBSCRIPTIONS_QUERY })
+  const { currentUser = {} } = cache.readQuery({
+    query: USER_SUBSCRIPTIONS_QUERY
+  })
 
   currentUser.subscriptions = subscriptions
 
@@ -41,26 +43,38 @@ const updateCache = (
   })
 }
 
+const getTrial$ = client => {
+  const coupon = getCoupon()
+
+  if (!coupon) return Observable.empty()
+
+  return Observable.from(
+    client.mutate({
+      mutation: TRIAL_SUBSCRIPTION_MUTATION,
+      variables: { coupon },
+      update: updateCache
+    })
+  )
+    .mergeMap(() =>
+      Observable.of(
+        showNotification('Your trial account will be valid for 14 days')
+      )
+    )
+    .catch(Raven.captureException)
+}
+
 export const trialSubscriptionEpic = (action$, store, { client }) =>
   action$
-    .ofType(actions.USER_SETTING_GDPR)
-    .filter(({ payload: { privacyPolicyAccepted } }) => privacyPolicyAccepted)
-    .switchMap(() => {
-      const coupon = getCoupon()
+    .ofType(actions.USER_LOGIN_SUCCESS)
 
-      if (!coupon) return Observable.empty()
-
-      return Observable.from(
-        client.mutate({
-          mutation: TRIAL_SUBSCRIPTION_MUTATION,
-          variables: { coupon },
-          update: updateCache
-        })
-      )
-        .mergeMap(() =>
-          Observable.of(
-            showNotification('Your trial account will be valid for 14 days')
+    .mergeMap(({ user: { privacyPolicyAccepted } }) => {
+      return privacyPolicyAccepted
+        ? getTrial$(client)
+        : action$
+          .ofType(actions.USER_SETTING_GDPR)
+          .filter(
+            ({ payload: { privacyPolicyAccepted } }) => privacyPolicyAccepted
           )
-        )
-        .catch(Raven.captureException)
+          .switchMap(() => getTrial$(client))
     })
+    .take(1)
