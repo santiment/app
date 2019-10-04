@@ -7,7 +7,7 @@ import { Button, Toggle } from '@santiment-network/ui'
 import DropdownDevider from './DropdownDevider'
 import ProfileInfo from '../Insight/ProfileInfo'
 import * as actions from '../../actions/types'
-import { getCurrentSanbaseSubscription } from '../../utils/plans'
+import { getCurrentSanbaseSubscription, getTrialLabel } from '../../utils/plans'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import styles from './NavbarProfileDropdown.module.scss'
 import dropdownStyles from './NavbarDropdown.module.scss'
@@ -75,10 +75,15 @@ export const NavbarProfileDropdown = ({
                     const subscription = getCurrentSanbaseSubscription(
                       currentUser
                     )
-                    const userPlan = subscription
-                      ? subscription.plan.name
-                      : 'FREE'
-                    return `${userPlan} plan`
+                    let plan = 'FREE'
+                    let trial
+
+                    if (subscription) {
+                      plan = subscription.plan.name
+                      trial = subscription.trialEnd
+                    }
+
+                    return `${plan} plan ${getTrialLabel(trial)}`
                   }}
                 </Query>
               </div>

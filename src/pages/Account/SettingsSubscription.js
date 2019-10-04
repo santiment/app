@@ -8,7 +8,11 @@ import PlansDialog from '../../components/Plans/PlansDialog'
 import CancelSubscriptionDialog from '../../components/SubscriptionCancelDialog/SubscriptionCancelDialog'
 import ChangeBillingDialog from '../../components/BillingChangeDialog/BillingChangeDialog'
 import PLANS from '../../components/Plans/list.js'
-import { getCurrentSanbaseSubscription, formatPrice } from '../../utils/plans'
+import {
+  getCurrentSanbaseSubscription,
+  formatPrice,
+  getTrialLabel
+} from '../../utils/plans'
 import { getDateFormats } from '../../utils/dates'
 import {
   USER_SUBSCRIPTIONS_QUERY,
@@ -26,7 +30,8 @@ const PlanText = ({ subscription }) => {
     const {
       currentPeriodEnd,
       cancelAtPeriodEnd,
-      plan: { amount, name, interval }
+      plan: { amount, name, interval },
+      trialEnd
     } = subscription
 
     const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
@@ -35,15 +40,23 @@ const PlanText = ({ subscription }) => {
 
     return (
       <>
-        <div className={styles.title}>{PLANS[name].title} Plan</div>
-        <div className={styles.desc}>
-          {price} per {interval}.{' '}
-          {notCanceled && (
-            <ChangeBillingDialog subscription={subscription} classes={styles} />
-          )}
+        <div className={styles.title}>
+          {PLANS[name].title} Plan {getTrialLabel(trialEnd)}
         </div>
+        {trialEnd ? null : (
+          <div className={styles.desc}>
+            {price} per {interval}.{' '}
+            {notCanceled && (
+              <ChangeBillingDialog
+                subscription={subscription}
+                classes={styles}
+              />
+            )}
+          </div>
+        )}
         <div className={styles.desc}>
-          Will automatically {PERIOD_END_ACTION[cancelAtPeriodEnd]} on {MMMM}{' '}
+          Will automatically{' '}
+          {PERIOD_END_ACTION[Boolean(trialEnd) || cancelAtPeriodEnd]} on {MMMM}{' '}
           {DD}, {YYYY}
         </div>
       </>
