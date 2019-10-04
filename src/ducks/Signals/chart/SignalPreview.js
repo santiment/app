@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
-import { mapToRequestedMetrics, Metrics } from '../../SANCharts/utils'
+import {
+  getMetricYAxisId,
+  mapToRequestedMetrics,
+  Metrics
+} from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartWidget from '../../SANCharts/ChartPage'
 import VisualBacktestChart, {
@@ -28,10 +32,6 @@ const SignalPreviewChart = ({
   label,
   triggeredSignals
 }) => {
-  const [baseType, setType] = useState(type)
-
-  if (baseType !== type) setType(type)
-
   const metrics = getMetricsByType(type)
   const requestedMetrics = mapToRequestedMetrics(metrics, {
     timeRange,
@@ -59,7 +59,12 @@ const SignalPreviewChart = ({
           data
         )
 
-        const referenceDots = GetReferenceDots(signals)
+        const referenceDotsMetric = metrics.length > 1 ? metrics[1] : metrics[0]
+
+        const referenceDots =
+          triggeredSignals.length > 0 && referenceDotsMetric
+            ? GetReferenceDots(signals, getMetricYAxisId(referenceDotsMetric))
+            : null
 
         return (
           <>
@@ -70,6 +75,7 @@ const SignalPreviewChart = ({
               triggeredSignals={triggeredSignals}
               metrics={metricsForSignalsChart}
               signals={signals}
+              referenceDots={referenceDots}
             />
             <DesktopOnly>
               <ChartExpandView>

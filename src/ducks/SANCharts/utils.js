@@ -437,6 +437,10 @@ const getBarMargin = diff => {
   return 6
 }
 
+export const getMetricYAxisId = ({ yAxisId, key, dataKey = key }) => {
+  return yAxisId || `axis-${dataKey}`
+}
+
 export const generateMetricsMarkup = (
   metrics,
   {
@@ -466,8 +470,7 @@ export const generateMetricsMarkup = (
       dataKey = key,
       hideYAxis,
       gradientUrl,
-      formatter,
-      yAxisId
+      formatter
     } = metric
 
     const rest = {
@@ -480,10 +483,14 @@ export const generateMetricsMarkup = (
       rest.shape = <StackedLogic barsMap={barsMap} />
     }
 
+    const currentYAxisId = getMetricYAxisId(metric)
+
+    console.log('currentYAxisId: ', currentYAxisId)
+
     acc.push(
       <YAxis
         key={`axis-${dataKey}`}
-        yAxisId={yAxisId || `axis-${dataKey}`}
+        yAxisId={currentYAxisId}
         type='number'
         orientation={orientation}
         domain={['auto', 'dataMax']}
@@ -492,7 +499,7 @@ export const generateMetricsMarkup = (
       <El
         key={`line-${dataKey}`}
         type='linear'
-        yAxisId={yAxisId || `axis-${dataKey}`}
+        yAxisId={currentYAxisId}
         name={label}
         strokeWidth={1.5}
         ref={ref[key]}

@@ -15,11 +15,14 @@ import chartStyles from './../../SANCharts/Chart.module.scss'
 import sharedStyles from './../../SANCharts/ChartPage.module.scss'
 import styles from './SignalPreview.module.scss'
 
-export function GetReferenceDots (signals) {
+export function GetReferenceDots (signals, yAxisId) {
+  console.log('reference: ', yAxisId)
+
   return signals.map(({ date, yCoord }, idx) => (
     <ReferenceDot
       x={date}
       y={yCoord}
+      yAxisId={yAxisId}
       key={idx}
       ifOverflow='extendDomain'
       r={3}
@@ -37,13 +40,16 @@ const VisualBacktestChart = ({
   label,
   data,
   dataKeys,
-  signals
+  signals,
+  referenceDots
 }) => {
+  console.log('------')
+
   const markup = generateMetricsMarkup(metrics)
 
-  const referenceDots = GetReferenceDots(signals)
-
+  console.log(metrics)
   console.log(signals)
+  console.log(data)
 
   const renderChart = () => {
     return (
@@ -108,14 +114,22 @@ const VisualBacktestChart = ({
 
 export const getDataKeys = (signal = {}) => {
   if (signal.active_addresses) {
-    return { metric: 'dailyActiveAddresses', signal: 'active_addresses' }
+    return {
+      metric: 'dailyActiveAddresses',
+      key: 'daily_active_addresses',
+      signal: 'active_addresses'
+    }
   }
 
-  return { metric: 'priceUsd', signal: 'price' }
+  return { metric: 'priceUsd', signal: 'price', key: 'priceUsd' }
 }
 
 export const mapWithTimeseries = items =>
-  items.map(item => ({ ...item, datetime: +new Date(item.datetime) }))
+  items.map(item => ({
+    ...item,
+    datetime: +new Date(item.datetime),
+    index: item.datetime
+  }))
 
 export const mapWithMidnightTime = date => {
   const datetime = new Date(date)
