@@ -3,6 +3,86 @@ import React from 'react'
 export const stories = [
   {
     type: 'SLIDES',
+    previewTitle: 'Important facts about MakerDAO',
+    storyHeaderName: 'Important facts about MakerDAO',
+    slides: [
+      {
+        title: 'The DAI stable coin might not seem 100% “stable”',
+        description: (
+          <>
+            <div>
+              It sometimes appears unusually volatile. Yet, it always comes back
+              to $1 USD.
+            </div>
+            <div>
+              <b>Learning 1:</b> There is opportunity for arbitrage
+            </div>
+            <div>
+              <b>Learning 2:</b> Stability is different than “absolutely no
+              volatility”
+            </div>
+          </>
+        ),
+        image:
+          'https://api-stage.santiment.net/images/sanbase/Stories/MakerDAO/slides_dai_price.png'
+      },
+      {
+        title: 'The amount of user activity is constantly growing.',
+        image:
+          'https://api-stage.santiment.net/images/sanbase/Stories/MakerDAO/slides_onchain_volume.png',
+        description: (
+          <>
+            <div>
+              We can already see some repeating patterns in the way ETH is being
+              locked, DAI minted, and so on.
+            </div>
+            <div>
+              The highest recorded Transaction Volume – on July 16 – was $148
+              mln USD! (more than the whole supply of DAI)
+            </div>
+          </>
+        )
+      },
+      {
+        title: 'There is much to learn about “crowd behaviour”.',
+        image:
+          'https://api-stage.santiment.net/images/sanbase/Stories/MakerDAO/slides_crowd_behavior.png',
+        description: (
+          <>
+            <div>
+              The system works increasingly better as more transactions are
+              processed.
+            </div>
+            <div>
+              These rapidly emerging patterns, combined with other Santiment
+              on-chain, social and project metrics, can provide savvy traders
+              with unique insights.
+            </div>
+          </>
+        )
+      },
+      {
+        title: 'There is much to learn about “crowd behaviour”.',
+        image:
+          'https://api-stage.santiment.net/images/sanbase/Stories/MakerDAO/slides_crowd_behavior1.png',
+        description: (
+          <>
+            <div>
+              Second row, deselect the first three. (100k, inf), (10k, 100k),
+              (1k, 10k)
+            </div>
+            <div>
+              In this way we visualise the behaviour of the “retail crowd”
+            </div>
+          </>
+        ),
+        buttonLink: 'https://graphs.santiment.net/maker_behaviour',
+        buttonText: 'See on Sangraphs'
+      }
+    ]
+  },
+  {
+    type: 'SLIDES',
     previewTitle: 'How do you measure risk in crypto?',
     storyHeaderName: 'How do you measure risk in crypto?',
     slides: [
