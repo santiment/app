@@ -77,7 +77,7 @@ export const NavbarProfileDropdown = ({
                       currentUser
                     )
                     let plan = 'FREE'
-                    let trial
+                    let trial = ''
 
                     if (subscription) {
                       plan = subscription.plan.name
