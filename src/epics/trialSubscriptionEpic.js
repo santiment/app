@@ -4,23 +4,42 @@ import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
 import * as actions from './../actions/types'
 import { getCoupon } from '../utils/coupon'
+import { USER_SUBSCRIPTIONS_QUERY } from '../queries/plans'
 
 export const TRIAL_SUBSCRIPTION_MUTATION = gql`
   mutation createPromoSubscription($coupon: String!) {
     createPromoSubscription(couponCode: $coupon) {
       id
+      cancelAtPeriodEnd
+      currentPeriodEnd
       trialEnd
-      status
       plan {
         id
         name
+        amount
+        interval
         product {
+          id
           name
         }
       }
     }
   }
 `
+
+const updateCache = (
+  cache,
+  { data: { createPromoSubscription: subscriptions } }
+) => {
+  const { currentUser } = cache.readQuery({ query: USER_SUBSCRIPTIONS_QUERY })
+
+  currentUser.subscriptions = subscriptions
+
+  cache.writeQuery({
+    query: USER_SUBSCRIPTIONS_QUERY,
+    data: { currentUser: { ...currentUser } }
+  })
+}
 
 export const trialSubscriptionEpic = (action$, store, { client }) =>
   action$
@@ -34,7 +53,8 @@ export const trialSubscriptionEpic = (action$, store, { client }) =>
       return Observable.from(
         client.mutate({
           mutation: TRIAL_SUBSCRIPTION_MUTATION,
-          variables: { coupon }
+          variables: { coupon },
+          update: updateCache
         })
       )
         .mergeMap(() =>

@@ -53,13 +53,14 @@
   }
 }
 
-.tokens {
+.plan {
   line-height: 18px;
   font-size: 12px;
   color: var(--grey-dark-2);
+  text-transform: lowercase;
 
-  &__amount {
-    color: var(--black);
+  &::first-letter {
+    text-transform: uppercase;
   }
 }
 
