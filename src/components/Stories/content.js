@@ -30,18 +30,10 @@ export const stories = [
         title: 'The amount of user activity is constantly growing.',
         image:
           'https://api-stage.santiment.net/images/sanbase/Stories/MakerDAO/slides_onchain_volume.png',
-        description: (
-          <>
-            <div>
+        description: `
               The system works increasingly better as more transactions are
-              processed.
-            </div>
-            <div>
-              The highest recorded Transaction Volume – on July 16 –
-              was&nbsp;$148 mln&nbsp;USD! (more than the whole supply of DAI)
-            </div>
-          </>
-        )
+              processed. The highest recorded Transaction Volume YTD – on July 16 – was $148 mln USD (more than the whole supply of DAI). Even higher it was shorlty before the market bottomed in the year 2018 - $250 mln USD!
+            `
       },
       {
         title: 'There is much to learn about “crowd behaviour”.',
