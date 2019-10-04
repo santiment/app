@@ -33,12 +33,12 @@ export const stories = [
         description: (
           <>
             <div>
-              We can already see some repeating patterns in the way ETH is being
-              locked, DAI minted, and so on.
+              The system works increasingly better as more transactions are
+              processed.
             </div>
             <div>
-              The highest recorded Transaction Volume – on July 16 – was $148
-              mln USD! (more than the whole supply of DAI)
+              The highest recorded Transaction Volume – on July 16 –
+              was&nbsp;$148 mln&nbsp;USD! (more than the whole supply of DAI)
             </div>
           </>
         )
@@ -50,34 +50,28 @@ export const stories = [
         description: (
           <>
             <div>
-              The system works increasingly better as more transactions are
-              processed.
+              We can already see some repeating patterns in the way ETH is being
+              locked, DAI minted, and so on.
             </div>
+          </>
+        ),
+        buttonLink: 'https://graphs.santiment.net/makerdao',
+        buttonText: 'See MakerDAO Report'
+      },
+      {
+        image:
+          'https://api-stage.santiment.net/images/sanbase/Stories/MakerDAO/slides_crowd_behavior1.png',
+        description: (
+          <>
             <div>
               These rapidly emerging patterns, combined with other Santiment
               on-chain, social and project metrics, can provide savvy traders
               with unique insights.
             </div>
           </>
-        )
-      },
-      {
-        title: 'There is much to learn about “crowd behaviour”.',
-        image:
-          'https://api-stage.santiment.net/images/sanbase/Stories/MakerDAO/slides_crowd_behavior1.png',
-        description: (
-          <>
-            <div>
-              Second row, deselect the first three. (100k, inf), (10k, 100k),
-              (1k, 10k)
-            </div>
-            <div>
-              In this way we visualise the behaviour of the “retail crowd”
-            </div>
-          </>
         ),
-        buttonLink: 'https://graphs.santiment.net/maker_behaviour',
-        buttonText: 'See on Sangraphs'
+        buttonLink: 'https://graphs.santiment.net/makerdao',
+        buttonText: 'See MakerDAO Report'
       }
     ]
   },
