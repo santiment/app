@@ -81,7 +81,7 @@ export const NavbarProfileDropdown = ({
 
                     if (subscription) {
                       plan = subscription.plan.name
-                      trial = subscription.trialEnd
+                      trial = subscription.trialEnd || ''
                       if (trial) {
                         const daysNumber =
                           dateDifference({
