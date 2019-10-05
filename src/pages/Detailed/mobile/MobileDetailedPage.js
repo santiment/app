@@ -13,7 +13,7 @@ import {
   getIntervalByTimeRange
 } from '../../../utils/dates'
 import { formatNumber } from '../../../utils/formatting'
-import { Metrics } from '../../../ducks/SANCharts/utils'
+import { Metrics } from '../../../ducks/SANCharts/data'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import PercentChanges from '../../../components/PercentChanges'
 import NewsSmall from '../../../components/News/NewsSmall'

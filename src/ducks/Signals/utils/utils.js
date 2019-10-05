@@ -56,7 +56,7 @@ import {
 } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
 import { mapToOptions } from '../../../utils/select/utils'
-import { Metrics } from '../../SANCharts/utils'
+import { Metrics } from '../../SANCharts/data'
 
 const targetMapper = ({ value, slug } = {}) => slug || value
 export const targetMapperWithName = ({ value, slug, name } = {}) =>

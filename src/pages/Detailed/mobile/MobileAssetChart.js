@@ -10,10 +10,8 @@ import {
 } from 'recharts'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
 import { formatNumber } from '../../../utils/formatting'
-import {
-  Metrics,
-  generateMetricsMarkup
-} from '../../../ducks/SANCharts/utils.js'
+import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils.js'
+import { Metrics } from '../../../ducks/SANCharts/data'
 import CustomTooltip from '../../../ducks/SANCharts/CustomTooltip'
 import styles from './MobileAssetChart.module.scss'
 
