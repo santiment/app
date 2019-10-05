@@ -2,16 +2,6 @@ import React from 'react'
 import { Bar, Line, Area } from 'recharts'
 import { usdFormatter } from './utils'
 
-export const compatabilityMap = {
-  // old              : new
-  dailyActiveAddresses: 'daily_active_addresses',
-  tokenCirculation: 'circulation_1d',
-  mvrvRatio: 'mvrv_usd',
-  transactionVolume: 'transaction_volume',
-  tokenVelocity: 'velocity',
-  realizedValue: 'realized_value_usd'
-}
-
 export const Events = {
   trendPositionHistory: {
     key: 'trendPositionHistory',
@@ -310,3 +300,13 @@ DerivedMetrics.forEach(obj => {
     Metrics[obj.parent] = [obj]
   }
 })
+
+export const compatabilityMap = {
+  // old              : new
+  dailyActiveAddresses: Metrics.daily_active_addresses,
+  tokenCirculation: Metrics.circulation_1d,
+  mvrvRatio: Metrics.mvrv_usd,
+  transactionVolume: Metrics.transaction_volume,
+  tokenVelocity: Metrics.velocity,
+  realizedValue: Metrics.realized_value_usd
+}
