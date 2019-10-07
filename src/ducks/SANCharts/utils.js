@@ -68,6 +68,7 @@ export const Metrics = {
     label: 'Price',
     dataKey: 'priceUsd',
     category: 'Financial',
+    historicalTriggersDataKey: 'price',
     formatter: usdFormatter
   },
   historyPricePreview: {
@@ -136,7 +137,8 @@ export const Metrics = {
     on a certain date.
     Simply put, DAA indicates the daily level of crowd interaction (or
     speculation) with a certain token.`,
-    color: 'texas-rose'
+    color: 'texas-rose',
+    historicalTriggersDataKey: 'value'
   },
   percentOfTokenSupplyOnExchanges: {
     key: 'percentOfTokenSupplyOnExchanges',

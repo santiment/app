@@ -9,15 +9,38 @@ import {
 } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartWidget from '../../SANCharts/ChartPage'
-import VisualBacktestChart, {
-  getDataKeys,
-  GetReferenceDots,
-  mapWithTimeseries,
-  mapWithTimeseriesAndYCoord
-} from './VisualBacktestChart'
+import VisualBacktestChart, { GetReferenceDots } from './VisualBacktestChart'
 import { ChartExpandView } from './ChartExpandView'
 import { DesktopOnly } from './../../../components/Responsive'
 import styles from './SignalPreview.module.scss'
+
+const mapWithTimeseries = items =>
+  items.map(item => ({
+    ...item,
+    datetime: +new Date(item.datetime),
+    index: item.datetime
+  }))
+
+const mapWithMidnightTime = date => {
+  const datetime = new Date(date)
+  datetime.setUTCHours(0, 0, 0, 0)
+  return +new Date(datetime)
+}
+
+const mapWithTimeseriesAndYCoord = (
+  items,
+  { key, dataKey, historicalTriggersDataKey = dataKey },
+  data
+) => {
+  return items.map(point => {
+    const date = mapWithMidnightTime(point.datetime)
+    const item = data.find(({ datetime }) => datetime === date)
+
+    const yCoord = item ? item[dataKey] : point[historicalTriggersDataKey]
+
+    return { date, yCoord, ...point }
+  })
+}
 
 const PreviewLoader = (
   <div className={styles.loaderWrapper}>
@@ -53,10 +76,9 @@ const SignalPreviewChart = ({
         }
         const data = mapWithTimeseries(timeseries)
 
-        const dataKeys = getDataKeys(triggeredSignals[0])
         const signals = mapWithTimeseriesAndYCoord(
           triggeredSignals,
-          dataKeys,
+          triggersBy,
           data
         )
 
@@ -69,7 +91,7 @@ const SignalPreviewChart = ({
           <>
             <VisualBacktestChart
               data={data}
-              dataKeys={dataKeys}
+              dataKeys={triggersBy}
               label={label}
               triggeredSignals={triggeredSignals}
               metrics={metricsForSignalsChart}

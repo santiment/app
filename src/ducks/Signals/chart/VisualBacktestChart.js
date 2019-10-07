@@ -38,7 +38,6 @@ const VisualBacktestChart = ({
   label,
   data,
   dataKeys,
-  signals,
   referenceDots
 }) => {
   const markup = generateMetricsMarkup(metrics)
@@ -61,7 +60,7 @@ const VisualBacktestChart = ({
         <YAxis
           hide
           domain={['auto', 'dataMax']}
-          dataKey={dataKeys.metric}
+          dataKey={dataKeys.dataKey}
           interval='preserveStartEnd'
         />
 
@@ -102,46 +101,6 @@ const VisualBacktestChart = ({
       </div>
     </div>
   )
-}
-
-export const getDataKeys = (signal = {}) => {
-  if (signal.active_addresses) {
-    return {
-      metric: 'dailyActiveAddresses',
-      key: 'daily_active_addresses',
-      signal: 'active_addresses'
-    }
-  }
-
-  return { metric: 'priceUsd', signal: 'price', key: 'priceUsd' }
-}
-
-export const mapWithTimeseries = items =>
-  items.map(item => ({
-    ...item,
-    datetime: +new Date(item.datetime),
-    index: item.datetime
-  }))
-
-export const mapWithMidnightTime = date => {
-  const datetime = new Date(date)
-  datetime.setUTCHours(0, 0, 0, 0)
-  return +new Date(datetime)
-}
-
-export const mapWithTimeseriesAndYCoord = (items, dataKeys, data) => {
-  return dataKeys.signal === 'price'
-    ? items.map(point => {
-      const date = mapWithMidnightTime(point.datetime)
-      const item = data.find(({ datetime }) => datetime === date)
-      const yCoord = item ? item.priceUsd : point.price
-
-      return { date, yCoord, ...point }
-    })
-    : items.map(point => {
-      const date = +new Date(point.datetime)
-      return { date, yCoord: point[dataKeys.signal], ...point }
-    })
 }
 
 export default VisualBacktestChart
