@@ -11,9 +11,9 @@ export const stories = [
         description: (
           <>
             <div>
-              Devcon is the Ethereum conference for developers, researchers,
-              thinkers, and makers. For that ocassion we prepared a instant free
-              access to all Santiment products for 2 weeks for you.
+              Devcon is the Ethereum conference for developers, thinkers, and
+              researchers. For that ocassion we prepared a instant free access
+              to all Santiment products for 2 weeks for you.
             </div>
           </>
         ),
