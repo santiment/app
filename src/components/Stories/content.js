@@ -3,6 +3,29 @@ import React from 'react'
 export const stories = [
   {
     type: 'SLIDES',
+    previewTitle: "It's a Devcon time! Get a special offer 🎁",
+    storyHeaderName: 'Devcon 5 // Oct 8 - 11, 2019',
+    slides: [
+      {
+        title: 'Santiment is at Devcon!',
+        description: (
+          <>
+            <div>
+              Devcon is the Ethereum conference for developers, thinkers, and
+              researchers. For that ocassion we prepared a instant free access
+              to all Santiment products for 2 weeks for you.
+            </div>
+          </>
+        ),
+        buttonLink: 'https://devcon.santiment.net',
+        buttonText: 'Get free trial',
+        image:
+          'https://stage-sanbase-images.s3.amazonaws.com/uploads/92ec7dfad02f349d3a52979a61e293059f18332c046e39fc0c639865526ccd11_1570480869263_devcon.png'
+      }
+    ]
+  },
+  {
+    type: 'SLIDES',
     previewTitle: 'Important facts about MakerDAO',
     storyHeaderName: 'Important facts about MakerDAO',
     slides: [

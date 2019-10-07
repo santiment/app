@@ -12,7 +12,8 @@ export const TYPES = {
   SLIDES: {
     color: 'jungle-green',
     icon: 'arrows',
-    previewInfo: ({ slides }) => `${slides.length} slides`
+    previewInfo: ({ slides }) =>
+      `${slides.length === 1 ? '1 slide' : `${slides.length} slides`}`
   },
   SIGNAL: {
     color: 'persimmon',
