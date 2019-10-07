@@ -12,6 +12,7 @@ const ChartMetricsTool = ({
   activeMetrics,
   activeEvents,
   disabledMetrics,
+  alwaysShowingMetrics,
   slug,
   toggleMetric,
   hideSettings,
@@ -46,6 +47,7 @@ const ChartMetricsTool = ({
       activeMetrics={activeMetrics}
       toggleMetric={toggleMetric}
       activeEvents={activeEvents}
+      alwaysShowingMetrics={alwaysShowingMetrics}
       {...rest}
     />
   </div>

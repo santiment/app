@@ -68,6 +68,7 @@ export const Metrics = {
     label: 'Price',
     dataKey: 'priceUsd',
     category: 'Financial',
+    historicalTriggersDataKey: 'price',
     formatter: usdFormatter
   },
   historyPricePreview: {
@@ -136,7 +137,8 @@ export const Metrics = {
     on a certain date.
     Simply put, DAA indicates the daily level of crowd interaction (or
     speculation) with a certain token.`,
-    color: 'texas-rose'
+    color: 'texas-rose',
+    historicalTriggersDataKey: 'value'
   },
   percentOfTokenSupplyOnExchanges: {
     key: 'percentOfTokenSupplyOnExchanges',
@@ -437,6 +439,10 @@ const getBarMargin = diff => {
   return 6
 }
 
+export const getMetricYAxisId = ({ yAxisId, key, dataKey = key }) => {
+  return yAxisId || `axis-${dataKey}`
+}
+
 export const generateMetricsMarkup = (
   metrics,
   {
@@ -466,8 +472,7 @@ export const generateMetricsMarkup = (
       dataKey = key,
       hideYAxis,
       gradientUrl,
-      formatter,
-      yAxisId
+      formatter
     } = metric
 
     const rest = {
@@ -480,10 +485,12 @@ export const generateMetricsMarkup = (
       rest.shape = <StackedLogic barsMap={barsMap} />
     }
 
+    const currentYAxisId = getMetricYAxisId(metric)
+
     acc.push(
       <YAxis
         key={`axis-${dataKey}`}
-        yAxisId={yAxisId || `axis-${dataKey}`}
+        yAxisId={currentYAxisId}
         type='number'
         orientation={orientation}
         domain={['auto', 'dataMax']}
@@ -492,7 +499,7 @@ export const generateMetricsMarkup = (
       <El
         key={`line-${dataKey}`}
         type='linear'
-        yAxisId={yAxisId || `axis-${dataKey}`}
+        yAxisId={currentYAxisId}
         name={label}
         strokeWidth={1.5}
         ref={ref[key]}
@@ -560,3 +567,17 @@ export const generateMetricsMarkup = (
 
   return res
 }
+
+export const mapToRequestedMetrics = (
+  metrics,
+  { interval, slug, from, to, timeRange }
+) =>
+  metrics.map(({ key, alias: name = key, reqMeta }) => ({
+    name,
+    slug,
+    from,
+    to,
+    timeRange,
+    interval,
+    ...reqMeta
+  }))

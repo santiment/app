@@ -12,6 +12,7 @@ import styles from './ChartActiveMetrics.module.scss'
 const ChartActiveMetrics = ({
   activeEvents,
   activeMetrics,
+  alwaysShowingMetrics = [],
   toggleMetric,
   isShowAnomalies,
   ...rest
@@ -22,6 +23,8 @@ const ChartActiveMetrics = ({
       <section className={styles.wrapper}>
         {activeMetrics.map(metric => {
           const { node, color, label, description } = metric
+
+          const isAlwaysShowing = alwaysShowingMetrics.includes(metric.key)
           return (
             <MetricExplanation
               key={label}
@@ -36,11 +39,13 @@ const ChartActiveMetrics = ({
                   className={styles.label}
                 />
                 {label}
-                <Icon
-                  type='close-small'
-                  className={styles.icon}
-                  onClick={() => toggleMetric(metric)}
-                />
+                {!isAlwaysShowing && (
+                  <Icon
+                    type='close-small'
+                    className={styles.icon}
+                    onClick={() => toggleMetric(metric)}
+                  />
+                )}
               </Button>
             </MetricExplanation>
           )

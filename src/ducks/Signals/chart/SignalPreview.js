@@ -1,15 +1,46 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { ReferenceLine } from 'recharts'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
-import { Metrics } from '../../SANCharts/utils'
+import {
+  getMetricYAxisId,
+  mapToRequestedMetrics,
+  Metrics
+} from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartWidget from '../../SANCharts/ChartPage'
-import VisualBacktestChart from './VisualBacktestChart'
+import VisualBacktestChart, { GetReferenceDots } from './VisualBacktestChart'
 import { ChartExpandView } from './ChartExpandView'
 import { DesktopOnly } from './../../../components/Responsive'
 import styles from './SignalPreview.module.scss'
+
+const mapWithTimeseries = items =>
+  items.map(item => ({
+    ...item,
+    datetime: +new Date(item.datetime),
+    index: item.datetime
+  }))
+
+const mapWithMidnightTime = date => {
+  const datetime = new Date(date)
+  datetime.setUTCHours(0, 0, 0, 0)
+  return +new Date(datetime)
+}
+
+const mapWithTimeseriesAndYCoord = (
+  items,
+  { key, dataKey, historicalTriggersDataKey = dataKey },
+  data
+) => {
+  return items.map(point => {
+    const date = mapWithMidnightTime(point.datetime)
+    const item = data.find(({ datetime }) => datetime === date)
+
+    const yCoord = item ? item[dataKey] : point[historicalTriggersDataKey]
+
+    return { date, yCoord, ...point }
+  })
+}
 
 const PreviewLoader = (
   <div className={styles.loaderWrapper}>
@@ -24,20 +55,13 @@ const SignalPreviewChart = ({
   label,
   triggeredSignals
 }) => {
-  const metrics = getMetricsByType(type)
-  const [baseType, setType] = useState(type)
-
-  if (baseType !== type) setType(type)
-
-  const requestedMetrics = metrics.map(
-    ({ key, alias: name = key, reqMeta }) => ({
-      name,
-      timeRange,
-      slug,
-      interval: '1d',
-      ...reqMeta
-    })
-  )
+  const metricsTypes = getMetricsByType(type)
+  const { metrics, triggersBy } = metricsTypes
+  const requestedMetrics = mapToRequestedMetrics(metrics, {
+    timeRange,
+    interval: '1d',
+    slug
+  })
 
   const metricsForSignalsChart = metrics.map(metric =>
     metric === Metrics.historyPrice ? Metrics.historyPricePreview : metric
@@ -50,14 +74,49 @@ const SignalPreviewChart = ({
         if (!timeseries) {
           return PreviewLoader
         }
+        const data = mapWithTimeseries(timeseries)
+
+        const signals = mapWithTimeseriesAndYCoord(
+          triggeredSignals,
+          triggersBy,
+          data
+        )
+
+        const referenceDots =
+          triggeredSignals.length > 0 && triggersBy
+            ? GetReferenceDots(signals, getMetricYAxisId(triggersBy))
+            : null
 
         return (
-          <VisualBacktestChart
-            label={label}
-            triggeredSignals={triggeredSignals}
-            timeseries={timeseries}
-            metrics={metricsForSignalsChart}
-          />
+          <>
+            <VisualBacktestChart
+              data={data}
+              dataKeys={triggersBy}
+              label={label}
+              triggeredSignals={triggeredSignals}
+              metrics={metricsForSignalsChart}
+              signals={signals}
+              referenceDots={referenceDots}
+            />
+            <DesktopOnly>
+              <ChartExpandView>
+                <ChartWidget
+                  alwaysShowingMetrics={triggersBy ? [triggersBy.key] : []}
+                  timeRange={timeRange}
+                  slug={slug}
+                  metrics={metrics}
+                  interval='1d'
+                  title={slug}
+                  hideSettings={{
+                    header: true,
+                    sidecar: true
+                  }}
+                >
+                  {referenceDots}
+                </ChartWidget>
+              </ChartExpandView>
+            </DesktopOnly>
+          </>
         )
       }}
     />
@@ -90,39 +149,14 @@ const SignalPreview = ({
   const triggeredSignals = points.filter(point => point['triggered?'])
 
   return (
-    <>
-      <SignalPreviewChart
-        type={type}
-        slug={slug}
-        label={label}
-        timeRange={timeRange}
-        height={height}
-        triggeredSignals={triggeredSignals}
-      />
-
-      <DesktopOnly>
-        <ChartExpandView>
-          <ChartWidget
-            timeRange={timeRange}
-            slug={slug}
-            interval='1d'
-            title={slug}
-            hideSettings={{
-              header: true,
-              sidecar: true
-            }}
-          >
-            {triggeredSignals.map(({ datetime }) => (
-              <ReferenceLine
-                key={datetime}
-                stroke='var(--persimmon)'
-                x={+new Date(datetime)}
-              />
-            ))}
-          </ChartWidget>
-        </ChartExpandView>
-      </DesktopOnly>
-    </>
+    <SignalPreviewChart
+      type={type}
+      slug={slug}
+      label={label}
+      timeRange={timeRange}
+      height={height}
+      triggeredSignals={triggeredSignals}
+    />
   )
 }
 
