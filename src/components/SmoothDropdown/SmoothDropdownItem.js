@@ -38,7 +38,7 @@ class SmoothDropdownItem extends Component {
                   handleMouseEnter(this, ddTrigger)
                 }
               }}
-              onMouseLeave={handleMouseLeave}
+              onBlur={handleMouseLeave}
               className={`dd__trigger ${className}`}
               ref={this.triggerRef}
             >

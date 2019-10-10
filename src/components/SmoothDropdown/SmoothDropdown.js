@@ -265,7 +265,7 @@ class SmoothDropdown extends Component {
                 <div
                   className='dd__content'
                   onMouseEnter={stopCloseTimeout}
-                  onMouseLeave={startCloseTimeout}
+                  onBlur={startCloseTimeout}
                 >
                   {dropdownNode}
                 </div>
