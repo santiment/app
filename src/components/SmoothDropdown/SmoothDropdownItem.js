@@ -30,23 +30,28 @@ class SmoothDropdownItem extends Component {
     }
     return (
       <SmoothDropdownContext.Consumer>
-        {({ handleMouseEnter, handleMouseLeave, setupDropdownContent }) => (
-          <Fragment>
-            <div
-              onMouseEnter={evt => {
-                if (showIf ? showIf(evt) : true) {
-                  handleMouseEnter(this, ddTrigger)
-                }
-              }}
-              onBlur={handleMouseLeave}
-              className={`dd__trigger ${className}`}
-              ref={this.triggerRef}
-            >
-              {trigger}
-            </div>
-            {setupDropdownContent(this, children)}
-          </Fragment>
-        )}
+        {({ handleMouseEnter, handleMouseLeave, setupDropdownContent }) => {
+          const onOpen = evt => {
+            if (showIf ? showIf(evt) : true) {
+              handleMouseEnter(this, ddTrigger)
+            }
+          }
+          return (
+            <Fragment>
+              <div
+                onMouseEnter={evt => onOpen(evt)}
+                onFocus={evt => onOpen(evt)}
+                onMouseLeave={handleMouseLeave}
+                onBlur={handleMouseLeave}
+                className={`dd__trigger ${className}`}
+                ref={this.triggerRef}
+              >
+                {trigger}
+              </div>
+              {setupDropdownContent(this, children)}
+            </Fragment>
+          )
+        }}
       </SmoothDropdownContext.Consumer>
     )
   }
