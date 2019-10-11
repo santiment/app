@@ -20,7 +20,7 @@ export const wordTrendSocialVolumeEpic = (action$, store, { client }) =>
     const { from, to } = getTimeIntervalFromToday(-2, 'd')
 
     const { items } = store.getState().hypedTrends
-    const { topWords } = items[items.length - 1]
+    const { topWords = [] } = items[items.length - 1] || {}
 
     const words = topWords.map(({ word }) => {
       return Observable.from(
