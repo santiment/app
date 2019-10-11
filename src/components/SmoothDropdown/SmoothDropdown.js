@@ -58,6 +58,13 @@ class SmoothDropdown extends Component {
 
   componentDidMount () {
     modalRoot.appendChild(this.ddContainer)
+
+    // GarageInc: HACK for IOS(IPAD and etc) which can't handle mouseLeave/touchCancel/blur events
+    document.addEventListener('touchstart', evt => {
+      if (!this.dropdownWrapperRef.current.contains(evt.target)) {
+        this.handleMouseLeave()
+      }
+    })
   }
 
   componentWillUnmount () {
@@ -92,6 +99,12 @@ class SmoothDropdown extends Component {
 
   handleMouseLeave = () => this.startCloseTimeout()
 
+  isCurrentDropdown = ddItem => {
+    const { currentDropdown } = this.state
+    const dropdownItem = this.ddItemsRef.get(ddItem).current
+    return currentDropdown !== dropdownItem.querySelector('.dd__content')
+  }
+
   setupDropdownContent = (ddItem, ddContent) => {
     setTimeout(() => {
       if (!this.ddItemsRef.has(ddItem)) {
@@ -108,10 +121,7 @@ class SmoothDropdown extends Component {
         dropdownStyles: { width: widthPx, height: heightPx }
       } = this.state
 
-      if (
-        !dropdownItem ||
-        currentDropdown !== dropdownItem.querySelector('.dd__content')
-      ) {
+      if (!dropdownItem || this.isCurrentDropdown(ddItem)) {
         return
       }
 
@@ -223,13 +233,7 @@ class SmoothDropdown extends Component {
       arrowCorrectionX,
       ddItems
     } = this.state
-    const {
-      handleMouseEnter,
-      handleMouseLeave,
-      startCloseTimeout,
-      stopCloseTimeout,
-      setupDropdownContent
-    } = this
+    const { handleMouseEnter, handleMouseLeave, setupDropdownContent } = this
 
     this.ddContainer.classList.toggle(
       'has-dropdown-active',
@@ -264,9 +268,12 @@ class SmoothDropdown extends Component {
               >
                 <div
                   className='dd__content'
-                  onMouseEnter={stopCloseTimeout}
-                  onMouseLeave={startCloseTimeout}
-                  onBlur={startCloseTimeout}
+                  onTouchStart={handleMouseEnter}
+                  onMouseEnter={handleMouseEnter}
+                  onTouchEnd={handleMouseLeave}
+                  onTouchCancel={handleMouseLeave}
+                  onMouseLeave={handleMouseLeave}
+                  onBlur={handleMouseLeave}
                 >
                   {dropdownNode}
                 </div>
