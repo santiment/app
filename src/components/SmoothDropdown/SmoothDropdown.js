@@ -60,11 +60,7 @@ class SmoothDropdown extends Component {
     modalRoot.appendChild(this.ddContainer)
 
     // GarageInc: HACK for IOS(IPAD and etc) which can't handle mouseLeave/touchCancel/blur events
-    document.addEventListener('touchstart', evt => {
-      if (!this.dropdownWrapperRef.current.contains(evt.target)) {
-        this.handleMouseLeave()
-      }
-    })
+    document.addEventListener('touchstart', this.handleTouchEvent)
   }
 
   componentWillUnmount () {
@@ -75,12 +71,23 @@ class SmoothDropdown extends Component {
     this.arrowNode = null
     this.portalRef = null
     this.dropdownWrapperRef = null
+
+    document.removeEventListener('touchstart', this.handleTouchEvent)
   }
 
   componentWillMount () {
     this.portalContainer = this.ddContainer.querySelector('.dd__list')
     this.bgNode = this.ddContainer.querySelector('.dd__bg')
     this.arrowNode = this.ddContainer.querySelector('.dd__arrow')
+  }
+
+  handleTouchEvent = evt => {
+    if (
+      this.dropdownWrapperRef &&
+      !this.dropdownWrapperRef.current.contains(evt.target)
+    ) {
+      this.handleMouseLeave()
+    }
   }
 
   startCloseTimeout = () => {
