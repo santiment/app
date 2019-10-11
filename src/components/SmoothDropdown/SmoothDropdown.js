@@ -81,7 +81,7 @@ class SmoothDropdown extends Component {
     this.arrowNode = this.ddContainer.querySelector('.dd__arrow')
   }
 
-  handleTouchEvent (evt) {
+  handleTouchEvent = evt => {
     if (
       this.dropdownWrapperRef &&
       !this.dropdownWrapperRef.current.contains(evt.target)
