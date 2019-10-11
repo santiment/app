@@ -40,9 +40,9 @@ class SmoothDropdownItem extends Component {
             <>
               <div
                 onMouseEnter={onOpen}
-                onFocus={onOpen}
+                onTouchStart={onOpen}
+                onTouchCancel={handleMouseLeave}
                 onMouseLeave={handleMouseLeave}
-                onBlur={handleMouseLeave}
                 className={`dd__trigger ${className}`}
                 ref={this.triggerRef}
               >
