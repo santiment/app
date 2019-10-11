@@ -37,10 +37,10 @@ class SmoothDropdownItem extends Component {
             }
           }
           return (
-            <Fragment>
+            <>
               <div
-                onMouseEnter={evt => onOpen(evt)}
-                onFocus={evt => onOpen(evt)}
+                onMouseEnter={onOpen}
+                onFocus={onOpen}
                 onMouseLeave={handleMouseLeave}
                 onBlur={handleMouseLeave}
                 className={`dd__trigger ${className}`}
@@ -49,7 +49,7 @@ class SmoothDropdownItem extends Component {
                 {trigger}
               </div>
               {setupDropdownContent(this, children)}
-            </Fragment>
+            </>
           )
         }}
       </SmoothDropdownContext.Consumer>
