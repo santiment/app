@@ -1,0 +1,13 @@
+@import "~@santiment-network/ui/mixins";
+
+.container {
+  padding: 16px 20px;
+}
+
+.preview {
+  position: relative;
+}
+
+.actions {
+  display: flex;
+}

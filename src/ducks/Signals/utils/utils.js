@@ -1197,7 +1197,7 @@ export const titleMetricValuesHeader = (
     absoluteThreshold,
     absoluteBorderRight,
     absoluteBorderLeft,
-    timeWindowUnit,
+    timeWindowUnit: { label: timeWindowUnitLabel = '' } = {},
     timeWindow,
     metric
   },
@@ -1224,7 +1224,7 @@ export const titleMetricValuesHeader = (
             ? `Price ${ofTarget} moving`
             : `Addresses count ${ofTarget}`,
           `down ${percentThreshold ||
-            0}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} earlier`
+            0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`
         )
       }
       case PRICE_CHANGE_TYPES.MOVING_UP: {
@@ -1233,7 +1233,7 @@ export const titleMetricValuesHeader = (
             ? `Price ${ofTarget} moving`
             : `Addresses count ${ofTarget}`,
           `up ${percentThreshold ||
-            0}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} earlier`
+            0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`
         )
       }
       case PRICE_CHANGE_TYPES.PERCENT_SOME_OF: {
@@ -1241,7 +1241,7 @@ export const titleMetricValuesHeader = (
           isPriceMetric ? `Price ${ofTarget}` : `Addresses count ${ofTarget}`,
           `moving up ${percentThresholdLeft ||
             0}% or moving down ${percentThresholdRight ||
-            0}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} earlier`
+            0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`
         )
       }
       case PRICE_CHANGE_TYPES.ABOVE: {
@@ -1393,7 +1393,8 @@ export const getNewDescription = newValues => {
     ? `every ${frequencyTimeValue.label} ${frequencyTimeType.label}`
     : 'only once'
 
-  const channelsBlock = channels.length ? `via ${channels.join(', ')}` : ''
+  const channelsBlock =
+    channels && channels.length ? `via ${channels.join(', ')}` : ''
 
   return `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock.toLowerCase()}.`
 }

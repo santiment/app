@@ -70,41 +70,29 @@ const propTypes = {
   triggerMeta: PropTypes.any
 }
 
-export const TriggerForm = ({
-  onSettingsChange,
-  getSignalBacktestingPoints,
-  isTelegramConnected = false,
-  isEmailConnected = false,
-  lastPriceItem,
-  settings,
-  metaFormSettings,
-  id,
-  formChangedCallback,
-  isShared,
-  setTitle
-}) => {
+export const mapFormSettings = (baseSettings, meta) => {
+  const metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...meta }
+
   const formMetric =
     metaFormSettings && metaFormSettings.metric
       ? metaFormSettings.metric.value.value
       : PRICE_PERCENT_CHANGE
-
-  metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
-  settings = {
+  let settings = {
     ...METRIC_DEFAULT_VALUES[formMetric],
     target: metaFormSettings.target.value
       ? metaFormSettings.target.value
-      : settings.target,
+      : baseSettings.target,
     metric: metaFormSettings.metric.value
       ? metaFormSettings.metric.value
-      : settings.metric,
+      : baseSettings.metric,
     type: metaFormSettings.type.value
       ? metaFormSettings.type.value
-      : settings.type,
+      : baseSettings.type,
     signalType: metaFormSettings.signalType.value
       ? metaFormSettings.signalType.value
-      : settings.signalType,
+      : baseSettings.signalType,
     ethAddress: metaFormSettings.ethAddress,
-    ...settings
+    ...baseSettings
   }
 
   if (!settings.title && !settings.description) {
@@ -115,7 +103,29 @@ export const TriggerForm = ({
     }
   }
 
+  return [settings, metaFormSettings]
+}
+
+export const TriggerForm = ({
+  onSettingsChange,
+  getSignalBacktestingPoints,
+  isTelegramConnected = false,
+  isEmailConnected = false,
+  lastPriceItem,
+  settings: oldSettings,
+  metaFormSettings: oldMetaFormSettings,
+  id,
+  formChangedCallback,
+  isShared,
+  setTitle
+}) => {
+  const [settings, metaFormSettings] = mapFormSettings(
+    oldSettings,
+    oldMetaFormSettings
+  )
+
   const [initialValues, setInitialValues] = useState(settings)
+
   const [canCallFormChangCallback, setCanCallFormChanged] = useState(false)
 
   useEffect(() => {
@@ -186,7 +196,7 @@ export const TriggerForm = ({
           ethAddress,
           isPublic,
           description,
-          channels
+          channels = []
         } = values
 
         const { price } = lastPriceItem || {}

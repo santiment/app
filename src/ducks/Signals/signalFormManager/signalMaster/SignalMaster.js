@@ -9,18 +9,21 @@ import { mapTriggerToFormProps, mapFormPropsToTrigger } from '../../utils/utils'
 import { SIGNAL_ROUTES } from '../../common/constants'
 import TriggerForm from '../signalCrudForm/signal/TriggerForm'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
+import SharedTriggerForm from '../sharedForm/SharedTriggerForm'
 
 const SignalMaster = ({
   canRedirect = true,
   trigger: propsTrigger = {},
-  metaFormSettings,
+  metaFormSettings = {},
   setTitle,
   onClose,
   redirect,
   updateTrigger,
   createTrigger,
   isShared = false,
-  formChangedCallback
+  formChangedCallback,
+  openSharedForm = false,
+  setOpenSharedForm
 }) => {
   const { triggerId, isLoading, isError } = propsTrigger
 
@@ -79,16 +82,28 @@ const SignalMaster = ({
 
   return (
     <div className={styles.wrapper}>
-      <TriggerForm
-        setTitle={setTitle}
-        id={stateTrigger.id}
-        isShared={isShared}
-        metaFormSettings={metaFormSettings}
-        settings={triggerSettingsFormData}
-        onSettingsChange={handleSettingsChange}
-        onRemovedSignal={close}
-        formChangedCallback={formChangedCallback}
-      />
+      {!openSharedForm && (
+        <TriggerForm
+          setTitle={setTitle}
+          id={stateTrigger.id}
+          isShared={isShared}
+          metaFormSettings={metaFormSettings}
+          settings={triggerSettingsFormData}
+          onSettingsChange={handleSettingsChange}
+          onRemovedSignal={close}
+          formChangedCallback={formChangedCallback}
+        />
+      )}
+
+      {openSharedForm && (
+        <SharedTriggerForm
+          trigger={stateTrigger}
+          onOpen={setOpenSharedForm}
+          onCreate={handleSettingsChange}
+          metaFormSettings={metaFormSettings}
+          settings={triggerSettingsFormData}
+        />
+      )}
     </div>
   )
 }
