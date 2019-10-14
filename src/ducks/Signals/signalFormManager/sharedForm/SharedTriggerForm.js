@@ -1,35 +1,25 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import { couldShowChart } from '../../utils/utils'
-import { mapFormSettings } from '../signalCrudForm/signal/TriggerForm'
 import SignalPreview from '../../chart/SignalPreview'
-import { SignalTypeIcon } from '../../../../components/SignalCard/controls/SignalControls'
+import SignalCard from "../../../../components/SignalCard/SignalCard";
 import styles from './ShareTriggerForm.module.scss'
 
 const SharedTriggerForm = ({
+  id,
   trigger,
   onOpen,
   onCreate,
-  settings: oldSettings,
-  metaFormSettings: oldMetaFormSettings
+  settings
 }) => {
-  const [settings, metaFormSettings] = mapFormSettings(
-    oldSettings,
-    oldMetaFormSettings
-  )
 
-  const { target, metric, title } = settings
+  const { target, metric } = settings
   const showChart = target && couldShowChart(settings)
-
-  const {
-    settings: { type }
-  } = trigger
 
   return (
     <div className={styles.container}>
       <div>
-        <SignalTypeIcon type={type} />
-        {title}
+        <SignalCard id={id} signal={trigger} showMoreActions={false} className={styles.cardPanel}/>
       </div>
 
       {showChart && (
@@ -39,8 +29,8 @@ const SharedTriggerForm = ({
       )}
 
       <div className={styles.actions}>
-        <Button onClick={onOpen}>Edit signal</Button>
-        <Button onClick={onCreate}>Add signal immediately</Button>
+        <Button onClick={() => onOpen(false)} border >Edit signal</Button>
+        <Button onClick={onCreate} variant='fill' accent='positive' className={styles.btnAdd}>Add signal immediately</Button>
       </div>
     </div>
   )

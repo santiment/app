@@ -6,8 +6,22 @@
 
 .preview {
   position: relative;
+  margin-top: 50px;
+  padding: 0 10px;
 }
 
 .actions {
   display: flex;
+  margin-top: 40px;
+  justify-content: flex-end;
+}
+
+.btnAdd {
+  margin-left: 20px;
+}
+
+.cardPanel {
+  padding: 0 !important;
+  border: none;
+  box-shadow: none;
 }

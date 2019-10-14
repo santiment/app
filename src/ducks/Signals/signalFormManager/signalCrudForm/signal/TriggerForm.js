@@ -18,9 +18,6 @@ import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLab
 import Button from '@santiment-network/ui/Button'
 import RadioBtns from '@santiment-network/ui/RadioBtns'
 import {
-  PRICE_PERCENT_CHANGE,
-  METRIC_DEFAULT_VALUES,
-  DEFAULT_FORM_META_SETTINGS,
   METRIC_TO_TYPES,
   MAX_DESCR_LENGTH,
   MIN_TITLE_LENGTH,
@@ -70,60 +67,19 @@ const propTypes = {
   triggerMeta: PropTypes.any
 }
 
-export const mapFormSettings = (baseSettings, meta) => {
-  const metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...meta }
-
-  const formMetric =
-    metaFormSettings && metaFormSettings.metric
-      ? metaFormSettings.metric.value.value
-      : PRICE_PERCENT_CHANGE
-  let settings = {
-    ...METRIC_DEFAULT_VALUES[formMetric],
-    target: metaFormSettings.target.value
-      ? metaFormSettings.target.value
-      : baseSettings.target,
-    metric: metaFormSettings.metric.value
-      ? metaFormSettings.metric.value
-      : baseSettings.metric,
-    type: metaFormSettings.type.value
-      ? metaFormSettings.type.value
-      : baseSettings.type,
-    signalType: metaFormSettings.signalType.value
-      ? metaFormSettings.signalType.value
-      : baseSettings.signalType,
-    ethAddress: metaFormSettings.ethAddress,
-    ...baseSettings
-  }
-
-  if (!settings.title && !settings.description) {
-    settings = {
-      title: getNewTitle(settings),
-      description: getNewDescription(settings),
-      ...settings
-    }
-  }
-
-  return [settings, metaFormSettings]
-}
-
 export const TriggerForm = ({
   onSettingsChange,
   getSignalBacktestingPoints,
   isTelegramConnected = false,
   isEmailConnected = false,
   lastPriceItem,
-  settings: oldSettings,
-  metaFormSettings: oldMetaFormSettings,
+  settings,
+  metaFormSettings,
   id,
   formChangedCallback,
   isShared,
   setTitle
 }) => {
-  const [settings, metaFormSettings] = mapFormSettings(
-    oldSettings,
-    oldMetaFormSettings
-  )
-
   const [initialValues, setInitialValues] = useState(settings)
 
   const [canCallFormChangCallback, setCanCallFormChanged] = useState(false)

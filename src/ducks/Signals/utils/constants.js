@@ -392,7 +392,7 @@ export const DEFAULT_FORM_META_SETTINGS = {
   },
   metric: {
     isDisabled: false,
-    value: { ...PRICE_PERCENT_CHANGE_UP_MODEL }
+    value: { ...PRICE_METRIC }
   },
   type: {
     isDisabled: false,

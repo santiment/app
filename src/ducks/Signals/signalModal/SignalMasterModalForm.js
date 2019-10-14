@@ -179,15 +179,13 @@ const MainDialog = ({
   const [openSharedForm, setOpenForm] = useState(isShared)
   useEffect(
     () => {
-      if (openSharedForm != isShared) {
+      if (openSharedForm !== isShared) {
         setOpenForm(isShared)
         onSetDialogTitle('Signal details')
       }
     },
     [isShared]
   )
-
-  console.log('isShared', isShared)
 
   return (
     <Dialog
@@ -236,7 +234,7 @@ const MainDialog = ({
 const TriggerModalTitle = ({
   showSharedBtn,
   isError,
-  dialogTitle,
+  dialogTitle = 'Signal details',
   isLoggedIn
 }) => {
   if (isError) {
