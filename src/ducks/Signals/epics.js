@@ -328,7 +328,7 @@ export const removeSignalEpic = (action$, store, { client }) =>
             ),
             Observable.of(
               showNotification({
-                title: 'Signal has not been deleted',
+                title: 'Signal has not been removed',
                 variant: 'error'
               })
             )
