@@ -90,21 +90,6 @@ export const TriggerFormMetricValues = ({
           !showTypes && styles.rowTop
         )}
       >
-        {type && blocks.includes('absoluteBorderRight') && (
-          <div className={styles.Field}>
-            <FormikInput
-              name='absoluteBorderRight'
-              type='number'
-              prefix={isPriceMetric ? '$' : ''}
-              min={+absoluteBorderLeft}
-              step='any'
-              placeholder='Upper border'
-            />
-            {isPriceMetric && (
-              <LastPriceComponent lastPrice={lastPrice} slugTitle={slugName} />
-            )}
-          </div>
-        )}
         {type && blocks.includes('absoluteBorderLeft') && (
           <div className={styles.Field}>
             <FormikInput
@@ -114,6 +99,21 @@ export const TriggerFormMetricValues = ({
               prefix={isPriceMetric ? '$' : ''}
               max={+absoluteBorderRight}
               placeholder='Lower border'
+            />
+            {isPriceMetric && (
+              <LastPriceComponent lastPrice={lastPrice} slugTitle={slugName} />
+            )}
+          </div>
+        )}
+        {type && blocks.includes('absoluteBorderRight') && (
+          <div className={styles.Field}>
+            <FormikInput
+              name='absoluteBorderRight'
+              type='number'
+              prefix={isPriceMetric ? '$' : ''}
+              min={+absoluteBorderLeft}
+              step='any'
+              placeholder='Upper border'
             />
           </div>
         )}
