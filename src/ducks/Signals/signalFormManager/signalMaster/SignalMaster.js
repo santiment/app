@@ -5,9 +5,9 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { createTrigger, updateTrigger } from '../../common/actions'
 import Message from '@santiment-network/ui/Message'
-import TriggersForm from '../signalCrudForm/signalsList/TriggersForm'
 import { mapTriggerToFormProps, mapFormPropsToTrigger } from '../../utils/utils'
 import { SIGNAL_ROUTES } from '../../common/constants'
+import TriggerForm from '../signalCrudForm/signal/TriggerForm'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
 const SignalMaster = ({
@@ -79,15 +79,15 @@ const SignalMaster = ({
 
   return (
     <div className={styles.wrapper}>
-      <TriggersForm
-        isShared={isShared}
-        onClose={close}
-        triggers={[stateTrigger]}
-        settings={triggerSettingsFormData}
-        metaFormSettings={metaFormSettings}
-        onSettingsChange={handleSettingsChange}
-        formChangedCallback={formChangedCallback}
+      <TriggerForm
         setTitle={setTitle}
+        id={stateTrigger.id}
+        isShared={isShared}
+        metaFormSettings={metaFormSettings}
+        settings={triggerSettingsFormData}
+        onSettingsChange={handleSettingsChange}
+        onRemovedSignal={close}
+        formChangedCallback={formChangedCallback}
       />
     </div>
   )
