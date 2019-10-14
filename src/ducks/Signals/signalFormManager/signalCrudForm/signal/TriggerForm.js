@@ -73,7 +73,7 @@ export const TriggerForm = ({
   isTelegramConnected = false,
   isEmailConnected = false,
   lastPriceItem,
-  settings,
+  settings = {},
   metaFormSettings,
   id,
   formChangedCallback,
@@ -81,8 +81,17 @@ export const TriggerForm = ({
   setTitle
 }) => {
   const [initialValues, setInitialValues] = useState(settings)
-
   const [canCallFormChangCallback, setCanCallFormChanged] = useState(false)
+  const [step, setStep] = useState(
+    id ? TRIGGER_FORM_STEPS.DESCRIPTION : TRIGGER_FORM_STEPS.DESCRIPTION
+  )
+
+  useEffect(
+    function () {
+      setInitialValues(settings)
+    },
+    [settings]
+  )
 
   useEffect(() => {
     couldShowChart(initialValues) && getSignalBacktestingPoints(initialValues)
@@ -111,10 +120,6 @@ export const TriggerForm = ({
     const newValues = { ...values, isPublic: !values.isPublic }
     setInitialValues(newValues)
   }
-
-  const [step, setStep] = useState(
-    id ? TRIGGER_FORM_STEPS.DESCRIPTION : TRIGGER_FORM_STEPS.DESCRIPTION
-  )
 
   const validateAndSetStep = newStep => {
     if (!id) {

@@ -92,16 +92,18 @@ const SignalCardBottom = ({
   const { isActive, isPublic, title } = signal
   return (
     <div className={styles.bottom}>
-      {showMoreActions && <DesktopOnly>
-        <MoreSignalActions
-          isUserTheAuthor={isUserTheAuthor}
-          removeSignal={removeSignal}
-          signalTitle={title}
-          signalId={signalId}
-          isPublic={isPublic}
-          deleteEnabled={deleteEnabled}
-        />
-      </DesktopOnly>}
+      {showMoreActions && (
+        <DesktopOnly>
+          <MoreSignalActions
+            isUserTheAuthor={isUserTheAuthor}
+            removeSignal={removeSignal}
+            signalTitle={title}
+            signalId={signalId}
+            isPublic={isPublic}
+            deleteEnabled={deleteEnabled}
+          />
+        </DesktopOnly>
+      )}
 
       {isPublished ? (
         <h4 className={styles.author}>

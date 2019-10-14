@@ -5,20 +5,29 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { createTrigger, updateTrigger } from '../../common/actions'
 import Message from '@santiment-network/ui/Message'
-import {mapTriggerToFormProps, mapFormPropsToTrigger, getNewTitle, getNewDescription} from '../../utils/utils'
+import {
+  mapTriggerToFormProps,
+  mapFormPropsToTrigger,
+  getNewTitle,
+  getNewDescription
+} from '../../utils/utils'
 import { SIGNAL_ROUTES } from '../../common/constants'
 import TriggerForm from '../signalCrudForm/signal/TriggerForm'
 import SharedTriggerForm from '../sharedForm/SharedTriggerForm'
-import {DEFAULT_FORM_META_SETTINGS, METRIC_DEFAULT_VALUES, PRICE_PERCENT_CHANGE} from "../../utils/constants";
+import {
+  DEFAULT_FORM_META_SETTINGS,
+  METRIC_DEFAULT_VALUES,
+  PRICE,
+  PRICE_PERCENT_CHANGE
+} from '../../utils/constants'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
 const mapFormSettings = (baseSettings, meta) => {
+  const formMetric =
+    meta && meta.metric ? meta.metric.value.value : PRICE_PERCENT_CHANGE
+
   const metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...meta }
 
-  const formMetric =
-    metaFormSettings && metaFormSettings.metric
-      ? metaFormSettings.metric.value.value
-      : PRICE_PERCENT_CHANGE
   let settings = {
     ...METRIC_DEFAULT_VALUES[formMetric],
     target: metaFormSettings.target.value
@@ -51,7 +60,7 @@ const mapFormSettings = (baseSettings, meta) => {
 const SignalMaster = ({
   canRedirect = true,
   trigger: propsTrigger = {},
-  metaFormSettings = {},
+  metaFormSettings,
   setTitle,
   onClose,
   redirect,
@@ -119,8 +128,6 @@ const SignalMaster = ({
     mapTriggerToFormProps(stateTrigger),
     metaFormSettings
   )
-
-  debugger
 
   return (
     <div className={styles.wrapper}>
