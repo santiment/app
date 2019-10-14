@@ -4,7 +4,7 @@
   color: var(--waterloo);
   position: absolute;
   left: 10px;
-  top: 6px;
+  top: 5px;
 }
 
 .field {
@@ -12,5 +12,9 @@
 }
 
 .inputWithPrefix {
-  padding-left: 22px;
+  padding-left: 28px;
+}
+
+.input {
+  height: 32px;
 }

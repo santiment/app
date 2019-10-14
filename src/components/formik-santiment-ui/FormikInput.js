@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import Input from '@santiment-network/ui/Input'
 import { Field, ErrorMessage } from 'formik'
 import styles from './FormikInput.module.scss'
@@ -27,7 +28,7 @@ const FormikInput = ({
           <div className={styles.field}>
             {showPrefix && <span className={styles.prefix}>{prefix}</span>}
             <Input
-              className={showPrefix ? styles.inputWithPrefix : ''}
+              className={cx(styles.input, showPrefix && styles.inputWithPrefix)}
               id={name}
               type={type}
               name={name}

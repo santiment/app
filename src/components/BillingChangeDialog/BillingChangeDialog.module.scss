@@ -7,7 +7,10 @@
 .card {
   padding: 20px 20px 18px;
   margin-bottom: 20px;
-  min-width: 520px;
+
+  @include responsive('tablet', 'laptop', 'desktop') {
+    min-width: 520px;
+  }
 }
 
 .billing {
