@@ -65,11 +65,7 @@ export const mapToOptions = input => {
   if (Array.isArray(input)) {
     return input.map(mapToOption)
   } else {
-    if (typeof input === 'object') {
-      return [mapToOption(input)]
-    } else {
-      return [mapToOption(input)]
-    }
+    return [mapToOption(input)]
   }
 }
 
