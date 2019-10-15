@@ -55,10 +55,36 @@ import {
   uncapitalizeStr
 } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
-import { mapToOptions } from '../../../utils/select/utils'
 import { Metrics } from '../../SANCharts/utils'
 
-const targetMapper = ({ value, slug } = {}) => slug || value
+export const mapToOptions = input => {
+  if (!input) {
+    return []
+  }
+
+  if (Array.isArray(input)) {
+    return input.map(mapToOption)
+  } else {
+    return [mapToOption(input)]
+  }
+}
+
+export const mapToOption = item => {
+  if (typeof item === 'object') {
+    const value = targetMapper(item)
+    return {
+      value,
+      label: value
+    }
+  } else {
+    return {
+      value: item,
+      label: item
+    }
+  }
+}
+
+export const targetMapper = ({ value, slug } = {}) => slug || value
 export const targetMapperWithName = ({ value, slug, name } = {}) =>
   name || slug || value
 
@@ -85,12 +111,7 @@ const getFormTriggerTarget = ({ target, target: { eth_address }, asset }) => {
     }
   }
 
-  const newTarget = Array.isArray(slug)
-    ? mapToOptions(slug)
-    : {
-      value: slug,
-      label: slug
-    }
+  const newTarget = Array.isArray(slug) ? mapToOptions(slug) : mapToOption(slug)
 
   const newEthAddress = eth_address
     ? Array.isArray(eth_address)
@@ -438,10 +459,7 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
   }
 
   const frequencyTimeType = FREQUENCY_VALUES.find(item => item.value === type)
-  const frequencyTimeValue = {
-    value: value,
-    label: value
-  }
+  const frequencyTimeValue = mapToOption(value)
 
   return {
     frequencyType: frequencyType,
@@ -451,7 +469,7 @@ const getFrequencyFromCooldown = ({ cooldown }) => {
   }
 }
 
-export const getTargetFromArray = (target, mapper = targetMapper()) =>
+export const getTargetFromArray = (target, mapper = targetMapper) =>
   target.length === 1 ? mapper(target[0]) : target.map(mapper)
 
 export const mapFomTargetToTriggerTarget = (
@@ -1061,7 +1079,7 @@ export const mapToAssets = (data, withFilter = true) => {
   return data
     .filter(asset => !withFilter || !!asset.mainContractAddress)
     .map((asset, index) => {
-      return { value: asset.slug, label: asset.slug }
+      return mapToOption(asset.slug)
     })
 }
 
@@ -1197,7 +1215,7 @@ export const titleMetricValuesHeader = (
     absoluteThreshold,
     absoluteBorderRight,
     absoluteBorderLeft,
-    timeWindowUnit,
+    timeWindowUnit: { label: timeWindowUnitLabel = '' } = {},
     timeWindow,
     metric
   },
@@ -1224,7 +1242,7 @@ export const titleMetricValuesHeader = (
             ? `Price ${ofTarget} moving`
             : `Addresses count ${ofTarget}`,
           `down ${percentThreshold ||
-            0}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} earlier`
+            0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`
         )
       }
       case PRICE_CHANGE_TYPES.MOVING_UP: {
@@ -1233,7 +1251,7 @@ export const titleMetricValuesHeader = (
             ? `Price ${ofTarget} moving`
             : `Addresses count ${ofTarget}`,
           `up ${percentThreshold ||
-            0}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} earlier`
+            0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`
         )
       }
       case PRICE_CHANGE_TYPES.PERCENT_SOME_OF: {
@@ -1241,7 +1259,7 @@ export const titleMetricValuesHeader = (
           isPriceMetric ? `Price ${ofTarget}` : `Addresses count ${ofTarget}`,
           `moving up ${percentThresholdLeft ||
             0}% or moving down ${percentThresholdRight ||
-            0}% compared to ${timeWindow} ${timeWindowUnit.label.toLowerCase()} earlier`
+            0}% compared to ${timeWindow} ${timeWindowUnitLabel.toLowerCase()} earlier`
         )
       }
       case PRICE_CHANGE_TYPES.ABOVE: {
@@ -1393,7 +1411,8 @@ export const getNewDescription = newValues => {
     ? `every ${frequencyTimeValue.label} ${frequencyTimeType.label}`
     : 'only once'
 
-  const channelsBlock = channels.length ? `via ${channels.join(', ')}` : ''
+  const channelsBlock =
+    channels && channels.length ? `via ${channels.join(', ')}` : ''
 
   return `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock.toLowerCase()}.`
 }

@@ -2,6 +2,7 @@
 
 $trigger-form-width: 550px;
 $trigger-form-field-margin: 24px;
+$trigger-shared-form-width: 496px;
 
 .wrapper {
   position: relative;
@@ -11,6 +12,10 @@ $trigger-form-field-margin: 24px;
   @include responsive('phone', 'phone-xs') {
     width: 100%;
   }
+}
+
+.sharedForm {
+  max-width: $trigger-shared-form-width;
 }
 
 .loading {

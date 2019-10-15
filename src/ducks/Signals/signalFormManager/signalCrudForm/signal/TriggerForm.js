@@ -18,9 +18,6 @@ import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLab
 import Button from '@santiment-network/ui/Button'
 import RadioBtns from '@santiment-network/ui/RadioBtns'
 import {
-  PRICE_PERCENT_CHANGE,
-  METRIC_DEFAULT_VALUES,
-  DEFAULT_FORM_META_SETTINGS,
   METRIC_TO_TYPES,
   MAX_DESCR_LENGTH,
   MIN_TITLE_LENGTH,
@@ -71,56 +68,39 @@ const propTypes = {
 }
 
 export const TriggerForm = ({
+  id,
   onSettingsChange,
   getSignalBacktestingPoints,
   isTelegramConnected = false,
   isEmailConnected = false,
   lastPriceItem,
-  settings,
+  settings = {},
   metaFormSettings,
-  id,
   formChangedCallback,
   isShared,
   setTitle
 }) => {
-  const formMetric =
-    metaFormSettings && metaFormSettings.metric
-      ? metaFormSettings.metric.value.value
-      : PRICE_PERCENT_CHANGE
-
-  metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...metaFormSettings }
-  settings = {
-    ...METRIC_DEFAULT_VALUES[formMetric],
-    target: metaFormSettings.target.value
-      ? metaFormSettings.target.value
-      : settings.target,
-    metric: metaFormSettings.metric.value
-      ? metaFormSettings.metric.value
-      : settings.metric,
-    type: metaFormSettings.type.value
-      ? metaFormSettings.type.value
-      : settings.type,
-    signalType: metaFormSettings.signalType.value
-      ? metaFormSettings.signalType.value
-      : settings.signalType,
-    ethAddress: metaFormSettings.ethAddress,
-    ...settings
-  }
-
-  if (!settings.title && !settings.description) {
-    settings = {
-      title: getNewTitle(settings),
-      description: getNewDescription(settings),
-      ...settings
-    }
-  }
-
   const [initialValues, setInitialValues] = useState(settings)
   const [canCallFormChangCallback, setCanCallFormChanged] = useState(false)
+  const [step, setStep] = useState(
+    id ? TRIGGER_FORM_STEPS.DESCRIPTION : TRIGGER_FORM_STEPS.DESCRIPTION
+  )
 
-  useEffect(() => {
-    couldShowChart(initialValues) && getSignalBacktestingPoints(initialValues)
-  }, [])
+  useEffect(
+    () => {
+      if (!isEqual(settings, initialValues)) {
+        setInitialValues(settings)
+      }
+    },
+    [settings]
+  )
+
+  useEffect(
+    () => {
+      couldShowChart(initialValues) && getSignalBacktestingPoints(initialValues)
+    },
+    [initialValues]
+  )
 
   useEffect(() => {
     const timeOutId = setTimeout(() => {
@@ -145,10 +125,6 @@ export const TriggerForm = ({
     const newValues = { ...values, isPublic: !values.isPublic }
     setInitialValues(newValues)
   }
-
-  const [step, setStep] = useState(
-    id ? TRIGGER_FORM_STEPS.DESCRIPTION : TRIGGER_FORM_STEPS.DESCRIPTION
-  )
 
   const validateAndSetStep = newStep => {
     if (!id) {
@@ -186,7 +162,7 @@ export const TriggerForm = ({
           ethAddress,
           isPublic,
           description,
-          channels
+          channels = []
         } = values
 
         const { price } = lastPriceItem || {}
@@ -220,14 +196,15 @@ export const TriggerForm = ({
                     !prev.values.metric ||
                     newValues.metric.value !== prev.values.metric.value ||
                     newValues.type.value !== prev.values.type.value
+
                   if (changedMetric) {
                     setInitialValues(
                       getDefaultFormValues(newValues, prev.values.metric)
                     )
-                    validateForm()
                   }
 
                   validateForm()
+
                   const lastErrors = validateTriggerForm(newValues)
                   const isError = Object.keys(newValues).some(
                     key => lastErrors[key]

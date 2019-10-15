@@ -1,0 +1,26 @@
+@import "~@santiment-network/ui/mixins";
+
+.container {
+  padding: 16px 32px 32px;
+}
+
+.preview {
+  position: relative;
+  margin-top: 32px;
+}
+
+.actions {
+  display: flex;
+  margin-top: 30px;
+  justify-content: flex-end;
+}
+
+.btnAdd {
+  margin-left: 20px;
+}
+
+.cardPanel {
+  padding: 0 !important;
+  border: none;
+  box-shadow: none;
+}

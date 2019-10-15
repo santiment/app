@@ -1,0 +1,41 @@
+@import "~@santiment-network/ui/mixins";
+
+.noDataImg {
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.explanation {
+  @include text('body-3');
+
+  color: var(--casper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -35px;
+
+  @include responsive('phone', 'phone-xs') {
+    top: -25px;
+  }
+}
+
+.tooltipContainer {
+  display: flex;
+  margin-left: 9px;
+}
+
+.tooltip {
+  z-index: 1000;
+  max-width: 280px;
+}
+
+.question {
+  width: 16px;
+  height: 16px;
+  fill: var(--casper);
+}
