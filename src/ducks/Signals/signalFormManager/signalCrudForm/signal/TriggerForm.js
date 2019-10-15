@@ -80,8 +80,6 @@ export const TriggerForm = ({
   isShared,
   setTitle
 }) => {
-  console.log(settings)
-
   const [initialValues, setInitialValues] = useState(settings)
   const [canCallFormChangCallback, setCanCallFormChanged] = useState(false)
   const [step, setStep] = useState(
@@ -200,7 +198,6 @@ export const TriggerForm = ({
                     newValues.type.value !== prev.values.type.value
 
                   if (changedMetric) {
-                    debugger
                     setInitialValues(
                       getDefaultFormValues(newValues, prev.values.metric)
                     )

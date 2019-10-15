@@ -180,10 +180,16 @@ const MainDialog = ({
     () => {
       if (openSharedForm !== isShared) {
         setOpenForm(isShared)
-        onSetDialogTitle('Signal details')
       }
     },
     [isShared]
+  )
+
+  useEffect(
+    () => {
+      openSharedForm && onSetDialogTitle('Signal details')
+    },
+    [openSharedForm]
   )
 
   return (

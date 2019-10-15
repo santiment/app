@@ -3,6 +3,7 @@ import Button from '@santiment-network/ui/Button'
 import { couldShowChart } from '../../utils/utils'
 import SignalPreview from '../../chart/SignalPreview'
 import SignalCard from '../../../../components/SignalCard/SignalCard'
+import NoSignalPreview from '../../chart/NoSignalPreview'
 import styles from './ShareTriggerForm.module.scss'
 
 const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
@@ -11,20 +12,21 @@ const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
 
   return (
     <div className={styles.container}>
-      <div>
-        <SignalCard
-          id={id}
-          signal={trigger}
-          showMoreActions={false}
-          className={styles.cardPanel}
-        />
-      </div>
+      <SignalCard
+        id={id}
+        signal={trigger}
+        showMoreActions={false}
+        className={styles.cardPanel}
+        showStatus={false}
+      />
 
-      {showChart && (
-        <div className={styles.preview}>
+      <div className={styles.preview}>
+        {showChart ? (
           <SignalPreview target={target.value} type={metric.value} />
-        </div>
-      )}
+        ) : (
+          <NoSignalPreview />
+        )}
+      </div>
 
       <div className={styles.actions}>
         <Button onClick={() => onOpen(false)} border>

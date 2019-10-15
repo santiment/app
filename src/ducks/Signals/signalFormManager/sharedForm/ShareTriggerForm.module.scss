@@ -1,18 +1,17 @@
 @import "~@santiment-network/ui/mixins";
 
 .container {
-  padding: 16px 20px;
+  padding: 16px 32px 32px;
 }
 
 .preview {
   position: relative;
-  margin-top: 50px;
-  padding: 0 10px;
+  margin-top: 32px;
 }
 
 .actions {
   display: flex;
-  margin-top: 40px;
+  margin-top: 20px;
   justify-content: flex-end;
 }
 

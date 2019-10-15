@@ -55,7 +55,6 @@ const SonarFeed = ({
   isTelegramConnected,
   isUserLoading,
   showTelegramAlert,
-  history,
   location: { hash } = {}
 }) => {
   if (pathname === baseLocation) {

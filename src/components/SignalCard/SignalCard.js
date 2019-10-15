@@ -19,7 +19,8 @@ const SignalCard = ({
   toggleSignal,
   isUserTheAuthor,
   deleteEnabled = true,
-  showMoreActions = true
+  showMoreActions = true,
+  showStatus = true
 }) => {
   const isAwaiting = +id <= 0
   const { title, description = '', isPublic, settings: { type } = {} } = signal
@@ -66,6 +67,7 @@ const SignalCard = ({
           isAwaiting={isAwaiting}
           isUserTheAuthor={isUserTheAuthor}
           deleteEnabled={deleteEnabled}
+          showStatus={showStatus}
         />
       </div>
     </Panel>
@@ -87,7 +89,8 @@ const SignalCardBottom = ({
   toggleSignal,
   isUserTheAuthor = true,
   deleteEnabled,
-  showMoreActions
+  showMoreActions,
+  showStatus = true
 }) => {
   const { isActive, isPublic, title } = signal
   return (
@@ -113,7 +116,7 @@ const SignalCardBottom = ({
               <span>&nbsp;&nbsp;Awaiting confirmation</span>
             </div>
           )}
-          {isUserTheAuthor && !isAwaiting && (
+          {showStatus && isUserTheAuthor && !isAwaiting && (
             <StatusLabel isPublic={isPublic} />
           )}
         </h4>

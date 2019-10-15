@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import cx from 'classnames'
 import { push } from 'react-router-redux'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
@@ -126,7 +127,7 @@ const SignalMaster = ({
   const [settings, metaForm] = formData
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, openSharedForm && styles.sharedForm)}>
       {!openSharedForm && (
         <TriggerForm
           setTitle={setTitle}
