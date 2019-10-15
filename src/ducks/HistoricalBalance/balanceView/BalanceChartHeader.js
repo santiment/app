@@ -4,7 +4,7 @@ import {
   ETH_WALLET_AMOUNT_UP,
   ETH_WALLET_METRIC
 } from '../../Signals/utils/constants'
-import { mapToOptions } from '../../../utils/select/utils'
+import { mapToOptions } from '../../Signals/utils/utils'
 import styles from './BalanceView.module.scss'
 
 const BalanceChartHeader = ({ address, assets, children }) => {
