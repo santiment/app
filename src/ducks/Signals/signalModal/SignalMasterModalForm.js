@@ -119,7 +119,6 @@ const SignalMasterModalForm = ({
               canRedirect={canRedirect}
               metaFormSettings={metaFormSettings}
               buttonParams={buttonParams}
-              triggerId={triggerId}
             />
           </>
         )

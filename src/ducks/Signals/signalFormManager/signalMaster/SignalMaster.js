@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { push } from 'react-router-redux'
-import cx from 'classnames'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { createTrigger, updateTrigger } from '../../common/actions'
-import Message from '@santiment-network/ui/Message'
 import {
   mapTriggerToFormProps,
   mapFormPropsToTrigger,
@@ -17,7 +15,6 @@ import SharedTriggerForm from '../sharedForm/SharedTriggerForm'
 import {
   DEFAULT_FORM_META_SETTINGS,
   METRIC_DEFAULT_VALUES,
-  PRICE,
   PRICE_PERCENT_CHANGE
 } from '../../utils/constants'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
@@ -57,9 +54,13 @@ const mapFormSettings = (baseSettings, meta) => {
   return [settings, metaFormSettings]
 }
 
+const getFormData = (stateTrigger, metaFormSettings) => {
+  return mapFormSettings(mapTriggerToFormProps(stateTrigger), metaFormSettings)
+}
+
 const SignalMaster = ({
   canRedirect = true,
-  trigger: propsTrigger = {},
+  trigger: { trigger: propsTrigger } = {},
   metaFormSettings,
   setTitle,
   onClose,
@@ -71,34 +72,34 @@ const SignalMaster = ({
   openSharedForm = false,
   setOpenSharedForm
 }) => {
-  const { triggerId, isLoading, isError } = propsTrigger
-
-  if (triggerId) {
-    if (isLoading) {
-      return (
-        <div className={cx(styles.wrapper, styles.loading)}>{'Loading...'}</div>
-      )
-    } else if (isError) {
-      return <Message variant='error'>{propsTrigger.errorMessage}</Message>
-    }
-  }
-
   const [stateTrigger, setStateTrigger] = useState({
     title: '',
     description: '',
     isActive: true,
-    isPublic: false
+    isPublic: false,
+    ...(propsTrigger || {})
   })
+
+  const [formData, setFormData] = useState(
+    getFormData(stateTrigger, metaFormSettings)
+  )
 
   useEffect(
     () => {
-      if (propsTrigger && propsTrigger.trigger && !stateTrigger.id) {
+      if (propsTrigger && !stateTrigger.id) {
         setStateTrigger({
-          ...propsTrigger.trigger
+          ...propsTrigger
         })
       }
     },
     [propsTrigger]
+  )
+
+  useEffect(
+    () => {
+      setFormData(getFormData(stateTrigger, metaFormSettings))
+    },
+    [stateTrigger, metaFormSettings]
   )
 
   const handleSettingsChange = formProps => {
@@ -122,12 +123,7 @@ const SignalMaster = ({
     canRedirect && redirect && redirect()
   }
 
-  const close = onClose || redirect
-
-  const [settings, metaForm] = mapFormSettings(
-    mapTriggerToFormProps(stateTrigger),
-    metaFormSettings
-  )
+  const [settings, metaForm] = formData
 
   return (
     <div className={styles.wrapper}>
@@ -139,17 +135,16 @@ const SignalMaster = ({
           metaFormSettings={metaForm}
           settings={settings}
           onSettingsChange={handleSettingsChange}
-          onRemovedSignal={close}
+          onRemovedSignal={onClose || redirect}
           formChangedCallback={formChangedCallback}
         />
       )}
-
       {openSharedForm && (
         <SharedTriggerForm
           id={stateTrigger.id}
           trigger={stateTrigger}
           onOpen={setOpenSharedForm}
-          onCreate={handleSettingsChange}
+          onCreate={() => handleSettingsChange(settings)}
           settings={settings}
         />
       )}

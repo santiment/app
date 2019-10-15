@@ -68,6 +68,7 @@ const propTypes = {
 }
 
 export const TriggerForm = ({
+  id,
   onSettingsChange,
   getSignalBacktestingPoints,
   isTelegramConnected = false,
@@ -75,11 +76,12 @@ export const TriggerForm = ({
   lastPriceItem,
   settings = {},
   metaFormSettings,
-  id,
   formChangedCallback,
   isShared,
   setTitle
 }) => {
+  console.log(settings)
+
   const [initialValues, setInitialValues] = useState(settings)
   const [canCallFormChangCallback, setCanCallFormChanged] = useState(false)
   const [step, setStep] = useState(
@@ -87,15 +89,20 @@ export const TriggerForm = ({
   )
 
   useEffect(
-    function () {
-      setInitialValues(settings)
+    () => {
+      if (!isEqual(settings, initialValues)) {
+        setInitialValues(settings)
+      }
     },
     [settings]
   )
 
-  useEffect(() => {
-    couldShowChart(initialValues) && getSignalBacktestingPoints(initialValues)
-  }, [])
+  useEffect(
+    () => {
+      couldShowChart(initialValues) && getSignalBacktestingPoints(initialValues)
+    },
+    [initialValues]
+  )
 
   useEffect(() => {
     const timeOutId = setTimeout(() => {
@@ -191,14 +198,16 @@ export const TriggerForm = ({
                     !prev.values.metric ||
                     newValues.metric.value !== prev.values.metric.value ||
                     newValues.type.value !== prev.values.type.value
+
                   if (changedMetric) {
+                    debugger
                     setInitialValues(
                       getDefaultFormValues(newValues, prev.values.metric)
                     )
-                    validateForm()
                   }
 
                   validateForm()
+
                   const lastErrors = validateTriggerForm(newValues)
                   const isError = Object.keys(newValues).some(
                     key => lastErrors[key]
