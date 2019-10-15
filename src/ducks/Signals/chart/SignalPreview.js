@@ -128,8 +128,7 @@ const SignalPreview = ({
   isLoading,
   type,
   points = [],
-  target: slug,
-  height
+  target: slug
 }) => {
   if (isLoading) {
     return PreviewLoader
@@ -154,7 +153,6 @@ const SignalPreview = ({
       slug={slug}
       label={label}
       timeRange={timeRange}
-      height={height}
       triggeredSignals={triggeredSignals}
     />
   )

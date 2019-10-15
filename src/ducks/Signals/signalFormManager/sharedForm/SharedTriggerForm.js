@@ -8,6 +8,7 @@ import styles from './ShareTriggerForm.module.scss'
 import { fetchHistorySignalPoints } from '../../common/actions'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
+import { DesktopOnly, MobileOnly } from '../../../../components/Responsive'
 
 const SharedTriggerForm = ({
   id,
@@ -35,28 +36,58 @@ const SharedTriggerForm = ({
         showMoreActions={false}
         className={styles.cardPanel}
         showStatus={false}
+        showHeader={false}
       />
 
-      <div className={styles.preview}>
+      <div className={styles.backTesting}>
         {showChart ? (
-          <SignalPreview target={target.value} type={metric.value} />
+          <>
+            <div className={styles.chartDivider} />
+            <div className={styles.preview}>
+              <SignalPreview target={target.value} type={metric.value} />
+            </div>
+          </>
         ) : (
           <NoSignalPreview />
         )}
       </div>
 
       <div className={styles.actions}>
-        <Button onClick={() => onOpen(false)} border>
-          Edit signal
-        </Button>
-        <Button
-          onClick={onCreate}
-          variant='fill'
-          accent='positive'
-          className={styles.btnAdd}
-        >
-          Add signal immediately
-        </Button>
+        <DesktopOnly>
+          <Button
+            onClick={onCreate}
+            variant='fill'
+            accent='positive'
+            className={styles.btnAdd}
+          >
+            Add signal immediately
+          </Button>
+          <Button
+            className={styles.btnEdit}
+            onClick={() => onOpen(false)}
+            border
+          >
+            Edit signal
+          </Button>
+        </DesktopOnly>
+
+        <MobileOnly>
+          <Button
+            fluid
+            onClick={onCreate}
+            accent='positive'
+            className={styles.btnAdd}
+          >
+            Add signal
+          </Button>
+          <Button
+            fluid
+            className={styles.btnEdit}
+            onClick={() => onOpen(false)}
+          >
+            Edit signal
+          </Button>
+        </MobileOnly>
       </div>
     </div>
   )
