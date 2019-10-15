@@ -1,22 +1,56 @@
 @import "~@santiment-network/ui/mixins";
 
 .container {
-  padding: 16px 32px 32px;
+  padding: 16px 24px 32px 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 24px 24px 12px 24px;
+  }
+}
+
+.backTesting {
+  margin-top: 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-top: 32px;
+  }
 }
 
 .preview {
   position: relative;
-  margin-top: 32px;
+}
+
+.chartDivider {
+  border-top: 1px solid var(--porcelain);
+  margin-bottom: 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    display: none;
+  }
 }
 
 .actions {
   display: flex;
-  margin-top: 30px;
-  justify-content: flex-end;
+  margin-top: 40px;
+  justify-content: flex-start;
+}
+
+.btnEdit {
+  margin-left: 8px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0;
+    border-left: 1px solid var(--mystic);
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .btnAdd {
-  margin-left: 20px;
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .cardPanel {
