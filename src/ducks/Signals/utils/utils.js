@@ -1091,7 +1091,7 @@ export const mapErc20AssetsToProps = ({
   allErc20Projects: { allErc20Projects = [], isLoading }
 }) => {
   return {
-    assets: [mapToOption('ethereum'), ...allErc20Projects],
+    assets: [{ slug: 'ethereum', label: 'ethereum' }, ...allErc20Projects],
     isLoading: isLoading
   }
 }

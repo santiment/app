@@ -1,14 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Button from '@santiment-network/ui/Button'
-import { couldShowChart } from '../../utils/utils'
+import { couldShowChart, mapFormPropsToTrigger } from '../../utils/utils'
 import SignalPreview from '../../chart/SignalPreview'
 import SignalCard from '../../../../components/SignalCard/SignalCard'
 import NoSignalPreview from '../../chart/NoSignalPreview'
 import styles from './ShareTriggerForm.module.scss'
+import { fetchHistorySignalPoints } from '../../common/actions'
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
 
-const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
+const SharedTriggerForm = ({
+  id,
+  trigger,
+  onOpen,
+  onCreate,
+  settings,
+  getSignalBacktestingPoints
+}) => {
   const { target, metric } = settings
   const showChart = target && couldShowChart(settings)
+
+  useEffect(
+    () => {
+      couldShowChart(settings) && getSignalBacktestingPoints(settings)
+    },
+    [settings]
+  )
 
   return (
     <div className={styles.container}>
@@ -45,4 +62,17 @@ const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
   )
 }
 
-export default SharedTriggerForm
+const mapDispatchToProps = dispatch => ({
+  getSignalBacktestingPoints: payload => {
+    dispatch(fetchHistorySignalPoints(mapFormPropsToTrigger(payload)))
+  }
+})
+
+const enhance = compose(
+  connect(
+    null,
+    mapDispatchToProps
+  )
+)
+
+export default enhance(SharedTriggerForm)

@@ -32,16 +32,18 @@ const SignalCard = ({
       >
         <SignalTypeIcon type={type} />
 
-        <MobileOnly>
-          <MoreSignalActions
-            deleteEnabled={deleteEnabled}
-            isUserTheAuthor={isUserTheAuthor}
-            isPublic={isPublic}
-            removeSignal={removeSignal}
-            signalTitle={title}
-            signalId={id}
-          />
-        </MobileOnly>
+        {showMoreActions && (
+          <MobileOnly>
+            <MoreSignalActions
+              deleteEnabled={deleteEnabled}
+              isUserTheAuthor={isUserTheAuthor}
+              isPublic={isPublic}
+              removeSignal={removeSignal}
+              signalTitle={title}
+              signalId={id}
+            />
+          </MobileOnly>
+        )}
       </div>
       <div className={styles.wrapper__right}>
         <div onClick={goToSignalSettings}>
