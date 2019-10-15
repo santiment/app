@@ -1,6 +1,6 @@
 import React from 'react'
 import noDataImg from './../../../assets/signals/backtest_empty.svg'
-import HelpPopup from '../../../components/HelpPopup/HelpPopup'
+import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 import styles from './NoSignalPreview.module.scss'
 
 const NoSignalPreview = () => {
@@ -14,11 +14,11 @@ const NoSignalPreview = () => {
       <div className={styles.explanation}>
         <span>No chart available</span>
 
-        <div className={styles.tooltip}>
-          <HelpPopup position='bottom right'>
+        <div className={styles.tooltipContainer}>
+          <HelpTooltip withDesc={false} classes={styles}>
             We don't have enough data. Support of backtesting charts for this
             signals will be added later.
-          </HelpPopup>
+          </HelpTooltip>
         </div>
       </div>
     </div>

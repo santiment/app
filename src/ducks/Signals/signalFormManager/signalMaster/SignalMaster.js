@@ -61,7 +61,7 @@ const getFormData = (stateTrigger, metaFormSettings) => {
 
 const SignalMaster = ({
   canRedirect = true,
-  trigger: { trigger: propsTrigger } = {},
+  trigger: { trigger: propsTrigger = {} } = {},
   metaFormSettings,
   setTitle,
   onClose,
@@ -78,7 +78,7 @@ const SignalMaster = ({
     description: '',
     isActive: true,
     isPublic: false,
-    ...(propsTrigger || {})
+    ...propsTrigger
   })
 
   const [formData, setFormData] = useState(
@@ -87,13 +87,13 @@ const SignalMaster = ({
 
   useEffect(
     () => {
-      if (propsTrigger && !stateTrigger.id) {
+      if (propsTrigger.id && !stateTrigger.id) {
         setStateTrigger({
           ...propsTrigger
         })
       }
     },
-    [propsTrigger]
+    [propsTrigger, stateTrigger.id]
   )
 
   useEffect(

@@ -24,7 +24,18 @@
   }
 }
 
-.tooltip {
+.tooltipContainer {
   display: flex;
   margin-left: 9px;
+}
+
+.tooltip {
+  z-index: 1000;
+  max-width: 280px;
+}
+
+.question {
+  width: 16px;
+  height: 16px;
+  fill: var(--casper);
 }
