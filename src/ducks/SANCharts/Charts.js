@@ -20,6 +20,7 @@ import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
+import Icon from '@santiment-network/ui/Icon'
 import { millify } from './../../utils/formatting'
 import {
   getDateFormats,
@@ -31,13 +32,15 @@ import {
   Metrics,
   generateMetricsMarkup,
   findYAxisMetric,
-  chartBars
+  chartBars,
+  usdFormatter
 } from './utils'
 import { checkHasPremium } from '../../pages/UserSelectors'
 import displayPaywall, { MOVE_CLB, CHECK_CLB } from './Paywall'
 import { binarySearch } from '../../pages/Trends/utils'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
+import { makeSignalPriceReferenceLine } from './ChartPage'
 
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
@@ -106,7 +109,8 @@ class Charts extends React.Component {
     metrics,
     events,
     isTrendsShowing,
-    isAdvancedView
+    isAdvancedView,
+    slug
   }) {
     if (this.props.chartData !== chartData) {
       this.getXToYCoordinates()
@@ -247,6 +251,8 @@ class Charts extends React.Component {
     }
     const { x, y } = coordinates
 
+    const { metrics } = this.props
+
     this.setState({
       activePayload: activePayload.concat(
         this.eventsMap.get(activeLabel) || []
@@ -263,6 +269,23 @@ class Charts extends React.Component {
     })
   }, 16)
 
+  onMouseYAxesHover = throttle(event => {
+    if (!event) {
+      return null
+    }
+    console.log(event)
+
+    const { value } = event
+    const { metrics } = this.props
+
+    this.setState({
+      ...this.state,
+      signalReferenceLine: metrics.includes(Metrics.historyPrice)
+        ? makeSignalPriceReferenceLine(value, -1)
+        : null
+    })
+  })
+
   render () {
     const {
       chartRef,
@@ -276,7 +299,8 @@ class Charts extends React.Component {
       children,
       isLoading,
       priceRefLineData,
-      scale = 'time'
+      scale = 'time',
+      signalLines
     } = this.props
     const {
       refAreaLeft,
@@ -287,13 +311,15 @@ class Charts extends React.Component {
       yValue,
       activePayload,
       hovered,
-      tooltipMetric
+      tooltipMetric,
+      signalReferenceLine
     } = this.state
 
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
       chartRef,
       coordinates: this.xToYCoordinates,
-      ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef }
+      ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef },
+      onMouseYAxesHover: this.onMouseYAxesHover
     })
 
     let events = []
@@ -404,6 +430,8 @@ class Charts extends React.Component {
             {bars}
             {lines}
 
+            {!hovered ? [...signalLines, signalReferenceLine] : null}
+
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
                 x1={refAreaLeft}
@@ -490,9 +518,12 @@ const enhance = compose(
   connect(mapStateToProps),
 
   graphql(HISTORY_PRICE_QUERY, {
-    skip: ({ metrics, from, to }) =>
-      !metrics.includes(Metrics.historyPrice) ||
-      new Date(to) - new Date(from) > DAY_INTERVAL,
+    skip: ({ metrics, from, to }) => {
+      return (
+        !metrics.includes(Metrics.historyPrice) ||
+        new Date(to) - new Date(from) > DAY_INTERVAL
+      )
+    },
     props: ({ data: { historyPrice = [] } }) => {
       return { priceRefLineData: historyPrice[0] }
     },

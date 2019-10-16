@@ -205,3 +205,12 @@
     opacity: 0.65;
   }
 }
+
+.signalLabel {
+  background: var(--rhino);
+
+  @include text('caption');
+
+  color: var(--casper);
+  padding: 2px 5px;
+}
