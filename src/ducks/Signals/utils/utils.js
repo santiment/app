@@ -365,7 +365,6 @@ export const mapTriggerToFormProps = currentTrigger => {
   const newType = getFormTriggerType(target, type, operation)
 
   const trendingWordsParams = getFormTrendingWords(currentTrigger)
-
   return {
     targetWatchlist,
     ethAddress: ethAddress,
@@ -390,7 +389,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     ...frequencyModels,
     ...absolutePriceValues,
     ...trendingWordsParams,
-    title,
+    title: Array.isArray(title) ? title.join(' ') : title,
     description
   }
 }

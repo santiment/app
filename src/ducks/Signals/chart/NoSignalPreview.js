@@ -16,8 +16,8 @@ const NoSignalPreview = () => {
 
         <div className={styles.tooltipContainer}>
           <HelpTooltip withDesc={false} classes={styles}>
-            We don't have enough data. Support of backtesting charts for this
-            signals will be added later.
+            We currently don't have enough data to display this. Support of
+            backtesting charts for this signal will be added soon!
           </HelpTooltip>
         </div>
       </div>

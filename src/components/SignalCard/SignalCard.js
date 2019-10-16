@@ -21,34 +21,34 @@ const SignalCard = ({
   deleteEnabled = true,
   showMoreActions = true,
   showStatus = true,
-  showHeader = true
+  isMobileVersion = false
 }) => {
   const isAwaiting = +id <= 0
-  const { title, description = '', isPublic, settings: { type } = {} } = signal
+  const { title, description = '', isPublic } = signal
 
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
-      {showHeader && (
-        <div
-          className={cx(
-            styles.wrapper__left,
-            styles.wrapper__left_subscription
-          )}
-        >
-          <SignalTypeIcon type={type} />
-
-          <MobileOnly>
-            <MoreSignalActions
-              deleteEnabled={deleteEnabled}
-              isUserTheAuthor={isUserTheAuthor}
-              isPublic={isPublic}
-              removeSignal={removeSignal}
-              signalTitle={title}
-              signalId={id}
-            />
-          </MobileOnly>
-        </div>
+      {isMobileVersion && (
+        <DesktopOnly>
+          <SignalCardHeader
+            deleteEnabled={deleteEnabled}
+            isUserTheAuthor={isUserTheAuthor}
+            isPublic={isPublic}
+            removeSignal={removeSignal}
+            signal={signal}
+          />
+        </DesktopOnly>
       )}
+      {!isMobileVersion && (
+        <SignalCardHeader
+          deleteEnabled={deleteEnabled}
+          isUserTheAuthor={isUserTheAuthor}
+          isPublic={isPublic}
+          removeSignal={removeSignal}
+          signal={signal}
+        />
+      )}
+
       <div className={styles.wrapper__right}>
         <div onClick={goToSignalSettings}>
           <div className={goToSignalSettings && styles.pointer}>
@@ -137,6 +137,35 @@ const SignalCardBottom = ({
         )}
       </div>
     )
+  )
+}
+
+const SignalCardHeader = ({
+  deleteEnabled,
+  isUserTheAuthor,
+  isPublic,
+  removeSignal,
+  signal
+}) => {
+  const { id, title, settings: { type } = {} } = signal
+
+  return (
+    <div
+      className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
+    >
+      <SignalTypeIcon type={type} />
+
+      <MobileOnly>
+        <MoreSignalActions
+          deleteEnabled={deleteEnabled}
+          isUserTheAuthor={isUserTheAuthor}
+          isPublic={isPublic}
+          removeSignal={removeSignal}
+          signalTitle={title}
+          signalId={id}
+        />
+      </MobileOnly>
+    </div>
   )
 }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import HelpPopup from '../../../components/HelpPopup/HelpPopup'
+import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 import styles from './SonarFeedHeader.module.scss'
 
 const SonarFeedHeader = () => {
@@ -7,9 +7,14 @@ const SonarFeedHeader = () => {
     <div className={styles.header}>
       <h1>Sonar</h1>
       <div className={styles.explanation}>
-        <HelpPopup position='bottom left'>
+        <HelpTooltip
+          withDesc={false}
+          position='bottom'
+          align='start'
+          classes={styles}
+        >
           Create your own signal or subscribe to existing
-        </HelpPopup>
+        </HelpTooltip>
       </div>
     </div>
   )
