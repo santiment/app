@@ -36,6 +36,7 @@ import {
 import { checkHasPremium } from '../../pages/UserSelectors'
 import displayPaywall, { MOVE_CLB, CHECK_CLB } from './Paywall'
 import { binarySearch } from '../../pages/Trends/utils'
+import ChartWatermark from './ChartWatermark'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
 
@@ -374,6 +375,8 @@ class Charts extends React.Component {
             </>
           )}
         </div>
+
+        <ChartWatermark className={styles.watermark} />
         <ResponsiveContainer height={300}>
           <ComposedChart
             margin={CHART_MARGINS}
