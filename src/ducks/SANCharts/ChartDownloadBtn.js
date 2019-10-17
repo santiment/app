@@ -1,8 +1,9 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
-import colors from '@santiment-network/ui/variables.scss'
 import { setupColorGenerator } from './utils'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
+import { WaterMarkPath } from './ChartWatermark'
+import colors from '@santiment-network/ui/variables.scss'
 
 function setStyle (target, styles) {
   target.setAttribute('style', styles)
@@ -53,10 +54,27 @@ function drawAndMeasureText (ctx, text, x, y) {
   return ctx.measureText(text).width
 }
 
+const addWatermark = svg => {
+  const newElement = document.createElementNS(
+    'http://www.w3.org/2000/svg',
+    'path'
+  )
+  newElement.setAttribute('d', WaterMarkPath)
+  newElement.style.fill = '#D2D6E7'
+  newElement.style.transform = 'translate(89%,2%)'
+
+  svg.appendChild(newElement)
+
+  return svg
+}
+
 function downloadChart ({ current: chart }, metrics, title) {
   const div = document.createElement('div')
   setStyle(div, HIDDEN_STYLES)
-  const svg = chart.querySelector('.recharts-surface').cloneNode(true)
+
+  const svg = addWatermark(
+    chart.querySelector('.recharts-surface').cloneNode(true)
+  )
 
   div.appendChild(svg)
   document.body.appendChild(div)

@@ -206,6 +206,12 @@
   }
 }
 
+.watermark {
+  position: absolute;
+  right: 0;
+  top: 8px;
+}
+
 .signalLabel {
   background: var(--rhino);
 
