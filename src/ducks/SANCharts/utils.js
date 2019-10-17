@@ -81,6 +81,15 @@ export const Metrics = {
     gradientUrl: 'url(#totalUp)',
     hideYAxis: true
   },
+  marketcap: {
+    key: 'marketcap',
+    category: 'Financial',
+    node: Line,
+    label: 'Marketcap',
+    dataKey: 'marketcap',
+    color: 'malibu',
+    formatter: usdFormatter
+  },
   volume: {
     key: 'volume',
     category: 'Financial',
