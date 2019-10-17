@@ -223,7 +223,7 @@ const MobileDetailedPage = props => {
                           todayTV
                         )
                         transactionVolumeInfo = {
-                          metric: 'transactionVolume',
+                          metric: 'transaction_volume',
                           name: 'Transaction Volume',
                           value: todayTV,
                           period: '24h',

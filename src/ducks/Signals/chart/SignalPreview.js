@@ -28,6 +28,7 @@ const SignalPreviewChart = ({
   const [baseType, setType] = useState(type)
 
   if (baseType !== type) setType(type)
+  console.log(metrics)
 
   const requestedMetrics = metrics.map(
     ({ key, alias: name = key, reqMeta }) => ({

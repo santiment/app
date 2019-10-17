@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs'
 import { PROJECTS_QUERY, DEV_ACT_QUERY } from './queries'
-import { getTimeIntervalFromToday, DAY, MONTH } from '../../utils/dates'
+import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
 import { client as apollo } from '../../index'
 
 import { handleErrorAndTriggerAction } from '../../epics/utils'
@@ -13,7 +13,6 @@ const FROM = from.toISOString()
 const TO = to.toISOString()
 const devActChange = {}
 const chunkSize = 10
-console.log(devActChange)
 
 const escapeSlugToNormal = slug => slug.slice(1).replace(/_cs_/g, '-')
 const calculateDevAct = ({ data }) => {
