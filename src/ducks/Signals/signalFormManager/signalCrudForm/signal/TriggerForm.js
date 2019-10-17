@@ -88,7 +88,7 @@ export const TriggerForm = ({
 
   useEffect(
     () => {
-      if (!isEqual(settings, initialValues)) {
+      if (id && !isEqual(settings, initialValues)) {
         setInitialValues(settings)
       }
     },
