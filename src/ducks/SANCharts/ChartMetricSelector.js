@@ -67,7 +67,7 @@ const getCategoryGraph = availableMetrics => {
     const metrics = [metric]
 
     if (metric.key === 'historyPrice') {
-      metrics.push(Metrics.volume)
+      metrics.push(Metrics.volume, Metrics.marketcap)
     }
 
     addItemToGraph(categories, metricCategory, metrics)

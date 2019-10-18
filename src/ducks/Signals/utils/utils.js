@@ -398,6 +398,10 @@ const getPercentTreshold = (
   { type, operation, percent_threshold: percentThreshold },
   newType
 ) => {
+  const parsedThreshold = operation
+    ? operation[Object.keys(operation)[0]]
+    : BASE_PERCENT_THRESHOLD
+
   switch (type) {
     case PRICE_PERCENT_CHANGE: {
       if (newType && newType.value === PRICE_CHANGE_TYPES.PERCENT_SOME_OF) {
@@ -413,14 +417,15 @@ const getPercentTreshold = (
         }
       } else {
         return {
-          percentThreshold: operation
-            ? operation[Object.keys(operation)[0]]
-            : BASE_PERCENT_THRESHOLD
+          percentThreshold: parsedThreshold
         }
       }
     }
     case DAILY_ACTIVE_ADDRESSES: {
-      return { percentThreshold: percentThreshold || BASE_PERCENT_THRESHOLD }
+      return {
+        percentThreshold:
+          percentThreshold || parsedThreshold || BASE_PERCENT_THRESHOLD
+      }
     }
     default: {
     }

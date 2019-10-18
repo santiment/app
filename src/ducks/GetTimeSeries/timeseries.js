@@ -62,6 +62,10 @@ const TIMESERIES = {
     query: HISTORY_PRICE_QUERY,
     preTransform: ({ historyPrice }) => historyPrice
   },
+  marketcap: {
+    query: HISTORY_PRICE_QUERY,
+    preTransform: ({ historyPrice }) => historyPrice
+  },
   devActivity: {
     query: DEV_ACTIVITY_QUERY
   },
