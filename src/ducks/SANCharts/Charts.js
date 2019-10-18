@@ -20,7 +20,6 @@ import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import Icon from '@santiment-network/ui/Icon'
 import { millify } from './../../utils/formatting'
 import {
   getDateFormats,
@@ -41,7 +40,9 @@ import { binarySearch } from '../../pages/Trends/utils'
 import ChartWatermark from './ChartWatermark'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
-import { makeSignalPriceReferenceLine } from './ChartPage'
+import { createTrigger, fetchSignals } from '../Signals/common/actions'
+import { buildPriceAboveSignal } from '../Signals/utils/utils'
+import Icon from '@santiment-network/ui/Icon'
 
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
@@ -93,6 +94,57 @@ const getTooltipMetricAndKey = (metrics, chartData) => {
   return { tooltipMetric, tooltipMetricKey }
 }
 
+const PriceLabelFormatter = price => {
+  return (
+    <div>
+      <Icon type='triangle-right' />
+      <div className={styles.signalLabel}>
+        Signal: price raises to {usdFormatter(price)}
+      </div>
+    </div>
+  )
+}
+
+//  formatter={()=>PriceLabelFormatter(price)}
+export const makeSignalPriceReferenceLine = (price, index) => {
+  // const [state, setState] = useState(false)
+  const text =
+    index < 0
+      ? 'Click to create a signal if price raises to'
+      : 'Signal: price raises to'
+  return (
+    <ReferenceLine
+      key={index}
+      y={price}
+      yAxisId='axis-priceUsd'
+      stroke='var(--mystic)'
+      strokeDasharray='3 3'
+    >
+      <Label position='insideBottomLeft'>
+        {text} {usdFormatter(price)}
+      </Label>
+    </ReferenceLine>
+  )
+}
+
+const mapToPriceSignalLines = (slug, signals) => {
+  if (!signals) return []
+
+  const filtered = signals.filter(
+    ({
+      settings: {
+        target: { slug: signalSlug } = {},
+        operation: { above } = {}
+      } = {}
+    }) => !!above && slug === signalSlug
+  )
+
+  return filtered.map(({ settings: { operation = {} } = {} }, index) => {
+    const price = operation['above']
+    return makeSignalPriceReferenceLine(price, index)
+  })
+}
+
 class Charts extends React.Component {
   state = {
     leftZoomIndex: undefined,
@@ -103,6 +155,11 @@ class Charts extends React.Component {
 
   eventsMap = new Map()
   metricRef = React.createRef()
+
+  componentDidMount () {
+    const { fetchTriggers } = this.props
+    fetchTriggers && fetchTriggers()
+  }
 
   componentWillUpdate ({
     chartData,
@@ -228,7 +285,30 @@ class Charts extends React.Component {
   }, 100)
 
   onMouseLeave = () => {
-    this.setState({ hovered: false })
+    this.setState({ hovered: false, signalReferenceLine: null })
+  }
+
+  getNearestCrossData = crossY => {
+    let nearestItem = null
+    let minDiff = Number.MAX_SAFE_INTEGER
+
+    for (let i = 0; i < this.xToYCoordinates.length; i++) {
+      const item = this.xToYCoordinates[i]
+
+      const diff = Math.abs(crossY - item.y)
+      if (diff < minDiff) {
+        nearestItem = item
+        minDiff = diff
+      }
+    }
+
+    return nearestItem
+  }
+
+  canShowSignalLines = () => {
+    const { metrics = [] } = this.props
+
+    return metrics.includes(Metrics.historyPrice)
   }
 
   onMouseMove = throttle(event => {
@@ -238,7 +318,13 @@ class Charts extends React.Component {
       return
     }
 
-    const { activeTooltipIndex, activeLabel, activePayload } = event
+    const {
+      activeTooltipIndex,
+      activeLabel,
+      activePayload,
+      chartY,
+      chartX
+    } = event
 
     if (!activePayload) {
       return
@@ -250,9 +336,18 @@ class Charts extends React.Component {
     if (!coordinates) {
       return
     }
-    const { x, y } = coordinates
 
-    const { metrics } = this.props
+    const { x, y } = coordinates
+    const { payload: { priceUsd } = {} } =
+      chartX < 50 && this.canShowSignalLines()
+        ? this.getNearestCrossData(chartY)
+        : {}
+
+    // console.log(priceUsd, chartY, this.xToYCoordinates)
+
+    const newSignalLine = priceUsd
+      ? makeSignalPriceReferenceLine(priceUsd, -1)
+      : null
 
     this.setState({
       activePayload: activePayload.concat(
@@ -266,26 +361,22 @@ class Charts extends React.Component {
       yValue: this.props.chartData[activeTooltipIndex][
         tooltipMetric.dataKey || tooltipMetric.key
       ],
-      hovered: true
+      hovered: true,
+
+      signalReferenceLine: newSignalLine
     })
   }, 16)
 
-  onMouseYAxesHover = throttle(event => {
-    if (!event) {
-      return null
+  onChartClick = () => {
+    const { signalReferenceLine: { props: { y } = {} } = {} } = this.state
+    if (y) {
+      const { slug } = this.props
+      const signal = buildPriceAboveSignal(slug, y)
+      const { createTrigger } = this.props
+
+      createTrigger(signal)
     }
-    console.log(event)
-
-    const { value } = event
-    const { metrics } = this.props
-
-    this.setState({
-      ...this.state,
-      signalReferenceLine: metrics.includes(Metrics.historyPrice)
-        ? makeSignalPriceReferenceLine(value, -1)
-        : null
-    })
-  })
+  }
 
   render () {
     const {
@@ -301,7 +392,7 @@ class Charts extends React.Component {
       isLoading,
       priceRefLineData,
       scale = 'time',
-      signalLines
+      signalLines = []
     } = this.props
     const {
       refAreaLeft,
@@ -319,8 +410,7 @@ class Charts extends React.Component {
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
       chartRef,
       coordinates: this.xToYCoordinates,
-      ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef },
-      onMouseYAxesHover: this.onMouseYAxesHover
+      ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef }
     })
 
     let events = []
@@ -357,7 +447,7 @@ class Charts extends React.Component {
               Zoom out
             </Button>
           )}
-          {hovered && activePayload && (
+          {hovered && activePayload && !signalReferenceLine && (
             <>
               <div className={styles.details}>
                 <div className={styles.details__title}>
@@ -418,6 +508,7 @@ class Charts extends React.Component {
             }}
             onMouseMove={this.onMouseMove}
             onMouseUp={refAreaLeft && refAreaRight && this.onZoom}
+            onClick={this.onChartClick}
             data={chartData}
           >
             <XAxis
@@ -433,7 +524,7 @@ class Charts extends React.Component {
             {bars}
             {lines}
 
-            {!hovered ? [...signalLines, signalReferenceLine] : null}
+            {[...signalLines, signalReferenceLine]}
 
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
@@ -504,9 +595,18 @@ Charts.defaultProps = {
   isLoading: true
 }
 
-const mapStateToProps = state => ({
-  hasPremium: checkHasPremium(state)
-})
+const mapStateToProps = (state, props) => {
+  const { signals: { all = [] } = {} } = state
+  const { slug } = props
+  const signalLines = mapToPriceSignalLines(slug, all)
+
+  console.log(all)
+
+  return {
+    hasPremium: checkHasPremium(state),
+    signalLines
+  }
+}
 
 export const HISTORY_PRICE_QUERY = gql`
   query historyPrice($slug: String, $from: DateTime, $to: DateTime) {
@@ -517,8 +617,20 @@ export const HISTORY_PRICE_QUERY = gql`
   }
 `
 
+const mapDispatchToProps = dispatch => ({
+  createTrigger: payload => {
+    dispatch(createTrigger(payload))
+  },
+  fetchTriggers: payload => {
+    dispatch(fetchSignals())
+  }
+})
+
 const enhance = compose(
-  connect(mapStateToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
 
   graphql(HISTORY_PRICE_QUERY, {
     skip: ({ metrics, from, to }) => {
@@ -548,5 +660,4 @@ const enhance = compose(
     }
   })
 )
-
 export default enhance(Charts)

@@ -54,3 +54,7 @@ export const fetchHistorySignalPoints = ({ cooldown, settings }) => ({
     cooldown
   }
 })
+
+export const fetchSignals = () => ({
+  type: SIGNAL_FETCH_ALL
+})

@@ -12,18 +12,13 @@ import {
   Metrics,
   Events,
   getMarketSegment,
-  mapToRequestedMetrics,
-  usdFormatter
+  mapToRequestedMetrics
 } from './utils'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { getIntervalByTimeRange } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
-import PageLoader from '../../components/Loader/PageLoader'
-import GetSignals from '../Signals/common/getSignals'
 import styles from './ChartPage.module.scss'
-import { Label, ReferenceLine } from 'recharts'
-import Icon from '@santiment-network/ui/Icon'
 
 const DEFAULT_TIME_RANGE = '6m'
 
@@ -218,10 +213,6 @@ class ChartPage extends Component {
     if (onSlugSelect) {
       onSlugSelect(project)
     }
-  }
-
-  onMetricsChange = metrics => {
-    this.setState({ metrics }, this.updateSearchQuery)
   }
 
   onIntervalChange = interval => {
@@ -540,47 +531,28 @@ class ChartPage extends Component {
                         />
                       </>
                     )}
-                    <GetSignals
-                      render={({ data: { signals } = {}, isLoading }) => {
-                        if (isLoading) {
-                          return <PageLoader />
-                        }
-
-                        const signalLines = metrics.includes(
-                          Metrics.historyPrice
-                        )
-                          ? mapToPriceSignalLines(slug, signals)
-                          : []
-
-                        return (
-                          <Charts
-                            scale={scale}
-                            chartRef={this.chartRef}
-                            isLoading={isLoading}
-                            onZoom={this.onZoom}
-                            from={from}
-                            to={to}
-                            slug={slug}
-                            onZoomOut={this.onZoomOut}
-                            isZoomed={zoom}
-                            events={eventsFiltered}
-                            isTrendsShowing={isTrendsShowing}
-                            chartData={timeseries.map(
-                              ({ datetime, ...rest }) => ({
-                                ...rest,
-                                datetime: +new Date(datetime)
-                              })
-                            )}
-                            title={title}
-                            metrics={finalMetrics}
-                            leftBoundaryDate={leftBoundaryDate}
-                            rightBoundaryDate={rightBoundaryDate}
-                            children={children}
-                            isAdvancedView={isAdvancedView}
-                            signalLines={signalLines}
-                          />
-                        )
-                      }}
+                    <Charts
+                      scale={scale}
+                      chartRef={this.chartRef}
+                      isLoading={isLoading}
+                      onZoom={this.onZoom}
+                      from={from}
+                      to={to}
+                      slug={slug}
+                      onZoomOut={this.onZoomOut}
+                      isZoomed={zoom}
+                      events={eventsFiltered}
+                      isTrendsShowing={isTrendsShowing}
+                      chartData={timeseries.map(({ datetime, ...rest }) => ({
+                        ...rest,
+                        datetime: +new Date(datetime)
+                      }))}
+                      title={title}
+                      metrics={finalMetrics}
+                      leftBoundaryDate={leftBoundaryDate}
+                      rightBoundaryDate={rightBoundaryDate}
+                      children={children}
+                      isAdvancedView={isAdvancedView}
                     />
                     {!isPRO && (
                       <UpgradePaywall isAdvancedView={isAdvancedView} />
@@ -602,50 +574,6 @@ class ChartPage extends Component {
       />
     )
   }
-}
-
-const PriceLabelFormatter = price => {
-  return (
-    <div>
-      <Icon type='triangle-right' />
-      <div className={styles.signalLabel}>
-        Signal: price raises to {usdFormatter(price)}
-      </div>
-    </div>
-  )
-}
-
-//  formatter={()=>PriceLabelFormatter(price)}
-export const makeSignalPriceReferenceLine = (price, index) => (
-  <ReferenceLine
-    key={index}
-    y={price}
-    yAxisId='axis-priceUsd'
-    stroke='var(--mystic)'
-    strokeDasharray='3 3'
-  >
-    <Label position='insideBottomLeft'>
-      Signal: price raises to {usdFormatter(price)}
-    </Label>
-  </ReferenceLine>
-)
-
-const mapToPriceSignalLines = (slug, signals) => {
-  if (!signals) return []
-
-  const filtered = signals.filter(
-    ({
-      settings: {
-        target: { slug: signalSlug } = {},
-        operation: { above } = {}
-      } = {}
-    }) => !!above && slug === signalSlug
-  )
-
-  return filtered.map(({ settings: { operation = {} } = {} }, index) => {
-    const price = operation['above']
-    return makeSignalPriceReferenceLine(price, index)
-  })
 }
 
 const mapStateToProps = ({ rootUi: { isBetaModeEnabled } }) => ({

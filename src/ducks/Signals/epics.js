@@ -101,15 +101,18 @@ export const createSignalEpic = (action$, store, { client }) =>
         })
 
         return Observable.fromPromise(create)
-          .mergeMap(({ data: { id } }) => {
+          .mergeMap(props => {
             completeOnboardingTask('signal')
 
+            const {
+              data: {
+                createTrigger: { trigger }
+              }
+            } = props
             return Observable.merge(
               Observable.of({
                 type: actions.SIGNAL_CREATE_SUCCESS,
-                payload: {
-                  id
-                }
+                payload: trigger
               }),
               Observable.of(showNotification('Signal was succesfully created'))
             )

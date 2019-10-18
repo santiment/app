@@ -449,8 +449,7 @@ export const generateMetricsMarkup = (
     ref = {},
     data = {},
     chartRef: { current: chartRef } = {},
-    coordinates,
-    onMouseYAxesHover
+    coordinates
   } = {}
 ) => {
   const metricWithYAxis = findYAxisMetric(metrics)
@@ -498,7 +497,6 @@ export const generateMetricsMarkup = (
         orientation={orientation}
         domain={['auto', 'dataMax']}
         hide={isHidden}
-        onMouseMove={!isHidden ? onMouseYAxesHover : undefined}
       />,
       <El
         key={`line-${dataKey}`}
