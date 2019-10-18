@@ -3,55 +3,7 @@
 exports[`TriggerForm EthWallet smoke 1`] = `
 <Formik
   enableReinitialize={true}
-  initialValues={
-    Object {
-      "channels": Array [
-        "Telegram",
-      ],
-      "description": "Notify me when the . Send me notifications every 1 day(s) via telegram.",
-      "ethAddress": "some_custom_address",
-      "frequencyTimeType": Object {
-        "label": "Day(s)",
-        "value": "d",
-      },
-      "frequencyTimeValue": Object {
-        "label": 1,
-        "value": 1,
-      },
-      "frequencyType": Object {
-        "disabledMetrics": Array [
-          "daily_active_addresses",
-        ],
-        "label": "No more than once per",
-        "value": "onceper",
-      },
-      "isRepeating": true,
-      "metric": Object {
-        "description": "Notify me when a wallet’s balance changes a certain way",
-        "hidden": true,
-        "label": "Historical balance",
-        "value": "eth_wallet",
-      },
-      "percentThreshold": 200,
-      "signalType": Object {
-        "label": "Assets",
-        "value": "assets",
-      },
-      "target": Object {
-        "label": "nuga",
-        "value": "nuga",
-      },
-      "threshold": "",
-      "timeWindow": 24,
-      "title": "Nuga  historical balance",
-      "type": Object {
-        "description": "Notify me when a wallet’s balance changes a certain way",
-        "hidden": true,
-        "label": "Historical balance",
-        "value": "eth_wallet",
-      },
-    }
-  }
+  initialValues={Object {}}
   isInitialValid={false}
   onSubmit={[Function]}
   validate={[Function]}
@@ -65,63 +17,7 @@ exports[`TriggerForm EthWallet smoke 1`] = `
 exports[`TriggerForm smoke 1`] = `
 <Formik
   enableReinitialize={true}
-  initialValues={
-    Object {
-      "absoluteThreshold": 25,
-      "channels": Array [
-        "Telegram",
-      ],
-      "description": "Notify me when the price of santiment moving down 10% compared to 1 day(s) earlier. Send me notifications every 1 day(s) via telegram.",
-      "ethAddress": undefined,
-      "frequencyTimeType": Object {
-        "label": "Day(s)",
-        "value": "d",
-      },
-      "frequencyTimeValue": Object {
-        "label": 1,
-        "value": 1,
-      },
-      "frequencyType": Object {
-        "disabledMetrics": Array [
-          "daily_active_addresses",
-        ],
-        "label": "No more than once per",
-        "value": "onceper",
-      },
-      "isRepeating": true,
-      "metric": Object {
-        "description": "Notify me when an asset’s price moves a certain way",
-        "label": "Price",
-        "value": "price",
-      },
-      "percentThreshold": 10,
-      "signalType": Object {
-        "label": "Assets",
-        "value": "assets",
-      },
-      "target": Object {
-        "label": "santiment",
-        "value": "santiment",
-      },
-      "threshold": 0.002,
-      "timeWindow": 1,
-      "timeWindowUnit": Object {
-        "label": "Day(s)",
-        "value": "d",
-      },
-      "title": "Santiment price goes down 10% compared to 1 day(s) earlier",
-      "type": Object {
-        "dependencies": Array [
-          "percentThreshold",
-          "timeWindow",
-        ],
-        "filledField": true,
-        "label": "Moving down %",
-        "metric": "price_percent_change",
-        "value": "percent_down",
-      },
-    }
-  }
+  initialValues={Object {}}
   isInitialValid={false}
   onSubmit={[Function]}
   validate={[Function]}

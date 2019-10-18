@@ -5,11 +5,18 @@ import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import styles from './WatchlistAnomalies.module.scss'
 
-const HelpTooltip = ({ withDesc = true, classes = {}, note }) => (
+const HelpTooltip = ({
+  withDesc = true,
+  classes = {},
+  note,
+  children,
+  position = 'top',
+  align = 'end'
+}) => (
   <Tooltip
     className={cx(styles.tooltip, classes.tooltip)}
-    position='top'
-    align='end'
+    position={position}
+    align={align}
     trigger={
       <div className={styles.description}>
         <Icon
@@ -21,13 +28,17 @@ const HelpTooltip = ({ withDesc = true, classes = {}, note }) => (
     }
   >
     <Panel padding>
-      Anomalies in metrics are detected using combination of statistical
-      methods. Currently combination of this methodes defines boundary between
-      normal and abnormal values.
-      {note && (
+      {children || (
         <>
-          <br />
-          {note}
+          Anomalies in metrics are detected using combination of statistical
+          methods. Currently combination of this methodes defines boundary
+          between normal and abnormal values.
+          {note && (
+            <>
+              <br />
+              {note}
+            </>
+          )}
         </>
       )}
     </Panel>

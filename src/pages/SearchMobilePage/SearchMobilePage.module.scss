@@ -5,7 +5,7 @@
   display: flex;
   justify-content: unset;
   align-items: center;
-  padding-top: 6px;
+  padding-top: 16px;
 }
 
 .hidden {
@@ -21,18 +21,14 @@
   width: 100%;
   display: flex;
   justify-content: space-around;
-  padding: 10px 10px 0;
-
-  & div {
-    padding: 0 15px 15px;
-  }
+  padding: 24px 10px 0;
 }
 
 .caption {
   color: var(--waterloo);
-  margin: 16px 0;
+  margin: 16px 0 20px;
 
-  @include text('caption', 'm');
+  @include text('body-3', 'm');
 }
 
 .recentWrapper {

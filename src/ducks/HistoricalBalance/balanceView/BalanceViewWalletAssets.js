@@ -10,8 +10,7 @@ const BalanceViewWalletAssets = ({
   address,
   assets,
   handleAssetsChange,
-  handleWalletChange,
-  classes = {}
+  handleWalletChange
 }) => {
   return (
     <div className={styles.filters}>

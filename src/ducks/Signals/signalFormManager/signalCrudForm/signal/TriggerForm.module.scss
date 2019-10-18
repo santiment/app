@@ -2,6 +2,7 @@
 
 $trigger-form-width: 550px;
 $trigger-form-field-margin: 24px;
+$trigger-shared-form-width: 496px;
 
 .wrapper {
   position: relative;
@@ -11,6 +12,10 @@ $trigger-form-field-margin: 24px;
   @include responsive('phone', 'phone-xs') {
     width: 100%;
   }
+}
+
+.sharedForm {
+  max-width: $trigger-shared-form-width;
 }
 
 .loading {
@@ -108,7 +113,9 @@ $trigger-form-field-margin: 24px;
   display: flex;
   flex-direction: column;
 
-  @include text('body-3');
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+  }
 
   &:first-child {
     padding-right: 8px;
@@ -149,6 +156,7 @@ $trigger-form-field-margin: 24px;
 .timeWindowInput {
   flex: 1;
   margin-right: 8px;
+  max-width: 72px;
 }
 
 .timeWindowUnit {
@@ -162,7 +170,7 @@ $trigger-form-field-margin: 24px;
 .frequencyTimeValue {
   flex: 1;
   margin-right: 8px;
-  width: 100px;
+  max-width: 64px;
 }
 
 .frequencyTimeType {
@@ -253,6 +261,11 @@ a {
 .descriptionTextarea {
   border: 0 !important;
   padding: 0 !important;
+
+  @include responsive('phone-xs', 'phone') {
+    font-size: 16px !important;
+    line-height: 24px !important;
+  }
 }
 
 .chainBlock {
@@ -301,5 +314,11 @@ a {
 .fieldTimeWindow {
   @include responsive('phone', 'phone-xs') {
     padding: 0;
+  }
+}
+
+:global(.Select-value) {
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
   }
 }

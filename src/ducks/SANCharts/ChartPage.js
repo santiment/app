@@ -9,7 +9,7 @@ import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import Header from './Header'
 import { getMarketSegment } from './utils'
-import { Metrics, Events, compatabilityMap } from './data'
+import { Metrics, Events, compatabilityMap, mapToRequestedMetrics } from './data'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { getIntervalByTimeRange } from '../../utils/dates'
@@ -390,19 +390,18 @@ class ChartPage extends Component {
       rightBoundaryDate,
       isLoggedIn,
       isPRO,
-      isBeta
+      isBeta,
+      alwaysShowingMetrics = []
     } = this.props
 
-    const requestedMetrics = metrics.map(
-      ({ key, alias: name = key, reqMeta }) => ({
-        name,
-        slug,
-        from,
-        to,
-        interval: INTERVAL_ALIAS[interval] || interval,
-        ...reqMeta
-      })
-    )
+    const selectedInterval = INTERVAL_ALIAS[interval] || interval
+
+    const requestedMetrics = mapToRequestedMetrics(metrics, {
+      interval: selectedInterval,
+      slug,
+      from,
+      to
+    })
 
     const requestedEvents =
       events.map(({ key: name }) => ({
@@ -410,7 +409,7 @@ class ChartPage extends Component {
         from,
         to,
         slug,
-        interval: INTERVAL_ALIAS[interval] || interval
+        interval: selectedInterval
       })) || []
 
     const requestedMarketSegments =
@@ -419,7 +418,7 @@ class ChartPage extends Component {
         from,
         to,
         slug,
-        interval: INTERVAL_ALIAS[interval] || interval,
+        interval: selectedInterval,
         ...reqMeta
       })) || []
 
@@ -531,6 +530,7 @@ class ChartPage extends Component {
                           showToggleAnomalies={showToggleAnomalies}
                           onToggleAnomalies={this.onToggleAnomalies}
                           isShowAnomalies={isShowAnomalies}
+                          alwaysShowingMetrics={alwaysShowingMetrics}
                           hideSettings={hideSettings}
                         />
                       </>

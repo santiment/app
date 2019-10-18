@@ -18,32 +18,40 @@ const SignalCard = ({
   goToSignalSettings,
   toggleSignal,
   isUserTheAuthor,
-  deleteEnabled = true
+  deleteEnabled = true,
+  showMoreActions = true,
+  showStatus = true,
+  isMobileVersion = false
 }) => {
   const isAwaiting = +id <= 0
-  const { title, description = '', isPublic, settings: { type } = {} } = signal
+  const { title, description = '', isPublic } = signal
 
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
-      <div
-        className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
-      >
-        <SignalTypeIcon type={type} />
-
-        <MobileOnly>
-          <MoreSignalActions
+      {isMobileVersion && (
+        <DesktopOnly>
+          <SignalCardHeader
             deleteEnabled={deleteEnabled}
             isUserTheAuthor={isUserTheAuthor}
             isPublic={isPublic}
             removeSignal={removeSignal}
-            signalTitle={title}
-            signalId={id}
+            signal={signal}
           />
-        </MobileOnly>
-      </div>
+        </DesktopOnly>
+      )}
+      {!isMobileVersion && (
+        <SignalCardHeader
+          deleteEnabled={deleteEnabled}
+          isUserTheAuthor={isUserTheAuthor}
+          isPublic={isPublic}
+          removeSignal={removeSignal}
+          signal={signal}
+        />
+      )}
+
       <div className={styles.wrapper__right}>
         <div onClick={goToSignalSettings}>
-          <div className={styles.upper}>
+          <div className={goToSignalSettings && styles.pointer}>
             <h2 className={styles.title}>{title}</h2>
             {description && (
               <h3 className={styles.description}>
@@ -59,11 +67,13 @@ const SignalCard = ({
         <SignalCardBottom
           signalId={id}
           signal={signal}
+          showMoreActions={showMoreActions}
           removeSignal={removeSignal}
           toggleSignal={toggleSignal}
           isAwaiting={isAwaiting}
           isUserTheAuthor={isUserTheAuthor}
           deleteEnabled={deleteEnabled}
+          showStatus={showStatus}
         />
       </div>
     </Panel>
@@ -84,42 +94,77 @@ const SignalCardBottom = ({
   isAwaiting = false,
   toggleSignal,
   isUserTheAuthor = true,
-  deleteEnabled
+  deleteEnabled,
+  showMoreActions,
+  showStatus = true
 }) => {
   const { isActive, isPublic, title } = signal
   return (
-    <div className={styles.bottom}>
-      <DesktopOnly>
+    showStatus && (
+      <div className={styles.bottom}>
+        {showMoreActions && (
+          <DesktopOnly>
+            <MoreSignalActions
+              isUserTheAuthor={isUserTheAuthor}
+              removeSignal={removeSignal}
+              signalTitle={title}
+              signalId={signalId}
+              isPublic={isPublic}
+              deleteEnabled={deleteEnabled}
+            />
+          </DesktopOnly>
+        )}
+
+        {isPublished ? (
+          <h4 className={styles.author}>
+            {isAwaiting && (
+              <div className={styles.awaitingBlock}>
+                <Icon type='awaiting' />
+                <span>&nbsp;&nbsp;Awaiting confirmation</span>
+              </div>
+            )}
+            {isUserTheAuthor && !isAwaiting && (
+              <StatusLabel isPublic={isPublic} />
+            )}
+          </h4>
+        ) : (
+          <UnpublishedMsg />
+        )}
+        {isUserTheAuthor && toggleSignal && (
+          <div className={styles.right}>
+            <Toggle onClick={toggleSignal} isActive={isActive} />
+          </div>
+        )}
+      </div>
+    )
+  )
+}
+
+const SignalCardHeader = ({
+  deleteEnabled,
+  isUserTheAuthor,
+  isPublic,
+  removeSignal,
+  signal
+}) => {
+  const { id, title, settings: { type } = {} } = signal
+
+  return (
+    <div
+      className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
+    >
+      <SignalTypeIcon type={type} />
+
+      <MobileOnly>
         <MoreSignalActions
+          deleteEnabled={deleteEnabled}
           isUserTheAuthor={isUserTheAuthor}
+          isPublic={isPublic}
           removeSignal={removeSignal}
           signalTitle={title}
-          signalId={signalId}
-          isPublic={isPublic}
-          deleteEnabled={deleteEnabled}
+          signalId={id}
         />
-      </DesktopOnly>
-
-      {isPublished ? (
-        <h4 className={styles.author}>
-          {isAwaiting && (
-            <div className={styles.awaitingBlock}>
-              <Icon type='awaiting' />
-              <span>&nbsp;&nbsp;Awaiting confirmation</span>
-            </div>
-          )}
-          {isUserTheAuthor && !isAwaiting && (
-            <StatusLabel isPublic={isPublic} />
-          )}
-        </h4>
-      ) : (
-        <UnpublishedMsg />
-      )}
-      {isUserTheAuthor && (
-        <div className={styles.right}>
-          <Toggle onClick={toggleSignal} isActive={isActive} />
-        </div>
-      )}
+      </MobileOnly>
     </div>
   )
 }

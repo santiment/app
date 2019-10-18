@@ -58,6 +58,9 @@ class SmoothDropdown extends Component {
 
   componentDidMount () {
     modalRoot.appendChild(this.ddContainer)
+
+    // GarageInc: HACK for IOS(IPAD and etc) which can't handle mouseLeave/touchCancel/blur events
+    document.addEventListener('touchstart', this.handleTouchEvent)
   }
 
   componentWillUnmount () {
@@ -68,12 +71,23 @@ class SmoothDropdown extends Component {
     this.arrowNode = null
     this.portalRef = null
     this.dropdownWrapperRef = null
+
+    document.removeEventListener('touchstart', this.handleTouchEvent)
   }
 
   componentWillMount () {
     this.portalContainer = this.ddContainer.querySelector('.dd__list')
     this.bgNode = this.ddContainer.querySelector('.dd__bg')
     this.arrowNode = this.ddContainer.querySelector('.dd__arrow')
+  }
+
+  handleTouchEvent = evt => {
+    if (
+      this.dropdownWrapperRef &&
+      !this.dropdownWrapperRef.current.contains(evt.target)
+    ) {
+      this.handleMouseLeave()
+    }
   }
 
   startCloseTimeout = () => {
@@ -92,6 +106,12 @@ class SmoothDropdown extends Component {
 
   handleMouseLeave = () => this.startCloseTimeout()
 
+  isCurrentDropdown = ddItem => {
+    const { currentDropdown } = this.state
+    const dropdownItem = this.ddItemsRef.get(ddItem).current
+    return currentDropdown !== dropdownItem.querySelector('.dd__content')
+  }
+
   setupDropdownContent = (ddItem, ddContent) => {
     setTimeout(() => {
       if (!this.ddItemsRef.has(ddItem)) {
@@ -108,10 +128,7 @@ class SmoothDropdown extends Component {
         dropdownStyles: { width: widthPx, height: heightPx }
       } = this.state
 
-      if (
-        !dropdownItem ||
-        currentDropdown !== dropdownItem.querySelector('.dd__content')
-      ) {
+      if (!dropdownItem || this.isCurrentDropdown(ddItem)) {
         return
       }
 
@@ -223,13 +240,7 @@ class SmoothDropdown extends Component {
       arrowCorrectionX,
       ddItems
     } = this.state
-    const {
-      handleMouseEnter,
-      handleMouseLeave,
-      startCloseTimeout,
-      stopCloseTimeout,
-      setupDropdownContent
-    } = this
+    const { handleMouseEnter, handleMouseLeave, setupDropdownContent } = this
 
     this.ddContainer.classList.toggle(
       'has-dropdown-active',
@@ -264,8 +275,12 @@ class SmoothDropdown extends Component {
               >
                 <div
                   className='dd__content'
-                  onMouseEnter={stopCloseTimeout}
-                  onMouseLeave={startCloseTimeout}
+                  onTouchStart={handleMouseEnter}
+                  onMouseEnter={handleMouseEnter}
+                  onTouchEnd={handleMouseLeave}
+                  onTouchCancel={handleMouseLeave}
+                  onMouseLeave={handleMouseLeave}
+                  onBlur={handleMouseLeave}
                 >
                   {dropdownNode}
                 </div>

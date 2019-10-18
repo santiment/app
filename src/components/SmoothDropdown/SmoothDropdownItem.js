@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { SmoothDropdownContext } from './SmoothDropdown'
 
@@ -30,23 +30,28 @@ class SmoothDropdownItem extends Component {
     }
     return (
       <SmoothDropdownContext.Consumer>
-        {({ handleMouseEnter, handleMouseLeave, setupDropdownContent }) => (
-          <Fragment>
-            <div
-              onMouseEnter={evt => {
-                if (showIf ? showIf(evt) : true) {
-                  handleMouseEnter(this, ddTrigger)
-                }
-              }}
-              onMouseLeave={handleMouseLeave}
-              className={`dd__trigger ${className}`}
-              ref={this.triggerRef}
-            >
-              {trigger}
-            </div>
-            {setupDropdownContent(this, children)}
-          </Fragment>
-        )}
+        {({ handleMouseEnter, handleMouseLeave, setupDropdownContent }) => {
+          const onOpen = evt => {
+            if (showIf ? showIf(evt) : true) {
+              handleMouseEnter(this, ddTrigger)
+            }
+          }
+          return (
+            <>
+              <div
+                onMouseEnter={onOpen}
+                onTouchStart={onOpen}
+                onTouchCancel={handleMouseLeave}
+                onMouseLeave={handleMouseLeave}
+                className={`dd__trigger ${className}`}
+                ref={this.triggerRef}
+              >
+                {trigger}
+              </div>
+              {setupDropdownContent(this, children)}
+            </>
+          )
+        }}
       </SmoothDropdownContext.Consumer>
     )
   }

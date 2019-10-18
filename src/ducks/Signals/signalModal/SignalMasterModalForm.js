@@ -119,7 +119,6 @@ const SignalMasterModalForm = ({
               canRedirect={canRedirect}
               metaFormSettings={metaFormSettings}
               buttonParams={buttonParams}
-              triggerId={triggerId}
             />
           </>
         )
@@ -162,8 +161,7 @@ const MainDialog = ({
   formChangedCallback,
   canRedirect,
   metaFormSettings,
-  buttonParams,
-  triggerId
+  buttonParams
 }) => {
   const [dialogTitle, onSetDialogTitle] = useState('')
   const { variant, border } = buttonParams
@@ -177,6 +175,23 @@ const MainDialog = ({
     [isLoggedIn]
   )
 
+  const [openSharedForm, setOpenForm] = useState(isShared)
+  useEffect(
+    () => {
+      if (openSharedForm !== isShared) {
+        setOpenForm(isShared)
+      }
+    },
+    [isShared]
+  )
+
+  useEffect(
+    () => {
+      openSharedForm && onSetDialogTitle('Signal details')
+    },
+    [openSharedForm]
+  )
+
   return (
     <Dialog
       open={dialogOpenState}
@@ -186,31 +201,25 @@ const MainDialog = ({
         dialogTrigger || signalModalTrigger(enabled, label, variant, border)
       }
       title={
-        !isError && (
-          <>
-            {dialogTitle}
-            {isShared && isLoggedIn && (
-              <Button
-                accent='positive'
-                variant='fill'
-                className={styles.shared}
-              >
-                Shared
-              </Button>
-            )}
-          </>
-        )
+        <TriggerModalTitle
+          showSharedBtn={isShared && !openSharedForm}
+          isError={isError}
+          dialogTitle={dialogTitle}
+          isLoggedIn={isLoggedIn}
+        />
       }
       classes={styles}
       {...dialogProps}
     >
       <Dialog.ScrollContent className={styles.TriggerPanel}>
-        {isError && <NoSignal triggerId={triggerId} />}
+        {isError && <NoSignal />}
         {!isError && isLoading && <PageLoader className={styles.loading} />}
         {!isError &&
           !isLoading &&
           (isLoggedIn ? (
             <SignalMaster
+              setOpenSharedForm={setOpenForm}
+              openSharedForm={openSharedForm}
               isShared={isShared}
               trigger={trigger}
               setTitle={onSetDialogTitle}
@@ -224,6 +233,28 @@ const MainDialog = ({
           ))}
       </Dialog.ScrollContent>
     </Dialog>
+  )
+}
+
+const TriggerModalTitle = ({
+  showSharedBtn,
+  isError,
+  dialogTitle = 'Signal details',
+  isLoggedIn
+}) => {
+  if (isError) {
+    return null
+  }
+
+  return (
+    <>
+      {dialogTitle}
+      {showSharedBtn && isLoggedIn && (
+        <Button accent='positive' variant='fill' className={styles.shared}>
+          Shared
+        </Button>
+      )}
+    </>
   )
 }
 
@@ -245,7 +276,7 @@ const signalModalTrigger = (
   </Button>
 )
 
-const NoSignal = ({ triggerId }) => (
+const NoSignal = () => (
   <EmptySection className={styles.notSignalInfo}>
     Signal doesn't exist
     <br />

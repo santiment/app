@@ -33,12 +33,13 @@ export class TrendsForm extends Component {
   render () {
     const {
       classes: { wrapper: className, input: inputClassName },
-      ...props
+      history
     } = this.props
+
     return (
       <form onSubmit={this.handleSubmit} className={className}>
         <Search
-          {...props}
+          history={history}
           className={inputClassName}
           iconPosition='left'
           placeholder='Enter a search word or phrase'
