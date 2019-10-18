@@ -53,7 +53,8 @@ export const Metrics = {
     label: 'Price',
     dataKey: 'priceUsd',
     category: 'Financial',
-    formatter: usdFormatter
+    formatter: usdFormatter,
+    historicalTriggersDataKey: 'price'
   },
   historyPricePreview: {
     node: Area,
@@ -63,6 +64,13 @@ export const Metrics = {
     category: 'Financial',
     gradientUrl: 'url(#totalUp)',
     hideYAxis: true
+  },
+  marketcap: {
+    category: 'Financial',
+    node: Line,
+    label: 'Marketcap',
+    color: 'malibu',
+    formatter: usdFormatter
   },
   volume: {
     category: 'Financial',
@@ -113,7 +121,8 @@ export const Metrics = {
     on a certain date.
     Simply put, DAA indicates the daily level of crowd interaction (or
     speculation) with a certain token.`,
-    color: 'texas-rose'
+    color: 'texas-rose',
+    historicalTriggersDataKey: 'value'
   },
   percentOfTokenSupplyOnExchanges: {
     category: 'On-chain',
