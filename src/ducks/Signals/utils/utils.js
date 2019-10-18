@@ -1429,14 +1429,7 @@ export const buildPriceAboveSignal = (slug, price) => {
   formProps.description = getNewDescription(formProps)
 
   formProps.target = mapToOption(slug)
-
   formProps.absoluteThreshold = price
 
-  console.log(formProps)
-
-  const signal = mapFormPropsToTrigger(formProps)
-
-  console.log(signal)
-
-  return signal
+  return mapFormPropsToTrigger(formProps)
 }

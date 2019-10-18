@@ -1,6 +1,16 @@
 import React from 'react'
-import { YAxis, Bar, Line, Area } from 'recharts'
+import {
+  YAxis,
+  Bar,
+  Line,
+  Area,
+  ReferenceLine,
+  Label,
+  ReferenceDot
+} from 'recharts'
 import { formatNumber } from './../../utils/formatting'
+import Icon from '@santiment-network/ui/Icon'
+import styles from './Chart.module.scss'
 
 export const Events = {
   trendPositionHistory: {
@@ -550,6 +560,7 @@ export const generateMetricsMarkup = (
           let resX = coor.x - halfWidth
           let secondWidth = halfWidth
 
+          // MAGIC ?!
           if (resX < 40) {
             resX = 40
             secondWidth = 0
@@ -592,3 +603,106 @@ export const mapToRequestedMetrics = (
     interval,
     ...reqMeta
   }))
+
+export const makeSignalPriceReferenceLine = (price, index) => {
+  const text =
+    (index < 0
+      ? 'Click to create a signal if price raises to '
+      : 'Signal: price raises to ') + usdFormatter(price)
+
+  return (
+    <ReferenceLine
+      key={index}
+      y={price}
+      yAxisId='axis-priceUsd'
+      stroke='var(--mystic)'
+      strokeDasharray='3 3'
+      isFront
+    >
+      <Label position='insideBottomLeft'>{text}</Label>
+    </ReferenceLine>
+  )
+}
+
+export const makeSignalPriceReferenceDot = (
+  price,
+  index,
+  onMouseEnter,
+  onMouseLeave,
+  onClick,
+  posX
+) => {
+  return (
+    <ReferenceDot
+      className={styles.signalPoint}
+      key={index}
+      y={price}
+      x={posX}
+      onMouseEnter={() => onMouseEnter && onMouseEnter(price)}
+      onMouseLeave={() => onMouseLeave && onMouseLeave(price)}
+      onMouseDown={onClick}
+      yAxisId='axis-priceUsd'
+      r={3}
+      fill='--rhino'
+      isFront
+    />
+  )
+}
+
+export const mapToPriceSignalLines = ({
+  data,
+  slug,
+  signals,
+  activeSignalValue,
+  onSignalHover,
+  onSignalLeave,
+  onSignalClick
+}) => {
+  if (!signals || !data) return []
+
+  const first = data[0]
+
+  if (!first) {
+    return
+  }
+
+  const {
+    payload: { datetime: dotPositionX }
+  } = first
+
+  const filtered = signals.filter(
+    ({
+      settings: {
+        target: { slug: signalSlug } = {},
+        operation: { above } = {}
+      } = {}
+    }) => !!above && slug === signalSlug
+  )
+
+  let index = 0
+
+  const res = filtered.reduce((acc, item) => {
+    const { id, settings: { operation = {} } = {} } = item
+    const price = operation['above']
+
+    activeSignalValue === price &&
+      acc.push(makeSignalPriceReferenceLine(price, ++index))
+
+    acc.push(
+      makeSignalPriceReferenceDot(
+        price,
+        ++index,
+        onSignalHover,
+        onSignalLeave,
+        (target, evt) => {
+          onSignalClick(target, evt, id)
+        },
+        dotPositionX
+      )
+    )
+
+    return acc
+  }, [])
+
+  return res
+}

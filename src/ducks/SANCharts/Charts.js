@@ -32,17 +32,21 @@ import {
   generateMetricsMarkup,
   findYAxisMetric,
   chartBars,
-  usdFormatter
+  makeSignalPriceReferenceLine,
+  mapToPriceSignalLines
 } from './utils'
 import { checkHasPremium } from '../../pages/UserSelectors'
 import displayPaywall, { MOVE_CLB, CHECK_CLB } from './Paywall'
 import { binarySearch } from '../../pages/Trends/utils'
 import ChartWatermark from './ChartWatermark'
+import {
+  createTrigger,
+  fetchSignals,
+  removeTrigger
+} from '../Signals/common/actions'
+import { buildPriceAboveSignal } from '../Signals/utils/utils'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
-import { createTrigger, fetchSignals } from '../Signals/common/actions'
-import { buildPriceAboveSignal } from '../Signals/utils/utils'
-import Icon from '@santiment-network/ui/Icon'
 
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
@@ -94,71 +98,39 @@ const getTooltipMetricAndKey = (metrics, chartData) => {
   return { tooltipMetric, tooltipMetricKey }
 }
 
-const PriceLabelFormatter = price => {
-  return (
-    <div>
-      <Icon type='triangle-right' />
-      <div className={styles.signalLabel}>
-        Signal: price raises to {usdFormatter(price)}
-      </div>
-    </div>
-  )
-}
-
-//  formatter={()=>PriceLabelFormatter(price)}
-export const makeSignalPriceReferenceLine = (price, index) => {
-  // const [state, setState] = useState(false)
-  const text =
-    index < 0
-      ? 'Click to create a signal if price raises to'
-      : 'Signal: price raises to'
-  return (
-    <ReferenceLine
-      key={index}
-      y={price}
-      yAxisId='axis-priceUsd'
-      stroke='var(--mystic)'
-      strokeDasharray='3 3'
-    >
-      <Label position='insideBottomLeft'>
-        {text} {usdFormatter(price)}
-      </Label>
-    </ReferenceLine>
-  )
-}
-
-const mapToPriceSignalLines = (slug, signals) => {
-  if (!signals) return []
-
-  const filtered = signals.filter(
-    ({
-      settings: {
-        target: { slug: signalSlug } = {},
-        operation: { above } = {}
-      } = {}
-    }) => !!above && slug === signalSlug
-  )
-
-  return filtered.map(({ settings: { operation = {} } = {} }, index) => {
-    const price = operation['above']
-    return makeSignalPriceReferenceLine(price, index)
-  })
-}
-
 class Charts extends React.Component {
   state = {
     leftZoomIndex: undefined,
     rightZoomIndex: undefined,
     refAreaLeft: undefined,
-    refAreaRight: undefined
+    refAreaRight: undefined,
+    activeSignalValue: undefined,
+    onSignalHover: value => {
+      this.setState({
+        activeSignalValue: value
+      })
+    },
+    onSignalLeave: () => {
+      this.setState({
+        activeSignalValue: undefined
+      })
+    },
+    onSignalClick: (target, evt, id) => {
+      evt.stopPropagation()
+      evt.preventDefault()
+
+      const { removeSignal } = this.props
+
+      removeSignal && removeSignal(id)
+    }
   }
 
   eventsMap = new Map()
   metricRef = React.createRef()
 
   componentDidMount () {
-    const { fetchTriggers } = this.props
-    fetchTriggers && fetchTriggers()
+    const { fetchSignals } = this.props
+    fetchSignals && fetchSignals()
   }
 
   componentWillUpdate ({
@@ -343,11 +315,12 @@ class Charts extends React.Component {
         ? this.getNearestCrossData(chartY)
         : {}
 
-    // console.log(priceUsd, chartY, this.xToYCoordinates)
+    const { activeSignalValue } = this.state
 
-    const newSignalLine = priceUsd
-      ? makeSignalPriceReferenceLine(priceUsd, -1)
-      : null
+    const newSignalLine =
+      priceUsd && !activeSignalValue
+        ? makeSignalPriceReferenceLine(priceUsd, -1, true)
+        : null
 
     this.setState({
       activePayload: activePayload.concat(
@@ -362,7 +335,6 @@ class Charts extends React.Component {
         tooltipMetric.dataKey || tooltipMetric.key
       ],
       hovered: true,
-
       signalReferenceLine: newSignalLine
     })
   }, 16)
@@ -372,9 +344,9 @@ class Charts extends React.Component {
     if (y) {
       const { slug } = this.props
       const signal = buildPriceAboveSignal(slug, y)
-      const { createTrigger } = this.props
+      const { createSignal } = this.props
 
-      createTrigger(signal)
+      createSignal(signal)
     }
   }
 
@@ -392,7 +364,8 @@ class Charts extends React.Component {
       isLoading,
       priceRefLineData,
       scale = 'time',
-      signalLines = []
+      signals = [],
+      slug
     } = this.props
     const {
       refAreaLeft,
@@ -404,7 +377,11 @@ class Charts extends React.Component {
       activePayload,
       hovered,
       tooltipMetric,
-      signalReferenceLine
+      signalReferenceLine,
+      activeSignalValue,
+      onSignalHover,
+      onSignalLeave,
+      onSignalClick
     } = this.state
 
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
@@ -429,6 +406,18 @@ class Charts extends React.Component {
       `Last day price ${Metrics.historyPrice.formatter(
         priceRefLineData.priceUsd
       )}`
+
+    const signalLines = this.canShowSignalLines()
+      ? mapToPriceSignalLines({
+        data: this.xToYCoordinates,
+        slug,
+        signals,
+        activeSignalValue,
+        onSignalHover,
+        onSignalLeave,
+        onSignalClick
+      })
+      : []
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>
@@ -499,6 +488,8 @@ class Charts extends React.Component {
             onMouseLeave={this.onMouseLeave}
             onMouseEnter={this.getXToYCoordinates}
             onMouseDown={event => {
+              signalReferenceLine && this.onChartClick(event)
+
               if (!event) return
               const { activeTooltipIndex, activeLabel } = event
               this.setState({
@@ -508,7 +499,6 @@ class Charts extends React.Component {
             }}
             onMouseMove={this.onMouseMove}
             onMouseUp={refAreaLeft && refAreaRight && this.onZoom}
-            onClick={this.onChartClick}
             data={chartData}
           >
             <XAxis
@@ -597,14 +587,9 @@ Charts.defaultProps = {
 
 const mapStateToProps = (state, props) => {
   const { signals: { all = [] } = {} } = state
-  const { slug } = props
-  const signalLines = mapToPriceSignalLines(slug, all)
-
-  console.log(all)
-
   return {
     hasPremium: checkHasPremium(state),
-    signalLines
+    signals: all
   }
 }
 
@@ -618,11 +603,14 @@ export const HISTORY_PRICE_QUERY = gql`
 `
 
 const mapDispatchToProps = dispatch => ({
-  createTrigger: payload => {
+  createSignal: payload => {
     dispatch(createTrigger(payload))
   },
-  fetchTriggers: payload => {
+  fetchSignals: payload => {
     dispatch(fetchSignals())
+  },
+  removeSignal: id => {
+    dispatch(removeTrigger(id))
   }
 })
 
