@@ -199,7 +199,7 @@ export const AssetsList = ({
   rowHeight = ROW_HEIGHT,
   initialIndex,
   saveScrollPosition,
-  onAssetsListScroll
+  onAssetsListScroll = () => {}
 }) => {
   const rowRenderer =
     renderer ||

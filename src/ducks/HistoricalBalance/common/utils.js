@@ -1,9 +1,6 @@
 import React from 'react'
-import {
-  findYAxisMetric,
-  Metrics,
-  setupColorGenerator
-} from '../../SANCharts/utils'
+import { findYAxisMetric, setupColorGenerator } from '../../SANCharts/utils'
+import { Metrics } from '../../SANCharts/data'
 import { Area, Bar, YAxis } from 'recharts'
 
 export const generateMetricsMarkup = (

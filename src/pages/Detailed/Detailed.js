@@ -23,7 +23,7 @@ import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import paywallBoundaries from '../Chart/paywallBoundaries'
 import ChartWidget from '../../ducks/SANCharts/ChartPage'
 import PageLoader from '../../components/Loader/PageLoader'
-import { Metrics } from '../../ducks/SANCharts/utils'
+import { Metrics } from '../../ducks/SANCharts/data'
 import './Detailed.css'
 import styles from './Detailed.module.scss'
 

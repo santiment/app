@@ -2,11 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
-import {
-  getMetricYAxisId,
-  mapToRequestedMetrics,
-  Metrics
-} from '../../SANCharts/utils'
+import { Metrics } from '../../SANCharts/data'
+import { getMetricYAxisId, mapToRequestedMetrics } from '../../SANCharts/utils'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartWidget from '../../SANCharts/ChartPage'
 import VisualBacktestChart, { GetReferenceDots } from './VisualBacktestChart'

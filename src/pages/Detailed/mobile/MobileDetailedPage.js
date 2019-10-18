@@ -13,7 +13,7 @@ import {
   getIntervalByTimeRange
 } from '../../../utils/dates'
 import { formatNumber } from '../../../utils/formatting'
-import { Metrics } from '../../../ducks/SANCharts/utils'
+import { Metrics, compatabilityMap } from '../../../ducks/SANCharts/data'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import PercentChanges from '../../../components/PercentChanges'
 import NewsSmall from '../../../components/News/NewsSmall'
@@ -83,7 +83,7 @@ const MobileDetailedPage = props => {
       todayActiveAddresses
     )
     activeAddressesInfo = {
-      metric: 'dailyActiveAddresses',
+      metric: 'daily_active_addresses',
       name: 'Daily Active Addresses',
       value: todayActiveAddresses,
       period: '24h',
@@ -112,7 +112,8 @@ const MobileDetailedPage = props => {
   ]
 
   if (extraMetric) {
-    const { alias } = Metrics[extraMetric.name]
+    const { alias } =
+      Metrics[extraMetric.name] || compatabilityMap[extraMetric.name]
     const metric = { name: alias || extraMetric.name }
     if (extraMetric.name === 'devActivity') {
       metric.transform = 'movingAverage'
@@ -222,7 +223,7 @@ const MobileDetailedPage = props => {
                           todayTV
                         )
                         transactionVolumeInfo = {
-                          metric: 'transactionVolume',
+                          metric: 'transaction_volume',
                           name: 'Transaction Volume',
                           value: todayTV,
                           period: '24h',
