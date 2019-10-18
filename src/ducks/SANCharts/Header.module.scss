@@ -125,7 +125,10 @@
 .btn {
   color: var(--mirage);
   background: inherit;
-  margin-left: auto;
+
+  @include responsive('tablet', 'laptop') {
+    margin-left: auto;
+  }
 
   &.signal {
     margin: 0 16px 0 auto;
