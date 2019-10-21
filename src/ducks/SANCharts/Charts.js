@@ -97,6 +97,7 @@ const getTooltipMetricAndKey = (metrics, chartData) => {
 
   return { tooltipMetric, tooltipMetricKey }
 }
+
 const getSignalPrice = (xToYCoordinates, crossY) => {
   const minYItem = xToYCoordinates.reduce(function (prev, current) {
     return prev.y > current.y ? prev : current
@@ -272,7 +273,7 @@ class Charts extends React.Component {
   onMouseLeave = () => {
     this.setState({
       hovered: false,
-      signalReferenceLine: null,
+      newSignalData: null,
       activeSignalValue: null
     })
   }
@@ -317,11 +318,6 @@ class Charts extends React.Component {
 
     const { activeSignalValue } = this.state
 
-    const newSignalLine =
-      priceUsd && !activeSignalValue
-        ? makeSignalPriceReferenceLine(priceUsd, -1, true)
-        : null
-
     this.setState({
       activePayload: activePayload.concat(
         this.eventsMap.get(activeLabel) || []
@@ -335,16 +331,22 @@ class Charts extends React.Component {
         tooltipMetric.dataKey || tooltipMetric.key
       ],
       hovered: true,
-      signalReferenceLine: newSignalLine
+      newSignalData:
+        priceUsd && !activeSignalValue
+          ? {
+            priceUsd: priceUsd
+          }
+          : undefined
     })
   }, 16)
 
   onChartClick = () => {
-    const { signalReferenceLine: { props: { y } = {} } = {} } = this.state
-    if (y) {
-      const { slug } = this.props
-      const signal = buildPriceAboveSignal(slug, y)
-      const { createSignal } = this.props
+    const {
+      newSignalData: { priceUsd }
+    } = this.state
+    if (priceUsd) {
+      const { slug, createSignal } = this.props
+      const signal = buildPriceAboveSignal(slug, priceUsd)
 
       createSignal(signal)
     }
@@ -377,7 +379,7 @@ class Charts extends React.Component {
       activePayload,
       hovered,
       tooltipMetric,
-      signalReferenceLine,
+      newSignalData,
       activeSignalValue,
       onSignalHover,
       onSignalLeave,
@@ -419,6 +421,12 @@ class Charts extends React.Component {
       })
       : []
 
+    const { priceUsd } = newSignalData || {}
+
+    if (priceUsd) {
+      signalLines.push(makeSignalPriceReferenceLine(priceUsd, -1, true))
+    }
+
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>
         {isLoading && (
@@ -436,7 +444,7 @@ class Charts extends React.Component {
               Zoom out
             </Button>
           )}
-          {hovered && activePayload && !signalReferenceLine && (
+          {hovered && activePayload && !newSignalData && (
             <>
               <div className={styles.details}>
                 <div className={styles.details__title}>
@@ -488,7 +496,7 @@ class Charts extends React.Component {
             onMouseLeave={this.onMouseLeave}
             onMouseEnter={this.getXToYCoordinates}
             onMouseDown={event => {
-              signalReferenceLine && this.onChartClick(event)
+              newSignalData && this.onChartClick(event)
 
               if (!event) return
               const { activeTooltipIndex, activeLabel } = event
@@ -514,7 +522,7 @@ class Charts extends React.Component {
             {bars}
             {lines}
 
-            {[...signalLines, signalReferenceLine]}
+            {signalLines}
 
             {refAreaLeft && refAreaRight && (
               <ReferenceArea
