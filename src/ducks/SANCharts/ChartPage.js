@@ -8,12 +8,8 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import Header from './Header'
-import {
-  Metrics,
-  Events,
-  getMarketSegment,
-  mapToRequestedMetrics
-} from './utils'
+import { getMarketSegment, mapToRequestedMetrics } from './utils'
+import { Metrics, Events, compatabilityMap } from './data'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { getIntervalByTimeRange } from '../../utils/dates'
@@ -62,7 +58,11 @@ const metricObjToQSMapper = ({ key }) => key
 
 const mapPassedState = state => {
   const { metrics, events, marketSegments } = state
-  if (metrics) state.metrics = metrics.map(metric => Metrics[metric])
+  if (metrics) {
+    state.metrics = metrics.map(
+      metric => Metrics[metric] || compatabilityMap[metric]
+    )
+  }
   if (events) state.events = events.map(event => Events[event])
   if (marketSegments) {
     state.marketSegments = marketSegments.map(getMarketSegment)

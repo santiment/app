@@ -55,7 +55,7 @@ import {
   uncapitalizeStr
 } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
-import { Metrics } from '../../SANCharts/utils'
+import { Metrics } from '../../SANCharts/data'
 
 export const mapToOptions = input => {
   if (!input) {
@@ -762,8 +762,8 @@ export const getMetricsByType = type => {
   switch (type) {
     case DAILY_ACTIVE_ADDRESSES:
       return {
-        metrics: [Metrics.historyPrice, Metrics.dailyActiveAddresses],
-        triggersBy: Metrics.dailyActiveAddresses
+        metrics: [Metrics.historyPrice, Metrics.daily_active_addresses],
+        triggersBy: Metrics.daily_active_addresses
       }
     case PRICE_VOLUME_DIFFERENCE:
       return {

@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import { formatTooltipValue } from '../../ducks/SANCharts/CustomTooltip'
-import { Metrics } from '../../ducks/SANCharts/utils'
+import { Metrics, compatabilityMap } from '../../ducks/SANCharts/data'
 import PercentChanges from '../PercentChanges'
 import { METRIC_ANOMALIE_QUERY } from '../../ducks/GetTimeSeries/queries/metric_anomaly_query'
 import styles from './MobileMetricCard.module.scss'
@@ -55,11 +55,15 @@ const MobileMetricCard = ({
 }
 
 export default graphql(METRIC_ANOMALIE_QUERY, {
-  skip: ({ metric, from }) => !Metrics[metric].anomalyKey || !from,
+  skip: ({ metric, from }) => {
+    const res = Metrics[metric] || compatabilityMap[metric]
+    return !res.anomalyKey || !from
+  },
   options: ({ metric, slug, from, to }) => {
+    const res = Metrics[metric] || compatabilityMap[metric]
     return {
       variables: {
-        metric: Metrics[metric].anomalyKey,
+        metric: res.anomalyKey,
         slug,
         from: from.toISOString(),
         to: to.toISOString()

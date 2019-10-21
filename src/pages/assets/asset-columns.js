@@ -5,7 +5,7 @@ import { Panel, Tooltip, Label } from '@santiment-network/ui'
 import { formatNumber, millify } from '../../utils/formatting'
 import ProjectLabel from '../../components/ProjectLabel'
 import PercentChanges from '../../components/PercentChanges'
-import { Metrics } from '../../ducks/SANCharts/utils'
+import { Metrics } from '../../ducks/SANCharts/data'
 import styles from './AssetsToggleColumns.module.scss'
 
 const simpleSort = (a, b) => b - a
@@ -209,7 +209,7 @@ export const COLUMNS = (preload, props = {}) => [
       <>
         <b>Average value for 30d</b>
         <br />
-        {Metrics['dailyActiveAddresses'].description}
+        {Metrics.daily_active_addresses.description}
       </>
     ),
     maxWidth: 110,
@@ -293,23 +293,23 @@ export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.eth_spent]: {
     show: true,
     selectable: true,
-    description: Metrics['ethSpentOverTime'].description
+    description: Metrics.ethSpentOverTime.description
   },
   [COLUMNS_NAMES.devact]: {
     show: true,
     selectable: true,
-    description: Metrics['devActivity'].description
+    description: Metrics.devActivity.description
   },
   [COLUMNS_NAMES.daily_active_addresses]: {
     show: true,
     selectable: true,
-    description: Metrics['dailyActiveAddresses'].description
+    description: Metrics.daily_active_addresses.description
   },
   [COLUMNS_NAMES.graph]: { show: false, selectable: false },
   [COLUMNS_NAMES.token_circulation]: {
     show: false,
     selectable: false,
-    description: Metrics['tokenCirculation'].description
+    description: Metrics.circulation_1d.description
   },
   [COLUMNS_NAMES.infrastructure]: { show: true, selectable: false },
   [COLUMNS_NAMES.devActivity7]: { show: true, selectable: false },

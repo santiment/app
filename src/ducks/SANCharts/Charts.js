@@ -28,13 +28,13 @@ import {
 } from '../../utils/dates'
 import {
   getEventsTooltipInfo,
-  Metrics,
   generateMetricsMarkup,
   findYAxisMetric,
   chartBars,
   makeSignalPriceReferenceLine,
   mapToPriceSignalLines
 } from './utils'
+import { Metrics } from './data'
 import { checkHasPremium } from '../../pages/UserSelectors'
 import displayPaywall, { MOVE_CLB, CHECK_CLB } from './Paywall'
 import { binarySearch } from '../../pages/Trends/utils'
