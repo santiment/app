@@ -1,0 +1,31 @@
+@import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
+
+.line {
+  border: 1px dashed var(--rhino);
+}
+
+.tooltip {
+  padding: 2px 8px;
+  background: var(--rhino);
+  color: var(--casper);
+  position: relative;
+  left: 8px;
+  bottom: 5px;
+  border-radius: $border-radius;
+  display: table;
+
+  @include text('caption');
+}
+
+.container {
+  pointer-events: none;
+  width: calc(100% - 40px);
+  position: absolute;
+  transform: translateX(40px) translateY(calc(var(--y) - 24px));
+  z-index: 1;
+}
+
+.highline {
+  color: var(--white);
+}

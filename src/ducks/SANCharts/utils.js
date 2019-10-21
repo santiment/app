@@ -264,26 +264,6 @@ export const mapToRequestedMetrics = (
     ...reqMeta
   }))
 
-export const makeSignalPriceReferenceLine = (price, index) => {
-  const text =
-    (index < 0
-      ? 'Click to create a signal if price raises to '
-      : 'Signal: price raises to ') + usdFormatter(price)
-
-  return (
-    <ReferenceLine
-      key={index}
-      y={price}
-      yAxisId='axis-priceUsd'
-      stroke='var(--mystic)'
-      strokeDasharray='3 3'
-      isFront
-    >
-      <Label position='insideBottomLeft'>{text}</Label>
-    </ReferenceLine>
-  )
-}
-
 export const makeSignalPriceReferenceDot = (
   price,
   index,
@@ -298,8 +278,8 @@ export const makeSignalPriceReferenceDot = (
       key={index}
       y={price}
       x={posX}
-      onMouseEnter={() => onMouseEnter && onMouseEnter(price)}
-      onMouseLeave={() => onMouseLeave && onMouseLeave(price)}
+      onMouseEnter={evt => onMouseEnter && onMouseEnter(evt, price)}
+      onMouseLeave={evt => onMouseLeave && onMouseLeave(evt, price)}
       onMouseDown={onClick}
       yAxisId='axis-priceUsd'
       r={3}
@@ -313,7 +293,6 @@ export const mapToPriceSignalLines = ({
   data,
   slug,
   signals,
-  activeSignalValue,
   onSignalHover,
   onSignalLeave,
   onSignalClick
@@ -344,9 +323,6 @@ export const mapToPriceSignalLines = ({
   const res = filtered.reduce((acc, item) => {
     const { id, settings: { operation = {} } = {} } = item
     const price = operation['above']
-
-    activeSignalValue === price &&
-      acc.push(makeSignalPriceReferenceLine(price, ++index))
 
     acc.push(
       makeSignalPriceReferenceDot(

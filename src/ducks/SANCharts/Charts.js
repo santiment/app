@@ -31,7 +31,6 @@ import {
   generateMetricsMarkup,
   findYAxisMetric,
   chartBars,
-  makeSignalPriceReferenceLine,
   mapToPriceSignalLines
 } from './utils'
 import { Metrics } from './data'
@@ -47,6 +46,7 @@ import {
 import { buildPriceAboveSignal } from '../Signals/utils/utils'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
+import SignalLine from './components/newSignalLine/SignalLine'
 
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
@@ -118,15 +118,18 @@ class Charts extends React.Component {
     rightZoomIndex: undefined,
     refAreaLeft: undefined,
     refAreaRight: undefined,
-    activeSignalValue: undefined,
-    onSignalHover: value => {
+    activeSignal: undefined,
+    onSignalHover: (evt, value) => {
       this.setState({
-        activeSignalValue: value
+        activeSignal: {
+          priceUsd: value,
+          chartY: evt.cy
+        }
       })
     },
     onSignalLeave: () => {
       this.setState({
-        activeSignalValue: undefined
+        activeSignal: undefined
       })
     },
     onSignalClick: (target, evt, id) => {
@@ -274,7 +277,7 @@ class Charts extends React.Component {
     this.setState({
       hovered: false,
       newSignalData: null,
-      activeSignalValue: null
+      activeSignal: null
     })
   }
 
@@ -316,7 +319,7 @@ class Charts extends React.Component {
         ? getSignalPrice(this.xToYCoordinates, chartY)
         : undefined
 
-    const { activeSignalValue } = this.state
+    const { activeSignal } = this.state
 
     this.setState({
       activePayload: activePayload.concat(
@@ -332,9 +335,11 @@ class Charts extends React.Component {
       ],
       hovered: true,
       newSignalData:
-        priceUsd && !activeSignalValue
+        priceUsd && !activeSignal
           ? {
-            priceUsd: priceUsd
+            priceUsd: priceUsd,
+            chartY,
+            isNew: true
           }
           : undefined
     })
@@ -380,11 +385,13 @@ class Charts extends React.Component {
       hovered,
       tooltipMetric,
       newSignalData,
-      activeSignalValue,
+      activeSignal,
       onSignalHover,
       onSignalLeave,
       onSignalClick
     } = this.state
+
+    console.log('state', activeSignal)
 
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
       chartRef,
@@ -409,23 +416,20 @@ class Charts extends React.Component {
         priceRefLineData.priceUsd
       )}`
 
-    const signalLines = this.canShowSignalLines()
+    const isSignalsEnabled = this.canShowSignalLines()
+    const signalLines = isSignalsEnabled
       ? mapToPriceSignalLines({
         data: this.xToYCoordinates,
         slug,
         signals,
-        activeSignalValue,
         onSignalHover,
         onSignalLeave,
         onSignalClick
       })
       : []
 
-    const { priceUsd } = newSignalData || {}
-
-    if (priceUsd) {
-      signalLines.push(makeSignalPriceReferenceLine(priceUsd, -1, true))
-    }
+    const showTooltip =
+      hovered && activePayload && !newSignalData && !activeSignal
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>
@@ -444,7 +448,7 @@ class Charts extends React.Component {
               Zoom out
             </Button>
           )}
-          {hovered && activePayload && !newSignalData && (
+          {showTooltip && (
             <>
               <div className={styles.details}>
                 <div className={styles.details__title}>
@@ -486,6 +490,9 @@ class Charts extends React.Component {
                 />
               </div>
             </>
+          )}
+          {isSignalsEnabled && (
+            <SignalLine data={newSignalData} active={activeSignal} />
           )}
         </div>
 
