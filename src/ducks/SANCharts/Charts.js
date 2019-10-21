@@ -97,6 +97,19 @@ const getTooltipMetricAndKey = (metrics, chartData) => {
 
   return { tooltipMetric, tooltipMetricKey }
 }
+const getSignalPrice = (xToYCoordinates, crossY) => {
+  const minYItem = xToYCoordinates.reduce(function (prev, current) {
+    return prev.y > current.y ? prev : current
+  })
+
+  const maxYItem = xToYCoordinates.reduce(function (prev, current) {
+    return prev.y < current.y ? prev : current
+  })
+
+  const yValStep = (maxYItem.value - minYItem.value) / (minYItem.y - maxYItem.y)
+  const priceUsd = yValStep * (minYItem.y - crossY) + minYItem.value
+  return priceUsd
+}
 
 class Charts extends React.Component {
   state = {
@@ -257,24 +270,11 @@ class Charts extends React.Component {
   }, 100)
 
   onMouseLeave = () => {
-    this.setState({ hovered: false, signalReferenceLine: null })
-  }
-
-  getNearestCrossData = crossY => {
-    let nearestItem = null
-    let minDiff = Number.MAX_SAFE_INTEGER
-
-    for (let i = 0; i < this.xToYCoordinates.length; i++) {
-      const item = this.xToYCoordinates[i]
-
-      const diff = Math.abs(crossY - item.y)
-      if (diff < minDiff) {
-        nearestItem = item
-        minDiff = diff
-      }
-    }
-
-    return nearestItem
+    this.setState({
+      hovered: false,
+      signalReferenceLine: null,
+      activeSignalValue: null
+    })
   }
 
   canShowSignalLines = () => {
@@ -310,10 +310,10 @@ class Charts extends React.Component {
     }
 
     const { x, y } = coordinates
-    const { payload: { priceUsd } = {} } =
+    const priceUsd =
       chartX < 50 && this.canShowSignalLines()
-        ? this.getNearestCrossData(chartY)
-        : {}
+        ? getSignalPrice(this.xToYCoordinates, chartY)
+        : undefined
 
     const { activeSignalValue } = this.state
 
