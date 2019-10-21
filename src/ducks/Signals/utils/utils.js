@@ -1425,11 +1425,10 @@ export const buildPriceAboveSignal = (slug, price) => {
   const formProps = { ...METRIC_DEFAULT_VALUES[PRICE_ABSOLUTE_CHANGE] }
   formProps.type = { ...PRICE_ABS_CHANGE_ABOVE }
   formProps.isPublic = true
-  formProps.title = getNewTitle(formProps)
-  formProps.description = getNewDescription(formProps)
-
   formProps.target = mapToOption(slug)
   formProps.absoluteThreshold = price
+  formProps.title = getNewTitle(formProps)
+  formProps.description = getNewDescription(formProps)
 
   return mapFormPropsToTrigger(formProps)
 }
