@@ -6,19 +6,19 @@ import styles from './SignalLine.module.scss'
 const getSignalText = (priceUsd, isNew) => {
   if (isNew) {
     return (
-      <div>
+      <>
         Click to <span className={styles.highline}>create a signal</span> if
         price raises to{' '}
         <span className={styles.highline}>{usdFormatter(priceUsd)}</span>
-      </div>
+      </>
     )
   }
 
   return (
-    <div>
+    <>
       Signal if price raises to{' '}
       <span className={styles.highline}>{usdFormatter(priceUsd)}</span>
-    </div>
+    </>
   )
 }
 

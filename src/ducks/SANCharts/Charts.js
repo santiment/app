@@ -31,7 +31,8 @@ import {
   generateMetricsMarkup,
   findYAxisMetric,
   chartBars,
-  mapToPriceSignalLines
+  mapToPriceSignalLines,
+  getSignalPrice
 } from './utils'
 import { Metrics } from './data'
 import { checkHasPremium } from '../../pages/UserSelectors'
@@ -100,30 +101,16 @@ const getTooltipMetricAndKey = (metrics, chartData) => {
   return { tooltipMetric, tooltipMetricKey }
 }
 
-const getSignalPrice = (xToYCoordinates, crossY) => {
-  const minYItem = xToYCoordinates.reduce(function (prev, current) {
-    return prev.y > current.y ? prev : current
-  })
-
-  const maxYItem = xToYCoordinates.reduce(function (prev, current) {
-    return prev.y < current.y ? prev : current
-  })
-
-  const yValStep = (maxYItem.value - minYItem.value) / (minYItem.y - maxYItem.y)
-  const priceUsd = yValStep * (minYItem.y - crossY) + minYItem.value
-  return priceUsd
-}
-
 class Charts extends React.Component {
   state = {
     leftZoomIndex: undefined,
     rightZoomIndex: undefined,
     refAreaLeft: undefined,
     refAreaRight: undefined,
-    activeSignal: undefined,
+    activeSignalData: undefined,
     onSignalHover: (evt, value) => {
       this.setState({
-        activeSignal: {
+        activeSignalData: {
           priceUsd: value,
           chartY: evt.cy
         }
@@ -131,7 +118,7 @@ class Charts extends React.Component {
     },
     onSignalLeave: () => {
       this.setState({
-        activeSignal: undefined
+        activeSignalData: undefined
       })
     },
     onSignalClick: (target, evt, id) => {
@@ -279,13 +266,12 @@ class Charts extends React.Component {
     this.setState({
       hovered: false,
       newSignalData: null,
-      activeSignal: null
+      activeSignalData: null
     })
   }
 
   canShowSignalLines = () => {
     const { metrics = [] } = this.props
-
     return metrics.includes(Metrics.historyPrice)
   }
 
@@ -316,12 +302,14 @@ class Charts extends React.Component {
     }
 
     const { x, y } = coordinates
-    const priceUsd =
-      chartX < 50 && this.canShowSignalLines()
-        ? getSignalPrice(this.xToYCoordinates, chartY)
-        : undefined
 
-    const { activeSignal } = this.state
+    const { activeSignalData } = this.state
+
+    const canCreateSignal =
+      !activeSignalData && chartX < 50 && this.canShowSignalLines()
+    const priceUsd = canCreateSignal
+      ? getSignalPrice(this.xToYCoordinates, chartY)
+      : undefined
 
     this.setState({
       activePayload: activePayload.concat(
@@ -336,14 +324,13 @@ class Charts extends React.Component {
         tooltipMetric.dataKey || tooltipMetric.key
       ],
       hovered: true,
-      newSignalData:
-        priceUsd && !activeSignal
-          ? {
-            priceUsd: priceUsd,
-            chartY,
-            isNew: true
-          }
-          : undefined
+      newSignalData: priceUsd
+        ? {
+          priceUsd: priceUsd,
+          chartY,
+          isNew: true
+        }
+        : undefined
     })
   }, 16)
 
@@ -387,7 +374,7 @@ class Charts extends React.Component {
       hovered,
       tooltipMetric,
       newSignalData,
-      activeSignal,
+      activeSignalData,
       onSignalHover,
       onSignalLeave,
       onSignalClick
@@ -426,10 +413,10 @@ class Charts extends React.Component {
         onSignalLeave,
         onSignalClick
       })
-      : []
+      : null
 
     const showTooltip =
-      hovered && activePayload && !newSignalData && !activeSignal
+      hovered && activePayload && !newSignalData && !activeSignalData
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>
@@ -492,7 +479,7 @@ class Charts extends React.Component {
             </>
           )}
           {isSignalsEnabled && (
-            <SignalLine data={newSignalData} active={activeSignal} />
+            <SignalLine data={newSignalData} active={activeSignalData} />
           )}
         </div>
 

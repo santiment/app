@@ -212,7 +212,6 @@ export const generateMetricsMarkup = (
           let resX = coor.x - halfWidth
           let secondWidth = halfWidth
 
-          // MAGIC ?!
           if (resX < 40) {
             resX = 40
             secondWidth = 0
@@ -333,4 +332,18 @@ export const mapToPriceSignalLines = ({
   }, [])
 
   return res
+}
+
+export const getSignalPrice = (xToYCoordinates, crossY) => {
+  const minYItem = xToYCoordinates.reduce(function (prev, current) {
+    return prev.y > current.y ? prev : current
+  })
+
+  const maxYItem = xToYCoordinates.reduce(function (prev, current) {
+    return prev.y < current.y ? prev : current
+  })
+
+  const yValStep = (maxYItem.value - minYItem.value) / (minYItem.y - maxYItem.y)
+  const priceUsd = yValStep * (minYItem.y - crossY) + minYItem.value
+  return priceUsd
 }
