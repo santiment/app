@@ -44,9 +44,11 @@ import {
   removeTrigger
 } from '../Signals/common/actions'
 import { buildPriceAboveSignal } from '../Signals/utils/utils'
+import SignalLine, {
+  SignalPointSvg
+} from './components/newSignalLine/SignalLine'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
-import SignalLine from './components/newSignalLine/SignalLine'
 
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
@@ -391,8 +393,6 @@ class Charts extends React.Component {
       onSignalClick
     } = this.state
 
-    console.log('state', activeSignal)
-
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
       chartRef,
       coordinates: this.xToYCoordinates,
@@ -516,6 +516,7 @@ class Charts extends React.Component {
             onMouseUp={refAreaLeft && refAreaRight && this.onZoom}
             data={chartData}
           >
+            <defs>{isSignalsEnabled && <SignalPointSvg />}</defs>
             <XAxis
               dataKey='datetime'
               scale={scale}

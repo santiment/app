@@ -1,5 +1,6 @@
 import React from 'react'
 import { usdFormatter } from '../../utils'
+import pointerImg from './../../../../assets/signals/buttons/pointer.svg'
 import styles from './SignalLine.module.scss'
 
 const getSignalText = (priceUsd, isNew) => {
@@ -15,11 +16,24 @@ const getSignalText = (priceUsd, isNew) => {
 
   return (
     <div>
-      Signal: price raises to{' '}
+      Signal if price raises to{' '}
       <span className={styles.highline}>{usdFormatter(priceUsd)}</span>
     </div>
   )
 }
+
+export const SignalPointSvg = () => (
+  <pattern
+    id='signalPointerImage'
+    x='50%'
+    y='10%'
+    patternUnits='objectBoundingBox'
+    height='1'
+    width='1'
+  >
+    <image x='0' y='0' xlinkHref={pointerImg} />
+  </pattern>
+)
 
 const SignalLine = ({ active, data }) => {
   if (!data && !active) {

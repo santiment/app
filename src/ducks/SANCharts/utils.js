@@ -1,13 +1,5 @@
 import React from 'react'
-import {
-  YAxis,
-  Bar,
-  Line,
-  Area,
-  ReferenceLine,
-  Label,
-  ReferenceDot
-} from 'recharts'
+import { YAxis, Bar, Line, Area, ReferenceDot } from 'recharts'
 import { formatNumber } from './../../utils/formatting'
 import { Metrics, Events } from './data'
 import styles from './Chart.module.scss'
@@ -282,9 +274,9 @@ export const makeSignalPriceReferenceDot = (
       onMouseLeave={evt => onMouseLeave && onMouseLeave(evt, price)}
       onMouseDown={onClick}
       yAxisId='axis-priceUsd'
-      r={3}
-      fill='--rhino'
-      isFront
+      r={6}
+      fill='url(#signalPointerImage)'
+      stroke='none'
     />
   )
 }
