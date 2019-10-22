@@ -1,5 +1,5 @@
 import React from 'react'
-import { YAxis, Bar, Line, Area, ReferenceDot } from 'recharts'
+import { YAxis, Bar, Line, Area, ReferenceDot, ComposedChart } from 'recharts'
 import { formatNumber, millify } from './../../utils/formatting'
 import { Metrics, Events } from './data'
 import styles from './Chart.module.scss'
@@ -120,7 +120,8 @@ export const generateMetricsMarkup = (
     ref = {},
     data = {},
     chartRef: { current: chartRef } = {},
-    coordinates
+    coordinates,
+    onYAxesHover
   } = {}
 ) => {
   const metricWithYAxis = findYAxisMetric(metrics)
@@ -169,6 +170,7 @@ export const generateMetricsMarkup = (
         domain={['auto', 'dataMax']}
         hide={isHidden}
         tickFormatter={yAxisTickFormatter}
+        onMouseMove={onYAxesHover}
       />,
       <El
         key={`line-${dataKey}`}

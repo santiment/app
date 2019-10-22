@@ -314,7 +314,6 @@ export const removeSignalEpic = (action$, store, { client }) =>
       })
 
       return Observable.fromPromise(toggle)
-
         .mergeMap(({ data: { removeTrigger } }) => {
           return Observable.merge(
             Observable.of({
@@ -327,7 +326,8 @@ export const removeSignalEpic = (action$, store, { client }) =>
         .catch(action => {
           return Observable.merge(
             handleErrorAndTriggerAction(actions.SIGNAL_REMOVE_BY_ID_FAILED)(
-              action
+              action,
+              { id }
             ),
             Observable.of(
               showNotification({
