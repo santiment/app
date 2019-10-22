@@ -357,3 +357,14 @@ export const yAxisTickFormatter = value =>
     : formatNumber(value, {
       minimumFractionDigits: 0
     })
+
+export const getCrossYValue = yValue => {
+  if (yValue < 1) {
+    return formatNumber(yValue, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 4
+    })
+  }
+
+  return yValue ? millify(yValue, 1) : '-'
+}
