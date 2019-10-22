@@ -1,6 +1,8 @@
 import * as actions from './actions'
 
-export const initialState = {}
+export const initialState = {
+  all: []
+}
 
 export default (state = initialState, action) => {
   switch (action.type) {
