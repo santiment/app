@@ -215,10 +215,6 @@ class ChartPage extends Component {
     }
   }
 
-  onMetricsChange = metrics => {
-    this.setState({ metrics }, this.updateSearchQuery)
-  }
-
   onIntervalChange = interval => {
     this.setState({ interval }, this.updateSearchQuery)
   }

@@ -1,7 +1,8 @@
 import React from 'react'
-import { YAxis, Bar, Line, Area } from 'recharts'
-import { formatNumber } from './../../utils/formatting'
+import { YAxis, Bar, Line, Area, ReferenceDot } from 'recharts'
+import { formatNumber, millify } from './../../utils/formatting'
 import { Metrics, Events } from './data'
+import styles from './Chart.module.scss'
 
 export const usdFormatter = val => formatNumber(val, { currency: 'USD' })
 
@@ -157,6 +158,8 @@ export const generateMetricsMarkup = (
 
     const currentYAxisId = getMetricYAxisId(metric)
 
+    const isHidden = metric !== metricWithYAxis || hideYAxis
+
     acc.push(
       <YAxis
         key={`axis-${dataKey}`}
@@ -164,7 +167,8 @@ export const generateMetricsMarkup = (
         type='number'
         orientation={orientation}
         domain={['auto', 'dataMax']}
-        hide={metric !== metricWithYAxis || hideYAxis}
+        hide={isHidden}
+        tickFormatter={yAxisTickFormatter}
       />,
       <El
         key={`line-${dataKey}`}
@@ -251,3 +255,105 @@ export const mapToRequestedMetrics = (
     interval,
     ...reqMeta
   }))
+
+export const makeSignalPriceReferenceDot = (
+  price,
+  index,
+  onMouseEnter,
+  onMouseLeave,
+  onClick,
+  posX
+) => {
+  return (
+    <ReferenceDot
+      className={styles.signalPoint}
+      key={index}
+      y={price}
+      x={posX}
+      onMouseEnter={evt => onMouseEnter && onMouseEnter(evt, price)}
+      onMouseLeave={evt => onMouseLeave && onMouseLeave(evt, price)}
+      onMouseDown={onClick}
+      yAxisId='axis-priceUsd'
+      r={6}
+      fill='url(#signalPointerImage)'
+      stroke='none'
+    />
+  )
+}
+
+export const mapToPriceSignalLines = ({
+  data,
+  slug,
+  signals,
+  onSignalHover,
+  onSignalLeave,
+  onSignalClick
+}) => {
+  if (!signals || !data) return []
+
+  const first = data[0]
+
+  if (!first) {
+    return
+  }
+
+  const {
+    payload: { datetime: dotPositionX }
+  } = first
+
+  const filtered = signals.filter(
+    ({
+      settings: {
+        target: { slug: signalSlug } = {},
+        operation: { above } = {}
+      } = {}
+    }) => !!above && slug === signalSlug
+  )
+
+  let index = 0
+
+  const res = filtered.reduce((acc, item) => {
+    const { id, settings: { operation = {} } = {} } = item
+    const price = operation['above']
+
+    acc.push(
+      makeSignalPriceReferenceDot(
+        price,
+        ++index,
+        onSignalHover,
+        onSignalLeave,
+        (target, evt) => {
+          onSignalClick(target, evt, id)
+        },
+        dotPositionX
+      )
+    )
+
+    return acc
+  }, [])
+
+  return res
+}
+
+export const getSignalPrice = (xToYCoordinates, crossY) => {
+  const minYItem = xToYCoordinates.reduce(function (prev, current) {
+    return prev.y > current.y ? prev : current
+  })
+
+  const maxYItem = xToYCoordinates.reduce(function (prev, current) {
+    return prev.y < current.y ? prev : current
+  })
+
+  const yValStep = (maxYItem.value - minYItem.value) / (minYItem.y - maxYItem.y)
+  const priceUsd = yValStep * (minYItem.y - crossY) + minYItem.value
+  return priceUsd
+}
+
+const MIN_TICK_MILLIFY_VALUE = 1000000
+
+export const yAxisTickFormatter = value =>
+  value > MIN_TICK_MILLIFY_VALUE
+    ? millify(value)
+    : formatNumber(value, {
+      minimumFractionDigits: 0
+    })

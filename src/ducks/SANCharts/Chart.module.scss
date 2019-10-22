@@ -56,6 +56,8 @@
       }
     }
   }
+
+  position: relative;
 }
 
 .details {
@@ -210,4 +212,8 @@
   position: absolute;
   right: 0;
   top: 8px;
+}
+
+.signalPoint {
+  cursor: pointer;
 }
