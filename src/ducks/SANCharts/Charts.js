@@ -137,8 +137,8 @@ class Charts extends React.Component {
   metricRef = React.createRef()
 
   componentDidMount () {
-    const { fetchSignals } = this.props
-    fetchSignals && fetchSignals()
+    const { fetchSignals, isBeta, isLoggedIn } = this.props
+    isBeta && isLoggedIn && fetchSignals && fetchSignals()
   }
 
   componentWillUpdate ({
@@ -273,8 +273,8 @@ class Charts extends React.Component {
   }
 
   canShowSignalLines = () => {
-    const { metrics = [] } = this.props
-    return metrics.includes(Metrics.historyPrice)
+    const { metrics = [], isLoggedIn, isBeta } = this.props
+    return isLoggedIn && isBeta && metrics.includes(Metrics.historyPrice)
   }
 
   onMouseMove = throttle(event => {

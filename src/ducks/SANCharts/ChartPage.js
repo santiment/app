@@ -553,6 +553,8 @@ class ChartPage extends Component {
                       rightBoundaryDate={rightBoundaryDate}
                       children={children}
                       isAdvancedView={isAdvancedView}
+                      isBeta={isBeta}
+                      isLoggedIn={isLoggedIn}
                     />
                     {!isPRO && (
                       <UpgradePaywall isAdvancedView={isAdvancedView} />
