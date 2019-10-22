@@ -169,7 +169,7 @@ export class TrendsExplorePage extends Component {
         <div>
           <div className={styles.widgets}>
             <WordCloud word={topic} />
-            <SocialVolumeWidget />
+            <SocialVolumeWidget word={topic} />
           </div>
           <GetTrends
             topic={topic}
