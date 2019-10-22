@@ -103,6 +103,14 @@ const getTooltipMetricAndKey = (metrics, chartData) => {
   return { tooltipMetric, tooltipMetricKey }
 }
 
+const buildNewSignalData = (coordinate, value) => {
+  return {
+    chartY: coordinate,
+    priceUsd: value,
+    isNew: true
+  }
+}
+
 class Charts extends React.Component {
   state = {
     leftZoomIndex: undefined,
@@ -325,13 +333,7 @@ class Charts extends React.Component {
         tooltipMetric.dataKey || tooltipMetric.key
       ],
       hovered: true,
-      newSignalData: priceUsd
-        ? {
-          priceUsd,
-          chartY,
-          isNew: true
-        }
-        : undefined
+      newSignalData: priceUsd ? buildNewSignalData(chartY, priceUsd) : undefined
     })
   }, 16)
 
@@ -345,6 +347,15 @@ class Charts extends React.Component {
 
       createSignal(signal)
     }
+  }
+
+  onYAxesHover = (evt, evt2, evt3, evt4) => {
+    const { value, coordinate } = evt
+
+    this.setState({
+      newSignalData: buildNewSignalData(coordinate, value)
+    })
+    console.log(evt, evt2, evt3, evt4)
   }
 
   render () {
@@ -384,6 +395,7 @@ class Charts extends React.Component {
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
       chartRef,
       coordinates: this.xToYCoordinates,
+      onYAxesHover: this.onYAxesHover,
       ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef }
     })
 
