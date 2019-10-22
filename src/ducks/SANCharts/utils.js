@@ -1,6 +1,6 @@
 import React from 'react'
 import { YAxis, Bar, Line, Area, ReferenceDot } from 'recharts'
-import { formatNumber } from './../../utils/formatting'
+import { formatNumber, millify } from './../../utils/formatting'
 import { Metrics, Events } from './data'
 import styles from './Chart.module.scss'
 
@@ -168,6 +168,7 @@ export const generateMetricsMarkup = (
         orientation={orientation}
         domain={['auto', 'dataMax']}
         hide={isHidden}
+        tickFormatter={yAxisTickFormatter}
       />,
       <El
         key={`line-${dataKey}`}
@@ -347,3 +348,12 @@ export const getSignalPrice = (xToYCoordinates, crossY) => {
   const priceUsd = yValStep * (minYItem.y - crossY) + minYItem.value
   return priceUsd
 }
+
+const MIN_TICK_MILLIFY_VALUE = 1000000
+
+export const yAxisTickFormatter = value =>
+  value > MIN_TICK_MILLIFY_VALUE
+    ? millify(value)
+    : formatNumber(value, {
+      minimumFractionDigits: 0
+    })
