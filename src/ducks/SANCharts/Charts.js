@@ -32,7 +32,8 @@ import {
   findYAxisMetric,
   chartBars,
   mapToPriceSignalLines,
-  getSignalPrice
+  getSignalPrice,
+  getCrossYValue
 } from './utils'
 import { Metrics } from './data'
 import { checkHasPremium } from '../../pages/UserSelectors'
@@ -473,7 +474,7 @@ class Charts extends React.Component {
                   className={styles.values}
                   style={{
                     '--xValue': `"${tickFormatter(xValue)}"`,
-                    '--yValue': `"${yValue ? millify(yValue, 1) : '-'}"`
+                    '--yValue': `"${getCrossYValue(yValue)}"`
                   }}
                 />
               </div>
