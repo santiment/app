@@ -4,6 +4,9 @@ export const initialState = {
   all: []
 }
 
+const getNewFilteredSignals = (signals, signalId) =>
+  signals.filter(({ id }) => id !== signalId)
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case actions.SIGNAL_FETCH_ALL_SUCCESS:
@@ -18,12 +21,15 @@ export default (state = initialState, action) => {
       }
     }
     case actions.SIGNAL_REMOVE_BY_ID_SUCCESS: {
-      const filteredSignals = [
-        ...state.all.filter(({ id }) => id !== action.payload.id)
-      ]
       return {
         ...state,
-        all: filteredSignals
+        all: getNewFilteredSignals(state.all, action.payload.id)
+      }
+    }
+    case actions.SIGNAL_REMOVE_BY_ID_FAILED: {
+      return {
+        ...state,
+        all: getNewFilteredSignals(state.all, action.data.id)
       }
     }
     case actions.SIGNAL_FETCH_HISTORY_POINTS:

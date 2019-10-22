@@ -128,7 +128,6 @@ class Charts extends React.Component {
       evt.preventDefault()
 
       const { removeSignal } = this.props
-
       removeSignal && removeSignal(id)
     }
   }
