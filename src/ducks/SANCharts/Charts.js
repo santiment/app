@@ -327,7 +327,7 @@ class Charts extends React.Component {
       hovered: true,
       newSignalData: priceUsd
         ? {
-          priceUsd: priceUsd,
+          priceUsd,
           chartY,
           isNew: true
         }
