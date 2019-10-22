@@ -2,14 +2,15 @@ import { Observable } from 'rxjs'
 import * as actions from './actions'
 import { SOCIAL_VOLUME_QUERY } from './socialVolumeGQL'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
-import { mergeTimeseriesByKey } from '../../utils/utils'
+import { mergeTimeseriesByKey, safeDecode } from '../../utils/utils'
 import { getTimeIntervalFromToday } from '../../utils/dates'
 
 export const fetchSocialVolumeEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.SOCIALVOLUME_DATA_FETCH)
     .debounceTime(200)
-    .switchMap(({ payload: trendWord }) => {
+    .switchMap(({ payload: word }) => {
+      const trendWord = safeDecode(word)
       if (store.getState().socialVolume.trendWord === trendWord) {
         return Observable.of({
           type: actions.SOCIALVOLUME_DATA_FETCH_CANCEL,

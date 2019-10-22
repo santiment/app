@@ -5,7 +5,6 @@ import { SOCIALVOLUME_DATA_FETCH, TOTAL_SOCIALVOLUME_SECRET } from './actions'
 import { getDateFormats } from '../../utils/dates'
 import { millify } from '../../utils/formatting'
 import WidgetTrend from '../Widget/WidgetTrend'
-import { safeDecode } from '../../utils/utils'
 import styles from './SocialVolumeWidget.module.scss'
 
 const RoundBar = ({ x, y, height }) => (
@@ -23,12 +22,11 @@ export class SocialVolumeWidget extends React.Component {
   }
 
   render () {
-    const { data = [], trendWord, isLoading, error } = this.props
-
+    const { data = [], word, isLoading, error } = this.props
     return (
       <WidgetTrend
         className={styles.wrapper}
-        trendWord={safeDecode(trendWord)}
+        trendWord={word}
         description='social volume score'
         isLoading={isLoading}
         error={error}
@@ -64,7 +62,6 @@ export class SocialVolumeWidget extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  trendWord: state.socialVolume.trendWord,
   data: state.socialVolume.data,
   isLoading: state.socialVolume.isLoading,
   error: state.socialVolume.error

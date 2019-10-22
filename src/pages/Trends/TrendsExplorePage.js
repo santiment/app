@@ -169,10 +169,10 @@ export class TrendsExplorePage extends Component {
         <div>
           <div className={styles.widgets}>
             <WordCloud word={topic} />
-            <SocialVolumeWidget />
+            <SocialVolumeWidget word={topic} />
           </div>
           <GetTrends
-            topic={word}
+            topic={topic}
             timeRange={timeRange}
             interval={getCustomInterval(timeRange)}
             render={trends => (
@@ -202,7 +202,7 @@ export class TrendsExplorePage extends Component {
               />
             )}
           />
-          <TrendsExploreAdditionalInfo word={word} />
+          <TrendsExploreAdditionalInfo word={topic} />
         </div>
       </div>
     )
