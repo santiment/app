@@ -48,6 +48,7 @@ import { buildPriceAboveSignal } from '../Signals/utils/utils'
 import SignalLine, {
   SignalPointSvg
 } from './components/newSignalLine/SignalLine'
+import SidecarExplanationTooltip from './SidecarExplanationTooltip'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
 
@@ -479,11 +480,20 @@ class Charts extends React.Component {
             </>
           )}
           {isSignalsEnabled && (
-            <SignalLine data={newSignalData} active={activeSignalData} />
+            <SidecarExplanationTooltip
+              closeTimeout={500}
+              localStorageSuffix='_SIGNALS_ON_CHART_EXPLANATION'
+              position='top'
+              title='Create your own signals for price changes!'
+              description='One click on Y-axis to create a signal, the second click on signal for removing'
+            >
+              <SignalLine data={newSignalData} active={activeSignalData} />
+            </SidecarExplanationTooltip>
           )}
         </div>
 
         <ChartWatermark className={styles.watermark} />
+
         <ResponsiveContainer height={300}>
           <ComposedChart
             margin={CHART_MARGINS}
