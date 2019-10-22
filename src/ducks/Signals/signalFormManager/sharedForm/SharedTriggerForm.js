@@ -60,7 +60,7 @@ const SharedTriggerForm = ({
             accent='positive'
             className={styles.btnAdd}
           >
-            Copy signal
+            Add signal
           </Button>
           <Button
             className={styles.btnEdit}
@@ -78,7 +78,7 @@ const SharedTriggerForm = ({
             accent='positive'
             className={styles.btnAdd}
           >
-            Copy signal
+            Add signal
           </Button>
           <Button
             fluid

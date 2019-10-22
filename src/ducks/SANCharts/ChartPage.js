@@ -554,6 +554,7 @@ class ChartPage extends Component {
                       children={children}
                       isAdvancedView={isAdvancedView}
                       isBeta={isBeta}
+                      isLoggedIn={isLoggedIn}
                     />
                     {!isPRO && (
                       <UpgradePaywall isAdvancedView={isAdvancedView} />

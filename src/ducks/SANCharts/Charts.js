@@ -36,7 +36,7 @@ import {
   getCrossYValue
 } from './utils'
 import { Metrics } from './data'
-import { checkHasPremium, checkIsLoggedIn } from '../../pages/UserSelectors'
+import { checkHasPremium } from '../../pages/UserSelectors'
 import displayPaywall, { MOVE_CLB, CHECK_CLB } from './Paywall'
 import { binarySearch } from '../../pages/Trends/utils'
 import ChartWatermark from './ChartWatermark'
@@ -137,8 +137,8 @@ class Charts extends React.Component {
   metricRef = React.createRef()
 
   componentDidMount () {
-    const { fetchSignals } = this.props
-    fetchSignals && fetchSignals()
+    const { fetchSignals, isBeta, isLoggedIn } = this.props
+    isBeta && isLoggedIn && fetchSignals && fetchSignals()
   }
 
   componentWillUpdate ({
@@ -603,8 +603,7 @@ const mapStateToProps = (state, props) => {
   const { signals: { all = [] } = {} } = state
   return {
     hasPremium: checkHasPremium(state),
-    signals: all,
-    isLoggedIn: checkIsLoggedIn(state)
+    signals: all
   }
 }
 
