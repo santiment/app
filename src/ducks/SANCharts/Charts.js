@@ -36,7 +36,7 @@ import {
   getCrossYValue
 } from './utils'
 import { Metrics } from './data'
-import { checkHasPremium } from '../../pages/UserSelectors'
+import { checkHasPremium, checkIsLoggedIn } from '../../pages/UserSelectors'
 import displayPaywall, { MOVE_CLB, CHECK_CLB } from './Paywall'
 import { binarySearch } from '../../pages/Trends/utils'
 import ChartWatermark from './ChartWatermark'
@@ -273,8 +273,8 @@ class Charts extends React.Component {
   }
 
   canShowSignalLines = () => {
-    const { metrics = [] } = this.props
-    return metrics.includes(Metrics.historyPrice)
+    const { metrics = [], isLoggedIn, isBeta } = this.props
+    return isLoggedIn && isBeta && metrics.includes(Metrics.historyPrice)
   }
 
   onMouseMove = throttle(event => {
@@ -603,7 +603,8 @@ const mapStateToProps = (state, props) => {
   const { signals: { all = [] } = {} } = state
   return {
     hasPremium: checkHasPremium(state),
-    signals: all
+    signals: all,
+    isLoggedIn: checkIsLoggedIn(state)
   }
 }
 
