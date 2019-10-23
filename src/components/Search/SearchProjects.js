@@ -20,7 +20,7 @@ const SearchProjects = ({
   const projects = projectsList.length > 0 ? projectsList : ALL_PROJECTS
   return (
     <SearchWithSuggestions
-      sorter={({ name: { length: a } }, { name: { length: b } }) => a - b}
+      sorter={({ marketcapUsd: a }, { marketcapUsd: b }) => b - a}
       {...props}
       iconPosition={searchIconPosition}
       data={projects}
