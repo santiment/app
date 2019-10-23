@@ -6,6 +6,7 @@ import SearchProjects from '../../../../../../components/Search/SearchProjects'
 import { hasAssetById } from '../../../../../../components/WatchlistPopup/WatchlistsPopup'
 import ProjectsList from './ProjectsList'
 import Loader from '@santiment-network/ui/Loader/Loader'
+import { projectsSorter } from '../../../../../../components/Search/SearchContainer'
 import styles from './TriggerProjectsSelector.module.scss'
 
 export const TriggerProjectsSelector = ({
@@ -146,7 +147,7 @@ export const TriggerProjectsSelector = ({
           checkedAssets={checkedAssetsAsSet}
           onSuggestionSelect={onSuggestionSelect}
           inputProps={{ autoFocus: true }}
-          sorter={({ rank: a }, { rank: b }) => a - b}
+          sorter={projectsSorter}
         />
         <div className={styles.contentWrapper}>
           {isSingle || (
