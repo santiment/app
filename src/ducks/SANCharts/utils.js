@@ -1,5 +1,5 @@
 import React from 'react'
-import { YAxis, Bar, Line, Area, ReferenceDot, ComposedChart } from 'recharts'
+import { YAxis, Bar, Line, Area, ReferenceDot } from 'recharts'
 import { formatNumber, millify } from './../../utils/formatting'
 import { Metrics, Events } from './data'
 import styles from './Chart.module.scss'
