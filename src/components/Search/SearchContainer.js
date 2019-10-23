@@ -20,7 +20,7 @@ export const SearchContainer = ({
       className={cx(styles.wrapper, className)}
       iconPosition='left'
       onSuggestionSelect={({ slug }) => history.push(`/projects/${slug}`)}
-      sorter={({ marketcapUsd: a }, { marketcapUsd: b }) => b - a}
+      sorter={({ rank: a }, { rank: b }) => a - b}
     />
   ) : (
     <TrendsForm

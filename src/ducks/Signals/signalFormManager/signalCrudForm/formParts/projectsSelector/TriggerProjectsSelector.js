@@ -146,7 +146,7 @@ export const TriggerProjectsSelector = ({
           checkedAssets={checkedAssetsAsSet}
           onSuggestionSelect={onSuggestionSelect}
           inputProps={{ autoFocus: true }}
-          sorter={({ marketcapUsd: a }, { marketcapUsd: b }) => b - a}
+          sorter={({ rank: a }, { rank: b }) => a - b}
         />
         <div className={styles.contentWrapper}>
           {isSingle || (
