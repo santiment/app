@@ -8,7 +8,7 @@ import styles from './SearchContainer.module.scss'
 
 export const projectsSorter = (
   { rank: rankA, marketcapUsd: marketcapUsdA },
-  { rank: rankB, marketcapUsdB }
+  { rank: rankB, marketcapUsd: marketcapUsdB }
 ) => {
   if (rankA > 0 && rankB > 0) {
     return rankA - rankB
