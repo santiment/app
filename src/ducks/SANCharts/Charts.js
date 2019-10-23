@@ -355,7 +355,6 @@ class Charts extends React.Component {
     this.setState({
       newSignalData: buildNewSignalData(coordinate, value)
     })
-    console.log(evt, evt2, evt3, evt4)
   }
 
   render () {
