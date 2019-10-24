@@ -40,7 +40,6 @@ export const SearchContainer = ({
   function removeRecentAssetSuggestion (slug) {
     setRecentAssetSuggestions(removeRecentAssets(slug))
   }
-  console.log(recentAssets)
 
   return selectedTab === TABS[0].index ? (
     <SearchProjects
@@ -48,8 +47,8 @@ export const SearchContainer = ({
       inputProps={inputProps}
       className={cx(styles.wrapper, className)}
       iconPosition='left'
-      onSuggestionSelect={asset => {
-        const { slug = asset } = asset
+      onSuggestionSelect={({ item }) => {
+        const { slug = item } = item
         addRecentAssetSuggestions(slug)
         history.push(`/projects/${slug}`)
       }}
