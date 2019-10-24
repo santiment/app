@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import gql from 'graphql-tag'
+import { compose } from 'redux'
 import { graphql } from 'react-apollo'
 import { Icon, SearchWithSuggestions } from '@santiment-network/ui'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
@@ -8,7 +10,18 @@ import ProjectIcon from './../ProjectIcon'
 import styles from './SearchContainer.module.scss'
 import ALL_PROJECTS from './../../allProjects.json'
 
-const sorter = ({ rank: a }, { rank: b }) => a - b
+const TRENDING_WORDS_QUERY = gql`
+  query getTrendingWords($from: DateTime!, $to: DateTime!) {
+    getTrendingWords(size: 10, from: $from, to: $to, interval: "8h") {
+      datetime
+      topWords {
+        score
+        word
+      }
+    }
+  }
+`
+
 const predicate = searchTerm => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
   return ({ ticker, name, slug }) =>
@@ -16,17 +29,21 @@ const predicate = searchTerm => {
     ticker.toUpperCase().includes(upperCaseSearchTerm) ||
     slug.toUpperCase().includes(upperCaseSearchTerm)
 }
+const trendWordsPredicate = searchTerm => {
+  const upperCaseSearchTerm = searchTerm.toUpperCase()
+  return word => word.toUpperCase().includes(upperCaseSearchTerm)
+}
 
 const SearchProjects = ({
-  projectsList,
+  projects,
   isEditingWatchlist,
   isCopyingAssets,
   checkedAssets,
   watchlistItems,
   searchIconPosition,
+  trendWords,
   ...props
 }) => {
-  const projects = projectsList.length > 0 ? projectsList : ALL_PROJECTS
   return (
     <SearchWithSuggestions
       {...props}
@@ -34,7 +51,6 @@ const SearchProjects = ({
       withMoreSuggestions={false}
       data={[
         {
-          sorter,
           predicate,
           title: 'Assets',
           items: projects,
@@ -69,17 +85,55 @@ const SearchProjects = ({
               </div>
             )
           }
+        },
+        {
+          predicate: trendWordsPredicate,
+          title: 'Trending words',
+          items: trendWords,
+          suggestionContent: word => word
         }
       ]}
     />
   )
 }
 
-export default graphql(allProjectsForSearchGQL, {
-  skip: ({ projectsList }) => projectsList && projectsList.length > 0,
-  options: () => ({
-    context: { isRetriable: true },
-    variables: { minVolume: 0 }
+const enhance = compose(
+  graphql(TRENDING_WORDS_QUERY, {
+    options: () => {
+      const from = new Date()
+      const to = new Date()
+      to.setHours(to.getHours(), 0, 0, 0)
+      from.setHours(from.getHours() - 8, 0, 0, 0)
+
+      return {
+        variables: {
+          from,
+          to
+        }
+      }
+    },
+    props: ({ data: { getTrendingWords = [] } }) => {
+      const trendWords = getTrendingWords[0]
+      return {
+        trendWords: trendWords
+          ? trendWords.topWords.map(({ word }) => word)
+          : []
+      }
+    }
   }),
-  props: ({ data: { allProjects = [] } }) => ({ projectsList: allProjects })
-})(SearchProjects)
+  graphql(allProjectsForSearchGQL, {
+    skip: ({ projectsList }) => projectsList && projectsList.length > 0,
+    options: () => ({
+      context: { isRetriable: true },
+      variables: { minVolume: 0 }
+    }),
+    props: ({ data: { allProjects = [] } }) => {
+      const projects = allProjects.length > 0 ? allProjects : ALL_PROJECTS
+      return {
+        projects: projects.slice().sort(({ rank: a }, { rank: b }) => a - b)
+      }
+    }
+  })
+)
+
+export default enhance(SearchProjects)
