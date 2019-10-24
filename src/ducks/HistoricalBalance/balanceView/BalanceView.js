@@ -164,7 +164,7 @@ const BalanceView = ({
             classes={styles}
             queryString={mapStateToQS({
               address: stateAddress,
-              assets: stateAssets,
+              assets: mapAssetsToFlatArray(stateAssets),
               priceMetrics: priceMetrics
                 .filter(({ enabled }) => enabled)
                 .map(({ asset }) => asset)

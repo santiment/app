@@ -109,6 +109,7 @@ const SignalPreviewChart = ({
                     header: true,
                     sidecar: true
                   }}
+                  adjustNightMode={false}
                 >
                   {referenceDots}
                 </ChartWidget>
