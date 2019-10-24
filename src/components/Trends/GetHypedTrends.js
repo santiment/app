@@ -15,7 +15,8 @@ class GetHypedTrends extends React.Component {
   }
 
   componentDidMount () {
-    this.props.fetchHypedTrends()
+    const { pivots = 2, fetchHypedTrends } = this.props
+    fetchHypedTrends(pivots)
   }
 }
 
@@ -33,9 +34,10 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchHypedTrends: () => {
+  fetchHypedTrends: payload => {
     return dispatch({
-      type: actions.TRENDS_HYPED_FETCH
+      type: actions.TRENDS_HYPED_FETCH,
+      payload
     })
   }
 })

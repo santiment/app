@@ -26,6 +26,7 @@ const Recent = ({ icon = 'clock', text, onRemove }) => (
 
 export const SearchContainer = ({
   history,
+  isMobile,
   className,
   selectedTab = TABS[0].index,
   inputProps,
@@ -53,8 +54,9 @@ export const SearchContainer = ({
         history.push(`/projects/${slug}`)
       }}
       emptySuggestions={
-        recentAssets.length > 0
-          ? [
+        isMobile || recentAssets.length === 0
+          ? undefined
+          : [
             {
               title: 'Recently searched',
               items: recentAssets,
@@ -69,7 +71,6 @@ export const SearchContainer = ({
               )
             }
           ]
-          : undefined
       }
     />
   ) : (
