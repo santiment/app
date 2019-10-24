@@ -22,13 +22,14 @@ const TRENDING_WORDS_QUERY = gql`
   }
 `
 
-const predicate = searchTerm => {
+const assetsPredicate = searchTerm => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
   return ({ ticker, name, slug }) =>
     name.toUpperCase().includes(upperCaseSearchTerm) ||
     ticker.toUpperCase().includes(upperCaseSearchTerm) ||
     slug.toUpperCase().includes(upperCaseSearchTerm)
 }
+
 const trendWordsPredicate = searchTerm => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
   return word => word.toUpperCase().includes(upperCaseSearchTerm)
@@ -51,7 +52,7 @@ const SearchProjects = ({
       withMoreSuggestions={false}
       data={[
         {
-          predicate,
+          predicate: assetsPredicate,
           title: 'Assets',
           items: projects,
           suggestionContent: ({ name, ticker, id }) => {

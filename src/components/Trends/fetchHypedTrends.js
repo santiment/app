@@ -38,11 +38,11 @@ export const selectHypedTrend = action$ =>
         : Observable.empty()
     })
 
-const fetchTrends$ = (client, pivots = 0) => {
+const fetchTrends$ = ({ client, data = {} }) => {
   const from = new Date()
   const to = new Date()
   to.setHours(to.getHours(), 0, 0, 0)
-  from.setHours(from.getHours() - (1 + pivots * 7), 0, 0, 0)
+  from.setHours(from.getHours() - 15, 0, 0, 0)
 
   const query = client.query({
     query: TRENDING_WORDS_QUERY,
@@ -68,7 +68,7 @@ const fetchTrends$ = (client, pivots = 0) => {
 }
 
 export const fetchHypedTrends = (action$, store, { client }) =>
-  action$.ofType(actions.TRENDS_HYPED_FETCH).mergeMap(({ payload }) => {
+  action$.ofType(actions.TRENDS_HYPED_FETCH).mergeMap(({ data = {} }) => {
     return Observable.merge(
       Observable.of({
         type: actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS,
@@ -76,6 +76,6 @@ export const fetchHypedTrends = (action$, store, { client }) =>
           check: 'check'
         }
       }),
-      fetchTrends$(client, payload)
+      fetchTrends$({ data, client })
     )
   })
