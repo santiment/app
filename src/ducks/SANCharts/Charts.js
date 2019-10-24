@@ -346,15 +346,27 @@ class Charts extends React.Component {
       const signal = buildPriceAboveSignal(slug, priceUsd)
 
       createSignal(signal)
+
+      this.setState({
+        hovered: false,
+        activeSignalData: null
+      })
     }
   }
 
-  onYAxesHover = (evt, evt2, evt3, evt4) => {
-    const { value, coordinate } = evt
+  onYAxesHover = evt => {
+    const { coordinate } = evt
 
-    this.setState({
-      newSignalData: buildNewSignalData(coordinate, value)
-    })
+    const { activeSignalData } = this.state
+
+    const canCreateSignal = !activeSignalData && this.canShowSignalLines()
+
+    if (canCreateSignal) {
+      const priceUsd = getSignalPrice(this.xToYCoordinates, coordinate)
+      this.setState({
+        newSignalData: buildNewSignalData(coordinate, priceUsd)
+      })
+    }
   }
 
   render () {
