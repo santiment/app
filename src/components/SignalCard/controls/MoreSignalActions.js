@@ -7,8 +7,7 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import { RemoveSignalButton } from './SignalControls'
 import ShareModalTrigger from '../../Share/ShareModalTrigger'
 import { mapStateToQS } from '../../../utils/utils'
-import SmoothDropdownItem from '../../SmoothDropdown/SmoothDropdownItem'
-import SmoothDropdown from '../../SmoothDropdown/SmoothDropdown'
+import Tooltip from '@santiment-network/ui/Tooltip'
 import styles from '../SignalCard.module.scss'
 
 const generateShareLink = (id, title) => {
@@ -44,46 +43,43 @@ const MoreSignalActions = ({
   }
 
   return (
-    <SmoothDropdown>
-      <SmoothDropdownItem
-        trigger={
-          <Button className={styles.expandButton}>
-            <Icon type='dots' />
-          </Button>
-        }
-        position='bottom'
-        align='start'
-        classes={styles}
-      >
-        <Panel>
-          <div className={styles.popup}>
-            {isUserTheAuthor && (
-              <div className={cx(styles.popupItem, styles.popupButton)}>
-                <Link
-                  to={`/sonar/signal/${signalId}/edit${window.location.search}`}
-                  className={styles.link}
-                >
-                  Edit signal
-                </Link>
-              </div>
-            )}
+    <Tooltip
+      trigger={
+        <Button className={styles.expandButton}>
+          <Icon type='dots' />
+        </Button>
+      }
+      position='bottom'
+      align='start'
+    >
+      <Panel>
+        <div className={styles.popup}>
+          {isUserTheAuthor && (
+            <div className={cx(styles.popupItem, styles.popupButton)}>
+              <Link
+                to={`/sonar/signal/${signalId}/edit${window.location.search}`}
+                className={styles.link}
+              >
+                Edit signal
+              </Link>
+            </div>
+          )}
 
-            {isPublic && <ShareSignal trigger={SignalShareTrigger} />}
+          {isPublic && <ShareSignal trigger={SignalShareTrigger} />}
 
-            {isUserTheAuthor && deleteEnabled && (
-              <div className={cx(styles.popupItem, styles.popupButton)}>
-                <RemoveSignalButton
-                  id={signalId}
-                  signalTitle={signalTitle}
-                  removeSignal={removeSignal}
-                  trigger={<div className={styles.removeSignal}>Delete</div>}
-                />
-              </div>
-            )}
-          </div>
-        </Panel>
-      </SmoothDropdownItem>
-    </SmoothDropdown>
+          {isUserTheAuthor && deleteEnabled && (
+            <div className={cx(styles.popupItem, styles.popupButton)}>
+              <RemoveSignalButton
+                id={signalId}
+                signalTitle={signalTitle}
+                removeSignal={removeSignal}
+                trigger={<div className={styles.removeSignal}>Delete</div>}
+              />
+            </div>
+          )}
+        </div>
+      </Panel>
+    </Tooltip>
   )
 }
 

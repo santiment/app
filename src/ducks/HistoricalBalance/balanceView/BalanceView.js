@@ -143,6 +143,12 @@ const BalanceView = ({
 
   const { timeRange, from, to } = chartSettings
 
+  const [scale, setScale] = useState('time')
+
+  const onScaleChange = () => {
+    setScale(scale === 'time' ? 'log' : 'time')
+  }
+
   return (
     <div className={cx(styles.container, classes.balanceViewContainer)}>
       <BalanceViewWalletAssets
@@ -173,6 +179,8 @@ const BalanceView = ({
             toggleYAxes={toggleYAxes}
             priceMetrics={priceMetrics}
             toggleAsset={togglePriceMetric}
+            onScaleChange={onScaleChange}
+            scale={scale}
           />
         </BalanceChartHeader>
 
@@ -261,6 +269,7 @@ const BalanceView = ({
                 walletsData={data}
                 priceMetricsData={priceMetricTimeseries}
                 priceMetric={CHART_PRICE_METRIC}
+                scale={scale}
               />
             )
           }}

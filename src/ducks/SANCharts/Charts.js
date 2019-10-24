@@ -395,6 +395,7 @@ class Charts extends React.Component {
       chartRef,
       coordinates: this.xToYCoordinates,
       onYAxesHover: this.onYAxesHover,
+      scale: scale,
       ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef }
     })
 
@@ -527,7 +528,6 @@ class Charts extends React.Component {
             <defs>{isSignalsEnabled && <SignalPointSvg />}</defs>
             <XAxis
               dataKey='datetime'
-              scale={scale}
               tickLine={false}
               minTickGap={100}
               tickFormatter={tickFormatter}
