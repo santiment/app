@@ -6,6 +6,17 @@ import { TABS } from '../../pages/SearchMobilePage/SearchMobilePage'
 import TrendsForm from '../Trends/TrendsForm'
 import styles from './SearchContainer.module.scss'
 
+export const projectsSorter = (
+  { rank: rankA, marketcapUsd: marketcapUsdA },
+  { rank: rankB, marketcapUsd: marketcapUsdB }
+) => {
+  if (rankA > 0 && rankB > 0) {
+    return rankA - rankB
+  } else {
+    return marketcapUsdB - marketcapUsdA
+  }
+}
+
 export const SearchContainer = ({
   history,
   className,
@@ -20,6 +31,7 @@ export const SearchContainer = ({
       className={cx(styles.wrapper, className)}
       iconPosition='left'
       onSuggestionSelect={({ slug }) => history.push(`/projects/${slug}`)}
+      sorter={projectsSorter}
     />
   ) : (
     <TrendsForm
