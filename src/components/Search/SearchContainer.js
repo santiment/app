@@ -7,9 +7,7 @@ import { TABS } from '../../pages/SearchMobilePage/SearchMobilePage'
 import TrendsForm from '../Trends/TrendsForm'
 import {
   getRecentAssets,
-  getRecentTrends,
   addRecentAssets,
-  removeRecentTrends,
   removeRecentAssets
 } from '../../utils/recent'
 import styles from './SearchContainer.module.scss'
