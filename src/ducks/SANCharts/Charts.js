@@ -143,11 +143,6 @@ class Charts extends React.Component {
   eventsMap = new Map()
   metricRef = React.createRef()
 
-  componentDidMount () {
-    const { fetchSignals, isBeta, isLoggedIn } = this.props
-    isBeta && isLoggedIn && fetchSignals && fetchSignals()
-  }
-
   componentWillUpdate ({
     chartData,
     chartRef,
@@ -155,7 +150,11 @@ class Charts extends React.Component {
     events,
     isTrendsShowing,
     isAdvancedView,
-    slug
+    slug,
+    isBeta,
+    isLoggedIn,
+    fetchSignals,
+    signals
   }) {
     if (this.props.chartData !== chartData) {
       this.getXToYCoordinates()
@@ -195,6 +194,10 @@ class Charts extends React.Component {
 
         this.eventsMap.set(result.datetime, eventsData)
       })
+    }
+
+    if (isBeta !== this.props.isBeta || isLoggedIn !== this.props.isLoggedIn) {
+      isBeta && isLoggedIn && fetchSignals && fetchSignals()
     }
   }
 
