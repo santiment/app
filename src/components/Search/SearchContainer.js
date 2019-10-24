@@ -14,6 +14,10 @@ import {
 } from '../../utils/recent'
 import styles from './SearchContainer.module.scss'
 
+const RECENT_ASSETS = 'Recently searched'
+const ASSETS = 'Assets'
+const TRENDING_WORDS = 'Trending words'
+
 const Recent = ({ icon = 'clock', text, onRemove }) => (
   <div className={styles.recent}>
     <div className={styles.left}>
@@ -48,10 +52,14 @@ export const SearchContainer = ({
       inputProps={inputProps}
       className={cx(styles.wrapper, className)}
       iconPosition='left'
-      onSuggestionSelect={({ item }) => {
-        const { slug = item } = item
-        addRecentAssetSuggestions(slug)
-        history.push(`/projects/${slug}`)
+      onSuggestionSelect={({ category, item }) => {
+        if (category === ASSETS || category === RECENT_ASSETS) {
+          const { slug = item } = item
+          addRecentAssetSuggestions(slug)
+          history.push(`/projects/${slug}`)
+        } else if (category === TRENDING_WORDS) {
+          history.push(`/labs/trends/explore/${item}`)
+        }
       }}
       emptySuggestions={
         isMobile || recentAssets.length === 0
@@ -60,6 +68,7 @@ export const SearchContainer = ({
             {
               title: 'Recently searched',
               items: recentAssets,
+              classes: styles,
               suggestionContent: suggestion => (
                 <Recent
                   text={suggestion}
