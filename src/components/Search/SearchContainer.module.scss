@@ -57,6 +57,7 @@
 }
 
 .remove {
+  display: none;
   fill: var(--waterloo);
   width: 8px;
   height: 8px;
@@ -67,4 +68,8 @@
   &:hover {
     fill: var(--mirage);
   }
+}
+
+.recent:hover .remove {
+  display: block;
 }
