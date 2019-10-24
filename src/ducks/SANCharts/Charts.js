@@ -346,6 +346,11 @@ class Charts extends React.Component {
       const signal = buildPriceAboveSignal(slug, priceUsd)
 
       createSignal(signal)
+
+      this.setState({
+        hovered: false,
+        activeSignalData: null
+      })
     }
   }
 
