@@ -6,6 +6,7 @@ import { normalizeCSV } from './utils'
 import { isNotSafari } from '../../utils/utils'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
+import WatchlistWeeklyReportTrigger from '../../components/WatchlistWeeklyReport/WatchlistWeeklyReportTrigger'
 import WatchlistCopyPopup from '../../components/WatchlistCopy/WatchlistCopyPopup'
 import WatchlistContextMenu from './WatchlistContextMenu'
 import styles from './WatchlistActionButton.module.scss'
@@ -54,14 +55,6 @@ const WatchlistActions = ({
         </>
         ) : (
         <>
-          {isDesktop && (
-            <>
-              <ShareModalTrigger shareLink={shareLink} />
-              {isAuthor && (
-                <WatchlistEditTrigger name={title} id={id} assets={items} />
-              )}
-            </>
-          )}
           {isLoggedIn && (
             <WatchlistContextMenu
               isAuthor={isAuthor}
@@ -73,6 +66,17 @@ const WatchlistActions = ({
               hasCSV={hasCSV}
               isDesktop={isDesktop}
             />
+          )}
+          {isDesktop && (
+            <>
+              <ShareModalTrigger shareLink={shareLink} />
+              {isAuthor && (
+                <>
+                  <WatchlistEditTrigger name={title} id={id} assets={items} />
+                  <WatchlistWeeklyReportTrigger id={id} />
+                </>
+              )}
+            </>
           )}
         </>
         )}

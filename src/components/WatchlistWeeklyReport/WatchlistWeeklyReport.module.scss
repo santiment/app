@@ -1,0 +1,85 @@
+@import '~@santiment-network/ui/variables.scss';
+@import '~@santiment-network/ui/mixins.scss';
+@import "../../mixins.scss";
+
+.wrapper {
+  padding: 0 48px 50px;
+  max-width: 496px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include responsive('phone-xs', 'phone') {
+    padding: 0 24px 26px;
+  }
+}
+
+.header {
+  border-bottom: none;
+  padding-top: 18px !important;
+  justify-content: flex-end;
+  background: none;
+}
+
+.image {
+  width: 196px;
+  height: 122px;
+}
+
+.title {
+  margin: 32px 0 16px;
+  color: var(--rhino);
+  text-align: center;
+
+  @include text('h4', 'm');
+}
+
+.description {
+  margin: 0 0 24px;
+  color: var(--waterloo);
+  text-align: center;
+
+  @include text('body-3');
+}
+
+.toggle {
+  margin-right: 9px;
+}
+
+.toggleWrapper {
+  color: var(--waterloo);
+  padding: 0;
+  height: auto;
+  margin-bottom: 32px;
+
+  &:hover {
+    color: var(--rhino);
+  }
+
+  &.active {
+    color: var(--rhino);
+  }
+}
+
+.actions {
+  padding: 0;
+  width: 100%;
+}
+
+.approve {
+  width: 100%;
+  color: var(--white);
+  height: auto;
+  margin: 0;
+  justify-content: center;
+  padding: 8px 12px;
+
+  @include text('body-2');
+
+  @include responsive('phone-xs', 'phone') {
+    padding: 12px;
+    color: var(--white);
+    background: var(--jungle-green) !important;
+  }
+}

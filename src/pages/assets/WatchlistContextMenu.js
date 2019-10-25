@@ -7,6 +7,7 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import { normalizeCSV } from './utils'
 import WatchlistDeleteDialog from './WatchlistDeleteDialog'
 import WatchlistEdit from '../../components/WatchlistEdit/WatchlistEdit'
+import WatchlistWeeklyReport from '../../components/WatchlistWeeklyReport/WatchlistWeeklyReport'
 import WatchlistCopyPopup from '../../components/WatchlistCopy/WatchlistCopyPopup'
 import WatchlistPublicityToggle from '../../components/WatchlistShare/WatchlistShare'
 import styles from './WatchlistContextMenu.module.scss'
@@ -56,6 +57,13 @@ const WatchlistContextMenu = ({
             trigger={
               <Button variant='ghost' fluid>
                 Copy assets to ...
+              </Button>
+            }
+          />
+          <WatchlistWeeklyReport
+            trigger={
+              <Button variant='ghost' fluid>
+                Weekly report
               </Button>
             }
           />
