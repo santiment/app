@@ -413,7 +413,7 @@ class Charts extends React.Component {
       children,
       isLoading,
       priceRefLineData,
-      scale = 'time',
+      scale,
       signals = [],
       slug
     } = this.props
