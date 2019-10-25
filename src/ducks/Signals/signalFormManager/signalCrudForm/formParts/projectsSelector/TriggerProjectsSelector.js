@@ -115,12 +115,13 @@ export const TriggerProjectsSelector = ({
     closeDialog()
   }
 
-  const onSuggestionSelect = project =>
+  const onSuggestionSelect = ({ item: project }) => {
     toggleAsset({
       project,
       listItems,
       isAssetInList: hasAssetById({ listItems, id: project.id })
     })
+  }
 
   return (
     <Dialog
@@ -139,14 +140,14 @@ export const TriggerProjectsSelector = ({
     >
       <Dialog.ScrollContent className={styles.wrapper}>
         <SearchProjects
+          noTrends
           searchIconPosition='left'
           className={styles.search}
-          projectsList={projects}
+          projects={projects}
           suggestionsProps={{ style: { zIndex: 50 } }}
           checkedAssets={checkedAssetsAsSet}
           onSuggestionSelect={onSuggestionSelect}
           inputProps={{ autoFocus: true }}
-          sorter={({ marketcapUsd: a }, { marketcapUsd: b }) => b - a}
         />
         <div className={styles.contentWrapper}>
           {isSingle || (

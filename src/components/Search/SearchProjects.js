@@ -12,7 +12,7 @@ import ALL_PROJECTS from './../../allProjects.json'
 
 const TRENDING_WORDS_QUERY = gql`
   query getTrendingWords($from: DateTime!, $to: DateTime!) {
-    getTrendingWords(size: 10, from: $from, to: $to, interval: "8h") {
+    getTrendingWords(size: 10, from: $from, to: $to, interval: "1h") {
       datetime
       topWords {
         score
@@ -35,14 +35,45 @@ const trendWordsPredicate = searchTerm => {
   return word => word.toUpperCase().includes(upperCaseSearchTerm)
 }
 
+const AssetSuggestion = ({
+  id,
+  name,
+  ticker,
+  isCopyingAssets,
+  checkedAssets,
+  isEditingWatchlist,
+  isAssetInList
+}) => (
+  <div className={styles.projectWrapper}>
+    <div className={styles.projectInfo}>
+      {isCopyingAssets ? (
+        <Checkbox
+          isActive={checkedAssets.has(id)}
+          className={styles.checkbox}
+        />
+      ) : (
+        <ProjectIcon className={styles.icon} size={16} name={name} />
+      )}
+      <span className={styles.name}>{name}</span>
+      <span className={styles.ticker}>({ticker})</span>
+    </div>
+    {isEditingWatchlist && (
+      <Icon
+        fill={`var(--${isAssetInList ? 'casper' : 'jungle-green'}`}
+        type={isAssetInList ? 'remove' : 'plus-round'}
+      />
+    )}
+  </div>
+)
+
 const SearchProjects = ({
-  projects,
+  trendWords = [],
+  projects = [],
   isEditingWatchlist,
   isCopyingAssets,
   checkedAssets,
   watchlistItems,
   searchIconPosition,
-  trendWords,
   ...props
 }) => {
   return (
@@ -52,44 +83,29 @@ const SearchProjects = ({
       withMoreSuggestions={false}
       data={[
         {
-          predicate: assetsPredicate,
           title: 'Assets',
+          predicate: assetsPredicate,
           items: projects,
           suggestionContent: ({ name, ticker, id }) => {
             const isAssetInList = isEditingWatchlist
               ? hasAssetById({ listItems: watchlistItems, id })
               : false
             return (
-              <div className={styles.projectWrapper}>
-                <div className={styles.projectInfo}>
-                  {isCopyingAssets ? (
-                    <Checkbox
-                      isActive={checkedAssets.has(id)}
-                      className={styles.checkbox}
-                    />
-                  ) : (
-                    <ProjectIcon
-                      className={styles.icon}
-                      size={16}
-                      name={name}
-                    />
-                  )}
-                  <span className={styles.name}>{name}</span>
-                  <span className={styles.ticker}>({ticker})</span>
-                </div>
-                {isEditingWatchlist && (
-                  <Icon
-                    fill={`var(--${isAssetInList ? 'casper' : 'jungle-green'}`}
-                    type={isAssetInList ? 'remove' : 'plus-round'}
-                  />
-                )}
-              </div>
+              <AssetSuggestion
+                isAssetInList={isAssetInList}
+                id={id}
+                name={name}
+                ticker={ticker}
+                isEditingWatchlist={isEditingWatchlist}
+                isCopyingAssets={isCopyingAssets}
+                checkedAssets={checkedAssets}
+              />
             )
           }
         },
         {
-          predicate: trendWordsPredicate,
           title: 'Trending words',
+          predicate: trendWordsPredicate,
           items: trendWords,
           suggestionContent: word => word
         }
@@ -100,11 +116,12 @@ const SearchProjects = ({
 
 const enhance = compose(
   graphql(TRENDING_WORDS_QUERY, {
+    skip: ({ noTrends }) => noTrends,
     options: () => {
       const from = new Date()
       const to = new Date()
       to.setHours(to.getHours(), 0, 0, 0)
-      from.setHours(from.getHours() - 8, 0, 0, 0)
+      from.setHours(from.getHours() - 1, 0, 0, 0)
 
       return {
         variables: {
@@ -123,7 +140,7 @@ const enhance = compose(
     }
   }),
   graphql(allProjectsForSearchGQL, {
-    skip: ({ projectsList }) => projectsList && projectsList.length > 0,
+    skip: ({ projects }) => projects && projects.length > 0,
     options: () => ({
       context: { isRetriable: true },
       variables: { minVolume: 0 }
