@@ -68,10 +68,11 @@ const WatchlistEdit = ({
     >
       <Dialog.ScrollContent className={styles.wrapper}>
         <SearchProjects
+          noTrends
           watchlistItems={listItems}
           isEditingWatchlist={true}
           className={styles.search}
-          onSuggestionSelect={project =>
+          onSuggestionSelect={({ item: project }) =>
             toggleAsset({
               project,
               listItems,

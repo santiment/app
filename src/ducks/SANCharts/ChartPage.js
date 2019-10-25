@@ -27,7 +27,7 @@ const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 const MAX_METRICS_PER_CHART = 5
 
 const DEFAULT_STATE = {
-  scale: 'time',
+  scale: 'auto',
   timeRange: DEFAULT_TIME_RANGE,
   from: FROM.toISOString(),
   to: TO.toISOString(),
@@ -265,7 +265,7 @@ class ChartPage extends Component {
 
   onScaleChange = () => {
     this.setState(
-      ({ scale }) => ({ scale: scale === 'time' ? 'log' : 'time' }),
+      ({ scale }) => ({ scale: scale === 'auto' ? 'log' : 'auto' }),
       this.updateSearchQuery
     )
   }

@@ -2,7 +2,10 @@ const RECENT_ASSETS = 'RECENT_ASSETS'
 const RECENT_WATCHLISTS = 'RECENT_WATCHLISTS'
 const RECENT_TRENDS = 'RECENT_TRENDS_SEARCH'
 
-const getRecent = type => (localStorage.getItem(type) || '').split(',')
+const getRecent = type => {
+  const res = localStorage.getItem(type)
+  return res ? res.split(',') : []
+}
 
 const removeRecent = (type, item) => {
   const items = new Set(getRecent(type))
@@ -10,8 +13,11 @@ const removeRecent = (type, item) => {
   return [...items]
 }
 
-const saveRecent = (type, items) =>
-  localStorage.setItem(type, items.slice(0, 5).toString())
+const saveRecent = (type, items) => {
+  const recents = items.slice(0, 5)
+  localStorage.setItem(type, recents.toString())
+  return recents
+}
 
 const addRecent = (type, item) =>
   saveRecent(type, [item, ...removeRecent(type, item)].filter(Boolean))
