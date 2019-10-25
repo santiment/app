@@ -122,7 +122,8 @@ export const Metrics = {
     Simply put, DAA indicates the daily level of crowd interaction (or
     speculation) with a certain token.`,
     color: 'texas-rose',
-    historicalTriggersDataKey: 'value'
+    dataKey: 'daily_active_addresses',
+    historicalTriggersDataKey: 'active_addresses'
   },
   percentOfTokenSupplyOnExchanges: {
     category: 'On-chain',

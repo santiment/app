@@ -8,7 +8,11 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import Header from './Header'
-import { getMarketSegment, mapToRequestedMetrics } from './utils'
+import {
+  getMarketSegment,
+  mapDatetimeToNumber,
+  mapToRequestedMetrics
+} from './utils'
 import { Metrics, Events, compatabilityMap } from './data'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
@@ -543,10 +547,7 @@ class ChartPage extends Component {
                       isZoomed={zoom}
                       events={eventsFiltered}
                       isTrendsShowing={isTrendsShowing}
-                      chartData={timeseries.map(({ datetime, ...rest }) => ({
-                        ...rest,
-                        datetime: +new Date(datetime)
-                      }))}
+                      chartData={mapDatetimeToNumber(timeseries)}
                       title={title}
                       metrics={finalMetrics}
                       leftBoundaryDate={leftBoundaryDate}

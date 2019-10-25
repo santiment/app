@@ -762,7 +762,7 @@ export const getMetricsByType = type => {
   switch (type) {
     case DAILY_ACTIVE_ADDRESSES:
       return {
-        metrics: [Metrics.historyPrice, Metrics.daily_active_addresses],
+        metrics: [Metrics.daily_active_addresses, Metrics.historyPrice],
         triggersBy: Metrics.daily_active_addresses
       }
     case PRICE_VOLUME_DIFFERENCE:

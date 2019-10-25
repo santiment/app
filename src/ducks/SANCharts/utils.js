@@ -4,6 +4,12 @@ import { formatNumber, millify } from './../../utils/formatting'
 import { Metrics, Events } from './data'
 import styles from './Chart.module.scss'
 
+export const mapDatetimeToNumber = timeseries =>
+  timeseries.map(({ datetime, ...rest }) => ({
+    ...rest,
+    datetime: +new Date(datetime)
+  }))
+
 export const usdFormatter = val => formatNumber(val, { currency: 'USD' })
 
 export const getEventsTooltipInfo = events =>
@@ -121,7 +127,8 @@ export const generateMetricsMarkup = (
     data = {},
     chartRef: { current: chartRef } = {},
     coordinates,
-    onYAxesHover
+    onYAxesHover,
+    scale
   } = {}
 ) => {
   const metricWithYAxis = findYAxisMetric(metrics)
@@ -171,6 +178,7 @@ export const generateMetricsMarkup = (
         hide={isHidden}
         tickFormatter={yAxisTickFormatter}
         onMouseMove={onYAxesHover}
+        scale={scale}
       />,
       <El
         key={`line-${dataKey}`}

@@ -21,7 +21,9 @@ const BalanceViewChartSettings = ({
   toggleYAxes,
   showYAxes,
   priceMetrics = [],
-  toggleAsset
+  toggleAsset,
+  onScaleChange,
+  scale
 }) => {
   return (
     <div className={cx(styles.settings, classes.chartSettings)}>
@@ -44,6 +46,8 @@ const BalanceViewChartSettings = ({
         shareLink={window.location.origin + '/labs/balance' + queryString}
         showDownload={false}
         classes={balanceViewStyles}
+        onScaleChange={onScaleChange}
+        scale={scale}
       >
         <Button
           fluid

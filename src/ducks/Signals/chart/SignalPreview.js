@@ -33,7 +33,8 @@ const mapWithTimeseriesAndYCoord = (
     const date = mapWithMidnightTime(point.datetime)
     const item = data.find(({ datetime }) => datetime === date)
 
-    const yCoord = item ? item[dataKey] : point[historicalTriggersDataKey]
+    const yCoord =
+      item && item[dataKey] ? item[dataKey] : point[historicalTriggersDataKey]
 
     return { date, yCoord, ...point }
   })
@@ -108,6 +109,7 @@ const SignalPreviewChart = ({
                     header: true,
                     sidecar: true
                   }}
+                  adjustNightMode={false}
                 >
                   {referenceDots}
                 </ChartWidget>

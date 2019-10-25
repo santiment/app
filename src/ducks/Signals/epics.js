@@ -303,13 +303,12 @@ export const removeSignalEpic = (action$, store, { client }) =>
         },
         update: proxy => {
           let data = proxy.readQuery({ query: TRIGGERS_QUERY })
-          const userTriggers = data.currentUser.triggers
-            ? [...data.currentUser.triggers]
-            : []
-          data.currentUser.triggers = userTriggers.filter(
-            obj => +obj.id !== +id
-          )
-          proxy.writeQuery({ query: TRIGGERS_QUERY, data })
+          if (data.currentUser.triggers) {
+            data.currentUser.triggers = data.currentUser.triggers.filter(
+              obj => +obj.id !== +id
+            )
+            proxy.writeQuery({ query: TRIGGERS_QUERY, data })
+          }
         }
       })
 

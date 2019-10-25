@@ -143,11 +143,6 @@ class Charts extends React.Component {
   eventsMap = new Map()
   metricRef = React.createRef()
 
-  componentDidMount () {
-    const { fetchSignals, isBeta, isLoggedIn } = this.props
-    isBeta && isLoggedIn && fetchSignals && fetchSignals()
-  }
-
   componentWillUpdate ({
     chartData,
     chartRef,
@@ -155,7 +150,11 @@ class Charts extends React.Component {
     events,
     isTrendsShowing,
     isAdvancedView,
-    slug
+    slug,
+    isBeta,
+    isLoggedIn,
+    fetchSignals,
+    signals
   }) {
     if (this.props.chartData !== chartData) {
       this.getXToYCoordinates()
@@ -195,6 +194,10 @@ class Charts extends React.Component {
 
         this.eventsMap.set(result.datetime, eventsData)
       })
+    }
+
+    if (isBeta !== this.props.isBeta || isLoggedIn !== this.props.isLoggedIn) {
+      isBeta && isLoggedIn && fetchSignals && fetchSignals()
     }
   }
 
@@ -346,15 +349,27 @@ class Charts extends React.Component {
       const signal = buildPriceAboveSignal(slug, priceUsd)
 
       createSignal(signal)
+
+      this.setState({
+        hovered: false,
+        activeSignalData: null
+      })
     }
   }
 
-  onYAxesHover = (evt, evt2, evt3, evt4) => {
-    const { value, coordinate } = evt
+  onYAxesHover = evt => {
+    const { coordinate } = evt
 
-    this.setState({
-      newSignalData: buildNewSignalData(coordinate, value)
-    })
+    const { activeSignalData } = this.state
+
+    const canCreateSignal = !activeSignalData && this.canShowSignalLines()
+
+    if (canCreateSignal) {
+      const priceUsd = getSignalPrice(this.xToYCoordinates, coordinate)
+      this.setState({
+        newSignalData: buildNewSignalData(coordinate, priceUsd)
+      })
+    }
   }
 
   render () {
@@ -395,6 +410,7 @@ class Charts extends React.Component {
       chartRef,
       coordinates: this.xToYCoordinates,
       onYAxesHover: this.onYAxesHover,
+      scale: scale,
       ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef }
     })
 
@@ -527,7 +543,6 @@ class Charts extends React.Component {
             <defs>{isSignalsEnabled && <SignalPointSvg />}</defs>
             <XAxis
               dataKey='datetime'
-              scale={scale}
               tickLine={false}
               minTickGap={100}
               tickFormatter={tickFormatter}

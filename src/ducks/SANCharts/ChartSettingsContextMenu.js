@@ -48,18 +48,20 @@ const ChartSettingsContextMenu = ({
       align='end'
     >
       <Panel variant='modal' className={styles.context}>
-        <Button
-          fluid
-          variant='ghost'
-          onClick={onScaleChange}
-          className={styles.context__btn}
-        >
-          Log scale
-          <Toggle
-            isActive={scale === 'log'}
-            className={styles.context__toggle}
-          />
-        </Button>
+        {onScaleChange && (
+          <Button
+            fluid
+            variant='ghost'
+            onClick={onScaleChange}
+            className={styles.context__btn}
+          >
+            Log scale
+            <Toggle
+              isActive={scale === 'log'}
+              className={styles.context__toggle}
+            />
+          </Button>
+        )}
         {showNightModeToggle && (
           <Button
             fluid
