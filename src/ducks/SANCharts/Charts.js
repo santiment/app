@@ -145,8 +145,11 @@ class Charts extends React.Component {
   }
 
   onChartHover = throttle(evt => {
+    if (!this.canShowSignalLines()) {
+      return
+    }
+
     if (
-      this.canShowSignalLines() &&
       this.metricRef &&
       this.metricRef.current &&
       this.metricRef.current.props.dataKey === Metrics.historyPrice.dataKey
