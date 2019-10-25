@@ -143,6 +143,39 @@ class Charts extends React.Component {
   eventsMap = new Map()
   metricRef = React.createRef()
 
+  onChartHover = evt => {
+    if (
+      !this.state.activeSignalData &&
+      this.canShowSignalLines() &&
+      this.metricRef &&
+      this.metricRef.current &&
+      this.metricRef.current.props.dataKey === Metrics.historyPrice.dataKey
+    ) {
+      const { offsetX, offsetY } = evt
+
+      const { yAxis } = this.metricRef.current.props
+      const { height, width } = yAxis
+
+      if (offsetX <= width && offsetY <= height) {
+        const priceUsd = getSignalPrice(this.xToYCoordinates, offsetY)
+        priceUsd &&
+          this.setState({
+            newSignalData: buildNewSignalData(offsetY, priceUsd)
+          })
+      }
+    }
+  }
+
+  componentDidMount () {
+    const chartSvg = this.props.chartRef.current
+    chartSvg && chartSvg.addEventListener('mousemove', this.onChartHover)
+  }
+
+  componentWillUnmount () {
+    const chartSvg = this.props.chartRef.current
+    chartSvg && chartSvg.removeEventListener('mousemove', this.onChartHover)
+  }
+
   componentWillUpdate ({
     chartData,
     chartRef,
@@ -153,8 +186,7 @@ class Charts extends React.Component {
     slug,
     isBeta,
     isLoggedIn,
-    fetchSignals,
-    signals
+    fetchSignals
   }) {
     if (this.props.chartData !== chartData) {
       this.getXToYCoordinates()
@@ -294,13 +326,7 @@ class Charts extends React.Component {
       return
     }
 
-    const {
-      activeTooltipIndex,
-      activeLabel,
-      activePayload,
-      chartY,
-      chartX
-    } = event
+    const { activeTooltipIndex, activeLabel, activePayload } = event
 
     if (!activePayload) {
       return
@@ -315,14 +341,6 @@ class Charts extends React.Component {
 
     const { x, y } = coordinates
 
-    const { activeSignalData } = this.state
-
-    const canCreateSignal =
-      !activeSignalData && chartX < 50 && this.canShowSignalLines()
-    const priceUsd = canCreateSignal
-      ? getSignalPrice(this.xToYCoordinates, chartY)
-      : undefined
-
     this.setState({
       activePayload: activePayload.concat(
         this.eventsMap.get(activeLabel) || []
@@ -335,8 +353,7 @@ class Charts extends React.Component {
       yValue: this.props.chartData[activeTooltipIndex][
         tooltipMetric.dataKey || tooltipMetric.key
       ],
-      hovered: true,
-      newSignalData: priceUsd ? buildNewSignalData(chartY, priceUsd) : undefined
+      hovered: true
     })
   }, 16)
 
@@ -353,21 +370,6 @@ class Charts extends React.Component {
       this.setState({
         hovered: false,
         activeSignalData: null
-      })
-    }
-  }
-
-  onYAxesHover = evt => {
-    const { coordinate } = evt
-
-    const { activeSignalData } = this.state
-
-    const canCreateSignal = !activeSignalData && this.canShowSignalLines()
-
-    if (canCreateSignal) {
-      const priceUsd = getSignalPrice(this.xToYCoordinates, coordinate)
-      this.setState({
-        newSignalData: buildNewSignalData(coordinate, priceUsd)
       })
     }
   }
@@ -409,7 +411,6 @@ class Charts extends React.Component {
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
       chartRef,
       coordinates: this.xToYCoordinates,
-      onYAxesHover: this.onYAxesHover,
       scale: scale,
       ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef }
     })

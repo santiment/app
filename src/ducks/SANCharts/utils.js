@@ -127,7 +127,6 @@ export const generateMetricsMarkup = (
     data = {},
     chartRef: { current: chartRef } = {},
     coordinates,
-    onYAxesHover,
     scale
   } = {}
 ) => {
@@ -177,7 +176,6 @@ export const generateMetricsMarkup = (
         domain={['auto', 'dataMax']}
         hide={isHidden}
         tickFormatter={yAxisTickFormatter}
-        onMouseMove={onYAxesHover}
         scale={scale}
       />,
       <El
