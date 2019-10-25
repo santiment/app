@@ -33,7 +33,8 @@ import {
   chartBars,
   mapToPriceSignalLines,
   getSignalPrice,
-  getCrossYValue
+  getCrossYValue,
+  getSlugPriceSignals
 } from './utils'
 import { Metrics } from './data'
 import { checkHasPremium } from '../../pages/UserSelectors'
@@ -103,13 +104,11 @@ const getTooltipMetricAndKey = (metrics, chartData) => {
   return { tooltipMetric, tooltipMetricKey }
 }
 
-const buildNewSignalData = (coordinate, value) => {
-  return {
-    chartY: coordinate,
-    priceUsd: value,
-    isNew: true
-  }
-}
+const buildChartSignalData = (chartY, priceUsd, isNew = true) => ({
+  chartY,
+  priceUsd,
+  isNew
+})
 
 class Charts extends React.Component {
   state = {
@@ -118,19 +117,14 @@ class Charts extends React.Component {
     refAreaLeft: undefined,
     refAreaRight: undefined,
     activeSignalData: undefined,
-    onSignalHover: (evt, value) => {
-      this.setState({
-        activeSignalData: {
-          priceUsd: value,
-          chartY: evt.cy
-        }
-      })
-    },
-    onSignalLeave: () => {
-      this.setState({
-        activeSignalData: undefined
-      })
-    },
+    newSignalData: undefined,
+    onSignalHover: (evt, value) =>
+      this.setSignalsState(
+        buildChartSignalData(evt.cy, value, false),
+        undefined
+      ),
+    onSignalLeave: () =>
+      this.setSignalsState(undefined, this.state.activeSignalData),
     onSignalClick: (target, evt, id) => {
       evt.stopPropagation()
       evt.preventDefault()
@@ -143,9 +137,15 @@ class Charts extends React.Component {
   eventsMap = new Map()
   metricRef = React.createRef()
 
-  onChartHover = evt => {
+  setSignalsState = (activeSignalData, newSignalData) => {
+    this.setState({
+      activeSignalData,
+      newSignalData
+    })
+  }
+
+  onChartHover = throttle(evt => {
     if (
-      !this.state.activeSignalData &&
       this.canShowSignalLines() &&
       this.metricRef &&
       this.metricRef.current &&
@@ -157,18 +157,39 @@ class Charts extends React.Component {
       const { height, width } = yAxis
 
       if (offsetX <= width && offsetY <= height) {
+        const { signals, slug } = this.props
         const priceUsd = getSignalPrice(this.xToYCoordinates, offsetY)
-        priceUsd &&
-          this.setState({
-            newSignalData: buildNewSignalData(offsetY, priceUsd)
-          })
+        if (priceUsd) {
+          const existingSignalsWithSamePrice = getSlugPriceSignals(
+            signals,
+            slug,
+            priceUsd
+          )
+          const isNew = existingSignalsWithSamePrice.length === 0
+          const signalData = buildChartSignalData(offsetY, priceUsd, isNew)
+
+          if (isNew) {
+            this.setSignalsState(undefined, signalData)
+          } else {
+            this.setSignalsState(signalData, undefined)
+          }
+        }
+      } else {
+        this.setSignalsState(undefined, undefined)
       }
     }
+  }, 100)
+
+  loadSignals = newProps => {
+    const { isBeta, isLoggedIn, fetchSignals } = newProps || this.props
+    isBeta && isLoggedIn && fetchSignals && fetchSignals()
   }
 
   componentDidMount () {
     const chartSvg = this.props.chartRef.current
     chartSvg && chartSvg.addEventListener('mousemove', this.onChartHover)
+
+    this.loadSignals()
   }
 
   componentWillUnmount () {
@@ -176,18 +197,16 @@ class Charts extends React.Component {
     chartSvg && chartSvg.removeEventListener('mousemove', this.onChartHover)
   }
 
-  componentWillUpdate ({
-    chartData,
-    chartRef,
-    metrics,
-    events,
-    isTrendsShowing,
-    isAdvancedView,
-    slug,
-    isBeta,
-    isLoggedIn,
-    fetchSignals
-  }) {
+  componentWillUpdate (newProps) {
+    const {
+      chartData,
+      chartRef,
+      metrics,
+      events,
+      isAdvancedView,
+      isBeta,
+      isLoggedIn
+    } = newProps
     if (this.props.chartData !== chartData) {
       this.getXToYCoordinates()
       chartBars.delete(chartRef.current)
@@ -229,7 +248,7 @@ class Charts extends React.Component {
     }
 
     if (isBeta !== this.props.isBeta || isLoggedIn !== this.props.isLoggedIn) {
-      isBeta && isLoggedIn && fetchSignals && fetchSignals()
+      this.loadSignals(newProps)
     }
   }
 
@@ -358,19 +377,23 @@ class Charts extends React.Component {
   }, 16)
 
   onChartClick = () => {
-    const {
-      newSignalData: { priceUsd }
-    } = this.state
+    const { newSignalData: { priceUsd } = {} } = this.state
     if (priceUsd) {
-      const { slug, createSignal } = this.props
+      const { slug, signals, createSignal } = this.props
       const signal = buildPriceAboveSignal(slug, priceUsd)
 
-      createSignal(signal)
-
-      this.setState({
-        hovered: false,
-        activeSignalData: null
-      })
+      const existingSignalsWithSamePrice = getSlugPriceSignals(
+        signals,
+        slug,
+        priceUsd
+      )
+      if (existingSignalsWithSamePrice.length === 0) {
+        createSignal(signal)
+        this.setState({
+          hovered: false,
+          activeSignalData: null
+        })
+      }
     }
   }
 

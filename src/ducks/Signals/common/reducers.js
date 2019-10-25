@@ -12,7 +12,7 @@ export default (state = initialState, action) => {
     case actions.SIGNAL_FETCH_ALL_SUCCESS:
       return {
         ...state,
-        all: action.payload.triggers
+        all: [...state.all, ...action.payload.triggers]
       }
     case actions.SIGNAL_CREATE_SUCCESS: {
       return {
