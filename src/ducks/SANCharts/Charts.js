@@ -146,7 +146,7 @@ class Charts extends React.Component {
   }
 
   onChartHover = throttle(evt => {
-    if (!this.canShowSignalLines()) {
+    if (!this.canShowSignalLines() || evt.target.nodeName !== 'svg') {
       return
     }
 
@@ -191,7 +191,6 @@ class Charts extends React.Component {
   componentDidMount () {
     const chartSvg = this.props.chartRef.current
     chartSvg && chartSvg.addEventListener('mousemove', this.onChartHover)
-
     this.loadSignals()
   }
 
@@ -541,9 +540,10 @@ class Charts extends React.Component {
             <SidecarExplanationTooltip
               closeTimeout={500}
               localStorageSuffix='_SIGNALS_ON_CHART_EXPLANATION'
-              position='top'
+              position='bottom'
               title='Create your own signals for price changes!'
               description='One click on Y-axis to create a signal, the second click on signal for removing'
+              className={styles.signalsExplanation}
             >
               <SignalLine data={signalData} />
             </SidecarExplanationTooltip>
