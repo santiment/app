@@ -123,7 +123,8 @@ export const Metrics = {
     speculation) with a certain token.`,
     color: 'texas-rose',
     dataKey: 'daily_active_addresses',
-    historicalTriggersDataKey: 'active_addresses'
+    historicalTriggersDataKey: 'active_addresses',
+    minInterval: '1d'
   },
   percentOfTokenSupplyOnExchanges: {
     category: 'On-chain',
@@ -160,7 +161,8 @@ export const Metrics = {
     group: 'Network value',
     label: 'Market Value To Realized Value',
     video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
-    description: `MVRV measures how much every holder originally paid for their coins, and compares that investment to the coin’s current price to calculate the average profit or loss across all holders. Example: if MVRV = 2, then, on average, all coin holders have (currently) doubled their initial investment.`
+    description: `MVRV measures how much every holder originally paid for their coins, and compares that investment to the coin’s current price to calculate the average profit or loss across all holders. Example: if MVRV = 2, then, on average, all coin holders have (currently) doubled their initial investment.`,
+    minInterval: '1d'
   },
   transaction_volume: {
     category: 'On-chain',
@@ -239,7 +241,8 @@ export const Metrics = {
     node: Line,
     group: 'Network value',
     label: 'Realized Cap',
-    description: `Realized Cap shows the total amount that all holders spent to purchase the coin (i.e. the total acquisition cost). While market cap = supply X current price of each coin, realized cap = supply X price of each coin when it last ‘moved’`
+    description: `Realized Cap shows the total amount that all holders spent to purchase the coin (i.e. the total acquisition cost). While market cap = supply X current price of each coin, realized cap = supply X price of each coin when it last ‘moved’`,
+    minInterval: '1d'
   },
   ethSpentOverTime: {
     category: 'On-chain',

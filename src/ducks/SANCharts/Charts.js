@@ -214,6 +214,36 @@ class Charts extends React.Component {
       this.getXToYCoordinatesDebounced()
     }
 
+    if (this.props.chartData !== prevProps.chartData) {
+      const { metrics, chartData } = this.props
+      const dayMetrics = []
+      metrics.forEach(({ key, minInterval }, index) => {
+        if (minInterval === '1d') {
+          dayMetrics.push([key, index])
+        }
+      })
+
+      const { length } = dayMetrics
+      const dayData = {}
+      this.setState({
+        dayMetrics,
+        data: chartData.map(data => {
+          const newData = { ...data }
+          for (let i = 0; i < length; i++) {
+            const metric = dayMetrics[i][0]
+            const res = newData[metric]
+            if (res !== undefined) {
+              dayData[metric] = res
+            } else {
+              newData[metric] = dayData[metric]
+            }
+          }
+
+          return newData
+        })
+      })
+    }
+
     if (metrics !== prevProps.metrics) {
       const { tooltipMetric } = getTooltipMetricAndKey(metrics, chartData) || {}
       if (tooltipMetric) {
@@ -312,7 +342,11 @@ class Charts extends React.Component {
 
     const { x, y } = coordinates
 
-    const { activeSignalData } = this.state
+    const { activeSignalData, data, dayMetrics } = this.state
+    const allIndexData = data[activeTooltipIndex]
+    dayMetrics.forEach(([metric, index]) => {
+      activePayload[index].value = allIndexData[metric]
+    })
 
     const canCreateSignal =
       !activeSignalData && chartX < 50 && this.canShowSignalLines()

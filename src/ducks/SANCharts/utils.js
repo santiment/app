@@ -73,7 +73,7 @@ export const setupColorGenerator = () => {
 export const chartBars = new WeakMap()
 
 const StackedLogic = props => {
-  const { fill, x, y, height, index, barsMap, value } = props
+  const { metric, fill, x, y, height, index, barsMap, value } = props
 
   if (value === undefined) return null
 
@@ -82,11 +82,11 @@ const StackedLogic = props => {
   if (!obj) {
     obj = {
       index,
-      metrics: new Map([[fill, { height, y, x }]])
+      metrics: new Map([[metric.key, { fill, height, y, x }]])
     }
     barsMap.set(index, obj)
   } else {
-    obj.metrics.set(fill, { height, y, x })
+    obj.metrics.set(metric.key, { fill, height, y, x })
   }
 
   return null
@@ -140,6 +140,7 @@ export const generateMetricsMarkup = (
     barsMap = new Map()
     chartBars.set(chartRef, barsMap)
   }
+  console.log(barsMap, metrics.filter(({ node }) => node === Bar))
 
   const res = metrics.reduce((acc, metric) => {
     const {
@@ -161,7 +162,7 @@ export const generateMetricsMarkup = (
     }
 
     if (chartRef !== undefined && El === Bar) {
-      rest.shape = <StackedLogic barsMap={barsMap} />
+      rest.shape = <StackedLogic barsMap={barsMap} metric={metric} />
     }
 
     const currentYAxisId = getMetricYAxisId(metric)
@@ -178,7 +179,6 @@ export const generateMetricsMarkup = (
         hide={isHidden}
         tickFormatter={yAxisTickFormatter}
         onMouseMove={onYAxesHover}
-        scale={scale}
       />,
       <El
         key={`line-${dataKey}`}
@@ -219,7 +219,7 @@ export const generateMetricsMarkup = (
           const coor = coordinates[index]
           if (!coor) return null
 
-          const mapped = [...metrics.entries()].map(mapToData)
+          const mapped = [...metrics.values()]
           let resX = coor.x - halfWidth
           let secondWidth = halfWidth
 
