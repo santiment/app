@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "net.santiment.sanbase.android",
+    "sha256_cert_fingerprints": [
+      "E9:11:10:1E:D4:3C:14:4F:43:5E:19:BF:9B:C5:41:58:42:14:8A:CC:9C:26:68:58:46:DF:94:5D:4B:3F:B5:17"
+    ]
+  }
+}]
