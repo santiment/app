@@ -130,9 +130,7 @@ class Charts extends React.Component {
       evt.stopPropagation()
       evt.preventDefault()
 
-      const { removeSignal } = this.props
-      removeSignal && removeSignal(id)
-      this.setSignalsState(undefined)
+      this.onRemoveSignal(id, buildChartSignalData(target.cy, target.y))
     }
   }
 
@@ -380,11 +378,17 @@ class Charts extends React.Component {
     })
   }, 16)
 
+  onRemoveSignal = (id, signalData = undefined) => {
+    const { removeSignal } = this.props
+    removeSignal(id)
+    this.setSignalsState(signalData)
+  }
+
   onChartClick = () => {
     const { signalData: { priceUsd, chartY } = {} } = this.state
 
     if (priceUsd) {
-      const { slug, signals, createSignal, removeSignal } = this.props
+      const { slug, signals, createSignal } = this.props
       const signal = buildPriceAboveSignal(slug, priceUsd)
 
       const existingSignalsWithSamePrice = getSlugPriceSignals(
@@ -394,11 +398,10 @@ class Charts extends React.Component {
       )
       if (existingSignalsWithSamePrice.length === 0) {
         createSignal(signal)
-        this.setSignalsState(buildChartSignalData(chartY, priceUsd, false))
       } else {
         const [signal] = existingSignalsWithSamePrice
-        signal && removeSignal(signal.id)
-        this.setSignalsState(undefined)
+        signal &&
+          this.onRemoveSignal(signal.id, buildChartSignalData(chartY, priceUsd))
       }
     }
   }
