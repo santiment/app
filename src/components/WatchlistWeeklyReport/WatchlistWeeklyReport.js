@@ -72,8 +72,9 @@ const WatchlistWeeklyReport = ({
         <EmailImage className={styles.image} />
         <h4 className={styles.title}>Stay in touch with the latest events</h4>
         <p className={styles.description}>
-          Every week you can receive a report to your inbox with insights from
-          other people based on your monitored watchlists.
+          Every Sunday you will receive a report to your inbox with insights by
+          San family or other people you follow which based on your monitored
+          watchlists.
         </p>
         <Button
           variant='flat'
