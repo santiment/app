@@ -22,7 +22,8 @@ const WatchlistActions = ({
   type,
   location,
   isDesktop,
-  isLoggedIn
+  isLoggedIn,
+  isMonitored
 }) => {
   const hasCSV = isNotSafari && items && items.length > 0
 
@@ -65,6 +66,7 @@ const WatchlistActions = ({
               location={location}
               hasCSV={hasCSV}
               isDesktop={isDesktop}
+              isMonitored={isMonitored}
             />
           )}
           {isDesktop && (
@@ -73,7 +75,10 @@ const WatchlistActions = ({
               {isAuthor && (
                 <>
                   <WatchlistEditTrigger name={title} id={id} assets={items} />
-                  <WatchlistWeeklyReportTrigger id={id} />
+                  <WatchlistWeeklyReportTrigger
+                    id={id}
+                    isMonitored={isMonitored}
+                  />
                 </>
               )}
             </>

@@ -62,6 +62,41 @@
   }
 }
 
+.notification {
+  box-shadow: none;
+}
+
+.notificationWarning {
+  border-color: $texas-rose-light-2;
+  background: $texas-rose-light;
+}
+
+.notificationTitle {
+  color: $mirage;
+}
+
+.notificationDescription {
+  color: $waterloo;
+}
+
+.inputWrapper {
+  margin: 24px 0 16px;
+  width: 100%;
+}
+
+.input {
+  padding: 10px 8px 10px 40px !important;
+  color: var(--rhino);
+  height: 40px;
+}
+
+.inputIcon {
+  fill: var(--casper);
+  width: 16px;
+  padding: 14px 8px 14px 16px;
+  height: 12px;
+}
+
 .actions {
   padding: 0;
   width: 100%;

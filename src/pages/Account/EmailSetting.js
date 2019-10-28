@@ -34,34 +34,38 @@ const EmailSetting = ({
   changeEmail,
   showNotification,
   hideIfEmail = false,
-  classes
+  classes,
+  children
 }) => {
   const show = !hideIfEmail || (hideIfEmail && !email)
 
+  const onSubmit = value => {
+    changeEmail({ variables: { value } })
+      .then(() => {
+        showNotification(`Verification email was sent to "${value}"`)
+        dispatchNewEmail(value)
+      })
+      .catch(error => {
+        if (error.graphQLErrors[0].details.email.includes(TAKEN_MSG)) {
+          showNotification({
+            variant: 'error',
+            title: `Email "${value}" is already taken`
+          })
+        }
+      })
+  }
+
   return (
-    show && (
+    children ||
+    (show && (
       <EditableInputSetting
         label='Email'
         defaultValue={email}
         validate={validateEmail}
         classes={classes || styles}
-        onSubmit={value =>
-          changeEmail({ variables: { value } })
-            .then(() => {
-              showNotification(`Verification email was sent to "${value}"`)
-              dispatchNewEmail(value)
-            })
-            .catch(error => {
-              if (error.graphQLErrors[0].details.email.includes(TAKEN_MSG)) {
-                showNotification({
-                  variant: 'error',
-                  title: `Email "${value}" is already taken`
-                })
-              }
-            })
-        }
+        onSubmit={onSubmit}
       />
-    )
+    ))
   )
 }
 

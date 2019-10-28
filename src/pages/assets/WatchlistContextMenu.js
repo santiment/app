@@ -18,7 +18,8 @@ const WatchlistContextMenu = ({
   id,
   hasCSV,
   isDesktop,
-  name
+  name,
+  isMonitored
 }) => {
   if (!(isAuthor || hasCSV)) return null
 
@@ -60,13 +61,17 @@ const WatchlistContextMenu = ({
               </Button>
             }
           />
-          <WatchlistWeeklyReport
-            trigger={
-              <Button variant='ghost' fluid>
-                Weekly report
-              </Button>
-            }
-          />
+          {!isDesktop && isAuthor && (
+            <WatchlistWeeklyReport
+              id={id}
+              isMonitored={isMonitored}
+              trigger={
+                <Button variant='Sghost' fluid>
+                  Weekly report
+                </Button>
+              }
+            />
+          )}
           {hasCSV && isDesktop && (
             <CSVLink
               data={normalizeCSV(assets)}

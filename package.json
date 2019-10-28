@@ -16,7 +16,7 @@
     "build:sw": "rm -f ./public/san-sonar-service-worker.js && NODE_ENV=production webpack --config webpack.sw.config.js"
   },
   "dependencies": {
-    "@santiment-network/ui": "^0.5.94",
+    "@santiment-network/ui": "^0.5.112",
     "@trainline/react-skeletor": "^1.0.2",
     "animate-components": "^1.4.8",
     "apollo-cache-inmemory": "^1.1.2",
