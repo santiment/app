@@ -48,15 +48,11 @@ export const TriggerFormMetricTypes = ({
 
     if (newMetric) {
       if (newMetric.value !== TRENDING_WORDS) {
-        if (newMetric.value === DAILY_ACTIVE_ADDRESSES) {
-          setFieldValue('target', [])
-        } else {
-          checkPossibleTarget({
-            metaFormSettings,
-            setFieldValue,
-            target
-          })
-        }
+        checkPossibleTarget({
+          metaFormSettings,
+          setFieldValue,
+          target
+        })
       }
     } else {
       if (target) {
