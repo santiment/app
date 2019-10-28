@@ -56,6 +56,8 @@
       }
     }
   }
+
+  position: relative;
 }
 
 .details {
@@ -143,7 +145,7 @@
     content: var(--yValue);
     transform: translateY(calc(var(--y) - 50%));
     left: -3px;
-    width: 40px;
+    min-width: 40px;
     text-align: center;
   }
 }
@@ -210,4 +212,8 @@
   position: absolute;
   right: 0;
   top: 8px;
+}
+
+.signalPoint {
+  cursor: pointer;
 }

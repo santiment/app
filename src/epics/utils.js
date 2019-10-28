@@ -5,14 +5,14 @@ import { showNotification } from '../actions/rootActions'
 import { Link } from 'react-router-dom'
 import styles from './epic-items.module.scss'
 
-export const handleErrorAndTriggerAction = action => error => {
+export const handleErrorAndTriggerAction = action => (error, data) => {
   Raven.captureException(error)
 
   const isSubscriptionError = error.message.indexOf('subscription') !== -1
 
   if (isSubscriptionError) {
     return Observable.merge(
-      Observable.of({ type: action, payload: error }),
+      Observable.of({ type: action, payload: error, data }),
       Observable.of(
         showNotification({
           variant: 'info',
@@ -33,6 +33,6 @@ export const handleErrorAndTriggerAction = action => error => {
       )
     )
   } else {
-    return Observable.of({ type: action, payload: error })
+    return Observable.of({ type: action, payload: error, data })
   }
 }

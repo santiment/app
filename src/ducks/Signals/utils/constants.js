@@ -326,7 +326,9 @@ export const METRIC_DEFAULT_VALUES = {
     type: PRICE_PERCENT_CHANGE_UP_MODEL,
     isRepeating: true,
     channels: ['Telegram'],
-    target: DEFAULT_TARGET
+    target: DEFAULT_TARGET,
+    metric: { ...PRICE_METRIC },
+    signalType: { ...METRIC_TARGET_ASSETS }
   },
   price_percent_change: {
     frequencyType: { ...FREQUENCY_TYPE_ONCEPER_MODEL },

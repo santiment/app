@@ -8,7 +8,11 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import Header from './Header'
-import { getMarketSegment, mapToRequestedMetrics } from './utils'
+import {
+  getMarketSegment,
+  mapDatetimeToNumber,
+  mapToRequestedMetrics
+} from './utils'
 import { Metrics, Events, compatabilityMap } from './data'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
@@ -23,7 +27,7 @@ const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 const MAX_METRICS_PER_CHART = 5
 
 const DEFAULT_STATE = {
-  scale: 'time',
+  scale: 'auto',
   timeRange: DEFAULT_TIME_RANGE,
   from: FROM.toISOString(),
   to: TO.toISOString(),
@@ -215,10 +219,6 @@ class ChartPage extends Component {
     }
   }
 
-  onMetricsChange = metrics => {
-    this.setState({ metrics }, this.updateSearchQuery)
-  }
-
   onIntervalChange = interval => {
     this.setState({ interval }, this.updateSearchQuery)
   }
@@ -265,7 +265,7 @@ class ChartPage extends Component {
 
   onScaleChange = () => {
     this.setState(
-      ({ scale }) => ({ scale: scale === 'time' ? 'log' : 'time' }),
+      ({ scale }) => ({ scale: scale === 'auto' ? 'log' : 'auto' }),
       this.updateSearchQuery
     )
   }
@@ -547,16 +547,15 @@ class ChartPage extends Component {
                       isZoomed={zoom}
                       events={eventsFiltered}
                       isTrendsShowing={isTrendsShowing}
-                      chartData={timeseries.map(({ datetime, ...rest }) => ({
-                        ...rest,
-                        datetime: +new Date(datetime)
-                      }))}
+                      chartData={mapDatetimeToNumber(timeseries)}
                       title={title}
                       metrics={finalMetrics}
                       leftBoundaryDate={leftBoundaryDate}
                       rightBoundaryDate={rightBoundaryDate}
                       children={children}
                       isAdvancedView={isAdvancedView}
+                      isBeta={isBeta}
+                      isLoggedIn={isLoggedIn}
                     />
                     {!isPRO && (
                       <UpgradePaywall isAdvancedView={isAdvancedView} />

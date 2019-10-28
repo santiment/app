@@ -7,6 +7,7 @@ import { Metrics } from './utils'
 import styles from './ChartPage.module.scss'
 import isEqual from 'lodash.isequal'
 
+// TODO: remove if not using
 class ChartMetrics extends Component {
   state = {
     metrics: new Set(this.props.defaultActiveMetrics)

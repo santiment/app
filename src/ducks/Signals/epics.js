@@ -101,15 +101,18 @@ export const createSignalEpic = (action$, store, { client }) =>
         })
 
         return Observable.fromPromise(create)
-          .mergeMap(({ data: { id } }) => {
+          .mergeMap(props => {
             completeOnboardingTask('signal')
 
+            const {
+              data: {
+                createTrigger: { trigger }
+              }
+            } = props
             return Observable.merge(
               Observable.of({
                 type: actions.SIGNAL_CREATE_SUCCESS,
-                payload: {
-                  id
-                }
+                payload: trigger
               }),
               Observable.of(showNotification('Signal was succesfully created'))
             )
@@ -300,18 +303,16 @@ export const removeSignalEpic = (action$, store, { client }) =>
         },
         update: proxy => {
           let data = proxy.readQuery({ query: TRIGGERS_QUERY })
-          const userTriggers = data.currentUser.triggers
-            ? [...data.currentUser.triggers]
-            : []
-          data.currentUser.triggers = userTriggers.filter(
-            obj => +obj.id !== +id
-          )
-          proxy.writeQuery({ query: TRIGGERS_QUERY, data })
+          if (data.currentUser.triggers) {
+            data.currentUser.triggers = data.currentUser.triggers.filter(
+              obj => +obj.id !== +id
+            )
+            proxy.writeQuery({ query: TRIGGERS_QUERY, data })
+          }
         }
       })
 
       return Observable.fromPromise(toggle)
-
         .mergeMap(({ data: { removeTrigger } }) => {
           return Observable.merge(
             Observable.of({
@@ -324,7 +325,8 @@ export const removeSignalEpic = (action$, store, { client }) =>
         .catch(action => {
           return Observable.merge(
             handleErrorAndTriggerAction(actions.SIGNAL_REMOVE_BY_ID_FAILED)(
-              action
+              action,
+              { id }
             ),
             Observable.of(
               showNotification({

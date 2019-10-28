@@ -7,6 +7,7 @@ export const generalData = gql`
     slug
     description
     ticker
+    rank
   }
 `
 
@@ -72,6 +73,7 @@ export const allProjectsForSearchGQL = gql`
     allProjects(minVolume: $minVolume) {
       ...generalData
       marketcapUsd
+      rank
     }
   }
   ${generalData}

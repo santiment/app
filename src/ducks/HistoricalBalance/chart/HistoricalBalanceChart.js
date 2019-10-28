@@ -15,10 +15,10 @@ import { formatTokensCount } from '../../../utils/formatting'
 import ChartTooltip, {
   renderLegend
 } from '../../SANCharts/tooltip/CommonChartTooltip'
-import styles from './HistoricalBalanceChart.module.scss'
 import { generateMetricsMarkup } from './../common/utils'
-import { usdFormatter } from '../../SANCharts/utils'
+import { mapDatetimeToNumber, usdFormatter } from '../../SANCharts/utils'
 import { getPriceMetricWithSlug } from '../balanceView/BalanceView'
+import styles from './HistoricalBalanceChart.module.scss'
 
 const formatDatetime = datetime => {
   const { DD, MMM, YY } = getDateFormats(new Date(datetime))
@@ -43,7 +43,7 @@ const tooltipValueFormatter = (value, dataKey, payload) => {
   )
 }
 
-const getWalletsLines = (wallets, showYAxes) => {
+const getWalletsLines = (wallets, showYAxes, scale) => {
   const acc = []
 
   wallets.forEach((name, index) => {
@@ -54,6 +54,9 @@ const getWalletsLines = (wallets, showYAxes) => {
         tickFormatter={formatTokensCount}
         stroke={COLORS[index]}
         key={name}
+        scale={scale}
+        domain={['auto', 'dataMax']}
+        type='number'
       />,
       <Line
         type='linear'
@@ -86,7 +89,8 @@ const HistoricalBalanceChart = ({
   walletsData,
   showYAxes = true,
   priceMetricsData = {},
-  priceMetric
+  priceMetric,
+  scale
 }) => {
   const priceMetricTimeseries = Object.values(priceMetricsData)
   const priceMetricKeys = Object.keys(priceMetricsData)
@@ -104,7 +108,7 @@ const HistoricalBalanceChart = ({
   }
 
   const wallets = Object.keys(walletsData)
-  const walletsLines = getWalletsLines(wallets, showYAxes)
+  const walletsLines = getWalletsLines(wallets, showYAxes, scale)
 
   const metrics = priceMetricKeys.map((metricDataKey, index) => {
     return {
@@ -123,13 +127,17 @@ const HistoricalBalanceChart = ({
     return wallets.indexOf(key) === -1
   }
 
+  const chartData = mapDatetimeToNumber(
+    mergeTimeseriesByKey({
+      timeseries
+    })
+  )
+
   return (
     <div className={styles.chartContainer}>
       <ResponsiveContainer width='100%' height='100%'>
         <ComposedChart
-          data={mergeTimeseriesByKey({
-            timeseries
-          })}
+          data={chartData}
           margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
         >
           <XAxis
@@ -137,6 +145,7 @@ const HistoricalBalanceChart = ({
             minTickGap={100}
             tickFormatter={formatDatetime}
             domain={['dataMin', 'dataMax']}
+            type='number'
           />
           <CartesianGrid
             vertical={false}

@@ -762,7 +762,7 @@ export const getMetricsByType = type => {
   switch (type) {
     case DAILY_ACTIVE_ADDRESSES:
       return {
-        metrics: [Metrics.historyPrice, Metrics.daily_active_addresses],
+        metrics: [Metrics.daily_active_addresses, Metrics.historyPrice],
         triggersBy: Metrics.daily_active_addresses
       }
     case PRICE_VOLUME_DIFFERENCE:
@@ -1419,4 +1419,16 @@ export const getNewDescription = newValues => {
     channels && channels.length ? `via ${channels.join(', ')}` : ''
 
   return `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock.toLowerCase()}.`
+}
+
+export const buildPriceAboveSignal = (slug, price) => {
+  const formProps = { ...METRIC_DEFAULT_VALUES[PRICE_ABSOLUTE_CHANGE] }
+  formProps.type = { ...PRICE_ABS_CHANGE_ABOVE }
+  formProps.isPublic = true
+  formProps.target = mapToOption(slug)
+  formProps.absoluteThreshold = price
+  formProps.title = getNewTitle(formProps)
+  formProps.description = getNewDescription(formProps)
+
+  return mapFormPropsToTrigger(formProps)
 }
