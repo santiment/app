@@ -72,8 +72,8 @@ const WatchlistWeeklyReport = ({
         <EmailImage className={styles.image} />
         <h4 className={styles.title}>Stay in touch with the latest events</h4>
         <p className={styles.description}>
-          Every Sunday you will receive a report to your inbox with insights by
-          San family or other people you follow which based on your monitored
+          Every Sunday, you'll receive a report to your inbox with insights from
+          the San family or other people you follow, based on your monitored
           watchlists.
         </p>
         <Button
@@ -95,7 +95,10 @@ const WatchlistWeeklyReport = ({
                 icon='mail'
                 iconPosition='left'
                 className={styles.inputWrapper}
-                inputClassName={styles.input}
+                inputClassName={cx(
+                  styles.input,
+                  isEmailConnected && styles.inputDisabled
+                )}
                 iconClassName={styles.inputIcon}
                 disabled={isEmailConnected}
                 defaultValue={email}
