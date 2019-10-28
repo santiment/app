@@ -118,6 +118,7 @@ class Charts extends React.Component {
     refAreaLeft: undefined,
     refAreaRight: undefined,
     activeSignalData: undefined,
+    dayMetrics: [],
     onSignalHover: (evt, value) => {
       this.setState({
         activeSignalData: {
@@ -215,33 +216,41 @@ class Charts extends React.Component {
     }
 
     if (this.props.chartData !== prevProps.chartData) {
-      const { metrics, chartData } = this.props
-      const dayMetrics = []
-      metrics.forEach(({ key, minInterval }, index) => {
-        if (minInterval === '1d') {
-          dayMetrics.push([key, index])
-        }
-      })
-
-      const { length } = dayMetrics
-      const dayData = {}
-      this.setState({
-        dayMetrics,
-        data: chartData.map(data => {
-          const newData = { ...data }
-          for (let i = 0; i < length; i++) {
-            const metric = dayMetrics[i][0]
-            const res = newData[metric]
-            if (res !== undefined) {
-              dayData[metric] = res
-            } else {
-              newData[metric] = dayData[metric]
-            }
+      if (this.props.isIntervalSmallerThanDay) {
+        const { metrics, chartData } = this.props
+        const dayMetrics = []
+        metrics.forEach(({ key, minInterval }, index) => {
+          if (minInterval === '1d') {
+            dayMetrics.push([key, index])
           }
-
-          return newData
         })
-      })
+
+        const { length } = dayMetrics
+        const dayData = {}
+        this.setState({
+          dayMetrics,
+          data: chartData.map(data => {
+            const newData = { ...data }
+            for (let i = 0; i < length; i++) {
+              const metric = dayMetrics[i][0]
+              const res = newData[metric]
+              if (res !== undefined) {
+                dayData[metric] = res
+              } else {
+                newData[metric] = dayData[metric]
+              }
+            }
+
+            return newData
+          })
+        })
+      } else {
+        console.log('infinite')
+        this.setState({
+          dayMetrics: [],
+          data: chartData
+        })
+      }
     }
 
     if (metrics !== prevProps.metrics) {
@@ -434,11 +443,13 @@ class Charts extends React.Component {
       activeSignalData,
       onSignalHover,
       onSignalLeave,
-      onSignalClick
+      onSignalClick,
+      dayMetrics
     } = this.state
 
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
       chartRef,
+      dayMetrics,
       coordinates: this.xToYCoordinates,
       onYAxesHover: this.onYAxesHover,
       scale: scale,

@@ -94,13 +94,6 @@ const StackedLogic = props => {
 
 const barMetricsSorter = ({ height: a }, { height: b }) => b - a
 
-const mapToData = ([fill, { height, y, x }]) => ({
-  fill,
-  height,
-  y,
-  x
-})
-
 const getBarMargin = diff => {
   if (diff < 1.3) {
     return 0.3
@@ -128,7 +121,8 @@ export const generateMetricsMarkup = (
     chartRef: { current: chartRef } = {},
     coordinates,
     onYAxesHover,
-    scale
+    scale,
+    dayMetrics
   } = {}
 ) => {
   const metricWithYAxis = findYAxisMetric(metrics)
@@ -140,7 +134,6 @@ export const generateMetricsMarkup = (
     barsMap = new Map()
     chartBars.set(chartRef, barsMap)
   }
-  console.log(barsMap, metrics.filter(({ node }) => node === Bar))
 
   const res = metrics.reduce((acc, metric) => {
     const {
@@ -211,11 +204,35 @@ export const generateMetricsMarkup = (
     }
 
     const halfDif = (secondX - firstX) / 2
-    const halfWidth = halfDif - getBarMargin(halfDif)
+    const margin = getBarMargin(halfDif)
+    const halfWidth = halfDif - margin
+
+    const oneDayKeys = dayMetrics.map(([key]) => key)
+    const bars = [...barsMap.values()]
+    const lastDayMetrics = {}
+    for (let i = 0; i < bars.length; i++) {
+      const { metrics } = bars[i]
+      oneDayKeys.forEach(key => {
+        const metric = metrics.get(key)
+        const lastDayMetric = lastDayMetrics[key]
+        if (lastDayMetric && metric) {
+          lastDayMetric.width = metric.x - lastDayMetric.x - margin - margin
+        }
+        if (metric) {
+          lastDayMetrics[key] = metric
+        }
+      })
+    }
+    oneDayKeys.forEach(key => {
+      const lastDayMetric = lastDayMetrics[key]
+      if (lastDayMetric) {
+        lastDayMetric.width = chartRef.offsetWidth - lastDayMetric.x - margin
+      }
+    })
 
     res.unshift(
       <g key='barMetrics'>
-        {[...barsMap.values()].map(({ metrics, index }) => {
+        {bars.map(({ metrics, index }) => {
           const coor = coordinates[index]
           if (!coor) return null
 
@@ -232,12 +249,12 @@ export const generateMetricsMarkup = (
 
           return mapped
             .sort(barMetricsSorter)
-            .map(({ fill, height, y }) => (
+            .map(({ width, fill, height, y }) => (
               <rect
                 key={fill + resX}
                 opacity='1'
                 fill={fill}
-                width={halfWidth + secondWidth}
+                width={width || halfWidth + secondWidth}
                 height={height}
                 x={resX}
                 y={y}

@@ -397,13 +397,16 @@ class ChartPage extends Component {
       alwaysShowingMetrics = []
     } = this.props
 
-    let selectedInterval = INTERVAL_ALIAS[interval] || interval
+    const selectedInterval = INTERVAL_ALIAS[interval] || interval
+    const selectedIntervalIndex =
+      INTERVAL_FORMAT_INDEX[parseIntervalString(selectedInterval).format]
+
+    const isIntervalSmallerThanDay = selectedIntervalIndex < 2
 
     const requestedMetrics = metrics.map(metric => {
       let resInterval = selectedInterval
       if (
-        INTERVAL_FORMAT_INDEX[parseIntervalString(selectedInterval).format] <
-          1 &&
+        selectedIntervalIndex < 1 &&
         metric !== Metrics.historyPrice &&
         metric !== Metrics.volume &&
         metric !== Metrics.marketcap
@@ -576,6 +579,7 @@ class ChartPage extends Component {
                       isAdvancedView={isAdvancedView}
                       isBeta={isBeta}
                       isLoggedIn={isLoggedIn}
+                      isIntervalSmallerThanDay={isIntervalSmallerThanDay}
                     />
                     {!isPRO && (
                       <UpgradePaywall isAdvancedView={isAdvancedView} />
