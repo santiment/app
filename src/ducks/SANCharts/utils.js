@@ -390,3 +390,37 @@ export const getCrossYValue = yValue => {
 
   return yValue ? millify(yValue, 1) : '-'
 }
+
+export const setColorByDayRating = events => {
+  const groups = []
+
+  events.reduce((acc, item) => {
+    const { isAnomaly, datetime } = item
+
+    if (!isAnomaly) {
+      const dateString = new Date(datetime).toDateString()
+      if (!groups[dateString]) groups[dateString] = []
+      groups[dateString].push(item)
+    }
+
+    return groups
+  }, groups)
+
+  for (let key in groups) {
+    const sorted = groups[key].sort(
+      ({ value: valueA }, { value: valueB }) => valueA < valueB
+    )
+
+    setColor(sorted.slice(0, 3), 'var(--persimmon)')
+    setColor(sorted.slice(3, 6), 'var(--texas-rose-hover)')
+    setColor(sorted.slice(6), '#FFC24D')
+  }
+
+  return events
+}
+
+const setColor = (events, color) => {
+  events.forEach(item => (item.color = color))
+
+  return events
+}

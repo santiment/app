@@ -34,7 +34,8 @@ import {
   mapToPriceSignalLines,
   getSignalPrice,
   getCrossYValue,
-  getSlugPriceSignals
+  getSlugPriceSignals,
+  setColorByDayRating
 } from './utils'
 import { Metrics } from './data'
 import { checkHasPremium } from '../../pages/UserSelectors'
@@ -237,12 +238,12 @@ class Charts extends React.Component {
         const { metricAnomalyKey: anomaly } = rest
         const result = value || chartData[index]
         const eventsData = getEventsTooltipInfo(rest)
-        eventsData.map(event => {
+        eventsData.forEach(event => {
           // NOTE(haritonasty): target metric for anomalies and tooltipMetricKey for other
           const key = event.isAnomaly
             ? Metrics[anomaly].dataKey || anomaly
             : tooltipMetricKey
-          return Object.assign(event, { key, y: result[key] })
+          Object.assign(event, { key, y: result[key] })
         })
 
         this.eventsMap.set(result.datetime, eventsData)
@@ -456,6 +457,8 @@ class Charts extends React.Component {
         metrics.some(({ key }) => key === value) || !isAnomaly
     )
 
+    events = setColorByDayRating(events)
+
     const lastDayPrice =
       priceRefLineData &&
       `Last day price ${Metrics.historyPrice.formatter(
@@ -606,16 +609,14 @@ class Charts extends React.Component {
             )}
 
             {metrics.includes(tooltipMetric) &&
-              events.map(({ key, y, datetime }, index) => (
+              events.map(({ key, y, datetime, color = 'var(--persimmon)' }) => (
                 <ReferenceDot
                   yAxisId={`axis-${key}`}
                   r={3}
                   isFront
                   fill='var(--white)'
                   strokeWidth='2px'
-                  stroke={
-                    index % 2 === 0 ? 'var(--persimmon)' : 'var(--texas-rose)'
-                  }
+                  stroke={color}
                   key={datetime + key}
                   x={+new Date(datetime)}
                   y={y}
