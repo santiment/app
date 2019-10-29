@@ -399,7 +399,9 @@ export const setColorByDayRating = events => {
 
     if (!isAnomaly) {
       const dateString = new Date(datetime).toDateString()
-      if (!groups[dateString]) groups[dateString] = []
+      if (!groups[dateString]) {
+        groups[dateString] = []
+      }
       groups[dateString].push(item)
     }
 
@@ -419,8 +421,4 @@ export const setColorByDayRating = events => {
   return events
 }
 
-const setColor = (events, color) => {
-  events.forEach(item => (item.color = color))
-
-  return events
-}
+const setColor = (events, color) => events.forEach(item => (item.color = color))
