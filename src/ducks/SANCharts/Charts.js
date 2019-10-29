@@ -606,14 +606,16 @@ class Charts extends React.Component {
             )}
 
             {metrics.includes(tooltipMetric) &&
-              events.map(({ key, y, datetime }) => (
+              events.map(({ key, y, datetime }, index) => (
                 <ReferenceDot
                   yAxisId={`axis-${key}`}
                   r={3}
                   isFront
                   fill='var(--white)'
                   strokeWidth='2px'
-                  stroke='var(--persimmon)'
+                  stroke={
+                    index % 2 === 0 ? 'var(--persimmon)' : 'var(--texas-rose)'
+                  }
                   key={datetime + key}
                   x={+new Date(datetime)}
                   y={y}
