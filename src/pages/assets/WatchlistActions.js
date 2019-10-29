@@ -77,6 +77,7 @@ const WatchlistActions = ({
                   <WatchlistEditTrigger name={title} id={id} assets={items} />
                   <WatchlistWeeklyReportTrigger
                     id={id}
+                    name={title}
                     isMonitored={isMonitored}
                   />
                 </>

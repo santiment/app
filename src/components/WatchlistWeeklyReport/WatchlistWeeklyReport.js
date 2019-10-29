@@ -42,11 +42,14 @@ const WatchlistWeeklyReport = ({
   isMonitored: initialIsMonitored,
   email,
   id,
-  dispatchIsMonitored
+  name,
+  dispatchIsMonitored,
+  setNotification
 }) => {
   const [isShown, setIsShown] = useState(false)
   const [isMonitored, toggleIsMonitored] = useState(initialIsMonitored)
-  const isEmailConnected = !email
+  const isEmailConnected = !!email
+  const title = name
 
   const close = () => {
     setIsShown(false)
@@ -54,6 +57,7 @@ const WatchlistWeeklyReport = ({
 
   const open = () => {
     setIsShown(true)
+    toggleIsMonitored(initialIsMonitored)
   }
 
   const onSave = () => {
@@ -61,6 +65,12 @@ const WatchlistWeeklyReport = ({
       dispatchIsMonitored({ id, isMonitored })
     }
 
+    setNotification({
+      variant: 'success',
+      title: isMonitored
+        ? `You are monitoring "${name}" watchlist now`
+        : `You won't receive reports with "${name}" watchlist`
+    })
     close()
   }
 
@@ -70,7 +80,7 @@ const WatchlistWeeklyReport = ({
       onOpen={open}
       onClose={close}
       open={isShown}
-      classes={{ title: styles.header }}
+      classes={{ title: styles.header, dialog: styles.dialog }}
     >
       <Dialog.ScrollContent className={styles.wrapper}>
         <EmailImage className={styles.image} />
@@ -114,13 +124,14 @@ const WatchlistWeeklyReport = ({
         )}
       </Dialog.ScrollContent>
       <Dialog.Actions className={styles.actions}>
-        <Dialog.Approve
+        <Button
           className={styles.approve}
           onClick={onSave}
-          disabled={initialIsMonitored === isMonitored}
+          variant='fill'
+          accent='positive'
         >
           Save preferences
-        </Dialog.Approve>
+        </Button>
       </Dialog.Actions>
     </Dialog>
   )
@@ -133,7 +144,8 @@ const mapStateToProps = ({ user: { data: { email } = {} } }) => ({
 const mapDispatchToProps = dispatch => ({
   dispatchIsMonitored: payload => {
     dispatch({ type: WATCHLIST_TOGGLE_MONITORING, payload })
-  }
+  },
+  setNotification: message => dispatch(showNotification(message))
 })
 
 export default connect(

@@ -2,32 +2,44 @@
 @import '~@santiment-network/ui/mixins.scss';
 @import '../../mixins.scss';
 
+.dialog {
+  max-height: 90%;
+}
+
 .wrapper {
-  padding: 0 48px 16px;
-  max-width: 496px;
+  padding: 0 48px 0;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 
   @include responsive('phone-xs', 'phone') {
-    padding: 0 24px 16px;
+    padding: 0 24px 0;
+    margin-top: -12px;
   }
 }
 
 .header {
   border-bottom: none;
-  padding-top: 18px !important;
+  padding: 26px 26px 10px !important;
   justify-content: flex-end;
   background: none;
+
+  @include responsive('phone-xs', 'phone') {
+    padding: 24px 24px 0 !important;
+  }
 }
 
 .image {
   min-width: 196px;
+  max-width: 196px;
   min-height: 122px;
 
   @include responsive('phone-xs', 'phone') {
     min-width: 148px;
+    max-width: 148px;
     min-height: 92px;
   }
 }
@@ -41,6 +53,8 @@
 
   @include responsive('phone-xs', 'phone') {
     margin: 16px 0 12px;
+
+    @include text('body-1', 'm');
   }
 }
 
@@ -70,7 +84,6 @@
     color: var(--rhino);
 
     @include responsive('phone-xs', 'phone') {
-      margin-bottom: 8px;
       color: var(--waterloo);
     }
   }
@@ -81,6 +94,7 @@
 
   @include responsive('phone-xs', 'phone') {
     display: flex;
+    margin-bottom: 8px;
     align-items: center;
     justify-content: space-between;
     width: 100%;
@@ -94,14 +108,27 @@
 
   @include responsive('phone-xs', 'phone') {
     min-width: auto;
-    padding: 0;
+    padding: 24px 0 0;
     border: none;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 1px;
+      background: var(--porcelain);
+      border-radius: 4px;
+      top: 0;
+    }
   }
 }
 
 .notificationDescription {
   @include responsive('phone-xs', 'phone') {
     padding-right: 0;
+    padding-top: 8px;
   }
 }
 
@@ -142,21 +169,28 @@
   padding: 10px 8px 10px 40px !important;
   color: var(--rhino);
   height: 40px;
+
+  @include responsive('phone-xs', 'phone') {
+    height: 48px;
+  }
 }
 
 .inputIcon {
   fill: var(--casper);
   width: 16px;
-  padding: 15px 8px 14px 16px;
   height: 12px;
+  padding: 0;
+  top: 50%;
+  margin-top: -5px;
+  left: 16px !important;
 }
 
 .actions {
-  padding: 0 48px 50px;
+  padding: 16px 48px 50px;
   width: 100%;
 
   @include responsive('phone-xs', 'phone') {
-    padding: 0 24px 16px;
+    padding: 16px 24px 16px;
   }
 }
 

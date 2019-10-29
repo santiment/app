@@ -65,6 +65,7 @@ const WatchlistContextMenu = ({
             <WatchlistWeeklyReport
               id={id}
               isMonitored={isMonitored}
+              name={name}
               trigger={
                 <Button variant='ghost' fluid>
                   Weekly report

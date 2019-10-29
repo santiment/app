@@ -5,7 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import WatchlistWeeklyReport from './WatchlistWeeklyReport'
 import styles from './WatchlistWeeklyReportTrigger.module.scss'
 
-const WatchlistWeeklyReportTrigger = ({ name, isMonitored, ...props }) => {
+const WatchlistWeeklyReportTrigger = ({ isMonitored, ...props }) => {
   return (
     <WatchlistWeeklyReport
       {...props}
