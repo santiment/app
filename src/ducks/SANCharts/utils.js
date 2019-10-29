@@ -82,11 +82,11 @@ const StackedLogic = props => {
   if (!obj) {
     obj = {
       index,
-      metrics: new Map([[metric.key, { fill, height, y, x }]])
+      metrics: new Map([[metric, { fill, height, y, x }]])
     }
     barsMap.set(index, obj)
   } else {
-    obj.metrics.set(metric.key, { fill, height, y, x })
+    obj.metrics.set(metric, { fill, height, y, x })
   }
 
   return null
@@ -111,6 +111,32 @@ const getBarMargin = diff => {
 
 export const getMetricYAxisId = ({ yAxisId, key, dataKey = key }) => {
   return yAxisId || `axis-${dataKey}`
+}
+
+const alignDayMetrics = (chartRef, bars, dayMetrics, margin) => {
+  const oneDayKeys = dayMetrics.map(([key]) => key)
+  const lastDayMetrics = {}
+
+  for (let i = 0; i < bars.length; i++) {
+    const { metrics } = bars[i]
+    oneDayKeys.forEach(key => {
+      const metric = metrics.get(key)
+      const lastDayMetric = lastDayMetrics[key]
+      if (lastDayMetric && metric) {
+        lastDayMetric.width = metric.x - lastDayMetric.x - margin - margin
+      }
+      if (metric) {
+        lastDayMetrics[key] = metric
+      }
+    })
+  }
+
+  oneDayKeys.forEach(key => {
+    const lastDayMetric = lastDayMetrics[key]
+    if (lastDayMetric) {
+      lastDayMetric.width = chartRef.offsetWidth - lastDayMetric.x - margin
+    }
+  })
 }
 
 export const generateMetricsMarkup = (
@@ -155,7 +181,7 @@ export const generateMetricsMarkup = (
     }
 
     if (chartRef !== undefined && El === Bar) {
-      rest.shape = <StackedLogic barsMap={barsMap} metric={metric} />
+      rest.shape = <StackedLogic barsMap={barsMap} metric={metric.key} />
     }
 
     const currentYAxisId = getMetricYAxisId(metric)
@@ -207,28 +233,8 @@ export const generateMetricsMarkup = (
     const margin = getBarMargin(halfDif)
     const halfWidth = halfDif - margin
 
-    const oneDayKeys = dayMetrics.map(([key]) => key)
     const bars = [...barsMap.values()]
-    const lastDayMetrics = {}
-    for (let i = 0; i < bars.length; i++) {
-      const { metrics } = bars[i]
-      oneDayKeys.forEach(key => {
-        const metric = metrics.get(key)
-        const lastDayMetric = lastDayMetrics[key]
-        if (lastDayMetric && metric) {
-          lastDayMetric.width = metric.x - lastDayMetric.x - margin - margin
-        }
-        if (metric) {
-          lastDayMetrics[key] = metric
-        }
-      })
-    }
-    oneDayKeys.forEach(key => {
-      const lastDayMetric = lastDayMetrics[key]
-      if (lastDayMetric) {
-        lastDayMetric.width = chartRef.offsetWidth - lastDayMetric.x - margin
-      }
-    })
+    alignDayMetrics(chartRef, bars, dayMetrics, margin)
 
     res.unshift(
       <g key='barMetrics'>

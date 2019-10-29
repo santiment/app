@@ -200,7 +200,12 @@ class Charts extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    const { metrics, chartData } = this.props
+    const {
+      metrics,
+      chartData,
+      isAdvancedView,
+      isIntervalSmallerThanDay
+    } = this.props
 
     if (!this.xToYCoordinates && this.metricRef.current) {
       // HACK(vanguard): Thanks recharts
@@ -209,15 +214,14 @@ class Charts extends React.Component {
     }
 
     if (
-      this.props.chartData !== prevProps.chartData ||
-      this.props.isAdvancedView !== prevProps.isAdvancedView
+      chartData !== prevProps.chartData ||
+      isAdvancedView !== prevProps.isAdvancedView
     ) {
       this.getXToYCoordinatesDebounced()
     }
 
-    if (this.props.chartData !== prevProps.chartData) {
-      if (this.props.isIntervalSmallerThanDay) {
-        const { metrics, chartData } = this.props
+    if (chartData !== prevProps.chartData) {
+      if (isIntervalSmallerThanDay) {
         const dayMetrics = []
         metrics.forEach(({ key, minInterval }, index) => {
           if (minInterval === '1d') {
@@ -232,7 +236,7 @@ class Charts extends React.Component {
           data: chartData.map(data => {
             const newData = { ...data }
             for (let i = 0; i < length; i++) {
-              const metric = dayMetrics[i][0]
+              const [metric] = dayMetrics[i]
               const res = newData[metric]
               if (res !== undefined) {
                 dayData[metric] = res
@@ -245,7 +249,6 @@ class Charts extends React.Component {
           })
         })
       } else {
-        console.log('infinite')
         this.setState({
           dayMetrics: [],
           data: chartData
