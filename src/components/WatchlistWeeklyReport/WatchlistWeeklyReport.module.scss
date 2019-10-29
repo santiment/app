@@ -1,9 +1,9 @@
 @import '~@santiment-network/ui/variables.scss';
 @import '~@santiment-network/ui/mixins.scss';
-@import "../../mixins.scss";
+@import '../../mixins.scss';
 
 .wrapper {
-  padding: 0 48px 50px;
+  padding: 0 48px 16px;
   max-width: 496px;
   width: 100%;
   display: flex;
@@ -11,7 +11,7 @@
   align-items: center;
 
   @include responsive('phone-xs', 'phone') {
-    padding: 0 24px 26px;
+    padding: 0 24px 16px;
   }
 }
 
@@ -23,8 +23,13 @@
 }
 
 .image {
-  width: 196px;
-  height: 122px;
+  min-width: 196px;
+  min-height: 122px;
+
+  @include responsive('phone-xs', 'phone') {
+    min-width: 148px;
+    min-height: 92px;
+  }
 }
 
 .title {
@@ -33,6 +38,10 @@
   text-align: center;
 
   @include text('h4', 'm');
+
+  @include responsive('phone-xs', 'phone') {
+    margin: 16px 0 12px;
+  }
 }
 
 .description {
@@ -45,43 +54,88 @@
 
 .toggle {
   margin-right: 9px;
+
+  @include responsive('phone-xs', 'phone') {
+    margin-right: 0;
+  }
 }
 
 .toggleWrapper {
   color: var(--waterloo);
   padding: 0;
   height: auto;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 
   &:hover {
     color: var(--rhino);
+
+    @include responsive('phone-xs', 'phone') {
+      margin-bottom: 8px;
+      color: var(--waterloo);
+    }
   }
 
   &.active {
     color: var(--rhino);
   }
+
+  @include responsive('phone-xs', 'phone') {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row-reverse;
+  }
 }
 
 .notification {
+  margin-top: 16px;
   box-shadow: none;
+
+  @include responsive('phone-xs', 'phone') {
+    min-width: auto;
+    padding: 0;
+    border: none;
+  }
+}
+
+.notificationDescription {
+  @include responsive('phone-xs', 'phone') {
+    padding-right: 0;
+  }
+}
+
+.notificationTitle {
+  @include responsive('phone-xs', 'phone') {
+    padding-right: 0;
+  }
 }
 
 .notificationWarning {
   border-color: $texas-rose-light-2;
   background: $texas-rose-light;
-}
 
-.notificationTitle {
-  color: $mirage;
-}
+  @include responsive('phone-xs', 'phone') {
+    background: none;
+    border: none;
+  }
 
-.notificationDescription {
-  color: $waterloo;
+  & .notificationDescription {
+    color: $waterloo;
+  }
+
+  & .notificationTitle {
+    color: $mirage;
+  }
 }
 
 .inputWrapper {
-  margin: 24px 0 16px;
+  margin: 24px 0 0;
   width: 100%;
+
+  @include responsive('phone-xs', 'phone') {
+    margin: 16px 0 0;
+  }
 }
 
 .input {
@@ -93,13 +147,17 @@
 .inputIcon {
   fill: var(--casper);
   width: 16px;
-  padding: 14px 8px 14px 16px;
+  padding: 15px 8px 14px 16px;
   height: 12px;
 }
 
 .actions {
-  padding: 0;
+  padding: 0 48px 50px;
   width: 100%;
+
+  @include responsive('phone-xs', 'phone') {
+    padding: 0 24px 16px;
+  }
 }
 
 .approve {

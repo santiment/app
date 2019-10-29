@@ -18,7 +18,11 @@ const NOTIFICATION = {
     description:
       'You’ll receive reports to the email address connected with your account',
     className: styles.notification,
-    variant: 'info'
+    variant: 'info',
+    classes: {
+      title: styles.notificationTitle,
+      conent: styles.notificationDescription
+    }
   },
   notConnected: {
     title: 'Please connect your email address',
@@ -28,7 +32,7 @@ const NOTIFICATION = {
     variant: 'warning',
     classes: {
       title: styles.notificationTitle,
-      description: styles.notificationDescription
+      content: styles.notificationDescription
     }
   }
 }
@@ -42,7 +46,7 @@ const WatchlistWeeklyReport = ({
 }) => {
   const [isShown, setIsShown] = useState(false)
   const [isMonitored, toggleIsMonitored] = useState(initialIsMonitored)
-  const isEmailConnected = !!email
+  const isEmailConnected = !email
 
   const close = () => {
     setIsShown(false)
@@ -90,28 +94,34 @@ const WatchlistWeeklyReport = ({
               {...NOTIFICATION[isEmailConnected ? 'connected' : 'notConnected']}
               hasCloseBtn={false}
             />
-            <EmailSetting>
-              <InputWithIcon
-                icon='mail'
-                iconPosition='left'
-                className={styles.inputWrapper}
-                inputClassName={cx(
-                  styles.input,
-                  isEmailConnected && styles.inputDisabled
-                )}
-                iconClassName={styles.inputIcon}
-                disabled={isEmailConnected}
-                defaultValue={email}
-              />
-            </EmailSetting>
+            {isEmailConnected && (
+              <EmailSetting>
+                <InputWithIcon
+                  icon='mail'
+                  iconPosition='left'
+                  className={styles.inputWrapper}
+                  inputClassName={cx(
+                    styles.input,
+                    isEmailConnected && styles.inputDisabled
+                  )}
+                  iconClassName={styles.inputIcon}
+                  disabled={isEmailConnected}
+                  defaultValue={email}
+                />
+              </EmailSetting>
+            )}
           </>
         )}
-        <Dialog.Actions className={styles.actions}>
-          <Dialog.Approve className={styles.approve} onClick={onSave}>
-            Save preferences
-          </Dialog.Approve>
-        </Dialog.Actions>
       </Dialog.ScrollContent>
+      <Dialog.Actions className={styles.actions}>
+        <Dialog.Approve
+          className={styles.approve}
+          onClick={onSave}
+          disabled={initialIsMonitored === isMonitored}
+        >
+          Save preferences
+        </Dialog.Approve>
+      </Dialog.Actions>
     </Dialog>
   )
 }

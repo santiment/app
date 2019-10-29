@@ -12,7 +12,7 @@ class EditableInputSetting extends PureComponent {
 
   inputRef = React.createRef()
 
-  componentWilllUnmout () {
+  componentWillUnmount () {
     clearTimeout(this.timeout)
   }
 
