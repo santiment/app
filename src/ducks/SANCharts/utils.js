@@ -50,11 +50,12 @@ export const getMarketSegment = key => {
 export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
 
 export const METRIC_COLORS = [
-  'texas-rose',
   'dodger-blue',
   'lima',
   'heliotrope',
-  'waterloo'
+  'waterloo',
+  'sheets-hover',
+  'texas-rose'
 ]
 
 export const findYAxisMetric = metrics =>
@@ -260,7 +261,13 @@ export const generateMetricsMarkup = (
                 key={fill + resX}
                 opacity='1'
                 fill={fill}
-                width={width || halfWidth + secondWidth}
+                width={
+                  width === undefined
+                    ? halfWidth + secondWidth
+                    : width < 0
+                      ? 0
+                      : width
+                }
                 height={height}
                 x={resX}
                 y={y}

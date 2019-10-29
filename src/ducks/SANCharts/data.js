@@ -121,7 +121,7 @@ export const Metrics = {
     on a certain date.
     Simply put, DAA indicates the daily level of crowd interaction (or
     speculation) with a certain token.`,
-    color: 'sheets-hover',
+    color: 'texas-rose',
     dataKey: 'daily_active_addresses',
     historicalTriggersDataKey: 'active_addresses',
     minInterval: '1d'
