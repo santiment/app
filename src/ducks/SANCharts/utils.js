@@ -147,7 +147,6 @@ export const generateMetricsMarkup = (
     data = {},
     chartRef: { current: chartRef } = {},
     coordinates,
-    onYAxesHover,
     scale,
     dayMetrics
   } = {}
@@ -198,7 +197,7 @@ export const generateMetricsMarkup = (
         domain={['auto', 'dataMax']}
         hide={isHidden}
         tickFormatter={yAxisTickFormatter}
-        onMouseMove={onYAxesHover}
+        scale={scale}
       />,
       <El
         key={`line-${dataKey}`}
@@ -321,6 +320,27 @@ export const makeSignalPriceReferenceDot = (
   )
 }
 
+export const getSlugPriceSignals = (signals, slug, price = undefined) => {
+  let filtered = signals.filter(
+    ({
+      settings: {
+        target: { slug: signalSlug } = {},
+        operation: { above } = {}
+      } = {}
+    }) => {
+      let result = !!above && slug === signalSlug
+
+      if (result && price !== undefined) {
+        result = above === price
+      }
+
+      return result
+    }
+  )
+
+  return filtered
+}
+
 export const mapToPriceSignalLines = ({
   data,
   slug,
@@ -341,14 +361,7 @@ export const mapToPriceSignalLines = ({
     payload: { datetime: dotPositionX }
   } = first
 
-  const filtered = signals.filter(
-    ({
-      settings: {
-        target: { slug: signalSlug } = {},
-        operation: { above } = {}
-      } = {}
-    }) => !!above && slug === signalSlug
-  )
+  const filtered = getSlugPriceSignals(signals, slug)
 
   let index = 0
 

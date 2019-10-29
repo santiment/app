@@ -6,7 +6,6 @@ import SearchProjects from '../../../../../../components/Search/SearchProjects'
 import { hasAssetById } from '../../../../../../components/WatchlistPopup/WatchlistsPopup'
 import ProjectsList from './ProjectsList'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { projectsSorter } from '../../../../../../components/Search/SearchContainer'
 import styles from './TriggerProjectsSelector.module.scss'
 
 export const TriggerProjectsSelector = ({
@@ -116,12 +115,13 @@ export const TriggerProjectsSelector = ({
     closeDialog()
   }
 
-  const onSuggestionSelect = project =>
+  const onSuggestionSelect = ({ item: project }) => {
     toggleAsset({
       project,
       listItems,
       isAssetInList: hasAssetById({ listItems, id: project.id })
     })
+  }
 
   return (
     <Dialog
@@ -140,14 +140,14 @@ export const TriggerProjectsSelector = ({
     >
       <Dialog.ScrollContent className={styles.wrapper}>
         <SearchProjects
+          noTrends
           searchIconPosition='left'
           className={styles.search}
-          projectsList={projects}
+          projects={projects.slice().sort(({ rank: a }, { rank: b }) => a - b)}
           suggestionsProps={{ style: { zIndex: 50 } }}
           checkedAssets={checkedAssetsAsSet}
           onSuggestionSelect={onSuggestionSelect}
           inputProps={{ autoFocus: true }}
-          sorter={projectsSorter}
         />
         <div className={styles.contentWrapper}>
           {isSingle || (

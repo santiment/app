@@ -35,12 +35,12 @@ export const SignalPointSvg = () => (
   </pattern>
 )
 
-const SignalLine = ({ active, data }) => {
-  if (!data && !active) {
+const SignalLine = ({ data = {} }) => {
+  if (!data) {
     return null
   }
 
-  const { priceUsd, chartY, isNew } = data || active
+  const { priceUsd, chartY, isNew } = data
 
   if (!priceUsd) {
     return null

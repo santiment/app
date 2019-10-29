@@ -128,7 +128,9 @@ const WatchlistCopyPopup = ({
         sendChanges({
           assetsListId,
           currentId,
-          listItems: [...list.listItems, ...remainingAssets].map(id => ({ id }))
+          listItems: [...list.listItems, ...remainingAssets].map(id => ({
+            id
+          }))
         })
       }
     })
@@ -145,11 +147,12 @@ const WatchlistCopyPopup = ({
       <Dialog.ScrollContent className={styles.wrapper}>
         <div className={styles.assetsWrapper}>
           <SearchProjects
-            projectsList={assets}
+            noTrends
+            projects={assets}
             checkedAssets={assetsToCopy}
             isCopyingAssets={true}
             className={styles.search}
-            onSuggestionSelect={({ id }) => onAssetClick(id)}
+            onSuggestionSelect={({ item: { id } }) => onAssetClick(id)}
           />
           <AssetsList
             items={assets}

@@ -33,7 +33,8 @@ import {
   chartBars,
   mapToPriceSignalLines,
   getSignalPrice,
-  getCrossYValue
+  getCrossYValue,
+  getSlugPriceSignals
 } from './utils'
 import { Metrics } from './data'
 import { checkHasPremium } from '../../pages/UserSelectors'
@@ -103,61 +104,112 @@ const getTooltipMetricAndKey = (metrics, chartData) => {
   return { tooltipMetric, tooltipMetricKey }
 }
 
-const buildNewSignalData = (coordinate, value) => {
-  return {
-    chartY: coordinate,
-    priceUsd: value,
-    isNew: true
-  }
-}
+const buildChartSignalData = (chartY, priceUsd, isNew = true) => ({
+  chartY,
+  priceUsd,
+  isNew
+})
 
 class Charts extends React.Component {
   state = {
+    dayMetrics: [],
     leftZoomIndex: undefined,
     rightZoomIndex: undefined,
     refAreaLeft: undefined,
     refAreaRight: undefined,
-    activeSignalData: undefined,
-    dayMetrics: [],
-    onSignalHover: (evt, value) => {
-      this.setState({
-        activeSignalData: {
-          priceUsd: value,
-          chartY: evt.cy
-        }
-      })
-    },
-    onSignalLeave: () => {
-      this.setState({
-        activeSignalData: undefined
-      })
-    },
+    signalData: undefined,
+    onSignalHover: throttle((evt, value) => {
+      return this.setSignalsState(
+        buildChartSignalData(evt.cy, value, false),
+        true
+      )
+    }, 50),
+    onSignalLeave: throttle(() => {
+      return this.setSignalsState(undefined)
+    }, 50),
     onSignalClick: (target, evt, id) => {
       evt.stopPropagation()
       evt.preventDefault()
 
-      const { removeSignal } = this.props
-      removeSignal && removeSignal(id)
+      this.onRemoveSignal(id, buildChartSignalData(target.cy, target.y))
     }
   }
 
   eventsMap = new Map()
   metricRef = React.createRef()
 
-  componentDidMount () {
-    const { fetchSignals, isBeta, isLoggedIn } = this.props
+  setSignalsState = (signalData, signalPointHovered = false) => {
+    this.setState({
+      signalData,
+      signalPointHovered,
+      hovered: false
+    })
+  }
+
+  onChartHover = throttle(evt => {
+    if (!this.canShowSignalLines() || evt.target.nodeName !== 'svg') {
+      return
+    }
+
+    if (this.state.signalPointHovered) {
+      return
+    }
+
+    if (
+      this.metricRef &&
+      this.metricRef.current &&
+      this.metricRef.current.props.dataKey === Metrics.historyPrice.dataKey
+    ) {
+      const { offsetX, offsetY } = evt
+
+      const { yAxis } = this.metricRef.current.props
+      const { height, width } = yAxis
+
+      if (offsetX <= width && offsetY <= height) {
+        const { signals, slug } = this.props
+        const priceUsd = getSignalPrice(this.xToYCoordinates, offsetY)
+        if (priceUsd) {
+          const existingSignalsWithSamePrice = getSlugPriceSignals(
+            signals,
+            slug,
+            priceUsd
+          )
+          const isNew = existingSignalsWithSamePrice.length === 0
+          const signalData = buildChartSignalData(offsetY, priceUsd, isNew)
+          this.setSignalsState(signalData)
+        }
+      } else {
+        this.setSignalsState(undefined)
+      }
+    }
+  }, 100)
+
+  loadSignals = newProps => {
+    const { isBeta, isLoggedIn, fetchSignals } = newProps || this.props
     isBeta && isLoggedIn && fetchSignals && fetchSignals()
   }
 
-  componentWillUpdate ({
-    chartData,
-    chartRef,
-    metrics,
-    events,
-    isTrendsShowing,
-    isAdvancedView,
-    slug
-  }) {
+  componentDidMount () {
+    const chartSvg = this.props.chartRef.current
+    chartSvg && chartSvg.addEventListener('mousemove', this.onChartHover)
+    this.loadSignals()
+  }
+
+  componentWillUnmount () {
+    const chartSvg = this.props.chartRef.current
+    chartSvg && chartSvg.removeEventListener('mousemove', this.onChartHover)
+  }
+
+  componentWillUpdate (newProps) {
+    const {
+      chartData,
+      chartRef,
+      metrics,
+      events,
+      isAdvancedView,
+      isBeta,
+      isLoggedIn
+    } = newProps
     if (this.props.chartData !== chartData) {
       this.getXToYCoordinates()
       chartBars.delete(chartRef.current)
@@ -196,6 +248,10 @@ class Charts extends React.Component {
 
         this.eventsMap.set(result.datetime, eventsData)
       })
+    }
+
+    if (isBeta !== this.props.isBeta || isLoggedIn !== this.props.isLoggedIn) {
+      this.loadSignals(newProps)
     }
   }
 
@@ -316,8 +372,7 @@ class Charts extends React.Component {
   onMouseLeave = () => {
     this.setState({
       hovered: false,
-      newSignalData: null,
-      activeSignalData: null
+      signalData: null
     })
   }
 
@@ -333,13 +388,7 @@ class Charts extends React.Component {
       return
     }
 
-    const {
-      activeTooltipIndex,
-      activeLabel,
-      activePayload,
-      chartY,
-      chartX
-    } = event
+    const { activeTooltipIndex, activeLabel, activePayload } = event
 
     if (!activePayload) {
       return
@@ -360,12 +409,6 @@ class Charts extends React.Component {
       activePayload[index].value = allIndexData[metric]
     })
 
-    const canCreateSignal =
-      !activeSignalData && chartX < 50 && this.canShowSignalLines()
-    const priceUsd = canCreateSignal
-      ? getSignalPrice(this.xToYCoordinates, chartY)
-      : undefined
-
     this.setState({
       activePayload: activePayload.concat(
         this.eventsMap.get(activeLabel) || []
@@ -378,40 +421,35 @@ class Charts extends React.Component {
       yValue: this.props.chartData[activeTooltipIndex][
         tooltipMetric.dataKey || tooltipMetric.key
       ],
-      hovered: true,
-      newSignalData: priceUsd ? buildNewSignalData(chartY, priceUsd) : undefined
+      hovered: true
     })
   }, 16)
 
-  onChartClick = () => {
-    const {
-      newSignalData: { priceUsd }
-    } = this.state
-    if (priceUsd) {
-      const { slug, createSignal } = this.props
-      const signal = buildPriceAboveSignal(slug, priceUsd)
-
-      createSignal(signal)
-
-      this.setState({
-        hovered: false,
-        activeSignalData: null
-      })
-    }
+  onRemoveSignal = (id, signalData = undefined) => {
+    const { removeSignal } = this.props
+    removeSignal(id)
+    this.setSignalsState(signalData)
   }
 
-  onYAxesHover = evt => {
-    const { coordinate } = evt
+  onChartClick = () => {
+    const { signalData: { priceUsd, chartY } = {} } = this.state
 
-    const { activeSignalData } = this.state
+    if (priceUsd) {
+      const { slug, signals, createSignal } = this.props
+      const signal = buildPriceAboveSignal(slug, priceUsd)
 
-    const canCreateSignal = !activeSignalData && this.canShowSignalLines()
-
-    if (canCreateSignal) {
-      const priceUsd = getSignalPrice(this.xToYCoordinates, coordinate)
-      this.setState({
-        newSignalData: buildNewSignalData(coordinate, priceUsd)
-      })
+      const existingSignalsWithSamePrice = getSlugPriceSignals(
+        signals,
+        slug,
+        priceUsd
+      )
+      if (existingSignalsWithSamePrice.length === 0) {
+        createSignal(signal)
+      } else {
+        const [signal] = existingSignalsWithSamePrice
+        signal &&
+          this.onRemoveSignal(signal.id, buildChartSignalData(chartY, priceUsd))
+      }
     }
   }
 
@@ -428,7 +466,7 @@ class Charts extends React.Component {
       children,
       isLoading,
       priceRefLineData,
-      scale = 'time',
+      scale,
       signals = [],
       slug
     } = this.props
@@ -442,8 +480,7 @@ class Charts extends React.Component {
       activePayload,
       hovered,
       tooltipMetric,
-      newSignalData,
-      activeSignalData,
+      signalData,
       onSignalHover,
       onSignalLeave,
       onSignalClick,
@@ -454,7 +491,6 @@ class Charts extends React.Component {
       chartRef,
       dayMetrics,
       coordinates: this.xToYCoordinates,
-      onYAxesHover: this.onYAxesHover,
       scale: scale,
       ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef }
     })
@@ -488,8 +524,7 @@ class Charts extends React.Component {
       })
       : null
 
-    const showTooltip =
-      hovered && activePayload && !newSignalData && !activeSignalData
+    const showTooltip = hovered && activePayload && !signalData
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>
@@ -555,11 +590,12 @@ class Charts extends React.Component {
             <SidecarExplanationTooltip
               closeTimeout={500}
               localStorageSuffix='_SIGNALS_ON_CHART_EXPLANATION'
-              position='top'
+              position='bottom'
               title='Create your own signals for price changes!'
               description='One click on Y-axis to create a signal, the second click on signal for removing'
+              className={styles.signalsExplanation}
             >
-              <SignalLine data={newSignalData} active={activeSignalData} />
+              <SignalLine data={signalData} />
             </SidecarExplanationTooltip>
           )}
         </div>
@@ -572,7 +608,7 @@ class Charts extends React.Component {
             onMouseLeave={this.onMouseLeave}
             onMouseEnter={this.getXToYCoordinates}
             onMouseDown={event => {
-              newSignalData && this.onChartClick(event)
+              this.onChartClick(event)
 
               if (!event) return
               const { activeTooltipIndex, activeLabel } = event

@@ -143,10 +143,10 @@ const BalanceView = ({
 
   const { timeRange, from, to } = chartSettings
 
-  const [scale, setScale] = useState('time')
+  const [scale, setScale] = useState('auto')
 
   const onScaleChange = () => {
-    setScale(scale === 'time' ? 'log' : 'time')
+    setScale(scale === 'auto' ? 'log' : 'auto')
   }
 
   return (

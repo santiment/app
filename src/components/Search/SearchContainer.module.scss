@@ -35,3 +35,41 @@
 .checkbox {
   margin-right: 5px;
 }
+
+.recent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--mirage);
+  width: 100%;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.clock {
+  fill: var(--mystic);
+  margin-right: 12px;
+  width: 12px;
+  height: 12px;
+}
+
+.remove {
+  display: none;
+  fill: var(--waterloo);
+  width: 8px;
+  height: 8px;
+  box-sizing: content-box;
+  padding: 5px;
+  margin: -5px;
+
+  &:hover {
+    fill: var(--mirage);
+  }
+}
+
+.suggestion:hover .remove {
+  display: block;
+}

@@ -73,6 +73,7 @@ export const allProjectsForSearchGQL = gql`
     allProjects(minVolume: $minVolume) {
       ...generalData
       marketcapUsd
+      rank
     }
   }
   ${generalData}

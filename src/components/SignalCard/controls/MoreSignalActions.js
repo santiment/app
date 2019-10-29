@@ -17,17 +17,9 @@ const generateShareLink = (id, title) => {
   })}`
 }
 
-const MoreSignalActions = ({
-  signalId,
-  signalTitle,
-  removeSignal,
-  isPublic,
-  isUserTheAuthor,
-  deleteEnabled = true
-}) => {
+const ShareSignal = ({ trigger, className, signalId, signalTitle }) => {
   const link = generateShareLink(signalId, signalTitle)
-
-  const ShareSignal = ({ trigger, className }) => (
+  return (
     <div className={cx(styles.popupItem, styles.popupButton, className)}>
       <ShareModalTrigger
         trigger={trigger}
@@ -37,9 +29,24 @@ const MoreSignalActions = ({
       />
     </div>
   )
+}
 
+const MoreSignalActions = ({
+  signalId,
+  signalTitle,
+  removeSignal,
+  isPublic,
+  isUserTheAuthor,
+  deleteEnabled = true
+}) => {
   if (!isUserTheAuthor) {
-    return <ShareSignal className={styles.shareBtn} />
+    return (
+      <ShareSignal
+        className={styles.shareBtn}
+        signalId={signalId}
+        signalTitle={signalTitle}
+      />
+    )
   }
 
   return (
@@ -52,41 +59,45 @@ const MoreSignalActions = ({
       position='bottom'
       align='start'
     >
-      <Panel>
-        <div className={styles.popup}>
-          {isUserTheAuthor && (
-            <div className={cx(styles.popupItem, styles.popupButton)}>
-              <Link
-                to={`/sonar/signal/${signalId}/edit${window.location.search}`}
-                className={styles.link}
-              >
-                Edit signal
-              </Link>
-            </div>
-          )}
-
-          {isPublic && <ShareSignal trigger={SignalShareTrigger} />}
-
-          {isUserTheAuthor && deleteEnabled && (
-            <div className={cx(styles.popupItem, styles.popupButton)}>
-              <RemoveSignalButton
-                id={signalId}
-                signalTitle={signalTitle}
-                removeSignal={removeSignal}
-                trigger={<div className={styles.removeSignal}>Delete</div>}
-              />
-            </div>
-          )}
+      <Panel className={styles.popup}>
+        <div className={cx(styles.popupItem, styles.popupButton)}>
+          <Link
+            to={`/sonar/signal/${signalId}/edit${window.location.search}`}
+            className={styles.link}
+          >
+            Edit signal
+          </Link>
         </div>
+
+        {isPublic && (
+          <ShareSignal
+            trigger={SignalShareTrigger}
+            signalId={signalId}
+            signalTitle={signalTitle}
+          />
+        )}
+
+        {deleteEnabled && (
+          <div className={cx(styles.popupItem, styles.popupButton)}>
+            <RemoveSignalButton
+              id={signalId}
+              signalTitle={signalTitle}
+              removeSignal={removeSignal}
+              trigger={<div className={styles.removeSignal}>Delete</div>}
+            />
+          </div>
+        )}
       </Panel>
     </Tooltip>
   )
 }
 
-const SignalShareTrigger = ({ ...props }) => (
-  <Button as='a' {...props} className={styles.share}>
-    Share
-  </Button>
-)
+const SignalShareTrigger = ({ ...props }) => {
+  return (
+    <Button as='a' {...props} className={styles.share}>
+      Share
+    </Button>
+  )
+}
 
 export default MoreSignalActions
