@@ -64,16 +64,16 @@ export const Detailed = ({
   news,
   ...props
 }) => {
-  const project = Project.project || {}
+  const { loading, errorMessage, error, project = {} } = Project
 
   const { from } = location.state || {}
   const { id } = project
 
-  if (/not found/.test(Project.errorMessage)) {
+  if (/not found/.test(errorMessage)) {
     return <Redirect to='/' />
   }
 
-  if (Project.error) {
+  if (error) {
     return <ServerErrorMessage />
   }
 
@@ -121,6 +121,7 @@ export const Detailed = ({
               isLoggedIn={isLoggedIn}
               enabledViewOnlySharing={false}
               isPRO={userPlan === 'PRO'}
+              isPageLoading={loading}
               {...boundaries}
             />
           )
@@ -133,20 +134,18 @@ export const Detailed = ({
     <div className='page detailed'>
       <Helmet>
         <title>
-          {Project.loading
-            ? 'Sanbase...'
-            : `${Project.project.ticker} project page`}
+          {loading ? 'Sanbase...' : `${project.ticker} project page`}
         </title>
         <meta
           property='og:title'
-          content={`Project overview: ${Project.project.name} - Sanbase`}
+          content={`Project overview: ${project.name} - Sanbase`}
         />
         <meta
           property='og:description'
           content={`Financial, development, on-chain and social data for ${
-            Project.project.name
+            project.name
           }. Get access to full historical data & advanced metrics for ${
-            Project.project.name
+            project.name
           } by upgrading to Sanbase Dashboards.
 `}
         />
@@ -172,7 +171,7 @@ export const Detailed = ({
           <FinancialsBlock {...project} />
         </PanelWithHeader>
       </div>
-      {isNewsEnabled && !isLoadingNews && !Project.loading && news.length > 0 && (
+      {isNewsEnabled && !isLoadingNews && !loading && news.length > 0 && (
         <div className={styles.newsWrapper}>
           <h4 className={styles.newsTitle}>News</h4>
           <News data={news} />
