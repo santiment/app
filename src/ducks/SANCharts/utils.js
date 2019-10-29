@@ -97,7 +97,11 @@ const barMetricsSorter = ({ height: a }, { height: b }) => b - a
 
 const getBarMargin = diff => {
   if (diff < 1.3) {
-    return 0.3
+    return 0.2
+  }
+
+  if (diff < 2) {
+    return 0.5
   }
 
   if (diff < 4) {
@@ -116,26 +120,36 @@ export const getMetricYAxisId = ({ yAxisId, key, dataKey = key }) => {
 
 const alignDayMetrics = (chartRef, bars, dayMetrics, margin) => {
   const oneDayKeys = dayMetrics.map(([key]) => key)
+  const { length: oneDayKeysLength } = oneDayKeys
   const lastDayMetrics = {}
+  let dayWidth
 
   for (let i = 0; i < bars.length; i++) {
     const { metrics } = bars[i]
-    oneDayKeys.forEach(key => {
+    for (let y = 0; y < oneDayKeysLength; y++) {
+      const key = oneDayKeys[y]
       const metric = metrics.get(key)
       const lastDayMetric = lastDayMetrics[key]
       if (lastDayMetric && metric) {
-        lastDayMetric.width = metric.x - lastDayMetric.x - margin - margin
+        if (!dayWidth) {
+          dayWidth = metric.x - lastDayMetric.x - margin - margin
+        }
+        lastDayMetric.width = dayWidth
       }
       if (metric) {
         lastDayMetrics[key] = metric
       }
-    })
+    }
   }
 
   oneDayKeys.forEach(key => {
     const lastDayMetric = lastDayMetrics[key]
     if (lastDayMetric) {
-      lastDayMetric.width = chartRef.offsetWidth - lastDayMetric.x - margin
+      if (lastDayMetric.x + dayWidth > chartRef.offsetWidth) {
+        lastDayMetric.width = chartRef.offsetWidth - lastDayMetric.x
+      } else {
+        lastDayMetric.width = dayWidth
+      }
     }
   })
 }

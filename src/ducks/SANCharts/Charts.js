@@ -291,13 +291,21 @@ class Charts extends React.Component {
           dayMetrics,
           data: chartData.map(data => {
             const newData = { ...data }
+            const { datetime } = newData
+
             for (let i = 0; i < length; i++) {
               const [metric] = dayMetrics[i]
-              const res = newData[metric]
-              if (res !== undefined) {
-                dayData[metric] = res
+              const metricData = newData[metric]
+              if (metricData !== undefined) {
+                dayData[metric] = { value: metricData, datetime }
               } else {
-                newData[metric] = dayData[metric]
+                const lastDayMetric = dayData[metric]
+                if (lastDayMetric) {
+                  const { datetime: lastDatetime, value } = lastDayMetric
+                  if (datetime - lastDatetime < ONE_DAY_IN_MS) {
+                    newData[metric] = value
+                  }
+                }
               }
             }
 
@@ -403,7 +411,7 @@ class Charts extends React.Component {
 
     const { x, y } = coordinates
 
-    const { activeSignalData, data, dayMetrics } = this.state
+    const { data, dayMetrics } = this.state
     const allIndexData = data[activeTooltipIndex]
     dayMetrics.forEach(([metric, index]) => {
       activePayload[index].value = allIndexData[metric]
@@ -432,7 +440,13 @@ class Charts extends React.Component {
   }
 
   onChartClick = () => {
-    const { signalData: { priceUsd, chartY } = {} } = this.state
+    const { signalData = {} } = this.state
+    // NOTE(vanguard): signalData could be null and prop. destruction will carsh the app
+    let priceUsd, chartY
+    if (signalData) {
+      priceUsd = signalData.priceUsd
+      chartY = signalData.chartY
+    }
 
     if (priceUsd) {
       const { slug, signals, createSignal } = this.props
