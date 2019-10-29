@@ -410,12 +410,12 @@ export const setColorByDayRating = events => {
 
   for (let key in groups) {
     const sorted = groups[key].sort(
-      ({ value: valueA }, { value: valueB }) => valueA < valueB
+      ({ value: valueA }, { value: valueB }) => valueB - valueA
     )
 
     setColor(sorted.slice(0, 3), 'var(--persimmon)')
     setColor(sorted.slice(3, 6), 'var(--texas-rose-hover)')
-    setColor(sorted.slice(6), '#FFC24D')
+    setColor(sorted.slice(6), '#ffcb47')
   }
 
   return events
