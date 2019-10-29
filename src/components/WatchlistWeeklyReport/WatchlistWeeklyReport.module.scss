@@ -9,6 +9,8 @@
 .wrapper {
   padding: 0 48px 0;
   width: 100%;
+  max-width: 496px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,6 +18,7 @@
   -webkit-tap-highlight-color: transparent;
 
   @include responsive('phone-xs', 'phone') {
+    width: 100%;
     padding: 0 24px 0;
     margin-top: -12px;
   }
@@ -188,6 +191,10 @@
 .actions {
   padding: 16px 48px 50px;
   width: 100%;
+  max-width: 496px;
+  margin: 0 auto;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 
   @include responsive('phone-xs', 'phone') {
     padding: 16px 24px 16px;
@@ -196,7 +203,6 @@
 
 .approve {
   width: 100%;
-  color: var(--white);
   height: auto;
   margin: 0;
   justify-content: center;
@@ -206,7 +212,5 @@
 
   @include responsive('phone-xs', 'phone') {
     padding: 12px;
-    color: var(--white);
-    background: var(--jungle-green) !important;
   }
 }
