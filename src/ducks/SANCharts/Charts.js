@@ -277,47 +277,47 @@ class Charts extends React.Component {
     }
 
     if (chartData !== prevProps.chartData) {
+      const dayMetrics = []
+      let alignedChartData = chartData
+
       if (isIntervalSmallerThanDay) {
-        const dayMetrics = []
-        metrics.forEach(({ key, minInterval }, index) => {
-          if (minInterval === '1d') {
-            dayMetrics.push([key, index])
-          }
-        })
+        metrics.forEach(
+          ({ key, minInterval }, index) =>
+            minInterval === '1d' && dayMetrics.push([key, index])
+        )
 
-        const { length } = dayMetrics
-        const dayData = {}
-        this.setState({
-          dayMetrics,
-          data: chartData.map(data => {
-            const newData = { ...data }
-            const { datetime } = newData
+        const dayStartMetrics = {}
 
-            for (let i = 0; i < length; i++) {
-              const [metric] = dayMetrics[i]
-              const metricData = newData[metric]
-              if (metricData !== undefined) {
-                dayData[metric] = { value: metricData, datetime }
-              } else {
-                const lastDayMetric = dayData[metric]
-                if (lastDayMetric) {
-                  const { datetime: lastDatetime, value } = lastDayMetric
-                  if (datetime - lastDatetime < ONE_DAY_IN_MS) {
-                    newData[metric] = value
-                  }
-                }
+        alignedChartData = chartData.map(({ ...data }) => {
+          const { datetime: currentPointDatetime } = data
+
+          for (let i = 0; i < dayMetrics.length; i++) {
+            const [dayMetric] = dayMetrics[i]
+            const metricValue = data[dayMetric]
+            if (metricValue !== undefined) {
+              dayStartMetrics[dayMetric] = {
+                value: metricValue,
+                datetime: currentPointDatetime
               }
+              continue
             }
+            const dayStartMetric = dayStartMetrics[dayMetric]
+            if (
+              dayStartMetric &&
+              currentPointDatetime - dayStartMetric.datetime < ONE_DAY_IN_MS
+            ) {
+              data[dayMetric] = dayStartMetric.value
+            }
+          }
 
-            return newData
-          })
-        })
-      } else {
-        this.setState({
-          dayMetrics: [],
-          data: chartData
+          return data
         })
       }
+
+      this.setState({
+        dayMetrics,
+        alignedChartData
+      })
     }
 
     if (metrics !== prevProps.metrics) {
@@ -411,8 +411,8 @@ class Charts extends React.Component {
 
     const { x, y } = coordinates
 
-    const { data, dayMetrics } = this.state
-    const allIndexData = data[activeTooltipIndex]
+    const { alignedChartData, dayMetrics } = this.state
+    const allIndexData = alignedChartData[activeTooltipIndex]
     dayMetrics.forEach(([metric, index]) => {
       activePayload[index].value = allIndexData[metric]
     })
