@@ -4,6 +4,7 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import { normalizeCSV } from './utils'
 import { isNotSafari } from '../../utils/utils'
+import { upperCaseFirstLetter } from '../../utils/formatting'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
 import WatchlistWeeklyReportTrigger from '../../components/WatchlistWeeklyReport/WatchlistWeeklyReportTrigger'
@@ -17,7 +18,7 @@ const WatchlistActions = ({
   shareLink,
   isAuthor,
   id,
-  title,
+  title: initialTitle,
   items,
   type,
   location,
@@ -26,6 +27,7 @@ const WatchlistActions = ({
   isMonitored
 }) => {
   const hasCSV = isNotSafari && items && items.length > 0
+  const title = upperCaseFirstLetter(initialTitle)
 
   return (
     <>
