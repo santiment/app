@@ -34,7 +34,9 @@ import {
   mapToPriceSignalLines,
   getSignalPrice,
   getCrossYValue,
-  getSlugPriceSignals
+  getSlugPriceSignals,
+  isDayStartMetric,
+  assignToPointDayStartValue
 } from './utils'
 import { Metrics } from './data'
 import { checkHasPremium } from '../../pages/UserSelectors'
@@ -293,21 +295,22 @@ class Charts extends React.Component {
 
           for (let i = 0; i < dayMetrics.length; i++) {
             const [dayMetric] = dayMetrics[i]
-            const metricValue = data[dayMetric]
-            if (metricValue !== undefined) {
-              dayStartMetrics[dayMetric] = {
-                value: metricValue,
-                datetime: currentPointDatetime
-              }
+            if (
+              isDayStartMetric(
+                data,
+                dayMetric,
+                dayStartMetrics,
+                currentPointDatetime
+              )
+            ) {
               continue
             }
-            const dayStartMetric = dayStartMetrics[dayMetric]
-            if (
-              dayStartMetric &&
-              currentPointDatetime - dayStartMetric.datetime < ONE_DAY_IN_MS
-            ) {
-              data[dayMetric] = dayStartMetric.value
-            }
+            assignToPointDayStartValue(
+              data,
+              dayMetric,
+              dayStartMetrics,
+              currentPointDatetime
+            )
           }
 
           return data

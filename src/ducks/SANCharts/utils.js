@@ -1,5 +1,6 @@
 import React from 'react'
 import { YAxis, Bar, Line, Area, ReferenceDot } from 'recharts'
+import { ONE_DAY_IN_MS } from '../../utils/dates'
 import { formatNumber, millify } from './../../utils/formatting'
 import { Metrics, Events } from './data'
 import styles from './Chart.module.scss'
@@ -430,4 +431,36 @@ export const getCrossYValue = yValue => {
   }
 
   return yValue ? millify(yValue, 1) : '-'
+}
+
+export const isDayStartMetric = (
+  data,
+  dayMetric,
+  dayStartMetrics,
+  datetime
+) => {
+  const metricValue = data[dayMetric]
+  if (metricValue !== undefined) {
+    dayStartMetrics[dayMetric] = {
+      datetime,
+      value: metricValue
+    }
+    return true
+  }
+  return false
+}
+
+export const assignToPointDayStartValue = (
+  data,
+  dayMetric,
+  dayStartMetrics,
+  currentPointDatetime
+) => {
+  const dayStartMetric = dayStartMetrics[dayMetric]
+  if (
+    dayStartMetric &&
+    currentPointDatetime - dayStartMetric.datetime < ONE_DAY_IN_MS
+  ) {
+    data[dayMetric] = dayStartMetric.value
+  }
 }
