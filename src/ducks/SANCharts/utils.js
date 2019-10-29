@@ -118,38 +118,41 @@ export const getMetricYAxisId = ({ yAxisId, key, dataKey = key }) => {
   return yAxisId || `axis-${dataKey}`
 }
 
-const alignDayMetrics = (chartRef, bars, dayMetrics, margin) => {
-  const oneDayKeys = dayMetrics.map(([key]) => key)
-  const { length: oneDayKeysLength } = oneDayKeys
-  const lastDayMetrics = {}
-  let dayWidth
+const getDayMetricWidth = (bars, dayMetric, margin) => {
+  let lastX
+  for (let i = 0; i < bars.length; i++) {
+    const metric = bars[i].metrics.get(dayMetric)
+    if (metric) {
+      if (lastX) {
+        return metric.x - lastX - margin - margin
+      }
+      lastX = metric.x
+    }
+  }
+}
+
+const alignDayMetrics = ({ chartRef, bars, dayMetrics, margin }) => {
+  const oneDayMetricsKeys = dayMetrics.map(([key]) => key)
+  const lastMetrics = {}
+  const dayWidth = getDayMetricWidth(bars, oneDayMetricsKeys[0], margin)
 
   for (let i = 0; i < bars.length; i++) {
     const { metrics } = bars[i]
-    for (let y = 0; y < oneDayKeysLength; y++) {
-      const key = oneDayKeys[y]
+    for (let y = 0; y < oneDayMetricsKeys.length; y++) {
+      const key = oneDayMetricsKeys[y]
       const metric = metrics.get(key)
-      const lastDayMetric = lastDayMetrics[key]
-      if (lastDayMetric && metric) {
-        if (!dayWidth) {
-          dayWidth = metric.x - lastDayMetric.x - margin - margin
-        }
-        lastDayMetric.width = dayWidth
-      }
       if (metric) {
-        lastDayMetrics[key] = metric
+        metric.width = dayWidth
+        lastMetrics[key] = metric
       }
     }
   }
 
-  oneDayKeys.forEach(key => {
-    const lastDayMetric = lastDayMetrics[key]
-    if (lastDayMetric) {
-      if (lastDayMetric.x + dayWidth > chartRef.offsetWidth) {
-        lastDayMetric.width = chartRef.offsetWidth - lastDayMetric.x
-      } else {
-        lastDayMetric.width = dayWidth
-      }
+  oneDayMetricsKeys.forEach(key => {
+    const lastMetric = lastMetrics[key]
+    if (lastMetric) {
+      const boundWidth = chartRef.offsetWidth - lastMetric.x
+      lastMetric.width = boundWidth < dayWidth ? boundWidth : dayWidth
     }
   })
 }
@@ -248,7 +251,7 @@ export const generateMetricsMarkup = (
     const halfWidth = halfDif - margin
 
     const bars = [...barsMap.values()]
-    alignDayMetrics(chartRef, bars, dayMetrics, margin)
+    alignDayMetrics({ chartRef, bars, dayMetrics, margin })
 
     res.unshift(
       <g key='barMetrics'>
@@ -256,7 +259,6 @@ export const generateMetricsMarkup = (
           const coor = coordinates[index]
           if (!coor) return null
 
-          const mapped = [...metrics.values()]
           let resX = coor.x - halfWidth
           let secondWidth = halfWidth
 
@@ -267,20 +269,14 @@ export const generateMetricsMarkup = (
             secondWidth = 0
           }
 
-          return mapped
+          return [...metrics.values()]
             .sort(barMetricsSorter)
             .map(({ width, fill, height, y }) => (
               <rect
                 key={fill + resX}
                 opacity='1'
                 fill={fill}
-                width={
-                  width === undefined
-                    ? halfWidth + secondWidth
-                    : width < 0
-                      ? 0
-                      : width
-                }
+                width={width || halfWidth + secondWidth}
                 height={height}
                 x={resX}
                 y={y}
