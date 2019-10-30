@@ -1,0 +1,29 @@
+@import "~@santiment-network/ui/variables.scss";
+
+.icon {
+  height: 16px;
+  width: 16px;
+}
+
+.active {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    background: var(--persimmon);
+    border: 2px solid var(--white);
+    box-sizing: content-box;
+    top: -3px;
+    left: -7px;
+    width: 4px;
+    height: 4px;
+  }
+}
+
+.text {
+  padding-left: 7px;
+  color: var(--mirage);
+}

@@ -391,7 +391,8 @@ class ChartPage extends Component {
       isLoggedIn,
       isPRO,
       isBeta,
-      alwaysShowingMetrics = []
+      alwaysShowingMetrics = [],
+      isParentLoading
     } = this.props
 
     const selectedInterval = INTERVAL_ALIAS[interval] || interval
@@ -485,6 +486,7 @@ class ChartPage extends Component {
               {viewOnly || hideSettings.header || (
                 <Header
                   slug={slug}
+                  isLoading={isParentLoading}
                   isLoggedIn={isLoggedIn}
                   onSlugSelect={this.onSlugSelect}
                 />
@@ -538,7 +540,7 @@ class ChartPage extends Component {
                     <Charts
                       scale={scale}
                       chartRef={this.chartRef}
-                      isLoading={isLoading}
+                      isLoading={isParentLoading || isLoading}
                       onZoom={this.onZoom}
                       from={from}
                       to={to}

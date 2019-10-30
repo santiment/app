@@ -64,7 +64,8 @@ const AssetsPage = props => {
             isCurrentUserTheAuthor,
             isPublicWatchlist,
             items = [],
-            trendingAssets = []
+            trendingAssets = [],
+            isMonitored
           } = Assets
 
           if (items !== currentItems) {
@@ -95,6 +96,7 @@ const AssetsPage = props => {
                     items={items}
                     type={props.type}
                     location={props.location}
+                    isMonitored={isMonitored}
                   />
                 </div>
               </div>

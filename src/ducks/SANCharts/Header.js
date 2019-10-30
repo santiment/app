@@ -139,10 +139,13 @@ const Header = ({
   data: { project = {} },
   slug,
   isLoggedIn,
+  isLoading,
   onSlugSelect,
   isTablet,
   className
 }) => {
+  const dataProject = isLoading ? {} : project
+
   const {
     id,
     ticker,
@@ -150,15 +153,15 @@ const Header = ({
     priceUsd = 0,
     percentChange24h = 0,
     percentChange7d = 0
-  } = project
+  } = dataProject
 
   return (
     <div className={cx(styles.wrapper, className)}>
       <ProjectSelector
         slug={slug}
-        project={project}
-        onChange={([project], closeDialog) => {
-          onSlugSelect(project)
+        project={dataProject}
+        onChange={([dataProject], closeDialog) => {
+          onSlugSelect(dataProject)
           closeDialog()
         }}
       />

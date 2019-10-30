@@ -25,6 +25,7 @@ import {
   addAssetToWatchlistEpic,
   editAssetsInWatchlistEpic
 } from './../components/WatchlistEdit/editAssetsInWatchlistEpic'
+import { watchlistToggleMonitoringEpic } from '../components/WatchlistWeeklyReport/watchlistToggleMonitoringEpic'
 import {
   changeColumnsSettingsEpic,
   saveWatchlistsSettingsAfterLaunch
@@ -107,6 +108,7 @@ export default combineEpics(
   // assets settings
   changeColumnsSettingsEpic,
   saveWatchlistsSettingsAfterLaunch,
+  watchlistToggleMonitoringEpic,
   // timeseries
   fetchTimeseriesEpic,
   // trends
