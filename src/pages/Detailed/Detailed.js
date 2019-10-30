@@ -121,7 +121,7 @@ export const Detailed = ({
               isLoggedIn={isLoggedIn}
               enabledViewOnlySharing={false}
               isPRO={userPlan === 'PRO'}
-              isPageLoading={loading}
+              isParentLoading={loading}
               {...boundaries}
             />
           )
