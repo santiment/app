@@ -35,8 +35,7 @@ import {
   getSignalPrice,
   getCrossYValue,
   getSlugPriceSignals,
-  setColorByDayRating,
-  getTrendingColor
+  getTrendRatingColor
 } from './utils'
 import { Metrics } from './data'
 import { checkHasPremium } from '../../pages/UserSelectors'
@@ -449,16 +448,17 @@ class Charts extends React.Component {
 
     let events = []
     this.eventsMap.forEach((values, datetime) => {
-      values.forEach(value => events.push({ ...value, datetime }))
+      values.forEach(value =>
+        events.push({ ...value, datetime, color: getTrendRatingColor(value) })
+      )
     })
+
     // NOTE(haritonasty): need to filter anomalies immediately after removing any active metric
     // (because axis for anomaly can be lost)
     events = events.filter(
       ({ value, isAnomaly }) =>
         metrics.some(({ key }) => key === value) || !isAnomaly
     )
-
-    events = setColorByDayRating(events)
 
     const lastDayPrice =
       priceRefLineData &&
@@ -509,7 +509,7 @@ class Charts extends React.Component {
                     return (
                       <div
                         key={name}
-                        style={{ '--color': getTrendingColor(item) }}
+                        style={{ '--color': getTrendRatingColor(item) }}
                         className={cx(
                           styles.details__metric,
                           isEvent && styles.details__metric_dot

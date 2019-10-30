@@ -391,28 +391,20 @@ export const getCrossYValue = yValue => {
   return yValue ? millify(yValue, 1) : '-'
 }
 
-export const setColorByDayRating = events => {
-  const groups = []
-
-  events.forEach(item => {
-    item.color = getTrendingColor(item)
-
-    return groups
-  }, groups)
-
-  return events
-}
-
-export const getTrendingColor = ({ value, color, name }) => {
+export const getTrendRatingColor = ({
+  value,
+  color = 'var(--persimmon)',
+  name
+}) => {
   if (name === 'Trending Position') {
-    if (value >= 0 && value <= 3) {
+    if (value < 4) {
       return 'var(--persimmon)'
-    } else if (value <= 6) {
-      return 'var(--texas-rose-hover)'
-    } else {
-      return 'var(--bright-sun)'
     }
+    if (value < 7) {
+      return 'var(--texas-rose-hover)'
+    }
+    return 'var(--bright-sun)'
   }
 
-  return color || 'var(--persimmon)'
+  return color
 }
