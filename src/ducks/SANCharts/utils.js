@@ -132,7 +132,7 @@ const getDayMetricWidth = (bars, dayMetric, margin) => {
   }
 }
 
-const alignDayMetrics = ({ chartRef, bars, dayMetrics, margin }) => {
+export const alignDayMetrics = ({ chartRef, bars, dayMetrics, margin }) => {
   const oneDayMetricsKeys = dayMetrics.map(([key]) => key)
   const lastMetrics = {}
   const dayWidth = getDayMetricWidth(bars, oneDayMetricsKeys[0], margin)
