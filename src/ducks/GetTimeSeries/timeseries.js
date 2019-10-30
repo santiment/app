@@ -4,13 +4,9 @@ import { HISTORY_PRICE_QUERY } from './queries/history_price_query'
 import { ETH_SPENT_OVER_TIME_QUERY } from './queries/eth_spent_over_time_query'
 import { ETH_SPENT_OVER_TIME_BY_ALL_PROJECTS_QUERY } from './queries/eth_spent_over_time_by_all_projects_query'
 import { BURN_RATE_QUERY } from './queries/burn_rate_query'
-import { NVT_RATIO_QUERY } from './queries/nvt_ratio_query'
 import { HISTORY_TWITTER_DATA_QUERY } from './queries/history_twitter_data_query'
 import { SOCIAL_VOLUME_QUERY } from './queries/social_volume_query'
-import { EXCHANGE_FUNDS_FLOW_QUERY } from './queries/exchange_funds_flow_query'
-import { TOKEN_AGE_CONSUMED_QUERY } from './queries/token_age_consumed_query'
 import { DAILY_ACTIVE_DEPOSITS_QUERY } from './queries/daily_active_deposits_query'
-import { NETWORK_GROWTH_QUERY } from './queries/network_growth_query'
 import { SOCIAL_DOMINANCE_QUERY } from './queries/social_dominance_query'
 import { PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES } from './queries/percent_of_token_supply_on_exchanges_query'
 import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from './queries/top_holders_percent_of_total_supply'
@@ -37,13 +33,13 @@ const TIMESERIES = {
     preTransform: ({ ethSpentOverTimeByAllProjects: ethSpentOverTime }) =>
       ethSpentOverTime
   },
-  nvtRatioCirculation: {
-    query: NVT_RATIO_QUERY,
-    preTransform: ({ nvtRatio }) => nvtRatio
+  nvt: {
+    query: GET_METRIC('nvt'),
+    preTransform: getMetricPreTransform
   },
-  nvtRatioTxVolume: {
-    query: NVT_RATIO_QUERY,
-    preTransform: ({ nvtRatio }) => nvtRatio
+  nvt_transaction_volume: {
+    query: GET_METRIC('nvt_transaction_volume'),
+    preTransform: getMetricPreTransform
   },
   burnRate: {
     query: BURN_RATE_QUERY
@@ -79,11 +75,13 @@ const TIMESERIES = {
   topHoldersPercentOfTotalSupply: {
     query: TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY
   },
-  tokenAgeConsumed: {
-    query: TOKEN_AGE_CONSUMED_QUERY
+  age_destroyed: {
+    query: GET_METRIC('age_destroyed'),
+    preTransform: getMetricPreTransform
   },
-  exchangeFundsFlow: {
-    query: EXCHANGE_FUNDS_FLOW_QUERY
+  exchange_balance: {
+    query: GET_METRIC('exchange_balance'),
+    preTransform: getMetricPreTransform
   },
   daily_active_addresses: {
     query: GET_METRIC('daily_active_addresses'),
@@ -108,8 +106,9 @@ const TIMESERIES = {
     query: GET_METRIC('transaction_volume'),
     preTransform: getMetricPreTransform
   },
-  networkGrowth: {
-    query: NETWORK_GROWTH_QUERY
+  network_growth: {
+    query: GET_METRIC('network_growth'),
+    preTransform: getMetricPreTransform
   },
   gasUsed: {
     query: GAS_USED_QUERY

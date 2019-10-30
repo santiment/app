@@ -34,7 +34,9 @@ import {
   mapToPriceSignalLines,
   getSignalPrice,
   getCrossYValue,
-  getSlugPriceSignals
+  getSlugPriceSignals,
+  isDayStartMetric,
+  assignToPointDayStartValue
 } from './utils'
 import { Metrics } from './data'
 import { checkHasPremium } from '../../pages/UserSelectors'
@@ -106,6 +108,7 @@ const getTooltipMetricAndKey = (metrics, chartData) => {
 
 class Charts extends React.Component {
   state = {
+    dayMetrics: [],
     leftZoomIndex: undefined,
     rightZoomIndex: undefined,
     refAreaLeft: undefined,
@@ -259,7 +262,12 @@ class Charts extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    const { metrics, chartData } = this.props
+    const {
+      metrics,
+      chartData,
+      isAdvancedView,
+      isIntervalSmallerThanDay
+    } = this.props
 
     if (!this.xToYCoordinates && this.metricRef.current) {
       // HACK(vanguard): Thanks recharts
@@ -268,10 +276,55 @@ class Charts extends React.Component {
     }
 
     if (
-      this.props.chartData !== prevProps.chartData ||
-      this.props.isAdvancedView !== prevProps.isAdvancedView
+      chartData !== prevProps.chartData ||
+      isAdvancedView !== prevProps.isAdvancedView
     ) {
       this.getXToYCoordinatesDebounced()
+    }
+
+    if (chartData !== prevProps.chartData) {
+      const dayMetrics = []
+      let alignedChartData = chartData
+
+      if (isIntervalSmallerThanDay) {
+        metrics.forEach(
+          ({ key, minInterval }, index) =>
+            minInterval === '1d' && dayMetrics.push([key, index])
+        )
+
+        const dayStartMetrics = {}
+
+        alignedChartData = chartData.map(({ ...data }) => {
+          const { datetime: currentPointDatetime } = data
+
+          for (let i = 0; i < dayMetrics.length; i++) {
+            const [dayMetric] = dayMetrics[i]
+            if (
+              isDayStartMetric(
+                data,
+                dayMetric,
+                dayStartMetrics,
+                currentPointDatetime
+              )
+            ) {
+              continue
+            }
+            assignToPointDayStartValue(
+              data,
+              dayMetric,
+              dayStartMetrics,
+              currentPointDatetime
+            )
+          }
+
+          return data
+        })
+      }
+
+      this.setState({
+        dayMetrics,
+        alignedChartData
+      })
     }
 
     if (metrics !== prevProps.metrics) {
@@ -365,6 +418,12 @@ class Charts extends React.Component {
 
     const { x, y } = coordinates
 
+    const { alignedChartData, dayMetrics } = this.state
+    const allIndexData = alignedChartData[activeTooltipIndex]
+    dayMetrics.forEach(([metric, index]) => {
+      activePayload[index].value = allIndexData[metric]
+    })
+
     this.setState({
       activePayload: activePayload.concat(
         this.eventsMap.get(activeLabel) || []
@@ -388,7 +447,13 @@ class Charts extends React.Component {
   }
 
   onChartClick = () => {
-    const { signalData: { priceUsd, chartY, type } = {} } = this.state
+    const { signalData = {} } = this.state
+
+    if (!signalData) {
+      return
+    }
+
+    const { priceUsd, chartY, type } = signalData
 
     if (priceUsd) {
       const { slug, signals, createSignal } = this.props
@@ -447,11 +512,13 @@ class Charts extends React.Component {
       signalData,
       onSignalHover,
       onSignalLeave,
-      onSignalClick
+      onSignalClick,
+      dayMetrics
     } = this.state
 
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
       chartRef,
+      dayMetrics,
       coordinates: this.xToYCoordinates,
       scale: scale,
       ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef }

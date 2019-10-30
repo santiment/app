@@ -1,6 +1,5 @@
 import React from 'react'
 import Selector from '@santiment-network/ui/Selector/Selector'
-import IntervalSelector from './IntervalSelector'
 import ChartSettingsContextMenu from './ChartSettingsContextMenu'
 import CalendarBtn from '../../components/Calendar/CalendarBtn'
 import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
@@ -51,12 +50,6 @@ const ChartSettings = ({
             maxDate={MAX_DATE}
           />
         )}
-        <IntervalSelector
-          from={from}
-          to={to}
-          interval={interval}
-          onIntervalChange={onIntervalChange}
-        />
         <ChartSettingsContextMenu
           isNightModeActive={isNightModeActive}
           showNightModeToggle={showNightModeToggle}

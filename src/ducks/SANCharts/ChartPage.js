@@ -8,15 +8,11 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import Header from './Header'
-import {
-  getMarketSegment,
-  mapDatetimeToNumber,
-  mapToRequestedMetrics
-} from './utils'
+import { getMarketSegment, mapDatetimeToNumber } from './utils'
 import { Metrics, Events, compatabilityMap } from './data'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
-import { getIntervalByTimeRange } from '../../utils/dates'
+import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
 import styles from './ChartPage.module.scss'
 
@@ -71,6 +67,13 @@ const mapPassedState = state => {
   if (marketSegments) {
     state.marketSegments = marketSegments.map(getMarketSegment)
   }
+}
+
+const INTERVAL_FORMAT_INDEX = {
+  m: 0,
+  h: 1,
+  d: 2,
+  w: 3
 }
 
 const getChartInitialState = props => {
@@ -396,12 +399,32 @@ class ChartPage extends Component {
     } = this.props
 
     const selectedInterval = INTERVAL_ALIAS[interval] || interval
+    const selectedIntervalIndex =
+      INTERVAL_FORMAT_INDEX[parseIntervalString(selectedInterval).format]
 
-    const requestedMetrics = mapToRequestedMetrics(metrics, {
-      interval: selectedInterval,
-      slug,
-      from,
-      to
+    const isIntervalSmallerThanDay = selectedIntervalIndex < 2
+
+    const requestedMetrics = metrics.map(metric => {
+      let resInterval = selectedInterval
+      if (
+        selectedIntervalIndex < 1 &&
+        metric !== Metrics.historyPrice &&
+        metric !== Metrics.volume &&
+        metric !== Metrics.marketcap
+      ) {
+        resInterval = '1h'
+      }
+
+      const { key, reqMeta } = metric
+
+      return {
+        name: key,
+        interval: resInterval,
+        slug,
+        from,
+        to,
+        ...reqMeta
+      }
     })
 
     const requestedEvents =
@@ -558,6 +581,7 @@ class ChartPage extends Component {
                       isAdvancedView={isAdvancedView}
                       isBeta={isBeta}
                       isLoggedIn={isLoggedIn}
+                      isIntervalSmallerThanDay={isIntervalSmallerThanDay}
                     />
                     {!isPRO && (
                       <UpgradePaywall isAdvancedView={isAdvancedView} />
