@@ -609,7 +609,7 @@ class Charts extends React.Component {
             )}
 
             {metrics.includes(tooltipMetric) &&
-              events.map(({ key, y, datetime, color = 'var(--persimmon)' }) => (
+              events.map(({ key, y, datetime, color }) => (
                 <ReferenceDot
                   yAxisId={`axis-${key}`}
                   r={3}
