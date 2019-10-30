@@ -46,7 +46,7 @@ import {
   fetchSignals,
   removeTrigger
 } from '../Signals/common/actions'
-import { buildPriceAboveSignal } from '../Signals/utils/utils'
+import { buildPriceSignal } from '../Signals/utils/utils'
 import SignalLine, {
   SignalPointSvg
 } from './components/newSignalLine/SignalLine'
@@ -104,12 +104,6 @@ const getTooltipMetricAndKey = (metrics, chartData) => {
   return { tooltipMetric, tooltipMetricKey }
 }
 
-const buildChartSignalData = (chartY, priceUsd, isNew = true) => ({
-  chartY,
-  priceUsd,
-  isNew
-})
-
 class Charts extends React.Component {
   state = {
     leftZoomIndex: undefined,
@@ -117,9 +111,9 @@ class Charts extends React.Component {
     refAreaLeft: undefined,
     refAreaRight: undefined,
     signalData: undefined,
-    onSignalHover: throttle((evt, value) => {
+    onSignalHover: throttle((evt, value, signal) => {
       return this.setSignalsState(
-        buildChartSignalData(evt.cy, value, false),
+        this.buildChartSignalData(evt.cy, value, signal),
         true
       )
     }, 50),
@@ -130,7 +124,7 @@ class Charts extends React.Component {
       evt.stopPropagation()
       evt.preventDefault()
 
-      this.onRemoveSignal(id, buildChartSignalData(target.cy, target.y))
+      this.onRemoveSignal(id, this.buildChartSignalData(target.cy, target.y))
     }
   }
 
@@ -144,6 +138,13 @@ class Charts extends React.Component {
       hovered: false
     })
   }
+
+  buildChartSignalData = (chartY, priceUsd, signal = undefined) => ({
+    chartY,
+    priceUsd,
+    signal,
+    lastPrice: this.getLastPrice()
+  })
 
   onChartHover = throttle(evt => {
     if (!this.canShowSignalLines() || evt.target.nodeName !== 'svg') {
@@ -173,8 +174,11 @@ class Charts extends React.Component {
             slug,
             priceUsd
           )
-          const isNew = existingSignalsWithSamePrice.length === 0
-          const signalData = buildChartSignalData(offsetY, priceUsd, isNew)
+          const signalData = this.buildChartSignalData(
+            offsetY,
+            priceUsd,
+            existingSignalsWithSamePrice[0]
+          )
           this.setSignalsState(signalData)
         }
       } else {
@@ -384,11 +388,11 @@ class Charts extends React.Component {
   }
 
   onChartClick = () => {
-    const { signalData: { priceUsd, chartY } = {} } = this.state
+    const { signalData: { priceUsd, chartY, type } = {} } = this.state
 
     if (priceUsd) {
       const { slug, signals, createSignal } = this.props
-      const signal = buildPriceAboveSignal(slug, priceUsd)
+      const signal = buildPriceSignal(slug, priceUsd, type)
 
       const existingSignalsWithSamePrice = getSlugPriceSignals(
         signals,
@@ -400,9 +404,17 @@ class Charts extends React.Component {
       } else {
         const [signal] = existingSignalsWithSamePrice
         signal &&
-          this.onRemoveSignal(signal.id, buildChartSignalData(chartY, priceUsd))
+          this.onRemoveSignal(
+            signal.id,
+            this.buildChartSignalData(chartY, priceUsd, signal)
+          )
       }
     }
+  }
+
+  getLastPrice = () => {
+    const { chartData } = this.props
+    return chartData[chartData.length - 1].priceUsd
   }
 
   render () {
