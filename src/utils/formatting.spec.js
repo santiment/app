@@ -4,7 +4,8 @@ import {
   formatBTC,
   formatSAN,
   formatNumber,
-  millify
+  millify,
+  upperCaseFirstLetter
 } from './formatting'
 
 describe('formatCryptoCurrency', () => {
