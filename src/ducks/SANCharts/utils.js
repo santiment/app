@@ -12,14 +12,26 @@ export const mapDatetimeToNumber = timeseries =>
 
 export const usdFormatter = val => formatNumber(val, { currency: 'USD' })
 
+const getEventColor = (isAnomaly, value) => {
+  if (isAnomaly || value < 4) {
+    return 'var(--persimmon)'
+  }
+  if (value < 7) {
+    return 'var(--texas-rose-hover)'
+  }
+  return 'var(--bright-sun)'
+}
+
 export const getEventsTooltipInfo = events =>
   Object.keys(events).map(event => {
-    const { label, ...rest } = Events[event]
+    const { label, isAnomaly, ...rest } = Events[event]
+    const value = events[event]
     return {
+      isAnomaly,
+      value,
       isEvent: true,
-      color: 'var(--persimmon)',
-      value: events[event],
       name: label,
+      color: getEventColor(isAnomaly, value),
       ...rest
     }
   })

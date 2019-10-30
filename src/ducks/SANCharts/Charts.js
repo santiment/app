@@ -237,12 +237,12 @@ class Charts extends React.Component {
         const { metricAnomalyKey: anomaly } = rest
         const result = value || chartData[index]
         const eventsData = getEventsTooltipInfo(rest)
-        eventsData.map(event => {
+        eventsData.forEach(event => {
           // NOTE(haritonasty): target metric for anomalies and tooltipMetricKey for other
           const key = event.isAnomaly
             ? Metrics[anomaly].dataKey || anomaly
             : tooltipMetricKey
-          return Object.assign(event, { key, y: result[key] })
+          Object.assign(event, { key, y: result[key] })
         })
 
         this.eventsMap.set(result.datetime, eventsData)
@@ -449,6 +449,7 @@ class Charts extends React.Component {
     this.eventsMap.forEach((values, datetime) => {
       values.forEach(value => events.push({ ...value, datetime }))
     })
+
     // NOTE(haritonasty): need to filter anomalies immediately after removing any active metric
     // (because axis for anomaly can be lost)
     events = events.filter(
@@ -501,21 +502,19 @@ class Charts extends React.Component {
                 </div>
                 <div className={styles.details__content}>
                   {activePayload.map(
-                    ({ isEvent, name, value, color, formatter }) => {
-                      return (
-                        <div
-                          key={name}
-                          style={{ '--color': color }}
-                          className={cx(
-                            styles.details__metric,
-                            isEvent && styles.details__metric_dot
-                          )}
-                        >
-                          {valueFormatter(value, name, formatter)}
-                          <span className={styles.details__name}>{name}</span>
-                        </div>
-                      )
-                    }
+                    ({ isEvent, name, value, color, formatter }) => (
+                      <div
+                        key={name}
+                        style={{ '--color': color }}
+                        className={cx(
+                          styles.details__metric,
+                          isEvent && styles.details__metric_dot
+                        )}
+                      >
+                        {valueFormatter(value, name, formatter)}
+                        <span className={styles.details__name}>{name}</span>
+                      </div>
+                    )
                   )}
                 </div>
               </div>
@@ -606,14 +605,14 @@ class Charts extends React.Component {
             )}
 
             {metrics.includes(tooltipMetric) &&
-              events.map(({ key, y, datetime }) => (
+              events.map(({ key, y, datetime, color }) => (
                 <ReferenceDot
                   yAxisId={`axis-${key}`}
                   r={3}
                   isFront
                   fill='var(--white)'
                   strokeWidth='2px'
-                  stroke='var(--persimmon)'
+                  stroke={color}
                   key={datetime + key}
                   x={+new Date(datetime)}
                   y={y}
