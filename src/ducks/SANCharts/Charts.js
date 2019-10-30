@@ -133,7 +133,7 @@ class Charts extends React.Component {
 
   setSignalsState = (signalData, signalPointHovered = false) => {
     this.setState({
-      signalData: signalData,
+      signalData,
       signalPointHovered,
       hovered: false
     })
