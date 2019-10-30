@@ -1,9 +1,7 @@
-@import '~@santiment-network/ui/variables.scss';
 @import '~@santiment-network/ui/mixins.scss';
-@import '../../mixins.scss';
 
 .dialog {
-  max-height: 90%;
+  max-height: 96%;
 }
 
 .wrapper {
@@ -157,35 +155,6 @@
   & .notificationTitle {
     color: $mirage;
   }
-}
-
-.inputWrapper {
-  margin: 24px 0 0;
-  width: 100%;
-
-  @include responsive('phone-xs', 'phone') {
-    margin: 16px 0 0;
-  }
-}
-
-.input {
-  padding: 10px 8px 10px 40px !important;
-  color: var(--rhino);
-  height: 40px;
-
-  @include responsive('phone-xs', 'phone') {
-    height: 48px;
-  }
-}
-
-.inputIcon {
-  fill: var(--casper);
-  width: 16px;
-  height: 12px;
-  padding: 0;
-  top: 50%;
-  margin-top: -5px;
-  left: 16px !important;
 }
 
 .actions {
