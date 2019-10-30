@@ -37,6 +37,12 @@ const NOTIFICATION = {
   }
 }
 
+const STATUSES = {
+  loading: 'Email is verifying',
+  success: 'Email is correct',
+  error: 'Error during typing email'
+}
+
 const WatchlistWeeklyReport = ({
   trigger,
   isMonitored: initialIsMonitored,
@@ -48,11 +54,13 @@ const WatchlistWeeklyReport = ({
 }) => {
   const [isShown, setIsShown] = useState(false)
   const [isMonitored, toggleIsMonitored] = useState(initialIsMonitored)
+  const [emailStatus, toggleEmailStatus] = useState()
+
   const isEmailConnected = !!email
-  const title = name
 
   const close = () => {
     setIsShown(false)
+    toggleEmailStatus(null)
   }
 
   const open = () => {
@@ -63,6 +71,12 @@ const WatchlistWeeklyReport = ({
   const onSave = () => {
     if (isEmailConnected && initialIsMonitored !== isMonitored) {
       dispatchIsMonitored({ id, isMonitored })
+    }
+
+    if (!isEmailConnected) {
+      if (emailStatus === STATUSES.success) {
+        dispatchIsMonitored({ id, isMonitored })
+      }
     }
 
     setNotification({
@@ -104,22 +118,12 @@ const WatchlistWeeklyReport = ({
               {...NOTIFICATION[isEmailConnected ? 'connected' : 'notConnected']}
               hasCloseBtn={false}
             />
-            {isEmailConnected && (
-              <EmailSetting>
-                <InputWithIcon
-                  icon='mail'
-                  iconPosition='left'
-                  className={styles.inputWrapper}
-                  inputClassName={cx(
-                    styles.input,
-                    isEmailConnected && styles.inputDisabled
-                  )}
-                  iconClassName={styles.inputIcon}
-                  disabled={isEmailConnected}
-                  defaultValue={email}
-                />
-              </EmailSetting>
-            )}
+            <EmailSetting
+              withoutButtons={true}
+              isEmailConnected={isEmailConnected}
+              onChangeStatus={toggleEmailStatus}
+              statuses={STATUSES}
+            />
           </>
         )}
       </Dialog.ScrollContent>
@@ -129,6 +133,10 @@ const WatchlistWeeklyReport = ({
           onClick={onSave}
           variant='fill'
           accent='positive'
+          isLoading={!isEmailConnected && emailStatus === STATUSES.loading}
+          disabled={
+            isMonitored && !isEmailConnected && emailStatus === STATUSES.error
+          }
         >
           Save preferences
         </Button>
