@@ -149,11 +149,15 @@
   }
 
   & .notificationDescription {
-    color: $waterloo;
+    @include responsive('tablet', 'laptop', 'desktop') {
+      color: $waterloo;
+    }
   }
 
   & .notificationTitle {
-    color: $mirage;
+    @include responsive('tablet', 'laptop', 'desktop') {
+      color: $mirage;
+    }
   }
 }
 
