@@ -444,7 +444,11 @@ class Charts extends React.Component {
 
   onChartClick = () => {
     const { signalData = {} } = this.state
-    // NOTE(vanguard): signalData could be null and prop. destruction will carsh the app
+
+    if (!signalData) {
+      return
+    }
+
     let priceUsd, chartY
     if (signalData) {
       priceUsd = signalData.priceUsd
