@@ -85,6 +85,7 @@ const AssetsMobilePage = props => {
           isCurrentUserTheAuthor,
           isPublicWatchlist,
           items = [],
+          isMonitored,
           trendingAssets = []
         }) => {
           if (items !== currentItems) {
@@ -141,6 +142,7 @@ const AssetsMobilePage = props => {
                       items={items}
                       type={props.type}
                       location={props.location}
+                      isMonitored={isMonitored}
                     />
                   ) : null
                 }

@@ -1,14 +1,19 @@
 import React from 'react'
 import { usdFormatter } from '../../utils'
 import pointerImg from './../../../../assets/signals/buttons/pointer.svg'
+import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
 import styles from './SignalLine.module.scss'
+import { getOperationType } from '../../../Signals/utils/utils'
 
-const getSignalText = (priceUsd, isNew) => {
+const getSignalText = (priceUsd, type, isNew) => {
+  const priceTypeText =
+    type === PRICE_CHANGE_TYPES.ABOVE ? 'price raises to' : 'price less than'
+
   if (isNew) {
     return (
       <>
-        Click to <span className={styles.highline}>create a signal</span> if
-        price raises to{' '}
+        Click to <span className={styles.highline}>create a signal</span> if{' '}
+        {priceTypeText}{' '}
         <span className={styles.highline}>{usdFormatter(priceUsd)}</span>
       </>
     )
@@ -16,7 +21,7 @@ const getSignalText = (priceUsd, isNew) => {
 
   return (
     <>
-      Signal if price raises to{' '}
+      Signal if {priceTypeText}{' '}
       <span className={styles.highline}>{usdFormatter(priceUsd)}</span>
     </>
   )
@@ -40,13 +45,17 @@ const SignalLine = ({ data = {} }) => {
     return null
   }
 
-  const { priceUsd, chartY, isNew } = data
+  const { priceUsd, lastPrice, chartY, signal } = data
 
   if (!priceUsd) {
     return null
   }
 
-  const text = getSignalText(priceUsd, isNew)
+  const newType =
+    lastPrice >= priceUsd ? PRICE_CHANGE_TYPES.BELOW : PRICE_CHANGE_TYPES.ABOVE
+  const type = !signal ? newType : getOperationType(signal.settings.operation)
+
+  const text = getSignalText(priceUsd, type, !signal)
 
   return (
     <div

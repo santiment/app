@@ -4,8 +4,10 @@ import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import { normalizeCSV } from './utils'
 import { isNotSafari } from '../../utils/utils'
+import { upperCaseFirstLetter } from '../../utils/formatting'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTrigger'
+import WatchlistWeeklyReportTrigger from '../../components/WatchlistWeeklyReport/WatchlistWeeklyReportTrigger'
 import WatchlistCopyPopup from '../../components/WatchlistCopy/WatchlistCopyPopup'
 import WatchlistContextMenu from './WatchlistContextMenu'
 import styles from './WatchlistActionButton.module.scss'
@@ -16,14 +18,16 @@ const WatchlistActions = ({
   shareLink,
   isAuthor,
   id,
-  title,
+  title: initialTitle,
   items,
   type,
   location,
   isDesktop,
-  isLoggedIn
+  isLoggedIn,
+  isMonitored
 }) => {
   const hasCSV = isNotSafari && items && items.length > 0
+  const title = upperCaseFirstLetter(initialTitle)
 
   return (
     <>
@@ -54,14 +58,6 @@ const WatchlistActions = ({
         </>
         ) : (
         <>
-          {isDesktop && (
-            <>
-              <ShareModalTrigger shareLink={shareLink} />
-              {isAuthor && (
-                <WatchlistEditTrigger name={title} id={id} assets={items} />
-              )}
-            </>
-          )}
           {isLoggedIn && (
             <WatchlistContextMenu
               isAuthor={isAuthor}
@@ -72,7 +68,23 @@ const WatchlistActions = ({
               location={location}
               hasCSV={hasCSV}
               isDesktop={isDesktop}
+              isMonitored={isMonitored}
             />
+          )}
+          {isDesktop && (
+            <>
+              <ShareModalTrigger shareLink={shareLink} />
+              {isAuthor && (
+                <>
+                  <WatchlistEditTrigger name={title} id={id} assets={items} />
+                  <WatchlistWeeklyReportTrigger
+                    id={id}
+                    name={title}
+                    isMonitored={isMonitored}
+                  />
+                </>
+              )}
+            </>
           )}
         </>
         )}

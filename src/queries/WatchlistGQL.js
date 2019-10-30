@@ -8,6 +8,7 @@ export const generalListData = gql`
     isPublic
     name
     insertedAt
+    isMonitored
     updatedAt
     user {
       id

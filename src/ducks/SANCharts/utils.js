@@ -13,14 +13,26 @@ export const mapDatetimeToNumber = timeseries =>
 
 export const usdFormatter = val => formatNumber(val, { currency: 'USD' })
 
+const getEventColor = (isAnomaly, value) => {
+  if (isAnomaly || value < 4) {
+    return 'var(--persimmon)'
+  }
+  if (value < 7) {
+    return 'var(--texas-rose-hover)'
+  }
+  return 'var(--bright-sun)'
+}
+
 export const getEventsTooltipInfo = events =>
   Object.keys(events).map(event => {
-    const { label, ...rest } = Events[event]
+    const { label, isAnomaly, ...rest } = Events[event]
+    const value = events[event]
     return {
+      isAnomaly,
+      value,
       isEvent: true,
-      color: 'var(--persimmon)',
-      value: events[event],
       name: label,
+      color: getEventColor(isAnomaly, value),
       ...rest
     }
   })
@@ -308,6 +320,7 @@ export const mapToRequestedMetrics = (
 
 export const makeSignalPriceReferenceDot = (
   price,
+  signal,
   index,
   onMouseEnter,
   onMouseLeave,
@@ -320,8 +333,8 @@ export const makeSignalPriceReferenceDot = (
       key={index}
       y={price}
       x={posX}
-      onMouseEnter={evt => onMouseEnter && onMouseEnter(evt, price)}
-      onMouseLeave={evt => onMouseLeave && onMouseLeave(evt, price)}
+      onMouseEnter={evt => onMouseEnter && onMouseEnter(evt, price, signal)}
+      onMouseLeave={evt => onMouseLeave && onMouseLeave(evt, price, signal)}
       onMouseDown={onClick}
       yAxisId='axis-priceUsd'
       r={6}
@@ -336,13 +349,13 @@ export const getSlugPriceSignals = (signals, slug, price = undefined) => {
     ({
       settings: {
         target: { slug: signalSlug } = {},
-        operation: { above } = {}
+        operation: { above, below } = {}
       } = {}
     }) => {
-      let result = !!above && slug === signalSlug
+      let result = (!!above || !!below) && slug === signalSlug
 
       if (result && price !== undefined) {
-        result = above === price
+        result = above === price || below === price
       }
 
       return result
@@ -378,11 +391,13 @@ export const mapToPriceSignalLines = ({
 
   const res = filtered.reduce((acc, item) => {
     const { id, settings: { operation = {} } = {} } = item
-    const price = operation['above']
+    const priceAbove = operation['above']
+    const priceBelow = operation['below']
 
     acc.push(
       makeSignalPriceReferenceDot(
-        price,
+        priceAbove || priceBelow,
+        item,
         ++index,
         onSignalHover,
         onSignalLeave,

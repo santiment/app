@@ -48,7 +48,7 @@ import {
   fetchSignals,
   removeTrigger
 } from '../Signals/common/actions'
-import { buildPriceAboveSignal } from '../Signals/utils/utils'
+import { buildPriceSignal } from '../Signals/utils/utils'
 import SignalLine, {
   SignalPointSvg
 } from './components/newSignalLine/SignalLine'
@@ -106,12 +106,6 @@ const getTooltipMetricAndKey = (metrics, chartData) => {
   return { tooltipMetric, tooltipMetricKey }
 }
 
-const buildChartSignalData = (chartY, priceUsd, isNew = true) => ({
-  chartY,
-  priceUsd,
-  isNew
-})
-
 class Charts extends React.Component {
   state = {
     dayMetrics: [],
@@ -120,9 +114,9 @@ class Charts extends React.Component {
     refAreaLeft: undefined,
     refAreaRight: undefined,
     signalData: undefined,
-    onSignalHover: throttle((evt, value) => {
+    onSignalHover: throttle((evt, value, signal) => {
       return this.setSignalsState(
-        buildChartSignalData(evt.cy, value, false),
+        this.buildChartSignalData(evt.cy, value, signal),
         true
       )
     }, 50),
@@ -133,7 +127,7 @@ class Charts extends React.Component {
       evt.stopPropagation()
       evt.preventDefault()
 
-      this.onRemoveSignal(id, buildChartSignalData(target.cy, target.y))
+      this.onRemoveSignal(id, this.buildChartSignalData(target.cy, target.y))
     }
   }
 
@@ -147,6 +141,13 @@ class Charts extends React.Component {
       hovered: false
     })
   }
+
+  buildChartSignalData = (chartY, priceUsd, signal = undefined) => ({
+    chartY,
+    priceUsd,
+    signal,
+    lastPrice: this.getLastPrice()
+  })
 
   onChartHover = throttle(evt => {
     if (!this.canShowSignalLines() || evt.target.nodeName !== 'svg') {
@@ -176,8 +177,11 @@ class Charts extends React.Component {
             slug,
             priceUsd
           )
-          const isNew = existingSignalsWithSamePrice.length === 0
-          const signalData = buildChartSignalData(offsetY, priceUsd, isNew)
+          const signalData = this.buildChartSignalData(
+            offsetY,
+            priceUsd,
+            existingSignalsWithSamePrice[0]
+          )
           this.setSignalsState(signalData)
         }
       } else {
@@ -240,12 +244,12 @@ class Charts extends React.Component {
         const { metricAnomalyKey: anomaly } = rest
         const result = value || chartData[index]
         const eventsData = getEventsTooltipInfo(rest)
-        eventsData.map(event => {
+        eventsData.forEach(event => {
           // NOTE(haritonasty): target metric for anomalies and tooltipMetricKey for other
           const key = event.isAnomaly
             ? Metrics[anomaly].dataKey || anomaly
             : tooltipMetricKey
-          return Object.assign(event, { key, y: result[key] })
+          Object.assign(event, { key, y: result[key] })
         })
 
         this.eventsMap.set(result.datetime, eventsData)
@@ -444,30 +448,38 @@ class Charts extends React.Component {
 
   onChartClick = () => {
     const { signalData = {} } = this.state
-
-    let priceUsd, chartY
-    if (signalData) {
-      priceUsd = signalData.priceUsd
-      chartY = signalData.chartY
-    } else {
+    
+    if(!signalData) {
       return
     }
+    
+    const { priceUsd, chartY, type } = signalData
+    
+      if (priceUsd) {
+      const { slug, signals, createSignal } = this.props
+      const signal = buildPriceSignal(slug, priceUsd, type)
 
-    const { slug, signals, createSignal } = this.props
-    const signal = buildPriceAboveSignal(slug, priceUsd)
-
-    const existingSignalsWithSamePrice = getSlugPriceSignals(
-      signals,
-      slug,
-      priceUsd
-    )
-    if (existingSignalsWithSamePrice.length === 0) {
-      createSignal(signal)
-    } else {
-      const [signal] = existingSignalsWithSamePrice
-      signal &&
-        this.onRemoveSignal(signal.id, buildChartSignalData(chartY, priceUsd))
+      const existingSignalsWithSamePrice = getSlugPriceSignals(
+        signals,
+        slug,
+        priceUsd
+      )
+      if (existingSignalsWithSamePrice.length === 0) {
+        createSignal(signal)
+      } else {
+        const [signal] = existingSignalsWithSamePrice
+        signal &&
+          this.onRemoveSignal(
+            signal.id,
+            this.buildChartSignalData(chartY, priceUsd, signal)
+          )
+      }
     }
+  }
+
+  getLastPrice = () => {
+    const { chartData } = this.props
+    return chartData[chartData.length - 1].priceUsd
   }
 
   render () {
@@ -516,6 +528,7 @@ class Charts extends React.Component {
     this.eventsMap.forEach((values, datetime) => {
       values.forEach(value => events.push({ ...value, datetime }))
     })
+
     // NOTE(haritonasty): need to filter anomalies immediately after removing any active metric
     // (because axis for anomaly can be lost)
     events = events.filter(
@@ -568,21 +581,19 @@ class Charts extends React.Component {
                 </div>
                 <div className={styles.details__content}>
                   {activePayload.map(
-                    ({ isEvent, name, value, color, formatter }) => {
-                      return (
-                        <div
-                          key={name}
-                          style={{ '--color': color }}
-                          className={cx(
-                            styles.details__metric,
-                            isEvent && styles.details__metric_dot
-                          )}
-                        >
-                          {valueFormatter(value, name, formatter)}
-                          <span className={styles.details__name}>{name}</span>
-                        </div>
-                      )
-                    }
+                    ({ isEvent, name, value, color, formatter }) => (
+                      <div
+                        key={name}
+                        style={{ '--color': color }}
+                        className={cx(
+                          styles.details__metric,
+                          isEvent && styles.details__metric_dot
+                        )}
+                      >
+                        {valueFormatter(value, name, formatter)}
+                        <span className={styles.details__name}>{name}</span>
+                      </div>
+                    )
                   )}
                 </div>
               </div>
@@ -673,14 +684,14 @@ class Charts extends React.Component {
             )}
 
             {metrics.includes(tooltipMetric) &&
-              events.map(({ key, y, datetime }) => (
+              events.map(({ key, y, datetime, color }) => (
                 <ReferenceDot
                   yAxisId={`axis-${key}`}
                   r={3}
                   isFront
                   fill='var(--white)'
                   strokeWidth='2px'
-                  stroke='var(--persimmon)'
+                  stroke={color}
                   key={datetime + key}
                   x={+new Date(datetime)}
                   y={y}

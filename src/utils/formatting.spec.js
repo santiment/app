@@ -4,7 +4,8 @@ import {
   formatBTC,
   formatSAN,
   formatNumber,
-  millify
+  millify,
+  upperCaseFirstLetter
 } from './formatting'
 
 describe('formatCryptoCurrency', () => {
@@ -102,4 +103,15 @@ describe('millify', () => {
     expect(millify(3333, 3)).toEqual('3.333K'))
   it('trims insignificant zeroes', () =>
     expect(millify(1201, 2)).toEqual('1.2K'))
+})
+
+describe('upperCaseFirstLetter', () => {
+  it('word in lowercase', () =>
+    expect(upperCaseFirstLetter('word')).toEqual('Word'))
+  it('word with uppercased first letter', () =>
+    expect(upperCaseFirstLetter('Word')).toEqual('Word'))
+  it('two words', () =>
+    expect(upperCaseFirstLetter('first LeTteR')).toEqual('First LeTteR'))
+  it('without letters', () =>
+    expect(upperCaseFirstLetter('!!!')).toEqual('!!!'))
 })

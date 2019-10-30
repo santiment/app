@@ -122,9 +122,18 @@ export const fetchAssetsFromListEpic = (action$, store, { client }) =>
             })
           }
 
-          const { isPublic, user, settings, listItems, stats, id } = watchlist
+          const {
+            isPublic,
+            user,
+            settings,
+            listItems,
+            stats,
+            id,
+            isMonitored
+          } = watchlist
           const { watchlistsSettings } = store.getState().watchlistUi
           const payload = {
+            isMonitored,
             items: listItems.map(asset => asset.project),
             trendingAssets: stats.trendingProjects,
             isCurrentUserTheAuthor: store.getState().user.data.id === user.id,
