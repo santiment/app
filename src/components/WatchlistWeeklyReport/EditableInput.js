@@ -7,7 +7,7 @@ import styles from './EditableInput.module.scss'
 class EditableInput extends PureComponent {
   state = { value: '', error: '' }
 
-  onSubmit = evt => {
+  onSubmit = () => {
     const { error, value } = this.state
     const { defaultValue, onSubmit } = this.props
 

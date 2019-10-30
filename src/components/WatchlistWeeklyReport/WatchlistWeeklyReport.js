@@ -73,10 +73,8 @@ const WatchlistWeeklyReport = ({
       dispatchIsMonitored({ id, isMonitored })
     }
 
-    if (!isEmailConnected) {
-      if (emailStatus === STATUSES.success) {
-        dispatchIsMonitored({ id, isMonitored })
-      }
+    if (!isEmailConnected && emailStatus === STATUSES.success) {
+      dispatchIsMonitored({ id, isMonitored })
     }
 
     setNotification({
