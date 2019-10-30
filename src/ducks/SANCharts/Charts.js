@@ -448,14 +448,14 @@ class Charts extends React.Component {
 
   onChartClick = () => {
     const { signalData = {} } = this.state
-    
-    if(!signalData) {
+
+    if (!signalData) {
       return
     }
-    
+
     const { priceUsd, chartY, type } = signalData
-    
-      if (priceUsd) {
+
+    if (priceUsd) {
       const { slug, signals, createSignal } = this.props
       const signal = buildPriceSignal(slug, priceUsd, type)
 
