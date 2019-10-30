@@ -394,9 +394,9 @@ export const getCrossYValue = yValue => {
 export const getTrendRatingColor = ({
   value,
   color = 'var(--persimmon)',
-  name
+  isAnomaly
 }) => {
-  if (name === 'Trending Position') {
+  if (!isAnomaly) {
     if (value < 4) {
       return 'var(--persimmon)'
     }
