@@ -394,37 +394,21 @@ export const getCrossYValue = yValue => {
 export const setColorByDayRating = events => {
   const groups = []
 
-  events.reduce((acc, item) => {
-    const { isAnomaly, datetime } = item
+  events.forEach(item => {
+    const { isAnomaly, value } = item
 
     if (!isAnomaly) {
-      const dateString = new Date(datetime).toDateString()
-      if (!groups[dateString]) {
-        groups[dateString] = []
+      if (value >= 0 && value <= 3) {
+        item.color = 'var(--persimmon)'
+      } else if (value <= 6) {
+        item.color = 'var(--texas-rose-hover)'
+      } else {
+        item.color = 'var(--bright-sun)'
       }
-      groups[dateString].push(item)
     }
 
     return groups
   }, groups)
 
-  for (let key in groups) {
-    const sorted = groups[key].sort(
-      ({ value: valueA, y: yA }, { value: valueB, y: yB }) => {
-        if (valueA === valueB) {
-          return yB - yA
-        } else {
-          return valueA - valueB
-        }
-      }
-    )
-
-    setColor(sorted.slice(0, 3), 'var(--persimmon)')
-    setColor(sorted.slice(3, 6), 'var(--texas-rose-hover)')
-    setColor(sorted.slice(6), 'var(--bright-sun)')
-  }
-
   return events
 }
-
-const setColor = (events, color) => events.forEach(item => (item.color = color))
