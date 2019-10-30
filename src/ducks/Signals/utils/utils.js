@@ -275,11 +275,11 @@ const getFormMetric = type => {
   }
 }
 
-const getOperationType = operation => {
+export const getOperationType = operation => {
   return Object.keys(operation)[0]
 }
 
-const getAbsolutePriceValues = ({ settings: { operation, type } }) => {
+const getAbsolutePriceValues = ({ settings: { operation } }) => {
   if (operation) {
     const operationType = getOperationType(operation)
 
@@ -1421,9 +1421,12 @@ export const getNewDescription = newValues => {
   return `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock.toLowerCase()}.`
 }
 
-export const buildPriceAboveSignal = (slug, price) => {
+export const buildPriceSignal = (slug, price, type) => {
   const formProps = { ...METRIC_DEFAULT_VALUES[PRICE_ABSOLUTE_CHANGE] }
-  formProps.type = { ...PRICE_ABS_CHANGE_ABOVE }
+  formProps.type =
+    type === PRICE_CHANGE_TYPES.ABOVE
+      ? { ...PRICE_ABS_CHANGE_ABOVE }
+      : { ...PRICE_ABS_CHANGE_BELOW }
   formProps.isPublic = true
   formProps.target = mapToOption(slug)
   formProps.absoluteThreshold = price
