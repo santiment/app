@@ -1,3 +1,4 @@
+
 .project-icon {
   position: relative;
   display: flex;
@@ -12,7 +13,7 @@
   width: 64px;
   height: 64px;
   background-image:
-    url('./sprite.png'),
+    url('https://production-sanbase-images.s3.eu-central-1.amazonaws.com/sprite/sprite.png'),
     url('https://production-sanbase-images.s3.eu-central-1.amazonaws.com/sprite/default_project_logo.png');
   background-repeat: repeat, no-repeat;
   background-position: 100% 100%;
@@ -27,2614 +28,2734 @@
   background-position: -64px 0;
 }
 
-.project-icon-abbc-coin::before {
+.project-icon-1world::before {
   background-position: 0 -64px;
 }
 
-.project-icon-achain::before {
+.project-icon-aave::before {
   background-position: -64px -64px;
 }
 
-.project-icon-adx-net::before {
+.project-icon-abbc-coin::before {
   background-position: -128px 0;
 }
 
-.project-icon-adshares::before {
+.project-icon-achain::before {
   background-position: -128px -64px;
 }
 
-.project-icon-adtoken::before {
+.project-icon-adx-net::before {
   background-position: 0 -128px;
 }
 
-.project-icon-aelf::before {
+.project-icon-adshares::before {
   background-position: -64px -128px;
 }
 
-.project-icon-aencoin::before {
+.project-icon-adtoken::before {
   background-position: -128px -128px;
 }
 
-.project-icon-aeon::before {
+.project-icon-aelf::before {
   background-position: -192px 0;
 }
 
-.project-icon-aergo::before {
+.project-icon-aencoin::before {
   background-position: -192px -64px;
 }
 
-.project-icon-aeternity::before {
+.project-icon-aeon::before {
   background-position: -192px -128px;
 }
 
-.project-icon-agavecoin::before {
+.project-icon-aergo::before {
   background-position: 0 -192px;
 }
 
-.project-icon-agoras-tokens::before {
+.project-icon-aeternity::before {
   background-position: -64px -192px;
 }
 
-.project-icon-agrello-delta::before {
+.project-icon-agavecoin::before {
   background-position: -128px -192px;
 }
 
-.project-icon-aion::before {
+.project-icon-agoras-tokens::before {
   background-position: -192px -192px;
 }
 
-.project-icon-airswap::before {
+.project-icon-agrello-delta::before {
   background-position: -256px 0;
 }
 
-.project-icon-airtoken::before {
+.project-icon-aion::before {
   background-position: -256px -64px;
 }
 
-.project-icon-aladdin::before {
+.project-icon-airswap::before {
   background-position: -256px -128px;
 }
 
-.project-icon-algorand::before {
+.project-icon-airtoken::before {
   background-position: -256px -192px;
 }
 
-.project-icon-all-sports::before {
+.project-icon-aladdin::before {
   background-position: 0 -256px;
 }
 
-.project-icon-alpha-token::before {
+.project-icon-algorand::before {
   background-position: -64px -256px;
 }
 
-.project-icon-amber::before {
+.project-icon-all-sports::before {
   background-position: -128px -256px;
 }
 
-.project-icon-amo-coin::before {
+.project-icon-alpha-token::before {
   background-position: -192px -256px;
 }
 
-.project-icon-ankr::before {
+.project-icon-amber::before {
   background-position: -256px -256px;
 }
 
-.project-icon-apex::before {
+.project-icon-amo-coin::before {
   background-position: -320px 0;
 }
 
-.project-icon-apis::before {
+.project-icon-ankr::before {
   background-position: -320px -64px;
 }
 
-.project-icon-apollo-currency::before {
+.project-icon-apex::before {
   background-position: -320px -128px;
 }
 
-.project-icon-appcoins::before {
+.project-icon-apis::before {
   background-position: -320px -192px;
 }
 
-.project-icon-aragon::before {
+.project-icon-apollo-currency::before {
   background-position: -320px -256px;
 }
 
-.project-icon-arbitrage::before {
+.project-icon-appcoins::before {
   background-position: 0 -320px;
 }
 
-.project-icon-arcade-token::before {
+.project-icon-aragon::before {
   background-position: -64px -320px;
 }
 
-.project-icon-arcblock::before {
+.project-icon-arbitrage::before {
   background-position: -128px -320px;
 }
 
-.project-icon-ardor::before {
+.project-icon-arcade-token::before {
   background-position: -192px -320px;
 }
 
-.project-icon-ark::before {
+.project-icon-arcblock::before {
   background-position: -256px -320px;
 }
 
-.project-icon-asch::before {
+.project-icon-ardor::before {
   background-position: -320px -320px;
 }
 
-.project-icon-aston::before {
+.project-icon-ark::before {
   background-position: -384px 0;
 }
 
-.project-icon-atc-coin::before {
+.project-icon-asch::before {
   background-position: -384px -64px;
 }
 
-.project-icon-atlant::before {
+.project-icon-aston::before {
   background-position: -384px -128px;
 }
 
-.project-icon-attention-token-of-media::before {
+.project-icon-atc-coin::before {
   background-position: -384px -192px;
 }
 
-.project-icon-atn::before {
+.project-icon-atlant::before {
   background-position: -384px -256px;
 }
 
-.project-icon-augur::before {
+.project-icon-attention-token-of-media::before {
   background-position: -384px -320px;
 }
 
-.project-icon-aurora::before {
+.project-icon-atn::before {
   background-position: 0 -384px;
 }
 
-.project-icon-auroracoin::before {
+.project-icon-augur::before {
   background-position: -64px -384px;
 }
 
-.project-icon-aurora-dao::before {
+.project-icon-aurora::before {
   background-position: -128px -384px;
 }
 
-.project-icon-aventus::before {
+.project-icon-auroracoin::before {
   background-position: -192px -384px;
 }
 
-.project-icon-babb::before {
+.project-icon-aurora-dao::before {
   background-position: -256px -384px;
 }
 
-.project-icon-banca::before {
+.project-icon-aventus::before {
   background-position: -320px -384px;
 }
 
-.project-icon-bancor::before {
+.project-icon-babb::before {
   background-position: -384px -384px;
 }
 
-.project-icon-bankex::before {
+.project-icon-banca::before {
   background-position: -448px 0;
 }
 
-.project-icon-basic-attention-token::before {
+.project-icon-bancor::before {
   background-position: -448px -64px;
 }
 
-.project-icon-beam::before {
+.project-icon-bankex::before {
   background-position: -448px -128px;
 }
 
-.project-icon-bean-cash::before {
+.project-icon-basic-attention-token::before {
   background-position: -448px -192px;
 }
 
-.project-icon-bezant::before {
+.project-icon-beam::before {
   background-position: -448px -256px;
 }
 
-.project-icon-bhp-coin::before {
+.project-icon-bean-cash::before {
   background-position: -448px -320px;
 }
 
-.project-icon-bibox-token::before {
+.project-icon-bezant::before {
   background-position: -448px -384px;
 }
 
-.project-icon-binance-coin::before {
+.project-icon-bhp-coin::before {
   background-position: 0 -448px;
 }
 
-.project-icon-bismuth::before {
+.project-icon-bibox-token::before {
   background-position: -64px -448px;
 }
 
-.project-icon-bitbay::before {
-  background-position: -128px -448px;
-}
-
-.project-icon-bitcapitalvendor::before {
+.project-icon-binance-coin::before {
   background-position: -192px -448px;
 }
 
-.project-icon-bitcny::before {
+.project-icon-binance-usd::before {
   background-position: -256px -448px;
 }
 
-.project-icon-bitcoiin::before {
+.project-icon-bismuth::before {
   background-position: -320px -448px;
 }
 
-.project-icon-bitcoin::before {
+.project-icon-bitbay::before {
   background-position: -384px -448px;
 }
 
-.project-icon-bitcoin2::before {
+.project-icon-bitcapitalvendor::before {
   background-position: -448px -448px;
 }
 
-.project-icon-bitcoin-atom::before {
+.project-icon-bitcny::before {
   background-position: -512px 0;
 }
 
-.project-icon-bitcoin-cash::before {
+.project-icon-bitcoiin::before {
   background-position: -512px -64px;
 }
 
-.project-icon-bitcoin-confidential::before {
+.project-icon-bitcoin::before {
   background-position: -512px -128px;
 }
 
-.project-icon-bitcoindark::before {
+.project-icon-bitcoin2::before {
   background-position: -512px -192px;
 }
 
-.project-icon-bitcoin-diamond::before {
+.project-icon-bitcoin-atom::before {
   background-position: -512px -256px;
 }
 
-.project-icon-bitcoin-gold::before {
+.project-icon-bitcoin-cash::before {
   background-position: -512px -320px;
 }
 
-.project-icon-bitcoin-interest::before {
+.project-icon-bitcoin-confidential::before {
   background-position: -512px -384px;
 }
 
-.project-icon-bitcoin-private::before {
+.project-icon-bitcoindark::before {
   background-position: -512px -448px;
 }
 
-.project-icon-bitcoin-rhodium::before {
+.project-icon-bitcoin-diamond::before {
   background-position: 0 -512px;
 }
 
-.project-icon-bitcoin-sv::before {
+.project-icon-bitcoin-gold::before {
   background-position: -64px -512px;
 }
 
-.project-icon-bitconnect::before {
+.project-icon-bitcoin-interest::before {
   background-position: -128px -512px;
 }
 
-.project-icon-bitcore::before {
+.project-icon-bitcoin-private::before {
   background-position: -192px -512px;
 }
 
-.project-icon-student-coin::before {
+.project-icon-bitcoin-rhodium::before {
   background-position: -256px -512px;
 }
 
-.project-icon-bitkan::before {
+.project-icon-bitcoin-sv::before {
   background-position: -320px -512px;
 }
 
-.project-icon-bitrue-coin::before {
+.project-icon-bitconnect::before {
   background-position: -384px -512px;
 }
 
-.project-icon-bitshares::before {
+.project-icon-bitcore::before {
   background-position: -448px -512px;
 }
 
-.project-icon-bittorrent::before {
+.project-icon-student-coin::before {
   background-position: -512px -512px;
 }
 
-.project-icon-bitusd::before {
+.project-icon-bitkan::before {
   background-position: -576px 0;
 }
 
-.project-icon-bit-z-token::before {
+.project-icon-bitrue-coin::before {
   background-position: -576px -64px;
 }
 
-.project-icon-blackmoon::before {
+.project-icon-bitshares::before {
   background-position: -576px -128px;
 }
 
-.project-icon-block-chain-com::before {
+.project-icon-bittorrent::before {
   background-position: -576px -192px;
 }
 
-.project-icon-blockmason::before {
+.project-icon-bitusd::before {
   background-position: -576px -256px;
 }
 
-.project-icon-blocknet::before {
+.project-icon-bit-z-token::before {
   background-position: -576px -320px;
 }
 
-.project-icon-blockv::before {
+.project-icon-blackmoon::before {
   background-position: -576px -384px;
 }
 
-.project-icon-bloomtoken::before {
+.project-icon-block-chain-com::before {
   background-position: -576px -448px;
 }
 
-.project-icon-blox::before {
+.project-icon-blockmason::before {
   background-position: -576px -512px;
 }
 
-.project-icon-bluzelle::before {
+.project-icon-blocknet::before {
   background-position: 0 -576px;
 }
 
-.project-icon-bnktothefuture::before {
+.project-icon-blockv::before {
   background-position: -64px -576px;
 }
 
-.project-icon-bodhi::before {
+.project-icon-bloomtoken::before {
   background-position: -128px -576px;
 }
 
-.project-icon-bomb::before {
+.project-icon-blox::before {
   background-position: -192px -576px;
 }
 
-.project-icon-boolberry::before {
+.project-icon-bluzelle::before {
   background-position: -256px -576px;
 }
 
-.project-icon-boscoin::before {
+.project-icon-bnktothefuture::before {
   background-position: -320px -576px;
 }
 
-.project-icon-bottos::before {
+.project-icon-bodhi::before {
   background-position: -384px -576px;
 }
 
-.project-icon-botxcoin::before {
+.project-icon-bomb::before {
   background-position: -448px -576px;
 }
 
-.project-icon-box-token::before {
+.project-icon-boolberry::before {
   background-position: -512px -576px;
 }
 
-.project-icon-bread::before {
+.project-icon-bora::before {
   background-position: -576px -576px;
 }
 
-.project-icon-breezecoin::before {
+.project-icon-boscoin::before {
   background-position: -640px 0;
 }
 
-.project-icon-bridgecoin::before {
+.project-icon-bottos::before {
   background-position: -640px -64px;
 }
 
-.project-icon-buggyra-coin-zero::before {
+.project-icon-botxcoin::before {
   background-position: -640px -128px;
 }
 
-.project-icon-bulwark::before {
+.project-icon-box-token::before {
   background-position: -640px -192px;
 }
 
-.project-icon-burst::before {
+.project-icon-bread::before {
   background-position: -640px -256px;
 }
 
-.project-icon-business-credit-alliance-chain::before {
+.project-icon-breezecoin::before {
   background-position: -640px -320px;
 }
 
-.project-icon-bytecoin-bcn::before {
+.project-icon-bridgecoin::before {
   background-position: -640px -384px;
 }
 
-.project-icon-bytom::before {
+.project-icon-buggyra-coin-zero::before {
   background-position: -640px -448px;
 }
 
-.project-icon-cajutel::before {
+.project-icon-bulwark::before {
   background-position: -640px -512px;
 }
 
-.project-icon-cardano::before {
+.project-icon-burst::before {
   background-position: -640px -576px;
 }
 
-.project-icon-cargox::before {
+.project-icon-business-credit-alliance-chain::before {
   background-position: 0 -640px;
 }
 
-.project-icon-cashbet-coin::before {
+.project-icon-bytecoin-bcn::before {
   background-position: -64px -640px;
 }
 
-.project-icon-casinocoin::before {
+.project-icon-bytom::before {
   background-position: -128px -640px;
 }
 
-.project-icon-ceek-vr::before {
+.project-icon-cajutel::before {
   background-position: -192px -640px;
 }
 
-.project-icon-celer-network::before {
+.project-icon-cardano::before {
   background-position: -256px -640px;
 }
 
-.project-icon-centra::before {
+.project-icon-cargox::before {
   background-position: -320px -640px;
 }
 
-.project-icon-centrality::before {
+.project-icon-cashbet-coin::before {
   background-position: -384px -640px;
 }
 
-.project-icon-chainlink::before {
+.project-icon-casinocoin::before {
   background-position: -448px -640px;
 }
 
-.project-icon-chatcoin::before {
+.project-icon-ceek-vr::before {
   background-position: -512px -640px;
 }
 
-.project-icon-chiliz::before {
+.project-icon-celer-network::before {
   background-position: -576px -640px;
 }
 
-.project-icon-chronologic::before {
+.project-icon-centra::before {
   background-position: -640px -640px;
 }
 
-.project-icon-cindicator::before {
+.project-icon-centrality::before {
   background-position: -704px 0;
 }
 
-.project-icon-civic::before {
+.project-icon-chainlink::before {
   background-position: -704px -64px;
 }
 
-.project-icon-clams::before {
+.project-icon-chatcoin::before {
   background-position: -704px -128px;
 }
 
-.project-icon-clipper-coin::before {
+.project-icon-chiliz::before {
   background-position: -704px -192px;
 }
 
-.project-icon-cloakcoin::before {
+.project-icon-chronologic::before {
   background-position: -704px -256px;
 }
 
-.project-icon-cobinhood::before {
+.project-icon-cindicator::before {
   background-position: -704px -320px;
 }
 
-.project-icon-cocos-bcx::before {
+.project-icon-civic::before {
   background-position: -704px -384px;
 }
 
-.project-icon-cofound-it::before {
+.project-icon-clams::before {
   background-position: -704px -448px;
 }
 
-.project-icon-coinus::before {
+.project-icon-clipper-coin::before {
   background-position: -704px -512px;
 }
 
-.project-icon-commerceblock::before {
+.project-icon-cloakcoin::before {
   background-position: -704px -576px;
 }
 
-.project-icon-contentbox::before {
+.project-icon-cobinhood::before {
   background-position: -704px -640px;
 }
 
-.project-icon-content-neutrality-network::before {
+.project-icon-cocos-bcx::before {
   background-position: 0 -704px;
 }
 
-.project-icon-contentos::before {
+.project-icon-cofound-it::before {
   background-position: -64px -704px;
 }
 
-.project-icon-contents-protocol::before {
+.project-icon-coinus::before {
   background-position: -128px -704px;
 }
 
-.project-icon-content-value-network::before {
+.project-icon-commerceblock::before {
   background-position: -192px -704px;
 }
 
-.project-icon-cortex::before {
+.project-icon-contentbox::before {
   background-position: -256px -704px;
 }
 
-.project-icon-cosmo-coin::before {
+.project-icon-content-neutrality-network::before {
   background-position: -320px -704px;
 }
 
-.project-icon-cosmos::before {
+.project-icon-contentos::before {
   background-position: -384px -704px;
 }
 
-.project-icon-counterparty::before {
+.project-icon-contents-protocol::before {
   background-position: -448px -704px;
 }
 
-.project-icon-covesting::before {
+.project-icon-content-value-network::before {
   background-position: -512px -704px;
 }
 
-.project-icon-credits::before {
+.project-icon-cortex::before {
   background-position: -576px -704px;
 }
 
-.project-icon-credo::before {
+.project-icon-cosmo-coin::before {
   background-position: -640px -704px;
 }
 
-.project-icon-crpt::before {
+.project-icon-cosmos::before {
   background-position: -704px -704px;
 }
 
-.project-icon-cryptaur::before {
+.project-icon-counterparty::before {
   background-position: -768px 0;
 }
 
-.project-icon-c20::before {
+.project-icon-covesting::before {
   background-position: -768px -64px;
 }
 
-.project-icon-crypto-com::before {
+.project-icon-credits::before {
   background-position: -768px -128px;
 }
 
-.project-icon-crypto-com-chain::before {
+.project-icon-credo::before {
   background-position: -768px -192px;
 }
 
-.project-icon-crypto-com-coin::before {
+.project-icon-crpt::before {
   background-position: -768px -256px;
 }
 
-.project-icon-cryptonex::before {
+.project-icon-cryptaur::before {
   background-position: -768px -320px;
 }
 
-.project-icon-cube::before {
+.project-icon-c20::before {
   background-position: -768px -384px;
 }
 
-.project-icon-cvcoin::before {
+.project-icon-crypto-com::before {
   background-position: -768px -448px;
 }
 
-.project-icon-cwv-chain::before {
+.project-icon-crypto-com-chain::before {
   background-position: -768px -512px;
 }
 
-.project-icon-cybermiles::before {
+.project-icon-crypto-com-coin::before {
   background-position: -768px -576px;
 }
 
-.project-icon-cybervein::before {
+.project-icon-cryptofranc::before {
   background-position: -768px -640px;
 }
 
-.project-icon-daex::before {
+.project-icon-cryptonex::before {
   background-position: -768px -704px;
 }
 
-.project-icon-dai::before {
+.project-icon-cube::before {
   background-position: 0 -768px;
 }
 
-.project-icon-dao-casino::before {
+.project-icon-cvcoin::before {
   background-position: -64px -768px;
 }
 
-.project-icon-daps-token::before {
+.project-icon-cwv-chain::before {
   background-position: -128px -768px;
 }
 
-.project-icon-darcio-ecosystem-coin::before {
+.project-icon-cybermiles::before {
   background-position: -192px -768px;
 }
 
-.project-icon-dash::before {
+.project-icon-cybervein::before {
   background-position: -256px -768px;
 }
 
-.project-icon-data::before {
+.project-icon-daex::before {
   background-position: -320px -768px;
 }
 
-.project-icon-datx::before {
+.project-icon-dai::before {
   background-position: -384px -768px;
 }
 
-.project-icon-davinci-coin::before {
+.project-icon-dao-casino::before {
   background-position: -448px -768px;
 }
 
-.project-icon-decent::before {
+.project-icon-daps-token::before {
   background-position: -512px -768px;
 }
 
-.project-icon-decent-bet::before {
+.project-icon-darcio-ecosystem-coin::before {
   background-position: -576px -768px;
 }
 
-.project-icon-decentraland::before {
+.project-icon-dash::before {
   background-position: -640px -768px;
 }
 
-.project-icon-decred::before {
+.project-icon-data::before {
   background-position: -704px -768px;
 }
 
-.project-icon-deepbrain-chain::before {
+.project-icon-datx::before {
   background-position: -768px -768px;
 }
 
-.project-icon-delphy::before {
+.project-icon-davinci-coin::before {
   background-position: -832px 0;
 }
 
-.project-icon-dent::before {
+.project-icon-decent::before {
   background-position: -832px -64px;
 }
 
-.project-icon-dentacoin::before {
+.project-icon-decent-bet::before {
   background-position: -832px -128px;
 }
 
-.project-icon-dew::before {
+.project-icon-decentraland::before {
   background-position: -832px -192px;
 }
 
-.project-icon-dex::before {
+.project-icon-decred::before {
   background-position: -832px -256px;
 }
 
-.project-icon-digibyte::before {
+.project-icon-deepbrain-chain::before {
   background-position: -832px -320px;
 }
 
-.project-icon-digipulse::before {
+.project-icon-delphy::before {
   background-position: -832px -384px;
 }
 
-.project-icon-digitalnote::before {
+.project-icon-dent::before {
   background-position: -832px -448px;
 }
 
-.project-icon-digitex-futures::before {
+.project-icon-dentacoin::before {
   background-position: -832px -512px;
 }
 
-.project-icon-digixdao::before {
+.project-icon-dew::before {
   background-position: -832px -576px;
 }
 
-.project-icon-dignity::before {
+.project-icon-dex::before {
   background-position: -832px -640px;
 }
 
-.project-icon-dimecoin::before {
+.project-icon-diamond-platform-token::before {
   background-position: -832px -704px;
 }
 
-.project-icon-distributed-credit-chain::before {
+.project-icon-digibyte::before {
   background-position: -832px -768px;
 }
 
-.project-icon-district0x::before {
+.project-icon-digipulse::before {
   background-position: 0 -832px;
 }
 
-.project-icon-divi::before {
+.project-icon-digitalnote::before {
   background-position: -64px -832px;
 }
 
-.project-icon-dmarket::before {
+.project-icon-digitex-futures::before {
   background-position: -128px -832px;
 }
 
-.project-icon-dnotes::before {
+.project-icon-digixdao::before {
   background-position: -192px -832px;
 }
 
-.project-icon-dock::before {
+.project-icon-dignity::before {
   background-position: -256px -832px;
 }
 
-.project-icon-dogecoin::before {
+.project-icon-dimecoin::before {
   background-position: -320px -832px;
 }
 
-.project-icon-dragonchain::before {
+.project-icon-distributed-credit-chain::before {
   background-position: -384px -832px;
 }
 
-.project-icon-dragon-coins::before {
+.project-icon-district0x::before {
   background-position: -448px -832px;
 }
 
-.project-icon-dropil::before {
+.project-icon-divi::before {
   background-position: -512px -832px;
 }
 
-.project-icon-dusk-network::before {
+.project-icon-dmarket::before {
   background-position: -576px -832px;
 }
 
-.project-icon-dxchain-token::before {
+.project-icon-dnotes::before {
   background-position: -640px -832px;
 }
 
-.project-icon-dynamic-trading-rights::before {
+.project-icon-dock::before {
   background-position: -704px -832px;
 }
 
-.project-icon-eboostcoin::before {
+.project-icon-dogecoin::before {
   background-position: -768px -832px;
 }
 
-.project-icon-eccoin::before {
+.project-icon-dragonchain::before {
   background-position: -832px -832px;
 }
 
-.project-icon-e-coin::before {
+.project-icon-dragon-coins::before {
   background-position: -896px 0;
 }
 
-.project-icon-ecoreal-estate::before {
+.project-icon-dropil::before {
   background-position: -896px -64px;
 }
 
-.project-icon-edgeless::before {
+.project-icon-dusk-network::before {
   background-position: -896px -128px;
 }
 
-.project-icon-educare::before {
+.project-icon-dxchain-token::before {
   background-position: -896px -192px;
 }
 
-.project-icon-egretia::before {
+.project-icon-dynamic-trading-rights::before {
   background-position: -896px -256px;
 }
 
-.project-icon-eidoo::before {
+.project-icon-eboostcoin::before {
   background-position: -896px -320px;
 }
 
-.project-icon-einsteinium::before {
+.project-icon-eccoin::before {
   background-position: -896px -384px;
 }
 
-.project-icon-elastos::before {
+.project-icon-e-coin::before {
   background-position: -896px -448px;
 }
 
-.project-icon-electra::before {
+.project-icon-ecoreal-estate::before {
   background-position: -896px -512px;
 }
 
-.project-icon-electrifyasia::before {
+.project-icon-edgeless::before {
   background-position: -896px -576px;
 }
 
-.project-icon-electroneum::before {
+.project-icon-educare::before {
   background-position: -896px -640px;
 }
 
-.project-icon-1337coin::before {
+.project-icon-egretia::before {
   background-position: -896px -704px;
 }
 
-.project-icon-elrond::before {
+.project-icon-eidoo::before {
   background-position: -896px -768px;
 }
 
-.project-icon-emercoin::before {
+.project-icon-einsteinium::before {
   background-position: -896px -832px;
 }
 
-.project-icon-empowr-coin::before {
+.project-icon-elastos::before {
   background-position: 0 -896px;
 }
 
-.project-icon-encrypgen::before {
+.project-icon-electra::before {
   background-position: -64px -896px;
 }
 
-.project-icon-endor-protocol::before {
+.project-icon-electrifyasia::before {
   background-position: -128px -896px;
 }
 
-.project-icon-energi::before {
+.project-icon-electroneum::before {
   background-position: -192px -896px;
 }
 
-.project-icon-enigma::before {
+.project-icon-1337coin::before {
   background-position: -256px -896px;
 }
 
-.project-icon-enjin-coin::before {
+.project-icon-elrond::before {
   background-position: -320px -896px;
 }
 
-.project-icon-envion::before {
+.project-icon-emercoin::before {
   background-position: -384px -896px;
 }
 
-.project-icon-eos::before {
+.project-icon-empowr-coin::before {
   background-position: -448px -896px;
 }
 
-.project-icon-eosblack::before {
+.project-icon-encrypgen::before {
   background-position: -512px -896px;
 }
 
-.project-icon-eosdac::before {
+.project-icon-endor-protocol::before {
   background-position: -576px -896px;
 }
 
-.project-icon-blakestar::before {
+.project-icon-energi::before {
   background-position: -640px -896px;
 }
 
-.project-icon-erc20::before {
+.project-icon-enigma::before {
   background-position: -704px -896px;
 }
 
-.project-icon-eternal-token::before {
+.project-icon-enjin-coin::before {
   background-position: -768px -896px;
 }
 
-.project-icon-etheera::before {
+.project-icon-envion::before {
   background-position: -832px -896px;
 }
 
-.project-icon-ethereum::before {
+.project-icon-eos::before {
   background-position: -896px -896px;
 }
 
-.project-icon-ethereum-classic::before {
+.project-icon-eosblack::before {
   background-position: -960px 0;
 }
 
-.project-icon-etheroll::before {
+.project-icon-eosdac::before {
   background-position: -960px -64px;
 }
 
-.project-icon-etherparty::before {
+.project-icon-blakestar::before {
   background-position: -960px -128px;
 }
 
-.project-icon-ether-zero::before {
+.project-icon-erc20::before {
   background-position: -960px -192px;
 }
 
-.project-icon-ethos::before {
+.project-icon-eternal-token::before {
   background-position: -960px -256px;
 }
 
-.project-icon-evencoin::before {
+.project-icon-etheera::before {
   background-position: -960px -320px;
 }
 
-.project-icon-everex::before {
+.project-icon-ethereum::before {
   background-position: -960px -384px;
 }
 
-.project-icon-everipedia::before {
+.project-icon-ethereum-classic::before {
   background-position: -960px -448px;
 }
 
-.project-icon-everus::before {
+.project-icon-etheroll::before {
   background-position: -960px -512px;
 }
 
-.project-icon-eximchain::before {
+.project-icon-etherparty::before {
   background-position: -960px -576px;
 }
 
-.project-icon-expanse::before {
+.project-icon-ether-zero::before {
   background-position: -960px -640px;
 }
 
-.project-icon-experience-points::before {
+.project-icon-ethos::before {
   background-position: -960px -704px;
 }
 
-.project-icon-experty::before {
+.project-icon-evencoin::before {
   background-position: -960px -768px;
 }
 
-.project-icon-factom::before {
+.project-icon-everex::before {
   background-position: -960px -832px;
 }
 
-.project-icon-faircoin::before {
+.project-icon-everipedia::before {
   background-position: -960px -896px;
 }
 
-.project-icon-fantom::before {
+.project-icon-everus::before {
   background-position: 0 -960px;
 }
 
-.project-icon-feathercoin::before {
+.project-icon-eximchain::before {
   background-position: -64px -960px;
 }
 
-.project-icon-fetch::before {
+.project-icon-expanse::before {
   background-position: -128px -960px;
 }
 
-.project-icon-firstblood::before {
+.project-icon-experience-points::before {
   background-position: -192px -960px;
 }
 
-.project-icon-flash::before {
+.project-icon-experty::before {
   background-position: -256px -960px;
 }
 
-.project-icon-flo::before {
+.project-icon-factom::before {
   background-position: -320px -960px;
 }
 
-.project-icon-foam::before {
+.project-icon-faircoin::before {
   background-position: -384px -960px;
 }
 
-.project-icon-fortuna::before {
+.project-icon-fantom::before {
   background-position: -448px -960px;
 }
 
-.project-icon-free-coin::before {
+.project-icon-feathercoin::before {
   background-position: -512px -960px;
 }
 
-.project-icon-function-x::before {
+.project-icon-fetch::before {
   background-position: -576px -960px;
 }
 
-.project-icon-funfair::before {
+.project-icon-firstblood::before {
   background-position: -640px -960px;
 }
 
-.project-icon-fusion::before {
+.project-icon-flash::before {
   background-position: -704px -960px;
 }
 
-.project-icon-fuzex::before {
+.project-icon-flo::before {
   background-position: -768px -960px;
 }
 
-.project-icon-game::before {
+.project-icon-foam::before {
   background-position: -832px -960px;
 }
 
-.project-icon-gamecredits::before {
+.project-icon-fortuna::before {
   background-position: -896px -960px;
 }
 
-.project-icon-gas::before {
+.project-icon-free-coin::before {
   background-position: -960px -960px;
 }
 
-.project-icon-gemini-dollar::before {
+.project-icon-ftx-token::before {
   background-position: -1024px 0;
 }
 
-.project-icon-genaro-network::before {
+.project-icon-function-x::before {
   background-position: -1024px -64px;
 }
 
-.project-icon-genesis-vision::before {
+.project-icon-funfair::before {
   background-position: -1024px -128px;
 }
 
-.project-icon-gifto::before {
+.project-icon-fusion::before {
   background-position: -1024px -192px;
 }
 
-.project-icon-gimli::before {
+.project-icon-fuzex::before {
   background-position: -1024px -256px;
 }
 
-.project-icon-global-currency-reserve::before {
+.project-icon-game::before {
   background-position: -1024px -320px;
 }
 
-.project-icon-global-jobcoin::before {
+.project-icon-gamecredits::before {
   background-position: -1024px -384px;
 }
 
-.project-icon-gnosis-gno::before {
+.project-icon-gas::before {
   background-position: -1024px -448px;
 }
 
-.project-icon-gochain::before {
+.project-icon-gatechain-token::before {
   background-position: -1024px -512px;
 }
 
-.project-icon-gold-bits-coin::before {
+.project-icon-gemini-dollar::before {
   background-position: -1024px -576px;
 }
 
-.project-icon-golem-network-tokens::before {
+.project-icon-genaro-network::before {
   background-position: -1024px -640px;
 }
 
-.project-icon-gowithmi::before {
+.project-icon-genesis-vision::before {
   background-position: -1024px -704px;
 }
 
-.project-icon-greencoin::before {
+.project-icon-gifto::before {
   background-position: -1024px -768px;
 }
 
-.project-icon-gridcoin::before {
+.project-icon-gimli::before {
   background-position: -1024px -832px;
 }
 
-.project-icon-grin::before {
+.project-icon-global-currency-reserve::before {
   background-position: -1024px -896px;
 }
 
-.project-icon-groestlcoin::before {
+.project-icon-global-jobcoin::before {
   background-position: -1024px -960px;
 }
 
-.project-icon-guaranteed-ethurance-token-extra::before {
+.project-icon-gnosis-gno::before {
   background-position: 0 -1024px;
 }
 
-.project-icon-gulden::before {
+.project-icon-gnosis::before {
+  background-position: 0 -1024px;
+}
+
+.project-icon-gochain::before {
   background-position: -64px -1024px;
 }
 
-.project-icon-gxchain::before {
+.project-icon-gold-bits-coin::before {
   background-position: -128px -1024px;
 }
 
-.project-icon-happycoin::before {
+.project-icon-golem-network-tokens::before {
   background-position: -192px -1024px;
 }
 
-.project-icon-harmony::before {
+.project-icon-golem::before {
+  background-position: -192px -1024px;
+}
+
+.project-icon-gowithmi::before {
   background-position: -256px -1024px;
 }
 
-.project-icon-hedge::before {
+.project-icon-greencoin::before {
   background-position: -320px -1024px;
 }
 
-.project-icon-hedgetrade::before {
+.project-icon-gridcoin::before {
   background-position: -384px -1024px;
 }
 
-.project-icon-helium::before {
+.project-icon-grin::before {
   background-position: -448px -1024px;
 }
 
-.project-icon-hellogold::before {
+.project-icon-groestlcoin::before {
   background-position: -512px -1024px;
 }
 
-.project-icon-herocoin::before {
+.project-icon-guaranteed-ethurance-token-extra::before {
   background-position: -576px -1024px;
 }
 
-.project-icon-high-performance-blockchain::before {
+.project-icon-gulden::before {
   background-position: -640px -1024px;
 }
 
-.project-icon-holo::before {
+.project-icon-gxchain::before {
   background-position: -704px -1024px;
 }
 
-.project-icon-hoqu::before {
+.project-icon-happycoin::before {
   background-position: -768px -1024px;
 }
 
-.project-icon-horuspay::before {
+.project-icon-harmony::before {
   background-position: -832px -1024px;
 }
 
-.project-icon-html-coin::before {
+.project-icon-haven-protocol::before {
   background-position: -896px -1024px;
 }
 
-.project-icon-humaniq::before {
+.project-icon-hedera-hashgraph::before {
   background-position: -960px -1024px;
 }
 
-.project-icon-humanscape::before {
+.project-icon-hedge::before {
   background-position: -1024px -1024px;
 }
 
-.project-icon-huobi-token::before {
+.project-icon-hedgetrade::before {
   background-position: -1088px 0;
 }
 
-.project-icon-hycon::before {
+.project-icon-helium::before {
   background-position: -1088px -64px;
 }
 
-.project-icon-hydro-protocol::before {
+.project-icon-hellogold::before {
   background-position: -1088px -128px;
 }
 
-.project-icon-hypercash::before {
+.project-icon-herocoin::before {
   background-position: -1088px -192px;
 }
 
-.project-icon-hyperion::before {
+.project-icon-high-performance-blockchain::before {
   background-position: -1088px -256px;
 }
 
-.project-icon-ice-rock-mining::before {
+.project-icon-holo::before {
   background-position: -1088px -320px;
 }
 
-.project-icon-icon::before {
+.project-icon-hoqu::before {
   background-position: -1088px -384px;
 }
 
-.project-icon-rlc::before {
+.project-icon-horuspay::before {
   background-position: -1088px -448px;
 }
 
-.project-icon-ignis::before {
+.project-icon-howdoo::before {
   background-position: -1088px -512px;
 }
 
-.project-icon-iht-real-estate-protocol::before {
+.project-icon-html-coin::before {
   background-position: -1088px -576px;
 }
 
-.project-icon-ilcoin::before {
+.project-icon-humaniq::before {
   background-position: -1088px -640px;
 }
 
-.project-icon-incent::before {
+.project-icon-humanscape::before {
   background-position: -1088px -704px;
 }
 
-.project-icon-indahash::before {
+.project-icon-huobi-token::before {
   background-position: -1088px -768px;
 }
 
-.project-icon-indorse-token::before {
+.project-icon-hycon::before {
   background-position: -1088px -832px;
 }
 
-.project-icon-inflationcoin::before {
+.project-icon-hydro-protocol::before {
   background-position: -1088px -896px;
 }
 
-.project-icon-ink::before {
+.project-icon-hypercash::before {
   background-position: -1088px -960px;
 }
 
-.project-icon-ino-coin::before {
+.project-icon-hyperion::before {
   background-position: -1088px -1024px;
 }
 
-.project-icon-insight-chain::before {
+.project-icon-ice-rock-mining::before {
   background-position: 0 -1088px;
 }
 
-.project-icon-insights-network::before {
+.project-icon-icon::before {
   background-position: -64px -1088px;
 }
 
-.project-icon-internet-node-token::before {
+.project-icon-rlc::before {
   background-position: -128px -1088px;
 }
 
-.project-icon-ion::before {
+.project-icon-ignis::before {
   background-position: -192px -1088px;
 }
 
-.project-icon-iostoken::before {
+.project-icon-iht-real-estate-protocol::before {
   background-position: -256px -1088px;
 }
 
-.project-icon-iota::before {
+.project-icon-ilcoin::before {
   background-position: -320px -1088px;
 }
 
-.project-icon-iot-chain::before {
+.project-icon-incent::before {
   background-position: -384px -1088px;
 }
 
-.project-icon-iotex::before {
+.project-icon-indahash::before {
   background-position: -448px -1088px;
 }
 
-.project-icon-ipchain::before {
+.project-icon-indorse-token::before {
   background-position: -512px -1088px;
 }
 
-.project-icon-irisnet::before {
+.project-icon-inflationcoin::before {
   background-position: -576px -1088px;
 }
 
-.project-icon-ivy::before {
+.project-icon-ink::before {
   background-position: -640px -1088px;
 }
 
-.project-icon-japan-content-token::before {
+.project-icon-ino-coin::before {
   background-position: -704px -1088px;
 }
 
-.project-icon-jibrel-network::before {
+.project-icon-insight-chain::before {
   background-position: -768px -1088px;
 }
 
-.project-icon-jiyo::before {
+.project-icon-insights-network::before {
   background-position: -832px -1088px;
 }
 
-.project-icon-kambria::before {
+.project-icon-internet-node-token::before {
   background-position: -896px -1088px;
 }
 
-.project-icon-kcash::before {
+.project-icon-ion::before {
   background-position: -960px -1088px;
 }
 
-.project-icon-kickico::before {
+.project-icon-iostoken::before {
   background-position: -1024px -1088px;
 }
 
-.project-icon-kin::before {
+.project-icon-iota::before {
   background-position: -1088px -1088px;
 }
 
-.project-icon-komodo::before {
+.project-icon-iot-chain::before {
   background-position: -1152px 0;
 }
 
-.project-icon-kucoin-shares::before {
+.project-icon-iotex::before {
   background-position: -1152px -64px;
 }
 
-.project-icon-kyber-network::before {
+.project-icon-ipchain::before {
   background-position: -1152px -128px;
 }
 
-.project-icon-lambda::before {
+.project-icon-irisnet::before {
   background-position: -1152px -192px;
 }
 
-.project-icon-latoken::before {
+.project-icon-ivy::before {
   background-position: -1152px -256px;
 }
 
-.project-icon-library-credit::before {
+.project-icon-japan-content-token::before {
   background-position: -1152px -320px;
 }
 
-.project-icon-legolas-exchange::before {
+.project-icon-jewel::before {
   background-position: -1152px -384px;
 }
 
-.project-icon-leocoin::before {
+.project-icon-jibrel-network::before {
   background-position: -1152px -448px;
 }
 
-.project-icon-libra-credit::before {
+.project-icon-jiyo::before {
   background-position: -1152px -512px;
 }
 
-.project-icon-lightning-bitcoin::before {
+.project-icon-kambria::before {
   background-position: -1152px -576px;
 }
 
-.project-icon-lina::before {
+.project-icon-karatgold-coin::before {
   background-position: -1152px -640px;
 }
 
-.project-icon-linkey::before {
+.project-icon-kcash::before {
   background-position: -1152px -704px;
 }
 
-.project-icon-linkeye::before {
+.project-icon-kickico::before {
   background-position: -1152px -768px;
 }
 
-.project-icon-lisk::before {
+.project-icon-kin::before {
   background-position: -1152px -832px;
 }
 
-.project-icon-lisk-machine-learning::before {
+.project-icon-komodo::before {
   background-position: -1152px -896px;
 }
 
-.project-icon-litecoin::before {
+.project-icon-krios::before {
   background-position: -1152px -960px;
 }
 
-.project-icon-litecoin-cash::before {
+.project-icon-kucoin-shares::before {
   background-position: -1152px -1024px;
 }
 
-.project-icon-litex::before {
+.project-icon-kyber-network::before {
   background-position: -1152px -1088px;
 }
 
-.project-icon-lockchain::before {
+.project-icon-lambda::before {
   background-position: 0 -1152px;
 }
 
-.project-icon-loki::before {
+.project-icon-latoken::before {
   background-position: -64px -1152px;
 }
 
-.project-icon-loom-network::before {
+.project-icon-library-credit::before {
   background-position: -128px -1152px;
 }
 
-.project-icon-loopring::before {
+.project-icon-legolas-exchange::before {
   background-position: -192px -1152px;
 }
 
-.project-icon-loyalcoin::before {
+.project-icon-leocoin::before {
   background-position: -256px -1152px;
 }
 
-.project-icon-lto-network::before {
+.project-icon-libra-credit::before {
   background-position: -320px -1152px;
 }
 
-.project-icon-lunyr::before {
+.project-icon-lightning-bitcoin::before {
   background-position: -384px -1152px;
 }
 
-.project-icon-lykke::before {
+.project-icon-lina::before {
   background-position: -448px -1152px;
 }
 
-.project-icon-lympo::before {
+.project-icon-linkey::before {
   background-position: -512px -1152px;
 }
 
-.project-icon-maecenas::before {
+.project-icon-linkeye::before {
   background-position: -576px -1152px;
 }
 
-.project-icon-magiccoin::before {
+.project-icon-liquid-apps::before {
   background-position: -640px -1152px;
 }
 
-.project-icon-maidsafecoin::before {
+.project-icon-lisk::before {
   background-position: -704px -1152px;
 }
 
-.project-icon-mainframe::before {
+.project-icon-lisk-machine-learning::before {
   background-position: -768px -1152px;
 }
 
-.project-icon-maker::before {
+.project-icon-litecoin::before {
   background-position: -832px -1152px;
 }
 
-.project-icon-mallcoin::before {
+.project-icon-litecoin-cash::before {
   background-position: -896px -1152px;
 }
 
-.project-icon-mark-space::before {
+.project-icon-litex::before {
   background-position: -960px -1152px;
 }
 
-.project-icon-massgrid::before {
+.project-icon-lockchain::before {
   background-position: -1024px -1152px;
 }
 
-.project-icon-guppy::before {
+.project-icon-loki::before {
   background-position: -1088px -1152px;
 }
 
-.project-icon-matic-network::before {
+.project-icon-loom-network::before {
   background-position: -1152px -1152px;
 }
 
-.project-icon-matrix-ai-network::before {
+.project-icon-loopring::before {
   background-position: -1216px 0;
 }
 
-.project-icon-matryx::before {
+.project-icon-loyalcoin::before {
   background-position: -1216px -64px;
 }
 
-.project-icon-maximine-coin::before {
+.project-icon-lto-network::before {
   background-position: -1216px -128px;
 }
 
-.project-icon-medibloc::before {
+.project-icon-luna::before {
   background-position: -1216px -192px;
 }
 
-.project-icon-medx::before {
+.project-icon-lunyr::before {
   background-position: -1216px -256px;
 }
 
-.project-icon-medical-chain::before {
+.project-icon-lykke::before {
   background-position: -1216px -320px;
 }
 
-.project-icon-medishares::before {
+.project-icon-lympo::before {
   background-position: -1216px -384px;
 }
 
-.project-icon-meetone::before {
+.project-icon-maecenas::before {
   background-position: -1216px -448px;
 }
 
-.project-icon-melon::before {
+.project-icon-magiccoin::before {
   background-position: -1216px -512px;
 }
 
-.project-icon-merculet::before {
+.project-icon-maidsafecoin::before {
   background-position: -1216px -576px;
 }
 
-.project-icon-mercury::before {
+.project-icon-mainframe::before {
   background-position: -1216px -640px;
 }
 
-.project-icon-metadium::before {
+.project-icon-maker::before {
   background-position: -1216px -704px;
 }
 
-.project-icon-metahash::before {
+.project-icon-mallcoin::before {
   background-position: -1216px -768px;
 }
 
-.project-icon-metal::before {
+.project-icon-mark-space::before {
   background-position: -1216px -832px;
 }
 
-.project-icon-metaverse::before {
+.project-icon-massgrid::before {
   background-position: -1216px -896px;
 }
 
-.project-icon-metronome::before {
+.project-icon-guppy::before {
   background-position: -1216px -960px;
 }
 
-.project-icon-mindexcoin::before {
+.project-icon-matic-network::before {
   background-position: -1216px -1024px;
 }
 
-.project-icon-minexcoin::before {
+.project-icon-matrix-ai-network::before {
   background-position: -1216px -1088px;
 }
 
-.project-icon-mithril::before {
+.project-icon-matryx::before {
   background-position: -1216px -1152px;
 }
 
-.project-icon-mixin::before {
+.project-icon-maximine-coin::before {
   background-position: 0 -1216px;
 }
 
-.project-icon-moac::before {
+.project-icon-medibloc::before {
   background-position: -64px -1216px;
 }
 
-.project-icon-mobilego::before {
+.project-icon-medx::before {
   background-position: -128px -1216px;
 }
 
-.project-icon-mobius::before {
+.project-icon-medical-chain::before {
   background-position: -192px -1216px;
 }
 
-.project-icon-modum::before {
+.project-icon-medishares::before {
   background-position: -256px -1216px;
 }
 
-.project-icon-moeda-loyalty-points::before {
+.project-icon-meetone::before {
   background-position: -320px -1216px;
 }
 
-.project-icon-monacoin::before {
+.project-icon-melon::before {
   background-position: -384px -1216px;
 }
 
-.project-icon-monero::before {
+.project-icon-merculet::before {
   background-position: -448px -1216px;
 }
 
-.project-icon-monetha::before {
+.project-icon-mercury::before {
   background-position: -512px -1216px;
 }
 
-.project-icon-monolith::before {
+.project-icon-metadium::before {
   background-position: -576px -1216px;
 }
 
-.project-icon-mooncoin::before {
+.project-icon-metahash::before {
   background-position: -640px -1216px;
 }
 
-.project-icon-moss-coin::before {
+.project-icon-metal::before {
   background-position: -704px -1216px;
 }
 
-.project-icon-mothership::before {
+.project-icon-metaverse::before {
   background-position: -768px -1216px;
 }
 
-.project-icon-musiconomi::before {
+.project-icon-metronome::before {
   background-position: -832px -1216px;
 }
 
-.project-icon-mysterium::before {
+.project-icon-mindexcoin::before {
   background-position: -896px -1216px;
 }
 
-.project-icon-naga::before {
+.project-icon-minexcoin::before {
   background-position: -960px -1216px;
 }
 
-.project-icon-namecoin::before {
+.project-icon-mithril::before {
   background-position: -1024px -1216px;
 }
 
-.project-icon-nanjcoin::before {
+.project-icon-mixin::before {
   background-position: -1088px -1216px;
 }
 
-.project-icon-nano::before {
+.project-icon-moac::before {
   background-position: -1152px -1216px;
 }
 
-.project-icon-nasdacoin::before {
+.project-icon-mobilego::before {
   background-position: -1216px -1216px;
 }
 
-.project-icon-nash-exchange::before {
+.project-icon-mobius::before {
   background-position: -1280px 0;
 }
 
-.project-icon-nav-coin::before {
+.project-icon-modum::before {
   background-position: -1280px -64px;
 }
 
-.project-icon-neblio::before {
+.project-icon-moeda-loyalty-points::before {
   background-position: -1280px -128px;
 }
 
-.project-icon-nebulas-token::before {
+.project-icon-molecular-future::before {
   background-position: -1280px -192px;
 }
 
-.project-icon-nectar::before {
+.project-icon-monacoin::before {
   background-position: -1280px -256px;
 }
 
-.project-icon-nem::before {
+.project-icon-monero::before {
   background-position: -1280px -320px;
 }
 
-.project-icon-neo::before {
+.project-icon-monetha::before {
   background-position: -1280px -384px;
 }
 
-.project-icon-neumark::before {
+.project-icon-monolith::before {
   background-position: -1280px -448px;
 }
 
-.project-icon-new-power-coin::before {
+.project-icon-mooncoin::before {
   background-position: -1280px -512px;
 }
 
-.project-icon-newton::before {
+.project-icon-moss-coin::before {
   background-position: -1280px -576px;
 }
 
-.project-icon-nexo::before {
+.project-icon-mothership::before {
   background-position: -1280px -640px;
 }
 
-.project-icon-next::before {
+.project-icon-musiconomi::before {
   background-position: -1280px -704px;
 }
 
-.project-icon-nexty::before {
+.project-icon-mysterium::before {
   background-position: -1280px -768px;
 }
 
-.project-icon-nexus::before {
+.project-icon-naga::before {
   background-position: -1280px -832px;
 }
 
-.project-icon-niobium-coin::before {
+.project-icon-namecoin::before {
   background-position: -1280px -896px;
 }
 
-.project-icon-nix::before {
+.project-icon-nanjcoin::before {
   background-position: -1280px -960px;
 }
 
-.project-icon-nkn::before {
+.project-icon-nano::before {
   background-position: -1280px -1024px;
 }
 
-.project-icon-noah-coin::before {
+.project-icon-nasdacoin::before {
   background-position: -1280px -1088px;
 }
 
-.project-icon-novacoin::before {
+.project-icon-nash-exchange::before {
   background-position: -1280px -1152px;
 }
 
-.project-icon-nucleus-vision::before {
+.project-icon-nav-coin::before {
   background-position: -1280px -1216px;
 }
 
-.project-icon-nuls::before {
+.project-icon-neblio::before {
   background-position: 0 -1280px;
 }
 
-.project-icon-nxt::before {
+.project-icon-nebulas-token::before {
   background-position: -64px -1280px;
 }
 
-.project-icon-obyte::before {
+.project-icon-nebulas::before {
+  background-position: -64px -1280px;
+}
+
+.project-icon-nectar::before {
   background-position: -128px -1280px;
 }
 
-.project-icon-odem::before {
+.project-icon-nem::before {
   background-position: -192px -1280px;
 }
 
-.project-icon-odyssey::before {
+.project-icon-neo::before {
   background-position: -256px -1280px;
 }
 
-.project-icon-omisego::before {
+.project-icon-neumark::before {
   background-position: -320px -1280px;
 }
 
-.project-icon-oneroot-network::before {
+.project-icon-new-power-coin::before {
   background-position: -384px -1280px;
 }
 
-.project-icon-online::before {
+.project-icon-newton::before {
   background-position: -448px -1280px;
 }
 
-.project-icon-ontology::before {
+.project-icon-nexo::before {
   background-position: -512px -1280px;
 }
 
-.project-icon-optimal-shelf-availability-token::before {
+.project-icon-next::before {
   background-position: -576px -1280px;
 }
 
-.project-icon-orbs::before {
+.project-icon-nexty::before {
   background-position: -640px -1280px;
 }
 
-.project-icon-origintrail::before {
+.project-icon-nexus::before {
   background-position: -704px -1280px;
 }
 
-.project-icon-origo::before {
+.project-icon-niobium-coin::before {
   background-position: -768px -1280px;
 }
 
-.project-icon-ormeus-coin::before {
+.project-icon-nix::before {
   background-position: -832px -1280px;
 }
 
-.project-icon-ost::before {
+.project-icon-nkn::before {
   background-position: -896px -1280px;
 }
 
-.project-icon-ovcode::before {
+.project-icon-noah-coin::before {
   background-position: -960px -1280px;
 }
 
-.project-icon-own::before {
+.project-icon-novacoin::before {
   background-position: -1024px -1280px;
 }
 
-.project-icon-oyster::before {
+.project-icon-nucleus-vision::before {
   background-position: -1088px -1280px;
 }
 
-.project-icon-paragon::before {
+.project-icon-nuls::before {
   background-position: -1152px -1280px;
 }
 
-.project-icon-particl::before {
+.project-icon-nxt::before {
   background-position: -1216px -1280px;
 }
 
-.project-icon-paxos-standard::before {
+.project-icon-obyte::before {
   background-position: -1280px -1280px;
 }
 
-.project-icon-paxos-standard-token::before {
+.project-icon-odem::before {
   background-position: -1344px 0;
 }
 
-.project-icon-paypex::before {
+.project-icon-odyssey::before {
   background-position: -1344px -64px;
 }
 
-.project-icon-paypie::before {
+.project-icon-omisego::before {
   background-position: -1344px -128px;
 }
 
-.project-icon-peercoin::before {
+.project-icon-omnitude::before {
   background-position: -1344px -192px;
 }
 
-.project-icon-pepe-cash::before {
+.project-icon-oneroot-network::before {
   background-position: -1344px -256px;
 }
 
-.project-icon-perlin::before {
+.project-icon-online::before {
   background-position: -1344px -320px;
 }
 
-.project-icon-pillar::before {
+.project-icon-ontology::before {
   background-position: -1344px -384px;
 }
 
-.project-icon-pirate-chain::before {
+.project-icon-optimal-shelf-availability-token::before {
   background-position: -1344px -448px;
 }
 
-.project-icon-pivx::before {
+.project-icon-orbs::before {
   background-position: -1344px -512px;
 }
 
-.project-icon-plair::before {
+.project-icon-origintrail::before {
   background-position: -1344px -576px;
 }
 
-.project-icon-platincoin::before {
+.project-icon-origo::before {
   background-position: -1344px -640px;
 }
 
-.project-icon-playchip::before {
+.project-icon-ormeus-coin::before {
   background-position: -1344px -704px;
 }
 
-.project-icon-playkey::before {
+.project-icon-ost::before {
   background-position: -1344px -768px;
 }
 
-.project-icon-poa-network::before {
+.project-icon-otocash::before {
   background-position: -1344px -832px;
 }
 
-.project-icon-poet::before {
+.project-icon-ovcode::before {
   background-position: -1344px -896px;
 }
 
-.project-icon-polybius::before {
+.project-icon-own::before {
   background-position: -1344px -960px;
 }
 
-.project-icon-polymath-network::before {
+.project-icon-oyster::before {
   background-position: -1344px -1024px;
 }
 
-.project-icon-populous::before {
+.project-icon-paragon::before {
   background-position: -1344px -1088px;
 }
 
-.project-icon-power-ledger::before {
+.project-icon-particl::before {
   background-position: -1344px -1152px;
 }
 
-.project-icon-presearch::before {
+.project-icon-paxos-standard::before {
   background-position: -1344px -1216px;
 }
 
-.project-icon-primas::before {
+.project-icon-paxos-standard-token::before {
   background-position: -1344px -1280px;
 }
 
-.project-icon-primecoin::before {
+.project-icon-paypex::before {
   background-position: 0 -1344px;
 }
 
-.project-icon-privatix::before {
+.project-icon-paypie::before {
   background-position: -64px -1344px;
 }
 
-.project-icon-prizm::before {
+.project-icon-peercoin::before {
   background-position: -128px -1344px;
 }
 
-.project-icon-project-pai::before {
+.project-icon-pepe-cash::before {
   background-position: -192px -1344px;
 }
 
-.project-icon-propy::before {
+.project-icon-perlin::before {
   background-position: -256px -1344px;
 }
 
-.project-icon-prospectors-gold::before {
+.project-icon-pillar::before {
   background-position: -320px -1344px;
 }
 
-.project-icon-proton-token::before {
+.project-icon-pirate-chain::before {
   background-position: -384px -1344px;
 }
 
-.project-icon-proximax::before {
+.project-icon-pivx::before {
   background-position: -448px -1344px;
 }
 
-.project-icon-pumapay::before {
+.project-icon-plair::before {
   background-position: -512px -1344px;
 }
 
-.project-icon-pundi-x::before {
+.project-icon-platincoin::before {
   background-position: -576px -1344px;
 }
 
-.project-icon-pura::before {
+.project-icon-playchip::before {
   background-position: -640px -1344px;
 }
 
-.project-icon-qash::before {
+.project-icon-playkey::before {
   background-position: -704px -1344px;
 }
 
-.project-icon-qtum::before {
+.project-icon-poa-network::before {
   background-position: -768px -1344px;
 }
 
-.project-icon-quant::before {
+.project-icon-poet::before {
   background-position: -832px -1344px;
 }
 
-.project-icon-quanta-utility-token::before {
+.project-icon-polis::before {
   background-position: -896px -1344px;
 }
 
-.project-icon-quantstamp::before {
+.project-icon-polybius::before {
   background-position: -960px -1344px;
 }
 
-.project-icon-quantum-resistant-ledger::before {
+.project-icon-polymath-network::before {
   background-position: -1024px -1344px;
 }
 
-.project-icon-quarkchain::before {
+.project-icon-populous::before {
   background-position: -1088px -1344px;
 }
 
-.project-icon-qubitica::before {
+.project-icon-power-ledger::before {
   background-position: -1152px -1344px;
 }
 
-.project-icon-qunqun::before {
+.project-icon-presearch::before {
   background-position: -1216px -1344px;
 }
 
-.project-icon-radium::before {
+.project-icon-primas::before {
   background-position: -1280px -1344px;
 }
 
-.project-icon-raiden-network-token::before {
+.project-icon-primecoin::before {
   background-position: -1344px -1344px;
 }
 
-.project-icon-rapids::before {
+.project-icon-privatix::before {
   background-position: -1408px 0;
 }
 
-.project-icon-ravencoin::before {
+.project-icon-prizm::before {
   background-position: -1408px -64px;
 }
 
-.project-icon-rchain::before {
+.project-icon-project-pai::before {
   background-position: -1408px -128px;
 }
 
-.project-icon-realtract::before {
+.project-icon-propy::before {
   background-position: -1408px -192px;
 }
 
-.project-icon-reddcoin::before {
+.project-icon-prospectors-gold::before {
   background-position: -1408px -256px;
 }
 
-.project-icon-red-pulse::before {
+.project-icon-proton-token::before {
   background-position: -1408px -320px;
 }
 
-.project-icon-refereum::before {
+.project-icon-proximax::before {
   background-position: -1408px -384px;
 }
 
-.project-icon-relex::before {
+.project-icon-pumapay::before {
   background-position: -1408px -448px;
 }
 
-.project-icon-remme::before {
+.project-icon-pundi-x::before {
   background-position: -1408px -512px;
 }
 
-.project-icon-ren::before {
+.project-icon-pura::before {
   background-position: -1408px -576px;
 }
 
-.project-icon-repo::before {
+.project-icon-qash::before {
   background-position: -1408px -640px;
 }
 
-.project-icon-request::before {
+.project-icon-qtum::before {
   background-position: -1408px -704px;
 }
 
-.project-icon-restart-energy-mwat::before {
+.project-icon-quant::before {
   background-position: -1408px -768px;
 }
 
-.project-icon-revain::before {
+.project-icon-quanta-utility-token::before {
   background-position: -1408px -832px;
 }
 
-.project-icon-rif-token::before {
+.project-icon-quantstamp::before {
   background-position: -1408px -896px;
 }
 
-.project-icon-ripio-credit-network::before {
+.project-icon-quantum-resistant-ledger::before {
   background-position: -1408px -960px;
 }
 
-.project-icon-ripple::before {
+.project-icon-quarkchain::before {
   background-position: -1408px -1024px;
 }
 
-.project-icon-rise::before {
+.project-icon-qubitica::before {
   background-position: -1408px -1088px;
 }
 
-.project-icon-rivetz::before {
+.project-icon-quickx-protocol::before {
   background-position: -1408px -1152px;
 }
 
-.project-icon-robotina::before {
+.project-icon-qunqun::before {
   background-position: -1408px -1216px;
 }
 
-.project-icon-rock::before {
+.project-icon-radium::before {
   background-position: -1408px -1280px;
 }
 
-.project-icon-rotharium::before {
+.project-icon-raiden-network-token::before {
   background-position: -1408px -1344px;
 }
 
-.project-icon-rubycoin::before {
+.project-icon-rapids::before {
   background-position: 0 -1408px;
 }
 
-.project-icon-ruff::before {
+.project-icon-ravencoin::before {
   background-position: -64px -1408px;
 }
 
-.project-icon-s4fe::before {
+.project-icon-rchain::before {
   background-position: -128px -1408px;
 }
 
-.project-icon-sakura-bloom::before {
+.project-icon-realtract::before {
   background-position: -192px -1408px;
 }
 
-.project-icon-salt::before {
+.project-icon-reddcoin::before {
   background-position: -256px -1408px;
 }
 
-.project-icon-salus::before {
+.project-icon-red-pulse::before {
   background-position: -320px -1408px;
 }
 
-.project-icon-santiment::before {
+.project-icon-refereum::before {
   background-position: -384px -1408px;
 }
 
-.project-icon-scryinfo::before {
+.project-icon-relex::before {
   background-position: -448px -1408px;
 }
 
-.project-icon-seele::before {
+.project-icon-remme::before {
   background-position: -512px -1408px;
 }
 
-.project-icon-selfkey::before {
+.project-icon-ren::before {
   background-position: -576px -1408px;
 }
 
-.project-icon-shield-xsh::before {
+.project-icon-repo::before {
   background-position: -640px -1408px;
 }
 
-.project-icon-siacoin::before {
+.project-icon-request::before {
   background-position: -704px -1408px;
 }
 
-.project-icon-singulardtv::before {
+.project-icon-restart-energy-mwat::before {
   background-position: -768px -1408px;
 }
 
-.project-icon-singularitynet::before {
+.project-icon-revain::before {
   background-position: -832px -1408px;
 }
 
-.project-icon-sirin-labs-token::before {
+.project-icon-rif-token::before {
   background-position: -896px -1408px;
 }
 
-.project-icon-skycoin::before {
+.project-icon-ripio-credit-network::before {
   background-position: -960px -1408px;
 }
 
-.project-icon-smartcash::before {
+.project-icon-ripple::before {
   background-position: -1024px -1408px;
 }
 
-.project-icon-smartlands::before {
+.project-icon-rise::before {
   background-position: -1088px -1408px;
 }
 
-.project-icon-smartmesh::before {
+.project-icon-rivetz::before {
   background-position: -1152px -1408px;
 }
 
-.project-icon-smartofgiving::before {
+.project-icon-robotina::before {
   background-position: -1216px -1408px;
 }
 
-.project-icon-snapcoin::before {
+.project-icon-rock::before {
   background-position: -1280px -1408px;
 }
 
-.project-icon-soarcoin::before {
+.project-icon-rotharium::before {
   background-position: -1344px -1408px;
 }
 
-.project-icon-solarcoin::before {
+.project-icon-rubycoin::before {
   background-position: -1408px -1408px;
 }
 
-.project-icon-solve::before {
+.project-icon-ruff::before {
   background-position: -1472px 0;
 }
 
-.project-icon-sonm::before {
+.project-icon-s4fe::before {
   background-position: -1472px -64px;
 }
 
-.project-icon-sophiatx::before {
+.project-icon-sakura-bloom::before {
   background-position: -1472px -128px;
 }
 
-.project-icon-bitshares-music::before {
+.project-icon-salt::before {
   background-position: -1472px -192px;
 }
 
-.project-icon-spacechain::before {
+.project-icon-salus::before {
   background-position: -1472px -256px;
 }
 
-.project-icon-spankchain::before {
+.project-icon-santiment::before {
   background-position: -1472px -320px;
 }
 
-.project-icon-spectre-dividend::before {
+.project-icon-scryinfo::before {
   background-position: -1472px -384px;
 }
 
-.project-icon-spendcoin::before {
+.project-icon-seele::before {
   background-position: -1472px -448px;
 }
 
-.project-icon-srcoin::before {
+.project-icon-selfkey::before {
   background-position: -1472px -512px;
 }
 
-.project-icon-stacs::before {
+.project-icon-shield-xsh::before {
   background-position: -1472px -576px;
 }
 
-.project-icon-stakenet::before {
+.project-icon-siacoin::before {
   background-position: -1472px -640px;
 }
 
-.project-icon-starbase::before {
+.project-icon-singulardtv::before {
   background-position: -1472px -704px;
 }
 
-.project-icon-stasis-euro::before {
+.project-icon-singularitynet::before {
   background-position: -1472px -768px;
 }
 
-.project-icon-stasis-eurs::before {
+.project-icon-sirin-labs-token::before {
   background-position: -1472px -832px;
 }
 
-.project-icon-status::before {
+.project-icon-skycoin::before {
   background-position: -1472px -896px;
 }
 
-.project-icon-stealth::before {
+.project-icon-smartcash::before {
   background-position: -1472px -960px;
 }
 
-.project-icon-steem::before {
+.project-icon-smartlands::before {
   background-position: -1472px -1024px;
 }
 
-.project-icon-steem-dollars::before {
+.project-icon-smartmesh::before {
   background-position: -1472px -1088px;
 }
 
-.project-icon-stellar::before {
+.project-icon-smartofgiving::before {
   background-position: -1472px -1152px;
 }
 
-.project-icon-stem-cell-coin::before {
+.project-icon-snapcoin::before {
   background-position: -1472px -1216px;
 }
 
-.project-icon-storiqa::before {
+.project-icon-soarcoin::before {
   background-position: -1472px -1280px;
 }
 
-.project-icon-storj::before {
+.project-icon-solarcoin::before {
   background-position: -1472px -1344px;
 }
 
-.project-icon-storm::before {
+.project-icon-solve::before {
   background-position: -1472px -1408px;
 }
 
-.project-icon-stox::before {
+.project-icon-sonm::before {
   background-position: 0 -1472px;
 }
 
-.project-icon-stratis::before {
+.project-icon-sophiatx::before {
   background-position: -64px -1472px;
 }
 
-.project-icon-streamr-datacoin::before {
+.project-icon-bitshares-music::before {
   background-position: -128px -1472px;
 }
 
-.project-icon-substratum::before {
+.project-icon-spacechain::before {
   background-position: -192px -1472px;
 }
 
-.project-icon-supernet-unity::before {
+.project-icon-spankchain::before {
   background-position: -256px -1472px;
 }
 
-.project-icon-swarm-fund::before {
+.project-icon-spectre-dividend::before {
   background-position: -320px -1472px;
 }
 
-.project-icon-swftcoin::before {
+.project-icon-spendcoin::before {
   background-position: -384px -1472px;
 }
 
-.project-icon-synthetix-network-token::before {
+.project-icon-srcoin::before {
   background-position: -448px -1472px;
 }
 
-.project-icon-syscoin::before {
+.project-icon-stacs::before {
   background-position: -512px -1472px;
 }
 
-.project-icon-taas::before {
+.project-icon-stakenet::before {
   background-position: -576px -1472px;
 }
 
-.project-icon-tael::before {
+.project-icon-starbase::before {
   background-position: -640px -1472px;
 }
 
-.project-icon-tao::before {
+.project-icon-stasis-euro::before {
   background-position: -704px -1472px;
 }
 
-.project-icon-tatatu::before {
+.project-icon-stasis-eurs::before {
   background-position: -768px -1472px;
 }
 
-.project-icon-telcoin::before {
+.project-icon-status::before {
   background-position: -832px -1472px;
 }
 
-.project-icon-tenx::before {
+.project-icon-stealth::before {
   background-position: -896px -1472px;
 }
 
-.project-icon-ternio::before {
+.project-icon-steem::before {
   background-position: -960px -1472px;
 }
 
-.project-icon-tether::before {
+.project-icon-steem-dollars::before {
   background-position: -1024px -1472px;
 }
 
-.project-icon-tezos::before {
+.project-icon-stellar::before {
   background-position: -1088px -1472px;
 }
 
-.project-icon-the-champcoin::before {
+.project-icon-stem-cell-coin::before {
   background-position: -1152px -1472px;
 }
 
-.project-icon-thekey::before {
+.project-icon-storiqa::before {
   background-position: -1216px -1472px;
 }
 
-.project-icon-theta::before {
+.project-icon-storj::before {
   background-position: -1280px -1472px;
 }
 
-.project-icon-theta-fuel::before {
+.project-icon-storm::before {
   background-position: -1344px -1472px;
 }
 
-.project-icon-thorecoin::before {
+.project-icon-stox::before {
   background-position: -1408px -1472px;
 }
 
-.project-icon-thunder-token::before {
+.project-icon-stratis::before {
   background-position: -1472px -1472px;
 }
 
-.project-icon-tierion::before {
+.project-icon-streamr-datacoin::before {
   background-position: -1536px 0;
 }
 
-.project-icon-time-new-bank::before {
+.project-icon-substratum::before {
   background-position: -1536px -64px;
 }
 
-.project-icon-timicoin::before {
+.project-icon-supernet-unity::before {
   background-position: -1536px -128px;
 }
 
-.project-icon-tokenbox::before {
+.project-icon-swarm-fund::before {
   background-position: -1536px -192px;
 }
 
-.project-icon-tokencard::before {
+.project-icon-swftcoin::before {
   background-position: -1536px -256px;
 }
 
-.project-icon-tokenclub::before {
+.project-icon-swipe::before {
   background-position: -1536px -320px;
 }
 
-.project-icon-tokenomy::before {
+.project-icon-synthetix-network-token::before {
   background-position: -1536px -384px;
 }
 
-.project-icon-tokenpay::before {
+.project-icon-syscoin::before {
   background-position: -1536px -448px;
 }
 
-.project-icon-tomochain::before {
+.project-icon-taas::before {
   background-position: -1536px -512px;
 }
 
-.project-icon-top::before {
+.project-icon-tael::before {
   background-position: -1536px -576px;
 }
 
-.project-icon-trade-token::before {
+.project-icon-tao::before {
   background-position: -1536px -640px;
 }
 
-.project-icon-triggers::before {
+.project-icon-tatatu::before {
   background-position: -1536px -704px;
 }
 
-.project-icon-trinity-network-credit::before {
+.project-icon-telcoin::before {
   background-position: -1536px -768px;
 }
 
-.project-icon-tripio::before {
+.project-icon-tenx::before {
   background-position: -1536px -832px;
 }
 
-.project-icon-tron::before {
+.project-icon-ternio::before {
   background-position: -1536px -896px;
 }
 
-.project-icon-tronclassic::before {
+.project-icon-tether::before {
   background-position: -1536px -960px;
 }
 
-.project-icon-truechain::before {
+.project-icon-tezos::before {
   background-position: -1536px -1024px;
 }
 
-.project-icon-trueusd::before {
+.project-icon-the-champcoin::before {
   background-position: -1536px -1088px;
 }
 
-.project-icon-ttc::before {
+.project-icon-thekey::before {
   background-position: -1536px -1152px;
 }
 
-.project-icon-turtlecoin::before {
+.project-icon-theta::before {
   background-position: -1536px -1216px;
 }
 
-.project-icon-ubex::before {
+.project-icon-theta-token::before {
+  background-position: -1536px -1216px;
+}
+
+.project-icon-theta-fuel::before {
   background-position: -1536px -1280px;
 }
 
-.project-icon-ubiq::before {
+.project-icon-thorecoin::before {
   background-position: -1536px -1344px;
 }
 
-.project-icon-ucash::before {
+.project-icon-thunder-token::before {
   background-position: -1536px -1408px;
 }
 
-.project-icon-ugas::before {
+.project-icon-tierion::before {
   background-position: -1536px -1472px;
 }
 
-.project-icon-ugchain::before {
+.project-icon-time-new-bank::before {
   background-position: 0 -1536px;
 }
 
-.project-icon-ultiledger::before {
+.project-icon-timicoin::before {
   background-position: -64px -1536px;
 }
 
-.project-icon-u-network::before {
+.project-icon-titan-coin::before {
   background-position: -128px -1536px;
 }
 
-.project-icon-uttoken::before {
+.project-icon-tokenbox::before {
   background-position: -192px -1536px;
 }
 
-.project-icon-universa::before {
+.project-icon-tokencard::before {
   background-position: -256px -1536px;
 }
 
-.project-icon-unlimitedip::before {
+.project-icon-tokenclub::before {
   background-position: -320px -1536px;
 }
 
-.project-icon-unobtanium::before {
+.project-icon-tokenomy::before {
   background-position: -384px -1536px;
 }
 
-.project-icon-unus-sed-leo::before {
+.project-icon-tokenpay::before {
   background-position: -448px -1536px;
 }
 
-.project-icon-uptoken::before {
+.project-icon-tomochain::before {
   background-position: -512px -1536px;
 }
 
-.project-icon-usd-coin::before {
+.project-icon-top::before {
   background-position: -576px -1536px;
 }
 
-.project-icon-utrust::before {
+.project-icon-trade-token::before {
   background-position: -640px -1536px;
 }
 
-.project-icon-valor-token::before {
+.project-icon-triggers::before {
   background-position: -704px -1536px;
 }
 
-.project-icon-vechain::before {
+.project-icon-trinity-network-credit::before {
   background-position: -768px -1536px;
 }
 
-.project-icon-verge::before {
+.project-icon-tripio::before {
   background-position: -832px -1536px;
 }
 
-.project-icon-veriblock::before {
+.project-icon-tron::before {
   background-position: -896px -1536px;
 }
 
-.project-icon-veritaseum::before {
+.project-icon-tronclassic::before {
   background-position: -960px -1536px;
 }
 
-.project-icon-veros::before {
+.project-icon-truechain::before {
   background-position: -1024px -1536px;
 }
 
-.project-icon-vertcoin::before {
+.project-icon-trueusd::before {
   background-position: -1088px -1536px;
 }
 
-.project-icon-vestchain::before {
+.project-icon-ttc::before {
   background-position: -1152px -1536px;
 }
 
-.project-icon-viacoin::before {
+.project-icon-turtlecoin::before {
   background-position: -1216px -1536px;
 }
 
-.project-icon-vibe::before {
+.project-icon-ubex::before {
   background-position: -1280px -1536px;
 }
 
-.project-icon-vitae::before {
+.project-icon-ubiq::before {
   background-position: -1344px -1536px;
 }
 
-.project-icon-vslice::before {
+.project-icon-ucash::before {
   background-position: -1408px -1536px;
 }
 
-.project-icon-v-systems::before {
+.project-icon-ugas::before {
   background-position: -1472px -1536px;
 }
 
-.project-icon-vulcano::before {
+.project-icon-ugchain::before {
   background-position: -1536px -1536px;
 }
 
-.project-icon-wabnetwork::before {
+.project-icon-ultiledger::before {
   background-position: -1600px 0;
 }
 
-.project-icon-wagerr::before {
+.project-icon-u-network::before {
   background-position: -1600px -64px;
 }
 
-.project-icon-waltonchain::before {
+.project-icon-uni-coin::before {
   background-position: -1600px -128px;
 }
 
-.project-icon-wanchain::before {
+.project-icon-uttoken::before {
   background-position: -1600px -192px;
 }
 
-.project-icon-waves::before {
+.project-icon-universa::before {
   background-position: -1600px -256px;
 }
 
-.project-icon-wax::before {
+.project-icon-unlimitedip::before {
   background-position: -1600px -320px;
 }
 
-.project-icon-waykichain::before {
+.project-icon-unobtanium::before {
   background-position: -1600px -384px;
 }
 
-.project-icon-wepower::before {
+.project-icon-unus-sed-leo::before {
   background-position: -1600px -448px;
 }
 
-.project-icon-whitecoin::before {
+.project-icon-uptoken::before {
   background-position: -1600px -512px;
 }
 
-.project-icon-wings::before {
+.project-icon-usd-coin::before {
   background-position: -1600px -576px;
 }
 
-.project-icon-wink-tronbet::before {
+.project-icon-utrust::before {
   background-position: -1600px -640px;
 }
 
-.project-icon-wixlar::before {
+.project-icon-valor-token::before {
   background-position: -1600px -704px;
 }
 
-.project-icon-wowbit::before {
+.project-icon-vechain::before {
   background-position: -1600px -768px;
 }
 
-.project-icon-xinfin-network::before {
+.project-icon-verge::before {
   background-position: -1600px -832px;
 }
 
-.project-icon-xmax::before {
+.project-icon-veriblock::before {
   background-position: -1600px -896px;
 }
 
-.project-icon-xpa::before {
+.project-icon-veritaseum::before {
   background-position: -1600px -960px;
 }
 
-.project-icon-xtrabytes::before {
+.project-icon-veros::before {
   background-position: -1600px -1024px;
 }
 
-.project-icon-xyo::before {
+.project-icon-vertcoin::before {
   background-position: -1600px -1088px;
 }
 
-.project-icon-yee::before {
+.project-icon-vestchain::before {
   background-position: -1600px -1152px;
 }
 
-.project-icon-zb::before {
+.project-icon-viacoin::before {
   background-position: -1600px -1216px;
 }
 
-.project-icon-zcash::before {
+.project-icon-vibe::before {
   background-position: -1600px -1280px;
 }
 
-.project-icon-zclassic::before {
+.project-icon-vitae::before {
   background-position: -1600px -1344px;
 }
 
-.project-icon-zcoin::before {
+.project-icon-vslice::before {
   background-position: -1600px -1408px;
 }
 
-.project-icon-zebi::before {
+.project-icon-v-systems::before {
   background-position: -1600px -1472px;
 }
 
-.project-icon-zeepin::before {
+.project-icon-vulcano::before {
   background-position: -1600px -1536px;
 }
 
-.project-icon-zencash::before {
+.project-icon-wabnetwork::before {
   background-position: 0 -1600px;
 }
 
-.project-icon-zeusshield::before {
+.project-icon-wagerr::before {
   background-position: -64px -1600px;
 }
 
-.project-icon-zilliqa::before {
+.project-icon-waltonchain::before {
   background-position: -128px -1600px;
 }
 
-.project-icon-zip::before {
+.project-icon-wanchain::before {
   background-position: -192px -1600px;
 }
 
-.project-icon-zrcoin::before {
+.project-icon-waves::before {
   background-position: -256px -1600px;
+}
+
+.project-icon-wax::before {
+  background-position: -320px -1600px;
+}
+
+.project-icon-waykichain::before {
+  background-position: -384px -1600px;
+}
+
+.project-icon-wepower::before {
+  background-position: -448px -1600px;
+}
+
+.project-icon-whitecoin::before {
+  background-position: -512px -1600px;
+}
+
+.project-icon-wings::before {
+  background-position: -576px -1600px;
+}
+
+.project-icon-wink-tronbet::before {
+  background-position: -640px -1600px;
+}
+
+.project-icon-wirex-token::before {
+  background-position: -704px -1600px;
+}
+
+.project-icon-wixlar::before {
+  background-position: -768px -1600px;
+}
+
+.project-icon-wowbit::before {
+  background-position: -832px -1600px;
+}
+
+.project-icon-xinfin-network::before {
+  background-position: -896px -1600px;
+}
+
+.project-icon-xmax::before {
+  background-position: -960px -1600px;
+}
+
+.project-icon-xpa::before {
+  background-position: -1024px -1600px;
+}
+
+.project-icon-xtrabytes::before {
+  background-position: -1088px -1600px;
+}
+
+.project-icon-xyo::before {
+  background-position: -1152px -1600px;
+}
+
+.project-icon-yee::before {
+  background-position: -1216px -1600px;
+}
+
+.project-icon-you-coin::before {
+  background-position: -1280px -1600px;
+}
+
+.project-icon-zb::before {
+  background-position: -1344px -1600px;
+}
+
+.project-icon-zcash::before {
+  background-position: -1408px -1600px;
+}
+
+.project-icon-zclassic::before {
+  background-position: -1472px -1600px;
+}
+
+.project-icon-zcoin::before {
+  background-position: -1536px -1600px;
+}
+
+.project-icon-zebi::before {
+  background-position: -1600px -1600px;
+}
+
+.project-icon-zeepin::before {
+  background-position: -1664px 0;
+}
+
+.project-icon-zencash::before {
+  background-position: -1664px -64px;
+}
+
+.project-icon-zeusshield::before {
+  background-position: -1664px -128px;
+}
+
+.project-icon-zilliqa::before {
+  background-position: -1664px -192px;
+}
+
+.project-icon-zip::before {
+  background-position: -1664px -256px;
+}
+
+.project-icon-zrcoin::before {
+  background-position: -1664px -320px;
 }
