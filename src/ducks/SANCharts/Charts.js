@@ -34,8 +34,7 @@ import {
   mapToPriceSignalLines,
   getSignalPrice,
   getCrossYValue,
-  getSlugPriceSignals,
-  getTrendRatingColor
+  getSlugPriceSignals
 } from './utils'
 import { Metrics } from './data'
 import { checkHasPremium } from '../../pages/UserSelectors'
@@ -448,9 +447,7 @@ class Charts extends React.Component {
 
     let events = []
     this.eventsMap.forEach((values, datetime) => {
-      values.forEach(value =>
-        events.push({ ...value, datetime, color: getTrendRatingColor(value) })
-      )
+      values.forEach(value => events.push({ ...value, datetime }))
     })
 
     // NOTE(haritonasty): need to filter anomalies immediately after removing any active metric
@@ -504,12 +501,11 @@ class Charts extends React.Component {
                   {tooltipLabelFormatter(xValue)}
                 </div>
                 <div className={styles.details__content}>
-                  {activePayload.map(item => {
-                    const { isEvent, name, value, formatter } = item
-                    return (
+                  {activePayload.map(
+                    ({ isEvent, name, value, color, formatter }) => (
                       <div
                         key={name}
-                        style={{ '--color': getTrendRatingColor(item) }}
+                        style={{ '--color': color }}
                         className={cx(
                           styles.details__metric,
                           isEvent && styles.details__metric_dot
@@ -519,7 +515,7 @@ class Charts extends React.Component {
                         <span className={styles.details__name}>{name}</span>
                       </div>
                     )
-                  })}
+                  )}
                 </div>
               </div>
               <div
