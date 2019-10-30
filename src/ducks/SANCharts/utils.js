@@ -395,20 +395,24 @@ export const setColorByDayRating = events => {
   const groups = []
 
   events.forEach(item => {
-    const { isAnomaly, value } = item
-
-    if (!isAnomaly) {
-      if (value >= 0 && value <= 3) {
-        item.color = 'var(--persimmon)'
-      } else if (value <= 6) {
-        item.color = 'var(--texas-rose-hover)'
-      } else {
-        item.color = 'var(--bright-sun)'
-      }
-    }
+    item.color = getTrendingColor(item)
 
     return groups
   }, groups)
 
   return events
+}
+
+export const getTrendingColor = ({ value, color, name }) => {
+  if (name === 'Trending Position') {
+    if (value >= 0 && value <= 3) {
+      return 'var(--persimmon)'
+    } else if (value <= 6) {
+      return 'var(--texas-rose-hover)'
+    } else {
+      return 'var(--bright-sun)'
+    }
+  }
+
+  return color || 'var(--persimmon)'
 }
