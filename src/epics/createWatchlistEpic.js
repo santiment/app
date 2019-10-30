@@ -23,6 +23,7 @@ const createUserListGQL = gql`
       isPublic
       color
       insertedAt
+      isMonitored
       updatedAt
       listItems {
         project {
@@ -63,6 +64,7 @@ const createWatchlistEpic = (action$, store, { client }) =>
             isPublic,
             name,
             listItems,
+            isMonitored: false,
             insertedAt: new Date(),
             updatedAt: new Date(),
             user: {
