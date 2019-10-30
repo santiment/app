@@ -445,32 +445,28 @@ class Charts extends React.Component {
   onChartClick = () => {
     const { signalData = {} } = this.state
 
-    if (!signalData) {
-      return
-    }
-
     let priceUsd, chartY
     if (signalData) {
       priceUsd = signalData.priceUsd
       chartY = signalData.chartY
+    } else {
+      return
     }
 
-    if (priceUsd) {
-      const { slug, signals, createSignal } = this.props
-      const signal = buildPriceAboveSignal(slug, priceUsd)
+    const { slug, signals, createSignal } = this.props
+    const signal = buildPriceAboveSignal(slug, priceUsd)
 
-      const existingSignalsWithSamePrice = getSlugPriceSignals(
-        signals,
-        slug,
-        priceUsd
-      )
-      if (existingSignalsWithSamePrice.length === 0) {
-        createSignal(signal)
-      } else {
-        const [signal] = existingSignalsWithSamePrice
-        signal &&
-          this.onRemoveSignal(signal.id, buildChartSignalData(chartY, priceUsd))
-      }
+    const existingSignalsWithSamePrice = getSlugPriceSignals(
+      signals,
+      slug,
+      priceUsd
+    )
+    if (existingSignalsWithSamePrice.length === 0) {
+      createSignal(signal)
+    } else {
+      const [signal] = existingSignalsWithSamePrice
+      signal &&
+        this.onRemoveSignal(signal.id, buildChartSignalData(chartY, priceUsd))
     }
   }
 
