@@ -7,6 +7,7 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import { normalizeCSV } from './utils'
 import WatchlistDeleteDialog from './WatchlistDeleteDialog'
 import WatchlistEdit from '../../components/WatchlistEdit/WatchlistEdit'
+import WatchlistWeeklyReport from '../../components/WatchlistWeeklyReport/WatchlistWeeklyReport'
 import WatchlistCopyPopup from '../../components/WatchlistCopy/WatchlistCopyPopup'
 import WatchlistPublicityToggle from '../../components/WatchlistShare/WatchlistShare'
 import styles from './WatchlistContextMenu.module.scss'
@@ -17,7 +18,8 @@ const WatchlistContextMenu = ({
   id,
   hasCSV,
   isDesktop,
-  name
+  name,
+  isMonitored
 }) => {
   if (!(isAuthor || hasCSV)) return null
 
@@ -59,6 +61,18 @@ const WatchlistContextMenu = ({
               </Button>
             }
           />
+          {!isDesktop && isAuthor && (
+            <WatchlistWeeklyReport
+              id={id}
+              isMonitored={isMonitored}
+              name={name}
+              trigger={
+                <Button variant='ghost' fluid>
+                  Weekly report
+                </Button>
+              }
+            />
+          )}
           {hasCSV && isDesktop && (
             <CSVLink
               data={normalizeCSV(assets)}

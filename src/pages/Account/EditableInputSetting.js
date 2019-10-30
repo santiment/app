@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react'
-import { Panel, Input, Label, Button } from '@santiment-network/ui'
+import Button from '@santiment-network/ui/Button'
+import Label from '@santiment-network/ui/Label'
+import Input from '@santiment-network/ui/Input'
+import Panel from '@santiment-network/ui/Panel'
 import cx from 'classnames'
 import styles from './AccountPage.module.scss'
 
@@ -12,7 +15,7 @@ class EditableInputSetting extends PureComponent {
 
   inputRef = React.createRef()
 
-  componentWilllUnmout () {
+  componentWillUnmount () {
     clearTimeout(this.timeout)
   }
 

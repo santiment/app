@@ -62,6 +62,8 @@ const labelFormatter = date => {
   return `${dddd}, ${MMM} ${DD} ${YYYY}`
 }
 
+const upperCaseFirstLetter = str => str.charAt(0).toUpperCase() + str.slice(1)
+
 export {
   formatCryptoCurrency,
   formatBTC,
@@ -69,5 +71,6 @@ export {
   formatNumber,
   millify,
   labelFormatter,
-  formatTokensCount
+  formatTokensCount,
+  upperCaseFirstLetter
 }
