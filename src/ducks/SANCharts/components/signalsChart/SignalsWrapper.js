@@ -77,7 +77,7 @@ const withSignals = WrappedComponent => {
 
         if (offsetX <= width && offsetY <= height) {
           const { signals, slug } = this.props
-          const priceUsd = getSignalPrice(this.xToYCoordinates, offsetY)
+          const priceUsd = getSignalPrice(this.props.xToYCoordinates, offsetY)
           if (priceUsd) {
             const existingSignalsWithSamePrice = getSlugPriceSignals(
               signals,
@@ -156,10 +156,6 @@ const withSignals = WrappedComponent => {
       return chartData[chartData.length - 1].priceUsd
     }
 
-    setxToYCoordinates = data => {
-      this.xToYCoordinates = data
-    }
-
     render () {
       const { signals = [], slug } = this.props
 
@@ -172,9 +168,9 @@ const withSignals = WrappedComponent => {
       const onSignalClick = this.onSignalClick
 
       const signalLines =
-        isSignalsEnabled && this.xToYCoordinates
+        isSignalsEnabled && this.props.xToYCoordinates
           ? mapToPriceSignalLines({
-            data: this.xToYCoordinates,
+            data: this.props.xToYCoordinates,
             slug,
             signals,
             onSignalHover,
@@ -190,7 +186,6 @@ const withSignals = WrappedComponent => {
           signalData={signalData}
           onChartClick={this.onChartClick}
           onChartHover={this.onChartHover}
-          setxToYCoordinates={this.setxToYCoordinates}
           {...this.props}
         />
       )
