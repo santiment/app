@@ -73,13 +73,11 @@ const SearchProjects = ({
   isCopyingAssets,
   checkedAssets,
   watchlistItems,
-  searchIconPosition,
   ...props
 }) => {
   return (
     <SearchWithSuggestions
       {...props}
-      iconPosition={searchIconPosition}
       withMoreSuggestions={false}
       data={[
         {
