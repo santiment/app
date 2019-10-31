@@ -1,30 +1,31 @@
 import React from 'react'
 import { Line } from 'recharts'
 import { chartBars } from '../../utils'
-import debounce from 'lodash.debounce'
-import isEqual from 'lodash.isequal'
+import throttle from 'lodash.throttle'
 
 const withXYCoords = WrappedComponent => {
   class WithCoordWrapper extends React.Component {
     metricRef = React.createRef()
     state = {}
 
-    clearAndCalculateXY = newProps => {
-      const { chartRef } = newProps
-      chartBars.delete(chartRef.current)
-      this.getXToYCoordinates()
+    clearBarsAndCalculateXY = newProps => {
+      const { chartRef } = newProps || this.props
+      if (chartRef) {
+        this.getXToYCoordinates()
+        chartBars.delete(chartRef.current)
+      }
     }
 
     componentWillUpdate (newProps) {
       const { chartData } = newProps
       if (this.props.chartData !== chartData) {
-        this.clearAndCalculateXY(newProps)
+        this.clearBarsAndCalculateXY(newProps)
       }
     }
 
-    getXToYCoordinatesDebounced = debounce(() => {
-      // console.log("getXToYCoordinatesDebounced")
-      this.clearAndCalculateXY(this.props)
+    getXToYCoordinatesDebounced = throttle(callback => {
+      this.clearBarsAndCalculateXY()
+      callback && callback()
     }, 100)
 
     getXToYCoordinates = () => {
@@ -46,6 +47,7 @@ const withXYCoords = WrappedComponent => {
         <WrappedComponent
           getXToYCoordinates={this.getXToYCoordinates}
           getXToYCoordinatesDebounced={this.getXToYCoordinatesDebounced}
+          clearBarsAndCalculateXY={this.clearBarsAndCalculateXY}
           xToYCoordinates={this.state.xToYCoordinates}
           metricRef={this.metricRef}
           {...this.props}

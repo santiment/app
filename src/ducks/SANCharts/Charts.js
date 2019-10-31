@@ -148,11 +148,8 @@ class Charts extends React.Component {
 
   getXToYCoordinatesDebounced = () => {
     const { getXToYCoordinatesDebounced } = this.props
-    getXToYCoordinatesDebounced()
-    this.forceUpdate(this.forceUpdate)
+    getXToYCoordinatesDebounced(() => this.forceUpdate(this.forceUpdate))
   }
-
-  // HACK(vanguard): Thanks recharts
 
   componentDidUpdate (prevProps) {
     const {
@@ -168,7 +165,6 @@ class Charts extends React.Component {
       this.props.metricRef.current
     ) {
       // HACK(vanguard): Thanks recharts
-      // console.log('/ HACK(vanguard): Thanks recharts')
       this.props.getXToYCoordinates()
       this.forceUpdate()
     }
@@ -177,8 +173,7 @@ class Charts extends React.Component {
       chartData !== prevProps.chartData ||
       isAdvancedView !== prevProps.isAdvancedView
     ) {
-      // console.log("his.props.getXToYCoordinatesDebounced()")
-      this.getXToYCoordinatesDebounced()
+      this.props.clearBarsAndCalculateXY()
     }
 
     if (chartData !== prevProps.chartData) {
