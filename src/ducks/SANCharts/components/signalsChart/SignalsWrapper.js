@@ -1,5 +1,4 @@
 import React from 'react'
-import { compose } from 'redux'
 import { connect } from 'react-redux'
 import throttle from 'lodash.throttle'
 import {
@@ -23,21 +22,14 @@ const withSignals = WrappedComponent => {
     }
 
     componentDidUpdate (prevProps, prevState, snapshot) {
-      console.log(
-        'HOComponent updated',
-        this.props,
-        window.xToYCoordinates,
-        this
-      )
-
-      const { isBeta, isLoggedIn } = this.props
+      const { isBeta, isLoggedIn, fetchSignals } = this.props
 
       if (
         (!prevProps.isBeta || !prevProps.isLoggedIn) &&
         isBeta &&
         isLoggedIn
       ) {
-        this.loadSignals(this.props)
+        this.canShowSignalLines() && fetchSignals()
       }
     }
 
@@ -63,8 +55,7 @@ const withSignals = WrappedComponent => {
     }
 
     onChartHover = throttle((evt, metricRef) => {
-      console.log(!this.canShowSignalLines(), this.props)
-      if (!this.canShowSignalLines() || evt.target.nodeName !== 'svg') {
+      if (!this.canShowSignalLines()) {
         return
       }
 
@@ -86,7 +77,7 @@ const withSignals = WrappedComponent => {
 
         if (offsetX <= width && offsetY <= height) {
           const { signals, slug } = this.props
-          const priceUsd = getSignalPrice(window.xToYCoordinates, offsetY)
+          const priceUsd = getSignalPrice(this.xToYCoordinates, offsetY)
           if (priceUsd) {
             const existingSignalsWithSamePrice = getSlugPriceSignals(
               signals,
@@ -116,12 +107,6 @@ const withSignals = WrappedComponent => {
       signal,
       lastPrice: this.getLastPrice()
     })
-
-    loadSignals = () => {
-      const { fetchSignals } = this.props
-      console.log('try loadSignals', this.props)
-      this.canShowSignalLines() && fetchSignals && fetchSignals()
-    }
 
     canShowSignalLines = () => {
       const { metrics = [], isLoggedIn, isBeta } = this.props
@@ -172,7 +157,7 @@ const withSignals = WrappedComponent => {
     }
 
     setxToYCoordinates = data => {
-      window.xToYCoordinates = data
+      this.xToYCoordinates = data
     }
 
     render () {
@@ -187,9 +172,9 @@ const withSignals = WrappedComponent => {
       const onSignalClick = this.onSignalClick
 
       const signalLines =
-        isSignalsEnabled && window.xToYCoordinates
+        isSignalsEnabled && this.xToYCoordinates
           ? mapToPriceSignalLines({
-            data: window.xToYCoordinates,
+            data: this.xToYCoordinates,
             slug,
             signals,
             onSignalHover,
@@ -224,7 +209,6 @@ const withSignals = WrappedComponent => {
       dispatch(createTrigger(payload))
     },
     fetchSignals: () => {
-      console.log('fetchSignals')
       dispatch(fetchSignals())
     },
     removeSignal: id => {
@@ -232,14 +216,12 @@ const withSignals = WrappedComponent => {
     }
   })
 
-  const enhanceWrapper = compose(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )
+  const enhance = connect(
+    mapStateToProps,
+    mapDispatchToProps
   )
 
-  return enhanceWrapper(withSignalsWrapper)
+  return enhance(withSignalsWrapper)
 }
 
 export default withSignals
