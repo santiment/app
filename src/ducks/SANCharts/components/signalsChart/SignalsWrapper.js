@@ -34,11 +34,7 @@ const withSignals = WrappedComponent => {
     componentDidUpdate (prevProps, prevState, snapshot) {
       const { isBeta, isLoggedIn, fetchSignals } = this.props
 
-      if (
-        (!prevProps.isBeta || !prevProps.isLoggedIn) &&
-        isBeta &&
-        isLoggedIn
-      ) {
+      if (prevProps.isBeta !== isBeta || isLoggedIn !== prevProps.isLoggedIn) {
         this.canShowSignalLines() && fetchSignals()
       }
     }

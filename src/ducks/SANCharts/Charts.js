@@ -16,7 +16,6 @@ import {
   ReferenceLine
 } from 'recharts'
 import throttle from 'lodash.throttle'
-import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { millify } from './../../utils/formatting'
@@ -29,7 +28,6 @@ import {
   getEventsTooltipInfo,
   generateMetricsMarkup,
   findYAxisMetric,
-  chartBars,
   getCrossYValue,
   isDayStartMetric,
   assignToPointDayStartValue
@@ -43,10 +41,10 @@ import SignalLine, {
   SignalPointSvg
 } from './components/newSignalLine/SignalLine'
 import SidecarExplanationTooltip from './SidecarExplanationTooltip'
-import sharedStyles from './ChartPage.module.scss'
-import styles from './Chart.module.scss'
 import withSignals from './components/signalsChart/SignalsWrapper'
 import withXYCoords from './components/rechartsWrapper/RechartsWrapper'
+import sharedStyles from './ChartPage.module.scss'
+import styles from './Chart.module.scss'
 
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
@@ -110,11 +108,7 @@ class Charts extends React.Component {
   eventsMap = new Map()
 
   componentWillUpdate (newProps) {
-    const { chartData, chartRef, metrics, events, isAdvancedView } = newProps
-    if (this.props.chartData !== chartData) {
-      this.props.getXToYCoordinates()
-      chartBars.delete(chartRef.current)
-    }
+    const { chartData, metrics, events, isAdvancedView } = newProps
 
     if (
       metrics !== this.props.metrics ||
@@ -153,19 +147,7 @@ class Charts extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    const {
-      metrics,
-      chartData,
-      isAdvancedView,
-      isIntervalSmallerThanDay
-    } = this.props
-
-    if (
-      chartData !== prevProps.chartData ||
-      isAdvancedView !== prevProps.isAdvancedView
-    ) {
-      this.getXToYCoordinatesDebounced()
-    }
+    const { metrics, chartData, isIntervalSmallerThanDay } = this.props
 
     if (chartData !== prevProps.chartData) {
       const dayMetrics = []
@@ -248,13 +230,6 @@ class Charts extends React.Component {
     })
   }
 
-  getXToYCoordinatesDebounced = debounce(() => {
-    chartBars.delete(this.props.chartRef.current)
-    this.props.getXToYCoordinates()
-    // HACK(vanguard): Thanks recharts
-    this.forceUpdate(this.forceUpdate)
-  }, 100)
-
   onMouseLeave = () => {
     this.setState({
       hovered: false
@@ -306,6 +281,7 @@ class Charts extends React.Component {
   }, 16)
 
   render () {
+    console.log('render!')
     const {
       chartRef,
       metrics,
@@ -519,7 +495,7 @@ class Charts extends React.Component {
               <Brush
                 tickFormatter={EMPTY_FORMATTER}
                 travellerWidth={4}
-                onChange={this.getXToYCoordinatesDebounced}
+                onChange={this.props.getXToYCoordinatesDebounced}
                 width={chartRef.current.clientWidth}
                 x={0}
               >
