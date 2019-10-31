@@ -2,7 +2,8 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { compose } from 'redux'
 import { graphql } from 'react-apollo'
-import { Icon, SearchWithSuggestions } from '@santiment-network/ui'
+import Icon from '@santiment-network/ui/Icon'
+import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import { allProjectsForSearchGQL } from '../../pages/Projects/allProjectsGQL'
 import { hasAssetById } from '../WatchlistPopup/WatchlistsPopup'
@@ -73,13 +74,11 @@ const SearchProjects = ({
   isCopyingAssets,
   checkedAssets,
   watchlistItems,
-  searchIconPosition,
   ...props
 }) => {
   return (
     <SearchWithSuggestions
       {...props}
-      iconPosition={searchIconPosition}
       withMoreSuggestions={false}
       data={[
         {

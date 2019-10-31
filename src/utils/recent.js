@@ -38,3 +38,5 @@ export const removeRecentTrends = word =>
   saveRecent(RECENT_TRENDS, removeRecent(RECENT_TRENDS, word))
 export const removeRecentAssets = asset =>
   saveRecent(RECENT_ASSETS, removeRecent(RECENT_ASSETS, asset))
+export const clearRecentTrends = () => saveRecent(RECENT_TRENDS, [])
+export const clearRecentAssets = () => saveRecent(RECENT_ASSETS, [])
