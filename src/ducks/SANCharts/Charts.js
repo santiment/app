@@ -5,7 +5,6 @@ import cx from 'classnames'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import {
-  Line,
   ResponsiveContainer,
   ComposedChart,
   Label,
@@ -47,6 +46,7 @@ import SidecarExplanationTooltip from './SidecarExplanationTooltip'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
 import withSignals from './components/signalsChart/SignalsWrapper'
+import withXYCoords from './components/rechartsWrapper/RechartsWrapper'
 
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
@@ -133,7 +133,7 @@ class Charts extends React.Component {
   componentWillUpdate (newProps) {
     const { chartData, chartRef, metrics, events, isAdvancedView } = newProps
     if (this.props.chartData !== chartData) {
-      this.getXToYCoordinates()
+      this.props.getXToYCoordinates(this.metricRef)
       chartBars.delete(chartRef.current)
     }
 
@@ -181,9 +181,9 @@ class Charts extends React.Component {
       isIntervalSmallerThanDay
     } = this.props
 
-    if (!this.xToYCoordinates && this.metricRef.current) {
+    if (!this.props.xToYCoordinates && this.metricRef.current) {
       // HACK(vanguard): Thanks recharts
-      this.getXToYCoordinates()
+      this.props.getXToYCoordinates(this.metricRef)
       this.forceUpdate()
     }
 
@@ -275,26 +275,9 @@ class Charts extends React.Component {
     })
   }
 
-  getXToYCoordinates = () => {
-    const { current } = this.metricRef
-    if (!current) {
-      return
-    }
-
-    const key = current instanceof Line ? 'points' : 'data'
-
-    // HACK(vanguard): Because 'recharts' lib does not expose the "good" way to get coordinates
-    this.xToYCoordinates = current.props[key] || []
-
-    const { setxToYCoordinates } = this.props
-    setxToYCoordinates && setxToYCoordinates(this.xToYCoordinates)
-
-    return true
-  }
-
   getXToYCoordinatesDebounced = debounce(() => {
     chartBars.delete(this.props.chartRef.current)
-    this.getXToYCoordinates()
+    this.props.getXToYCoordinates(this.metricRef)
     // HACK(vanguard): Thanks recharts
     this.forceUpdate(this.forceUpdate)
   }, 100)
@@ -308,7 +291,10 @@ class Charts extends React.Component {
   onMouseMove = throttle(event => {
     if (!event) return
 
-    if (!this.xToYCoordinates && !this.getXToYCoordinates()) {
+    if (
+      !this.props.xToYCoordinates &&
+      !this.props.getXToYCoordinates(this.metricRef)
+    ) {
       return
     }
 
@@ -319,7 +305,7 @@ class Charts extends React.Component {
     }
 
     const { tooltipMetric = 'historyPrice' } = this.state
-    const coordinates = this.xToYCoordinates[activeTooltipIndex]
+    const coordinates = this.props.xToYCoordinates[activeTooltipIndex]
 
     if (!coordinates) {
       return
@@ -384,7 +370,7 @@ class Charts extends React.Component {
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
       chartRef,
       dayMetrics,
-      coordinates: this.xToYCoordinates,
+      coordinates: this.props.xToYCoordinates,
       scale: scale,
       ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef }
     })
@@ -487,7 +473,9 @@ class Charts extends React.Component {
           <ComposedChart
             margin={CHART_MARGINS}
             onMouseLeave={this.onMouseLeave}
-            onMouseEnter={this.getXToYCoordinates}
+            onMouseEnter={() => {
+              this.props.getXToYCoordinates(this.metricRef)
+            }}
             onMouseDown={event => {
               const { onChartClick } = this.props
               onChartClick && onChartClick(event)
@@ -630,4 +618,4 @@ const enhance = compose(
     }
   })
 )
-export default withSignals(enhance(Charts))
+export default withXYCoords(withSignals(enhance(Charts)))
