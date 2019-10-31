@@ -367,6 +367,8 @@ class Charts extends React.Component {
       signalData
     } = this.props
 
+    console.log('inside props', this.props)
+
     const {
       refAreaLeft,
       refAreaRight,
