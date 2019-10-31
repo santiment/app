@@ -31,7 +31,9 @@ import {
   generateMetricsMarkup,
   findYAxisMetric,
   chartBars,
-  getCrossYValue, isDayStartMetric
+  getCrossYValue,
+  isDayStartMetric,
+  assignToPointDayStartValue
 } from './utils'
 import { Metrics } from './data'
 import { checkHasPremium } from '../../pages/UserSelectors'
@@ -366,8 +368,6 @@ class Charts extends React.Component {
       signalData
     } = this.props
 
-    console.log('inside props', this.props)
-
     const {
       refAreaLeft,
       refAreaRight,
@@ -377,7 +377,8 @@ class Charts extends React.Component {
       yValue,
       activePayload,
       hovered,
-      tooltipMetric
+      tooltipMetric,
+      dayMetrics
     } = this.state
 
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
