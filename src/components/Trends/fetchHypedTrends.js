@@ -5,8 +5,8 @@ import * as actions from './actions'
 import { SOCIALVOLUME_DATA_FETCH } from '../SocialVolumeWidget/actions'
 
 const TRENDING_WORDS_QUERY = gql`
-  query getTrendingWords($from: DateTime!, $to: DateTime!) {
-    getTrendingWords(size: 10, from: $from, to: $to, interval: "7h") {
+  query getTrendingWords($from: DateTime!, $to: DateTime!, $interval: Int!) {
+    getTrendingWords(size: 10, from: $from, to: $to, interval: $interval) {
       datetime
       topWords {
         score
@@ -42,13 +42,14 @@ const fetchTrends$ = ({ client, data = {} }) => {
   const from = new Date()
   const to = new Date()
   to.setHours(to.getHours(), 0, 0, 0)
-  from.setHours(from.getHours() - 15, 0, 0, 0)
+  from.setHours(from.getHours() - 3, 0, 0, 0)
 
   const query = client.query({
     query: TRENDING_WORDS_QUERY,
     variables: {
       to: to.toISOString(),
-      from: from.toISOString()
+      from: from.toISOString(),
+      interval: '1h'
     },
     context: { isRetriable: true }
   })
