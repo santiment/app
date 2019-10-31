@@ -146,8 +146,40 @@ class Charts extends React.Component {
     }
   }
 
+  getXToYCoordinatesDebounced = () => {
+    const { getXToYCoordinatesDebounced } = this.props
+    getXToYCoordinatesDebounced()
+    this.forceUpdate(this.forceUpdate)
+  }
+
+  // HACK(vanguard): Thanks recharts
+
   componentDidUpdate (prevProps) {
-    const { metrics, chartData, isIntervalSmallerThanDay } = this.props
+    const {
+      metrics,
+      isAdvancedView,
+      chartData,
+      isIntervalSmallerThanDay
+    } = this.props
+
+    if (
+      !this.props.xToYCoordinates &&
+      this.props.metricRef &&
+      this.props.metricRef.current
+    ) {
+      // HACK(vanguard): Thanks recharts
+      // console.log('/ HACK(vanguard): Thanks recharts')
+      this.props.getXToYCoordinates()
+      this.forceUpdate()
+    }
+
+    if (
+      chartData !== prevProps.chartData ||
+      isAdvancedView !== prevProps.isAdvancedView
+    ) {
+      // console.log("his.props.getXToYCoordinatesDebounced()")
+      this.getXToYCoordinatesDebounced()
+    }
 
     if (chartData !== prevProps.chartData) {
       const dayMetrics = []
@@ -281,7 +313,6 @@ class Charts extends React.Component {
   }, 16)
 
   render () {
-    console.log('render!')
     const {
       chartRef,
       metrics,
@@ -495,7 +526,7 @@ class Charts extends React.Component {
               <Brush
                 tickFormatter={EMPTY_FORMATTER}
                 travellerWidth={4}
-                onChange={this.props.getXToYCoordinatesDebounced}
+                onChange={this.getXToYCoordinatesDebounced}
                 width={chartRef.current.clientWidth}
                 x={0}
               >

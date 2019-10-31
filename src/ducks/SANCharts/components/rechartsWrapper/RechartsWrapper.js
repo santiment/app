@@ -2,42 +2,29 @@ import React from 'react'
 import { Line } from 'recharts'
 import { chartBars } from '../../utils'
 import debounce from 'lodash.debounce'
+import isEqual from 'lodash.isequal'
 
 const withXYCoords = WrappedComponent => {
   class WithCoordWrapper extends React.Component {
     metricRef = React.createRef()
+    state = {}
 
-    componentDidUpdate (prevProps) {
-      if (!this.xToYCoordinates && this.metricRef && this.props.current) {
-        // HACK(vanguard): Thanks recharts
-        this.getXToYCoordinates()
-        this.forceUpdate()
-      }
-
-      const { chartData, isAdvancedView } = this.props
-
-      if (
-        chartData !== prevProps.chartData ||
-        isAdvancedView !== prevProps.isAdvancedView
-      ) {
-        this.getXToYCoordinatesDebounced()
-      }
+    clearAndCalculateXY = newProps => {
+      const { chartRef } = newProps
+      chartBars.delete(chartRef.current)
+      this.getXToYCoordinates()
     }
 
     componentWillUpdate (newProps) {
-      const { chartData, chartRef } = newProps
+      const { chartData } = newProps
       if (this.props.chartData !== chartData) {
-        this.getXToYCoordinates()
-        console.log(chartBars)
-        chartBars.delete(chartRef.current)
+        this.clearAndCalculateXY(newProps)
       }
     }
 
     getXToYCoordinatesDebounced = debounce(() => {
-      chartBars.delete(this.props.chartRef.current)
-      this.getXToYCoordinates()
-      // HACK(vanguard): Thanks recharts
-      this.forceUpdate(this.forceUpdate)
+      // console.log("getXToYCoordinatesDebounced")
+      this.clearAndCalculateXY(this.props)
     }, 100)
 
     getXToYCoordinates = () => {
@@ -49,7 +36,7 @@ const withXYCoords = WrappedComponent => {
       const key = current instanceof Line ? 'points' : 'data'
 
       // HACK(vanguard): Because 'recharts' lib does not expose the "good" way to get coordinates
-      this.xToYCoordinates = current.props[key] || []
+      this.setState({ xToYCoordinates: current.props[key] || [] })
 
       return true
     }
@@ -59,7 +46,7 @@ const withXYCoords = WrappedComponent => {
         <WrappedComponent
           getXToYCoordinates={this.getXToYCoordinates}
           getXToYCoordinatesDebounced={this.getXToYCoordinatesDebounced}
-          xToYCoordinates={this.xToYCoordinates}
+          xToYCoordinates={this.state.xToYCoordinates}
           metricRef={this.metricRef}
           {...this.props}
         />
