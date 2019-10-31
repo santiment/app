@@ -197,7 +197,6 @@ const withSignals = WrappedComponent => {
           signalLines={signalLines}
           signalData={signalData}
           onChartClick={this.onChartClick}
-          onChartHover={this.onChartHover}
           {...this.props}
         />
       )
