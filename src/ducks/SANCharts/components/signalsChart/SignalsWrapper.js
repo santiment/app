@@ -15,10 +15,20 @@ import {
 import { buildPriceSignal } from './../../../Signals/utils/utils'
 
 const withSignals = WrappedComponent => {
-  class withSignalsWrapper extends React.Component {
+  class WithSignalsWrapper extends React.Component {
     state = {
       signalData: undefined,
       signals: []
+    }
+
+    componentDidMount () {
+      const chartSvg = this.props.chartRef.current
+      chartSvg && chartSvg.addEventListener('mousemove', this.onChartHover)
+    }
+
+    componentWillUnmount () {
+      const chartSvg = this.props.chartRef.current
+      chartSvg && chartSvg.removeEventListener('mousemove', this.onChartHover)
     }
 
     componentDidUpdate (prevProps, prevState, snapshot) {
@@ -54,7 +64,7 @@ const withSignals = WrappedComponent => {
       this.onRemoveSignal(id, this.buildChartSignalData(target.cy, target.y))
     }
 
-    onChartHover = throttle((evt, metricRef) => {
+    onChartHover = throttle(evt => {
       if (!this.canShowSignalLines()) {
         return
       }
@@ -64,6 +74,8 @@ const withSignals = WrappedComponent => {
       if (signalPointHovered) {
         return
       }
+
+      const { metricRef } = this.props
 
       if (
         metricRef &&
@@ -216,7 +228,7 @@ const withSignals = WrappedComponent => {
     mapDispatchToProps
   )
 
-  return enhance(withSignalsWrapper)
+  return enhance(WithSignalsWrapper)
 }
 
 export default withSignals

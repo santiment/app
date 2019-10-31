@@ -2,13 +2,23 @@ import React from 'react'
 import { Line } from 'recharts'
 
 const withXYCoords = WrappedComponent => {
-  class withCoordWrapper extends React.Component {
+  class WithCoordWrapper extends React.Component {
     state = {
       xToYCoordinates: undefined
     }
 
-    getXToYCoordinates = metricRef => {
-      const { current } = metricRef
+    metricRef = React.createRef()
+
+    componentDidUpdate (prevProps) {
+      if (!this.state.xToYCoordinates && this.metricRef && this.props.current) {
+        // HACK(vanguard): Thanks recharts
+        this.getXToYCoordinates()
+        this.forceUpdate()
+      }
+    }
+
+    getXToYCoordinates = () => {
+      const { current } = this.metricRef
       if (!current) {
         return
       }
@@ -28,13 +38,14 @@ const withXYCoords = WrappedComponent => {
         <WrappedComponent
           getXToYCoordinates={this.getXToYCoordinates}
           xToYCoordinates={this.state.xToYCoordinates}
+          metricRef={this.metricRef}
           {...this.props}
         />
       )
     }
   }
 
-  return withCoordWrapper
+  return WithCoordWrapper
 }
 
 export default withXYCoords

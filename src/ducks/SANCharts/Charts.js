@@ -108,32 +108,11 @@ class Charts extends React.Component {
   }
 
   eventsMap = new Map()
-  metricRef = React.createRef()
-
-  componentDidMount () {
-    const chartSvg = this.props.chartRef.current
-    const { onChartHover } = this.props
-    chartSvg &&
-      chartSvg.addEventListener(
-        'mousemove',
-        evt => onChartHover && onChartHover(evt, this.metricRef)
-      )
-  }
-
-  componentWillUnmount () {
-    const chartSvg = this.props.chartRef.current
-    const { onChartHover } = this.props
-    chartSvg &&
-      chartSvg.removeEventListener(
-        'mousemove',
-        evt => onChartHover && onChartHover(evt, this.metricRef)
-      )
-  }
 
   componentWillUpdate (newProps) {
     const { chartData, chartRef, metrics, events, isAdvancedView } = newProps
     if (this.props.chartData !== chartData) {
-      this.props.getXToYCoordinates(this.metricRef)
+      this.props.getXToYCoordinates()
       chartBars.delete(chartRef.current)
     }
 
@@ -180,12 +159,6 @@ class Charts extends React.Component {
       isAdvancedView,
       isIntervalSmallerThanDay
     } = this.props
-
-    if (!this.props.xToYCoordinates && this.metricRef.current) {
-      // HACK(vanguard): Thanks recharts
-      this.props.getXToYCoordinates(this.metricRef)
-      this.forceUpdate()
-    }
 
     if (
       chartData !== prevProps.chartData ||
@@ -277,7 +250,7 @@ class Charts extends React.Component {
 
   getXToYCoordinatesDebounced = debounce(() => {
     chartBars.delete(this.props.chartRef.current)
-    this.props.getXToYCoordinates(this.metricRef)
+    this.props.getXToYCoordinates()
     // HACK(vanguard): Thanks recharts
     this.forceUpdate(this.forceUpdate)
   }, 100)
@@ -291,10 +264,7 @@ class Charts extends React.Component {
   onMouseMove = throttle(event => {
     if (!event) return
 
-    if (
-      !this.props.xToYCoordinates &&
-      !this.props.getXToYCoordinates(this.metricRef)
-    ) {
+    if (!this.props.xToYCoordinates && !this.props.getXToYCoordinates()) {
       return
     }
 
@@ -372,7 +342,7 @@ class Charts extends React.Component {
       dayMetrics,
       coordinates: this.props.xToYCoordinates,
       scale: scale,
-      ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef }
+      ref: { [tooltipMetric && tooltipMetric.key]: this.props.metricRef }
     })
 
     let events = []
@@ -474,7 +444,7 @@ class Charts extends React.Component {
             margin={CHART_MARGINS}
             onMouseLeave={this.onMouseLeave}
             onMouseEnter={() => {
-              this.props.getXToYCoordinates(this.metricRef)
+              this.props.getXToYCoordinates()
             }}
             onMouseDown={event => {
               const { onChartClick } = this.props
