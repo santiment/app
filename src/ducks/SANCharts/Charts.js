@@ -31,30 +31,21 @@ import {
   generateMetricsMarkup,
   findYAxisMetric,
   chartBars,
-  mapToPriceSignalLines,
-  getSignalPrice,
-  getCrossYValue,
-  getSlugPriceSignals,
   isDayStartMetric,
-  assignToPointDayStartValue
+  getCrossYValue
 } from './utils'
 import { Metrics } from './data'
 import { checkHasPremium } from '../../pages/UserSelectors'
 import displayPaywall, { MOVE_CLB, CHECK_CLB } from './Paywall'
 import { binarySearch } from '../../pages/Trends/utils'
 import ChartWatermark from './ChartWatermark'
-import {
-  createTrigger,
-  fetchSignals,
-  removeTrigger
-} from '../Signals/common/actions'
-import { buildPriceSignal } from '../Signals/utils/utils'
 import SignalLine, {
   SignalPointSvg
 } from './components/newSignalLine/SignalLine'
 import SidecarExplanationTooltip from './SidecarExplanationTooltip'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
+import withSignals from './components/signalsChart/SignalsWrapper'
 
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
@@ -112,110 +103,34 @@ class Charts extends React.Component {
     leftZoomIndex: undefined,
     rightZoomIndex: undefined,
     refAreaLeft: undefined,
-    refAreaRight: undefined,
-    signalData: undefined,
-    onSignalHover: throttle((evt, value, signal) => {
-      return this.setSignalsState(
-        this.buildChartSignalData(evt.cy, value, signal),
-        true
-      )
-    }, 50),
-    onSignalLeave: throttle(() => {
-      return this.setSignalsState(undefined)
-    }, 50),
-    onSignalClick: (target, evt, id) => {
-      evt.stopPropagation()
-      evt.preventDefault()
-
-      this.onRemoveSignal(id, this.buildChartSignalData(target.cy, target.y))
-    }
+    refAreaRight: undefined
   }
 
   eventsMap = new Map()
   metricRef = React.createRef()
 
-  setSignalsState = (signalData, signalPointHovered = false) => {
-    this.setState({
-      signalData,
-      signalPointHovered,
-      hovered: false
-    })
-  }
-
-  buildChartSignalData = (chartY, priceUsd, signal = undefined) => ({
-    chartY,
-    priceUsd,
-    signal,
-    lastPrice: this.getLastPrice()
-  })
-
-  onChartHover = throttle(evt => {
-    if (!this.canShowSignalLines() || evt.target.nodeName !== 'svg') {
-      return
-    }
-
-    if (this.state.signalPointHovered) {
-      return
-    }
-
-    if (
-      this.metricRef &&
-      this.metricRef.current &&
-      this.metricRef.current.props.dataKey === Metrics.historyPrice.dataKey
-    ) {
-      const { offsetX, offsetY } = evt
-
-      const { yAxis } = this.metricRef.current.props
-      const { height, width } = yAxis
-
-      if (offsetX <= width && offsetY <= height) {
-        const { signals, slug } = this.props
-        const priceUsd = getSignalPrice(this.xToYCoordinates, offsetY)
-        if (priceUsd) {
-          const existingSignalsWithSamePrice = getSlugPriceSignals(
-            signals,
-            slug,
-            priceUsd
-          )
-          const signalData = this.buildChartSignalData(
-            offsetY,
-            priceUsd,
-            existingSignalsWithSamePrice[0]
-          )
-          this.setSignalsState(signalData)
-        }
-      } else {
-        this.setSignalsState(undefined)
-      }
-    }
-  }, 100)
-
-  loadSignals = newProps => {
-    const { isBeta, isLoggedIn, fetchSignals } = newProps || this.props
-    isBeta && isLoggedIn && fetchSignals && fetchSignals()
-  }
-
   componentDidMount () {
     const chartSvg = this.props.chartRef.current
-    chartSvg && chartSvg.addEventListener('mousemove', this.onChartHover)
-    this.loadSignals()
+    const { onChartHover } = this.props
+    chartSvg &&
+      chartSvg.addEventListener(
+        'mousemove',
+        evt => onChartHover && onChartHover(evt, this.metricRef)
+      )
   }
 
   componentWillUnmount () {
     const chartSvg = this.props.chartRef.current
-    chartSvg && chartSvg.removeEventListener('mousemove', this.onChartHover)
+    const { onChartHover } = this.props
+    chartSvg &&
+      chartSvg.removeEventListener(
+        'mousemove',
+        evt => onChartHover && onChartHover(evt, this.metricRef)
+      )
   }
 
   componentWillUpdate (newProps) {
-    const {
-      chartData,
-      chartRef,
-      metrics,
-      events,
-      isAdvancedView,
-      isBeta,
-      isLoggedIn
-    } = newProps
+    const { chartData, chartRef, metrics, events, isAdvancedView } = newProps
     if (this.props.chartData !== chartData) {
       this.getXToYCoordinates()
       chartBars.delete(chartRef.current)
@@ -254,10 +169,6 @@ class Charts extends React.Component {
 
         this.eventsMap.set(result.datetime, eventsData)
       })
-    }
-
-    if (isBeta !== this.props.isBeta || isLoggedIn !== this.props.isLoggedIn) {
-      this.loadSignals(newProps)
     }
   }
 
@@ -374,6 +285,9 @@ class Charts extends React.Component {
     // HACK(vanguard): Because 'recharts' lib does not expose the "good" way to get coordinates
     this.xToYCoordinates = current.props[key] || []
 
+    const { setxToYCoordinates } = this.props
+    setxToYCoordinates && setxToYCoordinates(this.xToYCoordinates)
+
     return true
   }
 
@@ -386,14 +300,8 @@ class Charts extends React.Component {
 
   onMouseLeave = () => {
     this.setState({
-      hovered: false,
-      signalData: null
+      hovered: false
     })
-  }
-
-  canShowSignalLines = () => {
-    const { metrics = [], isLoggedIn, isBeta } = this.props
-    return isLoggedIn && isBeta && metrics.includes(Metrics.historyPrice)
   }
 
   onMouseMove = throttle(event => {
@@ -440,48 +348,6 @@ class Charts extends React.Component {
     })
   }, 16)
 
-  onRemoveSignal = (id, signalData = undefined) => {
-    const { removeSignal } = this.props
-    removeSignal(id)
-    this.setSignalsState(signalData)
-  }
-
-  onChartClick = () => {
-    const { signalData = {} } = this.state
-
-    if (!signalData) {
-      return
-    }
-
-    const { priceUsd, chartY, type } = signalData
-
-    if (priceUsd) {
-      const { slug, signals, createSignal } = this.props
-      const signal = buildPriceSignal(slug, priceUsd, type)
-
-      const existingSignalsWithSamePrice = getSlugPriceSignals(
-        signals,
-        slug,
-        priceUsd
-      )
-      if (existingSignalsWithSamePrice.length === 0) {
-        createSignal(signal)
-      } else {
-        const [signal] = existingSignalsWithSamePrice
-        signal &&
-          this.onRemoveSignal(
-            signal.id,
-            this.buildChartSignalData(chartY, priceUsd, signal)
-          )
-      }
-    }
-  }
-
-  getLastPrice = () => {
-    const { chartData } = this.props
-    return chartData[chartData.length - 1].priceUsd
-  }
-
   render () {
     const {
       chartRef,
@@ -496,9 +362,11 @@ class Charts extends React.Component {
       isLoading,
       priceRefLineData,
       scale,
-      signals = [],
-      slug
+      isSignalsEnabled,
+      signalLines,
+      signalData
     } = this.props
+
     const {
       refAreaLeft,
       refAreaRight,
@@ -508,12 +376,7 @@ class Charts extends React.Component {
       yValue,
       activePayload,
       hovered,
-      tooltipMetric,
-      signalData,
-      onSignalHover,
-      onSignalLeave,
-      onSignalClick,
-      dayMetrics
+      tooltipMetric
     } = this.state
 
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
@@ -541,18 +404,6 @@ class Charts extends React.Component {
       `Last day price ${Metrics.historyPrice.formatter(
         priceRefLineData.priceUsd
       )}`
-
-    const isSignalsEnabled = this.canShowSignalLines()
-    const signalLines = isSignalsEnabled
-      ? mapToPriceSignalLines({
-        data: this.xToYCoordinates,
-        slug,
-        signals,
-        onSignalHover,
-        onSignalLeave,
-        onSignalClick
-      })
-      : null
 
     const showTooltip = hovered && activePayload && !signalData
 
@@ -636,7 +487,8 @@ class Charts extends React.Component {
             onMouseLeave={this.onMouseLeave}
             onMouseEnter={this.getXToYCoordinates}
             onMouseDown={event => {
-              this.onChartClick(event)
+              const { onChartClick } = this.props
+              onChartClick && onChartClick(event)
 
               if (!event) return
               const { activeTooltipIndex, activeLabel } = event
@@ -733,13 +585,9 @@ Charts.defaultProps = {
   isLoading: true
 }
 
-const mapStateToProps = (state, props) => {
-  const { signals: { all = [] } = {} } = state
-  return {
-    hasPremium: checkHasPremium(state),
-    signals: all
-  }
-}
+const mapStateToProps = (state, props) => ({
+  hasPremium: checkHasPremium(state)
+})
 
 export const HISTORY_PRICE_QUERY = gql`
   query historyPrice($slug: String, $from: DateTime, $to: DateTime) {
@@ -750,24 +598,8 @@ export const HISTORY_PRICE_QUERY = gql`
   }
 `
 
-const mapDispatchToProps = dispatch => ({
-  createSignal: payload => {
-    dispatch(createTrigger(payload))
-  },
-  fetchSignals: payload => {
-    dispatch(fetchSignals())
-  },
-  removeSignal: id => {
-    dispatch(removeTrigger(id))
-  }
-})
-
 const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-
+  connect(mapStateToProps),
   graphql(HISTORY_PRICE_QUERY, {
     skip: ({ metrics, from, to }) => {
       return (
@@ -796,4 +628,4 @@ const enhance = compose(
     }
   })
 )
-export default enhance(Charts)
+export default withSignals(enhance(Charts))
