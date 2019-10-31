@@ -1,5 +1,6 @@
 import React from 'react'
 import { YAxis, Bar, Line, Area, ReferenceDot } from 'recharts'
+import { ONE_DAY_IN_MS } from '../../utils/dates'
 import { formatNumber, millify } from './../../utils/formatting'
 import { Metrics, Events } from './data'
 import styles from './Chart.module.scss'
@@ -12,14 +13,26 @@ export const mapDatetimeToNumber = timeseries =>
 
 export const usdFormatter = val => formatNumber(val, { currency: 'USD' })
 
+const getEventColor = (isAnomaly, value) => {
+  if (isAnomaly || value < 4) {
+    return 'var(--persimmon)'
+  }
+  if (value < 7) {
+    return 'var(--texas-rose-hover)'
+  }
+  return 'var(--bright-sun)'
+}
+
 export const getEventsTooltipInfo = events =>
   Object.keys(events).map(event => {
-    const { label, ...rest } = Events[event]
+    const { label, isAnomaly, ...rest } = Events[event]
+    const value = events[event]
     return {
+      isAnomaly,
+      value,
       isEvent: true,
-      color: 'var(--persimmon)',
-      value: events[event],
       name: label,
+      color: getEventColor(isAnomaly, value),
       ...rest
     }
   })
@@ -50,11 +63,12 @@ export const getMarketSegment = key => {
 export const getMetricCssVarColor = metric => `var(--${Metrics[metric].color})`
 
 export const METRIC_COLORS = [
-  'texas-rose',
   'dodger-blue',
   'lima',
   'heliotrope',
-  'waterloo'
+  'waterloo',
+  'sheets-hover',
+  'texas-rose'
 ]
 
 export const findYAxisMetric = metrics =>
@@ -73,7 +87,7 @@ export const setupColorGenerator = () => {
 export const chartBars = new WeakMap()
 
 const StackedLogic = props => {
-  const { fill, x, y, height, index, barsMap, value } = props
+  const { metric, fill, x, y, height, index, barsMap, value } = props
 
   if (value === undefined) return null
 
@@ -82,11 +96,11 @@ const StackedLogic = props => {
   if (!obj) {
     obj = {
       index,
-      metrics: new Map([[fill, { height, y, x }]])
+      metrics: new Map([[metric, { fill, height, y, x }]])
     }
     barsMap.set(index, obj)
   } else {
-    obj.metrics.set(fill, { height, y, x })
+    obj.metrics.set(metric, { fill, height, y, x })
   }
 
   return null
@@ -94,16 +108,13 @@ const StackedLogic = props => {
 
 const barMetricsSorter = ({ height: a }, { height: b }) => b - a
 
-const mapToData = ([fill, { height, y, x }]) => ({
-  fill,
-  height,
-  y,
-  x
-})
-
 const getBarMargin = diff => {
   if (diff < 1.3) {
-    return 0.3
+    return 0.2
+  }
+
+  if (diff < 2) {
+    return 0.5
   }
 
   if (diff < 4) {
@@ -120,6 +131,45 @@ export const getMetricYAxisId = ({ yAxisId, key, dataKey = key }) => {
   return yAxisId || `axis-${dataKey}`
 }
 
+const getDayMetricWidth = (bars, dayMetric, margin) => {
+  let lastX
+  for (let i = 0; i < bars.length; i++) {
+    const metric = bars[i].metrics.get(dayMetric)
+    if (metric) {
+      if (lastX) {
+        return metric.x - lastX - margin - margin
+      }
+      lastX = metric.x
+    }
+  }
+}
+
+export const alignDayMetrics = ({ chartRef, bars, dayMetrics, margin }) => {
+  const oneDayMetricsKeys = dayMetrics.map(([key]) => key)
+  const lastMetrics = {}
+  const dayWidth = getDayMetricWidth(bars, oneDayMetricsKeys[0], margin)
+
+  for (let i = 0; i < bars.length; i++) {
+    const { metrics } = bars[i]
+    for (let y = 0; y < oneDayMetricsKeys.length; y++) {
+      const key = oneDayMetricsKeys[y]
+      const metric = metrics.get(key)
+      if (metric) {
+        metric.width = dayWidth
+        lastMetrics[key] = metric
+      }
+    }
+  }
+
+  oneDayMetricsKeys.forEach(key => {
+    const lastMetric = lastMetrics[key]
+    if (lastMetric) {
+      const boundWidth = chartRef.offsetWidth - lastMetric.x
+      lastMetric.width = boundWidth < dayWidth ? boundWidth : dayWidth
+    }
+  })
+}
+
 export const generateMetricsMarkup = (
   metrics,
   {
@@ -127,7 +177,8 @@ export const generateMetricsMarkup = (
     data = {},
     chartRef: { current: chartRef } = {},
     coordinates,
-    scale
+    scale,
+    dayMetrics
   } = {}
 ) => {
   const metricWithYAxis = findYAxisMetric(metrics)
@@ -160,7 +211,7 @@ export const generateMetricsMarkup = (
     }
 
     if (chartRef !== undefined && El === Bar) {
-      rest.shape = <StackedLogic barsMap={barsMap} />
+      rest.shape = <StackedLogic barsMap={barsMap} metric={metric.key} />
     }
 
     const currentYAxisId = getMetricYAxisId(metric)
@@ -209,15 +260,18 @@ export const generateMetricsMarkup = (
     }
 
     const halfDif = (secondX - firstX) / 2
-    const halfWidth = halfDif - getBarMargin(halfDif)
+    const margin = getBarMargin(halfDif)
+    const halfWidth = halfDif - margin
+
+    const bars = [...barsMap.values()]
+    alignDayMetrics({ chartRef, bars, dayMetrics, margin })
 
     res.unshift(
       <g key='barMetrics'>
-        {[...barsMap.values()].map(({ metrics, index }) => {
+        {bars.map(({ metrics, index }) => {
           const coor = coordinates[index]
           if (!coor) return null
 
-          const mapped = [...metrics.entries()].map(mapToData)
           let resX = coor.x - halfWidth
           let secondWidth = halfWidth
 
@@ -228,14 +282,14 @@ export const generateMetricsMarkup = (
             secondWidth = 0
           }
 
-          return mapped
+          return [...metrics.values()]
             .sort(barMetricsSorter)
-            .map(({ fill, height, y }) => (
+            .map(({ width, fill, height, y }) => (
               <rect
                 key={fill + resX}
                 opacity='1'
                 fill={fill}
-                width={halfWidth + secondWidth}
+                width={width || halfWidth + secondWidth}
                 height={height}
                 x={resX}
                 y={y}
@@ -396,4 +450,36 @@ export const getCrossYValue = yValue => {
   }
 
   return yValue ? millify(yValue, 1) : '-'
+}
+
+export const isDayStartMetric = (
+  data,
+  dayMetric,
+  dayStartMetrics,
+  datetime
+) => {
+  const metricValue = data[dayMetric]
+  if (metricValue !== undefined) {
+    dayStartMetrics[dayMetric] = {
+      datetime,
+      value: metricValue
+    }
+    return true
+  }
+  return false
+}
+
+export const assignToPointDayStartValue = (
+  data,
+  dayMetric,
+  dayStartMetrics,
+  currentPointDatetime
+) => {
+  const dayStartMetric = dayStartMetrics[dayMetric]
+  if (
+    dayStartMetric &&
+    currentPointDatetime - dayStartMetric.datetime < ONE_DAY_IN_MS
+  ) {
+    data[dayMetric] = dayStartMetric.value
+  }
 }

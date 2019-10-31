@@ -31,7 +31,7 @@ import {
   generateMetricsMarkup,
   findYAxisMetric,
   chartBars,
-  getCrossYValue
+  getCrossYValue, isDayStartMetric
 } from './utils'
 import { Metrics } from './data'
 import { checkHasPremium } from '../../pages/UserSelectors'
@@ -98,6 +98,7 @@ const getTooltipMetricAndKey = (metrics, chartData) => {
 
 class Charts extends React.Component {
   state = {
+    dayMetrics: [],
     leftZoomIndex: undefined,
     rightZoomIndex: undefined,
     refAreaLeft: undefined,
@@ -157,12 +158,12 @@ class Charts extends React.Component {
         const { metricAnomalyKey: anomaly } = rest
         const result = value || chartData[index]
         const eventsData = getEventsTooltipInfo(rest)
-        eventsData.map(event => {
+        eventsData.forEach(event => {
           // NOTE(haritonasty): target metric for anomalies and tooltipMetricKey for other
           const key = event.isAnomaly
             ? Metrics[anomaly].dataKey || anomaly
             : tooltipMetricKey
-          return Object.assign(event, { key, y: result[key] })
+          Object.assign(event, { key, y: result[key] })
         })
 
         this.eventsMap.set(result.datetime, eventsData)
@@ -171,7 +172,12 @@ class Charts extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    const { metrics, chartData } = this.props
+    const {
+      metrics,
+      chartData,
+      isAdvancedView,
+      isIntervalSmallerThanDay
+    } = this.props
 
     if (!this.xToYCoordinates && this.metricRef.current) {
       // HACK(vanguard): Thanks recharts
@@ -180,10 +186,55 @@ class Charts extends React.Component {
     }
 
     if (
-      this.props.chartData !== prevProps.chartData ||
-      this.props.isAdvancedView !== prevProps.isAdvancedView
+      chartData !== prevProps.chartData ||
+      isAdvancedView !== prevProps.isAdvancedView
     ) {
       this.getXToYCoordinatesDebounced()
+    }
+
+    if (chartData !== prevProps.chartData) {
+      const dayMetrics = []
+      let alignedChartData = chartData
+
+      if (isIntervalSmallerThanDay) {
+        metrics.forEach(
+          ({ key, minInterval }, index) =>
+            minInterval === '1d' && dayMetrics.push([key, index])
+        )
+
+        const dayStartMetrics = {}
+
+        alignedChartData = chartData.map(({ ...data }) => {
+          const { datetime: currentPointDatetime } = data
+
+          for (let i = 0; i < dayMetrics.length; i++) {
+            const [dayMetric] = dayMetrics[i]
+            if (
+              isDayStartMetric(
+                data,
+                dayMetric,
+                dayStartMetrics,
+                currentPointDatetime
+              )
+            ) {
+              continue
+            }
+            assignToPointDayStartValue(
+              data,
+              dayMetric,
+              dayStartMetrics,
+              currentPointDatetime
+            )
+          }
+
+          return data
+        })
+      }
+
+      this.setState({
+        dayMetrics,
+        alignedChartData
+      })
     }
 
     if (metrics !== prevProps.metrics) {
@@ -274,6 +325,12 @@ class Charts extends React.Component {
 
     const { x, y } = coordinates
 
+    const { alignedChartData, dayMetrics } = this.state
+    const allIndexData = alignedChartData[activeTooltipIndex]
+    dayMetrics.forEach(([metric, index]) => {
+      activePayload[index].value = allIndexData[metric]
+    })
+
     this.setState({
       activePayload: activePayload.concat(
         this.eventsMap.get(activeLabel) || []
@@ -325,6 +382,7 @@ class Charts extends React.Component {
 
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
       chartRef,
+      dayMetrics,
       coordinates: this.xToYCoordinates,
       scale: scale,
       ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef }
@@ -334,6 +392,7 @@ class Charts extends React.Component {
     this.eventsMap.forEach((values, datetime) => {
       values.forEach(value => events.push({ ...value, datetime }))
     })
+
     // NOTE(haritonasty): need to filter anomalies immediately after removing any active metric
     // (because axis for anomaly can be lost)
     events = events.filter(
@@ -374,21 +433,19 @@ class Charts extends React.Component {
                 </div>
                 <div className={styles.details__content}>
                   {activePayload.map(
-                    ({ isEvent, name, value, color, formatter }) => {
-                      return (
-                        <div
-                          key={name}
-                          style={{ '--color': color }}
-                          className={cx(
-                            styles.details__metric,
-                            isEvent && styles.details__metric_dot
-                          )}
-                        >
-                          {valueFormatter(value, name, formatter)}
-                          <span className={styles.details__name}>{name}</span>
-                        </div>
-                      )
-                    }
+                    ({ isEvent, name, value, color, formatter }) => (
+                      <div
+                        key={name}
+                        style={{ '--color': color }}
+                        className={cx(
+                          styles.details__metric,
+                          isEvent && styles.details__metric_dot
+                        )}
+                      >
+                        {valueFormatter(value, name, formatter)}
+                        <span className={styles.details__name}>{name}</span>
+                      </div>
+                    )
                   )}
                 </div>
               </div>
@@ -480,14 +537,14 @@ class Charts extends React.Component {
             )}
 
             {metrics.includes(tooltipMetric) &&
-              events.map(({ key, y, datetime }) => (
+              events.map(({ key, y, datetime, color }) => (
                 <ReferenceDot
                   yAxisId={`axis-${key}`}
                   r={3}
                   isFront
                   fill='var(--white)'
                   strokeWidth='2px'
-                  stroke='var(--persimmon)'
+                  stroke={color}
                   key={datetime + key}
                   x={+new Date(datetime)}
                   y={y}

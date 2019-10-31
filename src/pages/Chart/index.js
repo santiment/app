@@ -59,7 +59,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
                     metrics={[
                       Metrics.historyPrice,
                       Metrics.socialVolume,
-                      Metrics.tokenAgeConsumed
+                      Metrics.age_destroyed
                     ]}
                     classes={styles}
                     isLoggedIn={isLoggedIn}

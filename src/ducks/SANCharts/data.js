@@ -89,7 +89,7 @@ export const Metrics = {
     color: 'malibu',
     description: `Shows the amount of mentions of the coin on 1000+ crypto social media channels, including Telegram groups, crypto subreddits, discord groups, private traders chats and more.`
   },
-  tokenAgeConsumed: {
+  age_destroyed: {
     category: 'On-chain',
     node: Bar,
     group: 'Token Flows/Movement/Activity',
@@ -100,7 +100,7 @@ export const Metrics = {
           Shows the amount of tokens changing addresses on a certain date,
           multiplied by the number of days since they last moved`
   },
-  exchangeFundsFlow: {
+  exchange_balance: {
     category: 'On-chain',
     node: Line,
     label: 'Exchange Flow Balance',
@@ -123,7 +123,8 @@ export const Metrics = {
     speculation) with a certain token.`,
     color: 'texas-rose',
     dataKey: 'daily_active_addresses',
-    historicalTriggersDataKey: 'active_addresses'
+    historicalTriggersDataKey: 'active_addresses',
+    minInterval: '1d'
   },
   percentOfTokenSupplyOnExchanges: {
     category: 'On-chain',
@@ -151,7 +152,8 @@ export const Metrics = {
           Shows the number of unique tokens being used during each day.
           If one token changes hands 5 times on a given day,
           it will be counted once by the token circulation,
-          but 5 times by the transaction volume.`
+          but 5 times by the transaction volume.`,
+    minInterval: '1d'
   },
   mvrv_usd: {
     category: 'On-chain',
@@ -159,7 +161,8 @@ export const Metrics = {
     group: 'Network value',
     label: 'Market Value To Realized Value',
     video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
-    description: `MVRV measures how much every holder originally paid for their coins, and compares that investment to the coin’s current price to calculate the average profit or loss across all holders. Example: if MVRV = 2, then, on average, all coin holders have (currently) doubled their initial investment.`
+    description: `MVRV measures how much every holder originally paid for their coins, and compares that investment to the coin’s current price to calculate the average profit or loss across all holders. Example: if MVRV = 2, then, on average, all coin holders have (currently) doubled their initial investment.`,
+    minInterval: '1d'
   },
   transaction_volume: {
     category: 'On-chain',
@@ -170,7 +173,7 @@ export const Metrics = {
     Shows the aggregate amount of tokens across all transactions that
     happened on the network on a certain date.`
   },
-  networkGrowth: {
+  network_growth: {
     category: 'On-chain',
     node: Line,
     group: 'Network Activity',
@@ -178,7 +181,8 @@ export const Metrics = {
     video: 'https://www.youtube.com/watch?v=YaccxEEz8pg',
     description: `Shows the number of new addresses being created on the network each day.
     Essentially, this chart illustrates user adoption over time, and can
-    be used to identify when the project is gaining - or losing - traction.`
+    be used to identify when the project is gaining - or losing - traction.`,
+    minInterval: '1d'
   },
   devActivity: {
     category: 'Development',
@@ -205,7 +209,8 @@ export const Metrics = {
 
           Simply put, a higher token velocity means that a token is used in
           transactions more often within a set time frame.
-`
+`,
+    minInterval: '1d'
   },
   dailyActiveDeposits: {
     category: 'On-chain',
@@ -236,7 +241,8 @@ export const Metrics = {
     node: Line,
     group: 'Network value',
     label: 'Realized Cap',
-    description: `Realized Cap shows the total amount that all holders spent to purchase the coin (i.e. the total acquisition cost). While market cap = supply X current price of each coin, realized cap = supply X price of each coin when it last ‘moved’`
+    description: `Realized Cap shows the total amount that all holders spent to purchase the coin (i.e. the total acquisition cost). While market cap = supply X current price of each coin, realized cap = supply X price of each coin when it last ‘moved’`,
+    minInterval: '1d'
   },
   ethSpentOverTime: {
     category: 'On-chain',
@@ -272,7 +278,24 @@ export const Metrics = {
         </a>
         .
       </>
-    )
+    ),
+    minInterval: '1d'
+  },
+  nvt: {
+    category: 'On-chain',
+    node: Line,
+    group: 'Network value',
+    label: 'NVT Ratio Circulation',
+    description: `NVT tries to determine how much ‘value’ is being transmitted on a coin’s network. This version of NVT is calculated by dividing the coin’s Market Cap by its Token Circulation. The higher the NVT, the more expensive the network relative to the value it transmits, indicating an overvalued asset.`,
+    minInterval: '1d'
+  },
+  nvt_transaction_volume: {
+    node: Bar,
+    group: 'Network value',
+    label: 'NVT Ratio Transaction Volume',
+    category: 'On-chain',
+    description: `NVT tries to determine how much ‘value’ is being transmitted on a coin’s network. This version of NVT is calculated by dividing the coin’s Market Cap by its on-chain Transaction Volume. The higher the NVT, the more expensive the network relative to the value it transmits, indicating an overvalued asset.`,
+    minInterval: '1d'
   }
 }
 
@@ -280,26 +303,7 @@ Object.keys(Metrics).forEach(key => {
   Metrics[key].key = key
 })
 
-const DerivedMetrics = [
-  {
-    category: 'On-chain',
-    parent: 'nvtRatio',
-    key: 'nvtRatioCirculation',
-    node: Line,
-    group: 'Network value',
-    label: 'NVT Ratio Circulation',
-    description: `NVT tries to determine how much ‘value’ is being transmitted on a coin’s network. This version of NVT is calculated by dividing the coin’s Market Cap by its Token Circulation. The higher the NVT, the more expensive the network relative to the value it transmits, indicating an overvalued asset.`
-  },
-  {
-    parent: 'nvtRatio',
-    key: 'nvtRatioTxVolume',
-    node: Bar,
-    group: 'Network value',
-    label: 'NVT Ratio Transaction Volume',
-    category: 'On-chain',
-    description: `NVT tries to determine how much ‘value’ is being transmitted on a coin’s network. This version of NVT is calculated by dividing the coin’s Market Cap by its on-chain Transaction Volume. The higher the NVT, the more expensive the network relative to the value it transmits, indicating an overvalued asset.`
-  }
-]
+const DerivedMetrics = []
 
 DerivedMetrics.forEach(obj => {
   Metrics[obj.key] = obj
@@ -318,5 +322,10 @@ export const compatabilityMap = {
   mvrvRatio: Metrics.mvrv_usd,
   transactionVolume: Metrics.transaction_volume,
   tokenVelocity: Metrics.velocity,
-  realizedValue: Metrics.realized_value_usd
+  realizedValue: Metrics.realized_value_usd,
+  networkGrowth: Metrics.network_growth,
+  nvtRatioCirculation: Metrics.nvt,
+  nvtRatioTxVolume: Metrics.nvt_transaction_volume,
+  tokenAgeConsumed: Metrics.age_destroyed,
+  exchangeFundsFlow: Metrics.exchange_balance
 }

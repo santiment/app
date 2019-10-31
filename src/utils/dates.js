@@ -268,6 +268,11 @@ export const getUTCTimeFormats = date => {
   }
 }
 
+export const parseIntervalString = range => ({
+  amount: range.slice(0, -1),
+  format: range.slice(-1)
+})
+
 /**
  *
  * @param {string} timeRange - String wich represents time range from the current datime
@@ -284,19 +289,17 @@ export const getIntervalByTimeRange = timeRange => {
     return getTimeIntervalFromToday(-24, MONTH) // utils/utils.js - getTimeFromFromString
   }
 
-  const amount = -timeRange.slice(0, -1)
-  const format = timeRange.slice(-1)
-  const result = { amount, format }
+  const result = parseIntervalString(timeRange)
 
-  if (format === WEEK) {
-    result.amount = amount * 7
+  if (result.format === WEEK) {
+    result.amount = result.amount * 7
     result.format = DAY
-  } else if (format === YEAR) {
-    result.amount = amount * 12
+  } else if (result.format === YEAR) {
+    result.amount = result.amount * 12
     result.format = MONTH
   }
 
-  return getTimeIntervalFromToday(result.amount, result.format)
+  return getTimeIntervalFromToday(-result.amount, result.format)
 }
 
 export const toEndOfDay = target => {
