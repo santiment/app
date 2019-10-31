@@ -83,7 +83,7 @@ export const SearchContainer = ({
           ? undefined
           : [
             {
-              id: 'Recently searched',
+              id: RECENT_ASSETS,
               title: (
                 <div className={styles.recents}>
                     Recently searched

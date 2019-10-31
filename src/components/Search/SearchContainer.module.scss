@@ -3,6 +3,7 @@
   z-index: 10;
   margin-right: 12px;
   width: 200px;
+  transition: width 200ms ease-out;
 }
 
 .focused {
