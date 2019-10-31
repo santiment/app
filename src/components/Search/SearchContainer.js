@@ -69,7 +69,6 @@ export const SearchContainer = ({
       className={cx(styles.wrapper, className, isFocused && styles.focused)}
       iconPosition='left'
       onSuggestionSelect={({ category, item }) => {
-        console.log(category)
         if (category === ASSETS || category === RECENT_ASSETS) {
           const { slug = item } = item
           addRecentAssetSuggestions(slug)
