@@ -15,10 +15,9 @@ export const PUBLIC_USER_DATA_QUERY = gql`
       }
       followers {
         count
-        users {
-          id
-          email
-        }
+      }
+      following {
+        count
       }
       insights {
         ...insightCommon

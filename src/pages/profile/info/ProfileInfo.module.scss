@@ -11,3 +11,76 @@
   display: flex;
   margin-bottom: 80px;
 }
+
+.left {
+  max-width: 400px;
+}
+
+.right {
+  margin-left: auto;
+}
+
+.middle {
+  max-width: 400px;
+  margin-left: 20px;
+  display: flex;
+}
+
+.followBlock {
+  display: flex;
+}
+
+.followBlockSecond {
+  margin-left: 48px;
+}
+
+.followCounter {
+  @include text('h4');
+
+  color: var(--mirage);
+}
+
+.followDescription {
+  @include text('body-3');
+
+  color: var(--waterloo);
+  margin-top: 2px;
+}
+
+.socialIcon {
+  margin-left: 26px;
+  cursor: not-allowed;
+}
+
+.follow {
+  width: 32px;
+  height: 32px;
+  background: var(--porcelain);
+  border-radius: 50%;
+}
+
+.followCounters {
+  margin-left: 16px;
+}
+
+.followIcon {
+  margin-right: 12px;
+}
+
+.followBtn {
+  margin-top: 16px;
+}
+
+.name {
+  @include text('h4');
+
+  color: var(--mirage);
+  overflow-wrap: break-word;
+}
+
+.email {
+  @include text('body-3');
+
+  color: var(--waterloo);
+  margin-top: 4px;
+}
