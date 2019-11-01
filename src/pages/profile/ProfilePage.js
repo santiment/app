@@ -11,16 +11,18 @@ import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
 import { PUBLIC_USER_DATA_QUERY } from '../../queries/ProfileGQL'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
+import { mapQSToState } from '../../utils/utils'
 import styles from './ProfilePage.module.scss'
 
 const ProfilePage = ({
   currentUser,
-  profile,
+  profile = {},
   isLoading,
   isUserLoading,
+  location,
   match: { params: { id } = {} } = {}
 }) => {
-  if (!profile || isUserLoading || isLoading) {
+  if (isUserLoading || isLoading) {
     return <PageLoader />
   }
 
@@ -110,12 +112,25 @@ const mapStateToProps = state => ({
 const enhance = compose(
   connect(mapStateToProps),
   graphql(PUBLIC_USER_DATA_QUERY, {
-    skip: ({ match: { params: { id } = {} } = {} }) => !id,
-    options: ({ match: { params: { id } = {} } = {} }) => ({
-      variables: {
-        userId: +id
+    skip: ({ location, match: { params: { id } = {} } = {} }) => {
+      const { username } = mapQSToState({ location })
+      return !id && !username
+    },
+    options: ({ location, match: { params: { id } = {} } = {} }) => {
+      let variables
+      if (id) {
+        variables = { userId: id }
+      } else {
+        const { username } = mapQSToState({ location })
+        variables = {
+          username
+        }
       }
-    }),
+
+      return {
+        variables: variables
+      }
+    },
     props: ({ data: { getUser, loading, error } }) => ({
       profile: getUser,
       isLoading: loading,

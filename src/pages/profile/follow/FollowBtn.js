@@ -39,7 +39,7 @@ const FollowBtn = ({ userId, isInFollowers, updateCache, className }) => {
   )
 }
 
-const mapStateToProps = ({ user: { data } }, { followers: { users } }) => {
+const mapStateToProps = ({ user: { data } }, { followers: { users } = {} }) => {
   return {
     isInFollowers:
       data && users ? users.some(({ id }) => +id === +data.id) : false

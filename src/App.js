@@ -368,6 +368,7 @@ export const App = ({
                 isDesktop={isDesktop}
                 isLoggedIn={isLoggedIn}
                 isUserLoading={isUserLoading}
+                location={props.location}
                 {...props}
               />
             )}

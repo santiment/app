@@ -4,8 +4,8 @@ import { TRIGGERS_COMMON } from '../ducks/Signals/common/queries'
 import { generalListData, listShortItems } from './WatchlistGQL'
 
 export const PUBLIC_USER_DATA_QUERY = gql`
-  query getUser($userId: ID) {
-    getUser(selector: { id: $userId }) {
+  query getUser($userId: ID, $username: String) {
+    getUser(selector: { id: $userId, username: $username }) {
       id
       email
       username

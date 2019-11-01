@@ -12,7 +12,14 @@ const ProfileInfo = ({
   isCurrentUser,
   isLoggedIn
 }) => {
-  const { id, username, email, followers, following } = profile
+  const {
+    id,
+    username,
+    email,
+    followers,
+    followers: { count: followersCount = 0 } = {},
+    following: { count: followingCount } = {}
+  } = profile
 
   return (
     <div className={styles.container}>
@@ -33,14 +40,14 @@ const ProfileInfo = ({
         <div className={styles.followBlock}>
           <div className={styles.follow} />
           <div className={styles.followCounters}>
-            <div className={styles.followCounter}>{followers.count}</div>
+            <div className={styles.followCounter}>{followersCount}</div>
             <div className={styles.followDescription}>followers</div>
           </div>
         </div>
         <div className={cx(styles.followBlock, styles.followBlockSecond)}>
           <div className={styles.follow} />
           <div className={styles.followCounters}>
-            <div className={styles.followCounter}>{following.count}</div>
+            <div className={styles.followCounter}>{followingCount}</div>
             <div className={styles.followDescription}>following</div>
           </div>
         </div>
