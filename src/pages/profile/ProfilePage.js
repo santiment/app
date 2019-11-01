@@ -16,14 +16,21 @@ import styles from './ProfilePage.module.scss'
 
 const ProfilePage = ({
   currentUser,
-  profile = {},
+  profile,
   isLoading,
   isUserLoading,
-  location,
   match: { params: { id } = {} } = {}
 }) => {
   if (isUserLoading || isLoading) {
     return <PageLoader />
+  }
+
+  if (!profile) {
+    return (
+      <div className='page'>
+        <NoProfileData />
+      </div>
+    )
   }
 
   const {
@@ -138,5 +145,9 @@ const enhance = compose(
     })
   })
 )
+
+const NoProfileData = () => {
+  return "User does't exist"
+}
 
 export default enhance(ProfilePage)
