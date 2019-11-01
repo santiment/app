@@ -9,53 +9,57 @@ import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
 import { compose } from 'redux'
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
 import styles from './ProfilePage.module.scss'
+import { PUBLIC_USER_DATA_QUERY } from '../../queries/ProfileGQL'
+import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 
 const ProfilePage = ({
   profile = {},
-  isDesktop,
+  isLoading,
+  isError,
   isUserLoading,
-  defaultUser: { id: defaultUserId, username: defaultUserName },
-  match: { params: { id = defaultUserId } = {} } = {}
+  match: { params: { id } = {} } = {}
 }) => {
-  const { username = id } = profile
+  const {
+    username,
+    email,
+    id: profileId,
+    insights,
+    triggers,
+    watchlists
+  } = profile
 
-  const isCurentUser = defaultUserId === id
-
-  console.log(profile)
-
-  if (isUserLoading) {
+  if (isUserLoading || isLoading) {
     return <PageLoader />
   }
 
   return (
     <div className='page'>
-      {!isDesktop && (
+      <MobileOnly>
         <div className={styles.header}>
           <MobileHeader title='Profile' />
         </div>
-      )}
+      </MobileOnly>
 
       <div className={styles.page}>
-        {isDesktop && (
+        <DesktopOnly>
           <Breadcrumbs
             crumbs={[
               {
                 label: 'User'
               },
               {
-                label: isCurentUser ? defaultUserName : username
+                label: username || email || profileId
               }
             ]}
           />
-        )}
+        </DesktopOnly>
 
-        <PublicWatchlists userId={id} />
+        <PublicWatchlists userId={id} data={watchlists} />
 
-        <PublicSignals userId={id} />
+        <PublicSignals userId={id} data={triggers} />
 
-        <PublicInsights userId={id} />
+        <PublicInsights userId={id} data={insights} />
       </div>
     </div>
   )
@@ -71,46 +75,25 @@ const mapStateToProps = state => ({
   defaultUser: state.user.data
 })
 
-const PUBLIC_USER_DATA_QUERY = gql`
-  query getUser($userId: ID) {
-    getUser(selector: { id: $userId }) {
-      id
-      email
-      username
-      watchlists {
-        id
-      }
-      followers {
-        count
-        users {
-          id
-          email
-        }
-      }
-      insights {
-        id
-      }
-      triggers {
-        id
-      }
-    }
-  }
-`
-
 const enhance = compose(
   connect(mapStateToProps),
   graphql(PUBLIC_USER_DATA_QUERY, {
-    name: 'profile',
-    skip: ({ userId }) => {
-      return !userId
+    skip: ({ match: { params: { id } = {} } = {} }) => {
+      return !id
     },
-    options: props => {
-      const { userId } = props
+    options: ({ match: { params: { id } = {} } = {} }) => {
       return {
         fetchPolicy: 'cache-and-network',
         variables: {
-          userId: +userId
+          userId: +id
         }
+      }
+    },
+    props: ({ data: { getUser, loading, error } }) => {
+      return {
+        profile: getUser,
+        isLoading: loading,
+        isError: error
       }
     }
   })

@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-const insightCommon = gql`
+export const insightCommon = gql`
   fragment insightCommon on Post {
     readyState
     id
