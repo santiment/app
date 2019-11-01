@@ -14,13 +14,31 @@ import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
 import styles from './ProfilePage.module.scss'
 
-const ProfilePage = ({
-  currentUser,
-  profile,
-  isLoading,
-  isUserLoading,
+const getQueryVariables = ({
+  location,
   match: { params: { id } = {} } = {}
 }) => {
+  let variables
+  if (id) {
+    variables = { userId: id }
+  } else {
+    const { username } = mapQSToState({ location })
+    variables = {
+      username
+    }
+  }
+  return variables
+}
+
+const ProfilePage = props => {
+  const {
+    currentUser,
+    profile,
+    isLoading,
+    isUserLoading,
+    match: { params: { id } = {} } = {}
+  } = props
+
   if (isUserLoading || isLoading) {
     return <PageLoader />
   }
@@ -43,13 +61,11 @@ const ProfilePage = ({
   } = profile
 
   function updateCache (cache, { data: { follow, unfollow } }) {
-    const queryUserId = +profileId
+    const queryVariables = getQueryVariables(props)
 
     const getUserData = cache.readQuery({
       query: PUBLIC_USER_DATA_QUERY,
-      variables: {
-        userId: queryUserId
-      }
+      variables: queryVariables
     })
 
     const {
@@ -71,7 +87,7 @@ const ProfilePage = ({
 
     cache.writeQuery({
       query: PUBLIC_USER_DATA_QUERY,
-      variables: { userId: queryUserId },
+      variables: queryVariables,
       data: {
         ...getUserData
       }
@@ -123,21 +139,9 @@ const enhance = compose(
       const { username } = mapQSToState({ location })
       return !id && !username
     },
-    options: ({ location, match: { params: { id } = {} } = {} }) => {
-      let variables
-      if (id) {
-        variables = { userId: id }
-      } else {
-        const { username } = mapQSToState({ location })
-        variables = {
-          username
-        }
-      }
-
-      return {
-        variables: variables
-      }
-    },
+    options: props => ({
+      variables: getQueryVariables(props)
+    }),
     props: ({ data: { getUser, loading, error } }) => ({
       profile: getUser,
       isLoading: loading,
