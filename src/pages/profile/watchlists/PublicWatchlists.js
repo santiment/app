@@ -12,9 +12,7 @@ const PublicWatchlists = ({ data: watchlists }) => {
       <div className={styles.title}>
         Public watchlists ({watchlists.length})
       </div>
-      <div>
-        <WatchlistCards watchlists={watchlists} />
-      </div>
+      <WatchlistCards watchlists={watchlists} />
     </div>
   )
 }

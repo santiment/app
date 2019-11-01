@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
-import { insightCommon } from './InsightsGQL'
-import { TRIGGERS_COMMON } from '../ducks/Signals/common/queries'
+import { INSIGHT_COMMON_FRAGMENT } from './InsightsGQL'
+import { TRIGGERS_COMMON_FRAGMENT } from '../ducks/Signals/common/queries'
 import { generalListData, listShortItems } from './WatchlistGQL'
 
 export const PUBLIC_USER_DATA_QUERY = gql`
@@ -30,8 +30,8 @@ export const PUBLIC_USER_DATA_QUERY = gql`
       }
     }
   }
-  ${insightCommon}
-  ${TRIGGERS_COMMON}
+  ${INSIGHT_COMMON_FRAGMENT}
+  ${TRIGGERS_COMMON_FRAGMENT}
   ${generalListData}
   ${listShortItems}
 `

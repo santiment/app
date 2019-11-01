@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const TRIGGERS_COMMON = gql`
+export const TRIGGERS_COMMON_FRAGMENT = gql`
   fragment triggersCommon on Trigger {
     id
     isPublic
@@ -26,7 +26,7 @@ export const PUBLIC_TRIGGERS_FOR_USER_QUERY = gql`
       __typename
     }
   }
-  ${TRIGGERS_COMMON}
+  ${TRIGGERS_COMMON_FRAGMENT}
 `
 
 export const TRIGGERS_QUERY = gql`
@@ -38,7 +38,7 @@ export const TRIGGERS_QUERY = gql`
       }
     }
   }
-  ${TRIGGERS_COMMON}
+  ${TRIGGERS_COMMON_FRAGMENT}
 `
 
 export const FEATURED_USER_TRIGGERS_QUERY = gql`
@@ -50,7 +50,7 @@ export const FEATURED_USER_TRIGGERS_QUERY = gql`
       }
     }
   }
-  ${TRIGGERS_COMMON}
+  ${TRIGGERS_COMMON_FRAGMENT}
 `
 
 export const TRIGGER_BY_ID_QUERY = gql`
@@ -62,5 +62,5 @@ export const TRIGGER_BY_ID_QUERY = gql`
       userId
     }
   }
-  ${TRIGGERS_COMMON}
+  ${TRIGGERS_COMMON_FRAGMENT}
 `
