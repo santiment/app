@@ -1,20 +1,32 @@
 import React from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
-import Button from '@santiment-network/ui/Button'
+import FollowBtn from '../follow/FollowBtn'
+import { checkIsLoggedIn } from '../../UserSelectors'
 import styles from './ProfileInfo.module.scss'
 
-const ProfileInfo = ({ profile }) => {
-  const { username, email, followers, following } = profile
+const ProfileInfo = ({
+  profile = {},
+  updateCache,
+  isCurrentUser,
+  isLoggedIn
+}) => {
+  const { id, username, email, followers, following } = profile
 
   return (
     <div className={styles.container}>
       <div className={styles.left}>
         <div className={styles.name}>{username}</div>
         <div className={styles.email}>{email}</div>
-        <Button accent='positive' variant='fill' className={styles.followBtn}>
-          <Icon type='add-watchlist' className={styles.followIcon} /> Follow
-        </Button>
+        {isLoggedIn && !isCurrentUser && (
+          <FollowBtn
+            className={styles.followBtn}
+            followers={followers}
+            userId={id}
+            updateCache={updateCache}
+          />
+        )}
       </div>
 
       <div className={styles.middle}>
@@ -43,4 +55,15 @@ const ProfileInfo = ({ profile }) => {
   )
 }
 
-export default ProfileInfo
+const mapStateToProps = (state, { profile }) => {
+  const {
+    user: { data }
+  } = state
+  const isCurrentUser = data && data.id === profile.id
+  return {
+    isCurrentUser,
+    isLoggedIn: checkIsLoggedIn(state)
+  }
+}
+
+export default connect(mapStateToProps)(ProfileInfo)

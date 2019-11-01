@@ -15,6 +15,9 @@ export const PUBLIC_USER_DATA_QUERY = gql`
       }
       followers {
         count
+        users {
+          id
+        }
       }
       following {
         count
@@ -32,3 +35,20 @@ export const PUBLIC_USER_DATA_QUERY = gql`
   ${generalListData}
   ${listShortItems}
 `
+
+export const FOLLOW_MUTATION = gql(`
+  mutation follow($id: ID!) 
+  {  
+    follow(userId: $id) {
+        id
+    }
+  }
+`)
+
+export const UNFOLLOW_MUTATION = gql(`
+  mutation unfollow($id: ID!) {
+    unfollow(userId: $id) {
+        id
+    }
+  }
+`)

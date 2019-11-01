@@ -12,8 +12,6 @@ const PublicSignals = ({ data: signals, userId }) => {
     userId: userId
   }))
 
-  console.log(userId)
-
   return (
     <div className={styles.block}>
       <div className={styles.title}>Public signals ({signals.length})</div>

@@ -14,11 +14,16 @@ import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import styles from './ProfilePage.module.scss'
 
 const ProfilePage = ({
-  profile = {},
+  currentUser,
+  profile,
   isLoading,
   isUserLoading,
   match: { params: { id } = {} } = {}
 }) => {
+  if (!profile || isUserLoading || isLoading) {
+    return <PageLoader />
+  }
+
   const {
     username,
     email,
@@ -28,11 +33,41 @@ const ProfilePage = ({
     watchlists
   } = profile
 
-  if (isUserLoading || isLoading) {
-    return <PageLoader />
-  }
+  function updateCache (cache, { data: { follow, unfollow } }) {
+    const queryUserId = +profileId
 
-  console.log(profile)
+    const getUserData = cache.readQuery({
+      query: PUBLIC_USER_DATA_QUERY,
+      variables: {
+        userId: queryUserId
+      }
+    })
+
+    const {
+      getUser: { followers }
+    } = getUserData
+    const isInFollowers = followers.users.some(
+      ({ id }) => +id === +currentUser.id
+    )
+    const { users } = followers
+
+    if (isInFollowers) {
+      const { id: followerId } = follow || unfollow
+      followers.users = users.filter(({ id }) => +id !== +followerId)
+    } else {
+      users.push(follow)
+      followers.users = [...users]
+    }
+    followers.count = followers.users.length
+
+    cache.writeQuery({
+      query: PUBLIC_USER_DATA_QUERY,
+      variables: { userId: queryUserId },
+      data: {
+        ...getUserData
+      }
+    })
+  }
 
   return (
     <div className='page'>
@@ -56,7 +91,7 @@ const ProfilePage = ({
           />
         </DesktopOnly>
 
-        <ProfileInfo profile={profile} />
+        <ProfileInfo profile={profile} updateCache={updateCache} />
 
         <PublicWatchlists userId={id} data={watchlists} />
 
@@ -69,30 +104,23 @@ const ProfilePage = ({
 }
 
 const mapStateToProps = state => ({
-  defaultUser: state.user.data
+  currentUser: state.user.data
 })
 
 const enhance = compose(
   connect(mapStateToProps),
   graphql(PUBLIC_USER_DATA_QUERY, {
-    skip: ({ match: { params: { id } = {} } = {} }) => {
-      return !id
-    },
-    options: ({ match: { params: { id } = {} } = {} }) => {
-      return {
-        fetchPolicy: 'cache-and-network',
-        variables: {
-          userId: +id
-        }
+    skip: ({ match: { params: { id } = {} } = {} }) => !id,
+    options: ({ match: { params: { id } = {} } = {} }) => ({
+      variables: {
+        userId: +id
       }
-    },
-    props: ({ data: { getUser, loading, error } }) => {
-      return {
-        profile: getUser,
-        isLoading: loading,
-        isError: error
-      }
-    }
+    }),
+    props: ({ data: { getUser, loading, error } }) => ({
+      profile: getUser,
+      isLoading: loading,
+      isError: error
+    })
   })
 )
 
