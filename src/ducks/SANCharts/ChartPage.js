@@ -8,6 +8,7 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import Header from './Header'
+import TooltipSynchronizer from './TooltipSynchronizer'
 import { getMarketSegment, mapDatetimeToNumber } from './utils'
 import { Metrics, Events, compatabilityMap } from './data'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
@@ -380,7 +381,8 @@ class ChartPage extends Component {
       scale,
       nightMode,
       isShowAnomalies,
-      isAdvancedView
+      isAdvancedView,
+      syncedTooltipIndex
     } = this.state
 
     const {
@@ -560,29 +562,36 @@ class ChartPage extends Component {
                         />
                       </>
                     )}
-                    <Charts
-                      scale={scale}
-                      chartRef={this.chartRef}
-                      isLoading={isParentLoading || isLoading}
-                      onZoom={this.onZoom}
-                      from={from}
-                      to={to}
-                      slug={slug}
-                      onZoomOut={this.onZoomOut}
-                      isZoomed={zoom}
-                      events={eventsFiltered}
-                      isTrendsShowing={isTrendsShowing}
-                      chartData={mapDatetimeToNumber(timeseries)}
-                      title={title}
-                      metrics={finalMetrics}
-                      leftBoundaryDate={leftBoundaryDate}
-                      rightBoundaryDate={rightBoundaryDate}
-                      children={children}
-                      isAdvancedView={isAdvancedView}
-                      isBeta={isBeta}
-                      isLoggedIn={isLoggedIn}
-                      isIntervalSmallerThanDay={isIntervalSmallerThanDay}
-                    />
+                    <TooltipSynchronizer metrics={metrics}>
+                      {finalMetrics.map(metric => (
+                        <Charts
+                          key={metric.key}
+                          isMultipleChartsActive
+                          syncedTooltipIndex={syncedTooltipIndex}
+                          scale={scale}
+                          chartRef={this.chartRef}
+                          isLoading={isParentLoading || isLoading}
+                          onZoom={this.onZoom}
+                          from={from}
+                          to={to}
+                          slug={slug}
+                          onZoomOut={this.onZoomOut}
+                          isZoomed={zoom}
+                          events={eventsFiltered}
+                          isTrendsShowing={isTrendsShowing}
+                          chartData={mapDatetimeToNumber(timeseries)}
+                          title={title}
+                          metrics={[metric]}
+                          leftBoundaryDate={leftBoundaryDate}
+                          rightBoundaryDate={rightBoundaryDate}
+                          children={children}
+                          isAdvancedView={isAdvancedView}
+                          isBeta={isBeta}
+                          isLoggedIn={isLoggedIn}
+                          isIntervalSmallerThanDay={isIntervalSmallerThanDay}
+                        />
+                      ))}
+                    </TooltipSynchronizer>
                     {!isPRO && (
                       <UpgradePaywall isAdvancedView={isAdvancedView} />
                     )}

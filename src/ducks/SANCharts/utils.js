@@ -173,6 +173,7 @@ export const alignDayMetrics = ({ chartRef, bars, dayMetrics, margin }) => {
 export const generateMetricsMarkup = (
   metrics,
   {
+    isMultipleChartsActive,
     ref = {},
     data = {},
     chartRef: { current: chartRef } = {},
@@ -210,7 +211,7 @@ export const generateMetricsMarkup = (
       [El === Area && gradientUrl && 'fillOpacity']: 1
     }
 
-    if (chartRef !== undefined && El === Bar) {
+    if (!isMultipleChartsActive && chartRef !== undefined && El === Bar) {
       rest.shape = <StackedLogic barsMap={barsMap} metric={metric.key} />
     }
 
@@ -345,7 +346,7 @@ export const makeSignalPriceReferenceDot = (
 }
 
 export const getSlugPriceSignals = (signals, slug, price = undefined) => {
-  let filtered = signals.filter(
+  const filtered = signals.filter(
     ({
       settings: {
         target: { slug: signalSlug } = {},
@@ -391,8 +392,8 @@ export const mapToPriceSignalLines = ({
 
   const res = filtered.reduce((acc, item) => {
     const { id, settings: { operation = {} } = {} } = item
-    const priceAbove = operation['above']
-    const priceBelow = operation['below']
+    const priceAbove = operation.above
+    const priceBelow = operation.below
 
     acc.push(
       makeSignalPriceReferenceDot(

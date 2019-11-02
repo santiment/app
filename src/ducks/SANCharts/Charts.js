@@ -137,8 +137,9 @@ class Charts extends React.Component {
   setSignalsState = (signalData, signalPointHovered = false) => {
     this.setState({
       signalData,
-      signalPointHovered,
-      hovered: false
+      signalPointHovered
+      // NOTE: Line below breaks the tooltip flow. [@vanguard | Nov 02, 2019]
+      // hovered: false,
     })
   }
 
@@ -333,6 +334,47 @@ class Charts extends React.Component {
         this.setState({ tooltipMetric })
       }
     }
+
+    if (
+      this.props.syncedTooltipIndex &&
+      prevProps.syncedTooltipIndex !== this.props.syncedTooltipIndex
+    ) {
+      this.getXToYCoordinates()
+
+      const {
+        tooltipMetric: { key, label, formatter }
+      } = this.state
+      const coordinates = this.xToYCoordinates[this.props.syncedTooltipIndex]
+
+      if (!coordinates) {
+        return
+      }
+
+      const {
+        x,
+        y,
+        value,
+        payload: { datetime }
+      } = coordinates
+
+      const color = this.props.syncedColors[key]
+
+      this.setState({
+        x,
+        y,
+        xValue: datetime,
+        yValue: value,
+        hovered: true,
+        activePayload: [
+          {
+            formatter,
+            value,
+            color,
+            name: label
+          }
+        ]
+      })
+    }
   }
 
   onZoom = () => {
@@ -404,6 +446,11 @@ class Charts extends React.Component {
     }
 
     const { activeTooltipIndex, activeLabel, activePayload } = event
+    const { isMultipleChartsActive, syncTooltips, chartData } = this.props
+
+    if (isMultipleChartsActive) {
+      syncTooltips(activeTooltipIndex)
+    }
 
     if (!activePayload) {
       return
@@ -433,9 +480,10 @@ class Charts extends React.Component {
       refAreaRight: activeLabel,
       rightZoomIndex: activeTooltipIndex,
       xValue: activeLabel,
-      yValue: this.props.chartData[activeTooltipIndex][
-        tooltipMetric.dataKey || tooltipMetric.key
-      ],
+      yValue:
+        chartData[activeTooltipIndex][
+          tooltipMetric.dataKey || tooltipMetric.key
+        ],
       hovered: true
     })
   }, 16)
@@ -497,7 +545,8 @@ class Charts extends React.Component {
       priceRefLineData,
       scale,
       signals = [],
-      slug
+      slug,
+      isMultipleChartsActive
     } = this.props
     const {
       refAreaLeft,
@@ -517,6 +566,7 @@ class Charts extends React.Component {
     } = this.state
 
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
+      isMultipleChartsActive,
       chartRef,
       dayMetrics,
       coordinates: this.xToYCoordinates,
@@ -554,7 +604,7 @@ class Charts extends React.Component {
       })
       : null
 
-    const showTooltip = hovered && activePayload && !signalData
+    const showTooltip = hovered && activePayload
 
     return (
       <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>
@@ -632,6 +682,7 @@ class Charts extends React.Component {
 
         <ResponsiveContainer height={300}>
           <ComposedChart
+            syncId='anyId'
             margin={CHART_MARGINS}
             onMouseLeave={this.onMouseLeave}
             onMouseEnter={this.getXToYCoordinates}
