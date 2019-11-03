@@ -1,18 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { setupColorGenerator } from './utils'
 // import styles from './TooltipSynchronizer.module.scss'
 
-const TooltipSynchronizer = ({ children, chartData, metrics }) => {
-  const [syncedTooltipIndex, syncTooltips] = useState()
+const cache = new Map()
 
-  // TODO: Add memoization for color generator [@vanguard | Nov 02, 2019]
+const getSyncedColors = metrics => {
+  const cacheKey = metrics.toString()
+  const cachedColors = cache.get(cacheKey)
+
+  if (cachedColors) {
+    return cachedColors
+  }
   const generateColor = setupColorGenerator()
-  const syncedColors = metrics.reduce((acc, { key, color }) => {
+
+  const colors = metrics.reduce((acc, { key, color }) => {
     acc[key] = `var(--${generateColor(color)})`
 
     return acc
   }, {})
+
+  cache.set(cacheKey, colors)
+  return colors
+}
+
+const TooltipSynchronizer = ({ children, metrics }) => {
+  const [syncedTooltipIndex, syncTooltips] = useState()
+
+  const syncedColors = getSyncedColors(metrics)
+
+  useEffect(() => () => cache.clear(), [])
 
   return React.Children.map(children, child =>
     React.cloneElement(child, {
