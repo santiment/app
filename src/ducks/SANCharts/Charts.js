@@ -5,6 +5,7 @@ import cx from 'classnames'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import {
+  Line,
   ResponsiveContainer,
   ComposedChart,
   Label,
@@ -16,6 +17,7 @@ import {
   ReferenceLine
 } from 'recharts'
 import throttle from 'lodash.throttle'
+import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { millify } from './../../utils/formatting'
@@ -28,6 +30,7 @@ import {
   getEventsTooltipInfo,
   generateMetricsMarkup,
   findYAxisMetric,
+  chartBars,
   getCrossYValue,
   isDayStartMetric,
   assignToPointDayStartValue
@@ -41,10 +44,9 @@ import SignalLine, {
   SignalPointSvg
 } from './components/newSignalLine/SignalLine'
 import SidecarExplanationTooltip from './SidecarExplanationTooltip'
-import withSignals from './components/signalsChart/SignalsWrapper'
-import withXYCoords from './components/rechartsWrapper/RechartsWrapper'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
+import WithSignals from './components/signalsChart/SignalsWrapper'
 
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
@@ -106,9 +108,34 @@ class Charts extends React.Component {
   }
 
   eventsMap = new Map()
+  metricRef = React.createRef()
+
+  componentDidMount () {
+    const chartSvg = this.props.chartRef.current
+    const { onChartHover } = this.props
+    chartSvg &&
+      chartSvg.addEventListener(
+        'mousemove',
+        evt => onChartHover && onChartHover(evt, this.metricRef)
+      )
+  }
+
+  componentWillUnmount () {
+    const chartSvg = this.props.chartRef.current
+    const { onChartHover } = this.props
+    chartSvg &&
+      chartSvg.removeEventListener(
+        'mousemove',
+        evt => onChartHover && onChartHover(evt, this.metricRef)
+      )
+  }
 
   componentWillUpdate (newProps) {
-    const { chartData, metrics, events, isAdvancedView } = newProps
+    const { chartData, chartRef, metrics, events, isAdvancedView } = newProps
+    if (this.props.chartData !== chartData) {
+      this.getXToYCoordinates()
+      chartBars.delete(chartRef.current)
+    }
 
     if (
       metrics !== this.props.metrics ||
@@ -146,26 +173,17 @@ class Charts extends React.Component {
     }
   }
 
-  getXToYCoordinatesDebounced = () => {
-    const { getXToYCoordinatesDebounced } = this.props
-    getXToYCoordinatesDebounced(() => this.forceUpdate(this.forceUpdate))
-  }
-
   componentDidUpdate (prevProps) {
     const {
       metrics,
-      isAdvancedView,
       chartData,
+      isAdvancedView,
       isIntervalSmallerThanDay
     } = this.props
 
-    if (
-      !this.props.xToYCoordinates &&
-      this.props.metricRef &&
-      this.props.metricRef.current
-    ) {
+    if (!this.xToYCoordinates && this.metricRef.current) {
       // HACK(vanguard): Thanks recharts
-      this.props.getXToYCoordinates()
+      this.getXToYCoordinates()
       this.forceUpdate()
     }
 
@@ -173,7 +191,7 @@ class Charts extends React.Component {
       chartData !== prevProps.chartData ||
       isAdvancedView !== prevProps.isAdvancedView
     ) {
-      this.props.clearBarsAndCalculateXY()
+      this.getXToYCoordinatesDebounced()
     }
 
     if (chartData !== prevProps.chartData) {
@@ -257,6 +275,30 @@ class Charts extends React.Component {
     })
   }
 
+  getXToYCoordinates = () => {
+    const { current } = this.metricRef
+    if (!current) {
+      return
+    }
+
+    const key = current instanceof Line ? 'points' : 'data'
+
+    // HACK(vanguard): Because 'recharts' lib does not expose the "good" way to get coordinates
+    this.xToYCoordinates = current.props[key] || []
+
+    const { setxToYCoordinates } = this.props
+    setxToYCoordinates && setxToYCoordinates(this.xToYCoordinates)
+
+    return true
+  }
+
+  getXToYCoordinatesDebounced = debounce(() => {
+    chartBars.delete(this.props.chartRef.current)
+    this.getXToYCoordinates()
+    // HACK(vanguard): Thanks recharts
+    this.forceUpdate(this.forceUpdate)
+  }, 100)
+
   onMouseLeave = () => {
     this.setState({
       hovered: false
@@ -266,7 +308,7 @@ class Charts extends React.Component {
   onMouseMove = throttle(event => {
     if (!event) return
 
-    if (!this.props.xToYCoordinates && !this.props.getXToYCoordinates()) {
+    if (!this.xToYCoordinates && !this.getXToYCoordinates()) {
       return
     }
 
@@ -277,7 +319,7 @@ class Charts extends React.Component {
     }
 
     const { tooltipMetric = 'historyPrice' } = this.state
-    const coordinates = this.props.xToYCoordinates[activeTooltipIndex]
+    const coordinates = this.xToYCoordinates[activeTooltipIndex]
 
     if (!coordinates) {
       return
@@ -342,9 +384,9 @@ class Charts extends React.Component {
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
       chartRef,
       dayMetrics,
-      coordinates: this.props.xToYCoordinates,
+      coordinates: this.xToYCoordinates,
       scale: scale,
-      ref: { [tooltipMetric && tooltipMetric.key]: this.props.metricRef }
+      ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef }
     })
 
     let events = []
@@ -445,9 +487,7 @@ class Charts extends React.Component {
           <ComposedChart
             margin={CHART_MARGINS}
             onMouseLeave={this.onMouseLeave}
-            onMouseEnter={() => {
-              this.props.getXToYCoordinates()
-            }}
+            onMouseEnter={this.getXToYCoordinates}
             onMouseDown={event => {
               const { onChartClick } = this.props
               onChartClick && onChartClick(event)
@@ -590,4 +630,4 @@ const enhance = compose(
     }
   })
 )
-export default withXYCoords(withSignals(enhance(Charts)))
+export default WithSignals(enhance(Charts))

@@ -14,27 +14,17 @@ import {
 } from './../../../Signals/common/actions'
 import { buildPriceSignal } from './../../../Signals/utils/utils'
 
-const withSignals = WrappedComponent => {
+const WithSignals = WrappedComponent => {
   class WithSignalsWrapper extends React.Component {
     state = {
       signalData: undefined,
       signals: []
     }
 
-    componentDidMount () {
-      const chartSvg = this.props.chartRef.current
-      chartSvg && chartSvg.addEventListener('mousemove', this.onChartHover)
-    }
-
-    componentWillUnmount () {
-      const chartSvg = this.props.chartRef.current
-      chartSvg && chartSvg.removeEventListener('mousemove', this.onChartHover)
-    }
-
     componentDidUpdate (prevProps, prevState, snapshot) {
       const { isBeta, isLoggedIn, fetchSignals } = this.props
 
-      if (prevProps.isBeta !== isBeta || isLoggedIn !== prevProps.isLoggedIn) {
+      if (prevProps.isBeta !== isBeta || !prevProps.isLoggedIn !== isLoggedIn) {
         this.canShowSignalLines() && fetchSignals()
       }
     }
@@ -60,7 +50,7 @@ const withSignals = WrappedComponent => {
       this.onRemoveSignal(id, this.buildChartSignalData(target.cy, target.y))
     }
 
-    onChartHover = throttle(evt => {
+    onChartHover = throttle((evt, metricRef) => {
       if (!this.canShowSignalLines()) {
         return
       }
@@ -70,8 +60,6 @@ const withSignals = WrappedComponent => {
       if (signalPointHovered) {
         return
       }
-
-      const { metricRef } = this.props
 
       if (
         metricRef &&
@@ -85,7 +73,7 @@ const withSignals = WrappedComponent => {
 
         if (offsetX <= width && offsetY <= height) {
           const { signals, slug } = this.props
-          const priceUsd = getSignalPrice(this.props.xToYCoordinates, offsetY)
+          const priceUsd = getSignalPrice(this.xToYCoordinates, offsetY)
           if (priceUsd) {
             const existingSignalsWithSamePrice = getSlugPriceSignals(
               signals,
@@ -164,6 +152,10 @@ const withSignals = WrappedComponent => {
       return chartData[chartData.length - 1].priceUsd
     }
 
+    setxToYCoordinates = data => {
+      this.xToYCoordinates = data
+    }
+
     render () {
       const { signals = [], slug } = this.props
 
@@ -176,9 +168,9 @@ const withSignals = WrappedComponent => {
       const onSignalClick = this.onSignalClick
 
       const signalLines =
-        isSignalsEnabled && this.props.xToYCoordinates
+        isSignalsEnabled && this.xToYCoordinates
           ? mapToPriceSignalLines({
-            data: this.props.xToYCoordinates,
+            data: this.xToYCoordinates,
             slug,
             signals,
             onSignalHover,
@@ -193,6 +185,8 @@ const withSignals = WrappedComponent => {
           signalLines={signalLines}
           signalData={signalData}
           onChartClick={this.onChartClick}
+          onChartHover={this.onChartHover}
+          setxToYCoordinates={this.setxToYCoordinates}
           {...this.props}
         />
       )
@@ -226,4 +220,4 @@ const withSignals = WrappedComponent => {
   return enhance(WithSignalsWrapper)
 }
 
-export default withSignals
+export default WithSignals
