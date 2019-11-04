@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -10,7 +10,11 @@ import {
 } from 'recharts'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
 import { formatNumber } from '../../../utils/formatting'
-import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils.js'
+import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils'
+import {
+  getSyncedColors,
+  clearCache
+} from '../../../ducks/SANCharts/TooltipSynchronizer'
 import { Metrics } from '../../../ducks/SANCharts/data'
 import CustomTooltip from '../../../ducks/SANCharts/CustomTooltip'
 import styles from './MobileAssetChart.module.scss'
@@ -18,7 +22,9 @@ import styles from './MobileAssetChart.module.scss'
 const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
   const metrics = ['historyPricePreview']
   if (extraMetric) metrics.push(extraMetric.name)
-  const markup = generateMetricsMarkup(metrics.map(metric => Metrics[metric]))
+  const objMetrics = metrics.map(metric => Metrics[metric])
+  const syncedColors = getSyncedColors(objMetrics)
+  const markup = generateMetricsMarkup(objMetrics, { syncedColors })
 
   let anomalyDataKey, anomalies
   if (extraMetric) {
@@ -35,6 +41,8 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
       return anomaly
     })
   }
+
+  useEffect(() => clearCache)
   return (
     <div>
       <ResponsiveContainer width='100%' height={250}>

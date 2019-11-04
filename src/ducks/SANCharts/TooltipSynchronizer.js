@@ -3,7 +3,8 @@ import { setupColorGenerator } from './utils'
 
 const cache = new Map()
 
-const getSyncedColors = metrics => {
+export const clearCache = () => cache.clear()
+export const getSyncedColors = metrics => {
   const cacheKey = metrics.map(({ key }) => key).toString()
   const cachedColors = cache.get(cacheKey)
 
@@ -28,7 +29,7 @@ const TooltipSynchronizer = ({ children, metrics, isMultiChartsActive }) => {
 
   const syncedColors = getSyncedColors(metrics)
 
-  useEffect(() => () => cache.clear(), [])
+  useEffect(() => clearCache, [])
 
   return isMultiChartsActive
     ? metrics.map(metric =>
