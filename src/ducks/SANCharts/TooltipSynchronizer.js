@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { setupColorGenerator } from './utils'
 
 const cache = new Map()
@@ -46,15 +45,7 @@ const TooltipSynchronizer = ({ children, metrics, isMultiChartsActive }) => {
 }
 
 TooltipSynchronizer.defaultProps = {
-  children: undefined,
-  chartData: undefined,
-  metrics: undefined
-}
-
-TooltipSynchronizer.propTypes = {
-  children: PropTypes.any,
-  chartData: PropTypes.any,
-  metrics: PropTypes.any
+  metrics: []
 }
 
 export default TooltipSynchronizer
