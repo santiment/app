@@ -377,7 +377,7 @@ export const mapToPriceSignalLines = ({
   const first = data[0]
 
   if (!first) {
-    return
+    return null
   }
 
   const {
@@ -414,6 +414,10 @@ export const mapToPriceSignalLines = ({
 }
 
 export const getSignalPrice = (xToYCoordinates, crossY) => {
+  if (xToYCoordinates.length === 0) {
+    return undefined
+  }
+
   const minYItem = xToYCoordinates.reduce(function (prev, current) {
     return prev.y > current.y ? prev : current
   })

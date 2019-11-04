@@ -33,18 +33,12 @@
   color: var(--waterloo);
   fill: var(--waterloo);
   margin: 0 0 15px;
-  cursor: pointer;
   user-select: none;
 
   svg {
     height: 13px;
     width: 13px;
     margin: 0 5px -1px 0;
-  }
-
-  &:hover {
-    color: var(--jungle-green);
-    fill: var(--jungle-green);
   }
 }
 
