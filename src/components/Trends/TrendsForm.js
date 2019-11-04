@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Raven from 'raven-js'
 import GoogleAnalytics from 'react-ga'
 import { connect } from 'react-redux'
-import { Search } from '@santiment-network/ui'
+import Search from '@santiment-network/ui/Search'
 import { gotoExplore } from './trendsUtils'
 
 export class TrendsForm extends Component {
@@ -26,8 +26,8 @@ export class TrendsForm extends Component {
     this.props.gotoExplore(encodeURIComponent(this.state.topic))
   }
 
-  handleChange = evt => {
-    this.setState({ topic: evt.target.value })
+  handleChange = topic => {
+    this.setState({ topic })
   }
 
   render () {

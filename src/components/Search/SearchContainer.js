@@ -8,7 +8,8 @@ import TrendsForm from '../Trends/TrendsForm'
 import {
   getRecentAssets,
   addRecentAssets,
-  removeRecentAssets
+  removeRecentAssets,
+  clearRecentAssets
 } from '../../utils/recent'
 import styles from './SearchContainer.module.scss'
 
@@ -34,6 +35,7 @@ export const SearchContainer = ({
   inputProps,
   ...props
 }) => {
+  const [isFocused, setFocus] = useState(false)
   const [recentAssets, setRecentAssetSuggestions] = useState(getRecentAssets())
 
   function addRecentAssetSuggestions (slug) {
@@ -44,11 +46,27 @@ export const SearchContainer = ({
     setRecentAssetSuggestions(removeRecentAssets(slug))
   }
 
+  function clearRecents () {
+    setRecentAssetSuggestions(clearRecentAssets())
+  }
+
+  function onFocus () {
+    if (isMobile) return
+    setFocus(true)
+  }
+
+  function onBlur () {
+    if (isMobile) return
+    setFocus(false)
+  }
+
   return selectedTab === TABS[0].index ? (
     <SearchProjects
       {...props}
+      onFocus={onFocus}
+      onBlur={onBlur}
       inputProps={inputProps}
-      className={cx(styles.wrapper, className)}
+      className={cx(styles.wrapper, className, isFocused && styles.focused)}
       iconPosition='left'
       onSuggestionSelect={({ category, item }) => {
         if (category === ASSETS || category === RECENT_ASSETS) {
@@ -64,7 +82,17 @@ export const SearchContainer = ({
           ? undefined
           : [
             {
-              title: 'Recently searched',
+              id: RECENT_ASSETS,
+              title: (
+                <div className={styles.recents}>
+                    Recently searched
+                  <Icon
+                    type='history-clear'
+                    className={styles.clear}
+                    onClick={clearRecents}
+                  />
+                </div>
+              ),
               items: recentAssets,
               classes: styles,
               suggestionContent: suggestion => (
