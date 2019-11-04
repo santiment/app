@@ -208,6 +208,7 @@ class Charts extends React.Component {
     if (chartSvg) {
       chartSvg.addEventListener('mousemove', this.onChartHover)
     }
+    console.log('Mounting chart')
     this.loadSignals()
     this.getTooltipMetricAndKey()
     if (chartData.length) {
@@ -577,7 +578,8 @@ class Charts extends React.Component {
       signals = [],
       slug,
       isMultiChartsActive,
-      className
+      className,
+      syncedColors
     } = this.props
     const {
       refAreaLeft,
@@ -602,7 +604,8 @@ class Charts extends React.Component {
       dayMetrics,
       coordinates: this.xToYCoordinates,
       scale: scale,
-      ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef }
+      ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef },
+      syncedColors
     })
 
     let events = []

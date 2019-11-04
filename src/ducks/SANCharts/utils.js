@@ -178,11 +178,11 @@ export const generateMetricsMarkup = (
     chartRef: { current: chartRef } = {},
     coordinates,
     scale,
-    dayMetrics
+    dayMetrics,
+    syncedColors
   } = {}
 ) => {
   const metricWithYAxis = findYAxisMetric(metrics)
-  const generateColor = setupColorGenerator()
 
   // HACK(vanguard): Thanks recharts
   let barsMap = chartBars.get(chartRef)
@@ -196,7 +196,6 @@ export const generateMetricsMarkup = (
       key,
       node: El,
       label,
-      color,
       orientation = 'left',
       dataKey = key,
       hideYAxis,
@@ -205,7 +204,7 @@ export const generateMetricsMarkup = (
     } = metric
 
     const rest = {
-      [El === Bar ? 'fill' : 'stroke']: `var(--${generateColor(color)})`,
+      [El === Bar ? 'fill' : 'stroke']: syncedColors[key],
       [El === Area && gradientUrl && 'fill']: gradientUrl,
       [El === Area && gradientUrl && 'fillOpacity']: 1
     }

@@ -24,20 +24,25 @@ const getSyncedColors = metrics => {
   return colors
 }
 
-const TooltipSynchronizer = ({ children, metrics }) => {
+const TooltipSynchronizer = ({ children, metrics, isMultiChartsActive }) => {
   const [syncedTooltipIndex, syncTooltips] = useState()
 
   const syncedColors = getSyncedColors(metrics)
 
   useEffect(() => () => cache.clear(), [])
 
-  return React.Children.map(children, child =>
-    React.cloneElement(child, {
-      syncedTooltipIndex,
-      syncedColors,
-      syncTooltips
-    })
-  )
+  return isMultiChartsActive
+    ? metrics.map(metric =>
+      React.cloneElement(children, {
+        isMultiChartsActive,
+        key: metric.key,
+        metrics: [metric],
+        syncedTooltipIndex,
+        syncedColors,
+        syncTooltips
+      })
+    )
+    : React.cloneElement(children, { metrics, syncedColors })
 }
 
 TooltipSynchronizer.defaultProps = {
