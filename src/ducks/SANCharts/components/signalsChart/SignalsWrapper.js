@@ -18,15 +18,21 @@ const WithSignals = WrappedComponent => {
   class WithSignalsWrapper extends React.Component {
     state = {
       signalData: undefined,
-      signals: []
+      signals: [],
+      xToYCoordinates: []
     }
 
     componentDidUpdate (prevProps, prevState, snapshot) {
       const { isBeta, isLoggedIn, fetchSignals } = this.props
 
-      if (prevProps.isBeta !== isBeta || !prevProps.isLoggedIn !== isLoggedIn) {
+      if (prevProps.isBeta !== isBeta || prevProps.isLoggedIn !== isLoggedIn) {
         this.canShowSignalLines() && fetchSignals()
       }
+    }
+
+    componentDidMount () {
+      const { fetchSignals } = this.props
+      this.canShowSignalLines() && fetchSignals()
     }
 
     onSignalHover = throttle((evt, value, signal) => {
@@ -73,7 +79,7 @@ const WithSignals = WrappedComponent => {
 
         if (offsetX <= width && offsetY <= height) {
           const { signals, slug } = this.props
-          const priceUsd = getSignalPrice(this.xToYCoordinates, offsetY)
+          const priceUsd = getSignalPrice(this.state.xToYCoordinates, offsetY)
           if (priceUsd) {
             const existingSignalsWithSamePrice = getSlugPriceSignals(
               signals,
@@ -113,7 +119,8 @@ const WithSignals = WrappedComponent => {
       const { removeSignal } = this.props
       removeSignal(id)
       this.setState({
-        signalData
+        signalData,
+        signalPointHovered: false
       })
     }
 
@@ -153,7 +160,9 @@ const WithSignals = WrappedComponent => {
     }
 
     setxToYCoordinates = data => {
-      this.xToYCoordinates = data
+      this.setState({
+        xToYCoordinates: data
+      })
     }
 
     render () {
@@ -163,14 +172,13 @@ const WithSignals = WrappedComponent => {
 
       const isSignalsEnabled = this.canShowSignalLines()
 
-      const onSignalHover = this.onSignalHover
-      const onSignalLeave = this.onSignalLeave
-      const onSignalClick = this.onSignalClick
+      const { onSignalHover, onSignalLeave, onSignalClick } = this
 
+      const { xToYCoordinates } = this.state
       const signalLines =
-        isSignalsEnabled && this.xToYCoordinates
+        isSignalsEnabled && xToYCoordinates
           ? mapToPriceSignalLines({
-            data: this.xToYCoordinates,
+            data: xToYCoordinates,
             slug,
             signals,
             onSignalHover,
@@ -201,15 +209,9 @@ const WithSignals = WrappedComponent => {
   }
 
   const mapDispatchToProps = dispatch => ({
-    createSignal: payload => {
-      dispatch(createTrigger(payload))
-    },
-    fetchSignals: () => {
-      dispatch(fetchSignals())
-    },
-    removeSignal: id => {
-      dispatch(removeTrigger(id))
-    }
+    createSignal: payload => dispatch(createTrigger(payload)),
+    fetchSignals: () => dispatch(fetchSignals()),
+    removeSignal: id => dispatch(removeTrigger(id))
   })
 
   const enhance = connect(

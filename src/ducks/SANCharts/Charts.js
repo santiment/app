@@ -628,6 +628,7 @@ const enhance = compose(
         }
       }
     }
-  })
+  }),
+  WithSignals
 )
-export default WithSignals(enhance(Charts))
+export default enhance(Charts)
