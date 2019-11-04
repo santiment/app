@@ -718,7 +718,6 @@ class Charts extends React.Component {
 
         <ResponsiveContainer height={300}>
           <ComposedChart
-            syncId='anyId'
             margin={CHART_MARGINS}
             onMouseLeave={this.onMouseLeave}
             onMouseEnter={this.getXToYCoordinates}
