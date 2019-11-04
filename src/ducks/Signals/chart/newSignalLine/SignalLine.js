@@ -7,7 +7,7 @@ import { getOperationType } from '../../utils/utils'
 
 const getSignalText = (priceUsd, type, isNew) => {
   const priceTypeText =
-    type === PRICE_CHANGE_TYPES.ABOVE ? 'price raises to' : 'price down to'
+    type === PRICE_CHANGE_TYPES.ABOVE ? 'price raises to' : 'price downs to'
 
   if (isNew) {
     return (

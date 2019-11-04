@@ -309,6 +309,12 @@ class Charts extends React.Component {
     this.setState({
       hovered: false
     })
+
+    const { onChartLeave } = this.props
+
+    if (onChartLeave) {
+      onChartLeave()
+    }
   }
 
   onMouseMove = throttle(event => {
