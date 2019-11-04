@@ -42,11 +42,11 @@ import { binarySearch } from '../../pages/Trends/utils'
 import ChartWatermark from './ChartWatermark'
 import SignalLine, {
   SignalPointSvg
-} from './components/newSignalLine/SignalLine'
+} from '../Signals/chart/newSignalLine/SignalLine'
 import SidecarExplanationTooltip from './SidecarExplanationTooltip'
+import withSignals from '../Signals/chart/chartWrapper/WithSignals'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
-import WithSignals from './components/signalsChart/SignalsWrapper'
 
 const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 
@@ -111,14 +111,15 @@ class Charts extends React.Component {
   metricRef = React.createRef()
 
   componentDidMount () {
-    const chartSvg = this.props.chartRef.current
-    const { onChartHover } = this.props
-    chartSvg &&
-      chartSvg.addEventListener(
-        'mousemove',
-        evt => onChartHover && onChartHover(evt, this.metricRef)
+    const {
+      onChartHover,
+      chartRef: { current: chartSvg }
+    } = this.props
+    if (onChartHover && chartSvg) {
+      chartSvg.addEventListener('mousemove', evt =>
+        onChartHover(evt, this.metricRef)
       )
-    
+
     this.getTooltipMetricAndKey()
     if (chartData.length) {
       this.setupDayMetrics({ chartData, isIntervalSmallerThanDay, metrics })
@@ -126,13 +127,15 @@ class Charts extends React.Component {
   }
 
   componentWillUnmount () {
-    const chartSvg = this.props.chartRef.current
-    const { onChartHover } = this.props
-    chartSvg &&
-      chartSvg.removeEventListener(
-        'mousemove',
-        evt => onChartHover && onChartHover(evt, this.metricRef)
+    const {
+      onChartHover,
+      chartRef: { current: chartSvg }
+    } = this.props
+    if (onChartHover && chartSvg) {
+      chartSvg.removeEventListener('mousemove', evt =>
+        onChartHover(evt, this.metricRef)
       )
+    }
   }
 
   componentWillUpdate (newProps) {
@@ -344,7 +347,9 @@ class Charts extends React.Component {
     this.xToYCoordinates = current.props[key] || []
 
     const { setxToYCoordinates } = this.props
-    setxToYCoordinates && setxToYCoordinates(this.xToYCoordinates)
+    if (setxToYCoordinates) {
+      setxToYCoordinates(this.xToYCoordinates)
+    }
 
     return true
   }
@@ -565,7 +570,9 @@ class Charts extends React.Component {
             onMouseEnter={this.getXToYCoordinates}
             onMouseDown={event => {
               const { onChartClick } = this.props
-              onChartClick && onChartClick(event)
+              if (onChartClick) {
+                onChartClick(event)
+              }
 
               if (!event) return
               const { activeTooltipIndex, activeLabel } = event
@@ -704,6 +711,6 @@ const enhance = compose(
       }
     }
   }),
-  WithSignals
+  withSignals
 )
 export default enhance(Charts)
