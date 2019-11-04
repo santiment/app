@@ -203,21 +203,20 @@ class Charts extends React.Component {
         for (let i = 0; i < dayMetrics.length; i++) {
           const [dayMetric] = dayMetrics[i]
           if (
-            isDayStartMetric(
+            !isDayStartMetric(
               data,
               dayMetric,
               dayStartMetrics,
               currentPointDatetime
             )
           ) {
-            continue
+            assignToPointDayStartValue(
+              data,
+              dayMetric,
+              dayStartMetrics,
+              currentPointDatetime
+            )
           }
-          assignToPointDayStartValue(
-            data,
-            dayMetric,
-            dayStartMetrics,
-            currentPointDatetime
-          )
         }
 
         return data
