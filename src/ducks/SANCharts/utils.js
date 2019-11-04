@@ -173,9 +173,8 @@ export const alignDayMetrics = ({ chartRef, bars, dayMetrics, margin }) => {
 export const generateMetricsMarkup = (
   metrics,
   {
-    isMultipleChartsActive,
+    isMultiChartsActive,
     ref = {},
-    data = {},
     chartRef: { current: chartRef } = {},
     coordinates,
     scale,
@@ -211,7 +210,7 @@ export const generateMetricsMarkup = (
       [El === Area && gradientUrl && 'fillOpacity']: 1
     }
 
-    if (!isMultipleChartsActive && chartRef !== undefined && El === Bar) {
+    if (!isMultiChartsActive && chartRef !== undefined && El === Bar) {
       rest.shape = <StackedLogic barsMap={barsMap} metric={metric.key} />
     }
 

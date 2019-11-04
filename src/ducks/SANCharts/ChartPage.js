@@ -37,7 +37,8 @@ const DEFAULT_STATE = {
   enabledViewOnlySharing: true,
   isShowAnomalies: !localStorage.getItem('hideAnomalies'),
   events: [],
-  marketSegments: []
+  marketSegments: [],
+  isMultiChartsActive: false
 }
 
 const LoadableChartSidecar = Loadable({
@@ -227,6 +228,12 @@ class ChartPage extends Component {
     this.setState({ interval }, this.updateSearchQuery)
   }
 
+  onMultiChartsChange = () => {
+    this.setState(({ isMultiChartsActive }) => ({
+      isMultiChartsActive: !isMultiChartsActive
+    }))
+  }
+
   toggleMetric = metric => {
     const { type = 'metrics', label } = metric
 
@@ -287,7 +294,7 @@ class ChartPage extends Component {
     })
   }
 
-  mapStateToQS = ({ isAdvancedView, ...props }) =>
+  mapStateToQS = ({ isAdvancedView, isMultiChartsActive, ...props }) =>
     '?' + qs.stringify(props, { arrayFormat: 'comma' })
 
   updateSearchQuery () {
@@ -382,7 +389,7 @@ class ChartPage extends Component {
       nightMode,
       isShowAnomalies,
       isAdvancedView,
-      syncedTooltipIndex
+      isMultiChartsActive
     } = this.state
 
     const {
@@ -506,6 +513,28 @@ class ChartPage extends Component {
             ? eventsData.filter(({ metricAnomalyKey }) => !metricAnomalyKey)
             : eventsData
 
+          const chartProps = {
+            scale,
+            chartRef: this.chartRef,
+            isLoading: isParentLoading || isLoading,
+            onZoom: this.onZoom,
+            from,
+            to,
+            slug,
+            onZoomOut: this.onZoomOut,
+            isZoomed: zoom,
+            events: eventsFiltered,
+            isTrendsShowing,
+            chartData: mapDatetimeToNumber(timeseries),
+            title,
+            leftBoundaryDate,
+            rightBoundaryDate,
+            children,
+            isAdvancedView,
+            isBeta,
+            isLoggedIn,
+            isIntervalSmallerThanDay
+          }
           return (
             <>
               {viewOnly || hideSettings.header || (
@@ -533,6 +562,8 @@ class ChartPage extends Component {
                           generateShareLink={this.generateShareLink}
                           onNightModeSelect={this.onNightModeSelect}
                           onIntervalChange={this.onIntervalChange}
+                          onMultiChartsChange={this.onMultiChartsChange}
+                          isMultiChartsActive={isMultiChartsActive}
                           isNightModeActive={nightMode}
                           showNightModeToggle={adjustNightMode}
                           disabledMetrics={errors}
@@ -562,36 +593,21 @@ class ChartPage extends Component {
                         />
                       </>
                     )}
-                    <TooltipSynchronizer metrics={metrics}>
-                      {finalMetrics.map(metric => (
-                        <Charts
-                          key={metric.key}
-                          isMultipleChartsActive
-                          syncedTooltipIndex={syncedTooltipIndex}
-                          scale={scale}
-                          chartRef={this.chartRef}
-                          isLoading={isParentLoading || isLoading}
-                          onZoom={this.onZoom}
-                          from={from}
-                          to={to}
-                          slug={slug}
-                          onZoomOut={this.onZoomOut}
-                          isZoomed={zoom}
-                          events={eventsFiltered}
-                          isTrendsShowing={isTrendsShowing}
-                          chartData={mapDatetimeToNumber(timeseries)}
-                          title={title}
-                          metrics={[metric]}
-                          leftBoundaryDate={leftBoundaryDate}
-                          rightBoundaryDate={rightBoundaryDate}
-                          children={children}
-                          isAdvancedView={isAdvancedView}
-                          isBeta={isBeta}
-                          isLoggedIn={isLoggedIn}
-                          isIntervalSmallerThanDay={isIntervalSmallerThanDay}
-                        />
-                      ))}
-                    </TooltipSynchronizer>
+                    {isMultiChartsActive ? (
+                      <TooltipSynchronizer metrics={finalMetrics}>
+                        {finalMetrics.map(metric => (
+                          <Charts
+                            key={metric.key}
+                            isMultiChartsActive
+                            metrics={[metric]}
+                            className={styles.multiCharts}
+                            {...chartProps}
+                          />
+                        ))}
+                      </TooltipSynchronizer>
+                    ) : (
+                      <Charts metrics={finalMetrics} {...chartProps} />
+                    )}
                     {!isPRO && (
                       <UpgradePaywall isAdvancedView={isAdvancedView} />
                     )}

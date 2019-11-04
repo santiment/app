@@ -171,6 +171,7 @@ class Charts extends React.Component {
 
       if (offsetX <= width && offsetY <= height) {
         const { signals, slug } = this.props
+
         const priceUsd = getSignalPrice(this.xToYCoordinates, offsetY)
         if (priceUsd) {
           const existingSignalsWithSamePrice = getSlugPriceSignals(
@@ -197,14 +198,28 @@ class Charts extends React.Component {
   }
 
   componentDidMount () {
-    const chartSvg = this.props.chartRef.current
-    chartSvg && chartSvg.addEventListener('mousemove', this.onChartHover)
+    const {
+      chartData,
+      isIntervalSmallerThanDay,
+      metrics,
+      chartRef
+    } = this.props
+    const chartSvg = chartRef.current
+    if (chartSvg) {
+      chartSvg.addEventListener('mousemove', this.onChartHover)
+    }
     this.loadSignals()
+    this.getTooltipMetricAndKey()
+    if (chartData.length) {
+      this.setupDayMetrics({ chartData, isIntervalSmallerThanDay, metrics })
+    }
   }
 
   componentWillUnmount () {
     const chartSvg = this.props.chartRef.current
-    chartSvg && chartSvg.removeEventListener('mousemove', this.onChartHover)
+    if (chartSvg) {
+      chartSvg.removeEventListener('mousemove', this.onChartHover)
+    }
   }
 
   componentWillUpdate (newProps) {
@@ -262,6 +277,51 @@ class Charts extends React.Component {
     }
   }
 
+  setupDayMetrics = ({ chartData, isIntervalSmallerThanDay, metrics }) => {
+    const dayMetrics = []
+    let alignedChartData = chartData
+
+    if (isIntervalSmallerThanDay) {
+      metrics.forEach(
+        ({ key, minInterval }, index) =>
+          minInterval === '1d' && dayMetrics.push([key, index])
+      )
+
+      const dayStartMetrics = {}
+
+      alignedChartData = chartData.map(({ ...data }) => {
+        const { datetime: currentPointDatetime } = data
+
+        for (let i = 0; i < dayMetrics.length; i++) {
+          const [dayMetric] = dayMetrics[i]
+          if (
+            isDayStartMetric(
+              data,
+              dayMetric,
+              dayStartMetrics,
+              currentPointDatetime
+            )
+          ) {
+            continue
+          }
+          assignToPointDayStartValue(
+            data,
+            dayMetric,
+            dayStartMetrics,
+            currentPointDatetime
+          )
+        }
+
+        return data
+      })
+    }
+
+    this.setState({
+      dayMetrics,
+      alignedChartData
+    })
+  }
+
   componentDidUpdate (prevProps) {
     const {
       metrics,
@@ -284,61 +344,19 @@ class Charts extends React.Component {
     }
 
     if (chartData !== prevProps.chartData) {
-      const dayMetrics = []
-      let alignedChartData = chartData
-
-      if (isIntervalSmallerThanDay) {
-        metrics.forEach(
-          ({ key, minInterval }, index) =>
-            minInterval === '1d' && dayMetrics.push([key, index])
-        )
-
-        const dayStartMetrics = {}
-
-        alignedChartData = chartData.map(({ ...data }) => {
-          const { datetime: currentPointDatetime } = data
-
-          for (let i = 0; i < dayMetrics.length; i++) {
-            const [dayMetric] = dayMetrics[i]
-            if (
-              isDayStartMetric(
-                data,
-                dayMetric,
-                dayStartMetrics,
-                currentPointDatetime
-              )
-            ) {
-              continue
-            }
-            assignToPointDayStartValue(
-              data,
-              dayMetric,
-              dayStartMetrics,
-              currentPointDatetime
-            )
-          }
-
-          return data
-        })
-      }
-
-      this.setState({
-        dayMetrics,
-        alignedChartData
-      })
+      this.setupDayMetrics({ chartData, isIntervalSmallerThanDay, metrics })
     }
 
     if (metrics !== prevProps.metrics) {
-      const { tooltipMetric } = getTooltipMetricAndKey(metrics, chartData) || {}
-      if (tooltipMetric) {
-        this.setState({ tooltipMetric })
-      }
+      this.getTooltipMetricAndKey()
     }
 
-    if (
-      this.props.syncedTooltipIndex &&
-      prevProps.syncedTooltipIndex !== this.props.syncedTooltipIndex
-    ) {
+    if (prevProps.syncedTooltipIndex !== this.props.syncedTooltipIndex) {
+      if (!this.props.syncedTooltipIndex) {
+        this.setState({ hovered: false, activePayload: undefined })
+        return
+      }
+
       this.getXToYCoordinates()
 
       const {
@@ -405,6 +423,14 @@ class Charts extends React.Component {
     })
   }
 
+  getTooltipMetricAndKey = () => {
+    const { metrics, chartData } = this.props
+    const { tooltipMetric } = getTooltipMetricAndKey(metrics, chartData) || {}
+    if (tooltipMetric) {
+      this.setState({ tooltipMetric })
+    }
+  }
+
   getXToYCoordinates = () => {
     const { current } = this.metricRef
     if (!current) {
@@ -427,10 +453,13 @@ class Charts extends React.Component {
   }, 100)
 
   onMouseLeave = () => {
-    this.setState({
-      hovered: false,
-      signalData: null
-    })
+    this.setState(
+      {
+        hovered: false,
+        signalData: null
+      },
+      this.props.syncTooltips
+    )
   }
 
   canShowSignalLines = () => {
@@ -446,10 +475,11 @@ class Charts extends React.Component {
     }
 
     const { activeTooltipIndex, activeLabel, activePayload } = event
-    const { isMultipleChartsActive, syncTooltips, chartData } = this.props
+    const { isMultiChartsActive, syncTooltips, chartData } = this.props
 
-    if (isMultipleChartsActive) {
+    if (isMultiChartsActive) {
       syncTooltips(activeTooltipIndex)
+      return
     }
 
     if (!activePayload) {
@@ -546,7 +576,8 @@ class Charts extends React.Component {
       scale,
       signals = [],
       slug,
-      isMultipleChartsActive
+      isMultiChartsActive,
+      className
     } = this.props
     const {
       refAreaLeft,
@@ -566,7 +597,7 @@ class Charts extends React.Component {
     } = this.state
 
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
-      isMultipleChartsActive,
+      isMultiChartsActive,
       chartRef,
       dayMetrics,
       coordinates: this.xToYCoordinates,
@@ -607,7 +638,10 @@ class Charts extends React.Component {
     const showTooltip = hovered && activePayload
 
     return (
-      <div className={styles.wrapper + ' ' + sharedStyles.chart} ref={chartRef}>
+      <div
+        className={cx(styles.wrapper, sharedStyles.chart, className)}
+        ref={chartRef}
+      >
         {isLoading && (
           <div className={styles.loader}>
             <Loader />

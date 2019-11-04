@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { setupColorGenerator } from './utils'
-// import styles from './TooltipSynchronizer.module.scss'
 
 const cache = new Map()
 
 const getSyncedColors = metrics => {
-  const cacheKey = metrics.toString()
+  const cacheKey = metrics.map(({ key }) => key).toString()
   const cachedColors = cache.get(cacheKey)
 
   if (cachedColors) {
     return cachedColors
   }
+
   const generateColor = setupColorGenerator()
 
   const colors = metrics.reduce((acc, { key, color }) => {
