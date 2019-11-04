@@ -113,12 +113,16 @@ class Charts extends React.Component {
   componentDidMount () {
     const {
       onChartHover,
-      chartRef: { current: chartSvg }
+      chartRef: { current: chartSvg },
+      chartData,
+      isIntervalSmallerThanDay,
+      metrics
     } = this.props
     if (onChartHover && chartSvg) {
       chartSvg.addEventListener('mousemove', evt =>
         onChartHover(evt, this.metricRef)
       )
+    }
 
     this.getTooltipMetricAndKey()
     if (chartData.length) {
@@ -364,7 +368,7 @@ class Charts extends React.Component {
   onMouseLeave = () => {
     this.setState(
       {
-        hovered: false,
+        hovered: false
       },
       this.props.syncTooltips
     )
