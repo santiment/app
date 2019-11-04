@@ -5,16 +5,16 @@ import {
   mapToPriceSignalLines,
   getSignalPrice,
   getSlugPriceSignals
-} from './../../utils'
-import { Metrics } from './../../data'
+} from '../../../SANCharts/utils'
+import { Metrics } from '../../../SANCharts/data'
 import {
   createTrigger,
   fetchSignals,
   removeTrigger
-} from './../../../Signals/common/actions'
-import { buildPriceSignal } from './../../../Signals/utils/utils'
+} from '../../common/actions'
+import { buildPriceSignal } from '../../utils/utils'
 
-const WithSignals = WrappedComponent => {
+const withSignals = WrappedComponent => {
   class WithSignalsWrapper extends React.Component {
     state = {
       signalData: undefined,
@@ -25,14 +25,18 @@ const WithSignals = WrappedComponent => {
     componentDidUpdate (prevProps, prevState, snapshot) {
       const { isBeta, isLoggedIn, fetchSignals } = this.props
 
-      if (prevProps.isBeta !== isBeta || prevProps.isLoggedIn !== isLoggedIn) {
-        this.canShowSignalLines() && fetchSignals()
+      const propsChanged =
+        prevProps.isBeta !== isBeta || prevProps.isLoggedIn !== isLoggedIn
+      if (propsChanged && this.canShowSignalLines()) {
+        fetchSignals()
       }
     }
 
     componentDidMount () {
-      const { fetchSignals } = this.props
-      this.canShowSignalLines() && fetchSignals()
+      if (this.canShowSignalLines()) {
+        const { fetchSignals } = this.props
+        fetchSignals()
+      }
     }
 
     onSignalHover = throttle((evt, value, signal) => {
@@ -168,13 +172,12 @@ const WithSignals = WrappedComponent => {
     render () {
       const { signals = [], slug } = this.props
 
-      const { signalData } = this.state
+      const { signalData, xToYCoordinates } = this.state
 
       const isSignalsEnabled = this.canShowSignalLines()
 
       const { onSignalHover, onSignalLeave, onSignalClick } = this
 
-      const { xToYCoordinates } = this.state
       const signalLines =
         isSignalsEnabled && xToYCoordinates
           ? mapToPriceSignalLines({
@@ -222,4 +225,4 @@ const WithSignals = WrappedComponent => {
   return enhance(WithSignalsWrapper)
 }
 
-export default WithSignals
+export default withSignals
