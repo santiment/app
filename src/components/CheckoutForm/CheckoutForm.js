@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Input from '@santiment-network/ui/Input'
-import Icon from '@santiment-network/ui/Icon'
 import { CardElement } from 'react-stripe-elements'
 import vars from '@santiment-network/ui/variables.scss'
 import visaSrc from './visa.png'
@@ -80,37 +79,37 @@ const CheckoutForm = ({ stripe, plan }) => {
       </div>
 
       <div className={styles.toggle} onClick={onToggleClick}>
-        <Icon type={visible ? 'subtract-round' : 'plus-round-small'} />
-        {visible ? 'Hide' : 'Add'} billing address
+        Add billing address
       </div>
-      {visible && (
-        <div className={styles.form}>
-          <label className={cx(styles.label, styles.label_card)}>
-            Street Address
-            <Input
-              className={styles.input}
-              placeholder='670 Glen Creek St.'
-              name='address_line1'
-            />
-          </label>
-          <label className={cx(styles.label, styles.label_card)}>
-            City
-            <Input
-              className={styles.input}
-              placeholder='Seattle'
-              name='address_city'
-            />
-          </label>
-          <label className={cx(styles.label, styles.label_card)}>
-            State/Region
-            <Input
-              className={styles.input}
-              placeholder='Washington'
-              name='address_state'
-            />
-          </label>
-        </div>
-      )}
+      <div className={styles.form}>
+        <label className={cx(styles.label, styles.label_card)}>
+          Street Address
+          <Input
+            className={styles.input}
+            placeholder='670 Glen Creek St.'
+            name='address_line1'
+            required
+          />
+        </label>
+        <label className={cx(styles.label, styles.label_card)}>
+          City
+          <Input
+            className={styles.input}
+            placeholder='Seattle'
+            name='address_city'
+            required
+          />
+        </label>
+        <label className={cx(styles.label, styles.label_card)}>
+          State/Region
+          <Input
+            className={styles.input}
+            placeholder='Washington'
+            name='address_state'
+            required
+          />
+        </label>
+      </div>
       <DiscountInput />
     </>
   )
