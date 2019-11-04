@@ -208,7 +208,6 @@ class Charts extends React.Component {
     if (chartSvg) {
       chartSvg.addEventListener('mousemove', this.onChartHover)
     }
-    console.log('Mounting chart')
     this.loadSignals()
     this.getTooltipMetricAndKey()
     if (chartData.length) {
