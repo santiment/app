@@ -153,7 +153,7 @@ const WithSignals = WrappedComponent => {
       const { chartData } = this.props
 
       if (chartData.length === 0) {
-        return undefined
+        return
       }
 
       return chartData[chartData.length - 1].priceUsd
