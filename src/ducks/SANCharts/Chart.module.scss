@@ -222,3 +222,15 @@
   margin-left: 50px;
   margin-top: 0 !important;
 }
+
+.multiCharts {
+  margin-bottom: 40px;
+
+  .line::before {
+    bottom: 25px;
+  }
+
+  .values::before {
+    bottom: 8px;
+  }
+}

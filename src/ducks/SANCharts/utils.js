@@ -182,7 +182,9 @@ export const generateMetricsMarkup = (
     syncedColors
   } = {}
 ) => {
-  const metricWithYAxis = findYAxisMetric(metrics)
+  const metricWithYAxis = isMultiChartsActive
+    ? metrics[0]
+    : findYAxisMetric(metrics)
 
   // HACK(vanguard): Thanks recharts
   let barsMap = chartBars.get(chartRef)

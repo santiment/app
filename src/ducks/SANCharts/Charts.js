@@ -266,9 +266,6 @@ class Charts extends React.Component {
 
       this.getXToYCoordinates()
 
-      const {
-        tooltipMetric: { key, label, formatter }
-      } = this.state
       const coordinates = this.xToYCoordinates[this.props.syncedTooltipIndex]
 
       if (!coordinates) {
@@ -279,10 +276,8 @@ class Charts extends React.Component {
         x,
         y,
         value,
-        payload: { datetime }
+        payload: { datetime, ...payload }
       } = coordinates
-
-      const color = this.props.syncedColors[key]
 
       this.setState({
         x,
@@ -290,14 +285,14 @@ class Charts extends React.Component {
         xValue: datetime,
         yValue: value,
         hovered: true,
-        activePayload: [
-          {
+        activePayload: this.props.metrics.map(
+          ({ key, dataKey = key, label, formatter }) => ({
             formatter,
-            value,
-            color,
+            value: payload[dataKey],
+            color: this.props.syncedColors[key],
             name: label
-          }
-        ]
+          })
+        )
       })
     }
   }
@@ -642,7 +637,10 @@ class Charts extends React.Component {
                 rightBoundaryDate,
                 data: chartData
               })}
-            {chartData.length > 0 && metrics.length > 0 && chartRef.current && (
+            {!isMultiChartsActive &&
+              chartData.length > 0 &&
+              metrics.length > 0 &&
+              chartRef.current && (
               <Brush
                 tickFormatter={EMPTY_FORMATTER}
                 travellerWidth={4}

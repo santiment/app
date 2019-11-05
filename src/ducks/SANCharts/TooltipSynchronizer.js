@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { setupColorGenerator } from './utils'
+import { Metrics } from './data'
+import chartStyles from './Chart.module.scss'
 
 const cache = new Map()
 
@@ -24,19 +26,29 @@ export const getSyncedColors = metrics => {
   return colors
 }
 
+const { historyPrice } = Metrics
+
 const TooltipSynchronizer = ({ children, metrics, isMultiChartsActive }) => {
   const [syncedTooltipIndex, syncTooltips] = useState()
 
   const syncedColors = getSyncedColors(metrics)
 
+  const noPriceMetrics = metrics.filter(metric => metric !== historyPrice)
+  const hasPriceMetric = metrics.length !== noPriceMetrics.length
+  const syncedMetrics = metrics.reduce((map, metric) => {
+    map.set(metric, hasPriceMetric ? [metric, historyPrice] : [metric])
+    return map
+  }, new WeakMap())
+
   useEffect(() => clearCache, [])
 
   return isMultiChartsActive
-    ? metrics.map(metric =>
+    ? noPriceMetrics.map(metric =>
       React.cloneElement(children, {
+        className: chartStyles.multiCharts,
         isMultiChartsActive,
         key: metric.key,
-        metrics: [metric],
+        metrics: syncedMetrics.get(metric),
         syncedTooltipIndex,
         syncedColors,
         syncTooltips

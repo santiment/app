@@ -576,7 +576,6 @@ class ChartPage extends Component {
                       metrics={finalMetrics}
                     >
                       <Charts
-                        className={isMultiChartsActive && styles.multiCharts}
                         scale={scale}
                         chartRef={this.chartRef}
                         isLoading={isParentLoading || isLoading}
