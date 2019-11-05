@@ -47,10 +47,12 @@ const withSignals = WrappedComponent => {
     }, 50)
 
     onSignalLeave = throttle(() => {
-      this.setState({
-        signalData: undefined,
-        signalPointHovered: false
-      })
+      if (this.canShowSignalLines()) {
+        this.setState({
+          signalData: undefined,
+          signalPointHovered: false
+        })
+      }
     }, 50)
 
     onSignalClick = (target, evt, id) => {
@@ -197,6 +199,7 @@ const withSignals = WrappedComponent => {
           signalData={signalData}
           onChartClick={this.onChartClick}
           onChartHover={this.onChartHover}
+          onChartLeave={onSignalLeave}
           setxToYCoordinates={this.setxToYCoordinates}
           {...this.props}
         />

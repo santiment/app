@@ -360,12 +360,15 @@ class Charts extends React.Component {
   }, 100)
 
   onMouseLeave = () => {
-    this.setState(
-      {
+    this.setState({
         hovered: false
-      },
-      this.props.syncTooltips
-    )
+      }, this.props.syncTooltips)
+
+    const { onChartLeave } = this.props
+
+    if (onChartLeave) {
+      onChartLeave()
+    }
   }
 
   onMouseMove = throttle(event => {
