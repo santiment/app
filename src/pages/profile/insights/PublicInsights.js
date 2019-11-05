@@ -1,16 +1,13 @@
 import React from 'react'
-import { graphql } from 'react-apollo'
 import InsightsFeed from '../../../components/Insight/InsightsFeed'
-import { INSIGHTS_BY_USERID_QUERY } from '../../../queries/InsightsGQL'
-import { BlocksLoader } from './../ProfilePage'
 import styles from './../ProfilePage.module.scss'
 import publicInsightStyles from './PublicInsights.module.scss'
 
 const PublicInsights = props => {
-  const { data: { insights = [], loading } = {} } = props
+  const { data: insights } = props
 
-  if (loading) {
-    return <BlocksLoader />
+  if (!insights || insights.length === 0) {
+    return null
   }
 
   return (
@@ -23,17 +20,4 @@ const PublicInsights = props => {
   )
 }
 
-export default graphql(INSIGHTS_BY_USERID_QUERY, {
-  skip: ({ userId }) => {
-    return !userId
-  },
-  options: props => {
-    const { userId } = props
-    return {
-      fetchPolicy: 'cache-and-network',
-      variables: {
-        userId: +userId
-      }
-    }
-  }
-})(PublicInsights)
+export default PublicInsights

@@ -1,70 +1,151 @@
 import React from 'react'
+import { compose } from 'recompose'
+import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 import PublicWatchlists from './watchlists/PublicWatchlists'
 import PublicSignals from './signals/PublicSignals'
 import PublicInsights from './insights/PublicInsights'
 import Breadcrumbs from './breadcrumbs/Breadcrumbs'
-import Loader from '@santiment-network/ui/Loader/Loader'
+import ProfileInfo from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
+import { PUBLIC_USER_DATA_QUERY } from '../../queries/ProfileGQL'
+import { DesktopOnly, MobileOnly } from '../../components/Responsive'
+import { mapQSToState } from '../../utils/utils'
 import styles from './ProfilePage.module.scss'
 
-const ProfilePage = ({
-  profile = {},
-  isDesktop,
-  isUserLoading,
-  defaultUser,
-  defaultUser: { id: defaultUserId, username: defaultUserName },
-  match: { params: { id = defaultUserId } = {} } = {}
+const getQueryVariables = ({
+  location,
+  match: { params: { id } = {} } = {}
 }) => {
-  const { username = id } = profile
+  let variables
+  if (id) {
+    variables = { userId: id }
+  } else {
+    const { username } = mapQSToState({ location })
+    variables = {
+      username
+    }
+  }
+  return variables
+}
 
-  const isCurentUser = defaultUserId === id
+const ProfilePage = props => {
+  const { currentUser, profile, isLoading, isUserLoading } = props
 
-  if (isUserLoading) {
+  if (isUserLoading || isLoading) {
     return <PageLoader />
+  }
+
+  if (!profile) {
+    return (
+      <div className='page'>
+        <NoProfileData />
+      </div>
+    )
+  }
+
+  const {
+    username,
+    email,
+    id: profileId,
+    insights,
+    triggers,
+    watchlists
+  } = profile
+
+  function updateCache (cache, { data: { follow, unfollow } }) {
+    const queryVariables = getQueryVariables(props)
+
+    const getUserData = cache.readQuery({
+      query: PUBLIC_USER_DATA_QUERY,
+      variables: queryVariables
+    })
+
+    const {
+      getUser: { followers }
+    } = getUserData
+    const isInFollowers = followers.users.some(
+      ({ id }) => +id === +currentUser.id
+    )
+    const { users } = followers
+
+    if (isInFollowers) {
+      const { id: followerId } = follow || unfollow
+      followers.users = users.filter(({ id }) => +id !== +followerId)
+    } else {
+      users.push(follow)
+      followers.users = [...users]
+    }
+    followers.count = followers.users.length
+
+    cache.writeQuery({
+      query: PUBLIC_USER_DATA_QUERY,
+      variables: queryVariables,
+      data: {
+        ...getUserData
+      }
+    })
   }
 
   return (
     <div className='page'>
-      {!isDesktop && (
+      <MobileOnly>
         <div className={styles.header}>
           <MobileHeader title='Profile' />
         </div>
-      )}
+      </MobileOnly>
 
       <div className={styles.page}>
-        {isDesktop && (
+        <DesktopOnly>
           <Breadcrumbs
             crumbs={[
               {
                 label: 'User'
               },
               {
-                label: isCurentUser ? defaultUserName : username
+                label: username || email || profileId
               }
             ]}
           />
-        )}
+        </DesktopOnly>
 
-        <PublicWatchlists userId={id} />
+        <ProfileInfo profile={profile} updateCache={updateCache} />
 
-        <PublicSignals userId={id} />
+        <PublicWatchlists userId={profileId} data={watchlists} />
 
-        <PublicInsights userId={id} />
+        <PublicSignals userId={profileId} data={triggers} />
+
+        <PublicInsights userId={profileId} data={insights} />
       </div>
     </div>
   )
 }
 
-export const BlocksLoader = () => (
-  <div className={styles.loader}>
-    <Loader />
-  </div>
-)
-
 const mapStateToProps = state => ({
-  defaultUser: state.user.data
+  currentUser: state.user.data
 })
 
-export default connect(mapStateToProps)(ProfilePage)
+const enhance = compose(
+  connect(mapStateToProps),
+  graphql(PUBLIC_USER_DATA_QUERY, {
+    skip: ({ location, match: { params: { id } = {} } = {} }) => {
+      const { username } = mapQSToState({ location })
+      return !id && !username
+    },
+    options: props => ({
+      variables: getQueryVariables(props)
+    }),
+    props: ({ data: { getUser, loading, error } }) => ({
+      profile: getUser,
+      isLoading: loading,
+      isError: error
+    })
+  })
+)
+
+const NoProfileData = () => {
+  return "User does't exist"
+}
+
+export default enhance(ProfilePage)

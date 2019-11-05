@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-const insightCommon = gql`
+export const INSIGHT_COMMON_FRAGMENT = gql`
   fragment insightCommon on Post {
     readyState
     id
@@ -29,7 +29,7 @@ export const FEATURED_INSIGHTS_QUERY = gql`
       ...insightCommon
     }
   }
-  ${insightCommon}
+  ${INSIGHT_COMMON_FRAGMENT}
 `
 
 export const ALL_INSIGHTS_BY_TAG_QUERY = gql`
@@ -38,7 +38,7 @@ export const ALL_INSIGHTS_BY_TAG_QUERY = gql`
       ...insightCommon
     }
   }
-  ${insightCommon}
+  ${INSIGHT_COMMON_FRAGMENT}
 `
 
 export const ALL_INSIGHTS_QUERY = gql`
@@ -47,7 +47,7 @@ export const ALL_INSIGHTS_QUERY = gql`
       ...insightCommon
     }
   }
-  ${insightCommon}
+  ${INSIGHT_COMMON_FRAGMENT}
 `
 
 export const PINNED_INSIGHTS_QUERY = gql`
@@ -56,7 +56,7 @@ export const PINNED_INSIGHTS_QUERY = gql`
       ...insightCommon
     }
   }
-  ${insightCommon}
+  ${INSIGHT_COMMON_FRAGMENT}
 `
 
 export const ALL_TAGS_QUERY = gql`
@@ -73,7 +73,7 @@ export const ALL_INSIGHTS_BY_PAGE_QUERY = gql`
       ...insightCommon
     }
   }
-  ${insightCommon}
+  ${INSIGHT_COMMON_FRAGMENT}
 `
 
 export const CURRENT_USER_INSIGHTS_QUERY = gql`
@@ -86,7 +86,7 @@ export const CURRENT_USER_INSIGHTS_QUERY = gql`
       }
     }
   }
-  ${insightCommon}
+  ${INSIGHT_COMMON_FRAGMENT}
 `
 
 export const CURRENT_USER_DRAFT_INSIGHTS = gql`
@@ -115,7 +115,7 @@ export const INSIGHT_BY_ID_QUERY = gql`
       ...insightCommon
     }
   }
-  ${insightCommon}
+  ${INSIGHT_COMMON_FRAGMENT}
 `
 
 export const INSIGHTS_BY_USERID_QUERY = gql`
@@ -124,7 +124,7 @@ export const INSIGHTS_BY_USERID_QUERY = gql`
       ...insightCommon
     }
   }
-  ${insightCommon}
+  ${INSIGHT_COMMON_FRAGMENT}
 `
 
 export const INSIGHTS_BY_TAG_QUERY = gql`
@@ -133,7 +133,7 @@ export const INSIGHTS_BY_TAG_QUERY = gql`
       ...insightCommon
     }
   }
-  ${insightCommon}
+  ${INSIGHT_COMMON_FRAGMENT}
 `
 
 export const DELETE_INSIGHT_MUTATION = gql`
