@@ -103,6 +103,7 @@ export const Metrics = {
   exchange_balance: {
     category: 'On-chain',
     node: Line,
+    group: 'Exchange Flow',
     label: 'Exchange Flow Balance',
     video: 'https://www.youtube.com/watch?v=0R6GDF2bg6A',
     description: `The flows of tokens going in to and out of exchange wallets combined on one graph.
@@ -137,7 +138,6 @@ export const Metrics = {
   topHoldersPercentOfTotalSupply: {
     category: 'On-chain',
     node: Line,
-    group: 'Exchange Flow',
     label: 'In Top Holders Total',
     // TODO: Add support for 3 datakeys of single metric:
     // inExchanges outsideExchanges inTopHoldersTotal
