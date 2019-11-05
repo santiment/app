@@ -64,8 +64,8 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-const mapStateToProps = state => ({
-  userId: state.user && state.user.data ? state.user.data.id : undefined
+const mapStateToProps = ({ user }) => ({
+  userId: user && user.data ? user.data.id : undefined
 })
 
 export default connect(

@@ -31,13 +31,7 @@ const getQueryVariables = ({
 }
 
 const ProfilePage = props => {
-  const {
-    currentUser,
-    profile,
-    isLoading,
-    isUserLoading,
-    match: { params: { id } = {} } = {}
-  } = props
+  const { currentUser, profile, isLoading, isUserLoading } = props
 
   if (isUserLoading || isLoading) {
     return <PageLoader />
@@ -118,11 +112,11 @@ const ProfilePage = props => {
 
         <ProfileInfo profile={profile} updateCache={updateCache} />
 
-        <PublicWatchlists userId={id} data={watchlists} />
+        <PublicWatchlists userId={profileId} data={watchlists} />
 
-        <PublicSignals userId={id} data={triggers} />
+        <PublicSignals userId={profileId} data={triggers} />
 
-        <PublicInsights userId={id} data={insights} />
+        <PublicInsights userId={profileId} data={insights} />
       </div>
     </div>
   )
