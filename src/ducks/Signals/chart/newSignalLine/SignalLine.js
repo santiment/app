@@ -1,13 +1,13 @@
 import React from 'react'
-import { usdFormatter } from '../../utils'
-import pointerImg from './../../../../assets/signals/buttons/pointer.svg'
-import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
+import { usdFormatter } from '../../../SANCharts/utils'
+import pointerImg from '../../../../assets/signals/buttons/pointer.svg'
+import { PRICE_CHANGE_TYPES } from '../../utils/constants'
 import styles from './SignalLine.module.scss'
-import { getOperationType } from '../../../Signals/utils/utils'
+import { getOperationType } from '../../utils/utils'
 
 const getSignalText = (priceUsd, type, isNew) => {
   const priceTypeText =
-    type === PRICE_CHANGE_TYPES.ABOVE ? 'price raises to' : 'price less than'
+    type === PRICE_CHANGE_TYPES.ABOVE ? 'price raises to' : 'price downs to'
 
   if (isNew) {
     return (

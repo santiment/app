@@ -2,6 +2,12 @@
   position: relative;
   z-index: 10;
   margin-right: 12px;
+  width: 200px;
+  transition: width 200ms ease-out;
+}
+
+.focused {
+  width: 340px;
 }
 
 .name {
@@ -34,6 +40,21 @@
 
 .checkbox {
   margin-right: 5px;
+}
+
+.recents {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.clear {
+  cursor: pointer;
+  fill: var(--mirage);
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
 }
 
 .recent {
