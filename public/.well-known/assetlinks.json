@@ -3,9 +3,6 @@
   "target": {
     "namespace": "android_app",
     "package_name": "net.santiment.sanbase.android",
-    "sha256_cert_fingerprints": [
-      "E9:11:10:1E:D4:3C:14:4F:43:5E:19:BF:9B:C5:41:58:42:14:8A:CC:9C:26:68:58:46:DF:94:5D:4B:3F:B5:17",
-      "D7:22:BF:67:F1:51:34:6F:05:21:F0:19:4E:91:B5:82:0D:3D:96:7F:E8:43:80:E9:99:CA:AC:4D:90:FE:91:05"
-    ]
+    "sha256_cert_fingerprints": ["D7:22:BF:67:F1:51:34:6F:05:21:F0:19:4E:91:B5:82:0D:3D:96:7F:E8:43:80:E9:99:CA:AC:4D:90:FE:91:05"]
   }
 }]
