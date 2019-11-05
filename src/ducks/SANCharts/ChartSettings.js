@@ -25,6 +25,8 @@ const ChartSettings = ({
   activeMetrics,
   title,
   scale,
+  onMultiChartsChange,
+  isMultiChartsActive,
   onScaleChange
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
@@ -51,6 +53,8 @@ const ChartSettings = ({
           />
         )}
         <ChartSettingsContextMenu
+          onMultiChartsChange={onMultiChartsChange}
+          isMultiChartsActive={isMultiChartsActive}
           isNightModeActive={isNightModeActive}
           showNightModeToggle={showNightModeToggle}
           onNightModeSelect={onNightModeSelect}

@@ -8,6 +8,7 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import Header from './Header'
+import TooltipSynchronizer from './TooltipSynchronizer'
 import { getMarketSegment, mapDatetimeToNumber } from './utils'
 import { Metrics, Events, compatabilityMap } from './data'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
@@ -36,7 +37,8 @@ const DEFAULT_STATE = {
   enabledViewOnlySharing: true,
   isShowAnomalies: !localStorage.getItem('hideAnomalies'),
   events: [],
-  marketSegments: []
+  marketSegments: [],
+  isMultiChartsActive: false
 }
 
 const LoadableChartSidecar = Loadable({
@@ -226,6 +228,12 @@ class ChartPage extends Component {
     this.setState({ interval }, this.updateSearchQuery)
   }
 
+  onMultiChartsChange = () => {
+    this.setState(({ isMultiChartsActive }) => ({
+      isMultiChartsActive: !isMultiChartsActive
+    }))
+  }
+
   toggleMetric = metric => {
     const { type = 'metrics', label } = metric
 
@@ -286,7 +294,7 @@ class ChartPage extends Component {
     })
   }
 
-  mapStateToQS = ({ isAdvancedView, ...props }) =>
+  mapStateToQS = ({ isAdvancedView, isMultiChartsActive, ...props }) =>
     '?' + qs.stringify(props, { arrayFormat: 'comma' })
 
   updateSearchQuery () {
@@ -380,7 +388,8 @@ class ChartPage extends Component {
       scale,
       nightMode,
       isShowAnomalies,
-      isAdvancedView
+      isAdvancedView,
+      isMultiChartsActive
     } = this.state
 
     const {
@@ -531,6 +540,8 @@ class ChartPage extends Component {
                           generateShareLink={this.generateShareLink}
                           onNightModeSelect={this.onNightModeSelect}
                           onIntervalChange={this.onIntervalChange}
+                          onMultiChartsChange={this.onMultiChartsChange}
+                          isMultiChartsActive={isMultiChartsActive}
                           isNightModeActive={nightMode}
                           showNightModeToggle={adjustNightMode}
                           disabledMetrics={errors}
@@ -560,29 +571,33 @@ class ChartPage extends Component {
                         />
                       </>
                     )}
-                    <Charts
-                      scale={scale}
-                      chartRef={this.chartRef}
-                      isLoading={isParentLoading || isLoading}
-                      onZoom={this.onZoom}
-                      from={from}
-                      to={to}
-                      slug={slug}
-                      onZoomOut={this.onZoomOut}
-                      isZoomed={zoom}
-                      events={eventsFiltered}
-                      isTrendsShowing={isTrendsShowing}
-                      chartData={mapDatetimeToNumber(timeseries)}
-                      title={title}
+                    <TooltipSynchronizer
+                      isMultiChartsActive={isMultiChartsActive}
                       metrics={finalMetrics}
-                      leftBoundaryDate={leftBoundaryDate}
-                      rightBoundaryDate={rightBoundaryDate}
-                      children={children}
-                      isAdvancedView={isAdvancedView}
-                      isBeta={isBeta}
-                      isLoggedIn={isLoggedIn}
-                      isIntervalSmallerThanDay={isIntervalSmallerThanDay}
-                    />
+                    >
+                      <Charts
+                        scale={scale}
+                        chartRef={this.chartRef}
+                        isLoading={isParentLoading || isLoading}
+                        onZoom={this.onZoom}
+                        from={from}
+                        to={to}
+                        slug={slug}
+                        onZoomOut={this.onZoomOut}
+                        isZoomed={zoom}
+                        events={eventsFiltered}
+                        isTrendsShowing={isTrendsShowing}
+                        chartData={mapDatetimeToNumber(timeseries)}
+                        title={title}
+                        leftBoundaryDate={leftBoundaryDate}
+                        rightBoundaryDate={rightBoundaryDate}
+                        children={children}
+                        isAdvancedView={isAdvancedView}
+                        isBeta={isBeta}
+                        isLoggedIn={isLoggedIn}
+                        isIntervalSmallerThanDay={isIntervalSmallerThanDay}
+                      />
+                    </TooltipSynchronizer>
                     {!isPRO && (
                       <UpgradePaywall isAdvancedView={isAdvancedView} />
                     )}

@@ -173,16 +173,18 @@ export const alignDayMetrics = ({ chartRef, bars, dayMetrics, margin }) => {
 export const generateMetricsMarkup = (
   metrics,
   {
+    isMultiChartsActive,
     ref = {},
-    data = {},
     chartRef: { current: chartRef } = {},
     coordinates,
     scale,
-    dayMetrics
+    dayMetrics,
+    syncedColors
   } = {}
 ) => {
-  const metricWithYAxis = findYAxisMetric(metrics)
-  const generateColor = setupColorGenerator()
+  const metricWithYAxis = isMultiChartsActive
+    ? metrics[0]
+    : findYAxisMetric(metrics)
 
   // HACK(vanguard): Thanks recharts
   let barsMap = chartBars.get(chartRef)
@@ -196,7 +198,6 @@ export const generateMetricsMarkup = (
       key,
       node: El,
       label,
-      color,
       orientation = 'left',
       dataKey = key,
       hideYAxis,
@@ -205,12 +206,12 @@ export const generateMetricsMarkup = (
     } = metric
 
     const rest = {
-      [El === Bar ? 'fill' : 'stroke']: `var(--${generateColor(color)})`,
+      [El === Bar ? 'fill' : 'stroke']: syncedColors[key],
       [El === Area && gradientUrl && 'fill']: gradientUrl,
       [El === Area && gradientUrl && 'fillOpacity']: 1
     }
 
-    if (chartRef !== undefined && El === Bar) {
+    if (!isMultiChartsActive && chartRef !== undefined && El === Bar) {
       rest.shape = <StackedLogic barsMap={barsMap} metric={metric.key} />
     }
 
@@ -345,7 +346,7 @@ export const makeSignalPriceReferenceDot = (
 }
 
 export const getSlugPriceSignals = (signals, slug, price = undefined) => {
-  let filtered = signals.filter(
+  const filtered = signals.filter(
     ({
       settings: {
         target: { slug: signalSlug } = {},
@@ -391,8 +392,8 @@ export const mapToPriceSignalLines = ({
 
   const res = filtered.reduce((acc, item) => {
     const { id, settings: { operation = {} } = {} } = item
-    const priceAbove = operation['above']
-    const priceBelow = operation['below']
+    const priceAbove = operation.above
+    const priceBelow = operation.below
 
     acc.push(
       makeSignalPriceReferenceDot(

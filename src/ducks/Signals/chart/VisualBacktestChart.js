@@ -38,9 +38,10 @@ const VisualBacktestChart = ({
   label,
   data,
   dataKeys,
-  referenceDots
+  referenceDots,
+  syncedColors
 }) => {
-  const markup = generateMetricsMarkup(metrics)
+  const markup = generateMetricsMarkup(metrics, { syncedColors })
 
   const renderChart = () => {
     return (

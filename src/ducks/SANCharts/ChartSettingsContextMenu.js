@@ -34,6 +34,8 @@ const ChartSettingsContextMenu = ({
   classes = {},
   scale,
   onScaleChange,
+  isMultiChartsActive,
+  onMultiChartsChange,
   children
 }) => {
   return (
@@ -76,6 +78,18 @@ const ChartSettingsContextMenu = ({
             />
           </Button>
         )}
+        <Button
+          fluid
+          variant='ghost'
+          className={styles.context__btn}
+          onClick={onMultiChartsChange}
+        >
+          Multi charts
+          <Toggle
+            isActive={isMultiChartsActive}
+            className={styles.context__toggle}
+          />
+        </Button>
         <ShareChart
           shareLink={shareLink}
           trigger={props => (

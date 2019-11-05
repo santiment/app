@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
 import { Metrics } from '../../SANCharts/data'
 import { getMetricYAxisId, mapToRequestedMetrics } from '../../SANCharts/utils'
+import {
+  getSyncedColors,
+  clearCache
+} from '../../SANCharts/TooltipSynchronizer'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartWidget from '../../SANCharts/ChartPage'
 import VisualBacktestChart, { GetReferenceDots } from './VisualBacktestChart'
@@ -65,6 +69,10 @@ const SignalPreviewChart = ({
     metric === Metrics.historyPrice ? Metrics.historyPricePreview : metric
   )
 
+  const syncedColors = getSyncedColors(metricsForSignalsChart)
+
+  useEffect(() => clearCache, [])
+
   return (
     <GetTimeSeries
       metrics={requestedMetrics}
@@ -95,6 +103,7 @@ const SignalPreviewChart = ({
               metrics={metricsForSignalsChart}
               signals={signals}
               referenceDots={referenceDots}
+              syncedColors={syncedColors}
             />
             <DesktopOnly>
               <ChartExpandView>
