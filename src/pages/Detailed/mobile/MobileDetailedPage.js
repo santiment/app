@@ -91,13 +91,14 @@ const MobileDetailedPage = props => {
     }
   }
 
-  const { from, to } = getIntervalByTimeRange(timeRange)
+  const { from, to } = getIntervalByTimeRange(timeRange, { isMobile: true })
 
   const metrics = [
     {
       name: 'historyPrice',
       slug,
-      timeRange,
+      from: from.toISOString(),
+      to: to.toISOString(),
       interval: timeRange === '1w' ? '2h' : timeRange === '1m' ? '8h' : '1d'
     }
   ]

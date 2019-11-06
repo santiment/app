@@ -276,6 +276,7 @@ export const parseIntervalString = range => ({
 /**
  *
  * @param {string} timeRange - String wich represents time range from the current datime
+ * @param {object} options - Additional options
  *
  *
  * @example
@@ -284,9 +285,9 @@ export const parseIntervalString = range => ({
  * getIntervalByTimeRange('2m')
  * //=> {from: new Date("2019-02-08T00:00:00.000Z"), to: new Date("2019-04-08T00:00:00.000Z") }
  */
-export const getIntervalByTimeRange = timeRange => {
+export const getIntervalByTimeRange = (timeRange, options = {}) => {
   if (timeRange === 'all') {
-    return getTimeIntervalFromToday(-96, MONTH) // utils/utils.js - getTimeFromFromString
+    return getTimeIntervalFromToday(options.isMobile ? -24 : -96, MONTH)
   }
 
   const result = parseIntervalString(timeRange)
