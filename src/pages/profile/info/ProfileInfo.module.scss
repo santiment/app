@@ -1,9 +1,14 @@
 @import '~@santiment-network/ui/mixins';
 @import '~@santiment-network/ui/variables';
 
+.container {
+  margin-top: 54px;
+  display: flex;
+}
+
 .left {
   width: 100%;
-  max-width: 400px;
+  max-width: 580px;
 
   @include responsive('phone', 'phone-xs') {
     display: flex;
@@ -13,24 +18,42 @@
 
 .right {
   margin-left: auto;
-  min-width: 120px;
+  min-width: 560px;
 
   @include responsive('phone', 'phone-xs') {
     margin: 30px auto auto auto;
   }
 }
 
-.middle {
-  max-width: 400px;
-  margin-left: 20px;
+.socials {
   display: flex;
+  margin-bottom: 23px;
+}
 
-  @include responsive('phone', 'phone-xs') {
-    margin-top: 30px;
-    max-width: 100%;
-    display: flex;
-    justify-content: center;
-  }
+.followersBlocks {
+  display: flex;
+}
+
+.divider {
+  border-top: 1px solid var(--waterloo);
+  width: 100%;
+  opacity: 0.2;
+}
+
+.itemsCounter {
+  width: 100%;
+  padding-top: 16px;
+  color: var(--waterloo);
+
+  @include text('body-3');
+}
+
+.counterBlock {
+  margin-right: 32px;
+}
+
+.counter {
+  @include text('body-1');
 }
 
 .followBlock {
@@ -48,7 +71,7 @@
 .followCounter {
   @include text('h4');
 
-  color: var(--mirage);
+  color: $rhino;
 }
 
 .followDescription {
@@ -58,9 +81,15 @@
   margin-top: 2px;
 }
 
+.socialIcons {
+  margin-left: auto;
+  margin-top: 6px;
+}
+
 .socialIcon {
   margin-left: 26px;
   cursor: not-allowed;
+  fill: var(--casper);
 }
 
 .follow {
@@ -83,9 +112,9 @@
 }
 
 .name {
-  @include text('h4');
+  @include text('h3');
 
-  color: var(--mirage);
+  color: $rhino;
   overflow-wrap: break-word;
 }
 

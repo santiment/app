@@ -39,7 +39,7 @@
   border-radius: $border-radius;
   padding: 24px;
   display: flex;
-  margin-bottom: 40px;
+  margin: -32px 0 40px 0;
 
   @include responsive('phone', 'phone-xs') {
     margin-bottom: 30px;
