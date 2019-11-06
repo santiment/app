@@ -286,7 +286,7 @@ export const parseIntervalString = range => ({
  */
 export const getIntervalByTimeRange = timeRange => {
   if (timeRange === 'all') {
-    return getTimeIntervalFromToday(-24, MONTH) // utils/utils.js - getTimeFromFromString
+    return getTimeIntervalFromToday(-96, MONTH) // utils/utils.js - getTimeFromFromString
   }
 
   const result = parseIntervalString(timeRange)
