@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
 import { showNotification } from './../actions/rootActions'
 import { handleErrorAndTriggerAction } from './utils'
-import { userGQL } from './handleLaunch'
+import { USER_EMAIL_LOGIN_QEURY } from './handleLaunch'
 import Raven from 'raven-js'
 import * as actions from './../actions/types'
 
@@ -51,12 +51,12 @@ const privacyGQLHelper = (user, type) => {
     },
     update: (proxy, newData) => {
       try {
-        let data = proxy.readQuery({ query: userGQL })
+        let data = proxy.readQuery({ query: USER_EMAIL_LOGIN_QEURY })
         data.currentUser.privacyPolicyAccepted =
           newData.data.updateTermsAndConditions.privacyPolicyAccepted
         data.currentUser.marketingAccepted =
           newData.data.updateTermsAndConditions.marketingAccepted
-        proxy.writeQuery({ query: userGQL, data })
+        proxy.writeQuery({ query: USER_EMAIL_LOGIN_QEURY, data })
       } catch (e) {
         Raven.captureException(
           'Updating GDPR apollo cache error: ' + JSON.stringify(e)

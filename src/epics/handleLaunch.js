@@ -15,6 +15,7 @@ export const USER_GQL_FRAGMENT = gql`
     sanBalance
     privacyPolicyAccepted
     marketingAccepted
+    consent_id
     ethAccounts {
       address
       sanBalance
@@ -40,7 +41,7 @@ export const USER_GQL_FRAGMENT = gql`
     }
   }
 `
-export const userGQL = gql`
+export const USER_EMAIL_LOGIN_QEURY = gql`
   query {
     currentUser 
       ${USER_GQL_FRAGMENT}
@@ -53,7 +54,7 @@ const handleLaunch = (action$, store, { client }) =>
     mergeMap(() => {
       const queryPromise = client.query({
         options: { fetchPolicy: 'network-only' },
-        query: userGQL
+        query: USER_EMAIL_LOGIN_QEURY
       })
       return Observable.from(queryPromise)
         .map(({ data }) => {
