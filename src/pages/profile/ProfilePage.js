@@ -89,36 +89,44 @@ const ProfilePage = props => {
   }
 
   return (
-    <div className='page'>
-      <MobileOnly>
-        <div className={styles.header}>
-          <MobileHeader title='Profile' />
+    <>
+      <div className={styles.info}>
+        <div className='page'>
+          <MobileOnly>
+            <div className={styles.header}>
+              <MobileHeader title='Profile' />
+            </div>
+          </MobileOnly>
+          <DesktopOnly>
+            <Breadcrumbs
+              crumbs={[
+                {
+                  label: 'User'
+                },
+                {
+                  label: username || email || profileId
+                }
+              ]}
+            />
+          </DesktopOnly>
+
+          <ProfileInfo profile={profile} updateCache={updateCache} />
         </div>
-      </MobileOnly>
+      </div>
 
-      <div className={styles.page}>
-        <DesktopOnly>
-          <Breadcrumbs
-            crumbs={[
-              {
-                label: 'User'
-              },
-              {
-                label: username || email || profileId
-              }
-            ]}
-          />
-        </DesktopOnly>
-
-        <ProfileInfo profile={profile} updateCache={updateCache} />
-
-        <PublicWatchlists userId={profileId} data={watchlists} />
-
+      <div className='page'>
         <PublicSignals userId={profileId} data={triggers} />
 
-        <PublicInsights userId={profileId} data={insights} />
+        <div className={styles.row}>
+          <div className={styles.colInsights}>
+            <PublicInsights userId={profileId} data={insights} />
+          </div>
+          <div className={styles.colWatchlists}>
+            <PublicWatchlists userId={profileId} data={watchlists} />
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
