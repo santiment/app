@@ -1235,10 +1235,16 @@ export const titleMetricValuesHeader = (
 
     switch (value) {
       case ETH_WALLETS_OPERATIONS.AMOUNT_DOWN: {
-        return buildFormBlock(`Balance ${ofTarget}`, 'below ' + threshold)
+        return buildFormBlock(
+          `Balance ${ofTarget}`,
+          'decreases by ' + threshold
+        )
       }
       case ETH_WALLETS_OPERATIONS.AMOUNT_UP: {
-        return buildFormBlock(`Balance ${ofTarget}`, 'above ' + threshold)
+        return buildFormBlock(
+          `Balance ${ofTarget}`,
+          'increases by ' + threshold
+        )
       }
       case PRICE_CHANGE_TYPES.MOVING_DOWN: {
         return buildFormBlock(
