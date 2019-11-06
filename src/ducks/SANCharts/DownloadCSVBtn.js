@@ -3,7 +3,6 @@ import { CSVLink } from 'react-csv'
 import Button from '@santiment-network/ui/Button'
 import PropTypes from 'prop-types'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
-// import styles from './DownloadCSVBtn.module.scss';
 
 const DownloadCSVBtn = ({ metrics, chartData, title, ...props }) => {
   const date = new Date()
@@ -18,7 +17,6 @@ const DownloadCSVBtn = ({ metrics, chartData, title, ...props }) => {
       key: dataKey
     }))
   ]
-  console.log(headers)
 
   return (
     <Button
@@ -38,6 +36,7 @@ DownloadCSVBtn.defaultProps = {
 }
 
 DownloadCSVBtn.propTypes = {
+  title: PropTypes.string,
   metrics: PropTypes.array,
   chartData: PropTypes.array
 }
