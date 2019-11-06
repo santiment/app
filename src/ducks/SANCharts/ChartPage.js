@@ -561,6 +561,7 @@ class ChartPage extends Component {
                           activeMetrics={finalMetrics}
                           title={title}
                           chartRef={this.chartRef}
+                          chartData={timeseries}
                         />
                         <LoadableChartMetricsTool
                           classes={styles}

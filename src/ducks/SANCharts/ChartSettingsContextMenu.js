@@ -5,6 +5,7 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import ChartDownloadBtn from './ChartDownloadBtn'
+import DownloadCSVBtn from './DownloadCSVBtn'
 import ShareModalTrigger from '../../components/Share/ShareModalTrigger'
 import styles from './ChartPage.module.scss'
 
@@ -36,7 +37,8 @@ const ChartSettingsContextMenu = ({
   onScaleChange,
   isMultiChartsActive,
   onMultiChartsChange,
-  children
+  children,
+  chartData
 }) => {
   return (
     <ContextMenu
@@ -100,16 +102,28 @@ const ChartSettingsContextMenu = ({
           )}
         />
         {showDownload && (
-          <ChartDownloadBtn
-            fluid
-            variant='ghost'
-            metrics={activeMetrics}
-            title={title}
-            chartRef={chartRef}
-          >
-            <Icon type='save' className={styles.icon} />
-            Download as PNG
-          </ChartDownloadBtn>
+          <>
+            <DownloadCSVBtn
+              fluid
+              variant='ghost'
+              title={title}
+              chartData={chartData}
+              metrics={activeMetrics}
+            >
+              <Icon type='save' className={styles.icon} />
+              Download as CSV
+            </DownloadCSVBtn>
+            <ChartDownloadBtn
+              fluid
+              variant='ghost'
+              metrics={activeMetrics}
+              title={title}
+              chartRef={chartRef}
+            >
+              <Icon type='save' className={styles.icon} />
+              Download as PNG
+            </ChartDownloadBtn>
+          </>
         )}
         {children}
       </Panel>
