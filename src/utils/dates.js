@@ -287,7 +287,7 @@ export const parseIntervalString = range => ({
  */
 export const getIntervalByTimeRange = (timeRange, options = {}) => {
   if (timeRange === 'all') {
-    return getTimeIntervalFromToday(options.isMobile ? -24 : -96, MONTH)
+    return getTimeIntervalFromToday(options.isMobile ? -24 : -60, MONTH)
   }
 
   const result = parseIntervalString(timeRange)
