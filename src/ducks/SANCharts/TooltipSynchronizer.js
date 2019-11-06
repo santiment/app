@@ -42,7 +42,7 @@ const TooltipSynchronizer = ({ children, metrics, isMultiChartsActive }) => {
 
   useEffect(() => clearCache, [])
 
-  return isMultiChartsActive
+  return isMultiChartsActive && noPriceMetrics.length > 1
     ? noPriceMetrics.map(metric =>
       React.cloneElement(children, {
         className: chartStyles.multiCharts,

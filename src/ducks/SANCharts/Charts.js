@@ -116,7 +116,8 @@ class Charts extends React.Component {
       chartRef: { current: chartSvg },
       chartData,
       isIntervalSmallerThanDay,
-      metrics
+      metrics,
+      events
     } = this.props
     if (onChartHover && chartSvg) {
       chartSvg.addEventListener('mousemove', evt =>
@@ -127,6 +128,10 @@ class Charts extends React.Component {
     this.getTooltipMetricAndKey()
     if (chartData.length) {
       this.setupDayMetrics({ chartData, isIntervalSmallerThanDay, metrics })
+
+      if (events.length) {
+        this.setupEventsMap({ events, metrics, chartData })
+      }
     }
   }
 
@@ -154,6 +159,12 @@ class Charts extends React.Component {
       events !== this.props.events ||
       isAdvancedView !== this.props.isAdvancedView
     ) {
+      this.setupEventsMap({ events, metrics, chartData })
+    }
+  }
+
+  setupEventsMap = ({ events, metrics, chartData }) => {
+    {
       this.eventsMap.clear()
       const { tooltipMetricKey } =
         getTooltipMetricAndKey(metrics, chartData) || {}
@@ -285,14 +296,14 @@ class Charts extends React.Component {
         xValue: datetime,
         yValue: value,
         hovered: true,
-        activePayload: this.props.metrics.map(
-          ({ key, dataKey = key, label, formatter }) => ({
+        activePayload: this.props.metrics
+          .map(({ key, dataKey = key, label, formatter }) => ({
             formatter,
             value: payload[dataKey],
             color: this.props.syncedColors[key],
             name: label
-          })
-        )
+          }))
+          .concat(this.eventsMap.get(datetime) || [])
       })
     }
   }
@@ -360,9 +371,12 @@ class Charts extends React.Component {
   }, 100)
 
   onMouseLeave = () => {
-    this.setState({
+    this.setState(
+      {
         hovered: false
-      }, this.props.syncTooltips)
+      },
+      this.props.syncTooltips
+    )
 
     const { onChartLeave } = this.props
 
@@ -469,15 +483,9 @@ class Charts extends React.Component {
 
     let events = []
     this.eventsMap.forEach((values, datetime) => {
-      values.forEach(value => events.push({ ...value, datetime }))
+      // TODO: Loop over all events for a given datetime. Currently, only 1 event per datetime is available [@vanguard | Nov 06, 2019]
+      events.push({ ...values[0], datetime })
     })
-
-    // NOTE(haritonasty): need to filter anomalies immediately after removing any active metric
-    // (because axis for anomaly can be lost)
-    events = events.filter(
-      ({ value, isAnomaly }) =>
-        metrics.some(({ key }) => key === value) || !isAnomaly
-    )
 
     const lastDayPrice =
       priceRefLineData &&

@@ -248,7 +248,10 @@ class ChartPage extends Component {
         })
       } else {
         const metricsAmount = state.metrics.length + state.marketSegments.length
-        if (metricsAmount >= MAX_METRICS_PER_CHART) {
+        if (
+          metricsAmount >= MAX_METRICS_PER_CHART &&
+          metric !== Events.trendPositionHistory
+        ) {
           return state
         }
         newMetrics.add(metric)
@@ -511,7 +514,10 @@ class ChartPage extends Component {
           const isTrendsShowing = trendPositionHistory !== undefined
           const eventsFiltered = isTrendsShowing
             ? eventsData.filter(({ metricAnomalyKey }) => !metricAnomalyKey)
-            : eventsData
+            : eventsData.filter(({ metricAnomalyKey }) =>
+            // NOTE: Diplaying anomaly dots only for active metrics [@vanguard | Nov 06, 2019]
+              metrics.some(({ key }) => key === metricAnomalyKey)
+            )
 
           return (
             <>
