@@ -9,12 +9,16 @@ const Feed = ({ component: El, data, dateKey, isAllInsightsPage }) => {
   let lastDateKey
   return data.map((item, index) => {
     const id = item.id || index
-    const { MMM, D } = getDateFormats(new Date(item[dateKey]))
-    const date = `${MMM} ${D}`
-    const isNotSameAsLastDate = date !== lastDateKey
 
-    if (isNotSameAsLastDate) {
-      lastDateKey = date
+    let isNotSameAsLastDate, date
+    if (dateKey) {
+      const { MMM, D } = getDateFormats(new Date(item[dateKey]))
+      date = `${MMM} ${D}`
+      isNotSameAsLastDate = date !== lastDateKey
+
+      if (isNotSameAsLastDate) {
+        lastDateKey = date
+      }
     }
 
     return (

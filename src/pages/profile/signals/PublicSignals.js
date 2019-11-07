@@ -1,5 +1,6 @@
 import React from 'react'
 import SignalCardsGrid from '../../../components/SignalCard/SignalCardsGrid'
+import Counter from '../counter/Counter'
 import styles from './../ProfilePage.module.scss'
 
 const PublicSignals = ({ data: signals, userId }) => {
@@ -14,10 +15,10 @@ const PublicSignals = ({ data: signals, userId }) => {
 
   return (
     <div className={styles.block}>
-      <div className={styles.title}>Public signals ({signals.length})</div>
-      <div>
-        <SignalCardsGrid signals={signalsWithUser} deleteEnabled={false} />
+      <div className={styles.title}>
+        Public signals <Counter value={signals.length} />
       </div>
+      <SignalCardsGrid signals={signalsWithUser} deleteEnabled={false} />
     </div>
   )
 }

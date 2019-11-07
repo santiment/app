@@ -33,7 +33,8 @@ const WatchlistCard = ({
   isLoading,
   watchlist,
   onClick,
-  slugs
+  slugs,
+  className
 }) => {
   if (name === TRENDING_WATCHLIST_NAME && stats.length === 0) return null
   const { marketcap: latestMarketcap } = stats.slice(-1)[0] || {}
@@ -57,7 +58,7 @@ const WatchlistCard = ({
     : { Component: Link, props: { to } }
 
   return (
-    <res.Component className={styles.wrapper} {...res.props}>
+    <res.Component className={cx(styles.wrapper, className)} {...res.props}>
       <div className={cx(styles.flexRow, styles.content)}>
         <span className={styles.name}>{name}</span>
         {isPublic !== undefined && (

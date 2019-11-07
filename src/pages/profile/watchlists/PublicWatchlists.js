@@ -1,6 +1,7 @@
 import React from 'react'
-import styles from './../ProfilePage.module.scss'
 import WatchlistCards from '../../../components/Watchlists/WatchlistCards'
+import styles from './../ProfilePage.module.scss'
+import Counter from '../counter/Counter'
 
 const PublicWatchlists = ({ data: watchlists }) => {
   if (!watchlists || watchlists.length === 0) {
@@ -10,9 +11,13 @@ const PublicWatchlists = ({ data: watchlists }) => {
   return (
     <div className={styles.block}>
       <div className={styles.title}>
-        Public watchlists ({watchlists.length})
+        Public watchlists <Counter value={watchlists.length} />
       </div>
-      <WatchlistCards watchlists={watchlists} />
+      <WatchlistCards
+        watchlists={watchlists}
+        classes={styles}
+        makeSharedLinks
+      />
     </div>
   )
 }
