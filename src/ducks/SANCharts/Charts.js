@@ -635,7 +635,6 @@ class Charts extends React.Component {
 
             {events.map(({ key, y, datetime, color }) => (
               <ReferenceDot
-                // TODO: in multi-chart mode anomaly metric may not be present on the chart [@vanguard | Nov 07, 2019]
                 yAxisId={`axis-${key}`}
                 r={3}
                 isFront
