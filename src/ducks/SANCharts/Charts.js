@@ -14,7 +14,7 @@ import {
   Brush,
   ReferenceArea,
   ReferenceDot,
-  ReferenceLine,
+  ReferenceLine
 } from 'recharts'
 import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
@@ -24,7 +24,7 @@ import { millify } from './../../utils/formatting'
 import {
   getDateFormats,
   getTimeFormats,
-  ONE_DAY_IN_MS,
+  ONE_DAY_IN_MS
 } from '../../utils/dates'
 import {
   getEventsTooltipInfo,
@@ -33,7 +33,7 @@ import {
   chartBars,
   getCrossYValue,
   isDayStartMetric,
-  assignToPointDayStartValue,
+  assignToPointDayStartValue
 } from './utils'
 import { Metrics } from './data'
 import { checkHasPremium } from '../../pages/UserSelectors'
@@ -41,7 +41,7 @@ import displayPaywall, { MOVE_CLB, CHECK_CLB } from './Paywall'
 import { binarySearch } from '../../pages/Trends/utils'
 import ChartWatermark from './ChartWatermark'
 import SignalLine, {
-  SignalPointSvg,
+  SignalPointSvg
 } from '../Signals/chart/newSignalLine/SignalLine'
 import SidecarExplanationTooltip from './SidecarExplanationTooltip'
 import withSignals from '../Signals/chart/chartWrapper/WithSignals'
@@ -53,7 +53,7 @@ const DAY_INTERVAL = ONE_DAY_IN_MS * 2
 const EMPTY_FORMATTER = () => {}
 const CHART_MARGINS = {
   left: -20,
-  right: 0,
+  right: 0
 }
 
 export const tickFormatter = date => {
@@ -104,24 +104,24 @@ class Charts extends React.Component {
     leftZoomIndex: undefined,
     rightZoomIndex: undefined,
     refAreaLeft: undefined,
-    refAreaRight: undefined,
+    refAreaRight: undefined
   }
 
   eventsMap = new Map()
   metricRef = React.createRef()
 
-  componentDidMount() {
+  componentDidMount () {
     const {
       onChartHover,
       chartRef: { current: chartSvg },
       chartData,
       isIntervalSmallerThanDay,
       metrics,
-      events,
+      events
     } = this.props
     if (onChartHover && chartSvg) {
       chartSvg.addEventListener('mousemove', evt =>
-        onChartHover(evt, this.metricRef),
+        onChartHover(evt, this.metricRef)
       )
     }
 
@@ -135,19 +135,19 @@ class Charts extends React.Component {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     const {
       onChartHover,
-      chartRef: { current: chartSvg },
+      chartRef: { current: chartSvg }
     } = this.props
     if (onChartHover && chartSvg) {
       chartSvg.removeEventListener('mousemove', evt =>
-        onChartHover(evt, this.metricRef),
+        onChartHover(evt, this.metricRef)
       )
     }
   }
 
-  componentWillUpdate(newProps) {
+  componentWillUpdate (newProps) {
     const { chartData, chartRef, metrics, events, isAdvancedView } = newProps
     if (this.props.chartData !== chartData) {
       this.getXToYCoordinates()
@@ -173,7 +173,7 @@ class Charts extends React.Component {
           moveClb: MOVE_CLB,
           checkClb: CHECK_CLB,
           target: new Date(datetime),
-          array: chartData,
+          array: chartData
         })
 
         if (index === -1 || index >= chartData.length) {
@@ -181,6 +181,11 @@ class Charts extends React.Component {
         }
 
         const { metricAnomalyKey: anomaly } = rest
+
+        if (anomaly && !metrics.includes(Metrics[anomaly])) {
+          return
+        }
+
         const result = value || chartData[index]
         const eventsData = getEventsTooltipInfo(rest)
         eventsData.forEach(event => {
@@ -203,7 +208,7 @@ class Charts extends React.Component {
     if (isIntervalSmallerThanDay) {
       metrics.forEach(
         ({ key, minInterval }, index) =>
-          minInterval === '1d' && dayMetrics.push([key, index]),
+          minInterval === '1d' && dayMetrics.push([key, index])
       )
 
       const dayStartMetrics = {}
@@ -218,14 +223,14 @@ class Charts extends React.Component {
               data,
               dayMetric,
               dayStartMetrics,
-              currentPointDatetime,
+              currentPointDatetime
             )
           ) {
             assignToPointDayStartValue(
               data,
               dayMetric,
               dayStartMetrics,
-              currentPointDatetime,
+              currentPointDatetime
             )
           }
         }
@@ -236,16 +241,16 @@ class Charts extends React.Component {
 
     this.setState({
       dayMetrics,
-      alignedChartData,
+      alignedChartData
     })
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     const {
       metrics,
       chartData,
       isAdvancedView,
-      isIntervalSmallerThanDay,
+      isIntervalSmallerThanDay
     } = this.props
 
     if (!this.xToYCoordinates && this.metricRef.current) {
@@ -287,7 +292,7 @@ class Charts extends React.Component {
         x,
         y,
         value,
-        payload: { datetime, ...payload },
+        payload: { datetime, ...payload }
       } = coordinates
 
       this.setState({
@@ -301,9 +306,9 @@ class Charts extends React.Component {
             formatter,
             value: payload[dataKey],
             color: this.props.syncedColors[key],
-            name: label,
+            name: label
           }))
-          .concat(this.eventsMap.get(datetime) || []),
+          .concat(this.eventsMap.get(datetime) || [])
       })
     }
   }
@@ -313,7 +318,7 @@ class Charts extends React.Component {
       leftZoomIndex,
       rightZoomIndex,
       refAreaLeft,
-      refAreaRight,
+      refAreaRight
     } = this.state
     if (leftZoomIndex === rightZoomIndex || !Number.isInteger(rightZoomIndex)) {
       this.resetState()
@@ -327,12 +332,12 @@ class Charts extends React.Component {
     this.resetState()
   }
 
-  resetState() {
+  resetState () {
     this.setState({
       refAreaLeft: undefined,
       refAreaRight: undefined,
       leftZoomIndex: undefined,
-      rightZoomIndex: undefined,
+      rightZoomIndex: undefined
     })
   }
 
@@ -373,9 +378,9 @@ class Charts extends React.Component {
   onMouseLeave = () => {
     this.setState(
       {
-        hovered: false,
+        hovered: false
       },
-      this.props.syncTooltips,
+      this.props.syncTooltips
     )
 
     const { onChartLeave } = this.props
@@ -421,7 +426,7 @@ class Charts extends React.Component {
 
     this.setState({
       activePayload: activePayload.concat(
-        this.eventsMap.get(activeLabel) || [],
+        this.eventsMap.get(activeLabel) || []
       ),
       x,
       y,
@@ -432,11 +437,11 @@ class Charts extends React.Component {
         chartData[activeTooltipIndex][
           tooltipMetric.dataKey || tooltipMetric.key
         ],
-      hovered: true,
+      hovered: true
     })
   }, 16)
 
-  render() {
+  render () {
     const {
       chartRef,
       metrics,
@@ -455,7 +460,7 @@ class Charts extends React.Component {
       syncedColors,
       isSignalsEnabled,
       signalLines,
-      signalData,
+      signalData
     } = this.props
 
     const {
@@ -468,7 +473,7 @@ class Charts extends React.Component {
       activePayload,
       hovered,
       tooltipMetric,
-      dayMetrics,
+      dayMetrics
     } = this.state
 
     const [bars, ...lines] = generateMetricsMarkup(metrics, {
@@ -478,7 +483,7 @@ class Charts extends React.Component {
       coordinates: this.xToYCoordinates,
       scale: scale,
       ref: { [tooltipMetric && tooltipMetric.key]: this.metricRef },
-      syncedColors,
+      syncedColors
     })
 
     let events = []
@@ -490,7 +495,7 @@ class Charts extends React.Component {
     const lastDayPrice =
       priceRefLineData &&
       `Last day price ${Metrics.historyPrice.formatter(
-        priceRefLineData.priceUsd,
+        priceRefLineData.priceUsd
       )}`
 
     const showTooltip = hovered && activePayload
@@ -529,13 +534,13 @@ class Charts extends React.Component {
                         style={{ '--color': color }}
                         className={cx(
                           styles.details__metric,
-                          isEvent && styles.details__metric_dot,
+                          isEvent && styles.details__metric_dot
                         )}
                       >
                         {valueFormatter(value, name, formatter)}
                         <span className={styles.details__name}>{name}</span>
                       </div>
-                    ),
+                    )
                   )}
                 </div>
               </div>
@@ -543,14 +548,14 @@ class Charts extends React.Component {
                 className={cx(styles.line, !y && styles.line_noY)}
                 style={{
                   '--x': `${x}px`,
-                  '--y': `${y}px`,
+                  '--y': `${y}px`
                 }}
               >
                 <div
                   className={styles.values}
                   style={{
                     '--xValue': `"${tickFormatter(xValue)}"`,
-                    '--yValue': `"${getCrossYValue(yValue)}"`,
+                    '--yValue': `"${getCrossYValue(yValue)}"`
                   }}
                 />
               </div>
@@ -587,7 +592,7 @@ class Charts extends React.Component {
               const { activeTooltipIndex, activeLabel } = event
               this.setState({
                 refAreaLeft: activeLabel,
-                leftZoomIndex: activeTooltipIndex,
+                leftZoomIndex: activeTooltipIndex
               })
             }}
             onMouseMove={this.onMouseMove}
@@ -628,47 +633,46 @@ class Charts extends React.Component {
               </ReferenceLine>
             )}
 
-            {metrics.includes(tooltipMetric) &&
-              events.map(({ key, y, datetime, color }) => (
-                <ReferenceDot
-                  // TODO: in multi-chart mode anomaly metric may not be present on the chart [@vanguard | Nov 07, 2019]
-                  yAxisId={`axis-${key}`}
-                  r={3}
-                  isFront
-                  fill='var(--white)'
-                  strokeWidth='2px'
-                  stroke={color}
-                  key={datetime + key}
-                  x={+new Date(datetime)}
-                  y={y}
-                />
-              ))}
+            {events.map(({ key, y, datetime, color }) => (
+              <ReferenceDot
+                // TODO: in multi-chart mode anomaly metric may not be present on the chart [@vanguard | Nov 07, 2019]
+                yAxisId={`axis-${key}`}
+                r={3}
+                isFront
+                fill='var(--white)'
+                strokeWidth='2px'
+                stroke={color}
+                key={datetime + key}
+                x={+new Date(datetime)}
+                y={y}
+              />
+            ))}
             {!hasPremium &&
               displayPaywall({
                 leftBoundaryDate,
                 rightBoundaryDate,
-                data: chartData,
+                data: chartData
               })}
             {!isMultiChartsActive &&
               chartData.length > 0 &&
               metrics.length > 0 &&
               chartRef.current && (
-                <Brush
-                  tickFormatter={EMPTY_FORMATTER}
-                  travellerWidth={4}
-                  onChange={this.getXToYCoordinatesDebounced}
-                  width={chartRef.current.clientWidth}
-                  x={0}
-                >
-                  <ComposedChart>
-                    {lines
-                      .filter(({ type }) => type !== YAxis)
-                      .map(el =>
-                        React.cloneElement(el, { ref: null, shape: undefined }),
-                      )}
-                  </ComposedChart>
-                </Brush>
-              )}
+              <Brush
+                tickFormatter={EMPTY_FORMATTER}
+                travellerWidth={4}
+                onChange={this.getXToYCoordinatesDebounced}
+                width={chartRef.current.clientWidth}
+                x={0}
+              >
+                <ComposedChart>
+                  {lines
+                    .filter(({ type }) => type !== YAxis)
+                    .map(el =>
+                      React.cloneElement(el, { ref: null, shape: undefined })
+                    )}
+                </ComposedChart>
+              </Brush>
+            )}
             {children}
           </ComposedChart>
         </ResponsiveContainer>
@@ -679,11 +683,11 @@ class Charts extends React.Component {
 
 Charts.defaultProps = {
   data: {},
-  isLoading: true,
+  isLoading: true
 }
 
 const mapStateToProps = (state, props) => ({
-  hasPremium: checkHasPremium(state),
+  hasPremium: checkHasPremium(state)
 })
 
 export const HISTORY_PRICE_QUERY = gql`
@@ -719,11 +723,11 @@ const enhance = compose(
           from: newFrom.toISOString(),
           to: to.toISOString(),
           slug,
-          interval: '1d',
-        },
+          interval: '1d'
+        }
       }
-    },
+    }
   }),
-  withSignals,
+  withSignals
 )
 export default enhance(Charts)
