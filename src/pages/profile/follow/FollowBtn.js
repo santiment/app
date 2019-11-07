@@ -6,7 +6,6 @@ import { FOLLOW_MUTATION, UNFOLLOW_MUTATION } from '../../../queries/ProfileGQL'
 import followImg from './../../../assets/follow/follow.svg'
 import followedImg from './../../../assets/follow/followed.svg'
 import followingImg from './../../../assets/follow/following.svg'
-
 import styles from './FollowBtn.module.scss'
 
 const FollowBtn = ({ userId, isInFollowers, updateCache, className }) => {

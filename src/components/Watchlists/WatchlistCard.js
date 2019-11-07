@@ -57,8 +57,6 @@ const WatchlistCard = ({
     }
     : { Component: Link, props: { to } }
 
-  console.log(res)
-
   return (
     <res.Component className={cx(styles.wrapper, className)} {...res.props}>
       <div className={cx(styles.flexRow, styles.content)}>
