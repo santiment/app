@@ -40,6 +40,13 @@
   justify-content: flex-end;
 }
 
+.divider {
+  display: flex;
+  justify-content: flex-end;
+  border-left: 1px solid var(--porcelain);
+  padding-left: 12px;
+}
+
 .btn {
   display: flex;
   align-items: center;
@@ -53,10 +60,19 @@
 
 .rightBtns {
   svg {
-    fill: var(--mirage);
+    fill: var(--waterloo);
   }
 }
 
-.upgrade {
-  margin-left: 20px;
+.externalLink {
+  color: var(--waterloo);
+  fill: var(--waterloo);
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}
+
+.externalLinkImg {
+  margin-left: 6px;
 }
