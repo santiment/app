@@ -93,7 +93,7 @@ const getTooltipMetricAndKey = (metrics, chartData) => {
   const tooltipMetric = findYAxisMetric(metrics)
   if (!tooltipMetric || chartData.length === 0) return
 
-  const { dataKey: tooltipMetricKey = tooltipMetric } = tooltipMetric
+  const { dataKey: tooltipMetricKey = tooltipMetric.key } = tooltipMetric
 
   return { tooltipMetric, tooltipMetricKey }
 }
@@ -181,6 +181,11 @@ class Charts extends React.Component {
         }
 
         const { metricAnomalyKey: anomaly } = rest
+
+        if (anomaly && !metrics.includes(Metrics[anomaly])) {
+          return
+        }
+
         const result = value || chartData[index]
         const eventsData = getEventsTooltipInfo(rest)
         eventsData.forEach(event => {
@@ -404,7 +409,7 @@ class Charts extends React.Component {
       return
     }
 
-    const { tooltipMetric = 'historyPrice' } = this.state
+    const { tooltipMetric = Metrics.historyPrice } = this.state
     const coordinates = this.xToYCoordinates[activeTooltipIndex]
 
     if (!coordinates) {
@@ -628,20 +633,19 @@ class Charts extends React.Component {
               </ReferenceLine>
             )}
 
-            {metrics.includes(tooltipMetric) &&
-              events.map(({ key, y, datetime, color }) => (
-                <ReferenceDot
-                  yAxisId={`axis-${key}`}
-                  r={3}
-                  isFront
-                  fill='var(--white)'
-                  strokeWidth='2px'
-                  stroke={color}
-                  key={datetime + key}
-                  x={+new Date(datetime)}
-                  y={y}
-                />
-              ))}
+            {events.map(({ key, y, datetime, color }) => (
+              <ReferenceDot
+                yAxisId={`axis-${key}`}
+                r={3}
+                isFront
+                fill='var(--white)'
+                strokeWidth='2px'
+                stroke={color}
+                key={datetime + key}
+                x={+new Date(datetime)}
+                y={y}
+              />
+            ))}
             {!hasPremium &&
               displayPaywall({
                 leftBoundaryDate,
