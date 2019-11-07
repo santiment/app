@@ -2,6 +2,7 @@ import React from 'react'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
+import cx from 'classnames'
 import PublicWatchlists from './watchlists/PublicWatchlists'
 import PublicSignals from './signals/PublicSignals'
 import PublicInsights from './insights/PublicInsights'
@@ -39,7 +40,7 @@ const ProfilePage = props => {
 
   if (!profile) {
     return (
-      <div className='page'>
+      <div className={cx('page', styles.page)}>
         <NoProfileData />
       </div>
     )
@@ -91,12 +92,12 @@ const ProfilePage = props => {
   return (
     <>
       <div className={styles.info}>
-        <div className='page'>
-          <MobileOnly>
-            <div className={styles.header}>
-              <MobileHeader title='Profile' />
-            </div>
-          </MobileOnly>
+        <MobileOnly>
+          <div className={styles.header}>
+            <MobileHeader title='Profile' />
+          </div>
+        </MobileOnly>
+        <div className={cx('page', styles.page, styles.innerPage)}>
           <DesktopOnly>
             <Breadcrumbs
               crumbs={[
@@ -114,8 +115,10 @@ const ProfilePage = props => {
         </div>
       </div>
 
-      <div className='page'>
-        <PublicSignals userId={profileId} data={triggers} />
+      <div className={cx('page', styles.page)}>
+        <div className={styles.row}>
+          <PublicSignals userId={profileId} data={triggers} />
+        </div>
 
         <div className={styles.row}>
           <div className={styles.colInsights}>

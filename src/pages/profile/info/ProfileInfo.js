@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import FollowBtn from '../follow/FollowBtn'
 import { checkIsLoggedIn } from '../../UserSelectors'
+import userFollowersSvg from './../../../assets/follow/user_followers.svg'
+import userFollowingSvg from './../../../assets/follow/user_following.svg'
 import styles from './ProfileInfo.module.scss'
 
 const ProfileInfo = ({
@@ -43,14 +45,22 @@ const ProfileInfo = ({
         <div className={styles.socials}>
           <div className={styles.followersBlocks}>
             <div className={styles.followBlock}>
-              <div className={styles.follow} />
+              <img
+                className={styles.follow}
+                src={userFollowersSvg}
+                alt='user followers'
+              />
               <div className={styles.followCounters}>
                 <div className={styles.followCounter}>{followersCount}</div>
                 <div className={styles.followDescription}>followers</div>
               </div>
             </div>
             <div className={cx(styles.followBlock, styles.followBlockSecond)}>
-              <div className={styles.follow} />
+              <img
+                className={styles.follow}
+                src={userFollowingSvg}
+                alt='user following'
+              />
               <div className={styles.followCounters}>
                 <div className={styles.followCounter}>{followingCount}</div>
                 <div className={styles.followDescription}>following</div>
@@ -63,8 +73,6 @@ const ProfileInfo = ({
             <Icon className={styles.socialIcon} type='reddit' />
           </div>
         </div>
-
-        <div className={styles.divider} />
 
         <div className={styles.itemsCounter}>
           <span className={styles.counterBlock}>

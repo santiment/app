@@ -13,7 +13,11 @@ const PublicWatchlists = ({ data: watchlists }) => {
       <div className={styles.title}>
         Public watchlists <Counter value={watchlists.length} />
       </div>
-      <WatchlistCards watchlists={watchlists} classes={styles} />
+      <WatchlistCards
+        watchlists={watchlists}
+        classes={styles}
+        makeSharedLinks
+      />
     </div>
   )
 }

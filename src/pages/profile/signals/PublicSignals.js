@@ -18,9 +18,7 @@ const PublicSignals = ({ data: signals, userId }) => {
       <div className={styles.title}>
         Public signals <Counter value={signals.length} />
       </div>
-      <div>
-        <SignalCardsGrid signals={signalsWithUser} deleteEnabled={false} />
-      </div>
+      <SignalCardsGrid signals={signalsWithUser} deleteEnabled={false} />
     </div>
   )
 }

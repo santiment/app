@@ -2,15 +2,20 @@
 @import '~@santiment-network/ui/variables';
 
 .container {
-  margin-top: 54px;
+  margin-top: 46px;
   display: flex;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    flex-direction: column;
+    margin-top: 20px;
+  }
 }
 
 .left {
   width: 100%;
   max-width: 580px;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     display: flex;
     max-width: 100%;
   }
@@ -20,30 +25,30 @@
   margin-left: auto;
   min-width: 560px;
 
-  @include responsive('phone', 'phone-xs') {
-    margin: 30px auto auto auto;
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    margin: auto;
+    min-width: auto;
   }
 }
 
 .socials {
   display: flex;
   margin-bottom: 23px;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    margin: 20px 0;
+  }
 }
 
 .followersBlocks {
   display: flex;
 }
 
-.divider {
-  border-top: 1px solid var(--waterloo);
-  width: 100%;
-  opacity: 0.2;
-}
-
 .itemsCounter {
   width: 100%;
   padding-top: 16px;
   color: var(--waterloo);
+  border-top: 1px solid var(--porcelain);
 
   @include text('body-3');
 }
@@ -63,7 +68,7 @@
 .followBlockSecond {
   margin-left: 48px;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin-left: 16px;
   }
 }
@@ -93,20 +98,17 @@
 }
 
 .follow {
-  width: 32px;
   height: 32px;
-  background: var(--porcelain);
-  border-radius: 50%;
 }
 
 .followCounters {
-  margin-left: 16px;
+  margin-left: 13px;
 }
 
 .followBtn {
   margin-top: 16px;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin: 0 0 0 auto;
   }
 }
@@ -126,7 +128,7 @@
   display: flex;
   align-items: center;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin: 0 0 0 16px;
   }
 }

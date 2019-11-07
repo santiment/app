@@ -4,6 +4,9 @@ import GetFeaturedWatchlists from './../../ducks/Watchlists/GetFeaturedWatchlist
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
 import styles from './WatchlistCards.module.scss'
 
+export const getSharedWatchlistLink = watchlist =>
+  getWatchlistLink(watchlist) + '#shared'
+
 const FeaturedWatchlists = () => (
   <div className={styles.wrapper}>
     <GetFeaturedWatchlists
@@ -17,7 +20,7 @@ const FeaturedWatchlists = () => (
               change={1.22}
               name={watchlist.name}
               isPublic={watchlist.isPublic}
-              to={getWatchlistLink(watchlist) + '#shared'}
+              to={getSharedWatchlistLink(watchlist)}
               slugs={watchlist.listItems.map(({ project }) => project.slug)}
             />
           ))

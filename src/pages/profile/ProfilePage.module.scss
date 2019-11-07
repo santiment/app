@@ -21,15 +21,25 @@
 .block {
   margin-bottom: 70px;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin-bottom: 30px;
   }
 }
 
 .page {
   @include responsive('phone', 'phone-xs') {
-    margin: 0 16px;
+    margin: 0 16px !important;
   }
+}
+
+.innerPage {
+  @include responsive('phone', 'phone-xs') {
+    padding: 0 !important;
+  }
+}
+
+.header {
+  padding-bottom: 0 !important;
 }
 
 .info {
@@ -37,33 +47,52 @@
 
   background: linear-gradient(180deg, rgba(249, 250, 252, 0) 0%, #f9fafc 100%);
   border-radius: $border-radius;
-  padding: 24px;
+  padding: 24px 24px 46px 24px;
   display: flex;
   margin: -32px 0 40px 0;
 
-  @include responsive('phone', 'phone-xs') {
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin-bottom: 30px;
+    margin-top: 0;
     flex-direction: column;
+    padding: 0 0 20px 0;
   }
 }
 
 .row {
   display: flex;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    flex-direction: column;
+  }
 }
 
 .colWatchlists {
   margin-left: 30px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0;
+  }
 }
 
 .colInsights {
   max-width: 750px;
   width: 100%;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    max-width: initial;
+  }
 }
 
 .watchlists {
   display: flex !important;
   flex-direction: column !important;
   width: 360px;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    width: auto;
+    margin: 0;
+  }
 }
 
 .watchlist {
