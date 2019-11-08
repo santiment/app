@@ -2,8 +2,10 @@ import React from 'react'
 import { Mutation } from 'react-apollo'
 import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
 import { FOLLOW_MUTATION, UNFOLLOW_MUTATION } from '../../../queries/ProfileGQL'
+import followImg from './../../../assets/follow/follow.svg'
+import followedImg from './../../../assets/follow/followed.svg'
+import followingImg from './../../../assets/follow/following.svg'
 import styles from './FollowBtn.module.scss'
 
 const FollowBtn = ({ userId, isInFollowers, updateCache, className }) => {
@@ -15,23 +17,40 @@ const FollowBtn = ({ userId, isInFollowers, updateCache, className }) => {
       {(followAction, { loading }) => {
         return (
           <Button
-            accent='positive'
+            accent={isInFollowers ? 'grey' : 'positive'}
             variant='fill'
             className={className}
-            disabled={loading}
             onClick={() => {
-              followAction({
-                variables: {
-                  id: +userId
-                }
-              })
+              !loading &&
+                followAction({
+                  variables: {
+                    id: +userId
+                  }
+                })
             }}
           >
-            {!loading && (
-              <Icon type='add-watchlist' className={styles.followIcon} />
+            {!loading ? (
+              isInFollowers ? (
+                <img
+                  className={styles.followImg}
+                  src={followedImg}
+                  alt='followed'
+                />
+              ) : (
+                <img
+                  className={styles.followImg}
+                  src={followImg}
+                  alt='follow'
+                />
+              )
+            ) : (
+              <img
+                className={styles.followImg}
+                src={followingImg}
+                alt='following'
+              />
             )}
-            {loading && <Icon type='awaiting' className={styles.followIcon} />}
-            {isInFollowers ? 'Unfollow' : 'Follow'}
+            {isInFollowers ? 'Followed' : 'Follow'}
           </Button>
         )
       }}

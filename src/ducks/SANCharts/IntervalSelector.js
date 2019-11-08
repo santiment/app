@@ -40,8 +40,11 @@ const getAvailableIntervals = (from, to) => {
   if (diff < 186) {
     return ['12h', '1d', '2d']
   }
+  if (diff < 368) {
+    return ['2d', '5d', '7d']
+  }
 
-  return ['2d', '5d', '7d']
+  return ['7d', '10d', '14d']
 }
 
 const IntervalSelector = ({ from, to, interval, onIntervalChange }) => {

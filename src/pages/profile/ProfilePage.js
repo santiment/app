@@ -2,6 +2,7 @@ import React from 'react'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
+import cx from 'classnames'
 import PublicWatchlists from './watchlists/PublicWatchlists'
 import PublicSignals from './signals/PublicSignals'
 import PublicInsights from './insights/PublicInsights'
@@ -39,7 +40,7 @@ const ProfilePage = props => {
 
   if (!profile) {
     return (
-      <div className='page'>
+      <div className={cx('page', styles.page)}>
         <NoProfileData />
       </div>
     )
@@ -89,36 +90,46 @@ const ProfilePage = props => {
   }
 
   return (
-    <div className='page'>
-      <MobileOnly>
-        <div className={styles.header}>
-          <MobileHeader title='Profile' />
+    <>
+      <div className={styles.info}>
+        <MobileOnly>
+          <div className={styles.header}>
+            <MobileHeader title='Profile' />
+          </div>
+        </MobileOnly>
+        <div className={cx('page', styles.page, styles.innerPage)}>
+          <DesktopOnly>
+            <Breadcrumbs
+              crumbs={[
+                {
+                  label: 'Users'
+                },
+                {
+                  label: username || email || profileId
+                }
+              ]}
+            />
+          </DesktopOnly>
+
+          <ProfileInfo profile={profile} updateCache={updateCache} />
         </div>
-      </MobileOnly>
-
-      <div className={styles.page}>
-        <DesktopOnly>
-          <Breadcrumbs
-            crumbs={[
-              {
-                label: 'Users'
-              },
-              {
-                label: username || email || profileId
-              }
-            ]}
-          />
-        </DesktopOnly>
-
-        <ProfileInfo profile={profile} updateCache={updateCache} />
-
-        <PublicWatchlists userId={profileId} data={watchlists} />
-
-        <PublicSignals userId={profileId} data={triggers} />
-
-        <PublicInsights userId={profileId} data={insights} />
       </div>
-    </div>
+
+      <div className={cx('page', styles.page)}>
+        <div className={styles.row}>
+          <PublicSignals userId={profileId} data={triggers} />
+        </div>
+
+        <div className={styles.row}>
+          <div className={styles.colInsights}>
+            <PublicInsights userId={profileId} data={insights} />
+          </div>
+          <div className={styles.colWatchlists}>
+            <PublicWatchlists userId={profileId} data={watchlists} />
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
 

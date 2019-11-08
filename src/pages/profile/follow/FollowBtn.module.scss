@@ -1,4 +1,13 @@
+@import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
 
 .followIcon {
   margin-right: 12px;
+}
+
+.followImg {
+  fill: var(--accent);
+  margin-right: 10px;
+  position: relative;
+  top: -2px;
 }

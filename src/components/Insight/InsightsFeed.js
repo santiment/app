@@ -4,7 +4,12 @@ import WithLikesMutation from '../Like/WithLikesMutation'
 import InsightCard from './InsightCardWithMarketcap'
 import Feed from '../Feed/Feed'
 
-const InsightsFeed = ({ insights, isAllInsightsPage, classes = {} }) => {
+const InsightsFeed = ({
+  insights,
+  dateKey = 'createdAt',
+  isAllInsightsPage,
+  classes = {}
+}) => {
   return (
     <WithLikesMutation>
       {mutateInsightById => (
@@ -19,7 +24,7 @@ const InsightsFeed = ({ insights, isAllInsightsPage, classes = {} }) => {
               onLike={mutateInsightById(id)}
             />
           )}
-          dateKey='createdAt'
+          dateKey={dateKey}
         />
       )}
     </WithLikesMutation>

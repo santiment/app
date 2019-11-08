@@ -439,43 +439,36 @@ class ChartPage extends Component {
       }
     })
 
-    const requestedEvents =
-      events.map(({ key: name }) => ({
-        name,
+    const anomalyMetrics =
+      isShowAnomalies && isBeta
+        ? metrics.filter(({ anomalyKey }) => anomalyKey)
+        : []
+
+    const requestedEvents = events
+      .concat(anomalyMetrics)
+      .map(({ key, anomalyKey }) => ({
+        name: anomalyKey ? 'anomalies' : key,
         from,
         to,
         slug,
-        interval: selectedInterval
-      })) || []
+        interval: selectedInterval,
+        metric: anomalyKey,
+        metricKey: key
+      }))
 
-    const requestedMarketSegments =
-      marketSegments.map(({ key: name, reqMeta }) => ({
+    const requestedMarketSegments = marketSegments.map(
+      ({ key: name, reqMeta }) => ({
         name,
         from,
         to,
         slug,
         interval: selectedInterval,
         ...reqMeta
-      })) || []
+      })
+    )
 
     if (adjustNightMode) {
       document.body.classList.toggle('night-mode', !!nightMode)
-    }
-
-    if (isShowAnomalies && isBeta) {
-      metrics.forEach(metric => {
-        if (metric.anomalyKey) {
-          requestedEvents.push({
-            name: 'anomalies',
-            from,
-            to,
-            slug,
-            interval,
-            metric: metric.anomalyKey,
-            metricKey: metric.key
-          })
-        }
-      })
     }
 
     return (
@@ -561,6 +554,7 @@ class ChartPage extends Component {
                           activeMetrics={finalMetrics}
                           title={title}
                           chartRef={this.chartRef}
+                          chartData={timeseries}
                         />
                         <LoadableChartMetricsTool
                           classes={styles}

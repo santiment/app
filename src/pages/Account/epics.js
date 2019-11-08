@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
-import { userGQL } from './../../epics/handleLaunch'
+import { USER_EMAIL_LOGIN_QEURY } from './../../epics/handleLaunch'
 import { handleErrorAndTriggerAction } from './../../epics/utils'
 import { showNotification } from './../../actions/rootActions'
 import * as actions from './../../actions/types'
@@ -113,6 +113,21 @@ export const generateTelegramDeepLinkEpic = (action$, store, { client }) =>
         })
     })
 
+function tryUpdateUserProxyData (proxy, query, action) {
+  try {
+    let data = proxy.readQuery({ query })
+
+    data.currentUser.settings = {
+      ...data.currentUser.settings,
+      ...action.payload
+    }
+
+    proxy.writeQuery({ query, data })
+  } catch (e) {
+    // pass
+  }
+}
+
 export const toggleNotificationChannelEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.SETTINGS_TOGGLE_NOTIFICATION_CHANNEL)
@@ -132,12 +147,7 @@ export const toggleNotificationChannelEpic = (action$, store, { client }) =>
           }
         },
         update: proxy => {
-          let data = proxy.readQuery({ query: userGQL })
-          data.currentUser.settings = {
-            ...data.currentUser.settings,
-            ...action.payload
-          }
-          proxy.writeQuery({ query: userGQL, data })
+          tryUpdateUserProxyData(proxy, USER_EMAIL_LOGIN_QEURY, action)
         },
         context: { isRetriable: true }
       })

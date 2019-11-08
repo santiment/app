@@ -7,6 +7,7 @@ import { showNotification } from './../actions/rootActions'
 import * as actions from './../actions/types'
 import { savePrevAuthProvider } from './../utils/localStorage'
 import { setCoupon } from '../utils/coupon'
+import { USER_GQL_FRAGMENT } from './handleLaunch'
 
 export const SUBSCRIPTION_FLAG = 'hasToggledSubscription'
 
@@ -14,20 +15,8 @@ const emailLoginVerifyGQL = gql`
   mutation emailLoginVerify($email: String!, $token: String!) {
     emailLoginVerify(email: $email, token: $token) {
       token
-      user {
-        firstLogin
-        id
-        email
-        username
-        privacyPolicyAccepted
-        marketingAccepted
-        consent_id
-        sanBalance
-        ethAccounts {
-          address
-          sanBalance
-        }
-      }
+      user 
+        ${USER_GQL_FRAGMENT}
     }
   }
 `
@@ -130,41 +119,45 @@ export const digestSubscriptionEpic = (action$, store, { client }) =>
     )
 
 const handleEmailLogin = (action$, store, { client }) =>
-  action$.ofType(actions.USER_EMAIL_LOGIN).switchMap(action => {
-    setCoupon(action.payload.coupon)
-    const mutationGQL = action.payload.email
-      ? emailLoginVerifyGQL
-      : emailChangeVerifyGQL
-    const mutation = client.mutate({
-      mutation: mutationGQL,
-      variables: action.payload
+  action$
+    .ofType(actions.USER_EMAIL_LOGIN)
+    .takeUntil(action$.ofType(actions.USER_LOGIN_SUCCESS))
+    .switchMap(action => {
+      setCoupon(action.payload.coupon)
+      const mutationGQL = action.payload.email
+        ? emailLoginVerifyGQL
+        : emailChangeVerifyGQL
+      const mutation = client.mutate({
+        mutation: mutationGQL,
+        variables: action.payload
+      })
+      return Observable.from(mutation)
+        .mergeMap(({ data }) => {
+          const { token, user } =
+            data.emailLoginVerify || data.emailChangeVerify
+          GoogleAnalytics.event({
+            category: 'User',
+            action: 'Success login with email'
+          })
+          savePrevAuthProvider('email')
+          return Observable.of({
+            type: actions.USER_LOGIN_SUCCESS,
+            token,
+            user,
+            consent: user.consent_id || null
+          })
+        })
+        .catch(error => {
+          Raven.captureException(error)
+          GoogleAnalytics.event({
+            category: 'User',
+            action: 'Failed login with email'
+          })
+          return Observable.of({
+            type: actions.USER_LOGIN_FAILED,
+            payload: error
+          })
+        })
     })
-    return Observable.from(mutation)
-      .mergeMap(({ data }) => {
-        const { token, user } = data.emailLoginVerify || data.emailChangeVerify
-        GoogleAnalytics.event({
-          category: 'User',
-          action: 'Success login with email'
-        })
-        savePrevAuthProvider('email')
-        return Observable.of({
-          type: actions.USER_LOGIN_SUCCESS,
-          token,
-          user,
-          consent: user.consent_id || null
-        })
-      })
-      .catch(error => {
-        Raven.captureException(error)
-        GoogleAnalytics.event({
-          category: 'User',
-          action: 'Failed login with email'
-        })
-        return Observable.of({
-          type: actions.USER_LOGIN_FAILED,
-          payload: error
-        })
-      })
-  })
 
 export default handleEmailLogin
