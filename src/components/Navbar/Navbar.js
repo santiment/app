@@ -30,14 +30,24 @@ const leftLinks = [
     as: Link
   },
   { to: '/assets', children: 'Assets', linkTo: '/assets', as: Link },
-  { href: 'https://insights.santiment.net/', children: 'Insights', as: 'a' },
+  {
+    to: 'https://insights.santiment.net/',
+    children: <ExternalLink label='Insights' />,
+    as: ({ to, className, children }) => (
+      <a href={to} className={cx(className, styles.externalLink)}>
+        {children}
+      </a>
+    )
+  },
   { to: '/labs', children: 'Labs', linkTo: '/labs', as: Link },
   {
-    to: '/graphs',
+    to: 'https://graphs.santiment.net/',
     children: <ExternalLink label='Graphs' />,
     linkTo: 'https://graphs.santiment.net/',
-    as: props => (
-      <Link {...props} className={cx(props.className, styles.externalLink)} />
+    as: ({ to, className, children }) => (
+      <a href={to} className={cx(className, styles.externalLink)}>
+        {children}
+      </a>
     )
   }
 ]
