@@ -71,7 +71,6 @@ const SantimentProductsTooltip = ({ className }) => {
   return (
     <Tooltip
       passOpenStateAs='isActive'
-      className={styles.wrapper}
       closeTimeout={150}
       position='bottom'
       align='start'
