@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink as Link } from 'react-router-dom'
 import cx from 'classnames'
-import { Query } from 'react-apollo'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Search from './../Search/SearchContainer'
@@ -11,6 +10,7 @@ import NavbarHelpDropdown from './NavbarHelpDropdown'
 import NavbarLabsDropdown from './NavbarLabsDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
 import NavbarAssetsDropdown from './NavbarAssetsDropdown'
+import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
 import logoImg from './../../assets/logos/logo-sanbase.svg'
 import styles from './Navbar.module.scss'
 
@@ -66,6 +66,7 @@ const Navbar = ({ activeLink = '/' }) => {
           <Link className={styles.logo} to='/'>
             <img alt='sanbase logo' src={logoImg} />
           </Link>
+          <SantimentProductsTooltip className={styles.products} />
           {leftLinks.map((props, index) => {
             const isActive = activeLink.includes(props.to)
             if (props.linkTo) {

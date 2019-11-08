@@ -1,0 +1,91 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-radius: $border-radius;
+  padding: 24px;
+
+  @include border-box();
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  margin-bottom: 24px;
+}
+
+.link {
+  margin-left: auto;
+  color: var(--jungle-green);
+  fill: var(--jungle-green);
+}
+
+.linkArrow {
+  margin: 0 0 2px 8px;
+}
+
+.title {
+  color: var(--waterloo);
+
+  @include text('body-3');
+}
+
+.products {
+  display: flex;
+}
+
+.product {
+  padding: 9px;
+  cursor: pointer;
+  display: flex;
+  width: 345px;
+
+  &:hover {
+    background: var(--athens);
+    border-radius: $border-radius;
+  }
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  margin-left: 12px;
+  margin-top: 6px;
+}
+
+.productImg {
+  height: 38px;
+}
+
+.productTitle {
+  color: var(--rhino);
+  letter-spacing: -0.02em;
+
+  @include text('body-1', 'm');
+}
+
+.productDescription {
+  color: var(--waterloo);
+  margin-top: 5px;
+
+  @include text('body-3');
+}
+
+.productLink {
+  margin: 10px 0 0;
+}
+
+.arrow {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.opened {
+  background: var(--green-light);
+  border-radius: 2px;
+  fill: var(--jungle-green);
+}
