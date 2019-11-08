@@ -36,7 +36,9 @@ const leftLinks = [
     to: '/graphs',
     children: <ExternalLink label='Graphs' />,
     linkTo: 'https://graphs.santiment.net/',
-    as: props => <Link {...props} className={styles.externalLink} />
+    as: props => (
+      <Link {...props} className={cx(props.className, styles.externalLink)} />
+    )
   }
 ]
 
@@ -99,7 +101,7 @@ const Navbar = ({ activeLink = '/' }) => {
                 {...props}
                 variant='flat'
                 isActive={isActive}
-                className={styles.leftLink}
+                className={cx(styles.leftLink, styles.btn)}
               />
             )
           })}
