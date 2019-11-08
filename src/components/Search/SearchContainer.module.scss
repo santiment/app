@@ -2,8 +2,12 @@
   position: relative;
   z-index: 10;
   margin-right: 24px;
-  width: 200px;
+  width: 260px;
   transition: width 200ms ease-out;
+
+  input {
+    height: 40px;
+  }
 }
 
 .focused {
