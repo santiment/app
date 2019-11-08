@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
-import full_screen from '../../../assets/full_screen.svg'
+import Icon from '@santiment-network/ui/Icon'
 import ExplanationTooltip from '../../../components/ExplanationTooltip/ExplanationTooltip'
 import styles from './ChartExpandView.module.scss'
 
@@ -23,7 +23,7 @@ export const ChartExpandView = ({ children, classes = {} }) => {
             text='Expand'
             className={styles.explanation}
           >
-            <img src={full_screen} alt='Expand' />
+            <Icon type='fullscreen' />
           </ExplanationTooltip>
         </Button>
       }

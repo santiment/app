@@ -10,6 +10,7 @@ import * as actions from '../../actions/types'
 import { dateDifference, DAY } from '../../utils/dates'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
+import UpgradeBtn from '../UpgradeBtn/UpgradeBtn'
 import styles from './NavbarProfileDropdown.module.scss'
 import dropdownStyles from './NavbarDropdown.module.scss'
 
@@ -99,7 +100,24 @@ export const NavbarProfileDropdown = ({
                       }
                     }
 
-                    return `${plan} plan ${trial}`
+                    const userPlan = subscription
+                      ? subscription.plan.name
+                      : 'FREE'
+
+                    if (userPlan === 'PRO') {
+                      return `${plan}`
+                    }
+
+                    if (trial) {
+                      return `${plan} plan ${trial}`
+                    } else {
+                      return (
+                        <>
+                          <div>{plan}</div>
+                          <UpgradeBtn className={styles.upgrade} />
+                        </>
+                      )
+                    }
                   }}
                 </Query>
               </div>
