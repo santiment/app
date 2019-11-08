@@ -10,20 +10,21 @@ import styles from './SantimentProductsTooltip.module.scss'
 const PRODUCTS = [
   {
     img: sanbaseLogoImg,
-    title: 'sanbase',
-    description: 'Short description of the product in multiple lines of text',
+    title: 'Sanbase',
+    description:
+      'Behavior analysis & monitoring platform for 1000+ crypto assets',
     to: 'https://app.santiment.net'
   },
   {
     img: sheetsLogoImg,
-    title: 'sheets',
-    description: 'Short description of the product in multiple lines of text',
+    title: 'Sheets',
+    description: 'Google Spreadsheets plugin for importing Santiment data',
     to: 'https://sheets.santiment.net'
   },
   {
     img: neuroLogoImg,
     title: 'API',
-    description: 'Short description of the product in multiple lines of text',
+    description: 'The most comprehsive crypto API on the market',
     to: 'https://neuro.santiment.net'
   }
 ]

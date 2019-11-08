@@ -101,7 +101,7 @@ const ProfilePage = props => {
           <Breadcrumbs
             crumbs={[
               {
-                label: 'User'
+                label: 'Users'
               },
               {
                 label: username || email || profileId
