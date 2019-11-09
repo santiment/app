@@ -90,10 +90,7 @@ const SantimentProductsTooltip = ({ className }) => {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.title}>Santiment products</div>
-          <MakeLink
-            to='https://app.santiment.net'
-            title='Go to Santiment.net'
-          />
+          <MakeLink to='https://santiment.net' title='Go to Santiment.net' />
         </div>
         <div className={styles.products}>
           {PRODUCTS.map((item, index) => (
