@@ -75,6 +75,7 @@ const SantimentProductsTooltip = ({ className }) => {
       closeTimeout={150}
       position='bottom'
       align='start'
+      offsetY={20}
       trigger={
         <div className={cx(className, styles.arrow, isOpen && styles.opened)}>
           {isOpen ? <CloseTrigger /> : <OpenTrigger />}
