@@ -41,45 +41,51 @@ const ProductItem = ({ product: { to, img, title, description } }) => {
         setShowLink(false)
       }}
     >
-      <img className={styles.productImg} src={img} alt={title} />
-      <div className={styles.productInfo}>
-        <div className={styles.productTitle}>{title}</div>
-        <div className={styles.productDescription}>{description}</div>
-        {showLink && (
-          <MakeLink
-            className={styles.productLink}
-            to={to}
-            title={'Go to ' + title}
-          />
-        )}
+      <img className={styles.product__img} src={img} alt={title} />
+      <div className={styles.product__info}>
+        <div className={styles.product__title}>{title}</div>
+        <div className={styles.product__description}>{description}</div>
+
+        <MakeLink
+          className={cx(
+            styles.product__link,
+            showLink && styles.product__link_show
+          )}
+          to={to}
+          as={'div'}
+          title={'Go to ' + title}
+        />
       </div>
     </a>
   )
 }
 
-const MakeLink = ({ to, title, className }) => (
-  <a href={to} className={cx(styles.link, className)}>
+const MakeLink = ({ to, title, className, as: El = 'a' }) => (
+  <El href={to} className={cx(styles.link, className)}>
     {title} <Icon className={styles.linkArrow} type='pointer-right' />
-  </a>
+  </El>
 )
 
 const OpenTrigger = () => <Icon type='arrow-down' />
 const CloseTrigger = () => <Icon type='arrow-up' />
 
-const SantimentProductsTooltip = ({ className }) => {
+const SantimentProductsTooltip = ({ className, children }) => {
   const [isOpen, setOpen] = useState(false)
 
   return (
     <Tooltip
       passOpenStateAs='isActive'
-      closeTimeout={150}
+      closeTimeout={150000}
       position='bottom'
       align='start'
       offsetY={20}
       className={styles.tooltip}
       trigger={
-        <div className={cx(className, styles.arrow, isOpen && styles.opened)}>
-          {isOpen ? <CloseTrigger /> : <OpenTrigger />}
+        <div className={className}>
+          {children}
+          <div className={cx(styles.arrow, isOpen && styles.opened)}>
+            {isOpen ? <CloseTrigger /> : <OpenTrigger />}
+          </div>
         </div>
       }
       onOpen={() => {

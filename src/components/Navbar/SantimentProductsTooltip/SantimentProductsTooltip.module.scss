@@ -47,43 +47,81 @@
 .product {
   padding: 9px;
   cursor: pointer;
-  display: flex;
   width: 345px;
-  height: 124px;
+  display: flex;
+  min-height: 146px;
+  padding-top: 24px;
+  padding-right: 12px;
+  padding-left: 12px;
+  align-items: flex-start;
+  color: var(--waterloo);
+  text-decoration: none;
 
   &:hover {
     background: var(--athens);
     border-radius: $border-radius;
   }
-}
 
-.productInfo {
-  display: flex;
-  flex-direction: column;
-  margin-left: 12px;
-  margin-top: 6px;
-}
+  &__img {
+    height: 38px;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+    transition-duration: 0.3s;
+  }
 
-.productImg {
-  height: 38px;
-}
+  &__title {
+    color: var(--rhino);
+    letter-spacing: -0.02em;
 
-.productTitle {
-  color: var(--rhino);
-  letter-spacing: -0.02em;
+    @include text('body-1', 'm');
+  }
 
-  @include text('body-1', 'm');
-}
+  &__description {
+    color: var(--waterloo);
+    margin: 8px 0;
 
-.productDescription {
-  color: var(--waterloo);
-  margin-top: 5px;
+    @include text('body-3');
+  }
 
-  @include text('body-3');
-}
+  &__link_show {
+    display: flex !important;
+    opacity: 1 !important;
+    align-items: center;
+  }
 
-.productLink {
-  margin: 10px 0 0;
+  &__link {
+    display: none;
+    opacity: 0;
+    margin: 0;
+    transform: translate3d(0, -16px, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+    transition-duration: 0.3s;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+    transition-duration: 0.3s;
+    margin-top: 8px;
+    margin-left: 12px;
+  }
+
+  &:hover &__img {
+    transform: translate3d(0, -12px, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+  }
+
+  &:hover &__link {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+  }
+
+  &:hover &__info {
+    transform: translate3d(0, -12px, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+  }
 }
 
 .arrow {
@@ -92,6 +130,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--waterloo);
+  margin-left: 8px;
+  fill: var(--waterloo);
 }
 
 .opened {

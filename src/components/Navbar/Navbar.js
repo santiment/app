@@ -75,10 +75,11 @@ const Navbar = ({ activeLink = '/' }) => {
         screenEdgeXOffset={5}
       >
         <div className={styles.left}>
-          <Link className={styles.logo} to='/'>
-            <img alt='sanbase logo' src={logoImg} />
-          </Link>
-          <SantimentProductsTooltip className={styles.products} />
+          <SantimentProductsTooltip className={styles.products}>
+            <Link className={styles.logo} to='/'>
+              <img alt='sanbase logo' src={logoImg} />
+            </Link>
+          </SantimentProductsTooltip>
           {leftLinks.map((props, index) => {
             const isActive = activeLink.includes(props.to)
             if (props.linkTo) {
