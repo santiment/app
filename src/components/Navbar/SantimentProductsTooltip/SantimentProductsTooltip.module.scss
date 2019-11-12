@@ -1,5 +1,9 @@
 @import '~@santiment-network/ui/mixins';
 
+.tooltip {
+  z-index: 20;
+}
+
 .container {
   background: var(--white);
   border: 1px solid var(--porcelain);
@@ -19,6 +23,11 @@
   margin-left: auto;
   color: var(--jungle-green);
   fill: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+    fill: var(--jungle-green-hover);
+  }
 }
 
 .linkArrow {
