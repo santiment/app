@@ -9,6 +9,7 @@
   border: 1px solid var(--porcelain);
   border-radius: $border-radius;
   padding: 24px;
+  box-shadow: 0 4px 12px 0 rgba(24, 27, 43, 0.04);
 
   @include border-box();
 }
@@ -44,46 +45,73 @@
   display: flex;
 }
 
-.product {
-  padding: 9px;
-  cursor: pointer;
-  display: flex;
-  width: 345px;
-  height: 124px;
+.wrapper {
+  width: 363px;
+  min-height: 146px;
+  padding: 24px 12px 9px 12px;
 
   &:hover {
     background: var(--athens);
     border-radius: $border-radius;
   }
+
+  &:hover &__product {
+    transform: translate3d(0, -12px, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+  }
+
+  &__link {
+    margin-left: 0;
+    display: flex;
+    opacity: 0;
+    transform: translate3d(0, -10px, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+    transition-duration: 0.2s;
+    align-items: center;
+  }
+
+  &:hover &__link {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+    display: flex;
+    opacity: 1;
+  }
 }
 
-.productInfo {
+.product {
+  cursor: pointer;
   display: flex;
-  flex-direction: column;
-  margin-left: 12px;
-  margin-top: 6px;
-}
-
-.productImg {
-  height: 38px;
-}
-
-.productTitle {
-  color: var(--rhino);
-  letter-spacing: -0.02em;
-
-  @include text('body-1', 'm');
-}
-
-.productDescription {
+  align-items: flex-start;
   color: var(--waterloo);
-  margin-top: 5px;
+  text-decoration: none;
+  transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+  transform-style: preserve-3d;
+  transition-duration: 0.3s;
 
-  @include text('body-3');
-}
+  &__img {
+    height: 38px;
+  }
 
-.productLink {
-  margin: 10px 0 0;
+  &__title {
+    color: var(--rhino);
+    letter-spacing: -0.02em;
+
+    @include text('body-1', 'm');
+  }
+
+  &__description {
+    color: var(--waterloo);
+    margin: 8px 0;
+
+    @include text('body-3');
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    margin-top: 8px;
+    margin-left: 12px;
+  }
 }
 
 .arrow {
@@ -92,6 +120,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--waterloo);
+  margin-left: 8px;
+  fill: var(--waterloo);
 }
 
 .opened {

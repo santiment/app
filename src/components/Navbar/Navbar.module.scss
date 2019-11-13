@@ -21,8 +21,10 @@
 }
 
 .products {
-  margin: 0 36px 0 8px;
+  margin: 0 36px 0 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .logo {
