@@ -54,6 +54,28 @@
     background: var(--athens);
     border-radius: $border-radius;
   }
+
+  &:hover &__product {
+    transform: translate3d(0, -12px, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+  }
+
+  &__link {
+    margin-left: 0;
+    display: flex;
+    opacity: 0;
+    transform: translate3d(0, -10px, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+    transition-duration: 0.2s;
+    align-items: center;
+  }
+
+  &:hover &__link {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+    display: flex;
+    opacity: 1;
+  }
 }
 
 .product {
@@ -65,11 +87,6 @@
   transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
   transform-style: preserve-3d;
   transition-duration: 0.3s;
-
-  &:hover {
-    transform: translate3d(0, -12px, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
-    transform-style: preserve-3d;
-  }
 
   &__img {
     height: 38px;
@@ -94,23 +111,6 @@
     flex-direction: column;
     margin-top: 8px;
     margin-left: 12px;
-  }
-
-  &__link {
-    margin-left: 0;
-    display: flex;
-    opacity: 0;
-    transform: translate3d(0, -10px, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
-    transform-style: preserve-3d;
-    transition-duration: 0.2s;
-    align-items: center;
-  }
-
-  &:hover &__link {
-    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
-    transform-style: preserve-3d;
-    display: flex;
-    opacity: 1;
   }
 }
 

@@ -32,14 +32,14 @@ const PRODUCTS = [
 const ProductItem = ({ product: { to, img, title, description } }) => {
   return (
     <a className={styles.wrapper} href={to}>
-      <div className={styles.product}>
+      <div className={cx(styles.product, styles.wrapper__product)}>
         <img className={styles.product__img} src={img} alt={title} />
         <div className={styles.product__info}>
           <div className={styles.product__title}>{title}</div>
           <div className={styles.product__description}>{description}</div>
 
           <MakeLink
-            className={cx(styles.product__link)}
+            className={cx(styles.wrapper__link)}
             to={to}
             as={'div'}
             title={'Go to ' + title}
