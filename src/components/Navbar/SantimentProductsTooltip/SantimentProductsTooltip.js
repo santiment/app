@@ -30,31 +30,21 @@ const PRODUCTS = [
 ]
 
 const ProductItem = ({ product: { to, img, title, description } }) => {
-  const [showLink, setShowLink] = useState(false)
-
   return (
-    <a
-      href={to}
-      className={styles.product}
-      onMouseEnter={() => setShowLink(true)}
-      onMouseLeave={() => {
-        setShowLink(false)
-      }}
-    >
-      <img className={styles.product__img} src={img} alt={title} />
-      <div className={styles.product__info}>
-        <div className={styles.product__title}>{title}</div>
-        <div className={styles.product__description}>{description}</div>
+    <a className={styles.wrapper} href={to}>
+      <div className={styles.product}>
+        <img className={styles.product__img} src={img} alt={title} />
+        <div className={styles.product__info}>
+          <div className={styles.product__title}>{title}</div>
+          <div className={styles.product__description}>{description}</div>
 
-        <MakeLink
-          className={cx(
-            styles.product__link,
-            showLink && styles.product__link_show
-          )}
-          to={to}
-          as={'div'}
-          title={'Go to ' + title}
-        />
+          <MakeLink
+            className={cx(styles.product__link)}
+            to={to}
+            as={'div'}
+            title={'Go to ' + title}
+          />
+        </div>
       </div>
     </a>
   )
@@ -75,7 +65,7 @@ const SantimentProductsTooltip = ({ className, children }) => {
   return (
     <Tooltip
       passOpenStateAs='isActive'
-      closeTimeout={150000}
+      closeTimeout={150}
       position='bottom'
       align='start'
       offsetY={20}
