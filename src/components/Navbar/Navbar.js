@@ -11,8 +11,8 @@ import NavbarProfileDropdown from './NavbarProfileDropdown'
 import NavbarAssetsDropdown from './NavbarAssetsDropdown'
 import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
 import logoImg from './../../assets/logos/logo-sanbase.svg'
-import styles from './Navbar.module.scss'
 import { LABS } from './SantimentProductsTooltip/Products'
+import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ label }) => {
   return (
@@ -47,11 +47,11 @@ const leftLinks = [
       <Link {...props} to={'/labs'}>
         <SantimentProductsTooltip
           showArrows={false}
-          align='center'
           products={LABS}
+          position='start'
           showHeader={false}
           offsetY={12}
-          offsetX={-357}
+          offsetX={-358}
         >
           {props.children}
         </SantimentProductsTooltip>
@@ -94,7 +94,11 @@ const Navbar = ({ activeLink = '/' }) => {
         screenEdgeXOffset={5}
       >
         <div className={styles.left}>
-          <SantimentProductsTooltip className={styles.products} offsetY={12}>
+          <SantimentProductsTooltip
+            className={styles.products}
+            offsetY={12}
+            position='start'
+          >
             <Link className={styles.logo} to='/'>
               <img alt='sanbase logo' src={logoImg} />
             </Link>

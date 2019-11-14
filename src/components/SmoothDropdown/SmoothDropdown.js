@@ -120,9 +120,6 @@ class SmoothDropdown extends Component {
         this.ddItemsStyles.set(ddItem, ddStyles)
         this.setState(prevState => ({
           ...prevState,
-          dropdownStyles: {
-            ...prevState.dropdownStyles
-          },
           ddItems: new Map([...prevState.ddItems, [ddItem, ddContent]])
         }))
       }
@@ -199,26 +196,24 @@ class SmoothDropdown extends Component {
     const width = this.makePx(ddContent.clientWidth)
     const height = this.makePx(ddContent.clientHeight)
 
-    if (position) {
-      if (position === 'start') {
-        left = this.makePx(triggerLeft + offsetX)
-        top = this.makePx(topOffset + verticalOffset + offsetY)
-      }
+    if (position === 'start') {
+      left = this.makePx(triggerLeft + offsetX)
+      top = this.makePx(topOffset + verticalOffset + offsetY)
     }
 
-    console.log(left, top, offsetY)
+    const dropdownStyles = {
+      left,
+      top,
+      width,
+      height
+    }
 
     this.setState(prevState => ({
       ...prevState,
       currentTrigger: ddItem,
       currentDropdown: ddContent,
       ddFirstTime: prevState.currentTrigger === null,
-      dropdownStyles: {
-        left,
-        top,
-        width,
-        height
-      },
+      dropdownStyles,
       arrowCorrectionX: correction.left
     }))
   }

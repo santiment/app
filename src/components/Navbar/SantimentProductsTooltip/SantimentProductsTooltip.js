@@ -5,7 +5,6 @@ import Icon from '@santiment-network/ui/Icon'
 import { MAIN_PRODUCTS } from './Products'
 import SmoothDropdownItem from '../../SmoothDropdown/SmoothDropdownItem'
 import styles from './SantimentProductsTooltip.module.scss'
-import debounce from 'lodash.debounce'
 
 const ProductItem = ({
   product: { to, img, title, description, showLink = true }
@@ -45,7 +44,7 @@ let timeoutId
 
 const SantimentProductsTooltip = ({
   showArrows = true,
-  align = 'start',
+  position = 'start',
   showHeader = true,
   className,
   children,
@@ -81,7 +80,7 @@ const SantimentProductsTooltip = ({
       onClose={() => setClosed()}
       ddParams={{
         ddStyles: {
-          position: 'start',
+          position,
           offsetX: offsetX,
           offsetY: offsetY
         }
