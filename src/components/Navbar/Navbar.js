@@ -7,12 +7,12 @@ import Search from './../Search/SearchContainer'
 import SmoothDropdown from '../SmoothDropdown/SmoothDropdown'
 import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 import NavbarHelpDropdown from './NavbarHelpDropdown'
-import NavbarLabsDropdown from './NavbarLabsDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
 import NavbarAssetsDropdown from './NavbarAssetsDropdown'
 import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
 import logoImg from './../../assets/logos/logo-sanbase.svg'
 import styles from './Navbar.module.scss'
+import { LABS } from './SantimentProductsTooltip/Products'
 
 const ExternalLink = ({ label }) => {
   return (
@@ -31,23 +31,42 @@ const leftLinks = [
   },
   { to: '/assets', children: 'Assets', linkTo: '/assets', as: Link },
   {
-    to: 'https://insights.santiment.net/',
     children: <ExternalLink label='Insights' />,
     as: ({ to, className, children }) => (
-      <a href={to} className={cx(className, styles.externalLink)}>
+      <a
+        href={'https://insights.santiment.net/'}
+        className={cx(className, styles.externalLink)}
+      >
         {children}
       </a>
     )
   },
-  { to: '/labs', children: 'Labs', linkTo: '/labs', as: Link },
   {
-    to: 'https://graphs.santiment.net/',
+    children: 'Labs',
+    as: props => (
+      <Link {...props} to={'/labs'}>
+        <SantimentProductsTooltip
+          showArrows={false}
+          align='center'
+          products={LABS}
+          showHeader={false}
+          offsetY={12}
+          offsetX={-357}
+        >
+          {props.children}
+        </SantimentProductsTooltip>
+      </Link>
+    )
+  },
+  {
     children: <ExternalLink label='Graphs' />,
-    linkTo: 'https://graphs.santiment.net/',
-    as: ({ to, className, children }) => (
-      <a href={to} className={cx(className, styles.externalLink)}>
+    as: ({ className, children }) => (
+      <Link
+        to={'https://graphs.santiment.net/'}
+        className={cx(className, styles.externalLink)}
+      >
         {children}
-      </a>
+      </Link>
     )
   }
 ]
@@ -75,7 +94,7 @@ const Navbar = ({ activeLink = '/' }) => {
         screenEdgeXOffset={5}
       >
         <div className={styles.left}>
-          <SantimentProductsTooltip className={styles.products}>
+          <SantimentProductsTooltip className={styles.products} offsetY={12}>
             <Link className={styles.logo} to='/'>
               <img alt='sanbase logo' src={logoImg} />
             </Link>
@@ -98,9 +117,6 @@ const Navbar = ({ activeLink = '/' }) => {
                 >
                   {props.children === 'Assets' && (
                     <NavbarAssetsDropdown activeLink={activeLink} />
-                  )}
-                  {props.children === 'Labs' && (
-                    <NavbarLabsDropdown activeLink={activeLink} />
                   )}
                 </SmoothDropdownItem>
               )

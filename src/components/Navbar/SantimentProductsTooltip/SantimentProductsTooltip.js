@@ -1,52 +1,34 @@
 import React, { useState } from 'react'
+import Link from 'react-router-dom/es/Link'
 import cx from 'classnames'
-import Tooltip from '@santiment-network/ui/Tooltip'
 import Icon from '@santiment-network/ui/Icon'
-import sanbaseLogoImg from './../../../assets/logos/logo-sanbase.svg'
-import sheetsLogoImg from './../../../assets/logos/logo-sheets.svg'
-import neuroLogoImg from './../../../assets/logos/logo-neuro.svg'
+import { MAIN_PRODUCTS } from './Products'
+import SmoothDropdownItem from '../../SmoothDropdown/SmoothDropdownItem'
 import styles from './SantimentProductsTooltip.module.scss'
+import debounce from 'lodash.debounce'
 
-const PRODUCTS = [
-  {
-    img: sanbaseLogoImg,
-    title: 'Sanbase',
-    description:
-      'Behavior analysis & monitoring platform for 1000+ crypto assets',
-    to: 'https://app.santiment.net'
-  },
-  {
-    img: sheetsLogoImg,
-    title: 'Sheets',
-    description: 'Google Spreadsheets plugin for importing Santiment data',
-    to: 'https://sheets.santiment.net'
-  },
-  {
-    img: neuroLogoImg,
-    title: 'API',
-    description: 'The most comprehsive crypto API on the market',
-    to: 'https://neuro.santiment.net'
-  }
-]
-
-const ProductItem = ({ product: { to, img, title, description } }) => {
+const ProductItem = ({
+  product: { to, img, title, description, showLink = true }
+}) => {
   return (
-    <a className={styles.wrapper} href={to}>
+    <Link className={styles.wrapper} to={to}>
       <div className={cx(styles.product, styles.wrapper__product)}>
-        <img className={styles.product__img} src={img} alt={title} />
+        {img && <img className={styles.product__img} src={img} alt={title} />}
         <div className={styles.product__info}>
           <div className={styles.product__title}>{title}</div>
           <div className={styles.product__description}>{description}</div>
 
-          <MakeLink
-            className={cx(styles.wrapper__link)}
-            to={to}
-            as={'div'}
-            title={'Go to ' + title}
-          />
+          {showLink && (
+            <MakeLink
+              className={cx(styles.wrapper__link)}
+              to={to}
+              as={'div'}
+              title={'Go to ' + title}
+            />
+          )}
         </div>
       </div>
-    </a>
+    </Link>
   )
 }
 
@@ -59,44 +41,70 @@ const MakeLink = ({ to, title, className, as: El = 'a' }) => (
 const OpenTrigger = () => <Icon type='arrow-down' />
 const CloseTrigger = () => <Icon type='arrow-up' />
 
-const SantimentProductsTooltip = ({ className, children }) => {
-  const [isOpen, setOpen] = useState(false)
+let timeoutId
+
+const SantimentProductsTooltip = ({
+  showArrows = true,
+  align = 'start',
+  showHeader = true,
+  className,
+  children,
+  products = MAIN_PRODUCTS,
+  offsetY = 0,
+  offsetX = 0
+}) => {
+  const [isOpen, setOpenState] = useState(false)
+
+  const setClosed = () => {
+    timeoutId = setTimeout(() => setOpenState(false), 150)
+  }
+
+  const setOpened = () => {
+    timeoutId && clearTimeout(timeoutId)
+    setOpenState(false)
+  }
 
   return (
-    <Tooltip
-      passOpenStateAs='isActive'
-      closeTimeout={150}
-      position='bottom'
-      align='start'
-      offsetY={20}
+    <SmoothDropdownItem
       className={styles.tooltip}
       trigger={
         <div className={className}>
           {children}
-          <div className={cx(styles.arrow, isOpen && styles.opened)}>
-            {isOpen ? <CloseTrigger /> : <OpenTrigger />}
-          </div>
+          {showArrows && (
+            <div className={cx(styles.arrow, isOpen && styles.opened)}>
+              {isOpen ? <CloseTrigger /> : <OpenTrigger />}
+            </div>
+          )}
         </div>
       }
-      onOpen={() => {
-        setOpen(true)
-      }}
-      onClose={() => {
-        setOpen(false)
+      onOpen={() => setOpened()}
+      onClose={() => setClosed()}
+      ddParams={{
+        ddStyles: {
+          position: 'start',
+          offsetX: offsetX,
+          offsetY: offsetY
+        }
       }}
     >
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <div className={styles.title}>Santiment products</div>
-          <MakeLink to='https://santiment.net' title='Go to Santiment.net' />
-        </div>
+      <div
+        className={styles.container}
+        onMouseEnter={() => setOpened()}
+        onMouseLeave={() => setClosed()}
+      >
+        {showHeader && (
+          <div className={styles.header}>
+            <div className={styles.title}>Santiment products</div>
+            <MakeLink to='https://santiment.net' title='Go to Santiment.net' />
+          </div>
+        )}
         <div className={styles.products}>
-          {PRODUCTS.map((item, index) => (
+          {products.map((item, index) => (
             <ProductItem key={index} product={item} />
           ))}
         </div>
       </div>
-    </Tooltip>
+    </SmoothDropdownItem>
   )
 }
 
