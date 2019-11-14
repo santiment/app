@@ -26,6 +26,7 @@ class SmoothDropdown extends Component {
   ddContainer = ddTemplate.cloneNode(true).firstElementChild
 
   ddItemsRef = new WeakMap()
+  ddItemsStyles = new WeakMap()
 
   state = {
     currentTrigger: null,
@@ -112,10 +113,11 @@ class SmoothDropdown extends Component {
     return currentDropdown !== dropdownItem.querySelector('.dd__content')
   }
 
-  setupDropdownContent = (ddItem, ddContent) => {
+  setupDropdownContent = (ddItem, ddContent, { ddStyles } = {}) => {
     setTimeout(() => {
       if (!this.ddItemsRef.has(ddItem)) {
         this.ddItemsRef.set(ddItem, React.createRef())
+        this.ddItemsStyles.set(ddItem, ddStyles)
         this.setState(prevState => ({
           ...prevState,
           ddItems: new Map([...prevState.ddItems, [ddItem, ddContent]])
@@ -149,6 +151,8 @@ class SmoothDropdown extends Component {
       }
     }, 0)
   }
+
+  makePx = value => value + 'px'
 
   openDropdown = (ddItem, trigger) => {
     let dropdownItem = this.ddItemsRef ? this.ddItemsRef.get(ddItem) : undefined
@@ -184,21 +188,32 @@ class SmoothDropdown extends Component {
 
     const correction = this.getViewportOverflowCorrection(trigger, ddContent)
 
-    const left = leftOffset - correction.left + 'px'
-    const top = topOffset + verticalOffset + 'px'
-    const width = ddContent.clientWidth + 'px'
-    const height = ddContent.clientHeight + 'px'
+    const { offsetX = 0, offsetY = 0, position } =
+      this.ddItemsStyles.get(ddItem) || {}
+
+    let left = this.makePx(leftOffset - correction.left)
+    let top = this.makePx(topOffset + verticalOffset)
+    const width = this.makePx(ddContent.clientWidth)
+    const height = this.makePx(ddContent.clientHeight)
+
+    if (position === 'start') {
+      left = this.makePx(triggerLeft + offsetX)
+      top = this.makePx(topOffset + verticalOffset + offsetY)
+    }
+
+    const dropdownStyles = {
+      left,
+      top,
+      width,
+      height
+    }
+
     this.setState(prevState => ({
       ...prevState,
       currentTrigger: ddItem,
       currentDropdown: ddContent,
       ddFirstTime: prevState.currentTrigger === null,
-      dropdownStyles: {
-        left,
-        top,
-        width,
-        height
-      },
+      dropdownStyles,
       arrowCorrectionX: correction.left
     }))
   }

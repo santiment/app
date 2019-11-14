@@ -21,19 +21,29 @@ class SmoothDropdownItem extends Component {
   }
 
   render () {
-    const { trigger, children, showIf, className = '' } = this.props
+    const {
+      trigger,
+      children,
+      showIf,
+      className = '',
+      onOpen: propsOnOpen,
+      onClose,
+      ddParams
+    } = this.props
     const {
       triggerRef: { current: ddTrigger }
     } = this
     if (!trigger) {
       return null
     }
+
     return (
       <SmoothDropdownContext.Consumer>
         {({ handleMouseEnter, handleMouseLeave, setupDropdownContent }) => {
           const onOpen = evt => {
             if (showIf ? showIf(evt) : true) {
               handleMouseEnter(this, ddTrigger)
+              propsOnOpen && propsOnOpen()
             }
           }
           return (
@@ -41,14 +51,20 @@ class SmoothDropdownItem extends Component {
               <div
                 onMouseEnter={onOpen}
                 onTouchStart={onOpen}
-                onTouchCancel={handleMouseLeave}
-                onMouseLeave={handleMouseLeave}
+                onTouchCancel={() => {
+                  handleMouseLeave()
+                  onClose && onClose()
+                }}
+                onMouseLeave={() => {
+                  handleMouseLeave()
+                  onClose && onClose()
+                }}
                 className={`dd__trigger ${className}`}
                 ref={this.triggerRef}
               >
                 {trigger}
               </div>
-              {setupDropdownContent(this, children)}
+              {setupDropdownContent(this, children, ddParams)}
             </>
           )
         }}

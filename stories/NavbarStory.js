@@ -8,7 +8,6 @@ import { Panel } from '@santiment-network/ui'
 import Navbar from './../src/components/Navbar/Navbar'
 import { NavbarProfileDropdown } from './../src/components/Navbar/NavbarProfileDropdown'
 import NavbarHelpDropdown from './../src/components/Navbar/NavbarHelpDropdown'
-import NavbarLabsDropdown from './../src/components/Navbar/NavbarLabsDropdown'
 import NavbarAssetsDropdown from './../src/components/Navbar/NavbarAssetsDropdown'
 import store from './store'
 
@@ -111,18 +110,6 @@ storiesOf('Navbar', module)
       On the '/support' page
       <Panel>
         <NavbarHelpDropdown activeLink='/support' />
-      </Panel>
-    </div>
-  ))
-  .add('Labs Dropdown', () => (
-    <div>
-      <Panel>
-        <NavbarLabsDropdown />
-      </Panel>
-      <br />
-      On the '/labs/trends' page
-      <Panel>
-        <NavbarLabsDropdown activeLink='/labs/trends' />
       </Panel>
     </div>
   ))
