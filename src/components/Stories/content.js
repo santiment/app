@@ -12,6 +12,7 @@ export const stories = [
     type: 'SLIDES',
     previewTitle: 'Platform features',
     storyHeaderName: 'Platform features',
+    duration: 25 * 1000,
     slides: [
       {
         description: (
