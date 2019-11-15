@@ -112,7 +112,7 @@ export const stories = [
                 in this backtest
               </a>
               , concluding that distributed coins tend to outperform centralized
-              coins across the board - and even beat holding ETH:
+              coins across the board - and even beat holding ETH
             </div>
           </>
         )
