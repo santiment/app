@@ -156,20 +156,20 @@ const TrendsReChart = ({
                       />
                       <Line
                         type='linear'
-                        yAxisId='axis-price'
-                        name={asset + '/USD'}
+                        dataKey={entity.index}
                         dot={false}
-                        strokeWidth={1}
-                        dataKey='priceUsd'
-                        stroke={ASSET_PRICE_COLOR}
+                        strokeWidth={entity.index === 'merged' ? 1.5 : 2}
+                        name={entity.name}
+                        stroke={`var(--${entity.color})`}
                       />
                       <Line
                         type='linear'
-                        dataKey={entity.index}
+                        yAxisId='axis-price'
+                        name={asset + '/USD'}
                         dot={false}
-                        strokeWidth={entity.index === 'merged' ? 1.5 : 3}
-                        name={entity.name}
-                        stroke={`var(--${entity.color})`}
+                        strokeWidth={1.5}
+                        dataKey='priceUsd'
+                        stroke={ASSET_PRICE_COLOR}
                       />
                       <Legend />
                     </ComposedChart>
