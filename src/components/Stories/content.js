@@ -38,10 +38,6 @@ export const stories = [
             </div>
             <br />
 
-            <div>But how exactly can you use them?</div>
-
-            <br />
-
             <div>
               Here’s a selection of Santiment articles highlighting some of our
               metrics and their use cases, and how they can help you better
@@ -72,9 +68,8 @@ export const stories = [
             </div>
             <br />
             <div>
-              P.S. note the date of the article - when this report was
-              published, BTC trailed at around $5800. A week later, it
-              skyrocketed to $8000 👀
+              P.S. when this report was published, BTC trailed at around $5800.
+              A week later, it skyrocketed to $8000 👀
             </div>
           </>
         )
