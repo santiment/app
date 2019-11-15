@@ -1,6 +1,234 @@
 import React from 'react'
+import chartImg from './../../assets/stories/platform_features/chart.png'
+import mvrvImg from './../../assets/stories/platform_features/mvrv.png'
+import mmaImg from './../../assets/stories/platform_features/mma.png'
+import distroImg from './../../assets/stories/platform_features/distro.png'
+import renTopsImg from './../../assets/stories/platform_features/ren.png'
+import btcTacImg from './../../assets/stories/platform_features/btc_ta.png'
+import weeklyUpdatesImg from './../../assets/stories/platform_features/weekly.png'
 
 export const stories = [
+  {
+    type: 'SLIDES',
+    previewTitle: 'Platform features',
+    storyHeaderName: 'Platform features',
+    slides: [
+      {
+        description: (
+          <>
+            <div>
+              Between{' '}
+              <a
+                target='_blank'
+                rel='noopener noreferrer'
+                href='https://app.santiment.net'
+              >
+                Sanbase
+              </a>{' '}
+              and{' '}
+              <a
+                target='_blank'
+                rel='noopener noreferrer'
+                href='https://graphs.santiment.net'
+              >
+                Sangraphs
+              </a>
+              , our platform features over 120 different on-chain, social and
+              development indicators - many of them 100% custom-built.
+            </div>
+            <br />
+
+            <div>But how exactly can you use them?</div>
+
+            <br />
+
+            <div>
+              Here’s a selection of Santiment articles highlighting some of our
+              metrics and their use cases, and how they can help you better
+              understand the crypto market
+            </div>
+          </>
+        ),
+        image: chartImg
+      },
+      {
+        image: mvrvImg,
+        title: 'MVRV Difference',
+        description: (
+          <>
+            <div>
+              In this{' '}
+              <a
+                target='_blank'
+                rel='noopener noreferrer'
+                href='https://insights.santiment.net/read/btc-long%2Fshort-mvrv-difference-indicates-an-end-of-the-bear-cycle-377'
+              >
+                introductory piece
+              </a>
+              , our CTO Valentin Mihov explains the idea behind{' '}
+              <b>MVRV Difference</b> - a brand new metric developed at Santiment
+              - and why its trend lines may indicate the tail ends of BTC’s bear
+              cycles.
+            </div>
+            <br />
+            <div>
+              P.S. note the date of the article - when this report was
+              published, BTC trailed at around $5800. A week later, it
+              skyrocketed to $8000 👀
+            </div>
+          </>
+        )
+      },
+      {
+        image: mmaImg,
+        title: 'Maximal Mean Age',
+        description: (
+          <>
+            <div>
+              In this{' '}
+              <a
+                target='_blank'
+                rel='noopener noreferrer'
+                href='https://insights.santiment.net/read/%F0%9F%93%A2-mean-age-653'
+              >
+                recent article
+              </a>
+              , Santiment developer Tzanko Matev breaks down one of our
+              newly-developed metrics: <b>Maximal Mean Age</b>, and how it
+              enables a radically new way to look at investor behavior.
+            </div>
+
+            <br />
+
+            <i>
+              ‘Every price top so far was accompanied by a drop in the mean coin
+              age and with a significant drop of mean dollar age. ‘
+            </i>
+          </>
+        )
+      },
+      {
+        image: distroImg,
+        title: 'Token Holder metrics',
+        description: (
+          <>
+            <div>
+              Jan Smirny, Santiment’s data scientist and researcher, dives deep
+              into our <b>Token Holder metrics</b>{' '}
+              <a
+                target='_blank'
+                rel='noopener noreferrer'
+                target='_blank'
+                href='https://insights.santiment.net/read/token-distribution-ratio%3A-new-performance-indicator-for-crypto%3F-%5Bsantiment-analysis%5D-314'
+              >
+                in this backtest
+              </a>
+              , concluding that distributed coins tend to outperform centralized
+              coins across the board - and even beat holding ETH:
+            </div>
+
+            <br />
+
+            <i>
+              ‘While more volatile, our distributed portfolio beats the ETH
+              benchmark at almost all points in time.‘
+            </i>
+          </>
+        )
+      },
+      {
+        image: renTopsImg,
+        title: 'On-chain and social indicators',
+        description: (
+          <>
+            <div>
+              In{' '}
+              <a
+                target='_blank'
+                rel='noopener noreferrer'
+                href='https://insights.santiment.net/read/6-ways-you-could-have-caught-ren%E2%80%99s-summer-tops-643'
+              >
+                this listicle
+              </a>
+              , Dino Ibisbegovic highlights <b>6 different ways</b> that Sanbase
+              metrics and tools could have helped users identify REN’s three
+              summer tops.
+            </div>
+
+            <br />
+
+            <div>
+              Examples include anomalies in several of our on-chain and social
+              indicators, as well as a bit of detective work to find and track
+              market moving addresses with our{' '}
+              <a target='_blank' rel='noopener noreferrer' href='/labs/balance'>
+                Historical Balance tool
+              </a>{' '}
+              🕵️‍♂️
+            </div>
+          </>
+        )
+      },
+      {
+        image: btcTacImg,
+        title: 'Token Age Consumed',
+        description: (
+          <>
+            <div>
+              And last but not least - a few weeks ago, Santiment founder Maksim
+              Balashevich{' '}
+              <a
+                target='_blank'
+                rel='noopener noreferrer'
+                href='https://insights.santiment.net/read/btc-%22coin-days-destroyed%22-spiked.-volatility-is-coming.-672'
+              >
+                warned
+              </a>{' '}
+              that Bitcoin’s <b>Token Age Consumed chart</b> suggests an intense
+              volatility is coming to the market.
+            </div>
+
+            <br />
+
+            <div>
+              Since then, Bitcoin first dumped more than 6% on October 23rd,
+              dropping all the way down to $7500, before ballooning to $9850
+              just 3 days after. We’d say that qualifies as ‘intense volatility’
+              - wouldn’t you?
+            </div>
+          </>
+        )
+      },
+      {
+        image: weeklyUpdatesImg,
+        title: 'Want more insights like this?',
+        description: (
+          <>
+            You can find regular examples and use cases of different Santiment
+            metrics by following our daily{' '}
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='http://insights.santiment.net'
+            >
+              Community Insights
+            </a>
+            , or signing up to{' '}
+            <a
+              href='https://app.santiment.net/account#notifications'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              our team’s Weekly Briefs
+            </a>
+            , where we break down recent market events from an on-chain, social
+            and development perspective. It’s the most unique weekly newsletter
+            in crypto!
+          </>
+        )
+      }
+    ]
+  },
   {
     type: 'SLIDES',
     previewTitle: 'Important facts about MakerDAO',
