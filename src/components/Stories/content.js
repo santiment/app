@@ -97,13 +97,6 @@ export const stories = [
               newly-developed metrics: <b>Maximal Mean Age</b>, and how it
               enables a radically new way to look at investor behavior.
             </div>
-
-            <br />
-
-            <i>
-              ‘Every price top so far was accompanied by a drop in the mean coin
-              age and with a significant drop of mean dollar age. ‘
-            </i>
           </>
         )
       },
@@ -118,7 +111,6 @@ export const stories = [
               <a
                 target='_blank'
                 rel='noopener noreferrer'
-                target='_blank'
                 href='https://insights.santiment.net/read/token-distribution-ratio%3A-new-performance-indicator-for-crypto%3F-%5Bsantiment-analysis%5D-314'
               >
                 in this backtest
@@ -126,19 +118,13 @@ export const stories = [
               , concluding that distributed coins tend to outperform centralized
               coins across the board - and even beat holding ETH:
             </div>
-
-            <br />
-
-            <i>
-              ‘While more volatile, our distributed portfolio beats the ETH
-              benchmark at almost all points in time.‘
-            </i>
           </>
         )
       },
       {
         image: renTopsImg,
         title: 'On-chain and social indicators',
+        isDarkImage: true,
         description: (
           <>
             <div>
