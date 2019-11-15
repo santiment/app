@@ -4,9 +4,9 @@ import StoryContent from './StoryContent'
 const DURATION = 15 * 1000
 
 const Story = ({ story = {}, open, onEnd }) => {
-  const { slides, duration: storyDuration = DURATION } = story
+  const { slides } = story
   let [active, setActive] = useState(0)
-  let [duration, setDuration] = useState(storyDuration)
+  let [duration, setDuration] = useState(DURATION)
   let [resetFlag, setResetFlag] = useState(true)
   let [dialogWidth, setDialogWidth] = useState(null)
   const last = slides.length - 1
@@ -17,13 +17,13 @@ const Story = ({ story = {}, open, onEnd }) => {
     const next = active + 1
     if (next > last) onEnd()
     else setActive(Math.min(last, next))
-    setDuration(storyDuration)
+    setDuration(DURATION)
     setResetFlag(!resetFlag)
   }
 
   const onPrev = () => {
     setActive(Math.max(0, active - 1))
-    setDuration(storyDuration)
+    setDuration(DURATION)
     setResetFlag(!resetFlag)
   }
 
