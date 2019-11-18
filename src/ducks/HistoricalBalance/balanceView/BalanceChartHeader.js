@@ -13,7 +13,7 @@ const BalanceChartHeader = ({ address, assets, children }) => {
       <div className={styles.addTrigger}>
         <SignalMasterModalForm
           label='Generate signal'
-          enabled={!!address || (assets && assets.length > 0)}
+          enabled={!!address && (assets && assets.length > 0)}
           canRedirect={false}
           metaFormSettings={{
             target: {

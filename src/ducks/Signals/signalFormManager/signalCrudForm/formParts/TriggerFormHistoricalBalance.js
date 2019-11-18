@@ -153,6 +153,7 @@ const TriggerFormHistoricalBalance = ({
   useEffect(
     () => {
       validateAddressField(target)
+      setFieldValue('isEthOrErc20', isErc20Assets(target, erc20List))
     },
     [target]
   )
