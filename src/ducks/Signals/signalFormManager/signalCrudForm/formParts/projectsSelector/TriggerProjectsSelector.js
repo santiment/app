@@ -116,11 +116,12 @@ export const TriggerProjectsSelector = ({
   }
 
   const onSuggestionSelect = ({ item: project }) => {
-    toggleAsset({
-      project,
-      listItems,
-      isAssetInList: hasAssetById({ listItems, id: project.id })
-    })
+    project &&
+      toggleAsset({
+        project,
+        listItems,
+        isAssetInList: hasAssetById({ listItems, id: project.id })
+      })
   }
 
   return (
