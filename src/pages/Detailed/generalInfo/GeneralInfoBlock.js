@@ -19,8 +19,7 @@ const GeneralInfoBlock = ({
   totalSupply,
   volumeUsd,
   ticker,
-  roiUsd,
-  isERC20
+  roiUsd
 }) => (
   <div>
     <p>
@@ -66,7 +65,10 @@ const GeneralInfoBlock = ({
 )
 
 const SocialLink = ({ link, text = '' }) => (
-  <a className={styles.socialLink} href={link || ''}>
+  <a
+    className={cx(styles.socialLink, !link && styles.disabled)}
+    href={link || ''}
+  >
     {text || (
       <Icon type='link' fill={link ? 'var(--shark)' : 'var(--porcelain)'} />
     )}
