@@ -11,6 +11,11 @@
 
 .disabled {
   color: var(--mystic);
+
+  &:hover {
+    color: var(--mystic);
+    cursor: not-allowed;
+  }
 }
 
 .loader {
