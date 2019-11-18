@@ -44,7 +44,7 @@ storiesOf('Project Detailted Page', module)
         btcBalance={null}
         facebookLink={null}
         fundsRaisedIcos={[]}
-        githubLink={null}
+        githubLinks={null}
         id={project.id}
         marketCapUsd={null}
         name={project.name}

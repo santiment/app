@@ -4,13 +4,14 @@ import Loader from '@santiment-network/ui/Loader/Loader'
 import Icon from '@santiment-network/ui/Icon'
 import { formatCryptoCurrency, formatNumber } from '../../../utils/formatting'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
+import Tooltip from '@santiment-network/ui/Tooltip'
 import styles from './GeneralInfoBlock.module.scss'
 
 const GeneralInfoBlock = ({
   websiteLink,
   slackLink,
   twitterLink,
-  githubLink,
+  githubLinks,
   blogLink,
   whitepaperLink,
   marketcapUsd,
@@ -27,7 +28,9 @@ const GeneralInfoBlock = ({
       <SocialLink link={slackLink} text='Community' />
       <SocialLink link={twitterLink} text='Twitter' />
       <SocialLink link={blogLink} text='Blog' />
-      <SocialLink link={githubLink} text='Github' />
+
+      <GithubLinks links={githubLinks} />
+
       <SocialLink link={whitepaperLink} text='Whitepaper' />
     </p>
     <Row
@@ -63,6 +66,29 @@ const GeneralInfoBlock = ({
     />
   </div>
 )
+
+const GithubLinks = ({ links }) => {
+  if (!links || !links.length) {
+    return null
+  }
+
+  if (links.length === 1) {
+    return <SocialLink link={links[0]} text='Github' />
+  }
+
+  return (
+    <Tooltip
+      trigger={<div className={styles.socialLink}>Github</div>}
+      position='bottom'
+    >
+      <div className={styles.tooltip}>
+        {links.map(link => (
+          <SocialLink key={link} link={link} text={link} />
+        ))}
+      </div>
+    </Tooltip>
+  )
+}
 
 const SocialLink = ({ link, text = '' }) => (
   <a
