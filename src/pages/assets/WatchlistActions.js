@@ -1,5 +1,6 @@
 import React from 'react'
 import { CSVLink } from 'react-csv'
+import { graphql } from 'react-apollo'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import { normalizeCSV } from './utils'
@@ -10,6 +11,7 @@ import WatchlistEditTrigger from '../../components/WatchlistEdit/WatchlistEditTr
 import WatchlistWeeklyReportTrigger from '../../components/WatchlistWeeklyReport/WatchlistWeeklyReportTrigger'
 import WatchlistCopyPopup from '../../components/WatchlistCopy/WatchlistCopyPopup'
 import WatchlistContextMenu from './WatchlistContextMenu'
+import { WATCHLIST_QUERY } from '../../queries/WatchlistGQL'
 import styles from './WatchlistActionButton.module.scss'
 
 const WatchlistActions = ({
@@ -24,7 +26,8 @@ const WatchlistActions = ({
   location,
   isDesktop,
   isLoggedIn,
-  isMonitored
+  isMonitored,
+  watchlist: { isPublic } = {}
 }) => {
   const hasCSV = isNotSafari && items && items.length > 0
   const title = upperCaseFirstLetter(initialTitle)
@@ -73,7 +76,7 @@ const WatchlistActions = ({
           )}
           {isDesktop && (
             <>
-              <ShareModalTrigger shareLink={shareLink} />
+              {isPublic && <ShareModalTrigger shareLink={shareLink} />}
               {isAuthor && (
                 <>
                   <WatchlistEditTrigger name={title} id={id} assets={items} />
@@ -92,4 +95,19 @@ const WatchlistActions = ({
   )
 }
 
-export default WatchlistActions
+const enhance = graphql(WATCHLIST_QUERY, {
+  options: ({ id }) => ({
+    variables: {
+      id: id
+    }
+  }),
+  props: ({ data }) => {
+    return {
+      watchlist: data.watchlist,
+      isLoading: data.loading,
+      isError: !!data.error
+    }
+  }
+})
+
+export default enhance(WatchlistActions)
