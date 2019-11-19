@@ -1,3 +1,5 @@
+@import "~@santiment-network/ui/mixins";
+
 .icon {
   padding: 10px;
   display: flex;
@@ -15,5 +17,40 @@
   &_cloud {
     border: none;
   }
+
+  &:last-child {
+    border-top: 1px solid var(--porcelain);
+    padding: 22px 24px 24px;
+  }
 }
 
+.cloud__header {
+  padding: 22px 24px 0;
+  border: none;
+}
+
+.trend {
+  @include text('body-3');
+
+  color: var(--mirage);
+  margin: 0 0 24px;
+
+  &__label {
+    color: var(--waterloo);
+  }
+}
+
+.table {
+  height: 210px;
+  overflow: auto;
+
+  :global(.rt-tr-group) {
+    height: 48px !important;
+  }
+}
+
+.toggle__icons {
+  padding: 10px 8px;
+  width: 23px;
+  justify-content: space-between;
+}

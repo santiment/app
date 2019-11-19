@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import cx from 'classnames'
 import { FadeIn } from 'animate-components'
 import styles from './WidgetTrend.module.scss'
 
@@ -31,7 +32,8 @@ const WidgetTrend = ({
   hasData,
   error,
   children,
-  className
+  className,
+  infoClassName
 }) => {
   const msg = getMessage({
     isLoading,
@@ -51,7 +53,7 @@ const WidgetTrend = ({
         </FadeIn>
       ) : (
         <Fragment>
-          <div className={styles.info}>
+          <div className={cx(styles.info, infoClassName)}>
             <span className={styles.word}>{trendWord} </span>
             {description}
           </div>

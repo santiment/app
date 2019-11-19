@@ -37,7 +37,8 @@ const getWordStyles = index => {
 export const WordCloud = ({
   word: searchWord,
   data: { wordContext: cloud = [], loading: isLoading, error } = {},
-  className = ''
+  className = '',
+  infoClassName
 }) => {
   return (
     <WidgetTrend
@@ -52,6 +53,7 @@ export const WordCloud = ({
       isLoading={isLoading}
       error={error}
       hasData={cloud.length > 0}
+      infoClassName={infoClassName}
     >
       <TagCloud
         style={{ width: '100%', height: '100%', padding: 15, marginTop: 0 }}

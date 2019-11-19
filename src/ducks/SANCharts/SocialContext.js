@@ -47,10 +47,13 @@ const Content = ({ interval, date, projectName }) => {
         word={projectName}
         size={12}
         className={cx(styles.item, styles.item_cloud)}
+        infoClassName={styles.cloud__header}
         {...period}
       />
       <div className={styles.item}>
-        Trending words top 10
+        <h3 className={styles.trend}>
+          Trending words <span className={styles.trend__label}>top 10</span>
+        </h3>
         <GetHypedTrends
           onlyTrends
           interval={interval}
@@ -61,7 +64,7 @@ const Content = ({ interval, date, projectName }) => {
               <TrendsTable
                 small
                 trendWords={trends && trends.topWords}
-                className={styles.trends}
+                className={styles.table}
               />
             )
           }}
@@ -100,7 +103,10 @@ const SocialContext = ({
           className={sharedStyles.toggle__btn}
           onClick={() => onSidebarToggleClick(SOCIAL_SIDEBAR)}
         >
-          <Icon type='cloud-big' className={styles.icon} />
+          <div className={cx(styles.toggle__icons, sharedStyles.toggle__icons)}>
+            <Icon type='arrow-left' className={sharedStyles.toggle__arrow} />
+            <Icon type='cloud-small' />
+          </div>
         </div>
       </SidecarExplanationTooltip>
       {!isAdvancedView ? null : <Content {...rest} />}

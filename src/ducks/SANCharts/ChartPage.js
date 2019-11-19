@@ -621,7 +621,8 @@ class ChartPage extends Component {
                 </div>
                 {!viewOnly &&
                   !hideSettings.sidecar &&
-                  metrics.includes(Metrics.socialVolume) && (
+                  (metrics.includes(Metrics.socialVolume) ||
+                    events.includes(Events.trendPositionHistory)) && (
                   <LoadableSocialContextSidebar
                     onSidebarToggleClick={this.onSidebarToggleClick}
                     isAdvancedView={isAdvancedView === SOCIAL_SIDEBAR}
@@ -636,7 +637,6 @@ class ChartPage extends Component {
                   <LoadableChartSidecar
                     onSlugSelect={this.onSlugSelect}
                     onSidebarToggleClick={this.onSidebarToggleClick}
-                    // TODO: distuingish advanced modes [@vanguard | Nov 18, 2019]
                     isAdvancedView={isAdvancedView === ASSETS_SIDEBAR}
                     classes={classes}
                   />
