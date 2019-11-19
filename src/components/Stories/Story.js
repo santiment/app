@@ -11,6 +11,8 @@ const Story = ({ story = {}, open, onEnd }) => {
   let [dialogWidth, setDialogWidth] = useState(null)
   const last = slides.length - 1
 
+  const onClick = () => setDuration(null)
+
   const onNext = () => {
     const next = active + 1
     if (next > last) onEnd()
@@ -51,6 +53,7 @@ const Story = ({ story = {}, open, onEnd }) => {
       onNext={onNext}
       onPrev={onPrev}
       onToggleSlide={onToggleSlide}
+      onClick={onClick}
       onMediaClicked={onMedia}
       isPaused={duration === null}
     />

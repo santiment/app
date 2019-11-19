@@ -13,6 +13,7 @@ const StoryContent = ({
   onNext,
   onPrev,
   onToggleSlide,
+  onClick,
   onMediaClicked,
   isPaused,
   isPhone
@@ -52,6 +53,7 @@ const StoryContent = ({
       videoRef.current.appendChild(iframe)
       onMediaClicked(evt)
     }
+    onClick && onClick()
   }
 
   const isNotLastSlide = active < slides.length - 1
@@ -61,7 +63,7 @@ const StoryContent = ({
     <>
       <div
         className={styles.content}
-        onClick={isPhone ? onToggleSlide : () => {}}
+        onClick={isPhone ? onToggleSlide : onClick}
       >
         <div
           className={cx(
