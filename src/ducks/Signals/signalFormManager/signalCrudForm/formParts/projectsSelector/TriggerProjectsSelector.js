@@ -115,7 +115,7 @@ export const TriggerProjectsSelector = ({
     closeDialog()
   }
 
-  const onSuggestionSelect = ({ item: project }) => {
+  const onSuggestionSelect = project => {
     project &&
       toggleAsset({
         project,
