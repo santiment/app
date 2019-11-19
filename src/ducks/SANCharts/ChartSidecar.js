@@ -10,6 +10,8 @@ import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTa
 import SidecarExplanationTooltip from './SidecarExplanationTooltip'
 import styles from './ChartSidecar.module.scss'
 
+export const ASSETS_SIDEBAR = 'ASSETS_SIDEBAR'
+
 const ChartSidecar = ({
   onSlugSelect,
   onSidebarToggleClick,
@@ -56,7 +58,7 @@ const ChartSidecar = ({
       >
         <div
           className={styles.toggle__btn}
-          onClick={onSidebarToggleClick}
+          onClick={() => onSidebarToggleClick(ASSETS_SIDEBAR)}
           onMouseOver={wasPreloaded ? undefined : preloadData}
         >
           <div className={styles.toggle__icons}>

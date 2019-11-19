@@ -10,6 +10,9 @@ import sharedStyles from './ChartSidecar.module.scss'
 import styles from './SocialContext.module.scss'
 import GetHypedTrends from '../../components/Trends/GetHypedTrends'
 
+export const SOCIAL_SIDEBAR = 'SOCIAL_SIDEBAR'
+
+// TODO: move to utils/hooks [@vanguard | Nov 19, 2019]
 function useDebounce (fn, time, dependencies = []) {
   const [timer, setTimer] = useState()
   useEffect(() => {
@@ -83,6 +86,9 @@ const SocialContext = ({
       )}
     >
       <SidecarExplanationTooltip
+        title='Social context'
+        description='Explore social context of the hovered date'
+        localStorageSuffix={SOCIAL_SIDEBAR}
         classes={{
           wrapper: cx(
             sharedStyles.toggle,
@@ -93,7 +99,7 @@ const SocialContext = ({
       >
         <div
           className={sharedStyles.toggle__btn}
-          onClick={onSidebarToggleClick}
+          onClick={() => onSidebarToggleClick(SOCIAL_SIDEBAR)}
         >
           <Icon type='cloud-big' className={styles.icon} />
         </div>

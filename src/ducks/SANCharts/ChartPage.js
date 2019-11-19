@@ -15,6 +15,8 @@ import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
+import { SOCIAL_SIDEBAR } from './SocialContext'
+import { ASSETS_SIDEBAR } from './ChartSidecar'
 import styles from './ChartPage.module.scss'
 
 const DEFAULT_TIME_RANGE = '6m'
@@ -376,8 +378,11 @@ class ChartPage extends Component {
     })}`
   }
 
-  onSidebarToggleClick = () => {
-    this.setState(prev => ({ isAdvancedView: !prev.isAdvancedView }))
+  onSidebarToggleClick = activeSidebar => {
+    this.setState(prev => ({
+      isAdvancedView:
+        prev.isAdvancedView === activeSidebar ? false : activeSidebar
+    }))
   }
 
   render () {
@@ -610,10 +615,12 @@ class ChartPage extends Component {
                     )}
                   </div>
                 </div>
-                {!viewOnly && !hideSettings.sidecar && (
+                {!viewOnly &&
+                  !hideSettings.sidecar &&
+                  metrics.includes(Metrics.socialVolume) && (
                   <LoadableSocialContextSidebar
                     onSidebarToggleClick={this.onSidebarToggleClick}
-                    isAdvancedView={isAdvancedView}
+                    isAdvancedView={isAdvancedView === SOCIAL_SIDEBAR}
                     classes={classes}
                     projectName={slug}
                     interval={interval}
@@ -626,7 +633,7 @@ class ChartPage extends Component {
                     onSlugSelect={this.onSlugSelect}
                     onSidebarToggleClick={this.onSidebarToggleClick}
                     // TODO: distuingish advanced modes [@vanguard | Nov 18, 2019]
-                    isAdvancedView={false}
+                    isAdvancedView={isAdvancedView === ASSETS_SIDEBAR}
                     classes={classes}
                   />
                 )}
