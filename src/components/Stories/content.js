@@ -17,31 +17,14 @@ export const stories = [
         description: (
           <>
             <div>
-              Between{' '}
-              <a
-                target='_blank'
-                rel='noopener noreferrer'
-                href='https://app.santiment.net'
-              >
-                Sanbase
-              </a>{' '}
-              and{' '}
-              <a
-                target='_blank'
-                rel='noopener noreferrer'
-                href='https://graphs.santiment.net'
-              >
-                Sangraphs
-              </a>
-              , our platform features over 120 different on-chain, social and
-              development indicators - many of them 100% custom-built.
+              Santiment has over 120 different on-chain, social and development
+              indicators - many of them 100% custom-built. But how exactly can
+              you use them?
             </div>
             <br />
-
             <div>
-              Here’s a selection of Santiment articles highlighting some of our
-              metrics and their use cases, and how they can help you better
-              understand the crypto market
+              Check out these use case articles, directly from the Santiment
+              team.
             </div>
           </>
         ),
@@ -53,45 +36,44 @@ export const stories = [
         description: (
           <>
             <div>
-              In this{' '}
+              Santiment CTO Valentin Mihov{' '}
               <a
                 target='_blank'
                 rel='noopener noreferrer'
                 href='https://insights.santiment.net/read/btc-long%2Fshort-mvrv-difference-indicates-an-end-of-the-bear-cycle-377'
               >
-                introductory piece
-              </a>
-              , our CTO Valentin Mihov explains the idea behind{' '}
-              <b>MVRV Difference</b> - a brand new metric developed at Santiment
-              - and why its trend lines may indicate the tail ends of BTC’s bear
-              cycles.
+                {' '}
+                explained
+              </a>{' '}
+              how our <b>MVRV Difference</b> metric may indicate an end of BTC’s
+              bear cycles.
             </div>
             <br />
-            <div>
-              P.S. when this report was published, BTC trailed at around $5800.
-              A week later, it skyrocketed to $8000 👀
-            </div>
+            <i>
+              P.S. note the date - when this article was published, BTC trailed
+              at ~$5800. 1 week later, it skyrocketed to $8000
+              <span role='img' aria-label='looking'>
+                👀
+              </span>
+            </i>
           </>
         )
       },
       {
         image: mmaImg,
-        title: 'Maximal Mean Age',
+        title: 'Maximal Mean Age and HODLer behavior',
         description: (
           <>
-            <div>
-              In this{' '}
-              <a
-                target='_blank'
-                rel='noopener noreferrer'
-                href='https://insights.santiment.net/read/%F0%9F%93%A2-mean-age-653'
-              >
-                recent article
-              </a>
-              , Santiment developer Tzanko Matev breaks down one of our
-              newly-developed metrics: <b>Maximal Mean Age</b>, and how it
-              enables a radically new way to look at investor behavior.
-            </div>
+            Santiment developer Tzanko Matev{' '}
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://insights.santiment.net/read/%F0%9F%93%A2-mean-age-653'
+            >
+              broke down
+            </a>{' '}
+            one of our newly-developed metrics: <b>Maximal Mean Age</b> and what
+            it tells us about HODLer behavior.
           </>
         )
       },
@@ -100,19 +82,17 @@ export const stories = [
         title: 'Token Holder metrics',
         description: (
           <>
-            <div>
-              Jan Smirny, Santiment’s data scientist and researcher, dives deep
-              into our <b>Token Holder metrics</b>{' '}
-              <a
-                target='_blank'
-                rel='noopener noreferrer'
-                href='https://insights.santiment.net/read/token-distribution-ratio%3A-new-performance-indicator-for-crypto%3F-%5Bsantiment-analysis%5D-314'
-              >
-                in this backtest
-              </a>
-              , concluding that distributed coins tend to outperform centralized
-              coins across the board - and even beat holding ETH
-            </div>
+            Santiment data scientist Jan Smirny{' '}
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://insights.santiment.net/read/token-distribution-ratio%3A-new-performance-indicator-for-crypto%3F-%5Bsantiment-analysis%5D-314'
+            >
+              backtested
+            </a>{' '}
+            our <b>Token Holder metrics</b> and found that distributed coins
+            tend to outperform centralized coins - and HODLers - across the
+            board.
           </>
         )
       },
@@ -122,31 +102,21 @@ export const stories = [
         isDarkImage: true,
         description: (
           <>
-            <div>
-              In{' '}
-              <a
-                target='_blank'
-                rel='noopener noreferrer'
-                href='https://insights.santiment.net/read/6-ways-you-could-have-caught-ren%E2%80%99s-summer-tops-643'
-              >
-                this listicle
-              </a>
-              , Dino Ibisbegovic highlights <b>6 different ways</b> that Sanbase
-              metrics and tools could have helped users identify REN’s three
-              summer tops.
-            </div>
-
-            <br />
-
-            <div>
-              Examples include anomalies in several of our on-chain and social
-              indicators, as well as a bit of detective work to find and track
-              market moving addresses with our{' '}
-              <a target='_blank' rel='noopener noreferrer' href='/labs/balance'>
-                Historical Balance tool
-              </a>{' '}
-              🕵️‍♂️
-            </div>
+            Dino Ibisbegovic{' '}
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://insights.santiment.net/read/6-ways-you-could-have-caught-ren%E2%80%99s-summer-tops-643'
+            >
+              wrote about
+            </a>{' '}
+            <b>6 ways</b> that Sanbase metrics and tools could have helped you
+            identify REN’s summer tops, including anomalies in on-chain and
+            social, and a bit of detective work to identify REN’s market makers
+            🕵️‍
+            <span role='img' aria-label='looking'>
+              ♂️
+            </span>
           </>
         )
       },
@@ -156,8 +126,7 @@ export const stories = [
         description: (
           <>
             <div>
-              And last but not least - a few weeks ago, Santiment founder Maksim
-              Balashevich{' '}
+              A few weeks ago, Maksim Balashevich{' '}
               <a
                 target='_blank'
                 rel='noopener noreferrer'
@@ -165,18 +134,16 @@ export const stories = [
               >
                 warned
               </a>{' '}
-              that Bitcoin’s <b>Token Age Consumed chart</b> suggests an intense
-              volatility is coming to the market.
+              that Bitcoin’s Token Age Consumed chart suggests intense
+              volatility is coming.
             </div>
 
             <br />
 
-            <div>
-              Since then, Bitcoin first dumped more than 6% on October 23rd,
-              dropping all the way down to $7500, before ballooning to $9850
-              just 3 days after. We’d say that qualifies as ‘intense volatility’
-              - wouldn’t you?
-            </div>
+            <i>
+              Since then, BTC dumped more than 6% to $7500 on October 23rd,
+              before ballooning to $9850 just 3 days after.
+            </i>
           </>
         )
       },
@@ -185,8 +152,7 @@ export const stories = [
         title: 'Want more insights like this?',
         description: (
           <>
-            You can find regular examples and use cases of different Santiment
-            metrics by following our daily{' '}
+            You can find regular use cases for Santiment metrics on our daily{' '}
             <a
               target='_blank'
               rel='noopener noreferrer'
@@ -194,19 +160,12 @@ export const stories = [
             >
               Community Insights
             </a>
-            , or signing up to{' '}
-            <a
-              href='https://app.santiment.net/account#notifications'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              our team’s Weekly Briefs
-            </a>
-            , where we break down recent market events from an on-chain, social
-            and development perspective. It’s the most unique weekly newsletter
-            in crypto!
+            , or signing up to our team’s Weekly Briefs, where we break down
+            recent market events with our data!
           </>
-        )
+        ),
+        buttonLink: 'http://insights.santiment.net',
+        buttonText: 'Community Insights'
       }
     ]
   },
