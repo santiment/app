@@ -55,9 +55,8 @@ const mapFormSettings = (baseSettings, meta) => {
   return [settings, metaFormSettings]
 }
 
-const getFormData = (stateTrigger, metaFormSettings) => {
-  return mapFormSettings(mapTriggerToFormProps(stateTrigger), metaFormSettings)
-}
+const getFormData = (stateTrigger, metaFormSettings) =>
+  mapFormSettings(mapTriggerToFormProps(stateTrigger), metaFormSettings)
 
 const SignalMaster = ({
   canRedirect = true,
