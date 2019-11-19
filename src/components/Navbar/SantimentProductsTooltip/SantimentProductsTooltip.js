@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Link from 'react-router-dom/es/Link'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import { MAIN_PRODUCTS } from './Products'

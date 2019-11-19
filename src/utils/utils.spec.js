@@ -432,10 +432,10 @@ describe('isEthAddress', () => {
   it('should not be a valid eth address', () => {
     expect(isEthStrictAddress('0x1f3df0b8390bb8e9e322972c5e75582')).toBeFalsy()
     expect(
-      isEthStrictAddress('1f3df0b8390bb8e9e322972c5e75583e87608ec2')
+      isEthStrictAddress('1f3df0b8390bb8e9e322972c5e75583e87608ec2as')
     ).toBeFalsy()
     expect(
-      isEthStrictAddress('1f3df0b8390bb8e9e322972c5e75583e87608ec2')
+      isEthStrictAddress('1f3df0b8390bb8e9e322972c5e75583e87608ec2as')
     ).toBeFalsy()
     expect(isEthStrictAddress('asjdfh92ef2boejv')).toBeFalsy()
   })

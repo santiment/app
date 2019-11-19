@@ -874,18 +874,23 @@ export const metricTypesBlockErrors = values => {
   const {
     type,
     ethAddress,
-    isEthOrErc20,
+    isEthOrErc20Error,
     metric,
     target,
     targetWatchlist,
     trendingWordsWithWords,
-    signalType
+    signalType,
+    isLoading
   } = values
 
   let errors = {}
 
+  if (isLoading) {
+    errors.loading = isLoading
+  }
+
   if (metric && metric.value === ETH_WALLET) {
-    if (ethAddress) {
+    if (hasEthAddress(ethAddress)) {
       if (Array.isArray(ethAddress)) {
         ethAddress.forEach(({ value }) => {
           if (!isPossibleEthAddress(value)) {
@@ -898,7 +903,7 @@ export const metricTypesBlockErrors = values => {
         }
       }
     } else {
-      if (isEthOrErc20) {
+      if (isEthOrErc20Error) {
         errors.ethAddress = NOT_VALID_ETH_ADDRESS
       }
     }
