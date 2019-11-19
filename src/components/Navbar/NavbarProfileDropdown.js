@@ -129,45 +129,54 @@ export const NavbarProfileDropdown = ({
               <div className={styles.plan}>
                 <Query query={USER_SUBSCRIPTIONS_QUERY}>
                   {({ data: { currentUser = {} } = {} }) => {
-                    const { subscriptions } = currentUser
+                    const { subscriptions } = currentUser || {}
 
-                    console.log(subscriptions)
+                    const sanbaseSubscription = getCurrentSanbaseSubscription(
+                      currentUser
+                    )
 
-                    if (subscriptions) {
-                      return subscriptions.map(subscription => {
-                        const {
-                          plan: {
-                            product: { id }
-                          }
-                        } = subscription
+                    const isOnlySanbase =
+                      sanbaseSubscription && subscriptions.length === 1
+                    const sanbaseText = getSubscriptionText(
+                      sanbaseSubscription,
+                      isOnlySanbase ? null : 'Sanbase'
+                    )
+                    const isProSanbase =
+                      sanbaseSubscription && sanbaseSubscription.plan
+                        ? sanbaseSubscription.plan.name === PRO
+                        : false
 
-                        switch (id) {
-                          case sanbaseProductId: {
-                            return getSubscriptionText(subscription, 'Sanbase')
-                          }
-                          case neuroProductId: {
-                            return getSubscriptionText(subscription, 'Neuro')
-                          }
-                          default: {
-                            return null
-                          }
-                        }
-                      })
-                    } else {
-                      const subscription = getCurrentSanbaseSubscription(
-                        currentUser
-                      )
+                    return (
+                      <>
+                        {subscriptions
+                          ? subscriptions.map(subscription => {
+                            const {
+                              plan: {
+                                product: { id }
+                              }
+                            } = subscription
 
-                      const text = getSubscriptionText(subscription)
-                      return (
-                        <>
-                          {text}
-                          {text !== PRO && (
-                            <UpgradeBtn className={styles.upgrade} />
-                          )}
-                        </>
-                      )
-                    }
+                            switch (id) {
+                              case sanbaseProductId: {
+                                return sanbaseText
+                              }
+                              case neuroProductId: {
+                                return getSubscriptionText(
+                                  subscription,
+                                  'Neuro'
+                                )
+                              }
+                              default: {
+                                return null
+                              }
+                            }
+                          })
+                          : sanbaseText}
+                        {!isProSanbase && (
+                          <UpgradeBtn className={styles.upgrade} />
+                        )}
+                      </>
+                    )
                   }}
                 </Query>
               </div>
