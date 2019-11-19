@@ -8,7 +8,11 @@ import DropdownDevider from './DropdownDevider'
 import ProfileInfo from '../Insight/ProfileInfo'
 import * as actions from '../../actions/types'
 import { dateDifference, DAY } from '../../utils/dates'
-import { getCurrentSanbaseSubscription } from '../../utils/plans'
+import {
+  getCurrentSanbaseSubscription,
+  neuroProductId,
+  sanbaseProductId
+} from '../../utils/plans'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import UpgradeBtn from '../UpgradeBtn/UpgradeBtn'
 import styles from './NavbarProfileDropdown.module.scss'
@@ -46,6 +50,57 @@ const links = [
   }
 ]
 
+const getTrialText = subscription => {
+  let trial = ''
+  let plan = 'FREE'
+  if (subscription) {
+    plan = subscription.plan.name
+    let trialEnd = subscription.trialEnd || ''
+    if (trialEnd) {
+      const daysNumber =
+        dateDifference({
+          from: new Date(),
+          to: new Date(trialEnd),
+          format: DAY
+        }).diff + 1
+
+      const daysLeft = daysNumber === 1 ? 'last day' : `${daysNumber} days left`
+
+      trial = `(trial - ${daysLeft})`
+    }
+  }
+
+  return { plan, trial }
+}
+
+const PRO = 'PRO'
+
+const getSubscriptionText = (subscription, productName) => {
+  let { plan, trial } = getTrialText(subscription)
+
+  const userPlan = subscription ? subscription.plan.name : 'FREE'
+
+  let text = ''
+  if (userPlan === PRO) {
+    text = `${plan} plan`
+  } else {
+    if (trial) {
+      text = `${plan} plan ${trial}`
+    } else {
+      text = plan + ' plan'
+    }
+  }
+
+  return (
+    <div>
+      {productName && (
+        <span className={styles.productName}>{productName}: </span>
+      )}
+      {text}
+    </div>
+  )
+}
+
 export const NavbarProfileDropdown = ({
   activeLink,
   picUrl,
@@ -73,48 +128,43 @@ export const NavbarProfileDropdown = ({
             status={
               <div className={styles.plan}>
                 <Query query={USER_SUBSCRIPTIONS_QUERY}>
-                  {({ data: { currentUser } = {} }) => {
-                    const subscription = getCurrentSanbaseSubscription(
-                      currentUser
-                    )
-                    let plan = 'FREE'
-                    let trial = ''
+                  {({ data: { currentUser = {} } = {} }) => {
+                    const { subscriptions } = currentUser
 
-                    if (subscription) {
-                      plan = subscription.plan.name
-                      trial = subscription.trialEnd || ''
-                      if (trial) {
-                        const daysNumber =
-                          dateDifference({
-                            from: new Date(),
-                            to: new Date(trial),
-                            format: DAY
-                          }).diff + 1
+                    console.log(subscriptions)
 
-                        const daysLeft =
-                          daysNumber === 1
-                            ? 'last day'
-                            : `${daysNumber} days left`
+                    if (subscriptions) {
+                      return subscriptions.map(subscription => {
+                        const {
+                          plan: {
+                            product: { id }
+                          }
+                        } = subscription
 
-                        trial = `(trial - ${daysLeft})`
-                      }
-                    }
-
-                    const userPlan = subscription
-                      ? subscription.plan.name
-                      : 'FREE'
-
-                    if (userPlan === 'PRO') {
-                      return `${plan}`
-                    }
-
-                    if (trial) {
-                      return `${plan} plan ${trial}`
+                        switch (id) {
+                          case sanbaseProductId: {
+                            return getSubscriptionText(subscription, 'Sanbase')
+                          }
+                          case neuroProductId: {
+                            return getSubscriptionText(subscription, 'Neuro')
+                          }
+                          default: {
+                            return null
+                          }
+                        }
+                      })
                     } else {
+                      const subscription = getCurrentSanbaseSubscription(
+                        currentUser
+                      )
+
+                      const text = getSubscriptionText(subscription)
                       return (
                         <>
-                          <div>{plan}</div>
-                          <UpgradeBtn className={styles.upgrade} />
+                          {text}
+                          {text !== PRO && (
+                            <UpgradeBtn className={styles.upgrade} />
+                          )}
                         </>
                       )
                     }
