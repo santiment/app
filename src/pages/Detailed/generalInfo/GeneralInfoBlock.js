@@ -6,6 +6,7 @@ import { formatCryptoCurrency, formatNumber } from '../../../utils/formatting'
 import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import styles from './GeneralInfoBlock.module.scss'
+import Button from '@santiment-network/ui/Button'
 
 const GeneralInfoBlock = ({
   websiteLink,
@@ -93,6 +94,8 @@ const GithubLinks = ({ links }) => {
 const SocialLink = ({ link, text = '' }) => (
   <a
     className={cx(styles.socialLink, !link && styles.disabled)}
+    target='_blank'
+    rel='noopener noreferrer'
     href={link || ''}
   >
     {text || (
