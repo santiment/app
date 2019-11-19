@@ -227,7 +227,11 @@ const mapDataToProps = ({
 }) => {
   const { data = {} } = ownProps
 
-  if (allErc20Projects && allErc20Projects.length > 0) {
+  if (
+    allErc20Projects &&
+    allErc20Projects.length > 0 &&
+    !allErc20Projects.find(({ slug }) => slug === ETHEREUM)
+  ) {
     allErc20Projects.push({
       slug: ETHEREUM
     })
