@@ -1,0 +1,24 @@
+
+.toggle {
+  top: 350px !important;
+}
+
+.icon {
+  padding: 10px;
+  display: flex;
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+  overflow-y: hidden;
+}
+
+.item {
+  height: 50%;
+
+  &_cloud {
+    border: none;
+  }
+}
+

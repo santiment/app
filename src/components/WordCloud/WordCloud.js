@@ -44,10 +44,10 @@ export const WordCloud = ({
       className={className}
       trendWord={searchWord}
       description={
-        <Fragment>
+        <>
           <span className={styles.heading}>social context</span>
           <HelpPopupWordCloud />
-        </Fragment>
+        </>
       }
       isLoading={isLoading}
       error={error}
@@ -69,13 +69,19 @@ export const WordCloud = ({
 export default React.memo(
   graphql(WORD_CLOUD_QUERY, {
     skip: ({ word }) => !word,
-    options: ({ word }) => {
-      const { from, to } = getTimeIntervalFromToday(-1, 'd')
+    options: ({ word, size = 25, from, to }) => {
+      let fromIso = from
+      let toIso = to
+      if (!from) {
+        const { from, to } = getTimeIntervalFromToday(-1, 'd')
+        fromIso = from.toISOString()
+        toIso = to.toISOString()
+      }
       return {
         variables: {
-          from: from.toISOString(),
-          to: to.toISOString(),
-          size: 25,
+          from: fromIso,
+          to: toIso,
+          size,
           word
         }
       }

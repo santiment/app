@@ -41,6 +41,11 @@ const DEFAULT_STATE = {
   isMultiChartsActive: false
 }
 
+const LoadableSocialContextSidebar = Loadable({
+  loader: () => import('./SocialContext'),
+  loading: () => <div />
+})
+
 const LoadableChartSidecar = Loadable({
   loader: () => import('./ChartSidecar'),
   loading: () => <div />
@@ -596,6 +601,8 @@ class ChartPage extends Component {
                         isBeta={isBeta}
                         isLoggedIn={isLoggedIn}
                         isIntervalSmallerThanDay={isIntervalSmallerThanDay}
+                        interval={interval}
+                        onMouseMove={this.getSocialContext}
                       />
                     </TooltipSynchronizer>
                     {!isPRO && (
@@ -604,10 +611,22 @@ class ChartPage extends Component {
                   </div>
                 </div>
                 {!viewOnly && !hideSettings.sidecar && (
+                  <LoadableSocialContextSidebar
+                    onSidebarToggleClick={this.onSidebarToggleClick}
+                    isAdvancedView={isAdvancedView}
+                    classes={classes}
+                    projectName={slug}
+                    interval={interval}
+                    date={this.state.socialContextDate}
+                  />
+                )}
+
+                {!viewOnly && !hideSettings.sidecar && (
                   <LoadableChartSidecar
                     onSlugSelect={this.onSlugSelect}
                     onSidebarToggleClick={this.onSidebarToggleClick}
-                    isAdvancedView={isAdvancedView}
+                    // TODO: distuingish advanced modes [@vanguard | Nov 18, 2019]
+                    isAdvancedView={false}
                     classes={classes}
                   />
                 )}
@@ -617,6 +636,12 @@ class ChartPage extends Component {
         }}
       />
     )
+  }
+
+  getSocialContext = ({ activeLabel }) => {
+    this.setState({
+      socialContextDate: new Date(activeLabel)
+    })
   }
 }
 

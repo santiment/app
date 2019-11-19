@@ -263,7 +263,7 @@ class TrendsTable extends PureComponent {
         header={header}
         className={className}
         contentClassName={styles.panel}
-        headerClassName={styles.header}
+        headerClassName={cx(styles.header, !header && styles.header_empty)}
       >
         <Table
           className={styles.table}
