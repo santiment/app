@@ -874,6 +874,7 @@ export const metricTypesBlockErrors = values => {
   const {
     type,
     ethAddress,
+    isEthOrErc20,
     metric,
     target,
     targetWatchlist,
@@ -895,6 +896,10 @@ export const metricTypesBlockErrors = values => {
         if (!isPossibleEthAddress(ethAddress)) {
           errors.ethAddress = NOT_VALID_ETH_ADDRESS
         }
+      }
+    } else {
+      if (isEthOrErc20) {
+        errors.ethAddress = NOT_VALID_ETH_ADDRESS
       }
     }
   } else if (metric && metric.value === TRENDING_WORDS) {

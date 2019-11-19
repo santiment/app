@@ -19,7 +19,7 @@ export const projectBySlugGQL = gql`
       blogLink
       telegramLink
       facebookLink
-      githubLink
+      githubLinks
       redditLink
       twitterLink
       whitepaperLink

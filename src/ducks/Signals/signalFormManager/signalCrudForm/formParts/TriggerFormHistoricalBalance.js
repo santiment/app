@@ -27,15 +27,13 @@ const isInHeldAssets = (heldAssets, checking) => {
 
 const ETHEREUM = 'ethereum'
 
-const isErc20Assets = (target, allErc20Projects) => {
-  return (
-    target.value === ETHEREUM ||
-    target.slug === ETHEREUM ||
-    (Array.isArray(target)
-      ? isInHeldAssets(allErc20Projects, target)
-      : isInHeldAssets(allErc20Projects, [target]))
-  )
-}
+const isErc20Assets = (target, allErc20Projects) =>
+  allErc20Projects.length === 0 ||
+  target.value === ETHEREUM ||
+  target.slug === ETHEREUM ||
+  (Array.isArray(target)
+    ? isInHeldAssets(allErc20Projects, target)
+    : isInHeldAssets(allErc20Projects, [target]))
 
 const mapAssetsToAllProjects = (all, heldAssets) =>
   heldAssets.reduce((acc, { slug: itemSlug, value: itemValue, balance }) => {
@@ -153,6 +151,7 @@ const TriggerFormHistoricalBalance = ({
   useEffect(
     () => {
       validateAddressField(target)
+      setFieldValue('isEthOrErc20', isErc20Assets(target, erc20List))
     },
     [target]
   )
