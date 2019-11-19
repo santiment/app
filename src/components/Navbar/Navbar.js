@@ -61,12 +61,12 @@ const leftLinks = [
   {
     children: <ExternalLink label='Graphs' />,
     as: ({ className, children }) => (
-      <Link
-        to={'https://graphs.santiment.net/'}
+      <a
+        href='https://graphs.santiment.net/'
         className={cx(className, styles.externalLink)}
       >
         {children}
-      </Link>
+      </a>
     )
   }
 ]

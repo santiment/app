@@ -10,7 +10,7 @@ const ProductItem = ({
   product: { to, img, title, description, showLink = true }
 }) => {
   return (
-    <Link className={styles.wrapper} to={to}>
+    <a className={styles.wrapper} href={to}>
       <div className={cx(styles.product, styles.wrapper__product)}>
         {img && <img className={styles.product__img} src={img} alt={title} />}
         <div className={styles.product__info}>
@@ -27,7 +27,7 @@ const ProductItem = ({
           )}
         </div>
       </div>
-    </Link>
+    </a>
   )
 }
 
