@@ -317,3 +317,6 @@ export const compatabilityMap = {
   tokenAgeConsumed: Metrics.age_destroyed,
   exchangeFundsFlow: Metrics.exchange_balance
 }
+
+export const SOCIAL_SIDEBAR = 'SOCIAL_SIDEBAR'
+export const ASSETS_SIDEBAR = 'ASSETS_SIDEBAR'

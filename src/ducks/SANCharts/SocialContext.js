@@ -3,14 +3,13 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import WordCloud from '../../components/WordCloud/WordCloud'
 import TrendsTable from '../../components/Trends/TrendsTable/TrendsTable'
-import { parseIntervalString } from '../../utils/dates'
 import Icon from '@santiment-network/ui/Icon'
 import SidecarExplanationTooltip from './SidecarExplanationTooltip'
+import GetHypedTrends from '../../components/Trends/GetHypedTrends'
+import { parseIntervalString } from '../../utils/dates'
+import { SOCIAL_SIDEBAR } from './data'
 import sharedStyles from './ChartSidecar.module.scss'
 import styles from './SocialContext.module.scss'
-import GetHypedTrends from '../../components/Trends/GetHypedTrends'
-
-export const SOCIAL_SIDEBAR = 'SOCIAL_SIDEBAR'
 
 // TODO: move to utils/hooks [@vanguard | Nov 19, 2019]
 function useDebounce (fn, time, dependencies = []) {
@@ -93,7 +92,7 @@ const SocialContext = ({
           wrapper: cx(
             sharedStyles.toggle,
             styles.toggle,
-            isAdvancedView || classes.sidecar__toggle
+            isAdvancedView || classes.sidecar__toggle_social
           )
         }}
       >

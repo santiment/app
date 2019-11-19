@@ -10,13 +10,17 @@ import Charts from './Charts'
 import Header from './Header'
 import TooltipSynchronizer from './TooltipSynchronizer'
 import { getMarketSegment, mapDatetimeToNumber } from './utils'
-import { Metrics, Events, compatabilityMap } from './data'
+import {
+  Metrics,
+  Events,
+  compatabilityMap,
+  SOCIAL_SIDEBAR,
+  ASSETS_SIDEBAR
+} from './data'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
-import { SOCIAL_SIDEBAR } from './SocialContext'
-import { ASSETS_SIDEBAR } from './ChartSidecar'
 import styles from './ChartPage.module.scss'
 
 const DEFAULT_TIME_RANGE = '6m'

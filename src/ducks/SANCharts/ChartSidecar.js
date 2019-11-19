@@ -8,9 +8,8 @@ import RecentlyWatched, {
 } from '../../components/RecentlyWatched/RecentlyWatched'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import SidecarExplanationTooltip from './SidecarExplanationTooltip'
+import { ASSETS_SIDEBAR } from './data'
 import styles from './ChartSidecar.module.scss'
-
-export const ASSETS_SIDEBAR = 'ASSETS_SIDEBAR'
 
 const ChartSidecar = ({
   onSlugSelect,
@@ -53,7 +52,10 @@ const ChartSidecar = ({
     <div className={cx(styles.wrapper, isAdvancedView && styles.opened)}>
       <SidecarExplanationTooltip
         classes={{
-          wrapper: cx(styles.toggle, isAdvancedView || classes.sidecar__toggle)
+          wrapper: cx(
+            styles.toggle,
+            isAdvancedView || classes.sidecar__toggle_assets
+          )
         }}
       >
         <div
