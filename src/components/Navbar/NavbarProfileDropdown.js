@@ -10,8 +10,7 @@ import * as actions from '../../actions/types'
 import { dateDifference, DAY } from '../../utils/dates'
 import {
   getCurrentSanbaseSubscription,
-  neuroProductId,
-  sanbaseProductId
+  neuroProductId
 } from '../../utils/plans'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import UpgradeBtn from '../UpgradeBtn/UpgradeBtn'
@@ -128,7 +127,11 @@ export const NavbarProfileDropdown = ({
             status={
               <div className={styles.plan}>
                 <Query query={USER_SUBSCRIPTIONS_QUERY}>
-                  {({ data: { currentUser = {} } = {} }) => {
+                  {({ loading, data: { currentUser = {} } = {} }) => {
+                    if (loading) {
+                      return 'Loading...'
+                    }
+
                     const { subscriptions } = currentUser || {}
 
                     const sanbaseSubscription = getCurrentSanbaseSubscription(
@@ -148,8 +151,9 @@ export const NavbarProfileDropdown = ({
 
                     return (
                       <>
-                        {subscriptions
-                          ? subscriptions.map(subscription => {
+                        {sanbaseText}
+                        {subscriptions &&
+                          subscriptions.map(subscription => {
                             const {
                               plan: {
                                 product: { id }
@@ -157,9 +161,6 @@ export const NavbarProfileDropdown = ({
                             } = subscription
 
                             switch (id) {
-                              case sanbaseProductId: {
-                                return sanbaseText
-                              }
                               case neuroProductId: {
                                 return getSubscriptionText(
                                   subscription,
@@ -170,8 +171,7 @@ export const NavbarProfileDropdown = ({
                                 return null
                               }
                             }
-                          })
-                          : sanbaseText}
+                          })}
                         {!isProSanbase && (
                           <UpgradeBtn className={styles.upgrade} />
                         )}
