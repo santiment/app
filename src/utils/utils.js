@@ -319,29 +319,7 @@ const pickFork = (...forks) => props => {
  * @param {String} address the given HEX adress
  * @return {Boolean}
  */
-const isEthStrictAddress = address => isEthAddress(address)
-
-/**
- * Checks if the given string is an address
- *
- * @method isEthAddress
- * @param {String} address the given HEX adress
- * @return {Boolean}
- */
-const isEthAddress = address => {
-  if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
-    // check if it has the basic requirements of an address
-    return false
-  } else if (
-    /^(0x)?[0-9a-f]{40}$/.test(address) ||
-    /^(0x)?[0-9A-F]{40}$/.test(address)
-  ) {
-    // If it's all small caps or all all caps, return true
-    return true
-  } else {
-    return false
-  }
-}
+const isEthStrictAddress = address => /^(0x)?[0-9a-fA-F]{40}$/.test(address)
 
 const mapItemsToKeys = (items, { keyPath, getKeyPath }) =>
   items.reduce(

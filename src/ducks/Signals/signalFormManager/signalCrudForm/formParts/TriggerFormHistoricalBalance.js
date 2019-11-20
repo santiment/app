@@ -28,7 +28,6 @@ const isInHeldAssets = (heldAssets, checking) => {
 const ETHEREUM = 'ethereum'
 
 const isErc20Assets = (target, allErc20Projects) =>
-  allErc20Projects.length === 0 ||
   target.value === ETHEREUM ||
   target.slug === ETHEREUM ||
   (Array.isArray(target)
@@ -141,30 +140,20 @@ const TriggerFormHistoricalBalance = ({
     [allErc20Projects, allProjects, assets]
   )
 
+  useEffect(() => validateTarget(), [target, ethAddress])
+
   useEffect(
-    () => {
-      validateTarget()
+    () =>
       setFieldValue(
         'isEthOrErc20Error',
-        isErc20Assets(target, erc20List) && !hasEthAddress(ethAddress)
-      )
-    },
-    [target, ethAddress]
+        isErc20Assets(target, erc20List) ? !hasEthAddress(ethAddress) : false
+      ),
+    [target, ethAddress, erc20List]
   )
 
-  useEffect(
-    () => {
-      validateAddressField(target)
-    },
-    [target]
-  )
+  useEffect(() => validateAddressField(target), [target])
 
-  useEffect(
-    () => {
-      setFieldValue('isLoading', isLoading)
-    },
-    [isLoading]
-  )
+  useEffect(() => setFieldValue('isLoading', isLoading), [isLoading])
 
   useEffect(
     () => {
@@ -196,7 +185,9 @@ const TriggerFormHistoricalBalance = ({
             isCreatable
             multi
             name='ethAddress'
-            validator={isEthAddress}
+            validator={value => {
+              return disabledWalletField || isEthAddress(value)
+            }}
             notificationText={NOT_VALID_ETH_ADDRESS}
             placeholder={
               disabledWalletField
