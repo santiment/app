@@ -92,7 +92,7 @@ const getSubscriptionText = (subscription, productName) => {
   }
 
   return (
-    <div>
+    <div key={productName + text}>
       {productName && (
         <span className={styles.productName}>{productName}: </span>
       )}
