@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'semantic-ui-react'
+import Button from '@santiment-network/ui/Button'
 import './BuildChallenge.css'
 
 const BuildChallenge = () => {
@@ -28,7 +28,9 @@ const BuildChallenge = () => {
       <hr />
       <div className='cta-block'>
         <div className='cta-block-button'>
-          <Button basic color='green' content='Submit' />
+          <Button accent='positive' border>
+            Submit
+          </Button>
           <div>#SantimentChallenge</div>
         </div>
       </div>

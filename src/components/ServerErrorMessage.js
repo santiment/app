@@ -1,5 +1,5 @@
 import React from 'react'
-import { Message } from 'semantic-ui-react'
+import Message from '@santiment-network/ui/Message'
 
 const AssetsTableErrorMessage = () => (
   <div
@@ -10,11 +10,11 @@ const AssetsTableErrorMessage = () => (
       height: '80vh'
     }}
   >
-    <Message warning>
-      <Message.Header>
-        We're sorry, something has gone wrong on our server.
-      </Message.Header>
-      <p>Please try again later.</p>
+    <Message variant='warn'>
+      <div>
+        <h5>We're sorry, something has gone wrong on our server.</h5>
+        <p>Please try again later.</p>
+      </div>
     </Message>
   </div>
 )
