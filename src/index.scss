@@ -18,6 +18,18 @@ body {
   font: 14px/1.6 'Rubik', sans-serif;
   font-weight: 400;
   color: var(--shark);
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  text-decoration-line: none;
+  text-decoration-style: initial;
+  text-decoration-color: initial;
 }
 
 a:hover,
