@@ -86,6 +86,31 @@ const getCategoryGraph = availableMetrics => {
   return categories
 }
 
+const predicate = searchTerm => {
+  const upperCaseSearchTerm = searchTerm.toUpperCase()
+  return ({ label }) => label.toUpperCase().includes(upperCaseSearchTerm)
+}
+
+const suggestionContent = ({ label }) => label
+
+const getMetricSuggestions = categories => {
+  const suggestions = []
+  for (const categoryKey in categories) {
+    const category = categories[categoryKey]
+    const items = []
+    for (const group in category) {
+      items.push(...category[group])
+    }
+    suggestions.push({
+      suggestionContent,
+      items,
+      title: categoryKey,
+      predicate: predicate
+    })
+  }
+  return suggestions
+}
+
 const ActionBtn = ({ metric, children, isActive, isDisabled, ...props }) => {
   return (
     <Button
@@ -134,31 +159,6 @@ const countCategoryActiveMetrics = (activeMetrics = []) => {
   return counter
 }
 
-const predicate = searchTerm => {
-  const upperCaseSearchTerm = searchTerm.toUpperCase()
-  return ({ label }) => label.toUpperCase().includes(upperCaseSearchTerm)
-}
-
-const suggestionContent = ({ label }) => label
-
-const getMetricSuggestions = categories => {
-  const suggestions = []
-  for (const categoryKey in categories) {
-    const category = categories[categoryKey]
-    const items = []
-    for (const group in category) {
-      items.push(...category[group])
-    }
-    suggestions.push({
-      suggestionContent,
-      items,
-      title: categoryKey,
-      predicate: predicate
-    })
-  }
-  return suggestions
-}
-
 const ChartMetricSelector = ({
   className = '',
   toggleMetric,
@@ -171,7 +171,6 @@ const ChartMetricSelector = ({
 }) => {
   const [activeCategory, setCategory] = useState('Financial')
 
-  const suggestions = getMetricSuggestions(categories)
   const actives = [...activeEvents, ...activeMetrics]
   const categoryActiveMetricsCounter = countCategoryActiveMetrics(actives)
 
@@ -183,7 +182,7 @@ const ChartMetricSelector = ({
       <div className={styles.search}>
         <SearchWithSuggestions
           withMoreSuggestions={false}
-          data={suggestions}
+          data={getMetricSuggestions(categories)}
           onSuggestionSelect={({ item }) => toggleMetric(item)}
           dontResetStateAfterSelection
         />
