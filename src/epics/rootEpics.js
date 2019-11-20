@@ -67,10 +67,6 @@ import {
   toggleNotificationChannelEpic
 } from '../pages/Account/epics'
 import keyboardEpic from './keyboardEpic'
-import {
-  insightDraftPublishEpic,
-  insightDraftUpdateEpic
-} from '../pages/Insights/insightDraftEpic'
 import { likesEpic } from '../components/Like/likesEpic'
 import { wordTrendSocialVolumeEpic } from '../pages/Trends/changesEpic.js'
 import {
@@ -140,9 +136,6 @@ export default combineEpics(
   toggleSignalEpic,
   removeSignalEpic,
   fetchHistorySignalPoints,
-  // insight draft creation
-  insightDraftUpdateEpic,
-  insightDraftPublishEpic,
   // likes
   likesEpic,
   // trend changes

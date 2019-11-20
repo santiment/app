@@ -105,11 +105,6 @@ const LoadableSearchMobilePage = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableInsights = Loadable({
-  loader: () => import('./pages/Insights/'),
-  loading: () => <PageLoader />
-})
-
 const LoadableChartPage = Loadable({
   loader: () => import('./pages/Chart'),
   loading: () => <PageLoader />
@@ -272,16 +267,7 @@ export const App = ({
           path='/labs/social-movers'
           component={LoadableGainersAndLosersPage}
         />
-        <Route
-          path='/insights'
-          render={props => (
-            <LoadableInsights
-              isDesktop={isDesktop}
-              isLoggedIn={isLoggedIn}
-              {...props}
-            />
-          )}
-        />
+        {/* <Redirect from='/insights' to='https://insights.santiment.net/' /> */}
         <Route
           exact
           path='/projects/:slug'
