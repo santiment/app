@@ -6,6 +6,7 @@ import Panel from '@santiment-network/ui/Panel'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
+import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 import MetricExplanation from './MetricExplanation'
 import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
@@ -85,6 +86,31 @@ const getCategoryGraph = availableMetrics => {
   return categories
 }
 
+const predicate = searchTerm => {
+  const upperCaseSearchTerm = searchTerm.toUpperCase()
+  return ({ label }) => label.toUpperCase().includes(upperCaseSearchTerm)
+}
+
+const suggestionContent = ({ label }) => label
+
+const getMetricSuggestions = categories => {
+  const suggestions = []
+  for (const categoryKey in categories) {
+    const category = categories[categoryKey]
+    const items = []
+    for (const group in category) {
+      items.push(...category[group])
+    }
+    suggestions.push({
+      suggestionContent,
+      items,
+      title: categoryKey,
+      predicate: predicate
+    })
+  }
+  return suggestions
+}
+
 const ActionBtn = ({ metric, children, isActive, isDisabled, ...props }) => {
   return (
     <Button
@@ -153,6 +179,14 @@ const ChartMetricSelector = ({
       <Panel.Title className={styles.header}>
         Select up to 5 metrics
       </Panel.Title>
+      <div className={styles.search}>
+        <SearchWithSuggestions
+          withMoreSuggestions={false}
+          data={getMetricSuggestions(categories)}
+          onSuggestionSelect={({ item }) => toggleMetric(item)}
+          dontResetStateAfterSelection
+        />
+      </div>
       <Panel.Content className={cx(styles.wrapper, className)}>
         {loading && (
           <div className={styles.loader}>
