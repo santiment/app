@@ -141,6 +141,10 @@ class Route extends React.Component {
 
 const ExternalRoutes = [
   {
+    to: 'https://insights.santiment.net',
+    routes: ['insights']
+  },
+  {
     to: 'https://sheets.santiment.net',
     routes: ['sheets']
   },
@@ -267,7 +271,6 @@ export const App = ({
           path='/labs/social-movers'
           component={LoadableGainersAndLosersPage}
         />
-        {/* <Redirect from='/insights' to='https://insights.santiment.net/' /> */}
         <Route
           exact
           path='/projects/:slug'
