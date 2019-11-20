@@ -14,9 +14,7 @@ const BalanceViewChartSettings = ({
   onCalendarChange,
   from,
   to,
-  classes = {
-    chartSettings: ''
-  },
+  classes = {},
   queryString = '',
   toggleYAxes,
   showYAxes,
@@ -35,53 +33,58 @@ const BalanceViewChartSettings = ({
         defaultSelected={defaultTimerange}
       />
 
-      <CalendarBtn
-        className={classes.calendarButton}
-        onChange={onCalendarChange}
-        value={[new Date(from), new Date(to)]}
-      />
+      <div className={balanceViewStyles.dateAndSettings}>
+        <CalendarBtn
+          className={classes.calendarButton}
+          onChange={onCalendarChange}
+          value={[new Date(from), new Date(to)]}
+        />
 
-      <ChartSettingsContextMenu
-        showNightModeToggle={false}
-        shareLink={window.location.origin + '/labs/balance' + queryString}
-        showDownload={false}
-        showMulti={false}
-        classes={balanceViewStyles}
-        onScaleChange={onScaleChange}
-        scale={scale}
-      >
-        <Button
-          fluid
-          variant='ghost'
-          onClick={() => toggleYAxes(!showYAxes)}
-          className={balanceViewStyles.toggleY}
+        <ChartSettingsContextMenu
+          showNightModeToggle={false}
+          shareLink={window.location.origin + '/labs/balance' + queryString}
+          showDownload={false}
+          showMulti={false}
+          classes={balanceViewStyles}
+          onScaleChange={onScaleChange}
+          scale={scale}
         >
-          <span className={balanceViewStyles.toggleLabel}>Show Y axis</span>
-          <Toggle isActive={showYAxes} className={balanceViewStyles.toggler} />
-        </Button>
-        <div className={balanceViewStyles.divider} />
-        <div className={balanceViewStyles.prices}>
-          {priceMetrics.map((metric, index) => {
-            return (
-              <Button
-                key={index}
-                fluid
-                variant='ghost'
-                onClick={() => toggleAsset(metric)}
-                className={balanceViewStyles.toggleY}
-              >
-                <span className={balanceViewStyles.toggleLabel}>
-                  Price of {metric.asset}
-                </span>
-                <Toggle
-                  isActive={metric.enabled}
-                  className={balanceViewStyles.toggler}
-                />
-              </Button>
-            )
-          })}
-        </div>
-      </ChartSettingsContextMenu>
+          <Button
+            fluid
+            variant='ghost'
+            onClick={() => toggleYAxes(!showYAxes)}
+            className={balanceViewStyles.toggleY}
+          >
+            <span className={balanceViewStyles.toggleLabel}>Show Y axis</span>
+            <Toggle
+              isActive={showYAxes}
+              className={balanceViewStyles.toggler}
+            />
+          </Button>
+          <div className={balanceViewStyles.divider} />
+          <div className={balanceViewStyles.prices}>
+            {priceMetrics.map((metric, index) => {
+              return (
+                <Button
+                  key={index}
+                  fluid
+                  variant='ghost'
+                  onClick={() => toggleAsset(metric)}
+                  className={balanceViewStyles.toggleY}
+                >
+                  <span className={balanceViewStyles.toggleLabel}>
+                    Price of {metric.asset}
+                  </span>
+                  <Toggle
+                    isActive={metric.enabled}
+                    className={balanceViewStyles.toggler}
+                  />
+                </Button>
+              )
+            })}
+          </div>
+        </ChartSettingsContextMenu>
+      </div>
     </div>
   )
 }
