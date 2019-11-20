@@ -46,6 +46,8 @@ const tooltipValueFormatter = (value, dataKey, payload) => {
 const getWalletsLines = (wallets, showYAxes, scale) => {
   const acc = []
 
+  // GarageInc: sometimes, if scale='log' and showYAxes='true' then Y-axis can't be displayed. Bug of recharts
+
   wallets.forEach((name, index) => {
     acc.push(
       <YAxis
@@ -55,8 +57,10 @@ const getWalletsLines = (wallets, showYAxes, scale) => {
         stroke={COLORS[index]}
         key={name}
         scale={scale}
-        domain={['auto', 'dataMax']}
         type='number'
+        dataKey={name}
+        domain={['auto', 'dataMax']}
+        allowDataOverflow
       />,
       <Line
         type='linear'

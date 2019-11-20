@@ -45,6 +45,7 @@ const BalanceViewChartSettings = ({
         showNightModeToggle={false}
         shareLink={window.location.origin + '/labs/balance' + queryString}
         showDownload={false}
+        showMulti={false}
         classes={balanceViewStyles}
         onScaleChange={onScaleChange}
         scale={scale}
@@ -55,7 +56,7 @@ const BalanceViewChartSettings = ({
           onClick={() => toggleYAxes(!showYAxes)}
           className={balanceViewStyles.toggleY}
         >
-          <span className={balanceViewStyles.toggleLabel}>Show Y axes</span>
+          <span className={balanceViewStyles.toggleLabel}>Show Y axis</span>
           <Toggle isActive={showYAxes} className={balanceViewStyles.toggler} />
         </Button>
         <div className={balanceViewStyles.divider} />
