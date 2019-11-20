@@ -1,5 +1,5 @@
 import React from 'react'
-import { Label } from 'semantic-ui-react'
+import Button from '@santiment-network/ui/Button'
 
 const Status = () => {
   return (
@@ -11,9 +11,9 @@ const Status = () => {
       }}
     >
       <h1>
-        <Label size='massive' color='green' horizontal>
+        <Button accent='positive' variant='fill'>
           All System Operational!
-        </Label>
+        </Button>
       </h1>
     </div>
   )

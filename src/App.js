@@ -105,11 +105,6 @@ const LoadableSearchMobilePage = Loadable({
   loading: () => <PageLoader />
 })
 
-const LoadableInsights = Loadable({
-  loader: () => import('./pages/Insights/'),
-  loading: () => <PageLoader />
-})
-
 const LoadableChartPage = Loadable({
   loader: () => import('./pages/Chart'),
   loading: () => <PageLoader />
@@ -145,6 +140,10 @@ class Route extends React.Component {
 }
 
 const ExternalRoutes = [
+  {
+    to: 'https://insights.santiment.net',
+    routes: ['insights']
+  },
   {
     to: 'https://sheets.santiment.net',
     routes: ['sheets']
@@ -271,16 +270,6 @@ export const App = ({
           exact
           path='/labs/social-movers'
           component={LoadableGainersAndLosersPage}
-        />
-        <Route
-          path='/insights'
-          render={props => (
-            <LoadableInsights
-              isDesktop={isDesktop}
-              isLoggedIn={isLoggedIn}
-              {...props}
-            />
-          )}
         />
         <Route
           exact

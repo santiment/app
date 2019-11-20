@@ -85,27 +85,33 @@ const mockedData = {
     allInsightsByTag: [
       {
         ...insightFields,
+        title: 'BTC + DOGE',
         id: 0,
         tags: [{ name: 'BTC' }, { name: 'DOGE' }]
       },
       {
         ...insightFields,
+        title: 'ETH',
         id: 1,
         tags: [{ name: 'ETH' }]
       },
       {
         ...insightFields,
+        title: 'DOGE',
         id: 2,
         tags: [{ name: 'DOGE' }]
       },
       {
         ...insightFields,
+        title: 'BCH + DOGE + ETH',
         id: 3,
         tags: [{ name: 'BCH' }, { name: 'DOGE' }, { name: 'ETH' }]
       }
     ]
   }
 }
+
+const allMockedInsights = mockedData.insights.allInsightsByTag.slice()
 
 const getInsightTrendTagByDate = date =>
   `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}-trending-words`
@@ -207,13 +213,17 @@ describe('Connect Trending Words', () => {
     ])
     const epic$ = connectedWordsEpic(action$, mockStore({}), { client })
     const promise = epic$.toPromise()
-    const result = await promise
+    const {
+      payload: { TrendToInsights }
+    } = await promise
 
-    const mockedInsights = mockedData.insights.allInsightsByTag.map(
+    const mockedInsights = allMockedInsights.map(
       ({ tags, ...insight }) => insight
     )
-
-    expect(result.payload.TrendToInsights).toEqual({
+    Object.keys(TrendToInsights).forEach(key => {
+      TrendToInsights[key].sort(({ id: a }, { id: b }) => a - b)
+    })
+    expect(TrendToInsights).toEqual({
       BCH: [mockedInsights[3]],
       BTC: [mockedInsights[0]],
       DOGE: [mockedInsights[0], mockedInsights[2], mockedInsights[3]],

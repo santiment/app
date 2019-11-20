@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
-import { Popup } from 'semantic-ui-react'
+import Tooltip from '@santiment-network/ui/Tooltip'
 
 export const style = {
   maxWidth: 465,
@@ -15,18 +15,21 @@ const HelpPopup = ({
   children,
   content,
   className,
-  position = 'bottom center',
+  position = 'bottom',
+  align = 'center',
   trigger = HelpPopupTrigger
 }) => {
   const render = content || children
   return (
-    <Popup
-      content={render}
+    <Tooltip
       trigger={trigger}
       position={position}
+      align={align}
       on='hover'
       style={style}
-    />
+    >
+      {render}
+    </Tooltip>
   )
 }
 

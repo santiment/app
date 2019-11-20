@@ -87,10 +87,14 @@ describe('Chart utils', () => {
           metrics: new Map([['daily_active_addresses', { width: 135, x: 0 }]])
         },
         {
-          metrics: new Map([['daily_active_addresses', { width: 135, x: 145 }]])
+          metrics: new Map([
+            ['daily_active_addresses', { width: 135, x: 145 }]
+          ])
         },
         {
-          metrics: new Map([['daily_active_addresses', { width: 135, x: 290 }]])
+          metrics: new Map([
+            ['daily_active_addresses', { width: 135, x: 290 }]
+          ])
         },
         {
           metrics: new Map([

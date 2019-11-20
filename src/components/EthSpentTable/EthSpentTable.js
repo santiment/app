@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactTable from 'react-table'
-import cx from 'classnames'
-import { Loader } from 'semantic-ui-react'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import { columns } from './columns'
 import '../../pages/Projects/ProjectsTable.css'
@@ -42,16 +41,9 @@ const EthSpentTable = ({
         className={styles.ethSpentTable}
         data={items}
         columns={columns}
-        LoadingComponent={({ className, loading, loadingText, ...rest }) => (
-          <div
-            className={cx('-loading', { '-active': loading }, className)}
-            {...rest}
-          >
-            <div className='-loading-inner'>
-              <Loader active size='large' />
-            </div>
-          </div>
-        )}
+        LoadingComponent={({ className, loading, loadingText, ...rest }) =>
+          loading && <Loader className={styles.loader} />
+        }
       />
     </PanelWithHeader>
   )
