@@ -213,18 +213,22 @@ describe('Connect Trending Words', () => {
     ])
     const epic$ = connectedWordsEpic(action$, mockStore({}), { client })
     const promise = epic$.toPromise()
-    const result = await promise
+    const {
+      payload: { TrendToInsights }
+    } = await promise
 
     const mockedInsights = allMockedInsights.map(
       ({ tags, ...insight }) => insight
     )
-
-    expect(result.payload.TrendToInsights).toEqual({
+    Object.keys(TrendToInsights).forEach(key => {
+      TrendToInsights[key].sort(({ id: a }, { id: b }) => a - b)
+    })
+    expect(TrendToInsights).toEqual({
       BCH: [mockedInsights[3]],
       BTC: [mockedInsights[0]],
-      DOGE: [mockedInsights[3], mockedInsights[2], mockedInsights[0]],
-      ETHEREUM: [mockedInsights[3], mockedInsights[1]],
-      ETH: [mockedInsights[3], mockedInsights[1]]
+      DOGE: [mockedInsights[0], mockedInsights[2], mockedInsights[3]],
+      ETHEREUM: [mockedInsights[1], mockedInsights[3]],
+      ETH: [mockedInsights[1], mockedInsights[3]]
     })
   })
 })
