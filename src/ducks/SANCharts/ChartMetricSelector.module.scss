@@ -99,6 +99,11 @@
 
   .disabled {
     background: transparent !important;
+    pointer-events: all !important;
+
+    .btn__action {
+      background: var(--porcelain);
+    }
   }
 }
 
@@ -142,25 +147,6 @@
   align-items: center;
   justify-content: center;
   font-size: 7px;
-}
-
-.note {
-  padding: 8px;
-  margin: 9px 0;
-  color: var(--fiord);
-  background-color: var(--athens);
-
-  @include text('caption');
-
-  & .warning {
-    color: var(--persimmon);
-    font-weight: bold;
-    margin-right: 5px;
-  }
-
-  & .text {
-    margin-right: 5px;
-  }
 }
 
 .search {

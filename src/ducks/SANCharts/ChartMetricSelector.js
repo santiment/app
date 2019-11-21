@@ -16,13 +16,6 @@ import styles from './ChartMetricSelector.module.scss'
 
 const NO_GROUP = '_'
 
-Events.trendPositionHistory.note = (
-  <p className={styles.note}>
-    <span className={styles.warning}>Important!</span>
-    <span className={styles.text}>It will disable Anomalies</span>
-  </p>
-)
-
 const addItemToGraph = (categories, metricCategories, metrics) => {
   ;(typeof metricCategories === 'string'
     ? [metricCategories]
@@ -111,7 +104,10 @@ const getMetricSuggestions = categories => {
   return suggestions
 }
 
-const ActionBtn = ({ metric, children, isActive, isDisabled, ...props }) => {
+const ActionBtn = ({ metric, children, isActive, error = '', ...props }) => {
+  const isComplexityError = error.includes('complexity')
+  const noData = error && !isComplexityError
+
   return (
     <Button
       variant='ghost'
@@ -119,11 +115,11 @@ const ActionBtn = ({ metric, children, isActive, isDisabled, ...props }) => {
       className={styles.btn}
       classes={styles}
       isActive={isActive}
-      disabled={isDisabled}
+      disabled={error}
       {...props}
     >
       <div className={styles.btn__left}>
-        {isDisabled ? (
+        {noData ? (
           <span className={styles.btn_disabled}>no data</span>
         ) : (
           <ExplanationTooltip
@@ -143,7 +139,7 @@ const ActionBtn = ({ metric, children, isActive, isDisabled, ...props }) => {
         )}{' '}
         {children}
       </div>
-      <MetricExplanation {...metric}>
+      <MetricExplanation {...metric} isComplexityError={isComplexityError}>
         <Icon type='info-round' className={styles.info} />
       </MetricExplanation>
     </Button>
@@ -232,15 +228,17 @@ const ChartMetricSelector = ({
                     )}
                     {categories[activeCategory][group].map(metric => {
                       const isActive = actives.includes(metric)
-                      const isDisabled = disabledMetrics.includes(metric.key)
+                      const error = disabledMetrics[metric.key]
 
                       return (
                         <ActionBtn
                           key={metric.label}
                           metric={metric}
-                          onClick={() => toggleMetric(metric)}
+                          onClick={
+                            error ? undefined : () => toggleMetric(metric)
+                          }
                           isActive={isActive}
-                          isDisabled={isDisabled}
+                          error={error}
                         >
                           {metric.label}
                         </ActionBtn>

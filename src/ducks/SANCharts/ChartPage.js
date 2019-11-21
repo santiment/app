@@ -560,7 +560,7 @@ class ChartPage extends Component {
                           classes={styles}
                           slug={slug}
                           toggleMetric={this.toggleMetric}
-                          disabledMetrics={errors}
+                          disabledMetrics={errorMetrics}
                           activeMetrics={finalMetrics}
                           activeEvents={events}
                           showToggleAnomalies={showToggleAnomalies}
