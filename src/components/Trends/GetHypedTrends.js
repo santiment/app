@@ -35,10 +35,8 @@ const sortByHype = items => {
   return items
 }
 
-const mapStateToProps = state => {
-  return {
-    ...state.hypedTrends
-  }
+const mapStateToProps = ({ hypedTrends: { onlyTrends, ...state } }) => {
+  return state
 }
 
 const mapDispatchToProps = dispatch => ({
