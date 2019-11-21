@@ -7,7 +7,9 @@ export const formatPrice = (price, name, billing) => {
   return [`$${parseInt(price / devider, 10)}`, '/mo']
 }
 
-const sanbaseProductId = '2'
+export const sanbaseProductId = '2'
+export const neuroProductId = '1'
+
 export const findSanbasePlan = ({ id }) => id === sanbaseProductId
 
 export const noBasicPlan = ({ name }) => name !== 'BASIC'
