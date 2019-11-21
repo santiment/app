@@ -30,7 +30,7 @@ const ChartSettings = ({
   onScaleChange,
   chartData
 }) => {
-  const shareLink = generateShareLink(Object.keys(disabledMetrics))
+  const shareLink = generateShareLink(disabledMetrics)
 
   const notAdvancedView = !isAdvancedView
   return (
