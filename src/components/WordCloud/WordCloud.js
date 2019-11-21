@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import TagCloud from 'react-tag-cloud'
 import { graphql } from 'react-apollo'
 import HelpPopupWordCloud from './HelpPopupWordCloud'

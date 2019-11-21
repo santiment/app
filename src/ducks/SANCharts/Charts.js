@@ -463,8 +463,7 @@ class Charts extends React.Component {
       syncedColors,
       isSignalsEnabled,
       signalLines,
-      signalData,
-      interval
+      signalData
     } = this.props
 
     const {

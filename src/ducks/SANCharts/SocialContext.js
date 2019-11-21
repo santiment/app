@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import WordCloud from '../../components/WordCloud/WordCloud'
 import TrendsTable from '../../components/Trends/TrendsTable/TrendsTable'
 import Icon from '@santiment-network/ui/Icon'
@@ -8,18 +7,9 @@ import SidecarExplanationTooltip from './SidecarExplanationTooltip'
 import GetHypedTrends from '../../components/Trends/GetHypedTrends'
 import { parseIntervalString } from '../../utils/dates'
 import { SOCIAL_SIDEBAR } from './data'
+import { useDebounce } from '../../hooks'
 import sharedStyles from './ChartSidecar.module.scss'
 import styles from './SocialContext.module.scss'
-
-// TODO: move to utils/hooks [@vanguard | Nov 19, 2019]
-function useDebounce (fn, time, dependencies = []) {
-  const [timer, setTimer] = useState()
-  useEffect(() => {
-    clearTimeout(timer)
-    setTimer(setTimeout(fn, time))
-    return () => clearTimeout(timer)
-  }, dependencies)
-}
 
 const Content = ({ interval, date, projectName }) => {
   const [period, setPeriod] = useState({})
@@ -118,12 +108,6 @@ SocialContext.defaultProps = {
   date: Date.now(),
   interval: '1d',
   projectName: 'bitcoin'
-}
-
-SocialContext.propTypes = {
-  date: PropTypes.any,
-  interval: PropTypes.string,
-  projectName: PropTypes.string
 }
 
 export default SocialContext
