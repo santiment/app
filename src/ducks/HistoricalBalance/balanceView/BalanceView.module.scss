@@ -152,13 +152,21 @@
   @include responsive('tablet', 'phone', 'phone-xs') {
     margin: 0 0 3px auto;
   }
+
+  @include responsive('tablet') {
+    margin-bottom: 16px;
+  }
 }
 
 .datesSelector {
   margin-right: 16px;
 
-  @include responsive('tablet', 'phone', 'phone-xs') {
+  @include responsive('tablet') {
     margin: 0 0 0 auto;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 8px 0 0 auto;
   }
 }
 
@@ -183,4 +191,19 @@
   width: 100%;
   margin: 15px 0;
   position: relative;
+}
+
+.chartSettings {
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+
+.dateAndSettings {
+  display: flex;
+
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+  }
 }
