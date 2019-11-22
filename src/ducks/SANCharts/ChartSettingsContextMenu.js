@@ -39,7 +39,9 @@ const ChartSettingsContextMenu = ({
   isMultiChartsActive,
   onMultiChartsChange,
   children,
-  chartData
+  chartData,
+  events,
+  eventsData
 }) => {
   return (
     <ContextMenu
@@ -111,6 +113,8 @@ const ChartSettingsContextMenu = ({
               variant='ghost'
               title={title}
               chartData={chartData}
+              events={events}
+              eventsData={eventsData}
               metrics={activeMetrics}
             >
               <Icon type='save' className={styles.icon} />

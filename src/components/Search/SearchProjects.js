@@ -146,8 +146,13 @@ const enhance = compose(
     }),
     props: ({ data: { allProjects = [] } }) => {
       const projects = allProjects.length > 0 ? allProjects : ALL_PROJECTS
+
       return {
-        projects: projects.slice().sort(({ rank: a }, { rank: b }) => a - b)
+        projects: projects
+          .slice()
+          .sort(
+            ({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity)
+          )
       }
     }
   })

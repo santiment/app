@@ -124,6 +124,10 @@ export const TriggerProjectsSelector = ({
       })
   }
 
+  const sortedProjects = projects
+    .slice()
+    .sort(({ rank: a }, { rank: b }) => (a || Infinity) - (b || Infinity))
+
   return (
     <Dialog
       title={title}
@@ -144,7 +148,7 @@ export const TriggerProjectsSelector = ({
           noTrends
           searchIconPosition='left'
           className={styles.search}
-          projects={projects.slice().sort(({ rank: a }, { rank: b }) => a - b)}
+          projects={sortedProjects}
           suggestionsProps={{ style: { zIndex: 50 } }}
           checkedAssets={checkedAssetsAsSet}
           onSuggestionSelect={onSuggestionSelect}
@@ -166,7 +170,7 @@ export const TriggerProjectsSelector = ({
           <ProjectsList
             classes={styles}
             listItems={listItems}
-            items={projects}
+            items={sortedProjects}
             hideCheckboxes={isSingle}
             onToggleProject={toggleAsset}
           />
