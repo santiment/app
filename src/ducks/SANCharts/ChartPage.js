@@ -555,6 +555,8 @@ class ChartPage extends Component {
                           title={title}
                           chartRef={this.chartRef}
                           chartData={timeseries}
+                          events={events}
+                          eventsData={eventsFiltered}
                         />
                         <LoadableChartMetricsTool
                           classes={styles}
