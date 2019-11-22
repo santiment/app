@@ -3,16 +3,14 @@ import cx from 'classnames'
 import { connect } from 'react-redux'
 import styles from './UserAvatar.module.scss'
 
-const UserAvatar = ({ className, avatarUrl = '' }) => {
-  return (
-    <div
-      className={cx(styles.avatar, className)}
-      style={{
-        '--avatarUrl': `url("${avatarUrl}")`
-      }}
-    />
-  )
-}
+const UserAvatar = ({ className, avatarUrl = '' }) => (
+  <div
+    className={cx(styles.avatar, className)}
+    style={{
+      backgroundImage: `url("${avatarUrl}"`
+    }}
+  />
+)
 
 const mapStateToProps = ({ user: { data } }) => {
   return {

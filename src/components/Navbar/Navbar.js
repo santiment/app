@@ -78,7 +78,11 @@ const rightBtns = [
     makeActive: true
   },
   {
-    icon: () => <UserAvatar className={styles.avatar} />,
+    icon: () => (
+      <Link to='/account'>
+        <UserAvatar className={styles.avatar} />
+      </Link>
+    ),
     el: NavbarProfileDropdown,
     links: ['/account']
   }

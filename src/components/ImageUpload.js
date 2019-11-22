@@ -2,7 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
-const UPLOAD_IMG_QUERY = gql`
+export const UPLOAD_IMG_QUERY = gql`
   mutation($images: [Upload!]!) {
     uploadImage(images: $images) {
       contentHash
@@ -13,13 +13,14 @@ const UPLOAD_IMG_QUERY = gql`
   }
 `
 
-const ImageUploadTrigger = <input type='file' multiple required />
+const ImageUploadTrigger = props => (
+  <input type='file' multiple required {...props} />
+)
 
 export default graphql(UPLOAD_IMG_QUERY)(
   ({ mutate, trigger: El = ImageUploadTrigger }) => {
     const onChange = ({ target: { validity, files } }) => {
       console.log(files)
-      debugger
       validity.valid &&
         mutate({ variables: { images: files } }).then((...rest) => {
           console.log(rest)

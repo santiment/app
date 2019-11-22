@@ -1,59 +1,78 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import Cropper from 'react-easy-crop'
 import Dialog from '@santiment-network/ui/Dialog'
 import Button from '@santiment-network/ui/Button'
+import getCroppedImg from './utils'
+import ImageUpload from '../../../../components/ImageUpload'
 import styles from './ImageEditor.module.scss'
 
-const ImageEditor = ({ children, className, onChange }) => {
-  const [state, setState] = useState({
-    imageSrc:
-      'https://img.huffingtonpost.com/asset/5ab4d4ac2000007d06eb2c56.jpeg?cache=sih0jwle4e&ops=1910_1000',
-    crop: { x: 0, y: 0 },
-    zoom: 1,
-    aspect: 1
-  })
+const ImageEditor = ({
+  imageUrl,
+  children,
+  className,
+  onChange,
+  setOpen,
+  isOpen
+}) => {
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [rotation, setRotation] = useState(0)
+  const [zoom, setZoom] = useState(1)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
 
-  const onCropChange = crop => {
-    setState({ ...state, crop })
-  }
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels)
+  }, [])
 
-  const onCropComplete = (croppedArea, croppedAreaPixels) => {
-    console.log(croppedAreaPixels.width / croppedAreaPixels.height)
-  }
+  const showCroppedImage = useCallback(
+    async () => {
+      try {
+        const croppedImage = await getCroppedImg(
+          imageUrl,
+          croppedAreaPixels,
+          rotation
+        )
 
-  const onZoomChange = zoom => {
-    setState({ ...state, zoom })
-  }
-
-  const { imageSrc, crop, zoom, aspect } = state
+        onChange(croppedImage)
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    [croppedAreaPixels, rotation]
+  )
 
   return (
     <Dialog
       title='Create avatar'
       classes={styles}
+      open={isOpen}
+      onOpen={() => setOpen(true)}
+      onClose={() => setOpen(false)}
       trigger={<div className={className}>{children}</div>}
     >
       <Dialog.ScrollContent className={styles.wrapper}>
         <div className={styles.img}>
           <Cropper
-            image={imageSrc}
+            image={imageUrl}
             crop={crop}
+            rotation={rotation}
             zoom={zoom}
-            aspect={aspect}
+            aspect={1}
             cropShape='round'
             showGrid={false}
-            onCropChange={onCropChange}
+            onCropChange={setCrop}
+            onRotationChange={setRotation}
             onCropComplete={onCropComplete}
-            onZoomChange={onZoomChange}
+            onZoomChange={setZoom}
           />
         </div>
 
         <div className={styles.actions}>
+          <ImageUpload />
           <Button
             variant='fill'
             accent='positive'
             className={styles.cropBtn}
-            onClick={() => onChange(imageSrc)}
+            onClick={showCroppedImage}
           >
             Crop image
           </Button>

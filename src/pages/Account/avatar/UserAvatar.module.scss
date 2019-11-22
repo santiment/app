@@ -9,7 +9,9 @@
   cursor: pointer;
   background-size: cover;
   background-position: center;
-  background-image: var(--avatarUrl);
+  box-shadow: 0 0 0 1px var(--white), 0 0 0 3px var(--porcelain);
+  vertical-align: middle;
+  border: 0;
 }
 
 .img {
