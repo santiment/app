@@ -16,6 +16,7 @@ export const USER_GQL_FRAGMENT = gql`
     privacyPolicyAccepted
     marketingAccepted
     consent_id
+    avatarUrl
     ethAccounts {
       address
       sanBalance

@@ -55,6 +55,7 @@
     "react-dates": "16.0.1",
     "react-device-detect": "^1.4.6",
     "react-dom": "^16.8.6",
+    "react-easy-crop": "^1.16.1",
     "react-form": "^2.16.1",
     "react-ga": "^2.3.5",
     "react-helmet": "^5.2.0",

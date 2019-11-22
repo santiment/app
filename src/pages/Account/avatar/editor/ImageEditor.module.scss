@@ -5,6 +5,11 @@
   border-radius: $border-radius;
   width: 622px;
   height: 432px;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 80px;
 }
 
 .cropBtn {
@@ -19,4 +24,5 @@
 
 .wrapper {
   padding: 24px;
+  position: relative;
 }

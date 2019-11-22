@@ -13,15 +13,14 @@ import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProduc
 import logoImg from './../../assets/logos/logo-sanbase.svg'
 import { LABS } from './SantimentProductsTooltip/Products'
 import styles from './Navbar.module.scss'
+import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 
-const ExternalLink = ({ label }) => {
-  return (
-    <>
-      {label}
-      <Icon type='external-link' className={styles.externalLinkImg} />
-    </>
-  )
-}
+const ExternalLink = ({ label }) => (
+  <>
+    {label}
+    <Icon type='external-link' className={styles.externalLinkImg} />
+  </>
+)
 
 const leftLinks = [
   {
@@ -73,12 +72,13 @@ const leftLinks = [
 
 const rightBtns = [
   {
-    icon: <Icon type='help-round' />,
+    icon: () => <Icon type='help-round' />,
     el: NavbarHelpDropdown,
-    links: ['/docs', '/dev-api', '/support']
+    links: ['/docs', '/dev-api', '/support'],
+    makeActive: true
   },
   {
-    icon: <Icon type='profile' />,
+    icon: () => <UserAvatar className={styles.avatar} />,
     el: NavbarProfileDropdown,
     links: ['/account']
   }
@@ -141,24 +141,24 @@ const Navbar = ({ activeLink = '/' }) => {
         <div className={styles.right}>
           <Search />
           <div className={styles.divider}>
-            {rightBtns.map(({ icon, el: Content, links }, index) => {
-              return (
+            {rightBtns.map(
+              ({ icon: El, el: Content, links, makeActive }, index) => (
                 <SmoothDropdownItem
                   key={index}
                   trigger={
                     <Button
                       variant='flat'
                       className={cx(styles.btn, styles.rightBtns)}
-                      isActive={links.includes(activeLink)}
+                      isActive={makeActive && links.includes(activeLink)}
                     >
-                      {icon}
+                      <El />
                     </Button>
                   }
                 >
                   <Content activeLink={activeLink} />
                 </SmoothDropdownItem>
               )
-            })}
+            )}
           </div>
         </div>
       </SmoothDropdown>

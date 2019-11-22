@@ -32,6 +32,7 @@ const emailChangeVerifyGQL = gql`
         privacyPolicyAccepted
         marketingAccepted
         consent_id
+        avatarUrl
         sanBalance
         ethAccounts {
           address
