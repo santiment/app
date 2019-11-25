@@ -124,7 +124,7 @@ const ImageEditor = ({
           </div>
 
           <div className={styles.btns}>
-            <Button border className={styles.addBtn} onClick={showCroppedImage}>
+            <Button border className={styles.addBtn}>
               <ImageUpload
                 className={styles.fileLoader}
                 onUploaded={onUploaded}
