@@ -3,11 +3,11 @@ import cx from 'classnames'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import FollowBtn from '../follow/FollowBtn'
+import UserAvatar from '../../Account/avatar/UserAvatar'
 import { checkIsLoggedIn } from '../../UserSelectors'
 import userFollowersSvg from './../../../assets/follow/user_followers.svg'
 import userFollowingSvg from './../../../assets/follow/user_following.svg'
 import styles from './ProfileInfo.module.scss'
-import UserAvatar from '../../Account/avatar/UserAvatar'
 
 const ProfileInfo = ({
   profile = {},
