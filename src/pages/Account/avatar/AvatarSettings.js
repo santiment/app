@@ -8,7 +8,10 @@ import UserAvatar from './UserAvatar'
 import ImageEditor from './editor/ImageEditor'
 import { store } from '../../../index'
 import { showNotification } from '../../../actions/rootActions'
-import { UPLOAD_IMG_QUERY } from '../../../components/ImageUpload'
+import {
+  extractUploadedImageUrl,
+  UPLOAD_IMG_QUERY
+} from '../../../components/ImageUpload'
 import styles from './AvatarSettings.module.scss'
 
 const CHANGE_AVATAR_MUTATION = gql`
@@ -20,13 +23,26 @@ const CHANGE_AVATAR_MUTATION = gql`
 `
 
 const AvatarSettings = ({
-  changeAvatar,
-  uploadImage,
+  mutateChangeAvatar,
+  mutateUploadImage,
   dispatchAvatarChanged,
-  avatarUrl,
-  onClose
+  avatarUrl
 }) => {
   const [isOpen, setOpen] = useState(false)
+
+  const onChangeUrl = (url, forceClose = true) => {
+    mutateChangeAvatar({ variables: { value: url } })
+      .then(() => {
+        dispatchAvatarChanged(url)
+        store.dispatch(showNotification(`Avatar successfully changed`))
+        forceClose && setOpen(false)
+      })
+      .catch(error => {
+        showNotification('Error was caused during changing avatar')
+        setOpen(false)
+      })
+  }
+
   return (
     <div className={styles.container}>
       <UserAvatar />
@@ -35,40 +51,27 @@ const AvatarSettings = ({
         setOpen={setOpen}
         isOpen={isOpen}
         className={styles.avatar}
+        onChangeUrl={onChangeUrl}
+        title={avatarUrl ? 'Change avatar' : 'Create avatar'}
         onChange={file => {
           var newFile = new File([file], new Date().getTime() + '.jpeg', {
             type: 'image/jpeg',
             lastModified: Date.now()
           })
-          uploadImage({ variables: { images: [newFile] } }).then((...rest) => {
-            const [img] = rest
+          mutateUploadImage({ variables: { images: [newFile] } }).then(
+            (...rest) => {
+              const url = extractUploadedImageUrl(rest)
 
-            if (img) {
-              const {
-                data: { uploadImage }
-              } = img
-
-              const [saved] = uploadImage
-              if (saved) {
-                const { imageUrl } = saved
-                changeAvatar({ variables: { value: imageUrl } })
-                  .then(() => {
-                    dispatchAvatarChanged(imageUrl)
-                    store.dispatch(
-                      showNotification(`Avatar successfully changed`)
-                    )
-                    setOpen(false)
-                  })
-                  .catch(error => {
-                    showNotification('Error was caused during changing avatar')
-                    setOpen(false)
-                  })
+              if (url) {
+                onChangeUrl(url)
               }
             }
-          })
+          )
         }}
       >
-        <div className={styles.addPhoto}>Add photo</div>
+        <div className={styles.addPhoto}>
+          {avatarUrl ? 'Change photo' : 'Add photo'}
+        </div>
       </ImageEditor>
     </div>
   )
@@ -93,8 +96,8 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  graphql(CHANGE_AVATAR_MUTATION, { name: 'changeAvatar' }),
-  graphql(UPLOAD_IMG_QUERY, { name: 'uploadImage' })
+  graphql(CHANGE_AVATAR_MUTATION, { name: 'mutateChangeAvatar' }),
+  graphql(UPLOAD_IMG_QUERY, { name: 'mutateUploadImage' })
 )
 
 export default enhance(AvatarSettings)

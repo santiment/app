@@ -4,9 +4,8 @@
 .avatar {
   border-radius: 50%;
   background: var(--porcelain);
-  width: 40px;
+  min-width: 40px;
   height: 40px;
-  cursor: pointer;
   background-size: cover;
   background-position: center;
   box-shadow: 0 0 0 1px var(--white), 0 0 0 3px var(--porcelain);
