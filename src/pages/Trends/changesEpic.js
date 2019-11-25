@@ -14,7 +14,9 @@ const defaultMentionsCount = {
 }
 
 export const wordTrendSocialVolumeEpic = (action$, store, { client }) =>
-  action$.ofType(TRENDS_HYPED_FETCH_SUCCESS).mergeMap(({ payload }) => {
+  action$.ofType(TRENDS_HYPED_FETCH_SUCCESS)
+  .filter(({ payload: { onlyTrends } }) => !onlyTrends)
+  .mergeMap(({ payload }) => {
     // HACK(vanguard): wordTrendScore from/to does not work correctly
     // Can't fetch only needed time period, should fetch for all day
     const { from, to } = getTimeIntervalFromToday(-2, 'd')

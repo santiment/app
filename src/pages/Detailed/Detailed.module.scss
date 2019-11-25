@@ -8,10 +8,12 @@
 }
 
 .sidecar__toggle {
-  top: 228px !important;
+  &_assets {
+    top: 256px !important;
+  }
 
-  @include responsive('tablet') {
-    top: 258px !important;
+  &_social {
+    top: 306px !important;
   }
 }
 

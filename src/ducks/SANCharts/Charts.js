@@ -424,21 +424,24 @@ class Charts extends React.Component {
       activePayload[index].value = allIndexData[metric]
     })
 
-    this.setState({
-      activePayload: activePayload.concat(
-        this.eventsMap.get(activeLabel) || []
-      ),
-      x,
-      y,
-      refAreaRight: activeLabel,
-      rightZoomIndex: activeTooltipIndex,
-      xValue: activeLabel,
-      yValue:
-        chartData[activeTooltipIndex][
-          tooltipMetric.dataKey || tooltipMetric.key
-        ],
-      hovered: true
-    })
+    this.setState(
+      {
+        activePayload: activePayload.concat(
+          this.eventsMap.get(activeLabel) || []
+        ),
+        x,
+        y,
+        refAreaRight: activeLabel,
+        rightZoomIndex: activeTooltipIndex,
+        xValue: activeLabel,
+        yValue:
+          chartData[activeTooltipIndex][
+            tooltipMetric.dataKey || tooltipMetric.key
+          ],
+        hovered: true
+      },
+      this.props.onMouseMove && (() => this.props.onMouseMove(event))
+    )
   }, 16)
 
   render () {

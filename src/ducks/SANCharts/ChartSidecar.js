@@ -8,6 +8,7 @@ import RecentlyWatched, {
 } from '../../components/RecentlyWatched/RecentlyWatched'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import SidecarExplanationTooltip from './SidecarExplanationTooltip'
+import { ASSETS_SIDEBAR } from './data'
 import styles from './ChartSidecar.module.scss'
 
 const ChartSidecar = ({
@@ -51,12 +52,15 @@ const ChartSidecar = ({
     <div className={cx(styles.wrapper, isAdvancedView && styles.opened)}>
       <SidecarExplanationTooltip
         classes={{
-          wrapper: cx(styles.toggle, isAdvancedView || classes.sidecar__toggle)
+          wrapper: cx(
+            styles.toggle,
+            isAdvancedView || classes.sidecar__toggle_assets
+          )
         }}
       >
         <div
           className={styles.toggle__btn}
-          onClick={onSidebarToggleClick}
+          onClick={() => onSidebarToggleClick(ASSETS_SIDEBAR)}
           onMouseOver={wasPreloaded ? undefined : preloadData}
         >
           <div className={styles.toggle__icons}>

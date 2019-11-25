@@ -14,8 +14,17 @@ class GetHypedTrends extends React.Component {
     return render(props)
   }
 
+  componentDidUpdate ({ from: prevFrom, to: prevTo, interval: prevInterval }) {
+    const { from, to, interval, onlyTrends } = this.props
+
+    if (from !== prevFrom || to !== prevTo || interval !== prevInterval) {
+      this.props.fetchHypedTrends({ from, to, interval, onlyTrends })
+    }
+  }
+
   componentDidMount () {
-    this.props.fetchHypedTrends()
+    const { fetchHypedTrends, from, to, interval, onlyTrends } = this.props
+    fetchHypedTrends({ from, to, interval, onlyTrends })
   }
 }
 
@@ -26,16 +35,15 @@ const sortByHype = items => {
   return items
 }
 
-const mapStateToProps = state => {
-  return {
-    ...state.hypedTrends
-  }
+const mapStateToProps = ({ hypedTrends: { onlyTrends, ...state } }) => {
+  return state
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchHypedTrends: () => {
+  fetchHypedTrends: payload => {
     return dispatch({
-      type: actions.TRENDS_HYPED_FETCH
+      type: actions.TRENDS_HYPED_FETCH,
+      payload
     })
   }
 })
