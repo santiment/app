@@ -1,7 +1,20 @@
 import React from 'react'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import Button from '@santiment-network/ui/Button'
+import { Events } from './data'
 import styles from './MetricExplanation.module.scss'
+
+const Note = ({ children }) => (
+  <p className={styles.note}>
+    <span className={styles.warning}>Important!</span>
+    <span className={styles.text}>{children}</span>
+  </p>
+)
+
+Events.trendPositionHistory.note = <Note>It will disable Anomalies</Note>
+
+const COMPLEXITY_NOTE =
+  'The requested period is outside of your plan boundaries'
 
 const MetricExplanation = ({
   children,
@@ -9,8 +22,19 @@ const MetricExplanation = ({
   description,
   video,
   note,
-  withChildren = false
+  withChildren = false,
+  isComplexityError
 }) => {
+  if (!description && isComplexityError) {
+    return (
+      <Tooltip className={styles.explanation} trigger={children}>
+        <div className={styles.explanation__content}>
+          <Note>{COMPLEXITY_NOTE}</Note>
+        </div>
+      </Tooltip>
+    )
+  }
+
   return description ? (
     <Tooltip className={styles.explanation} trigger={children}>
       <div className={styles.explanation__content}>
@@ -49,6 +73,7 @@ const MetricExplanation = ({
             <span className={styles.button__text}>Watch how to use it</span>
           </Button>
         )}
+        {isComplexityError && <Note>{COMPLEXITY_NOTE}</Note>}
       </div>
     </Tooltip>
   ) : withChildren ? (
