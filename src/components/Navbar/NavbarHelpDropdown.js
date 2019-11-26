@@ -6,7 +6,8 @@ import styles from './NavbarDropdown.module.scss'
 const links = [
   { link: '/docs', label: 'Documentation' },
   { link: '/apidocs', label: 'Developer API' },
-  { link: '/support', label: 'Support' }
+  { link: '/support', label: 'Support' },
+  { link: '/academy', label: 'Academy' }
 ]
 
 const NavbarHelpDropdown = ({ activeLink }) => (
