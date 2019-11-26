@@ -15,3 +15,13 @@
   align-items: center;
   width: 100%;
 }
+
+.removeBtn {
+  margin-left: 16px;
+  color: var(--persimmon);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--persimmon-hover);
+  }
+}

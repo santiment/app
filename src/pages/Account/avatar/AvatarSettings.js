@@ -34,7 +34,9 @@ const AvatarSettings = ({
     mutateChangeAvatar({ variables: { value: url } })
       .then(() => {
         dispatchAvatarChanged(url)
-        store.dispatch(showNotification(`Avatar successfully changed`))
+        store.dispatch(
+          showNotification(`Avatar successfully ${url ? 'changed' : 'removed'}`)
+        )
         forceClose && setOpen(false)
       })
       .catch(error => {
@@ -73,6 +75,11 @@ const AvatarSettings = ({
           {avatarUrl ? 'Change photo' : 'Add photo'}
         </div>
       </ImageEditor>
+      {avatarUrl && (
+        <div className={styles.removeBtn} onClick={() => onChangeUrl('')}>
+          Remove
+        </div>
+      )}
     </div>
   )
 }
