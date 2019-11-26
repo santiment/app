@@ -139,7 +139,8 @@ const Navbar = ({ activeLink = '/' }) => {
         <div className={styles.right}>
           <Search
             inputProps={{
-              placeholder: 'Search for assets...'
+              placeholder: 'Search for assets...',
+              icon: 'search'
             }}
           />
           <div className={styles.divider}>
