@@ -7,6 +7,16 @@
 
   input {
     height: 40px;
+    padding-left: 40px !important;
+  }
+
+  svg {
+    width: 16px;
+    fill: var(--casper);
+    position: absolute;
+    height: 100%;
+    left: 0;
+    padding: 0 8px 0 16px;
   }
 }
 
