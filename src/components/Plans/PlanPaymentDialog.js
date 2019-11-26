@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import GA from 'react-ga'
 import { Mutation } from 'react-apollo'
 import { connect } from 'react-redux'
-import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Dialog from '@santiment-network/ui/Dialog'
 import Panel from '@santiment-network/ui/Panel'
@@ -175,38 +174,15 @@ const PaymentDialog = ({
                 }
               }}
             >
-              <Dialog.ScrollContent withPadding>
-                <div className={styles.plan}>
-                  <div className={styles.plan__left}>
-                    <Icon type='checkmark' className={styles.plan__check} />
-                    {title} {billing}ly
-                  </div>
-                  <div className={styles.plan__right}>
-                    <div>
-                      <b className={styles.plan__year}>{yearPrice}</b> / year
-                    </div>
-                    <div>
-                      <b className={styles.plan__month}>{monthPrice}</b> / month
-                    </div>
-                  </div>
-                </div>
-                <CheckoutForm plan={title} />
-                <Dialog.Approve
-                  variant='fill'
-                  accent='positive'
-                  isLoading={loading}
-                  type='submit'
-                  className={styles.btn}
-                >
-                  Go {title.toUpperCase()} now
-                </Dialog.Approve>
-                <h5 className={styles.expl}>
-                  Your card will be charged
-                  <b> {billing === 'year' ? yearPrice : monthPrice} </b>
-                  every {billing} until you decide to downgrade or unsubscribe.
-                  Next billing date will be
-                  <b> {getNextPaymentDates(billing)}</b>
-                </h5>
+              <Dialog.ScrollContent className={styles.content}>
+                <CheckoutForm
+                  plan={title}
+                  nextPaymentDate={getNextPaymentDates(billing)}
+                  monthPrice={monthPrice}
+                  yearPrice={yearPrice}
+                  billing={billing}
+                  loading={loading}
+                />
               </Dialog.ScrollContent>
 
               <div className={styles.bottom}>

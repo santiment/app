@@ -2,56 +2,12 @@
 @import '~@santiment-network/ui/variables';
 
 .dialog {
-  width: 550px;
+  width: 905px;
   position: relative;
 }
 
 .content {
-  padding: 24px 64px;
-}
-
-.plan {
-  padding: 18px 24px;
-  background: #ecfaf6;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 0 24px;
-
-  &__check {
-    box-sizing: content-box;
-    fill: var(--jungle-green);
-    padding: 12px 11px;
-    height: 7.5px;
-    width: 10px;
-    background: #ccf2e7;
-    border-radius: 50%;
-    margin-right: 12px;
-  }
-
-  &__left {
-    @include text('body-1', 'm');
-
-    color: $mirage;
-    display: flex;
-    align-items: center;
-  }
-
-  &__right {
-    color: var(--jungle-green);
-    text-align: right;
-
-    @include text('caption');
-  }
-
-  &__year {
-    @include text('h4', 'm');
-  }
-
-  &__month {
-    font-weight: bold;
-  }
+  padding: 32px;
 }
 
 .bottom {
@@ -61,7 +17,7 @@
   fill: var(--casper);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 
   @include text('caption');
 
@@ -69,22 +25,12 @@
     display: flex;
     align-items: center;
 
+    &:first-child {
+      margin-right: 49px;
+    }
+
     svg {
       margin: 0 10px 0 0;
     }
   }
-}
-
-.btn {
-  height: 40px;
-  width: 100%;
-  justify-content: center;
-  margin: 14px 0 16px;
-}
-
-.expl {
-  @include text('caption');
-
-  color: var(--waterloo);
-  text-align: center;
 }

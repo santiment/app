@@ -7,14 +7,14 @@ import SidecarExplanationTooltip from './SidecarExplanationTooltip'
 import GetHypedTrends from '../../components/Trends/GetHypedTrends'
 import { parseIntervalString } from '../../utils/dates'
 import { SOCIAL_SIDEBAR } from './data'
-import { useDebounce } from '../../hooks'
+import { useDebounceEffect } from '../../hooks'
 import sharedStyles from './ChartSidecar.module.scss'
 import styles from './SocialContext.module.scss'
 
 const Content = ({ interval, date, projectName }) => {
   const [period, setPeriod] = useState({})
 
-  useDebounce(
+  useDebounceEffect(
     () => {
       const { amount } = parseIntervalString(interval)
       const from = new Date(date)

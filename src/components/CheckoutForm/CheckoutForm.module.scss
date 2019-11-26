@@ -1,18 +1,63 @@
 @import '~@santiment-network/ui/mixins';
 @import '~@santiment-network/ui/variables';
 
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-column-gap: 32px;
+  grid-row-gap: 24px;
+  grid-template-areas:
+    'card confirmation'
+    'address confirmation';
+}
+
+.card {
+  grid-area: card;
+}
+
+.address {
+  grid-area: address;
+}
+
+.confirmation {
+  grid-area: confirmation;
+
+  &__form {
+    height: calc(100% - 36px);
+  }
+
+  &__dai {
+    @include text('caption');
+  }
+
+  &__contact {
+    margin-left: 4px;
+    text-decoration: underline;
+    color: var(--jungle-green);
+
+    &:hover {
+      color: var(--jungle-green-hover);
+    }
+  }
+}
+
 .top {
   @include text('body-3');
 
-  color: var(--mirage);
+  color: var(--waterloo);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 16px;
+  position: relative;
 
   &__cards {
     display: flex;
     align-items: center;
+    position: absolute;
+    right: 0;
+    bottom: 0;
   }
 
   &__visa {
@@ -22,9 +67,12 @@
 
 .form {
   border-radius: 4px;
-  background: var(--athens);
   padding: 24px 32px;
-  margin-bottom: 24px;
+  border: 1px solid var(--porcelain);
+
+  &_filled {
+    background: var(--athens);
+  }
 }
 
 .toggle {
@@ -47,7 +95,6 @@
 }
 
 .input {
-  margin-bottom: 10px;
   height: 40px;
 
   &:hover,
@@ -62,6 +109,11 @@
   &_address {
     margin: 0 10px;
   }
+}
+
+.discount {
+  position: relative;
+  margin-bottom: 16px;
 }
 
 .label_card {
@@ -94,6 +146,7 @@
   color: var(--waterloo);
   flex: 1;
   margin-bottom: 3px;
+  position: relative;
 
   &_cvc {
     margin-left: 16px;
@@ -139,29 +192,6 @@
   justify-content: space-between;
 }
 
-.card {
-  border-radius: 9px;
-  width: 140px;
-  height: 92px;
-  background: var(--porcelain);
-  padding: 11px 0 33px;
-
-  &_american {
-    padding: 13px 0 14px;
-  }
-
-  &__bank {
-    font-weight: 500;
-    font-size: 9px;
-    background: $athens;
-    color: $casper;
-    height: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
 .title {
   @include text('caption', 'm');
 
@@ -190,4 +220,112 @@
   color: var(--casper);
   margin-top: 30px;
   text-align: center;
+}
+
+.plan {
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 16px;
+
+  &__check {
+    box-sizing: content-box;
+    fill: var(--jungle-green);
+    padding: 12px 11px;
+    height: 7.5px;
+    width: 10px;
+    background: #ccf2e7;
+    border-radius: 50%;
+    margin-right: 12px;
+  }
+
+  &__left {
+    @include text('body-1', 'm');
+
+    color: var(--mirage);
+    display: flex;
+    align-items: center;
+  }
+
+  &__right {
+    color: var(--casper);
+    text-align: right;
+
+    @include text('caption');
+  }
+
+  &__year {
+    @include text('h4', 'm');
+
+    color: var(--waterloo);
+  }
+
+  &__month {
+    @include text('body-3', 'm');
+
+    color: var(--waterloo);
+  }
+}
+
+.hold {
+  position: relative;
+  border-radius: 4px;
+  color: var(--mirage);
+  padding: 12px 16px 8px 40px;
+  background: #ecfaf6;
+  margin-bottom: 44px;
+
+  &__icon {
+    position: absolute;
+    left: 17px;
+    top: 15px;
+  }
+}
+
+.btn {
+  height: 40px;
+  justify-content: center;
+  margin: 37px 0 16px;
+}
+
+.expl {
+  @include text('caption');
+
+  color: var(--waterloo);
+  text-align: center;
+}
+
+.check {
+  color: var(--waterloo);
+
+  &__label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  &__discount {
+    color: var(--jungle-green);
+  }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    color: var(--mirage);
+    padding-top: 25px;
+    border-top: 1px solid var(--porcelain);
+    margin-top: 24px;
+  }
+
+  &__price {
+    @include text('body-1', 'm');
+  }
+}
+
+.valid {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
 }
