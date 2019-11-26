@@ -76,6 +76,20 @@
   display: flex;
 }
 
+.input {
+  height: 40px;
+  margin-bottom: 16px;
+
+  &:hover,
+  &:focus {
+    border-color: var(--jungle-green);
+  }
+
+  &_last {
+    margin: 0;
+  }
+}
+
 .label_card {
   :global {
     .StripeElement {
@@ -180,18 +194,4 @@
   color: var(--casper);
   margin-top: 30px;
   text-align: center;
-}
-
-.input {
-  height: 40px;
-  margin-bottom: 16px;
-
-  &:hover,
-  &:focus {
-    border-color: var(--jungle-green);
-  }
-
-  &_last {
-    margin: 0;
-  }
 }
