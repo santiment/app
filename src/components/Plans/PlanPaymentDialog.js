@@ -45,7 +45,7 @@ const Form = props => <Panel as='form' {...props} />
 const getTokenDataByForm = form => {
   const res = {}
   new FormData(form).forEach((value, key) => {
-    if (key === 'name' || key === 'coupon') {
+    if (key === 'coupon') {
       return
     }
     res[key] = value
@@ -136,13 +136,12 @@ const PaymentDialog = ({
                   })
 
                   const form = e.currentTarget
-                  const tokenData = getTokenDataByForm(form)
                   const {
                     coupon: { value: coupon }
                   } = form
 
                   stripe
-                    .createToken({ name: form.name.value }, tokenData)
+                    .createToken(getTokenDataByForm(form))
                     .then(({ token, error }) => {
                       if (error) {
                         return Promise.reject(error)
@@ -152,6 +151,8 @@ const PaymentDialog = ({
                       if (coupon) {
                         variables.coupon = coupon
                       }
+                      console.log(coupon)
+
                       return subscribe({
                         variables
                       })

@@ -12,9 +12,7 @@ export const useDebounceEffect = (fn, time, dependencies = []) => {
 export const useDebounce = (fn, time) => {
   const [timer, setTimer] = useState()
 
-  useEffect(() => {
-    return () => clearTimeout(timer)
-  }, [])
+  useEffect(() => () => clearTimeout(timer), [])
 
   return (...args) => {
     clearTimeout(timer)

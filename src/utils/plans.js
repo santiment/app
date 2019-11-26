@@ -34,7 +34,8 @@ export const getAlternativeBillingPlan = (
   currentInterval
 ) =>
   plans.find(
-    ({ name, interval }) => name === currentPlan && interval !== currentInterval
+    ({ name, interval }) =>
+      name === currentPlan && interval !== currentInterval
   )
 
 export const getTrialLabel = trialEnd => (trialEnd ? '(trial)' : '')
