@@ -1,6 +1,8 @@
 import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import Tooltip from '@santiment-network/ui/Tooltip'
+import Panel from '@santiment-network/ui/Panel'
+import styles from './HelpPopup.module.scss'
 
 export const style = {
   maxWidth: 465,
@@ -28,7 +30,7 @@ const HelpPopup = ({
       on='hover'
       style={style}
     >
-      {render}
+      <Panel className={styles.panel}>{render}</Panel>
     </Tooltip>
   )
 }
