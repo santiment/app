@@ -141,3 +141,13 @@
     border-color: var(--jungle-green);
   }
 }
+
+.learn {
+  margin-left: 4px;
+  color: var(--jungle-green);
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}

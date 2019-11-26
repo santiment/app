@@ -151,7 +151,6 @@ const PaymentDialog = ({
                       if (coupon) {
                         variables.coupon = coupon
                       }
-                      console.log(coupon)
 
                       return subscribe({
                         variables

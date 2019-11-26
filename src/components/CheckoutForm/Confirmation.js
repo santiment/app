@@ -9,7 +9,7 @@ import { useDebounce } from '../../hooks'
 import sharedStyles from './CheckoutForm.module.scss'
 import styles from './Confirmation.module.scss'
 
-const CHECK_COUPON = gql`
+const CHECK_COUPON_QUERY = gql`
   query getCoupon($coupon: String!) {
     getCoupon(coupon: $coupon) {
       amountOff
@@ -107,7 +107,7 @@ const Confirmation = ({
           </div>
         </div>
 
-        <Query skip={!coupon} query={CHECK_COUPON} variables={{ coupon }}>
+        <Query skip={!coupon} query={CHECK_COUPON_QUERY} variables={{ coupon }}>
           {({ loading, error, data: { getCoupon } = {} }) => {
             const { isValid, percentOff } = getCoupon || {}
             return (
@@ -122,8 +122,15 @@ const Confirmation = ({
                     className={styles.hold__icon}
                     type='question-round-small'
                   />
-                  Holding 1000 SAN tokens will result in a 20% discount. Learn
-                  how to buy SAN.
+                  Holding 1000 SAN tokens will result in a 20% discount.
+                  <a
+                    href='https://santiment.net/about-santiment/how-to-buy-san/'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className={styles.learn}
+                  >
+                    Learn how to buy SAN.
+                  </a>
                 </div>
                 <TotalPrice
                   error={error}
