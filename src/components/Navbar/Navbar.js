@@ -74,7 +74,8 @@ const rightBtns = [
     icon: () => <Icon type='help-round' className={styles.headerIcon} />,
     el: NavbarHelpDropdown,
     links: ['/docs', '/dev-api', '/support'],
-    makeActive: true
+    makeActive: true,
+    className: styles.helpBtn
   },
   {
     icon: () => (
@@ -83,7 +84,8 @@ const rightBtns = [
       </Link>
     ),
     el: NavbarProfileDropdown,
-    links: ['/account']
+    links: ['/account'],
+    className: styles.accountBtn
   }
 ]
 
@@ -148,13 +150,16 @@ const Navbar = ({ activeLink = '/' }) => {
           />
           <div className={styles.divider}>
             {rightBtns.map(
-              ({ icon: El, el: Content, links, makeActive }, index) => (
+              (
+                { icon: El, el: Content, links, makeActive, className },
+                index
+              ) => (
                 <SmoothDropdownItem
                   key={index}
                   trigger={
                     <Button
                       variant='flat'
-                      className={cx(styles.btn, styles.rightBtns)}
+                      className={cx(styles.btn, styles.rightBtns, className)}
                       isActive={makeActive && links.includes(activeLink)}
                     >
                       <El />
