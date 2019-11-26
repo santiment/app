@@ -12,8 +12,8 @@ import NavbarAssetsDropdown from './NavbarAssetsDropdown'
 import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
 import logoImg from './../../assets/logos/logo-sanbase.svg'
 import { LABS } from './SantimentProductsTooltip/Products'
-import styles from './Navbar.module.scss'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
+import styles from './Navbar.module.scss'
 
 const ExternalLink = ({ label }) => (
   <>
@@ -49,7 +49,6 @@ const leftLinks = [
           products={LABS}
           position='start'
           showHeader={false}
-          offsetY={12}
           offsetX={-358}
         >
           {props.children}
@@ -72,7 +71,7 @@ const leftLinks = [
 
 const rightBtns = [
   {
-    icon: () => <Icon type='help-round' />,
+    icon: () => <Icon type='help-round' className={styles.headerIcon} />,
     el: NavbarHelpDropdown,
     links: ['/docs', '/dev-api', '/support'],
     makeActive: true
@@ -100,7 +99,6 @@ const Navbar = ({ activeLink = '/' }) => {
         <div className={styles.left}>
           <SantimentProductsTooltip
             className={styles.products}
-            offsetY={12}
             position='start'
           >
             <Link className={styles.logo} to='/'>
@@ -143,7 +141,11 @@ const Navbar = ({ activeLink = '/' }) => {
         </div>
 
         <div className={styles.right}>
-          <Search />
+          <Search
+            inputProps={{
+              placeholder: 'Search for assets...'
+            }}
+          />
           <div className={styles.divider}>
             {rightBtns.map(
               ({ icon: El, el: Content, links, makeActive }, index) => (

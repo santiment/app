@@ -25,7 +25,7 @@ const { from: BASIC_RIGHT_BOUNDARY_DATE } = getTimeIntervalFromToday(
 )
 
 const { from: PRO_LEFT_BOUNDARY_DATE } = getTimeIntervalFromToday(
-  -36,
+  -60,
   MONTH,
   options
 )

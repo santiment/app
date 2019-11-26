@@ -18,7 +18,13 @@
 }
 
 .sidecar__toggle {
-  top: 400px !important;
+  &_assets {
+    top: 340px !important;
+  }
+
+  &_social {
+    top: 390px !important;
+  }
 }
 
 .stories {

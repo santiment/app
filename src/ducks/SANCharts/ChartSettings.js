@@ -28,7 +28,9 @@ const ChartSettings = ({
   onMultiChartsChange,
   isMultiChartsActive,
   onScaleChange,
-  chartData
+  chartData,
+  events,
+  eventsData
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
 
@@ -66,6 +68,8 @@ const ChartSettings = ({
           scale={scale}
           onScaleChange={onScaleChange}
           chartData={chartData}
+          events={events}
+          eventsData={eventsData}
         />
       </div>
     </div>

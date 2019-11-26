@@ -10,7 +10,13 @@ import Charts from './Charts'
 import Header from './Header'
 import TooltipSynchronizer from './TooltipSynchronizer'
 import { getMarketSegment, mapDatetimeToNumber } from './utils'
-import { Metrics, Events, compatabilityMap } from './data'
+import {
+  Metrics,
+  Events,
+  compatabilityMap,
+  SOCIAL_SIDEBAR,
+  ASSETS_SIDEBAR
+} from './data'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
@@ -40,6 +46,11 @@ const DEFAULT_STATE = {
   marketSegments: [],
   isMultiChartsActive: false
 }
+
+const LoadableSocialContextSidebar = Loadable({
+  loader: () => import('./SocialContext'),
+  loading: () => <div />
+})
 
 const LoadableChartSidecar = Loadable({
   loader: () => import('./ChartSidecar'),
@@ -371,8 +382,11 @@ class ChartPage extends Component {
     })}`
   }
 
-  onSidebarToggleClick = () => {
-    this.setState(prev => ({ isAdvancedView: !prev.isAdvancedView }))
+  onSidebarToggleClick = activeSidebar => {
+    this.setState(prev => ({
+      isAdvancedView:
+        prev.isAdvancedView === activeSidebar ? false : activeSidebar
+    }))
   }
 
   render () {
@@ -555,12 +569,14 @@ class ChartPage extends Component {
                           title={title}
                           chartRef={this.chartRef}
                           chartData={timeseries}
+                          events={events}
+                          eventsData={eventsFiltered}
                         />
                         <LoadableChartMetricsTool
                           classes={styles}
                           slug={slug}
                           toggleMetric={this.toggleMetric}
-                          disabledMetrics={errors}
+                          disabledMetrics={errorMetrics}
                           activeMetrics={finalMetrics}
                           activeEvents={events}
                           showToggleAnomalies={showToggleAnomalies}
@@ -596,6 +612,8 @@ class ChartPage extends Component {
                         isBeta={isBeta}
                         isLoggedIn={isLoggedIn}
                         isIntervalSmallerThanDay={isIntervalSmallerThanDay}
+                        interval={interval}
+                        onMouseMove={this.getSocialContext}
                       />
                     </TooltipSynchronizer>
                     {!isPRO && (
@@ -603,11 +621,25 @@ class ChartPage extends Component {
                     )}
                   </div>
                 </div>
+                {!viewOnly &&
+                  !hideSettings.sidecar &&
+                  (metrics.includes(Metrics.socialVolume) ||
+                    events.includes(Events.trendPositionHistory)) && (
+                  <LoadableSocialContextSidebar
+                    onSidebarToggleClick={this.onSidebarToggleClick}
+                    isAdvancedView={isAdvancedView === SOCIAL_SIDEBAR}
+                    classes={classes}
+                    projectName={slug}
+                    interval={interval}
+                    date={this.state.socialContextDate}
+                  />
+                )}
+
                 {!viewOnly && !hideSettings.sidecar && (
                   <LoadableChartSidecar
                     onSlugSelect={this.onSlugSelect}
                     onSidebarToggleClick={this.onSidebarToggleClick}
-                    isAdvancedView={isAdvancedView}
+                    isAdvancedView={isAdvancedView === ASSETS_SIDEBAR}
                     classes={classes}
                   />
                 )}
@@ -617,6 +649,12 @@ class ChartPage extends Component {
         }}
       />
     )
+  }
+
+  getSocialContext = ({ activeLabel }) => {
+    this.setState({
+      socialContextDate: new Date(activeLabel)
+    })
   }
 }
 

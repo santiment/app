@@ -38,18 +38,25 @@ export const selectHypedTrend = action$ =>
         : Observable.empty()
     })
 
-const fetchTrends$ = ({ client, data = {} }) => {
-  const from = new Date()
-  const to = new Date()
-  to.setHours(to.getHours(), 0, 0, 0)
-  from.setHours(from.getHours() - 3, 0, 0, 0)
+const fetchTrends$ = ({ client, from, to, interval = '1h', onlyTrends }) => {
+  let fromIso = from
+  let toIso = to
+  if (!from) {
+    const from = new Date()
+    const to = new Date()
+    to.setHours(to.getHours(), 0, 0, 0)
+    from.setHours(from.getHours() - 3, 0, 0, 0)
+
+    toIso = to.toISOString()
+    fromIso = from.toISOString()
+  }
 
   const query = client.query({
     query: TRENDING_WORDS_QUERY,
     variables: {
-      to: to.toISOString(),
-      from: from.toISOString(),
-      interval: '1h'
+      to: toIso,
+      from: fromIso,
+      interval
     },
     context: { isRetriable: true }
   })
@@ -61,7 +68,8 @@ const fetchTrends$ = ({ client, data = {} }) => {
         payload: {
           items: getTrendingWords,
           isLoading: false,
-          error: false
+          error: false,
+          onlyTrends
         }
       })
     })
@@ -69,14 +77,18 @@ const fetchTrends$ = ({ client, data = {} }) => {
 }
 
 export const fetchHypedTrends = (action$, store, { client }) =>
-  action$.ofType(actions.TRENDS_HYPED_FETCH).mergeMap(({ data = {} }) => {
-    return Observable.merge(
-      Observable.of({
-        type: actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS,
-        payload: {
-          check: 'check'
-        }
-      }),
-      fetchTrends$({ data, client })
-    )
-  })
+  action$
+    .ofType(actions.TRENDS_HYPED_FETCH)
+    .mergeMap(({ data = {}, payload }) => {
+      return Observable.merge(
+        payload.onlyTrends
+          ? Observable.empty()
+          : Observable.of({
+            type: actions.TRENDS_HYPED_FETCH_TICKERS_SLUGS,
+            payload: {
+              check: 'check'
+            }
+          }),
+        fetchTrends$({ data, client, ...payload })
+      )
+    })
