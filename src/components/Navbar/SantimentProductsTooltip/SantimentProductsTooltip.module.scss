@@ -49,8 +49,9 @@
 
 .wrapper {
   width: 363px;
-  min-height: 146px;
+  min-height: 124px;
   padding: 24px 12px 9px 12px;
+  transition: background 0.2s;
 
   &:hover {
     background: var(--athens);
@@ -58,23 +59,20 @@
   }
 
   &:hover &__product {
-    transform: translate3d(0, -12px, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
-    transform-style: preserve-3d;
+    transform: translate3d(0, -12px, 0);
   }
 
   &__link {
     margin-left: 0;
     display: flex;
     opacity: 0;
-    transform: translate3d(0, -10px, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
-    transform-style: preserve-3d;
-    transition-duration: 0.2s;
+    transform: translate3d(0, -12px, 0);
+    transition: opacity 0.12s ease-out, transform 0.22s;
     align-items: center;
   }
 
   &:hover &__link {
-    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
-    transform-style: preserve-3d;
+    transform: translate3d(0, 0, 0);
     display: flex;
     opacity: 1;
   }
@@ -86,7 +84,7 @@
   align-items: flex-start;
   color: var(--waterloo);
   text-decoration: none;
-  transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+  transform: translate3d(0, 0, 0);
   transform-style: preserve-3d;
   transition-duration: 0.3s;
 

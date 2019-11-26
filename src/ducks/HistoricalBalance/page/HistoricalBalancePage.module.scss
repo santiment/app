@@ -17,6 +17,7 @@
   @include text('h3');
 
   color: var(--mirage);
+  display: flex;
 }
 
 .newTrigger {
@@ -26,13 +27,22 @@
 .questionIcon {
   fill: var(--casper);
   cursor: pointer;
-  margin-left: 15px;
+  margin-left: 12px;
   top: 2px;
   position: relative;
+  display: flex;
 }
 
 .historicalBalancePage {
   @include responsive('desktop') {
     width: $breakpoint-desktop;
   }
+}
+
+.wrapper {
+  display: flex;
+}
+
+.right {
+  margin: auto 0 auto auto;
 }
