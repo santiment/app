@@ -249,7 +249,6 @@ const BalanceView = ({
                       'Please paste the wallet address and choose supported assets in the forms above to see the historical data'
                     }
                   />
-                  <HistoricalBalanceChart walletsData={{}} />
                 </>
               )
             }
@@ -279,12 +278,10 @@ const BalanceView = ({
   )
 }
 
-export const StatusDescription = ({ label }) => {
-  return (
-    <div className={styles.descriptionContainer}>
-      <div className={styles.description}>{label}</div>
-    </div>
-  )
-}
+export const StatusDescription = ({ label }) => (
+  <div className={styles.descriptionContainer}>
+    <div className={styles.description}>{label}</div>
+  </div>
+)
 
 export default BalanceView
