@@ -77,7 +77,7 @@ const rightBtns = [
     links: ['/docs', '/dev-api', '/support']
   },
   {
-    icon: <Icon type='profile' className={styles.headerIcon} />,
+    icon: <Icon type='profile' className={styles.accountIcon} />,
     el: NavbarProfileDropdown,
     links: ['/account']
   }
