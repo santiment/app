@@ -268,10 +268,13 @@ export const getUTCTimeFormats = date => {
   }
 }
 
-export const parseIntervalString = range => ({
-  amount: range.slice(0, -1),
-  format: range.slice(-1)
-})
+export const parseIntervalString = range => {
+  const amount = parseInt(range, 10)
+  return {
+    amount,
+    format: range.slice(amount.toString().length)
+  }
+}
 
 /**
  *
