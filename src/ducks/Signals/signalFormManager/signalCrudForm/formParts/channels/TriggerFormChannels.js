@@ -60,6 +60,24 @@ const TriggerFormChannels = ({
 
   useEffect(
     () => {
+      let newChannels = channels
+      if (!isTelegramConnected) {
+        newChannels = newChannels.filter(
+          item => item !== CHANNEL_NAMES.Telegram
+        )
+      }
+
+      if (!isEmailConnected) {
+        newChannels = newChannels.filter(item => item !== CHANNEL_NAMES.Email)
+      }
+
+      setFieldValue('channels', newChannels)
+    },
+    [isTelegramConnected, isEmailConnected]
+  )
+
+  useEffect(
+    () => {
       if (isBeta) {
         recheckBrowserNotifications()
       }
