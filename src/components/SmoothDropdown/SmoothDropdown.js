@@ -54,7 +54,7 @@ class SmoothDropdown extends Component {
     showArrow: true,
     verticalOffset: 10,
     screenEdgeXOffset: 10,
-    closeAfterTimeout: 150000
+    closeAfterTimeout: 150
   }
 
   componentDidMount () {
