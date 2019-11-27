@@ -6,10 +6,11 @@ import SmoothDropdownItem from '../../SmoothDropdown/SmoothDropdownItem'
 import styles from './SantimentProductsTooltip.module.scss'
 
 const ProductItem = ({
-  product: { to, img, title, description, showLink = true }
+  product: { to, img, title, linkTitle, description, showLink = true },
+  className
 }) => {
   return (
-    <a className={styles.wrapper} href={to}>
+    <a className={cx(styles.wrapper, className)} href={to}>
       <div className={cx(styles.product, styles.wrapper__product)}>
         {img && <img className={styles.product__img} src={img} alt={title} />}
         <div className={styles.product__info}>
@@ -21,7 +22,7 @@ const ProductItem = ({
               className={cx(styles.wrapper__link)}
               to={to}
               as={'div'}
-              title={'Go to ' + title}
+              title={'Go to ' + linkTitle}
             />
           )}
         </div>
@@ -51,7 +52,8 @@ const SantimentProductsTooltip = ({
   children,
   products = MAIN_PRODUCTS,
   offsetY = 0,
-  offsetX = 0
+  offsetX = 0,
+  productProps = {}
 }) => {
   const [isOpen, setOpenState] = useState(false)
 
@@ -100,7 +102,7 @@ const SantimentProductsTooltip = ({
         )}
         <div className={styles.products}>
           {products.map((item, index) => (
-            <ProductItem key={index} product={item} />
+            <ProductItem key={index} product={item} {...productProps} />
           ))}
         </div>
       </div>
