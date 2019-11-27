@@ -28,10 +28,10 @@ const withIntercom = (WrappedComponent, options = {}) => {
         )
         intercomLauncher.setAttribute(
           'style',
-          'background: var(--athens) !important;'
+          'background: var(--jungle-green) !important;'
         )
 
-        iframe.setAttribute('style', 'background: var(--athens);')
+        iframe.setAttribute('style', 'background: var(--jungle-green);')
 
         clearInterval(interval)
         clearTimeout(timeout)
