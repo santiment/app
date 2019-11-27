@@ -8,19 +8,25 @@ import GetHypedTrends from '../../components/Trends/GetHypedTrends'
 import { parseIntervalString } from '../../utils/dates'
 import { SOCIAL_SIDEBAR } from './data'
 import { useDebounce } from '../../hooks'
+import { INTERVAL_ALIAS } from './IntervalSelector'
 import sharedStyles from './ChartSidecar.module.scss'
 import styles from './SocialContext.module.scss'
 
 const Content = ({ interval, date, projectName }) => {
   const [period, setPeriod] = useState({})
+  const constrainedInterval = INTERVAL_ALIAS[interval] ? '1h' : interval
 
   useDebounce(
     () => {
-      const { amount } = parseIntervalString(interval)
+      const { amount, format } = parseIntervalString(constrainedInterval)
       const from = new Date(date)
       const to = new Date(date)
 
-      from.setHours(to.getHours() - amount, 0, 0, 0)
+      if (format === 'd') {
+        from.setDate(to.getDate() - amount)
+      } else {
+        from.setHours(to.getHours() - amount)
+      }
 
       setPeriod({
         from: from.toISOString(),
@@ -46,7 +52,7 @@ const Content = ({ interval, date, projectName }) => {
         </h3>
         <GetHypedTrends
           onlyTrends
-          interval={interval}
+          interval={constrainedInterval}
           {...period}
           render={({ isLoading, items }) => {
             const trends = items[0]
@@ -84,7 +90,6 @@ const SocialContext = ({
         classes={{
           wrapper: cx(
             sharedStyles.toggle,
-            styles.toggle,
             isAdvancedView || classes.sidecar__toggle_social
           )
         }}
