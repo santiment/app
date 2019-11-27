@@ -49,7 +49,10 @@ const leftLinks = [
           products={LABS}
           position='start'
           showHeader={false}
-          offsetX={-358}
+          offsetX={-350}
+          productProps={{
+            className: styles.labCard
+          }}
         >
           {props.children}
         </SantimentProductsTooltip>
