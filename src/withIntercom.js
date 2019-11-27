@@ -16,6 +16,27 @@ const withIntercom = (WrappedComponent, options = {}) => {
     if (process.env.NODE_ENV === 'production') {
       window.Intercom('update')
     }
+
+    // Wait for the iframe to become ready (max 30 seconds)
+    const timeout = setTimeout(() => clearInterval(interval), 30000)
+    const interval = setInterval(() => {
+      const iframe = document.querySelector('.intercom-launcher-frame')
+
+      if (iframe) {
+        const intercomLauncher = iframe.contentDocument.querySelector(
+          '#intercom-container .intercom-launcher'
+        )
+        intercomLauncher.setAttribute(
+          'style',
+          'background: var(--athens) !important;'
+        )
+
+        iframe.setAttribute('style', 'background: var(--athens);')
+
+        clearInterval(interval)
+        clearTimeout(timeout)
+      }
+    }, 100)
   }
 
   const HOC = class extends Component {
