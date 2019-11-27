@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import FollowBtn from '../follow/FollowBtn'
+import UserAvatar from '../../Account/avatar/UserAvatar'
 import { checkIsLoggedIn } from '../../UserSelectors'
 import userFollowersSvg from './../../../assets/follow/user_followers.svg'
 import userFollowingSvg from './../../../assets/follow/user_following.svg'
@@ -22,6 +23,7 @@ const ProfileInfo = ({
     insights,
     triggers,
     watchlists,
+    avatarUrl,
     followers: { count: followersCount = 0 } = {},
     following: { count: followingCount } = {}
   } = profile
@@ -29,16 +31,19 @@ const ProfileInfo = ({
   return (
     <div className={styles.container}>
       <div className={styles.left}>
-        <div className={styles.name}>{username}</div>
-        <div className={styles.email}>{email}</div>
-        {isLoggedIn && !isCurrentUser && (
-          <FollowBtn
-            className={styles.followBtn}
-            followers={followers}
-            userId={id}
-            updateCache={updateCache}
-          />
-        )}
+        <UserAvatar isExternal externalAvatarUrl={avatarUrl} />
+        <div className={styles.leftText}>
+          <div className={styles.name}>{username}</div>
+          <div className={styles.email}>{email}</div>
+          {isLoggedIn && !isCurrentUser && (
+            <FollowBtn
+              className={styles.followBtn}
+              followers={followers}
+              userId={id}
+              updateCache={updateCache}
+            />
+          )}
+        </div>
       </div>
 
       <div className={styles.right}>

@@ -76,7 +76,15 @@ export default (state = initialState, action) => {
           username: action.username
         }
       }
-
+    case actions.USER_AVATAR_CHANGE: {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          avatarUrl: action.avatarUrl
+        }
+      }
+    }
     case actions.USER_DIGEST_CHANGE:
       return {
         ...state,

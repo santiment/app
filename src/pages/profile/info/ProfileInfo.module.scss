@@ -14,11 +14,17 @@
 .left {
   width: 100%;
   max-width: 580px;
+  display: flex;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     display: flex;
     max-width: 100%;
   }
+}
+
+.leftText {
+  margin-left: 8px;
+  word-break: break-word;
 }
 
 .right {

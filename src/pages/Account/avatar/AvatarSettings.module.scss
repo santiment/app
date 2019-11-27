@@ -1,0 +1,27 @@
+@import '~@santiment-network/ui/mixins';
+
+.avatar {
+  margin-left: auto;
+}
+
+.addPhoto {
+  margin-left: auto;
+  color: var(--jungle-green);
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.removeBtn {
+  margin-left: 16px;
+  color: var(--persimmon);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--persimmon-hover);
+  }
+}
