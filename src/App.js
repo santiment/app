@@ -163,6 +163,10 @@ const ExternalRoutes = [
   {
     to: 'mailto:info@santiment.net',
     routes: ['support']
+  },
+  {
+    to: 'https://academy.santiment.net/',
+    routes: ['academy']
   }
 ]
 

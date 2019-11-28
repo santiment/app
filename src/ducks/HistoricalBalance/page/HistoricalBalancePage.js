@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import cx from 'classnames'
 import BalanceView from '../balanceView/BalanceView'
-import HelpPopup from '../../../components/HelpPopup/HelpPopup'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
+import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 import { mapQSToState, mapStateToQS } from '../../../utils/utils'
 import styles from './HistoricalBalancePage.module.scss'
 
@@ -123,10 +123,15 @@ const BalancePageExplanation = () => (
   <>
     <span>Historical balance</span>
     <span className={styles.questionIcon}>
-      <HelpPopup position='bottom' align='start'>
+      <HelpTooltip
+        position='bottom'
+        align='start'
+        classes={styles}
+        withDesc={false}
+      >
         Enter any ERC-20 wallet's address and choose up to 5 assets for a
         detailed breakdown of the wallet's balance over time.
-      </HelpPopup>
+      </HelpTooltip>
     </span>
   </>
 )
@@ -141,7 +146,9 @@ export const BalancePageTitle = ({ isDesktop = true, classes = {} }) => {
           </div>
         </div>
       )}
-      {!isDesktop && <MobileHeader title={<BalancePageExplanation />} />}
+      {!isDesktop && (
+        <MobileHeader title={<BalancePageExplanation />} classes={styles} />
+      )}
     </>
   )
 }

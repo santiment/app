@@ -12,16 +12,15 @@ import NavbarAssetsDropdown from './NavbarAssetsDropdown'
 import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
 import logoImg from './../../assets/logos/logo-sanbase.svg'
 import { LABS } from './SantimentProductsTooltip/Products'
+import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import styles from './Navbar.module.scss'
 
-const ExternalLink = ({ label }) => {
-  return (
-    <>
-      {label}
-      <Icon type='external-link' className={styles.externalLinkImg} />
-    </>
-  )
-}
+const ExternalLink = ({ label }) => (
+  <>
+    {label}
+    <Icon type='external-link' className={styles.externalLinkImg} />
+  </>
+)
 
 const leftLinks = [
   {
@@ -72,14 +71,21 @@ const leftLinks = [
 
 const rightBtns = [
   {
-    icon: <Icon type='help-round' className={styles.headerIcon} />,
+    icon: () => <Icon type='help-round' className={styles.headerIcon} />,
     el: NavbarHelpDropdown,
-    links: ['/docs', '/dev-api', '/support']
+    links: ['/docs', '/dev-api', '/support'],
+    makeActive: true,
+    className: styles.helpBtn
   },
   {
-    icon: <Icon type='profile' className={styles.headerIcon} />,
+    icon: () => (
+      <Link to='/account'>
+        <UserAvatar className={styles.avatar} />
+      </Link>
+    ),
     el: NavbarProfileDropdown,
-    links: ['/account']
+    links: ['/account'],
+    className: styles.accountBtn
   }
 ]
 
@@ -139,28 +145,32 @@ const Navbar = ({ activeLink = '/' }) => {
         <div className={styles.right}>
           <Search
             inputProps={{
-              placeholder: 'Search for assets...'
+              placeholder: 'Search for assets...',
+              icon: 'search'
             }}
           />
           <div className={styles.divider}>
-            {rightBtns.map(({ icon, el: Content, links }, index) => {
-              return (
+            {rightBtns.map(
+              (
+                { icon: El, el: Content, links, makeActive, className },
+                index
+              ) => (
                 <SmoothDropdownItem
                   key={index}
                   trigger={
                     <Button
                       variant='flat'
-                      className={cx(styles.btn, styles.rightBtns)}
-                      isActive={links.includes(activeLink)}
+                      className={cx(styles.btn, styles.rightBtns, className)}
+                      isActive={makeActive && links.includes(activeLink)}
                     >
-                      {icon}
+                      <El />
                     </Button>
                   }
                 >
                   <Content activeLink={activeLink} />
                 </SmoothDropdownItem>
               )
-            })}
+            )}
           </div>
         </div>
       </SmoothDropdown>

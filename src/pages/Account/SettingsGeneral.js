@@ -4,6 +4,7 @@ import Label from '@santiment-network/ui/Label'
 import Toggle from '@santiment-network/ui/Toggle'
 import Settings from './Settings'
 import UsernameSetting from './userName/UsernameSetting'
+import AvatarSettings from './avatar/AvatarSettings'
 import AlertMessage from '../../components/Alert/AlertMessage'
 import * as actions from '../../actions/types'
 import styles from './AccountPage.module.scss'
@@ -27,6 +28,10 @@ const SettingsGeneral = ({
       />
     )}
     <Settings id='general' header='General'>
+      <Settings.Row>
+        <AvatarSettings />
+      </Settings.Row>
+
       <UsernameSetting
         dispatchNewUsername={dispatchNewUsername}
         username={username}

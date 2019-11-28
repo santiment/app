@@ -123,15 +123,22 @@
 }
 
 .descriptionContainer {
-  position: absolute;
-  left: 50%;
-  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 450px;
+
+  @include responsive('tablet', 'phone', 'phone-xs') {
+    min-height: 310px;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    min-height: 210px;
+  }
 }
 
 .description {
   position: relative;
-  left: -50%;
-  transform: translateY(-50%);
   width: 260px;
   text-align: center;
   color: var(--mirage);
