@@ -156,51 +156,53 @@ const Header = ({
   } = dataProject
 
   return (
-    <div className={cx(styles.wrapper, className)}>
-      <ProjectSelector
-        slug={slug}
-        project={dataProject}
-        onChange={([dataProject], closeDialog) => {
-          onSlugSelect(dataProject)
-          closeDialog()
-        }}
-      />
-
-      <PriceWithChanges
-        isTablet={isTablet}
-        totalSupply={totalSupply}
-        percentChange7d={percentChange7d}
-        percentChange24h={percentChange24h}
-        ticker={ticker}
-        priceUsd={priceUsd}
-      />
-
-      <div className={styles.actions}>
-        <ChartSignalCreationDialog
+    <div className={styles.container}>
+      <div className={cx(styles.wrapper, className)}>
+        <ProjectSelector
           slug={slug}
-          trigger={
-            <Button
-              accent='positive'
-              border
-              className={cx(styles.btn, styles.signal)}
-            >
-              <Icon type='signal' className={styles.btn__icon} />
-              Add signal
-            </Button>
-          }
+          project={dataProject}
+          onChange={([dataProject], closeDialog) => {
+            onSlugSelect(dataProject)
+            closeDialog()
+          }}
         />
 
-        <WatchlistsPopup
-          trigger={
-            <Button accent='positive' border className={styles.btn}>
-              <Icon type='add-watchlist' className={styles.btn__icon} />
-              Watch {ticker}
-            </Button>
-          }
-          projectId={id}
-          slug={slug}
-          isLoggedIn={isLoggedIn}
+        <PriceWithChanges
+          isTablet={isTablet}
+          totalSupply={totalSupply}
+          percentChange7d={percentChange7d}
+          percentChange24h={percentChange24h}
+          ticker={ticker}
+          priceUsd={priceUsd}
         />
+
+        <div className={styles.actions}>
+          <ChartSignalCreationDialog
+            slug={slug}
+            trigger={
+              <Button
+                accent='positive'
+                border
+                className={cx(styles.btn, styles.signal)}
+              >
+                <Icon type='signal' className={styles.btn__icon} />
+                Add signal
+              </Button>
+            }
+          />
+
+          <WatchlistsPopup
+            trigger={
+              <Button accent='positive' border className={styles.btn}>
+                <Icon type='add-watchlist' className={styles.btn__icon} />
+                Watch {ticker}
+              </Button>
+            }
+            projectId={id}
+            slug={slug}
+            isLoggedIn={isLoggedIn}
+          />
+        </div>
       </div>
     </div>
   )

@@ -1,5 +1,6 @@
 import React from 'react'
 import GA from 'react-ga'
+import cx from 'classnames'
 import { parse } from 'query-string'
 import { graphql, Query } from 'react-apollo'
 import ChartWidget from '../../ducks/SANCharts/ChartPage'
@@ -34,11 +35,14 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
   const onChangeSlug = ({ slug: newSlug } = {}) => {
     slug && slug !== newSlug && history.replace(`/projects/${newSlug}`)
   }
+
+  const isWideChart = true
+
   return (
     <>
       <div className={styles.wrapper}>
         <StoriesList classes={styles} />
-        <div className={'elem-container'}>
+        <div className={cx('elem-container', isWideChart && styles.wideChart)}>
           <Query query={USER_SUBSCRIPTIONS_QUERY}>
             {({ data: { currentUser } = {} }) => {
               const subscription = getCurrentSanbaseSubscription(currentUser)
@@ -56,6 +60,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
                     slug={slug}
                     title={title}
                     projectId={projectId}
+                    isWideChart={isWideChart}
                     metrics={[
                       Metrics.historyPrice,
                       Metrics.socialVolume,

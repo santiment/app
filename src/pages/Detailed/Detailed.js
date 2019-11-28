@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import cx from 'classnames'
 import { graphql, Query, withApollo } from 'react-apollo'
 import { connect } from 'react-redux'
 import GeneralInfoBlock from './generalInfo/GeneralInfoBlock'
 import FinancialsBlock from './financialInfo/FinancialsBlock'
 import Panel from '@santiment-network/ui/Panel'
-import Icon from '@santiment-network/ui/Icon'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import ServerErrorMessage from './../../components/ServerErrorMessage'
 import EthSpent from './../../pages/EthSpent'
@@ -26,27 +26,27 @@ import PageLoader from '../../components/Loader/PageLoader'
 import { Metrics } from '../../ducks/SANCharts/data'
 import './Detailed.css'
 import styles from './Detailed.module.scss'
+import Breadcrumbs from '../profile/breadcrumbs/Breadcrumbs'
 
-const propTypes = {
-  match: PropTypes.object.isRequired
-}
-
-export const Breadcrumbs = ({ from, slug, name }) => (
-  <div className={styles.breadcrumbs}>
-    <Link {...from} className={styles.breadcrumbs__root} />
-    <Icon type='arrow-right' className={styles.breadcrumbs__arrow} />
-    <Link className={styles.breadcrumbs__project} to={`/projects/${slug}`}>
-      {name}
-    </Link>
-  </div>
+export const DetailedBreadcrumbs = ({ from, name }) => (
+  <Breadcrumbs
+    from={from}
+    className={styles.breadcrumbs}
+    crumbs={[
+      {
+        label: 'Market',
+        to: '/assets'
+      },
+      {
+        label: 'Assets',
+        to: '/assets'
+      },
+      {
+        label: name
+      }
+    ]}
+  />
 )
-
-Breadcrumbs.defaultProps = {
-  from: {
-    to: '/assets',
-    children: 'Assets'
-  }
-}
 
 export const Detailed = ({
   match,
@@ -93,9 +93,15 @@ export const Detailed = ({
     }
   }
 
+  const isWideChart = false // true
+
   const projectContainerChart = id && (
     <>
-      <Breadcrumbs from={from} slug={project.slug} name={project.name} />
+      <DetailedBreadcrumbs
+        from={from}
+        slug={project.slug}
+        name={project.name}
+      />
       <Query query={USER_SUBSCRIPTIONS_QUERY}>
         {({ data: { currentUser } = {} }) => {
           const subscription = getCurrentSanbaseSubscription(currentUser)
@@ -122,6 +128,8 @@ export const Detailed = ({
               enabledViewOnlySharing={false}
               isPRO={userPlan === 'PRO'}
               isParentLoading={loading}
+              isWideChart={isWideChart}
+              showStories={isWideChart}
               {...boundaries}
             />
           )
@@ -131,7 +139,7 @@ export const Detailed = ({
   )
 
   return (
-    <div className='page detailed'>
+    <div className={!isWideChart && 'page detailed'}>
       <Helmet>
         <title>
           {loading ? 'Sanbase...' : `${project.ticker} project page`}
@@ -150,59 +158,67 @@ export const Detailed = ({
 `}
         />
       </Helmet>
-      <div className={'information'}>
+      <div className={cx('information', styles.chart)}>
         {projectContainerChart && (
           <Panel className={styles.panel}>{projectContainerChart}</Panel>
         )}
       </div>
-      {project.slug === 'ethereum' && (
+
+      <div className={cx('page', 'detailed', styles.tables)}>
+        {project.slug === 'ethereum' && (
+          <div className='information'>
+            <EthSpent />
+          </div>
+        )}
         <div className='information'>
-          <EthSpent />
+          <PanelWithHeader
+            header='General Info'
+            className='panel panel-full-width'
+          >
+            <GeneralInfoBlock {...project} />
+          </PanelWithHeader>
+          <PanelWithHeader
+            header='Financials'
+            className='panel panel-full-width'
+          >
+            <FinancialsBlock {...project} />
+          </PanelWithHeader>
         </div>
-      )}
-      <div className='information'>
-        <PanelWithHeader
-          header='General Info'
-          className='panel panel-full-width'
-        >
-          <GeneralInfoBlock {...project} />
-        </PanelWithHeader>
-        <PanelWithHeader header='Financials' className='panel panel-full-width'>
-          <FinancialsBlock {...project} />
-        </PanelWithHeader>
+        {isNewsEnabled && !isLoadingNews && !loading && news.length > 0 && (
+          <div className={styles.newsWrapper}>
+            <h4 className={styles.newsTitle}>News</h4>
+            <News data={news} />
+          </div>
+        )}
+        {project.isERC20 &&
+          project.tokenTopTransactions &&
+          project.tokenTopTransactions.length > 0 && (
+          <div className='information'>
+            <DetailedTransactionsTable
+              Project={Project}
+              title={'Top token transactions, 30d'}
+              show={'tokenTopTransactions'}
+            />
+          </div>
+        )}
+        {project.isERC20 &&
+          project.ethTopTransactions &&
+          project.ethTopTransactions.length > 0 && (
+          <div className='information'>
+            <DetailedTransactionsTable
+              Project={Project}
+              show={'ethTopTransactions'}
+            />
+          </div>
+        )}
       </div>
-      {isNewsEnabled && !isLoadingNews && !loading && news.length > 0 && (
-        <div className={styles.newsWrapper}>
-          <h4 className={styles.newsTitle}>News</h4>
-          <News data={news} />
-        </div>
-      )}
-      {project.isERC20 &&
-        project.tokenTopTransactions &&
-        project.tokenTopTransactions.length > 0 && (
-        <div className='information'>
-          <DetailedTransactionsTable
-            Project={Project}
-            title={'Top token transactions, 30d'}
-            show={'tokenTopTransactions'}
-          />
-        </div>
-      )}
-      {project.isERC20 &&
-        project.ethTopTransactions &&
-        project.ethTopTransactions.length > 0 && (
-        <div className='information'>
-          <DetailedTransactionsTable
-            Project={Project}
-            show={'ethTopTransactions'}
-          />
-        </div>
-      )}
     </div>
   )
 }
 
-Detailed.propTypes = propTypes
+Detailed.propTypes = {
+  match: PropTypes.object.isRequired
+}
 
 const mapStateToProps = state => {
   return {

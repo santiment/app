@@ -25,8 +25,20 @@
   &_social {
     top: 390px !important;
   }
+
+  &_assets_wide {
+    top: 220px !important;
+  }
+
+  &_social_wide {
+    top: 270px !important;
+  }
 }
 
 .stories {
   margin: 0 0 3px;
+}
+
+.wideChart {
+  max-width: 100%;
 }

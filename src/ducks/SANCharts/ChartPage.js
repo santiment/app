@@ -22,6 +22,7 @@ import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
 import styles from './ChartPage.module.scss'
+import StoriesList from '../../components/Stories/StoriesList'
 
 const DEFAULT_TIME_RANGE = '6m'
 
@@ -421,7 +422,9 @@ class ChartPage extends Component {
       isPRO,
       isBeta,
       alwaysShowingMetrics = [],
-      isParentLoading
+      isParentLoading,
+      isWideChart,
+      showStories
     } = this.props
 
     const selectedInterval = INTERVAL_ALIAS[interval] || interval
@@ -526,15 +529,34 @@ class ChartPage extends Component {
               metrics.some(({ key }) => key === metricAnomalyKey)
             )
 
+          const metricsTool = (
+            <LoadableChartMetricsTool
+              classes={styles}
+              slug={slug}
+              toggleMetric={this.toggleMetric}
+              disabledMetrics={errorMetrics}
+              activeMetrics={finalMetrics}
+              activeEvents={events}
+              showToggleAnomalies={showToggleAnomalies}
+              onToggleAnomalies={this.onToggleAnomalies}
+              isShowAnomalies={isShowAnomalies}
+              alwaysShowingMetrics={alwaysShowingMetrics}
+              hideSettings={hideSettings}
+            />
+          )
+
           return (
             <>
               {viewOnly || hideSettings.header || (
-                <Header
-                  slug={slug}
-                  isLoading={isParentLoading}
-                  isLoggedIn={isLoggedIn}
-                  onSlugSelect={this.onSlugSelect}
-                />
+                <>
+                  {showStories && <StoriesList classes={styles} />}
+                  <Header
+                    slug={slug}
+                    isLoading={isParentLoading}
+                    isLoggedIn={isLoggedIn}
+                    onSlugSelect={this.onSlugSelect}
+                  />
+                </>
               )}
               <div className={styles.wrapper}>
                 <div
@@ -543,7 +565,12 @@ class ChartPage extends Component {
                     isAdvancedView && styles.tool_short
                   )}
                 >
-                  <div className={styles.container}>
+                  <div
+                    className={cx(
+                      styles.container,
+                      isWideChart && styles.wideChartBg
+                    )}
+                  >
                     {!viewOnly && (
                       <>
                         <LoadableChartSettings
@@ -571,20 +598,9 @@ class ChartPage extends Component {
                           chartData={timeseries}
                           events={events}
                           eventsData={eventsFiltered}
+                          isWideChart={isWideChart}
                         />
-                        <LoadableChartMetricsTool
-                          classes={styles}
-                          slug={slug}
-                          toggleMetric={this.toggleMetric}
-                          disabledMetrics={errorMetrics}
-                          activeMetrics={finalMetrics}
-                          activeEvents={events}
-                          showToggleAnomalies={showToggleAnomalies}
-                          onToggleAnomalies={this.onToggleAnomalies}
-                          isShowAnomalies={isShowAnomalies}
-                          alwaysShowingMetrics={alwaysShowingMetrics}
-                          hideSettings={hideSettings}
-                        />
+                        {!isWideChart && metricsTool}
                       </>
                     )}
                     <TooltipSynchronizer
@@ -614,8 +630,10 @@ class ChartPage extends Component {
                         isIntervalSmallerThanDay={isIntervalSmallerThanDay}
                         interval={interval}
                         onMouseMove={this.getSocialContext}
+                        isWideChart={isWideChart}
                       />
                     </TooltipSynchronizer>
+                    {isWideChart && metricsTool}
                     {!isPRO && (
                       <UpgradePaywall isAdvancedView={isAdvancedView} />
                     )}
@@ -632,11 +650,13 @@ class ChartPage extends Component {
                     projectName={slug}
                     interval={interval}
                     date={this.state.socialContextDate}
+                    isWideChart={isWideChart}
                   />
                 )}
 
                 {!viewOnly && !hideSettings.sidecar && (
                   <LoadableChartSidecar
+                    isWideChart={isWideChart}
                     onSlugSelect={this.onSlugSelect}
                     onSidebarToggleClick={this.onSidebarToggleClick}
                     isAdvancedView={isAdvancedView === ASSETS_SIDEBAR}

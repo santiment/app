@@ -74,6 +74,7 @@ const SocialContext = ({
   onSidebarToggleClick,
   isAdvancedView,
   classes,
+  isWideChart,
   ...rest
 }) => {
   return (
@@ -90,7 +91,8 @@ const SocialContext = ({
         classes={{
           wrapper: cx(
             sharedStyles.toggle,
-            isAdvancedView || classes.sidecar__toggle_social
+            isAdvancedView || classes.sidecar__toggle_social,
+            isWideChart && classes.sidecar__toggle_social_wide
           )
         }}
       >

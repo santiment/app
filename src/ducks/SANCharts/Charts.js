@@ -463,7 +463,8 @@ class Charts extends React.Component {
       syncedColors,
       isSignalsEnabled,
       signalLines,
-      signalData
+      signalData,
+      isWideChart
     } = this.props
 
     const {
@@ -505,7 +506,12 @@ class Charts extends React.Component {
 
     return (
       <div
-        className={cx(styles.wrapper, sharedStyles.chart, className)}
+        className={cx(
+          styles.wrapper,
+          sharedStyles.chart,
+          isWideChart && styles.wideChartBg,
+          className
+        )}
         ref={chartRef}
       >
         {isLoading && (

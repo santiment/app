@@ -30,16 +30,19 @@ const ChartSettings = ({
   onScaleChange,
   chartData,
   events,
-  eventsData
+  eventsData,
+  isWideChart
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
 
   const notAdvancedView = !isAdvancedView
   return (
     <div className={styles.settings}>
-      <div className={styles.settings__group}>
-        <h3 className={styles.settings__title}>Metrics</h3>
-      </div>
+      {!isWideChart && (
+        <div className={styles.settings__group}>
+          <h3 className={styles.settings__title}>Metrics</h3>
+        </div>
+      )}
       <div className={styles.settings__group}>
         <Selector
           options={['1d', '1w', '1m', '3m', '6m', '1y', 'all']}

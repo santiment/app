@@ -15,7 +15,8 @@ const ChartSidecar = ({
   onSlugSelect,
   onSidebarToggleClick,
   isAdvancedView,
-  classes
+  classes,
+  isWideChart
 }) => {
   const [openedList, setOpenedList] = useState()
   const [shouldPreload, setShouldPreload] = useState()
@@ -54,7 +55,8 @@ const ChartSidecar = ({
         classes={{
           wrapper: cx(
             styles.toggle,
-            isAdvancedView || classes.sidecar__toggle_assets
+            isAdvancedView || classes.sidecar__toggle_assets,
+            isWideChart && classes.sidecar__toggle_assets_wide
           )
         }}
       >
