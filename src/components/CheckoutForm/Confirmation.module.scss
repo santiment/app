@@ -1,0 +1,153 @@
+@import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
+
+.form {
+  height: calc(100% - 36px);
+}
+
+.dai {
+  @include text('caption');
+}
+
+.contact {
+  margin-left: 4px;
+  text-decoration: underline;
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.discount {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.check {
+  color: var(--waterloo);
+
+  &__label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  &__discount {
+    color: var(--jungle-green);
+  }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    color: var(--mirage);
+    padding-top: 25px;
+    border-top: 1px solid var(--porcelain);
+    margin-top: 24px;
+  }
+
+  &__price {
+    @include text('body-1', 'm');
+  }
+}
+
+.valid {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  fill: var(--jungle-green);
+}
+
+.plan {
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 16px;
+
+  &__check {
+    box-sizing: content-box;
+    fill: var(--jungle-green);
+    padding: 12px 11px;
+    height: 7.5px;
+    width: 10px;
+    background: #ccf2e7;
+    border-radius: 50%;
+    margin-right: 12px;
+  }
+
+  &__left {
+    @include text('body-1', 'm');
+
+    color: var(--mirage);
+    display: flex;
+    align-items: center;
+  }
+
+  &__right {
+    color: var(--casper);
+    text-align: right;
+
+    @include text('caption');
+  }
+
+  &__year {
+    @include text('h4', 'm');
+
+    color: var(--waterloo);
+  }
+
+  &__month {
+    @include text('body-3', 'm');
+
+    color: var(--waterloo);
+  }
+}
+
+.hold {
+  position: relative;
+  border-radius: 4px;
+  color: var(--mirage);
+  padding: 12px 16px 8px 40px;
+  background: #ecfaf6;
+  margin-bottom: 44px;
+
+  &__icon {
+    position: absolute;
+    left: 17px;
+    top: 15px;
+  }
+}
+
+.btn {
+  height: 40px;
+  justify-content: center;
+  margin: 37px 0 16px;
+}
+
+.expl {
+  @include text('caption');
+
+  color: var(--waterloo);
+  text-align: center;
+}
+
+.input {
+  height: 40px;
+
+  &:hover,
+  &:focus {
+    border-color: var(--jungle-green);
+  }
+}
+
+.learn {
+  margin-left: 4px;
+  color: var(--jungle-green);
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}

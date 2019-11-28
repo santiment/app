@@ -1,18 +1,45 @@
 @import '~@santiment-network/ui/mixins';
 @import '~@santiment-network/ui/variables';
 
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-column-gap: 32px;
+  grid-row-gap: 24px;
+  grid-template-areas:
+    'card confirmation'
+    'address confirmation';
+}
+
+.card {
+  grid-area: card;
+}
+
+.address {
+  grid-area: address;
+}
+
+.confirmation {
+  grid-area: confirmation;
+}
+
 .top {
   @include text('body-3');
 
-  color: var(--mirage);
+  color: var(--waterloo);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 16px;
+  position: relative;
 
   &__cards {
     display: flex;
     align-items: center;
+    position: absolute;
+    right: 0;
+    bottom: 0;
   }
 
   &__visa {
@@ -22,9 +49,12 @@
 
 .form {
   border-radius: 4px;
-  background: var(--athens);
   padding: 24px 32px;
-  margin-bottom: 24px;
+  border: 1px solid var(--porcelain);
+
+  &_filled {
+    background: var(--athens);
+  }
 }
 
 .toggle {
@@ -47,20 +77,16 @@
 }
 
 .input {
-  margin-bottom: 10px;
   height: 40px;
+  margin-bottom: 16px;
 
   &:hover,
   &:focus {
     border-color: var(--jungle-green);
   }
 
-  &_right {
-    margin-left: 10px;
-  }
-
-  &_address {
-    margin: 0 10px;
+  &_last {
+    margin: 0;
   }
 }
 
@@ -94,6 +120,7 @@
   color: var(--waterloo);
   flex: 1;
   margin-bottom: 3px;
+  position: relative;
 
   &_cvc {
     margin-left: 16px;
@@ -137,29 +164,6 @@
 .cards {
   display: flex;
   justify-content: space-between;
-}
-
-.card {
-  border-radius: 9px;
-  width: 140px;
-  height: 92px;
-  background: var(--porcelain);
-  padding: 11px 0 33px;
-
-  &_american {
-    padding: 13px 0 14px;
-  }
-
-  &__bank {
-    font-weight: 500;
-    font-size: 9px;
-    background: $athens;
-    color: $casper;
-    height: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 }
 
 .title {
