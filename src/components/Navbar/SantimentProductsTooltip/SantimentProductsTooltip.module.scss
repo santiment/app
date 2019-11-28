@@ -18,7 +18,7 @@
 .header {
   width: 100%;
   display: flex;
-  margin-bottom: 24px;
+  margin-bottom: 13px;
 }
 
 .link {
@@ -45,12 +45,13 @@
 .products {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .wrapper {
-  width: 363px;
-  min-height: 124px;
-  padding: 24px 12px 9px 12px;
+  width: 358px;
+  max-height: 124px;
+  padding: 21px 9px 9px 9px;
   transition: background 0.2s;
 
   &:hover {
@@ -101,7 +102,7 @@
 
   &__description {
     color: var(--waterloo);
-    margin: 8px 0;
+    margin: 5px 0 9px 0;
     white-space: normal;
 
     @include text('body-3');
@@ -110,7 +111,7 @@
   &__info {
     display: flex;
     flex-direction: column;
-    margin-top: 8px;
+    margin-top: 7px;
     margin-left: 12px;
   }
 }

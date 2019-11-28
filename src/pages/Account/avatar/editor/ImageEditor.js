@@ -134,10 +134,11 @@ const ImageEditor = ({
             <Button
               variant='fill'
               accent='positive'
+              disabled={!imageUrl}
               className={styles.cropBtn}
               onClick={showCroppedImage}
             >
-              Crop image
+              Create
             </Button>
           </div>
         </div>
