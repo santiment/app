@@ -22,111 +22,99 @@ const style = {
   }
 }
 
-const CardInformation = () => {
-  return (
-    <div className={styles.card}>
-      <div className={styles.top}>
-        Card information
-        <div className={styles.top__cards}>
-          <img
-            width='40'
-            alt='visa'
-            src={visaSrc}
-            className={styles.top__visa}
-          />
-          <img width='40' alt='mastercard' src={mastercardSrc} />
-        </div>
-      </div>
-      <div className={cx(styles.form, styles.form_filled)}>
-        <label className={cx(styles.label, styles.label_card)}>
-          Full name
-          <Input
-            className={styles.input}
-            placeholder='John Doe'
-            required
-            name='name'
-          />
-        </label>
-
-        <label className={cx(styles.label, styles.label_card)}>
-          Card number
-          <CardElement style={style} />
-        </label>
-
-        <label className={cx(styles.label, styles.label_card)}>
-          Country
-          <Input
-            className={cx(styles.input, styles.input_last)}
-            name='address_country'
-            placeholder='US'
-            required
-          />
-        </label>
+const CardInformation = () => (
+  <div className={styles.card}>
+    <div className={styles.top}>
+      Card information
+      <div className={styles.top__cards}>
+        <img width='40' alt='visa' src={visaSrc} className={styles.top__visa} />
+        <img width='40' alt='mastercard' src={mastercardSrc} />
       </div>
     </div>
-  )
-}
+    <div className={cx(styles.form, styles.form_filled)}>
+      <label className={cx(styles.label, styles.label_card)}>
+        Full name
+        <Input
+          className={styles.input}
+          placeholder='John Doe'
+          required
+          name='name'
+        />
+      </label>
 
-const BillingAddress = () => {
-  return (
-    <div className={styles.address}>
-      <div className={styles.toggle}>Billing address</div>
-      <div className={cx(styles.form, styles.form_filled)}>
-        <label className={cx(styles.label, styles.label_card)}>
-          Street Address
-          <Input
-            className={styles.input}
-            placeholder='e.g. 1483 Pearl Street'
-            name='address_line1'
-            required
-          />
-        </label>
-        <label className={cx(styles.label, styles.label_card)}>
-          City
-          <Input
-            className={styles.input}
-            placeholder='e.g. Sacramento'
-            name='address_city'
-            required
-          />
-        </label>
-        <label className={cx(styles.label, styles.label_card)}>
-          State / Region
-          <Input
-            className={cx(styles.input, styles.input_last)}
-            placeholder='e.g. California'
-            name='address_state'
-            required
-          />
-        </label>
-      </div>
+      <label className={cx(styles.label, styles.label_card)}>
+        Card number
+        <CardElement style={style} />
+      </label>
+
+      <label className={cx(styles.label, styles.label_card)}>
+        Country
+        <Input
+          className={cx(styles.input, styles.input_last)}
+          name='address_country'
+          placeholder='US'
+          required
+        />
+      </label>
     </div>
-  )
-}
+  </div>
+)
+
+const BillingAddress = () => (
+  <div className={styles.address}>
+    <div className={styles.toggle}>Billing address</div>
+    <div className={cx(styles.form, styles.form_filled)}>
+      <label className={cx(styles.label, styles.label_card)}>
+        Street Address
+        <Input
+          className={styles.input}
+          placeholder='e.g. 1483 Pearl Street'
+          name='address_line1'
+          required
+        />
+      </label>
+      <label className={cx(styles.label, styles.label_card)}>
+        City
+        <Input
+          className={styles.input}
+          placeholder='e.g. Sacramento'
+          name='address_city'
+          required
+        />
+      </label>
+      <label className={cx(styles.label, styles.label_card)}>
+        State / Region
+        <Input
+          className={cx(styles.input, styles.input_last)}
+          placeholder='e.g. California'
+          name='address_state'
+          required
+        />
+      </label>
+    </div>
+  </div>
+)
 
 const CheckoutForm = ({
-  stripe,
   plan,
   loading,
   billing,
   yearPrice,
   monthPrice,
   nextPaymentDate
-}) => {
-  return (
-    <div className={styles.wrapper}>
-      <CardInformation />
-      <BillingAddress />
-      <Confirmation
-        plan={plan}
-        billing={billing}
-        loading={loading}
-        yearPrice={yearPrice}
-        monthPrice={monthPrice}
-        nextPaymentDate={nextPaymentDate}
-      />
-    </div>
-  )
-}
+}) => (
+  <div className={styles.wrapper}>
+    <CardInformation />
+    <BillingAddress />
+    <Confirmation
+      plan={plan}
+      billing={billing}
+      loading={loading}
+      yearPrice={yearPrice}
+      monthPrice={monthPrice}
+      nextPaymentDate={nextPaymentDate}
+    />
+  </div>
+)
 
 export default CheckoutForm
