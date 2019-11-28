@@ -164,6 +164,8 @@ const MainDialog = ({
   buttonParams
 }) => {
   const [dialogTitle, onSetDialogTitle] = useState('')
+  const [isAnonWarning, setAnonWarning] = useState(false)
+
   const { variant, border } = buttonParams
 
   useEffect(
@@ -213,24 +215,25 @@ const MainDialog = ({
     >
       <Dialog.ScrollContent className={styles.TriggerPanel}>
         {isError && <NoSignal />}
+
         {!isError && isLoading && <PageLoader className={styles.loading} />}
-        {!isError &&
-          !isLoading &&
-          (isLoggedIn ? (
-            <SignalMaster
-              setOpenSharedForm={setOpenForm}
-              openSharedForm={openSharedForm}
-              isShared={isShared}
-              trigger={trigger}
-              setTitle={onSetDialogTitle}
-              onClose={() => setDialogOpenState(false)}
-              canRedirect={canRedirect}
-              metaFormSettings={metaFormSettings}
-              formChangedCallback={formChangedCallback}
-            />
-          ) : (
-            <SignalAnon className={styles.anon} />
-          ))}
+
+        {!isError && !isLoading && !isAnonWarning && (
+          <SignalMaster
+            setOpenSharedForm={setOpenForm}
+            openSharedForm={openSharedForm}
+            isShared={isShared}
+            trigger={trigger}
+            setTitle={onSetDialogTitle}
+            onClose={() => setDialogOpenState(false)}
+            canRedirect={canRedirect}
+            metaFormSettings={metaFormSettings}
+            formChangedCallback={formChangedCallback}
+            setAnonWarning={setAnonWarning}
+          />
+        )}
+
+        {isAnonWarning && <SignalAnon className={styles.anon} />}
       </Dialog.ScrollContent>
     </Dialog>
   )
