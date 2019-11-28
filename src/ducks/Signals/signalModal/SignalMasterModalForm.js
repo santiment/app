@@ -170,6 +170,13 @@ const MainDialog = ({
 
   useEffect(
     () => {
+      setAnonWarning(false)
+    },
+    [isLoading]
+  )
+
+  useEffect(
+    () => {
       if (!isLoggedIn) {
         onSetDialogTitle('Create signal')
       }
