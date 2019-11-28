@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
+import Icon from '@santiment-network/ui/Icon'
 import styles from './UserAvatar.module.scss'
 
 const UserAvatar = ({
@@ -17,7 +18,9 @@ const UserAvatar = ({
       style={{
         backgroundImage: `url("${link}"`
       }}
-    />
+    >
+      {!link && <Icon type='profile' />}
+    </div>
   )
 }
 
