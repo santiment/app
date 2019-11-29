@@ -63,7 +63,7 @@ const SantimentProductsTooltip = ({
 
   const setOpened = () => {
     timeoutId && clearTimeout(timeoutId)
-    setOpenState(false)
+    setOpenState(true)
   }
 
   return (
