@@ -16,9 +16,10 @@ const ChartMetricsTool = ({
   slug,
   toggleMetric,
   hideSettings,
+  isWideChart,
   ...rest
 }) => (
-  <div className={styles.wrapper}>
+  <div className={cx(styles.wrapper, styles.topOffset)}>
     {hideSettings.metricSelector || (
       <ContextMenu
         trigger={
@@ -48,6 +49,7 @@ const ChartMetricsTool = ({
       toggleMetric={toggleMetric}
       activeEvents={activeEvents}
       alwaysShowingMetrics={alwaysShowingMetrics}
+      isWideChart={isWideChart}
       {...rest}
     />
   </div>

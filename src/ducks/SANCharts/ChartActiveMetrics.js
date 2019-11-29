@@ -1,5 +1,6 @@
 import React from 'react'
 import { Bar } from 'recharts'
+import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
@@ -15,12 +16,13 @@ const ChartActiveMetrics = ({
   alwaysShowingMetrics = [],
   toggleMetric,
   isShowAnomalies,
+  isWideChart,
   ...rest
 }) => {
   let newColorId = 0
   return (
     <>
-      <section className={styles.wrapper}>
+      <section className={cx(styles.wrapper, isWideChart && styles.wideChart)}>
         {activeMetrics.map(metric => {
           const { node, color, label, description } = metric
 

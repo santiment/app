@@ -21,8 +21,8 @@ import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
-import styles from './ChartPage.module.scss'
 import StoriesList from '../../components/Stories/StoriesList'
+import styles from './ChartPage.module.scss'
 
 const DEFAULT_TIME_RANGE = '6m'
 
@@ -423,8 +423,7 @@ class ChartPage extends Component {
       isBeta,
       alwaysShowingMetrics = [],
       isParentLoading,
-      isWideChart,
-      showStories
+      isWideChart
     } = this.props
 
     const selectedInterval = INTERVAL_ALIAS[interval] || interval
@@ -542,6 +541,7 @@ class ChartPage extends Component {
               isShowAnomalies={isShowAnomalies}
               alwaysShowingMetrics={alwaysShowingMetrics}
               hideSettings={hideSettings}
+              isWideChart={isWideChart}
             />
           )
 
@@ -549,7 +549,7 @@ class ChartPage extends Component {
             <>
               {viewOnly || hideSettings.header || (
                 <>
-                  {showStories && <StoriesList classes={styles} />}
+                  {isWideChart && <StoriesList classes={styles} />}
                   <Header
                     slug={slug}
                     isLoading={isParentLoading}
@@ -562,7 +562,8 @@ class ChartPage extends Component {
                 <div
                   className={cx(
                     styles.tool,
-                    isAdvancedView && styles.tool_short
+                    isAdvancedView && styles.tool_short,
+                    isWideChart && styles.tool_wide_chart
                   )}
                 >
                   <div
@@ -598,9 +599,7 @@ class ChartPage extends Component {
                           chartData={timeseries}
                           events={events}
                           eventsData={eventsFiltered}
-                          isWideChart={isWideChart}
                         />
-                        {!isWideChart && metricsTool}
                       </>
                     )}
                     <TooltipSynchronizer
@@ -630,12 +629,14 @@ class ChartPage extends Component {
                         isIntervalSmallerThanDay={isIntervalSmallerThanDay}
                         interval={interval}
                         onMouseMove={this.getSocialContext}
-                        isWideChart={isWideChart}
                       />
                     </TooltipSynchronizer>
-                    {isWideChart && metricsTool}
+                    {metricsTool}
                     {!isPRO && (
-                      <UpgradePaywall isAdvancedView={isAdvancedView} />
+                      <UpgradePaywall
+                        isAdvancedView={isAdvancedView}
+                        isWideChart={isWideChart}
+                      />
                     )}
                   </div>
                 </div>
@@ -678,8 +679,11 @@ class ChartPage extends Component {
   }
 }
 
-const mapStateToProps = ({ rootUi: { isBetaModeEnabled } }) => ({
-  isBeta: isBetaModeEnabled
+const mapStateToProps = ({
+  rootUi: { isBetaModeEnabled, isWideChartEnabled }
+}) => ({
+  isBeta: isBetaModeEnabled,
+  isWideChart: isWideChartEnabled
 })
 
 export default connect(mapStateToProps)(ChartPage)

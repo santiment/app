@@ -62,6 +62,7 @@ export const Detailed = ({
   isNewsEnabled,
   isLoadingNews,
   news,
+  isWideChart,
   ...props
 }) => {
   const { loading, errorMessage, error, project = {} } = Project
@@ -92,8 +93,6 @@ export const Detailed = ({
       callback && callback(newProject)
     }
   }
-
-  const isWideChart = false // true
 
   const projectContainerChart = id && (
     <>
@@ -128,8 +127,6 @@ export const Detailed = ({
               enabledViewOnlySharing={false}
               isPRO={userPlan === 'PRO'}
               isParentLoading={loading}
-              isWideChart={isWideChart}
-              showStories={isWideChart}
               {...boundaries}
             />
           )
@@ -224,7 +221,8 @@ const mapStateToProps = state => {
   return {
     isLoggedIn: checkIsLoggedIn(state),
     timeFilter: state.detailedPageUi.timeFilter,
-    isNewsEnabled: state.rootUi.isNewsEnabled
+    isNewsEnabled: state.rootUi.isNewsEnabled,
+    isWideChart: state.rootUi.isWideChartEnabled
   }
 }
 

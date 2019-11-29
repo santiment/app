@@ -14,6 +14,10 @@
     width: 65%;
     flex: auto;
   }
+
+  &_wide_chart {
+    border: none;
+  }
 }
 
 .container {
@@ -44,6 +48,14 @@
 
     margin: 0 16px 0 0;
     color: var(--mirage);
+  }
+
+  &_settings {
+    margin-left: auto;
+  }
+
+  &__main {
+    margin-left: auto;
   }
 
   &__group {

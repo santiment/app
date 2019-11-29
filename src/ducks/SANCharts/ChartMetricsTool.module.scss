@@ -19,3 +19,11 @@
     width: 515px;
   }
 }
+
+.topOffset {
+  padding: 16px 24px;
+  background: var(--white);
+  border-radius: $border-radius;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
