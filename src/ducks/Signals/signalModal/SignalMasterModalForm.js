@@ -164,7 +164,32 @@ const MainDialog = ({
   buttonParams
 }) => {
   const [dialogTitle, onSetDialogTitle] = useState('')
+  const [isAnonWarning, setAnonWarning] = useState(false)
+  const [openSharedForm, setOpenForm] = useState(isShared)
+
   const { variant, border } = buttonParams
+
+  const toggleAnon = (warn = true) => {
+    setAnonWarning(warn)
+  }
+
+  useEffect(
+    () => {
+      if (!isLoggedIn) {
+        toggleAnon()
+      }
+    },
+    [isLoggedIn]
+  )
+
+  useEffect(
+    () => {
+      if (isLoading) {
+        toggleAnon(false)
+      }
+    },
+    [isLoading]
+  )
 
   useEffect(
     () => {
@@ -175,7 +200,6 @@ const MainDialog = ({
     [isLoggedIn]
   )
 
-  const [openSharedForm, setOpenForm] = useState(isShared)
   useEffect(
     () => {
       if (openSharedForm !== isShared) {
@@ -192,6 +216,7 @@ const MainDialog = ({
     [openSharedForm]
   )
 
+  const canOpen = (isLoggedIn || isShared) && !isAnonWarning
   return (
     <Dialog
       open={dialogOpenState}
@@ -213,24 +238,25 @@ const MainDialog = ({
     >
       <Dialog.ScrollContent className={styles.TriggerPanel}>
         {isError && <NoSignal />}
+
         {!isError && isLoading && <PageLoader className={styles.loading} />}
-        {!isError &&
-          !isLoading &&
-          (isLoggedIn ? (
-            <SignalMaster
-              setOpenSharedForm={setOpenForm}
-              openSharedForm={openSharedForm}
-              isShared={isShared}
-              trigger={trigger}
-              setTitle={onSetDialogTitle}
-              onClose={() => setDialogOpenState(false)}
-              canRedirect={canRedirect}
-              metaFormSettings={metaFormSettings}
-              formChangedCallback={formChangedCallback}
-            />
-          ) : (
-            <SignalAnon className={styles.anon} />
-          ))}
+
+        {!isError && !isLoading && canOpen && (
+          <SignalMaster
+            setOpenSharedForm={setOpenForm}
+            openSharedForm={openSharedForm}
+            isShared={isShared}
+            trigger={trigger}
+            setTitle={onSetDialogTitle}
+            onClose={() => setDialogOpenState(false)}
+            canRedirect={canRedirect}
+            metaFormSettings={metaFormSettings}
+            formChangedCallback={formChangedCallback}
+            toggleAnon={toggleAnon}
+          />
+        )}
+
+        {(isAnonWarning || !canOpen) && <SignalAnon className={styles.anon} />}
       </Dialog.ScrollContent>
     </Dialog>
   )
