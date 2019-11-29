@@ -353,20 +353,18 @@ export const App = ({
             />
           )}
         />{' '}
-        {isBetaModeEnabled && (
-          <Route
-            path={['/profile/:id', '/profile']}
-            render={props => (
-              <LoadableProfilePage
-                isDesktop={isDesktop}
-                isLoggedIn={isLoggedIn}
-                isUserLoading={isUserLoading}
-                location={props.location}
-                {...props}
-              />
-            )}
-          />
-        )}
+        <Route
+          path={['/profile/:id', '/profile']}
+          render={props => (
+            <LoadableProfilePage
+              isDesktop={isDesktop}
+              isLoggedIn={isLoggedIn}
+              isUserLoading={isUserLoading}
+              location={props.location}
+              {...props}
+            />
+          )}
+        />
         <Route
           path='/login'
           render={props => (
