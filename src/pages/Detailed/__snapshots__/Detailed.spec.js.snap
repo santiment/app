@@ -22,20 +22,14 @@ exports[`Project detail page container it should render correctly 1`] = `
     />
   </HelmetWrapper>
   <div
-    className="information"
+    className="information chart"
   >
     <Panel
       as="div"
       className="panel"
       padding={false}
     >
-      <Breadcrumbs
-        from={
-          Object {
-            "children": "Assets",
-            "to": "/assets",
-          }
-        }
+      <DetailedBreadcrumbs
         name="Aragorn"
       />
       <Query
@@ -249,34 +243,38 @@ exports[`Project detail page container it should render correctly 1`] = `
     </Panel>
   </div>
   <div
-    className="information"
+    className="page detailed tables"
   >
-    <PanelWithHeader
-      className="panel panel-full-width"
-      contentClassName=""
-      header="General Info"
-      headerClassName=""
+    <div
+      className="information"
     >
-      <GeneralInfoBlock
-        id={12}
-        name="Aragorn"
-        priceUsd={10}
-        ticker="AE"
-      />
-    </PanelWithHeader>
-    <PanelWithHeader
-      className="panel panel-full-width"
-      contentClassName=""
-      header="Financials"
-      headerClassName=""
-    >
-      <FinancialsBlock
-        id={12}
-        name="Aragorn"
-        priceUsd={10}
-        ticker="AE"
-      />
-    </PanelWithHeader>
+      <PanelWithHeader
+        className="panel panel-full-width"
+        contentClassName=""
+        header="General Info"
+        headerClassName=""
+      >
+        <GeneralInfoBlock
+          id={12}
+          name="Aragorn"
+          priceUsd={10}
+          ticker="AE"
+        />
+      </PanelWithHeader>
+      <PanelWithHeader
+        className="panel panel-full-width"
+        contentClassName=""
+        header="Financials"
+        headerClassName=""
+      >
+        <FinancialsBlock
+          id={12}
+          name="Aragorn"
+          priceUsd={10}
+          ticker="AE"
+        />
+      </PanelWithHeader>
+    </div>
   </div>
 </div>
 `;
