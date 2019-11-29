@@ -165,6 +165,7 @@ const MainDialog = ({
 }) => {
   const [dialogTitle, onSetDialogTitle] = useState('')
   const [isAnonWarning, setAnonWarning] = useState(false)
+  const [openSharedForm, setOpenForm] = useState(isShared)
 
   const { variant, border } = buttonParams
 
@@ -174,7 +175,18 @@ const MainDialog = ({
 
   useEffect(
     () => {
-      toggleAnon(false)
+      if (!isLoggedIn) {
+        toggleAnon()
+      }
+    },
+    [isLoggedIn]
+  )
+
+  useEffect(
+    () => {
+      if (isLoading) {
+        toggleAnon(false)
+      }
     },
     [isLoading]
   )
@@ -188,7 +200,6 @@ const MainDialog = ({
     [isLoggedIn]
   )
 
-  const [openSharedForm, setOpenForm] = useState(isShared)
   useEffect(
     () => {
       if (openSharedForm !== isShared) {
@@ -205,6 +216,7 @@ const MainDialog = ({
     [openSharedForm]
   )
 
+  const canOpen = (isLoggedIn || isShared) && !isAnonWarning
   return (
     <Dialog
       open={dialogOpenState}
@@ -229,7 +241,7 @@ const MainDialog = ({
 
         {!isError && isLoading && <PageLoader className={styles.loading} />}
 
-        {!isError && !isLoading && !isAnonWarning && (
+        {!isError && !isLoading && canOpen && (
           <SignalMaster
             setOpenSharedForm={setOpenForm}
             openSharedForm={openSharedForm}
@@ -244,7 +256,7 @@ const MainDialog = ({
           />
         )}
 
-        {isAnonWarning && <SignalAnon className={styles.anon} />}
+        {(isAnonWarning || !canOpen) && <SignalAnon className={styles.anon} />}
       </Dialog.ScrollContent>
     </Dialog>
   )
