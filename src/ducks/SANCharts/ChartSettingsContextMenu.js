@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import cx from 'classnames'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Toggle from '@santiment-network/ui/Toggle'
 import Button from '@santiment-network/ui/Button'
@@ -46,8 +48,11 @@ const ChartSettingsContextMenu = ({
   return (
     <ContextMenu
       trigger={
-        <Button variant='flat' className={classes.settingsBtn}>
-          <Icon type='settings' />
+        <Button
+          variant='flat'
+          className={cx(classes.settingsBtn, styles.settingsBtn)}
+        >
+          <Icon type='settings' className={styles.settingsBtn} />
         </Button>
       }
       passOpenStateAs='isActive'
@@ -138,4 +143,8 @@ const ChartSettingsContextMenu = ({
   )
 }
 
-export default ChartSettingsContextMenu
+const mapStateToProps = ({ rootUi: { isWideChartEnabled } }) => ({
+  isWideChart: isWideChartEnabled
+})
+
+export default connect(mapStateToProps)(ChartSettingsContextMenu)

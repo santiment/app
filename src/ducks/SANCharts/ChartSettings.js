@@ -1,12 +1,13 @@
 import React from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import ChartSettingsContextMenu from './ChartSettingsContextMenu'
 import CalendarBtn from '../../components/Calendar/CalendarBtn'
 import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
-import styles from './ChartPage.module.scss'
 import ChartExpandBtn from './expand/ChartExpandBtn'
-import { connect } from 'react-redux'
+import sanbaseLogoImg from '../../assets/logos/logo-sanbase.svg'
+import styles from './ChartPage.module.scss'
 
 const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 
@@ -19,9 +20,7 @@ const ChartSettings = ({
   onNightModeSelect,
   isNightModeActive,
   showNightModeToggle = true,
-  onIntervalChange,
   disabledMetrics,
-  interval,
   from,
   to,
   isAdvancedView,
@@ -34,18 +33,21 @@ const ChartSettings = ({
   chartData,
   events,
   eventsData,
-  isWideChart
+  isWideChart,
+  slugTitle
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
 
   const notAdvancedView = !isAdvancedView
   return (
     <div className={styles.settings}>
-      {!isWideChart && (
-        <div className={styles.settings__group}>
-          <h3 className={styles.settings__title}>Metrics</h3>
+      <div className={styles.settings__group}>
+        <img src={sanbaseLogoImg} alt='studio logo' />
+        <div className={styles.settings__slugBlock}>
+          <div className={styles.settings__studio}>Studio</div>
+          <div className={styles.settings__slug}>{slugTitle}</div>
         </div>
-      )}
+      </div>
       <div className={cx(styles.settings__group, styles.settings__main)}>
         <Selector
           options={['1d', '1w', '1m', '3m', '6m', '1y', 'all']}

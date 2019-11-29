@@ -58,8 +58,28 @@
     margin-left: auto;
   }
 
+  &__studio {
+    margin-left: 12px;
+    color: var($rhino);
+
+    @include text('body-1');
+  }
+
+  &__slugBlock {
+    display: flex;
+    align-items: baseline;
+  }
+
+  &__slug {
+    margin-left: 8px;
+    color: var(--waterloo);
+
+    @include text('body-3');
+  }
+
   &__group {
     display: flex;
+    align-items: center;
 
     @include responsive('tablet') {
       margin: 0;
@@ -182,4 +202,13 @@
 
 .paywall {
   background: var(--athens);
+}
+
+.settingsBtn {
+  background: none;
+  fill: var(--casper);
+
+  &:hover {
+    fill: var(--jungle-green-hover);
+  }
 }

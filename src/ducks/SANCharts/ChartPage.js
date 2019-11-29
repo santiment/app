@@ -580,7 +580,6 @@ class ChartPage extends Component {
                           onCalendarChange={this.onCalendarChange}
                           generateShareLink={this.generateShareLink}
                           onNightModeSelect={this.onNightModeSelect}
-                          onIntervalChange={this.onIntervalChange}
                           onMultiChartsChange={this.onMultiChartsChange}
                           isMultiChartsActive={isMultiChartsActive}
                           isNightModeActive={nightMode}
@@ -590,7 +589,6 @@ class ChartPage extends Component {
                           to={to}
                           scale={scale}
                           onScaleChange={this.onScaleChange}
-                          interval={interval}
                           isAdvancedView={isAdvancedView}
                           classes={classes}
                           activeMetrics={finalMetrics}
@@ -599,6 +597,7 @@ class ChartPage extends Component {
                           chartData={timeseries}
                           events={events}
                           eventsData={eventsFiltered}
+                          slugTitle={slug}
                         />
                       </>
                     )}

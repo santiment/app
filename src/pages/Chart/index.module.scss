@@ -1,7 +1,6 @@
 @import '~@santiment-network/ui/mixins.scss';
 
 .wrapper {
-  background: var(--athens);
   padding: 26px 0 32px;
   margin: -32px 0 32px;
 }
@@ -41,5 +40,5 @@
 
 .wideChart {
   max-width: 100%;
-  padding: 0 24px;
+  padding: 0;
 }

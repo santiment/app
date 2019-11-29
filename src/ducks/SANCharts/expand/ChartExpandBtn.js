@@ -3,12 +3,15 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { connect } from 'react-redux'
 import { USER_TOGGLE_WIDE_CHART } from '../../../actions/types'
+import styles from './ChartExpandBtn.module.scss'
 
 const ChartExpandBtn = ({ isWideChart, expandToggle }) => {
-  console.log('isWideChart', isWideChart)
   return (
-    <Button onClick={() => expandToggle(!isWideChart)}>
-      <Icon type='fullscreen' />
+    <Button
+      onClick={() => expandToggle(!isWideChart)}
+      className={isWideChart && styles.wideChart}
+    >
+      <Icon type='fullscreen' className={isWideChart && styles.wideChart} />
     </Button>
   )
 }
