@@ -27,7 +27,7 @@ export const MAIN_PRODUCTS = [
   {
     img: neuroLogoImg,
     title: 'API',
-    description: 'The most comprehsive crypto API on the market',
+    description: 'The most comprehensive crypto API on the market',
     to: 'https://neuro.santiment.net',
     showLink: true,
     linkTitle: 'API'
