@@ -18,6 +18,7 @@ import {
   METRIC_DEFAULT_VALUES,
   PRICE_PERCENT_CHANGE
 } from '../../utils/constants'
+import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
 const mapFormSettings = (baseSettings, meta) => {
@@ -70,7 +71,9 @@ const SignalMaster = ({
   isShared = false,
   formChangedCallback,
   openSharedForm = false,
-  setOpenSharedForm
+  setOpenSharedForm,
+  toggleAnon,
+  isLoggedIn
 }) => {
   const [stateTrigger, setStateTrigger] = useState({
     title: '',
@@ -143,8 +146,10 @@ const SignalMaster = ({
         <SharedTriggerForm
           id={stateTrigger.id}
           trigger={stateTrigger}
-          onOpen={setOpenSharedForm}
-          onCreate={() => handleSettingsChange(settings)}
+          onOpen={data => (isLoggedIn ? setOpenSharedForm(data) : toggleAnon())}
+          onCreate={() =>
+            isLoggedIn ? handleSettingsChange(settings) : toggleAnon()
+          }
           settings={settings}
         />
       )}
@@ -164,9 +169,13 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
+const mapStateToProps = state => ({
+  isLoggedIn: checkIsLoggedIn(state)
+})
+
 const enhance = compose(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )
 )
