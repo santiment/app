@@ -168,9 +168,13 @@ const MainDialog = ({
 
   const { variant, border } = buttonParams
 
+  const toggleAnon = (warn = true) => {
+    setAnonWarning(warn)
+  }
+
   useEffect(
     () => {
-      setAnonWarning(false)
+      toggleAnon(false)
     },
     [isLoading]
   )
@@ -236,7 +240,7 @@ const MainDialog = ({
             canRedirect={canRedirect}
             metaFormSettings={metaFormSettings}
             formChangedCallback={formChangedCallback}
-            setAnonWarning={setAnonWarning}
+            toggleAnon={toggleAnon}
           />
         )}
 

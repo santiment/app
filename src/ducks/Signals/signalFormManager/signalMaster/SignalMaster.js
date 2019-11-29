@@ -72,7 +72,7 @@ const SignalMaster = ({
   formChangedCallback,
   openSharedForm = false,
   setOpenSharedForm,
-  setAnonWarning,
+  toggleAnon,
   isLoggedIn
 }) => {
   const [stateTrigger, setStateTrigger] = useState({
@@ -146,11 +146,9 @@ const SignalMaster = ({
         <SharedTriggerForm
           id={stateTrigger.id}
           trigger={stateTrigger}
-          onOpen={data =>
-            isLoggedIn ? setOpenSharedForm(data) : setAnonWarning(true)
-          }
+          onOpen={data => (isLoggedIn ? setOpenSharedForm(data) : toggleAnon())}
           onCreate={() =>
-            isLoggedIn ? handleSettingsChange(settings) : setAnonWarning(true)
+            isLoggedIn ? handleSettingsChange(settings) : toggleAnon()
           }
           settings={settings}
         />
