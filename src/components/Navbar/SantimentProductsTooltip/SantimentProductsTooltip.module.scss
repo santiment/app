@@ -38,6 +38,8 @@
 
 .title {
   color: var(--waterloo);
+  display: flex;
+  align-items: center;
 
   @include text('body-3');
 }
