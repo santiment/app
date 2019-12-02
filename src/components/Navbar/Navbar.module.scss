@@ -21,7 +21,7 @@
 }
 
 .products {
-  margin: 0 32px 0 0;
+  margin: 0 35px 0 0;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -94,8 +94,6 @@
 
 .avatar {
   margin-top: -5px;
-  min-width: 32px;
-  height: 32px;
 
   &:hover {
     box-shadow: 0 0 0 0 var(--white), 0 0 0 1.5px var(--jungle-green);
