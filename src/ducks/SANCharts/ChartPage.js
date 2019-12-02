@@ -423,7 +423,8 @@ class ChartPage extends Component {
       isBeta,
       alwaysShowingMetrics = [],
       isParentLoading,
-      isWideChart
+      isWideChart,
+      project
     } = this.props
 
     const selectedInterval = INTERVAL_ALIAS[interval] || interval
@@ -598,6 +599,7 @@ class ChartPage extends Component {
                           events={events}
                           eventsData={eventsFiltered}
                           slugTitle={slug}
+                          project={project}
                         />
                       </>
                     )}

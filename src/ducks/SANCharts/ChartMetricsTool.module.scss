@@ -1,17 +1,42 @@
 @import '~@santiment-network/ui/mixins';
 
+.container {
+  background: var(--white);
+}
+
 .wrapper {
   display: flex;
+  background: var(--white);
+  border-radius: $border-radius;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  padding-top: 16px;
+}
+
+.topOffset {
+  padding: 16px 24px;
 }
 
 .trigger {
-  padding: 0 7px;
-  background: var(--athens);
   margin: 0 8px 0 0;
+  color: $white;
+  width: 153px;
+
+  @include text('body-3');
 
   &:hover {
     border-color: var(--jungle-green);
   }
+}
+
+.triggerIcon {
+  margin-right: 8px;
+}
+
+.addMetric {
+  display: flex;
+  position: relative;
+  top: 2px;
 }
 
 .selector {
@@ -20,10 +45,9 @@
   }
 }
 
-.topOffset {
-  padding: 16px 24px;
-  background: var(--white);
+.divider {
+  background: var(--porcelain);
   border-radius: $border-radius;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  height: 4px;
+  margin: 0 24px;
 }

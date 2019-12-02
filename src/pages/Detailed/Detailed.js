@@ -127,6 +127,7 @@ export const Detailed = ({
               enabledViewOnlySharing={false}
               isPRO={userPlan === 'PRO'}
               isParentLoading={loading}
+              project={project}
               {...boundaries}
             />
           )

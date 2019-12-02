@@ -5,7 +5,7 @@
 }
 
 .tool {
-  border: 1px solid var(--porcelain);
+  // border: 1px solid var(--porcelain);
   border-radius: 4px;
   flex: 1;
   width: 100%;
@@ -22,7 +22,6 @@
 
 .container {
   background: var(--white);
-  padding: 20px 24px;
 
   &_bottom {
     padding: 24px;
@@ -32,6 +31,7 @@
 
 .wideChartBg {
   background: var(--athens) !important;
+  padding: 20px 24px;
 }
 
 .settings {
@@ -122,6 +122,7 @@
 .chart {
   user-select: none !important;
   position: relative;
+  margin-top: 24px;
 }
 
 .metrics {
@@ -211,4 +212,8 @@
   &:hover {
     fill: var(--jungle-green-hover);
   }
+}
+
+.logo {
+  height: 32px;
 }

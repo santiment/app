@@ -40,9 +40,12 @@ export default compose(
   })
 )(({ isLoggedIn, location, history, isWideChart, data: { insights = [] } }) => {
   const sortedInsights = insights.sort(creationDateSort).slice(0, 6)
-  const { slug = 'bitcoin', title = 'Bitcoin (BTC)', projectId = 1505 } = parse(
-    location.search
-  )
+  const {
+    slug = 'bitcoin',
+    ticker = 'BTC',
+    title = 'Bitcoin (BTC)',
+    projectId = 1505
+  } = parse(location.search)
   const onChangeSlug = ({ slug: newSlug } = {}) => {
     slug && slug !== newSlug && history.replace(`/projects/${newSlug}`)
   }
@@ -80,6 +83,11 @@ export default compose(
                     onSlugSelect={onChangeSlug}
                     isControlled
                     isPRO={userPlan === 'PRO'}
+                    project={{
+                      ticker,
+                      slug,
+                      projectId
+                    }}
                     {...boundaries}
                   />
                 </>

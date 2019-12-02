@@ -1,8 +1,11 @@
 .wideChart {
   background: none;
-  fill: var(--casper);
 
   &:hover {
     fill: var(--jungle-green-hover);
   }
+}
+
+.expand {
+  fill: var(--casper);
 }

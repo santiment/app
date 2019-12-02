@@ -10,6 +10,8 @@
 }
 
 .btn {
+  @include text('body-3');
+
   background: var(--athens);
   margin: 0 8px 8px 0;
 
