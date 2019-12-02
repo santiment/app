@@ -8,6 +8,10 @@
   margin-left: auto;
   color: var(--jungle-green);
   cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
 }
 
 .container {

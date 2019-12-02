@@ -77,13 +77,12 @@ const rightBtns = [
     icon: () => <Icon type='help-round' className={styles.headerIcon} />,
     el: NavbarHelpDropdown,
     links: ['/docs', '/dev-api', '/support'],
-    makeActive: true,
-    className: styles.helpBtn
+    makeActive: true
   },
   {
     icon: () => (
       <Link to='/account'>
-        <UserAvatar className={styles.avatar} />
+        <UserAvatar classes={styles} />
       </Link>
     ),
     el: NavbarProfileDropdown,

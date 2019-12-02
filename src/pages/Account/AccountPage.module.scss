@@ -208,6 +208,10 @@
 
   &__action {
     cursor: pointer;
+
+    &:hover {
+      color: var(--jungle-green-hover);
+    }
   }
 
   &__error {

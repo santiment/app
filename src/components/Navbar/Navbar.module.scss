@@ -93,16 +93,26 @@
 }
 
 .avatar {
-  margin-top: -10px;
+  margin-top: -5px;
+  min-width: 32px;
+  height: 32px;
+
+  &:hover {
+    box-shadow: 0 0 0 0 var(--white), 0 0 0 1.5px var(--jungle-green);
+  }
+}
+
+.avatarEmpty {
+  background: var(--jungle-green-light);
+}
+
+.avatarIcon {
+  fill: var(--jungle-green) !important;
 }
 
 .accountBtn {
-  padding-left: 9px;
+  padding-left: 10px;
   padding-right: 0;
-}
-
-.helpBtn {
-  padding-right: 9px;
 }
 
 .labCard {
