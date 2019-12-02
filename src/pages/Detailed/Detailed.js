@@ -34,10 +34,6 @@ export const DetailedBreadcrumbs = ({ from, name }) => (
     className={styles.breadcrumbs}
     crumbs={[
       {
-        label: 'Market',
-        to: '/assets'
-      },
-      {
         label: 'Assets',
         to: '/assets'
       },
