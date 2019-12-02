@@ -10,7 +10,7 @@ import NavbarHelpDropdown from './NavbarHelpDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
 import NavbarAssetsDropdown from './NavbarAssetsDropdown'
 import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
-import logoImg from './../../assets/logos/logo-sanbase.svg'
+import logoImg from './../../assets/logos/main-logo.svg'
 import { LABS } from './SantimentProductsTooltip/Products'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import styles from './Navbar.module.scss'
@@ -49,7 +49,7 @@ const leftLinks = [
           products={LABS}
           position='start'
           showHeader={false}
-          offsetX={-350}
+          offsetX={-347}
           productProps={{
             className: styles.labCard
           }}
@@ -77,13 +77,12 @@ const rightBtns = [
     icon: () => <Icon type='help-round' className={styles.headerIcon} />,
     el: NavbarHelpDropdown,
     links: ['/docs', '/dev-api', '/support'],
-    makeActive: true,
-    className: styles.helpBtn
+    makeActive: true
   },
   {
     icon: () => (
       <Link to='/account'>
-        <UserAvatar className={styles.avatar} />
+        <UserAvatar classes={styles} />
       </Link>
     ),
     el: NavbarProfileDropdown,

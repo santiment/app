@@ -5,7 +5,7 @@ import Icon from '@santiment-network/ui/Icon'
 import styles from './UserAvatar.module.scss'
 
 const UserAvatar = ({
-  className,
+  classes = {},
   isExternal,
   externalAvatarUrl,
   avatarUrl = ''
@@ -14,12 +14,16 @@ const UserAvatar = ({
 
   return (
     <div
-      className={cx(styles.avatar, className)}
+      className={cx(
+        styles.avatar,
+        classes.avatar,
+        !link && classes.avatarEmpty
+      )}
       style={{
         backgroundImage: `url("${link}"`
       }}
     >
-      {!link && <Icon type='profile' />}
+      {!link && <Icon type='profile' className={classes.avatarIcon} />}
     </div>
   )
 }

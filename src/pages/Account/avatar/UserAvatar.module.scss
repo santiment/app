@@ -4,16 +4,16 @@
 .avatar {
   border-radius: 50%;
   background: var(--porcelain);
-  min-width: 40px;
-  height: 40px;
+  min-width: 32px;
+  height: 32px;
   background-size: cover;
   background-position: center;
-  box-shadow: 0 0 0 0 var(--white), 0 0 0 1.5px var(--porcelain);
   vertical-align: middle;
   border: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  fill: var(--waterloo);
 }
 
 .img {

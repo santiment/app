@@ -38,6 +38,8 @@
 
 .title {
   color: var(--waterloo);
+  display: flex;
+  align-items: center;
 
   @include text('body-3');
 }
@@ -90,7 +92,7 @@
   transition-duration: 0.3s;
 
   &__img {
-    height: 38px;
+    height: 32px;
   }
 
   &__title {
@@ -111,7 +113,7 @@
   &__info {
     display: flex;
     flex-direction: column;
-    margin-top: 7px;
+    margin-top: 5px;
     margin-left: 12px;
   }
 }
