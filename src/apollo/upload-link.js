@@ -1,5 +1,5 @@
 import { ApolloLink, Observable } from 'apollo-link'
-import { printAST } from 'apollo-client'
+import { print } from 'graphql/language/printer'
 import { getAPIUrl } from './../utils/utils'
 
 const isObject = value => value !== null && typeof value === 'object'
@@ -14,7 +14,7 @@ const UploadLink = new ApolloLink((operation, forward) => {
       const filesData = Object.keys(files).filter(key => {
         return files[key].name
       })
-      formData.append('query', printAST(operation.query))
+      formData.append('query', print(operation.query))
       let variables = { images: [] }
       filesData.forEach(key => {
         variables['images'].push(files[key].name)
