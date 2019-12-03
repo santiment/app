@@ -563,8 +563,8 @@ class ChartPage extends Component {
                 <div
                   className={cx(
                     styles.tool,
-                    isAdvancedView && styles.tool_short,
-                    isWideChart && styles.tool_wide_chart
+                    isAdvancedView && styles.toolShort,
+                    isWideChart && styles.toolWideChart
                   )}
                 >
                   <div
