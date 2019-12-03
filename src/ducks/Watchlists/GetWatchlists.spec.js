@@ -1,8 +1,7 @@
 /* eslint-env jest */
 import React from 'react'
-import { shallow, mount, render } from 'enzyme'
-import { Provider } from 'react-redux'
-import { MockedProvider } from 'react-apollo/test-utils'
+import { mount } from 'enzyme'
+import { MockedProvider } from '@apollo/react-testing'
 import configureStore from 'redux-mock-store'
 import { ALL_WATCHLISTS_QUERY } from '../../queries/WatchlistGQL'
 import GetWatchlists from './GetWatchlists'
