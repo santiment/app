@@ -15,6 +15,7 @@ const ChartExpandBtn = ({ isWideChart, expandToggle }) => {
       position='bottom'
       title='Click here and expand the chart to fullscreen'
       description={''}
+      align='end'
     >
       <Button
         onClick={() => expandToggle(!isWideChart)}

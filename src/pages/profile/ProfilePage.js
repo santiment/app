@@ -98,19 +98,6 @@ const ProfilePage = props => {
           </div>
         </MobileOnly>
         <div className={cx('page', styles.page, styles.innerPage)}>
-          <DesktopOnly>
-            <Breadcrumbs
-              crumbs={[
-                {
-                  label: 'Users'
-                },
-                {
-                  label: username || email || profileId
-                }
-              ]}
-            />
-          </DesktopOnly>
-
           <ProfileInfo profile={profile} updateCache={updateCache} />
         </div>
       </div>
