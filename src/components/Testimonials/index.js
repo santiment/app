@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import cx from 'classnames'
 import Slider from 'react-slick'
+import Icon from '@santiment-network/ui/Icon'
 import styles from './index.module.scss'
 
 const settings = {
@@ -13,25 +14,23 @@ const settings = {
 
 const testimonials = [
   {
-    author: 'Paolo Ardoino',
-    pic: 'paolo',
-    position: 'CTO at Bitfinex',
+    author: 'Peter Sikuda',
+    pic: 'petersik',
+    position: '@Petersik',
     text:
-      'SanAPI is one of the most comprehensive crypto APIs on the market. For us, it is incredibly easy to fetch various data sets like on-chain, social media and development info directly to Bitfinex through their unified API and across different blockchains. The Santiment team has worked hard on creating a stable, reliable and all-inclusive data source for crypto, and they’ve more than delivered.'
+      'I’ve yet to find another site that lets me chart full historical data and indicators from 3 or 4 completely different sources on a single graph, and make it simple to find new correlations that I couldn’t see otherwise. If you want to get the full picture of the market, you need to tap into all information sources available, and that’s what Sanbase lets me do.'
   },
   {
-    author: 'Pramesh Tyagi',
-    pic: 'pramesh',
-    position: 'Director at ShillazTech',
+    author: 'Anonymous person',
+    pic: 'default',
     text:
-      'After switching from stock trading to crypto, I realized that on-chain data of any crypto asset provides vital information about market participants beyond OHLCV. Using a combination of pricing and blockchain data via Santiment’s API, I was quickly able to develop hybrid trade signals that have proven highly reliable, effective and - most importantly - profitable.'
+      'The amount of data and deep metrics on Sanbase are an analyst’s dream. I love using their social media tools to backtest and develop new strategies. Meanwhile their custom signals help me react ASAP to trend shifts and market anomalies. If you want to understand crypto’s top movers and shakers, there’s few better tools out there.'
   },
   {
-    author: 'Jan Smirny',
-    pic: 'yan',
-    position: 'Data Scientist',
+    author: 'Anonymous person',
+    pic: 'default',
     text:
-      'I work with both the Sanpy python module and the ‘naked’ SAN API since both have their advantages. The GraphiQL API is great if you want very specific data for your research or pipeline implementations. For quick and easy data access for my research, the sanpy module is the place to go because (after the import) it is literally one line of code to get the data. It doesn’t get easier than that!'
+      'I’ve learned so much about market behavior and long and short-term coin trends by binging on Sanbase charts. Doesn’t matter if you’re a newbie or a veteran in the market, if you’re serious about crypto analysis Sanbase is a great place to validate your theories and test new data-driven approaches.'
   }
 ]
 
@@ -76,7 +75,9 @@ const Testimonials = () => {
                 <p className={styles.text}>{text}</p>
               </div>
               <div className={styles.slider__bottom}>
-                <div className={cx(styles.pic, styles[`pic_${pic}`])} />
+                <div className={cx(styles.pic, styles[`pic_${pic}`])}>
+                  {pic === 'default' && <Icon type='profile' />}
+                </div>
                 <h3 className={styles.author}>{author}</h3>
                 <h4 className={styles.position}>{position}</h4>
               </div>
