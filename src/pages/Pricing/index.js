@@ -21,8 +21,8 @@ export default () => {
         <div className={styles.ready__content}>
           <h2 className={styles.ready__title}>Ready to upgrade?</h2>
           <h4 className={styles.ready__text}>
-            Click below to access the Santiment API or join the Discord channel
-            to share your solutions with the world
+            Click below to access the SanAPI or join the Discord channel to
+            share your solutions with the world
           </h4>
           <Button
             variant='fill'
