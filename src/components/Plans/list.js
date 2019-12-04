@@ -63,7 +63,7 @@ export default {
           rel='noopener noreferrer'
           href='https://sheets.santiment.net/'
         >
-          Google plugin for sheets
+          Sansheets
         </a>
       </span>
     ]
