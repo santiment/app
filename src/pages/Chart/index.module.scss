@@ -3,6 +3,10 @@
 .wrapper {
   padding: 0 0 32px;
   margin: -6px 0 0;
+
+  @include responsive('laptop', 'tablet') {
+    padding-bottom: 0;
+  }
 }
 
 .title {
@@ -41,4 +45,8 @@
 .wideChart {
   max-width: 100%;
   padding: 0;
+
+  @include responsive('laptop', 'tablet') {
+    padding: 0 15px;
+  }
 }
