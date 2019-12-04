@@ -11,8 +11,14 @@
   justify-content: center;
   cursor: pointer;
 
+  @include responsive('laptop', 'tablet') {
+    max-width: 100%;
+    height: 350px;
+  }
+
   @include responsive('phone', 'phone-xs') {
     max-width: 100%;
+    height: 290px;
   }
 }
 

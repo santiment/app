@@ -3,6 +3,10 @@
 .wrapper {
   padding: 0 0 32px;
   margin: -6px 0 0;
+
+  @include responsive('laptop', 'tablet') {
+    padding-bottom: 0;
+  }
 }
 
 .title {
@@ -19,18 +23,34 @@
 .sidecar__toggle {
   &_assets {
     top: 340px !important;
+
+    @include responsive('laptop', 'tablet') {
+      top: 364px !important;
+    }
   }
 
   &_social {
     top: 390px !important;
+
+    @include responsive('laptop', 'tablet') {
+      top: 414px !important;
+    }
   }
 
   &_assets_wide {
-    top: 220px !important;
+    top: 210px !important;
+
+    @include responsive('laptop', 'tablet') {
+      top: 310px !important;
+    }
   }
 
   &_social_wide {
-    top: 270px !important;
+    top: 260px !important;
+
+    @include responsive('laptop', 'tablet') {
+      top: 360px !important;
+    }
   }
 }
 
@@ -41,4 +61,8 @@
 .wideChart {
   max-width: 100%;
   padding: 0;
+
+  @include responsive('laptop', 'tablet') {
+    padding: 0 15px;
+  }
 }
