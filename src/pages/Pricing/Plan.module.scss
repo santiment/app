@@ -4,6 +4,7 @@
   flex: initial;
   border-radius: 4px;
   padding: 28px 48px;
+  z-index: 0;
 
   @include responsive('desktop', 'laptop') {
     text-align: center;

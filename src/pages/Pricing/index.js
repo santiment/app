@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import Plans from './Plans'
+import TokensTooltip from './TokensTooltip'
 import Testimonials from '../../components/Testimonials'
 import styles from './index.module.scss'
 
@@ -12,7 +13,7 @@ export default () => {
           Upgrade to Pro and get full possibilities
         </h1>
       </div>
-
+      <TokensTooltip />
       <Plans id='plans' />
 
       <Testimonials />
