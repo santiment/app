@@ -45,7 +45,7 @@ export default ({ id, classes = {}, onDialogClose }) => {
             subscription && subscription.cancelAtPeriodEnd
           return (
             <Query query={PLANS_QUERY}>
-              {({ data: { productsWithPlans = [] } }) => {
+              {({ data: { productsWithPlans = [] } = {} }) => {
                 const product = productsWithPlans.find(findSanbasePlan)
                 if (!product) {
                   return null

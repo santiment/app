@@ -33,7 +33,7 @@ const ChangeBillingDialog = ({
     <Mutation mutation={UPDATE_SUBSCRIPTION_MUTATION}>
       {(updateSubscription, { loading: updateLoading }) => (
         <Query query={PLANS_QUERY}>
-          {({ data: { productsWithPlans = [] }, loading }) => {
+          {({ data: { productsWithPlans = [] } = {}, loading }) => {
             let newPrice = 0
             let yearBillSave = 0
             let newPlanId

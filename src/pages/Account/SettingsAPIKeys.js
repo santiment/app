@@ -13,7 +13,7 @@ const SettingsAPIKeys = ({ apikey, generateAPIKey, revokeAPIKey }) => (
     <Settings.Row>
       <div className={styles.neuro}>
         <div className={styles.setting__left}>
-          <Label>Neuro API</Label>
+          <Label>SanAPI</Label>
           <Label className={styles.setting__description} accent='waterloo'>
             The api key will give you access to the data that requires SAN token
             staking.
@@ -50,7 +50,7 @@ const SettingsAPIKeys = ({ apikey, generateAPIKey, revokeAPIKey }) => (
               variant='fill'
               accent='positive'
             >
-              Explore Neuro
+              Explore SanAPI
             </Button>
           )}
         </div>

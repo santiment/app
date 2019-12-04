@@ -99,7 +99,7 @@ const SubscriptionRenewButton = ({ subscription: { id } = {} }) => {
 const SettingsSubscription = () => {
   return (
     <Query query={USER_SUBSCRIPTIONS_QUERY}>
-      {({ data: { currentUser } }) => {
+      {({ data: { currentUser = {} } = {} }) => {
         const subscription = getCurrentSanbaseSubscription(currentUser)
         const notCanceled = subscription && !subscription.cancelAtPeriodEnd
 

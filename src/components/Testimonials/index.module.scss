@@ -98,16 +98,15 @@
   margin: 0 auto;
   background-size: cover;
 
-  &_yan {
-    background-image: url('https://api-stage.santiment.net/images/sanbase/Testimonials/yan.jpg');
+  &_petersik {
+    background-image: url('https://cdn.discordapp.com/attachments/552140868904288295/626055852360466442/peter_sikuda.jpg');
   }
 
-  &_pramesh {
-    background-image: url('https://api-stage.santiment.net/images/sanbase/Testimonials/pramesh-tyagi.jpg');
-  }
-
-  &_paolo {
-    background-image: url('https://api-stage.santiment.net/images/sanbase/Testimonials/paolo-ardoino.jpg');
+  &_default {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--porcelain);
   }
 }
 
