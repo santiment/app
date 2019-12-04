@@ -43,7 +43,6 @@ import ChartWatermark from './ChartWatermark'
 import SignalLine, {
   SignalPointSvg
 } from '../Signals/chart/newSignalLine/SignalLine'
-import SidecarExplanationTooltip from './SidecarExplanationTooltip'
 import withSignals from '../Signals/chart/chartWrapper/WithSignals'
 import sharedStyles from './ChartPage.module.scss'
 import styles from './Chart.module.scss'
@@ -570,18 +569,7 @@ class Charts extends React.Component {
               </div>
             </>
           )}
-          {isSignalsEnabled && (
-            <SidecarExplanationTooltip
-              closeTimeout={500}
-              localStorageSuffix='_SIGNALS_ON_CHART_EXPLANATION'
-              position='bottom'
-              title='Create your own signals for price changes!'
-              description='One click on Y-axis to create a signal, the second click on signal for removing'
-              className={styles.signalsExplanation}
-            >
-              <SignalLine data={signalData} />
-            </SidecarExplanationTooltip>
-          )}
+          {isSignalsEnabled && <SignalLine data={signalData} />}
         </div>
 
         <ChartWatermark className={styles.watermark} />

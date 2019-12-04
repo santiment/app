@@ -20,7 +20,6 @@
 .trigger {
   margin: 0 8px 0 0;
   color: $white;
-  width: 153px;
 
   @include text('body-3');
 
@@ -31,12 +30,6 @@
 
 .triggerIcon {
   margin-right: 8px;
-}
-
-.addMetric {
-  display: flex;
-  position: relative;
-  top: 2px;
 }
 
 .selector {

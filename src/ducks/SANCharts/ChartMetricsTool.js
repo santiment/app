@@ -25,9 +25,14 @@ const ChartMetricsTool = ({
       {hideSettings.metricSelector || (
         <ContextMenu
           trigger={
-            <Button variant='fill' accent='positive' className={styles.trigger}>
+            <Button
+              as='a'
+              variant='fill'
+              accent='positive'
+              className={styles.trigger}
+            >
               <Icon type='plus-round' className={styles.triggerIcon} />
-              <div className={styles.addMetric}>Add metric</div>
+              Add metric
             </Button>
           }
           passOpenStateAs='isActive'

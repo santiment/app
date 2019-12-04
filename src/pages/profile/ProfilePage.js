@@ -6,12 +6,11 @@ import cx from 'classnames'
 import PublicWatchlists from './watchlists/PublicWatchlists'
 import PublicSignals from './signals/PublicSignals'
 import PublicInsights from './insights/PublicInsights'
-import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import ProfileInfo from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
 import { PUBLIC_USER_DATA_QUERY } from '../../queries/ProfileGQL'
-import { DesktopOnly, MobileOnly } from '../../components/Responsive'
+import { MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
 import styles from './ProfilePage.module.scss'
 
@@ -46,14 +45,7 @@ const ProfilePage = props => {
     )
   }
 
-  const {
-    username,
-    email,
-    id: profileId,
-    insights,
-    triggers,
-    watchlists
-  } = profile
+  const { id: profileId, insights, triggers, watchlists } = profile
 
   function updateCache (cache, { data: { follow, unfollow } }) {
     const queryVariables = getQueryVariables(props)
