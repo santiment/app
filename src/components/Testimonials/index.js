@@ -17,7 +17,7 @@ const testimonials = [
     pic: 'paolo',
     position: 'CTO at Bitfinex',
     text:
-      'SANapi is one of the most comprehensive crypto APIs on the market. For us, it is incredibly easy to fetch various data sets like on-chain, social media and development info directly to Bitfinex through their unified API and across different blockchains. The Santiment team has worked hard on creating a stable, reliable and all-inclusive data source for crypto, and they’ve more than delivered.'
+      'SanAPI is one of the most comprehensive crypto APIs on the market. For us, it is incredibly easy to fetch various data sets like on-chain, social media and development info directly to Bitfinex through their unified API and across different blockchains. The Santiment team has worked hard on creating a stable, reliable and all-inclusive data source for crypto, and they’ve more than delivered.'
   },
   {
     author: 'Pramesh Tyagi',
