@@ -21,6 +21,7 @@ import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
+import StoriesList from '../../components/Stories/StoriesList'
 import styles from './ChartPage.module.scss'
 
 const DEFAULT_TIME_RANGE = '6m'
@@ -421,7 +422,9 @@ class ChartPage extends Component {
       isPRO,
       isBeta,
       alwaysShowingMetrics = [],
-      isParentLoading
+      isParentLoading,
+      isWideChart,
+      project
     } = this.props
 
     const selectedInterval = INTERVAL_ALIAS[interval] || interval
@@ -526,24 +529,50 @@ class ChartPage extends Component {
               metrics.some(({ key }) => key === metricAnomalyKey)
             )
 
+          const metricsTool = (
+            <LoadableChartMetricsTool
+              classes={styles}
+              slug={slug}
+              toggleMetric={this.toggleMetric}
+              disabledMetrics={errorMetrics}
+              activeMetrics={finalMetrics}
+              activeEvents={events}
+              showToggleAnomalies={showToggleAnomalies}
+              onToggleAnomalies={this.onToggleAnomalies}
+              isShowAnomalies={isShowAnomalies}
+              alwaysShowingMetrics={alwaysShowingMetrics}
+              hideSettings={hideSettings}
+              isWideChart={isWideChart}
+            />
+          )
+
           return (
             <>
               {viewOnly || hideSettings.header || (
-                <Header
-                  slug={slug}
-                  isLoading={isParentLoading}
-                  isLoggedIn={isLoggedIn}
-                  onSlugSelect={this.onSlugSelect}
-                />
+                <>
+                  {isWideChart && <StoriesList classes={styles} />}
+                  <Header
+                    slug={slug}
+                    isLoading={isParentLoading}
+                    isLoggedIn={isLoggedIn}
+                    onSlugSelect={this.onSlugSelect}
+                  />
+                </>
               )}
               <div className={styles.wrapper}>
                 <div
                   className={cx(
                     styles.tool,
-                    isAdvancedView && styles.tool_short
+                    isAdvancedView && styles.tool_short,
+                    isWideChart && styles.tool_wide_chart
                   )}
                 >
-                  <div className={styles.container}>
+                  <div
+                    className={cx(
+                      styles.container,
+                      isWideChart && styles.wideChartBg
+                    )}
+                  >
                     {!viewOnly && (
                       <>
                         <LoadableChartSettings
@@ -552,7 +581,6 @@ class ChartPage extends Component {
                           onCalendarChange={this.onCalendarChange}
                           generateShareLink={this.generateShareLink}
                           onNightModeSelect={this.onNightModeSelect}
-                          onIntervalChange={this.onIntervalChange}
                           onMultiChartsChange={this.onMultiChartsChange}
                           isMultiChartsActive={isMultiChartsActive}
                           isNightModeActive={nightMode}
@@ -562,7 +590,6 @@ class ChartPage extends Component {
                           to={to}
                           scale={scale}
                           onScaleChange={this.onScaleChange}
-                          interval={interval}
                           isAdvancedView={isAdvancedView}
                           classes={classes}
                           activeMetrics={finalMetrics}
@@ -571,19 +598,8 @@ class ChartPage extends Component {
                           chartData={timeseries}
                           events={events}
                           eventsData={eventsFiltered}
-                        />
-                        <LoadableChartMetricsTool
-                          classes={styles}
-                          slug={slug}
-                          toggleMetric={this.toggleMetric}
-                          disabledMetrics={errorMetrics}
-                          activeMetrics={finalMetrics}
-                          activeEvents={events}
-                          showToggleAnomalies={showToggleAnomalies}
-                          onToggleAnomalies={this.onToggleAnomalies}
-                          isShowAnomalies={isShowAnomalies}
-                          alwaysShowingMetrics={alwaysShowingMetrics}
-                          hideSettings={hideSettings}
+                          slugTitle={slug}
+                          project={project}
                         />
                       </>
                     )}
@@ -616,8 +632,12 @@ class ChartPage extends Component {
                         onMouseMove={this.getSocialContext}
                       />
                     </TooltipSynchronizer>
+                    {metricsTool}
                     {!isPRO && (
-                      <UpgradePaywall isAdvancedView={isAdvancedView} />
+                      <UpgradePaywall
+                        isAdvancedView={isAdvancedView}
+                        isWideChart={isWideChart}
+                      />
                     )}
                   </div>
                 </div>
@@ -632,11 +652,13 @@ class ChartPage extends Component {
                     projectName={slug}
                     interval={interval}
                     date={this.state.socialContextDate}
+                    isWideChart={isWideChart}
                   />
                 )}
 
                 {!viewOnly && !hideSettings.sidecar && (
                   <LoadableChartSidecar
+                    isWideChart={isWideChart}
                     onSlugSelect={this.onSlugSelect}
                     onSidebarToggleClick={this.onSidebarToggleClick}
                     isAdvancedView={isAdvancedView === ASSETS_SIDEBAR}
@@ -658,8 +680,11 @@ class ChartPage extends Component {
   }
 }
 
-const mapStateToProps = ({ rootUi: { isBetaModeEnabled } }) => ({
-  isBeta: isBetaModeEnabled
+const mapStateToProps = ({
+  rootUi: { isBetaModeEnabled, isWideChartEnabled }
+}) => ({
+  isBeta: isBetaModeEnabled,
+  isWideChart: isWideChartEnabled
 })
 
 export default connect(mapStateToProps)(ChartPage)

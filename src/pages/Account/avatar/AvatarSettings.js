@@ -35,9 +35,7 @@ const AvatarSettings = ({
       .then(() => {
         dispatchAvatarChanged(url)
         store.dispatch(
-          showNotification(
-            `Avatar successfully ${url ? 'changed' : 'removed'}`
-          )
+          showNotification(`Avatar successfully ${url ? 'changed' : 'removed'}`)
         )
         forceClose && setOpen(false)
       })

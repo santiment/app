@@ -6,6 +6,7 @@ const isNightModeDeprecated = loadKeyState('isNightModeEnabled')
 const isBetaMode = loadKeyState('isBetaMode')
 const isBetaModeDeprecated = loadKeyState('isBetaModeEnabled')
 const isNewsEnabled = loadKeyState('isNewsEnabled') || false
+const isWideChartEnabled = loadKeyState('isWideChart')
 
 const isNightModeEnabled =
   isNightMode !== undefined ? isNightMode : isNightModeDeprecated || false
@@ -25,7 +26,8 @@ export const initialState = {
   isNightModeEnabled: isNightModeEnabled,
   isBetaModeEnabled: isBetaModeEnabled,
   isNewsEnabled: isNewsEnabled,
-  isSearchInputFocused: false
+  isSearchInputFocused: false,
+  isWideChartEnabled
 }
 
 export default (state = initialState, action) => {
@@ -60,6 +62,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isNightModeEnabled: action.payload
+      }
+    case actions.APP_USER_WIDE_CHART_MODE_SAVE:
+      return {
+        ...state,
+        isWideChartEnabled: action.payload
       }
     case actions.APP_USER_BETA_MODE_SAVE:
       return {

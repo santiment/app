@@ -463,7 +463,8 @@ class Charts extends React.Component {
       syncedColors,
       isSignalsEnabled,
       signalLines,
-      signalData
+      signalData,
+      isWideChart
     } = this.props
 
     const {
@@ -505,7 +506,12 @@ class Charts extends React.Component {
 
     return (
       <div
-        className={cx(styles.wrapper, sharedStyles.chart, className)}
+        className={cx(
+          styles.wrapper,
+          sharedStyles.chart,
+          isWideChart && styles.wideChartBg,
+          className
+        )}
         ref={chartRef}
       >
         {isLoading && (
@@ -663,7 +669,7 @@ class Charts extends React.Component {
                 tickFormatter={EMPTY_FORMATTER}
                 travellerWidth={4}
                 onChange={this.getXToYCoordinatesDebounced}
-                width={chartRef.current.clientWidth}
+                width={chartRef.current.clientWidth - (isWideChart ? 48 : 0)}
                 x={0}
               >
                 <ComposedChart>
@@ -689,7 +695,8 @@ Charts.defaultProps = {
 }
 
 const mapStateToProps = (state, props) => ({
-  hasPremium: checkHasPremium(state)
+  hasPremium: checkHasPremium(state),
+  isWideChart: state.rootUi.isWideChartEnabled
 })
 
 export const HISTORY_PRICE_QUERY = gql`

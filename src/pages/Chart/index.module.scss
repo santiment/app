@@ -1,9 +1,8 @@
 @import '~@santiment-network/ui/mixins.scss';
 
 .wrapper {
-  background: var(--athens);
-  padding: 26px 0 32px;
-  margin: -32px 0 32px;
+  padding: 0 0 32px;
+  margin: -6px 0 32px;
 }
 
 .title {
@@ -25,8 +24,21 @@
   &_social {
     top: 390px !important;
   }
+
+  &_assets_wide {
+    top: 220px !important;
+  }
+
+  &_social_wide {
+    top: 270px !important;
+  }
 }
 
 .stories {
   margin: 0 0 3px;
+}
+
+.wideChart {
+  max-width: 100%;
+  padding: 0;
 }

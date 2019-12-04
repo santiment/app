@@ -76,6 +76,7 @@ import {
 import { fetchRecentAssets, fetchRecentWatchlists } from './fetchRecentsEpic'
 import { fetchMarketSegments } from '../pages/MarketSegments/epics'
 import { trialSubscriptionEpic } from './trialSubscriptionEpic'
+import handleWideChartToggle from './handleWideChartToggle'
 
 export default combineEpics(
   handleOffline,
@@ -123,6 +124,7 @@ export default combineEpics(
   apikeyGenerateEpic,
   apikeyRevokeEpic,
   handleNightModeToggle,
+  handleWideChartToggle,
   saveNightModeAfterLaunch,
   sendNightModeIfDiff,
   handleBetaModeToggle,

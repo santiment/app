@@ -1,10 +1,19 @@
 @import '~@santiment-network/ui/mixins';
 
+.container {
+  display: flex;
+  justify-content: center;
+  max-width: 1140px;
+  width: 100%;
+  margin: auto;
+}
+
 .wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 0 40px;
+  margin: 0 0 32px;
+  width: 100%;
 
   @include responsive('tablet') {
     justify-content: flex-start;

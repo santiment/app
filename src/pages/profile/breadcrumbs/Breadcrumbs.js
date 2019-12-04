@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import styles from './Breadcrumbs.module.scss'
 
-const Breadcrumbs = ({ crumbs }) => {
+const Breadcrumbs = ({ crumbs, className }) => {
   return (
-    <div className={styles.breadcrumbs}>
+    <div className={cx(styles.breadcrumbs, className)}>
       {crumbs.map(({ label, to = '#' }, index) => {
         const isLast = index === crumbs.length - 1
         return (

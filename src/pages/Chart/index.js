@@ -1,5 +1,8 @@
 import React from 'react'
 import GA from 'react-ga'
+import cx from 'classnames'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 import { parse } from 'query-string'
 import { graphql, Query } from 'react-apollo'
 import ChartWidget from '../../ducks/SANCharts/ChartPage'
@@ -21,24 +24,37 @@ function onGetStartedClick () {
   })
 }
 
-export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
-  fetchPolicy: 'cache-and-network',
-  options: () => ({
-    variables: { page: 1 }
+const mapStateToProps = state => {
+  return {
+    isWideChart: state.rootUi.isWideChartEnabled
+  }
+}
+
+export default compose(
+  connect(mapStateToProps),
+  graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
+    fetchPolicy: 'cache-and-network',
+    options: () => ({
+      variables: { page: 1 }
+    })
   })
-})(({ isLoggedIn, location, history, data: { insights = [] } }) => {
+)(({ isLoggedIn, location, history, isWideChart, data: { insights = [] } }) => {
   const sortedInsights = insights.sort(creationDateSort).slice(0, 6)
-  const { slug = 'bitcoin', title = 'Bitcoin (BTC)', projectId = 1505 } = parse(
-    location.search
-  )
+  const {
+    slug = 'bitcoin',
+    ticker = 'BTC',
+    title = 'Bitcoin (BTC)',
+    projectId = 1505
+  } = parse(location.search)
   const onChangeSlug = ({ slug: newSlug } = {}) => {
     slug && slug !== newSlug && history.replace(`/projects/${newSlug}`)
   }
+
   return (
     <>
       <div className={styles.wrapper}>
-        <StoriesList classes={styles} />
-        <div className={'elem-container'}>
+        {!isWideChart && <StoriesList classes={styles} />}
+        <div className={cx('elem-container', isWideChart && styles.wideChart)}>
           <Query query={USER_SUBSCRIPTIONS_QUERY}>
             {({ data: { currentUser } = {} }) => {
               const subscription = getCurrentSanbaseSubscription(currentUser)
@@ -56,6 +72,7 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
                     slug={slug}
                     title={title}
                     projectId={projectId}
+                    isWideChart={isWideChart}
                     metrics={[
                       Metrics.historyPrice,
                       Metrics.socialVolume,
@@ -66,6 +83,11 @@ export default graphql(ALL_INSIGHTS_BY_PAGE_QUERY, {
                     onSlugSelect={onChangeSlug}
                     isControlled
                     isPRO={userPlan === 'PRO'}
+                    project={{
+                      ticker,
+                      slug,
+                      projectId
+                    }}
                     {...boundaries}
                   />
                 </>

@@ -18,23 +18,7 @@
 }
 
 .breadcrumbs {
-  margin-bottom: 23px;
-
-  @include text('body-3');
-
-  &__root {
-    color: $bali-hai;
-  }
-
-  &__arrow {
-    margin: 0 14px;
-    fill: $bali-hai;
-  }
-
-  &__project {
-    color: $fiord;
-    text-transform: capitalize;
-  }
+  max-width: 1140px;
 }
 
 .newsWrapper {
@@ -51,4 +35,14 @@
   &::first-letter {
     text-transform: uppercase;
   }
+}
+
+.tables {
+  margin-top: 24px !important;
+  padding: 0 !important;
+}
+
+.chart {
+  width: 100%;
+  max-width: 100%;
 }

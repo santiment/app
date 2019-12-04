@@ -5,7 +5,7 @@
 }
 
 .tool {
-  border: 1px solid var(--porcelain);
+  // border: 1px solid var(--porcelain);
   border-radius: 4px;
   flex: 1;
   width: 100%;
@@ -14,16 +14,24 @@
     width: 65%;
     flex: auto;
   }
+
+  &_wide_chart {
+    border: none;
+  }
 }
 
 .container {
   background: var(--white);
-  padding: 20px 24px;
 
   &_bottom {
     padding: 24px;
     border-top: 1px solid var(--porcelain);
   }
+}
+
+.wideChartBg {
+  background: var(--athens) !important;
+  padding: 20px 24px;
 }
 
 .settings {
@@ -42,8 +50,36 @@
     color: var(--mirage);
   }
 
+  &_settings {
+    margin-left: auto;
+  }
+
+  &__main {
+    margin-left: auto;
+  }
+
+  &__studio {
+    margin-left: 12px;
+    color: var($rhino);
+
+    @include text('body-1');
+  }
+
+  &__slugBlock {
+    display: flex;
+    align-items: baseline;
+  }
+
+  &__slug {
+    margin-left: 8px;
+    color: var(--waterloo);
+
+    @include text('body-3');
+  }
+
   &__group {
     display: flex;
+    align-items: center;
 
     @include responsive('tablet') {
       margin: 0;
@@ -86,6 +122,7 @@
 .chart {
   user-select: none !important;
   position: relative;
+  margin-top: 24px;
 }
 
 .metrics {
@@ -166,4 +203,17 @@
 
 .paywall {
   background: var(--athens);
+}
+
+.settingsBtn {
+  background: none;
+  fill: var(--casper);
+
+  &:hover {
+    fill: var(--jungle-green-hover);
+  }
+}
+
+.logo {
+  height: 32px;
 }
