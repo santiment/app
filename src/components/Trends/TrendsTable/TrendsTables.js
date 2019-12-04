@@ -37,13 +37,6 @@ class TrendsTables extends PureComponent {
     }
   }
 
-  componentWillUnmount () {
-    const { selected } = this.state
-    if (selected.size > 0) {
-      this.props.setSelectedTrends(selected)
-    }
-  }
-
   selectTrend = trend => {
     const { selected: oldSelected } = this.state
     const selected = new Set([...oldSelected])
@@ -54,7 +47,7 @@ class TrendsTables extends PureComponent {
       selected.add(trend)
     }
 
-    this.setState({ selected })
+    this.setState({ selected }, () => this.props.setSelectedTrends(selected))
   }
 
   connectTrends = word => {
