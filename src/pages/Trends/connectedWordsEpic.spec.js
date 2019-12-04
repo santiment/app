@@ -1,6 +1,6 @@
 /* eslint-env jest */
 import { ApolloClient } from 'apollo-client'
-import { mockSingleLink } from 'react-apollo/test-utils'
+import { mockSingleLink } from '@apollo/react-testing'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ActionsObservable } from 'redux-observable'
 import configureStore from 'redux-mock-store'
@@ -11,7 +11,6 @@ import {
 import {
   TRENDS_HYPED_FETCH_SUCCESS,
   TRENDS_HYPED_FETCH_TICKERS_SLUGS_SUCCESS,
-  TRENDS_CONNECTED_WORDS_SUCCESS,
   TRENDS_CONNECTED_WORDS_OPTIMIZATION_SUCCESS
 } from '../../components/Trends/actions'
 import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../queries/InsightsGQL'

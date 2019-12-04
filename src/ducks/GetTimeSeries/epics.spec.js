@@ -1,7 +1,6 @@
 /* eslint-env jest */
 import { ApolloClient } from 'apollo-client'
-import { mockSingleLink } from 'react-apollo/test-utils'
-import { ApolloLink, Observable } from 'apollo-link'
+import { mockSingleLink } from '@apollo/react-testing'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ActionsObservable } from 'redux-observable'
 import configureStore from 'redux-mock-store'
