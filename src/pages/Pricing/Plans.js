@@ -53,14 +53,14 @@ export default ({ id, classes = {} }) => {
         <Billing selected={billing} onClick={setBilling} />
       </div>
       <Query query={USER_SUBSCRIPTIONS_QUERY} fetchPolicy='network-only'>
-        {({ data: { currentUser } }) => {
+        {({ data: { currentUser } = {} }) => {
           const subscription = getCurrentSanbaseSubscription(currentUser)
           const userPlan = subscription && subscription.plan.id
           const isSubscriptionCanceled =
             subscription && subscription.cancelAtPeriodEnd
           return (
             <Query query={PLANS_QUERY}>
-              {({ data: { productsWithPlans = [] } }) => {
+              {({ data: { productsWithPlans = [] } = {} }) => {
                 const product = productsWithPlans.find(findSanbasePlan)
                 if (!product) {
                   return null
