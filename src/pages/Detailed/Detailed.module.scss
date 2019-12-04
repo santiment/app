@@ -10,6 +10,10 @@
 .sidecar__toggle {
   &_assets {
     top: 256px !important;
+
+    @include responsive('laptop', 'tablet') {
+      top: 350px !important;
+    }
   }
 
   &_social {

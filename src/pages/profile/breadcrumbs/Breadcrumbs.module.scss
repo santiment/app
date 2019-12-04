@@ -7,6 +7,10 @@
   display: flex;
 
   @include text('body-3');
+
+  @include responsive('laptop', 'tablet') {
+    padding: 0 24px;
+  }
 }
 
 .root {
