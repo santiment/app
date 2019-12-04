@@ -106,7 +106,11 @@ const Navbar = ({ activeLink = '/' }) => {
             position='start'
           >
             <Link className={styles.logo} to='/'>
-              <img alt='sanbase logo' src={logoImg} />
+              <img
+                alt='sanbase logo'
+                src={logoImg}
+                className={styles.logoIcon}
+              />
             </Link>
           </SantimentProductsTooltip>
           {leftLinks.map((props, index) => {

@@ -36,6 +36,11 @@
   }
 }
 
+.logoIcon {
+  width: 32px;
+  height: 32px;
+}
+
 .right,
 .left {
   display: flex;
@@ -109,8 +114,7 @@
 }
 
 .accountBtn {
-  padding-left: 10px;
-  padding-right: 0;
+  padding: 5px 0 0 12px;
 }
 
 .labCard {

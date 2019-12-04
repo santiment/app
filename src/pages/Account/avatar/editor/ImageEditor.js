@@ -129,7 +129,7 @@ const ImageEditor = ({
                 className={styles.fileLoader}
                 onUploaded={onUploaded}
               />
-              Change photo
+              Upload
             </Button>
             <Button
               variant='fill'
