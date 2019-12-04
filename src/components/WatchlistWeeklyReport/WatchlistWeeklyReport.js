@@ -148,6 +148,10 @@ const mapStateToProps = ({ user: { data: { email } = {} } }) => ({
 
 const mapDispatchToProps = dispatch => ({
   dispatchIsMonitored: payload => {
+    window.intercomSettings = {
+      ...window.intercomSettings,
+      weekly_report: payload.isMonitored
+    }
     dispatch({ type: WATCHLIST_TOGGLE_MONITORING, payload })
   },
   setNotification: message => dispatch(showNotification(message))

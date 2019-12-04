@@ -4,11 +4,14 @@ import { loadState } from './utils/localStorage'
 if (process.env.NODE_ENV === 'production') {
   const loadedState = loadState()
   const user = loadedState ? loadedState.data : {}
-  window.Intercom('boot', {
+  const settings = {
     app_id: 'cyjjko9u',
     email: user.email,
-    name: user.username
-  })
+    name: user.username,
+    user_id: user.id
+  }
+  window.Intercom('boot', settings)
+  window.intercomSettings = settings
 }
 
 const withIntercom = (WrappedComponent, options = {}) => {
