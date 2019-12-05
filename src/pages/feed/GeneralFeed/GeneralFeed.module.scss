@@ -1,0 +1,29 @@
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  @include text('body-1');
+
+  color: $rhino;
+  margin-bottom: 12px;
+}
+
+.scrollable {
+  padding-right: 32px;
+  margin-right: 24px;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+.activitiesWrapper {
+  margin: 0 !important;
+}
+
+.activityItem {
+  padding: 16px;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03), 0 1px 2px rgba(59, 84, 106, 0.03);
+  border-radius: $border-radius;
+  margin-top: 16px;
+}
