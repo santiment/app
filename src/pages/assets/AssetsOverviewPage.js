@@ -43,13 +43,9 @@ const AssetsOverview = ({
         ) : (
           <>
             <StoriesList classes={styles} />
-            <RecentlyWatched className={styles.recents} />
+            <RecentlyWatched className={styles.recents} type='assets' />
             <h2 className={styles.subtitle}>Categories</h2>
             <WatchlistCards watchlists={CATEGORIES} />
-            <MyWatchlist
-              isLoggedIn={isLoggedIn}
-              className={styles.watchlists}
-            />
             <h2 className={styles.subtitle}>Social gainers and losers</h2>
             <section className={styles.gainers}>
               <GainersLosersTabs

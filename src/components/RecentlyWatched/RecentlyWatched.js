@@ -43,6 +43,7 @@ const RecentlyWatched = ({
   watchlists,
   onProjectClick,
   onWatchlistClick,
+  type,
   classes = {}
 }) => {
   useEffect(() => {
@@ -55,7 +56,7 @@ const RecentlyWatched = ({
   return (
     (hasAssets || hasWatchlists) && (
       <section className={cx(className, styles.wrapper)}>
-        {hasAssets && (
+        {hasAssets && (type === 'assets' || !type) && (
           <div className={styles.recentAssets}>
             <h2 className={styles.title}>Recently watched assets</h2>
             {assets.map(project => (
@@ -68,7 +69,7 @@ const RecentlyWatched = ({
             ))}
           </div>
         )}
-        {hasWatchlists && (
+        {hasWatchlists && (type === 'watchlists' || !type) && (
           <>
             <h2 className={styles.title}>Recently watched watchlists</h2>
             {watchlists.map(watchlist => (
