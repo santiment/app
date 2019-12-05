@@ -1,16 +1,12 @@
 import React from 'react'
+import { push } from 'react-router-redux'
+import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import { ProjectSelector } from '../../../ducks/SANCharts/Header'
+import { SidecarItems } from '../../../ducks/SANCharts/ChartSidecar'
 import styles from './RecentsFeed.module.scss'
-import GainersLosersTabs from '../../../components/GainersAndLosers/GainersLosersTabs'
-import RecentlyWatched from '../../../components/RecentlyWatched/RecentlyWatched'
-import Categories from '../../../ducks/SANCharts/Categories'
 
-const RecentsFeed = ({}) => {
-  const setOpenedList = () => {}
-
-  const onSlugSelect = () => {}
-
+const RecentsFeed = ({ onSlugSelect }) => {
   return (
     <div className={styles.container}>
       <div>
@@ -24,32 +20,26 @@ const RecentsFeed = ({}) => {
         />
       </div>
       <div className={styles.scrollable}>
-        <RecentlyWatched
-          className={styles.section}
+        <SidecarItems
+          onSlugSelect={onSlugSelect}
           onProjectClick={onSlugSelect}
-          onWatchlistClick={setOpenedList}
           classes={styles}
+          params={{
+            gainersTitle: 'Gainers and loosers'
+          }}
         />
-
-        <div className={styles.block}>
-          <h2 className={styles.subTitle}>Categories</h2>
-          <Categories onClick={setOpenedList} />
-        </div>
-
-        <div className={styles.block}>
-          <h2 className={styles.subTitle}>Gainers and loosers</h2>
-          <GainersLosersTabs
-            timeWindow='2d'
-            size={8}
-            classes={styles}
-            onProjectClick={({ slug }) => {
-              // history.push(`/projects/${slug}`)
-            }}
-          />
-        </div>
       </div>
     </div>
   )
 }
 
-export default RecentsFeed
+const mapDispatchToProps = dispatch => ({
+  onSlugSelect: ({ slug }) => {
+    dispatch(push('/projects/' + slug))
+  }
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(RecentsFeed)
