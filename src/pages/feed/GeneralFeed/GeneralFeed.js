@@ -3,7 +3,7 @@ import SonarFeedActivityPage from '../../SonarFeed/SonarFeedActivityPage'
 import styles from './GeneralFeed.module.scss'
 import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 
-const GeneralFeed = ({}) => {
+const GeneralFeed = () => {
   return (
     <div className={styles.container}>
       <div className={styles.title}>

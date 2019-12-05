@@ -6,7 +6,7 @@ import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import styles from './Feed.module.scss'
 
-const FeedPage = ({}) => {
+const FeedPage = () => {
   return (
     <div className='page'>
       <MobileOnly>

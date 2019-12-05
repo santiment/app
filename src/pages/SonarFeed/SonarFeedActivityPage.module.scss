@@ -24,6 +24,11 @@
 
 .link {
   margin-left: 5px;
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
 }
 
 .signal {
