@@ -3,8 +3,13 @@
 .title {
   @include text('body-1');
 
+  display: flex;
   color: $rhino;
   margin-bottom: 12px;
+}
+
+.helpTrigger {
+  margin-left: 8px !important;
 }
 
 .scrollable {
@@ -12,6 +17,15 @@
   margin-right: 24px;
   overflow-y: auto;
   max-height: 100%;
+
+  @include responsive("desktop") {
+    width: 715px;
+  }
+
+  @include responsive("phone", "phone-xs") {
+    padding: 0;
+    margin: 0;
+  }
 }
 
 .activitiesWrapper {

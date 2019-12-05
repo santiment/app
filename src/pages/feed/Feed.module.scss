@@ -6,4 +6,8 @@
 
 .feeds {
   display: flex;
+
+  @include responsive("phone", "phone-xs") {
+    padding: 0 16px;
+  }
 }
