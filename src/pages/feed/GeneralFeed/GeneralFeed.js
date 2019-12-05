@@ -1,10 +1,10 @@
 import React from 'react'
-import styles from './GeneralFeed.module.scss'
 import SonarFeedActivityPage from '../../SonarFeed/SonarFeedActivityPage'
+import styles from './GeneralFeed.module.scss'
 
 const GeneralFeed = ({}) => {
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.title}>General feed</div>
 
       <div className={styles.scrollable}>

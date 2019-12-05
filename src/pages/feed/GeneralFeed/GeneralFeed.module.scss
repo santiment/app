@@ -27,3 +27,19 @@
   border-radius: $border-radius;
   margin-top: 16px;
 }
+
+.activityCustom {
+  margin: 0 0 16px 0 !important;
+}
+
+.activityMarkdown {
+  p {
+    // GarageInc: becuase markdown from server
+    margin-bottom: 0 !important;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}

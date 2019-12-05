@@ -1,1 +1,60 @@
 @import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.scrollable {
+  border-left: 1px solid var(--porcelain);
+  overflow-y: auto;
+  margin-top: 28px;
+  height: 100%;
+  padding: 0 32px;
+}
+
+.search {
+  display: flex;
+  color: $rhino;
+  padding: 0 32px;
+  align-items: center;
+  cursor: pointer;
+
+  @include text('body-1');
+}
+
+.searchIcon {
+  margin-left: auto;
+  fill: var(--casper);
+}
+
+.tabs {
+  padding: 0;
+
+  & > div {
+    width: 50%;
+    padding: 16px;
+    margin: 0;
+    justify-content: center;
+  }
+}
+
+.block {
+  margin-top: 41px;
+}
+
+.subTitle {
+  @include text('body-2');
+
+  font-size: 16px !important;
+  line-height: 24px !important;
+  font-weight: initial !important;
+  color: var(--waterloo);
+  margin-bottom: 10px;
+}
+
+.section {
+  width: 100%;
+  padding: 0 !important;
+}

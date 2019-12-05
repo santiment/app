@@ -33,7 +33,7 @@ export const TRIGGER_ACTIVITIES_QUERY = gql`
   }
 `
 
-const SonarFeedActivityPage = ({ activities, isLoading, classes }) => {
+const SonarFeedActivityPage = ({ activities, isLoading, classes = {} }) => {
   if (isLoading) {
     return <PageLoader className={styles.loader} />
   }
@@ -81,8 +81,11 @@ const SonarFeedActivityPage = ({ activities, isLoading, classes }) => {
     <div className={cx(styles.wrapper, classes.activitiesWrapper)}>
       {activities.map(
         ({ triggeredAt, payload, trigger: { id: signalId, title } = {} }) => (
-          <div key={triggeredAt} className={classes.activityItem}>
-            <div className={styles.description}>
+          <div
+            key={triggeredAt + '_' + signalId}
+            className={classes.activityItem}
+          >
+            <div className={cx(styles.description, classes.activityCustom)}>
               <h4 className={styles.date}>{formatDate(triggeredAt)} by</h4>
 
               <Link
@@ -92,7 +95,10 @@ const SonarFeedActivityPage = ({ activities, isLoading, classes }) => {
                 {title}
               </Link>
             </div>
-            <Markdown source={Object.values(payload)[0]} />
+            <Markdown
+              source={Object.values(payload)[0]}
+              className={classes.activityMarkdown}
+            />
           </div>
         )
       )}
