@@ -157,7 +157,7 @@ const ExternalRoutes = [
     routes: ['apidocs', 'apiexamples']
   },
   {
-    to: 'https://help.santiment.net',
+    to: 'https://academy.santiment.net',
     routes: ['docs', 'help']
   },
   {
