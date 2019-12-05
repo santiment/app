@@ -2,6 +2,7 @@ import React from 'react'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
+import cloneDeep from 'lodash/cloneDeep'
 import cx from 'classnames'
 import PublicWatchlists from './watchlists/PublicWatchlists'
 import PublicSignals from './signals/PublicSignals'
@@ -50,10 +51,12 @@ const ProfilePage = props => {
   function updateCache (cache, { data: { follow, unfollow } }) {
     const queryVariables = getQueryVariables(props)
 
-    const getUserData = cache.readQuery({
-      query: PUBLIC_USER_DATA_QUERY,
-      variables: queryVariables
-    })
+    const getUserData = cloneDeep(
+      cache.readQuery({
+        query: PUBLIC_USER_DATA_QUERY,
+        variables: queryVariables
+      })
+    )
 
     const {
       getUser: { followers }
