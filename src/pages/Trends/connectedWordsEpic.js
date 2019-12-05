@@ -11,7 +11,7 @@ import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../queries/InsightsGQL'
 import { binarySearch } from './utils'
 import { ONE_DAY_IN_MS } from '../../utils/dates'
 import { simpleSortStrings } from '../../utils/sortMethods'
-import { getInsightTrendTagByDate } from '../../components/Insight/InsightsTrends'
+import { getInsightTrendTagByDate } from '../../components/Insight/utils'
 import { creationDateSort } from '../Insights/utils'
 
 const tickerCheckClb = (target, { ticker }) => target === ticker
