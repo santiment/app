@@ -30,9 +30,6 @@ const RecentsFeed = ({ onSlugSelect }) => {
           onSlugSelect={onSlugSelect}
           onProjectClick={onSlugSelect}
           classes={styles}
-          params={{
-            gainersTitle: 'Gainers and loosers'
-          }}
         />
       </div>
     </div>

@@ -76,10 +76,7 @@ export const SidecarItems = ({
   classes = {},
   hidden = false,
   onSlugSelect,
-  onProjectClick,
-  params = {
-    gainersTitle: 'Social gainers and losers'
-  }
+  onProjectClick
 }) => {
   const [openedList, setOpenedList] = useState()
 
@@ -136,7 +133,7 @@ export const SidecarItems = ({
           </section>
           <section className={styles.section}>
             <h2 className={cx(styles.subtitle, classes.subTitle)}>
-              {params.gainersTitle}
+              Social gainers and losers
             </h2>
             <GainersLosersTabs
               timeWindow='2d'

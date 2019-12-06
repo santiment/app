@@ -23,11 +23,17 @@
   color: var(--waterloo);
 
   a {
+    display: block;
     color: var(--jungle-green);
 
     &:hover {
       color: var(--jungle-green-hover);
     }
+  }
+
+  img {
+    margin-top: 8px;
+    border-radius: $border-radius;
   }
 }
 
