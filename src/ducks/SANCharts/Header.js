@@ -51,7 +51,12 @@ const ProjectInfo = createSkeletonProvider(
   </div>
 ))
 
-const ProjectSelector = ({ slug, project, onChange }) => (
+export const ProjectSelector = ({
+  slug,
+  project,
+  onChange,
+  trigger = () => <ProjectInfo {...project} />
+}) => (
   <GetProjects
     render={({ allProjects }) => {
       const array =
@@ -63,7 +68,7 @@ const ProjectSelector = ({ slug, project, onChange }) => (
           target={{ slug }}
           isSingle={true}
           onChange={onChange}
-          trigger={() => <ProjectInfo {...project} />}
+          trigger={trigger}
         />
       )
     }}

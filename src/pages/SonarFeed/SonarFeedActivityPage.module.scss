@@ -1,5 +1,4 @@
 @import "~@santiment-network/ui/mixins.scss";
-@import 'variables.scss';
 
 .wrapper {
   margin: 0 auto;
@@ -14,6 +13,27 @@
   margin: 40px 0 16px;
   display: flex;
   color: var(--waterloo);
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
+}
+
+.activityItem {
+  color: var(--waterloo);
+
+  a {
+    color: var(--jungle-green);
+
+    &:hover {
+      color: var(--jungle-green-hover);
+    }
+  }
+
+  img {
+    margin-top: 8px;
+    border-radius: $border-radius;
+  }
 }
 
 .date {
@@ -25,6 +45,15 @@
 
 .link {
   margin-left: 5px;
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    margin-left: 0;
+  }
 }
 
 .signal {

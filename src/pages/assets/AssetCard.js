@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import cx from 'classnames'
 import ProjectIcon from './../../components/ProjectIcon'
 import PercentChanges from './../../components/PercentChanges'
 import { capitalizeStr } from './../../utils/utils'
@@ -13,10 +14,11 @@ const AssetsCard = ({
   priceUsd = 0,
   percentChange24h = 0,
   marketcapUsd = 0,
-  onAssetClick
+  onAssetClick,
+  className
 }) => (
   <Link
-    className={styles.wrapper}
+    className={cx(styles.wrapper, className)}
     to={`/projects/${slug}`}
     onClick={onAssetClick}
   >
