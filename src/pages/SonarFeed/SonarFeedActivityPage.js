@@ -93,14 +93,15 @@ const SonarFeedActivityPage = ({ activities, isLoading, classes = {} }) => {
             )}
           >
             <div className={cx(styles.description, classes.activityCustom)}>
-              <h4 className={styles.date}>{formatDate(triggeredAt)} by</h4>
-
-              <Link
-                to={`/sonar/signal/${signalId}${SIGNAL_ANCHORS.ACTIVITIES}`}
-                className={styles.link}
-              >
-                {title}
-              </Link>
+              <h4 className={styles.date}>
+                {formatDate(triggeredAt)} by{' '}
+                <Link
+                  to={`/sonar/signal/${signalId}${SIGNAL_ANCHORS.ACTIVITIES}`}
+                  className={styles.link}
+                >
+                  {title}
+                </Link>
+              </h4>
             </div>
             <Markdown
               source={Object.values(payload)[0]}
