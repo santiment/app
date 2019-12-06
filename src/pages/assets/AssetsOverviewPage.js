@@ -11,8 +11,8 @@ import PageLoader from '../../components/Loader/PageLoader'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
 import { checkIsLoggedIn } from './../UserSelectors'
-import styles from './AssetsOverview.module.scss'
 import StoriesList from '../../components/Stories/StoriesList'
+import styles from './AssetsOverview.module.scss'
 
 const AssetsOverview = ({
   slugs,

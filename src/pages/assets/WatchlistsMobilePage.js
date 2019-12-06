@@ -7,8 +7,8 @@ import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import PageLoader from '../../components/Loader/PageLoader'
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
 import { checkIsLoggedIn } from './../UserSelectors'
-import styles from './WatchlistsMobilePage.module.scss'
 import StoriesList from '../../components/Stories/StoriesList'
+import styles from './WatchlistsMobilePage.module.scss'
 
 const Watchlists = ({
   slugs,
