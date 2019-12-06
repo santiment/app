@@ -19,6 +19,18 @@
   }
 }
 
+.activityItem {
+  color: var(--waterloo);
+
+  a {
+    color: var(--jungle-green);
+
+    &:hover {
+      color: var(--jungle-green-hover);
+    }
+  }
+}
+
 .date {
   @include text('body-3');
 

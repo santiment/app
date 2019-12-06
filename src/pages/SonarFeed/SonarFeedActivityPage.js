@@ -87,6 +87,7 @@ const SonarFeedActivityPage = ({ activities, isLoading, classes = {} }) => {
           <div
             key={triggeredAt + '_' + signalId}
             className={cx(
+              styles.activityItem,
               classes.activityItem,
               index === 0 && classes.firstActivity
             )}
