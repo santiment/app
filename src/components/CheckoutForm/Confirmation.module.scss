@@ -124,6 +124,15 @@
   height: 40px;
   justify-content: center;
   margin: 37px 0 16px;
+  color: var(--white);
+  background: var(--jungle-green) !important;
+  width: 100% !important;
+  padding: 6px 12px !important;
+
+  &:hover {
+    color: var(--white) !important;
+    background: var(--jungle-green-hover) !important;
+  }
 }
 
 .expl {
