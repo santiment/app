@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink as Link } from 'react-router-dom'
+import { NavLink as Link, withRouter } from 'react-router-dom'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
@@ -14,6 +14,13 @@ import logoImg from './../../assets/logos/main-logo.svg'
 import { LABS } from './SantimentProductsTooltip/Products'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import styles from './Navbar.module.scss'
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
+import withSizes from 'react-sizes'
+import { mapSizesToProps } from '../../utils/withSizes'
+import withTracker from '../../withTracker'
+import withIntercom from '../../withIntercom'
+import { App } from '../../App'
 
 const ExternalLink = ({ label }) => (
   <>
@@ -96,7 +103,7 @@ const rightBtns = [
   }
 ]
 
-const Navbar = ({ activeLink = '/' }) => {
+const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
   return (
     <header className={styles.header}>
       <SmoothDropdown
@@ -120,6 +127,11 @@ const Navbar = ({ activeLink = '/' }) => {
           </SantimentProductsTooltip>
           {leftLinks.map((props, index) => {
             const isActive = activeLink.includes(props.to)
+
+            if (!isBetaModeEnabled && props.children === 'Feed') {
+              return null
+            }
+
             if (props.linkTo) {
               const { linkTo, ...rest } = props
               return (
@@ -189,4 +201,10 @@ const Navbar = ({ activeLink = '/' }) => {
   )
 }
 
-export default Navbar
+const mapStateToProps = state => ({
+  isBetaModeEnabled: state.rootUi.isBetaModeEnabled
+})
+
+const enchance = connect(mapStateToProps)
+
+export default enchance(Navbar)

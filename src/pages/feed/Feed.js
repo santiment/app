@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import StoriesList from '../../components/Stories/StoriesList'
 import GeneralFeed from './GeneralFeed/GeneralFeed'

@@ -248,7 +248,9 @@ export const App = ({
         <Route exact path='/gdpr' component={GDPRPage} />
         <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
         <Route exact path='/unsubscribe' component={LoadableUnsubscribePage} />
-        <Route exact path='/feed' component={LoadableFeedPage} />
+        {isBetaModeEnabled && (
+          <Route exact path='/feed' component={LoadableFeedPage} />
+        )}
         <Route
           exact
           path='/search'

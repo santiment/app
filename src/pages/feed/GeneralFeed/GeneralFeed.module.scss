@@ -6,6 +6,10 @@
   display: flex;
   color: $rhino;
   margin-bottom: 26px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 16px;
+  }
 }
 
 .helpTrigger {
@@ -32,6 +36,10 @@
 .activitiesWrapper {
   padding-right: 32px;
   margin: 0 !important;
+
+  @include responsive('phone', 'phone-xs') {
+    padding-right: 0;
+  }
 }
 
 .activityItem {
