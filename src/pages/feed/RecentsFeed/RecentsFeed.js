@@ -17,6 +17,12 @@ const RecentsFeed = ({ onSlugSelect }) => {
               <Icon type='search' className={styles.searchIcon} />
             </div>
           )}
+          onChange={([dataProject], closeDialog) => {
+            if (dataProject) {
+              onSlugSelect(dataProject)
+              closeDialog()
+            }
+          }}
         />
       </div>
       <div className={styles.scrollable}>

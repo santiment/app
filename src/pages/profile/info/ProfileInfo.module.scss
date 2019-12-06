@@ -82,7 +82,7 @@
 .followCounter {
   @include text('h4');
 
-  color: $rhino;
+  color: var(--rhino);
 }
 
 .followDescription {
@@ -122,7 +122,7 @@
 .name {
   @include text('h3');
 
-  color: $rhino;
+  color: var(--rhino);
   overflow-wrap: break-word;
 }
 

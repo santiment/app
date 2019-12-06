@@ -4,7 +4,7 @@
   @include text('body-1');
 
   display: flex;
-  color: $rhino;
+  color: var(--rhino);
   margin-bottom: 26px;
 
   @include responsive('phone', 'phone-xs') {

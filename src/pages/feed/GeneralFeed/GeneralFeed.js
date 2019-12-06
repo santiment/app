@@ -1,7 +1,7 @@
 import React from 'react'
 import SonarFeedActivityPage from '../../SonarFeed/SonarFeedActivityPage'
-import styles from './GeneralFeed.module.scss'
 import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
+import styles from './GeneralFeed.module.scss'
 
 const GeneralFeed = () => {
   return (

@@ -199,6 +199,6 @@ const mapStateToProps = state => ({
   isBetaModeEnabled: state.rootUi.isBetaModeEnabled
 })
 
-const enchance = connect(mapStateToProps)
+const enhance = connect(mapStateToProps)
 
-export default enchance(Navbar)
+export default enhance(Navbar)
