@@ -47,15 +47,22 @@ const MyWatchlist = ({ isLoggedIn, className }) => (
           </div>
         </DesktopOnly>
         <MobileOnly>
-          <Row>
-            <h2 className={styles.subtitle}>My Watchlists</h2>
+          <div className={styles.row}>
+            <h2 className={cx(styles.subtitle, styles.subtitle__myWatchlists)}>
+              My watchlists
+            </h2>
             {isLoggedIn && (
               <NewWatchlistDialog
                 watchlists={watchlists}
-                trigger={<WatchlistNewBtn border />}
+                trigger={
+                  <WatchlistNewBtn
+                    accent='positive'
+                    className={styles.newBtn}
+                  />
+                }
               />
             )}
-          </Row>
+          </div>
         </MobileOnly>
         {isLoggedIn && !watchlists.length ? (
           <>

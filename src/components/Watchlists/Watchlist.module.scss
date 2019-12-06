@@ -9,6 +9,12 @@
   }
 }
 
+.row {
+  display: flex;
+  margin: 0 16px;
+  justify-content: space-between;
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -70,10 +76,21 @@
 .subtitle {
   @include text('body-1', 'm');
 
+  color: var(--rhino);
   margin: 32px 16px 12px;
+
+  &__myWatchlists {
+    margin: 4px 0 12px;
+  }
 }
 
 .overviewInfo {
   margin: 22px 0 56px;
   border-right: none;
+}
+
+.newBtn {
+  margin-right: -6px;
+
+  @include text('body-2');
 }
