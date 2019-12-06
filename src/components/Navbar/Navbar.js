@@ -1,5 +1,6 @@
 import React from 'react'
-import { NavLink as Link, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { NavLink as Link } from 'react-router-dom'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
@@ -14,13 +15,6 @@ import logoImg from './../../assets/logos/main-logo.svg'
 import { LABS } from './SantimentProductsTooltip/Products'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import styles from './Navbar.module.scss'
-import { compose } from 'recompose'
-import { connect } from 'react-redux'
-import withSizes from 'react-sizes'
-import { mapSizesToProps } from '../../utils/withSizes'
-import withTracker from '../../withTracker'
-import withIntercom from '../../withIntercom'
-import { App } from '../../App'
 
 const ExternalLink = ({ label }) => (
   <>
