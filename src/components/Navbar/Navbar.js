@@ -24,6 +24,11 @@ const ExternalLink = ({ label }) => (
 
 const leftLinks = [
   {
+    to: '/feed',
+    children: 'Feed',
+    as: Link
+  },
+  {
     to: '/sonar',
     children: 'Sonar',
     as: Link

@@ -85,14 +85,23 @@ export const SidecarItems = ({
     const { project } = openedList.listItems[index]
     return (
       <div key={key} style={style}>
-        <Asset project={project} onClick={onSlugSelect} />
+        <Asset project={project} onClick={onSlugSelect} classes={classes} />
       </div>
     )
   }
 
   return hidden ? null : openedList ? (
-    <div className={cx(styles.content, styles.content_assets)}>
-      <h2 className={styles.back} onClick={() => setOpenedList()}>
+    <div
+      className={cx(
+        styles.content,
+        styles.content_assets,
+        classes.sidecarCategoryAssets
+      )}
+    >
+      <h2
+        className={cx(styles.back, classes.sidecarBackBtn)}
+        onClick={() => setOpenedList()}
+      >
         <Icon type='arrow-left' /> Back
       </h2>
       <AssetsList
@@ -103,7 +112,12 @@ export const SidecarItems = ({
     </div>
   ) : (
     <div className={cx(styles.content, classes.sidecarItems)}>
-      <div className={styles.content__container}>
+      <div
+        className={cx(
+          styles.content__container,
+          classes.sidecarContentContainer
+        )}
+      >
         <div className={styles.visible}>
           <RecentlyWatched
             className={styles.section}

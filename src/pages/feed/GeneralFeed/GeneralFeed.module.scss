@@ -5,7 +5,7 @@
 
   display: flex;
   color: $rhino;
-  margin-bottom: 12px;
+  margin-bottom: 26px;
 }
 
 .helpTrigger {
@@ -13,10 +13,11 @@
 }
 
 .scrollable {
-  padding-right: 32px;
   margin-right: 24px;
   overflow-y: auto;
   max-height: 100%;
+  position: relative;
+  height: 100%;
 
   @include responsive("desktop") {
     width: 715px;
@@ -29,6 +30,7 @@
 }
 
 .activitiesWrapper {
+  padding-right: 32px;
   margin: 0 !important;
 }
 
@@ -40,6 +42,10 @@
   box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03), 0 1px 2px rgba(59, 84, 106, 0.03);
   border-radius: $border-radius;
   margin-top: 16px;
+}
+
+.firstActivity {
+  margin-top: 0;
 }
 
 .activityCustom {
@@ -56,4 +62,5 @@
 .container {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }

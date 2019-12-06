@@ -13,6 +13,10 @@
   margin: 40px 0 16px;
   display: flex;
   color: var(--waterloo);
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
 }
 
 .date {
@@ -28,6 +32,10 @@
 
   &:hover {
     color: var(--jungle-green-hover);
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    margin-left: 0;
   }
 }
 

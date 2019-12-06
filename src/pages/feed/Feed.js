@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import cx from 'classnames'
 import StoriesList from '../../components/Stories/StoriesList'
 import GeneralFeed from './GeneralFeed/GeneralFeed'
 import RecentsFeed from './RecentsFeed/RecentsFeed'
@@ -8,7 +9,7 @@ import styles from './Feed.module.scss'
 
 const FeedPage = () => {
   return (
-    <div className='page'>
+    <div className={cx('page', styles.feed)}>
       <MobileOnly>
         <MobileHeader title='Feed' />
       </MobileOnly>

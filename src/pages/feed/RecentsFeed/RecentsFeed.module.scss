@@ -4,6 +4,9 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  top: 5vh;
+  height: 90vh;
+  position: sticky;
 }
 
 .scrollable {
@@ -11,7 +14,7 @@
   overflow-y: auto;
   margin-top: 28px;
   height: 100%;
-  padding: 0 32px;
+  padding: 0 0 0 32px;
 }
 
 .searchIcon {
@@ -40,6 +43,23 @@
 .sidecarItems {
   padding: 0;
   overflow: hidden;
+}
+
+.sidecarContentContainer {
+  padding-right: 32px;
+  width: calc(100% - 32px);
+}
+
+.sidecarCategoryAssets {
+  padding-top: 0;
+
+  .asset {
+    margin-right: 32px;
+  }
+}
+
+.sidecarBackBtn {
+  margin-top: 0;
 }
 
 .tabs {

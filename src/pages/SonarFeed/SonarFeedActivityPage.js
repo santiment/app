@@ -80,10 +80,16 @@ const SonarFeedActivityPage = ({ activities, isLoading, classes = {} }) => {
   return activities && activities.length ? (
     <div className={cx(styles.wrapper, classes.activitiesWrapper)}>
       {activities.map(
-        ({ triggeredAt, payload, trigger: { id: signalId, title } = {} }) => (
+        (
+          { triggeredAt, payload, trigger: { id: signalId, title } = {} },
+          index
+        ) => (
           <div
             key={triggeredAt + '_' + signalId}
-            className={classes.activityItem}
+            className={cx(
+              classes.activityItem,
+              index === 0 && classes.firstActivity
+            )}
           >
             <div className={cx(styles.description, classes.activityCustom)}>
               <h4 className={styles.date}>{formatDate(triggeredAt)} by</h4>
