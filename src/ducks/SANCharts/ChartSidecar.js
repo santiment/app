@@ -46,7 +46,9 @@ const ChartSidecar = ({
           wrapper: cx(
             styles.toggle,
             isAdvancedView || classes.sidecar__toggle_assets,
-            isWideChart && classes.sidecar__toggle_assets_wide
+            !isAdvancedView &&
+              isWideChart &&
+              classes.sidecar__toggle_assets_wide
           )
         }}
       >
