@@ -7,7 +7,6 @@ import WatchlistCard from './WatchlistCard'
 import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
 import { DesktopOnly, MobileOnly } from './../Responsive'
-import Row from './../Row'
 import EmptySection from '../EmptySection/EmptySection'
 import NewWatchlistDialog from './NewWatchlistDialog.js'
 import WatchlistNewBtn from '../WatchlistPopup/WatchlistNewBtn'
@@ -18,18 +17,17 @@ import styles from './Watchlist.module.scss'
 
 const WatchlistEmptySection = ({ watchlists }) => (
   <EmptySection imgClassName={styles.img}>
-    <span>
-      <NewWatchlistDialog
-        trigger={
-          <Button accent='positive' className={styles.createBtn}>
-            Create
-          </Button>
-        }
-        watchlists={watchlists}
-      />
-      your own watchlist to track assets
-    </span>
+    <span>Create your own watchlist to track assets</span>
     <span>you are interested in</span>
+
+    <NewWatchlistDialog
+      trigger={
+        <Button variant='fill' accent='positive' className={styles.btn}>
+          Create watchlist
+        </Button>
+      }
+      watchlists={watchlists}
+    />
   </EmptySection>
 )
 
@@ -51,7 +49,7 @@ const MyWatchlist = ({ isLoggedIn, className }) => (
             <h2 className={cx(styles.subtitle, styles.subtitle__myWatchlists)}>
               My watchlists
             </h2>
-            {isLoggedIn && (
+            {isLoggedIn && watchlists.length > 0 && (
               <NewWatchlistDialog
                 watchlists={watchlists}
                 trigger={

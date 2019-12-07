@@ -25,6 +25,10 @@
       }
     }
   }
+
+  &__simple {
+    padding: 12px 20px 12px 16px;
+  }
 }
 
 .name {
@@ -56,6 +60,11 @@
 .change {
   margin-left: 0;
   font-size: 14px;
+
+  &__simple {
+    margin: 0 0 0 12px;
+    white-space: nowrap;
+  }
 }
 
 .marketcap {

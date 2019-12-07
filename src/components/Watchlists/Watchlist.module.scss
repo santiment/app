@@ -11,7 +11,8 @@
 
 .row {
   display: flex;
-  margin: 0 16px;
+  margin: 0 16px 12px;
+  align-items: center;
   justify-content: space-between;
 }
 
@@ -35,8 +36,8 @@
   }
 }
 
-.createBtn {
-  padding-right: 4px;
+.btn {
+  width: 100%;
 }
 
 .img {
@@ -80,7 +81,7 @@
   margin: 32px 16px 12px;
 
   &__myWatchlists {
-    margin: 4px 0 12px;
+    margin: 0;
   }
 }
 
@@ -91,6 +92,8 @@
 
 .newBtn {
   margin-right: -6px;
+  padding: 12px 6px;
+  height: auto;
 
   @include text('body-2');
 }

@@ -34,7 +34,8 @@ const WatchlistCard = ({
   watchlist,
   onClick,
   slugs,
-  className
+  className,
+  isSimplifiedView
 }) => {
   if (name === TRENDING_WATCHLIST_NAME && stats.length === 0) return null
   const { marketcap: latestMarketcap } = stats.slice(-1)[0] || {}
@@ -58,50 +59,66 @@ const WatchlistCard = ({
     : { Component: Link, props: { to } }
 
   return (
-    <res.Component className={cx(styles.wrapper, className)} {...res.props}>
-      <div className={cx(styles.flexRow, styles.content)}>
-        <span className={styles.name}>{name}</span>
-        {isPublic !== undefined && (
-          <ExplanationTooltip
-            text={isPublic ? 'Public' : 'Private'}
-            offsetY={7}
-          >
-            <Icon
-              type={isPublic ? 'eye' : 'lock-small'}
-              className={styles.icon}
-            />
-          </ExplanationTooltip>
-        )}
-      </div>
-      {latestMarketcap ? (
+    <res.Component
+      className={cx(
+        styles.wrapper,
+        isSimplifiedView && styles.wrapper__simple,
+        className
+      )}
+      {...res.props}
+    >
+      {isSimplifiedView ? (
+        <div className={cx(styles.flexRow, styles.content)}>
+          <span className={styles.name}>{name}</span>
+          <PercentChanges changes={change} className={styles.change__simple} />
+        </div>
+      ) : (
         <>
           <div className={cx(styles.flexRow, styles.content)}>
-            <span className={styles.marketcap}>
-              $&nbsp;{millify(latestMarketcap)}
-            </span>
-            <ResponsiveContainer height={35} className={styles.chart}>
-              <AreaChart data={chartStats}>
-                <defs>
-                  <Gradients />
-                </defs>
-                <Area
-                  dataKey='marketcap'
-                  type='monotone'
-                  strokeWidth={2}
-                  stroke={color}
-                  isAnimationActive={false}
-                  fill={`url(#total${change >= 0 ? 'Up' : 'Down'})`}
+            <span className={styles.name}>{name}</span>
+            {isPublic !== undefined && (
+              <ExplanationTooltip
+                text={isPublic ? 'Public' : 'Private'}
+                offsetY={7}
+              >
+                <Icon
+                  type={isPublic ? 'eye' : 'lock-small'}
+                  className={styles.icon}
                 />
-              </AreaChart>
-            </ResponsiveContainer>
+              </ExplanationTooltip>
+            )}
           </div>
-          <div className={styles.flexRow}>
-            <PercentChanges changes={change} className={styles.change} />
-            &nbsp;&nbsp;
-            <span className={styles.volumeLabel}> total cap, 7d </span>
-          </div>
+          {latestMarketcap ? (
+            <>
+              <div className={cx(styles.flexRow, styles.content)}>
+                <span className={styles.marketcap}>
+                  $&nbsp;{millify(latestMarketcap)}
+                </span>
+                <ResponsiveContainer height={35} className={styles.chart}>
+                  <AreaChart data={chartStats}>
+                    <defs>
+                      <Gradients />
+                    </defs>
+                    <Area
+                      dataKey='marketcap'
+                      type='monotone'
+                      strokeWidth={2}
+                      stroke={color}
+                      isAnimationActive={false}
+                      fill={`url(#total${change >= 0 ? 'Up' : 'Down'})`}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+              <div className={styles.flexRow}>
+                <PercentChanges changes={change} className={styles.change} />
+                &nbsp;&nbsp;
+                <span className={styles.volumeLabel}> total cap, 7d </span>
+              </div>
+            </>
+          ) : null}
         </>
-      ) : null}
+      )}
     </res.Component>
   )
 }
