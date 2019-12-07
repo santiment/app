@@ -197,7 +197,7 @@ export const TriggerProjectsSelector = ({
   )
 }
 
-const ProjectsSelectorTrigger = ({ listItems, onSuggestionSelect }) => (
+export const ProjectsSelectorTrigger = ({ listItems, onSuggestionSelect }) => (
   <div>
     <div className={styles.assetsSelect}>
       <AssetsListDescription assets={listItems} onRemove={onSuggestionSelect} />

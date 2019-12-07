@@ -130,6 +130,11 @@ const LoadableUnsubscribePage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableFeedPage = Loadable({
+  loader: () => import('./pages/feed/Feed'),
+  loading: () => <PageLoader />
+})
+
 class Route extends React.Component {
   componentWillMount () {
     nprogress.start()
@@ -259,6 +264,9 @@ export const App = ({
           }
         />
         <Route exact path='/unsubscribe' component={LoadableUnsubscribePage} />
+        {isBetaModeEnabled && (
+          <Route exact path='/feed' component={LoadableFeedPage} />
+        )}
         <Route
           exact
           path='/search'

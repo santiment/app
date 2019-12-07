@@ -1,5 +1,6 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import Markdown from 'react-markdown'
 import gql from 'graphql-tag'
@@ -32,7 +33,7 @@ export const TRIGGER_ACTIVITIES_QUERY = gql`
   }
 `
 
-const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
+const SonarFeedActivityPage = ({ activities, isLoading, classes = {} }) => {
   if (isLoading) {
     return <PageLoader className={styles.loader} />
   }
@@ -77,22 +78,36 @@ const SonarFeedActivityPage = ({ activities, isLoading, isError }) => {
   })
 
   return activities && activities.length ? (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, classes.activitiesWrapper)}>
       {activities.map(
-        ({ triggeredAt, payload, trigger: { id: signalId, title } = {} }) => (
-          <Fragment key={triggeredAt}>
-            <div className={styles.description}>
-              <h4 className={styles.date}>{formatDate(triggeredAt)} by</h4>
-
-              <Link
-                to={`/sonar/signal/${signalId}${SIGNAL_ANCHORS.ACTIVITIES}`}
-                className={styles.link}
-              >
-                {title}
-              </Link>
+        (
+          { triggeredAt, payload, trigger: { id: signalId, title } = {} },
+          index
+        ) => (
+          <div
+            key={triggeredAt + '_' + signalId}
+            className={cx(
+              styles.activityItem,
+              classes.activityItem,
+              index === 0 && classes.firstActivity
+            )}
+          >
+            <div className={cx(styles.description, classes.activityCustom)}>
+              <h4 className={styles.date}>
+                {formatDate(triggeredAt)} by{' '}
+                <Link
+                  to={`/sonar/signal/${signalId}${SIGNAL_ANCHORS.ACTIVITIES}`}
+                  className={styles.link}
+                >
+                  {title}
+                </Link>
+              </h4>
             </div>
-            <Markdown source={Object.values(payload)[0]} />
-          </Fragment>
+            <Markdown
+              source={Object.values(payload)[0]}
+              className={classes.activityMarkdown}
+            />
+          </div>
         )
       )}
     </div>

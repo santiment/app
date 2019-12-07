@@ -18,19 +18,9 @@ const ChartSidecar = ({
   classes,
   isWideChart
 }) => {
-  const [openedList, setOpenedList] = useState()
   const [shouldPreload, setShouldPreload] = useState()
 
   const wasPreloaded = shouldPreload !== undefined
-
-  const assetsRenderer = ({ key, index, style }) => {
-    const { project } = openedList.listItems[index]
-    return (
-      <div key={key} style={style}>
-        <Asset project={project} onClick={onSlugSelect} />
-      </div>
-    )
-  }
 
   function preloadData () {
     setShouldPreload(true)
@@ -56,7 +46,9 @@ const ChartSidecar = ({
           wrapper: cx(
             styles.toggle,
             isAdvancedView || classes.sidecar__toggle_assets,
-            isWideChart && classes.sidecar__toggle_assets_wide
+            !isAdvancedView &&
+              isWideChart &&
+              classes.sidecar__toggle_assets_wide
           )
         }}
       >
@@ -71,45 +63,87 @@ const ChartSidecar = ({
           </div>
         </div>
       </SidecarExplanationTooltip>
-      {!shouldPreload && !isAdvancedView ? null : openedList ? (
-        <div className={cx(styles.content, styles.content_assets)}>
-          <h2 className={styles.back} onClick={() => setOpenedList()}>
-            <Icon type='arrow-left' /> Back
-          </h2>
-          <AssetsList
-            items={openedList.listItems.map(({ project }) => project)}
-            renderer={assetsRenderer}
-            rowHeight={50}
-          />
-        </div>
-      ) : (
-        <div className={styles.content}>
-          <div className={styles.content__container}>
-            <div className={styles.visible}>
-              <RecentlyWatched
-                className={styles.section}
-                onProjectClick={onSlugSelect}
-                onWatchlistClick={setOpenedList}
-                classes={styles}
-              />
+      <SidecarItems
+        hidden={!shouldPreload && !isAdvancedView}
+        onSlugSelect={onSlugSelect}
+        onProjectClick={onSlugSelect}
+      />
+    </div>
+  )
+}
 
-              <section className={styles.section}>
-                <h2 className={styles.subtitle}>Categories</h2>
-                <Categories onClick={setOpenedList} />
-              </section>
-              <section className={styles.section}>
-                <h2 className={styles.subtitle}>Social gainers and losers</h2>
-                <GainersLosersTabs
-                  timeWindow='2d'
-                  size={8}
-                  onProjectClick={onSlugSelect}
-                  classes={styles}
-                />
-              </section>
-            </div>
-          </div>
-        </div>
+export const SidecarItems = ({
+  classes = {},
+  hidden = false,
+  onSlugSelect,
+  onProjectClick
+}) => {
+  const [openedList, setOpenedList] = useState()
+
+  const assetsRenderer = ({ key, index, style }) => {
+    const { project } = openedList.listItems[index]
+    return (
+      <div key={key} style={style}>
+        <Asset project={project} onClick={onSlugSelect} classes={classes} />
+      </div>
+    )
+  }
+
+  return hidden ? null : openedList ? (
+    <div
+      className={cx(
+        styles.content,
+        styles.content_assets,
+        classes.sidecarCategoryAssets
       )}
+    >
+      <h2
+        className={cx(styles.back, classes.sidecarBackBtn)}
+        onClick={() => setOpenedList()}
+      >
+        <Icon type='arrow-left' /> Back
+      </h2>
+      <AssetsList
+        items={openedList.listItems.map(({ project }) => project)}
+        renderer={assetsRenderer}
+        rowHeight={50}
+      />
+    </div>
+  ) : (
+    <div className={cx(styles.content, classes.sidecarItems)}>
+      <div
+        className={cx(
+          styles.content__container,
+          classes.sidecarContentContainer
+        )}
+      >
+        <div className={styles.visible}>
+          <RecentlyWatched
+            className={styles.section}
+            onProjectClick={onSlugSelect}
+            onWatchlistClick={setOpenedList}
+            classes={classes || styles}
+          />
+
+          <section className={styles.section}>
+            <h2 className={cx(styles.subtitle, classes.subTitle)}>
+              Categories
+            </h2>
+            <Categories onClick={setOpenedList} />
+          </section>
+          <section className={styles.section}>
+            <h2 className={cx(styles.subtitle, classes.subTitle)}>
+              Social gainers and losers
+            </h2>
+            <GainersLosersTabs
+              timeWindow='2d'
+              size={8}
+              onProjectClick={onProjectClick}
+              classes={styles}
+            />
+          </section>
+        </div>
+      </div>
     </div>
   )
 }

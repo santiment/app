@@ -41,6 +41,10 @@ a:focus { // NOTE(vanguard): remove after removing semantic css
   }
 }
 
+#dd-modal {
+  position: absolute;
+}
+
 h1 {
   font-size: 32px;
   font-weight: 400;

@@ -119,5 +119,8 @@
 
 .labCard {
   width: 50%;
-  padding-right: 85px;
+
+  @include responsive('desktop') {
+    padding-right: 85px;
+  }
 }

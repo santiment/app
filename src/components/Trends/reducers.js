@@ -25,7 +25,7 @@ const normalizeSelectedTrends = (newSelectedTrends, TrendToTag) => {
     }
   })
 
-  return [...newState]
+  return newState
 }
 
 export default (state = initialState, action) => {
