@@ -68,3 +68,18 @@
 .recentAssets {
   margin-bottom: 32px;
 }
+
+// .watchlistsWrapper {
+//   position: relative;
+// }
+
+.empty {
+  border-radius: 4px;
+  display: flex;
+  line-height: 24px;
+  height: 48px;
+}
+
+.empty + .empty {
+  margin-top: 8px;
+}

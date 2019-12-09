@@ -10,6 +10,10 @@ export const checkIsLoggedIn = state => {
   return state.user.data && !!state.user.data.id
 }
 
+export const checkIsLoggedInPending = state => {
+  return state.user.isLoading
+}
+
 export const isTelegramConnected = state => {
   if (!state.user.data) {
     return false

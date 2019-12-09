@@ -8,6 +8,7 @@
   border-radius: $border-radius;
   display: block;
   padding: 16px 20px;
+  min-height: 123.56px;
   position: relative;
   overflow: hidden;
   color: var(--mirage);
@@ -28,6 +29,7 @@
 
   &__simple {
     padding: 12px 20px 12px 16px;
+    min-height: auto;
   }
 }
 

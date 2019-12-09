@@ -10,13 +10,14 @@ import MyWatchlist from '../../components/Watchlists/MyWatchlist'
 import PageLoader from '../../components/Loader/PageLoader'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
-import { checkIsLoggedIn } from './../UserSelectors'
+import { checkIsLoggedIn, checkIsLoggedInPending } from './../UserSelectors'
 import StoriesList from '../../components/Stories/StoriesList'
 import styles from './AssetsOverview.module.scss'
 
 const AssetsOverview = ({
   slugs,
   isLoggedIn,
+  isLoggedInPending,
   isPublicWatchlistsLoading,
   history
 }) => {
@@ -34,7 +35,10 @@ const AssetsOverview = ({
           <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
         </div>
         <div className={styles.section}>
-          <MyWatchlist isLoggedIn={isLoggedIn} />
+          <MyWatchlist
+            isLoggedIn={isLoggedIn}
+            isLoggedInPending={isLoggedInPending}
+          />
         </div>
       </DesktopOnly>
       <MobileOnly>
@@ -63,6 +67,9 @@ const AssetsOverview = ({
   )
 }
 
-const mapStateToProps = state => ({ isLoggedIn: checkIsLoggedIn(state) })
+const mapStateToProps = state => ({
+  isLoggedIn: checkIsLoggedIn(state),
+  isLoggedInPending: checkIsLoggedInPending(state)
+})
 
 export default withRouter(connect(mapStateToProps)(AssetsOverview))
