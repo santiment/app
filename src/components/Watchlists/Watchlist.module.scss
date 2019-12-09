@@ -9,6 +9,13 @@
   }
 }
 
+.row {
+  display: flex;
+  margin: 0 16px 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -29,8 +36,11 @@
   }
 }
 
-.createBtn {
-  padding-right: 4px;
+.btn {
+  width: 100%;
+  justify-content: center;
+  margin: 24px 0 16px;
+  max-width: 400px;
 }
 
 .img {
@@ -70,10 +80,23 @@
 .subtitle {
   @include text('body-1', 'm');
 
+  color: var(--rhino);
   margin: 32px 16px 12px;
+
+  &__myWatchlists {
+    margin: 0;
+  }
 }
 
 .overviewInfo {
   margin: 22px 0 56px;
   border-right: none;
+}
+
+.newBtn {
+  margin-right: -6px;
+  padding: 12px 6px;
+  height: auto;
+
+  @include text('body-2');
 }

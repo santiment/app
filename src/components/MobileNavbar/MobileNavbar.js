@@ -10,6 +10,7 @@ import SantimentLogo from './SantimentLogo'
 import AssetsIcon from './AssetsIcon'
 import InsightsIcon from './InsightsIcon'
 import SonarIcon from './SonarIcon'
+import WatchlistsIcon from './WatchlistsIcon'
 import MenuIcon from './MenuIcon'
 import styles from './MobileNavbar.module.scss'
 import * as actions from './../../actions/types'
@@ -30,9 +31,15 @@ const NAVBAR_LINKS = [
   },
   {
     link: '/sonar',
-    label: 'Sonar',
+    label: 'Signals',
     linkTo: '/sonar',
     Icon: SonarIcon
+  },
+  {
+    link: '/watchlists',
+    label: 'Watchlists',
+    linkTo: '/watchlists',
+    Icon: WatchlistsIcon
   },
   {
     as: 'a',

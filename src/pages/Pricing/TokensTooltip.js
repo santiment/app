@@ -29,7 +29,7 @@ const TokensTooltip = () => (
             <a
               rel='noopener noreferrer'
               target='_blank'
-              href='https://academy.santiment.net/general/san-tokens/how-to-buy-san/'
+              href='https://academy.santiment.net/san-tokens/how-to-buy-san/'
             >
               here's how
             </a>

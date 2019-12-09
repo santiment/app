@@ -6,6 +6,10 @@ import Label from '@santiment-network/ui/Label'
 import GetAssets, { SORT_TYPES } from './GetAssets'
 import { RANGES } from '../../components/WatchlistOverview/constants'
 import { getTableTitle } from './utils'
+import {
+  WATCHLISTS_BY_SLUG,
+  BASIC_CATEGORIES
+} from './assets-overview-constants'
 import { addRecentWatchlists, removeRecentWatchlists } from '../../utils/recent'
 import AssetCard from './AssetCard'
 import AssetsTemplates from './AssetsTemplates'
@@ -118,6 +122,11 @@ const AssetsMobilePage = props => {
             )
           }
 
+          const path = window.location.pathname + '/' + window.location.search
+          const isCategory =
+            WATCHLISTS_BY_SLUG.find(({ to }) => to === path) ||
+            BASIC_CATEGORIES.find(({ to }) => to === path)
+
           return isLoading ? (
             <>
               <MobileHeader title={title} backRoute='/assets' />
@@ -127,7 +136,7 @@ const AssetsMobilePage = props => {
             <>
               <MobileHeader
                 title={title}
-                backRoute='/assets'
+                backRoute={isCategory ? '/assets' : '/watchlists'}
                 rightActions={
                   isLoggedIn ? (
                     <WatchlistActions
