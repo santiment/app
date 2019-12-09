@@ -26,6 +26,10 @@
     }
   }
 
+  @include responsive('phone', 'phone-xs') {
+    padding: 14px 16px;
+  }
+
   &__simple {
     padding: 12px 20px 12px 16px;
   }
@@ -37,15 +41,24 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--rhino);
 
   &::first-letter {
     text-transform: uppercase;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
   }
 }
 
 .flexRow {
   display: flex;
   align-items: center;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+  }
 }
 
 .content {
@@ -53,13 +66,16 @@
 }
 
 .volumeLabel {
-  color: var(--waterloo);
-  line-height: 20px;
+  color: var(--casper);
 }
 
 .change {
   margin-left: 0;
   font-size: 14px;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+  }
 
   &__simple {
     margin: 0 0 0 12px;
@@ -68,12 +84,15 @@
 }
 
 .marketcap {
-  font-family: 'Rubik', sans-serif;
-  font-size: 22px;
-  line-height: 30px;
-  color: var(--mirage);
-  margin-top: 12px;
-  margin-bottom: 6px;
+  margin: 12px 0 8px;
+
+  @include text('h4');
+
+  color: var(--rhino);
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 10px 0 4px;
+  }
 }
 
 .chart {
