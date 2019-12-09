@@ -3,25 +3,30 @@
 
 .wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  grid-column-gap: 32px;
   grid-row-gap: 24px;
-  grid-template-areas:
-    'card confirmation'
-    'address confirmation';
+
+  @include responsive('laptop', 'desktop') {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-column-gap: 32px;
+    grid-template-areas:
+      'card confirmation'
+      'address confirmation';
+  }
 }
 
-.card {
-  grid-area: card;
-}
+@include responsive('laptop', 'desktop') {
+  .card {
+    grid-area: card;
+  }
 
-.address {
-  grid-area: address;
-}
+  .address {
+    grid-area: address;
+  }
 
-.confirmation {
-  grid-area: confirmation;
+  .confirmation {
+    grid-area: confirmation;
+  }
 }
 
 .top {

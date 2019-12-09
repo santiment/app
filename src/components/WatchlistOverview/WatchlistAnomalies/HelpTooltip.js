@@ -18,7 +18,7 @@ const HelpTooltip = ({
     position={position}
     align={align}
     trigger={
-      <div className={styles.description}>
+      <div className={cx(styles.description, classes.helpTrigger)}>
         <Icon
           type='question-round-small'
           className={cx(styles.question, classes.question)}

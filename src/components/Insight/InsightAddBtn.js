@@ -29,7 +29,7 @@ const InsightAddBtn = ({ selectedTrends = [], dispatch, ...props }) => {
 }
 
 const mapStateToProps = ({ hypedTrends: { selectedTrends = [] } }) => ({
-  selectedTrends
+  selectedTrends: [...selectedTrends]
 })
 
 export default connect(mapStateToProps)(InsightAddBtn)

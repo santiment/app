@@ -64,6 +64,10 @@
   padding: 21px 9px 9px 9px;
   transition: background 0.2s;
 
+  @include responsive('laptop', 'tablet') {
+    max-height: 200px;
+  }
+
   &:hover {
     background: var(--athens);
     border-radius: $border-radius;

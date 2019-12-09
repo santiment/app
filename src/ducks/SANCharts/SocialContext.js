@@ -92,7 +92,9 @@ const SocialContext = ({
           wrapper: cx(
             sharedStyles.toggle,
             isAdvancedView || classes.sidecar__toggle_social,
-            isWideChart && classes.sidecar__toggle_social_wide
+            !isAdvancedView &&
+              isWideChart &&
+              classes.sidecar__toggle_social_wide
           )
         }}
       >
