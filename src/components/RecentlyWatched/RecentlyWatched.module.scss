@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  padding: 0 16px;
+  margin-bottom: 32px;
 }
 
 .title {
@@ -73,14 +73,14 @@
   }
 }
 
-.recentAssets {
-  margin-bottom: 32px;
+.skeleton {
+  height: 48px;
+
+  @include responsive('phone', 'phone-xs') {
+    height: 50px;
+  }
 }
 
-.empty {
-  height: 50px;
-}
-
-.empty + .empty {
+.skeleton + .skeleton {
   margin-top: 8px;
 }

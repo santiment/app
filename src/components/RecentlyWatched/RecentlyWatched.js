@@ -67,14 +67,14 @@ const RecentlyWatched = ({
   const hasAssets = assets && assets.length > 0 && isShowAssets
   const hasWatchlists = watchlists && watchlists.length > 0 && isShowWatchlists
   return (
-    <section className={cx(className, styles.wrapper)}>
+    <>
       {isShowAssets && assetsNumber > 0 && (
-        <div className={styles.recentAssets}>
+        <div className={cx(className, styles.wrapper)}>
           <h2 className={cx(styles.title, classes.subTitle)}>
             Recently watched assets
           </h2>
           <Skeleton
-            className={styles.empty}
+            className={styles.skeleton}
             show={!hasAssets}
             repeat={assetsNumber}
           />
@@ -90,11 +90,13 @@ const RecentlyWatched = ({
         </div>
       )}
       {isShowWatchlists && watchlistsNumber > 0 && (
-        <>
-          <h2 className={styles.title}>Recently watched watchlists</h2>
+        <div className={cx(className, styles.wrapper)}>
+          <h2 className={cx(styles.title, classes.subTitle)}>
+            Recently watched watchlists
+          </h2>
           <div className={styles.watchlistsWrapper}>
             <Skeleton
-              className={styles.empty}
+              className={styles.skeleton}
               show={!hasWatchlists}
               repeat={watchlistsNumber}
             />
@@ -111,9 +113,9 @@ const RecentlyWatched = ({
                 />
               ))}
           </div>
-        </>
+        </div>
       )}
-    </section>
+    </>
   )
 }
 
