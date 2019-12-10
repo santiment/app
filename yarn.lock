@@ -1550,10 +1550,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@santiment-network/ui@^0.5.138":
-  version "0.5.138"
-  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.138.tgz#cb30c1871d2e1a8c7d6c5c31c8a2f897ecdeb920"
-  integrity sha512-vu51FAjRG6bfSxo4hT2NwbsEAW9s9HfIQStpRWaA6poV3sR87dCghbPutkfu1jXcJpfXdraCbXAqwaL/8C3SbQ==
+"@santiment-network/ui@^0.5.140":
+  version "0.5.140"
+  resolved "https://registry.yarnpkg.com/@santiment-network/ui/-/ui-0.5.140.tgz#411f0d4725de46926a0817b15491a16b273a4c5a"
+  integrity sha512-k6y4UxNY903mivQiNWQsKtABhtr8ohe0pWiL9G6ar2ZPaEypzimWIQCyZL+lTGUpxrZHRgvzQzbFxG87iONxeA==
 
 "@sheerun/eslint-config-standard@^10.2.1":
   version "10.2.1"
