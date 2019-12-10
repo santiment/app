@@ -122,21 +122,22 @@ const AssetsMobilePage = props => {
             )
           }
 
-          const path = window.location.pathname + '/' + window.location.search
-          const isCategory =
-            WATCHLISTS_BY_SLUG.find(({ to }) => to === path) ||
-            BASIC_CATEGORIES.find(({ to }) => to === path)
+          const isWatchlist = window.location.search.includes('@')
+
+          const backRoute = isWatchlist ? '/watchlists' : '/assets'
+
+          console.log(backRoute, isWatchlist)
 
           return isLoading ? (
             <>
-              <MobileHeader title={title} backRoute='/assets' />
+              <MobileHeader title={title} backRoute={backRoute} />
               <PageLoader />
             </>
           ) : (
             <>
               <MobileHeader
                 title={title}
-                backRoute={isCategory ? '/assets' : '/watchlists'}
+                backRoute={backRoute}
                 rightActions={
                   isLoggedIn ? (
                     <WatchlistActions
