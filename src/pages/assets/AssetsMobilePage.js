@@ -6,10 +6,6 @@ import Label from '@santiment-network/ui/Label'
 import GetAssets, { SORT_TYPES } from './GetAssets'
 import { RANGES } from '../../components/WatchlistOverview/constants'
 import { getTableTitle } from './utils'
-import {
-  WATCHLISTS_BY_SLUG,
-  BASIC_CATEGORIES
-} from './assets-overview-constants'
 import { addRecentWatchlists, removeRecentWatchlists } from '../../utils/recent'
 import AssetCard from './AssetCard'
 import AssetsTemplates from './AssetsTemplates'

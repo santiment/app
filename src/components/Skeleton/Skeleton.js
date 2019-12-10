@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 import { CSSTransition } from 'react-transition-group'
 import styles from './Skeleton.module.scss'
 
@@ -15,14 +16,17 @@ const Skeleton = ({ className, show, repeat }) => {
       >
         <div>
           {elem.map((_, idx) => (
-            <div className={cx(styles.skeleton, className)} key={idx}>
-              <div className={styles.effect} />
-            </div>
+            <div className={cx(styles.skeleton, className)} key={idx} />
           ))}
         </div>
       </CSSTransition>
     </div>
   )
+}
+
+Skeleton.propTypes = {
+  repeat: PropTypes.number.isRequired,
+  show: PropTypes.bool.isRequired
 }
 
 export default Skeleton

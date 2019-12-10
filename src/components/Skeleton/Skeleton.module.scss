@@ -14,11 +14,6 @@
 
 .skeleton {
   overflow: hidden;
-}
-
-.effect {
-  width: 100%;
-  height: 100%;
   border-radius: 4px;
   background: linear-gradient(90deg, var(--porcelain) 29%, var(--athens) 37%, var(--porcelain) 60%);
   animation: move-gradient 1.4s ease infinite;
