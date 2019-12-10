@@ -68,7 +68,7 @@ const RecentlyWatched = ({
   const hasWatchlists = watchlists && watchlists.length > 0 && isShowWatchlists
   return (
     <section className={cx(className, styles.wrapper)}>
-      {isShowAssets && (
+      {isShowAssets && assetsNumber > 0 && (
         <div className={styles.recentAssets}>
           <h2 className={cx(styles.title, classes.subTitle)}>
             Recently watched assets
@@ -89,7 +89,7 @@ const RecentlyWatched = ({
             ))}
         </div>
       )}
-      {isShowWatchlists && (
+      {isShowWatchlists && watchlistsNumber > 0 && (
         <>
           <h2 className={styles.title}>Recently watched watchlists</h2>
           <div className={styles.watchlistsWrapper}>
