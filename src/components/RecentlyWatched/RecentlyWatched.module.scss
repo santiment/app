@@ -16,6 +16,10 @@
   @include text('body-3');
 
   margin: 0;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+  }
 }
 
 .name {
@@ -51,6 +55,10 @@
 .change {
   margin: 0 0 0 12px;
   white-space: nowrap;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+  }
 }
 
 .group {
@@ -69,14 +77,7 @@
   margin-bottom: 32px;
 }
 
-// .watchlistsWrapper {
-//   position: relative;
-// }
-
 .empty {
-  border-radius: 4px;
-  display: flex;
-  line-height: 24px;
   height: 50px;
 }
 
