@@ -8,6 +8,8 @@ import styles from './NewWatchlistDialog.module.scss'
 const WATCHLIST_NAME_EXISTS_ERROR =
   'The watchlist with this name already exists'
 
+const WATCHLIST_NAME_SHORT = 'The name should be at least 5 characters'
+
 class NewWatchlistDialog extends PureComponent {
   static getDerivedStateFromProps ({ isSuccess }) {
     if (!isSuccess) {
@@ -51,6 +53,9 @@ class NewWatchlistDialog extends PureComponent {
     let error
     if (watchlists.some(({ name }) => name.toUpperCase() === upperCaseName)) {
       error = WATCHLIST_NAME_EXISTS_ERROR
+    }
+    if (name.length < 5) {
+      error = WATCHLIST_NAME_SHORT
     }
     this.setState({ error })
   }, 300)
@@ -118,7 +123,7 @@ class NewWatchlistDialog extends PureComponent {
             </Dialog.Cancel>
             <Dialog.Approve
               className={styles.approve}
-              disabled={!nameLength || isPending || error}
+              disabled={nameLength < 5 || isPending || error}
               type='submit'
               isLoading={isPending}
             >
