@@ -1,20 +1,35 @@
 import React from 'react'
-import { Button, Icon } from '@santiment-network/ui'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
+import { getInsightTrendTagByDate } from './utils'
 import styles from './Insights.module.scss'
 
-const InsightAddBtn = ({ searchParams = '', ...props }) => (
-  <Button
-    as={Link}
-    className={styles.btn}
-    accent='positive'
-    variant='fill'
-    to={`/insights/new?${searchParams}`}
-    {...props}
-  >
-    <Icon className={styles.icon} type='plus-round' />
-    Add insight
-  </Button>
-)
+const trendTags = [getInsightTrendTagByDate(new Date())]
 
-export default InsightAddBtn
+const InsightAddBtn = ({ selectedTrends = [], dispatch, ...props }) => {
+  const params = selectedTrends.length
+    ? `currentTrends=${selectedTrends.concat(trendTags).toString()}`
+    : ''
+
+  return (
+    <Button
+      as={Link}
+      className={styles.btn}
+      accent='positive'
+      variant='fill'
+      to={`/insights/new?${params}`}
+      {...props}
+    >
+      <Icon className={styles.icon} type='plus-round' />
+      Add insight
+    </Button>
+  )
+}
+
+const mapStateToProps = ({ hypedTrends: { selectedTrends = [] } }) => ({
+  selectedTrends: [...selectedTrends]
+})
+
+export default connect(mapStateToProps)(InsightAddBtn)

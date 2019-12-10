@@ -59,7 +59,7 @@ class Insights extends Component {
                 defaultSelected={View.RECENT}
               />
             )}
-            <InsightAddBtn searchParams='currentTrends' />
+            <InsightAddBtn />
           </div>
         </div>
         <InsightsWrap

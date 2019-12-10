@@ -95,6 +95,11 @@ const LoadableAssetsOverviewPage = Loadable({
   loading: () => <PageLoader />
 })
 
+const LoadableWatchlistsMobilePage = Loadable({
+  loader: () => import('./pages/assets/WatchlistsMobilePage'),
+  loading: () => <PageLoader />
+})
+
 const LoadableAssetsMobilePage = Loadable({
   loader: () => import('./pages/assets/AssetsMobilePage'),
   loading: () => <PageLoader />
@@ -162,7 +167,7 @@ const ExternalRoutes = [
     routes: ['apidocs', 'apiexamples']
   },
   {
-    to: 'https://help.santiment.net',
+    to: 'https://academy.santiment.net',
     routes: ['docs', 'help']
   },
   {
@@ -247,6 +252,17 @@ export const App = ({
         <Route exact path='/pricing' component={LoadablePricingPage} />
         <Route exact path='/gdpr' component={GDPRPage} />
         <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
+        <Route
+          exact
+          path='/watchlists'
+          render={props =>
+            isDesktop ? (
+              <Redirect from='/watchlists' to='/assets' />
+            ) : (
+              <LoadableWatchlistsMobilePage {...props} />
+            )
+          }
+        />
         <Route exact path='/unsubscribe' component={LoadableUnsubscribePage} />
         {isBetaModeEnabled && (
           <Route exact path='/feed' component={LoadableFeedPage} />

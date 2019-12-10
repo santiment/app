@@ -13,12 +13,8 @@ export const initialState = {
   selectedTrends: new Set()
 }
 
-const normalizeSelectedTrends = (
-  selectedTrends,
-  newSelectedTrends,
-  TrendToTag
-) => {
-  const newState = new Set([...selectedTrends])
+const normalizeSelectedTrends = (newSelectedTrends, TrendToTag) => {
+  const newState = new Set()
 
   newSelectedTrends.forEach(trend => {
     const ticker = TrendToTag[trend.toUpperCase()]
@@ -86,7 +82,6 @@ export default (state = initialState, action) => {
         ...state,
 
         selectedTrends: normalizeSelectedTrends(
-          state.selectedTrends,
           action.payload,
           state.TrendToTag
         )

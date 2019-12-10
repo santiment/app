@@ -11,8 +11,8 @@ import PageLoader from '../../components/Loader/PageLoader'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
 import { checkIsLoggedIn } from './../UserSelectors'
-import styles from './AssetsOverview.module.scss'
 import StoriesList from '../../components/Stories/StoriesList'
+import styles from './AssetsOverview.module.scss'
 
 const AssetsOverview = ({
   slugs,
@@ -43,13 +43,9 @@ const AssetsOverview = ({
         ) : (
           <>
             <StoriesList classes={styles} />
-            <RecentlyWatched className={styles.recents} />
+            <RecentlyWatched className={styles.recents} type='assets' />
             <h2 className={styles.subtitle}>Categories</h2>
             <WatchlistCards watchlists={CATEGORIES} />
-            <MyWatchlist
-              isLoggedIn={isLoggedIn}
-              className={styles.watchlists}
-            />
             <h2 className={styles.subtitle}>Social gainers and losers</h2>
             <section className={styles.gainers}>
               <GainersLosersTabs

@@ -5,7 +5,7 @@
 
   @include responsive('phone-xs', 'phone') {
     display: block;
-    margin: 0 16px;
+    margin: 0 16px 32px;
     width: auto;
   }
 }
