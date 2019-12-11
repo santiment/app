@@ -1,6 +1,9 @@
 import * as actions from './../actions/types'
 
-export const initialState = {}
+export const initialState = {
+  assets: null,
+  watchlists: null
+}
 
 export default (state = initialState, action) => {
   switch (action.type) {

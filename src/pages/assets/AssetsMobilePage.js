@@ -122,8 +122,6 @@ const AssetsMobilePage = props => {
 
           const backRoute = isWatchlist ? '/watchlists' : '/assets'
 
-          console.log(backRoute, isWatchlist)
-
           return isLoading ? (
             <>
               <MobileHeader title={title} backRoute={backRoute} />
