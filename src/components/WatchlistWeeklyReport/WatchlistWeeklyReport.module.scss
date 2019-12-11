@@ -184,6 +184,6 @@
   @include text('body-2');
 
   @include responsive('phone-xs', 'phone') {
-    padding: 12px;
+    padding: 8px;
   }
 }
