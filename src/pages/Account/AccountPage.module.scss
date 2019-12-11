@@ -237,7 +237,7 @@
 
 .btn {
   display: inline-block;
-  width: 80px;
+  min-width: 80px;
   text-align: center;
 
   &_cancel {

@@ -63,11 +63,10 @@ class ConfirmDialog extends PureComponent {
           <div className={classes.description}>{description}</div>
         </Dialog.ScrollContent>
         <Dialog.Actions>
-          <Dialog.Cancel onClick={this.onClose}>Cancel</Dialog.Cancel>
-          <Dialog.Approve
-            onClick={this.onDeleteClick}
-            className={styles.approve}
-          >
+          <Dialog.Cancel onClick={this.onClose} className={styles.cancel}>
+            Cancel
+          </Dialog.Cancel>
+          <Dialog.Approve onClick={this.onDeleteClick}>
             {confirmLabel}
           </Dialog.Approve>
         </Dialog.Actions>
