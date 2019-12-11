@@ -32,13 +32,13 @@ export const WATCHLISTS_BY_SLUG = [
     name: 'Centralized Exchanges',
     assetType: 'centralized exchanges',
     to: '/assets/list?name=centralized%20exchanges#shared',
-    bySlug: 'centalized_exchanges'
+    bySlug: 'centralized_exchanges'
   },
   {
     name: 'Decentralized Exchanges',
     assetType: 'decentralized exchanges',
     to: '/assets/list?name=decentralized%20exchanges#shared',
-    bySlug: 'decentalized_exchanges'
+    bySlug: 'decentralized_exchanges'
   },
   {
     name: TRENDING_WATCHLIST_NAME,
