@@ -5,15 +5,13 @@ import { connect } from 'react-redux'
 import { USER_ADD_NEW_ASSET_LIST } from '../../actions/types'
 import styles from './NewWatchlistDialog.module.scss'
 
-const WATCHLIST_NAME_EXISTS_ERROR =
-  'The watchlist with this name already exists'
+const NAME_EXISTS_ERROR = 'The watchlist with this name already exists'
 
-const WATCHLIST_NAME_SHORT_ERROR = 'The name should be at least 5 characters'
+const SHORT_NAME_ERROR = 'The name should be at least 5 characters'
 
-const WATCHLIST_NAME_BAD_SYMBOLS_ERROR =
-  "You can use only letters, numbers and _-.',"
+const BAD_SYMBOLS_ERROR = "You can use only letters, numbers and _-.'/,"
 
-const REGEXP = /^([.\-/_',\w]*)$/
+const ALLOWED_SYMBOLS_REGEXP = /^([.\-/_',\w]*)$/
 
 class NewWatchlistDialog extends PureComponent {
   static getDerivedStateFromProps ({ isSuccess }) {
@@ -57,14 +55,14 @@ class NewWatchlistDialog extends PureComponent {
     const upperCaseName = name.toUpperCase()
     let error
     if (watchlists.some(({ name }) => name.toUpperCase() === upperCaseName)) {
-      error = WATCHLIST_NAME_EXISTS_ERROR
+      error = NAME_EXISTS_ERROR
     }
     if (!name || name.length < 5) {
-      error = WATCHLIST_NAME_SHORT_ERROR
+      error = SHORT_NAME_ERROR
     }
 
-    if (!REGEXP.test(name)) {
-      error = WATCHLIST_NAME_BAD_SYMBOLS_ERROR
+    if (!ALLOWED_SYMBOLS_REGEXP.test(name)) {
+      error = BAD_SYMBOLS_ERROR
     }
     this.setState({ error })
   }, 300)
