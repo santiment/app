@@ -8,7 +8,8 @@ import GetWatchlists from './../../ducks/Watchlists/GetWatchlists'
 import { getWatchlistLink } from './../../ducks/Watchlists/watchlistUtils'
 import { DesktopOnly, MobileOnly } from './../Responsive'
 import EmptySection from '../EmptySection/EmptySection'
-import NewWatchlistDialog from './NewWatchlistDialog.js'
+import Skeleton from '../Skeleton/Skeleton'
+import NewWatchlistDialog from './NewWatchlistDialog'
 import WatchlistNewBtn from '../WatchlistPopup/WatchlistNewBtn'
 import WatchlistsAnon from '../WatchlistPopup/WatchlistsAnon'
 import WatchlistsAnonBanner from '../Banner/WatchlistsAnonBanner'
@@ -31,7 +32,7 @@ const WatchlistEmptySection = ({ watchlists }) => (
   </EmptySection>
 )
 
-const MyWatchlist = ({ isLoggedIn, className }) => (
+const MyWatchlist = ({ isLoggedIn, isLoggedInPending, className }) => (
   <GetWatchlists
     render={({ isWatchlistsLoading, watchlists }) => (
       <div className={cx(styles.wrapper, className)}>
@@ -45,24 +46,33 @@ const MyWatchlist = ({ isLoggedIn, className }) => (
           </div>
         </DesktopOnly>
         <MobileOnly>
-          <div className={styles.row}>
-            <h2 className={cx(styles.subtitle, styles.subtitle__myWatchlists)}>
-              My watchlists
-            </h2>
-            {isLoggedIn && watchlists.length > 0 && (
-              <NewWatchlistDialog
-                watchlists={watchlists}
-                trigger={
-                  <WatchlistNewBtn
-                    accent='positive'
-                    className={styles.newBtn}
-                  />
-                }
-              />
-            )}
-          </div>
+          <>
+            <div className={styles.row}>
+              <h2
+                className={cx(styles.subtitle, styles.subtitle__myWatchlists)}
+              >
+                My watchlists
+              </h2>
+              {isLoggedIn && watchlists.length > 0 && (
+                <NewWatchlistDialog
+                  watchlists={watchlists}
+                  trigger={
+                    <WatchlistNewBtn
+                      accent='positive'
+                      className={styles.newBtn}
+                    />
+                  }
+                />
+              )}
+            </div>
+            <Skeleton
+              repeat={4}
+              className={styles.skeleton}
+              show={isWatchlistsLoading || isLoggedInPending}
+            />
+          </>
         </MobileOnly>
-        {isLoggedIn && !watchlists.length ? (
+        {isLoggedIn && !isWatchlistsLoading && !watchlists.length && (
           <>
             <DesktopOnly>
               <WatchlistEmptySection watchlists={watchlists} />
@@ -73,7 +83,8 @@ const MyWatchlist = ({ isLoggedIn, className }) => (
               </Panel>
             </MobileOnly>
           </>
-        ) : (
+        )}
+        {isLoggedIn && (
           <div className={stylesGrid.wrapper}>
             {watchlists.map(watchlist => (
               <WatchlistCard
@@ -86,7 +97,7 @@ const MyWatchlist = ({ isLoggedIn, className }) => (
             ))}
           </div>
         )}
-        {!isLoggedIn && (
+        {!isWatchlistsLoading && !isLoggedInPending && !isLoggedIn && (
           <>
             <DesktopOnly>
               <WatchlistsAnonBanner className={styles.anonBanner} />
@@ -102,7 +113,8 @@ const MyWatchlist = ({ isLoggedIn, className }) => (
 )
 
 MyWatchlist.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
+  isLoggedInPending: PropTypes.bool.isRequired
 }
 
 export default MyWatchlist
