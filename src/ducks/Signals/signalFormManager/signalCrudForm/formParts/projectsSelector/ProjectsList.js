@@ -2,7 +2,7 @@ import React from 'react'
 import { AutoSizer, List } from 'react-virtualized'
 import Label from '@santiment-network/ui/Label'
 import { Checkbox } from '@santiment-network/ui'
-import ProjectIcon from '../../../../../../components/ProjectIcon'
+import ProjectIcon from '../../../../../../components/ProjectIcon/ProjectIcon'
 import { formatTokensCount } from '../../../../../../utils/formatting'
 import styles from './ProjectsList.module.scss'
 
@@ -17,7 +17,7 @@ const ProjectsList = ({
   hideCheckboxes = false
 }) => {
   const rowRenderer = ({ key, index, style }) => {
-    const { name, ticker, id, balance } = items[index]
+    const { name, ticker, slug, id, balance } = items[index]
     const isAssetInList = listItems.some(({ id: itemId }) => itemId === id)
     return (
       <div
@@ -39,7 +39,7 @@ const ProjectsList = ({
           />
         )}
         <div className={styles.asset}>
-          <ProjectIcon className={styles.icon} size={16} name={name} />
+          <ProjectIcon className={styles.icon} size={16} slug={slug} />
           <span className={styles.name}>{name}</span>
           <Label accent='waterloo'>
             (

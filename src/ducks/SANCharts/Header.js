@@ -14,7 +14,7 @@ import Range from '../../components/WatchlistOverview/Range'
 import ChartSignalCreationDialog from './ChartSignalCreationDialog'
 import PercentChanges from '../../components/PercentChanges'
 import WatchlistsPopup from '../../components/WatchlistPopup/WatchlistsPopup'
-import ProjectIcon from '../../components/ProjectIcon'
+import ProjectIcon from '../../components/ProjectIcon/ProjectIcon'
 import GetProjects from '../Signals/common/projects/getProjects'
 import { TriggerProjectsSelector } from '../Signals/signalFormManager/signalCrudForm/formParts/projectsSelector/TriggerProjectsSelector'
 import { formatNumber } from '../../utils/formatting'
@@ -33,9 +33,9 @@ const ProjectInfo = createSkeletonProvider(
     color: 'var(--mystic)',
     backgroundColor: 'var(--mystic)'
   })
-)(({ name, ticker, description }) => (
+)(({ name, ticker, slug, description }) => (
   <div className={styles.selector}>
-    <ProjectIcon size={40} name={name} />
+    <ProjectIcon size={40} slug={slug} />
     <div className={styles.project}>
       <div className={styles.project__top}>
         <H1 className={styles.project__name}>
@@ -55,7 +55,7 @@ export const ProjectSelector = ({
   slug,
   project,
   onChange,
-  trigger = () => <ProjectInfo {...project} />
+  trigger = () => <ProjectInfo {...project} slug={slug} />
 }) => (
   <GetProjects
     render={({ allProjects }) => {
