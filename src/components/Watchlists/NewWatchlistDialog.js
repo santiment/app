@@ -132,7 +132,7 @@ class NewWatchlistDialog extends PureComponent {
             </Dialog.Cancel>
             <Dialog.Approve
               className={styles.approve}
-              disabled={nameLength < 5 || isPending || error}
+              disabled={isPending || error}
               type='submit'
               isLoading={isPending}
             >
