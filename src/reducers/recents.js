@@ -1,8 +1,8 @@
 import * as actions from './../actions/types'
 
 export const initialState = {
-  assets: [],
-  watchlists: []
+  assets: null,
+  watchlists: null
 }
 
 export default (state = initialState, action) => {

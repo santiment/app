@@ -5,11 +5,13 @@ import { connect } from 'react-redux'
 import ProjectIcon from '../ProjectIcon'
 import PercentChanges from '../PercentChanges'
 import WatchlistCard from '../Watchlists/WatchlistCard'
+import Skeleton from '../Skeleton/Skeleton'
 import { store } from '../../index'
 import {
   RECENT_ASSETS_FETCH,
   RECENT_WATCHLISTS_FETCH
 } from '../../actions/types'
+import { getRecentAssets, getRecentWatchlists } from '../../utils/recent'
 import { formatNumber } from '../../utils/formatting'
 import { getWatchlistLink } from '../../ducks/Watchlists/watchlistUtils'
 import styles from './RecentlyWatched.module.scss'
@@ -46,23 +48,38 @@ const RecentlyWatched = ({
   type,
   classes = {}
 }) => {
-  useEffect(() => {
-    store.dispatch({ type: RECENT_ASSETS_FETCH })
-    store.dispatch({ type: RECENT_WATCHLISTS_FETCH })
-  }, [])
+  const isShowAssets = type === 'assets' || !type
+  const isShowWatchlists = type === 'watchlists' || !type
 
-  const hasAssets = assets.length > 0 && (type === 'assets' || !type)
-  const hasWatchlists =
-    watchlists.length > 0 && (type === 'watchlists' || !type)
+  const assetsNumber = getRecentAssets().filter(Boolean).length
+  const watchlistsNumber = getRecentWatchlists().filter(Boolean).length
+
+  useEffect(() => {
+    if (!type) {
+      store.dispatch({ type: RECENT_ASSETS_FETCH })
+      store.dispatch({ type: RECENT_WATCHLISTS_FETCH })
+    } else if (isShowAssets) {
+      store.dispatch({ type: RECENT_ASSETS_FETCH })
+    } else if (isShowWatchlists) {
+      store.dispatch({ type: RECENT_WATCHLISTS_FETCH })
+    }
+  }, [])
+  const hasAssets = assets && assets.length > 0 && isShowAssets
+  const hasWatchlists = watchlists && watchlists.length > 0 && isShowWatchlists
   return (
-    (hasAssets || hasWatchlists) && (
-      <section className={cx(className, styles.wrapper)}>
-        {hasAssets && (
-          <div className={styles.recentAssets}>
-            <h2 className={cx(styles.title, classes.subTitle)}>
-              Recently watched assets
-            </h2>
-            {assets.map(project => (
+    <>
+      {isShowAssets && assetsNumber > 0 && (
+        <div className={cx(className, styles.wrapper)}>
+          <h2 className={cx(styles.title, classes.subTitle)}>
+            Recently watched assets
+          </h2>
+          <Skeleton
+            className={styles.skeleton}
+            show={!hasAssets}
+            repeat={assetsNumber}
+          />
+          {assets &&
+            assets.map(project => (
               <Asset
                 key={project.slug}
                 project={project}
@@ -70,32 +87,41 @@ const RecentlyWatched = ({
                 classes={classes}
               />
             ))}
+        </div>
+      )}
+      {isShowWatchlists && watchlistsNumber > 0 && (
+        <div className={cx(className, styles.wrapper)}>
+          <h2 className={cx(styles.title, classes.subTitle)}>
+            Recently watched watchlists
+          </h2>
+          <div className={styles.watchlistsWrapper}>
+            <Skeleton
+              className={styles.skeleton}
+              show={!hasWatchlists}
+              repeat={watchlistsNumber}
+            />
+            {watchlists &&
+              watchlists.map(watchlist => (
+                <WatchlistCard
+                  isSimplifiedView={true}
+                  key={watchlist.name}
+                  watchlist={watchlist}
+                  name={watchlist.name}
+                  to={getWatchlistLink(watchlist)}
+                  slugs={watchlist.listItems.map(({ project }) => project.slug)}
+                  onClick={onWatchlistClick}
+                />
+              ))}
           </div>
-        )}
-        {hasWatchlists && (
-          <>
-            <h2 className={styles.title}>Recently watched watchlists</h2>
-            {watchlists.map(watchlist => (
-              <WatchlistCard
-                isSimplifiedView={true}
-                key={watchlist.name}
-                watchlist={watchlist}
-                name={watchlist.name}
-                to={getWatchlistLink(watchlist)}
-                slugs={watchlist.listItems.map(({ project }) => project.slug)}
-                onClick={onWatchlistClick}
-              />
-            ))}
-          </>
-        )}
-      </section>
-    )
+        </div>
+      )}
+    </>
   )
 }
 
 const mapStateToProps = ({ recents }) => ({
-  assets: recents.assets.filter(Boolean),
-  watchlists: recents.watchlists.filter(Boolean)
+  assets: recents.assets,
+  watchlists: recents.watchlists
 })
 
 export default connect(mapStateToProps)(RecentlyWatched)

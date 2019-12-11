@@ -1,0 +1,39 @@
+@keyframes move-gradient {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.wrapper {
+  position: relative;
+}
+
+.skeleton {
+  overflow: hidden;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--porcelain) 29%, var(--athens) 37%, var(--porcelain) 60%);
+  animation: move-gradient 1.4s ease infinite;
+  background-size: 400% 100%;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.fadeOut {
+  animation-name: fadeOut;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.animated {
+  animation-duration: 2s;
+}
