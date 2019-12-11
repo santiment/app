@@ -5,17 +5,17 @@ import Tabs from '@santiment-network/ui/Tabs'
 import Label from '@santiment-network/ui/Label'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import { TOP_SOCIAL_GAINERS_LOSERS_QUERY } from '../../ducks/GainersAndLosers/gainersLosersQuery'
-import ProjectIcon from '../ProjectIcon'
+import ProjectIcon from '../ProjectIcon/ProjectIcon'
 import PercentChanges from '../PercentChanges'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import allProjects from '../../allProjects.json'
 import styles from './GainersLosersTabs.module.scss'
 
 const Item = ({ onProjectClick, showChange, ...project }) => {
-  const { change, name, ticker } = project
+  const { change, name, ticker, slug } = project
   return (
     <div className={styles.project} onClick={() => onProjectClick(project)}>
-      <ProjectIcon name={name} size={20} />
+      <ProjectIcon slug={slug} size={20} />
       <Label className={styles.name}>{ticker}</Label>
       {showChange && (
         <PercentChanges changes={change * 100} className={styles.changes} />

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { simpleSort } from '../../utils/sortMethods'
 import { millify } from '../../utils/formatting'
-import ProjectIcon from '../ProjectIcon'
+import ProjectIcon from '../ProjectIcon/ProjectIcon'
 import WalletLink from '../WalletLink/WalletLink'
 import styles from './EthSpentTable.module.scss'
 
@@ -20,11 +20,12 @@ export const columns = [
     maxWidth: 100,
     accessor: d => ({
       name: d.name,
-      ticker: d.ticker
+      ticker: d.ticker,
+      slug: d.slug
     }),
     Cell: ({ value }) => (
       <div className='overview-ticker'>
-        <ProjectIcon name={value.name} />
+        <ProjectIcon slug={value.slug} />
       </div>
     )
   },
@@ -35,9 +36,9 @@ export const columns = [
     minWidth: 260,
     filterable: true,
     sortable: true,
-    accessor: ({ name, ticker, slug }) => ({ name, ticker, cmcId: slug }),
+    accessor: ({ name, ticker, slug }) => ({ name, ticker, slug }),
     Cell: ({ value = {} }) => (
-      <Link className={styles.name} to={`/projects/${value.cmcId}`}>
+      <Link className={styles.name} to={`/projects/${value.slug}`}>
         <span>{value.name}</span>
         <span className={styles.ticker}>({value.ticker})</span>
       </Link>

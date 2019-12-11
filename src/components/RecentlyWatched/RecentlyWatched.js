@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import ProjectIcon from '../ProjectIcon'
+import ProjectIcon from '../ProjectIcon/ProjectIcon'
 import PercentChanges from '../PercentChanges'
 import WatchlistCard from '../Watchlists/WatchlistCard'
 import Skeleton from '../Skeleton/Skeleton'
@@ -24,7 +24,7 @@ export const Asset = ({ project, classes = {}, onClick }) => {
   return (
     <res.Component className={cx(styles.item, classes.asset)} {...res.props}>
       <div className={styles.group}>
-        <ProjectIcon size={20} name={name} />
+        <ProjectIcon size={20} slug={slug} />
         <h3 className={cx(styles.name, classes.asset__name)}>
           {name} <span className={styles.ticker}>{ticker}</span>
         </h3>

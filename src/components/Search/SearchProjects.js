@@ -7,7 +7,7 @@ import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
 import { allProjectsForSearchGQL } from '../../pages/Projects/allProjectsGQL'
 import { hasAssetById } from '../WatchlistPopup/WatchlistsPopup'
-import ProjectIcon from './../ProjectIcon'
+import ProjectIcon from './../ProjectIcon/ProjectIcon'
 import styles from './SearchContainer.module.scss'
 import ALL_PROJECTS from './../../allProjects.json'
 
@@ -40,6 +40,7 @@ const AssetSuggestion = ({
   id,
   name,
   ticker,
+  slug,
   isCopyingAssets,
   checkedAssets,
   isEditingWatchlist,
@@ -53,7 +54,7 @@ const AssetSuggestion = ({
           className={styles.checkbox}
         />
       ) : (
-        <ProjectIcon className={styles.icon} size={16} name={name} />
+        <ProjectIcon className={styles.icon} size={16} slug={slug} />
       )}
       <span className={styles.name}>{name}</span>
       <span className={styles.ticker}>({ticker})</span>
@@ -85,7 +86,7 @@ const SearchProjects = ({
           title: 'Assets',
           predicate: assetsPredicate,
           items: projects,
-          suggestionContent: ({ name, ticker, id }) => {
+          suggestionContent: ({ name, ticker, slug, id }) => {
             const isAssetInList = isEditingWatchlist
               ? hasAssetById({ listItems: watchlistItems, id })
               : false
@@ -95,6 +96,7 @@ const SearchProjects = ({
                 id={id}
                 name={name}
                 ticker={ticker}
+                slug={slug}
                 isEditingWatchlist={isEditingWatchlist}
                 isCopyingAssets={isCopyingAssets}
                 checkedAssets={checkedAssets}
