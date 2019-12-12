@@ -98,7 +98,7 @@ const RecentlyWatched = ({
             <Skeleton
               className={styles.skeleton}
               show={!hasWatchlists}
-              repeat={watchlistsNumber}
+              repeat={watchlists ? watchlists.length : watchlistsNumber}
             />
             {watchlists &&
               watchlists.map(watchlist => (
