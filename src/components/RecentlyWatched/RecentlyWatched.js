@@ -64,11 +64,11 @@ const RecentlyWatched = ({
       store.dispatch({ type: RECENT_WATCHLISTS_FETCH })
     }
   }, [])
-  const hasAssets = assets && assets.length > 0 && isShowAssets
-  const hasWatchlists = watchlists && watchlists.length > 0 && isShowWatchlists
+  const hasAssets = assets && assets.length > 0
+  const hasWatchlists = watchlists && watchlists.length > 0
   return (
     <>
-      {isShowAssets && assetsNumber > 0 && (
+      {isShowAssets && (assets ? hasAssets : assetsNumber > 0) && (
         <div className={cx(className, styles.wrapper)}>
           <h2 className={cx(styles.title, classes.subTitle)}>
             Recently watched assets
@@ -76,7 +76,7 @@ const RecentlyWatched = ({
           <Skeleton
             className={styles.skeleton}
             show={!hasAssets}
-            repeat={assetsNumber}
+            repeat={assets ? assets.length : assetsNumber}
           />
           {assets &&
             assets.map(project => (
@@ -89,7 +89,7 @@ const RecentlyWatched = ({
             ))}
         </div>
       )}
-      {isShowWatchlists && watchlistsNumber > 0 && (
+      {isShowWatchlists && (watchlists ? hasWatchlists : watchlistsNumber > 0) && (
         <div className={cx(className, styles.wrapper)}>
           <h2 className={cx(styles.title, classes.subTitle)}>
             Recently watched watchlists
