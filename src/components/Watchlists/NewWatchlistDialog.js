@@ -9,9 +9,9 @@ const NAME_EXISTS_ERROR = 'The watchlist with this name already exists'
 
 const SHORT_NAME_ERROR = 'The name should be at least 5 characters'
 
-const BAD_SYMBOLS_ERROR = "You can use only letters, numbers and _-.'/,"
+const BAD_SYMBOLS_ERROR = "Use only letters, numbers, whitespace and _-.'/,"
 
-const ALLOWED_SYMBOLS_REGEXP = /^([.\-/_',\w]*)$/
+const ALLOWED_SYMBOLS_REGEXP = /^([.\-/_' ,\w]*)$/
 
 class NewWatchlistDialog extends PureComponent {
   static getDerivedStateFromProps ({ isSuccess }) {
