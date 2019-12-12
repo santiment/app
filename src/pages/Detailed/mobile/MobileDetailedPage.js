@@ -143,6 +143,7 @@ const MobileDetailedPage = props => {
 
           const {
             ticker,
+            name,
             percentChange24h,
             percentChange7d,
             devActivity30,
@@ -169,7 +170,7 @@ const MobileDetailedPage = props => {
             <>
               <MobileHeader
                 showBack
-                title={<Title slug={slug} ticker={ticker} />}
+                title={<Title slug={name} ticker={ticker} />}
                 goBack={props.history.goBack}
               />
               <GetWatchlists
