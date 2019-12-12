@@ -51,7 +51,9 @@ export const fetchRecentWatchlists = (action$, store, { client }) =>
       return Observable.forkJoin(...assets).flatMap(res => {
         return Observable.of({
           type: actions.RECENT_WATCHLISTS_FETCH_SUCCESS,
-          payload: res.map(({ data: { watchlist } }) => watchlist)
+          payload: res
+            .map(({ data: { watchlist } }) => watchlist)
+            .filter(Boolean)
         })
       })
     })
