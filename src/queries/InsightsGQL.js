@@ -18,6 +18,7 @@ export const INSIGHT_COMMON_FRAGMENT = gql`
     user {
       id
       username
+      avatarUrl
     }
     __typename
   }
@@ -37,6 +38,7 @@ export const INSIGHT_FEED_FRAGMENT = gql`
     user {
       id
       username
+      avatarUrl
     }
     __typename
   }

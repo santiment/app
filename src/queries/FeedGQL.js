@@ -18,6 +18,7 @@ export const FEED_QUERY = gql`
         insertedAt
         user {
           id
+          avatarUrl
         }
         userList {
           ...generalListData

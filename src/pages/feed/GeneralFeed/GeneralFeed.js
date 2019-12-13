@@ -4,17 +4,17 @@ import { FEED_QUERY } from '../../../queries/FeedGQL'
 import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 import PageLoader from '../../../components/Loader/PageLoader'
 import FeedItemRenderer from './FeedItemRenderer/FeedItemRenderer'
-import SonarFeedRecommendations from '../../SonarFeed/SonarFeedRecommendations'
+import SonarFeedActivityPage from '../../SonarFeed/SonarFeedActivityPage'
 import styles from './GeneralFeed.module.scss'
 
 const MAX_LIMIT = 6
 
+const isBottom = el => {
+  return el.getBoundingClientRect().bottom <= window.innerHeight
+}
+
 const FeedList = ({ events, onLoadMore }) => {
-  const isBottom = el => {
-    return el.getBoundingClientRect().bottom <= window.innerHeight
-  }
   const handleScroll = ({ currentTarget }) => {
-    console.log('handleScroll')
     if (events.length) {
       const wrappedElement = document.getElementById('root')
       if (isBottom(wrappedElement)) {
@@ -24,7 +24,9 @@ const FeedList = ({ events, onLoadMore }) => {
   }
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll, true)
+    if (events.length) {
+      window.addEventListener('scroll', handleScroll, true)
+    }
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
@@ -36,7 +38,7 @@ const FeedList = ({ events, onLoadMore }) => {
       onScroll={e => handleScroll(e, onLoadMore)}
     >
       {!events || !events.length ? (
-        <SonarFeedRecommendations description='There are not any activities yet' />
+        <SonarFeedActivityPage />
       ) : (
         events.map((item, index) => {
           return <FeedItemRenderer item={item} key={index} />
@@ -100,22 +102,24 @@ const GeneralFeed = ({ loading, events }) => {
                       datetime: events[events.length - 1].insertedAt
                     }
                   },
-                  updateQuery: (prev, { fetchMoreResult }) => {
-                    console.log('updateQuery')
+                  updateQuery: (prev, { loading, fetchMoreResult }) => {
                     if (!fetchMoreResult) return prev
 
-                    debugger
+                    const prevData = prev.timelineEvents[0]
                     const newEvents = [
-                      ...prev.timelineEvents[0].events,
+                      ...prevData.events,
                       ...fetchMoreResult.timelineEvents[0].events
                     ]
 
-                    const mergeResult = Object.assign({}, prev, {
-                      timelineEvents: {
-                        events: newEvents
-                      }
-                    })
-                    console.log(mergeResult)
+                    const mergeResult = {
+                      timelineEvents: [
+                        {
+                          events: newEvents,
+                          cursor: prev.timelineEvents[0].cursor,
+                          __typename: 'TimelineEventsPaginated'
+                        }
+                      ]
+                    }
 
                     return mergeResult
                   }
