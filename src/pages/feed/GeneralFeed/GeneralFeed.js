@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Query } from 'react-apollo'
 import { FEED_QUERY } from '../../../queries/FeedGQL'
 import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
@@ -7,26 +7,22 @@ import FeedItemRenderer from './FeedItemRenderer/FeedItemRenderer'
 import SonarFeedActivityPage from '../../SonarFeed/SonarFeedActivityPage'
 import styles from './GeneralFeed.module.scss'
 
-const MAX_LIMIT = 6
+const MAX_LIMIT = 8
 
 const isBottom = el => {
   return el.getBoundingClientRect().bottom <= window.innerHeight
 }
 
 const FeedList = ({ events, onLoadMore }) => {
-  const handleScroll = ({ currentTarget }) => {
-    if (events.length) {
-      const wrappedElement = document.getElementById('root')
-      if (isBottom(wrappedElement)) {
-        onLoadMore()
-      }
+  const handleScroll = () => {
+    const wrappedElement = document.getElementById('root')
+    if (isBottom(wrappedElement)) {
+      onLoadMore()
     }
   }
 
   useEffect(() => {
-    if (events.length) {
-      window.addEventListener('scroll', handleScroll, true)
-    }
+    window.addEventListener('scroll', handleScroll, true)
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
@@ -52,6 +48,8 @@ const GeneralFeed = ({ loading, events }) => {
   if (loading) {
     return <PageLoader />
   }
+
+  const [isEnd, setEnd] = useState(false)
 
   return (
     <div className={styles.container}>
@@ -93,38 +91,51 @@ const GeneralFeed = ({ loading, events }) => {
           return (
             <FeedList
               events={events}
-              onLoadMore={() =>
-                fetchMore({
-                  variables: {
-                    limit: MAX_LIMIT,
-                    cursor: {
-                      type: 'BEFORE',
-                      datetime: events[events.length - 1].insertedAt
+              isEnd={isEnd}
+              onLoadMore={() => {
+                console.log(
+                  'load before ',
+                  events[events.length - 1].insertedAt
+                )
+                return (
+                  !isEnd &&
+                  fetchMore({
+                    variables: {
+                      limit: MAX_LIMIT,
+                      cursor: {
+                        type: 'BEFORE',
+                        datetime: events[events.length - 1].insertedAt
+                      }
+                    },
+                    updateQuery: (prev, { fetchMoreResult }) => {
+                      if (!fetchMoreResult) return prev
+
+                      const prevData = prev.timelineEvents[0]
+
+                      const loadedEvents =
+                        fetchMoreResult.timelineEvents[0].events
+
+                      if (loadedEvents.length === 0) {
+                        setEnd(true)
+                      }
+
+                      const newEvents = [...prevData.events, ...loadedEvents]
+
+                      const mergeResult = {
+                        timelineEvents: [
+                          {
+                            events: newEvents,
+                            cursor: prev.timelineEvents[0].cursor,
+                            __typename: 'TimelineEventsPaginated'
+                          }
+                        ]
+                      }
+
+                      return mergeResult
                     }
-                  },
-                  updateQuery: (prev, { loading, fetchMoreResult }) => {
-                    if (!fetchMoreResult) return prev
-
-                    const prevData = prev.timelineEvents[0]
-                    const newEvents = [
-                      ...prevData.events,
-                      ...fetchMoreResult.timelineEvents[0].events
-                    ]
-
-                    const mergeResult = {
-                      timelineEvents: [
-                        {
-                          events: newEvents,
-                          cursor: prev.timelineEvents[0].cursor,
-                          __typename: 'TimelineEventsPaginated'
-                        }
-                      ]
-                    }
-
-                    return mergeResult
-                  }
-                })
-              }
+                  })
+                )
+              }}
             />
           )
         }}
