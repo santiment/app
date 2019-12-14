@@ -7,12 +7,19 @@ import styles from './SantimentProductsTooltip.module.scss'
 
 const ProductItem = ({
   product: { to, img, title, linkTitle, description, showLink = true },
-  className
+  className,
+  imgClassName
 }) => {
   return (
     <a className={cx(styles.wrapper, className)} href={to}>
       <div className={cx(styles.product, styles.wrapper__product)}>
-        {img && <img className={styles.product__img} src={img} alt={title} />}
+        {img && (
+          <img
+            className={cx(styles.product__img, imgClassName)}
+            src={img}
+            alt={title}
+          />
+        )}
         <div className={styles.product__info}>
           <div className={styles.product__title}>{title}</div>
           <div className={styles.product__description}>{description}</div>
@@ -53,7 +60,8 @@ const SantimentProductsTooltip = ({
   products = MAIN_PRODUCTS,
   offsetY = 0,
   offsetX = 0,
-  productProps = {}
+  productProps = {},
+  imgClassName
 }) => {
   const [isOpen, setOpenState] = useState(false)
 
@@ -102,7 +110,12 @@ const SantimentProductsTooltip = ({
         )}
         <div className={styles.products}>
           {products.map((item, index) => (
-            <ProductItem key={index} product={item} {...productProps} />
+            <ProductItem
+              key={index}
+              product={item}
+              {...productProps}
+              imgClassName={imgClassName}
+            />
           ))}
         </div>
       </div>

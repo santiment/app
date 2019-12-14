@@ -5,6 +5,7 @@ import neuroLogoImg from '../../../assets/logos/logo-neuro.svg'
 import socialTrendsImg from '../../../assets/labs/social_trends.svg'
 import historicalBalanceImg from '../../../assets/labs/hist_balance.svg'
 import buidlHeroesImg from '../../../assets/labs/buidl_heroes.svg'
+import studioImg from '../../../assets/labs/studio.svg'
 
 export const MAIN_PRODUCTS = [
   {
@@ -57,6 +58,14 @@ export const LABS = [
     description:
       'Compare the development activity of all Ethereum, EOS and DeFi projects over time.',
     to: '/labs/buidl-heroes',
+    showLink: false
+  },
+  {
+    img: studioImg,
+    title: 'Studio',
+    description:
+      'On-chain, social, development and financial indicators for 900+ crypto assets',
+    to: '/chart',
     showLink: false
   }
 ]

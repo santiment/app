@@ -51,6 +51,7 @@ const leftLinks = [
     as: props => (
       <Link {...props} to={'/labs'}>
         <SantimentProductsTooltip
+          imgClassName={styles.imgLab}
           showArrows={false}
           products={LABS}
           position='start'
