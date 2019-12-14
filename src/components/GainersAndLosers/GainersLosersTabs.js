@@ -12,7 +12,7 @@ import allProjects from '../../allProjects.json'
 import styles from './GainersLosersTabs.module.scss'
 
 const Item = ({ onProjectClick, showChange, ...project }) => {
-  const { change, name, ticker, slug } = project
+  const { change, ticker, slug } = project
   return (
     <div className={styles.project} onClick={() => onProjectClick(project)}>
       <ProjectIcon slug={slug} size={20} />
