@@ -9,30 +9,28 @@ import styles from './GeneralFeed.module.scss'
 
 const MAX_LIMIT = 8
 
+const makeVariables = date => ({
+  limit: MAX_LIMIT,
+  cursor: {
+    type: 'BEFORE',
+    datetime: date
+  }
+})
+
+const extractEventsFromData = data => {
+  const { timelineEvents } = data
+  const [first] = timelineEvents
+  const { events } = first
+  return events
+}
+
 const isBottom = el => {
   return el.getBoundingClientRect().bottom <= window.innerHeight
 }
 
-const FeedList = ({ events, onLoadMore }) => {
-  const handleScroll = () => {
-    const wrappedElement = document.getElementById('root')
-    if (isBottom(wrappedElement)) {
-      onLoadMore()
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll, true)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, onLoadMore)
-
+const FeedList = ({ events }) => {
   return (
-    <div
-      className={styles.scrollable}
-      onScroll={e => handleScroll(e, onLoadMore)}
-    >
+    <div className={styles.scrollable}>
       {!events || !events.length ? (
         <SonarFeedActivityPage />
       ) : (
@@ -48,8 +46,6 @@ const GeneralFeed = ({ loading, events }) => {
   if (loading) {
     return <PageLoader />
   }
-
-  const [isEnd, setEnd] = useState(false)
 
   return (
     <div className={styles.container}>
@@ -69,79 +65,97 @@ const GeneralFeed = ({ loading, events }) => {
 
       <Query
         query={FEED_QUERY}
-        variables={{
-          limit: MAX_LIMIT,
-          cursor: {
-            type: 'BEFORE',
-            datetime: new Date().toISOString()
-          }
-        }}
+        variables={makeVariables(new Date().toISOString())}
       >
         {props => {
           const { data, fetchMore } = props
 
           if (!data) {
-            return null
+            return (
+              <div className={styles.scrollable}>
+                <PageLoader />
+              </div>
+            )
           }
 
-          const { timelineEvents } = data
-          const [first] = timelineEvents
-          const { events } = first
+          const events = extractEventsFromData(data)
 
-          return (
-            <FeedList
-              events={events}
-              isEnd={isEnd}
-              onLoadMore={() => {
-                console.log(
-                  'load before ',
-                  events[events.length - 1].insertedAt
-                )
-                return (
-                  !isEnd &&
-                  fetchMore({
-                    variables: {
-                      limit: MAX_LIMIT,
-                      cursor: {
-                        type: 'BEFORE',
-                        datetime: events[events.length - 1].insertedAt
-                      }
-                    },
-                    updateQuery: (prev, { fetchMoreResult }) => {
-                      if (!fetchMoreResult) return prev
-
-                      const prevData = prev.timelineEvents[0]
-
-                      const loadedEvents =
-                        fetchMoreResult.timelineEvents[0].events
-
-                      if (loadedEvents.length === 0) {
-                        setEnd(true)
-                      }
-
-                      const newEvents = [...prevData.events, ...loadedEvents]
-
-                      const mergeResult = {
-                        timelineEvents: [
-                          {
-                            events: newEvents,
-                            cursor: prev.timelineEvents[0].cursor,
-                            __typename: 'TimelineEventsPaginated'
-                          }
-                        ]
-                      }
-
-                      return mergeResult
-                    }
-                  })
-                )
-              }}
-            />
-          )
+          return <FeedListLoading events={events} fetchMore={fetchMore} />
         }}
       </Query>
     </div>
   )
+}
+
+class FeedListLoading extends React.Component {
+  state = {
+    isEnd: false
+  }
+
+  onLoadMore = () => {
+    const { events, fetchMore } = this.props
+    const { isEnd } = this.state
+
+    const variables = makeVariables(events[events.length - 1].insertedAt)
+
+    if (isEnd) {
+      return null
+    }
+
+    return fetchMore({
+      variables: variables,
+      updateQuery: (prev, next) => {
+        const { fetchMoreResult } = next
+        if (!fetchMoreResult) return prev
+
+        const loadedEvents = extractEventsFromData(fetchMoreResult)
+
+        if (loadedEvents.length < MAX_LIMIT) {
+          this.setState({
+            isEnd: true
+          })
+        }
+
+        const prevData = prev.timelineEvents[0]
+        const newEvents = [...prevData.events, ...loadedEvents]
+
+        const mergeResult = Object.assign(
+          {},
+          {
+            timelineEvents: [
+              {
+                events: newEvents,
+                cursor: fetchMoreResult.timelineEvents[0].cursor,
+                __typename: 'TimelineEventsPaginated'
+              }
+            ]
+          }
+        )
+
+        return mergeResult
+      }
+    })
+  }
+
+  handleScroll = event => {
+    const wrappedElement = document.getElementById('root')
+    if (isBottom(wrappedElement)) {
+      this.onLoadMore()
+    }
+  }
+
+  componentDidMount () {
+    window.addEventListener('scroll', this.handleScroll, true)
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+
+  render () {
+    const { events } = this.props
+    return <FeedList events={events} />
+  }
 }
 
 export default GeneralFeed
