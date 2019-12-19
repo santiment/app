@@ -10,6 +10,7 @@ import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 import NavbarHelpDropdown from './NavbarHelpDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
 import NavbarAssetsDropdown from './NavbarAssetsDropdown'
+import PlanEngage from './PlanEngage'
 import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
 import logoImg from './../../assets/logos/main-logo.svg'
 import { LABS } from './SantimentProductsTooltip/Products'
@@ -84,17 +85,8 @@ const rightBtns = [
     icon: () => <Icon type='help-round' className={styles.headerIcon} />,
     el: NavbarHelpDropdown,
     links: ['/docs', '/dev-api', '/support'],
-    makeActive: true
-  },
-  {
-    icon: () => (
-      <Link to='/account'>
-        <UserAvatar classes={styles} />
-      </Link>
-    ),
-    el: NavbarProfileDropdown,
-    links: ['/account'],
-    className: styles.accountBtn
+    makeActive: true,
+    className: styles.help
   }
 ]
 
@@ -167,28 +159,47 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
               icon: 'search'
             }}
           />
-          <div className={styles.divider}>
-            {rightBtns.map(
-              (
-                { icon: El, el: Content, links, makeActive, className },
-                index
-              ) => (
-                <SmoothDropdownItem
-                  key={index}
-                  trigger={
-                    <Button
-                      variant='flat'
-                      className={cx(styles.btn, styles.rightBtns, className)}
-                      isActive={makeActive && links.includes(activeLink)}
-                    >
-                      <El />
-                    </Button>
-                  }
+          {rightBtns.map(
+            (
+              { icon: El, el: Content, links, makeActive, className },
+              index
+            ) => (
+              <SmoothDropdownItem
+                key={index}
+                trigger={
+                  <Button
+                    variant='flat'
+                    className={cx(styles.btn, styles.rightBtns, className)}
+                    isActive={makeActive && links.includes(activeLink)}
+                  >
+                    <El />
+                  </Button>
+                }
+              >
+                <Content activeLink={activeLink} />
+              </SmoothDropdownItem>
+            )
+          )}
+          <div className={cx(styles.divider, styles.center)}>
+            <PlanEngage />
+            <SmoothDropdownItem
+              trigger={
+                <Button
+                  variant='flat'
+                  className={cx(
+                    styles.btn,
+                    styles.rightBtns,
+                    styles.accountBtn
+                  )}
                 >
-                  <Content activeLink={activeLink} />
-                </SmoothDropdownItem>
-              )
-            )}
+                  <Link to='/account'>
+                    <UserAvatar classes={styles} />
+                  </Link>
+                </Button>
+              }
+            >
+              <NavbarProfileDropdown activeLink={activeLink} />
+            </SmoothDropdownItem>
           </div>
         </div>
       </SmoothDropdown>
