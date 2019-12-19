@@ -19,8 +19,9 @@ export const stories = [
     slides: [
       {
         image: email1,
+        title: 'Want to know what hard data reveals about the crypto market?',
         description:
-          'Want to know what hard data reveals about the crypto market? We give the answers in our new Santiment Weekly Briefs - available only to Sanbase users!'
+          'We give the answers in our new Santiment Weekly Briefs - available only to Sanbase users!'
       },
       {
         image: email2,
