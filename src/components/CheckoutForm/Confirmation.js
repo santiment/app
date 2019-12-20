@@ -46,10 +46,7 @@ const TotalPrice = ({ price, planWithBilling, percentOff }) => {
 }
 
 const DiscountInput = ({ setCoupon, isValid }) => {
-  const setCouponDebounced = useDebounce(
-    value => value && setCoupon(value),
-    1000
-  )
+  const setCouponDebounced = useDebounce(value => setCoupon(value), 500)
 
   return (
     <label className={cx(styles.label, styles.label_card)}>
@@ -106,17 +103,18 @@ const Confirmation = ({
             </div>
           </div>
         </div>
-
-        <Query skip={!coupon} query={CHECK_COUPON_QUERY} variables={{ coupon }}>
+        <Query
+          skip={!coupon}
+          query={CHECK_COUPON_QUERY}
+          variables={{ coupon }}
+          fetchPolicy='no-cache'
+        >
           {({ loading, error, data: { getCoupon } = {} }) => {
-            const { isValid, percentOff } = getCoupon || {}
+            // NOTE: Seems like graphql is caching the last value after error even with no-cache [@vanguard | Dec 16, 2019]
+            const { isValid, percentOff } = error ? {} : getCoupon || {}
             return (
               <>
-                <DiscountInput
-                  error={error}
-                  isValid={isValid}
-                  setCoupon={setCoupon}
-                />
+                <DiscountInput isValid={isValid} setCoupon={setCoupon} />
                 <div className={styles.hold}>
                   <Icon
                     className={styles.hold__icon}

@@ -143,17 +143,16 @@ export class TrendsExplorePage extends Component {
               onSelectOption={this.handleSelectTimeRange}
               defaultSelected={timeRange}
             />
-            {isDesktop && (
-              <Panel className={styles.pricePair}>
-                <Selector
-                  options={priceOptions}
-                  nameOptions={priceLabels}
-                  onSelectOption={this.handleSelectAsset}
-                  defaultSelected={asset}
-                />
-              </Panel>
-            )}
+            <Panel className={styles.pricePair}>
+              <Selector
+                options={priceOptions}
+                nameOptions={priceLabels}
+                onSelectOption={this.handleSelectAsset}
+                defaultSelected={asset}
+              />
+            </Panel>
             <ShareModalTrigger
+              className={styles.shareBtn}
               shareTitle='Santiment'
               shareText={`Crypto Social Trends for "${topic}"`}
               shareLink={window.location.href}
