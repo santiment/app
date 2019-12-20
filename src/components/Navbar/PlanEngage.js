@@ -37,7 +37,9 @@ const PlanEngage = () => (
 
       return (
         <a
-          href='https://academy.santiment.net/'
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://academy.santiment.net/products-and-plans/sanbase-pro-features/'
           className={cx(styles.text, styles.premium)}
         >
           <Icon type='crown' className={styles.icon} />
