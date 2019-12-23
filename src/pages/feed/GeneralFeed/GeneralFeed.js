@@ -5,9 +5,10 @@ import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalie
 import PageLoader from '../../../components/Loader/PageLoader'
 import FeedListLoading from './FeedList/FeedListLoading'
 import { extractEventsFromData, makeVariables } from './utils'
+import { getActivitiesEnhance } from '../../SonarFeed/SonarFeedActivityPage'
 import styles from './GeneralFeed.module.scss'
 
-const GeneralFeed = ({ loading, events }) => {
+const GeneralFeed = ({ loading, activities }) => {
   if (loading) {
     return <PageLoader />
   }
@@ -52,4 +53,6 @@ const GeneralFeed = ({ loading, events }) => {
   )
 }
 
-export default GeneralFeed
+const enhance = getActivitiesEnhance()
+
+export default enhance(GeneralFeed)

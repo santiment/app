@@ -33,8 +33,8 @@ export const TRIGGER_ACTIVITIES_QUERY = gql`
   }
 `
 
-const SonarFeedActivityPage = ({ activities, isLoading, classes = {} }) => {
-  if (isLoading) {
+const SonarFeedActivityPage = ({ activities, loading, classes = {} }) => {
+  if (loading) {
     return <PageLoader className={styles.loader} />
   }
 
@@ -116,20 +116,24 @@ const SonarFeedActivityPage = ({ activities, isLoading, classes = {} }) => {
   )
 }
 
-const enhance = graphql(TRIGGER_ACTIVITIES_QUERY, {
-  options: () => ({
-    variables: {
-      datetime: new Date().toISOString()
-    },
-    fetchPolicy: 'cache-and-network'
-  }),
-  props: ({ data }) => {
-    return {
-      activities: (data.activities || {}).activity,
-      isLoading: data.loading,
-      isError: !!data.error
+export const getActivitiesEnhance = () => {
+  return graphql(TRIGGER_ACTIVITIES_QUERY, {
+    options: () => ({
+      variables: {
+        datetime: new Date().toISOString()
+      },
+      fetchPolicy: 'cache-and-network'
+    }),
+    props: ({ data }) => {
+      return {
+        activities: (data.activities || {}).activity,
+        loading: data.loading,
+        error: data.error
+      }
     }
-  }
-})
+  })
+}
+
+const enhance = getActivitiesEnhance()
 
 export default enhance(SonarFeedActivityPage)

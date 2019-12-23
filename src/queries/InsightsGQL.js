@@ -23,26 +23,6 @@ export const INSIGHT_COMMON_FRAGMENT = gql`
     __typename
   }
 `
-export const INSIGHT_FEED_FRAGMENT = gql`
-  fragment insightFeedCommon on Post {
-    id
-    readyState
-    title
-    createdAt
-    publishedAt
-    updatedAt
-    votedAt
-    votes {
-      totalVotes
-    }
-    user {
-      id
-      username
-      avatarUrl
-    }
-    __typename
-  }
-`
 
 export const FEATURED_INSIGHTS_QUERY = gql`
   query featuredInsights {
