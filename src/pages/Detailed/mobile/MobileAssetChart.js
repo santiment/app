@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -9,7 +9,6 @@ import {
   ReferenceDot
 } from 'recharts'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
-import { formatNumber } from '../../../utils/formatting'
 import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils'
 import {
   getSyncedColors,
@@ -17,9 +16,10 @@ import {
 } from '../../../ducks/SANCharts/TooltipSynchronizer'
 import { Metrics } from '../../../ducks/SANCharts/data'
 import CustomTooltip from '../../../ducks/SANCharts/CustomTooltip'
-import styles from './MobileAssetChart.module.scss'
+import IcoPriceTooltip from '../../../ducks/SANCharts/tooltip/IcoPriceTooltip'
 
 const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
+  const [icoPriceY, setIcoPriceY] = useState(null)
   const metrics = ['historyPricePreview']
   if (extraMetric) metrics.push(extraMetric.name)
   const objMetrics = metrics.map(metric => Metrics[metric])
@@ -45,6 +45,7 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
   useEffect(() => clearCache)
   return (
     <div>
+      {icoPriceY && <IcoPriceTooltip y={icoPriceY} value={icoPrice} />}
       <ResponsiveContainer width='100%' height={250}>
         <ComposedChart data={data}>
           <defs>
@@ -78,20 +79,15 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
             ))}
           {icoPrice && (
             <ReferenceLine
-              strokeDasharray='3 3'
-              stroke='var(--mirage)'
+              strokeDasharray='5 5'
+              stroke='var(--waterloo)'
               yAxisId='axis-priceUsd'
               y={icoPrice}
+              label={({ viewBox: { y } }) => setIcoPriceY(y)}
             />
           )}
         </ComposedChart>
       </ResponsiveContainer>
-      {icoPrice && (
-        <div className={styles.icoPrice}>
-          {`ICO Price ${formatNumber(icoPrice, { currency: 'USD' })}`}
-          <div className={styles.icoPriceLegend} />
-        </div>
-      )}
     </div>
   )
 }
