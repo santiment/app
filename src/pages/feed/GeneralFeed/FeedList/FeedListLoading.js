@@ -3,64 +3,101 @@ import {
   extractEventsFromData,
   isBottom,
   makeVariables,
-  MAX_LIMIT
+  MAX_LIMIT,
+  getMerged
 } from '../utils'
 import FeedList from './FeedList'
 
 class FeedListLoading extends React.Component {
   state = {
-    isEnd: false
+    isEndCommon: false,
+    isEndActivities: false
   }
 
-  onLoadMore = () => {
-    const { events, fetchMore } = this.props
-    const { isEnd } = this.state
+  eventsUpdater = (prev, next) => {
+    const { fetchMoreResult } = next
+    if (!fetchMoreResult) return prev
 
-    const variables = makeVariables(events[events.length - 1].insertedAt)
+    const loadedEvents = extractEventsFromData(fetchMoreResult)
 
+    if (loadedEvents.length < MAX_LIMIT) {
+      this.setState({
+        ...this.state,
+        isEndCommon: true
+      })
+    }
+
+    const prevData = prev.timelineEvents[0]
+    const newEvents = [...prevData.events, ...loadedEvents]
+
+    return {
+      timelineEvents: [
+        {
+          events: newEvents,
+          cursor: fetchMoreResult.timelineEvents[0].cursor,
+          __typename: 'TimelineEventsPaginated'
+        }
+      ]
+    }
+  }
+
+  activitiesUpdater = (prev, next) => {
+    const { fetchMoreResult } = next
+    if (!fetchMoreResult) return prev
+
+    const loadedEvents = fetchMoreResult.activities.activity
+
+    if (loadedEvents.length < MAX_LIMIT) {
+      this.setState({
+        ...this.state,
+        isEndActivities: true
+      })
+    }
+
+    const prevData = prev.activities.activity
+    const newData = [...prevData, ...loadedEvents]
+
+    return {
+      activities: {
+        activity: newData,
+        cursor: fetchMoreResult.activities.cursor,
+        __typename: 'SignalHistoricalActivityPaginated'
+      }
+    }
+  }
+
+  onLoadMore = (isEnd, fetchMore, list, updater) => {
     if (isEnd) {
       return null
     }
 
+    const lastItem = list[list.length - 1]
+    const variables = makeVariables(lastItem.insertedAt || lastItem.triggeredAt)
+
     return fetchMore({
       variables: variables,
-      updateQuery: (prev, next) => {
-        const { fetchMoreResult } = next
-        if (!fetchMoreResult) return prev
-
-        const loadedEvents = extractEventsFromData(fetchMoreResult)
-
-        if (loadedEvents.length < MAX_LIMIT) {
-          this.setState({
-            isEnd: true
-          })
-        }
-
-        const prevData = prev.timelineEvents[0]
-        const newEvents = [...prevData.events, ...loadedEvents]
-
-        const mergeResult = Object.assign(
-          {},
-          {
-            timelineEvents: [
-              {
-                events: newEvents,
-                cursor: fetchMoreResult.timelineEvents[0].cursor,
-                __typename: 'TimelineEventsPaginated'
-              }
-            ]
-          }
-        )
-
-        return mergeResult
-      }
+      updateQuery: updater
     })
   }
 
   handleScroll = event => {
     const wrappedElement = document.getElementById('root')
     if (isBottom(wrappedElement)) {
-      this.onLoadMore()
+      const {
+        events,
+        activities,
+        fetchMoreCommon,
+        fetchMoreActivities
+      } = this.props
+      const { isEndCommon, isEndActivities } = this.state
+
+      this.onLoadMore(isEndCommon, fetchMoreCommon, events, this.eventsUpdater)
+      this.onLoadMore(
+        isEndActivities,
+        fetchMoreActivities,
+        activities,
+        this.activitiesUpdater
+      )
     }
   }
 
@@ -73,8 +110,10 @@ class FeedListLoading extends React.Component {
   }
 
   render () {
-    const { events } = this.props
-    return <FeedList events={events} />
+    const { events, activities } = this.props
+    const merged = getMerged(events, activities)
+
+    return <FeedList events={merged} />
   }
 }
 

@@ -5,10 +5,12 @@ import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalie
 import PageLoader from '../../../components/Loader/PageLoader'
 import FeedListLoading from './FeedList/FeedListLoading'
 import { extractEventsFromData, makeVariables } from './utils'
-import { getActivitiesEnhance } from '../../SonarFeed/SonarFeedActivityPage'
+import { TRIGGER_ACTIVITIES_QUERY } from '../../SonarFeed/SonarFeedActivityPage'
 import styles from './GeneralFeed.module.scss'
 
-const GeneralFeed = ({ loading, activities }) => {
+const START_DATE = new Date().toISOString()
+
+const GeneralFeed = ({ loading }) => {
   if (loading) {
     return <PageLoader />
   }
@@ -30,11 +32,12 @@ const GeneralFeed = ({ loading, activities }) => {
       </div>
 
       <Query
-        query={FEED_QUERY}
-        variables={makeVariables(new Date().toISOString())}
+        query={TRIGGER_ACTIVITIES_QUERY}
+        variables={makeVariables(START_DATE)}
+        fetchPolicy='cache-and-network'
       >
         {props => {
-          const { data, fetchMore } = props
+          const { data, fetchMore: fetchMoreActivities } = props
 
           if (!data) {
             return (
@@ -44,15 +47,41 @@ const GeneralFeed = ({ loading, activities }) => {
             )
           }
 
-          const events = extractEventsFromData(data)
+          const { activity: activities } = data.activities
 
-          return <FeedListLoading events={events} fetchMore={fetchMore} />
+          console.log('activities', activities, data)
+
+          return (
+            <Query
+              query={FEED_QUERY}
+              variables={makeVariables(START_DATE)}
+              fetchPolicy='cache-and-network'
+            >
+              {props => {
+                const { data, fetchMore: fetchMoreCommon } = props
+
+                if (!data) {
+                  return null
+                }
+
+                const events = extractEventsFromData(data)
+                console.log('events', events)
+
+                return (
+                  <FeedListLoading
+                    events={events}
+                    activities={activities}
+                    fetchMoreCommon={fetchMoreCommon}
+                    fetchMoreActivities={fetchMoreActivities}
+                  />
+                )
+              }}
+            </Query>
+          )
         }}
       </Query>
     </div>
   )
 }
 
-const enhance = getActivitiesEnhance()
-
-export default enhance(GeneralFeed)
+export default GeneralFeed

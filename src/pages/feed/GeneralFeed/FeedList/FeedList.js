@@ -8,7 +8,7 @@ const FeedList = ({ events }) => {
     <div className={styles.scrollable}>
       {events && events.length > 0 ? (
         events.map((item, index) => {
-          return <FeedItemRenderer item={item} key={index} />
+          return <FeedItemRenderer item={item} key={index} index={index} />
         })
       ) : (
         <SonarFeedRecommendations description='There are not any activities yet' />

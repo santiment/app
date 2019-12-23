@@ -18,6 +18,7 @@ export const FEED_QUERY = gql`
         post {
           ...insightCommon
         }
+        __typename
       }
     }
   }

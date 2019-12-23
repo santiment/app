@@ -10,13 +10,11 @@ import { dateDifferenceInWords } from '../../utils/dates'
 import { getSanSonarSW } from '../Account/SettingsSonarWebPushNotifications'
 import { SIGNAL_ANCHORS } from '../../ducks/Signals/common/constants'
 import styles from './SonarFeedActivityPage.module.scss'
+import { makeVariables } from '../feed/GeneralFeed/utils'
 
 export const TRIGGER_ACTIVITIES_QUERY = gql`
-  query signalsHistoricalActivity($datetime: DateTime!) {
-    activities: signalsHistoricalActivity(
-      limit: 10
-      cursor: { type: BEFORE, datetime: $datetime }
-    ) {
+  query signalsHistoricalActivity($limit: Int, $cursor: CursorInput) {
+    activities: signalsHistoricalActivity(limit: $limit, cursor: $cursor) {
       cursor {
         before
         after
@@ -28,20 +26,52 @@ export const TRIGGER_ACTIVITIES_QUERY = gql`
           id
           title
         }
+        __typename
       }
     }
   }
 `
 
+const formatDate = dateString => {
+  return dateDifferenceInWords({
+    from: new Date(dateString)
+  })
+}
+
+export const ActivityRenderer = ({
+  activity: { triggeredAt, payload, trigger: { id: signalId, title } = {} },
+  index,
+  classes = {}
+}) => (
+  <div
+    key={triggeredAt + '_' + signalId}
+    className={cx(
+      styles.activityItem,
+      classes.activityItem,
+      index === 0 && classes.firstActivity
+    )}
+  >
+    <div className={cx(styles.description, classes.activityCustom)}>
+      <h4 className={styles.date}>
+        {formatDate(triggeredAt)} by{' '}
+        <Link
+          to={`/sonar/signal/${signalId}${SIGNAL_ANCHORS.ACTIVITIES}`}
+          className={styles.link}
+        >
+          {title}
+        </Link>
+      </h4>
+    </div>
+    <Markdown
+      source={Object.values(payload)[0]}
+      className={classes.activityMarkdown}
+    />
+  </div>
+)
+
 const SonarFeedActivityPage = ({ activities, loading, classes = {} }) => {
   if (loading) {
     return <PageLoader className={styles.loader} />
-  }
-
-  const formatDate = dateString => {
-    return dateDifferenceInWords({
-      from: new Date(dateString)
-    })
   }
 
   const sendUpdate = () => {
@@ -79,37 +109,9 @@ const SonarFeedActivityPage = ({ activities, loading, classes = {} }) => {
 
   return activities && activities.length ? (
     <div className={cx(styles.wrapper, classes.activitiesWrapper)}>
-      {activities.map(
-        (
-          { triggeredAt, payload, trigger: { id: signalId, title } = {} },
-          index
-        ) => (
-          <div
-            key={triggeredAt + '_' + signalId}
-            className={cx(
-              styles.activityItem,
-              classes.activityItem,
-              index === 0 && classes.firstActivity
-            )}
-          >
-            <div className={cx(styles.description, classes.activityCustom)}>
-              <h4 className={styles.date}>
-                {formatDate(triggeredAt)} by{' '}
-                <Link
-                  to={`/sonar/signal/${signalId}${SIGNAL_ANCHORS.ACTIVITIES}`}
-                  className={styles.link}
-                >
-                  {title}
-                </Link>
-              </h4>
-            </div>
-            <Markdown
-              source={Object.values(payload)[0]}
-              className={classes.activityMarkdown}
-            />
-          </div>
-        )
-      )}
+      {activities.map((item, index) => (
+        <ActivityRenderer activity={item} index={index} classes={classes} />
+      ))}
     </div>
   ) : (
     <SonarFeedRecommendations description='There are not any activities yet' />
@@ -119,9 +121,7 @@ const SonarFeedActivityPage = ({ activities, loading, classes = {} }) => {
 export const getActivitiesEnhance = () => {
   return graphql(TRIGGER_ACTIVITIES_QUERY, {
     options: () => ({
-      variables: {
-        datetime: new Date().toISOString()
-      },
+      variables: makeVariables(new Date().toISOString(), 10),
       fetchPolicy: 'cache-and-network'
     }),
     props: ({ data }) => {
