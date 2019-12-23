@@ -5,9 +5,43 @@ import mmaImg from './../../assets/stories/platform_features/mma.png'
 import distroImg from './../../assets/stories/platform_features/distro.png'
 import renTopsImg from './../../assets/stories/platform_features/ren.png'
 import btcTacImg from './../../assets/stories/platform_features/btc_ta.png'
+import email1 from './../../assets/stories/weekly_breif/image1.png'
+import email2 from './../../assets/stories/weekly_breif/image2.png'
+import email3 from './../../assets/stories/weekly_breif/image3.png'
+import weeklySetting from './../../assets/stories/weekly_breif/image4.png'
 import weeklyUpdatesImg from './../../assets/stories/platform_features/weekly.png'
 
 export const stories = [
+  {
+    type: 'SLIDES',
+    previewTitle: "Subscribe to Santiment's Weekly Market Briefs!",
+    storyHeaderName: "Subscribe to Santiment's Weekly Market Briefs!",
+    slides: [
+      {
+        image: email1,
+        title: 'Want to know what hard data reveals about the crypto market?',
+        description:
+          'We give the answers in our new Santiment Weekly Briefs - available only to Sanbase users!'
+      },
+      {
+        image: email2,
+        description:
+          'Each week, the Santiment team shares the most interesting market findings and analyses, using a combination of reliable on-chain, social and development data'
+      },
+      {
+        image: email3,
+        description:
+          'The Weekly Brief is for anyone that wants to truly understand market behavior, and how Santiment tools can make you a better trader or an informed crypto participant'
+      },
+      {
+        image: weeklySetting,
+        description:
+          'Sign up to our Weekly Briefs in your Sanbase account settings by navigating to ‘Digest’ and selecting ‘Weekly’. See you in your inbox!',
+        buttonLink: 'https://app.santiment.net/account#notifications',
+        buttonText: 'Turn on "Weekly Brief"'
+      }
+    ]
+  },
   {
     type: 'SLIDES',
     previewTitle: 'Platform features',

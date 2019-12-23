@@ -11,7 +11,7 @@
 
 .row {
   display: flex;
-  margin: 0 16px 12px;
+  margin: 0 16px 13px;
   align-items: center;
   justify-content: space-between;
 }
@@ -94,9 +94,19 @@
 }
 
 .newBtn {
-  margin-right: -6px;
   padding: 12px 6px;
   height: auto;
+  position: absolute;
+  right: 20px;
 
   @include text('body-2');
+}
+
+.skeleton {
+  height: 120px;
+  margin: 0 16px;
+}
+
+.skeleton + .skeleton {
+  margin-top: 8px;
 }

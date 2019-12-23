@@ -56,7 +56,7 @@
   display: flex;
   justify-content: flex-end;
   border-left: 1px solid var(--porcelain);
-  padding-left: 12px;
+  padding-left: 24px;
 }
 
 .btn {
@@ -123,4 +123,17 @@
   @include responsive('desktop') {
     padding-right: 85px;
   }
+}
+
+.imgLab {
+  width: 48px;
+  height: 48px;
+}
+
+.center {
+  align-items: center;
+}
+
+.help {
+  margin-right: 12px;
 }

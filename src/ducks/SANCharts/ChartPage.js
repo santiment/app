@@ -241,9 +241,12 @@ class ChartPage extends Component {
   }
 
   onMultiChartsChange = () => {
-    this.setState(({ isMultiChartsActive }) => ({
-      isMultiChartsActive: !isMultiChartsActive
-    }))
+    this.setState(
+      ({ isMultiChartsActive }) => ({
+        isMultiChartsActive: !isMultiChartsActive
+      }),
+      this.updateSearchQuery
+    )
   }
 
   toggleMetric = metric => {
@@ -343,7 +346,8 @@ class ChartPage extends Component {
       zoom,
       from,
       to,
-      scale
+      scale,
+      isMultiChartsActive
     } = this.state
 
     const { enabledViewOnlySharing } = this.props
@@ -359,7 +363,8 @@ class ChartPage extends Component {
       nightMode,
       isShowAnomalies,
       title,
-      scale
+      scale,
+      isMultiChartsActive
     }
 
     if (enabledViewOnlySharing) {

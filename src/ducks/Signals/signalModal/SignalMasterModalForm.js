@@ -173,14 +173,7 @@ const MainDialog = ({
     setAnonWarning(warn)
   }
 
-  useEffect(
-    () => {
-      if (!isLoggedIn) {
-        toggleAnon()
-      }
-    },
-    [isLoggedIn]
-  )
+  useEffect(() => toggleAnon(!isLoggedIn), [isLoggedIn])
 
   useEffect(
     () => {

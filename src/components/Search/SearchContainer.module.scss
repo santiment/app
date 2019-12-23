@@ -1,13 +1,19 @@
+@import '~@santiment-network/ui/mixins.scss';
+
 .wrapper {
   position: relative;
   z-index: 10;
-  margin-right: 24px;
+  margin-right: 12px;
   width: 260px;
   transition: width 200ms ease-out;
 
   input {
     height: 32px;
     padding-left: 40px !important;
+
+    @include responsive('phone', 'phone-xs') {
+      height: auto;
+    }
   }
 
   input + svg:first-of-type {

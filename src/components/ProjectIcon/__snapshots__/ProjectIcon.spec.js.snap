@@ -2,7 +2,7 @@
 
 exports[`ProjectIcon component (smoke) it should render correctly 1`] = `
 <div
-  className="project-icon project-icon-cofound-it"
+  className="project-icon project-icon-bitcoin"
   style={
     Object {
       "--scale": 0.3125,
@@ -15,7 +15,7 @@ exports[`ProjectIcon component (smoke) it should render correctly 1`] = `
 
 exports[`ProjectIcon component DAO.Casino icon should render correctly 1`] = `
 <div
-  className="project-icon project-icon-dao-casino"
+  className="project-icon project-icon-monero"
   style={
     Object {
       "--scale": 0.625,

@@ -1,0 +1,65 @@
+@import '~@santiment-network/ui/mixins';
+
+.text {
+  @include text('caption');
+
+  color: var(--waterloo);
+}
+
+.link {
+  &:hover {
+    color: var(--jungle-green);
+  }
+}
+
+.upgrade {
+  position: absolute;
+  right: 0;
+  bottom: -15px;
+  transition: opacity 200ms;
+  opacity: 0;
+  pointer-events: none;
+
+  &,
+  &:active {
+    color: var(--texas-rose);
+  }
+
+  &:hover {
+    color: var(--texas-rose-hover);
+  }
+}
+
+.free {
+  position: relative;
+  transition: transform 200ms;
+
+  &:hover {
+    transform: translateY(-6px);
+
+    .upgrade {
+      pointer-events: all;
+      opacity: 1;
+    }
+  }
+}
+
+.premium {
+  cursor: hover;
+  border-radius: 4px;
+  height: 26px;
+  padding: 4px 12px;
+  background: var(--texas-rose-light-2);
+  color: var(--texas-rose);
+  fill: var(--texas-rose);
+
+  &:hover {
+    color: var(--texas-rose-hover);
+    fill: var(--texas-rose-hover);
+  }
+}
+
+.icon {
+  margin-top: -2px;
+  margin-right: 5px;
+}

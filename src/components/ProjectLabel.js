@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import ProjectIcon from './ProjectIcon'
+import ProjectIcon from './ProjectIcon/ProjectIcon'
 import styles from './ProjectLabel.module.scss'
 
-const ProjectLabel = ({ name, ticker, className }) => (
+const ProjectLabel = ({ name, ticker, slug, className }) => (
   <div className={cx(styles.label, className)}>
-    <ProjectIcon name={name} size={20} />
+    <ProjectIcon slug={slug} size={20} />
     <span className={styles.name}>{name}</span>
     <span className={styles.ticker}>({ticker})</span>
   </div>
@@ -15,6 +15,7 @@ const ProjectLabel = ({ name, ticker, className }) => (
 ProjectLabel.propTypes = {
   name: PropTypes.string.isRequired,
   ticker: PropTypes.string.isRequired,
+  slug: PropTypes.string.isRequired,
   className: PropTypes.string
 }
 

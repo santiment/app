@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
-import ProjectIcon from './../../components/ProjectIcon'
+import ProjectIcon from './../../components/ProjectIcon/ProjectIcon'
 import PercentChanges from './../../components/PercentChanges'
 import { capitalizeStr } from './../../utils/utils'
 import { formatNumber, millify } from '../../utils/formatting'
@@ -24,7 +24,7 @@ const AssetsCard = ({
   >
     <div className={styles.left}>
       <div className={styles.icon}>
-        <ProjectIcon size={20} name={name} />
+        <ProjectIcon size={20} slug={slug} />
       </div>
       <div className={styles.name}>
         <div>
