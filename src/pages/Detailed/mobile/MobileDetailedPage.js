@@ -31,6 +31,7 @@ import styles from './MobileDetailedPage.module.scss'
 const MobileDetailedPage = props => {
   const slug = props.match.params.slug
   const [timeRange, setTimeRange] = useState('6m')
+  const [icoPricePos, setIcoPricePos] = useState(0)
   const [extraMetric, setExtraMetric] = useState()
 
   addRecentAssets(slug)
@@ -47,7 +48,12 @@ const MobileDetailedPage = props => {
     <div className={styles.timeRangeBlock}>
       <Selector
         options={['1w', '1m', '3m', '6m', 'all']}
-        onSelectOption={setTimeRange}
+        onSelectOption={value => {
+          if (value !== timeRange) {
+            setTimeRange(value)
+            setIcoPricePos(0)
+          }
+        }}
         defaultSelected={timeRange}
       />
     </div>
@@ -201,6 +207,8 @@ const MobileDetailedPage = props => {
                           data={timeseries}
                           slug={slug}
                           icoPrice={icoPrice}
+                          icoPricePos={icoPricePos}
+                          setIcoPricePos={setIcoPricePos}
                           extraMetric={extraMetric}
                         />
                         {timeRangeBlock}

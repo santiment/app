@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -18,8 +18,14 @@ import { Metrics } from '../../../ducks/SANCharts/data'
 import CustomTooltip from '../../../ducks/SANCharts/CustomTooltip'
 import IcoPriceTooltip from '../../../ducks/SANCharts/tooltip/IcoPriceTooltip'
 
-const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
-  const [icoPriceY, setIcoPriceY] = useState(null)
+const MobileAssetChart = ({
+  data,
+  slug: asset,
+  icoPrice,
+  extraMetric,
+  setIcoPricePos,
+  icoPricePos
+}) => {
   const metrics = ['historyPricePreview']
   if (extraMetric) metrics.push(extraMetric.name)
   const objMetrics = metrics.map(metric => Metrics[metric])
@@ -45,7 +51,7 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
   useEffect(() => clearCache)
   return (
     <div>
-      {icoPriceY && <IcoPriceTooltip y={icoPriceY} value={icoPrice} />}
+      {icoPrice && <IcoPriceTooltip y={icoPricePos} value={icoPrice} />}
       <ResponsiveContainer width='100%' height={250}>
         <ComposedChart data={data}>
           <defs>
@@ -83,7 +89,7 @@ const MobileAssetChart = ({ data, slug: asset, icoPrice, extraMetric }) => {
               stroke='var(--waterloo)'
               yAxisId='axis-priceUsd'
               y={icoPrice}
-              label={({ viewBox: { y } }) => setIcoPriceY(y)}
+              label={({ viewBox: { y } }) => setIcoPricePos(y)}
             />
           )}
         </ComposedChart>
