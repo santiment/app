@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -26,6 +26,8 @@ const MobileAssetChart = ({
   setIcoPricePos,
   icoPricePos
 }) => {
+  const [isTouch, setIsTouch] = useState(false)
+
   const metrics = ['historyPricePreview']
   if (extraMetric) metrics.push(extraMetric.name)
   const objMetrics = metrics.map(metric => Metrics[metric])
@@ -50,8 +52,14 @@ const MobileAssetChart = ({
 
   useEffect(() => clearCache)
   return (
-    <div>
-      {icoPrice && <IcoPriceTooltip y={icoPricePos} value={icoPrice} />}
+    <div
+      onTouchStart={() => setIsTouch(true)}
+      onTouchEnd={() => setIsTouch(false)}
+      onTouchCancel={() => setIsTouch(false)}
+    >
+      {icoPrice && !isTouch && (
+        <IcoPriceTooltip y={icoPricePos} value={icoPrice} />
+      )}
       <ResponsiveContainer width='100%' height={250}>
         <ComposedChart data={data}>
           <defs>
@@ -63,11 +71,13 @@ const MobileAssetChart = ({
             domain={['auto', 'dataMax']}
             dataKey={extraMetric ? anomalyDataKey : 'priceUsd'}
           />
-          <Tooltip
-            content={<CustomTooltip />}
-            position={{ x: 0, y: -20 }}
-            isAnimationActive={false}
-          />
+          {isTouch && (
+            <Tooltip
+              content={<CustomTooltip />}
+              position={{ x: 0, y: -20 }}
+              isAnimationActive={false}
+            />
+          )}
           {markup}
           {extraMetric &&
             anomalies.map(({ datetime, yCoord }) => (
@@ -83,7 +93,7 @@ const MobileAssetChart = ({
                 fill='var(--persimmon)'
               />
             ))}
-          {icoPrice && (
+          {icoPrice && !isTouch && (
             <ReferenceLine
               strokeDasharray='5 5'
               stroke='var(--waterloo)'
