@@ -4,9 +4,7 @@ import {
   isBottom,
   getMerged,
   CURSOR_DAYS_COUNT,
-  makeFeedVariables,
-  INFINITY_COUNT_LIMIT,
-  CURSOR_TYPES
+  makeFeedVariables
 } from '../utils'
 import debounce from 'lodash.debounce'
 import FeedList from './FeedList'
@@ -15,9 +13,8 @@ import { START_DATE } from '../GeneralFeed'
 
 class FeedListLoading extends React.Component {
   state = {
-    isEndCommon: false,
-    isEndActivities: false,
-    start: START_DATE
+    startCommon: START_DATE,
+    startActivities: START_DATE
   }
 
   eventsUpdater = (prev, next) => {
@@ -25,13 +22,6 @@ class FeedListLoading extends React.Component {
     if (!fetchMoreResult) return prev
 
     const data = extractEventsFromData(fetchMoreResult)
-    if (data.length === 0) {
-      console.log('is end 1')
-      this.setState({
-        ...this.state,
-        isEndCommon: true
-      })
-    }
 
     return {
       timelineEvents: [
@@ -50,14 +40,6 @@ class FeedListLoading extends React.Component {
 
     const data = fetchMoreResult.activities.activity
 
-    if (data.length === 0) {
-      console.log('is end 2')
-      this.setState({
-        ...this.state,
-        isEndActivities: true
-      })
-    }
-
     return {
       activities: {
         activity: [...data],
@@ -68,14 +50,11 @@ class FeedListLoading extends React.Component {
   }
 
   onLoadMore = (isEnd, fetchMore, updater, after) => {
-    console.log('onLoadMore')
     if (isEnd) {
-      console.log('isend')
       return null
     }
 
     const variables = makeFeedVariables(after)
-    console.log('fetchMore', variables)
 
     return fetchMore({
       variables: variables,
@@ -83,34 +62,61 @@ class FeedListLoading extends React.Component {
     })
   }
 
-  setStart = date => {
-    this.setState({
-      ...this.state,
-      start: date
-    })
+  MAX_COUNTS = 10
+
+  loadPart = (start, updateStateDate, isEnd, fetchMore, updater) => {
+    let newFrom = null
+    let counter = 0
+    do {
+      newFrom = addDays(start, CURSOR_DAYS_COUNT)
+      updateStateDate(newFrom)
+      counter++
+    } while (
+      this.onLoadMore(isEnd, fetchMore, updater, newFrom) === null &&
+      counter < this.MAX_COUNTS
+    )
   }
 
-  handleScroll = event => {
+  handleScroll = debounce(event => {
     const wrappedElement = document.getElementById('root')
     if (isBottom(wrappedElement)) {
       const { fetchMoreCommon, fetchMoreActivities } = this.props
-      const { isEndCommon, isEndActivities, start } = this.state
+      const {
+        isEndCommon,
+        isEndActivities,
+        startCommon,
+        startActivities
+      } = this.state
 
-      console.log('handleScroll')
-      const newFrom = addDays(start, CURSOR_DAYS_COUNT)
-      this.onLoadMore(isEndCommon, fetchMoreCommon, this.eventsUpdater, newFrom)
-      this.onLoadMore(
+      this.loadPart(
+        startCommon,
+        input => {
+          this.setState({
+            ...this.state,
+            startCommon: input
+          })
+        },
+        isEndCommon,
+        fetchMoreCommon,
+        this.eventsUpdater
+      )
+
+      this.loadPart(
+        startActivities,
+        input => {
+          this.setState({
+            ...this.state,
+            startActivities: input
+          })
+        },
         isEndActivities,
         fetchMoreActivities,
-        this.activitiesUpdater,
-        newFrom
+        this.activitiesUpdater
       )
-      this.setStart(newFrom)
     }
-  }
+  }, 500)
 
   componentDidMount () {
-    console.log('componentDidMount')
     window.addEventListener('scroll', this.handleScroll, true)
   }
 

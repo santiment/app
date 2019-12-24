@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Query } from 'react-apollo'
 import { FEED_QUERY } from '../../../queries/FeedGQL'
 import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
@@ -19,8 +19,6 @@ const GeneralFeed = ({ loading }) => {
   if (loading) {
     return <PageLoader />
   }
-
-  console.log('START_DATE', START_DATE)
 
   return (
     <div className={styles.container}>

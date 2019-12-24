@@ -1,4 +1,4 @@
-export const CURSOR_DAYS_COUNT = -7
+export const CURSOR_DAYS_COUNT = -1
 export const MAX_LIMIT = 10
 export const INFINITY_COUNT_LIMIT = 1000000
 
@@ -39,7 +39,7 @@ export const extractEventsFromData = data => {
 }
 
 export const isBottom = el => {
-  return el.getBoundingClientRect().bottom <= window.innerHeight
+  return el.getBoundingClientRect().bottom <= window.innerHeight + 1
 }
 
 export const getMerged = (events, activities) => {
