@@ -25,3 +25,29 @@ export const PROJECT_BY_SLUG_QUERY = gql`
     }
   }
 `
+
+export const HISTOGRAM_DATA_QUERY = gql`
+  query getMetric(
+    $slug: String!
+    $from: DateTime!
+    $to: DateTime!
+    $interval: Int
+  ) {
+    getMetric(metric: "age_distribution") {
+      histogramData(
+        slug: $slug
+        from: $from
+        to: $to
+        limit: 7
+        interval: $interval
+      ) {
+        labels
+        values {
+          ... on FloatList {
+            data
+          }
+        }
+      }
+    }
+  }
+`
