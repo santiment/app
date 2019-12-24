@@ -57,7 +57,7 @@ const MobileAssetChart = ({
       onTouchEnd={() => setIsTouch(false)}
       onTouchCancel={() => setIsTouch(false)}
     >
-      {icoPrice && !isTouch && (
+      {icoPricePos && !isTouch && (
         <IcoPriceTooltip y={icoPricePos} value={icoPrice} />
       )}
       <ResponsiveContainer width='100%' height={250}>
@@ -65,7 +65,7 @@ const MobileAssetChart = ({
           <defs>
             <Gradients />
           </defs>
-          <XAxis dataKey='datetime' tickLine={false} tick={false} hide />
+          <XAxis dataKey='datetime' tick={false} hide />
           <YAxis
             hide
             domain={['auto', 'dataMax']}
