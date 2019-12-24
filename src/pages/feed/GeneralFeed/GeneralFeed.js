@@ -1,19 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Query } from 'react-apollo'
 import { FEED_QUERY } from '../../../queries/FeedGQL'
 import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 import PageLoader from '../../../components/Loader/PageLoader'
 import FeedListLoading from './FeedList/FeedListLoading'
-import { extractEventsFromData, makeVariables } from './utils'
+import {
+  CURSOR_DAYS_COUNT,
+  extractEventsFromData,
+  makeFeedVariables
+} from './utils'
 import { TRIGGER_ACTIVITIES_QUERY } from '../../SonarFeed/SonarFeedActivityPage'
 import styles from './GeneralFeed.module.scss'
+import { addDays } from '../../../utils/dates'
 
-const START_DATE = new Date().toISOString()
+export const START_DATE = addDays(new Date(), CURSOR_DAYS_COUNT)
 
 const GeneralFeed = ({ loading }) => {
   if (loading) {
     return <PageLoader />
   }
+
+  console.log('START_DATE', START_DATE)
 
   return (
     <div className={styles.container}>
@@ -30,14 +37,9 @@ const GeneralFeed = ({ loading }) => {
           Santiment metrics and tools
         </HelpTooltip>
       </div>
-
-      <Query
-        query={TRIGGER_ACTIVITIES_QUERY}
-        variables={makeVariables(START_DATE)}
-        fetchPolicy='cache-and-network'
-      >
+      <Query query={FEED_QUERY} variables={makeFeedVariables(START_DATE)}>
         {props => {
-          const { data, fetchMore: fetchMoreActivities } = props
+          const { data, fetchMore: fetchMoreCommon } = props
 
           if (!data) {
             return (
@@ -47,25 +49,21 @@ const GeneralFeed = ({ loading }) => {
             )
           }
 
-          const { activity: activities } = data.activities
-
-          console.log('activities', activities, data)
+          const events = extractEventsFromData(data)
 
           return (
             <Query
-              query={FEED_QUERY}
-              variables={makeVariables(START_DATE)}
-              fetchPolicy='cache-and-network'
+              query={TRIGGER_ACTIVITIES_QUERY}
+              variables={makeFeedVariables(START_DATE)}
             >
               {props => {
-                const { data, fetchMore: fetchMoreCommon } = props
+                const { data, fetchMore: fetchMoreActivities } = props
 
                 if (!data) {
                   return null
                 }
 
-                const events = extractEventsFromData(data)
-                console.log('events', events)
+                const { activity: activities } = data.activities
 
                 return (
                   <FeedListLoading
@@ -73,6 +71,7 @@ const GeneralFeed = ({ loading }) => {
                     activities={activities}
                     fetchMoreCommon={fetchMoreCommon}
                     fetchMoreActivities={fetchMoreActivities}
+                    start={START_DATE}
                   />
                 )
               }}

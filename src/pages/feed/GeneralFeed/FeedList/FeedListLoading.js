@@ -2,38 +2,41 @@ import React from 'react'
 import {
   extractEventsFromData,
   isBottom,
-  makeVariables,
-  MAX_LIMIT,
-  getMerged
+  getMerged,
+  CURSOR_DAYS_COUNT,
+  makeFeedVariables,
+  INFINITY_COUNT_LIMIT,
+  CURSOR_TYPES
 } from '../utils'
+import debounce from 'lodash.debounce'
 import FeedList from './FeedList'
+import { addDays } from '../../../../utils/dates'
+import { START_DATE } from '../GeneralFeed'
 
 class FeedListLoading extends React.Component {
   state = {
     isEndCommon: false,
-    isEndActivities: false
+    isEndActivities: false,
+    start: START_DATE
   }
 
   eventsUpdater = (prev, next) => {
     const { fetchMoreResult } = next
     if (!fetchMoreResult) return prev
 
-    const loadedEvents = extractEventsFromData(fetchMoreResult)
-
-    if (loadedEvents.length < MAX_LIMIT) {
+    const data = extractEventsFromData(fetchMoreResult)
+    if (data.length === 0) {
+      console.log('is end 1')
       this.setState({
         ...this.state,
         isEndCommon: true
       })
     }
 
-    const prevData = prev.timelineEvents[0]
-    const newEvents = [...prevData.events, ...loadedEvents]
-
     return {
       timelineEvents: [
         {
-          events: newEvents,
+          events: [...data],
           cursor: fetchMoreResult.timelineEvents[0].cursor,
           __typename: 'TimelineEventsPaginated'
         }
@@ -45,34 +48,34 @@ class FeedListLoading extends React.Component {
     const { fetchMoreResult } = next
     if (!fetchMoreResult) return prev
 
-    const loadedEvents = fetchMoreResult.activities.activity
+    const data = fetchMoreResult.activities.activity
 
-    if (loadedEvents.length < MAX_LIMIT) {
+    if (data.length === 0) {
+      console.log('is end 2')
       this.setState({
         ...this.state,
         isEndActivities: true
       })
     }
 
-    const prevData = prev.activities.activity
-    const newData = [...prevData, ...loadedEvents]
-
     return {
       activities: {
-        activity: newData,
+        activity: [...data],
         cursor: fetchMoreResult.activities.cursor,
         __typename: 'SignalHistoricalActivityPaginated'
       }
     }
   }
 
-  onLoadMore = (isEnd, fetchMore, list, updater) => {
+  onLoadMore = (isEnd, fetchMore, updater, after) => {
+    console.log('onLoadMore')
     if (isEnd) {
+      console.log('isend')
       return null
     }
 
-    const lastItem = list[list.length - 1]
-    const variables = makeVariables(lastItem.insertedAt || lastItem.triggeredAt)
+    const variables = makeFeedVariables(after)
+    console.log('fetchMore', variables)
 
     return fetchMore({
       variables: variables,
@@ -80,28 +83,34 @@ class FeedListLoading extends React.Component {
     })
   }
 
+  setStart = date => {
+    this.setState({
+      ...this.state,
+      start: date
+    })
+  }
+
   handleScroll = event => {
     const wrappedElement = document.getElementById('root')
     if (isBottom(wrappedElement)) {
-      const {
-        events,
-        activities,
-        fetchMoreCommon,
-        fetchMoreActivities
-      } = this.props
-      const { isEndCommon, isEndActivities } = this.state
+      const { fetchMoreCommon, fetchMoreActivities } = this.props
+      const { isEndCommon, isEndActivities, start } = this.state
 
-      this.onLoadMore(isEndCommon, fetchMoreCommon, events, this.eventsUpdater)
+      console.log('handleScroll')
+      const newFrom = addDays(start, CURSOR_DAYS_COUNT)
+      this.onLoadMore(isEndCommon, fetchMoreCommon, this.eventsUpdater, newFrom)
       this.onLoadMore(
         isEndActivities,
         fetchMoreActivities,
-        activities,
-        this.activitiesUpdater
+        this.activitiesUpdater,
+        newFrom
       )
+      this.setStart(newFrom)
     }
   }
 
   componentDidMount () {
+    console.log('componentDidMount')
     window.addEventListener('scroll', this.handleScroll, true)
   }
 

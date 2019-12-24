@@ -20,7 +20,7 @@
 }
 
 .activityItem {
-  color: var(--waterloo);
+  color: var(--rhino);
 
   a {
     color: var(--jungle-green);
@@ -33,6 +33,7 @@
   img {
     margin-top: 8px;
     border-radius: $border-radius;
+    max-width: 100%;
   }
 }
 
