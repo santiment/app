@@ -3,14 +3,14 @@
 .wrapper {
   background: rgba(122, 133, 158, 0.8);
   box-shadow: 0 4px 12px rgba(24, 27, 43, 0.04);
-  transform: translateX(5px) translateY(calc(var(--y) - 23px));
+  transform: translateX(5px) translateY(calc(var(--y) - 19px));
   padding: 0 5px;
   position: absolute;
   color: var(--porcelain);
   z-index: 1;
   margin-top: 2px;
 
-  @include text('caprion');
+  @include text('caption');
 }
 
 .value {
