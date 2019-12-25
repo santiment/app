@@ -8,7 +8,7 @@ const ChartTooltip = ({
   labelFormatter = tooltipLabelFormatter,
   className,
   active,
-  payload: initialPayload,
+  payload: initialPayload = [],
   label,
   hideItem,
   withLabel = true

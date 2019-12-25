@@ -36,7 +36,11 @@ const MobileAssetChart = ({
   if (extraMetric) metrics.push(extraMetric.name)
   const objMetrics = metrics.map(metric => Metrics[metric])
   const syncedColors = getSyncedColors(objMetrics)
-  const markup = generateMetricsMarkup(objMetrics, { syncedColors })
+  const markup = generateMetricsMarkup(objMetrics, {
+    syncedColors,
+    activeLineDataKey: 'priceUsd',
+    showActiveDot: false
+  })
 
   const chartMediumIndex = data.length / 2
 
