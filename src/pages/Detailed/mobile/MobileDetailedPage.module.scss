@@ -1,3 +1,5 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   overflow: visible;
 }
@@ -20,14 +22,14 @@
 }
 
 .priceBlock {
-  margin-bottom: 30px;
+  margin-bottom: 21px;
 }
 
 .priceUsd {
-  font-size: 22px;
-  line-height: 30px;
-  margin-bottom: 6px;
-  color: var(--mirage);
+  margin-bottom: 2px;
+  color: var(--rhino);
+
+  @include text('h3');
 }
 
 .changes {

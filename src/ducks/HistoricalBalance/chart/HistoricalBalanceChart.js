@@ -30,7 +30,7 @@ const formatTooltipDatetime = datetime => {
   return `${MMM} ${DD}, ${YY}`
 }
 
-const tooltipValueFormatter = (value, dataKey, payload) => {
+const tooltipValueFormatter = (value, dataKey, formatter, payload) => {
   const priceKeyToken = getPriceMetricWithSlug(dataKey)
 
   const payloadMappedPrice = payload.find(

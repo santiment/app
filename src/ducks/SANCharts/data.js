@@ -52,6 +52,7 @@ export const Metrics = {
     dataKey: 'priceUsd',
     category: 'Financial',
     gradientUrl: 'url(#totalUp)',
+    formatter: usdFormatter,
     hideYAxis: true
   },
   marketcap: {

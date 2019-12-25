@@ -68,7 +68,12 @@ export const tooltipLabelFormatter = value => {
   return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
 }
 
-const valueFormatter = (value, name, formatter) => {
+export const tooltipValueFormatter = (
+  value,
+  name,
+  formatter,
+  threshold = 1000
+) => {
   try {
     if (formatter) {
       return formatter(value)
@@ -78,7 +83,7 @@ const valueFormatter = (value, name, formatter) => {
     // NOTE(vanguard): Some values may not be present in a hovered data point, i.e. value === undefined/null;
     if (!Number.isFinite(numValue)) throw new Error()
 
-    if (numValue > 90000) {
+    if (numValue > threshold) {
       return millify(numValue, 2)
     }
 
@@ -545,7 +550,7 @@ class Charts extends React.Component {
                           isEvent && styles.details__metric_dot
                         )}
                       >
-                        {valueFormatter(value, name, formatter)}
+                        {tooltipValueFormatter(value, name, formatter, 90000)}
                         <span className={styles.details__name}>{name}</span>
                       </div>
                     )

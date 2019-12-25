@@ -8,18 +8,21 @@ import {
   ReferenceLine,
   ReferenceDot
 } from 'recharts'
+import throttle from 'lodash.throttle'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
+import { tooltipLabelFormatter } from '../../../ducks/SANCharts/CustomTooltip'
 import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils'
 import {
   getSyncedColors,
   clearCache
 } from '../../../ducks/SANCharts/TooltipSynchronizer'
 import { Metrics } from '../../../ducks/SANCharts/data'
-import CustomTooltip from '../../../ducks/SANCharts/CustomTooltip'
+import CommonChartTooltip from '../../../ducks/SANCharts/tooltip/CommonChartTooltip'
 import IcoPriceTooltip from '../../../ducks/SANCharts/tooltip/IcoPriceTooltip'
+import styles from './MobileAssetChart.module.scss'
 
 const MobileAssetChart = ({
-  data,
+  data = [],
   slug: asset,
   icoPrice,
   extraMetric,
@@ -27,12 +30,22 @@ const MobileAssetChart = ({
   icoPricePos
 }) => {
   const [isTouch, setIsTouch] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(null)
 
   const metrics = ['historyPricePreview']
   if (extraMetric) metrics.push(extraMetric.name)
   const objMetrics = metrics.map(metric => Metrics[metric])
   const syncedColors = getSyncedColors(objMetrics)
   const markup = generateMetricsMarkup(objMetrics, { syncedColors })
+
+  const chartMediumIndex = data.length / 2
+
+  const hideTooltipItem = key => key === 'priceUsd'
+
+  const setCurrentIndex = throttle(
+    evt => setActiveIndex(evt.activeTooltipIndex),
+    1000
+  )
 
   let anomalyDataKey, anomalies
   if (extraMetric) {
@@ -60,12 +73,12 @@ const MobileAssetChart = ({
       {icoPricePos && !isTouch && (
         <IcoPriceTooltip y={icoPricePos} value={icoPrice} />
       )}
-      <ResponsiveContainer width='100%' height={250}>
-        <ComposedChart data={data}>
+      <ResponsiveContainer width='100%' aspect={1.5 / 1.0}>
+        <ComposedChart data={data} onMouseMove={setCurrentIndex}>
           <defs>
             <Gradients />
           </defs>
-          <XAxis dataKey='datetime' tick={false} hide />
+          <XAxis dataKey='datetime' hide />
           <YAxis
             hide
             domain={['auto', 'dataMax']}
@@ -73,8 +86,15 @@ const MobileAssetChart = ({
           />
           {isTouch && (
             <Tooltip
-              content={<CustomTooltip />}
-              position={{ x: 0, y: -20 }}
+              withLabel={false}
+              wrapperStyle={{
+                right: `${activeIndex < chartMediumIndex ? '5px' : 'auto'}`
+              }}
+              className={styles.tooltip}
+              hideItem={hideTooltipItem}
+              labelFormatter={tooltipLabelFormatter}
+              content={<CommonChartTooltip />}
+              position={{ x: 4, y: 2 }}
               isAnimationActive={false}
             />
           )}
