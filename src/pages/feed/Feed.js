@@ -7,7 +7,7 @@ import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import styles from './Feed.module.scss'
 
-const FeedPage = ({ isLoggedIn }) => {
+const FeedPage = () => {
   return (
     <div className={cx('page', styles.feed)}>
       <MobileOnly>
@@ -17,7 +17,7 @@ const FeedPage = ({ isLoggedIn }) => {
       <StoriesList classes={styles} />
 
       <div className={styles.feeds}>
-        <GeneralFeed isLoggedIn={isLoggedIn} />
+        <GeneralFeed />
 
         <DesktopOnly>
           <RecentsFeed />

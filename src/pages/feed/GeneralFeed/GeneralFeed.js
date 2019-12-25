@@ -13,91 +13,116 @@ import { TRIGGER_ACTIVITIES_QUERY } from '../../SonarFeed/SonarFeedActivityPage'
 import { addDays } from '../../../utils/dates'
 import styles from './GeneralFeed.module.scss'
 import InsightUnAuthPage from '../../Insights/InsightUnAuthPage'
+import { checkIsLoggedIn } from '../../UserSelectors'
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
 
 export const START_DATE = addDays(new Date(), CURSOR_DAYS_COUNT)
 
-const GeneralFeed = ({ isLoggedIn }) => {
-  if (!isLoggedIn) {
+const Header = () => (
+  <div className={styles.title}>
+    <div>General feed</div>
+    <HelpTooltip
+      position='bottom'
+      align='start'
+      classes={styles}
+      withDesc={false}
+    >
+      This is a continuous stream of updates on cryptocurrency assets, your
+      personal watchlists and general market conditions, using various Santiment
+      metrics and tools
+    </HelpTooltip>
+  </div>
+)
+
+const GeneralFeed = ({ isLoggedIn, isUserLoading }) => {
+  if (isUserLoading) {
     return (
-      <div className={styles.scrollable}>
-        <InsightUnAuthPage />
-      </div>
+      <>
+        <Header />
+        <div className={styles.scrollable}>
+          <PageLoader />
+        </div>
+      </>
     )
   }
 
   return (
     <div className={styles.container}>
-      <div className={styles.title}>
-        <div>General feed</div>
-        <HelpTooltip
-          position='bottom'
-          align='start'
-          classes={styles}
-          withDesc={false}
+      <Header />
+
+      {!isLoggedIn && (
+        <div className={styles.scrollable}>
+          <InsightUnAuthPage />
+        </div>
+      )}
+
+      {isLoggedIn && (
+        <Query
+          query={FEED_QUERY}
+          variables={makeFeedVariables(START_DATE)}
+          notifyOnNetworkStatusChange={true}
         >
-          This is a continuous stream of updates on cryptocurrency assets, your
-          personal watchlists and general market conditions, using various
-          Santiment metrics and tools
-        </HelpTooltip>
-      </div>
-      <Query
-        query={FEED_QUERY}
-        variables={makeFeedVariables(START_DATE)}
-        notifyOnNetworkStatusChange={true}
-      >
-        {props => {
-          const {
-            data,
-            fetchMore: fetchMoreCommon,
-            loading: loadingEvents
-          } = props
+          {props => {
+            const {
+              data,
+              fetchMore: fetchMoreCommon,
+              loading: loadingEvents
+            } = props
 
-          if (!data) {
+            if (!data) {
+              return (
+                <div className={styles.scrollable}>
+                  <PageLoader />
+                </div>
+              )
+            }
+
+            const events = extractEventsFromData(data)
+
             return (
-              <div className={styles.scrollable}>
-                <PageLoader />
-              </div>
+              <Query
+                query={TRIGGER_ACTIVITIES_QUERY}
+                variables={makeFeedVariables(START_DATE)}
+                notifyOnNetworkStatusChange={true}
+              >
+                {props => {
+                  const {
+                    data,
+                    fetchMore: fetchMoreActivities,
+                    loading: loadingActivities
+                  } = props
+
+                  if (!data) {
+                    return null
+                  }
+
+                  const { activity: activities } = data.activities
+
+                  return (
+                    <FeedListLoading
+                      events={events}
+                      activities={activities}
+                      fetchMoreCommon={fetchMoreCommon}
+                      fetchMoreActivities={fetchMoreActivities}
+                      start={START_DATE}
+                      isLoading={loadingActivities || loadingEvents}
+                    />
+                  )
+                }}
+              </Query>
             )
-          }
-
-          const events = extractEventsFromData(data)
-
-          return (
-            <Query
-              query={TRIGGER_ACTIVITIES_QUERY}
-              variables={makeFeedVariables(START_DATE)}
-              notifyOnNetworkStatusChange={true}
-            >
-              {props => {
-                const {
-                  data,
-                  fetchMore: fetchMoreActivities,
-                  loading: loadingActivities
-                } = props
-
-                if (!data) {
-                  return null
-                }
-
-                const { activity: activities } = data.activities
-
-                return (
-                  <FeedListLoading
-                    events={events}
-                    activities={activities}
-                    fetchMoreCommon={fetchMoreCommon}
-                    fetchMoreActivities={fetchMoreActivities}
-                    start={START_DATE}
-                    isLoading={loadingActivities || loadingEvents}
-                  />
-                )
-              }}
-            </Query>
-          )
-        }}
-      </Query>
+          }}
+        </Query>
+      )}
     </div>
   )
 }
 
-export default GeneralFeed
+const mapStateToProps = state => ({
+  isLoggedIn: checkIsLoggedIn(state),
+  isUserLoading: state.user.isLoading
+})
+
+const enhance = compose(connect(mapStateToProps))
+export default enhance(GeneralFeed)
