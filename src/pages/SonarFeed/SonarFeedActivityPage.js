@@ -7,6 +7,7 @@ import SonarFeedRecommendations from './SonarFeedRecommendations'
 import { getSanSonarSW } from '../Account/SettingsSonarWebPushNotifications'
 import { makeVariables } from '../feed/GeneralFeed/utils'
 import ActivityRenderer from './ActivityRenderer'
+import { TRIGGERS_COMMON_FRAGMENT } from '../../ducks/Signals/common/queries'
 import styles from './SonarFeedActivityPage.module.scss'
 
 export const TRIGGER_ACTIVITIES_QUERY = gql`
@@ -20,13 +21,13 @@ export const TRIGGER_ACTIVITIES_QUERY = gql`
         payload
         triggeredAt
         trigger {
-          id
-          title
+          ...triggersCommon
         }
         __typename
       }
     }
   }
+  ${TRIGGERS_COMMON_FRAGMENT}
 `
 
 const SonarFeedActivityPage = ({ activities, loading, classes = {} }) => {

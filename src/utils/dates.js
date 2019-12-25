@@ -316,3 +316,9 @@ export const addDays = (date, days) => {
   result.setDate(result.getDate() + days)
   return result
 }
+
+export const dateDifferenceInWordsString = dateString => {
+  return dateDifferenceInWords({
+    from: new Date(dateString)
+  })
+}

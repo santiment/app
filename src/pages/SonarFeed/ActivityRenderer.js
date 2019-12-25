@@ -3,14 +3,8 @@ import { Link } from 'react-router-dom'
 import Markdown from 'react-markdown'
 import cx from 'classnames'
 import { SIGNAL_ANCHORS } from '../../ducks/Signals/common/constants'
-import { dateDifferenceInWords } from '../../utils/dates'
+import { dateDifferenceInWordsString } from '../../utils/dates'
 import styles from './ActivityRenderer.module.scss'
-
-const formatDate = dateString => {
-  return dateDifferenceInWords({
-    from: new Date(dateString)
-  })
-}
 
 const ActivityRenderer = ({
   activity: { triggeredAt, payload, trigger: { id: signalId, title } = {} },
@@ -33,7 +27,9 @@ const ActivityRenderer = ({
         >
           {title}
         </Link>
-        <span className={styles.date}>{formatDate(triggeredAt)}</span>
+        <span className={styles.date}>
+          {dateDifferenceInWordsString(triggeredAt)}
+        </span>
       </h4>
     </div>
     <Markdown

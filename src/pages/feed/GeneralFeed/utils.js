@@ -1,4 +1,4 @@
-export const CURSOR_DAYS_COUNT = -1
+export const CURSOR_DAYS_COUNT = -7
 export const MAX_LIMIT = 10
 export const INFINITY_COUNT_LIMIT = 1000000
 
