@@ -10,14 +10,19 @@ import {
   makeFeedVariables
 } from './utils'
 import { TRIGGER_ACTIVITIES_QUERY } from '../../SonarFeed/SonarFeedActivityPage'
-import styles from './GeneralFeed.module.scss'
 import { addDays } from '../../../utils/dates'
+import styles from './GeneralFeed.module.scss'
+import InsightUnAuthPage from '../../Insights/InsightUnAuthPage'
 
 export const START_DATE = addDays(new Date(), CURSOR_DAYS_COUNT)
 
-const GeneralFeed = ({ loading }) => {
-  if (loading) {
-    return <PageLoader />
+const GeneralFeed = ({ isLoggedIn }) => {
+  if (!isLoggedIn) {
+    return (
+      <div className={styles.scrollable}>
+        <InsightUnAuthPage />
+      </div>
+    )
   }
 
   return (
@@ -35,9 +40,17 @@ const GeneralFeed = ({ loading }) => {
           Santiment metrics and tools
         </HelpTooltip>
       </div>
-      <Query query={FEED_QUERY} variables={makeFeedVariables(START_DATE)}>
+      <Query
+        query={FEED_QUERY}
+        variables={makeFeedVariables(START_DATE)}
+        notifyOnNetworkStatusChange={true}
+      >
         {props => {
-          const { data, fetchMore: fetchMoreCommon } = props
+          const {
+            data,
+            fetchMore: fetchMoreCommon,
+            loading: loadingEvents
+          } = props
 
           if (!data) {
             return (
@@ -53,9 +66,14 @@ const GeneralFeed = ({ loading }) => {
             <Query
               query={TRIGGER_ACTIVITIES_QUERY}
               variables={makeFeedVariables(START_DATE)}
+              notifyOnNetworkStatusChange={true}
             >
               {props => {
-                const { data, fetchMore: fetchMoreActivities } = props
+                const {
+                  data,
+                  fetchMore: fetchMoreActivities,
+                  loading: loadingActivities
+                } = props
 
                 if (!data) {
                   return null
@@ -70,6 +88,7 @@ const GeneralFeed = ({ loading }) => {
                     fetchMoreCommon={fetchMoreCommon}
                     fetchMoreActivities={fetchMoreActivities}
                     start={START_DATE}
+                    isLoading={loadingActivities || loadingEvents}
                   />
                 )
               }}

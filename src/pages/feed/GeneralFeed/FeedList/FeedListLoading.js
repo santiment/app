@@ -79,7 +79,8 @@ class FeedListLoading extends React.Component {
 
   handleScroll = debounce(event => {
     const wrappedElement = document.getElementById('root')
-    if (isBottom(wrappedElement)) {
+    const { isLoading } = this.props
+    if (isBottom(wrappedElement) && !isLoading) {
       const { fetchMoreCommon, fetchMoreActivities } = this.props
       const {
         isEndCommon,
@@ -114,7 +115,7 @@ class FeedListLoading extends React.Component {
         this.activitiesUpdater
       )
     }
-  }, 500)
+  }, 100)
 
   componentDidMount () {
     window.addEventListener('scroll', this.handleScroll, true)
@@ -125,10 +126,10 @@ class FeedListLoading extends React.Component {
   }
 
   render () {
-    const { events, activities } = this.props
+    const { events, activities, isLoading } = this.props
     const merged = getMerged(events, activities)
 
-    return <FeedList events={merged} />
+    return <FeedList events={merged} isLoading={isLoading} />
   }
 }
 
