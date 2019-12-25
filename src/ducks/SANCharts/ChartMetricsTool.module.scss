@@ -11,6 +11,7 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   padding-top: 16px;
+  align-items: center;
 }
 
 .topOffset {
@@ -20,6 +21,7 @@
 .trigger {
   margin: 0 8px 0 0;
   color: $white;
+  min-width: 120px;
 
   @include text('body-3');
 
