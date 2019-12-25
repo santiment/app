@@ -18,10 +18,12 @@
 }
 
 .trigger {
-  margin: 0 8px 0 0;
-  color: $white;
-
   @include text('body-3');
+
+  width: 130px;
+  margin: 1px 8px 0 0;
+  padding: 8px;
+  color: $white;
 
   &:hover {
     border-color: var(--jungle-green);
@@ -30,6 +32,8 @@
 
 .triggerIcon {
   margin-right: 8px;
+  transform: translateY(-2px);
+  position: relative;
 }
 
 .selector {
