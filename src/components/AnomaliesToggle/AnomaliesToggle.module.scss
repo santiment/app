@@ -2,11 +2,11 @@
 
 .wrapper {
   padding: 6px 10px;
-  color: var(--mirage);
+  color: var(--waterloo);
   margin-left: auto;
 
   &:hover {
-    color: var(--mirage);
+    color: var(--waterloo);
     cursor: pointer;
   }
 }
@@ -16,10 +16,10 @@
 }
 
 .active {
-  color: var(--persimmon);
+  color: var(--waterloo);
 
   &:hover {
-    color: var(--persimmon-hover);
+    color: var(--waterloo-hover);
   }
 
   .toggle {
@@ -33,7 +33,7 @@
   }
 
   .question {
-    fill: var(--persimmon);
+    fill: var(--waterloo);
   }
 }
 
@@ -44,13 +44,13 @@
 .note {
   padding: 8px;
   margin: 9px 0;
-  color: var(--fiord);
+  color: var(--waterloo);
   background-color: var(--athens);
 
   @include text('caption');
 
   & .warning {
-    color: var(--persimmon);
+    color: var(--waterloo);
     font-weight: bold;
     margin-right: 5px;
   }

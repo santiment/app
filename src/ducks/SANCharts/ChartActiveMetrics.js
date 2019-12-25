@@ -82,6 +82,20 @@ const ChartActiveMetrics = ({
         {...rest}
         isShowAnomalies={isShowAnomalies && activeEvents.length === 0}
       />
+      <Button
+        border
+        as='a'
+        accent='positive'
+        href='https://forms.gle/Suz8FVDsKtFiKhBs9'
+        target='_blank'
+        rel='noopener noreferrer'
+        style={{
+          padding: '0 16px',
+          marginLeft: '20px'
+        }}
+      >
+        Feedback
+      </Button>
     </>
   )
 }
