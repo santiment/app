@@ -9,54 +9,6 @@
   }
 }
 
-.description {
-  margin: 40px 0 16px;
-  display: flex;
-  color: var(--waterloo);
-
-  @include responsive('phone', 'phone-xs') {
-    flex-direction: column;
-  }
-}
-
-.activityItem {
-  color: var(--rhino);
-
-  a {
-    color: var(--jungle-green);
-
-    &:hover {
-      color: var(--jungle-green-hover);
-    }
-  }
-
-  img {
-    margin-top: 8px;
-    border-radius: $border-radius;
-    max-width: 100%;
-  }
-}
-
-.date {
-  @include text('body-3');
-
-  margin: 0;
-  color: var(--waterloo);
-}
-
-.link {
-  margin-left: 5px;
-  color: var(--jungle-green);
-
-  &:hover {
-    color: var(--jungle-green-hover);
-  }
-
-  @include responsive('phone', 'phone-xs') {
-    margin-left: 0;
-  }
-}
-
 .signal {
   margin-bottom: 24px;
 }

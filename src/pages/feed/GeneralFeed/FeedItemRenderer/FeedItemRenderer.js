@@ -1,7 +1,7 @@
 import React from 'react'
 import InsightCard from '../../../../components/Insight/InsightCardWithMarketcap'
 import WithLikesMutation from '../../../../components/Like/WithLikesMutation'
-import { ActivityRenderer } from '../../../SonarFeed/SonarFeedActivityPage'
+import ActivityRenderer from '../../../SonarFeed/ActivityRenderer'
 import styles from './FeedItemRenderer.module.scss'
 
 const FeedItemRenderer = ({ item, index }) => {
