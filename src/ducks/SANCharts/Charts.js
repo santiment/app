@@ -582,7 +582,7 @@ class Charts extends React.Component {
 
         <ChartWatermark className={styles.watermark} />
 
-        <ResponsiveContainer height={300}>
+        <ResponsiveContainer height={350}>
           <ComposedChart
             margin={CHART_MARGINS}
             onMouseLeave={this.onMouseLeave}

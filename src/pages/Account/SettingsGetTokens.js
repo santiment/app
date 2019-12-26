@@ -19,19 +19,27 @@ const SettingsGetTokens = () => (
       <div className={styles.tokens__markets}>
         <a
           className={styles.tokens__market}
+          href='https://kyberswap.com/swap/eth-san'
+          rel='noopener noreferrer'
+          target='_blank'
+        >
+          Kyber
+        </a>
+        <a
+          className={styles.tokens__market}
+          href='https://uniswap.exchange/swap'
+          rel='noopener noreferrer'
+          target='_blank'
+        >
+          Uniswap
+        </a>
+        <a
+          className={styles.tokens__market}
           href='https://www.bitfinex.com/'
           rel='noopener noreferrer'
           target='_blank'
         >
           Bitfinex
-        </a>
-        <a
-          className={styles.tokens__market}
-          href='https://hitbtc.com/'
-          rel='noopener noreferrer'
-          target='_blank'
-        >
-          HitBTC
         </a>
       </div>
     </Settings.Row>
