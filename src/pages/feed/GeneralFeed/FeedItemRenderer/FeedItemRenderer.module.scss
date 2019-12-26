@@ -1,0 +1,34 @@
+@import '~@santiment-network/ui/mixins';
+
+.card {
+  margin-bottom: 16px !important;
+  width: 100%;
+}
+
+.activitiesWrapper {
+  padding-right: 32px;
+  margin: 0 !important;
+
+  @include responsive('phone', 'phone-xs') {
+    padding-right: 0;
+  }
+}
+
+.activityItem {
+  margin-bottom: 16px;
+}
+
+.firstActivity {
+  margin-top: 0;
+}
+
+.activityCustom {
+  margin: 0 0 16px 0 !important;
+}
+
+.activityMarkdown {
+  p {
+    // GarageInc: becuase markdown from server
+    margin-bottom: 0 !important;
+  }
+}

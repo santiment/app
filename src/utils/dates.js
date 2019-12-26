@@ -310,3 +310,14 @@ export const toEndOfDay = target => {
   target.setHours(24, 0, 0, 0)
   return target
 }
+
+export const addDays = (date, days) => {
+  let result = new Date(date)
+  result.setDate(result.getDate() + days)
+  return result
+}
+
+export const dateDifferenceInWordsString = dateString =>
+  dateDifferenceInWords({
+    from: new Date(dateString)
+  })
