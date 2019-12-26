@@ -21,11 +21,11 @@
 .trigger {
   @include text('body-3');
 
-  width: 130px;
   margin: 1px 8px 0 0;
-  padding: 8px;
   color: $white;
-  min-width: 120px;
+  min-width: 116px;
+  border: none;
+  padding-left: 8px !important;
 
   &:hover {
     border-color: var(--jungle-green);
