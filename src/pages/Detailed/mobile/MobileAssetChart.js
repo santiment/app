@@ -94,6 +94,7 @@ const MobileAssetChart = ({
               wrapperStyle={{
                 right: `${activeIndex < chartMediumIndex ? '5px' : 'auto'}`
               }}
+              cursor={{ stroke: 'var(--casper)' }}
               className={styles.tooltip}
               hideItem={hideTooltipItem}
               labelFormatter={tooltipLabelFormatter}
