@@ -23,9 +23,10 @@
 
   margin: 1px 8px 0 0;
   color: $white;
-  min-width: 116px;
+  min-width: 130px;
   border: none;
   padding-left: 8px !important;
+  height: 30px;
 
   &:hover {
     border-color: var(--jungle-green);
