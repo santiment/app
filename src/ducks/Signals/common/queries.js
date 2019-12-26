@@ -3,16 +3,13 @@ import gql from 'graphql-tag'
 export const TRIGGERS_COMMON_FRAGMENT = gql`
   fragment triggersCommon on Trigger {
     id
+    title
+    description
     isPublic
     cooldown
     settings
-    title
     isActive
     isRepeating
-    description
-    tags {
-      name
-    }
   }
 `
 

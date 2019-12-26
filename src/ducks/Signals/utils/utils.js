@@ -903,7 +903,7 @@ export const metricTypesBlockErrors = values => {
         }
       }
     } else {
-      if (isEthOrErc20Error) {
+      if (isEthOrErc20Error && (!target || target.length === 1)) {
         errors.ethAddress = NOT_VALID_ETH_ADDRESS
       }
     }

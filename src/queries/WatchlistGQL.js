@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 import { generalData, project } from '../pages/Projects/allProjectsGQL'
 
-export const generalListData = gql`
+export const WATHCLIST_GENERAL_FRAGMENT = gql`
   fragment generalListData on UserList {
     id
     color
@@ -16,7 +16,7 @@ export const generalListData = gql`
   }
 `
 
-export const listShortItems = gql`
+export const PROJECT_ITEM_FRAGMENT = gql`
   fragment listShortItems on UserList {
     listItems {
       project {
@@ -34,8 +34,8 @@ export const ALL_WATCHLISTS_QUERY = gql`
       ...listShortItems
     }
   }
-  ${generalListData}
-  ${listShortItems}
+  ${WATHCLIST_GENERAL_FRAGMENT}
+  ${PROJECT_ITEM_FRAGMENT}
 `
 
 export const PUBLIC_WATCHLIST_QUERY = gql`
@@ -45,8 +45,8 @@ export const PUBLIC_WATCHLIST_QUERY = gql`
       ...listShortItems
     }
   }
-  ${generalListData}
-  ${listShortItems}
+  ${WATHCLIST_GENERAL_FRAGMENT}
+  ${PROJECT_ITEM_FRAGMENT}
 `
 
 export const WATCHLIST_BY_SLUG_SHORT_QUERY = gql`
@@ -61,7 +61,7 @@ export const WATCHLIST_BY_SLUG_SHORT_QUERY = gql`
       }
     }
   }
-  ${generalListData}
+  ${WATHCLIST_GENERAL_FRAGMENT}
   ${generalData}
   ${project}
 `
@@ -88,7 +88,7 @@ export const WATCHLIST_BY_SLUG_BIG_QUERY = gql`
       }
     }
   }
-  ${generalListData}
+  ${WATHCLIST_GENERAL_FRAGMENT}
   ${generalData}
   ${project}
 `
@@ -100,8 +100,8 @@ export const FEATURED_WATCHLIST_QUERY = gql`
       ...listShortItems
     }
   }
-  ${generalListData}
-  ${listShortItems}
+  ${WATHCLIST_GENERAL_FRAGMENT}
+  ${PROJECT_ITEM_FRAGMENT}
 `
 
 export const WATCHLIST_QUERY = gql`
@@ -116,7 +116,7 @@ export const WATCHLIST_QUERY = gql`
       }
     }
   }
-  ${generalListData}
+  ${WATHCLIST_GENERAL_FRAGMENT}
   ${generalData}
   ${project}
 `
@@ -139,7 +139,7 @@ export const WATCHLIST_WITH_TRENDING_ASSETS_QUERY = gql`
       }
     }
   }
-  ${generalListData}
+  ${WATHCLIST_GENERAL_FRAGMENT}
   ${generalData}
   ${project}
 `
@@ -178,7 +178,7 @@ export const WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY = gql`
       }
     }
   }
-  ${generalListData}
+  ${WATHCLIST_GENERAL_FRAGMENT}
   ${generalData}
   ${project}
 `
