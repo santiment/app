@@ -1,21 +1,20 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Query } from 'react-apollo'
 import { FEED_QUERY } from '../../../queries/FeedGQL'
 import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 import PageLoader from '../../../components/Loader/PageLoader'
 import FeedListLoading from './FeedList/FeedListLoading'
+import { TRIGGER_ACTIVITIES_QUERY } from '../../SonarFeed/SonarFeedActivityPage'
+import InsightUnAuthPage from '../../Insights/InsightUnAuthPage'
+import { checkIsLoggedIn, checkIsLoggedInPending } from '../../UserSelectors'
+import { addDays } from '../../../utils/dates'
 import {
   CURSOR_DAYS_COUNT,
   extractEventsFromData,
   makeFeedVariables
 } from './utils'
-import { TRIGGER_ACTIVITIES_QUERY } from '../../SonarFeed/SonarFeedActivityPage'
-import { addDays } from '../../../utils/dates'
 import styles from './GeneralFeed.module.scss'
-import InsightUnAuthPage from '../../Insights/InsightUnAuthPage'
-import { checkIsLoggedIn } from '../../UserSelectors'
-import { compose } from 'recompose'
-import { connect } from 'react-redux'
 
 export const START_DATE = addDays(new Date(), CURSOR_DAYS_COUNT)
 
@@ -51,25 +50,17 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading }) => {
     <div className={styles.container}>
       <Header />
 
-      {!isLoggedIn && (
+      {!isLoggedIn ? (
         <div className={styles.scrollable}>
           <InsightUnAuthPage />
         </div>
-      )}
-
-      {isLoggedIn && (
+      ) : (
         <Query
           query={FEED_QUERY}
           variables={makeFeedVariables(START_DATE)}
           notifyOnNetworkStatusChange={true}
         >
-          {props => {
-            const {
-              data,
-              fetchMore: fetchMoreCommon,
-              loading: loadingEvents
-            } = props
-
+          {({ data, fetchMore: fetchMoreCommon, loading: loadingEvents }) => {
             if (!data) {
               return (
                 <div className={styles.scrollable}>
@@ -86,13 +77,11 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading }) => {
                 variables={makeFeedVariables(START_DATE)}
                 notifyOnNetworkStatusChange={true}
               >
-                {props => {
-                  const {
-                    data,
-                    fetchMore: fetchMoreActivities,
-                    loading: loadingActivities
-                  } = props
-
+                {({
+                  data,
+                  fetchMore: fetchMoreActivities,
+                  loading: loadingActivities
+                }) => {
                   if (!data) {
                     return null
                   }
@@ -121,8 +110,7 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading }) => {
 
 const mapStateToProps = state => ({
   isLoggedIn: checkIsLoggedIn(state),
-  isUserLoading: state.user.isLoading
+  isUserLoading: checkIsLoggedInPending(state)
 })
 
-const enhance = compose(connect(mapStateToProps))
-export default enhance(GeneralFeed)
+export default connect(mapStateToProps)(GeneralFeed)

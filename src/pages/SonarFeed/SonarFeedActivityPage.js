@@ -79,21 +79,18 @@ const SonarFeedActivityPage = ({ activities, loading, classes = {} }) => {
   )
 }
 
-export const getActivitiesEnhance = () => {
-  return graphql(TRIGGER_ACTIVITIES_QUERY, {
+export const getActivitiesEnhance = () =>
+  graphql(TRIGGER_ACTIVITIES_QUERY, {
     options: () => ({
       variables: makeVariables(new Date().toISOString()),
       fetchPolicy: 'cache-and-network'
     }),
-    props: ({ data }) => {
-      return {
-        activities: (data.activities || {}).activity,
-        loading: data.loading,
-        error: data.error
-      }
-    }
+    props: ({ data }) => ({
+      activities: (data.activities || {}).activity,
+      loading: data.loading,
+      error: data.error
+    })
   })
-}
 
 const enhance = getActivitiesEnhance()
 

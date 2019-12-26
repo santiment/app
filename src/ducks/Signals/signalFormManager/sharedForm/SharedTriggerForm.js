@@ -36,7 +36,7 @@ const SharedTriggerForm = ({
         showMoreActions={false}
         className={styles.cardPanel}
         showStatus={false}
-        isMobileVersion={true}
+        isSharedTriggerForm={true}
       />
 
       <div className={styles.backTesting}>

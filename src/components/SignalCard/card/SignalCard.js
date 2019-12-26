@@ -18,7 +18,7 @@ const SignalCard = ({
   deleteEnabled = true,
   showMoreActions = true,
   showStatus = true,
-  isMobileVersion = false
+  isSharedTriggerForm = false
 }) => {
   const isAwaiting = +id <= 0
   const {
@@ -32,7 +32,7 @@ const SignalCard = ({
 
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
-      {isMobileVersion && (
+      {isSharedTriggerForm && (
         <DesktopOnly>
           <SignalCardHeader
             deleteEnabled={deleteEnabled}
@@ -43,7 +43,7 @@ const SignalCard = ({
           />
         </DesktopOnly>
       )}
-      {!isMobileVersion && (
+      {!isSharedTriggerForm && (
         <SignalCardHeader
           deleteEnabled={deleteEnabled}
           isUserTheAuthor={isUserTheAuthor}
@@ -55,7 +55,7 @@ const SignalCard = ({
 
       <div className={styles.wrapper__right}>
         <div onClick={clickable ? goToSignalSettings : null}>
-          <div className={clickable ? styles.pointer : undefined}>
+          <div className={clickable ? styles.pointer : ''}>
             <h2 className={styles.title}>{title}</h2>
             {description && (
               <h3 className={styles.description}>

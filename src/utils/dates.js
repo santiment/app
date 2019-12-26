@@ -85,7 +85,7 @@ const FormatToTimestamp = {
 }
 
 /**
- * @param {number} amount - Amount of days/months to  or substract
+ * @param {number} amount - Amount of days/months to add or substract
  * @param {'d'|'m'} dateFormat - Modifier
  *
  * @example
@@ -312,13 +312,12 @@ export const toEndOfDay = target => {
 }
 
 export const addDays = (date, days) => {
-  var result = new Date(date)
+  let result = new Date(date)
   result.setDate(result.getDate() + days)
   return result
 }
 
-export const dateDifferenceInWordsString = dateString => {
-  return dateDifferenceInWords({
+export const dateDifferenceInWordsString = dateString =>
+  dateDifferenceInWords({
     from: new Date(dateString)
   })
-}
