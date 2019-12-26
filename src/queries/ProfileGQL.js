@@ -1,7 +1,10 @@
 import gql from 'graphql-tag'
 import { INSIGHT_COMMON_FRAGMENT } from './InsightsGQL'
 import { TRIGGERS_COMMON_FRAGMENT } from '../ducks/Signals/common/queries'
-import { generalListData, listShortItems } from './WatchlistGQL'
+import {
+  WATHCLIST_GENERAL_FRAGMENT,
+  PROJECT_ITEM_FRAGMENT
+} from './WatchlistGQL'
 
 export const PUBLIC_USER_DATA_QUERY = gql`
   query getUser($userId: ID, $username: String) {
@@ -33,8 +36,8 @@ export const PUBLIC_USER_DATA_QUERY = gql`
   }
   ${INSIGHT_COMMON_FRAGMENT}
   ${TRIGGERS_COMMON_FRAGMENT}
-  ${generalListData}
-  ${listShortItems}
+  ${WATHCLIST_GENERAL_FRAGMENT}
+  ${PROJECT_ITEM_FRAGMENT}
 `
 
 export const FOLLOW_MUTATION = gql(`

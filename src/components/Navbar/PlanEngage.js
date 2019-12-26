@@ -43,7 +43,7 @@ const PlanEngage = () => (
           className={cx(styles.text, styles.premium)}
         >
           <Icon type='crown' className={styles.icon} />
-          Premium
+          Pro
         </a>
       )
     }}

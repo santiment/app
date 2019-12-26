@@ -70,7 +70,7 @@ const VisualBacktestChart = ({
         {referenceDots}
         <Tooltip
           content={<CustomTooltip />}
-          position={{ x: 0, y: -30 }}
+          position={{ x: 0, y: -22 }}
           isAnimationActive={false}
         />
       </ComposedChart>

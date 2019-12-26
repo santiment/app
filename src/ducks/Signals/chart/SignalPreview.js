@@ -170,7 +170,9 @@ const mapStateToProps = state => {
   return {
     points: state.signals.points,
     isLoading: state.signals.isLoading,
-    isError: state.signals.isError
+    isError:
+      state.signals.isError &&
+      (!state.signals.points || state.signals.points.length === 0)
   }
 }
 
