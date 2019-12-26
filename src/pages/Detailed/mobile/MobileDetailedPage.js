@@ -179,15 +179,6 @@ const MobileDetailedPage = props => {
                 title={<Title slug={name} ticker={ticker} />}
                 goBack={props.history.goBack}
               />
-              <GetWatchlists
-                render={({ isLoggedIn }) => (
-                  <WatchlistsPopup
-                    projectId={project.id}
-                    slug={project.slug}
-                    isLoggedIn={isLoggedIn}
-                  />
-                )}
-              />
               <div className={styles.main}>
                 <PriceBlock
                   changes24h={percentChange24h}
@@ -283,6 +274,15 @@ const MobileDetailedPage = props => {
                   )}
                 </ShowIf>
               </div>
+              <GetWatchlists
+                render={({ isLoggedIn }) => (
+                  <WatchlistsPopup
+                    projectId={project.id}
+                    slug={project.slug}
+                    isLoggedIn={isLoggedIn}
+                  />
+                )}
+              />
             </>
           )
         }}
@@ -299,18 +299,18 @@ const Title = ({ slug, ticker }) => (
 )
 
 const PriceBlock = ({ changes24h, changes7d, priceUsd }) => (
-  <div className={styles.PriceBlock}>
+  <div className={styles.priceBlock}>
     <div className={styles.priceUsd}>
       {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
     </div>
-    <PercentChanges className={styles.changes} changes={changes24h} />
-    <Label className={styles.label} accent='waterloo'>
-      24h
-    </Label>
-    <PercentChanges className={styles.changes} changes={changes7d} />
-    <Label className={styles.label} accent='waterloo'>
-      7d
-    </Label>
+    {/* <PercentChanges className={styles.changes} changes={changes24h} /> */}
+    {/* <Label className={styles.label} accent='waterloo'> */}
+    {/*   24h */}
+    {/* </Label> */}
+    {/* <PercentChanges className={styles.changes} changes={changes7d} /> */}
+    {/* <Label className={styles.label} accent='waterloo'> */}
+    {/*   7d */}
+    {/* </Label> */}
   </div>
 )
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import cx from 'classnames'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -18,6 +19,7 @@ import {
 } from '../../../ducks/SANCharts/TooltipSynchronizer'
 import { Metrics } from '../../../ducks/SANCharts/data'
 import CommonChartTooltip from '../../../ducks/SANCharts/tooltip/CommonChartTooltip'
+import MobilePriceTooltip from '../../../ducks/SANCharts/tooltip/MobilePriceTooltip'
 import IcoPriceTooltip from '../../../ducks/SANCharts/tooltip/IcoPriceTooltip'
 import styles from './MobileAssetChart.module.scss'
 
@@ -91,17 +93,26 @@ const MobileAssetChart = ({
           />
           {isTouch && (
             <Tooltip
-              withLabel={false}
-              wrapperStyle={{
-                right: `${activeIndex < chartMediumIndex ? '5px' : 'auto'}`
-              }}
-              cursor={{ stroke: 'var(--casper)' }}
-              className={styles.tooltip}
-              hideItem={hideTooltipItem}
-              labelFormatter={tooltipLabelFormatter}
-              content={<CommonChartTooltip />}
-              position={{ x: 4, y: 2 }}
               isAnimationActive={false}
+              cursor={{ stroke: 'var(--casper)' }}
+              position={{ x: 0, y: -61 }}
+              content={props => (
+                <>
+                  <MobilePriceTooltip
+                    {...props}
+                    labelFormatter={tooltipLabelFormatter}
+                  />
+                  <CommonChartTooltip
+                    {...props}
+                    withLabel={false}
+                    className={cx(
+                      styles.tooltip,
+                      activeIndex < chartMediumIndex && styles.rightAlign
+                    )}
+                    hideItem={hideTooltipItem}
+                  />
+                </>
+              )}
             />
           )}
           {markup}
