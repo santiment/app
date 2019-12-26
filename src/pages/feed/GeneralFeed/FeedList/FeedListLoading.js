@@ -80,7 +80,7 @@ class FeedListLoading extends React.Component {
   handleScroll = debounce(event => {
     const wrappedElement = document.getElementById('root')
     const { isLoading } = this.props
-    if (isBottom(wrappedElement) && !isLoading) {
+    if (!isLoading && isBottom(wrappedElement)) {
       const { fetchMoreCommon, fetchMoreActivities } = this.props
       const {
         isEndCommon,

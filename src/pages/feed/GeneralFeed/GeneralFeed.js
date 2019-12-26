@@ -34,6 +34,18 @@ const Header = () => (
   </div>
 )
 
+const Empty = () => (
+  <div className={styles.scrollable}>
+    <PageLoader />
+  </div>
+)
+
+const Anon = () => (
+  <div className={styles.scrollable}>
+    <InsightUnAuthPage />
+  </div>
+)
+
 const GeneralFeed = ({ isLoggedIn, isUserLoading }) => {
   if (isUserLoading) {
     return (
@@ -51,9 +63,7 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading }) => {
       <Header />
 
       {!isLoggedIn ? (
-        <div className={styles.scrollable}>
-          <InsightUnAuthPage />
-        </div>
+        <Anon />
       ) : (
         <Query
           query={FEED_QUERY}
@@ -62,11 +72,7 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading }) => {
         >
           {({ data, fetchMore: fetchMoreCommon, loading: loadingEvents }) => {
             if (!data) {
-              return (
-                <div className={styles.scrollable}>
-                  <PageLoader />
-                </div>
-              )
+              return <Empty />
             }
 
             const events = extractEventsFromData(data)
@@ -83,7 +89,7 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading }) => {
                   loading: loadingActivities
                 }) => {
                   if (!data) {
-                    return null
+                    return <Empty />
                   }
 
                   const { activity: activities } = data.activities

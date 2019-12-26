@@ -38,9 +38,8 @@ export const extractEventsFromData = data => {
   return events
 }
 
-export const isBottom = el => {
-  return el.getBoundingClientRect().bottom <= window.innerHeight + 1
-}
+export const isBottom = el =>
+  el.getBoundingClientRect().bottom <= 1.5 * window.innerHeight
 
 export const getMerged = (events, activities) => {
   let i = events.length - 1
