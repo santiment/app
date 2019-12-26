@@ -75,6 +75,7 @@ export const Metrics = {
     category: 'Social',
     node: Bar,
     label: 'Social Volume',
+    shortLabel: 'Soc. Volume',
     anomalyKey: 'SOCIAL_VOLUME',
     color: 'malibu',
     description: `Shows the amount of mentions of the coin on 1000+ crypto social media channels, including Telegram groups, crypto subreddits, discord groups, private traders chats and more.`
@@ -106,6 +107,7 @@ export const Metrics = {
     node: Bar,
     group: 'Network Activity',
     label: 'Daily Active Addresses',
+    shortLabel: 'DAA',
     anomalyKey: 'DAILY_ACTIVE_ADDRESSES',
     video: 'https://www.youtube.com/watch?v=n3dUvWvQEpQ',
     description: `Shows the number of unique network addresses involved in transactions
@@ -122,6 +124,7 @@ export const Metrics = {
     node: Line,
     group: 'Exchange Flow',
     label: 'Percent of Token Supply on Exchanges',
+    shortLabel: '% of Token Supply on Exchanges',
     dataKey: 'percentOnExchanges',
     description: 'The percent of the total token supply which is on exchanges.'
   },
@@ -159,6 +162,7 @@ export const Metrics = {
     node: Bar,
     group: 'Token Flows/Movement/Activity',
     label: 'Transaction Volume',
+    shortLabel: 'Transact. Volume',
     description: `
     Shows the aggregate amount of tokens across all transactions that
     happened on the network on a certain date.`
@@ -179,6 +183,7 @@ export const Metrics = {
     node: Line,
     color: 'heliotrope',
     label: 'Development Activity',
+    shortLabel: 'Dev. Activity',
     anomalyKey: 'DEV_ACTIVITY',
     dataKey: 'activity',
     description:

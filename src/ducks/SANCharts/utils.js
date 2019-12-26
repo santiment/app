@@ -182,7 +182,8 @@ export const generateMetricsMarkup = (
     dayMetrics,
     syncedColors,
     showActiveDot = true,
-    activeLineDataKey
+    activeLineDataKey,
+    useShortName
   } = {}
 ) => {
   const metricWithYAxis = isMultiChartsActive
@@ -201,6 +202,7 @@ export const generateMetricsMarkup = (
       key,
       node: El,
       label,
+      shortLabel,
       orientation = 'left',
       dataKey = key,
       hideYAxis,
@@ -237,7 +239,7 @@ export const generateMetricsMarkup = (
         key={`line-${dataKey}`}
         type='linear'
         yAxisId={currentYAxisId}
-        name={label}
+        name={(useShortName && shortLabel) || label}
         strokeWidth={1.5}
         ref={ref[key]}
         dataKey={dataKey}

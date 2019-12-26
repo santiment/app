@@ -38,6 +38,7 @@ const MobileAssetChart = ({
   const syncedColors = getSyncedColors(objMetrics)
   const markup = generateMetricsMarkup(objMetrics, {
     syncedColors,
+    useShortName: true,
     activeLineDataKey: 'priceUsd',
     showActiveDot: false
   })
