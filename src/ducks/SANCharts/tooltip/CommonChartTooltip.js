@@ -32,7 +32,7 @@ const ChartTooltip = ({
               style={{ '--color': color }}
               className={styles.metric}
             >
-              {valueFormatter(value, dataKey, formatter, payload)}
+              {valueFormatter({ value, key: dataKey, formatter, payload })}
               <span className={styles.name}>{name || dataKey}</span>
             </div>
           ))}

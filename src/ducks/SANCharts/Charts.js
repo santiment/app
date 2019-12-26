@@ -68,12 +68,11 @@ export const tooltipLabelFormatter = value => {
   return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
 }
 
-export const tooltipValueFormatter = (
+export const tooltipValueFormatter = ({
   value,
-  name,
   formatter,
   threshold = 1000
-) => {
+}) => {
   try {
     if (formatter) {
       return formatter(value)
@@ -550,7 +549,11 @@ class Charts extends React.Component {
                           isEvent && styles.details__metric_dot
                         )}
                       >
-                        {tooltipValueFormatter(value, name, formatter, 90000)}
+                        {tooltipValueFormatter({
+                          value,
+                          formatter,
+                          threshold: 90000
+                        })}
                         <span className={styles.details__name}>{name}</span>
                       </div>
                     )
