@@ -1,4 +1,4 @@
-export const CURSOR_DAYS_COUNT = -7
+export const CURSOR_DAYS_COUNT = -14
 export const MAX_LIMIT = 10
 export const INFINITY_COUNT_LIMIT = 1000000
 
@@ -48,7 +48,7 @@ export const getMerged = (events, activities) => {
 
   const result = []
 
-  while (i > 0 && j > 0) {
+  while (i >= 0 && j >= 0) {
     const firstDate = new Date(events[i].insertedAt)
     const secondDate = new Date(activities[j].triggeredAt)
 
@@ -58,9 +58,10 @@ export const getMerged = (events, activities) => {
       result.unshift(activities[j--])
     }
   }
-  while (i > 0) result.unshift(events[i--])
 
-  while (j > 0) result.unshift(activities[j--])
+  while (i >= 0) result.unshift(events[i--])
+
+  while (j >= 0) result.unshift(activities[j--])
 
   return result
 }

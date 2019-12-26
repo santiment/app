@@ -14,7 +14,9 @@ import { START_DATE } from '../GeneralFeed'
 class FeedListLoading extends React.Component {
   state = {
     startCommon: START_DATE,
-    startActivities: START_DATE
+    startActivities: START_DATE,
+    isEndActivities: false,
+    isEndCommon: false
   }
 
   eventsUpdater = (prev, next) => {
@@ -49,11 +51,7 @@ class FeedListLoading extends React.Component {
     }
   }
 
-  onLoadMore = (isEnd, fetchMore, updater, after) => {
-    if (isEnd) {
-      return null
-    }
-
+  onLoadMore = (fetchMore, updater, after) => {
     const variables = makeFeedVariables(after)
 
     return fetchMore({
@@ -62,19 +60,15 @@ class FeedListLoading extends React.Component {
     })
   }
 
-  MAX_COUNTS = 10
+  loadPart = (start, updateStateDate, isEnd, fetchMore, updater, markIsEnd) => {
+    if (isEnd) {
+      return
+    }
 
-  loadPart = (start, updateStateDate, isEnd, fetchMore, updater) => {
-    let newFrom = null
-    let counter = 0
-    do {
-      newFrom = addDays(start, CURSOR_DAYS_COUNT)
-      updateStateDate(newFrom)
-      counter++
-    } while (
-      this.onLoadMore(isEnd, fetchMore, updater, newFrom) === null &&
-      counter < this.MAX_COUNTS
-    )
+    const newFrom = addDays(start, CURSOR_DAYS_COUNT)
+    updateStateDate(newFrom)
+
+    this.onLoadMore(fetchMore, updater, newFrom)
   }
 
   handleScroll = debounce(event => {
@@ -99,7 +93,13 @@ class FeedListLoading extends React.Component {
         },
         isEndCommon,
         fetchMoreCommon,
-        this.eventsUpdater
+        this.eventsUpdater,
+        () => {
+          this.setState({
+            ...this.state,
+            isEndCommon: true
+          })
+        }
       )
 
       this.loadPart(
@@ -112,10 +112,16 @@ class FeedListLoading extends React.Component {
         },
         isEndActivities,
         fetchMoreActivities,
-        this.activitiesUpdater
+        this.activitiesUpdater,
+        () => {
+          this.setState({
+            ...this.state,
+            isEndActivities: true
+          })
+        }
       )
     }
-  }, 100)
+  })
 
   componentDidMount () {
     window.addEventListener('scroll', this.handleScroll, true)

@@ -17,10 +17,10 @@
 }
 
 .scrollable {
+  position: relative;
   margin-right: 24px;
   overflow-y: auto;
   max-height: 100%;
-  position: relative;
   height: 100%;
 
   @include responsive("desktop") {

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Icon } from '@santiment-network/ui'
 import cx from 'classnames'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import styles from './ProfileInfo.module.scss'
