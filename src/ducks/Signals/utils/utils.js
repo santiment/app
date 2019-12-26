@@ -1065,7 +1065,8 @@ export const descriptionBlockErrors = values => {
 const POSSIBLE_METRICS_FOR_CHART = [
   PRICE_METRIC.value,
   DAILY_ACTIVE_ADDRESSES_METRIC.value,
-  PRICE_VOLUME_DIFFERENCE_METRIC.value
+  PRICE_VOLUME_DIFFERENCE_METRIC.value,
+  ETH_WALLET_METRIC.value
 ]
 
 export const couldShowChart = ({ signalType, metric, target }) => {
