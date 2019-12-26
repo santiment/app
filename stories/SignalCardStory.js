@@ -1,7 +1,7 @@
 import React from 'react'
 import StoryRouter from 'storybook-react-router'
 import { storiesOf } from '@storybook/react'
-import SignalCard from './../src/components/SignalCard/SignalCard'
+import SignalCard from '../src/components/SignalCard/card/SignalCard'
 import ColorModeComparison from './ColorModeComparison'
 
 const signals = [

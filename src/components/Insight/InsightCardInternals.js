@@ -18,7 +18,7 @@ const AwaitingApproval = () => (
 
 const InsightCardInternals = ({
   id,
-  user: { id: authorId, username: authorName },
+  user: { id: authorId, username: authorName, avatarUrl },
   title,
   tags,
   createdAt,
@@ -54,6 +54,7 @@ const InsightCardInternals = ({
         <div className={styles.left}>
           <ProfileInfo
             withPic={withAuthorPic}
+            picUrl={avatarUrl}
             name={
               <a
                 className={styles.name}

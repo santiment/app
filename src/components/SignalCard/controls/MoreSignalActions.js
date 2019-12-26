@@ -8,7 +8,7 @@ import { RemoveSignalButton } from './SignalControls'
 import ShareModalTrigger from '../../Share/ShareModalTrigger'
 import { mapStateToQS } from '../../../utils/utils'
 import Tooltip from '@santiment-network/ui/Tooltip'
-import styles from '../SignalCard.module.scss'
+import styles from '../card/SignalCard.module.scss'
 
 const generateShareLink = (id, title) => {
   const { origin } = window.location
@@ -37,7 +37,8 @@ const MoreSignalActions = ({
   removeSignal,
   isPublic,
   isUserTheAuthor,
-  deleteEnabled = true
+  deleteEnabled = true,
+  editable = true
 }) => {
   if (!isUserTheAuthor) {
     return (
@@ -60,14 +61,16 @@ const MoreSignalActions = ({
       align='start'
     >
       <Panel className={styles.popup}>
-        <div className={cx(styles.popupItem, styles.popupButton)}>
-          <Link
-            to={`/sonar/signal/${signalId}/edit${window.location.search}`}
-            className={styles.link}
-          >
-            Edit signal
-          </Link>
-        </div>
+        {editable && (
+          <div className={cx(styles.popupItem, styles.popupButton)}>
+            <Link
+              to={`/sonar/signal/${signalId}/edit${window.location.search}`}
+              className={styles.link}
+            >
+              Edit signal
+            </Link>
+          </div>
+        )}
 
         {isPublic && (
           <ShareSignal

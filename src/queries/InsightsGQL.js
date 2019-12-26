@@ -2,8 +2,8 @@ import gql from 'graphql-tag'
 
 export const INSIGHT_COMMON_FRAGMENT = gql`
   fragment insightCommon on Post {
-    readyState
     id
+    readyState
     title
     createdAt
     publishedAt
@@ -18,6 +18,7 @@ export const INSIGHT_COMMON_FRAGMENT = gql`
     user {
       id
       username
+      avatarUrl
     }
     __typename
   }

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Icon } from '@santiment-network/ui'
 import cx from 'classnames'
+import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import styles from './ProfileInfo.module.scss'
 
 const ProfileInfo = ({
@@ -16,11 +16,7 @@ const ProfileInfo = ({
     <div className={cx(styles.wrapper, className)}>
       {withPic && (
         <div className={styles.icon}>
-          {picUrl ? (
-            <img src={picUrl} alt='Profile Pic' />
-          ) : (
-            <Icon type='profile-round' />
-          )}
+          <UserAvatar isExternal externalAvatarUrl={picUrl} />
           {networkStatus && (
             <div
               className={cx(styles.onlineIndicator, styles[networkStatus])}
