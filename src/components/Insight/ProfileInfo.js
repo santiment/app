@@ -17,11 +17,7 @@ const ProfileInfo = ({
     <div className={cx(styles.wrapper, className)}>
       {withPic && (
         <div className={styles.icon}>
-          {picUrl ? (
-            <UserAvatar isExternal externalAvatarUrl={picUrl} />
-          ) : (
-            <Icon type='profile-round' />
-          )}
+          <UserAvatar isExternal externalAvatarUrl={picUrl} />
           {networkStatus && (
             <div
               className={cx(styles.onlineIndicator, styles[networkStatus])}
