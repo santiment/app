@@ -1,13 +1,10 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 import { DesktopOnly } from '../../Responsive'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import Button from '@santiment-network/ui/Button'
 import SignalCardHeader from './SignalCardHeader'
 import { dateDifferenceInWordsString } from '../../../utils/dates'
-import { createTrigger } from '../../../ducks/Signals/common/actions'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
@@ -38,7 +35,7 @@ const getWords = (triggerWords, activityPayload) => {
     try {
       const spliced = activityPayload.split('\n').splice(5, 10)
 
-      return spliced.reduce((acc, item) => {
+      const result = spliced.reduce((acc, item) => {
         const firstWord = item.split('|')[0]
 
         if (item) {
@@ -47,6 +44,8 @@ const getWords = (triggerWords, activityPayload) => {
 
         return acc
       }, [])
+
+      return result
     } catch (e) {
       console.error(e)
       return PRESAVED_WORDS
@@ -59,10 +58,9 @@ const getWords = (triggerWords, activityPayload) => {
 const TrendingWordsSignalCard = ({
   signal,
   className,
+  isUserTheAuthor,
   date,
-  activityPayload,
-  createTrigger,
-  isAuthor
+  activityPayload
 }) => {
   const {
     title,
@@ -75,17 +73,11 @@ const TrendingWordsSignalCard = ({
 
   const moreCount = getExpectedCount(settings) - showingWords.length
 
-  const copySignal = () => {
-    const newSignal = { ...signal }
-    delete newSignal.id
-    createTrigger(newSignal)
-  }
-
   return (
     <Panel padding className={cx(externalStyles.wrapper, className)}>
       <DesktopOnly>
         <SignalCardHeader
-          isUserTheAuthor={false}
+          isUserTheAuthor={isUserTheAuthor}
           isPublic={isPublic}
           signal={signal}
         />
@@ -117,36 +109,9 @@ const TrendingWordsSignalCard = ({
             {dateDifferenceInWordsString(date)}
           </div>
         )}
-
-        {!isAuthor && (
-          <div className={styles.bottom}>
-            <Button onClick={copySignal} as='a' className={styles.copyBtn}>
-              Copy signal
-            </Button>
-          </div>
-        )}
       </div>
     </Panel>
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  createTrigger: payload => {
-    dispatch(createTrigger(payload))
-  }
-})
-
-const mapStateToProps = (state, { creatorId }) => {
-  return {
-    isAuthor:
-      state &&
-      state.user &&
-      state.user.data &&
-      +state.user.data.id === +creatorId
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TrendingWordsSignalCard)
+export default TrendingWordsSignalCard
