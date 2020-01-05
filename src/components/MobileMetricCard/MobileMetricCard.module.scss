@@ -1,16 +1,11 @@
 @import "~@santiment-network/ui/mixins";
 
 .wrapper {
-  border: none;
-  background: transparent;
+  background: none;
   outline: none;
   width: 100%;
-  border-top: 1px solid var(--porcelain);
+  border: none;
   padding: 14px 16px 11px;
-
-  &:last-child {
-    border-bottom: 1px solid var(--porcelain);
-  }
 }
 
 .active {
