@@ -11,6 +11,14 @@
   box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03),
     0 1px 2px rgba(59, 84, 106, 0.03);
   border-radius: 4px;
+
+  &__left {
+    background-color: var(--jungle-green-light-2);
+  }
+
+  &__right {
+    background-color: var(--porcelain);
+  }
 }
 
 .button {
@@ -47,9 +55,17 @@
   margin: 0;
   border: 1px solid var(--porcelain);
   border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: var(--white);
   user-select: none;
   -webkit-user-select: none;
   touch-action: none;
   box-sizing: border-box;
+
+  &__left {
+    border: 1px solid var(--jungle-green-light-2);
+  }
+
+  &__right {
+    border: 1px solid var(--porcelain);
+  }
 }
