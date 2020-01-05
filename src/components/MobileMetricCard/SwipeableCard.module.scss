@@ -15,7 +15,7 @@
 
 .button {
   position: absolute;
-  width: 85px;
+  width: var(--button-width, 85px);
   height: 100%;
   background: none;
   border: none;
