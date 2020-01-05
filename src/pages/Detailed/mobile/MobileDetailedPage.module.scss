@@ -18,8 +18,7 @@
 }
 
 .timeRangeBlock {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
+  margin: 8px 0;
 }
 
 .priceBlock {
@@ -51,4 +50,16 @@
   font-size: 22px;
   line-height: 26px;
   color: var(--mirage);
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fullscreen {
+  fill: var(--mirage);
+  box-sizing: content-box;
+  padding: 5px;
 }

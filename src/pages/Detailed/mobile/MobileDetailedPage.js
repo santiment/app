@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
-import { Label, Selector } from '@santiment-network/ui'
+import Label from '@santiment-network/ui/Label'
+import Selector from '@santiment-network/ui/Selector/Selector'
+import Icon from '@santiment-network/ui/Icon'
 import { DailyActiveAddressesGQL } from '../gqlWrappers/DetailedGQL'
 import { SOCIAL_VOLUME_QUERY } from '../../../ducks/GetTimeSeries/queries/social_volume_query'
 import { NEWS_QUERY } from '../../../components/News/NewsGQL'
@@ -45,18 +47,17 @@ const MobileDetailedPage = props => {
   }
 
   const timeRangeBlock = (
-    <div className={styles.timeRangeBlock}>
-      <Selector
-        options={['1w', '1m', '3m', '6m', 'all']}
-        onSelectOption={value => {
-          if (value !== timeRange) {
-            setTimeRange(value)
-            setIcoPricePos(null)
-          }
-        }}
-        defaultSelected={timeRange}
-      />
-    </div>
+    <Selector
+      className={styles.timeRangeBlock}
+      options={['1w', '1m', '3m', '6m', 'all']}
+      onSelectOption={value => {
+        if (value !== timeRange) {
+          setTimeRange(value)
+          setIcoPricePos(null)
+        }
+      }}
+      defaultSelected={timeRange}
+    />
   )
 
   let socialVolumeInfo
@@ -202,7 +203,13 @@ const MobileDetailedPage = props => {
                           setIcoPricePos={setIcoPricePos}
                           extraMetric={extraMetric}
                         />
-                        {timeRangeBlock}
+                        <div className={styles.bottom}>
+                          {timeRangeBlock}
+                          <Icon
+                            type='fullscreen-arrows'
+                            className={styles.fullscreen}
+                          />
+                        </div>
                       </>
                     )
                   }}
