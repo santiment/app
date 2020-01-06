@@ -1,30 +1,43 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Query } from 'react-apollo'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis } from 'recharts'
-import SidecarExplanationTooltip from './SidecarExplanationTooltip'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import {
-  parseIntervalString,
-  DAY,
-  getTimeIntervalFromToday
-} from '../../utils/dates'
+  BarChart,
+  Bar,
+  LabelList,
+  ResponsiveContainer,
+  XAxis,
+  YAxis
+} from 'recharts'
+import SidecarExplanationTooltip from './SidecarExplanationTooltip'
+import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { HISTOGRAM_SIDEBAR } from './data'
 import { HISTOGRAM_DATA_QUERY } from './gql'
-import { INTERVAL_ALIAS } from './IntervalSelector'
 import { useDebounceEffect } from '../../hooks'
+import { millify } from '../../utils/formatting'
 import sharedStyles from './ChartSidecar.module.scss'
 import styles from './Histogram.module.scss'
 
 const getDateFromLabel = label => {
-  const start = label.indexOf('201')
+  const start = label.indexOf('20')
   const end = label.indexOf(' ', start)
   return label.slice(start, end)
 }
 
+const HistogramDate = ({ y, height, value }) => {
+  return (
+    <text y={y - height} x={4} className={styles.label}>
+      Tokens moved last on{' '}
+      <tspan className={styles.date}>{getDateFromLabel(value)}</tspan>
+    </text>
+  )
+}
+
 const Content = ({ slug, interval, date }) => {
   const [period, setPeriod] = useState({})
-  const constrainedInterval = INTERVAL_ALIAS[interval] ? '1h' : interval
+  const [hoveredValue, setHoveredValue] = useState()
 
   useDebounceEffect(
     () => {
@@ -32,16 +45,27 @@ const Content = ({ slug, interval, date }) => {
         to: new Date(date),
         from: new Date(date)
       })
-      /* to.setHours(24, 0, 0, 0) */
 
       setPeriod({
         from: from.toISOString(),
         to: to.toISOString()
       })
     },
-    400,
+    200,
     [date, slug]
   )
+
+  function updateHoveredValue ({ value }) {
+    setHoveredValue(value)
+  }
+
+  function clearHoveredValue () {
+    setHoveredValue()
+  }
+
+  function formatter (value) {
+    return value === hoveredValue ? millify(value, 1) : ''
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -56,7 +80,11 @@ const Content = ({ slug, interval, date }) => {
       >
         {({ loading, data: { getMetric } = {} }) => {
           if (!getMetric) {
-            return 'loading'
+            return (
+              <div className={styles.load}>
+                <Loader />
+              </div>
+            )
           }
 
           const data = getMetric.histogramData
@@ -70,7 +98,7 @@ const Content = ({ slug, interval, date }) => {
               <h2 className={styles.title}>Histogram</h2>
               <div className={styles.content}>
                 <ResponsiveContainer
-                  width='43%'
+                  width='90%'
                   height={200}
                   className={styles.chart}
                 >
@@ -86,19 +114,28 @@ const Content = ({ slug, interval, date }) => {
                   >
                     <XAxis type='number' hide minTickGap={23} />
                     <YAxis dataKey='label' type='category' hide />
-                    <Bar dataKey='value' barSize={4} fill='var(--lima)' />
+                    <Bar
+                      dataKey='value'
+                      barSize={4}
+                      fill='var(--lima)'
+                      onMouseEnter={updateHoveredValue}
+                      onMouseOut={clearHoveredValue}
+                    >
+                      <LabelList
+                        dataKey='label'
+                        position='top'
+                        offset={6}
+                        content={HistogramDate}
+                      />
+                      <LabelList
+                        dataKey='value'
+                        position='right'
+                        offset={6}
+                        formatter={formatter}
+                      />
+                    </Bar>
                   </BarChart>
                 </ResponsiveContainer>
-                <div className={styles.labels}>
-                  {res.map(({ label }) => (
-                    <div key={label} className={styles.label}>
-                      Tokens moved last on{' '}
-                      <span className={styles.date}>
-                        {getDateFromLabel(label)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
               </div>
             </>
           )
@@ -129,10 +166,10 @@ const Histogram = ({
         classes={{
           wrapper: cx(
             sharedStyles.toggle,
-            isAdvancedView || classes.sidecar__toggle_social,
+            isAdvancedView || classes.sidecar__toggle_histogram,
             !isAdvancedView &&
               isWideChart &&
-              classes.sidecar__toggle_social_wide
+              classes.sidecar__toggle_histogram_wide
           )
         }}
       >

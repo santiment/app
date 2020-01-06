@@ -37,6 +37,22 @@
     }
   }
 
+  &_histogram {
+    top: 440px !important;
+
+    @include responsive('laptop', 'tablet') {
+      top: 454px !important;
+    }
+
+    &_wide {
+      top: 310px !important;
+
+      @include responsive('laptop', 'tablet') {
+        top: 410px !important;
+      }
+    }
+  }
+
   &_assets_wide {
     top: 210px !important;
 

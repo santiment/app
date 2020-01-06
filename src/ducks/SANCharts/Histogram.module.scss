@@ -7,6 +7,14 @@
   padding: 20px 15px;
 }
 
+.load {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 7px;
+}
+
 .content {
   position: absolute;
   left: 15px;
@@ -16,16 +24,27 @@
   border: 1px solid var(--porcelain);
   box-sizing: border-box;
   border-radius: 4px;
-  padding-left: 15px;
+  padding: 15px;
 }
 
 .chart {
   border-left: 1px solid #f3f5f9;
+
+  :global {
+    .recharts-surface {
+      overflow: visible;
+    }
+
+    .recharts-label-list .recharts-label {
+      font-size: 12px;
+      fill: var(--mirage);
+    }
+  }
 }
 
 .toggle__icons {
-  padding: 10px 8px;
-  width: 23px;
+  padding: 5px 11px;
+  width: 17px;
   justify-content: space-between;
   box-sizing: content-box;
 }
@@ -37,19 +56,11 @@
   margin: 0 0 24px;
 }
 
-.labels {
-  position: absolute;
-  right: 15px;
-  top: 5px;
-}
-
 .label {
   font-size: 10px;
-  line-height: 18px;
-  margin-bottom: 10.5px;
-  color: var(--waterloo);
+  fill: var(--waterloo);
 }
 
 .date {
-  color: var(--mirage);
+  fill: var(--mirage);
 }
