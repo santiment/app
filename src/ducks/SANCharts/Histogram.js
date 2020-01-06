@@ -35,7 +35,7 @@ const HistogramDate = ({ y, height, value }) => {
   )
 }
 
-const Content = ({ slug, interval, date }) => {
+const Content = ({ slug, date }) => {
   const [period, setPeriod] = useState({})
   const [hoveredValue, setHoveredValue] = useState()
 
