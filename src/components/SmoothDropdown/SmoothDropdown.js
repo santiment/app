@@ -113,7 +113,7 @@ class SmoothDropdown extends Component {
     return currentDropdown !== dropdownItem.querySelector('.dd__content')
   }
 
-  setupDropdownContent = (ddItem, ddContent, { ddStyles } = {}) => {
+  setupDropdownContent = (ddItem, ddContent, ddStyles = {}) => {
     setTimeout(() => {
       if (!this.ddItemsRef.has(ddItem)) {
         this.ddItemsRef.set(ddItem, React.createRef())

@@ -10,6 +10,7 @@ import SmoothDropdownItem from '../SmoothDropdown/SmoothDropdownItem'
 import NavbarHelpDropdown from './NavbarHelpDropdown'
 import NavbarProfileDropdown from './NavbarProfileDropdown'
 import NavbarAssetsDropdown from './NavbarAssetsDropdown'
+import InsightsDropdown from './InsightsDropdown'
 import PlanEngage from './PlanEngage'
 import SantimentProductsTooltip from './SantimentProductsTooltip/SantimentProductsTooltip'
 import logoImg from './../../assets/logos/main-logo.svg'
@@ -17,11 +18,11 @@ import { LABS } from './SantimentProductsTooltip/Products'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
 import styles from './Navbar.module.scss'
 
-const ExternalLink = ({ label }) => (
-  <>
-    {label}
+const ExternalLink = ({ children, className, ...rest }) => (
+  <a className={cx(className, styles.externalLink)} {...rest}>
+    {children}
     <Icon type='external-link' className={styles.externalLinkImg} />
-  </>
+  </a>
 )
 
 const leftLinks = [
@@ -35,17 +36,17 @@ const leftLinks = [
     children: 'Sonar',
     as: Link
   },
-  { to: '/assets', children: 'Assets', linkTo: '/assets', as: Link },
   {
-    children: <ExternalLink label='Insights' />,
-    as: ({ to, className, children }) => (
-      <a
-        href={'https://insights.santiment.net/'}
-        className={cx(className, styles.externalLink)}
-      >
-        {children}
-      </a>
-    )
+    to: '/assets',
+    children: 'Assets',
+    as: Link,
+    Dropdown: NavbarAssetsDropdown
+  },
+  {
+    href: 'https://insights.santiment.net/',
+    children: 'Insights',
+    as: ExternalLink,
+    Dropdown: InsightsDropdown
   },
   {
     children: 'Labs',
@@ -68,15 +69,9 @@ const leftLinks = [
     )
   },
   {
-    children: <ExternalLink label='Graphs' />,
-    as: ({ className, children }) => (
-      <a
-        href='https://graphs.santiment.net/'
-        className={cx(className, styles.externalLink)}
-      >
-        {children}
-      </a>
-    )
+    href: 'https://graphs.santiment.net/',
+    children: 'Graphs',
+    as: ExternalLink
   }
 ]
 
@@ -112,43 +107,32 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
               />
             </Link>
           </SantimentProductsTooltip>
-          {leftLinks.map((props, index) => {
-            const isActive = activeLink.includes(props.to)
+          {leftLinks.map(({ Dropdown, ...rest }, index) => {
+            const isActive = activeLink.includes(rest.to)
 
-            if (!isBetaModeEnabled && props.children === 'Feed') {
+            if (!isBetaModeEnabled && rest.children === 'Feed') {
               return null
             }
 
-            if (props.linkTo) {
-              const { linkTo, ...rest } = props
+            const button = (
+              <Button
+                key={index}
+                variant='flat'
+                isActive={isActive}
+                className={cx(Dropdown || styles.leftLink, styles.btn)}
+                {...rest}
+              />
+            )
+
+            if (Dropdown) {
               return (
-                <SmoothDropdownItem
-                  key={index}
-                  trigger={
-                    <Button
-                      variant='flat'
-                      className={styles.btn}
-                      isActive={isActive}
-                      {...rest}
-                    />
-                  }
-                >
-                  {props.children === 'Assets' && (
-                    <NavbarAssetsDropdown activeLink={activeLink} />
-                  )}
+                <SmoothDropdownItem key={index} trigger={button}>
+                  <Dropdown activeLink={activeLink} />
                 </SmoothDropdownItem>
               )
             }
 
-            return (
-              <Button
-                key={index}
-                {...props}
-                variant='flat'
-                isActive={isActive}
-                className={cx(styles.leftLink, styles.btn)}
-              />
-            )
+            return button
           })}
         </div>
 
