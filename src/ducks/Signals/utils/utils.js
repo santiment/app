@@ -564,10 +564,14 @@ export const getTrendingWordsTriggerOperation = ({ type: { value }, type }) => {
 }
 
 export const mapTrendingWordsTargets = items => {
-  if (items.length === 1) {
-    return targetMapper(items[0])
+  if (Array.isArray(items)) {
+    if (items.length === 1) {
+      return targetMapper(items[0])
+    } else {
+      return items.map(targetMapper)
+    }
   } else {
-    return items.map(targetMapper)
+    return targetMapper(items)
   }
 }
 

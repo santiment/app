@@ -25,10 +25,13 @@ const SignalCard = ({
     title,
     description = '',
     isPublic,
+    settings,
     settings: { type }
   } = signal
 
-  const clickable = goToSignalSettings && type !== 'trending_words'
+  const clickable =
+    goToSignalSettings &&
+    (type === 'trending_words' ? settings.target !== 'default' : true)
 
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
