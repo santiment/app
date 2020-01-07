@@ -1,0 +1,139 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.top {
+  display: flex;
+}
+
+.title {
+  @include text('body-3');
+
+  color: var(--waterloo);
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 28px;
+}
+
+.all {
+  color: var(--jungle-green);
+  fill: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+    fill: var(--jungle-green-hover);
+  }
+}
+
+.pointer {
+  vertical-align: middle;
+}
+
+.category {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  width: 417px;
+
+  &_featured {
+    border-left: 1px solid var(--porcelain);
+  }
+}
+
+.insight {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-radius: 4px;
+  padding: 8px 8px 8px 40px;
+  margin: 0 -8px 20px;
+
+  &__title {
+    @include text('body-3');
+
+    margin: 0 0 4px;
+    color: var(--mirage);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__date {
+    @include text('caption');
+
+    color: var(--waterloo);
+    margin: 0;
+  }
+
+  &__icon {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    padding: 6px;
+    border-radius: 50%;
+    background: var(--jungle-green-light-2);
+    font-size: 0;
+  }
+
+  &:hover {
+    background: var(--athens);
+
+    .insight__title {
+      color: var(--jungle-green);
+    }
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.bottom {
+  width: 100%;
+  border-top: 1px solid var(--porcelain);
+  padding: 16px 24px;
+  display: flex;
+  background: var(--athens);
+  background-image: url('./lines.svg');
+
+  &__title {
+    @include text('body-2');
+
+    color: var(--mirage);
+    margin: 0 0 4px;
+  }
+
+  &__desc {
+    @include text('body-3');
+
+    color: var(--waterloo);
+    margin: 0;
+  }
+}
+
+.text,
+.form,
+.form__inputWrapper {
+  flex: 1;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+
+  &__inputWrapper {
+    margin-right: 16px;
+  }
+
+  &__input {
+    padding-left: 42px !important;
+  }
+
+  &__icon {
+    width: 12px;
+    overflow: visible;
+    padding: 9px 14px;
+  }
+}
