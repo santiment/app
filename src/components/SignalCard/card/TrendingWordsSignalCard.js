@@ -2,12 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
+import isEqual from 'lodash.isequal'
 import { DesktopOnly } from '../../Responsive'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
 import SignalCardHeader from './SignalCardHeader'
 import { dateDifferenceInWordsString } from '../../../utils/dates'
 import { createTrigger } from '../../../ducks/Signals/common/actions'
+import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
@@ -62,7 +64,9 @@ const TrendingWordsSignalCard = ({
   date,
   activityPayload,
   createTrigger,
-  isAuthor
+  isLoggedIn,
+  isAuthor,
+  isCreated
 }) => {
   const {
     title,
@@ -118,7 +122,7 @@ const TrendingWordsSignalCard = ({
           </div>
         )}
 
-        {!isAuthor && (
+        {isLoggedIn && !isAuthor && !isCreated && (
           <div className={styles.bottom}>
             <Button onClick={copySignal} as='a' className={styles.copyBtn}>
               Copy signal
@@ -136,13 +140,24 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
-const mapStateToProps = (state, { creatorId }) => {
+const mapStateToProps = (state, { creatorId, signal }) => {
+  const isLoggedIn = checkIsLoggedIn(state)
   return {
     isAuthor:
       state &&
       state.user &&
       state.user.data &&
-      +state.user.data.id === +creatorId
+      +state.user.data.id === +creatorId,
+    isLoggedIn: isLoggedIn,
+    isCreated:
+      !isLoggedIn ||
+      (state &&
+        state.signals.all &&
+        state.signals.all.some(
+          item =>
+            item.title === signal.title &&
+            isEqual(signal.settings.operation, item.settings.operation)
+        ))
   }
 }
 

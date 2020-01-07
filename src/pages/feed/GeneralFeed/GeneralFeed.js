@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Query } from 'react-apollo'
 import { FEED_QUERY } from '../../../queries/FeedGQL'
@@ -14,6 +14,7 @@ import {
   extractEventsFromData,
   makeFeedVariables
 } from './utils'
+import { fetchSignals } from '../../../ducks/Signals/common/actions'
 import styles from './GeneralFeed.module.scss'
 
 export const START_DATE = addDays(new Date(), CURSOR_DAYS_COUNT)
@@ -46,7 +47,7 @@ const Anon = () => (
   </div>
 )
 
-const GeneralFeed = ({ isLoggedIn, isUserLoading }) => {
+const GeneralFeed = ({ isLoggedIn, isUserLoading, fetchSignals }) => {
   if (isUserLoading) {
     return (
       <>
@@ -57,6 +58,13 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading }) => {
       </>
     )
   }
+
+  useEffect(
+    () => {
+      isLoggedIn && fetchSignals()
+    },
+    [isLoggedIn]
+  )
 
   return (
     <div className={styles.container}>
@@ -119,4 +127,13 @@ const mapStateToProps = state => ({
   isUserLoading: checkIsLoggedInPending(state)
 })
 
-export default connect(mapStateToProps)(GeneralFeed)
+const mapDispatchToProps = dispatch => ({
+  fetchSignals: payload => {
+    return dispatch(fetchSignals())
+  }
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GeneralFeed)
