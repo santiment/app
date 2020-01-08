@@ -11,7 +11,6 @@ import {
   XAxis,
   YAxis
 } from 'recharts'
-import SidecarExplanationTooltip from './SidecarExplanationTooltip'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { HISTOGRAM_SIDEBAR } from './data'
 import { HISTOGRAM_DATA_QUERY } from './gql'
@@ -41,10 +40,12 @@ const Content = ({ slug, date }) => {
 
   useDebounceEffect(
     () => {
-      const { from, to } = getTimeIntervalFromToday(-5, DAY, {
+      const { from, to } = getTimeIntervalFromToday(-4, DAY, {
         to: new Date(date),
         from: new Date(date)
       })
+
+      to.setHours(to.getHours() + 72, 0, 0, 0)
 
       setPeriod({
         from: from.toISOString(),
@@ -78,7 +79,15 @@ const Content = ({ slug, date }) => {
           ...period
         }}
       >
-        {({ loading, data: { getMetric } = {} }) => {
+        {({ loading, error, data: { getMetric } = {} }) => {
+          if (error) {
+            return (
+              <div className={cx(styles.load, styles.action)}>
+                Please, hover on a date inside the allowed interval
+              </div>
+            )
+          }
+
           if (!getMetric) {
             return (
               <div className={styles.load}>
@@ -99,7 +108,7 @@ const Content = ({ slug, date }) => {
               <div className={styles.content}>
                 <ResponsiveContainer
                   width='90%'
-                  height={200}
+                  height={260}
                   className={styles.chart}
                 >
                   <BarChart
@@ -159,19 +168,14 @@ const Histogram = ({
         isAdvancedView && sharedStyles.opened
       )}
     >
-      <SidecarExplanationTooltip
-        title='Age Distribution histogram'
-        description=''
-        localStorageSuffix={HISTOGRAM_SIDEBAR}
-        classes={{
-          wrapper: cx(
-            sharedStyles.toggle,
-            isAdvancedView || classes.sidecar__toggle_histogram,
-            !isAdvancedView &&
-              isWideChart &&
-              classes.sidecar__toggle_histogram_wide
-          )
-        }}
+      <div
+        className={cx(
+          sharedStyles.toggle,
+          isAdvancedView || classes.sidecar__toggle_histogram,
+          !isAdvancedView &&
+            isWideChart &&
+            classes.sidecar__toggle_histogram_wide
+        )}
       >
         <div
           className={sharedStyles.toggle__btn}
@@ -181,7 +185,7 @@ const Histogram = ({
             <Icon type='arrow-left' className={sharedStyles.toggle__arrow} />H
           </div>
         </div>
-      </SidecarExplanationTooltip>
+      </div>
       {!isAdvancedView ? null : <Content {...rest} />}
     </div>
   )

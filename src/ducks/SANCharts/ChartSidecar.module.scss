@@ -58,6 +58,7 @@
   transform: translateX(0);
   border: 1px solid var(--porcelain);
   margin-left: 40px;
+  max-height: 645px;
 
   .toggle__icons {
     flex-flow: row-reverse;
