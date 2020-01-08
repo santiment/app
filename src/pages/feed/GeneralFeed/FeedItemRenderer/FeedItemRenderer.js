@@ -40,7 +40,7 @@ const FeedItemRenderer = ({ item, index }) => {
       </>
     )
   } else if (__typename === 'TimelineEvent') {
-    const { post, trigger, insertedAt } = item
+    const { post } = item
 
     if (post) {
       const { id, ...rest } = post
@@ -56,18 +56,6 @@ const FeedItemRenderer = ({ item, index }) => {
           )}
         </WithLikesMutation>
       )
-    }
-    if (trigger) {
-      if (isTrendingWordsSignal(trigger)) {
-        return (
-          <TrendingWordsSignalCard
-            signal={item.trigger}
-            className={styles.card}
-            date={insertedAt}
-            creatorId={id}
-          />
-        )
-      }
     }
   }
 
