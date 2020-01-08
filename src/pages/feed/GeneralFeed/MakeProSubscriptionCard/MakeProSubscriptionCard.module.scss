@@ -1,0 +1,36 @@
+@import '~@santiment-network/ui/mixins';
+
+.upgrade {
+  margin-left: auto;
+  height: 32px;
+}
+
+.center {
+  margin-left: 16px;
+}
+
+.right {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.title {
+  @include text('body-3');
+
+  color: var(--rhino);
+}
+
+.description {
+  @include text('caption');
+
+  display: flex;
+  align-items: center;
+  color: var(--waterloo);
+  margin-top: 13px;
+}
