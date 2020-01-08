@@ -401,7 +401,7 @@ class Charts extends React.Component {
 
     if (isMultiChartsActive) {
       syncTooltips(activeTooltipIndex)
-      return
+      return this.props.onMouseMove && this.props.onMouseMove(event)
     }
 
     if (!activePayload) {

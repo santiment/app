@@ -38,7 +38,7 @@ export const HISTOGRAM_DATA_QUERY = gql`
         slug: $slug
         from: $from
         to: $to
-        limit: 7
+        limit: 10
         interval: $interval
       ) {
         labels

@@ -41,16 +41,12 @@ const ChartSidecar = ({
 
   return (
     <div className={cx(styles.wrapper, isAdvancedView && styles.opened)}>
-      <SidecarExplanationTooltip
-        classes={{
-          wrapper: cx(
-            styles.toggle,
-            isAdvancedView || classes.sidecar__toggle_assets,
-            !isAdvancedView &&
-              isWideChart &&
-              classes.sidecar__toggle_assets_wide
-          )
-        }}
+      <div
+        className={cx(
+          styles.toggle,
+          isAdvancedView || classes.sidecar__toggle_assets,
+          !isAdvancedView && isWideChart && classes.sidecar__toggle_assets_wide
+        )}
       >
         <div
           className={styles.toggle__btn}
@@ -62,7 +58,7 @@ const ChartSidecar = ({
             <Icon type='hamburger' className={styles.hamburger} />
           </div>
         </div>
-      </SidecarExplanationTooltip>
+      </div>
       <SidecarItems
         hidden={!shouldPreload && !isAdvancedView}
         onSlugSelect={onSlugSelect}

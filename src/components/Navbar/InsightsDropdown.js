@@ -17,6 +17,7 @@ import {
   ALL_INSIGHTS_BY_PAGE_QUERY,
   FEATURED_INSIGHTS_QUERY
 } from '../../queries/InsightsGQL'
+import { SUBSCRIPTION_FLAG } from '../../epics/handleEmailLogin'
 import styles from './InsightsDropdown.module.scss'
 
 const mutation = gql`
@@ -28,6 +29,7 @@ const mutation = gql`
 `
 
 const onSuccess = () => {
+  localStorage.setItem(SUBSCRIPTION_FLAG, '+')
   GoogleAnalytics.event({
     category: 'User',
     action: `User requested an email for verification`

@@ -30,25 +30,25 @@
   }
 
   &_social {
-    top: 390px !important;
-
-    @include responsive('laptop', 'tablet') {
-      top: 414px !important;
-    }
-  }
-
-  &_histogram {
     top: 440px !important;
 
     @include responsive('laptop', 'tablet') {
       top: 454px !important;
     }
+  }
+
+  &_histogram {
+    top: 390px !important;
+
+    @include responsive('laptop', 'tablet') {
+      top: 414px !important;
+    }
 
     &_wide {
-      top: 310px !important;
+      top: 260px !important;
 
       @include responsive('laptop', 'tablet') {
-        top: 410px !important;
+        top: 360px !important;
       }
     }
   }
@@ -62,10 +62,10 @@
   }
 
   &_social_wide {
-    top: 260px !important;
+    top: 310px !important;
 
     @include responsive('laptop', 'tablet') {
-      top: 360px !important;
+      top: 410px !important;
     }
   }
 }
