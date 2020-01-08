@@ -71,9 +71,10 @@ const TrendingWordsSignalCard = ({
   const {
     title,
     settings,
-    settings: { target },
+    settings: { target = {} },
     isPublic
   } = signal
+  console.log(target)
   const words = getWords(target.word, activityPayload)
   const showingWords = words.slice(0, 6)
 

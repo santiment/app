@@ -78,6 +78,10 @@
   padding: 0;
 }
 
+.sectionOffset {
+  margin-bottom: 26px !important;
+}
+
 .back {
   @include text('body-1');
 
@@ -127,7 +131,7 @@
 .subtitle {
   @include text('body-1', 'm');
 
-  margin-top: 26px !important;
+  margin-top: 0;
 }
 
 .tabs {

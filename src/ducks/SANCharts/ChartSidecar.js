@@ -125,7 +125,7 @@ export const SidecarItems = ({
             classes={classes || styles}
           />
 
-          <section className={styles.section}>
+          <section className={cx(styles.section, styles.sectionOffset)}>
             <h2 className={cx(styles.subtitle, classes.subTitle)}>
               Categories
             </h2>
