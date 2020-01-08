@@ -7,7 +7,6 @@ import RecentlyWatched, {
   Asset
 } from '../../components/RecentlyWatched/RecentlyWatched'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
-import SidecarExplanationTooltip from './SidecarExplanationTooltip'
 import { ASSETS_SIDEBAR } from './data'
 import styles from './ChartSidecar.module.scss'
 
