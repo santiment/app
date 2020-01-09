@@ -82,6 +82,7 @@ const TrendingWordsSignalCard = ({
   const copySignal = () => {
     const newSignal = { ...signal }
     delete newSignal.id
+    newSignal.isPublic = false
     createTrigger(newSignal)
   }
 
