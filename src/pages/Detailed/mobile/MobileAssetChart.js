@@ -134,6 +134,7 @@ const MobileAssetChart = ({
             <ReferenceLine
               strokeDasharray='5 5'
               stroke='var(--waterloo)'
+              ifOverflow='extendDomain'
               yAxisId='axis-priceUsd'
               y={icoPrice}
               label={({ viewBox: { y } }) => setIcoPricePos(y)}
