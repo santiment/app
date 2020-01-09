@@ -50,8 +50,8 @@ const MobileAssetChart = ({
   const hideTooltipItem = key => key === 'priceUsd'
 
   const setCurrentIndex = throttle(
-    evt => setActiveIndex(evt.activeTooltipIndex),
-    1000
+    evt => setActiveIndex(evt ? evt.activeTooltipIndex : null),
+    500
   )
 
   let anomalyDataKey, anomalies
@@ -81,7 +81,11 @@ const MobileAssetChart = ({
         <IcoPriceTooltip y={icoPricePos} value={icoPrice} />
       )}
       <ResponsiveContainer width='100%' aspect={1.5 / 1.0}>
-        <ComposedChart data={data} onMouseMove={setCurrentIndex}>
+        <ComposedChart
+          data={data}
+          onMouseMove={setCurrentIndex}
+          margin={{ left: -10, right: -10 }}
+        >
           <defs>
             <Gradients />
           </defs>
