@@ -18,7 +18,6 @@ const ProfileInfo = ({
   const {
     id,
     username,
-    email,
     followers,
     insights,
     triggers,
@@ -34,7 +33,6 @@ const ProfileInfo = ({
         <UserAvatar isExternal externalAvatarUrl={avatarUrl} />
         <div className={styles.leftText}>
           <div className={styles.name}>{username}</div>
-          <div className={styles.email}>{email}</div>
           {isLoggedIn && !isCurrentUser && (
             <FollowBtn
               className={styles.followBtn}

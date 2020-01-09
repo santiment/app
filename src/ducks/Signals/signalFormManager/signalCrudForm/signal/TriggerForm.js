@@ -9,10 +9,7 @@ import {
   isTelegramConnectedAndEnabled,
   selectIsEmailConnected
 } from '../../../../../pages/UserSelectors'
-import {
-  fetchHistorySignalPoints,
-  removeTrigger
-} from '../../../common/actions'
+import { fetchHistorySignalPoints } from '../../../common/actions'
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import Button from '@santiment-network/ui/Button'
@@ -418,9 +415,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   getSignalBacktestingPoints: payload => {
     dispatch(fetchHistorySignalPoints(mapFormPropsToTrigger(payload)))
-  },
-  removeSignal: id => {
-    dispatch(removeTrigger(id))
   }
 })
 

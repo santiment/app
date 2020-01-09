@@ -38,3 +38,11 @@
     margin-bottom: 0;
   }
 }
+
+.btn {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}

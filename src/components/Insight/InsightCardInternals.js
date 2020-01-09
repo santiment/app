@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
-import { Icon } from '@santiment-network/ui'
+import { Link } from 'react-router-dom'
 import cx from 'classnames'
+import { Icon } from '@santiment-network/ui'
 import InsightTags from './InsightTags'
 import ProfileInfo from './ProfileInfo'
 import MultilineText from '../MultilineText/MultilineText'
@@ -56,12 +57,9 @@ const InsightCardInternals = ({
             withPic={withAuthorPic}
             picUrl={avatarUrl}
             name={
-              <a
-                className={styles.name}
-                href={`https://insights.santiment.net/user/${authorId}`}
-              >
+              <Link className={styles.name} to={`/profile/${authorId}`}>
                 {authorName}
-              </a>
+              </Link>
             }
             status={
               state === AWAITING_APPROVAL_STATE ? (

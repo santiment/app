@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Button, Icon } from '@santiment-network/ui'
 import { Link } from 'react-router-dom'
 import {
@@ -8,7 +8,6 @@ import {
   PRICE_PERCENT_CHANGE,
   PRICE_VOLUME_DIFFERENCE
 } from '../../../ducks/Signals/utils/constants'
-import ConfirmDialog from '../../ConfirmDialog/ConfirmDialog'
 import styles from './SignalControls.module.scss'
 
 const getIconStyles = type => {
@@ -37,40 +36,6 @@ export const SignalTypeIcon = ({ type }) => {
     </div>
   )
 }
-
-const RemoveDescription = title => {
-  return (
-    <Fragment>
-      Are you sure you want to delete{' '}
-      <span className={styles.title}>{title}</span> ?
-    </Fragment>
-  )
-}
-
-export const RemoveSignalButton = ({
-  id,
-  signalTitle = 'trigger',
-  removeSignal,
-  redirect,
-  className,
-  trigger
-}) => (
-  <ConfirmDialog
-    id={id}
-    title='Delete signal'
-    description={RemoveDescription(signalTitle)}
-    onApprove={removeSignal}
-    redirect={redirect}
-    classes={styles}
-    trigger={
-      trigger || (
-        <Button variant='ghost' type='button' className={className}>
-          <Icon type='remove' />
-        </Button>
-      )
-    }
-  />
-)
 
 export const SettingsSignalButton = ({ id }) => (
   <Button variant='ghost'>

@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
+import debounce from 'lodash.debounce'
 import isEqual from 'lodash.isequal'
 import { DesktopOnly } from '../../Responsive'
 import Panel from '@santiment-network/ui/Panel/Panel'
@@ -74,16 +75,23 @@ const TrendingWordsSignalCard = ({
     settings: { target = {} },
     isPublic
   } = signal
+
+  const [isCreation, setCreation] = useState(false)
+
   const words = getWords(target.word, activityPayload)
   const showingWords = words.slice(0, 6)
 
   const moreCount = getExpectedCount(settings) - showingWords.length
 
-  const copySignal = () => {
+  const copySignal = debounce(() => {
     const newSignal = { ...signal }
     delete newSignal.id
+    newSignal.isPublic = false
     createTrigger(newSignal)
-  }
+    setCreation(true)
+  })
+
+  const showCopyBtn = isLoggedIn && !isAuthor && !isCreation && !isCreated
 
   return (
     <Panel padding className={cx(externalStyles.wrapper, className)}>
@@ -122,7 +130,7 @@ const TrendingWordsSignalCard = ({
           </div>
         )}
 
-        {isLoggedIn && !isAuthor && !isCreated && (
+        {showCopyBtn && (
           <div className={styles.bottom}>
             <Button onClick={copySignal} as='a' className={styles.copyBtn}>
               Copy signal
@@ -142,6 +150,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = (state, { creatorId, signal }) => {
   const isLoggedIn = checkIsLoggedIn(state)
+
   return {
     isAuthor:
       state &&

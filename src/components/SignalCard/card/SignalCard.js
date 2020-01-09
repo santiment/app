@@ -11,7 +11,6 @@ const SignalCard = ({
   id,
   signal,
   className,
-  removeSignal,
   goToSignalSettings,
   toggleSignal,
   isUserTheAuthor,
@@ -41,7 +40,6 @@ const SignalCard = ({
             deleteEnabled={deleteEnabled}
             isUserTheAuthor={isUserTheAuthor}
             isPublic={isPublic}
-            removeSignal={removeSignal}
             signal={signal}
           />
         </DesktopOnly>
@@ -51,7 +49,6 @@ const SignalCard = ({
           deleteEnabled={deleteEnabled}
           isUserTheAuthor={isUserTheAuthor}
           isPublic={isPublic}
-          removeSignal={removeSignal}
           signal={signal}
         />
       )}
@@ -75,7 +72,6 @@ const SignalCard = ({
           signalId={id}
           signal={signal}
           showMoreActions={showMoreActions}
-          removeSignal={removeSignal}
           toggleSignal={toggleSignal}
           isAwaiting={isAwaiting}
           editable={clickable}

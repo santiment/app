@@ -15,7 +15,6 @@ const UnpublishedMsg = () => (
 const SignalCardBottom = ({
   signalId,
   signal,
-  removeSignal,
   isPublished = true,
   isAwaiting = false,
   toggleSignal,
@@ -33,7 +32,6 @@ const SignalCardBottom = ({
           <DesktopOnly>
             <MoreSignalActions
               isUserTheAuthor={isUserTheAuthor}
-              removeSignal={removeSignal}
               signalTitle={title}
               signalId={signalId}
               isPublic={isPublic}

@@ -36,9 +36,9 @@
 
 .title {
   @include text-normal;
+  @include text('body-3');
 
   line-height: 26px;
-  font-size: 18px;
   color: var(--mirage);
   margin-top: 12px;
   display: inline-block;

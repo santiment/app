@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import { RemoveSignalButton } from './SignalControls'
 import ShareModalTrigger from '../../Share/ShareModalTrigger'
 import { mapStateToQS } from '../../../utils/utils'
 import Tooltip from '@santiment-network/ui/Tooltip'
+import RemoveSignalButton from './RemoveSignalButton'
 import styles from '../card/SignalCard.module.scss'
 
 const generateShareLink = (id, title) => {
@@ -34,7 +34,6 @@ const ShareSignal = ({ trigger, className, signalId, signalTitle }) => {
 const MoreSignalActions = ({
   signalId,
   signalTitle,
-  removeSignal,
   isPublic,
   isUserTheAuthor,
   deleteEnabled = true,
@@ -85,7 +84,6 @@ const MoreSignalActions = ({
             <RemoveSignalButton
               id={signalId}
               signalTitle={signalTitle}
-              removeSignal={removeSignal}
               trigger={<div className={styles.removeSignal}>Delete</div>}
             />
           </div>
