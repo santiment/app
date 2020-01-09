@@ -77,7 +77,7 @@ const MobileAssetChart = ({
       onTouchEnd={() => setIsTouch(false)}
       onTouchCancel={() => setIsTouch(false)}
     >
-      {icoPricePos && !isTouch && (
+      {icoPricePos !== null && !isTouch && (
         <IcoPriceTooltip y={icoPricePos} value={icoPrice} />
       )}
       <ResponsiveContainer width='100%' aspect={1.5 / 1.0}>
@@ -88,7 +88,16 @@ const MobileAssetChart = ({
           <XAxis dataKey='datetime' hide />
           <YAxis
             hide
-            domain={['auto', 'dataMax']}
+            domain={[
+              'auto',
+              dataMax => {
+                if (isFinite(dataMax) && icoPrice - dataMax > 0) {
+                  setIcoPricePos(0)
+                }
+
+                return dataMax
+              }
+            ]}
             dataKey={extraMetric ? anomalyDataKey : 'priceUsd'}
           />
           {isTouch && (
@@ -130,11 +139,10 @@ const MobileAssetChart = ({
                 fill='var(--persimmon)'
               />
             ))}
-          {icoPrice && !isTouch && (
+          {icoPrice && (
             <ReferenceLine
               strokeDasharray='5 5'
-              stroke='var(--waterloo)'
-              ifOverflow='extendDomain'
+              stroke={isTouch ? 'transparent' : 'var(--waterloo)'}
               yAxisId='axis-priceUsd'
               y={icoPrice}
               label={({ viewBox: { y } }) => setIcoPricePos(y)}

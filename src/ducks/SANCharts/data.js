@@ -327,3 +327,4 @@ export const compatabilityMap = {
 
 export const SOCIAL_SIDEBAR = 'SOCIAL_SIDEBAR'
 export const ASSETS_SIDEBAR = 'ASSETS_SIDEBAR'
+export const HISTOGRAM_SIDEBAR = 'HISTOGRAM_SIDEBAR'

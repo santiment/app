@@ -11,7 +11,6 @@ const SignalCard = ({
   id,
   signal,
   className,
-  removeSignal,
   goToSignalSettings,
   toggleSignal,
   isUserTheAuthor,
@@ -25,10 +24,13 @@ const SignalCard = ({
     title,
     description = '',
     isPublic,
+    settings,
     settings: { type }
   } = signal
 
-  const clickable = goToSignalSettings && type !== 'trending_words'
+  const clickable =
+    goToSignalSettings &&
+    (type === 'trending_words' ? settings.target !== 'default' : true)
 
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
@@ -38,7 +40,6 @@ const SignalCard = ({
             deleteEnabled={deleteEnabled}
             isUserTheAuthor={isUserTheAuthor}
             isPublic={isPublic}
-            removeSignal={removeSignal}
             signal={signal}
           />
         </DesktopOnly>
@@ -48,7 +49,6 @@ const SignalCard = ({
           deleteEnabled={deleteEnabled}
           isUserTheAuthor={isUserTheAuthor}
           isPublic={isPublic}
-          removeSignal={removeSignal}
           signal={signal}
         />
       )}
@@ -72,7 +72,6 @@ const SignalCard = ({
           signalId={id}
           signal={signal}
           showMoreActions={showMoreActions}
-          removeSignal={removeSignal}
           toggleSignal={toggleSignal}
           isAwaiting={isAwaiting}
           editable={clickable}
