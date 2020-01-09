@@ -24,7 +24,6 @@ import { SIGNAL_ROUTES } from '../../ducks/Signals/common/constants'
 const SignalDetails = ({
   trigger: { trigger = {}, isLoading, isError, errorMessage = '' },
   toggleSignal,
-  removeSignal,
   redirect,
   closeModal,
   id,
@@ -46,9 +45,8 @@ const SignalDetails = ({
         <hr />
         <p>You can try to delete this</p>
         <RemoveSignalButton
-          signalTitle={title}
           id={signalId}
-          removeSignal={removeSignal}
+          signalTitle={title}
           redirect={close}
         />
       </div>
@@ -68,12 +66,7 @@ const SignalDetails = ({
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <SignalCardWrapper
-          trigger={trigger}
-          type={type}
-          isModal={false}
-          removeSignal={removeSignal}
-        >
+        <SignalCardWrapper trigger={trigger} type={type} isModal={false}>
           <div className={styles.row}>
             {author && (
               <div className={styles.authorName}>
@@ -89,7 +82,6 @@ const SignalDetails = ({
               <RemoveSignalButton
                 id={signalId}
                 signalTitle={title}
-                removeSignal={removeSignal}
                 redirect={close}
               />
             </div>
@@ -108,9 +100,6 @@ const SignalDetails = ({
 const mapDispatchToProps = dispatch => ({
   toggleSignal: ({ id, isActive }) => {
     dispatch(toggleTrigger({ id, isActive }))
-  },
-  removeSignal: id => {
-    dispatch(removeTrigger(id))
   },
   redirect: (path = SIGNAL_ROUTES.MY_SIGNALS) => {
     dispatch(push(path))
