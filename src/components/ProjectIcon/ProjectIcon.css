@@ -1,5 +1,5 @@
 .project-icon{position:relative;display:flex;align-items:center;justify-content:center}
-.project-icon::before{content:'';display:block;position:absolute;width:64px;height:64px;background-image:url(./sprite.png),url(https://production-sanbase-images.s3.eu-central-1.amazonaws.com/sprite/default_project_logo.png);background-repeat:repeat,no-repeat;background-position:100% 100%;transform:scale(var(--scale))}
+.project-icon::before{content:'';display:block;position:absolute;width:64px;height:64px;background-image:url(./sprite.png),url(./defaultProjectIcon.png);background-repeat:repeat,no-repeat;background-position:100% 100%;transform:scale(var(--scale))}
 .project-icon-0x::before{background-position:0 0,-9999px -9999px}
 .project-icon-1irstcoin::before{background-position:-64px 0}
 .project-icon-1world::before{background-position:0 -64px}
