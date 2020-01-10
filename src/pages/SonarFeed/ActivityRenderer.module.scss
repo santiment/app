@@ -52,6 +52,12 @@
   }
 }
 
+.hiddenImg {
+  img {
+    display: none;
+  }
+}
+
 .title {
   @include text('body-3');
 

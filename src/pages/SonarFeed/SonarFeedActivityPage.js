@@ -71,7 +71,12 @@ const SonarFeedActivityPage = ({ activities, loading, classes = {} }) => {
   return activities && activities.length ? (
     <div className={cx(styles.wrapper, classes.activitiesWrapper)}>
       {activities.map((item, index) => (
-        <ActivityRenderer activity={item} index={index} classes={classes} />
+        <ActivityRenderer
+          activity={item}
+          index={index}
+          classes={classes}
+          key={index}
+        />
       ))}
     </div>
   ) : (

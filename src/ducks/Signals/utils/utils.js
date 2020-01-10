@@ -47,7 +47,8 @@ import {
   MAX_TITLE_LENGTH,
   MAX_DESCR_LENGTH,
   PRICE_PERCENT_CHANGE_ONE_OF_MODEL,
-  CHANNELS_MAP
+  CHANNELS_MAP,
+  POSSIBLE_METRICS_FOR_CHART
 } from './constants'
 import {
   capitalizeStr,
@@ -1066,15 +1067,11 @@ export const descriptionBlockErrors = values => {
   return errors
 }
 
-const POSSIBLE_METRICS_FOR_CHART = [
-  PRICE_METRIC.value,
-  DAILY_ACTIVE_ADDRESSES_METRIC.value,
-  PRICE_VOLUME_DIFFERENCE_METRIC.value,
-  ETH_WALLET_METRIC.value
-]
-
-export const couldShowChart = ({ signalType, metric, target }) => {
-  if (isWatchlist(signalType)) {
+export const couldShowChart = (
+  { signalType, metric, type, target },
+  types = POSSIBLE_METRICS_FOR_CHART
+) => {
+  if (signalType && isWatchlist(signalType)) {
     return false
   }
 
@@ -1087,7 +1084,8 @@ export const couldShowChart = ({ signalType, metric, target }) => {
     return false
   }
 
-  return metric ? POSSIBLE_METRICS_FOR_CHART.indexOf(metric.value) >= 0 : false
+  const checking = metric ? metric.value : type
+  return checking ? types.indexOf(checking) >= 0 : false
 }
 
 export const mapToAssets = (data, withFilter = true) => {

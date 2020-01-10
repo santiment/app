@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import { Query } from '@apollo/react-components'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { getMetricsByType, getTimeRangeForChart } from '../utils/utils'
+import {
+  getMetricsByType,
+  getTimeRangeForChart,
+  mapTargetObject
+} from '../utils/utils'
 import { Metrics } from '../../SANCharts/data'
 import { getMetricYAxisId, mapToRequestedMetrics } from '../../SANCharts/utils'
 import {
@@ -13,6 +17,7 @@ import ChartWidget from '../../SANCharts/ChartPage'
 import VisualBacktestChart, { GetReferenceDots } from './VisualBacktestChart'
 import { ChartExpandView } from './ChartExpandView'
 import { DesktopOnly } from './../../../components/Responsive'
+import { HISTORICAL_TRIGGER_POINTS_QUERY } from '../epics'
 import styles from './SignalPreview.module.scss'
 
 const mapWithTimeseries = items =>
@@ -55,7 +60,8 @@ const SignalPreviewChart = ({
   slug,
   timeRange,
   label,
-  triggeredSignals
+  triggeredSignals,
+  showExpand
 }) => {
   const metricsTypes = getMetricsByType(type)
   const { metrics, triggersBy } = metricsTypes
@@ -105,25 +111,27 @@ const SignalPreviewChart = ({
               referenceDots={referenceDots}
               syncedColors={syncedColors}
             />
-            <DesktopOnly>
-              <ChartExpandView>
-                <ChartWidget
-                  alwaysShowingMetrics={triggersBy ? [triggersBy.key] : []}
-                  timeRange={timeRange}
-                  slug={slug}
-                  metrics={metrics}
-                  interval='1d'
-                  title={slug}
-                  hideSettings={{
-                    header: true,
-                    sidecar: true
-                  }}
-                  adjustNightMode={false}
-                >
-                  {referenceDots}
-                </ChartWidget>
-              </ChartExpandView>
-            </DesktopOnly>
+            {showExpand && (
+              <DesktopOnly>
+                <ChartExpandView>
+                  <ChartWidget
+                    alwaysShowingMetrics={triggersBy ? [triggersBy.key] : []}
+                    timeRange={timeRange}
+                    slug={slug}
+                    metrics={metrics}
+                    interval='1d'
+                    title={slug}
+                    hideSettings={{
+                      header: true,
+                      sidecar: true
+                    }}
+                    adjustNightMode={false}
+                  >
+                    {referenceDots}
+                  </ChartWidget>
+                </ChartExpandView>
+              </DesktopOnly>
+            )}
           </>
         )
       }}
@@ -131,49 +139,56 @@ const SignalPreviewChart = ({
   )
 }
 
-const SignalPreview = ({
-  isError,
-  isLoading,
-  type,
-  points = [],
-  target: slug
-}) => {
-  if (isLoading) {
-    return PreviewLoader
-  }
+const SignalPreview = ({ type, trigger = {}, showExpand = true }) => {
+  const {
+    settings: { target }
+  } = trigger
 
-  if (isError) {
-    return (
-      <div className={styles.loaderWrapper}>
-        Something's gone wrong.
-        <br />
-        Backtesting chart is unavailable.
-      </div>
-    )
-  }
-
-  const { label, value: timeRange } = getTimeRangeForChart(type)
-  const triggeredSignals = points.filter(point => point['triggered?'])
+  const slug = mapTargetObject(target)
 
   return (
-    <SignalPreviewChart
-      type={type}
-      slug={slug}
-      label={label}
-      timeRange={timeRange}
-      triggeredSignals={triggeredSignals}
-    />
+    <Query
+      query={HISTORICAL_TRIGGER_POINTS_QUERY}
+      variables={{
+        cooldown: trigger.cooldown,
+        settings: JSON.stringify(trigger.settings)
+      }}
+    >
+      {({
+        data: { historicalTriggerPoints: points = [], error, loading } = {}
+      }) => {
+        if (loading) {
+          return PreviewLoader
+        }
+
+        const isError = error && (!points || points.length === 0)
+
+        if (isError) {
+          return (
+            <div className={styles.loaderWrapper}>
+              Something's gone wrong.
+              <br />
+              Backtesting chart is unavailable.
+            </div>
+          )
+        }
+
+        const { label, value: timeRange } = getTimeRangeForChart(type)
+        const triggeredSignals = points.filter(point => point['triggered?'])
+
+        return (
+          <SignalPreviewChart
+            type={type}
+            slug={slug}
+            label={label}
+            timeRange={timeRange}
+            triggeredSignals={triggeredSignals}
+            showExpand={showExpand}
+          />
+        )
+      }}
+    </Query>
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    points: state.signals.points,
-    isLoading: state.signals.isLoading,
-    isError:
-      state.signals.isError &&
-      (!state.signals.points || state.signals.points.length === 0)
-  }
-}
-
-export default connect(mapStateToProps)(SignalPreview)
+export default SignalPreview
