@@ -20,6 +20,7 @@
 
 .activityItem {
   display: flex;
+  flex-direction: column;
   color: var(--rhino);
   padding: 18px 24px;
   background: var(--white);
@@ -53,7 +54,9 @@
   }
 }
 
-.hiddenImg {
+.activityItemBacktest {
+  flex-direction: row;
+
   img {
     display: none;
   }

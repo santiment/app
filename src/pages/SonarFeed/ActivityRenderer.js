@@ -83,6 +83,7 @@ const ActivityWithBacktesting = ({
     <div
       className={cx(
         styles.activityItem,
+        styles.activityItemBacktest,
         classes.activityItem,
         index === 0 && classes.firstActivity
       )}
@@ -107,7 +108,7 @@ const ActivityWithBacktesting = ({
           </h4>
           <Markdown
             source={Object.values(payload)[0]}
-            className={cx(classes.activityMarkdown, styles.hiddenImg)}
+            className={classes.activityMarkdown}
           />
 
           <span className={styles.dateBacktest}>
