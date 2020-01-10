@@ -31,6 +31,7 @@ import styles from './MobileDetailedPage.module.scss'
 const MobileDetailedPage = props => {
   const slug = props.match.params.slug
   const [timeRange, setTimeRange] = useState('6m')
+  const [icoPricePos, setIcoPricePos] = useState(null)
   const [extraMetric, setExtraMetric] = useState()
 
   addRecentAssets(slug)
@@ -47,7 +48,12 @@ const MobileDetailedPage = props => {
     <div className={styles.timeRangeBlock}>
       <Selector
         options={['1w', '1m', '3m', '6m', 'all']}
-        onSelectOption={setTimeRange}
+        onSelectOption={value => {
+          if (value !== timeRange) {
+            setTimeRange(value)
+            setIcoPricePos(null)
+          }
+        }}
         defaultSelected={timeRange}
       />
     </div>
@@ -143,6 +149,7 @@ const MobileDetailedPage = props => {
 
           const {
             ticker,
+            name,
             percentChange24h,
             percentChange7d,
             devActivity30,
@@ -169,7 +176,7 @@ const MobileDetailedPage = props => {
             <>
               <MobileHeader
                 showBack
-                title={<Title slug={slug} ticker={ticker} />}
+                title={<Title slug={name} ticker={ticker} />}
                 goBack={props.history.goBack}
               />
               <GetWatchlists
@@ -200,6 +207,8 @@ const MobileDetailedPage = props => {
                           data={timeseries}
                           slug={slug}
                           icoPrice={icoPrice}
+                          icoPricePos={icoPricePos}
+                          setIcoPricePos={setIcoPricePos}
                           extraMetric={extraMetric}
                         />
                         {timeRangeBlock}
