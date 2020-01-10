@@ -84,7 +84,7 @@ const MobileAssetChart = ({
         <ComposedChart
           data={data}
           onMouseMove={setCurrentIndex}
-          margin={{ left: -10, right: -10 }}
+          margin={{ left: 0, right: 0 }}
         >
           <defs>
             <Gradients />
