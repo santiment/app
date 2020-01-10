@@ -8,6 +8,7 @@ import { POSSIBLE_METRICS_ACTIVITIES } from '../../ducks/Signals/utils/constants
 import { couldShowChart } from '../../ducks/Signals/utils/utils'
 import styles from './ActivityRenderer.module.scss'
 import SignalPreview from '../../ducks/Signals/chart/SignalPreview'
+import { SignalTypeIcon } from '../../components/SignalCard/controls/SignalControls'
 
 const ActivityRenderer = ({
   activity,
@@ -48,7 +49,7 @@ const SimpleActivity = ({
       index === 0 && classes.firstActivity
     )}
   >
-    <div className={cx(styles.description, classes.activityCustom)}>
+    <div className={cx(styles.description, styles.activityCustom)}>
       <h4 className={styles.title}>
         <Link
           to={`/sonar/signal/${signalId}${SIGNAL_ANCHORS.ACTIVITIES}`}
@@ -86,24 +87,42 @@ const ActivityWithBacktesting = ({
         index === 0 && classes.firstActivity
       )}
     >
-      <div className={cx(styles.description, classes.activityCustom)}>
-        <h4 className={styles.title}>
-          <Link
-            to={`/sonar/signal/${signalId}${SIGNAL_ANCHORS.ACTIVITIES}`}
-            className={styles.link}
-          >
-            {title}
-          </Link>
-          <span className={styles.date}>
+      <div
+        className={cx(
+          styles.description,
+          styles.activityCustom,
+          styles.activityBacktest
+        )}
+      >
+        <SignalTypeIcon type={type} />
+
+        <div className={styles.center}>
+          <h4 className={styles.title}>
+            <Link
+              to={`/sonar/signal/${signalId}${SIGNAL_ANCHORS.ACTIVITIES}`}
+              className={styles.link}
+            >
+              {title}
+            </Link>
+          </h4>
+          <Markdown
+            source={Object.values(payload)[0]}
+            className={cx(classes.activityMarkdown, styles.hiddenImg)}
+          />
+
+          <span className={styles.dateBacktest}>
             {dateDifferenceInWordsString(triggeredAt)}
           </span>
-        </h4>
+        </div>
       </div>
-      <Markdown
-        source={Object.values(payload)[0]}
-        className={cx(classes.activityMarkdown, styles.hiddenImg)}
-      />
-      <SignalPreview trigger={trigger} type={type} showExpand={false} />
+      <div className={styles.preview}>
+        <SignalPreview
+          trigger={trigger}
+          type={type}
+          showExpand={false}
+          showTitle={false}
+        />
+      </div>
     </div>
   )
 }

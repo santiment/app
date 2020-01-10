@@ -1,16 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import debounce from 'lodash.debounce'
 import isEqual from 'lodash.isequal'
 import { DesktopOnly } from '../../Responsive'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import Button from '@santiment-network/ui/Button'
 import SignalCardHeader from './SignalCardHeader'
 import { dateDifferenceInWordsString } from '../../../utils/dates'
-import { createTrigger } from '../../../ducks/Signals/common/actions'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
+import CopySignal from '../controls/CopySignal'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
@@ -64,7 +62,6 @@ const TrendingWordsSignalCard = ({
   className,
   date,
   activityPayload,
-  createTrigger,
   isLoggedIn,
   isAuthor,
   isCreated
@@ -76,22 +73,12 @@ const TrendingWordsSignalCard = ({
     isPublic
   } = signal
 
-  const [isCreation, setCreation] = useState(false)
-
   const words = getWords(target.word, activityPayload)
   const showingWords = words.slice(0, 6)
 
   const moreCount = getExpectedCount(settings) - showingWords.length
 
-  const copySignal = debounce(() => {
-    const newSignal = { ...signal }
-    delete newSignal.id
-    newSignal.isPublic = false
-    createTrigger(newSignal)
-    setCreation(true)
-  })
-
-  const showCopyBtn = isLoggedIn && !isAuthor && !isCreation && !isCreated
+  const showCopyBtn = isLoggedIn && !isAuthor && !isCreated
 
   return (
     <Panel padding className={cx(externalStyles.wrapper, className)}>
@@ -130,23 +117,11 @@ const TrendingWordsSignalCard = ({
           </div>
         )}
 
-        {showCopyBtn && (
-          <div className={styles.bottom}>
-            <Button onClick={copySignal} as='a' className={styles.copyBtn}>
-              Copy signal
-            </Button>
-          </div>
-        )}
+        {showCopyBtn && <CopySignal signal={signal} />}
       </div>
     </Panel>
   )
 }
-
-const mapDispatchToProps = dispatch => ({
-  createTrigger: payload => {
-    dispatch(createTrigger(payload))
-  }
-})
 
 const mapStateToProps = (state, { creatorId, signal }) => {
   const isLoggedIn = checkIsLoggedIn(state)
@@ -170,7 +145,4 @@ const mapStateToProps = (state, { creatorId, signal }) => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TrendingWordsSignalCard)
+export default connect(mapStateToProps)(TrendingWordsSignalCard)

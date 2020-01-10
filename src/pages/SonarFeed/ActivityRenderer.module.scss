@@ -19,6 +19,7 @@
 }
 
 .activityItem {
+  display: flex;
   color: var(--rhino);
   padding: 18px 24px;
   background: var(--white);
@@ -56,6 +57,10 @@
   img {
     display: none;
   }
+
+  p {
+    margin-top: 13px;
+  }
 }
 
 .title {
@@ -70,4 +75,34 @@
 .date {
   margin-left: auto;
   color: var(--casper);
+
+  @include text('caption');
+}
+
+.preview {
+  display: flex;
+  width: 260px;
+}
+
+.center {
+  margin-left: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.activityCustom {
+  margin: 0 0 16px 0 !important;
+  display: flex;
+  flex: 1;
+}
+
+.activityBacktest {
+  margin-bottom: 0 !important;
+  margin-right: 12px;
+}
+
+.dateBacktest {
+  margin-top: auto;
+
+  @include text('caption');
 }

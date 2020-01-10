@@ -61,7 +61,8 @@ const SignalPreviewChart = ({
   timeRange,
   label,
   triggeredSignals,
-  showExpand
+  showExpand,
+  showTitle
 }) => {
   const metricsTypes = getMetricsByType(type)
   const { metrics, triggersBy } = metricsTypes
@@ -110,6 +111,7 @@ const SignalPreviewChart = ({
               signals={signals}
               referenceDots={referenceDots}
               syncedColors={syncedColors}
+              showTitle={showTitle}
             />
             {showExpand && (
               <DesktopOnly>
@@ -139,7 +141,12 @@ const SignalPreviewChart = ({
   )
 }
 
-const SignalPreview = ({ type, trigger = {}, showExpand = true }) => {
+const SignalPreview = ({
+  type,
+  trigger = {},
+  showExpand = true,
+  showTitle = true
+}) => {
   const {
     settings: { target }
   } = trigger
@@ -184,6 +191,7 @@ const SignalPreview = ({ type, trigger = {}, showExpand = true }) => {
             timeRange={timeRange}
             triggeredSignals={triggeredSignals}
             showExpand={showExpand}
+            showTitle={showTitle}
           />
         )
       }}
