@@ -20,7 +20,7 @@
 
 .activityItem {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   color: var(--rhino);
   padding: 18px 24px;
   background: var(--white);
@@ -55,8 +55,6 @@
 }
 
 .activityItemBacktest {
-  flex-direction: row;
-
   img {
     display: none;
   }
@@ -91,6 +89,7 @@
   margin-left: 16px;
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .activityCustom {

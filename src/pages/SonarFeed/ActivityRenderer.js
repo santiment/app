@@ -40,34 +40,43 @@ const ActivityRenderer = ({
 const SimpleActivity = ({
   index,
   classes,
-  activity: { triggeredAt, payload, trigger: { id: signalId, title } = {} }
-}) => (
-  <div
-    className={cx(
-      styles.activityItem,
-      classes.activityItem,
-      index === 0 && classes.firstActivity
-    )}
-  >
-    <div className={cx(styles.description, styles.activityCustom)}>
-      <h4 className={styles.title}>
-        <Link
-          to={`/sonar/signal/${signalId}${SIGNAL_ANCHORS.ACTIVITIES}`}
-          className={styles.link}
-        >
-          {title}
-        </Link>
-        <span className={styles.date}>
-          {dateDifferenceInWordsString(triggeredAt)}
-        </span>
-      </h4>
+  activity: {
+    triggeredAt,
+    payload,
+    trigger: { id: signalId, title, settings: { type } } = {}
+  }
+}) => {
+  return (
+    <div
+      className={cx(
+        styles.activityItem,
+        classes.activityItem,
+        index === 0 && classes.firstActivity
+      )}
+    >
+      <SignalTypeIcon type={type} />
+      <div className={styles.center}>
+        <div className={cx(styles.description, styles.activityCustom)}>
+          <h4 className={styles.title}>
+            <Link
+              to={`/sonar/signal/${signalId}${SIGNAL_ANCHORS.ACTIVITIES}`}
+              className={styles.link}
+            >
+              {title}
+            </Link>
+            <span className={styles.date}>
+              {dateDifferenceInWordsString(triggeredAt)}
+            </span>
+          </h4>
+        </div>
+        <Markdown
+          source={Object.values(payload)[0]}
+          className={classes.activityMarkdown}
+        />
+      </div>
     </div>
-    <Markdown
-      source={Object.values(payload)[0]}
-      className={classes.activityMarkdown}
-    />
-  </div>
-)
+  )
+}
 
 const ActivityWithBacktesting = ({
   index,
