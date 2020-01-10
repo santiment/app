@@ -4,7 +4,7 @@
   background: var(--waterloo);
   box-shadow: 0 4px 12px rgba(24, 27, 43, 0.04);
   border-radius: 2px;
-  transform: translateX(5px) translateY(calc(var(--y) - 17px));
+  transform: translateY(calc(var(--y) - 17px));
   padding: 0 4px;
   position: absolute;
   color: var(--porcelain);

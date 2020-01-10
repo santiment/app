@@ -2,8 +2,8 @@ import React from 'react'
 import PercentChanges from '../PercentChanges'
 import styles from './PriceChangesWidget.module.scss'
 
-const PriceChangesWidget = ({ changes7d, changes24h }) => (
-  <section>
+const PriceChangesWidget = ({ className, changes7d, changes24h }) => (
+  <section className={className}>
     <PercentChanges changes={changes24h} />
   </section>
 )

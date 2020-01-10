@@ -6,22 +6,22 @@ import Selector from '@santiment-network/ui/Selector/Selector'
 import { DailyActiveAddressesGQL } from '../gqlWrappers/DetailedGQL'
 import { SOCIAL_VOLUME_QUERY } from '../../../ducks/GetTimeSeries/queries/social_volume_query'
 import { NEWS_QUERY } from '../../../components/News/NewsGQL'
-import { calcPercentageChange, capitalizeStr } from '../../../utils/utils'
+import { calcPercentageChange } from '../../../utils/utils'
 import {
   DAY,
   getTimeIntervalFromToday,
   getIntervalByTimeRange
 } from '../../../utils/dates'
-import { formatNumber } from '../../../utils/formatting'
 import { Metrics, compatabilityMap } from '../../../ducks/SANCharts/data'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
-import PriceChangesWidget from '../../../components/PriceChangesWidget/PriceChangesWidget'
 import NewsSmall from '../../../components/News/NewsSmall'
 import PageLoader from '../../../components/Loader/PageLoader'
 import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
 import GetAsset from '../gqlWrappers/GetAsset'
 import GetTimeSeries from '../../../ducks/GetTimeSeries/GetTimeSeries'
 import MobileAssetChart from './MobileAssetChart'
+import Title from './MobileAssetTitle'
+import PriceBlock from './MobileAssetPriceInfo'
 import ShowIf from '../../../components/ShowIf'
 import GetWatchlists from '../../../ducks/Watchlists/GetWatchlists'
 import WatchlistsPopup from '../../../components/WatchlistPopup/WatchlistsPopup'
@@ -43,21 +43,6 @@ const MobileDetailedPage = props => {
       setExtraMetric(toggledMetric)
     }
   }
-
-  const timeRangeBlock = (
-    <div className={styles.timeRangeBlock}>
-      <Selector
-        options={['1w', '1m', '3m', '6m', 'all']}
-        onSelectOption={value => {
-          if (value !== timeRange) {
-            setTimeRange(value)
-            setIcoPricePos(null)
-          }
-        }}
-        defaultSelected={timeRange}
-      />
-    </div>
-  )
 
   let socialVolumeInfo
   const { socialVolume } = props
@@ -202,7 +187,17 @@ const MobileDetailedPage = props => {
                           setIcoPricePos={setIcoPricePos}
                           extraMetric={extraMetric}
                         />
-                        {timeRangeBlock}
+                        <Selector
+                          options={['1w', '1m', '3m', '6m', 'all']}
+                          className={styles.timeRangeBlock}
+                          onSelectOption={value => {
+                            if (value !== timeRange) {
+                              setTimeRange(value)
+                              setIcoPricePos(null)
+                            }
+                          }}
+                          defaultSelected={timeRange}
+                        />
                       </>
                     )
                   }}
@@ -290,22 +285,6 @@ const MobileDetailedPage = props => {
     </div>
   )
 }
-
-const Title = ({ slug, ticker }) => (
-  <>
-    {capitalizeStr(slug)}{' '}
-    {ticker && <span className={styles.ticker}>({ticker.toUpperCase()})</span>}
-  </>
-)
-
-const PriceBlock = ({ priceUsd, ...props }) => (
-  <div className={styles.priceBlock}>
-    <div className={styles.priceUsd}>
-      {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
-    </div>
-    <PriceChangesWidget {...props} />
-  </div>
-)
 
 const enhance = compose(
   graphql(NEWS_QUERY, {
