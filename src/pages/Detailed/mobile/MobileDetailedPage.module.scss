@@ -33,18 +33,6 @@
   @include text('h3');
 }
 
-.changes {
-  margin-left: 12px;
-
-  &:first-of-type {
-    margin-left: 0;
-  }
-}
-
-.label {
-  margin-left: 5px;
-}
-
 .news__heading {
   margin: 0;
   margin-top: 15px;
