@@ -35,6 +35,13 @@ export const project = gql`
   }
 `
 
+export const PROJECT_RECENT_DATA_FRAGMENT = gql`
+  fragment recentProjectData on Project {
+    priceUsd
+    percentChange7d
+  }
+`
+
 export const allProjectsGQL = gql`
   query allProjects($minVolume: Int!) {
     allProjects(minVolume: $minVolume) {
@@ -72,11 +79,11 @@ export const RECENT_ASSET_QUERY = gql`
   query projectBySlugGQL($slug: String!) {
     projectBySlug(slug: $slug) {
       ...generalData
-      percentChange7d
-      priceUsd
+      ...recentProjectData
     }
   }
   ${generalData}
+  ${PROJECT_RECENT_DATA_FRAGMENT}
 `
 
 export const allProjectsForSearchGQL = gql`

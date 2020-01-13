@@ -1,5 +1,9 @@
 import gql from 'graphql-tag'
-import { generalData, project } from '../pages/Projects/allProjectsGQL'
+import {
+  generalData,
+  project,
+  PROJECT_RECENT_DATA_FRAGMENT
+} from '../pages/Projects/allProjectsGQL'
 
 export const WATHCLIST_GENERAL_FRAGMENT = gql`
   fragment generalListData on UserList {
@@ -56,14 +60,14 @@ export const WATCHLIST_BY_SLUG_SHORT_QUERY = gql`
       listItems {
         project {
           ...generalData
-          ...project
+          ...recentProjectData
         }
       }
     }
   }
   ${WATHCLIST_GENERAL_FRAGMENT}
   ${generalData}
-  ${project}
+  ${PROJECT_RECENT_DATA_FRAGMENT}
 `
 
 export const WATCHLIST_BY_SLUG_BIG_QUERY = gql`
@@ -111,14 +115,14 @@ export const WATCHLIST_QUERY = gql`
       listItems {
         project {
           ...generalData
-          ...project
+          ...recentProjectData
         }
       }
     }
   }
   ${WATHCLIST_GENERAL_FRAGMENT}
   ${generalData}
-  ${project}
+  ${PROJECT_RECENT_DATA_FRAGMENT}
 `
 
 export const WATCHLIST_WITH_TRENDING_ASSETS_QUERY = gql`
