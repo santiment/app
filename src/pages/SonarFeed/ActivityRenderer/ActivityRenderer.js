@@ -1,31 +1,43 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import cx from 'classnames'
 import { POSSIBLE_METRICS_ACTIVITIES } from '../../../ducks/Signals/utils/constants'
 import { couldShowChart } from '../../../ducks/Signals/utils/utils'
 import SimpleActivity from './SimpleActivity'
 import ActivityWithBacktesting from './ActivityWithBacktesting'
+import styles from './ActivityRenderer.module.scss'
 
 const ActivityRenderer = ({
   activity,
-  activity: { triggeredAt, trigger: { id: signalId, settings } = {} },
+  activity: { triggeredAt, trigger = {} },
   index,
   classes = {}
 }) => {
+  const { id: signalId, settings } = trigger
   const { target } = settings
   const showChart =
     target && couldShowChart(settings, POSSIBLE_METRICS_ACTIVITIES)
 
   return (
-    <Fragment key={triggeredAt + '_' + signalId}>
-      {showChart ? (
-        <ActivityWithBacktesting
-          classes={classes}
-          index={index}
-          activity={activity}
-        />
-      ) : (
-        <SimpleActivity index={index} classes={classes} activity={activity} />
+    <div
+      key={triggeredAt + '_' + signalId}
+      className={cx(
+        styles.activityItem,
+        classes.activityItem,
+        index === 0 ? classes.firstActivity : ''
       )}
-    </Fragment>
+    >
+      <div className={showChart && styles.activityItemBacktest}>
+        {showChart ? (
+          <ActivityWithBacktesting
+            classes={classes}
+            index={index}
+            activity={activity}
+          />
+        ) : (
+          <SimpleActivity index={index} classes={classes} activity={activity} />
+        )}
+      </div>
+    </div>
   )
 }
 
