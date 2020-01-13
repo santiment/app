@@ -19,7 +19,6 @@ import { TRENDING_WATCHLIST_NAME } from '../../pages/assets/assets-overview-cons
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
-import { filterEmptyStats } from '../WatchlistOverview/WatchlistHistory/utils'
 import styles from './WatchlistCard.module.scss'
 
 const INTERVAL = '6h'
@@ -147,7 +146,7 @@ const enhance = compose(
     }),
     skip: ({ slugs }) => !slugs || !slugs.length,
     props: ({ data: { projectsListHistoryStats = [], loading, error } }) => ({
-      stats: filterEmptyStats(projectsListHistoryStats),
+      stats: projectsListHistoryStats,
       isLoading: loading,
       isError: error
     })
@@ -162,7 +161,7 @@ const enhance = compose(
     }),
     skip: ({ slug }) => !slug,
     props: ({ data: { historyPrice = [], loading, error } }) => ({
-      stats: filterEmptyStats(historyPrice),
+      stats: historyPrice,
       isLoading: loading,
       isError: error
     })
@@ -177,10 +176,7 @@ const enhance = compose(
     }),
     skip: ({ bySlug }) => !bySlug,
     props: ({ data: { watchlistBySlug = {}, loading, error } }) => ({
-      stats:
-        watchlistBySlug && watchlistBySlug.historicalStats
-          ? filterEmptyStats(watchlistBySlug.historicalStats)
-          : [],
+      stats: watchlistBySlug.historicalStats || [],
       isLoading: loading,
       isError: error
     })
@@ -195,10 +191,7 @@ const enhance = compose(
     }),
     skip: ({ id }) => !id,
     props: ({ data: { watchlist = {}, loading, error } }) => ({
-      stats:
-        watchlist && watchlist.historicalStats
-          ? filterEmptyStats(watchlist.historicalStats)
-          : [],
+      stats: watchlist.historicalStats || [],
       isLoading: loading,
       isError: error
     })
