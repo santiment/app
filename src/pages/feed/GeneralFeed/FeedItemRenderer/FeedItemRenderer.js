@@ -51,7 +51,7 @@ const FeedItemRenderer = ({ item, index }) => {
               id={id}
               {...rest}
               className={styles.card}
-              onLike={mutateInsightById}
+              onLike={mutateInsightById(id)}
             />
           )}
         </WithLikesMutation>
