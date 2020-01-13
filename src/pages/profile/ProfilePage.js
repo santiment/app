@@ -16,6 +16,7 @@ import { mapQSToState } from '../../utils/utils'
 import styles from './ProfilePage.module.scss'
 
 const getQueryVariables = ({
+  currentUser,
   location,
   match: { params: { id } = {} } = {}
 }) => {
@@ -28,6 +29,11 @@ const getQueryVariables = ({
       username
     }
   }
+
+  if (!variables.userId && !variables.username && currentUser.id) {
+    variables = { userId: currentUser.id }
+  }
+
   return variables
 }
 
@@ -115,17 +121,15 @@ const ProfilePage = props => {
   )
 }
 
-const mapStateToProps = state => ({
-  currentUser: state.user.data
-})
+const mapStateToProps = (state, { match: { params: { id } = {} } }) => {
+  return {
+    currentUser: state.user.data
+  }
+}
 
 const enhance = compose(
   connect(mapStateToProps),
   graphql(PUBLIC_USER_DATA_QUERY, {
-    skip: ({ location, match: { params: { id } = {} } = {} }) => {
-      const { username } = mapQSToState({ location })
-      return !id && !username
-    },
     options: props => ({
       variables: getQueryVariables(props)
     }),
