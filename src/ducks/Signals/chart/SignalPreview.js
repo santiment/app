@@ -147,9 +147,13 @@ const SignalPreview = ({
   showExpand = true,
   showTitle = true
 }) => {
-  const {
-    settings: { target }
-  } = trigger
+  const { settings: { target } = {} } = trigger
+
+  console.log(trigger)
+
+  if (!target) {
+    return null
+  }
 
   const slug = mapTargetObject(target)
 

@@ -27,7 +27,7 @@ const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
           <>
             <div className={styles.chartDivider} />
             <div className={styles.preview}>
-              <SignalPreview target={target.value} type={metric.value} />
+              <SignalPreview trigger={trigger} type={metric.value} />
             </div>
           </>
         ) : (
