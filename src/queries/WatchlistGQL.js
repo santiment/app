@@ -5,7 +5,7 @@ import {
   PROJECT_RECENT_DATA_FRAGMENT
 } from '../pages/Projects/allProjectsGQL'
 
-export const WATHCLIST_GENERAL_FRAGMENT = gql`
+export const WATCHLIST_GENERAL_FRAGMENT = gql`
   fragment generalListData on UserList {
     id
     color
@@ -38,7 +38,7 @@ export const ALL_WATCHLISTS_QUERY = gql`
       ...listShortItems
     }
   }
-  ${WATHCLIST_GENERAL_FRAGMENT}
+  ${WATCHLIST_GENERAL_FRAGMENT}
   ${PROJECT_ITEM_FRAGMENT}
 `
 
@@ -49,7 +49,7 @@ export const PUBLIC_WATCHLIST_QUERY = gql`
       ...listShortItems
     }
   }
-  ${WATHCLIST_GENERAL_FRAGMENT}
+  ${WATCHLIST_GENERAL_FRAGMENT}
   ${PROJECT_ITEM_FRAGMENT}
 `
 
@@ -65,7 +65,7 @@ export const WATCHLIST_BY_SLUG_SHORT_QUERY = gql`
       }
     }
   }
-  ${WATHCLIST_GENERAL_FRAGMENT}
+  ${WATCHLIST_GENERAL_FRAGMENT}
   ${generalData}
   ${PROJECT_RECENT_DATA_FRAGMENT}
 `
@@ -92,7 +92,7 @@ export const WATCHLIST_BY_SLUG_BIG_QUERY = gql`
       }
     }
   }
-  ${WATHCLIST_GENERAL_FRAGMENT}
+  ${WATCHLIST_GENERAL_FRAGMENT}
   ${generalData}
   ${project}
 `
@@ -104,7 +104,7 @@ export const FEATURED_WATCHLIST_QUERY = gql`
       ...listShortItems
     }
   }
-  ${WATHCLIST_GENERAL_FRAGMENT}
+  ${WATCHLIST_GENERAL_FRAGMENT}
   ${PROJECT_ITEM_FRAGMENT}
 `
 
@@ -120,7 +120,7 @@ export const WATCHLIST_QUERY = gql`
       }
     }
   }
-  ${WATHCLIST_GENERAL_FRAGMENT}
+  ${WATCHLIST_GENERAL_FRAGMENT}
   ${generalData}
   ${PROJECT_RECENT_DATA_FRAGMENT}
 `
@@ -143,7 +143,7 @@ export const WATCHLIST_WITH_TRENDING_ASSETS_QUERY = gql`
       }
     }
   }
-  ${WATHCLIST_GENERAL_FRAGMENT}
+  ${WATCHLIST_GENERAL_FRAGMENT}
   ${generalData}
   ${project}
 `
@@ -182,7 +182,7 @@ export const WATCHLIST_WITH_TRENDS_AND_SETTINGS_QUERY = gql`
       }
     }
   }
-  ${WATHCLIST_GENERAL_FRAGMENT}
+  ${WATCHLIST_GENERAL_FRAGMENT}
   ${generalData}
   ${project}
 `
