@@ -188,31 +188,6 @@ export const HISTORICAL_TRIGGER_POINTS_QUERY = gql`
   }
 `
 
-export const fetchHistorySignalPoints = (action$, store, { client }) =>
-  action$.ofType(actions.SIGNAL_FETCH_HISTORY_POINTS).switchMap(action => {
-    return Observable.fromPromise(
-      client.query({
-        query: HISTORICAL_TRIGGER_POINTS_QUERY,
-        variables: {
-          cooldown: action.payload.cooldown,
-          settings: JSON.stringify(action.payload.settings)
-        }
-      })
-    )
-      .debounceTime(500)
-      .mergeMap(({ data }) => {
-        return Observable.of({
-          type: actions.SIGNAL_FETCH_HISTORY_POINTS_SUCCESS,
-          payload: {
-            points: data.historicalTriggerPoints
-          }
-        })
-      })
-      .catch(
-        handleErrorAndTriggerAction(actions.SIGNAL_FETCH_HISTORY_POINTS_FAILED)
-      )
-  })
-
 export const TRIGGER_UPDATE_QUERY = gql`
   mutation updateTrigger(
     $id: Int

@@ -1,4 +1,4 @@
-@import "~@santiment-network/ui/mixins.scss";
+@import "../../../../node_modules/@santiment-network/ui/mixins";
 
 .description {
   margin-bottom: 12px;
@@ -19,6 +19,8 @@
 }
 
 .activityItem {
+  display: flex;
+  flex-direction: row;
   color: var(--rhino);
   padding: 18px 24px;
   background: var(--white);
@@ -52,6 +54,16 @@
   }
 }
 
+.activityItemBacktest {
+  img {
+    display: none;
+  }
+
+  p {
+    margin-top: 13px;
+  }
+}
+
 .title {
   @include text('body-3');
 
@@ -64,4 +76,35 @@
 .date {
   margin-left: auto;
   color: var(--casper);
+
+  @include text('caption');
+}
+
+.preview {
+  display: flex;
+  width: 260px;
+}
+
+.center {
+  margin-left: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.activityCustom {
+  margin: 0 0 16px 0 !important;
+  display: flex;
+  flex: 1;
+}
+
+.activityBacktest {
+  margin-bottom: 0 !important;
+  margin-right: 12px;
+}
+
+.dateBacktest {
+  margin-top: auto;
+
+  @include text('caption');
 }

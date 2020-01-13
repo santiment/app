@@ -1,0 +1,17 @@
+@import "~@santiment-network/ui/mixins";
+
+.copyBtn {
+  margin: 8px 0 0 auto;
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.bottom {
+  display: flex;
+  margin-top: 14px;
+  border-top: 1px solid var(--porcelain);
+  width: 100%;
+}

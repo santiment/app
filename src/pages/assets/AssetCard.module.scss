@@ -1,24 +1,31 @@
-@import "~@santiment-network/ui/mixins.scss";
+@import '~@santiment-network/ui/mixins.scss';
 
 .wrapper {
   text-decoration: none;
-  color: var(--mirage);
+  color: var(--rhino);
   width: 100%;
-  padding: 10px 16px;
+  padding: 8px 16px;
   display: flex;
   justify-content: space-between;
 
-  @include text('body-3');
+  @include text('body-2');
 }
 
-.name {
+.row {
   display: flex;
   flex-direction: column;
   margin-left: 12px;
 }
 
+.name {
+  text-overflow: ellipsis;
+  max-width: 59vw;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .ticker {
-  color: var(--waterloo);
+  color: var(--casper);
 }
 
 .left,

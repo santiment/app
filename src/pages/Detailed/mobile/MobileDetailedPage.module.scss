@@ -14,34 +14,11 @@
 }
 
 .ticker {
-  color: var(--waterloo);
+  color: var(--casper);
 }
 
 .timeRangeBlock {
   margin: 8px 0;
-}
-
-.priceBlock {
-  margin: 10px 0 21px;
-}
-
-.priceUsd {
-  margin-bottom: 2px;
-  color: var(--rhino);
-
-  @include text('h3');
-}
-
-.changes {
-  margin-left: 12px;
-
-  &:first-of-type {
-    margin-left: 0;
-  }
-}
-
-.label {
-  margin-left: 5px;
 }
 
 .news__heading {

@@ -2,27 +2,26 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
-import Label from '@santiment-network/ui/Label'
 import Selector from '@santiment-network/ui/Selector/Selector'
 import { DailyActiveAddressesGQL } from '../gqlWrappers/DetailedGQL'
 import { SOCIAL_VOLUME_QUERY } from '../../../ducks/GetTimeSeries/queries/social_volume_query'
 import { NEWS_QUERY } from '../../../components/News/NewsGQL'
-import { calcPercentageChange, capitalizeStr } from '../../../utils/utils'
+import { calcPercentageChange } from '../../../utils/utils'
 import {
   DAY,
   getTimeIntervalFromToday,
   getIntervalByTimeRange
 } from '../../../utils/dates'
-import { formatNumber } from '../../../utils/formatting'
 import { Metrics, compatabilityMap } from '../../../ducks/SANCharts/data'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
-import PercentChanges from '../../../components/PercentChanges'
 import NewsSmall from '../../../components/News/NewsSmall'
 import PageLoader from '../../../components/Loader/PageLoader'
 import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
 import GetAsset from '../gqlWrappers/GetAsset'
 import GetTimeSeries from '../../../ducks/GetTimeSeries/GetTimeSeries'
 import MobileAssetChart from './MobileAssetChart'
+import Title from './MobileAssetTitle'
+import PriceBlock from './MobileAssetPriceInfo'
 import MobileFullscreenChart from './MobileFullscreenChart'
 import ShowIf from '../../../components/ShowIf'
 import GetWatchlists from '../../../ducks/Watchlists/GetWatchlists'
@@ -46,20 +45,6 @@ const MobileDetailedPage = props => {
       setExtraMetric(toggledMetric)
     }
   }
-
-  const timeRangeBlock = (
-    <Selector
-      className={styles.timeRangeBlock}
-      options={['1w', '1m', '3m', '6m', 'all']}
-      onSelectOption={value => {
-        if (value !== timeRange) {
-          setTimeRange(value)
-          setIcoPricePos(null)
-        }
-      }}
-      defaultSelected={timeRange}
-    />
-  )
 
   let socialVolumeInfo
   const { socialVolume } = props
@@ -207,7 +192,17 @@ const MobileDetailedPage = props => {
                           />
                         )}
                         <div className={styles.bottom}>
-                          {timeRangeBlock}
+                          <Selector
+                            options={['1w', '1m', '3m', '6m', 'all']}
+                            className={styles.timeRangeBlock}
+                            onSelectOption={value => {
+                              if (value !== timeRange) {
+                                setTimeRange(value)
+                                setIcoPricePos(null)
+                              }
+                            }}
+                            defaultSelected={timeRange}
+                          />
                           <MobileFullscreenChart
                             isOpen={fullscreen}
                             onToggleFullscreen={state =>
@@ -302,29 +297,6 @@ const MobileDetailedPage = props => {
     </div>
   )
 }
-
-const Title = ({ slug, ticker }) => (
-  <>
-    {capitalizeStr(slug)}{' '}
-    {ticker && <span className={styles.ticker}>({ticker.toUpperCase()})</span>}
-  </>
-)
-
-const PriceBlock = ({ changes24h, changes7d, priceUsd }) => (
-  <div className={styles.priceBlock}>
-    <div className={styles.priceUsd}>
-      {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
-    </div>
-    {/* <PercentChanges className={styles.changes} changes={changes24h} /> */}
-    {/* <Label className={styles.label} accent='waterloo'> */}
-    {/*   24h */}
-    {/* </Label> */}
-    {/* <PercentChanges className={styles.changes} changes={changes7d} /> */}
-    {/* <Label className={styles.label} accent='waterloo'> */}
-    {/*   7d */}
-    {/* </Label> */}
-  </div>
-)
 
 const enhance = compose(
   graphql(NEWS_QUERY, {

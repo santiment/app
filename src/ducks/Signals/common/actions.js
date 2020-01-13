@@ -14,12 +14,6 @@ export const SIGNAL_TOGGLE_FAILED = '[signal] TOGGLE_BY_ID_FAILED'
 export const SIGNAL_REMOVE_BY_ID = '[signal] REMOVE_BY_ID'
 export const SIGNAL_REMOVE_BY_ID_SUCCESS = '[signal] REMOVE_BY_ID_SUCCESS'
 export const SIGNAL_REMOVE_BY_ID_FAILED = '[signal] REMOVE_BY_ID_FAILED'
-// preview of history signal points
-export const SIGNAL_FETCH_HISTORY_POINTS = '[signal] FETCH_HISTORY_POINTS'
-export const SIGNAL_FETCH_HISTORY_POINTS_SUCCESS =
-  '[signal] FETCH_HISTORY_POINTS_SUCCESS'
-export const SIGNAL_FETCH_HISTORY_POINTS_FAILED =
-  '[signal] FETCH_HISTORY_POINTS_FAILED'
 
 export const createTrigger = payload => mutateTrigger({ payload })
 export const updateTrigger = payload => mutateTrigger({ payload, isEdit: true })
@@ -45,14 +39,6 @@ export const toggleTrigger = ({ id, isActive }) => ({
 export const removeTrigger = id => ({
   type: SIGNAL_REMOVE_BY_ID,
   payload: { id }
-})
-
-export const fetchHistorySignalPoints = ({ cooldown, settings }) => ({
-  type: SIGNAL_FETCH_HISTORY_POINTS,
-  payload: {
-    settings,
-    cooldown
-  }
 })
 
 export const fetchSignals = () => ({
