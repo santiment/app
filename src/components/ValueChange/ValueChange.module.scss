@@ -1,8 +1,19 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    @include text('body-2');
+  }
+}
+
 .triangle {
   vertical-align: middle;
-  width: 13px;
-  margin-right: 5px;
-  height: 13px;
+  width: 12px;
+  margin-right: 4px;
+  height: 12px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;

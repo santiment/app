@@ -108,7 +108,7 @@ const MobileAssetChart = ({
             <Tooltip
               isAnimationActive={false}
               cursor={{ stroke: 'var(--casper)' }}
-              position={{ x: 0, y: -61 }}
+              position={{ x: 0, y: -62.5 }}
               content={props => (
                 <>
                   <MobilePriceTooltip
