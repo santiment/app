@@ -23,7 +23,8 @@ const TriggerFormChannels = ({
   isTelegramConnected,
   isEmailConnected,
   isBeta,
-  setFieldValue
+  setFieldValue,
+  isNew
 }) => {
   const [isWebPushEnabled, setWebPushEnabled] = useState(true)
   const [disabledChannels, setDisabledChannels] = useState([])
@@ -33,14 +34,16 @@ const TriggerFormChannels = ({
   const calculateDisabledChannels = () => {
     const disabled = []
 
-    if (!isEmailConnected) {
-      disabled.push(CHANNEL_NAMES.Email)
-    }
-    if (!isTelegramConnected) {
-      disabled.push(CHANNEL_NAMES.Telegram)
-    }
-    if (!isWebPushEnabled) {
-      disabled.push(CHANNEL_NAMES.Browser)
+    if (isNew) {
+      if (!isEmailConnected) {
+        disabled.push(CHANNEL_NAMES.Email)
+      }
+      if (!isTelegramConnected) {
+        disabled.push(CHANNEL_NAMES.Telegram)
+      }
+      if (!isWebPushEnabled) {
+        disabled.push(CHANNEL_NAMES.Browser)
+      }
     }
 
     setDisabledChannels(disabled)
@@ -61,14 +64,16 @@ const TriggerFormChannels = ({
   useEffect(
     () => {
       let newChannels = channels
-      if (!isTelegramConnected) {
-        newChannels = newChannels.filter(
-          item => item !== CHANNEL_NAMES.Telegram
-        )
-      }
+      if (isNew) {
+        if (!isTelegramConnected) {
+          newChannels = newChannels.filter(
+            item => item !== CHANNEL_NAMES.Telegram
+          )
+        }
 
-      if (!isEmailConnected) {
-        newChannels = newChannels.filter(item => item !== CHANNEL_NAMES.Email)
+        if (!isEmailConnected) {
+          newChannels = newChannels.filter(item => item !== CHANNEL_NAMES.Email)
+        }
       }
 
       setFieldValue('channels', newChannels)
