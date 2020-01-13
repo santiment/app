@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { Button, Icon } from '@santiment-network/ui'
 import { Link } from 'react-router-dom'
 import {
@@ -27,11 +28,11 @@ const getIconStyles = type => {
   }
 }
 
-export const SignalTypeIcon = ({ type }) => {
-  const [icon, className] = getIconStyles(type)
+export const SignalTypeIcon = ({ type, className }) => {
+  const [icon, iconClass] = getIconStyles(type)
 
   return (
-    <div className={className}>
+    <div className={cx(iconClass, className)}>
       <Icon type={icon} />
     </div>
   )

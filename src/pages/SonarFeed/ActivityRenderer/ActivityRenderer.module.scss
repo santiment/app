@@ -1,5 +1,9 @@
 @import "../../../../node_modules/@santiment-network/ui/mixins";
 
+.wrapper {
+  display: flex;
+}
+
 .description {
   margin-bottom: 12px;
   display: flex;
@@ -55,6 +59,8 @@
 }
 
 .activityItemBacktest {
+  display: flex;
+
   img {
     display: none;
   }
@@ -82,18 +88,20 @@
 
 .preview {
   display: flex;
+  align-items: center;
+  justify-content: center;
   width: 260px;
 }
 
 .center {
-  margin-left: 16px;
+  margin-right: 8px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
 .activityCustom {
-  margin: 0 0 16px 0 !important;
+  margin: 0 !important;
   display: flex;
   flex: 1;
 }
@@ -107,4 +115,12 @@
   margin-top: auto;
 
   @include text('caption');
+}
+
+.info {
+  display: flex;
+}
+
+.icon {
+  margin-right: 16px;
 }
