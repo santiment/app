@@ -2,7 +2,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .overviewPage {
-  color: var(--mirage);
+  color: var(--rhino);
 
   @include responsive('phone-xs', 'phone') {
     height: 100vh;
@@ -28,7 +28,7 @@
 
 .heading {
   font-family: 'Rubik', sans-serif;
-  color: var(--mirage);
+  color: var(--rhino);
   font-size: 22px;
   line-height: 30px;
   font-weight: normal;

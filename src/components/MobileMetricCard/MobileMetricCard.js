@@ -35,20 +35,20 @@ const MobileMetricCard = ({
     >
       <div className={cx(styles.row, styles.row_top)}>
         <h3 className={styles.metric}>{name}</h3>
-        <h4 className={styles.value}>
-          {formatTooltipValue(false, value)} {measure}
-        </h4>
-      </div>
-      <div className={styles.row}>
         <h4 className={styles.anomalies}>
           {anomaliesNumber
             ? `${anomaliesNumber} anomal${anomaliesNumber > 1 ? 'ies' : 'y'}`
             : ''}
         </h4>
-        <div>
-          <PercentChanges changes={changes} />
-          <Label accent='casper'>, {period}</Label>
-        </div>
+      </div>
+      <div className={cx(styles.row, styles.row_bottom)}>
+        <h4 className={styles.value}>
+          {formatTooltipValue(false, value)} {measure}
+        </h4>
+        <PercentChanges changes={changes} />
+        <Label accent='casper' className={styles.period}>
+          , {period}
+        </Label>
       </div>
     </button>
   )

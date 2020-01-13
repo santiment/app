@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import cx from 'classnames'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -8,18 +9,22 @@ import {
   ReferenceLine,
   ReferenceDot
 } from 'recharts'
+import throttle from 'lodash.throttle'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
+import { tooltipLabelFormatter } from '../../../ducks/SANCharts/CustomTooltip'
 import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils'
 import {
   getSyncedColors,
   clearCache
 } from '../../../ducks/SANCharts/TooltipSynchronizer'
 import { Metrics } from '../../../ducks/SANCharts/data'
-import CustomTooltip from '../../../ducks/SANCharts/CustomTooltip'
+import CommonChartTooltip from '../../../ducks/SANCharts/tooltip/CommonChartTooltip'
+import MobilePriceTooltip from '../../../ducks/SANCharts/tooltip/MobilePriceTooltip'
 import IcoPriceTooltip from '../../../ducks/SANCharts/tooltip/IcoPriceTooltip'
+import styles from './MobileAssetChart.module.scss'
 
 const MobileAssetChart = ({
-  data,
+  data = [],
   slug: asset,
   icoPrice,
   extraMetric,
@@ -27,12 +32,27 @@ const MobileAssetChart = ({
   icoPricePos
 }) => {
   const [isTouch, setIsTouch] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(null)
 
   const metrics = ['historyPricePreview']
   if (extraMetric) metrics.push(extraMetric.name)
   const objMetrics = metrics.map(metric => Metrics[metric])
   const syncedColors = getSyncedColors(objMetrics)
-  const markup = generateMetricsMarkup(objMetrics, { syncedColors })
+  const markup = generateMetricsMarkup(objMetrics, {
+    syncedColors,
+    useShortName: true,
+    activeLineDataKey: 'priceUsd',
+    showActiveDot: false
+  })
+
+  const chartMediumIndex = data.length / 2
+
+  const hideTooltipItem = key => key === 'priceUsd'
+
+  const setCurrentIndex = throttle(
+    evt => setActiveIndex(evt ? evt.activeTooltipIndex : null),
+    500
+  )
 
   let anomalyDataKey, anomalies
   if (extraMetric) {
@@ -60,12 +80,16 @@ const MobileAssetChart = ({
       {icoPricePos !== null && !isTouch && (
         <IcoPriceTooltip y={icoPricePos} value={icoPrice} />
       )}
-      <ResponsiveContainer width='100%' height={250}>
-        <ComposedChart data={data}>
+      <ResponsiveContainer width='100%' aspect={1.5 / 1.0}>
+        <ComposedChart
+          data={data}
+          onMouseMove={setCurrentIndex}
+          margin={{ left: 0, right: 0 }}
+        >
           <defs>
             <Gradients />
           </defs>
-          <XAxis dataKey='datetime' tick={false} hide />
+          <XAxis dataKey='datetime' hide />
           <YAxis
             hide
             domain={[
@@ -82,9 +106,26 @@ const MobileAssetChart = ({
           />
           {isTouch && (
             <Tooltip
-              content={<CustomTooltip />}
-              position={{ x: 0, y: -20 }}
               isAnimationActive={false}
+              cursor={{ stroke: 'var(--casper)' }}
+              position={{ x: 0, y: -62.5 }}
+              content={props => (
+                <>
+                  <MobilePriceTooltip
+                    {...props}
+                    labelFormatter={tooltipLabelFormatter}
+                  />
+                  <CommonChartTooltip
+                    {...props}
+                    withLabel={false}
+                    className={cx(
+                      styles.tooltip,
+                      activeIndex < chartMediumIndex && styles.rightAlign
+                    )}
+                    hideItem={hideTooltipItem}
+                  />
+                </>
+              )}
             />
           )}
           {markup}

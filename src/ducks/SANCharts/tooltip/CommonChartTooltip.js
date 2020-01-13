@@ -1,45 +1,43 @@
 import React from 'react'
 import cx from 'classnames'
-import { tooltipLabelFormatter } from '../Charts'
-import { formatTokensCount } from '../../../utils/formatting'
+import { tooltipLabelFormatter, tooltipValueFormatter } from '../Charts'
 import styles from './CommonChartTooltip.module.scss'
 
 const ChartTooltip = ({
-  valueFormatter = formatTokensCount,
+  valueFormatter = tooltipValueFormatter,
   labelFormatter = tooltipLabelFormatter,
   className,
   active,
-  payload,
+  payload: initialPayload = [],
   label,
-  hideItem
+  hideItem,
+  withLabel = true
 }) => {
+  const payload = hideItem
+    ? initialPayload.filter(({ dataKey }) => !hideItem(dataKey))
+    : initialPayload
+
   return (
     active &&
     payload &&
     payload.length > 0 && (
-      <>
-        <div className={cx(styles.details, className)}>
-          <div className={styles.detailsTitle}>{labelFormatter(label)}</div>
-          <div className={styles.detailsContent}>
-            {payload.map(({ dataKey, value, color }) => {
-              if (hideItem && hideItem(dataKey)) {
-                return null
-              }
-
-              return (
-                <div
-                  key={dataKey}
-                  style={{ '--color': color }}
-                  className={styles.detailsMetric}
-                >
-                  {valueFormatter(value, dataKey, payload)}
-                  <span className={styles.detailsName}>{dataKey}</span>
-                </div>
-              )
-            })}
-          </div>
+      <div className={cx(styles.details, className)}>
+        {withLabel && (
+          <div className={styles.title}>{labelFormatter(label)}</div>
+        )}
+        <div className={styles.content}>
+          {payload.map(({ dataKey, value, color, name, formatter }) => (
+            <div
+              key={dataKey}
+              style={{ '--color': color }}
+              className={styles.metric}
+            >
+              {valueFormatter({ value, key: dataKey, formatter, payload })}
+              <span className={styles.name}>{name || dataKey}</span>
+            </div>
+          ))}
         </div>
-      </>
+      </div>
     )
   )
 }
@@ -57,7 +55,7 @@ export const renderLegend = ({ payload: items, labelFormatter }) => {
             key={dataKey}
             style={{ '--color': color || fill }}
             opacity={opacity}
-            className={cx(styles.detailsMetric, styles.legendLabel)}
+            className={cx(styles.metric, styles.label)}
           >
             {labelFormatter(dataKey)}
           </div>

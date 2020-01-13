@@ -12,11 +12,14 @@ import allProjects from '../../allProjects.json'
 import styles from './GainersLosersTabs.module.scss'
 
 const Item = ({ onProjectClick, showChange, ...project }) => {
-  const { change, ticker, slug } = project
+  const { change, ticker, slug, name } = project
   return (
     <div className={styles.project} onClick={() => onProjectClick(project)}>
       <ProjectIcon slug={slug} size={20} />
-      <Label className={styles.name}>{ticker}</Label>
+      {name && <Label className={styles.name}>{name}</Label>}
+      <Label className={cx(styles.ticker, !name && styles.tickerWithMargin)}>
+        {ticker}
+      </Label>
       {showChange && (
         <PercentChanges changes={change * 100} className={styles.changes} />
       )}

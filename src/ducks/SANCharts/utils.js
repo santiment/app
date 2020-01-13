@@ -2,6 +2,7 @@ import React from 'react'
 import { YAxis, Bar, Line, Area, ReferenceDot } from 'recharts'
 import { ONE_DAY_IN_MS } from '../../utils/dates'
 import { formatNumber, millify } from './../../utils/formatting'
+import ActiveLine from './tooltip/ActiveLine'
 import { Metrics, Events } from './data'
 import styles from './Chart.module.scss'
 
@@ -179,7 +180,10 @@ export const generateMetricsMarkup = (
     coordinates,
     scale,
     dayMetrics,
-    syncedColors
+    syncedColors,
+    showActiveDot = true,
+    activeLineDataKey,
+    useShortName
   } = {}
 ) => {
   const metricWithYAxis = isMultiChartsActive
@@ -198,6 +202,7 @@ export const generateMetricsMarkup = (
       key,
       node: El,
       label,
+      shortLabel,
       orientation = 'left',
       dataKey = key,
       hideYAxis,
@@ -234,11 +239,14 @@ export const generateMetricsMarkup = (
         key={`line-${dataKey}`}
         type='linear'
         yAxisId={currentYAxisId}
-        name={label}
+        name={(useShortName && shortLabel) || label}
         strokeWidth={1.5}
         ref={ref[key]}
         dataKey={dataKey}
         dot={false}
+        activeDot={
+          activeLineDataKey === dataKey ? <ActiveLine /> : showActiveDot
+        }
         isAnimationActive={false}
         connectNulls
         formatter={formatter}

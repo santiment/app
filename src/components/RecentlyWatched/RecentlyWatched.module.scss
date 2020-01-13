@@ -32,7 +32,7 @@
 
 .ticker {
   text-transform: uppercase;
-  color: var(--waterloo);
+  color: var(--casper);
 }
 
 .item {
@@ -42,12 +42,16 @@
   border: 1px solid var(--porcelain);
   display: flex;
   justify-content: space-between;
-  color: var(--mirage);
+  color: var(--rhino);
   cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: all ease-in-out 0.1s;
 
-  &:hover .name {
+  &:hover {
     @include responsive('laptop', 'tablet', 'desktop') {
-      color: var(--jungle-green);
+      box-shadow: 0 14px 20px rgba(24, 27, 43, 0.06);
+      transform: translateY(-4px);
     }
   }
 }

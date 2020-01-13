@@ -1,0 +1,10 @@
+@import '~@santiment-network/ui/mixins';
+
+.tooltip {
+  max-width: calc(50vw - 16px);
+}
+
+.rightAlign {
+  width: calc(50vw - 16px);
+  transform: translateX(100%);
+}

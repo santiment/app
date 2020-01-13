@@ -1,7 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
 .wrapper {
-  padding: 12px;
+  padding: 20px 10px 12px;
 }
 
 .tabs {
@@ -36,11 +36,30 @@
 }
 
 .name {
-  margin-left: 8px;
+  margin-left: 6px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 20px;
+  color: var(--rhino);
+
+  @include text('body-2');
+}
+
+.ticker {
+  color: var(--casper);
+  margin-left: 4px;
+  max-width: 50px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+  @include text('body-2');
+}
+
+.tickerWithMargin {
+  margin-left: 10px;
+  max-width: 100%;
+  color: var(--rhino);
 }
 
 .changes {

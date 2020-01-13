@@ -7,7 +7,7 @@ import { capitalizeStr } from './../../utils/utils'
 import { formatNumber, millify } from '../../utils/formatting'
 import styles from './AssetCard.module.scss'
 
-const AssetsCard = ({
+const AssetCard = ({
   slug,
   name,
   ticker,
@@ -26,10 +26,10 @@ const AssetsCard = ({
       <div className={styles.icon}>
         <ProjectIcon size={20} slug={slug} />
       </div>
-      <div className={styles.name}>
-        <div>
+      <div className={styles.row}>
+        <div className={styles.name}>
           {capitalizeStr(slug)}{' '}
-          <span className={styles.ticker}>({ticker.toUpperCase()})</span>
+          <span className={styles.ticker}>{ticker.toUpperCase()}</span>
         </div>
         <div>$ {millify(marketcapUsd, 2)}</div>
       </div>
@@ -44,4 +44,4 @@ const AssetsCard = ({
   </Link>
 )
 
-export default AssetsCard
+export default AssetCard
