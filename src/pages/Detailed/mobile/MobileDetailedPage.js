@@ -4,7 +4,6 @@ import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import Label from '@santiment-network/ui/Label'
 import Selector from '@santiment-network/ui/Selector/Selector'
-import Icon from '@santiment-network/ui/Icon'
 import { DailyActiveAddressesGQL } from '../gqlWrappers/DetailedGQL'
 import { SOCIAL_VOLUME_QUERY } from '../../../ducks/GetTimeSeries/queries/social_volume_query'
 import { NEWS_QUERY } from '../../../components/News/NewsGQL'
@@ -24,6 +23,7 @@ import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricC
 import GetAsset from '../gqlWrappers/GetAsset'
 import GetTimeSeries from '../../../ducks/GetTimeSeries/GetTimeSeries'
 import MobileAssetChart from './MobileAssetChart'
+import MobileFullscreenChart from './MobileFullscreenChart'
 import ShowIf from '../../../components/ShowIf'
 import GetWatchlists from '../../../ducks/Watchlists/GetWatchlists'
 import WatchlistsPopup from '../../../components/WatchlistPopup/WatchlistsPopup'
@@ -35,6 +35,7 @@ const MobileDetailedPage = props => {
   const [timeRange, setTimeRange] = useState('6m')
   const [icoPricePos, setIcoPricePos] = useState(null)
   const [extraMetric, setExtraMetric] = useState()
+  const [fullscreen, toggleFullscreen] = useState(false)
 
   addRecentAssets(slug)
 
@@ -195,19 +196,23 @@ const MobileDetailedPage = props => {
 
                     return (
                       <>
-                        <MobileAssetChart
-                          data={timeseries}
-                          slug={slug}
-                          icoPrice={icoPrice}
-                          icoPricePos={icoPricePos}
-                          setIcoPricePos={setIcoPricePos}
-                          extraMetric={extraMetric}
-                        />
+                        {!fullscreen && (
+                          <MobileAssetChart
+                            data={timeseries}
+                            slug={slug}
+                            icoPrice={icoPrice}
+                            icoPricePos={icoPricePos}
+                            setIcoPricePos={setIcoPricePos}
+                            extraMetric={extraMetric}
+                          />
+                        )}
                         <div className={styles.bottom}>
                           {timeRangeBlock}
-                          <Icon
-                            type='fullscreen-arrows'
-                            className={styles.fullscreen}
+                          <MobileFullscreenChart
+                            isOpen={fullscreen}
+                            onToggleFullscreen={state =>
+                              toggleFullscreen(state)
+                            }
                           />
                         </div>
                       </>
