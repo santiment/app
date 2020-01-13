@@ -50,8 +50,8 @@ const MobileAssetChart = ({
   const hideTooltipItem = key => key === 'priceUsd'
 
   const setCurrentIndex = throttle(
-    evt => setActiveIndex(evt.activeTooltipIndex),
-    1000
+    evt => setActiveIndex(evt ? evt.activeTooltipIndex : null),
+    500
   )
 
   let anomalyDataKey, anomalies
@@ -77,18 +77,31 @@ const MobileAssetChart = ({
       onTouchEnd={() => setIsTouch(false)}
       onTouchCancel={() => setIsTouch(false)}
     >
-      {icoPricePos && !isTouch && (
+      {icoPricePos !== null && !isTouch && (
         <IcoPriceTooltip y={icoPricePos} value={icoPrice} />
       )}
       <ResponsiveContainer width='100%' aspect={1.5 / 1.0}>
-        <ComposedChart data={data} onMouseMove={setCurrentIndex}>
+        <ComposedChart
+          data={data}
+          onMouseMove={setCurrentIndex}
+          margin={{ left: 0, right: 0 }}
+        >
           <defs>
             <Gradients />
           </defs>
           <XAxis dataKey='datetime' hide />
           <YAxis
             hide
-            domain={['auto', 'dataMax']}
+            domain={[
+              'auto',
+              dataMax => {
+                if (isFinite(dataMax) && icoPrice - dataMax > 0) {
+                  setIcoPricePos(0)
+                }
+
+                return dataMax
+              }
+            ]}
             dataKey={extraMetric ? anomalyDataKey : 'priceUsd'}
           />
           {isTouch && (
@@ -130,10 +143,10 @@ const MobileAssetChart = ({
                 fill='var(--persimmon)'
               />
             ))}
-          {icoPrice && !isTouch && (
+          {icoPrice && (
             <ReferenceLine
               strokeDasharray='5 5'
-              stroke='var(--waterloo)'
+              stroke={isTouch ? 'transparent' : 'var(--waterloo)'}
               yAxisId='axis-priceUsd'
               y={icoPrice}
               label={({ viewBox: { y } }) => setIcoPricePos(y)}

@@ -564,10 +564,14 @@ export const getTrendingWordsTriggerOperation = ({ type: { value }, type }) => {
 }
 
 export const mapTrendingWordsTargets = items => {
-  if (items.length === 1) {
-    return targetMapper(items[0])
+  if (Array.isArray(items)) {
+    if (items.length === 1) {
+      return targetMapper(items[0])
+    } else {
+      return items.map(targetMapper)
+    }
   } else {
-    return items.map(targetMapper)
+    return targetMapper(items)
   }
 }
 
@@ -1065,7 +1069,8 @@ export const descriptionBlockErrors = values => {
 const POSSIBLE_METRICS_FOR_CHART = [
   PRICE_METRIC.value,
   DAILY_ACTIVE_ADDRESSES_METRIC.value,
-  PRICE_VOLUME_DIFFERENCE_METRIC.value
+  PRICE_VOLUME_DIFFERENCE_METRIC.value,
+  ETH_WALLET_METRIC.value
 ]
 
 export const couldShowChart = ({ signalType, metric, target }) => {

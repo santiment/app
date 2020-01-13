@@ -90,11 +90,9 @@ const SantimentProductsTooltip = ({
       onOpen={() => setOpened()}
       onClose={() => setClosed()}
       ddParams={{
-        ddStyles: {
-          position,
-          offsetX: offsetX,
-          offsetY: offsetY
-        }
+        position,
+        offsetX,
+        offsetY
       }}
     >
       <div

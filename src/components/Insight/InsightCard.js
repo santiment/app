@@ -1,8 +1,8 @@
 import React from 'react'
 import { Panel } from '@santiment-network/ui'
 import cx from 'classnames'
-import styles from './InsightCard.module.scss'
 import InsightCardInternals from './InsightCardInternals'
+import styles from './InsightCard.module.scss'
 
 const InsightCard = ({ className, ...insight }) => {
   return (

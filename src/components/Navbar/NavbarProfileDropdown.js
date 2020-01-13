@@ -72,7 +72,7 @@ const getTrialText = subscription => {
   return { plan, trial }
 }
 
-const PRO = 'PRO'
+export const PRO = 'PRO'
 
 const getSubscriptionText = (subscription, productName) => {
   let { plan, trial } = getTrialText(subscription)

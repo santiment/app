@@ -18,7 +18,7 @@ const isTrendingWordsSignal = trigger => {
 }
 
 const FeedItemRenderer = ({ item, index }) => {
-  const { __typename } = item
+  const { __typename, user: { id } = {} } = item
 
   if (__typename === 'SignalHistoricalActivity') {
     let isTrendingWords = isTrendingWordsSignal(item.trigger)
@@ -34,12 +34,13 @@ const FeedItemRenderer = ({ item, index }) => {
             date={item.triggeredAt}
             className={styles.card}
             activityPayload={item.payload.default}
+            creatorId={id}
           />
         )}
       </>
     )
   } else if (__typename === 'TimelineEvent') {
-    const { post, trigger, insertedAt } = item
+    const { post } = item
 
     if (post) {
       const { id, ...rest } = post
@@ -55,17 +56,6 @@ const FeedItemRenderer = ({ item, index }) => {
           )}
         </WithLikesMutation>
       )
-    }
-    if (trigger) {
-      if (isTrendingWordsSignal(trigger)) {
-        return (
-          <TrendingWordsSignalCard
-            signal={item.trigger}
-            className={styles.card}
-            date={insertedAt}
-          />
-        )
-      }
     }
   }
 
