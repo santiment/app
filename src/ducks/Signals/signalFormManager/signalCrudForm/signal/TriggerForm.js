@@ -74,15 +74,14 @@ export const TriggerForm = ({
   isShared,
   setTitle
 }) => {
+  const isNew = !id
   const [initialValues, setInitialValues] = useState(settings)
   const [canCallFormChangCallback, setCanCallFormChanged] = useState(false)
-  const [step, setStep] = useState(
-    id ? TRIGGER_FORM_STEPS.DESCRIPTION : TRIGGER_FORM_STEPS.DESCRIPTION
-  )
+  const [step, setStep] = useState(TRIGGER_FORM_STEPS.DESCRIPTION)
 
   useEffect(
     () => {
-      if (id && !isEqual(settings, initialValues)) {
+      if (!isNew && !isEqual(settings, initialValues)) {
         setInitialValues(settings)
       }
     },
@@ -114,7 +113,7 @@ export const TriggerForm = ({
   }
 
   const validateAndSetStep = newStep => {
-    if (!id) {
+    if (isNew) {
       newStep > step && setStep(newStep)
     }
   }
@@ -122,7 +121,7 @@ export const TriggerForm = ({
   return (
     <Formik
       initialValues={initialValues}
-      isInitialValid={!!id}
+      isInitialValid={!isNew}
       enableReinitialize
       validate={validateTriggerForm}
       onSubmit={values => {
@@ -191,7 +190,7 @@ export const TriggerForm = ({
 
                   validateForm()
 
-                  if (!id && !isShared) {
+                  if (isNew && !isShared) {
                     !newValues.titleChangedByUser &&
                       setFieldValue('title', getNewTitle(newValues))
                     !newValues.descriptionChangedByUser &&
@@ -266,6 +265,7 @@ export const TriggerForm = ({
                     className={styles.chainBlock}
                   >
                     <TriggerFormChannels
+                      isNew={isNew}
                       channels={channels}
                       errors={errors}
                       isTelegramConnected={isTelegramConnected}
