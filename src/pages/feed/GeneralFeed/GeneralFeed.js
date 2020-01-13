@@ -48,14 +48,14 @@ const Anon = () => (
 )
 
 const GeneralFeed = ({ isLoggedIn, isUserLoading, fetchSignals }) => {
-  if (isUserLoading) {
+  if (isUserLoading || true) {
     return (
-      <>
+      <div>
         <Header />
         <div className={styles.scrollable}>
           <PageLoader />
         </div>
-      </>
+      </div>
     )
   }
 
