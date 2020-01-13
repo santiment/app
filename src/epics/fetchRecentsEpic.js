@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs'
-import { projectBySlugGQL } from '../pages/Projects/allProjectsGQL'
+import { RECENT_ASSET_QUERY } from '../pages/Projects/allProjectsGQL'
 import { WATCHLIST_QUERY } from '../queries/WatchlistGQL'
 import { getRecentAssets, getRecentWatchlists } from '../utils/recent'
 import { handleErrorAndTriggerAction } from './utils'
@@ -14,10 +14,8 @@ export const fetchRecentAssets = (action$, store, { client }) =>
         .map(slug =>
           Observable.from(
             client.query({
-              query: projectBySlugGQL,
-              variables: {
-                slug
-              }
+              query: RECENT_ASSET_QUERY,
+              variables: { slug }
             })
           )
         )

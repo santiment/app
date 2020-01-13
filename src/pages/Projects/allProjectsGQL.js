@@ -68,6 +68,17 @@ export const projectBySlugGQL = gql`
   ${project}
 `
 
+export const RECENT_ASSET_QUERY = gql`
+  query projectBySlugGQL($slug: String!) {
+    projectBySlug(slug: $slug) {
+      ...generalData
+      percentChange7d
+      priceUsd
+    }
+  }
+  ${generalData}
+`
+
 export const allProjectsForSearchGQL = gql`
   query allProjects($minVolume: Int!) {
     allProjects(minVolume: $minVolume) {
