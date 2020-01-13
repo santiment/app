@@ -22,6 +22,7 @@ import { millify } from '../../utils/formatting'
 import styles from './WatchlistCard.module.scss'
 
 const INTERVAL = '6h'
+const RANGE = 7
 
 const WatchlistCard = ({
   name,
@@ -140,7 +141,7 @@ const enhance = compose(
     options: ({ slugs = [] }) => ({
       variables: {
         slugs,
-        ...getTimeIntervalFromToday(-6, DAY),
+        ...getTimeIntervalFromToday(-RANGE, DAY),
         interval: INTERVAL
       }
     }),
@@ -155,7 +156,7 @@ const enhance = compose(
     options: ({ slug }) => ({
       variables: {
         slug,
-        ...getTimeIntervalFromToday(-6, DAY),
+        ...getTimeIntervalFromToday(-RANGE, DAY),
         interval: INTERVAL
       }
     }),
@@ -170,7 +171,7 @@ const enhance = compose(
     options: ({ bySlug }) => ({
       variables: {
         slug: bySlug,
-        ...getTimeIntervalFromToday(-6, DAY),
+        ...getTimeIntervalFromToday(-RANGE, DAY),
         interval: INTERVAL
       }
     }),
@@ -185,7 +186,7 @@ const enhance = compose(
     options: ({ id }) => ({
       variables: {
         id,
-        ...getTimeIntervalFromToday(-6, DAY),
+        ...getTimeIntervalFromToday(-RANGE, DAY),
         interval: INTERVAL
       }
     }),
