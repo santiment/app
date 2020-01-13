@@ -149,8 +149,6 @@ const SignalPreview = ({
 }) => {
   const { settings: { target } = {} } = trigger
 
-  console.log(trigger)
-
   if (!target) {
     return null
   }
