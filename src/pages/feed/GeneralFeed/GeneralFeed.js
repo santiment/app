@@ -48,7 +48,7 @@ const Anon = () => (
 )
 
 const GeneralFeed = ({ isLoggedIn, isUserLoading, fetchSignals }) => {
-  if (isUserLoading || true) {
+  if (isUserLoading) {
     return (
       <div>
         <Header />
