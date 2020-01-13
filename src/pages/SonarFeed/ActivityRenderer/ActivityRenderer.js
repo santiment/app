@@ -23,7 +23,7 @@ const ActivityRenderer = ({
       className={cx(
         styles.activityItem,
         classes.activityItem,
-        index === 0 && classes.firstActivity
+        index === 0 ? classes.firstActivity : ''
       )}
     >
       <div className={showChart && styles.activityItemBacktest}>
