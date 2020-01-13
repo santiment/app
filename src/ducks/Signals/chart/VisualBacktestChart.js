@@ -39,7 +39,8 @@ const VisualBacktestChart = ({
   data,
   dataKeys,
   referenceDots,
-  syncedColors
+  syncedColors,
+  showTitle
 }) => {
   const markup = generateMetricsMarkup(metrics, { syncedColors })
 
@@ -79,12 +80,14 @@ const VisualBacktestChart = ({
 
   return (
     <div className={styles.preview}>
-      <div className={styles.description}>
-        <span className={styles.fired}>Signal was fired:</span>
-        <span className={styles.times}>
-          {triggeredSignals.length} times in {label}
-        </span>
-      </div>
+      {showTitle && (
+        <div className={styles.description}>
+          <span className={styles.fired}>Signal was fired:</span>
+          <span className={styles.times}>
+            {triggeredSignals.length} times in {label}
+          </span>
+        </div>
+      )}
       <div className={styles.chartBlock}>
         <div className={styles.chart}>
           <div
