@@ -15,19 +15,33 @@
 .row {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   &_top {
-    margin: 0 0 2px;
+    margin-bottom: 4px;
+  }
+
+  &_bottom {
+    justify-content: flex-start;
   }
 }
 
 .metric,
 .value,
+.period,
 .anomalies {
-  color: var(--mirage);
+  color: var(--rhino);
   margin: 0;
 
-  @include text("body-3");
+  @include text('body-2');
+}
+
+.value {
+  margin-right: 9px;
+}
+
+.period {
+  color: var(--casper);
 }
 
 .anomalies {

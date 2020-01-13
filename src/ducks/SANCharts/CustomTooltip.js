@@ -6,12 +6,12 @@ import styles from './CustomTooltip.module.scss'
 
 const LARGE_NUMBER_STEP = 1000
 
-const getTooltipDate = time => {
+export const tooltipLabelFormatter = time => {
   const date = new Date(time)
-  const { MMMM, DD } = getDateFormats(date)
+  const { YYYY, MMM, DD } = getDateFormats(date)
   const { HH, mm } = getTimeFormats(date)
 
-  return `${HH}:${mm}, ${MMMM} ${DD}.`
+  return `${HH}:${mm}, ${MMM} ${DD}, ${YYYY}`
 }
 
 const getShortMetricName = name => {
@@ -28,13 +28,13 @@ export const formatTooltipValue = (isPrice, value) =>
       ? millify(value)
       : formatNumber(value)
 
-const CustomTooltip = ({ active, payload }) => {
+const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload) {
     return (
       <div className={cx('custom-tooltip', styles.tooltip)}>
         {payload[0] && (
           <span className={styles.tooltipLabel}>
-            {getTooltipDate(payload[0].payload.datetime)}
+            {tooltipLabelFormatter(label)}
           </span>
         )}
         {payload.map(({ name, value, stroke, fill }) => {

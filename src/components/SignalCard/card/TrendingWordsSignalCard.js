@@ -1,10 +1,14 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
+import isEqual from 'lodash.isequal'
 import { DesktopOnly } from '../../Responsive'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import SignalCardHeader from './SignalCardHeader'
 import { dateDifferenceInWordsString } from '../../../utils/dates'
+import { checkIsLoggedIn } from '../../../pages/UserSelectors'
+import CopySignal from '../controls/CopySignal'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
@@ -35,7 +39,7 @@ const getWords = (triggerWords, activityPayload) => {
     try {
       const spliced = activityPayload.split('\n').splice(5, 10)
 
-      const result = spliced.reduce((acc, item) => {
+      return spliced.reduce((acc, item) => {
         const firstWord = item.split('|')[0]
 
         if (item) {
@@ -44,8 +48,6 @@ const getWords = (triggerWords, activityPayload) => {
 
         return acc
       }, [])
-
-      return result
     } catch (e) {
       console.error(e)
       return PRESAVED_WORDS
@@ -58,26 +60,31 @@ const getWords = (triggerWords, activityPayload) => {
 const TrendingWordsSignalCard = ({
   signal,
   className,
-  isUserTheAuthor,
   date,
-  activityPayload
+  activityPayload,
+  isLoggedIn,
+  isAuthor,
+  isCreated
 }) => {
   const {
     title,
     settings,
-    settings: { target },
+    settings: { target = {} },
     isPublic
   } = signal
+
   const words = getWords(target.word, activityPayload)
   const showingWords = words.slice(0, 6)
 
   const moreCount = getExpectedCount(settings) - showingWords.length
 
+  const showCopyBtn = isLoggedIn && !isAuthor && !isCreated
+
   return (
     <Panel padding className={cx(externalStyles.wrapper, className)}>
       <DesktopOnly>
         <SignalCardHeader
-          isUserTheAuthor={isUserTheAuthor}
+          isUserTheAuthor={false}
           isPublic={isPublic}
           signal={signal}
         />
@@ -109,9 +116,33 @@ const TrendingWordsSignalCard = ({
             {dateDifferenceInWordsString(date)}
           </div>
         )}
+
+        {showCopyBtn && <CopySignal signal={signal} />}
       </div>
     </Panel>
   )
 }
 
-export default TrendingWordsSignalCard
+const mapStateToProps = (state, { creatorId, signal }) => {
+  const isLoggedIn = checkIsLoggedIn(state)
+
+  return {
+    isAuthor:
+      state &&
+      state.user &&
+      state.user.data &&
+      +state.user.data.id === +creatorId,
+    isLoggedIn: isLoggedIn,
+    isCreated:
+      !isLoggedIn ||
+      (state &&
+        state.signals.all &&
+        state.signals.all.some(
+          item =>
+            item.title === signal.title &&
+            isEqual(signal.settings.operation, item.settings.operation)
+        ))
+  }
+}
+
+export default connect(mapStateToProps)(TrendingWordsSignalCard)

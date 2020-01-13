@@ -1,41 +1,21 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   overflow: visible;
 }
 
 .main {
   padding: 0 16px;
+  margin-bottom: 20px;
 }
 
 .ticker {
-  color: var(--waterloo);
+  color: var(--casper);
 }
 
 .timeRangeBlock {
   margin-bottom: 1rem;
   margin-top: 1rem;
-}
-
-.priceBlock {
-  margin-bottom: 30px;
-}
-
-.priceUsd {
-  font-size: 22px;
-  line-height: 30px;
-  margin-bottom: 6px;
-  color: var(--mirage);
-}
-
-.changes {
-  margin-left: 12px;
-
-  &:first-of-type {
-    margin-left: 0;
-  }
-}
-
-.label {
-  margin-left: 5px;
 }
 
 .news__heading {

@@ -1,17 +1,10 @@
-.icoPrice {
-  display: flex;
-  color: var(--mirage);
+@import '~@santiment-network/ui/mixins';
+
+.tooltip {
+  max-width: calc(50vw - 16px);
 }
 
-.icoPriceLegend {
-  width: 20px;
-  height: 1px;
-  margin-top: 10px;
-  margin-left: 10px;
-  border: 1px dashed black;
-}
-
-//Hide first YAxis tick on MobileAssetChart :with-love:
-:global(.recharts-cartesian-axis-tick:first-child) {
-  display: none;
+.rightAlign {
+  width: calc(50vw - 16px);
+  transform: translateX(100%);
 }

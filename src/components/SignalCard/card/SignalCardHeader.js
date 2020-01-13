@@ -9,7 +9,6 @@ const SignalCardHeader = ({
   deleteEnabled,
   isUserTheAuthor,
   isPublic,
-  removeSignal,
   signal
 }) => {
   const { id, title, settings: { type } = {} } = signal
@@ -25,7 +24,6 @@ const SignalCardHeader = ({
           deleteEnabled={deleteEnabled}
           isUserTheAuthor={isUserTheAuthor}
           isPublic={isPublic}
-          removeSignal={removeSignal}
           signalTitle={title}
           signalId={id}
         />

@@ -2,8 +2,9 @@
 
 @mixin icon($color, $bg) {
   display: inline-flex;
-  height: 32px;
-  width: 32px;
+  height: 24px;
+  width: 24px;
+  min-width: 24px;
   border-radius: 50%;
   justify-content: center;
   align-items: center;
@@ -36,5 +37,13 @@
 
   @include responsive('phone', 'phone-xs') {
     margin-bottom: 0;
+  }
+}
+
+.btn {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green-hover);
   }
 }

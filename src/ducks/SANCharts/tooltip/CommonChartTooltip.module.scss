@@ -1,5 +1,5 @@
-@import '../../../../node_modules/@santiment-network/ui/mixins';
-@import '../../../../node_modules/@santiment-network/ui/variables';
+@import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
 
 .details {
   @include text('caption');
@@ -9,24 +9,28 @@
   background: rgba($white, 0.85);
   border-radius: 4px;
   z-index: 3;
-  color: var(--mirage);
+  color: var(--rhino);
 
   :global(.night-mode) & {
     background: rgba($mirage, 0.85);
   }
 }
 
-.detailsTitle {
+.title {
   color: var(--waterloo);
   background: var(--athens);
   padding: 6px 11px;
 }
 
-.detailsContent {
+.content {
   padding: 10px 12px;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    padding: 8px 12px;
+  }
 }
 
-.detailsMetric {
+.metric {
   display: flex;
   align-items: center;
 
@@ -38,12 +42,29 @@
     background: var(--color);
     margin-right: 8px;
     border-radius: 1px;
+
+    @include responsive('phone-xs', 'phone', 'tablet') {
+      width: 6px;
+      min-width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-right: 4px;
+      border: 1px solid var(--white);
+    }
   }
 }
 
-.detailsName {
+.name {
   color: var(--casper);
   margin-left: 4px;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @include text('caption');
+  }
 }
 
 .legend {
@@ -51,7 +72,7 @@
   margin: 10px 20px;
 }
 
-.legendLabel {
+.label {
   display: flex;
   margin-right: 22px;
   color: var(--mirage);

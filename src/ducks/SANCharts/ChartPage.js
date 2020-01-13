@@ -15,7 +15,8 @@ import {
   Events,
   compatabilityMap,
   SOCIAL_SIDEBAR,
-  ASSETS_SIDEBAR
+  ASSETS_SIDEBAR,
+  HISTOGRAM_SIDEBAR
 } from './data'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
@@ -47,6 +48,11 @@ const DEFAULT_STATE = {
   marketSegments: [],
   isMultiChartsActive: false
 }
+
+const LoadableHistogramSidebar = Loadable({
+  loader: () => import('./Histogram'),
+  loading: () => <div />
+})
 
 const LoadableSocialContextSidebar = Loadable({
   loader: () => import('./SocialContext'),
@@ -655,6 +661,18 @@ class ChartPage extends Component {
                     isAdvancedView={isAdvancedView === SOCIAL_SIDEBAR}
                     classes={classes}
                     projectName={slug}
+                    interval={interval}
+                    date={this.state.socialContextDate}
+                    isWideChart={isWideChart}
+                  />
+                )}
+
+                {!viewOnly && !hideSettings.sidecar && (
+                  <LoadableHistogramSidebar
+                    onSidebarToggleClick={this.onSidebarToggleClick}
+                    isAdvancedView={isAdvancedView === HISTOGRAM_SIDEBAR}
+                    classes={classes}
+                    slug={slug}
                     interval={interval}
                     date={this.state.socialContextDate}
                     isWideChart={isWideChart}

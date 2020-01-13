@@ -1,0 +1,72 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  height: 100%;
+  width: 100%;
+  overflow-y: hidden;
+  padding: 20px 15px;
+}
+
+.load {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 7px;
+}
+
+.content {
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 15px;
+}
+
+.chart {
+  border-left: 1px solid #f3f5f9;
+
+  :global {
+    .recharts-surface {
+      overflow: visible;
+    }
+
+    .recharts-label-list .recharts-label {
+      font-size: 12px;
+      fill: var(--mirage);
+    }
+  }
+}
+
+.toggle__icons {
+  padding: 5px 11px;
+  width: 17px;
+  justify-content: space-between;
+  box-sizing: content-box;
+}
+
+.title {
+  @include text('body-3');
+
+  color: var(--mirage);
+  margin: 0 0 24px;
+}
+
+.label {
+  font-size: 10px;
+  fill: var(--waterloo);
+}
+
+.date {
+  fill: var(--mirage);
+}
+
+.action {
+  font-size: 22px;
+  color: var(--waterloo);
+  text-align: center;
+}

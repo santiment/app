@@ -18,6 +18,10 @@
   @include responsive('laptop', 'desktop', 'tablet') {
     min-width: 320px;
   }
+
+  @include responsive('phone-xs') {
+    overflow-y: hidden;
+  }
 }
 
 .actions {

@@ -1,0 +1,22 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  background: var(--white);
+  width: calc(50vw - 16px);
+}
+
+.price {
+  display: block;
+  color: var(--rhino);
+  margin-bottom: 2px;
+
+  @include text('h3');
+}
+
+.title {
+  display: block;
+  color: var(--rhino);
+  margin-bottom: 6px;
+
+  @include text('caption');
+}

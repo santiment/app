@@ -6,7 +6,7 @@ import PageLoader from '../../components/Loader/PageLoader'
 import SonarFeedRecommendations from './SonarFeedRecommendations'
 import { getSanSonarSW } from '../Account/SettingsSonarWebPushNotifications'
 import { makeVariables } from '../feed/GeneralFeed/utils'
-import ActivityRenderer from './ActivityRenderer'
+import ActivityRenderer from './ActivityRenderer/ActivityRenderer'
 import { TRIGGERS_COMMON_FRAGMENT } from '../../ducks/Signals/common/queries'
 import styles from './SonarFeedActivityPage.module.scss'
 
@@ -71,7 +71,12 @@ const SonarFeedActivityPage = ({ activities, loading, classes = {} }) => {
   return activities && activities.length ? (
     <div className={cx(styles.wrapper, classes.activitiesWrapper)}>
       {activities.map((item, index) => (
-        <ActivityRenderer activity={item} index={index} classes={classes} />
+        <ActivityRenderer
+          activity={item}
+          index={index}
+          classes={classes}
+          key={index}
+        />
       ))}
     </div>
   ) : (

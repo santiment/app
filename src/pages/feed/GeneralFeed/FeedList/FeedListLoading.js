@@ -19,6 +19,8 @@ class FeedListLoading extends React.Component {
     isEndCommon: false
   }
 
+  unmounted = false
+
   eventsUpdater = (prev, next) => {
     const { fetchMoreResult } = next
     if (!fetchMoreResult) return prev
@@ -74,7 +76,7 @@ class FeedListLoading extends React.Component {
   handleScroll = debounce(event => {
     const wrappedElement = document.getElementById('root')
     const { isLoading } = this.props
-    if (!isLoading && isBottom(wrappedElement)) {
+    if (!isLoading && isBottom(wrappedElement) && !this.unmounted) {
       const { fetchMoreCommon, fetchMoreActivities } = this.props
       const {
         isEndCommon,
@@ -128,6 +130,7 @@ class FeedListLoading extends React.Component {
   }
 
   componentWillUnmount () {
+    this.unmounted = true
     window.removeEventListener('scroll', this.handleScroll)
   }
 

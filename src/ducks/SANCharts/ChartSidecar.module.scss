@@ -49,6 +49,7 @@
 
   &:hover {
     fill: var(--jungle-green);
+    color: var(--jungle-green);
   }
 }
 
@@ -57,6 +58,7 @@
   transform: translateX(0);
   border: 1px solid var(--porcelain);
   margin-left: 40px;
+  max-height: 645px;
 
   .toggle__icons {
     flex-flow: row-reverse;
@@ -75,6 +77,10 @@
 .section {
   width: 100%;
   padding: 0;
+}
+
+.sectionOffset {
+  margin-bottom: 26px !important;
 }
 
 .back {
@@ -126,7 +132,7 @@
 .subtitle {
   @include text('body-1', 'm');
 
-  margin-top: 26px !important;
+  margin-top: 0;
 }
 
 .tabs {

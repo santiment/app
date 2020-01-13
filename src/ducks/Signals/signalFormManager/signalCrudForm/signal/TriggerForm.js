@@ -9,10 +9,6 @@ import {
   isTelegramConnectedAndEnabled,
   selectIsEmailConnected
 } from '../../../../../pages/UserSelectors'
-import {
-  fetchHistorySignalPoints,
-  removeTrigger
-} from '../../../common/actions'
 import FormikEffect from '../../../../../components/formik-santiment-ui/FormikEffect'
 import FormikLabel from '../../../../../components/formik-santiment-ui/FormikLabel'
 import Button from '@santiment-network/ui/Button'
@@ -27,7 +23,6 @@ import {
 import {
   couldShowChart,
   mapFormPropsToTrigger,
-  mapTargetObject,
   validateTriggerForm,
   getDefaultFormValues,
   titleMetricValuesHeader,
@@ -45,8 +40,8 @@ import TriggerFormBlock, {
 import FormikInput from '../../../../../components/formik-santiment-ui/FormikInput'
 import FormikTextarea from '../../../../../components/formik-santiment-ui/FormikTextarea'
 import TriggerFormChannels from '../formParts/channels/TriggerFormChannels'
-import styles from './TriggerForm.module.scss'
 import FormikCheckbox from '../../../../../components/formik-santiment-ui/FormikCheckbox'
+import styles from './TriggerForm.module.scss'
 
 const getTitle = (formData, id, isShared) => {
   const isUpdate = id > 0 && !isShared
@@ -70,7 +65,6 @@ const propTypes = {
 export const TriggerForm = ({
   id,
   onSettingsChange,
-  getSignalBacktestingPoints,
   isTelegramConnected = false,
   isEmailConnected = false,
   lastPriceItem,
@@ -93,13 +87,6 @@ export const TriggerForm = ({
       }
     },
     [settings]
-  )
-
-  useEffect(
-    () => {
-      couldShowChart(initialValues) && getSignalBacktestingPoints(initialValues)
-    },
-    [initialValues]
   )
 
   useEffect(() => {
@@ -167,7 +154,6 @@ export const TriggerForm = ({
 
         const { price } = lastPriceItem || {}
 
-        const chartTarget = mapTargetObject(target)
         const showChart = target && couldShowChart(values)
 
         const typeSelectors = METRIC_TO_TYPES[(metric || {}).value]
@@ -204,17 +190,6 @@ export const TriggerForm = ({
                   }
 
                   validateForm()
-
-                  const lastErrors = validateTriggerForm(newValues)
-                  const isError = Object.keys(newValues).some(
-                    key => lastErrors[key]
-                  )
-
-                  const canLoadChart = newValues && couldShowChart(newValues)
-
-                  !isError &&
-                    canLoadChart &&
-                    getSignalBacktestingPoints(newValues)
 
                   if (!id && !isShared) {
                     !newValues.titleChangedByUser &&
@@ -272,7 +247,7 @@ export const TriggerForm = ({
                       )}
                       <div className={styles.preview}>
                         <SignalPreview
-                          target={chartTarget}
+                          trigger={mapFormPropsToTrigger(values)}
                           type={metric.value}
                         />
                       </div>
@@ -415,20 +390,6 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  getSignalBacktestingPoints: payload => {
-    dispatch(fetchHistorySignalPoints(mapFormPropsToTrigger(payload)))
-  },
-  removeSignal: id => {
-    dispatch(removeTrigger(id))
-  }
-})
-
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)
+const enhance = compose(connect(mapStateToProps))
 
 export default enhance(TriggerForm)

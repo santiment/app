@@ -1,7 +1,7 @@
 import React from 'react'
 import InsightCard from '../../../../components/Insight/InsightCardWithMarketcap'
 import WithLikesMutation from '../../../../components/Like/WithLikesMutation'
-import ActivityRenderer from '../../../SonarFeed/ActivityRenderer'
+import ActivityRenderer from '../../../SonarFeed/ActivityRenderer/ActivityRenderer'
 import TrendingWordsSignalCard from '../../../../components/SignalCard/card/TrendingWordsSignalCard'
 import styles from './FeedItemRenderer.module.scss'
 
@@ -18,7 +18,7 @@ const isTrendingWordsSignal = trigger => {
 }
 
 const FeedItemRenderer = ({ item, index }) => {
-  const { __typename } = item
+  const { __typename, user: { id } = {} } = item
 
   if (__typename === 'SignalHistoricalActivity') {
     let isTrendingWords = isTrendingWordsSignal(item.trigger)
@@ -34,12 +34,13 @@ const FeedItemRenderer = ({ item, index }) => {
             date={item.triggeredAt}
             className={styles.card}
             activityPayload={item.payload.default}
+            creatorId={id}
           />
         )}
       </>
     )
   } else if (__typename === 'TimelineEvent') {
-    const { post, trigger, insertedAt } = item
+    const { post } = item
 
     if (post) {
       const { id, ...rest } = post
@@ -50,22 +51,11 @@ const FeedItemRenderer = ({ item, index }) => {
               id={id}
               {...rest}
               className={styles.card}
-              onLike={mutateInsightById}
+              onLike={mutateInsightById(id)}
             />
           )}
         </WithLikesMutation>
       )
-    }
-    if (trigger) {
-      if (isTrendingWordsSignal(trigger)) {
-        return (
-          <TrendingWordsSignalCard
-            signal={item.trigger}
-            className={styles.card}
-            date={insertedAt}
-          />
-        )
-      }
     }
   }
 
