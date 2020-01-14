@@ -17,11 +17,17 @@
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     display: flex;
     max-width: 100%;
+    justify-content: center;
+    align-items: center;
   }
 }
 
 .leftText {
   word-break: break-word;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    margin: 20px 0;
+  }
 }
 
 .right {
@@ -29,12 +35,13 @@
   margin-left: 55px;
   margin-bottom: 40px;
   padding-bottom: 40px;
-  min-width: 560px;
   border-bottom: 1px solid var(--porcelain);
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin: auto;
+    margin: 0;
+    padding: 0;
     min-width: auto;
+    border: none;
   }
 }
 
@@ -45,6 +52,7 @@
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin: 20px 0;
+    flex-direction: column;
   }
 }
 
@@ -85,12 +93,22 @@
   border-left: 1px solid var(--porcelain);
   align-items: center;
   display: flex;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    margin: 8px 0 0;
+    padding: 0;
+    border: none;
+  }
 }
 
 .socialIcon {
-  margin-left: 26px;
+  margin: 26px;
   cursor: not-allowed;
   fill: var(--casper);
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    margin: 0 13px 0 13px;
+  }
 }
 
 .follow {

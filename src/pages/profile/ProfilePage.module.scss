@@ -42,4 +42,9 @@
   margin-bottom: 24px !important;
   width: calc(50% - 14px);
   min-width: 458px;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    min-width: auto;
+    width: 100%;
+  }
 }

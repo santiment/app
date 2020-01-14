@@ -8,7 +8,7 @@ import ProfileInfo from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
 import { PUBLIC_USER_DATA_QUERY } from '../../queries/ProfileGQL'
-import { MobileOnly } from '../../components/Responsive'
+import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
 import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import ProfileActivities from './activities/ProfileActivities'
@@ -92,18 +92,20 @@ const ProfilePage = props => {
   return (
     <>
       <div className={cx('page', styles.page)}>
-        <Breadcrumbs
-          className={styles.breadcrumbs}
-          crumbs={[
-            {
-              label: 'Community',
-              to: '/'
-            },
-            {
-              label: username
-            }
-          ]}
-        />
+        <DesktopOnly>
+          <Breadcrumbs
+            className={styles.breadcrumbs}
+            crumbs={[
+              {
+                label: 'Community',
+                to: '/'
+              },
+              {
+                label: username
+              }
+            ]}
+          />
+        </DesktopOnly>
 
         <MobileOnly>
           <div className={styles.header}>

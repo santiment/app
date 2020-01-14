@@ -11,6 +11,10 @@
   display: flex;
 
   @include text('body-2');
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    justify-content: center;
+  }
 }
 
 .active {
@@ -23,6 +27,12 @@
 
 .container {
   display: flex;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .left {
