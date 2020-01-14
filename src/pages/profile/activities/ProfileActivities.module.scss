@@ -1,0 +1,37 @@
+@import '~@santiment-network/ui/mixins';
+
+.counter {
+  margin-left: 6px;
+}
+
+.link {
+  color: var(--waterloo);
+  cursor: pointer;
+  margin-bottom: 24px;
+  display: flex;
+
+  @include text('body-2');
+}
+
+.active {
+  color: var(--mirage);
+
+  .counter {
+    color: var(--jungle-green);
+  }
+}
+
+.container {
+  display: flex;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  width: 195px;
+}
+
+.right {
+  display: flex;
+  flex: 1;
+}

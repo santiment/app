@@ -1,5 +1,4 @@
 @import '~@santiment-network/ui/mixins';
-@import '~@santiment-network/ui/variables';
 
 .loader {
   height: 200px;
@@ -7,15 +6,6 @@
   align-items: center;
   justify-content: center;
   font-size: 5px;
-}
-
-.title {
-  @include text('h4');
-
-  display: flex;
-  align-items: center;
-  color: var(--mirage);
-  margin-bottom: 24px;
 }
 
 .block {
@@ -34,31 +24,6 @@
 
 .header {
   padding-bottom: 0 !important;
-}
-
-.row {
-  display: flex;
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    flex-direction: column;
-  }
-}
-
-.colWatchlists {
-  margin-left: 30px;
-
-  @include responsive('phone', 'phone-xs') {
-    margin: 0;
-  }
-}
-
-.colInsights {
-  max-width: 750px;
-  width: 100%;
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    max-width: initial;
-  }
 }
 
 .watchlists {
