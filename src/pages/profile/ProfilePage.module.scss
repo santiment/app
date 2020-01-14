@@ -10,6 +10,7 @@
 
 .block {
   margin-bottom: 70px;
+  width: 100%;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin-bottom: 30px;
@@ -28,8 +29,8 @@
 
 .watchlists {
   display: flex !important;
-  flex-direction: column !important;
-  width: 360px;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     width: auto;
@@ -38,5 +39,7 @@
 }
 
 .watchlist {
-  margin-bottom: 24px;
+  margin-bottom: 24px !important;
+  width: calc(50% - 14px);
+  min-width: 458px;
 }
