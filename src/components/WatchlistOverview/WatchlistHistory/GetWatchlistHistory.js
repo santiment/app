@@ -7,7 +7,6 @@ import {
 } from './WatchlistHistoryGQL'
 import { BASIC_CATEGORIES } from '../../../pages/assets/assets-overview-constants'
 import WatchlistHistoryWidget from './WatchlistHistoryWidget'
-import { filterEmptyStats } from './utils'
 
 const getHistoryQuery = ({ projects, interval, method, slug }) => {
   const { from, to } = method
@@ -22,7 +21,7 @@ const getHistoryQuery = ({ projects, interval, method, slug }) => {
       }
     }),
     props: ({ data: { historyPrice = [], loading: isLoading } }) => ({
-      historyPrice: filterEmptyStats(historyPrice),
+      historyPrice,
       isLoading
     })
   })
@@ -41,7 +40,7 @@ const getHistoryQuery = ({ projects, interval, method, slug }) => {
     props: ({
       data: { projectsListHistoryStats = [], loading: isLoading }
     }) => ({
-      historyPrice: filterEmptyStats(projectsListHistoryStats),
+      historyPrice: projectsListHistoryStats,
       isLoading
     })
   })
