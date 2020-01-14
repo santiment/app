@@ -14,24 +14,21 @@ export const MAIN_PRODUCTS = [
     description:
       'Behavior analysis & monitoring platform for 1000+ crypto assets',
     to: 'https://app.santiment.net',
-    showLink: true,
-    linkTitle: 'sanbase'
+    showLink: true
   },
   {
     img: sheetsLogoImg,
-    title: 'Sheets',
+    title: 'Sansheets',
     description: 'Google Spreadsheets plugin for importing Santiment data',
     to: 'https://sheets.santiment.net',
-    showLink: true,
-    linkTitle: 'sheets'
+    showLink: true
   },
   {
     img: neuroLogoImg,
-    title: 'API',
+    title: 'SanAPI',
     description: 'The most comprehensive crypto API on the market',
     to: 'https://neuro.santiment.net',
-    showLink: true,
-    linkTitle: 'API'
+    showLink: true
   }
 ]
 

@@ -6,7 +6,7 @@ import SmoothDropdownItem from '../../SmoothDropdown/SmoothDropdownItem'
 import styles from './SantimentProductsTooltip.module.scss'
 
 const ProductItem = ({
-  product: { to, img, title, linkTitle, description, showLink = true },
+  product: { to, img, title, description, showLink = true },
   className,
   imgClassName
 }) => {
@@ -29,7 +29,7 @@ const ProductItem = ({
               className={cx(styles.wrapper__link)}
               to={to}
               as={'div'}
-              title={'Go to ' + linkTitle}
+              title={'Go to ' + title}
             />
           )}
         </div>
