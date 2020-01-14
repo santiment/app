@@ -164,7 +164,7 @@ export const NavbarProfileDropdown = ({
                               case neuroProductId: {
                                 return getSubscriptionText(
                                   subscription,
-                                  'Neuro'
+                                  'SanAPI'
                                 )
                               }
                               default: {
