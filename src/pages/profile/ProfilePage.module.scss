@@ -1,5 +1,4 @@
 @import '~@santiment-network/ui/mixins';
-@import '~@santiment-network/ui/variables';
 
 .loader {
   height: 200px;
@@ -9,17 +8,9 @@
   font-size: 5px;
 }
 
-.title {
-  @include text('h4');
-
-  display: flex;
-  align-items: center;
-  color: var(--mirage);
-  margin-bottom: 24px;
-}
-
 .block {
   margin-bottom: 70px;
+  width: 100%;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin-bottom: 30px;
@@ -32,61 +23,14 @@
   }
 }
 
-.innerPage {
-  @include responsive('phone', 'phone-xs') {
-    padding: 0 !important;
-  }
-}
-
 .header {
   padding-bottom: 0 !important;
 }
 
-.info {
-  @include border-box();
-
-  background: linear-gradient(180deg, rgba(249, 250, 252, 0) 0%, #f9fafc 100%);
-  border-radius: $border-radius;
-  padding: 24px 24px 46px 24px;
-  display: flex;
-  margin: -32px 0 40px 0;
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin: 0 0 30px 0;
-    flex-direction: column;
-    padding: 0 0 20px 0;
-  }
-}
-
-.row {
-  display: flex;
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    flex-direction: column;
-  }
-}
-
-.colWatchlists {
-  margin-left: 30px;
-
-  @include responsive('phone', 'phone-xs') {
-    margin: 0;
-  }
-}
-
-.colInsights {
-  max-width: 750px;
-  width: 100%;
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    max-width: initial;
-  }
-}
-
 .watchlists {
   display: flex !important;
-  flex-direction: column !important;
-  width: 360px;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     width: auto;
@@ -95,5 +39,12 @@
 }
 
 .watchlist {
-  margin-bottom: 24px;
+  margin-bottom: 24px !important;
+  width: calc(50% - 14px);
+  min-width: 458px;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    min-width: auto;
+    width: 100%;
+  }
 }

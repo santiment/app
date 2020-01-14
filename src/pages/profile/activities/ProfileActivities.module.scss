@@ -1,0 +1,47 @@
+@import '~@santiment-network/ui/mixins';
+
+.counter {
+  margin-left: 6px;
+}
+
+.link {
+  color: var(--waterloo);
+  cursor: pointer;
+  margin-bottom: 24px;
+  display: flex;
+
+  @include text('body-2');
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    justify-content: center;
+  }
+}
+
+.active {
+  color: var(--mirage);
+
+  .counter {
+    color: var(--jungle-green);
+  }
+}
+
+.container {
+  display: flex;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  width: 195px;
+}
+
+.right {
+  display: flex;
+  flex: 1;
+}

@@ -2,8 +2,7 @@
 @import '~@santiment-network/ui/variables';
 
 .breadcrumbs {
-  margin: auto;
-  margin-bottom: 25px;
+  margin: auto auto 25px;
   display: flex;
 
   @include text('body-3');
