@@ -8,8 +8,15 @@
 }
 
 .more {
-  padding: 2px 0;
   color: var(--dodger-blue) !important;
+  padding: 2px 4px;
+
+  &:hover {
+    padding: 1px 3px;
+    background: var(--dodger-blue-light);
+    border-radius: $border-radius;
+    border: 1px solid var(--dodger-blue-light);
+  }
 }
 
 .words {

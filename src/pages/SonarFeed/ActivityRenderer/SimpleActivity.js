@@ -6,25 +6,20 @@ import { SignalTypeIcon } from '../../../components/SignalCard/controls/SignalCo
 import { SIGNAL_ANCHORS } from '../../../ducks/Signals/common/constants'
 import { dateDifferenceInWordsString } from '../../../utils/dates'
 import styles from './ActivityRenderer.module.scss'
+import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 
 const SimpleActivity = ({
-  index,
   classes,
   activity: {
     triggeredAt,
     payload,
+    trigger,
     trigger: { id: signalId, title, settings: { type } } = {}
   }
 }) => {
   return (
-    <div
-      className={cx(
-        styles.activityItem,
-        classes.activityItem,
-        index === 0 && classes.firstActivity
-      )}
-    >
-      <SignalTypeIcon type={type} />
+    <div className={styles.wrapper}>
+      <SignalTypeIcon type={type} className={styles.icon} />
       <div className={styles.center}>
         <div className={cx(styles.description, styles.activityCustom)}>
           <h4 className={styles.title}>
@@ -43,6 +38,7 @@ const SimpleActivity = ({
           source={Object.values(payload)[0]}
           className={classes.activityMarkdown}
         />
+        <CopySignal signal={trigger} />
       </div>
     </div>
   )

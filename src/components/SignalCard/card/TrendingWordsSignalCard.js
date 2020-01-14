@@ -1,13 +1,10 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import isEqual from 'lodash.isequal'
 import { DesktopOnly } from '../../Responsive'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import SignalCardHeader from './SignalCardHeader'
 import { dateDifferenceInWordsString } from '../../../utils/dates'
-import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import CopySignal from '../controls/CopySignal'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
@@ -62,9 +59,7 @@ const TrendingWordsSignalCard = ({
   className,
   date,
   activityPayload,
-  isLoggedIn,
-  isAuthor,
-  isCreated
+  creatorId
 }) => {
   const {
     title,
@@ -77,8 +72,6 @@ const TrendingWordsSignalCard = ({
   const showingWords = words.slice(0, 6)
 
   const moreCount = getExpectedCount(settings) - showingWords.length
-
-  const showCopyBtn = isLoggedIn && !isAuthor && !isCreated
 
   return (
     <Panel padding className={cx(externalStyles.wrapper, className)}>
@@ -117,32 +110,10 @@ const TrendingWordsSignalCard = ({
           </div>
         )}
 
-        {showCopyBtn && <CopySignal signal={signal} />}
+        <CopySignal signal={signal} creatorId={creatorId} />
       </div>
     </Panel>
   )
 }
 
-const mapStateToProps = (state, { creatorId, signal }) => {
-  const isLoggedIn = checkIsLoggedIn(state)
-
-  return {
-    isAuthor:
-      state &&
-      state.user &&
-      state.user.data &&
-      +state.user.data.id === +creatorId,
-    isLoggedIn: isLoggedIn,
-    isCreated:
-      !isLoggedIn ||
-      (state &&
-        state.signals.all &&
-        state.signals.all.some(
-          item =>
-            item.title === signal.title &&
-            isEqual(signal.settings.operation, item.settings.operation)
-        ))
-  }
-}
-
-export default connect(mapStateToProps)(TrendingWordsSignalCard)
+export default TrendingWordsSignalCard
