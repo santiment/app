@@ -14,6 +14,7 @@ import { PUBLIC_USER_DATA_QUERY } from '../../queries/ProfileGQL'
 import { MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
 import styles from './ProfilePage.module.scss'
+import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 
 const getQueryVariables = ({
   currentUser,
@@ -52,7 +53,7 @@ const ProfilePage = props => {
     )
   }
 
-  const { id: profileId, insights, triggers, watchlists } = profile
+  const { id: profileId, username, insights, triggers, watchlists } = profile
 
   function updateCache (cache, { data: { follow, unfollow } }) {
     const queryVariables = getQueryVariables(props)
@@ -92,18 +93,28 @@ const ProfilePage = props => {
 
   return (
     <>
-      <div className={styles.info}>
+      <div className={cx('page', styles.page)}>
+        <Breadcrumbs
+          className={styles.breadcrumbs}
+          crumbs={[
+            {
+              label: 'Community',
+              to: '/'
+            },
+            {
+              label: username
+            }
+          ]}
+        />
+
         <MobileOnly>
           <div className={styles.header}>
             <MobileHeader title='Profile' />
           </div>
         </MobileOnly>
-        <div className={cx('page', styles.page, styles.innerPage)}>
-          <ProfileInfo profile={profile} updateCache={updateCache} />
-        </div>
-      </div>
 
-      <div className={cx('page', styles.page)}>
+        <ProfileInfo profile={profile} updateCache={updateCache} />
+
         <div className={styles.row}>
           <PublicSignals userId={profileId} data={triggers} />
         </div>

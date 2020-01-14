@@ -12,8 +12,6 @@
 }
 
 .left {
-  width: 100%;
-  max-width: 580px;
   display: flex;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
@@ -28,8 +26,12 @@
 }
 
 .right {
-  margin-left: auto;
+  flex: 1;
+  margin-left: 55px;
+  margin-bottom: 40px;
+  padding-bottom: 40px;
   min-width: 560px;
+  border-bottom: 1px solid var(--porcelain);
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin: auto;
@@ -39,7 +41,8 @@
 
 .socials {
   display: flex;
-  margin-bottom: 23px;
+  align-items: center;
+  margin-top: 32px;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin: 20px 0;
@@ -50,29 +53,14 @@
   display: flex;
 }
 
-.itemsCounter {
-  width: 100%;
-  padding-top: 16px;
-  color: var(--waterloo);
-  border-top: 1px solid var(--porcelain);
-
-  @include text('body-3');
-}
-
-.counterBlock {
-  margin-right: 32px;
-}
-
-.counter {
-  @include text('body-1');
-}
-
 .followBlock {
+  padding: 9px;
   display: flex;
+  align-items: center;
 }
 
 .followBlockSecond {
-  margin-left: 48px;
+  margin-left: 16px;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin-left: 16px;
@@ -89,12 +77,15 @@
   @include text('body-3');
 
   color: var(--waterloo);
-  margin-top: 2px;
 }
 
 .socialIcons {
-  margin-left: auto;
-  margin-top: 6px;
+  height: 32px;
+  margin-left: 48px;
+  padding-left: 48px;
+  border-left: 1px solid var(--porcelain);
+  align-items: center;
+  display: flex;
 }
 
 .socialIcon {
@@ -113,6 +104,7 @@
 
 .followBtn {
   margin-top: 16px;
+  padding: 6px 12px 6px 7px;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin: 0 0 0 auto;
@@ -137,4 +129,9 @@
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     margin: 0 0 0 16px;
   }
+}
+
+.avatar {
+  min-width: 140px;
+  min-height: 140px;
 }
