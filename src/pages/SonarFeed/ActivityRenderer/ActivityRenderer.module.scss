@@ -94,7 +94,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 260px;
+  flex: 1;
+  min-width: 260px;
 }
 
 .center {
@@ -123,6 +124,7 @@
 
 .info {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .icon {
