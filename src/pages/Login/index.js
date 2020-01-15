@@ -36,7 +36,7 @@ export default ({ isLoggedIn, token, location: { search = '' } }) => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx('page', styles.wrapper)}>
       <Panel className={styles.panel}>
         <Switch>
           <Route exact path={`${baseLocation}/email`} render={LoginEmail} />
