@@ -18,22 +18,27 @@ const isTrendingWordsSignal = trigger => {
 }
 
 const FeedItemRenderer = ({ item, index }) => {
-  const { __typename, user: { id } = {} } = item
+  const { __typename, user: { id } = {}, payload, trigger, insertedAt } = item
 
-  if (__typename === 'SignalHistoricalActivity') {
-    let isTrendingWords = isTrendingWordsSignal(item.trigger)
+  if (payload && trigger) {
+    let isTrendingWords = isTrendingWordsSignal(trigger)
 
     return (
       <>
         {!isTrendingWords && (
-          <ActivityRenderer activity={item} index={index} classes={styles} />
+          <ActivityRenderer
+            date={insertedAt}
+            activity={item}
+            index={index}
+            classes={styles}
+          />
         )}
         {isTrendingWords && (
           <TrendingWordsSignalCard
-            signal={item.trigger}
-            date={item.triggeredAt}
+            signal={trigger}
+            date={insertedAt}
             className={styles.card}
-            activityPayload={item.payload.default}
+            activityPayload={payload.default}
             creatorId={id}
           />
         )}

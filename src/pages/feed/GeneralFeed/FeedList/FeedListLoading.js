@@ -1,22 +1,13 @@
 import React from 'react'
-import {
-  extractEventsFromData,
-  isBottom,
-  getMerged,
-  CURSOR_DAYS_COUNT,
-  makeFeedVariables
-} from '../utils'
+import { extractEventsFromData, isBottom, makeFeedVariables } from '../utils'
 import debounce from 'lodash.debounce'
 import FeedList from './FeedList'
-import { addDays } from '../../../../utils/dates'
-import { START_DATE } from '../GeneralFeed'
+import isEqual from 'lodash.isequal'
 
 class FeedListLoading extends React.Component {
   state = {
-    startCommon: START_DATE,
-    startActivities: START_DATE,
-    isEndActivities: false,
-    isEndCommon: false
+    isEndCommon: false,
+    events: this.props.events
   }
 
   unmounted = false
@@ -38,23 +29,14 @@ class FeedListLoading extends React.Component {
     }
   }
 
-  activitiesUpdater = (prev, next) => {
-    const { fetchMoreResult } = next
-    if (!fetchMoreResult) return prev
+  onLoadMore = (fetchMore, updater) => {
+    const { events } = this.state
 
-    const data = fetchMoreResult.activities.activity
-
-    return {
-      activities: {
-        activity: [...data],
-        cursor: fetchMoreResult.activities.cursor,
-        __typename: 'SignalHistoricalActivityPaginated'
-      }
+    if (!events.length) {
+      return null
     }
-  }
 
-  onLoadMore = (fetchMore, updater, after) => {
-    const variables = makeFeedVariables(after)
+    const variables = makeFeedVariables(events[events.length - 1].insertedAt)
 
     return fetchMore({
       variables: variables,
@@ -62,66 +44,27 @@ class FeedListLoading extends React.Component {
     })
   }
 
-  loadPart = (start, updateStateDate, isEnd, fetchMore, updater, markIsEnd) => {
+  loadPart = (isEnd, fetchMore, updater, markIsEnd) => {
     if (isEnd) {
       return
     }
 
-    const newFrom = addDays(start, CURSOR_DAYS_COUNT)
-    updateStateDate(newFrom)
-
-    this.onLoadMore(fetchMore, updater, newFrom)
+    this.onLoadMore(fetchMore, updater)
   }
 
   handleScroll = debounce(event => {
     const wrappedElement = document.getElementById('root')
     const { isLoading } = this.props
     if (!isLoading && isBottom(wrappedElement) && !this.unmounted) {
-      const { fetchMoreCommon, fetchMoreActivities } = this.props
-      const {
-        isEndCommon,
-        isEndActivities,
-        startCommon,
-        startActivities
-      } = this.state
+      const { fetchMoreCommon } = this.props
+      const { isEndCommon } = this.state
 
-      this.loadPart(
-        startCommon,
-        input => {
-          this.setState({
-            ...this.state,
-            startCommon: input
-          })
-        },
-        isEndCommon,
-        fetchMoreCommon,
-        this.eventsUpdater,
-        () => {
-          this.setState({
-            ...this.state,
-            isEndCommon: true
-          })
-        }
-      )
-
-      this.loadPart(
-        startActivities,
-        input => {
-          this.setState({
-            ...this.state,
-            startActivities: input
-          })
-        },
-        isEndActivities,
-        fetchMoreActivities,
-        this.activitiesUpdater,
-        () => {
-          this.setState({
-            ...this.state,
-            isEndActivities: true
-          })
-        }
-      )
+      this.loadPart(isEndCommon, fetchMoreCommon, this.eventsUpdater, () => {
+        this.setState({
+          ...this.state,
+          isEndCommon: true
+        })
+      })
     }
   })
 
@@ -134,11 +77,26 @@ class FeedListLoading extends React.Component {
     window.removeEventListener('scroll', this.handleScroll)
   }
 
-  render () {
-    const { events, activities, isLoading } = this.props
-    const merged = getMerged(events, activities)
+  componentWillReceiveProps (nextProps) {
+    const { events: propEvents } = nextProps
+    const { events: currentEvents } = this.state
+    if (propEvents.length > 0) {
+      const [event] = propEvents
+      if (!currentEvents.find(item => isEqual(item, event))) {
+        const newEvents = this.state.events
+        newEvents.push(...propEvents)
+        this.setState({
+          ...this.state,
+          events: newEvents
+        })
+      }
+    }
+  }
 
-    return <FeedList events={merged} isLoading={isLoading} />
+  render () {
+    const { isLoading } = this.props
+    const { events } = this.state
+    return <FeedList events={events} isLoading={isLoading} />
   }
 }
 

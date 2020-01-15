@@ -10,7 +10,7 @@ import styles from './ActivityRenderer.module.scss'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 
 const ActivityWithBacktesting = ({
-  index,
+  date,
   classes,
   activity: { triggeredAt, payload, trigger = {} }
 }) => {
@@ -46,7 +46,7 @@ const ActivityWithBacktesting = ({
               />
 
               <span className={styles.dateBacktest}>
-                {dateDifferenceInWordsString(triggeredAt)}
+                {dateDifferenceInWordsString(triggeredAt || date)}
               </span>
             </div>
           </div>
