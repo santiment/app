@@ -8,6 +8,7 @@ import styles from './ActivityRenderer.module.scss'
 
 const ActivityRenderer = ({
   activity,
+  date,
   activity: { triggeredAt, trigger = {} },
   index,
   classes = {}
@@ -17,9 +18,11 @@ const ActivityRenderer = ({
   const showChart =
     target && couldShowChart(settings, POSSIBLE_METRICS_ACTIVITIES)
 
+  const triggerDate = triggeredAt || date
+
   return (
     <div
-      key={triggeredAt + '_' + signalId}
+      key={triggerDate + '_' + signalId}
       className={cx(
         styles.activityItem,
         classes.activityItem,
@@ -32,9 +35,15 @@ const ActivityRenderer = ({
             classes={classes}
             index={index}
             activity={activity}
+            date={triggerDate}
           />
         ) : (
-          <SimpleActivity index={index} classes={classes} activity={activity} />
+          <SimpleActivity
+            index={index}
+            classes={classes}
+            activity={activity}
+            date={triggerDate}
+          />
         )}
       </div>
     </div>
