@@ -77,8 +77,6 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading, fetchSignals }) => {
               return <Empty />
             }
 
-            console.log('LOADED', extractEventsFromData(data))
-
             return (
               <FeedListLoading
                 events={extractEventsFromData(data)}

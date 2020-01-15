@@ -19,7 +19,6 @@ const ActivityRenderer = ({
     target && couldShowChart(settings, POSSIBLE_METRICS_ACTIVITIES)
 
   const triggerDate = triggeredAt || date
-  console.log('date', date)
 
   return (
     <div

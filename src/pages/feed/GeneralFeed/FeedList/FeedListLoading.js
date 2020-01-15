@@ -44,7 +44,7 @@ class FeedListLoading extends React.Component {
     })
   }
 
-  loadPart = (isEnd, fetchMore, updater, markIsEnd) => {
+  loadPart = (isEnd, fetchMore, updater) => {
     if (isEnd) {
       return
     }
@@ -59,12 +59,7 @@ class FeedListLoading extends React.Component {
       const { fetchMoreCommon } = this.props
       const { isEndCommon } = this.state
 
-      this.loadPart(isEndCommon, fetchMoreCommon, this.eventsUpdater, () => {
-        this.setState({
-          ...this.state,
-          isEndCommon: true
-        })
-      })
+      this.loadPart(isEndCommon, fetchMoreCommon, this.eventsUpdater)
     }
   })
 
@@ -90,6 +85,11 @@ class FeedListLoading extends React.Component {
           events: newEvents
         })
       }
+    } else {
+      this.setState({
+        ...this.state,
+        isEndCommon: true
+      })
     }
   }
 
