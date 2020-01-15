@@ -94,8 +94,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
-  min-width: 260px;
+  width: 260px;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    flex: 1;
+  }
 }
 
 .center {
