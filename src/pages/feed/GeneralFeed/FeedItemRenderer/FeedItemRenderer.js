@@ -18,7 +18,8 @@ const isTrendingWordsSignal = trigger => {
 }
 
 const FeedItemRenderer = ({ item, index }) => {
-  const { __typename, user: { id } = {}, payload, trigger, insertedAt } = item
+  const { __typename, user = {}, payload, trigger, insertedAt } = item
+  const { id } = user
 
   if (payload && trigger) {
     let isTrendingWords = isTrendingWordsSignal(trigger)
@@ -30,6 +31,7 @@ const FeedItemRenderer = ({ item, index }) => {
             date={insertedAt}
             activity={item}
             index={index}
+            user={user}
             classes={styles}
           />
         )}
@@ -40,6 +42,7 @@ const FeedItemRenderer = ({ item, index }) => {
             className={styles.card}
             activityPayload={payload.default}
             creatorId={id}
+            user={user}
           />
         )}
       </>
