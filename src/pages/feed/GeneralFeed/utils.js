@@ -1,4 +1,4 @@
-export const MAX_LIMIT = 15
+export const MAX_LIMIT = 20
 
 export const CURSOR_TYPES = {
   before: 'BEFORE',
