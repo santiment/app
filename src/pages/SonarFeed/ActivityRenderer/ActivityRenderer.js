@@ -10,6 +10,7 @@ const ActivityRenderer = ({
   activity,
   date,
   activity: { triggeredAt, trigger = {} },
+  user,
   index,
   classes = {}
 }) => {
@@ -29,12 +30,15 @@ const ActivityRenderer = ({
         index === 0 ? classes.firstActivity : ''
       )}
     >
-      <div className={showChart && styles.activityItemBacktest}>
+      <div
+        className={cx(styles.content, showChart && styles.activityItemBacktest)}
+      >
         {showChart ? (
           <ActivityWithBacktesting
             classes={classes}
             index={index}
             activity={activity}
+            user={user}
             date={triggerDate}
           />
         ) : (

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import { DesktopOnly } from '../../Responsive'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import SignalCardHeader from './SignalCardHeader'
-import { dateDifferenceInWordsString } from '../../../utils/dates'
 import CopySignal from '../controls/CopySignal'
+import SignalCreator from './creator/SignalCreator'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
@@ -55,6 +55,7 @@ const getWords = (triggerWords, activityPayload) => {
 }
 
 const TrendingWordsSignalCard = ({
+  user,
   signal,
   className,
   date,
@@ -104,11 +105,7 @@ const TrendingWordsSignalCard = ({
           )}
         </div>
 
-        {date && (
-          <div className={styles.fromDate}>
-            {dateDifferenceInWordsString(date)}
-          </div>
-        )}
+        <SignalCreator date={date} user={user} />
 
         <CopySignal signal={signal} creatorId={creatorId} />
       </div>

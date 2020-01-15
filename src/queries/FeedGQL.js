@@ -15,6 +15,7 @@ export const FEED_QUERY = gql`
         user {
           id
           avatarUrl
+          username
         }
         post {
           ...insightCommon
