@@ -53,10 +53,11 @@ const MobileFullscreenChart = ({ isOpen, onToggleFullscreen }) => {
 
   return (
     <ExplanationTooltip
+      className={styles.tooltip}
       localStorageSuffix='MOBILE_FULLSCREEN_CHART'
       align='end'
       position='top'
-      dismissOnTouch={true}
+      dismissOnTouch
       title='Open this chart in fullscreen mode to analyze it in more details'
       description=''
       delay={5000}

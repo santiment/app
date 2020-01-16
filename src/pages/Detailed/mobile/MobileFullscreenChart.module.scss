@@ -38,3 +38,11 @@
 .message {
   max-width: 245px;
 }
+
+.tooltip::after {
+  display: block;
+  content: url(./arrow.svg);
+  position: absolute;
+  bottom: -18px;
+  right: 2px;
+}

@@ -14,7 +14,7 @@ const SidecarExplanationTooltip = props => {
     className,
     position = 'left',
     align = 'start',
-    dismissOnTouch = true,
+    dismissOnTouch = false,
     delay = TOOLTIP_DELAY_IN_MS
   } = props
 
