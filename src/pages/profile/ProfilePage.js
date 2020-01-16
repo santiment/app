@@ -4,15 +4,14 @@ import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 import cloneDeep from 'lodash/cloneDeep'
 import cx from 'classnames'
-import PublicWatchlists from './watchlists/PublicWatchlists'
-import PublicSignals from './signals/PublicSignals'
-import PublicInsights from './insights/PublicInsights'
 import ProfileInfo from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
 import { PUBLIC_USER_DATA_QUERY } from '../../queries/ProfileGQL'
-import { MobileOnly } from '../../components/Responsive'
+import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
+import Breadcrumbs from './breadcrumbs/Breadcrumbs'
+import ProfileActivities from './activities/ProfileActivities'
 import styles from './ProfilePage.module.scss'
 
 const getQueryVariables = ({
@@ -52,7 +51,7 @@ const ProfilePage = props => {
     )
   }
 
-  const { id: profileId, insights, triggers, watchlists } = profile
+  const { username } = profile
 
   function updateCache (cache, { data: { follow, unfollow } }) {
     const queryVariables = getQueryVariables(props)
@@ -92,30 +91,31 @@ const ProfilePage = props => {
 
   return (
     <>
-      <div className={styles.info}>
+      <div className={cx('page', styles.page)}>
+        <DesktopOnly>
+          <Breadcrumbs
+            className={styles.breadcrumbs}
+            crumbs={[
+              {
+                label: 'Community',
+                to: '/'
+              },
+              {
+                label: username
+              }
+            ]}
+          />
+        </DesktopOnly>
+
         <MobileOnly>
           <div className={styles.header}>
             <MobileHeader title='Profile' />
           </div>
         </MobileOnly>
-        <div className={cx('page', styles.page, styles.innerPage)}>
-          <ProfileInfo profile={profile} updateCache={updateCache} />
-        </div>
-      </div>
 
-      <div className={cx('page', styles.page)}>
-        <div className={styles.row}>
-          <PublicSignals userId={profileId} data={triggers} />
-        </div>
+        <ProfileInfo profile={profile} updateCache={updateCache} />
 
-        <div className={styles.row}>
-          <div className={styles.colInsights}>
-            <PublicInsights userId={profileId} data={insights} />
-          </div>
-          <div className={styles.colWatchlists}>
-            <PublicWatchlists userId={profileId} data={watchlists} />
-          </div>
-        </div>
+        <ProfileActivities profile={profile} />
       </div>
     </>
   )

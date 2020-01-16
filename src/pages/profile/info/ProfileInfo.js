@@ -19,9 +19,6 @@ const ProfileInfo = ({
     id,
     username,
     followers,
-    insights,
-    triggers,
-    watchlists,
     avatarUrl,
     followers: { count: followersCount = 0 } = {},
     following: { count: followingCount } = {}
@@ -30,7 +27,10 @@ const ProfileInfo = ({
   return (
     <div className={styles.container}>
       <div className={styles.left}>
-        <UserAvatar isExternal externalAvatarUrl={avatarUrl} />
+        <UserAvatar isExternal externalAvatarUrl={avatarUrl} classes={styles} />
+      </div>
+
+      <div className={styles.right}>
         <div className={styles.leftText}>
           <div className={styles.name}>{username}</div>
           {isLoggedIn && !isCurrentUser && (
@@ -42,9 +42,6 @@ const ProfileInfo = ({
             />
           )}
         </div>
-      </div>
-
-      <div className={styles.right}>
         <div className={styles.socials}>
           <div className={styles.followersBlocks}>
             <div className={styles.followBlock}>
@@ -75,20 +72,6 @@ const ProfileInfo = ({
             <Icon className={styles.socialIcon} type='facebook' />
             <Icon className={styles.socialIcon} type='reddit' />
           </div>
-        </div>
-
-        <div className={styles.itemsCounter}>
-          <span className={styles.counterBlock}>
-            <span className={styles.counter}>{triggers.length}</span> public
-            signals
-          </span>
-          <span className={styles.counterBlock}>
-            <span className={styles.counter}>{watchlists.length}</span> public
-            watchlists
-          </span>
-          <span className={styles.counterBlock}>
-            <span className={styles.counter}>{insights.length}</span> insights
-          </span>
         </div>
       </div>
     </div>

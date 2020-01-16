@@ -1,0 +1,34 @@
+@import "~@santiment-network/ui/mixins";
+
+.container {
+  margin-top: 14px;
+  display: flex;
+}
+
+.name {
+  color: var(--rhino) !important;
+  word-break: break-word;
+
+  &:hover {
+    color: var(--jungle-green-hover) !important;
+  }
+}
+
+.right {
+  margin: -2px 0 0 12px;
+
+  @include text('caption');
+}
+
+.withoutUser {
+  margin: 0;
+}
+
+.fromDate {
+  color: var(--waterloo);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+}

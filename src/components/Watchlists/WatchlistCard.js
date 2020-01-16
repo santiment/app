@@ -19,10 +19,10 @@ import { TRENDING_WATCHLIST_NAME } from '../../pages/assets/assets-overview-cons
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { millify } from '../../utils/formatting'
-import { filterEmptyStats } from '../WatchlistOverview/WatchlistHistory/utils'
 import styles from './WatchlistCard.module.scss'
 
 const INTERVAL = '6h'
+const RANGE = 7
 
 const WatchlistCard = ({
   name,
@@ -141,13 +141,13 @@ const enhance = compose(
     options: ({ slugs = [] }) => ({
       variables: {
         slugs,
-        ...getTimeIntervalFromToday(-6, DAY),
+        ...getTimeIntervalFromToday(-RANGE, DAY),
         interval: INTERVAL
       }
     }),
     skip: ({ slugs }) => !slugs || !slugs.length,
     props: ({ data: { projectsListHistoryStats = [], loading, error } }) => ({
-      stats: filterEmptyStats(projectsListHistoryStats),
+      stats: projectsListHistoryStats,
       isLoading: loading,
       isError: error
     })
@@ -156,13 +156,13 @@ const enhance = compose(
     options: ({ slug }) => ({
       variables: {
         slug,
-        ...getTimeIntervalFromToday(-6, DAY),
+        ...getTimeIntervalFromToday(-RANGE, DAY),
         interval: INTERVAL
       }
     }),
     skip: ({ slug }) => !slug,
     props: ({ data: { historyPrice = [], loading, error } }) => ({
-      stats: filterEmptyStats(historyPrice),
+      stats: historyPrice,
       isLoading: loading,
       isError: error
     })
@@ -171,16 +171,13 @@ const enhance = compose(
     options: ({ bySlug }) => ({
       variables: {
         slug: bySlug,
-        ...getTimeIntervalFromToday(-6, DAY),
+        ...getTimeIntervalFromToday(-RANGE, DAY),
         interval: INTERVAL
       }
     }),
     skip: ({ bySlug }) => !bySlug,
     props: ({ data: { watchlistBySlug = {}, loading, error } }) => ({
-      stats:
-        watchlistBySlug && watchlistBySlug.historicalStats
-          ? filterEmptyStats(watchlistBySlug.historicalStats)
-          : [],
+      stats: watchlistBySlug.historicalStats || [],
       isLoading: loading,
       isError: error
     })
@@ -189,16 +186,13 @@ const enhance = compose(
     options: ({ id }) => ({
       variables: {
         id,
-        ...getTimeIntervalFromToday(-6, DAY),
+        ...getTimeIntervalFromToday(-RANGE, DAY),
         interval: INTERVAL
       }
     }),
     skip: ({ id }) => !id,
     props: ({ data: { watchlist = {}, loading, error } }) => ({
-      stats:
-        watchlist && watchlist.historicalStats
-          ? filterEmptyStats(watchlist.historicalStats)
-          : [],
+      stats: watchlist.historicalStats || [],
       isLoading: loading,
       isError: error
     })

@@ -8,9 +8,6 @@ const currencyFormatOptions = {
   style: 'decimal'
 }
 
-export const filterEmptyStats = arr =>
-  arr.filter(({ marketcap, volume }) => !!marketcap && !!volume)
-
 export const statsForGraphics = arr => {
   const minMarketcap = Math.min(...arr.map(({ marketcap }) => marketcap))
   const minVolume = Math.min(...arr.map(({ volume }) => volume))

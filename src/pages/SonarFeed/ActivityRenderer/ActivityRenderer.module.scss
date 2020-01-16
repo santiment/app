@@ -22,11 +22,15 @@
   }
 }
 
+.content {
+  flex: 1;
+}
+
 .activityItem {
   display: flex;
   flex-direction: row;
   color: var(--rhino);
-  padding: 18px 24px;
+  padding: 16px;
   background: var(--white);
   border: 1px solid var(--porcelain);
   box-sizing: border-box;
@@ -91,6 +95,10 @@
   align-items: center;
   justify-content: center;
   width: 260px;
+
+  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+    flex: 1;
+  }
 }
 
 .center {
@@ -119,6 +127,7 @@
 
 .info {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .icon {

@@ -4,13 +4,14 @@ import Markdown from 'react-markdown'
 import { Link } from 'react-router-dom'
 import { SignalTypeIcon } from '../../../components/SignalCard/controls/SignalControls'
 import { SIGNAL_ANCHORS } from '../../../ducks/Signals/common/constants'
-import { dateDifferenceInWordsString } from '../../../utils/dates'
 import SignalPreview from '../../../ducks/Signals/chart/SignalPreview'
 import styles from './ActivityRenderer.module.scss'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
+import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
 
 const ActivityWithBacktesting = ({
-  index,
+  date,
+  user,
   classes,
   activity: { triggeredAt, payload, trigger = {} }
 }) => {
@@ -45,9 +46,7 @@ const ActivityWithBacktesting = ({
                 className={classes.activityMarkdown}
               />
 
-              <span className={styles.dateBacktest}>
-                {dateDifferenceInWordsString(triggeredAt)}
-              </span>
+              <SignalCreator user={user} date={triggeredAt || date} />
             </div>
           </div>
           <div className={styles.preview}>

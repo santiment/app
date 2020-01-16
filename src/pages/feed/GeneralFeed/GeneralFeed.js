@@ -5,19 +5,11 @@ import { FEED_QUERY } from '../../../queries/FeedGQL'
 import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 import PageLoader from '../../../components/Loader/PageLoader'
 import FeedListLoading from './FeedList/FeedListLoading'
-import { TRIGGER_ACTIVITIES_QUERY } from '../../SonarFeed/SonarFeedActivityPage'
 import InsightUnAuthPage from '../../Insights/InsightUnAuthPage'
 import { checkIsLoggedIn, checkIsLoggedInPending } from '../../UserSelectors'
-import { addDays } from '../../../utils/dates'
-import {
-  CURSOR_DAYS_COUNT,
-  extractEventsFromData,
-  makeFeedVariables
-} from './utils'
+import { extractEventsFromData, makeFeedVariables } from './utils'
 import { fetchSignals } from '../../../ducks/Signals/common/actions'
 import styles from './GeneralFeed.module.scss'
-
-export const START_DATE = addDays(new Date(), CURSOR_DAYS_COUNT)
 
 const Header = () => (
   <div className={styles.title}>
@@ -46,6 +38,8 @@ const Anon = () => (
     <InsightUnAuthPage />
   </div>
 )
+
+const START_DATE = new Date()
 
 const GeneralFeed = ({ isLoggedIn, isUserLoading, fetchSignals }) => {
   if (isUserLoading) {
@@ -83,37 +77,12 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading, fetchSignals }) => {
               return <Empty />
             }
 
-            const events = extractEventsFromData(data)
-
             return (
-              <Query
-                query={TRIGGER_ACTIVITIES_QUERY}
-                variables={makeFeedVariables(START_DATE)}
-                notifyOnNetworkStatusChange={true}
-              >
-                {({
-                  data,
-                  fetchMore: fetchMoreActivities,
-                  loading: loadingActivities
-                }) => {
-                  if (!data) {
-                    return <Empty />
-                  }
-
-                  const { activity: activities } = data.activities
-
-                  return (
-                    <FeedListLoading
-                      events={events}
-                      activities={activities}
-                      fetchMoreCommon={fetchMoreCommon}
-                      fetchMoreActivities={fetchMoreActivities}
-                      start={START_DATE}
-                      isLoading={loadingActivities || loadingEvents}
-                    />
-                  )
-                }}
-              </Query>
+              <FeedListLoading
+                events={extractEventsFromData(data)}
+                fetchMoreCommon={fetchMoreCommon}
+                isLoading={loadingEvents}
+              />
             )
           }}
         </Query>

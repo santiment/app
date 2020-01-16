@@ -9,6 +9,7 @@ import styles from './ActivityRenderer.module.scss'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 
 const SimpleActivity = ({
+  date,
   classes,
   activity: {
     triggeredAt,
@@ -30,7 +31,7 @@ const SimpleActivity = ({
               {title}
             </Link>
             <span className={styles.date}>
-              {dateDifferenceInWordsString(triggeredAt)}
+              {dateDifferenceInWordsString(triggeredAt || date)}
             </span>
           </h4>
         </div>

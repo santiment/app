@@ -1,12 +1,5 @@
 @import "~@santiment-network/ui/mixins";
 
-.fromDate {
-  color: var(--waterloo);
-  margin-top: 7px;
-
-  @include text('caption');
-}
-
 .more {
   color: var(--dodger-blue) !important;
   padding: 2px 4px;
@@ -21,6 +14,7 @@
 
 .words {
   display: flex;
+  flex-wrap: wrap;
   margin-top: 7px;
 }
 
