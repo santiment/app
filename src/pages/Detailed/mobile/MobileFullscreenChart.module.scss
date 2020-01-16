@@ -8,4 +8,33 @@
 
 .wrapper {
   background-color: var(--white);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+
+.button {
+  position: absolute;
+  top: 16px;
+  left: 8px;
+  fill: var(--rhino);
+}
+
+.dark {
+  background-color: $fiord;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--porcelain);
+
+  &__button {
+    fill: var(--white);
+    left: auto;
+    right: 16px;
+    background: inherit !important;
+  }
+}
+
+.message {
+  max-width: 245px;
 }
