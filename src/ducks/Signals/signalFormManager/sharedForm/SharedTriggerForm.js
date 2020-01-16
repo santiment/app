@@ -6,6 +6,7 @@ import SignalCard from '../../../../components/SignalCard/card/SignalCard'
 import NoSignalPreview from '../../chart/NoSignalPreview'
 import { DesktopOnly, MobileOnly } from '../../../../components/Responsive'
 import styles from './ShareTriggerForm.module.scss'
+import CopySignal from '../../../../components/SignalCard/controls/CopySignal'
 
 const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
   const { target, metric } = settings
@@ -37,14 +38,14 @@ const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
 
       <div className={styles.actions}>
         <DesktopOnly>
-          <Button
-            onClick={onCreate}
-            variant='fill'
-            accent='positive'
-            className={styles.btnAdd}
-          >
-            Add signal
-          </Button>
+          <CopySignal
+            signal={trigger}
+            label='Add signal'
+            onCreate={onCreate}
+            classes={styles}
+            as='div'
+            btnParams={{ variant: 'fill', accent: 'positive' }}
+          />
           <Button
             className={styles.btnEdit}
             onClick={() => onOpen(false)}
@@ -55,14 +56,14 @@ const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
         </DesktopOnly>
 
         <MobileOnly>
-          <Button
-            fluid
-            onClick={onCreate}
-            accent='positive'
-            className={styles.btnAdd}
-          >
-            Add signal
-          </Button>
+          <CopySignal
+            signal={trigger}
+            label='Add signal'
+            onCreate={onCreate}
+            classes={styles}
+            as='div'
+            btnParams={{ fluid: true, accent: 'positive' }}
+          />
           <Button
             fluid
             className={styles.btnEdit}
