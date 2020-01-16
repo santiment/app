@@ -16,10 +16,15 @@ const CopySignal = ({
   createTrigger,
   onCreate,
   label = 'Copy signal',
-  classes,
+  classes = {},
   btnParams
 }) => {
   if (isAuthor || isCreated) {
+    return null
+  }
+
+  const { settings } = signal
+  if (settings && settings.target && settings.target.watchlist_id > 0) {
     return null
   }
 
