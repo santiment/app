@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Button from '@santiment-network/ui/Button'
 import Modal from '@santiment-network/ui/Modal'
+import ExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
 import styles from './MobileFullscreenChart.module.scss'
 
 const MobileFullscreenChart = ({ isOpen, onToggleFullscreen }) => {
@@ -51,39 +52,54 @@ const MobileFullscreenChart = ({ isOpen, onToggleFullscreen }) => {
   }
 
   return (
-    <Modal
-      trigger={
-        <Icon
-          type='fullscreen-arrows'
-          className={styles.icon}
-          onClick={() => {
-            onToggleFullscreen(true)
-            toggleFullScreen(true)
-          }}
-        />
-      }
-      open={isOpen}
+    <ExplanationTooltip
+      localStorageSuffix='MOBILE_FULLSCREEN_CHART'
+      align='end'
+      position='top'
+      dismissOnTouch={true}
+      title='Open this chart in fullscreen mode to analyze it in more details'
+      description=''
+      delay={5000}
     >
-      {closeModal => (
-        <section className={cx(styles.wrapper, !landscapeMode && styles.dark)}>
-          <Button
+      <Modal
+        trigger={
+          <Icon
+            type='fullscreen-arrows'
+            className={styles.icon}
             onClick={() => {
-              onToggleFullscreen(false)
-              toggleFullScreen(false)
-              closeModal()
+              onToggleFullscreen(true)
+              toggleFullScreen(true)
             }}
-            className={cx(styles.button, !landscapeMode && styles.dark__button)}
+          />
+        }
+        open={isOpen}
+      >
+        {closeModal => (
+          <section
+            className={cx(styles.wrapper, !landscapeMode && styles.dark)}
           >
-            <Icon type='close' />
-          </Button>
-          {!landscapeMode && (
-            <span className={styles.message}>
-              Please, turn your phone horizontally to see a fullscreen chart
-            </span>
-          )}
-        </section>
-      )}
-    </Modal>
+            <Button
+              onClick={() => {
+                onToggleFullscreen(false)
+                toggleFullScreen(false)
+                closeModal()
+              }}
+              className={cx(
+                styles.button,
+                !landscapeMode && styles.dark__button
+              )}
+            >
+              <Icon type='close' />
+            </Button>
+            {!landscapeMode && (
+              <span className={styles.message}>
+                Please, turn your phone horizontally to see a fullscreen chart
+              </span>
+            )}
+          </section>
+        )}
+      </Modal>
+    </ExplanationTooltip>
   )
 }
 
