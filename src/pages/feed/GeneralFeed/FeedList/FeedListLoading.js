@@ -85,7 +85,7 @@ class FeedListLoading extends React.Component {
           events: newEvents
         })
       }
-    } else {
+    } else if (propEvents.length === 0) {
       this.setState({
         ...this.state,
         isEndCommon: true
@@ -96,7 +96,10 @@ class FeedListLoading extends React.Component {
   render () {
     const { isLoading } = this.props
     const { events } = this.state
-    return <FeedList events={events} isLoading={isLoading} />
+    const filtered = events.filter(
+      ({ post, payload, trigger }) => post || (trigger && payload)
+    )
+    return <FeedList events={filtered} isLoading={isLoading} />
   }
 }
 

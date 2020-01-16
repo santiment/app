@@ -46,6 +46,7 @@ const ActivityRenderer = ({
             index={index}
             classes={classes}
             activity={activity}
+            user={user}
             date={triggerDate}
           />
         )}
