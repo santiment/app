@@ -1,0 +1,14 @@
+@import "~@santiment-network/ui/mixins";
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}

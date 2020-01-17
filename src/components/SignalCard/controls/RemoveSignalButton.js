@@ -9,8 +9,7 @@ import styles from './SignalControls.module.scss'
 
 const RemoveDescription = title => (
   <>
-    Are you sure you want to delete{' '}
-    <span className={styles.title}>{title}</span> ?
+    Are you sure you want to delete <span>{title}</span> ?
   </>
 )
 
@@ -20,7 +19,11 @@ const RemoveSignalButton = ({
   removeSignal,
   redirect,
   className,
-  trigger
+  trigger = (
+    <Button variant='ghost' type='button' className={cx(className, styles.btn)}>
+      <Icon type='remove' />
+    </Button>
+  )
 }) => (
   <ConfirmDialog
     id={id}
@@ -29,17 +32,7 @@ const RemoveSignalButton = ({
     onApprove={removeSignal}
     redirect={redirect}
     classes={styles}
-    trigger={
-      trigger || (
-        <Button
-          variant='ghost'
-          type='button'
-          className={cx(className, styles.btn)}
-        >
-          <Icon type='remove' />
-        </Button>
-      )
-    }
+    trigger={trigger}
   />
 )
 

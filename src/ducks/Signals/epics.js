@@ -1,3 +1,4 @@
+import React from 'react'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import GoogleAnalytics from 'react-ga'
@@ -7,6 +8,7 @@ import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { TRIGGERS_QUERY } from './common/queries'
 import { completeOnboardingTask } from '../../pages/Dashboard/utils'
 import { GA_FIRST_SIGNAL } from '../../enums/GaEvents'
+import SignalNotificationActions from './notifications/SignalNotificationActions'
 
 export const CREATE_TRIGGER_QUERY = gql`
   mutation createTrigger(
@@ -114,7 +116,12 @@ export const createSignalEpic = (action$, store, { client }) =>
                 type: actions.SIGNAL_CREATE_SUCCESS,
                 payload: trigger
               }),
-              Observable.of(showNotification('Signal was succesfully created'))
+              Observable.of(
+                showNotification({
+                  title: 'Signal was succesfully created',
+                  description: <SignalNotificationActions id={trigger.id} />
+                })
+              )
             )
           })
           .catch(handleErrorAndTriggerAction(actions.SIGNAL_CREATE_FAILED))
