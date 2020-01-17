@@ -5,7 +5,7 @@ import { FEED_QUERY } from '../../../queries/FeedGQL'
 import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 import PageLoader from '../../../components/Loader/PageLoader'
 import FeedListLoading from './FeedList/FeedListLoading'
-import InsightUnAuthPage from '../../Insights/InsightUnAuthPage'
+import UnAuth from '../../Insights/UnAuth'
 import { checkIsLoggedIn, checkIsLoggedInPending } from '../../UserSelectors'
 import { extractEventsFromData, makeFeedVariables } from './utils'
 import { fetchSignals } from '../../../ducks/Signals/common/actions'
@@ -35,7 +35,7 @@ const Empty = () => (
 
 const Anon = () => (
   <div className={styles.scrollable}>
-    <InsightUnAuthPage />
+    <UnAuth />
   </div>
 )
 
