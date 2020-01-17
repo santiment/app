@@ -197,6 +197,8 @@ export const generateMetricsMarkup = (
     chartBars.set(chartRef, barsMap)
   }
 
+  let activeDataKey = activeLineDataKey
+
   const res = metrics.reduce((acc, metric) => {
     const {
       key,
@@ -209,6 +211,10 @@ export const generateMetricsMarkup = (
       gradientUrl,
       formatter
     } = metric
+
+    if (!activeDataKey && (El === Line || El === Area)) {
+      activeDataKey = dataKey
+    }
 
     const rest = {
       [El === Bar ? 'fill' : 'stroke']: syncedColors[key],
@@ -244,9 +250,7 @@ export const generateMetricsMarkup = (
         ref={ref[key]}
         dataKey={dataKey}
         dot={false}
-        activeDot={
-          activeLineDataKey === dataKey ? <ActiveLine /> : showActiveDot
-        }
+        activeDot={activeDataKey === dataKey && <ActiveLine />}
         isAnimationActive={false}
         connectNulls
         formatter={formatter}
