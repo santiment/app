@@ -104,7 +104,10 @@ const Content = ({ slug, date }) => {
 
           return (
             <>
-              <h2 className={styles.title}>Histogram</h2>
+              <h2 className={styles.title}>
+                Histogram
+                {loading ? <Loader className={styles.inlineLoader} /> : ''}
+              </h2>
               <div className={styles.content}>
                 <ResponsiveContainer
                   width='90%'

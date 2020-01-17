@@ -46,7 +46,7 @@ const DEFAULT_STATE = {
   isShowAnomalies: !localStorage.getItem('hideAnomalies'),
   events: [],
   marketSegments: [],
-  isMultiChartsActive: false
+  isMultiChartsActive: true
 }
 
 const LoadableHistogramSidebar = Loadable({
@@ -667,7 +667,9 @@ class ChartPage extends Component {
                   />
                 )}
 
-                {!viewOnly && !hideSettings.sidecar && (
+                {!viewOnly &&
+                  !hideSettings.sidecar &&
+                  metrics.includes(Metrics.age_destroyed) && (
                   <LoadableHistogramSidebar
                     onSidebarToggleClick={this.onSidebarToggleClick}
                     isAdvancedView={isAdvancedView === HISTOGRAM_SIDEBAR}
