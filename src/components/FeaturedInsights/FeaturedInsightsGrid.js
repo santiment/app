@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
 import { FEATURED_INSIGHTS_QUERY } from './../../queries/InsightsGQL'
-import { creationDateSort } from '../../pages/Insights/utils'
+import { creationDateSort } from '../Insight/utils'
 import InsightsWrap from '../Insight/InsightsWrap'
 
 const FeaturedInsightsGrid = ({ data: { insights = [] } }) => {

@@ -2,10 +2,9 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { ALL_INSIGHTS_BY_TAG_QUERY } from './../../queries/InsightsGQL'
-import { filterInsightsNoDrafts } from '../../pages/Insights/utils'
 import { ONE_DAY_IN_MS } from '../../utils/dates'
 import Insights from './Insights'
-import { getInsightTrendTagByDate } from './utils'
+import { filterInsightsNoDrafts, getInsightTrendTagByDate } from './utils'
 
 const InsightsTrends = ({ allInsightsByTag, ...props }) => {
   return (
