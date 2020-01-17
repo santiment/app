@@ -11,13 +11,14 @@ const MobilePriceTooltip = ({
   const pricePayload = payload.find(({ dataKey }) => dataKey === 'priceUsd')
   const { value, formatter, dataKey } = pricePayload || {}
   return (
-    active &&
-    pricePayload && (
+    active && (
       <div className={styles.wrapper}>
         <span className={styles.price}>
-          {tooltipValueFormatter({ value, key: dataKey, formatter })}
+          {value
+            ? tooltipValueFormatter({ value, key: dataKey, formatter })
+            : ''}
         </span>
-        <span className={styles.title}>{labelFormatter(label)}</span>
+        <span className={styles.date}>{labelFormatter(label)}</span>
       </div>
     )
   )
