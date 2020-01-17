@@ -59,5 +59,21 @@
     mixpanel.init("67570425a2b6ab94c10a2cd3bd21d23f");</script>
     <script src="https://js.stripe.com/v3/"></script>
     <script defer src="//rum-static.pingdom.net/pa-5ad6f5e646534f0007000702.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-100571693-2"></script>
+    <script>
+      if (window.env.BACKEND_URL !== "https://api-stage.santiment.net") {
+        const dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+        if (dnt != "1" && dnt != "yes") {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-100571693-2');
+          gtag('config', 'UA-100571693-1');
+        } else {
+          console.debug("Respecting Do-Not-Track");
+        }
+      }
+    </script>
   </body>
 </html>
