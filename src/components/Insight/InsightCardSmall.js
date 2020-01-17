@@ -1,7 +1,7 @@
 import React from 'react'
 import LikeBtn from '../Like/LikeBtn'
 import MultilineText from '../MultilineText/MultilineText'
-import { getSEOLinkFromIdAndTitle } from '../../pages/Insights/utils'
+import { getSEOLinkFromIdAndTitle } from './utils'
 import styles from './InsightCardSmall.module.scss'
 
 const InsightCard = ({

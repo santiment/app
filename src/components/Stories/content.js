@@ -199,7 +199,7 @@ export const stories = [
           </>
         ),
         buttonLink: 'http://insights.santiment.net',
-        buttonText: 'Community Insights'
+        buttonText: 'Community UnAuth'
       }
     ]
   },

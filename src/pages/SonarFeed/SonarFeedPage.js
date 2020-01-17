@@ -5,7 +5,7 @@ import { Link, Route, Switch, Redirect } from 'react-router-dom'
 import Tabs from '@santiment-network/ui/Tabs'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
-import InsightUnAuthPage from './../../pages/Insights/InsightUnAuthPage'
+import UnAuth from '../../components/UnAuth/UnAuth'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import { isTelegramConnected } from '../../pages/UserSelectors'
 import SonarFeedHeader from './SonarFeedActions/SonarFeedHeader'
@@ -190,7 +190,7 @@ export default connect(
 
 const AnonymouseInSonar = () => (
   <>
-    <InsightUnAuthPage target='signals' />
+    <UnAuth />
     <div className={styles.recommendedSignals}>
       <RecommendedSignals />
     </div>

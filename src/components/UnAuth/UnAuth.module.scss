@@ -1,0 +1,37 @@
+@import '../../../node_modules/@santiment-network/ui/mixins';
+
+.title {
+  @include text('h4');
+
+  margin: 0;
+  color: var(--mirage);
+}
+
+.info {
+  @include text('body-2');
+
+  margin-top: 16px;
+  color: var(--waterloo);
+  max-width: 774px;
+}
+
+.btn {
+  width: 134px;
+  display: flex;
+  justify-content: center;
+}
+
+.loginBtn {
+  margin-left: 8px;
+  border: 1px solid var(--porcelain);
+  color: var(--rhino);
+
+  &:hover {
+    border: 1px solid var(--jungle-green-hover);
+  }
+}
+
+.actions {
+  margin-top: 16px;
+  display: flex;
+}
