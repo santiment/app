@@ -17,10 +17,11 @@ export const creationDateSort = (
   { createdAt: bCreatedAt }
 ) => (new Date(aCreatedAt) < new Date(bCreatedAt) ? 1 : -1)
 
-export const updateDateSort = (
-  { updatedAt: aUpdatedAt },
-  { updatedAt: bUpdatedAt }
-) => (new Date(aUpdatedAt) < new Date(bUpdatedAt) ? 1 : -1)
+export const publishDateSorter = ({ publishedAt: a }, { publishedAt: b }) =>
+  new Date(b) - new Date(a)
+
+export const updateDateSorter = ({ updatedAt: a }, { updatedAt: b }) =>
+  new Date(b) - new Date(a)
 
 export const popularitySortReducer = insights =>
   insights.sort(creationDateSort).sort(popularitySort)
