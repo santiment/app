@@ -1,36 +1,14 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import styles from './SignalNotificationActions.module.scss'
+import React from 'react'
 import RemoveSignalButton from '../../../components/SignalCard/controls/RemoveSignalButton'
+import NotificationActions from '../../../components/NotificationActions/NotificationActions'
 
-const SignalNotificationActions = ({ id }) => {
-  const [show, setShow] = useState(true)
-
-  if (!show) {
-    return null
-  }
-
+const SignalNotificationActions = ({ id, toLink }) => {
   return (
-    <div className={styles.container}>
-      <Link className={styles.link} to={'/sonar/signal/' + id}>
-        Open
-      </Link>
-      <RemoveSignalButton
-        id={id}
-        trigger={({ onClick }) => (
-          <div
-            onClick={() => {
-              onClick()
-              setShow(false)
-            }}
-            className={styles.undo}
-          >
-            Undo
-          </div>
-        )}
-        withConfirm={false}
-      />
-    </div>
+    <NotificationActions
+      id={id}
+      link={toLink}
+      undoTrigger={RemoveSignalButton}
+    />
   )
 }
 

@@ -119,7 +119,12 @@ export const createSignalEpic = (action$, store, { client }) =>
               Observable.of(
                 showNotification({
                   title: 'Signal was succesfully created',
-                  description: <SignalNotificationActions id={trigger.id} />
+                  description: (
+                    <SignalNotificationActions
+                      id={trigger.id}
+                      toLink={'/sonar/signal/' + trigger.id}
+                    />
+                  )
                 })
               )
             )

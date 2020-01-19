@@ -63,6 +63,8 @@ const ifEmpty = fork(
   )
 )
 
+export const MakeWatchlistLink = (id, name) => `/assets/list?name=${name}@${id}`
+
 const ifData = fork(
   props => props.watchlists.length > 0,
   // TODO: activeLink is '/sonar' and we can't highlight here choosed watchlist
@@ -70,7 +72,7 @@ const ifData = fork(
     <div className={styles.wrapper}>
       <div className={styles.list}>
         {watchlists.map(({ name, id, isPublic }) => {
-          const link = `/assets/list?name=${name}@${id}`
+          const link = MakeWatchlistLink(id, name)
           return (
             <Button
               fluid
