@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
+import withSizes from 'react-sizes'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -29,7 +30,10 @@ const MobileAssetChart = ({
   icoPrice,
   extraMetric,
   setIcoPricePos,
-  icoPricePos
+  icoPricePos,
+  chartHeight,
+  isLandscapeMode,
+  ...props
 }) => {
   const [isTouch, setIsTouch] = useState(false)
   const [activeIndex, setActiveIndex] = useState(null)
@@ -77,10 +81,10 @@ const MobileAssetChart = ({
       onTouchEnd={() => setIsTouch(false)}
       onTouchCancel={() => setIsTouch(false)}
     >
-      {icoPricePos !== null && !isTouch && (
+      {icoPrice && icoPricePos !== null && !isTouch && (
         <IcoPriceTooltip y={icoPricePos} value={icoPrice} />
       )}
-      <ResponsiveContainer width='100%' aspect={1.5 / 1.0}>
+      <ResponsiveContainer width='100%' height={chartHeight}>
         <ComposedChart
           data={data}
           onMouseMove={setCurrentIndex}
@@ -108,7 +112,7 @@ const MobileAssetChart = ({
             <Tooltip
               isAnimationActive={false}
               cursor={{ stroke: 'var(--casper)' }}
-              position={{ x: 0, y: -62.5 }}
+              position={{ x: 0, y: isLandscapeMode ? -49 : -62.5 }}
               content={props => (
                 <>
                   <MobilePriceTooltip
@@ -158,4 +162,9 @@ const MobileAssetChart = ({
   )
 }
 
-export default MobileAssetChart
+const mapSizesToProps = ({ width, height }) => ({
+  chartHeight: (width > height ? height : width) / 2,
+  isLandscapeMode: width > height
+})
+
+export default withSizes(mapSizesToProps)(MobileAssetChart)

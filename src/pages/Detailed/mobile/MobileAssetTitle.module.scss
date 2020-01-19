@@ -1,0 +1,14 @@
+@import '~@santiment-network/ui/mixins';
+
+.name {
+  @include text('h4', 'm');
+
+  color: var(--rhino);
+}
+
+.ticker {
+  @include text('h4', 'm');
+
+  color: var(--casper);
+  margin-left: 5px;
+}

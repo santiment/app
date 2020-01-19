@@ -244,9 +244,7 @@ export const generateMetricsMarkup = (
         ref={ref[key]}
         dataKey={dataKey}
         dot={false}
-        activeDot={
-          activeLineDataKey === dataKey ? <ActiveLine /> : showActiveDot
-        }
+        activeDot={activeLineDataKey === dataKey && <ActiveLine />}
         isAnimationActive={false}
         connectNulls
         formatter={formatter}

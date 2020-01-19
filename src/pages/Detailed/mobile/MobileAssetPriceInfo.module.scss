@@ -4,6 +4,12 @@
   display: flex;
   padding-top: 10px;
   justify-content: space-between;
+
+  @media (orientation: landscape) {
+    @include text('body-1', 'm');
+
+    padding-top: 0;
+  }
 }
 
 .priceUsd {
@@ -11,6 +17,10 @@
   color: var(--rhino);
 
   @include text('h3');
+
+  @media (orientation: landscape) {
+    @include text('body-1', 'm');
+  }
 }
 
 .priceBlock {

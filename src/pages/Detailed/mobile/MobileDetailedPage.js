@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
-import Selector from '@santiment-network/ui/Selector/Selector'
 import { DailyActiveAddressesGQL } from '../gqlWrappers/DetailedGQL'
 import { SOCIAL_VOLUME_QUERY } from '../../../ducks/GetTimeSeries/queries/social_volume_query'
 import { NEWS_QUERY } from '../../../components/News/NewsGQL'
@@ -12,6 +11,7 @@ import {
   getTimeIntervalFromToday,
   getIntervalByTimeRange
 } from '../../../utils/dates'
+import { getInterval } from './utils'
 import { Metrics, compatabilityMap } from '../../../ducks/SANCharts/data'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import NewsSmall from '../../../components/News/NewsSmall'
@@ -22,6 +22,7 @@ import GetTimeSeries from '../../../ducks/GetTimeSeries/GetTimeSeries'
 import MobileAssetChart from './MobileAssetChart'
 import Title from './MobileAssetTitle'
 import PriceBlock from './MobileAssetPriceInfo'
+import MobileAssetChartSelector from './MobileAssetChartSelector'
 import MobileFullscreenChart from './MobileFullscreenChart'
 import ShowIf from '../../../components/ShowIf'
 import GetWatchlists from '../../../ducks/Watchlists/GetWatchlists'
@@ -46,44 +47,6 @@ const MobileDetailedPage = props => {
     }
   }
 
-  let socialVolumeInfo
-  const { socialVolume } = props
-  if (socialVolume[0] && socialVolume[1]) {
-    const yesterdaySocialVolume = socialVolume[0]
-    const todaySocialVolume = socialVolume[1]
-    const SVDiff = calcPercentageChange(
-      yesterdaySocialVolume,
-      todaySocialVolume
-    )
-    socialVolumeInfo = {
-      name: 'Social Volume',
-      metric: 'socialVolume',
-      value: todaySocialVolume,
-      period: '24h',
-      changes: SVDiff
-    }
-  }
-
-  let activeAddressesInfo
-  const { dailyActiveAddresses } = props
-  if (dailyActiveAddresses && dailyActiveAddresses.length === 2) {
-    const [
-      { activeAddresses: yesterdayActiveAddresses },
-      { activeAddresses: todayActiveAddresses }
-    ] = dailyActiveAddresses
-    const DAADiff = calcPercentageChange(
-      yesterdayActiveAddresses,
-      todayActiveAddresses
-    )
-    activeAddressesInfo = {
-      metric: 'daily_active_addresses',
-      name: 'Daily Active Addresses',
-      value: todayActiveAddresses,
-      period: '24h',
-      changes: DAADiff
-    }
-  }
-
   const { from, to } = getIntervalByTimeRange(timeRange, { isMobile: true })
 
   const metrics = [
@@ -92,7 +55,7 @@ const MobileDetailedPage = props => {
       slug,
       from: from.toISOString(),
       to: to.toISOString(),
-      interval: timeRange === '1w' ? '2h' : timeRange === '1m' ? '8h' : '1d'
+      interval: getInterval(timeRange)
     }
   ]
 
@@ -134,89 +97,117 @@ const MobileDetailedPage = props => {
             )
           }
 
-          const {
-            ticker,
-            name,
-            percentChange24h,
-            percentChange7d,
-            devActivity30,
-            devActivity60,
-            priceUsd,
-            icoPrice
-          } = project
-
-          let devActivityInfo
-          if (devActivity30 && devActivity60) {
-            const DADiff = calcPercentageChange(
-              devActivity60 * 2 - devActivity30,
-              devActivity30
-            )
-            devActivityInfo = {
-              metric: 'devActivity',
-              name: 'Development Activity',
-              value: devActivity30,
-              period: '30d',
-              changes: DADiff
-            }
-          }
           return (
             <>
               <MobileHeader
                 showBack
-                title={<Title slug={name} ticker={ticker} />}
+                title={<Title slug={project.name} ticker={project.ticker} />}
                 goBack={props.history.goBack}
               />
               <div className={styles.main}>
-                <PriceBlock
-                  changes24h={percentChange24h}
-                  changes7d={percentChange7d}
-                  priceUsd={priceUsd}
-                />
                 <GetTimeSeries
                   metrics={metrics}
-                  render={({ historyPrice = {}, timeseries }) => {
-                    if (historyPrice.isLoading) {
-                      return 'Loading...'
-                    }
-
-                    return (
+                  render={({ historyPrice = {}, timeseries }) =>
+                    historyPrice.isLoading ? (
+                      'Loading...'
+                    ) : (
                       <>
+                        <PriceBlock {...project} />
                         {!fullscreen && (
                           <MobileAssetChart
                             data={timeseries}
                             slug={slug}
-                            icoPrice={icoPrice}
+                            icoPrice={project.icoPrice}
                             icoPricePos={icoPricePos}
                             setIcoPricePos={setIcoPricePos}
                             extraMetric={extraMetric}
                           />
                         )}
                         <div className={styles.bottom}>
-                          <Selector
-                            options={['1w', '1m', '3m', '6m', 'all']}
-                            className={styles.timeRangeBlock}
-                            onSelectOption={value => {
-                              if (value !== timeRange) {
+                          {!fullscreen && (
+                            <MobileAssetChartSelector
+                              onChangeTimeRange={value => {
                                 setTimeRange(value)
                                 setIcoPricePos(null)
-                              }
-                            }}
-                            defaultSelected={timeRange}
-                          />
+                              }}
+                              timeRange={timeRange}
+                            />
+                          )}
                           <MobileFullscreenChart
                             isOpen={fullscreen}
-                            onToggleFullscreen={state =>
-                              toggleFullscreen(state)
-                            }
+                            toggleOpen={toggleFullscreen}
+                            project={project}
+                            onChangeTimeRange={setTimeRange}
+                            timeRange={timeRange}
+                            data={timeseries}
+                            slug={slug}
+                            extraMetric={extraMetric}
                           />
                         </div>
                       </>
                     )
-                  }}
+                  }
                 />
                 <GetTimeSeries
                   metrics={lastTwoDaysMetrics}
                   render={({ isLoading, timeseries = [] }) => {
+                    let devActivityInfo
+                    const { devActivity30, devActivity60 } = project
+                    if (devActivity30 && devActivity60) {
+                      const DADiff = calcPercentageChange(
+                        devActivity60 * 2 - devActivity30,
+                        devActivity30
+                      )
+                      devActivityInfo = {
+                        metric: 'devActivity',
+                        name: 'Development Activity',
+                        value: devActivity30,
+                        period: '30d',
+                        changes: DADiff
+                      }
+                    }
+
+                    let socialVolumeInfo
+                    const { socialVolume } = props
+                    if (socialVolume[0] && socialVolume[1]) {
+                      const yesterdaySocialVolume = socialVolume[0]
+                      const todaySocialVolume = socialVolume[1]
+                      const SVDiff = calcPercentageChange(
+                        yesterdaySocialVolume,
+                        todaySocialVolume
+                      )
+                      socialVolumeInfo = {
+                        name: 'Social Volume',
+                        metric: 'socialVolume',
+                        value: todaySocialVolume,
+                        period: '24h',
+                        changes: SVDiff
+                      }
+                    }
+
+                    let activeAddressesInfo
+                    const { dailyActiveAddresses } = props
+                    if (
+                      dailyActiveAddresses &&
+                      dailyActiveAddresses.length === 2
+                    ) {
+                      const [
+                        { activeAddresses: yesterdayActiveAddresses },
+                        { activeAddresses: todayActiveAddresses }
+                      ] = dailyActiveAddresses
+                      const DAADiff = calcPercentageChange(
+                        yesterdayActiveAddresses,
+                        todayActiveAddresses
+                      )
+                      activeAddressesInfo = {
+                        metric: 'daily_active_addresses',
+                        name: 'Daily Active Addresses',
+                        value: todayActiveAddresses,
+                        period: '24h',
+                        changes: DAADiff
+                      }
+                    }
+
                     let transactionVolumeInfo
                     if (timeseries.length > 1) {
                       const { transaction_volume: yesterdayTV } = timeseries[
@@ -261,7 +252,7 @@ const MobileDetailedPage = props => {
                         {transactionVolumeInfo && (
                           <MobileMetricCard
                             {...transactionVolumeInfo}
-                            measure={ticker}
+                            measure={project.ticker}
                             {...rest}
                           />
                         )}

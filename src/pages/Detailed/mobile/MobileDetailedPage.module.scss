@@ -14,14 +14,6 @@
   margin: 0 -16px;
 }
 
-.ticker {
-  color: var(--casper);
-}
-
-.timeRangeBlock {
-  margin: 8px 0;
-}
-
 .news__heading {
   margin: 0;
   margin-top: 15px;
@@ -34,4 +26,5 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 8px 0;
 }
