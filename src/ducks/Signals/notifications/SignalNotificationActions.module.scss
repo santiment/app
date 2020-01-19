@@ -3,6 +3,7 @@
 .container {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 
 .link {
@@ -10,5 +11,14 @@
 
   &:hover {
     color: var(--jungle-green-hover);
+  }
+}
+
+.undo {
+  color: var(--persimmon);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--persimmon-hover);
   }
 }
