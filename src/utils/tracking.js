@@ -55,7 +55,9 @@ export function initializeTracking (trackerIDs = TRACKER_IDs) {
  *   })
  */
 export const event =
-  isBrowser && process.env.BACKEND_URL === PRODUCTION_API_URL
+  isBrowser &&
+  process.env.BACKEND_URL === PRODUCTION_API_URL &&
+  !hasDoNotTrack()
     ? ({ action, category, label, ...values }) => {
       window.gtag('event', action, {
         event_category: category,
@@ -72,6 +74,13 @@ export const event =
  * @param {Array} trackerIDs - (optional) a list of extra trackers to run the command on
  */
 export function pageview (rawPath, trackerIDs = TRACKER_IDs) {
+  if (
+    !isBrowser ||
+    process.env.BACKEND_URL !== PRODUCTION_API_URL ||
+    hasDoNotTrack()
+  ) {
+    return
+  }
   // path is required in .pageview()
   if (!rawPath) {
     return
