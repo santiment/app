@@ -1,4 +1,5 @@
 const TRACKER_IDs = ['UA-100571693-1', 'UA-100571693-2']
+const PRODUCTION_API_URL = 'https://api.santiment.net'
 
 const isBrowser = typeof window !== 'undefined'
 const hasDoNotTrack = () => {
@@ -6,8 +7,7 @@ const hasDoNotTrack = () => {
     navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
   return dnt !== '1' && dnt !== 'yes'
 }
-// GA strings need to have leading/trailing whitespace trimmed,
-// and not all browsers have String.prototoype.trim()
+// GA strings need to have trailing whitespace trimmed,
 function trim (s) {
   return s.replace(/^\s+|\s+$/g, '')
 }
@@ -23,10 +23,8 @@ function loadScript () {
 }
 
 export function initializeTracking (trackerIDs = TRACKER_IDs) {
-  if (isBrowser && process.env.BACKEND_URL === 'https://api.santiment.net') {
-    if (hasDoNotTrack()) {
-      console.debug('Respecting Do-Not-Track')
-    } else {
+  if (isBrowser && process.env.BACKEND_URL === PRODUCTION_API_URL) {
+    if (!hasDoNotTrack()) {
       loadScript()
       window.dataLayer = window.dataLayer || []
       function gtag () {
@@ -57,7 +55,7 @@ export function initializeTracking (trackerIDs = TRACKER_IDs) {
  *   })
  */
 export const event =
-  isBrowser && process.env.BACKEND_URL === 'https://api.santiment.net'
+  isBrowser && process.env.BACKEND_URL === PRODUCTION_API_URL
     ? ({ action, category, label, ...values }) => {
       window.gtag('event', action, {
         event_category: category,
@@ -70,10 +68,9 @@ export const event =
 /**
  * pageview:
  * Basic GA pageview tracking
- * @param  {String} path - the current page page e.g. '/about'
+ * @param  {String} path - the current page e.g. '/about'
  * @param {Array} trackerIDs - (optional) a list of extra trackers to run the command on
  */
-
 export function pageview (rawPath, trackerIDs = TRACKER_IDs) {
   // path is required in .pageview()
   if (!rawPath) {
