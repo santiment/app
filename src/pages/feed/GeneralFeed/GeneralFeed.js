@@ -5,7 +5,6 @@ import { FEED_QUERY } from '../../../queries/FeedGQL'
 import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 import PageLoader from '../../../components/Loader/PageLoader'
 import FeedListLoading from './FeedList/FeedListLoading'
-import UnAuth from '../../../components/UnAuth/UnAuth'
 import { checkIsLoggedIn, checkIsLoggedInPending } from '../../UserSelectors'
 import { extractEventsFromData, makeFeedVariables } from './utils'
 import { fetchSignals } from '../../../ducks/Signals/common/actions'
@@ -30,12 +29,6 @@ const Header = () => (
 const Empty = () => (
   <div className={styles.scrollable}>
     <PageLoader />
-  </div>
-)
-
-const Anon = () => (
-  <div className={styles.scrollable}>
-    <UnAuth />
   </div>
 )
 
@@ -64,29 +57,25 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading, fetchSignals }) => {
     <div className={styles.container}>
       <Header />
 
-      {!isLoggedIn ? (
-        <Anon />
-      ) : (
-        <Query
-          query={FEED_QUERY}
-          variables={makeFeedVariables(START_DATE)}
-          notifyOnNetworkStatusChange={true}
-        >
-          {({ data, fetchMore: fetchMoreCommon, loading: loadingEvents }) => {
-            if (!data) {
-              return <Empty />
-            }
+      <Query
+        query={FEED_QUERY}
+        variables={makeFeedVariables(START_DATE)}
+        notifyOnNetworkStatusChange={true}
+      >
+        {({ data, fetchMore: fetchMoreCommon, loading: loadingEvents }) => {
+          if (!data) {
+            return <Empty />
+          }
 
-            return (
-              <FeedListLoading
-                events={extractEventsFromData(data)}
-                fetchMoreCommon={fetchMoreCommon}
-                isLoading={loadingEvents}
-              />
-            )
-          }}
-        </Query>
-      )}
+          return (
+            <FeedListLoading
+              events={extractEventsFromData(data)}
+              fetchMoreCommon={fetchMoreCommon}
+              isLoading={loadingEvents}
+            />
+          )
+        }}
+      </Query>
     </div>
   )
 }
