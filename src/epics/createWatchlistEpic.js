@@ -84,7 +84,6 @@ const createWatchlistEpic = (action$, store, { client }) =>
       })
       return Observable.from(mutationPromise)
         .mergeMap(props => {
-          console.log(props)
           const {
             data: {
               createUserList: { id, name }
