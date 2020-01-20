@@ -1,3 +1,4 @@
+import React from 'react'
 import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
@@ -10,6 +11,8 @@ import {
 } from '../pages/Dashboard/utils'
 import { GA_FIRST_WATCHLIST } from '../enums/GaEvents'
 import * as actions from './../actions/types'
+import WatchlistNotificationActions from '../pages/assets/notifications/WatchlistNotificationActions'
+import { MakeWatchlistLink } from '../components/Navbar/NavbarAssetsDropdownWatchlist'
 
 const createUserListGQL = gql`
   mutation createUserList(
@@ -80,7 +83,13 @@ const createWatchlistEpic = (action$, store, { client }) =>
         }
       })
       return Observable.from(mutationPromise)
-        .mergeMap(() => {
+        .mergeMap(props => {
+          console.log(props)
+          const {
+            data: {
+              createUserList: { id, name }
+            }
+          } = props
           const completedTasks = getOnboardingCompletedTasks()
           if (!completedTasks.includes('watchlist')) {
             completeOnboardingTask('watchlist')
@@ -90,7 +99,17 @@ const createWatchlistEpic = (action$, store, { client }) =>
             Observable.of({
               type: actions.USER_ADD_NEW_ASSET_LIST_SUCCESS
             }),
-            Observable.of(showNotification('Created the new watchlist'))
+            Observable.of(
+              showNotification({
+                title: 'Created the new watchlist',
+                description: (
+                  <WatchlistNotificationActions
+                    id={id}
+                    toLink={MakeWatchlistLink(id, name)}
+                  />
+                )
+              })
+            )
           )
         })
         .catch(error => {
