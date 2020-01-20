@@ -5,7 +5,7 @@ import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { TRIGGERS_QUERY } from './common/queries'
 import { completeOnboardingTask } from '../../pages/Dashboard/utils'
-import GoogleAnalytics from './../../utils/tracking'
+import GA from './../../utils/tracking'
 import { GA_FIRST_SIGNAL } from '../../enums/GaEvents'
 
 export const CREATE_TRIGGER_QUERY = gql`
@@ -85,7 +85,7 @@ export const createSignalEpic = (action$, store, { client }) =>
                   newTrigger.id > 0 &&
                   data.currentUser.triggers.length === 0
                 ) {
-                  GoogleAnalytics.event(GA_FIRST_SIGNAL)
+                  GA.event(GA_FIRST_SIGNAL)
                 }
 
                 data.currentUser.triggers = [

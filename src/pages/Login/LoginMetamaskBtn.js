@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import LoginMetamaskUndetected from './LoginMetamaskUndetected'
 import { hasMetamask as detectMetamask } from '../../web3Helpers'
 import { showNotification } from './../../actions/rootActions'
-import GoogleAnalytics from '../../utils/tracking'
+import GA from '../../utils/tracking'
 import { USER_ETH_LOGIN } from './../../actions/types'
 import styles from './index.module.scss'
 
@@ -43,7 +43,7 @@ const mapStateToProps = ({ user }) => ({
 
 const mapDispatchToProps = dispatch => ({
   requestAuth: consent => {
-    GoogleAnalytics.event({
+    GA.event({
       category: 'User',
       action: 'Choose an metamask provider'
     })

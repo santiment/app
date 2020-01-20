@@ -9,7 +9,7 @@ import Button from '@santiment-network/ui/Button'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import { store } from '../../index'
 import { showNotification } from '../../actions/rootActions'
-import GoogleAnalytics from './../../utils/tracking'
+import GA from './../../utils/tracking'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import {
   getSEOLinkFromIdAndTitle,
@@ -33,7 +33,7 @@ const mutation = gql`
 
 const onSuccess = () => {
   localStorage.setItem(SUBSCRIPTION_FLAG, '+')
-  GoogleAnalytics.event({
+  GA.event({
     category: 'User',
     action: `User requested an email for verification`
   })

@@ -11,7 +11,7 @@ import { EMAIL_LOGIN_MUTATION } from './loginGQL'
 import { store } from '../../index'
 import { showNotification } from '../../actions/rootActions'
 import { SUBSCRIPTION_FLAG } from '../../epics/handleEmailLogin'
-import GoogleAnalytics from './../../utils/tracking'
+import GA from './../../utils/tracking'
 import styles from './SubscriptionForm.module.scss'
 
 const SUBSCRIPTION_LABEL = 'Receive product updates and weekly newsletter'
@@ -47,7 +47,7 @@ class SubscriptionForm extends PureComponent {
     emailLogin({ variables: { email } })
       .then(() => {
         this.setState({ waiting: false })
-        GoogleAnalytics.event({
+        GA.event({
           category: 'User',
           action: `User requested an email for verification ${
             hasSubscribed ? 'with' : 'without'

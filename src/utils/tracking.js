@@ -22,7 +22,7 @@ function loadScript () {
   head.appendChild(importGTAG)
 }
 
-export function initialize (trackerIDs = TRACKER_IDs) {
+export function initializeTracking (trackerIDs = TRACKER_IDs) {
   if (isBrowser && process.env.BACKEND_URL === 'https://api.santiment.net') {
     if (hasDoNotTrack()) {
       console.debug('Respecting Do-Not-Track')
@@ -32,12 +32,12 @@ export function initialize (trackerIDs = TRACKER_IDs) {
       function gtag () {
         window.dataLayer.push(arguments)
       }
+      window.gtag = gtag
       gtag('js', new Date())
 
       trackerIDs.forEach(function (ID) {
         gtag('config', ID)
       })
-      window.gtag = gtag
     }
   }
 }
@@ -46,6 +46,7 @@ export function initialize (trackerIDs = TRACKER_IDs) {
  * Use the event command to send event data
  *
  * For help check this - ttps://developers.google.com/gtagjs/reference/api
+ * https://developers.google.com/analytics/devguides/collection/gtagjs/events
  * @param <event_name> is event name that you make up, with arbitrary (i.e. custom) parameters
  * @param <event_params> is one or more parameter-value pairs. Each pair separated by a comma
  *
@@ -57,7 +58,13 @@ export function initialize (trackerIDs = TRACKER_IDs) {
  */
 export const event =
   isBrowser && process.env.BACKEND_URL === 'https://api.santiment.net'
-    ? (...args) => window.gtag('event', ...args)
+    ? ({ action, category, label, ...values }) => {
+      window.gtag('event', action, {
+        event_category: category,
+        event_label: label,
+        ...values
+      })
+    }
     : () => {}
 
 /**
@@ -88,7 +95,7 @@ export function pageview (rawPath, trackerIDs = TRACKER_IDs) {
 }
 
 export default {
-  initializeTracking: initialize,
+  initializeTracking,
   event,
   pageview
 }

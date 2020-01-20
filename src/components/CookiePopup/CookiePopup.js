@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
 import Cookie from './Cookie'
-import GoogleAnalytics from './../../utils/tracking'
+import GA from './../../utils/tracking'
 import styles from './CookiePopup.module.scss'
 
 const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED'
 
 const acceptCookiePolicy = () => {
-  GoogleAnalytics.event({
+  GA.event({
     category: 'User',
     action: 'Cookie policy accepted'
   })

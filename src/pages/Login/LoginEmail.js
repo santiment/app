@@ -6,7 +6,7 @@ import Icon from '@santiment-network/ui/Icon'
 import gql from 'graphql-tag'
 import cx from 'classnames'
 import { Mutation } from 'react-apollo'
-import GoogleAnalytics from '../../utils/tracking'
+import GA from '../../utils/tracking'
 import styles from './index.module.scss'
 
 const mutation = gql`
@@ -43,7 +43,7 @@ export default () => {
                 onSubmit={e => {
                   e.preventDefault()
 
-                  GoogleAnalytics.event({
+                  GA.event({
                     category: 'User',
                     action: 'Choose an email provider'
                   })
