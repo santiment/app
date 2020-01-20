@@ -9,7 +9,7 @@
 
 .tabs {
   display: block;
-  margin-bottom: 24px;
+  margin-bottom: 40px;
 
   @include responsive('phone', 'phone-xs') {
     padding: 0 16px;

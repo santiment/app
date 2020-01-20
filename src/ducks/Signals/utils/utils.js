@@ -595,7 +595,7 @@ export const getTrendingWordsTarget = ({
     }
     case TRENDING_WORDS_WATCHLIST_MENTIONED.value: {
       return {
-        watchlist_id: +targetWatchlist.id
+        watchlist_id: +(targetWatchlist.id || targetWatchlist.value)
       }
     }
     default: {

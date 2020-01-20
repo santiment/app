@@ -90,8 +90,7 @@ export const TriggerProjectsSelector = ({
       setListItems(newItems)
     }
 
-    const isRemoving = newItems.length < listItems.length
-    if (isSingle || isRemoving) {
+    if (isSingle) {
       approve(newItems)
     }
   }
@@ -106,7 +105,7 @@ export const TriggerProjectsSelector = ({
 
   const cancel = () => {
     validate(true)
-    setOpened(false)
+    closeDialog()
   }
 
   const approve = selected => {

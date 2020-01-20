@@ -60,4 +60,4 @@ stories
   .add('Insight Card', () => (
     <InsightCard {...insights[2]} onLike={console.log} />
   ))
-  .add('Insights Tab', () => <Insights insights={insights} />)
+  .add('UnAuth Tab', () => <Insights insights={insights} />)

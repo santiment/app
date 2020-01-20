@@ -9,8 +9,7 @@ import styles from './SignalControls.module.scss'
 
 const RemoveDescription = title => (
   <>
-    Are you sure you want to delete{' '}
-    <span className={styles.title}>{title}</span> ?
+    Are you sure you want to delete <span>{title}</span> ?
   </>
 )
 
@@ -20,28 +19,33 @@ const RemoveSignalButton = ({
   removeSignal,
   redirect,
   className,
-  trigger
-}) => (
-  <ConfirmDialog
-    id={id}
-    title='Delete signal'
-    description={RemoveDescription(signalTitle)}
-    onApprove={removeSignal}
-    redirect={redirect}
-    classes={styles}
-    trigger={
-      trigger || (
-        <Button
-          variant='ghost'
-          type='button'
-          className={cx(className, styles.btn)}
-        >
-          <Icon type='remove' />
-        </Button>
-      )
-    }
-  />
-)
+  withConfirm = true,
+  trigger: TriggerEl = () => (
+    <Button variant='ghost' type='button' className={cx(className, styles.btn)}>
+      <Icon type='remove' />
+    </Button>
+  )
+}) => {
+  if (withConfirm) {
+    return (
+      <ConfirmDialog
+        id={id}
+        title='Delete signal'
+        description={RemoveDescription(signalTitle)}
+        onApprove={removeSignal}
+        redirect={redirect}
+        classes={styles}
+        trigger={
+          <div>
+            <TriggerEl />
+          </div>
+        }
+      />
+    )
+  } else {
+    return <TriggerEl onClick={() => removeSignal(id)} />
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   removeSignal: id => {

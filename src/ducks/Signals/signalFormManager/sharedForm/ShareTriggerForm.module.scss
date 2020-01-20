@@ -30,9 +30,11 @@
 }
 
 .actions {
-  display: flex;
   margin-top: 40px;
-  justify-content: flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .btnEdit {
@@ -48,17 +50,26 @@
   }
 }
 
-.btnAdd {
+.cardPanel {
+  padding: 0 !important;
+  border: none;
+  box-shadow: none;
+}
+
+.copyWrapper {
+  border: none !important;
+  margin: 0 !important;
+  width: initial !important;
+}
+
+.copyBtn {
+  margin: 0 !important;
+  color: var(--white) !important;
+
   @include responsive('phone', 'phone-xs') {
     display: flex;
     justify-content: center;
 
     @include text('body-2');
   }
-}
-
-.cardPanel {
-  padding: 0 !important;
-  border: none;
-  box-shadow: none;
 }

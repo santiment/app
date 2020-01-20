@@ -33,9 +33,7 @@ export const extractEventsFromData = data => {
   const { timelineEvents } = data
   const [first] = timelineEvents
   const { events } = first
-  return events.filter(
-    ({ post, payload, trigger }) => post || (trigger && payload)
-  )
+  return events
 }
 
 export const isBottom = el =>

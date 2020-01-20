@@ -1,32 +1,57 @@
 import React, { useState } from 'react'
+import cx from 'classnames'
 import { connect } from 'react-redux'
 import debounce from 'lodash.debounce'
 import Button from '@santiment-network/ui/Button'
 import { createTrigger } from '../../../ducks/Signals/common/actions'
-import styles from './CopySignal.module.scss'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import isEqual from 'lodash.isequal'
+import styles from './CopySignal.module.scss'
 
-const CopySignal = ({ isAuthor, isCreated, signal, createTrigger }) => {
+const CopySignal = ({
+  as = 'a',
+  isAuthor,
+  isCreated,
+  signal,
+  createTrigger,
+  onCreate,
+  label = 'Copy signal',
+  classes = {},
+  btnParams
+}) => {
   if (isAuthor || isCreated) {
     return null
   }
 
+  const { settings } = signal
+  if (settings && settings.target && settings.target.watchlist_id > 0) {
+    return null
+  }
+
   const copySignal = debounce(() => {
-    const newSignal = { ...signal }
-    delete newSignal.id
-    newSignal.isPublic = false
-    createTrigger(newSignal)
-    setCreation && setCreation(true)
+    if (onCreate) {
+      onCreate()
+    } else {
+      const newSignal = { ...signal }
+      delete newSignal.id
+      newSignal.isPublic = false
+      createTrigger(newSignal)
+      setCreation && setCreation(true)
+    }
   })
 
   const [isCreation, setCreation] = useState(false)
 
   return (
     !isCreation && (
-      <div className={styles.bottom}>
-        <Button onClick={copySignal} as='a' className={styles.copyBtn}>
-          Copy signal
+      <div className={cx(styles.bottom, classes.copyWrapper)}>
+        <Button
+          onClick={copySignal}
+          as={as}
+          className={cx(styles.copyBtn, classes.copyBtn)}
+          {...btnParams}
+        >
+          {label}
         </Button>
       </div>
     )

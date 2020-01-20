@@ -11,10 +11,10 @@ import InsightsWrap from '../../components/Insight/InsightsWrap'
 import AnonBannerCardB from '../../components/Banner/AnonBanner/AnonBannerCardB'
 import { ALL_INSIGHTS_BY_PAGE_QUERY } from '../../queries/InsightsGQL'
 import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
-import { creationDateSort } from '../Insights/utils'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import StoriesList from '../../components/Stories/StoriesList'
 import paywallBoundaries from './paywallBoundaries'
+import { creationDateSort } from '../../components/Insight/utils'
 import styles from './index.module.scss'
 
 function onGetStartedClick () {

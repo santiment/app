@@ -7,6 +7,11 @@
   padding: 20px 15px;
 }
 
+.inlineLoader {
+  font-size: 5px;
+  margin-left: 16px;
+}
+
 .load {
   display: flex;
   align-items: center;
@@ -54,6 +59,8 @@
 
   color: var(--mirage);
   margin: 0 0 24px;
+  display: flex;
+  align-items: center;
 }
 
 .label {

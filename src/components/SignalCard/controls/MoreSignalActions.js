@@ -84,7 +84,7 @@ const MoreSignalActions = ({
             <RemoveSignalButton
               id={signalId}
               signalTitle={signalTitle}
-              trigger={<div className={styles.removeSignal}>Delete</div>}
+              trigger={() => <div className={styles.removeSignal}>Delete</div>}
             />
           </div>
         )}

@@ -46,7 +46,7 @@ const VisualBacktestChart = ({
 
   const renderChart = () => {
     return (
-      <ComposedChart data={data}>
+      <ComposedChart data={data} margin={{ left: 0, right: 0 }}>
         <defs>
           <Gradients />
         </defs>
@@ -71,6 +71,7 @@ const VisualBacktestChart = ({
         {referenceDots}
         <Tooltip
           content={<CustomTooltip />}
+          cursor={{ stroke: 'var(--casper)' }}
           position={{ x: 0, y: -22 }}
           isAnimationActive={false}
         />

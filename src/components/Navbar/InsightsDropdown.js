@@ -11,7 +11,6 @@ import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import { store } from '../../index'
 import { showNotification } from '../../actions/rootActions'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
-import { getSEOLinkFromIdAndTitle } from '../../pages/Insights/utils'
 import { dateDifferenceInWords } from '../../utils/dates'
 import {
   ALL_INSIGHTS_BY_PAGE_QUERY,
@@ -19,6 +18,7 @@ import {
 } from '../../queries/InsightsGQL'
 import { SUBSCRIPTION_FLAG } from '../../epics/handleEmailLogin'
 import styles from './InsightsDropdown.module.scss'
+import { getSEOLinkFromIdAndTitle, publishDateSorter } from '../Insight/utils'
 
 const mutation = gql`
   mutation($email: String!) {
@@ -139,6 +139,7 @@ const Insights = props => (
   <Query {...props}>
     {({ data: { insights = [] } = {} }) =>
       insights
+        .sort(publishDateSorter)
         .slice(0, 3)
         .map(insight => <Insight key={insight.id} {...insight} />)
     }

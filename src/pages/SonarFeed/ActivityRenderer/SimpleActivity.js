@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom'
 import Markdown from 'react-markdown'
 import { SignalTypeIcon } from '../../../components/SignalCard/controls/SignalControls'
 import { SIGNAL_ANCHORS } from '../../../ducks/Signals/common/constants'
-import { dateDifferenceInWordsString } from '../../../utils/dates'
-import styles from './ActivityRenderer.module.scss'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
+import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
+import styles from './ActivityRenderer.module.scss'
 
 const SimpleActivity = ({
   date,
   classes,
+  user,
   activity: {
     triggeredAt,
     payload,
@@ -30,15 +31,13 @@ const SimpleActivity = ({
             >
               {title}
             </Link>
-            <span className={styles.date}>
-              {dateDifferenceInWordsString(triggeredAt || date)}
-            </span>
           </h4>
         </div>
         <Markdown
           source={Object.values(payload)[0]}
           className={classes.activityMarkdown}
         />
+        <SignalCreator user={user} date={triggeredAt || date} />
         <CopySignal signal={trigger} />
       </div>
     </div>
