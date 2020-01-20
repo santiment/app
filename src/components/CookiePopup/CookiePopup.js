@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import GoogleAnalytics from 'react-ga'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Button from '@santiment-network/ui/Button'
 import Cookie from './Cookie'
+import GoogleAnalytics from './../../utils/tracking'
 import styles from './CookiePopup.module.scss'
 
 const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED'

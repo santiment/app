@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
-import GoogleAnalytics from 'react-ga'
 import * as actions from './common/actions'
 import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { TRIGGERS_QUERY } from './common/queries'
 import { completeOnboardingTask } from '../../pages/Dashboard/utils'
+import GoogleAnalytics from './../../utils/tracking'
 import { GA_FIRST_SIGNAL } from '../../enums/GaEvents'
 
 export const CREATE_TRIGGER_QUERY = gql`

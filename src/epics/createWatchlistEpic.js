@@ -1,8 +1,8 @@
 import Raven from 'raven-js'
 import gql from 'graphql-tag'
 import { Observable } from 'rxjs'
-import GoogleAnalytics from 'react-ga'
 import { showNotification } from './../actions/rootActions'
+import GoogleAnalytics from './../../utils/tracking'
 import { ALL_WATCHLISTS_QUERY } from '../queries/WatchlistGQL'
 import {
   completeOnboardingTask,

@@ -55,7 +55,7 @@ export function initialize (trackerIDs = TRACKER_IDs) {
  *     method: 'metamask',
  *   })
  */
-export const sendEvent =
+export const event =
   isBrowser && process.env.BACKEND_URL === 'https://api.santiment.net'
     ? (...args) => window.gtag('event', ...args)
     : () => {}
@@ -89,6 +89,6 @@ export function pageview (rawPath, trackerIDs = TRACKER_IDs) {
 
 export default {
   initializeTracking: initialize,
-  sendEvent,
+  event,
   pageview
 }

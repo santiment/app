@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import Raven from 'raven-js'
-import GoogleAnalytics from 'react-ga'
 import { connect } from 'react-redux'
 import Search from '@santiment-network/ui/Search'
 import { gotoExplore } from './trendsUtils'
+import GoogleAnalytics from './../../utils/tracking'
 
 export class TrendsForm extends Component {
   static defaultProps = {

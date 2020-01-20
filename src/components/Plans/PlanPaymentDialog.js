@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import GA from 'react-ga'
 import { Mutation } from 'react-apollo'
 import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
@@ -16,6 +15,7 @@ import {
 } from '../../queries/plans'
 import { formatError, contactAction } from '../../utils/notifications'
 import { getDateFormats } from '../../utils/dates'
+import GA from './../../utils/tracking'
 import styles from './PlanPaymentDialog.module.scss'
 import sharedStyles from './Plans.module.scss'
 

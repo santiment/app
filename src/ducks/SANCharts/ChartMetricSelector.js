@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import GA from 'react-ga'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import Panel from '@santiment-network/ui/Panel'
@@ -11,6 +10,7 @@ import MetricExplanation from './MetricExplanation'
 import ExplanationTooltip from '../../components/ExplanationTooltip/ExplanationTooltip'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
 import { getMarketSegment } from './utils'
+import GA from './../../utils/tracking'
 import { Metrics, Events } from './data'
 import styles from './ChartMetricSelector.module.scss'
 

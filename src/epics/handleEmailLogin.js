@@ -1,11 +1,11 @@
 import Raven from 'raven-js'
-import GoogleAnalytics from 'react-ga'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import { replace } from 'react-router-redux'
 import { showNotification } from './../actions/rootActions'
 import * as actions from './../actions/types'
 import { savePrevAuthProvider } from './../utils/localStorage'
+import GoogleAnalytics from './../utils/tracking'
 import { setCoupon } from '../utils/coupon'
 import { USER_GQL_FRAGMENT } from './handleLaunch'
 
@@ -15,7 +15,7 @@ const emailLoginVerifyGQL = gql`
   mutation emailLoginVerify($email: String!, $token: String!) {
     emailLoginVerify(email: $email, token: $token) {
       token
-      user 
+      user
         ${USER_GQL_FRAGMENT}
     }
   }
