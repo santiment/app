@@ -1,4 +1,3 @@
-import GoogleAnalytics from 'react-ga'
 import { ofType } from 'redux-observable'
 import { skip, map } from 'rxjs/operators'
 import { showNotification } from './../actions/rootActions'
@@ -12,12 +11,6 @@ const handleOffline = (action$, store, { client }) =>
     ofType(APP_CHANGE_ONLINE_STATUS),
     skip(1),
     map(({ payload: { isOnline = true } }) => {
-      if (!isOnline) {
-        GoogleAnalytics.event({
-          category: 'User',
-          action: 'User is offline'
-        })
-      }
       return showNotification(notificationMsg(isOnline))
     })
   )
