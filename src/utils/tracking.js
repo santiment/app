@@ -22,7 +22,7 @@ function loadScript () {
   head.appendChild(importGTAG)
 }
 
-export const initialize = (trackerIDs = TRACKER_IDs) => {
+export function initialize (trackerIDs = TRACKER_IDs) {
   if (isBrowser && process.env.BACKEND_URL === 'https://api.santiment.net') {
     if (hasDoNotTrack()) {
       console.debug('Respecting Do-Not-Track')
@@ -30,7 +30,7 @@ export const initialize = (trackerIDs = TRACKER_IDs) => {
       loadScript()
       window.dataLayer = window.dataLayer || []
       function gtag () {
-        dataLayer.push(arguments)
+        window.dataLayer.push(arguments)
       }
       gtag('js', new Date())
 
@@ -90,5 +90,5 @@ export function pageview (rawPath, trackerIDs = TRACKER_IDs) {
 export default {
   initializeTracking: initialize,
   sendEvent,
-  pageView
+  pageview
 }
