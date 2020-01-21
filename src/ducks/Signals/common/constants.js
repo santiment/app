@@ -6,8 +6,3 @@ export const SIGNAL_ROUTES = {
 export const SIGNAL_ANCHORS = {
   ACTIVITIES: '#activities'
 }
-
-export const TRIGGER_STEPS = {
-  SETTINGS: 0,
-  CONFIRM: 1
-}
