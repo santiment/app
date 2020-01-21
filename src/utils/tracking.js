@@ -1,5 +1,4 @@
 const TRACKER_IDs = ['UA-100571693-1', 'UA-100571693-2']
-const PRODUCTION_API_URL = 'https://api.santiment.net'
 
 const isBrowser = typeof window !== 'undefined'
 const isProdApp = (window.env || {}).BACKEND_URL === 'https://api.santiment.net'
