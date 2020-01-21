@@ -1,12 +1,12 @@
 import React from 'react'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
-import GoogleAnalytics from 'react-ga'
 import * as actions from './common/actions'
 import { showNotification } from './../../actions/rootActions'
 import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { TRIGGERS_QUERY } from './common/queries'
 import { completeOnboardingTask } from '../../pages/Dashboard/utils'
+import GA from './../../utils/tracking'
 import { GA_FIRST_SIGNAL } from '../../enums/GaEvents'
 import SignalNotificationActions from './notifications/SignalNotificationActions'
 
@@ -87,7 +87,7 @@ export const createSignalEpic = (action$, store, { client }) =>
                   newTrigger.id > 0 &&
                   data.currentUser.triggers.length === 0
                 ) {
-                  GoogleAnalytics.event(GA_FIRST_SIGNAL)
+                  GA.event(GA_FIRST_SIGNAL)
                 }
 
                 data.currentUser.triggers = [

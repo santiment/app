@@ -2,11 +2,11 @@ import React from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
-import GoogleAnalytics from 'react-ga'
 import { connect } from 'react-redux'
 import LoginMetamaskUndetected from './LoginMetamaskUndetected'
 import { hasMetamask as detectMetamask } from '../../web3Helpers'
 import { showNotification } from './../../actions/rootActions'
+import GA from '../../utils/tracking'
 import { USER_ETH_LOGIN } from './../../actions/types'
 import styles from './index.module.scss'
 
@@ -43,7 +43,7 @@ const mapStateToProps = ({ user }) => ({
 
 const mapDispatchToProps = dispatch => ({
   requestAuth: consent => {
-    GoogleAnalytics.event({
+    GA.event({
       category: 'User',
       action: 'Choose an metamask provider'
     })
