@@ -2,6 +2,7 @@ const TRACKER_IDs = ['UA-100571693-1', 'UA-100571693-2']
 const PRODUCTION_API_URL = 'https://api.santiment.net'
 
 const isBrowser = typeof window !== 'undefined'
+const isProdApp = (window.env || {}).BACKEND_URL === 'https://api.santiment.net'
 const hasDoNotTrack = () => {
   const dnt =
     navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
@@ -23,20 +24,18 @@ function loadScript () {
 }
 
 export function initializeTracking (trackerIDs = TRACKER_IDs) {
-  if (isBrowser && process.env.BACKEND_URL === PRODUCTION_API_URL) {
-    if (!hasDoNotTrack()) {
-      loadScript()
-      window.dataLayer = window.dataLayer || []
-      function gtag () {
-        window.dataLayer.push(arguments)
-      }
-      window.gtag = gtag
-      gtag('js', new Date())
-
-      trackerIDs.forEach(function (ID) {
-        gtag('config', ID)
-      })
+  if (isBrowser && isProdApp && !hasDoNotTrack()) {
+    loadScript()
+    window.dataLayer = window.dataLayer || []
+    function gtag () {
+      window.dataLayer.push(arguments)
     }
+    window.gtag = gtag
+    gtag('js', new Date())
+
+    trackerIDs.forEach(function (ID) {
+      gtag('config', ID)
+    })
   }
 }
 
@@ -52,9 +51,7 @@ export function initializeTracking (trackerIDs = TRACKER_IDs) {
  *   })
  */
 export const event =
-  isBrowser &&
-  process.env.BACKEND_URL === PRODUCTION_API_URL &&
-  !hasDoNotTrack()
+  isBrowser && isProdApp && !hasDoNotTrack()
     ? ({ action, category, label, ...values }) => {
       window.gtag('event', action, {
         event_category: category,
@@ -71,11 +68,7 @@ export const event =
  * @param {Array} trackerIDs - (optional) a list of extra trackers to run the command on
  */
 export function pageview (rawPath, trackerIDs = TRACKER_IDs) {
-  if (
-    !isBrowser ||
-    process.env.BACKEND_URL !== PRODUCTION_API_URL ||
-    hasDoNotTrack()
-  ) {
+  if (!isBrowser || !isProdApp || hasDoNotTrack()) {
     return
   }
   // path is required in .pageview()
