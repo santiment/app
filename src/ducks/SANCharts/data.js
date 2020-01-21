@@ -37,7 +37,7 @@ export const Events = {
 
 export const Metrics = {
   historyPrice: {
-    node: Line,
+    type: 'line',
     color: 'jungle-green',
     label: 'Price',
     dataKey: 'priceUsd',
@@ -57,14 +57,14 @@ export const Metrics = {
   },
   marketcap: {
     category: 'Financial',
-    node: Line,
+    type: 'line',
     label: 'Marketcap',
     color: 'malibu',
     formatter: usdFormatter
   },
   volume: {
     category: 'Financial',
-    node: Bar,
+    type: 'bar',
     label: 'Volume',
     fill: true,
     dataKey: 'volume',
@@ -73,7 +73,7 @@ export const Metrics = {
   },
   socialVolume: {
     category: 'Social',
-    node: Bar,
+    type: 'bar',
     label: 'Social Volume',
     shortLabel: 'Soc. Volume',
     anomalyKey: 'SOCIAL_VOLUME',
@@ -82,7 +82,7 @@ export const Metrics = {
   },
   age_destroyed: {
     category: 'On-chain',
-    node: Bar,
+    type: 'bar',
     group: 'Token Flows/Movement/Activity',
     label: 'Token Age Consumed',
     fill: true,
@@ -93,7 +93,7 @@ export const Metrics = {
   },
   exchange_balance: {
     category: 'On-chain',
-    node: Line,
+    type: 'line',
     group: 'Exchange Flow',
     label: 'Exchange Flow Balance',
     video: 'https://www.youtube.com/watch?v=0R6GDF2bg6A',
@@ -104,7 +104,7 @@ export const Metrics = {
   },
   daily_active_addresses: {
     category: 'On-chain',
-    node: Bar,
+    type: 'bar',
     group: 'Network Activity',
     label: 'Daily Active Addresses',
     shortLabel: 'DAA',
@@ -121,7 +121,7 @@ export const Metrics = {
   },
   percentOfTokenSupplyOnExchanges: {
     category: 'On-chain',
-    node: Line,
+    type: 'line',
     group: 'Exchange Flow',
     label: 'Percent of Token Supply on Exchanges',
     shortLabel: '% of Token Supply on Exchanges',
@@ -130,7 +130,7 @@ export const Metrics = {
   },
   topHoldersPercentOfTotalSupply: {
     category: 'On-chain',
-    node: Line,
+    type: 'line',
     label: 'In Top Holders Total',
     // TODO: Add support for 3 datakeys of single metric:
     // inExchanges outsideExchanges inTopHoldersTotal
@@ -138,7 +138,7 @@ export const Metrics = {
   },
   circulation_1d: {
     category: 'On-chain',
-    node: Line,
+    type: 'line',
     group: 'Token Flows/Movement/Activity',
     label: 'Token Circulation',
     description: `
@@ -150,7 +150,7 @@ export const Metrics = {
   },
   mvrv_usd: {
     category: 'On-chain',
-    node: Line,
+    type: 'line',
     group: 'Network value',
     label: 'Market Value To Realized Value',
     video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
@@ -159,7 +159,7 @@ export const Metrics = {
   },
   transaction_volume: {
     category: 'On-chain',
-    node: Bar,
+    type: 'bar',
     group: 'Token Flows/Movement/Activity',
     label: 'Transaction Volume',
     shortLabel: 'Transact. Volume',
@@ -169,7 +169,7 @@ export const Metrics = {
   },
   network_growth: {
     category: 'On-chain',
-    node: Line,
+    type: 'line',
     group: 'Network Activity',
     label: 'Network Growth',
     video: 'https://www.youtube.com/watch?v=YaccxEEz8pg',
@@ -180,7 +180,7 @@ export const Metrics = {
   },
   devActivity: {
     category: 'Development',
-    node: Line,
+    type: 'line',
     color: 'heliotrope',
     label: 'Development Activity',
     shortLabel: 'Dev. Activity',
@@ -195,7 +195,7 @@ export const Metrics = {
   },
   velocity: {
     category: 'On-chain',
-    node: Line,
+    type: 'line',
     group: 'Token Flows/Movement/Activity',
     label: 'Token Velocity',
     description: `
@@ -209,7 +209,7 @@ export const Metrics = {
   },
   dailyActiveDeposits: {
     category: 'On-chain',
-    node: Bar,
+    type: 'bar',
     label: 'Daily Active Deposits',
     dataKey: 'activeDeposits',
     description: `
@@ -219,21 +219,21 @@ export const Metrics = {
   },
   historyTwitterData: {
     category: 'Social',
-    node: Line,
+    type: 'line',
     label: 'Twitter',
     dataKey: 'followersCount',
     description: `Shows the number of followers on the project's official Twitter account over time`
   },
   socialDominance: {
     category: 'Social',
-    node: Line,
+    type: 'line',
     label: 'Social Dominance',
     dataKey: 'dominance',
     description: `Shows the share (or %) of the coin’s mentions on crypto-related social media, compared to a pool of 50+ of the most talked-about projects online.`
   },
   realized_value_usd: {
     category: 'On-chain',
-    node: Line,
+    type: 'line',
     group: 'Network value',
     label: 'Realized Cap',
     description: `Realized Cap shows the total amount that all holders spent to purchase the coin (i.e. the total acquisition cost). While market cap = supply X current price of each coin, realized cap = supply X price of each coin when it last ‘moved’`,
@@ -241,7 +241,7 @@ export const Metrics = {
   },
   ethSpentOverTime: {
     category: 'On-chain',
-    node: Line,
+    type: 'line',
     label: 'Eth Spent Over Time',
     dataKey: 'ethSpent',
     description:
@@ -249,14 +249,14 @@ export const Metrics = {
   },
   gasUsed: {
     category: 'On-chain',
-    node: Line,
+    type: 'line',
     label: 'Gas Used',
     description:
       'Used Gas by a blockchain. When you send tokens, interact with a contract or do anything else on the blockchain, you must pay for that computation. That payment is calculated in Gas.'
   },
   mean_dollar_invested_age: {
     category: ['Financial', 'On-chain'],
-    node: Line,
+    type: 'line',
     label: 'Mean Dollar Invested Age',
     description: (
       <>
@@ -278,14 +278,14 @@ export const Metrics = {
   },
   nvt: {
     category: 'On-chain',
-    node: Line,
+    type: 'line',
     group: 'Network value',
     label: 'NVT Ratio Circulation',
     description: `NVT tries to determine how much ‘value’ is being transmitted on a coin’s network. This version of NVT is calculated by dividing the coin’s Market Cap by its Token Circulation. The higher the NVT, the more expensive the network relative to the value it transmits, indicating an overvalued asset.`,
     minInterval: '1d'
   },
   nvt_transaction_volume: {
-    node: Bar,
+    type: 'bar',
     group: 'Network value',
     label: 'NVT Ratio Transaction Volume',
     category: 'On-chain',

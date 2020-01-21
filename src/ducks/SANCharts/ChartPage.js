@@ -24,6 +24,7 @@ import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
 import StoriesList from '../../components/Stories/StoriesList'
 import styles from './ChartPage.module.scss'
+import Chart from './NewChart'
 
 const DEFAULT_TIME_RANGE = '6m'
 
@@ -614,35 +615,41 @@ class ChartPage extends Component {
                         />
                       </>
                     )}
-                    <TooltipSynchronizer
-                      isMultiChartsActive={isMultiChartsActive}
+                    <Chart
                       metrics={finalMetrics}
-                    >
-                      <Charts
-                        scale={scale}
-                        chartRef={this.chartRef}
-                        isLoading={isParentLoading || isLoading}
-                        onZoom={this.onZoom}
-                        from={from}
-                        to={to}
-                        slug={slug}
-                        onZoomOut={this.onZoomOut}
-                        isZoomed={zoom}
-                        events={eventsFiltered}
-                        isTrendsShowing={isTrendsShowing}
-                        chartData={mapDatetimeToNumber(timeseries)}
-                        title={title}
-                        leftBoundaryDate={leftBoundaryDate}
-                        rightBoundaryDate={rightBoundaryDate}
-                        children={children}
-                        isAdvancedView={isAdvancedView}
-                        isBeta={isBeta}
-                        isLoggedIn={isLoggedIn}
-                        isIntervalSmallerThanDay={isIntervalSmallerThanDay}
-                        interval={interval}
-                        onMouseMove={this.getSocialContext}
-                      />
-                    </TooltipSynchronizer>
+                      data={mapDatetimeToNumber(timeseries)}
+                    />
+                    {false && (
+                      <TooltipSynchronizer
+                        isMultiChartsActive={isMultiChartsActive}
+                        metrics={finalMetrics}
+                      >
+                        <Charts
+                          scale={scale}
+                          chartRef={this.chartRef}
+                          isLoading={isParentLoading || isLoading}
+                          onZoom={this.onZoom}
+                          from={from}
+                          to={to}
+                          slug={slug}
+                          onZoomOut={this.onZoomOut}
+                          isZoomed={zoom}
+                          events={eventsFiltered}
+                          isTrendsShowing={isTrendsShowing}
+                          chartData={mapDatetimeToNumber(timeseries)}
+                          title={title}
+                          leftBoundaryDate={leftBoundaryDate}
+                          rightBoundaryDate={rightBoundaryDate}
+                          children={children}
+                          isAdvancedView={isAdvancedView}
+                          isBeta={isBeta}
+                          isLoggedIn={isLoggedIn}
+                          isIntervalSmallerThanDay={isIntervalSmallerThanDay}
+                          interval={interval}
+                          onMouseMove={this.getSocialContext}
+                        />
+                      </TooltipSynchronizer>
+                    )}
                     {metricsTool}
                     {!isPRO && (
                       <UpgradePaywall
