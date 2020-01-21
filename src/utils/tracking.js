@@ -1,7 +1,9 @@
 const TRACKER_IDs = ['UA-100571693-1', 'UA-100571693-2']
 
 const isBrowser = typeof window !== 'undefined'
-const isProdApp = (window.env || {}).BACKEND_URL === 'https://api.santiment.net'
+const isProdApp =
+  (window.env || {}).BACKEND_URL ||
+  process.env.REACT_APP_BACKEND_URL === 'https://api.santiment.net'
 const hasDoNotTrack = () => {
   const dnt =
     navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
