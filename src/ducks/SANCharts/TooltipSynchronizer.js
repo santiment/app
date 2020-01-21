@@ -1,9 +1,24 @@
 import React, { useState, useEffect } from 'react'
+import COLOR from '@santiment-network/ui/variables.scss'
 import { setupColorGenerator } from './utils'
 import { Metrics } from './data'
 import chartStyles from './Chart.module.scss'
 
 const cache = new Map()
+
+function metricsToPlotCategories (metrics) {
+  const requestedData = {
+    lines: [],
+    bars: []
+  }
+
+  metrics.forEach(metric => {
+    const { key, dataKey = key, node } = metric
+    requestedData[node + 's'].push(dataKey)
+  })
+
+  return requestedData
+}
 
 export const clearCache = () => cache.clear()
 export const getSyncedColors = metrics => {
@@ -16,9 +31,8 @@ export const getSyncedColors = metrics => {
 
   const generateColor = setupColorGenerator()
 
-  const colors = metrics.reduce((acc, { key, color }) => {
-    acc[key] = `var(--${generateColor(color)})`
-
+  const colors = metrics.reduce((acc, { key, dataKey = key, color }) => {
+    acc[dataKey] = COLOR[generateColor(color)]
     return acc
   }, {})
 
@@ -28,7 +42,47 @@ export const getSyncedColors = metrics => {
 
 const { historyPrice } = Metrics
 
-const TooltipSynchronizer = ({ children, metrics, isMultiChartsActive }) => {
+function colorTrend (position) {
+  if (position < 4) {
+    return COLOR.persimmon
+  }
+  if (position < 7) {
+    return COLOR['texas-rose-hover']
+  }
+
+  return COLOR['bright-sun']
+}
+
+function prepareEvents (events) {
+  return events.map(({ datetime, position, metricAnomalyKey }) => {
+    const date = +new Date(datetime)
+    if (metricAnomalyKey) {
+      return {
+        key: 'isAnomaly',
+        metric: metricAnomalyKey,
+        datetime: date,
+        value: true,
+        color: COLOR.persimmon
+      }
+    }
+
+    const color = colorTrend(position)
+    return {
+      key: 'trendingPosition',
+      metric: 'priceUsd',
+      datetime: date,
+      value: [position, color],
+      color
+    }
+  })
+}
+
+const TooltipSynchronizer = ({
+  children,
+  metrics,
+  isMultiChartsActive,
+  events
+}) => {
   const [syncedTooltipIndex, syncTooltips] = useState()
 
   const syncedColors = getSyncedColors(metrics)
@@ -39,6 +93,8 @@ const TooltipSynchronizer = ({ children, metrics, isMultiChartsActive }) => {
     map.set(metric, hasPriceMetric ? [metric, historyPrice] : [metric])
     return map
   }, new WeakMap())
+  const { lines, bars } = metricsToPlotCategories(metrics)
+  const prepEvents = prepareEvents(events)
 
   useEffect(() => clearCache, [])
 
@@ -54,7 +110,13 @@ const TooltipSynchronizer = ({ children, metrics, isMultiChartsActive }) => {
         syncTooltips
       })
     )
-    : React.cloneElement(children, { metrics, syncedColors })
+    : React.cloneElement(children, {
+      metrics,
+      syncedColors,
+      lines,
+      bars,
+      events: prepEvents
+    })
 }
 
 TooltipSynchronizer.defaultProps = {

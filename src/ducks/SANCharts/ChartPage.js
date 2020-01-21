@@ -24,7 +24,8 @@ import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
 import StoriesList from '../../components/Stories/StoriesList'
 import styles from './ChartPage.module.scss'
-import Chart from './NewChart'
+import Chart from './Chart'
+import { linearScale, logScale } from '@santiment-network/chart/scales'
 
 const DEFAULT_TIME_RANGE = '6m'
 
@@ -33,7 +34,7 @@ const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 const MAX_METRICS_PER_CHART = 5
 
 const DEFAULT_STATE = {
-  scale: 'auto',
+  isLogScale: false,
   timeRange: DEFAULT_TIME_RANGE,
   from: FROM.toISOString(),
   to: TO.toISOString(),
@@ -301,7 +302,7 @@ class ChartPage extends Component {
 
   onScaleChange = () => {
     this.setState(
-      ({ scale }) => ({ scale: scale === 'auto' ? 'log' : 'auto' }),
+      ({ isLogScale }) => ({ isLogScale: !isLogScale }),
       this.updateSearchQuery
     )
   }
@@ -353,7 +354,7 @@ class ChartPage extends Component {
       zoom,
       from,
       to,
-      scale,
+      isLogScale,
       isMultiChartsActive
     } = this.state
 
@@ -370,7 +371,7 @@ class ChartPage extends Component {
       nightMode,
       isShowAnomalies,
       title,
-      scale,
+      isLogScale,
       isMultiChartsActive
     }
 
@@ -415,7 +416,7 @@ class ChartPage extends Component {
       viewOnly,
       title,
       zoom,
-      scale,
+      isLogScale,
       nightMode,
       isShowAnomalies,
       isAdvancedView,
@@ -541,6 +542,8 @@ class ChartPage extends Component {
               metrics.some(({ key }) => key === metricAnomalyKey)
             )
 
+          console.log(eventsData)
+
           const metricsTool = (
             <LoadableChartMetricsTool
               classes={styles}
@@ -600,7 +603,7 @@ class ChartPage extends Component {
                           disabledMetrics={errors}
                           from={from}
                           to={to}
-                          scale={scale}
+                          isLogScale={isLogScale}
                           onScaleChange={this.onScaleChange}
                           isAdvancedView={isAdvancedView}
                           classes={classes}
@@ -615,17 +618,24 @@ class ChartPage extends Component {
                         />
                       </>
                     )}
-                    <Chart
+
+                    <TooltipSynchronizer
+                      isMultiChartsActive={false}
                       metrics={finalMetrics}
-                      data={mapDatetimeToNumber(timeseries)}
-                    />
+                      events={eventsData}
+                    >
+                      <Chart
+                        metrics={finalMetrics}
+                        data={mapDatetimeToNumber(timeseries)}
+                      />
+                    </TooltipSynchronizer>
                     {false && (
                       <TooltipSynchronizer
                         isMultiChartsActive={isMultiChartsActive}
                         metrics={finalMetrics}
                       >
                         <Charts
-                          scale={scale}
+                          isLogScale={isLogScale}
                           chartRef={this.chartRef}
                           isLoading={isParentLoading || isLoading}
                           onZoom={this.onZoom}
