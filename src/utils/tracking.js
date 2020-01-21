@@ -43,14 +43,11 @@ export function initializeTracking (trackerIDs = TRACKER_IDs) {
 /**
  * Use the event command to send event data
  *
- * For help check this - ttps://developers.google.com/gtagjs/reference/api
- * https://developers.google.com/analytics/devguides/collection/gtagjs/events
- * @param <event_name> is event name that you make up, with arbitrary (i.e. custom) parameters
- * @param <event_params> is one or more parameter-value pairs. Each pair separated by a comma
- *
  * @example
  *
- *   sendEvent('sign_up', {
+ *   event({
+ *     category: 'user',
+ *     action: 'sign_up'
  *     method: 'metamask',
  *   })
  */
