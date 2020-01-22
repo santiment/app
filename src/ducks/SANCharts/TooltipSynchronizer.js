@@ -9,6 +9,7 @@ const cache = new Map()
 function metricsToPlotCategories (metrics) {
   const requestedData = {
     lines: [],
+    daybars: [],
     bars: []
   }
 
@@ -57,11 +58,12 @@ function prepareEvents (events) {
   return events.map(({ datetime, position, metricAnomalyKey }) => {
     const date = +new Date(datetime)
     if (metricAnomalyKey) {
+      const { label, dataKey = metricAnomalyKey } = Metrics[metricAnomalyKey]
       return {
         key: 'isAnomaly',
-        metric: metricAnomalyKey,
+        metric: dataKey,
         datetime: date,
-        value: true,
+        value: label,
         color: COLOR.persimmon
       }
     }
@@ -93,7 +95,7 @@ const TooltipSynchronizer = ({
     map.set(metric, hasPriceMetric ? [metric, historyPrice] : [metric])
     return map
   }, new WeakMap())
-  const { lines, bars } = metricsToPlotCategories(metrics)
+  const plots = metricsToPlotCategories(metrics)
   const prepEvents = prepareEvents(events)
 
   useEffect(() => clearCache, [])
@@ -113,9 +115,8 @@ const TooltipSynchronizer = ({
     : React.cloneElement(children, {
       metrics,
       syncedColors,
-      lines,
-      bars,
-      events: prepEvents
+      events: prepEvents,
+      ...plots
     })
 }
 

@@ -628,6 +628,9 @@ class ChartPage extends Component {
                         metrics={finalMetrics}
                         data={mapDatetimeToNumber(timeseries)}
                         chartRef={this.chartRef}
+                        scale={isLogScale ? logScale : linearScale}
+                        leftBoundaryDate={leftBoundaryDate}
+                        rightBoundaryDate={rightBoundaryDate}
                       />
                     </TooltipSynchronizer>
                     {false && (

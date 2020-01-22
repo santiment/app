@@ -17,7 +17,6 @@ import { plotDayBars, plotBars } from '@santiment-network/chart/bars'
 import { linearScale } from '@santiment-network/chart/scales'
 import { handleMove } from '@santiment-network/chart/events'
 import { drawReferenceDot } from '@santiment-network/chart/references'
-import { drawAxes, drawAxesTicks } from '@santiment-network/chart/axes'
 import {
   initBrush,
   setupBrush,
@@ -26,29 +25,19 @@ import {
 } from '@santiment-network/chart/brush'
 import { millify } from '../../../utils/formatting'
 import { Metrics } from '../data'
+
+import { plotAxes } from './axes'
 import {
-  getDateFormats,
-  getTimeFormats,
-  ONE_DAY_IN_MS
-} from '../../../utils/dates'
-import {
-  tooltipSettings,
   clearCtx,
   axesTickFormatters,
-  getDateDayMonthYear
+  getDateDayMonthYear,
+  yBubbleFormatter
 } from './utils'
+import { tooltipSettings, BRUSH_HEIGHT, CHART_PADDING } from './settings'
 import { drawWatermark } from './watermark'
+import { drawPaywall } from './paywall'
 
 import styles from './index.module.scss'
-
-const BRUSH_HEIGHT = 40
-
-const CHART_PADDING = {
-  top: 10,
-  right: 0,
-  bottom: 23 + BRUSH_HEIGHT + 10,
-  left: 45
-}
 
 const Chart = ({
   chartRef,
@@ -57,7 +46,10 @@ const Chart = ({
   syncedColors,
   lines,
   bars,
-  events = []
+  daybars,
+  events = [],
+  leftBoundaryDate,
+  rightBoundaryDate
 }) => {
   const [chart, setChart] = useState()
   const [brush, setBrush] = useState()
@@ -115,7 +107,7 @@ const Chart = ({
       const { ctx, canvasWidth, canvasHeight } = chart
       clearCtx(chart)
       clearCtx(brush)
-      updateChartState(chart, data, bars.concat(lines))
+      updateChartState(chart, data, daybars.concat(bars).concat(lines))
       setupBrush(brush, chart, data, plotBrushData, onBrushChange)
       plotChart(data)
       plotAxes(chart)
@@ -126,7 +118,7 @@ const Chart = ({
   function onBrushChange (startIndex, endIndex) {
     const newData = data.slice(startIndex, endIndex + 1)
 
-    updateChartState(chart, newData, bars.concat(lines))
+    updateChartState(chart, newData, daybars.concat(bars).concat(lines))
 
     clearCtx(chart)
     plotChart(newData)
@@ -134,14 +126,14 @@ const Chart = ({
   }
 
   function plotBrushData () {
-    /* plotDayBars(brush, data, DAILY_BAR_METRICS, paintConfig, resultScale) */
+    plotDayBars(brush, data, daybars, syncedColors, scale)
     plotBars(brush, data, bars, syncedColors, scale)
     plotLines(brush, data, lines, syncedColors, scale)
   }
 
   function plotChart (data) {
     drawWatermark(chart)
-    /* plotDayBars(chart, data, DAILY_BAR_METRICS, paintConfig, resultScale) */
+    plotDayBars(chart, data, daybars, syncedColors, scale)
     plotBars(chart, data, bars, syncedColors, scale)
 
     chart.ctx.lineWidth = 1.5
@@ -151,6 +143,10 @@ const Chart = ({
     events.forEach(({ metric, key, datetime, value, color }) =>
       drawReferenceDot(chart, metric, datetime, color, key, value)
     )
+
+    /* if (!hasPremium) { */
+    drawPaywall(chart, leftBoundaryDate, rightBoundaryDate)
+    /* } */
   }
 
   function marker (ctx, key, value, x, y) {
@@ -179,25 +175,4 @@ const Chart = ({
     </div>
   )
 }
-
-export function yBubbleFormatter (value) {
-  if (!value) {
-    return '-'
-  }
-
-  if (value < 1) {
-    return value.toString().slice(0, 3)
-  }
-
-  return millify(value)
-}
-
-function plotAxes (chart) {
-  const { ctx } = chart
-  drawAxes(chart)
-  ctx.fillStyle = '#9faac4'
-  ctx.font = '12px sans-serif'
-  drawAxesTicks(chart, 'priceUsd', axesTickFormatters)
-}
-
 export default Chart
