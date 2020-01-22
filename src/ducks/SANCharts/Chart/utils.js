@@ -5,6 +5,8 @@ import {
 } from '../../../utils/dates'
 import { millify } from '../../../utils/formatting'
 
+const formatter = v => v || 'No data'
+
 export const tooltipSettings = {
   datetime: {
     formatter: value => {
@@ -28,11 +30,11 @@ export const tooltipSettings = {
   },
   activity: {
     label: 'Development Activity',
-    formatter: value => value
+    formatter
   },
   socialVolume: {
     label: 'Social Volume',
-    formatter: value => value
+    formatter
   },
   age_destroyed: {
     label: 'Token Age Destroyed',
@@ -40,7 +42,7 @@ export const tooltipSettings = {
   },
   daily_active_addresses: {
     label: 'Daily Active Addresses',
-    formatter: value => value
+    formatter
   },
   isAnomaly: {
     label: 'Anomaly',
@@ -66,4 +68,13 @@ export const tooltipSettings = {
 export function clearCtx (chart, ctx = chart.ctx) {
   const { canvasWidth, canvasHeight } = chart
   ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+}
+
+export function getDateDayMonthYear (date) {
+  const { DD, MMM, YY } = getDateFormats(new Date(date))
+  return `${DD} ${MMM} ${YY}`
+}
+
+export const axesTickFormatters = {
+  datetime: getDateDayMonthYear
 }

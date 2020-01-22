@@ -31,7 +31,13 @@ import {
   getTimeFormats,
   ONE_DAY_IN_MS
 } from '../../../utils/dates'
-import { tooltipSettings, clearCtx } from './utils'
+import {
+  tooltipSettings,
+  clearCtx,
+  axesTickFormatters,
+  getDateDayMonthYear
+} from './utils'
+import { drawWatermark } from './watermark'
 
 import styles from './index.module.scss'
 
@@ -45,6 +51,7 @@ const CHART_PADDING = {
 }
 
 const Chart = ({
+  chartRef,
   data,
   scale = linearScale,
   syncedColors,
@@ -60,12 +67,13 @@ const Chart = ({
     const { current: canvas } = canvasRef
     const width = canvas.parentNode.offsetWidth
 
-    const chart = initTooltip(initChart(canvas, width, 300, CHART_PADDING))
+    const chart = initTooltip(initChart(canvas, width, 350, CHART_PADDING))
     const brush = initBrush(chart, width, BRUSH_HEIGHT)
     brush.canvas.classList.add(styles.brush)
 
     setChart(chart)
     setBrush(brush)
+    chartRef.current = canvas
 
     chart.tooltip.canvas.onmousemove = handleMove(chart, point => {
       if (!point) return
@@ -74,20 +82,21 @@ const Chart = ({
       } = chart
       clearCtx(chart, ctx)
 
-      drawHoverLineX(chart, point.x)
-      drawHoverLineY(chart, point.priceUsd.y)
+      const {
+        x,
+        value: datetime,
+        priceUsd: { y, value }
+      } = point
+
+      drawHoverLineX(chart, x)
+      drawHoverLineY(chart, y)
 
       drawTooltip(ctx, point, tooltipSettings, marker)
+      drawValueBubble(chart, yBubbleFormatter(value), 0, y)
       drawValueBubble(
         chart,
-        yBubbleFormatter(point.priceUsd.value),
-        0,
-        point.priceUsd.y
-      )
-      drawValueBubble(
-        chart,
-        getDateDayMonthYear(point.value),
-        point.x,
+        getDateDayMonthYear(datetime),
+        x,
         chart.bottom + 14
       )
     })
@@ -111,7 +120,7 @@ const Chart = ({
       plotChart(data)
       plotAxes(chart)
     },
-    [data]
+    [data, scale, events]
   )
 
   function onBrushChange (startIndex, endIndex) {
@@ -131,6 +140,7 @@ const Chart = ({
   }
 
   function plotChart (data) {
+    drawWatermark(chart)
     /* plotDayBars(chart, data, DAILY_BAR_METRICS, paintConfig, resultScale) */
     plotBars(chart, data, bars, syncedColors, scale)
 
@@ -180,19 +190,6 @@ export function yBubbleFormatter (value) {
   }
 
   return millify(value)
-}
-
-function getDateDayMonthYear (date) {
-  const { DD, MMM, YY } = getDateFormats(new Date(date))
-  return `${DD} ${MMM} ${YY}`
-}
-
-const axesTickFormatters = {
-  datetime: value => {
-    const date = new Date(value)
-    const { DD, MMM, YY } = getDateFormats(date)
-    return `${DD} ${MMM} ${YY}`
-  }
 }
 
 function plotAxes (chart) {

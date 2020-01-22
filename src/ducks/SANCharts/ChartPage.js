@@ -627,6 +627,7 @@ class ChartPage extends Component {
                       <Chart
                         metrics={finalMetrics}
                         data={mapDatetimeToNumber(timeseries)}
+                        chartRef={this.chartRef}
                       />
                     </TooltipSynchronizer>
                     {false && (
