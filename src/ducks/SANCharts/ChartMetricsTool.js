@@ -9,14 +9,17 @@ import styles from './ChartMetricsTool.module.scss'
 
 const ChartMetricsTool = ({
   classes = {},
-  activeMetrics,
-  activeEvents,
-  disabledMetrics,
-  alwaysShowingMetrics,
+  activeMetrics = [],
+  activeEvents = [],
+  disabledMetrics = [],
+  alwaysShowingMetrics = [],
+  hiddenMetrics = [],
   slug,
   toggleMetric,
-  hideSettings,
-  isWideChart,
+  hideSettings = {},
+  isWideChart = false,
+  addMetricBtnText = 'Add metric',
+  isMobile,
   ...rest
 }) => (
   <div className={styles.container}>
@@ -26,8 +29,10 @@ const ChartMetricsTool = ({
         <ContextMenu
           trigger={
             <Button variant='fill' accent='positive' className={styles.trigger}>
-              <Icon type='plus-round' className={styles.triggerIcon} />
-              Add metric
+              {!isMobile && (
+                <Icon type='plus-round' className={styles.triggerIcon} />
+              )}
+              {addMetricBtnText}
             </Button>
           }
           passOpenStateAs='isActive'
@@ -42,19 +47,23 @@ const ChartMetricsTool = ({
             disabledMetrics={disabledMetrics}
             activeMetrics={activeMetrics}
             activeEvents={activeEvents}
+            hiddenMetrics={hiddenMetrics}
             variant='modal'
+            isMobile={isMobile}
           />
         </ContextMenu>
       )}
 
-      <ChartActiveMetrics
-        activeMetrics={activeMetrics}
-        toggleMetric={toggleMetric}
-        activeEvents={activeEvents}
-        alwaysShowingMetrics={alwaysShowingMetrics}
-        isWideChart={isWideChart}
-        {...rest}
-      />
+      {!isMobile && (
+        <ChartActiveMetrics
+          activeMetrics={activeMetrics}
+          toggleMetric={toggleMetric}
+          activeEvents={activeEvents}
+          alwaysShowingMetrics={alwaysShowingMetrics}
+          isWideChart={isWideChart}
+          {...rest}
+        />
+      )}
     </div>
   </div>
 )

@@ -31,6 +31,14 @@
   &:hover {
     border-color: var(--jungle-green);
   }
+
+  @include responsive('phone-xs', 'phone') {
+    height: auto;
+
+    @include text('body-2');
+
+    margin: 16px 0;
+  }
 }
 
 .triggerIcon {

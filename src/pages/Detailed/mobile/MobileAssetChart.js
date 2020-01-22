@@ -28,7 +28,7 @@ const MobileAssetChart = ({
   data = [],
   slug: asset,
   icoPrice,
-  extraMetric,
+  extraMetrics = [],
   setIcoPricePos,
   icoPricePos,
   chartHeight,
@@ -39,7 +39,7 @@ const MobileAssetChart = ({
   const [activeIndex, setActiveIndex] = useState(null)
 
   const metrics = ['historyPricePreview']
-  if (extraMetric) metrics.push(extraMetric.name)
+  extraMetrics.forEach(({ name }) => metrics.push(name))
   const objMetrics = metrics.map(metric => Metrics[metric])
   const syncedColors = getSyncedColors(objMetrics)
   const markup = generateMetricsMarkup(objMetrics, {
@@ -59,20 +59,20 @@ const MobileAssetChart = ({
   )
 
   let anomalyDataKey, anomalies
-  if (extraMetric) {
-    anomalyDataKey =
-      Metrics[extraMetric.name].dataKey || Metrics[extraMetric.name].key
-    anomalies = extraMetric.anomalies.map(anomaly => {
-      const el = data.find(item => item.datetime === anomaly.datetime)
-      if (el) {
-        return {
-          ...anomaly,
-          yCoord: el[anomalyDataKey]
-        }
-      }
-      return anomaly
-    })
-  }
+  // if (extraMetric) {
+  //   anomalyDataKey =
+  //     Metrics[extraMetric.name].dataKey || Metrics[extraMetric.name].key
+  //   anomalies = extraMetric.anomalies.map(anomaly => {
+  //     const el = data.find(item => item.datetime === anomaly.datetime)
+  //     if (el) {
+  //       return {
+  //         ...anomaly,
+  //         yCoord: el[anomalyDataKey]
+  //       }
+  //     }
+  //     return anomaly
+  //   })
+  // }
 
   useEffect(() => clearCache)
   return (
@@ -106,7 +106,7 @@ const MobileAssetChart = ({
                 return dataMax
               }
             ]}
-            dataKey={extraMetric ? anomalyDataKey : 'priceUsd'}
+            dataKey={'priceUsd'}
           />
           {isTouch && (
             <Tooltip
@@ -133,20 +133,20 @@ const MobileAssetChart = ({
             />
           )}
           {markup}
-          {extraMetric &&
-            anomalies.map(({ datetime, yCoord }) => (
-              <ReferenceDot
-                key={datetime}
-                y={yCoord}
-                x={datetime}
-                ifOverflow='extendDomain'
-                r={3}
-                isFront
-                stroke='var(--white)'
-                strokeWidth='2px'
-                fill='var(--persimmon)'
-              />
-            ))}
+          {/* {extraMetric && */}
+          {/*   anomalies.map(({ datetime, yCoord }) => ( */}
+          {/*     <ReferenceDot */}
+          {/*       key={datetime} */}
+          {/*       y={yCoord} */}
+          {/*       x={datetime} */}
+          {/*       ifOverflow='extendDomain' */}
+          {/*       r={3} */}
+          {/*       isFront */}
+          {/*       stroke='var(--white)' */}
+          {/*       strokeWidth='2px' */}
+          {/*       fill='var(--persimmon)' */}
+          {/*     /> */}
+          {/*   ))} */}
           {icoPrice && (
             <ReferenceLine
               strokeDasharray='5 5'
