@@ -121,7 +121,7 @@ export const createSignalEpic = (action$, store, { client }) =>
                   title: 'Signal was succesfully created',
                   description: (
                     <SignalNotificationActions
-                      id={trigger.id}
+                      signal={trigger}
                       toLink={'/sonar/signal/' + trigger.id}
                     />
                   )
