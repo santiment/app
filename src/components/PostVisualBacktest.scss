@@ -1,18 +1,12 @@
+@import "~@santiment-network/ui/mixins";
+
 .post-visual-backtest {
-  text-align: right;
-  color: var(--grey-dark-2);
-  line-height: 16px;
+  width: 260px;
+  padding: 21px 20px 29px;
+  background: linear-gradient(180deg, var(--athens), hsla(0, 0%, 100%, 0));
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  width: 260px;
-  background: linear-gradient(
-    180deg,
-    var(--grey-light) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  height: 100%;
-  justify-content: space-between;
+  text-align: right;
 }
 
 .post-visual-backtest__info {
@@ -23,10 +17,13 @@
 .post-visual-backtest__changes {
   font-size: 14px;
   text-align: center;
+  align-items: center;
+  color: var(--waterloo);
 }
 
 .post-visual-backtest__percent {
   font-size: 14px;
+  margin-left: auto;
 }
 
 @media (min-width: 768px) {

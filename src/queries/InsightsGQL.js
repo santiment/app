@@ -20,6 +20,7 @@ export const INSIGHT_COMMON_FRAGMENT = gql`
       username
       avatarUrl
     }
+    commentsCount
     __typename
   }
 `

@@ -26,21 +26,17 @@ const InsightCardInternals = ({
   publishedAt,
   state,
   votes: { totalVotes },
-  comments,
+  commentsCount,
   votedAt,
   onLike,
   withAuthorPic,
   disabled,
-  className,
   isDesktop
 }) => {
   const { DD, MMM, YYYY } = getDateFormats(new Date(publishedAt || createdAt))
   return (
     <Fragment>
       <div className={styles.top}>
-        <div>
-          <InsightTags tags={tags} isDesktop={isDesktop} />
-        </div>
         <a
           href={`https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
             id,
@@ -52,7 +48,7 @@ const InsightCardInternals = ({
         </a>
       </div>
       <div className={styles.bottom}>
-        <div className={styles.left}>
+        <div className={styles.profile}>
           <ProfileInfo
             withPic={withAuthorPic}
             picUrl={avatarUrl}
@@ -79,7 +75,10 @@ const InsightCardInternals = ({
             disabled={disabled}
           />
           <div className={cx(styles.stat, styles.stat_comments)}>
-            <Icon type='comment' /> {comments}
+            <Icon type='comment' /> {commentsCount}
+          </div>
+          <div className={styles.tags}>
+            <InsightTags tags={tags} isDesktop={isDesktop} />
           </div>
         </div>
       </div>
@@ -90,7 +89,7 @@ const InsightCardInternals = ({
 InsightCardInternals.defaultProps = {
   votes: {},
   tags: [],
-  comments: 0,
+  commentsCount: 0,
   withAuthorPic: true
 }
 

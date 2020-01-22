@@ -4,7 +4,6 @@
 .wrapper {
   padding: 15px 20px;
   min-width: 320px;
-  height: 200px;
   border: 1px solid var(--porcelain);
   display: inline-flex;
   flex-direction: column;
@@ -15,13 +14,13 @@
 
   &_withMc {
     flex-direction: row;
-    padding: 0;
+    padding: 0 !important;
 
     &__left {
       flex-grow: 1;
       display: flex;
       flex-direction: column;
-      padding: 20px;
+      padding: 15px;
     }
 
     &__right {
@@ -36,7 +35,7 @@
 
 .title {
   @include text-normal;
-  @include text('body-3');
+  @include text('h4');
 
   line-height: 26px;
   color: var(--mirage);
@@ -48,13 +47,14 @@
 
 .bottom {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 }
 
-.left {
-  max-width: calc(70% - 40px);
-  flex: 1;
+.profile {
+  width: 100%;
+  border-bottom: 1px solid var(--porcelain);
+  margin: 16px 0 20px 0;
+  padding-bottom: 20px;
 }
 
 .info {
@@ -71,6 +71,10 @@
 
 .right {
   display: flex;
+}
+
+.tags {
+  margin-left: auto;
 }
 
 .stat {
@@ -94,7 +98,7 @@
   }
 
   &_comments {
-    display: none;
+    display: flex;
   }
 }
 
