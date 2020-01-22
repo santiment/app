@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { graphql } from 'react-apollo'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
+import Dialog from '@santiment-network/ui/Dialog'
 import { formatTooltipValue } from '../../ducks/SANCharts/CustomTooltip'
-import { Metrics, compatabilityMap } from '../../ducks/SANCharts/data'
+import { Metrics } from '../../ducks/SANCharts/data'
 import PercentChanges from '../PercentChanges'
 import { METRIC_ANOMALIE_QUERY } from '../../ducks/GetTimeSeries/queries/metric_anomaly_query'
 import SwipeableCard from './SwipeableCard'
@@ -11,32 +12,29 @@ import styles from './MobileMetricCard.module.scss'
 
 const MobileMetricCard = ({
   metric,
-  name,
-  value,
-  period,
-  changes,
+  name = '',
+  value = 0,
+  period = '',
+  changes = 0,
   measure = '',
   data: { metricAnomaly: anomalies = [] } = {},
-  onClick,
-  activeMetric
+  onClick
 }) => {
-  const onButtonClick = () => {
-    onClick({ name: metric, anomalies })
-  }
+  const [isOpenDescription, setIsOpenDescription] = useState(false)
 
   const { length: anomaliesNumber } = anomalies
 
+  const { label, description } = metric
+
   return (
-    <SwipeableCard>
-      <button
-        className={cx(
-          styles.wrapper,
-          activeMetric && activeMetric.name === metric && styles.active
-        )}
-        onClick={onClick ? onButtonClick : undefined}
-      >
+    <SwipeableCard
+      onLeftActionClick={() => setIsOpenDescription(true)}
+      onRightActionClick={() => {}}
+      hasLeftAction={description}
+    >
+      <div className={styles.wrapper}>
         <div className={cx(styles.row, styles.row_top)}>
-          <h3 className={styles.metric}>{name}</h3>
+          <h3 className={styles.metric}>{name || label}</h3>
           <h4 className={styles.anomalies}>
             {anomaliesNumber
               ? `${anomaliesNumber} anomal${anomaliesNumber > 1 ? 'ies' : 'y'}`
@@ -52,25 +50,30 @@ const MobileMetricCard = ({
             , {period}
           </Label>
         </div>
-      </button>
+      </div>
+      {description && (
+        <Dialog
+          title={label}
+          open={isOpenDescription}
+          onClose={() => setIsOpenDescription(false)}
+        >
+          <Dialog.ScrollContent className={styles.dialog}>
+            {description}
+          </Dialog.ScrollContent>
+        </Dialog>
+      )}
     </SwipeableCard>
   )
 }
 
 export default graphql(METRIC_ANOMALIE_QUERY, {
-  skip: ({ metric, from }) => {
-    const res = Metrics[metric] || compatabilityMap[metric]
-    return !res.anomalyKey || !from
-  },
-  options: ({ metric, slug, from, to }) => {
-    const res = Metrics[metric] || compatabilityMap[metric]
-    return {
-      variables: {
-        metric: res.anomalyKey,
-        slug,
-        from: from.toISOString(),
-        to: to.toISOString()
-      }
+  skip: ({ metric: { anomalyKey }, from }) => !anomalyKey || !from,
+  options: ({ metric: { anomalyKey }, slug, from, to }) => ({
+    variables: {
+      slug,
+      from,
+      to,
+      metric: anomalyKey
     }
-  }
+  })
 })(MobileMetricCard)

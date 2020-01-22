@@ -8,10 +8,6 @@
   padding: 16px;
 }
 
-.active {
-  background: var(--athens);
-}
-
 .row {
   display: flex;
   justify-content: space-between;
@@ -46,4 +42,11 @@
 
 .anomalies {
   color: var(--persimmon);
+}
+
+.dialog {
+  padding: 24px 16px;
+  color: var(--rhino);
+
+  @include text('body-2');
 }

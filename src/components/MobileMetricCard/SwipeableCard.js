@@ -5,7 +5,13 @@ import styles from './SwipeableCard.module.scss'
 
 const BUTTON_WIDTH = 85
 
-const SwipeableCard = ({ children }) => {
+const SwipeableCard = ({
+  children,
+  onLeftActionClick,
+  onRightActionClick,
+  hasLeftAction,
+  hasRightAction = true
+}) => {
   const [startPosition, setStartPosition] = useState(0)
   const [offset, setOffset] = useState(0)
   const [side, setSide] = useState('right')
@@ -28,7 +34,10 @@ const SwipeableCard = ({ children }) => {
     const { startX, prevX, startPosition } = currentGesture
     const x = evt.touches[0].pageX
     const dx = x - startX
-    setOffset(startPosition + dx)
+    const offset = startPosition + dx
+    if (offset < 0 && !hasRightAction) return
+    if (offset > 0 && !hasLeftAction) return
+    setOffset(offset)
     setSide(offset > 0 ? 'right' : 'left')
 
     setCurrentGesture({ ...currentGesture, prevX: x })
@@ -60,17 +69,25 @@ const SwipeableCard = ({ children }) => {
       )}
       style={{ '--button-width': `${BUTTON_WIDTH}px` }}
     >
-      <button className={cx(styles.button, styles.info)}>
-        <Icon type='info-round' />
-      </button>
-      <button className={cx(styles.button, styles.add)}>
+      {hasLeftAction && (
+        <button
+          className={cx(styles.button, styles.info)}
+          onClick={onLeftActionClick}
+        >
+          <Icon type='info-round' />
+        </button>
+      )}
+      <button
+        className={cx(styles.button, styles.add)}
+        onClick={onRightActionClick}
+      >
         <Icon type='plus-round' />
       </button>
       <div
         className={cx(
           styles.content,
-          side === 'right' && styles.content__right,
-          side === 'left' && styles.content__left
+          side === 'right' && offset !== 0 && styles.content__right,
+          side === 'left' && offset !== 0 && styles.content__left
         )}
         onTouchCancel={onCancel}
         onTouchEnd={onCancel}

@@ -27,6 +27,12 @@ const DEFAULT_TIME_RANGE = '6m'
 
 const MAX_METRICS_PER_CHART = 3
 
+const POPULAR_METRICS = [
+  Metrics.daily_active_addresses,
+  Metrics.devActivity,
+  Metrics.socialVolume
+]
+
 const MobileDetailedPage = props => {
   const slug = props.match.params.slug
   const [timeRange, setTimeRange] = useState(DEFAULT_TIME_RANGE)
@@ -133,6 +139,7 @@ const MobileDetailedPage = props => {
                         disabledMetrics={errorMetrics}
                         hiddenMetrics={[Metrics.historyPrice]}
                         isMobile
+                        className={styles.metricsPopup}
                       />
                     )
 
@@ -172,6 +179,10 @@ const MobileDetailedPage = props => {
                             extraMetrics={extraMetrics}
                           />
                         </div>
+                        <h3 className={styles.heading}>Popular metrics</h3>
+                        {POPULAR_METRICS.map((metric, idx) => (
+                          <MobileMetricCard metric={metric} key={idx} />
+                        ))}
                         {metricsTool}
                       </>
                     )

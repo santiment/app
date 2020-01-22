@@ -9,6 +9,7 @@ import styles from './ChartMetricsTool.module.scss'
 
 const ChartMetricsTool = ({
   classes = {},
+  className,
   activeMetrics = [],
   activeEvents = [],
   disabledMetrics = [],
@@ -24,7 +25,9 @@ const ChartMetricsTool = ({
 }) => (
   <div className={styles.container}>
     {isWideChart && <div className={styles.divider} />}
-    <div className={cx(styles.wrapper, isWideChart && styles.topOffset)}>
+    <div
+      className={cx(styles.wrapper, isWideChart && styles.topOffset, className)}
+    >
       {hideSettings.metricSelector || (
         <ContextMenu
           trigger={

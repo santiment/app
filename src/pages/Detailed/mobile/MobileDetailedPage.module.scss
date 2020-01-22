@@ -16,3 +16,14 @@
   justify-content: space-between;
   margin: 8px 0;
 }
+
+.heading {
+  margin: 16px 0;
+  color: var(--waterloo);
+
+  @include text('body-3', 'm');
+}
+
+.metricsPopup {
+  padding-top: 0 !important;
+}
