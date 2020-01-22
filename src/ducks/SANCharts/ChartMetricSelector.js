@@ -3,9 +3,9 @@ import GA from 'react-ga'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import Panel from '@santiment-network/ui/Panel'
-import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
 import Loader from '@santiment-network/ui/Loader/Loader'
+import Icon from '@santiment-network/ui/Icon'
+import Button from '@santiment-network/ui/Button'
 import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 import ToggleMetricButton from './ToggleMetricButton'
 import { PROJECT_METRICS_BY_SLUG_QUERY } from './gql'
@@ -136,7 +136,7 @@ const ChartMetricSelector = ({
     } else {
       GA.event({
         category: 'Chart',
-        action: 'Selecting category `${category}`'
+        action: `Selecting category ${category}`
       })
       setCategory(category)
     }
@@ -164,11 +164,7 @@ const ChartMetricSelector = ({
         </div>
       )}
       <Panel.Content className={cx(styles.wrapper, className)}>
-        {loading && (
-          <div className={styles.loader}>
-            <Loader />
-          </div>
-        )}
+        {loading && <Loader className={styles.loader} />}
         {isMobile ? (
           <div className={cx(styles.column, styles.categories)}>
             {Object.keys(categories).map(category => {

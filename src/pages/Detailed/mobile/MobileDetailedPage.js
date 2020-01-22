@@ -1,19 +1,11 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { compose } from 'recompose'
-import { graphql } from 'react-apollo'
-import { NEWS_QUERY } from '../../../components/News/NewsGQL'
-import { calcPercentageChange } from '../../../utils/utils'
-import {
-  DAY,
-  getTimeIntervalFromToday,
-  getIntervalByTimeRange
-} from '../../../utils/dates'
+import { getIntervalByTimeRange } from '../../../utils/dates'
 import Loadable from 'react-loadable'
 import { getInterval } from './utils'
-import { Metrics, compatabilityMap } from '../../../ducks/SANCharts/data'
+import { Metrics } from '../../../ducks/SANCharts/data'
+import ErrorRequest from '../../../ducks/SANCharts/ErrorRequest'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
-import NewsSmall from '../../../components/News/NewsSmall'
 import PageLoader from '../../../components/Loader/PageLoader'
 import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
 import GetAsset from '../gqlWrappers/GetAsset'
@@ -23,9 +15,6 @@ import Title from './MobileAssetTitle'
 import PriceBlock from './MobileAssetPriceInfo'
 import MobileAssetChartSelector from './MobileAssetChartSelector'
 import MobileFullscreenChart from './MobileFullscreenChart'
-import ShowIf from '../../../components/ShowIf'
-import GetWatchlists from '../../../ducks/Watchlists/GetWatchlists'
-import WatchlistsPopup from '../../../components/WatchlistPopup/WatchlistsPopup'
 import { addRecentAssets } from '../../../utils/recent'
 import styles from './MobileDetailedPage.module.scss'
 
@@ -34,66 +23,44 @@ const LoadableChartMetricsTool = Loadable({
   loading: () => <div />
 })
 
+const DEFAULT_TIME_RANGE = '6m'
+
+const MAX_METRICS_PER_CHART = 3
+
 const MobileDetailedPage = props => {
   const slug = props.match.params.slug
-  const [timeRange, setTimeRange] = useState('6m')
+  const [timeRange, setTimeRange] = useState(DEFAULT_TIME_RANGE)
   const [icoPricePos, setIcoPricePos] = useState(null)
   const [extraMetricsNames, setExtraMetricsNames] = useState(new Set())
   const [fullscreen, toggleFullscreen] = useState(false)
 
   addRecentAssets(slug)
 
+  const { from, to } = getIntervalByTimeRange(timeRange, {
+    isMobile: true
+  })
+
   const toggleMetric = metric => {
-    console.log(metric)
     const newMetrics = new Set(extraMetricsNames)
     if (newMetrics.has(metric)) {
       newMetrics.delete(metric)
     } else {
       const metricsAmount = extraMetricsNames.size
-      if (metricsAmount < 3) {
+      if (metricsAmount < MAX_METRICS_PER_CHART) {
         newMetrics.add(metric)
       }
-
-      setExtraMetricsNames(newMetrics)
     }
+    setExtraMetricsNames(newMetrics)
   }
-
-  const { from, to } = getIntervalByTimeRange(timeRange, { isMobile: true })
 
   const price = {
     name: 'historyPrice',
     ...Metrics['historyPrice'],
     slug,
-    from: from.toISOString(),
-    to: to.toISOString(),
+    from,
+    to,
     interval: getInterval(timeRange)
   }
-  // {
-  //   name: 'transaction_volume',
-  //   ...Metrics['transaction_volume'],
-  //   slug,
-  //   from: from.toISOString(),
-  //   to: to.toISOString(),
-  //   interval: getInterval(timeRange)
-  // },
-  // {
-  //   name: 'devActivity',
-  //   ...Metrics['devActivity'],
-  //   ...Metrics['devActivity'].reqMeta,
-  //   slug,
-  //   from: from.toISOString(),
-  //   to: to.toISOString(),
-  //   interval: getInterval(timeRange)
-  // }
-
-  const lastTwoDaysMetrics = [
-    {
-      name: 'transaction_volume',
-      slug,
-      timeRange: '2d',
-      interval: '1d'
-    }
-  ]
 
   const extraMetrics = []
 
@@ -104,25 +71,14 @@ const MobileDetailedPage = props => {
         key,
         interval: getInterval(timeRange),
         slug,
-        from: from.toISOString(),
-        to: to.toISOString(),
+        from,
+        to,
         ...reqMeta
       }
 
       extraMetrics.push(metric)
     })
   }
-
-  const metricsTool = (
-    <LoadableChartMetricsTool
-      classes={styles}
-      slug={slug}
-      toggleMetric={toggleMetric}
-      activeMetrics={[...extraMetricsNames]}
-      hiddenMetrics={[Metrics.historyPrice]}
-      isMobile
-    />
-  )
 
   return (
     <div className={cx('page', styles.wrapper)}>
@@ -152,10 +108,35 @@ const MobileDetailedPage = props => {
               <div className={styles.main}>
                 <GetTimeSeries
                   metrics={[price, ...extraMetrics]}
-                  render={({ historyPrice = {}, timeseries }) =>
-                    historyPrice.isLoading ? (
-                      'Loading...'
-                    ) : (
+                  render={({
+                    timeseries = [],
+                    errorMetrics = {},
+                    isError,
+                    isLoading,
+                    errorType
+                  }) => {
+                    if (isError) {
+                      return <ErrorRequest errorType={errorType} />
+                    }
+
+                    const errors = Object.keys(errorMetrics)
+                    const finalMetrics = [...extraMetricsNames].filter(
+                      ({ key }) => !errors.includes(key)
+                    )
+
+                    const metricsTool = (
+                      <LoadableChartMetricsTool
+                        classes={styles}
+                        slug={slug}
+                        toggleMetric={toggleMetric}
+                        activeMetrics={finalMetrics}
+                        disabledMetrics={errorMetrics}
+                        hiddenMetrics={[Metrics.historyPrice]}
+                        isMobile
+                      />
+                    )
+
+                    return (
                       <>
                         <PriceBlock {...project} />
                         {!fullscreen && (
@@ -166,6 +147,7 @@ const MobileDetailedPage = props => {
                             icoPricePos={icoPricePos}
                             setIcoPricePos={setIcoPricePos}
                             extraMetrics={extraMetrics}
+                            isLoading={isLoading}
                           />
                         )}
                         <div className={styles.bottom}>
@@ -184,36 +166,18 @@ const MobileDetailedPage = props => {
                             project={project}
                             onChangeTimeRange={setTimeRange}
                             timeRange={timeRange}
+                            isLoading={isLoading}
                             data={timeseries}
                             slug={slug}
                             extraMetrics={extraMetrics}
                           />
                         </div>
+                        {metricsTool}
                       </>
                     )
-                  }
+                  }}
                 />
-
-                {metricsTool}
-
-                <ShowIf news>
-                  {props.news && props.news.length > 0 && (
-                    <>
-                      <h3 className={styles.news__heading}>News</h3>
-                      <NewsSmall data={props.news} />
-                    </>
-                  )}
-                </ShowIf>
               </div>
-              <GetWatchlists
-                render={({ isLoggedIn }) => (
-                  <WatchlistsPopup
-                    projectId={project.id}
-                    slug={project.slug}
-                    isLoggedIn={isLoggedIn}
-                  />
-                )}
-              />
             </>
           )
         }}
@@ -222,17 +186,4 @@ const MobileDetailedPage = props => {
   )
 }
 
-const enhance = compose(
-  graphql(NEWS_QUERY, {
-    options: ({ match }) => {
-      const tag = match.params.slug
-      const { from, to } = getTimeIntervalFromToday(-3, DAY)
-      return {
-        variables: { from, to, tag, size: 6 }
-      }
-    },
-    props: ({ data: { news = [] } }) => ({ news: news.reverse() })
-  })
-)
-
-export default enhance(MobileDetailedPage)
+export default MobileDetailedPage

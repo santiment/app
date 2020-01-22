@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import cx from 'classnames'
 import Loadable from 'react-loadable'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
-import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import Header from './Header'
 import TooltipSynchronizer from './TooltipSynchronizer'
@@ -20,6 +19,7 @@ import {
 } from './data'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
+import ErrorRequest from './ErrorRequest'
 import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
 import StoriesList from '../../components/Stories/StoriesList'
@@ -514,16 +514,7 @@ class ChartPage extends Component {
           trendPositionHistory
         }) => {
           if (isError) {
-            if (errorType === ERRORS.COMPLEXITY) {
-              return (
-                <div>
-                  Too complexed request
-                  <br />
-                  Decrease number of points
-                </div>
-              )
-            }
-            return <div>Something is going wrong</div>
+            return <ErrorRequest errorType={errorType} />
           }
 
           const errors = Object.keys(errorMetrics)

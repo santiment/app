@@ -29,7 +29,7 @@ const ToggleMetricButton = ({
       >
         {label}
       </span>
-      {noData && <span>no data</span>}
+      {error && <span>no data</span>}
       {!error && <Icon type={isActive ? 'remove' : 'plus-round'} />}
     </Button>
   ) : (
