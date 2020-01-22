@@ -542,8 +542,6 @@ class ChartPage extends Component {
               metrics.some(({ key }) => key === metricAnomalyKey)
             )
 
-          console.log(eventsData)
-
           const metricsTool = (
             <LoadableChartMetricsTool
               classes={styles}
@@ -620,7 +618,7 @@ class ChartPage extends Component {
                     )}
 
                     <TooltipSynchronizer
-                      isMultiChartsActive={false}
+                      isMultiChartsActive={isMultiChartsActive}
                       metrics={finalMetrics}
                       events={eventsData}
                     >

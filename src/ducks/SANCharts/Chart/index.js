@@ -5,17 +5,10 @@ import {
   updateSize,
   updateChartState
 } from '@santiment-network/chart'
-import {
-  initTooltip,
-  drawHoverLineX,
-  drawHoverLineY,
-  drawTooltip,
-  drawValueBubble
-} from '@santiment-network/chart/tooltip'
+import { initTooltip } from '@santiment-network/chart/tooltip'
 import { plotLines } from '@santiment-network/chart/line'
 import { plotDayBars, plotBars } from '@santiment-network/chart/bars'
 import { linearScale } from '@santiment-network/chart/scales'
-import { handleMove } from '@santiment-network/chart/events'
 import { drawReferenceDot } from '@santiment-network/chart/references'
 import {
   initBrush,
@@ -24,16 +17,20 @@ import {
   updateBrushState
 } from '@santiment-network/chart/brush'
 import { millify } from '../../../utils/formatting'
-import { Metrics } from '../data'
-
 import { plotAxes } from './axes'
+import { setupTooltip, plotTooltip } from './tooltip'
 import {
   clearCtx,
   axesTickFormatters,
   getDateDayMonthYear,
-  yBubbleFormatter
+  yBubbleFormatter,
+  findPointIndexByDate
 } from './utils'
-import { tooltipSettings, BRUSH_HEIGHT, CHART_PADDING } from './settings'
+import {
+  BRUSH_HEIGHT,
+  CHART_PADDING,
+  CHART_WITH_BRUSH_PADDING
+} from './settings'
 import { drawWatermark } from './watermark'
 import { drawPaywall } from './paywall'
 
@@ -49,53 +46,41 @@ const Chart = ({
   daybars,
   events = [],
   leftBoundaryDate,
-  rightBoundaryDate
+  rightBoundaryDate,
+  tooltipKey,
+  isMultiChartsActive,
+  syncedTooltipDate,
+  syncTooltips = () => {}
 }) => {
-  const [chart, setChart] = useState()
-  const [brush, setBrush] = useState()
+  let [chart, setChart] = useState()
+  let [brush, setBrush] = useState()
   const canvasRef = useRef()
 
   useEffect(() => {
+    console.log('Mounting ->')
     const { current: canvas } = canvasRef
     const width = canvas.parentNode.offsetWidth
 
-    const chart = initTooltip(initChart(canvas, width, 350, CHART_PADDING))
-    const brush = initBrush(chart, width, BRUSH_HEIGHT)
-    brush.canvas.classList.add(styles.brush)
+    chart = initTooltip(
+      initChart(
+        canvas,
+        width,
+        350,
+        isMultiChartsActive ? CHART_PADDING : CHART_WITH_BRUSH_PADDING
+      )
+    )
+    chart.tooltipKey = tooltipKey
+
+    if (!isMultiChartsActive) {
+      brush = initBrush(chart, width, BRUSH_HEIGHT)
+      brush.canvas.classList.add(styles.brush)
+      setBrush(brush)
+    }
 
     setChart(chart)
-    setBrush(brush)
     chartRef.current = canvas
 
-    chart.tooltip.canvas.onmousemove = handleMove(chart, point => {
-      if (!point) return
-      const {
-        tooltip: { ctx }
-      } = chart
-      clearCtx(chart, ctx)
-
-      const {
-        x,
-        value: datetime,
-        priceUsd: { y, value }
-      } = point
-
-      drawHoverLineX(chart, x)
-      drawHoverLineY(chart, y)
-
-      drawTooltip(ctx, point, tooltipSettings, marker)
-      drawValueBubble(chart, yBubbleFormatter(value), 0, y)
-      drawValueBubble(
-        chart,
-        getDateDayMonthYear(datetime),
-        x,
-        chart.bottom + 14
-      )
-    })
-
-    chart.tooltip.canvas.onmouseleave = () => {
-      clearCtx(chart, chart.tooltip.ctx)
-    }
+    setupTooltip(chart, marker, syncTooltips)
   }, [])
 
   useEffect(
@@ -104,15 +89,43 @@ const Chart = ({
         return
       }
 
+      console.log('[data || scale || events] change')
       const { ctx, canvasWidth, canvasHeight } = chart
       clearCtx(chart)
-      clearCtx(brush)
       updateChartState(chart, data, daybars.concat(bars).concat(lines))
-      setupBrush(brush, chart, data, plotBrushData, onBrushChange)
+      if (brush) {
+        clearCtx(brush)
+        setupBrush(brush, plotBrushData, onBrushChange)
+        updateBrushState(brush, chart, data, plotBrushData)
+      }
       plotChart(data)
       plotAxes(chart)
     },
     [data, scale, events]
+  )
+
+  useEffect(
+    () => {
+      if (data.length === 0) return
+
+      if (syncedTooltipDate) {
+        const point =
+          chart.points[findPointIndexByDate(chart.points, syncedTooltipDate)]
+        if (point) {
+          plotTooltip(chart, marker, point)
+        }
+      } else {
+        clearCtx(chart, chart.tooltip.ctx)
+      }
+    },
+    [syncedTooltipDate]
+  )
+
+  useEffect(
+    () => {
+      chart.tooltipKey = tooltipKey
+    },
+    [tooltipKey]
   )
 
   function onBrushChange (startIndex, endIndex) {

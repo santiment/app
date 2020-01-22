@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import COLOR from '@santiment-network/ui/variables.scss'
 import { setupColorGenerator } from './utils'
 import { Metrics } from './data'
+import { findTooltipMetric } from './Chart/utils'
 import chartStyles from './Chart.module.scss'
 
 const cache = new Map()
@@ -85,39 +86,65 @@ const TooltipSynchronizer = ({
   isMultiChartsActive,
   events
 }) => {
-  const [syncedTooltipIndex, syncTooltips] = useState()
+  const [syncedTooltipDate, syncTooltips] = useState()
+  const [syncedEvents, syncEvents] = useState()
+  const [syncedCategories, syncCategories] = useState([])
 
   const syncedColors = getSyncedColors(metrics)
-
   const noPriceMetrics = metrics.filter(metric => metric !== historyPrice)
+  const isValidMulti = isMultiChartsActive && noPriceMetrics.length > 1
   const hasPriceMetric = metrics.length !== noPriceMetrics.length
-  const syncedMetrics = metrics.reduce((map, metric) => {
-    map.set(metric, hasPriceMetric ? [metric, historyPrice] : [metric])
-    return map
-  }, new WeakMap())
-  const plots = metricsToPlotCategories(metrics)
-  const prepEvents = prepareEvents(events)
+
+  useEffect(
+    () => {
+      const categories = []
+      if (isValidMulti) {
+        noPriceMetrics.forEach(metric =>
+          categories.push(
+            metricsToPlotCategories(
+              hasPriceMetric ? [metric, historyPrice] : [metric]
+            )
+          )
+        )
+      } else {
+        categories.push(metricsToPlotCategories(metrics))
+      }
+
+      syncCategories(categories)
+      syncEvents(prepareEvents(events))
+    },
+    [metrics]
+  )
 
   useEffect(() => clearCache, [])
 
-  return isMultiChartsActive && noPriceMetrics.length > 1
-    ? noPriceMetrics.map(metric =>
-      React.cloneElement(children, {
-        className: chartStyles.multiCharts,
+  return isValidMulti
+    ? syncedCategories.map((categories, i) => {
+      const key = getMetricKey(
+        hasPriceMetric ? historyPrice : noPriceMetrics[i]
+      )
+
+      return React.cloneElement(children, {
+        key: i,
         isMultiChartsActive,
-        key: metric.key,
-        metrics: syncedMetrics.get(metric),
-        syncedTooltipIndex,
+        syncedTooltipDate,
         syncedColors,
-        syncTooltips
+        syncTooltips,
+        ...categories,
+        tooltipKey: key,
+        events: syncedEvents
       })
-    )
-    : React.cloneElement(children, {
-      metrics,
-      syncedColors,
-      events: prepEvents,
-      ...plots
     })
+    : React.cloneElement(children, {
+      ...syncedCategories[0],
+      syncedColors,
+      events: syncedEvents,
+      tooltipKey: getMetricKey(findTooltipMetric(metrics))
+    })
+}
+
+function getMetricKey ({ key, dataKey = key }) {
+  return dataKey
 }
 
 TooltipSynchronizer.defaultProps = {

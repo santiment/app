@@ -6,9 +6,9 @@ const axesTickFormatters = {
 }
 
 export function plotAxes (chart) {
-  const { ctx } = chart
+  const { ctx, tooltipKey } = chart
   drawAxes(chart)
   ctx.fillStyle = '#9faac4'
   ctx.font = '12px sans-serif'
-  drawAxesTicks(chart, 'priceUsd', axesTickFormatters)
+  drawAxesTicks(chart, tooltipKey, axesTickFormatters)
 }

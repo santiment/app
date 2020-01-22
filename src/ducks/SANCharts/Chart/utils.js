@@ -1,3 +1,4 @@
+import { Metrics } from '../data'
 import {
   getDateFormats,
   getTimeFormats,
@@ -25,4 +26,18 @@ export function yBubbleFormatter (value) {
   }
 
   return millify(value)
+}
+
+export const findTooltipMetric = metrics =>
+  (metrics.includes(Metrics.historyPrice) && Metrics.historyPrice) ||
+  metrics.find(({ node }) => node === 'line') ||
+  metrics[0]
+
+export function findPointIndexByDate (points, target) {
+  const lastIndex = points.length - 1
+  const firstDate = points[0].value
+  const lastDate = points[lastIndex].value
+
+  const factor = lastIndex / (lastDate - firstDate)
+  return Math.round((target - firstDate) * factor)
 }
