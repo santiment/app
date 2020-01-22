@@ -59,12 +59,12 @@ const MobileDetailedPage = props => {
     setExtraMetricsNames(newMetrics)
   }
 
+  const rest = { slug, from, to }
+
   const price = {
     name: 'historyPrice',
     ...Metrics['historyPrice'],
-    slug,
-    from,
-    to,
+    ...rest,
     interval: getInterval(timeRange)
   }
 
@@ -76,9 +76,7 @@ const MobileDetailedPage = props => {
         name: key,
         key,
         interval: getInterval(timeRange),
-        slug,
-        from,
-        to,
+        ...rest,
         ...reqMeta
       }
 
@@ -181,7 +179,11 @@ const MobileDetailedPage = props => {
                         </div>
                         <h3 className={styles.heading}>Popular metrics</h3>
                         {POPULAR_METRICS.map((metric, idx) => (
-                          <MobileMetricCard metric={metric} key={idx} />
+                          <MobileMetricCard
+                            metric={metric}
+                            key={idx}
+                            {...rest}
+                          />
                         ))}
                         {metricsTool}
                       </>
