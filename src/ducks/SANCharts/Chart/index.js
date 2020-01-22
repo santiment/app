@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import {
-  initChart,
-  updateChartDimensions,
-  updateSize,
-  updateChartState
-} from '@santiment-network/chart'
+import { initChart, updateChartState } from '@santiment-network/chart'
 import { initTooltip } from '@santiment-network/chart/tooltip'
 import { plotLines } from '@santiment-network/chart/line'
 import { plotDayBars, plotBars } from '@santiment-network/chart/bars'
@@ -13,7 +8,6 @@ import { drawReferenceDot } from '@santiment-network/chart/references'
 import {
   initBrush,
   setupBrush,
-  updateBrushDimensions,
   updateBrushState
 } from '@santiment-network/chart/brush'
 import { millify } from '../../../utils/formatting'
@@ -33,6 +27,7 @@ import {
 } from './settings'
 import { drawWatermark } from './watermark'
 import { drawPaywall } from './paywall'
+import { onResize } from './resize'
 
 import styles from './index.module.scss'
 
@@ -50,7 +45,9 @@ const Chart = ({
   tooltipKey,
   isMultiChartsActive,
   syncedTooltipDate,
-  syncTooltips = () => {}
+  syncTooltips = () => {},
+  isAdvancedView,
+  isWideChart
 }) => {
   let [chart, setChart] = useState()
   let [brush, setBrush] = useState()
@@ -126,6 +123,20 @@ const Chart = ({
       chart.tooltipKey = tooltipKey
     },
     [tooltipKey]
+  )
+
+  useEffect(
+    () => {
+      onResize(
+        chart,
+        isMultiChartsActive ? CHART_PADDING : CHART_WITH_BRUSH_PADDING,
+        brush,
+        data,
+        plotBrushData,
+        onBrushChange
+      )
+    },
+    [isAdvancedView, isWideChart]
   )
 
   function onBrushChange (startIndex, endIndex) {

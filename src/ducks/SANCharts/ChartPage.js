@@ -629,6 +629,10 @@ class ChartPage extends Component {
                         scale={isLogScale ? logScale : linearScale}
                         leftBoundaryDate={leftBoundaryDate}
                         rightBoundaryDate={rightBoundaryDate}
+                        isAdvancedView={isAdvancedView}
+                        isIntervalSmallerThanDay={isIntervalSmallerThanDay}
+                        isLoading={isParentLoading || isLoading}
+                        isWideChart={isWideChart}
                       />
                     </TooltipSynchronizer>
                     {false && (

@@ -1,6 +1,7 @@
 import { getDateFormats, getTimeFormats } from '../../../utils/dates'
 import { millify } from '../../../utils/formatting'
 
+export const CHART_HEIGHT = 350
 export const BRUSH_HEIGHT = 40
 
 export const CHART_PADDING = {
