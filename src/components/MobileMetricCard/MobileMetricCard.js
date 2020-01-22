@@ -15,10 +15,10 @@ const MobileMetricCard = ({
   name = '',
   value = 0,
   period = '',
-  changes = 0,
+  changes,
   measure = '',
   data: { metricAnomaly: anomalies = [] } = {},
-  onClick
+  onToggleMetric
 }) => {
   const [isOpenDescription, setIsOpenDescription] = useState(false)
 
@@ -29,7 +29,7 @@ const MobileMetricCard = ({
   return (
     <SwipeableCard
       onLeftActionClick={() => setIsOpenDescription(true)}
-      onRightActionClick={() => {}}
+      onRightActionClick={onToggleMetric}
       hasLeftAction={description}
     >
       <div className={styles.wrapper}>
@@ -45,10 +45,14 @@ const MobileMetricCard = ({
           <h4 className={styles.value}>
             {formatTooltipValue(false, value)} {measure}
           </h4>
-          <PercentChanges changes={changes} />
-          <Label accent='casper' className={styles.period}>
-            , {period}
-          </Label>
+          {changes && (
+            <>
+              <PercentChanges changes={changes} />
+              <Label accent='casper' className={styles.period}>
+                , {period}
+              </Label>
+            </>
+          )}
         </div>
       </div>
       {description && (

@@ -1,5 +1,15 @@
 @import '~@santiment-network/ui/mixins';
 
+.left {
+  left: 0;
+  fill: var(--rhino);
+}
+
+.right {
+  right: 0;
+  fill: var(--jungle-green);
+}
+
 .container {
   width: 100%;
   height: 85px;
@@ -12,12 +22,20 @@
     0 1px 2px rgba(59, 84, 106, 0.03);
   border-radius: 4px;
 
-  &__left {
+  &__right {
     background-color: var(--jungle-green-light-2);
+
+    & .left {
+      display: none;
+    }
   }
 
-  &__right {
+  &__left {
     background-color: var(--porcelain);
+
+    & .right {
+      display: none;
+    }
   }
 }
 
@@ -32,16 +50,6 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-}
-
-.info {
-  left: 0;
-  fill: var(--rhino);
-}
-
-.add {
-  right: 0;
-  fill: var(--jungle-green);
 }
 
 .remove {
@@ -62,11 +70,11 @@
   touch-action: none;
   box-sizing: border-box;
 
-  &__left {
+  &__right {
     border: 1px solid var(--jungle-green-light-2);
   }
 
-  &__right {
+  &__left {
     border: 1px solid var(--porcelain);
   }
 }

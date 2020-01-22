@@ -35,10 +35,12 @@ const SwipeableCard = ({
     const x = evt.touches[0].pageX
     const dx = x - startX
     const offset = startPosition + dx
-    if (offset < 0 && !hasRightAction) return
-    if (offset > 0 && !hasLeftAction) return
+    if ((offset < 0 && !hasRightAction) || (offset > 0 && !hasLeftAction)) {
+      return
+    }
+
     setOffset(offset)
-    setSide(offset > 0 ? 'right' : 'left')
+    setSide(offset > 0 ? 'left' : 'right')
 
     setCurrentGesture({ ...currentGesture, prevX: x })
 
@@ -71,18 +73,26 @@ const SwipeableCard = ({
     >
       {hasLeftAction && (
         <button
-          className={cx(styles.button, styles.info)}
-          onClick={onLeftActionClick}
+          className={cx(styles.button, styles.left)}
+          onClick={() => {
+            onLeftActionClick()
+            setStartPosition(0)
+          }}
         >
           <Icon type='info-round' />
         </button>
       )}
-      <button
-        className={cx(styles.button, styles.add)}
-        onClick={onRightActionClick}
-      >
-        <Icon type='plus-round' />
-      </button>
+      {hasRightAction && (
+        <button
+          className={cx(styles.button, styles.right)}
+          onClick={() => {
+            onRightActionClick()
+            setStartPosition(0)
+          }}
+        >
+          <Icon type='plus-round' />
+        </button>
+      )}
       <div
         className={cx(
           styles.content,

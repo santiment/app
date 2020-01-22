@@ -177,10 +177,25 @@ const MobileDetailedPage = props => {
                             extraMetrics={extraMetrics}
                           />
                         </div>
+                        {extraMetricsNames.size > 0 && (
+                          <>
+                            <h3 className={styles.heading}>Choosed Metrics</h3>
+                            {[...extraMetricsNames].map((metric, idx) => (
+                              <MobileMetricCard
+                                metric={metric}
+                                onToggleMetric={() => toggleMetric(metric)}
+                                key={idx}
+                                {...rest}
+                              />
+                            ))}
+                            {metricsTool}
+                          </>
+                        )}
                         <h3 className={styles.heading}>Popular metrics</h3>
                         {POPULAR_METRICS.map((metric, idx) => (
                           <MobileMetricCard
                             metric={metric}
+                            onToggleMetric={() => toggleMetric(metric)}
                             key={idx}
                             {...rest}
                           />
