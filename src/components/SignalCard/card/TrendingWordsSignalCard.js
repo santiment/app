@@ -29,7 +29,7 @@ const getExpectedCount = settings => {
 
 const getWords = (triggerWords, activityPayload) => {
   if (triggerWords) {
-    return triggerWords
+    return Array.isArray(triggerWords) ? triggerWords : [triggerWords]
   }
 
   if (activityPayload) {
@@ -68,7 +68,6 @@ const TrendingWordsSignalCard = ({
     settings: { target = {} },
     isPublic
   } = signal
-
   const words = getWords(target.word, activityPayload)
   const showingWords = words.slice(0, 6)
 
