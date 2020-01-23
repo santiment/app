@@ -34,6 +34,7 @@ const SwipeableCard = ({
     setCurrentGesture({
       startX: evt.touches[0].pageX,
       prevX: evt.touches[0].pageX,
+      prevTs: Date.now(),
       startPosition
     })
   }
@@ -43,7 +44,7 @@ const SwipeableCard = ({
       return
     }
 
-    const { startX, prevX, startPosition } = currentGesture
+    const { startX, prevX, prevTs, startPosition } = currentGesture
     const x = evt.touches[0].pageX
     const dx = x - startX
     const offset = startPosition + dx
@@ -54,7 +55,18 @@ const SwipeableCard = ({
     setOffset(offset)
     setSide(offset > 0 ? 'left' : 'right')
 
-    setCurrentGesture({ ...currentGesture, prevX: x })
+    const ts = Date.now()
+    const speed = Math.abs(x - prevX) / (ts - prevTs)
+
+    if (speed > 5 && ts !== prevTs) {
+      offset > 0 ? onLeftActionClick() : onRightActionClick()
+      setStartPosition(0)
+      setOffset(0)
+      setCurrentGesture(null)
+      return
+    }
+
+    setCurrentGesture({ ...currentGesture, prevX: x, prevTs: ts })
 
     if (dx < -1.5 * BUTTON_WIDTH) {
       setStartPosition(-BUTTON_WIDTH)
@@ -121,7 +133,7 @@ const SwipeableCard = ({
         style={{
           left: `${offset}px`,
           transition: `${
-            currentGesture ? '' : `left ease ${hide ? 3 : offset ? 0.5 : 0}s`
+            currentGesture ? '' : `left ease ${hide ? 1 : offset ? 0.5 : 0}s`
           }`
         }}
       >
