@@ -15,4 +15,13 @@
   border-left: 7px solid var(--rhino);
   border-bottom: 5px solid transparent;
   transform: translateY(-5px);
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 7px;
+    height: 10px;
+    top: -5px;
+    left: -14px;
+  }
 }

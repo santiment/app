@@ -19,6 +19,8 @@ import {
   removeTrigger
 } from '../../../Signals/common/actions'
 import { getSlugPriceSignals } from '../../utils'
+import { buildPriceSignal } from '../../../Signals/utils/utils'
+import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
 
 import styles from './index.module.scss'
 
@@ -29,7 +31,15 @@ const TEXT_IFS = ['if price drops below ', 'if price raises above ']
 
 const formatter = tooltipSettings.priceUsd.formatter
 
-const Signals = ({ chart, data, fetchSignals, signals }) => {
+const Signals = ({
+  slug,
+  chart,
+  data,
+  signals,
+  fetchSignals,
+  createSignal,
+  removeSignal
+}) => {
   const [hovered, setHovered] = useState()
 
   console.log(signals)
@@ -56,6 +66,19 @@ const Signals = ({ chart, data, fetchSignals, signals }) => {
     ])
   }
 
+  function onClick ({ nativeEvent: { offsetY: y } }) {
+    if (hovered || data.length === 0) {
+      return
+    }
+
+    const lastPrice = data[data.length - 1].priceUsd
+    const price = findPriceByY(chart, y)
+    const type = PRICE_CHANGE_TYPES[price > lastPrice ? 'ABOVE' : 'BELOW']
+
+    const signal = buildPriceSignal(slug, price, type)
+    createSignal(signal)
+  }
+
   function onMouseLeave () {
     clearCtx(chart, chart.tooltip.ctx)
   }
@@ -74,6 +97,7 @@ const Signals = ({ chart, data, fetchSignals, signals }) => {
 
   return chart ? (
     <div
+      onClick={onClick}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
       className={styles.wrapper}
@@ -83,7 +107,12 @@ const Signals = ({ chart, data, fetchSignals, signals }) => {
       }}
     >
       {signals.map(signal => (
-        <Signal key={signal.id} signal={signal} setHovered={setHoveredSignal} />
+        <Signal
+          key={signal.id}
+          signal={signal}
+          setHovered={setHoveredSignal}
+          removeSignal={removeSignal}
+        />
       ))}
     </div>
   ) : null

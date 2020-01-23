@@ -2,7 +2,7 @@ import React from 'react'
 import { alignY, drawTextBubble, drawTexts, drawLine } from './helpers'
 import styles from './index.module.scss'
 
-const Signal = ({ signal, setHovered }) => {
+const Signal = ({ signal, setHovered, removeSignal }) => {
   function onMouseEnter () {
     setHovered(signal)
   }
@@ -11,12 +11,17 @@ const Signal = ({ signal, setHovered }) => {
     setHovered()
   }
 
+  function onClick () {
+    removeSignal(signal.id)
+  }
+
   return (
     <div
       className={styles.signal}
       style={{
         top: signal.y
       }}
+      onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     />
