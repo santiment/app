@@ -5,14 +5,7 @@ import {
 } from '@santiment-network/chart/brush'
 import { CHART_HEIGHT, BRUSH_HEIGHT } from './settings'
 
-export function onResize (
-  chart,
-  chartPadding,
-  brush,
-  data,
-  plotBrushData,
-  onBrushChange
-) {
+export function onResize (chart, chartPadding, brush, data) {
   const parentWidth = chart.canvas.parentNode.offsetWidth
   if (parentWidth === chart.canvasWidth) {
     return
@@ -31,8 +24,9 @@ export function onResize (
   if (brush) {
     updateBrushDimensions(brush, parentWidth, BRUSH_HEIGHT)
     if (data.length) {
-      updateBrushState(brush, chart, data, plotBrushData)
-      onBrushChange(brush.startIndex, brush.endIndex)
+      const { onBrushChange, startIndex, endIndex } = brush
+      updateBrushState(brush, chart, data)
+      onBrushChange(startIndex, endIndex)
     }
   }
 }

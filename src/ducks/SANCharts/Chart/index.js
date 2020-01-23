@@ -2,15 +2,11 @@ import React, { useState, useEffect, useRef } from 'react'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { initChart, updateChartState } from '@santiment-network/chart'
 import { initTooltip } from '@santiment-network/chart/tooltip'
-import { plotLines } from '@santiment-network/chart/line'
+import { plotLines } from '@santiment-network/chart/lines'
 import { plotDayBars, plotBars } from '@santiment-network/chart/bars'
 import { linearScale } from '@santiment-network/chart/scales'
 import { drawReferenceDot } from '@santiment-network/chart/references'
-import {
-  initBrush,
-  setupBrush,
-  updateBrushState
-} from '@santiment-network/chart/brush'
+import { initBrush, updateBrushState } from '@santiment-network/chart/brush'
 import { plotAxes } from './axes'
 import { setupTooltip, plotTooltip } from './tooltip'
 import { clearCtx, findPointIndexByDate } from './utils'
@@ -70,7 +66,13 @@ const Chart = ({
     chart.tooltipKey = tooltipKey
 
     if (!isMultiChartsActive) {
-      brush = initBrush(chart, width, BRUSH_HEIGHT)
+      brush = initBrush(
+        chart,
+        width,
+        BRUSH_HEIGHT,
+        plotBrushData,
+        onBrushChange
+      )
       brush.canvas.classList.add(styles.brush)
       setBrush(brush)
     }
@@ -81,19 +83,23 @@ const Chart = ({
     setupTooltip(chart, marker, syncTooltips, onPointHover)
   }, [])
 
+  if (brush) {
+    // NOTE: Because func.component works with closures, captured values might be outdated [@vanguard | Jan 23, 2020]
+    brush.plotBrushData = plotBrushData
+    brush.onChange = onBrushChange
+  }
+
   useEffect(
     () => {
       if (data.length === 0) {
         return
       }
 
-      console.log('[data || scale || events] change')
       clearCtx(chart)
       updateChartState(chart, data, daybars.concat(bars).concat(lines))
       if (brush) {
         clearCtx(brush)
-        setupBrush(brush, plotBrushData, onBrushChange)
-        updateBrushState(brush, chart, data, plotBrushData)
+        updateBrushState(brush, chart, data)
       }
       plotChart(data)
       plotAxes(chart)
