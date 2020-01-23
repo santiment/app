@@ -137,9 +137,7 @@ const Chart = ({
         chart,
         isMultiChartsActive ? CHART_PADDING : CHART_WITH_BRUSH_PADDING,
         brush,
-        data,
-        plotBrushData,
-        onBrushChange
+        data
       )
     },
     [isAdvancedView, isWideChart]

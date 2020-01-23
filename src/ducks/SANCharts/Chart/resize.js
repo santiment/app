@@ -24,9 +24,9 @@ export function onResize (chart, chartPadding, brush, data) {
   if (brush) {
     updateBrushDimensions(brush, parentWidth, BRUSH_HEIGHT)
     if (data.length) {
-      const { onBrushChange, startIndex, endIndex } = brush
+      const { onChange, startIndex, endIndex } = brush
       updateBrushState(brush, chart, data)
-      onBrushChange(startIndex, endIndex)
+      onChange(startIndex, endIndex)
     }
   }
 }

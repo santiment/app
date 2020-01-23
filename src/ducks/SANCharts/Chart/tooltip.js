@@ -35,8 +35,8 @@ export function plotTooltip (chart, marker, point) {
   const { x, value: datetime } = point
   const { y, value } = point[tooltipKey]
 
-  drawHoverLineX(chart, x)
-  drawHoverLineY(chart, y)
+  drawHoverLineX(chart, x, 5)
+  drawHoverLineY(chart, y, -20)
 
   drawTooltip(ctx, point, tooltipSettings, marker)
   drawValueBubble(chart, yBubbleFormatter(value), 0, y)
