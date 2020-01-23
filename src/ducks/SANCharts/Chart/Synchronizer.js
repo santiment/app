@@ -124,6 +124,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
         syncedTooltipDate,
         syncedColors,
         syncTooltips,
+        hasPriceMetric,
         ...categories,
         tooltipKey: key,
         events: syncedEvents
@@ -132,6 +133,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
     : React.cloneElement(children, {
       ...syncedCategories[0],
       syncedColors,
+      hasPriceMetric,
       events: syncedEvents,
       tooltipKey: getMetricKey(findTooltipMetric(metrics))
     })

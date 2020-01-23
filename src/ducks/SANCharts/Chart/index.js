@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { initChart, updateChartState } from '@santiment-network/chart'
 import { initTooltip } from '@santiment-network/chart/tooltip'
 import { plotLines } from '@santiment-network/chart/line'
@@ -27,26 +28,28 @@ import Signals from './Signals'
 import styles from './index.module.scss'
 
 const Chart = ({
-  slug,
   chartRef,
   data,
-  scale = linearScale,
-  syncedColors,
   lines,
   bars,
   daybars,
   events = [],
+  scale = linearScale,
+  slug,
   leftBoundaryDate,
   rightBoundaryDate,
   tooltipKey,
-  isMultiChartsActive,
+  lastDayPrice,
+  syncedColors,
   syncedTooltipDate,
   syncTooltips = () => {},
-  isAdvancedView,
-  isWideChart,
   onPointHover = () => {},
   hasPremium,
-  lastDayPrice
+  hasPriceMetric,
+  isLoading,
+  isMultiChartsActive,
+  isAdvancedView,
+  isWideChart
 }) => {
   let [chart, setChart] = useState()
   let [brush, setBrush] = useState()
@@ -197,7 +200,14 @@ const Chart = ({
   return (
     <div className={styles.wrapper}>
       <canvas ref={canvasRef} />
-      <Signals chart={chart} data={data} slug={slug} scale={scale} />
+      {hasPriceMetric && (
+        <Signals chart={chart} data={data} slug={slug} scale={scale} />
+      )}
+      {isLoading && (
+        <div className={styles.loader}>
+          <Loader />
+        </div>
+      )}
     </div>
   )
 }

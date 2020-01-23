@@ -4,14 +4,15 @@ import Signal from './Signal'
 import { drawHoveredSignal, findPriceByY, makeSignalDrawable } from './helpers'
 import { tooltipSettings } from '../settings'
 import { clearCtx } from '../utils'
+import { getSlugPriceSignals } from '../../utils'
 import {
   createTrigger,
   fetchSignals,
   removeTrigger
 } from '../../../Signals/common/actions'
-import { getSlugPriceSignals } from '../../utils'
 import { buildPriceSignal } from '../../../Signals/utils/utils'
 import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
+import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 
 import styles from './index.module.scss'
 
@@ -33,10 +34,10 @@ const Signals = ({
 }) => {
   const [hovered, setHovered] = useState()
 
-  console.log(signals)
-
   useEffect(() => {
-    fetchSignals()
+    if (signals.length === 0) {
+      fetchSignals()
+    }
   }, [])
 
   function onMouseMove ({ nativeEvent: { offsetY: y } }) {
@@ -85,7 +86,7 @@ const Signals = ({
     }
   }
 
-  return chart ? (
+  return (
     <div
       onClick={onClick}
       onMouseMove={onMouseMove}
@@ -105,15 +106,19 @@ const Signals = ({
         />
       ))}
     </div>
-  ) : null
+  )
 }
 
-// NOTE: Took from previous implementation [@vanguard | Jan 23, 2020]
-const mapStateToProps = ({ signals }, { slug, chart, scale }) => {
+const mapStateToProps = (state, { slug, chart, scale }) => {
+  const { signals, rootUi } = state
   return {
-    signals: getSlugPriceSignals(signals.all || [], slug)
-      .map(signal => makeSignalDrawable(signal, chart, scale))
-      .filter(Boolean)
+    isLoggedIn: checkIsLoggedIn(state),
+    isBeta: rootUi.isBetaModeEnabled,
+    signals: chart
+      ? getSlugPriceSignals(signals.all || [], slug)
+        .map(signal => makeSignalDrawable(signal, chart, scale))
+        .filter(Boolean)
+      : []
   }
 }
 
@@ -126,4 +131,7 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Signals)
+)(props => {
+  const { chart, isLoggedIn, isBeta } = props
+  return isLoggedIn && isBeta && chart ? <Signals {...props} /> : null
+})
