@@ -72,11 +72,12 @@ const MobileMetricCard = ({
 
 export default graphql(METRIC_ANOMALIE_QUERY, {
   skip: ({ metric: { anomalyKey }, from }) => !anomalyKey || !from,
-  options: ({ metric: { anomalyKey }, slug, from, to }) => ({
+  options: ({ metric: { anomalyKey }, slug, from, to, interval }) => ({
     variables: {
       slug,
       from,
       to,
+      interval,
       metric: anomalyKey
     }
   })

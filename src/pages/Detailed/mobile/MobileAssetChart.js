@@ -39,7 +39,7 @@ const MobileAssetChart = ({
   const [activeIndex, setActiveIndex] = useState(null)
 
   const metrics = ['historyPricePreview']
-  extraMetrics.forEach(({ name }) => metrics.push(name))
+  extraMetrics.forEach(({ key }) => metrics.push(key))
   const objMetrics = metrics.map(metric => Metrics[metric])
   const syncedColors = getSyncedColors(objMetrics)
   const markup = generateMetricsMarkup(objMetrics, {

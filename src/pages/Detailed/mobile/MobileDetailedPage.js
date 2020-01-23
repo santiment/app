@@ -40,22 +40,22 @@ const MobileDetailedPage = props => {
   const slug = props.match.params.slug
   const [timeRange, setTimeRange] = useState(DEFAULT_TIME_RANGE)
   const [icoPricePos, setIcoPricePos] = useState(null)
-  const [extraMetricsNames, setExtraMetricsNames] = useState(new Set())
+  const [extraMetrics, setExtraMetrics] = useState([])
   const [fullscreen, toggleFullscreen] = useState(false)
 
   addRecentAssets(slug)
 
   const toggleMetric = metric => {
-    const newMetrics = new Set(extraMetricsNames)
+    const newMetrics = new Set(extraMetrics)
     if (newMetrics.has(metric)) {
       newMetrics.delete(metric)
     } else {
-      const metricsAmount = extraMetricsNames.size
+      const metricsAmount = extraMetrics.length
       if (metricsAmount < MAX_METRICS_PER_CHART) {
         newMetrics.add(metric)
       }
     }
-    setExtraMetricsNames(newMetrics)
+    setExtraMetrics([...newMetrics])
   }
 
   const { from, to } = getIntervalByTimeRange(timeRange)
@@ -69,16 +69,16 @@ const MobileDetailedPage = props => {
     interval: INTERVAL_ALIAS[interval] || interval
   }
 
-  const price = {
-    name: 'historyPrice',
-    ...Metrics['historyPrice'],
-    ...rest
-  }
+  const requestedMetrics = [
+    {
+      name: 'historyPrice',
+      ...Metrics['historyPrice'],
+      ...rest
+    }
+  ]
 
-  const extraMetrics = []
-
-  if (extraMetricsNames.size > 0) {
-    extraMetricsNames.forEach(({ key, reqMeta }) => {
+  if (extraMetrics.length > 0) {
+    extraMetrics.forEach(({ key, reqMeta }) => {
       const metric = {
         name: key,
         key,
@@ -86,7 +86,7 @@ const MobileDetailedPage = props => {
         ...reqMeta
       }
 
-      extraMetrics.push(metric)
+      requestedMetrics.push(metric)
     })
   }
 
@@ -117,7 +117,7 @@ const MobileDetailedPage = props => {
               />
               <div className={styles.main}>
                 <GetTimeSeries
-                  metrics={[price, ...extraMetrics]}
+                  metrics={requestedMetrics}
                   render={({
                     timeseries = [],
                     errorMetrics = {},
@@ -130,7 +130,7 @@ const MobileDetailedPage = props => {
                     }
 
                     const errors = Object.keys(errorMetrics)
-                    const finalMetrics = [...extraMetricsNames].filter(
+                    const finalMetrics = extraMetrics.filter(
                       ({ key }) => !errors.includes(key)
                     )
 
@@ -183,10 +183,10 @@ const MobileDetailedPage = props => {
                             extraMetrics={extraMetrics}
                           />
                         </div>
-                        {extraMetricsNames.size > 0 && (
+                        {extraMetrics.length > 0 && (
                           <>
                             <h3 className={styles.heading}>Choosed Metrics</h3>
-                            {[...extraMetricsNames].map((metric, idx) => (
+                            {extraMetrics.map((metric, idx) => (
                               <MetricCard
                                 metric={metric}
                                 onToggleMetric={() => toggleMetric(metric)}
