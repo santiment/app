@@ -31,6 +31,40 @@ export function GetReferenceDots (signals, yAxisId) {
     />
   ))
 }
+const renderChart = (data, dataKeys, markup, referenceDots) => {
+  return (
+    <ComposedChart data={data} margin={{ left: 0, right: 0 }}>
+      <defs>
+        <Gradients />
+      </defs>
+      <XAxis
+        dataKey='datetime'
+        type='number'
+        scale='time'
+        tick={false}
+        allowDataOverflow
+        domain={['dataMin', 'dataMax']}
+        hide
+      />
+      <YAxis
+        hide
+        domain={['auto', 'dataMax']}
+        dataKey={dataKeys.dataKey}
+        interval='preserveStartEnd'
+      />
+
+      {markup}
+
+      {referenceDots}
+      <Tooltip
+        content={<CustomTooltip />}
+        cursor={{ stroke: 'var(--casper)' }}
+        position={{ x: 0, y: -22 }}
+        isAnimationActive={false}
+      />
+    </ComposedChart>
+  )
+}
 
 const VisualBacktestChart = ({
   triggeredSignals,
@@ -42,43 +76,7 @@ const VisualBacktestChart = ({
   syncedColors,
   showTitle
 }) => {
-  console.log(metrics)
   const markup = generateMetricsMarkup(metrics, { syncedColors })
-
-  const renderChart = () => {
-    return (
-      <ComposedChart data={data} margin={{ left: 0, right: 0 }}>
-        <defs>
-          <Gradients />
-        </defs>
-        <XAxis
-          dataKey='datetime'
-          type='number'
-          scale='time'
-          tick={false}
-          allowDataOverflow
-          domain={['dataMin', 'dataMax']}
-          hide
-        />
-        <YAxis
-          hide
-          domain={['auto', 'dataMax']}
-          dataKey={dataKeys.dataKey}
-          interval='preserveStartEnd'
-        />
-
-        {markup}
-
-        {referenceDots}
-        <Tooltip
-          content={<CustomTooltip />}
-          cursor={{ stroke: 'var(--casper)' }}
-          position={{ x: 0, y: -22 }}
-          isAnimationActive={false}
-        />
-      </ComposedChart>
-    )
-  }
 
   return (
     <div className={styles.preview}>
@@ -100,7 +98,7 @@ const VisualBacktestChart = ({
             )}
           >
             <ResponsiveContainer width='100%' height={120}>
-              {renderChart()}
+              {renderChart(data, dataKeys, markup, referenceDots)}
             </ResponsiveContainer>
           </div>
         </div>

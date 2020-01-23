@@ -22,6 +22,7 @@ import {
 } from '../../SANCharts/utils'
 import { getPriceMetricWithSlug } from '../balanceView/BalanceView'
 import styles from './HistoricalBalanceChart.module.scss'
+import { getSyncedColors } from '../../SANCharts/TooltipSynchronizer'
 
 const formatDatetime = datetime => {
   const { DD, MMM, YY } = getDateFormats(new Date(datetime))
@@ -81,7 +82,7 @@ const getWalletsLines = (wallets, showYAxes, scale) => {
   return acc
 }
 
-const COLORS = ['#14C393', '#8358FF', '#5275FF', '#FF5B5B', '#68DBF4']
+const COLORS = ['dodger-blue', '#8358FF', '#5275FF', '#FF5B5B', '#68DBF4']
 
 const labelFormatter = item => {
   if (item.indexOf('@') !== -1) {
@@ -126,10 +127,9 @@ const HistoricalBalanceChart = ({
     }
   })
 
-  console.log(metrics)
-
+  const syncedColors = getSyncedColors(metrics)
   const priceMetricsLines = priceMetric
-    ? generateMetricsMarkup(metrics, { hideYAxis: true })
+    ? generateMetricsMarkup(metrics, { hideYAxis: true, syncedColors })
     : null
 
   const hideTooltipItem = key => {

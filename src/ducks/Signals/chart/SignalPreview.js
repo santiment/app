@@ -62,6 +62,10 @@ const PreviewLoader = (
   </div>
 )
 
+const cleanByDatakeys = (timeseries, dataKey) => {
+  return timeseries.filter(item => item[dataKey] !== undefined)
+}
+
 const SignalPreviewChart = ({
   type,
   slug,
@@ -98,16 +102,14 @@ const SignalPreviewChart = ({
         if (!timeseries) {
           return PreviewLoader
         }
-        const data = mapWithTimeseries(timeseries)
-        const merged = mergeTimeseriesByKey({
-          timeseries: [data, getPointsByDays(points)]
-        })
 
-        console.log('-----------')
-        console.log(data, getPointsByDays(points))
-        console.log(merged)
-        console.log(triggeredSignals)
-        console.log(triggersBy)
+        const data = mapWithTimeseries(timeseries)
+        const merged = cleanByDatakeys(
+          mergeTimeseriesByKey({
+            timeseries: [data, getPointsByDays(points)]
+          }),
+          triggersBy.dataKey
+        )
 
         const signals = mapWithTimeseriesAndYCoord(
           triggeredSignals,

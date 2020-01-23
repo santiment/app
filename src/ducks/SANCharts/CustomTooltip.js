@@ -30,6 +30,7 @@ export const formatTooltipValue = (isPrice, value) =>
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload) {
+    console.log(payload)
     return (
       <div className={cx('custom-tooltip', styles.tooltip)}>
         {payload[0] && (

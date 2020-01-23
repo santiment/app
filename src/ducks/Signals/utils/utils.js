@@ -770,8 +770,9 @@ const CUSTOM_HISTORICAL_BALANCE_METRIC = {
   label: 'Balance',
   fill: true,
   dataKey: 'balance',
-  color: '#14C393',
-  opacity: 0.3,
+  color: 'dodger-blue',
+  opacity: 0.25,
+  strokeWidth: 0,
   notApi: true
 }
 

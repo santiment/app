@@ -184,8 +184,7 @@ export const generateMetricsMarkup = (
     activeLineDataKey,
     useShortName,
     hideYAxis
-  } = {},
-  customParams = {}
+  } = {}
 ) => {
   const metricWithYAxis = isMultiChartsActive
     ? metrics[0]
@@ -208,10 +207,11 @@ export const generateMetricsMarkup = (
       shortLabel,
       orientation = 'left',
       dataKey = key,
-      hideYAxis,
+      hideYAxis: metricHideYAxis,
       gradientUrl,
       opacity = 1,
-      formatter
+      formatter,
+      strokeWidth = 1.5
     } = metric
 
     if (!activeDataKey && (El === Line || El === Area)) {
@@ -229,7 +229,7 @@ export const generateMetricsMarkup = (
     }
 
     const currentYAxisId = getMetricYAxisId(metric)
-    const isHidden = metric !== metricWithYAxis || hideYAxis
+    const isHidden = metric !== metricWithYAxis || hideYAxis || metricHideYAxis
 
     acc.push(
       <YAxis
@@ -247,7 +247,7 @@ export const generateMetricsMarkup = (
         type='linear'
         yAxisId={currentYAxisId}
         name={(useShortName && shortLabel) || label}
-        strokeWidth={1.5}
+        strokeWidth={strokeWidth}
         ref={ref[key]}
         dataKey={dataKey}
         dot={false}
