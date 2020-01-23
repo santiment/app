@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import styles from './SwipeableCard.module.scss'
@@ -58,7 +58,7 @@ const SwipeableCard = ({
     const ts = Date.now()
     const speed = Math.abs(x - prevX) / (ts - prevTs)
 
-    if (speed > 5 && ts !== prevTs) {
+    if (speed > 4 && ts !== prevTs) {
       offset > 0 ? onLeftActionClick() : onRightActionClick()
       setStartPosition(0)
       setOffset(0)

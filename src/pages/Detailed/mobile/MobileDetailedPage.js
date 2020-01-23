@@ -133,7 +133,7 @@ const MobileDetailedPage = props => {
                   )
 
                   if (shownMetrics.length !== finalMetrics.length) {
-                    setTimeout(() => setShownMetrics(finalMetrics), 1000)
+                    setTimeout(() => setShownMetrics(finalMetrics), 500)
                   }
 
                   return (
@@ -170,35 +170,41 @@ const MobileDetailedPage = props => {
                           data={timeseries}
                           slug={slug}
                           extraMetrics={extraMetrics}
-                          isLoading={isLoading}
                         />
                       </div>
-                      {shownMetrics.length > 0 && (
-                        <>
-                          <h3 className={styles.heading}>Selected Metrics</h3>
-                          {shownMetrics.map(metric => (
-                            <MetricCard
-                              metric={metric}
-                              isSelected
-                              hide={!finalMetrics.includes(metric)}
-                              onToggleMetric={() => toggleMetric(metric)}
-                              key={metric.key + 'selected'}
-                              {...rest}
-                            />
-                          ))}
-                          <LoadableChartMetricsTool
-                            classes={styles}
-                            slug={slug}
-                            toggleMetric={toggleMetric}
-                            activeMetrics={finalMetrics}
-                            disabledMetrics={errorMetrics}
-                            hiddenMetrics={[Metrics.historyPrice]}
-                            addMetricBtnText='Change metrics'
-                            isMobile
-                            className={styles.metricsPopup}
-                          />
-                        </>
-                      )}
+                      <div
+                        className={cx(
+                          styles.selected,
+                          finalMetrics.length === 0 && styles.hide
+                        )}
+                      >
+                        {shownMetrics.length > 0 && (
+                          <>
+                            <h3 className={styles.heading}>Selected Metrics</h3>
+                            {shownMetrics.map(metric => (
+                              <MetricCard
+                                metric={metric}
+                                isSelected
+                                hide={!finalMetrics.includes(metric)}
+                                onToggleMetric={() => toggleMetric(metric)}
+                                key={metric.key + 'selected'}
+                                {...rest}
+                              />
+                            ))}
+                          </>
+                        )}
+                      </div>
+                      <LoadableChartMetricsTool
+                        classes={styles}
+                        slug={slug}
+                        toggleMetric={toggleMetric}
+                        activeMetrics={finalMetrics}
+                        disabledMetrics={errorMetrics}
+                        hiddenMetrics={[Metrics.historyPrice]}
+                        addMetricBtnText='Add metrics'
+                        isMobile
+                        className={styles.metricsPopup}
+                      />
                       {isAllPopularMetricsSelected && (
                         <>
                           <h3 className={styles.heading}>Popular metrics</h3>
@@ -211,18 +217,6 @@ const MobileDetailedPage = props => {
                               {...rest}
                             />
                           ))}
-                          {finalMetrics.length === 0 && (
-                            <LoadableChartMetricsTool
-                              classes={styles}
-                              slug={slug}
-                              toggleMetric={toggleMetric}
-                              activeMetrics={finalMetrics}
-                              disabledMetrics={errorMetrics}
-                              hiddenMetrics={[Metrics.historyPrice]}
-                              isMobile
-                              className={styles.metricsPopup}
-                            />
-                          )}
                         </>
                       )}
                     </>

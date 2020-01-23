@@ -27,3 +27,13 @@
 .metricsPopup {
   padding-top: 0 !important;
 }
+
+.selected {
+  transition: max-height 0.3s ease-in-out;
+  max-height: 500px;
+  overflow: hidden;
+
+  &.hide {
+    max-height: 0;
+  }
+}

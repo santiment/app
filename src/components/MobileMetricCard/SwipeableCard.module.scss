@@ -78,8 +78,12 @@
   }
 }
 
-.selected .content__right {
-  border: 1px solid var(--persimmon-light);
+.selected {
+  animation: appear 0.3s ease-in-out;
+
+  & .content__right {
+    border: 1px solid var(--persimmon-light);
+  }
 }
 
 .hide {
@@ -87,4 +91,14 @@
   transition-delay: 0.1s;
   height: 0;
   fill: transparent !important;
+}
+
+@keyframes appear {
+  0% {
+    margin-left: -1000px;
+  }
+
+  100% {
+    margin-left: 0;
+  }
 }
