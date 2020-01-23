@@ -8,7 +8,6 @@ import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
 import Charts from './Charts'
 import Header from './Header'
-import TooltipSynchronizer from './TooltipSynchronizer'
 import { getMarketSegment, mapDatetimeToNumber } from './utils'
 import {
   Metrics,
@@ -25,6 +24,7 @@ import { mapParsedTrueFalseFields } from '../../utils/utils'
 import StoriesList from '../../components/Stories/StoriesList'
 import styles from './ChartPage.module.scss'
 import Chart from './Chart'
+import Synchronizer from './Chart/Synchronizer'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import { checkHasPremium } from '../../pages/UserSelectors'
 
@@ -619,7 +619,7 @@ class ChartPage extends Component {
                       </>
                     )}
 
-                    <TooltipSynchronizer
+                    <Synchronizer
                       isMultiChartsActive={isMultiChartsActive}
                       metrics={finalMetrics}
                       events={eventsData}
@@ -641,9 +641,9 @@ class ChartPage extends Component {
                         onPointHover={this.getSocialContext}
                         hasPremium={hasPremium}
                       />
-                    </TooltipSynchronizer>
+                    </Synchronizer>
                     {false && (
-                      <TooltipSynchronizer
+                      <Synchronizer
                         isMultiChartsActive={isMultiChartsActive}
                         metrics={finalMetrics}
                       >
@@ -671,7 +671,7 @@ class ChartPage extends Component {
                           interval={interval}
                           onMouseMove={this.getSocialContext}
                         />
-                      </TooltipSynchronizer>
+                      </Synchronizer>
                     )}
                     {metricsTool}
                     {!isPRO && (

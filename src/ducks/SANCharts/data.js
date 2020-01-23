@@ -1,5 +1,4 @@
 import React from 'react'
-import { Bar, Line, Area } from 'recharts'
 import { usdFormatter } from './utils'
 
 export const Events = {
@@ -46,7 +45,8 @@ export const Metrics = {
     historicalTriggersDataKey: 'price'
   },
   historyPricePreview: {
-    node: Area,
+    // TODO: Replace to 'area' when san-chart will support it [@vanguard | Jan 23, 2020]
+    node: 'line',
     color: 'jungle-green',
     label: 'Price',
     dataKey: 'priceUsd',

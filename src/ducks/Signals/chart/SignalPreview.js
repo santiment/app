@@ -8,10 +8,7 @@ import {
 } from '../utils/utils'
 import { Metrics } from '../../SANCharts/data'
 import { getMetricYAxisId, mapToRequestedMetrics } from '../../SANCharts/utils'
-import {
-  getSyncedColors,
-  clearCache
-} from '../../SANCharts/TooltipSynchronizer'
+import { getSyncedColors, clearCache } from '../../SANCharts/Chart/Synchronizer'
 import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
 import ChartWidget from '../../SANCharts/ChartPage'
 import VisualBacktestChart, { GetReferenceDots } from './VisualBacktestChart'

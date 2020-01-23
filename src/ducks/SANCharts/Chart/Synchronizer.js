@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import COLOR from '@santiment-network/ui/variables.scss'
-import { setupColorGenerator } from './utils'
-import { Metrics } from './data'
-import { findTooltipMetric } from './Chart/utils'
-import chartStyles from './Chart.module.scss'
+import { findTooltipMetric } from './utils'
+import { setupColorGenerator } from '../utils'
+import { Metrics } from '../data'
 
 const cache = new Map()
 
@@ -80,12 +79,7 @@ function prepareEvents (events) {
   })
 }
 
-const TooltipSynchronizer = ({
-  children,
-  metrics,
-  isMultiChartsActive,
-  events
-}) => {
+const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
   const [syncedTooltipDate, syncTooltips] = useState()
   const [syncedEvents, syncEvents] = useState()
   const [syncedCategories, syncCategories] = useState([])
@@ -147,8 +141,8 @@ function getMetricKey ({ key, dataKey = key }) {
   return dataKey
 }
 
-TooltipSynchronizer.defaultProps = {
+Synchronizer.defaultProps = {
   metrics: []
 }
 
-export default TooltipSynchronizer
+export default Synchronizer
