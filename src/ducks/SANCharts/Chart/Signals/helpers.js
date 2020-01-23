@@ -1,6 +1,5 @@
 import COLOR from '@santiment-network/ui/variables.scss'
 import { getTextWidth } from '@santiment-network/chart/utils'
-import { linearScale } from '@santiment-network/chart/scales'
 import { clearCtx } from '../utils'
 
 const HEIGHT = 22
@@ -56,7 +55,7 @@ export function drawLine (ctx, startX, endX, y) {
 
 export function findPriceByY (chart, y) {
   const { minMaxes, height, top } = chart
-  const { min, max } = chart.minMaxes.priceUsd
+  const { min, max } = minMaxes.priceUsd
 
   const factor = (max - min) / height
 

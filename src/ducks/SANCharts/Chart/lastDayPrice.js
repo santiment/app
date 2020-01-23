@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-import { getTextWidth, getTextHeight } from '@santiment-network/chart/utils'
+import { getTextWidth } from '@santiment-network/chart/utils'
 import COLOR from '@santiment-network/ui/variables.scss'
 import { Metrics } from '../data'
 import { ONE_DAY_IN_MS } from '../../../utils/dates'

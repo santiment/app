@@ -1,6 +1,3 @@
-import { getTimeIntervalFromToday, DAY, MONTH } from '../../../utils/dates'
-import { createOptions } from '../../../pages/Chart/paywallBoundaries'
-
 export function drawPaywall (chart, leftBoundaryDate, rightBoundaryDate) {
   const { ctx, points, left, top, right, width, height } = chart
 
@@ -39,7 +36,7 @@ export function drawPaywall (chart, leftBoundaryDate, rightBoundaryDate) {
 }
 
 function getBoundaryX (chart, factor, target, firstDate) {
-  const { ctx, points } = chart
+  const { points } = chart
 
   const index = Math.round((target - firstDate) * factor)
   return points[index].x

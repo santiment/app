@@ -1,5 +1,4 @@
 import React from 'react'
-import { alignY, drawTextBubble, drawTexts, drawLine } from './helpers'
 import styles from './index.module.scss'
 
 const Signal = ({ signal, setHovered, removeSignal }) => {

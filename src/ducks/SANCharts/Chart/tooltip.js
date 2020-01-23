@@ -5,13 +5,8 @@ import {
   drawValueBubble
 } from '@santiment-network/chart/tooltip'
 import { handleMove } from '@santiment-network/chart/events'
-import { tooltipSettings, BRUSH_HEIGHT, CHART_PADDING } from './settings'
-import {
-  clearCtx,
-  axesTickFormatters,
-  getDateDayMonthYear,
-  yBubbleFormatter
-} from './utils'
+import { tooltipSettings } from './settings'
+import { clearCtx, getDateDayMonthYear, yBubbleFormatter } from './utils'
 
 export function setupTooltip (chart, marker, syncTooltips, onPointHover) {
   const {

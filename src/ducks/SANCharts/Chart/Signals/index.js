@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { getTextWidth } from '@santiment-network/chart/utils'
 import Signal from './Signal'
-import {
-  drawHoveredSignal,
-  findPriceByY,
-  alignY,
-  drawTextBubble,
-  drawTexts,
-  drawLine,
-  makeSignalDrawable
-} from './helpers'
+import { drawHoveredSignal, findPriceByY, makeSignalDrawable } from './helpers'
 import { tooltipSettings } from '../settings'
 import { clearCtx } from '../utils'
 import {
@@ -49,7 +40,6 @@ const Signals = ({
   }, [])
 
   function onMouseMove ({ nativeEvent: { offsetY: y } }) {
-    const { minMaxes, height, top, left, right } = chart
     if (hovered || data.length === 0) {
       return
     }

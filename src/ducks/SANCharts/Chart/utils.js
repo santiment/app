@@ -1,9 +1,5 @@
 import { Metrics } from '../data'
-import {
-  getDateFormats,
-  getTimeFormats,
-  ONE_DAY_IN_MS
-} from '../../../utils/dates'
+import { getDateFormats } from '../../../utils/dates'
 import { millify } from '../../../utils/formatting'
 
 export function clearCtx (chart, ctx = chart.ctx) {

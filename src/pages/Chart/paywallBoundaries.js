@@ -1,6 +1,6 @@
 import { getTimeIntervalFromToday, DAY, MONTH } from '../../utils/dates'
 
-export function createOptions (hours = 48) {
+function createOptions (hours = 48) {
   const NEXT_DAY = new Date()
   NEXT_DAY.setHours(hours, 0, 0, 0)
   return { isUTC: true, from: NEXT_DAY }
