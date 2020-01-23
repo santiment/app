@@ -174,17 +174,18 @@ export const alignDayMetrics = ({ chartRef, bars, dayMetrics, margin }) => {
 export const generateMetricsMarkup = (
   metrics,
   {
-    isMultiChartsActive,
     ref = {},
+    isMultiChartsActive,
     chartRef: { current: chartRef } = {},
     coordinates,
     scale,
     dayMetrics,
     syncedColors,
-    showActiveDot = true,
     activeLineDataKey,
-    useShortName
-  } = {}
+    useShortName,
+    hideYAxis
+  } = {},
+  customParams = {}
 ) => {
   const metricWithYAxis = isMultiChartsActive
     ? metrics[0]
@@ -209,6 +210,7 @@ export const generateMetricsMarkup = (
       dataKey = key,
       hideYAxis,
       gradientUrl,
+      opacity = 1,
       formatter
     } = metric
 
@@ -227,7 +229,6 @@ export const generateMetricsMarkup = (
     }
 
     const currentYAxisId = getMetricYAxisId(metric)
-
     const isHidden = metric !== metricWithYAxis || hideYAxis
 
     acc.push(
@@ -250,6 +251,7 @@ export const generateMetricsMarkup = (
         ref={ref[key]}
         dataKey={dataKey}
         dot={false}
+        opacity={opacity}
         activeDot={activeDataKey === dataKey && <ActiveLine />}
         isAnimationActive={false}
         connectNulls

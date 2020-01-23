@@ -15,8 +15,11 @@ import { formatTokensCount } from '../../../utils/formatting'
 import ChartTooltip, {
   renderLegend
 } from '../../SANCharts/tooltip/CommonChartTooltip'
-import { generateMetricsMarkup } from './../common/utils'
-import { mapDatetimeToNumber, usdFormatter } from '../../SANCharts/utils'
+import {
+  generateMetricsMarkup,
+  mapDatetimeToNumber,
+  usdFormatter
+} from '../../SANCharts/utils'
 import { getPriceMetricWithSlug } from '../balanceView/BalanceView'
 import styles from './HistoricalBalanceChart.module.scss'
 
@@ -123,8 +126,10 @@ const HistoricalBalanceChart = ({
     }
   })
 
+  console.log(metrics)
+
   const priceMetricsLines = priceMetric
-    ? generateMetricsMarkup(metrics, {}, { hideYAxis: true })
+    ? generateMetricsMarkup(metrics, { hideYAxis: true })
     : null
 
   const hideTooltipItem = key => {

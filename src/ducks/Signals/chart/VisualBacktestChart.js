@@ -42,6 +42,7 @@ const VisualBacktestChart = ({
   syncedColors,
   showTitle
 }) => {
+  console.log(metrics)
   const markup = generateMetricsMarkup(metrics, { syncedColors })
 
   const renderChart = () => {

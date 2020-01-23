@@ -19,6 +19,7 @@ import { ChartExpandView } from './ChartExpandView'
 import { DesktopOnly } from './../../../components/Responsive'
 import { HISTORICAL_TRIGGER_POINTS_QUERY } from '../epics'
 import styles from './SignalPreview.module.scss'
+import { mergeTimeseriesByKey } from '../../../utils/utils'
 
 const mapWithTimeseries = items =>
   items.map(item => ({
@@ -49,6 +50,12 @@ const mapWithTimeseriesAndYCoord = (
   })
 }
 
+const getPointsByDays = points => {
+  return mapWithTimeseries(
+    points.filter(({ datetime }) => datetime.indexOf('00:00:00') > 0)
+  )
+}
+
 const PreviewLoader = (
   <div className={styles.loaderWrapper}>
     <Loader className={styles.loader} />
@@ -60,17 +67,21 @@ const SignalPreviewChart = ({
   slug,
   timeRange,
   label,
-  triggeredSignals,
+  points,
   showExpand,
   showTitle
 }) => {
+  const triggeredSignals = points.filter(point => point['triggered?'])
   const metricsTypes = getMetricsByType(type)
   const { metrics, triggersBy } = metricsTypes
-  const requestedMetrics = mapToRequestedMetrics(metrics, {
-    timeRange,
-    interval: '1d',
-    slug
-  })
+  const requestedMetrics = mapToRequestedMetrics(
+    metrics.filter(({ notApi }) => !notApi),
+    {
+      timeRange,
+      interval: '1d',
+      slug
+    }
+  )
 
   const metricsForSignalsChart = metrics.map(metric =>
     metric === Metrics.historyPrice ? Metrics.historyPricePreview : metric
@@ -88,11 +99,20 @@ const SignalPreviewChart = ({
           return PreviewLoader
         }
         const data = mapWithTimeseries(timeseries)
+        const merged = mergeTimeseriesByKey({
+          timeseries: [data, getPointsByDays(points)]
+        })
+
+        console.log('-----------')
+        console.log(data, getPointsByDays(points))
+        console.log(merged)
+        console.log(triggeredSignals)
+        console.log(triggersBy)
 
         const signals = mapWithTimeseriesAndYCoord(
           triggeredSignals,
           triggersBy,
-          data
+          merged
         )
 
         const referenceDots =
@@ -103,7 +123,7 @@ const SignalPreviewChart = ({
         return (
           <>
             <VisualBacktestChart
-              data={data}
+              data={merged}
               dataKeys={triggersBy}
               label={label}
               triggeredSignals={triggeredSignals}
@@ -183,7 +203,6 @@ const SignalPreview = ({
         }
 
         const { label, value: timeRange } = getTimeRangeForChart(type)
-        const triggeredSignals = points.filter(point => point['triggered?'])
 
         return (
           <SignalPreviewChart
@@ -191,7 +210,7 @@ const SignalPreview = ({
             slug={slug}
             label={label}
             timeRange={timeRange}
-            triggeredSignals={triggeredSignals}
+            points={points}
             showExpand={showExpand}
             showTitle={showTitle}
           />
