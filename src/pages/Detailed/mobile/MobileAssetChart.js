@@ -59,20 +59,6 @@ const MobileAssetChart = ({
   )
 
   let anomalyDataKey, anomalies
-  // if (extraMetric) {
-  //   anomalyDataKey =
-  //     Metrics[extraMetric.name].dataKey || Metrics[extraMetric.name].key
-  //   anomalies = extraMetric.anomalies.map(anomaly => {
-  //     const el = data.find(item => item.datetime === anomaly.datetime)
-  //     if (el) {
-  //       return {
-  //         ...anomaly,
-  //         yCoord: el[anomalyDataKey]
-  //       }
-  //     }
-  //     return anomaly
-  //   })
-  // }
 
   useEffect(() => clearCache)
   return (
@@ -97,7 +83,13 @@ const MobileAssetChart = ({
           <YAxis
             hide
             domain={[
-              'auto',
+              dataMin => {
+                if (isFinite(dataMin) && icoPrice - dataMin < 0) {
+                  setIcoPricePos(0)
+                }
+
+                return dataMin
+              },
               dataMax => {
                 if (isFinite(dataMax) && icoPrice - dataMax > 0) {
                   setIcoPricePos(0)
@@ -133,20 +125,6 @@ const MobileAssetChart = ({
             />
           )}
           {markup}
-          {/* {extraMetric && */}
-          {/*   anomalies.map(({ datetime, yCoord }) => ( */}
-          {/*     <ReferenceDot */}
-          {/*       key={datetime} */}
-          {/*       y={yCoord} */}
-          {/*       x={datetime} */}
-          {/*       ifOverflow='extendDomain' */}
-          {/*       r={3} */}
-          {/*       isFront */}
-          {/*       stroke='var(--white)' */}
-          {/*       strokeWidth='2px' */}
-          {/*       fill='var(--persimmon)' */}
-          {/*     /> */}
-          {/*   ))} */}
           {icoPrice && (
             <ReferenceLine
               strokeDasharray='5 5'

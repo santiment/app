@@ -1,21 +1,24 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { getIntervalByTimeRange } from '../../../utils/dates'
 import Loadable from 'react-loadable'
-import { getInterval } from './utils'
+import GetAsset from '../gqlWrappers/GetAsset'
+import Title from './MobileAssetTitle'
+import AssetChart from './MobileAssetChart'
+import PriceBlock from './MobileAssetPriceInfo'
+import FullscreenChart from './MobileFullscreenChart'
+import ChartSelector from './MobileAssetChartSelector'
 import { Metrics } from '../../../ducks/SANCharts/data'
 import ErrorRequest from '../../../ducks/SANCharts/ErrorRequest'
-import MobileHeader from '../../../components/MobileHeader/MobileHeader'
-import PageLoader from '../../../components/Loader/PageLoader'
-import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
-import GetAsset from '../gqlWrappers/GetAsset'
 import GetTimeSeries from '../../../ducks/GetTimeSeries/GetTimeSeries'
-import MobileAssetChart from './MobileAssetChart'
-import Title from './MobileAssetTitle'
-import PriceBlock from './MobileAssetPriceInfo'
-import MobileAssetChartSelector from './MobileAssetChartSelector'
-import MobileFullscreenChart from './MobileFullscreenChart'
+import {
+  getNewInterval,
+  INTERVAL_ALIAS
+} from '../../../ducks/SANCharts/IntervalSelector'
+import PageLoader from '../../../components/Loader/PageLoader'
+import MobileHeader from '../../../components/MobileHeader/MobileHeader'
+import MetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
 import { addRecentAssets } from '../../../utils/recent'
+import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './MobileDetailedPage.module.scss'
 
 const LoadableChartMetricsTool = Loadable({
@@ -42,10 +45,6 @@ const MobileDetailedPage = props => {
 
   addRecentAssets(slug)
 
-  const { from, to } = getIntervalByTimeRange(timeRange, {
-    isMobile: true
-  })
-
   const toggleMetric = metric => {
     const newMetrics = new Set(extraMetricsNames)
     if (newMetrics.has(metric)) {
@@ -59,13 +58,21 @@ const MobileDetailedPage = props => {
     setExtraMetricsNames(newMetrics)
   }
 
-  const rest = { slug, from, to }
+  const { from, to } = getIntervalByTimeRange(timeRange)
+
+  const interval = getNewInterval(from, to, '1d', { isMobile: true })
+
+  const rest = {
+    slug,
+    from,
+    to,
+    interval: INTERVAL_ALIAS[interval] || interval
+  }
 
   const price = {
     name: 'historyPrice',
     ...Metrics['historyPrice'],
-    ...rest,
-    interval: getInterval(timeRange)
+    ...rest
   }
 
   const extraMetrics = []
@@ -75,7 +82,6 @@ const MobileDetailedPage = props => {
       const metric = {
         name: key,
         key,
-        interval: getInterval(timeRange),
         ...rest,
         ...reqMeta
       }
@@ -145,7 +151,7 @@ const MobileDetailedPage = props => {
                       <>
                         <PriceBlock {...project} />
                         {!fullscreen && (
-                          <MobileAssetChart
+                          <AssetChart
                             data={timeseries}
                             slug={slug}
                             icoPrice={project.icoPrice}
@@ -157,7 +163,7 @@ const MobileDetailedPage = props => {
                         )}
                         <div className={styles.bottom}>
                           {!fullscreen && (
-                            <MobileAssetChartSelector
+                            <ChartSelector
                               onChangeTimeRange={value => {
                                 setTimeRange(value)
                                 setIcoPricePos(null)
@@ -165,7 +171,7 @@ const MobileDetailedPage = props => {
                               timeRange={timeRange}
                             />
                           )}
-                          <MobileFullscreenChart
+                          <FullscreenChart
                             isOpen={fullscreen}
                             toggleOpen={toggleFullscreen}
                             project={project}
@@ -181,7 +187,7 @@ const MobileDetailedPage = props => {
                           <>
                             <h3 className={styles.heading}>Choosed Metrics</h3>
                             {[...extraMetricsNames].map((metric, idx) => (
-                              <MobileMetricCard
+                              <MetricCard
                                 metric={metric}
                                 onToggleMetric={() => toggleMetric(metric)}
                                 key={idx}
@@ -193,7 +199,7 @@ const MobileDetailedPage = props => {
                         )}
                         <h3 className={styles.heading}>Popular metrics</h3>
                         {POPULAR_METRICS.map((metric, idx) => (
-                          <MobileMetricCard
+                          <MetricCard
                             metric={metric}
                             onToggleMetric={() => toggleMetric(metric)}
                             key={idx}
