@@ -9,7 +9,7 @@ import { tooltipSettings } from './settings'
 const BOTTOM_MARGIN = 5
 const RIGHT_MARGIN = 7
 
-export function drawLastDayPrice (chart, scale, price = 8740.47) {
+export function drawLastDayPrice (chart, scale, price) {
   const { ctx, minMaxes, height, top, left, right } = chart
   const { min, max } = minMaxes.priceUsd
 
@@ -57,7 +57,8 @@ export const withLastDayPrice = graphql(HISTORY_PRICE_QUERY, {
     )
   },
   props: ({ data: { historyPrice = [] } }) => {
-    return { lastDayPrice: historyPrice[0] }
+    const point = historyPrice[0] || {}
+    return { lastDayPrice: point.priceUsd }
   },
   options: ({ slug, from }) => {
     const newFrom = new Date(from)

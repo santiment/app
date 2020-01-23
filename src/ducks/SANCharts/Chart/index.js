@@ -163,9 +163,8 @@ const Chart = ({
       drawReferenceDot(chart, metric, datetime, color, key, value)
     )
 
-    console.log(lastDayPrice)
     if (lastDayPrice) {
-      drawLastDayPrice(chart, scale)
+      drawLastDayPrice(chart, scale, lastDayPrice)
     }
 
     if (!hasPremium) {
