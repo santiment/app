@@ -26,6 +26,7 @@ import StoriesList from '../../components/Stories/StoriesList'
 import styles from './ChartPage.module.scss'
 import Chart from './Chart'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
+import { checkHasPremium } from '../../pages/UserSelectors'
 
 const DEFAULT_TIME_RANGE = '6m'
 
@@ -437,7 +438,8 @@ class ChartPage extends Component {
       alwaysShowingMetrics = [],
       isParentLoading,
       isWideChart,
-      project
+      project,
+      hasPremium
     } = this.props
 
     const selectedInterval = INTERVAL_ALIAS[interval] || interval
@@ -623,6 +625,9 @@ class ChartPage extends Component {
                       events={eventsData}
                     >
                       <Chart
+                        slug={slug}
+                        from={from}
+                        to={to}
                         metrics={finalMetrics}
                         data={mapDatetimeToNumber(timeseries)}
                         chartRef={this.chartRef}
@@ -634,6 +639,7 @@ class ChartPage extends Component {
                         isLoading={isParentLoading || isLoading}
                         isWideChart={isWideChart}
                         onPointHover={this.getSocialContext}
+                        hasPremium={hasPremium}
                       />
                     </TooltipSynchronizer>
                     {false && (
@@ -731,11 +737,15 @@ class ChartPage extends Component {
   }
 }
 
-const mapStateToProps = ({
-  rootUi: { isBetaModeEnabled, isWideChartEnabled }
-}) => ({
-  isBeta: isBetaModeEnabled,
-  isWideChart: isWideChartEnabled
-})
+const mapStateToProps = state => {
+  const {
+    rootUi: { isBetaModeEnabled, isWideChartEnabled }
+  } = state
+  return {
+    isBeta: isBetaModeEnabled,
+    isWideChart: isWideChartEnabled,
+    hasPremium: checkHasPremium(state)
+  }
+}
 
 export default connect(mapStateToProps)(ChartPage)

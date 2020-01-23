@@ -10,16 +10,9 @@ import {
   setupBrush,
   updateBrushState
 } from '@santiment-network/chart/brush'
-import { millify } from '../../../utils/formatting'
 import { plotAxes } from './axes'
 import { setupTooltip, plotTooltip } from './tooltip'
-import {
-  clearCtx,
-  axesTickFormatters,
-  getDateDayMonthYear,
-  yBubbleFormatter,
-  findPointIndexByDate
-} from './utils'
+import { clearCtx, findPointIndexByDate } from './utils'
 import {
   BRUSH_HEIGHT,
   CHART_PADDING,
@@ -28,6 +21,7 @@ import {
 import { drawWatermark } from './watermark'
 import { drawPaywall } from './paywall'
 import { onResize } from './resize'
+import { drawLastDayPrice, withLastDayPrice } from './references'
 
 import styles from './index.module.scss'
 
@@ -48,14 +42,15 @@ const Chart = ({
   syncTooltips = () => {},
   isAdvancedView,
   isWideChart,
-  onPointHover = () => {}
+  onPointHover = () => {},
+  hasPremium,
+  lastDayPrice
 }) => {
   let [chart, setChart] = useState()
   let [brush, setBrush] = useState()
   const canvasRef = useRef()
 
   useEffect(() => {
-    console.log('Mounting ->')
     const { current: canvas } = canvasRef
     const width = canvas.parentNode.offsetWidth
 
@@ -88,7 +83,6 @@ const Chart = ({
       }
 
       console.log('[data || scale || events] change')
-      const { ctx, canvasWidth, canvasHeight } = chart
       clearCtx(chart)
       updateChartState(chart, data, daybars.concat(bars).concat(lines))
       if (brush) {
@@ -99,7 +93,7 @@ const Chart = ({
       plotChart(data)
       plotAxes(chart)
     },
-    [data, scale, events]
+    [data, scale, events, lastDayPrice]
   )
 
   useEffect(
@@ -169,9 +163,14 @@ const Chart = ({
       drawReferenceDot(chart, metric, datetime, color, key, value)
     )
 
-    /* if (!hasPremium) { */
-    drawPaywall(chart, leftBoundaryDate, rightBoundaryDate)
-    /* } */
+    console.log(lastDayPrice)
+    if (lastDayPrice) {
+      drawLastDayPrice(chart, scale)
+    }
+
+    if (!hasPremium) {
+      drawPaywall(chart, leftBoundaryDate, rightBoundaryDate)
+    }
   }
 
   function marker (ctx, key, value, x, y) {
@@ -200,4 +199,5 @@ const Chart = ({
     </div>
   )
 }
-export default Chart
+
+export default withLastDayPrice(Chart)

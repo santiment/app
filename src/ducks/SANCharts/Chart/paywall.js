@@ -2,20 +2,21 @@ import { getTimeIntervalFromToday, DAY, MONTH } from '../../../utils/dates'
 import { createOptions } from '../../../pages/Chart/paywallBoundaries'
 
 export function drawPaywall (chart, leftBoundaryDate, rightBoundaryDate) {
-  const { ctx, points, left, top, width, height } = chart
+  const { ctx, points, left, top, right, width, height } = chart
 
   const lastIndex = points.length - 1
   const firstDate = points[0].value
   const lastDate = points[lastIndex].value
 
   ctx.save()
+  ctx.beginPath()
+
   ctx.lineWidth = 1
   ctx.strokeStyle = '#FFAD4D'
   ctx.setLineDash([7])
 
   if (lastDate <= leftBoundaryDate || firstDate >= rightBoundaryDate) {
-    ctx.strokeStyle = 'red'
-    ctx.strokeRect(left, top, width, height)
+    ctx.strokeRect(left, top, width - 1, height)
     ctx.restore()
     return
   }
@@ -30,7 +31,7 @@ export function drawPaywall (chart, leftBoundaryDate, rightBoundaryDate) {
   if (rightBoundaryDate && rightBoundaryDate < lastDate) {
     const x = getBoundaryX(chart, factor, rightBoundaryDate, firstDate)
 
-    const width = points[lastIndex].x - x
+    const width = right - x - 1
     ctx.strokeRect(x, top, width, height)
   }
 
