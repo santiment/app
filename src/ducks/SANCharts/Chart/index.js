@@ -21,11 +21,13 @@ import {
 import { drawWatermark } from './watermark'
 import { drawPaywall } from './paywall'
 import { onResize } from './resize'
-import { drawLastDayPrice, withLastDayPrice } from './references'
+import { drawLastDayPrice, withLastDayPrice } from './lastDayPrice'
+import Signals from './Signals'
 
 import styles from './index.module.scss'
 
 const Chart = ({
+  slug,
   chartRef,
   data,
   scale = linearScale,
@@ -195,6 +197,7 @@ const Chart = ({
   return (
     <div className={styles.wrapper}>
       <canvas ref={canvasRef} />
+      <Signals chart={chart} data={data} slug={slug} scale={scale} />
     </div>
   )
 }
