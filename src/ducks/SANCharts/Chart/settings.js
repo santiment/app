@@ -1,5 +1,5 @@
 import { getDateFormats, getTimeFormats } from '../../../utils/dates'
-import { millify } from '../../../utils/formatting'
+import { Metrics } from '../data'
 
 export const CHART_HEIGHT = 350
 export const BRUSH_HEIGHT = 40
@@ -18,7 +18,7 @@ export const CHART_WITH_BRUSH_PADDING = {
   left: 45
 }
 
-const formatter = v => v || 'No data'
+const FROMATTER = v => v || 'No data'
 
 export const tooltipSettings = {
   datetime: {
@@ -47,33 +47,13 @@ export const tooltipSettings = {
           return `${val}th`
       }
     }
-  },
-  priceUsd: {
-    label: 'Price',
-    formatter: value => `$${value.toFixed(2)}`
-  },
-  volume: {
-    label: 'Volume',
-    formatter: value => `$${value}`
-  },
-  followersCount: {
-    label: 'Twitter',
-    formatter: value => millify(value, 2)
-  },
-  activity: {
-    label: 'Development Activity',
-    formatter
-  },
-  socialVolume: {
-    label: 'Social Volume',
-    formatter
-  },
-  age_destroyed: {
-    label: 'Token Age Destroyed',
-    formatter: value => (value ? millify(value, 2) : 'No data')
-  },
-  daily_active_addresses: {
-    label: 'Daily Active Addresses',
-    formatter
   }
 }
+
+Object.keys(Metrics).forEach(metric => {
+  const { key, dataKey = key, formatter = FROMATTER, label } = Metrics[metric]
+  tooltipSettings[dataKey] = {
+    label,
+    formatter
+  }
+})

@@ -97,13 +97,16 @@ export function makeSignalDrawable (
   const { min, max } = minMaxes.priceUsd
   const { below, above } = operation
 
-  const type = below ? 'BELOW' : 'ABOVE'
   const value = below || above
+
+  if (value > max || value < min) {
+    return
+  }
 
   return {
     id,
-    type,
     value,
+    type: below ? 'BELOW' : 'ABOVE',
     y: scale(height, min, max)(value) + top
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import { usdFormatter } from './utils'
+import { millify } from '../../utils/formatting'
 
 export const Events = {
   trendPositionHistory: {
@@ -89,7 +90,8 @@ export const Metrics = {
     video: 'https://www.youtube.com/watch?v=NZFtYT5QzS4',
     description: `
           Shows the amount of tokens changing addresses on a certain date,
-          multiplied by the number of days since they last moved`
+          multiplied by the number of days since they last moved`,
+    formatter: value => (value ? millify(value, 2) : 'No data')
   },
   exchange_balance: {
     category: 'On-chain',
