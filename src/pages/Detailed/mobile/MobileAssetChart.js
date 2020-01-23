@@ -11,6 +11,7 @@ import {
   ReferenceDot
 } from 'recharts'
 import throttle from 'lodash.throttle'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
 import { tooltipLabelFormatter } from '../../../ducks/SANCharts/CustomTooltip'
 import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils'
@@ -32,6 +33,7 @@ const MobileAssetChart = ({
   setIcoPricePos,
   icoPricePos,
   chartHeight,
+  isLoading = true,
   isLandscapeMode,
   ...props
 }) => {
@@ -66,10 +68,12 @@ const MobileAssetChart = ({
       onTouchStart={() => setIsTouch(true)}
       onTouchEnd={() => setIsTouch(false)}
       onTouchCancel={() => setIsTouch(false)}
+      className={styles.chart}
     >
       {icoPrice && icoPricePos !== null && !isTouch && (
         <IcoPriceTooltip y={icoPricePos} value={icoPrice} />
       )}
+      {isLoading && <Loader className={styles.loader} />}
       <ResponsiveContainer width='100%' height={chartHeight}>
         <ComposedChart
           data={data}

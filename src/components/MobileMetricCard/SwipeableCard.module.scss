@@ -2,12 +2,10 @@
 
 .left {
   left: 0;
-  fill: var(--rhino);
 }
 
 .right {
   right: 0;
-  fill: var(--jungle-green);
 }
 
 .container {
@@ -16,7 +14,6 @@
   background-color: var(--porcelain);
   position: relative;
   box-sizing: border-box;
-  transition: height 0.5s ease 0.2s;
   margin-bottom: 8px;
   box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03),
     0 1px 2px rgba(59, 84, 106, 0.03);
@@ -24,6 +21,12 @@
 
   &__right {
     background-color: var(--jungle-green-light-2);
+    fill: var(--jungle-green);
+
+    &.selected {
+      background-color: var(--persimmon-light);
+      fill: var(--persimmon);
+    }
 
     & .left {
       display: none;
@@ -32,6 +35,7 @@
 
   &__left {
     background-color: var(--porcelain);
+    fill: var(--rhino);
 
     & .right {
       display: none;
@@ -50,11 +54,6 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-}
-
-.remove {
-  right: 0;
-  fill: var(--persimmon);
 }
 
 .content {
@@ -77,4 +76,15 @@
   &__left {
     border: 1px solid var(--porcelain);
   }
+}
+
+.selected .content__right {
+  border: 1px solid var(--persimmon-light);
+}
+
+.hide {
+  transition: all 0.2s ease-in-out;
+  transition-delay: 0.5s;
+  height: 0;
+  fill: transparent !important;
 }

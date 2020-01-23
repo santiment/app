@@ -1,22 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import styles from './SwipeableCard.module.scss'
 
 const BUTTON_WIDTH = 85
 
+const FULL_HIDE_POSITION = -2000
+
 const SwipeableCard = ({
   children,
   onLeftActionClick,
   onRightActionClick,
   hasLeftAction,
-  hasRightAction = true
+  hasRightAction = true,
+  hide,
+  isSelected
 }) => {
   const [startPosition, setStartPosition] = useState(0)
   const [offset, setOffset] = useState(0)
   const [side, setSide] = useState('right')
 
   let [currentGesture, setCurrentGesture] = useState(null)
+
+  if (hide && offset !== FULL_HIDE_POSITION) {
+    setOffset(FULL_HIDE_POSITION)
+  }
+
+  if (!hide && offset === FULL_HIDE_POSITION) {
+    setOffset(0)
+  }
 
   const onStart = evt => {
     setCurrentGesture({
@@ -67,7 +79,9 @@ const SwipeableCard = ({
       className={cx(
         styles.container,
         side === 'right' && styles.container__right,
-        side === 'left' && styles.container__left
+        side === 'left' && styles.container__left,
+        isSelected && styles.selected,
+        hide && styles.hide
       )}
       style={{ '--button-width': `${BUTTON_WIDTH}px` }}
     >
@@ -88,9 +102,10 @@ const SwipeableCard = ({
           onClick={() => {
             onRightActionClick()
             setStartPosition(0)
+            setOffset(0)
           }}
         >
-          <Icon type='plus-round' />
+          <Icon type={isSelected ? 'remove' : 'plus-round'} />
         </button>
       )}
       <div
@@ -105,7 +120,9 @@ const SwipeableCard = ({
         onTouchStart={onStart}
         style={{
           left: `${offset}px`,
-          transition: `${currentGesture ? '' : 'left ease .5s'}`
+          transition: `${
+            currentGesture ? '' : `left ease ${hide ? 3 : offset ? 0.5 : 0}s`
+          }`
         }}
       >
         {children}

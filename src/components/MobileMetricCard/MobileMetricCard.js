@@ -18,6 +18,8 @@ const MobileMetricCard = ({
   changes,
   measure = '',
   data: { metricAnomaly: anomalies = [] } = {},
+  isSelected,
+  hide,
   onToggleMetric
 }) => {
   const [isOpenDescription, setIsOpenDescription] = useState(false)
@@ -31,6 +33,8 @@ const MobileMetricCard = ({
       onLeftActionClick={() => setIsOpenDescription(true)}
       onRightActionClick={onToggleMetric}
       hasLeftAction={description}
+      isSelected={isSelected}
+      hide={hide}
     >
       <div className={styles.wrapper}>
         <div className={cx(styles.row, styles.row_top)}>

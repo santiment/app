@@ -41,6 +41,7 @@ const MobileDetailedPage = props => {
   const [timeRange, setTimeRange] = useState(DEFAULT_TIME_RANGE)
   const [icoPricePos, setIcoPricePos] = useState(null)
   const [extraMetrics, setExtraMetrics] = useState([])
+  const [shownMetrics, setShownMetrics] = useState([])
   const [fullscreen, toggleFullscreen] = useState(false)
 
   addRecentAssets(slug)
@@ -77,146 +78,162 @@ const MobileDetailedPage = props => {
     }
   ]
 
-  if (extraMetrics.length > 0) {
-    extraMetrics.forEach(({ key, reqMeta }) => {
-      const metric = {
-        name: key,
-        key,
-        ...rest,
-        ...reqMeta
-      }
+  extraMetrics.forEach(({ key, reqMeta }) => {
+    const metric = {
+      name: key,
+      key,
+      ...rest,
+      ...reqMeta
+    }
 
-      requestedMetrics.push(metric)
-    })
-  }
+    requestedMetrics.push(metric)
+  })
 
   return (
-    <div className={cx('page', styles.wrapper)}>
-      <GetAsset
-        slug={slug}
-        render={({ isLoading, slug, project }) => {
-          if (isLoading) {
-            return (
-              <>
-                <MobileHeader
-                  showBack
-                  title={<Title slug={slug} />}
-                  goBack={props.history.goBack}
-                />
-                <PageLoader />
-              </>
-            )
-          }
+    <GetAsset
+      slug={slug}
+      render={({ isLoading, slug, project }) =>
+        isLoading ? (
+          <div className={cx('page', styles.wrapper)}>
+            <MobileHeader
+              showBack
+              title={<Title slug={slug} />}
+              goBack={props.history.goBack}
+            />
+            <PageLoader />
+          </div>
+        ) : (
+          <div className={cx('page', styles.wrapper)}>
+            <MobileHeader
+              showBack
+              title={<Title slug={project.name} ticker={project.ticker} />}
+              goBack={props.history.goBack}
+            />
+            <div className={styles.main}>
+              <GetTimeSeries
+                metrics={requestedMetrics}
+                render={({
+                  timeseries = [],
+                  errorMetrics = {},
+                  isError,
+                  isLoading,
+                  errorType
+                }) => {
+                  if (isError) {
+                    return <ErrorRequest errorType={errorType} />
+                  }
 
-          return (
-            <>
-              <MobileHeader
-                showBack
-                title={<Title slug={project.name} ticker={project.ticker} />}
-                goBack={props.history.goBack}
-              />
-              <div className={styles.main}>
-                <GetTimeSeries
-                  metrics={requestedMetrics}
-                  render={({
-                    timeseries = [],
-                    errorMetrics = {},
-                    isError,
-                    isLoading,
-                    errorType
-                  }) => {
-                    if (isError) {
-                      return <ErrorRequest errorType={errorType} />
-                    }
+                  const errors = Object.keys(errorMetrics)
+                  const finalMetrics = extraMetrics.filter(
+                    ({ key }) => !errors.includes(key)
+                  )
 
-                    const errors = Object.keys(errorMetrics)
-                    const finalMetrics = extraMetrics.filter(
-                      ({ key }) => !errors.includes(key)
-                    )
+                  const isAllPopularMetricsSelected = POPULAR_METRICS.filter(
+                    metric => !finalMetrics.includes(metric)
+                  )
 
-                    const metricsTool = (
-                      <LoadableChartMetricsTool
-                        classes={styles}
-                        slug={slug}
-                        toggleMetric={toggleMetric}
-                        activeMetrics={finalMetrics}
-                        disabledMetrics={errorMetrics}
-                        hiddenMetrics={[Metrics.historyPrice]}
-                        isMobile
-                        className={styles.metricsPopup}
-                      />
-                    )
+                  if (shownMetrics.length !== finalMetrics.length) {
+                    setTimeout(() => setShownMetrics(finalMetrics), 1000)
+                  }
 
-                    return (
-                      <>
-                        <PriceBlock {...project} />
+                  return (
+                    <>
+                      <PriceBlock {...project} />
+                      {!fullscreen && (
+                        <AssetChart
+                          data={timeseries}
+                          slug={slug}
+                          icoPrice={project.icoPrice}
+                          icoPricePos={icoPricePos}
+                          setIcoPricePos={setIcoPricePos}
+                          extraMetrics={extraMetrics}
+                          isLoading={isLoading}
+                        />
+                      )}
+                      <div className={styles.bottom}>
                         {!fullscreen && (
-                          <AssetChart
-                            data={timeseries}
-                            slug={slug}
-                            icoPrice={project.icoPrice}
-                            icoPricePos={icoPricePos}
-                            setIcoPricePos={setIcoPricePos}
-                            extraMetrics={extraMetrics}
-                            isLoading={isLoading}
+                          <ChartSelector
+                            onChangeTimeRange={value => {
+                              setTimeRange(value)
+                              setIcoPricePos(null)
+                            }}
+                            timeRange={timeRange}
                           />
                         )}
-                        <div className={styles.bottom}>
-                          {!fullscreen && (
-                            <ChartSelector
-                              onChangeTimeRange={value => {
-                                setTimeRange(value)
-                                setIcoPricePos(null)
-                              }}
-                              timeRange={timeRange}
+                        <FullscreenChart
+                          isOpen={fullscreen}
+                          toggleOpen={toggleFullscreen}
+                          project={project}
+                          onChangeTimeRange={setTimeRange}
+                          timeRange={timeRange}
+                          isLoading={isLoading}
+                          data={timeseries}
+                          slug={slug}
+                          extraMetrics={extraMetrics}
+                          isLoading={isLoading}
+                        />
+                      </div>
+                      {shownMetrics.length > 0 && (
+                        <>
+                          <h3 className={styles.heading}>Selected Metrics</h3>
+                          {shownMetrics.map(metric => (
+                            <MetricCard
+                              metric={metric}
+                              isSelected
+                              hide={!finalMetrics.includes(metric)}
+                              onToggleMetric={() => toggleMetric(metric)}
+                              key={metric.key + 'selected'}
+                              {...rest}
+                            />
+                          ))}
+                          <LoadableChartMetricsTool
+                            classes={styles}
+                            slug={slug}
+                            toggleMetric={toggleMetric}
+                            activeMetrics={finalMetrics}
+                            disabledMetrics={errorMetrics}
+                            hiddenMetrics={[Metrics.historyPrice]}
+                            addMetricBtnText='Change metrics'
+                            isMobile
+                            className={styles.metricsPopup}
+                          />
+                        </>
+                      )}
+                      {isAllPopularMetricsSelected && (
+                        <>
+                          <h3 className={styles.heading}>Popular metrics</h3>
+                          {POPULAR_METRICS.map(metric => (
+                            <MetricCard
+                              metric={metric}
+                              hide={finalMetrics.includes(metric)}
+                              onToggleMetric={() => toggleMetric(metric)}
+                              key={metric.key + 'popular'}
+                              {...rest}
+                            />
+                          ))}
+                          {finalMetrics.length === 0 && (
+                            <LoadableChartMetricsTool
+                              classes={styles}
+                              slug={slug}
+                              toggleMetric={toggleMetric}
+                              activeMetrics={finalMetrics}
+                              disabledMetrics={errorMetrics}
+                              hiddenMetrics={[Metrics.historyPrice]}
+                              isMobile
+                              className={styles.metricsPopup}
                             />
                           )}
-                          <FullscreenChart
-                            isOpen={fullscreen}
-                            toggleOpen={toggleFullscreen}
-                            project={project}
-                            onChangeTimeRange={setTimeRange}
-                            timeRange={timeRange}
-                            isLoading={isLoading}
-                            data={timeseries}
-                            slug={slug}
-                            extraMetrics={extraMetrics}
-                          />
-                        </div>
-                        {extraMetrics.length > 0 && (
-                          <>
-                            <h3 className={styles.heading}>Choosed Metrics</h3>
-                            {extraMetrics.map((metric, idx) => (
-                              <MetricCard
-                                metric={metric}
-                                onToggleMetric={() => toggleMetric(metric)}
-                                key={idx}
-                                {...rest}
-                              />
-                            ))}
-                            {metricsTool}
-                          </>
-                        )}
-                        <h3 className={styles.heading}>Popular metrics</h3>
-                        {POPULAR_METRICS.map((metric, idx) => (
-                          <MetricCard
-                            metric={metric}
-                            onToggleMetric={() => toggleMetric(metric)}
-                            key={idx}
-                            {...rest}
-                          />
-                        ))}
-                        {metricsTool}
-                      </>
-                    )
-                  }}
-                />
-              </div>
-            </>
-          )
-        }}
-      />
-    </div>
+                        </>
+                      )}
+                    </>
+                  )
+                }}
+              />
+            </div>
+          </div>
+        )
+      }
+    />
   )
 }
 
