@@ -47,7 +47,8 @@ const Chart = ({
   syncedTooltipDate,
   syncTooltips = () => {},
   isAdvancedView,
-  isWideChart
+  isWideChart,
+  onPointHover = () => {}
 }) => {
   let [chart, setChart] = useState()
   let [brush, setBrush] = useState()
@@ -77,7 +78,7 @@ const Chart = ({
     setChart(chart)
     chartRef.current = canvas
 
-    setupTooltip(chart, marker, syncTooltips)
+    setupTooltip(chart, marker, syncTooltips, onPointHover)
   }, [])
 
   useEffect(

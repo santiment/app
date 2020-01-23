@@ -633,6 +633,7 @@ class ChartPage extends Component {
                         isIntervalSmallerThanDay={isIntervalSmallerThanDay}
                         isLoading={isParentLoading || isLoading}
                         isWideChart={isWideChart}
+                        onPointHover={this.getSocialContext}
                       />
                     </TooltipSynchronizer>
                     {false && (
@@ -721,10 +722,12 @@ class ChartPage extends Component {
     )
   }
 
-  getSocialContext = ({ activeLabel }) => {
-    this.setState({
-      socialContextDate: new Date(activeLabel)
-    })
+  getSocialContext = ({ value }) => {
+    if (this.state.isAdvancedView) {
+      this.setState({
+        socialContextDate: new Date(value)
+      })
+    }
   }
 }
 

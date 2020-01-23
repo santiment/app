@@ -13,7 +13,7 @@ import {
   yBubbleFormatter
 } from './utils'
 
-export function setupTooltip (chart, marker, syncTooltips) {
+export function setupTooltip (chart, marker, syncTooltips, onPointHover) {
   const {
     tooltip: { canvas, ctx }
   } = chart
@@ -22,6 +22,7 @@ export function setupTooltip (chart, marker, syncTooltips) {
     if (!point) return
     syncTooltips(point.value)
     plotTooltip(chart, marker, point)
+    onPointHover(point)
   })
   canvas.onmouseleave = () => {
     clearCtx(chart, ctx)
