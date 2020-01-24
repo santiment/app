@@ -13,7 +13,7 @@ import { generateMetricsMarkup } from './../../SANCharts/utils'
 import CustomTooltip from './../../SANCharts/CustomTooltip'
 import chartStyles from './../../SANCharts/Chart.module.scss'
 import sharedStyles from './../../SANCharts/ChartPage.module.scss'
-import styles from './SignalPreview.module.scss'
+import styles from './preview/SignalPreview.module.scss'
 
 export function GetReferenceDots (signals, yAxisId) {
   return signals.map(({ date, yCoord }, idx) => (

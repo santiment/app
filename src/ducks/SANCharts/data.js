@@ -55,6 +55,16 @@ export const Metrics = {
     formatter: usdFormatter,
     hideYAxis: true
   },
+  historicalBalance: {
+    category: 'Financial',
+    node: Area,
+    label: 'Balance',
+    fill: true,
+    dataKey: 'balance',
+    color: 'dodger-blue',
+    opacity: 0.25,
+    strokeWidth: 0
+  },
   marketcap: {
     category: 'Financial',
     node: Line,

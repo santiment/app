@@ -57,7 +57,6 @@ import {
 } from '../../../utils/utils'
 import { formatNumber } from '../../../utils/formatting'
 import { Metrics } from '../../SANCharts/data'
-import { Area } from 'recharts'
 
 export const mapToOptions = input => {
   if (!input) {
@@ -764,18 +763,6 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   }
 }
 
-const CUSTOM_HISTORICAL_BALANCE_METRIC = {
-  category: 'Financial',
-  node: Area,
-  label: 'Balance',
-  fill: true,
-  dataKey: 'balance',
-  color: 'dodger-blue',
-  opacity: 0.25,
-  strokeWidth: 0,
-  notApi: true
-}
-
 export const getMetricsByType = type => {
   switch (type) {
     case DAILY_ACTIVE_ADDRESSES:
@@ -790,8 +777,8 @@ export const getMetricsByType = type => {
       }
     case ETH_WALLET:
       return {
-        metrics: [CUSTOM_HISTORICAL_BALANCE_METRIC, Metrics.historyPrice],
-        triggersBy: CUSTOM_HISTORICAL_BALANCE_METRIC
+        metrics: [Metrics.historicalBalance, Metrics.historyPrice],
+        triggersBy: Metrics.historicalBalance
       }
     default:
       return {

@@ -5,56 +5,26 @@ import {
   getMetricsByType,
   getTimeRangeForChart,
   mapTargetObject
-} from '../utils/utils'
-import { Metrics } from '../../SANCharts/data'
-import { getMetricYAxisId, mapToRequestedMetrics } from '../../SANCharts/utils'
+} from '../../utils/utils'
+import { Metrics } from '../../../SANCharts/data'
+import { getMetricYAxisId } from '../../../SANCharts/utils'
 import {
   getSyncedColors,
   clearCache
-} from '../../SANCharts/TooltipSynchronizer'
-import GetTimeSeries from '../../GetTimeSeries/GetTimeSeries'
-import ChartWidget from '../../SANCharts/ChartPage'
-import VisualBacktestChart, { GetReferenceDots } from './VisualBacktestChart'
-import { ChartExpandView } from './ChartExpandView'
-import { DesktopOnly } from './../../../components/Responsive'
-import { HISTORICAL_TRIGGER_POINTS_QUERY } from '../epics'
+} from '../../../SANCharts/TooltipSynchronizer'
+import GetTimeSeries from '../../../GetTimeSeries/GetTimeSeries'
+import ChartWidget from '../../../SANCharts/ChartPage'
+import VisualBacktestChart, { GetReferenceDots } from '../VisualBacktestChart'
+import { ChartExpandView } from '../ChartExpandView'
+import { DesktopOnly } from '../../../../components/Responsive'
+import { HISTORICAL_TRIGGER_POINTS_QUERY } from '../../epics'
+import {
+  cleanByDatakeys,
+  mapWithTimeseries,
+  mapWithTimeseriesAndYCoord,
+  mapToRequestedMetrics
+} from './utils'
 import styles from './SignalPreview.module.scss'
-import { mergeTimeseriesByKey } from '../../../utils/utils'
-
-const mapWithTimeseries = items =>
-  items.map(item => ({
-    ...item,
-    datetime: +new Date(item.datetime),
-    index: item.datetime
-  }))
-
-const mapWithMidnightTime = date => {
-  const datetime = new Date(date)
-  datetime.setUTCHours(0, 0, 0, 0)
-  return +new Date(datetime)
-}
-
-const mapWithTimeseriesAndYCoord = (
-  items,
-  { key, dataKey, historicalTriggersDataKey = dataKey },
-  data
-) => {
-  return items.map(point => {
-    const date = mapWithMidnightTime(point.datetime)
-    const item = data.find(({ datetime }) => datetime === date)
-
-    const yCoord =
-      item && item[dataKey] ? item[dataKey] : point[historicalTriggersDataKey]
-
-    return { date, yCoord, ...point }
-  })
-}
-
-const getPointsByDays = points => {
-  return mapWithTimeseries(
-    points.filter(({ datetime }) => datetime.indexOf('00:00:00') > 0)
-  )
-}
 
 const PreviewLoader = (
   <div className={styles.loaderWrapper}>
@@ -62,11 +32,8 @@ const PreviewLoader = (
   </div>
 )
 
-const cleanByDatakeys = (timeseries, dataKey) => {
-  return timeseries.filter(item => item[dataKey] !== undefined)
-}
-
 const SignalPreviewChart = ({
+  target,
   type,
   slug,
   timeRange,
@@ -78,14 +45,17 @@ const SignalPreviewChart = ({
   const triggeredSignals = points.filter(point => point['triggered?'])
   const metricsTypes = getMetricsByType(type)
   const { metrics, triggersBy } = metricsTypes
-  const requestedMetrics = mapToRequestedMetrics(
-    metrics.filter(({ notApi }) => !notApi),
-    {
-      timeRange,
-      interval: '1d',
-      slug
-    }
-  )
+
+  const metricRest = {
+    address: target && target.eth_address ? target.eth_address : ''
+  }
+
+  const requestedMetrics = mapToRequestedMetrics(metrics, {
+    timeRange,
+    interval: '1d',
+    slug,
+    ...metricRest
+  })
 
   const metricsForSignalsChart = metrics.map(metric =>
     metric === Metrics.historyPrice ? Metrics.historyPricePreview : metric
@@ -104,12 +74,7 @@ const SignalPreviewChart = ({
         }
 
         const data = mapWithTimeseries(timeseries)
-        const merged = cleanByDatakeys(
-          mergeTimeseriesByKey({
-            timeseries: [data, getPointsByDays(points)]
-          }),
-          triggersBy.dataKey
-        )
+        const merged = cleanByDatakeys(data, triggersBy.dataKey)
 
         const signals = mapWithTimeseriesAndYCoord(
           triggeredSignals,
@@ -150,6 +115,7 @@ const SignalPreviewChart = ({
                       sidecar: true
                     }}
                     adjustNightMode={false}
+                    metricRest={metricRest}
                   >
                     {referenceDots}
                   </ChartWidget>
@@ -215,6 +181,7 @@ const SignalPreview = ({
             points={points}
             showExpand={showExpand}
             showTitle={showTitle}
+            target={target}
           />
         )
       }}

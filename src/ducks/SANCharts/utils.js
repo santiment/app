@@ -319,20 +319,6 @@ export const generateMetricsMarkup = (
   return res
 }
 
-export const mapToRequestedMetrics = (
-  metrics,
-  { interval, slug, from, to, timeRange }
-) =>
-  metrics.map(({ key, alias: name = key, reqMeta }) => ({
-    name,
-    slug,
-    from,
-    to,
-    timeRange,
-    interval,
-    ...reqMeta
-  }))
-
 export const makeSignalPriceReferenceDot = (
   price,
   signal,
