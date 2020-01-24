@@ -4,9 +4,11 @@ import * as qs from 'query-string'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import Loadable from 'react-loadable'
+import { linearScale, logScale } from '@santiment-network/chart/scales'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
-import Charts from './Charts'
+import Chart from './Chart'
+import Synchronizer from './Chart/Synchronizer'
 import Header from './Header'
 import { getMarketSegment, mapDatetimeToNumber } from './utils'
 import {
@@ -21,12 +23,9 @@ import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
+import { checkHasPremium } from '../../pages/UserSelectors'
 import StoriesList from '../../components/Stories/StoriesList'
 import styles from './ChartPage.module.scss'
-import Chart from './Chart'
-import Synchronizer from './Chart/Synchronizer'
-import { linearScale, logScale } from '@santiment-network/chart/scales'
-import { checkHasPremium } from '../../pages/UserSelectors'
 
 const DEFAULT_TIME_RANGE = '6m'
 
@@ -416,7 +415,6 @@ class ChartPage extends Component {
       interval,
       viewOnly,
       title,
-      zoom,
       isLogScale,
       nightMode,
       isShowAnomalies,
@@ -429,7 +427,6 @@ class ChartPage extends Component {
       classes = {},
       adjustNightMode,
       showToggleAnomalies,
-      children,
       leftBoundaryDate,
       rightBoundaryDate,
       isLoggedIn,
@@ -642,37 +639,7 @@ class ChartPage extends Component {
                         hasPremium={hasPremium}
                       />
                     </Synchronizer>
-                    {false && (
-                      <Synchronizer
-                        isMultiChartsActive={isMultiChartsActive}
-                        metrics={finalMetrics}
-                      >
-                        <Charts
-                          isLogScale={isLogScale}
-                          chartRef={this.chartRef}
-                          isLoading={isParentLoading || isLoading}
-                          onZoom={this.onZoom}
-                          from={from}
-                          to={to}
-                          slug={slug}
-                          onZoomOut={this.onZoomOut}
-                          isZoomed={zoom}
-                          events={eventsFiltered}
-                          isTrendsShowing={isTrendsShowing}
-                          chartData={mapDatetimeToNumber(timeseries)}
-                          title={title}
-                          leftBoundaryDate={leftBoundaryDate}
-                          rightBoundaryDate={rightBoundaryDate}
-                          children={children}
-                          isAdvancedView={isAdvancedView}
-                          isBeta={isBeta}
-                          isLoggedIn={isLoggedIn}
-                          isIntervalSmallerThanDay={isIntervalSmallerThanDay}
-                          interval={interval}
-                          onMouseMove={this.getSocialContext}
-                        />
-                      </Synchronizer>
-                    )}
+
                     {metricsTool}
                     {!isPRO && (
                       <UpgradePaywall

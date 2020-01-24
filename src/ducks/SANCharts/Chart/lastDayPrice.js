@@ -2,9 +2,9 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { getTextWidth } from '@santiment-network/chart/utils'
 import COLOR from '@santiment-network/ui/variables.scss'
+import { tooltipSettings } from './settings'
 import { Metrics } from '../data'
 import { ONE_DAY_IN_MS } from '../../../utils/dates'
-import { tooltipSettings } from './settings'
 
 const BOTTOM_MARGIN = 5
 const RIGHT_MARGIN = 7
@@ -71,8 +71,7 @@ export const withLastDayPrice = graphql(HISTORY_PRICE_QUERY, {
       variables: {
         from: newFrom.toISOString(),
         to: to.toISOString(),
-        slug,
-        interval: '1d'
+        slug
       }
     }
   }

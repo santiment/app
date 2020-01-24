@@ -2,6 +2,9 @@ import COLOR from '@santiment-network/ui/variables.scss'
 import { getTextWidth } from '@santiment-network/chart/utils'
 import { clearCtx } from '../utils'
 
+export const SIGNAL_BELOW = 'BELOW'
+export const SIGNAL_ABOVE = 'ABOVE'
+
 const HEIGHT = 22
 
 const MARGIN_BOTTOM = 5
@@ -106,7 +109,7 @@ export function makeSignalDrawable (
   return {
     id,
     value,
-    type: below ? 'BELOW' : 'ABOVE',
+    type: below ? SIGNAL_BELOW : SIGNAL_ABOVE,
     y: scale(height, min, max)(value) + top
   }
 }

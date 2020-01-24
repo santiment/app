@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Signal from './Signal'
-import { drawHoveredSignal, findPriceByY, makeSignalDrawable } from './helpers'
+import {
+  SIGNAL_ABOVE,
+  SIGNAL_BELOW,
+  drawHoveredSignal,
+  findPriceByY,
+  makeSignalDrawable
+} from './helpers'
 import { tooltipSettings } from '../settings'
 import { clearCtx } from '../utils'
 import { getSlugPriceSignals } from '../../utils'
@@ -13,7 +19,6 @@ import {
 import { buildPriceSignal } from '../../../Signals/utils/utils'
 import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
-
 import styles from './index.module.scss'
 
 const TEXT_SIGNAL = 'Signal '
@@ -64,7 +69,8 @@ const Signals = ({
 
     const lastPrice = data[data.length - 1].priceUsd
     const price = findPriceByY(chart, y)
-    const type = PRICE_CHANGE_TYPES[price > lastPrice ? 'ABOVE' : 'BELOW']
+    const type =
+      PRICE_CHANGE_TYPES[price > lastPrice ? SIGNAL_ABOVE : SIGNAL_BELOW]
 
     const signal = buildPriceSignal(slug, price, type)
     createSignal(signal)
@@ -80,7 +86,7 @@ const Signals = ({
       const { type, value, y } = signal
 
       drawHoveredSignal(chart, y, [
-        TEXT_SIGNAL + TEXT_IFS[+(type === 'ABOVE')],
+        TEXT_SIGNAL + TEXT_IFS[+(type === SIGNAL_ABOVE)],
         formatter(value)
       ])
     }

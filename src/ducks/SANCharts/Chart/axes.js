@@ -1,3 +1,4 @@
+import COLOR from '@santiment-network/ui/variables.scss'
 import { drawAxes, drawAxesTicks } from '@santiment-network/chart/axes'
 import { getDateDayMonthYear } from './utils'
 
@@ -8,7 +9,7 @@ const axesTickFormatters = {
 export function plotAxes (chart) {
   const { ctx, tooltipKey } = chart
   drawAxes(chart)
-  ctx.fillStyle = '#9faac4'
+  ctx.fillStyle = COLOR.casper
   ctx.font = '12px sans-serif'
   drawAxesTicks(chart, tooltipKey, axesTickFormatters)
 }

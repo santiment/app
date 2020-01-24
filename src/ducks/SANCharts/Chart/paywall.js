@@ -1,3 +1,5 @@
+import COLOR from '@santiment-network/ui/variables.scss'
+
 export function drawPaywall (chart, leftBoundaryDate, rightBoundaryDate) {
   const { ctx, points, left, top, right, width, height } = chart
 
@@ -9,7 +11,7 @@ export function drawPaywall (chart, leftBoundaryDate, rightBoundaryDate) {
   ctx.beginPath()
 
   ctx.lineWidth = 1
-  ctx.strokeStyle = '#FFAD4D'
+  ctx.strokeStyle = COLOR['texas-rose']
   ctx.setLineDash([7])
 
   if (lastDate <= leftBoundaryDate || firstDate >= rightBoundaryDate) {

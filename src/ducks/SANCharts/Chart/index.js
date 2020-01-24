@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import COLOR from '@santiment-network/ui/variables.scss'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { initChart, updateChartState } from '@santiment-network/chart'
 import { initTooltip } from '@santiment-network/chart/tooltip'
@@ -7,9 +8,9 @@ import { plotDayBars, plotBars } from '@santiment-network/chart/bars'
 import { linearScale } from '@santiment-network/chart/scales'
 import { drawReferenceDot } from '@santiment-network/chart/references'
 import { initBrush, updateBrushState } from '@santiment-network/chart/brush'
+import Signals from './Signals'
 import { plotAxes } from './axes'
 import { setupTooltip, plotTooltip } from './tooltip'
-import { clearCtx, findPointIndexByDate } from './utils'
 import {
   BRUSH_HEIGHT,
   CHART_PADDING,
@@ -19,8 +20,7 @@ import { drawWatermark } from './watermark'
 import { drawPaywall } from './paywall'
 import { onResize } from './resize'
 import { drawLastDayPrice, withLastDayPrice } from './lastDayPrice'
-import Signals from './Signals'
-
+import { clearCtx, findPointIndexByDate } from './utils'
 import styles from './index.module.scss'
 
 const Chart = ({
@@ -187,7 +187,7 @@ const Chart = ({
       ctx.beginPath()
       ctx.arc(x + RADIUS, y + 1, RADIUS, 0, 2 * Math.PI)
       ctx.lineWidth = 1.5
-      ctx.strokeStyle = 'red'
+      ctx.strokeStyle = COLOR.persimmon
       ctx.stroke()
     } else if (key === 'trendingPosition') {
       ctx.beginPath()
