@@ -124,6 +124,10 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
   return isValidMulti
     ? syncedCategories.map((categories, i) => {
       const metric = noPriceMetrics[i]
+      if (!metric) {
+        return null
+      }
+
       const tooltipKey = getMetricKey(hasPriceMetric ? historyPrice : metric)
 
       return React.cloneElement(children, {
