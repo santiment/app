@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import COLOR from '@santiment-network/ui/variables.scss'
-import { findTooltipMetric } from './utils'
+import { getValidTooltipKey, findTooltipMetric } from './utils'
 import { setupColorGenerator } from '../utils'
 import { Metrics } from '../data'
 
@@ -10,12 +10,15 @@ function metricsToPlotCategories (metrics) {
   const requestedData = {
     lines: [],
     daybars: [],
-    bars: []
+    bars: [],
+    joinedCategories: []
   }
+  const joinedCategories = requestedData.joinedCategories
 
   metrics.forEach(metric => {
     const { key, dataKey = key, node } = metric
     requestedData[node + 's'].push(dataKey)
+    joinedCategories.push(dataKey)
   })
 
   return requestedData
@@ -81,8 +84,8 @@ function prepareEvents (events) {
 
 const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
   const [syncedTooltipDate, syncTooltips] = useState()
-  const [syncedEvents, syncEvents] = useState()
-  const [syncedCategories, syncCategories] = useState([])
+  let [syncedEvents, syncEvents] = useState()
+  let [syncedCategories, syncCategories] = useState([])
 
   const syncedColors = getSyncedColors(metrics)
   const noPriceMetrics = metrics.filter(metric => metric !== historyPrice)
@@ -104,6 +107,8 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
         categories.push(metricsToPlotCategories(metrics))
       }
 
+      syncedCategories = categories
+      syncedEvents = events
       syncCategories(categories)
       syncEvents(prepareEvents(events))
     },
@@ -114,19 +119,18 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
 
   return isValidMulti
     ? syncedCategories.map((categories, i) => {
-      const key = getMetricKey(
-        hasPriceMetric ? historyPrice : noPriceMetrics[i]
-      )
+      const metric = noPriceMetrics[i]
+      const tooltipKey = getMetricKey(hasPriceMetric ? historyPrice : metric)
 
       return React.cloneElement(children, {
-        key: i,
+        key: metric.key,
         isMultiChartsActive,
         syncedTooltipDate,
         syncedColors,
         syncTooltips,
         hasPriceMetric,
+        tooltipKey,
         ...categories,
-        tooltipKey: key,
         events: syncedEvents
       })
     })
@@ -135,7 +139,10 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
       syncedColors,
       hasPriceMetric,
       events: syncedEvents,
-      tooltipKey: getMetricKey(findTooltipMetric(metrics))
+      tooltipKey: getValidTooltipKey(
+        getMetricKey(findTooltipMetric(metrics)),
+        syncedCategories[0].joinedCategories
+      )
     })
 }
 

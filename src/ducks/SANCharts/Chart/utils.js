@@ -2,6 +2,12 @@ import { Metrics } from '../data'
 import { getDateFormats } from '../../../utils/dates'
 import { millify } from '../../../utils/formatting'
 
+export function getValidTooltipKey (tooltipKey, joinedCategories) {
+  return joinedCategories.includes(tooltipKey)
+    ? tooltipKey
+    : joinedCategories[0]
+}
+
 export function clearCtx (chart, ctx = chart.ctx) {
   const { canvasWidth, canvasHeight } = chart
   ctx.clearRect(0, 0, canvasWidth, canvasHeight)

@@ -29,6 +29,7 @@ const Chart = ({
   lines,
   bars,
   daybars,
+  joinedCategories,
   events = [],
   scale = linearScale,
   slug,
@@ -96,7 +97,7 @@ const Chart = ({
       }
 
       clearCtx(chart)
-      updateChartState(chart, data, daybars.concat(bars).concat(lines))
+      updateChartState(chart, data, joinedCategories)
       if (brush) {
         clearCtx(brush)
         updateBrushState(brush, chart, data)
@@ -146,7 +147,7 @@ const Chart = ({
   function onBrushChange (startIndex, endIndex) {
     const newData = data.slice(startIndex, endIndex + 1)
 
-    updateChartState(chart, newData, daybars.concat(bars).concat(lines))
+    updateChartState(chart, newData, joinedCategories)
 
     clearCtx(chart)
     plotChart(newData)
