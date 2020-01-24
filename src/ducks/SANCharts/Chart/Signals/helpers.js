@@ -16,11 +16,11 @@ const PADDINGS = PADDING_LEFT * 2
 const MARGIN_LEFT = 5
 const TEXT_LEFT_MARGIN = MARGIN_LEFT + PADDING_LEFT
 
-export function alignY (y) {
+function alignY (y) {
   return y > BUBBLE_MARGIN_BOTTOM ? y : y + BUBBLE_MARGIN_BOTTOM + MARGIN_BOTTOM
 }
 
-export function drawTextBubble (chart, y, width) {
+function drawTextBubble (chart, y, width) {
   const {
     left,
     tooltip: { ctx }
@@ -35,7 +35,7 @@ export function drawTextBubble (chart, y, width) {
   )
 }
 
-export function drawTexts (ctx, texts, x, y) {
+function drawTexts (ctx, texts, x, y) {
   let textX = x + TEXT_LEFT_MARGIN
   const textY = y - 12
 
@@ -46,7 +46,7 @@ export function drawTexts (ctx, texts, x, y) {
   })
 }
 
-export function drawLine (ctx, startX, endX, y) {
+function drawLine (ctx, startX, endX, y) {
   ctx.strokeStyle = COLOR.rhino
   ctx.setLineDash([3])
   ctx.lineWidth = 2
