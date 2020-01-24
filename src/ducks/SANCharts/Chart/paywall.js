@@ -14,7 +14,10 @@ export function drawPaywall (chart, leftBoundaryDate, rightBoundaryDate) {
   ctx.strokeStyle = COLOR['texas-rose']
   ctx.setLineDash([7])
 
-  if (lastDate <= leftBoundaryDate || firstDate >= rightBoundaryDate) {
+  if (
+    (leftBoundaryDate && lastDate <= leftBoundaryDate) ||
+    (rightBoundaryDate && firstDate >= rightBoundaryDate)
+  ) {
     ctx.strokeRect(left, top, width - 1, height)
     ctx.restore()
     return
