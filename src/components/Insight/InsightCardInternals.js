@@ -73,9 +73,11 @@ const InsightCardInternals = ({
             liked={!!votedAt}
             onClick={onLike}
             disabled={disabled}
+            className={styles.likeBtn}
           />
           <div className={cx(styles.stat, styles.stat_comments)}>
-            <Icon type='comment' /> {commentsCount}
+            <Icon type='comment' className={styles.commentIcon} />{' '}
+            {commentsCount}
           </div>
           <div className={styles.tags}>
             <InsightTags tags={tags} isDesktop={isDesktop} />

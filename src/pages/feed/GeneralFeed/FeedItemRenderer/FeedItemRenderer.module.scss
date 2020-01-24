@@ -26,6 +26,8 @@
 }
 
 .activityMarkdown {
+  word-break: break-all;
+
   p {
     // GarageInc: becuase markdown from server
     margin-bottom: 0 !important;

@@ -94,12 +94,20 @@
   }
 
   & svg {
-    margin-right: 6px;
+    margin-right: 4px;
   }
 
   &_comments {
     display: flex;
+    margin-left: 22px;
+    color: var(--mirage);
   }
+}
+
+.commentIcon {
+  width: 16px;
+  height: 16px;
+  fill: var(--casper);
 }
 
 .awaiting {
@@ -114,4 +122,9 @@
     width: 12px;
     margin-right: 5px;
   }
+}
+
+.likeBtn {
+  padding: 0;
+  margin-left: -8px;
 }
