@@ -1,6 +1,6 @@
 import React from 'react'
-import noDataImg from './../../../assets/signals/backtest_empty.svg'
-import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
+import noDataImg from '../../../../assets/signals/backtest_empty.svg'
+import HelpTooltip from '../../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 import styles from './NoSignalPreview.module.scss'
 
 const NoSignalPreview = () => {

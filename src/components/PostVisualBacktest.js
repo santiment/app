@@ -8,7 +8,7 @@ import PercentChanges from './PercentChanges'
 import PostVisualBacktestChart from './PostVisualBacktestChart'
 import { binarySearchHistoryPriceIndex } from '../utils/utils'
 import { getTimeIntervalFromToday, MONTH } from '../utils/dates'
-import './PostVisualBacktest.css'
+import './PostVisualBacktest.scss'
 
 const getChanges = (start, last, prop = 'priceUsd') =>
   ((last[`${prop}`] - start[`${prop}`]) / start[`${prop}`]) * 100

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import isEqual from 'lodash.isequal'
 import pick from 'lodash.pick'
 import { withApollo } from 'react-apollo'
-import { historicalBalanceGQL } from './common/queries'
+import { HISTORICAL_BALANCE_QUERY } from './common/queries'
 import { toEndOfDay } from '../../utils/dates'
 
 const DEFAULT_FROM_DATE = '2017-12-01T16:28:22.486Z'
@@ -71,7 +71,7 @@ class GetHistoricalBalance extends Component {
 
       client
         .query({
-          query: historicalBalanceGQL,
+          query: HISTORICAL_BALANCE_QUERY,
           skip: ({ wallet }) => {
             return !wallet
           },

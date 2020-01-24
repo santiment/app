@@ -30,7 +30,7 @@ const CHART_PRICE_METRIC = {
   ...Metrics[PRICE_METRIC],
   type: PRICE_METRIC,
   node: Area,
-  opacity: 0.3
+  opacity: 0.25
 }
 
 export const getPriceMetricWithSlug = slug => {

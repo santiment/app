@@ -15,7 +15,8 @@
 }
 
 .icon {
-  transform: scale(0.7);
+  width: 16px;
+  height: 16px;
   margin-right: 4px;
   transition: all 0.2s ease-in-out;
 
@@ -61,7 +62,7 @@
   -webkit-tap-highlight-color: transparent;
 
   &:hover,
- &:focus {
+  &:focus {
     .icon {
       @include responsive('desktop', 'laptop') {
         transform: scale(0.9);

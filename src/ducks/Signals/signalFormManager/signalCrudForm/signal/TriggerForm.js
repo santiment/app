@@ -32,7 +32,7 @@ import {
 import { TriggerFormMetricValues } from '../formParts/TriggerFormMetricValues'
 import { TriggerFormMetricTypes } from '../formParts/metricTypes/TriggerFormMetricTypes'
 import { TriggerFormFrequency } from '../formParts/TriggerFormFrequency'
-import SignalPreview from '../../../chart/SignalPreview'
+import SignalPreview from '../../../chart/preview/SignalPreview'
 import TriggerMetricTypesResolver from '../formParts/TriggerMetricTypesResolver'
 import TriggerFormBlock, {
   TriggerFormBlockDivider

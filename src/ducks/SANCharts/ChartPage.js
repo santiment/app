@@ -435,7 +435,8 @@ class ChartPage extends Component {
       alwaysShowingMetrics = [],
       isParentLoading,
       isWideChart,
-      project
+      project,
+      metricRest
     } = this.props
 
     const selectedInterval = INTERVAL_ALIAS[interval] || interval
@@ -463,7 +464,8 @@ class ChartPage extends Component {
         slug,
         from,
         to,
-        ...reqMeta
+        ...reqMeta,
+        ...metricRest
       }
     })
 

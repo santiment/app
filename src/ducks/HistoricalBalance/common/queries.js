@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const historicalBalanceGQL = gql`
+export const HISTORICAL_BALANCE_QUERY = gql`
   query historicalBalance(
     $from: DateTime!
     $to: DateTime!

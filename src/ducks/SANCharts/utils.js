@@ -174,16 +174,16 @@ export const alignDayMetrics = ({ chartRef, bars, dayMetrics, margin }) => {
 export const generateMetricsMarkup = (
   metrics,
   {
-    isMultiChartsActive,
     ref = {},
+    isMultiChartsActive,
     chartRef: { current: chartRef } = {},
     coordinates,
     scale,
     dayMetrics,
     syncedColors,
-    showActiveDot = true,
     activeLineDataKey,
-    useShortName
+    useShortName,
+    hideYAxis
   } = {}
 ) => {
   const metricWithYAxis = isMultiChartsActive
@@ -207,9 +207,11 @@ export const generateMetricsMarkup = (
       shortLabel,
       orientation = 'left',
       dataKey = key,
-      hideYAxis,
+      hideYAxis: metricHideYAxis,
       gradientUrl,
-      formatter
+      opacity = 1,
+      formatter,
+      strokeWidth = 1.5
     } = metric
 
     if (!activeDataKey && (El === Line || El === Area)) {
@@ -227,8 +229,7 @@ export const generateMetricsMarkup = (
     }
 
     const currentYAxisId = getMetricYAxisId(metric)
-
-    const isHidden = metric !== metricWithYAxis || hideYAxis
+    const isHidden = metric !== metricWithYAxis || hideYAxis || metricHideYAxis
 
     acc.push(
       <YAxis
@@ -246,10 +247,11 @@ export const generateMetricsMarkup = (
         type='linear'
         yAxisId={currentYAxisId}
         name={(useShortName && shortLabel) || label}
-        strokeWidth={1.5}
+        strokeWidth={strokeWidth}
         ref={ref[key]}
         dataKey={dataKey}
         dot={false}
+        opacity={opacity}
         activeDot={activeDataKey === dataKey && <ActiveLine />}
         isAnimationActive={false}
         connectNulls
@@ -316,20 +318,6 @@ export const generateMetricsMarkup = (
 
   return res
 }
-
-export const mapToRequestedMetrics = (
-  metrics,
-  { interval, slug, from, to, timeRange }
-) =>
-  metrics.map(({ key, alias: name = key, reqMeta }) => ({
-    name,
-    slug,
-    from,
-    to,
-    timeRange,
-    interval,
-    ...reqMeta
-  }))
 
 export const makeSignalPriceReferenceDot = (
   price,
