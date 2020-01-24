@@ -52,6 +52,10 @@ const Signals = ({
     const lastPrice = data[data.length - 1].priceUsd
 
     const price = findPriceByY(chart, y)
+    if (price === undefined) {
+      return
+    }
+
     const textPrice = formatter(price)
 
     drawHoveredSignal(chart, y, [
@@ -69,6 +73,10 @@ const Signals = ({
 
     const lastPrice = data[data.length - 1].priceUsd
     const price = findPriceByY(chart, y)
+    if (price === undefined) {
+      return
+    }
+
     const type =
       PRICE_CHANGE_TYPES[price > lastPrice ? SIGNAL_ABOVE : SIGNAL_BELOW]
 

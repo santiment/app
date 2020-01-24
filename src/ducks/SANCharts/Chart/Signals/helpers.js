@@ -58,6 +58,11 @@ export function drawLine (ctx, startX, endX, y) {
 
 export function findPriceByY (chart, y) {
   const { minMaxes, height, top } = chart
+
+  if (!minMaxes) {
+    return
+  }
+
   const { min, max } = minMaxes.priceUsd
 
   const factor = (max - min) / height
