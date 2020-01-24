@@ -124,12 +124,10 @@ const Signals = ({
 }
 
 const mapStateToProps = (state, { slug, chart, scale }) => {
-  const { signals, rootUi } = state
   return {
     isLoggedIn: checkIsLoggedIn(state),
-    isBeta: rootUi.isBetaModeEnabled,
     signals: chart
-      ? getSlugPriceSignals(signals.all || [], slug)
+      ? getSlugPriceSignals(state.signals.all || [], slug)
         .map(signal => makeSignalDrawable(signal, chart, scale))
         .filter(Boolean)
       : []
@@ -146,6 +144,6 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(props => {
-  const { chart, isLoggedIn, isBeta } = props
-  return isLoggedIn && isBeta && chart ? <Signals {...props} /> : null
+  const { chart, isLoggedIn } = props
+  return isLoggedIn && chart ? <Signals {...props} /> : null
 })
