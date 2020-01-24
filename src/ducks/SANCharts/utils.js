@@ -48,7 +48,8 @@ export const getMarketSegment = key => {
     key,
     type: 'marketSegments',
     category: 'Development',
-    node: Line,
+    Component: Line,
+    node: 'line',
     label: `Dev. Activity (${key})`,
     yAxisId: 'axis-activity',
     reqMeta: {
@@ -73,7 +74,9 @@ export const METRIC_COLORS = [
 
 export const findYAxisMetric = metrics =>
   (metrics.includes(Metrics.historyPrice) && Metrics.historyPrice) ||
-  metrics.find(({ key, node }) => key !== 'mvrvRatio' && node !== Bar) ||
+  metrics.find(
+    ({ key, Component }) => key !== 'mvrvRatio' && Component !== Bar
+  ) ||
   metrics[0]
 
 export const setupColorGenerator = () => {
@@ -201,7 +204,7 @@ export const generateMetricsMarkup = (
   const res = metrics.reduce((acc, metric) => {
     const {
       key,
-      node: El,
+      Component: El,
       label,
       shortLabel,
       orientation = 'left',
@@ -216,7 +219,7 @@ export const generateMetricsMarkup = (
     }
 
     const rest = {
-      [El === Bar ? 'fill' : 'stroke']: syncedColors[key],
+      [El === Bar ? 'fill' : 'stroke']: syncedColors[dataKey],
       [El === Area && gradientUrl && 'fill']: gradientUrl,
       [El === Area && gradientUrl && 'fillOpacity']: 1
     }
