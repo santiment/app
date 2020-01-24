@@ -48,7 +48,7 @@ export const tooltipSettings = {
   },
   trendingPosition: {
     label: 'Trending Position',
-    formatter: Events.position.formatter
+    formatter: ([val]) => Events.position.formatter(val)
   }
 }
 
