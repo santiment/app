@@ -101,6 +101,14 @@
     display: flex;
     margin-left: 22px;
     color: var(--mirage);
+
+    &:hover {
+      color: var(--jungle-green-hover) !important;
+
+      svg {
+        fill: var(--jungle-green-hover);
+      }
+    }
   }
 }
 

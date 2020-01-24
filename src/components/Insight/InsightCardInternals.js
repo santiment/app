@@ -34,16 +34,15 @@ const InsightCardInternals = ({
   isDesktop
 }) => {
   const { DD, MMM, YYYY } = getDateFormats(new Date(publishedAt || createdAt))
+  const linkToInsight = `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
+    id,
+    title
+  )}`
+
   return (
     <Fragment>
       <div className={styles.top}>
-        <a
-          href={`https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
-            id,
-            title
-          )}`}
-          className={styles.title}
-        >
+        <a href={linkToInsight} className={styles.title}>
           <MultilineText maxLines={2} id='insightCardTitle' text={title} />
         </a>
       </div>
@@ -75,10 +74,13 @@ const InsightCardInternals = ({
             disabled={disabled}
             className={styles.likeBtn}
           />
-          <div className={cx(styles.stat, styles.stat_comments)}>
+          <a
+            href={linkToInsight + '#comments'}
+            className={cx(styles.stat, styles.stat_comments)}
+          >
             <Icon type='comment' className={styles.commentIcon} />{' '}
             {commentsCount}
-          </div>
+          </a>
           <div className={styles.tags}>
             <InsightTags tags={tags} isDesktop={isDesktop} />
           </div>
