@@ -775,6 +775,11 @@ export const getMetricsByType = type => {
         metrics: [Metrics.historyPrice, Metrics.volume],
         triggersBy: Metrics.historyPrice
       }
+    case ETH_WALLET:
+      return {
+        metrics: [Metrics.historicalBalance, Metrics.historyPrice],
+        triggersBy: Metrics.historicalBalance
+      }
     default:
       return {
         metrics: [Metrics.historyPrice],

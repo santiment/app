@@ -17,6 +17,7 @@
 .undo {
   color: var(--persimmon);
   cursor: pointer;
+  margin-left: auto;
 
   &:hover {
     color: var(--persimmon-hover);

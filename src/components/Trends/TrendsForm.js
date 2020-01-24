@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import Raven from 'raven-js'
-import GoogleAnalytics from 'react-ga'
 import { connect } from 'react-redux'
 import Search from '@santiment-network/ui/Search'
 import { gotoExplore } from './trendsUtils'
+import GA from './../../utils/tracking'
 
 export class TrendsForm extends Component {
   static defaultProps = {
@@ -68,7 +68,7 @@ const trackTopicSearch = topic => {
         'tracking search trends queries ' + JSON.stringify(error)
       )
     )
-    GoogleAnalytics.event({
+    GA.event({
       category: 'Trends Search',
       action: 'Search: ' + topic
     })

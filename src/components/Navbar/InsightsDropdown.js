@@ -1,5 +1,4 @@
 import React from 'react'
-import GoogleAnalytics from 'react-ga'
 import Raven from 'raven-js'
 import { Mutation, Query } from 'react-apollo'
 import { connect } from 'react-redux'
@@ -10,6 +9,7 @@ import Button from '@santiment-network/ui/Button'
 import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import { store } from '../../index'
 import { showNotification } from '../../actions/rootActions'
+import GA from './../../utils/tracking'
 import { checkIsLoggedIn } from '../../pages/UserSelectors'
 import { dateDifferenceInWords } from '../../utils/dates'
 import {
@@ -30,7 +30,7 @@ const mutation = gql`
 
 const onSuccess = () => {
   localStorage.setItem(SUBSCRIPTION_FLAG, '+')
-  GoogleAnalytics.event({
+  GA.event({
     category: 'User',
     action: `User requested an email for verification`
   })

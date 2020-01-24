@@ -117,6 +117,10 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
 
   useEffect(() => clearCache, [])
 
+  if (syncedCategories.length === 0) {
+    return null
+  }
+
   return isValidMulti
     ? syncedCategories.map((categories, i) => {
       const metric = noPriceMetrics[i]

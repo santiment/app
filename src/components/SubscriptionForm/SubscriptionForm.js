@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
-import GoogleAnalytics from 'react-ga'
 import Raven from 'raven-js'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import Label from '@santiment-network/ui/Label'
@@ -12,6 +11,7 @@ import { EMAIL_LOGIN_MUTATION } from './loginGQL'
 import { store } from '../../index'
 import { showNotification } from '../../actions/rootActions'
 import { SUBSCRIPTION_FLAG } from '../../epics/handleEmailLogin'
+import GA from './../../utils/tracking'
 import styles from './SubscriptionForm.module.scss'
 
 const SUBSCRIPTION_LABEL = 'Receive product updates and weekly newsletter'
@@ -47,7 +47,7 @@ class SubscriptionForm extends PureComponent {
     emailLogin({ variables: { email } })
       .then(() => {
         this.setState({ waiting: false })
-        GoogleAnalytics.event({
+        GA.event({
           category: 'User',
           action: `User requested an email for verification ${
             hasSubscribed ? 'with' : 'without'

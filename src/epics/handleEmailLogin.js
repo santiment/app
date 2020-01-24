@@ -1,11 +1,11 @@
 import Raven from 'raven-js'
-import GoogleAnalytics from 'react-ga'
 import { Observable } from 'rxjs'
 import gql from 'graphql-tag'
 import { replace } from 'react-router-redux'
 import { showNotification } from './../actions/rootActions'
 import * as actions from './../actions/types'
 import { savePrevAuthProvider } from './../utils/localStorage'
+import GA from './../utils/tracking'
 import { setCoupon } from '../utils/coupon'
 import { USER_GQL_FRAGMENT } from './handleLaunch'
 
@@ -15,7 +15,7 @@ const emailLoginVerifyGQL = gql`
   mutation emailLoginVerify($email: String!, $token: String!) {
     emailLoginVerify(email: $email, token: $token) {
       token
-      user 
+      user
         ${USER_GQL_FRAGMENT}
     }
   }
@@ -63,7 +63,7 @@ export const handleLoginSuccess = action$ =>
       const { email } = user
 
       if (user.firstLogin || (email && !loggedEmails.includes(email))) {
-        GoogleAnalytics.event({
+        GA.event({
           category: 'User',
           action: 'First login'
         })
@@ -136,7 +136,7 @@ const handleEmailLogin = (action$, store, { client }) =>
         .mergeMap(({ data }) => {
           const { token, user } =
             data.emailLoginVerify || data.emailChangeVerify
-          GoogleAnalytics.event({
+          GA.event({
             category: 'User',
             action: 'Success login with email'
           })
@@ -150,7 +150,7 @@ const handleEmailLogin = (action$, store, { client }) =>
         })
         .catch(error => {
           Raven.captureException(error)
-          GoogleAnalytics.event({
+          GA.event({
             category: 'User',
             action: 'Failed login with email'
           })

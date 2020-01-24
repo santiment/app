@@ -15,9 +15,13 @@ import { formatTokensCount } from '../../../utils/formatting'
 import ChartTooltip, {
   renderLegend
 } from '../../SANCharts/tooltip/CommonChartTooltip'
-import { generateMetricsMarkup } from './../common/utils'
-import { mapDatetimeToNumber, usdFormatter } from '../../SANCharts/utils'
+import {
+  generateMetricsMarkup,
+  mapDatetimeToNumber,
+  usdFormatter
+} from '../../SANCharts/utils'
 import { getPriceMetricWithSlug } from '../balanceView/BalanceView'
+import { getSyncedColors } from '../../SANCharts/Chart/Synchronizer'
 import styles from './HistoricalBalanceChart.module.scss'
 
 const formatDatetime = datetime => {
@@ -78,7 +82,7 @@ const getWalletsLines = (wallets, showYAxes, scale) => {
   return acc
 }
 
-const COLORS = ['#14C393', '#8358FF', '#5275FF', '#FF5B5B', '#68DBF4']
+const COLORS = ['dodger-blue', '#8358FF', '#5275FF', '#FF5B5B', '#68DBF4']
 
 const labelFormatter = item => {
   if (item.indexOf('@') !== -1) {
@@ -123,8 +127,9 @@ const HistoricalBalanceChart = ({
     }
   })
 
+  const syncedColors = getSyncedColors(metrics)
   const priceMetricsLines = priceMetric
-    ? generateMetricsMarkup(metrics, {}, { hideYAxis: true })
+    ? generateMetricsMarkup(metrics, { hideYAxis: true, syncedColors })
     : null
 
   const hideTooltipItem = key => {

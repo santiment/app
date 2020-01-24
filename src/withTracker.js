@@ -1,20 +1,14 @@
 import React, { Component } from 'react'
-import GoogleAnalytics from 'react-ga'
+import { initializeTracking, pageview } from './utils/tracking'
 
 if (process.env.NODE_ENV === 'production') {
-  GoogleAnalytics.initialize('UA-100571693-2')
-} else {
-  GoogleAnalytics.initialize('UA-100571693-2', { testMode: true })
+  initializeTracking()
 }
 
-const withTracker = (WrappedComponent, options = {}) => {
+const withTracker = WrappedComponent => {
   const trackPage = page => {
     if (process.env.NODE_ENV === 'production') {
-      GoogleAnalytics.set({
-        page,
-        ...options
-      })
-      GoogleAnalytics.pageview(page)
+      pageview(page)
     }
   }
 

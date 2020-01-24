@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import GA from 'react-ga'
 import * as qs from 'query-string'
 import { connect } from 'react-redux'
 import cx from 'classnames'
@@ -20,6 +19,7 @@ import {
   HISTOGRAM_SIDEBAR
 } from './data'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
+import GA from './../../utils/tracking'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
@@ -436,7 +436,8 @@ class ChartPage extends Component {
       isParentLoading,
       isWideChart,
       project,
-      hasPremium
+      hasPremium,
+      metricRest
     } = this.props
 
     const selectedInterval = INTERVAL_ALIAS[interval] || interval
@@ -464,7 +465,8 @@ class ChartPage extends Component {
         slug,
         from,
         to,
-        ...reqMeta
+        ...reqMeta,
+        ...metricRest
       }
     })
 
