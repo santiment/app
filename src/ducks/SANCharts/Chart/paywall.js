@@ -20,6 +20,11 @@ export function drawPaywall (chart, leftBoundaryDate, rightBoundaryDate) {
     return
   }
 
+  if (lastDate === firstDate) {
+    ctx.restore()
+    return
+  }
+
   const factor = lastIndex / (lastDate - firstDate)
 
   if (leftBoundaryDate && leftBoundaryDate > firstDate) {

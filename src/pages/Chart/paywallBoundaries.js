@@ -1,6 +1,10 @@
 import { getTimeIntervalFromToday, DAY, MONTH } from '../../utils/dates'
 
-function createOptions (hours = 48) {
+const ONE_DAY_IN_HOURS = 24
+const TWO_DAYS_IN_HOURS = ONE_DAY_IN_HOURS * 2
+const THREE_DAYS_IN_HOURS = ONE_DAY_IN_HOURS * 3
+
+function correctFromByHours (hours = TWO_DAYS_IN_HOURS) {
   const NEXT_DAY = new Date()
   NEXT_DAY.setHours(hours, 0, 0, 0)
   return { isUTC: true, from: NEXT_DAY }
@@ -9,40 +13,40 @@ function createOptions (hours = 48) {
 const { from: ANON_LEFT_BOUNDARY_DATE } = getTimeIntervalFromToday(
   -3,
   MONTH,
-  createOptions(72)
+  correctFromByHours(THREE_DAYS_IN_HOURS)
 )
 const { from: ANON_RIGHT_BOUNDARY_DATE } = getTimeIntervalFromToday(
   -1,
   DAY,
-  createOptions(24)
+  correctFromByHours(ONE_DAY_IN_HOURS)
 )
 
 const { from: FREE_LEFT_BOUNDARY_DATE } = getTimeIntervalFromToday(
   -24,
   MONTH,
-  createOptions()
+  correctFromByHours()
 )
 const { from: FREE_RIGHT_BOUNDARY_DATE } = getTimeIntervalFromToday(
   -1,
   MONTH,
-  createOptions()
+  correctFromByHours()
 )
 
 const { from: BASIC_LEFT_BOUNDARY_DATE } = getTimeIntervalFromToday(
   -24,
   MONTH,
-  createOptions()
+  correctFromByHours()
 )
 const { from: BASIC_RIGHT_BOUNDARY_DATE } = getTimeIntervalFromToday(
   -7,
   DAY,
-  createOptions()
+  correctFromByHours()
 )
 
 const { from: PRO_LEFT_BOUNDARY_DATE } = getTimeIntervalFromToday(
   -60,
   MONTH,
-  createOptions()
+  correctFromByHours()
 )
 const PRO_RIGHT_BOUNDARY_DATE = false
 

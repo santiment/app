@@ -1,5 +1,6 @@
+import { Metrics, Events } from '../data'
 import { getDateFormats, getTimeFormats } from '../../../utils/dates'
-import { Metrics } from '../data'
+import { millify } from '../../../utils/formatting'
 
 export const CHART_HEIGHT = 350
 export const BRUSH_HEIGHT = 40
@@ -18,7 +19,19 @@ export const CHART_WITH_BRUSH_PADDING = {
   left: 45
 }
 
-const FROMATTER = v => v || 'No data'
+const LARGE_NUMBER_THRESHOLD = 99999
+
+const FORMATTER = value => {
+  if (!value && typeof value !== 'number') {
+    return 'No data'
+  }
+
+  if (value > LARGE_NUMBER_THRESHOLD) {
+    return millify(value, 2)
+  }
+
+  return Number.isInteger(value) ? value : value.toFixed(2)
+}
 
 export const tooltipSettings = {
   datetime: {
@@ -35,25 +48,15 @@ export const tooltipSettings = {
   },
   trendingPosition: {
     label: 'Trending Position',
-    formatter: ([val]) => {
-      switch (val) {
-        case 1:
-          return `1st`
-        case 2:
-          return '2nd'
-        case 3:
-          return '3rd'
-        default:
-          return `${val}th`
-      }
-    }
+    formatter: Events.position.formatter
   }
 }
 
-Object.keys(Metrics).forEach(metric => {
-  const { key, dataKey = key, formatter = FROMATTER, label } = Metrics[metric]
-  tooltipSettings[dataKey] = {
-    label,
-    formatter
+Object.values(Metrics).forEach(
+  ({ key, dataKey = key, formatter = FORMATTER, label }) => {
+    tooltipSettings[dataKey] = {
+      label,
+      formatter
+    }
   }
-})
+)
