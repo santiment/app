@@ -1,6 +1,7 @@
 import React from 'react'
 import InsightCard from '../../../../components/Insight/InsightCardWithMarketcap'
-import WithLikesMutation from '../../../../components/Like/WithLikesMutation'
+import WithActivityLikesMutation from '../../../../components/Like/WithActivityLikesMutation'
+import WithInsightLikesMutation from '../../../../components/Like/WithInsightLikesMutation'
 import ActivityRenderer from '../../../SonarFeed/ActivityRenderer/ActivityRenderer'
 import TrendingWordsSignalCard from '../../../../components/SignalCard/card/TrendingWordsSignalCard'
 import styles from './FeedItemRenderer.module.scss'
@@ -27,13 +28,18 @@ const FeedItemRenderer = ({ item, index }) => {
     return (
       <>
         {!isTrendingWords && (
-          <ActivityRenderer
-            date={insertedAt}
-            activity={item}
-            index={index}
-            user={user}
-            classes={styles}
-          />
+          <WithActivityLikesMutation>
+            {like => (
+              <ActivityRenderer
+                date={insertedAt}
+                activity={item}
+                index={index}
+                user={user}
+                classes={styles}
+                onLike={like(id)}
+              />
+            )}
+          </WithActivityLikesMutation>
         )}
         {isTrendingWords && (
           <TrendingWordsSignalCard
@@ -53,16 +59,16 @@ const FeedItemRenderer = ({ item, index }) => {
     if (post) {
       const { id, ...rest } = post
       return (
-        <WithLikesMutation>
-          {mutateInsightById => (
+        <WithInsightLikesMutation>
+          {like => (
             <InsightCard
               id={id}
               {...rest}
               className={styles.card}
-              onLike={mutateInsightById(id)}
+              onLike={like(id)}
             />
           )}
-        </WithLikesMutation>
+        </WithInsightLikesMutation>
       )
     }
   }

@@ -8,12 +8,14 @@ import SignalPreview from '../../../ducks/Signals/chart/preview/SignalPreview'
 import styles from './ActivityRenderer.module.scss'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
+import LikeBtn from '../../../components/Like/LikeBtn'
 
 const ActivityWithBacktesting = ({
   date,
   user,
   classes,
-  activity: { triggeredAt, payload, trigger = {} }
+  activity: { triggeredAt, payload, trigger = {}, votes = [] },
+  onLike
 }) => {
   const {
     id: signalId,
@@ -59,10 +61,17 @@ const ActivityWithBacktesting = ({
           </div>
         </div>
 
+        <LikeBtn
+          onClick={onLike}
+          className={styles.likeBtn}
+          likesNumber={votes.length}
+        />
         <CopySignal signal={trigger} />
       </div>
     </>
   )
 }
 
+/* likesNumber={totalVotes}
+  liked={!!votedAt} */
 export default ActivityWithBacktesting

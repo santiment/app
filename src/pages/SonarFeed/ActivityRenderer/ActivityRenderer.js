@@ -8,11 +8,12 @@ import styles from './ActivityRenderer.module.scss'
 
 const ActivityRenderer = ({
   activity,
-  date,
   activity: { triggeredAt, trigger = {} },
+  date,
   user,
   index,
-  classes = {}
+  classes = {},
+  onLike
 }) => {
   const { id: signalId, settings } = trigger
   const { target } = settings
@@ -40,6 +41,7 @@ const ActivityRenderer = ({
             activity={activity}
             user={user}
             date={triggerDate}
+            onLike={onLike}
           />
         ) : (
           <SimpleActivity
