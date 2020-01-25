@@ -54,6 +54,14 @@
   }
 }
 
+.disabled {
+  color: var(--waterloo) !important;
+
+  &:hover {
+    color: var(--waterloo) !important;
+  }
+}
+
 .icon {
   margin-right: 5px;
   position: relative;

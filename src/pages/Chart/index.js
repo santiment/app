@@ -1,5 +1,4 @@
 import React from 'react'
-import GA from 'react-ga'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
@@ -7,6 +6,7 @@ import { parse } from 'query-string'
 import { graphql, Query } from 'react-apollo'
 import ChartWidget from '../../ducks/SANCharts/ChartPage'
 import { Metrics } from '../../ducks/SANCharts/data'
+import GA from './../../utils/tracking'
 import InsightsWrap from '../../components/Insight/InsightsWrap'
 import AnonBannerCardB from '../../components/Banner/AnonBanner/AnonBannerCardB'
 import { ALL_INSIGHTS_BY_PAGE_QUERY } from '../../queries/InsightsGQL'
@@ -59,7 +59,8 @@ export default compose(
             {({ data: { currentUser } = {} }) => {
               const subscription = getCurrentSanbaseSubscription(currentUser)
               const userPlan = subscription ? subscription.plan.name : 'FREE'
-              const boundaries = paywallBoundaries[userPlan]
+              const boundaries =
+                paywallBoundaries[isLoggedIn ? userPlan : 'ANON']
 
               return (
                 <>

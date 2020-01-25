@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { tooltipLabelFormatter, tooltipValueFormatter } from '../Charts'
+import { tooltipLabelFormatter, tooltipValueFormatter } from '../utils'
 import styles from './CommonChartTooltip.module.scss'
 
 const ChartTooltip = ({

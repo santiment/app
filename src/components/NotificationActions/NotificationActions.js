@@ -11,6 +11,7 @@ const UndoTrigger = ({ onClick }) => (
 const NotificationActions = ({
   id,
   link,
+  isOpenLink = true,
   isDialog = true,
   undoTrigger: ElUndo,
   onClick
@@ -25,9 +26,11 @@ const NotificationActions = ({
 
   return (
     <div className={styles.container}>
-      <Link className={styles.link} to={link}>
-        Open
-      </Link>
+      {isOpenLink && (
+        <Link className={styles.link} to={link}>
+          Open
+        </Link>
+      )}
       {isDialog && ElUndo ? (
         <ElUndo
           id={id}

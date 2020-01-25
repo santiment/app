@@ -110,10 +110,6 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
           {leftLinks.map(({ Dropdown, ...rest }, index) => {
             const isActive = activeLink.includes(rest.to)
 
-            if (!isBetaModeEnabled && rest.children === 'Feed') {
-              return null
-            }
-
             const button = (
               <Button
                 key={index}

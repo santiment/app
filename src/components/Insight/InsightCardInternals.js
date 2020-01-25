@@ -26,33 +26,28 @@ const InsightCardInternals = ({
   publishedAt,
   state,
   votes: { totalVotes },
-  comments,
+  commentsCount,
   votedAt,
   onLike,
   withAuthorPic,
   disabled,
-  className,
   isDesktop
 }) => {
   const { DD, MMM, YYYY } = getDateFormats(new Date(publishedAt || createdAt))
+  const linkToInsight = `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
+    id,
+    title
+  )}`
+
   return (
     <Fragment>
       <div className={styles.top}>
-        <div>
-          <InsightTags tags={tags} isDesktop={isDesktop} />
-        </div>
-        <a
-          href={`https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
-            id,
-            title
-          )}`}
-          className={styles.title}
-        >
+        <a href={linkToInsight} className={styles.title}>
           <MultilineText maxLines={2} id='insightCardTitle' text={title} />
         </a>
       </div>
       <div className={styles.bottom}>
-        <div className={styles.left}>
+        <div className={styles.profile}>
           <ProfileInfo
             withPic={withAuthorPic}
             picUrl={avatarUrl}
@@ -77,9 +72,17 @@ const InsightCardInternals = ({
             liked={!!votedAt}
             onClick={onLike}
             disabled={disabled}
+            className={styles.likeBtn}
           />
-          <div className={cx(styles.stat, styles.stat_comments)}>
-            <Icon type='comment' /> {comments}
+          <a
+            href={linkToInsight + '#comments'}
+            className={cx(styles.stat, styles.stat_comments)}
+          >
+            <Icon type='comment' className={styles.commentIcon} />{' '}
+            {commentsCount}
+          </a>
+          <div className={styles.tags}>
+            <InsightTags tags={tags} isDesktop={isDesktop} />
           </div>
         </div>
       </div>
@@ -90,7 +93,7 @@ const InsightCardInternals = ({
 InsightCardInternals.defaultProps = {
   votes: {},
   tags: [],
-  comments: 0,
+  commentsCount: 0,
   withAuthorPic: true
 }
 

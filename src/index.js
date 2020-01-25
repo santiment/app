@@ -32,6 +32,7 @@ import retryLink from './apollo/retry-link'
 import ChartPage from './ducks/SANCharts/ChartPage'
 import { showNotification } from './actions/rootActions'
 import { register, unregister } from './serviceWorker'
+import RefreshNotificationActions from './components/Notifications/Refresh/RefreshNotificationActions'
 import './index.scss'
 
 // window.mixpanel has been set by Mixpanel's embed snippet.
@@ -114,15 +115,7 @@ const main = () => {
       showNotification({
         variant: 'info',
         title: 'New version of Sanbase is available!',
-        description: 'Please refresh the browser to have the latest version',
-        actions: [
-          {
-            label: 'Refresh now',
-            onClick: () => {
-              hardReloadTabs()
-            }
-          }
-        ],
+        description: <RefreshNotificationActions onRefresh={hardReloadTabs} />,
         dismissAfter: 1000 * 60 * 5,
         isWide: true
       })

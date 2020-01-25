@@ -36,7 +36,7 @@ const ChartSettingsContextMenu = ({
   showDownload = true,
   showMulti = true,
   classes = {},
-  scale,
+  isLogScale,
   onScaleChange,
   isMultiChartsActive,
   onMultiChartsChange,
@@ -68,10 +68,7 @@ const ChartSettingsContextMenu = ({
             className={styles.context__btn}
           >
             Log scale
-            <Toggle
-              isActive={scale === 'log'}
-              className={styles.context__toggle}
-            />
+            <Toggle isActive={isLogScale} className={styles.context__toggle} />
           </Button>
         )}
         {showNightModeToggle && (

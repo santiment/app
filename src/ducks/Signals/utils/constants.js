@@ -454,7 +454,7 @@ export const FREQUENCY_VALUES = [
 export const getDefaultTimeRangeValue = days => {
   return {
     value: days + 'd',
-    label: days / 30 + ' months'
+    label: Math.round(days / 30) + ' months'
   }
 }
 
@@ -462,7 +462,8 @@ export const PREVIEWS_TIMERANGE_BY_TYPE = {
   [DAILY_ACTIVE_ADDRESSES]: getDefaultTimeRangeValue(90),
   [PRICE_ABSOLUTE_CHANGE]: getDefaultTimeRangeValue(90),
   [PRICE_PERCENT_CHANGE]: getDefaultTimeRangeValue(90),
-  [PRICE_VOLUME_DIFFERENCE]: getDefaultTimeRangeValue(180)
+  [PRICE_VOLUME_DIFFERENCE]: getDefaultTimeRangeValue(180),
+  [ETH_WALLET]: getDefaultTimeRangeValue(365)
 }
 
 export const TIME_WINDOW_UNITS = [

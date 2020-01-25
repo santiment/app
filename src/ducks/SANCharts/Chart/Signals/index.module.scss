@@ -1,0 +1,27 @@
+.wrapper {
+  position: absolute;
+  z-index: 11;
+  left: 0;
+  top: 0;
+}
+
+.signal {
+  position: absolute;
+  cursor: pointer;
+  width: 0;
+  height: 0;
+  right: -6px;
+  border-top: 5px solid transparent;
+  border-left: 7px solid var(--rhino);
+  border-bottom: 5px solid transparent;
+  transform: translateY(-5px);
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 7px;
+    height: 10px;
+    top: -5px;
+    left: -14px;
+  }
+}

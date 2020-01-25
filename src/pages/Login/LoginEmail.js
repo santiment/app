@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import GoogleAnalytics from 'react-ga'
 import Input from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import gql from 'graphql-tag'
 import cx from 'classnames'
 import { Mutation } from 'react-apollo'
+import GA from '../../utils/tracking'
 import styles from './index.module.scss'
 
 const mutation = gql`
@@ -43,7 +43,7 @@ export default () => {
                 onSubmit={e => {
                   e.preventDefault()
 
-                  GoogleAnalytics.event({
+                  GA.event({
                     category: 'User',
                     action: 'Choose an email provider'
                   })

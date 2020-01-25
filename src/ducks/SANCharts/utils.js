@@ -1,10 +1,9 @@
 import React from 'react'
-import { YAxis, Bar, Line, Area, ReferenceDot } from 'recharts'
-import { ONE_DAY_IN_MS } from '../../utils/dates'
+import { YAxis, Bar, Line, Area } from 'recharts'
+import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { formatNumber, millify } from './../../utils/formatting'
 import ActiveLine from './tooltip/ActiveLine'
 import { Metrics, Events } from './data'
-import styles from './Chart.module.scss'
 
 export const mapDatetimeToNumber = timeseries =>
   timeseries.map(({ datetime, ...rest }) => ({
@@ -49,7 +48,8 @@ export const getMarketSegment = key => {
     key,
     type: 'marketSegments',
     category: 'Development',
-    node: Line,
+    Component: Line,
+    node: 'line',
     label: `Dev. Activity (${key})`,
     yAxisId: 'axis-activity',
     reqMeta: {
@@ -74,7 +74,9 @@ export const METRIC_COLORS = [
 
 export const findYAxisMetric = metrics =>
   (metrics.includes(Metrics.historyPrice) && Metrics.historyPrice) ||
-  metrics.find(({ key, node }) => key !== 'mvrvRatio' && node !== Bar) ||
+  metrics.find(
+    ({ key, Component }) => key !== 'mvrvRatio' && Component !== Bar
+  ) ||
   metrics[0]
 
 export const setupColorGenerator = () => {
@@ -174,16 +176,16 @@ export const alignDayMetrics = ({ chartRef, bars, dayMetrics, margin }) => {
 export const generateMetricsMarkup = (
   metrics,
   {
-    isMultiChartsActive,
     ref = {},
+    isMultiChartsActive,
     chartRef: { current: chartRef } = {},
     coordinates,
     scale,
     dayMetrics,
     syncedColors,
-    showActiveDot = true,
     activeLineDataKey,
-    useShortName
+    useShortName,
+    hideYAxis
   } = {}
 ) => {
   const metricWithYAxis = isMultiChartsActive
@@ -202,14 +204,16 @@ export const generateMetricsMarkup = (
   const res = metrics.reduce((acc, metric) => {
     const {
       key,
-      node: El,
+      Component: El,
       label,
       shortLabel,
       orientation = 'left',
       dataKey = key,
-      hideYAxis,
+      hideYAxis: metricHideYAxis,
       gradientUrl,
-      formatter
+      opacity = 1,
+      formatter,
+      strokeWidth = 1.5
     } = metric
 
     if (!activeDataKey && (El === Line || El === Area)) {
@@ -217,7 +221,7 @@ export const generateMetricsMarkup = (
     }
 
     const rest = {
-      [El === Bar ? 'fill' : 'stroke']: syncedColors[key],
+      [El === Bar ? 'fill' : 'stroke']: syncedColors[dataKey],
       [El === Area && gradientUrl && 'fill']: gradientUrl,
       [El === Area && gradientUrl && 'fillOpacity']: 1
     }
@@ -227,8 +231,7 @@ export const generateMetricsMarkup = (
     }
 
     const currentYAxisId = getMetricYAxisId(metric)
-
-    const isHidden = metric !== metricWithYAxis || hideYAxis
+    const isHidden = metric !== metricWithYAxis || hideYAxis || metricHideYAxis
 
     acc.push(
       <YAxis
@@ -246,10 +249,11 @@ export const generateMetricsMarkup = (
         type='linear'
         yAxisId={currentYAxisId}
         name={(useShortName && shortLabel) || label}
-        strokeWidth={1.5}
+        strokeWidth={strokeWidth}
         ref={ref[key]}
         dataKey={dataKey}
         dot={false}
+        opacity={opacity}
         activeDot={activeDataKey === dataKey && <ActiveLine />}
         isAnimationActive={false}
         connectNulls
@@ -331,32 +335,6 @@ export const mapToRequestedMetrics = (
     ...reqMeta
   }))
 
-export const makeSignalPriceReferenceDot = (
-  price,
-  signal,
-  index,
-  onMouseEnter,
-  onMouseLeave,
-  onClick,
-  posX
-) => {
-  return (
-    <ReferenceDot
-      className={styles.signalPoint}
-      key={index}
-      y={price}
-      x={posX}
-      onMouseEnter={evt => onMouseEnter && onMouseEnter(evt, price, signal)}
-      onMouseLeave={evt => onMouseLeave && onMouseLeave(evt, price, signal)}
-      onMouseDown={onClick}
-      yAxisId='axis-priceUsd'
-      r={6}
-      fill='url(#signalPointerImage)'
-      stroke='none'
-    />
-  )
-}
-
 export const getSlugPriceSignals = (signals, slug, price = undefined) => {
   const filtered = signals.filter(
     ({
@@ -378,73 +356,6 @@ export const getSlugPriceSignals = (signals, slug, price = undefined) => {
   return filtered
 }
 
-export const mapToPriceSignalLines = ({
-  data,
-  slug,
-  signals,
-  onSignalHover,
-  onSignalLeave,
-  onSignalClick
-}) => {
-  if (!signals || !data) return []
-
-  const first = data[0]
-
-  if (!first) {
-    return null
-  }
-
-  const {
-    payload: { datetime: dotPositionX }
-  } = first
-
-  const filtered = getSlugPriceSignals(signals, slug)
-
-  let index = 0
-
-  const res = filtered.reduce((acc, item) => {
-    const { id, settings: { operation = {} } = {} } = item
-    const priceAbove = operation.above
-    const priceBelow = operation.below
-
-    acc.push(
-      makeSignalPriceReferenceDot(
-        priceAbove || priceBelow,
-        item,
-        ++index,
-        onSignalHover,
-        onSignalLeave,
-        (target, evt) => {
-          onSignalClick(target, evt, id)
-        },
-        dotPositionX
-      )
-    )
-
-    return acc
-  }, [])
-
-  return res
-}
-
-export const getSignalPrice = (xToYCoordinates, crossY) => {
-  if (xToYCoordinates.length === 0) {
-    return undefined
-  }
-
-  const minYItem = xToYCoordinates.reduce(function (prev, current) {
-    return prev.y > current.y ? prev : current
-  })
-
-  const maxYItem = xToYCoordinates.reduce(function (prev, current) {
-    return prev.y < current.y ? prev : current
-  })
-
-  const yValStep = (maxYItem.value - minYItem.value) / (minYItem.y - maxYItem.y)
-  const priceUsd = yValStep * (minYItem.y - crossY) + minYItem.value
-  return priceUsd
-}
-
 const MIN_TICK_MILLIFY_VALUE = 1000000
 
 export const yAxisTickFormatter = value =>
@@ -454,45 +365,34 @@ export const yAxisTickFormatter = value =>
       minimumFractionDigits: 0
     })
 
-export const getCrossYValue = yValue => {
-  if (yValue < 1) {
-    return formatNumber(yValue, {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 4
-    })
-  }
-
-  return yValue ? millify(yValue, 1) : '-'
-}
-
-export const isDayStartMetric = (
-  data,
-  dayMetric,
-  dayStartMetrics,
-  datetime
-) => {
-  const metricValue = data[dayMetric]
-  if (metricValue !== undefined) {
-    dayStartMetrics[dayMetric] = {
-      datetime,
-      value: metricValue
+export const tooltipValueFormatter = ({
+  value,
+  formatter,
+  threshold = 1000
+}) => {
+  try {
+    if (formatter) {
+      return formatter(value)
     }
-    return true
+
+    const numValue = +value
+    // NOTE(vanguard): Some values may not be present in a hovered data point, i.e. value === undefined/null;
+    if (!Number.isFinite(numValue)) throw new Error()
+
+    if (numValue > threshold) {
+      return millify(numValue, 2)
+    }
+
+    return numValue.toFixed(2)
+  } catch (e) {
+    return 'No data'
   }
-  return false
 }
 
-export const assignToPointDayStartValue = (
-  data,
-  dayMetric,
-  dayStartMetrics,
-  currentPointDatetime
-) => {
-  const dayStartMetric = dayStartMetrics[dayMetric]
-  if (
-    dayStartMetric &&
-    currentPointDatetime - dayStartMetric.datetime < ONE_DAY_IN_MS
-  ) {
-    data[dayMetric] = dayStartMetric.value
-  }
+export const tooltipLabelFormatter = value => {
+  const date = new Date(value)
+  const { MMMM, DD, YYYY } = getDateFormats(date)
+  const { HH, mm } = getTimeFormats(date)
+
+  return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
 }

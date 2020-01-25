@@ -7,6 +7,9 @@ import SignalCardHeader from './SignalCardHeader'
 import SignalCardBottom from './SignalCardBottom'
 import styles from './SignalCard.module.scss'
 
+export const canOpenTrigger = ({ type, target }) =>
+  type === 'trending_words' ? target !== 'default' : true
+
 const SignalCard = ({
   id,
   signal,
@@ -20,17 +23,9 @@ const SignalCard = ({
   isSharedTriggerForm = false
 }) => {
   const isAwaiting = +id <= 0
-  const {
-    title,
-    description = '',
-    isPublic,
-    settings,
-    settings: { type }
-  } = signal
+  const { title, description = '', isPublic, settings } = signal
 
-  const clickable =
-    goToSignalSettings &&
-    (type === 'trending_words' ? settings.target !== 'default' : true)
+  const clickable = goToSignalSettings && canOpenTrigger(settings)
 
   return (
     <Panel padding className={cx(styles.wrapper, className)}>

@@ -6,7 +6,12 @@ import styles from './AssetsList.module.scss'
 
 const ROW_HEIGHT = 32
 
-const AssetsList = ({ items, listItems, isContained, onToggleProject }) => {
+const AssetsList = ({
+  items = [],
+  listItems,
+  isContained,
+  onToggleProject
+}) => {
   const rowRenderer = ({ key, index, style }) => {
     const { name, ticker, id } = items[index]
     const isAssetInList = hasAssetById({ listItems, id })

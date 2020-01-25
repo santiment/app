@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { AutoSizer, List } from 'react-virtualized'
 import Label from '@santiment-network/ui/Label'
 import { Checkbox } from '@santiment-network/ui'
@@ -38,7 +39,12 @@ const ProjectsList = ({
             disabled={isContained ? false : isAssetInList}
           />
         )}
-        <div className={styles.asset}>
+        <div
+          className={cx(
+            styles.asset,
+            !isContained && isAssetInList && styles.disabled
+          )}
+        >
           <ProjectIcon className={styles.icon} size={16} slug={slug} />
           <span className={styles.name}>{name}</span>
           <Label accent='waterloo'>

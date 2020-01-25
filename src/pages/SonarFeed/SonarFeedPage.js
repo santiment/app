@@ -21,22 +21,32 @@ import styles from './SonarFeedPage.module.scss'
 import { RecommendedSignals } from './SonarFeedRecommendations'
 
 const baseLocation = '/sonar'
-const openTriggerSettingsModalLocation = `${baseLocation}/signal/:id`
 
 const LoadableMySignals = Loadable({
   loader: () => import('./SonarFeedMySignalsPage'),
   loading: () => <PageLoader />
 })
 
-const MY_SIGNALS = {
+const DEFAULT_ROUTE = {
   index: SIGNAL_ROUTES.MY_SIGNALS,
-  path: [SIGNAL_ROUTES.MY_SIGNALS, openTriggerSettingsModalLocation],
   content: 'My signals',
   component: LoadableMySignals
 }
 
+const MY_SIGNALS_LIST = {
+  ...DEFAULT_ROUTE,
+  path: SIGNAL_ROUTES.MY_SIGNALS
+}
+
+const MY_SIGNALS_MODAL_VIEW = {
+  ...DEFAULT_ROUTE,
+  path: SIGNAL_ROUTES.SIGNAL,
+  hidden: true
+}
+
 const tabs = [
-  MY_SIGNALS,
+  MY_SIGNALS_LIST,
+  MY_SIGNALS_MODAL_VIEW,
   {
     index: `${baseLocation}/activity`,
     path: `${baseLocation}/activity`,
@@ -78,7 +88,7 @@ const SonarFeed = ({
 
   useEffect(
     () => {
-      const pathParams = matchPath(pathname, openTriggerSettingsModalLocation)
+      const pathParams = matchPath(pathname, SIGNAL_ROUTES.SIGNAL)
 
       if (triggerId && !pathParams) {
         setTriggerId(undefined)
@@ -135,7 +145,7 @@ const SonarFeed = ({
       )}
 
       <Tabs
-        options={tabs}
+        options={tabs.filter(({ hidden }) => !hidden)}
         defaultSelectedIndex={pathname}
         passSelectionIndexToItem
         className={styles.tabs}

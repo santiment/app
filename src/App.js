@@ -264,9 +264,7 @@ export const App = ({
           }
         />
         <Route exact path='/unsubscribe' component={LoadableUnsubscribePage} />
-        {isBetaModeEnabled && (
-          <Route path='/feed' component={LoadableFeedPage} />
-        )}
+        <Route path='/feed' component={LoadableFeedPage} />
         <Route
           exact
           path='/search'
