@@ -5,27 +5,45 @@ import Label from '@santiment-network/ui/Label'
 import Dialog from '@santiment-network/ui/Dialog'
 import { formatTooltipValue } from '../../ducks/SANCharts/CustomTooltip'
 import PercentChanges from '../PercentChanges'
+import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
+import { calcPercentageChange } from '../../utils/utils'
 import { METRIC_ANOMALIE_QUERY } from '../../ducks/GetTimeSeries/queries/metric_anomaly_query'
+import { Metrics } from '../../ducks/SANCharts/data'
+import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import SwipeableCard from './SwipeableCard'
 import styles from './MobileMetricCard.module.scss'
 
 const MobileMetricCard = ({
   metric,
-  name = '',
   value = 0,
   period = '',
   changes,
-  measure = '',
+  colors = {},
+  ticker = '',
   data: { metricAnomaly: anomalies = [] } = {},
   isSelected,
   hide,
-  onToggleMetric
+  onToggleMetric,
+  slug
 }) => {
   const [isOpenDescription, setIsOpenDescription] = useState(false)
 
   const { length: anomaliesNumber } = anomalies
 
-  const { label, description } = metric
+  const { label, description, reqMeta, key, dataKey } = metric
+  const { from, to } = getTimeIntervalFromToday(-1, DAY, { isUTC: true })
+
+  const requestedMetric = [
+    {
+      name: key,
+      key,
+      slug,
+      from,
+      to,
+      interval: '1d',
+      ...reqMeta
+    }
+  ]
 
   return (
     <SwipeableCard
@@ -37,26 +55,60 @@ const MobileMetricCard = ({
     >
       <div className={styles.wrapper}>
         <div className={cx(styles.row, styles.row_top)}>
-          <h3 className={styles.metric}>{name || label}</h3>
-          <h4 className={styles.anomalies}>
-            {anomaliesNumber
-              ? `${anomaliesNumber} anomal${anomaliesNumber > 1 ? 'ies' : 'y'}`
-              : ''}
-          </h4>
-        </div>
-        <div className={cx(styles.row, styles.row_bottom)}>
-          <h4 className={styles.value}>
-            {formatTooltipValue(false, value)} {measure}
-          </h4>
-          {changes && (
-            <>
-              <PercentChanges changes={changes} />
-              <Label accent='casper' className={styles.period}>
-                , {period}
-              </Label>
-            </>
+          <h3 className={styles.metric}>{label}</h3>
+          {anomaliesNumber && (
+            <h4 className={styles.anomalies}>
+              {`${anomaliesNumber} anomal${anomaliesNumber > 1 ? 'ies' : 'y'}`}
+            </h4>
           )}
         </div>
+        <GetTimeSeries
+          metrics={requestedMetric}
+          render={({ timeseries = [], errorMetrics = {}, isError }) => {
+            const hasError = Object.keys(errorMetrics).includes(key) || isError
+
+            let value
+
+            let diff = null
+
+            if (timeseries.length >= 2) {
+              const lastIndex = timeseries.length - 1
+              const today = timeseries[lastIndex][dataKey || key]
+              const yesterday = timeseries[lastIndex - 1][dataKey || key]
+              value = `${formatTooltipValue(false, today)} ${
+                metric === Metrics['transaction_volume'] ? ticker : ''
+              }`
+              diff = calcPercentageChange(yesterday, today)
+            }
+
+            const color = colors[key]
+
+            console.log(metric.key, timeseries)
+
+            return (
+              <div
+                className={cx(styles.row, styles.row_bottom)}
+                style={{ '--color': color || '' }}
+              >
+                {hasError ? (
+                  'Something is going wrong'
+                ) : value ? (
+                  <>
+                    <h4 className={styles.value}>{value}</h4>
+                    <PercentChanges changes={diff} />
+                    <Label accent='casper' className={styles.period}>
+                      , {period || '24h'}
+                    </Label>
+                  </>
+                ) : (
+                  <div className={styles.pro}>
+                    Latest data available in PRO plan
+                  </div>
+                )}
+              </div>
+            )
+          }}
+        />
       </div>
       {description && (
         <Dialog

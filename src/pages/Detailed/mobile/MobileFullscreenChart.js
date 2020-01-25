@@ -16,7 +16,7 @@ const MobileFullscreenChart = ({
   project,
   timeRange,
   onChangeTimeRange,
-  ...props
+  chartProps
 }) => {
   const [landscapeMode, setLandscapeMode] = useState(false)
 
@@ -108,7 +108,7 @@ const MobileFullscreenChart = ({
             {landscapeMode ? (
               <>
                 <PriceBlock {...project} />
-                <MobileAssetChart {...props} />
+                <MobileAssetChart {...chartProps} />
                 <div className={styles.bottom}>
                   <MobileAssetChartSelector
                     onChangeTimeRange={onChangeTimeRange}

@@ -7,19 +7,14 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ReferenceLine,
-  ReferenceDot
+  ReferenceLine
 } from 'recharts'
 import throttle from 'lodash.throttle'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
 import { tooltipLabelFormatter } from '../../../ducks/SANCharts/CustomTooltip'
 import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils'
-import {
-  getSyncedColors,
-  clearCache
-} from '../../../ducks/SANCharts/TooltipSynchronizer'
-import { Metrics } from '../../../ducks/SANCharts/data'
+import { clearCache } from '../../../ducks/SANCharts/TooltipSynchronizer'
 import CommonChartTooltip from '../../../ducks/SANCharts/tooltip/CommonChartTooltip'
 import MobilePriceTooltip from '../../../ducks/SANCharts/tooltip/MobilePriceTooltip'
 import IcoPriceTooltip from '../../../ducks/SANCharts/tooltip/IcoPriceTooltip'
@@ -29,7 +24,8 @@ const MobileAssetChart = ({
   data = [],
   slug: asset,
   icoPrice,
-  extraMetrics = [],
+  metrics = [],
+  syncedColors,
   setIcoPricePos,
   icoPricePos,
   chartHeight,
@@ -40,11 +36,7 @@ const MobileAssetChart = ({
   const [isTouch, setIsTouch] = useState(false)
   const [activeIndex, setActiveIndex] = useState(null)
 
-  const metrics = ['historyPricePreview']
-  extraMetrics.forEach(({ key }) => metrics.push(key))
-  const objMetrics = metrics.map(metric => Metrics[metric])
-  const syncedColors = getSyncedColors(objMetrics)
-  const markup = generateMetricsMarkup(objMetrics, {
+  const markup = generateMetricsMarkup(metrics, {
     syncedColors,
     useShortName: true,
     activeLineDataKey: 'priceUsd',
@@ -57,10 +49,8 @@ const MobileAssetChart = ({
 
   const setCurrentIndex = throttle(
     evt => setActiveIndex(evt ? evt.activeTooltipIndex : null),
-    500
+    800
   )
-
-  let anomalyDataKey, anomalies
 
   useEffect(() => clearCache)
   return (
@@ -120,7 +110,9 @@ const MobileAssetChart = ({
                     withLabel={false}
                     className={cx(
                       styles.tooltip,
-                      activeIndex < chartMediumIndex && styles.rightAlign
+                      activeIndex < chartMediumIndex &&
+                        metrics.length > 2 &&
+                        styles.rightAlign
                     )}
                     hideItem={hideTooltipItem}
                   />

@@ -16,7 +16,8 @@ import {
 } from '../../../ducks/SANCharts/IntervalSelector'
 import PageLoader from '../../../components/Loader/PageLoader'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
-import MetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
+import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
+import { getSyncedColors } from '../../../ducks/SANCharts/TooltipSynchronizer'
 import { addRecentAssets } from '../../../utils/recent'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './MobileDetailedPage.module.scss'
@@ -73,10 +74,20 @@ const MobileDetailedPage = props => {
   const requestedMetrics = [
     {
       name: 'historyPrice',
-      ...Metrics['historyPrice'],
+      key: Metrics['historyPrice'].key,
+      ...Metrics['historyPrice'].reqMeta,
       ...rest
     }
   ]
+
+  const requestedEvents = extraMetrics
+    .filter(({ anomalyKey }) => anomalyKey)
+    .map(({ key, anomalyKey }) => ({
+      name: anomalyKey ? 'anomalies' : key,
+      metric: anomalyKey,
+      metricKey: key,
+      ...rest
+    }))
 
   extraMetrics.forEach(({ key, reqMeta }) => {
     const metric = {
@@ -112,6 +123,7 @@ const MobileDetailedPage = props => {
             <div className={styles.main}>
               <GetTimeSeries
                 metrics={requestedMetrics}
+                events={requestedEvents}
                 render={({
                   timeseries = [],
                   errorMetrics = {},
@@ -128,12 +140,26 @@ const MobileDetailedPage = props => {
                     ({ key }) => !errors.includes(key)
                   )
 
-                  const isAllPopularMetricsSelected = POPULAR_METRICS.filter(
+                  const notSelectedPopularNumber = POPULAR_METRICS.filter(
                     metric => !finalMetrics.includes(metric)
-                  )
+                  ).length
 
                   if (shownMetrics.length !== finalMetrics.length) {
                     setTimeout(() => setShownMetrics(finalMetrics), 500)
+                  }
+
+                  const metrics = [
+                    Metrics['historyPricePreview'],
+                    ...extraMetrics
+                  ]
+                  const syncedColors = getSyncedColors(metrics)
+
+                  const commonChartProps = {
+                    syncedColors,
+                    metrics,
+                    isLoading,
+                    slug,
+                    data: timeseries
                   }
 
                   return (
@@ -141,13 +167,10 @@ const MobileDetailedPage = props => {
                       <PriceBlock {...project} />
                       {!fullscreen && (
                         <AssetChart
-                          data={timeseries}
-                          slug={slug}
                           icoPrice={project.icoPrice}
                           icoPricePos={icoPricePos}
                           setIcoPricePos={setIcoPricePos}
-                          extraMetrics={extraMetrics}
-                          isLoading={isLoading}
+                          {...commonChartProps}
                         />
                       )}
                       <div className={styles.bottom}>
@@ -166,10 +189,7 @@ const MobileDetailedPage = props => {
                           project={project}
                           onChangeTimeRange={setTimeRange}
                           timeRange={timeRange}
-                          isLoading={isLoading}
-                          data={timeseries}
-                          slug={slug}
-                          extraMetrics={extraMetrics}
+                          chartProps={commonChartProps}
                         />
                       </div>
                       <div
@@ -182,13 +202,15 @@ const MobileDetailedPage = props => {
                           <>
                             <h3 className={styles.heading}>Selected Metrics</h3>
                             {shownMetrics.map(metric => (
-                              <MetricCard
+                              <MobileMetricCard
                                 metric={metric}
+                                ticker={project.ticker}
                                 isSelected
                                 hide={!finalMetrics.includes(metric)}
                                 onToggleMetric={() => toggleMetric(metric)}
                                 key={metric.key + 'selected'}
                                 {...rest}
+                                colors={syncedColors}
                               />
                             ))}
                           </>
@@ -205,11 +227,11 @@ const MobileDetailedPage = props => {
                         isMobile
                         className={styles.metricsPopup}
                       />
-                      {isAllPopularMetricsSelected && (
+                      {notSelectedPopularNumber > 0 && (
                         <>
                           <h3 className={styles.heading}>Popular metrics</h3>
                           {POPULAR_METRICS.map(metric => (
-                            <MetricCard
+                            <MobileMetricCard
                               metric={metric}
                               hide={finalMetrics.includes(metric)}
                               onToggleMetric={() => toggleMetric(metric)}
