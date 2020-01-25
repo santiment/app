@@ -6,7 +6,13 @@ import {
 } from '@santiment-network/chart/tooltip'
 import { handleMove } from '@santiment-network/chart/events'
 import { tooltipSettings } from './settings'
-import { clearCtx, getDateDayMonthYear, yBubbleFormatter } from './utils'
+import {
+  clearCtx,
+  getDateDayMonthYear,
+  getDateHoursMinutes,
+  yBubbleFormatter,
+  isDayInterval
+} from './utils'
 
 export function setupTooltip (chart, marker, syncTooltips, onPointHover) {
   const {
@@ -38,7 +44,11 @@ export function plotTooltip (chart, marker, point) {
   drawHoverLineX(chart, x, 5)
   drawHoverLineY(chart, y, -20)
 
+  const xBubbleFormatter = isDayInterval(chart)
+    ? getDateHoursMinutes
+    : getDateDayMonthYear
+
   drawTooltip(ctx, point, tooltipSettings, marker)
   drawValueBubble(chart, yBubbleFormatter(value), 0, y)
-  drawValueBubble(chart, getDateDayMonthYear(datetime), x, chart.bottom + 14)
+  drawValueBubble(chart, xBubbleFormatter(datetime), x, chart.bottom + 14)
 }

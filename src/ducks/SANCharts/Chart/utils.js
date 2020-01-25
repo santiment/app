@@ -1,6 +1,21 @@
 import { Metrics } from '../data'
-import { getDateFormats } from '../../../utils/dates'
+import {
+  getDateFormats,
+  getTimeFormats,
+  ONE_DAY_IN_MS
+} from '../../../utils/dates'
 import { millify } from '../../../utils/formatting'
+
+const DAY_INTERVAL = ONE_DAY_IN_MS * 2
+
+export function isDayInterval (chart) {
+  const { points } = chart
+  const lastIndex = points.length - 1
+  const firstDate = points[0].value
+  const lastDate = points[lastIndex].value
+
+  return lastDate - firstDate < DAY_INTERVAL
+}
 
 export function getValidTooltipKey (tooltipKey, joinedCategories) {
   return joinedCategories.includes(tooltipKey)
@@ -16,6 +31,11 @@ export function clearCtx (chart, ctx = chart.ctx) {
 export function getDateDayMonthYear (date) {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
   return `${DD} ${MMM} ${YY}`
+}
+
+export function getDateHoursMinutes (date) {
+  const { HH, mm } = getTimeFormats(new Date(date))
+  return `${HH}:${mm}`
 }
 
 export function yBubbleFormatter (value) {
