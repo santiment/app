@@ -117,7 +117,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
 
   useEffect(() => clearCache, [])
 
-  if (syncedCategories.length === 0) {
+  if (syncedCategories.length === 0 || metrics.length === 0) {
     return null
   }
 
