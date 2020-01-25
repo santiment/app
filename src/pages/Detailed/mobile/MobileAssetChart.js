@@ -10,11 +10,11 @@ import {
   ReferenceLine
 } from 'recharts'
 import throttle from 'lodash.throttle'
-import Loader from '@santiment-network/ui/Loader/Loader'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
 import { tooltipLabelFormatter } from '../../../ducks/SANCharts/CustomTooltip'
 import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils'
 import { clearCache } from '../../../ducks/SANCharts/Chart/Synchronizer'
+import Loader from '../../../ducks/SANCharts/Chart/Loader/Loader'
 import CommonChartTooltip from '../../../ducks/SANCharts/tooltip/CommonChartTooltip'
 import MobilePriceTooltip from '../../../ducks/SANCharts/tooltip/MobilePriceTooltip'
 import IcoPriceTooltip from '../../../ducks/SANCharts/tooltip/IcoPriceTooltip'

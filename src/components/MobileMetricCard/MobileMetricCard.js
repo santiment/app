@@ -8,6 +8,7 @@ import PercentChanges from '../PercentChanges'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { METRIC_ANOMALIE_QUERY } from '../../ducks/GetTimeSeries/queries/metric_anomaly_query'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { Metrics } from '../../ducks/SANCharts/data'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import SwipeableCard from './SwipeableCard'
@@ -56,7 +57,7 @@ const MobileMetricCard = ({
       <div className={styles.wrapper}>
         <div className={cx(styles.row, styles.row_top)}>
           <h3 className={styles.metric}>{label}</h3>
-          {anomaliesNumber && (
+          {anomaliesNumber > 0 && (
             <h4 className={styles.anomalies}>
               {`${anomaliesNumber} anomal${anomaliesNumber > 1 ? 'ies' : 'y'}`}
             </h4>
@@ -64,11 +65,15 @@ const MobileMetricCard = ({
         </div>
         <GetTimeSeries
           metrics={requestedMetric}
-          render={({ timeseries = [], errorMetrics = {}, isError }) => {
+          render={({
+            timeseries = [],
+            errorMetrics = {},
+            isError,
+            isLoading
+          }) => {
             const hasError = Object.keys(errorMetrics).includes(key) || isError
 
-            let value
-
+            let value = null
             let diff = null
 
             if (timeseries.length >= 2) {
@@ -98,10 +103,12 @@ const MobileMetricCard = ({
                       , {period || '24h'}
                     </Label>
                   </>
-                ) : (
+                ) : !isLoading ? (
                   <div className={styles.pro}>
                     Latest data available in PRO plan
                   </div>
+                ) : (
+                  <Loader className={styles.loader} />
                 )}
               </div>
             )
