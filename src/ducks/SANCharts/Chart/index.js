@@ -20,6 +20,7 @@ import { drawWatermark } from './watermark'
 import { drawPaywall } from './paywall'
 import { onResize } from './resize'
 import { drawLastDayPrice, withLastDayPrice } from './lastDayPrice'
+import { useResizeEffect } from './hook'
 import { clearCtx, findPointIndexByDate } from './utils'
 import styles from './index.module.scss'
 
@@ -141,7 +142,29 @@ const Chart = ({
         data
       )
     },
-    [isAdvancedView, isWideChart]
+    [isMultiChartsActive, isAdvancedView, isWideChart]
+  )
+
+  useResizeEffect(
+    () => {
+      if (data.length === 0) {
+        return
+      }
+
+      onResize(
+        chart,
+        isMultiChartsActive ? CHART_PADDING : CHART_WITH_BRUSH_PADDING,
+        brush,
+        data
+      )
+
+      if (!brush) {
+        updateChartState(chart, data, joinedCategories)
+        plotChart(data)
+        plotAxes(chart)
+      }
+    },
+    [isMultiChartsActive, isAdvancedView, isWideChart, data, brush]
   )
 
   function onBrushChange (startIndex, endIndex) {
