@@ -81,9 +81,7 @@ const MobileMetricCard = ({
               diff = calcPercentageChange(yesterday, today)
             }
 
-            const color = colors[key]
-
-            console.log(metric.key, timeseries)
+            const color = colors[dataKey || key]
 
             return (
               <div

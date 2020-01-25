@@ -17,7 +17,7 @@ import {
 import PageLoader from '../../../components/Loader/PageLoader'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
-import { getSyncedColors } from '../../../ducks/SANCharts/TooltipSynchronizer'
+import { getSyncedColors } from '../../../ducks/SANCharts/Chart/Synchronizer'
 import { addRecentAssets } from '../../../utils/recent'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './MobileDetailedPage.module.scss'
