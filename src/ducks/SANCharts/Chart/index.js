@@ -93,6 +93,20 @@ const Chart = ({
 
   useEffect(
     () => {
+      chart.tooltipKey = tooltipKey
+    },
+    [tooltipKey]
+  )
+
+  useEffect(
+    () => {
+      chart.colors = syncedColors
+    },
+    [syncedColors]
+  )
+
+  useEffect(
+    () => {
       if (data.length === 0) {
         return
       }
@@ -124,13 +138,6 @@ const Chart = ({
       }
     },
     [syncedTooltipDate]
-  )
-
-  useEffect(
-    () => {
-      chart.tooltipKey = tooltipKey
-    },
-    [tooltipKey]
   )
 
   useEffect(
@@ -206,7 +213,9 @@ const Chart = ({
   }
 
   function marker (ctx, key, value, x, y) {
+    const { colors } = chart
     const RADIUS = 4
+
     if (key === 'isAnomaly') {
       ctx.beginPath()
       ctx.arc(x + RADIUS, y + 1, RADIUS, 0, 2 * Math.PI)
@@ -220,7 +229,7 @@ const Chart = ({
       ctx.strokeStyle = value[1]
       ctx.stroke()
     } else {
-      ctx.fillStyle = syncedColors[key]
+      ctx.fillStyle = colors[key]
       ctx.fillRect(x, y, 8, 2)
     }
   }

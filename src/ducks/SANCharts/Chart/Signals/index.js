@@ -8,8 +8,8 @@ import {
   findPriceByY,
   makeSignalDrawable
 } from './helpers'
-import { tooltipSettings } from '../settings'
 import { clearCtx } from '../utils'
+import { tooltipSettings } from '../../data'
 import { getSlugPriceSignals } from '../../utils'
 import {
   createTrigger,
