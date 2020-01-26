@@ -3,7 +3,7 @@ import { YAxis, Bar, Line, Area } from 'recharts'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { formatNumber, millify } from './../../utils/formatting'
 import ActiveLine from './tooltip/ActiveLine'
-import { Metrics, Events } from './data'
+import { Metrics, Events, tooltipSettings } from './data'
 
 export const mapDatetimeToNumber = timeseries =>
   timeseries.map(({ datetime, ...rest }) => ({
@@ -11,7 +11,7 @@ export const mapDatetimeToNumber = timeseries =>
     datetime: +new Date(datetime)
   }))
 
-export const usdFormatter = val => formatNumber(val, { currency: 'USD' })
+export const usdFormatter = val => val && formatNumber(val, { currency: 'USD' })
 
 const getEventColor = (isAnomaly, value) => {
   if (isAnomaly || value < 4) {
@@ -44,13 +44,20 @@ export const getMarketSegment = key => {
   if (target) {
     return target
   }
+
+  const label = `Dev. Activity (${key})`
+  tooltipSettings[key] = {
+    label,
+    formatter: tooltipSettings.activity.formatter
+  }
+
   const newSegment = {
     key,
+    label,
     type: 'marketSegments',
     category: 'Development',
     Component: Line,
     node: 'line',
-    label: `Dev. Activity (${key})`,
     yAxisId: 'axis-activity',
     reqMeta: {
       transform: 'movingAverage',

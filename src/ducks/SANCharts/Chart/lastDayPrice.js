@@ -2,8 +2,7 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { getTextWidth } from '@santiment-network/chart/utils'
 import COLOR from '@santiment-network/ui/variables.scss'
-import { tooltipSettings } from './settings'
-import { Metrics } from '../data'
+import { Metrics, tooltipSettings } from '../data'
 import { ONE_DAY_IN_MS } from '../../../utils/dates'
 
 const BOTTOM_MARGIN = 5
