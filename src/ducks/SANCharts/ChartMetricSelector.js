@@ -108,9 +108,13 @@ const getMetricSuggestions = categories => {
 }
 
 const countCategoryActiveMetrics = (activeMetrics = []) => {
+  console.log(activeMetrics)
   const counter = {}
   for (let i = 0; i < activeMetrics.length; i++) {
-    const { category } = activeMetrics[i]
+    let { category } = activeMetrics[i]
+    if (Array.isArray(category)) {
+      category = category[0]
+    }
     counter[category] = (counter[category] || 0) + 1
   }
   return counter
