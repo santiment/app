@@ -10,7 +10,7 @@ import { calcPercentageChange } from '../../utils/utils'
 import { makeRequestedData } from '../../pages/Detailed/mobile/utils'
 import { METRIC_ANOMALIE_QUERY } from '../../ducks/GetTimeSeries/queries/metric_anomaly_query'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import { Metrics } from '../../ducks/SANCharts/data'
+import { Metrics, Events } from '../../ducks/SANCharts/data'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import SwipeableCard from './SwipeableCard'
 import styles from './MobileMetricCard.module.scss'
@@ -65,6 +65,7 @@ const MobileMetricCard = ({
           {...requestedData}
           render={({
             timeseries = [],
+            eventsData = [],
             errorMetrics = {},
             isError,
             isLoading
@@ -85,14 +86,15 @@ const MobileMetricCard = ({
               const today = timeseries[lastIndex][dataKey || key]
               const yesterday = timeseries[lastIndex - 1][dataKey || key]
               value = `${formatTooltipValue(false, today)} ${
-                metric === Metrics['transaction_volume'] ? ticker : ''
+                metric === Metrics.transaction_volume ? ticker : ''
               }`
               diff = calcPercentageChange(yesterday, today)
             }
 
-            const color = colors[dataKey || key]
-
-            console.log(key, timeseries)
+            const color =
+              metric === Events.trendPositionHistory
+                ? '#505573'
+                : colors[dataKey || key]
 
             return (
               <div

@@ -9,6 +9,7 @@ import FullscreenChart from './MobileFullscreenChart'
 import ChartSelector from './MobileAssetChartSelector'
 import { checkHasPremium } from '../../UserSelectors'
 import { Metrics } from '../../../ducks/SANCharts/data'
+import { mapDatetimeToNumber } from '../../../ducks/SANCharts/utils'
 import ErrorRequest from '../../../ducks/SANCharts/ErrorRequest'
 import ChartMetricsTool from '../../../ducks/SANCharts/ChartMetricsTool'
 import GetTimeSeries from '../../../ducks/GetTimeSeries/GetTimeSeries'
@@ -73,7 +74,6 @@ const MobileDetailedPage = props => {
     metrics: [DEFAULT_METRIC, ...metrics],
     ...rest
   })
-  console.log(requestedData)
 
   return (
     <GetAsset
@@ -101,6 +101,7 @@ const MobileDetailedPage = props => {
                 render={({
                   timeseries = [],
                   errorMetrics = {},
+                  eventsData = [],
                   isError,
                   isLoading,
                   errorType
@@ -121,14 +122,21 @@ const MobileDetailedPage = props => {
                   const chartMetrics = [
                     Metrics['historyPricePreview'],
                     ...finalMetrics
-                  ]
+                  ].filter(({ type }) => type !== 'events')
                   const syncedColors = getSyncedColors(chartMetrics)
+
+                  const filteredEvents = eventsData.filter(
+                    ({ metricAnomalyKey }) =>
+                      !metricAnomalyKey ||
+                      metrics.some(({ key }) => key === metricAnomalyKey)
+                  )
 
                   const commonChartProps = {
                     syncedColors,
                     isLoading,
                     slug,
-                    data: timeseries,
+                    eventsData: filteredEvents,
+                    data: mapDatetimeToNumber(timeseries),
                     metrics: chartMetrics
                   }
 

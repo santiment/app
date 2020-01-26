@@ -29,11 +29,21 @@ export const makeRequestedData = ({ metrics, ...rest }) => {
       ({ anomalyKey, type = 'metrics' }) => anomalyKey && type === 'metrics'
     )
     .map(({ key, anomalyKey }) => ({
-      name: anomalyKey ? 'anomalies' : key,
+      name: 'anomalies',
       metric: anomalyKey,
       metricKey: key,
       ...rest
     }))
+
+  metrics
+    .filter(({ type }) => type === 'events')
+    .forEach(({ key }) =>
+      requestedEvents.push({
+        name: key,
+        metricKey: key,
+        ...rest
+      })
+    )
 
   return {
     metrics: requestedMetrics,

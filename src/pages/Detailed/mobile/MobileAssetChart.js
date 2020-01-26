@@ -7,13 +7,17 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ReferenceLine
+  ReferenceLine,
+  ReferenceDot
 } from 'recharts'
 import throttle from 'lodash.throttle'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
 import { tooltipLabelFormatter } from '../../../ducks/SANCharts/CustomTooltip'
 import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils'
-import { clearCache } from '../../../ducks/SANCharts/Chart/Synchronizer'
+import {
+  clearCache,
+  prepareEvents
+} from '../../../ducks/SANCharts/Chart/Synchronizer'
 import Loader from '../../../ducks/SANCharts/Chart/Loader/Loader'
 import CommonChartTooltip from '../../../ducks/SANCharts/tooltip/CommonChartTooltip'
 import MobilePriceTooltip from '../../../ducks/SANCharts/tooltip/MobilePriceTooltip'
@@ -31,6 +35,7 @@ const MobileAssetChart = ({
   chartHeight,
   isLoading = true,
   isLandscapeMode,
+  eventsData = [],
   ...props
 }) => {
   const [isTouch, setIsTouch] = useState(false)
@@ -42,6 +47,20 @@ const MobileAssetChart = ({
     activeLineDataKey: 'priceUsd',
     showActiveDot: false
   })
+
+  const events = prepareEvents(eventsData).map(
+    ({ metric, datetime, key, ...rest }) => {
+      const day = data.find(item => item.datetime === datetime)
+      return {
+        metric,
+        y: day ? day[metric] : 0,
+        datetime: datetime,
+        key,
+        ...rest,
+        color: key === 'trendingPosition' ? 'var(--fiord)' : rest.color
+      }
+    }
+  )
 
   const chartMediumIndex = data.length / 2
 
@@ -121,6 +140,20 @@ const MobileAssetChart = ({
             />
           )}
           {markup}
+          {events.map(({ datetime, metric, color, y, key }) => (
+            <ReferenceDot
+              key={datetime + key}
+              yAxisId={'axis-' + metric}
+              x={datetime}
+              y={y}
+              ifOverflow='extendDomain'
+              r={4}
+              isFront
+              stroke='var(--white)'
+              strokeWidth='2px'
+              fill={color}
+            />
+          ))}
           {icoPrice && (
             <ReferenceLine
               strokeDasharray='5 5'
