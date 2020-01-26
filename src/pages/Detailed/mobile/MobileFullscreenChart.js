@@ -6,6 +6,7 @@ import Modal from '@santiment-network/ui/Modal'
 import PriceBlock from './MobileAssetPriceInfo'
 import MobileAssetChart from './MobileAssetChart'
 import Title from './MobileAssetTitle'
+import ChartMetricsTool from '../../../ducks/SANCharts/ChartMetricsTool'
 import ExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
 import MobileAssetChartSelector from './MobileAssetChartSelector'
 import styles from './MobileFullscreenChart.module.scss'
@@ -16,9 +17,10 @@ const MobileFullscreenChart = ({
   project,
   timeRange,
   onChangeTimeRange,
-  chartProps
+  chartProps,
+  metricsToolProps
 }) => {
-  const [landscapeMode, setLandscapeMode] = useState(false)
+  const [landscapeMode, setLandscapeMode] = useState(true)
 
   const setOrientation = () => {
     switch (window.orientation) {
@@ -30,7 +32,7 @@ const MobileFullscreenChart = ({
         break
       default:
         if (landscapeMode) {
-          setLandscapeMode(false)
+          setLandscapeMode(true)
         }
         break
     }
@@ -114,6 +116,12 @@ const MobileFullscreenChart = ({
                     onChangeTimeRange={onChangeTimeRange}
                     timeRange={timeRange}
                     isFullscreen
+                    className={styles.selector}
+                  />
+                  <ChartMetricsTool
+                    {...metricsToolProps}
+                    addMetricBtnText='Add up to 3 metrics'
+                    className={styles.metricsPopup}
                   />
                 </div>
               </>

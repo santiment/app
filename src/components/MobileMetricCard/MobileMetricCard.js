@@ -33,7 +33,7 @@ const MobileMetricCard = ({
 
   const { length: anomaliesNumber } = anomalies
 
-  const { label, description, reqMeta, key, dataKey } = metric
+  const { label, description, key, dataKey } = metric
   const { from, to } = getTimeIntervalFromToday(-1, DAY, { isUTC: true })
 
   const requestedData = makeRequestedData({
@@ -109,7 +109,7 @@ const MobileMetricCard = ({
                   </>
                 )}
                 {isLoading && !value && <Loader className={styles.loader} />}
-                {!hasPremium && !value && (
+                {!hasPremium && !isLoading && !value && (
                   <div className={styles.text}>
                     Latest data available in PRO plan
                   </div>

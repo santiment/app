@@ -130,6 +130,8 @@ const ChartMetricSelector = ({
   hiddenMetrics,
   categories,
   loading,
+  showLimitMessage,
+  onSave,
   ...props
 }) => {
   const [activeCategory, setCategory] = useState('Financial')
@@ -153,7 +155,7 @@ const ChartMetricSelector = ({
   const isActiveMetric = metric => actives.includes(metric)
 
   return (
-    <Panel {...props}>
+    <Panel {...props} className={styles.panel}>
       <Panel.Title className={styles.header}>
         Select up to {isMobile ? 3 : 5} metrics
       </Panel.Title>
@@ -204,24 +206,16 @@ const ChartMetricSelector = ({
                             {group !== NO_GROUP && (
                               <h3 className={styles.group__title}>{group}</h3>
                             )}
-                            {categories[activeCategory][group].map(metric => {
-                              const error = disabledMetrics[metric.key]
-                              return (
-                                <ToggleMetricButton
-                                  key={metric.label}
-                                  metric={metric}
-                                  onClick={
-                                    error
-                                      ? undefined
-                                      : () => toggleMetric(metric)
-                                  }
-                                  isActive={isActiveMetric(metric)}
-                                  error={error}
-                                  isMobile={true}
-                                  label={metric.label}
-                                />
-                              )
-                            })}
+                            {categories[activeCategory][group].map(metric => (
+                              <ToggleMetricButton
+                                key={metric.label}
+                                metric={metric}
+                                onClick={() => toggleMetric(metric)}
+                                isActive={isActiveMetric(metric)}
+                                isMobile={true}
+                                label={metric.label}
+                              />
+                            ))}
                           </div>
                         ))}
                     </div>
@@ -286,6 +280,23 @@ const ChartMetricSelector = ({
           </>
         )}
       </Panel.Content>
+      {isMobile && (
+        <div className={styles.save}>
+          {showLimitMessage && (
+            <span className={styles.limit}>
+              Delete one metric to add a new one
+            </span>
+          )}
+          <Button
+            onClick={onSave}
+            variant='fill'
+            accent='positive'
+            disabled={loading}
+          >
+            Save changes
+          </Button>
+        </div>
+      )}
     </Panel>
   )
 }

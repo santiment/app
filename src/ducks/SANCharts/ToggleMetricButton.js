@@ -20,7 +20,7 @@ const ToggleMetricButton = ({
   const noData = error && !isComplexityError
 
   return isMobile ? (
-    <Button className={styles.mobileButton} disabled={error} {...props}>
+    <Button className={styles.mobileButton} {...props}>
       <span
         className={cx(
           styles.mobileButton__text,
@@ -29,8 +29,7 @@ const ToggleMetricButton = ({
       >
         {label}
       </span>
-      {error && <span>no data</span>}
-      {!error && <Icon type={isActive ? 'remove' : 'plus-round'} />}
+      <Icon type={isActive ? 'remove' : 'plus-round'} />
     </Button>
   ) : (
     <Button

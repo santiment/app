@@ -1,10 +1,25 @@
 @import '~@santiment-network/ui/mixins';
 
+.panel {
+  @include responsive('phone-xs', 'phone') {
+    box-shadow: none;
+    border: none;
+  }
+}
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 24px;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    background: var(--athens);
+    color: var(--waterloo);
+    padding: 15px 16px;
+
+    @include text('body-2', 'm');
+  }
 }
 
 .wrapper {
@@ -46,13 +61,28 @@
   &:last-child {
     border: none;
   }
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    padding: 12px 0;
+    margin: 0 16px;
+  }
 }
 
 .categories {
   border-right: 1px solid var(--porcelain);
   min-height: 195px;
-  max-height: 80vh;
-  overflow-y: auto;
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    height: calc(var(--vh, 1vh) * 70);
+    overflow-y: auto;
+    overflow-y: overlay;
+  }
+
+  @media (orientation: 'landscape') and (max-height: 500px) {
+    height: calc(var(--vh, 1vh) * 55);
+    overflow-y: auto;
+    overflow-y: overlay;
+  }
 }
 
 .btn {
@@ -162,6 +192,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  margin-right: -5px;
   color: var(--rhino) !important;
   fill: var(--waterloo) !important;
 
@@ -181,6 +212,7 @@
 
   &__arrow {
     transform: rotate(90deg);
+    margin-right: 5px;
 
     &_active {
       transform: rotate(-90deg);
@@ -202,4 +234,17 @@
 .mobileCounter {
   margin-left: 5px;
   color: var(--jungle-green);
+}
+
+.save {
+  margin: 24px 16px;
+  position: relative;
+}
+
+.limit {
+  color: var(--persimmon);
+  position: absolute;
+  top: -25px;
+
+  @include text('caption');
 }

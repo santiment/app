@@ -37,6 +37,7 @@ const MobileDetailedPage = props => {
   const [icoPricePos, setIcoPricePos] = useState(null)
   const [fullscreen, toggleFullscreen] = useState(false)
   const [metrics, setMetrics] = useState([])
+  const [isLimitReached, setIsLimitReached] = useState(false)
 
   addRecentAssets(slug)
 
@@ -44,10 +45,14 @@ const MobileDetailedPage = props => {
     const newMetrics = new Set(metrics)
 
     if (!newMetrics.delete(metric)) {
-      const metricsAmount = metrics.length
-      if (metricsAmount < MAX_METRICS_PER_CHART) {
-        newMetrics.add(metric)
-      }
+      newMetrics.add(metric)
+    }
+
+    if (newMetrics.size > MAX_METRICS_PER_CHART) {
+      setIsLimitReached(true)
+      return
+    } else if (isLimitReached) {
+      setIsLimitReached(false)
     }
 
     setMetrics([...newMetrics])
@@ -127,6 +132,15 @@ const MobileDetailedPage = props => {
                     metrics: chartMetrics
                   }
 
+                  const commonMetricsToolProps = {
+                    slug,
+                    toggleMetric,
+                    showLimitMessage: isLimitReached,
+                    activeMetrics: metrics,
+                    hiddenMetrics: [Metrics.historyPrice],
+                    isMobile: true
+                  }
+
                   return (
                     <>
                       <PriceBlock {...project} />
@@ -155,6 +169,7 @@ const MobileDetailedPage = props => {
                           onChangeTimeRange={setTimeRange}
                           timeRange={timeRange}
                           chartProps={commonChartProps}
+                          metricsToolProps={commonMetricsToolProps}
                         />
                       </div>
                       <div
@@ -184,15 +199,15 @@ const MobileDetailedPage = props => {
                       </div>
                       <ChartMetricsTool
                         classes={styles}
-                        slug={slug}
-                        toggleMetric={toggleMetric}
-                        activeMetrics={finalMetrics}
-                        disabledMetrics={errorMetrics}
-                        hiddenMetrics={[Metrics.historyPrice]}
                         addMetricBtnText='Add metrics'
-                        isMobile
                         className={styles.metricsPopup}
+                        {...commonMetricsToolProps}
                       />
+                      {isLimitReached && (
+                        <div className={styles.limit}>
+                          To add a new metric, please de-select another one
+                        </div>
+                      )}
                       {notSelectedPopularNumber > 0 && (
                         <>
                           <h3 className={styles.heading}>Popular metrics</h3>

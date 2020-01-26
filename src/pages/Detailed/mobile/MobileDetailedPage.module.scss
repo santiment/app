@@ -37,3 +37,9 @@
     max-height: 0;
   }
 }
+
+.limit {
+  color: var(--persimmon);
+
+  @include text('caption');
+}
