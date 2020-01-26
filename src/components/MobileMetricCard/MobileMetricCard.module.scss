@@ -64,8 +64,13 @@
   @include text('body-2');
 }
 
-.pro {
+.text {
   color: var(--casper);
 
   @include text('body-2');
+}
+
+.loader {
+  font-size: 5px;
+  margin: 12px auto;
 }

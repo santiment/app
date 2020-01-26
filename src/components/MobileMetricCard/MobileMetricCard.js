@@ -7,6 +7,7 @@ import { formatTooltipValue } from '../../ducks/SANCharts/CustomTooltip'
 import PercentChanges from '../PercentChanges'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
+import { makeRequestedData } from '../../pages/Detailed/mobile/utils'
 import { METRIC_ANOMALIE_QUERY } from '../../ducks/GetTimeSeries/queries/metric_anomaly_query'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { Metrics } from '../../ducks/SANCharts/data'
@@ -25,6 +26,7 @@ const MobileMetricCard = ({
   isSelected,
   hide,
   onToggleMetric,
+  hasPremium,
   slug
 }) => {
   const [isOpenDescription, setIsOpenDescription] = useState(false)
@@ -34,17 +36,13 @@ const MobileMetricCard = ({
   const { label, description, reqMeta, key, dataKey } = metric
   const { from, to } = getTimeIntervalFromToday(-1, DAY, { isUTC: true })
 
-  const requestedMetric = [
-    {
-      name: key,
-      key,
-      slug,
-      from,
-      to,
-      interval: '1d',
-      ...reqMeta
-    }
-  ]
+  const requestedData = makeRequestedData({
+    metrics: [metric],
+    slug,
+    from,
+    to,
+    interval: '1d'
+  })
 
   return (
     <SwipeableCard
@@ -64,7 +62,7 @@ const MobileMetricCard = ({
           )}
         </div>
         <GetTimeSeries
-          metrics={requestedMetric}
+          {...requestedData}
           render={({
             timeseries = [],
             errorMetrics = {},
@@ -72,6 +70,12 @@ const MobileMetricCard = ({
             isLoading
           }) => {
             const hasError = Object.keys(errorMetrics).includes(key) || isError
+
+            if (hasError) {
+              return (
+                <div className={styles.text}>Failed fetch the latest data</div>
+              )
+            }
 
             let value = null
             let diff = null
@@ -88,14 +92,14 @@ const MobileMetricCard = ({
 
             const color = colors[dataKey || key]
 
+            console.log(key, timeseries)
+
             return (
               <div
                 className={cx(styles.row, styles.row_bottom)}
                 style={{ '--color': color || '' }}
               >
-                {hasError ? (
-                  'Something is going wrong'
-                ) : value ? (
+                {value && (
                   <>
                     <h4 className={styles.value}>{value}</h4>
                     <PercentChanges changes={diff} />
@@ -103,12 +107,12 @@ const MobileMetricCard = ({
                       , {period || '24h'}
                     </Label>
                   </>
-                ) : !isLoading ? (
-                  <div className={styles.pro}>
+                )}
+                {isLoading && !value && <Loader className={styles.loader} />}
+                {!hasPremium && !value && (
+                  <div className={styles.text}>
                     Latest data available in PRO plan
                   </div>
-                ) : (
-                  <Loader className={styles.loader} />
                 )}
               </div>
             )

@@ -1,19 +1,28 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import Loadable from 'react-loadable'
+import { connect } from 'react-redux'
 import GetAsset from '../gqlWrappers/GetAsset'
 import Title from './MobileAssetTitle'
 import AssetChart from './MobileAssetChart'
 import PriceBlock from './MobileAssetPriceInfo'
 import FullscreenChart from './MobileFullscreenChart'
 import ChartSelector from './MobileAssetChartSelector'
+import { checkHasPremium } from '../../UserSelectors'
 import { Metrics } from '../../../ducks/SANCharts/data'
 import ErrorRequest from '../../../ducks/SANCharts/ErrorRequest'
+import ChartMetricsTool from '../../../ducks/SANCharts/ChartMetricsTool'
 import GetTimeSeries from '../../../ducks/GetTimeSeries/GetTimeSeries'
 import {
   getNewInterval,
   INTERVAL_ALIAS
 } from '../../../ducks/SANCharts/IntervalSelector'
+import {
+  makeRequestedData,
+  DEFAULT_METRIC,
+  DEFAULT_TIME_RANGE,
+  MAX_METRICS_PER_CHART,
+  POPULAR_METRICS
+} from './utils'
 import PageLoader from '../../../components/Loader/PageLoader'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
@@ -22,42 +31,26 @@ import { addRecentAssets } from '../../../utils/recent'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './MobileDetailedPage.module.scss'
 
-const LoadableChartMetricsTool = Loadable({
-  loader: () => import('./../../../ducks/SANCharts/ChartMetricsTool'),
-  loading: () => <div />
-})
-
-const DEFAULT_TIME_RANGE = '6m'
-
-const MAX_METRICS_PER_CHART = 3
-
-const POPULAR_METRICS = [
-  Metrics.daily_active_addresses,
-  Metrics.devActivity,
-  Metrics.socialVolume
-]
-
 const MobileDetailedPage = props => {
   const slug = props.match.params.slug
   const [timeRange, setTimeRange] = useState(DEFAULT_TIME_RANGE)
   const [icoPricePos, setIcoPricePos] = useState(null)
-  const [extraMetrics, setExtraMetrics] = useState([])
-  const [shownMetrics, setShownMetrics] = useState([])
   const [fullscreen, toggleFullscreen] = useState(false)
+  const [metrics, setMetrics] = useState([])
 
   addRecentAssets(slug)
 
   const toggleMetric = metric => {
-    const newMetrics = new Set(extraMetrics)
-    if (newMetrics.has(metric)) {
-      newMetrics.delete(metric)
-    } else {
-      const metricsAmount = extraMetrics.length
+    const newMetrics = new Set(metrics)
+
+    if (!newMetrics.delete(metric)) {
+      const metricsAmount = metrics.length
       if (metricsAmount < MAX_METRICS_PER_CHART) {
         newMetrics.add(metric)
       }
     }
-    setExtraMetrics([...newMetrics])
+
+    setMetrics([...newMetrics])
   }
 
   const { from, to } = getIntervalByTimeRange(timeRange)
@@ -71,34 +64,11 @@ const MobileDetailedPage = props => {
     interval: INTERVAL_ALIAS[interval] || interval
   }
 
-  const requestedMetrics = [
-    {
-      name: 'historyPrice',
-      key: Metrics['historyPrice'].key,
-      ...Metrics['historyPrice'].reqMeta,
-      ...rest
-    }
-  ]
-
-  const requestedEvents = extraMetrics
-    .filter(({ anomalyKey }) => anomalyKey)
-    .map(({ key, anomalyKey }) => ({
-      name: anomalyKey ? 'anomalies' : key,
-      metric: anomalyKey,
-      metricKey: key,
-      ...rest
-    }))
-
-  extraMetrics.forEach(({ key, reqMeta }) => {
-    const metric = {
-      name: key,
-      key,
-      ...rest,
-      ...reqMeta
-    }
-
-    requestedMetrics.push(metric)
+  const requestedData = makeRequestedData({
+    metrics: [DEFAULT_METRIC, ...metrics],
+    ...rest
   })
+  console.log(requestedData)
 
   return (
     <GetAsset
@@ -122,8 +92,7 @@ const MobileDetailedPage = props => {
             />
             <div className={styles.main}>
               <GetTimeSeries
-                metrics={requestedMetrics}
-                events={requestedEvents}
+                {...requestedData}
                 render={({
                   timeseries = [],
                   errorMetrics = {},
@@ -136,7 +105,7 @@ const MobileDetailedPage = props => {
                   }
 
                   const errors = Object.keys(errorMetrics)
-                  const finalMetrics = extraMetrics.filter(
+                  const finalMetrics = metrics.filter(
                     ({ key }) => !errors.includes(key)
                   )
 
@@ -144,22 +113,18 @@ const MobileDetailedPage = props => {
                     metric => !finalMetrics.includes(metric)
                   ).length
 
-                  if (shownMetrics.length !== finalMetrics.length) {
-                    setTimeout(() => setShownMetrics(finalMetrics), 500)
-                  }
-
-                  const metrics = [
+                  const chartMetrics = [
                     Metrics['historyPricePreview'],
-                    ...extraMetrics
+                    ...finalMetrics
                   ]
-                  const syncedColors = getSyncedColors(metrics)
+                  const syncedColors = getSyncedColors(chartMetrics)
 
                   const commonChartProps = {
                     syncedColors,
-                    metrics,
                     isLoading,
                     slug,
-                    data: timeseries
+                    data: timeseries,
+                    metrics: chartMetrics
                   }
 
                   return (
@@ -198,25 +163,26 @@ const MobileDetailedPage = props => {
                           finalMetrics.length === 0 && styles.hide
                         )}
                       >
-                        {shownMetrics.length > 0 && (
+                        {metrics.length > 0 && (
                           <>
                             <h3 className={styles.heading}>Selected Metrics</h3>
-                            {shownMetrics.map(metric => (
+                            {metrics.map(metric => (
                               <MobileMetricCard
                                 metric={metric}
                                 ticker={project.ticker}
                                 isSelected
-                                hide={!finalMetrics.includes(metric)}
                                 onToggleMetric={() => toggleMetric(metric)}
                                 key={metric.key + 'selected'}
                                 {...rest}
+                                errorMetrics={errors}
+                                hasPremium={props.hasPremium}
                                 colors={syncedColors}
                               />
                             ))}
                           </>
                         )}
                       </div>
-                      <LoadableChartMetricsTool
+                      <ChartMetricsTool
                         classes={styles}
                         slug={slug}
                         toggleMetric={toggleMetric}
@@ -233,9 +199,9 @@ const MobileDetailedPage = props => {
                           {POPULAR_METRICS.map(metric => (
                             <MobileMetricCard
                               metric={metric}
-                              hide={finalMetrics.includes(metric)}
                               onToggleMetric={() => toggleMetric(metric)}
                               key={metric.key + 'popular'}
+                              hasPremium={props.hasPremium}
                               {...rest}
                             />
                           ))}
@@ -253,4 +219,6 @@ const MobileDetailedPage = props => {
   )
 }
 
-export default MobileDetailedPage
+const mapStateToProps = state => ({ hasPremium: checkHasPremium(state) })
+
+export default connect(mapStateToProps)(MobileDetailedPage)
