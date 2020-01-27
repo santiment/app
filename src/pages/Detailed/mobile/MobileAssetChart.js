@@ -14,10 +14,7 @@ import throttle from 'lodash.throttle'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
 import { tooltipLabelFormatter } from '../../../ducks/SANCharts/CustomTooltip'
 import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils'
-import {
-  clearCache,
-  prepareEvents
-} from '../../../ducks/SANCharts/Chart/Synchronizer'
+import { clearCache } from '../../../ducks/SANCharts/Chart/Synchronizer'
 import Loader from '../../../ducks/SANCharts/Chart/Loader/Loader'
 import CommonChartTooltip from '../../../ducks/SANCharts/tooltip/CommonChartTooltip'
 import MobilePriceTooltip from '../../../ducks/SANCharts/tooltip/MobilePriceTooltip'
@@ -35,7 +32,8 @@ const MobileAssetChart = ({
   chartHeight,
   isLoading = true,
   isLandscapeMode,
-  eventsData = [],
+  events = [],
+  eventsObj = {},
   ...props
 }) => {
   const [isTouch, setIsTouch] = useState(false)
@@ -47,20 +45,6 @@ const MobileAssetChart = ({
     activeLineDataKey: 'priceUsd',
     showActiveDot: false
   })
-
-  const events = prepareEvents(eventsData).map(
-    ({ metric, datetime, key, ...rest }) => {
-      const day = data.find(item => item.datetime === datetime)
-      return {
-        metric,
-        y: day ? day[metric] : 0,
-        datetime: datetime,
-        key,
-        ...rest,
-        color: key === 'trendingPosition' ? 'var(--fiord)' : rest.color
-      }
-    }
-  )
 
   const chartMediumIndex = data.length / 2
 
@@ -134,6 +118,8 @@ const MobileAssetChart = ({
                         styles.rightAlign
                     )}
                     hideItem={hideTooltipItem}
+                    events={eventsObj}
+                    metrics={metrics}
                   />
                 </>
               )}

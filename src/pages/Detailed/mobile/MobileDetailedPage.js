@@ -19,6 +19,7 @@ import {
 } from '../../../ducks/SANCharts/IntervalSelector'
 import {
   makeRequestedData,
+  convertEventsToObj,
   DEFAULT_METRIC,
   DEFAULT_TIME_RANGE,
   MAX_METRICS_PER_CHART,
@@ -27,7 +28,10 @@ import {
 import PageLoader from '../../../components/Loader/PageLoader'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
-import { getSyncedColors } from '../../../ducks/SANCharts/Chart/Synchronizer'
+import {
+  getSyncedColors,
+  prepareEvents
+} from '../../../ducks/SANCharts/Chart/Synchronizer'
 import { addRecentAssets } from '../../../utils/recent'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './MobileDetailedPage.module.scss'
@@ -120,7 +124,7 @@ const MobileDetailedPage = props => {
                   ).length
 
                   const chartMetrics = [
-                    Metrics['historyPricePreview'],
+                    Metrics.historyPricePreview,
                     ...finalMetrics
                   ].filter(({ type }) => type !== 'events')
                   const syncedColors = getSyncedColors(chartMetrics)
@@ -131,12 +135,32 @@ const MobileDetailedPage = props => {
                       metrics.some(({ key }) => key === metricAnomalyKey)
                   )
 
+                  const data = mapDatetimeToNumber(timeseries)
+
+                  const events = prepareEvents(filteredEvents).map(
+                    ({ metric, datetime, key, ...rest }) => {
+                      const day = data.find(item => item.datetime === datetime)
+                      return {
+                        metric,
+                        y: day[metric],
+                        datetime,
+                        key,
+                        ...rest,
+                        color:
+                          key === 'trendingPosition' ? '#505573' : rest.color
+                      }
+                    }
+                  )
+
+                  const eventsObj = convertEventsToObj(events)
+
                   const commonChartProps = {
                     syncedColors,
                     isLoading,
                     slug,
-                    eventsData: filteredEvents,
-                    data: mapDatetimeToNumber(timeseries),
+                    events,
+                    eventsObj,
+                    data,
                     metrics: chartMetrics
                   }
 
@@ -168,6 +192,7 @@ const MobileDetailedPage = props => {
                               setIcoPricePos(null)
                             }}
                             timeRange={timeRange}
+                            className={styles.selector}
                           />
                         )}
                         <FullscreenChart
@@ -197,7 +222,6 @@ const MobileDetailedPage = props => {
                                 onToggleMetric={() => toggleMetric(metric)}
                                 key={metric.key + 'selected'}
                                 {...rest}
-                                errorMetrics={errors}
                                 hasPremium={props.hasPremium}
                                 colors={syncedColors}
                               />
@@ -222,6 +246,7 @@ const MobileDetailedPage = props => {
                           {POPULAR_METRICS.map(metric => (
                             <MobileMetricCard
                               metric={metric}
+                              hide={metrics.includes(metric)}
                               onToggleMetric={() => toggleMetric(metric)}
                               key={metric.key + 'popular'}
                               hasPremium={props.hasPremium}

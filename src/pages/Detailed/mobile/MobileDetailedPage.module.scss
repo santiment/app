@@ -43,3 +43,8 @@
 
   @include text('caption');
 }
+
+.selector {
+  flex-grow: 1;
+  margin-right: 14px;
+}

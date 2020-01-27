@@ -51,3 +51,17 @@ export const makeRequestedData = ({ metrics, ...rest }) => {
     marketSegments: requestedMarketSegments
   }
 }
+
+export const convertEventsToObj = events => {
+  const res = {}
+
+  events.forEach(({ datetime, ...rest }) => {
+    if (!res[datetime]) {
+      res[datetime] = []
+    }
+
+    res[datetime].push({ ...rest })
+  })
+
+  return res
+}
