@@ -3,11 +3,12 @@ import * as qs from 'query-string'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import Loadable from 'react-loadable'
+import { linearScale, logScale } from '@santiment-network/chart/scales'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import { ERRORS } from '../GetTimeSeries/reducers'
-import Charts from './Charts'
+import Chart from './Chart'
+import Synchronizer from './Chart/Synchronizer'
 import Header from './Header'
-import TooltipSynchronizer from './TooltipSynchronizer'
 import { getMarketSegment, mapDatetimeToNumber } from './utils'
 import {
   Metrics,
@@ -22,6 +23,7 @@ import GA from './../../utils/tracking'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
 import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
+import { checkHasPremium } from '../../pages/UserSelectors'
 import StoriesList from '../../components/Stories/StoriesList'
 import styles from './ChartPage.module.scss'
 
@@ -32,7 +34,7 @@ const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 const MAX_METRICS_PER_CHART = 5
 
 const DEFAULT_STATE = {
-  scale: 'auto',
+  isLogScale: false,
   timeRange: DEFAULT_TIME_RANGE,
   from: FROM.toISOString(),
   to: TO.toISOString(),
@@ -300,7 +302,7 @@ class ChartPage extends Component {
 
   onScaleChange = () => {
     this.setState(
-      ({ scale }) => ({ scale: scale === 'auto' ? 'log' : 'auto' }),
+      ({ isLogScale }) => ({ isLogScale: !isLogScale }),
       this.updateSearchQuery
     )
   }
@@ -352,7 +354,7 @@ class ChartPage extends Component {
       zoom,
       from,
       to,
-      scale,
+      isLogScale,
       isMultiChartsActive
     } = this.state
 
@@ -369,7 +371,7 @@ class ChartPage extends Component {
       nightMode,
       isShowAnomalies,
       title,
-      scale,
+      isLogScale,
       isMultiChartsActive
     }
 
@@ -413,8 +415,7 @@ class ChartPage extends Component {
       interval,
       viewOnly,
       title,
-      zoom,
-      scale,
+      isLogScale,
       nightMode,
       isShowAnomalies,
       isAdvancedView,
@@ -426,7 +427,6 @@ class ChartPage extends Component {
       classes = {},
       adjustNightMode,
       showToggleAnomalies,
-      children,
       leftBoundaryDate,
       rightBoundaryDate,
       isLoggedIn,
@@ -436,6 +436,7 @@ class ChartPage extends Component {
       isParentLoading,
       isWideChart,
       project,
+      hasPremium,
       metricRest
     } = this.props
 
@@ -601,7 +602,7 @@ class ChartPage extends Component {
                           disabledMetrics={errors}
                           from={from}
                           to={to}
-                          scale={scale}
+                          isLogScale={isLogScale}
                           onScaleChange={this.onScaleChange}
                           isAdvancedView={isAdvancedView}
                           classes={classes}
@@ -616,35 +617,31 @@ class ChartPage extends Component {
                         />
                       </>
                     )}
-                    <TooltipSynchronizer
+
+                    <Synchronizer
                       isMultiChartsActive={isMultiChartsActive}
                       metrics={finalMetrics}
+                      events={eventsData}
                     >
-                      <Charts
-                        scale={scale}
-                        chartRef={this.chartRef}
-                        isLoading={isParentLoading || isLoading}
-                        onZoom={this.onZoom}
+                      <Chart
+                        slug={slug}
                         from={from}
                         to={to}
-                        slug={slug}
-                        onZoomOut={this.onZoomOut}
-                        isZoomed={zoom}
-                        events={eventsFiltered}
-                        isTrendsShowing={isTrendsShowing}
-                        chartData={mapDatetimeToNumber(timeseries)}
-                        title={title}
+                        metrics={finalMetrics}
+                        data={mapDatetimeToNumber(timeseries)}
+                        chartRef={this.chartRef}
+                        scale={isLogScale ? logScale : linearScale}
                         leftBoundaryDate={leftBoundaryDate}
                         rightBoundaryDate={rightBoundaryDate}
-                        children={children}
                         isAdvancedView={isAdvancedView}
-                        isBeta={isBeta}
-                        isLoggedIn={isLoggedIn}
                         isIntervalSmallerThanDay={isIntervalSmallerThanDay}
-                        interval={interval}
-                        onMouseMove={this.getSocialContext}
+                        isLoading={isParentLoading || isLoading}
+                        isWideChart={isWideChart}
+                        onPointHover={this.getSocialContext}
+                        hasPremium={hasPremium}
                       />
-                    </TooltipSynchronizer>
+                    </Synchronizer>
+
                     {metricsTool}
                     {!isPRO && (
                       <UpgradePaywall
@@ -700,18 +697,24 @@ class ChartPage extends Component {
     )
   }
 
-  getSocialContext = ({ activeLabel }) => {
-    this.setState({
-      socialContextDate: new Date(activeLabel)
-    })
+  getSocialContext = ({ value }) => {
+    if (this.state.isAdvancedView) {
+      this.setState({
+        socialContextDate: new Date(value)
+      })
+    }
   }
 }
 
-const mapStateToProps = ({
-  rootUi: { isBetaModeEnabled, isWideChartEnabled }
-}) => ({
-  isBeta: isBetaModeEnabled,
-  isWideChart: isWideChartEnabled
-})
+const mapStateToProps = state => {
+  const {
+    rootUi: { isBetaModeEnabled, isWideChartEnabled }
+  } = state
+  return {
+    isBeta: isBetaModeEnabled,
+    isWideChart: isWideChartEnabled,
+    hasPremium: checkHasPremium(state)
+  }
+}
 
 export default connect(mapStateToProps)(ChartPage)

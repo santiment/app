@@ -1,6 +1,8 @@
 import React from 'react'
-import { Bar, Line, Area } from 'recharts'
+import { Line, Bar, Area } from 'recharts'
 import { usdFormatter } from './utils'
+import { millify } from '../../utils/formatting'
+import { getDateFormats, getTimeFormats } from '../../utils/dates'
 
 export const Events = {
   trendPositionHistory: {
@@ -37,7 +39,8 @@ export const Events = {
 
 export const Metrics = {
   historyPrice: {
-    node: Line,
+    node: 'line',
+    Component: Line,
     color: 'jungle-green',
     label: 'Price',
     dataKey: 'priceUsd',
@@ -46,7 +49,9 @@ export const Metrics = {
     historicalTriggersDataKey: 'price'
   },
   historyPricePreview: {
-    node: Area,
+    // TODO: Replace to 'area' when san-chart will support it [@vanguard | Jan 23, 2020]
+    node: 'line',
+    Component: Area,
     color: 'jungle-green',
     label: 'Price',
     dataKey: 'priceUsd',
@@ -57,7 +62,8 @@ export const Metrics = {
   },
   historicalBalance: {
     category: 'Financial',
-    node: Area,
+    Component: Bar,
+    node: 'bar',
     label: 'Balance',
     fill: true,
     dataKey: 'balance',
@@ -67,14 +73,16 @@ export const Metrics = {
   },
   marketcap: {
     category: 'Financial',
-    node: Line,
+    node: 'line',
+    Component: Line,
     label: 'Marketcap',
     color: 'malibu',
     formatter: usdFormatter
   },
   volume: {
     category: 'Financial',
-    node: Bar,
+    node: 'bar',
+    Component: Bar,
     label: 'Volume',
     fill: true,
     dataKey: 'volume',
@@ -83,7 +91,8 @@ export const Metrics = {
   },
   socialVolume: {
     category: 'Social',
-    node: Bar,
+    node: 'bar',
+    Component: Bar,
     label: 'Social Volume',
     shortLabel: 'Soc. Volume',
     anomalyKey: 'SOCIAL_VOLUME',
@@ -92,18 +101,21 @@ export const Metrics = {
   },
   age_destroyed: {
     category: 'On-chain',
-    node: Bar,
+    node: 'bar',
+    Component: Bar,
     group: 'Token Flows/Movement/Activity',
     label: 'Token Age Consumed',
     fill: true,
     video: 'https://www.youtube.com/watch?v=NZFtYT5QzS4',
     description: `
           Shows the amount of tokens changing addresses on a certain date,
-          multiplied by the number of days since they last moved`
+          multiplied by the number of days since they last moved`,
+    formatter: value => (value ? millify(value, 2) : 'No data')
   },
   exchange_balance: {
     category: 'On-chain',
-    node: Line,
+    node: 'line',
+    Component: Line,
     group: 'Exchange Flow',
     label: 'Exchange Flow Balance',
     video: 'https://www.youtube.com/watch?v=0R6GDF2bg6A',
@@ -114,7 +126,8 @@ export const Metrics = {
   },
   daily_active_addresses: {
     category: 'On-chain',
-    node: Bar,
+    node: 'daybar',
+    Component: Bar,
     group: 'Network Activity',
     label: 'Daily Active Addresses',
     shortLabel: 'DAA',
@@ -131,7 +144,8 @@ export const Metrics = {
   },
   percentOfTokenSupplyOnExchanges: {
     category: 'On-chain',
-    node: Line,
+    node: 'line',
+    Component: Line,
     group: 'Exchange Flow',
     label: 'Percent of Token Supply on Exchanges',
     shortLabel: '% of Token Supply on Exchanges',
@@ -140,7 +154,8 @@ export const Metrics = {
   },
   topHoldersPercentOfTotalSupply: {
     category: 'On-chain',
-    node: Line,
+    node: 'line',
+    Component: Line,
     label: 'In Top Holders Total',
     // TODO: Add support for 3 datakeys of single metric:
     // inExchanges outsideExchanges inTopHoldersTotal
@@ -148,7 +163,8 @@ export const Metrics = {
   },
   circulation_1d: {
     category: 'On-chain',
-    node: Line,
+    node: 'line',
+    Component: Line,
     group: 'Token Flows/Movement/Activity',
     label: 'Token Circulation',
     description: `
@@ -160,7 +176,8 @@ export const Metrics = {
   },
   mvrv_usd: {
     category: 'On-chain',
-    node: Line,
+    node: 'line',
+    Component: Line,
     group: 'Network value',
     label: 'Market Value To Realized Value',
     video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
@@ -169,7 +186,8 @@ export const Metrics = {
   },
   transaction_volume: {
     category: 'On-chain',
-    node: Bar,
+    node: 'bar',
+    Component: Bar,
     group: 'Token Flows/Movement/Activity',
     label: 'Transaction Volume',
     shortLabel: 'Transact. Volume',
@@ -179,7 +197,8 @@ export const Metrics = {
   },
   network_growth: {
     category: 'On-chain',
-    node: Line,
+    node: 'line',
+    Component: Line,
     group: 'Network Activity',
     label: 'Network Growth',
     video: 'https://www.youtube.com/watch?v=YaccxEEz8pg',
@@ -190,7 +209,8 @@ export const Metrics = {
   },
   devActivity: {
     category: 'Development',
-    node: Line,
+    node: 'line',
+    Component: Line,
     color: 'heliotrope',
     label: 'Development Activity',
     shortLabel: 'Dev. Activity',
@@ -205,7 +225,8 @@ export const Metrics = {
   },
   velocity: {
     category: 'On-chain',
-    node: Line,
+    node: 'line',
+    Component: Line,
     group: 'Token Flows/Movement/Activity',
     label: 'Token Velocity',
     description: `
@@ -219,7 +240,8 @@ export const Metrics = {
   },
   dailyActiveDeposits: {
     category: 'On-chain',
-    node: Bar,
+    node: 'bar',
+    Component: Bar,
     label: 'Daily Active Deposits',
     dataKey: 'activeDeposits',
     description: `
@@ -229,21 +251,24 @@ export const Metrics = {
   },
   historyTwitterData: {
     category: 'Social',
-    node: Line,
+    node: 'line',
+    Component: Line,
     label: 'Twitter',
     dataKey: 'followersCount',
     description: `Shows the number of followers on the project's official Twitter account over time`
   },
   socialDominance: {
     category: 'Social',
-    node: Line,
+    node: 'line',
+    Component: Line,
     label: 'Social Dominance',
     dataKey: 'dominance',
     description: `Shows the share (or %) of the coin’s mentions on crypto-related social media, compared to a pool of 50+ of the most talked-about projects online.`
   },
   realized_value_usd: {
     category: 'On-chain',
-    node: Line,
+    node: 'line',
+    Component: Line,
     group: 'Network value',
     label: 'Realized Cap',
     description: `Realized Cap shows the total amount that all holders spent to purchase the coin (i.e. the total acquisition cost). While market cap = supply X current price of each coin, realized cap = supply X price of each coin when it last ‘moved’`,
@@ -251,7 +276,8 @@ export const Metrics = {
   },
   ethSpentOverTime: {
     category: 'On-chain',
-    node: Line,
+    node: 'line',
+    Component: Line,
     label: 'Eth Spent Over Time',
     dataKey: 'ethSpent',
     description:
@@ -259,14 +285,16 @@ export const Metrics = {
   },
   gasUsed: {
     category: 'On-chain',
-    node: Line,
+    node: 'line',
+    Component: Line,
     label: 'Gas Used',
     description:
       'Used Gas by a blockchain. When you send tokens, interact with a contract or do anything else on the blockchain, you must pay for that computation. That payment is calculated in Gas.'
   },
   mean_dollar_invested_age: {
     category: ['Financial', 'On-chain'],
-    node: Line,
+    node: 'line',
+    Component: Line,
     label: 'Mean Dollar Invested Age',
     description: (
       <>
@@ -288,14 +316,16 @@ export const Metrics = {
   },
   nvt: {
     category: 'On-chain',
-    node: Line,
+    node: 'line',
+    Component: Line,
     group: 'Network value',
     label: 'NVT Ratio Circulation',
     description: `NVT tries to determine how much ‘value’ is being transmitted on a coin’s network. This version of NVT is calculated by dividing the coin’s Market Cap by its Token Circulation. The higher the NVT, the more expensive the network relative to the value it transmits, indicating an overvalued asset.`,
     minInterval: '1d'
   },
   nvt_transaction_volume: {
-    node: Bar,
+    node: 'bar',
+    Component: Bar,
     group: 'Network value',
     label: 'NVT Ratio Transaction Volume',
     category: 'On-chain',
@@ -338,3 +368,45 @@ export const compatabilityMap = {
 export const SOCIAL_SIDEBAR = 'SOCIAL_SIDEBAR'
 export const ASSETS_SIDEBAR = 'ASSETS_SIDEBAR'
 export const HISTOGRAM_SIDEBAR = 'HISTOGRAM_SIDEBAR'
+
+const LARGE_NUMBER_THRESHOLD = 99999
+
+const FORMATTER = value => {
+  if (!value && typeof value !== 'number') {
+    return 'No data'
+  }
+
+  if (value > LARGE_NUMBER_THRESHOLD) {
+    return millify(value, 2)
+  }
+
+  return Number.isInteger(value) ? value : value.toFixed(2)
+}
+
+export const tooltipSettings = {
+  datetime: {
+    formatter: value => {
+      const date = new Date(value)
+      const { HH, mm } = getTimeFormats(date)
+      const { MMMM, DD, YYYY } = getDateFormats(date)
+      return `${HH}:${mm}, ${MMMM} ${DD}, ${YYYY}`
+    }
+  },
+  isAnomaly: {
+    label: 'Anomaly',
+    formatter: v => v
+  },
+  trendingPosition: {
+    label: 'Trending Position',
+    formatter: ([val]) => Events.position.formatter(val)
+  }
+}
+
+Object.values(Metrics).forEach(
+  ({ key, dataKey = key, formatter = FORMATTER, label }) => {
+    tooltipSettings[dataKey] = {
+      label,
+      formatter
+    }
+  }
+)

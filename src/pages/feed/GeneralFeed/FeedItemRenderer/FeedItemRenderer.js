@@ -27,21 +27,7 @@ const FeedItemRenderer = ({ item, index }) => {
 
     return (
       <>
-        {!isTrendingWords && (
-          <WithActivityLikesMutation>
-            {like => (
-              <ActivityRenderer
-                date={insertedAt}
-                activity={item}
-                index={index}
-                user={user}
-                classes={styles}
-                onLike={like(id)}
-              />
-            )}
-          </WithActivityLikesMutation>
-        )}
-        {isTrendingWords && (
+        {isTrendingWords ? (
           <TrendingWordsSignalCard
             signal={trigger}
             date={insertedAt}
@@ -49,6 +35,14 @@ const FeedItemRenderer = ({ item, index }) => {
             activityPayload={payload.default}
             creatorId={id}
             user={user}
+          />
+        ) : (
+          <ActivityRenderer
+            date={insertedAt}
+            activity={item}
+            index={index}
+            user={user}
+            classes={styles}
           />
         )}
       </>

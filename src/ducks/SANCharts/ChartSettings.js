@@ -27,7 +27,7 @@ const ChartSettings = ({
   isAdvancedView,
   activeMetrics,
   title,
-  scale,
+  isLogScale,
   onMultiChartsChange,
   isMultiChartsActive,
   onScaleChange,
@@ -77,7 +77,7 @@ const ChartSettings = ({
           activeMetrics={activeMetrics}
           title={title}
           chartRef={chartRef}
-          scale={scale}
+          isLogScale={isLogScale}
           onScaleChange={onScaleChange}
           chartData={chartData}
           events={events}

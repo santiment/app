@@ -29,7 +29,8 @@ const PRICE_METRIC = 'historyPrice'
 const CHART_PRICE_METRIC = {
   ...Metrics[PRICE_METRIC],
   type: PRICE_METRIC,
-  node: Area,
+  node: 'area',
+  Component: Area,
   opacity: 0.25
 }
 

@@ -59,7 +59,8 @@ export default compose(
             {({ data: { currentUser } = {} }) => {
               const subscription = getCurrentSanbaseSubscription(currentUser)
               const userPlan = subscription ? subscription.plan.name : 'FREE'
-              const boundaries = paywallBoundaries[userPlan]
+              const boundaries =
+                paywallBoundaries[isLoggedIn ? userPlan : 'ANON']
 
               return (
                 <>

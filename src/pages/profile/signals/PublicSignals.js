@@ -7,10 +7,12 @@ const PublicSignals = ({ data: signals, userId }) => {
     return null
   }
 
-  const signalsWithUser = signals.map(signal => ({
-    ...signal,
-    userId: userId
-  }))
+  const signalsWithUser = signals
+    .map(signal => ({
+      ...signal,
+      userId: userId
+    }))
+    .sort(({ id: idA }, { id: idB }) => idB - idA)
 
   return (
     <div className={styles.block}>

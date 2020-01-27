@@ -16,7 +16,7 @@ import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils'
 import {
   getSyncedColors,
   clearCache
-} from '../../../ducks/SANCharts/TooltipSynchronizer'
+} from '../../../ducks/SANCharts/Chart/Synchronizer'
 import { Metrics } from '../../../ducks/SANCharts/data'
 import CommonChartTooltip from '../../../ducks/SANCharts/tooltip/CommonChartTooltip'
 import MobilePriceTooltip from '../../../ducks/SANCharts/tooltip/MobilePriceTooltip'

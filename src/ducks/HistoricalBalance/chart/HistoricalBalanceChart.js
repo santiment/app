@@ -21,8 +21,8 @@ import {
   usdFormatter
 } from '../../SANCharts/utils'
 import { getPriceMetricWithSlug } from '../balanceView/BalanceView'
+import { getSyncedColors } from '../../SANCharts/Chart/Synchronizer'
 import styles from './HistoricalBalanceChart.module.scss'
-import { getSyncedColors } from '../../SANCharts/TooltipSynchronizer'
 
 const formatDatetime = datetime => {
   const { DD, MMM, YY } = getDateFormats(new Date(datetime))
