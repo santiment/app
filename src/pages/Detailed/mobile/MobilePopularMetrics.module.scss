@@ -1,0 +1,25 @@
+@import '~@santiment-network/ui/mixins';
+
+.tooltip {
+  padding: 16px 18px;
+  margin: 12px 0;
+  color: var(--porcelain);
+  display: flex;
+  background: $fiord;
+  border-radius: 4px;
+  fill: var(--white);
+  justify-content: space-between;
+
+  @include text('body-3');
+}
+
+.heading {
+  margin: 16px 0;
+  color: var(--waterloo);
+
+  @include text('body-3', 'm');
+}
+
+.text {
+  max-width: 262px;
+}

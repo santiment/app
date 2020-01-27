@@ -75,6 +75,7 @@ const MobileFullscreenChart = ({
       dismissOnTouch
       title='Open this chart in fullscreen mode to analyze it in more details'
       description=''
+      delay={20000}
     >
       <Modal
         trigger={

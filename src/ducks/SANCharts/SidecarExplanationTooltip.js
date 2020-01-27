@@ -28,7 +28,7 @@ const SidecarExplanationTooltip = props => {
   function hideTooltip () {
     localStorage.setItem(localStorageLabel, '+')
     setShown(false) // HACK(vanguard): To immediatly hide tooltip and then back to not controlled state
-    setTimeout(() => setShown(undefined))
+    setTimeout(() => setShown(undefined), 0)
   }
 
   function disableHelp () {

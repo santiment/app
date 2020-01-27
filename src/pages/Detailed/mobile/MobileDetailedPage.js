@@ -7,6 +7,7 @@ import AssetChart from './MobileAssetChart'
 import PriceBlock from './MobileAssetPriceInfo'
 import FullscreenChart from './MobileFullscreenChart'
 import ChartSelector from './MobileAssetChartSelector'
+import MobilePopularMetrics from './MobilePopularMetrics'
 import { checkHasPremium } from '../../UserSelectors'
 import { Metrics } from '../../../ducks/SANCharts/data'
 import { mapDatetimeToNumber } from '../../../ducks/SANCharts/utils'
@@ -224,7 +225,7 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                                 onToggleMetric={() => toggleMetric(metric)}
                                 key={metric.key + 'selected'}
                                 {...rest}
-                                hasPremium={props.hasPremium}
+                                hasPremium={hasPremium}
                                 colors={syncedColors}
                               />
                             ))}
@@ -243,19 +244,11 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                         </div>
                       )}
                       {notSelectedPopularNumber > 0 && (
-                        <>
-                          <h3 className={styles.heading}>Popular metrics</h3>
-                          {POPULAR_METRICS.map(metric => (
-                            <MobileMetricCard
-                              metric={metric}
-                              hide={metrics.includes(metric)}
-                              onToggleMetric={() => toggleMetric(metric)}
-                              key={metric.key + 'popular'}
-                              hasPremium={props.hasPremium}
-                              {...rest}
-                            />
-                          ))}
-                        </>
+                        <MobilePopularMetrics
+                          metrics={metrics}
+                          onToggleMetric={toggleMetric}
+                          {...rest}
+                        />
                       )}
                     </>
                   )
