@@ -28,6 +28,7 @@ import {
 import PageLoader from '../../../components/Loader/PageLoader'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
 import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
+import MobileProPopup from '../../../components/MobileProPopup/MobileProPopup'
 import {
   getSyncedColors,
   prepareEvents
@@ -36,7 +37,7 @@ import { addRecentAssets } from '../../../utils/recent'
 import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './MobileDetailedPage.module.scss'
 
-const MobileDetailedPage = props => {
+const MobileDetailedPage = ({ hasPremium, ...props }) => {
   const slug = props.match.params.slug
   const [timeRange, setTimeRange] = useState(DEFAULT_TIME_RANGE)
   const [icoPricePos, setIcoPricePos] = useState(null)
@@ -213,7 +214,8 @@ const MobileDetailedPage = props => {
                       >
                         {metrics.length > 0 && (
                           <>
-                            <h3 className={styles.heading}>Selected Metrics</h3>
+                            {!hasPremium && <MobileProPopup />}
+                            <h3 className={styles.heading}>Choosed Metrics</h3>
                             {metrics.map(metric => (
                               <MobileMetricCard
                                 metric={metric}

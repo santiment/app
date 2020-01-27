@@ -111,7 +111,7 @@ const MobileMetricCard = ({
                   </>
                 )}
                 {isLoading && !value && <Loader className={styles.loader} />}
-                {!hasPremium && !isLoading && !value && (
+                {false && !hasPremium && !isLoading && !value && (
                   <div className={styles.text}>
                     Latest data available in PRO plan
                   </div>
