@@ -62,18 +62,18 @@
   right: 2px;
 }
 
-// .icon,
-// .tooltip {
-//   @media (orientation: landscape) {
-//     visibility: hidden;
-//   }
+.icon,
+.tooltip {
+  @media (orientation: landscape) {
+    visibility: hidden;
+  }
 
-//   @include responsive('tablet') {
-//     @media (orientation: portrait) {
-//       visibility: hidden;
-//     }
-//   }
-// }
+  @include responsive('tablet') {
+    @media (orientation: portrait) {
+      visibility: hidden;
+    }
+  }
+}
 
 .bottom {
   margin: auto 0 5px;

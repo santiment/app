@@ -14,7 +14,8 @@ const SwipeableCard = ({
   hasLeftAction,
   hasRightAction = true,
   hide,
-  isSelected
+  isSelected,
+  width
 }) => {
   const [startPosition, setStartPosition] = useState(0)
   const [offset, setOffset] = useState(0)
@@ -58,7 +59,7 @@ const SwipeableCard = ({
     const ts = Date.now()
     const speed = Math.abs(x - prevX) / (ts - prevTs)
 
-    if (speed > 4 && ts !== prevTs) {
+    if ((speed > 4 && ts !== prevTs) || (Math.abs(offset) * 100) / width > 85) {
       offset > 0 ? onLeftActionClick() : onRightActionClick()
       setStartPosition(0)
       setOffset(0)
@@ -131,9 +132,9 @@ const SwipeableCard = ({
         onTouchMove={onMove}
         onTouchStart={onStart}
         style={{
-          left: `${offset}px`,
+          transform: `translateX(${offset}px)`,
           transition: `${
-            currentGesture ? '' : `left ease ${hide ? 1 : offset ? 0.5 : 0}s`
+            currentGesture ? '' : `transform ease ${offset !== 0 ? 0.5 : 0.2}s`
           }`
         }}
       >

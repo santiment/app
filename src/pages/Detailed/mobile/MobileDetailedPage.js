@@ -45,6 +45,7 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
   const [fullscreen, toggleFullscreen] = useState(false)
   const [metrics, setMetrics] = useState([])
   const [isLimitReached, setIsLimitReached] = useState(false)
+  const [width, setWidth] = useState()
 
   addRecentAssets(slug)
 
@@ -101,7 +102,15 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
               title={<Title slug={project.name} ticker={project.ticker} />}
               goBack={props.history.goBack}
             />
-            <div className={styles.main}>
+            <div
+              className={styles.main}
+              ref={el => {
+                if (!el) return
+                if (!width) {
+                  setWidth(el.getBoundingClientRect().width)
+                }
+              }}
+            >
               <GetTimeSeries
                 {...requestedData}
                 render={({
@@ -227,6 +236,7 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                                 {...rest}
                                 hasPremium={hasPremium}
                                 colors={syncedColors}
+                                width={width}
                               />
                             ))}
                           </>
@@ -246,6 +256,7 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                       {notSelectedPopularNumber > 0 && (
                         <MobilePopularMetrics
                           metrics={metrics}
+                          width={width}
                           onToggleMetric={toggleMetric}
                           {...rest}
                         />

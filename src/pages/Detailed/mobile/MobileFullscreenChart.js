@@ -20,7 +20,7 @@ const MobileFullscreenChart = ({
   chartProps,
   metricsToolProps
 }) => {
-  const [landscapeMode, setLandscapeMode] = useState(true)
+  const [landscapeMode, setLandscapeMode] = useState(false)
 
   const setOrientation = () => {
     switch (window.orientation) {
@@ -32,7 +32,7 @@ const MobileFullscreenChart = ({
         break
       default:
         if (landscapeMode) {
-          setLandscapeMode(true)
+          setLandscapeMode(false)
         }
         break
     }

@@ -95,10 +95,10 @@
 
 @keyframes appear {
   0% {
-    margin-left: -1000px;
+    transform: translateX(-1000px);
   }
 
   100% {
-    margin-left: 0;
+    transform: translateX(0);
   }
 }

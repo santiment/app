@@ -24,12 +24,14 @@ const MobileMetricCard = ({
   ticker = '',
   data: { metricAnomaly: anomalies = [] } = {},
   isSelected,
-  hide,
+  hide: hideProp,
   onToggleMetric,
   hasPremium,
-  slug
+  slug,
+  width
 }) => {
   const [isOpenDescription, setIsOpenDescription] = useState(false)
+  const [hide, setHide] = useState(false)
 
   const { length: anomaliesNumber } = anomalies
 
@@ -47,10 +49,17 @@ const MobileMetricCard = ({
   return (
     <SwipeableCard
       onLeftActionClick={() => setIsOpenDescription(true)}
-      onRightActionClick={onToggleMetric}
+      onRightActionClick={() => {
+        setHide(true)
+        setTimeout(() => {
+          onToggleMetric()
+          setHide(false)
+        }, 500)
+      }}
       hasLeftAction={description}
       isSelected={isSelected}
-      hide={hide}
+      hide={hide || hideProp}
+      width={width}
     >
       <div className={styles.wrapper}>
         <div className={cx(styles.row, styles.row_top)}>

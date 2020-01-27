@@ -8,7 +8,6 @@ const LS_LABEL = 'TOOLTIP_MOBILE_METRICS_SWIPES'
 
 const MobilePopularMetrics = ({ metrics, onToggleMetric, ...rest }) => {
   const [isShow, setIsShow] = useState(false)
-  const [timer, setTimer] = useState()
 
   const wasShown = localStorage.getItem(LS_LABEL)
 
@@ -17,16 +16,9 @@ const MobilePopularMetrics = ({ metrics, onToggleMetric, ...rest }) => {
     setIsShow(false)
   }
 
-  const callback = () => setIsShow(true)
-
   useEffect(() => {
     if (!wasShown) {
-      window.addEventListener('scroll', callback)
-    }
-
-    return () => {
-      clearTimeout(timer)
-      window.removeEventListener('scroll', callback)
+      setIsShow(true)
     }
   }, [])
 
