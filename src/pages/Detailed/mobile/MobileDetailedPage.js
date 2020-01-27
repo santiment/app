@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
+import GA from '../../../utils/tracking'
 import GetAsset from '../gqlWrappers/GetAsset'
 import Title from './MobileAssetTitle'
 import AssetChart from './MobileAssetChart'
@@ -54,6 +55,16 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
 
     if (!newMetrics.delete(metric)) {
       newMetrics.add(metric)
+
+      GA.event({
+        category: 'Chart',
+        action: `Showing "${metric.label} on mobile"`
+      })
+    } else {
+      GA.event({
+        category: 'Chart',
+        action: `Removing "${metric.label} on movile"`
+      })
     }
 
     if (newMetrics.size > MAX_METRICS_PER_CHART) {
