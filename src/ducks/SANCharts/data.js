@@ -62,6 +62,7 @@ export const Metrics = {
   },
   historicalBalance: {
     category: 'Financial',
+    Component: Area,
     node: Area,
     label: 'Balance',
     fill: true,

@@ -3,6 +3,7 @@ import cx from 'classnames'
 import WithLikesMutation from '../Like/WithLikesMutation'
 import InsightCard from './InsightCardWithMarketcap'
 import Feed from '../Feed/Feed'
+import { publishDateSorter } from './utils'
 
 const InsightsFeed = ({
   insights,
@@ -15,7 +16,7 @@ const InsightsFeed = ({
       {mutateInsightById => (
         <Feed
           isAllInsightsPage={isAllInsightsPage}
-          data={insights}
+          data={insights.sort(publishDateSorter)}
           component={({ id, className, ...rest }) => (
             <InsightCard
               id={id}
