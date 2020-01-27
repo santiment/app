@@ -85,7 +85,8 @@ export const mapToOption = item => {
   }
 }
 
-export const targetMapper = ({ value, slug } = {}) => slug || value
+export const targetMapper = ({ value, slug, eth_address } = {}) =>
+  slug || value || eth_address
 export const targetMapperWithName = ({ value, slug, name } = {}) =>
   name || slug || value
 

@@ -11,7 +11,8 @@ function metricsToPlotCategories (metrics) {
     lines: [],
     daybars: [],
     bars: [],
-    joinedCategories: []
+    joinedCategories: [],
+    areas: []
   }
   const joinedCategories = requestedData.joinedCategories
 
