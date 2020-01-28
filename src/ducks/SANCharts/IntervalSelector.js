@@ -19,7 +19,7 @@ export const getNewInterval = (from, to, lastInterval) => {
 }
 
 const getAvailableIntervals = (from, to) => {
-  const { diff, format } = dateDifference({
+  const { diff } = dateDifference({
     from: new Date(from),
     to: new Date(to),
     format: DAY
