@@ -61,13 +61,10 @@ const ActivityWithBacktesting = ({
           </div>
         </div>
 
-        <CopySignal signal={trigger}>
-          <LikeBtnWrapper
-            onClick={onLike}
-            className={styles.likeBtn}
-            votes={votes}
-          />
-        </CopySignal>
+        <div className={styles.bottom}>
+          <LikeBtnWrapper onLike={onLike} votes={votes} />
+          <CopySignal signal={trigger} />
+        </div>
       </div>
     </>
   )

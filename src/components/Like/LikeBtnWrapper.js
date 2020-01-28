@@ -1,25 +1,24 @@
 import React from 'react'
 import LikeBtn from './LikeBtn'
 import { connect } from 'react-redux'
-import { checkIsLoggedIn } from '../../pages/UserSelectors'
+import styles from './LikeBtnWrapper.module.scss'
 
-const LikeBtnWrapper = ({ className, onLike, votes, liked, isLoggedIn }) => (
+const LikeBtnWrapper = ({ onLike, votes, isLiked }) => (
   <LikeBtn
     onClick={onLike}
-    className={className}
-    disabled={!isLoggedIn}
+    className={styles.likeBtn}
     likesNumber={votes.length}
-    liked={liked}
+    liked={isLiked}
   />
 )
 
 const mapStateToProps = (state, { votes }) => {
+  const userId = +state.user.data.id
   return {
-    isLoggedIn: checkIsLoggedIn(state),
-    liked:
+    isLiked:
       state.user.data &&
       +state.user.data.id &&
-      votes.some(id => state.user.data.id === id)
+      votes.some(({ userId: id }) => userId === id)
   }
 }
 

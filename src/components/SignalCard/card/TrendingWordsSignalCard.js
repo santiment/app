@@ -8,6 +8,7 @@ import CopySignal from '../controls/CopySignal'
 import SignalCreator from './creator/SignalCreator'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
+import LikeBtnWrapper from '../../Like/LikeBtnWrapper'
 
 const PRESAVED_WORDS = [
   'vechain',
@@ -55,13 +56,12 @@ const getWords = (triggerWords, activityPayload) => {
 }
 
 const TrendingWordsSignalCard = ({
-  user,
-  signal,
   className,
-  date,
   activityPayload,
-  creatorId
+  activity: { votes, trigger: signal, insertedAt: date, user },
+  onLike
 }) => {
+  const { id: creatorId } = user
   const {
     title,
     settings,
@@ -106,7 +106,14 @@ const TrendingWordsSignalCard = ({
 
         <SignalCreator date={date} user={user} />
 
-        <CopySignal signal={signal} creatorId={creatorId} />
+        <div className={styles.bottom}>
+          <LikeBtnWrapper
+            onLike={onLike}
+            className={styles.likeBtn}
+            votes={votes}
+          />
+          <CopySignal signal={signal} creatorId={creatorId} />
+        </div>
       </div>
     </Panel>
   )

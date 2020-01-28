@@ -37,3 +37,13 @@
     background: var(--dodger-blue-light);
   }
 }
+
+.bottom {
+  display: flex;
+  margin-top: 14px;
+  padding-top: 8px;
+  border-top: 1px solid var(--porcelain);
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}

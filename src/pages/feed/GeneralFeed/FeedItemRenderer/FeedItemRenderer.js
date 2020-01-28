@@ -1,6 +1,6 @@
 import React from 'react'
 import InsightCard from '../../../../components/Insight/InsightCardWithMarketcap'
-import WithActivityLikesMutation from '../../../../components/Like/WithActivityLikesMutation'
+import WithFeedEventLikesMutation from '../../../../components/Like/WithFeedEventLikesMutation'
 import WithInsightLikesMutation from '../../../../components/Like/WithInsightLikesMutation'
 import ActivityRenderer from '../../../SonarFeed/ActivityRenderer/ActivityRenderer'
 import TrendingWordsSignalCard from '../../../../components/SignalCard/card/TrendingWordsSignalCard'
@@ -19,47 +19,46 @@ const isTrendingWordsSignal = trigger => {
 }
 
 const FeedItemRenderer = ({ item, index }) => {
-  const { __typename, user = {}, payload, trigger, insertedAt } = item
-  const { id } = user
+  const { id: eventId, __typename, payload, trigger, insertedAt } = item
 
   if (payload && trigger) {
     let isTrendingWords = isTrendingWordsSignal(trigger)
 
     return (
-      <>
-        {isTrendingWords ? (
-          <TrendingWordsSignalCard
-            signal={trigger}
-            date={insertedAt}
-            className={styles.card}
-            activityPayload={payload.default}
-            creatorId={id}
-            user={user}
-          />
-        ) : (
-          <ActivityRenderer
-            date={insertedAt}
-            activity={item}
-            index={index}
-            user={user}
-            classes={styles}
-          />
-        )}
-      </>
+      <WithFeedEventLikesMutation>
+        {like =>
+          isTrendingWords ? (
+            <TrendingWordsSignalCard
+              activity={item}
+              className={styles.card}
+              activityPayload={payload.default}
+              onLike={like(eventId)}
+            />
+          ) : (
+            <ActivityRenderer
+              date={insertedAt}
+              activity={item}
+              index={index}
+              classes={styles}
+              onLike={like(eventId)}
+            />
+          )
+        }
+      </WithFeedEventLikesMutation>
     )
   } else if (__typename === 'TimelineEvent') {
     const { post } = item
 
     if (post) {
-      const { id, ...rest } = post
+      const { id: insightId, ...rest } = post
       return (
         <WithInsightLikesMutation>
           {like => (
             <InsightCard
-              id={id}
+              id={insightId}
               {...rest}
               className={styles.card}
-              onLike={like(id)}
+              onLike={like(insightId)}
             />
           )}
         </WithInsightLikesMutation>

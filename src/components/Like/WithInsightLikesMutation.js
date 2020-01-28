@@ -2,12 +2,12 @@ import { connect } from 'react-redux'
 import { INSIGHTS_LIKE } from './actions'
 
 const withInsightLikesMutation = ({ insightLikeMutation, children }) => {
-  return children(id => shouldLike =>
-    insightLikeMutation({
+  return children(id => shouldLike => {
+    return insightLikeMutation({
       id,
       shouldLike
     })
-  )
+  })
 }
 
 const mapDispatchToProps = dispatch => ({

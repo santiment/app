@@ -8,9 +8,8 @@ import styles from './ActivityRenderer.module.scss'
 
 const ActivityRenderer = ({
   activity,
-  activity: { triggeredAt, trigger = {} },
+  activity: { triggeredAt, trigger = {}, user = {} },
   date,
-  user,
   index,
   classes = {},
   onLike

@@ -10,6 +10,7 @@ export const FEED_QUERY = gql`
         before
       }
       events {
+        id
         eventType
         insertedAt
         user {

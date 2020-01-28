@@ -3,7 +3,7 @@ import { handleErrorAndTriggerAction } from '../../epics/utils'
 import { LIKE_INSIGHT_MUTATION, UNLIKE_INSIGHT_MUTATION } from './likesGQL'
 import * as actions from './actions'
 
-export const likesEpic = (action$, store, { client }) =>
+export const insightslikesEpic = (action$, store, { client }) =>
   action$
     .ofType(actions.INSIGHTS_LIKE)
     .debounceTime(300)
