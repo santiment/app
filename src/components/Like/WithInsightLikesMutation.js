@@ -1,14 +1,13 @@
 import { connect } from 'react-redux'
 import { INSIGHTS_LIKE } from './actions'
 
-const withLikesMutation = ({ insightLikeMutation, children }) => {
-  return children(id => shouldLike =>
+const withInsightLikesMutation = ({ insightLikeMutation, children }) =>
+  children(id => shouldLike =>
     insightLikeMutation({
       id,
       shouldLike
     })
   )
-}
 
 const mapDispatchToProps = dispatch => ({
   insightLikeMutation: payload =>
@@ -21,4 +20,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(withLikesMutation)
+)(withInsightLikesMutation)

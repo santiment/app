@@ -9,6 +9,7 @@ import isEqual from 'lodash.isequal'
 import styles from './CopySignal.module.scss'
 
 const CopySignal = ({
+  children,
   as = 'a',
   isAuthor,
   isCreated,
@@ -44,7 +45,8 @@ const CopySignal = ({
 
   return (
     !isCreation && (
-      <div className={cx(styles.bottom, classes.copyWrapper)}>
+      <>
+        {children}
         <Button
           onClick={copySignal}
           as={as}
@@ -53,7 +55,7 @@ const CopySignal = ({
         >
           {label}
         </Button>
-      </div>
+      </>
     )
   )
 }
