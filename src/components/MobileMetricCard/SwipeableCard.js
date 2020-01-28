@@ -26,6 +26,7 @@ const SwipeableCard = ({
   onLeftActionClick,
   onRightActionClick,
   hasLeftAction,
+  isOuterEvent = false,
   hasRightAction = true,
   useInitialAnimation = true,
   isSelected,
@@ -42,6 +43,7 @@ const SwipeableCard = ({
     onLeftActionClick()
     setStartPos(0)
   }
+
   const onRightAction = () => {
     setOffset(FULL_HIDE_POSITION)
     setTimeout(onRightActionClick, 500)
@@ -57,6 +59,11 @@ const SwipeableCard = ({
   const haveAction = side =>
     (side === SIDES.RIGHT && hasRightAction) ||
     (side === SIDES.LEFT && hasLeftAction)
+
+  if (startPos && isOuterEvent && !currentGesture) {
+    setStartPos(0)
+    setOffset(0)
+  }
 
   const onStart = ({ touches: [{ pageX: x, pageY: y }] }) => {
     setCurrentGesture({

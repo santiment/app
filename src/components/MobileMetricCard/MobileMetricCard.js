@@ -23,12 +23,10 @@ const MobileMetricCard = ({
   colors = {},
   ticker = '',
   data: { metricAnomaly: anomalies = [] } = {},
-  isSelected,
   onToggleMetric,
   hasPremium,
   slug,
-  width,
-  useInitialAnimation
+  ...rest
 }) => {
   const [isOpenDescription, setIsOpenDescription] = useState(false)
 
@@ -47,12 +45,10 @@ const MobileMetricCard = ({
 
   return (
     <SwipeableCard
-      useInitialAnimation={useInitialAnimation}
       onLeftActionClick={() => setIsOpenDescription(true)}
       onRightActionClick={onToggleMetric}
       hasLeftAction={description}
-      isSelected={isSelected}
-      width={width}
+      {...rest}
     >
       <div className={styles.wrapper}>
         <div className={cx(styles.row, styles.row_top)}>

@@ -47,6 +47,7 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
   const [metrics, setMetrics] = useState([])
   const [isLimitReached, setIsLimitReached] = useState(false)
   const [width, setWidth] = useState()
+  const [isOuterEvent, setIsOuterEvent] = useState(false)
 
   addRecentAssets(slug)
 
@@ -115,6 +116,9 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
             />
             <div
               className={styles.main}
+              onTouchStart={() => setIsOuterEvent(true)}
+              onTouchCancel={() => setIsOuterEvent(false)}
+              onTouchEnd={() => setIsOuterEvent(false)}
               ref={el => {
                 if (!el) return
                 if (!width) {
@@ -248,6 +252,7 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                                 hasPremium={hasPremium}
                                 colors={syncedColors}
                                 width={width}
+                                isOuterEvent={isOuterEvent}
                               />
                             ))}
                           </>
@@ -268,6 +273,7 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                         <MobilePopularMetrics
                           metrics={metrics}
                           width={width}
+                          isOuterEvent={isOuterEvent}
                           onToggleMetric={toggleMetric}
                           {...rest}
                         />
