@@ -69,7 +69,8 @@ export const Metrics = {
     dataKey: 'balance',
     color: 'dodger-blue',
     opacity: 0.25,
-    strokeWidth: 0
+    strokeWidth: 0,
+    hidden: true
   },
   marketcap: {
     category: 'Financial',

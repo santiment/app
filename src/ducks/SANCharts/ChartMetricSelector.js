@@ -230,6 +230,10 @@ const ChartMetricSelector = ({
                       const isActive = actives.includes(metric)
                       const error = disabledMetrics[metric.key]
 
+                      if (metric.hidden) {
+                        return null
+                      }
+
                       return (
                         <ActionBtn
                           key={metric.label}
