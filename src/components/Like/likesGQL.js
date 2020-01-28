@@ -18,7 +18,7 @@ export const LIKE_INSIGHT_MUTATION = gql`
 
 export const UNLIKE_FEED_EVENT_MUTATION = gql`
   mutation downvoteTimelineEvent($timelineEventId: Int) {
-    upvoteTimelineEvent(timelineEventId: $timelineEventId) {
+    downvoteTimelineEvent(timelineEventId: $timelineEventId) {
       id
       votes {
         userId
