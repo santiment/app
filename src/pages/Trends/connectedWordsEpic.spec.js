@@ -193,7 +193,7 @@ describe('Connect Trending Words', () => {
     expect(result.payload.connectedTrends).toEqual({
       BCH: ['DOGE', 'ETHEREUM'],
       BTC: ['DOGE'],
-      DOGE: ['BTC', 'BCH', 'ETHEREUM'],
+      DOGE: ['BCH', 'ETHEREUM', 'BTC'],
       ETHEREUM: ['BCH', 'DOGE']
     })
   })
