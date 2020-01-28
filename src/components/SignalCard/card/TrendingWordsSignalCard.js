@@ -6,9 +6,9 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import SignalCardHeader from './SignalCardHeader'
 import CopySignal from '../controls/CopySignal'
 import SignalCreator from './creator/SignalCreator'
+import LikeBtnWrapper from '../../Like/LikeBtnWrapper'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
-import LikeBtnWrapper from '../../Like/LikeBtnWrapper'
 
 const PRESAVED_WORDS = [
   'vechain',
