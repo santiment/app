@@ -6,7 +6,11 @@ import styles from './MobilePopularMetrics.module.scss'
 
 const LS_LABEL = 'TOOLTIP_MOBILE_METRICS_SWIPES'
 
-const MobilePopularMetrics = ({ metrics, onToggleMetric, ...rest }) => {
+const MobilePopularMetrics = ({
+  metrics: activeMetrics,
+  onToggleMetric,
+  ...rest
+}) => {
   const [isShow, setIsShow] = useState(false)
 
   const wasShown = localStorage.getItem(LS_LABEL)
@@ -22,10 +26,14 @@ const MobilePopularMetrics = ({ metrics, onToggleMetric, ...rest }) => {
     }
   }, [])
 
+  const metrics = POPULAR_METRICS.filter(
+    metric => !activeMetrics.includes(metric)
+  )
+
   return (
     <>
       <h3 className={styles.heading}>Popular metrics</h3>
-      {isShow && !wasShown && (
+      {isShow && (
         <div className={styles.tooltip}>
           <span className={styles.text}>
             Swipe left to add or remove a metric. Swipe right to learn more
@@ -34,10 +42,9 @@ const MobilePopularMetrics = ({ metrics, onToggleMetric, ...rest }) => {
           <Icon type='close' className={styles.close} onClick={hideTooltip} />
         </div>
       )}
-      {POPULAR_METRICS.map(metric => (
+      {metrics.map(metric => (
         <MobileMetricCard
           metric={metric}
-          hide={metrics.includes(metric)}
           onToggleMetric={() => {
             onToggleMetric(metric)
             if (isShow) {

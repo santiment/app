@@ -1,11 +1,24 @@
 @import '~@santiment-network/ui/mixins';
 
-.left {
+.button__left {
   left: 0;
 }
 
-.right {
+.button__right {
   right: 0;
+}
+
+.content {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  background-color: var(--white);
+  user-select: none;
+  -webkit-user-select: none;
+  box-sizing: border-box;
 }
 
 .container {
@@ -18,18 +31,29 @@
   box-shadow: 0 2px 8px rgba(59, 84, 106, 0.03),
     0 1px 2px rgba(59, 84, 106, 0.03);
   border-radius: 4px;
+  animation: appear 0.3s ease-in-out;
 
   &__right {
     background-color: var(--jungle-green-light-2);
     fill: var(--jungle-green);
 
-    &.selected {
-      background-color: var(--persimmon-light);
-      fill: var(--persimmon);
+    &.container__action .content {
+      border: 1px solid var(--jungle-green-light-2);
     }
 
-    & .left {
+    .button__left {
       display: none;
+    }
+  }
+
+  &__selected {
+    &.container__right {
+      background-color: var(--persimmon-light);
+      fill: var(--persimmon);
+
+      &.container__action .content {
+        border: 1px solid var(--persimmon-light);
+      }
     }
   }
 
@@ -37,9 +61,16 @@
     background-color: var(--porcelain);
     fill: var(--rhino);
 
-    & .right {
+    .button__right {
       display: none;
     }
+  }
+
+  &__hide {
+    transition: all 0.2s ease-in-out;
+    transition-delay: 0.1s;
+    height: 0;
+    fill: transparent !important;
   }
 }
 
@@ -54,43 +85,6 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-}
-
-.content {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  border: 1px solid var(--porcelain);
-  border-radius: 4px;
-  background-color: var(--white);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: none;
-  box-sizing: border-box;
-
-  &__right {
-    border: 1px solid var(--jungle-green-light-2);
-  }
-
-  &__left {
-    border: 1px solid var(--porcelain);
-  }
-}
-
-.selected {
-  animation: appear 0.3s ease-in-out;
-
-  & .content__right {
-    border: 1px solid var(--persimmon-light);
-  }
-}
-
-.hide {
-  transition: all 0.2s ease-in-out;
-  transition-delay: 0.1s;
-  height: 0;
-  fill: transparent !important;
 }
 
 @keyframes appear {
