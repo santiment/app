@@ -25,8 +25,11 @@ const getAvailableIntervals = (from, to) => {
     format: DAY
   })
 
-  if (diff < 10 || format !== DAY) {
+  if (diff < 8) {
     return ['10min', '30min', '1h']
+  }
+  if (diff < 14) {
+    return ['30min', '1h', '2h']
   }
   if (diff < 20) {
     return ['1h', '2h', '3h']

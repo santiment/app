@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { updateChartDimensions, updateSize } from '@santiment-network/chart'
 import {
   updateBrushDimensions,
@@ -30,3 +31,12 @@ export function onResize (chart, chartPadding, brush, data) {
     }
   }
 }
+
+export const useResizeEffect = (clb, deps) =>
+  useEffect(() => {
+    window.addEventListener('resize', clb)
+
+    return () => {
+      window.removeEventListener('resize', clb)
+    }
+  }, deps)
