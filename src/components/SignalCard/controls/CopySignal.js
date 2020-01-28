@@ -45,7 +45,7 @@ const CopySignal = ({
 
   return (
     !isCreation && (
-      <div className={classes.copyWrapper}>
+      <>
         {children}
         <Button
           onClick={copySignal}
@@ -55,7 +55,7 @@ const CopySignal = ({
         >
           {label}
         </Button>
-      </div>
+      </>
     )
   )
 }

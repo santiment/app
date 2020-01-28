@@ -62,7 +62,7 @@ const ActivityWithBacktesting = ({
         </div>
 
         <div className={styles.bottom}>
-          <LikeBtnWrapper onLike={onLike} votes={votes} />
+          {onLike && <LikeBtnWrapper onLike={onLike} votes={votes} />}
           <CopySignal signal={trigger} />
         </div>
       </div>
