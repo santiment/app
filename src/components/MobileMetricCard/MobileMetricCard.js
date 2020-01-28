@@ -27,7 +27,8 @@ const MobileMetricCard = ({
   onToggleMetric,
   hasPremium,
   slug,
-  width
+  width,
+  useInitialAnimation
 }) => {
   const [isOpenDescription, setIsOpenDescription] = useState(false)
 
@@ -46,6 +47,7 @@ const MobileMetricCard = ({
 
   return (
     <SwipeableCard
+      useInitialAnimation={useInitialAnimation}
       onLeftActionClick={() => setIsOpenDescription(true)}
       onRightActionClick={onToggleMetric}
       hasLeftAction={description}

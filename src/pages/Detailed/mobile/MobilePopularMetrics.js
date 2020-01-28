@@ -7,7 +7,7 @@ import styles from './MobilePopularMetrics.module.scss'
 const LS_LABEL = 'TOOLTIP_MOBILE_METRICS_SWIPES'
 
 const MobilePopularMetrics = ({
-  metrics: activeMetrics,
+  metrics: activeMetrics = [],
   onToggleMetric,
   ...rest
 }) => {
@@ -44,6 +44,7 @@ const MobilePopularMetrics = ({
       )}
       {metrics.map(metric => (
         <MobileMetricCard
+          useInitialAnimation={activeMetrics.length > 0}
           metric={metric}
           onToggleMetric={() => {
             onToggleMetric(metric)

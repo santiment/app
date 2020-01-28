@@ -27,6 +27,7 @@ const SwipeableCard = ({
   onRightActionClick,
   hasLeftAction,
   hasRightAction = true,
+  useInitialAnimation = true,
   isSelected,
   width: containerWidth
 }) => {
@@ -35,6 +36,7 @@ const SwipeableCard = ({
   const [side, setSide] = useState(null)
   const [currentGesture, setCurrentGesture] = useState(null)
   const [isSwipe, setIsSwipe] = useState(null)
+  const [withAnimation] = useState(useInitialAnimation)
 
   const onLeftAction = () => {
     onLeftActionClick()
@@ -130,11 +132,12 @@ const SwipeableCard = ({
   return (
     <div
       className={cx(
-        styles.container,
-        styles[`container__${side}`],
-        offset && styles.container__action,
-        offset === FULL_HIDE_POSITION && styles.container__hide,
-        isSelected && styles.container__selected
+        styles.wrapper,
+        styles[`wrapper__${side}`],
+        offset && styles.wrapper__action,
+        offset === FULL_HIDE_POSITION && styles.wrapper__hide,
+        isSelected && styles.wrapper__selected,
+        withAnimation && styles.wrapper__animation
       )}
       style={{ '--button-width': `${BUTTON_WIDTH}px` }}
     >
