@@ -85,8 +85,7 @@ export const mapToOption = item => {
   }
 }
 
-export const targetMapper = ({ value, slug, eth_address } = {}) =>
-  slug || value || eth_address
+export const targetMapper = ({ value, slug } = {}) => slug || value
 export const targetMapperWithName = ({ value, slug, name } = {}) =>
   name || slug || value
 
@@ -1077,7 +1076,13 @@ export const couldShowChart = (
   settings,
   types = POSSIBLE_METRICS_FOR_CHART
 ) => {
-  const { signalType, metric, type, target, ethAddress } = settings
+  const {
+    signalType,
+    metric,
+    type,
+    target = {},
+    ethAddress = target.eth_address
+  } = settings
   if (signalType && isWatchlist(signalType)) {
     return false
   }
@@ -1089,18 +1094,14 @@ export const couldShowChart = (
 
   const checking = metric ? metric.value : type
 
-  if (!isArray && !targetMapper(target)) {
-    return false
-  }
-
   switch (checking) {
     case ETH_WALLET: {
-      if (ethAddress) {
-        return Array.isArray(ethAddress)
-          ? ethAddress.length === 1
-          : !!ethAddress
-      }
+      return Array.isArray(ethAddress) ? ethAddress.length === 1 : !!ethAddress
     }
+  }
+
+  if (!isArray && !targetMapper(target)) {
+    return false
   }
 
   return checking ? types.indexOf(checking) >= 0 : false
