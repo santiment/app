@@ -85,16 +85,20 @@ function prepareEvents (events) {
 
 const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
   const [syncedTooltipDate, syncTooltips] = useState()
-  let [syncedEvents, syncEvents] = useState()
-  let [syncedCategories, syncCategories] = useState([])
+  const [syncedEvents, syncEvents] = useState()
+  const [syncedCategories, syncCategories] = useState([])
+  const [noPriceMetrics, setNoPriceMetrics] = useState([])
+  const [hasPriceMetric, setHasPriceMetric] = useState()
+  const [isValidMulti, setIsValidMulti] = useState()
 
   const syncedColors = getSyncedColors(metrics)
-  const noPriceMetrics = metrics.filter(metric => metric !== historyPrice)
-  const isValidMulti = isMultiChartsActive && noPriceMetrics.length > 1
-  const hasPriceMetric = metrics.length !== noPriceMetrics.length
 
   useEffect(
     () => {
+      const noPriceMetrics = metrics.filter(metric => metric !== historyPrice)
+      const hasPriceMetric = metrics.length !== noPriceMetrics.length
+      const isValidMulti = isMultiChartsActive && noPriceMetrics.length > 1
+
       const categories = []
       if (isValidMulti) {
         noPriceMetrics.forEach(metric =>
@@ -108,10 +112,11 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
         categories.push(metricsToPlotCategories(metrics))
       }
 
-      syncedCategories = categories
-      syncedEvents = events
       syncCategories(categories)
       syncEvents(prepareEvents(events))
+      setNoPriceMetrics(noPriceMetrics)
+      setHasPriceMetric(hasPriceMetric)
+      setIsValidMulti(isValidMulti)
     },
     [metrics]
   )

@@ -18,9 +18,8 @@ import {
 } from './settings'
 import { drawWatermark } from './watermark'
 import { drawPaywall } from './paywall'
-import { onResize } from './resize'
+import { onResize, useResizeEffect } from './resize'
 import { drawLastDayPrice, withLastDayPrice } from './lastDayPrice'
-import { useResizeEffect } from './hook'
 import { clearCtx, findPointIndexByDate } from './utils'
 import styles from './index.module.scss'
 
