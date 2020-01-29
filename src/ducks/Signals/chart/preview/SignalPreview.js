@@ -24,6 +24,7 @@ import {
   mapWithTimeseriesAndYCoord,
   mapToRequestedMetrics
 } from './utils'
+import { DAILY_ACTIVE_ADDRESSES } from '../../utils/constants'
 import styles from './SignalPreview.module.scss'
 
 const PreviewLoader = (
@@ -40,11 +41,15 @@ const SignalPreviewChart = ({
   label,
   points,
   showExpand,
-  showTitle
+  showTitle,
+  interval
 }) => {
   const triggeredSignals = points.filter(point => point['triggered?'])
   const metricsTypes = getMetricsByType(type)
   const { metrics, triggersBy } = metricsTypes
+
+  const isStrongDaily = type === DAILY_ACTIVE_ADDRESSES
+  const metricsInterval = isStrongDaily ? '1d' : interval
 
   const metricRest = {
     address: target && target.eth_address ? target.eth_address : ''
@@ -52,7 +57,7 @@ const SignalPreviewChart = ({
 
   const requestedMetrics = mapToRequestedMetrics(metrics, {
     timeRange,
-    interval: '1d',
+    interval: metricsInterval,
     slug,
     ...metricRest
   })
@@ -79,7 +84,8 @@ const SignalPreviewChart = ({
         const signals = mapWithTimeseriesAndYCoord(
           triggeredSignals,
           triggersBy,
-          merged
+          merged,
+          isStrongDaily
         )
 
         const referenceDots =
@@ -135,7 +141,7 @@ const SignalPreview = ({
   showExpand = true,
   showTitle = true
 }) => {
-  const { settings: { target, asset } = {} } = trigger
+  const { settings: { target, asset } = {}, cooldown } = trigger
 
   if (!target && !asset) {
     return null
@@ -147,7 +153,7 @@ const SignalPreview = ({
     <Query
       query={HISTORICAL_TRIGGER_POINTS_QUERY}
       variables={{
-        cooldown: trigger.cooldown,
+        cooldown: cooldown,
         settings: JSON.stringify(trigger.settings)
       }}
     >
@@ -182,6 +188,7 @@ const SignalPreview = ({
             showExpand={showExpand}
             showTitle={showTitle}
             target={target}
+            interval={cooldown}
           />
         )
       }}

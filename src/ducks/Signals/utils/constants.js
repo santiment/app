@@ -463,7 +463,7 @@ export const PREVIEWS_TIMERANGE_BY_TYPE = {
   [PRICE_ABSOLUTE_CHANGE]: getDefaultTimeRangeValue(90),
   [PRICE_PERCENT_CHANGE]: getDefaultTimeRangeValue(90),
   [PRICE_VOLUME_DIFFERENCE]: getDefaultTimeRangeValue(180),
-  [ETH_WALLET]: getDefaultTimeRangeValue(365)
+  [ETH_WALLET]: getDefaultTimeRangeValue(90)
 }
 
 export const TIME_WINDOW_UNITS = [
