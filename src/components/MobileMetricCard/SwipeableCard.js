@@ -42,11 +42,14 @@ const SwipeableCard = ({
   const onLeftAction = () => {
     onLeftActionClick()
     setStartPos(0)
+    setCurrentGesture(null)
   }
 
   const onRightAction = () => {
     setOffset(FULL_HIDE_POSITION)
-    setTimeout(onRightActionClick, 500)
+    setTimeout(() => {
+      onRightActionClick()
+    }, 500)
   }
 
   const shouldActivateAction = ({ prevX, prevTs, x, ts }) => {
@@ -60,8 +63,7 @@ const SwipeableCard = ({
     (side === SIDES.RIGHT && hasRightAction) ||
     (side === SIDES.LEFT && hasLeftAction)
 
-  if (startPos && isOuterEvent && !currentGesture) {
-    setStartPos(0)
+  if (offset && startPos && isOuterEvent && !currentGesture) {
     setOffset(0)
   }
 
@@ -110,7 +112,6 @@ const SwipeableCard = ({
 
     if (shouldActivateAction({ prevX, x, prevTs, ts })) {
       side === SIDES.RIGHT ? onRightAction() : onLeftAction()
-      setCurrentGesture(null)
       return
     }
 

@@ -32,10 +32,10 @@
 .selected {
   transition: max-height 0.3s ease-in-out;
   max-height: 500px;
-  overflow: visible;
+  overflow-x: visible;
 
   &.hide {
-    max-height: 0;
+    max-height: 150px;
   }
 }
 

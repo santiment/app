@@ -1,7 +1,10 @@
 import React from 'react'
 import withSizes from 'react-sizes'
-import { mapSizesToProps } from '../../../utils/withSizes'
 import Selector from '@santiment-network/ui/Selector/Selector'
+import { mapSizesToProps } from '../../../utils/withSizes'
+
+const FULL_SET_OPTIONS = ['1d', '1w', '1m', '3m', '6m', '1y', 'all']
+const SHORT_SET_OPTIONS = ['1w', '1m', '3m', '6m', 'all']
 
 const MobileAssetChartSelector = ({
   isFullscreen,
@@ -11,9 +14,7 @@ const MobileAssetChartSelector = ({
   onChangeTimeRange
 }) => {
   const options =
-    isFullscreen || !isSmallPhone
-      ? ['1d', '1w', '1m', '3m', '6m', '1y', 'all']
-      : ['1w', '1m', '3m', '6m', 'all']
+    isFullscreen || !isSmallPhone ? FULL_SET_OPTIONS : SHORT_SET_OPTIONS
   let defaultTimeRange
   if (options.includes(timeRange)) {
     defaultTimeRange = timeRange

@@ -240,7 +240,7 @@ const Chart = ({
       {hasPriceMetric && (
         <Signals chart={chart} data={data} slug={slug} scale={scale} />
       )}
-      {isLoading && <Loader className={styles.loader} />}
+      {isLoading && <Loader />}
     </div>
   )
 }

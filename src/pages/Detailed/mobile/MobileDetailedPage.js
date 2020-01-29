@@ -168,7 +168,7 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                       const day = data.find(item => item.datetime === datetime)
                       return {
                         metric,
-                        y: day[metric],
+                        y: day ? day[metric] : 0,
                         datetime,
                         key,
                         ...rest,
@@ -231,6 +231,7 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                           metricsToolProps={commonMetricsToolProps}
                         />
                       </div>
+                      {!hasPremium && metrics.length > 0 && <MobileProPopup />}
                       <div
                         className={cx(
                           styles.selected,
@@ -239,7 +240,6 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                       >
                         {metrics.length > 0 && (
                           <>
-                            {!hasPremium && <MobileProPopup />}
                             <h3 className={styles.heading}>Choosed Metrics</h3>
                             {metrics.map(metric => (
                               <MobileMetricCard

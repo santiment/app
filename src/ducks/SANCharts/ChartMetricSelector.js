@@ -60,7 +60,7 @@ const getCategoryGraph = (availableMetrics, hiddenMetrics) => {
     const metricCategory = metric.category
     const metrics = []
 
-    if (!hiddenMetrics.find(item => item === metric)) {
+    if (!hiddenMetrics.includes(metric)) {
       metrics.push(metric)
     }
 

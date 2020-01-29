@@ -3,13 +3,13 @@ import { graphql } from 'react-apollo'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Dialog from '@santiment-network/ui/Dialog'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { formatTooltipValue } from '../../ducks/SANCharts/CustomTooltip'
 import PercentChanges from '../PercentChanges'
 import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { makeRequestedData } from '../../pages/Detailed/mobile/utils'
 import { METRIC_ANOMALIE_QUERY } from '../../ducks/GetTimeSeries/queries/metric_anomaly_query'
-import Loader from '@santiment-network/ui/Loader/Loader'
 import { Metrics, Events } from '../../ducks/SANCharts/data'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
 import SwipeableCard from './SwipeableCard'
@@ -18,7 +18,7 @@ import styles from './MobileMetricCard.module.scss'
 const MobileMetricCard = ({
   metric,
   value = 0,
-  period = '',
+  period = '24h',
   changes,
   colors = {},
   ticker = '',
@@ -29,10 +29,9 @@ const MobileMetricCard = ({
   ...rest
 }) => {
   const [isOpenDescription, setIsOpenDescription] = useState(false)
-
   const { length: anomaliesNumber } = anomalies
 
-  const { label, description, key, dataKey } = metric
+  const { label, description, key, dataKey = key } = metric
   const { from, to } = getTimeIntervalFromToday(-1, DAY, { isUTC: true })
 
   const requestedData = makeRequestedData({
@@ -81,8 +80,8 @@ const MobileMetricCard = ({
 
             if (timeseries.length >= 2) {
               const lastIndex = timeseries.length - 1
-              const today = timeseries[lastIndex][dataKey || key]
-              const yesterday = timeseries[lastIndex - 1][dataKey || key]
+              const today = timeseries[lastIndex][dataKey]
+              const yesterday = timeseries[lastIndex - 1][dataKey]
               value = `${formatTooltipValue(false, today)} ${
                 metric === Metrics.transaction_volume ? ticker : ''
               }`
@@ -92,7 +91,7 @@ const MobileMetricCard = ({
             const color =
               metric === Events.trendPositionHistory
                 ? '#505573'
-                : colors[dataKey || key]
+                : colors[dataKey]
 
             return (
               <div
@@ -104,16 +103,11 @@ const MobileMetricCard = ({
                     <h4 className={styles.value}>{value}</h4>
                     <PercentChanges changes={diff} />
                     <Label accent='casper' className={styles.period}>
-                      , {period || '24h'}
+                      , {period}
                     </Label>
                   </>
                 )}
                 {isLoading && !value && <Loader className={styles.loader} />}
-                {false && !hasPremium && !isLoading && !value && (
-                  <div className={styles.text}>
-                    Latest data available in PRO plan
-                  </div>
-                )}
               </div>
             )
           }}

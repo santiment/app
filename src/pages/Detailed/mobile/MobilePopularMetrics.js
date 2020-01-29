@@ -12,8 +12,8 @@ const MobilePopularMetrics = ({
   ...rest
 }) => {
   const [isShow, setIsShow] = useState(false)
-
-  const wasShown = localStorage.getItem(LS_LABEL)
+  const [wasShown] = useState(localStorage.getItem(LS_LABEL))
+  const [savedMetrics] = useState(activeMetrics)
 
   const hideTooltip = () => {
     localStorage.setItem(LS_LABEL, '+')
@@ -44,7 +44,9 @@ const MobilePopularMetrics = ({
       )}
       {metrics.map(metric => (
         <MobileMetricCard
-          useInitialAnimation={activeMetrics.length > 0}
+          useInitialAnimation={
+            activeMetrics.length > 0 || savedMetrics !== activeMetrics
+          }
           metric={metric}
           onToggleMetric={() => {
             onToggleMetric(metric)

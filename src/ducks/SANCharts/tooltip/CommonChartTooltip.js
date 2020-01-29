@@ -33,28 +33,30 @@ const ChartTooltip = ({
           <div className={styles.title}>{labelFormatter(label)}</div>
         )}
         <div className={styles.content}>
-          {payload.map(({ dataKey, key, value, color, name, formatter }) => {
-            const foundedSettings = tooltipSettings[key] || {}
-            return (
-              <div
-                key={dataKey || key}
-                style={{ '--color': color }}
-                className={styles.metric}
-              >
-                <span className={styles.value}>
-                  {valueFormatter({
-                    value,
-                    key: dataKey,
-                    formatter: foundedSettings.formatter || formatter,
-                    payload
-                  })}
-                </span>
-                <span className={styles.name}>
-                  {foundedSettings.label || name || dataKey}
-                </span>
-              </div>
-            )
-          })}
+          {payload.map(
+            ({ key, dataKey = key, value, color, name, formatter }) => {
+              const foundedSettings = tooltipSettings[key] || {}
+              return (
+                <div
+                  key={dataKey}
+                  style={{ '--color': color }}
+                  className={styles.metric}
+                >
+                  <span className={styles.value}>
+                    {valueFormatter({
+                      value,
+                      key: dataKey,
+                      formatter: foundedSettings.formatter || formatter,
+                      payload
+                    })}
+                  </span>
+                  <span className={styles.name}>
+                    {foundedSettings.label || name || dataKey}
+                  </span>
+                </div>
+              )
+            }
+          )}
         </div>
       </div>
     )

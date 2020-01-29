@@ -128,7 +128,7 @@ const MobileAssetChart = ({
           {markup}
           {events.map(({ datetime, metric, color, y, key }) => (
             <ReferenceDot
-              key={datetime + key}
+              key={datetime + key + metric}
               yAxisId={'axis-' + metric}
               x={datetime}
               y={y}
