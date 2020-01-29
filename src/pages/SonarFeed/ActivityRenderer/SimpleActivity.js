@@ -6,6 +6,7 @@ import { SignalTypeIcon } from '../../../components/SignalCard/controls/SignalCo
 import { SIGNAL_ANCHORS } from '../../../ducks/Signals/common/constants'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
+import { DesktopOnly } from '../../../components/Responsive'
 import styles from './ActivityRenderer.module.scss'
 
 const SimpleActivity = ({
@@ -21,7 +22,9 @@ const SimpleActivity = ({
 }) => {
   return (
     <div className={styles.wrapper}>
-      <SignalTypeIcon type={type} className={styles.icon} />
+      <DesktopOnly>
+        <SignalTypeIcon type={type} className={styles.icon} />
+      </DesktopOnly>
       <div className={styles.center}>
         <div className={cx(styles.description, styles.activityCustom)}>
           <h4 className={styles.title}>
