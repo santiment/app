@@ -88,6 +88,9 @@ const SwipeableCard = ({
     if (isSwipe === null) {
       if (isSwipeEvent({ startX, startY, x, y })) {
         setIsSwipe(true)
+
+        // NOTE: For Safari, will ignore in Chrome (due to passive event)
+        evt.preventDefault()
       } else {
         onCancel()
         return
