@@ -34,6 +34,11 @@ export const cleanByDatakeys = (timeseries, dataKey) => {
   return timeseries.filter(item => item[dataKey] !== undefined)
 }
 
+export const makeSameRange = (points, base) => {
+  const date = base[0].datetime
+  return points.filter(({ datetime }) => +new Date(datetime) > date)
+}
+
 export const mapToRequestedMetrics = (
   metrics,
   { interval, slug, from, to, timeRange, address }
