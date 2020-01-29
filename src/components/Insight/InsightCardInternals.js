@@ -75,7 +75,7 @@ const InsightCardInternals = ({
             className={styles.likeBtn}
           />
           <a
-            href={linkToInsight + '#comments'}
+            href={linkToInsight + '?_wc=1#comments'}
             className={cx(styles.stat, styles.stat_comments)}
           >
             <Icon type='comment' className={styles.commentIcon} />{' '}
