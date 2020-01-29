@@ -58,7 +58,7 @@ function colorTrend (position) {
   return COLOR['bright-sun']
 }
 
-function prepareEvents (events) {
+export function prepareEvents (events) {
   return events.map(({ datetime, position, metricAnomalyKey }) => {
     const date = +new Date(datetime)
     if (metricAnomalyKey) {

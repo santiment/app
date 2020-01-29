@@ -8,14 +8,14 @@ export const INTERVAL_ALIAS = {
   '30min': '30m'
 }
 
-export const getNewInterval = (from, to, lastInterval) => {
+export const getNewInterval = (from, to, lastInterval, options = {}) => {
   const intervals = getAvailableIntervals(from, to)
 
   if (intervals.includes(lastInterval)) {
     return lastInterval
   }
 
-  return intervals[0]
+  return options.isMobile ? intervals[1] : intervals[0]
 }
 
 const getAvailableIntervals = (from, to) => {

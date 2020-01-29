@@ -5,7 +5,6 @@ import cx from 'classnames'
 import Loadable from 'react-loadable'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import GetTimeSeries from '../../ducks/GetTimeSeries/GetTimeSeries'
-import { ERRORS } from '../GetTimeSeries/reducers'
 import Chart from './Chart'
 import Synchronizer from './Chart/Synchronizer'
 import Header from './Header'
@@ -21,6 +20,7 @@ import {
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import GA from './../../utils/tracking'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
+import ErrorRequest from './ErrorRequest'
 import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
 import { mapParsedTrueFalseFields } from '../../utils/utils'
 import { checkHasPremium } from '../../pages/UserSelectors'
@@ -517,16 +517,7 @@ class ChartPage extends Component {
           trendPositionHistory
         }) => {
           if (isError) {
-            if (errorType === ERRORS.COMPLEXITY) {
-              return (
-                <div>
-                  Too complexed request
-                  <br />
-                  Decrease number of points
-                </div>
-              )
-            }
-            return <div>Something is going wrong</div>
+            return <ErrorRequest errorType={errorType} />
           }
 
           const errors = Object.keys(errorMetrics)

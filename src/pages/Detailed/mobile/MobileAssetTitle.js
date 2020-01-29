@@ -1,10 +1,10 @@
 import React from 'react'
 import { capitalizeStr } from '../../../utils/utils'
-import styles from './MobileDetailedPage.module.scss'
+import styles from './MobileAssetTitle.module.scss'
 
 const MobileAssetTitle = ({ slug, ticker }) => (
   <>
-    {capitalizeStr(slug)}{' '}
+    <span className={styles.name}>{capitalizeStr(slug)}</span>
     {ticker && <span className={styles.ticker}>({ticker.toUpperCase()})</span>}
   </>
 )

@@ -1,345 +1,295 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
-import { compose } from 'recompose'
-import { graphql } from 'react-apollo'
-import Selector from '@santiment-network/ui/Selector/Selector'
-import { DailyActiveAddressesGQL } from '../gqlWrappers/DetailedGQL'
-import { SOCIAL_VOLUME_QUERY } from '../../../ducks/GetTimeSeries/queries/social_volume_query'
-import { NEWS_QUERY } from '../../../components/News/NewsGQL'
-import { calcPercentageChange } from '../../../utils/utils'
-import {
-  DAY,
-  getTimeIntervalFromToday,
-  getIntervalByTimeRange
-} from '../../../utils/dates'
-import { Metrics, compatabilityMap } from '../../../ducks/SANCharts/data'
-import MobileHeader from '../../../components/MobileHeader/MobileHeader'
-import NewsSmall from '../../../components/News/NewsSmall'
-import PageLoader from '../../../components/Loader/PageLoader'
-import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
+import { connect } from 'react-redux'
+import GA from '../../../utils/tracking'
 import GetAsset from '../gqlWrappers/GetAsset'
-import GetTimeSeries from '../../../ducks/GetTimeSeries/GetTimeSeries'
-import MobileAssetChart from './MobileAssetChart'
 import Title from './MobileAssetTitle'
+import AssetChart from './MobileAssetChart'
 import PriceBlock from './MobileAssetPriceInfo'
-import ShowIf from '../../../components/ShowIf'
-import GetWatchlists from '../../../ducks/Watchlists/GetWatchlists'
-import WatchlistsPopup from '../../../components/WatchlistPopup/WatchlistsPopup'
+import FullscreenChart from './MobileFullscreenChart'
+import ChartSelector from './MobileAssetChartSelector'
+import MobilePopularMetrics from './MobilePopularMetrics'
+import { checkHasPremium } from '../../UserSelectors'
+import { Metrics } from '../../../ducks/SANCharts/data'
+import { mapDatetimeToNumber } from '../../../ducks/SANCharts/utils'
+import ErrorRequest from '../../../ducks/SANCharts/ErrorRequest'
+import ChartMetricsTool from '../../../ducks/SANCharts/ChartMetricsTool'
+import GetTimeSeries from '../../../ducks/GetTimeSeries/GetTimeSeries'
+import {
+  getNewInterval,
+  INTERVAL_ALIAS
+} from '../../../ducks/SANCharts/IntervalSelector'
+import {
+  makeRequestedData,
+  convertEventsToObj,
+  DEFAULT_METRIC,
+  DEFAULT_TIME_RANGE,
+  MAX_METRICS_PER_CHART,
+  POPULAR_METRICS
+} from './utils'
+import PageLoader from '../../../components/Loader/PageLoader'
+import MobileHeader from '../../../components/MobileHeader/MobileHeader'
+import MobileMetricCard from '../../../components/MobileMetricCard/MobileMetricCard'
+import MobileProPopup from '../../../components/MobileProPopup/MobileProPopup'
+import {
+  getSyncedColors,
+  prepareEvents
+} from '../../../ducks/SANCharts/Chart/Synchronizer'
 import { addRecentAssets } from '../../../utils/recent'
+import { getIntervalByTimeRange } from '../../../utils/dates'
 import styles from './MobileDetailedPage.module.scss'
 
-const MobileDetailedPage = props => {
+const MobileDetailedPage = ({ hasPremium, ...props }) => {
   const slug = props.match.params.slug
-  const [timeRange, setTimeRange] = useState('6m')
+  const [timeRange, setTimeRange] = useState(DEFAULT_TIME_RANGE)
   const [icoPricePos, setIcoPricePos] = useState(null)
-  const [extraMetric, setExtraMetric] = useState()
+  const [fullscreen, toggleFullscreen] = useState(false)
+  const [metrics, setMetrics] = useState([])
+  const [isLimitReached, setIsLimitReached] = useState(false)
+  const [width, setWidth] = useState()
+  const [isOuterEvent, setIsOuterEvent] = useState(false)
 
   addRecentAssets(slug)
 
-  const toggleExtraMetric = toggledMetric => {
-    if (extraMetric && toggledMetric.name === extraMetric.name) {
-      setExtraMetric(undefined)
+  const toggleMetric = metric => {
+    const newMetrics = new Set(metrics)
+
+    if (!newMetrics.delete(metric)) {
+      newMetrics.add(metric)
+
+      GA.event({
+        category: 'Chart',
+        action: `Showing "${metric.label} on mobile"`
+      })
     } else {
-      setExtraMetric(toggledMetric)
+      GA.event({
+        category: 'Chart',
+        action: `Removing "${metric.label} on movile"`
+      })
     }
+
+    if (newMetrics.size > MAX_METRICS_PER_CHART) {
+      setIsLimitReached(true)
+      return
+    } else if (isLimitReached) {
+      setIsLimitReached(false)
+    }
+
+    setMetrics([...newMetrics])
   }
 
-  let socialVolumeInfo
-  const { socialVolume } = props
-  if (socialVolume[0] && socialVolume[1]) {
-    const yesterdaySocialVolume = socialVolume[0]
-    const todaySocialVolume = socialVolume[1]
-    const SVDiff = calcPercentageChange(
-      yesterdaySocialVolume,
-      todaySocialVolume
-    )
-    socialVolumeInfo = {
-      name: 'Social Volume',
-      metric: 'socialVolume',
-      value: todaySocialVolume,
-      period: '24h',
-      changes: SVDiff
-    }
+  const { from, to } = getIntervalByTimeRange(timeRange)
+
+  const interval = getNewInterval(from, to, '1d', { isMobile: true })
+
+  const rest = {
+    slug,
+    from,
+    to,
+    interval: INTERVAL_ALIAS[interval] || interval
   }
 
-  let activeAddressesInfo
-  const { dailyActiveAddresses } = props
-  if (dailyActiveAddresses && dailyActiveAddresses.length === 2) {
-    const [
-      { activeAddresses: yesterdayActiveAddresses },
-      { activeAddresses: todayActiveAddresses }
-    ] = dailyActiveAddresses
-    const DAADiff = calcPercentageChange(
-      yesterdayActiveAddresses,
-      todayActiveAddresses
-    )
-    activeAddressesInfo = {
-      metric: 'daily_active_addresses',
-      name: 'Daily Active Addresses',
-      value: todayActiveAddresses,
-      period: '24h',
-      changes: DAADiff
-    }
-  }
-
-  const { from, to } = getIntervalByTimeRange(timeRange, { isMobile: true })
-
-  const metrics = [
-    {
-      name: 'historyPrice',
-      slug,
-      from: from.toISOString(),
-      to: to.toISOString(),
-      interval: timeRange === '1w' ? '2h' : timeRange === '1m' ? '8h' : '1d'
-    }
-  ]
-
-  const lastTwoDaysMetrics = [
-    {
-      name: 'transaction_volume',
-      slug,
-      timeRange: '2d',
-      interval: '1d'
-    }
-  ]
-
-  if (extraMetric) {
-    const { alias } =
-      Metrics[extraMetric.name] || compatabilityMap[extraMetric.name]
-    const metric = { name: alias || extraMetric.name }
-    if (extraMetric.name === 'devActivity') {
-      metric.transform = 'movingAverage'
-      metric.movingAverageIntervalBase = 7
-    }
-    metrics.push(Object.assign({}, metrics[0], metric))
-  }
+  const requestedData = makeRequestedData({
+    metrics: [DEFAULT_METRIC, ...metrics],
+    ...rest
+  })
 
   return (
-    <div className={cx('page', styles.wrapper)}>
-      <GetAsset
-        slug={slug}
-        render={({ isLoading, slug, project }) => {
-          if (isLoading) {
-            return (
-              <>
-                <MobileHeader
-                  showBack
-                  title={<Title slug={slug} />}
-                  goBack={props.history.goBack}
-                />
-                <PageLoader />
-              </>
-            )
-          }
+    <GetAsset
+      slug={slug}
+      render={({ isLoading, slug, project }) =>
+        isLoading ? (
+          <div className={cx('page', styles.wrapper)}>
+            <MobileHeader
+              showBack
+              title={<Title slug={slug} />}
+              goBack={props.history.goBack}
+            />
+            <PageLoader />
+          </div>
+        ) : (
+          <div className={cx('page', styles.wrapper)}>
+            <MobileHeader
+              showBack
+              title={<Title slug={project.name} ticker={project.ticker} />}
+              goBack={props.history.goBack}
+            />
+            <div
+              className={styles.main}
+              onTouchStart={() => setIsOuterEvent(true)}
+              onTouchCancel={() => setIsOuterEvent(false)}
+              onTouchEnd={() => setIsOuterEvent(false)}
+              ref={el => {
+                if (!el) return
+                if (!width) {
+                  setWidth(el.getBoundingClientRect().width)
+                }
+              }}
+            >
+              <GetTimeSeries
+                {...requestedData}
+                render={({
+                  timeseries = [],
+                  errorMetrics = {},
+                  eventsData = [],
+                  isError,
+                  isLoading,
+                  errorType
+                }) => {
+                  if (isError) {
+                    return <ErrorRequest errorType={errorType} />
+                  }
 
-          const {
-            ticker,
-            name,
-            percentChange24h,
-            percentChange7d,
-            devActivity30,
-            devActivity60,
-            priceUsd,
-            icoPrice
-          } = project
+                  const errors = Object.keys(errorMetrics)
+                  const finalMetrics = metrics.filter(
+                    ({ key }) => !errors.includes(key)
+                  )
 
-          let devActivityInfo
-          if (devActivity30 && devActivity60) {
-            const DADiff = calcPercentageChange(
-              devActivity60 * 2 - devActivity30,
-              devActivity30
-            )
-            devActivityInfo = {
-              metric: 'devActivity',
-              name: 'Development Activity',
-              value: devActivity30,
-              period: '30d',
-              changes: DADiff
-            }
-          }
-          return (
-            <>
-              <MobileHeader
-                showBack
-                title={<Title slug={name} ticker={ticker} />}
-                goBack={props.history.goBack}
-              />
-              <div className={styles.main}>
-                <PriceBlock
-                  changes24h={percentChange24h}
-                  changes7d={percentChange7d}
-                  priceUsd={priceUsd}
-                />
-                <GetTimeSeries
-                  metrics={metrics}
-                  render={({ historyPrice = {}, timeseries }) => {
-                    if (historyPrice.isLoading) {
-                      return 'Loading...'
-                    }
+                  const notSelectedPopularNumber = POPULAR_METRICS.filter(
+                    metric => !finalMetrics.includes(metric)
+                  ).length
 
-                    return (
-                      <>
-                        <MobileAssetChart
-                          data={timeseries}
-                          slug={slug}
-                          icoPrice={icoPrice}
-                          icoPricePos={icoPricePos}
-                          setIcoPricePos={setIcoPricePos}
-                          extraMetric={extraMetric}
-                        />
-                        <Selector
-                          options={['1w', '1m', '3m', '6m', 'all']}
-                          className={styles.timeRangeBlock}
-                          onSelectOption={value => {
-                            if (value !== timeRange) {
-                              setTimeRange(value)
-                              setIcoPricePos(null)
-                            }
-                          }}
-                          defaultSelected={timeRange}
-                        />
-                      </>
-                    )
-                  }}
-                />
-                <GetTimeSeries
-                  metrics={lastTwoDaysMetrics}
-                  render={({ isLoading, timeseries = [] }) => {
-                    let transactionVolumeInfo
-                    if (timeseries.length > 1) {
-                      const { transaction_volume: yesterdayTV } = timeseries[
-                        timeseries.length - 2
-                      ]
-                      const { transaction_volume: todayTV } = timeseries[
-                        timeseries.length - 1
-                      ]
-                      if (yesterdayTV && todayTV) {
-                        const TVDiff = calcPercentageChange(
-                          yesterdayTV,
-                          todayTV
-                        )
-                        transactionVolumeInfo = {
-                          metric: 'transaction_volume',
-                          name: 'Transaction Volume',
-                          value: todayTV,
-                          period: '24h',
-                          changes: TVDiff
-                        }
+                  const chartMetrics = [
+                    Metrics.historyPricePreview,
+                    ...finalMetrics
+                  ].filter(({ type }) => type !== 'events')
+                  const syncedColors = getSyncedColors(chartMetrics)
+
+                  const filteredEvents = eventsData.filter(
+                    ({ metricAnomalyKey }) =>
+                      !metricAnomalyKey ||
+                      metrics.some(({ key }) => key === metricAnomalyKey)
+                  )
+
+                  const data = mapDatetimeToNumber(timeseries)
+
+                  const events = prepareEvents(filteredEvents).map(
+                    ({ metric, datetime, key, ...rest }) => {
+                      const day = data.find(item => item.datetime === datetime)
+                      return {
+                        metric,
+                        y: day ? day[metric] : 0,
+                        datetime,
+                        key,
+                        ...rest,
+                        color:
+                          key === 'trendingPosition' ? '#505573' : rest.color
                       }
                     }
+                  )
 
-                    const rest = {
-                      slug,
-                      from,
-                      to,
-                      onClick: toggleExtraMetric,
-                      activeMetric: extraMetric
-                    }
-                    return (
-                      <div className={styles.metrics}>
-                        {activeAddressesInfo && (
-                          <MobileMetricCard
-                            {...activeAddressesInfo}
-                            {...rest}
+                  const eventsObj = convertEventsToObj(events)
+
+                  const commonChartProps = {
+                    syncedColors,
+                    isLoading,
+                    slug,
+                    events,
+                    eventsObj,
+                    data,
+                    metrics: chartMetrics
+                  }
+
+                  const commonMetricsToolProps = {
+                    slug,
+                    toggleMetric,
+                    showLimitMessage: isLimitReached,
+                    activeMetrics: metrics,
+                    hiddenMetrics: [Metrics.historyPrice],
+                    isMobile: true
+                  }
+
+                  return (
+                    <>
+                      <PriceBlock {...project} />
+                      {!fullscreen && (
+                        <AssetChart
+                          icoPrice={project.icoPrice}
+                          icoPricePos={icoPricePos}
+                          setIcoPricePos={setIcoPricePos}
+                          {...commonChartProps}
+                        />
+                      )}
+                      <div className={styles.bottom}>
+                        {!fullscreen && (
+                          <ChartSelector
+                            onChangeTimeRange={value => {
+                              setTimeRange(value)
+                              setIcoPricePos(null)
+                            }}
+                            timeRange={timeRange}
+                            className={styles.selector}
                           />
                         )}
-                        {devActivityInfo && (
-                          <MobileMetricCard {...devActivityInfo} {...rest} />
+                        <FullscreenChart
+                          isOpen={fullscreen}
+                          toggleOpen={toggleFullscreen}
+                          project={project}
+                          onChangeTimeRange={setTimeRange}
+                          timeRange={timeRange}
+                          chartProps={commonChartProps}
+                          metricsToolProps={commonMetricsToolProps}
+                        />
+                      </div>
+                      {!hasPremium && metrics.length > 0 && <MobileProPopup />}
+                      <div
+                        className={cx(
+                          styles.selected,
+                          finalMetrics.length === 0 && styles.hide
                         )}
-                        {transactionVolumeInfo && (
-                          <MobileMetricCard
-                            {...transactionVolumeInfo}
-                            measure={ticker}
-                            {...rest}
-                          />
-                        )}
-                        {socialVolumeInfo && (
-                          <MobileMetricCard {...socialVolumeInfo} {...rest} />
+                      >
+                        {metrics.length > 0 && (
+                          <>
+                            <h3 className={styles.heading}>Choosed Metrics</h3>
+                            {metrics.map(metric => (
+                              <MobileMetricCard
+                                metric={metric}
+                                ticker={project.ticker}
+                                isSelected
+                                onToggleMetric={() => toggleMetric(metric)}
+                                key={metric.key + 'selected'}
+                                {...rest}
+                                hasPremium={hasPremium}
+                                colors={syncedColors}
+                                width={width}
+                                isOuterEvent={isOuterEvent}
+                              />
+                            ))}
+                          </>
                         )}
                       </div>
-                    )
-                  }}
-                />
-                <ShowIf news>
-                  {props.news && props.news.length > 0 && (
-                    <>
-                      <h3 className={styles.news__heading}>News</h3>
-                      <NewsSmall data={props.news} />
+                      <ChartMetricsTool
+                        classes={styles}
+                        addMetricBtnText='Add metrics'
+                        className={styles.metricsPopup}
+                        {...commonMetricsToolProps}
+                      />
+                      {isLimitReached && (
+                        <div className={styles.limit}>
+                          To add a new metric, please de-select another one
+                        </div>
+                      )}
+                      {notSelectedPopularNumber > 0 && (
+                        <MobilePopularMetrics
+                          metrics={metrics}
+                          width={width}
+                          isOuterEvent={isOuterEvent}
+                          onToggleMetric={toggleMetric}
+                          {...rest}
+                        />
+                      )}
                     </>
-                  )}
-                </ShowIf>
-              </div>
-              <GetWatchlists
-                render={({ isLoggedIn }) => (
-                  <WatchlistsPopup
-                    projectId={project.id}
-                    slug={project.slug}
-                    isLoggedIn={isLoggedIn}
-                  />
-                )}
+                  )
+                }}
               />
-            </>
-          )
-        }}
-      />
-    </div>
+            </div>
+          </div>
+        )
+      }
+    />
   )
 }
 
-const enhance = compose(
-  graphql(NEWS_QUERY, {
-    options: ({ match }) => {
-      const tag = match.params.slug
-      const { from, to } = getTimeIntervalFromToday(-3, DAY)
-      return {
-        variables: { from, to, tag, size: 6 }
-      }
-    },
-    props: ({ data: { news = [] } }) => ({ news: news.reverse() })
-  }),
-  graphql(SOCIAL_VOLUME_QUERY, {
-    options: ({ match }) => {
-      const { from, to } = getTimeIntervalFromToday(-2, DAY)
-      const { slug } = match.params
-      return {
-        variables: {
-          slug,
-          from,
-          to,
-          interval: '1d'
-        }
-      }
-    },
-    props: ({
-      data: {
-        discordDiscussionSocialVolume: discord = [],
-        proffesionalSocialVolume: prof = [],
-        telegramChatsSocialVolume: telChats = [],
-        telegramDiscussionSocialVolume: telDisscuss = []
-      }
-    }) => {
-      const defaultVolume = { socialVolume: 0 }
-      const socialVolume = [0, 0].map(
-        (item, i) =>
-          item +
-          (discord[i] || defaultVolume).socialVolume +
-          (prof[i] || defaultVolume).socialVolume +
-          (telChats[i] || defaultVolume).socialVolume +
-          (telDisscuss[i] || defaultVolume).socialVolume
-      )
-      return { socialVolume }
-    }
-  }),
-  graphql(DailyActiveAddressesGQL, {
-    options: ({ match }) => {
-      const { slug } = match.params
-      const { from, to } = getTimeIntervalFromToday(-1, DAY)
-      return { variables: { from, to, slug } }
-    },
-    props: ({ data: { dailyActiveAddresses = [] } }) => ({
-      dailyActiveAddresses
-    })
-  })
-)
+const mapStateToProps = state => ({ hasPremium: checkHasPremium(state) })
 
-export default enhance(MobileDetailedPage)
+export default connect(mapStateToProps)(MobileDetailedPage)

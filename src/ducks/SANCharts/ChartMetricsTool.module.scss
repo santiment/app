@@ -31,6 +31,22 @@
   &:hover {
     border-color: var(--jungle-green);
   }
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    height: auto;
+    width: 100%;
+    justify-content: center;
+
+    @include text('body-2');
+
+    margin: 16px 0;
+  }
+
+  @media (orientation: 'landscape') and (max-height: 500px) {
+    margin: 16px 0 0;
+    min-width: 185px;
+    height: auto;
+  }
 }
 
 .triggerIcon {

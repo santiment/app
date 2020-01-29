@@ -106,6 +106,7 @@ export const Metrics = {
     Component: Bar,
     group: 'Token Flows/Movement/Activity',
     label: 'Token Age Consumed',
+    shortLabel: 'Token Age Cons.',
     fill: true,
     video: 'https://www.youtube.com/watch?v=NZFtYT5QzS4',
     description: `
@@ -119,6 +120,7 @@ export const Metrics = {
     Component: Line,
     group: 'Exchange Flow',
     label: 'Exchange Flow Balance',
+    shortLabel: 'Exc. Flow Bal.',
     video: 'https://www.youtube.com/watch?v=0R6GDF2bg6A',
     description: `The flows of tokens going in to and out of exchange wallets combined on one graph.
           If the value is positive, more tokens entered the exchange than left.
@@ -131,7 +133,7 @@ export const Metrics = {
     Component: Bar,
     group: 'Network Activity',
     label: 'Daily Active Addresses',
-    shortLabel: 'DAA',
+    shortLabel: 'Daily A.A.',
     anomalyKey: 'DAILY_ACTIVE_ADDRESSES',
     video: 'https://www.youtube.com/watch?v=n3dUvWvQEpQ',
     description: `Shows the number of unique network addresses involved in transactions
@@ -149,7 +151,7 @@ export const Metrics = {
     Component: Line,
     group: 'Exchange Flow',
     label: 'Percent of Token Supply on Exchanges',
-    shortLabel: '% of Token Supply on Exchanges',
+    shortLabel: '% TS on Exc.',
     dataKey: 'percentOnExchanges',
     description: 'The percent of the total token supply which is on exchanges.'
   },
@@ -158,6 +160,7 @@ export const Metrics = {
     node: 'line',
     Component: Line,
     label: 'In Top Holders Total',
+    shortLabel: 'In T.H. Total',
     // TODO: Add support for 3 datakeys of single metric:
     // inExchanges outsideExchanges inTopHoldersTotal
     dataKey: 'inTopHoldersTotal'
@@ -168,6 +171,7 @@ export const Metrics = {
     Component: Line,
     group: 'Token Flows/Movement/Activity',
     label: 'Token Circulation',
+    shortLabel: 'Token Circ.',
     description: `
           Shows the number of unique tokens being used during each day.
           If one token changes hands 5 times on a given day,
@@ -181,6 +185,7 @@ export const Metrics = {
     Component: Line,
     group: 'Network value',
     label: 'Market Value To Realized Value',
+    shortLabel: 'MVRV',
     video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
     description: `MVRV measures how much every holder originally paid for their coins, and compares that investment to the coin’s current price to calculate the average profit or loss across all holders. Example: if MVRV = 2, then, on average, all coin holders have (currently) doubled their initial investment.`,
     minInterval: '1d'
@@ -191,7 +196,7 @@ export const Metrics = {
     Component: Bar,
     group: 'Token Flows/Movement/Activity',
     label: 'Transaction Volume',
-    shortLabel: 'Transact. Volume',
+    shortLabel: 'Trans. Vol.',
     description: `
     Shows the aggregate amount of tokens across all transactions that
     happened on the network on a certain date.`
@@ -202,6 +207,7 @@ export const Metrics = {
     Component: Line,
     group: 'Network Activity',
     label: 'Network Growth',
+    shortLabel: 'Net. Growth',
     video: 'https://www.youtube.com/watch?v=YaccxEEz8pg',
     description: `Shows the number of new addresses being created on the network each day.
     Essentially, this chart illustrates user adoption over time, and can
@@ -230,6 +236,7 @@ export const Metrics = {
     Component: Line,
     group: 'Token Flows/Movement/Activity',
     label: 'Token Velocity',
+    shortLabel: 'Token Vel.',
     description: `
           Shows the average number of times that a token changes wallets each
           day.
@@ -244,6 +251,7 @@ export const Metrics = {
     node: 'bar',
     Component: Bar,
     label: 'Daily Active Deposits',
+    shortLabel: 'Daily A.D.',
     dataKey: 'activeDeposits',
     description: `
           Shows the number of unique deposit addresses that participated in
@@ -263,6 +271,7 @@ export const Metrics = {
     node: 'line',
     Component: Line,
     label: 'Social Dominance',
+    shortLabel: 'Soc. Domin.',
     dataKey: 'dominance',
     description: `Shows the share (or %) of the coin’s mentions on crypto-related social media, compared to a pool of 50+ of the most talked-about projects online.`
   },
@@ -272,6 +281,7 @@ export const Metrics = {
     Component: Line,
     group: 'Network value',
     label: 'Realized Cap',
+    shortLabel: 'Real. Cap',
     description: `Realized Cap shows the total amount that all holders spent to purchase the coin (i.e. the total acquisition cost). While market cap = supply X current price of each coin, realized cap = supply X price of each coin when it last ‘moved’`,
     minInterval: '1d'
   },
@@ -280,6 +290,7 @@ export const Metrics = {
     node: 'line',
     Component: Line,
     label: 'Eth Spent Over Time',
+    shortLabel: 'Eth Spent',
     dataKey: 'ethSpent',
     description:
       'How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity'
@@ -297,6 +308,7 @@ export const Metrics = {
     node: 'line',
     Component: Line,
     label: 'Mean Dollar Invested Age',
+    shortLabel: 'Mean D.I.A.',
     description: (
       <>
         For each coin we see how long it has stayed at its current address and
@@ -321,6 +333,7 @@ export const Metrics = {
     Component: Line,
     group: 'Network value',
     label: 'NVT Ratio Circulation',
+    shortLabel: 'NVT R. Circ.',
     description: `NVT tries to determine how much ‘value’ is being transmitted on a coin’s network. This version of NVT is calculated by dividing the coin’s Market Cap by its Token Circulation. The higher the NVT, the more expensive the network relative to the value it transmits, indicating an overvalued asset.`,
     minInterval: '1d'
   },
@@ -329,6 +342,7 @@ export const Metrics = {
     Component: Bar,
     group: 'Network value',
     label: 'NVT Ratio Transaction Volume',
+    shortLabel: 'NVT R. T.V.',
     category: 'On-chain',
     description: `NVT tries to determine how much ‘value’ is being transmitted on a coin’s network. This version of NVT is calculated by dividing the coin’s Market Cap by its on-chain Transaction Volume. The higher the NVT, the more expensive the network relative to the value it transmits, indicating an overvalued asset.`,
     minInterval: '1d'

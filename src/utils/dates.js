@@ -278,7 +278,7 @@ export const parseIntervalString = range => {
 
 /**
  *
- * @param {string} timeRange - String wich represents time range from the current datime
+ * @param {string} timeRange - String which represents time range from the current datetime
  * @param {object} options - Additional options
  *
  *

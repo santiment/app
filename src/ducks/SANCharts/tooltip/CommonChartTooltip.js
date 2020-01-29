@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { tooltipLabelFormatter, tooltipValueFormatter } from '../utils'
+import { tooltipSettings } from '../data'
 import styles from './CommonChartTooltip.module.scss'
 
 const ChartTooltip = ({
@@ -11,11 +12,17 @@ const ChartTooltip = ({
   payload: initialPayload = [],
   label,
   hideItem,
-  withLabel = true
+  withLabel = true,
+  events,
+  metrics
 }) => {
   const payload = hideItem
     ? initialPayload.filter(({ dataKey }) => !hideItem(dataKey))
     : initialPayload
+
+  if (events && events[label]) {
+    payload.push(...events[label])
+  }
 
   return (
     active &&
@@ -26,16 +33,30 @@ const ChartTooltip = ({
           <div className={styles.title}>{labelFormatter(label)}</div>
         )}
         <div className={styles.content}>
-          {payload.map(({ dataKey, value, color, name, formatter }) => (
-            <div
-              key={dataKey}
-              style={{ '--color': color }}
-              className={styles.metric}
-            >
-              {valueFormatter({ value, key: dataKey, formatter, payload })}
-              <span className={styles.name}>{name || dataKey}</span>
-            </div>
-          ))}
+          {payload.map(
+            ({ key, dataKey = key, value, color, name, formatter }) => {
+              const foundedSettings = tooltipSettings[key] || {}
+              return (
+                <div
+                  key={dataKey}
+                  style={{ '--color': color }}
+                  className={styles.metric}
+                >
+                  <span className={styles.value}>
+                    {valueFormatter({
+                      value,
+                      key: dataKey,
+                      formatter: foundedSettings.formatter || formatter,
+                      payload
+                    })}
+                  </span>
+                  <span className={styles.name}>
+                    {foundedSettings.label || name || dataKey}
+                  </span>
+                </div>
+              )
+            }
+          )}
         </div>
       </div>
     )

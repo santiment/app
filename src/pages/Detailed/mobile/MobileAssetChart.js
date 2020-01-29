@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
+import withSizes from 'react-sizes'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -13,11 +14,8 @@ import throttle from 'lodash.throttle'
 import Gradients from '../../../components/WatchlistOverview/Gradients'
 import { tooltipLabelFormatter } from '../../../ducks/SANCharts/CustomTooltip'
 import { generateMetricsMarkup } from '../../../ducks/SANCharts/utils'
-import {
-  getSyncedColors,
-  clearCache
-} from '../../../ducks/SANCharts/Chart/Synchronizer'
-import { Metrics } from '../../../ducks/SANCharts/data'
+import { clearCache } from '../../../ducks/SANCharts/Chart/Synchronizer'
+import Loader from '../../../ducks/SANCharts/Chart/Loader/Loader'
 import CommonChartTooltip from '../../../ducks/SANCharts/tooltip/CommonChartTooltip'
 import MobilePriceTooltip from '../../../ducks/SANCharts/tooltip/MobilePriceTooltip'
 import IcoPriceTooltip from '../../../ducks/SANCharts/tooltip/IcoPriceTooltip'
@@ -27,18 +25,21 @@ const MobileAssetChart = ({
   data = [],
   slug: asset,
   icoPrice,
-  extraMetric,
+  metrics = [],
+  syncedColors,
   setIcoPricePos,
-  icoPricePos
+  icoPricePos,
+  chartHeight,
+  isLoading = true,
+  isLandscapeMode,
+  events = [],
+  eventsObj = {},
+  ...props
 }) => {
   const [isTouch, setIsTouch] = useState(false)
   const [activeIndex, setActiveIndex] = useState(null)
 
-  const metrics = ['historyPricePreview']
-  if (extraMetric) metrics.push(extraMetric.name)
-  const objMetrics = metrics.map(metric => Metrics[metric])
-  const syncedColors = getSyncedColors(objMetrics)
-  const markup = generateMetricsMarkup(objMetrics, {
+  const markup = generateMetricsMarkup(metrics, {
     syncedColors,
     useShortName: true,
     activeLineDataKey: 'priceUsd',
@@ -51,24 +52,8 @@ const MobileAssetChart = ({
 
   const setCurrentIndex = throttle(
     evt => setActiveIndex(evt ? evt.activeTooltipIndex : null),
-    500
+    800
   )
-
-  let anomalyDataKey, anomalies
-  if (extraMetric) {
-    anomalyDataKey =
-      Metrics[extraMetric.name].dataKey || Metrics[extraMetric.name].key
-    anomalies = extraMetric.anomalies.map(anomaly => {
-      const el = data.find(item => item.datetime === anomaly.datetime)
-      if (el) {
-        return {
-          ...anomaly,
-          yCoord: el[anomalyDataKey]
-        }
-      }
-      return anomaly
-    })
-  }
 
   useEffect(() => clearCache)
   return (
@@ -76,11 +61,13 @@ const MobileAssetChart = ({
       onTouchStart={() => setIsTouch(true)}
       onTouchEnd={() => setIsTouch(false)}
       onTouchCancel={() => setIsTouch(false)}
+      className={styles.chart}
     >
-      {icoPricePos !== null && !isTouch && (
+      {icoPrice && icoPricePos !== null && !isTouch && (
         <IcoPriceTooltip y={icoPricePos} value={icoPrice} />
       )}
-      <ResponsiveContainer width='100%' aspect={1.5 / 1.0}>
+      {isLoading && <Loader className={styles.loader} />}
+      <ResponsiveContainer width='100%' height={chartHeight}>
         <ComposedChart
           data={data}
           onMouseMove={setCurrentIndex}
@@ -93,7 +80,13 @@ const MobileAssetChart = ({
           <YAxis
             hide
             domain={[
-              'auto',
+              dataMin => {
+                if (isFinite(dataMin) && icoPrice - dataMin < 0) {
+                  setIcoPricePos(0)
+                }
+
+                return dataMin
+              },
               dataMax => {
                 if (isFinite(dataMax) && icoPrice - dataMax > 0) {
                   setIcoPricePos(0)
@@ -102,13 +95,13 @@ const MobileAssetChart = ({
                 return dataMax
               }
             ]}
-            dataKey={extraMetric ? anomalyDataKey : 'priceUsd'}
+            dataKey={'priceUsd'}
           />
           {isTouch && (
             <Tooltip
               isAnimationActive={false}
               cursor={{ stroke: 'var(--casper)' }}
-              position={{ x: 0, y: -62.5 }}
+              position={{ x: 0, y: isLandscapeMode ? -49 : -62.5 }}
               content={props => (
                 <>
                   <MobilePriceTooltip
@@ -120,29 +113,33 @@ const MobileAssetChart = ({
                     withLabel={false}
                     className={cx(
                       styles.tooltip,
-                      activeIndex < chartMediumIndex && styles.rightAlign
+                      activeIndex < chartMediumIndex &&
+                        metrics.length > 2 &&
+                        styles.rightAlign
                     )}
                     hideItem={hideTooltipItem}
+                    events={eventsObj}
+                    metrics={metrics}
                   />
                 </>
               )}
             />
           )}
           {markup}
-          {extraMetric &&
-            anomalies.map(({ datetime, yCoord }) => (
-              <ReferenceDot
-                key={datetime}
-                y={yCoord}
-                x={datetime}
-                ifOverflow='extendDomain'
-                r={3}
-                isFront
-                stroke='var(--white)'
-                strokeWidth='2px'
-                fill='var(--persimmon)'
-              />
-            ))}
+          {events.map(({ datetime, metric, color, y, key }) => (
+            <ReferenceDot
+              key={datetime + key + metric}
+              yAxisId={'axis-' + metric}
+              x={datetime}
+              y={y}
+              ifOverflow='extendDomain'
+              r={4}
+              isFront
+              stroke='var(--white)'
+              strokeWidth='2px'
+              fill={color}
+            />
+          ))}
           {icoPrice && (
             <ReferenceLine
               strokeDasharray='5 5'
@@ -158,4 +155,9 @@ const MobileAssetChart = ({
   )
 }
 
-export default MobileAssetChart
+const mapSizesToProps = ({ width, height }) => ({
+  chartHeight: (width > height ? height : width) / 2,
+  isLandscapeMode: width > height
+})
+
+export default withSizes(mapSizesToProps)(MobileAssetChart)

@@ -240,7 +240,8 @@ const getTimeFromFromString = (time = '1y') => {
   return time
 }
 
-const capitalizeStr = string => string.charAt(0).toUpperCase() + string.slice(1)
+const capitalizeStr = (string = '') =>
+  string.charAt(0).toUpperCase() + string.slice(1)
 const uncapitalizeStr = string =>
   string.charAt(0).toLowerCase() + string.slice(1)
 

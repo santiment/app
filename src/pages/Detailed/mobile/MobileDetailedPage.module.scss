@@ -2,30 +2,50 @@
 
 .wrapper {
   overflow: visible;
+  background-color: var(--white);
 }
 
 .main {
   padding: 0 16px;
   margin-bottom: 20px;
+  overflow-x: hidden;
 }
 
-.metrics {
-  margin: 0 -16px;
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0;
 }
 
-.ticker {
-  color: var(--casper);
+.heading {
+  margin: 16px 0;
+  color: var(--waterloo);
+
+  @include text('body-3', 'm');
 }
 
-.timeRangeBlock {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
+.metricsPopup {
+  padding-top: 0 !important;
 }
 
-.news__heading {
-  margin: 0;
-  margin-top: 15px;
-  font-size: 22px;
-  line-height: 26px;
-  color: var(--mirage);
+.selected {
+  transition: max-height 0.3s ease-in-out;
+  max-height: 500px;
+  overflow-x: visible;
+
+  &.hide {
+    max-height: 150px;
+  }
+}
+
+.limit {
+  color: var(--persimmon);
+
+  @include text('caption');
+}
+
+.selector {
+  flex-grow: 1;
+  margin-right: 14px;
 }

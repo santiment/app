@@ -1,9 +1,17 @@
-@import '~@santiment-network/ui/variables';
+@import '~@santiment-network/ui/mixins';
 
 .wrapper {
   padding: 10px 12px;
   width: 150px;
   z-index: 10;
+
+  @include responsive('phone-xs', 'phone') {
+    padding: 16px 18px;
+    min-width: 260px;
+    color: var(--porcelain);
+
+    @include text('body-3');
+  }
 }
 
 .text {

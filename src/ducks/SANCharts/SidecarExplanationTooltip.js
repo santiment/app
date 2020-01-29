@@ -13,7 +13,9 @@ const SidecarExplanationTooltip = props => {
     localStorageSuffix = '',
     className,
     position = 'left',
-    align = 'start'
+    align = 'start',
+    dismissOnTouch = false,
+    delay = TOOLTIP_DELAY_IN_MS
   } = props
 
   const localStorageLabel = LS_SIDECAR_TOOLTIP_SHOWN + localStorageSuffix
@@ -26,7 +28,7 @@ const SidecarExplanationTooltip = props => {
   function hideTooltip () {
     localStorage.setItem(localStorageLabel, '+')
     setShown(false) // HACK(vanguard): To immediatly hide tooltip and then back to not controlled state
-    setTimeout(() => setShown(undefined))
+    setTimeout(() => setShown(undefined), 0)
   }
 
   function disableHelp () {
@@ -36,10 +38,18 @@ const SidecarExplanationTooltip = props => {
 
   useEffect(() => {
     if (!wasShown) {
-      setTimer(setTimeout(() => setShown(true), TOOLTIP_DELAY_IN_MS))
+      setTimer(setTimeout(() => setShown(true), delay))
     }
 
     return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if (dismissOnTouch) {
+      window.addEventListener('touchstart', hideTooltip)
+    }
+
+    return () => window.removeEventListener('touchstart', hideTooltip)
   }, [])
 
   return (
@@ -54,8 +64,8 @@ const SidecarExplanationTooltip = props => {
       text={
         <>
           {title}
-          <div className={styles.text}>{description}</div>
-          {shown && (
+          {description && <div className={styles.text}>{description}</div>}
+          {shown && !dismissOnTouch && (
             <button className={styles.btn} onClick={hideTooltip}>
               Dismiss
             </button>

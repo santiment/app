@@ -1,0 +1,94 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  background-color: var(--white);
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100);
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.modal {
+  overflow-y: hidden;
+}
+
+.icon {
+  fill: var(--rhino);
+  box-sizing: content-box;
+  padding: 5px;
+  margin-bottom: -7px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.button {
+  margin-left: -8px;
+  fill: var(--rhino);
+}
+
+.dark {
+  background-color: $fiord;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--porcelain);
+
+  & .button {
+    fill: var(--white);
+    position: absolute;
+    top: 16px;
+    left: auto;
+    margin-left: auto;
+    right: 16px;
+    background: inherit !important;
+  }
+}
+
+.message {
+  max-width: 245px;
+}
+
+.tooltip {
+  z-index: 1000;
+
+  &::after {
+    display: block;
+    content: url(./arrow.svg);
+    position: absolute;
+    bottom: -18px;
+    right: 2px;
+  }
+}
+
+.icon,
+.tooltip {
+  @media (orientation: landscape) {
+    visibility: hidden;
+  }
+
+  @include responsive('tablet') {
+    @media (orientation: portrait) {
+      visibility: hidden;
+    }
+  }
+}
+
+.bottom {
+  margin: auto 0 5px;
+  display: flex;
+  align-items: baseline;
+}
+
+.selector {
+  flex-grow: 1;
+}
+
+.metricsPopup {
+  padding-top: 0;
+}
