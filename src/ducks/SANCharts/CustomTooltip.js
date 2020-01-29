@@ -37,20 +37,22 @@ const CustomTooltip = ({ active, payload, label }) => {
             {tooltipLabelFormatter(label)}
           </span>
         )}
-        {payload.map(({ name, value, stroke, fill }) => {
-          return (
-            <span
-              key={name}
-              className={cx('label', styles.tooltipLabel)}
-              style={{ color: stroke || fill }}
-            >
-              {`${getShortMetricName(name)} ${formatTooltipValue(
-                name === 'Price',
-                value
-              )}`}
-            </span>
-          )
-        })}
+        <div>
+          {payload.map(({ name, value, stroke, fill }) => {
+            return (
+              <span
+                key={name}
+                className={cx('label', styles.tooltipLabel)}
+                style={{ color: stroke || fill }}
+              >
+                {`${getShortMetricName(name)} ${formatTooltipValue(
+                  name === 'Price',
+                  value
+                )}`}
+              </span>
+            )
+          })}
+        </div>
       </div>
     )
   }
