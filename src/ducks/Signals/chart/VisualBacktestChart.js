@@ -33,7 +33,7 @@ export function GetReferenceDots (signals, yAxisId) {
 }
 const renderChart = (data, dataKeys, markup, referenceDots) => {
   return (
-    <ComposedChart data={data} margin={{ left: 0, right: 0 }}>
+    <ComposedChart data={data} margin={{ left: 0, right: 0, top: 16 }}>
       <defs>
         <Gradients />
       </defs>
