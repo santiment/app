@@ -11,6 +11,8 @@ import ExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationToolt
 import MobileAssetChartSelector from './MobileAssetChartSelector'
 import styles from './MobileFullscreenChart.module.scss'
 
+const checkLandscapeMode = () => Math.abs(window.orientation) === 90
+
 const MobileFullscreenChart = ({
   isOpen,
   toggleOpen,
@@ -20,23 +22,9 @@ const MobileFullscreenChart = ({
   chartProps,
   metricsToolProps
 }) => {
-  const [landscapeMode, setLandscapeMode] = useState(false)
+  const [landscapeMode, setLandscapeMode] = useState(checkLandscapeMode())
 
-  const setOrientation = () => {
-    switch (window.orientation) {
-      case -90:
-      case 90:
-        if (!landscapeMode) {
-          setLandscapeMode(true)
-        }
-        break
-      default:
-        if (landscapeMode) {
-          setLandscapeMode(false)
-        }
-        break
-    }
-  }
+  const setOrientation = () => setLandscapeMode(checkLandscapeMode())
 
   useEffect(() => {
     window.addEventListener('orientationchange', setOrientation)
@@ -128,7 +116,8 @@ const MobileFullscreenChart = ({
               </>
             ) : (
               <span className={styles.message}>
-                Please, turn your phone horizontally to see a fullscreen chart
+                Please, turn your phone horizontally and unlock rotation to see
+                a fullscreen chart
               </span>
             )}
           </section>

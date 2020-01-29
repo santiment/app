@@ -76,6 +76,7 @@
     height: calc(var(--vh, 1vh) * 70);
     overflow-y: auto;
     overflow-y: overlay;
+    border-right: none;
   }
 
   @media (orientation: 'landscape') and (max-height: 500px) {
