@@ -13,12 +13,9 @@ const LikeBtnWrapper = ({ onLike, votes, isLiked }) => (
 )
 
 const mapStateToProps = (state, { votes }) => {
-  const userId = +state.user.data.id
+  const userId = state.user.data && state.user.data.id ? +state.user.data.id : 0
   return {
-    isLiked:
-      state.user.data &&
-      +state.user.data.id &&
-      votes.some(({ userId: id }) => userId === id)
+    isLiked: userId && votes.some(({ userId: id }) => userId === id) === true
   }
 }
 
