@@ -6,13 +6,13 @@ import styles from './SwipeableCard.module.scss'
 const BUTTON_WIDTH = 85
 const BUTTON_ACTIVATION_ZONE = 1.2 * BUTTON_WIDTH
 const SPEED_THRESHOLD = 5
-const PERCENTS_THRESHOLD = 60
+const PERCENTS_THRESHOLD = 50
 const FULL_HIDE_POSITION = -2000
 
 const SIDES = { RIGHT: 'right', LEFT: 'left' }
 
 const isSwipeEvent = ({ x, y, startX, startY }) =>
-  Math.abs(x - startX) - Math.abs(y - startY) > 8
+  Math.abs(x - startX) - Math.abs(y - startY) > 6
 
 const isDirectionChanged = (prev, curr) => {
   if (prev === 0 || curr === 0) return true
