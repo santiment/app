@@ -17,7 +17,7 @@ export const mapWithTimeseriesAndYCoord = (
   timeseries,
   toDayConversion = true
 ) => {
-  return triggered.map(point => {
+  const mapped = triggered.map(point => {
     const date = toDayConversion
       ? mapWithMidnightTime(point.datetime)
       : +new Date(point.datetime)
@@ -28,6 +28,8 @@ export const mapWithTimeseriesAndYCoord = (
 
     return { date, yCoord, ...point }
   })
+
+  return mapped
 }
 
 export const cleanByDatakeys = (timeseries, dataKey) => {

@@ -42,15 +42,13 @@ const SignalPreviewChart = ({
   label,
   points,
   showExpand,
-  showTitle,
-  interval
+  showTitle
 }) => {
   let triggeredSignals = points.filter(point => point['triggered?'])
-  const metricsTypes = getMetricsByType(type)
-  const { metrics, triggersBy } = metricsTypes
+  const { metrics, triggersBy } = getMetricsByType(type)
 
   const isStrongDaily = type === DAILY_ACTIVE_ADDRESSES
-  const metricsInterval = isStrongDaily ? '1d' : interval
+  const metricsInterval = isStrongDaily ? '1d' : '1h'
 
   const metricRest = {
     address: target && target.eth_address ? target.eth_address : ''

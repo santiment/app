@@ -1098,13 +1098,14 @@ export const couldShowChart = (
     case ETH_WALLET: {
       return Array.isArray(ethAddress) ? ethAddress.length === 1 : !!ethAddress
     }
-  }
+    default: {
+      if (!isArray && !targetMapper(target)) {
+        return false
+      }
 
-  if (!isArray && !targetMapper(target)) {
-    return false
+      return checking ? types.indexOf(checking) >= 0 : false
+    }
   }
-
-  return checking ? types.indexOf(checking) >= 0 : false
 }
 
 export const mapToAssets = (data, withFilter = true) => {
