@@ -207,7 +207,8 @@
     text-align: left;
 
     &_active {
-      text-decoration: line-through var(--jungle-green);
+      text-decoration-line: line-through;
+      text-decoration-color: var(--jungle-green);
     }
   }
 

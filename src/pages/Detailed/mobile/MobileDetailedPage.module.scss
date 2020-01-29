@@ -3,6 +3,8 @@
 .wrapper {
   overflow: visible;
   background-color: var(--white);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .main {
