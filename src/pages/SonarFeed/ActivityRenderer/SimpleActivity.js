@@ -6,9 +6,8 @@ import { SignalTypeIcon } from '../../../components/SignalCard/controls/SignalCo
 import { SIGNAL_ANCHORS } from '../../../ducks/Signals/common/constants'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
-import styles from './ActivityRenderer.module.scss'
 import { DesktopOnly } from '../../../components/Responsive'
-import Panel from '@santiment-network/ui/Panel/Panel'
+import styles from './ActivityRenderer.module.scss'
 
 const SimpleActivity = ({
   date,

@@ -8,9 +8,8 @@ import SignalPreview from '../../../ducks/Signals/chart/preview/SignalPreview'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
 import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
-import styles from './ActivityRenderer.module.scss'
 import { DesktopOnly } from '../../../components/Responsive'
-import Panel from '@santiment-network/ui/Panel/Panel'
+import styles from './ActivityRenderer.module.scss'
 
 const ActivityWithBacktesting = ({
   date,
