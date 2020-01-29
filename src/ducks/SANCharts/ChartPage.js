@@ -320,7 +320,7 @@ class ChartPage extends Component {
     })
   }
 
-  mapStateToQS = ({ isAdvancedView, isMultiChartsActive, ...props }) =>
+  mapStateToQS = ({ isAdvancedView, ...props }) =>
     '?' + qs.stringify(props, { arrayFormat: 'comma' })
 
   updateSearchQuery () {

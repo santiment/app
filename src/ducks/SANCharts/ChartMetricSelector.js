@@ -205,16 +205,22 @@ const ChartMetricSelector = ({
                             {group !== NO_GROUP && (
                               <h3 className={styles.group__title}>{group}</h3>
                             )}
-                            {categories[activeCategory][group].map(metric => (
-                              <ToggleMetricButton
-                                key={metric.label}
-                                metric={metric}
-                                onClick={() => toggleMetric(metric)}
-                                isActive={isActiveMetric(metric)}
-                                isMobile={true}
-                                label={metric.label}
-                              />
-                            ))}
+                            {categories[activeCategory][group].map(metric => {
+                              if (metric.hidden) {
+                                return null
+                              }
+
+                              return (
+                                <ToggleMetricButton
+                                  key={metric.label}
+                                  metric={metric}
+                                  onClick={() => toggleMetric(metric)}
+                                  isActive={isActiveMetric(metric)}
+                                  isMobile={true}
+                                  label={metric.label}
+                                />
+                              )
+                            })}
                           </div>
                         ))}
                     </div>
@@ -257,6 +263,10 @@ const ChartMetricSelector = ({
                         )}
                         {categories[activeCategory][group].map(metric => {
                           const error = disabledMetrics[metric.key]
+
+                          if (metric.hidden) {
+                            return null
+                          }
 
                           return (
                             <ToggleMetricButton

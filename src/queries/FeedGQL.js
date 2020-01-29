@@ -10,6 +10,7 @@ export const FEED_QUERY = gql`
         before
       }
       events {
+        id
         eventType
         insertedAt
         user {
@@ -22,6 +23,9 @@ export const FEED_QUERY = gql`
         }
         trigger {
           ...triggersCommon
+        }
+        votes {
+          userId
         }
         payload
         __typename

@@ -5,15 +5,17 @@ import { Link } from 'react-router-dom'
 import { SignalTypeIcon } from '../../../components/SignalCard/controls/SignalControls'
 import { SIGNAL_ANCHORS } from '../../../ducks/Signals/common/constants'
 import SignalPreview from '../../../ducks/Signals/chart/preview/SignalPreview'
-import styles from './ActivityRenderer.module.scss'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
+import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
+import styles from './ActivityRenderer.module.scss'
 
 const ActivityWithBacktesting = ({
   date,
   user,
   classes,
-  activity: { triggeredAt, payload, trigger = {} }
+  activity: { triggeredAt, payload, trigger = {}, votes = [] },
+  onLike
 }) => {
   const {
     id: signalId,
@@ -59,7 +61,10 @@ const ActivityWithBacktesting = ({
           </div>
         </div>
 
-        <CopySignal signal={trigger} />
+        <div className={styles.bottom}>
+          {onLike && <LikeBtnWrapper onLike={onLike} votes={votes} />}
+          <CopySignal signal={trigger} />
+        </div>
       </div>
     </>
   )

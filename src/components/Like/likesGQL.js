@@ -15,3 +15,25 @@ export const LIKE_INSIGHT_MUTATION = gql`
     }
   }
 `
+
+export const UNLIKE_FEED_EVENT_MUTATION = gql`
+  mutation downvoteTimelineEvent($timelineEventId: Int) {
+    downvoteTimelineEvent(timelineEventId: $timelineEventId) {
+      id
+      votes {
+        userId
+      }
+    }
+  }
+`
+
+export const LIKE_FEED_EVENT_MUTATION = gql`
+  mutation upvoteTimelineEvent($timelineEventId: Int) {
+    upvoteTimelineEvent(timelineEventId: $timelineEventId) {
+      id
+      votes {
+        userId
+      }
+    }
+  }
+`

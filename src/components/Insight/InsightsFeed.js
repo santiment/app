@@ -1,8 +1,9 @@
 import React from 'react'
 import cx from 'classnames'
-import WithLikesMutation from '../Like/WithLikesMutation'
+import WithInsightsLikesMutation from '../Like/WithInsightLikesMutation'
 import InsightCard from './InsightCardWithMarketcap'
 import Feed from '../Feed/Feed'
+import { publishDateSorter } from './utils'
 
 const InsightsFeed = ({
   insights,
@@ -11,11 +12,11 @@ const InsightsFeed = ({
   classes = {}
 }) => {
   return (
-    <WithLikesMutation>
+    <WithInsightsLikesMutation>
       {mutateInsightById => (
         <Feed
           isAllInsightsPage={isAllInsightsPage}
-          data={insights}
+          data={insights.sort(publishDateSorter)}
           component={({ id, className, ...rest }) => (
             <InsightCard
               id={id}
@@ -27,7 +28,7 @@ const InsightsFeed = ({
           dateKey={dateKey}
         />
       )}
-    </WithLikesMutation>
+    </WithInsightsLikesMutation>
   )
 }
 

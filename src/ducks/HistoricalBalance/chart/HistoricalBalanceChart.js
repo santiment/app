@@ -82,7 +82,7 @@ const getWalletsLines = (wallets, showYAxes, scale) => {
   return acc
 }
 
-const COLORS = ['dodger-blue', '#8358FF', '#5275FF', '#FF5B5B', '#68DBF4']
+const COLORS = ['#14C393', '#8358FF', '#5275FF', '#FF5B5B', '#68DBF4']
 
 const labelFormatter = item => {
   if (item.indexOf('@') !== -1) {

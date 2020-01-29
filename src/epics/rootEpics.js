@@ -66,7 +66,8 @@ import {
   toggleNotificationChannelEpic
 } from '../pages/Account/epics'
 import keyboardEpic from './keyboardEpic'
-import { likesEpic } from '../components/Like/likesEpic'
+import { insightslikesEpic } from '../components/Like/insightslikesEpic'
+import { feedEventlikesEpic } from '../components/Like/feedEventlikesEpic'
 import { wordTrendSocialVolumeEpic } from '../pages/Trends/changesEpic.js'
 import {
   connectedWordsEpic,
@@ -137,7 +138,8 @@ export default combineEpics(
   toggleSignalEpic,
   removeSignalEpic,
   // likes
-  likesEpic,
+  insightslikesEpic,
+  feedEventlikesEpic,
   // trend changes
   wordTrendSocialVolumeEpic,
   // connected trends

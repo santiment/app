@@ -1073,9 +1073,16 @@ export const descriptionBlockErrors = values => {
 }
 
 export const couldShowChart = (
-  { signalType, metric, type, target },
+  settings,
   types = POSSIBLE_METRICS_FOR_CHART
 ) => {
+  const {
+    signalType,
+    metric,
+    type,
+    target = {},
+    ethAddress = target.eth_address
+  } = settings
   if (signalType && isWatchlist(signalType)) {
     return false
   }
@@ -1085,11 +1092,18 @@ export const couldShowChart = (
     return false
   }
 
+  const checking = metric ? metric.value : type
+
+  switch (checking) {
+    case ETH_WALLET: {
+      return Array.isArray(ethAddress) ? ethAddress.length === 1 : !!ethAddress
+    }
+  }
+
   if (!isArray && !targetMapper(target)) {
     return false
   }
 
-  const checking = metric ? metric.value : type
   return checking ? types.indexOf(checking) >= 0 : false
 }
 
