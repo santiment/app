@@ -47,6 +47,7 @@ const SwipeableCard = ({
   const onRightAction = () => {
     setOffset(FULL_HIDE_POSITION)
     setTimeout(() => {
+      setOffset(0)
       onRightActionClick()
     }, 500)
   }
