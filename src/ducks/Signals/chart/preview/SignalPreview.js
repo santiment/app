@@ -22,7 +22,8 @@ import {
   cleanByDatakeys,
   mapWithTimeseries,
   mapWithTimeseriesAndYCoord,
-  mapToRequestedMetrics
+  mapToRequestedMetrics,
+  makeSameRange
 } from './utils'
 import { DAILY_ACTIVE_ADDRESSES } from '../../utils/constants'
 import styles from './SignalPreview.module.scss'
@@ -44,7 +45,7 @@ const SignalPreviewChart = ({
   showTitle,
   interval
 }) => {
-  const triggeredSignals = points.filter(point => point['triggered?'])
+  let triggeredSignals = points.filter(point => point['triggered?'])
   const metricsTypes = getMetricsByType(type)
   const { metrics, triggersBy } = metricsTypes
 
@@ -80,6 +81,8 @@ const SignalPreviewChart = ({
 
         const data = mapWithTimeseries(timeseries)
         const merged = cleanByDatakeys(data, triggersBy.dataKey)
+
+        triggeredSignals = makeSameRange(triggeredSignals, merged)
 
         const signals = mapWithTimeseriesAndYCoord(
           triggeredSignals,
