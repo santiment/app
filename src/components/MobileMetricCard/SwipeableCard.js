@@ -5,7 +5,7 @@ import styles from './SwipeableCard.module.scss'
 
 const BUTTON_WIDTH = 85
 const BUTTON_ACTIVATION_ZONE = 1.2 * BUTTON_WIDTH
-const PERCENTS_THRESHOLD = 60
+const PERCENTS_THRESHOLD = 70
 const FULL_HIDE_POSITION = -1000
 
 const SIDES = { RIGHT: 'right', LEFT: 'left' }
@@ -88,6 +88,9 @@ const SwipeableCard = ({
     if (isSwipe === null) {
       if (isSwipeEvent({ startX, startY, x, y })) {
         setIsSwipe(true)
+
+        // NOTE: For Safari, will ignore in Chrome (due to passive event)
+        evt.preventDefault()
       } else {
         onCancel()
         return
