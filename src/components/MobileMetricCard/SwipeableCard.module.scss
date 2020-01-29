@@ -67,14 +67,13 @@
   }
 
   &__hide {
-    transition: all 0.2s ease-in-out;
-    transition-delay: 0.1s;
+    transition: all 0.4s ease-in-out;
     height: 0;
     fill: transparent !important;
   }
 
   &__animation {
-    animation: appear 0.3s ease-in-out;
+    animation: appear 0.5s ease-in-out;
   }
 }
 
