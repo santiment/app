@@ -5,14 +5,13 @@ import styles from './SwipeableCard.module.scss'
 
 const BUTTON_WIDTH = 85
 const BUTTON_ACTIVATION_ZONE = 1.2 * BUTTON_WIDTH
-const SPEED_THRESHOLD = 5
 const PERCENTS_THRESHOLD = 50
 const FULL_HIDE_POSITION = -2000
 
 const SIDES = { RIGHT: 'right', LEFT: 'left' }
 
 const isSwipeEvent = ({ x, y, startX, startY }) =>
-  Math.abs(x - startX) - Math.abs(y - startY) > 6
+  Math.abs(x - startX) > Math.abs(y - startY)
 
 const isDirectionChanged = (prev, curr) => {
   if (prev === 0 || curr === 0) return true
@@ -52,11 +51,10 @@ const SwipeableCard = ({
     }, 500)
   }
 
-  const shouldActivateAction = ({ prevX, prevTs, x, ts }) => {
-    const speed = Math.abs(x - prevX) / (ts - prevTs)
+  const shouldActivateAction = ({ prevX, x }) => {
     const offsetInPercents = (Math.abs(offset) * 100) / containerWidth
 
-    return speed > SPEED_THRESHOLD || offsetInPercents > PERCENTS_THRESHOLD
+    return offsetInPercents > PERCENTS_THRESHOLD
   }
 
   const haveAction = side =>
@@ -67,12 +65,12 @@ const SwipeableCard = ({
     setOffset(0)
   }
 
-  const onStart = ({ touches: [{ pageX: x, pageY: y }] }) => {
+  const onStart = evt => {
+    const { pageX: x, pageY: y } = evt.touches[0]
     setCurrentGesture({
       startX: x,
       startY: y,
       prevX: x,
-      prevTs: Date.now(),
       initialPos: startPos
     })
   }
@@ -82,7 +80,7 @@ const SwipeableCard = ({
       return
     }
 
-    const { startX, prevX, startY, prevTs, initialPos } = currentGesture
+    const { startX, prevX, startY, initialPos } = currentGesture
     const { pageX: x, pageY: y } = evt.touches[0]
     const newOffset = x - startX + initialPos
 
@@ -108,14 +106,12 @@ const SwipeableCard = ({
 
     setOffset(newOffset)
 
-    const ts = Date.now()
-
-    if (shouldActivateAction({ prevX, x, prevTs, ts })) {
+    if (shouldActivateAction({ prevX, x })) {
       side === SIDES.RIGHT ? onRightAction() : onLeftAction()
       return
     }
 
-    setCurrentGesture({ ...currentGesture, prevX: x, prevTs: ts })
+    setCurrentGesture({ ...currentGesture, prevX: x })
 
     if (Math.abs(newOffset) > BUTTON_ACTIVATION_ZONE) {
       setStartPos(newOffset > 0 ? BUTTON_WIDTH : -BUTTON_WIDTH)
