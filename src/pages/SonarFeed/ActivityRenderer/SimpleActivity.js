@@ -7,6 +7,8 @@ import { SIGNAL_ANCHORS } from '../../../ducks/Signals/common/constants'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
 import styles from './ActivityRenderer.module.scss'
+import { DesktopOnly } from '../../../components/Responsive'
+import Panel from '@santiment-network/ui/Panel/Panel'
 
 const SimpleActivity = ({
   date,
@@ -21,7 +23,9 @@ const SimpleActivity = ({
 }) => {
   return (
     <div className={styles.wrapper}>
-      <SignalTypeIcon type={type} className={styles.icon} />
+      <DesktopOnly>
+        <SignalTypeIcon type={type} className={styles.icon} />
+      </DesktopOnly>
       <div className={styles.center}>
         <div className={cx(styles.description, styles.activityCustom)}>
           <h4 className={styles.title}>

@@ -9,6 +9,8 @@ import LikeBtn from '../Like/LikeBtn'
 import { getDateFormats } from '../../utils/dates'
 import { getSEOLinkFromIdAndTitle } from './utils'
 import styles from './InsightCard.module.scss'
+import { DesktopOnly } from '../Responsive'
+import { SignalTypeIcon } from '../SignalCard/controls/SignalControls'
 
 const AWAITING_APPROVAL_STATE = 'awaiting_approval'
 const AwaitingApproval = () => (
@@ -40,53 +42,58 @@ const InsightCardInternals = ({
   )}`
 
   return (
-    <Fragment>
-      <div className={styles.top}>
-        <a href={linkToInsight} className={styles.title}>
-          <MultilineText maxLines={2} id='insightCardTitle' text={title} />
-        </a>
-      </div>
-      <div className={styles.bottom}>
-        <div className={styles.profile}>
-          <ProfileInfo
-            withPic={withAuthorPic}
-            picUrl={avatarUrl}
-            name={
-              <Link className={styles.name} to={`/profile/${authorId}`}>
-                {authorName}
-              </Link>
-            }
-            status={
-              state === AWAITING_APPROVAL_STATE ? (
-                <AwaitingApproval />
-              ) : (
-                `${MMM} ${DD}, ${YYYY}`
-              )
-            }
-            infoClassName={styles.info}
-          />
-        </div>
-        <div className={styles.right}>
-          <LikeBtn
-            likesNumber={totalVotes}
-            liked={!!votedAt}
-            onClick={onLike}
-            disabled={disabled}
-            className={styles.likeBtn}
-          />
-          <a
-            href={linkToInsight + '?_wc=1#comments'}
-            className={cx(styles.stat, styles.stat_comments)}
-          >
-            <Icon type='comment' className={styles.commentIcon} />{' '}
-            {commentsCount}
+    <div className={styles.container}>
+      <DesktopOnly>
+        <SignalTypeIcon type={'social'} />
+      </DesktopOnly>
+      <div className={styles.main}>
+        <div className={styles.top}>
+          <a href={linkToInsight} className={styles.title}>
+            <MultilineText maxLines={2} id='insightCardTitle' text={title} />
           </a>
-          <div className={styles.tags}>
-            <InsightTags tags={tags} isDesktop={isDesktop} />
+        </div>
+        <div className={styles.bottom}>
+          <div className={styles.profile}>
+            <ProfileInfo
+              withPic={withAuthorPic}
+              picUrl={avatarUrl}
+              name={
+                <Link className={styles.name} to={`/profile/${authorId}`}>
+                  {authorName}
+                </Link>
+              }
+              status={
+                state === AWAITING_APPROVAL_STATE ? (
+                  <AwaitingApproval />
+                ) : (
+                  `${MMM} ${DD}, ${YYYY}`
+                )
+              }
+              infoClassName={styles.info}
+            />
+          </div>
+          <div className={styles.right}>
+            <LikeBtn
+              likesNumber={totalVotes}
+              liked={!!votedAt}
+              onClick={onLike}
+              disabled={disabled}
+              className={styles.likeBtn}
+            />
+            <a
+              href={linkToInsight + '?_wc=1#comments'}
+              className={cx(styles.stat, styles.stat_comments)}
+            >
+              <Icon type='comment' className={styles.commentIcon} />{' '}
+              {commentsCount}
+            </a>
+            <div className={styles.tags}>
+              <InsightTags tags={tags} isDesktop={isDesktop} />
+            </div>
           </div>
         </div>
       </div>
-    </Fragment>
+    </div>
   )
 }
 

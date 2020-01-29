@@ -9,6 +9,8 @@ import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
 import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
 import styles from './ActivityRenderer.module.scss'
+import { DesktopOnly } from '../../../components/Responsive'
+import Panel from '@santiment-network/ui/Panel/Panel'
 
 const ActivityWithBacktesting = ({
   date,
@@ -24,7 +26,9 @@ const ActivityWithBacktesting = ({
   } = trigger
   return (
     <>
-      <SignalTypeIcon type={type} className={styles.icon} />
+      <DesktopOnly>
+        <SignalTypeIcon type={type} className={styles.icon} />
+      </DesktopOnly>
       <div>
         <div className={styles.info}>
           <div

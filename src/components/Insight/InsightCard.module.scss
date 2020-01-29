@@ -29,6 +29,10 @@
   }
 }
 
+.main {
+  margin-left: 16px;
+}
+
 .top {
   flex: 1;
 }
@@ -39,7 +43,6 @@
 
   line-height: 26px;
   color: var(--mirage);
-  margin-top: 12px;
   display: inline-block;
   text-decoration: none;
   word-break: break-word;
@@ -135,4 +138,20 @@
 .likeBtn {
   padding: 0;
   margin-left: -8px;
+}
+
+.icon {
+  display: inline-flex;
+  height: 24px;
+  width: 24px;
+  min-width: 24px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  background: var(--jungle-green-light);
+  fill: var(--jungle-green);
+}
+
+.container {
+  display: flex;
 }
