@@ -9,6 +9,7 @@ import { checkIsLoggedIn, checkIsLoggedInPending } from '../../UserSelectors'
 import { extractEventsFromData, makeFeedVariables } from './utils'
 import { fetchSignals } from '../../../ducks/Signals/common/actions'
 import styles from './GeneralFeed.module.scss'
+import FeedSorters from '../filter/FeedSorters'
 
 const Header = () => (
   <div className={styles.title}>
@@ -23,6 +24,7 @@ const Header = () => (
       personal watchlists and general market conditions, using various Santiment
       metrics and tools
     </HelpTooltip>
+    <FeedSorters className={styles.sort} />
   </div>
 )
 

@@ -1,22 +1,37 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import Select from '@santiment-network/ui/Search/Select/Select'
-import './../../../components/formik-santiment-ui/FormikSelect.scss'
-import styles from './SonarFeedActions.module.scss'
+import '../../../components/formik-santiment-ui/FormikSelect.scss'
+import styles from './FeedSorters.module.scss'
 
 export const NEWEST_FILTER = {
-  value: '0',
-  label: 'Newest'
+  label: 'Newest',
+  type: 'DATETIME'
 }
 
-export const OLDEST_FILTER = {
-  value: '1',
-  label: 'Oldest'
+export const VOTES_FILTER = {
+  label: 'Votes',
+  type: 'VOTES'
 }
 
-export const FILTER_OPTIONS = [NEWEST_FILTER, OLDEST_FILTER]
+export const COMMENTS_FILTER = {
+  label: 'Comments',
+  type: 'COMMENTS'
+}
 
-const SonarFeedActions = ({ onChangeFilter, className }) => {
+export const AUTHOR_FILTER = {
+  label: 'Author',
+  type: 'AUTHOR'
+}
+
+export const FILTER_OPTIONS = [
+  NEWEST_FILTER,
+  VOTES_FILTER,
+  COMMENTS_FILTER,
+  AUTHOR_FILTER
+]
+
+const FeedSorters = ({ onChangeFilter, className }) => {
   const [filterValue, setFilterValue] = useState(NEWEST_FILTER)
 
   return (
@@ -37,4 +52,4 @@ const SonarFeedActions = ({ onChangeFilter, className }) => {
   )
 }
 
-export default SonarFeedActions
+export default FeedSorters
