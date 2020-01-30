@@ -253,6 +253,7 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                                 errorsMetricsKeys={errors}
                                 colors={syncedColors}
                                 width={width}
+                                project={project}
                                 isOuterEvent={isOuterEvent}
                               />
                             ))}
@@ -277,6 +278,7 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                           hasPremium={hasPremium}
                           errorsMetricsKeys={errors}
                           isOuterEvent={isOuterEvent}
+                          project={project}
                           onToggleMetric={toggleMetric}
                           {...rest}
                         />

@@ -123,6 +123,16 @@ const MobileMetricCard = ({
             }
           }
 
+          if (metric === Metrics.devActivity) {
+            const {
+              devActivity60: first = 0,
+              devActivity30: second = 0
+            } = rest.project
+            diff = calcPercentageChange(first * 2 - second, second)
+            value = second.toFixed(2)
+            period = '30d'
+          }
+
           return (
             <div className={styles.wrapper}>
               <div className={cx(styles.row, styles.row_top)}>
