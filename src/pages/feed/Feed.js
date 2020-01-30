@@ -14,8 +14,6 @@ const FeedPage = () => {
         <MobileHeader title='Feed' />
       </MobileOnly>
 
-      <StoriesList classes={styles} />
-
       <div className={styles.feeds}>
         <GeneralFeed />
 

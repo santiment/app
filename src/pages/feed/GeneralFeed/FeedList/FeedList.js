@@ -1,20 +1,95 @@
 import React, { Fragment } from 'react'
+import cx from 'classnames'
 import FeedItemRenderer from '../FeedItemRenderer/FeedItemRenderer'
 import SonarFeedRecommendations from '../../../SonarFeed/SonarFeedRecommendations'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import MakeProSubscriptionCard from '../MakeProSubscriptionCard/MakeProSubscriptionCard'
+import { addDays, getDateFormats } from '../../../../utils/dates'
 import externalStyles from '../GeneralFeed.module.scss'
 import styles from './FeedList.module.scss'
+import StoriesList from '../../../../components/Stories/StoriesList'
+
+const TODAY = new Date().toLocaleDateString()
+const YESTERDAY = addDays(new Date(), -1).toLocaleDateString()
+
+const getEventDate = ({ insertedAt }) => new Date(insertedAt)
+
+const makeDateLabel = date => {
+  switch (date.toLocaleDateString()) {
+    case TODAY: {
+      return 'Today'
+    }
+    case YESTERDAY: {
+      return 'Yesterday'
+    }
+    default: {
+      const { DD, MMM, YYYY } = getDateFormats(date)
+      return `${DD} ${MMM}, ${YYYY}`
+    }
+  }
+}
+
+const checkItemWithIndex = (group, item, index) => {
+  if (index === 1) {
+    item.addProCard = true
+  }
+
+  if (index === 3) {
+    item.addStories = true
+  }
+
+  group.items.push(item)
+}
+
+const groupByDates = events => {
+  const groups = []
+
+  for (let i = 0, counter = 0; i < events.length;) {
+    const item = events[i]
+    const date = getEventDate(item)
+
+    const group = {
+      date: date,
+      items: [],
+      label: makeDateLabel(date)
+    }
+    checkItemWithIndex(group, item, i)
+
+    while (
+      ++i < events.length &&
+      date.toLocaleDateString() === getEventDate(events[i]).toLocaleDateString()
+    ) {
+      checkItemWithIndex(group, events[i], i)
+    }
+
+    groups.push(group)
+  }
+
+  return groups
+}
 
 const FeedList = ({ events, isLoading }) => {
+  const hasData = events && events.length > 0
+
+  const groups = groupByDates(events)
+
   return (
     <div className={externalStyles.scrollable}>
-      {events && events.length > 0 ? (
-        events.map((item, index) => {
+      {hasData ? (
+        groups.map((item, index) => {
+          const { label, items } = item
           return (
-            <Fragment key={index}>
-              <FeedItemRenderer item={item} index={index} />
-              {index === 2 && <MakeProSubscriptionCard />}
+            <Fragment index={index}>
+              <div className={cx(styles.date, index !== 0 && styles.next)}>
+                {label}
+              </div>
+              {items.map((item, itemIndex) => (
+                <Fragment key={itemIndex}>
+                  <FeedItemRenderer item={item} index={index} />
+                  {item.addProCard && <MakeProSubscriptionCard />}
+                  {item.addStories && <StoriesList classes={styles} />}
+                </Fragment>
+              ))}
             </Fragment>
           )
         })
