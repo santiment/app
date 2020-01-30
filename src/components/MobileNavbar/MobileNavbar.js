@@ -40,8 +40,9 @@ const NAVBAR_LINKS = [
 ]
 
 const MENU_LINKS = [
-  { link: '/account', label: 'Account settings' },
-  { link: '/support', label: 'Support' }
+  { linkTo: '/sonar', label: 'Signals' },
+  { linkTo: '/account', label: 'Account settings' },
+  { linkTo: '/support', label: 'Support' }
 ]
 
 const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
