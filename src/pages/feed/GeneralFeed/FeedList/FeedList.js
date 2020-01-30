@@ -44,7 +44,7 @@ const checkItemWithIndex = (group, item, index) => {
 const groupByDates = events => {
   const groups = []
 
-  for (let i = 0, counter = 0; i < events.length;) {
+  for (let i = 0; i < events.length;) {
     const item = events[i]
     const date = getEventDate(item)
 
@@ -79,7 +79,7 @@ const FeedList = ({ events, isLoading }) => {
         groups.map((item, index) => {
           const { label, items } = item
           return (
-            <Fragment index={index}>
+            <Fragment key={index}>
               <div className={cx(styles.date, index !== 0 && styles.next)}>
                 {label}
               </div>

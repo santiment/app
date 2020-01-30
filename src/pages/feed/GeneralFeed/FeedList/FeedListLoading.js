@@ -36,7 +36,12 @@ class FeedListLoading extends React.Component {
       return null
     }
 
-    const variables = makeFeedVariables(events[events.length - 1].insertedAt)
+    const { sortType } = this.props
+
+    const variables = makeFeedVariables({
+      date: events[events.length - 1].insertedAt,
+      orderBy: sortType
+    })
 
     return fetchMore({
       variables: variables,
@@ -73,8 +78,19 @@ class FeedListLoading extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { events: propEvents } = nextProps
-    const { events: currentEvents } = this.state
+    const { events: propEvents, sortType: propsSortType } = nextProps
+    const { events: currentEvents, sortType: stateSortType } = this.state
+
+    if (!isEqual(propsSortType, stateSortType)) {
+      this.setState({
+        ...this.state,
+        events: [],
+        sortType: propsSortType,
+        isEndCommon: false
+      })
+      return
+    }
+
     if (propEvents.length > 0) {
       const [event] = propEvents
       if (!currentEvents.find(item => isEqual(item, event))) {

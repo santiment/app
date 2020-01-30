@@ -3,8 +3,16 @@ import { INSIGHT_COMMON_FRAGMENT } from './InsightsGQL'
 import { TRIGGERS_COMMON_FRAGMENT } from '../ducks/Signals/common/queries'
 
 export const FEED_QUERY = gql`
-  query timelineEvents($limit: Int, $cursor: CursorInput) {
-    timelineEvents: timelineEvents(limit: $limit, cursor: $cursor) {
+  query timelineEvents(
+    $limit: Int
+    $cursor: CursorInput
+    $orderBy: OrderByEnum
+  ) {
+    timelineEvents: timelineEvents(
+      limit: $limit
+      cursor: $cursor
+      orderBy: $orderBy
+    ) {
       cursor {
         after
         before
