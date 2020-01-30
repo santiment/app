@@ -13173,6 +13173,13 @@ react-app-polyfill@^0.2.2:
     raf "3.4.1"
     whatwg-fetch "3.0.0"
 
+react-app-rewired@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/react-app-rewired/-/react-app-rewired-2.1.5.tgz#592ec2eae5c3c5cd96c80930b5dc3f6c34da1dc6"
+  integrity sha512-Gr8KfCeL9/PTQs8Vvxc7v8wQ9vCFMnYPhcAkrMlzkLiMFXS+BgSwm11MoERjZm7dpA2WjTi+Pvbu/w7rujAV+A==
+  dependencies:
+    semver "^5.6.0"
+
 react-calendar@^2.19.0:
   version "2.19.0"
   resolved "https://registry.yarnpkg.com/react-calendar/-/react-calendar-2.19.0.tgz#5451927c4a8f2136b9732c348bb27f3b91c032b0"
@@ -15940,6 +15947,29 @@ supports-color@^6.0.0:
   integrity sha512-on9Kwidc1IUQo+bQdhi8+Tijpo0e1SS6RoGo2guUwn5vdaxw8RXOF9Vb2ws+ihWOmh4JnCJOvaziZWP1VABaLg==
   dependencies:
     has-flag "^3.0.0"
+
+svelte-adapter@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/svelte-adapter/-/svelte-adapter-0.3.0.tgz#471a3b726dd53fa1b067ba344eb4277f67ccdd05"
+  integrity sha512-U927tKNaJnZsN+SS1ZWdBBYnu1cx3mvD3YO8bf8RL4VQrBhCTyvdEVG3npnkt/QZ7ir0aA3NiDgwtckVs1INdw==
+
+svelte-dev-helper@^1.1.9:
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/svelte-dev-helper/-/svelte-dev-helper-1.1.9.tgz#7d187db5c6cdbbd64d75a32f91b8998bde3273c3"
+  integrity sha1-fRh9tcbNu9ZNdaMvkbiZi94yc8M=
+
+svelte-loader@^2.13.6:
+  version "2.13.6"
+  resolved "https://registry.yarnpkg.com/svelte-loader/-/svelte-loader-2.13.6.tgz#3d5efd5886c2bab034606d5af0cce659da3ee555"
+  integrity sha512-7uf7ZQdPAl+lwb1ldUYJFY/raZRUCuaNx7lMJ+F16jrVwN1+c35C2pBMGIY0mCqdKm5sm45jqELJJLGM3UG9Pw==
+  dependencies:
+    loader-utils "^1.1.0"
+    svelte-dev-helper "^1.1.9"
+
+svelte@^3.18.1:
+  version "3.18.1"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.18.1.tgz#db0f82cc46394ca8c9a9d183995e1ebfeea3bdd0"
+  integrity sha512-jl6VLGTytOjHu700LuXSX6LvwRKFLAxqT8McUD2f3NjMI6qakWXgXoVjT+/ZmXmr8DiwrN/074pA1o3Aye4bIA==
 
 svg-tag-names@^1.1.0:
   version "1.1.1"
