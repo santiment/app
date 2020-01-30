@@ -9,8 +9,8 @@
     "storybook": "start-storybook -p 9001 -c .storybook",
     "build": "yarn build:sw && REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version')-$(echo $GIT_HEAD) react-app-rewired build",
     "test:lint:css": "yarn stylelint src/*{sass,scss} --syntax scss --fix",
-    "test:js": "react-app-rewired test --testPathIgnorePatterns='e2e.*'",
-    "test:e2e": "react-app-rewired test --testPathPattern='e2e.*'",
+    "test:js": "react-scripts test --testPathIgnorePatterns='e2e.*'",
+    "test:e2e": "react-scripts test --testPathPattern='e2e.*'",
     "test": "npm run test:lint:css && CI=true npm run test:js",
     "eject": "react-scripts eject",
     "build:sw": "rm -f ./public/san-sonar-service-worker.js && NODE_ENV=production webpack --config webpack.sw.config.js"
