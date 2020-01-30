@@ -9,7 +9,6 @@ import PercentChanges from '../PercentChanges'
 import {
   DAY,
   getTimeIntervalFromToday,
-  getIntervalByTimeRange,
   dateDifference
 } from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
@@ -90,7 +89,7 @@ const MobileMetricCard = ({
           const eventsTotalNumber = isTrendingPosition
             ? eventsData.length
             : anomaliesNumber
-          console.log(eventsTotalNumber, eventsData)
+
           const eventsTotalText = isTrendingPosition
             ? `${eventsTotalNumber} time${eventsTotalNumber > 1 ? 's' : ''}`
             : `${eventsTotalNumber} anomal${

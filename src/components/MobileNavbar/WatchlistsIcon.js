@@ -16,13 +16,13 @@ export default props => (
     />
     <path
       d='M11 10.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z'
-      fill='var(--menu-active-accent, var(--mirage))'
+      fill='var(--menu-active-accent, var(--rhino))'
     />
     <path
       fillRule='evenodd'
       clipRule='evenodd'
       d='M6 9a5 5 0 119.99-.01A5 5 0 016 9zm2 0a3 3 0 116 0 3 3 0 11-6 0z'
-      fill='var(--menu-active-accent, var(--mirage))'
+      fill='var(--menu-active-accent, var(--rhino))'
     />
   </svg>
 )
