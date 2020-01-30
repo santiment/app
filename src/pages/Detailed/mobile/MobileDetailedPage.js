@@ -250,8 +250,10 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                                 key={metric.key + 'selected'}
                                 {...rest}
                                 hasPremium={hasPremium}
+                                errorsMetricsKeys={errors}
                                 colors={syncedColors}
                                 width={width}
+                                project={project}
                                 isOuterEvent={isOuterEvent}
                               />
                             ))}
@@ -273,7 +275,10 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                         <MobilePopularMetrics
                           metrics={metrics}
                           width={width}
+                          hasPremium={hasPremium}
+                          errorsMetricsKeys={errors}
                           isOuterEvent={isOuterEvent}
+                          project={project}
                           onToggleMetric={toggleMetric}
                           {...rest}
                         />
