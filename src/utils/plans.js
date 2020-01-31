@@ -1,5 +1,11 @@
+export const PLANS = {
+  FREE: 'FREE',
+  BASIC: 'BASIC',
+  PRO: 'PRO'
+}
+
 export const formatPrice = (price, name, billing) => {
-  if (name === 'FREE') return ['$0']
+  if (name === PLANS.FREE) return ['$0']
   if (!price) return ['Custom']
 
   const devider = 100 * (billing === 'year' ? 12 : 1)
@@ -12,7 +18,7 @@ export const neuroProductId = '1'
 
 export const findSanbasePlan = ({ id }) => id === sanbaseProductId
 
-export const noBasicPlan = ({ name }) => name !== 'BASIC'
+export const noBasicPlan = ({ name }) => name !== PLANS.BASIC
 
 export const getCurrentSanbaseSubscription = user => {
   if (!user) return
