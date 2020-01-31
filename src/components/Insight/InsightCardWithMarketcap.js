@@ -8,7 +8,7 @@ import { noTrendTagsFilter } from './utils'
 import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './InsightCard.module.scss'
 
-const InsightCard = ({ className, tags, isDesktop, ...insight }) => {
+const InsightCard = ({ className, tags, isDesktop, showIcon, ...insight }) => {
   const { createdAt, updatedAt, publishedAt } = insight
   const filteredTags = tags.filter(noTrendTagsFilter)
   return (
@@ -18,6 +18,7 @@ const InsightCard = ({ className, tags, isDesktop, ...insight }) => {
           {...insight}
           tags={filteredTags}
           isDesktop={isDesktop}
+          showIcon={showIcon}
         />
       </div>
       {isDesktop && (

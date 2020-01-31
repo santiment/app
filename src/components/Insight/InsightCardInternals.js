@@ -33,7 +33,8 @@ const InsightCardInternals = ({
   onLike,
   withAuthorPic,
   disabled,
-  isDesktop
+  isDesktop,
+  showIcon = false
 }) => {
   const { DD, MMM, YYYY } = getDateFormats(new Date(publishedAt || createdAt))
   const linkToInsight = `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
@@ -43,10 +44,12 @@ const InsightCardInternals = ({
 
   return (
     <div className={styles.container}>
-      <DesktopOnly>
-        <SignalTypeIcon type={'social'} />
-      </DesktopOnly>
-      <div className={styles.main}>
+      {showIcon && (
+        <DesktopOnly>
+          <SignalTypeIcon type={'social'} />
+        </DesktopOnly>
+      )}
+      <div className={cx(styles.main, showIcon && styles.withIcon)}>
         <div className={styles.top}>
           <a href={linkToInsight} className={styles.title}>
             <MultilineText maxLines={2} id='insightCardTitle' text={title} />

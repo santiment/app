@@ -7,7 +7,8 @@ import isEqual from 'lodash.isequal'
 class FeedListLoading extends React.Component {
   state = {
     isEndCommon: false,
-    events: this.props.events
+    events: this.props.events,
+    sortType: this.props.sortType
   }
 
   unmounted = false
@@ -81,41 +82,51 @@ class FeedListLoading extends React.Component {
     const { events: propEvents, sortType: propsSortType } = nextProps
     const { events: currentEvents, sortType: stateSortType } = this.state
 
-    if (!isEqual(propsSortType, stateSortType)) {
+    const isNewSortType = !isEqual(propsSortType, stateSortType)
+    if (isNewSortType) {
       this.setState({
         ...this.state,
         events: [],
         sortType: propsSortType,
-        isEndCommon: false
+        isEndCommon: false,
+        isNewSortType
       })
       return
     }
 
     if (propEvents.length > 0) {
       const [event] = propEvents
-      if (!currentEvents.find(item => isEqual(item, event))) {
+      if (!currentEvents.find(({ id }) => id === event.id)) {
         const newEvents = this.state.events
         newEvents.push(...propEvents)
         this.setState({
           ...this.state,
-          events: newEvents
+          events: newEvents,
+          isNewSortType
         })
       }
     } else if (propEvents.length === 0) {
       this.setState({
         ...this.state,
-        isEndCommon: true
+        isEndCommon: true,
+        isNewSortType
       })
     }
   }
 
   render () {
     const { isLoading } = this.props
-    const { events } = this.state
+    const { events, isNewSortType } = this.state
     const filtered = events.filter(
       ({ post, payload, trigger }) => post || (trigger && payload)
     )
-    return <FeedList events={filtered} isLoading={isLoading} />
+    return (
+      <FeedList
+        events={filtered}
+        isLoading={isLoading}
+        isNewSortType={isNewSortType}
+      />
+    )
   }
 }
 

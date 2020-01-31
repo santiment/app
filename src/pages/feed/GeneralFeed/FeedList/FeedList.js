@@ -8,6 +8,7 @@ import { addDays, getDateFormats } from '../../../../utils/dates'
 import externalStyles from '../GeneralFeed.module.scss'
 import styles from './FeedList.module.scss'
 import StoriesList from '../../../../components/Stories/StoriesList'
+import PageLoader from '../../../../components/Loader/PageLoader'
 
 const TODAY = new Date().toLocaleDateString()
 const YESTERDAY = addDays(new Date(), -1).toLocaleDateString()
@@ -68,9 +69,16 @@ const groupByDates = events => {
   return groups
 }
 
-const FeedList = ({ events, isLoading }) => {
-  const hasData = events && events.length > 0
+const FeedList = ({ events, isLoading, isNewSortType }) => {
+  if (isNewSortType && isLoading) {
+    return (
+      <div className={externalStyles.scrollable}>
+        <PageLoader />
+      </div>
+    )
+  }
 
+  const hasData = events && events.length > 0
   const groups = groupByDates(events)
 
   return (
