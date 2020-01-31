@@ -52,6 +52,14 @@ const SwipeableCard = ({
     }, 500)
   }
 
+  const onCardClick = () => {
+    if (currentGesture || isSwipe || startPos || offset) {
+    } else {
+      setSide(SIDES.RIGHT)
+      onRightAction()
+    }
+  }
+
   const shouldActivateAction = ({ prevX, x }) => {
     const offsetInPercents = (Math.abs(offset) * 100) / containerWidth
 
@@ -171,6 +179,7 @@ const SwipeableCard = ({
         onTouchEnd={onCancel}
         onTouchMove={onMove}
         onTouchStart={onStart}
+        onClick={onCardClick}
         style={{
           transform: `translateX(${offset}px)`,
           transition: `${currentGesture ? '' : `transform ease 0.7s`}`

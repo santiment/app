@@ -145,10 +145,6 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                     ({ key }) => !errors.includes(key)
                   )
 
-                  const notSelectedPopularNumber = POPULAR_METRICS.filter(
-                    metric => !finalMetrics.includes(metric)
-                  ).length
-
                   const chartMetrics = [
                     Metrics.historyPricePreview,
                     ...finalMetrics
@@ -271,18 +267,16 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                           To add a new metric, please de-select another one
                         </div>
                       )}
-                      {notSelectedPopularNumber > 0 && (
-                        <MobilePopularMetrics
-                          metrics={metrics}
-                          width={width}
-                          hasPremium={hasPremium}
-                          errorsMetricsKeys={errors}
-                          isOuterEvent={isOuterEvent}
-                          project={project}
-                          onToggleMetric={toggleMetric}
-                          {...rest}
-                        />
-                      )}
+                      <MobilePopularMetrics
+                        metrics={metrics}
+                        width={width}
+                        hasPremium={hasPremium}
+                        errorsMetricsKeys={errors}
+                        isOuterEvent={isOuterEvent}
+                        project={project}
+                        onToggleMetric={toggleMetric}
+                        {...rest}
+                      />
                     </>
                   )
                 }}
