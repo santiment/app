@@ -6,8 +6,8 @@ import StoryPreview from './StoryPreview'
 import GA from './../../utils/tracking'
 import Story from './Story'
 import { stories } from './content'
-import styles from './StoriesList.module.scss'
 import { DesktopOnly } from '../Responsive'
+import styles from './StoriesList.module.scss'
 
 const ScrollBtn = ({ isRight, show = true, onClick }) => {
   if (!show) {
