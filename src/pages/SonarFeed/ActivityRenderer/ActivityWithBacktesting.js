@@ -8,6 +8,7 @@ import SignalPreview from '../../../ducks/Signals/chart/preview/SignalPreview'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
 import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
+import { DesktopOnly } from '../../../components/Responsive'
 import styles from './ActivityRenderer.module.scss'
 
 const ActivityWithBacktesting = ({
@@ -24,7 +25,9 @@ const ActivityWithBacktesting = ({
   } = trigger
   return (
     <>
-      <SignalTypeIcon type={type} className={styles.icon} />
+      <DesktopOnly>
+        <SignalTypeIcon type={type} className={styles.icon} />
+      </DesktopOnly>
       <div>
         <div className={styles.info}>
           <div

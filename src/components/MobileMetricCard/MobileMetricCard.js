@@ -6,7 +6,11 @@ import Dialog from '@santiment-network/ui/Dialog'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import { formatTooltipValue } from '../../ducks/SANCharts/CustomTooltip'
 import PercentChanges from '../PercentChanges'
-import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
+import {
+  DAY,
+  getTimeIntervalFromToday,
+  dateDifference
+} from '../../utils/dates'
 import { calcPercentageChange } from '../../utils/utils'
 import { makeRequestedData } from '../../pages/Detailed/mobile/utils'
 import { METRIC_ANOMALIE_QUERY } from '../../ducks/GetTimeSeries/queries/metric_anomaly_query'
@@ -18,13 +22,12 @@ import styles from './MobileMetricCard.module.scss'
 const MobileMetricCard = ({
   metric,
   value = 0,
-  period = '24h',
-  changes,
   colors = {},
   ticker = '',
   data: { metricAnomaly: anomalies = [] } = {},
   onToggleMetric,
   hasPremium,
+  errorsMetricsKeys,
   slug,
   ...rest
 }) => {
@@ -32,14 +35,22 @@ const MobileMetricCard = ({
   const { length: anomaliesNumber } = anomalies
 
   const { label, description, key, dataKey = key } = metric
-  const { from, to } = getTimeIntervalFromToday(-1, DAY, { isUTC: true })
+  let { from, to } = getTimeIntervalFromToday(-1, DAY, { isUTC: true })
+  let interval = '1d'
+
+  const isTrendingPosition = metric === Events.trendPositionHistory
+  if (isTrendingPosition) {
+    from = rest.from
+    to = rest.to
+    interval = rest.interval
+  }
 
   const requestedData = makeRequestedData({
     metrics: [metric],
     slug,
     from,
     to,
-    interval: '1d'
+    interval
   })
 
   return (
@@ -49,70 +60,130 @@ const MobileMetricCard = ({
       hasLeftAction={description}
       {...rest}
     >
-      <div className={styles.wrapper}>
-        <div className={cx(styles.row, styles.row_top)}>
-          <h3 className={styles.metric}>{label}</h3>
-          {anomaliesNumber > 0 && (
-            <h4 className={styles.anomalies}>
-              {`${anomaliesNumber} anomal${anomaliesNumber > 1 ? 'ies' : 'y'}`}
-            </h4>
-          )}
-        </div>
-        <GetTimeSeries
-          {...requestedData}
-          render={({
-            timeseries = [],
-            eventsData = [],
-            errorMetrics = {},
-            isError,
-            isLoading
-          }) => {
-            const hasError = Object.keys(errorMetrics).includes(key) || isError
+      <GetTimeSeries
+        {...requestedData}
+        render={({
+          timeseries = [],
+          eventsData = [],
+          errorMetrics = {},
+          isError,
+          isLoading
+        }) => {
+          const errorOnChart = errorsMetricsKeys.includes(key)
+          let errorText = ''
 
-            if (hasError) {
-              return (
-                <div className={styles.text}>Failed fetch the latest data</div>
-              )
+          if (
+            Object.keys(errorMetrics).includes(key) ||
+            isError ||
+            errorOnChart
+          ) {
+            errorText = `Failed to fetch the ${
+              errorOnChart ? '' : 'latest '
+            }data`
+          }
+
+          let value = null
+          let diff = null
+          let period = '24h'
+
+          const eventsTotalNumber = isTrendingPosition
+            ? eventsData.length
+            : anomaliesNumber
+
+          const eventsTotalText = isTrendingPosition
+            ? `${eventsTotalNumber} time${eventsTotalNumber > 1 ? 's' : ''}`
+            : `${eventsTotalNumber} anomal${
+              eventsTotalNumber > 1 ? 'ies' : 'y'
+            }`
+
+          if (timeseries.length >= 2) {
+            const lastIndex = timeseries.length - 1
+            const today = timeseries[lastIndex][dataKey]
+            const yesterday = timeseries[lastIndex - 1][dataKey]
+            value = `${formatTooltipValue(false, today)} ${
+              metric === Metrics.transaction_volume ? ticker : ''
+            }`
+            diff = calcPercentageChange(yesterday, today)
+          }
+
+          const color = isTrendingPosition ? '#505573' : colors[dataKey]
+
+          if (isTrendingPosition) {
+            if (eventsData.length > 0) {
+              const latestData = eventsData[eventsData.length - 1]
+              value = Events.position.formatter(latestData.position)
+
+              const { diff, format } = dateDifference({
+                from: new Date(latestData.datetime)
+              })
+              period = `${diff}${format} ago`
+            } else {
+              errorText = "Didn't was in trends in selected interval"
             }
+          }
 
-            let value = null
-            let diff = null
+          if (metric === Metrics.devActivity) {
+            const {
+              devActivity60: first = 0,
+              devActivity30: second = 0
+            } = rest.project
+            diff = calcPercentageChange(first * 2 - second, second)
+            value = second.toFixed(2)
+            period = '30d'
+          }
 
-            if (timeseries.length >= 2) {
-              const lastIndex = timeseries.length - 1
-              const today = timeseries[lastIndex][dataKey]
-              const yesterday = timeseries[lastIndex - 1][dataKey]
-              value = `${formatTooltipValue(false, today)} ${
-                metric === Metrics.transaction_volume ? ticker : ''
-              }`
-              diff = calcPercentageChange(yesterday, today)
-            }
-
-            const color =
-              metric === Events.trendPositionHistory
-                ? '#505573'
-                : colors[dataKey]
-
-            return (
+          return (
+            <div className={styles.wrapper}>
+              <div className={cx(styles.row, styles.row_top)}>
+                <h3 className={styles.metric}>{label}</h3>
+                {eventsTotalNumber > 0 && (
+                  <h4
+                    className={cx(
+                      styles.events,
+                      isTrendingPosition && styles.events__trends
+                    )}
+                  >
+                    {eventsTotalText}
+                  </h4>
+                )}
+              </div>
               <div
                 className={cx(styles.row, styles.row_bottom)}
                 style={{ '--color': color || '' }}
               >
-                {value && (
+                {isLoading ? (
+                  <Loader className={styles.loader} />
+                ) : errorText ? (
+                  <div className={styles.text}>{errorText}</div>
+                ) : value ? (
                   <>
-                    <h4 className={styles.value}>{value}</h4>
-                    <PercentChanges changes={diff} />
-                    <Label accent='casper' className={styles.period}>
-                      , {period}
-                    </Label>
+                    <h4
+                      className={cx(
+                        styles.value,
+                        isTrendingPosition && styles.value__trends
+                      )}
+                    >
+                      {value}
+                    </h4>
+                    {diff !== null && (
+                      <PercentChanges changes={diff} className={styles.diff} />
+                    )}
+                    {period && (
+                      <Label accent='casper' className={styles.period}>
+                        , {period}
+                      </Label>
+                    )}
                   </>
-                )}
-                {isLoading && !value && <Loader className={styles.loader} />}
+                ) : !hasPremium ? (
+                  <div className={styles.text}>
+                    Go PRO to see the latest data
+                  </div>
+                ) : null}
               </div>
-            )
-          }}
-        />
-      </div>
+            </div>
+          )
+        }}
+      />
       {description && (
         <Dialog
           title={label}
