@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import cx from 'classnames'
-import { Icon } from '@santiment-network/ui'
+import Icon from '@santiment-network/ui/Icon'
 import InsightTags from './InsightTags'
 import ProfileInfo from './ProfileInfo'
 import MultilineText from '../MultilineText/MultilineText'
@@ -11,6 +10,7 @@ import { getSEOLinkFromIdAndTitle } from './utils'
 import styles from './InsightCard.module.scss'
 import { DesktopOnly } from '../Responsive'
 import { SignalTypeIcon } from '../SignalCard/controls/SignalControls'
+import Comments from './Comments'
 
 const AWAITING_APPROVAL_STATE = 'awaiting_approval'
 const AwaitingApproval = () => (
@@ -80,13 +80,7 @@ const InsightCardInternals = ({
               disabled={disabled}
               className={styles.likeBtn}
             />
-            <a
-              href={linkToInsight + '?_wc=1#comments'}
-              className={cx(styles.stat, styles.stat_comments)}
-            >
-              <Icon type='comment' className={styles.commentIcon} />{' '}
-              {commentsCount}
-            </a>
+            <Comments id={id} authorId={authorId} count={commentsCount} />
             <div className={styles.tags}>
               <InsightTags tags={tags} isDesktop={isDesktop} />
             </div>

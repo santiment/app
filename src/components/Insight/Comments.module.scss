@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  --loading-dot-size: 14px;
+
+  width: 90%;
+  margin: 20px auto;
+  max-height: calc(100% - 40px);
+  min-height: 250px;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 20px;
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+    font-family: inherit;
+    line-height: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  :global(section) {
+    --loading-dot-size: 4px;
+
+    margin: 40px !important;
+    max-width: initial !important;
+    width: auto !important;
+  }
+}
