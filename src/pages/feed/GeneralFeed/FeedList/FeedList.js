@@ -95,7 +95,9 @@ const FeedList = ({ events, isLoading, isNewSortType }) => {
                 <Fragment key={itemIndex}>
                   <FeedItemRenderer item={item} index={index} />
                   {item.addProCard && <MakeProSubscriptionCard />}
-                  {item.addStories && <StoriesList classes={styles} />}
+                  {item.addStories && (
+                    <StoriesList classes={styles} showScrollBtns={true} />
+                  )}
                 </Fragment>
               ))}
             </Fragment>
