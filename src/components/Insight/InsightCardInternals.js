@@ -19,6 +19,13 @@ const AwaitingApproval = () => (
   </div>
 )
 
+export const makeLinkToInsight = (id, title) => {
+  return `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
+    id,
+    title
+  )}`
+}
+
 const InsightCardInternals = ({
   id,
   user: { id: authorId, username: authorName, avatarUrl },
@@ -37,10 +44,7 @@ const InsightCardInternals = ({
   showIcon = false
 }) => {
   const { DD, MMM, YYYY } = getDateFormats(new Date(publishedAt || createdAt))
-  const linkToInsight = `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
-    id,
-    title
-  )}`
+  const linkToInsight = makeLinkToInsight(id, title)
 
   return (
     <div className={styles.container}>

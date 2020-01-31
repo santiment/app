@@ -6,10 +6,14 @@ import { ONE_DAY_IN_MS } from '../../utils/dates'
 import Insights from './Insights'
 import { filterInsightsNoDrafts, getInsightTrendTagByDate } from './utils'
 
-const InsightsTrends = ({ allInsightsByTag, ...props }) => {
+const InsightsTrends = ({
+  allInsightsByTag,
+  title = 'Insights based on last trends',
+  ...props
+}) => {
   return (
     <Insights
-      title='Insights based on last trends'
+      title={title}
       insights={allInsightsByTag.filter(filterInsightsNoDrafts)}
       {...props}
     />

@@ -5,8 +5,8 @@ import { DesktopOnly } from '../../Responsive'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import SignalCardHeader from './SignalCardHeader'
 import CopySignal from '../controls/CopySignal'
-import SignalCreator from './creator/SignalCreator'
 import LikeBtnWrapper from '../../Like/LikeBtnWrapper'
+import TrendingCardInsights from './trendingInsights/TrendingCardInsights'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
@@ -104,7 +104,7 @@ const TrendingWordsSignalCard = ({
           )}
         </div>
 
-        <SignalCreator date={date} user={user} />
+        <TrendingCardInsights date={new Date(date)} />
 
         <div className={styles.bottom}>
           <LikeBtnWrapper
