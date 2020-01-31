@@ -51,15 +51,15 @@ const StoriesList = ({ classes = {}, showScrollBtns }) => {
 
   return (
     <section className={cx(styles.list, classes.stories)}>
-      <DesktopOnly>
-        {showScrollBtns && canScrollLeft && (
+      {showScrollBtns && canScrollLeft && (
+        <DesktopOnly>
           <ScrollBtn
             onClick={() => {
               scroll(false)
             }}
           />
-        )}
-      </DesktopOnly>
+        </DesktopOnly>
+      )}
 
       <div className={styles.scrollableWrapper} ref={scrollRef}>
         <div className={cx(styles.scrollable, classes.storiesScrollable)}>
@@ -80,16 +80,16 @@ const StoriesList = ({ classes = {}, showScrollBtns }) => {
         </div>
       </div>
 
-      <DesktopOnly>
-        {showScrollBtns && canScrollRight && (
+      {showScrollBtns && canScrollRight && (
+        <DesktopOnly>
           <ScrollBtn
             isRight
             onClick={() => {
               scroll(true)
             }}
           />
-        )}
-      </DesktopOnly>
+        </DesktopOnly>
+      )}
 
       <Dialog
         title={(selected || {}).storyHeaderName || ''}
