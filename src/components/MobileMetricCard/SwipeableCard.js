@@ -5,7 +5,7 @@ import styles from './SwipeableCard.module.scss'
 
 const BUTTON_WIDTH = 85
 const BUTTON_ACTIVATION_ZONE = 1.2 * BUTTON_WIDTH
-const PERCENTS_THRESHOLD = 70
+const PERCENTS_THRESHOLD = 60
 const FULL_HIDE_POSITION = -1000
 
 const SIDES = { RIGHT: 'right', LEFT: 'left' }
@@ -33,7 +33,7 @@ const SwipeableCard = ({
 }) => {
   const [startPos, setStartPos] = useState(0)
   const [offset, setOffset] = useState(0)
-  const [side, setSide] = useState(SIDES.RIGHT)
+  const [side, setSide] = useState(null)
   const [currentGesture, setCurrentGesture] = useState(null)
   const [isSwipe, setIsSwipe] = useState(null)
   const [withAnimation] = useState(useInitialAnimation)
@@ -41,7 +41,7 @@ const SwipeableCard = ({
   const onLeftAction = () => {
     onLeftActionClick()
     setStartPos(0)
-    setCurrentGesture(null)
+    onCancel()
   }
 
   const onRightAction = () => {
@@ -53,10 +53,18 @@ const SwipeableCard = ({
   }
 
   const onCardClick = () => {
-    if (currentGesture || isSwipe || startPos || offset) {
+    if (
+      side === SIDES.LEFT ||
+      currentGesture ||
+      isSwipe ||
+      startPos ||
+      offset
+    ) {
     } else {
       setSide(SIDES.RIGHT)
-      onRightAction()
+      setTimeout(() => {
+        onRightAction()
+      }, 60)
     }
   }
 
@@ -139,6 +147,12 @@ const SwipeableCard = ({
 
     setCurrentGesture(null)
     setIsSwipe(null)
+
+    if (startPos === 0 && side === SIDES.LEFT) {
+      setTimeout(() => {
+        setSide(null)
+      }, 200)
+    }
 
     if (offset !== FULL_HIDE_POSITION) {
       setOffset(startPos)
