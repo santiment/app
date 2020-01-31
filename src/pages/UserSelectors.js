@@ -1,9 +1,16 @@
+import { getCurrentSanbaseSubscription } from '../utils/plans'
+
 export const getBalance = state => {
   return state.user.data.sanBalance > 0 ? state.user.data.sanBalance : 0
 }
 
 export const checkHasPremium = state => {
-  return state.user.data.sanBalance >= 1000
+  if (!state.user.data) {
+    return false
+  }
+  const { plan } = getCurrentSanbaseSubscription(state.user.data) || {}
+
+  return plan && plan.name === 'PRO'
 }
 
 export const checkIsLoggedIn = state => {
