@@ -24,8 +24,7 @@ import {
   convertEventsToObj,
   DEFAULT_METRIC,
   DEFAULT_TIME_RANGE,
-  MAX_METRICS_PER_CHART,
-  POPULAR_METRICS
+  MAX_METRICS_PER_CHART
 } from './utils'
 import PageLoader from '../../../components/Loader/PageLoader'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
