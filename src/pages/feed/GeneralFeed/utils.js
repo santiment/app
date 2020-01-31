@@ -1,3 +1,5 @@
+import { DATETIME_SORT } from '../filter/FeedSorters'
+
 export const MAX_LIMIT = 20
 
 export const CURSOR_TYPES = {
@@ -17,16 +19,18 @@ export const makeVariables = (
   }
 })
 
-export const makeFeedVariables = (
+export const makeFeedVariables = ({
   date,
   limit = MAX_LIMIT,
-  type = CURSOR_TYPES.before
-) => ({
+  type = CURSOR_TYPES.before,
+  orderBy = DATETIME_SORT.type
+}) => ({
   limit,
   cursor: {
     type,
     datetime: date
-  }
+  },
+  orderBy: orderBy
 })
 
 export const extractEventsFromData = data => {

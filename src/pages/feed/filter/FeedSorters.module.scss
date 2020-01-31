@@ -1,0 +1,11 @@
+@import "../../../../node_modules/@santiment-network/ui/mixins";
+
+.container {
+  display: flex;
+  margin-left: auto;
+}
+
+.select {
+  min-width: 110px;
+  height: 32px;
+}

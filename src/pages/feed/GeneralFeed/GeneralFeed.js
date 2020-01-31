@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Query } from 'react-apollo'
 import { FEED_QUERY } from '../../../queries/FeedGQL'
@@ -8,9 +8,10 @@ import FeedListLoading from './FeedList/FeedListLoading'
 import { checkIsLoggedIn, checkIsLoggedInPending } from '../../UserSelectors'
 import { extractEventsFromData, makeFeedVariables } from './utils'
 import { fetchSignals } from '../../../ducks/Signals/common/actions'
+import FeedSorters, { DATETIME_SORT } from '../filter/FeedSorters'
 import styles from './GeneralFeed.module.scss'
 
-const Header = () => (
+const Header = ({ onChangeSort, sortType }) => (
   <div className={styles.title}>
     <div>General feed</div>
     <HelpTooltip
@@ -23,6 +24,11 @@ const Header = () => (
       personal watchlists and general market conditions, using various Santiment
       metrics and tools
     </HelpTooltip>
+    <FeedSorters
+      className={styles.sort}
+      onChangeSort={onChangeSort}
+      sortType={sortType}
+    />
   </div>
 )
 
@@ -35,16 +41,7 @@ const Empty = () => (
 const START_DATE = new Date()
 
 const GeneralFeed = ({ isLoggedIn, isUserLoading, fetchSignals }) => {
-  if (isUserLoading) {
-    return (
-      <div>
-        <Header />
-        <div className={styles.scrollable}>
-          <PageLoader />
-        </div>
-      </div>
-    )
-  }
+  const [sortType, setSortType] = useState(DATETIME_SORT)
 
   useEffect(
     () => {
@@ -53,13 +50,29 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading, fetchSignals }) => {
     [isLoggedIn]
   )
 
+  const onChangeSort = value => setSortType(value)
+
+  if (isUserLoading) {
+    return (
+      <div>
+        <Header onChangeSort={onChangeSort} sortType={sortType} />
+        <div className={styles.scrollable}>
+          <PageLoader />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className={styles.container}>
-      <Header />
+      <Header onChangeSort={onChangeSort} sortType={sortType} />
 
       <Query
         query={FEED_QUERY}
-        variables={makeFeedVariables(START_DATE)}
+        variables={makeFeedVariables({
+          date: START_DATE,
+          orderBy: sortType.type
+        })}
         notifyOnNetworkStatusChange={true}
       >
         {({ data, fetchMore: fetchMoreCommon, loading: loadingEvents }) => {
@@ -72,6 +85,7 @@ const GeneralFeed = ({ isLoggedIn, isUserLoading, fetchSignals }) => {
               events={extractEventsFromData(data)}
               fetchMoreCommon={fetchMoreCommon}
               isLoading={loadingEvents}
+              sortType={sortType.type}
             />
           )
         }}
