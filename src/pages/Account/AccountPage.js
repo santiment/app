@@ -113,6 +113,11 @@ const AccountPage = ({ isUserLoading, isLoggedIn, location }) => {
         <SettingsSubscription />
         <SettingsPlans />
       </div>
+      <MobileOnly>
+        <div className={styles.version}>
+          ver. {process.env.REACT_APP_VERSION}
+        </div>
+      </MobileOnly>
     </div>
   )
 }
