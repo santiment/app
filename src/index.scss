@@ -1,5 +1,6 @@
 @import 'variables.scss';
-@import "~@santiment-network/ui/main.scss";
+@import '~@santiment-network/ui/main.scss';
+@import '~insights-app/lib/ui/index.scss';
 @import 'mixins.scss';
 
 :global(#root) {

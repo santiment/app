@@ -1,4 +1,7 @@
+import { stores } from '@sapper/app'
 import * as actions from './../actions/types'
+
+const { session } = stores()
 
 export const initialState = {
   isLoading: true,
@@ -31,6 +34,12 @@ export default (state = initialState, action) => {
         isLoading: true
       }
     case actions.USER_LOGIN_SUCCESS:
+      session.update(ses => {
+        ses.currentUser = {
+          ...action.user
+        }
+        return ses
+      })
       return {
         ...initialState,
         error: false,
@@ -124,6 +133,13 @@ export default (state = initialState, action) => {
           isLoading: false
         }
       }
+      session.update(ses => {
+        ses.currentUser = {
+          ...action.user
+        }
+        return ses
+      })
+
       return {
         ...state,
         isLoading: false,

@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = function override(config, env) {
-  config.resolve.extensions.push('svelte')
+  config.resolve.extensions.push('.svelte')
 
   config.module.rules
     .find(rule => !!rule.oneOf)
@@ -9,6 +9,11 @@ module.exports = function override(config, env) {
     .exclude.push(/\.svelte$/)
 
   config.resolve.alias.svelte = path.resolve('node_modules', 'svelte')
+  config.resolve.alias['@sapper/app'] = path.resolve(
+    __dirname,
+    'src',
+    'svelte.js',
+  )
 
   config.resolve.mainFields = ['svelte', 'browser', 'module', 'main']
 
@@ -16,9 +21,6 @@ module.exports = function override(config, env) {
     test: /\.svelte/,
     use: {
       loader: 'svelte-loader',
-      options: {
-        emitCss: true,
-      },
     },
   })
 
