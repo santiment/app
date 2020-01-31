@@ -24,8 +24,7 @@ import {
   convertEventsToObj,
   DEFAULT_METRIC,
   DEFAULT_TIME_RANGE,
-  MAX_METRICS_PER_CHART,
-  POPULAR_METRICS
+  MAX_METRICS_PER_CHART
 } from './utils'
 import PageLoader from '../../../components/Loader/PageLoader'
 import MobileHeader from '../../../components/MobileHeader/MobileHeader'
@@ -144,10 +143,6 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                   const finalMetrics = metrics.filter(
                     ({ key }) => !errors.includes(key)
                   )
-
-                  const notSelectedPopularNumber = POPULAR_METRICS.filter(
-                    metric => !finalMetrics.includes(metric)
-                  ).length
 
                   const chartMetrics = [
                     Metrics.historyPricePreview,
@@ -271,18 +266,16 @@ const MobileDetailedPage = ({ hasPremium, ...props }) => {
                           To add a new metric, please de-select another one
                         </div>
                       )}
-                      {notSelectedPopularNumber > 0 && (
-                        <MobilePopularMetrics
-                          metrics={metrics}
-                          width={width}
-                          hasPremium={hasPremium}
-                          errorsMetricsKeys={errors}
-                          isOuterEvent={isOuterEvent}
-                          project={project}
-                          onToggleMetric={toggleMetric}
-                          {...rest}
-                        />
-                      )}
+                      <MobilePopularMetrics
+                        metrics={metrics}
+                        width={width}
+                        hasPremium={hasPremium}
+                        errorsMetricsKeys={errors}
+                        isOuterEvent={isOuterEvent}
+                        project={project}
+                        onToggleMetric={toggleMetric}
+                        {...rest}
+                      />
                     </>
                   )
                 }}

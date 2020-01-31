@@ -5,7 +5,7 @@ import styles from './SwipeableCard.module.scss'
 
 const BUTTON_WIDTH = 85
 const BUTTON_ACTIVATION_ZONE = 1.2 * BUTTON_WIDTH
-const PERCENTS_THRESHOLD = 70
+const PERCENTS_THRESHOLD = 60
 const FULL_HIDE_POSITION = -1000
 
 const SIDES = { RIGHT: 'right', LEFT: 'left' }
@@ -41,7 +41,7 @@ const SwipeableCard = ({
   const onLeftAction = () => {
     onLeftActionClick()
     setStartPos(0)
-    setCurrentGesture(null)
+    onCancel()
   }
 
   const onRightAction = () => {
@@ -50,6 +50,22 @@ const SwipeableCard = ({
       setOffset(0)
       onRightActionClick()
     }, 500)
+  }
+
+  const onCardClick = () => {
+    if (
+      side === SIDES.LEFT ||
+      currentGesture ||
+      isSwipe ||
+      startPos ||
+      offset
+    ) {
+    } else {
+      setSide(SIDES.RIGHT)
+      setTimeout(() => {
+        onRightAction()
+      }, 60)
+    }
   }
 
   const shouldActivateAction = ({ prevX, x }) => {
@@ -132,6 +148,12 @@ const SwipeableCard = ({
     setCurrentGesture(null)
     setIsSwipe(null)
 
+    if (startPos === 0 && side === SIDES.LEFT) {
+      setTimeout(() => {
+        setSide(null)
+      }, 200)
+    }
+
     if (offset !== FULL_HIDE_POSITION) {
       setOffset(startPos)
     }
@@ -171,6 +193,7 @@ const SwipeableCard = ({
         onTouchEnd={onCancel}
         onTouchMove={onMove}
         onTouchStart={onStart}
+        onClick={onCardClick}
         style={{
           transform: `translateX(${offset}px)`,
           transition: `${currentGesture ? '' : `transform ease 0.7s`}`
