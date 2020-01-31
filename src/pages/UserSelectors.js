@@ -5,7 +5,11 @@ export const getBalance = state => {
 }
 
 export const checkHasPremium = state => {
-  if (!state.user.data) {
+  if (state.user.isLoading) {
+    return
+  }
+
+  if (!state.user.data.subscriptions) {
     return false
   }
   const { plan } = getCurrentSanbaseSubscription(state.user.data) || {}
