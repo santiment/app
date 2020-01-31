@@ -1,0 +1,65 @@
+@import '~@santiment-network/ui/mixins';
+
+.more {
+  color: var(--dodger-blue) !important;
+  padding: 2px 4px;
+
+  &:hover {
+    padding: 1px 3px;
+    background: var(--dodger-blue-light);
+    border-radius: $border-radius;
+    border: 1px solid var(--dodger-blue-light);
+  }
+}
+
+.words {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 7px 0 4px 0;
+}
+
+.word {
+  color: var(--dodger-blue) !important;
+  border: 1px solid var(--dodger-blue-light);
+  background: var(--white);
+  border-radius: $border-radius;
+  margin-right: 8px;
+  padding: 2px 6px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include border-box();
+  @include text('body-3');
+
+  &:hover {
+    background: var(--dodger-blue-light);
+  }
+}
+
+.wordIndex {
+  @include text('body-3');
+
+  color: var(--dodger-blue);
+  opacity: 0.6;
+  margin-right: 4px;
+  position: relative;
+  top: 1px;
+}
+
+.tooltip {
+  padding: 6px 12px;
+  background: $fiord;
+  box-shadow: 0 2px 6px rgba(24, 27, 43, 0.03), 0 4px 24px rgba(24, 27, 43, 0.05);
+  border-radius: $border-radius;
+  color: var(--white);
+  display: flex;
+
+  @include text('caption');
+}
+
+.scoreTitle {
+  color: var(--porcelain);
+  padding-right: 4px;
+}
