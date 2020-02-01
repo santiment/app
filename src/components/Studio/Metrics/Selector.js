@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
-import withMetrics from './withMetrics'
 import { NO_GROUP } from './utils'
 import styles from './Selector.module.scss'
 
@@ -74,4 +73,4 @@ const MetricSelector = ({ loading, categories, ...rest }) => {
   )
 }
 
-export default withMetrics(MetricSelector)
+export default MetricSelector

@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import MetricsSelector from './Metrics/Selector'
+import Sidebar from './Sidebar'
 
 const Studio = () => {
+  const [options, setOptions] = useState({})
   const [activeMetrics, setActiveMetrics] = useState([])
+
+  useEffect(
+    () => {
+      console.log(options)
+    },
+    [options]
+  )
 
   useEffect(
     () => {
@@ -22,8 +30,9 @@ const Studio = () => {
   }
 
   return (
-    <MetricsSelector
-      activeMetrics={activeMetrics}
+    <Sidebar
+      options={options}
+      setOptions={setOptions}
       toggleMetric={toggleMetric}
       activeMetrics={activeMetrics}
     />
