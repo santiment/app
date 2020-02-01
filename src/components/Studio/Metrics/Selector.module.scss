@@ -1,0 +1,96 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  width: 300px;
+  padding: 16px;
+  border-right: 1px solid var(--porcelain);
+}
+
+.metrics {
+  overflow: hidden;
+  margin: 13px 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.toggle {
+  cursor: pointer;
+  box-sizing: content-box;
+  padding: 8px;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}
+
+.category {
+  margin: 0 0 22px;
+
+  &:last-child {
+    margin: 0;
+  }
+
+  &_hidden {
+    .metrics {
+      height: 0;
+      margin: 0;
+    }
+
+    .toggle {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.title {
+  @include text('body-3', 'm');
+
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.plus {
+  box-sizing: content-box;
+  border-radius: 50%;
+  padding: 3px;
+  fill: var(--waterloo);
+  background: var(--porcelain);
+  margin-right: 8px;
+}
+
+.group {
+  @include text('caption');
+
+  color: var(--waterloo);
+  margin: 14px 0 8px;
+}
+
+.btn {
+  padding: 6px 9px;
+}
+
+.advanced {
+  margin-left: 24px;
+  color: var(--waterloo);
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    background: var(--porcelain);
+    left: 25px;
+  }
+
+  &::before {
+    height: 16px;
+    width: 1px;
+    transform: translateY(-8px);
+  }
+
+  &::after {
+    height: 1px;
+    width: 16px;
+  }
+}

@@ -199,7 +199,8 @@ export const Metrics = {
     shortLabel: 'Trans. Vol.',
     description: `
     Shows the aggregate amount of tokens across all transactions that
-    happened on the network on a certain date.`
+    happened on the network on a certain date.`,
+    advancedData: 'Histogram'
   },
   network_growth: {
     category: 'On-chain',
@@ -273,7 +274,8 @@ export const Metrics = {
     label: 'Social Dominance',
     shortLabel: 'Soc. Domin.',
     dataKey: 'dominance',
-    description: `Shows the share (or %) of the coin’s mentions on crypto-related social media, compared to a pool of 50+ of the most talked-about projects online.`
+    description: `Shows the share (or %) of the coin’s mentions on crypto-related social media, compared to a pool of 50+ of the most talked-about projects online.`,
+    advancedData: 'Social Context'
   },
   realized_value_usd: {
     category: 'On-chain',
@@ -304,7 +306,7 @@ export const Metrics = {
       'Used Gas by a blockchain. When you send tokens, interact with a contract or do anything else on the blockchain, you must pay for that computation. That payment is calculated in Gas.'
   },
   mean_dollar_invested_age: {
-    category: ['Financial', 'On-chain'],
+    category: 'On-chain',
     node: 'line',
     Component: Line,
     label: 'Mean Dollar Invested Age',
