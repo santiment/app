@@ -38,7 +38,8 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
       categories
     }
   },
-  options: ({ slug = 'bitcoin' }) => {
+  skip: ({ slug }) => !slug,
+  options: ({ slug }) => {
     return { variables: { slug } }
   }
 })

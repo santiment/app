@@ -10,7 +10,7 @@ const Anomalies = ({ options, setOptions }) => {
     setOptions(state => {
       const isAnomalyActive = !state.isAnomalyActive
 
-      localStorage.setItem('hideAnomalies', isAnomalyActive ? '+' : '')
+      localStorage.setItem('hideAnomalies', isAnomalyActive ? '' : '+')
 
       return {
         ...state,
@@ -43,12 +43,12 @@ const Header = ({ activeMetrics, ...rest }) => {
 
 const Sidebar = ({ ...rest }) => {
   return (
-    <div className={styles.wrapper}>
+    <aside className={styles.wrapper}>
       <Header {...rest} />
       <div className={styles.selector}>
         <MetricsSelector {...rest} />
       </div>
-    </div>
+    </aside>
   )
 }
 

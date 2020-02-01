@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
@@ -10,7 +10,7 @@ const Group = ({ title, metrics, toggleMetric, activeMetrics }) => {
     <>
       {title !== NO_GROUP && <h4 className={styles.group}>{title}</h4>}
       {metrics.map(metric => (
-        <>
+        <Fragment key={metric.key}>
           <Button
             className={styles.btn}
             variant='ghost'
@@ -31,7 +31,7 @@ const Group = ({ title, metrics, toggleMetric, activeMetrics }) => {
               {metric.advancedData}
             </Button>
           )}
-        </>
+        </Fragment>
       ))}
     </>
   )
@@ -63,7 +63,7 @@ const Category = ({ title, groups, ...rest }) => {
   )
 }
 
-const MetricSelector = ({ loading, categories, ...rest }) => {
+const MetricSelector = ({ loading, categories = {}, ...rest }) => {
   return (
     <div className={styles.wrapper}>
       {Object.keys(categories).map(key => (

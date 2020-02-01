@@ -2,7 +2,6 @@
 
 .wrapper {
   padding: 16px;
-  overflow-y: auto;
 }
 
 .metrics {
@@ -16,6 +15,7 @@
   cursor: pointer;
   box-sizing: content-box;
   padding: 8px;
+  fill: var(--mirage);
 
   &:hover {
     fill: var(--jungle-green);
