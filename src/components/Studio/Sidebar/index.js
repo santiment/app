@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import MetricsSelector from '../Metrics/Selector'
 import Search from './Search'
 import withMetrics from '../Metrics/withMetrics'
@@ -42,8 +42,26 @@ const Header = ({ activeMetrics, ...rest }) => {
 }
 
 const Sidebar = ({ ...rest }) => {
+  const asideRef = useRef(null)
+
+  useEffect(() => {
+    const sidebar = asideRef.current
+    const { offsetHeight } = document.querySelector('header')
+
+    function fixSidebar () {
+      const dif = offsetHeight - window.scrollY
+      if (dif >= 0) {
+        sidebar.style.top = dif + 'px'
+      }
+    }
+
+    window.addEventListener('scroll', fixSidebar)
+
+    return () => window.removeEventListener('scroll', fixSidebar)
+  }, [])
+
   return (
-    <aside className={styles.wrapper}>
+    <aside className={styles.wrapper} ref={asideRef}>
       <Header {...rest} />
       <div className={styles.selector}>
         <MetricsSelector {...rest} />
