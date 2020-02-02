@@ -3,6 +3,7 @@ import { linearScale, logScale } from '@santiment-network/chart/scales'
 import { mapDatetimeToNumber } from '../../../ducks/SANCharts/utils'
 import Canvas from '../../../ducks/SANCharts/Chart'
 import Synchronizer from '../../../ducks/SANCharts/Chart/Synchronizer'
+import MetricsActiveMetrics from '../Metrics/ActiveList'
 import { useMetricsData } from './hooks'
 
 const boundaries = {
@@ -10,7 +11,7 @@ const boundaries = {
   rightBoundaryDate: false
 }
 
-const Chart = ({ data, settings, options, activeMetrics }) => {
+const Chart = ({ data, settings, options, activeMetrics, chartRef }) => {
   const { isLogScale, isMultiChartsActive } = options
 
   return (
@@ -24,7 +25,7 @@ const Chart = ({ data, settings, options, activeMetrics }) => {
         {...settings}
         metrics={activeMetrics}
         data={mapDatetimeToNumber(data)}
-        chartRef={{}}
+        chartRef={chartRef}
         scale={isLogScale ? logScale : linearScale}
         {...boundaries}
         // // isIntervalSmallerThanDay={isIntervalSmallerThanDay}
@@ -37,14 +38,20 @@ const Chart = ({ data, settings, options, activeMetrics }) => {
   )
 }
 
-export default ({ settings, options, activeMetrics }) => {
+export default ({ settings, activeMetrics, toggleMetric, ...rest }) => {
   const [data, loadings, ErrorMsg] = useMetricsData(activeMetrics, settings)
   return (
-    <Chart
-      data={data}
-      settings={settings}
-      options={options}
-      activeMetrics={activeMetrics}
-    />
+    <>
+      <Chart
+        data={data}
+        settings={settings}
+        activeMetrics={activeMetrics}
+        {...rest}
+      />
+      <MetricsActiveMetrics
+        activeMetrics={activeMetrics}
+        toggleMetric={toggleMetric}
+      />
+    </>
   )
 }

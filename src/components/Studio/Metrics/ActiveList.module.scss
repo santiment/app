@@ -1,0 +1,32 @@
+@import '~@santiment-network/ui/mixins';
+
+.btn {
+  @include text('body-3');
+  // background: var(--athens);
+  margin: 0 8px 0 0;
+
+  &:hover {
+    border-color: var(--jungle-green);
+    color: var(--mirage);
+  }
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.label {
+  margin-right: 8px;
+}
+
+.icon {
+  box-sizing: content-box;
+  margin: -8px;
+  margin-left: 0;
+  padding: 8px;
+  fill: var(--mirage);
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}

@@ -14,8 +14,9 @@ const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 
 const ChartSettings = ({
   chartRef,
+  title,
   onTimerangeChange,
-  defaultTimerange,
+  timeRange,
   onCalendarChange,
   generateShareLink,
   onNightModeSelect,
@@ -26,7 +27,6 @@ const ChartSettings = ({
   to,
   isAdvancedView,
   activeMetrics,
-  title,
   isLogScale,
   onMultiChartsChange,
   isMultiChartsActive,
@@ -34,7 +34,7 @@ const ChartSettings = ({
   chartData,
   events,
   eventsData,
-  project: { slug, ticker } = {}
+  isFullscreenAvailable = true
 }) => {
   const shareLink = generateShareLink(disabledMetrics)
 
@@ -42,21 +42,17 @@ const ChartSettings = ({
   return (
     <div className={styles.settings}>
       <div className={styles.settings__group}>
-        <img src={sanbaseLogoImg} alt='studio logo' className={styles.logo} />
+        {/* <img src={sanbaseLogoImg} alt='studio logo' className={styles.logo} /> */}
         <div className={styles.settings__slugBlock}>
           <div className={styles.settings__studio}>Studio</div>
-          {slug && (
-            <div className={styles.settings__slug}>
-              {capitalizeStr(slug)} ({ticker})
-            </div>
-          )}
+          <div className={styles.settings__slug}>{title}</div>
         </div>
       </div>
       <div className={cx(styles.settings__group, styles.settings__main)}>
         <Selector
           options={['1d', '1w', '1m', '3m', '6m', '1y', 'all']}
           onSelectOption={onTimerangeChange}
-          defaultSelected={defaultTimerange}
+          defaultSelected={timeRange}
           className={styles.ranges}
         />
         {notAdvancedView && (
@@ -83,7 +79,7 @@ const ChartSettings = ({
           events={events}
           eventsData={eventsData}
         />
-        <ChartExpandBtn />
+        {isFullscreenAvailable && <ChartExpandBtn />}
       </div>
     </div>
   )
