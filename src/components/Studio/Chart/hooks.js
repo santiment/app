@@ -77,9 +77,10 @@ export const useMetricsData = (metrics, settings) => {
   useEffect(
     () => {
       console.log('[settings]: Aborting every request', new Map(abortables))
+
       abortAllMetrics(abortables)
       setAbortables(new Map())
-      setLoadings([])
+      setLoadings([...metrics])
       setErrorMsg({})
     },
     [settings]
@@ -91,11 +92,7 @@ export const useMetricsData = (metrics, settings) => {
 
       let raceCondition = false
       let mergedData = []
-      console.log('useMetrics call ->', {
-        slug,
-        metrics,
-        abortables: new Map(abortables)
-      })
+      console.log('useMetrics call ->')
 
       metrics.forEach(metric => {
         const { key } = metric
@@ -110,7 +107,7 @@ export const useMetricsData = (metrics, settings) => {
         })
 
         setLoadings(state => {
-          const loadingsSet = new Set(state.loadings)
+          const loadingsSet = new Set(state)
           loadingsSet.add(metric)
           return [...loadingsSet]
         })
@@ -136,9 +133,6 @@ export const useMetricsData = (metrics, settings) => {
             console.log({ raceCondition })
             if (raceCondition) return
 
-            setLoadings(state => {
-              return state.filter(loadable => loadable !== metric)
-            })
             setTimeseries(state => {
               mergedData = mergeTimeseriesByKey({
                 timeseries: [mergedData, data[key]]
@@ -155,11 +149,14 @@ export const useMetricsData = (metrics, settings) => {
           })
           .finally(() => {
             if (raceCondition) return
+
             setAbortables(state => {
               const newState = new Map(state)
               newState.delete(metric)
               return newState
             })
+
+            setLoadings(state => state.filter(loadable => loadable !== metric))
           })
       })
 
