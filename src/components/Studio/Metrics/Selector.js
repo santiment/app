@@ -5,7 +5,7 @@ import Icon from '@santiment-network/ui/Icon'
 import { NO_GROUP } from './utils'
 import styles from './Selector.module.scss'
 
-const Group = ({ title, metrics, toggleMetric, activeMetrics }) => {
+const Group = ({ title, metrics, toggleMetric, actives }) => {
   return (
     <>
       {title !== NO_GROUP && <h4 className={styles.group}>{title}</h4>}
@@ -15,7 +15,7 @@ const Group = ({ title, metrics, toggleMetric, activeMetrics }) => {
             className={styles.btn}
             variant='ghost'
             onClick={() => toggleMetric(metric)}
-            isActive={activeMetrics.includes(metric)}
+            isActive={actives.includes(metric)}
           >
             <Icon type='plus' className={styles.plus} />
             {metric.label}
@@ -25,7 +25,7 @@ const Group = ({ title, metrics, toggleMetric, activeMetrics }) => {
               className={cx(styles.btn, styles.advanced)}
               variant='ghost'
               onClick={() => toggleMetric(metric)}
-              isActive={activeMetrics.includes(metric)}
+              isActive={actives.includes(metric)}
             >
               <Icon type='plus' className={styles.plus} />
               {metric.advancedData}
@@ -63,11 +63,24 @@ const Category = ({ title, groups, ...rest }) => {
   )
 }
 
-const MetricSelector = ({ loading, categories = {}, ...rest }) => {
+const MetricSelector = ({
+  loading,
+  categories = {},
+  activeMetrics,
+  activeEvents,
+  ...rest
+}) => {
+  const actives = activeMetrics.concat(activeEvents)
   return (
     <div className={styles.wrapper}>
       {Object.keys(categories).map(key => (
-        <Category key={key} title={key} groups={categories[key]} {...rest} />
+        <Category
+          key={key}
+          title={key}
+          groups={categories[key]}
+          actives={actives}
+          {...rest}
+        />
       ))}
     </div>
   )

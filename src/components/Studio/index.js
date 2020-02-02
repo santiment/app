@@ -5,13 +5,27 @@ import StudioChart from './Chart'
 import StudioHeader from '../../ducks/SANCharts/Header'
 import ChartSettings from './Settings'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
+import { Events } from '../../ducks/SANCharts/data'
 import styles from './index.module.scss'
+
+function buildAnomalies (metrics) {
+  return metrics
+    .filter(({ anomalyKey }) => anomalyKey)
+    .map(({ key, anomalyKey }) => ({
+      key: anomalyKey,
+      queryKey: 'anomalies',
+      anomalyMetricKey: key
+    }))
+}
 
 const Studio = () => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
   const [activeMetrics, setActiveMetrics] = useState(DEFAULT_METRICS)
+  const [activeEvents, setActiveEvents] = useState([])
   const chartRef = useRef(null)
+
+  console.log({ activeMetrics, activeEvents })
 
   useEffect(
     () => {
@@ -22,24 +36,36 @@ const Studio = () => {
 
   useEffect(
     () => {
-      console.log(options)
+      /* console.log(options) */
     },
     [options]
   )
 
   useEffect(
     () => {
-      /* console.log({ activeMetrics }) */
+      setActiveEvents(
+        options.isAnomalyActive ? buildAnomalies(activeMetrics) : []
+      )
     },
-    [activeMetrics]
+    [activeMetrics, options.isAnomalyActive]
   )
 
+  function toggleTrend (trend) {
+    setActiveEvents(activeEvents.includes(trend) ? [] : [trend])
+    setOptions(state => ({ ...state, isAnomalyActive: false }))
+  }
+
   function toggleMetric (metric) {
+    if (metric === Events.trendPositionHistory) {
+      return toggleTrend(metric)
+    }
+
     const metricSet = new Set(activeMetrics)
     if (metricSet.has(metric)) {
       if (activeMetrics.length === 1) return
       metricSet.delete(metric)
     } else {
+      if (activeMetrics.length === 5) return
       metricSet.add(metric)
     }
     setActiveMetrics([...metricSet])
@@ -58,6 +84,7 @@ const Studio = () => {
         setOptions={setOptions}
         toggleMetric={toggleMetric}
         activeMetrics={activeMetrics}
+        activeEvents={activeEvents}
       />
       <div className={styles.container}>
         <StudioHeader
@@ -81,6 +108,7 @@ const Studio = () => {
             settings={settings}
             options={options}
             activeMetrics={activeMetrics}
+            activeEvents={activeEvents}
             toggleMetric={toggleMetric}
           />
         </div>

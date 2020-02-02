@@ -4,6 +4,7 @@ import {
   getMetricQUERY,
   getPreTransform
 } from '../../../ducks/GetTimeSeries/timeseries'
+import { MARKET_SEGMENT_QUERY } from '../../../ducks/GetTimeSeries/queries/market_segment_query'
 import { mergeTimeseriesByKey } from '../../../utils/utils'
 
 const DEFAULT_STATE = {
@@ -69,6 +70,10 @@ export const useMetricsData = (metrics, settings) => {
         new Map(abortables)
       )
 
+      if (!metricsHash) {
+        setTimeseries([])
+      }
+
       setAbortables(abortRemovedMetrics(abortables, metrics))
     },
     [metricsHash]
@@ -95,7 +100,7 @@ export const useMetricsData = (metrics, settings) => {
       console.log('useMetrics call ->')
 
       metrics.forEach(metric => {
-        const { key } = metric
+        const { key, queryKey = key, type, reqMeta, anomalyMetricKey } = metric
 
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
@@ -112,15 +117,22 @@ export const useMetricsData = (metrics, settings) => {
           return [...loadingsSet]
         })
 
+        const isMarketSegment = type === 'marketSegments'
+        const getQUERY = isMarketSegment ? MARKET_SEGMENT_QUERY : getMetricQUERY
+        const transformArgs = isMarketSegment
+          ? ['marketSegment', undefined, queryKey]
+          : [queryKey, anomalyMetricKey, queryKey]
+
         client
           .query({
-            query: getMetricQUERY(key),
+            query: getQUERY(queryKey),
             variables: {
               metric: key,
               interval,
               to,
               from,
-              slug
+              slug,
+              ...reqMeta
             },
             context: {
               fetchOptions: {
@@ -128,14 +140,14 @@ export const useMetricsData = (metrics, settings) => {
               }
             }
           })
-          .then(getPreTransform(key))
+          .then(getPreTransform(...transformArgs))
           .then(({ data }) => {
             console.log({ raceCondition })
             if (raceCondition) return
 
             setTimeseries(state => {
               mergedData = mergeTimeseriesByKey({
-                timeseries: [mergedData, data[key]]
+                timeseries: [mergedData, data[queryKey]]
               })
               return [...mergedData]
             })

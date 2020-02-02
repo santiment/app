@@ -5,47 +5,71 @@ import Button from '@santiment-network/ui/Button'
 import ActiveMetrics from '../../../ducks/SANCharts/IntervalSelector'
 import MetricExplanation from '../../../ducks/SANCharts/MetricExplanation'
 import MetricIcon from '../../../ducks/SANCharts/MetricIcon'
+import { Events } from '../../../ducks/SANCharts/data'
 import { getSyncedColors } from '../../../ducks/SANCharts/Chart/Synchronizer'
 import styles from './ActiveList.module.scss'
 
-export default ({ activeMetrics, loadings, toggleMetric }) => {
-  const colors = getSyncedColors(activeMetrics)
+const { trendPositionHistory } = Events
+
+const MetricButton = ({
+  metric,
+  colors,
+  isLoading,
+  isRemovable,
+  toggleMetric
+}) => {
+  const { key, dataKey = key, node, label, description } = metric
+
+  return (
+    <MetricExplanation label={label} description={description} withChildren>
+      <Button border className={styles.btn}>
+        {isLoading ? (
+          <div className={styles.loader} />
+        ) : (
+          <MetricIcon
+            node={node}
+            color={colors[dataKey]}
+            className={styles.label}
+          />
+        )}
+        {label}
+        {isRemovable && (
+          <Icon
+            type='close-small'
+            className={styles.icon}
+            onClick={() => toggleMetric(metric)}
+          />
+        )}
+      </Button>
+    </MetricExplanation>
+  )
+}
+
+export default ({ activeMetrics, activeEvents, loadings, toggleMetric }) => {
+  const actives = activeMetrics.concat(activeEvents)
+  const colors = getSyncedColors(actives)
   const isMoreThanOneMetric = activeMetrics.length > 1
 
   return (
     <>
-      {activeMetrics.map((metric, i) => {
-        const { key, dataKey = key, node, label, description } = metric
-
-        return (
-          <MetricExplanation
-            key={label}
-            label={label}
-            description={description}
-            withChildren
-          >
-            <Button border className={styles.btn}>
-              {loadings.includes(metric) ? (
-                <div className={styles.loader} />
-              ) : (
-                <MetricIcon
-                  isBar={node === 'bar'}
-                  color={colors[dataKey]}
-                  className={styles.label}
-                />
-              )}
-              {label}
-              {isMoreThanOneMetric && (
-                <Icon
-                  type='close-small'
-                  className={styles.icon}
-                  onClick={() => toggleMetric(metric)}
-                />
-              )}
-            </Button>
-          </MetricExplanation>
-        )
-      })}
+      {activeMetrics.map((metric, i) => (
+        <MetricButton
+          key={metric.key}
+          metric={metric}
+          colors={colors}
+          isLoading={loadings.includes(metric)}
+          isRemovable={isMoreThanOneMetric}
+          toggleMetric={toggleMetric}
+        />
+      ))}
+      {activeEvents.includes(trendPositionHistory) && (
+        <MetricButton
+          isRemovable
+          metric={trendPositionHistory}
+          colors={colors}
+          toggleMetric={toggleMetric}
+        />
+      )}
     </>
   )
 }
