@@ -222,7 +222,7 @@ const MainDialog = ({
             action: 'alerts',
             method: 'create_new_alert'
           },
-          ['ga', 'intercom', 'twitter']
+          ['ga', 'intercom']
         )
         setDialogOpenState(true)
       }}
