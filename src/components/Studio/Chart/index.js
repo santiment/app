@@ -38,7 +38,7 @@ const Chart = ({ data, settings, options, activeMetrics }) => {
 }
 
 export default ({ settings, options, activeMetrics }) => {
-  const { data, loadings } = useMetricsData(activeMetrics, settings)
+  const [data, loadings, ErrorMsg] = useMetricsData(activeMetrics, settings)
   return (
     <Chart
       data={data}
