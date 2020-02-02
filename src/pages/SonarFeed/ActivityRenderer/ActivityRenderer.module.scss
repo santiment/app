@@ -8,6 +8,7 @@
   margin-bottom: 12px;
   display: flex;
   color: var(--waterloo);
+  margin-top: 4px;
 
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
@@ -92,12 +93,14 @@
 
 .preview {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 260px;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     flex: 1;
+    width: 100%;
   }
 }
 
@@ -109,7 +112,6 @@
 }
 
 .activityCustom {
-  margin: 0 !important;
   display: flex;
   flex: 1;
   word-break: break-all;
@@ -118,6 +120,10 @@
 .activityBacktest {
   margin-bottom: 0 !important;
   margin-right: 12px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0;
+  }
 }
 
 .dateBacktest {

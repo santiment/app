@@ -1,0 +1,8 @@
+@import "~@santiment-network/ui/mixins";
+
+.date {
+  @include text('caption');
+
+  color: var(--waterloo);
+  margin-left: auto;
+}

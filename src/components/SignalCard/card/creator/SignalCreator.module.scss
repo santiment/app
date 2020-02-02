@@ -6,7 +6,7 @@
 }
 
 .name {
-  color: var(--rhino) !important;
+  color: var(--waterloo) !important;
   word-break: break-word;
 
   &:hover {
@@ -15,7 +15,9 @@
 }
 
 .right {
-  margin: -2px 0 0 12px;
+  margin: 0 0 0 12px;
+  display: flex;
+  align-items: center;
 
   @include text('caption');
 }

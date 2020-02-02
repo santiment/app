@@ -7,6 +7,7 @@ import CopySignal from '../controls/CopySignal'
 import LikeBtnWrapper from '../../Like/LikeBtnWrapper'
 import TrendingCardInsights from './trendingInsights/TrendingCardInsights'
 import TrendingCardWords from './trendingCard/TrendingCardWords'
+import FeedCardDate from '../../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
@@ -30,7 +31,10 @@ const TrendingWordsSignalCard = ({
       </DesktopOnly>
 
       <div className={externalStyles.wrapper__right}>
-        <h2 className={externalStyles.title}>{title}</h2>
+        <div className={styles.header}>
+          <h2 className={externalStyles.title}>{title}</h2>
+          <FeedCardDate date={date} />
+        </div>
 
         <TrendingCardWords
           settings={settings}

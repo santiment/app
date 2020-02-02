@@ -15,7 +15,7 @@
 .words {
   display: flex;
   flex-wrap: wrap;
-  margin: 7px 0 4px 0;
+  margin-top: 7px;
 }
 
 .word {
@@ -29,6 +29,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 4px;
 
   @include border-box();
   @include text('body-3');
