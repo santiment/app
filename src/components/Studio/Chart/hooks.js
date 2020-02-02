@@ -19,15 +19,14 @@ const subtractMaps = (a, b) =>
     a.delete(metric)
   })
 
-const controllersAborter = controller => controller.abort()
-
-/*
-   [metricKey]: data,
-   Error: {
-     [Metrics]: string
-   },
-   loadings: [Metrics]
-*/
+const cancelQuery = ([controller, id]) => {
+  const { queryManager } = client
+  controller.abort()
+  queryManager.inFlightLinkObservables.delete(
+    queryManager.queries.get(id.toString()).document
+  )
+  queryManager.stopQuery(id)
+}
 
 function abortRemovedMetrics (abortables, newMetrics) {
   const toAbort = new Map(abortables)
@@ -38,8 +37,8 @@ function abortRemovedMetrics (abortables, newMetrics) {
   const abortableEntries = [...toAbort.entries()]
   const reducedAbortables = new Map(abortables)
 
-  abortableEntries.forEach(([metric, controller]) => {
-    controller.abort()
+  abortableEntries.forEach(([metric, query]) => {
+    cancelQuery(query)
     reducedAbortables.delete(metric)
   })
 
@@ -47,7 +46,7 @@ function abortRemovedMetrics (abortables, newMetrics) {
 }
 
 function abortAllMetrics (abortables) {
-  return [...abortables.values()].forEach(controllersAborter)
+  return [...abortables.values()].forEach(cancelQuery)
 }
 
 const DEFAULT_TS = []
@@ -103,14 +102,10 @@ export const useMetricsData = (metrics, settings) => {
 
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
-        /* abortController.signal.onabort = () => { */
-        /* console.log('aborted', queryId, client) */
-        /* } */
 
         setAbortables(state => {
           const newState = new Map(state)
-          newState.set(metric, abortController)
-          console.log('New metric abortable', newState)
+          newState.set(metric, [abortController, queryId])
           return newState
         })
 
@@ -140,13 +135,7 @@ export const useMetricsData = (metrics, settings) => {
           .then(({ data }) => {
             console.log({ raceCondition })
             if (raceCondition) return
-            console.log('Received metric data ->', data)
 
-            setAbortables(state => {
-              const newState = new Map(state)
-              state.delete(metric)
-              return newState
-            })
             setLoadings(state => {
               return state.filter(loadable => loadable !== metric)
             })
@@ -159,24 +148,19 @@ export const useMetricsData = (metrics, settings) => {
           })
           .catch(({ message }) => {
             if (raceCondition) return
-
-            setAbortables(state => {
-              const newState = new Map(state)
-              state.delete(metric)
-              return newState
-            })
-
             setErrorMsg(state => {
               state[key] = message
               return { ...state }
             })
           })
-
-        /*
-      setTimeout(() => {
-        abortController.abort()
-      }, 200)
-      */
+          .finally(() => {
+            if (raceCondition) return
+            setAbortables(state => {
+              const newState = new Map(state)
+              newState.delete(metric)
+              return newState
+            })
+          })
       })
 
       return () => {
