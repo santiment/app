@@ -5,7 +5,7 @@ const isProdApp = window.location.origin === 'https://app.santiment.net'
 const hasDoNotTrack = () => {
   const dnt =
     navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
-  return dnt !== '1' && dnt !== 'yes'
+  return dnt === '1' || dnt === 'yes'
 }
 // GA strings need to have trailing whitespace trimmed,
 function trim (s) {
