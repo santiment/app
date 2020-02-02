@@ -7,6 +7,7 @@ import { SIGNAL_ANCHORS } from '../../../ducks/Signals/common/constants'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
 import { DesktopOnly } from '../../../components/Responsive'
+import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
 import styles from './ActivityRenderer.module.scss'
 
 const SimpleActivity = ({
@@ -34,13 +35,14 @@ const SimpleActivity = ({
             >
               {title}
             </Link>
+            <FeedCardDate date={triggeredAt || date} />
           </h4>
         </div>
         <Markdown
           source={Object.values(payload)[0]}
           className={classes.activityMarkdown}
         />
-        <SignalCreator user={user} date={triggeredAt || date} />
+        <SignalCreator user={user} />
         <CopySignal signal={trigger} />
       </div>
     </div>
