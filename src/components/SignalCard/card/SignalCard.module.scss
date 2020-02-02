@@ -46,6 +46,7 @@
 .title {
   margin: 0 0 4px 0;
   word-break: break-word;
+  display: flex;
 
   @include text('body-3');
 }

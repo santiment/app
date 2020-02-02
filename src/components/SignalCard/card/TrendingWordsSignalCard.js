@@ -18,7 +18,13 @@ const TrendingWordsSignalCard = ({
   onLike
 }) => {
   const { id: creatorId } = user
-  const { title, settings, isPublic } = signal
+  const {
+    title,
+    settings,
+    isPublic,
+    settings: { operation: { trigger_time } = {} }
+  } = signal
+  console.log(trigger_time)
 
   return (
     <Panel padding className={cx(externalStyles.wrapper, className)}>
@@ -32,7 +38,9 @@ const TrendingWordsSignalCard = ({
 
       <div className={externalStyles.wrapper__right}>
         <div className={styles.header}>
-          <h2 className={externalStyles.title}>{title}</h2>
+          <h2 className={externalStyles.title}>
+            {title} {<TrendingPeriod period={trigger_time} />}
+          </h2>
           <FeedCardDate date={date} />
         </div>
 
@@ -54,6 +62,31 @@ const TrendingWordsSignalCard = ({
       </div>
     </Panel>
   )
+}
+
+const TrendingPeriod = ({ period }) => {
+  if (!period) {
+    return null
+  }
+
+  const hours = period.split(':')[0]
+
+  return (
+    <div className={styles.ampm}>
+      ({getAmPm(hours - 8)} - {getAmPm(hours)})
+    </div>
+  )
+}
+
+const getAmPm = hours => {
+  if (hours < 0) {
+    hours = 24 - hours
+  }
+
+  var ampm = hours >= 12 ? 'pm' : 'am'
+  hours = hours % 12
+  hours = hours || 12
+  return hours + ampm
 }
 
 export default TrendingWordsSignalCard
