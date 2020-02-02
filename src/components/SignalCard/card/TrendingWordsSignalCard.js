@@ -8,6 +8,7 @@ import LikeBtnWrapper from '../../Like/LikeBtnWrapper'
 import TrendingCardInsights from './trendingInsights/TrendingCardInsights'
 import TrendingCardWords from './trendingCard/TrendingCardWords'
 import FeedCardDate from '../../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
+import { getAmPmWithHours } from '../../../utils/dates'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
@@ -24,7 +25,6 @@ const TrendingWordsSignalCard = ({
     isPublic,
     settings: { operation: { trigger_time } = {} }
   } = signal
-  console.log(trigger_time)
 
   return (
     <Panel padding className={cx(externalStyles.wrapper, className)}>
@@ -73,20 +73,9 @@ const TrendingPeriod = ({ period }) => {
 
   return (
     <div className={styles.ampm}>
-      ({getAmPm(hours - 8)} - {getAmPm(hours)})
+      ({getAmPmWithHours(hours - 8)} - {getAmPmWithHours(hours)})
     </div>
   )
-}
-
-const getAmPm = hours => {
-  if (hours < 0) {
-    hours = 24 - hours
-  }
-
-  var ampm = hours >= 12 ? 'pm' : 'am'
-  hours = hours % 12
-  hours = hours || 12
-  return hours + ampm
 }
 
 export default TrendingWordsSignalCard
