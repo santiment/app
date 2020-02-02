@@ -38,6 +38,22 @@ export function initializeTracking (trackerIDs = TRACKER_IDs) {
   }
 }
 
+export const update =
+  isBrowser && isProdApp && !hasDoNotTrack()
+    ? user => {
+      window.gtag('set', {
+        user_id: user.id
+      })
+      window.Intercom('update', {
+        name: user.username,
+        user_id: user.id,
+        email: user.email,
+        ethAccounts: user.ethAccounts,
+        nightmode: (user.settings || {}).theme
+      })
+    }
+    : () => {}
+
 /**
  * Use the event command to send event data
  *
@@ -51,12 +67,21 @@ export function initializeTracking (trackerIDs = TRACKER_IDs) {
  */
 export const event =
   isBrowser && isProdApp && !hasDoNotTrack()
-    ? ({ action, category, label, ...values }) => {
-      window.gtag('event', action, {
-        event_category: category,
-        event_label: label,
-        ...values
-      })
+    ? ({ action, category, label, ...values }, type = ['ga']) => {
+      if (type.includes('ga')) {
+        window.gtag('event', action, {
+          event_category: category,
+          event_label: label,
+          ...values
+        })
+      }
+      if (type.includes('intercom')) {
+        window.Intercom('trackEvent', action, {
+          event_category: category,
+          event_label: label,
+          ...values
+        })
+      }
     }
     : () => {}
 

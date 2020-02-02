@@ -62,6 +62,8 @@ export const handleLoginSuccess = action$ =>
       const loggedEmails = localStorage.getItem('loggedEmails') || ''
       const { email } = user
 
+      GA.update(user)
+
       if (user.firstLogin || (email && !loggedEmails.includes(email))) {
         GA.event({
           category: 'User',

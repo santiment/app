@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import cx from 'classnames'
-import PageLoader from '../../../components/Loader/PageLoader'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dialog from '@santiment-network/ui/Dialog'
@@ -12,7 +11,9 @@ import GetSignal from '../common/getSignal'
 import { SIGNAL_ROUTES } from '../common/constants'
 import SignalAnon from './SignalAnon'
 import ConfirmSignalModalClose from './confirmClose/ConfirmSignalModalClose'
+import PageLoader from '../../../components/Loader/PageLoader'
 import EmptySection from '../../../components/EmptySection/EmptySection'
+import GA from '../../../utils/tracking'
 import styles from './SignalMasterModalForm.module.scss'
 
 const SignalMasterModalForm = ({
@@ -213,7 +214,18 @@ const MainDialog = ({
   return (
     <Dialog
       open={dialogOpenState}
-      onOpen={() => setDialogOpenState(true)}
+      onOpen={() => {
+        // Track opening New signal Dialog
+        GA.event(
+          {
+            category: 'user',
+            action: 'alerts',
+            method: 'create_new_alert'
+          },
+          ['ga', 'intercom']
+        )
+        setDialogOpenState(true)
+      }}
       onClose={onCloseMainModal}
       trigger={
         dialogTrigger || signalModalTrigger(enabled, label, variant, border)
