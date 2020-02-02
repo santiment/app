@@ -10,6 +10,7 @@ import SignalCreator from '../../../components/SignalCard/card/creator/SignalCre
 import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
 import { DesktopOnly } from '../../../components/Responsive'
 import styles from './ActivityRenderer.module.scss'
+import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
 
 const ActivityWithBacktesting = ({
   date,
@@ -51,10 +52,11 @@ const ActivityWithBacktesting = ({
                 className={classes.activityMarkdown}
               />
 
-              <SignalCreator user={user} date={triggeredAt || date} />
+              <SignalCreator user={user} />
             </div>
           </div>
           <div className={styles.preview}>
+            <FeedCardDate date={triggeredAt || date} />
             <SignalPreview
               trigger={trigger}
               type={type}

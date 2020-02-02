@@ -7,6 +7,8 @@ import CopySignal from '../controls/CopySignal'
 import LikeBtnWrapper from '../../Like/LikeBtnWrapper'
 import TrendingCardInsights from './trendingInsights/TrendingCardInsights'
 import TrendingCardWords from './trendingCard/TrendingCardWords'
+import FeedCardDate from '../../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
+import { getAmPmWithHours } from '../../../utils/dates'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
@@ -17,7 +19,12 @@ const TrendingWordsSignalCard = ({
   onLike
 }) => {
   const { id: creatorId } = user
-  const { title, settings, isPublic } = signal
+  const {
+    title,
+    settings,
+    isPublic,
+    settings: { operation: { trigger_time } = {} }
+  } = signal
 
   return (
     <Panel padding className={cx(externalStyles.wrapper, className)}>
@@ -30,7 +37,12 @@ const TrendingWordsSignalCard = ({
       </DesktopOnly>
 
       <div className={externalStyles.wrapper__right}>
-        <h2 className={externalStyles.title}>{title}</h2>
+        <div className={styles.header}>
+          <h2 className={externalStyles.title}>
+            {title} {<TrendingPeriod period={trigger_time} />}
+          </h2>
+          <FeedCardDate date={date} />
+        </div>
 
         <TrendingCardWords
           settings={settings}
@@ -49,6 +61,20 @@ const TrendingWordsSignalCard = ({
         </div>
       </div>
     </Panel>
+  )
+}
+
+const TrendingPeriod = ({ period }) => {
+  if (!period) {
+    return null
+  }
+
+  const hours = period.split(':')[0]
+
+  return (
+    <div className={styles.ampm}>
+      ({getAmPmWithHours(hours - 8)} - {getAmPmWithHours(hours)})
+    </div>
   )
 }
 

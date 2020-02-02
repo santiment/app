@@ -3,25 +3,17 @@ import { Link } from 'react-router-dom'
 import Tooltip from '@santiment-network/ui/Tooltip'
 import styles from './TrendingCardWords.module.scss'
 
+const toRenderedWord = word => ({
+  word
+})
+
 const PRESAVED_WORDS = [
-  {
-    word: 'vechain'
-  },
-  {
-    word: 'binance'
-  },
-  {
-    word: 'crypto'
-  },
-  {
-    word: 'moon'
-  },
-  {
-    word: 'ethereum'
-  },
-  {
-    word: 'ico'
-  }
+  toRenderedWord('vechain'),
+  toRenderedWord('binance'),
+  toRenderedWord('crypto'),
+  toRenderedWord('moon'),
+  toRenderedWord('ethereum'),
+  toRenderedWord('ico')
 ]
 const MAX_WORDS_COUNT = 10
 
@@ -35,7 +27,9 @@ const getExpectedCount = settings => {
 
 const getWords = (triggerWords, activityPayload) => {
   if (triggerWords) {
-    return Array.isArray(triggerWords) ? triggerWords : [triggerWords]
+    return Array.isArray(triggerWords)
+      ? triggerWords.map(toRenderedWord)
+      : [toRenderedWord(triggerWords)]
   }
 
   if (activityPayload) {
@@ -88,9 +82,13 @@ const TrendingCardWords = ({
               </a>
             }
           >
-            <div className={styles.tooltip}>
-              <div className={styles.scoreTitle}>Score:</div> {score}
-            </div>
+            {score ? (
+              <div className={styles.tooltip}>
+                <div className={styles.scoreTitle}>Score:</div> {score}
+              </div>
+            ) : (
+              ''
+            )}
           </Tooltip>
         )
       })}

@@ -321,3 +321,16 @@ export const dateDifferenceInWordsString = dateString =>
   dateDifferenceInWords({
     from: new Date(dateString)
   })
+
+export const getAmPmWithHours = hours => {
+  if (hours < 0) {
+    hours = 24 - hours
+  }
+
+  var ampm = getAmPm(hours)
+  hours = hours % 12
+  hours = hours || 12
+  return hours + ampm
+}
+
+export const getAmPm = hours => (hours >= 12 ? 'pm' : 'am')

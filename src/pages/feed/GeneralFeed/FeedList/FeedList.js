@@ -10,8 +10,8 @@ import styles from './FeedList.module.scss'
 import StoriesList from '../../../../components/Stories/StoriesList'
 import PageLoader from '../../../../components/Loader/PageLoader'
 
-const TODAY = new Date().toLocaleDateString()
-const YESTERDAY = addDays(new Date(), -1).toLocaleDateString()
+export const TODAY = new Date().toLocaleDateString()
+export const YESTERDAY = addDays(new Date(), -1).toLocaleDateString()
 
 const getEventDate = ({ insertedAt }) => new Date(insertedAt)
 
