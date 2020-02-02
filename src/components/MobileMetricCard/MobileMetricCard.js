@@ -123,13 +123,14 @@ const MobileMetricCard = ({
           }
 
           if (metric === Metrics.devActivity) {
-            const {
-              devActivity60: first = 0,
-              devActivity30: second = 0
-            } = rest.project
-            diff = calcPercentageChange(first * 2 - second, second)
-            value = second.toFixed(2)
-            period = '30d'
+            const { devActivity60: first, devActivity30: second } = rest.project
+            if (first !== null && second !== null) {
+              diff = calcPercentageChange(first * 2 - second, second)
+              value = second.toFixed(2)
+              period = '30d'
+            } else {
+              errorText = 'No data'
+            }
           }
 
           return (
