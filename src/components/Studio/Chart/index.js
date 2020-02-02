@@ -5,6 +5,7 @@ import Canvas from '../../../ducks/SANCharts/Chart'
 import Synchronizer from '../../../ducks/SANCharts/Chart/Synchronizer'
 import MetricsActiveMetrics from '../Metrics/ActiveList'
 import { useMetricsData } from './hooks'
+import styles from './index.module.scss'
 
 const boundaries = {
   leftBoundaryDate: false,
@@ -48,10 +49,13 @@ export default ({ settings, activeMetrics, toggleMetric, ...rest }) => {
         activeMetrics={activeMetrics}
         {...rest}
       />
-      <MetricsActiveMetrics
-        activeMetrics={activeMetrics}
-        toggleMetric={toggleMetric}
-      />
+      <div className={styles.bottom}>
+        <MetricsActiveMetrics
+          activeMetrics={activeMetrics}
+          toggleMetric={toggleMetric}
+          loadings={loadings}
+        />
+      </div>
     </>
   )
 }

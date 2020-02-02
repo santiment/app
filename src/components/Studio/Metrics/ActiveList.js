@@ -8,13 +8,13 @@ import MetricIcon from '../../../ducks/SANCharts/MetricIcon'
 import { getSyncedColors } from '../../../ducks/SANCharts/Chart/Synchronizer'
 import styles from './ActiveList.module.scss'
 
-export default ({ activeMetrics, toggleMetric }) => {
+export default ({ activeMetrics, loadings, toggleMetric }) => {
   const colors = getSyncedColors(activeMetrics)
   const isMoreThanOneMetric = activeMetrics.length > 1
 
   return (
     <>
-      {activeMetrics.map(metric => {
+      {activeMetrics.map((metric, i) => {
         const { key, dataKey = key, node, label, description } = metric
 
         return (
@@ -25,11 +25,15 @@ export default ({ activeMetrics, toggleMetric }) => {
             withChildren
           >
             <Button border className={styles.btn}>
-              <MetricIcon
-                isBar={node === 'bar'}
-                color={colors[dataKey]}
-                className={styles.label}
-              />
+              {loadings.includes(metric) ? (
+                <div className={styles.loader} />
+              ) : (
+                <MetricIcon
+                  isBar={node === 'bar'}
+                  color={colors[dataKey]}
+                  className={styles.label}
+                />
+              )}
               {label}
               {isMoreThanOneMetric && (
                 <Icon

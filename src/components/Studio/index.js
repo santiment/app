@@ -75,13 +75,15 @@ const Studio = () => {
           setOptions={setOptions}
           setSettings={setSettings}
         />
-        <StudioChart
-          chartRef={chartRef}
-          settings={settings}
-          options={options}
-          activeMetrics={activeMetrics}
-          toggleMetric={toggleMetric}
-        />
+        <div className={styles.canvas}>
+          <StudioChart
+            chartRef={chartRef}
+            settings={settings}
+            options={options}
+            activeMetrics={activeMetrics}
+            toggleMetric={toggleMetric}
+          />
+        </div>
       </div>
     </div>
   )
