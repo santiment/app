@@ -2,12 +2,12 @@ import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
 import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
-import ActiveMetrics from '../../../ducks/SANCharts/IntervalSelector'
-import MetricExplanation from '../../../ducks/SANCharts/MetricExplanation'
-import MetricIcon from '../../../ducks/SANCharts/MetricIcon'
-import { Events } from '../../../ducks/SANCharts/data'
-import { getSyncedColors } from '../../../ducks/SANCharts/Chart/Synchronizer'
-import styles from './ActiveList.module.scss'
+import ActiveMetrics from '../../SANCharts/IntervalSelector'
+import MetricExplanation from '../../SANCharts/MetricExplanation'
+import MetricIcon from '../../SANCharts/MetricIcon'
+import { Events } from '../../SANCharts/data'
+import { getSyncedColors } from '../../SANCharts/Chart/Synchronizer'
+import styles from './ActiveMetrics.module.scss'
 
 const { trendPositionHistory } = Events
 
@@ -45,7 +45,13 @@ const MetricButton = ({
   )
 }
 
-export default ({ activeMetrics, activeEvents, loadings, toggleMetric }) => {
+export default ({
+  activeMetrics,
+  activeEvents,
+  loadings,
+  toggleMetric,
+  eventLoadings
+}) => {
   const actives = activeMetrics.concat(activeEvents)
   const colors = getSyncedColors(actives)
   const isMoreThanOneMetric = activeMetrics.length > 1
@@ -68,6 +74,7 @@ export default ({ activeMetrics, activeEvents, loadings, toggleMetric }) => {
           metric={trendPositionHistory}
           colors={colors}
           toggleMetric={toggleMetric}
+          isLoading={eventLoadings.length}
         />
       )}
     </>

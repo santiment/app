@@ -1,11 +1,12 @@
 @import '~@santiment-network/ui/mixins';
+@import '../variables';
 
 .wrapper {
   position: fixed;
   top: 70px;
   bottom: 0;
   left: 0;
-  width: 290px;
+  width: $sidebar-width;
   background: var(--white);
   border-right: 1px solid var(--porcelain);
 }

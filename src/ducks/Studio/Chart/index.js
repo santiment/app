@@ -1,9 +1,9 @@
 import React from 'react'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
-import { mapDatetimeToNumber } from '../../../ducks/SANCharts/utils'
-import Canvas from '../../../ducks/SANCharts/Chart'
-import Synchronizer from '../../../ducks/SANCharts/Chart/Synchronizer'
-import MetricsActiveList from '../Metrics/ActiveList'
+import ChartActiveMetrics from './ActiveMetrics'
+import Chart from '../../SANCharts/Chart'
+import Synchronizer from '../../SANCharts/Chart/Synchronizer'
+import { mapDatetimeToNumber } from '../../SANCharts/utils'
 import { useMetricsData } from './hooks'
 import styles from './index.module.scss'
 
@@ -12,13 +12,14 @@ const boundaries = {
   rightBoundaryDate: false
 }
 
-const Chart = ({
+const Canvas = ({
   data,
   events,
   settings,
   options,
   activeMetrics,
   chartRef
+  /* boundaries, */
 }) => {
   const { isLogScale, isMultiChartsActive } = options
 
@@ -28,7 +29,7 @@ const Chart = ({
       metrics={activeMetrics}
       events={events}
     >
-      <Canvas
+      <Chart
         {...options}
         {...settings}
         {...boundaries}
@@ -36,7 +37,6 @@ const Chart = ({
         data={mapDatetimeToNumber(data)}
         chartRef={chartRef}
         scale={isLogScale ? logScale : linearScale}
-        // // isIntervalSmallerThanDay={isIntervalSmallerThanDay}
         // onPointHover={this.getSocialContext}
         // hasPremium={hasPremium}
       />
@@ -52,10 +52,10 @@ export default ({
   ...rest
 }) => {
   const [data, loadings, ErrorMsg] = useMetricsData(activeMetrics, settings)
-  const [events] = useMetricsData(activeEvents, settings)
+  const [events, eventLoadings] = useMetricsData(activeEvents, settings)
   return (
     <>
-      <Chart
+      <Canvas
         data={data}
         events={events}
         settings={settings}
@@ -63,11 +63,12 @@ export default ({
         {...rest}
       />
       <div className={styles.bottom}>
-        <MetricsActiveList
+        <ChartActiveMetrics
           activeMetrics={activeMetrics}
           activeEvents={activeEvents}
           toggleMetric={toggleMetric}
           loadings={loadings}
+          eventLoadings={eventLoadings}
         />
       </div>
     </>

@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react'
-import MetricsSelector from '../Metrics/Selector'
+import MetricSelector from './MetricSelector'
 import Search from './Search'
-import withMetrics from '../Metrics/withMetrics'
-import AnomaliesToggle from '../../AnomaliesToggle/AnomaliesToggle'
+import withMetrics from '../withMetrics'
+import AnomaliesToggle from '../../../components/AnomaliesToggle/AnomaliesToggle'
 import styles from './index.module.scss'
 
 const Anomalies = ({ options, setOptions }) => {
@@ -50,13 +50,12 @@ const Sidebar = ({ ...rest }) => {
 
     function fixSidebar () {
       const dif = offsetHeight - window.scrollY
-      if (dif >= 0) {
-        sidebar.style.top = dif + 'px'
-      }
+      sidebar.style.top = (dif > 0 ? dif : 0) + 'px'
     }
 
-    window.addEventListener('scroll', fixSidebar)
+    fixSidebar()
 
+    window.addEventListener('scroll', fixSidebar)
     return () => window.removeEventListener('scroll', fixSidebar)
   }, [])
 
@@ -64,7 +63,7 @@ const Sidebar = ({ ...rest }) => {
     <aside className={styles.wrapper} ref={asideRef}>
       <Header {...rest} />
       <div className={styles.selector}>
-        <MetricsSelector {...rest} />
+        <MetricSelector {...rest} />
       </div>
     </aside>
   )

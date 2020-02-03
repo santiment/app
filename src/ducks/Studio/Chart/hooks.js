@@ -100,7 +100,13 @@ export const useMetricsData = (metrics, settings) => {
       console.log('useMetrics call ->')
 
       metrics.forEach(metric => {
-        const { key, queryKey = key, type, reqMeta, anomalyMetricKey } = metric
+        const {
+          key,
+          queryKey = key,
+          transformKey = queryKey,
+          anomalyMetricKey,
+          reqMeta
+        } = metric
 
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
@@ -117,11 +123,8 @@ export const useMetricsData = (metrics, settings) => {
           return [...loadingsSet]
         })
 
-        const isMarketSegment = type === 'marketSegments'
+        const isMarketSegment = transformKey === 'marketSegment'
         const getQUERY = isMarketSegment ? MARKET_SEGMENT_QUERY : getMetricQUERY
-        const transformArgs = isMarketSegment
-          ? ['marketSegment', undefined, queryKey]
-          : [queryKey, anomalyMetricKey, queryKey]
 
         client
           .query({
@@ -140,14 +143,16 @@ export const useMetricsData = (metrics, settings) => {
               }
             }
           })
-          .then(getPreTransform(...transformArgs))
+          /* .then(getPreTransform(...transformArgs)) */
+          .then(getPreTransform(transformKey, anomalyMetricKey, key))
           .then(({ data }) => {
             console.log({ raceCondition })
+            console.log({ data })
             if (raceCondition) return
 
             setTimeseries(state => {
               mergedData = mergeTimeseriesByKey({
-                timeseries: [mergedData, data[queryKey]]
+                timeseries: [mergedData, data[key]]
               })
               return [...mergedData]
             })

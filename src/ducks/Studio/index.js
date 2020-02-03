@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import StudioSidebar from './Sidebar'
 import StudioChart from './Chart'
-import StudioHeader from '../../ducks/SANCharts/Header'
 import ChartSettings from './Settings'
+import StudioHeader from '../SANCharts/Header'
+import { Events } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
-import { Events } from '../../ducks/SANCharts/data'
 import styles from './index.module.scss'
 
 function buildAnomalies (metrics) {
@@ -18,7 +18,9 @@ function buildAnomalies (metrics) {
     }))
 }
 
-const Studio = () => {
+const { trendPositionHistory } = Events
+
+const Studio = props => {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
   const [options, setOptions] = useState(DEFAULT_OPTIONS)
   const [activeMetrics, setActiveMetrics] = useState(DEFAULT_METRICS)
@@ -43,9 +45,11 @@ const Studio = () => {
 
   useEffect(
     () => {
-      setActiveEvents(
-        options.isAnomalyActive ? buildAnomalies(activeMetrics) : []
-      )
+      if (options.isAnomalyActive) {
+        setActiveEvents(buildAnomalies(activeMetrics))
+      } else if (!activeEvents.includes(trendPositionHistory)) {
+        setActiveEvents([])
+      }
     },
     [activeMetrics, options.isAnomalyActive]
   )
@@ -56,7 +60,7 @@ const Studio = () => {
   }
 
   function toggleMetric (metric) {
-    if (metric === Events.trendPositionHistory) {
+    if (metric === trendPositionHistory) {
       return toggleTrend(metric)
     }
 
@@ -110,6 +114,7 @@ const Studio = () => {
             activeMetrics={activeMetrics}
             activeEvents={activeEvents}
             toggleMetric={toggleMetric}
+            {...props}
           />
         </div>
       </div>

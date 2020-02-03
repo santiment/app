@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-import { getCategoryGraph } from './utils'
-import { getMarketSegment } from '../../../ducks/SANCharts/utils'
+import { getCategoryGraph } from './Sidebar/utils'
+import { getMarketSegment } from '../SANCharts/utils'
 
 const PROJECT_METRICS_BY_SLUG_QUERY = gql`
   query projectBySlug($slug: String!) {

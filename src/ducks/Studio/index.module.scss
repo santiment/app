@@ -1,5 +1,7 @@
+@import './variables';
+
 .wrapper {
-  margin-left: 290px;
+  margin-left: $sidebar-width;
   margin-top: -22px;
 }
 

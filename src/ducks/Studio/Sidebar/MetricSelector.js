@@ -3,7 +3,7 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { NO_GROUP } from './utils'
-import styles from './Selector.module.scss'
+import styles from './MetricSelector.module.scss'
 
 const Group = ({ title, metrics, toggleMetric, actives }) => {
   return (
@@ -25,7 +25,7 @@ const Group = ({ title, metrics, toggleMetric, actives }) => {
               className={cx(styles.btn, styles.advanced)}
               variant='ghost'
               onClick={() => toggleMetric(metric)}
-              isActive={actives.includes(metric)}
+              /* isActive={actives.includes(metric)} */
             >
               <Icon type='plus' className={styles.plus} />
               {metric.advancedData}
