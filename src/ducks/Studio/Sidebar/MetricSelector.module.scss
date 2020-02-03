@@ -60,6 +60,10 @@
   margin-right: 8px;
 }
 
+.active {
+  transform: rotate(45deg);
+}
+
 .group {
   @include text('caption');
 
@@ -72,6 +76,11 @@
   min-height: 32px;
   height: auto;
   text-align: left;
+
+  &:hover .active {
+    background: var(--persimmon-light);
+    fill: var(--persimmon);
+  }
 }
 
 .advanced {

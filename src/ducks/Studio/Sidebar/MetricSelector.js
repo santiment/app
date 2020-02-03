@@ -5,6 +5,18 @@ import Icon from '@santiment-network/ui/Icon'
 import { NO_GROUP } from './utils'
 import styles from './MetricSelector.module.scss'
 
+const MetricButton = ({ className, label, isActive, onClick }) => (
+  <Button
+    variant='ghost'
+    className={cx(styles.btn, className)}
+    onClick={onClick}
+    isActive={isActive}
+  >
+    <Icon type='plus' className={cx(styles.plus, isActive && styles.active)} />
+    {label}
+  </Button>
+)
+
 const Group = ({
   title,
   metrics,
@@ -18,25 +30,18 @@ const Group = ({
       {title !== NO_GROUP && <h4 className={styles.group}>{title}</h4>}
       {metrics.map(metric => (
         <Fragment key={metric.key}>
-          <Button
-            className={styles.btn}
-            variant='ghost'
-            onClick={() => toggleMetric(metric)}
+          <MetricButton
+            label={metric.label}
             isActive={actives.includes(metric)}
-          >
-            <Icon type='plus' className={styles.plus} />
-            {metric.label}
-          </Button>
+            onClick={() => toggleMetric(metric)}
+          />
           {metric.advancedView && (
-            <Button
-              className={cx(styles.btn, styles.advanced)}
-              variant='ghost'
-              onClick={() => toggleAdvancedView(metric.advancedView)}
+            <MetricButton
+              className={styles.advanced}
+              label={metric.advancedView}
               isActive={advancedView === metric.advancedView}
-            >
-              <Icon type='plus' className={styles.plus} />
-              {metric.advancedView}
-            </Button>
+              onClick={() => toggleAdvancedView(metric.advancedView)}
+            />
           )}
         </Fragment>
       ))}

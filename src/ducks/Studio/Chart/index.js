@@ -39,7 +39,7 @@ const Canvas = ({
         data={mapDatetimeToNumber(data)}
         chartRef={chartRef}
         scale={isLogScale ? logScale : linearScale}
-        isAdvancedView={advancedView}
+        isAdvancedView={!!advancedView}
         onPointHover={advancedView ? changeHoveredDate : undefined}
         // hasPremium={hasPremium}
       />

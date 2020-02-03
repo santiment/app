@@ -147,39 +147,34 @@ const Chart = ({
     [syncedTooltipDate]
   )
 
-  useEffect(
-    () => {
-      onResize(
-        chart,
-        isMultiChartsActive ? CHART_PADDING : CHART_WITH_BRUSH_PADDING,
-        brush,
-        data
-      )
-    },
-    [isMultiChartsActive, isAdvancedView, isWideChart]
-  )
+  useEffect(handleResize, [isMultiChartsActive, isAdvancedView, isWideChart])
 
-  useResizeEffect(
-    () => {
-      if (data.length === 0) {
-        return
-      }
+  useResizeEffect(handleResize, [
+    isMultiChartsActive,
+    isAdvancedView,
+    isWideChart,
+    data,
+    brush
+  ])
 
-      onResize(
-        chart,
-        isMultiChartsActive ? CHART_PADDING : CHART_WITH_BRUSH_PADDING,
-        brush,
-        data
-      )
+  function handleResize () {
+    if (data.length === 0) {
+      return
+    }
 
-      if (!brush) {
-        updateChartState(chart, data, joinedCategories)
-        plotChart(data)
-        plotAxes(chart)
-      }
-    },
-    [isMultiChartsActive, isAdvancedView, isWideChart, data, brush]
-  )
+    onResize(
+      chart,
+      isMultiChartsActive ? CHART_PADDING : CHART_WITH_BRUSH_PADDING,
+      brush,
+      data
+    )
+
+    if (!brush) {
+      updateChartState(chart, data, joinedCategories)
+      plotChart(data)
+      plotAxes(chart)
+    }
+  }
 
   function onBrushChange (startIndex, endIndex) {
     const newData = data.slice(startIndex, endIndex + 1)
