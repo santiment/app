@@ -42,7 +42,6 @@ const Studio = ({
     () => {
       const queryString =
         '?' + generateShareLink(settings, options, activeMetrics, activeEvents)
-      console.log(queryString)
 
       const { origin, pathname } = window.location
       setShareLink(origin + pathname + queryString)
@@ -121,6 +120,7 @@ const Studio = ({
           chartRef={chartRef}
           settings={settings}
           options={options}
+          activeMetrics={activeMetrics}
           shareLink={shareLink}
           setOptions={setOptions}
           setSettings={setSettings}
