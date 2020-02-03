@@ -21,8 +21,11 @@ export const makeLinkToInsight = (id, title) => {
 
 const InsightCardInternals = ({
   id,
+  state,
   user: { id: authorId, username: authorName, avatarUrl },
   title,
+  createdAt,
+  publishedAt,
   tags,
   votes: { totalVotes },
   commentsCount,
@@ -32,6 +35,7 @@ const InsightCardInternals = ({
   disabled,
   isDesktop,
   showIcon = false,
+  showDate = false,
   children
 }) => {
   const linkToInsight = makeLinkToInsight(id, title)
@@ -53,11 +57,14 @@ const InsightCardInternals = ({
               <ProfileInfo
                 withPic={withAuthorPic}
                 picUrl={avatarUrl}
+                date={publishedAt || createdAt}
+                state={state}
                 name={
                   <Link className={styles.name} to={`/profile/${authorId}`}>
                     {authorName}
                   </Link>
                 }
+                showDate={showDate}
                 infoClassName={styles.info}
               />
             </div>
