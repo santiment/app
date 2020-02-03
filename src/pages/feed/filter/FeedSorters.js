@@ -25,10 +25,10 @@ export const AUTHOR_SORT = {
 }
 
 export const FILTER_OPTIONS = [
-  DATETIME_SORT
-  // VOTES_SORT,
+  DATETIME_SORT,
+  VOTES_SORT,
   // COMMENTS_SORT, #GarageInc: temporary removed before backend San-7187
-  // AUTHOR_SORT
+  AUTHOR_SORT
 ]
 
 const FeedSorters = ({ sortType, onChangeSort, className }) => {

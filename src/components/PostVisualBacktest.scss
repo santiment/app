@@ -1,16 +1,19 @@
 @import "~@santiment-network/ui/mixins";
 
 .post-visual-backtest {
-  width: 260px;
-  padding: 16px 16px 0 0;
+  width: 190px;
   background: linear-gradient(180deg, var(--athens), hsla(0, 0%, 100%, 0));
   display: flex;
   flex-direction: column;
   text-align: right;
+
+  @include responsive('phone', 'phone-xs') {
+    width: 100%;
+  }
 }
 
 .post-visual-backtest__info {
-  margin-bottom: 5px;
+  margin: 9px auto auto auto;
   display: flex;
 }
 
@@ -24,6 +27,8 @@
 .post-visual-backtest__percent {
   font-size: 14px;
   margin-left: auto;
+  position: relative;
+  top: -10px;
 }
 
 @media (min-width: 768px) {

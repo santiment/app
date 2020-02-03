@@ -1,7 +1,7 @@
 import React from 'react'
 import StoryRouter from 'storybook-react-router'
 import { storiesOf } from '@storybook/react'
-import InsightCard from './../src/components/Insight/InsightCard'
+import InsightCardInternals from "../src/components/Insight/InsightCardInternals";
 import Insights from './../src/components/Insight/Insights'
 
 const insights = [
@@ -58,6 +58,6 @@ const stories = storiesOf('Insights', module)
 stories.addDecorator(StoryRouter())
 stories
   .add('Insight Card', () => (
-    <InsightCard {...insights[2]} onLike={console.log} />
+    <InsightCardInternals {...insights[2]} onLike={console.log} />
   ))
   .add('UnAuth Tab', () => <Insights insights={insights} />)
