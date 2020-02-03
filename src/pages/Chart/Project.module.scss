@@ -1,0 +1,40 @@
+.breadcrumbs {
+  margin-top: -15px;
+}
+
+.stories {
+  padding: 0;
+}
+
+.bottom {
+  padding: 25px;
+}
+
+.spent {
+  margin-bottom: 16px;
+}
+
+.info {
+  display: flex;
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin: 0;
+  }
+
+  &__card {
+    flex: 1;
+
+    &:first-child {
+      margin-right: 16px;
+    }
+
+    :global {
+      .row-info {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 12px;
+      }
+    }
+  }
+}
