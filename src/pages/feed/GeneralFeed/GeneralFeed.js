@@ -2,28 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Query } from 'react-apollo'
 import { FEED_QUERY } from '../../../queries/FeedGQL'
-import HelpTooltip from '../../../components/WatchlistOverview/WatchlistAnomalies/HelpTooltip'
 import PageLoader from '../../../components/Loader/PageLoader'
 import FeedListLoading from './FeedList/FeedListLoading'
 import { checkIsLoggedIn, checkIsLoggedInPending } from '../../UserSelectors'
 import { extractEventsFromData, makeFeedVariables } from './utils'
 import { fetchSignals } from '../../../ducks/Signals/common/actions'
 import FeedSorters, { DATETIME_SORT } from '../filter/FeedSorters'
+import FeedHelpPopup from './HelpPopup/FeedHelpPopup'
 import styles from './GeneralFeed.module.scss'
 
 const Header = ({ onChangeSort, sortType }) => (
   <div className={styles.title}>
     <div>General feed</div>
-    <HelpTooltip
-      position='bottom'
-      align='start'
-      classes={styles}
-      withDesc={false}
-    >
-      This is a continuous stream of updates on cryptocurrency assets, your
-      personal watchlists and general market conditions, using various Santiment
-      metrics and tools
-    </HelpTooltip>
+    <FeedHelpPopup />
     <FeedSorters
       className={styles.sort}
       onChangeSort={onChangeSort}
