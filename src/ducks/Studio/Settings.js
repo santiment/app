@@ -39,7 +39,6 @@ export default ({ settings, options, setOptions, setSettings, ...rest }) => {
       {...rest}
       {...options}
       {...settings}
-      generateShareLink={() => ''}
       isFullscreenAvailable={false}
       showNightModeToggle={false}
       onMultiChartsChange={toggleMultichart}

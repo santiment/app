@@ -7,24 +7,10 @@ import StudioAdvancedView from './AdvancedView'
 import StudioHeader from '../SANCharts/Header'
 import { Events } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
-import { parseUrl, generateShareLink, updateHistory } from './url'
+import { generateShareLink, updateHistory } from './url'
 import styles from './index.module.scss'
 
 const { trendPositionHistory } = Events
-
-const sharedState = parseUrl()
-
-const sharedSettings = { ...DEFAULT_SETTINGS, ...sharedState.settings }
-const sharedOptions = { ...DEFAULT_OPTIONS, ...sharedState.options }
-const sharedMetrics = sharedState.metrics || DEFAULT_METRICS
-const sharedEvents = sharedState.events || []
-
-console.log({
-  sharedSettings,
-  sharedOptions,
-  sharedMetrics,
-  sharedEvents
-})
 
 function buildAnomalies (metrics) {
   return metrics
@@ -36,25 +22,31 @@ function buildAnomalies (metrics) {
     }))
 }
 
-const Studio = props => {
-  const [settings, setSettings] = useState(sharedSettings)
-  const [options, setOptions] = useState(sharedOptions)
-  const [activeMetrics, setActiveMetrics] = useState(sharedMetrics)
-  const [activeEvents, setActiveEvents] = useState(sharedEvents)
+const Studio = ({
+  defaultSettings,
+  defaultOptions,
+  defaultMetrics,
+  defaultEvents,
+  ...props
+}) => {
+  const [settings, setSettings] = useState(defaultSettings)
+  const [options, setOptions] = useState(defaultOptions)
+  const [activeMetrics, setActiveMetrics] = useState(defaultMetrics)
+  const [activeEvents, setActiveEvents] = useState(defaultEvents)
   const [advancedView, setAdvancedView] = useState()
   const [hoveredDate, setHoveredDate] = useState()
+  const [shareLink, setShareLink] = useState()
   const chartRef = useRef(null)
 
   useEffect(
     () => {
-      const shareLink = generateShareLink(
-        settings,
-        options,
-        activeMetrics,
-        activeEvents
-      )
-      console.log(shareLink)
-      updateHistory('?' + shareLink)
+      const queryString =
+        '?' + generateShareLink(settings, options, activeMetrics, activeEvents)
+      console.log(queryString)
+
+      const { origin, pathname } = window.location
+      setShareLink(origin + pathname + queryString)
+      updateHistory(queryString)
     },
     [settings, options, activeMetrics, activeEvents]
   )
@@ -129,6 +121,7 @@ const Studio = props => {
           chartRef={chartRef}
           settings={settings}
           options={options}
+          shareLink={shareLink}
           setOptions={setOptions}
           setSettings={setSettings}
         />
@@ -162,4 +155,15 @@ const Studio = props => {
   )
 }
 
-export default Studio
+export default ({ settings, options, metrics, events, ...props }) => (
+  <Studio
+    {...props}
+    defaultSettings={{
+      ...DEFAULT_SETTINGS,
+      ...settings
+    }}
+    defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
+    defaultMetrics={metrics || DEFAULT_METRICS}
+    defaultEvents={events || []}
+  />
+)

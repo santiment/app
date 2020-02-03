@@ -18,7 +18,7 @@ const ChartSettings = ({
   onTimerangeChange,
   timeRange,
   onCalendarChange,
-  generateShareLink,
+  shareLink,
   onNightModeSelect,
   isNightModeActive,
   showNightModeToggle = true,
@@ -36,7 +36,7 @@ const ChartSettings = ({
   eventsData,
   isFullscreenAvailable = true
 }) => {
-  const shareLink = generateShareLink(disabledMetrics)
+  /* const shareLink = generateShareLink(disabledMetrics) */
 
   const notAdvancedView = !isAdvancedView
   return (
