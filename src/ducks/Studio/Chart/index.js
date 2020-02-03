@@ -7,11 +7,6 @@ import { mapDatetimeToNumber } from '../../SANCharts/utils'
 import { useMetricsData } from './hooks'
 import styles from './index.module.scss'
 
-const boundaries = {
-  leftBoundaryDate: false,
-  rightBoundaryDate: false
-}
-
 const Canvas = ({
   data,
   events,
@@ -20,8 +15,8 @@ const Canvas = ({
   activeMetrics,
   chartRef,
   advancedView,
-  changeHoveredDate
-  /* boundaries, */
+  changeHoveredDate,
+  boundaries
 }) => {
   const { isLogScale, isMultiChartsActive } = options
 

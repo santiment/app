@@ -27,6 +27,9 @@ const Studio = ({
   defaultOptions,
   defaultMetrics,
   defaultEvents,
+  topSlot,
+  bottomSlot,
+  onSlugChange,
   ...props
 }) => {
   const [settings, setSettings] = useState(defaultSettings)
@@ -89,6 +92,7 @@ const Studio = ({
   function onProjectSelect ({ slug, name, ticker, id: projectId }) {
     const title = `${name} (${ticker})`
     setSettings(state => ({ ...state, slug, title, projectId }))
+    onSlugChange(slug)
   }
 
   function changeHoveredDate ({ value }) {
@@ -108,6 +112,7 @@ const Studio = ({
         toggleAdvancedView={toggleAdvancedView}
       />
       <div className={styles.container}>
+        {topSlot}
         <StudioHeader
           slug={settings.slug}
           isLoading={false}
@@ -128,6 +133,7 @@ const Studio = ({
         <div className={styles.data}>
           <div className={styles.canvas}>
             <StudioChart
+              {...props}
               chartRef={chartRef}
               settings={settings}
               options={options}
@@ -136,7 +142,6 @@ const Studio = ({
               advancedView={advancedView}
               toggleMetric={toggleMetric}
               changeHoveredDate={changeHoveredDate}
-              {...props}
             />
           </div>
           {advancedView && (
@@ -151,8 +156,13 @@ const Studio = ({
           )}
         </div>
       </div>
+      {bottomSlot}
     </div>
   )
+}
+
+Studio.defaultProps = {
+  onSlugChange: () => {}
 }
 
 export default ({ settings, options, metrics, events, ...props }) => (

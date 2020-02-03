@@ -48,7 +48,14 @@ const Sidebar = ({ loading, ...rest }) => {
 
   useEffect(() => {
     const sidebar = asideRef.current
-    const { offsetHeight } = document.querySelector('header')
+    const header = document.querySelector('header')
+
+    if (!header) {
+      sidebar.style.top = 0
+      return
+    }
+
+    const { offsetHeight } = header
 
     function fixSidebar () {
       const dif = offsetHeight - window.scrollY

@@ -629,7 +629,7 @@ class ChartPage extends Component {
                         isLoading={isParentLoading || isLoading}
                         isWideChart={isWideChart}
                         onPointHover={this.getSocialContext}
-                        hasPremium={hasPremium}
+                        isWithPaywall={hasPremium}
                       />
                     </Synchronizer>
 

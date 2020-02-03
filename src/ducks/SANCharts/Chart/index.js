@@ -42,8 +42,8 @@ const Chart = ({
   syncedTooltipDate,
   syncTooltips = () => {},
   onPointHover = () => {},
-  hasPremium,
   hasPriceMetric,
+  isWithPaywall,
   isLoading,
   isMultiChartsActive,
   isAdvancedView,
@@ -209,7 +209,7 @@ const Chart = ({
       drawLastDayPrice(chart, scale, lastDayPrice)
     }
 
-    if (!hasPremium) {
+    if (!isWithPaywall) {
       drawPaywall(chart, leftBoundaryDate, rightBoundaryDate)
     }
   }

@@ -6,9 +6,9 @@ const DEFAULT_TIME_RANGE = '6m'
 const { from: FROM, to: TO } = getIntervalByTimeRange(DEFAULT_TIME_RANGE)
 
 export const DEFAULT_SETTINGS = {
-  slug: 'santiment',
-  projectId: '16912',
-  title: 'Santiment (SAN)',
+  slug: 'bitcoin',
+  projectId: 1505,
+  title: 'Bitcoin (BTC)',
   interval: getNewInterval(FROM, TO),
   from: FROM.toISOString(),
   to: TO.toISOString(),
