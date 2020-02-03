@@ -209,7 +209,7 @@ const Chart = ({
       drawLastDayPrice(chart, scale, lastDayPrice)
     }
 
-    if (!isWithPaywall) {
+    if (isWithPaywall) {
       drawPaywall(chart, leftBoundaryDate, rightBoundaryDate)
     }
   }

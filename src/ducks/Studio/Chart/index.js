@@ -16,7 +16,8 @@ const Canvas = ({
   chartRef,
   advancedView,
   changeHoveredDate,
-  boundaries
+  boundaries,
+  hasPremium
 }) => {
   const { isLogScale, isMultiChartsActive } = options
 
@@ -36,7 +37,7 @@ const Canvas = ({
         scale={isLogScale ? logScale : linearScale}
         isAdvancedView={!!advancedView}
         onPointHover={advancedView ? changeHoveredDate : undefined}
-        // hasPremium={hasPremium}
+        isWithPaywall={!hasPremium}
       />
     </Synchronizer>
   )

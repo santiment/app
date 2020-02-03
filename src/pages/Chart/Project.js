@@ -1,5 +1,6 @@
 import React from 'react'
 import { compose } from 'redux'
+import { Helmet } from 'react-helmet'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import StudioPage from './New'
 import Breadcrumbs from '../profile/breadcrumbs/Breadcrumbs'
@@ -8,6 +9,7 @@ import StoriesList from '../../components/Stories/StoriesList'
 import GeneralInfoBlock from '../Detailed/generalInfo/GeneralInfoBlock'
 import FinancialsBlock from '../Detailed/financialInfo/FinancialsBlock'
 import DetailedTransactionsTable from '../Detailed/transactionsInfo/DetailedTransactionsTable'
+import { Metrics } from '../../ducks/SANCharts/data'
 import EthSpent from '../EthSpent'
 import withNews from './withNews'
 import withProject from './withProject'
@@ -17,6 +19,12 @@ const CRUMB = {
   label: 'Assets',
   to: '/assets'
 }
+
+const DEFAULT_METRICS = [
+  Metrics.historyPrice,
+  Metrics.socialVolume,
+  Metrics.age_destroyed
+]
 
 const TopSlot = ({ label }) => (
   <>
@@ -28,8 +36,25 @@ const TopSlot = ({ label }) => (
 const BottomSlot = compose(
   withNews,
   withProject
-)(({ slug, project, isERC20, news = [], isLoadingNews }) => (
+)(({ slug, project, isERC20, loading, news = [], isLoadingNews }) => (
   <div className={styles.bottom}>
+    <Helmet>
+      <title>{loading ? 'Sanbase...' : `${project.ticker} project page`}</title>
+      <meta
+        property='og:title'
+        content={`Project overview: ${project.name} - Sanbase`}
+      />
+      <meta
+        property='og:description'
+        content={`Financial, development, on-chain and social data for ${
+          project.name
+        }. Get access to full historical data & advanced metrics for ${
+          project.name
+        } by upgrading to Sanbase Dashboards.
+        `}
+      />
+    </Helmet>
+
     {slug === 'ethereum' && (
       <div className={styles.spent}>
         <EthSpent />
@@ -85,6 +110,7 @@ export default ({ match: { params }, history, ...props }) => {
       bottomSlot={<BottomSlot isNewsEnabled slug={slug} />}
       onSlugChange={onSlugChange}
       classes={styles}
+      metrics={DEFAULT_METRICS}
     />
   )
 }
