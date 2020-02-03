@@ -5,8 +5,8 @@ import SignalPreview from '../../chart/preview/SignalPreview'
 import SignalCard from '../../../../components/SignalCard/card/SignalCard'
 import NoSignalPreview from '../../chart/preview/NoSignalPreview'
 import { DesktopOnly, MobileOnly } from '../../../../components/Responsive'
-import styles from './ShareTriggerForm.module.scss'
 import CopySignal from '../../../../components/SignalCard/controls/CopySignal'
+import styles from './ShareTriggerForm.module.scss'
 
 const SharedTriggerForm = ({ id, trigger, onOpen, onCreate, settings }) => {
   const { target, metric } = settings
