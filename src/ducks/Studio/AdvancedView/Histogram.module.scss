@@ -47,13 +47,6 @@
   }
 }
 
-.toggle__icons {
-  padding: 5px 11px;
-  width: 17px;
-  justify-content: space-between;
-  box-sizing: content-box;
-}
-
 .title {
   @include text('body-3');
 
@@ -73,7 +66,7 @@
 }
 
 .action {
-  font-size: 22px;
+  font-size: 18px;
   color: var(--waterloo);
   text-align: center;
 }

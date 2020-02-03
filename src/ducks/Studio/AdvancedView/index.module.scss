@@ -1,0 +1,29 @@
+.toggle {
+  position: absolute;
+  box-sizing: content-box;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  top: 20px;
+  transform: translateX(-100%);
+  color: var(--mirage);
+  fill: var(--mirage);
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-right: none;
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green);
+    fill: var(--jungle-green);
+  }
+}
+
+.arrow {
+  margin-left: 4px;
+}

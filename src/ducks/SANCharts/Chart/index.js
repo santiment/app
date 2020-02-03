@@ -12,6 +12,7 @@ import Signals from './Signals'
 import { plotAxes } from './axes'
 import { setupTooltip, plotTooltip } from './tooltip'
 import {
+  CHART_HEIGHT,
   BRUSH_HEIGHT,
   CHART_PADDING,
   CHART_WITH_BRUSH_PADDING
@@ -60,7 +61,7 @@ const Chart = ({
       initChart(
         canvas,
         width,
-        350,
+        CHART_HEIGHT,
         isMultiChartsActive ? CHART_PADDING : CHART_WITH_BRUSH_PADDING
       )
     )
@@ -81,7 +82,7 @@ const Chart = ({
     setChart(chart)
     chartRef.current = canvas
 
-    setupTooltip(chart, marker, syncTooltips, onPointHover)
+    setupTooltip(chart, marker, syncTooltips)
   }, [])
 
   if (brush) {
@@ -89,6 +90,13 @@ const Chart = ({
     brush.plotBrushData = plotBrushData
     brush.onChange = onBrushChange
   }
+
+  useEffect(
+    () => {
+      chart.onPointHover = onPointHover
+    },
+    [onPointHover]
+  )
 
   useEffect(
     () => {

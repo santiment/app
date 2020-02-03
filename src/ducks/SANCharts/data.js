@@ -98,7 +98,8 @@ export const Metrics = {
     shortLabel: 'Soc. Volume',
     anomalyKey: 'SOCIAL_VOLUME',
     color: 'malibu',
-    description: `Shows the amount of mentions of the coin on 1000+ crypto social media channels, including Telegram groups, crypto subreddits, discord groups, private traders chats and more.`
+    description: `Shows the amount of mentions of the coin on 1000+ crypto social media channels, including Telegram groups, crypto subreddits, discord groups, private traders chats and more.`,
+    advancedView: 'Social Context'
   },
   age_destroyed: {
     category: 'On-chain',
@@ -200,7 +201,7 @@ export const Metrics = {
     description: `
     Shows the aggregate amount of tokens across all transactions that
     happened on the network on a certain date.`,
-    advancedData: 'Histogram'
+    advancedView: 'Histogram'
   },
   network_growth: {
     category: 'On-chain',
@@ -274,8 +275,7 @@ export const Metrics = {
     label: 'Social Dominance',
     shortLabel: 'Soc. Domin.',
     dataKey: 'dominance',
-    description: `Shows the share (or %) of the coin’s mentions on crypto-related social media, compared to a pool of 50+ of the most talked-about projects online.`,
-    advancedData: 'Social Context'
+    description: `Shows the share (or %) of the coin’s mentions on crypto-related social media, compared to a pool of 50+ of the most talked-about projects online.`
   },
   realized_value_usd: {
     category: 'On-chain',

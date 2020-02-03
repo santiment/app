@@ -10,7 +10,8 @@ import { SOCIAL_SIDEBAR } from './data'
 import { useDebounceEffect } from '../../hooks'
 import { INTERVAL_ALIAS } from './IntervalSelector'
 import sharedStyles from './ChartSidecar.module.scss'
-import styles from './SocialContext.module.scss'
+import styles from './ChartSidecar.module.scss'
+/* import styles from './SocialContext.module.scss' */
 
 const Content = ({ interval, date, projectName }) => {
   const [period, setPeriod] = useState({})
