@@ -30,6 +30,7 @@ const Studio = ({
   topSlot,
   bottomSlot,
   onSlugChange,
+  classes,
   ...props
 }) => {
   const [settings, setSettings] = useState(defaultSettings)
@@ -40,6 +41,7 @@ const Studio = ({
   const [hoveredDate, setHoveredDate] = useState()
   const [shareLink, setShareLink] = useState()
   const chartRef = useRef(null)
+  const timeseries = {}
 
   useEffect(
     () => {
@@ -100,7 +102,7 @@ const Studio = ({
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, classes.wrapper)}>
       <StudioSidebar
         slug={settings.slug}
         options={options}
@@ -123,9 +125,11 @@ const Studio = ({
       <div className={cx(styles.container, styles.chart)}>
         <StudioSettings
           chartRef={chartRef}
+          timeseries={timeseries}
           settings={settings}
           options={options}
           activeMetrics={activeMetrics}
+          activeEvents={activeEvents}
           shareLink={shareLink}
           setOptions={setOptions}
           setSettings={setSettings}
@@ -134,6 +138,7 @@ const Studio = ({
           <div className={styles.canvas}>
             <StudioChart
               {...props}
+              timeseries={timeseries}
               chartRef={chartRef}
               settings={settings}
               options={options}
@@ -162,7 +167,8 @@ const Studio = ({
 }
 
 Studio.defaultProps = {
-  onSlugChange: () => {}
+  onSlugChange: () => {},
+  classes: {}
 }
 
 export default ({ settings, options, metrics, events, ...props }) => (

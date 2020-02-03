@@ -15,26 +15,25 @@ const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 const ChartSettings = ({
   chartRef,
   title,
-  onTimerangeChange,
+  activeMetrics,
+  activeEvents,
   timeRange,
-  onCalendarChange,
   shareLink,
-  onNightModeSelect,
-  isNightModeActive,
-  showNightModeToggle = true,
   disabledMetrics,
   from,
   to,
+  timeseries,
+  showNightModeToggle = true,
   isAdvancedView,
-  activeMetrics,
   isLogScale,
-  onMultiChartsChange,
   isMultiChartsActive,
+  isFullscreenAvailable = true,
+  onMultiChartsChange,
   onScaleChange,
-  chartData,
-  events,
-  eventsData,
-  isFullscreenAvailable = true
+  onTimerangeChange,
+  onCalendarChange,
+  onNightModeSelect,
+  isNightModeActive
 }) => {
   /* const shareLink = generateShareLink(disabledMetrics) */
 
@@ -70,14 +69,13 @@ const ChartSettings = ({
           showNightModeToggle={showNightModeToggle}
           onNightModeSelect={onNightModeSelect}
           shareLink={shareLink}
-          activeMetrics={activeMetrics}
           title={title}
           chartRef={chartRef}
           isLogScale={isLogScale}
           onScaleChange={onScaleChange}
-          chartData={chartData}
-          events={events}
-          eventsData={eventsData}
+          timeseries={timeseries}
+          activeMetrics={activeMetrics}
+          activeEvents={activeEvents}
         />
         {isFullscreenAvailable && <ChartExpandBtn />}
       </div>

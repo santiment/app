@@ -31,7 +31,6 @@ const ChartSettingsContextMenu = ({
   isNightModeActive,
   onNightModeSelect,
   shareLink,
-  activeMetrics,
   title,
   showDownload = true,
   showMulti = true,
@@ -41,9 +40,9 @@ const ChartSettingsContextMenu = ({
   isMultiChartsActive,
   onMultiChartsChange,
   children,
-  chartData,
-  events,
-  eventsData
+  timeseries,
+  activeMetrics,
+  activeEvents
 }) => {
   return (
     <ContextMenu
@@ -114,10 +113,9 @@ const ChartSettingsContextMenu = ({
               fluid
               variant='ghost'
               title={title}
-              chartData={chartData}
-              events={events}
-              eventsData={eventsData}
-              metrics={activeMetrics}
+              timeseries={timeseries}
+              activeEvents={activeEvents}
+              activeMetrics={activeMetrics}
             >
               <Icon type='save' className={styles.icon} />
               Download as CSV

@@ -32,13 +32,14 @@ const getEventsWithAnomaly = (headers, data) => {
 }
 
 const DownloadCSVBtn = ({
-  metrics,
-  chartData,
   title,
-  events,
-  eventsData,
+  timeseries,
+  activeMetrics,
+  activeEvents,
   ...props
 }) => {
+  const { data, events } = timeseries
+
   const date = new Date()
   const { DD, MMM, YYYY } = getDateFormats(date)
   const { HH, mm, ss } = getTimeFormats(date)
@@ -46,15 +47,17 @@ const DownloadCSVBtn = ({
 
   const [eventHeaders, eventsDataWithAnomalies] = getEventsWithAnomaly(
     events,
-    eventsData
+    activeEvents
   )
 
   const headers = [
     { label: 'Date', key: 'datetime' },
-    ...metrics.concat(eventHeaders).map(({ label, key, dataKey = key }) => ({
-      label,
-      key: dataKey
-    }))
+    ...activeMetrics
+      .concat(eventHeaders)
+      .map(({ label, key, dataKey = key }) => ({
+        label,
+        key: dataKey
+      }))
   ]
 
   return (
@@ -62,7 +65,7 @@ const DownloadCSVBtn = ({
       filename={filename}
       headers={headers}
       data={mergeTimeseriesByKey({
-        timeseries: [chartData, eventsDataWithAnomalies]
+        timeseries: [data, eventsDataWithAnomalies]
       })}
       {...props}
       as={CSVLink}
@@ -72,16 +75,12 @@ const DownloadCSVBtn = ({
 
 DownloadCSVBtn.defaultProps = {
   title: '',
-  metrics: [],
-  events: [],
-  chartData: [],
-  eventsData: []
-}
-
-DownloadCSVBtn.propTypes = {
-  title: PropTypes.string,
-  metrics: PropTypes.array,
-  chartData: PropTypes.array
+  activeMetrics: [],
+  activeEvents: [],
+  timeseries: {
+    data: [],
+    events: []
+  }
 }
 
 export default DownloadCSVBtn

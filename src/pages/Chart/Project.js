@@ -84,6 +84,7 @@ export default ({ match: { params }, history, ...props }) => {
       topSlot={<TopSlot label={slug} />}
       bottomSlot={<BottomSlot isNewsEnabled slug={slug} />}
       onSlugChange={onSlugChange}
+      classes={styles}
     />
   )
 }

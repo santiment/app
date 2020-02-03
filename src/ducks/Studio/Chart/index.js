@@ -47,10 +47,15 @@ export default ({
   activeMetrics,
   activeEvents,
   toggleMetric,
+  timeseries,
   ...rest
 }) => {
   const [data, loadings, ErrorMsg] = useMetricsData(activeMetrics, settings)
   const [events, eventLoadings] = useMetricsData(activeEvents, settings)
+
+  // NOTE: Populating timeseries reference to avoid top-level rerenders on data change [@vanguard | Feb 3, 2020]
+  Object.assign(timeseries, { data, events })
+
   return (
     <>
       <Canvas
