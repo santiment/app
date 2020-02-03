@@ -9,8 +9,8 @@ import { mapSizesToProps } from '../../utils/withSizes'
 import FeedCardDate from '../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
 import styles from './InsightCard.module.scss'
 
-const AWAITING_APPROVAL_STATE = 'awaiting_approval'
-const AwaitingApproval = () => (
+export const AWAITING_APPROVAL_STATE = 'awaiting_approval'
+export const AwaitingApproval = () => (
   <div className={styles.awaiting}>
     <Icon type='awaiting' className={styles.awaiting__icon} /> Awaiting approval
   </div>

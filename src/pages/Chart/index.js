@@ -107,8 +107,6 @@ export default compose(
             button='Sign up for free'
           />
         )}
-        <h2 className={styles.title}>Latest Insights</h2>
-        <InsightsWrap insights={sortedInsights} />
       </div>
     </>
   )
