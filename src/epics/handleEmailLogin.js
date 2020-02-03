@@ -36,7 +36,6 @@ const emailChangeVerifyGQL = gql`
         sanBalance
         ethAccounts {
           address
-          sanBalance
         }
       }
     }

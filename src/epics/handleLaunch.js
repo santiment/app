@@ -19,7 +19,6 @@ export const USER_GQL_FRAGMENT = gql`
     avatarUrl
     ethAccounts {
       address
-      sanBalance
     }
     settings {
       hasTelegramConnected
