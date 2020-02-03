@@ -17,7 +17,6 @@ export const DEFAULT_SETTINGS = {
 
 export const DEFAULT_OPTIONS = {
   isLogScale: false,
-  isAdvancedView: false,
   isAnomalyActive: !localStorage.getItem('hideAnomalies'),
   /* isMultiChartsActive: true, */
   isMultiChartsActive: false

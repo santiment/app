@@ -2,11 +2,29 @@ import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import StudioSidebar from './Sidebar'
 import StudioChart from './Chart'
-import ChartSettings from './Settings'
+import StudioSettings from './Settings'
+import StudioAdvancedView from './AdvancedView'
 import StudioHeader from '../SANCharts/Header'
 import { Events } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
+import { parseUrl, generateShareLink, updateHistory } from './url'
 import styles from './index.module.scss'
+
+const { trendPositionHistory } = Events
+
+const sharedState = parseUrl()
+
+const sharedSettings = { ...DEFAULT_SETTINGS, ...sharedState.settings }
+const sharedOptions = { ...DEFAULT_OPTIONS, ...sharedState.options }
+const sharedMetrics = sharedState.metrics || DEFAULT_METRICS
+const sharedEvents = sharedState.events || []
+
+console.log({
+  sharedSettings,
+  sharedOptions,
+  sharedMetrics,
+  sharedEvents
+})
 
 function buildAnomalies (metrics) {
   return metrics
@@ -18,29 +36,27 @@ function buildAnomalies (metrics) {
     }))
 }
 
-const { trendPositionHistory } = Events
-
 const Studio = props => {
-  const [settings, setSettings] = useState(DEFAULT_SETTINGS)
-  const [options, setOptions] = useState(DEFAULT_OPTIONS)
-  const [activeMetrics, setActiveMetrics] = useState(DEFAULT_METRICS)
-  const [activeEvents, setActiveEvents] = useState([])
+  const [settings, setSettings] = useState(sharedSettings)
+  const [options, setOptions] = useState(sharedOptions)
+  const [activeMetrics, setActiveMetrics] = useState(sharedMetrics)
+  const [activeEvents, setActiveEvents] = useState(sharedEvents)
+  const [advancedView, setAdvancedView] = useState()
+  const [hoveredDate, setHoveredDate] = useState()
   const chartRef = useRef(null)
 
-  console.log({ activeMetrics, activeEvents })
-
   useEffect(
     () => {
-      /* console.log(settings) */
+      const shareLink = generateShareLink(
+        settings,
+        options,
+        activeMetrics,
+        activeEvents
+      )
+      console.log(shareLink)
+      updateHistory('?' + shareLink)
     },
-    [settings]
-  )
-
-  useEffect(
-    () => {
-      /* console.log(options) */
-    },
-    [options]
+    [settings, options, activeMetrics, activeEvents]
   )
 
   useEffect(
@@ -75,9 +91,17 @@ const Studio = props => {
     setActiveMetrics([...metricSet])
   }
 
+  function toggleAdvancedView (mode) {
+    setAdvancedView(advancedView === mode ? undefined : mode)
+  }
+
   function onProjectSelect ({ slug, name, ticker, id: projectId }) {
     const title = `${name} (${ticker})`
     setSettings(state => ({ ...state, slug, title, projectId }))
+  }
+
+  function changeHoveredDate ({ value }) {
+    setHoveredDate(new Date(value))
   }
 
   return (
@@ -85,10 +109,12 @@ const Studio = props => {
       <StudioSidebar
         slug={settings.slug}
         options={options}
-        setOptions={setOptions}
-        toggleMetric={toggleMetric}
         activeMetrics={activeMetrics}
         activeEvents={activeEvents}
+        advancedView={advancedView}
+        setOptions={setOptions}
+        toggleMetric={toggleMetric}
+        toggleAdvancedView={toggleAdvancedView}
       />
       <div className={styles.container}>
         <StudioHeader
@@ -99,23 +125,37 @@ const Studio = props => {
         />
       </div>
       <div className={cx(styles.container, styles.chart)}>
-        <ChartSettings
+        <StudioSettings
           chartRef={chartRef}
           settings={settings}
           options={options}
           setOptions={setOptions}
           setSettings={setSettings}
         />
-        <div className={styles.canvas}>
-          <StudioChart
-            chartRef={chartRef}
-            settings={settings}
-            options={options}
-            activeMetrics={activeMetrics}
-            activeEvents={activeEvents}
-            toggleMetric={toggleMetric}
-            {...props}
-          />
+        <div className={styles.data}>
+          <div className={styles.canvas}>
+            <StudioChart
+              chartRef={chartRef}
+              settings={settings}
+              options={options}
+              activeMetrics={activeMetrics}
+              activeEvents={activeEvents}
+              advancedView={advancedView}
+              toggleMetric={toggleMetric}
+              changeHoveredDate={changeHoveredDate}
+              {...props}
+            />
+          </div>
+          {advancedView && (
+            <div className={cx(styles.canvas, styles.advanced)}>
+              <StudioAdvancedView
+                advancedView={advancedView}
+                toggleAdvancedView={toggleAdvancedView}
+                date={hoveredDate}
+                {...settings}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

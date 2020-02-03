@@ -18,7 +18,9 @@ const Canvas = ({
   settings,
   options,
   activeMetrics,
-  chartRef
+  chartRef,
+  advancedView,
+  changeHoveredDate
   /* boundaries, */
 }) => {
   const { isLogScale, isMultiChartsActive } = options
@@ -37,7 +39,8 @@ const Canvas = ({
         data={mapDatetimeToNumber(data)}
         chartRef={chartRef}
         scale={isLogScale ? logScale : linearScale}
-        // onPointHover={this.getSocialContext}
+        isAdvancedView={advancedView}
+        onPointHover={advancedView ? changeHoveredDate : undefined}
         // hasPremium={hasPremium}
       />
     </Synchronizer>

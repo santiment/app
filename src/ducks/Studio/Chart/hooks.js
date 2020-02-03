@@ -143,14 +143,12 @@ export const useMetricsData = (metrics, settings) => {
               }
             }
           })
-          /* .then(getPreTransform(...transformArgs)) */
           .then(getPreTransform(transformKey, anomalyMetricKey, key))
           .then(({ data }) => {
             console.log({ raceCondition })
-            console.log({ data })
             if (raceCondition) return
 
-            setTimeseries(state => {
+            setTimeseries(() => {
               mergedData = mergeTimeseriesByKey({
                 timeseries: [mergedData, data[key]]
               })

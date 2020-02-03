@@ -1,4 +1,6 @@
 import React, { useRef, useEffect } from 'react'
+import cx from 'classnames'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import MetricSelector from './MetricSelector'
 import Search from './Search'
 import withMetrics from '../withMetrics'
@@ -41,7 +43,7 @@ const Header = ({ activeMetrics, ...rest }) => {
   )
 }
 
-const Sidebar = ({ ...rest }) => {
+const Sidebar = ({ loading, ...rest }) => {
   const asideRef = useRef(null)
 
   useEffect(() => {
@@ -62,9 +64,13 @@ const Sidebar = ({ ...rest }) => {
   return (
     <aside className={styles.wrapper} ref={asideRef}>
       <Header {...rest} />
-      <div className={styles.selector}>
-        <MetricSelector {...rest} />
-      </div>
+      {loading ? (
+        <Loader className={cx(styles.selector, styles.loading)} />
+      ) : (
+        <div className={styles.selector}>
+          <MetricSelector {...rest} />
+        </div>
+      )}
     </aside>
   )
 }

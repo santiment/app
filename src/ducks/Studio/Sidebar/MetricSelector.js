@@ -5,7 +5,14 @@ import Icon from '@santiment-network/ui/Icon'
 import { NO_GROUP } from './utils'
 import styles from './MetricSelector.module.scss'
 
-const Group = ({ title, metrics, toggleMetric, actives }) => {
+const Group = ({
+  title,
+  metrics,
+  actives,
+  advancedView,
+  toggleMetric,
+  toggleAdvancedView
+}) => {
   return (
     <>
       {title !== NO_GROUP && <h4 className={styles.group}>{title}</h4>}
@@ -20,15 +27,15 @@ const Group = ({ title, metrics, toggleMetric, actives }) => {
             <Icon type='plus' className={styles.plus} />
             {metric.label}
           </Button>
-          {metric.advancedData && (
+          {metric.advancedView && (
             <Button
               className={cx(styles.btn, styles.advanced)}
               variant='ghost'
-              onClick={() => toggleMetric(metric)}
-              /* isActive={actives.includes(metric)} */
+              onClick={() => toggleAdvancedView(metric.advancedView)}
+              isActive={advancedView === metric.advancedView}
             >
               <Icon type='plus' className={styles.plus} />
-              {metric.advancedData}
+              {metric.advancedView}
             </Button>
           )}
         </Fragment>
