@@ -35,6 +35,10 @@
 
 .withIcon {
   margin-left: 16px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0;
+  }
 }
 
 .top {

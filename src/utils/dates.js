@@ -322,15 +322,25 @@ export const dateDifferenceInWordsString = dateString =>
     from: new Date(dateString)
   })
 
+export const make12Hours = (hours, fillZero = true) => {
+  hours = hours % 12
+  hours = hours || 12
+
+  if (!fillZero) {
+    return hours
+  }
+
+  return hours < 10 ? '0' + hours : hours
+}
+
 export const getAmPmWithHours = hours => {
   if (hours < 0) {
     hours = 24 - hours
   }
 
   var ampm = getAmPm(hours)
-  hours = hours % 12
-  hours = hours || 12
-  return hours + ampm
+
+  return make12Hours(hours, false) + ampm
 }
 
 export const getAmPm = hours => (hours >= 12 ? 'pm' : 'am')

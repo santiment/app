@@ -3,7 +3,8 @@ import {
   dateDifferenceInWordsString,
   getAmPm,
   getDateFormats,
-  getTimeFormats
+  getTimeFormats,
+  make12Hours
 } from '../../../../utils/dates'
 import { TODAY, YESTERDAY } from '../FeedList/FeedList'
 import styles from './FeedCardDate.module.scss'
@@ -15,12 +16,12 @@ const makeDateLabel = date => {
     }
     case YESTERDAY: {
       const { H, mm } = getTimeFormats(date)
-      return `Yesterday, ${H}:${mm}${getAmPm(H)}`
+      return `Yesterday, ${make12Hours(H)}:${mm}${getAmPm(H)}`
     }
     default: {
       const { DD, MM, YYYY } = getDateFormats(date)
       const { H, mm } = getTimeFormats(date)
-      return `${DD}-${MM}-${YYYY}, ${H}:${mm}${getAmPm(H)}`
+      return `${DD}-${MM}-${YYYY}, ${make12Hours(H)}:${mm}${getAmPm(H)}`
     }
   }
 }
