@@ -1,7 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
-import FeedCardDate from '../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
 import {
   AWAITING_APPROVAL_STATE,
   AwaitingApproval

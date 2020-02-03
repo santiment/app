@@ -6,11 +6,10 @@ import InsightTags from './InsightTags'
 import ProfileInfo from './ProfileInfo'
 import MultilineText from '../MultilineText/MultilineText'
 import LikeBtn from '../Like/LikeBtn'
-import { getDateFormats } from '../../utils/dates'
 import { getSEOLinkFromIdAndTitle } from './utils'
-import styles from './InsightCard.module.scss'
 import { DesktopOnly } from '../Responsive'
 import { SignalTypeIcon } from '../SignalCard/controls/SignalControls'
+import styles from './InsightCard.module.scss'
 
 export const makeLinkToInsight = (id, title) => {
   return `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
