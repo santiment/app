@@ -25,14 +25,15 @@ const getWords = (triggerWords, activityPayload) => {
   if (activityPayload) {
     try {
       const spliced = activityPayload.split('\n').splice(5, 10)
-
       return spliced.reduce((acc, item) => {
         if (item) {
           const splitted = item.split('|')
-          acc.push({
-            word: splitted[0].trim(),
-            score: splitted[1].trim()
-          })
+          if (splitted && splitted.length === 2) {
+            acc.push({
+              word: splitted[0].trim(),
+              score: splitted[1].trim()
+            })
+          }
         }
 
         return acc
