@@ -14,17 +14,22 @@
 
   &_withMc {
     flex-direction: row;
-    padding: 0 !important;
+    padding: 15px;
 
     &__left {
       flex-grow: 1;
       display: flex;
       flex-direction: column;
-      padding: 15px;
     }
 
     &__right {
       height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      @include responsive('phone', 'phone-xs') {
+        width: 100%;
+      }
     }
   }
 }
@@ -41,15 +46,23 @@
   }
 }
 
+.description {
+  display: flex;
+  flex-direction: row;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column;
+  }
+}
+
 .top {
   flex: 1;
 }
 
 .title {
   @include text-normal;
-  @include text('h4');
+  @include text('body-2');
 
-  line-height: 26px;
   color: var(--mirage);
   display: inline-block;
   text-decoration: none;
@@ -58,13 +71,15 @@
 
 .bottom {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  padding-top: 20px;
+  margin-top: 0;
+  border-top: 1px solid var(--porcelain);
 }
 
 .profile {
   width: 100%;
-  border-bottom: 1px solid var(--porcelain);
-  margin: 16px 0 20px 0;
+  margin: 16px 0 0 0;
   padding-bottom: 20px;
 }
 
@@ -80,8 +95,13 @@
   text-overflow: ellipsis;
 }
 
-.right {
+.chart {
   display: flex;
+  margin-left: auto;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0;
+  }
 }
 
 .tags {
@@ -162,4 +182,9 @@
 
 .container {
   display: flex;
+  width: 100%;
+}
+
+.date {
+  margin-bottom: 12px;
 }

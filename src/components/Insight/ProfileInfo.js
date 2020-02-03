@@ -5,7 +5,6 @@ import styles from './ProfileInfo.module.scss'
 
 const ProfileInfo = ({
   name,
-  status,
   networkStatus,
   picUrl,
   className = '',
@@ -27,9 +26,6 @@ const ProfileInfo = ({
 
       <div className={cx(styles.info, infoClassName)}>
         <div className={cx(styles.info__item, styles.name)}>{name}</div>
-        {status && (
-          <div className={cx(styles.info__item, styles.status)}>{status}</div>
-        )}
       </div>
     </div>
   )

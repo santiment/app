@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import {
   dateDifferenceInWordsString,
   getAmPm,
@@ -26,8 +27,12 @@ const makeDateLabel = date => {
   }
 }
 
-const FeedCardDate = ({ date }) => {
-  return <div className={styles.date}>{makeDateLabel(new Date(date))}</div>
+const FeedCardDate = ({ date, className }) => {
+  return (
+    <div className={cx(styles.date, className)}>
+      {makeDateLabel(new Date(date))}
+    </div>
+  )
 }
 
 export default FeedCardDate
