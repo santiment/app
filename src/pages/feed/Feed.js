@@ -6,7 +6,7 @@ import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import styles from './Feed.module.scss'
 
-const FeedPage = () => {
+const FeedPage = ({ location }) => {
   return (
     <div className={cx('page', styles.feed)}>
       <MobileOnly>
@@ -14,7 +14,7 @@ const FeedPage = () => {
       </MobileOnly>
 
       <div className={styles.feeds}>
-        <GeneralFeed />
+        <GeneralFeed location={location} />
 
         <DesktopOnly>
           <RecentsFeed />

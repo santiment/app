@@ -8,7 +8,8 @@ class FeedListLoading extends React.Component {
   state = {
     isEndCommon: false,
     events: this.props.events,
-    sortType: this.props.sortType
+    sortType: this.props.sortType,
+    filters: this.props.filters
   }
 
   unmounted = false
@@ -37,11 +38,12 @@ class FeedListLoading extends React.Component {
       return null
     }
 
-    const { sortType } = this.props
+    const { sortType, filters } = this.props
 
     const variables = makeFeedVariables({
       date: events[events.length - 1].insertedAt,
-      orderBy: sortType
+      orderBy: sortType.type,
+      filterBy: filters
     })
 
     return fetchMore({
@@ -79,17 +81,29 @@ class FeedListLoading extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { events: propEvents, sortType: propsSortType } = nextProps
-    const { events: currentEvents, sortType: stateSortType } = this.state
+    const {
+      events: propEvents,
+      sortType: propsSortType,
+      filters: propFilters
+    } = nextProps
+    const {
+      events: currentEvents,
+      sortType: stateSortType,
+      filters: stateFilters
+    } = this.state
 
-    const isNewSortType = !isEqual(propsSortType, stateSortType)
-    if (isNewSortType) {
+    const isNewEventsList =
+      !isEqual(propsSortType, stateSortType) ||
+      !isEqual(propFilters, stateFilters)
+
+    if (isNewEventsList) {
       this.setState({
         ...this.state,
         events: [],
         sortType: propsSortType,
+        filters: propFilters,
         isEndCommon: false,
-        isNewSortType
+        isNewEventsList
       })
       return
     }
@@ -102,21 +116,21 @@ class FeedListLoading extends React.Component {
         this.setState({
           ...this.state,
           events: newEvents,
-          isNewSortType
+          isNewEventsList
         })
       }
-    } else if (propEvents.length === 0) {
+    } else {
       this.setState({
         ...this.state,
         isEndCommon: true,
-        isNewSortType
+        isNewEventsList
       })
     }
   }
 
   render () {
     const { isLoading } = this.props
-    const { events, isNewSortType } = this.state
+    const { events, isNewEventsList } = this.state
     const filtered = events.filter(
       ({ post, payload, trigger }) => post || (trigger && payload)
     )
@@ -124,7 +138,7 @@ class FeedListLoading extends React.Component {
       <FeedList
         events={filtered}
         isLoading={isLoading}
-        isNewSortType={isNewSortType}
+        isNewEventsList={isNewEventsList}
       />
     )
   }

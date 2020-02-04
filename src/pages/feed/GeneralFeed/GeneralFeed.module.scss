@@ -1,11 +1,15 @@
 @import '~@santiment-network/ui/mixins';
 
+.tabs {
+  margin-bottom: 32px;
+}
+
 .title {
   @include text('body-1');
 
   display: flex;
   color: var(--rhino);
-  margin-bottom: 26px;
+  margin-bottom: 22px;
   align-items: center;
 
   @include responsive('phone', 'phone-xs') {
@@ -20,7 +24,7 @@
 .scrollable {
   position: relative;
   margin-right: 24px;
-  overflow-y: auto;
+  overflow: hidden;
   max-height: 100%;
   height: 100%;
   display: flex;
@@ -42,6 +46,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  padding-top: 22px;
 }
 
 .sort {

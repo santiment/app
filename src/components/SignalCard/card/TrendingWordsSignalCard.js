@@ -11,6 +11,7 @@ import FeedCardDate from '../../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
 import { getAmPmWithHours } from '../../../utils/dates'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
+import { Link } from 'react-router-dom'
 
 const TrendingWordsSignalCard = ({
   className,
@@ -38,9 +39,9 @@ const TrendingWordsSignalCard = ({
 
       <div className={externalStyles.wrapper__right}>
         <div className={styles.header}>
-          <h2 className={externalStyles.title}>
+          <Link to='/labs/trends' className={externalStyles.title}>
             {title} {<TrendingPeriod period={trigger_time} />}
-          </h2>
+          </Link>
           <FeedCardDate date={date} />
         </div>
 

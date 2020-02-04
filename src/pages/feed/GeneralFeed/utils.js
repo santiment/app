@@ -1,6 +1,6 @@
 import { DATETIME_SORT } from '../filter/FeedSorters'
 
-export const MAX_LIMIT = 20
+export const MAX_LIMIT = 10
 
 export const CURSOR_TYPES = {
   before: 'BEFORE',
@@ -23,14 +23,16 @@ export const makeFeedVariables = ({
   date,
   limit = MAX_LIMIT,
   type = CURSOR_TYPES.before,
-  orderBy = DATETIME_SORT.type
+  orderBy = DATETIME_SORT.type,
+  filterBy
 }) => ({
   limit,
   cursor: {
     type,
     datetime: date
   },
-  orderBy: orderBy
+  orderBy: orderBy,
+  filterBy: filterBy
 })
 
 export const extractEventsFromData = data => {
@@ -41,4 +43,4 @@ export const extractEventsFromData = data => {
 }
 
 export const isBottom = el =>
-  el.getBoundingClientRect().bottom <= 1.5 * window.innerHeight
+  el.getBoundingClientRect().bottom <= 3 * window.innerHeight

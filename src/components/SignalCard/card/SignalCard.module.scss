@@ -47,8 +47,13 @@
   margin: 0 0 4px 0;
   word-break: break-word;
   display: flex;
+  color: var(--rhino);
 
-  @include text('body-3');
+  @include text('body-2');
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
 }
 
 .description {

@@ -17,8 +17,8 @@ import {
 } from '../../ducks/Signals/common/constants'
 import { getShareSignalParams } from '../../ducks/Signals/common/getSignal'
 import { sendParams } from '../Account/SettingsSonarWebPushNotifications'
-import styles from './SonarFeedPage.module.scss'
 import { RecommendedSignals } from './SonarFeedRecommendations'
+import styles from './SonarFeedPage.module.scss'
 
 const baseLocation = '/sonar'
 

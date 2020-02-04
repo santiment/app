@@ -7,11 +7,13 @@ export const FEED_QUERY = gql`
     $limit: Int
     $cursor: CursorInput
     $orderBy: OrderByEnum
+    $filterBy: TimelineEventsFilterInput
   ) {
     timelineEvents: timelineEvents(
       limit: $limit
       cursor: $cursor
       orderBy: $orderBy
+      filterBy: $filterBy
     ) {
       cursor {
         after

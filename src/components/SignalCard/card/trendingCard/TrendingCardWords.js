@@ -47,11 +47,7 @@ const getWords = (triggerWords, activityPayload) => {
   return PRESAVED_WORDS
 }
 
-const TrendingCardWords = ({
-  settings,
-  settings: { target },
-  activityPayload
-}) => {
+const TrendingCardWords = ({ settings: { target }, activityPayload }) => {
   const words = getWords(target.word, activityPayload)
 
   return (
