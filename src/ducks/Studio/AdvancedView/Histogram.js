@@ -86,11 +86,7 @@ const Histogram = ({ slug, date }) => {
           }
 
           if (!getMetric) {
-            return (
-              <div className={styles.load}>
-                <Loader />
-              </div>
-            )
+            return <Loader className={styles.load} />
           }
 
           const data = getMetric.histogramData
@@ -103,7 +99,7 @@ const Histogram = ({ slug, date }) => {
             <>
               <h2 className={styles.title}>
                 Histogram
-                {loading ? <Loader className={styles.inlineLoader} /> : ''}
+                {loading && <Loader className={styles.inlineLoader} />}
               </h2>
               <div className={styles.content}>
                 <ResponsiveContainer

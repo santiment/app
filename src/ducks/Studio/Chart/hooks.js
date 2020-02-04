@@ -7,6 +7,11 @@ import {
 import { MARKET_SEGMENT_QUERY } from '../../../ducks/GetTimeSeries/queries/market_segment_query'
 import { mergeTimeseriesByKey } from '../../../utils/utils'
 
+const DEFAULT_TS = []
+const DEFAULT_LOADINGS = []
+const DEFAULT_ERROR_MSG = {}
+const DEFAULT_ABORTABLES = new Map()
+
 const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
 
 const cancelQuery = ([controller, id]) => {
@@ -38,11 +43,6 @@ function abortRemovedMetrics (abortables, newMetrics) {
 function abortAllMetrics (abortables) {
   return [...abortables.values()].forEach(cancelQuery)
 }
-
-const DEFAULT_TS = []
-const DEFAULT_LOADINGS = []
-const DEFAULT_ERROR_MSG = {}
-const DEFAULT_ABORTABLES = new Map()
 
 export const useMetricsData = (metrics, settings) => {
   const [timeseries, setTimeseries] = useState(DEFAULT_TS)

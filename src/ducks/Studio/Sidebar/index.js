@@ -3,8 +3,8 @@ import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import MetricSelector from './MetricSelector'
 import Search from './Search'
-import withMetrics from '../withMetrics'
 import AnomaliesToggle from '../../../components/AnomaliesToggle/AnomaliesToggle'
+import withMetrics from '../withMetrics'
 import styles from './index.module.scss'
 
 const Anomalies = ({ options, setOptions }) => {
