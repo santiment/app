@@ -1,7 +1,8 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { HashLink as Link } from 'react-router-hash-link'
-import { Tabs } from '@santiment-network/ui'
+import Tabs from '@santiment-network/ui/Tabs'
+import Button from '@santiment-network/ui/Button'
 import { DesktopOnly, MobileOnly } from './../../components/Responsive'
 import MobileHeader from './../../components/MobileHeader/MobileHeader'
 import SettingsGeneral from './SettingsGeneral'
@@ -77,7 +78,7 @@ const tabs = [
   }
 ]
 
-const AccountPage = ({ isUserLoading, isLoggedIn, location }) => {
+const AccountPage = ({ history, isUserLoading, isLoggedIn, location }) => {
   if (isUserLoading) {
     return null
   }
@@ -114,6 +115,17 @@ const AccountPage = ({ isUserLoading, isLoggedIn, location }) => {
         <SettingsPlans />
       </div>
       <MobileOnly>
+        <div className={styles.container}>
+          <Button
+            className={styles.logoutBtn}
+            border
+            variant='flat'
+            accent='negative'
+            onClick={() => history.push('/logout')}
+          >
+            Log out
+          </Button>
+        </div>
         <div className={styles.version}>
           ver. {process.env.REACT_APP_VERSION}
         </div>

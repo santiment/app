@@ -41,8 +41,7 @@ const NAVBAR_LINKS = [
 
 const MENU_LINKS = [
   { linkTo: '/sonar', label: 'Signals' },
-  { linkTo: '/account', label: 'Account settings' },
-  { linkTo: '/support', label: 'Support' }
+  { linkTo: '/account', label: 'Account settings' }
 ]
 
 const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
@@ -53,6 +52,21 @@ const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
     isOpened && toggleMenu()
     history.push(linkTo)
   }
+
+  window.Intercom &&
+    window.Intercom('onShow', function () {
+      const intercomContainer = window.document.querySelector(
+        '#intercom-container'
+      )
+      if (intercomContainer) intercomContainer.style.display = 'block'
+    })
+  window.Intercom &&
+    window.Intercom('onHide', function () {
+      const intercomContainer = window.document.querySelector(
+        '#intercom-container'
+      )
+      if (intercomContainer) intercomContainer.style.display = 'none'
+    })
 
   return (
     <div className={cx({ [styles.overlay]: isOpened })}>
@@ -95,23 +109,26 @@ const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
                   {label}
                 </Link>
               ))}
+              <a
+                className={styles.navigationList__link}
+                onClick={() =>
+                  window.Intercom && window.Intercom('showNewMessage')
+                }
+              >
+                Contact us
+              </a>
             </div>
           </div>
-          <Button
-            className={styles.loginBtn}
-            variant='fill'
-            accent='positive'
-            onClick={() => {
-              if (isLogined) {
-                toggleMenu()
-                logout()
-              } else {
-                handleNavigation('/login')
-              }
-            }}
-          >
-            {isLogined ? 'Log out' : 'Log in'}
-          </Button>
+          {!isLogined && (
+            <Button
+              className={styles.loginBtn}
+              variant='fill'
+              accent='positive'
+              onClick={() => handleNavigation('/login')}
+            >
+              Log in
+            </Button>
+          )}
         </div>
       )}
     </div>

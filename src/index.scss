@@ -107,13 +107,13 @@ hr {
 
 #intercom-container,
 .intercom-namespace {
-  display: none !important;
+  display: none;
 }
 
 @media (min-width: $breakpoint-desktop) {
   #intercom-container,
   .intercom-namespace {
-    display: block !important;
+    display: block;
   }
 }
 
