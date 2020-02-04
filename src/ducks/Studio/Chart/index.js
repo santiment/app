@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from '@santiment-network/ui/Button'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import ChartActiveMetrics from './ActiveMetrics'
 import Chart from '../../SANCharts/Chart'
@@ -44,13 +45,26 @@ export default ({
       </Synchronizer>
 
       <div className={styles.bottom}>
-        <ChartActiveMetrics
-          activeMetrics={activeMetrics}
-          activeEvents={activeEvents}
-          toggleMetric={toggleMetric}
-          loadings={loadings}
-          eventLoadings={eventLoadings}
-        />
+        <div className={styles.metrics}>
+          <ChartActiveMetrics
+            activeMetrics={activeMetrics}
+            activeEvents={activeEvents}
+            toggleMetric={toggleMetric}
+            loadings={loadings}
+            eventLoadings={eventLoadings}
+          />
+        </div>
+
+        <Button
+          border
+          as='a'
+          accent='positive'
+          href='https://forms.gle/Suz8FVDsKtFiKhBs9'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          Feedback
+        </Button>
       </div>
     </>
   )
