@@ -95,10 +95,11 @@ class FeedListLoading extends React.Component {
     const isNewEventsList =
       !isEqual(propsSortType, stateSortType) ||
       !isEqual(propFilters, stateFilters)
+
     if (isNewEventsList) {
       this.setState({
         ...this.state,
-        events: propEvents,
+        events: [],
         sortType: propsSortType,
         filters: propFilters,
         isEndCommon: false,

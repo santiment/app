@@ -43,4 +43,4 @@ export const extractEventsFromData = data => {
 }
 
 export const isBottom = el =>
-  el.getBoundingClientRect().bottom <= 1.5 * window.innerHeight
+  el.getBoundingClientRect().bottom <= 3 * window.innerHeight

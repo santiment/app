@@ -141,11 +141,20 @@ const GeneralFeed = ({
           filterBy: filters
         })}
         notifyOnNetworkStatusChange={true}
+        fetchPolicy='network-only'
       >
-        {({ data, fetchMore: fetchMoreCommon, loading: loadingEvents }) => {
+        {props => {
+          const {
+            data,
+            fetchMore: fetchMoreCommon,
+            loading: loadingEvents
+          } = props
+
           if (!data) {
             return <Empty />
           }
+
+          console.log(props)
 
           return (
             <FeedListLoading
