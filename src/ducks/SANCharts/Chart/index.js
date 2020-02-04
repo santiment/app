@@ -43,7 +43,6 @@ const Chart = ({
   syncTooltips = () => {},
   onPointHover = () => {},
   hasPriceMetric,
-  isWithPaywall,
   isLoading,
   isMultiChartsActive,
   isAdvancedView,
@@ -209,9 +208,7 @@ const Chart = ({
       drawLastDayPrice(chart, scale, lastDayPrice)
     }
 
-    if (isWithPaywall) {
-      drawPaywall(chart, leftBoundaryDate, rightBoundaryDate)
-    }
+    drawPaywall(chart, leftBoundaryDate, rightBoundaryDate)
   }
 
   function marker (ctx, key, value, x, y) {

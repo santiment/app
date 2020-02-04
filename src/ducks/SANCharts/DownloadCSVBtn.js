@@ -33,17 +33,18 @@ const getEventsWithAnomaly = (headers, data) => {
 
 const DownloadCSVBtn = ({
   title,
-  timeseries,
+  data,
+  events,
   activeMetrics,
   activeEvents,
   ...props
 }) => {
-  const { data, events } = timeseries
-
   const date = new Date()
   const { DD, MMM, YYYY } = getDateFormats(date)
   const { HH, mm, ss } = getTimeFormats(date)
   const filename = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`
+
+  console.log({ data, events })
 
   const [eventHeaders, eventsDataWithAnomalies] = getEventsWithAnomaly(
     events,
@@ -77,10 +78,8 @@ DownloadCSVBtn.defaultProps = {
   title: '',
   activeMetrics: [],
   activeEvents: [],
-  timeseries: {
-    data: [],
-    events: []
-  }
+  data: [],
+  events: []
 }
 
 export default DownloadCSVBtn

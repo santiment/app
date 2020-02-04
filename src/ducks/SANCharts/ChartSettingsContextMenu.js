@@ -40,7 +40,8 @@ const ChartSettingsContextMenu = ({
   isMultiChartsActive,
   onMultiChartsChange,
   children,
-  timeseries,
+  data,
+  events,
   activeMetrics,
   activeEvents
 }) => {
@@ -113,7 +114,8 @@ const ChartSettingsContextMenu = ({
               fluid
               variant='ghost'
               title={title}
-              timeseries={timeseries}
+              data={data}
+              events={events}
               activeEvents={activeEvents}
               activeMetrics={activeMetrics}
             >

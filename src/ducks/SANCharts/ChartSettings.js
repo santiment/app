@@ -22,7 +22,8 @@ const ChartSettings = ({
   disabledMetrics,
   from,
   to,
-  timeseries,
+  data,
+  events,
   showNightModeToggle = true,
   isAdvancedView,
   isLogScale,
@@ -73,7 +74,8 @@ const ChartSettings = ({
           chartRef={chartRef}
           isLogScale={isLogScale}
           onScaleChange={onScaleChange}
-          timeseries={timeseries}
+          data={data}
+          events={events}
           activeMetrics={activeMetrics}
           activeEvents={activeEvents}
         />

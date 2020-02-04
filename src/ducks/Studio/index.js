@@ -8,6 +8,7 @@ import StudioHeader from '../SANCharts/Header'
 import { Events } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { generateShareLink, updateHistory } from './url'
+import { useMetricsData } from './Chart/hooks'
 import styles from './index.module.scss'
 
 const { trendPositionHistory } = Events
@@ -40,8 +41,19 @@ const Studio = ({
   const [advancedView, setAdvancedView] = useState()
   const [hoveredDate, setHoveredDate] = useState()
   const [shareLink, setShareLink] = useState()
+  const [data, loadings, ErrorMsg] = useMetricsData(activeMetrics, settings)
+  const [events, eventLoadings] = useMetricsData(activeEvents, settings)
   const chartRef = useRef(null)
-  const timeseries = {}
+
+  useEffect(
+    () => {
+      const { slug } = defaultSettings
+      if (slug && slug !== settings.slug) {
+        setSettings(state => ({ ...state, slug }))
+      }
+    },
+    [defaultSettings.slug]
+  )
 
   useEffect(
     () => {
@@ -125,11 +137,12 @@ const Studio = ({
       <div className={cx(styles.container, styles.chart)}>
         <StudioSettings
           chartRef={chartRef}
-          timeseries={timeseries}
           settings={settings}
           options={options}
           activeMetrics={activeMetrics}
           activeEvents={activeEvents}
+          data={data}
+          events={events}
           shareLink={shareLink}
           setOptions={setOptions}
           setSettings={setSettings}
@@ -138,7 +151,6 @@ const Studio = ({
           <div className={styles.canvas}>
             <StudioChart
               {...props}
-              timeseries={timeseries}
               chartRef={chartRef}
               settings={settings}
               options={options}
@@ -147,6 +159,10 @@ const Studio = ({
               advancedView={advancedView}
               toggleMetric={toggleMetric}
               changeHoveredDate={changeHoveredDate}
+              data={data}
+              events={events}
+              loadings={loadings}
+              eventLoadings={eventLoadings}
             />
           </div>
           {advancedView && (
