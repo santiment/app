@@ -99,7 +99,7 @@ const BottomSlot = compose(
   </div>
 ))
 
-export default ({ match: { params }, history, ...props }) => {
+export default ({ match: { params }, history }) => {
   const { slug } = params
 
   function onSlugChange (slug) {
