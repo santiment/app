@@ -36,7 +36,9 @@ import RefreshNotificationActions from './components/Notifications/Refresh/Refre
 import './index.scss'
 
 // window.mixpanel has been set by Mixpanel's embed snippet.
-mixpanelHelper.enable()
+if (process.env.NODE_ENV !== 'test') {
+  mixpanelHelper.enable()
+}
 
 // Called when the experiment is displayed to the user.
 emitter.addPlayListener((experiment, variant) => {
@@ -74,12 +76,11 @@ const main = () => {
     link: from([authLink, errorLink, retryLink, uploadLink, httpLink]),
     shouldBatch: true,
     cache: new InMemoryCache()
-    /* queryDeduplication: false, */
   })
 
-  /* calculateHeight() */
+  calculateHeight()
 
-  /* window.addEventListener('resize', throttle(calculateHeight, 200)) */
+  window.addEventListener('resize', throttle(calculateHeight, 200))
 
   const history = createHistory()
 
