@@ -69,8 +69,8 @@ const groupByDates = events => {
   return groups
 }
 
-const FeedList = ({ events, isLoading, isNewSortType }) => {
-  if (isNewSortType && isLoading) {
+const FeedList = ({ events, isLoading, isNewEventsList }) => {
+  if (isNewEventsList && isLoading) {
     return (
       <div className={externalStyles.scrollable}>
         <PageLoader />

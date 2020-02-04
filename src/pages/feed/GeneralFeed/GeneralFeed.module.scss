@@ -1,11 +1,15 @@
 @import '~@santiment-network/ui/mixins';
 
+.tabs {
+  margin-bottom: 32px;
+}
+
 .title {
   @include text('body-1');
 
   display: flex;
   color: var(--rhino);
-  margin-bottom: 26px;
+  margin-bottom: 22px;
   align-items: center;
 
   @include responsive('phone', 'phone-xs') {
