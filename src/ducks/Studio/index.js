@@ -9,6 +9,7 @@ import { Events } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { generateShareLink, updateHistory } from './url'
 import { useMetricsData } from './Chart/hooks'
+import { trackMetricState } from './analytics'
 import styles from './index.module.scss'
 
 const { trendPositionHistory } = Events
@@ -92,9 +93,11 @@ const Studio = ({
     if (metricSet.has(metric)) {
       if (activeMetrics.length === 1) return
       metricSet.delete(metric)
+      trackMetricState(metric, false)
     } else {
       if (activeMetrics.length === 5) return
       metricSet.add(metric)
+      trackMetricState(metric, true)
     }
     setActiveMetrics([...metricSet])
   }
