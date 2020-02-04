@@ -6,8 +6,6 @@ import ChartSettingsContextMenu from './ChartSettingsContextMenu'
 import CalendarBtn from '../../components/Calendar/CalendarBtn'
 import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
 import ChartExpandBtn from './expand/ChartExpandBtn'
-import sanbaseLogoImg from '../../assets/logos/logo-sanbase.svg'
-import { capitalizeStr } from '../../utils/utils'
 import styles from './ChartPage.module.scss'
 
 const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
@@ -36,13 +34,10 @@ const ChartSettings = ({
   onNightModeSelect,
   isNightModeActive
 }) => {
-  /* const shareLink = generateShareLink(disabledMetrics) */
-
   const notAdvancedView = !isAdvancedView
   return (
     <div className={styles.settings}>
       <div className={styles.settings__group}>
-        {/* <img src={sanbaseLogoImg} alt='studio logo' className={styles.logo} /> */}
         <div className={styles.settings__slugBlock}>
           <div className={styles.settings__studio}>Studio</div>
           <div className={styles.settings__slug}>{title}</div>

@@ -1,6 +1,6 @@
 import { graphql } from 'react-apollo'
 import { NEWS_QUERY } from '../../components/News/NewsGQL'
-import { getTimeIntervalFromToday, MONTH, DAY } from '../../utils/dates'
+import { getTimeIntervalFromToday, DAY } from '../../utils/dates'
 
 export default graphql(NEWS_QUERY, {
   skip: ({ isNewsEnabled }) => !isNewsEnabled,

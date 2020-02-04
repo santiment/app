@@ -1,8 +1,6 @@
 import React from 'react'
 import Icon from '@santiment-network/ui/Icon'
-import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
-import ActiveMetrics from '../../SANCharts/IntervalSelector'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
 import { Events } from '../../SANCharts/data'

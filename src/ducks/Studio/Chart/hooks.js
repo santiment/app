@@ -7,18 +7,7 @@ import {
 import { MARKET_SEGMENT_QUERY } from '../../../ducks/GetTimeSeries/queries/market_segment_query'
 import { mergeTimeseriesByKey } from '../../../utils/utils'
 
-const DEFAULT_STATE = {
-  data: [],
-  Error: {},
-  loadings: []
-}
-
 const hashMetrics = metrics => metrics.reduce((acc, { key }) => acc + key, '')
-
-const subtractMaps = (a, b) =>
-  b.forEach(metric => {
-    a.delete(metric)
-  })
 
 const cancelQuery = ([controller, id]) => {
   const { queryManager } = client
@@ -65,13 +54,6 @@ export const useMetricsData = (metrics, settings) => {
 
   useEffect(
     () => {
-      /*
-      console.log(
-        '[metricsHash]: aborting removed metrics',
-        new Map(abortables)
-      )
-      */
-
       if (!metricsHash) {
         setTimeseries([])
       }
@@ -83,8 +65,6 @@ export const useMetricsData = (metrics, settings) => {
 
   useEffect(
     () => {
-      /* console.log('[settings]: Aborting every request', new Map(abortables)) */
-
       abortAllMetrics(abortables)
       setAbortables(new Map())
       setLoadings([...metrics])
@@ -99,7 +79,6 @@ export const useMetricsData = (metrics, settings) => {
 
       let raceCondition = false
       let mergedData = []
-      /* console.log('useMetrics call ->') */
 
       metrics.forEach(metric => {
         const {
@@ -147,7 +126,6 @@ export const useMetricsData = (metrics, settings) => {
           })
           .then(getPreTransform(transformKey, anomalyMetricKey, key))
           .then(({ data }) => {
-            /* console.log({ raceCondition }) */
             if (raceCondition) return
 
             setTimeseries(() => {

@@ -42,9 +42,7 @@ export function generateShareLink (settings, options, metrics, events) {
 }
 
 export function parseUrl () {
-  const { location, history } = window
-
-  const data = parse(location.search, { arrayFormat: 'comma' })
+  const data = parse(window.location.search, { arrayFormat: 'comma' })
 
   return {
     settings: reduceStateKeys(DEFAULT_SETTINGS, data),

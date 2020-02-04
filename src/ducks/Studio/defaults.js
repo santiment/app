@@ -1,4 +1,4 @@
-import { getIntervalByTimeRange, parseIntervalString } from '../../utils/dates'
+import { getIntervalByTimeRange } from '../../utils/dates'
 import { getNewInterval } from '../../ducks/SANCharts/IntervalSelector'
 import { Metrics } from '../../ducks/SANCharts/data'
 
@@ -18,8 +18,7 @@ export const DEFAULT_SETTINGS = {
 export const DEFAULT_OPTIONS = {
   isLogScale: false,
   isAnomalyActive: !localStorage.getItem('hideAnomalies'),
-  /* isMultiChartsActive: true, */
-  isMultiChartsActive: false
+  isMultiChartsActive: true
 }
 
 export const DEFAULT_METRICS = [Metrics.historyPrice]

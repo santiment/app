@@ -1,7 +1,6 @@
 import React from 'react'
 import { CSVLink } from 'react-csv'
 import Button from '@santiment-network/ui/Button'
-import PropTypes from 'prop-types'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { mergeTimeseriesByKey } from '../../utils/utils'
 import { Metrics } from './data'

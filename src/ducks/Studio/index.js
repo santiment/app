@@ -41,7 +41,7 @@ const Studio = ({
   const [advancedView, setAdvancedView] = useState()
   const [hoveredDate, setHoveredDate] = useState()
   const [shareLink, setShareLink] = useState()
-  const [data, loadings, ErrorMsg] = useMetricsData(activeMetrics, settings)
+  const [data, loadings] = useMetricsData(activeMetrics, settings)
   const [events, eventLoadings] = useMetricsData(activeEvents, settings)
   const chartRef = useRef(null)
 
