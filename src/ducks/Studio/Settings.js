@@ -21,8 +21,16 @@ export default ({ settings, options, setOptions, setSettings, ...rest }) => {
     }))
   }
 
-  function changeTimerange (timeRange) {
+  function onTimerangeChange (timeRange) {
     const { from, to } = getIntervalByTimeRange(timeRange)
+    changeTimePeriod(from, to, timeRange)
+  }
+
+  function onCalendarChange ([from, to]) {
+    changeTimePeriod(from, to)
+  }
+
+  function changeTimePeriod (from, to, timeRange) {
     const interval = getNewInterval(from, to)
 
     setSettings(state => ({
@@ -43,7 +51,8 @@ export default ({ settings, options, setOptions, setSettings, ...rest }) => {
       showNightModeToggle={false}
       onMultiChartsChange={toggleMultichart}
       onScaleChange={toggleScale}
-      onTimerangeChange={changeTimerange}
+      onTimerangeChange={onTimerangeChange}
+      onCalendarChange={onCalendarChange}
     />
   )
 }

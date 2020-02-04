@@ -44,8 +44,6 @@ const DownloadCSVBtn = ({
   const { HH, mm, ss } = getTimeFormats(date)
   const filename = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`
 
-  console.log({ data, events })
-
   const [eventHeaders, eventsDataWithAnomalies] = getEventsWithAnomaly(
     events,
     activeEvents
