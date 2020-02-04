@@ -13,25 +13,6 @@ export default graphql(projectBySlugGQL, {
       loading,
       error
     }
-
-    /*
-    const Project = {}
-
-    return {
-      Project: {
-        loading: Project.loading,
-        empty: !Project.hasOwnProperty('project'),
-        error: Project.error,
-        errorMessage: Project.error ? Project.error.message : '',
-        project: {
-          ...projectBySlug,
-          isERC20:
-            projectBySlug.mainContractAddress &&
-            projectBySlug.infrastructure === 'ETH',
-        },
-      },
-    }
-    */
   },
   options: ({ slug }) => {
     const { from: fromOverTime, to } = getTimeIntervalFromToday(-24, MONTH)

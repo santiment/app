@@ -29,7 +29,7 @@ import uploadLink from './apollo/upload-link'
 import errorLink from './apollo/error-link'
 import authLink from './apollo/auth-link'
 import retryLink from './apollo/retry-link'
-import ChartPage from './ducks/SANCharts/ChartPage'
+import ChartPage from './pages/Studio'
 import { showNotification } from './actions/rootActions'
 import { register, unregister } from './serviceWorker'
 import RefreshNotificationActions from './components/Notifications/Refresh/RefreshNotificationActions'
@@ -74,11 +74,12 @@ const main = () => {
     link: from([authLink, errorLink, retryLink, uploadLink, httpLink]),
     shouldBatch: true,
     cache: new InMemoryCache()
+    /* queryDeduplication: false, */
   })
 
-  calculateHeight()
+  /* calculateHeight() */
 
-  window.addEventListener('resize', throttle(calculateHeight, 200))
+  /* window.addEventListener('resize', throttle(calculateHeight, 200)) */
 
   const history = createHistory()
 
