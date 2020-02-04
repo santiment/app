@@ -584,7 +584,6 @@ class ChartPage extends Component {
                           defaultTimerange={timeRange}
                           onTimerangeChange={this.onTimerangeChange}
                           onCalendarChange={this.onCalendarChange}
-                          generateShareLink={this.generateShareLink}
                           onNightModeSelect={this.onNightModeSelect}
                           onMultiChartsChange={this.onMultiChartsChange}
                           isMultiChartsActive={isMultiChartsActive}
@@ -605,6 +604,7 @@ class ChartPage extends Component {
                           eventsData={eventsFiltered}
                           slugTitle={slug}
                           project={project}
+                          shareLink={this.generateShareLink(errors)}
                         />
                       </>
                     )}

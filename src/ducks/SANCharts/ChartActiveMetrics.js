@@ -36,6 +36,7 @@ const ChartActiveMetrics = ({
             >
               <Button border className={styles.btn}>
                 <MetricIcon
+                  node={node}
                   isBar={node === Bar}
                   color={`var(--${color || METRIC_COLORS[newColorId++]})`}
                   className={styles.label}
