@@ -28,23 +28,29 @@ const Group = ({
   return (
     <>
       {title !== NO_GROUP && <h4 className={styles.group}>{title}</h4>}
-      {metrics.map(metric => (
-        <Fragment key={metric.key}>
-          <MetricButton
-            label={metric.label}
-            isActive={actives.includes(metric)}
-            onClick={() => toggleMetric(metric)}
-          />
-          {metric.advancedView && (
+      {metrics.map(metric => {
+        if (metric.hidden) {
+          return null
+        }
+
+        return (
+          <Fragment key={metric.key}>
             <MetricButton
-              className={styles.advanced}
-              label={metric.advancedView}
-              isActive={advancedView === metric.advancedView}
-              onClick={() => toggleAdvancedView(metric.advancedView)}
+              label={metric.label}
+              isActive={actives.includes(metric)}
+              onClick={() => toggleMetric(metric)}
             />
-          )}
-        </Fragment>
-      ))}
+            {metric.advancedView && (
+              <MetricButton
+                className={styles.advanced}
+                label={metric.advancedView}
+                isActive={advancedView === metric.advancedView}
+                onClick={() => toggleAdvancedView(metric.advancedView)}
+              />
+            )}
+          </Fragment>
+        )
+      })}
     </>
   )
 }
