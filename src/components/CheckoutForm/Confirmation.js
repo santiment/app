@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import cx from 'classnames'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
@@ -21,29 +22,42 @@ const CHECK_COUPON_QUERY = gql`
   }
 `
 
-const TotalPrice = ({ price, planWithBilling, percentOff }) => {
-  const priceInt = +price.slice(1)
-  const amountOff = percentOff ? Math.floor(priceInt * (percentOff / 100)) : 0
+const mapStateToProps = state => ({
+  hasSanDiscount: state.user.data.sanBalance >= 1000
+})
 
-  return (
-    <div className={styles.check}>
-      <div className={styles.check__label}>
-        {planWithBilling}
-        <div>{price}</div>
-      </div>
-      {percentOff && (
+const TotalPrice = connect(mapStateToProps)(
+  ({ price, planWithBilling, percentOff, hasSanDiscount }) => {
+    const resultPercentOff = percentOff || (hasSanDiscount && 20)
+    const priceInt = +price.slice(1)
+    const amountOff = resultPercentOff
+      ? Math.floor(priceInt * (resultPercentOff / 100))
+      : 0
+
+    const discountMsg = percentOff
+      ? 'Discount code'
+      : hasSanDiscount && 'SAN Holder discount'
+
+    return (
+      <div className={styles.check}>
         <div className={styles.check__label}>
-          Discount code {percentOff}%
-          <div className={styles.check__discount}>-${amountOff}</div>
+          {planWithBilling}
+          <div>{price}</div>
         </div>
-      )}
-      <div className={styles.check__total}>
-        Total due
-        <div className={styles.check__price}>${priceInt - amountOff}</div>
+        {resultPercentOff && (
+          <div className={styles.check__label}>
+            {discountMsg} {resultPercentOff}%
+            <div className={styles.check__discount}>-${amountOff}</div>
+          </div>
+        )}
+        <div className={styles.check__total}>
+          Total due
+          <div className={styles.check__price}>${priceInt - amountOff}</div>
+        </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
+)
 
 const DiscountInput = ({ setCoupon, isValid }) => {
   const setCouponDebounced = useDebounce(value => setCoupon(value), 500)

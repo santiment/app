@@ -15,7 +15,7 @@ import {
 } from '../../queries/plans'
 import { formatError, contactAction } from '../../utils/notifications'
 import { getDateFormats } from '../../utils/dates'
-import GA from './../../utils/tracking'
+import GA from '../../utils/tracking'
 import styles from './PlanPaymentDialog.module.scss'
 import sharedStyles from './Plans.module.scss'
 
@@ -97,6 +97,10 @@ const PaymentDialog = ({
   }
 
   function showPayment () {
+    GA.event({
+      category: 'User',
+      action: 'Payment form opened'
+    })
     setPaymentVisiblity(true)
   }
 
@@ -160,6 +164,11 @@ const PaymentDialog = ({
                       addNot({
                         variant: 'success',
                         title: `You have successfully upgraded to the "${title}" plan!`
+                      })
+
+                      GA.event({
+                        category: 'User',
+                        action: 'Payment success'
                       })
                     })
                     .catch(e => {
