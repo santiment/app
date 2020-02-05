@@ -41,10 +41,7 @@ const ActivityWithBacktesting = ({
           >
             <div className={styles.center}>
               <h4 className={styles.title}>
-                <Link
-                  to={`/sonar/signal/${signalId}${SIGNAL_ANCHORS.ACTIVITIES}`}
-                  className={styles.link}
-                >
+                <Link to={`/sonar/signal/${signalId}`} className={styles.link}>
                   {title}
                 </Link>
               </h4>
