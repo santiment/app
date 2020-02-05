@@ -194,10 +194,12 @@ describe('Connect Trending Words', () => {
     const promise = epic$.toPromise()
     const result = await promise
 
-    expect(result.payload.connectedTrends).toEqual({
+    const { connectedTrends } = result.payload
+    connectedTrends.DOGE.sort()
+    expect(connectedTrends).toEqual({
       BCH: ['DOGE', 'ETHEREUM'],
       BTC: ['DOGE'],
-      DOGE: ['BCH', 'ETHEREUM', 'BTC'],
+      DOGE: ['BTC', 'BCH', 'ETHEREUM'].sort(),
       ETHEREUM: ['BCH', 'DOGE']
     })
   })
