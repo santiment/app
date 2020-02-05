@@ -12,6 +12,7 @@ import Signals from './Signals'
 import { plotAxes } from './axes'
 import { setupTooltip, plotTooltip } from './tooltip'
 import {
+  CHART_HEIGHT,
   BRUSH_HEIGHT,
   CHART_PADDING,
   CHART_WITH_BRUSH_PADDING
@@ -41,7 +42,6 @@ const Chart = ({
   syncedTooltipDate,
   syncTooltips = () => {},
   onPointHover = () => {},
-  hasPremium,
   hasPriceMetric,
   isLoading,
   isMultiChartsActive,
@@ -60,7 +60,7 @@ const Chart = ({
       initChart(
         canvas,
         width,
-        350,
+        CHART_HEIGHT,
         isMultiChartsActive ? CHART_PADDING : CHART_WITH_BRUSH_PADDING
       )
     )
@@ -81,7 +81,7 @@ const Chart = ({
     setChart(chart)
     chartRef.current = canvas
 
-    setupTooltip(chart, marker, syncTooltips, onPointHover)
+    setupTooltip(chart, marker, syncTooltips)
   }, [])
 
   if (brush) {
@@ -89,6 +89,13 @@ const Chart = ({
     brush.plotBrushData = plotBrushData
     brush.onChange = onBrushChange
   }
+
+  useEffect(
+    () => {
+      chart.onPointHover = onPointHover
+    },
+    [onPointHover]
+  )
 
   useEffect(
     () => {
@@ -139,39 +146,34 @@ const Chart = ({
     [syncedTooltipDate]
   )
 
-  useEffect(
-    () => {
-      onResize(
-        chart,
-        isMultiChartsActive ? CHART_PADDING : CHART_WITH_BRUSH_PADDING,
-        brush,
-        data
-      )
-    },
-    [isMultiChartsActive, isAdvancedView, isWideChart]
-  )
+  useEffect(handleResize, [isMultiChartsActive, isAdvancedView, isWideChart])
 
-  useResizeEffect(
-    () => {
-      if (data.length === 0) {
-        return
-      }
+  useResizeEffect(handleResize, [
+    isMultiChartsActive,
+    isAdvancedView,
+    isWideChart,
+    data,
+    brush
+  ])
 
-      onResize(
-        chart,
-        isMultiChartsActive ? CHART_PADDING : CHART_WITH_BRUSH_PADDING,
-        brush,
-        data
-      )
+  function handleResize () {
+    if (data.length === 0) {
+      return
+    }
 
-      if (!brush) {
-        updateChartState(chart, data, joinedCategories)
-        plotChart(data)
-        plotAxes(chart)
-      }
-    },
-    [isMultiChartsActive, isAdvancedView, isWideChart, data, brush]
-  )
+    onResize(
+      chart,
+      isMultiChartsActive ? CHART_PADDING : CHART_WITH_BRUSH_PADDING,
+      brush,
+      data
+    )
+
+    if (!brush) {
+      updateChartState(chart, data, joinedCategories)
+      plotChart(data)
+      plotAxes(chart)
+    }
+  }
 
   function onBrushChange (startIndex, endIndex) {
     const newData = data.slice(startIndex, endIndex + 1)
@@ -206,9 +208,7 @@ const Chart = ({
       drawLastDayPrice(chart, scale, lastDayPrice)
     }
 
-    if (!hasPremium) {
-      drawPaywall(chart, leftBoundaryDate, rightBoundaryDate)
-    }
+    drawPaywall(chart, leftBoundaryDate, rightBoundaryDate)
   }
 
   function marker (ctx, key, value, x, y) {

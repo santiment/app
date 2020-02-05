@@ -8,13 +8,13 @@ import { columns } from './columns'
 import styles from './DetailedTransactionsTable.module.scss'
 
 const DetailedTopTransactions = ({
-  Project,
+  project,
   show = 'ethTopTransactions',
   title = 'Top ETH transactions'
 }) => {
-  const slug = (Project.project || {}).slug || ''
-  const data = Project.project[show]
-    ? Project.project[show]
+  const slug = project.slug || ''
+  const data = project[show]
+    ? project[show]
       .slice(0, 10)
       .map(({ trxValue, trxHash, fromAddress, toAddress, datetime }) => {
         const targetDate = new Date(datetime)

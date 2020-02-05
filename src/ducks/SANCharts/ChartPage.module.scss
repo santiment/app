@@ -58,8 +58,7 @@
   }
 
   &__studio {
-    margin-left: 12px;
-    color: var($rhino);
+    color: var(--rhino);
 
     @include text('body-1');
   }

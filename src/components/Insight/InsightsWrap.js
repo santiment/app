@@ -14,6 +14,7 @@ const InsightsWrap = ({ insights, isDesktop }) => {
           withAuthorPic={false}
           {...insight}
           key={insight.id}
+          showDate={true}
         />
       ))}
     </div>

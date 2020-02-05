@@ -37,7 +37,7 @@ export const PostVisualBacktest = ({
     <div className='post-visual-backtest'>
       <div className='post-visual-backtest__info'>
         <div className='post-visual-backtest__changes'>
-          {ticker} {changeProp} since publication
+          {changeProp} since publication
         </div>
       </div>
       <PostVisualBacktestChart

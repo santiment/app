@@ -5,7 +5,7 @@ const isProdApp = window.location.origin === 'https://app.santiment.net'
 const hasDoNotTrack = () => {
   const dnt =
     navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
-  return dnt !== '1' && dnt !== 'yes'
+  return dnt === '1' || dnt === 'yes'
 }
 // GA strings need to have trailing whitespace trimmed,
 function trim (s) {
@@ -22,6 +22,24 @@ function loadScript () {
   head.appendChild(importGTAG)
 }
 
+const initTwitterPixel = () => {
+  const importPixel = document.createElement('script')
+  importPixel.async = true
+  importPixel.type = 'text/javascript'
+  importPixel.src = '//static.ads-twitter.com/uwt.js'
+  const head = document.getElementsByTagName('head')[0]
+  head.appendChild(importPixel)
+  window.twq = function twq () {
+    window.twq.exe
+      ? window.twq.exe.apply(window.twq, arguments)
+      : window.twq.queue.push(arguments)
+  }
+  window.twq.version = '1.1'
+  window.twq.queue = []
+  window.twq('init', 'o0e0e')
+  window.twq('track', 'PageView')
+}
+
 export function initializeTracking (trackerIDs = TRACKER_IDs) {
   if (isBrowser && isProdApp && !hasDoNotTrack()) {
     loadScript()
@@ -35,8 +53,27 @@ export function initializeTracking (trackerIDs = TRACKER_IDs) {
     trackerIDs.forEach(function (ID) {
       gtag('config', ID)
     })
+
+    // Initialize twitter pixel
+    initTwitterPixel()
   }
 }
+
+export const update =
+  isBrowser && isProdApp && !hasDoNotTrack()
+    ? user => {
+      window.gtag('set', {
+        user_id: user.id
+      })
+      window.Intercom('update', {
+        name: user.username,
+        user_id: user.id,
+        email: user.email,
+        ethAccounts: user.ethAccounts,
+        nightmode: (user.settings || {}).theme
+      })
+    }
+    : () => {}
 
 /**
  * Use the event command to send event data
@@ -51,12 +88,28 @@ export function initializeTracking (trackerIDs = TRACKER_IDs) {
  */
 export const event =
   isBrowser && isProdApp && !hasDoNotTrack()
-    ? ({ action, category, label, ...values }) => {
-      window.gtag('event', action, {
-        event_category: category,
-        event_label: label,
-        ...values
-      })
+    ? ({ action, category, label, ...values }, type = ['ga']) => {
+      if (type.includes('ga')) {
+        window.gtag('event', action, {
+          event_category: category,
+          event_label: label,
+          ...values
+        })
+      }
+      if (type.includes('intercom')) {
+        window.Intercom('trackEvent', action, {
+          event_category: category,
+          event_label: label,
+          ...values
+        })
+      }
+      if (type.includes('twitter')) {
+        window.twq('track', action, {
+          content_type: category,
+          content_name: label,
+          ...values
+        })
+      }
     }
     : () => {}
 
@@ -82,6 +135,10 @@ export function pageview (rawPath, trackerIDs = TRACKER_IDs) {
     return
   }
 
+  if (typeof window.twq === 'function') {
+    window.twq('track', 'PageView')
+  }
+
   if (typeof window.gtag === 'function') {
     trackerIDs.forEach(function (ID) {
       window.gtag('config', ID, { page_path: path })
@@ -92,5 +149,6 @@ export function pageview (rawPath, trackerIDs = TRACKER_IDs) {
 export default {
   initializeTracking,
   event,
-  pageview
+  pageview,
+  update
 }

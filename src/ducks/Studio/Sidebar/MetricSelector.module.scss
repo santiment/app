@@ -1,0 +1,114 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  padding: 16px;
+}
+
+.metrics {
+  margin: 13px 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.toggle {
+  cursor: pointer;
+  box-sizing: content-box;
+  padding: 8px;
+  fill: var(--mirage);
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}
+
+.category {
+  margin: 0 0 22px;
+
+  &:last-child {
+    margin: 0;
+  }
+
+  &_hidden {
+    .metrics {
+      height: 0;
+      margin: 0;
+    }
+
+    .toggle {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.title {
+  @include text('body-3', 'm');
+
+  margin: 0 0 0 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.plus {
+  box-sizing: content-box;
+  border-radius: 50%;
+  padding: 3px;
+  fill: var(--waterloo);
+  background: var(--porcelain);
+  margin-right: 8px;
+}
+
+.active {
+  transform: rotate(45deg);
+}
+
+.group {
+  @include text('caption');
+
+  color: var(--waterloo);
+  margin: 14px 0 8px;
+}
+
+.btn {
+  padding: 6px 9px;
+  min-height: 32px;
+  height: auto;
+  text-align: left;
+
+  &:hover {
+    .plus {
+      background: var(--jungle-green-light);
+      fill: var(--jungle);
+    }
+
+    .active {
+      background: var(--persimmon-light);
+      fill: var(--persimmon);
+    }
+  }
+}
+
+.advanced {
+  margin-left: 24px;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    background: var(--porcelain);
+    left: -15px;
+  }
+
+  &::before {
+    height: 16px;
+    width: 1px;
+    transform: translateY(-8px);
+  }
+
+  &::after {
+    height: 1px;
+    width: 16px;
+  }
+}

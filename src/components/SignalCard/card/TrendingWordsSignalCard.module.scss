@@ -1,43 +1,5 @@
 @import "~@santiment-network/ui/mixins";
 
-.more {
-  color: var(--dodger-blue) !important;
-  padding: 2px 4px;
-
-  &:hover {
-    padding: 1px 3px;
-    background: var(--dodger-blue-light);
-    border-radius: $border-radius;
-    border: 1px solid var(--dodger-blue-light);
-  }
-}
-
-.words {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 7px;
-}
-
-.word {
-  color: var(--dodger-blue) !important;
-  border: 1px solid var(--dodger-blue-light);
-  background: var(--white);
-  border-radius: $border-radius;
-  margin-right: 8px;
-  padding: 2px 4px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  @include border-box();
-  @include text('body-3');
-
-  &:hover {
-    background: var(--dodger-blue-light);
-  }
-}
-
 .bottom {
   display: flex;
   margin-top: 16px;
@@ -46,4 +8,15 @@
   width: 100%;
   justify-content: space-between;
   align-items: center;
+}
+
+.header {
+  display: flex;
+  margin-top: 4px;
+}
+
+.ampm {
+  color: var(--waterloo);
+  margin-left: 4px;
+  min-width: 100px;
 }

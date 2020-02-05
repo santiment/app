@@ -7,7 +7,9 @@ import isEqual from 'lodash.isequal'
 class FeedListLoading extends React.Component {
   state = {
     isEndCommon: false,
-    events: this.props.events
+    events: this.props.events,
+    sortType: this.props.sortType,
+    filters: this.props.filters
   }
 
   unmounted = false
@@ -36,7 +38,13 @@ class FeedListLoading extends React.Component {
       return null
     }
 
-    const variables = makeFeedVariables(events[events.length - 1].insertedAt)
+    const { sortType, filters } = this.props
+
+    const variables = makeFeedVariables({
+      date: events[events.length - 1].insertedAt,
+      orderBy: sortType.type,
+      filterBy: filters
+    })
 
     return fetchMore({
       variables: variables,
@@ -73,33 +81,66 @@ class FeedListLoading extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { events: propEvents } = nextProps
-    const { events: currentEvents } = this.state
+    const {
+      events: propEvents,
+      sortType: propsSortType,
+      filters: propFilters
+    } = nextProps
+    const {
+      events: currentEvents,
+      sortType: stateSortType,
+      filters: stateFilters
+    } = this.state
+
+    const isNewEventsList =
+      !isEqual(propsSortType, stateSortType) ||
+      !isEqual(propFilters, stateFilters)
+
+    if (isNewEventsList) {
+      this.setState({
+        ...this.state,
+        events: [],
+        sortType: propsSortType,
+        filters: propFilters,
+        isEndCommon: false,
+        isNewEventsList
+      })
+      return
+    }
+
     if (propEvents.length > 0) {
       const [event] = propEvents
-      if (!currentEvents.find(item => isEqual(item, event))) {
+      if (!currentEvents.find(({ id }) => id === event.id)) {
         const newEvents = this.state.events
         newEvents.push(...propEvents)
         this.setState({
           ...this.state,
-          events: newEvents
+          events: newEvents,
+          isNewEventsList
         })
       }
-    } else if (propEvents.length === 0) {
+    } else {
       this.setState({
         ...this.state,
-        isEndCommon: true
+        isEndCommon: true,
+        isNewEventsList
       })
     }
   }
 
   render () {
     const { isLoading } = this.props
-    const { events } = this.state
+    const { events, isNewEventsList } = this.state
     const filtered = events.filter(
       ({ post, payload, trigger }) => post || (trigger && payload)
     )
-    return <FeedList events={filtered} isLoading={isLoading} />
+    return (
+      <FeedList
+        events={filtered}
+        isLoading={isLoading}
+        isNewEventsList={isNewEventsList}
+      />
+    )
   }
 }
 

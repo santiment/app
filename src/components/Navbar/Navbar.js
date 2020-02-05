@@ -32,11 +32,6 @@ const leftLinks = [
     as: Link
   },
   {
-    to: '/sonar',
-    children: 'Sonar',
-    as: Link
-  },
-  {
     to: '/assets',
     children: 'Assets',
     as: Link,

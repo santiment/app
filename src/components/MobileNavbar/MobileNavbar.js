@@ -8,35 +8,25 @@ import Button from '@santiment-network/ui/Button'
 import MobileNavbarAction from './MobileNavbarAction'
 import SantimentLogo from './SantimentLogo'
 import AssetsIcon from './AssetsIcon'
+import FeedIcon from './FeedIcon'
 import InsightsIcon from './InsightsIcon'
-import SonarIcon from './SonarIcon'
 import WatchlistsIcon from './WatchlistsIcon'
 import MenuIcon from './MenuIcon'
 import styles from './MobileNavbar.module.scss'
 import * as actions from './../../actions/types'
 
 const NAVBAR_LINKS = [
-  // TODO: until we don't have mobile good view
-  // {
-  // link: '/trends',
-  // label: 'Trends',
-  // linkTo: '/labs/trends',
-  // iconType: 'fire'
-  // },
   {
-    link: '/assets',
-    label: 'Assets',
+    label: 'Feed',
+    linkTo: '/feed',
+    Icon: FeedIcon
+  },
+  {
+    label: 'Market',
     linkTo: '/assets',
     Icon: AssetsIcon
   },
   {
-    link: '/sonar',
-    label: 'Signals',
-    linkTo: '/sonar',
-    Icon: SonarIcon
-  },
-  {
-    link: '/watchlists',
     label: 'Watchlists',
     linkTo: '/watchlists',
     Icon: WatchlistsIcon
@@ -50,8 +40,8 @@ const NAVBAR_LINKS = [
 ]
 
 const MENU_LINKS = [
-  { link: '/account', label: 'Account settings' },
-  { link: '/support', label: 'Support' }
+  { linkTo: '/sonar', label: 'Signals' },
+  { linkTo: '/account', label: 'Account settings' }
 ]
 
 const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
@@ -62,6 +52,21 @@ const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
     isOpened && toggleMenu()
     history.push(linkTo)
   }
+
+  window.Intercom &&
+    window.Intercom('onShow', function () {
+      const intercomContainer = window.document.querySelector(
+        '#intercom-container'
+      )
+      if (intercomContainer) intercomContainer.style.display = 'block'
+    })
+  window.Intercom &&
+    window.Intercom('onHide', function () {
+      const intercomContainer = window.document.querySelector(
+        '#intercom-container'
+      )
+      if (intercomContainer) intercomContainer.style.display = 'none'
+    })
 
   return (
     <div className={cx({ [styles.overlay]: isOpened })}>
@@ -75,7 +80,7 @@ const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
           return (
             <MobileNavbarAction
               key={index}
-              isActive={!isOpened && activeLink.includes(props.link)}
+              isActive={!isOpened && activeLink.includes(props.linkTo)}
               onClick={handleNavigation}
               {...props}
             />
@@ -95,32 +100,35 @@ const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
               <SantimentLogo />
             </div>
             <div onClick={toggleMenu} className={styles.navigationList}>
-              {MENU_LINKS.map(({ link, label }) => (
+              {MENU_LINKS.map(({ linkTo, label }) => (
                 <Link
-                  key={link}
-                  to={link}
+                  key={linkTo}
+                  to={linkTo}
                   className={styles.navigationList__link}
                 >
                   {label}
                 </Link>
               ))}
+              <a
+                className={styles.navigationList__link}
+                onClick={() =>
+                  window.Intercom && window.Intercom('showNewMessage')
+                }
+              >
+                Contact us
+              </a>
             </div>
           </div>
-          <Button
-            className={styles.loginBtn}
-            variant='fill'
-            accent='positive'
-            onClick={() => {
-              if (isLogined) {
-                toggleMenu()
-                logout()
-              } else {
-                handleNavigation('/login')
-              }
-            }}
-          >
-            {isLogined ? 'Log out' : 'Log in'}
-          </Button>
+          {!isLogined && (
+            <Button
+              className={styles.loginBtn}
+              variant='fill'
+              accent='positive'
+              onClick={() => handleNavigation('/login')}
+            >
+              Log in
+            </Button>
+          )}
         </div>
       )}
     </div>

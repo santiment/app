@@ -1,0 +1,34 @@
+@import "~@santiment-network/ui/mixins";
+
+.description {
+  fill: var(--casper);
+  position: relative;
+  margin: 0 6px;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  color: var(--casper);
+  margin-left: 10px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green);
+
+    & .description {
+      fill: var(--jungle-green);
+    }
+  }
+}
+
+.tooltip {
+  z-index: 1000;
+}
+
+.container {
+  max-width: 580px;
+  padding: 20px;
+
+  @include text('body-2');
+}

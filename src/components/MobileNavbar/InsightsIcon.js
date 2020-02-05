@@ -19,13 +19,13 @@ export default props => (
       fillRule='evenodd'
       clipRule='evenodd'
       d='M6 15.3264V16C6 17.1046 6.89543 18 8 18H10C11.1046 18 12 17.1046 12 16V15.3264C11.0907 15.7584 10.0736 16 9 16C7.9264 16 6.90926 15.7584 6 15.3264Z'
-      fill='var(--menu-active-accent, var(--mirage))'
+      fill='var(--menu-active-accent, var(--rhino))'
     />
     <path
       fillRule='evenodd'
       clipRule='evenodd'
       d='M14 9C14 11.7614 11.7614 14 9 14C6.23858 14 4 11.7614 4 9C4 6.23858 6.23858 4 9 4C11.7614 4 14 6.23858 14 9ZM9 12C10.6569 12 12 10.6569 12 9C12 7.34315 10.6569 6 9 6C7.34315 6 6 7.34315 6 9C6 10.6569 7.34315 12 9 12Z'
-      fill='var(--menu-active-accent, var(--mirage))'
+      fill='var(--menu-active-accent, var(--rhino))'
     />
   </svg>
 )

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Query } from 'react-apollo'
 import cx from 'classnames'
-import Icon from '@santiment-network/ui/Icon'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import {
   BarChart,
@@ -11,12 +10,10 @@ import {
   XAxis,
   YAxis
 } from 'recharts'
-import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
-import { HISTOGRAM_SIDEBAR } from './data'
 import { HISTOGRAM_DATA_QUERY } from './gql'
-import { useDebounceEffect } from '../../hooks'
-import { millify } from '../../utils/formatting'
-import sharedStyles from './ChartSidecar.module.scss'
+import { useDebounceEffect } from '../../../hooks'
+import { DAY, getTimeIntervalFromToday } from '../../../utils/dates'
+import { millify } from '../../../utils/formatting'
 import styles from './Histogram.module.scss'
 
 const getDateFromLabel = label => {
@@ -34,7 +31,7 @@ const HistogramDate = ({ y, height, value }) => {
   )
 }
 
-const Content = ({ slug, date }) => {
+const Histogram = ({ slug, date }) => {
   const [period, setPeriod] = useState({})
   const [hoveredValue, setHoveredValue] = useState()
 
@@ -89,11 +86,7 @@ const Content = ({ slug, date }) => {
           }
 
           if (!getMetric) {
-            return (
-              <div className={styles.load}>
-                <Loader />
-              </div>
-            )
+            return <Loader className={styles.load} />
           }
 
           const data = getMetric.histogramData
@@ -106,7 +99,7 @@ const Content = ({ slug, date }) => {
             <>
               <h2 className={styles.title}>
                 Histogram
-                {loading ? <Loader className={styles.inlineLoader} /> : ''}
+                {loading && <Loader className={styles.inlineLoader} />}
               </h2>
               <div className={styles.content}>
                 <ResponsiveContainer
@@ -157,47 +150,12 @@ const Content = ({ slug, date }) => {
   )
 }
 
-const Histogram = ({
-  onSidebarToggleClick,
-  isAdvancedView,
-  classes,
-  isWideChart,
-  ...rest
-}) => {
-  return (
-    <div
-      className={cx(
-        sharedStyles.wrapper,
-        isAdvancedView && sharedStyles.opened
-      )}
-    >
-      <div
-        className={cx(
-          sharedStyles.toggle,
-          isAdvancedView || classes.sidecar__toggle_histogram,
-          !isAdvancedView &&
-            isWideChart &&
-            classes.sidecar__toggle_histogram_wide
-        )}
-      >
-        <div
-          className={sharedStyles.toggle__btn}
-          onClick={() => onSidebarToggleClick(HISTOGRAM_SIDEBAR)}
-        >
-          <div className={cx(styles.toggle__icons, sharedStyles.toggle__icons)}>
-            <Icon type='arrow-left' className={sharedStyles.toggle__arrow} />H
-          </div>
-        </div>
-      </div>
-      {!isAdvancedView ? null : <Content {...rest} />}
-    </div>
-  )
-}
+Histogram.Icon = 'H'
 
 Histogram.defaultProps = {
   date: Date.now(),
   interval: '1d',
-  projectName: 'bitcoin'
+  slug: 'bitcoin'
 }
 
 export default Histogram

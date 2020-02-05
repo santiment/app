@@ -98,7 +98,8 @@ export const Metrics = {
     shortLabel: 'Soc. Volume',
     anomalyKey: 'SOCIAL_VOLUME',
     color: 'malibu',
-    description: `Shows the amount of mentions of the coin on 1000+ crypto social media channels, including Telegram groups, crypto subreddits, discord groups, private traders chats and more.`
+    description: `Shows the amount of mentions of the coin on 1000+ crypto social media channels, including Telegram groups, crypto subreddits, discord groups, private traders chats and more.`,
+    advancedView: 'Social Context'
   },
   age_destroyed: {
     category: 'On-chain',
@@ -199,7 +200,8 @@ export const Metrics = {
     shortLabel: 'Trans. Vol.',
     description: `
     Shows the aggregate amount of tokens across all transactions that
-    happened on the network on a certain date.`
+    happened on the network on a certain date.`,
+    advancedView: 'Histogram'
   },
   network_growth: {
     category: 'On-chain',
@@ -304,7 +306,7 @@ export const Metrics = {
       'Used Gas by a blockchain. When you send tokens, interact with a contract or do anything else on the blockchain, you must pay for that computation. That payment is calculated in Gas.'
   },
   mean_dollar_invested_age: {
-    category: ['Financial', 'On-chain'],
+    category: 'On-chain',
     node: 'line',
     Component: Line,
     label: 'Mean Dollar Invested Age',

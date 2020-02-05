@@ -84,6 +84,7 @@ export default combineEpics(
   handleLogout,
   logoutEpic,
   handleEmailLogin,
+  // First handler after user is logged in (Ethereum or Email Provider)
   handleLoginSuccess,
   digestSubscriptionEpic,
   handleEthLogin,

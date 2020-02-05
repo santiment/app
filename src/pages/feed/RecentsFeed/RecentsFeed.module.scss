@@ -1,16 +1,17 @@
 @import '~@santiment-network/ui/mixins';
 
 .container {
+  padding: 22px 0 22px 0;
   display: flex;
   flex: 1;
   flex-direction: column;
-  top: 5vh;
-  height: 90vh;
+  top: 0;
+  height: 100vh;
   position: sticky;
+  border-left: 1px solid var(--porcelain);
 }
 
 .scrollable {
-  border-left: 1px solid var(--porcelain);
   overflow-y: auto;
   margin-top: 28px;
   height: 100%;
@@ -28,6 +29,7 @@
   padding: 0 32px;
   align-items: center;
   cursor: pointer;
+  height: 32px;
 
   @include text('body-1');
 

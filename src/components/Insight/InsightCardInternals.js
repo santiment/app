@@ -1,89 +1,86 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Icon from '@santiment-network/ui/Icon'
+import cx from 'classnames'
 import InsightTags from './InsightTags'
 import ProfileInfo from './ProfileInfo'
 import MultilineText from '../MultilineText/MultilineText'
 import LikeBtn from '../Like/LikeBtn'
-import { getDateFormats } from '../../utils/dates'
 import { getSEOLinkFromIdAndTitle } from './utils'
-import styles from './InsightCard.module.scss'
 import { DesktopOnly } from '../Responsive'
 import { SignalTypeIcon } from '../SignalCard/controls/SignalControls'
 import Comments from './Comments'
+import styles from './InsightCard.module.scss'
 
-const AWAITING_APPROVAL_STATE = 'awaiting_approval'
-const AwaitingApproval = () => (
-  <div className={styles.awaiting}>
-    <Icon type='awaiting' className={styles.awaiting__icon} /> Awaiting approval
-  </div>
-)
+export const makeLinkToInsight = (id, title) => {
+  return `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
+    id,
+    title
+  )}`
+}
 
 const InsightCardInternals = ({
   id,
+  state,
   user: { id: authorId, username: authorName, avatarUrl },
   title,
-  tags,
   createdAt,
   publishedAt,
-  state,
+  tags,
   votes: { totalVotes },
   commentsCount,
   votedAt,
   onLike,
   withAuthorPic,
   disabled,
-  isDesktop
+  isDesktop,
+  showIcon = false,
+  showDate = false,
+  children
 }) => {
-  const { DD, MMM, YYYY } = getDateFormats(new Date(publishedAt || createdAt))
-  const linkToInsight = `https://insights.santiment.net/read/${getSEOLinkFromIdAndTitle(
-    id,
-    title
-  )}`
+  const linkToInsight = makeLinkToInsight(id, title)
 
   return (
     <div className={styles.container}>
-      <DesktopOnly>
-        <SignalTypeIcon type={'social'} />
-      </DesktopOnly>
-      <div className={styles.main}>
-        <div className={styles.top}>
-          <a href={linkToInsight} className={styles.title}>
-            <MultilineText maxLines={2} id='insightCardTitle' text={title} />
-          </a>
+      {showIcon && (
+        <DesktopOnly>
+          <SignalTypeIcon type={'social'} />
+        </DesktopOnly>
+      )}
+      <div className={cx(styles.main, showIcon && styles.withIcon)}>
+        <div className={styles.description}>
+          <div className={styles.top}>
+            <a href={linkToInsight} className={styles.title}>
+              <MultilineText maxLines={2} id='insightCardTitle' text={title} />
+            </a>
+            <div className={styles.profile}>
+              <ProfileInfo
+                withPic={withAuthorPic}
+                picUrl={avatarUrl}
+                date={publishedAt || createdAt}
+                state={state}
+                name={
+                  <Link className={styles.name} to={`/profile/${authorId}`}>
+                    {authorName}
+                  </Link>
+                }
+                showDate={showDate}
+                infoClassName={styles.info}
+              />
+            </div>
+          </div>
+          <div className={styles.chart}>{children}</div>
         </div>
         <div className={styles.bottom}>
-          <div className={styles.profile}>
-            <ProfileInfo
-              withPic={withAuthorPic}
-              picUrl={avatarUrl}
-              name={
-                <Link className={styles.name} to={`/profile/${authorId}`}>
-                  {authorName}
-                </Link>
-              }
-              status={
-                state === AWAITING_APPROVAL_STATE ? (
-                  <AwaitingApproval />
-                ) : (
-                  `${MMM} ${DD}, ${YYYY}`
-                )
-              }
-              infoClassName={styles.info}
-            />
-          </div>
-          <div className={styles.right}>
-            <LikeBtn
-              likesNumber={totalVotes}
-              liked={!!votedAt}
-              onClick={onLike}
-              disabled={disabled}
-              className={styles.likeBtn}
-            />
-            <Comments id={id} authorId={authorId} count={commentsCount} />
-            <div className={styles.tags}>
-              <InsightTags tags={tags} isDesktop={isDesktop} />
-            </div>
+          <LikeBtn
+            likesNumber={totalVotes}
+            liked={!!votedAt}
+            onClick={onLike}
+            disabled={disabled}
+            className={styles.likeBtn}
+          />
+          <Comments id={id} authorId={authorId} count={commentsCount} />
+          <div className={styles.tags}>
+            <InsightTags tags={tags} isDesktop={isDesktop} />
           </div>
         </div>
       </div>

@@ -1,7 +1,6 @@
 import React from 'react'
 import { CSVLink } from 'react-csv'
 import Button from '@santiment-network/ui/Button'
-import PropTypes from 'prop-types'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { mergeTimeseriesByKey } from '../../utils/utils'
 import { Metrics } from './data'
@@ -32,11 +31,11 @@ const getEventsWithAnomaly = (headers, data) => {
 }
 
 const DownloadCSVBtn = ({
-  metrics,
-  chartData,
   title,
+  data,
   events,
-  eventsData,
+  activeMetrics,
+  activeEvents,
   ...props
 }) => {
   const date = new Date()
@@ -44,26 +43,37 @@ const DownloadCSVBtn = ({
   const { HH, mm, ss } = getTimeFormats(date)
   const filename = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`
 
-  const [eventHeaders, eventsDataWithAnomalies] = getEventsWithAnomaly(
-    events,
-    eventsData
-  )
+  let headers = []
+  let mergedData = []
 
-  const headers = [
-    { label: 'Date', key: 'datetime' },
-    ...metrics.concat(eventHeaders).map(({ label, key, dataKey = key }) => ({
-      label,
-      key: dataKey
-    }))
-  ]
+  try {
+    const [eventHeaders, eventsDataWithAnomalies] = getEventsWithAnomaly(
+      events,
+      activeEvents
+    )
+
+    headers = [
+      { label: 'Date', key: 'datetime' },
+      ...activeMetrics
+        .concat(eventHeaders)
+        .map(({ label, key, dataKey = key }) => ({
+          label,
+          key: dataKey
+        }))
+    ]
+
+    mergedData = mergeTimeseriesByKey({
+      timeseries: [data, eventsDataWithAnomalies]
+    })
+  } catch (e) {
+    return null
+  }
 
   return (
     <Button
       filename={filename}
       headers={headers}
-      data={mergeTimeseriesByKey({
-        timeseries: [chartData, eventsDataWithAnomalies]
-      })}
+      data={mergedData}
       {...props}
       as={CSVLink}
     />
@@ -72,16 +82,10 @@ const DownloadCSVBtn = ({
 
 DownloadCSVBtn.defaultProps = {
   title: '',
-  metrics: [],
-  events: [],
-  chartData: [],
-  eventsData: []
-}
-
-DownloadCSVBtn.propTypes = {
-  title: PropTypes.string,
-  metrics: PropTypes.array,
-  chartData: PropTypes.array
+  activeMetrics: [],
+  activeEvents: [],
+  data: [],
+  events: []
 }
 
 export default DownloadCSVBtn

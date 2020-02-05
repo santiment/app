@@ -1,17 +1,26 @@
 import React from 'react'
 import cx from 'classnames'
 import UserAvatar from '../../pages/Account/avatar/UserAvatar'
+import {
+  AWAITING_APPROVAL_STATE,
+  AwaitingApproval
+} from './InsightCardWithMarketcap'
 import styles from './ProfileInfo.module.scss'
+import { getDateFormats } from '../../utils/dates'
 
 const ProfileInfo = ({
   name,
-  status,
+  state,
   networkStatus,
   picUrl,
   className = '',
   infoClassName = '',
+  date,
+  showDate = false,
   withPic
 }) => {
+  const { DD, MM, YYYY } = getDateFormats(new Date(date))
+
   return (
     <div className={cx(styles.wrapper, className)}>
       {withPic && (
@@ -27,8 +36,14 @@ const ProfileInfo = ({
 
       <div className={cx(styles.info, infoClassName)}>
         <div className={cx(styles.info__item, styles.name)}>{name}</div>
-        {status && (
-          <div className={cx(styles.info__item, styles.status)}>{status}</div>
+        {showDate && (
+          <div className={cx(styles.info__item, styles.status)}>
+            {state === AWAITING_APPROVAL_STATE ? (
+              <AwaitingApproval />
+            ) : (
+              `${MM} ${DD}, ${YYYY}`
+            )}
+          </div>
         )}
       </div>
     </div>

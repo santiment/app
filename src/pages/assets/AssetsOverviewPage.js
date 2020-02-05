@@ -30,7 +30,7 @@ const AssetsOverview = ({
         <MobileHeader title='Explore assets' />
       </MobileOnly>
       <DesktopOnly>
-        <h4 className={styles.heading}>Categories</h4>
+        <h4 className={styles.heading}>Indexes</h4>
         <div className={styles.section}>
           <WatchlistCards watchlists={CATEGORIES} slugs={slugs} />
         </div>
@@ -48,7 +48,7 @@ const AssetsOverview = ({
           <>
             <StoriesList classes={styles} />
             <RecentlyWatched className={styles.recents} type='assets' />
-            <h2 className={styles.subtitle}>Categories</h2>
+            <h2 className={styles.subtitle}>Indexes</h2>
             <WatchlistCards watchlists={CATEGORIES} />
             <h2 className={styles.subtitle}>Social gainers and losers</h2>
             <section className={styles.gainers}>

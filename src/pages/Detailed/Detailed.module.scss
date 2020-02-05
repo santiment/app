@@ -1,56 +1,44 @@
-@import '~@santiment-network/ui/mixins';
-@import '~@santiment-network/ui/variables';
-
-.panel {
-  width: 100%;
-  border: none;
-  box-shadow: none;
-}
-
-.sidecar__toggle {
-  &_assets {
-    top: 256px !important;
-
-    @include responsive('laptop', 'tablet') {
-      top: 350px !important;
-    }
-  }
-
-  &_social {
-    top: 356px !important;
-  }
-
-  &_histogram {
-    top: 306px !important;
-  }
+.wrapper {
+  margin-top: -22px;
 }
 
 .breadcrumbs {
-  max-width: 1140px;
+  margin-top: -15px;
 }
 
-.newsWrapper {
-  margin-bottom: 20px;
+.stories {
+  padding: 0;
 }
 
-.newsTitle {
-  color: var(--mirage);
-  padding-top: 20px;
-  margin: 0 0 20px;
+.bottom {
+  padding: 25px;
+}
 
-  @include text('h4');
+.spent {
+  margin-bottom: 16px;
+}
 
-  &::first-letter {
-    text-transform: uppercase;
+.info {
+  display: flex;
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin: 0;
   }
-}
 
-.tables {
-  margin-top: 24px !important;
-  padding: 0 !important;
-}
+  &__card {
+    flex: 1;
 
-.chart {
-  width: 100%;
-  max-width: 100%;
+    &:first-child {
+      margin-right: 16px;
+    }
+
+    :global {
+      .row-info {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 12px;
+      }
+    }
+  }
 }

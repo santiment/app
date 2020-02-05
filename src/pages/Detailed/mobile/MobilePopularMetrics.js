@@ -30,7 +30,7 @@ const MobilePopularMetrics = ({
     metric => !activeMetrics.includes(metric)
   )
 
-  return (
+  return metrics.length > 0 ? (
     <>
       <h3 className={styles.heading}>Popular metrics</h3>
       {isShow && (
@@ -59,7 +59,7 @@ const MobilePopularMetrics = ({
         />
       ))}
     </>
-  )
+  ) : null
 }
 
 export default MobilePopularMetrics

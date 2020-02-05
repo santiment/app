@@ -14,7 +14,7 @@ import {
 } from './utils'
 import { tooltipSettings } from '../data'
 
-export function setupTooltip (chart, marker, syncTooltips, onPointHover) {
+export function setupTooltip (chart, marker, syncTooltips) {
   const {
     tooltip: { canvas, ctx }
   } = chart
@@ -23,7 +23,7 @@ export function setupTooltip (chart, marker, syncTooltips, onPointHover) {
     if (!point) return
     syncTooltips(point.value)
     plotTooltip(chart, marker, point)
-    onPointHover(point)
+    chart.onPointHover(point)
   })
   canvas.onmouseleave = () => {
     clearCtx(chart, ctx)
@@ -36,10 +36,13 @@ export function plotTooltip (chart, marker, point) {
     tooltip: { ctx },
     tooltipKey
   } = chart
+  const metricPoint = point[tooltipKey]
+  if (!metricPoint) return
+
   clearCtx(chart, ctx)
 
   const { x, value: datetime } = point
-  const { y, value } = point[tooltipKey]
+  const { y, value } = metricPoint
 
   drawHoverLineX(chart, x, 5)
   drawHoverLineY(chart, y, -20)

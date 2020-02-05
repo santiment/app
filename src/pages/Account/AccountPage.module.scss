@@ -36,7 +36,7 @@
 }
 
 .settings {
-  margin-bottom: 50px;
+  margin-bottom: 25px;
 
   &__header {
     background: var(--athens);
@@ -398,4 +398,16 @@
   @include responsive('phone', 'phone-xs') {
     margin: 0 16px;
   }
+}
+
+.version {
+  margin-bottom: 10px;
+  text-align: center;
+  color: var(--casper);
+
+  @include text('body-3');
+}
+
+.logoutBtn {
+  margin-bottom: 25px;
 }

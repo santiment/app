@@ -28,6 +28,7 @@
   flex-direction: column;
   max-width: 100%;
   flex: 1;
+  align-items: center;
 
   &__item:last-of-type {
     margin-bottom: 0;

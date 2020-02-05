@@ -59,6 +59,7 @@ const FeedItemRenderer = ({ item, index }) => {
               {...rest}
               className={styles.card}
               onLike={like(insightId)}
+              showIcon={true}
             />
           )}
         </WithInsightLikesMutation>

@@ -29,14 +29,16 @@ import uploadLink from './apollo/upload-link'
 import errorLink from './apollo/error-link'
 import authLink from './apollo/auth-link'
 import retryLink from './apollo/retry-link'
-import ChartPage from './ducks/SANCharts/ChartPage'
+import ChartPage from './pages/Studio'
 import { showNotification } from './actions/rootActions'
 import { register, unregister } from './serviceWorker'
 import RefreshNotificationActions from './components/Notifications/Refresh/RefreshNotificationActions'
 import './index.scss'
 
 // window.mixpanel has been set by Mixpanel's embed snippet.
-mixpanelHelper.enable()
+if (process.env.NODE_ENV !== 'test') {
+  mixpanelHelper.enable()
+}
 
 // Called when the experiment is displayed to the user.
 emitter.addPlayListener((experiment, variant) => {

@@ -111,7 +111,7 @@ const LoadableSearchMobilePage = Loadable({
 })
 
 const LoadableChartPage = Loadable({
-  loader: () => import('./pages/Chart'),
+  loader: () => import('./pages/Studio'),
   loading: () => <PageLoader />
 })
 
@@ -264,7 +264,7 @@ export const App = ({
           }
         />
         <Route exact path='/unsubscribe' component={LoadableUnsubscribePage} />
-        <Route path='/feed' component={LoadableFeedPage} />
+        <Route path='/feed' render={props => <LoadableFeedPage {...props} />} />
         <Route
           exact
           path='/search'

@@ -11,11 +11,11 @@ export default props => (
   >
     <path
       d='M11.9062 6H5.90625C5.35397 6 4.90625 6.44772 4.90625 7C4.90625 7.55228 5.35397 8 5.90625 8H11.9062C12.4585 8 12.9062 7.55228 12.9062 7C12.9062 6.44772 12.4585 6 11.9062 6Z'
-      fill='var(--menu-active-accent, var(--mirage))'
+      fill='var(--menu-active-accent, var(--rhino))'
     />
     <path
       d='M11.9062 10H5.90625C5.35397 10 4.90625 10.4477 4.90625 11C4.90625 11.5523 5.35397 12 5.90625 12H11.9062C12.4585 12 12.9062 11.5523 12.9062 11C12.9062 10.4477 12.4585 10 11.9062 10Z'
-      fill='var(--menu-active-accent,var(--mirage))'
+      fill='var(--menu-active-accent,var(--rhino))'
     />
     <path
       fillRule='evenodd'
