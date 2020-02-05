@@ -1,9 +1,10 @@
-.bottom {
+.top {
   display: flex;
-  margin-top: 16px;
+  margin-bottom: 16px;
   justify-content: space-between;
 }
 
 .metrics {
   display: flex;
+  flex-wrap: wrap;
 }

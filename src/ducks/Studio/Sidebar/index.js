@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react'
-import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import MetricSelector from './MetricSelector'
 import Search from './Search'
@@ -58,8 +57,10 @@ const Sidebar = ({ loading, ...rest }) => {
     const { offsetHeight } = header
 
     function fixSidebar () {
-      const dif = offsetHeight - window.scrollY
-      sidebar.style.top = (dif > 0 ? dif : 0) + 'px'
+      requestAnimationFrame(() => {
+        const dif = offsetHeight - window.scrollY
+        sidebar.classList.toggle(styles.fixed, dif < 0)
+      })
     }
 
     fixSidebar()
@@ -71,13 +72,13 @@ const Sidebar = ({ loading, ...rest }) => {
   return (
     <aside className={styles.wrapper} ref={asideRef}>
       <Header {...rest} />
-      {loading ? (
-        <Loader className={cx(styles.selector, styles.loading)} />
-      ) : (
-        <div className={styles.selector}>
+      <div className={styles.selector}>
+        {loading ? (
+          <Loader className={styles.loading} />
+        ) : (
           <MetricSelector {...rest} />
-        </div>
-      )}
+        )}
+      </div>
     </aside>
   )
 }

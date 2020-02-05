@@ -26,25 +26,7 @@ export default ({
 
   return (
     <>
-      <Synchronizer
-        isMultiChartsActive={isMultiChartsActive}
-        metrics={activeMetrics}
-        events={events}
-      >
-        <Chart
-          {...options}
-          {...settings}
-          {...boundaries}
-          metrics={activeMetrics}
-          data={mapDatetimeToNumber(data)}
-          chartRef={chartRef}
-          scale={isLogScale ? logScale : linearScale}
-          isAdvancedView={!!advancedView}
-          onPointHover={advancedView ? changeHoveredDate : undefined}
-        />
-      </Synchronizer>
-
-      <div className={styles.bottom}>
+      <div className={styles.top}>
         <div className={styles.metrics}>
           <ChartActiveMetrics
             activeMetrics={activeMetrics}
@@ -66,6 +48,24 @@ export default ({
           Feedback
         </Button>
       </div>
+
+      <Synchronizer
+        isMultiChartsActive={isMultiChartsActive}
+        metrics={activeMetrics}
+        events={events}
+      >
+        <Chart
+          {...options}
+          {...settings}
+          {...boundaries}
+          metrics={activeMetrics}
+          data={mapDatetimeToNumber(data)}
+          chartRef={chartRef}
+          scale={isLogScale ? logScale : linearScale}
+          isAdvancedView={!!advancedView}
+          onPointHover={advancedView ? changeHoveredDate : undefined}
+        />
+      </Synchronizer>
     </>
   )
 }
