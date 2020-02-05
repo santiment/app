@@ -15,9 +15,11 @@ export const DEFAULT_SETTINGS = {
   timeRange: DEFAULT_TIME_RANGE
 }
 
+const isAnomalyHidden = localStorage.getItem('hideAnomalies')
+
 export const DEFAULT_OPTIONS = {
   isLogScale: false,
-  isAnomalyActive: !localStorage.getItem('hideAnomalies'),
+  isAnomalyActive: isAnomalyHidden !== null && !isAnomalyHidden,
   isMultiChartsActive: true
 }
 
