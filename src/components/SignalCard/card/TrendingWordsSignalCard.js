@@ -15,7 +15,7 @@ import styles from './TrendingWordsSignalCard.module.scss'
 const TrendingWordsSignalCard = ({
   className,
   activityPayload,
-  activity: { votes, trigger: signal, insertedAt: date },
+  activity: { votes, trigger: signal, insertedAt: date, user },
   onLike
 }) => {
   const {
@@ -55,6 +55,7 @@ const TrendingWordsSignalCard = ({
             onLike={onLike}
             className={styles.likeBtn}
             votes={votes}
+            user={user}
           />
         </div>
       </div>

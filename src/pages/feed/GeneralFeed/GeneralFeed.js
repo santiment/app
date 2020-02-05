@@ -21,6 +21,7 @@ const AUTHOR_TYPES = {
 }
 
 const baseLocation = '/feed'
+export const personalLocation = `${baseLocation}/personal`
 
 const tabs = [
   {
@@ -28,7 +29,7 @@ const tabs = [
     content: 'General'
   },
   {
-    index: `${baseLocation}/personal`,
+    index: personalLocation,
     content: 'Personal'
   }
 ]
@@ -65,8 +66,10 @@ const Empty = () => (
 
 const START_DATE = new Date()
 
+const isBaseLocation = tab => tab === baseLocation
+
 const getFeedAuthorType = tab => {
-  if (tab === baseLocation) {
+  if (isBaseLocation(tab)) {
     return AUTHOR_TYPES.ALL
   } else {
     return AUTHOR_TYPES.OWN
