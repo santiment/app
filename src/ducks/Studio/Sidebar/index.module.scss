@@ -1,0 +1,45 @@
+@import '~@santiment-network/ui/mixins';
+@import '../variables';
+
+.wrapper {
+  position: fixed;
+  top: 70px;
+  bottom: 0;
+  left: 0;
+  width: $sidebar-width;
+  background: var(--white);
+  border-right: 1px solid var(--porcelain);
+}
+
+.header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--porcelain);
+  box-shadow: 0 4px 12px rgba(24, 27, 43, 0.04);
+}
+
+.title {
+  @include text('body-3', 'm');
+
+  margin: 0 0 12px;
+}
+
+.count {
+  color: var(--waterloo);
+}
+
+.anomaly {
+  margin-top: 12px;
+}
+
+.selector {
+  max-height: calc(100% - 140px);
+  overflow-y: auto;
+}
+
+.loading {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+}

@@ -33,7 +33,8 @@ const WidgetTrend = ({
   error,
   children,
   className,
-  infoClassName
+  infoClassName,
+  contentClassName
 }) => {
   const msg = getMessage({
     isLoading,
@@ -57,7 +58,7 @@ const WidgetTrend = ({
             <span className={styles.word}>{trendWord} </span>
             {description}
           </div>
-          <div className={styles.content}>{children}</div>
+          <div className={cx(styles.content, contentClassName)}>{children}</div>
         </Fragment>
       )}
     </div>

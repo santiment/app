@@ -8,6 +8,7 @@ import FlashIconPath from './FlashIconPath'
 import styles from './AnomaliesToggle.module.scss'
 
 const AnomaliesToggle = ({
+  className,
   onToggleAnomalies,
   isShowAnomalies,
   showToggleAnomalies,
@@ -17,21 +18,22 @@ const AnomaliesToggle = ({
     <Button
       variant='flat'
       onClick={onToggleAnomalies}
-      className={cx(styles.wrapper, isShowAnomalies && styles.active)}
+      className={cx(styles.wrapper, className)}
     >
+      <Toggle
+        isActive={isShowAnomalies}
+        className={cx(styles.toggle, isShowAnomalies && styles.active)}
+        Icon={FlashIconPath}
+      />
+      Anomalies
       <HelpTooltip
         withDesc={false}
         classes={{
-          question: isShowAnomalies && styles.question,
+          helpTrigger: styles.trigger,
+          question: cx(styles.question, isShowAnomalies && styles.question),
           tooltip: styles.tooltip
         }}
         note='Important! It will be disabled if "Trending position" is turn on'
-      />
-      Anomalies
-      <Toggle
-        isActive={isShowAnomalies}
-        className={styles.toggle}
-        Icon={FlashIconPath}
       />
     </Button>
   ) : null

@@ -118,7 +118,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
       setHasPriceMetric(hasPriceMetric)
       setIsValidMulti(isValidMulti)
     },
-    [metrics]
+    [metrics, events, isMultiChartsActive]
   )
 
   useEffect(() => clearCache, [])

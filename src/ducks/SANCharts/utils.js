@@ -54,6 +54,7 @@ export const getMarketSegment = key => {
   const newSegment = {
     key,
     label,
+    transformKey: 'marketSegment',
     type: 'marketSegments',
     category: 'Development',
     Component: Line,
@@ -61,7 +62,8 @@ export const getMarketSegment = key => {
     yAxisId: 'axis-activity',
     reqMeta: {
       transform: 'movingAverage',
-      movingAverageIntervalBase: 7
+      movingAverageIntervalBase: 7,
+      selector: { market_segments: [key] }
     }
   }
   MarketSegments.set(key, newSegment)

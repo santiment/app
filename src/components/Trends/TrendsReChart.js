@@ -21,7 +21,7 @@ import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import { getDateFormats } from '../../utils/dates'
 import displayPaywall from '../../ducks/SANCharts/Paywall'
-import paywallBoundaries from '../../pages/Chart/paywallBoundaries'
+import paywallBoundaries from '../../pages/Studio/paywallBoundaries'
 import { mapSizesToProps } from '../../utils/withSizes'
 import styles from './TrendsReChart.module.scss'
 

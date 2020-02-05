@@ -1,7 +1,6 @@
 import React from 'react'
 import { CSVLink } from 'react-csv'
 import Button from '@santiment-network/ui/Button'
-import PropTypes from 'prop-types'
 import { getDateFormats, getTimeFormats } from '../../utils/dates'
 import { mergeTimeseriesByKey } from '../../utils/utils'
 import { Metrics } from './data'
@@ -32,11 +31,11 @@ const getEventsWithAnomaly = (headers, data) => {
 }
 
 const DownloadCSVBtn = ({
-  metrics,
-  chartData,
   title,
+  data,
   events,
-  eventsData,
+  activeMetrics,
+  activeEvents,
   ...props
 }) => {
   const date = new Date()
@@ -46,15 +45,17 @@ const DownloadCSVBtn = ({
 
   const [eventHeaders, eventsDataWithAnomalies] = getEventsWithAnomaly(
     events,
-    eventsData
+    activeEvents
   )
 
   const headers = [
     { label: 'Date', key: 'datetime' },
-    ...metrics.concat(eventHeaders).map(({ label, key, dataKey = key }) => ({
-      label,
-      key: dataKey
-    }))
+    ...activeMetrics
+      .concat(eventHeaders)
+      .map(({ label, key, dataKey = key }) => ({
+        label,
+        key: dataKey
+      }))
   ]
 
   return (
@@ -62,7 +63,7 @@ const DownloadCSVBtn = ({
       filename={filename}
       headers={headers}
       data={mergeTimeseriesByKey({
-        timeseries: [chartData, eventsDataWithAnomalies]
+        timeseries: [data, eventsDataWithAnomalies]
       })}
       {...props}
       as={CSVLink}
@@ -72,16 +73,10 @@ const DownloadCSVBtn = ({
 
 DownloadCSVBtn.defaultProps = {
   title: '',
-  metrics: [],
-  events: [],
-  chartData: [],
-  eventsData: []
-}
-
-DownloadCSVBtn.propTypes = {
-  title: PropTypes.string,
-  metrics: PropTypes.array,
-  chartData: PropTypes.array
+  activeMetrics: [],
+  activeEvents: [],
+  data: [],
+  events: []
 }
 
 export default DownloadCSVBtn

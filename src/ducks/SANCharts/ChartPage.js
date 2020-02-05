@@ -9,14 +9,7 @@ import Chart from './Chart'
 import Synchronizer from './Chart/Synchronizer'
 import Header from './Header'
 import { getMarketSegment, mapDatetimeToNumber } from './utils'
-import {
-  Metrics,
-  Events,
-  compatabilityMap,
-  SOCIAL_SIDEBAR,
-  ASSETS_SIDEBAR,
-  HISTOGRAM_SIDEBAR
-} from './data'
+import { Metrics, Events, compatabilityMap, ASSETS_SIDEBAR } from './data'
 import { getNewInterval, INTERVAL_ALIAS } from './IntervalSelector'
 import GA from './../../utils/tracking'
 import UpgradePaywall from './../../components/UpgradePaywall/UpgradePaywall'
@@ -50,16 +43,6 @@ const DEFAULT_STATE = {
   marketSegments: [],
   isMultiChartsActive: true
 }
-
-const LoadableHistogramSidebar = Loadable({
-  loader: () => import('./Histogram'),
-  loading: () => <div />
-})
-
-const LoadableSocialContextSidebar = Loadable({
-  loader: () => import('./SocialContext'),
-  loading: () => <div />
-})
 
 const LoadableChartSidecar = Loadable({
   loader: () => import('./ChartSidecar'),
@@ -584,7 +567,6 @@ class ChartPage extends Component {
                           defaultTimerange={timeRange}
                           onTimerangeChange={this.onTimerangeChange}
                           onCalendarChange={this.onCalendarChange}
-                          generateShareLink={this.generateShareLink}
                           onNightModeSelect={this.onNightModeSelect}
                           onMultiChartsChange={this.onMultiChartsChange}
                           isMultiChartsActive={isMultiChartsActive}
@@ -605,6 +587,7 @@ class ChartPage extends Component {
                           eventsData={eventsFiltered}
                           slugTitle={slug}
                           project={project}
+                          shareLink={this.generateShareLink(errors)}
                         />
                       </>
                     )}
@@ -622,14 +605,13 @@ class ChartPage extends Component {
                         data={mapDatetimeToNumber(timeseries)}
                         chartRef={this.chartRef}
                         scale={isLogScale ? logScale : linearScale}
-                        leftBoundaryDate={leftBoundaryDate}
-                        rightBoundaryDate={rightBoundaryDate}
+                        leftBoundaryDate={!hasPremium && leftBoundaryDate}
+                        rightBoundaryDate={!hasPremium && rightBoundaryDate}
                         isAdvancedView={isAdvancedView}
                         isIntervalSmallerThanDay={isIntervalSmallerThanDay}
                         isLoading={isParentLoading || isLoading}
                         isWideChart={isWideChart}
                         onPointHover={this.getSocialContext}
-                        hasPremium={hasPremium}
                       />
                     </Synchronizer>
 
@@ -642,34 +624,6 @@ class ChartPage extends Component {
                     )}
                   </div>
                 </div>
-                {!viewOnly &&
-                  !hideSettings.sidecar &&
-                  (metrics.includes(Metrics.socialVolume) ||
-                    events.includes(Events.trendPositionHistory)) && (
-                  <LoadableSocialContextSidebar
-                    onSidebarToggleClick={this.onSidebarToggleClick}
-                    isAdvancedView={isAdvancedView === SOCIAL_SIDEBAR}
-                    classes={classes}
-                    projectName={slug}
-                    interval={interval}
-                    date={this.state.socialContextDate}
-                    isWideChart={isWideChart}
-                  />
-                )}
-
-                {!viewOnly &&
-                  !hideSettings.sidecar &&
-                  metrics.includes(Metrics.age_destroyed) && (
-                  <LoadableHistogramSidebar
-                    onSidebarToggleClick={this.onSidebarToggleClick}
-                    isAdvancedView={isAdvancedView === HISTOGRAM_SIDEBAR}
-                    classes={classes}
-                    slug={slug}
-                    interval={interval}
-                    date={this.state.socialContextDate}
-                    isWideChart={isWideChart}
-                  />
-                )}
 
                 {!viewOnly && !hideSettings.sidecar && (
                   <LoadableChartSidecar

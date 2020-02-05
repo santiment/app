@@ -1,5 +1,4 @@
 import React from 'react'
-import { Bar } from 'recharts'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
 import Label from '@santiment-network/ui/Label'
@@ -36,7 +35,7 @@ const ChartActiveMetrics = ({
             >
               <Button border className={styles.btn}>
                 <MetricIcon
-                  isBar={node === Bar}
+                  node={node}
                   color={`var(--${color || METRIC_COLORS[newColorId++]})`}
                   className={styles.label}
                 />

@@ -111,7 +111,7 @@ const LoadableSearchMobilePage = Loadable({
 })
 
 const LoadableChartPage = Loadable({
-  loader: () => import('./pages/Chart'),
+  loader: () => import('./pages/Studio'),
   loading: () => <PageLoader />
 })
 
