@@ -61,6 +61,16 @@ export const handleLoginSuccess = action$ =>
       const loggedEmails = localStorage.getItem('loggedEmails') || ''
       const { email } = user
 
+      window.$FPROM &&
+        window.$FPROM.trackSignup(
+          {
+            email
+            // TODO: add this after we will have this info --> uid:<user-billing-id>
+          },
+          function () {
+            console.log('Pss... :) This is awesome!')
+          }
+        )
       GA.update(user)
 
       if (user.firstLogin || (email && !loggedEmails.includes(email))) {
