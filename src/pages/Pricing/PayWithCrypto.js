@@ -8,6 +8,16 @@ const PayWithCrypto = () => (
       <div className={styles.title}>Pay with crypto</div>
       <div className={styles.description}>
         You can burn SAN tokens or pay by DAI/ETH
+        <Button
+          variant='ghost'
+          accent='positive'
+          as='a'
+          rel='noopener noreferrer'
+          target='_blank'
+          href='https://academy.santiment.net/san-tokens/how-to-pay-with-crypto/'
+        >
+          Learn more
+        </Button>
       </div>
       <Button
         variant='fill'
