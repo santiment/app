@@ -121,9 +121,7 @@ export const SidecarItems = ({
           />
 
           <section className={cx(styles.section, styles.sectionOffset)}>
-            <h2 className={cx(styles.subtitle, classes.subTitle)}>
-              Categories
-            </h2>
+            <h2 className={cx(styles.subtitle, classes.subTitle)}>Indices</h2>
             <Categories onClick={setOpenedList} />
           </section>
           <section className={styles.section}>

@@ -106,7 +106,11 @@ const GeneralFeed = ({
     [isLoggedIn]
   )
 
-  const onChangeSort = value => setSortType(value)
+  const onChangeSort = value => {
+    if (value) {
+      setSortType(value)
+    }
+  }
 
   if (isUserLoading) {
     return (
@@ -153,8 +157,6 @@ const GeneralFeed = ({
           if (!data) {
             return <Empty />
           }
-
-          console.log(props)
 
           return (
             <FeedListLoading
