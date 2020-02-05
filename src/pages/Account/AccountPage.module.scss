@@ -36,7 +36,7 @@
 }
 
 .settings {
-  margin-bottom: 50px;
+  margin-bottom: 25px;
 
   &__header {
     background: var(--athens);
@@ -406,4 +406,8 @@
   color: var(--casper);
 
   @include text('body-3');
+}
+
+.logoutBtn {
+  margin-bottom: 25px;
 }

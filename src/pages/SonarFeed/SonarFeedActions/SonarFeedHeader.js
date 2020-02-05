@@ -5,7 +5,7 @@ import styles from './SonarFeedHeader.module.scss'
 const SonarFeedHeader = () => {
   return (
     <div className={styles.header}>
-      <h1>Sonar</h1>
+      <h1>Signals</h1>
       <div className={styles.explanation}>
         <HelpTooltip
           withDesc={false}
