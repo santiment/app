@@ -5,6 +5,7 @@ import * as actions from './../actions/types'
 import { handleErrorAndTriggerAction } from './utils'
 import { getUserWallet } from '../pages/UserSelectors'
 import { savePrevAuthProvider } from './../utils/localStorage'
+import GA from './../utils/tracking'
 import { USER_GQL_FRAGMENT } from './handleLaunch'
 
 const ETH_LOGIN_QUERY = gql`
@@ -19,7 +20,7 @@ const ETH_LOGIN_QUERY = gql`
       messageHash: $messageHash
     ) {
       token
-      user 
+      user
         ${USER_GQL_FRAGMENT}
     }
   }
@@ -89,6 +90,13 @@ const handleEthLogin = (action$, store, { client }) =>
       return Observable.from(loginWithEthereum(client))
         .mergeMap(({ data }) => {
           const { token, user } = data.ethLogin
+          GA.update(user)
+          if (user.firstLogin) {
+            GA.event({
+              category: 'User',
+              action: 'First login'
+            })
+          }
           savePrevAuthProvider('metamask')
           return Observable.of({
             type: actions.USER_LOGIN_SUCCESS,
