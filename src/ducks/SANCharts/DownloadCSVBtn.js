@@ -43,28 +43,37 @@ const DownloadCSVBtn = ({
   const { HH, mm, ss } = getTimeFormats(date)
   const filename = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`
 
-  const [eventHeaders, eventsDataWithAnomalies] = getEventsWithAnomaly(
-    events,
-    activeEvents
-  )
+  let headers = []
+  let mergedData = []
 
-  const headers = [
-    { label: 'Date', key: 'datetime' },
-    ...activeMetrics
-      .concat(eventHeaders)
-      .map(({ label, key, dataKey = key }) => ({
-        label,
-        key: dataKey
-      }))
-  ]
+  try {
+    const [eventHeaders, eventsDataWithAnomalies] = getEventsWithAnomaly(
+      events,
+      activeEvents
+    )
+
+    headers = [
+      { label: 'Date', key: 'datetime' },
+      ...activeMetrics
+        .concat(eventHeaders)
+        .map(({ label, key, dataKey = key }) => ({
+          label,
+          key: dataKey
+        }))
+    ]
+
+    mergedData = mergeTimeseriesByKey({
+      timeseries: [data, eventsDataWithAnomalies]
+    })
+  } catch (e) {
+    return null
+  }
 
   return (
     <Button
       filename={filename}
       headers={headers}
-      data={mergeTimeseriesByKey({
-        timeseries: [data, eventsDataWithAnomalies]
-      })}
+      data={mergedData}
       {...props}
       as={CSVLink}
     />
