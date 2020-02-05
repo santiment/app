@@ -3,6 +3,7 @@ import Button from '@santiment-network/ui/Button'
 import Plans from './Plans'
 import TokensTooltip from './TokensTooltip'
 import Testimonials from '../../components/Testimonials'
+import PayWithCrypto from './PayWithCrypto'
 import styles from './index.module.scss'
 
 export default () => {
@@ -15,7 +16,7 @@ export default () => {
       </div>
       <TokensTooltip />
       <Plans id='plans' />
-
+      <PayWithCrypto />
       <Testimonials />
       <section className={styles.ready}>
         <div className={styles.ready__content}>
