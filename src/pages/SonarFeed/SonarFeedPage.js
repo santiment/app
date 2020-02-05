@@ -11,10 +11,7 @@ import { isTelegramConnected } from '../../pages/UserSelectors'
 import SonarFeedHeader from './SonarFeedActions/SonarFeedHeader'
 import { showNotification } from '../../actions/rootActions'
 import SignalMasterModalForm from '../../ducks/Signals/signalModal/SignalMasterModalForm'
-import {
-  SIGNAL_ANCHORS,
-  SIGNAL_ROUTES
-} from '../../ducks/Signals/common/constants'
+import { SIGNAL_ROUTES } from '../../ducks/Signals/common/constants'
 import { getShareSignalParams } from '../../ducks/Signals/common/getSignal'
 import { sendParams } from '../Account/SettingsSonarWebPushNotifications'
 import { RecommendedSignals } from './SonarFeedRecommendations'
@@ -44,19 +41,7 @@ const MY_SIGNALS_MODAL_VIEW = {
   hidden: true
 }
 
-const tabs = [
-  MY_SIGNALS_LIST,
-  MY_SIGNALS_MODAL_VIEW,
-  {
-    index: `${baseLocation}/activity`,
-    path: `${baseLocation}/activity`,
-    content: 'Activity',
-    component: Loadable({
-      loader: () => import('./SonarFeedActivityPage'),
-      loading: () => <PageLoader />
-    })
-  }
-]
+const tabs = [MY_SIGNALS_LIST, MY_SIGNALS_MODAL_VIEW]
 
 const SonarFeed = ({
   location: { pathname },
@@ -101,10 +86,8 @@ const SonarFeed = ({
 
   const shareSignalParams = getShareSignalParams()
 
-  const isActivities = hash === SIGNAL_ANCHORS.ACTIVITIES
-  const currentPage = isActivities
-    ? SIGNAL_ROUTES.ACTIVITIES
-    : SIGNAL_ROUTES.MY_SIGNALS
+  const isActivities = false
+  const currentPage = SIGNAL_ROUTES.MY_SIGNALS
 
   const defaultRoute = isActivities ? (
     <Route component={tabs[1].component} />
