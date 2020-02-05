@@ -36,10 +36,13 @@ export function plotTooltip (chart, marker, point) {
     tooltip: { ctx },
     tooltipKey
   } = chart
+  const metricPoint = point[tooltipKey]
+  if (!metricPoint) return
+
   clearCtx(chart, ctx)
 
   const { x, value: datetime } = point
-  const { y, value } = point[tooltipKey]
+  const { y, value } = metricPoint
 
   drawHoverLineX(chart, x, 5)
   drawHoverLineY(chart, y, -20)
