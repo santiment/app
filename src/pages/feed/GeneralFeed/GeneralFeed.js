@@ -34,7 +34,7 @@ const tabs = [
   }
 ]
 
-const Header = ({ onChangeSort, sortType, onChangeTab, tab }) => (
+const Header = ({ onChangeSort, sortType, onChangeTab, tab, isLoggedIn }) => (
   <>
     <div className={styles.title}>
       <div>Feed</div>
@@ -46,7 +46,7 @@ const Header = ({ onChangeSort, sortType, onChangeTab, tab }) => (
       />
     </div>
     <Tabs
-      options={tabs}
+      options={isLoggedIn ? tabs : [tabs[0]]}
       defaultSelectedIndex={tab}
       passSelectionIndexToItem
       className={styles.tabs}
@@ -82,7 +82,7 @@ const GeneralFeed = ({
   fetchSignals,
   location: { pathname }
 }) => {
-  const [tab, setTab] = useState(pathname)
+  const [tab, setTab] = useState(isLoggedIn ? pathname : baseLocation)
   const [sortType, setSortType] = useState(DATETIME_SORT)
   const [filters, setFilters] = useState({
     author: getFeedAuthorType(tab)
@@ -123,6 +123,7 @@ const GeneralFeed = ({
           sortType={sortType}
           onChangeTab={onChangeTab}
           tab={tab}
+          isLoggedIn={isLoggedIn}
         />
         <div className={styles.scrollable}>
           <PageLoader />
@@ -137,6 +138,7 @@ const GeneralFeed = ({
         onChangeSort={onChangeSort}
         sortType={sortType}
         onChangeTab={onChangeTab}
+        isLoggedIn={isLoggedIn}
         tab={tab}
       />
 
