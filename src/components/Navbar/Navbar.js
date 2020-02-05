@@ -53,7 +53,7 @@ const leftLinks = [
           products={LABS}
           position='start'
           showHeader={false}
-          offsetX={-410}
+          offsetX={-330}
           productProps={{
             className: styles.labCard
           }}
