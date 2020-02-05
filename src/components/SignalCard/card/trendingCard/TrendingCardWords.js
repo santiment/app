@@ -6,15 +6,6 @@ const toRenderedWord = word => ({
   word
 })
 
-const PRESAVED_WORDS = [
-  toRenderedWord('vechain'),
-  toRenderedWord('binance'),
-  toRenderedWord('crypto'),
-  toRenderedWord('moon'),
-  toRenderedWord('ethereum'),
-  toRenderedWord('ico')
-]
-
 const getWords = (triggerWords, activityPayload) => {
   if (triggerWords) {
     return Array.isArray(triggerWords)
@@ -40,15 +31,19 @@ const getWords = (triggerWords, activityPayload) => {
       }, [])
     } catch (e) {
       console.error(e)
-      return PRESAVED_WORDS
+      return []
     }
   }
 
-  return PRESAVED_WORDS
+  return []
 }
 
 const TrendingCardWords = ({ settings: { target }, activityPayload }) => {
   const words = getWords(target.word, activityPayload)
+
+  if (!words || words.length === 0) {
+    return null
+  }
 
   return (
     <div className={styles.words}>

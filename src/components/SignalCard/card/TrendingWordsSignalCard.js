@@ -1,9 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import { DesktopOnly } from '../../Responsive'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import SignalCardHeader from './SignalCardHeader'
-import CopySignal from '../controls/CopySignal'
 import LikeBtnWrapper from '../../Like/LikeBtnWrapper'
 import TrendingCardInsights from './trendingInsights/TrendingCardInsights'
 import TrendingCardWords from './trendingCard/TrendingCardWords'
@@ -11,15 +11,13 @@ import FeedCardDate from '../../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
 import { getAmPmWithHours } from '../../../utils/dates'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
-import { Link } from 'react-router-dom'
 
 const TrendingWordsSignalCard = ({
   className,
   activityPayload,
-  activity: { votes, trigger: signal, insertedAt: date, user },
+  activity: { votes, trigger: signal, insertedAt: date },
   onLike
 }) => {
-  const { id: creatorId } = user
   const {
     title,
     settings,
@@ -58,7 +56,6 @@ const TrendingWordsSignalCard = ({
             className={styles.likeBtn}
             votes={votes}
           />
-          <CopySignal signal={signal} creatorId={creatorId} />
         </div>
       </div>
     </Panel>
