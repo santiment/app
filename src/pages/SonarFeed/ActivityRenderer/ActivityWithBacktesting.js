@@ -67,7 +67,7 @@ const ActivityWithBacktesting = ({
           {onLike && (
             <LikeBtnWrapper onLike={onLike} votes={votes} user={user} />
           )}
-          <CopySignal signal={trigger} />
+          <CopySignal signal={trigger} creatorId={user.id} />
         </div>
       </div>
     </>

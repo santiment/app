@@ -47,6 +47,7 @@ const ActivityRenderer = ({
             index={index}
             classes={classes}
             activity={activity}
+            onLike={onLike}
             user={user}
             date={triggerDate}
           />

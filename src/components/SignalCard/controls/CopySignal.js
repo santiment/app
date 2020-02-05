@@ -67,14 +67,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = (state, { creatorId, signal }) => {
+  const { user: { data: { id } = {} } = {} } = state
   const isLoggedIn = checkIsLoggedIn(state)
 
   return {
-    isAuthor:
-      state &&
-      state.user &&
-      state.user.data &&
-      +state.user.data.id === +creatorId,
+    isAuthor: +id === +creatorId,
     isLoggedIn: isLoggedIn,
     isCreated:
       !isLoggedIn ||
