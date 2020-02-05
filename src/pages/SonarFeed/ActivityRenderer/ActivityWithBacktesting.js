@@ -9,8 +9,8 @@ import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
 import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
 import { DesktopOnly } from '../../../components/Responsive'
-import styles from './ActivityRenderer.module.scss'
 import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
+import styles from './ActivityRenderer.module.scss'
 
 const ActivityWithBacktesting = ({
   date,
@@ -24,6 +24,7 @@ const ActivityWithBacktesting = ({
     title,
     settings: { type }
   } = trigger
+
   return (
     <>
       <DesktopOnly>
@@ -67,7 +68,9 @@ const ActivityWithBacktesting = ({
         </div>
 
         <div className={styles.bottom}>
-          {onLike && <LikeBtnWrapper onLike={onLike} votes={votes} />}
+          {onLike && (
+            <LikeBtnWrapper onLike={onLike} votes={votes} user={user} />
+          )}
           <CopySignal signal={trigger} />
         </div>
       </div>
