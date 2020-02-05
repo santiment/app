@@ -2,15 +2,20 @@
 @import '../variables';
 
 .wrapper {
-  position: fixed;
+  position: absolute;
   top: 70px;
-  bottom: 0;
+  height: 100vh;
   left: 0;
   width: $sidebar-width;
   background: var(--white);
   border-right: 1px solid var(--porcelain);
   display: flex;
   flex-direction: column;
+}
+
+.fixed {
+  position: fixed;
+  top: 0;
 }
 
 .header {
@@ -35,7 +40,12 @@
 
 .selector {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: hidden;
+
+  &:hover {
+    overflow-y: auto;
+    overflow-y: overlay;
+  }
 }
 
 .loading {

@@ -57,8 +57,10 @@ const Sidebar = ({ loading, ...rest }) => {
     const { offsetHeight } = header
 
     function fixSidebar () {
-      const dif = offsetHeight - window.scrollY
-      sidebar.style.top = (dif > 0 ? dif : 0) + 'px'
+      requestAnimationFrame(() => {
+        const dif = offsetHeight - window.scrollY
+        sidebar.classList.toggle(styles.fixed, dif < 0)
+      })
     }
 
     fixSidebar()
