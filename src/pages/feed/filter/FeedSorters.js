@@ -1,8 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
 import Select from '@santiment-network/ui/Search/Select/Select'
-import '../../../components/formik-santiment-ui/FormikSelect.scss'
 import styles from './FeedSorters.module.scss'
+import './FeedSortersCustom.scss'
 
 export const DATETIME_SORT = {
   label: 'Newest',
@@ -36,10 +36,10 @@ const FeedSorters = ({ sortType, onChangeSort, className }) => {
     <div className={cx(styles.container, className)}>
       <div className={styles.select}>
         <Select
-          className='select__container-single'
           clearable={false}
           value={sortType}
           options={FILTER_OPTIONS}
+          searchable={false}
           onChange={value => {
             onChangeSort && onChangeSort(value)
           }}
