@@ -3,7 +3,3 @@ export const SIGNAL_ROUTES = {
   SIGNAL: `/sonar/signal/:id`,
   ACTIVITIES: '/sonar/activity'
 }
-
-export const SIGNAL_ANCHORS = {
-  ACTIVITIES: '#activities'
-}

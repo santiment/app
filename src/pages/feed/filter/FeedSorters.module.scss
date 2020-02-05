@@ -8,4 +8,8 @@
 .select {
   min-width: 110px;
   height: 32px;
+
+  .Select-menu-outer {
+    max-width: 110px;
+  }
 }

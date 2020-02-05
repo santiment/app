@@ -62,7 +62,7 @@ export const LABS = [
     title: 'Studio',
     description:
       'On-chain, social, development and financial indicators for 900+ crypto assets',
-    to: '/chart',
+    to: '/',
     showLink: false
   }
 ]

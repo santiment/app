@@ -3,14 +3,13 @@ import cx from 'classnames'
 import Markdown from 'react-markdown'
 import { Link } from 'react-router-dom'
 import { SignalTypeIcon } from '../../../components/SignalCard/controls/SignalControls'
-import { SIGNAL_ANCHORS } from '../../../ducks/Signals/common/constants'
 import SignalPreview from '../../../ducks/Signals/chart/preview/SignalPreview'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
 import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
 import { DesktopOnly } from '../../../components/Responsive'
-import styles from './ActivityRenderer.module.scss'
 import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
+import styles from './ActivityRenderer.module.scss'
 
 const ActivityWithBacktesting = ({
   date,
@@ -24,6 +23,7 @@ const ActivityWithBacktesting = ({
     title,
     settings: { type }
   } = trigger
+
   return (
     <>
       <DesktopOnly>
@@ -40,10 +40,7 @@ const ActivityWithBacktesting = ({
           >
             <div className={styles.center}>
               <h4 className={styles.title}>
-                <Link
-                  to={`/sonar/signal/${signalId}${SIGNAL_ANCHORS.ACTIVITIES}`}
-                  className={styles.link}
-                >
+                <Link to={`/sonar/signal/${signalId}`} className={styles.link}>
                   {title}
                 </Link>
               </h4>
@@ -67,8 +64,10 @@ const ActivityWithBacktesting = ({
         </div>
 
         <div className={styles.bottom}>
-          {onLike && <LikeBtnWrapper onLike={onLike} votes={votes} />}
-          <CopySignal signal={trigger} />
+          {onLike && (
+            <LikeBtnWrapper onLike={onLike} votes={votes} user={user} />
+          )}
+          <CopySignal signal={trigger} creatorId={user.id} />
         </div>
       </div>
     </>

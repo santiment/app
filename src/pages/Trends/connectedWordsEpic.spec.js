@@ -17,6 +17,10 @@ import { ALL_INSIGHTS_BY_TAG_QUERY } from '../../queries/InsightsGQL'
 
 const mockStore = configureStore([])
 
+Date.now = function () {
+  return 1580915496145
+}
+
 const createClient = link => {
   return new ApolloClient({
     link,
@@ -190,10 +194,12 @@ describe('Connect Trending Words', () => {
     const promise = epic$.toPromise()
     const result = await promise
 
-    expect(result.payload.connectedTrends).toEqual({
+    const { connectedTrends } = result.payload
+    connectedTrends.DOGE.sort()
+    expect(connectedTrends).toEqual({
       BCH: ['DOGE', 'ETHEREUM'],
       BTC: ['DOGE'],
-      DOGE: ['BTC', 'BCH', 'ETHEREUM'],
+      DOGE: ['BTC', 'BCH', 'ETHEREUM'].sort(),
       ETHEREUM: ['BCH', 'DOGE']
     })
   })

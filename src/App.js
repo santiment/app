@@ -33,6 +33,7 @@ import { getConsentUrl } from './utils/utils'
 import CookiePopup from './components/CookiePopup/CookiePopup'
 import LogoutPage from './pages/Logout/Logout'
 import { mapSizesToProps } from './utils/withSizes'
+import styles from './App.module.scss'
 import './App.scss'
 
 const LoadableLabsPage = Loadable({
@@ -402,7 +403,11 @@ export const App = ({
         <Route
           path='/'
           render={props => (
-            <LoadableChartPage isLoggedIn={isLoggedIn} {...props} />
+            <LoadableChartPage
+              classes={{ wrapper: styles.chart }}
+              isLoggedIn={isLoggedIn}
+              {...props}
+            />
           )}
         />
       </Switch>
