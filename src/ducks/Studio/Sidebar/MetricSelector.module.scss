@@ -77,9 +77,16 @@
   height: auto;
   text-align: left;
 
-  &:hover .active {
-    background: var(--persimmon-light);
-    fill: var(--persimmon);
+  &:hover {
+    .plus {
+      background: var(--jungle-green-light);
+      fill: var(--jungle);
+    }
+
+    .active {
+      background: var(--persimmon-light);
+      fill: var(--persimmon);
+    }
   }
 }
 
