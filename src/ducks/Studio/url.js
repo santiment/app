@@ -41,13 +41,20 @@ export function generateShareLink (settings, options, metrics, events) {
   })
 }
 
+const sanitize = array => {
+  if (!array) return
+
+  const cleaned = array.filter(Boolean)
+  return cleaned.length === 0 ? undefined : cleaned
+}
+
 export function parseUrl () {
   const data = parse(window.location.search, { arrayFormat: 'comma' })
 
   return {
     settings: reduceStateKeys(DEFAULT_SETTINGS, data),
     options: reduceStateKeys(DEFAULT_OPTIONS, data),
-    metrics: convertKeysToMetric(data.metrics, Metrics),
-    events: convertKeysToMetric(data.events, Events)
+    metrics: sanitize(convertKeysToMetric(data.metrics, Metrics)),
+    events: sanitize(convertKeysToMetric(data.events, Events))
   }
 }

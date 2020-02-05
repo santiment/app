@@ -1,11 +1,15 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
+import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
 import Chart from '../../SANCharts/Chart'
 import Synchronizer from '../../SANCharts/Chart/Synchronizer'
 import { mapDatetimeToNumber } from '../../SANCharts/utils'
 import styles from './index.module.scss'
+
+const checkHasBoundaries = ({ leftBoundaryDate: a, rightBoundaryDate: b }) =>
+  a || b
 
 export default ({
   chartRef,
@@ -37,16 +41,19 @@ export default ({
           />
         </div>
 
-        <Button
-          border
-          as='a'
-          accent='positive'
-          href='https://forms.gle/Suz8FVDsKtFiKhBs9'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Feedback
-        </Button>
+        <div className={styles.meta}>
+          <Button
+            border
+            as='a'
+            accent='positive'
+            href='https://forms.gle/Suz8FVDsKtFiKhBs9'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            Feedback
+          </Button>
+          {checkHasBoundaries(boundaries) && <ChartPaywallInfo />}
+        </div>
       </div>
 
       <Synchronizer
