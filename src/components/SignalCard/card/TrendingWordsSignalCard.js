@@ -41,7 +41,7 @@ const TrendingWordsSignalCard = ({
     settings: { operation: { trigger_time } = {} }
   } = trigger
 
-  const isStrict = isStrictTrendingWords(settings)
+  const strictTrendingWords = isStrictTrendingWords(settings)
 
   return (
     <Panel padding className={cx(externalStyles.wrapper, className)}>
@@ -55,7 +55,7 @@ const TrendingWordsSignalCard = ({
 
       <div className={externalStyles.wrapper__right}>
         <div className={styles.header}>
-          {isStrict ? (
+          {strictTrendingWords ? (
             <Link to='/labs/trends' className={externalStyles.title}>
               {title} {<TrendingPeriod period={trigger_time} />}
             </Link>
@@ -70,7 +70,7 @@ const TrendingWordsSignalCard = ({
           activityPayload={activityPayload}
         />
 
-        {isStrict && <TrendingCardInsights date={new Date(date)} />}
+        {strictTrendingWords && <TrendingCardInsights date={new Date(date)} />}
 
         <div className={styles.bottom}>
           <LikeBtnWrapper
