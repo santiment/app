@@ -3,6 +3,11 @@
 .container {
   display: flex;
   justify-content: flex-start;
+  margin-left: 16px;
+
+  @include responsive('desktop') {
+    margin-left: 0;
+  }
 }
 
 .wrapper {

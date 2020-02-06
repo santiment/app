@@ -12,7 +12,7 @@ export const PROJECT_METRICS_BY_SLUG_QUERY = gql`
 `
 
 export const PROJECT_BY_SLUG_QUERY = gql`
-  query projectBySlug($slug: String!, $from: DateTime!, $to: DateTime!) {
+  query projectBySlug($slug: String!) {
     project: projectBySlug(slug: $slug) {
       id
       ticker

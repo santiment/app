@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { graphql } from 'react-apollo'
 import Label from '@santiment-network/ui/Label'
+import Loader from '@santiment-network/ui/Loader/Loader'
 import { MIN_MAX_PRICE_QUERY } from '../../ducks/SANCharts/gql'
 import PercentChanges from '../PercentChanges'
 import { formatNumber } from '../../utils/formatting'
@@ -19,7 +20,7 @@ const PriceChangesWidget = ({
   range = '24h',
   price,
   isDesktop,
-  data: { getMetric = {} }
+  data: { getMetric = {}, loading }
 }) => {
   const { min = 0, max = 0 } = getMetric
   const minPrice = formatNumber(min, { currency: 'USD' })
@@ -49,8 +50,12 @@ const PriceChangesWidget = ({
       </div>
       <div className={styles.progress}>
         <span className={styles.line} style={{ '--progress': `${offset}%` }} />
-        <span className={styles.min}>{minPrice}</span>
-        <span className={styles.max}>{maxPrice}</span>
+        <span className={styles.min}>
+          {loading ? <Loader className={styles.loader} /> : minPrice}
+        </span>
+        <span className={styles.max}>
+          {loading ? <Loader className={styles.loader} /> : maxPrice}
+        </span>
       </div>
     </section>
   ) : null

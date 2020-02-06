@@ -45,14 +45,16 @@
   @include text('body-2');
 
   color: var(--rhino);
+  color: var(--jungle-green);
+  padding: 0 8px;
+  cursor: pointer;
+  background-color: var(--jungle-green-light);
+  border-radius: 2px;
 
   @include responsive('laptop', 'desktop', 'tablet') {
     @include text('caption');
 
-    color: var(--jungle-green);
     padding: 0 4px;
-    cursor: pointer;
-    background-color: var(--jungle-green-light);
   }
 }
 
@@ -107,4 +109,9 @@
       background-color: var(--casper);
     }
   }
+}
+
+.loader {
+  font-size: 5px;
+  margin-top: 4px;
 }

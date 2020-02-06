@@ -1,11 +1,20 @@
 @import './variables';
+@import '~@santiment-network/ui/mixins.scss';
 
 .wrapper {
   margin-left: $sidebar-width;
 }
 
 .container {
-  padding: 32px 25px;
+  padding: 44px 25px;
+}
+
+.header {
+  padding: 32px 0;
+
+  @include responsive('desktop') {
+    padding: 32px 25px;
+  }
 }
 
 .chart {
