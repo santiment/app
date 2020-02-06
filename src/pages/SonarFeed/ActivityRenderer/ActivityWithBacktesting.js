@@ -1,7 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
 import Markdown from 'react-markdown'
-import { Link } from 'react-router-dom'
 import { SignalTypeIcon } from '../../../components/SignalCard/controls/SignalControls'
 import SignalPreview from '../../../ducks/Signals/chart/preview/SignalPreview'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
@@ -9,8 +8,8 @@ import SignalCreator from '../../../components/SignalCard/card/creator/SignalCre
 import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
 import { DesktopOnly } from '../../../components/Responsive'
 import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
+import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import styles from './ActivityRenderer.module.scss'
-import SignalMasterModalForm from '../../../ducks/Signals/signalModal/SignalMasterModalForm'
 
 const ActivityWithBacktesting = ({
   date,
@@ -20,8 +19,6 @@ const ActivityWithBacktesting = ({
   onLike
 }) => {
   const {
-    id: signalId,
-    title,
     settings: { type }
   } = trigger
 
@@ -41,12 +38,7 @@ const ActivityWithBacktesting = ({
           >
             <div className={styles.center}>
               <h4 className={styles.title}>
-                <SignalMasterModalForm
-                  triggerId={signalId}
-                  defaultOpen={false}
-                  canRedirect={false}
-                  trigger={<div className={styles.link}>{title}</div>}
-                />
+                <OpenSignalLink signal={trigger} />
               </h4>
               <Markdown
                 source={Object.values(payload)[0]}
