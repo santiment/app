@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from 'react'
 import { matchPath } from 'react-router'
 import { connect } from 'react-redux'
 import { Link, Route, Switch, Redirect } from 'react-router-dom'
-import Tabs from '@santiment-network/ui/Tabs'
 import Loadable from 'react-loadable'
 import PageLoader from '../../components/Loader/PageLoader'
 import UnAuth from '../../components/UnAuth/UnAuth'
@@ -101,31 +100,18 @@ const SonarFeed = ({
         </div>
       ) : (
         <div className={styles.header}>
-          <MobileHeader
-            title={<SonarFeedHeader />}
-            rightActions={
-              <div className={styles.addSignal}>
-                {!isUserLoading && (
-                  <SignalMasterModalForm
-                    id={triggerId}
-                    shareParams={shareSignalParams}
-                  />
-                )}
-              </div>
-            }
-          />
+          <MobileHeader title={<SonarFeedHeader />} />
+          <div className={styles.addSignal}>
+            {!isUserLoading && (
+              <SignalMasterModalForm
+                id={triggerId}
+                shareParams={shareSignalParams}
+              />
+            )}
+          </div>
         </div>
       )}
 
-      <Tabs
-        options={tabs.filter(({ hidden }) => !hidden)}
-        defaultSelectedIndex={pathname}
-        passSelectionIndexToItem
-        className={styles.tabs}
-        as={({ selectionIndex, ...props }) => (
-          <Link {...props} to={selectionIndex} />
-        )}
-      />
       <div className={styles.content}>
         <Switch>
           {isUserLoading && <PageLoader className={styles.loader} />}
