@@ -1,11 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
-import { graphql } from 'react-apollo'
 import Label from '@santiment-network/ui/Label'
-import { MIN_MAX_PRICE_QUERY } from '../../ducks/SANCharts/gql'
 import PercentChanges from '../PercentChanges'
 import { formatNumber } from '../../utils/formatting'
-import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import styles from './PriceChangesWidget.module.scss'
 
 const PriceChangesWidget = ({
@@ -14,9 +11,9 @@ const PriceChangesWidget = ({
   percentChange24h,
   price,
   isDesktop,
-  data: { getMetric = {} }
+  minmax
 }) => {
-  const { min = 0, max = 0 } = getMetric
+  const { min = 0, max = 0 } = minmax
   const minPrice = formatNumber(min, { currency: 'USD' })
 
   const maxPrice = formatNumber(max, { currency: 'USD' })
@@ -52,10 +49,4 @@ const PriceChangesWidget = ({
   ) : null
 }
 
-export default graphql(MIN_MAX_PRICE_QUERY, {
-  skip: ({ slug }) => !slug,
-  options: ({ slug }) => {
-    const { from, to } = getTimeIntervalFromToday(-1, DAY)
-    return { variables: { slug, from, to } }
-  }
-})(PriceChangesWidget)
+export default PriceChangesWidget

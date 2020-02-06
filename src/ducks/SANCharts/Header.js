@@ -20,6 +20,7 @@ import GetProjects from '../Signals/common/projects/getProjects'
 import { TriggerProjectsSelector } from '../Signals/signalFormManager/signalCrudForm/formParts/projectsSelector/TriggerProjectsSelector'
 import { formatNumber } from '../../utils/formatting'
 import { PROJECT_BY_SLUG_QUERY } from './gql'
+import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import ALL_PROJECTS from '../../allProjects.json'
 import styles from './Header.module.scss'
 
@@ -43,8 +44,7 @@ const ProjectInfo = createSkeletonProvider(
           {name} ({ticker})
         </H1>
         <div className={styles.project__arrows}>
-          <Icon type='arrow-up' />
-          <Icon type='arrow-down' />
+          <Icon type='arrow-down' className={styles.project__arrow} />
         </div>
       </div>
       <div className={styles.project__description}>{description}</div>
@@ -138,7 +138,7 @@ const PriceWithChanges = ({
 }
 
 const Header = ({
-  data: { project = {} },
+  data: { project = {}, minmax = {} },
   slug,
   isLoggedIn,
   isLoading,
@@ -209,6 +209,7 @@ const Header = ({
             percentChange24h={percentChange24h}
             price={priceUsd}
             isDesktop={true}
+            minmax={minmax}
           />
         )}
       </div>
@@ -219,7 +220,14 @@ const Header = ({
 export default compose(
   graphql(PROJECT_BY_SLUG_QUERY, {
     skip: ({ slug }) => !slug,
-    options: ({ slug }) => ({ variables: { slug } })
+    options: ({ slug }) => {
+      const to = new Date()
+      let from = new Date()
+      from.setHours(from.getHours() - 24)
+      return {
+        variables: { slug, from: from.toISOString(), to: to.toISOString() }
+      }
+    }
   }),
   withSizes(mapSizesToProps)
 )(Header)

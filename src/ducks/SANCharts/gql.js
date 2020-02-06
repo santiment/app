@@ -12,7 +12,7 @@ export const PROJECT_METRICS_BY_SLUG_QUERY = gql`
 `
 
 export const PROJECT_BY_SLUG_QUERY = gql`
-  query projectBySlug($slug: String!) {
+  query projectBySlug($slug: String!, $from: DateTime!, $to: DateTime!) {
     project: projectBySlug(slug: $slug) {
       id
       ticker
@@ -22,6 +22,20 @@ export const PROJECT_BY_SLUG_QUERY = gql`
       percentChange24h
       percentChange7d
       totalSupply
+    }
+    minmax: getMetric(metric: "price_usd") {
+      min: aggregatedTimeseriesData(
+        slug: $slug
+        from: $from
+        to: $to
+        aggregation: MIN
+      )
+      max: aggregatedTimeseriesData(
+        slug: $slug
+        from: $from
+        to: $to
+        aggregation: MAX
+      )
     }
   }
 `
