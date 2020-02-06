@@ -106,7 +106,10 @@ const Studio = ({
     setAdvancedView(advancedView === mode ? undefined : mode)
   }
 
-  function onProjectSelect ({ slug, name, ticker, id: projectId }) {
+  function onProjectSelect (project) {
+    if (!project) return
+
+    const { slug, name, ticker, id: projectId } = project
     const title = `${name} (${ticker})`
     setSettings(state => ({ ...state, slug, title, projectId }))
     onSlugChange(slug)
