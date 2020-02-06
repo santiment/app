@@ -12,8 +12,8 @@ import { getAmPmWithHours } from '../../../utils/dates'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
-export const isStrictTrendingWords = settings =>
-  settings.type === 'trending_words'
+export const isStrictTrendingWords = ({ operation, type }) =>
+  type === 'trending_words' && operation && operation.trigger_time
 
 export const isTrendingWordsSignal = trigger => {
   if (!trigger.settings) {
@@ -34,6 +34,7 @@ const TrendingWordsSignalCard = ({
   onLike
 }) => {
   const {
+    id,
     title,
     settings,
     isPublic,
@@ -54,7 +55,10 @@ const TrendingWordsSignalCard = ({
 
       <div className={externalStyles.wrapper__right}>
         <div className={styles.header}>
-          <Link to='/labs/trends' className={externalStyles.title}>
+          <Link
+            to={isStrict ? '/labs/trends' : '/sonar/signal/' + id}
+            className={externalStyles.title}
+          >
             {title} {<TrendingPeriod period={trigger_time} />}
           </Link>
           <FeedCardDate date={date} />
