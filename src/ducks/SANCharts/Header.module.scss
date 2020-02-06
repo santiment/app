@@ -83,6 +83,7 @@
 
   @include responsive('desktop') {
     min-width: 300px;
+    justify-content: flex-start;
   }
 
   @include responsive('tablet', 'laptop') {

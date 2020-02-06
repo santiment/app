@@ -23,20 +23,6 @@ export const PROJECT_BY_SLUG_QUERY = gql`
       percentChange7d
       totalSupply
     }
-    minmax: getMetric(metric: "price_usd") {
-      min: aggregatedTimeseriesData(
-        slug: $slug
-        from: $from
-        to: $to
-        aggregation: MIN
-      )
-      max: aggregatedTimeseriesData(
-        slug: $slug
-        from: $from
-        to: $to
-        aggregation: MAX
-      )
-    }
   }
 `
 
@@ -67,7 +53,7 @@ export const HISTOGRAM_DATA_QUERY = gql`
 `
 
 export const MIN_MAX_PRICE_QUERY = gql`
-  query getMetric($slug: String!, $from: DateTime!, $to: DateTime!) {
+  query getMinMaxPrice($slug: String!, $from: DateTime!, $to: DateTime!) {
     getMetric(metric: "price_usd") {
       min: aggregatedTimeseriesData(
         slug: $slug

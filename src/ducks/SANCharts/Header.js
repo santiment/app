@@ -93,6 +93,11 @@ const PriceWithChanges = ({
 
   let [activeRange, setActiveRange] = useState(0)
 
+  const changeRange = () => {
+    const nextRangeIndex = ++activeRange
+    setActiveRange(nextRangeIndex >= RANGES.length ? 0 : nextRangeIndex)
+  }
+
   return (
     <>
       <div className={styles.projectInfo}>
@@ -108,12 +113,7 @@ const PriceWithChanges = ({
             <Range
               range={RANGES[activeRange].range}
               className={styles.range}
-              changeRange={() => {
-                const nextRangeIndex = ++activeRange
-                setActiveRange(
-                  nextRangeIndex >= RANGES.length ? 0 : nextRangeIndex
-                )
-              }}
+              changeRange={changeRange}
             >
               <PercentChanges changes={RANGES[activeRange].value} />
             </Range>
@@ -131,9 +131,12 @@ const PriceWithChanges = ({
               <span
                 className={cx(styles.changesLabel, styles.changesLabel__first)}
               >
-                24h change
+                {RANGES[activeRange].range} change
               </span>
-              <PercentChanges changes={percentChange24h} label='24h' />
+              <PercentChanges
+                changes={RANGES[activeRange].value}
+                label={RANGES[activeRange].range}
+              />
             </div>
           </>
         )}
@@ -145,6 +148,7 @@ const PriceWithChanges = ({
           range={RANGES[activeRange].range}
           price={priceUsd}
           isDesktop={true}
+          onChangeRange={changeRange}
           minmax={minmax}
         />
       )}
@@ -228,15 +232,7 @@ const Header = ({
 export default compose(
   graphql(PROJECT_BY_SLUG_QUERY, {
     skip: ({ slug }) => !slug,
-    options: ({ slug }) => {
-      const to = new Date()
-      const from = new Date()
-      to.setHours(to.getHours(), 0, 0, 0)
-      from.setHours(from.getHours() - 24, 0, 0, 0)
-      return {
-        variables: { slug, from: from.toISOString(), to: to.toISOString() }
-      }
-    }
+    options: ({ slug }) => ({ variables: { slug } })
   }),
   withSizes(mapSizesToProps)
 )(Header)
