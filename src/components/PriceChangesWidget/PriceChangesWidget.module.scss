@@ -78,6 +78,7 @@
     top: 0;
     left: 0;
     display: block;
+    transition: width 1s ease-in-out, left 1s ease-in-out;
     width: calc(var(--progress) - 2px);
     height: 2px;
     border-radius: 2px;
@@ -102,6 +103,7 @@
     width: 4px;
     height: 4px;
     border-radius: 50%;
+    transition: left 1s ease-in-out;
     background-color: var(--waterloo);
 
     @include responsive('laptop', 'desktop', 'tablet') {
