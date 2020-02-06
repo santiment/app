@@ -12,6 +12,21 @@ import { getAmPmWithHours } from '../../../utils/dates'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
+export const isStrictTrendingWords = settings =>
+  settings.type === 'trending_words'
+
+export const isTrendingWordsSignal = trigger => {
+  if (!trigger.settings) {
+    return false
+  }
+
+  if (isStrictTrendingWords(trigger.settings)) {
+    return true
+  }
+
+  return trigger.settings.operation && trigger.settings.operation.trending_word
+}
+
 const TrendingWordsSignalCard = ({
   className,
   activityPayload,
@@ -24,6 +39,8 @@ const TrendingWordsSignalCard = ({
     isPublic,
     settings: { operation: { trigger_time } = {} }
   } = signal
+
+  const isStrict = isStrictTrendingWords(settings)
 
   return (
     <Panel padding className={cx(externalStyles.wrapper, className)}>
@@ -48,7 +65,7 @@ const TrendingWordsSignalCard = ({
           activityPayload={activityPayload}
         />
 
-        <TrendingCardInsights date={new Date(date)} />
+        {isStrict && <TrendingCardInsights date={new Date(date)} />}
 
         <div className={styles.bottom}>
           <LikeBtnWrapper

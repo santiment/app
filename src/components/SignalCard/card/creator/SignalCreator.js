@@ -16,18 +16,16 @@ const SignalCreator = ({ user: { id, username, avatarUrl } = {} }) => {
   }
 
   return (
-    <div className={styles.container}>
+    <Link to={`/profile/${id}`} className={styles.container}>
       {id && (
         <UserAvatar isExternal externalAvatarUrl={avatarUrl} classes={styles} />
       )}
-      <div className={cx(styles.right, !id && styles.withoutUser)}>
-        {username && (
-          <Link to={`/profile/${id}`} className={styles.name}>
-            {username}
-          </Link>
-        )}
-      </div>
-    </div>
+      {username && (
+        <div className={cx(styles.right, !id && styles.withoutUser)}>
+          {username}
+        </div>
+      )}
+    </Link>
   )
 }
 

@@ -3,20 +3,10 @@ import InsightCard from '../../../../components/Insight/InsightCardWithMarketcap
 import WithFeedEventLikesMutation from '../../../../components/Like/WithFeedEventLikesMutation'
 import WithInsightLikesMutation from '../../../../components/Like/WithInsightLikesMutation'
 import ActivityRenderer from '../../../SonarFeed/ActivityRenderer/ActivityRenderer'
-import TrendingWordsSignalCard from '../../../../components/SignalCard/card/TrendingWordsSignalCard'
+import TrendingWordsSignalCard, {
+  isTrendingWordsSignal
+} from '../../../../components/SignalCard/card/TrendingWordsSignalCard'
 import styles from './FeedItemRenderer.module.scss'
-
-const isTrendingWordsSignal = trigger => {
-  if (!trigger.settings) {
-    return false
-  }
-
-  if (trigger.settings.type === 'trending_words') {
-    return true
-  }
-
-  return trigger.settings.operation && trigger.settings.operation.trending_word
-}
 
 const FeedItemRenderer = ({ item, index }) => {
   const { id: eventId, __typename, payload, trigger, insertedAt } = item
