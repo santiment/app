@@ -7,6 +7,13 @@ import {
 import { MARKET_SEGMENT_QUERY } from '../../../ducks/GetTimeSeries/queries/market_segment_query'
 import { mergeTimeseriesByKey } from '../../../utils/utils'
 
+// NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]
+window.AbortController =
+  window.AbortController ||
+  function () {
+    return { abort () {} }
+  }
+
 const DEFAULT_TS = []
 const DEFAULT_LOADINGS = []
 const DEFAULT_ERROR_MSG = {}

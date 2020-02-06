@@ -19,7 +19,14 @@ const MetricButton = ({
   const { key, dataKey = key, node, label, description } = metric
 
   return (
-    <MetricExplanation label={label} description={description} withChildren>
+    <MetricExplanation
+      label={label}
+      description={description}
+      withChildren
+      position='left'
+      closeTimeout={22}
+      offsetX={8}
+    >
       <Button border className={styles.btn}>
         {isLoading ? (
           <div className={styles.loader} />
