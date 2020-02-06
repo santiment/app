@@ -10,6 +10,7 @@ import TrendingCardWords from './trendingCard/TrendingCardWords'
 import FeedCardDate from '../../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
 import { getAmPmWithHours } from '../../../utils/dates'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
+import SignalCreator from './creator/SignalCreator'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
@@ -71,6 +72,8 @@ const TrendingWordsSignalCard = ({
         />
 
         {strictTrendingWords && <TrendingCardInsights date={new Date(date)} />}
+
+        <SignalCreator user={user} />
 
         <div className={styles.bottom}>
           <LikeBtnWrapper
