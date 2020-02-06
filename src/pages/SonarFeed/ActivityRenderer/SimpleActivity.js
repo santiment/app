@@ -1,6 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-import { Link } from 'react-router-dom'
 import Markdown from 'react-markdown'
 import { SignalTypeIcon } from '../../../components/SignalCard/controls/SignalControls'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
@@ -8,6 +7,7 @@ import SignalCreator from '../../../components/SignalCard/card/creator/SignalCre
 import { DesktopOnly } from '../../../components/Responsive'
 import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
 import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
+import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import styles from './ActivityRenderer.module.scss'
 
 const SimpleActivity = ({
@@ -18,7 +18,7 @@ const SimpleActivity = ({
     triggeredAt,
     payload,
     trigger,
-    trigger: { id: signalId, title, settings: { type } } = {},
+    trigger: { settings: { type } } = {},
     votes = []
   },
   onLike
@@ -31,9 +31,7 @@ const SimpleActivity = ({
       <div className={styles.center}>
         <div className={cx(styles.description, styles.activityCustom)}>
           <h4 className={styles.title}>
-            <Link to={`/sonar/signal/${signalId}`} className={styles.link}>
-              {title}
-            </Link>
+            <OpenSignalLink signal={trigger} />
             <FeedCardDate date={triggeredAt || date} />
           </h4>
         </div>

@@ -9,6 +9,7 @@ import TrendingCardInsights from './trendingInsights/TrendingCardInsights'
 import TrendingCardWords from './trendingCard/TrendingCardWords'
 import FeedCardDate from '../../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
 import { getAmPmWithHours } from '../../../utils/dates'
+import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import externalStyles from './SignalCard.module.scss'
 import styles from './TrendingWordsSignalCard.module.scss'
 
@@ -30,16 +31,15 @@ export const isTrendingWordsSignal = trigger => {
 const TrendingWordsSignalCard = ({
   className,
   activityPayload,
-  activity: { votes, trigger: signal, insertedAt: date, user },
+  activity: { votes, trigger, insertedAt: date, user },
   onLike
 }) => {
   const {
-    id,
     title,
     settings,
     isPublic,
     settings: { operation: { trigger_time } = {} }
-  } = signal
+  } = trigger
 
   const isStrict = isStrictTrendingWords(settings)
 
@@ -49,18 +49,19 @@ const TrendingWordsSignalCard = ({
         <SignalCardHeader
           isUserTheAuthor={false}
           isPublic={isPublic}
-          signal={signal}
+          signal={trigger}
         />
       </DesktopOnly>
 
       <div className={externalStyles.wrapper__right}>
         <div className={styles.header}>
-          <Link
-            to={isStrict ? '/labs/trends' : '/sonar/signal/' + id}
-            className={externalStyles.title}
-          >
-            {title} {<TrendingPeriod period={trigger_time} />}
-          </Link>
+          {isStrict ? (
+            <Link to='/labs/trends' className={externalStyles.title}>
+              {title} {<TrendingPeriod period={trigger_time} />}
+            </Link>
+          ) : (
+            <OpenSignalLink signal={trigger} />
+          )}
           <FeedCardDate date={date} />
         </div>
 
