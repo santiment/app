@@ -10,7 +10,7 @@ const MobileAssetPriceInfo = ({ priceUsd, ...props }) => (
         {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
       </div>
     </div>
-    {false && <Widget {...props} className={styles.priceWidget} />}
+    <Widget {...props} price={priceUsd} className={styles.priceWidget} />
   </div>
 )
 

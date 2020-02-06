@@ -3,6 +3,10 @@
 .wrapper {
   width: 100%;
   max-width: 145px;
+
+  @include responsive('laptop', 'desktop') {
+    max-width: 200px;
+  }
 }
 
 .progress {
@@ -14,12 +18,26 @@
   color: var(--waterloo);
 
   @include text('caption');
+
+  @include responsive('laptop', 'desktop', 'tablet') {
+    @include text('caption', 'm');
+
+    color: var(--rhino);
+    padding-top: 8px;
+    margin-top: 20px;
+  }
 }
 
 .top {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.text {
+  @include text('body-3');
+
+  color: var(--waterloo);
 }
 
 .period {
@@ -38,27 +56,45 @@
   border-radius: 2px;
   background-color: var(--porcelain);
 
+  @include responsive('laptop', 'desktop', 'tablet') {
+    height: 4px;
+  }
+
   &::before {
-    width: 30%;
-    position: absolute;
     content: '';
-    display: block;
+    position: absolute;
     top: 0;
     left: 0;
+    display: block;
+    width: calc(var(--progress) - 2px);
     height: 2px;
     border-radius: 2px;
-    background-color: var(--casper);
+    background: var(--casper);
+
+    @include responsive('laptop', 'desktop', 'tablet') {
+      top: -20px;
+      left: calc(var(--progress) - 9px);
+      width: 16px;
+      height: 16px;
+      content: url('./pointer.svg');
+      background: none;
+    }
   }
 
   &::after {
-    left: calc(30% - 1px);
-    position: absolute;
     content: '';
-    display: block;
+    position: absolute;
     top: -1px;
-    height: 4px;
+    left: calc(var(--progress) - 3px);
+    display: block;
     width: 4px;
+    height: 4px;
     border-radius: 50%;
     background-color: var(--waterloo);
+
+    @include responsive('laptop', 'desktop', 'tablet') {
+      top: 0;
+      background-color: var(--casper);
+    }
   }
 }

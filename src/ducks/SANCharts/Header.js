@@ -14,6 +14,7 @@ import Range from '../../components/WatchlistOverview/Range'
 import ChartSignalCreationDialog from './ChartSignalCreationDialog'
 import PercentChanges from '../../components/PercentChanges'
 import WatchlistsPopup from '../../components/WatchlistPopup/WatchlistsPopup'
+import PriceChangesWidget from '../../components/PriceChangesWidget/PriceChangesWidget'
 import ProjectIcon from '../../components/ProjectIcon/ProjectIcon'
 import GetProjects from '../Signals/common/projects/getProjects'
 import { TriggerProjectsSelector } from '../Signals/signalFormManager/signalCrudForm/formParts/projectsSelector/TriggerProjectsSelector'
@@ -130,10 +131,6 @@ const PriceWithChanges = ({
             </span>
             <PercentChanges changes={percentChange24h} label='24h' />
           </div>
-          <div className={styles.column}>
-            <span className={styles.changesLabel}>7d change</span>
-            <PercentChanges changes={percentChange7d} label='7d' />
-          </div>
         </>
       )}
     </div>
@@ -163,14 +160,38 @@ const Header = ({
   return (
     <div className={styles.container}>
       <div className={cx(styles.wrapper, className)}>
-        <ProjectSelector
-          slug={slug}
-          project={dataProject}
-          onChange={([dataProject], closeDialog) => {
-            onSlugSelect(dataProject)
-            closeDialog()
-          }}
-        />
+        <div>
+          <ProjectSelector
+            slug={slug}
+            project={dataProject}
+            onChange={([dataProject], closeDialog) => {
+              onSlugSelect(dataProject)
+              closeDialog()
+            }}
+          />
+          <div className={styles.actions}>
+            <WatchlistsPopup
+              trigger={
+                <Button border className={styles.btn}>
+                  <Icon type='add-watchlist' className={styles.btn__icon} />
+                  Watch
+                </Button>
+              }
+              projectId={id}
+              slug={slug}
+              isLoggedIn={isLoggedIn}
+            />
+            <ChartSignalCreationDialog
+              slug={slug}
+              trigger={
+                <Button border className={cx(styles.btn, styles.signal)}>
+                  <Icon type='signal' className={styles.btn__icon} />
+                  Add signal
+                </Button>
+              }
+            />
+          </div>
+        </div>
 
         <PriceWithChanges
           isTablet={isTablet}
@@ -181,33 +202,15 @@ const Header = ({
           priceUsd={priceUsd}
         />
 
-        <div className={styles.actions}>
-          <ChartSignalCreationDialog
+        {!isTablet && (
+          <PriceChangesWidget
             slug={slug}
-            trigger={
-              <Button
-                accent='positive'
-                border
-                className={cx(styles.btn, styles.signal)}
-              >
-                <Icon type='signal' className={styles.btn__icon} />
-                Add signal
-              </Button>
-            }
+            percentChange7d={percentChange7d}
+            percentChange24h={percentChange24h}
+            price={priceUsd}
+            isDesktop={true}
           />
-
-          <WatchlistsPopup
-            trigger={
-              <Button accent='positive' border className={styles.btn}>
-                <Icon type='add-watchlist' className={styles.btn__icon} />
-                Watch {ticker}
-              </Button>
-            }
-            projectId={id}
-            slug={slug}
-            isLoggedIn={isLoggedIn}
-          />
-        </div>
+        )}
       </div>
     </div>
   )

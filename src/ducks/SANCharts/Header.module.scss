@@ -67,10 +67,9 @@
   padding: 0 5px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
   @include responsive('laptop', 'desktop') {
-    min-width: 365px;
+    min-width: 300px;
   }
 
   @include responsive('tablet') {
@@ -80,10 +79,10 @@
   & .column {
     display: flex;
     flex-direction: column;
-    padding: 0 7px;
+    margin-left: 16px;
 
     &:first-child {
-      margin-right: 10px;
+      margin-left: 0;
     }
   }
 }
@@ -115,38 +114,21 @@
 
 .actions {
   display: flex;
-
-  @include responsive('desktop', 'laptop') {
-    min-width: 280px;
-  }
-
-  @include responsive('tablet', 'laptop') {
-    flex-direction: column;
-  }
-
-  @include responsive('tablet') {
-    margin-left: auto;
-  }
+  margin: 16px 0 0 55px;
+  min-width: 220px;
 }
 
 .btn {
-  color: var(--mirage);
+  color: var(--rhino);
   background: inherit;
 
-  @include responsive('tablet', 'laptop') {
-    margin-left: auto;
-  }
-
   &.signal {
-    margin: 0 16px 0 auto;
-
-    @include responsive('tablet', 'laptop') {
-      margin: 0 0 6px auto;
-    }
+    margin: 0 0 0 8px;
   }
 
   &__icon {
     margin-right: 8px;
+    fill: var(--casper);
   }
 }
 
