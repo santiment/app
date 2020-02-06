@@ -109,14 +109,14 @@ const MobileNavbar = ({ history, isLogined, activeLink, logout }) => {
                   {label}
                 </Link>
               ))}
-              <a
+              <button
                 className={styles.navigationList__link}
                 onClick={() =>
                   window.Intercom && window.Intercom('showNewMessage')
                 }
               >
                 Contact us
-              </a>
+              </button>
             </div>
           </div>
           {!isLogined && (

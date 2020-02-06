@@ -14,6 +14,7 @@ import Range from '../../components/WatchlistOverview/Range'
 import ChartSignalCreationDialog from './ChartSignalCreationDialog'
 import PercentChanges from '../../components/PercentChanges'
 import WatchlistsPopup from '../../components/WatchlistPopup/WatchlistsPopup'
+import PriceChangesWidget from '../../components/PriceChangesWidget/PriceChangesWidget'
 import ProjectIcon from '../../components/ProjectIcon/ProjectIcon'
 import GetProjects from '../Signals/common/projects/getProjects'
 import { TriggerProjectsSelector } from '../Signals/signalFormManager/signalCrudForm/formParts/projectsSelector/TriggerProjectsSelector'
@@ -42,8 +43,7 @@ const ProjectInfo = createSkeletonProvider(
           {name} ({ticker})
         </H1>
         <div className={styles.project__arrows}>
-          <Icon type='arrow-up' />
-          <Icon type='arrow-down' />
+          <Icon type='arrow-down' className={styles.project__arrow} />
         </div>
       </div>
       <div className={styles.project__description}>{description}</div>
@@ -77,10 +77,13 @@ export const ProjectSelector = ({
 
 const PriceWithChanges = ({
   isTablet,
+  isLaptop,
   percentChange24h,
   percentChange7d,
   priceUsd,
   ticker,
+  slug,
+  minmax,
   totalSupply
 }) => {
   const RANGES = [
@@ -90,63 +93,77 @@ const PriceWithChanges = ({
 
   let [activeRange, setActiveRange] = useState(0)
 
+  const changeRange = () => {
+    const nextRangeIndex = ++activeRange
+    setActiveRange(nextRangeIndex >= RANGES.length ? 0 : nextRangeIndex)
+  }
+
   return (
-    <div className={styles.projectInfo}>
-      <div className={cx(styles.column, styles.column__first)}>
-        <div className={styles.usdWrapper}>
-          <span className={styles.price}>
-            {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
-          </span>
-          <span className={styles.currency}>USD</span>
-          {isTablet && (
+    <>
+      <div className={styles.projectInfo}>
+        <div className={cx(styles.column, styles.column__first)}>
+          <span className={styles.text}>Price</span>
+          <div className={styles.usdWrapper}>
+            <span className={styles.price}>
+              {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
+            </span>
+            <span className={styles.currency}>USD</span>
+          </div>
+          {(isTablet || isLaptop) && (
             <Range
               range={RANGES[activeRange].range}
               className={styles.range}
-              changeRange={() => {
-                const nextRangeIndex = ++activeRange
-                setActiveRange(
-                  nextRangeIndex >= RANGES.length ? 0 : nextRangeIndex
-                )
-              }}
+              changeRange={changeRange}
             >
               <PercentChanges changes={RANGES[activeRange].value} />
             </Range>
           )}
+          <div>
+            <span className={styles.totalSupply}>
+              {formatNumber(totalSupply)}
+            </span>
+            <span className={styles.currency}>{ticker}</span>
+          </div>
         </div>
-        <div>
-          <span className={styles.totalSupply}>
-            {formatNumber(totalSupply)}
-          </span>
-          <span className={styles.currency}>{ticker}</span>
-        </div>
+        {!(isTablet || isLaptop) && (
+          <>
+            <div className={styles.column}>
+              <span
+                className={cx(styles.changesLabel, styles.changesLabel__first)}
+              >
+                {RANGES[activeRange].range} change
+              </span>
+              <PercentChanges
+                changes={RANGES[activeRange].value}
+                label={RANGES[activeRange].range}
+              />
+            </div>
+          </>
+        )}
       </div>
       {!isTablet && (
-        <>
-          <div className={styles.column}>
-            <span
-              className={cx(styles.changesLabel, styles.changesLabel__first)}
-            >
-              24h change
-            </span>
-            <PercentChanges changes={percentChange24h} label='24h' />
-          </div>
-          <div className={styles.column}>
-            <span className={styles.changesLabel}>7d change</span>
-            <PercentChanges changes={percentChange7d} label='7d' />
-          </div>
-        </>
+        <PriceChangesWidget
+          slug={slug}
+          changes={RANGES[activeRange].value}
+          range={RANGES[activeRange].range}
+          price={priceUsd}
+          isDesktop={true}
+          onChangeRange={changeRange}
+          minmax={minmax}
+        />
       )}
-    </div>
+    </>
   )
 }
 
 const Header = ({
-  data: { project = {} },
+  data: { project = {}, minmax = {} },
   slug,
   isLoggedIn,
   isLoading,
   onSlugSelect,
   isTablet,
+  isLaptop,
   className
 }) => {
   const dataProject = isLoading ? {} : project
@@ -163,51 +180,50 @@ const Header = ({
   return (
     <div className={styles.container}>
       <div className={cx(styles.wrapper, className)}>
-        <ProjectSelector
-          slug={slug}
-          project={dataProject}
-          onChange={([dataProject], closeDialog) => {
-            onSlugSelect(dataProject)
-            closeDialog()
-          }}
-        />
+        <div>
+          <ProjectSelector
+            slug={slug}
+            project={dataProject}
+            onChange={([dataProject], closeDialog) => {
+              onSlugSelect(dataProject)
+              closeDialog()
+            }}
+          />
+          <div className={styles.actions}>
+            <WatchlistsPopup
+              trigger={
+                <Button border className={styles.btn}>
+                  <Icon type='add-watchlist' className={styles.btn__icon} />
+                  Watch
+                </Button>
+              }
+              projectId={id}
+              slug={slug}
+              isLoggedIn={isLoggedIn}
+            />
+            <ChartSignalCreationDialog
+              slug={slug}
+              trigger={
+                <Button border className={cx(styles.btn, styles.signal)}>
+                  <Icon type='signal' className={styles.btn__icon} />
+                  Add signal
+                </Button>
+              }
+            />
+          </div>
+        </div>
 
         <PriceWithChanges
           isTablet={isTablet}
+          isLaptop={isLaptop}
           totalSupply={totalSupply}
           percentChange7d={percentChange7d}
           percentChange24h={percentChange24h}
           ticker={ticker}
           priceUsd={priceUsd}
+          minmax={minmax}
+          slug={slug}
         />
-
-        <div className={styles.actions}>
-          <ChartSignalCreationDialog
-            slug={slug}
-            trigger={
-              <Button
-                accent='positive'
-                border
-                className={cx(styles.btn, styles.signal)}
-              >
-                <Icon type='signal' className={styles.btn__icon} />
-                Add signal
-              </Button>
-            }
-          />
-
-          <WatchlistsPopup
-            trigger={
-              <Button accent='positive' border className={styles.btn}>
-                <Icon type='add-watchlist' className={styles.btn__icon} />
-                Watch {ticker}
-              </Button>
-            }
-            projectId={id}
-            slug={slug}
-            isLoggedIn={isLoggedIn}
-          />
-        </div>
       </div>
     </div>
   )

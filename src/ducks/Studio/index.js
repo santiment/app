@@ -131,7 +131,7 @@ const Studio = ({
         toggleMetric={toggleMetric}
         toggleAdvancedView={toggleAdvancedView}
       />
-      <div className={styles.container}>
+      <div className={styles.header}>
         {topSlot}
         <StudioHeader
           slug={settings.slug}
