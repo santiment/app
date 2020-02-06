@@ -10,6 +10,7 @@ import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
 import { DesktopOnly } from '../../../components/Responsive'
 import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
 import styles from './ActivityRenderer.module.scss'
+import SignalMasterModalForm from '../../../ducks/Signals/signalModal/SignalMasterModalForm'
 
 const ActivityWithBacktesting = ({
   date,
@@ -40,9 +41,12 @@ const ActivityWithBacktesting = ({
           >
             <div className={styles.center}>
               <h4 className={styles.title}>
-                <Link to={`/sonar/signal/${signalId}`} className={styles.link}>
-                  {title}
-                </Link>
+                <SignalMasterModalForm
+                  triggerId={signalId}
+                  defaultOpen={false}
+                  canRedirect={false}
+                  trigger={<div className={styles.link}>{title}</div>}
+                />
               </h4>
               <Markdown
                 source={Object.values(payload)[0]}

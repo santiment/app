@@ -23,7 +23,7 @@ const SonarFeedRecommendations = ({
 export const RecommendedSignals = () => (
   <GetFeaturedUserTriggers
     always
-    render={({ data: { signals }, data, isLoading }) => {
+    render={({ data: { signals }, isLoading }) => {
       const hasSignals = signals && signals.length > 0
 
       if (isLoading) {

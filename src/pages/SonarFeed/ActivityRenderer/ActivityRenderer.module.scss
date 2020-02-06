@@ -8,7 +8,6 @@
   margin-bottom: 12px;
   display: flex;
   color: var(--waterloo);
-  margin-top: 4px;
 
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
@@ -16,7 +15,12 @@
 }
 
 .link {
+  cursor: pointer;
   color: var(--rhino) !important;
+
+  &:hover {
+    color: var(--jungle-green-hover) !important;
+  }
 
   @include responsive('phone', 'phone-xs') {
     margin-left: 0;
