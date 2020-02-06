@@ -20,7 +20,6 @@ import GetProjects from '../Signals/common/projects/getProjects'
 import { TriggerProjectsSelector } from '../Signals/signalFormManager/signalCrudForm/formParts/projectsSelector/TriggerProjectsSelector'
 import { formatNumber } from '../../utils/formatting'
 import { PROJECT_BY_SLUG_QUERY } from './gql'
-import { DAY, getTimeIntervalFromToday } from '../../utils/dates'
 import ALL_PROJECTS from '../../allProjects.json'
 import styles from './Header.module.scss'
 
@@ -78,10 +77,13 @@ export const ProjectSelector = ({
 
 const PriceWithChanges = ({
   isTablet,
+  isLaptop,
   percentChange24h,
   percentChange7d,
   priceUsd,
   ticker,
+  slug,
+  minmax,
   totalSupply
 }) => {
   const RANGES = [
@@ -92,14 +94,17 @@ const PriceWithChanges = ({
   let [activeRange, setActiveRange] = useState(0)
 
   return (
-    <div className={styles.projectInfo}>
-      <div className={cx(styles.column, styles.column__first)}>
-        <div className={styles.usdWrapper}>
-          <span className={styles.price}>
-            {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
-          </span>
-          <span className={styles.currency}>USD</span>
-          {isTablet && (
+    <>
+      <div className={styles.projectInfo}>
+        <div className={cx(styles.column, styles.column__first)}>
+          <span className={styles.text}>Price</span>
+          <div className={styles.usdWrapper}>
+            <span className={styles.price}>
+              {priceUsd && formatNumber(priceUsd, { currency: 'USD' })}
+            </span>
+            <span className={styles.currency}>USD</span>
+          </div>
+          {(isTablet || isLaptop) && (
             <Range
               range={RANGES[activeRange].range}
               className={styles.range}
@@ -113,27 +118,37 @@ const PriceWithChanges = ({
               <PercentChanges changes={RANGES[activeRange].value} />
             </Range>
           )}
+          <div>
+            <span className={styles.totalSupply}>
+              {formatNumber(totalSupply)}
+            </span>
+            <span className={styles.currency}>{ticker}</span>
+          </div>
         </div>
-        <div>
-          <span className={styles.totalSupply}>
-            {formatNumber(totalSupply)}
-          </span>
-          <span className={styles.currency}>{ticker}</span>
-        </div>
+        {!(isTablet || isLaptop) && (
+          <>
+            <div className={styles.column}>
+              <span
+                className={cx(styles.changesLabel, styles.changesLabel__first)}
+              >
+                24h change
+              </span>
+              <PercentChanges changes={percentChange24h} label='24h' />
+            </div>
+          </>
+        )}
       </div>
       {!isTablet && (
-        <>
-          <div className={styles.column}>
-            <span
-              className={cx(styles.changesLabel, styles.changesLabel__first)}
-            >
-              24h change
-            </span>
-            <PercentChanges changes={percentChange24h} label='24h' />
-          </div>
-        </>
+        <PriceChangesWidget
+          slug={slug}
+          changes={RANGES[activeRange].value}
+          range={RANGES[activeRange].range}
+          price={priceUsd}
+          isDesktop={true}
+          minmax={minmax}
+        />
       )}
-    </div>
+    </>
   )
 }
 
@@ -144,6 +159,7 @@ const Header = ({
   isLoading,
   onSlugSelect,
   isTablet,
+  isLaptop,
   className
 }) => {
   const dataProject = isLoading ? {} : project
@@ -195,23 +211,15 @@ const Header = ({
 
         <PriceWithChanges
           isTablet={isTablet}
+          isLaptop={isLaptop}
           totalSupply={totalSupply}
           percentChange7d={percentChange7d}
           percentChange24h={percentChange24h}
           ticker={ticker}
           priceUsd={priceUsd}
+          minmax={minmax}
+          slug={slug}
         />
-
-        {!isTablet && (
-          <PriceChangesWidget
-            slug={slug}
-            percentChange7d={percentChange7d}
-            percentChange24h={percentChange24h}
-            price={priceUsd}
-            isDesktop={true}
-            minmax={minmax}
-          />
-        )}
       </div>
     </div>
   )
@@ -222,8 +230,9 @@ export default compose(
     skip: ({ slug }) => !slug,
     options: ({ slug }) => {
       const to = new Date()
-      let from = new Date()
-      from.setHours(from.getHours() - 24)
+      const from = new Date()
+      to.setHours(to.getHours(), 0, 0, 0)
+      from.setHours(from.getHours() - 24, 0, 0, 0)
       return {
         variables: { slug, from: from.toISOString(), to: to.toISOString() }
       }

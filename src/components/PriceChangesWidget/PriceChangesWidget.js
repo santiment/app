@@ -15,12 +15,9 @@ const PriceChangesWidget = ({
 }) => {
   const { min = 0, max = 0 } = minmax
   const minPrice = formatNumber(min, { currency: 'USD' })
-
   const maxPrice = formatNumber(max, { currency: 'USD' })
 
   let offset = ((price - min) * 100) / (max - min)
-
-  console.log(offset, price, min, max)
 
   if (isFinite(offset)) {
     if (offset < 0) {

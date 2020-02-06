@@ -2,19 +2,18 @@
 
 .container {
   display: flex;
-  justify-content: center;
-  width: 100%;
-  margin: auto;
+  justify-content: flex-start;
 }
 
 .wrapper {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
+  max-width: 1050px;
 
   @include responsive('tablet') {
-    justify-content: flex-start;
+    justify-content: space-between;
   }
 }
 
@@ -56,6 +55,7 @@
 
     color: var(--waterloo);
     max-width: 450px;
+    margin-bottom: 16px;
   }
 }
 
@@ -78,14 +78,16 @@
 .projectInfo {
   padding: 0 5px;
   display: flex;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
 
-  @include responsive('laptop', 'desktop') {
+  @include responsive('desktop') {
     min-width: 300px;
   }
 
-  @include responsive('tablet') {
+  @include responsive('tablet', 'laptop') {
     margin-left: 16px;
+    min-width: 220px;
   }
 
   & .column {
@@ -106,6 +108,12 @@
   @include text('body-3');
 }
 
+.text {
+  @include text('body-3');
+
+  color: var(--waterloo);
+}
+
 .usdWrapper {
   @include text('h4');
 
@@ -122,11 +130,15 @@
 
   padding-top: 6px;
   margin: 0 0 4px;
+
+  @include responsive('desktop') {
+    padding-top: 0;
+  }
 }
 
 .actions {
   display: flex;
-  margin: 16px 0 0 55px;
+  margin: 0 0 0 55px;
   min-width: 220px;
 }
 
@@ -145,7 +157,7 @@
 }
 
 .totalSupply {
-  color: var(--mirage);
+  color: var(--waterloo);
 }
 
 .range {
