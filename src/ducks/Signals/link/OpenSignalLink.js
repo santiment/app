@@ -4,7 +4,7 @@ import styles from './OpenSignalLink.module.scss'
 
 const OpenSignalLink = ({ signal: { id, title } }) => (
   <SignalMasterModalForm
-    triggerId={id}
+    id={id}
     defaultOpen={false}
     canRedirect={false}
     trigger={<div className={styles.link}>{title}</div>}

@@ -12,7 +12,7 @@ const SignalMasterModalForm = ({
   metaFormSettings,
   canRedirect = true,
   enabled = true,
-  triggerId,
+  id: triggerId,
   isLoggedIn,
   match,
   trigger: dialogTrigger,

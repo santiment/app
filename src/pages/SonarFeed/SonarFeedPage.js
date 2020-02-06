@@ -94,7 +94,7 @@ const SonarFeed = ({
           <SonarFeedHeader />
           {!isUserLoading && (
             <SignalMasterModalForm
-              triggerId={triggerId}
+              id={triggerId}
               shareParams={shareSignalParams}
             />
           )}
@@ -107,7 +107,7 @@ const SonarFeed = ({
               <div className={styles.addSignal}>
                 {!isUserLoading && (
                   <SignalMasterModalForm
-                    triggerId={triggerId}
+                    id={triggerId}
                     shareParams={shareSignalParams}
                   />
                 )}
