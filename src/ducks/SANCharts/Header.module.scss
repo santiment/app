@@ -20,6 +20,11 @@
   @include responsive('tablet') {
     justify-content: space-between;
   }
+
+  @include responsive('laptop') {
+    width: auto;
+    padding-right: 10px;
+  }
 }
 
 .project {
@@ -61,6 +66,10 @@
     color: var(--waterloo);
     max-width: 450px;
     margin-bottom: 16px;
+
+    @include responsive('laptop') {
+      max-width: 400px;
+    }
   }
 }
 
@@ -85,15 +94,19 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  margin-left: 16px;
 
   @include responsive('desktop') {
     min-width: 300px;
     justify-content: flex-start;
   }
 
-  @include responsive('tablet', 'laptop') {
-    margin-left: 16px;
+  @include responsive('tablet') {
     min-width: 220px;
+  }
+
+  @include responsive('laptop') {
+    min-width: 240px;
   }
 
   & .column {
