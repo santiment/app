@@ -30,7 +30,6 @@ const FeedWatchlistsFilter = ({ ids, onUpdateWatchlists }) => {
                 }}
                 multi={true}
                 value={values}
-                isLoading={isWatchlistsLoading}
                 placeholder='Choose watchlists'
                 required
                 valueKey='id'
@@ -41,7 +40,7 @@ const FeedWatchlistsFilter = ({ ids, onUpdateWatchlists }) => {
             )
           } else {
             return (
-              <Link className={styles.createWatchlist} to='/assets'>
+              <Link className={styles.link} to='/assets'>
                 Create watchlist(s)
               </Link>
             )

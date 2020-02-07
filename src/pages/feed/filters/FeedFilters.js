@@ -7,6 +7,7 @@ import AlertsAndInsightsFilter, {
 } from './AlertsAndInsightsFilter'
 import styles from './FeedFilters.module.scss'
 import FeedWatchlistsFilter from './FeedWatchlistsFilter'
+import FeedAssetsFilter from './FeedAssetsFilter'
 
 const FeedFilters = ({
   filters,
@@ -16,7 +17,6 @@ const FeedFilters = ({
   const [isOpen, setOpen] = useState(true)
 
   const onUpdateAuthor = useCallback(author => {
-    console.log('new author type', author)
     handleFiltersChange({
       ...filters,
       author
@@ -24,10 +24,16 @@ const FeedFilters = ({
   }, [])
 
   const onUpdateWatchlists = useCallback(watchlists => {
-    console.log('new watchlists', watchlists)
     handleFiltersChange({
       ...filters,
       watchlists
+    })
+  })
+
+  const onUpdateAssets = useCallback(assets => {
+    handleFiltersChange({
+      ...filters,
+      assets
     })
   })
 
@@ -56,6 +62,11 @@ const FeedFilters = ({
         <div className={styles.header}>
           <div className={styles.filterBy}>Filter by</div>
         </div>
+
+        <FeedAssetsFilter
+          ids={filters.assets}
+          onUpdateAssets={onUpdateAssets}
+        />
 
         <FeedWatchlistsFilter
           ids={filters.watchlists}
