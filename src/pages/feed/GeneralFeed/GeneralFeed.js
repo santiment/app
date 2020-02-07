@@ -86,7 +86,8 @@ const getFeedAuthorType = tab => {
 
 const getDefaultFilters = tab => {
   return {
-    author: getFeedAuthorType(tab)
+    author: getFeedAuthorType(tab),
+    watchlists: []
   }
 }
 

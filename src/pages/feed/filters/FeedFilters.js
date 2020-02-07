@@ -6,13 +6,14 @@ import AlertsAndInsightsFilter, {
   AUTHOR_TYPES
 } from './AlertsAndInsightsFilter'
 import styles from './FeedFilters.module.scss'
+import FeedWatchlistsFilter from './FeedWatchlistsFilter'
 
 const FeedFilters = ({
   filters,
   handleFiltersChange,
   enableAlertsInsights
 }) => {
-  const [isOpen, setOpen] = useState(false)
+  const [isOpen, setOpen] = useState(true)
 
   const onUpdateAuthor = useCallback(author => {
     console.log('new author type', author)
@@ -21,6 +22,14 @@ const FeedFilters = ({
       author
     })
   }, [])
+
+  const onUpdateWatchlists = useCallback(watchlists => {
+    console.log('new watchlists', watchlists)
+    handleFiltersChange({
+      ...filters,
+      watchlists
+    })
+  })
 
   useEffect(
     () => {
@@ -47,6 +56,11 @@ const FeedFilters = ({
         <div className={styles.header}>
           <div className={styles.filterBy}>Filter by</div>
         </div>
+
+        <FeedWatchlistsFilter
+          ids={filters.watchlists}
+          onUpdateWatchlists={onUpdateWatchlists}
+        />
 
         {enableAlertsInsights && (
           <AlertsAndInsightsFilter
