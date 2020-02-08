@@ -1,53 +1,70 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import cx from 'classnames'
-import { Query } from 'react-apollo'
 import { Link } from 'react-router-dom'
 import Icon from '@santiment-network/ui/Icon'
 import { getCurrentSanbaseSubscription } from '../../utils/plans'
-import { USER_SUBSCRIPTIONS_QUERY } from '../../queries/plans'
+import { dateDifference, DAY } from '../../utils/dates'
 import styles from './PlanEngage.module.scss'
 
-const PlanEngage = () => (
-  <Query query={USER_SUBSCRIPTIONS_QUERY}>
-    {({ loading, data: { currentUser } = {} }) => {
-      if (loading) {
-        return null
-      }
+const getTrialDaysLeft = subscription => {
+  let trialEnd = subscription.trialEnd
+  if (!trialEnd) return ''
 
-      if (!currentUser) {
-        return (
-          <Link to='/login' className={cx(styles.text, styles.link)}>
-            Sign in
-          </Link>
-        )
-      }
+  const daysNumber =
+    dateDifference({
+      from: new Date(),
+      to: new Date(trialEnd),
+      format: DAY
+    }).diff + 1
 
-      const subscription = getCurrentSanbaseSubscription(currentUser)
+  const daysLeft = daysNumber === 1 ? 'last day' : `${daysNumber} days left`
 
-      if (!subscription || subscription.plan.name === 'FREE') {
-        return (
-          <div className={cx(styles.text, styles.free)}>
-            Free plan
-            <Link to='/pricing' className={styles.upgrade}>
-              Upgrade
-            </Link>
-          </div>
-        )
-      }
+  return daysLeft
+}
 
-      return (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/products-and-plans/sanbase-pro-features/'
-          className={cx(styles.text, styles.premium)}
-        >
-          <Icon type='crown' className={styles.icon} />
-          Pro
-        </a>
-      )
-    }}
-  </Query>
-)
+const PlanEngage = ({ isLoading, currentUser }) => {
+  if (isLoading) return null
 
-export default PlanEngage
+  if (!currentUser.id) {
+    return (
+      <Link to='/login' className={cx(styles.text, styles.link)}>
+        Sign in
+      </Link>
+    )
+  }
+
+  const subscription = getCurrentSanbaseSubscription(currentUser)
+
+  if (!subscription || subscription.plan.name === 'FREE') {
+    return (
+      <div className={cx(styles.text, styles.free)}>
+        Free plan
+        <Link to='/pricing' className={styles.upgrade}>
+          Upgrade
+        </Link>
+      </div>
+    )
+  }
+
+  const trialDaysLeft = getTrialDaysLeft(subscription)
+
+  return (
+    <a
+      target='_blank'
+      rel='noopener noreferrer'
+      href='https://academy.santiment.net/products-and-plans/sanbase-pro-features/'
+      className={cx(styles.text, styles.premium)}
+    >
+      <Icon type='crown' className={styles.icon} />
+      Pro {trialDaysLeft && `Trial (${trialDaysLeft})`}
+    </a>
+  )
+}
+
+const mapStateToProps = state => ({
+  isLoading: state.user.isLoading,
+  currentUser: state.user.data
+})
+
+export default connect(mapStateToProps)(PlanEngage)

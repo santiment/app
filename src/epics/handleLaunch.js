@@ -31,6 +31,8 @@ export const USER_GQL_FRAGMENT = gql`
     apikeys
     subscriptions {
       id
+      status
+      trialEnd
       plan {
         id
         name
