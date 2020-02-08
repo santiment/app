@@ -1,8 +1,6 @@
 import React from 'react'
-import cx from 'classnames'
-import RadioBtns from '@santiment-network/ui/RadioBtns'
-import styles from './AlertsAndInsightsFilter.module.scss'
 import FormikRadio from '../../../components/formik-santiment-ui/FormikRadio'
+import styles from './AlertsAndInsightsFilter.module.scss'
 
 export const AUTHOR_TYPES = {
   OWN: 'OWN',
@@ -31,22 +29,21 @@ const AlertsAndInsightsFilter = ({ selected, onUpdateAuthor }) => {
     onUpdateAuthor && onUpdateAuthor(item.type)
   }
 
+  console.log('selected', selected)
+
   return (
     <div className={styles.container}>
       <div className={styles.title}>Alerts & Insights</div>
 
-      <div className={styles.radioBtns}>
-        {EVENTS_TYPES.map(item => {
-          return (
-            <FormikRadio
-              isSelected={item.type === selected}
-              item={item}
-              onClick={toggleSelection}
-              classes={styles}
-            />
-          )
-        })}
-      </div>
+      {EVENTS_TYPES.map(item => (
+        <FormikRadio
+          key={item.type}
+          isSelected={item.type === selected}
+          item={item}
+          onClick={toggleSelection}
+          classes={styles}
+        />
+      ))}
     </div>
   )
 }

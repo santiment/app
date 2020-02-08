@@ -1,9 +1,7 @@
 @import '~@santiment-network/ui/mixins';
 
-.dialog {
-  .title {
-    display: none;
-  }
+.smoothDd {
+  padding: 0 !important;
 }
 
 .header {
@@ -51,6 +49,10 @@
 .dialogContent {
   min-width: 456px;
   padding: 24px;
+
+  @include responsive("phone", "phone-xs") {
+    min-width: initial;
+  }
 }
 
 .resetIcon {
