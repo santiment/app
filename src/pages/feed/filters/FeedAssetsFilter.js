@@ -1,12 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Select from '@santiment-network/ui/Search/Select/Select'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import GetProjects from '../../../ducks/Signals/common/projects/getProjects'
 import styles from './FeedWatchlistsFilter.module.scss'
 
-const FeedAssetsFilter = ({ onUpdateAssets }) => {
+const FeedAssetsFilter = ({ ids, onUpdateAssets }) => {
   const [values, setValues] = useState([])
+  useEffect(
+    () => {
+      if (ids.length === 0) {
+        onChangeAssets([])
+      }
+    },
+    [ids.length]
+  )
+
+  const onChangeAssets = value => {
+    setValues(value)
+    onUpdateAssets && onUpdateAssets(value.map(({ id }) => +id))
+  }
 
   return (
     <div className={cx(styles.container, styles.assets)}>
@@ -22,10 +35,7 @@ const FeedAssetsFilter = ({ onUpdateAssets }) => {
               maxHeight={330}
               classNamePrefix='react-select'
               minimumInput={1}
-              onChange={value => {
-                setValues(value)
-                onUpdateAssets && onUpdateAssets(value.map(({ id }) => +id))
-              }}
+              onChange={onChangeAssets}
               multi={true}
               value={values}
               placeholder='Choose assets'

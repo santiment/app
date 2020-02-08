@@ -8,6 +8,7 @@ import AlertsAndInsightsFilter, {
 import styles from './FeedFilters.module.scss'
 import FeedWatchlistsFilter from './FeedWatchlistsFilter'
 import FeedAssetsFilter from './FeedAssetsFilter'
+import { getDefaultFilters } from '../GeneralFeed/GeneralFeed'
 
 const FeedFilters = ({
   filters,
@@ -61,6 +62,13 @@ const FeedFilters = ({
       <Dialog.ScrollContent className={styles.dialogContent}>
         <div className={styles.header}>
           <div className={styles.filterBy}>Filter by</div>
+          <div
+            className={styles.resetBlock}
+            onClick={() => handleFiltersChange(getDefaultFilters())}
+          >
+            <Icon type='close-medium' className={styles.resetIcon} />
+            Reset filter
+          </div>
         </div>
 
         <FeedAssetsFilter
@@ -84,10 +92,4 @@ const FeedFilters = ({
   )
 }
 
-/*
-* <div className={styles.resetBlock} onClick={()=>handleFiltersChange(DEFAULT_FILTER)}>
-          <Icon type='close-medium' className={styles.resetIcon}/>
-          Reset filter
-        </div>
-* */
 export default FeedFilters

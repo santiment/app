@@ -77,20 +77,18 @@ const START_DATE = new Date()
 const isBaseLocation = tab => tab === baseLocation
 
 const getFeedAuthorType = tab => {
-  if (isBaseLocation(tab)) {
+  if (isBaseLocation(tab) || !tab) {
     return AUTHOR_TYPES.ALL
   } else {
     return AUTHOR_TYPES.OWN
   }
 }
 
-const getDefaultFilters = tab => {
-  return {
-    author: getFeedAuthorType(tab),
-    watchlists: [],
-    assets: []
-  }
-}
+export const getDefaultFilters = tab => ({
+  author: getFeedAuthorType(tab),
+  watchlists: [],
+  assets: []
+})
 
 const GeneralFeed = ({
   isLoggedIn,
@@ -128,8 +126,6 @@ const GeneralFeed = ({
       setSortType(value)
     }
   }
-
-  console.log(filters)
 
   if (isUserLoading) {
     return (

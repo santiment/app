@@ -14,14 +14,10 @@
   color: var(--rhino);
 }
 
-.radioBtns {
-  display: flex;
-  margin-right: auto;
-  margin-top: 10px;
+.radio {
+  margin-top: -2px;
 }
 
-.radioLabel {
-  display: block;
-  cursor: pointer;
-  margin-top: 3px !important;
+.radioContainer {
+  margin-top: 14px;
 }
