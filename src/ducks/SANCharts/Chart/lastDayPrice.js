@@ -9,10 +9,12 @@ const BOTTOM_MARGIN = 5
 const RIGHT_MARGIN = 7
 
 export function drawLastDayPrice (chart, scale, price) {
-  const { ctx, minMaxes, height, top, left, right } = chart
+  const { ctx, minMaxes, height, top, left, right, bottom } = chart
   const { min, max } = minMaxes.priceUsd
 
   const y = scale(height, min, max)(price) + top
+
+  if (y > bottom || y < top) return
 
   const text = `Last day price ${tooltipSettings.priceUsd.formatter(price)}`
 

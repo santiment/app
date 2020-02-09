@@ -150,6 +150,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
     })
     : React.cloneElement(children, {
       ...syncedCategories[0],
+      isMultiChartsActive: false,
       syncedColors,
       hasPriceMetric,
       events: syncedEvents,
