@@ -6,8 +6,23 @@ import {
   getDateHoursMinutes
 } from './utils'
 import { dayTicksPaintConfig, dayAxesColor } from './paintConfigs'
+import { millify } from '../../../utils/formatting'
 
-const yFormatter = value => (value < 1 ? +value.toFixed(2) : Math.trunc(value))
+const yFormatter = value => {
+  if (value < 1) {
+    return +value.toFixed(2)
+  }
+
+  if (value > 999999) {
+    return millify(value, 2)
+  }
+
+  if (value > 9999) {
+    return millify(value, 0)
+  }
+
+  return Math.trunc(value)
+}
 
 export function plotAxes (chart) {
   const {
