@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { connect } from 'react-redux'
 import COLOR from '@santiment-network/ui/variables.scss'
 import { initChart, updateChartState } from '@santiment-network/chart'
 import { initTooltip } from '@santiment-network/chart/tooltip'
@@ -22,6 +23,7 @@ import { drawPaywall } from './paywall'
 import { onResize, useResizeEffect } from './resize'
 import { drawLastDayPrice, withLastDayPrice } from './lastDayPrice'
 import { clearCtx, findPointIndexByDate } from './utils'
+import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
 import styles from './index.module.scss'
 
 const Chart = ({
@@ -46,7 +48,8 @@ const Chart = ({
   isLoading,
   isMultiChartsActive,
   isAdvancedView,
-  isWideChart
+  isWideChart,
+  isNightModeEnabled
 }) => {
   let [chart, setChart] = useState()
   let [brush, setBrush] = useState()
@@ -71,6 +74,7 @@ const Chart = ({
         chart,
         width,
         BRUSH_HEIGHT,
+        dayBrushPaintConfig,
         plotBrushData,
         onBrushChange
       )
@@ -92,6 +96,19 @@ const Chart = ({
 
   useEffect(
     () => {
+      const { brushPaintConfig, ...rest } = paintConfigs[+isNightModeEnabled]
+
+      Object.assign(chart, rest)
+
+      if (brush) {
+        brush.paintConfig = brushPaintConfig
+      }
+    },
+    [isNightModeEnabled]
+  )
+
+  useEffect(
+    () => {
       chart.onPointHover = onPointHover
     },
     [onPointHover]
@@ -110,12 +127,19 @@ const Chart = ({
     },
     [syncedColors]
   )
+  useEffect(
+    () => {
+      if (data.length === 0 || !brush) return
+
+      brush.startIndex = 0
+      brush.endIndex = data.length - 1
+    },
+    [data]
+  )
 
   useEffect(
     () => {
-      if (data.length === 0) {
-        return
-      }
+      if (data.length === 0) return
 
       clearCtx(chart)
       updateChartState(chart, data, joinedCategories)
@@ -126,7 +150,7 @@ const Chart = ({
       plotChart(data)
       plotAxes(chart)
     },
-    [data, scale, events, lastDayPrice]
+    [data, scale, events, lastDayPrice, isNightModeEnabled]
   )
 
   useEffect(
@@ -196,9 +220,10 @@ const Chart = ({
     plotDayBars(chart, data, daybars, syncedColors, scale)
     plotBars(chart, data, bars, syncedColors, scale)
 
+    chart.ctx.save()
     chart.ctx.lineWidth = 1.5
-    chart.ctx.setLineDash([0])
     plotLines(chart, data, lines, syncedColors, scale)
+    chart.ctx.restore()
 
     events.forEach(({ metric, key, datetime, value, color }) =>
       drawReferenceDot(chart, metric, datetime, color, key, value)
@@ -244,4 +269,8 @@ const Chart = ({
   )
 }
 
-export default withLastDayPrice(Chart)
+const mapStateToProps = ({ rootUi: { isNightModeEnabled } }) => ({
+  isNightModeEnabled
+})
+
+export default connect(mapStateToProps)(withLastDayPrice(Chart))

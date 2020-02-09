@@ -5,23 +5,23 @@ import {
   getDateDayMonthYear,
   getDateHoursMinutes
 } from './utils'
+import { dayTicksPaintConfig, dayAxesColor } from './paintConfigs'
 
-const axesTickFormatters = {
-  datetime: getDateDayMonthYear
-}
-
-const axesDayIntervalTickFormatters = {
-  datetime: getDateHoursMinutes
-}
+const yFormatter = value => (value < 1 ? +value.toFixed(2) : Math.trunc(value))
 
 export function plotAxes (chart) {
-  const { ctx, tooltipKey } = chart
-  drawAxes(chart)
-  ctx.fillStyle = COLOR.casper
-  ctx.font = '12px sans-serif'
+  const {
+    tooltipKey,
+    ticksPaintConfig = dayTicksPaintConfig,
+    axesColor = dayAxesColor
+  } = chart
+
+  drawAxes(chart, axesColor)
   drawAxesTicks(
     chart,
-    tooltipKey,
-    isDayInterval(chart) ? axesDayIntervalTickFormatters : axesTickFormatters
+    chart.tooltipKey,
+    isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear,
+    yFormatter,
+    ticksPaintConfig
   )
 }
