@@ -7,6 +7,7 @@ import { plotLines } from '@santiment-network/chart/lines'
 import { plotDayBars, plotBars } from '@santiment-network/chart/bars'
 import { linearScale } from '@santiment-network/chart/scales'
 import { drawReferenceDot } from '@santiment-network/chart/references'
+import { drawCartesianGrid } from '@santiment-network/chart/cartesianGrid'
 import { initBrush, updateBrushState } from '@santiment-network/chart/brush'
 import Loader from './Loader/Loader'
 import Signals from './Signals'
@@ -224,6 +225,8 @@ const Chart = ({
     chart.ctx.lineWidth = 1.5
     plotLines(chart, data, lines, syncedColors, scale)
     chart.ctx.restore()
+
+    drawCartesianGrid(chart, chart.axesColor)
 
     events.forEach(({ metric, key, datetime, value, color }) =>
       drawReferenceDot(chart, metric, datetime, color, key, value)
