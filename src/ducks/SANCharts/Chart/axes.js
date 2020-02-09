@@ -1,4 +1,3 @@
-import COLOR from '@santiment-network/ui/variables.scss'
 import { drawAxes, drawAxesTicks } from '@santiment-network/chart/axes'
 import {
   isDayInterval,
@@ -34,7 +33,7 @@ export function plotAxes (chart) {
   drawAxes(chart, axesColor)
   drawAxesTicks(
     chart,
-    chart.tooltipKey,
+    tooltipKey,
     isDayInterval(chart) ? getDateHoursMinutes : getDateDayMonthYear,
     yFormatter,
     ticksPaintConfig

@@ -1,57 +1,59 @@
-export const dayAxesColor = '#e7eaf3'
-export const nightAxesColor = '#222639'
+import COLOR from '@santiment-network/ui/variables.scss'
 
-export const dayHoverLineColor = '#d2d6e6'
-export const nightHoverLineColor = '#2f354d'
+export const dayAxesColor = COLOR.porcelain
+export const nightAxesColor = COLOR['cloud-burst']
+
+export const dayHoverLineColor = COLOR.mystic
+export const nightHoverLineColor = COLOR.rhino
 
 export const dayTicksPaintConfig = {
-  color: '#9faac4',
+  color: COLOR.casper,
   font: '12px sans-serif'
 }
 export const nightTicksPaintConfig = {
-  color: '#505573',
+  color: COLOR.fiord,
   font: '12px sans-serif'
 }
 
 export const dayBubblesPaintConfig = {
   font: '12px sans-serif',
-  bgColor: '#e7eaf3',
-  textColor: '#7a859e'
+  bgColor: COLOR.porcelain,
+  textColor: COLOR.waterloo
 }
 export const nightBubblesPaintConfig = {
   font: '12px sans-serif',
-  bgColor: '#222639',
-  textColor: '#8b93b6'
+  bgColor: COLOR['cloud-burst'],
+  textColor: COLOR['bali-hai']
 }
 
 export const dayTooltipPaintConfig = {
   font: '12px sans-serif',
-  headerFill: '#e7eaf3',
-  borderColor: '#d2d6e6',
+  headerFill: COLOR.porcelain,
+  borderColor: COLOR.mystic,
   contentFill: '#fff',
-  headerColor: '#7a859e',
-  valueColor: '#7a859e',
-  labelColor: '#181b2b'
+  headerColor: COLOR.waterloo,
+  valueColor: COLOR.waterloo,
+  labelColor: COLOR.mirage
 }
 export const nightTooltipPaintConfig = {
   font: '12px sans-serif',
-  headerFill: '#222639',
-  borderColor: '#2f354d',
-  contentFill: '#181b2b',
-  headerColor: '#8b93b6',
-  valueColor: '#8b93b6',
+  headerFill: COLOR['cloud-burst'],
+  borderColor: COLOR.rhino,
+  contentFill: COLOR.mirage,
+  headerColor: COLOR['bali-hai'],
+  valueColor: COLOR['bali-hai'],
   labelColor: '#fff'
 }
 
 export const dayBrushPaintConfig = {
-  bgColor: '#E7EAF3',
-  fadeColor: '#D2D6E7',
-  handleColor: '#7a859e'
+  bgColor: COLOR.porcelain,
+  fadeColor: COLOR.mystic,
+  handleColor: COLOR.waterloo
 }
 export const nightBrushPaintConfig = {
-  bgColor: '#222639',
-  fadeColor: '#2f354d',
-  handleColor: '#8b93b6'
+  bgColor: COLOR['cloud-burst'],
+  fadeColor: COLOR.rhino,
+  handleColor: COLOR['bali-hai']
 }
 
 export const paintConfigs = [

@@ -13,7 +13,6 @@ import {
   yBubbleFormatter,
   isDayInterval
 } from './utils'
-import { dayTooltipPaintConfig, dayBubblesPaintConfig } from './paintConfigs'
 import { tooltipSettings } from '../data'
 
 export function setupTooltip (chart, marker, syncTooltips) {

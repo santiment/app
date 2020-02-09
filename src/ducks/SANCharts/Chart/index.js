@@ -221,10 +221,8 @@ const Chart = ({
     plotDayBars(chart, data, daybars, syncedColors, scale)
     plotBars(chart, data, bars, syncedColors, scale)
 
-    chart.ctx.save()
     chart.ctx.lineWidth = 1.5
     plotLines(chart, data, lines, syncedColors, scale)
-    chart.ctx.restore()
 
     drawCartesianGrid(chart, chart.axesColor)
 
