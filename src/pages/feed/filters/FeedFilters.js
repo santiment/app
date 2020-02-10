@@ -8,12 +8,9 @@ import AlertsAndInsightsFilter, {
 import FeedWatchlistsFilter from './FeedWatchlistsFilter'
 import FeedAssetsFilter from './FeedAssetsFilter'
 import { getDefaultFilters } from '../GeneralFeed/GeneralFeed'
-import SmoothDropdownItem from '../../../components/SmoothDropdown/SmoothDropdownItem'
-import SmoothDropdown from '../../../components/SmoothDropdown/SmoothDropdown'
-import styles from './FeedFilters.module.scss'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
-
-let timeoutId
+import Tooltip from '@santiment-network/ui/Tooltip'
+import styles from './FeedFilters.module.scss'
 
 const FeedFilters = props => {
   return (
@@ -38,7 +35,6 @@ const FeedContentWrapper = ({
   enableAlertsInsights
 }) => {
   const onUpdateAuthor = useCallback(author => {
-    console.log('on update a', author)
     handleFiltersChange({
       ...filters,
       author
@@ -56,8 +52,6 @@ const FeedContentWrapper = ({
       assets
     })
   }, [])
-
-  console.log(filters.author)
 
   useEffect(
     () => {
@@ -99,40 +93,21 @@ const FeedContentWrapper = ({
 }
 
 const FiltersDesktopWrapper = ({ children }) => {
-  const [isOpen, setOpen] = useState(false)
-  const setClosed = () => {
-    timeoutId = setTimeout(() => setOpen(false), 150)
-  }
-
-  const setOpened = () => {
-    timeoutId && clearTimeout(timeoutId)
-    setOpen(true)
-  }
-
   return (
-    <SmoothDropdown
-      verticalOffset={8}
-      className={cx(styles.smoothDd, 'container')}
-    >
-      <SmoothDropdownItem
-        className={styles.trigger}
-        trigger={
-          <div className={cx(styles.trigger, isOpen && styles.openState)}>
-            <Icon type='filter' className={styles.iconFilter} />
-          </div>
-        }
-        onOpen={() => setOpened()}
-        onClose={() => setClosed()}
-        ddParams={{
-          position: 'start',
-          offsetX: -423
-        }}
-      >
-        <div onMouseEnter={() => setOpened()} onMouseLeave={() => setClosed()}>
-          {children}
+    <Tooltip
+      closeTimeout={200}
+      position='bottom'
+      align='end'
+      className={styles.tooltip}
+      passOpenStateAs='isActive'
+      trigger={
+        <div className={styles.trigger}>
+          <Icon type='filter' className={styles.iconFilter} />
         </div>
-      </SmoothDropdownItem>
-    </SmoothDropdown>
+      }
+    >
+      {children}
+    </Tooltip>
   )
 }
 
@@ -142,6 +117,7 @@ const FiltersMobileWrapper = ({ children }) => {
   return (
     <Dialog
       open={isOpen}
+      title={'Feed filters'}
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       trigger={

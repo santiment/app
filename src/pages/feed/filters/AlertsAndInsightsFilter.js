@@ -29,8 +29,6 @@ const AlertsAndInsightsFilter = ({ selected, onUpdateAuthor }) => {
     onUpdateAuthor && onUpdateAuthor(item.type)
   }
 
-  console.log('selected', selected)
-
   return (
     <div className={styles.container}>
       <div className={styles.title}>Alerts & Insights</div>
