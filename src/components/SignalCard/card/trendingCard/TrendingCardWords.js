@@ -15,7 +15,7 @@ const getWords = (triggerWords, activityPayload) => {
 
   if (activityPayload) {
     try {
-      const spliced = activityPayload.split('\n').splice(5, 10)
+      const spliced = activityPayload.split('\n').splice(3, 10)
       return spliced.reduce((acc, item) => {
         if (item) {
           const splitted = item.split('|')

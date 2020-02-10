@@ -1,0 +1,89 @@
+@import '~@santiment-network/ui/mixins';
+
+.smoothDd {
+  padding: 0 !important;
+}
+
+.header {
+  display: flex;
+}
+
+.filterBy {
+  @include text('caption');
+
+  color: var(--waterloo);
+}
+
+.iconFilter {
+  margin: auto;
+  width: 16px;
+  height: 16px;
+  fill: var(--casper);
+}
+
+.openState {
+  background: var(--jungle-green-light);
+
+  .iconFilter {
+    fill: var(--jungle-green);
+  }
+}
+
+.tooltip {
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 0.04), 0 8px 16px rgba(24, 27, 43, 0.05), 0 12px 32px rgba(24, 27, 43, 0.05);
+  border-radius: $border-radius;
+}
+
+.trigger {
+  cursor: pointer;
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  border-radius: $border-radius;
+
+  &:hover {
+    background: var(--jungle-green-light);
+
+    .iconFilter {
+      fill: var(--jungle-green);
+    }
+  }
+}
+
+.dialogContent {
+  min-width: 456px;
+  max-width: 456px;
+  padding: 24px;
+
+  @include responsive("phone", "phone-xs") {
+    min-width: initial;
+  }
+}
+
+.resetIcon {
+  fill: var(--persimmon);
+  margin-right: 8px;
+}
+
+.resetBlock {
+  @include text('caption');
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  color: var(--persimmon);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--persimmon-hover);
+
+    .resetIcon {
+      fill: var(--persimmon-hover);
+    }
+  }
+}
