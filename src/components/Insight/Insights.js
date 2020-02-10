@@ -63,6 +63,7 @@ class Insights extends Component {
           </div>
         </div>
         <InsightsWrap
+          withAuthorPic={true}
           insights={insights.sort(
             view === View.RECENT ? sortByRecent : sortByPopularity
           )}

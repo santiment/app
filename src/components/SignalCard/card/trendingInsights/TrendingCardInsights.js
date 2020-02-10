@@ -20,7 +20,7 @@ const TrendingCardInsights = ({ date }) => {
         }
 
         return (
-          <>
+          <div className={styles.container}>
             <div className={styles.title}>Connected insights</div>
 
             <div className={styles.list}>
@@ -40,7 +40,7 @@ const TrendingCardInsights = ({ date }) => {
                 )
               })}
             </div>
-          </>
+          </div>
         )
       }}
     </Query>

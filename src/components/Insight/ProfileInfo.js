@@ -19,7 +19,7 @@ const ProfileInfo = ({
   showDate = false,
   withPic
 }) => {
-  const { DD, MM, YYYY } = getDateFormats(new Date(date))
+  const { DD, MMM, YYYY } = getDateFormats(new Date(date))
 
   return (
     <div className={cx(styles.wrapper, className)}>
@@ -41,7 +41,7 @@ const ProfileInfo = ({
             {state === AWAITING_APPROVAL_STATE ? (
               <AwaitingApproval />
             ) : (
-              `${MM} ${DD}, ${YYYY}`
+              `${MMM} ${DD}, ${YYYY}`
             )}
           </div>
         )}
