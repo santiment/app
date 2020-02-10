@@ -53,13 +53,9 @@ const FeedContentWrapper = ({
     })
   }
 
-  console.log(filters)
-
   useEffect(
     () => {
-      onUpdateAuthor(
-        !enableAlertsInsights ? AUTHOR_TYPES.OWN : AUTHOR_TYPES.ALL
-      )
+      onUpdateAuthor(!enableAlertsInsights ? AUTHOR_TYPES.OWN : filters.author)
     },
     [enableAlertsInsights]
   )

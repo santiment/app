@@ -24,9 +24,9 @@ const EVENTS_TYPES = [
   }
 ]
 
-const AlertsAndInsightsFilter = ({ selected, onUpdateAuthor }) => {
+const AlertsAndInsightsFilter = ({ selected, onUpdate }) => {
   const toggleSelection = item => {
-    onUpdateAuthor && onUpdateAuthor(item.type)
+    onUpdate && onUpdate(item.type)
   }
 
   return (
