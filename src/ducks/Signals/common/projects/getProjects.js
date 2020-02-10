@@ -18,7 +18,8 @@ const mapStateToProps = state => ({
 export default compose(
   connect(mapStateToProps),
   graphql(allProjectsForSearchGQL, {
-    skip: ({ isLoggedIn }) => !isLoggedIn,
+    skip: ({ isLoggedIn, skipLoggedInState }) =>
+      skipLoggedInState ? false : !isLoggedIn,
     options: () => ({
       context: { isRetriable: true },
       variables: { minVolume: 0 }

@@ -15,6 +15,7 @@ const FeedAssetsFilter = ({ ids, onUpdate }) => {
       render={({ onChange, selectedValues, data, setData }) => {
         return (
           <GetProjects
+            skipLoggedInState={true}
             render={({ isLoading, allProjects: items = [] }) => {
               if (isLoading) {
                 return <Loader className={styles.loader} />
