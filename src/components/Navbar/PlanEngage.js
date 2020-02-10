@@ -9,14 +9,21 @@ import styles from './PlanEngage.module.scss'
 
 const getTrialDaysLeft = subscription => {
   let trialEnd = subscription.trialEnd
-  if (!trialEnd) return ''
+  if (!trialEnd) return
 
-  const daysNumber =
-    dateDifference({
-      from: new Date(),
-      to: new Date(trialEnd),
-      format: DAY
-    }).diff + 1
+  const { diff, format } = dateDifference({
+    from: new Date(),
+    to: new Date(trialEnd),
+    format: DAY
+  })
+
+  if (diff < 0) return
+
+  if (format !== DAY) {
+    return 'last day'
+  }
+
+  const daysNumber = diff + 1
 
   const daysLeft = daysNumber === 1 ? 'last day' : `${daysNumber} days left`
 
