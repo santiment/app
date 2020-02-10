@@ -56,6 +56,7 @@
 
 .dialogContent {
   min-width: 456px;
+  max-width: 456px;
   padding: 24px;
 
   @include responsive("phone", "phone-xs") {

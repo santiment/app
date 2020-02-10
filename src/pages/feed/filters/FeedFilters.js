@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Dialog from '@santiment-network/ui/Dialog'
 import Icon from '@santiment-network/ui/Icon'
@@ -34,24 +34,26 @@ const FeedContentWrapper = ({
   handleFiltersChange,
   enableAlertsInsights
 }) => {
-  const onUpdateAuthor = useCallback(author => {
+  const onUpdateAuthor = author => {
     handleFiltersChange({
       ...filters,
       author
     })
-  }, [])
-  const onUpdateWatchlists = useCallback(watchlists => {
+  }
+  const onUpdateWatchlists = watchlists => {
     handleFiltersChange({
       ...filters,
       watchlists
     })
-  }, [])
-  const onUpdateAssets = useCallback(assets => {
+  }
+  const onUpdateAssets = assets => {
     handleFiltersChange({
       ...filters,
       assets
     })
-  }, [])
+  }
+
+  console.log(filters)
 
   useEffect(
     () => {
@@ -75,17 +77,17 @@ const FeedContentWrapper = ({
         </div>
       </div>
 
-      <FeedAssetsFilter ids={filters.assets} onUpdateAssets={onUpdateAssets} />
+      <FeedAssetsFilter ids={filters.assets} onUpdate={onUpdateAssets} />
 
       <FeedWatchlistsFilter
         ids={filters.watchlists}
-        onUpdateWatchlists={onUpdateWatchlists}
+        onUpdate={onUpdateWatchlists}
       />
 
       {enableAlertsInsights && (
         <AlertsAndInsightsFilter
           selected={filters.author}
-          onUpdateAuthor={onUpdateAuthor}
+          onUpdate={onUpdateAuthor}
         />
       )}
     </div>
@@ -99,7 +101,6 @@ const FiltersDesktopWrapper = ({ children }) => {
       position='bottom'
       align='end'
       className={styles.tooltip}
-      passOpenStateAs='isActive'
       trigger={
         <div className={styles.trigger}>
           <Icon type='filter' className={styles.iconFilter} />

@@ -1,9 +1,5 @@
 @import '~@santiment-network/ui/mixins';
 
-.assets {
-  border-top: none !important;
-}
-
 .container {
   padding-bottom: 24px;
   padding-top: 24px;
@@ -30,4 +26,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.assets {
+  border-top: none !important;
 }
