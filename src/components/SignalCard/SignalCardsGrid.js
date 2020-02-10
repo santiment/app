@@ -20,34 +20,39 @@ const SignalCardsGrid = ({
   deleteEnabled = true
 }) => {
   const isAuthor = +userId === +ownerId
+
   return (
     <div className={cx(styles.wrapper, className)}>
       {signals
         .sort((a, b) => b.id - a.id)
-        .map(({ id, index, userId: signalOwnerId, ...signal }) => (
-          <SignalCard
-            deleteEnabled={deleteEnabled}
-            isUserTheAuthor={
-              isAuthor || (signalOwnerId && +signalOwnerId === +userId)
-            }
-            key={id || index}
-            id={id}
-            toggleSignal={() =>
-              toggleSignal({
-                id,
-                isActive: signal.isActive
-              })
-            }
-            goToSignalSettings={() => {
-              goToSignalSettings(id)
-            }}
-            removeSignal={() => {
-              removeSignal(id)
-            }}
-            className={styles.card}
-            signal={signal}
-          />
-        ))}
+        .map(signal => {
+          const { id, index, userId: signalOwnerId, isActive } = signal
+
+          return (
+            <SignalCard
+              deleteEnabled={deleteEnabled}
+              isUserTheAuthor={
+                isAuthor || (signalOwnerId && +signalOwnerId === +userId)
+              }
+              key={id || index}
+              id={id}
+              toggleSignal={() =>
+                toggleSignal({
+                  id,
+                  isActive
+                })
+              }
+              goToSignalSettings={() => {
+                goToSignalSettings(id)
+              }}
+              removeSignal={() => {
+                removeSignal(id)
+              }}
+              className={styles.card}
+              signal={signal}
+            />
+          )
+        })}
     </div>
   )
 }
