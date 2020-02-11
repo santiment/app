@@ -220,6 +220,7 @@ const AssetsListDescription = ({
     <div className={styles.assetGroup}>
       {assets.map(asset => {
         const { id, name } = asset
+
         return (
           <span className={styles.asset} key={id}>
             <span className={styles.name}>{name}</span>
