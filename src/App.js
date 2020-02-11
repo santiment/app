@@ -36,6 +36,12 @@ import { mapSizesToProps } from './utils/withSizes'
 import styles from './App.module.scss'
 import './App.scss'
 
+const PATHS = {
+  FEED: '/feed'
+}
+
+const FOOTER_DISABLED_FOR = [PATHS.FEED]
+
 const LoadableLabsPage = Loadable({
   loader: () => import('./pages/Labs'),
   loading: () => <PageLoader />
@@ -198,10 +204,10 @@ export const App = ({
   token,
   isFullscreenMobile,
   isOffline,
-  hasUsername,
   hasMetamask,
   isBetaModeEnabled,
-  location
+  location,
+  showFooter
 }) => (
   <div className='App'>
     {isOffline && (
@@ -265,7 +271,10 @@ export const App = ({
           }
         />
         <Route exact path='/unsubscribe' component={LoadableUnsubscribePage} />
-        <Route path='/feed' render={props => <LoadableFeedPage {...props} />} />
+        <Route
+          path={PATHS.FEED}
+          render={props => <LoadableFeedPage {...props} />}
+        />
         <Route
           exact
           path='/search'
@@ -414,12 +423,13 @@ export const App = ({
     </ErrorBoundary>
     <NotificationStack />
     <CookiePopup />
-    {isDesktop && <Footer />}
+    {isDesktop && showFooter && <Footer />}
   </div>
 )
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, { location: { pathname } }) => {
   const { ethAccounts = [] } = state.user.data
+
   return {
     isLoggedIn: state.user.data && !!state.user.data.id,
     isUserLoading: state.user.isLoading,
@@ -427,8 +437,8 @@ const mapStateToProps = state => {
     isFullscreenMobile: state.detailedPageUi.isFullscreenMobile,
     isOffline: !state.rootUi.isOnline,
     isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
-    hasUsername: !!state.user.data.username,
-    hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address
+    hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address,
+    showFooter: FOOTER_DISABLED_FOR.indexOf(pathname) === -1
   }
 }
 
