@@ -228,6 +228,12 @@ const MobileDetailedPage = ({
                   />
                 </div>
                 {!hasPremium && metrics.length > 0 && <MobileProPopup />}
+                <ChartMetricsTool
+                  classes={styles}
+                  addMetricBtnText='Add metrics'
+                  className={styles.metricsPopup}
+                  {...commonMetricsToolProps}
+                />
                 <div
                   className={cx(
                     styles.selected,
@@ -256,12 +262,6 @@ const MobileDetailedPage = ({
                     </>
                   )}
                 </div>
-                <ChartMetricsTool
-                  classes={styles}
-                  addMetricBtnText='Add metrics'
-                  className={styles.metricsPopup}
-                  {...commonMetricsToolProps}
-                />
                 {isLimitReached && (
                   <div className={styles.limit}>
                     To add a new metric, please de-select another one
