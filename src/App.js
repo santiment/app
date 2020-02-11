@@ -438,7 +438,7 @@ const mapStateToProps = (state, { location: { pathname } }) => {
     isOffline: !state.rootUi.isOnline,
     isBetaModeEnabled: state.rootUi.isBetaModeEnabled,
     hasMetamask: ethAccounts.length > 0 && ethAccounts[0].address,
-    showFooter: !(FOOTER_DISABLED_FOR.indexOf(pathname) !== -1)
+    showFooter: FOOTER_DISABLED_FOR.indexOf(pathname) === -1
   }
 }
 

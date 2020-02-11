@@ -7,9 +7,9 @@ import RecentlyWatched, {
   Asset
 } from '../../components/RecentlyWatched/RecentlyWatched'
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
+import Footer from '../../components/Footer'
 import { ASSETS_SIDEBAR } from './data'
 import styles from './ChartSidecar.module.scss'
-import Footer from '../../components/Footer'
 
 const ChartSidecar = ({
   onSlugSelect,
