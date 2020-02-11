@@ -1,5 +1,11 @@
 @import '~@santiment-network/ui/mixins';
 
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .wrapper {
   display: flex;
 }
@@ -87,7 +93,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 229px;
+  width: 231px;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
     flex: 1;

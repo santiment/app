@@ -9,13 +9,34 @@ import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
 import { DesktopOnly } from '../../../components/Responsive'
 import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
+import { isEthStrictAddress } from '../../../utils/utils'
+import FeedHistoricalBalance from '../../feed/GeneralFeed/FeedItemRenderer/feedHistoricalBalance/FeedHistoricalBalance'
 import styles from './ActivityRenderer.module.scss'
+
+function getDefaultActivityContent (
+  classes,
+  { payload, data: { user_trigger_data } = {} }
+) {
+  const firstKey = Object.keys(user_trigger_data)[0]
+
+  if (isEthStrictAddress(firstKey)) {
+    return <FeedHistoricalBalance data={user_trigger_data[firstKey]} />
+  }
+
+  return (
+    <Markdown
+      source={Object.values(payload)[0]}
+      className={classes.activityMarkdown}
+    />
+  )
+}
 
 const ActivityWithBacktesting = ({
   date,
   user,
   classes,
-  activity: { triggeredAt, payload, trigger = {}, votes = [] },
+  activity,
+  activity: { triggeredAt, trigger = {}, votes = [] },
   onLike
 }) => {
   const {
@@ -27,7 +48,7 @@ const ActivityWithBacktesting = ({
       <DesktopOnly>
         <SignalTypeIcon type={type} className={styles.icon} />
       </DesktopOnly>
-      <div>
+      <div className={styles.container}>
         <div className={styles.info}>
           <div
             className={cx(
@@ -40,10 +61,8 @@ const ActivityWithBacktesting = ({
               <h4 className={styles.title}>
                 <OpenSignalLink signal={trigger} />
               </h4>
-              <Markdown
-                source={Object.values(payload)[0]}
-                className={classes.activityMarkdown}
-              />
+
+              {getDefaultActivityContent(classes, activity)}
 
               <SignalCreator user={user} />
             </div>
