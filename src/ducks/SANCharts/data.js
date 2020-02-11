@@ -67,8 +67,7 @@ export const Metrics = {
     label: 'Balance',
     fill: true,
     dataKey: 'balance',
-    color: 'dodger-blue',
-    opacity: 0.25,
+    color: 'mystic',
     strokeWidth: 0,
     hidden: true
   },
