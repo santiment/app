@@ -1,4 +1,4 @@
-import { Metrics, Events } from '../../../ducks/SANCharts/data'
+import { Metrics } from '../../../ducks/SANCharts/data'
 
 export const NO_GROUP = '_'
 

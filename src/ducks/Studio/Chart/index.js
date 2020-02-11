@@ -64,7 +64,6 @@ export default ({
         <Chart
           {...options}
           {...settings}
-          {...boundaries}
           metrics={activeMetrics}
           data={mapDatetimeToNumber(data)}
           chartRef={chartRef}
