@@ -22,11 +22,15 @@ const isInHeldAssets = (heldAssets, checking) => {
   )
 }
 
-const ETHEREUM = 'ethereum'
+const ETHEREUM = {
+  slug: 'ethereum',
+  ticker: 'ETH',
+  name: 'ethereum'
+}
 
 const isErc20Assets = (target, allErc20Projects) =>
-  target.value === ETHEREUM ||
-  target.slug === ETHEREUM ||
+  target.value === ETHEREUM.slug ||
+  target.slug === ETHEREUM.slug ||
   (Array.isArray(target)
     ? isInHeldAssets(allErc20Projects, target)
     : isInHeldAssets(allErc20Projects, [target]))
@@ -84,8 +88,6 @@ const TriggerFormHistoricalBalance = ({
       Array.isArray(metaTarget.value) ? metaTarget.value : [metaTarget.value]
     )
     : []
-
-  console.log(metaMappedToAll)
 
   const validateTarget = () => {
     let asset
@@ -218,10 +220,10 @@ const mapDataToProps = ({
   if (
     allErc20Projects &&
     allErc20Projects.length > 0 &&
-    !allErc20Projects.find(({ slug }) => slug === ETHEREUM)
+    !allErc20Projects.find(({ slug }) => slug === ETHEREUM.slug)
   ) {
     allErc20Projects.push({
-      slug: ETHEREUM
+      ...ETHEREUM
     })
   }
 
