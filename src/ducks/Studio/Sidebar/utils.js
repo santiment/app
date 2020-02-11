@@ -22,8 +22,7 @@ export const getCategoryGraph = (availableMetrics, hiddenMetrics) => {
   }
 
   const categories = {
-    Financial: undefined,
-    Social: [Events.trendPositionHistory]
+    Financial: undefined
   }
   const { length } = availableMetrics
 
