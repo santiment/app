@@ -9,6 +9,7 @@ import RecentlyWatched, {
 import GainersLosersTabs from '../../components/GainersAndLosers/GainersLosersTabs'
 import { ASSETS_SIDEBAR } from './data'
 import styles from './ChartSidecar.module.scss'
+import Footer from '../../components/Footer'
 
 const ChartSidecar = ({
   onSlugSelect,
@@ -71,7 +72,8 @@ export const SidecarItems = ({
   classes = {},
   hidden = false,
   onSlugSelect,
-  onProjectClick
+  onProjectClick,
+  showFooter = false
 }) => {
   const [openedList, setOpenedList] = useState()
 
@@ -103,6 +105,7 @@ export const SidecarItems = ({
         renderer={assetsRenderer}
         rowHeight={50}
       />
+      {showFooter && <Footer classes={styles} />}
     </div>
   ) : (
     <div className={cx(styles.content, classes.sidecarItems)}>
@@ -135,6 +138,8 @@ export const SidecarItems = ({
               classes={styles}
             />
           </section>
+
+          {showFooter && <Footer classes={styles} />}
         </div>
       </div>
     </div>
