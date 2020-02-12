@@ -50,16 +50,18 @@ const AssetsOverview = ({
             <RecentlyWatched className={styles.recents} type='assets' />
             <h2 className={styles.subtitle}>Indices</h2>
             <WatchlistCards watchlists={CATEGORIES} />
-            <h2 className={styles.subtitle}>Social gainers and losers</h2>
-            <section className={styles.gainers}>
-              <GainersLosersTabs
-                timeWindow='2d'
-                size={8}
-                onProjectClick={({ slug }) => {
-                  history.push(`/projects/${slug}`)
-                }}
-              />
-            </section>
+            {/* <h2 className={styles.subtitle}>Social gainers and losers</h2> */}
+            {false && (
+              <section className={styles.gainers}>
+                <GainersLosersTabs
+                  timeWindow='2d'
+                  size={8}
+                  onProjectClick={({ slug }) => {
+                    history.push(`/projects/${slug}`)
+                  }}
+                />
+              </section>
+            )}
           </>
         )}
       </MobileOnly>
