@@ -15,12 +15,12 @@ import { TRENDING_WORDS } from '../../../ducks/Signals/utils/constants'
 import FeedTrendingWordsSignal from '../../feed/GeneralFeed/FeedItemRenderer/feedTrendingWordsSignal/FeedTrendingWordsSignal'
 import styles from './ActivityRenderer.module.scss'
 
-export const getDefaultActivityContent = (
-  classes,
-  { payload, data: { user_trigger_data } = {}, trigger = {} }
-) => {
-  if (user_trigger_data) {
+export const getDefaultActivityContent = (classes, activity) => {
+  const { payload, data: activityData, trigger = {} } = activity
+  if (activityData) {
+    const { user_trigger_data } = activityData
     const firstKey = Object.keys(user_trigger_data)[0]
+
     const data = user_trigger_data[firstKey]
 
     if (isEthStrictAddress(firstKey)) {
