@@ -20,6 +20,8 @@ const InsightCard = ({ className, tags, isDesktop, showIcon, ...insight }) => {
   const { createdAt, updatedAt, publishedAt, state } = insight
   const filteredTags = tags.filter(noTrendTagsFilter)
 
+  const firstTag = filteredTags[0]
+
   return (
     <Panel className={cx(styles.wrapper, styles.wrapper_withMc, className)}>
       <InsightCardInternals
@@ -40,12 +42,14 @@ const InsightCard = ({ className, tags, isDesktop, showIcon, ...insight }) => {
             )}
           </>
 
-          <MarketcapChangeWidget
-            from={createdAt}
-            ticker={(filteredTags[0] || {}).name}
-            updatedAt={updatedAt}
-            publishedAt={publishedAt || updatedAt}
-          />
+          {firstTag && (
+            <MarketcapChangeWidget
+              from={createdAt}
+              ticker={firstTag.name.toUpperCase()}
+              updatedAt={updatedAt}
+              publishedAt={publishedAt || updatedAt}
+            />
+          )}
         </div>
       </InsightCardInternals>
     </Panel>
