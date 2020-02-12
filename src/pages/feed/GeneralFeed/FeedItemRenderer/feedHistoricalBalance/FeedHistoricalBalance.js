@@ -1,19 +1,19 @@
 import React from 'react'
 import Button from '@santiment-network/ui/Button'
-import styles from './FeedHistoricalBalance.module.scss'
 import { capitalizeStr } from '../../../../../utils/utils'
 import { formatNumber } from '../../../../../utils/formatting'
+import styles from './FeedHistoricalBalance.module.scss'
 
 const spliceLink = address => address.slice(0, 20) + '...'
 
-const FeedHistoricalBalance = ({ data }) => {
+const FeedHistoricalBalance = ({ user_trigger_data }) => {
   const {
     historical_balance_link,
     asset,
     address,
     balance_change,
     since
-  } = data
+  } = user_trigger_data
 
   return (
     <div className={styles.container}>
