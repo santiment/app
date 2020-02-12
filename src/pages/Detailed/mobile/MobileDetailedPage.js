@@ -191,7 +191,7 @@ const MobileDetailedPage = ({
               toggleMetric,
               showLimitMessage: isLimitReached,
               activeMetrics: metrics,
-              hiddenMetrics: [Metrics.historyPrice],
+              hiddenMetrics: [Metrics.price_usd],
               isMobile: true
             }
 

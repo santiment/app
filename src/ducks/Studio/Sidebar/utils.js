@@ -50,10 +50,6 @@ export const getCategoryGraph = (availableMetrics, hiddenMetrics) => {
       metrics.push(metric)
     }
 
-    if (metric.key === 'historyPrice') {
-      metrics.push(Metrics.volume, Metrics.marketcap)
-    }
-
     addItemToGraph(categories, metricCategory, metrics)
   }
 

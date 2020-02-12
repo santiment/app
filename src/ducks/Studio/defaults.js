@@ -23,4 +23,4 @@ export const DEFAULT_OPTIONS = {
   isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
 }
 
-export const DEFAULT_METRICS = [Metrics.historyPrice]
+export const DEFAULT_METRICS = [Metrics.price_usd]

@@ -38,12 +38,11 @@ export const Events = {
 }
 
 export const Metrics = {
-  historyPrice: {
+  price_usd: {
     node: 'line',
     Component: Line,
     color: 'jungle-green',
     label: 'Price',
-    dataKey: 'priceUsd',
     category: 'Financial',
     formatter: usdFormatter,
     historicalTriggersDataKey: 'price'
@@ -54,7 +53,6 @@ export const Metrics = {
     Component: Area,
     color: 'jungle-green',
     label: 'Price',
-    dataKey: 'priceUsd',
     category: 'Financial',
     gradientUrl: 'url(#totalUp)',
     formatter: usdFormatter,
@@ -71,7 +69,7 @@ export const Metrics = {
     strokeWidth: 0,
     hidden: true
   },
-  marketcap: {
+  marketcap_usd: {
     category: 'Financial',
     node: 'line',
     Component: Line,
@@ -79,13 +77,12 @@ export const Metrics = {
     color: 'malibu',
     formatter: usdFormatter
   },
-  volume: {
+  volume_usd: {
     category: 'Financial',
     node: 'bar',
     Component: Bar,
     label: 'Volume',
     fill: true,
-    dataKey: 'volume',
     color: 'mystic',
     formatter: usdFormatter
   },
@@ -368,6 +365,9 @@ DerivedMetrics.forEach(obj => {
 
 export const compatabilityMap = {
   // old              : new
+  historyPrice: Metrics.price_usd,
+  volume: Metrics.volume_usd,
+  marketcap: Metrics.marketcap_usd,
   dailyActiveAddresses: Metrics.daily_active_addresses,
   tokenCirculation: Metrics.circulation_1d,
   mvrvRatio: Metrics.mvrv_usd,

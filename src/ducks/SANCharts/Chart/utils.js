@@ -51,7 +51,7 @@ export function yBubbleFormatter (value) {
 }
 
 export const findTooltipMetric = metrics =>
-  (metrics.includes(Metrics.historyPrice) && Metrics.historyPrice) ||
+  (metrics.includes(Metrics.price_usd) && Metrics.price_usd) ||
   metrics.find(({ node }) => node === 'line') ||
   metrics[0]
 

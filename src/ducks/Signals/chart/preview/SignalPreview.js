@@ -62,7 +62,7 @@ const SignalPreviewChart = ({
   })
 
   const metricsForSignalsChart = metrics.map(metric =>
-    metric === Metrics.historyPrice ? Metrics.historyPricePreview : metric
+    metric === Metrics.price_usd ? Metrics.historyPricePreview : metric
   )
 
   const syncedColors = getSyncedColors(metricsForSignalsChart)

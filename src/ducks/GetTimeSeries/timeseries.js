@@ -1,6 +1,5 @@
 import { DEV_ACTIVITY_QUERY } from './queries/dev_activity_query'
 import { MARKET_SEGMENT_QUERY } from './queries/market_segment_query'
-import { HISTORY_PRICE_QUERY } from './queries/history_price_query'
 import { ETH_SPENT_OVER_TIME_QUERY } from './queries/eth_spent_over_time_query'
 import { ETH_SPENT_OVER_TIME_BY_ALL_PROJECTS_QUERY } from './queries/eth_spent_over_time_by_all_projects_query'
 import { BURN_RATE_QUERY } from './queries/burn_rate_query'
@@ -52,19 +51,20 @@ const TIMESERIES = {
   historyTwitterData: {
     query: HISTORY_TWITTER_DATA_QUERY
   },
-  historyPrice: {
-    query: HISTORY_PRICE_QUERY
-  },
   historicalBalance: {
     query: HISTORICAL_BALANCE_QUERY
   },
-  volume: {
-    query: HISTORY_PRICE_QUERY,
-    preTransform: ({ historyPrice }) => historyPrice
+  price_usd: {
+    query: GET_METRIC('price_usd'),
+    preTransform: getMetricPreTransform
   },
-  marketcap: {
-    query: HISTORY_PRICE_QUERY,
-    preTransform: ({ historyPrice }) => historyPrice
+  volume_usd: {
+    query: GET_METRIC('volume_usd'),
+    preTransform: getMetricPreTransform
+  },
+  marketcap_usd: {
+    query: GET_METRIC('marketcap_usd'),
+    preTransform: getMetricPreTransform
   },
   devActivity: {
     query: DEV_ACTIVITY_QUERY
