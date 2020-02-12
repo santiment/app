@@ -19,22 +19,26 @@ export const getDefaultActivityContent = (
   classes,
   { payload, data: { user_trigger_data } = {}, trigger = {} }
 ) => {
-  const firstKey = Object.keys(user_trigger_data)[0]
+  if (user_trigger_data) {
+    const firstKey = Object.keys(user_trigger_data)[0]
+    const data = user_trigger_data[firstKey]
 
-  const data = user_trigger_data[firstKey]
+    if (isEthStrictAddress(firstKey)) {
+      return <FeedHistoricalBalance user_trigger_data={data} />
+    } else if (trigger) {
+      const { settings: { type } = {} } = trigger
 
-  if (isEthStrictAddress(firstKey)) {
-    return <FeedHistoricalBalance user_trigger_data={data} />
-  } else if (trigger && user_trigger_data) {
-    const { settings: { type } = {} } = trigger
-
-    switch (type) {
-      case TRENDING_WORDS: {
-        return (
-          <FeedTrendingWordsSignal trigger={trigger} user_trigger_data={data} />
-        )
-      }
-      default: {
+      switch (type) {
+        case TRENDING_WORDS: {
+          return (
+            <FeedTrendingWordsSignal
+              trigger={trigger}
+              user_trigger_data={data}
+            />
+          )
+        }
+        default: {
+        }
       }
     }
   }
