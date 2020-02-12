@@ -32,7 +32,7 @@ const DEFAULT_STATE = {
   from: FROM.toISOString(),
   to: TO.toISOString(),
   slug: 'santiment',
-  metrics: [Metrics.historyPrice],
+  metrics: [Metrics.price_usd],
   title: 'Santiment (SAN)',
   projectId: '16912',
   interval: getNewInterval(FROM, TO),
@@ -433,9 +433,9 @@ class ChartPage extends Component {
       let resInterval = selectedInterval
       if (
         selectedIntervalIndex < 1 &&
-        metric !== Metrics.historyPrice &&
-        metric !== Metrics.volume &&
-        metric !== Metrics.marketcap
+        metric !== Metrics.price_usd &&
+        metric !== Metrics.volume_usd &&
+        metric !== Metrics.marketcap_usd
       ) {
         resInterval = '1h'
       }

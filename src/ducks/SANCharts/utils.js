@@ -83,7 +83,7 @@ export const METRIC_COLORS = [
 ]
 
 export const findYAxisMetric = metrics =>
-  (metrics.includes(Metrics.historyPrice) && Metrics.historyPrice) ||
+  (metrics.includes(Metrics.price_usd) && Metrics.price_usd) ||
   metrics.find(
     ({ key, Component }) => key !== 'mvrvRatio' && Component !== Bar
   ) ||

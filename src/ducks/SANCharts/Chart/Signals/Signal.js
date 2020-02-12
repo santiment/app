@@ -3,7 +3,7 @@ import styles from './index.module.scss'
 
 const Signal = ({ signal, setHovered, removeSignal }) => {
   function onMouseEnter () {
-    setHovered(signal)
+    setTimeout(() => setHovered(signal), 0)
   }
 
   function onMouseLeave () {

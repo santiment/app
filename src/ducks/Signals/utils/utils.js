@@ -767,23 +767,23 @@ export const getMetricsByType = type => {
   switch (type) {
     case DAILY_ACTIVE_ADDRESSES:
       return {
-        metrics: [Metrics.daily_active_addresses, Metrics.historyPrice],
+        metrics: [Metrics.daily_active_addresses, Metrics.price_usd],
         triggersBy: Metrics.daily_active_addresses
       }
     case PRICE_VOLUME_DIFFERENCE:
       return {
-        metrics: [Metrics.historyPrice, Metrics.volume],
-        triggersBy: Metrics.historyPrice
+        metrics: [Metrics.price_usd, Metrics.volume],
+        triggersBy: Metrics.price_usd
       }
     case ETH_WALLET:
       return {
-        metrics: [Metrics.historicalBalance, Metrics.historyPrice],
+        metrics: [Metrics.historicalBalance, Metrics.price_usd],
         triggersBy: Metrics.historicalBalance
       }
     default:
       return {
-        metrics: [Metrics.historyPrice],
-        triggersBy: Metrics.historyPrice
+        metrics: [Metrics.price_usd],
+        triggersBy: Metrics.price_usd
       }
   }
 }

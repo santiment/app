@@ -45,7 +45,7 @@ export const getSyncedColors = metrics => {
   return colors
 }
 
-const { historyPrice } = Metrics
+const { price_usd } = Metrics
 
 function colorTrend (position) {
   if (position < 4) {
@@ -95,7 +95,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
 
   useEffect(
     () => {
-      const noPriceMetrics = metrics.filter(metric => metric !== historyPrice)
+      const noPriceMetrics = metrics.filter(metric => metric !== price_usd)
       const hasPriceMetric = metrics.length !== noPriceMetrics.length
       const isValidMulti = isMultiChartsActive && noPriceMetrics.length > 1
 
@@ -104,7 +104,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
         noPriceMetrics.forEach(metric =>
           categories.push(
             metricsToPlotCategories(
-              hasPriceMetric ? [metric, historyPrice] : [metric]
+              hasPriceMetric ? [metric, price_usd] : [metric]
             )
           )
         )
@@ -134,7 +134,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
         return null
       }
 
-      const tooltipKey = getMetricKey(hasPriceMetric ? historyPrice : metric)
+      const tooltipKey = getMetricKey(hasPriceMetric ? price_usd : metric)
 
       return React.cloneElement(children, {
         key: metric.key,

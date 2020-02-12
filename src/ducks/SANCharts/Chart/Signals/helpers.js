@@ -63,7 +63,7 @@ export function findPriceByY (chart, y) {
     return
   }
 
-  const { min, max } = minMaxes.priceUsd
+  const { min, max } = minMaxes.price_usd
 
   const factor = (max - min) / height
 
@@ -98,11 +98,11 @@ export function makeSignalDrawable (
   scale
 ) {
   const { height, top, minMaxes } = chart
-  if (!minMaxes || !minMaxes.priceUsd) {
+  if (!minMaxes || !minMaxes.price_usd) {
     return
   }
 
-  const { min, max } = minMaxes.priceUsd
+  const { min, max } = minMaxes.price_usd
   const { below, above } = operation
 
   const value = below || above

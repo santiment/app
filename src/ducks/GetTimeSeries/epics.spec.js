@@ -6,6 +6,7 @@ import { ActionsObservable } from 'redux-observable'
 import configureStore from 'redux-mock-store'
 import fetchTimeseriesEpic from './epics'
 import { getMetricQUERY } from './timeseries'
+import { GET_METRIC } from './queries/get_metric.js'
 import * as actions from './actions'
 const mockStore = configureStore([])
 
@@ -19,13 +20,12 @@ const createClient = link => {
 }
 
 const mockedData = {
-  historyPrice: [0, 1, 2, 3, 4, 5, 6, 7, 8].map(index => ({
-    priceBtc: Math.round(100),
-    priceUsd: Math.round(100),
-    volume: Math.round(100),
-    datetime: '2018-12-01T13:37:02.07080' + index,
-    marketcap: Math.round(100)
-  }))
+  getMetric: {
+    timeseriesData: [0, 1, 2, 3, 4, 5, 6, 7, 8].map(index => ({
+      price_usd: Math.round(100),
+      datetime: '2018-12-01T13:37:02.07080' + index
+    }))
+  }
 }
 
 const mockedDevActivity = {
@@ -38,9 +38,9 @@ const mockedDevActivity = {
 const link = mockSingleLink(
   {
     request: {
-      query: getMetricQUERY('historyPrice'),
+      query: GET_METRIC('price_usd'),
       variables: {
-        metric: 'historyPrice',
+        metric: 'price_usd',
         slug: 'santiment',
         interval: '1d',
         from: '2018-12-01',
@@ -51,9 +51,9 @@ const link = mockSingleLink(
   },
   {
     request: {
-      query: getMetricQUERY('historyPrice'),
+      query: GET_METRIC('price_usd'),
       variables: {
-        metric: 'historyPrice',
+        metric: 'price_usd',
         slug: 'santiment',
         interval: '1d',
         from: '2018-12-01',
@@ -79,9 +79,9 @@ const link = mockSingleLink(
   },
   {
     request: {
-      query: getMetricQUERY('historyPrice'),
+      query: GET_METRIC('price_usd'),
       variables: {
-        metric: 'historyPrice',
+        metric: 'price_usd',
         slug: 'santiment',
         interval: '1d',
         from: '2018-12-01',
@@ -131,7 +131,7 @@ describe('Fetch timeseries', () => {
         id: 0,
         metrics: [
           {
-            name: 'historyPrice',
+            name: 'price_usd',
             from: '2018-12-01',
             to: '2018-12-10',
             slug: 'santiment',
@@ -154,7 +154,7 @@ describe('Fetch timeseries', () => {
         id: 0,
         metrics: [
           {
-            name: 'historyPrice',
+            name: 'price_usd',
             from: '2018-12-01',
             to: '2018-12-10',
             slug: 'santiment',
@@ -187,7 +187,7 @@ describe('Fetch timeseries', () => {
         id: 0,
         metrics: [
           {
-            name: 'historyPrice',
+            name: 'price_usd',
             from: '2018-12-01',
             to: '2018-12-10',
             slug: 'santiment',

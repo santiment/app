@@ -30,7 +30,7 @@ describe('GetTimeSeries', () => {
       <GetTimeSeries
         metrics={[
           {
-            name: 'historyPrice',
+            name: 'price_usd',
             timeRange: '6m',
             slug: 'santiment',
             interval: '1d'

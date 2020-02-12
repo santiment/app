@@ -26,7 +26,7 @@ const TEXT_ACTION = 'Click to '
 const TEXT_RESULT = 'create a signal '
 const TEXT_IFS = ['if price drops below ', 'if price raises above ']
 
-const formatter = tooltipSettings.priceUsd.formatter
+const formatter = tooltipSettings.price_usd.formatter
 
 const Signals = ({
   slug,
@@ -45,11 +45,11 @@ const Signals = ({
     }
   }, [])
 
-  function onMouseMove ({ nativeEvent: { offsetY: y } }) {
-    if (hovered || data.length === 0) {
+  function onMouseMove ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
+    if (hovered || data.length === 0 || target !== currentTarget) {
       return
     }
-    const lastPrice = data[data.length - 1].priceUsd
+    const lastPrice = data[data.length - 1].price_usd
 
     const price = findPriceByY(chart, y)
     if (price === undefined) {
@@ -71,7 +71,7 @@ const Signals = ({
       return
     }
 
-    const lastPrice = data[data.length - 1].priceUsd
+    const lastPrice = data[data.length - 1].price_usd
     const price = findPriceByY(chart, y)
     if (price === undefined) {
       return

@@ -1,5 +1,5 @@
 import { stringify, parse } from 'query-string'
-import { Events, Metrics } from '../SANCharts/data'
+import { Events, Metrics, compatabilityMap } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from './defaults'
 
 const { trendPositionHistory } = Events
@@ -19,7 +19,7 @@ const convertKeysToMetric = (keys, dict) =>
   keys &&
   (typeof keys === 'string' ? [keys] : keys)
     .filter(Boolean)
-    .map(key => dict[key])
+    .map(key => dict[key] || compatabilityMap[key])
 
 export const updateHistory = url => {
   const { history } = window

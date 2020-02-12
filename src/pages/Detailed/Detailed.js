@@ -21,7 +21,7 @@ const CRUMB = {
 }
 
 const DEFAULT_METRICS = [
-  Metrics.historyPrice,
+  Metrics.price_usd,
   Metrics.socialVolume,
   Metrics.age_destroyed
 ]
