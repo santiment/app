@@ -74,11 +74,9 @@ const TriggerFormHistoricalBalance = ({
   metaFormSettings: { ethAddress: metaEthAddress, target: metaTarget },
   assets = [],
   setFieldValue,
-  values,
+  values: { target, ethAddress },
   isLoading = false
 }) => {
-  const { target, ethAddress } = values
-
   const [erc20List, setErc20] = useState(allErc20Projects)
   const [heldAssets, setHeldAssets] = useState(assets)
 
