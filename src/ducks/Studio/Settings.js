@@ -5,12 +5,16 @@ import {
   getNewInterval,
   INTERVAL_ALIAS
 } from '../../ducks/SANCharts/IntervalSelector'
+import { saveToggle } from '../../utils/localStorage'
 
 export default ({ settings, options, setOptions, setSettings, ...rest }) => {
   function toggleMultichart () {
     setOptions(state => ({
       ...state,
-      isMultiChartsActive: !state.isMultiChartsActive
+      isMultiChartsActive: saveToggle(
+        'isMultiChartsActive',
+        !state.isMultiChartsActive
+      )
     }))
   }
 
@@ -18,6 +22,16 @@ export default ({ settings, options, setOptions, setSettings, ...rest }) => {
     setOptions(state => ({
       ...state,
       isLogScale: !state.isLogScale
+    }))
+  }
+
+  function toggleCartesianGrid () {
+    setOptions(state => ({
+      ...state,
+      isCartesianGridActive: saveToggle(
+        'isCartesianGridActive',
+        !state.isCartesianGridActive
+      )
     }))
   }
 
@@ -53,6 +67,7 @@ export default ({ settings, options, setOptions, setSettings, ...rest }) => {
       onScaleChange={toggleScale}
       onTimerangeChange={onTimerangeChange}
       onCalendarChange={onCalendarChange}
+      onCartesianGridChange={toggleCartesianGrid}
     />
   )
 }

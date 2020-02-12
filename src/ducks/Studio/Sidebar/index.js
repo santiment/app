@@ -4,20 +4,15 @@ import MetricSelector from './MetricSelector'
 import Search from './Search'
 import AnomaliesToggle from '../../../components/AnomaliesToggle/AnomaliesToggle'
 import withMetrics from '../withMetrics'
+import { saveToggle } from '../../../utils/localStorage'
 import styles from './index.module.scss'
 
 const Anomalies = ({ options, setOptions }) => {
   function onToggle () {
-    setOptions(state => {
-      const isAnomalyActive = !state.isAnomalyActive
-
-      localStorage.setItem('hideAnomalies', isAnomalyActive ? '' : '+')
-
-      return {
-        ...state,
-        isAnomalyActive
-      }
-    })
+    setOptions(state => ({
+      ...state,
+      isAnomalyActive: saveToggle('isAnomalyActive', !state.isAnomalyActive)
+    }))
   }
 
   return (

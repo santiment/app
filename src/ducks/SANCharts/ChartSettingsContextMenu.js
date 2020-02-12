@@ -43,7 +43,9 @@ const ChartSettingsContextMenu = ({
   data,
   events,
   activeMetrics,
-  activeEvents
+  activeEvents,
+  isCartesianGridActive,
+  onCartesianGridChange
 }) => {
   return (
     <ContextMenu
@@ -69,6 +71,20 @@ const ChartSettingsContextMenu = ({
           >
             Log scale
             <Toggle isActive={isLogScale} className={styles.context__toggle} />
+          </Button>
+        )}
+        {onCartesianGridChange && (
+          <Button
+            fluid
+            variant='ghost'
+            onClick={onCartesianGridChange}
+            className={styles.context__btn}
+          >
+            Cartesian Grid
+            <Toggle
+              isActive={isCartesianGridActive}
+              className={styles.context__toggle}
+            />
           </Button>
         )}
         {showNightModeToggle && (

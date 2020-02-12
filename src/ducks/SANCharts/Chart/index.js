@@ -50,7 +50,8 @@ const Chart = ({
   isMultiChartsActive,
   isAdvancedView,
   isWideChart,
-  isNightModeEnabled
+  isNightModeEnabled,
+  isCartesianGridActive
 }) => {
   let [chart, setChart] = useState()
   let [brush, setBrush] = useState()
@@ -224,7 +225,9 @@ const Chart = ({
     chart.ctx.lineWidth = 1.5
     plotLines(chart, data, lines, syncedColors, scale)
 
-    drawCartesianGrid(chart, chart.axesColor)
+    if (isCartesianGridActive) {
+      drawCartesianGrid(chart, chart.axesColor)
+    }
 
     events.forEach(({ metric, key, datetime, value, color }) =>
       drawReferenceDot(chart, metric, datetime, color, key, value)

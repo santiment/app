@@ -76,3 +76,11 @@ window.addEventListener('storage', evt => {
     window.location.reload(true)
   }
 })
+
+export const getSavedToggle = (key, defaultValue = false) => {
+  const saved = localStorage.getItem(key)
+  return saved === null ? defaultValue : !!saved
+}
+
+export const saveToggle = (key, value) =>
+  localStorage.setItem(key, value ? '+' : '') || value
