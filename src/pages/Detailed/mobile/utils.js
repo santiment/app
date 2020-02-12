@@ -1,7 +1,7 @@
 import { Metrics } from '../../../ducks/SANCharts/data'
 
 export const DEFAULT_METRIC = {
-  key: 'historyPrice',
+  key: 'price_usd',
   ...Metrics['historyPricePreview'].reqMeta
 }
 

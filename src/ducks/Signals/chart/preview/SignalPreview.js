@@ -78,7 +78,10 @@ const SignalPreviewChart = ({
         }
 
         const data = mapWithTimeseries(timeseries)
-        const merged = cleanByDatakeys(data, triggersBy.dataKey)
+        const merged = cleanByDatakeys(
+          data,
+          triggersBy.dataKey || triggersBy.key
+        )
 
         triggeredSignals = makeSameRange(triggeredSignals, merged)
 

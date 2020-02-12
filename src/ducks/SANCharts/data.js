@@ -53,6 +53,7 @@ export const Metrics = {
     Component: Area,
     color: 'jungle-green',
     label: 'Price',
+    dataKey: 'price_usd',
     category: 'Financial',
     gradientUrl: 'url(#totalUp)',
     formatter: usdFormatter,

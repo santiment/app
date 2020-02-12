@@ -168,7 +168,7 @@ const TrendsReChart = ({
                         name={asset + '/USD'}
                         dot={false}
                         strokeWidth={1.5}
-                        dataKey='priceUsd'
+                        dataKey='price_usd'
                         stroke={ASSET_PRICE_COLOR}
                       />
                       <Legend />
