@@ -216,10 +216,12 @@ const BalanceView = ({
                     !priceMetricTimeseries ||
                     !priceMetricTimeseries[metricSlug]
                   ) {
-                    const mapped = timeseries.map(({ priceUsd, datetime }) => ({
-                      datetime,
-                      [metricSlug]: priceUsd
-                    }))
+                    const mapped = timeseries.map(
+                      ({ price_usd, datetime }) => ({
+                        datetime,
+                        [metricSlug]: price_usd
+                      })
+                    )
 
                     setPriceMetricTimeseries({
                       ...priceMetricTimeseries,
