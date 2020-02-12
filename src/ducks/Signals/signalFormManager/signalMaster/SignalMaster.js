@@ -25,7 +25,11 @@ const mapFormSettings = (baseSettings, meta) => {
   const formMetric =
     meta && meta.metric ? meta.metric.value.value : PRICE_PERCENT_CHANGE
 
-  const metaFormSettings = { ...DEFAULT_FORM_META_SETTINGS, ...meta }
+  const metaFormSettings = {
+    ...DEFAULT_FORM_META_SETTINGS,
+    ethAddress: baseSettings.ethAddress,
+    ...meta
+  }
 
   let settings = {
     ...METRIC_DEFAULT_VALUES[formMetric],
