@@ -11,16 +11,32 @@ import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import { isEthStrictAddress } from '../../../utils/utils'
 import FeedHistoricalBalance from '../../feed/GeneralFeed/FeedItemRenderer/feedHistoricalBalance/FeedHistoricalBalance'
+import { TRENDING_WORDS } from '../../../ducks/Signals/utils/constants'
+import FeedTrendingWordsSignal from '../../feed/GeneralFeed/FeedItemRenderer/feedTrendingWordsSignal/FeedTrendingWordsSignal'
 import styles from './ActivityRenderer.module.scss'
 
-function getDefaultActivityContent (
+export const getDefaultActivityContent = (
   classes,
-  { payload, data: { user_trigger_data } = {} }
-) {
+  { payload, data: { user_trigger_data } = {}, trigger = {} }
+) => {
   const firstKey = Object.keys(user_trigger_data)[0]
 
+  const data = user_trigger_data[firstKey]
+
   if (isEthStrictAddress(firstKey)) {
-    return <FeedHistoricalBalance data={user_trigger_data[firstKey]} />
+    return <FeedHistoricalBalance user_trigger_data={data} />
+  } else if (trigger && user_trigger_data) {
+    const { settings: { type } = {} } = trigger
+
+    switch (type) {
+      case TRENDING_WORDS: {
+        return (
+          <FeedTrendingWordsSignal trigger={trigger} user_trigger_data={data} />
+        )
+      }
+      default: {
+      }
+    }
   }
 
   return (

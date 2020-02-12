@@ -1,6 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-import Markdown from 'react-markdown'
 import { SignalTypeIcon } from '../../../components/SignalCard/controls/SignalControls'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
@@ -8,15 +7,16 @@ import { DesktopOnly } from '../../../components/Responsive'
 import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
 import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
+import { getDefaultActivityContent } from './ActivityWithBacktesting'
 import styles from './ActivityRenderer.module.scss'
 
 const SimpleActivity = ({
   date,
   classes,
   user,
+  activity,
   activity: {
     triggeredAt,
-    payload,
     trigger,
     trigger: { settings: { type } } = {},
     votes = []
@@ -35,10 +35,7 @@ const SimpleActivity = ({
             <FeedCardDate date={triggeredAt || date} />
           </h4>
         </div>
-        <Markdown
-          source={Object.values(payload)[0]}
-          className={classes.activityMarkdown}
-        />
+        {getDefaultActivityContent(classes, activity)}
         <SignalCreator user={user} />
         <div className={styles.bottom}>
           {onLike && (
