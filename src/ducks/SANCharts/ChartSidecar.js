@@ -127,20 +127,14 @@ export const SidecarItems = ({
             <h2 className={cx(styles.subtitle, classes.subTitle)}>Indices</h2>
             <Categories onClick={setOpenedList} />
           </section>
-          {false && (
-            <section className={styles.section}>
-              <h2 className={cx(styles.subtitle, classes.subTitle)}>
-                Social gainers and losers
-              </h2>
-              <GainersLosersTabs
-                timeWindow='2d'
-                size={8}
-                onProjectClick={onProjectClick}
-                classes={styles}
-              />
-            </section>
-          )}
-
+          <GainersLosersTabs
+            className={styles.section}
+            titleClassName={classes.subTitle}
+            timeWindow='2d'
+            size={8}
+            onProjectClick={onProjectClick}
+            classes={styles}
+          />
           {showFooter && <Footer classes={styles} />}
         </div>
       </div>
