@@ -40,7 +40,7 @@
 
 .selector {
   flex: 1;
-  overflow-y: hidden;
+  overflow: hidden;
 
   &:hover {
     overflow-y: auto;

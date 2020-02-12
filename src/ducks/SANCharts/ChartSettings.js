@@ -13,26 +13,16 @@ const { to: MAX_DATE } = getTimeIntervalFromToday(0, DAY)
 const ChartSettings = ({
   chartRef,
   title,
-  activeMetrics,
-  activeEvents,
   timeRange,
-  shareLink,
   disabledMetrics,
   from,
   to,
-  data,
-  events,
   showNightModeToggle = true,
   isAdvancedView,
-  isLogScale,
-  isMultiChartsActive,
   isFullscreenAvailable = true,
-  onMultiChartsChange,
-  onScaleChange,
   onTimerangeChange,
   onCalendarChange,
-  onNightModeSelect,
-  isNightModeActive
+  ...rest
 }) => {
   const notAdvancedView = !isAdvancedView
   return (
@@ -59,20 +49,10 @@ const ChartSettings = ({
           />
         )}
         <ChartSettingsContextMenu
-          onMultiChartsChange={onMultiChartsChange}
-          isMultiChartsActive={isMultiChartsActive}
-          isNightModeActive={isNightModeActive}
           showNightModeToggle={showNightModeToggle}
-          onNightModeSelect={onNightModeSelect}
-          shareLink={shareLink}
           title={title}
           chartRef={chartRef}
-          isLogScale={isLogScale}
-          onScaleChange={onScaleChange}
-          data={data}
-          events={events}
-          activeMetrics={activeMetrics}
-          activeEvents={activeEvents}
+          {...rest}
         />
         {isFullscreenAvailable && <ChartExpandBtn />}
       </div>

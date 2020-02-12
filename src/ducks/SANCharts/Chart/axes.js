@@ -9,7 +9,7 @@ import { millify } from '../../../utils/formatting'
 
 const yFormatter = value => {
   if (value < 1) {
-    return +value.toFixed(2)
+    return +value.toFixed(3)
   }
 
   if (value > 999999) {
