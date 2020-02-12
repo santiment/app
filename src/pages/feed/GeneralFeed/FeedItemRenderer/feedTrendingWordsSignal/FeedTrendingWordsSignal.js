@@ -11,7 +11,7 @@ const FeedTrendingWordsSignal = ({ trigger, user_trigger_data }) => {
     <div>
       <div className={styles.description}>{description}</div>
 
-      <img src={chart_url} />
+      <img src={chart_url} alt='Backtesting chart' />
     </div>
   )
 }
