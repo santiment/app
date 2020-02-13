@@ -10,19 +10,10 @@ import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { generateShareLink, updateHistory } from './url'
 import { useMetricsData } from './Chart/hooks'
 import { trackMetricState } from './analytics'
+import { buildAnomalies } from './utils'
 import styles from './index.module.scss'
 
 const { trendPositionHistory } = Events
-
-function buildAnomalies (metrics) {
-  return metrics
-    .filter(({ anomalyKey }) => anomalyKey)
-    .map(({ key, anomalyKey }) => ({
-      key: anomalyKey,
-      queryKey: 'anomalies',
-      anomalyMetricKey: key
-    }))
-}
 
 const Studio = ({
   defaultSettings,
@@ -118,6 +109,8 @@ const Studio = ({
   function changeHoveredDate ({ value }) {
     setHoveredDate(new Date(value))
   }
+
+  console.log()
 
   return (
     <div className={cx(styles.wrapper, classes.wrapper)}>

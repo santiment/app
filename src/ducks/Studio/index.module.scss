@@ -41,7 +41,7 @@
   margin-left: 16px;
   width: 270px;
   padding: 0;
-  max-height: 500px;
   position: sticky;
   top: 16px;
+  max-height: calc(100vh - 32px);
 }
