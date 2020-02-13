@@ -11,11 +11,14 @@ import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import { isEthStrictAddress } from '../../../utils/utils'
 import FeedHistoricalBalance from '../../feed/GeneralFeed/FeedItemRenderer/feedHistoricalBalance/FeedHistoricalBalance'
-import { TRENDING_WORDS } from '../../../ducks/Signals/utils/constants'
-import FeedTrendingWordsSignal from '../../feed/GeneralFeed/FeedItemRenderer/feedTrendingWordsSignal/FeedTrendingWordsSignal'
+import FeedSignalCardWithMarkdown from '../../feed/GeneralFeed/FeedItemRenderer/feedSignalCardWithMarkdown/FeedSignalCardWithMarkdown'
 import styles from './ActivityRenderer.module.scss'
 
-export const getDefaultActivityContent = (classes, activity) => {
+export const getDefaultActivityContent = (
+  classes,
+  activity,
+  showMarkdown = true
+) => {
   const { payload, data: activityData, trigger = {} } = activity
   if (activityData) {
     const { user_trigger_data } = activityData
@@ -25,21 +28,13 @@ export const getDefaultActivityContent = (classes, activity) => {
 
     if (isEthStrictAddress(firstKey)) {
       return <FeedHistoricalBalance user_trigger_data={data} />
-    } else if (trigger) {
-      const { settings: { type } = {} } = trigger
-
-      switch (type) {
-        case TRENDING_WORDS: {
-          return (
-            <FeedTrendingWordsSignal
-              trigger={trigger}
-              user_trigger_data={data}
-            />
-          )
-        }
-        default: {
-        }
-      }
+    } else if (trigger && showMarkdown) {
+      return (
+        <FeedSignalCardWithMarkdown
+          trigger={trigger}
+          user_trigger_data={data}
+        />
+      )
     }
   }
 
@@ -82,7 +77,7 @@ const ActivityWithBacktesting = ({
                 <OpenSignalLink signal={trigger} />
               </h4>
 
-              {getDefaultActivityContent(classes, activity)}
+              {getDefaultActivityContent(classes, activity, false)}
 
               <SignalCreator user={user} />
             </div>
