@@ -3,6 +3,7 @@
 .link {
   cursor: pointer;
   color: var(--rhino) !important;
+  word-break: break-word;
 
   &:hover {
     color: var(--jungle-green-hover) !important;

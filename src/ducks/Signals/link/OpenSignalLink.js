@@ -42,23 +42,19 @@ const prepareTitle = title => {
       }
     }
 
-    console.log(title, result)
-
     return result
   }
 
   return title
 }
 
-const OpenSignalLink = ({ signal: { id, title } }) => {
-  return (
-    <SignalMasterModalForm
-      id={id}
-      defaultOpen={false}
-      canRedirect={false}
-      trigger={<div className={styles.link}>{prepareTitle(title)}</div>}
-    />
-  )
-}
+const OpenSignalLink = ({ signal: { id, title } }) => (
+  <SignalMasterModalForm
+    id={id}
+    defaultOpen={false}
+    canRedirect={false}
+    trigger={<div className={styles.link}>{prepareTitle(title)}</div>}
+  />
+)
 
 export default OpenSignalLink
