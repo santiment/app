@@ -49,14 +49,12 @@ const SocialContext = ({ interval, date, slug }) => {
           Trending words <span className={styles.trend__label}>top 10</span>
         </h3>
         <GetHypedTrends
-          onlyTrends
           interval={constrainedInterval}
           {...period}
           render={({ isLoading, items }) => {
             const trends = items[0]
             return (
               <TrendsTable
-                small
                 trendWords={trends && trends.topWords}
                 className={styles.table}
               />

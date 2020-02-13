@@ -48,7 +48,17 @@
   height: 248px;
   overflow: auto;
 
-  :global(.rt-tr-group) {
-    height: 48px !important;
+  :global {
+    .ReactTable {
+      .rt-thead.-header {
+        padding: 0 16px;
+      }
+
+      .rt-tr-group {
+        height: 32px !important;
+        padding: 0 16px;
+        border: none;
+      }
+    }
   }
 }
