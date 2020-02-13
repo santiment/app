@@ -8,7 +8,7 @@ const MobilePriceTooltip = ({
   labelFormatter,
   label
 }) => {
-  const pricePayload = payload.find(({ dataKey }) => dataKey === 'priceUsd')
+  const pricePayload = payload.find(({ dataKey }) => dataKey === 'price_usd')
   const { value, formatter, dataKey } = pricePayload || {}
   return (
     active && (
