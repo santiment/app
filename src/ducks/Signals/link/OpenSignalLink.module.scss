@@ -3,6 +3,7 @@
 .link {
   cursor: pointer;
   color: var(--rhino) !important;
+  word-break: break-word;
 
   &:hover {
     color: var(--jungle-green-hover) !important;
@@ -11,4 +12,12 @@
   @include responsive('phone', 'phone-xs') {
     margin-left: 0;
   }
+}
+
+.down {
+  color: var(--persimmon);
+}
+
+.up {
+  color: var(--jungle-green);
 }
