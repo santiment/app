@@ -43,4 +43,8 @@
   a:nth-of-type(2) {
     display: none;
   }
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 16px;
+  }
 }

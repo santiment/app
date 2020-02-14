@@ -22,6 +22,10 @@
 .container {
   display: flex;
   flex-direction: column;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-bottom: 16px;
+  }
 }
 
 .description {
