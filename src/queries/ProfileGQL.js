@@ -21,10 +21,17 @@ export const PUBLIC_USER_DATA_QUERY = gql`
         count
         users {
           id
+          avatarUrl
+          username
         }
       }
       following {
         count
+        users {
+          id
+          avatarUrl
+          username
+        }
       }
       insights {
         ...insightCommon

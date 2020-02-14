@@ -1,0 +1,49 @@
+@import '~@santiment-network/ui/mixins';
+
+.list {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  max-height: 600px;
+  min-width: 670px;
+}
+
+.row {
+  display: flex;
+  margin-bottom: 24px;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+}
+
+.name {
+  color: var(--rhino);
+  margin: 3px 16px 0 16px;
+
+  @include text('body-1');
+}
+
+.noName {
+  color: var(--waterloo);
+}
+
+.user {
+  display: flex;
+  flex: 1;
+
+  &:hover {
+    .name {
+      color: var(--jungle-green-hover) !important;
+    }
+  }
+}
+
+.followBtn {
+  margin-left: auto;
+}
