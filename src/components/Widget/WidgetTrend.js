@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import { FadeIn } from 'animate-components'
 import styles from './WidgetTrend.module.scss'
@@ -44,6 +44,11 @@ const WidgetTrend = ({
 
   return (
     <div className={`${styles.wrapper} ${className}`}>
+      <div className={cx(styles.info, infoClassName)}>
+        <span className={styles.word}>{trendWord} </span>
+        {description}
+      </div>
+
       {msg ? (
         <FadeIn
           className={styles.container}
@@ -53,13 +58,7 @@ const WidgetTrend = ({
           <h3 className={styles.msg}>{msg}</h3>
         </FadeIn>
       ) : (
-        <Fragment>
-          <div className={cx(styles.info, infoClassName)}>
-            <span className={styles.word}>{trendWord} </span>
-            {description}
-          </div>
-          <div className={cx(styles.content, contentClassName)}>{children}</div>
-        </Fragment>
+        <div className={cx(styles.content, contentClassName)}>{children}</div>
       )}
     </div>
   )

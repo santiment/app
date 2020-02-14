@@ -11,7 +11,7 @@
 .item {
   &_cloud {
     border: none;
-    height: 180px;
+    height: 210px;
   }
 
   &:last-child {
@@ -28,15 +28,15 @@
 }
 
 .cloud__header {
-  padding: 16px 16px 0;
+  padding: 23px 16px 10px;
   border: none;
 }
 
 .trend {
   @include text('body-3');
 
+  margin: 0;
   color: var(--mirage);
-  margin: 0 0 14px;
 
   &__label {
     color: var(--waterloo);
@@ -61,4 +61,17 @@
       }
     }
   }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 14px;
+}
+
+.contextCalendar {
+  position: absolute;
+  top: 16px;
+  right: 16px;
 }
