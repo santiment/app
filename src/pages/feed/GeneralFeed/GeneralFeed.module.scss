@@ -1,5 +1,11 @@
 @import '~@santiment-network/ui/mixins';
 
+.header {
+  @include responsive("phone", "phone-xs") {
+    padding: 0 16px;
+  }
+}
+
 .tabs {
   margin-bottom: 32px;
 }
@@ -36,7 +42,7 @@
     width: 715px;
   }
 
-  @include responsive("tablet", "phone", "phone-xs") {
+  @include responsive("phone", "phone-xs") {
     padding: 0;
     margin: 0;
   }

@@ -38,7 +38,7 @@ const Header = ({
   filters,
   isLoggedIn
 }) => (
-  <>
+  <div className={styles.header}>
     <div className={styles.title}>
       <div>Feed</div>
       <FeedHelpPopup />
@@ -63,7 +63,7 @@ const Header = ({
         <Link {...props} to={selectionIndex} />
       )}
     />
-  </>
+  </div>
 )
 
 const Empty = () => (

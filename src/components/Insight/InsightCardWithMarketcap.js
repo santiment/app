@@ -8,6 +8,7 @@ import { noTrendTagsFilter } from './utils'
 import { mapSizesToProps } from '../../utils/withSizes'
 import FeedCardDate from '../../pages/feed/GeneralFeed/CardDate/FeedCardDate'
 import styles from './InsightCard.module.scss'
+import { DesktopOnly } from '../Responsive'
 
 export const AWAITING_APPROVAL_STATE = 'awaiting_approval'
 export const AwaitingApproval = () => (
@@ -29,9 +30,10 @@ const InsightCard = ({ className, tags, isDesktop, showIcon, ...insight }) => {
         tags={filteredTags}
         isDesktop={isDesktop}
         showIcon={showIcon}
+        showDate={!isDesktop}
       >
         <div className={styles.wrapper_withMc__right}>
-          <>
+          <DesktopOnly>
             {state === AWAITING_APPROVAL_STATE ? (
               <AwaitingApproval />
             ) : (
@@ -40,7 +42,7 @@ const InsightCard = ({ className, tags, isDesktop, showIcon, ...insight }) => {
                 className={styles.date}
               />
             )}
-          </>
+          </DesktopOnly>
 
           {firstTag && (
             <MarketcapChangeWidget
