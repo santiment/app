@@ -26,7 +26,8 @@ const prepareTitle = title => {
         result.push(first)
 
         const isForceNegative =
-          first.contains('down') || first.contains('below')
+          first &&
+          (first.indexOf('down') !== -1 || first.indexOf('below') !== -1)
 
         if (item[0] === '-' || isForceNegative) {
           result.push(
