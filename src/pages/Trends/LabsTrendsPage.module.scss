@@ -1,6 +1,12 @@
+@import '~@santiment-network/ui/mixins';
+
 .wrapper {
   width: 100%;
   margin-bottom: 2rem;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0 16px;
+  }
 }
 
 .titleWrapper {

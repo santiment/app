@@ -6,7 +6,7 @@ import SignalPreview from '../../../ducks/Signals/chart/preview/SignalPreview'
 import CopySignal from '../../../components/SignalCard/controls/CopySignal'
 import SignalCreator from '../../../components/SignalCard/card/creator/SignalCreator'
 import LikeBtnWrapper from '../../../components/Like/LikeBtnWrapper'
-import { DesktopOnly } from '../../../components/Responsive'
+import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import { isEthStrictAddress } from '../../../utils/utils'
@@ -73,6 +73,10 @@ const ActivityWithBacktesting = ({
             )}
           >
             <div className={styles.center}>
+              <MobileOnly>
+                <FeedCardDate date={triggeredAt || date} />
+              </MobileOnly>
+
               <h4 className={styles.title}>
                 <OpenSignalLink signal={trigger} />
               </h4>
@@ -83,7 +87,10 @@ const ActivityWithBacktesting = ({
             </div>
           </div>
           <div className={styles.preview}>
-            <FeedCardDate date={triggeredAt || date} />
+            <DesktopOnly>
+              <FeedCardDate date={triggeredAt || date} />
+            </DesktopOnly>
+
             <SignalPreview
               trigger={trigger}
               type={type}

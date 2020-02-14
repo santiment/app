@@ -7,6 +7,7 @@ import {
 } from './InsightCardWithMarketcap'
 import styles from './ProfileInfo.module.scss'
 import { getDateFormats } from '../../utils/dates'
+import { DesktopOnly } from '../Responsive'
 
 const ProfileInfo = ({
   name,
@@ -19,8 +20,6 @@ const ProfileInfo = ({
   showDate = false,
   withPic
 }) => {
-  const { DD, MMM, YYYY } = getDateFormats(new Date(date))
-
   return (
     <div className={cx(styles.wrapper, className)}>
       {withPic && (
@@ -37,15 +36,24 @@ const ProfileInfo = ({
       <div className={cx(styles.info, infoClassName)}>
         <div className={cx(styles.info__item, styles.name)}>{name}</div>
         {showDate && (
-          <div className={cx(styles.info__item, styles.status)}>
-            {state === AWAITING_APPROVAL_STATE ? (
-              <AwaitingApproval />
-            ) : (
-              `${MMM} ${DD}, ${YYYY}`
-            )}
-          </div>
+          <DesktopOnly>
+            <InsightDate date={date} state={state} />
+          </DesktopOnly>
         )}
       </div>
+    </div>
+  )
+}
+
+export const InsightDate = ({ date, state, className }) => {
+  const { DD, MMM, YYYY } = getDateFormats(new Date(date))
+  return (
+    <div className={cx(styles.info__item, styles.status, className)}>
+      {state === AWAITING_APPROVAL_STATE ? (
+        <AwaitingApproval />
+      ) : (
+        `${MMM} ${DD}, ${YYYY}`
+      )}
     </div>
   )
 }

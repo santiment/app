@@ -12,6 +12,10 @@
 
 .header {
   display: flex;
+
+  @include responsive('phone', 'phone-xs') {
+    flex-direction: column-reverse;
+  }
 }
 
 .ampm {

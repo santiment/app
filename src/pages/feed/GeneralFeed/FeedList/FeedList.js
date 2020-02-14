@@ -93,8 +93,11 @@ const FeedList = ({ events, isLoading, isNewEventsList }) => {
               </div>
               {items.map((item, itemIndex) => (
                 <Fragment key={itemIndex}>
-                  <FeedItemRenderer item={item} index={index} />
-                  {item.addProCard && <MakeProSubscriptionCard />}
+                  <div className={styles.block}>
+                    <FeedItemRenderer item={item} index={index} />
+                    {item.addProCard && <MakeProSubscriptionCard />}
+                  </div>
+
                   {item.addStories && (
                     <StoriesList classes={styles} showScrollBtns={true} />
                   )}

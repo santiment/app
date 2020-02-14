@@ -30,13 +30,15 @@ const MakeProSubscriptionCard = () => {
 
         return (
           <Panel padding className={externalStyles.card}>
-            <img src={proIcon} alt='pro-icon' className={styles.icon} />
-
             <div className={styles.center}>
-              <div className={styles.title}>Go PRO and get more data</div>
-              <div className={styles.description}>
-                Unlimited metrics, all types of signals, handcrafted report and
-                much more
+              <img src={proIcon} alt='pro-icon' className={styles.icon} />
+
+              <div className={styles.content}>
+                <div className={styles.title}>Go PRO and get more data</div>
+                <div className={styles.description}>
+                  Unlimited metrics, all types of signals, handcrafted report
+                  and much more
+                </div>
               </div>
             </div>
 
