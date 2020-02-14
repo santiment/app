@@ -110,8 +110,6 @@ const Studio = ({
     setHoveredDate(new Date(value))
   }
 
-  console.log()
-
   return (
     <div className={cx(styles.wrapper, classes.wrapper)}>
       <StudioSidebar

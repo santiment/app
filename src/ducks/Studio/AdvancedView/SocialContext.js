@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import Calendar from './Calendar'
 import WordCloud from '../../../components/WordCloud/WordCloud'
 import TrendsTable from '../../../components/Trends/TrendsTable/TrendsTable'
 import GetHypedTrends from '../../../components/Trends/GetHypedTrends'
 import { INTERVAL_ALIAS } from '../../SANCharts/IntervalSelector'
 import { useDebounceEffect } from '../../../hooks'
 import { parseIntervalString } from '../../../utils/dates'
-import Calendar from './Calendar'
 import styles from './SocialContext.module.scss'
 
 function getTimePeriod (date, interval) {
@@ -53,12 +53,12 @@ const SocialContext = ({ interval, date, slug }) => {
   )
 
   function onTrendCalendarChange (datetime) {
-    setTrendDate(+datetime)
+    setTrendDate(datetime)
     setTrendPeriod(getTimePeriod(datetime, constrainedInterval))
   }
 
   function onContextCalendarChange (datetime) {
-    setContextDate(+datetime)
+    setContextDate(datetime)
     setContextPeriod(getTimePeriod(datetime, constrainedInterval))
   }
 
@@ -96,6 +96,7 @@ const SocialContext = ({ interval, date, slug }) => {
               <TrendsTable
                 trendWords={trends && trends.topWords}
                 className={styles.table}
+                isLoading={isLoading}
               />
             )
           }}
