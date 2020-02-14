@@ -202,6 +202,7 @@ class TrendsTable extends PureComponent {
   render () {
     const {
       small,
+      hasActions,
       trendWords,
       volumeChange,
       header,
@@ -274,7 +275,9 @@ class TrendsTable extends PureComponent {
           columns={
             small
               ? columns.slice(0, 2)
-              : columns.concat(this.getActionButtons())
+              : hasActions
+                ? columns.concat(this.getActionButtons())
+                : columns
           }
           showPagination={false}
           defaultPageSize={10}

@@ -117,6 +117,7 @@ class TrendsTables extends PureComponent {
           connectTrends={this.connectTrends}
           clearConnectedTrends={this.clearConnectedTrends}
           allTrends={allTrends}
+          hasActions
         />
       </div>
     )

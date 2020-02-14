@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import Calendar from './Calendar'
 import WordCloud from '../../../components/WordCloud/WordCloud'
 import TrendsTable from '../../../components/Trends/TrendsTable/TrendsTable'
 import GetHypedTrends from '../../../components/Trends/GetHypedTrends'
@@ -9,56 +10,93 @@ import { useDebounceEffect } from '../../../hooks'
 import { parseIntervalString } from '../../../utils/dates'
 import styles from './SocialContext.module.scss'
 
+function getTimePeriod (date, interval) {
+  const { amount, format } = parseIntervalString(interval)
+  const from = new Date(date)
+  const to = new Date(date)
+
+  if (format === 'd') {
+    from.setDate(to.getDate() - amount)
+  } else {
+    from.setHours(to.getHours() - amount)
+  }
+
+  return {
+    from: from.toISOString(),
+    to: to.toISOString()
+  }
+}
+
 const SocialContext = ({ interval, date, slug }) => {
-  const [period, setPeriod] = useState({})
+  const [trendDate, setTrendDate] = useState(date)
+  const [contextDate, setContextDate] = useState(date)
+  const [contextPeriod, setContextPeriod] = useState({})
+  const [trendPeriod, setTrendPeriod] = useState({})
   const constrainedInterval = INTERVAL_ALIAS[interval] ? '1h' : interval
+
+  useEffect(
+    () => {
+      setContextDate(date)
+      setTrendDate(date)
+    },
+    [date]
+  )
 
   useDebounceEffect(
     () => {
-      const { amount, format } = parseIntervalString(constrainedInterval)
-      const from = new Date(date)
-      const to = new Date(date)
-
-      if (format === 'd') {
-        from.setDate(to.getDate() - amount)
-      } else {
-        from.setHours(to.getHours() - amount)
-      }
-
-      setPeriod({
-        from: from.toISOString(),
-        to: to.toISOString()
-      })
+      const period = getTimePeriod(date, constrainedInterval)
+      setContextPeriod(period)
+      setTrendPeriod(period)
     },
     200,
     [date, interval, slug]
   )
 
+  function onTrendCalendarChange (datetime) {
+    setTrendDate(datetime)
+    setTrendPeriod(getTimePeriod(datetime, constrainedInterval))
+  }
+
+  function onContextCalendarChange (datetime) {
+    setContextDate(datetime)
+    setContextPeriod(getTimePeriod(datetime, constrainedInterval))
+  }
+
   return (
     <div className={styles.content}>
+      <Calendar
+        date={new Date(contextDate)}
+        onChange={onContextCalendarChange}
+        className={styles.contextCalendar}
+      />
       <WordCloud
         word={slug}
         size={12}
         className={cx(styles.item, styles.item_cloud)}
         infoClassName={styles.cloud__header}
         contentClassName={styles.cloud}
-        {...period}
+        {...contextPeriod}
       />
       <div className={cx(styles.item, styles.item_trends)}>
-        <h3 className={styles.trend}>
-          Trending words <span className={styles.trend__label}>top 10</span>
-        </h3>
+        <div className={styles.row}>
+          <h3 className={styles.trend}>
+            Trending words <span className={styles.trend__label}>top 10</span>
+          </h3>
+          <Calendar
+            date={new Date(trendDate)}
+            onChange={onTrendCalendarChange}
+          />
+        </div>
         <GetHypedTrends
-          onlyTrends
           interval={constrainedInterval}
-          {...period}
+          {...trendPeriod}
           render={({ isLoading, items }) => {
             const trends = items[0]
             return (
               <TrendsTable
-                small
                 trendWords={trends && trends.topWords}
                 className={styles.table}
+                isLoading={isLoading}
               />
             )
           }}

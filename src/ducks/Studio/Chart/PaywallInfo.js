@@ -14,9 +14,10 @@ export default () => {
           Why the gaps?
         </Button>
       }
+      className={styles.tooltip}
     >
       <div className={styles.content}>
-        <h2 className={styles.title}>Why those data is hidden?</h2>
+        <h2 className={styles.title}>Why is some data hidden?</h2>
         <p className={styles.text}>
           To unlock the full potential of Santiment metrics you need to upgrade
           your account to PRO
