@@ -14,6 +14,7 @@ export default () => {
           Why the gaps?
         </Button>
       }
+      className={styles.tooltip}
     >
       <div className={styles.content}>
         <h2 className={styles.title}>Why those data is hidden?</h2>
