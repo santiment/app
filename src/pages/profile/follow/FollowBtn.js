@@ -78,7 +78,13 @@ export const updateCurrentUserQueryCache = (
   })
 }
 
-const FollowBtn = ({ userId, isInFollowers, updateCache, className }) => {
+const FollowBtn = ({
+  userId,
+  isInFollowers,
+  updateCache,
+  className,
+  variant = 'fill'
+}) => {
   return (
     <Mutation
       mutation={isInFollowers ? UNFOLLOW_MUTATION : FOLLOW_MUTATION}
@@ -88,7 +94,7 @@ const FollowBtn = ({ userId, isInFollowers, updateCache, className }) => {
         return (
           <Button
             accent={isInFollowers ? 'grey' : 'positive'}
-            variant='fill'
+            variant={variant}
             className={className}
             onClick={() => {
               !loading &&

@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import { Query } from 'react-apollo'
+import withSizes from 'react-sizes'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
+import { mapSizesToProps } from '../../../../utils/withSizes'
 import { Link } from 'react-router-dom'
 import Dialog from '@santiment-network/ui/Dialog'
-import { connect } from 'react-redux'
 import FollowBtn, { updateCurrentUserQueryCache } from '../FollowBtn'
 import UserAvatar from '../../../Account/avatar/UserAvatar'
-import styles from './FollowList.module.scss'
 import { PUBLIC_USER_DATA_QUERY } from '../../../../queries/ProfileGQL'
 import PageLoader from '../../../../components/Loader/PageLoader'
+import styles from './FollowList.module.scss'
 
 const makeQueryVars = currentUserId => ({
   userId: +currentUserId
@@ -18,7 +21,8 @@ const FollowList = ({
   title,
   list: { users = [] },
   trigger,
-  currentUserId
+  currentUserId,
+  isDesktop
 }) => {
   const [isOpen, setOpen] = useState(false)
 
@@ -37,18 +41,19 @@ const FollowList = ({
           variables={makeQueryVars(currentUserId)}
           skip={!currentUserId}
         >
-          {({ data: { getUser, loading } = {} }) => {
-            if (loading || !getUser) {
-              return <PageLoader />
+          {({ data: { getUser = {}, loading } = {} }) => {
+            if (loading) {
+              return <PageLoader className={styles.loader} />
             }
 
-            const { following } = getUser
+            const { following = {} } = getUser
 
             return (
               <List
                 users={users}
                 following={following}
                 currentUserId={currentUserId}
+                isDesktop={isDesktop}
               />
             )
           }}
@@ -58,7 +63,7 @@ const FollowList = ({
   )
 }
 
-const List = ({ users, following, currentUserId }) => {
+const List = ({ users, following, currentUserId, isDesktop }) => {
   return (
     <div className={styles.list}>
       {users &&
@@ -68,16 +73,28 @@ const List = ({ users, following, currentUserId }) => {
             following={following}
             currentUserId={currentUserId}
             key={user.id}
+            isDesktop={isDesktop}
           />
         ))}
     </div>
   )
 }
 
+const MAX_NAME_LENGTH = 22
+
+const getShortName = (username, isDesktop) => {
+  if (isDesktop || username.length < MAX_NAME_LENGTH) {
+    return username
+  }
+
+  return username.slice(0, MAX_NAME_LENGTH) + '...'
+}
+
 const FollowItem = ({
   user: { id, username, avatarUrl },
-  following,
-  currentUserId
+  following = { users: [] },
+  currentUserId,
+  isDesktop
 }) => {
   const updateCache = (cache, queryData) => {
     const queryVariables = makeQueryVars(currentUserId)
@@ -89,22 +106,25 @@ const FollowItem = ({
     })
   }
 
+  const newUserName = username ? getShortName(username, isDesktop) : ''
+
   return (
     <div className={styles.row}>
       <Link to={'/profile/' + id} className={styles.user}>
         <UserAvatar isExternal externalAvatarUrl={avatarUrl} classes={styles} />
 
-        <div className={cx(styles.name, !username && styles.noName)}>
-          {username || 'No name'}
+        <div className={cx(styles.name, !newUserName && styles.noName)}>
+          {newUserName || 'No name'}
         </div>
       </Link>
-      {+id !== +currentUserId && (
+      {!!currentUserId && +id !== +currentUserId && (
         <FollowBtn
           className={styles.followBtn}
           userId={id}
           targetUserId={id}
           users={following.users}
           updateCache={updateCache}
+          variant={isDesktop ? 'fill' : 'ghost'}
         />
       )}
     </div>
@@ -117,4 +137,7 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(FollowList)
+export default compose(
+  connect(mapStateToProps),
+  withSizes(mapSizesToProps)
+)(FollowList)

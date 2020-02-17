@@ -9,6 +9,14 @@ import userFollowingSvg from './../../../assets/follow/user_following.svg'
 import FollowList from '../follow/list/FollowList'
 import styles from './ProfileInfo.module.scss'
 
+const FollowTitle = ({ title, count }) => {
+  return (
+    <div className={styles.title}>
+      {title} <span className={styles.counter}>({count})</span>
+    </div>
+  )
+}
+
 const ProfileInfo = ({
   profile = {},
   updateCache,
@@ -47,7 +55,7 @@ const ProfileInfo = ({
           <div className={styles.followersBlocks}>
             <FollowList
               list={followers}
-              title={`Followers (${followersCount})`}
+              title={<FollowTitle title='Followers' count={followersCount} />}
               trigger={
                 <div className={styles.followBlock}>
                   <img
@@ -64,7 +72,7 @@ const ProfileInfo = ({
             />
             <FollowList
               list={following}
-              title={`Following (${followingCount})`}
+              title={<FollowTitle title='Following' count={followingCount} />}
               trigger={
                 <div
                   className={cx(styles.followBlock, styles.followBlockSecond)}
