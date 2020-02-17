@@ -197,8 +197,8 @@ export const Metrics = {
     shortLabel: 'Trans. Vol.',
     description: `
     Shows the aggregate amount of tokens across all transactions that
-    happened on the network on a certain date.`,
-    advancedView: 'Histogram'
+    happened on the network on a certain date.`
+    // advancedView: 'Histogram'
   },
   network_growth: {
     category: 'On-chain',
