@@ -10,7 +10,7 @@ export const DATETIME_SORT = {
 }
 
 export const VOTES_SORT = {
-  label: 'Votes',
+  label: 'Popular',
   type: 'VOTES'
 }
 
