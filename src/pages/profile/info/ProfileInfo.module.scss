@@ -1,5 +1,4 @@
 @import '~@santiment-network/ui/mixins';
-@import '~@santiment-network/ui/variables';
 
 .container {
   margin-top: 46px;
@@ -64,6 +63,12 @@
   padding: 9px;
   display: flex;
   align-items: center;
+
+  &:hover {
+    cursor: pointer;
+    background: var(--athens);
+    border-radius: $border-radius;
+  }
 }
 
 .followBlockSecond {
@@ -84,31 +89,6 @@
   @include text('body-3');
 
   color: var(--waterloo);
-}
-
-.socialIcons {
-  height: 32px;
-  margin-left: 48px;
-  padding-left: 48px;
-  border-left: 1px solid var(--porcelain);
-  align-items: center;
-  display: flex;
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin: 8px 0 0;
-    padding: 0;
-    border: none;
-  }
-}
-
-.socialIcon {
-  margin: 26px;
-  cursor: not-allowed;
-  fill: var(--casper);
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin: 0 13px 0 13px;
-  }
 }
 
 .follow {
@@ -149,6 +129,15 @@
 }
 
 .avatar {
-  min-width: 140px;
-  min-height: 140px;
+  width: 140px;
+  height: 140px;
+
+  svg {
+    width: 50%;
+    height: 50%;
+  }
+}
+
+.counter {
+  color: var(--waterloo);
 }

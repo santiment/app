@@ -1,13 +1,21 @@
 import React from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
-import Icon from '@santiment-network/ui/Icon'
 import FollowBtn from '../follow/FollowBtn'
 import UserAvatar from '../../Account/avatar/UserAvatar'
 import { checkIsLoggedIn } from '../../UserSelectors'
 import userFollowersSvg from './../../../assets/follow/user_followers.svg'
 import userFollowingSvg from './../../../assets/follow/user_following.svg'
+import FollowList from '../follow/list/FollowList'
 import styles from './ProfileInfo.module.scss'
+
+const FollowTitle = ({ title, count }) => {
+  return (
+    <div className={styles.title}>
+      {title} <span className={styles.counter}>({count})</span>
+    </div>
+  )
+}
 
 const ProfileInfo = ({
   profile = {},
@@ -20,6 +28,7 @@ const ProfileInfo = ({
     username,
     followers,
     avatarUrl,
+    following,
     followers: { count: followersCount = 0 } = {},
     following: { count: followingCount } = {}
   } = profile
@@ -36,7 +45,7 @@ const ProfileInfo = ({
           {isLoggedIn && !isCurrentUser && (
             <FollowBtn
               className={styles.followBtn}
-              followers={followers}
+              users={followers.users}
               userId={id}
               updateCache={updateCache}
             />
@@ -44,33 +53,42 @@ const ProfileInfo = ({
         </div>
         <div className={styles.socials}>
           <div className={styles.followersBlocks}>
-            <div className={styles.followBlock}>
-              <img
-                className={styles.follow}
-                src={userFollowersSvg}
-                alt='user followers'
-              />
-              <div className={styles.followCounters}>
-                <div className={styles.followCounter}>{followersCount}</div>
-                <div className={styles.followDescription}>followers</div>
-              </div>
-            </div>
-            <div className={cx(styles.followBlock, styles.followBlockSecond)}>
-              <img
-                className={styles.follow}
-                src={userFollowingSvg}
-                alt='user following'
-              />
-              <div className={styles.followCounters}>
-                <div className={styles.followCounter}>{followingCount}</div>
-                <div className={styles.followDescription}>following</div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.socialIcons}>
-            <Icon className={styles.socialIcon} type='twitter' />
-            <Icon className={styles.socialIcon} type='facebook' />
-            <Icon className={styles.socialIcon} type='reddit' />
+            <FollowList
+              list={followers}
+              title={<FollowTitle title='Followers' count={followersCount} />}
+              trigger={
+                <div className={styles.followBlock}>
+                  <img
+                    className={styles.follow}
+                    src={userFollowersSvg}
+                    alt='user followers'
+                  />
+                  <div className={styles.followCounters}>
+                    <div className={styles.followCounter}>{followersCount}</div>
+                    <div className={styles.followDescription}>followers</div>
+                  </div>
+                </div>
+              }
+            />
+            <FollowList
+              list={following}
+              title={<FollowTitle title='Following' count={followingCount} />}
+              trigger={
+                <div
+                  className={cx(styles.followBlock, styles.followBlockSecond)}
+                >
+                  <img
+                    className={styles.follow}
+                    src={userFollowingSvg}
+                    alt='user following'
+                  />
+                  <div className={styles.followCounters}>
+                    <div className={styles.followCounter}>{followingCount}</div>
+                    <div className={styles.followDescription}>following</div>
+                  </div>
+                </div>
+              }
+            />
           </div>
         </div>
       </div>
