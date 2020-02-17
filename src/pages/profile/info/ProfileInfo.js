@@ -37,7 +37,7 @@ const ProfileInfo = ({
           {isLoggedIn && !isCurrentUser && (
             <FollowBtn
               className={styles.followBtn}
-              followers={followers}
+              users={followers.users}
               userId={id}
               updateCache={updateCache}
             />

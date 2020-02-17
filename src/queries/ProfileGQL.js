@@ -52,6 +52,8 @@ export const FOLLOW_MUTATION = gql(`
   {
     follow(userId: $id) {
         id
+        username
+        avatarUrl
     }
   }
 `)
@@ -60,6 +62,8 @@ export const UNFOLLOW_MUTATION = gql(`
   mutation unfollow($id: ID!) {
     unfollow(userId: $id) {
         id
+        username
+        avatarUrl
     }
   }
 `)
