@@ -7,9 +7,8 @@ import ProfileInfo from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
 import { PUBLIC_USER_DATA_QUERY } from '../../queries/ProfileGQL'
-import { DesktopOnly, MobileOnly } from '../../components/Responsive'
+import { MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
-import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import ProfileActivities from './activities/ProfileActivities'
 import { updateCurrentUserQueryCache } from './follow/FollowBtn'
 import styles from './ProfilePage.module.scss'
@@ -50,8 +49,6 @@ const ProfilePage = props => {
       </div>
     )
   }
-
-  const { username } = profile
 
   function updateCache (cache, queryData) {
     const queryVariables = getQueryVariables(props)

@@ -8,9 +8,10 @@ import {
 import styles from './ProfileInfo.module.scss'
 import { getDateFormats } from '../../utils/dates'
 import { DesktopOnly } from '../Responsive'
+import { Link } from 'react-router-dom'
 
 const ProfileInfo = ({
-  name,
+  authorName,
   state,
   networkStatus,
   picUrl,
@@ -18,13 +19,19 @@ const ProfileInfo = ({
   infoClassName = '',
   date,
   showDate = false,
-  withPic
+  withPic,
+  authorId
 }) => {
   return (
     <div className={cx(styles.wrapper, className)}>
       {withPic && (
         <div className={styles.icon}>
-          <UserAvatar isExternal externalAvatarUrl={picUrl} />
+          <UserAvatar
+            userId={authorId}
+            isExternal
+            externalAvatarUrl={picUrl}
+            showExplanation={false}
+          />
           {networkStatus && (
             <div
               className={cx(styles.onlineIndicator, styles[networkStatus])}
@@ -34,7 +41,11 @@ const ProfileInfo = ({
       )}
 
       <div className={cx(styles.info, infoClassName)}>
-        <div className={cx(styles.info__item, styles.name)}>{name}</div>
+        <div className={cx(styles.info__item, styles.name)}>
+          <Link className={styles.name} to={`/profile/${authorId}`}>
+            {authorName}
+          </Link>
+        </div>
         {showDate && (
           <DesktopOnly>
             <InsightDate date={date} state={state} />

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import cx from 'classnames'
 import { Icon } from '@santiment-network/ui'
 import InsightTags from './InsightTags'
@@ -69,11 +68,8 @@ const InsightCardInternals = ({
                 picUrl={avatarUrl}
                 date={date}
                 state={state}
-                name={
-                  <Link className={styles.name} to={`/profile/${authorId}`}>
-                    {authorName}
-                  </Link>
-                }
+                authorName={authorName}
+                authorId={authorId}
                 showDate={showDate}
                 infoClassName={styles.info}
               />

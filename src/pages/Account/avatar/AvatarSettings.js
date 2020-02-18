@@ -47,7 +47,7 @@ const AvatarSettings = ({
 
   return (
     <div className={styles.container}>
-      <UserAvatar />
+      <UserAvatar as='div' />
       <ImageEditor
         imageUrl={avatarUrl}
         setOpen={setOpen}

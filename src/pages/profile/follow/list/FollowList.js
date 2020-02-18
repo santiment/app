@@ -4,13 +4,14 @@ import { Query } from 'react-apollo'
 import withSizes from 'react-sizes'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { mapSizesToProps } from '../../../../utils/withSizes'
 import { Link } from 'react-router-dom'
+import { mapSizesToProps } from '../../../../utils/withSizes'
 import Dialog from '@santiment-network/ui/Dialog'
 import FollowBtn, { updateCurrentUserQueryCache } from '../FollowBtn'
 import UserAvatar from '../../../Account/avatar/UserAvatar'
 import { PUBLIC_USER_DATA_QUERY } from '../../../../queries/ProfileGQL'
 import PageLoader from '../../../../components/Loader/PageLoader'
+import Search from '@santiment-network/ui/Search'
 import styles from './FollowList.module.scss'
 
 const makeQueryVars = currentUserId => ({
@@ -54,6 +55,7 @@ const FollowList = ({
                 following={following}
                 currentUserId={currentUserId}
                 isDesktop={isDesktop}
+                onClickItem={() => setOpen(false)}
               />
             )
           }}
@@ -63,19 +65,55 @@ const FollowList = ({
   )
 }
 
-const List = ({ users, following, currentUserId, isDesktop }) => {
+const List = ({
+  users = [],
+  following,
+  currentUserId,
+  isDesktop,
+  onClickItem
+}) => {
+  const [searchToken, setSearchToken] = useState()
+
   return (
-    <div className={styles.list}>
-      {users &&
-        users.map(user => (
-          <FollowItem
-            user={user}
-            following={following}
-            currentUserId={currentUserId}
-            key={user.id}
-            isDesktop={isDesktop}
-          />
-        ))}
+    <div className={styles.listWrapper}>
+      {users.length > 5 && (
+        <Search
+          className={styles.search}
+          iconPosition='left'
+          placeholder='Search a user'
+          options={users.map(({ username, ...rest }) => {
+            return {
+              label: username,
+              ...rest
+            }
+          })}
+          onChange={val => setSearchToken(val)}
+        />
+      )}
+      <div className={styles.list}>
+        {users
+          .filter(({ username = '' }) => {
+            if (searchToken) {
+              if (username) {
+                return username.indexOf(searchToken) !== -1
+              } else {
+                return false
+              }
+            } else {
+              return true
+            }
+          })
+          .map(user => (
+            <FollowItem
+              user={user}
+              following={following}
+              currentUserId={currentUserId}
+              key={user.id}
+              isDesktop={isDesktop}
+              onClickItem={onClickItem}
+            />
+          ))}
+      </div>
     </div>
   )
 }
@@ -94,7 +132,8 @@ const FollowItem = ({
   user: { id, username, avatarUrl },
   following = { users: [] },
   currentUserId,
-  isDesktop
+  isDesktop,
+  onClickItem
 }) => {
   const updateCache = (cache, queryData) => {
     const queryVariables = makeQueryVars(currentUserId)
@@ -110,13 +149,21 @@ const FollowItem = ({
 
   return (
     <div className={styles.row}>
-      <Link to={'/profile/' + id} className={styles.user}>
-        <UserAvatar isExternal externalAvatarUrl={avatarUrl} classes={styles} />
+      <div className={styles.user} onClick={onClickItem}>
+        <UserAvatar
+          userId={id}
+          isExternal
+          externalAvatarUrl={avatarUrl}
+          classes={styles}
+        />
 
-        <div className={cx(styles.name, !newUserName && styles.noName)}>
+        <Link
+          to={'/profile/' + id}
+          className={cx(styles.name, !newUserName && styles.noName)}
+        >
           {newUserName || 'No name'}
-        </div>
-      </Link>
+        </Link>
+      </div>
       {!!currentUserId && +id !== +currentUserId && (
         <FollowBtn
           className={styles.followBtn}

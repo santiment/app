@@ -19,16 +19,10 @@ export const COMMENTS_SORT = {
   type: 'COMMENTS'
 }
 
-export const AUTHOR_SORT = {
-  label: 'Author',
-  type: 'AUTHOR'
-}
-
 export const FILTER_OPTIONS = [
   DATETIME_SORT,
-  VOTES_SORT,
+  VOTES_SORT
   // COMMENTS_SORT, #GarageInc: temporary removed before backend San-7187
-  AUTHOR_SORT
 ]
 
 const FeedSorters = ({ sortType, onChangeSort, className }) => {
@@ -39,7 +33,6 @@ const FeedSorters = ({ sortType, onChangeSort, className }) => {
           clearable={false}
           value={sortType}
           options={FILTER_OPTIONS}
-          searchable={false}
           onChange={value => {
             onChangeSort && onChangeSort(value)
           }}
