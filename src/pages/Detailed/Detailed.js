@@ -11,7 +11,6 @@ import FinancialsBlock from './financialInfo/FinancialsBlock'
 import DetailedTransactionsTable from './transactionsInfo/DetailedTransactionsTable'
 import { Metrics } from '../../ducks/SANCharts/data'
 import EthSpent from '../EthSpent'
-import withNews from './withNews'
 import withProject from './withProject'
 import styles from './Detailed.module.scss'
 
@@ -33,71 +32,70 @@ const TopSlot = ({ label }) => (
   </>
 )
 
-const BottomSlot = compose(
-  withNews,
-  withProject
-)(({ slug, project, isERC20, loading, news = [], isLoadingNews }) => (
-  <div className={styles.bottom}>
-    <Helmet
-      // NOTE: Using props instead of the children because of the issue addresed here https://github.com/nfl/react-helmet/issues/373 [@vanguard | Feb 4, 2020]
-      title={loading ? 'Sanbase...' : `${project.ticker} project page`}
-      meta={[
-        {
-          property: 'og:title',
-          content: `Project overview: ${project.name} - Sanbase`
-        },
-        {
-          property: 'og:description',
-          content: `Financial, development, on-chain and social data for ${
-            project.name
-          }. Get access to full historical data & advanced metrics for ${
-            project.name
-          } by upgrading to Sanbase Dashboards.
+const BottomSlot = compose(withProject)(
+  ({ slug, project, isERC20, loading, news = [], isLoadingNews }) => (
+    <div className={styles.bottom}>
+      <Helmet
+        // NOTE: Using props instead of the children because of the issue addresed here https://github.com/nfl/react-helmet/issues/373 [@vanguard | Feb 4, 2020]
+        title={loading ? 'Sanbase...' : `${project.ticker} project page`}
+        meta={[
+          {
+            property: 'og:title',
+            content: `Project overview: ${project.name} - Sanbase`
+          },
+          {
+            property: 'og:description',
+            content: `Financial, development, on-chain and social data for ${
+              project.name
+            }. Get access to full historical data & advanced metrics for ${
+              project.name
+            } by upgrading to Sanbase Dashboards.
         `
-        }
-      ]}
-    />
+          }
+        ]}
+      />
 
-    {slug === 'ethereum' && (
-      <div className={styles.spent}>
-        <EthSpent />
+      {slug === 'ethereum' && (
+        <div className={styles.spent}>
+          <EthSpent />
+        </div>
+      )}
+
+      <div className={styles.info}>
+        <PanelWithHeader header='General Info' className={styles.info__card}>
+          <GeneralInfoBlock {...project} />
+        </PanelWithHeader>
+        <PanelWithHeader header='Financials' className={styles.info__card}>
+          <FinancialsBlock {...project} />
+        </PanelWithHeader>
       </div>
-    )}
 
-    <div className={styles.info}>
-      <PanelWithHeader header='General Info' className={styles.info__card}>
-        <GeneralInfoBlock {...project} />
-      </PanelWithHeader>
-      <PanelWithHeader header='Financials' className={styles.info__card}>
-        <FinancialsBlock {...project} />
-      </PanelWithHeader>
+      {!isLoadingNews && news.length > 0 && (
+        <div className={styles.newsWrapper}>
+          <h4 className={styles.newsTitle}>News</h4>
+          <News data={news} />
+        </div>
+      )}
+
+      {isERC20 &&
+        project.tokenTopTransactions &&
+        project.tokenTopTransactions.length > 0 && (
+          <>
+            <div className={styles.info}>
+              <DetailedTransactionsTable
+                project={project}
+                title='Top token transactions, 30d'
+                show='tokenTopTransactions'
+              />
+            </div>
+            <div className={styles.info}>
+              <DetailedTransactionsTable project={project} />
+            </div>
+          </>
+      )}
     </div>
-
-    {!isLoadingNews && news.length > 0 && (
-      <div className={styles.newsWrapper}>
-        <h4 className={styles.newsTitle}>News</h4>
-        <News data={news} />
-      </div>
-    )}
-
-    {isERC20 &&
-      project.tokenTopTransactions &&
-      project.tokenTopTransactions.length > 0 && (
-        <>
-          <div className={styles.info}>
-            <DetailedTransactionsTable
-              project={project}
-              title='Top token transactions, 30d'
-              show='tokenTopTransactions'
-            />
-          </div>
-          <div className={styles.info}>
-            <DetailedTransactionsTable project={project} />
-          </div>
-        </>
-    )}
-  </div>
-))
+  )
+)
 
 export default ({ match: { params }, history }) => {
   const { slug } = params
