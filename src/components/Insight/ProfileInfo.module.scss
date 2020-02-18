@@ -36,11 +36,12 @@
 }
 
 .name {
-  @include text-normal;
+  @include text('caption');
 
+  cursor: pointer;
   text-decoration: none;
   line-height: 15px;
-  color: var(--black);
+  color: var(--waterloo);
   margin-bottom: 4px;
   box-sizing: border-box;
   height: 15px;
@@ -49,10 +50,6 @@
   overflow: hidden;
   white-space: nowrap;
   width: 100%;
-
-  * {
-    color: var(--black);
-  }
 }
 
 .status {

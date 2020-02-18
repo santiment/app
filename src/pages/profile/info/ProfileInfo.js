@@ -7,6 +7,7 @@ import { checkIsLoggedIn } from '../../UserSelectors'
 import userFollowersSvg from './../../../assets/follow/user_followers.svg'
 import userFollowingSvg from './../../../assets/follow/user_following.svg'
 import FollowList from '../follow/list/FollowList'
+import SidecarExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
 import styles from './ProfileInfo.module.scss'
 
 const FollowTitle = ({ title, count }) => {
@@ -36,7 +37,13 @@ const ProfileInfo = ({
   return (
     <div className={styles.container}>
       <div className={styles.left}>
-        <UserAvatar isExternal externalAvatarUrl={avatarUrl} classes={styles} />
+        <UserAvatar
+          as='div'
+          userId={id}
+          isExternal
+          externalAvatarUrl={avatarUrl}
+          classes={styles}
+        />
       </div>
 
       <div className={styles.right}>
@@ -52,44 +59,56 @@ const ProfileInfo = ({
           )}
         </div>
         <div className={styles.socials}>
-          <div className={styles.followersBlocks}>
-            <FollowList
-              list={followers}
-              title={<FollowTitle title='Followers' count={followersCount} />}
-              trigger={
-                <div className={styles.followBlock}>
-                  <img
-                    className={styles.follow}
-                    src={userFollowersSvg}
-                    alt='user followers'
-                  />
-                  <div className={styles.followCounters}>
-                    <div className={styles.followCounter}>{followersCount}</div>
-                    <div className={styles.followDescription}>followers</div>
+          <SidecarExplanationTooltip
+            closeTimeout={500}
+            localStorageSuffix='_PROFILE_FOLLOW_EXPLANATION'
+            position='top'
+            title={<div>Click to open list of users</div>}
+            description=''
+          >
+            <div className={styles.followersBlocks}>
+              <FollowList
+                list={followers}
+                title={<FollowTitle title='Followers' count={followersCount} />}
+                trigger={
+                  <div className={styles.followBlock}>
+                    <img
+                      className={styles.follow}
+                      src={userFollowersSvg}
+                      alt='user followers'
+                    />
+                    <div className={styles.followCounters}>
+                      <div className={styles.followCounter}>
+                        {followersCount}
+                      </div>
+                      <div className={styles.followDescription}>followers</div>
+                    </div>
                   </div>
-                </div>
-              }
-            />
-            <FollowList
-              list={following}
-              title={<FollowTitle title='Following' count={followingCount} />}
-              trigger={
-                <div
-                  className={cx(styles.followBlock, styles.followBlockSecond)}
-                >
-                  <img
-                    className={styles.follow}
-                    src={userFollowingSvg}
-                    alt='user following'
-                  />
-                  <div className={styles.followCounters}>
-                    <div className={styles.followCounter}>{followingCount}</div>
-                    <div className={styles.followDescription}>following</div>
+                }
+              />
+              <FollowList
+                list={following}
+                title={<FollowTitle title='Following' count={followingCount} />}
+                trigger={
+                  <div
+                    className={cx(styles.followBlock, styles.followBlockSecond)}
+                  >
+                    <img
+                      className={styles.follow}
+                      src={userFollowingSvg}
+                      alt='user following'
+                    />
+                    <div className={styles.followCounters}>
+                      <div className={styles.followCounter}>
+                        {followingCount}
+                      </div>
+                      <div className={styles.followDescription}>following</div>
+                    </div>
                   </div>
-                </div>
-              }
-            />
-          </div>
+                }
+              />
+            </div>
+          </SidecarExplanationTooltip>
         </div>
       </div>
     </div>

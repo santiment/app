@@ -1,7 +1,6 @@
 @import '~@santiment-network/ui/mixins';
 
 .container {
-  margin-top: 46px;
   display: flex;
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
@@ -33,7 +32,7 @@
   flex: 1;
   margin-left: 55px;
   margin-bottom: 40px;
-  padding-bottom: 40px;
+  padding-bottom: 31px;
   border-bottom: 1px solid var(--porcelain);
 
   @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {

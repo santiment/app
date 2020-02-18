@@ -7,9 +7,8 @@ import ProfileInfo from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
 import { PUBLIC_USER_DATA_QUERY } from '../../queries/ProfileGQL'
-import { DesktopOnly, MobileOnly } from '../../components/Responsive'
+import { MobileOnly } from '../../components/Responsive'
 import { mapQSToState } from '../../utils/utils'
-import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import ProfileActivities from './activities/ProfileActivities'
 import { updateCurrentUserQueryCache } from './follow/FollowBtn'
 import styles from './ProfilePage.module.scss'
@@ -51,8 +50,6 @@ const ProfilePage = props => {
     )
   }
 
-  const { username } = profile
-
   function updateCache (cache, queryData) {
     const queryVariables = getQueryVariables(props)
     updateCurrentUserQueryCache(
@@ -64,34 +61,17 @@ const ProfilePage = props => {
   }
 
   return (
-    <>
-      <div className={cx('page', styles.page)}>
-        <DesktopOnly>
-          <Breadcrumbs
-            className={styles.breadcrumbs}
-            crumbs={[
-              {
-                label: 'Community',
-                to: '/'
-              },
-              {
-                label: username
-              }
-            ]}
-          />
-        </DesktopOnly>
+    <div className={cx('page', styles.page)}>
+      <MobileOnly>
+        <div className={styles.header}>
+          <MobileHeader title='Profile' />
+        </div>
+      </MobileOnly>
 
-        <MobileOnly>
-          <div className={styles.header}>
-            <MobileHeader title='Profile' />
-          </div>
-        </MobileOnly>
+      <ProfileInfo profile={profile} updateCache={updateCache} />
 
-        <ProfileInfo profile={profile} updateCache={updateCache} />
-
-        <ProfileActivities profile={profile} />
-      </div>
-    </>
+      <ProfileActivities profile={profile} />
+    </div>
   )
 }
 

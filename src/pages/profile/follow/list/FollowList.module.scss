@@ -7,9 +7,26 @@
 }
 
 .list {
-  padding: 24px;
   display: flex;
   flex-direction: column;
+  max-height: 50vh;
+  overflow-y: auto;
+  padding-right: 20px;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 16px;
+  }
+}
+
+.listWrapper {
+  padding: 24px 0 24px 24px;
+
+  @include responsive('phone', 'phone-xs') {
+    padding: 16px;
+  }
+}
+
+.dialog {
   max-height: 600px;
   min-width: 670px;
 
@@ -59,6 +76,7 @@
 .user {
   display: flex;
   flex: 1;
+  cursor: pointer;
 
   &:hover {
     .name {
@@ -78,4 +96,8 @@
       display: none;
     }
   }
+}
+
+.search {
+  margin: 0 24px 24px 0;
 }

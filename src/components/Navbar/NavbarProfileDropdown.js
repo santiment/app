@@ -123,7 +123,7 @@ export const NavbarProfileDropdown = ({
         <Fragment>
           <ProfileInfo
             className={styles.profile}
-            name={user.username || user.email}
+            authorName={user.username || user.email}
             status={
               <div className={styles.plan}>
                 <Query query={USER_SUBSCRIPTIONS_QUERY}>

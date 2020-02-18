@@ -167,9 +167,11 @@ const Navbar = ({ activeLink = '/', isBetaModeEnabled }) => {
                     styles.accountBtn
                   )}
                 >
-                  <Link to='/account'>
-                    <UserAvatar classes={styles} />
-                  </Link>
+                  <UserAvatar
+                    showExplanation={false}
+                    to='/account'
+                    classes={styles}
+                  />
                 </Button>
               }
             >
