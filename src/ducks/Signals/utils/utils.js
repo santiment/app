@@ -772,7 +772,7 @@ export const getMetricsByType = type => {
       }
     case PRICE_VOLUME_DIFFERENCE:
       return {
-        metrics: [Metrics.price_usd, Metrics.volume],
+        metrics: [Metrics.price_usd, Metrics.volume_usd],
         triggersBy: Metrics.price_usd
       }
     case ETH_WALLET:

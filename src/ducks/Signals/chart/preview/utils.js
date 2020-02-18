@@ -37,6 +37,10 @@ export const cleanByDatakeys = (timeseries, dataKey) => {
 }
 
 export const makeSameRange = (points, base) => {
+  if (!base[0]) {
+    return points
+  }
+
   const date = base[0].datetime
   return points.filter(({ datetime }) => +new Date(datetime) > date)
 }

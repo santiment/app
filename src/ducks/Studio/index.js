@@ -102,7 +102,7 @@ const Studio = ({
 
     const { slug, name, ticker, id: projectId } = project
     const title = `${name} (${ticker})`
-    setSettings(state => ({ ...state, slug, title, projectId }))
+    setSettings(state => ({ ...state, slug, title, projectId, ticker }))
     onSlugChange(slug)
   }
 

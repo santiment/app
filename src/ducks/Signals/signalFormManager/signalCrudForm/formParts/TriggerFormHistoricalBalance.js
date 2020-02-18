@@ -23,6 +23,7 @@ const isInHeldAssets = (heldAssets, checking) => {
 }
 
 const ETHEREUM = {
+  id: 57,
   slug: 'ethereum',
   ticker: 'ETH',
   name: 'ethereum'
