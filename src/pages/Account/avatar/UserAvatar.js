@@ -20,7 +20,7 @@ const UserAvatar = ({
 
   const linkTo = to || '/profile/' + userId
 
-  const enabledExplanation = !showExplanation && El !== 'div'
+  const enabledExplanation = showExplanation && El !== 'div'
 
   return (
     <SidecarExplanationTooltip
