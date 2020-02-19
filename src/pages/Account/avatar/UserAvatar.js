@@ -13,40 +13,26 @@ const UserAvatar = ({
   avatarUrl = '',
   as: El = Link,
   userId,
-  to,
-  showExplanation
+  to
 }) => {
   const picUrl = isExternal ? externalAvatarUrl : avatarUrl
 
   const linkTo = to || '/profile/' + userId
 
-  const enabledExplanation = showExplanation && El !== 'div'
-
   return (
-    <SidecarExplanationTooltip
-      closeTimeout={500}
-      showEnabled={enabledExplanation}
-      localStorageSuffix='_PROFILE_FOLLOW_EXPLANATION'
-      position='top'
-      title={<div>Click to open profile</div>}
-      description=''
+    <El
+      to={linkTo}
+      className={cx(
+        styles.avatar,
+        classes.avatar,
+        !picUrl && classes.avatarEmpty
+      )}
+      style={{
+        backgroundImage: `url("${picUrl}"`
+      }}
     >
-      <>
-        <El
-          to={linkTo}
-          className={cx(
-            styles.avatar,
-            classes.avatar,
-            !picUrl && classes.avatarEmpty
-          )}
-          style={{
-            backgroundImage: `url("${picUrl}"`
-          }}
-        >
-          {!picUrl && <Icon type='profile' className={classes.avatarIcon} />}
-        </El>
-      </>
-    </SidecarExplanationTooltip>
+      {!picUrl && <Icon type='profile' className={classes.avatarIcon} />}
+    </El>
   )
 }
 

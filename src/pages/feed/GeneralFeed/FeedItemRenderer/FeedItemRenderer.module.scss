@@ -48,6 +48,16 @@
     display: none;
   }
 
+  p:nth-of-type(2) {
+    display: none;
+    margin: 0;
+  }
+
+  p:nth-of-type(3) {
+    display: none;
+    margin: 0;
+  }
+
   @include responsive('phone', 'phone-xs') {
     margin-bottom: 16px;
   }

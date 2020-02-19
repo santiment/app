@@ -12,6 +12,7 @@ import { mapQSToState } from '../../utils/utils'
 import ProfileActivities from './activities/ProfileActivities'
 import { updateCurrentUserQueryCache } from './follow/FollowBtn'
 import styles from './ProfilePage.module.scss'
+import { Redirect } from 'react-router-dom'
 
 const getQueryVariables = ({
   currentUser,
@@ -36,18 +37,22 @@ const getQueryVariables = ({
 }
 
 const ProfilePage = props => {
-  const { currentUser, profile, isLoading, isUserLoading } = props
+  const { currentUser, profile, isLoading, isLoggedIn, isUserLoading } = props
 
   if (isUserLoading || isLoading) {
     return <PageLoader />
   }
 
   if (!profile) {
-    return (
-      <div className={cx('page', styles.page)}>
-        <NoProfileData />
-      </div>
-    )
+    if (isLoggedIn) {
+      return (
+        <div className={cx('page', styles.page)}>
+          <NoProfileData />
+        </div>
+      )
+    } else {
+      return <Redirect to='/login' />
+    }
   }
 
   function updateCache (cache, queryData) {
@@ -75,7 +80,7 @@ const ProfilePage = props => {
   )
 }
 
-const mapStateToProps = (state, { match: { params: { id } = {} } }) => {
+const mapStateToProps = state => {
   return {
     currentUser: state.user.data
   }
