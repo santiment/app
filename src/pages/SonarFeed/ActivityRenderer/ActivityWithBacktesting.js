@@ -25,8 +25,6 @@ const getUserTriggerData = activityData => {
   } else {
     return null
   }
-
-  return null
 }
 
 export const getDefaultActivityContent = (

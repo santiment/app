@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Icon from '@santiment-network/ui/Icon'
 import styles from './UserAvatar.module.scss'
-import SidecarExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
 
 const UserAvatar = ({
   classes = {},
