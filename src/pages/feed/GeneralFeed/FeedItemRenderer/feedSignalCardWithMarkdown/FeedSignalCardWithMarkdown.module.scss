@@ -5,3 +5,12 @@
 
   color: var(--waterloo);
 }
+
+.more {
+  margin-top: 12px;
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}

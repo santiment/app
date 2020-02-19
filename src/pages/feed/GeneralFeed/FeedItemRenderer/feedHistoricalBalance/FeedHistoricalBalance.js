@@ -3,8 +3,17 @@ import Button from '@santiment-network/ui/Button'
 import { capitalizeStr } from '../../../../../utils/utils'
 import { formatNumber } from '../../../../../utils/formatting'
 import styles from './FeedHistoricalBalance.module.scss'
+import { getDateFormats, getTimeFormats } from '../../../../../utils/dates'
 
 const spliceLink = address => address.slice(0, 20) + '...'
+
+const formatDate = since => {
+  const date = new Date(since)
+  const { YYYY, MMM, DD } = getDateFormats(date)
+  const { HH, mm } = getTimeFormats(date)
+
+  return `${HH}:${mm}, ${MMM} ${DD}, ${YYYY}`
+}
 
 const FeedHistoricalBalance = ({ user_trigger_data }) => {
   const {
@@ -24,7 +33,7 @@ const FeedHistoricalBalance = ({ user_trigger_data }) => {
           {balance_change < 0 ? 'decreased' : 'increased'} by{' '}
           {formatNumber(balance_change)}
         </span>
-        since {since}
+        since {formatDate(since)}
       </div>
 
       <div className={styles.actions}>

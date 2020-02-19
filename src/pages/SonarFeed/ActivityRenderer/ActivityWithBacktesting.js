@@ -11,8 +11,21 @@ import FeedCardDate from '../../feed/GeneralFeed/CardDate/FeedCardDate'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 import { isEthStrictAddress } from '../../../utils/utils'
 import FeedHistoricalBalance from '../../feed/GeneralFeed/FeedItemRenderer/feedHistoricalBalance/FeedHistoricalBalance'
-import FeedSignalCardWithMarkdown from '../../feed/GeneralFeed/FeedItemRenderer/feedSignalCardWithMarkdown/FeedSignalCardWithMarkdown'
+import FeedSignalCardWithMarkdown, {
+  MoreInfo
+} from '../../feed/GeneralFeed/FeedItemRenderer/feedSignalCardWithMarkdown/FeedSignalCardWithMarkdown'
 import styles from './ActivityRenderer.module.scss'
+
+const getUserTriggerData = activityData => {
+  if (activityData) {
+    const { user_trigger_data } = activityData
+    const firstKey = Object.keys(user_trigger_data)[0]
+
+    return user_trigger_data[firstKey]
+  } else {
+    return null
+  }
+}
 
 export const getDefaultActivityContent = (
   classes,
@@ -20,13 +33,11 @@ export const getDefaultActivityContent = (
   showMarkdown = true
 ) => {
   const { payload, data: activityData, trigger = {} } = activity
-  if (activityData) {
-    const { user_trigger_data } = activityData
-    const firstKey = Object.keys(user_trigger_data)[0]
 
-    const data = user_trigger_data[firstKey]
+  const data = getUserTriggerData(activityData)
 
-    if (isEthStrictAddress(firstKey)) {
+  if (data) {
+    if (isEthStrictAddress(data.address)) {
       return <FeedHistoricalBalance user_trigger_data={data} />
     } else if (trigger && showMarkdown) {
       return (
@@ -39,12 +50,17 @@ export const getDefaultActivityContent = (
   }
 
   return (
-    <Markdown
-      source={Object.values(payload)[0]}
-      className={classes.activityMarkdown}
-    />
+    <>
+      <Markdown
+        source={validateMarkdown(Object.values(payload)[0])}
+        className={classes.activityMarkdown}
+      />
+      {data && data.project_slug && <MoreInfo slug={data.project_slug} />}
+    </>
   )
 }
+
+const validateMarkdown = text => text.replace('not implemented', 'changed')
 
 const ActivityWithBacktesting = ({
   date,

@@ -26,12 +26,7 @@ const ProfileInfo = ({
     <div className={cx(styles.wrapper, className)}>
       {withPic && (
         <div className={styles.icon}>
-          <UserAvatar
-            userId={authorId}
-            isExternal
-            externalAvatarUrl={picUrl}
-            showExplanation={false}
-          />
+          <UserAvatar userId={authorId} isExternal externalAvatarUrl={picUrl} />
           {networkStatus && (
             <div
               className={cx(styles.onlineIndicator, styles[networkStatus])}
