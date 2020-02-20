@@ -9,7 +9,7 @@
 .list {
   display: flex;
   flex-direction: column;
-  max-height: 50vh;
+  max-height: 440px;
   overflow-y: auto;
   padding-right: 20px;
 
@@ -20,6 +20,7 @@
 
 .listWrapper {
   padding: 24px 0 24px 24px;
+  overflow-y: hidden;
 
   @include responsive('phone', 'phone-xs') {
     padding: 16px;

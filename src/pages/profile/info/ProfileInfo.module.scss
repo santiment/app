@@ -3,29 +3,25 @@
 .container {
   display: flex;
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     flex-direction: column;
-    margin-top: 20px;
+    margin: 0 16px;
   }
 }
 
 .left {
   display: flex;
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     display: flex;
     max-width: 100%;
-    justify-content: center;
     align-items: center;
+    margin-top: 16px;
   }
 }
 
 .leftText {
   word-break: break-word;
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin: 20px 0;
-  }
 }
 
 .right {
@@ -35,7 +31,7 @@
   padding-bottom: 31px;
   border-bottom: 1px solid var(--porcelain);
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     margin: 0;
     padding: 0;
     min-width: auto;
@@ -47,11 +43,6 @@
   display: flex;
   align-items: center;
   margin-top: 32px;
-
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin: 20px 0;
-    flex-direction: column;
-  }
 }
 
 .followersBlocks {
@@ -68,12 +59,16 @@
     background: var(--athens);
     border-radius: $border-radius;
   }
+
+  @include responsive('phone', 'phone-xs') {
+    padding-left: 0;
+  }
 }
 
 .followBlockSecond {
   margin-left: 16px;
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     margin-left: 16px;
   }
 }
@@ -82,28 +77,49 @@
   @include text('h4');
 
   color: var(--rhino);
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+  }
 }
 
 .followDescription {
   @include text('body-3');
 
   color: var(--waterloo);
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+
+    margin-left: 6px;
+  }
 }
 
 .follow {
   height: 32px;
+
+  @include responsive('phone', 'phone-xs') {
+    display: none;
+  }
 }
 
 .followCounters {
   margin-left: 13px;
+
+  @include responsive('phone', 'phone-xs') {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 0;
+  }
 }
 
 .followBtn {
   margin-top: 16px;
   padding: 6px 12px 6px 7px;
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
-    margin: 0 0 0 auto;
+  @include responsive('phone', 'phone-xs') {
+    margin: 12px 0 0 auto;
   }
 }
 
@@ -112,6 +128,10 @@
 
   color: var(--rhino);
   overflow-wrap: break-word;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('h4');
+  }
 }
 
 .email {
@@ -122,7 +142,7 @@
   display: flex;
   align-items: center;
 
-  @include responsive('phone', 'phone-xs', 'laptop', 'tablet') {
+  @include responsive('phone', 'phone-xs') {
     margin: 0 0 0 16px;
   }
 }
@@ -134,6 +154,13 @@
   svg {
     width: 50%;
     height: 50%;
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    width: 82px;
+    height: 82px;
+    min-width: 82px;
+    margin-right: 14px;
   }
 }
 

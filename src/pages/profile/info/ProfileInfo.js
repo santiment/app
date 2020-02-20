@@ -8,7 +8,29 @@ import userFollowersSvg from './../../../assets/follow/user_followers.svg'
 import userFollowingSvg from './../../../assets/follow/user_following.svg'
 import FollowList from '../follow/list/FollowList'
 import SidecarExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
+import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import styles from './ProfileInfo.module.scss'
+
+const InfoBlock = ({
+  isLoggedIn,
+  isCurrentUser,
+  updateCache,
+  profile: { username, followers, id }
+}) => {
+  return (
+    <div className={styles.leftText}>
+      <div className={styles.name}>{username}</div>
+      {isLoggedIn && !isCurrentUser && (
+        <FollowBtn
+          className={styles.followBtn}
+          users={followers.users}
+          userId={id}
+          updateCache={updateCache}
+        />
+      )}
+    </div>
+  )
+}
 
 const FollowTitle = ({ title, count }) => {
   return (
@@ -26,7 +48,6 @@ const ProfileInfo = ({
 }) => {
   const {
     id,
-    username,
     followers,
     avatarUrl,
     following,
@@ -44,20 +65,26 @@ const ProfileInfo = ({
           externalAvatarUrl={avatarUrl}
           classes={styles}
         />
+        <MobileOnly>
+          <InfoBlock
+            updateCache={updateCache}
+            profile={profile}
+            isLoggedIn={isLoggedIn}
+            isCurrentUser={isCurrentUser}
+          />
+        </MobileOnly>
       </div>
 
       <div className={styles.right}>
-        <div className={styles.leftText}>
-          <div className={styles.name}>{username}</div>
-          {isLoggedIn && !isCurrentUser && (
-            <FollowBtn
-              className={styles.followBtn}
-              users={followers.users}
-              userId={id}
-              updateCache={updateCache}
-            />
-          )}
-        </div>
+        <DesktopOnly>
+          <InfoBlock
+            updateCache={updateCache}
+            profile={profile}
+            isLoggedIn={isLoggedIn}
+            isCurrentUser={isCurrentUser}
+          />
+        </DesktopOnly>
+
         <div className={styles.socials}>
           <SidecarExplanationTooltip
             closeTimeout={500}
