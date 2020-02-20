@@ -37,7 +37,14 @@ const getQueryVariables = ({
 }
 
 const ProfilePage = props => {
-  const { currentUser, profile, isLoading, isLoggedIn, isUserLoading } = props
+  const {
+    currentUser,
+    profile,
+    isLoading,
+    isLoggedIn,
+    isUserLoading,
+    history
+  } = props
 
   if (isUserLoading || isLoading) {
     return <PageLoader />
@@ -54,6 +61,8 @@ const ProfilePage = props => {
       return <Redirect to='/login' />
     }
   }
+
+  console.log(history)
 
   function updateCache (cache, queryData) {
     const queryVariables = getQueryVariables(props)
