@@ -3,7 +3,7 @@ import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 import cx from 'classnames'
-import ProfileInfo from './info/ProfileInfo'
+import ProfileInfo, { ShareProfile } from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import PageLoader from '../../components/Loader/PageLoader'
 import { PUBLIC_USER_DATA_QUERY } from '../../queries/ProfileGQL'
@@ -69,7 +69,7 @@ const ProfilePage = props => {
     <div className={cx('page', styles.page)}>
       <MobileOnly>
         <div className={styles.header}>
-          <MobileHeader title='Profile' />
+          <MobileHeader title='Profile' rightActions={<ShareProfile />} />
         </div>
       </MobileOnly>
 

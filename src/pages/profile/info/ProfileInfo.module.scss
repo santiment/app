@@ -123,6 +123,10 @@
   }
 }
 
+.info {
+  display: flex;
+}
+
 .name {
   @include text('h3');
 
@@ -166,4 +170,27 @@
 
 .counter {
   color: var(--waterloo);
+}
+
+.shareIcon {
+  margin-right: 12px;
+  fill: var(--waterloo);
+}
+
+.shareTrigger {
+  color: var(--rhino);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+
+  @include text('body-2');
+
+  &:hover {
+    color: var(--jungle-green-hover);
+
+    .shareIcon {
+      fill: var(--jungle-green-hover);
+    }
+  }
 }
