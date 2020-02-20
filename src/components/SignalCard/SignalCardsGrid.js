@@ -17,7 +17,8 @@ const SignalCardsGrid = ({
   toggleSignal,
   removeSignal,
   goToSignalSettings,
-  deleteEnabled = true
+  deleteEnabled = true,
+  classes = {}
 }) => {
   const isAuthor = +userId === +ownerId
 
@@ -48,7 +49,7 @@ const SignalCardsGrid = ({
               removeSignal={() => {
                 removeSignal(id)
               }}
-              className={styles.card}
+              className={cx(styles.card, classes.card)}
               signal={signal}
             />
           )

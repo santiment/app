@@ -15,6 +15,7 @@ import FeedSignalCardWithMarkdown, {
   MoreInfo
 } from '../../feed/GeneralFeed/FeedItemRenderer/feedSignalCardWithMarkdown/FeedSignalCardWithMarkdown'
 import styles from './ActivityRenderer.module.scss'
+import SidecarExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
 
 const getUserTriggerData = activityData => {
   if (activityData) {
@@ -67,7 +68,7 @@ const ActivityWithBacktesting = ({
   user,
   classes,
   activity,
-  activity: { triggeredAt, trigger = {}, votes = [] },
+  activity: { index, triggeredAt, trigger = {}, votes = [] },
   onLike
 }) => {
   const {
@@ -99,7 +100,16 @@ const ActivityWithBacktesting = ({
 
               {getDefaultActivityContent(classes, activity, false)}
 
-              <SignalCreator user={user} />
+              <SidecarExplanationTooltip
+                closeTimeout={500}
+                localStorageSuffix='_FEED_PROFILE_EXPLANATION'
+                position='top'
+                title={<div>New! Click to open profile</div>}
+                description=''
+                showEnabled={index === 0}
+              >
+                <SignalCreator user={user} className={styles.creator} />
+              </SidecarExplanationTooltip>
             </div>
           </div>
           <div className={styles.preview}>

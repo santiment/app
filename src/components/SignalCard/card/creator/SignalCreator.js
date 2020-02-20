@@ -8,7 +8,10 @@ import styles from './SignalCreator.module.scss'
 export const showUserActions = () =>
   window && window.location && window.location.pathname !== personalLocation
 
-const SignalCreator = ({ user: { id, username, avatarUrl } = {} }) => {
+const SignalCreator = ({
+  className,
+  user: { id, username, avatarUrl } = {}
+}) => {
   const show = showUserActions()
 
   if (!show) {
@@ -16,7 +19,7 @@ const SignalCreator = ({ user: { id, username, avatarUrl } = {} }) => {
   }
 
   return (
-    <Link to={'/profile/' + id} className={styles.container}>
+    <Link to={'/profile/' + id} className={cx(styles.container, className)}>
       <UserAvatar
         as='div'
         userId={id}

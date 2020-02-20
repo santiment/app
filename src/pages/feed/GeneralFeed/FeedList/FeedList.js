@@ -39,6 +39,8 @@ const checkItemWithIndex = (group, item, index) => {
     item.addStories = true
   }
 
+  item.index = index
+
   group.items.push(item)
 }
 

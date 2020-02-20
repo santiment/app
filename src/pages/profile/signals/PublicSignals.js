@@ -16,7 +16,11 @@ const PublicSignals = ({ data: signals, userId }) => {
 
   return (
     <div className={styles.block}>
-      <SignalCardsGrid signals={signalsWithUser} deleteEnabled={false} />
+      <SignalCardsGrid
+        signals={signalsWithUser}
+        deleteEnabled={false}
+        classes={styles}
+      />
     </div>
   )
 }
