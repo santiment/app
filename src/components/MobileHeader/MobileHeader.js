@@ -23,7 +23,7 @@ const MobileHeader = ({
   // if we have backRoute, title element is a link with 'to' param === backRoute
   backRoute,
   rightActions,
-  classes: _classes,
+  classes: _classes = {},
   showBack = false,
   children
 }) => {
@@ -34,7 +34,11 @@ const MobileHeader = ({
       <Title
         onClick={goBack && goBack}
         to={backRoute}
-        className={cx(classes.left, rightActions && classes.shortLeft)}
+        className={cx(
+          classes.left,
+          rightActions && classes.shortLeft,
+          _classes.back
+        )}
       >
         {(backRoute || showBack) && (
           <Icon className={classes.icon} type='arrow-left-big' />

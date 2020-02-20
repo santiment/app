@@ -1,7 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import FollowBtn from '../follow/FollowBtn'
+import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
 import UserAvatar from '../../Account/avatar/UserAvatar'
 import { checkIsLoggedIn } from '../../UserSelectors'
 import userFollowersSvg from './../../../assets/follow/user_followers.svg'
@@ -10,7 +13,6 @@ import FollowList from '../follow/list/FollowList'
 import SidecarExplanationTooltip from '../../../ducks/SANCharts/SidecarExplanationTooltip'
 import { DesktopOnly, MobileOnly } from '../../../components/Responsive'
 import ShareModalTrigger from '../../../components/Share/ShareModalTrigger'
-import Button from '@santiment-network/ui/Button'
 import styles from './ProfileInfo.module.scss'
 
 const ShareTrigger = props => {
@@ -54,13 +56,24 @@ const InfoBlock = ({
           <ShareProfile />
         </DesktopOnly>
       </div>
-      {isLoggedIn && !isCurrentUser && (
+      {isLoggedIn && !isCurrentUser ? (
         <FollowBtn
           className={styles.followBtn}
           users={followers.users}
           userId={id}
           updateCache={updateCache}
         />
+      ) : (
+        <Button
+          className={styles.followBtn}
+          as={Link}
+          to='/account'
+          variant='fill'
+          accent='positive'
+        >
+          <Icon type='edit' className={styles.editIcon} />
+          Edit
+        </Button>
       )}
     </div>
   )

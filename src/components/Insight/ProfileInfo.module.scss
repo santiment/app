@@ -48,8 +48,8 @@
   min-width: 180px;
   text-overflow: ellipsis;
   overflow: hidden;
-  white-space: nowrap;
   width: 100%;
+  word-break: break-all;
 }
 
 .status {

@@ -15,7 +15,7 @@
   @include responsive('phone', 'phone-xs') {
     display: flex;
     max-width: 100%;
-    align-items: center;
+    align-items: flex-start;
     margin-top: 16px;
   }
 }
@@ -114,9 +114,14 @@
   }
 }
 
+.editIcon {
+  margin-right: 8px;
+}
+
 .followBtn {
   margin-top: 16px;
   padding: 6px 12px 6px 7px;
+  max-width: 142px;
 
   @include responsive('phone', 'phone-xs') {
     margin: 12px 0 0 auto;
@@ -175,6 +180,10 @@
 .shareIcon {
   margin-right: 12px;
   fill: var(--waterloo);
+
+  @include responsive('phone', 'phone-xs') {
+    fill: var(--jungle-green);
+  }
 }
 
 .shareTrigger {

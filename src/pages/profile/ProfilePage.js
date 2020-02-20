@@ -37,7 +37,14 @@ const getQueryVariables = ({
 }
 
 const ProfilePage = props => {
-  const { currentUser, profile, isLoading, isLoggedIn, isUserLoading } = props
+  const {
+    currentUser,
+    profile,
+    isLoading,
+    isLoggedIn,
+    isUserLoading,
+    history
+  } = props
 
   if (isUserLoading || isLoading) {
     return <PageLoader />
@@ -69,7 +76,12 @@ const ProfilePage = props => {
     <div className={cx('page', styles.page)}>
       <MobileOnly>
         <div className={styles.header}>
-          <MobileHeader title='Profile' rightActions={<ShareProfile />} />
+          <MobileHeader
+            rightActions={<ShareProfile />}
+            showBack={true}
+            goBack={history.goBack}
+            classes={styles}
+          />
         </div>
       </MobileOnly>
 

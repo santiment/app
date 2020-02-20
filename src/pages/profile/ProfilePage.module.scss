@@ -23,6 +23,12 @@
   }
 }
 
+.back {
+  @include responsive('phone', 'phone-xs') {
+    padding-left: 0;
+  }
+}
+
 .header {
   padding-bottom: 0 !important;
 
