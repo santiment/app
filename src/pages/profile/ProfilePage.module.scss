@@ -19,12 +19,16 @@
 
 .page {
   @include responsive('phone', 'phone-xs') {
-    margin: 0 16px !important;
+    margin: 0;
   }
 }
 
 .header {
   padding-bottom: 0 !important;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0 16px;
+  }
 }
 
 .watchlists {

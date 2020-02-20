@@ -25,9 +25,7 @@
   }
 
   @include responsive('phone', 'phone-xs') {
-    .label {
-      color: var(--jungle-green);
-    }
+    color: var(--jungle-green);
   }
 }
 
@@ -53,6 +51,7 @@
     border-bottom: 1px solid var(--porcelain);
     margin-bottom: 32px;
     justify-content: space-between;
+    padding: 0 16px;
   }
 }
 
@@ -62,5 +61,6 @@
 
   @include responsive('phone', 'phone-xs') {
     width: 100%;
+    padding: 0 16px;
   }
 }

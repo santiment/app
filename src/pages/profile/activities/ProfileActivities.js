@@ -27,8 +27,7 @@ const ProfileActivities = ({ profile }) => {
           className={cx(styles.link, step === STEPS.INSIGHTS && styles.active)}
           onClick={() => setStep(STEPS.INSIGHTS)}
         >
-          <span className={styles.label}>Insights</span>{' '}
-          <Counter value={insights.length} />
+          Insights <Counter value={insights.length} />
         </div>
         <div
           className={cx(
@@ -37,15 +36,13 @@ const ProfileActivities = ({ profile }) => {
           )}
           onClick={() => setStep(STEPS.WATCHLISTS)}
         >
-          <span className={styles.label}>Watchlists</span>{' '}
-          <Counter value={watchlists.length} />
+          Watchlists <Counter value={watchlists.length} />
         </div>
         <div
           className={cx(styles.link, step === STEPS.SIGNALS && styles.active)}
           onClick={() => setStep(STEPS.SIGNALS)}
         >
-          <span className={styles.label}>Signals</span>{' '}
-          <Counter value={triggers.length} />
+          Signals <Counter value={triggers.length} />
         </div>
       </div>
       <div className={styles.right}>

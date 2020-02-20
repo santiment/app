@@ -5,6 +5,7 @@
 
   @include responsive('phone', 'phone-xs') {
     flex-direction: column;
+    margin: 0 16px;
   }
 }
 
