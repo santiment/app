@@ -28,7 +28,7 @@ export const FILTER_OPTIONS = [
 const FeedSorters = ({ sortType, onChangeSort, className }) => {
   return (
     <div className={cx(styles.container, className)}>
-      <div className={styles.select}>
+      <div className={cx(styles.select, 'filters-sorters')}>
         <Select
           clearable={false}
           value={sortType}

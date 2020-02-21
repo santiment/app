@@ -1,8 +1,10 @@
-.Select-menu-outer {
-  max-width: 110px;
-  min-width: 110px;
-}
+.filters-sorters {
+  .Select-menu-outer {
+    max-width: 110px !important;
+    min-width: 110px !important;
+  }
 
-.Select-menu {
-  min-width: 100%;
+  .Select-menu {
+    min-width: 100% !important;
+  }
 }
