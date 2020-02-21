@@ -56,7 +56,9 @@ export const getDefaultActivityContent = (
         source={validateMarkdown(Object.values(payload)[0])}
         className={classes.activityMarkdown}
       />
-      {data && data.project_slug && <MoreInfo slug={data.project_slug} />}
+      {data && data.project_slug && (
+        <MoreInfo slug={data.project_slug} type={data.type} />
+      )}
     </>
   )
 }
