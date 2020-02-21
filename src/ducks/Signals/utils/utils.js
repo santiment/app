@@ -770,6 +770,7 @@ export const getMetricsByType = type => {
         metrics: [Metrics.daily_active_addresses, Metrics.price_usd],
         triggersBy: Metrics.daily_active_addresses
       }
+    case TRENDING_WORDS:
     case PRICE_VOLUME_DIFFERENCE:
       return {
         metrics: [Metrics.price_usd, Metrics.volume_usd],
@@ -1072,31 +1073,38 @@ export const descriptionBlockErrors = values => {
   return errors
 }
 
+export const getCheckingMetric = ({ metric, type }) =>
+  metric ? metric.value : type
+
 export const couldShowChart = (
   settings,
   types = POSSIBLE_METRICS_FOR_CHART
 ) => {
-  const {
-    signalType,
-    metric,
-    type,
-    target = {},
-    ethAddress = target.eth_address
-  } = settings
+  const { signalType, target = {}, ethAddress = target.eth_address } = settings
+
   if (signalType && isWatchlist(signalType)) {
     return false
   }
 
   const isArray = Array.isArray(target)
-  if (isArray && target.length !== 1) {
+  const notSingleArray = isArray && target.length !== 1
+
+  if (notSingleArray) {
     return false
   }
 
-  const checking = metric ? metric.value : type
+  const checking = getCheckingMetric(settings)
 
   switch (checking) {
     case ETH_WALLET: {
       return Array.isArray(ethAddress) ? ethAddress.length === 1 : !!ethAddress
+    }
+    case TRENDING_WORDS: {
+      if (notSingleArray) {
+        return false
+      }
+
+      return true
     }
     default: {
       if (!isArray && !targetMapper(target)) {

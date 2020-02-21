@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Query } from '@apollo/react-components'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import {
+  getCheckingMetric,
   getMetricsByType,
   getTimeRangeForChart,
   mapTargetObject
@@ -25,7 +26,7 @@ import {
   mapToRequestedMetrics,
   makeSameRange
 } from './utils'
-import { DAILY_ACTIVE_ADDRESSES } from '../../utils/constants'
+import { DAILY_ACTIVE_ADDRESSES, TRENDING_WORDS } from '../../utils/constants'
 import styles from './SignalPreview.module.scss'
 
 const PreviewLoader = (
@@ -156,6 +157,7 @@ const SignalPreview = ({
   return (
     <Query
       query={HISTORICAL_TRIGGER_POINTS_QUERY}
+      skip={getCheckingMetric(trigger.settings) === TRENDING_WORDS}
       variables={{
         cooldown: cooldown,
         settings: JSON.stringify(trigger.settings)
