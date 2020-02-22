@@ -70,21 +70,42 @@
   margin: 14px 0 8px;
 }
 
+.info {
+  visibility: hidden;
+  fill: var(--casper);
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+
+  &:hover {
+    fill: var(--rhino);
+  }
+}
+
 .btn {
+  text-align: left;
+  justify-content: space-between;
   padding: 6px 9px;
   min-height: 32px;
   height: auto;
-  text-align: left;
+
+  &__left {
+    display: flex;
+    align-items: center;
+  }
 
   &:hover {
     .plus {
-      background: #dcf6ef;
-      fill: var(--jungle);
+      background: var(--jungle-green);
+      fill: var(--white);
     }
 
     .active {
-      background: var(--persimmon-light);
-      fill: var(--persimmon);
+      background: var(--persimmon);
+    }
+
+    .info {
+      visibility: visible;
     }
   }
 }

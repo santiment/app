@@ -23,7 +23,6 @@ const MetricButton = ({
       label={label}
       description={description}
       withChildren
-      position='left'
       closeTimeout={22}
       offsetX={8}
     >

@@ -3,17 +3,26 @@ import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { NO_GROUP } from './utils'
+import MetricExplanation from '../../SANCharts/MetricExplanation'
 import styles from './MetricSelector.module.scss'
 
-const MetricButton = ({ className, label, isActive, onClick }) => (
+const MetricButton = ({ className, metric, label, isActive, onClick }) => (
   <Button
     variant='ghost'
     className={cx(styles.btn, className)}
     onClick={onClick}
     isActive={isActive}
   >
-    <Icon type='plus' className={cx(styles.plus, isActive && styles.active)} />
-    {label}
+    <div className={styles.btn__left}>
+      <Icon
+        type='plus'
+        className={cx(styles.plus, isActive && styles.active)}
+      />
+      {label}
+    </div>
+    <MetricExplanation {...metric} position='right'>
+      <Icon type='info-round' className={styles.info} />
+    </MetricExplanation>
   </Button>
 )
 
@@ -36,6 +45,7 @@ const Group = ({
         return (
           <Fragment key={metric.key}>
             <MetricButton
+              metric={metric}
               label={metric.label}
               isActive={actives.includes(metric)}
               onClick={() => toggleMetric(metric)}
