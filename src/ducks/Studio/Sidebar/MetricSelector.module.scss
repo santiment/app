@@ -70,11 +70,26 @@
   margin: 14px 0 8px;
 }
 
+.info {
+  visibility: hidden;
+  fill: var(--mirage);
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}
+
 .btn {
+  text-align: left;
+  justify-content: space-between;
   padding: 6px 9px;
   min-height: 32px;
   height: auto;
-  text-align: left;
+
+  &__left {
+    display: flex;
+    align-items: center;
+  }
 
   &:hover {
     .plus {
@@ -85,6 +100,10 @@
     .active {
       background: var(--persimmon-light);
       fill: var(--persimmon);
+    }
+
+    .info {
+      visibility: visible;
     }
   }
 }
