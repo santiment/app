@@ -95,7 +95,20 @@ export const Metrics = {
     shortLabel: 'Soc. Volume',
     anomalyKey: 'SOCIAL_VOLUME',
     color: 'malibu',
-    description: `Shows the amount of mentions of the coin on 1000+ crypto social media channels, including Telegram groups, crypto subreddits, discord groups, private traders chats and more.`,
+    description: (
+      <>
+        Shows the amount of mentions of the coin on 1000+ crypto social media
+        channels, including Telegram groups, crypto subreddits, discord groups,
+        private traders chats and more. More info{' '}
+        <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://academy.santiment.net/general/metrics/mvrv/'
+        >
+          here
+        </a>
+      </>
+    ),
     advancedView: 'Social Context'
   },
   age_destroyed: {
@@ -134,10 +147,21 @@ export const Metrics = {
     shortLabel: 'Daily A.A.',
     anomalyKey: 'DAILY_ACTIVE_ADDRESSES',
     video: 'https://www.youtube.com/watch?v=n3dUvWvQEpQ',
-    description: `Shows the number of unique network addresses involved in transactions
-    on a certain date.
-    Simply put, DAA indicates the daily level of crowd interaction (or
-    speculation) with a certain token.`,
+    description: (
+      <>
+        Shows the number of unique network addresses involved in transactions on
+        a certain date. Simply put, DAA indicates the daily level of crowd
+        interaction (or speculation) with a certain token. More info{' '}
+        <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://academy.santiment.net/general/metrics/daily-active-addresses/'
+        >
+          here
+        </a>
+      </>
+    ),
+
     color: 'texas-rose',
     dataKey: 'daily_active_addresses',
     historicalTriggersDataKey: 'active_addresses',
@@ -185,7 +209,22 @@ export const Metrics = {
     label: 'Market Value To Realized Value',
     shortLabel: 'MVRV',
     video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
-    description: `MVRV measures how much every holder originally paid for their coins, and compares that investment to the coin’s current price to calculate the average profit or loss across all holders. Example: if MVRV = 2, then, on average, all coin holders have (currently) doubled their initial investment.`,
+    description: (
+      <>
+        MVRV measures how much every holder originally paid for their coins, and
+        compares that investment to the coin’s current price to calculate the
+        average profit or loss across all holders. Example: if MVRV = 2, then,
+        on average, all coin holders have (currently) doubled their initial
+        investment. More info{' '}
+        <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://academy.santiment.net/general/metrics/mvrv/'
+        >
+          here
+        </a>
+      </>
+    ),
     minInterval: '1d'
   },
   transaction_volume: {
