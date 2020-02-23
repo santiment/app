@@ -1,4 +1,5 @@
 import gql from 'graphql-tag'
+import { extractTimeseries } from './utils'
 import { tooltipSettings } from '../../SANCharts/data'
 
 export const GET_MARKET_SEGMENT_QUERY = name => gql`
@@ -53,4 +54,9 @@ export const getMarketSegment = key => {
   }
   MarketSegments.set(key, newSegment)
   return newSegment
+}
+
+export const MarketSegmentFetcher = {
+  query: GET_MARKET_SEGMENT_QUERY,
+  preTransform: extractTimeseries('devActivity')
 }

@@ -1,6 +1,6 @@
 import { METRICS, GET_METRIC } from './metrics'
 import { AnomalyFetcher, OldAnomalyFetcher } from './anomalies'
-import { GET_MARKET_SEGMENT_QUERY } from './marketSegments'
+import { MarketSegmentFetcher } from './marketSegments'
 import { SOCIAL_VOLUME_QUERY } from '../../GetTimeSeries/queries/social_volume_query'
 import { GAS_USED_QUERY } from '../../GetTimeSeries/queries/gas_used'
 import { HISTORY_TWITTER_DATA_QUERY } from '../../GetTimeSeries/queries/history_twitter_data_query'
@@ -12,14 +12,8 @@ import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from '../../GetTimeSeries/queries
 import { ETH_SPENT_OVER_TIME_QUERY } from '../../GetTimeSeries/queries/eth_spent_over_time_query'
 import { PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES } from '../../GetTimeSeries/queries/percent_of_token_supply_on_exchanges_query'
 import { DEV_ACTIVITY_QUERY } from '../../GetTimeSeries/queries/dev_activity_query'
+import { extractTimeseries } from './utils'
 import { mergeTimeseriesByKey } from '../../../utils/utils'
-
-const extractTimeseries = name => ({ data }) => data[name]
-
-export const normalizeDatetimes = data => ({
-  ...data,
-  datetime: +new Date(data.datetime)
-})
 
 const preTransform = ({
   data: {
@@ -38,10 +32,7 @@ const Fetcher = METRICS.reduce((acc, metric) => {
 Object.assign(Fetcher, {
   anomalies: OldAnomalyFetcher,
   anomaly: AnomalyFetcher,
-  marketSegment: {
-    query: GET_MARKET_SEGMENT_QUERY,
-    preTransform: extractTimeseries('devActivity')
-  },
+  marketSegment: MarketSegmentFetcher,
   socialVolume: {
     query: SOCIAL_VOLUME_QUERY,
     preTransform: ({ data }) =>

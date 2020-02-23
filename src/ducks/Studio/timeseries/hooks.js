@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { client } from '../../../index'
-import { normalizeDatetimes, getQuery, getPreTransform } from './fetcher'
+import { getQuery, getPreTransform } from './fetcher'
+import { normalizeDatetimes } from './utils'
 import { mergeTimeseriesByKey } from '../../../utils/utils'
 
 // NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]

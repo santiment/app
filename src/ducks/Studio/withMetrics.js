@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-import { getCategoryGraph, getTimeboundMetrics } from './Sidebar/utils'
+import { getCategoryGraph } from './Sidebar/utils'
 import { getMarketSegment } from './timeseries/marketSegments'
 
 const PROJECT_METRICS_BY_SLUG_QUERY = gql`
@@ -26,8 +26,6 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
     },
     ownProps: { hiddenMetrics = [] }
   }) => {
-    const Timebound = getTimeboundMetrics(availableMetrics)
-
     const categories = getCategoryGraph(
       availableQueries
         .concat(availableMetrics)
@@ -37,8 +35,7 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
 
     return {
       loading,
-      categories,
-      Timebound
+      categories
     }
   },
   skip: ({ slug }) => !slug,
