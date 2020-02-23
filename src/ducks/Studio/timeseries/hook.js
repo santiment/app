@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { client } from '../../../index'
-import { Fetcher, getQuery, getPreTransform } from './fetcher'
-import { MARKET_SEGMENT_QUERY } from '../../../ducks/GetTimeSeries/queries/market_segment_query'
+import { normalizeDatetimes, getQuery, getPreTransform } from './fetcher'
 import { mergeTimeseriesByKey } from '../../../utils/utils'
 
 // NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]
@@ -85,13 +84,7 @@ export const useMetricsData = (metrics, settings) => {
       let mergedData = []
 
       metrics.forEach(metric => {
-        const {
-          key,
-          queryKey = key,
-          transformKey = queryKey,
-          anomalyMetricKey,
-          reqMeta
-        } = metric
+        const { key, reqMeta } = metric
 
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
@@ -108,15 +101,8 @@ export const useMetricsData = (metrics, settings) => {
           return [...loadingsSet]
         })
 
-        const isMarketSegment = transformKey === 'marketSegment'
-        /* const getQUERY = isMarketSegment ? MARKET_SEGMENT_QUERY : getMetricQUERY */
-        const query = isMarketSegment
-          ? MARKET_SEGMENT_QUERY(queryKey)
-          : Fetcher[queryKey].query
-
         client
           .query({
-            /* query: getQUERY(queryKey), */
             query: getQuery(metric),
             variables: {
               metric: key,
@@ -132,7 +118,6 @@ export const useMetricsData = (metrics, settings) => {
               }
             }
           })
-          /* .then(getPreTransform(transformKey, anomalyMetricKey, key)) */
           .then(getPreTransform(metric))
           .then(data => {
             console.log(data)
@@ -140,7 +125,7 @@ export const useMetricsData = (metrics, settings) => {
 
             setTimeseries(() => {
               mergedData = mergeTimeseriesByKey({
-                timeseries: [mergedData, data]
+                timeseries: [mergedData, data.map(normalizeDatetimes)]
               })
               return [...mergedData]
             })
