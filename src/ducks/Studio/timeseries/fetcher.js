@@ -1,5 +1,5 @@
 import { METRICS, GET_METRIC } from './metrics'
-import { AnomalyFetcher } from './anomalies'
+import { AnomalyFetcher, OldAnomalyFetcher } from './anomalies'
 import { GET_MARKET_SEGMENT_QUERY } from './marketSegments'
 import { SOCIAL_VOLUME_QUERY } from '../../GetTimeSeries/queries/social_volume_query'
 import { GAS_USED_QUERY } from '../../GetTimeSeries/queries/gas_used'
@@ -36,6 +36,7 @@ const Fetcher = METRICS.reduce((acc, metric) => {
 }, Object.create(null))
 
 Object.assign(Fetcher, {
+  anomalies: OldAnomalyFetcher,
   anomaly: AnomalyFetcher,
   marketSegment: {
     query: GET_MARKET_SEGMENT_QUERY,
@@ -109,11 +110,13 @@ export const getQuery = ({ key, queryKey = key }) => {
   return query
 }
 
-export const getPreTransform = ({ key, queryKey = key }) => {
+export const getPreTransform = ({ key, queryKey = key, metricAnomaly }) => {
   const { preTransform } = Fetcher[queryKey]
 
   if (queryKey === 'anomaly') {
     return preTransform(key)
+  } else if (queryKey === 'anomalies') {
+    return preTransform(metricAnomaly)
   }
 
   return preTransform

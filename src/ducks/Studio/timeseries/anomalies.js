@@ -2,6 +2,19 @@ import gql from 'graphql-tag'
 import { Metrics, tooltipSettings } from '../../SANCharts/data'
 import { persimmon } from '@santiment-network/ui/variables.scss'
 
+export const OLD_ANOMALY_QUERY = gql`
+  query metricAnomaly(
+    $from: DateTime!
+    $metric: AnomaliesMetricsEnum!
+    $slug: String!
+    $to: DateTime!
+  ) {
+    metricAnomaly(from: $from, to: $to, slug: $slug, metric: $metric) {
+      datetime
+    }
+  }
+`
+
 export const GET_ANOMALY_QUERY = gql`
   query getAnomaly(
     $metric: String!
@@ -40,6 +53,21 @@ export const AnomalyFetcher = {
         value,
         color: persimmon,
         datetime: +new Date(datetime)
+      }
+    })
+}
+
+export const OldAnomalyFetcher = {
+  query: OLD_ANOMALY_QUERY,
+  preTransform: metric => ({ data: { metricAnomaly } }) =>
+    metricAnomaly.map(({ datetime }) => {
+      const { label: value } = Metrics[metric]
+      return {
+        key: 'isAnomaly',
+        color: persimmon,
+        datetime: +new Date(datetime),
+        metric,
+        value
       }
     })
 }

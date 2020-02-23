@@ -2,9 +2,10 @@ import { ANOMALIES } from './timeseries/anomalies'
 
 export function buildAnomalies (metrics) {
   return metrics
-    .filter(({ key }) => ANOMALIES.includes(key))
-    .map(({ key }) => ({
-      key: key + '_anomaly',
-      queryKey: 'anomaly'
+    .filter(({ key, anomalyKey }) => anomalyKey || ANOMALIES.includes(key))
+    .map(({ key, anomalyKey }) => ({
+      key: anomalyKey || key + '_anomaly',
+      queryKey: anomalyKey ? 'anomalies' : 'anomaly',
+      metricAnomaly: key
     }))
 }
