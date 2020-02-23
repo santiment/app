@@ -47,7 +47,7 @@ function abortAllMetrics (abortables) {
   return [...abortables.values()].forEach(cancelQuery)
 }
 
-export const useMetricsData = (metrics, settings) => {
+export const useTimeseries = (metrics, settings) => {
   const [timeseries, setTimeseries] = useState(DEFAULT_TS)
   const [loadings, setLoadings] = useState(DEFAULT_LOADINGS)
   const [ErrorMsg, setErrorMsg] = useState(DEFAULT_ERROR_MSG)
@@ -120,7 +120,6 @@ export const useMetricsData = (metrics, settings) => {
           })
           .then(getPreTransform(metric))
           .then(data => {
-            console.log(data)
             if (raceCondition) return
 
             setTimeseries(() => {
@@ -131,7 +130,6 @@ export const useMetricsData = (metrics, settings) => {
             })
           })
           .catch(({ message }) => {
-            console.log(message)
             if (raceCondition) return
             setErrorMsg(state => {
               state[key] = message
