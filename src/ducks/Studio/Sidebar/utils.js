@@ -1,4 +1,4 @@
-import { Metrics } from '../../../ducks/SANCharts/data'
+import { Metrics, tooltipSettings } from '../../../ducks/SANCharts/data'
 
 export const NO_GROUP = '_'
 
@@ -65,4 +65,45 @@ export const getCategoryGraph = (availableMetrics, hiddenMetrics) => {
   })
 
   return categories
+}
+
+const TimeboundMetricCache = new Map()
+
+export function getTimeboundMetrics (metrics) {
+  const Timebound = Object.create(null)
+
+  metrics.forEach(timeboundKey => {
+    const lastIndex = timeboundKey.lastIndexOf('_')
+    const key = timeboundKey.slice(0, lastIndex)
+    const metric = Metrics[key]
+
+    if (metric) {
+      const timebounds = Timebound[key]
+      let timeboundMetric = TimeboundMetricCache.get(timeboundKey)
+
+      if (!timeboundMetric) {
+        const label = metric.label + ` (${timeboundKey.slice(lastIndex + 1)})`
+        timeboundMetric = {
+          ...metric,
+          label,
+          key: timeboundKey
+        }
+
+        tooltipSettings[timeboundKey] = {
+          label,
+          formatter: tooltipSettings[key].formatter
+        }
+
+        TimeboundMetricCache.set(timeboundKey, timeboundMetric)
+      }
+
+      if (timebounds) {
+        timebounds.push(timeboundMetric)
+      } else {
+        Timebound[key] = [timeboundMetric]
+      }
+    }
+  })
+
+  return Timebound
 }

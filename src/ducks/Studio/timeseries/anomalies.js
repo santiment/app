@@ -31,6 +31,7 @@ export const GET_ANOMALY_QUERY = gql`
   }
 `
 
+// Available anomalies could be fetched via "getAvailableAnomalies" query
 export const ANOMALIES = [
   'daily_active_addresses',
   'dev_activity',
@@ -51,8 +52,8 @@ export const AnomalyFetcher = {
         key,
         metric,
         value,
-        color: persimmon,
-        datetime: +new Date(datetime)
+        datetime,
+        color: persimmon
       }
     })
 }
@@ -61,13 +62,13 @@ export const OldAnomalyFetcher = {
   query: OLD_ANOMALY_QUERY,
   preTransform: metric => ({ data: { metricAnomaly } }) =>
     metricAnomaly.map(({ datetime }) => {
-      const { label: value } = Metrics[metric]
+      const { key, dataKey = key, label: value } = Metrics[metric]
       return {
+        datetime,
+        value,
         key: 'isAnomaly',
-        color: persimmon,
-        datetime: +new Date(datetime),
-        metric,
-        value
+        metric: dataKey,
+        color: persimmon
       }
     })
 }

@@ -88,6 +88,7 @@
   padding: 6px 9px;
   min-height: 32px;
   height: auto;
+  z-index: 1;
 
   &__left {
     display: flex;
@@ -113,6 +114,7 @@
 .advanced {
   margin-left: 24px;
   position: relative;
+  z-index: 0;
 
   &::before,
   &::after {
@@ -123,9 +125,9 @@
   }
 
   &::before {
-    height: 16px;
+    height: 100%;
     width: 1px;
-    transform: translateY(-8px);
+    transform: translateY(-50%);
   }
 
   &::after {
