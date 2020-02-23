@@ -152,7 +152,14 @@ const Chart = ({
       plotChart(data)
       plotAxes(chart)
     },
-    [data, scale, events, lastDayPrice, isNightModeEnabled]
+    [
+      data,
+      scale,
+      events,
+      lastDayPrice,
+      isNightModeEnabled,
+      isCartesianGridActive
+    ]
   )
 
   useEffect(
