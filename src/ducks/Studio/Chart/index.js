@@ -5,7 +5,6 @@ import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
 import Chart from '../../SANCharts/Chart'
 import Synchronizer from '../../SANCharts/Chart/Synchronizer'
-import { mapDatetimeToNumber } from '../../SANCharts/utils'
 import styles from './index.module.scss'
 
 const checkHasBoundaries = ({ leftBoundaryDate: a, rightBoundaryDate: b }) =>
@@ -65,7 +64,7 @@ export default ({
           {...options}
           {...settings}
           metrics={activeMetrics}
-          data={mapDatetimeToNumber(data)}
+          data={data}
           chartRef={chartRef}
           scale={isLogScale ? logScale : linearScale}
           isAdvancedView={!!advancedView}

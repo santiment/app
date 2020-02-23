@@ -8,9 +8,9 @@ import StudioHeader from '../SANCharts/Header'
 import { Events } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { generateShareLink, updateHistory } from './url'
-import { useMetricsData } from './Chart/hooks'
+import { useTimeseries } from './timeseries/hooks'
+import { buildAnomalies } from './timeseries/anomalies'
 import { trackMetricState } from './analytics'
-import { buildAnomalies } from './utils'
 import styles from './index.module.scss'
 
 const { trendPositionHistory } = Events
@@ -33,8 +33,8 @@ const Studio = ({
   const [advancedView, setAdvancedView] = useState()
   const [hoveredDate, setHoveredDate] = useState()
   const [shareLink, setShareLink] = useState()
-  const [data, loadings] = useMetricsData(activeMetrics, settings)
-  const [events, eventLoadings] = useMetricsData(activeEvents, settings)
+  const [data, loadings] = useTimeseries(activeMetrics, settings)
+  const [events, eventLoadings] = useTimeseries(activeEvents, settings)
   const chartRef = useRef(null)
 
   useEffect(

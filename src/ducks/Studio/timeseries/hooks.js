@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react'
 import { client } from '../../../index'
-import {
-  getMetricQUERY,
-  getPreTransform
-} from '../../../ducks/GetTimeSeries/timeseries'
-import { MARKET_SEGMENT_QUERY } from '../../../ducks/GetTimeSeries/queries/market_segment_query'
+import { getQuery, getPreTransform } from './fetcher'
+import { normalizeDatetimes } from './utils'
 import { mergeTimeseriesByKey } from '../../../utils/utils'
 
 // NOTE: Polyfill for a PingdomBot 0.8.5 browser (/sentry/sanbase-frontend/issues/29459/) [@vanguard | Feb 6, 2020]
@@ -51,7 +48,7 @@ function abortAllMetrics (abortables) {
   return [...abortables.values()].forEach(cancelQuery)
 }
 
-export const useMetricsData = (metrics, settings) => {
+export const useTimeseries = (metrics, settings) => {
   const [timeseries, setTimeseries] = useState(DEFAULT_TS)
   const [loadings, setLoadings] = useState(DEFAULT_LOADINGS)
   const [ErrorMsg, setErrorMsg] = useState(DEFAULT_ERROR_MSG)
@@ -88,13 +85,7 @@ export const useMetricsData = (metrics, settings) => {
       let mergedData = []
 
       metrics.forEach(metric => {
-        const {
-          key,
-          queryKey = key,
-          transformKey = queryKey,
-          anomalyMetricKey,
-          reqMeta
-        } = metric
+        const { key, reqMeta } = metric
 
         const queryId = client.queryManager.idCounter
         const abortController = new AbortController()
@@ -111,12 +102,9 @@ export const useMetricsData = (metrics, settings) => {
           return [...loadingsSet]
         })
 
-        const isMarketSegment = transformKey === 'marketSegment'
-        const getQUERY = isMarketSegment ? MARKET_SEGMENT_QUERY : getMetricQUERY
-
         client
           .query({
-            query: getQUERY(queryKey),
+            query: getQuery(metric),
             variables: {
               metric: key,
               interval,
@@ -131,15 +119,15 @@ export const useMetricsData = (metrics, settings) => {
               }
             }
           })
-          .then(getPreTransform(transformKey, anomalyMetricKey, key))
-          .then(({ data }) => {
+          .then(getPreTransform(metric))
+          .then(data => {
             if (raceCondition) return
 
             setTimeseries(() => {
               mergedData = mergeTimeseriesByKey({
-                timeseries: [mergedData, data[key]]
+                timeseries: [mergedData, data]
               })
-              return [...mergedData]
+              return mergedData.map(normalizeDatetimes)
             })
           })
           .catch(({ message }) => {

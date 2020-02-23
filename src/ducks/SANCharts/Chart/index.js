@@ -244,17 +244,11 @@ const Chart = ({
     const { colors } = chart
     const RADIUS = 4
 
-    if (key === 'isAnomaly') {
+    if (key === 'isAnomaly' || key.includes('_anomaly')) {
       ctx.beginPath()
       ctx.arc(x + RADIUS, y + 1, RADIUS, 0, 2 * Math.PI)
       ctx.lineWidth = 1.5
       ctx.strokeStyle = COLOR.persimmon
-      ctx.stroke()
-    } else if (key === 'trendingPosition') {
-      ctx.beginPath()
-      ctx.arc(x + RADIUS, y + 1, RADIUS, 0, 2 * Math.PI)
-      ctx.lineWidth = 1.5
-      ctx.strokeStyle = value[1]
       ctx.stroke()
     } else {
       ctx.fillStyle = colors[key]
