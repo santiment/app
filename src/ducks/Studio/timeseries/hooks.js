@@ -124,9 +124,9 @@ export const useTimeseries = (metrics, settings) => {
 
             setTimeseries(() => {
               mergedData = mergeTimeseriesByKey({
-                timeseries: [mergedData, data.map(normalizeDatetimes)]
+                timeseries: [mergedData, data]
               })
-              return [...mergedData]
+              return mergedData.map(normalizeDatetimes)
             })
           })
           .catch(({ message }) => {
