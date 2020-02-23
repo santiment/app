@@ -4,7 +4,7 @@ export const MARKET_SEGMENT_QUERY = name => gql`
   query devActivity(
     $from: DateTime!
     $to: DateTime!
-    $interval: String!
+    $interval: interval!
     $transform: String
     $movingAverageIntervalBase: Int
     $selector: GithubOrganizationsSelector

@@ -113,7 +113,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
       }
 
       syncCategories(categories)
-      syncEvents(prepareEvents(events))
+      syncEvents(events)
       setNoPriceMetrics(noPriceMetrics)
       setHasPriceMetric(hasPriceMetric)
       setIsValidMulti(isValidMulti)

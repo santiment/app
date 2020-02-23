@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react'
 import { client } from '../../../index'
-import {
-  getMetricQUERY,
-  getPreTransform
-} from '../../../ducks/GetTimeSeries/timeseries'
+import { Fetcher, getQuery, getPreTransform } from './fetcher'
 import { MARKET_SEGMENT_QUERY } from '../../../ducks/GetTimeSeries/queries/market_segment_query'
 import { mergeTimeseriesByKey } from '../../../utils/utils'
 
@@ -112,11 +109,15 @@ export const useMetricsData = (metrics, settings) => {
         })
 
         const isMarketSegment = transformKey === 'marketSegment'
-        const getQUERY = isMarketSegment ? MARKET_SEGMENT_QUERY : getMetricQUERY
+        /* const getQUERY = isMarketSegment ? MARKET_SEGMENT_QUERY : getMetricQUERY */
+        const query = isMarketSegment
+          ? MARKET_SEGMENT_QUERY(queryKey)
+          : Fetcher[queryKey].query
 
         client
           .query({
-            query: getQUERY(queryKey),
+            /* query: getQUERY(queryKey), */
+            query: getQuery(metric),
             variables: {
               metric: key,
               interval,
@@ -131,18 +132,21 @@ export const useMetricsData = (metrics, settings) => {
               }
             }
           })
-          .then(getPreTransform(transformKey, anomalyMetricKey, key))
-          .then(({ data }) => {
+          /* .then(getPreTransform(transformKey, anomalyMetricKey, key)) */
+          .then(getPreTransform(metric))
+          .then(data => {
+            console.log(data)
             if (raceCondition) return
 
             setTimeseries(() => {
               mergedData = mergeTimeseriesByKey({
-                timeseries: [mergedData, data[key]]
+                timeseries: [mergedData, data]
               })
               return [...mergedData]
             })
           })
           .catch(({ message }) => {
+            console.log(message)
             if (raceCondition) return
             setErrorMsg(state => {
               state[key] = message

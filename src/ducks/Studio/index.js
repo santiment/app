@@ -8,7 +8,7 @@ import StudioHeader from '../SANCharts/Header'
 import { Events } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { generateShareLink, updateHistory } from './url'
-import { useMetricsData } from './Chart/hooks'
+import { useMetricsData } from './timeseries/hook'
 import { trackMetricState } from './analytics'
 import { buildAnomalies } from './utils'
 import styles from './index.module.scss'
@@ -36,6 +36,8 @@ const Studio = ({
   const [data, loadings] = useMetricsData(activeMetrics, settings)
   const [events, eventLoadings] = useMetricsData(activeEvents, settings)
   const chartRef = useRef(null)
+
+  console.log({ events, data })
 
   useEffect(
     () => {
