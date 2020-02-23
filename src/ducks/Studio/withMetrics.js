@@ -26,8 +26,6 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
     },
     ownProps: { hiddenMetrics = [] }
   }) => {
-    const Timebound = getTimeboundMetrics(availableMetrics)
-
     const categories = getCategoryGraph(
       availableQueries
         .concat(availableMetrics)
@@ -38,7 +36,7 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
     return {
       loading,
       categories,
-      Timebound
+      Timebound: getTimeboundMetrics(availableMetrics)
     }
   },
   skip: ({ slug }) => !slug,

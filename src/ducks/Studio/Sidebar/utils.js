@@ -70,7 +70,7 @@ export const getCategoryGraph = (availableMetrics, hiddenMetrics) => {
 const TimeboundMetricCache = new Map()
 
 export function getTimeboundMetrics (metrics) {
-  const Timebound = {}
+  const Timebound = Object.create(null)
 
   metrics.forEach(timeboundKey => {
     const lastIndex = timeboundKey.lastIndexOf('_')
