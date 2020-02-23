@@ -32,7 +32,8 @@ const Group = ({
   actives,
   advancedView,
   toggleMetric,
-  toggleAdvancedView
+  toggleAdvancedView,
+  Timebound
 }) => {
   return (
     <>
@@ -41,6 +42,8 @@ const Group = ({
         if (metric.hidden) {
           return null
         }
+
+        const timebounds = Timebound[metric.key]
 
         return (
           <Fragment key={metric.key}>
@@ -58,6 +61,16 @@ const Group = ({
                 onClick={() => toggleAdvancedView(metric.advancedView)}
               />
             )}
+            {timebounds &&
+              timebounds.map(timeboundMetric => (
+                <MetricButton
+                  key={timeboundMetric.key}
+                  className={styles.advanced}
+                  label={timeboundMetric.label}
+                  isActive={actives.includes(timeboundMetric)}
+                  onClick={() => toggleMetric(timeboundMetric)}
+                />
+              ))}
           </Fragment>
         )
       })}

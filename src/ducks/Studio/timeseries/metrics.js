@@ -16,6 +16,7 @@ export const GET_METRIC = metric => gql`
   }
 `
 
+// Available metrics could be fetched via "getAvailableMetrics" query
 export const METRICS = [
   'age_distribution',
   'price_usd',
