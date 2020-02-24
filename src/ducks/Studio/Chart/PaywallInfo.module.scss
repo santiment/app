@@ -43,4 +43,9 @@
 
 .upgrade {
   justify-content: center;
+
+  &_trial {
+    margin-left: 8px;
+    height: 32px;
+  }
 }
