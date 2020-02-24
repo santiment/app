@@ -118,6 +118,7 @@ export const Metrics = {
     group: 'Token Flows/Movement/Activity',
     label: 'Token Age Consumed',
     shortLabel: 'Token Age Cons.',
+    abbreviation: 'tac',
     fill: true,
     video: 'https://www.youtube.com/watch?v=NZFtYT5QzS4',
     description: `
@@ -132,6 +133,7 @@ export const Metrics = {
     group: 'Exchange Flow',
     label: 'Exchange Flow Balance',
     shortLabel: 'Exc. Flow Bal.',
+    abbreviation: 'efb',
     video: 'https://www.youtube.com/watch?v=0R6GDF2bg6A',
     description: `The flows of tokens going in to and out of exchange wallets combined on one graph.
           If the value is positive, more tokens entered the exchange than left.
@@ -146,6 +148,7 @@ export const Metrics = {
     label: 'Daily Active Addresses',
     shortLabel: 'Daily A.A.',
     anomalyKey: 'DAILY_ACTIVE_ADDRESSES',
+    abbreviation: 'daa',
     video: 'https://www.youtube.com/watch?v=n3dUvWvQEpQ',
     description: (
       <>
@@ -187,13 +190,14 @@ export const Metrics = {
     // inExchanges outsideExchanges inTopHoldersTotal
     dataKey: 'inTopHoldersTotal'
   },
-  circulation_1d: {
+  circulation: {
     category: 'On-chain',
     node: 'line',
     Component: Line,
     group: 'Token Flows/Movement/Activity',
     label: 'Token Circulation',
     shortLabel: 'Token Circ.',
+    abbreviation: 'tc',
     description: `
           Shows the number of unique tokens being used during each day.
           If one token changes hands 5 times on a given day,
@@ -208,6 +212,7 @@ export const Metrics = {
     group: 'Network value',
     label: 'Market Value To Realized Value',
     shortLabel: 'MVRV',
+    abbreviation: 'mvrv',
     video: 'https://www.youtube.com/watch?v=foMhhHbCgBE',
     description: (
       <>
@@ -233,6 +238,7 @@ export const Metrics = {
     Component: Bar,
     group: 'Token Flows/Movement/Activity',
     label: 'Transaction Volume',
+    abbreviation: 'trv',
     shortLabel: 'Trans. Vol.',
     description: `
     Shows the aggregate amount of tokens across all transactions that
@@ -275,6 +281,7 @@ export const Metrics = {
     group: 'Token Flows/Movement/Activity',
     label: 'Token Velocity',
     shortLabel: 'Token Vel.',
+    abbreviation: 'tv',
     description: `
           Shows the average number of times that a token changes wallets each
           day.
@@ -347,6 +354,7 @@ export const Metrics = {
     Component: Line,
     label: 'Mean Dollar Invested Age',
     shortLabel: 'Mean D.I.A.',
+    abbreviation: 'mdia',
     description: (
       <>
         For each coin we see how long it has stayed at its current address and
@@ -409,7 +417,7 @@ export const compatabilityMap = {
   volume: Metrics.volume_usd,
   marketcap: Metrics.marketcap_usd,
   dailyActiveAddresses: Metrics.daily_active_addresses,
-  tokenCirculation: Metrics.circulation_1d,
+  tokenCirculation: Metrics.circulation,
   mvrvRatio: Metrics.mvrv_usd,
   transactionVolume: Metrics.transaction_volume,
   tokenVelocity: Metrics.velocity,

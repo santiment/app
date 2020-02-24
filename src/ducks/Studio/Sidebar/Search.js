@@ -3,7 +3,15 @@ import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 
 const predicate = searchTerm => {
   const upperCaseSearchTerm = searchTerm.toUpperCase()
-  return ({ label }) => label.toUpperCase().includes(upperCaseSearchTerm)
+  return ({ label, abbreviation }) => {
+    if (
+      abbreviation &&
+      abbreviation.toUpperCase().includes(upperCaseSearchTerm)
+    ) {
+      return true
+    }
+    return label.toUpperCase().includes(upperCaseSearchTerm)
+  }
 }
 
 const suggestionContent = ({ label }) => label

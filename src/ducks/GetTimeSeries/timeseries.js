@@ -92,7 +92,7 @@ const TIMESERIES = {
     preTransform: getMetricPreTransform
   },
   circulation_1d: {
-    query: GET_METRIC('circulation_1d'),
+    query: GET_METRIC('circulation'),
     preTransform: getMetricPreTransform
   },
   mvrv_usd: {
