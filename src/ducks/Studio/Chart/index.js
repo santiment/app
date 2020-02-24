@@ -7,9 +7,6 @@ import Chart from '../../SANCharts/Chart'
 import Synchronizer from '../../SANCharts/Chart/Synchronizer'
 import styles from './index.module.scss'
 
-const checkHasBoundaries = ({ leftBoundaryDate: a, rightBoundaryDate: b }) =>
-  a || b
-
 export default ({
   chartRef,
   settings,
@@ -51,7 +48,7 @@ export default ({
           >
             Feedback
           </Button>
-          {checkHasBoundaries(boundaries) && <ChartPaywallInfo />}
+          <ChartPaywallInfo boundaries={boundaries} />
         </div>
       </div>
 
