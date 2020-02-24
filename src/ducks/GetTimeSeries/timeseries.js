@@ -91,7 +91,7 @@ const TIMESERIES = {
     query: GET_METRIC('daily_active_addresses'),
     preTransform: getMetricPreTransform
   },
-  circulation_1d: {
+  circulation: {
     query: GET_METRIC('circulation'),
     preTransform: getMetricPreTransform
   },
