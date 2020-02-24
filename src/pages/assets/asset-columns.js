@@ -309,7 +309,7 @@ export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.token_circulation]: {
     show: false,
     selectable: false,
-    description: Metrics.circulation_1d.description
+    description: Metrics.circulation.description
   },
   [COLUMNS_NAMES.infrastructure]: { show: true, selectable: false },
   [COLUMNS_NAMES.devActivity7]: { show: true, selectable: false },
