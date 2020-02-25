@@ -54,11 +54,12 @@ export default ({
   activeEvents,
   loadings,
   toggleMetric,
-  eventLoadings
+  eventLoadings,
+  isMultiChartsActive
 }) => {
   const actives = activeMetrics.concat(activeEvents)
   const colors = getSyncedColors(actives)
-  const isMoreThanOneMetric = activeMetrics.length > 1
+  const isMoreThanOneMetric = activeMetrics.length > 1 || isMultiChartsActive
 
   return (
     <>

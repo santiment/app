@@ -69,5 +69,17 @@ export default ({ settings, options, setOptions, setSettings, ...rest }) => {
       onCalendarChange={onCalendarChange}
       onCartesianGridChange={toggleCartesianGrid}
     />
+    /*
+       <Button
+       border
+       as='a'
+       accent='positive'
+       href='https://forms.gle/Suz8FVDsKtFiKhBs9'
+       target='_blank'
+       rel='noopener noreferrer'
+       >
+       Feedback
+       </Button>
+     */
   )
 }

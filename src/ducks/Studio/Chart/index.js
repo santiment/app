@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from '@santiment-network/ui/Button'
+import cx from 'classnames'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
@@ -7,67 +7,69 @@ import Chart from '../../SANCharts/Chart'
 import Synchronizer from '../../SANCharts/Chart/Synchronizer'
 import styles from './index.module.scss'
 
-export default ({
+const Canvas = ({
+  className,
   chartRef,
   settings,
   options,
-  data,
   loadings,
-  events,
   eventLoadings,
-  activeMetrics,
+  metrics,
   activeEvents,
   boundaries,
   advancedView,
   toggleMetric,
-  changeHoveredDate
+  changeHoveredDate,
+  isMultiChartsActive,
+  ...props
 }) => {
-  const { isLogScale, isMultiChartsActive } = options
-
   return (
-    <>
+    <div className={cx(styles.wrapper, className)}>
       <div className={styles.top}>
         <div className={styles.metrics}>
           <ChartActiveMetrics
-            activeMetrics={activeMetrics}
+            activeMetrics={metrics}
             activeEvents={activeEvents}
             toggleMetric={toggleMetric}
             loadings={loadings}
             eventLoadings={eventLoadings}
+            isMultiChartsActive={isMultiChartsActive}
           />
         </div>
 
         <div className={styles.meta}>
-          <Button
-            border
-            as='a'
-            accent='positive'
-            href='https://forms.gle/Suz8FVDsKtFiKhBs9'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            Feedback
-          </Button>
           <ChartPaywallInfo boundaries={boundaries} />
         </div>
       </div>
 
-      <Synchronizer
+      <Chart
+        {...options}
+        {...settings}
+        {...props}
         isMultiChartsActive={isMultiChartsActive}
-        metrics={activeMetrics}
+        metrics={metrics}
+        chartRef={chartRef}
+        scale={options.isLogScale ? logScale : linearScale}
+        isAdvancedView={!!advancedView}
+        onPointHover={advancedView ? changeHoveredDate : undefined}
+      />
+    </div>
+  )
+}
+
+export default ({ options, events, activeMetrics, ...rest }) => {
+  return (
+    <Synchronizer
+      isMultiChartsActive={options.isMultiChartsActive}
+      metrics={activeMetrics}
+      events={events}
+    >
+      <Canvas
+        options={options}
         events={events}
-      >
-        <Chart
-          {...options}
-          {...settings}
-          metrics={activeMetrics}
-          data={data}
-          chartRef={chartRef}
-          scale={isLogScale ? logScale : linearScale}
-          isAdvancedView={!!advancedView}
-          onPointHover={advancedView ? changeHoveredDate : undefined}
-        />
-      </Synchronizer>
-    </>
+        activeMetrics={activeMetrics}
+        {...rest}
+      />
+    </Synchronizer>
   )
 }
