@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import cx from 'classnames'
 import TrendsTable from '../TrendsTable'
-import { dateDifferenceInWords, HOUR } from '../../../../utils/dates'
-import styles from './TrendsTables.module.scss'
 import PageLoader from '../../../Loader/PageLoader'
+import styles from './TrendsTables.module.scss'
 
 const TABS = [
   {
@@ -41,7 +40,7 @@ const TrendsTablesMobile = ({
 
   const [index, setIndex] = useState(0)
 
-  const { datetime, topWords } = trends[index]
+  const { topWords } = trends[index]
 
   console.log(trendConnections)
 
@@ -51,13 +50,12 @@ const TrendsTablesMobile = ({
         <div className={styles.tabs}>
           {TABS.map(({ title, showIndex, description }) => {
             return (
-              <div className={styles.tab} key={showIndex}>
-                <div
-                  className={cx(index === showIndex && styles.active)}
-                  onClick={() => setIndex(showIndex)}
-                >
-                  {title}
-                </div>
+              <div
+                key={showIndex}
+                className={cx(styles.tab, index === showIndex && styles.active)}
+                onClick={() => setIndex(showIndex)}
+              >
+                {title}
               </div>
             )
           })}
@@ -65,10 +63,6 @@ const TrendsTablesMobile = ({
       </div>
       <div className={styles.container}>
         <TrendsTable
-          header={dateDifferenceInWords({
-            from: new Date(datetime),
-            format: HOUR
-          })}
           selectable={selectable}
           className={styles.table}
           trendWords={topWords}

@@ -20,10 +20,9 @@ import WordCloud from '../../../components/WordCloud/WordCloud'
 import InsightCardSmall from '../../../components/Insight/InsightCardSmall'
 import ExplanationTooltip from '../../../components/ExplanationTooltip/ExplanationTooltip'
 import ConditionalWrapper from './ConditionalWrapper'
-import styles from './TrendsTable.module.scss'
 import withSizes from 'react-sizes'
 import { mapSizesToProps } from '../../../utils/withSizes'
-import { isDesktop } from 'react-sizes/src/presets'
+import styles from './TrendsTable.module.scss'
 
 const MOBILE_COLUMNS = [
   {
@@ -263,7 +262,11 @@ class TrendsTable extends PureComponent {
         score: parseInt(score, 10),
         volume: (
           <>
-            {newVolume} <ValueChange change={newVolume - oldVolume} />
+            <div className={styles.volume}>{newVolume}</div>{' '}
+            <ValueChange
+              change={newVolume - oldVolume}
+              className={styles.valueChange}
+            />
           </>
         )
       }
