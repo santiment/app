@@ -26,6 +26,7 @@ import {
 } from './../../utils/utils'
 import { addRecentTrends } from '../../utils/recent'
 import styles from './TrendsExplorePage.module.scss'
+import { DesktopOnly } from '../../components/Responsive'
 
 const getCustomInterval = timeframe => {
   if (timeframe === '1w') {
@@ -54,6 +55,17 @@ const getPriceOptions = asset => {
   }
 
   return [[...options, slug], [...labels, `${ticker}/USD`]]
+}
+
+const ShareTrends = ({ topic }) => {
+  return (
+    <ShareModalTrigger
+      className={styles.shareBtn}
+      shareTitle='Santiment'
+      shareText={`Crypto Social Trends for "${topic}"`}
+      shareLink={window.location.href}
+    />
+  )
 }
 
 export class TrendsExplorePage extends Component {
@@ -138,11 +150,14 @@ export class TrendsExplorePage extends Component {
             )}
           </div>
           <div className={styles.settingsRight}>
-            <Selector
-              options={['1w', '1m', '3m', '6m']}
-              onSelectOption={this.handleSelectTimeRange}
-              defaultSelected={timeRange}
-            />
+            <div className={styles.selector}>
+              <Selector
+                options={['1w', '1m', '3m', '6m']}
+                onSelectOption={this.handleSelectTimeRange}
+                defaultSelected={timeRange}
+              />
+              <ShareTrends topic={topic} />
+            </div>
             <Panel className={styles.pricePair}>
               <Selector
                 options={priceOptions}
@@ -151,12 +166,9 @@ export class TrendsExplorePage extends Component {
                 defaultSelected={asset}
               />
             </Panel>
-            <ShareModalTrigger
-              className={styles.shareBtn}
-              shareTitle='Santiment'
-              shareText={`Crypto Social Trends for "${topic}"`}
-              shareLink={window.location.href}
-            />
+            <DesktopOnly>
+              <ShareTrends topic={topic} />
+            </DesktopOnly>
           </div>
         </div>
         {topic === 'IEO OR IEOs OR launchpad' && (

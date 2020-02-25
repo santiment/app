@@ -102,8 +102,16 @@
 
 .shareBtn {
   @include responsive('phone-xs', 'phone') {
-    display: block;
-    margin-top: 10px;
-    width: 100%;
+    display: flex;
+    margin-left: auto;
+
+    svg {
+      fill: var(--mirage) !important;
+    }
   }
+}
+
+.selector {
+  display: flex;
+  align-items: center;
 }

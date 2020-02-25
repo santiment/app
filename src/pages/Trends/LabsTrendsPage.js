@@ -2,14 +2,24 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import InsightsTrends from '../../components/Insight/InsightsTrends'
-import Devider from '../../components/Navbar/DropdownDevider'
 import TrendsSearch from '../../components/Trends/TrendsSearch'
 import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
 import HelpPopup from '../../components/Trends/HelpPopup/HelpPopup'
+import { DesktopOnly, MobileOnly } from '../../components/Responsive'
+import MobileHeader from '../../components/MobileHeader/MobileHeader'
 import styles from './LabsTrendsPage.module.scss'
 
-const LabsTrendsPage = () => (
-  <div className={styles.wrapper + ' page'}>
+const TrendsHeader = () => {
+  return (
+    <div className={styles.titleWrapper}>
+      <div className={styles.title}>Social Trends</div>
+      <HelpPopup />
+    </div>
+  )
+}
+
+const LabsTrendsPage = ({ history }) => (
+  <div className={styles.trendsWrapper + ' page'}>
     <Helmet>
       <title>Today’s Top Social Gainers in Crypto - Sanbase</title>
       <meta
@@ -21,10 +31,19 @@ const LabsTrendsPage = () => (
         content='Top 10 words with the biggest spike on crypto social media (compared to their previous 2-week average). These are the biggest developing stories in crypto.'
       />
     </Helmet>
-    <div className={styles.titleWrapper}>
-      <h1 className={styles.title}>Emerging Trends</h1>
-      <HelpPopup />
+
+    <div className={styles.header}>
+      <DesktopOnly>
+        <TrendsHeader />
+      </DesktopOnly>
+
+      <MobileOnly>
+        <MobileHeader showBack={true} goBack={history.goBack} classes={styles}>
+          <TrendsHeader />
+        </MobileHeader>
+      </MobileOnly>
     </div>
+
     <TrendsSearch
       classes={{
         wrapper: styles.search,
@@ -37,7 +56,6 @@ const LabsTrendsPage = () => (
         <TrendsTables trends={items} isLoading={isLoading} />
       )}
     />
-    <Devider style={{ margin: '40px 0' }} />
     <InsightsTrends className={styles.insights} />
   </div>
 )

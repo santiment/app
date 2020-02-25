@@ -79,6 +79,7 @@ class TrendsTables extends PureComponent {
 
     const { length } = trends
 
+    console.log(trends)
     return (
       <div className={styles.tables}>
         {length > 1 &&

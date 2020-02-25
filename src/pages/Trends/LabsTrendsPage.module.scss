@@ -1,6 +1,10 @@
 @import '~@santiment-network/ui/mixins';
 
-.wrapper {
+.insights {
+  margin-top: 40px;
+}
+
+.trendsWrapper {
   width: 100%;
   margin-bottom: 2rem;
 
@@ -19,6 +23,12 @@
   text-align: center;
   margin-bottom: 30px;
   color: var(--mirage);
+
+  @include text('h3');
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('h4');
+  }
 }
 
 .search {
@@ -37,4 +47,20 @@
 .icon {
   margin-right: 8px;
   margin-top: -1px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 0;
+    padding: 0;
+    fill: var(--rhino);
+  }
+}
+
+.header {
+  display: flex;
+}
+
+.back {
+  @include responsive('phone', 'phone-xs') {
+    padding-left: 0;
+  }
 }

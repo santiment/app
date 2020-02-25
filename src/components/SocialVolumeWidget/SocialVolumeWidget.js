@@ -27,7 +27,7 @@ export class SocialVolumeWidget extends React.Component {
       <WidgetTrend
         className={styles.wrapper}
         trendWord={word}
-        description='social volume score'
+        description='social value & score'
         isLoading={isLoading}
         error={error}
         hasData={data.length > 0}

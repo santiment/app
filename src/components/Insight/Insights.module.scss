@@ -5,7 +5,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .controls {
@@ -17,7 +17,11 @@
 
   line-height: 20px;
   font-size: 22px;
-  color: var(--black);
+  color: var(--mirage);
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-1');
+  }
 }
 
 .count {

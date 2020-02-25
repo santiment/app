@@ -46,7 +46,7 @@ export const WordCloud = ({
       trendWord={searchWord}
       description={
         <>
-          <span className={styles.heading}>social context</span>
+          <span className={styles.heading}>top connected words</span>
           <HelpPopupWordCloud />
         </>
       }
