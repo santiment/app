@@ -43,14 +43,16 @@ const MobileHeader = ({
         {(backRoute || showBack) && (
           <Icon className={classes.icon} type='arrow-left-big' />
         )}
-        <h1
-          className={cx(
-            classes.title,
-            (backRoute || showBack) && classes.isTitleLink
-          )}
-        >
-          {title}
-        </h1>
+        {title && (
+          <h1
+            className={cx(
+              classes.title,
+              (backRoute || showBack) && classes.isTitleLink
+            )}
+          >
+            {title}
+          </h1>
+        )}
       </Title>
       {children}
       <div className={classes.right}>
@@ -64,7 +66,7 @@ const MobileHeader = ({
 }
 
 MobileHeader.propTypes = {
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   backRoute: PropTypes.string,
   rightActions: PropTypes.node,
   goBack: PropTypes.func

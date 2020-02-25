@@ -3,10 +3,10 @@ import { Helmet } from 'react-helmet'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import InsightsTrends from '../../components/Insight/InsightsTrends'
 import TrendsSearch from '../../components/Trends/TrendsSearch'
-import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
 import HelpPopup from '../../components/Trends/HelpPopup/HelpPopup'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
+import TrendsTablesWrapper from '../../components/Trends/TrendsTable/Tables/TrendsTablesWrapper'
 import styles from './LabsTrendsPage.module.scss'
 
 const TrendsHeader = () => {
@@ -51,11 +51,15 @@ const LabsTrendsPage = ({ history }) => (
         input: styles.search__input
       }}
     />
+
     <GetHypedTrends
       render={({ isLoading, items }) => (
-        <TrendsTables trends={items} isLoading={isLoading} />
+        <>
+          <TrendsTablesWrapper trends={items} isLoading={isLoading} />
+        </>
       )}
     />
+
     <InsightsTrends className={styles.insights} />
   </div>
 )
