@@ -58,7 +58,6 @@ export default ({ settings, options, setOptions, setSettings, ...rest }) => {
 
   return (
     <Settings
-      {...rest}
       {...options}
       {...settings}
       isFullscreenAvailable={false}
@@ -68,6 +67,19 @@ export default ({ settings, options, setOptions, setSettings, ...rest }) => {
       onTimerangeChange={onTimerangeChange}
       onCalendarChange={onCalendarChange}
       onCartesianGridChange={toggleCartesianGrid}
+      {...rest}
     />
+    /*
+       <Button
+       border
+       as='a'
+       accent='positive'
+       href='https://forms.gle/Suz8FVDsKtFiKhBs9'
+       target='_blank'
+       rel='noopener noreferrer'
+       >
+       Feedback
+       </Button>
+     */
   )
 }

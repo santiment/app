@@ -131,7 +131,7 @@ const Studio = ({
           onSlugSelect={onProjectSelect}
         />
       </div>
-      <div className={cx(styles.container, styles.chart)}>
+      <div className={cx(styles.container, styles.content)}>
         <StudioSettings
           chartRef={chartRef}
           settings={settings}
@@ -145,9 +145,10 @@ const Studio = ({
           setSettings={setSettings}
         />
         <div className={styles.data}>
-          <div className={styles.canvas}>
+          <div className={styles.chart}>
             <StudioChart
               {...props}
+              className={styles.canvas}
               chartRef={chartRef}
               settings={settings}
               options={options}

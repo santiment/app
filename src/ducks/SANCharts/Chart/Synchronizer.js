@@ -12,7 +12,8 @@ function metricsToPlotCategories (metrics) {
     daybars: [],
     bars: [],
     joinedCategories: [],
-    areas: []
+    areas: [],
+    metrics
   }
   const joinedCategories = requestedData.joinedCategories
 
@@ -138,6 +139,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
 
       return React.cloneElement(children, {
         key: metric.key,
+        index: i,
         isMultiChartsActive,
         syncedTooltipDate,
         syncedColors,

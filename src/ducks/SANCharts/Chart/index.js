@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
+import cx from 'classnames'
 import COLOR from '@santiment-network/ui/variables.scss'
 import { initChart, updateChartState } from '@santiment-network/chart'
 import { initTooltip } from '@santiment-network/chart/tooltip'
@@ -28,6 +29,7 @@ import { paintConfigs, dayBrushPaintConfig } from './paintConfigs'
 import styles from './index.module.scss'
 
 const Chart = ({
+  className,
   chartRef,
   data,
   lines,
@@ -85,7 +87,9 @@ const Chart = ({
     }
 
     setChart(chart)
-    chartRef.current = canvas
+    if (chartRef) {
+      chartRef.current = canvas
+    }
 
     setupTooltip(chart, marker, syncTooltips)
   }, [])
@@ -264,7 +268,7 @@ const Chart = ({
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, className)}>
       <canvas ref={canvasRef} />
       {hasPriceMetric && (
         <Signals chart={chart} data={data} slug={slug} scale={scale} />

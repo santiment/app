@@ -22,16 +22,19 @@ const ChartSettings = ({
   isFullscreenAvailable = true,
   onTimerangeChange,
   onCalendarChange,
+  noTitle,
   ...rest
 }) => {
   const notAdvancedView = !isAdvancedView
   return (
     <div className={styles.settings}>
       <div className={styles.settings__group}>
-        <div className={styles.settings__slugBlock}>
-          <div className={styles.settings__studio}>Studio</div>
-          <div className={styles.settings__slug}>{title}</div>
-        </div>
+        {noTitle || (
+          <div className={styles.settings__slugBlock}>
+            <div className={styles.settings__studio}>Studio</div>
+            <div className={styles.settings__slug}>{title}</div>
+          </div>
+        )}
       </div>
       <div className={cx(styles.settings__group, styles.settings__main)}>
         <Selector
