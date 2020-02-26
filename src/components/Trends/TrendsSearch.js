@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
-import styles from './TrendsSearch.module.scss'
 import TrendsExploreSearch from './Explore/TrendsExploreSearch'
 import { DesktopOnly } from '../Responsive'
+import styles from './TrendsSearch.module.scss'
 
 const SAMPLES = [
   {

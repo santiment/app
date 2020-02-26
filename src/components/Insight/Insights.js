@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Selector } from '@santiment-network/ui'
 import InsightAddBtn from './InsightAddBtn'
 import InsightsWrap from './InsightsWrap'
-import styles from './Insights.module.scss'
 import { DesktopOnly } from '../Responsive'
+import styles from './Insights.module.scss'
 
 const View = {
   RECENT: 'Recent',
