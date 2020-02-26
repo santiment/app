@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { compose } from 'redux'
 import Table from 'react-table'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
@@ -19,27 +20,33 @@ import WordCloud from '../../../components/WordCloud/WordCloud'
 import InsightCardSmall from '../../../components/Insight/InsightCardSmall'
 import ExplanationTooltip from '../../../components/ExplanationTooltip/ExplanationTooltip'
 import ConditionalWrapper from './ConditionalWrapper'
+import withSizes from 'react-sizes'
+import { mapSizesToProps } from '../../../utils/withSizes'
 import styles from './TrendsTable.module.scss'
 
-const columns = [
+const MOBILE_COLUMNS = [
   {
-    Header: '#',
-    accessor: 'index',
-    width: 35,
-    headerClassName: styles.headerIndex
-  },
-  {
-    Header: 'Word',
+    Header: 'Trending words',
     accessor: 'word'
   },
   {
-    Header: 'Hype score',
+    Header: 'Trending score',
     accessor: 'score'
   },
   {
     Header: 'Social volume',
     accessor: 'volume'
   }
+]
+
+const DESKTOP_COLUMNS = [
+  {
+    Header: '#',
+    accessor: 'index',
+    width: 35,
+    headerClassName: styles.headerIndex
+  },
+  ...MOBILE_COLUMNS
 ]
 
 const NumberCircle = ({ className, ...props }) => (
@@ -212,7 +219,8 @@ class TrendsTable extends PureComponent {
       username,
       selectTrend,
       selectedTrends,
-      trendConnections
+      trendConnections,
+      isDesktop
     } = this.props
 
     const tableData = trendWords.map(({ word, score }, index) => {
@@ -254,11 +262,17 @@ class TrendsTable extends PureComponent {
         score: parseInt(score, 10),
         volume: (
           <>
-            {newVolume} <ValueChange change={newVolume - oldVolume} />
+            <div className={styles.volume}>{newVolume}</div>{' '}
+            <ValueChange
+              change={newVolume - oldVolume}
+              className={styles.valueChange}
+            />
           </>
         )
       }
     })
+
+    const baseColumns = isDesktop ? DESKTOP_COLUMNS : MOBILE_COLUMNS
 
     return (
       <PanelWithHeader
@@ -274,10 +288,10 @@ class TrendsTable extends PureComponent {
           data={tableData}
           columns={
             small
-              ? columns.slice(0, 2)
+              ? baseColumns.slice(0, 2)
               : hasActions
-                ? columns.concat(this.getActionButtons())
-                : columns
+                ? baseColumns.concat(this.getActionButtons())
+                : baseColumns
           }
           showPagination={false}
           defaultPageSize={10}
@@ -300,4 +314,7 @@ const mapStateToProps = ({
   username
 })
 
-export default connect(mapStateToProps)(TrendsTable)
+export default compose(
+  connect(mapStateToProps),
+  withSizes(mapSizesToProps)
+)(TrendsTable)

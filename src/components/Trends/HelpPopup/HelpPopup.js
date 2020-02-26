@@ -3,6 +3,7 @@ import Dialog from '@santiment-network/ui/Dialog'
 import Icon from '@santiment-network/ui/Icon'
 import HelpPopupContent from './HelpPopupContent'
 import styles from './HelpPopup.module.scss'
+import { DesktopOnly } from '../../Responsive'
 
 const HelpPopup = () => (
   <Dialog
@@ -12,7 +13,9 @@ const HelpPopup = () => (
     trigger={
       <div className={styles.trigger}>
         <Icon type='question-round-small' className={styles.description} />
-        <span>How to use</span>
+        <DesktopOnly>
+          <span>How to use</span>
+        </DesktopOnly>
       </div>
     }
   >

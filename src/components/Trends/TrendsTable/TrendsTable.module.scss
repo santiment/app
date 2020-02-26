@@ -1,3 +1,18 @@
+@import '~@santiment-network/ui/mixins';
+
+.checkbox {
+  display: none;
+  vertical-align: middle;
+
+  &_active {
+    display: inline-flex;
+
+    & + .index {
+      display: none;
+    }
+  }
+}
+
 .header {
   padding: 13px 23px;
 
@@ -9,7 +24,12 @@
 
 .word {
   color: var(--mirage);
-  font-size: 14px !important;
+
+  @include text('body-3');
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+  }
 }
 
 .connected {
@@ -60,17 +80,37 @@
       border-bottom: 1px solid var(--porcelain);
       padding: 0 23px;
       background: var(--athens);
+
+      @include responsive('phone', 'phone-xs') {
+        background: var(--white);
+        padding: 0 16px;
+        margin-top: 24px;
+      }
     }
 
     .rt-th {
+      @include text('caption');
+
       background: var(--athens);
       text-align: left !important;
       text-transform: initial;
-      font-family: 'Rubik';
       color: var(--casper);
-      font-size: 12px;
       line-height: 18px;
       padding: 7px 0 !important;
+
+      @include responsive('phone', 'phone-xs') {
+        background: var(--white);
+        justify-content: flex-end;
+
+        @include text('body-3');
+
+        padding: 0;
+        display: flex;
+
+        &:first-child {
+          justify-content: flex-start;
+        }
+      }
     }
 
     .rt-tr-group {
@@ -95,11 +135,39 @@
           }
         }
       }
+
+      @include responsive('phone', 'phone-xs') {
+        padding: 0;
+        height: 47px;
+
+        @include text('body-2');
+
+        &:last-child {
+          border-bottom: 1px solid var(--porcelain);
+        }
+      }
+    }
+
+    .rt-tbody {
+      @include responsive('phone', 'phone-xs') {
+        padding: 0 16px;
+      }
     }
 
     .rt-td {
       padding: 0;
       border: none !important;
+      display: flex;
+      align-items: center;
+
+      @include responsive('phone', 'phone-xs') {
+        line-height: initial !important;
+        justify-content: flex-end;
+
+        &:first-child {
+          justify-content: flex-start;
+        }
+      }
     }
 
     .rt-tr {
@@ -110,6 +178,20 @@
       background: initial !important;
       transition: initial;
     }
+  }
+}
+
+.volume {
+  @include responsive('phone', 'phone-xs') {
+    margin: 0 16px;
+  }
+}
+
+.valueChange {
+  margin-left: 8px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-left: auto;
   }
 }
 
@@ -159,19 +241,6 @@
 
   &:last-child {
     border-bottom: none;
-  }
-}
-
-.checkbox {
-  display: none;
-  vertical-align: middle;
-
-  &_active {
-    display: inline-flex;
-
-    & + .index {
-      display: none;
-    }
   }
 }
 

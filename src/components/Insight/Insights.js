@@ -3,6 +3,7 @@ import { Selector } from '@santiment-network/ui'
 import InsightAddBtn from './InsightAddBtn'
 import InsightsWrap from './InsightsWrap'
 import styles from './Insights.module.scss'
+import { DesktopOnly } from '../Responsive'
 
 const View = {
   RECENT: 'Recent',
@@ -50,17 +51,19 @@ class Insights extends Component {
             {title}
             <span className={styles.count}> ({length})</span>
           </div>
-          <div className={styles.controls}>
-            {length > 0 && (
-              <Selector
-                className={styles.selectors}
-                options={[View.RECENT, View.POPULAR]}
-                onSelectOption={this.onViewSelect}
-                defaultSelected={View.RECENT}
-              />
-            )}
-            <InsightAddBtn />
-          </div>
+          <DesktopOnly>
+            <div className={styles.controls}>
+              {length > 0 && (
+                <Selector
+                  className={styles.selectors}
+                  options={[View.RECENT, View.POPULAR]}
+                  onSelectOption={this.onViewSelect}
+                  defaultSelected={View.RECENT}
+                />
+              )}
+              <InsightAddBtn />
+            </div>
+          </DesktopOnly>
         </div>
         <InsightsWrap
           withAuthorPic={true}

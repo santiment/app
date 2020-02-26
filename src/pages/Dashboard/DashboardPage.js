@@ -1,6 +1,6 @@
 import React from 'react'
 import GetHypedTrends from './../../components/Trends/GetHypedTrends'
-import TrendsTables from '../../components/Trends/TrendsTable/TrendsTables'
+import TrendsTables from '../../components/Trends/TrendsTable/Tables/TrendsTablesDesktop'
 import HelpPopup from '../../components/Trends/HelpPopup/HelpPopup'
 import FeaturedWatchlists from '../../components/Watchlists/FeaturedWatchlist'
 import DashboardPageSubscription from './DashboardPageSubscription'
