@@ -1,12 +1,11 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import GetHypedTrends from './../../components/Trends/GetHypedTrends'
 import InsightsTrends from '../../components/Insight/InsightsTrends'
 import TrendsSearch from '../../components/Trends/TrendsSearch'
 import HelpPopup from '../../components/Trends/HelpPopup/HelpPopup'
 import { DesktopOnly, MobileOnly } from '../../components/Responsive'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
-import TrendsTablesWrapper from '../../components/Trends/TrendsTable/Tables/TrendsTablesWrapper'
+import Trends from '../../components/Trends/Trends'
 import styles from './LabsTrendsPage.module.scss'
 
 const TrendsHeader = () => {
@@ -52,13 +51,7 @@ const LabsTrendsPage = ({ history }) => (
       }}
     />
 
-    <GetHypedTrends
-      render={({ isLoading, items }) => (
-        <>
-          <TrendsTablesWrapper trends={items} isLoading={isLoading} />
-        </>
-      )}
-    />
+    <Trends />
 
     <InsightsTrends className={styles.insights} />
   </div>

@@ -6,6 +6,9 @@ import WidgetTrend from '../Widget/WidgetTrend'
 import { WORD_CLOUD_QUERY } from './wordCloudGQL.js'
 import { getTimeIntervalFromToday } from '../../utils/dates'
 import styles from './WordCloud.module.scss'
+import { formatNumber } from '../../utils/formatting'
+
+const BIG_LIMIT = 3
 
 const WORD_BIG = {
   color: 'var(--dodger-blue)',
@@ -23,7 +26,7 @@ const WORD_SMALL = {
 }
 
 const getWordStyles = index => {
-  if (index < 3) {
+  if (index < BIG_LIMIT) {
     return WORD_BIG
   }
 
@@ -40,6 +43,7 @@ export const WordCloud = ({
   className = '',
   ...rest
 }) => {
+  console.log(cloud)
   return (
     <WidgetTrend
       className={className}
@@ -58,9 +62,14 @@ export const WordCloud = ({
       <TagCloud
         style={{ width: '100%', height: '100%', padding: 15, marginTop: 0 }}
       >
-        {cloud.map(({ word }, index) => (
+        {cloud.map(({ word, score }, index) => (
           <div key={word} style={getWordStyles(index)} className={styles.text}>
             {word}
+            {index < BIG_LIMIT && (
+              <div className={styles.score}>
+                {formatNumber(score, { maximumFractionDigits: 2 })}
+              </div>
+            )}
           </div>
         ))}
       </TagCloud>
