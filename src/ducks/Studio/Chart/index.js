@@ -45,6 +45,7 @@ const Canvas = ({
             options={options}
             settings={settings}
             metrics={metrics}
+            activeEvents={activeEvents}
             scale={options.isLogScale ? logScale : linearScale}
           />
         </div>

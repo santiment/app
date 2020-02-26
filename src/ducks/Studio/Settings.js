@@ -58,7 +58,6 @@ export default ({ settings, options, setOptions, setSettings, ...rest }) => {
 
   return (
     <Settings
-      {...rest}
       {...options}
       {...settings}
       isFullscreenAvailable={false}
@@ -68,6 +67,7 @@ export default ({ settings, options, setOptions, setSettings, ...rest }) => {
       onTimerangeChange={onTimerangeChange}
       onCalendarChange={onCalendarChange}
       onCartesianGridChange={toggleCartesianGrid}
+      {...rest}
     />
     /*
        <Button

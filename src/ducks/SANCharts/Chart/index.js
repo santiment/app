@@ -268,7 +268,7 @@ const Chart = ({
   return (
     <div className={styles.wrapper}>
       <canvas ref={canvasRef} />
-      {hasPriceMetric && (
+      {hasPriceMetric && false && (
         <Signals chart={chart} data={data} slug={slug} scale={scale} />
       )}
       {isLoading && <Loader />}
