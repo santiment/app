@@ -139,6 +139,7 @@ const Synchronizer = ({ children, metrics, isMultiChartsActive, events }) => {
 
       return React.cloneElement(children, {
         key: metric.key,
+        index: i,
         isMultiChartsActive,
         syncedTooltipDate,
         syncedColors,

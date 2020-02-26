@@ -1,4 +1,5 @@
 .wrapper {
+  position: relative;
   margin-top: 13px;
 
   &:first-child {
@@ -19,4 +20,31 @@
 
 .meta {
   display: flex;
+}
+
+.restriction {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  font-size: 22px;
+
+  &__link {
+    color: var(--jungle-green);
+    margin-right: 5px;
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--jungle-green-hover);
+    }
+  }
+}
+
+.blur {
+  filter: blur(7px);
 }

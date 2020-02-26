@@ -1,14 +1,18 @@
 import React from 'react'
 import cx from 'classnames'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
 import Chart from '../../SANCharts/Chart'
 import Synchronizer from '../../SANCharts/Chart/Synchronizer'
+import { checkIsLoggedIn } from '../../../pages/UserSelectors'
 import ChartFullscreenBtn from './ChartFullscreenBtn'
 import styles from './index.module.scss'
 
 const Canvas = ({
+  index,
   className,
   chartRef,
   settings,
@@ -22,11 +26,14 @@ const Canvas = ({
   toggleMetric,
   changeHoveredDate,
   isMultiChartsActive,
+  syncedTooltipDate,
+  isAnon,
   ...props
 }) => {
+  const isBlurred = isAnon && index > 1
   return (
     <div className={cx(styles.wrapper, className)}>
-      <div className={styles.top}>
+      <div className={cx(styles.top, isBlurred && styles.blur)}>
         <div className={styles.metrics}>
           <ChartActiveMetrics
             activeMetrics={metrics}
@@ -50,35 +57,51 @@ const Canvas = ({
           />
         </div>
       </div>
-
       <Chart
         {...options}
         {...settings}
         {...props}
+        className={isBlurred ? styles.blur : ''}
         isMultiChartsActive={isMultiChartsActive}
         metrics={metrics}
         chartRef={chartRef}
         scale={options.isLogScale ? logScale : linearScale}
         isAdvancedView={!!advancedView}
         onPointHover={advancedView ? changeHoveredDate : undefined}
+        syncedTooltipDate={isBlurred || syncedTooltipDate}
       />
+
+      {isBlurred && (
+        <div className={styles.restriction}>
+          <Link to='/login' className={styles.restriction__link}>
+            Sign in
+          </Link>{' '}
+          to unlock all Santiment Chart features
+        </div>
+      )}
     </div>
   )
 }
 
-export default ({ options, events, activeMetrics, ...rest }) => {
-  return (
-    <Synchronizer
-      isMultiChartsActive={options.isMultiChartsActive}
-      metrics={activeMetrics}
-      events={events}
-    >
-      <Canvas
-        options={options}
+const mapStateToProps = state => ({
+  isAnon: !checkIsLoggedIn(state)
+})
+
+export default connect(mapStateToProps)(
+  ({ options, events, activeMetrics, ...rest }) => {
+    return (
+      <Synchronizer
+        isMultiChartsActive={options.isMultiChartsActive}
+        metrics={activeMetrics}
         events={events}
-        activeMetrics={activeMetrics}
-        {...rest}
-      />
-    </Synchronizer>
-  )
-}
+      >
+        <Canvas
+          options={options}
+          events={events}
+          activeMetrics={activeMetrics}
+          {...rest}
+        />
+      </Synchronizer>
+    )
+  }
+)
