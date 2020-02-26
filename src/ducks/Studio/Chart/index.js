@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom'
 import { linearScale, logScale } from '@santiment-network/chart/scales'
 import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
+import ChartFullscreenBtn from './ChartFullscreenBtn'
 import Chart from '../../SANCharts/Chart'
 import Synchronizer from '../../SANCharts/Chart/Synchronizer'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
-import ChartFullscreenBtn from './ChartFullscreenBtn'
 import styles from './index.module.scss'
 
 const Canvas = ({

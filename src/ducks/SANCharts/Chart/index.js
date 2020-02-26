@@ -270,7 +270,7 @@ const Chart = ({
   return (
     <div className={cx(styles.wrapper, className)}>
       <canvas ref={canvasRef} />
-      {hasPriceMetric && false && (
+      {hasPriceMetric && (
         <Signals chart={chart} data={data} slug={slug} scale={scale} />
       )}
       {isLoading && <Loader />}
