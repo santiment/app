@@ -13,6 +13,7 @@ import RecentlyWatched from '../../components/RecentlyWatched/RecentlyWatched'
 import { checkIsLoggedIn, checkIsLoggedInPending } from './../UserSelectors'
 import StoriesList from '../../components/Stories/StoriesList'
 import styles from './AssetsOverview.module.scss'
+import Trends from '../../components/Trends/Trends'
 
 const AssetsOverview = ({
   slugs,
@@ -58,6 +59,7 @@ const AssetsOverview = ({
                 history.push(`/projects/${slug}`)
               }}
             />
+            <Trends className={styles.trends} />
           </>
         )}
       </MobileOnly>

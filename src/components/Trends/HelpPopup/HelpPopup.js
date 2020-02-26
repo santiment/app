@@ -14,7 +14,7 @@ const HelpPopup = () => (
       <div className={styles.trigger}>
         <Icon type='question-round-small' className={styles.description} />
         <DesktopOnly>
-          <span>How to use</span>
+          <span className={styles.using}>How to use</span>
         </DesktopOnly>
       </div>
     }
