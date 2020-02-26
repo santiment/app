@@ -85,7 +85,9 @@ const Chart = ({
     }
 
     setChart(chart)
-    chartRef.current = canvas
+    if (chartRef) {
+      chartRef.current = canvas
+    }
 
     setupTooltip(chart, marker, syncTooltips)
   }, [])

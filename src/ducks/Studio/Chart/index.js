@@ -5,6 +5,7 @@ import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
 import Chart from '../../SANCharts/Chart'
 import Synchronizer from '../../SANCharts/Chart/Synchronizer'
+import ChartFullscreenBtn from './ChartFullscreenBtn'
 import styles from './index.module.scss'
 
 const Canvas = ({
@@ -39,6 +40,13 @@ const Canvas = ({
 
         <div className={styles.meta}>
           <ChartPaywallInfo boundaries={boundaries} />
+          <ChartFullscreenBtn
+            {...props}
+            options={options}
+            settings={settings}
+            metrics={metrics}
+            scale={options.isLogScale ? logScale : linearScale}
+          />
         </div>
       </div>
 
