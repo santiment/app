@@ -1,5 +1,4 @@
-@import '~@santiment-network/ui/variables.scss';
-@import './../../mixins.scss';
+@import '~@santiment-network/ui/mixins';
 
 $top: 22px;
 
@@ -9,6 +8,22 @@ $top: 22px;
   font-weight: normal;
   line-height: 20px;
   color: var(--casper);
+}
+
+.score {
+  position: relative;
+  background-color: var(--athens);
+  width: 24px;
+  height: 24px;
+  color: var(--mirage);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  top: -32px;
+  right: -10px;
+  font-size: 9px;
 }
 
 .hint {
