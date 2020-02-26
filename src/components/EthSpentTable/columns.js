@@ -18,11 +18,7 @@ export const columns = [
     sortable: true,
     minWidth: 24,
     maxWidth: 100,
-    accessor: d => ({
-      name: d.name,
-      ticker: d.ticker,
-      slug: d.slug
-    }),
+    accessor: ({ name, ticker, slug }) => ({ name, ticker, slug }),
     Cell: ({ value }) => (
       <div className='overview-ticker'>
         <ProjectIcon slug={value.slug} />

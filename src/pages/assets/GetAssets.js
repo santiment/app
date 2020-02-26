@@ -13,9 +13,13 @@ export const SORT_TYPES = {
   ethSpent: 'ethSpent'
 }
 
+const MAX_PER_PAGE = 1000000
+
 class GetAssets extends Component {
   static defaultProps = {
-    sortBy: PropTypes.string.isRequired
+    sortBy: PropTypes.string.isRequired,
+    page: 1,
+    pageSize: MAX_PER_PAGE
   }
 
   static defaultProps = {
@@ -46,27 +50,29 @@ class GetAssets extends Component {
   }
 
   componentDidMount () {
-    const { type, listName, listId, listSlug } = this.getType()
-    this.props.fetchAssets({
-      type,
-      list: { name: listName, id: listId, slug: listSlug },
-      minVolume: this.props.minVolume
-    })
+    this.fetch()
   }
 
   componentDidUpdate (prevProps, prevState) {
     const { pathname, search } = this.props.location || {}
     if (
       pathname !== (prevProps.location || {}).pathname ||
-      search !== (prevProps.location || {}).search
+      search !== (prevProps.location || {}).search ||
+      this.props.page !== prevProps.page
     ) {
-      const { type, listName, listId, listSlug } = this.getType()
-      this.props.fetchAssets({
-        type,
-        list: { name: listName, id: listId, slug: listSlug },
-        minVolume: this.props.minVolume
-      })
+      this.fetch()
     }
+  }
+
+  fetch (page = this.props.page) {
+    const { type, listName, listId, listSlug } = this.getType()
+    this.props.fetchAssets({
+      type,
+      list: { name: listName, id: listId, slug: listSlug },
+      minVolume: this.props.minVolume,
+      page: page,
+      pageSize: this.props.pageSize
+    })
   }
 
   render () {
@@ -92,13 +98,19 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchAssets: ({ type, list, minVolume }) => {
+  fetchAssets: ({
+    type,
+    list,
+    minVolume,
+    page = 1,
+    pageSize = MAX_PER_PAGE
+  }) => {
     return dispatch({
       type: actions.ASSETS_FETCH,
       payload: {
         type,
         list,
-        filters: { minVolume }
+        filters: { minVolume, page, pageSize }
       }
     })
   }

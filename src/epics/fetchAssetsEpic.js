@@ -1,7 +1,7 @@
 import Raven from 'raven-js'
 import { Observable } from 'rxjs'
 import {
-  allErc20ProjectsGQL,
+  ERC20_PROJECTS_QUERY,
   allProjects50GQL,
   allProjectsGQL,
   currenciesGQL
@@ -21,7 +21,11 @@ const fetchAssets$ = ({ type = 'all', client, filters = {} }) =>
   Observable.from(
     client.query({
       query: pickProjectsType(type).gql,
-      variables: { minVolume: filters.minVolume ? filters.minVolume : 0 },
+      variables: {
+        minVolume: filters.minVolume ? filters.minVolume : 0,
+        page: filters.page,
+        pageSize: filters.pageSize
+      },
       context: { isRetriable: true }
     })
   )
@@ -35,7 +39,7 @@ const pickProjectsType = type => {
     case 'currency':
       return { projects: 'allCurrencyProjects', gql: currenciesGQL }
     case 'erc20':
-      return { projects: 'allErc20Projects', gql: allErc20ProjectsGQL }
+      return { projects: 'allErc20Projects', gql: ERC20_PROJECTS_QUERY }
     default:
       return { projects: 'allProjects', gql: allProjectsGQL }
   }
