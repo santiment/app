@@ -10,6 +10,7 @@
 
   @include responsive('phone-xs') {
     min-width: 100%;
+    box-shadow: none;
   }
 
   &_withMc {

@@ -24,7 +24,12 @@
 
 .word {
   color: var(--mirage);
-  font-size: 14px !important;
+
+  @include text('body-3');
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+  }
 }
 
 .connected {
@@ -133,6 +138,13 @@
 
       @include responsive('phone', 'phone-xs') {
         padding: 0;
+        height: 47px;
+
+        @include text('body-2');
+
+        &:last-child {
+          border-bottom: 1px solid var(--porcelain);
+        }
       }
     }
 

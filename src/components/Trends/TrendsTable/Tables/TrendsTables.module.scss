@@ -13,6 +13,11 @@
     flex: 3;
     margin-right: 0;
   }
+
+  @include responsive('phone', 'phone-xs') {
+    border: none !important;
+    box-shadow: none;
+  }
 }
 
 .tabs {

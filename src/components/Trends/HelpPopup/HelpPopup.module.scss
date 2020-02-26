@@ -4,6 +4,12 @@
   fill: var(--casper);
   position: relative;
   margin: 0 6px;
+  width: 16px;
+  height: 16px;
+
+  @include responsive('phone', 'phone-xs') {
+    margin-left: 0;
+  }
 }
 
 .trigger {
