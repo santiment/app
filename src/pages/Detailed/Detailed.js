@@ -4,13 +4,12 @@ import { Helmet } from 'react-helmet'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import StudioPage from '../Studio'
 import Breadcrumbs from '../profile/breadcrumbs/Breadcrumbs'
-import News from '../../components/News/News'
 import StoriesList from '../../components/Stories/StoriesList'
 import GeneralInfoBlock from './generalInfo/GeneralInfoBlock'
 import FinancialsBlock from './financialInfo/FinancialsBlock'
 import DetailedTransactionsTable from './transactionsInfo/DetailedTransactionsTable'
 import { Metrics } from '../../ducks/SANCharts/data'
-import EthSpent from '../EthSpent'
+import EthSpentTable from '../../components/EthSpentTable/EthSpentTable'
 import withProject from './withProject'
 import styles from './Detailed.module.scss'
 
@@ -57,7 +56,7 @@ const BottomSlot = compose(withProject)(
 
       {slug === 'ethereum' && (
         <div className={styles.spent}>
-          <EthSpent />
+          <EthSpentTable />
         </div>
       )}
 
@@ -69,13 +68,6 @@ const BottomSlot = compose(withProject)(
           <FinancialsBlock {...project} />
         </PanelWithHeader>
       </div>
-
-      {!isLoadingNews && news.length > 0 && (
-        <div className={styles.newsWrapper}>
-          <h4 className={styles.newsTitle}>News</h4>
-          <News data={news} />
-        </div>
-      )}
 
       {isERC20 &&
         project.tokenTopTransactions &&

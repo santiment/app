@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import cx from 'classnames'
 import ReactTable from 'react-table'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import Button from '@santiment-network/ui/Button'
@@ -11,7 +10,7 @@ import styles from './EthSpentTable.module.scss'
 
 const ROWS_COUNT = 10
 
-const EthSpentTable = ({}) => {
+const EthSpentTable = () => {
   const [page, setPage] = useState(1)
 
   return (
@@ -59,7 +58,7 @@ const EthSpentTable = ({}) => {
               resizable={false}
               defaultSorted={[
                 {
-                  id: 'eth_balance',
+                  id: 'project',
                   desc: false
                 }
               ]}
