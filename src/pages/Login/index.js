@@ -7,20 +7,27 @@ import Panel from '@santiment-network/ui/Panel/Panel'
 import LoginMetamaskBtn from './LoginMetamaskBtn'
 import LoginEmail from './LoginEmail'
 import styles from './index.module.scss'
+import LoginEmailBtn from './LoginEmailBtn'
+import FreeTrialBlock from './FreeTrialBlock'
 
 const baseLocation = '/login'
 
 const LoginOptions = () => (
-  <>
-    <h2 className={styles.title}>Log in your account with</h2>
-    <div className={styles.options}>
-      <LoginMetamaskBtn />
-      <Link to='/login/email' className={cx(styles.btn, styles.btn_email)}>
-        <Icon type='envelope' className={styles.btn__icon} />
-        Email
-      </Link>
+  <div className={styles.container}>
+    <div>
+      <h2 className={styles.title}>Welcome to Santiment</h2>
+      <div className={styles.options}>
+        <LoginMetamaskBtn />
+        <div className={styles.divider}>
+          <span className={styles.use}>or use</span>
+        </div>
+        <LoginEmailBtn />
+      </div>
     </div>
-  </>
+    <div>
+      <FreeTrialBlock />
+    </div>
+  </div>
 )
 
 export default ({ isLoggedIn, token, location: { search = '' } }) => {

@@ -37,10 +37,11 @@ import styles from './App.module.scss'
 import './App.scss'
 
 const PATHS = {
-  FEED: '/feed'
+  FEED: '/feed',
+  LOGIN: '/login'
 }
 
-const FOOTER_DISABLED_FOR = [PATHS.FEED]
+const FOOTER_DISABLED_FOR = [PATHS.FEED, PATHS.LOGIN]
 
 const LoadableLabsPage = Loadable({
   loader: () => import('./pages/Labs'),

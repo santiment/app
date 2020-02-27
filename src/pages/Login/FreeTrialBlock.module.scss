@@ -1,0 +1,31 @@
+@import '~@santiment-network/ui/mixins.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 114px;
+  padding: 0 0 0 95px;
+  border-left: 1px solid var(--porcelain);
+}
+
+.start {
+  @include text('h3');
+
+  margin-top: 24px;
+}
+
+.description {
+  @include text('body-2');
+
+  margin-top: 8px;
+  color: var(--waterloo);
+  max-width: 320px;
+  word-break: break-word;
+}
+
+.btn {
+  margin-top: 16px;
+  max-width: 280px;
+}

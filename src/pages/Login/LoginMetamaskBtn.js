@@ -32,7 +32,7 @@ const LoginMetamaskBtn = ({
       onClick={requestAuth}
     >
       <Icon type='metamask-monochrome' className={styles.btn__icon} />
-      Metamask
+      <span className={styles.metamask}>Log in with Metamask</span>
     </Button>
   )
 }
