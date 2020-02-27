@@ -1,11 +1,27 @@
 @import '~@santiment-network/ui/mixins';
 
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.actions {
+  display: flex;
+  margin-left: auto;
+}
+
+.control {
+  margin-right: 10px;
+}
+
 .panel {
   padding: 0;
+  min-height: 250px;
 }
 
 .wrapper {
   width: 100%;
+  min-height: 300px;
 }
 
 .ticker {
@@ -31,6 +47,7 @@
 
 .ethSpentTable:global(.ReactTable) {
   border: none;
+  min-height: 250px;
 
   :global {
     .rt-td {

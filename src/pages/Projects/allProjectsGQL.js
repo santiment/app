@@ -97,18 +97,18 @@ export const allProjectsForSearchGQL = gql`
   ${generalData}
 `
 
-export const allErc20ProjectsGQL = gql`
-  query allErc20Projects($minVolume: Int!) {
-    allErc20Projects(minVolume: $minVolume) {
+export const ERC20_PROJECTS_QUERY = gql`
+  query allErc20Projects($minVolume: Int!, $page: Int, $pageSize: Int) {
+    allErc20Projects(minVolume: $minVolume, page: $page, pageSize: $pageSize) {
       ethBalance
       ...generalData
       ...project
       ...ethereumData
     }
   }
+  ${ethereumData}
   ${generalData}
   ${project}
-  ${ethereumData}
 `
 
 export const currenciesGQL = gql`
