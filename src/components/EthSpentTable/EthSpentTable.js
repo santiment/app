@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
+import cx from 'classnames'
 import ReactTable from 'react-table'
 import Loader from '@santiment-network/ui/Loader/Loader'
+import Button from '@santiment-network/ui/Button'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import { columns } from './columns'
+import GetAssets from '../../pages/assets/GetAssets'
 import '../../pages/Projects/ProjectsTable.css'
 import styles from './EthSpentTable.module.scss'
-import GetAssets from '../../pages/assets/GetAssets'
 
 const ROWS_COUNT = 20
 
@@ -20,7 +22,31 @@ const EthSpentTable = ({}) => {
       render={({ items = [], isLoading: loading = true }) => {
         return (
           <PanelWithHeader
-            header='Ethereum spent overview'
+            header={
+              <div className={styles.header}>
+                Ethereum spent overview
+                <div className={styles.actions}>
+                  <Button
+                    accent={'positive'}
+                    variant={'fill'}
+                    disabled={loading || page === 1}
+                    className={styles.control}
+                    onClick={() => setPage(Math.max(1, page - 1))}
+                  >
+                    Prev
+                  </Button>
+                  <Button
+                    accent={'positive'}
+                    variant={'fill'}
+                    disabled={loading || items.length < ROWS_COUNT}
+                    className={styles.control}
+                    onClick={() => setPage(page + 1)}
+                  >
+                    Next
+                  </Button>
+                </div>
+              </div>
+            }
             className={styles.wrapper}
             contentClassName={styles.panel}
           >
@@ -44,18 +70,6 @@ const EthSpentTable = ({}) => {
                 loading && <Loader className={styles.loader} />
               }
             />
-            <div
-              className={page === 1 && styles.disabled}
-              onClick={() => setPage(Math.max(1, page - 1))}
-            >
-              Prev
-            </div>
-            <div
-              className={items.length < ROWS_COUNT && styles.disabled}
-              onClick={() => setPage(page + 1)}
-            >
-              Next
-            </div>
           </PanelWithHeader>
         )
       }}
