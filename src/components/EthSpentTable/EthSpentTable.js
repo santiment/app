@@ -9,7 +9,7 @@ import GetAssets from '../../pages/assets/GetAssets'
 import '../../pages/Projects/ProjectsTable.css'
 import styles from './EthSpentTable.module.scss'
 
-const ROWS_COUNT = 20
+const ROWS_COUNT = 10
 
 const EthSpentTable = ({}) => {
   const [page, setPage] = useState(1)
