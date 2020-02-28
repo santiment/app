@@ -71,7 +71,8 @@ const ActivityWithBacktesting = ({
   classes,
   activity,
   activity: { index, triggeredAt, trigger = {}, votes = [] },
-  onLike
+  onLike,
+  showProfileExplanation
 }) => {
   const {
     settings: { type }
@@ -108,8 +109,9 @@ const ActivityWithBacktesting = ({
                   localStorageSuffix='_FEED_PROFILE_EXPLANATION'
                   position='top'
                   title={<div>New! Click to open profile</div>}
+                  className={styles.avatarTooltip}
                   description=''
-                  showEnabled={index === 0}
+                  showEnabled={index === 0 && showProfileExplanation}
                 >
                   <SignalCreator user={user} className={styles.creator} />
                 </SidecarExplanationTooltip>

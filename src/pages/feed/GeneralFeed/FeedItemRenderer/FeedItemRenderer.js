@@ -8,7 +8,7 @@ import TrendingWordsSignalCard, {
 } from '../../../../components/SignalCard/card/TrendingWordsSignalCard'
 import styles from './FeedItemRenderer.module.scss'
 
-const FeedItemRenderer = ({ item, index }) => {
+const FeedItemRenderer = ({ item, index, showProfileExplanation }) => {
   const { id: eventId, __typename, payload, trigger, insertedAt } = item
 
   if (payload && trigger) {
@@ -31,6 +31,7 @@ const FeedItemRenderer = ({ item, index }) => {
               index={index}
               classes={styles}
               onLike={like(eventId)}
+              showProfileExplanation={showProfileExplanation}
             />
           )
         }
