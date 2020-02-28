@@ -52,7 +52,6 @@ class GetAssets extends Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    console.log(prevProps)
     const { pathname, search } = this.props.location || {}
     if (
       pathname !== (prevProps.location || {}).pathname ||
@@ -106,13 +105,7 @@ class GetAssets extends Component {
     }
 
     childProps.isLoading = this.state.callFetchAll ? false : Assets.isLoading
-
-    console.log(
-      'child props is loading',
-      childProps.isLoading,
-      this.state,
-      Assets
-    )
+    childProps.loadingAll = this.state.callFetchAll && Assets.isLoading
 
     return typeof children === 'function'
       ? children(childProps)
@@ -129,7 +122,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   fetchAssets: ({ type, list, minVolume, page, pageSize = MAX_LOAD_SIZE }) => {
-    console.log('fetch', pageSize)
     return dispatch({
       type: actions.ASSETS_FETCH,
       payload: {

@@ -12,11 +12,14 @@ const EthSpentTable = () => {
     <GetAssets
       sortBy='eth_balance'
       type='erc20'
-      render={({ items = [], isLoading: loading = true }) => {
+      render={({ items = [], isLoading: loading = true, loadingAll }) => {
         return (
           <PanelWithHeader
             header={
-              <div className={styles.header}>Ethereum spent overview</div>
+              <div className={styles.header}>
+                Ethereum spent overview{' '}
+                {loadingAll && <Loader className={styles.headerLoader} />}
+              </div>
             }
             className={styles.wrapper}
             contentClassName={styles.panel}
