@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -31,9 +31,21 @@ const Canvas = ({
   isAnon,
   ...props
 }) => {
+  const [isExplained, setIsExplained] = useState()
   const isBlurred = isAnon && index > 1
+
+  function toggleExplanation () {
+    setIsExplained(state => !state)
+  }
+
   return (
-    <div className={cx(styles.wrapper, className)}>
+    <div
+      className={cx(
+        styles.wrapper,
+        isExplained && styles.wrapper_explained,
+        className
+      )}
+    >
       <div className={cx(styles.top, isBlurred && styles.blur)}>
         <div className={styles.metrics}>
           <ChartActiveMetrics
@@ -48,6 +60,10 @@ const Canvas = ({
 
         <div className={styles.meta}>
           <ChartPaywallInfo boundaries={boundaries} />
+          <ChartMetricsExplanation.Button
+            onClick={toggleExplanation}
+            className={styles.explain}
+          />
           <ChartFullscreenBtn
             {...props}
             options={options}
@@ -56,7 +72,6 @@ const Canvas = ({
             activeEvents={activeEvents}
             scale={options.isLogScale ? logScale : linearScale}
           />
-          <button>Explain metrics</button>
         </div>
       </div>
       <Chart
@@ -82,9 +97,11 @@ const Canvas = ({
         </div>
       )}
 
-      <div className={styles.explanation}>
-        <ChartMetricsExplanation metrics={metrics} />
-      </div>
+      {isExplained && (
+        <div className={styles.explanation}>
+          <ChartMetricsExplanation metrics={metrics} />
+        </div>
+      )}
     </div>
   )
 }

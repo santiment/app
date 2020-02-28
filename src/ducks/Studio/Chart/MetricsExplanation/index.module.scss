@@ -28,3 +28,16 @@
 .icon {
   margin-right: 8px;
 }
+
+.label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.info {
+  fill: var(--casper);
+  height: 16px;
+  width: 16px;
+  margin-right: 8px;
+}

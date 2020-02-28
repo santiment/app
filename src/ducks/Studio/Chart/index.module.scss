@@ -1,7 +1,10 @@
 .wrapper {
   position: relative;
   margin-top: 13px;
-  padding-right: 340px !important;
+
+  &_explained {
+    padding-right: 340px !important;
+  }
 
   &:first-child {
     margin: 0;
@@ -59,4 +62,9 @@
   bottom: 0;
   overflow: hidden;
   overflow-y: auto;
+}
+
+.explain {
+  margin-left: 12px;
+  white-space: nowrap;
 }

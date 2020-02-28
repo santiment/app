@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import Button from '@santiment-network/ui/Button'
+import Icon from '@santiment-network/ui/Icon'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import { Metrics } from '../../../SANCharts/data'
 import MetricIcon from '../../../SANCharts/MetricIcon'
@@ -13,7 +15,7 @@ const dropdownClasses = {
 }
 
 const Label = ({ metric: { key, dataKey = key, node, label }, colors }) => (
-  <div>
+  <div className={styles.label}>
     <MetricIcon node={node} color={colors[dataKey]} className={styles.icon} />
     {label}
   </div>
@@ -28,7 +30,7 @@ function buildOptions (metrics, colors) {
     }))
 }
 
-export default ({ metrics }) => {
+const MetricsExplanation = ({ metrics }) => {
   const [options, setOptions] = useState(OPTIONS)
   const [selected, setSelected] = useState(SELECTED)
 
@@ -59,3 +61,12 @@ export default ({ metrics }) => {
     </div>
   ) : null
 }
+
+MetricsExplanation.Button = props => (
+  <Button border {...props}>
+    <Icon type='info-round' className={styles.info} />
+    Explain metrics
+  </Button>
+)
+
+export default MetricsExplanation
