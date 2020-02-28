@@ -60,6 +60,7 @@ const Canvas = ({
 
         <div className={styles.meta}>
           <ChartPaywallInfo boundaries={boundaries} />
+          {/* TODO: check for explainable metrics */}
           <ChartMetricsExplanation.Button
             onClick={toggleExplanation}
             className={styles.explain}
@@ -86,6 +87,7 @@ const Canvas = ({
         isAdvancedView={!!advancedView}
         onPointHover={advancedView ? changeHoveredDate : undefined}
         syncedTooltipDate={isBlurred || syncedTooltipDate}
+        isWideChart={isExplained}
       />
 
       {isBlurred && (
