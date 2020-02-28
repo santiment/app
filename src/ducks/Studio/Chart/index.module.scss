@@ -1,6 +1,7 @@
 .wrapper {
   position: relative;
   margin-top: 13px;
+  padding-right: 340px !important;
 
   &:first-child {
     margin: 0;
@@ -47,4 +48,15 @@
 
 .blur {
   filter: blur(7px);
+}
+
+.explanation {
+  width: 320px;
+  border-left: 1px solid var(--porcelain);
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  overflow-y: auto;
 }

@@ -6,6 +6,7 @@ import { linearScale, logScale } from '@santiment-network/chart/scales'
 import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
 import ChartFullscreenBtn from './ChartFullscreenBtn'
+import ChartMetricsExplanation from './MetricsExplanation'
 import Chart from '../../SANCharts/Chart'
 import Synchronizer from '../../SANCharts/Chart/Synchronizer'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
@@ -55,6 +56,7 @@ const Canvas = ({
             activeEvents={activeEvents}
             scale={options.isLogScale ? logScale : linearScale}
           />
+          <button>Explain metrics</button>
         </div>
       </div>
       <Chart
@@ -79,6 +81,10 @@ const Canvas = ({
           to unlock all Santiment Chart features
         </div>
       )}
+
+      <div className={styles.explanation}>
+        <ChartMetricsExplanation metrics={metrics} />
+      </div>
     </div>
   )
 }
