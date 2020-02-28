@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   createSkeletonElement,
   createSkeletonProvider
@@ -176,6 +176,15 @@ const Header = ({
     percentChange24h = 0,
     percentChange7d = 0
   } = dataProject
+
+  useEffect(
+    () => {
+      if (onSlugSelect && project && project.ticker) {
+        onSlugSelect({ slug, ...project })
+      }
+    },
+    [project]
+  )
 
   return (
     <div className={styles.container}>

@@ -44,33 +44,38 @@ export const AnomalyFetcher = {
     data: {
       getAnomaly: { timeseriesData }
     }
-  }) =>
-    timeseriesData.map(({ datetime }) => {
-      const metric = key.replace('_anomaly', '')
-      const { label: value } = Metrics[metric]
-      return {
-        key,
-        metric,
-        value,
-        datetime,
-        color: persimmon
-      }
-    })
+  }) => {
+    const metric = key.replace('_anomaly', '')
+    // HACK: Instead of replacing in multiple files [@vanguard | Feb 28, 2020]
+    // TODO: Remove this shit after moving to useTimseries [@vanguard | Feb 28, 2020]
+    const [replacedMetric, replacedKey] =
+      metric === 'dev_activity' ? ['devActivity', 'isAnomaly'] : [metric, key]
+
+    const { label: value, dataKey = replacedKey } = Metrics[replacedMetric]
+
+    return timeseriesData.map(({ datetime }) => ({
+      key: replacedKey,
+      metric: dataKey,
+      value,
+      datetime,
+      color: persimmon
+    }))
+  }
 }
 
 export const OldAnomalyFetcher = {
   query: OLD_ANOMALY_QUERY,
-  preTransform: metric => ({ data: { metricAnomaly } }) =>
-    metricAnomaly.map(({ datetime }) => {
-      const { key, dataKey = key, label: value } = Metrics[metric]
-      return {
-        datetime,
-        value,
-        key: 'isAnomaly',
-        metric: dataKey,
-        color: persimmon
-      }
-    })
+  preTransform: metric => ({ data: { metricAnomaly } }) => {
+    const { key, dataKey = key, label: value } = Metrics[metric]
+
+    return metricAnomaly.map(({ datetime }) => ({
+      datetime,
+      value,
+      key: 'isAnomaly',
+      metric: dataKey,
+      color: persimmon
+    }))
+  }
 }
 
 ANOMALIES.forEach(anomaly => {
@@ -80,12 +85,19 @@ ANOMALIES.forEach(anomaly => {
   }
 })
 
+// TODO: Leave only new anomalies support after moving everywhere to useTimeseries [@vanguard | Feb 28, 2020]
 export function buildAnomalies (metrics) {
   return metrics
     .filter(({ key, anomalyKey }) => anomalyKey || ANOMALIES.includes(key))
-    .map(({ key, anomalyKey }) => ({
-      key: anomalyKey || key + '_anomaly',
-      queryKey: anomalyKey ? 'anomalies' : 'anomaly',
-      metricAnomaly: key
-    }))
+    .map(({ key, anomalyKey }) => {
+      // HACK: Instead of replacing in multiple files [@vanguard | Feb 28, 2020]
+      // TODO: Remove this shit after moving to useTimseries [@vanguard | Feb 28, 2020]
+      const replacedKey = key === 'devActivity' ? 'dev_activity' : key
+      const isNewAnomaly = ANOMALIES.includes(replacedKey)
+      return {
+        key: isNewAnomaly ? replacedKey + '_anomaly' : anomalyKey,
+        queryKey: isNewAnomaly ? 'anomaly' : 'anomalies',
+        metricAnomaly: replacedKey
+      }
+    })
 }
