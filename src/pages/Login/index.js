@@ -7,9 +7,9 @@ import LoginMetamaskBtn from './LoginMetamaskBtn'
 import LoginEmail from './LoginEmail'
 import LoginEmailBtn from './LoginEmailBtn'
 import FreeTrialBlock from './FreeTrialBlock'
+import { PATHS } from '../../App'
+import CreateAccountFreeTrial from './CreateAccountFreeTrial'
 import styles from './index.module.scss'
-
-const baseLocation = '/login'
 
 const LoginOptions = () => (
   <div className={styles.container}>
@@ -24,7 +24,10 @@ const LoginOptions = () => (
 
         <div className={styles.new}>
           New to Santiment?{' '}
-          <Link to={'/create-account'} className={styles.createLink}>
+          <Link
+            to={PATHS.CREATE_ACCOUNT_FREE_TRIAL}
+            className={styles.createLink}
+          >
             Create an account
           </Link>
         </div>
@@ -52,8 +55,13 @@ export default ({ isLoggedIn, token, location: { search = '' } }) => {
     <div className={cx('page', styles.wrapper)}>
       <Panel className={styles.panel}>
         <Switch>
-          <Route exact path={`${baseLocation}/email`} render={LoginEmail} />
-          <Route path={baseLocation} render={LoginOptions} />
+          <Route exact path={PATHS.LOGIN_VIA_EMAIL} render={LoginEmail} />
+          <Route
+            exact
+            path={PATHS.CREATE_ACCOUNT_FREE_TRIAL}
+            render={CreateAccountFreeTrial}
+          />
+          <Route path={PATHS.LOGIN} render={LoginOptions} />
         </Switch>
       </Panel>
     </div>

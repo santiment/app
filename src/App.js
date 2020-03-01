@@ -36,12 +36,19 @@ import { mapSizesToProps } from './utils/withSizes'
 import styles from './App.module.scss'
 import './App.scss'
 
-const PATHS = {
+export const PATHS = {
   FEED: '/feed',
-  LOGIN: '/login'
+  LOGIN: '/login',
+  LOGIN_VIA_EMAIL: '/login/email',
+  CREATE_ACCOUNT_FREE_TRIAL: '/login/trial'
 }
 
-const FOOTER_DISABLED_FOR = [PATHS.FEED, PATHS.LOGIN, '/login/email']
+const FOOTER_DISABLED_FOR = [
+  PATHS.FEED,
+  PATHS.LOGIN,
+  PATHS.LOGIN_VIA_EMAIL,
+  PATHS.CREATE_ACCOUNT_FREE_TRIAL
+]
 
 const LoadableLabsPage = Loadable({
   loader: () => import('./pages/Labs'),

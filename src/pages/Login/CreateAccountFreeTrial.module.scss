@@ -1,0 +1,38 @@
+@import '~@santiment-network/ui/mixins';
+
+.subtitle {
+  @include text('body-2');
+
+  color: var(--waterloo);
+  margin-top: 12px;
+}
+
+.trialDescr {
+  color: var(--rhino);
+  max-width: 280px;
+  word-break: break-word;
+  margin-left: 24px;
+  text-align: left;
+
+  @include text('body-2');
+}
+
+.trials {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: 96px;
+}
+
+.trial {
+  display: flex;
+  margin-top: 24px;
+
+  &:first-child {
+    margin: 0;
+  }
+}
+
+.icon {
+  margin-top: 6px;
+}

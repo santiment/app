@@ -3,6 +3,7 @@ import giftImg from './../../../src/assets/login/gift.svg'
 import Button from '@santiment-network/ui/Button'
 import { Link } from 'react-router-dom'
 import styles from './FreeTrialBlock.module.scss'
+import { PATHS } from '../../App'
 
 const FreeTrialBlock = () => {
   return (
@@ -15,7 +16,7 @@ const FreeTrialBlock = () => {
       </div>
       <Button
         as={Link}
-        to={'/create-account'}
+        to={PATHS.CREATE_ACCOUNT_FREE_TRIAL}
         className={styles.btn}
         variant={'fill'}
         accent={'positive'}
