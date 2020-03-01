@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Input from '@santiment-network/ui/Input'
+import { InputWithIcon as Input } from '@santiment-network/ui/Input'
 import Button from '@santiment-network/ui/Button'
-import Icon from '@santiment-network/ui/Icon'
 import gql from 'graphql-tag'
 import cx from 'classnames'
 import { Mutation } from 'react-apollo'
@@ -24,9 +23,9 @@ export default () => {
         loginEmail,
         { loading, error, data: { emailLogin: { success } = {} } = {} }
       ) => (
-        <>
+        <div className={styles.loginViaEmail}>
           <h2 className={cx(styles.title, styles.email__title)}>
-            Authenticate
+            Welcome back
           </h2>
           {success ? (
             <h3 className={styles.email__subtitle}>
@@ -36,7 +35,8 @@ export default () => {
           ) : (
             <>
               <h3 className={styles.email__subtitle}>
-                To sign up or log in, fill in your email address below:
+                Log in to your Sanbase account to access additional features of
+                our platform
               </h3>
               <form
                 className={styles.email__form}
@@ -56,10 +56,13 @@ export default () => {
                 }}
               >
                 <Input
-                  placeholder='your@email.com'
+                  placeholder='Your email'
                   name='email'
                   type='email'
+                  icon='mail'
+                  iconPosition='left'
                   required
+                  className={styles.emailInput}
                 />
                 <Button
                   variant='fill'
@@ -74,10 +77,12 @@ export default () => {
             </>
           )}
           <Link to='/login' className={styles.email__link}>
-            <Icon className={styles.email__pointer} type='pointer-right' />
-            All login options
+            Or choose{' '}
+            <Link to={'/login'} className={styles.loginLink}>
+              another log in option
+            </Link>
           </Link>
-        </>
+        </div>
       )}
     </Mutation>
   )

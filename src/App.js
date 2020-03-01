@@ -41,7 +41,7 @@ const PATHS = {
   LOGIN: '/login'
 }
 
-const FOOTER_DISABLED_FOR = [PATHS.FEED, PATHS.LOGIN]
+const FOOTER_DISABLED_FOR = [PATHS.FEED, PATHS.LOGIN, '/login/email']
 
 const LoadableLabsPage = Loadable({
   loader: () => import('./pages/Labs'),

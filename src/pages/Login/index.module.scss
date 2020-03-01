@@ -4,6 +4,18 @@
   display: flex;
 }
 
+.loginViaEmail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginBlock {
+  border-right: 1px solid var(--porcelain);
+  padding-right: 114px;
+}
+
 .wrapper {
   height: 100%;
   display: flex;
@@ -14,7 +26,8 @@
 
 .panel {
   margin: 0 auto;
-  padding: 30px 60px 36px;
+  padding: 54px 107px;
+  min-width: 608px;
   text-align: center;
 
   @include responsive('phone', 'phone-xs') {
@@ -40,7 +53,7 @@
 }
 
 .options {
-  margin: 24px 0 32px;
+  margin: 24px 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,6 +85,12 @@
     color: var(--jungle-green);
     fill: var(--jungle-green);
     border: 1px solid var(--jungle-green);
+    margin-bottom: 0;
+
+    &:hover {
+      color: var(--jungle-green-hover);
+      fill: var(--jungle-green-hover);
+    }
   }
 
   &_metamask {
@@ -85,19 +104,28 @@
 
 .email {
   &__subtitle {
-    font-size: 12px;
-    font-weight: normal;
-    line-height: 18px;
-    margin: 10px 0;
+    @include text('body-2');
+
+    color: var(--waterloo);
+    margin-top: 8px;
+    margin-bottom: 0;
+    max-width: 320px;
+    word-break: break-word;
   }
 
   &__form {
-    margin: 20px auto;
-    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   &__btn {
-    margin: 15px 0 30px;
+    margin-top: 24px;
+    width: 280px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
 
     @include responsive('phone', 'phone-xs') {
       width: 100%;
@@ -106,15 +134,24 @@
   }
 
   &__link {
-    font-size: 12px;
-    color: var(--casper);
-    fill: var(--casper);
+    @include text('body-2');
+
+    color: var(--waterloo);
+    fill: var(--waterloo);
+    margin-top: 24px;
   }
 
   &__pointer {
     transform: rotate(180deg);
     margin-right: 5px;
     vertical-align: middle;
+  }
+
+  &__title {
+    @include text('h3');
+
+    color: var(--rhino);
+    margin: 0;
   }
 }
 
@@ -135,4 +172,51 @@
   transform: translateX(-30px);
 
   @include text('caption');
+}
+
+.new {
+  color: var(--waterloo);
+  margin-top: 32px;
+
+  @include text('body-2');
+}
+
+.createLink {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.loginLink {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.emailInput {
+  background: var(--white);
+  margin-top: 32px;
+  width: 280px;
+  height: 40px;
+
+  @include text('body-3');
+
+  input {
+    height: 40px;
+    padding-left: 40px !important;
+  }
+
+  svg {
+    padding: 14px 8px 14px 16px;
+    width: 16px;
+    fill: var(--waterloo);
+  }
+
+  &:hover {
+    fill: var(--jungle-green-hover) !important;
+  }
 }
