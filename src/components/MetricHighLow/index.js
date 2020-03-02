@@ -61,9 +61,6 @@ const MetricHighLow = ({
   })
 
   const { min = 0, max = 0, last = 0 } = data.getMetric || {}
-  /* const min = 2, */
-  /* max = 108, */
-  /* last = 33 */
 
   let offset = ((last - min) * 100) / (max - min)
 
