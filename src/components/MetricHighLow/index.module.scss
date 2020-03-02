@@ -1,38 +1,20 @@
 @import '~@santiment-network/ui/mixins';
 
-.wrapper {
-  width: 100%;
-  max-width: 145px;
-
-  @include responsive('laptop', 'desktop') {
-    max-width: 200px;
-  }
-}
-
-.progress {
+.row {
   display: flex;
   justify-content: space-between;
-  position: relative;
-  padding-top: 4px;
-  margin-top: 2px;
-  color: var(--waterloo);
-
-  @include text('caption');
-
-  @include responsive('laptop', 'desktop', 'tablet') {
-    @include text('caption', 'm');
-
-    color: var(--rhino);
-    padding-top: 8px;
-    margin-top: 23px;
-    min-width: 150px;
-  }
-}
-
-.top {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
+}
+
+.values {
+  @include text('caption', 'm');
+
+  color: var(--rhino);
+
+  @include responsive('phone', 'phone-xs') {
+    color: var(--waterloo);
+    font-weight: normal;
+  }
 }
 
 .text {
@@ -41,75 +23,69 @@
   color: var(--waterloo);
 }
 
-.period {
-  @include text('body-2');
-
-  color: var(--rhino);
-  color: var(--jungle-green);
-  padding: 0 8px;
-  cursor: pointer;
-  background-color: var(--jungle-green-light);
-  border-radius: 2px;
-
-  @include responsive('laptop', 'desktop', 'tablet') {
-    @include text('caption');
-
-    padding: 0 4px;
-  }
-}
-
-.line {
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
+.progress {
+  height: 4px;
   border-radius: 2px;
   background-color: var(--porcelain);
+  position: relative;
+  margin: 23px 0 4px;
 
-  @include responsive('laptop', 'desktop', 'tablet') {
-    height: 4px;
-  }
-
-  &::before {
-    content: '';
+  &::before,
+  &::after {
     position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    transition: width 1s ease-in-out, left 1s ease-in-out;
-    width: calc(var(--progress) - 2px);
-    height: 2px;
-    border-radius: 2px;
-    background: var(--casper);
-
-    @include responsive('laptop', 'desktop', 'tablet') {
-      top: -20px;
-      left: calc(var(--progress) - 9px);
-      width: 16px;
-      height: 16px;
-      content: url('./pointer.svg');
-      background: none;
-    }
+    left: var(--progress);
+    transition: left 1s ease-in-out;
   }
 
   &::after {
     content: '';
-    position: absolute;
-    top: -1px;
-    left: calc(var(--progress) - 3px);
-    display: block;
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    transition: left 1s ease-in-out;
-    background-color: var(--waterloo);
+    top: 50%;
+    background: var(--waterloo);
+    transform: translate(-50%, -50%);
+  }
 
-    @include responsive('laptop', 'desktop', 'tablet') {
+  &::before {
+    content: url('./pointer.svg');
+    width: 16px;
+    height: 16px;
+    top: -20px;
+    transform: translateX(-50%);
+  }
+
+  @include responsive('phone', 'phone-xs') {
+    margin: 2px 0;
+    height: 2px;
+
+    &::before {
+      content: '';
+      background: var(--casper);
+      left: 0;
       top: 0;
-      background-color: var(--casper);
+      transform: none;
+      width: var(--progress);
+      height: 2px;
+      border-radius: 2px;
+      transition: width 1s ease-in-out;
     }
+  }
+}
+
+.period {
+  @include text('caption');
+
+  padding: 0 4px;
+  border-radius: 2px;
+  color: var(--jungle-green);
+  background: var(--jungle-green-light);
+  cursor: pointer;
+
+  @include responsive('phone', 'phone-xs') {
+    @include text('body-2');
+
+    padding: 0 8px;
   }
 }
 

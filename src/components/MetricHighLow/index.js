@@ -31,6 +31,13 @@ function getPeriod (hours) {
   }
 }
 
+const Value = ({ loading, value, formatter }) =>
+  loading ? (
+    <Loader className={styles.loader} />
+  ) : (
+    <span>{formatter(value)}</span>
+  )
+
 const MetricHighLow = ({
   className,
   metric,
@@ -39,7 +46,6 @@ const MetricHighLow = ({
   label,
   changes,
   selectedIndex,
-  isDesktop,
   formatter,
   onRangeChange
 }) => {
@@ -55,6 +61,9 @@ const MetricHighLow = ({
   })
 
   const { min = 0, max = 0, last = 0 } = data.getMetric || {}
+  /* const min = 2, */
+  /* max = 108, */
+  /* last = 33 */
 
   let offset = ((last - min) * 100) / (max - min)
 
@@ -75,25 +84,21 @@ const MetricHighLow = ({
   }
 
   return (
-    <section className={cx(styles.wrapper, className)}>
-      <div className={styles.top}>
-        {isDesktop && changes ? (
-          <span className={styles.text}>High/Low {label}</span>
-        ) : (
+    <section className={className}>
+      <div className={styles.row}>
+        {changes ? (
           <PercentChanges changes={changes} />
+        ) : (
+          <span className={styles.text}>High/Low {label}</span>
         )}
         <Label className={styles.period} onClick={cycleRange}>
           {range}
         </Label>
       </div>
-      <div className={styles.progress}>
-        <span className={styles.line} style={{ '--progress': `${offset}%` }} />
-        <span className={styles.min}>
-          {loading ? <Loader className={styles.loader} /> : formatter(min)}
-        </span>
-        <span className={styles.max}>
-          {loading ? <Loader className={styles.loader} /> : formatter(max)}
-        </span>
+      <div className={styles.progress} style={{ '--progress': `${offset}%` }} />
+      <div className={cx(styles.row, styles.values)}>
+        <Value loading={loading} value={min} formatter={formatter} />
+        <Value loading={loading} value={max} formatter={formatter} />
       </div>
     </section>
   )
