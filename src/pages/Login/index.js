@@ -4,7 +4,7 @@ import { parse } from 'query-string'
 import { Switch, Route, Link, Redirect } from 'react-router-dom'
 import Panel from '@santiment-network/ui/Panel/Panel'
 import LoginMetamaskBtn from './LoginMetamaskBtn'
-import LoginEmail from './LoginEmail'
+import LoginEmailForm from './LoginEmailForm'
 import LoginEmailBtn from './LoginEmailBtn'
 import FreeTrialBlock from './FreeTrialBlock'
 import { PATHS } from '../../App'
@@ -55,7 +55,11 @@ export default ({ isLoggedIn, token, location: { search = '' } }) => {
     <div className={cx('page', styles.wrapper)}>
       <Panel className={styles.panel}>
         <Switch>
-          <Route exact path={PATHS.LOGIN_VIA_EMAIL} render={LoginEmail} />
+          <Route
+            exact
+            path={PATHS.LOGIN_VIA_EMAIL}
+            render={props => <LoginEmailForm {...props} />}
+          />
           <Route
             exact
             path={PATHS.CREATE_ACCOUNT_FREE_TRIAL}

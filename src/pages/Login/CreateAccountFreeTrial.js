@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { PATHS } from '../../App'
 import externalStyles from './index.module.scss'
 import styles from './CreateAccountFreeTrial.module.scss'
+import LoginEmailForm, { EmailForm } from './LoginEmailForm'
 
 const TRIAL_DESCRIPTIONS = [
   {
@@ -55,26 +56,34 @@ const TrialDescriptions = () => {
   )
 }
 
-const CreateAccountFreeTrial = () => {
-  return (
-    <div className={externalStyles.container}>
-      <div className={externalStyles.loginBlock}>
-        <h2 className={externalStyles.title}>
-          Sign up now to start your free trial
-        </h2>
+const PrepareState = ({ loading, loginEmail, setEmail }) => (
+  <div className={externalStyles.container}>
+    <div className={externalStyles.loginBlock}>
+      <h2 className={externalStyles.title}>
+        Sign up now to start your free trial
+      </h2>
 
-        <div className={styles.subtitle}>Get 14 days free of Sanbase Pro!</div>
+      <div className={styles.subtitle}>Get 14 days free of Sanbase Pro!</div>
 
-        <div className={externalStyles.new}>
-          Have an account?{' '}
-          <Link to={PATHS.LOGIN} className={externalStyles.createLink}>
-            Log in
-          </Link>
-        </div>
+      <EmailForm
+        loading={loading}
+        loginEmail={loginEmail}
+        setEmail={setEmail}
+      />
+
+      <div className={externalStyles.new}>
+        Have an account?{' '}
+        <Link to={PATHS.LOGIN} className={externalStyles.createLink}>
+          Log in
+        </Link>
       </div>
-      <TrialDescriptions />
     </div>
-  )
+    <TrialDescriptions />
+  </div>
+)
+
+const CreateAccountFreeTrial = () => {
+  return <LoginEmailForm prepareState={PrepareState} />
 }
 
 export default CreateAccountFreeTrial

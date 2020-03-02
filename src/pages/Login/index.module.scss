@@ -11,6 +11,10 @@
   align-items: center;
 }
 
+.emailSuccess {
+  padding: 48px 24px;
+}
+
 .loginBlock {
   border-right: 1px solid var(--porcelain);
   padding-right: 114px;
@@ -114,6 +118,11 @@
     word-break: break-word;
   }
 
+  &__subtitleSuccess {
+    margin-top: 16px;
+    max-width: 340px;
+  }
+
   &__form {
     display: flex;
     flex-direction: column;
@@ -140,6 +149,14 @@
     color: var(--waterloo);
     fill: var(--waterloo);
     margin-top: 24px;
+
+    &:hover {
+      color: var(--waterloo) !important;
+    }
+  }
+
+  &__linkSuccess {
+    margin-top: 32px;
   }
 
   &__pointer {
@@ -220,4 +237,8 @@
   &:hover {
     fill: var(--jungle-green-hover) !important;
   }
+}
+
+.emailCheck {
+  color: var(--rhino);
 }
