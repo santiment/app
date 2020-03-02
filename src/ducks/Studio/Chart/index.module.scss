@@ -2,6 +2,10 @@
   position: relative;
   margin-top: 13px;
 
+  &_explained {
+    padding-right: 340px !important;
+  }
+
   &:first-child {
     margin: 0;
   }
@@ -47,4 +51,18 @@
 
 .blur {
   filter: blur(7px);
+}
+
+.explanation {
+  width: 320px;
+  border-left: 1px solid var(--porcelain);
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.explain {
+  margin-left: 12px;
+  white-space: nowrap;
 }

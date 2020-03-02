@@ -143,12 +143,11 @@ const PriceWithChanges = ({
       </div>
       {!isTablet && (
         <PriceChangesWidget
+          className={styles.highLow}
           slug={slug}
-          changes={RANGES[activeRange].value}
           range={RANGES[activeRange].range}
           price={priceUsd}
-          isDesktop={true}
-          onChangeRange={changeRange}
+          onRangeChange={changeRange}
           minmax={minmax}
         />
       )}

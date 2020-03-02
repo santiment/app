@@ -184,3 +184,11 @@
 
   @include text('body-3');
 }
+
+.highLow {
+  @include responsive('desktop') {
+    max-width: 200px;
+  }
+
+  max-width: 145px;
+}
