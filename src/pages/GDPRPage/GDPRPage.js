@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { Link, Redirect } from 'react-router-dom'
+import cx from 'classnames'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { Panel, Checkbox, Button } from '@santiment-network/ui'
-import styles from './GDPRPage.module.scss'
+import Button from '@santiment-network/ui/Button'
+import { Checkbox } from '@santiment-network/ui/Checkboxes'
+import Panel from '@santiment-network/ui/Panel'
 import * as actions from './../../actions/types'
+import styles from './GDPRPage.module.scss'
 
 const GDPRPage = ({ togglePrivacyPolicy, privacyPolicyAccepted }) => {
   const [isGDPR, setGDPR] = useState(false)
@@ -15,28 +18,38 @@ const GDPRPage = ({ togglePrivacyPolicy, privacyPolicyAccepted }) => {
   }
 
   return (
-    <Panel padding className={styles.wrapper}>
-      <h2>Last step to get your Sanbase experience.</h2>
-      <p>
-        Please accept our updated Privacy Policy by May, 2018 to continue using
-        Sanbase
-      </p>
-      <div>
-        <Checkbox isActive={isGDPR} onClick={toggleGDPR} />
-        <label>&nbsp;I have read and accept the &nbsp;</label>
-        <Link to='/privacy-policy'>Santiment Privacy Policy</Link>
-      </div>
-      <div className={styles.toggleBtn}>
+    <div className={cx('page', styles.wrapper)}>
+      <Panel padding className={styles.container}>
+        <h3 className={styles.title}>We value your privacy</h3>
+        <p className={styles.description}>
+          Please review and accept our Privacy Policy to continue using Sanbase
+        </p>
+        <div className={styles.check}>
+          <Checkbox
+            isActive={isGDPR}
+            onClick={toggleGDPR}
+            className={styles.checkbox}
+          />
+          <div className={styles.checkDescription}>
+            <label className={styles.accept}>
+              &nbsp;I have read and accept the &nbsp;
+            </label>
+            <Link to='/privacy-policy' className={styles.link}>
+              Santiment Privacy Policy
+            </Link>
+          </div>
+        </div>
         <Button
+          className={styles.toggleBtn}
           disabled={!isGDPR}
           variant='fill'
           accent='positive'
           onClick={togglePrivacyPolicy}
         >
-          I Agree
+          Continue
         </Button>
-      </div>
-    </Panel>
+      </Panel>
+    </div>
   )
 }
 

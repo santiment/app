@@ -40,14 +40,16 @@ export const PATHS = {
   FEED: '/feed',
   LOGIN: '/login',
   LOGIN_VIA_EMAIL: '/login/email',
-  CREATE_ACCOUNT_FREE_TRIAL: '/login/trial'
+  CREATE_ACCOUNT_FREE_TRIAL: '/login/trial',
+  GDPR: '/gdpr'
 }
 
 const FOOTER_DISABLED_FOR = [
   PATHS.FEED,
   PATHS.LOGIN,
   PATHS.LOGIN_VIA_EMAIL,
-  PATHS.CREATE_ACCOUNT_FREE_TRIAL
+  PATHS.CREATE_ACCOUNT_FREE_TRIAL,
+  PATHS.GDPR
 ]
 
 const LoadableLabsPage = Loadable({
@@ -265,7 +267,7 @@ export const App = ({
           />
         ))}
         <Route exact path='/pricing' component={LoadablePricingPage} />
-        <Route exact path='/gdpr' component={GDPRPage} />
+        <Route exact path={PATHS.GDPR} component={GDPRPage} />
         <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
         <Route
           exact

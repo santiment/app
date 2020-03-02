@@ -72,11 +72,11 @@ const SuccessState = ({ email }) => {
       </h3>
 
       <Link
-        to='/login'
+        to={PATHS.LOGIN}
         className={cx(styles.email__link, styles.email__linkSuccess)}
       >
         Back to{' '}
-        <Link to={'/login'} className={styles.loginLink}>
+        <Link to={PATHS.LOGIN} className={styles.loginLink}>
           log in options
         </Link>
       </Link>
