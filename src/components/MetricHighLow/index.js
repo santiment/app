@@ -67,7 +67,11 @@ const MetricHighLow = ({
   }
 
   function cycleRange () {
-    setIndex((index + 1) % rangeHours.length)
+    const newIndex = (index + 1) % rangeHours.length
+    setIndex(newIndex)
+    if (onRangeChange) {
+      onRangeChange(rangeHours[newIndex].range)
+    }
   }
 
   return (

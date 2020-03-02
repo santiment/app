@@ -148,7 +148,7 @@ const PriceWithChanges = ({
           range={RANGES[activeRange].range}
           price={priceUsd}
           isDesktop={true}
-          onChangeRange={changeRange}
+          onRangeChange={changeRange}
           minmax={minmax}
         />
       )}

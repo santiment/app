@@ -7,7 +7,7 @@ export const Explanation = Object.assign(Object.create(null), {
       <MetricHighLow
         slug={slug}
         metric='social_volume_total'
-        selectedIndex={1}
+        label='Social Volume'
       />
     )
   }
