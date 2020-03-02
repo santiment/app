@@ -52,7 +52,7 @@ const MetricHighLow = ({
   const [index, setIndex] = useState(selectedIndex)
   const { range, hours } = rangeHours[index]
   const { loading, data = {} } = useQuery(METRIC_HIGH_LOW_QUERY, {
-    skip: !(metric && slug && range),
+    skip: !(metric && slug),
     variables: {
       metric,
       slug,
