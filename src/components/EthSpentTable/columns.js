@@ -15,7 +15,7 @@ export const columns = [
     Header: '',
     id: 'icon',
     filterable: true,
-    sortable: true,
+    sortable: false,
     minWidth: 24,
     maxWidth: 100,
     accessor: ({ name, ticker, slug }) => ({ name, ticker, slug }),
