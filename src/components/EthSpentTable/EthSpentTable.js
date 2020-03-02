@@ -1,49 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ReactTable from 'react-table'
 import Loader from '@santiment-network/ui/Loader/Loader'
-import Button from '@santiment-network/ui/Button'
 import PanelWithHeader from '@santiment-network/ui/Panel/PanelWithHeader'
 import { columns } from './columns'
-import GetAssets from '../../pages/assets/GetAssets'
+import GetAssets, { FIRST_LOAD_SIZE } from '../../pages/assets/GetAssets'
 import '../../pages/Projects/ProjectsTable.css'
 import styles from './EthSpentTable.module.scss'
 
-const ROWS_COUNT = 10
-
 const EthSpentTable = () => {
-  const [page, setPage] = useState(1)
-
   return (
     <GetAssets
+      sortBy='eth_balance'
       type='erc20'
-      page={page}
-      pageSize={ROWS_COUNT}
-      render={({ items = [], isLoading: loading = true }) => {
+      render={({ items = [], isLoading: loading = true, loadingAll }) => {
         return (
           <PanelWithHeader
             header={
               <div className={styles.header}>
-                Ethereum spent overview
-                <div className={styles.actions}>
-                  <Button
-                    accent={'positive'}
-                    variant={'fill'}
-                    disabled={loading || page === 1}
-                    className={styles.control}
-                    onClick={() => setPage(Math.max(1, page - 1))}
-                  >
-                    Prev
-                  </Button>
-                  <Button
-                    accent={'positive'}
-                    variant={'fill'}
-                    disabled={loading || items.length < ROWS_COUNT}
-                    className={styles.control}
-                    onClick={() => setPage(page + 1)}
-                  >
-                    Next
-                  </Button>
-                </div>
+                Ethereum spent overview{' '}
+                {loadingAll && <Loader className={styles.headerLoader} />}
               </div>
             }
             className={styles.wrapper}
@@ -52,16 +27,11 @@ const EthSpentTable = () => {
             <ReactTable
               loading={loading}
               multiSort
-              showPagination={false}
+              showPagination
               sortable
+              defaultPageSize={FIRST_LOAD_SIZE}
               minRows={0}
               resizable={false}
-              defaultSorted={[
-                {
-                  id: 'project',
-                  desc: false
-                }
-              ]}
               className={styles.ethSpentTable}
               data={items}
               columns={columns}

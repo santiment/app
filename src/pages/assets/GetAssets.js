@@ -1,5 +1,4 @@
 import { Component } from 'react'
-import PropTypes from 'prop-types'
 import * as qs from 'query-string'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
@@ -13,13 +12,12 @@ export const SORT_TYPES = {
   ethSpent: 'ethSpent'
 }
 
-const MAX_PER_PAGE = 1000000
+const MAX_LOAD_SIZE = 1000000
+export const FIRST_LOAD_SIZE = 10
 
 class GetAssets extends Component {
-  static defaultProps = {
-    sortBy: PropTypes.string.isRequired,
-    page: 1,
-    pageSize: MAX_PER_PAGE
+  state = {
+    callFetchAll: false
   }
 
   static defaultProps = {
@@ -50,43 +48,68 @@ class GetAssets extends Component {
   }
 
   componentDidMount () {
-    this.fetch()
+    this.fetchPreFirst()
   }
 
   componentDidUpdate (prevProps, prevState) {
     const { pathname, search } = this.props.location || {}
     if (
       pathname !== (prevProps.location || {}).pathname ||
-      search !== (prevProps.location || {}).search ||
-      this.props.page !== prevProps.page
+      search !== (prevProps.location || {}).search
     ) {
-      this.fetch()
+      this.fetchPreFirst()
     }
   }
 
-  fetch (page = this.props.page) {
+  componentWillReceiveProps (nextProps) {
+    if (
+      !nextProps.Assets.isLoading &&
+      nextProps.Assets.items.length === FIRST_LOAD_SIZE
+    ) {
+      if (!this.state.callFetchAll) {
+        this.fetchAll()
+      }
+    }
+  }
+
+  fetchAll () {
+    this.setState({ ...this.state, callFetchAll: true })
+    this.fetch(MAX_LOAD_SIZE)
+  }
+
+  fetchPreFirst () {
+    this.setState({ ...this.state, callFetchAll: false })
+    this.fetch(FIRST_LOAD_SIZE)
+  }
+
+  fetch (pageSize) {
     const { type, listName, listId, listSlug } = this.getType()
     this.props.fetchAssets({
       type,
       list: { name: listName, id: listId, slug: listSlug },
       minVolume: this.props.minVolume,
-      page: page,
-      pageSize: this.props.pageSize
+      page: 1,
+      pageSize
     })
   }
 
   render () {
-    const { children, render } = this.props
+    const { children, render, Assets, sortBy: sortType } = this.props
     const typeInfo = this.getType()
-    const { Assets, sortBy: sortType } = this.props
-    const items = Assets.items
-    const props = {
+    const { items } = Assets
+
+    const childProps = {
       ...Assets,
       typeInfo,
       items: items.sort(sortBy(sortType))
     }
-    if (typeof children === 'function') return children(props)
-    return render(props)
+
+    childProps.isLoading = this.state.callFetchAll ? false : Assets.isLoading
+    childProps.loadingAll = this.state.callFetchAll && Assets.isLoading
+
+    return typeof children === 'function'
+      ? children(childProps)
+      : render(childProps)
   }
 }
 
@@ -98,19 +121,13 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchAssets: ({
-    type,
-    list,
-    minVolume,
-    page = 1,
-    pageSize = MAX_PER_PAGE
-  }) => {
+  fetchAssets: ({ type, list, minVolume, page, pageSize = MAX_LOAD_SIZE }) => {
     return dispatch({
       type: actions.ASSETS_FETCH,
       payload: {
         type,
         list,
-        filters: { minVolume, page, pageSize }
+        filters: { minVolume, pageSize, page }
       }
     })
   }
