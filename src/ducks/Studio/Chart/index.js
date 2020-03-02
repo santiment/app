@@ -40,6 +40,10 @@ const Canvas = ({
     setIsExplained(state => !state)
   }
 
+  function closeExplanation () {
+    setIsExplained(false)
+  }
+
   return (
     <div
       className={cx(
@@ -104,7 +108,11 @@ const Canvas = ({
 
       {isExplained && (
         <div className={styles.explanation}>
-          <ChartMetricsExplanation {...settings} metrics={metrics} />
+          <ChartMetricsExplanation
+            {...settings}
+            metrics={metrics}
+            onClose={closeExplanation}
+          />
         </div>
       )}
     </div>

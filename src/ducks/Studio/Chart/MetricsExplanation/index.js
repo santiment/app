@@ -33,7 +33,18 @@ const Label = ({ metric: { key, dataKey = key, node, label }, colors }) => (
   </div>
 )
 
-const MetricsExplanation = ({ metrics, ...rest }) => {
+const CloseButton = props => {
+  return (
+    <div className={styles.close} {...props}>
+      <div className={styles.icons}>
+        <Icon type='hamburger' className={styles.hamburger} />
+        <Icon type='arrow-right' className={styles.arrow} />
+      </div>
+    </div>
+  )
+}
+
+const MetricsExplanation = ({ metrics, onClose, ...rest }) => {
   const [options, setOptions] = useState(OPTIONS)
   const [selected, setSelected] = useState(SELECTED)
 
@@ -55,18 +66,21 @@ const MetricsExplanation = ({ metrics, ...rest }) => {
   const Expl = Explanation[metric.key]
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.title}>Metric Explanations</div>
-      <Dropdown
-        selected={selected}
-        options={options}
-        classes={dropdownClasses}
-        onSelect={setSelected}
-      />
-      <div className={styles.subtitle}>Description</div>
-      <div className={styles.text}>{metric.description}</div>
-      {Expl && <Expl {...rest} />}
-    </div>
+    <>
+      <CloseButton onClick={onClose} />
+      <div className={styles.wrapper}>
+        <div className={styles.title}>Metric Explanations</div>
+        <Dropdown
+          selected={selected}
+          options={options}
+          classes={dropdownClasses}
+          onSelect={setSelected}
+        />
+        <div className={styles.subtitle}>Description</div>
+        <div className={styles.text}>{metric.description}</div>
+        {Expl && <Expl {...rest} />}
+      </div>
+    </>
   )
 }
 

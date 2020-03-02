@@ -2,6 +2,8 @@
 
 .wrapper {
   padding: 26px 28px;
+  max-height: 100%;
+  overflow-y: auto;
 
   @include text('body-3');
 }
@@ -40,4 +42,40 @@
   height: 16px;
   width: 16px;
   margin-right: 8px;
+}
+
+.close {
+  height: 32px;
+  width: 13px;
+  background: var(--white);
+  display: flex;
+  position: absolute;
+  left: -13px;
+  top: 20px;
+  border: 1px solid var(--porcelain);
+  border-right: none;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.icons {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  fill: var(--casper);
+  height: 100%;
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}
+
+.hamburger {
+  transform: scale(0.33, 0.8);
+  margin: -1px -3px 0 3px;
+}
+
+.arrow {
+  height: 6px;
 }
