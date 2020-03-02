@@ -6,7 +6,9 @@ import { linearScale, logScale } from '@santiment-network/chart/scales'
 import ChartPaywallInfo from './PaywallInfo'
 import ChartActiveMetrics from './ActiveMetrics'
 import ChartFullscreenBtn from './ChartFullscreenBtn'
-import ChartMetricsExplanation from './MetricsExplanation'
+import ChartMetricsExplanation, {
+  filterExplainableMetrics
+} from './MetricsExplanation'
 import Chart from '../../SANCharts/Chart'
 import Synchronizer from '../../SANCharts/Chart/Synchronizer'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
@@ -60,11 +62,12 @@ const Canvas = ({
 
         <div className={styles.meta}>
           <ChartPaywallInfo boundaries={boundaries} />
-          {/* TODO: check for explainable metrics */}
-          <ChartMetricsExplanation.Button
-            onClick={toggleExplanation}
-            className={styles.explain}
-          />
+          {filterExplainableMetrics(metrics).length > 0 && (
+            <ChartMetricsExplanation.Button
+              onClick={toggleExplanation}
+              className={styles.explain}
+            />
+          )}
           <ChartFullscreenBtn
             {...props}
             options={options}
@@ -101,7 +104,7 @@ const Canvas = ({
 
       {isExplained && (
         <div className={styles.explanation}>
-          <ChartMetricsExplanation metrics={metrics} />
+          <ChartMetricsExplanation {...settings} metrics={metrics} />
         </div>
       )}
     </div>

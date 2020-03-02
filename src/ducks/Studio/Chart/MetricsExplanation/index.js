@@ -3,6 +3,7 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import { Metrics } from '../../../SANCharts/data'
+import { Explanation } from '../../timeseries/explanations'
 import MetricIcon from '../../../SANCharts/MetricIcon'
 import { getSyncedColors } from '../../../SANCharts/Chart/Synchronizer'
 import styles from './index.module.scss'
@@ -14,6 +15,17 @@ const dropdownClasses = {
   wrapper: styles.dropdown
 }
 
+export function filterExplainableMetrics (metrics) {
+  return metrics.filter(({ description }) => description)
+}
+
+function buildOptions (metrics, colors) {
+  return filterExplainableMetrics(metrics).map(metric => ({
+    index: metric.key,
+    content: <Label metric={metric} colors={colors} />
+  }))
+}
+
 const Label = ({ metric: { key, dataKey = key, node, label }, colors }) => (
   <div className={styles.label}>
     <MetricIcon node={node} color={colors[dataKey]} className={styles.icon} />
@@ -21,16 +33,7 @@ const Label = ({ metric: { key, dataKey = key, node, label }, colors }) => (
   </div>
 )
 
-function buildOptions (metrics, colors) {
-  return metrics
-    .filter(({ description }) => description)
-    .map(metric => ({
-      index: metric.key,
-      content: <Label metric={metric} colors={colors} />
-    }))
-}
-
-const MetricsExplanation = ({ metrics }) => {
+const MetricsExplanation = ({ metrics, ...rest }) => {
   const [options, setOptions] = useState(OPTIONS)
   const [selected, setSelected] = useState(SELECTED)
 
@@ -47,7 +50,11 @@ const MetricsExplanation = ({ metrics }) => {
     [metrics]
   )
 
-  return metric ? (
+  if (!metric) return null
+
+  const Expl = Explanation[metric.key]
+
+  return (
     <div className={styles.wrapper}>
       <div className={styles.title}>Metric Explanations</div>
       <Dropdown
@@ -58,8 +65,9 @@ const MetricsExplanation = ({ metrics }) => {
       />
       <div className={styles.subtitle}>Description</div>
       <div className={styles.text}>{metric.description}</div>
+      {Expl && <Expl {...rest} />}
     </div>
-  ) : null
+  )
 }
 
 MetricsExplanation.Button = props => (
