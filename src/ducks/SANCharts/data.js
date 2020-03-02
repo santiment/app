@@ -124,7 +124,7 @@ export const Metrics = {
     description: (
       <>
         Shows the amount of tokens changing addresses on a certain date,
-        multiplied by the number of days since they last moved More info{' '}
+        multiplied by the number of days since they last moved. More info{' '}
         <a
           target='_blank'
           rel='noopener noreferrer'
@@ -382,7 +382,7 @@ export const Metrics = {
       <>
         Shows the number of unique deposit addresses that participated in
         transactions for a given day. A deposit address is an address belonging
-        to an exchange that users use to deposit assets More info{' '}
+        to an exchange that users use to deposit assets. More info{' '}
         <a
           target='_blank'
           rel='noopener noreferrer'

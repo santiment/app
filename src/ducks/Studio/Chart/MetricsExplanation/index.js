@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dropdown from '@santiment-network/ui/Dropdown'
-import { Metrics } from '../../../SANCharts/data'
 import Explanations from './Explanations'
 import MetricIcon from '../../../SANCharts/MetricIcon'
 import { getSyncedColors } from '../../../SANCharts/Chart/Synchronizer'
@@ -22,7 +21,8 @@ export function filterExplainableMetrics (metrics) {
 function buildOptions (metrics, colors) {
   return filterExplainableMetrics(metrics).map(metric => ({
     index: metric.key,
-    content: <Label metric={metric} colors={colors} />
+    content: <Label metric={metric} colors={colors} />,
+    metric
   }))
 }
 
@@ -47,8 +47,7 @@ const CloseButton = props => {
 const MetricsExplanation = ({ metrics, onClose, ...rest }) => {
   const [options, setOptions] = useState(OPTIONS)
   const [selected, setSelected] = useState(SELECTED)
-
-  const metric = Metrics[selected.index]
+  const { metric } = selected
 
   useEffect(
     () => {
