@@ -3,7 +3,7 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import { Metrics } from '../../../SANCharts/data'
-import { Explanation } from '../../timeseries/explanations'
+import Explanations from './Explanations'
 import MetricIcon from '../../../SANCharts/MetricIcon'
 import { getSyncedColors } from '../../../SANCharts/Chart/Synchronizer'
 import styles from './index.module.scss'
@@ -63,8 +63,6 @@ const MetricsExplanation = ({ metrics, onClose, ...rest }) => {
 
   if (!metric) return null
 
-  const Expl = Explanation[metric.key]
-
   return (
     <>
       <CloseButton onClick={onClose} />
@@ -78,7 +76,7 @@ const MetricsExplanation = ({ metrics, onClose, ...rest }) => {
         />
         <div className={styles.subtitle}>Description</div>
         <div className={styles.text}>{metric.description}</div>
-        {Expl && <Expl {...rest} />}
+        <Explanations {...rest} metric={metric} />
       </div>
     </>
   )
