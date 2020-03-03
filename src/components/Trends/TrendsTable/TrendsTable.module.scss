@@ -27,6 +27,9 @@
 
   @include text('body-3');
 
+  font-size: 14px !important;
+  line-height: 20px !important;
+
   @include responsive('phone', 'phone-xs') {
     @include text('body-2');
   }
@@ -159,10 +162,13 @@
       border: none !important;
       display: flex;
       align-items: center;
+      font-size: 14px !important;
+      line-height: 20px !important;
 
       @include responsive('phone', 'phone-xs') {
-        line-height: initial !important;
         justify-content: flex-end;
+        font-size: 16px !important;
+        line-height: 22px !important;
 
         &:first-child {
           justify-content: flex-start;
@@ -182,15 +188,24 @@
 }
 
 .volume {
+  font-size: 14px !important;
+  line-height: 20px !important;
+
   @include responsive('phone', 'phone-xs') {
+    font-size: 16px !important;
+    line-height: 22px !important;
     margin: 0 16px;
   }
 }
 
 .valueChange {
   margin-left: 8px;
+  font-size: 14px !important;
+  line-height: 20px !important;
 
   @include responsive('phone', 'phone-xs') {
+    font-size: 16px !important;
+    line-height: 22px !important;
     margin-left: auto;
   }
 }

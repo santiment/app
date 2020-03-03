@@ -14,7 +14,7 @@ import styles from './index.module.scss'
 const LoginOptions = () => (
   <div className={styles.container}>
     <div className={styles.loginBlock}>
-      <h2 className={styles.title}>Welcome to Santiment</h2>
+      <h3 className={styles.title}>Welcome to Santiment</h3>
       <div className={styles.options}>
         <LoginMetamaskBtn />
         <div className={styles.divider}>

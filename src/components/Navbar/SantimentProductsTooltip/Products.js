@@ -35,7 +35,7 @@ export const MAIN_PRODUCTS = [
 export const LABS = [
   {
     img: socialTrendsImg,
-    title: 'Social trends',
+    title: 'Emerging trends',
     description:
       'Explore the social volume of any word or phrase on crypto social media. Results gathered from 1000+ channels, groups, subreddits and more.',
     to: '/labs/trends',
