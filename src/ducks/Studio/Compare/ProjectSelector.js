@@ -84,6 +84,10 @@ export default ({ comparable, projects, setComparedMetrics }) => {
     ])
   }
 
+  function removeComparable () {
+    setComparedMetrics(state => state.filter(comp => comp !== comparable))
+  }
+
   function editMetric () {
     setEditing(true)
     metricSelectorRef.current.firstElementChild.firstElementChild.focus()
@@ -137,6 +141,13 @@ export default ({ comparable, projects, setComparedMetrics }) => {
           </div>
         )}
       </div>
+      {comparable && (
+        <Icon
+          type='close'
+          className={styles.remove}
+          onClick={removeComparable}
+        />
+      )}
     </div>
   )
 }
