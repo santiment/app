@@ -60,11 +60,6 @@ export default ({ isLoggedIn, token, location: { search = '' } }) => {
             path={PATHS.LOGIN_VIA_EMAIL}
             render={props => <LoginEmailForm {...props} />}
           />
-          <Route
-            exact
-            path={PATHS.CREATE_ACCOUNT_FREE_TRIAL}
-            render={CreateAccountFreeTrial}
-          />
           <Route path={PATHS.LOGIN} render={LoginOptions} />
         </Switch>
       </Panel>

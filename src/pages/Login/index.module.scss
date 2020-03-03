@@ -16,6 +16,9 @@
 }
 
 .loginBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border-right: 1px solid var(--porcelain);
   padding-right: 114px;
 }
@@ -49,6 +52,7 @@
   color: var(--rhino);
   max-width: 344px;
   margin: 0;
+  text-align: center;
 }
 
 .metamask {

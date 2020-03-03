@@ -4,6 +4,8 @@ import { PATHS } from '../../App'
 import externalStyles from './index.module.scss'
 import styles from './CreateAccountFreeTrial.module.scss'
 import LoginEmailForm, { EmailForm } from './LoginEmailForm'
+import cx from 'classnames'
+import Panel from '@santiment-network/ui/Panel'
 
 const TRIAL_DESCRIPTIONS = [
   {
@@ -83,7 +85,13 @@ const PrepareState = ({ loading, loginEmail, setEmail }) => (
 )
 
 const CreateAccountFreeTrial = () => {
-  return <LoginEmailForm prepareState={PrepareState} />
+  return (
+    <div className={cx('page', styles.wrapper)}>
+      <Panel padding className={styles.container}>
+        <LoginEmailForm prepareState={PrepareState} />
+      </Panel>
+    </div>
+  )
 }
 
 export default CreateAccountFreeTrial

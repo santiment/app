@@ -35,12 +35,13 @@ import LogoutPage from './pages/Logout/Logout'
 import { mapSizesToProps } from './utils/withSizes'
 import styles from './App.module.scss'
 import './App.scss'
+import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
 
 export const PATHS = {
   FEED: '/feed',
   LOGIN: '/login',
   LOGIN_VIA_EMAIL: '/login/email',
-  CREATE_ACCOUNT_FREE_TRIAL: '/login/trial',
+  CREATE_ACCOUNT_FREE_TRIAL: '/signup',
   GDPR: '/gdpr'
 }
 
@@ -268,6 +269,11 @@ export const App = ({
         ))}
         <Route exact path='/pricing' component={LoadablePricingPage} />
         <Route exact path={PATHS.GDPR} component={GDPRPage} />
+        <Route
+          exact
+          path={PATHS.CREATE_ACCOUNT_FREE_TRIAL}
+          render={CreateAccountFreeTrial}
+        />
         <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
         <Route
           exact
