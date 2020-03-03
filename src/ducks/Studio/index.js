@@ -98,7 +98,7 @@ const Studio = ({
   function toggleMetric (metric) {
     if (metric === trendPositionHistory) {
       return toggleTrend(metric)
-    } else if (metric.Comparable) {
+    } else if (metric.comparedTicker) {
       return removeComparedMetric(metric)
     }
 
@@ -132,8 +132,8 @@ const Studio = ({
     setHoveredDate(new Date(value))
   }
 
-  function removeComparedMetric ({ Comparable }) {
-    setComparables(comparables.filter(comp => comp !== Comparable))
+  function removeComparedMetric ({ key }) {
+    setComparables(comparables.filter(comp => comp.key !== key))
   }
 
   return (

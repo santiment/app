@@ -5,6 +5,7 @@ import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
 import styles from '../Projects.module.scss'
 import ProjectSelectDialog from '../ProjectSelectDialog'
 import ComparableMetric from './Metric'
+import { buildCompareKey } from '../utils'
 
 export default ({ comparable, project, metric, projects, setComparables }) => {
   const [selectedProject, setSelectedProject] = useState(project || projects[0])
@@ -27,6 +28,7 @@ export default ({ comparable, project, metric, projects, setComparables }) => {
         setComparables(state => [
           ...state,
           {
+            key: buildCompareKey(selectedMetric, selectedProject),
             project: selectedProject,
             metric: selectedMetric
           }

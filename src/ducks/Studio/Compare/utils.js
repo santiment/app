@@ -16,6 +16,9 @@ export const projectSorter = ({ rank: a }, { rank: b }) => a - b
 
 export const hashComparable = ({ project, metric }) => project.slug + metric.key
 
+export const buildCompareKey = (metric, project) =>
+  `${metric.key}-${project.slug}`
+
 export const buildComparedMetric = Comparable => {
   const hash = hashComparable(Comparable)
   const cached = comparedMetricsCache.get(hash)
@@ -24,16 +27,13 @@ export const buildComparedMetric = Comparable => {
     return cached
   }
 
-  const {
-    metric,
-    project: { ticker, slug }
-  } = Comparable
-
+  const { metric, project } = Comparable
+  const { ticker, slug } = project
   const { key: metricKey, label, formatter } = metric
-  const key = metricKey + slug
+
+  const key = buildCompareKey(metric, project)
 
   const ComparedMetric = Object.assign(Object.create(null), metric, {
-    Comparable,
     key,
     queryKey: metricKey,
     comparedTicker: ticker,
