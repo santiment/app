@@ -1,18 +1,16 @@
 import React from 'react'
 import cx from 'classnames'
 import { AutoSizer, List } from 'react-virtualized'
-import Label from '@santiment-network/ui/Label'
 import Button from '@santiment-network/ui/Button'
 import ProjectIcon from '../../../components/ProjectIcon/ProjectIcon'
 import styles from './Projects.module.scss'
 
 const ROW_HEIGHT = 32
-const MAX_SHOWING_ITEMS = 4
 
-const ProjectsList = ({ projects, onSelect }) => {
-  function rowRenderer ({ key, index, style, ...props }) {
+const ProjectsList = ({ projects, onSelect, className }) => {
+  function rowRenderer ({ key, index, style }) {
     const project = projects[index]
-    const { name, ticker, slug, id, balance } = project
+    const { name, ticker, slug } = project
 
     return (
       <Button
@@ -30,11 +28,10 @@ const ProjectsList = ({ projects, onSelect }) => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(styles.wrapper, className)}>
       <AutoSizer>
         {({ height, width }) => (
           <List
-            className={styles.list}
             width={width}
             height={height}
             rowHeight={ROW_HEIGHT}

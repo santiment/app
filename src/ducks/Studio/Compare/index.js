@@ -2,15 +2,11 @@ import React, { useState, useEffect } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
-import Input from '@santiment-network/ui/Input'
 import Panel from '@santiment-network/ui/Panel'
-import ProjectSelector from './ProjectSelector'
+import Comparable from './Comparable'
 import styles from './index.module.scss'
 import withProjects from './withProjects'
-
-const projectSorter = ({ rank: a }, { rank: b }) => a - b
-
-const hashComparable = ({ project, metric }) => project.slug + metric.key
+import { projectSorter, hashComparable } from './utils'
 
 const Compare = ({ slug, title, allProjects, comparedMetrics, ...rest }) => {
   const [projects, setProjects] = useState(allProjects)
@@ -31,7 +27,7 @@ const Compare = ({ slug, title, allProjects, comparedMetrics, ...rest }) => {
       <ContextMenu
         passOpenStateAs='isActive'
         position='bottom'
-        align='end'
+        align='start'
         trigger={
           <Button border className={styles.btn} classes={styles}>
             <Icon type='compare' className={styles.icon} />
@@ -41,16 +37,15 @@ const Compare = ({ slug, title, allProjects, comparedMetrics, ...rest }) => {
       >
         <Panel variant='modal' padding>
           <div>Compare {title} with</div>
-          {comparedMetrics.map(comparable => (
-            <ProjectSelector
+          {[...comparedMetrics, null].map((comparable, i) => (
+            <Comparable
               {...rest}
-              key={hashComparable(comparable)}
+              {...comparable}
+              key={comparable ? hashComparable(comparable) : i}
               projects={projects}
               comparable={comparable}
             />
           ))}
-
-          <ProjectSelector {...rest} projects={projects} />
         </Panel>
       </ContextMenu>
     </>
