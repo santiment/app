@@ -71,7 +71,12 @@ const groupByDates = events => {
   return groups
 }
 
-const FeedList = ({ events, isLoading, isNewEventsList }) => {
+const FeedList = ({
+  events,
+  isLoading,
+  isNewEventsList,
+  showProfileExplanation
+}) => {
   if (isNewEventsList && isLoading) {
     return (
       <div className={externalStyles.scrollable}>
@@ -96,7 +101,11 @@ const FeedList = ({ events, isLoading, isNewEventsList }) => {
               {items.map((item, itemIndex) => (
                 <Fragment key={itemIndex}>
                   <div className={styles.block}>
-                    <FeedItemRenderer item={item} index={index} />
+                    <FeedItemRenderer
+                      item={item}
+                      index={index}
+                      showProfileExplanation={showProfileExplanation}
+                    />
                     {item.addProCard && <MakeProSubscriptionCard />}
                   </div>
 

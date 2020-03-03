@@ -186,6 +186,7 @@ const GeneralFeed = ({
               isLoading={loadingEvents}
               sortType={sortType}
               filters={filters}
+              showProfileExplanation={isBaseLocation(tab)}
             />
           )
         }}

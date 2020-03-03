@@ -26,7 +26,6 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: true,
         error: false,
-        items: [],
         trendingAssets: []
       }
     case actions.ASSETS_FETCH_SUCCESS:

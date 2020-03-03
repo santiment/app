@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   createSkeletonElement,
   createSkeletonProvider
@@ -143,12 +143,11 @@ const PriceWithChanges = ({
       </div>
       {!isTablet && (
         <PriceChangesWidget
+          className={styles.highLow}
           slug={slug}
-          changes={RANGES[activeRange].value}
           range={RANGES[activeRange].range}
           price={priceUsd}
-          isDesktop={true}
-          onChangeRange={changeRange}
+          onRangeChange={changeRange}
           minmax={minmax}
         />
       )}
@@ -176,6 +175,15 @@ const Header = ({
     percentChange24h = 0,
     percentChange7d = 0
   } = dataProject
+
+  useEffect(
+    () => {
+      if (onSlugSelect && project && project.ticker) {
+        onSlugSelect({ slug, ...project })
+      }
+    },
+    [project]
+  )
 
   return (
     <div className={styles.container}>

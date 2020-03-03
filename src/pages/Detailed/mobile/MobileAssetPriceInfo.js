@@ -31,10 +31,10 @@ const MobileAssetPriceInfo = ({
       <Widget
         {...props}
         price={priceUsd}
-        onChangeRange={changeRange}
+        onRangeChange={changeRange}
         changes={RANGES[activeRange].value}
         range={RANGES[activeRange].range}
-        className={styles.priceWidget}
+        className={styles.highLow}
       />
     </div>
   )

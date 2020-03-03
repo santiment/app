@@ -78,9 +78,11 @@ const VisualBacktestChart = ({
 }) => {
   const markup = generateMetricsMarkup(metrics, { syncedColors })
 
+  const titleEnabled = showTitle && triggeredSignals.length > 0
+
   return (
     <div className={styles.preview}>
-      {showTitle && (
+      {titleEnabled && (
         <div className={styles.description}>
           <span className={styles.fired}>Signal was fired:</span>
           <span className={styles.times}>
@@ -94,7 +96,8 @@ const VisualBacktestChart = ({
             className={cx(
               chartStyles.wrapper,
               sharedStyles.chart,
-              styles.wrapper
+              styles.wrapper,
+              !titleEnabled && styles.noTitle
             )}
           >
             <ResponsiveContainer width='100%' height={120}>

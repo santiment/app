@@ -12,7 +12,8 @@ const ActivityRenderer = ({
   date,
   index,
   classes = {},
-  onLike
+  onLike,
+  showProfileExplanation
 }) => {
   const { id: signalId, settings } = trigger
   const { target } = settings
@@ -41,6 +42,7 @@ const ActivityRenderer = ({
             user={user}
             date={triggerDate}
             onLike={onLike}
+            showProfileExplanation={showProfileExplanation}
           />
         ) : (
           <SimpleActivity
