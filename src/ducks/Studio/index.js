@@ -13,6 +13,8 @@ import { buildAnomalies } from './timeseries/anomalies'
 import { trackMetricState } from './analytics'
 import styles from './index.module.scss'
 
+import { buildComparedMetric } from './Compare/utils'
+
 const { trendPositionHistory } = Events
 
 const Studio = ({
@@ -29,21 +31,30 @@ const Studio = ({
 }) => {
   const [settings, setSettings] = useState(defaultSettings)
   const [options, setOptions] = useState(defaultOptions)
+  const [comparables, setComparables] = useState(defaultCompared)
+  const [comparedMetrics, setComparedMetrics] = useState(defaultCompared)
+  const [metrics, setMetrics] = useState(defaultMetrics)
   const [activeMetrics, setActiveMetrics] = useState(defaultMetrics)
   const [activeEvents, setActiveEvents] = useState(defaultEvents)
-  const [comparedMetrics, setComparedMetrics] = useState(defaultCompared)
   const [advancedView, setAdvancedView] = useState()
   const [hoveredDate, setHoveredDate] = useState()
   const [shareLink, setShareLink] = useState()
   const [data, loadings] = useTimeseries(activeMetrics, settings)
-  const [events, eventLoadings] = useTimeseries(activeEvents, settings)
+  const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const chartRef = useRef(null)
 
   useEffect(
     () => {
-      console.log(comparedMetrics)
+      setComparedMetrics(comparables.map(buildComparedMetric))
     },
-    [comparedMetrics]
+    [comparables]
+  )
+
+  useEffect(
+    () => {
+      setActiveMetrics(metrics.concat(comparedMetrics))
+    },
+    [metrics, comparedMetrics]
   )
 
   useEffect(
@@ -87,6 +98,8 @@ const Studio = ({
   function toggleMetric (metric) {
     if (metric === trendPositionHistory) {
       return toggleTrend(metric)
+    } else if (metric.Comparable) {
+      return removeComparedMetric(metric)
     }
 
     const metricSet = new Set(activeMetrics)
@@ -99,7 +112,7 @@ const Studio = ({
       metricSet.add(metric)
       trackMetricState(metric, true)
     }
-    setActiveMetrics([...metricSet])
+    setMetrics([...metricSet])
   }
 
   function toggleAdvancedView (mode) {
@@ -117,6 +130,10 @@ const Studio = ({
 
   function changeHoveredDate ({ value }) {
     setHoveredDate(new Date(value))
+  }
+
+  function removeComparedMetric ({ Comparable }) {
+    setComparables(comparables.filter(comp => comp !== Comparable))
   }
 
   return (
@@ -148,12 +165,12 @@ const Studio = ({
           activeMetrics={activeMetrics}
           activeEvents={activeEvents}
           data={data}
-          events={events}
-          comparedMetrics={comparedMetrics}
+          events={eventsData}
+          comparables={comparables}
           shareLink={shareLink}
           setOptions={setOptions}
           setSettings={setSettings}
-          setComparedMetrics={setComparedMetrics}
+          setComparables={setComparables}
         />
         <div className={styles.data}>
           <div className={styles.chart}>
@@ -167,11 +184,11 @@ const Studio = ({
               activeEvents={activeEvents}
               advancedView={advancedView}
               toggleMetric={toggleMetric}
-              changeHoveredDate={changeHoveredDate}
               data={data}
-              events={events}
+              events={eventsData}
               loadings={loadings}
               eventLoadings={eventLoadings}
+              changeHoveredDate={changeHoveredDate}
             />
           </div>
           {advancedView && (

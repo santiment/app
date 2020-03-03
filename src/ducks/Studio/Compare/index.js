@@ -8,7 +8,14 @@ import styles from './index.module.scss'
 import withProjects from './withProjects'
 import { projectSorter, hashComparable } from './utils'
 
-const Compare = ({ slug, title, allProjects, comparedMetrics, ...rest }) => {
+const Compare = ({
+  slug,
+  title,
+  allProjects,
+  comparables,
+  activeMetrics,
+  ...rest
+}) => {
   const [projects, setProjects] = useState(allProjects)
 
   useEffect(
@@ -22,6 +29,7 @@ const Compare = ({ slug, title, allProjects, comparedMetrics, ...rest }) => {
     [allProjects]
   )
 
+  const array = activeMetrics.length < 5 ? [...comparables, null] : comparables
   return (
     <>
       <ContextMenu
@@ -37,7 +45,7 @@ const Compare = ({ slug, title, allProjects, comparedMetrics, ...rest }) => {
       >
         <Panel variant='modal' padding>
           <div>Compare {title} with</div>
-          {[...comparedMetrics, null].map((comparable, i) => (
+          {array.map((comparable, i) => (
             <Comparable
               {...rest}
               {...comparable}

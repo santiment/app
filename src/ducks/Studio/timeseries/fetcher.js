@@ -101,7 +101,14 @@ export const getQuery = ({ key, queryKey = key }) => {
   return query
 }
 
-export const getPreTransform = ({ key, queryKey = key, metricAnomaly }) => {
+export const getPreTransform = ({
+  key,
+  queryKey = key,
+  metricAnomaly,
+  queryPreTransform
+}) => {
+  if (queryPreTransform) return queryPreTransform
+
   const { preTransform } = Fetcher[queryKey]
 
   if (queryKey === 'anomaly') {

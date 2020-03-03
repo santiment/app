@@ -6,13 +6,7 @@ import styles from '../Projects.module.scss'
 import ProjectSelectDialog from '../ProjectSelectDialog'
 import ComparableMetric from './Metric'
 
-export default ({
-  comparable,
-  project,
-  metric,
-  projects,
-  setComparedMetrics
-}) => {
+export default ({ comparable, project, metric, projects, setComparables }) => {
   const [selectedProject, setSelectedProject] = useState(project || projects[0])
   const [selectedMetric, setSelectedMetric] = useState(metric)
   const [opened, setOpened] = useState()
@@ -25,12 +19,12 @@ export default ({
         comparable.project = selectedProject
         comparable.metric = selectedMetric
 
-        return setComparedMetrics(state => state.slice())
+        return setComparables(state => state.slice())
       }
 
       return (
         selectedMetric &&
-        setComparedMetrics(state => [
+        setComparables(state => [
           ...state,
           {
             project: selectedProject,
@@ -48,7 +42,7 @@ export default ({
   }
 
   function removeComparable () {
-    setComparedMetrics(state => state.filter(comp => comp !== comparable))
+    setComparables(state => state.filter(comp => comp !== comparable))
   }
 
   function closeDialog () {

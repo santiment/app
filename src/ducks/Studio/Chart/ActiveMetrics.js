@@ -16,7 +16,14 @@ const MetricButton = ({
   isRemovable,
   toggleMetric
 }) => {
-  const { key, dataKey = key, node, label, description } = metric
+  const {
+    key,
+    dataKey = key,
+    node,
+    label,
+    description,
+    comparedTicker
+  } = metric
 
   return (
     <MetricExplanation
@@ -37,6 +44,7 @@ const MetricButton = ({
           />
         )}
         {label}
+        {comparedTicker && ` (${comparedTicker})`}
         {isRemovable && (
           <Icon
             type='close-small'
