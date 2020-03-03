@@ -83,7 +83,7 @@ export default ({ settings, options, setOptions, setSettings, ...rest }) => {
         Feedback
       </Button>
       */}
-      <Compare slug={settings.slug} />
+      <Compare {...rest} slug={settings.slug} />
     </>
   )
 }

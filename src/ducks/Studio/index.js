@@ -20,6 +20,7 @@ const Studio = ({
   defaultOptions,
   defaultMetrics,
   defaultEvents,
+  defaultCompared = [],
   topSlot,
   bottomSlot,
   onSlugChange,
@@ -30,12 +31,20 @@ const Studio = ({
   const [options, setOptions] = useState(defaultOptions)
   const [activeMetrics, setActiveMetrics] = useState(defaultMetrics)
   const [activeEvents, setActiveEvents] = useState(defaultEvents)
+  const [comparedMetrics, setComparedMetrics] = useState(defaultCompared)
   const [advancedView, setAdvancedView] = useState()
   const [hoveredDate, setHoveredDate] = useState()
   const [shareLink, setShareLink] = useState()
   const [data, loadings] = useTimeseries(activeMetrics, settings)
   const [events, eventLoadings] = useTimeseries(activeEvents, settings)
   const chartRef = useRef(null)
+
+  useEffect(
+    () => {
+      console.log(comparedMetrics)
+    },
+    [comparedMetrics]
+  )
 
   useEffect(
     () => {
@@ -140,9 +149,11 @@ const Studio = ({
           activeEvents={activeEvents}
           data={data}
           events={events}
+          comparedMetrics={comparedMetrics}
           shareLink={shareLink}
           setOptions={setOptions}
           setSettings={setSettings}
+          setComparedMetrics={setComparedMetrics}
         />
         <div className={styles.data}>
           <div className={styles.chart}>

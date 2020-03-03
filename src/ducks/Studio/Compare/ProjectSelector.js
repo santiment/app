@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
@@ -10,10 +10,12 @@ import Projects from './Projects'
 import styles from './Projects.module.scss'
 import Search, { getMetricSuggestions } from '../Sidebar/Search'
 import withMetrics from '../withMetrics'
+import MetricIcon from '../../SANCharts/MetricIcon'
 
 const MetricSearch = withMetrics(
-  ({ categories, loading, className, ...props }) => (
+  ({ categories, loading, className, ...rest }) => (
     <Search
+      {...rest}
       className={cx(className, loading && styles.loading)}
       categories={categories}
       emptySuggestions={getMetricSuggestions(categories)}
@@ -24,12 +26,22 @@ const MetricSearch = withMetrics(
   )
 )
 
-export default ({ projects }) => {
+export default ({ comparable, projects, setComparedMetrics }) => {
   const [selectedProject, setSelectedProject] = useState(projects[0])
   const [searchedProjects, setSearchedProjects] = useState(projects)
-  const [opened, setOpened] = useState(false)
+  const [opened, setOpened] = useState()
+  const [isEditing, setEditing] = useState()
+  const metricSelectorRef = useRef(null)
 
   const { slug, ticker } = selectedProject
+
+  useEffect(
+    () => {
+      if (isEditing) {
+      }
+    },
+    [isEditing]
+  )
 
   function searchProjects (searchTerm) {
     const lowerCase = searchTerm.toLowerCase()
@@ -54,6 +66,31 @@ export default ({ projects }) => {
   function selectProject (project) {
     setSelectedProject(project)
     closeDialog()
+  }
+
+  function onMetricSelect (metric) {
+    if (comparable) {
+      setEditing()
+      comparable.metric = metric
+      return setComparedMetrics(state => state.slice())
+    }
+
+    setComparedMetrics(state => [
+      ...state,
+      {
+        metric,
+        project: selectedProject
+      }
+    ])
+  }
+
+  function editMetric () {
+    setEditing(true)
+    metricSelectorRef.current.firstElementChild.firstElementChild.focus()
+  }
+
+  function stopEditing () {
+    setEditing()
   }
 
   return (
@@ -82,8 +119,24 @@ export default ({ projects }) => {
           <Projects projects={searchedProjects} onSelect={selectProject} />
         </Panel>
       </ContextMenu>
-
-      <MetricSearch slug={slug} className={styles.metrics} />
+      <div className={styles.metric} ref={metricSelectorRef}>
+        <MetricSearch
+          slug={slug}
+          toggleMetric={onMetricSelect}
+          onBlur={stopEditing}
+        />
+        {!isEditing && comparable && (
+          <div className={styles.selected}>
+            <MetricIcon
+              node={comparable.metric.node}
+              // color={colors[dataKey]}
+              className={styles.label}
+            />
+            {comparable.metric.label}
+            <Icon type='edit' className={styles.edit} onClick={editMetric} />
+          </div>
+        )}
+      </div>
     </div>
   )
 }

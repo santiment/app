@@ -10,7 +10,9 @@ import withProjects from './withProjects'
 
 const projectSorter = ({ rank: a }, { rank: b }) => a - b
 
-const Compare = ({ slug, title, allProjects }) => {
+const hashComparable = ({ project, metric }) => project.slug + metric.key
+
+const Compare = ({ slug, title, allProjects, comparedMetrics, ...rest }) => {
   const [projects, setProjects] = useState(allProjects)
 
   useEffect(
@@ -39,7 +41,16 @@ const Compare = ({ slug, title, allProjects }) => {
       >
         <Panel variant='modal' padding>
           <div>Compare {title} with</div>
-          <ProjectSelector projects={projects} />
+          {comparedMetrics.map(comparable => (
+            <ProjectSelector
+              {...rest}
+              key={hashComparable(comparable)}
+              projects={projects}
+              comparable={comparable}
+            />
+          ))}
+
+          <ProjectSelector {...rest} projects={projects} />
         </Panel>
       </ContextMenu>
     </>
