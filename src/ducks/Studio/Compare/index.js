@@ -8,6 +8,7 @@ import Comparable from './Comparable'
 import styles from './index.module.scss'
 import withProjects from './withProjects'
 import { projectSorter, hashComparable } from './utils'
+import { getSyncedColors } from '../../SANCharts/Chart/Synchronizer'
 
 const Compare = ({
   slug,
@@ -32,6 +33,7 @@ const Compare = ({
   )
 
   const array = activeMetrics.length < 5 ? [...comparables, null] : comparables
+  const colors = getSyncedColors(activeMetrics)
   return (
     <>
       <ContextMenu
@@ -54,6 +56,7 @@ const Compare = ({
               key={comparable ? hashComparable(comparable) : i}
               projects={projects}
               comparable={comparable}
+              colors={colors}
             />
           ))}
         </Panel>

@@ -7,7 +7,14 @@ import ProjectSelectDialog from '../ProjectSelectDialog'
 import ComparableMetric from './Metric'
 import { buildCompareKey } from '../utils'
 
-export default ({ comparable, project, metric, projects, setComparables }) => {
+export default ({
+  comparable,
+  project,
+  metric,
+  projects,
+  setComparables,
+  colors
+}) => {
   const [selectedProject, setSelectedProject] = useState(project || projects[0])
   const [selectedMetric, setSelectedMetric] = useState(metric)
   const [opened, setOpened] = useState()
@@ -17,8 +24,9 @@ export default ({ comparable, project, metric, projects, setComparables }) => {
   useEffect(
     () => {
       if (comparable) {
-        comparable.project = selectedProject
+        comparable.key = buildCompareKey(selectedMetric, selectedProject)
         comparable.metric = selectedMetric
+        comparable.project = selectedProject
 
         return setComparables(state => state.slice())
       }
@@ -29,8 +37,8 @@ export default ({ comparable, project, metric, projects, setComparables }) => {
           ...state,
           {
             key: buildCompareKey(selectedMetric, selectedProject),
-            project: selectedProject,
-            metric: selectedMetric
+            metric: selectedMetric,
+            project: selectedProject
           }
         ])
       )
@@ -75,6 +83,7 @@ export default ({ comparable, project, metric, projects, setComparables }) => {
         comparable={comparable}
         slug={slug}
         onSelect={setSelectedMetric}
+        colors={colors}
       />
       {comparable && (
         <Icon

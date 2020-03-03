@@ -20,14 +20,14 @@ const MetricSearch = withMetrics(
   )
 )
 
-const Label = ({ comparable, editMetric }) => {
+const Label = ({ comparable, editMetric, colors }) => {
   const { node, label } = comparable.metric
 
   return (
     <div className={styles.selected}>
       <MetricIcon
         node={node}
-        // color={colors[dataKey]}
+        color={colors[comparable.key]}
         className={styles.label}
       />
       {label}
@@ -36,7 +36,7 @@ const Label = ({ comparable, editMetric }) => {
   )
 }
 
-export default ({ comparable, slug, onSelect }) => {
+export default ({ comparable, slug, onSelect, colors }) => {
   const [isEditing, setEditing] = useState()
   const metricSelectorRef = useRef(null)
 
@@ -66,7 +66,11 @@ export default ({ comparable, slug, onSelect }) => {
       />
       {isEditing ||
         (comparable && (
-          <Label comparable={comparable} editMetric={editMetric} />
+          <Label
+            comparable={comparable}
+            editMetric={editMetric}
+            colors={colors}
+          />
         ))}
     </div>
   )
