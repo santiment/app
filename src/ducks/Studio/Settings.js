@@ -5,6 +5,7 @@ import {
   getNewInterval,
   INTERVAL_ALIAS
 } from '../../ducks/SANCharts/IntervalSelector'
+import Compare from './Compare'
 import { saveToggle } from '../../utils/localStorage'
 
 export default ({ settings, options, setOptions, setSettings, ...rest }) => {
@@ -57,29 +58,32 @@ export default ({ settings, options, setOptions, setSettings, ...rest }) => {
   }
 
   return (
-    <Settings
-      {...options}
-      {...settings}
-      isFullscreenAvailable={false}
-      showNightModeToggle={false}
-      onMultiChartsChange={toggleMultichart}
-      onScaleChange={toggleScale}
-      onTimerangeChange={onTimerangeChange}
-      onCalendarChange={onCalendarChange}
-      onCartesianGridChange={toggleCartesianGrid}
-      {...rest}
-    />
-    /*
-       <Button
-       border
-       as='a'
-       accent='positive'
-       href='https://forms.gle/Suz8FVDsKtFiKhBs9'
-       target='_blank'
-       rel='noopener noreferrer'
-       >
-       Feedback
-       </Button>
-     */
+    <>
+      <Settings
+        {...options}
+        {...settings}
+        isFullscreenAvailable={false}
+        showNightModeToggle={false}
+        onMultiChartsChange={toggleMultichart}
+        onScaleChange={toggleScale}
+        onTimerangeChange={onTimerangeChange}
+        onCalendarChange={onCalendarChange}
+        onCartesianGridChange={toggleCartesianGrid}
+        {...rest}
+      />
+      {/*
+      <Button
+        border
+        as='a'
+        accent='positive'
+        href='https://forms.gle/Suz8FVDsKtFiKhBs9'
+        target='_blank'
+        rel='noopener noreferrer'
+      >
+        Feedback
+      </Button>
+      */}
+      <Compare slug={settings.slug} />
+    </>
   )
 }

@@ -1,0 +1,19 @@
+.btn {
+  fill: var(--casper);
+
+  &:hover {
+    color: var(--jungle-green);
+    fill: var(--casper);
+  }
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.active {
+  border-color: var(--jungle-green-light-2);
+  background: var(--jungle-green-light-2);
+  color: var(--jungle-green);
+  fill: var(--jungle-green);
+}

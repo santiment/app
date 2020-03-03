@@ -49,6 +49,7 @@ export const Metrics = {
   },
   historyPricePreview: {
     // TODO: Replace to 'area' when san-chart will support it [@vanguard | Jan 23, 2020]
+    queryKey: 'price_usd',
     node: 'line',
     Component: Area,
     color: 'jungle-green',

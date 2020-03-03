@@ -1,0 +1,78 @@
+.wrapper {
+  height: 150px;
+  width: 100%;
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.ticker {
+  color: var(--waterloo);
+  margin-left: 4px;
+}
+
+.btn {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
+.panel {
+  padding: 8px;
+}
+
+.search {
+  margin-bottom: 10px;
+}
+
+.arrow {
+  margin-left: 16px;
+  fill: var(--waterloo);
+}
+
+.active {
+  border-color: var(--jungle-green);
+
+  .arrow {
+    transform: rotate(180deg);
+  }
+}
+
+.row {
+  display: flex;
+}
+
+.metrics {
+  margin-left: 8px;
+}
+
+.loading::before {
+  $border: 2.5px;
+
+  position: absolute;
+  z-index: 1;
+  left: 7px;
+  top: 8px;
+  background: var(--white);
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 6px;
+  border-top: $border solid var(--mystic);
+  border-right: $border solid var(--mystic);
+  border-bottom: $border solid var(--mystic);
+  border-left: $border solid var(--casper);
+  animation: loading 1.1s infinite linear;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
