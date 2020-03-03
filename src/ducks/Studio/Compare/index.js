@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
@@ -14,6 +15,7 @@ const Compare = ({
   allProjects,
   comparables,
   activeMetrics,
+  className,
   ...rest
 }) => {
   const [projects, setProjects] = useState(allProjects)
@@ -37,7 +39,7 @@ const Compare = ({
         position='bottom'
         align='start'
         trigger={
-          <Button border className={styles.btn} classes={styles}>
+          <Button border className={cx(styles.btn, className)} classes={styles}>
             <Icon type='compare' className={styles.icon} />
             Compare
           </Button>

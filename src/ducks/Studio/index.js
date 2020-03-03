@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import StudioSidebar from './Sidebar'
 import StudioChart from './Chart'
-import StudioSettings from './Settings'
+import StudioHeader from './Header'
 import StudioAdvancedView from './AdvancedView'
-import StudioHeader from '../SANCharts/Header'
+import StudioInfo from '../SANCharts/Header'
 import { Events } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { generateShareLink, updateHistory } from './url'
@@ -150,7 +150,7 @@ const Studio = ({
       />
       <div className={styles.header}>
         {topSlot}
-        <StudioHeader
+        <StudioInfo
           slug={settings.slug}
           isLoading={false}
           isLoggedIn={false}
@@ -158,7 +158,7 @@ const Studio = ({
         />
       </div>
       <div className={cx(styles.container, styles.content)}>
-        <StudioSettings
+        <StudioHeader
           chartRef={chartRef}
           settings={settings}
           options={options}
