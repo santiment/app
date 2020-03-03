@@ -21,6 +21,13 @@
   align-items: center;
   border-right: 1px solid var(--porcelain);
   padding-right: 114px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    padding: 0;
+    border: none;
+    height: 100%;
+    justify-content: center;
+  }
 }
 
 .wrapper {
@@ -29,6 +36,10 @@
   align-items: center;
   background-image: url("./../../../src/assets/login/pattern.svg");
   background-size: cover;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    background-image: none;
+  }
 }
 
 .panel {

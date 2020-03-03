@@ -60,4 +60,8 @@
   justify-content: center;
   background-image: url("./../../../src/assets/login/pattern.svg");
   background-size: cover;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    background-image: none;
+  }
 }

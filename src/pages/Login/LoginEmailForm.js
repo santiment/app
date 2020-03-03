@@ -108,7 +108,10 @@ const PrepareState = ({ loading, loginEmail, setEmail }) => {
   )
 }
 
-const LoginEmailForm = ({ prepareState: PrepareStateEl = PrepareState }) => {
+const LoginEmailForm = ({
+  isDesktop,
+  prepareState: PrepareStateEl = PrepareState
+}) => {
   const [email, setEmail] = useState('')
 
   return (
@@ -118,12 +121,13 @@ const LoginEmailForm = ({ prepareState: PrepareStateEl = PrepareState }) => {
         { loading, data: { emailLogin: { success } = {} } = {} }
       ) => {
         return success ? (
-          <SuccessState email={email} />
+          <SuccessState email={email} isDesktop={isDesktop} />
         ) : (
           <PrepareStateEl
             loading={loading}
             loginEmail={loginEmail}
             setEmail={setEmail}
+            isDesktop={isDesktop}
           />
         )
       }}

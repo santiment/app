@@ -7,10 +7,20 @@
   justify-content: center;
   background-image: url("./../../../src/assets/login/pattern.svg");
   background-size: cover;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    background-image: none;
+  }
 }
 
 .container {
   padding: 62px 81px !important;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    padding: 0 !important;
+    width: 100%;
+    margin: 16px;
+  }
 }
 
 .subtitle {
@@ -36,6 +46,12 @@
   justify-content: center;
   align-items: center;
   margin-left: 96px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    margin: 0;
+    padding: 24px;
+    height: 100%;
+  }
 }
 
 .trial {

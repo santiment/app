@@ -1,11 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { PATHS } from '../../App'
-import externalStyles from './index.module.scss'
-import styles from './CreateAccountFreeTrial.module.scss'
+import withSizes from 'react-sizes'
 import LoginEmailForm, { EmailForm } from './LoginEmailForm'
 import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel'
+import MobileWrapper from './Mobile/MobileWrapper'
+import { mapSizesToProps } from '../../utils/withSizes'
+import SwipablePages from '../../components/SwipablePages/SwipablePages'
+import externalStyles from './index.module.scss'
+import styles from './CreateAccountFreeTrial.module.scss'
 
 const TRIAL_DESCRIPTIONS = [
   {
@@ -27,7 +31,7 @@ const TrialDescriptions = () => {
     <div className={styles.trials}>
       {TRIAL_DESCRIPTIONS.map(({ text }, index) => {
         return (
-          <div className={styles.trial}>
+          <div className={styles.trial} key={index}>
             <svg
               className={styles.icon}
               width='17'
@@ -58,8 +62,8 @@ const TrialDescriptions = () => {
   )
 }
 
-const PrepareState = ({ loading, loginEmail, setEmail }) => (
-  <div className={externalStyles.container}>
+const SignupDescription = ({ loading, loginEmail, setEmail }) => {
+  return (
     <div className={externalStyles.loginBlock}>
       <h2 className={externalStyles.title}>
         Sign up now to start your free trial
@@ -80,18 +84,60 @@ const PrepareState = ({ loading, loginEmail, setEmail }) => (
         </Link>
       </div>
     </div>
-    <TrialDescriptions />
-  </div>
-)
+  )
+}
 
-const CreateAccountFreeTrial = () => {
+const PrepareState = props => {
+  const { isDesktop, loading, loginEmail, setEmail } = props
+
+  if (isDesktop) {
+    return (
+      <div className={externalStyles.container}>
+        <SignupDescription
+          loading={loading}
+          loginEmail={loginEmail}
+          setEmail={setEmail}
+        />
+        <TrialDescriptions />
+      </div>
+    )
+  }
+
+  return (
+    <SwipablePages
+      props={props}
+      pages={[
+        <MobileWrapper>
+          <SignupDescription
+            loading={loading}
+            loginEmail={loginEmail}
+            setEmail={setEmail}
+          />
+        </MobileWrapper>,
+        <MobileWrapper>
+          <TrialDescriptions />
+        </MobileWrapper>
+      ]}
+    />
+  )
+}
+
+const CreateAccountFreeTrial = ({ isDesktop }) => {
+  let child = (
+    <LoginEmailForm prepareState={PrepareState} isDesktop={isDesktop} />
+  )
+
+  if (!isDesktop) {
+    return child
+  }
+
   return (
     <div className={cx('page', styles.wrapper)}>
       <Panel padding className={styles.container}>
-        <LoginEmailForm prepareState={PrepareState} />
+        {child}
       </Panel>
     </div>
   )
 }
 
-export default CreateAccountFreeTrial
+export default withSizes(mapSizesToProps)(CreateAccountFreeTrial)

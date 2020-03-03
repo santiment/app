@@ -8,7 +8,6 @@ import LoginEmailForm from './LoginEmailForm'
 import LoginEmailBtn from './LoginEmailBtn'
 import FreeTrialBlock from './FreeTrialBlock'
 import { PATHS } from '../../App'
-import CreateAccountFreeTrial from './CreateAccountFreeTrial'
 import styles from './index.module.scss'
 
 const LoginOptions = () => (

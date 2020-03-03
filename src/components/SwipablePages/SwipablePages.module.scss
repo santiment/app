@@ -1,0 +1,25 @@
+@import '~@santiment-network/ui/mixins';
+
+.swipeContainer {
+  margin: 0 auto;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.dot {
+  fill: var(--casper) !important;
+  margin-left: 16px;
+
+  &:first-child {
+    margin: 0;
+  }
+}
+
+.active {
+  fill: var(--rhino) !important;
+}
