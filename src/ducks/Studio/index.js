@@ -71,30 +71,24 @@ const Studio = ({
     () => {
       const queryString =
         '?' +
-        generateShareLink(
-          settings,
-          options,
-          activeMetrics,
-          activeEvents,
-          comparables
-        )
+        generateShareLink(settings, options, metrics, activeEvents, comparables)
 
       const { origin, pathname } = window.location
       setShareLink(origin + pathname + queryString)
       updateHistory(queryString)
     },
-    [settings, options, activeMetrics, activeEvents]
+    [settings, options, metrics, activeEvents, comparables]
   )
 
   useEffect(
     () => {
       if (options.isAnomalyActive) {
-        setActiveEvents(buildAnomalies(activeMetrics))
+        setActiveEvents(buildAnomalies(metrics))
       } else if (!activeEvents.includes(trendPositionHistory)) {
         setActiveEvents([])
       }
     },
-    [activeMetrics, options.isAnomalyActive]
+    [metrics, options.isAnomalyActive]
   )
 
   function toggleTrend (trend) {
@@ -109,7 +103,7 @@ const Studio = ({
       return removeComparedMetric(metric)
     }
 
-    const metricSet = new Set(activeMetrics)
+    const metricSet = new Set(metrics)
     if (metricSet.has(metric)) {
       if (activeMetrics.length === 1) return
       metricSet.delete(metric)
