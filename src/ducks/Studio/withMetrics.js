@@ -24,12 +24,12 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
         marketSegments = []
       } = {}
     },
-    ownProps: { hiddenMetrics = [] }
+    ownProps: { noMarketSegments, hiddenMetrics = [] }
   }) => {
     const categories = getCategoryGraph(
       availableQueries
         .concat(availableMetrics)
-        .concat(marketSegments.map(getMarketSegment)),
+        .concat(noMarketSegments ? [] : marketSegments.map(getMarketSegment)),
       hiddenMetrics
     )
 

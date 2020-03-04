@@ -46,7 +46,7 @@ export function buildComparedMetric (Comparable) {
 export function getProjectHiddenMetrics (map, project) {
   if (!project) return
 
-  return map.get(project.slug)
+  return map.get(project.slug) || [Metrics.historicalBalance]
 }
 
 export function buildHiddenMetrics (comparables) {

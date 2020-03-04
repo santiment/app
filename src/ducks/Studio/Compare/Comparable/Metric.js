@@ -60,6 +60,7 @@ export default ({ comparable, slug, colors, hiddenMetrics, onSelect }) => {
   return (
     <div className={styles.metric} ref={metricSelectorRef}>
       <MetricSearch
+        noMarketSegments
         slug={slug}
         hiddenMetrics={hiddenMetrics}
         toggleMetric={onMetricSelect}
