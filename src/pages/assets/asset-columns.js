@@ -190,7 +190,7 @@ export const COLUMNS = (preload, props = {}) => [
       <>
         <b>Average value for 30d</b>
         <br />
-        {Metrics['devActivity'].description}
+        {Metrics['dev_activity'].description}
       </>
     ),
     maxWidth: 100,
