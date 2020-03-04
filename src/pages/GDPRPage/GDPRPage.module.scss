@@ -1,9 +1,97 @@
-.wrapper {
-  max-width: 500px;
-  margin: 0 auto;
+@import '~@santiment-network/ui/mixins';
+
+.title {
+  @include text('h3');
+
+  margin: 0;
+  color: var(--rhino);
+}
+
+.container {
+  padding: 74px 132px !important;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.mobileWrapper {
+  height: 72vh !important;
+}
+
+.santimentLogo {
+  margin: 32px auto 16px auto;
 }
 
 .toggleBtn {
+  display: block;
+  min-width: 188px;
+  margin-top: 32px;
+  height: 40px;
+  text-align: center;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    @include text('body-3');
+  }
+}
+
+.description {
+  @include text('body-2');
+
+  margin: 16px 0 0 0;
+  color: var(--waterloo);
+  max-width: 350px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    text-align: center;
+    padding: 0 16px;
+  }
+}
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.checkbox {
+  top: 4px;
+  position: relative;
+}
+
+.check {
   display: flex;
-  justify-content: flex-end;
+  margin-top: 24px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    text-align: center;
+    padding: 0 24px;
+  }
+}
+
+.checkDescription {
+  max-width: 305px;
+  color: var(--rhino);
+  margin-left: 16px;
+
+  @include text('body-2');
+}
+
+.wrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("./../../../src/assets/login/pattern.svg");
+  background-size: cover;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    background-image: none;
+  }
 }

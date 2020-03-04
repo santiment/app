@@ -1,0 +1,95 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("./../../../src/assets/login/pattern.svg");
+  background-size: cover;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    background-image: none;
+  }
+}
+
+.container {
+  padding: 62px 81px !important;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    padding: 0 !important;
+    width: 100%;
+    margin: 16px;
+  }
+}
+
+.subtitle {
+  @include text('body-2');
+
+  color: var(--waterloo);
+  margin-top: 12px;
+}
+
+.trialDescr {
+  color: var(--rhino);
+  max-width: 280px;
+  word-break: break-word;
+  margin-left: 24px;
+  text-align: left;
+
+  @include text('body-2');
+}
+
+.trials {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 96px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    margin: 0;
+    height: 100%;
+  }
+}
+
+.trial {
+  display: flex;
+  margin-top: 24px;
+
+  &:first-child {
+    margin: 0;
+  }
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    margin-left: 8px !important;
+  }
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.icon {
+  margin-top: 6px;
+}
+
+.iconBack {
+  fill: var(--rhino);
+  margin-right: 10px;
+  width: 16px;
+  height: 16px;
+  margin-bottom: 3px;
+  transform: rotate(180deg);
+}
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}

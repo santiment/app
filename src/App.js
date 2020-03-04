@@ -35,12 +35,23 @@ import LogoutPage from './pages/Logout/Logout'
 import { mapSizesToProps } from './utils/withSizes'
 import styles from './App.module.scss'
 import './App.scss'
+import CreateAccountFreeTrial from './pages/Login/CreateAccountFreeTrial'
 
-const PATHS = {
-  FEED: '/feed'
+export const PATHS = {
+  FEED: '/feed',
+  LOGIN: '/login',
+  LOGIN_VIA_EMAIL: '/login/email',
+  CREATE_ACCOUNT: '/sign-up',
+  GDPR: '/gdpr'
 }
 
-const FOOTER_DISABLED_FOR = [PATHS.FEED]
+const FOOTER_DISABLED_FOR = [
+  PATHS.FEED,
+  PATHS.LOGIN,
+  PATHS.LOGIN_VIA_EMAIL,
+  PATHS.CREATE_ACCOUNT,
+  PATHS.GDPR
+]
 
 const LoadableLabsPage = Loadable({
   loader: () => import('./pages/Labs'),
@@ -257,7 +268,16 @@ export const App = ({
           />
         ))}
         <Route exact path='/pricing' component={LoadablePricingPage} />
-        <Route exact path='/gdpr' component={GDPRPage} />
+        <Route
+          exact
+          path={PATHS.GDPR}
+          render={props => <GDPRPage {...props} isDesktop={isDesktop} />}
+        />
+        <Route
+          exact
+          path={PATHS.CREATE_ACCOUNT}
+          render={props => <CreateAccountFreeTrial {...props} />}
+        />
         <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
         <Route
           exact
@@ -398,7 +418,7 @@ export const App = ({
           )}
         />
         <Route
-          path='/login'
+          path={PATHS.LOGIN}
           render={props => (
             <LoadableLoginPage
               isLoggedIn={isLoggedIn}
