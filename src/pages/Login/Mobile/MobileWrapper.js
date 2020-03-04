@@ -1,10 +1,11 @@
 import React from 'react'
 import withSizes from 'react-sizes'
 import { mapSizesToProps } from '../../../utils/withSizes'
-import styles from './MobileWrapper.module.scss'
+import Icon from '@santiment-network/ui/Icon'
 import Panel from '@santiment-network/ui/Panel'
+import styles from './MobileWrapper.module.scss'
 
-const MobileWrapper = ({ isDesktop, children }) => {
+const MobileWrapper = ({ isDesktop, children, onBack }) => {
   if (isDesktop) {
     return children
   }
@@ -12,6 +13,7 @@ const MobileWrapper = ({ isDesktop, children }) => {
   return (
     <div className={styles.wrapper}>
       <Panel padding className={styles.panel}>
+        <Icon type='close' className={styles.iconClose} onClick={onBack} />
         {children}
       </Panel>
     </div>

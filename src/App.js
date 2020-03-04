@@ -268,11 +268,15 @@ export const App = ({
           />
         ))}
         <Route exact path='/pricing' component={LoadablePricingPage} />
-        <Route exact path={PATHS.GDPR} component={GDPRPage} />
+        <Route
+          exact
+          path={PATHS.GDPR}
+          render={props => <GDPRPage {...props} isDesktop={isDesktop} />}
+        />
         <Route
           exact
           path={PATHS.CREATE_ACCOUNT_FREE_TRIAL}
-          render={CreateAccountFreeTrial}
+          render={props => <CreateAccountFreeTrial {...props} />}
         />
         <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
         <Route
@@ -414,7 +418,7 @@ export const App = ({
           )}
         />
         <Route
-          path='/login'
+          path={PATHS.LOGIN}
           render={props => (
             <LoadableLoginPage
               isLoggedIn={isLoggedIn}

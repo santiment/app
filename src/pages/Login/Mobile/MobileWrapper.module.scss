@@ -8,4 +8,18 @@
 .panel {
   padding: 24px !important;
   height: 100%;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.iconClose {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  fill: var(--waterloo);
+  width: 16px;
+  height: 16px;
 }

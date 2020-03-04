@@ -7,6 +7,10 @@
   justify-content: center;
   margin-left: 114px;
   height: 100%;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    margin: 0;
+  }
 }
 
 .start {
@@ -30,4 +34,9 @@
   display: flex;
   justify-content: center;
   min-height: 40px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    min-width: initial;
+    width: 100%;
+  }
 }

@@ -49,7 +49,6 @@
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     margin: 0;
-    padding: 24px;
     height: 100%;
   }
 }

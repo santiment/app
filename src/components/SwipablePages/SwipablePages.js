@@ -15,7 +15,9 @@ const SwipablePages = ({ pages }) => {
       <ReactSwipe
         className={styles.swipeContainer}
         swipeOptions={{
-          callback: onChange
+          callback: onChange,
+          continuous: false,
+          startSlide: active
         }}
       >
         {pages.map((ElWrapper, index) => {

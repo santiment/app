@@ -51,6 +51,7 @@
   @include responsive('phone', 'phone-xs') {
     width: 100%;
     max-width: 400px;
+    min-width: initial;
     padding: 15px 30px;
     box-shadow: none;
     border: none;
@@ -144,6 +145,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    @include responsive('phone-xs', 'phone', 'tablet') {
+      width: 100%;
+    }
   }
 
   &__btn {
@@ -252,6 +257,10 @@
 
   &:hover {
     fill: var(--jungle-green-hover) !important;
+  }
+
+  @include responsive('phone-xs', 'phone', 'tablet') {
+    width: 100%;
   }
 }
 

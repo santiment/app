@@ -88,7 +88,7 @@ const SignupDescription = ({ loading, loginEmail, setEmail }) => {
 }
 
 const PrepareState = props => {
-  const { isDesktop, loading, loginEmail, setEmail } = props
+  const { isDesktop, loading, loginEmail, setEmail, history } = props
 
   if (isDesktop) {
     return (
@@ -107,14 +107,14 @@ const PrepareState = props => {
     <SwipablePages
       props={props}
       pages={[
-        <MobileWrapper>
+        <MobileWrapper onBack={history.goBack}>
           <SignupDescription
             loading={loading}
             loginEmail={loginEmail}
             setEmail={setEmail}
           />
         </MobileWrapper>,
-        <MobileWrapper>
+        <MobileWrapper onBack={history.goBack}>
           <TrialDescriptions />
         </MobileWrapper>
       ]}
@@ -122,12 +122,10 @@ const PrepareState = props => {
   )
 }
 
-const CreateAccountFreeTrial = ({ isDesktop }) => {
-  let child = (
-    <LoginEmailForm prepareState={PrepareState} isDesktop={isDesktop} />
-  )
+const CreateAccountFreeTrial = props => {
+  let child = <LoginEmailForm prepareState={PrepareState} {...props} />
 
-  if (!isDesktop) {
+  if (!props.isDesktop) {
     return child
   }
 

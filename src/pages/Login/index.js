@@ -8,37 +8,66 @@ import LoginEmailForm from './LoginEmailForm'
 import LoginEmailBtn from './LoginEmailBtn'
 import FreeTrialBlock from './FreeTrialBlock'
 import { PATHS } from '../../App'
+import SwipablePages from '../../components/SwipablePages/SwipablePages'
+import MobileWrapper from './Mobile/MobileWrapper'
 import styles from './index.module.scss'
 
-const LoginOptions = () => (
-  <div className={styles.container}>
-    <div className={styles.loginBlock}>
-      <h3 className={styles.title}>Welcome to Santiment</h3>
-      <div className={styles.options}>
-        <LoginMetamaskBtn />
-        <div className={styles.divider}>
-          <span className={styles.use}>or use</span>
-        </div>
-        <LoginEmailBtn />
-
-        <div className={styles.new}>
-          New to Santiment?{' '}
-          <Link
-            to={PATHS.CREATE_ACCOUNT_FREE_TRIAL}
-            className={styles.createLink}
-          >
-            Create an account
-          </Link>
-        </div>
+const LoginDescription = () => (
+  <div className={styles.loginBlock}>
+    <h3 className={styles.title}>Welcome to Santiment</h3>
+    <div className={styles.options}>
+      <LoginMetamaskBtn />
+      <div className={styles.divider}>
+        <span className={styles.use}>or use</span>
       </div>
-    </div>
-    <div>
-      <FreeTrialBlock />
+      <LoginEmailBtn />
+
+      <div className={styles.new}>
+        New to Santiment?{' '}
+        <Link
+          to={PATHS.CREATE_ACCOUNT_FREE_TRIAL}
+          className={styles.createLink}
+        >
+          Create an account
+        </Link>
+      </div>
     </div>
   </div>
 )
 
-export default ({ isLoggedIn, token, location: { search = '' } }) => {
+const LoginOptions = props => {
+  if (props.isDesktop) {
+    return (
+      <div className={styles.container}>
+        <LoginDescription />
+        <div>
+          <FreeTrialBlock />
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <SwipablePages
+      props={props}
+      pages={[
+        <MobileWrapper onBack={props.history.goBack}>
+          <LoginDescription />
+        </MobileWrapper>,
+        <MobileWrapper onBack={props.history.goBack}>
+          <FreeTrialBlock />
+        </MobileWrapper>
+      ]}
+    />
+  )
+}
+
+export default ({
+  isLoggedIn,
+  isDesktop,
+  token,
+  location: { search = '' }
+}) => {
   if (isLoggedIn) {
     const { consent } = parse(search)
     let redirectTo = '/'
@@ -50,18 +79,27 @@ export default ({ isLoggedIn, token, location: { search = '' } }) => {
     return <Redirect to={redirectTo} />
   }
 
+  const child = (
+    <Switch>
+      <Route
+        exact
+        path={PATHS.LOGIN_VIA_EMAIL}
+        render={props => <LoginEmailForm {...props} />}
+      />
+      <Route
+        path={PATHS.LOGIN}
+        render={props => <LoginOptions {...props} isDesktop={isDesktop} />}
+      />
+    </Switch>
+  )
+
+  if (!isDesktop) {
+    return child
+  }
+
   return (
     <div className={cx('page', styles.wrapper)}>
-      <Panel className={styles.panel}>
-        <Switch>
-          <Route
-            exact
-            path={PATHS.LOGIN_VIA_EMAIL}
-            render={props => <LoginEmailForm {...props} />}
-          />
-          <Route path={PATHS.LOGIN} render={LoginOptions} />
-        </Switch>
-      </Panel>
+      <Panel className={styles.panel}>{child}</Panel>
     </div>
   )
 }

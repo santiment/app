@@ -8,6 +8,7 @@ import { Mutation } from 'react-apollo'
 import GA from '../../utils/tracking'
 import { PATHS } from '../../App'
 import styles from './index.module.scss'
+import MobileWrapper from './Mobile/MobileWrapper'
 
 const mutation = gql`
   mutation($email: String!, $consent: String!) {
@@ -84,8 +85,14 @@ const SuccessState = ({ email }) => {
   )
 }
 
-const PrepareState = ({ loading, loginEmail, setEmail }) => {
-  return (
+const PrepareState = ({
+  loading,
+  loginEmail,
+  setEmail,
+  isDesktop,
+  history
+}) => {
+  const child = (
     <div className={styles.loginViaEmail}>
       <h2 className={cx(styles.title, styles.email__title)}>Welcome back</h2>
 
@@ -106,10 +113,17 @@ const PrepareState = ({ loading, loginEmail, setEmail }) => {
       </Link>
     </div>
   )
+
+  return isDesktop ? (
+    child
+  ) : (
+    <MobileWrapper onBack={history.goBack}>{child}</MobileWrapper>
+  )
 }
 
 const LoginEmailForm = ({
   isDesktop,
+  history,
   prepareState: PrepareStateEl = PrepareState
 }) => {
   const [email, setEmail] = useState('')
@@ -121,13 +135,14 @@ const LoginEmailForm = ({
         { loading, data: { emailLogin: { success } = {} } = {} }
       ) => {
         return success ? (
-          <SuccessState email={email} isDesktop={isDesktop} />
+          <SuccessState email={email} isDesktop={isDesktop} history={history} />
         ) : (
           <PrepareStateEl
             loading={loading}
             loginEmail={loginEmail}
             setEmail={setEmail}
             isDesktop={isDesktop}
+            history={history}
           />
         )
       }}
