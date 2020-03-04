@@ -5,6 +5,7 @@ import { buildCompareKey } from './Compare/utils'
 
 const { trendPositionHistory } = Events
 
+const COMPARE_CONNECTOR = '-CC-'
 const getMetricsKeys = metrics => metrics.map(({ key }) => key)
 const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
 const convertKeyToMetric = (key, dict) => dict[key] || compatabilityMap[key]
@@ -29,7 +30,7 @@ function shareComparable (Comparable) {
   const { slug, ticker } = project
   const { key } = metric
 
-  return `${slug}-${ticker}-${key}`
+  return `${slug}${COMPARE_CONNECTOR}${ticker}${COMPARE_CONNECTOR}${key}`
 }
 
 function sanitize (array) {
@@ -45,7 +46,7 @@ function parseSharedComparables (comparables) {
   const arr = toArray(comparables)
 
   return arr.map(shared => {
-    const [slug, ticker, metricKey] = shared.split('-')
+    const [slug, ticker, metricKey] = shared.split(COMPARE_CONNECTOR)
     const metric = convertKeyToMetric(metricKey, Metrics)
 
     if (!metric) return undefined
