@@ -14,7 +14,7 @@ const predicate = searchTerm => {
 
 const suggestionContent = ({ label }) => label
 
-const getMetricSuggestions = categories => {
+export const getMetricSuggestions = categories => {
   const suggestions = []
   for (const categoryKey in categories) {
     const category = categories[categoryKey]
@@ -32,15 +32,14 @@ const getMetricSuggestions = categories => {
   return suggestions
 }
 
-const Search = ({ categories, toggleMetric }) => {
-  return (
-    <SearchWithSuggestions
-      withMoreSuggestions={false}
-      data={getMetricSuggestions(categories)}
-      onSuggestionSelect={({ item }) => toggleMetric(item)}
-      dontResetStateAfterSelection
-    />
-  )
-}
+const Search = ({ categories, toggleMetric, ...rest }) => (
+  <SearchWithSuggestions
+    {...rest}
+    withMoreSuggestions={false}
+    data={getMetricSuggestions(categories)}
+    onSuggestionSelect={({ item }) => toggleMetric(item)}
+    dontResetStateAfterSelection
+  />
+)
 
 export default Search

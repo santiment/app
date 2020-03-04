@@ -1,10 +1,13 @@
 import { stringify, parse } from 'query-string'
-import { Events, Metrics, compatabilityMap } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from './defaults'
+import { Events, Metrics, compatabilityMap } from '../SANCharts/data'
+import { buildCompareKey } from './Compare/utils'
 
 const { trendPositionHistory } = Events
 
 const getMetricsKeys = metrics => metrics.map(({ key }) => key)
+const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
+const convertKeyToMetric = (key, dict) => dict[key] || compatabilityMap[key]
 
 const reduceStateKeys = (State, Data) =>
   Object.keys(State).reduce((acc, key) => {
@@ -15,37 +18,71 @@ const reduceStateKeys = (State, Data) =>
     return acc
   }, {})
 
-const convertKeysToMetric = (keys, dict) =>
+const convertKeysToMetrics = (keys, dict) =>
   keys &&
-  (typeof keys === 'string' ? [keys] : keys)
+  toArray(keys)
     .filter(Boolean)
-    .map(key => dict[key] || compatabilityMap[key])
+    .map(key => convertKeyToMetric(key, dict))
 
-export const updateHistory = url => {
-  const { history } = window
-  history.replaceState(history.state, null, url)
+function shareComparable (Comparable) {
+  const { project, metric } = Comparable
+  const { slug, ticker } = project
+  const { key } = metric
+
+  return `${slug}-${ticker}-${key}`
 }
 
-export function generateShareLink (settings, options, metrics, events) {
+function sanitize (array) {
+  if (!array) return
+
+  const cleaned = array.filter(Boolean)
+  return cleaned.length === 0 ? undefined : cleaned
+}
+
+function parseSharedComparables (comparables) {
+  if (!comparables) return
+
+  const arr = toArray(comparables)
+
+  return arr.map(shared => {
+    const [slug, ticker, metricKey] = shared.split('-')
+    const metric = convertKeyToMetric(metricKey, Metrics)
+
+    if (!metric) return undefined
+
+    const project = {
+      slug,
+      ticker
+    }
+
+    return {
+      key: buildCompareKey(metric, project),
+      metric,
+      project
+    }
+  })
+}
+
+export function generateShareLink (
+  settings,
+  options,
+  metrics,
+  events,
+  comparables = []
+) {
   const Shareable = {
     ...settings,
     ...options,
     metrics: getMetricsKeys(metrics),
     events: events.includes(trendPositionHistory)
       ? getMetricsKeys(events)
-      : undefined
+      : undefined,
+    comparables: comparables.map(shareComparable)
   }
 
   return stringify(Shareable, {
     arrayFormat: 'comma'
   })
-}
-
-const sanitize = array => {
-  if (!array) return
-
-  const cleaned = array.filter(Boolean)
-  return cleaned.length === 0 ? undefined : cleaned
 }
 
 export function parseUrl () {
@@ -54,7 +91,13 @@ export function parseUrl () {
   return {
     settings: reduceStateKeys(DEFAULT_SETTINGS, data),
     options: reduceStateKeys(DEFAULT_OPTIONS, data),
-    metrics: sanitize(convertKeysToMetric(data.metrics, Metrics)),
-    events: sanitize(convertKeysToMetric(data.events, Events))
+    metrics: sanitize(convertKeysToMetrics(data.metrics, Metrics)),
+    events: sanitize(convertKeysToMetrics(data.events, Events)),
+    comparables: sanitize(parseSharedComparables(data.comparables))
   }
+}
+
+export const updateHistory = url => {
+  const { history } = window
+  history.replaceState(history.state, null, url)
 }

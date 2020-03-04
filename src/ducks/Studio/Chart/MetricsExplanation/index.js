@@ -18,8 +18,17 @@ export function filterExplainableMetrics (metrics) {
   return metrics.filter(({ description }) => description)
 }
 
+function dedupMetrics (metrics) {
+  const dups = new Set()
+
+  return metrics.filter(metric => {
+    const { description } = metric
+    return dups.has(description) ? false : dups.add(description)
+  })
+}
+
 function buildOptions (metrics, colors) {
-  return filterExplainableMetrics(metrics).map(metric => ({
+  return dedupMetrics(filterExplainableMetrics(metrics)).map(metric => ({
     index: metric.key,
     content: <Label metric={metric} colors={colors} />,
     metric

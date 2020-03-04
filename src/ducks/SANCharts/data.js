@@ -49,6 +49,7 @@ export const Metrics = {
   },
   historyPricePreview: {
     // TODO: Replace to 'area' when san-chart will support it [@vanguard | Jan 23, 2020]
+    queryKey: 'price_usd',
     node: 'line',
     Component: Area,
     color: 'jungle-green',
@@ -187,7 +188,6 @@ export const Metrics = {
     ),
 
     color: 'texas-rose',
-    dataKey: 'daily_active_addresses',
     historicalTriggersDataKey: 'active_addresses',
     minInterval: '1d'
   },
@@ -198,7 +198,7 @@ export const Metrics = {
     group: 'Exchange Flow',
     label: 'Percent of Token Supply on Exchanges',
     shortLabel: '% TS on Exc.',
-    dataKey: 'percentOnExchanges',
+    // dataKey: 'percentOnExchanges',
     description: (
       <>
         The percent of the total token supply which is on exchanges. More info{' '}
@@ -217,8 +217,8 @@ export const Metrics = {
     node: 'line',
     Component: Line,
     label: 'In Top Holders Total',
-    shortLabel: 'In T.H. Total',
-    dataKey: 'inTopHoldersTotal'
+    shortLabel: 'In T.H. Total'
+    // dataKey: 'inTopHoldersTotal'
   },
   circulation: {
     category: 'On-chain',
@@ -319,7 +319,7 @@ export const Metrics = {
     ),
     minInterval: '1d'
   },
-  devActivity: {
+  dev_activity: {
     category: 'Development',
     node: 'line',
     Component: Line,
@@ -327,7 +327,6 @@ export const Metrics = {
     label: 'Development Activity',
     shortLabel: 'Dev. Activity',
     anomalyKey: 'DEV_ACTIVITY',
-    dataKey: 'activity',
     description: (
       <>
         Based on number of Github 'events' including PRs, comments, and wiki
@@ -377,7 +376,7 @@ export const Metrics = {
     Component: Bar,
     label: 'Daily Active Deposits',
     shortLabel: 'Daily A.D.',
-    dataKey: 'activeDeposits',
+    // dataKey: 'activeDeposits',
     description: (
       <>
         Shows the number of unique deposit addresses that participated in
@@ -398,7 +397,7 @@ export const Metrics = {
     node: 'line',
     Component: Line,
     label: 'Twitter',
-    dataKey: 'followersCount',
+    // dataKey: 'followersCount',
     description: `Shows the number of followers on the project's official Twitter account over time`
   },
   socialDominance: {
@@ -407,7 +406,7 @@ export const Metrics = {
     Component: Line,
     label: 'Social Dominance',
     shortLabel: 'Soc. Domin.',
-    dataKey: 'dominance',
+    // dataKey: 'dominance',
     description: `Shows the share (or %) of the coin’s mentions on crypto-related social media, compared to a pool of 50+ of the most talked-about projects online.`
   },
   realized_value_usd: {
@@ -518,6 +517,7 @@ DerivedMetrics.forEach(obj => {
 
 export const compatabilityMap = {
   // old              : new
+  devActivity: Metrics.dev_activity,
   historyPrice: Metrics.price_usd,
   volume: Metrics.volume_usd,
   marketcap: Metrics.marketcap_usd,
@@ -571,11 +571,11 @@ export const tooltipSettings = {
   }
 }
 
-Object.values(Metrics).forEach(
-  ({ key, dataKey = key, formatter = FORMATTER, label }) => {
-    tooltipSettings[dataKey] = {
-      label,
-      formatter
-    }
+Object.values(Metrics).forEach(metric => {
+  const { key, dataKey = key, formatter = FORMATTER, label } = metric
+  metric.formatter = formatter
+  tooltipSettings[dataKey] = {
+    label,
+    formatter
   }
-)
+})

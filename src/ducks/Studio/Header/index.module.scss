@@ -1,0 +1,28 @@
+@import '~@santiment-network/ui/mixins';
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 13px;
+}
+
+.title {
+  color: var(--rhino);
+
+  @include text('body-1');
+}
+
+.slug {
+  margin-left: 8px;
+  color: var(--waterloo);
+
+  @include text('body-3');
+}
+
+.settings {
+  margin-left: auto;
+}
+
+.compare {
+  margin-left: 12px;
+}

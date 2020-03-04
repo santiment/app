@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import StudioSidebar from './Sidebar'
 import StudioChart from './Chart'
-import StudioSettings from './Settings'
+import StudioHeader from './Header'
 import StudioAdvancedView from './AdvancedView'
-import StudioHeader from '../SANCharts/Header'
+import StudioInfo from '../SANCharts/Header'
 import { Events } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { generateShareLink, updateHistory } from './url'
+import { buildComparedMetric } from './Compare/utils'
 import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { trackMetricState } from './analytics'
@@ -20,6 +21,8 @@ const Studio = ({
   defaultOptions,
   defaultMetrics,
   defaultEvents,
+  defaultComparedMetrics,
+  defaultComparables,
   topSlot,
   bottomSlot,
   onSlugChange,
@@ -28,14 +31,31 @@ const Studio = ({
 }) => {
   const [settings, setSettings] = useState(defaultSettings)
   const [options, setOptions] = useState(defaultOptions)
+  const [comparables, setComparables] = useState(defaultComparables)
+  const [comparedMetrics, setComparedMetrics] = useState(defaultComparedMetrics)
+  const [metrics, setMetrics] = useState(defaultMetrics)
   const [activeMetrics, setActiveMetrics] = useState(defaultMetrics)
   const [activeEvents, setActiveEvents] = useState(defaultEvents)
   const [advancedView, setAdvancedView] = useState()
   const [hoveredDate, setHoveredDate] = useState()
   const [shareLink, setShareLink] = useState()
   const [data, loadings] = useTimeseries(activeMetrics, settings)
-  const [events, eventLoadings] = useTimeseries(activeEvents, settings)
+  const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const chartRef = useRef(null)
+
+  useEffect(
+    () => {
+      setComparedMetrics(comparables.map(buildComparedMetric))
+    },
+    [comparables]
+  )
+
+  useEffect(
+    () => {
+      setActiveMetrics(metrics.concat(comparedMetrics))
+    },
+    [metrics, comparedMetrics]
+  )
 
   useEffect(
     () => {
@@ -50,7 +70,14 @@ const Studio = ({
   useEffect(
     () => {
       const queryString =
-        '?' + generateShareLink(settings, options, activeMetrics, activeEvents)
+        '?' +
+        generateShareLink(
+          settings,
+          options,
+          activeMetrics,
+          activeEvents,
+          comparables
+        )
 
       const { origin, pathname } = window.location
       setShareLink(origin + pathname + queryString)
@@ -78,6 +105,8 @@ const Studio = ({
   function toggleMetric (metric) {
     if (metric === trendPositionHistory) {
       return toggleTrend(metric)
+    } else if (metric.comparedTicker) {
+      return removeComparedMetric(metric)
     }
 
     const metricSet = new Set(activeMetrics)
@@ -90,7 +119,7 @@ const Studio = ({
       metricSet.add(metric)
       trackMetricState(metric, true)
     }
-    setActiveMetrics([...metricSet])
+    setMetrics([...metricSet])
   }
 
   function toggleAdvancedView (mode) {
@@ -110,6 +139,10 @@ const Studio = ({
     setHoveredDate(new Date(value))
   }
 
+  function removeComparedMetric ({ key }) {
+    setComparables(comparables.filter(comp => comp.key !== key))
+  }
+
   return (
     <div className={cx(styles.wrapper, classes.wrapper)}>
       <StudioSidebar
@@ -124,7 +157,7 @@ const Studio = ({
       />
       <div className={styles.header}>
         {topSlot}
-        <StudioHeader
+        <StudioInfo
           slug={settings.slug}
           isLoading={false}
           isLoggedIn={false}
@@ -132,17 +165,19 @@ const Studio = ({
         />
       </div>
       <div className={cx(styles.container, styles.content)}>
-        <StudioSettings
+        <StudioHeader
           chartRef={chartRef}
           settings={settings}
           options={options}
           activeMetrics={activeMetrics}
           activeEvents={activeEvents}
           data={data}
-          events={events}
+          events={eventsData}
+          comparables={comparables}
           shareLink={shareLink}
           setOptions={setOptions}
           setSettings={setSettings}
+          setComparables={setComparables}
         />
         <div className={styles.data}>
           <div className={styles.chart}>
@@ -156,11 +191,11 @@ const Studio = ({
               activeEvents={activeEvents}
               advancedView={advancedView}
               toggleMetric={toggleMetric}
-              changeHoveredDate={changeHoveredDate}
               data={data}
-              events={events}
+              events={eventsData}
               loadings={loadings}
               eventLoadings={eventLoadings}
+              changeHoveredDate={changeHoveredDate}
             />
           </div>
           {advancedView && (
@@ -181,11 +216,21 @@ const Studio = ({
 }
 
 Studio.defaultProps = {
+  defaultComparedMetrics: [],
+  defaultEvents: [],
+  defaultComparables: [],
   onSlugChange: () => {},
   classes: {}
 }
 
-export default ({ settings, options, metrics, events, ...props }) => (
+export default ({
+  settings,
+  options,
+  metrics,
+  events,
+  comparables,
+  ...props
+}) => (
   <Studio
     {...props}
     defaultSettings={{
@@ -194,6 +239,7 @@ export default ({ settings, options, metrics, events, ...props }) => (
     }}
     defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
     defaultMetrics={metrics || DEFAULT_METRICS}
-    defaultEvents={events || []}
+    defaultEvents={events}
+    defaultComparables={comparables}
   />
 )

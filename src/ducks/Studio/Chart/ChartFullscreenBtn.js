@@ -4,7 +4,7 @@ import Chart from '../../SANCharts/Chart'
 import FullscreenDialogBtn from '../../../components/FullscreenDialogBtn'
 import { useTimeseries } from '../timeseries/hooks'
 import { generateShareLink } from '../url'
-import Settings from '../Settings'
+import Settings from '../Header/Settings'
 import styles from './ChartFullscreenBtn.module.scss'
 
 const FullscreenChart = ({
@@ -35,7 +35,7 @@ const FullscreenChart = ({
   return (
     <div className={styles.content}>
       <Settings
-        noTitle
+        className={styles.settings}
         chartRef={chartRef}
         settings={settings}
         options={options}

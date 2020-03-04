@@ -11,8 +11,7 @@ import { DAILY_ACTIVE_DEPOSITS_QUERY } from '../../GetTimeSeries/queries/daily_a
 import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from '../../GetTimeSeries/queries/top_holders_percent_of_total_supply'
 import { ETH_SPENT_OVER_TIME_QUERY } from '../../GetTimeSeries/queries/eth_spent_over_time_query'
 import { PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES } from '../../GetTimeSeries/queries/percent_of_token_supply_on_exchanges_query'
-import { DEV_ACTIVITY_QUERY } from '../../GetTimeSeries/queries/dev_activity_query'
-import { extractTimeseries } from './utils'
+import { aliasTransform } from './utils'
 import { mergeTimeseriesByKey } from '../../../utils/utils'
 
 const preTransform = ({
@@ -23,7 +22,7 @@ const preTransform = ({
 
 const Fetcher = METRICS.reduce((acc, metric) => {
   acc[metric] = {
-    query: GET_METRIC(metric),
+    query: GET_METRIC,
     preTransform
   }
   return acc
@@ -35,7 +34,7 @@ Object.assign(Fetcher, {
   marketSegment: MarketSegmentFetcher,
   socialVolume: {
     query: SOCIAL_VOLUME_QUERY,
-    preTransform: ({ data }) =>
+    preTransform: key => ({ data }) =>
       mergeTimeseriesByKey({
         key: 'datetime',
         timeseries: Object.values(data),
@@ -43,35 +42,41 @@ Object.assign(Fetcher, {
           socialVolume: longestTSData.socialVolume + timeserieData.socialVolume,
           datetime: longestTSData.datetime
         })
-      })
+      }).map(({ datetime, socialVolume }) => ({
+        datetime,
+        [key]: socialVolume
+      }))
   },
   gasUsed: {
     query: GAS_USED_QUERY,
-    preTransform: extractTimeseries('gasUsed')
+    preTransform: aliasTransform('gasUsed')
   },
   historyTwitterData: {
     query: HISTORY_TWITTER_DATA_QUERY,
-    preTransform: extractTimeseries('historyTwitterData')
+    preTransform: aliasTransform('historyTwitterData', 'followersCount')
   },
   burnRate: {
     query: BURN_RATE_QUERY,
-    preTransform: extractTimeseries('burnRate')
+    preTransform: aliasTransform('burnRate')
   },
   historicalBalance: {
     query: HISTORICAL_BALANCE_QUERY,
-    preTransform: extractTimeseries('historicalBalance')
+    preTransform: aliasTransform('historicalBalance')
   },
   socialDominance: {
     query: SOCIAL_DOMINANCE_QUERY,
-    preTransform: extractTimeseries('socialDominance')
+    preTransform: aliasTransform('socialDominance', 'dominance')
   },
   dailyActiveDeposits: {
     query: DAILY_ACTIVE_DEPOSITS_QUERY,
-    preTransform: extractTimeseries('dailyActiveDeposits')
+    preTransform: aliasTransform('dailyActiveDeposits', 'activeDeposits')
   },
   topHoldersPercentOfTotalSupply: {
     query: TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY,
-    preTransform: extractTimeseries('topHoldersPercentOfTotalSupply')
+    preTransform: aliasTransform(
+      'topHoldersPercentOfTotalSupply',
+      'inTopHoldersTotal'
+    )
   },
   ethSpentOverTime: {
     query: ETH_SPENT_OVER_TIME_QUERY,
@@ -83,19 +88,29 @@ Object.assign(Fetcher, {
   },
   percentOfTokenSupplyOnExchanges: {
     query: PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES,
-    preTransform: extractTimeseries('percentOnExchanges')
-  },
-  devActivity: {
-    query: DEV_ACTIVITY_QUERY,
-    preTransform: extractTimeseries('devActivity')
+    preTransform: aliasTransform('percentOnExchanges')
   }
 })
 
-export const getQuery = ({ key, queryKey = key }) => {
+// TODO: Remove this after moving to dynamic query aliasing instead of preTransform [@vanguard | March 4, 2020]
+const transformAliases = [
+  'socialVolume',
+  'gasUsed',
+  'historyTwitterData',
+  'burnRate',
+  'socialDominance',
+  'dailyActiveDeposits',
+  'topHoldersPercentOfTotalSupply',
+  'ethSpentOverTime',
+  'percentOfTokenSupplyOnExchanges'
+]
+
+export const getQuery = metric => {
+  const { key, queryKey = key } = metric
   const { query } = Fetcher[queryKey]
 
   if (typeof query === 'function') {
-    return query(key)
+    return query(metric)
   }
 
   return query
@@ -108,6 +123,8 @@ export const getPreTransform = ({ key, queryKey = key, metricAnomaly }) => {
     return preTransform(key)
   } else if (queryKey === 'anomalies') {
     return preTransform(metricAnomaly)
+  } else if (transformAliases.includes(queryKey)) {
+    return preTransform(key)
   }
 
   return preTransform

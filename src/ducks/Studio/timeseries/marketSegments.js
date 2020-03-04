@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { extractTimeseries } from './utils'
 import { tooltipSettings } from '../../SANCharts/data'
 
-export const GET_MARKET_SEGMENT_QUERY = name => gql`
+export const GET_MARKET_SEGMENT_QUERY = ({ key }) => gql`
   query devActivity(
     $from: DateTime!
     $to: DateTime!
@@ -20,7 +20,7 @@ export const GET_MARKET_SEGMENT_QUERY = name => gql`
       selector: $selector
     ) {
       datetime
-      ${name}: activity
+      ${key}: activity
     }
   }
 `
@@ -36,7 +36,7 @@ export const getMarketSegment = key => {
   const label = `Dev. Activity (${key})`
   tooltipSettings[key] = {
     label,
-    formatter: tooltipSettings.activity.formatter
+    formatter: tooltipSettings.dev_activity.formatter
   }
 
   const newSegment = {

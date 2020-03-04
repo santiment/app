@@ -1,0 +1,23 @@
+.wrapper {
+  height: 150px;
+  width: 100%;
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.ticker {
+  color: var(--waterloo);
+  margin-left: 4px;
+}
+
+.btn {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
+.panel {
+  padding: 8px;
+}
