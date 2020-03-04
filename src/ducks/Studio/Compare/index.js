@@ -7,7 +7,7 @@ import Panel from '@santiment-network/ui/Panel'
 import Comparable from './Comparable'
 import styles from './index.module.scss'
 import withProjects from './withProjects'
-import { projectSorter, hashComparable } from './utils'
+import { projectSorter, hashComparable, buildHiddenMetrics } from './utils'
 import { getSyncedColors } from '../../SANCharts/Chart/Synchronizer'
 
 const Compare = ({
@@ -34,6 +34,7 @@ const Compare = ({
 
   const array = activeMetrics.length < 5 ? [...comparables, null] : comparables
   const colors = getSyncedColors(activeMetrics)
+  const hiddenMetricsMap = buildHiddenMetrics(comparables)
   return (
     <>
       <ContextMenu
@@ -57,6 +58,7 @@ const Compare = ({
               projects={projects}
               comparable={comparable}
               colors={colors}
+              hiddenMetricsMap={hiddenMetricsMap}
             />
           ))}
         </Panel>

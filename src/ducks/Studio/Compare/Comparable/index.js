@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import ComparableMetric from './Metric'
-import { buildCompareKey } from '../utils'
+import { buildCompareKey, getProjectHiddenMetrics } from '../utils'
 import ProjectSelectDialog from '../ProjectSelectDialog'
 import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
 import styles from './index.module.scss'
@@ -12,8 +12,9 @@ export default ({
   project,
   metric,
   projects,
-  setComparables,
-  colors
+  colors,
+  hiddenMetricsMap,
+  setComparables
 }) => {
   const [selectedProject, setSelectedProject] = useState(project || projects[0])
   const [selectedMetric, setSelectedMetric] = useState(metric)
@@ -82,8 +83,12 @@ export default ({
       <ComparableMetric
         comparable={comparable}
         slug={slug}
-        onSelect={setSelectedMetric}
         colors={colors}
+        hiddenMetrics={getProjectHiddenMetrics(
+          hiddenMetricsMap,
+          selectedProject
+        )}
+        onSelect={setSelectedMetric}
       />
       {comparable && (
         <Icon

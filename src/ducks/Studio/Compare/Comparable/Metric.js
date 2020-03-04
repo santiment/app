@@ -36,7 +36,7 @@ const Label = ({ comparable, editMetric, colors }) => {
   )
 }
 
-export default ({ comparable, slug, onSelect, colors }) => {
+export default ({ comparable, slug, colors, hiddenMetrics, onSelect }) => {
   const [isEditing, setEditing] = useState()
   const metricSelectorRef = useRef(null)
 
@@ -61,6 +61,7 @@ export default ({ comparable, slug, onSelect, colors }) => {
     <div className={styles.metric} ref={metricSelectorRef}>
       <MetricSearch
         slug={slug}
+        hiddenMetrics={hiddenMetrics}
         toggleMetric={onMetricSelect}
         onBlur={stopEditing}
       />
