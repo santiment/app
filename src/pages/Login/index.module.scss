@@ -13,6 +13,10 @@
 
 .emailSuccess {
   padding: 48px 24px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    padding: 0;
+  }
 }
 
 .loginBlock {
@@ -133,11 +137,23 @@
     margin-bottom: 0;
     max-width: 320px;
     word-break: break-word;
+
+    @include responsive('phone-xs', 'phone', 'tablet') {
+      padding: 0 16px;
+      margin-top: 18px;
+      text-align: center;
+    }
   }
 
   &__subtitleSuccess {
     margin-top: 16px;
     max-width: 340px;
+
+    @include responsive('phone-xs', 'phone', 'tablet') {
+      margin-top: 24px;
+      text-align: center;
+      padding: 0 16px;
+    }
   }
 
   &__form {
@@ -158,7 +174,7 @@
     display: flex;
     justify-content: center;
 
-    @include responsive('phone', 'phone-xs') {
+    @include responsive('phone', 'phone-xs', 'tablet') {
       width: 100%;
       justify-content: center;
     }
@@ -178,6 +194,10 @@
 
   &__linkSuccess {
     margin-top: 32px;
+
+    @include responsive('phone', 'phone-xs', 'tablet') {
+      margin-top: 48px;
+    }
   }
 
   &__pointer {

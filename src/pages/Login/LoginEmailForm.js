@@ -60,8 +60,8 @@ export const EmailForm = ({ loading, loginEmail, setEmail }) => {
   )
 }
 
-const SuccessState = ({ email }) => {
-  return (
+const SuccessState = ({ email, isDesktop, history }) => {
+  const child = (
     <div className={cx(styles.loginViaEmail, styles.emailSuccess)}>
       <h2 className={cx(styles.title, styles.email__title)}>
         Email Confirmation
@@ -82,6 +82,12 @@ const SuccessState = ({ email }) => {
         </Link>
       </Link>
     </div>
+  )
+
+  return isDesktop ? (
+    child
+  ) : (
+    <MobileWrapper onBack={history.goBack}>{child}</MobileWrapper>
   )
 }
 
