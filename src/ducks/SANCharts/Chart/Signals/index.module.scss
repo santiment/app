@@ -1,3 +1,5 @@
+@import '~@santiment-network/ui/variables';
+
 .wrapper {
   position: absolute;
   z-index: 11;
@@ -24,4 +26,17 @@
     top: -5px;
     left: -14px;
   }
+}
+
+.add {
+  position: absolute;
+  right: -6px;
+  cursor: pointer;
+  background: $fiord;
+  border-radius: 1px;
+  height: 13px;
+  width: 13px;
+  background-image: url('./plus.svg');
+  background-repeat: no-repeat;
+  background-position: 50%;
 }

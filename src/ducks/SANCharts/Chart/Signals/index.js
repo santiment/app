@@ -21,6 +21,8 @@ import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import styles from './index.module.scss'
 
+import Alerts from '../../../Studio/Alerts'
+
 const TEXT_SIGNAL = 'Signal '
 const TEXT_ACTION = 'Click to '
 const TEXT_RESULT = 'create a signal '
@@ -37,7 +39,8 @@ const Signals = ({
   createSignal,
   removeSignal
 }) => {
-  const [hovered, setHovered] = useState()
+  const [isHovered, setIsHovered] = useState()
+  const [hoveredY, setHoveredY] = useState()
 
   useEffect(() => {
     if (signals.length === 0) {
@@ -46,9 +49,11 @@ const Signals = ({
   }, [])
 
   function onMouseMove ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
-    if (hovered || data.length === 0 || target !== currentTarget) {
+    if (isHovered || data.length === 0 || target !== currentTarget) {
       return
     }
+    setHoveredY(y)
+
     const lastPrice = data[data.length - 1].price_usd
 
     const price = findPriceByY(chart, y)
@@ -67,7 +72,7 @@ const Signals = ({
   }
 
   function onClick ({ nativeEvent: { offsetY: y } }) {
-    if (hovered || data.length === 0) {
+    if (isHovered || data.length === 0) {
       return
     }
 
@@ -85,11 +90,12 @@ const Signals = ({
   }
 
   function onMouseLeave () {
+    setHoveredY()
     clearCtx(chart, chart.tooltip.ctx)
   }
 
   function setHoveredSignal (signal) {
-    setHovered(signal)
+    setIsHovered(signal)
     if (signal) {
       const { type, value, y } = signal
 
@@ -119,6 +125,8 @@ const Signals = ({
           removeSignal={removeSignal}
         />
       ))}
+
+      {hoveredY && <div className={styles.add} style={{ top: hoveredY }} />}
     </div>
   )
 }

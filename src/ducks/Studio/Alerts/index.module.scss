@@ -1,0 +1,83 @@
+@import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
+
+.wrapper {
+  box-shadow: 0 2px 6px rgba(24, 27, 43, 0.03),
+    0 4px 24px rgba(24, 27, 43, 0.05);
+  border-radius: 4px;
+
+  //TODO: remove
+  margin: 20px;
+  max-width: 370px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  background: $fiord;
+  color: $white;
+
+  @include text('caption');
+
+  padding: 7px 16px;
+  border-radius: 4px 4px 0 0;
+}
+
+.manual {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--jungle-green);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
+.suggestions,
+.suggestion {
+  display: flex;
+}
+
+.suggestions {
+  border: 1px solid var(--porcelain);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  overflow: hidden;
+}
+
+.suggestion {
+  flex-direction: column;
+  flex: 1;
+  background: var(--white);
+
+  &:last-child {
+    border-left: 1px solid var(--porcelain);
+  }
+}
+
+.title {
+  background: var(--athens);
+  font-weight: 500;
+  font-size: 9px;
+  line-height: 16px;
+  color: var(--waterloo);
+  padding: 4px 16px;
+}
+
+.signal {
+  border-top: 1px solid var(--porcelain);
+  font-size: 10px;
+  line-height: 16px;
+  color: var(--waterloo);
+  padding: 8px 16px;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--athens);
+  }
+}
+
+.value {
+  color: var(--jungle-green);
+}
