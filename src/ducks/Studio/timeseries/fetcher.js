@@ -23,7 +23,7 @@ const preTransform = ({
 
 const Fetcher = METRICS.reduce((acc, metric) => {
   acc[metric] = {
-    query: GET_METRIC(metric),
+    query: GET_METRIC,
     preTransform
   }
   return acc
@@ -91,24 +91,18 @@ Object.assign(Fetcher, {
   }
 })
 
-export const getQuery = ({ key, queryKey = key }) => {
+export const getQuery = metric => {
+  const { key, queryKey = key } = metric
   const { query } = Fetcher[queryKey]
 
   if (typeof query === 'function') {
-    return query(key)
+    return query(metric)
   }
 
   return query
 }
 
-export const getPreTransform = ({
-  key,
-  queryKey = key,
-  metricAnomaly,
-  queryPreTransform
-}) => {
-  if (queryPreTransform) return queryPreTransform
-
+export const getPreTransform = ({ key, queryKey = key, metricAnomaly }) => {
   const { preTransform } = Fetcher[queryKey]
 
   if (queryKey === 'anomaly') {

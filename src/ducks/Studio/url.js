@@ -1,6 +1,7 @@
 import { stringify, parse } from 'query-string'
-import { Events, Metrics, compatabilityMap } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS } from './defaults'
+import { Events, Metrics, compatabilityMap } from '../SANCharts/data'
+import { buildCompareKey } from './Compare/utils'
 
 const { trendPositionHistory } = Events
 
@@ -47,15 +48,17 @@ function parseSharedComparables (comparables) {
     const [slug, ticker, metricKey] = shared.split('-')
     const metric = convertKeyToMetric(metricKey, Metrics)
 
-    if (!metric) return
+    if (!metric) return undefined
+
+    const project = {
+      slug,
+      ticker
+    }
 
     return {
-      key: `${metricKey}-${slug}`,
+      key: buildCompareKey(metric, project),
       metric,
-      project: {
-        slug,
-        ticker
-      }
+      project
     }
   })
 }
@@ -65,7 +68,7 @@ export function generateShareLink (
   options,
   metrics,
   events,
-  comparables
+  comparables = []
 ) {
   const Shareable = {
     ...settings,

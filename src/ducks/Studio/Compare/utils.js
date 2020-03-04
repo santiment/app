@@ -2,22 +2,12 @@ import { tooltipSettings } from '../../SANCharts/data'
 
 const comparedMetricsCache = new Map()
 
-const preTransform = (key, alias) => ({
-  data: {
-    getMetric: { timeseriesData }
-  }
-}) =>
-  timeseriesData.map(data => ({
-    datetime: data.datetime,
-    [alias]: data[key]
-  }))
-
 export const projectSorter = ({ rank: a }, { rank: b }) => a - b
 
 export const hashComparable = ({ project, metric }) => project.slug + metric.key
 
 export const buildCompareKey = (metric, project) =>
-  `${metric.key}-${project.slug}`
+  `${metric.key}_${project.slug}`
 
 export const buildComparedMetric = Comparable => {
   const hash = hashComparable(Comparable)
@@ -38,7 +28,6 @@ export const buildComparedMetric = Comparable => {
     queryKey: metricKey,
     comparedTicker: ticker,
     color: undefined,
-    queryPreTransform: preTransform(metricKey, key),
     reqMeta: {
       slug
     }

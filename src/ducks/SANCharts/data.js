@@ -572,11 +572,11 @@ export const tooltipSettings = {
   }
 }
 
-Object.values(Metrics).forEach(
-  ({ key, dataKey = key, formatter = FORMATTER, label }) => {
-    tooltipSettings[dataKey] = {
-      label,
-      formatter
-    }
+Object.values(Metrics).forEach(metric => {
+  const { key, dataKey = key, formatter = FORMATTER, label } = metric
+  metric.formatter = formatter
+  tooltipSettings[dataKey] = {
+    label,
+    formatter
   }
-)
+})
