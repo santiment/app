@@ -9,6 +9,22 @@
 
 .container {
   padding: 74px 132px !important;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.mobileWrapper {
+  height: 72vh !important;
+}
+
+.santimentLogo {
+  margin: 32px auto 16px auto;
 }
 
 .toggleBtn {
@@ -17,6 +33,10 @@
   margin-top: 32px;
   height: 40px;
   text-align: center;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    @include text('body-3');
+  }
 }
 
 .description {
@@ -25,6 +45,11 @@
   margin: 16px 0 0 0;
   color: var(--waterloo);
   max-width: 350px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    text-align: center;
+    padding: 0 16px;
+  }
 }
 
 .link {
@@ -43,6 +68,11 @@
 .check {
   display: flex;
   margin-top: 24px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    text-align: center;
+    padding: 0 24px;
+  }
 }
 
 .checkDescription {

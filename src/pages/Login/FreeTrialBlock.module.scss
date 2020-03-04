@@ -17,6 +17,10 @@
   @include text('h3');
 
   margin-top: 24px;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    margin-top: 32px;
+  }
 }
 
 .description {
@@ -26,6 +30,12 @@
   color: var(--waterloo);
   max-width: 320px;
   word-break: break-word;
+
+  @include responsive('phone', 'phone-xs', 'tablet') {
+    margin-top: 16px;
+    padding: 0 16px;
+    text-align: center;
+  }
 }
 
 .btn {

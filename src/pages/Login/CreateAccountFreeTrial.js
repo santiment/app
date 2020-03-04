@@ -5,9 +5,11 @@ import withSizes from 'react-sizes'
 import LoginEmailForm, { EmailForm } from './LoginEmailForm'
 import cx from 'classnames'
 import Panel from '@santiment-network/ui/Panel'
+import Icon from '@santiment-network/ui/Icon'
 import MobileWrapper from './Mobile/MobileWrapper'
 import { mapSizesToProps } from '../../utils/withSizes'
 import SwipablePages from '../../components/SwipablePages/SwipablePages'
+import { MobileOnly } from '../../components/Responsive'
 import externalStyles from './index.module.scss'
 import styles from './CreateAccountFreeTrial.module.scss'
 
@@ -58,6 +60,15 @@ const TrialDescriptions = () => {
           </div>
         )
       })}
+
+      <MobileOnly>
+        <div className={styles.back}>
+          <Icon type='pointer-right' className={styles.iconBack} />
+          <Link to={PATHS.CREATE_ACCOUNT} className={styles.link}>
+            Start your free trial
+          </Link>
+        </div>
+      </MobileOnly>
     </div>
   )
 }
