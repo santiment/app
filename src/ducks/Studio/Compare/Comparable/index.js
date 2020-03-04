@@ -20,7 +20,7 @@ export default ({
   const [selectedMetric, setSelectedMetric] = useState(metric)
   const [opened, setOpened] = useState()
 
-  const { slug, ticker } = selectedProject
+  const { slug, ticker } = selectedProject || {}
 
   useEffect(
     () => {

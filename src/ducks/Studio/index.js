@@ -8,12 +8,11 @@ import StudioInfo from '../SANCharts/Header'
 import { Events } from '../SANCharts/data'
 import { DEFAULT_SETTINGS, DEFAULT_OPTIONS, DEFAULT_METRICS } from './defaults'
 import { generateShareLink, updateHistory } from './url'
+import { buildComparedMetric } from './Compare/utils'
 import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { trackMetricState } from './analytics'
 import styles from './index.module.scss'
-
-import { buildComparedMetric } from './Compare/utils'
 
 const { trendPositionHistory } = Events
 

@@ -7,10 +7,8 @@ export const ALL_PROJECTS_QUERY = gql`
       id
       name
       slug
-      description
       ticker
       rank
-      marketcapUsd
     }
   }
 `

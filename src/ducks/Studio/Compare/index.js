@@ -5,10 +5,10 @@ import Icon from '@santiment-network/ui/Icon'
 import ContextMenu from '@santiment-network/ui/ContextMenu'
 import Panel from '@santiment-network/ui/Panel'
 import Comparable from './Comparable'
-import styles from './index.module.scss'
 import withProjects from './withProjects'
 import { projectSorter, hashComparable, buildHiddenMetrics } from './utils'
 import { getSyncedColors } from '../../SANCharts/Chart/Synchronizer'
+import styles from './index.module.scss'
 
 const Compare = ({
   slug,
