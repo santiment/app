@@ -7,7 +7,7 @@ export const projectSorter = ({ rank: a }, { rank: b }) => a - b
 export const hashComparable = ({ project, metric }) => project.slug + metric.key
 
 export const buildCompareKey = (metric, project) =>
-  `${metric.key}_${project.slug}`
+  `${metric.key}_${project.slug.replace(/-/g, '')}`
 
 export function buildComparedMetric (Comparable) {
   const hash = hashComparable(Comparable)
