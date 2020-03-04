@@ -41,7 +41,7 @@ export const PATHS = {
   FEED: '/feed',
   LOGIN: '/login',
   LOGIN_VIA_EMAIL: '/login/email',
-  CREATE_ACCOUNT_FREE_TRIAL: '/signup',
+  CREATE_ACCOUNT: '/sign-up',
   GDPR: '/gdpr'
 }
 
@@ -49,7 +49,7 @@ const FOOTER_DISABLED_FOR = [
   PATHS.FEED,
   PATHS.LOGIN,
   PATHS.LOGIN_VIA_EMAIL,
-  PATHS.CREATE_ACCOUNT_FREE_TRIAL,
+  PATHS.CREATE_ACCOUNT,
   PATHS.GDPR
 ]
 
@@ -275,7 +275,7 @@ export const App = ({
         />
         <Route
           exact
-          path={PATHS.CREATE_ACCOUNT_FREE_TRIAL}
+          path={PATHS.CREATE_ACCOUNT}
           render={props => <CreateAccountFreeTrial {...props} />}
         />
         <Route exact path='/assets' component={LoadableAssetsOverviewPage} />

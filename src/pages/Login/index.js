@@ -14,7 +14,7 @@ import styles from './index.module.scss'
 
 const LoginDescription = () => (
   <div className={styles.loginBlock}>
-    <h3 className={styles.title}>Welcome to Santiment</h3>
+    <h3 className={styles.title}>Welcome to Sanbase</h3>
     <div className={styles.options}>
       <LoginMetamaskBtn />
       <div className={styles.divider}>
@@ -23,11 +23,8 @@ const LoginDescription = () => (
       <LoginEmailBtn />
 
       <div className={styles.new}>
-        New to Santiment?{' '}
-        <Link
-          to={PATHS.CREATE_ACCOUNT_FREE_TRIAL}
-          className={styles.createLink}
-        >
+        New to Sanbase?{' '}
+        <Link to={PATHS.CREATE_ACCOUNT} className={styles.createLink}>
           Create an account
         </Link>
       </div>

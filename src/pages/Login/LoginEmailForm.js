@@ -52,7 +52,7 @@ export const EmailForm = ({ loading, loginEmail, setEmail }) => {
         accent='positive'
         className={styles.email__btn}
         type='submit'
-        disabled={loading}
+        isLoading={loading}
       >
         {loading ? 'Waiting...' : 'Continue'}
       </Button>
