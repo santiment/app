@@ -69,6 +69,10 @@ const TIMESERIES = {
   devActivity: {
     query: DEV_ACTIVITY_QUERY
   },
+  dev_activity: {
+    query: GET_METRIC('dev_activity'),
+    preTransform: getMetricPreTransform
+  },
   socialDominance: {
     query: SOCIAL_DOMINANCE_QUERY
   },

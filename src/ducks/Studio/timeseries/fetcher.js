@@ -35,7 +35,7 @@ Object.assign(Fetcher, {
   marketSegment: MarketSegmentFetcher,
   socialVolume: {
     query: SOCIAL_VOLUME_QUERY,
-    preTransform: ({ data }) =>
+    preTransform: key => ({ data }) =>
       mergeTimeseriesByKey({
         key: 'datetime',
         timeseries: Object.values(data),
@@ -43,7 +43,10 @@ Object.assign(Fetcher, {
           socialVolume: longestTSData.socialVolume + timeserieData.socialVolume,
           datetime: longestTSData.datetime
         })
-      })
+      }).map(({ datetime, socialVolume }) => ({
+        datetime,
+        [key]: socialVolume
+      }))
   },
   gasUsed: {
     query: GAS_USED_QUERY,
@@ -109,6 +112,8 @@ export const getPreTransform = ({ key, queryKey = key, metricAnomaly }) => {
     return preTransform(key)
   } else if (queryKey === 'anomalies') {
     return preTransform(metricAnomaly)
+  } else if (queryKey === 'socialVolume') {
+    return preTransform(key)
   }
 
   return preTransform
