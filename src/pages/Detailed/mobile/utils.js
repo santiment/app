@@ -11,7 +11,7 @@ export const MAX_METRICS_PER_CHART = 3
 
 export const POPULAR_METRICS = [
   Metrics.daily_active_addresses,
-  Metrics.devActivity,
+  Metrics.dev_activity,
   Metrics.socialVolume
 ]
 

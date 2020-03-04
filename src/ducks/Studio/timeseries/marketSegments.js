@@ -36,7 +36,7 @@ export const getMarketSegment = key => {
   const label = `Dev. Activity (${key})`
   tooltipSettings[key] = {
     label,
-    formatter: tooltipSettings.activity.formatter
+    formatter: tooltipSettings.dev_activity.formatter
   }
 
   const newSegment = {

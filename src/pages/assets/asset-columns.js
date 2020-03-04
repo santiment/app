@@ -298,7 +298,7 @@ export const COLUMNS_SETTINGS = {
   [COLUMNS_NAMES.devact]: {
     show: true,
     selectable: true,
-    description: Metrics.devActivity.description
+    description: Metrics.dev_activity.description
   },
   [COLUMNS_NAMES.daily_active_addresses]: {
     show: true,

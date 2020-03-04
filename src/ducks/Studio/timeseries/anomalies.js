@@ -46,15 +46,10 @@ export const AnomalyFetcher = {
     }
   }) => {
     const metric = key.replace('_anomaly', '')
-    // HACK: Instead of replacing in multiple files [@vanguard | Feb 28, 2020]
-    // TODO: Remove this shit after moving to useTimseries [@vanguard | Feb 28, 2020]
-    const [replacedMetric, replacedKey] =
-      metric === 'dev_activity' ? ['devActivity', 'isAnomaly'] : [metric, key]
-
-    const { label: value, dataKey = replacedKey } = Metrics[replacedMetric]
+    const { label: value, dataKey = key } = Metrics[metric]
 
     return timeseriesData.map(({ datetime }) => ({
-      key: replacedKey,
+      key,
       metric: dataKey,
       value,
       datetime,
@@ -90,14 +85,12 @@ export function buildAnomalies (metrics) {
   return metrics
     .filter(({ key, anomalyKey }) => anomalyKey || ANOMALIES.includes(key))
     .map(({ key, anomalyKey }) => {
-      // HACK: Instead of replacing in multiple files [@vanguard | Feb 28, 2020]
       // TODO: Remove this shit after moving to useTimseries [@vanguard | Feb 28, 2020]
-      const replacedKey = key === 'devActivity' ? 'dev_activity' : key
-      const isNewAnomaly = ANOMALIES.includes(replacedKey)
+      const isNewAnomaly = ANOMALIES.includes(key)
       return {
-        key: isNewAnomaly ? replacedKey + '_anomaly' : anomalyKey,
+        key: isNewAnomaly ? key + '_anomaly' : anomalyKey,
         queryKey: isNewAnomaly ? 'anomaly' : 'anomalies',
-        metricAnomaly: replacedKey
+        metricAnomaly: key
       }
     })
 }

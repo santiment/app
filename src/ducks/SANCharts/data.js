@@ -320,7 +320,7 @@ export const Metrics = {
     ),
     minInterval: '1d'
   },
-  devActivity: {
+  dev_activity: {
     category: 'Development',
     node: 'line',
     Component: Line,
@@ -328,7 +328,6 @@ export const Metrics = {
     label: 'Development Activity',
     shortLabel: 'Dev. Activity',
     anomalyKey: 'DEV_ACTIVITY',
-    dataKey: 'activity',
     description: (
       <>
         Based on number of Github 'events' including PRs, comments, and wiki
@@ -519,6 +518,7 @@ DerivedMetrics.forEach(obj => {
 
 export const compatabilityMap = {
   // old              : new
+  devActivity: Metrics.dev_activity,
   historyPrice: Metrics.price_usd,
   volume: Metrics.volume_usd,
   marketcap: Metrics.marketcap_usd,
