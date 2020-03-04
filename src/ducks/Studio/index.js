@@ -22,7 +22,8 @@ const Studio = ({
   defaultOptions,
   defaultMetrics,
   defaultEvents,
-  defaultCompared = [],
+  defaultComparedMetrics,
+  defaultComparables,
   topSlot,
   bottomSlot,
   onSlugChange,
@@ -31,8 +32,8 @@ const Studio = ({
 }) => {
   const [settings, setSettings] = useState(defaultSettings)
   const [options, setOptions] = useState(defaultOptions)
-  const [comparables, setComparables] = useState(defaultCompared)
-  const [comparedMetrics, setComparedMetrics] = useState(defaultCompared)
+  const [comparables, setComparables] = useState(defaultComparables)
+  const [comparedMetrics, setComparedMetrics] = useState(defaultComparedMetrics)
   const [metrics, setMetrics] = useState(defaultMetrics)
   const [activeMetrics, setActiveMetrics] = useState(defaultMetrics)
   const [activeEvents, setActiveEvents] = useState(defaultEvents)
@@ -70,7 +71,14 @@ const Studio = ({
   useEffect(
     () => {
       const queryString =
-        '?' + generateShareLink(settings, options, activeMetrics, activeEvents)
+        '?' +
+        generateShareLink(
+          settings,
+          options,
+          activeMetrics,
+          activeEvents,
+          comparables
+        )
 
       const { origin, pathname } = window.location
       setShareLink(origin + pathname + queryString)
@@ -209,11 +217,21 @@ const Studio = ({
 }
 
 Studio.defaultProps = {
+  defaultComparedMetrics: [],
+  defaultEvents: [],
+  defaultComparables: [],
   onSlugChange: () => {},
   classes: {}
 }
 
-export default ({ settings, options, metrics, events, ...props }) => (
+export default ({
+  settings,
+  options,
+  metrics,
+  events,
+  comparables,
+  ...props
+}) => (
   <Studio
     {...props}
     defaultSettings={{
@@ -222,6 +240,7 @@ export default ({ settings, options, metrics, events, ...props }) => (
     }}
     defaultOptions={{ ...DEFAULT_OPTIONS, ...options }}
     defaultMetrics={metrics || DEFAULT_METRICS}
-    defaultEvents={events || []}
+    defaultEvents={events}
+    defaultComparables={comparables}
   />
 )
