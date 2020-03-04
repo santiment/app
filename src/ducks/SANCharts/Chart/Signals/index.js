@@ -126,7 +126,11 @@ const Signals = ({
         />
       ))}
 
-      {hoveredY && <div className={styles.add} style={{ top: hoveredY }} />}
+      {hoveredY && (
+        <div className={styles.add} style={{ '--top': hoveredY + 'px' }}>
+          <Alerts className={styles.alerts} />
+        </div>
+      )}
     </div>
   )
 }

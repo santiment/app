@@ -28,10 +28,19 @@
   }
 }
 
+.alerts {
+  display: none;
+  width: 370px;
+  position: absolute;
+  left: 20px;
+  transform: translateY(-50%);
+  max-width: initial !important;
+}
+
 .add {
   position: absolute;
+  margin-top: -6px;
   right: -6px;
-  cursor: pointer;
   background: $fiord;
   border-radius: 1px;
   height: 13px;
@@ -39,4 +48,20 @@
   background-image: url('./plus.svg');
   background-repeat: no-repeat;
   background-position: 50%;
+  transform: translateY(var(--top));
+  cursor: pointer;
+
+  &:hover .alerts {
+    display: block;
+    top: 50%;
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 30%;
+      top: 30%;
+      width: 13px;
+      right: 100%;
+    }
+  }
 }
