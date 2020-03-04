@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
-import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
-import styles from '../Projects.module.scss'
-import ProjectSelectDialog from '../ProjectSelectDialog'
 import ComparableMetric from './Metric'
 import { buildCompareKey } from '../utils'
+import ProjectSelectDialog from '../ProjectSelectDialog'
+import ProjectIcon from '../../../../components/ProjectIcon/ProjectIcon'
+import styles from './index.module.scss'
 
 export default ({
   comparable,
@@ -67,7 +67,7 @@ export default ({
     <div className={styles.row}>
       <ProjectSelectDialog
         trigger={
-          <Button border classes={styles}>
+          <Button border>
             <ProjectIcon className={styles.icon} size={16} slug={slug} />
             {ticker}
             <Icon type='arrow-down' className={styles.arrow} />

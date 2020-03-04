@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import styles from '../Projects.module.scss'
-import Search, { getMetricSuggestions } from '../../Sidebar/Search'
 import withMetrics from '../../withMetrics'
+import Search, { getMetricSuggestions } from '../../Sidebar/Search'
 import MetricIcon from '../../../SANCharts/MetricIcon'
+import styles from './Metric.module.scss'
 
 const MetricSearch = withMetrics(
   ({ categories, loading, className, ...rest }) => (
