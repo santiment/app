@@ -425,7 +425,7 @@ export const Metrics = {
     Component: Line,
     label: 'Eth Spent Over Time',
     shortLabel: 'Eth Spent',
-    dataKey: 'ethSpent',
+    // dataKey: 'ethSpent',
     description:
       'How much ETH has moved out of team wallets over time. While not tracked all the way to exchanges, this metric may suggest potential selling activity'
   },

@@ -80,11 +80,15 @@ Object.assign(Fetcher, {
   },
   ethSpentOverTime: {
     query: ETH_SPENT_OVER_TIME_QUERY,
-    preTransform: ({
+    preTransform: key => ({
       data: {
         ethSpentOverTime: { ethSpentOverTime }
       }
-    }) => ethSpentOverTime
+    }) =>
+      ethSpentOverTime.map(({ datetime, ethSpent }) => ({
+        datetime,
+        [key]: ethSpent
+      }))
   },
   percentOfTokenSupplyOnExchanges: {
     query: PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES,
