@@ -124,7 +124,7 @@ const MobileMetricCard = ({
 
           if (metric === Metrics.dev_activity) {
             const { devActivity60: first, devActivity30: second } = rest.project
-            if (first !== null && second !== null) {
+            if (first != null && second != null) {
               diff = calcPercentageChange(first * 2 - second, second)
               value = second.toFixed(2)
               period = '30d'
