@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -35,6 +35,16 @@ const Canvas = ({
 }) => {
   const [isExplained, setIsExplained] = useState()
   const isBlurred = isAnon && index > 1
+  const hasExplanaibles = filterExplainableMetrics(metrics).length > 0
+
+  useEffect(
+    () => {
+      if (!hasExplanaibles) {
+        closeExplanation()
+      }
+    },
+    [hasExplanaibles]
+  )
 
   function toggleExplanation () {
     setIsExplained(state => !state)
@@ -66,7 +76,7 @@ const Canvas = ({
 
         <div className={styles.meta}>
           <ChartPaywallInfo boundaries={boundaries} />
-          {filterExplainableMetrics(metrics).length > 0 && (
+          {hasExplanaibles && (
             <ChartMetricsExplanation.Button
               onClick={toggleExplanation}
               className={styles.explain}

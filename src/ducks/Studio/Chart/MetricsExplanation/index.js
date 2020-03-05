@@ -56,7 +56,6 @@ const CloseButton = props => {
 const MetricsExplanation = ({ metrics, onClose, ...rest }) => {
   const [options, setOptions] = useState(OPTIONS)
   const [selected, setSelected] = useState(SELECTED)
-  const { metric } = selected
 
   useEffect(
     () => {
@@ -69,6 +68,7 @@ const MetricsExplanation = ({ metrics, onClose, ...rest }) => {
     [metrics]
   )
 
+  const { metric } = selected || {}
   if (!metric) return null
 
   return (
