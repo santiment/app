@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
-import { formatOnlyPrice, getYearMonthPrices } from '../../utils/plans'
+import { getYearMonthPrices } from '../../utils/plans'
 import styles from './PlansDropdown.module.scss'
 
 // TODO: refactor component to be used generally [@vanguard | March 5, 2020]
@@ -58,7 +58,10 @@ const PlansDropdown = ({ title, plan, altPlan, onBillingSelect }) => {
               Bill yearly -{' '}
               <span className={styles.price}>{yearPlanPrice}/mo</span>
               <span className={cx(styles.save, styles.save_drop)}>
-                Save 10% 🎉
+                Save 10%{' '}
+                <span role='img' aria-label='nice'>
+                  🎉
+                </span>
               </span>
             </div>
           </div>

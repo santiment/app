@@ -55,16 +55,6 @@ const getTokenDataByForm = form => {
   return res
 }
 
-const YEAR_MULT_DIV = [1, 12]
-const MONTH_MULT_DIV = [12, 1]
-const getPrices = (amount, billing) => {
-  const [mult, div] = billing === 'year' ? YEAR_MULT_DIV : MONTH_MULT_DIV
-  return [
-    `$${parseInt((amount * mult) / 100, 10)}`,
-    `$${parseInt(amount / (100 * div), 10)}`
-  ]
-}
-
 const NEXT_DATE_GET_SET_MONTH = ['setMonth', 'getMonth']
 const NEXT_DATE_GET_SET_YEAR = ['setFullYear', 'getFullYear']
 const getNextPaymentDates = billing => {

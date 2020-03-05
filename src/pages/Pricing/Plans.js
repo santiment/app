@@ -1,15 +1,9 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Query } from 'react-apollo'
 import cx from 'classnames'
 import Toggle from '@santiment-network/ui/Toggle'
 import Plan from './Plan'
-import {
-  findSanbasePlan,
-  getCurrentSanbaseSubscription,
-  noBasicPlan
-} from '../../utils/plans'
-import { USER_SUBSCRIPTIONS_QUERY, PLANS_QUERY } from '../../queries/plans'
+import { getCurrentSanbaseSubscription, noBasicPlan } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
 import { checkIsLoggedIn } from '../UserSelectors'
 import Enterprise from './Enterprise'
