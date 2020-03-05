@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import { Query } from 'react-apollo'
 import cx from 'classnames'
 import Toggle from '@santiment-network/ui/Toggle'
@@ -9,6 +10,8 @@ import {
   noBasicPlan
 } from '../../utils/plans'
 import { USER_SUBSCRIPTIONS_QUERY, PLANS_QUERY } from '../../queries/plans'
+import { usePlans } from '../../ducks/Plans/hooks'
+import { checkIsLoggedIn } from '../UserSelectors'
 import Enterprise from './Enterprise'
 import styles from './Plans.module.scss'
 
@@ -45,59 +48,49 @@ const Billing = ({ selected, onClick }) => {
   )
 }
 
-export default ({ id, classes = {} }) => {
-  const [billing, setBilling] = React.useState('year')
+const Plans = ({ id, classes = {}, subscription, isLoggedIn }) => {
+  const [billing, setBilling] = useState('year')
+  const [plans] = usePlans()
+
+  const userPlan = subscription && subscription.plan.id
+  const isSubscriptionCanceled = subscription && subscription.cancelAtPeriodEnd
+
   return (
     <>
       <div id={id} className={cx(styles.billing, classes.billing)}>
         <Billing selected={billing} onClick={setBilling} />
       </div>
-      <Query query={USER_SUBSCRIPTIONS_QUERY} fetchPolicy='network-only'>
-        {({ data: { currentUser } = {} }) => {
-          const subscription = getCurrentSanbaseSubscription(currentUser)
-          const userPlan = subscription && subscription.plan.id
-          const isSubscriptionCanceled =
-            subscription && subscription.cancelAtPeriodEnd
-          return (
-            <Query query={PLANS_QUERY}>
-              {({ data: { productsWithPlans = [] } = {} }) => {
-                const product = productsWithPlans.find(findSanbasePlan)
-                if (!product) {
-                  return null
-                }
-
-                return (
-                  <div className={styles.cards}>
-                    {product.plans
-                      .filter(noBasicPlan)
-                      .filter(
-                        ({ name, interval }) =>
-                          interval === billing || name === 'FREE'
-                      )
-                      .sort(({ id: a }, { id: b }) => a - b)
-                      .map(plan =>
-                        plan.name === 'ENTERPRISE' ? (
-                          <Enterprise key={plan.id} />
-                        ) : (
-                          <Plan
-                            key={plan.id}
-                            {...plan}
-                            isLoggedIn={currentUser}
-                            billing={billing}
-                            product={product}
-                            userPlan={userPlan}
-                            subscription={subscription}
-                            isSubscriptionCanceled={isSubscriptionCanceled}
-                          />
-                        )
-                      )}
-                  </div>
-                )
-              }}
-            </Query>
+      <div className={styles.cards}>
+        {plans
+          .filter(noBasicPlan)
+          .filter(
+            ({ name, interval }) => interval === billing || name === 'FREE'
           )
-        }}
-      </Query>
+          .sort(({ id: a }, { id: b }) => a - b)
+          .map(plan =>
+            plan.name === 'ENTERPRISE' ? (
+              <Enterprise key={plan.id} />
+            ) : (
+              <Plan
+                key={plan.id}
+                {...plan}
+                isLoggedIn={isLoggedIn}
+                billing={billing}
+                plans={plans}
+                userPlan={userPlan}
+                subscription={subscription}
+                isSubscriptionCanceled={isSubscriptionCanceled}
+              />
+            )
+          )}
+      </div>
     </>
   )
 }
+
+const mapStateToProps = state => ({
+  isLoggedIn: checkIsLoggedIn(state),
+  subscription: getCurrentSanbaseSubscription(state.user.data)
+})
+
+export default connect(mapStateToProps)(Plans)

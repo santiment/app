@@ -34,13 +34,11 @@ export const getCurrentSanbaseSubscription = user => {
   )
 }
 
-export const getAlternativeBillingPlan = (
-  plans,
-  currentPlan,
-  currentInterval
-) =>
-  plans.find(
-    ({ name, interval }) => name === currentPlan && interval !== currentInterval
+export const getAlternativeBillingPlan = (plans, oldPlan) => {
+  const { name: oldName, interval: oldInterval = 'month' } = oldPlan
+  return plans.find(
+    ({ name, interval }) => name === oldName && interval !== oldInterval
   )
+}
 
 export const getTrialLabel = trialEnd => (trialEnd ? '(trial)' : '')

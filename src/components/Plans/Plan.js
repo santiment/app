@@ -15,7 +15,7 @@ const Plan = ({
   amount,
   userPlan,
   billing,
-  product,
+  plans,
   isSubscriptionCanceled,
   isLoggedIn,
   subscription,
@@ -25,11 +25,11 @@ const Plan = ({
   btnProps
 }) => {
   const card = PLANS[name]
-  const sameAsUserPlan = id === userPlan
+  const sameAsUserPlan = !subscription.trialEnd && id === userPlan
   const [price, priceType] = formatPrice(amount, name, billing)
 
   const { amount: altAmount, interval: altInterval } =
-    getAlternativeBillingPlan(product.plans, { name, interval: billing }) || {}
+    getAlternativeBillingPlan(plans, { name, interval: billing }) || {}
 
   const [altPrice] = formatPrice(altAmount, null, altInterval)
   const isCustom = price === 'Custom'
