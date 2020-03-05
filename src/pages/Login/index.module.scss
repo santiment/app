@@ -41,6 +41,7 @@
   background-image: url("./../../../src/assets/login/pattern.svg");
   background-size: cover;
   margin-top: 0 !important;
+  max-width: 100% !important;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     background-image: none;
@@ -216,7 +217,7 @@
 }
 
 .divider {
-  border: 1px solid var(--porcelain);
+  border-bottom: 1px solid var(--porcelain);
   position: relative;
   margin: 32px 0;
   width: 280px;

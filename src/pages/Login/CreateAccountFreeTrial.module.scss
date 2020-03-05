@@ -8,6 +8,7 @@
   background-image: url("./../../../src/assets/login/pattern.svg");
   background-size: cover;
   margin-top: 0 !important;
+  max-width: 100% !important;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     background-image: none;
