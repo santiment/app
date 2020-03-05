@@ -18,9 +18,9 @@ const Plan = ({
   plans,
   isSubscriptionCanceled,
   isLoggedIn,
-  subscription,
   className,
   onDialogClose,
+  subscription,
   classes = {},
   btnProps
 }) => {
