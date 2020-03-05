@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
 import Icon from '@santiment-network/ui/Icon'
+import { formatOnlyPrice, getYearMonthPrices } from '../../utils/plans'
 import styles from './PlansDropdown.module.scss'
 
 // TODO: refactor to be used in general case [@vanguard | March 5, 2020]
 const PlansDropdown = ({
   title,
-  price,
-  billing,
-  yearPrice = 0,
-  monthPrice = 0,
+  plan,
+  altPlan,
   onBillingSelect = console.log
 }) => {
   const [isOpened, setIsOpened] = useState(false)
-  const isYearBilling = billing === 'year'
+  const isYearBilling = plan.interval === 'year'
+
+  const [, monthPrice] = getYearMonthPrices(plan.amount, plan.interval)
+  const [, altMonthPrice] = getYearMonthPrices(altPlan.amount, altPlan.interval)
+
+  const [monthPlanPrice, yearPlanPrice] = isYearBilling
+    ? [altMonthPrice, monthPrice]
+    : [monthPrice, altMonthPrice]
 
   useEffect(
     () => {
@@ -48,13 +54,14 @@ const PlansDropdown = ({
               onClick={() => onBillingSelect('month')}
             >
               Bill monthly -{' '}
-              <span className={styles.price}>{monthPrice}/mo</span>
+              <span className={styles.price}>{monthPlanPrice}/mo</span>
             </div>
             <div
               className={styles.option}
               onClick={() => onBillingSelect('year')}
             >
-              Bill yearly - <span className={styles.price}>{yearPrice}/mo</span>
+              Bill yearly -{' '}
+              <span className={styles.price}>{yearPlanPrice}/mo</span>
               <span className={cx(styles.save, styles.save_drop)}>
                 Save 10% 🎉
               </span>

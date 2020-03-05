@@ -95,14 +95,7 @@ const BillingAddress = () => (
   </div>
 )
 
-const CheckoutForm = ({
-  plan,
-  loading,
-  billing,
-  yearPrice,
-  monthPrice,
-  nextPaymentDate
-}) => (
+const CheckoutForm = ({ plan, loading, billing, price, nextPaymentDate }) => (
   <div className={styles.wrapper}>
     <CardInformation />
     <BillingAddress />
@@ -110,8 +103,7 @@ const CheckoutForm = ({
       plan={plan}
       billing={billing}
       loading={loading}
-      yearPrice={yearPrice}
-      monthPrice={monthPrice}
+      price={price}
       nextPaymentDate={nextPaymentDate}
     />
   </div>

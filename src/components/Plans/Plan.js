@@ -99,6 +99,7 @@ const Plan = ({
             subscription={subscription}
             onDialogClose={onDialogClose}
             btnProps={btnProps}
+            altPrice={altPrice}
           />
         )}
         <Features data={card.features} classes={{ ...styles, ...classes }} />

@@ -187,8 +187,7 @@ const PaymentDialog = ({
                 <CheckoutForm
                   plan={title}
                   nextPaymentDate={getNextPaymentDates(billing)}
-                  monthPrice={monthPrice}
-                  yearPrice={yearPrice}
+                  price={price}
                   billing={billing}
                   loading={loading}
                 />
