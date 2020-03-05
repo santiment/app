@@ -49,7 +49,16 @@
   background-repeat: no-repeat;
   background-position: 50%;
   transform: translateY(var(--top));
-  cursor: pointer;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    cursor: pointer;
+  }
 
   &:hover .alerts {
     display: block;

@@ -71,8 +71,8 @@ const Signals = ({
     ])
   }
 
-  function onClick ({ nativeEvent: { offsetY: y } }) {
-    if (isHovered || data.length === 0) {
+  function onClick ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
+    if (isHovered || data.length === 0 || target !== currentTarget) {
       return
     }
 

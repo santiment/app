@@ -1482,3 +1482,20 @@ export const buildPriceSignal = (slug, price, type) => {
 
   return mapFormPropsToTrigger(formProps)
 }
+
+export const buildPricePercentUpDownSignal = slug => {
+  const formProps = { ...METRIC_DEFAULT_VALUES[PRICE_PERCENT_CHANGE] }
+  formProps.type = PRICE_PERCENT_CHANGE_ONE_OF_MODEL
+  formProps.metric = PRICE_METRIC
+  formProps.isPublic = true
+
+  formProps.percentThresholdLeft = 10
+  formProps.percentThresholdRight = 10
+  formProps.signalType = { label: 'Assets', value: 'assets' }
+
+  formProps.target = mapToOption(slug)
+  formProps.title = getNewTitle(formProps)
+  formProps.description = getNewDescription(formProps)
+
+  return mapFormPropsToTrigger(formProps)
+}

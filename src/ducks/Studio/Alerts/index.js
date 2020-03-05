@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { Suggestion } from './suggestions'
+import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
 import styles from './index.module.scss'
 
 const Alert = ({ alert, render }) => {
@@ -21,7 +22,10 @@ export default ({ className, ...rest }) => {
     <div className={cx(styles.wrapper, className)}>
       <div className={styles.header}>
         Create alert if:
-        <span className={styles.manual}>Create alert manually</span>
+        <SignalMasterModalForm
+          canRedirect={false}
+          trigger={<span className={styles.manual}>Create alert manually</span>}
+        />
       </div>
       <div className={styles.suggestions}>
         <div className={styles.suggestion}>
