@@ -68,6 +68,16 @@ export default (state = initialState, action) => {
           email: action.email
         }
       }
+    case actions.USER_SUBSCRIPTION_CHANGE:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          subscriptions: Array.isArray(state.data.subscriptions)
+            ? [action.payload, ...state.data.subscriptions]
+            : [action.payload]
+        }
+      }
     case actions.USER_USERNAME_CHANGE:
       return {
         ...state,
