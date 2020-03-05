@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Signal from './Signal'
+import Add from './Add'
 import {
   SIGNAL_ABOVE,
   SIGNAL_BELOW,
@@ -21,8 +22,6 @@ import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import styles from './index.module.scss'
 
-import Alerts from '../../../Studio/Alerts'
-
 const TEXT_SIGNAL = 'Signal '
 const TEXT_ACTION = 'Click to '
 const TEXT_RESULT = 'create a signal '
@@ -40,7 +39,7 @@ const Signals = ({
   removeSignal
 }) => {
   const [isHovered, setIsHovered] = useState()
-  const [hoveredY, setHoveredY] = useState()
+  const [hoverPoint, setHoverPoint] = useState()
 
   useEffect(() => {
     if (signals.length === 0) {
@@ -52,7 +51,6 @@ const Signals = ({
     if (isHovered || data.length === 0 || target !== currentTarget) {
       return
     }
-    setHoveredY(y)
 
     const lastPrice = data[data.length - 1].price_usd
 
@@ -60,6 +58,8 @@ const Signals = ({
     if (price === undefined) {
       return
     }
+
+    setHoverPoint({ y, price, lastPrice })
 
     const textPrice = formatter(price)
 
@@ -90,7 +90,7 @@ const Signals = ({
   }
 
   function onMouseLeave () {
-    setHoveredY()
+    setHoverPoint()
     clearCtx(chart, chart.tooltip.ctx)
   }
 
@@ -126,11 +126,7 @@ const Signals = ({
         />
       ))}
 
-      {hoveredY && (
-        <div className={styles.add} style={{ '--top': hoveredY + 'px' }}>
-          <Alerts className={styles.alerts} />
-        </div>
-      )}
+      {hoverPoint && <Add hoverPoint={hoverPoint} slug={slug} data={data} />}
     </div>
   )
 }

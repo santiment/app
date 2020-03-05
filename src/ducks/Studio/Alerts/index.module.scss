@@ -46,9 +46,10 @@
   flex-direction: column;
   flex: 1;
   background: var(--white);
+  border-left: 1px solid var(--porcelain);
 
-  &:last-child {
-    border-left: 1px solid var(--porcelain);
+  &:first-child {
+    border: none;
   }
 }
 
