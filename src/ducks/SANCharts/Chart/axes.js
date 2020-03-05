@@ -8,6 +8,10 @@ import { dayTicksPaintConfig, dayAxesColor } from './paintConfigs'
 import { millify } from '../../../utils/formatting'
 
 const yFormatter = value => {
+  if (!value) {
+    return 0
+  }
+
   if (value < 1) {
     return +value.toFixed(3)
   }
