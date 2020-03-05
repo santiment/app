@@ -17,7 +17,6 @@ import { formatError, contactAction } from '../../utils/notifications'
 import { getDateFormats } from '../../utils/dates'
 import { getAlternativeBillingPlan } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
-
 import GA from '../../utils/tracking'
 import { USER_SUBSCRIPTION_CHANGE } from '../../actions/types'
 import styles from './PlanPaymentDialog.module.scss'
