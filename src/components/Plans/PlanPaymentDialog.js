@@ -17,7 +17,9 @@ import { formatError, contactAction } from '../../utils/notifications'
 import { getDateFormats } from '../../utils/dates'
 import { getAlternativeBillingPlan } from '../../utils/plans'
 import { usePlans } from '../../ducks/Plans/hooks'
+
 import GA from '../../utils/tracking'
+import { USER_SUBSCRIPTION_CHANGE } from '../../actions/types'
 import styles from './PlanPaymentDialog.module.scss'
 import sharedStyles from './Plans.module.scss'
 
@@ -79,7 +81,8 @@ const PaymentDialog = ({
   stripe,
   disabled,
   addNot,
-  btnProps
+  btnProps,
+  updateSubscription
 }) => {
   const [plans] = usePlans()
   const [loading, toggleLoading] = useFormLoading()
@@ -179,11 +182,12 @@ const PaymentDialog = ({
                         variables
                       })
                     })
-                    .then(() => {
+                    .then(({ data: { subscribe } }) => {
                       addNot({
                         variant: 'success',
                         title: `You have successfully upgraded to the "${title}" plan!`
                       })
+                      updateSubscription(subscribe)
 
                       hidePayment()
 
@@ -232,7 +236,9 @@ const PaymentDialog = ({
 }
 
 const mapDispatchToProps = dispatch => ({
-  addNot: message => dispatch(showNotification(message))
+  addNot: message => dispatch(showNotification(message)),
+  updateSubscription: payload =>
+    dispatch({ type: USER_SUBSCRIPTION_CHANGE, payload })
 })
 
 const InjectedForm = connect(
