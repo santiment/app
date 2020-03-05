@@ -7,6 +7,7 @@ import Icon from '@santiment-network/ui/Icon'
 import Input from '@santiment-network/ui/Input'
 import Dialog from '@santiment-network/ui/Dialog'
 import { useDebounce } from '../../hooks'
+import PlansDropdown from './PlansDropdown'
 import sharedStyles from './CheckoutForm.module.scss'
 import styles from './Confirmation.module.scss'
 
@@ -105,12 +106,11 @@ const Confirmation = ({
 
       <div className={cx(sharedStyles.form, styles.form)}>
         <div className={styles.plan}>
-          <div className={styles.plan__left}>
-            <span className={styles.plan__price}>{planWithBilling}</span>
-            <span className={styles.plan__save}>
-              Save 10% {isYearBilling ? '🎉' : 'with yearly billing'}
-            </span>
-          </div>
+          <PlansDropdown
+            title={planWithBilling}
+            billing={billing}
+            price={price}
+          />
           <div className={styles.plan__right}>
             <div>
               <b className={styles.plan__year}>{price}</b> / {billing}
