@@ -77,7 +77,8 @@ const SignupDescription = ({ loading, loginEmail, setEmail }) => {
   return (
     <div className={externalStyles.loginBlock}>
       <h2 className={externalStyles.title}>
-        Sign up now to start your free trial
+        <div>Sign up now to start </div>
+        <div>your free trial</div>
       </h2>
 
       <div className={styles.subtitle}>Get 14 days free of Sanbase Pro!</div>
