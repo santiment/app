@@ -14,7 +14,8 @@ export const initialState = {
       isTelegramConnecting: false,
       newsletterSubscription: 'OFF'
     },
-    apikeys: []
+    apikeys: [],
+    subscriptions: []
   },
   account: null,
   token: null,

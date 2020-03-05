@@ -65,6 +65,7 @@ export const UPDATE_SUBSCRIPTION_MUTATION = gql`
   mutation updateSubscription($subscriptionId: Int!, $planId: Int!) {
     updateSubscription(subscriptionId: $subscriptionId, planId: $planId) {
       id
+      status
       cancelAtPeriodEnd
       currentPeriodEnd
       trialEnd

@@ -18,14 +18,15 @@ const Plan = ({
   plans,
   isSubscriptionCanceled,
   isLoggedIn,
-  subscription = {},
   className,
   onDialogClose,
+  subscription,
   classes = {},
   btnProps
 }) => {
   const card = PLANS[name]
-  const sameAsUserPlan = !subscription.trialEnd && id === userPlan
+  const sameAsUserPlan =
+    subscription && !subscription.trialEnd && id === userPlan
   const [price, priceType] = formatPrice(amount, name, billing)
 
   const { amount: altAmount, interval: altInterval } =
