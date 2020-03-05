@@ -20,7 +20,7 @@
 
     @include responsive("tablet", "laptop", "desktop") {
       padding: 0 15px;
-      margin: 0 auto;
+      margin: 22px auto 0 auto;
       width: 100%;
     }
 

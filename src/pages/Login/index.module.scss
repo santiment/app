@@ -40,6 +40,7 @@
   align-items: center;
   background-image: url("./../../../src/assets/login/pattern.svg");
   background-size: cover;
+  margin-top: 0 !important;
 
   @include responsive('phone', 'phone-xs', 'tablet') {
     background-image: none;
