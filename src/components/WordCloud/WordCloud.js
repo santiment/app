@@ -43,7 +43,6 @@ export const WordCloud = ({
   className = '',
   ...rest
 }) => {
-  console.log(cloud)
   return (
     <WidgetTrend
       className={className}

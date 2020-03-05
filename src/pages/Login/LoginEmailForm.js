@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { InputWithIcon as Input } from '@santiment-network/ui/Input'
-import Button from '@santiment-network/ui/Button'
+import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import cx from 'classnames'
-import { Mutation } from 'react-apollo'
+import { Form, Formik } from 'formik'
+import isEqual from 'lodash.isequal'
 import GA from '../../utils/tracking'
+import { InputWithIcon as Input } from '@santiment-network/ui/Input'
+import Button from '@santiment-network/ui/Button'
 import { PATHS } from '../../App'
-import styles from './index.module.scss'
 import MobileWrapper from './Mobile/MobileWrapper'
+import FormikInput, {
+  validateEmail
+} from '../../components/formik-santiment-ui/FormikInput'
+import FormikEffect from '../../components/formik-santiment-ui/FormikEffect'
+import styles from './index.module.scss'
 
 const mutation = gql`
   mutation($email: String!, $consent: String!) {
@@ -20,11 +26,9 @@ const mutation = gql`
 
 export const EmailForm = ({ loading, loginEmail, setEmail }) => {
   return (
-    <form
-      className={styles.email__form}
-      onSubmit={e => {
-        e.preventDefault()
-        setEmail && setEmail(e.currentTarget.email.value)
+    <Formik
+      onSubmit={({ email }) => {
+        setEmail && setEmail(email)
 
         GA.event({
           category: 'User',
@@ -32,31 +36,50 @@ export const EmailForm = ({ loading, loginEmail, setEmail }) => {
         })
         loginEmail({
           variables: {
-            email: e.currentTarget.email.value,
+            email: email,
             consent: ''
           }
         })
       }}
     >
-      <Input
-        placeholder='Your email'
-        name='email'
-        type='email'
-        icon='mail'
-        iconPosition='left'
-        required
-        className={styles.emailInput}
-      />
-      <Button
-        variant='fill'
-        accent='positive'
-        className={styles.email__btn}
-        type='submit'
-        isLoading={loading}
-      >
-        {loading ? 'Waiting...' : 'Continue'}
-      </Button>
-    </form>
+      {({ validateForm }) => {
+        return (
+          <Form className={styles.email__form}>
+            <FormikEffect
+              onChange={(current, prev) => {
+                let { values: newValues } = current
+
+                if (!isEqual(newValues, prev.values)) {
+                  validateForm()
+                }
+              }}
+            />
+
+            <FormikInput
+              el={Input}
+              icon='mail'
+              iconPosition='left'
+              required
+              placeholder='Your email'
+              name='email'
+              type='email'
+              validate={validateEmail}
+              className={styles.emailInput}
+            />
+
+            <Button
+              variant='fill'
+              accent='positive'
+              className={styles.email__btn}
+              type='submit'
+              isLoading={loading}
+            >
+              {loading ? 'Waiting...' : 'Continue'}
+            </Button>
+          </Form>
+        )
+      }}
+    </Formik>
   )
 }
 
