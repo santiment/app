@@ -25,7 +25,8 @@ const Plan = ({
   btnProps
 }) => {
   const card = PLANS[name]
-  const sameAsUserPlan = !subscription.trialEnd && id === userPlan
+  const sameAsUserPlan =
+    subscription && !subscription.trialEnd && id === userPlan
   const [price, priceType] = formatPrice(amount, name, billing)
 
   const { amount: altAmount, interval: altInterval } =

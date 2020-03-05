@@ -71,7 +71,7 @@ const Plans = ({
 
 const mapStateToProps = state => ({
   isLoggedIn: checkIsLoggedIn(state),
-  subscription: getCurrentSanbaseSubscription(state.user.data) || {}
+  subscription: getCurrentSanbaseSubscription(state.user.data)
 })
 
 export default connect(mapStateToProps)(Plans)
