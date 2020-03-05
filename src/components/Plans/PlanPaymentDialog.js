@@ -185,6 +185,8 @@ const PaymentDialog = ({
                         title: `You have successfully upgraded to the "${title}" plan!`
                       })
 
+                      hidePayment()
+
                       GA.event({
                         category: 'User',
                         action: 'Payment success'
