@@ -4,13 +4,8 @@ import Icon from '@santiment-network/ui/Icon'
 import { formatOnlyPrice, getYearMonthPrices } from '../../utils/plans'
 import styles from './PlansDropdown.module.scss'
 
-// TODO: refactor to be used in general case [@vanguard | March 5, 2020]
-const PlansDropdown = ({
-  title,
-  plan,
-  altPlan,
-  onBillingSelect = console.log
-}) => {
+// TODO: refactor component to be used generally [@vanguard | March 5, 2020]
+const PlansDropdown = ({ title, plan, altPlan, onBillingSelect }) => {
   const [isOpened, setIsOpened] = useState(false)
   const isYearBilling = plan.interval === 'year'
 
@@ -50,14 +45,14 @@ const PlansDropdown = ({
         {isOpened && (
           <div className={styles.dropdown}>
             <div
-              className={styles.option}
+              className={cx(styles.option, !isYearBilling && styles.active)}
               onClick={() => onBillingSelect('month')}
             >
               Bill monthly -{' '}
               <span className={styles.price}>{monthPlanPrice}/mo</span>
             </div>
             <div
-              className={styles.option}
+              className={cx(styles.option, isYearBilling && styles.active)}
               onClick={() => onBillingSelect('year')}
             >
               Bill yearly -{' '}

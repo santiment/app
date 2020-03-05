@@ -86,7 +86,8 @@ const Confirmation = ({
   billing,
   price,
   nextPaymentDate,
-  loading
+  loading,
+  changeSelectedPlan
 }) => {
   const [plans] = usePlans()
   const [coupon, setCoupon] = useState('')
@@ -113,6 +114,7 @@ const Confirmation = ({
             title={planWithBilling}
             plan={plan}
             altPlan={altPlan}
+            onBillingSelect={changeSelectedPlan}
           />
           <div className={styles.plan__right}>
             <div>

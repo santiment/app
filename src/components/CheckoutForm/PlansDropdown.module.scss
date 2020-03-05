@@ -51,10 +51,10 @@
 }
 
 .option {
-  cursor: pointer;
-
   @include text('body-3');
 
+  position: relative;
+  cursor: pointer;
   padding: 8px 16px;
   white-space: nowrap;
 
@@ -79,4 +79,15 @@
 
 .price {
   font-weight: bold;
+}
+
+.active::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 8px;
+  width: 3px;
+  height: 3px;
+  background: var(--jungle-green);
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Mutation } from 'react-apollo'
 import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
@@ -15,6 +15,8 @@ import {
 } from '../../queries/plans'
 import { formatError, contactAction } from '../../utils/notifications'
 import { getDateFormats } from '../../utils/dates'
+import { getAlternativeBillingPlan } from '../../utils/plans'
+import { usePlans } from '../../ducks/Plans/hooks'
 import GA from '../../utils/tracking'
 import styles from './PlanPaymentDialog.module.scss'
 import sharedStyles from './Plans.module.scss'
@@ -76,21 +78,48 @@ const getNextPaymentDates = billing => {
 
   return `${DD}/${MM}/${YY}`
 }
+
 const PaymentDialog = ({
-  title,
-  billing,
+  title: name,
+  billing: interval,
   label,
   src,
-  price,
-  planId,
+  price: amount,
+  planId: id,
   stripe,
   disabled,
   addNot,
   btnProps
 }) => {
+  const [plans] = usePlans()
   const [loading, toggleLoading] = useFormLoading()
   const [paymentVisible, setPaymentVisiblity] = useState(false)
-  const [yearPrice, monthPrice] = getPrices(price, billing)
+  const [selectedPlan, setSelectedPlan] = useState({})
+
+  const {
+    id: planId,
+    name: title,
+    interval: billing,
+    amount: price
+  } = selectedPlan
+
+  useEffect(
+    () => {
+      setSelectedPlan({
+        id,
+        name,
+        interval,
+        amount
+      })
+    },
+    [id, name, amount, interval]
+  )
+
+  function changeSelectedPlan (interval) {
+    if (selectedPlan.interval !== interval) {
+      setSelectedPlan(getAlternativeBillingPlan(plans, selectedPlan))
+    }
+  }
 
   function hidePayment () {
     setPaymentVisiblity(false)
@@ -190,6 +219,7 @@ const PaymentDialog = ({
                   price={price}
                   billing={billing}
                   loading={loading}
+                  changeSelectedPlan={changeSelectedPlan}
                 />
               </Dialog.ScrollContent>
 
