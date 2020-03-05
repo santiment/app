@@ -62,7 +62,8 @@
   padding: 4px 16px;
 }
 
-.signal {
+.alert {
+  flex: 1;
   border-top: 1px solid var(--porcelain);
   font-size: 10px;
   line-height: 16px;

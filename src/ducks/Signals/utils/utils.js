@@ -1468,34 +1468,39 @@ export const getNewDescription = newValues => {
   return `Notify me when the ${metricsHeaderStr}. Send me notifications ${repeatingBlock.toLowerCase()} ${channelsBlock.toLowerCase()}.`
 }
 
-export const buildPriceSignal = (slug, price, type) => {
-  const formProps = { ...METRIC_DEFAULT_VALUES[PRICE_ABSOLUTE_CHANGE] }
-  formProps.type =
-    type === PRICE_CHANGE_TYPES.ABOVE
-      ? { ...PRICE_ABS_CHANGE_ABOVE }
-      : { ...PRICE_ABS_CHANGE_BELOW }
+export const buildSignal = (metric, type, slug, Values) => {
+  const formProps = { ...METRIC_DEFAULT_VALUES[metric], ...Values }
   formProps.isPublic = true
   formProps.target = mapToOption(slug)
-  formProps.absoluteThreshold = price
+  formProps.type = type
+
   formProps.title = getNewTitle(formProps)
   formProps.description = getNewDescription(formProps)
 
   return mapFormPropsToTrigger(formProps)
 }
 
+export const buildPriceSignal = (slug, value, type) => {
+  const resultType =
+    type === PRICE_CHANGE_TYPES.ABOVE
+      ? { ...PRICE_ABS_CHANGE_ABOVE }
+      : { ...PRICE_ABS_CHANGE_BELOW }
+
+  return buildSignal(PRICE_ABSOLUTE_CHANGE, resultType, slug, {
+    absoluteThreshold: value
+  })
+}
+
 export const buildPricePercentUpDownSignal = slug => {
-  const formProps = { ...METRIC_DEFAULT_VALUES[PRICE_PERCENT_CHANGE] }
-  formProps.type = PRICE_PERCENT_CHANGE_ONE_OF_MODEL
-  formProps.metric = PRICE_METRIC
-  formProps.isPublic = true
-
-  formProps.percentThresholdLeft = 10
-  formProps.percentThresholdRight = 10
-  formProps.signalType = { label: 'Assets', value: 'assets' }
-
-  formProps.target = mapToOption(slug)
-  formProps.title = getNewTitle(formProps)
-  formProps.description = getNewDescription(formProps)
-
-  return mapFormPropsToTrigger(formProps)
+  return buildSignal(
+    PRICE_PERCENT_CHANGE,
+    PRICE_PERCENT_CHANGE_ONE_OF_MODEL,
+    slug,
+    {
+      metric: PRICE_METRIC,
+      percentThresholdLeft: 10,
+      percentThresholdRight: 10,
+      signalType: { label: 'Assets', value: 'assets' }
+    }
+  )
 }

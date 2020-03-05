@@ -2,17 +2,14 @@ import React from 'react'
 import { createSuggestion } from './helpers'
 import Value from '../Value'
 import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
-import {
-  buildPriceSignal,
-  buildPricePercentUpDownSignal
-} from '../../../Signals/utils/utils'
+import { buildPriceSignal } from '../../../Signals/utils/utils'
 import { Metrics } from '../../../SANCharts/data'
 
-const { formatter } = Metrics.price_usd
+const { formatter } = Metrics.daily_active_addresses
 
 const SIGNAL_BELOW = 'BELOW'
 const SIGNAL_ABOVE = 'ABOVE'
-const PRICE_IFS = ['drops below', 'raises above']
+const IFS = ['goes below', 'goes above']
 
 const suggestValueChange = ({ slug, price, lastPrice }) => {
   const isAboveLastPrice = price > lastPrice
@@ -22,17 +19,20 @@ const suggestValueChange = ({ slug, price, lastPrice }) => {
   return createSuggestion(
     buildPriceSignal(slug, price, type),
     <>
-      Price {PRICE_IFS[+isAboveLastPrice]} <Value>{formatter(price)}</Value>
+      Addresses count {IFS[+isAboveLastPrice]} <Value>{formatter(price)}</Value>
     </>
   )
 }
 
-const suggestPercentUpDown = ({ slug }) =>
+const suggestPercentUp = () =>
   createSuggestion(
-    buildPricePercentUpDownSignal(slug),
+    {},
     <>
-      Price moves up or down by <Value>10%</Value>
+      Daily active addresses count goes up by <Value>10%</Value>
     </>
   )
 
-export const priceSuggesters = [suggestValueChange, suggestPercentUpDown]
+export const dailyActiveAddressesSuggesters = [
+  suggestValueChange,
+  suggestPercentUp
+]

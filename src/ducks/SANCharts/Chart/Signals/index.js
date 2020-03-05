@@ -126,7 +126,14 @@ const Signals = ({
         />
       ))}
 
-      {hoverPoint && <Add hoverPoint={hoverPoint} slug={slug} data={data} />}
+      {hoverPoint && (
+        <Add
+          hoverPoint={hoverPoint}
+          slug={slug}
+          data={data}
+          createAlert={createSignal}
+        />
+      )}
     </div>
   )
 }
