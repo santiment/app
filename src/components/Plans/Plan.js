@@ -29,7 +29,7 @@ const Plan = ({
   const [price, priceType] = formatPrice(amount, name, billing)
 
   const { amount: altAmount, interval: altInterval } =
-    getAlternativeBillingPlan(product.plans, name, billing) || {}
+    getAlternativeBillingPlan(product.plans, { name, interval: billing }) || {}
 
   const [altPrice] = formatPrice(altAmount, null, altInterval)
   const isCustom = price === 'Custom'
