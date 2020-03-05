@@ -7,6 +7,9 @@ import Icon from '@santiment-network/ui/Icon'
 import Input from '@santiment-network/ui/Input'
 import Dialog from '@santiment-network/ui/Dialog'
 import { useDebounce } from '../../hooks'
+import { formatOnlyPrice, getAlternativeBillingPlan } from '../../utils/plans'
+import { usePlans } from '../../ducks/Plans/hooks'
+import PlansDropdown from './PlansDropdown'
 import sharedStyles from './CheckoutForm.module.scss'
 import styles from './Confirmation.module.scss'
 
@@ -79,16 +82,18 @@ const DiscountInput = ({ setCoupon, isValid }) => {
 }
 
 const Confirmation = ({
-  plan,
+  plan: name,
   billing,
-  yearPrice,
-  monthPrice,
+  price,
   nextPaymentDate,
-  loading
+  loading,
+  changeSelectedPlan
 }) => {
+  const [plans] = usePlans()
   const [coupon, setCoupon] = useState('')
-  const planWithBilling = `${plan} ${billing}ly`
-  const price = billing === 'year' ? yearPrice : monthPrice
+  const planWithBilling = `${name} ${billing}ly`
+  const plan = { name: name.toUpperCase(), interval: billing, amount: price }
+  const altPlan = getAlternativeBillingPlan(plans, plan) || {}
 
   return (
     <div className={sharedStyles.confirmation}>
@@ -104,16 +109,16 @@ const Confirmation = ({
 
       <div className={cx(sharedStyles.form, styles.form)}>
         <div className={styles.plan}>
-          <div className={styles.plan__left}>
-            <Icon type='checkmark' className={styles.plan__check} />
-            {planWithBilling}
-          </div>
+          <PlansDropdown
+            title={planWithBilling}
+            plan={plan}
+            altPlan={altPlan}
+            onBillingSelect={changeSelectedPlan}
+          />
           <div className={styles.plan__right}>
             <div>
-              <b className={styles.plan__year}>{yearPrice}</b> / year
-            </div>
-            <div>
-              <b className={styles.plan__month}>{monthPrice}</b> / month
+              <b className={styles.plan__year}>{formatOnlyPrice(price)}</b> /{' '}
+              {billing}
             </div>
           </div>
         </div>
@@ -147,7 +152,7 @@ const Confirmation = ({
                 <TotalPrice
                   error={error}
                   percentOff={percentOff}
-                  price={price}
+                  price={formatOnlyPrice(price)}
                   planWithBilling={planWithBilling}
                 />
               </>
@@ -163,11 +168,11 @@ const Confirmation = ({
           className={styles.btn}
           fluid
         >
-          Go {plan.toUpperCase()} now
+          Go {name.toUpperCase()} now
         </Dialog.Approve>
         <h5 className={styles.expl}>
           Your card will be charged
-          <b> {price} </b>
+          <b> {formatOnlyPrice(price)} </b>
           every {billing} until you decide to downgrade or unsubscribe. Next
           payment:
           <b> {nextPaymentDate}</b>

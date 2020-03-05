@@ -5,11 +5,11 @@ import PlanChangeDialog from './PlanChangeDialog'
 import PlanPipedriveDialog from './PlanPipedriveDialog'
 import styles from './Plans.module.scss'
 
-const PlanActionDialog = props =>
-  props.subscription ? (
-    <PlanChangeDialog {...props} />
+const PlanActionDialog = ({ subscription, ...rest }) =>
+  subscription && !subscription.trialEnd ? (
+    <PlanChangeDialog subscription={subscription} {...rest} />
   ) : (
-    <PlanPaymentDialog {...props} />
+    <PlanPaymentDialog subscription={subscription} {...rest} />
   )
 
 export default {
