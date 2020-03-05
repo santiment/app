@@ -24,6 +24,12 @@
   margin-bottom: 16px;
 }
 
+.label {
+  @include text('caption', 'm');
+
+  color: var(--waterloo);
+}
+
 .check {
   color: var(--waterloo);
 
@@ -47,7 +53,9 @@
   }
 
   &__price {
-    @include text('body-1', 'm');
+    @include text('h4', 'm');
+
+    font-weight: bold;
   }
 }
 
@@ -64,7 +72,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 0 16px;
+  margin: 0 0 19px;
 
   &__check {
     box-sizing: content-box;
@@ -78,23 +86,40 @@
   }
 
   &__left {
-    @include text('body-1', 'm');
-
-    color: var(--mirage);
     display: flex;
-    align-items: center;
+    flex-direction: column;
+  }
+
+  &__price {
+    @include text('body-1');
+
+    font-weight: bold;
+    color: var(--mirage);
+    text-transform: lowercase;
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+
+  &__save {
+    @include text('caption');
+
+    color: var(--jungle-green);
   }
 
   &__right {
     color: var(--casper);
     text-align: right;
-
-    @include text('caption');
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 26px;
   }
 
   &__year {
-    @include text('h4', 'm');
-
+    font-size: 32px;
+    font-weight: normal;
+    line-height: 40px;
     color: var(--waterloo);
   }
 

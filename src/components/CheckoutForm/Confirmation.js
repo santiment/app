@@ -88,7 +88,8 @@ const Confirmation = ({
 }) => {
   const [coupon, setCoupon] = useState('')
   const planWithBilling = `${plan} ${billing}ly`
-  const price = billing === 'year' ? yearPrice : monthPrice
+  const isYearBilling = billing === 'year'
+  const price = isYearBilling ? yearPrice : monthPrice
 
   return (
     <div className={sharedStyles.confirmation}>
@@ -105,15 +106,14 @@ const Confirmation = ({
       <div className={cx(sharedStyles.form, styles.form)}>
         <div className={styles.plan}>
           <div className={styles.plan__left}>
-            <Icon type='checkmark' className={styles.plan__check} />
-            {planWithBilling}
+            <span className={styles.plan__price}>{planWithBilling}</span>
+            <span className={styles.plan__save}>
+              Save 10% {isYearBilling ? '🎉' : 'with yearly billing'}
+            </span>
           </div>
           <div className={styles.plan__right}>
             <div>
-              <b className={styles.plan__year}>{yearPrice}</b> / year
-            </div>
-            <div>
-              <b className={styles.plan__month}>{monthPrice}</b> / month
+              <b className={styles.plan__year}>{price}</b> / {billing}
             </div>
           </div>
         </div>
