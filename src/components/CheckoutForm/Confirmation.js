@@ -92,10 +92,9 @@ const Confirmation = ({
   const [plans] = usePlans()
   const [coupon, setCoupon] = useState('')
   const planWithBilling = `${name} ${billing}ly`
-  /* const isYearBilling = billing === 'year' */
-  /* const price = isYearBilling ? yearPrice : monthPrice */
   const plan = { name: name.toUpperCase(), interval: billing, amount: price }
   const altPlan = getAlternativeBillingPlan(plans, plan) || {}
+
   return (
     <div className={sharedStyles.confirmation}>
       <div className={sharedStyles.top}>

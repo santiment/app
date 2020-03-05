@@ -44,9 +44,11 @@ export const getCurrentSanbaseSubscription = user => {
 }
 
 export const getAlternativeBillingPlan = (plans, oldPlan) => {
-  const { name: oldName, interval: oldInterval = 'month' } = oldPlan
+  const { name, interval: oldInterval = 'month' } = oldPlan
+  const oldName = name.toUpperCase()
   return plans.find(
-    ({ name, interval }) => name === oldName && interval !== oldInterval
+    ({ name, interval }) =>
+      name.toUpperCase() === oldName && interval !== oldInterval
   )
 }
 
