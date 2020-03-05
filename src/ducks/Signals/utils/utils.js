@@ -1504,3 +1504,29 @@ export const buildPricePercentUpDownSignal = slug => {
     }
   )
 }
+
+export const buildDAASignal = (slug, value, type) => {
+  const resultType =
+    type === PRICE_CHANGE_TYPES.ABOVE
+      ? { ...PRICE_ABS_CHANGE_ABOVE }
+      : { ...PRICE_ABS_CHANGE_BELOW }
+
+  return buildSignal(PRICE_ABSOLUTE_CHANGE, resultType, slug, {
+    metric: DAILY_ACTIVE_ADDRESSES_METRIC,
+    signalType: { label: 'Assets', value: 'assets' },
+    absoluteThreshold: value
+  })
+}
+
+export const builDAAPercentUpDownSignal = slug => {
+  return buildSignal(
+    PRICE_PERCENT_CHANGE,
+    PRICE_PERCENT_CHANGE_UP_MODEL,
+    slug,
+    {
+      metric: DAILY_ACTIVE_ADDRESSES_METRIC,
+      signalType: { label: 'Assets', value: 'assets' },
+      percentThreshold: 10
+    }
+  )
+}
