@@ -771,6 +771,10 @@ export const getMetricsByType = type => {
         triggersBy: Metrics.daily_active_addresses
       }
     case TRENDING_WORDS:
+      return {
+        metrics: [Metrics.price_usd, Metrics.socialVolume],
+        triggersBy: Metrics.price_usd
+      }
     case PRICE_VOLUME_DIFFERENCE:
       return {
         metrics: [Metrics.price_usd, Metrics.volume_usd],

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { PATHS } from '../../App'
 import withSizes from 'react-sizes'
 import LoginEmailForm, { EmailForm } from './LoginEmailForm'
@@ -134,18 +134,20 @@ const PrepareState = props => {
 }
 
 const CreateAccountFreeTrial = props => {
-  let child = <LoginEmailForm prepareState={PrepareState} {...props} />
-
-  if (!props.isDesktop) {
-    return child
+  if (props.isLoggedIn) {
+    return <Redirect to='/' />
   }
 
-  return (
+  let child = <LoginEmailForm prepareState={PrepareState} {...props} />
+
+  return props.isDesktop ? (
     <div className={cx('page', styles.wrapper)}>
       <Panel padding className={styles.container}>
         {child}
       </Panel>
     </div>
+  ) : (
+    child
   )
 }
 

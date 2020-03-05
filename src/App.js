@@ -276,7 +276,9 @@ export const App = ({
         <Route
           exact
           path={PATHS.CREATE_ACCOUNT}
-          render={props => <CreateAccountFreeTrial {...props} />}
+          render={props => (
+            <CreateAccountFreeTrial {...props} isLoggedIn={isLoggedIn} />
+          )}
         />
         <Route exact path='/assets' component={LoadableAssetsOverviewPage} />
         <Route
