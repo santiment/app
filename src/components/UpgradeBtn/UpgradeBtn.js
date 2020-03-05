@@ -56,7 +56,7 @@ const UpgradeBtn = ({
         }
         title={name}
         price={amount}
-        planId={id}
+        planId={+id}
         billing={interval}
         btnProps={{
           fluid: false,
