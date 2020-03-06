@@ -48,7 +48,9 @@ import {
   MAX_DESCR_LENGTH,
   PRICE_PERCENT_CHANGE_ONE_OF_MODEL,
   CHANNELS_MAP,
-  POSSIBLE_METRICS_FOR_CHART
+  POSSIBLE_METRICS_FOR_CHART,
+  SIGNAL_METRIC_TYPES,
+  METRIC_TYPES
 } from './constants'
 import {
   capitalizeStr,
@@ -252,7 +254,7 @@ const getTriggerOperation = ({
   return mapped
 }
 
-const getFormMetric = type => {
+const getFormMetric = (type, metric) => {
   switch (type) {
     case ETH_WALLET: {
       return ETH_WALLET_METRIC
@@ -352,7 +354,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     settings,
     title,
     description,
-    settings: { type, operation, time_window, target, channel }
+    settings: { type, metric, operation, time_window, target, channel }
   } = currentTrigger
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
@@ -373,7 +375,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     isRepeating: isRepeating,
     isActive: isActive,
     isPublic: isPublic,
-    metric: getFormMetric(type, operation),
+    metric: getFormMetric(type, metric),
     type: newType,
     timeWindow: time_window ? +time_window.match(/\d+/)[0] : '24',
     timeWindowUnit: time_window
@@ -632,11 +634,9 @@ export const mapFormToPPCTriggerSettings = formProps => {
     signalType
   )
 
-  debugger
-
   return {
-    type: type,
-    metric: metric,
+    type,
+    metric,
     ...newTarget,
     channel: getChannels(formProps),
     time_window: getTimeWindow(formProps),
@@ -645,14 +645,20 @@ export const mapFormToPPCTriggerSettings = formProps => {
 }
 
 export const mapFormToPACTriggerSettings = formProps => {
-  const { target, targetWatchlist, signalType } = formProps
+  const {
+    target,
+    targetWatchlist,
+    signalType,
+    metric: { type, metric }
+  } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
     signalType
   )
   return {
-    type: PRICE_ABSOLUTE_CHANGE,
+    type,
+    metric,
     ...newTarget,
     channel: getChannels(formProps),
     operation: getTriggerOperation(formProps)
@@ -660,7 +666,12 @@ export const mapFormToPACTriggerSettings = formProps => {
 }
 
 export const mapFormToDAATriggerSettings = formProps => {
-  const { target, signalType, targetWatchlist, type } = formProps
+  const {
+    target,
+    signalType,
+    targetWatchlist,
+    metric: { type, metric }
+  } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
@@ -669,14 +680,16 @@ export const mapFormToDAATriggerSettings = formProps => {
 
   if (type.metric === PRICE_ABSOLUTE_CHANGE) {
     return {
-      type: DAILY_ACTIVE_ADDRESSES,
+      type,
+      metric,
       ...newTarget,
       channel: getChannels(formProps),
       operation: getTriggerOperation(formProps)
     }
   } else {
     return {
-      type: DAILY_ACTIVE_ADDRESSES,
+      type,
+      metric,
       ...newTarget,
       channel: getChannels(formProps),
       time_window: getTimeWindow(formProps),
@@ -686,14 +699,20 @@ export const mapFormToDAATriggerSettings = formProps => {
 }
 
 export const mapFormToPVDTriggerSettings = formProps => {
-  const { target, targetWatchlist, signalType } = formProps
+  const {
+    target,
+    targetWatchlist,
+    signalType,
+    metric: { type, metric }
+  } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
     signalType
   )
   return {
-    type: PRICE_VOLUME_DIFFERENCE,
+    type,
+    metric,
     ...newTarget,
     channel: getChannels(formProps),
     threshold: BASE_THRESHOLD
@@ -701,19 +720,28 @@ export const mapFormToPVDTriggerSettings = formProps => {
 }
 
 export const mapFormToHBTriggerSettings = formProps => {
-  const { target, targetWatchlist, ethAddress, signalType } = formProps
+  const {
+    target,
+    targetWatchlist,
+    ethAddress,
+    signalType,
+    metric: { type, metric }
+  } = formProps
   const newAsset =
     signalType.value === METRIC_TARGET_ASSETS.value
       ? mapAssetTarget(target, ethAddress)
       : undefined
+
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
     signalType,
     ethAddress
   )
+
   return {
-    type: ETH_WALLET,
+    type,
+    metric,
     ...newTarget,
     ...newAsset,
     channel: getChannels(formProps),
@@ -772,7 +800,58 @@ export const mapFormPropsToTrigger = (formProps, prevTrigger) => {
   }
 }
 
-export const getMetricsByType = type => {
+export const isNewTypeSignal = type => {
+  for (let key in METRIC_TYPES) {
+    if (type === METRIC_TYPES[key]) {
+      return true
+    }
+  }
+
+  return false
+}
+
+export const getNewMetricsByType = ({ settings: { type, metric } }) => {
+  const defaultValue = {
+    metrics: [Metrics.price_usd],
+    triggersBy: Metrics.price_usd,
+    historicalTriggersDataKey: 'current'
+  }
+
+  switch (type) {
+    case METRIC_TYPES.WALLET_MOVEMENT: {
+      return {
+        metrics: [Metrics.historicalBalance, Metrics.price_usd],
+        triggersBy: Metrics.historicalBalance,
+        historicalTriggersDataKey: 'current'
+      }
+    }
+    case METRIC_TYPES.METRIC_SIGNAL: {
+      switch (metric) {
+        case SIGNAL_METRIC_TYPES.active_addresses_24h: {
+          return {
+            metrics: [Metrics.daily_active_addresses, Metrics.price_usd],
+            triggersBy: Metrics.daily_active_addresses,
+            historicalTriggersDataKey: 'current'
+          }
+        }
+        case SIGNAL_METRIC_TYPES.volume_usd: {
+          return {
+            metrics: [Metrics.price_usd, Metrics.volume_usd],
+            triggersBy: Metrics.price_usd,
+            historicalTriggersDataKey: 'current'
+          }
+        }
+        default: {
+          return defaultValue
+        }
+      }
+    }
+    default:
+      return defaultValue
+  }
+}
+
+export const getOldMetricsByType = type => {
   switch (type) {
     case DAILY_ACTIVE_ADDRESSES:
       return {

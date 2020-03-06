@@ -3,8 +3,10 @@ import { Query } from '@apollo/react-components'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import {
   getCheckingMetric,
-  getMetricsByType,
+  getNewMetricsByType,
+  getOldMetricsByType,
   getTimeRangeForChart,
+  isNewTypeSignal,
   mapTargetObject
 } from '../../utils/utils'
 import { Metrics } from '../../../SANCharts/data'
@@ -37,18 +39,21 @@ const PreviewLoader = (
 
 const SignalPreviewChart = ({
   target,
-  type,
+  type: oldSignalType,
   slug,
   timeRange,
   label,
   points,
   showExpand,
-  showTitle
+  showTitle,
+  trigger
 }) => {
   let triggeredSignals = points.filter(point => point['triggered?'])
-  const { metrics, triggersBy } = getMetricsByType(type)
+  const { metrics, triggersBy } = isNewTypeSignal(trigger)
+    ? getOldMetricsByType(oldSignalType)
+    : getNewMetricsByType(trigger)
 
-  const isStrongDaily = type === DAILY_ACTIVE_ADDRESSES
+  const isStrongDaily = oldSignalType === DAILY_ACTIVE_ADDRESSES
   const metricsInterval = isStrongDaily ? '1d' : '1h'
 
   const metricRest = {
@@ -92,6 +97,8 @@ const SignalPreviewChart = ({
           merged,
           isStrongDaily
         )
+
+        console.log(triggersBy, signals)
 
         const referenceDots =
           triggeredSignals.length > 0 && triggersBy
@@ -194,7 +201,7 @@ const SignalPreview = ({
             showExpand={showExpand}
             showTitle={showTitle}
             target={target}
-            interval={cooldown}
+            trigger={trigger}
           />
         )
       }}

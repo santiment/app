@@ -1,6 +1,3 @@
-import { METRICS } from '../../Studio/timeseries/metrics'
-import { Metrics } from '../../SANCharts/data'
-
 export const CHANNEL_NAMES = {
   Telegram: 'Telegram',
   Email: 'Email',
