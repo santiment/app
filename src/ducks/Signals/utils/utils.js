@@ -620,14 +620,23 @@ const getTimeWindow = ({ timeWindow, timeWindowUnit }) => {
 }
 
 export const mapFormToPPCTriggerSettings = formProps => {
-  const { target, targetWatchlist, signalType } = formProps
+  const {
+    target,
+    targetWatchlist,
+    signalType,
+    metric: { type, metric }
+  } = formProps
   const newTarget = mapFomTargetToTriggerTarget(
     target,
     targetWatchlist,
     signalType
   )
+
+  debugger
+
   return {
-    type: PRICE_PERCENT_CHANGE,
+    type: type,
+    metric: metric,
     ...newTarget,
     channel: getChannels(formProps),
     time_window: getTimeWindow(formProps),

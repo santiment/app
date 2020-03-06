@@ -5,7 +5,7 @@ import { graphql } from 'react-apollo'
 import Icon from '@santiment-network/ui/Icon'
 import { SearchWithSuggestions } from '@santiment-network/ui/Search'
 import { Checkbox } from '@santiment-network/ui/Checkboxes'
-import { allProjectsForSearchGQL } from '../../pages/Projects/allProjectsGQL'
+import { ALL_PROJECTS_FOR_SEARCH_QUERY } from '../../pages/Projects/allProjectsGQL'
 import { hasAssetById } from '../WatchlistPopup/WatchlistsPopup'
 import ProjectIcon from './../ProjectIcon/ProjectIcon'
 import styles from './SearchContainer.module.scss'
@@ -140,7 +140,7 @@ const enhance = compose(
       }
     }
   }),
-  graphql(allProjectsForSearchGQL, {
+  graphql(ALL_PROJECTS_FOR_SEARCH_QUERY, {
     skip: ({ projects }) => projects && projects.length > 0,
     options: () => ({
       context: { isRetriable: true },

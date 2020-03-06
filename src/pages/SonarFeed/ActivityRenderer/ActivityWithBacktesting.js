@@ -75,13 +75,13 @@ const ActivityWithBacktesting = ({
   showProfileExplanation
 }) => {
   const {
-    settings: { type }
+    settings: { type, metric }
   } = trigger
 
   return (
     <>
       <DesktopOnly>
-        <SignalTypeIcon type={type} className={styles.icon} />
+        <SignalTypeIcon type={type} metric={metric} className={styles.icon} />
       </DesktopOnly>
       <div className={styles.container}>
         <div className={styles.info}>

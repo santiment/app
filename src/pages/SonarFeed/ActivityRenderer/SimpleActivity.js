@@ -18,7 +18,7 @@ const SimpleActivity = ({
   activity: {
     triggeredAt,
     trigger,
-    trigger: { settings: { type } } = {},
+    trigger: { settings: { type, metric } } = {},
     votes = []
   },
   onLike
@@ -26,7 +26,7 @@ const SimpleActivity = ({
   return (
     <div className={styles.wrapper}>
       <DesktopOnly>
-        <SignalTypeIcon type={type} className={styles.icon} />
+        <SignalTypeIcon type={type} metric={metric} className={styles.icon} />
       </DesktopOnly>
       <div className={styles.center}>
         <div className={cx(styles.description, styles.activityCustom)}>

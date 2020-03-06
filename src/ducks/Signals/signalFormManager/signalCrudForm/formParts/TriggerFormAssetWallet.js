@@ -50,7 +50,7 @@ const TriggerFormAssetWallet = ({
         <div className={cx(styles.Field, styles.fieldFilled)}>
           {isAssets && (
             <GetProjects
-              render={({ isLoading, allProjects }) => {
+              render={({ allProjects }) => {
                 return (
                   <TriggerProjectsSelector
                     name='target'

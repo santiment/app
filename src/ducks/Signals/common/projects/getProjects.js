@@ -2,7 +2,7 @@ import { graphql } from 'react-apollo'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
-import { allProjectsForSearchGQL } from '../../../../pages/Projects/allProjectsGQL'
+import { ALL_PROJECTS_FOR_SEARCH_QUERY } from '../../../../pages/Projects/allProjectsGQL'
 
 const GetProjects = ({ render, ...props }) => render(props)
 
@@ -17,7 +17,7 @@ const mapStateToProps = state => ({
 
 export default compose(
   connect(mapStateToProps),
-  graphql(allProjectsForSearchGQL, {
+  graphql(ALL_PROJECTS_FOR_SEARCH_QUERY, {
     skip: ({ isLoggedIn, skipLoggedInState }) =>
       skipLoggedInState ? false : !isLoggedIn,
     options: () => ({

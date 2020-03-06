@@ -56,17 +56,12 @@ const SignalDetails = ({
     return <Redirect exact to={SIGNAL_ROUTES.MY_SIGNALS} />
   }
 
-  const {
-    isActive,
-    isPublic,
-    title,
-    settings: { type }
-  } = trigger
+  const { isActive, isPublic, title } = trigger
 
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <SignalCardWrapper trigger={trigger} type={type} isModal={false}>
+        <SignalCardWrapper trigger={trigger} isModal={false}>
           <div className={styles.row}>
             {author && (
               <div className={styles.authorName}>
