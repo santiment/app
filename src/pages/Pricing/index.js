@@ -1,12 +1,17 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import Button from '@santiment-network/ui/Button'
 import Plans from './Plans'
 import TokensTooltip from './TokensTooltip'
 import Testimonials from '../../components/Testimonials'
 import PayWithCrypto from './PayWithCrypto'
+import { getCurrentSanbaseSubscription } from '../../utils/plans'
+import { getTrialDaysLeft } from '../../components/Navbar/PlanEngage'
 import styles from './index.module.scss'
 
-export default () => {
+const Page = ({ subscription }) => {
+  const trialDaysLeft = getTrialDaysLeft(subscription)
+
   return (
     <div className={styles.wrapper + ' page'}>
       <div className={styles.top}>
@@ -14,7 +19,11 @@ export default () => {
           Upgrade to Pro and get full possibilities
         </h1>
       </div>
-      <TokensTooltip />
+      {trialDaysLeft ? (
+        <div className={styles.trial}>{trialDaysLeft} in your free trial</div>
+      ) : (
+        <TokensTooltip />
+      )}
       <Plans id='plans' />
       <PayWithCrypto />
       <Testimonials />
@@ -39,3 +48,9 @@ export default () => {
     </div>
   )
 }
+
+const mapStateToProps = state => ({
+  subscription: getCurrentSanbaseSubscription(state.user.data)
+})
+
+export default connect(mapStateToProps)(Page)

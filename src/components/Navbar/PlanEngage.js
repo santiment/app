@@ -7,7 +7,9 @@ import { getCurrentSanbaseSubscription } from '../../utils/plans'
 import { dateDifference, DAY } from '../../utils/dates'
 import styles from './PlanEngage.module.scss'
 
-const getTrialDaysLeft = subscription => {
+export const getTrialDaysLeft = subscription => {
+  if (!subscription) return
+
   let trialEnd = subscription.trialEnd
   if (!trialEnd) return
 

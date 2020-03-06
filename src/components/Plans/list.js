@@ -5,12 +5,21 @@ import PlanChangeDialog from './PlanChangeDialog'
 import PlanPipedriveDialog from './PlanPipedriveDialog'
 import styles from './Plans.module.scss'
 
-const PlanActionDialog = ({ subscription, ...rest }) =>
-  subscription && !subscription.trialEnd ? (
-    <PlanChangeDialog subscription={subscription} {...rest} />
-  ) : (
-    <PlanPaymentDialog subscription={subscription} {...rest} />
-  )
+const PlanActionDialog = ({ subscription, ...rest }) => {
+  if (subscription) {
+    return subscription.trialEnd ? (
+      <PlanPaymentDialog
+        subscription={subscription}
+        {...rest}
+        label='Buy Pro'
+      />
+    ) : (
+      <PlanChangeDialog subscription={subscription} {...rest} />
+    )
+  }
+
+  return <PlanPaymentDialog subscription={subscription} {...rest} />
+}
 
 export default {
   FREE: {
