@@ -17,7 +17,7 @@ const Alert = ({ alert, render, createAlert }) => {
   )
 }
 
-export default ({ className, metricValues, ...rest }) => {
+export default ({ className, metricValues, onDialogClose, ...rest }) => {
   const suggestions = useSuggestions(metricValues)
 
   return (
@@ -25,6 +25,7 @@ export default ({ className, metricValues, ...rest }) => {
       <div className={styles.header}>
         Create alert if:
         <SignalMasterModalForm
+          onClose={onDialogClose}
           canRedirect={false}
           trigger={<span className={styles.manual}>Create alert manually</span>}
         />

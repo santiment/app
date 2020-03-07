@@ -143,6 +143,7 @@ const Signals = ({
           slug={slug}
           data={data}
           createAlert={createSignal}
+          onDialogClose={onMouseLeave}
         />
       )}
     </div>
