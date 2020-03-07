@@ -7,8 +7,11 @@ import {
   SIGNAL_BELOW,
   drawHoveredSignal,
   findPriceByY,
+  findMetricValueByY,
+  findMetricLastValue,
   makeSignalDrawable
 } from './helpers'
+import { useAlertMetrics } from './hooks'
 import { clearCtx } from '../utils'
 import { tooltipSettings } from '../../data'
 import { getSlugPriceSignals } from '../../utils'
@@ -36,7 +39,8 @@ const Signals = ({
   signals,
   fetchSignals,
   createSignal,
-  removeSignal
+  removeSignal,
+  metrics
 }) => {
   const [isHovered, setIsHovered] = useState()
   const [hoverPoint, setHoverPoint] = useState()
@@ -54,12 +58,19 @@ const Signals = ({
 
     const lastPrice = data[data.length - 1].price_usd
 
-    const price = findPriceByY(chart, y)
+    const price = findMetricValueByY(chart, metrics[0], y)
+
+    const metricValues = metrics.map(Metric => ({
+      key: Metric.key,
+      value: findMetricValueByY(chart, Metric, y),
+      lastValue: findMetricLastValue(data, Metric)
+    }))
+
     if (price === undefined) {
       return
     }
 
-    setHoverPoint({ y, price, lastPrice })
+    setHoverPoint({ y, metricValues })
 
     const textPrice = formatter(price)
 
@@ -159,6 +170,10 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(props => {
+  const alertMetrics = useAlertMetrics(props.metrics)
   const { chart, isLoggedIn } = props
-  return isLoggedIn && chart ? <Signals {...props} /> : null
+
+  return isLoggedIn && chart && alertMetrics.length > 0 ? (
+    <Signals {...props} metrics={alertMetrics} />
+  ) : null
 })

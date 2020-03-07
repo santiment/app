@@ -14,16 +14,13 @@ const SIGNAL_BELOW = 'BELOW'
 const SIGNAL_ABOVE = 'ABOVE'
 const IFS = ['goes below', 'goes above']
 
-const suggestValueChange = ({ slug, price, lastPrice }) => {
-  const lastValue = 875533
-  const value = 678222
-
+const suggestValueChange = ({ slug, value, lastValue }) => {
   const isAboveLastPrice = value > lastValue
   const type =
     PRICE_CHANGE_TYPES[isAboveLastPrice ? SIGNAL_ABOVE : SIGNAL_BELOW]
 
   return createSuggestion(
-    buildDAASignal(slug, price, type),
+    buildDAASignal(slug, value, type),
     <>
       Addresses count {IFS[+isAboveLastPrice]} <Value>{formatter(value)}</Value>
     </>

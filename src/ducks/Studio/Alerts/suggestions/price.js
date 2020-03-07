@@ -14,15 +14,15 @@ const SIGNAL_BELOW = 'BELOW'
 const SIGNAL_ABOVE = 'ABOVE'
 const PRICE_IFS = ['drops below', 'raises above']
 
-const suggestValueChange = ({ slug, price, lastPrice }) => {
-  const isAboveLastPrice = price > lastPrice
+const suggestValueChange = ({ slug, value, lastValue, ...rest }) => {
+  const isAboveLastPrice = value > lastValue
   const type =
     PRICE_CHANGE_TYPES[isAboveLastPrice ? SIGNAL_ABOVE : SIGNAL_BELOW]
 
   return createSuggestion(
-    buildPriceSignal(slug, price, type),
+    buildPriceSignal(slug, value, type),
     <>
-      Price {PRICE_IFS[+isAboveLastPrice]} <Value>{formatter(price)}</Value>
+      Price {PRICE_IFS[+isAboveLastPrice]} <Value>{formatter(value)}</Value>
     </>
   )
 }

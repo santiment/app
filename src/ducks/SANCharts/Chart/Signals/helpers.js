@@ -70,6 +70,30 @@ export function findPriceByY (chart, y) {
   return factor * (height - (y - top)) + min
 }
 
+export function findMetricValueByY (chart, { key }, y) {
+  const { minMaxes, height, top } = chart
+
+  if (!minMaxes) {
+    return
+  }
+
+  const { min, max } = minMaxes[key]
+
+  const factor = (max - min) / height
+
+  return factor * (height - (y - top)) + min
+}
+
+export function findMetricLastValue (data, { key }) {
+  for (let i = data.length - 1; i > -1; i--) {
+    const value = data[i][key]
+
+    if (value) {
+      return value
+    }
+  }
+}
+
 export function drawHoveredSignal (chart, y, texts) {
   const {
     left,

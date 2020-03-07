@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { Suggestion } from './suggestions'
+import { useSuggestions } from './suggestions/hooks'
 import SignalMasterModalForm from '../../Signals/signalModal/SignalMasterModalForm'
 import styles from './index.module.scss'
 
@@ -17,8 +17,9 @@ const Alert = ({ alert, render, createAlert }) => {
   )
 }
 
-export default ({ className, ...rest }) => {
-  const suggestions = [Suggestion.price_usd, Suggestion.daily_active_addresses]
+export default ({ className, metricValues, ...rest }) => {
+  const suggestions = useSuggestions(metricValues)
+
   return (
     <div className={cx(styles.wrapper, className)}>
       <div className={styles.header}>
@@ -29,11 +30,11 @@ export default ({ className, ...rest }) => {
         />
       </div>
       <div className={styles.suggestions}>
-        {suggestions.map(({ title, suggesters }) => (
+        {suggestions.map(({ title, suggesters, ...values }) => (
           <div key={title} className={styles.suggestion}>
             <div className={styles.title}>{title}</div>
             {suggesters.map((suggest, i) => (
-              <Alert key={i} {...rest} {...suggest(rest)} />
+              <Alert key={i} {...rest} {...suggest({ ...rest, ...values })} />
             ))}
           </div>
         ))}
