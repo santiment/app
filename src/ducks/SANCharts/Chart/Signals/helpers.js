@@ -1,5 +1,6 @@
 import COLOR from '@santiment-network/ui/variables.scss'
 import { getTextWidth } from '@santiment-network/chart/utils'
+import { Metrics } from '../../data'
 import { clearCtx } from '../utils'
 
 export const SIGNAL_BELOW = 'BELOW'
@@ -54,20 +55,6 @@ function drawLine (ctx, startX, endX, y) {
   ctx.moveTo(startX, y)
   ctx.lineTo(endX, y)
   ctx.stroke()
-}
-
-export function findPriceByY (chart, y) {
-  const { minMaxes, height, top } = chart
-
-  if (!minMaxes) {
-    return
-  }
-
-  const { min, max } = minMaxes.price_usd
-
-  const factor = (max - min) / height
-
-  return factor * (height - (y - top)) + min
 }
 
 export function findMetricValueByY (chart, { key }, y) {
@@ -142,3 +129,5 @@ export function makeSignalDrawable (
     y: scale(height, min, max)(value) + top
   }
 }
+
+export const checkPriceMetric = metric => metric === Metrics.price_usd

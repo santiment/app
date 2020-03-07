@@ -6,14 +6,14 @@ import {
   SIGNAL_ABOVE,
   SIGNAL_BELOW,
   drawHoveredSignal,
-  findPriceByY,
   findMetricValueByY,
   findMetricLastValue,
-  makeSignalDrawable
+  makeSignalDrawable,
+  checkPriceMetric
 } from './helpers'
 import { useAlertMetrics } from './hooks'
 import { clearCtx } from '../utils'
-import { tooltipSettings } from '../../data'
+import { Metrics } from '../../data'
 import { getSlugPriceSignals } from '../../utils'
 import {
   createTrigger,
@@ -25,12 +25,12 @@ import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import styles from './index.module.scss'
 
-const TEXT_SIGNAL = 'Signal '
+const TEXT_SIGNAL = 'Alert '
 const TEXT_ACTION = 'Click to '
-const TEXT_RESULT = 'create a signal '
+const TEXT_RESULT = 'create an alert '
 const TEXT_IFS = ['if price drops below ', 'if price raises above ']
 
-const formatter = tooltipSettings.price_usd.formatter
+const priceFormatter = Metrics.price_usd.formatter
 
 const Signals = ({
   slug,
@@ -56,29 +56,26 @@ const Signals = ({
       return
     }
 
-    const lastPrice = data[data.length - 1].price_usd
-
-    const price = findMetricValueByY(chart, metrics[0], y)
-
     const metricValues = metrics.map(Metric => ({
       key: Metric.key,
       value: findMetricValueByY(chart, Metric, y),
       lastValue: findMetricLastValue(data, Metric)
     }))
 
-    if (price === undefined) {
-      return
-    }
+    const priceIndex = metrics.findIndex(checkPriceMetric)
+    const { key, value, lastValue } = metricValues[
+      priceIndex === -1 ? 0 : priceIndex
+    ]
+
+    if (value === undefined) return
 
     setHoverPoint({ y, metricValues })
-
-    const textPrice = formatter(price)
 
     drawHoveredSignal(chart, y, [
       TEXT_ACTION,
       TEXT_RESULT,
-      TEXT_IFS[+(price > lastPrice)],
-      textPrice
+      TEXT_IFS[+(value > lastValue)],
+      Metrics[key].formatter(value)
     ])
   }
 
@@ -87,17 +84,16 @@ const Signals = ({
       return
     }
 
-    const lastPrice = data[data.length - 1].price_usd
-    const price = findPriceByY(chart, y)
-    if (price === undefined) {
-      return
-    }
+    const Metric = metrics.find(checkPriceMetric) || metrics[0]
+    const value = findMetricValueByY(chart, Metric, y)
+    const lastValue = findMetricLastValue(data, Metric)
+
+    if (value === undefined) return
 
     const type =
-      PRICE_CHANGE_TYPES[price > lastPrice ? SIGNAL_ABOVE : SIGNAL_BELOW]
+      PRICE_CHANGE_TYPES[value > lastValue ? SIGNAL_ABOVE : SIGNAL_BELOW]
 
-    const signal = buildPriceSignal(slug, price, type)
-    createSignal(signal)
+    createSignal(buildPriceSignal(slug, value, type))
   }
 
   function onMouseLeave () {
@@ -112,7 +108,7 @@ const Signals = ({
 
       drawHoveredSignal(chart, y, [
         TEXT_SIGNAL + TEXT_IFS[+(type === SIGNAL_ABOVE)],
-        formatter(value)
+        priceFormatter(value)
       ])
     }
   }

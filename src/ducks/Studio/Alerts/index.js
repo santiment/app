@@ -6,7 +6,6 @@ import styles from './index.module.scss'
 
 const Alert = ({ alert, render, createAlert }) => {
   function onClick () {
-    console.log(alert)
     createAlert(alert)
   }
 
