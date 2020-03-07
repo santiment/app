@@ -6,7 +6,7 @@ import {
   drawValueBubbleX
 } from '@santiment-network/chart/tooltip'
 import { handleMove } from '@santiment-network/chart/events'
-import { fiord } from '@santiment-network/ui/variables.scss'
+import { waterloo } from '@santiment-network/ui/variables.scss'
 import {
   clearCtx,
   getDateDayMonthYear,
@@ -15,6 +15,9 @@ import {
   isDayInterval
 } from './utils'
 import { tooltipSettings } from '../data'
+
+const ALERT_ADD_SIZE = 13
+const ALERT_ADD_HALF_SIZE = ALERT_ADD_SIZE / 2
 
 export function setupTooltip (chart, marker, syncTooltips) {
   const {
@@ -62,9 +65,9 @@ export function plotTooltip (chart, marker, point) {
   drawAlertPlus(chart, y)
 }
 
-const ALERT_ADD_SIZE = 13
-const ALERT_ADD_HALF_SIZE = ALERT_ADD_SIZE / 2
 function drawAlertPlus (chart, y) {
+  if (!chart.isAlertsActive) return
+
   const {
     tooltip: { ctx },
     left
@@ -72,7 +75,7 @@ function drawAlertPlus (chart, y) {
 
   ctx.save()
 
-  ctx.fillStyle = fiord
+  ctx.fillStyle = waterloo
   ctx.fillRect(
     left - ALERT_ADD_HALF_SIZE,
     y - ALERT_ADD_HALF_SIZE,

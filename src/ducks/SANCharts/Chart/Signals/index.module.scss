@@ -41,8 +41,7 @@
   position: absolute;
   margin-top: -6px;
   right: -6px;
-  background: $fiord;
-  //border-radius: 1px;
+  background: $waterloo;
   height: 13px;
   width: 13px;
   background-image: url('./plus.svg');
@@ -60,17 +59,21 @@
     cursor: pointer;
   }
 
-  &:hover .alerts {
-    display: block;
-    top: 50%;
+  &:hover {
+    background-color: $fiord;
 
-    &::before {
-      content: '';
-      position: absolute;
-      bottom: 30%;
-      top: 30%;
-      width: 13px;
-      right: 100%;
+    .alerts {
+      display: block;
+      top: 50%;
+
+      &::before {
+        content: '';
+        position: absolute;
+        bottom: 30%;
+        top: 30%;
+        width: 13px;
+        right: 100%;
+      }
     }
   }
 }

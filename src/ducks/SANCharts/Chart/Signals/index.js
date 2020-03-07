@@ -49,6 +49,9 @@ const Signals = ({
     if (signals.length === 0) {
       fetchSignals()
     }
+    chart.isAlertsActive = true
+
+    return () => (chart.isAlertsActive = false)
   }, [])
 
   function onMouseMove ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
