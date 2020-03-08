@@ -9,7 +9,8 @@ import {
   findMetricValueByY,
   findMetricLastValue,
   makeSignalDrawable,
-  checkPriceMetric
+  checkPriceMetric,
+  AlertBuilder
 } from './helpers'
 import { useAlertMetrics } from './hooks'
 import { clearCtx } from '../utils'
@@ -20,7 +21,6 @@ import {
   fetchSignals,
   removeTrigger
 } from '../../../Signals/common/actions'
-import { buildPriceSignal } from '../../../Signals/utils/utils'
 import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import styles from './index.module.scss'
@@ -28,7 +28,13 @@ import styles from './index.module.scss'
 const TEXT_SIGNAL = 'Alert '
 const TEXT_ACTION = 'Click to '
 const TEXT_RESULT = 'create an alert '
-const TEXT_IFS = ['if price drops below ', 'if price raises above ']
+const TEXT_IFS = {
+  price_usd: ['if price drops below ', 'if price raises above '],
+  daily_active_addresses: [
+    'if DAA count goes below ',
+    'if DAA count goes above '
+  ]
+}
 
 const priceFormatter = Metrics.price_usd.formatter
 
@@ -77,7 +83,7 @@ const Signals = ({
     drawHoveredSignal(chart, y, [
       TEXT_ACTION,
       TEXT_RESULT,
-      TEXT_IFS[+(value > lastValue)],
+      TEXT_IFS[key][+(value > lastValue)],
       Metrics[key].formatter(value)
     ])
   }
@@ -96,7 +102,7 @@ const Signals = ({
     const type =
       PRICE_CHANGE_TYPES[value > lastValue ? SIGNAL_ABOVE : SIGNAL_BELOW]
 
-    createSignal(buildPriceSignal(slug, value, type))
+    createSignal(AlertBuilder[Metric.key](slug, value, type))
   }
 
   function onMouseLeave () {
@@ -110,7 +116,7 @@ const Signals = ({
       const { type, value, y } = signal
 
       drawHoveredSignal(chart, y, [
-        TEXT_SIGNAL + TEXT_IFS[+(type === SIGNAL_ABOVE)],
+        TEXT_SIGNAL + TEXT_IFS.price_usd[+(type === SIGNAL_ABOVE)],
         priceFormatter(value)
       ])
     }

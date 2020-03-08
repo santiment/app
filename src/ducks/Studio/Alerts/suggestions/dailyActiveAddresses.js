@@ -4,7 +4,7 @@ import Value from '../Value'
 import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
 import {
   buildDAASignal,
-  builDAAPercentUpDownSignal
+  buildDAAPercentUpDownSignal
 } from '../../../Signals/utils/utils'
 import { Metrics } from '../../../SANCharts/data'
 
@@ -29,7 +29,7 @@ const suggestValueChange = ({ slug, value, lastValue }) => {
 
 const suggestPercentUp = ({ slug }) =>
   createSuggestion(
-    builDAAPercentUpDownSignal(slug),
+    buildDAAPercentUpDownSignal(slug),
     <>
       Daily active addresses count goes up by <Value>10%</Value>
     </>

@@ -1518,7 +1518,7 @@ export const buildDAASignal = (slug, value, type) => {
   })
 }
 
-export const builDAAPercentUpDownSignal = slug => {
+export const buildDAAPercentUpDownSignal = slug => {
   return buildSignal(
     PRICE_PERCENT_CHANGE,
     PRICE_PERCENT_CHANGE_UP_MODEL,
