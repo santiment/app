@@ -1498,9 +1498,9 @@ export const buildPricePercentUpDownSignal = slug => {
     slug,
     {
       metric: PRICE_METRIC,
+      signalType: { label: 'Assets', value: 'assets' },
       percentThresholdLeft: 10,
-      percentThresholdRight: 10,
-      signalType: { label: 'Assets', value: 'assets' }
+      percentThresholdRight: 10
     }
   )
 }
