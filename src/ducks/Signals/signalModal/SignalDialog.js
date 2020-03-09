@@ -15,6 +15,7 @@ const SignalDialog = ({
   dialogOpenState,
   setDialogOpenState,
   onCloseMainModal,
+  closeDialog,
   dialogTrigger,
   enabled,
   label,
@@ -118,7 +119,7 @@ const SignalDialog = ({
             isShared={isShared}
             trigger={trigger}
             setTitle={onSetDialogTitle}
-            onClose={() => setDialogOpenState(false)}
+            onClose={closeDialog}
             canRedirect={canRedirect}
             metaFormSettings={metaFormSettings}
             formChangedCallback={formChangedCallback}

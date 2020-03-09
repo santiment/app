@@ -1,32 +1,42 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Signal from './Signal'
+import Add from './Add'
 import {
   SIGNAL_ABOVE,
   SIGNAL_BELOW,
   drawHoveredSignal,
-  findPriceByY,
-  makeSignalDrawable
+  findMetricValueByY,
+  findMetricLastValue,
+  makeSignalDrawable,
+  checkPriceMetric,
+  AlertBuilder
 } from './helpers'
+import { useAlertMetrics } from './hooks'
 import { clearCtx } from '../utils'
-import { tooltipSettings } from '../../data'
+import { Metrics } from '../../data'
 import { getSlugPriceSignals } from '../../utils'
 import {
   createTrigger,
   fetchSignals,
   removeTrigger
 } from '../../../Signals/common/actions'
-import { buildPriceSignal } from '../../../Signals/utils/utils'
 import { PRICE_CHANGE_TYPES } from '../../../Signals/utils/constants'
 import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import styles from './index.module.scss'
 
-const TEXT_SIGNAL = 'Signal '
+const TEXT_SIGNAL = 'Alert '
 const TEXT_ACTION = 'Click to '
-const TEXT_RESULT = 'create a signal '
-const TEXT_IFS = ['if price drops below ', 'if price raises above ']
+const TEXT_RESULT = 'create an alert '
+const TEXT_IFS = {
+  price_usd: ['if price drops below ', 'if price raises above '],
+  daily_active_addresses: [
+    'if DAA count goes below ',
+    'if DAA count goes above '
+  ]
+}
 
-const formatter = tooltipSettings.price_usd.formatter
+const priceFormatter = Metrics.price_usd.formatter
 
 const Signals = ({
   slug,
@@ -35,67 +45,79 @@ const Signals = ({
   signals,
   fetchSignals,
   createSignal,
-  removeSignal
+  removeSignal,
+  metrics
 }) => {
-  const [hovered, setHovered] = useState()
+  const [isHovered, setIsHovered] = useState()
+  const [hoverPoint, setHoverPoint] = useState()
 
   useEffect(() => {
     if (signals.length === 0) {
       fetchSignals()
     }
+    chart.isAlertsActive = true
+
+    return () => (chart.isAlertsActive = false)
   }, [])
 
   function onMouseMove ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
-    if (hovered || data.length === 0 || target !== currentTarget) {
-      return
-    }
-    const lastPrice = data[data.length - 1].price_usd
-
-    const price = findPriceByY(chart, y)
-    if (price === undefined) {
+    if (isHovered || data.length === 0 || target !== currentTarget) {
       return
     }
 
-    const textPrice = formatter(price)
+    const metricValues = metrics.map(Metric => ({
+      key: Metric.key,
+      value: findMetricValueByY(chart, Metric, y),
+      lastValue: findMetricLastValue(data, Metric)
+    }))
+
+    const priceIndex = metrics.findIndex(checkPriceMetric)
+    const { key, value, lastValue } = metricValues[
+      priceIndex === -1 ? 0 : priceIndex
+    ]
+
+    if (value === undefined) return
+
+    setHoverPoint({ y, metricValues })
 
     drawHoveredSignal(chart, y, [
       TEXT_ACTION,
       TEXT_RESULT,
-      TEXT_IFS[+(price > lastPrice)],
-      textPrice
+      TEXT_IFS[key][+(value > lastValue)],
+      Metrics[key].formatter(value)
     ])
   }
 
-  function onClick ({ nativeEvent: { offsetY: y } }) {
-    if (hovered || data.length === 0) {
+  function onClick ({ target, currentTarget, nativeEvent: { offsetY: y } }) {
+    if (isHovered || data.length === 0 || target !== currentTarget) {
       return
     }
 
-    const lastPrice = data[data.length - 1].price_usd
-    const price = findPriceByY(chart, y)
-    if (price === undefined) {
-      return
-    }
+    const Metric = metrics.find(checkPriceMetric) || metrics[0]
+    const value = findMetricValueByY(chart, Metric, y)
+    const lastValue = findMetricLastValue(data, Metric)
+
+    if (value === undefined) return
 
     const type =
-      PRICE_CHANGE_TYPES[price > lastPrice ? SIGNAL_ABOVE : SIGNAL_BELOW]
+      PRICE_CHANGE_TYPES[value > lastValue ? SIGNAL_ABOVE : SIGNAL_BELOW]
 
-    const signal = buildPriceSignal(slug, price, type)
-    createSignal(signal)
+    createSignal(AlertBuilder[Metric.key](slug, value, type))
   }
 
   function onMouseLeave () {
+    setHoverPoint()
     clearCtx(chart, chart.tooltip.ctx)
   }
 
   function setHoveredSignal (signal) {
-    setHovered(signal)
+    setIsHovered(signal)
     if (signal) {
       const { type, value, y } = signal
 
       drawHoveredSignal(chart, y, [
-        TEXT_SIGNAL + TEXT_IFS[+(type === SIGNAL_ABOVE)],
-        formatter(value)
+        TEXT_SIGNAL + TEXT_IFS.price_usd[+(type === SIGNAL_ABOVE)],
+        priceFormatter(value)
       ])
     }
   }
@@ -119,6 +141,16 @@ const Signals = ({
           removeSignal={removeSignal}
         />
       ))}
+
+      {hoverPoint && (
+        <Add
+          hoverPoint={hoverPoint}
+          slug={slug}
+          data={data}
+          createAlert={createSignal}
+          onDialogClose={onMouseLeave}
+        />
+      )}
     </div>
   )
 }
@@ -144,6 +176,10 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(props => {
+  const alertMetrics = useAlertMetrics(props.metrics)
   const { chart, isLoggedIn } = props
-  return isLoggedIn && chart ? <Signals {...props} /> : null
+
+  return isLoggedIn && chart && alertMetrics.length > 0 ? (
+    <Signals {...props} metrics={alertMetrics} />
+  ) : null
 })

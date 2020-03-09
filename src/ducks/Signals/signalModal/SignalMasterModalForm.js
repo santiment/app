@@ -22,7 +22,8 @@ const SignalMasterModalForm = ({
   userId,
   redirect,
   previousPage = SIGNAL_ROUTES.MY_SIGNALS,
-  defaultOpen = true
+  defaultOpen = true,
+  onClose
 }) => {
   const { id: shareId, isShared: isOldShared } = shareParams
 
@@ -59,7 +60,7 @@ const SignalMasterModalForm = ({
 
   const onApprove = () => {
     setIsAppoving(false)
-    setDialogOpenState(false)
+    closeDialog()
 
     goBack()
   }
@@ -68,13 +69,21 @@ const SignalMasterModalForm = ({
     if (isChanged && isLoggedIn) {
       setIsAppoving(true)
     } else {
-      setDialogOpenState(false)
+      closeDialog()
       goBack()
     }
   }
 
   const formChangedCallback = isChanged => {
     setIsChanged(isChanged)
+  }
+
+  function closeDialog () {
+    setDialogOpenState(false)
+
+    if (onClose) {
+      onClose()
+    }
   }
 
   return (
@@ -102,6 +111,7 @@ const SignalMasterModalForm = ({
             <SignalDialog
               dialogOpenState={dialogOpenState}
               setDialogOpenState={setDialogOpenState}
+              closeDialog={closeDialog}
               onCloseMainModal={onCloseMainModal}
               dialogTrigger={dialogTrigger}
               enabled={enabled}

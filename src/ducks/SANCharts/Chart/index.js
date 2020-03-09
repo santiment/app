@@ -31,6 +31,7 @@ import styles from './index.module.scss'
 const Chart = ({
   className,
   chartRef,
+  metrics,
   data,
   lines,
   bars,
@@ -47,7 +48,6 @@ const Chart = ({
   syncedTooltipDate,
   syncTooltips = () => {},
   onPointHover = () => {},
-  hasPriceMetric,
   isLoading,
   isMultiChartsActive,
   isAdvancedView,
@@ -270,9 +270,13 @@ const Chart = ({
   return (
     <div className={cx(styles.wrapper, className)}>
       <canvas ref={canvasRef} />
-      {hasPriceMetric && (
-        <Signals chart={chart} data={data} slug={slug} scale={scale} />
-      )}
+      <Signals
+        chart={chart}
+        data={data}
+        slug={slug}
+        scale={scale}
+        metrics={metrics}
+      />
       {isLoading && <Loader />}
     </div>
   )

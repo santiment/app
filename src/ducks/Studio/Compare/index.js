@@ -27,7 +27,7 @@ const Compare = ({
         allProjects.filter(project => project.slug !== slug).sort(projectSorter)
       )
     },
-    [allProjects]
+    [allProjects, slug]
   )
 
   const array = activeMetrics.length < 5 ? [...comparables, null] : comparables
