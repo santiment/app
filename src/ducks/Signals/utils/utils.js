@@ -1207,7 +1207,8 @@ export const couldShowChart = (
   }
 
   const isArray = Array.isArray(target)
-  const notSingleArray = isArray && target.length !== 1
+  const notSingleArray =
+    (isArray && target.length !== 1) || !mapTargetObject(target)
 
   if (notSingleArray) {
     return false
