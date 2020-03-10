@@ -9,6 +9,7 @@ import ChartFullscreenBtn from './ChartFullscreenBtn'
 import ChartMetricsExplanation, {
   filterExplainableMetrics
 } from './MetricsExplanation'
+import IcoPrice from './IcoPrice'
 import Chart from '../../SANCharts/Chart'
 import Synchronizer from '../../SANCharts/Chart/Synchronizer'
 import { checkIsLoggedIn } from '../../../pages/UserSelectors'
@@ -31,11 +32,13 @@ const Canvas = ({
   isMultiChartsActive,
   syncedTooltipDate,
   isAnon,
+  setIsICOPriceDisabled,
   ...props
 }) => {
   const [isExplained, setIsExplained] = useState()
   const isBlurred = isAnon && index > 1
   const hasExplanaibles = filterExplainableMetrics(metrics).length > 0
+  const scale = options.isLogScale ? logScale : linearScale
 
   useEffect(
     () => {
@@ -88,7 +91,7 @@ const Canvas = ({
             settings={settings}
             metrics={metrics}
             activeEvents={activeEvents}
-            scale={options.isLogScale ? logScale : linearScale}
+            scale={scale}
           />
         </div>
       </div>
@@ -96,16 +99,25 @@ const Canvas = ({
         {...options}
         {...settings}
         {...props}
-        className={isBlurred ? styles.blur : ''}
+        className={cx(styles.chart, isBlurred && styles.blur)}
         isMultiChartsActive={isMultiChartsActive}
         metrics={metrics}
         chartRef={chartRef}
-        scale={options.isLogScale ? logScale : linearScale}
+        scale={scale}
         isAdvancedView={!!advancedView}
         onPointHover={advancedView ? changeHoveredDate : undefined}
         syncedTooltipDate={isBlurred || syncedTooltipDate}
         isWideChart={isExplained}
-      />
+      >
+        {options.isICOPriceActive && (
+          <IcoPrice
+            {...settings}
+            metrics={metrics}
+            className={styles.ico}
+            onEmptyResult={() => setIsICOPriceDisabled(true)}
+          />
+        )}
+      </Chart>
 
       {isBlurred && (
         <div className={styles.restriction}>

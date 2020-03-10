@@ -14,7 +14,7 @@ const reduceStateKeys = (State, Data) =>
   Object.keys(State).reduce((acc, key) => {
     const value = Data[key]
     if (value) {
-      acc[key] = value === 'false' ? false : value
+      acc[key] = parseValue(value)
     }
     return acc
   }, {})
@@ -31,6 +31,17 @@ function shareComparable (Comparable) {
   const { key } = metric
 
   return `${slug}${COMPARE_CONNECTOR}${ticker}${COMPARE_CONNECTOR}${key}`
+}
+
+function parseValue (value) {
+  if (value === 'true') {
+    return true
+  }
+  if (value === 'false') {
+    return false
+  }
+
+  return value
 }
 
 function sanitize (array) {

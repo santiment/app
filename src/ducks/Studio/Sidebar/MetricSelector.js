@@ -1,17 +1,27 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import cx from 'classnames'
 import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import { NO_GROUP } from './utils'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
+import { Metrics } from '../../SANCharts/data'
 import styles from './MetricSelector.module.scss'
 
-const MetricButton = ({ className, metric, label, isActive, onClick }) => (
+const { price_usd } = Metrics
+
+const MetricButton = ({
+  className,
+  metric,
+  label,
+  isActive,
+  isDisabled,
+  onClick
+}) => (
   <Button
     variant='ghost'
-    className={cx(styles.btn, className)}
-    onClick={onClick}
+    className={cx(styles.btn, className, isDisabled && styles.btn_disabled)}
     isActive={isActive}
+    onClick={onClick}
   >
     <div className={styles.btn__left}>
       <Icon
@@ -33,7 +43,10 @@ const Group = ({
   advancedView,
   toggleMetric,
   toggleAdvancedView,
-  Timebound
+  toggleICOPrice,
+  Timebound,
+  options,
+  isICOPriceDisabled
 }) => {
   return (
     <>
@@ -53,6 +66,16 @@ const Group = ({
               isActive={actives.includes(metric)}
               onClick={() => toggleMetric(metric)}
             />
+            {/* TODO: refactor 'ICO Price', 'advancedView' and 'Timebounds' to be a submetric array [@vanguard | March 10, 2020] */}
+            {metric === price_usd && (
+              <MetricButton
+                className={styles.advanced}
+                label='ICO Price'
+                isActive={options.isICOPriceActive}
+                isDisabled={isICOPriceDisabled || !actives.includes(metric)}
+                onClick={toggleICOPrice}
+              />
+            )}
             {metric.advancedView && (
               <MetricButton
                 className={styles.advanced}
@@ -111,7 +134,25 @@ const MetricSelector = ({
   activeEvents,
   ...rest
 }) => {
+  const { options, setOptions } = rest
   const actives = activeMetrics.concat(activeEvents)
+
+  useEffect(
+    () => {
+      if (options.isICOPriceActive && !activeMetrics.includes(price_usd)) {
+        setOptions(state => ({ ...state, isICOPriceActive: false }))
+      }
+    },
+    [activeMetrics]
+  )
+
+  function toggleICOPrice () {
+    setOptions(state => ({
+      ...state,
+      isICOPriceActive: !state.isICOPriceActive
+    }))
+  }
+
   return (
     <div className={styles.wrapper}>
       {Object.keys(categories).map(key => (
@@ -120,6 +161,7 @@ const MetricSelector = ({
           title={key}
           groups={categories[key]}
           actives={actives}
+          toggleICOPrice={toggleICOPrice}
           {...rest}
         />
       ))}
