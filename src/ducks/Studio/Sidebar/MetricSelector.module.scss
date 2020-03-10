@@ -90,6 +90,15 @@
   height: auto;
   z-index: 1;
 
+  &_disabled {
+    color: var(--casper);
+    pointer-events: none;
+
+    .plus {
+      fill: var(--casper);
+    }
+  }
+
   &__left {
     display: flex;
     align-items: center;

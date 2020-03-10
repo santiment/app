@@ -53,7 +53,8 @@ const Chart = ({
   isAdvancedView,
   isWideChart,
   isNightModeEnabled,
-  isCartesianGridActive
+  isCartesianGridActive,
+  children
 }) => {
   let [chart, setChart] = useState()
   let [brush, setBrush] = useState()
@@ -278,6 +279,12 @@ const Chart = ({
         metrics={metrics}
       />
       {isLoading && <Loader />}
+      {React.Children.map(children, child =>
+        React.cloneElement(child, {
+          chart,
+          scale
+        })
+      )}
     </div>
   )
 }

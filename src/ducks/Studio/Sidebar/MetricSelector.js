@@ -6,12 +6,19 @@ import { NO_GROUP } from './utils'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import styles from './MetricSelector.module.scss'
 
-const MetricButton = ({ className, metric, label, isActive, onClick }) => (
+const MetricButton = ({
+  className,
+  metric,
+  label,
+  isActive,
+  isDisabled,
+  onClick
+}) => (
   <Button
     variant='ghost'
-    className={cx(styles.btn, className)}
-    onClick={onClick}
+    className={cx(styles.btn, className, isDisabled && styles.btn_disabled)}
     isActive={isActive}
+    onClick={onClick}
   >
     <div className={styles.btn__left}>
       <Icon
@@ -53,6 +60,15 @@ const Group = ({
               isActive={actives.includes(metric)}
               onClick={() => toggleMetric(metric)}
             />
+            {/* TODO: refactor 'ICO Price', 'advancedView' and 'Timebounds' to be a submetric array [@vanguard | March 10, 2020] */}
+            {metric.key === 'price_usd' && (
+              <MetricButton
+                className={styles.advanced}
+                label='ICO Price'
+                isDisabled={!actives.includes(metric)}
+                onClick={() => toggleMetric(metric)}
+              />
+            )}
             {metric.advancedView && (
               <MetricButton
                 className={styles.advanced}
