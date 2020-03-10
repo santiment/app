@@ -17,8 +17,10 @@ const PROJECT_ICO_PRICE_QUERY = gql`
 const { price_usd } = Metrics
 const { formatter } = price_usd
 
-const IcoPrice = ({ chart, scale, slug, className }) => {
-  const [{ top, price }, setValue] = useState({})
+const DEFAULT_VALUE = {}
+
+const IcoPrice = ({ chart, scale, slug, className, onEmptyResult }) => {
+  const [{ top, price, isOnChart }, setValue] = useState(DEFAULT_VALUE)
   const { data, loading } = useQuery(PROJECT_ICO_PRICE_QUERY, {
     variables: {
       slug
@@ -33,20 +35,29 @@ const IcoPrice = ({ chart, scale, slug, className }) => {
       if (!data || !priceMinMax) return
       const { icoPrice } = data.project
 
-      if (!icoPrice) return
+      if (!icoPrice) {
+        setValue(DEFAULT_VALUE)
+        return onEmptyResult && onEmptyResult()
+      }
 
       const { min, max } = priceMinMax
 
+      const isOnChart = icoPrice > min && icoPrice < max
+
       setValue({
-        top: scale(height, min, max)(icoPrice),
-        price: formatter(data.project.icoPrice)
+        isOnChart,
+        top: isOnChart ? scale(height, min, max)(icoPrice) : 0,
+        price: formatter(icoPrice)
       })
     },
     [data, priceMinMax, height]
   )
 
-  return !loading && top ? (
-    <div className={cx(styles.wrapper, className)} style={{ left, top }}>
+  return !loading && price ? (
+    <div
+      className={cx(styles.wrapper, isOnChart && styles.dashed, className)}
+      style={{ left, top }}
+    >
       <div className={styles.label}>
         ICO price
         <span className={styles.value}> {price}</span>

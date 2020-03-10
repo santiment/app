@@ -39,6 +39,7 @@ const Studio = ({
   const [advancedView, setAdvancedView] = useState()
   const [hoveredDate, setHoveredDate] = useState()
   const [shareLink, setShareLink] = useState()
+  const [isICOPriceDisabled, setIsICOPriceDisabled] = useState()
   const [data, loadings] = useTimeseries(activeMetrics, settings)
   const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
   const chartRef = useRef(null)
@@ -126,6 +127,7 @@ const Studio = ({
     const { slug, name, ticker, id: projectId } = project
     const title = `${name} (${ticker})`
     setSettings(state => ({ ...state, slug, title, projectId, ticker }))
+    setIsICOPriceDisabled(false)
     onSlugChange(slug)
   }
 
@@ -148,6 +150,7 @@ const Studio = ({
         setOptions={setOptions}
         toggleMetric={toggleMetric}
         toggleAdvancedView={toggleAdvancedView}
+        isICOPriceDisabled={isICOPriceDisabled}
       />
       <div className={styles.header}>
         {topSlot}
@@ -190,6 +193,7 @@ const Studio = ({
               loadings={loadings}
               eventLoadings={eventLoadings}
               changeHoveredDate={changeHoveredDate}
+              setIsICOPriceDisabled={setIsICOPriceDisabled}
             />
           </div>
           {advancedView && (

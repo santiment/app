@@ -91,7 +91,7 @@
   z-index: 1;
 
   &_disabled {
-    color: var(--casper);
+    color: var(--casper) !important;
     pointer-events: none;
 
     .plus {

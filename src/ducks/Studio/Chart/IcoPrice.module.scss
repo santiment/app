@@ -4,9 +4,12 @@
   pointer-events: none;
   position: absolute;
   z-index: 10;
-  transform: translateY(-49%);
   right: 0;
   font-size: 0;
+}
+
+.dashed {
+  transform: translateY(-49%);
 
   &::after {
     content: '';

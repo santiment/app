@@ -32,6 +32,7 @@ const Canvas = ({
   isMultiChartsActive,
   syncedTooltipDate,
   isAnon,
+  setIsICOPriceDisabled,
   ...props
 }) => {
   const [isExplained, setIsExplained] = useState()
@@ -109,7 +110,12 @@ const Canvas = ({
         isWideChart={isExplained}
       >
         {options.isICOPriceActive && (
-          <IcoPrice {...settings} metrics={metrics} className={styles.ico} />
+          <IcoPrice
+            {...settings}
+            metrics={metrics}
+            className={styles.ico}
+            onEmptyResult={() => setIsICOPriceDisabled(true)}
+          />
         )}
       </Chart>
 

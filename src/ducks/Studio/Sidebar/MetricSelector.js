@@ -45,7 +45,8 @@ const Group = ({
   toggleAdvancedView,
   toggleICOPrice,
   Timebound,
-  options
+  options,
+  isICOPriceDisabled
 }) => {
   return (
     <>
@@ -71,7 +72,7 @@ const Group = ({
                 className={styles.advanced}
                 label='ICO Price'
                 isActive={options.isICOPriceActive}
-                isDisabled={!actives.includes(metric)}
+                isDisabled={isICOPriceDisabled || !actives.includes(metric)}
                 onClick={toggleICOPrice}
               />
             )}

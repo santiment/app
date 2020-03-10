@@ -19,7 +19,7 @@ export const DEFAULT_SETTINGS = {
 
 export const DEFAULT_OPTIONS = {
   isLogScale: false,
-  isICOPriceActive: false,
+  isICOPriceActive: true,
   isAnomalyActive: getSavedToggle('isAnomalyActive'),
   isMultiChartsActive: getSavedToggle('isMultiChartsActive', true),
   isCartesianGridActive: getSavedToggle('isCartesianGridActive', true)
