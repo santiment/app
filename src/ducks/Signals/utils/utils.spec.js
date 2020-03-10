@@ -16,6 +16,7 @@ const TRIGGERS = [
       target: { slug: 'santiment' },
       time_window: '1d',
       type: 'metric_signal',
+      metric: 'price_usd',
       operation: {
         percent_up: 5
       }
@@ -110,7 +111,13 @@ const FORM_PROPS = [
     isActive: false,
     isPublic: false,
     isRepeating: true,
-    metric: undefined,
+    metric: {
+      label: 'Price',
+      value: 'price',
+      description: 'Notify me when an asset’s price moves a certain way',
+      type: 'metric_signal',
+      metric: 'price_usd'
+    },
     percentThreshold: 5,
     signalType: { label: 'Assets', value: 'assets' },
     target: { label: 'santiment', value: 'santiment' },
