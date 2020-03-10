@@ -3,25 +3,25 @@ import COLOR from '@santiment-network/ui/variables.scss'
 export const dayAxesColor = COLOR.porcelain
 export const nightAxesColor = COLOR['cloud-burst']
 
-export const dayHoverLineColor = COLOR.mystic
+export const dayHoverLineColor = COLOR.casper
 export const nightHoverLineColor = COLOR.rhino
 
 export const dayTicksPaintConfig = {
   color: COLOR.casper,
-  font: '12px sans-serif'
+  font: '10px sans-serif'
 }
 export const nightTicksPaintConfig = {
   color: COLOR.fiord,
-  font: '12px sans-serif'
+  font: '10px sans-serif'
 }
 
 export const dayBubblesPaintConfig = {
-  font: '12px sans-serif',
-  bgColor: COLOR.porcelain,
-  textColor: COLOR.waterloo
+  font: '10px sans-serif',
+  bgColor: COLOR.waterloo,
+  textColor: COLOR.porcelain
 }
 export const nightBubblesPaintConfig = {
-  font: '12px sans-serif',
+  font: '10px sans-serif',
   bgColor: COLOR['cloud-burst'],
   textColor: COLOR['bali-hai']
 }

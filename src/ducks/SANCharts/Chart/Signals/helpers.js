@@ -1,6 +1,8 @@
 import COLOR from '@santiment-network/ui/variables.scss'
 import { getTextWidth } from '@santiment-network/chart/utils'
 import { clearCtx } from '../utils'
+import { Metrics } from '../../data'
+import { buildPriceSignal, buildDAASignal } from '../../../Signals/utils/utils'
 
 export const SIGNAL_BELOW = 'BELOW'
 export const SIGNAL_ABOVE = 'ABOVE'
@@ -56,18 +58,28 @@ function drawLine (ctx, startX, endX, y) {
   ctx.stroke()
 }
 
-export function findPriceByY (chart, y) {
+export function findMetricValueByY (chart, { key }, y) {
   const { minMaxes, height, top } = chart
 
   if (!minMaxes) {
     return
   }
 
-  const { min, max } = minMaxes.price_usd
+  const { min, max } = minMaxes[key]
 
   const factor = (max - min) / height
 
   return factor * (height - (y - top)) + min
+}
+
+export function findMetricLastValue (data, { key }) {
+  for (let i = data.length - 1; i > -1; i--) {
+    const value = data[i][key]
+
+    if (value) {
+      return value
+    }
+  }
 }
 
 export function drawHoveredSignal (chart, y, texts) {
@@ -117,4 +129,11 @@ export function makeSignalDrawable (
     type: below ? SIGNAL_BELOW : SIGNAL_ABOVE,
     y: scale(height, min, max)(value) + top
   }
+}
+
+export const checkPriceMetric = metric => metric === Metrics.price_usd
+
+export const AlertBuilder = {
+  price_usd: buildPriceSignal,
+  daily_active_addresses: buildDAASignal
 }

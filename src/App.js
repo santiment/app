@@ -45,8 +45,8 @@ export const PATHS = {
   GDPR: '/gdpr'
 }
 
-const FOOTER_DISABLED_FOR = [
-  PATHS.FEED,
+const FOOTER_DISABLED_FOR = [PATHS.FEED]
+const FOOTER_ABSOLUTE_FOR = [
   PATHS.LOGIN,
   PATHS.LOGIN_VIA_EMAIL,
   PATHS.CREATE_ACCOUNT,
@@ -218,7 +218,8 @@ export const App = ({
   hasMetamask,
   isBetaModeEnabled,
   location,
-  showFooter
+  showFooter,
+  location: { pathname }
 }) => (
   <div className='App'>
     {isOffline && (
@@ -234,9 +235,9 @@ export const App = ({
     {isFullscreenMobile ? (
       undefined
     ) : isDesktop ? (
-      <Navbar activeLink={location.pathname} />
+      <Navbar activeLink={pathname} />
     ) : (
-      <MobileNavbar activeLink={location.pathname} />
+      <MobileNavbar activeLink={pathname} />
     )}
     <ErrorBoundary>
       <Switch>
@@ -445,7 +446,15 @@ export const App = ({
     </ErrorBoundary>
     <NotificationStack />
     <CookiePopup />
-    {isDesktop && showFooter && <Footer />}
+    {isDesktop && showFooter && (
+      <Footer
+        classes={{
+          footer:
+            FOOTER_ABSOLUTE_FOR.indexOf(pathname) !== -1 &&
+            styles.footerAbsolute
+        }}
+      />
+    )}
   </div>
 )
 
