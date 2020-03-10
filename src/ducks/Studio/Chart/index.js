@@ -108,7 +108,9 @@ const Canvas = ({
         syncedTooltipDate={isBlurred || syncedTooltipDate}
         isWideChart={isExplained}
       >
-        <IcoPrice {...settings} metrics={metrics} className={styles.ico} />
+        {options.isICOPriceActive && (
+          <IcoPrice {...settings} metrics={metrics} className={styles.ico} />
+        )}
       </Chart>
 
       {isBlurred && (

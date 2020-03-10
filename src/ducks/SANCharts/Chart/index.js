@@ -279,11 +279,14 @@ const Chart = ({
         metrics={metrics}
       />
       {isLoading && <Loader />}
-      {React.Children.map(children, child =>
-        React.cloneElement(child, {
-          chart,
-          scale
-        })
+      {React.Children.map(
+        children,
+        child =>
+          child &&
+          React.cloneElement(child, {
+            chart,
+            scale
+          })
       )}
     </div>
   )
