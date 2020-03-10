@@ -98,8 +98,6 @@ const SignalPreviewChart = ({
           isStrongDaily
         )
 
-        console.log(triggersBy, signals)
-
         const referenceDots =
           triggeredSignals.length > 0 && triggersBy
             ? GetReferenceDots(signals, getMetricYAxisId(triggersBy))

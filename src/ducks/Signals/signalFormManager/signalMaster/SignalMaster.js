@@ -22,6 +22,7 @@ import { checkIsLoggedIn } from '../../../../pages/UserSelectors'
 import styles from '../signalCrudForm/signal/TriggerForm.module.scss'
 
 const mapFormSettings = (baseSettings, meta) => {
+  console.log(baseSettings)
   const formMetric =
     meta && meta.metric ? meta.metric.value.value : PRICE_PERCENT_CHANGE
 

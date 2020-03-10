@@ -20,8 +20,6 @@ export const mapWithTimeseriesAndYCoord = (
   const { key, dataKey, historicalTriggersDataKey } = triggersBy
   const mappingKey = historicalTriggersDataKey || dataKey
 
-  console.log(mappingKey, triggersBy)
-
   const mapped = triggered.map(point => {
     const date = toDayConversion
       ? mapWithMidnightTime(point.datetime)

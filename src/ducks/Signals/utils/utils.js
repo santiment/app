@@ -129,7 +129,7 @@ const getFormTriggerTarget = ({ target, target: { eth_address }, asset }) => {
   }
 }
 
-const getFormTriggerType = (target, type, operation) => {
+const getFormTriggerType = ({ target, type, operation }) => {
   if (!operation) {
     switch (type) {
       case DAILY_ACTIVE_ADDRESSES: {
@@ -254,7 +254,33 @@ const getTriggerOperation = ({
   return mapped
 }
 
-const getFormMetric = (type, metric) => {
+const getFormMetric = ({ type, metric }) => {
+  switch (type) {
+    case METRIC_TYPES.METRIC_SIGNAL: {
+      switch (metric) {
+        case SIGNAL_METRIC_TYPES.active_addresses_24h: {
+          return DAILY_ACTIVE_ADDRESSES_METRIC
+        }
+        case SIGNAL_METRIC_TYPES.volume_usd: {
+          return PRICE_VOLUME_DIFFERENCE_METRIC
+        }
+        case SIGNAL_METRIC_TYPES.price_usd: {
+          return PRICE_METRIC
+        }
+        default: {
+          break
+        }
+      }
+      break
+    }
+    case METRIC_TYPES.WALLET_MOVEMENT: {
+      return ETH_WALLET_METRIC
+    }
+    default: {
+      break
+    }
+  }
+
   switch (type) {
     case ETH_WALLET: {
       return ETH_WALLET_METRIC
@@ -354,7 +380,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     settings,
     title,
     description,
-    settings: { type, metric, operation, time_window, target, channel }
+    settings: { time_window, channel }
   } = currentTrigger
   const frequencyModels = getFrequencyFromCooldown(currentTrigger)
   const absolutePriceValues = getAbsolutePriceValues(currentTrigger)
@@ -365,17 +391,18 @@ export const mapTriggerToFormProps = currentTrigger => {
     ethAddress,
     targetWatchlist
   } = getFormTriggerTarget(settings)
-  const newType = getFormTriggerType(target, type, operation)
+  const newType = getFormTriggerType(settings)
 
   const trendingWordsParams = getFormTrendingWords(currentTrigger)
+
   return {
     targetWatchlist,
-    ethAddress: ethAddress,
-    cooldown: cooldown,
+    ethAddress,
+    cooldown,
     isRepeating: isRepeating,
-    isActive: isActive,
-    isPublic: isPublic,
-    metric: getFormMetric(type, metric),
+    isActive,
+    isPublic,
+    metric: getFormMetric(settings),
     type: newType,
     timeWindow: time_window ? +time_window.match(/\d+/)[0] : '24',
     timeWindowUnit: time_window
@@ -385,6 +412,7 @@ export const mapTriggerToFormProps = currentTrigger => {
     signalType: signalType,
 
     ...getPercentTreshold(settings, newType),
+
     threshold: mapTriggerToFormThreshold(settings) || BASE_THRESHOLD,
     channels: Array.isArray(channel)
       ? channel.map(mapToFormChannel)
