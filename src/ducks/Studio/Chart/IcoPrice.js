@@ -32,6 +32,7 @@ const IcoPrice = ({ chart, scale, slug, className, onEmptyResult }) => {
   useEffect(
     () => {
       if (!data || !priceMinMax) return
+
       const { icoPrice } = data.project
 
       if (!icoPrice) {
