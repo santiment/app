@@ -14,8 +14,7 @@ const PROJECT_ICO_PRICE_QUERY = gql`
   }
 `
 
-const { price_usd } = Metrics
-const { formatter } = price_usd
+const { formatter } = Metrics.price_usd
 
 const DEFAULT_VALUE = {}
 
@@ -66,8 +65,4 @@ const IcoPrice = ({ chart, scale, slug, className, onEmptyResult }) => {
   ) : null
 }
 
-export default props => {
-  const { chart, metrics } = props
-
-  return chart && metrics.includes(price_usd) ? <IcoPrice {...props} /> : null
-}
+export default IcoPrice
