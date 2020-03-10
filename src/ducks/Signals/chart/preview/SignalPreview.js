@@ -57,7 +57,7 @@ const SignalPreviewChart = ({
   const metricsInterval = isStrongDaily ? '1d' : '1h'
 
   const metricRest = {
-    address: target && target.eth_address ? target.eth_address : ''
+    address: target && target.address ? target.address : ''
   }
 
   const requestedMetrics = mapToRequestedMetrics(metrics, {

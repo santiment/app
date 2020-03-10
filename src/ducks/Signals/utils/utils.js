@@ -101,9 +101,14 @@ const getTimeWindowUnit = timeWindow => {
   return TIME_WINDOW_UNITS.find(item => item.value === value)
 }
 
-const getFormTriggerTarget = ({ target, target: { eth_address }, asset }) => {
-  const parsingTarget = eth_address ? asset : target
-  const { slug, watchlist_id } = parsingTarget
+const getFormTriggerTarget = settings => {
+  const {
+    target,
+    target: { eth_address, address = eth_address },
+    selector,
+    asset
+  } = settings
+  const { slug, watchlist_id } = target
 
   if (watchlist_id) {
     return {
@@ -114,18 +119,29 @@ const getFormTriggerTarget = ({ target, target: { eth_address }, asset }) => {
     }
   }
 
-  const newTarget = Array.isArray(slug) ? mapToOptions(slug) : mapToOption(slug)
+  if (selector || address) {
+    const newEthAddress = address
+      ? Array.isArray(address)
+        ? mapToOptions(address)
+        : mapToOptions([address])
+      : undefined
 
-  const newEthAddress = eth_address
-    ? Array.isArray(eth_address)
-      ? mapToOptions(eth_address)
-      : mapToOptions([eth_address])
-    : undefined
+    return {
+      ethAddress: newEthAddress,
+      target: selector
+        ? {
+          slug: selector.currency
+        }
+        : asset,
+      signalType: METRIC_TARGET_ASSETS
+    }
+  }
+
+  const newTarget = Array.isArray(slug) ? mapToOptions(slug) : mapToOption(slug)
 
   return {
     target: newTarget,
-    signalType: METRIC_TARGET_ASSETS,
-    ethAddress: newEthAddress
+    signalType: METRIC_TARGET_ASSETS
   }
 }
 
@@ -526,7 +542,7 @@ export const mapFomTargetToTriggerTarget = (
     default: {
       if (address) {
         return {
-          target: { eth_address: mapTargetObject(address) }
+          target: { address: mapTargetObject(address) }
         }
       } else {
         return {
@@ -543,15 +559,27 @@ export const mapTargetObject = (target, mapper = targetMapper) => {
     : mapper(target)
 }
 
-export const mapAssetTarget = (target, ethAddress) => {
+export const mapAssetTarget = ({ target, ethAddress }) => {
   if (!ethAddress) {
     return {
-      asset: { slug: 'ethereum' }
+      selector: { currency: 'ethereum', infrastructure: 'ETH' }
     }
   }
+
   return {
-    asset: { slug: mapTargetObject(target) }
+    selector: {
+      currency: mapTargetObject(target),
+      infrastructure: mapTargetInfrastructure(target)
+    }
   }
+}
+
+const mapTargetInfrastructure = target => {
+  if (Array.isArray(target)) {
+    return target[0].infrastructure
+  }
+
+  return target.infrastructure
 }
 
 const mapToTriggerChannel = formLabel => {
@@ -757,7 +785,7 @@ export const mapFormToHBTriggerSettings = formProps => {
   } = formProps
   const newAsset =
     signalType.value === METRIC_TARGET_ASSETS.value
-      ? mapAssetTarget(target, ethAddress)
+      ? mapAssetTarget({ target, ethAddress })
       : undefined
 
   const newTarget = mapFomTargetToTriggerTarget(
@@ -1200,7 +1228,7 @@ export const couldShowChart = (
   settings,
   types = POSSIBLE_METRICS_FOR_CHART
 ) => {
-  const { signalType, target = {}, ethAddress = target.eth_address } = settings
+  const { signalType, target = {}, ethAddress = target.address } = settings
 
   if (signalType && isWatchlist(signalType)) {
     return false
