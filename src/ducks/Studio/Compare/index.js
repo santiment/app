@@ -24,9 +24,7 @@ const Compare = ({
   useEffect(
     () => {
       setProjects(
-        allProjects
-          .filter(project => project.slug !== slug)
-          .sort(projectSorter)
+        allProjects.filter(project => project.slug !== slug).sort(projectSorter)
       )
     },
     [allProjects, slug]

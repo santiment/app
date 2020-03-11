@@ -40,7 +40,8 @@ export const stories = [
         buttonLink: 'https://app.santiment.net/account#notifications',
         buttonText: 'Turn on "Weekly Brief"'
       }
-    ]
+    ],
+    createdAt: '2020-01-19T00:00:00Z'
   },
   {
     type: 'SLIDES',
@@ -201,7 +202,8 @@ export const stories = [
         buttonLink: 'http://insights.santiment.net',
         buttonText: 'Community UnAuth'
       }
-    ]
+    ],
+    createdAt: '2020-01-19T00:00:00Z'
   },
   {
     type: 'SLIDES',
@@ -267,7 +269,8 @@ export const stories = [
         buttonLink: 'https://graphs.santiment.net/makerdao',
         buttonText: 'See MakerDAO Report'
       }
-    ]
+    ],
+    createdAt: '2020-01-19T00:00:00Z'
   },
   {
     type: 'SLIDES',
@@ -372,7 +375,8 @@ export const stories = [
         buttonLink: 'http://sheets.santiment.net',
         buttonText: 'Explore Sansheets'
       }
-    ]
+    ],
+    createdAt: '2020-01-19T00:00:00Z'
   },
   {
     type: 'VIDEO',
@@ -386,7 +390,8 @@ export const stories = [
           'Setup push or Telegram notifications to trigger any time an asset starts trending on social media via our Emerging Trends Tool to potentially spot local tops!',
         videoId: 'AsZRjm9x5HI'
       }
-    ]
+    ],
+    createdAt: '2020-01-19T00:00:00Z'
   },
   {
     type: 'VIDEO',
@@ -401,7 +406,8 @@ export const stories = [
           'Recieve alerts via push or Telegram notification any time an asset crosses a price threshold, there is a significant change to the number of addresses transacting on-chain, and more!',
         videoId: 'mjImmjeYEVI'
       }
-    ]
+    ],
+    createdAt: '2020-01-19T00:00:00Z'
   },
   {
     type: 'VIDEO',
@@ -416,6 +422,7 @@ export const stories = [
           "Populate a private or public watchlist with assets you'd like to track to see their price/volume action, development activity, on-chain addresses, and several other features!",
         videoId: 'yzo1gxoTFsk'
       }
-    ]
+    ],
+    createdAt: '2020-01-19T00:00:00Z'
   }
 ]

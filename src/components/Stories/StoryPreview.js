@@ -2,35 +2,40 @@ import React from 'react'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import StoryType from './StoryType'
 import { TYPES } from './utils'
 import styles from './StoryPreview.module.scss'
+import { addDays } from '../../utils/dates'
+
+const LIMIT_DAYS = 7
 
 const StoryPreview = ({
   className = '',
-  isViewed = true,
   previewTitle,
   onClick,
   previewImage,
+  createdAt,
   type,
   ...info
 }) => {
+  const isNew = addDays(new Date(), -1 * LIMIT_DAYS) <= new Date(createdAt)
+
   return (
     <Panel className={cx(styles.wrapper, className)} onClick={onClick}>
       <div className={styles.info}>
         <h4 className={styles.heading}>
-          {!isViewed && (
+          {isNew && (
             <Label
-              className={styles.new}
+              className={styles.newLabel}
               accent={TYPES[type].color}
               variant='fill'
             >
               NEW
             </Label>
           )}
-          <span className={styles.title}>{previewTitle}</span>
+          <span className={cx(styles.title, isNew && styles.newTitle)}>
+            {previewTitle}
+          </span>
         </h4>
-        <StoryType {...info} type={type} className={styles.type} />
       </div>
       <div className={styles.image}>
         <img
