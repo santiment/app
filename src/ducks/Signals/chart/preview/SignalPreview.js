@@ -151,13 +151,13 @@ const SignalPreview = ({
   showExpand = true,
   showTitle = true
 }) => {
-  const { settings: { target, asset } = {}, cooldown } = trigger
+  const { settings: { target, asset, selector } = {}, cooldown } = trigger
 
   if (!target && !asset) {
     return null
   }
 
-  const slug = mapTargetObject(asset || target)
+  const slug = mapTargetObject(selector || asset || target)
 
   return (
     <Query

@@ -6,6 +6,7 @@
   color: var(--casper);
   margin-left: auto;
   margin-bottom: auto;
+  min-width: 110px;
 
   @include responsive('phone', 'phone-xs') {
     margin: 0 0 12px 0;

@@ -87,7 +87,8 @@ export const mapToOption = item => {
   }
 }
 
-export const targetMapper = ({ value, slug } = {}) => slug || value
+export const targetMapper = ({ value, slug, currency } = {}) =>
+  slug || value || currency
 export const targetMapperWithName = ({ value, slug, name } = {}) =>
   name || slug || value
 
@@ -1221,14 +1222,26 @@ export const descriptionBlockErrors = values => {
   return errors
 }
 
-export const getCheckingMetric = ({ metric, type }) =>
-  metric ? metric.value : type
+export const getCheckingMetric = settings => {
+  const { metric, type } = settings
+
+  if (typeof type === 'string') {
+    return type
+  }
+
+  return metric ? metric.value : type
+}
 
 export const couldShowChart = (
   settings,
   types = POSSIBLE_METRICS_FOR_CHART
 ) => {
-  const { signalType, target = {}, ethAddress = target.address } = settings
+  const {
+    signalType,
+    target = {},
+    ethAddress = target.address,
+    selector
+  } = settings
 
   if (signalType && isWatchlist(signalType)) {
     return false
@@ -1238,14 +1251,16 @@ export const couldShowChart = (
   const notSingleArray =
     (isArray && target.length !== 1) || !mapTargetObject(target)
 
-  if (notSingleArray) {
-    return false
-  }
-
   const checking = getCheckingMetric(settings)
 
+  console.log('checking', checking)
   switch (checking) {
+    case METRIC_TYPES.WALLET_MOVEMENT:
     case ETH_WALLET: {
+      if (selector) {
+        return selector.currency && selector.infrastructure
+      }
+
       return Array.isArray(ethAddress) ? ethAddress.length === 1 : !!ethAddress
     }
     case TRENDING_WORDS: {
@@ -1256,6 +1271,10 @@ export const couldShowChart = (
       return true
     }
     default: {
+      if (notSingleArray) {
+        return false
+      }
+
       if (!isArray && !targetMapper(target)) {
         return false
       }
