@@ -88,7 +88,7 @@ export const Metrics = {
     color: 'mystic',
     formatter: usdFormatter
   },
-  socialVolume: {
+  social_volume_total: {
     category: 'Social',
     node: 'bar',
     Component: Bar,

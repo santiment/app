@@ -84,6 +84,8 @@ const FormatToTimestamp = {
   [DAY]: ONE_DAY_IN_MS
 }
 
+const CRYPTO_ERA_START_DATE = new Date('2009-01-01 01:00:00Z')
+
 /**
  * @param {number} amount - Amount of days/months to add or substract
  * @param {'d'|'m'} dateFormat - Modifier
@@ -290,7 +292,14 @@ export const parseIntervalString = range => {
  */
 export const getIntervalByTimeRange = (timeRange, options = {}) => {
   if (timeRange === 'all') {
-    return getTimeIntervalFromToday(options.isMobile ? -24 : -60, MONTH)
+    if (options.isMobile) {
+      return getTimeIntervalFromToday(-24, MONTH)
+    }
+
+    return {
+      to: getTimeIntervalFromToday(-1, DAY).to,
+      from: CRYPTO_ERA_START_DATE
+    }
   }
 
   const result = parseIntervalString(timeRange)

@@ -18,7 +18,7 @@ const HighLow = props => (
 )
 
 export const Explanation = Object.assign(Object.create(null), {
-  socialVolume: ({ slug }) => (
+  social_volume_total: ({ slug }) => (
     <HighLow slug={slug} metric='social_volume_total' label='Social Volume' />
   ),
   socialDominance: ({ slug }) => (

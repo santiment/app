@@ -78,7 +78,7 @@ const Canvas = ({
         </div>
 
         <div className={styles.meta}>
-          <ChartPaywallInfo boundaries={boundaries} />
+          <ChartPaywallInfo boundaries={boundaries} metrics={metrics} />
           {hasExplanaibles && (
             <ChartMetricsExplanation.Button
               onClick={toggleExplanation}

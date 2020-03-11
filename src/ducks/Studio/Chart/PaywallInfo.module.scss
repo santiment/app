@@ -27,7 +27,7 @@
   border: 1px solid var(--porcelain);
   box-sizing: border-box;
   border-radius: 4px;
-  width: 230px;
+  width: 278px;
   padding: 16px 24px;
 }
 
@@ -47,5 +47,18 @@
   &_trial {
     margin-left: 8px;
     height: 32px;
+  }
+}
+
+.restriction {
+  margin-top: -12px;
+
+  @include text('caption');
+
+  color: var(--waterloo);
+
+  &::before {
+    content: '●';
+    margin-right: 8px;
   }
 }
