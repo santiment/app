@@ -2,7 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import Label from '@santiment-network/ui/Label'
 import Panel from '@santiment-network/ui/Panel/Panel'
-import StoryType from './StoryType'
 import { TYPES } from './utils'
 import styles from './StoryPreview.module.scss'
 
@@ -30,7 +29,6 @@ const StoryPreview = ({
           )}
           <span className={styles.title}>{previewTitle}</span>
         </h4>
-        <StoryType {...info} type={type} className={styles.type} />
       </div>
       <div className={styles.image}>
         <img
