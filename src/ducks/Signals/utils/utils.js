@@ -575,12 +575,14 @@ export const mapAssetTarget = ({ target, ethAddress }) => {
   }
 }
 
+const ETH_INFRASTRUCTURE = 'ETH'
+
 const mapTargetInfrastructure = target => {
   if (Array.isArray(target)) {
-    return target[0].infrastructure
+    return target[0].infrastructure || ETH_INFRASTRUCTURE
   }
 
-  return target.infrastructure
+  return target.infrastructure || ETH_INFRASTRUCTURE
 }
 
 const mapToTriggerChannel = formLabel => {
@@ -654,7 +656,9 @@ export const getTrendingWordsTarget = ({
     }
     case TRENDING_WORDS_WATCHLIST_MENTIONED.value: {
       return {
-        watchlist_id: +(targetWatchlist.id || targetWatchlist.value)
+        watchlist_id: targetWatchlist
+          ? +(targetWatchlist.id || targetWatchlist.value)
+          : undefined
       }
     }
     default: {
@@ -1232,6 +1236,16 @@ export const getCheckingMetric = settings => {
   return metric ? metric.value : type
 }
 
+export const getPreviewTarget = ({ selector, asset, target }) => {
+  const item = mapTargetObject(selector || asset || target)
+
+  if (Array.isArray(item)) {
+    return item.length === 1 ? item[0] : false
+  }
+
+  return item
+}
+
 export const couldShowChart = (
   settings,
   types = POSSIBLE_METRICS_FOR_CHART
@@ -1239,7 +1253,7 @@ export const couldShowChart = (
   const {
     signalType,
     target = {},
-    ethAddress = target.address,
+    ethAddress = target.address || target.eth_address,
     selector
   } = settings
 
@@ -1247,13 +1261,14 @@ export const couldShowChart = (
     return false
   }
 
+  if (!getPreviewTarget(settings)) {
+    return false
+  }
+
   const isArray = Array.isArray(target)
-  const notSingleArray =
-    (isArray && target.length !== 1) || !mapTargetObject(target)
 
   const checking = getCheckingMetric(settings)
 
-  console.log('checking', checking)
   switch (checking) {
     case METRIC_TYPES.WALLET_MOVEMENT:
     case ETH_WALLET: {
@@ -1264,17 +1279,9 @@ export const couldShowChart = (
       return Array.isArray(ethAddress) ? ethAddress.length === 1 : !!ethAddress
     }
     case TRENDING_WORDS: {
-      if (notSingleArray) {
-        return false
-      }
-
       return true
     }
     default: {
-      if (notSingleArray) {
-        return false
-      }
-
       if (!isArray && !targetMapper(target)) {
         return false
       }

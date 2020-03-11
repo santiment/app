@@ -26,7 +26,6 @@ export const ASSETS_BY_WALLET_QUERY = gql`
     assetsHeldByAddress(address: $address) {
       slug
       balance
-      infrastructure
     }
   }
 `

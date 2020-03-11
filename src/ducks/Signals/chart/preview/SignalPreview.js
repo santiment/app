@@ -5,9 +5,9 @@ import {
   getCheckingMetric,
   getNewMetricsByType,
   getOldMetricsByType,
+  getPreviewTarget,
   getTimeRangeForChart,
-  isNewTypeSignal,
-  mapTargetObject
+  isNewTypeSignal
 } from '../../utils/utils'
 import { Metrics } from '../../../SANCharts/data'
 import { getMetricYAxisId } from '../../../SANCharts/utils'
@@ -151,13 +151,13 @@ const SignalPreview = ({
   showExpand = true,
   showTitle = true
 }) => {
-  const { settings: { target, asset, selector } = {}, cooldown } = trigger
+  const { settings, settings: { target, asset } = {}, cooldown } = trigger
 
   if (!target && !asset) {
     return null
   }
 
-  const slug = mapTargetObject(selector || asset || target)
+  const slug = getPreviewTarget(settings)
 
   return (
     <Query

@@ -122,7 +122,6 @@ const ActivityWithBacktesting = ({
             <DesktopOnly>
               <FeedCardDate date={triggeredAt || date} />
             </DesktopOnly>
-
             <SignalPreview
               trigger={trigger}
               type={type}
