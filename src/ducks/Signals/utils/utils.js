@@ -536,7 +536,7 @@ export const mapFomTargetToTriggerTarget = (
     case METRIC_TARGET_WATCHLIST.value: {
       return {
         target: {
-          watchlist_id: +targetWatchlist.id
+          watchlist_id: targetWatchlist ? +targetWatchlist.id : undefined
         }
       }
     }
