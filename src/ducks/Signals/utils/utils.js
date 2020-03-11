@@ -578,8 +578,8 @@ export const mapAssetTarget = ({ target, ethAddress }) => {
 const ETH_INFRASTRUCTURE = 'ETH'
 
 const mapTargetInfrastructure = target => {
-  if (Array.isArray(target)) {
-    return target[0].infrastructure || ETH_INFRASTRUCTURE
+  if (Array.isArray(target) && target[0] && target[0].infrastructure) {
+    return target[0].infrastructure
   }
 
   return target.infrastructure || ETH_INFRASTRUCTURE
