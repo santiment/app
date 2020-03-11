@@ -26,6 +26,7 @@ const ETHEREUM = {
   id: 57,
   slug: 'ethereum',
   ticker: 'ETH',
+  infrastructure: 'ETH',
   name: 'ethereum'
 }
 
@@ -205,6 +206,7 @@ const TriggerFormHistoricalBalance = ({
             target={target}
             projects={selectableProjects}
             setFieldValue={setFieldValue}
+            isSingle
           />
         </div>
       </div>

@@ -3,9 +3,11 @@ import { Query } from '@apollo/react-components'
 import Loader from '@santiment-network/ui/Loader/Loader'
 import {
   getCheckingMetric,
-  getMetricsByType,
+  getNewMetricsByType,
+  getOldMetricsByType,
+  getPreviewTarget,
   getTimeRangeForChart,
-  mapTargetObject
+  isNewTypeSignal
 } from '../../utils/utils'
 import { Metrics } from '../../../SANCharts/data'
 import { getMetricYAxisId } from '../../../SANCharts/utils'
@@ -37,22 +39,25 @@ const PreviewLoader = (
 
 const SignalPreviewChart = ({
   target,
-  type,
+  type: oldSignalType,
   slug,
   timeRange,
   label,
   points,
   showExpand,
-  showTitle
+  showTitle,
+  trigger
 }) => {
   let triggeredSignals = points.filter(point => point['triggered?'])
-  const { metrics, triggersBy } = getMetricsByType(type)
+  const { metrics, triggersBy } = isNewTypeSignal(trigger)
+    ? getOldMetricsByType(oldSignalType)
+    : getNewMetricsByType(trigger)
 
-  const isStrongDaily = type === DAILY_ACTIVE_ADDRESSES
+  const isStrongDaily = oldSignalType === DAILY_ACTIVE_ADDRESSES
   const metricsInterval = isStrongDaily ? '1d' : '1h'
 
   const metricRest = {
-    address: target && target.eth_address ? target.eth_address : ''
+    address: target && target.address ? target.address : ''
   }
 
   const requestedMetrics = mapToRequestedMetrics(metrics, {
@@ -146,13 +151,13 @@ const SignalPreview = ({
   showExpand = true,
   showTitle = true
 }) => {
-  const { settings: { target, asset } = {}, cooldown } = trigger
+  const { settings, settings: { target, asset } = {}, cooldown } = trigger
 
   if (!target && !asset) {
     return null
   }
 
-  const slug = mapTargetObject(asset || target)
+  const slug = getPreviewTarget(settings)
 
   return (
     <Query
@@ -194,7 +199,7 @@ const SignalPreview = ({
             showExpand={showExpand}
             showTitle={showTitle}
             target={target}
-            interval={cooldown}
+            trigger={trigger}
           />
         )
       }}

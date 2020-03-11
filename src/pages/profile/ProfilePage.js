@@ -2,6 +2,7 @@ import React from 'react'
 import { compose } from 'recompose'
 import { graphql } from 'react-apollo'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import cx from 'classnames'
 import ProfileInfo, { ShareProfile } from './info/ProfileInfo'
 import MobileHeader from '../../components/MobileHeader/MobileHeader'
@@ -12,7 +13,6 @@ import { mapQSToState } from '../../utils/utils'
 import ProfileActivities from './activities/ProfileActivities'
 import { updateCurrentUserQueryCache } from './follow/FollowBtn'
 import styles from './ProfilePage.module.scss'
-import { Redirect } from 'react-router-dom'
 
 const getQueryVariables = ({
   currentUser,

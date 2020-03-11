@@ -4,19 +4,19 @@ import MultilineText from '../MultilineText/MultilineText'
 import { SignalTypeIcon } from './controls/SignalControls'
 import styles from './card/SignalCard.module.scss'
 
-export const SignalCardWrapper = ({
-  isModal = true,
-  trigger,
-  type,
-  children
-}) => {
-  const { id, description, title } = trigger
+export const SignalCardWrapper = ({ isModal = true, trigger, children }) => {
+  const {
+    id,
+    description,
+    title,
+    settings: { metric, type }
+  } = trigger
   return (
     <div className={styles.wrapper__top}>
       <div
         className={cx(styles.wrapper__left, styles.wrapper__left_subscription)}
       >
-        <SignalTypeIcon type={type} />
+        <SignalTypeIcon type={type} metric={metric} />
       </div>
       <div className={styles.wrapper__right}>
         <div id={id} className={isModal ? styles.upper : ''}>

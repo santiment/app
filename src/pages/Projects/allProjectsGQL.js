@@ -86,12 +86,13 @@ export const RECENT_ASSET_QUERY = gql`
   ${PROJECT_RECENT_DATA_FRAGMENT}
 `
 
-export const allProjectsForSearchGQL = gql`
+export const ALL_PROJECTS_FOR_SEARCH_QUERY = gql`
   query allProjects($minVolume: Int!) {
     allProjects(minVolume: $minVolume) {
       ...generalData
       marketcapUsd
       rank
+      infrastructure
     }
   }
   ${generalData}
@@ -157,6 +158,7 @@ export const ALL_ERC20_PROJECTS_QUERY = gql`
       ticker
       slug
       mainContractAddress
+      infrastructure
     }
   }
 `

@@ -13,19 +13,22 @@ export const mapWithMidnightTime = date => {
 
 export const mapWithTimeseriesAndYCoord = (
   triggered,
-  { key, dataKey, historicalTriggersDataKey = dataKey },
+  triggersBy,
   timeseries,
   toDayConversion = true
 ) => {
+  const { key, dataKey, historicalTriggersDataKey } = triggersBy
+  const mappingKey = historicalTriggersDataKey || dataKey
+
   const mapped = triggered.map(point => {
     const date = toDayConversion
       ? mapWithMidnightTime(point.datetime)
       : +new Date(point.datetime)
     const item = timeseries.find(({ datetime }) => datetime === date)
 
-    const yCoord =
-      item && item[dataKey] ? item[dataKey] : point[historicalTriggersDataKey]
+    const fromTimeseries = item ? item[dataKey] || item[key] : undefined
 
+    const yCoord = fromTimeseries || point[mappingKey] || point['current']
     return { date, yCoord, ...point }
   })
 

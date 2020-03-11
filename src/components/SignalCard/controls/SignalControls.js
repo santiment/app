@@ -5,19 +5,29 @@ import { Link } from 'react-router-dom'
 import {
   DAILY_ACTIVE_ADDRESSES,
   ETH_WALLET,
+  METRIC_TYPES,
   PRICE_ABSOLUTE_CHANGE,
   PRICE_PERCENT_CHANGE,
-  PRICE_VOLUME_DIFFERENCE
+  PRICE_VOLUME_DIFFERENCE,
+  SIGNAL_METRIC_TYPES
 } from '../../../ducks/Signals/utils/constants'
 import styles from './SignalControls.module.scss'
 
-const getIconStyles = type => {
+const getIconStyles = (type, metric) => {
   switch (type) {
+    case METRIC_TYPES.METRIC_SIGNAL: {
+      if (metric === SIGNAL_METRIC_TYPES.active_addresses_24h) {
+        return ['connection', styles.iconConnection]
+      } else {
+        return ['finance', styles.iconFinance]
+      }
+    }
     case PRICE_VOLUME_DIFFERENCE:
     case PRICE_ABSOLUTE_CHANGE:
     case PRICE_PERCENT_CHANGE: {
       return ['finance', styles.iconFinance]
     }
+    case METRIC_TYPES.WALLET_MOVEMENT:
     case ETH_WALLET:
     case DAILY_ACTIVE_ADDRESSES: {
       return ['connection', styles.iconConnection]
@@ -28,8 +38,8 @@ const getIconStyles = type => {
   }
 }
 
-export const SignalTypeIcon = ({ type, className }) => {
-  const [icon, iconClass] = getIconStyles(type)
+export const SignalTypeIcon = ({ type, metric, className }) => {
+  const [icon, iconClass] = getIconStyles(type, metric)
 
   return (
     <div className={cx(iconClass, className)}>

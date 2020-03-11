@@ -97,7 +97,7 @@ const TrendingPeriod = ({ period }) => {
 
   return (
     <div className={styles.ampm}>
-      ({getAmPmWithHours(hours - 8)} - {getAmPmWithHours(hours)})
+      ({getAmPmWithHours(hours - 24)} - {getAmPmWithHours(hours)})
     </div>
   )
 }

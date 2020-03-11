@@ -152,8 +152,8 @@ export const TriggerForm = ({
         } = values
 
         const { price } = lastPriceItem || {}
-
-        const showChart = target && couldShowChart(values)
+        const mappedTrigger = mapFormPropsToTrigger(values)
+        const showChart = target && couldShowChart(mappedTrigger.settings)
 
         const typeSelectors = METRIC_TO_TYPES[(metric || {}).value]
         const showTypes =
@@ -246,7 +246,7 @@ export const TriggerForm = ({
                       )}
                       <div className={styles.preview}>
                         <SignalPreview
-                          trigger={mapFormPropsToTrigger(values)}
+                          trigger={mappedTrigger}
                           type={metric.value}
                         />
                       </div>

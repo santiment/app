@@ -56,25 +56,26 @@ const InfoBlock = ({
           <ShareProfile />
         </DesktopOnly>
       </div>
-      {isLoggedIn && !isCurrentUser ? (
-        <FollowBtn
-          className={styles.followBtn}
-          users={followers.users}
-          userId={id}
-          updateCache={updateCache}
-        />
-      ) : (
-        <Button
-          className={styles.followBtn}
-          as={Link}
-          to='/account'
-          variant='fill'
-          accent='positive'
-        >
-          <Icon type='edit' className={styles.editIcon} />
-          Edit
-        </Button>
-      )}
+      {isLoggedIn &&
+        (!isCurrentUser ? (
+          <FollowBtn
+            className={styles.followBtn}
+            users={followers.users}
+            userId={id}
+            updateCache={updateCache}
+          />
+        ) : (
+          <Button
+            className={styles.followBtn}
+            as={Link}
+            to='/account'
+            variant='fill'
+            accent='positive'
+          >
+            <Icon type='edit' className={styles.editIcon} />
+            Edit
+          </Button>
+        ))}
     </div>
   )
 }

@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { Provider } from 'react-redux'
 import { MockedProvider } from 'react-apollo/test-utils'
 import { SignalMaster } from '../src/ducks/Signals/signalFormManager/signalMaster/SignalMaster'
-import { allProjectsForSearchGQL } from './../src/pages/Projects/allProjectsGQL'
+import { ALL_PROJECTS_FOR_SEARCH_QUERY } from './../src/pages/Projects/allProjectsGQL'
 import store from './store'
 
 const mockedData = {
@@ -14,7 +14,7 @@ const mockedData = {
 }
 
 const mocks = [
-  { request: { allProjectsForSearchGQL, variables: {minVolume: 0} }, result: { data: mockedData } }
+  { request: { allProjectsForSearchGQL: ALL_PROJECTS_FOR_SEARCH_QUERY, variables: {minVolume: 0} }, result: { data: mockedData } }
 ]
 
 storiesOf('Sonar', module)
