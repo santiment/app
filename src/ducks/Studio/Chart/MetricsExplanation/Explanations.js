@@ -6,6 +6,18 @@ const RANGE_HOURS = [
   {
     range: '7d',
     hours: 24 * 7
+  },
+  {
+    range: '1m',
+    hours: 24 * 30
+  },
+  {
+    range: '3m',
+    hours: 24 * 90
+  },
+  {
+    range: '6m',
+    hours: 24 * 180
   }
 ]
 
@@ -18,10 +30,10 @@ const HighLow = props => (
 )
 
 export const Explanation = Object.assign(Object.create(null), {
-  socialVolume: ({ slug }) => (
+  social_volume_total: ({ slug }) => (
     <HighLow slug={slug} metric='social_volume_total' label='Social Volume' />
   ),
-  socialDominance: ({ slug }) => (
+  social_dominance_total: ({ slug }) => (
     <HighLow
       slug={slug}
       metric='social_dominance_total'

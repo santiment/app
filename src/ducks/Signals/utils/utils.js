@@ -921,7 +921,7 @@ export const getOldMetricsByType = type => {
       }
     case TRENDING_WORDS:
       return {
-        metrics: [Metrics.price_usd, Metrics.socialVolume],
+        metrics: [Metrics.price_usd, Metrics.social_volume_total],
         triggersBy: Metrics.price_usd
       }
     case PRICE_VOLUME_DIFFERENCE:

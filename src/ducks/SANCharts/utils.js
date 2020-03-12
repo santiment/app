@@ -12,7 +12,7 @@ export const mapDatetimeToNumber = timeseries =>
   }))
 
 export const usdFormatter = val =>
-  val ? formatNumber(val, { currency: 'USD' }) : 'No data'
+  val || val === 0 ? formatNumber(val, { currency: 'USD' }) : 'No data'
 
 const getEventColor = (isAnomaly, value) => {
   if (isAnomaly || value < 4) {

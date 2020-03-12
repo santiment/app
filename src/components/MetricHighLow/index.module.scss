@@ -87,6 +87,12 @@
 
     padding: 0 8px;
   }
+
+  &_only {
+    cursor: not-allowed;
+    color: var(--waterloo);
+    background: var(--porcelain);
+  }
 }
 
 .loader {

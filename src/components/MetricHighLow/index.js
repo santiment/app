@@ -88,7 +88,13 @@ const MetricHighLow = ({
         ) : (
           <span className={styles.text}>High/Low {label}</span>
         )}
-        <Label className={styles.period} onClick={cycleRange}>
+        <Label
+          className={cx(
+            styles.period,
+            rangeHours.length === 1 && styles.period_only
+          )}
+          onClick={cycleRange}
+        >
           {range}
         </Label>
       </div>

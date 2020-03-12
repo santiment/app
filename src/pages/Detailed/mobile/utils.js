@@ -12,7 +12,7 @@ export const MAX_METRICS_PER_CHART = 3
 export const POPULAR_METRICS = [
   Metrics.daily_active_addresses,
   Metrics.dev_activity,
-  Metrics.socialVolume
+  Metrics.social_volume_total
 ]
 
 export const makeRequestedData = ({ metrics, ...rest }) => {

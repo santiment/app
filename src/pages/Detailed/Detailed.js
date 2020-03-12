@@ -20,7 +20,7 @@ const CRUMB = {
 
 const DEFAULT_METRICS = [
   Metrics.price_usd,
-  Metrics.socialVolume,
+  Metrics.social_volume_total,
   Metrics.age_destroyed
 ]
 

@@ -118,6 +118,14 @@ const TIMESERIES = {
     query: GET_METRIC('network_growth'),
     preTransform: getMetricPreTransform
   },
+  social_dominance_total: {
+    query: GET_METRIC('social_dominance_total'),
+    preTransform: getMetricPreTransform
+  },
+  social_volume_total: {
+    query: GET_METRIC('social_volume_total'),
+    preTransform: getMetricPreTransform
+  },
   gasUsed: {
     query: GAS_USED_QUERY
   },
