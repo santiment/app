@@ -49,7 +49,7 @@ export const getMarketSegment = key => {
   const label = `Dev. Activity (${key})`
   tooltipSettings[key] = {
     label,
-    formatter: tooltipSettings.dev_activity.formatter
+    formatter: Metrics.dev_activity.formatter
   }
 
   const newSegment = {
