@@ -401,7 +401,7 @@ export const Metrics = {
     // dataKey: 'followersCount',
     description: `Shows the number of followers on the project's official Twitter account over time`
   },
-  socialDominance: {
+  social_dominance_total: {
     category: 'Social',
     node: 'line',
     Component: Line,
@@ -518,6 +518,8 @@ DerivedMetrics.forEach(obj => {
 
 export const compatabilityMap = {
   // old              : new
+  socialDominance: Metrics.social_dominance_total,
+  socialVolume: Metrics.social_volume_total,
   devActivity: Metrics.dev_activity,
   historyPrice: Metrics.price_usd,
   volume: Metrics.volume_usd,
