@@ -1,12 +1,21 @@
 import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import './ProjectIcon.css'
+import styles from './ProjectIcon.module.scss'
 
-export const ProjectIcon = ({ slug, size, className }) => (
-  <div
-    className={cx(className, 'project-icon', `project-icon-${slug}`)}
-    style={{ '--scale': size / 64, width: `${size}px`, height: `${size}px` }}
+export const ProjectIcon = ({
+  slug,
+  logoUrl,
+  darkLogoUrl,
+  size,
+  className
+}) => (
+  <img
+    src={logoUrl}
+    width={size}
+    height={size}
+    className={cx(styles.logo, className)}
+    alt={slug}
   />
 )
 
