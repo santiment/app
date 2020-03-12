@@ -3,6 +3,7 @@ import Button from '@santiment-network/ui/Button'
 import Icon from '@santiment-network/ui/Icon'
 import Dropdown from '@santiment-network/ui/Dropdown'
 import Explanations from './Explanations'
+import DataInfo from './DataInfo'
 import MetricIcon from '../../../SANCharts/MetricIcon'
 import { getSyncedColors } from '../../../SANCharts/Chart/Synchronizer'
 import styles from './index.module.scss'
@@ -82,6 +83,7 @@ const MetricsExplanation = ({ metrics, onClose, ...rest }) => {
           classes={dropdownClasses}
           onSelect={setSelected}
         />
+        <DataInfo {...rest} metric={metric} />
         <div className={styles.subtitle}>Description</div>
         <div className={styles.text}>{metric.description}</div>
         <Explanations {...rest} metric={metric} />
