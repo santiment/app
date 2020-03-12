@@ -6,13 +6,14 @@
     0 4px 24px rgba(24, 27, 43, 0.05);
   border-radius: 4px;
   user-select: none;
+  border: 1px solid var(--porcelain);
 }
 
 .header {
   display: flex;
   align-items: center;
-  background: $fiord;
-  color: $white;
+  background: var(--white);
+  color: var(--rhino);
 
   @include text('caption');
 
@@ -22,7 +23,6 @@
 
 .manual {
   margin-left: auto;
-  font-size: 10px;
   color: var(--jungle-green);
   cursor: pointer;
 
@@ -34,13 +34,6 @@
 .suggestions,
 .suggestion {
   display: flex;
-}
-
-.suggestions {
-  border: 1px solid var(--porcelain);
-  border-top: none;
-  border-radius: 0 0 4px 4px;
-  overflow: hidden;
 }
 
 .suggestion {
@@ -56,24 +49,26 @@
 
 .title {
   background: var(--athens);
-  font-weight: 500;
-  font-size: 9px;
+  font-weight: bold;
+  font-size: 10px;
   line-height: 16px;
   color: var(--waterloo);
   padding: 4px 16px;
+  border-top: 1px solid var(--porcelain);
 }
 
 .alert {
   flex: 1;
   border-top: 1px solid var(--porcelain);
-  font-size: 10px;
-  line-height: 16px;
   color: var(--waterloo);
   padding: 8px 16px;
   cursor: pointer;
 
+  @include text('caption');
+
   &:hover {
     background: var(--athens);
+    color: var(--rhino);
   }
 }
 
