@@ -18,6 +18,8 @@ export const PROJECT_BY_SLUG_QUERY = gql`
       ticker
       name
       description
+      logoUrl
+      darkLogoUrl
       priceUsd
       percentChange24h
       percentChange7d
