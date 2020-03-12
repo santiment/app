@@ -6,7 +6,7 @@ import {
   USER_APIKEY_GENERATE_SUCCESS
 } from './../actions/types'
 
-const generateApikeyGQL = gql`
+const GENERATE_API_KEY_MUTATION = gql`
   mutation {
     generateApikey {
       apikeys
@@ -20,7 +20,7 @@ const apikeyGenerateEpic = (action$, store, { client }) =>
     .debounceTime(200)
     .switchMap(() => {
       const mutation = client.mutate({
-        mutation: generateApikeyGQL
+        mutation: GENERATE_API_KEY_MUTATION
       })
       return Observable.from(mutation)
         .mergeMap(({ data: { generateApikey } }) =>
