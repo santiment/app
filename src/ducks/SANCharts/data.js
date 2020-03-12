@@ -401,6 +401,27 @@ export const Metrics = {
     // dataKey: 'followersCount',
     description: `Shows the number of followers on the project's official Twitter account over time`
   },
+  twitter_followers: {
+    category: 'Social',
+    node: 'bar',
+    Component: Bar,
+    label: 'Twitter 7d changes',
+    shortLabel: 'Twitter 7d changes',
+    anomalyKey: 'SOCIAL_VOLUME',
+    description: (
+      <>
+        Shows the twitter followers changes for 7 days. More info{' '}
+        <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://academy.santiment.net/metrics/social-volume-metrics/'
+        >
+          here
+        </a>
+      </>
+    ),
+    minInterval: '7d'
+  },
   social_dominance_total: {
     category: 'Social',
     node: 'line',

@@ -123,5 +123,6 @@ export const METRICS = [
   'dev_activity',
   'dev_activity_contributors_count',
   'github_activity',
-  'github_activity_contributors_count'
+  'github_activity_contributors_count',
+  'twitter_followers'
 ]
