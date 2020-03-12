@@ -10,15 +10,13 @@
 }
 
 .header {
+  @include text('caption');
+
   display: flex;
   align-items: center;
   background: var(--white);
   color: var(--rhino);
-
-  @include text('caption');
-
   padding: 7px 16px;
-  border-radius: 4px 4px 0 0;
 }
 
 .manual {
@@ -58,13 +56,13 @@
 }
 
 .alert {
+  @include text('caption');
+
   flex: 1;
   border-top: 1px solid var(--porcelain);
   color: var(--waterloo);
   padding: 8px 16px;
   cursor: pointer;
-
-  @include text('caption');
 
   &:hover {
     background: var(--athens);
