@@ -1,0 +1,81 @@
+@import '~@santiment-network/ui/mixins';
+@import '~@santiment-network/ui/variables';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.apikey {
+  display: flex;
+  height: 32px;
+  border: 1px solid var(--porcelain);
+  border-radius: 4px;
+  position: relative;
+  min-width: 250px;
+
+  @include responsive('phone-xs') {
+    min-width: 0;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    right: 32px;
+    width: 30px;
+    height: 100%;
+  }
+
+  &__input {
+    color: var(--mirage);
+    width: 100%;
+    outline: none;
+    border: none;
+    background: transparent;
+    padding: 6px 0 6px 10px;
+    border-right: 1px solid var(--porcelain);
+  }
+
+  &__icon {
+    height: 100%;
+    fill: var(--mirage);
+    margin: 0 8px;
+    cursor: pointer;
+
+    &:hover {
+      fill: var(--jungle-green);
+    }
+  }
+}
+
+.keyContainer {
+  display: flex;
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.copied::before {
+  @include text('caption');
+
+  display: block;
+  content: 'Copied!';
+  position: absolute;
+  right: 0;
+  bottom: 120%;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: $fiord;
+  color: $white;
+}
+
+.link {
+  color: var(--jungle-green);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
