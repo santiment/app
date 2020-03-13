@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import Icon from '@santiment-network/ui/Icon'
+import { SAVE_PROJECT_ICON } from '../../actions/types'
 import styles from './ProjectIcon.module.scss'
 
 export const ProjectIcon = ({
@@ -11,11 +12,13 @@ export const ProjectIcon = ({
   darkLogoUrl,
   size,
   isNightMode,
+  icons,
+  addIcon,
   className
 }) => {
-  const darkLogo = darkLogoUrl || logoUrl
-  const logo = isNightMode ? darkLogo : logoUrl
-  const isLoading = logo === undefined
+  const icon = icons[slug] || {}
+  const darkLogo = darkLogoUrl || icon.darkLogoUrl || logoUrl || icon.logoUrl
+  const logo = isNightMode ? darkLogo : logoUrl || icon.logoUrl
 
   return logo ? (
     <img
@@ -34,13 +37,18 @@ export const ProjectIcon = ({
         '--background': isNightMode ? 'var(--mystic)' : 'var(--porcelain)'
       }}
     >
-      {!isLoading && <Icon type={size > 20 ? 'assets' : 'asset-small'} />}
+      <Icon type={size > 20 ? 'assets' : 'asset-small'} />
     </div>
   )
 }
 
-const mapStateToProps = ({ rootUi: { isNightModeEnabled } }) => ({
-  isNightMode: isNightModeEnabled
+const mapStateToProps = ({
+  rootUi: { isNightModeEnabled: isNightMode },
+  projects: { icons }
+}) => ({ isNightMode, icons })
+
+const mapDispatchToProps = dispatch => ({
+  addIcon: payload => dispatch({ type: SAVE_PROJECT_ICON, payload })
 })
 
 ProjectIcon.propTypes = {
@@ -54,4 +62,7 @@ ProjectIcon.defaultProps = {
   className: ''
 }
 
-export default connect(mapStateToProps)(ProjectIcon)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProjectIcon)
