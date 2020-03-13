@@ -49,7 +49,7 @@ const SignalCard = ({
       )}
 
       <div className={styles.wrapper__right}>
-        <OpenSignalLink signal={signal} highline={false}>
+        <OpenSignalLink signal={signal}>
           <div className={clickable ? styles.pointer : ''}>
             {description && (
               <h3 className={styles.description}>
