@@ -27,7 +27,7 @@ export const ProjectIcon = ({
     />
   ) : (
     <div
-      className={styles.default}
+      className={cx(styles.default, className)}
       style={{
         '--size': `${size}px`,
         '--fill': isNightMode ? '#7a859e' : 'var(--casper)',
