@@ -15,6 +15,7 @@ export const ProjectIcon = ({
 }) => {
   const darkLogo = darkLogoUrl || logoUrl
   const logo = isNightMode ? darkLogo : logoUrl
+  const isLoading = logo === undefined
 
   return logo ? (
     <img
@@ -33,7 +34,7 @@ export const ProjectIcon = ({
         '--background': isNightMode ? 'var(--mystic)' : 'var(--porcelain)'
       }}
     >
-      <Icon type={size > 20 ? 'assets' : 'asset-small'} />
+      {!isLoading && <Icon type={size > 20 ? 'assets' : 'asset-small'} />}
     </div>
   )
 }
