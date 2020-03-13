@@ -25,22 +25,31 @@ export const ProjectIcon = ({
     }
 
     if (project) {
-      PREDEFINED_ICONS[slug] = { ...project }
+      PREDEFINED_ICONS[slug] = {
+        logoUrl: project.logoUrl,
+        darkLogoUrl: project.darkLogoUrl || project.logoUrl
+      }
     }
   }
 
   const { logoUrl: logo, darkLogoUrl: darkLogo } = PREDEFINED_ICONS[slug] || {}
 
-  const icon = isNightMode ? darkLogo : logo
+  let icon = logo
 
-  // NOTE(@haritonasty): because react has a 1-2 sec lag when src changing in <img>
-  if (!cachedIcon) {
-    setCachedIcon(icon)
-  } else if (icon !== cachedIcon) {
-    setCachedIcon()
+  if (isNightMode) {
+    icon = darkLogo || icon
   }
 
-  return cachedIcon ? (
+  // NOTE(@haritonasty): because react has a 1-2 sec lag when src changing in <img>
+  if (icon) {
+    if (!cachedIcon) {
+      setCachedIcon(icon)
+    } else if (icon !== cachedIcon) {
+      setCachedIcon()
+    }
+  }
+
+  return icon ? (
     <img
       src={cachedIcon}
       width={size}
