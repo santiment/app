@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
+import Icon from '@santiment-network/ui/Icon'
 import styles from './ProjectIcon.module.scss'
 
 export const ProjectIcon = ({
@@ -15,7 +16,7 @@ export const ProjectIcon = ({
   const darkLogo = darkLogoUrl || logoUrl
   const logo = isNightMode ? darkLogo : logoUrl
 
-  return (
+  return logo ? (
     <img
       src={logo}
       width={size}
@@ -23,6 +24,17 @@ export const ProjectIcon = ({
       className={cx(styles.logo, className)}
       alt={slug}
     />
+  ) : (
+    <div
+      className={styles.default}
+      style={{
+        '--size': `${size}px`,
+        '--fill': isNightMode ? '#7a859e' : 'var(--casper)',
+        '--background': isNightMode ? 'var(--mystic)' : 'var(--porcelain)'
+      }}
+    >
+      <Icon type={size > 20 ? 'assets' : 'asset-small'} />
+    </div>
   )
 }
 
