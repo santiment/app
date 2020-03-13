@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
@@ -18,7 +18,6 @@ export const ProjectIcon = ({
   data: { project } = {},
   className
 }) => {
-  const [cachedIcon, setCachedIcon] = useState()
   if (!PREDEFINED_ICONS[slug]) {
     if (logoUrl) {
       PREDEFINED_ICONS[slug] = { logoUrl, darkLogoUrl: darkLogoUrl || logoUrl }
@@ -40,18 +39,9 @@ export const ProjectIcon = ({
     icon = darkLogo || icon
   }
 
-  // NOTE(@haritonasty): because react has a 1-2 sec lag when src changing in <img>
-  if (icon) {
-    if (!cachedIcon) {
-      setCachedIcon(icon)
-    } else if (icon !== cachedIcon) {
-      setCachedIcon()
-    }
-  }
-
   return icon ? (
     <img
-      src={cachedIcon}
+      src={icon}
       width={size}
       height={size}
       className={cx(styles.logo, className)}
