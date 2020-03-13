@@ -17,14 +17,27 @@ import { getWatchlistLink } from '../../ducks/Watchlists/watchlistUtils'
 import styles from './RecentlyWatched.module.scss'
 
 export const Asset = ({ project, classes = {}, onClick }) => {
-  const { name, ticker, priceUsd, percentChange7d, slug } = project
+  const {
+    name,
+    ticker,
+    priceUsd,
+    percentChange7d,
+    logoUrl,
+    darkLogoUrl,
+    slug
+  } = project
   const res = onClick
     ? { Component: 'div', props: { onClick: () => onClick(project) } }
     : { Component: Link, props: { to: `/projects/${slug}` } }
   return (
     <res.Component className={cx(styles.item, classes.asset)} {...res.props}>
       <div className={styles.group}>
-        <ProjectIcon size={20} slug={slug} />
+        <ProjectIcon
+          size={20}
+          slug={slug}
+          logoUrl={logoUrl}
+          darkLogoUrl={darkLogoUrl}
+        />
         <h3 className={cx(styles.name, classes.asset__name)}>
           {name} <span className={styles.ticker}>{ticker}</span>
         </h3>
