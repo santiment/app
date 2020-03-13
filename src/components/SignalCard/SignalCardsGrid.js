@@ -1,5 +1,4 @@
 import React from 'react'
-import { push } from 'react-router-redux'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import SignalCard from './card/SignalCard'

@@ -5,8 +5,8 @@ import { DesktopOnly } from '../../Responsive'
 import MultilineText from '../../MultilineText/MultilineText'
 import SignalCardHeader from './SignalCardHeader'
 import SignalCardBottom from './SignalCardBottom'
-import styles from './SignalCard.module.scss'
 import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
+import styles from './SignalCard.module.scss'
 
 export const canOpenTrigger = ({ type, target }) =>
   type === 'trending_words' ? target !== 'default' : true
@@ -23,7 +23,7 @@ const SignalCard = ({
   isSharedTriggerForm = false
 }) => {
   const isAwaiting = +id <= 0
-  const { title, description = '', isPublic, settings } = signal
+  const { description = '', isPublic, settings } = signal
 
   const clickable = canOpenTrigger(settings)
 
@@ -49,7 +49,7 @@ const SignalCard = ({
       )}
 
       <div className={styles.wrapper__right}>
-        <OpenSignalLink signal={signal}>
+        <OpenSignalLink signal={signal} highline={false}>
           <div className={clickable ? styles.pointer : ''}>
             {description && (
               <h3 className={styles.description}>
