@@ -34,9 +34,14 @@ const ProjectInfo = createSkeletonProvider(
     color: 'var(--mystic)',
     backgroundColor: 'var(--mystic)'
   })
-)(({ name, ticker, slug, description }) => (
+)(({ name, ticker, slug, description, logoUrl, darkLogoUrl }) => (
   <div className={styles.selector}>
-    <ProjectIcon size={40} slug={slug} />
+    <ProjectIcon
+      size={40}
+      slug={slug}
+      logoUrl={logoUrl}
+      darkLogoUrl={darkLogoUrl}
+    />
     <div className={styles.project}>
       <div className={styles.project__top}>
         <H1 className={styles.project__name}>

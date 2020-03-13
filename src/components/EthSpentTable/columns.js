@@ -18,10 +18,16 @@ export const columns = [
     sortable: false,
     minWidth: 24,
     maxWidth: 100,
-    accessor: ({ name, ticker, slug }) => ({ name, ticker, slug }),
+    accessor: ({ name, ticker, slug, logoUrl, darkLogoUrl }) => ({
+      name,
+      ticker,
+      slug,
+      logoUrl,
+      darkLogoUrl
+    }),
     Cell: ({ value }) => (
       <div className='overview-ticker'>
-        <ProjectIcon slug={value.slug} />
+        <ProjectIcon {...value} />
       </div>
     )
   },
