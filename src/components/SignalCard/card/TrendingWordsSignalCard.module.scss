@@ -1,5 +1,18 @@
 @import "~@santiment-network/ui/mixins";
 
+.title {
+  @include text('body-2');
+
+  word-break: break-word;
+  display: flex;
+  margin: 0 0 4px 0;
+  color: var(--rhino);
+
+  &:hover {
+    color: var(--jungle-green-hover);
+  }
+}
+
 .bottom {
   display: flex;
   margin-top: 16px;

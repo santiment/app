@@ -3,7 +3,7 @@ import SignalMasterModalForm from '../signalModal/SignalMasterModalForm'
 import styles from './OpenSignalLink.module.scss'
 
 const PERCENT_REGEXP = new RegExp(
-  '( ?\\$?\\d+ {0,1}?.{0,1}?\\d+.?\\d{0,} ?\\%? {0,1}?)',
+  '((0x)?[0-9a-fA-F]{40})|( {1}[-\\$]?\\d+[,.]?\\d{0,}[,.$%]?\\d{0,}[$%]?[^x| ])|( {1}[-\\$]?\\d+[,.$%]?\\d{0,}[$%]? )',
   'gi'
 )
 
@@ -43,10 +43,14 @@ const prepareTitle = title => {
           )
         }
 
-        temporaryTitle = partsForHighline[1]
+        if (partsForHighline[1]) {
+          temporaryTitle = partsForHighline[1]
 
-        if (i === digits.length - 1) {
-          result.push(partsForHighline[1])
+          if (i === digits.length - 1) {
+            result.push(partsForHighline[1])
+          }
+        } else {
+          break
         }
       }
     }
@@ -57,20 +61,14 @@ const prepareTitle = title => {
   return title
 }
 
-const OpenSignalLink = ({
-  signal: { id, title },
-  highline = true,
-  children
-}) => (
+const OpenSignalLink = ({ signal: { id, title }, children }) => (
   <SignalMasterModalForm
     id={id}
     defaultOpen={false}
     canRedirect={false}
     trigger={
       <div>
-        <div className={styles.link}>
-          {highline ? prepareTitle(title) : title}
-        </div>
+        <div className={styles.link}>{prepareTitle(title)}</div>
         {children}
       </div>
     }
