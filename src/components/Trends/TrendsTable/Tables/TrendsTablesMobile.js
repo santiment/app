@@ -42,8 +42,6 @@ const TrendsTablesMobile = ({
 
   const { topWords } = trends[index]
 
-  console.log(trendConnections)
-
   return (
     <>
       <div className={styles.tabsWrapper}>
