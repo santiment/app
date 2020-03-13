@@ -57,12 +57,23 @@ const prepareTitle = title => {
   return title
 }
 
-const OpenSignalLink = ({ signal: { id, title } }) => (
+const OpenSignalLink = ({
+  signal: { id, title },
+  highline = true,
+  children
+}) => (
   <SignalMasterModalForm
     id={id}
     defaultOpen={false}
     canRedirect={false}
-    trigger={<div className={styles.link}>{prepareTitle(title)}</div>}
+    trigger={
+      <div>
+        <div className={styles.link}>
+          {highline ? prepareTitle(title) : title}
+        </div>
+        {children}
+      </div>
+    }
   />
 )
 

@@ -450,37 +450,22 @@ const getPercentTreshold = (
     ? operation[Object.keys(operation)[0]]
     : BASE_PERCENT_THRESHOLD
 
-  switch (type) {
-    case PRICE_PERCENT_CHANGE: {
-      if (newType && newType.value === PRICE_CHANGE_TYPES.PERCENT_SOME_OF) {
-        return {
-          percentThresholdLeft:
-            operation[PRICE_CHANGE_TYPES.PERCENT_SOME_OF][0][
-              PRICE_CHANGE_TYPES.MOVING_UP
-            ] || BASE_PERCENT_THRESHOLD,
-          percentThresholdRight:
-            operation[PRICE_CHANGE_TYPES.PERCENT_SOME_OF][1][
-              PRICE_CHANGE_TYPES.MOVING_DOWN
-            ] || BASE_PERCENT_THRESHOLD
-        }
-      } else {
-        return {
-          percentThreshold: parsedThreshold
-        }
-      }
+  if (newType && newType.value === PRICE_CHANGE_TYPES.PERCENT_SOME_OF) {
+    return {
+      percentThresholdLeft:
+        operation[PRICE_CHANGE_TYPES.PERCENT_SOME_OF][0][
+          PRICE_CHANGE_TYPES.MOVING_UP
+        ] || BASE_PERCENT_THRESHOLD,
+      percentThresholdRight:
+        operation[PRICE_CHANGE_TYPES.PERCENT_SOME_OF][1][
+          PRICE_CHANGE_TYPES.MOVING_DOWN
+        ] || BASE_PERCENT_THRESHOLD
     }
-    case DAILY_ACTIVE_ADDRESSES: {
-      return {
-        percentThreshold:
-          percentThreshold || parsedThreshold || BASE_PERCENT_THRESHOLD
-      }
+  } else {
+    return {
+      percentThreshold:
+        parsedThreshold || percentThreshold || BASE_PERCENT_THRESHOLD
     }
-    default: {
-    }
-  }
-
-  return {
-    percentThreshold: BASE_PERCENT_THRESHOLD
   }
 }
 
