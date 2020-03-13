@@ -1,5 +1,4 @@
 import * as actions from './../actions/types'
-import savedIcons from '../components/ProjectIcon/savedIcons.json'
 
 export const initialState = {
   isLoading: true,
@@ -17,8 +16,7 @@ export const initialState = {
   },
   search: '',
   isCurrentUserTheAuthor: false,
-  categories: {},
-  icons: savedIcons
+  categories: {}
 }
 
 export default (state = initialState, action) => {
