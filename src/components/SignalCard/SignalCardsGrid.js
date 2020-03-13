@@ -16,7 +16,6 @@ const SignalCardsGrid = ({
   className = '',
   toggleSignal,
   removeSignal,
-  goToSignalSettings,
   deleteEnabled = true,
   classes = {}
 }) => {
@@ -43,9 +42,6 @@ const SignalCardsGrid = ({
                   isActive
                 })
               }
-              goToSignalSettings={() => {
-                goToSignalSettings(id)
-              }}
               removeSignal={() => {
                 removeSignal(id)
               }}
@@ -64,9 +60,6 @@ const mapDispatchToProps = dispatch => ({
   },
   removeSignal: id => {
     id && dispatch(removeTrigger(id))
-  },
-  goToSignalSettings: id => {
-    id && dispatch(push(`/sonar/signal/${id}${window.location.search}`))
   }
 })
 

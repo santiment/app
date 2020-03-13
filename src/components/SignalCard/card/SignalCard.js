@@ -6,6 +6,7 @@ import MultilineText from '../../MultilineText/MultilineText'
 import SignalCardHeader from './SignalCardHeader'
 import SignalCardBottom from './SignalCardBottom'
 import styles from './SignalCard.module.scss'
+import OpenSignalLink from '../../../ducks/Signals/link/OpenSignalLink'
 
 export const canOpenTrigger = ({ type, target }) =>
   type === 'trending_words' ? target !== 'default' : true
@@ -14,7 +15,6 @@ const SignalCard = ({
   id,
   signal,
   className,
-  goToSignalSettings,
   toggleSignal,
   isUserTheAuthor,
   deleteEnabled = true,
@@ -25,7 +25,7 @@ const SignalCard = ({
   const isAwaiting = +id <= 0
   const { title, description = '', isPublic, settings } = signal
 
-  const clickable = goToSignalSettings && canOpenTrigger(settings)
+  const clickable = canOpenTrigger(settings)
 
   return (
     <Panel padding className={cx(styles.wrapper, className)}>
@@ -49,9 +49,8 @@ const SignalCard = ({
       )}
 
       <div className={styles.wrapper__right}>
-        <div onClick={clickable ? goToSignalSettings : null}>
+        <OpenSignalLink signal={signal}>
           <div className={clickable ? styles.pointer : ''}>
-            <h2 className={styles.title}>{title}</h2>
             {description && (
               <h3 className={styles.description}>
                 <MultilineText
@@ -62,7 +61,7 @@ const SignalCard = ({
               </h3>
             )}
           </div>
-        </div>
+        </OpenSignalLink>
         <SignalCardBottom
           signalId={id}
           signal={signal}
