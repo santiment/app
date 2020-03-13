@@ -1,9 +1,12 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
+import { graphql } from 'react-apollo'
 import Icon from '@santiment-network/ui/Icon'
 import { PREDEFINED_ICONS } from './savedIcons'
+import { PROJECT_ICON_QUERY } from './IconGQL.js'
 import styles from './ProjectIcon.module.scss'
 
 export const ProjectIcon = ({
@@ -12,10 +15,17 @@ export const ProjectIcon = ({
   darkLogoUrl,
   size,
   isNightMode,
+  data: { project } = {},
   className
 }) => {
-  if (!PREDEFINED_ICONS[slug] && logoUrl) {
-    PREDEFINED_ICONS[slug] = { logoUrl, darkLogoUrl: darkLogoUrl || logoUrl }
+  if (!PREDEFINED_ICONS[slug]) {
+    if (logoUrl) {
+      PREDEFINED_ICONS[slug] = { logoUrl, darkLogoUrl: darkLogoUrl || logoUrl }
+    }
+
+    if (project) {
+      PREDEFINED_ICONS[slug] = { ...project }
+    }
   }
 
   const { logoUrl: logo, darkLogoUrl: darkLogo } = PREDEFINED_ICONS[slug] || {}
@@ -58,4 +68,9 @@ ProjectIcon.defaultProps = {
   className: ''
 }
 
-export default connect(mapStateToProps)(ProjectIcon)
+export default compose(
+  connect(mapStateToProps),
+  graphql(PROJECT_ICON_QUERY, {
+    skip: ({ logoUrl, slug }) => !!logoUrl || !!PREDEFINED_ICONS[slug]
+  })
+)(ProjectIcon)
