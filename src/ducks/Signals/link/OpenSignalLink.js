@@ -2,10 +2,7 @@ import React from 'react'
 import SignalMasterModalForm from '../signalModal/SignalMasterModalForm'
 import styles from './OpenSignalLink.module.scss'
 
-const PERCENT_REGEXP = new RegExp(
-  '( ?\\$?\\d+ {0,1}?.{0,1}?\\d+.?\\d{0,} ?\\%? {0,1}?)',
-  'gi'
-)
+const PERCENT_REGEXP = new RegExp('( {1}[-\\$]?\\d+[,.$%]?\\d{0,}[$%]?)', 'gi')
 
 const prepareTitle = title => {
   const digits = title.match(PERCENT_REGEXP)
@@ -43,10 +40,14 @@ const prepareTitle = title => {
           )
         }
 
-        temporaryTitle = partsForHighline[1]
+        if (partsForHighline[1]) {
+          temporaryTitle = partsForHighline[1]
 
-        if (i === digits.length - 1) {
-          result.push(partsForHighline[1])
+          if (i === digits.length - 1) {
+            result.push(partsForHighline[1])
+          }
+        } else {
+          break
         }
       }
     }
