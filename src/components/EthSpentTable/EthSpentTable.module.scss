@@ -58,7 +58,7 @@
     .rt-td {
       border: none !important;
       padding: 0;
-      align-self: baseline;
+      align-self: center;
       text-overflow: clip;
       display: flex;
       align-items: center;
@@ -147,6 +147,10 @@
 
     .rt-tbody .rt-tr-group {
       padding-right: 0;
+    }
+
+    .rt-tbody {
+      overflow-x: hidden;
     }
   }
 }
