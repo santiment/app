@@ -399,28 +399,30 @@ export const Metrics = {
     Component: Line,
     label: 'Twitter',
     // dataKey: 'followersCount',
-    description: `Shows the number of followers on the project's official Twitter account over time`
-  },
-  twitter_followers: {
-    category: 'Social',
-    node: 'bar',
-    Component: Bar,
-    label: 'Twitter 7d changes',
-    shortLabel: 'Twitter 7d changes',
-    anomalyKey: 'SOCIAL_VOLUME',
-    description: (
-      <>
-        Shows the twitter followers changes for 7 days. More info{' '}
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://academy.santiment.net/metrics/social-volume-metrics/'
-        >
-          here
-        </a>
-      </>
-    ),
-    minInterval: '7d'
+    description: `Shows the number of followers on the project's official Twitter account over time`,
+    subMetrics: ['7d', '24h'].map(interval => {
+      return {
+        key: `twitter_followers_${interval}`,
+        category: 'Social',
+        node: 'line',
+        Component: Line,
+        label: `Twitter Changes ${interval}`,
+        shortLabel: `Twitter ${interval} changes`,
+        description: (
+          <>
+            Shows the number of followers on the project's official Twitter
+            account over time. More info{' '}
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href='https://academy.santiment.net/metrics/social-volume-metrics/'
+            >
+              here
+            </a>
+          </>
+        )
+      }
+    })
   },
   social_dominance_total: {
     category: 'Social',

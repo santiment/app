@@ -1,41 +1,6 @@
 import outliers from 'outliers'
 import { getIntervalByTimeRange } from '../../utils/dates'
 
-export const makeItervalBounds = (interval = '1m') => {
-  const { from, to } = getIntervalByTimeRange(interval)
-  const result = {
-    from: from.toISOString(),
-    to: to.toISOString()
-  }
-
-  switch (interval) {
-    case '1d':
-      result.minInterval = '5m'
-      break
-
-    case '1w':
-      result.minInterval = '1h'
-      break
-
-    case '2w':
-      result.minInterval = '1h'
-      break
-
-    case '3m':
-      result.minInterval = '1d'
-      break
-
-    case 'all':
-      result.minInterval = '1d'
-      break
-
-    default:
-      result.minInterval = '1h'
-  }
-
-  return result
-}
-
 export const normalizeData = ({ data = [], fieldName, filter = 'all' }) => {
   if (data.length === 0) {
     return []

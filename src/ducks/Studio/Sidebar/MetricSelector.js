@@ -58,6 +58,8 @@ const Group = ({
 
         const timebounds = Timebound[metric.key]
 
+        console.log(metric)
+
         return (
           <Fragment key={metric.key}>
             <MetricButton
@@ -76,6 +78,18 @@ const Group = ({
                 onClick={toggleICOPrice}
               />
             )}
+            {metric.subMetrics &&
+              metric.subMetrics.map(subMetric => {
+                return (
+                  <MetricButton
+                    key={subMetric.key}
+                    className={styles.advanced}
+                    label={subMetric.label}
+                    isActive={actives.includes(subMetric)}
+                    onClick={() => toggleMetric(subMetric)}
+                  />
+                )
+              })}
             {metric.advancedView && (
               <MetricButton
                 className={styles.advanced}

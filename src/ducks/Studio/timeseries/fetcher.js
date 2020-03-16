@@ -10,6 +10,7 @@ import { TOP_HOLDERS_PERCENT_OF_TOTAL_SUPPLY } from '../../GetTimeSeries/queries
 import { ETH_SPENT_OVER_TIME_QUERY } from '../../GetTimeSeries/queries/eth_spent_over_time_query'
 import { PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES } from '../../GetTimeSeries/queries/percent_of_token_supply_on_exchanges_query'
 import { aliasTransform } from './utils'
+import { GET_METRIC_CHANGES } from '../../GetTimeSeries/queries/get_metric'
 
 const preTransform = ({
   data: {
@@ -71,6 +72,20 @@ Object.assign(Fetcher, {
   percentOfTokenSupplyOnExchanges: {
     query: PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES,
     preTransform: aliasTransform('percentOnExchanges')
+  },
+  twitter_followers_7d: {
+    query: GET_METRIC_CHANGES('twitter_followers'),
+    preTransform,
+    strictVariables: {
+      interval: '7d'
+    }
+  },
+  twitter_followers_24h: {
+    query: GET_METRIC_CHANGES('twitter_followers'),
+    preTransform,
+    strictVariables: {
+      interval: '24h'
+    }
   }
 })
 
@@ -87,6 +102,8 @@ const transformAliases = [
 
 export const getQuery = metric => {
   const { key, queryKey = key } = metric
+  console.log('load', metric)
+
   const { query } = Fetcher[queryKey]
 
   if (typeof query === 'function') {
