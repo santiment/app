@@ -42,6 +42,7 @@ const Studio = ({
   const [isICOPriceDisabled, setIsICOPriceDisabled] = useState()
   const [data, loadings] = useTimeseries(activeMetrics, settings)
   const [eventsData, eventLoadings] = useTimeseries(activeEvents, settings)
+  const [isSidebarClosed, setIsSidebarClosed] = useState()
   const chartRef = useRef(null)
 
   useEffect(
@@ -140,7 +141,13 @@ const Studio = ({
   }
 
   return (
-    <div className={cx(styles.wrapper, classes.wrapper)}>
+    <div
+      className={cx(
+        styles.wrapper,
+        classes.wrapper,
+        isSidebarClosed && styles.wrapper_wide
+      )}
+    >
       <StudioSidebar
         slug={settings.slug}
         options={options}
@@ -151,6 +158,8 @@ const Studio = ({
         toggleMetric={toggleMetric}
         toggleAdvancedView={toggleAdvancedView}
         isICOPriceDisabled={isICOPriceDisabled}
+        isSidebarClosed={isSidebarClosed}
+        setIsSidebarClosed={setIsSidebarClosed}
       />
       <div className={styles.header}>
         {topSlot}
@@ -192,6 +201,7 @@ const Studio = ({
               events={eventsData}
               loadings={loadings}
               eventLoadings={eventLoadings}
+              isSidebarClosed={isSidebarClosed}
               changeHoveredDate={changeHoveredDate}
               setIsICOPriceDisabled={setIsICOPriceDisabled}
             />

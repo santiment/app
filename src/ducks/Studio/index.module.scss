@@ -3,6 +3,10 @@
 
 .wrapper {
   margin-left: $sidebar-width;
+
+  &_wide {
+    margin: 0;
+  }
 }
 
 .container {

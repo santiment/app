@@ -50,10 +50,9 @@ const Chart = ({
   onPointHover = () => {},
   isLoading,
   isMultiChartsActive,
-  isAdvancedView,
-  isWideChart,
   isNightModeEnabled,
   isCartesianGridActive,
+  resizeDependencies,
   children
 }) => {
   let [chart, setChart] = useState()
@@ -184,15 +183,9 @@ const Chart = ({
     [syncedTooltipDate]
   )
 
-  useEffect(handleResize, [isMultiChartsActive, isAdvancedView, isWideChart])
+  useEffect(handleResize, resizeDependencies)
 
-  useResizeEffect(handleResize, [
-    isMultiChartsActive,
-    isAdvancedView,
-    isWideChart,
-    data,
-    brush
-  ])
+  useResizeEffect(handleResize, [...resizeDependencies, data, brush])
 
   function handleResize () {
     if (data.length === 0) {

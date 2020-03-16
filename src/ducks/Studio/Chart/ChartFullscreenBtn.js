@@ -7,6 +7,8 @@ import { generateShareLink } from '../url'
 import Settings from '../Header/Settings'
 import styles from './ChartFullscreenBtn.module.scss'
 
+const RESIZE_DEPENDENCIES = []
+
 const FullscreenChart = ({
   settings: studioSettings,
   options: studioOptions,
@@ -60,6 +62,7 @@ const FullscreenChart = ({
         metrics={metrics}
         activeEvents={activeEvents}
         scale={options.isLogScale ? logScale : linearScale}
+        resizeDependencies={RESIZE_DEPENDENCIES}
       />
     </div>
   )
