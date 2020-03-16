@@ -8,6 +8,8 @@ export const generalData = gql`
     description
     ticker
     rank
+    logoUrl
+    darkLogoUrl
   }
 `
 

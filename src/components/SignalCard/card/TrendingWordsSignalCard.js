@@ -57,7 +57,7 @@ const TrendingWordsSignalCard = ({
       <div className={externalStyles.wrapper__right}>
         <div className={styles.header}>
           {strictTrendingWords ? (
-            <Link to='/labs/trends' className={externalStyles.title}>
+            <Link to='/labs/trends' className={styles.title}>
               {title} {<TrendingPeriod period={trigger_time} />}
             </Link>
           ) : (
