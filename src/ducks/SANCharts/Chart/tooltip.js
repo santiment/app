@@ -59,6 +59,9 @@ export function plotTooltip (chart, marker, point) {
     ? getDateHoursMinutes
     : getDateDayMonthYear
 
+  console.log('----------')
+  console.log(ctx, point, tooltipSettings, marker, tooltipPaintConfig)
+
   drawTooltip(ctx, point, tooltipSettings, marker, tooltipPaintConfig)
   drawValueBubbleY(
     chart,

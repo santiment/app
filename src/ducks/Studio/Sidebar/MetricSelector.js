@@ -58,8 +58,6 @@ const Group = ({
 
         const timebounds = Timebound[metric.key]
 
-        console.log(metric)
-
         return (
           <Fragment key={metric.key}>
             <MetricButton
@@ -82,7 +80,7 @@ const Group = ({
               metric.subMetrics.map(subMetric => {
                 return (
                   <MetricButton
-                    key={subMetric.key}
+                    key={subMetric.label}
                     className={styles.advanced}
                     label={subMetric.label}
                     isActive={actives.includes(subMetric)}

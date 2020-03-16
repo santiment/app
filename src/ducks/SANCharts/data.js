@@ -402,7 +402,7 @@ export const Metrics = {
     description: `Shows the number of followers on the project's official Twitter account over time`,
     subMetrics: ['7d', '24h'].map(interval => {
       return {
-        key: `twitter_followers_${interval}`,
+        key: 'twitter_followers',
         category: 'Social',
         node: 'line',
         Component: Line,
