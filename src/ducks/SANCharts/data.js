@@ -402,7 +402,7 @@ export const Metrics = {
     description: `Shows the number of followers on the project's official Twitter account over time`,
     subMetrics: ['7d', '24h'].map(interval => {
       return {
-        key: 'twitter_followers',
+        key: `twitter_followers`,
         category: 'Social',
         node: 'line',
         Component: Line,
@@ -420,7 +420,10 @@ export const Metrics = {
               here
             </a>
           </>
-        )
+        ),
+        reqMeta: {
+          interval
+        }
       }
     })
   },
@@ -594,6 +597,10 @@ export const tooltipSettings = {
   trendingPosition: {
     label: 'Trending Position',
     formatter: ([val]) => Events.position.formatter(val)
+  },
+  twitter_followers: {
+    label: 'Twitter changes',
+    formatter: v => v
   }
 }
 

@@ -60,7 +60,7 @@ export function plotTooltip (chart, marker, point) {
     : getDateDayMonthYear
 
   console.log('----------')
-  console.log(ctx, point, tooltipSettings, marker, tooltipPaintConfig)
+  console.log(tooltipSettings)
 
   drawTooltip(ctx, point, tooltipSettings, marker, tooltipPaintConfig)
   drawValueBubbleY(

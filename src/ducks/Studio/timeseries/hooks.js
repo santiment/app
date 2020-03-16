@@ -102,6 +102,8 @@ export const useTimeseries = (metrics, settings) => {
           return [...loadingsSet]
         })
 
+        console.log(reqMeta)
+
         client
           .query({
             query: getQuery(metric),
