@@ -16,6 +16,17 @@ const addItemToGraph = (categories, metricCategories, metrics) => {
   })
 }
 
+function sortCategoryGroups (category) {
+  const sortedCategory = {}
+  const groups = Object.keys(category).sort(
+    (leftGroup, rightGroup) =>
+      category[leftGroup].length - category[rightGroup].length
+  )
+
+  groups.forEach(group => (sortedCategory[group] = category[group]))
+  return sortedCategory
+}
+
 export const getCategoryGraph = (availableMetrics, hiddenMetrics) => {
   if (availableMetrics.length === 0) {
     return {}
@@ -54,13 +65,15 @@ export const getCategoryGraph = (availableMetrics, hiddenMetrics) => {
   }
 
   Object.keys(categories).forEach(key => {
-    categories[key] = categories[key].reduce(
-      (acc, metric) => {
-        const { group = NO_GROUP } = metric
-        addItemToGraph(acc, group, [metric])
-        return acc
-      },
-      { [NO_GROUP]: [] }
+    categories[key] = sortCategoryGroups(
+      categories[key].reduce(
+        (acc, metric) => {
+          const { group = NO_GROUP } = metric
+          addItemToGraph(acc, group, [metric])
+          return acc
+        },
+        { [NO_GROUP]: [] }
+      )
     )
   })
 

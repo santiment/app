@@ -32,6 +32,7 @@ const Canvas = ({
   isMultiChartsActive,
   syncedTooltipDate,
   isAnon,
+  isSidebarClosed,
   setIsICOPriceDisabled,
   ...props
 }) => {
@@ -104,10 +105,14 @@ const Canvas = ({
         metrics={metrics}
         chartRef={chartRef}
         scale={scale}
-        isAdvancedView={!!advancedView}
         onPointHover={advancedView ? changeHoveredDate : undefined}
         syncedTooltipDate={isBlurred || syncedTooltipDate}
-        isWideChart={isExplained}
+        resizeDependencies={[
+          isMultiChartsActive,
+          advancedView,
+          isExplained,
+          isSidebarClosed
+        ]}
       >
         {options.isICOPriceActive && (
           <IcoPrice

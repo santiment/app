@@ -3,6 +3,12 @@
 
 .wrapper {
   margin-left: $sidebar-width;
+
+  &_wide {
+    margin: 0;
+
+    --side-padding: 40px;
+  }
 }
 
 .container {
@@ -10,16 +16,12 @@
 }
 
 .header {
-  padding: 32px 0;
-
-  @include responsive('desktop') {
-    padding: 32px 25px;
-  }
+  padding: 32px var(--side-padding, 25px);
 }
 
 .content {
   background: var(--athens);
-  padding: 25px;
+  padding: var(--side-padding, 25px);
 }
 
 .canvas {

@@ -14,17 +14,6 @@ const PROJECT_METRICS_BY_SLUG_QUERY = gql`
   }
 `
 
-function sortCategoryGroups (category) {
-  const sortedCategory = {}
-  const groups = Object.keys(category).sort(
-    (leftGroup, rightGroup) =>
-      category[leftGroup].length - category[rightGroup].length
-  )
-
-  groups.forEach(group => (sortedCategory[group] = category[group]))
-  return sortedCategory
-}
-
 export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
   props: ({
     data: {
@@ -43,10 +32,6 @@ export default graphql(PROJECT_METRICS_BY_SLUG_QUERY, {
         .concat(noMarketSegments ? [] : marketSegments.map(getMarketSegment)),
       hiddenMetrics
     )
-
-    for (const item in categories) {
-      categories[item] = sortCategoryGroups(categories[item])
-    }
 
     return {
       loading,

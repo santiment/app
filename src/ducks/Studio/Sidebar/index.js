@@ -1,5 +1,7 @@
 import React, { useRef, useEffect } from 'react'
+import cx from 'classnames'
 import Loader from '@santiment-network/ui/Loader/Loader'
+import Icon from '@santiment-network/ui/Icon'
 import MetricSelector from './MetricSelector'
 import Search from './Search'
 import AnomaliesToggle from '../../../components/AnomaliesToggle/AnomaliesToggle'
@@ -37,7 +39,18 @@ const Header = ({ activeMetrics, ...rest }) => {
   )
 }
 
-const Sidebar = ({ loading, ...rest }) => {
+const CloseButton = ({ onClick, className }) => {
+  return (
+    <div className={cx(styles.toggle, className)} onClick={onClick}>
+      <div className={styles.close}>
+        <Icon type='hamburger' className={styles.hamburger} />
+        <Icon type='arrow-right' className={styles.arrow} />
+      </div>
+    </div>
+  )
+}
+
+const Sidebar = ({ loading, children, ...rest }) => {
   const asideRef = useRef(null)
 
   useEffect(() => {
@@ -74,8 +87,27 @@ const Sidebar = ({ loading, ...rest }) => {
           <MetricSelector {...rest} />
         )}
       </div>
+      {children}
     </aside>
   )
 }
 
-export default withMetrics(Sidebar)
+export default withMetrics(
+  ({ isSidebarClosed, setIsSidebarClosed, ...props }) => {
+    function openSidebar () {
+      setIsSidebarClosed(false)
+    }
+
+    function closeSidebar () {
+      setIsSidebarClosed(true)
+    }
+
+    return isSidebarClosed ? (
+      <CloseButton onClick={openSidebar} className={styles.toggle_closed} />
+    ) : (
+      <Sidebar {...props} openSidebar={openSidebar} closeSidebar={closeSidebar}>
+        <CloseButton onClick={closeSidebar} />
+      </Sidebar>
+    )
+  }
+)

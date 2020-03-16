@@ -55,3 +55,77 @@
   justify-content: center;
   font-size: 8px;
 }
+
+.toggle {
+  display: flex;
+  height: 48px;
+  width: 13px;
+  justify-content: flex-end;
+  position: absolute;
+  top: 41px;
+  right: -13px;
+  cursor: pointer;
+  background: var(--white);
+  border: 1px solid var(--porcelain);
+  border-left: none;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.close {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  fill: var(--casper);
+  height: 100%;
+  transform: rotate(180deg);
+  padding-right: 4px;
+
+  &:hover {
+    fill: var(--jungle-green);
+  }
+}
+
+.hamburger {
+  transform: scale(0.33, 0.8);
+  margin: -1px -3px 0 3px;
+}
+
+.arrow {
+  width: 4px;
+}
+
+.toggle_closed {
+  position: fixed;
+  border-radius: 4px;
+  background: var(--jungle-green);
+  color: var(--white);
+  right: initial;
+  top: 137px;
+  left: -50px;
+  width: auto;
+  height: auto;
+  border: none;
+  padding: 7px 16px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  transform: rotate(-90deg);
+  z-index: 1;
+
+  &:hover {
+    background: var(--jungle-green-hover);
+  }
+
+  &::before {
+    content: 'Show metrics';
+
+    @include text('caption', 'm');
+  }
+
+  .close {
+    fill: var(--white) !important;
+    transform: rotate(90deg);
+    padding: 0;
+    margin: -1px -4px 0 6px;
+  }
+}
