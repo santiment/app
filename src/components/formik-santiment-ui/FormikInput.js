@@ -17,7 +17,7 @@ export const validateEmail = value => {
 const FormikInput = ({
   name,
   type,
-  step,
+  step = 'any',
   prefix,
   placeholder,
   disabled = false,
