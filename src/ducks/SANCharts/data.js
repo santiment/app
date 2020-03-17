@@ -37,6 +37,8 @@ export const Events = {
   }
 }
 
+export const SOCIAL_TWITTER_INTERVALS = ['7d', '24h']
+
 export const Metrics = {
   price_usd: {
     node: 'line',
@@ -399,7 +401,7 @@ export const Metrics = {
     Component: Line,
     label: 'Twitter',
     description: `Shows the number of followers on the project's official Twitter account over time`,
-    subMetrics: ['7d', '24h'].map(interval => {
+    subMetrics: SOCIAL_TWITTER_INTERVALS.map(interval => {
       return {
         queryKey: 'twitter_followers',
         key: `twitter_followers_${interval}`,
@@ -597,16 +599,15 @@ export const tooltipSettings = {
   trendingPosition: {
     label: 'Trending Position',
     formatter: ([val]) => Events.position.formatter(val)
-  },
-  twitter_followers_24h: {
-    label: 'Twitter changes',
-    formatter: FORMATTER
-  },
-  twitter_followers_7d: {
+  }
+}
+
+SOCIAL_TWITTER_INTERVALS.forEach(interval => {
+  tooltipSettings['twitter_followers_' + interval] = {
     label: 'Twitter changes',
     formatter: FORMATTER
   }
-}
+})
 
 Object.values(Metrics).forEach(metric => {
   const { key, dataKey = key, formatter = FORMATTER, label } = metric

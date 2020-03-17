@@ -11,6 +11,7 @@ import { ETH_SPENT_OVER_TIME_QUERY } from '../../GetTimeSeries/queries/eth_spent
 import { PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES } from '../../GetTimeSeries/queries/percent_of_token_supply_on_exchanges_query'
 import { aliasTransform } from './utils'
 import { GET_METRIC_CHANGES } from '../../GetTimeSeries/queries/get_metric'
+import { SOCIAL_TWITTER_INTERVALS } from '../../SANCharts/data'
 
 const preTransform = ({
   data: {
@@ -72,20 +73,6 @@ Object.assign(Fetcher, {
   percentOfTokenSupplyOnExchanges: {
     query: PERCENT_OF_TOKEN_SUPPLY_ON_EXCHANGES,
     preTransform: aliasTransform('percentOnExchanges')
-  },
-  twitter_followers_7d: {
-    query: GET_METRIC_CHANGES('twitter_followers'),
-    preTransform: aliasTransform('twitter_followers', 'twitter_followers_7d'),
-    strictVariables: {
-      interval: '7d'
-    }
-  },
-  twitter_followers_24h: {
-    query: GET_METRIC_CHANGES('twitter_followers'),
-    preTransform: aliasTransform('twitter_followers', 'twitter_followers_24h'),
-    strictVariables: {
-      interval: '24h'
-    }
   }
 })
 
@@ -97,10 +84,22 @@ const transformAliases = [
   'dailyActiveDeposits',
   'topHoldersPercentOfTotalSupply',
   'ethSpentOverTime',
-  'percentOfTokenSupplyOnExchanges',
-  'twitter_followers_7d',
-  'twitter_followers_24h'
+  'percentOfTokenSupplyOnExchanges'
 ]
+
+SOCIAL_TWITTER_INTERVALS.forEach(interval => {
+  const key = 'twitter_followers_' + interval
+
+  Fetcher[key] = {
+    query: GET_METRIC_CHANGES('twitter_followers'),
+    preTransform: aliasTransform('twitter_followers', key),
+    strictVariables: {
+      interval
+    }
+  }
+
+  transformAliases.push('twitter_followers_' + interval)
+})
 
 export const getQuery = metric => {
   const { key, queryKey = key } = metric
@@ -113,8 +112,6 @@ export const getQuery = metric => {
 
   return query
 }
-
-console.log('Fetcher', Fetcher)
 
 export const getPreTransform = ({ key, queryKey = key, metricAnomaly }) => {
   const { preTransform } = Fetcher[queryKey]

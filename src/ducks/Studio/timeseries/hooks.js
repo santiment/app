@@ -123,8 +123,6 @@ export const useTimeseries = (metrics, settings) => {
           .then(data => {
             if (raceCondition) return
 
-            console.log(data)
-
             setTimeseries(() => {
               mergedData = mergeTimeseriesByKey({
                 timeseries: [mergedData, data]
