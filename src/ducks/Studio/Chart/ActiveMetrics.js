@@ -4,7 +4,6 @@ import Button from '@santiment-network/ui/Button'
 import MetricExplanation from '../../SANCharts/MetricExplanation'
 import MetricIcon from '../../SANCharts/MetricIcon'
 import { Events } from '../../SANCharts/data'
-import { getSyncedColors } from '../../SANCharts/Chart/Synchronizer'
 import styles from './ActiveMetrics.module.scss'
 
 const { trendPositionHistory } = Events
@@ -58,6 +57,7 @@ const MetricButton = ({
 }
 
 export default ({
+  MetricColor,
   activeMetrics,
   activeEvents,
   loadings,
@@ -65,8 +65,6 @@ export default ({
   eventLoadings,
   isMultiChartsActive
 }) => {
-  const actives = activeMetrics.concat(activeEvents)
-  const colors = getSyncedColors(actives)
   const isMoreThanOneMetric = activeMetrics.length > 1 || isMultiChartsActive
 
   return (
@@ -75,7 +73,7 @@ export default ({
         <MetricButton
           key={metric.key}
           metric={metric}
-          colors={colors}
+          colors={MetricColor}
           isLoading={loadings.includes(metric)}
           isRemovable={isMoreThanOneMetric}
           toggleMetric={toggleMetric}
@@ -85,7 +83,7 @@ export default ({
         <MetricButton
           isRemovable
           metric={trendPositionHistory}
-          colors={colors}
+          colors={MetricColor}
           toggleMetric={toggleMetric}
           isLoading={eventLoadings.length}
         />
