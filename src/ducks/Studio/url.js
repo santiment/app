@@ -8,7 +8,20 @@ const { trendPositionHistory } = Events
 const COMPARE_CONNECTOR = '-CC-'
 const getMetricsKeys = metrics => metrics.map(({ key }) => key)
 const toArray = keys => (typeof keys === 'string' ? [keys] : keys)
-const convertKeyToMetric = (key, dict) => dict[key] || compatabilityMap[key]
+const convertKeyToMetric = (key, dict) =>
+  dict[key] || compatabilityMap[key] || getFromSubmetrics(key, dict)
+
+const getFromSubmetrics = (key, metrics) => {
+  for (let metricKey in metrics) {
+    let metric = metrics[metricKey]
+    if (metric && metric.subMetrics) {
+      const found = metric.subMetrics.find(
+        ({ key: subMetricKey }) => subMetricKey === key
+      )
+      if (found) return found
+    }
+  }
+}
 
 const reduceStateKeys = (State, Data) =>
   Object.keys(State).reduce((acc, key) => {

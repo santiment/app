@@ -398,11 +398,11 @@ export const Metrics = {
     node: 'line',
     Component: Line,
     label: 'Twitter',
-    // dataKey: 'followersCount',
     description: `Shows the number of followers on the project's official Twitter account over time`,
     subMetrics: ['7d', '24h'].map(interval => {
       return {
-        key: `twitter_followers`,
+        queryKey: 'twitter_followers',
+        key: `twitter_followers_${interval}`,
         category: 'Social',
         node: 'line',
         Component: Line,
@@ -598,9 +598,13 @@ export const tooltipSettings = {
     label: 'Trending Position',
     formatter: ([val]) => Events.position.formatter(val)
   },
-  twitter_followers: {
+  twitter_followers_24h: {
     label: 'Twitter changes',
-    formatter: v => v
+    formatter: FORMATTER
+  },
+  twitter_followers_7d: {
+    label: 'Twitter changes',
+    formatter: FORMATTER
   }
 }
 

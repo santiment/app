@@ -75,14 +75,14 @@ Object.assign(Fetcher, {
   },
   twitter_followers_7d: {
     query: GET_METRIC_CHANGES('twitter_followers'),
-    preTransform,
+    preTransform: aliasTransform('twitter_followers', 'twitter_followers_7d'),
     strictVariables: {
       interval: '7d'
     }
   },
   twitter_followers_24h: {
     query: GET_METRIC_CHANGES('twitter_followers'),
-    preTransform,
+    preTransform: aliasTransform('twitter_followers', 'twitter_followers_24h'),
     strictVariables: {
       interval: '24h'
     }
@@ -97,7 +97,9 @@ const transformAliases = [
   'dailyActiveDeposits',
   'topHoldersPercentOfTotalSupply',
   'ethSpentOverTime',
-  'percentOfTokenSupplyOnExchanges'
+  'percentOfTokenSupplyOnExchanges',
+  'twitter_followers_7d',
+  'twitter_followers_24h'
 ]
 
 export const getQuery = metric => {
@@ -111,6 +113,8 @@ export const getQuery = metric => {
 
   return query
 }
+
+console.log('Fetcher', Fetcher)
 
 export const getPreTransform = ({ key, queryKey = key, metricAnomaly }) => {
   const { preTransform } = Fetcher[queryKey]
