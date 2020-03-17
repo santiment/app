@@ -8,7 +8,7 @@ const VIOLET = '#8358FF'
 const ORANGE = '#FFAD4D'
 const GRAY = '#D2D6E7'
 
-const COLORS = [
+export const COLORS = [
   '#5275FF', // BLUE
   '#FF5B5B', // RED
   '#FFCB47', // YELLOW
@@ -41,9 +41,8 @@ export function useChartColors (metrics) {
 
       for (let i = 0; i < length; i++) {
         const metric = metrics[i]
-        const { key, dataKey = key } = metric
 
-        newColors[dataKey] =
+        newColors[metric.key] =
           MetricColorMap.get(metric) || COLORS[freeColorIndex++]
       }
 
