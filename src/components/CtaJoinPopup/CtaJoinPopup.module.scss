@@ -1,0 +1,29 @@
+@import '~@santiment-network/ui/mixins';
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  @include text('h4');
+
+  text-align: center;
+  color: var(--rhino);
+  margin-top: 34px;
+}
+
+.description {
+  @include text('body-3');
+
+  text-align: center;
+  max-width: 250px;
+  color: var(--waterloo);
+}
+
+.btn {
+  height: 40px;
+  width: 250px;
+  text-align: center;
+}

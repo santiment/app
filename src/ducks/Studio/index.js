@@ -14,6 +14,7 @@ import { useTimeseries } from './timeseries/hooks'
 import { buildAnomalies } from './timeseries/anomalies'
 import { trackMetricState } from './analytics'
 import styles from './index.module.scss'
+import CtaJoinPopup from '../../components/CtaJoinPopup/CtaJoinPopup'
 
 const { trendPositionHistory } = Events
 
@@ -175,6 +176,7 @@ const Studio = ({
         isSidebarClosed && styles.wrapper_wide
       )}
     >
+      <CtaJoinPopup />
       <StudioSidebar
         slug={settings.slug}
         options={options}
